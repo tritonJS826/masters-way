@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "date": "2023-08-13",
+    "done": ["lorem"],
+    "plan": ["plan"],
+    "problems": ["problems"],
+    "comments": ["comments"],
+    "new": ["new"]
+  },
+  {
+    "id": 2,
+    "date": "2023-08-14",
+    "done": ["lorem", "lorem"],
+    "plan": ["plan", "plan", "plan"],
+    "problems": ["problems"],
+    "comments": ["comments", "comments"],
+    "new": ["new", "new"]
+  },
+  {
+    "id": 3,
+    "date": "2023-08-15",
+    "done": ["lorem", "lorem", "lorem"],
+    "plan": ["plan", "plan"],
+    "problems": ["problems"],
+    "comments": ["comments", "comments", "comments"],
+    "new": ["new", "new", "new"]
+  }
+]

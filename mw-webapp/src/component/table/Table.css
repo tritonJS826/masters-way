@@ -1,0 +1,31 @@
+* {
+  /* padding: 0;
+  margin: 0; */
+  box-sizing: border-box;
+}
+
+table {
+  margin: 2rem auto;
+  border: 1rem solid #fff;
+  border-radius: 2rem;
+  border-collapse: collapse;
+  box-shadow: 0 0 0 1px black;
+  overflow: hidden;
+  width: 80%;
+}
+
+thead {
+  font-size: 1.2rem;
+  background-color: aliceblue;
+}
+
+th, td {
+  border: 1px solid #fff;
+  width: 15%;
+  padding: 1.5rem;
+  line-height: 1.7;
+}
+
+td {
+  font-size: 1rem;
+}

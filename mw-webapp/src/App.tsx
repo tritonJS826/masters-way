@@ -1,9 +1,10 @@
+import {Table} from "src/component/table/Table";
 import "src/App.css";
 
 function App() {
   return (
     <div className="App">
-      Hiii
+      <Table />
     </div>
   );
 }
