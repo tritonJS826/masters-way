@@ -62,7 +62,8 @@
   ],
     "problem": ["When adding eslint (typescript-eslint/prefer-optional-chain) rules, there was a conflict. I solved it by adding the projects property to parserOptions with the path to tsconfig."],
     "comment": ["Repeated table tags when creating it."],
-    "new": ["Local json files can only be fetched if they are in a public folder. If they belong inside src, then imports should be used. It all depends on the paths."]
+    "new": ["Local json files can only be fetched if they are in a public folder. If they belong inside src, then imports should be used. It all depends on the paths."],
+    "mentorsComment": []
   },
   {
     "id": "1",
@@ -102,7 +103,7 @@
   ],
     "plan": [{
       "id": "0",
-      "case": "Move out base state from table.tsx",
+      "case": "Move out base state from table.tsx 'TODO: where it is now?'",
       "time": {
         "unit": "MINUTE",
         "amount": 40
@@ -118,7 +119,7 @@
     },
     {
       "id": "2",
-      "case": "Create services for convert data",
+      "case": "Create services to convert data 'TODO: what data, why do you need to convert it'",
       "time": {
         "unit": "MINUTE",
         "amount": 60
@@ -126,7 +127,20 @@
     }
   ],
     "problem": ["Initially, I used a stub array for the basic display of the table, so after changing json, it took a very long time to change the models. And only then I realized that this array can be deleted altogether, and left empty."],
-    "comment": ["Need to figure out how bundlers work."],
-    "new": ["ParserOptions.project property is an option allows to provide a path to your project's tsconfig.json. This setting is required if you want to use rules which require type information. True value indicates to look for the nearest tsconfig.json for each source file, and path - is the path to map tsconfig files relative to parserOptions.tsconfigRootDir, or current working directory if not specified."]
+    "comment": ["Need to figure out how bundlers work. 'TODO it means nothing for both of us'"],
+    "new": ["ParserOptions.project property is an option allows to provide a path to your project's tsconfig.json. This setting is required if you want to use rules which require type information. True value indicates to look for the nearest tsconfig.json for each source file, and path - is the path to map tsconfig files relative to parserOptions.tsconfigRootDir, or current working directory if not specified."],
+    "mentorComment": [
+      "Learn why do you need bundlers (webpack, vite) and learn how to fetch data not only from public folder",
+      "Lets start to use firebase insead of backend, learn what the benefits",
+      "Estimate your work by hours (at least 30 minutes), not by minutes",
+      "Think about main models, for example use 'Report' instead 'Deal', work -> workDone, plan -> planForTomorrow, problem -> currentProblems, -> comment -> studentComment, new -> learnedForToday",
+      "Adjust .module.scss instead of css",
+      "Use headless component for table",
+      "Adjust routing (add pages folder)",
+      "Add services layer (adjust class to get data, currently it should be async and return your json)",
+      "Be more concrete in yor report (example: 'add models' -> 'add models: Report, User... etc.')",
+      "Change date format from YYYY-MM-DD to timestamp or ISO826",
+      "Let's try to use vite instead of webpack"
+    ]
   }
 ]
