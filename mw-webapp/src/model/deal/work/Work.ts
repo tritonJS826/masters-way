@@ -8,17 +8,17 @@ export class Work {
   /**
    * Work's ID
    */
-  private id: string;
+  public id: string;
 
   /**
    * What was done
    */
-  private case: string;
+  public case: string;
 
   /**
    * How long was the job done
    */
-  private time: Time;
+  public time: Time;
 
   constructor(workDate: Work) {
     this.id = workDate.id;
@@ -29,8 +29,9 @@ export class Work {
   /**
    * Get formatted work
    */
-  public getFullWork() {
-    return `${this.case} (${this.time.getFullTime})`;
-  }
+  //TODO: uncomment method
+  // public getFullWork() {
+  //   return `${this.case} (${this.time.getFullTime})`;
+  // }
 
 }

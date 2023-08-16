@@ -14,7 +14,8 @@ export class Deal {
   /**
    * Date, when case was done in format yyyy-mm-dd
    */
-  public date: Date;
+  // TODO: need to change type on Date
+  public date: string;
 
   /**
    * What was done

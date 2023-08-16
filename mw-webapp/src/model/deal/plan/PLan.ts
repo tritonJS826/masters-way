@@ -8,17 +8,17 @@ export class Plan {
   /**
    * Plan's ID
    */
-  private id: string;
+  public id: string;
 
   /**
    * What will be done
    */
-  private case: string;
+  public case: string;
 
   /**
    * How long will it take
    */
-  private time: Time;
+  public time: Time;
 
   constructor(planDate: Plan) {
     this.id = planDate.id;
@@ -29,8 +29,9 @@ export class Plan {
   /**
    * Get formatted plan
    */
-  public getFullPlan() {
-    return `${this.case} (${this.time.getFullTime})`;
-  }
+  //TODO: uncomment method
+  // public getFullPlan() {
+  //   return `${this.case} (${this.time.getFullTime})`;
+  // }
 
 }

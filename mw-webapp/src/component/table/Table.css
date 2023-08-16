@@ -6,8 +6,8 @@
 
 table {
   margin: 2rem auto;
-  border: 1rem solid #fff;
-  border-radius: 2rem;
+  border: 1px solid #000;
+  border-radius: 1rem;
   border-collapse: collapse;
   box-shadow: 0 0 0 1px black;
   overflow: hidden;
@@ -20,7 +20,7 @@ thead {
 }
 
 th, td {
-  border: 1px solid #fff;
+  border: 1px solid #000;
   width: 15%;
   padding: 1.5rem;
   line-height: 1.7;
