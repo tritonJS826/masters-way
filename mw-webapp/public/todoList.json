@@ -20,7 +20,7 @@
     },
     {
       "id": "2",
-      "case": "Created a basic json with data",
+      "case": "Create a basic json with data",
       "time": {
         "unit": "MINUTE",
         "amount": 20
@@ -28,7 +28,7 @@
     },
     {
       "id": "3",
-      "case": "Added basic layout to the page (table with data from json)",
+      "case": "Add basic layout to the page (table with data from json)",
       "time": {
         "unit": "MINUTE",
         "amount": 90
@@ -69,7 +69,7 @@
     "date": "2023-08-16",
     "work": [{
       "id": "0",
-      "case": "Initialized the project",
+      "case": "Create a model Deal.ts",
       "time": {
         "unit": "MINUTE",
         "amount": 15
@@ -77,15 +77,15 @@
     },
     {
       "id": "1",
-      "case": "Set up tsconfig, eslint environment",
+      "case": "Create an additional models Work, Plan, Time, Unit",
       "time": {
         "unit": "MINUTE",
-        "amount": 55
+        "amount": 45
       }
     },
     {
       "id": "2",
-      "case": "Created a basic json with data",
+      "case": "Change todoList.json according to the model",
       "time": {
         "unit": "MINUTE",
         "amount": 20
@@ -93,40 +93,40 @@
     },
     {
       "id": "3",
-      "case": "Added basic layout to the page (table with data from json)",
+      "case": "Fix mistakes in code after changed json file",
       "time": {
         "unit": "MINUTE",
-        "amount": 90
+        "amount": 75
       }
     }
   ],
     "plan": [{
       "id": "0",
-      "case": "Add models",
+      "case": "Move out base state from table.tsx",
       "time": {
         "unit": "MINUTE",
-        "amount": 60
+        "amount": 40
       }
     },
     {
       "id": "1",
-      "case": "Add get and post requests",
+      "case": "Fix model mistakes (change public to private methods, add methods to properties)",
       "time": {
         "unit": "MINUTE",
-        "amount": 60
+        "amount": 80
       }
     },
     {
       "id": "2",
-      "case": "Add service layer",
+      "case": "Create services for convert data",
       "time": {
         "unit": "MINUTE",
         "amount": 60
       }
     }
   ],
-    "problem": ["When adding eslint (typescript-eslint/prefer-optional-chain) rules, there was a conflict. I solved it by adding the projects property to parserOptions with the path to tsconfig."],
-    "comment": ["Repeated table tags when creating it."],
-    "new": ["Local json files can only be fetched if they are in a public folder. If they belong inside src, then imports should be used. It all depends on the paths."]
+    "problem": ["Initially, I used a stub array for the basic display of the table, so after changing json, it took a very long time to change the models. And only then I realized that this array can be deleted altogether, and left empty."],
+    "comment": ["Need to figure out how bundlers work."],
+    "new": ["ParserOptions.project property is an option allows to provide a path to your project's tsconfig.json. This setting is required if you want to use rules which require type information. True value indicates to look for the nearest tsconfig.json for each source file, and path - is the path to map tsconfig files relative to parserOptions.tsconfigRootDir, or current working directory if not specified."]
   }
 ]
