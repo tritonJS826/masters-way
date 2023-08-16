@@ -11,7 +11,8 @@
     "ecmaFeatures": {"jsx": true},
     "ecmaVersion": 12,
     "sourceType": "module",
-    "project": ["**/tsconfig.json"]
+    // "project": ["**/tsconfig.json"] // путь для сопоставления файлов tsconfig относительно parserOptions.tsconfigRootDir, ​​или текущего рабочего каталога, если он не указан
+    "project": true // указывает на поиск ближайшего tsconfig.json для каждого исходного файла
   },
   "plugins": ["react", "@typescript-eslint"],
   "rules": {
