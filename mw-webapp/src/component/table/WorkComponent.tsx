@@ -1,7 +1,7 @@
-import {Work} from "src/model/deal/work/Work";
+import {WorkDone} from "src/model/report/workDone/WorkDone";
 
 export interface WorkComponentProps {
-  work: Work[];
+  work: WorkDone[];
 }
 
 export const WorkComponent = (props: WorkComponentProps) => {
@@ -10,7 +10,7 @@ export const WorkComponent = (props: WorkComponentProps) => {
       {props.work.map((el) => {
         return (
           <li key={el.id}>
-            {`${el.case} (${el.time.amount} ${el.time.unit})`}
+            {`${el.todoItem} (${el.time.getFullTime})`}
           </li>
         );
       })}

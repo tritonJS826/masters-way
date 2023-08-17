@@ -1,9 +1,9 @@
-import {Time} from "src/model/deal/time/Time";
+import {Time} from "src/model/report/time/Time";
 
 /**
  * What was done
  */
-export class Work {
+export class WorkDone {
 
   /**
    * Work's ID
@@ -13,25 +13,24 @@ export class Work {
   /**
    * What was done
    */
-  public case: string;
+  public todoItem: string;
 
   /**
    * How long was the job done
    */
   public time: Time;
 
-  constructor(workDate: Work) {
+  constructor(workDate: WorkDone) {
     this.id = workDate.id;
-    this.case = workDate.case;
+    this.todoItem = workDate.todoItem;
     this.time = workDate.time;
   }
 
   /**
    * Get formatted work
    */
-  //TODO: uncomment method
-  // public getFullWork() {
-  //   return `${this.case} (${this.time.getFullTime})`;
-  // }
+  public getFullWork() {
+    return `${this.todoItem} (${this.time.getFullTime})`;
+  }
 
 }

@@ -1,9 +1,9 @@
-import {Time} from "src/model/deal/time/Time";
+import {Time} from "src/model/report/time/Time";
 
 /**
  * What will be done
  */
-export class Plan {
+export class PlanForTomorrow {
 
   /**
    * Plan's ID
@@ -13,16 +13,16 @@ export class Plan {
   /**
    * What will be done
    */
-  public case: string;
+  public todoItem: string;
 
   /**
    * How long will it take
    */
   public time: Time;
 
-  constructor(planDate: Plan) {
+  constructor(planDate: PlanForTomorrow) {
     this.id = planDate.id;
-    this.case = planDate.case;
+    this.todoItem = planDate.todoItem;
     this.time = planDate.time;
   }
 
@@ -30,8 +30,8 @@ export class Plan {
    * Get formatted plan
    */
   //TODO: uncomment method
-  // public getFullPlan() {
-  //   return `${this.case} (${this.time.getFullTime})`;
-  // }
+  public getFullPlan() {
+    return `${this.todoItem} (${this.time.getFullTime()})`;
+  }
 
 }
