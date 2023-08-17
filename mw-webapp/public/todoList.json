@@ -63,7 +63,7 @@
     "problem": ["When adding eslint (typescript-eslint/prefer-optional-chain) rules, there was a conflict. I solved it by adding the projects property to parserOptions with the path to tsconfig."],
     "comment": ["Repeated table tags when creating it."],
     "new": ["Local json files can only be fetched if they are in a public folder. If they belong inside src, then imports should be used. It all depends on the paths."],
-    "mentorsComment": []
+    "mentorComment": [""]
   },
   {
     "id": "1",
@@ -134,7 +134,7 @@
       "Lets start to use firebase insead of backend, learn what the benefits",
       "Estimate your work by hours (at least 30 minutes), not by minutes",
       "Think about main models, for example use 'Report' instead 'Deal', work -> workDone, plan -> planForTomorrow, problem -> currentProblems, -> comment -> studentComment, new -> learnedForToday",
-      "Adjust .module.scss instead of css",
+      "✓ Adjust .module.scss instead of css",
       "Use headless component for table",
       "Adjust routing (add pages folder)",
       "Add services layer (adjust class to get data, currently it should be async and return your json)",

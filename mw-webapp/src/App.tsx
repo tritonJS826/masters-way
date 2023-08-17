@@ -1,11 +1,8 @@
-import {Table} from "src/component/table/Table";
-import "src/App.css";
+import {Router} from "./router/Router";
 
 function App() {
   return (
-    <div className="App">
-      <Table />
-    </div>
+    <Router />
   );
 }
 
