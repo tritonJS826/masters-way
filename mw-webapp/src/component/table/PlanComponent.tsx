@@ -1,7 +1,7 @@
-import {Work} from "src/model/deal/work/Work";
+import {PlanForTomorrow} from "src/model/report/planForTomorrow/PLanForTomorrow";
 
 export interface PlanComponentProps {
-  plan: Work[];
+  plan: PlanForTomorrow[];
 }
 
 export const PlanComponent = (props: PlanComponentProps) => {
@@ -10,7 +10,7 @@ export const PlanComponent = (props: PlanComponentProps) => {
       {props.plan.map((el) => {
         return (
           <li key={el.id}>
-            {`${el.case} (${el.time.amount} ${el.time.unit})`}
+            {`${el.todoItem} (${el.time.getFullTime})`}
           </li>
         );
       })}

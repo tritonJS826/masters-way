@@ -1,4 +1,4 @@
-// import {Unit} from "src/model/deal/time/unit/Unit";
+import {Unit} from "src/model/report/time/unit/Unit";
 
 /**
  * What was done
@@ -8,8 +8,7 @@ export class Time {
   /**
    * Unit of time measurement
    */
-  //TODO: add Unit model
-  public unit: string;
+  public unit: Unit;
 
   /**
    * Number of time units (minutes) spent doing the task
@@ -24,9 +23,8 @@ export class Time {
   /**
    * Get formatted time
    */
-  //TODO: uncomment method
-  // public getFullTime() {
-  //   return `${this.amount} ${this.unit}`;
-  // }
+  public getFullTime() {
+    return `${this.amount} ${this.unit}`;
+  }
 
 }

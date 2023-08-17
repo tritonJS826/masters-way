@@ -1,23 +1,21 @@
 import {useState, useEffect} from "react";
-import {Deal} from "src/model/deal/Deal";
+import {Report} from "src/model/report/Report";
 import {WorkComponent} from "src/component/table/WorkComponent";
 import {PlanComponent} from "src/component/table/PlanComponent";
 import styles from "src/component/table/Table.module.scss";
+import {ReportService} from "src/service/Report";
 
 export const Table = () => {
-  const [todo, setTodo] = useState<Deal[]>([]);
+  const [todo, setTodo] = useState<Report[]>([]);
 
-  const fetchTodoList = async (path: string) => {
-    const todoList = await fetch(path);
-    const result = await todoList.json();
-    console.log(result);
-    setTodo(result);
-    console.log(result);
-    return todoList;
+  const getReports = async () => {
+    const reports = await ReportService.getAllReports();
+    setTodo(reports);
+    return reports;
   };
 
   useEffect(() => {
-    fetchTodoList("./todoList.json");
+    getReports();
   }, []);
 
   return (
@@ -51,28 +49,28 @@ export const Table = () => {
         <tbody className={styles.tbody}>
           {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            todo.map((item: Deal) => {
+            todo.map((item: Report) => {
               return (
                 <tr className={styles.tr}
                   key={item.id}
                 >
                   <td className={styles.td}>
-                    {item.date}
+                    {item.date.toISOString().slice(0, 10)}
                   </td>
                   <td className={styles.td}>
-                    <WorkComponent work={item.work} />
+                    <WorkComponent work={item.workDone} />
                   </td>
                   <td className={styles.td}>
-                    <PlanComponent plan={item.plan} />
+                    <PlanComponent plan={item.planForTomorrow} />
                   </td>
                   <td className={styles.td}>
-                    {item.problem[0]}
+                    {item.currentProblems[0]}
                   </td>
                   <td className={styles.td}>
-                    {item.comment[0]}
+                    {item.studentComment[0]}
                   </td>
                   <td className={styles.td}>
-                    {item.new[0]}
+                    {item.learnedForToday[0]}
                   </td>
                 </tr>
               );
