@@ -215,6 +215,6 @@
     "currentProblems": ["When I use methods from model (getFullTime, getFullPlan, getFullWork) it return undefined."],
     "studentComment": ["Repeat how to set up routes"],
     "learnedForToday": [""],
-    "mentorComment": [""]
+    "mentorComment": ["Align model with table view (align columns naming with fields naming, I don't see some fields in the table."]
   }
 ]
