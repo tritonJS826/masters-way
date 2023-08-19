@@ -12,7 +12,7 @@ export class ReportDTO {
   public id: string;
 
   /**
-   * Date, when case was done in format yyyy-mm-dd
+   * Date, when case was done in ISO format
    */
   public date: string;
 
@@ -46,15 +46,21 @@ export class ReportDTO {
    */
   public mentorComment: string[];
 
-  constructor(dealDate: ReportDTO) {
-    this.id = dealDate.id;
-    this.date = dealDate.date;
-    this.workDone = dealDate.workDone;
-    this.planForTomorrow = dealDate.planForTomorrow;
-    this.currentProblems = dealDate.currentProblems;
-    this.studentComment = dealDate.studentComment;
-    this.learnedForToday = dealDate.learnedForToday;
-    this.mentorComment = dealDate.mentorComment;
+  /**
+   * true if today is day off and false if today is working day
+   */
+  public isDayOff: boolean;
+
+  constructor(reportDTODate: ReportDTO) {
+    this.id = reportDTODate.id;
+    this.date = reportDTODate.date;
+    this.workDone = reportDTODate.workDone;
+    this.planForTomorrow = reportDTODate.planForTomorrow;
+    this.currentProblems = reportDTODate.currentProblems;
+    this.studentComment = reportDTODate.studentComment;
+    this.learnedForToday = reportDTODate.learnedForToday;
+    this.mentorComment = reportDTODate.mentorComment;
+    this.isDayOff = reportDTODate.isDayOff;
   }
 
 }

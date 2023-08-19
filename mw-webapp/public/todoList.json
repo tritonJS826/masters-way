@@ -63,7 +63,8 @@
     "currentProblems": ["When adding eslint (typescript-eslint/prefer-optional-chain) rules, there was a conflict. I solved it by adding the projects property to parserOptions with the path to tsconfig."],
     "studentComment": ["Repeated table tags when creating it."],
     "learnedForToday": ["Local json files can only be fetched if they are in a public folder. If they belong inside src, then imports should be used. It all depends on the paths."],
-    "mentorComment": [""]
+    "mentorComment": [""],
+    "isDayOff": false
   },
   {
     "id": "1",
@@ -134,14 +135,15 @@
       "✓ Adjust .module.scss instead of css",
       "✓ Adjust routing (add pages folder)",
       "✓ Add services layer (adjust class to get data, currently it should be async and return your json)",
-      "Change date format from YYYY-MM-DD to timestamp or ISO826",
+      "✓ Be more concrete in yor report (example: 'add models' -> 'add models: Report, User... etc.')",
+      "✓ Estimate your work by hours (at least 30 minutes), not by minutes",
+      "✓ Change date format from YYYY-MM-DD to timestamp or ISO826",
       "Learn why do you need bundlers (webpack, vite) and learn how to fetch data not only from public folder",
-      "Lets start to use firebase insead of backend, learn what the benefits",
-      "Estimate your work by hours (at least 30 minutes), not by minutes",
+      "Lets start to use firebase instead of backend, learn what the benefits",
       "Use headless component for table",
-      "Be more concrete in yor report (example: 'add models' -> 'add models: Report, User... etc.')",
       "Let's try to use vite instead of webpack"
-    ]
+    ],
+    "isDayOff": false
   },
   {
     "id": "2",
@@ -215,6 +217,117 @@
     "currentProblems": ["When I use methods from model (getFullTime, getFullPlan, getFullWork) it return undefined."],
     "studentComment": ["Repeat how to set up routes"],
     "learnedForToday": [""],
-    "mentorComment": [""]
+    "mentorComment": [""],
+    "isDayOff": false
+  },
+  {
+    "id": "3",
+    "date": "2023-08-18",
+    "workDone": [{}],
+    "planForTomorrow": [{
+      "id": "0",
+      "todoItem": "Use headless component for table instead of custom table",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 30
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Add delete report by id method to service layer",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 90
+      }
+    },
+    {
+      "id": "2",
+      "todoItem": "Set up Vite instead of webpack",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 60
+      }
+    }
+  ],
+    "currentProblems": [""],
+    "studentComment": [""],
+    "learnedForToday": [""],
+    "mentorComment": [""],
+    "isDayOff": true
+  },
+  {
+    "id": "4",
+    "date": "2023-08-19",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Add scss dependency and change files .css to .module.scss",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 15
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Add routing in app (it's only one route to main page now)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 20
+      }
+    },
+    {
+      "id": "2",
+      "todoItem": "Create models.io (with models and modelsDTO), rename model's name in project (Deal -> Report, Work -> WorkDone, Plan -> PlanForTomorrow) and model's properties name (add property mentorComment, problem -> currentProblems, etc.)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 40
+      }
+    },
+    {
+      "id": "3",
+      "todoItem": "Create service layer with getReports methods that return all methods from .json and convert ReportDTO to Report model",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 55
+      }
+    },
+    {
+      "id": "4",
+      "todoItem": "Fix mistakes in code after changed model",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 40
+      }
+    }
+  ],
+    "planForTomorrow": [{
+      "id": "0",
+      "todoItem": "Use headless component for table instead of custom table",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 30
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Add delete report by id method to service layer",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 90
+      }
+    },
+    {
+      "id": "2",
+      "todoItem": "Set up Vite instead of webpack",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 60
+      }
+    }
+  ],
+    "currentProblems": ["When I use methods from model (getFullTime, getFullPlan, getFullWork) it return undefined."],
+    "studentComment": ["Repeat how to set up routes"],
+    "learnedForToday": ["Headless UI is a term for libraries and utilities that provide the logic, state, processing and API for UI elements and interactions, but do not provide markup, styles, or pre-built implementations."],
+    "mentorComment": [""],
+    "isDayOff": false
   }
 ]
