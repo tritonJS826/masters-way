@@ -63,7 +63,8 @@
     "currentProblems": ["When adding eslint (typescript-eslint/prefer-optional-chain) rules, there was a conflict. I solved it by adding the projects property to parserOptions with the path to tsconfig."],
     "studentComment": ["Repeated table tags when creating it."],
     "learnedForToday": ["Local json files can only be fetched if they are in a public folder. If they belong inside src, then imports should be used. It all depends on the paths."],
-    "mentorComment": [""]
+    "mentorComment": [""],
+    "isDayOff": false
   },
   {
     "id": "1",
@@ -134,14 +135,15 @@
       "✓ Adjust .module.scss instead of css",
       "✓ Adjust routing (add pages folder)",
       "✓ Add services layer (adjust class to get data, currently it should be async and return your json)",
-      "Change date format from YYYY-MM-DD to timestamp or ISO826",
-      "Learn why do you need bundlers (webpack, vite) and learn how to fetch data not only from public folder",
-      "Lets start to use firebase insead of backend, learn what the benefits",
-      "Estimate your work by hours (at least 30 minutes), not by minutes",
-      "Use headless component for table",
-      "Be more concrete in yor report (example: 'add models' -> 'add models: Report, User... etc.')",
-      "Let's try to use vite instead of webpack"
-    ]
+      "✓ Be more concrete in yor report (example: 'add models' -> 'add models: Report, User... etc.')",
+      "✓ Estimate your work by hours (at least 30 minutes), not by minutes",
+      "✓ Change date format from YYYY-MM-DD to timestamp or ISO826",
+      "✓ Use headless component for table",
+      "✓ Let's try to use vite instead of webpack",
+      "✓ Learn why do you need bundlers (webpack, vite) and learn how to fetch data not only from public folder",
+      "Lets start to use firebase instead of backend, learn what the benefits"
+    ],
+    "isDayOff": false
   },
   {
     "id": "2",
@@ -215,6 +217,85 @@
     "currentProblems": ["When I use methods from model (getFullTime, getFullPlan, getFullWork) it return undefined."],
     "studentComment": ["Repeat how to set up routes"],
     "learnedForToday": [""],
-    "mentorComment": ["Align model with table view (align columns naming with fields naming, I don't see some fields in the table."]
+    "mentorComment": [""],
+    "isDayOff": false
+  },
+  {
+    "id": "3",
+    "date": "2023-08-18",
+    "workDone": [{}],
+    "planForTomorrow": [{}],
+    "currentProblems": [""],
+    "studentComment": [""],
+    "learnedForToday": [""],
+    "mentorComment": ["Align model with table view (align columns naming with fields naming, I don't see some fields in the table."],
+    "isDayOff": true
+  },
+  {
+    "id": "4",
+    "date": "2023-08-19",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Add property isDayOff to .json, Report model, ReportDTO model, models.draw.io",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 15
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Use base empty headless table (@tanstack/react-table) instead of custom table component",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 55
+      }
+    },
+    {
+      "id": "2",
+      "todoItem": "Fix mistakes for right render arrays of objects and date (use map in 'cell' property)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 25
+      }
+    },
+    {
+      "id": "3",
+      "todoItem": "Add styles to table, delete unneeded table components",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 35
+      }
+    },
+    {
+      "id": "4",
+      "todoItem": "Migration from CRA to Vite (set up vite.config for use absolute paths, eslint, typescript",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 65
+      }
+    }
+  ],
+    "planForTomorrow": [{
+      "id": "0",
+      "todoItem": "use firebase instead of local json",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 90
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Add delete report by id method to service layer",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 90
+      }
+    }
+  ],
+    "currentProblems": ["When I use methods from model (getFullTime, getFullPlan, getFullWork) it return undefined.", "Couldn't type accessor (tried string and AccessorFn but it doesn't work) to render function and follow DRY principle."],
+    "studentComment": ["I found info that we can fetch data from local.json (that placed inside src folder) by using import, but if I want to use fetch then this file shoule be placed in public folder. I couldn't find info how to set up webpack (vite) for resolve this."],
+    "learnedForToday": ["Headless UI is a term for libraries and utilities that provide the logic, state, processing and API for UI elements and interactions, but do not provide markup, styles, or pre-built implementations. (In this project I use @tanstack/react-table so I learn how to create basic tables with it)", "A module bundler helps you keep your code organised by making it easy to import and use other JavaScript files (modules) in your code. It keeps track of which files depend on which other files and ensures they are loaded in the right order. This helps make your code more modular and easier to maintain."],
+    "mentorComment": [""],
+    "isDayOff": false
   }
 ]

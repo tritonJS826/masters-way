@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "target": "esNext",
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -19,12 +15,12 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
+    "types": ["vite/client", "vite-plugin-svgr/client"],
     "baseUrl": "./",
     "paths": {
-      "src/*": ["./src/*"],
-    },
+      "src/*": ["./src/*"]
+    }
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src", "vite.config.ts"],
+  "references": [{ "path": "tsconfig.node.json" }]
 }

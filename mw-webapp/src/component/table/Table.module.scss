@@ -3,7 +3,7 @@
   text-align: center;
 }
 
-table {
+.table {
   margin: 2rem auto;
   border: 1px solid #000;
   border-radius: 1rem;
@@ -13,18 +13,18 @@ table {
   width: 80%;
 }
 
-thead {
+.thead {
   font-size: 1.2rem;
   background-color: aliceblue;
 }
 
-th, td {
+.th, .td {
   border: 1px solid #000;
   width: 15%;
   padding: 1.5rem;
   line-height: 1.7;
 }
 
-td {
+.td {
   font-size: 1rem;
 }
