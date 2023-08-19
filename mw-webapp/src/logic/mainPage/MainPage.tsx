@@ -1,9 +1,7 @@
-// import {Table} from "src/component/table/Table";
-import {T} from "src/component/t/T";
+import {Table} from "src/component/table/Table";
 
 export const MainPage = () => {
   return (
-    // <Table />
-    <T />
+    <Table />
   );
 };

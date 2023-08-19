@@ -138,10 +138,10 @@
       "✓ Be more concrete in yor report (example: 'add models' -> 'add models: Report, User... etc.')",
       "✓ Estimate your work by hours (at least 30 minutes), not by minutes",
       "✓ Change date format from YYYY-MM-DD to timestamp or ISO826",
+      "✓ Use headless component for table",
       "Learn why do you need bundlers (webpack, vite) and learn how to fetch data not only from public folder",
-      "Lets start to use firebase instead of backend, learn what the benefits",
-      "Use headless component for table",
-      "Let's try to use vite instead of webpack"
+      "Let's try to use vite instead of webpack",
+      "Lets start to use firebase instead of backend, learn what the benefits"
     ],
     "isDayOff": false
   },
@@ -224,31 +224,7 @@
     "id": "3",
     "date": "2023-08-18",
     "workDone": [{}],
-    "planForTomorrow": [{
-      "id": "0",
-      "todoItem": "Use headless component for table instead of custom table",
-      "time": {
-        "unit": "MINUTE",
-        "amount": 30
-      }
-    },
-    {
-      "id": "1",
-      "todoItem": "Add delete report by id method to service layer",
-      "time": {
-        "unit": "MINUTE",
-        "amount": 90
-      }
-    },
-    {
-      "id": "2",
-      "todoItem": "Set up Vite instead of webpack",
-      "time": {
-        "unit": "MINUTE",
-        "amount": 60
-      }
-    }
-  ],
+    "planForTomorrow": [{}],
     "currentProblems": [""],
     "studentComment": [""],
     "learnedForToday": [""],
@@ -326,7 +302,7 @@
   ],
     "currentProblems": ["When I use methods from model (getFullTime, getFullPlan, getFullWork) it return undefined."],
     "studentComment": ["Repeat how to set up routes"],
-    "learnedForToday": ["Headless UI is a term for libraries and utilities that provide the logic, state, processing and API for UI elements and interactions, but do not provide markup, styles, or pre-built implementations."],
+    "learnedForToday": ["Headless UI is a term for libraries and utilities that provide the logic, state, processing and API for UI elements and interactions, but do not provide markup, styles, or pre-built implementations.", "A module bundler helps you keep your code organised by making it easy to import and use other JavaScript files (modules) in your code. It keeps track of which files depend on which other files and ensures they are loaded in the right order. This helps make your code more modular and easier to maintain."],
     "mentorComment": [""],
     "isDayOff": false
   }
