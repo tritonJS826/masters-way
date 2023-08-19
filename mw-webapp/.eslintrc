@@ -5,13 +5,17 @@
     "es2021": true
   },
   "root": true,
-  "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:@typescript-eslint/recommended"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaFeatures": {"jsx": true},
+    "ecmaFeatures": { "jsx": true },
     "ecmaVersion": 12,
     "sourceType": "module",
-    // "project": ["**/tsconfig.json"] // путь для сопоставления файлов tsconfig относительно parserOptions.tsconfigRootDir, ​​или текущего рабочего каталога, если он не указан
+    // "project": ["**/tsconfig.json", "**/vite.config.ts"] // путь для сопоставления файлов tsconfig относительно parserOptions.tsconfigRootDir, ​​или текущего рабочего каталога, если он не указан
     "project": true // указывает на поиск ближайшего tsconfig.json для каждого исходного файла
   },
   "plugins": ["react", "@typescript-eslint"],

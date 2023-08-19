@@ -139,8 +139,8 @@
       "✓ Estimate your work by hours (at least 30 minutes), not by minutes",
       "✓ Change date format from YYYY-MM-DD to timestamp or ISO826",
       "✓ Use headless component for table",
-      "Learn why do you need bundlers (webpack, vite) and learn how to fetch data not only from public folder",
-      "Let's try to use vite instead of webpack",
+      "✓ Let's try to use vite instead of webpack",
+      "✓ Learn why do you need bundlers (webpack, vite) and learn how to fetch data not only from public folder",
       "Lets start to use firebase instead of backend, learn what the benefits"
     ],
     "isDayOff": false
