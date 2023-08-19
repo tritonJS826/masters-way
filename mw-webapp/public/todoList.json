@@ -236,7 +236,7 @@
     "date": "2023-08-19",
     "workDone": [{
       "id": "0",
-      "todoItem": "Add scss dependency and change files .css to .module.scss",
+      "todoItem": "Add property isDayOff to .json, Report model, ReportDTO model, models.draw.io",
       "time": {
         "unit": "MINUTE",
         "amount": 15
@@ -244,43 +244,43 @@
     },
     {
       "id": "1",
-      "todoItem": "Add routing in app (it's only one route to main page now)",
-      "time": {
-        "unit": "MINUTE",
-        "amount": 20
-      }
-    },
-    {
-      "id": "2",
-      "todoItem": "Create models.io (with models and modelsDTO), rename model's name in project (Deal -> Report, Work -> WorkDone, Plan -> PlanForTomorrow) and model's properties name (add property mentorComment, problem -> currentProblems, etc.)",
-      "time": {
-        "unit": "MINUTE",
-        "amount": 40
-      }
-    },
-    {
-      "id": "3",
-      "todoItem": "Create service layer with getReports methods that return all methods from .json and convert ReportDTO to Report model",
+      "todoItem": "Use base empty headless table (@tanstack/react-table) instead of custom table component",
       "time": {
         "unit": "MINUTE",
         "amount": 55
       }
     },
     {
-      "id": "4",
-      "todoItem": "Fix mistakes in code after changed model",
+      "id": "2",
+      "todoItem": "Fix mistakes for right render arrays of objects and date (use map in 'cell' property)",
       "time": {
         "unit": "MINUTE",
-        "amount": 40
+        "amount": 25
+      }
+    },
+    {
+      "id": "3",
+      "todoItem": "Add styles to table, delete unneeded table components",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 35
+      }
+    },
+    {
+      "id": "4",
+      "todoItem": "Migration from CRA to Vite (set up vite.config for use absolute paths, eslint, typescript",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 65
       }
     }
   ],
     "planForTomorrow": [{
       "id": "0",
-      "todoItem": "Use headless component for table instead of custom table",
+      "todoItem": "use firebase instead of local json",
       "time": {
         "unit": "MINUTE",
-        "amount": 30
+        "amount": 90
       }
     },
     {
@@ -290,19 +290,11 @@
         "unit": "MINUTE",
         "amount": 90
       }
-    },
-    {
-      "id": "2",
-      "todoItem": "Set up Vite instead of webpack",
-      "time": {
-        "unit": "MINUTE",
-        "amount": 60
-      }
     }
   ],
-    "currentProblems": ["When I use methods from model (getFullTime, getFullPlan, getFullWork) it return undefined."],
-    "studentComment": ["Repeat how to set up routes"],
-    "learnedForToday": ["Headless UI is a term for libraries and utilities that provide the logic, state, processing and API for UI elements and interactions, but do not provide markup, styles, or pre-built implementations.", "A module bundler helps you keep your code organised by making it easy to import and use other JavaScript files (modules) in your code. It keeps track of which files depend on which other files and ensures they are loaded in the right order. This helps make your code more modular and easier to maintain."],
+    "currentProblems": ["When I use methods from model (getFullTime, getFullPlan, getFullWork) it return undefined.", "Couldn't type accessor (tried string and AccessorFn but it doesn't work) to render function and follow DRY principle."],
+    "studentComment": ["I found info that we can fetch data from local.json (that placed inside src folder) by using import, but if I want to use fetch then this file shoule be placed in public folder. I couldn't find info how to set up webpack (vite) for resolve this."],
+    "learnedForToday": ["Headless UI is a term for libraries and utilities that provide the logic, state, processing and API for UI elements and interactions, but do not provide markup, styles, or pre-built implementations. (In this project I use @tanstack/react-table so I learn how to create basic tables with it)", "A module bundler helps you keep your code organised by making it easy to import and use other JavaScript files (modules) in your code. It keeps track of which files depend on which other files and ensures they are loaded in the right order. This helps make your code more modular and easier to maintain."],
     "mentorComment": [""],
     "isDayOff": false
   }
