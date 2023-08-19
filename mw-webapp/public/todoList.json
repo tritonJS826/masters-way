@@ -228,7 +228,7 @@
     "currentProblems": [""],
     "studentComment": [""],
     "learnedForToday": [""],
-    "mentorComment": [""],
+    "mentorComment": ["Align model with table view (align columns naming with fields naming, I don't see some fields in the table."],
     "isDayOff": true
   },
   {
