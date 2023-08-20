@@ -18,12 +18,7 @@ const columns = [
         row.original.workDone
           .map((work) => (
             <div key={work.id}>
-              <li>
-                {work.todoItem}
-              </li>
-              <p>
-                {`${work.getFullWork}`}
-              </p>
+              {`${+work.id + 1}. ${work.todoItem}`}
             </div>
           ))
       );
@@ -36,9 +31,7 @@ const columns = [
         row.original.planForTomorrow
           .map((plan) => (
             <div key={plan.id}>
-              <li>
-                {plan.todoItem}
-              </li>
+              {`${+plan.id + 1}. ${plan.todoItem}`}
             </div>
           ))
       );
