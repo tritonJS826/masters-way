@@ -20,10 +20,10 @@ export class PlanForTomorrow {
    */
   public time: Time;
 
-  constructor(planDate: PlanForTomorrow) {
-    this.id = planDate.id;
-    this.todoItem = planDate.todoItem;
-    this.time = planDate.time;
+  constructor(id: string, todoItem: string, time: Time) {
+    this.id = id;
+    this.todoItem = todoItem;
+    this.time = time;
   }
 
   /**
@@ -31,7 +31,7 @@ export class PlanForTomorrow {
    */
   //TODO: uncomment method
   public getFullPlan() {
-    return `${this.todoItem} (${this.time.getFullTime()})`;
+    return `${this.todoItem} (${this.time.amount} ${this.time.unit})`;
   }
 
 }
