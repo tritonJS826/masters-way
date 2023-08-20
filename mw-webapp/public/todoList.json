@@ -295,7 +295,7 @@
     "currentProblems": ["When I use methods from model (getFullTime, getFullPlan, getFullWork) it return undefined.", "Couldn't type accessor (tried string and AccessorFn but it doesn't work) to render function and follow DRY principle."],
     "studentComment": ["I found info that we can fetch data from local.json (that placed inside src folder) by using import, but if I want to use fetch then this file shoule be placed in public folder. I couldn't find info how to set up webpack (vite) for resolve this."],
     "learnedForToday": ["Headless UI is a term for libraries and utilities that provide the logic, state, processing and API for UI elements and interactions, but do not provide markup, styles, or pre-built implementations. (In this project I use @tanstack/react-table so I learn how to create basic tables with it)", "A module bundler helps you keep your code organised by making it easy to import and use other JavaScript files (modules) in your code. It keeps track of which files depend on which other files and ensures they are loaded in the right order. This helps make your code more modular and easier to maintain."],
-    "mentorComment": [""],
+    "mentorComment": ["Learn how context works in js (this)", "don't forgetr to create class instances, repeat what operator 'new' and operator 'instanceof' do", "Lets put newest records in table above", "You don't need to implement 'delete record method", "Thinl a little bit about UX, checkmarks in the last column looks starnge, columns width, ordered lists instead unordered etc, add list to other columns (problems)", "columnHelper.accessor is a generic, use it like '...accessor<..., ...>(...)'"],
     "isDayOff": false
   }
 ]
