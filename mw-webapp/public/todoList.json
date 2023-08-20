@@ -228,7 +228,7 @@
     "currentProblems": [""],
     "studentComment": [""],
     "learnedForToday": [""],
-    "mentorComment": ["Align model with table view (align columns naming with fields naming, I don't see some fields in the table."],
+    "mentorComment": ["✓ Align model with table view (align columns naming with fields naming, I don't see some fields in the table."],
     "isDayOff": true
   },
   {
@@ -295,7 +295,64 @@
     "currentProblems": ["When I use methods from model (getFullTime, getFullPlan, getFullWork) it return undefined.", "Couldn't type accessor (tried string and AccessorFn but it doesn't work) to render function and follow DRY principle."],
     "studentComment": ["I found info that we can fetch data from local.json (that placed inside src folder) by using import, but if I want to use fetch then this file shoule be placed in public folder. I couldn't find info how to set up webpack (vite) for resolve this."],
     "learnedForToday": ["Headless UI is a term for libraries and utilities that provide the logic, state, processing and API for UI elements and interactions, but do not provide markup, styles, or pre-built implementations. (In this project I use @tanstack/react-table so I learn how to create basic tables with it)", "A module bundler helps you keep your code organised by making it easy to import and use other JavaScript files (modules) in your code. It keeps track of which files depend on which other files and ensures they are loaded in the right order. This helps make your code more modular and easier to maintain."],
-    "mentorComment": ["Learn how context works in js (this)", "don't forgetr to create class instances, repeat what operator 'new' and operator 'instanceof' do", "Lets put newest records in table above", "You don't need to implement 'delete record method", "Thinl a little bit about UX, checkmarks in the last column looks starnge, columns width, ordered lists instead unordered etc, add list to other columns (problems)", "columnHelper.accessor is a generic, use it like '...accessor<..., ...>(...)'"],
+    "mentorComment": [
+      "Learn how context works in js (this)", 
+      "Don't forget to create class instances, repeat what operator 'new' and operator 'instanceof' do",
+      "Lets put newest records in table above", "You don't need to implement 'delete record method",
+      "Thinl a little bit about UX, checkmarks in the last column looks starnge, columns width, ordered lists instead unordered etc, add list to other columns (problems)", 
+      "ColumnHelper.accessor is a generic, use it like '...accessor<..., ...>(...)'"
+    ],
+    "isDayOff": false
+  },
+  {
+    "id": "5",
+    "date": "2023-08-20",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Create ptoject on firebase by using cloud firestore, add .env",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 120
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Created instances of classes for use methods (failed)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 60
+      }
+    }
+  ],
+    "planForTomorrow": [{
+      "id": "0",
+      "todoItem": "Create instances of classes for use methods (new WorkDone, new PlanForTomorrow, new Time)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 90
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Move todoList.json to firebase",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 60
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Change render of reports in the table (newest on the top of table)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 30
+      }
+    }
+  ],
+    "currentProblems": ["I tried to create instance of classes in service layer but don't understand how to use nested classes (for example class Time inside workDone class)", "Don't understand how to create database in firebase with array of objects (on site you cam choose only object or other types)"],
+    "studentComment": ["When I choose between firebase and cloud firestore I chose the last one because it has some pluses: Firebase stores data as one big JSON tree. Cloud Firestore stores data as a set of documents, making it easy to organize and store complex hierarchical data; firestore support not only web but also ios and android clients, etc."],
+    "learnedForToday": ["Firebase is a platform for create web-app. It's interface is a service with data base that works in real time, so datas update in real time on all services."],
+    "mentorComment": [""],
     "isDayOff": false
   }
 ]

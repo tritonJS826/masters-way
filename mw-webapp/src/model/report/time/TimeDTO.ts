@@ -3,7 +3,7 @@ import {Unit} from "src/model/report/time/unit/Unit";
 /**
  * What was done
  */
-export class Time {
+export class TimeDTO {
 
   /**
    * Unit of time measurement
@@ -15,9 +15,9 @@ export class Time {
    */
   public amount: number;
 
-  constructor(unit: Unit, amount: number) {
-    this.unit = unit;
-    this.amount = amount;
+  constructor(timeDate: TimeDTO) {
+    this.unit = timeDate.unit;
+    this.amount = timeDate.amount;
   }
 
   /**
