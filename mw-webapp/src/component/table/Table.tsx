@@ -18,7 +18,7 @@ const columns = [
         row.original.workDone
           .map((work) => (
             <div key={work.id}>
-              {`${+work.id + 1}. ${work.todoItem}`}
+              {`${+work.id + 1}. ${work.getFullWork()}`}
             </div>
           ))
       );

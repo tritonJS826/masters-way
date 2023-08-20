@@ -5,34 +5,22 @@
     "workDone": [{
       "id": "0",
       "todoItem": "Initialized the project",
-      "time": {
-        "unit": "MINUTE",
-        "amount": 15
-      }
+      "time": 15
     },
     {
       "id": "1",
       "todoItem": "Set up tsconfig, eslint environment",
-      "time": {
-        "unit": "MINUTE",
-        "amount": 55
-      }
+      "time": 55
     },
     {
       "id": "2",
       "todoItem": "Create a basic json with data",
-      "time": {
-        "unit": "MINUTE",
-        "amount": 20
-      }
+      "time": 20
     },
     {
       "id": "3",
       "todoItem": "Add basic layout to the page (table with data from json)",
-      "time": {
-        "unit": "MINUTE",
-        "amount": 90
-      }
+      "time": 90
     }
   ],
     "planForTomorrow": [{
@@ -72,34 +60,22 @@
     "workDone": [{
       "id": "0",
       "todoItem": "Create a model Deal.ts",
-      "time": {
-        "unit": "MINUTE",
-        "amount": 15
-      }
+      "time": 15
     },
     {
       "id": "1",
       "todoItem": "Create an additional models Work, Plan, Time, Unit",
-      "time": {
-        "unit": "MINUTE",
-        "amount": 45
-      }
+      "time": 45
     },
     {
       "id": "2",
       "todoItem": "Change todoList.json according to the model",
-      "time": {
-        "unit": "MINUTE",
-        "amount": 20
-      }
+      "time": 20
     },
     {
       "id": "3",
       "todoItem": "Fix mistakes in code after changed json file",
-      "time": {
-        "unit": "MINUTE",
-        "amount": 75
-      }
+      "time": 75
     }
   ],
     "planForTomorrow": [{
@@ -151,42 +127,27 @@
     "workDone": [{
       "id": "0",
       "todoItem": "Add scss dependency and change files .css to .module.scss",
-      "time": {
-        "unit": "MINUTE",
-        "amount": 15
-      }
+      "time": 15
     },
     {
       "id": "1",
       "todoItem": "Add routing in app (it's only one route to main page now)",
-      "time": {
-        "unit": "MINUTE",
-        "amount": 20
-      }
+      "time": 20
     },
     {
       "id": "2",
       "todoItem": "Create models.io (with models and modelsDTO), rename model's name in project (Deal -> Report, Work -> WorkDone, Plan -> PlanForTomorrow) and model's properties name (add property mentorComment, problem -> currentProblems, etc.)",
-      "time": {
-        "unit": "MINUTE",
-        "amount": 40
-      }
+      "time": 40
     },
     {
       "id": "3",
       "todoItem": "Create service layer with getReports methods that return all methods from .json and convert ReportDTO to Report model",
-      "time": {
-        "unit": "MINUTE",
-        "amount": 55
-      }
+      "time": 55
     },
     {
       "id": "4",
       "todoItem": "Fix mistakes in code after changed model",
-      "time": {
-        "unit": "MINUTE",
-        "amount": 40
-      }
+      "time": 40
     }
   ],
     "planForTomorrow": [{
@@ -237,42 +198,27 @@
     "workDone": [{
       "id": "0",
       "todoItem": "Add property isDayOff to .json, Report model, ReportDTO model, models.draw.io",
-      "time": {
-        "unit": "MINUTE",
-        "amount": 15
-      }
+      "time": 15
     },
     {
       "id": "1",
       "todoItem": "Use base empty headless table (@tanstack/react-table) instead of custom table component",
-      "time": {
-        "unit": "MINUTE",
-        "amount": 55
-      }
+      "time": 55
     },
     {
       "id": "2",
       "todoItem": "Fix mistakes for right render arrays of objects and date (use map in 'cell' property)",
-      "time": {
-        "unit": "MINUTE",
-        "amount": 25
-      }
+      "time": 25
     },
     {
       "id": "3",
       "todoItem": "Add styles to table, delete unneeded table components",
-      "time": {
-        "unit": "MINUTE",
-        "amount": 35
-      }
+      "time": 35
     },
     {
       "id": "4",
       "todoItem": "Migration from CRA to Vite (set up vite.config for use absolute paths, eslint, typescript",
-      "time": {
-        "unit": "MINUTE",
-        "amount": 65
-      }
+      "time": 65
     }
   ],
     "planForTomorrow": [{
@@ -310,18 +256,12 @@
     "workDone": [{
       "id": "0",
       "todoItem": "Create ptoject on firebase by using cloud firestore, add .env",
-      "time": {
-        "unit": "MINUTE",
-        "amount": 120
-      }
+      "time": 120
     },
     {
       "id": "1",
-      "todoItem": "Created instances of classes for use methods (failed)",
-      "time": {
-        "unit": "MINUTE",
-        "amount": 60
-      }
+      "todoItem": "Created instances of class (new WorkDone) for use methods .getFullWork()",
+      "time": 60
     }
   ],
     "planForTomorrow": [{
@@ -349,7 +289,7 @@
       }
     }
   ],
-    "currentProblems": ["I tried to create instance of classes in service layer but don't understand how to use nested classes (for example class Time inside workDone class)", "Don't understand how to create database in firebase with array of objects (on site you cam choose only object or other types)"],
+    "currentProblems": ["I tried to create instance of one class inside other instance of other class in service layer but don't understand how to use nested classes (for example class Time inside workDone class)", "Don't understand how to create database in firebase with array of objects (on site you cam choose only object or other types)"],
     "studentComment": ["When I choose between firebase and cloud firestore I chose the last one because it has some pluses: Firebase stores data as one big JSON tree. Cloud Firestore stores data as a set of documents, making it easy to organize and store complex hierarchical data; firestore support not only web but also ios and android clients, etc."],
     "learnedForToday": ["Firebase is a platform for create web-app. It's interface is a service with data base that works in real time, so datas update in real time on all services."],
     "mentorComment": [""],
