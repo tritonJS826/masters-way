@@ -31,7 +31,7 @@ const columns = [
         row.original.planForTomorrow
           .map((plan) => (
             <div key={plan.id}>
-              {`${+plan.id + 1}. ${plan.todoItem}`}
+              {`${+plan.id + 1}. ${plan.getFullPlan()}`}
             </div>
           ))
       );
