@@ -1,15 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import {BrowserRouter} from "react-router-dom";
-import {app} from "src/firebase";
-import {AppContext} from "src/appContext";
-import firebase from "firebase/compat/app";
-import {getFirestore} from "firebase/firestore";
+// import {AppContext} from "src/appContext";
+// import firebase from "firebase/compat/app";
 import App from "src/App";
 import reportWebVitals from "src/reportWebVitals";
 import "src/index.scss";
-
-const firestore = getFirestore(app);
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement,
@@ -17,17 +13,13 @@ const root = ReactDOM.createRoot(
 
 
 root.render(
-  <AppContext.Provider value={{
-    firebase,
-    firestore,
-  }}
-  >
-    <React.StrictMode>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </React.StrictMode>
-  </AppContext.Provider>,
+  // <AppContext.Provider value={{firebase}}>
+  <React.StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </React.StrictMode>,
+  // </AppContext.Provider>,
 );
 
 // If you want to start measuring performance in your app, pass a function

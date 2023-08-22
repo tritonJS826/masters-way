@@ -1,70 +1,16 @@
 import {useState, useEffect} from "react";
-import {useReactTable, getCoreRowModel, createColumnHelper, flexRender} from "@tanstack/react-table";
+import {useReactTable, getCoreRowModel, flexRender} from "@tanstack/react-table";
 import {Report} from "src/model/report/Report";
 import {ReportService} from "src/service/Report";
+import {columns} from "src/component/table/columns";
 import styles from "src/component/table/Table.module.scss";
-
-const columnHelper = createColumnHelper<Report>();
-
-const columns = [
-  columnHelper.accessor("date", {
-    header: "Date",
-    cell: (info) => info.getValue().toISOString().slice(0, 10),
-  }),
-  columnHelper.accessor("workDone", {
-    header: "Work done",
-    cell: ({row}) => {
-      return (
-        row.original.workDone
-          .map((work) => (
-            <div key={work.id}>
-              {`${+work.id + 1}. ${work.getFullWork()}`}
-            </div>
-          ))
-      );
-    },
-  }),
-  columnHelper.accessor("planForTomorrow", {
-    header: "Plan for tomorrow",
-    cell: ({row}) => {
-      return (
-        row.original.planForTomorrow
-          .map((plan) => (
-            <div key={plan.id}>
-              {`${+plan.id + 1}. ${plan.getFullPlan()}`}
-            </div>
-          ))
-      );
-    },
-  }),
-  columnHelper.accessor("currentProblems", {
-    header: "Current problems",
-    cell: (info) => info.getValue(),
-  }),
-  columnHelper.accessor("studentComment", {
-    header: "Student comment",
-    cell: (info) => info.getValue(),
-  }),
-  columnHelper.accessor("learnedForToday", {
-    header: "Learned for today",
-    cell: (info) => info.getValue(),
-  }),
-  columnHelper.accessor("mentorComment", {
-    header: "Mentor comment",
-    cell: (info) => info.getValue(),
-  }),
-  columnHelper.accessor("isDayOff", {
-    header: "Is day off",
-    cell: (info) => info.getValue(),
-  }),
-];
 
 export const Table = () => {
   const [data, setData] = useState<Report[]>([]);
 
   const getReports = async () => {
     const reports = await ReportService.getAllReports();
-    setData(reports);
+    setData(reports.reverse());
     return reports;
   };
 
@@ -79,7 +25,7 @@ export const Table = () => {
   });
 
   return (
-    <div>
+    <div className={styles.container}>
       <h1 className={styles.title}>
         Hiii, Student!
       </h1>
@@ -122,5 +68,4 @@ export const Table = () => {
       </table>
     </div>
   );
-
 };
