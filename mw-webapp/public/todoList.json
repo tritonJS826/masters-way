@@ -117,7 +117,7 @@
       "✓ Use headless component for table",
       "✓ Let's try to use vite instead of webpack",
       "✓ Learn why do you need bundlers (webpack, vite) and learn how to fetch data not only from public folder",
-      "Lets start to use firebase instead of backend, learn what the benefits"
+      "✓ Lets start to use firebase instead of backend, learn what the benefits"
     ],
     "isDayOff": false
   },
@@ -242,10 +242,11 @@
     "studentComment": ["I found info that we can fetch data from local.json (that placed inside src folder) by using import, but if I want to use fetch then this file shoule be placed in public folder. I couldn't find info how to set up webpack (vite) for resolve this."],
     "learnedForToday": ["Headless UI is a term for libraries and utilities that provide the logic, state, processing and API for UI elements and interactions, but do not provide markup, styles, or pre-built implementations. (In this project I use @tanstack/react-table so I learn how to create basic tables with it)", "A module bundler helps you keep your code organised by making it easy to import and use other JavaScript files (modules) in your code. It keeps track of which files depend on which other files and ensures they are loaded in the right order. This helps make your code more modular and easier to maintain."],
     "mentorComment": [
-      "Learn how context works in js (this)", 
-      "Don't forget to create class instances, repeat what operator 'new' and operator 'instanceof' do",
-      "Lets put newest records in table above", "You don't need to implement 'delete record method",
-      "Thinl a little bit about UX, checkmarks in the last column looks starnge, columns width, ordered lists instead unordered etc, add list to other columns (problems)", 
+      "✓ Don't forget to create class instances, repeat what operator 'new' and operator 'instanceof' do",
+      "✓ You don't need to implement 'delete record method",
+      "✓ Lets put newest records in table above",
+      "✓ Think a little bit about UX, checkmarks in the last column looks strange, columns width, ordered lists instead unordered etc, add list to other columns (problems)", 
+      "✓ Learn how context works in js (this)", 
       "ColumnHelper.accessor is a generic, use it like '...accessor<..., ...>(...)'"
     ],
     "isDayOff": false
@@ -281,7 +282,7 @@
       }
     },
     {
-      "id": "1",
+      "id": "2",
       "todoItem": "Change render of reports in the table (newest on the top of table)",
       "time": {
         "unit": "MINUTE",
@@ -292,6 +293,91 @@
     "currentProblems": ["I tried to create instance of one class inside other instance of other class in service layer but don't understand how to use nested classes (for example class Time inside workDone class)", "Don't understand how to create database in firebase with array of objects (on site you cam choose only object or other types)"],
     "studentComment": ["When I choose between firebase and cloud firestore I chose the last one because it has some pluses: Firebase stores data as one big JSON tree. Cloud Firestore stores data as a set of documents, making it easy to organize and store complex hierarchical data; firestore support not only web but also ios and android clients, etc."],
     "learnedForToday": ["Firebase is a platform for create web-app. It's interface is a service with data base that works in real time, so datas update in real time on all services."],
+    "mentorComment": [""],
+    "isDayOff": false
+  },
+  {
+    "id": "6",
+    "date": "2023-08-21",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Get data from realtime database (inside function component R.tsx)",
+      "time": 180
+    }
+  ],
+    "planForTomorrow": [{
+      "id": "0",
+      "todoItem": "Get data from real time databse in Report.ts",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 90
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Render right time (property time)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 60
+      }
+    },
+    {
+      "id": "2",
+      "todoItem": "Add some styles for good UI",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 30
+      }
+    }
+  ],
+    "currentProblems": ["I tried to create instance of one class inside other instance of other class in service layer but don't understand how to use nested classes (for example class Time inside workDone class)", "Can't fetch data from firebase in Report.ts file"],
+    "studentComment": ["Now we will work with real time database for update info in the moments but if we will need we will move our datas to cloud firestore"],
+    "learnedForToday": ["onValue function listens for data changes at a particular location. This is the primary way to read data from a Database. Our callback will be triggered for the initial data and again whenever the data changes."],
+    "mentorComment": [""],
+    "isDayOff": false
+  },
+  {
+    "id": "7",
+    "date": "2023-08-22",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Get data from firebase in R.tsx and convert it to business model (R.tsx file)",
+      "time": 90
+    },
+    {
+      "id": "1",
+      "todoItem": "Revert render reports (newest on the top), move out columns in columns.tsx, add styles to table, render empty cells if property isDayOff === true",
+      "time": 30
+    }
+  ],
+    "planForTomorrow": [{
+      "id": "0",
+      "todoItem": "Use the similar code in Table/tsx as in R.tsc for render reports from firebase",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 90
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Add possibility to add reports",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 45
+      }
+    },
+    {
+      "id": "2",
+      "todoItem": "Add possibility to edit reports",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 45
+      }
+    }
+  ],
+    "currentProblems": ["Can't understand how to create generic for ColumnHelper.accessor", "I tried to create instance of one class inside other instance of other class in service layer but don't understand how to use nested classes (for example class Time inside workDone class doesn't work while class Time works inside PlanForTomorrow class)"],
+    "studentComment": ["Thought about UI but don't know how to better render big text and small info as siblings"],
+    "learnedForToday": [""],
     "mentorComment": [""],
     "isDayOff": false
   }
