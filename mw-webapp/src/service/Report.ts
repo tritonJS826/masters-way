@@ -7,11 +7,17 @@ import {WorkDone} from "src/model/report/workDone/WorkDone";
 // import {ref, onValue} from "firebase/database";
 // import {db} from "src/firebase";
 
-const fetchReports = async () => {
-  const todoList = await fetch("./todoList.json");
-  const reports = await todoList.json();
-  return reports;
-};
+// const fetchReports = async () => {
+//   const todoList = await fetch("./todoList.json");
+//   const reports = await todoList.json();
+//   return reports;
+// };
+
+// let data: ReportDTO[];
+// onValue(ref(db), snapshot => {
+//   data = snapshot.val();
+// });
+// return data;
 
 // let data: ReportDTO[];
 // onValue(ref(db), snapshot => {
