@@ -7,11 +7,11 @@ import {WorkDone} from "src/model/report/workDone/WorkDone";
 // import {ref, onValue} from "firebase/database";
 // import {db} from "src/firebase";
 
-// const fetchReports = async () => {
-//   const todoList = await fetch("./todoList.json");
-//   const reports = await todoList.json();
-//   return reports;
-// };
+const fetchReports = async () => {
+  const todoList = await fetch("./todoList.json");
+  const reports = await todoList.json();
+  return reports;
+};
 
 // let data: ReportDTO[];
 // onValue(ref(db), snapshot => {
@@ -30,18 +30,13 @@ const reportDTOToBusinessConverter = (reportRaw: ReportDTO) => new Report({
 export class ReportService {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public static async getAllReports(elem: any) {
-    // const reportsRaw: ReportDTO[] = await fetchReports();
-    // const reports = reportsRaw.map(reportDTOToBusinessConverter);
-    // return reports;
-    const reports = elem.map(reportDTOToBusinessConverter);
+  // public static async getAllReports(elem: any) {
+  public static async getAllReports() {
+    const reportsRaw: ReportDTO[] = await fetchReports();
+    const reports = reportsRaw.map(reportDTOToBusinessConverter);
     return reports;
-
-    // onValue(ref(db), snapshot => {
-    //   const data: ReportDTO = snapshot.val();
-    //   const reports = Object.values(data).map(reportDTOToBusinessConverter);
-    //   return reports;
-    // });
+    // const reports = elem.map(reportDTOToBusinessConverter);
+    // return reports;
   }
 
 }
