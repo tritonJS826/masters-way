@@ -19,6 +19,12 @@ import {WorkDone} from "src/model/report/workDone/WorkDone";
 // });
 // return data;
 
+// let data: ReportDTO[];
+// onValue(ref(db), snapshot => {
+//   data = snapshot.val();
+// });
+// return data;
+
 const reportDTOToBusinessConverter = (reportRaw: ReportDTO) => new Report({
   ...reportRaw,
   date: new Date(reportRaw.date),
@@ -30,18 +36,13 @@ const reportDTOToBusinessConverter = (reportRaw: ReportDTO) => new Report({
 export class ReportService {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public static async getAllReports(elem: any) {
-    // const reportsRaw: ReportDTO[] = await fetchReports();
-    // const reports = reportsRaw.map(reportDTOToBusinessConverter);
-    // return reports;
-    const reports = elem.map(reportDTOToBusinessConverter);
+  // public static async getAllReports(elem: any) {
+  public static async getAllReports() {
+    const reportsRaw: ReportDTO[] = await fetchReports();
+    const reports = reportsRaw.map(reportDTOToBusinessConverter);
     return reports;
-
-    // onValue(ref(db), snapshot => {
-    //   const data: ReportDTO = snapshot.val();
-    //   const reports = Object.values(data).map(reportDTOToBusinessConverter);
-    //   return reports;
-    // });
+    // const reports = elem.map(reportDTOToBusinessConverter);
+    // return reports;
   }
 
 }
