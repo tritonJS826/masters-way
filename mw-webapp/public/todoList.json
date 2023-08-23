@@ -378,7 +378,7 @@
     "currentProblems": ["Can't understand how to create generic for ColumnHelper.accessor", "I tried to create instance of one class inside other instance of other class in service layer but don't understand how to use nested classes (for example class Time inside workDone class doesn't work while class Time works inside PlanForTomorrow class)"],
     "studentComment": ["Thought about UI but don't know how to better render big text and small info as siblings"],
     "learnedForToday": [""],
-    "mentorComment": [""],
+    "mentorComment": ["I added a script to git with an examle of nested classes with some public fields and methods, please check it, you can run it with ts-node", "try to read official documentation of your new table, they use typescript in the code (https://tanstack.com/table/v8/docs/guide/column-defs)"],
     "isDayOff": false
   }
 ]
