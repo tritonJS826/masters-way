@@ -5,22 +5,34 @@
     "workDone": [{
       "id": "0",
       "todoItem": "Initialized the project",
-      "time": 15
+      "time": {
+        "unit": "MINUTE",
+        "amount": 15
+      }
     },
     {
       "id": "1",
       "todoItem": "Set up tsconfig, eslint environment",
-      "time": 55
+      "time": {
+        "unit": "MINUTE",
+        "amount": 55
+      }
     },
     {
       "id": "2",
       "todoItem": "Create a basic json with data",
-      "time": 20
+      "time": {
+        "unit": "MINUTE",
+        "amount": 20
+      }
     },
     {
       "id": "3",
       "todoItem": "Add basic layout to the page (table with data from json)",
-      "time": 90
+      "time": {
+        "unit": "MINUTE",
+        "amount": 90
+      }
     }
   ],
     "planForTomorrow": [{
@@ -60,22 +72,34 @@
     "workDone": [{
       "id": "0",
       "todoItem": "Create a model Deal.ts",
-      "time": 15
+      "time": {
+        "unit": "MINUTE",
+        "amount": 15
+      }
     },
     {
       "id": "1",
       "todoItem": "Create an additional models Work, Plan, Time, Unit",
-      "time": 45
+      "time": {
+        "unit": "MINUTE",
+        "amount": 45
+      }
     },
     {
       "id": "2",
       "todoItem": "Change todoList.json according to the model",
-      "time": 20
+      "time": {
+        "unit": "MINUTE",
+        "amount": 20
+      }
     },
     {
       "id": "3",
       "todoItem": "Fix mistakes in code after changed json file",
-      "time": 75
+      "time": {
+        "unit": "MINUTE",
+        "amount": 75
+      }
     }
   ],
     "planForTomorrow": [{
@@ -127,27 +151,42 @@
     "workDone": [{
       "id": "0",
       "todoItem": "Add scss dependency and change files .css to .module.scss",
-      "time": 15
+      "time": {
+        "unit": "MINUTE",
+        "amount": 15
+      }
     },
     {
       "id": "1",
       "todoItem": "Add routing in app (it's only one route to main page now)",
-      "time": 20
+      "time": {
+        "unit": "MINUTE",
+        "amount": 20
+      }
     },
     {
       "id": "2",
       "todoItem": "Create models.io (with models and modelsDTO), rename model's name in project (Deal -> Report, Work -> WorkDone, Plan -> PlanForTomorrow) and model's properties name (add property mentorComment, problem -> currentProblems, etc.)",
-      "time": 40
+      "time": {
+        "unit": "MINUTE",
+        "amount": 40
+      }
     },
     {
       "id": "3",
       "todoItem": "Create service layer with getReports methods that return all methods from .json and convert ReportDTO to Report model",
-      "time": 55
+      "time": {
+        "unit": "MINUTE",
+        "amount": 55
+      }
     },
     {
       "id": "4",
       "todoItem": "Fix mistakes in code after changed model",
-      "time": 40
+      "time": {
+        "unit": "MINUTE",
+        "amount": 40
+      }
     }
   ],
     "planForTomorrow": [{
@@ -198,27 +237,42 @@
     "workDone": [{
       "id": "0",
       "todoItem": "Add property isDayOff to .json, Report model, ReportDTO model, models.draw.io",
-      "time": 15
+      "time": {
+        "unit": "MINUTE",
+        "amount": 15
+      }
     },
     {
       "id": "1",
       "todoItem": "Use base empty headless table (@tanstack/react-table) instead of custom table component",
-      "time": 55
+      "time": {
+        "unit": "MINUTE",
+        "amount": 55
+      }
     },
     {
       "id": "2",
       "todoItem": "Fix mistakes for right render arrays of objects and date (use map in 'cell' property)",
-      "time": 25
+      "time": {
+        "unit": "MINUTE",
+        "amount": 25
+      }
     },
     {
       "id": "3",
       "todoItem": "Add styles to table, delete unneeded table components",
-      "time": 35
+      "time": {
+        "unit": "MINUTE",
+        "amount": 35
+      }
     },
     {
       "id": "4",
       "todoItem": "Migration from CRA to Vite (set up vite.config for use absolute paths, eslint, typescript",
-      "time": 65
+      "time": {
+        "unit": "MINUTE",
+        "amount": 65
+      }
     }
   ],
     "planForTomorrow": [{
@@ -257,12 +311,18 @@
     "workDone": [{
       "id": "0",
       "todoItem": "Create ptoject on firebase by using cloud firestore, add .env",
-      "time": 120
+      "time": {
+        "unit": "MINUTE",
+        "amount": 120
+      }
     },
     {
       "id": "1",
       "todoItem": "Created instances of class (new WorkDone) for use methods .getFullWork()",
-      "time": 60
+      "time": {
+        "unit": "MINUTE",
+        "amount": 60
+      }
     }
   ],
     "planForTomorrow": [{
@@ -302,7 +362,10 @@
     "workDone": [{
       "id": "0",
       "todoItem": "Get data from realtime database (inside function component R.tsx)",
-      "time": 180
+      "time": {
+        "unit": "MINUTE",
+        "amount": 180
+      }
     }
   ],
     "planForTomorrow": [{
@@ -342,12 +405,18 @@
     "workDone": [{
       "id": "0",
       "todoItem": "Get data from firebase in R.tsx and convert it to business model (R.tsx file)",
-      "time": 90
+      "time": {
+        "unit": "MINUTE",
+        "amount": 90
+      }
     },
     {
       "id": "1",
       "todoItem": "Revert render reports (newest on the top), move out columns in columns.tsx, add styles to table, render empty cells if property isDayOff === true",
-      "time": 30
+      "time": {
+        "unit": "MINUTE",
+        "amount": 30
+      }
     }
   ],
     "planForTomorrow": [{
@@ -378,7 +447,71 @@
     "currentProblems": ["Can't understand how to create generic for ColumnHelper.accessor", "I tried to create instance of one class inside other instance of other class in service layer but don't understand how to use nested classes (for example class Time inside workDone class doesn't work while class Time works inside PlanForTomorrow class)"],
     "studentComment": ["Thought about UI but don't know how to better render big text and small info as siblings"],
     "learnedForToday": [""],
-    "mentorComment": ["I added a script to git with an examle of nested classes with some public fields and methods, please check it, you can run it with ts-node", "try to read official documentation of your new table, they use typescript in the code (https://tanstack.com/table/v8/docs/guide/column-defs)"],
+    "mentorComment": [
+      "✓ I added a script to git with an example of nested classes with some public fields and methods, please check it, you can run it with ts-node", 
+      "Try to read official documentation of your new table, they use typescript in the code (https://tanstack.com/table/v8/docs/guide/column-defs)"],
+    "isDayOff": false
+  },
+  {
+    "id": "8",
+    "date": "2023-08-23",
+    "workDone": [{}],
+    "planForTomorrow": [{}],
+    "currentProblems": ["Can't understand how to create generic for ColumnHelper.accessor", "I tried to create instance of one class inside other instance of other class in service layer but don't understand how to use nested classes (for example class Time inside workDone class doesn't work while class Time works inside PlanForTomorrow class)"],
+    "studentComment": ["I tried to fix mistakes in classes bit it failed. So let's write that it was day odd"],
+    "learnedForToday": [""],
+    "mentorComment": [""],
+    "isDayOff": true
+  },
+  {
+    "id": "9",
+    "date": "2023-08-24",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Fix all mistakes and get data from firebase with convert data from DTO to business model",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 180
+      }
+    }
+  ],
+    "planForTomorrow": [{
+      "id": "0",
+      "todoItem": "Add possibility to add reports to firebase from browser",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 90
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Add possibility to edit reports",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 45
+      }
+    },
+    {
+      "id": "2",
+      "todoItem": "Add service for offline (dev) mode and possibility to switch to online (prod) mode",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 45
+      }
+    },
+    {
+      "id": "3",
+      "todoItem": "Clear project (delete unneeded files, console.log and comments)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 30
+      }
+    }
+  ],
+    "currentProblems": [""],
+    "studentComment": ["Couldn't fix mistakes in classes about three days. There were few mistakes: 1. The real-time database did not match the current models (there were old time model); 2. When I mapped array object inside classes it returned undefined because method .map doesn't work if arrayis empty; 3. I forgor that we should create inctance of ckasses for use it in code;"],
+    "learnedForToday": ["Learned how to create instances of classes for array"],
+    "mentorComment": [""],
     "isDayOff": false
   }
 ]

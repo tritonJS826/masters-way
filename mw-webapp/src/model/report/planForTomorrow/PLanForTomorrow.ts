@@ -20,10 +20,10 @@ export class PlanForTomorrow {
    */
   public time: Time;
 
-  constructor(id: string, todoItem: string, time: Time) {
+  constructor(id: string, todoItem: string, time: { unit: string, amount: number }) {
     this.id = id;
     this.todoItem = todoItem;
-    this.time = time;
+    this.time = new Time(time.unit, time.amount);
   }
 
   /**

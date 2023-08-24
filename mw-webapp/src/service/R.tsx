@@ -1,39 +1,37 @@
 import {ref, onValue} from "firebase/database";
 import {useState, useEffect} from "react";
 import {db} from "src/firebase";
+import {ReportDTO} from "src/model/report/ReportDTO";
 import {ReportService} from "src/service/Report";
 
 export const R = () => {
-  const [datas, setDatas] = useState([]);
   const [reports, setReports] = useState([]);
 
-
-  const getData = () => {
-    onValue(ref(db), snapshot => {
-      const data = snapshot.val();
-      if (data !== null) {
-        setDatas(Object.values(data));
-      }
-    });
+  const getReports = async (elem: ReportDTO[]) => {
+    const reportsData = await ReportService.getAllReports(elem);
+    const reportsArray = reportsData.reverse();
+    setReports(reportsArray);
   };
 
-  const getReports = async (elems) => {
-    const reportsData = await ReportService.getAllReports(elems);
-    setReports(reportsData.reverse());
-    return reports;
+  const getData = () => {
+    onValue(ref(db), async snapshot => {
+      const data = snapshot.val();
+      if (data !== null) {
+        getReports(data);
+      }
+    });
   };
 
 
   useEffect(() => {
     getData();
-    getReports(datas);
   }, []);
 
   return (
     <div>
-      {datas.map(report => (
+      {reports.map(report => (
         <h5 key={report.id}>
-          {report.mentorComment}
+          {report.id}
         </h5>
       ))}
     </div>

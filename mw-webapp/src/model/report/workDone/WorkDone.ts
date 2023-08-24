@@ -1,5 +1,5 @@
-// import {Time} from "src/model/report/time/Time";
-import {Unit} from "../time/unit/Unit";
+import {Time} from "src/model/report/time/Time";
+// import {Unit} from "../time/unit/Unit";
 
 /**
  * What was done
@@ -19,19 +19,19 @@ export class WorkDone {
   /**
    * How long was the job done in minutes
    */
-  public time: number;
+  public time: Time;
 
-  constructor(id: string, todoItem: string, time: number) {
+  constructor(id: string, todoItem: string, time: { unit: string, amount: number }) {
     this.id = id;
     this.todoItem = todoItem;
-    this.time = time;
+    this.time = new Time(time.unit, time.amount);
   }
 
   /**
    * Get formatted work
    */
   public getFullWork() {
-    return `${this.todoItem} (${this.time} ${Unit.MINUTE})`;
+    return `${this.todoItem} (${this.time.amount} ${this.time.unit})`;
   }
 
 }
