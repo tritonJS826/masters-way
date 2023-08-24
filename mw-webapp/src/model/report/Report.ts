@@ -1,5 +1,7 @@
 import {WorkDone} from "src/model/report/workDone/WorkDone";
 import {PlanForTomorrow} from "src/model/report/planForTomorrow/PLanForTomorrow";
+// import {Unit} from "./time/unit/Unit";
+import {Time} from "./time/Time";
 
 /**
  * Case for one row in the table
@@ -51,16 +53,32 @@ export class Report {
    */
   public isDayOff: boolean;
 
-  constructor(reportDate: Report) {
+  constructor(reportDate: {
+    id: string,
+    date: Date,
+    workDone: {id: string, todoItem: string, time: { unit: string, amount: number }}[],
+    planForTomorrow: {id: string, todoItem: string, time: { unit: string, amount: number }}[],
+    currentProblems: string[],
+    studentComment: string[],
+    learnedForToday: string[],
+    mentorComment: string[],
+    isDayOff: boolean,
+  }) {
     this.id = reportDate.id;
     this.date = reportDate.date;
-    this.workDone = reportDate.workDone;
-    this.planForTomorrow = reportDate.planForTomorrow;
+    this.workDone = reportDate.workDone?.map((workDoneItem) =>
+      new WorkDone(workDoneItem.id, workDoneItem.todoItem,
+        new Time(workDoneItem.time.unit, workDoneItem.time.amount)));
+    this.planForTomorrow = reportDate.planForTomorrow?.map((planForTomorrowItem) =>
+      new PlanForTomorrow(planForTomorrowItem.id, planForTomorrowItem.todoItem,
+        new Time(planForTomorrowItem.time.unit, planForTomorrowItem.time.amount)));
     this.currentProblems = reportDate.currentProblems;
     this.studentComment = reportDate.studentComment;
     this.learnedForToday = reportDate.learnedForToday;
     this.mentorComment = reportDate.mentorComment;
     this.isDayOff = reportDate.isDayOff;
+    console.log(this.workDone?.map((workDoneItem) =>
+      new WorkDone(workDoneItem.id, workDoneItem.todoItem, new Time(workDoneItem.time.unit, workDoneItem.time.amount))));
   }
 
 }

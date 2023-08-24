@@ -10,12 +10,13 @@ export const columns = [
   }),
   columnHelper.accessor("workDone", {
     header: "Work done",
+    // cell: (info) => info.getValue(),
     cell: ({row}) => {
       return (
         row.original.workDone
-          .map((work, index) => (
+          ?.map((work) => (
             (JSON.stringify(work) === "{}") ?
-              <div key={index} />
+              <div key={work.id} />
               :
               <div key={work.id}>
                 {`${+work.id + 1}. ${work.getFullWork()}`}
@@ -29,9 +30,9 @@ export const columns = [
     cell: ({row}) => {
       return (
         row.original.planForTomorrow
-          .map((plan, index) => (
+          ?.map((plan) => (
             (JSON.stringify(plan) === "{}") ?
-              <div key={index} />
+              <div key={plan.id} />
               :
               <div key={plan.id}>
                 {`${+plan.id + 1}. ${plan.getFullPlan()}`}

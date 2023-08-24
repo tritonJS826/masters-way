@@ -4,18 +4,41 @@ import {Report} from "src/model/report/Report";
 import {ReportService} from "src/service/Report";
 import {columns} from "src/component/table/columns";
 import styles from "src/component/table/Table.module.scss";
+import {ref, onValue} from "firebase/database";
+import {db} from "src/firebase";
+import {ReportDTO} from "src/model/report/ReportDTO";
 
 export const Table = () => {
   const [data, setData] = useState<Report[]>([]);
 
-  const getReports = async () => {
-    const reports = await ReportService.getAllReports();
-    setData(reports.reverse());
-    return reports;
+  const getReports = async (elem: ReportDTO[]) => {
+    const reportsData: Report[] = await ReportService.getAllReports(elem);
+    console.log(reportsData);
+    const reportsArray = reportsData.reverse();
+    console.log(reportsArray);
+    setData(reportsArray);
+  };
+
+
+  const getData = () => {
+    onValue(ref(db), async snapshot => {
+      const datas = snapshot.val();
+      if (datas !== null) {
+        // setData(datas);
+        // console.log(datas);
+        getReports(datas);
+
+        // const reportsData: Report[] = await ReportService.getAllReports(datas);
+        // console.log(reportsData);
+        // const reportsArray = reportsData.reverse();
+        // console.log(reportsArray);
+        // setData(reportsArray);
+      }
+    });
   };
 
   useEffect(() => {
-    getReports();
+    getData();
   }, []);
 
   const table = useReactTable({
