@@ -25,15 +25,7 @@ export const Table = () => {
     onValue(ref(db), async snapshot => {
       const datas = snapshot.val();
       if (datas !== null) {
-        // setData(datas);
-        // console.log(datas);
         getReports(datas);
-
-        // const reportsData: Report[] = await ReportService.getAllReports(datas);
-        // console.log(reportsData);
-        // const reportsArray = reportsData.reverse();
-        // console.log(reportsArray);
-        // setData(reportsArray);
       }
     });
   };
@@ -53,6 +45,7 @@ export const Table = () => {
       <h1 className={styles.title}>
         Hiii, Student!
       </h1>
+      <Button />
       <table className={styles.table}>
         <thead className={styles.thead}>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -90,7 +83,6 @@ export const Table = () => {
           ))}
         </tbody>
       </table>
-      <Button />
     </div>
   );
 };

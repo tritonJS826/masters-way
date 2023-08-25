@@ -513,5 +513,64 @@
     "learnedForToday": ["Learned how to create instances of classes for array"],
     "mentorComment": [""],
     "isDayOff": false
+  },
+  {
+    "id": "10",
+    "date": "2023-08-25",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Add TS typing to columns.tsx (for ColumnDef and Accessors)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 50
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Add function to post new Report into firebase (with stub data)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 120
+      }
+    },
+    {
+      "id": "2",
+      "todoItem": "Clean project (delete unneeded comments, console.log, etc.)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 15
+      }
+    }
+  ],
+    "planForTomorrow": [{
+      "id": "0",
+      "todoItem": "Update function with post report to firebase (service layer: add method postReport and converter BusinessToReportDTOConverter; Button component: add possibility send your data, not stub)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 120
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Add possibility to edit reports from client side",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 45
+      }
+    },
+    {
+      "id": "2",
+      "todoItem": "Add service for offline (dev) mode and possibility to switch to online (prod) mode",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 45
+      }
+    }
+  ],
+    "currentProblems": [""],
+    "studentComment": ["Since the database contains an array of objects, the indices of which are randomly generated using the firebase methods, in order to map the received data, I first create a variable, where I call the Object.values() method"],
+    "learnedForToday": ["Learned how to add TS typings to tanStack table columns", "Learned how to add data to firebase (POST)"],
+    "mentorComment": [""],
+    "isDayOff": false
   }
 ]

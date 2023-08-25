@@ -1,25 +1,21 @@
 /* eslint-disable max-len */
-import {ref, update} from "firebase/database";
+import {ref, push, child, update} from "firebase/database";
 import {db} from "src/firebase";
 import styles from "src/component/button/Button.module.scss";
-
-// const handleClick = () => {
-//   console.log(2);
-// };
 
 function writeNewPost() {
 
   // A post entry.
   const postData = {
     "id": "11",
-    "date": "2023-05-08",
+    "date": "2023-05-12",
     "workDone": [
       {
         "id": "",
         "todoItem": "",
         "time": {
           "unit": "MINUTE",
-          "amount": null,
+          "amount": 20,
         },
       },
     ],
@@ -40,25 +36,22 @@ function writeNewPost() {
     "isDayOff": false,
   };
 
-  // const randomNumber = Math.floor(Math.random() * 100);
+  // Get a key for a new Post. Generate a random key
+  const newPostKey = push(child(ref(db), "/")).key;
 
-  // Get a key for a new Post.
-  // const newPostKey = push(child(ref(db), "/")).key;
-  // const newPostKey = 10;
-
-  // Write the new post's data simultaneously in the posts list and the user's post list.
   const updates = {};
-  updates["/" + postData.id] = postData;
+  updates["/" + newPostKey] = postData;
 
   return update(ref(db), updates);
 }
+
 
 export const Button = () => {
   return (
     <button className={styles.button}
       onClick={writeNewPost}
     >
-      Click
+      Create new report
     </button>
   );
 };
