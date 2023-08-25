@@ -53,6 +53,7 @@ export const columns: ColumnDef<Report, Date & WorkDone[] & PlanForTomorrow[] & 
   }),
   columnHelper.accessor("workDone", {
     header: "Work done",
+    // cell: (info) => info.getValue(),
     cell: ({row}) => {
       return (
         row.original.workDone
