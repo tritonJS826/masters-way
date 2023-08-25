@@ -29,7 +29,6 @@ export class PlanForTomorrow {
   /**
    * Get formatted plan
    */
-  //TODO: uncomment method
   public getFullPlan() {
     return `${this.todoItem} (${this.time.amount} ${this.time.unit})`;
   }

@@ -52,19 +52,6 @@ export class ReportDTO {
    */
   public isDayOff: boolean;
 
-  // constructor(reportDTODate: ReportDTO) {
-  //   this.id = reportDTODate.id;
-  //   this.date = reportDTODate.date;
-  //   this.workDone = reportDTODate.workDone;
-  //   this.planForTomorrow = reportDTODate.planForTomorrow;
-  //   this.currentProblems = reportDTODate.currentProblems;
-  //   this.studentComment = reportDTODate.studentComment;
-  //   this.learnedForToday = reportDTODate.learnedForToday;
-  //   this.mentorComment = reportDTODate.mentorComment;
-  //   this.isDayOff = reportDTODate.isDayOff;
-  // }
-
-
   constructor(reportDTODate: {
     id: string,
     date: string,

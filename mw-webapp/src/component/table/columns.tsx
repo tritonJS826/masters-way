@@ -1,12 +1,55 @@
-import {createColumnHelper} from "@tanstack/react-table";
+import {createColumnHelper, ColumnDef, CellContext} from "@tanstack/react-table";
+import {PlanForTomorrow} from "src/model/report/planForTomorrow/PLanForTomorrow";
 import {Report} from "src/model/report/Report";
+import {WorkDone} from "src/model/report/workDone/WorkDone";
 
 const columnHelper = createColumnHelper<Report>();
 
-export const columns = [
+const getObjectArrayItem = (arrayItem: WorkDone | PlanForTomorrow, getFullItem?: string) => {
+  return (
+    (JSON.stringify(arrayItem) === "{}") ?
+      <div key={arrayItem.id} />
+      :
+      <div key={arrayItem.id}>
+        {`${+arrayItem.id + 1}. ${getFullItem}`}
+      </div>
+  );
+};
+
+const getStringArrayItem = (arrayItem: string, index: number) => {
+  return (
+    (!arrayItem) ?
+      <div key={index} />
+      :
+      <div key={index}>
+        {`${+index + 1}. ${arrayItem}`}
+      </div>
+  );
+};
+
+const getBoolean = (cellValue: CellContext<Report, boolean>) => {
+  return (
+    cellValue.getValue() === true ?
+      <div>
+        Yes
+      </div>
+      :
+      <div>
+        No
+      </div>
+  );
+};
+
+const getDateValue = (cellValue: CellContext<Report, Date>) => {
+  return (
+    cellValue.getValue().toISOString().slice(0, 10)
+  );
+};
+
+export const columns: ColumnDef<Report, Date & WorkDone[] & PlanForTomorrow[] & string[] & boolean>[] = [
   columnHelper.accessor("date", {
     header: "Date",
-    cell: (info) => info.getValue().toISOString().slice(0, 10),
+    cell: (dateValue) => getDateValue(dateValue),
   }),
   columnHelper.accessor("workDone", {
     header: "Work done",
@@ -14,14 +57,7 @@ export const columns = [
     cell: ({row}) => {
       return (
         row.original.workDone
-          ?.map((work) => (
-            (JSON.stringify(work) === "{}") ?
-              <div key={work.id} />
-              :
-              <div key={work.id}>
-                {`${+work.id + 1}. ${work.getFullWork()}`}
-              </div>
-          ))
+          ?.map((workDoneItem) => (getObjectArrayItem(workDoneItem, workDoneItem.getFullWork())))
       );
     },
   }),
@@ -30,14 +66,7 @@ export const columns = [
     cell: ({row}) => {
       return (
         row.original.planForTomorrow
-          ?.map((plan) => (
-            (JSON.stringify(plan) === "{}") ?
-              <div key={plan.id} />
-              :
-              <div key={plan.id}>
-                {`${+plan.id + 1}. ${plan.getFullPlan()}`}
-              </div>
-          ))
+          ?.map((planForTomorrowItem) => (getObjectArrayItem(planForTomorrowItem, planForTomorrowItem.getFullPlan())))
       );
     },
   }),
@@ -46,14 +75,7 @@ export const columns = [
     cell: ({row}) => {
       return (
         row.original.currentProblems
-          .map((problem, index) => (
-            (!problem) ?
-              <div key={index} />
-              :
-              <div key={index}>
-                {`${+index + 1}. ${problem}`}
-              </div>
-          ))
+          .map((currentProblemsItem, index) => (getStringArrayItem(currentProblemsItem, index)))
       );
     },
   }),
@@ -62,14 +84,7 @@ export const columns = [
     cell: ({row}) => {
       return (
         row.original.studentComment
-          .map((comment, index) => (
-            (!comment) ?
-              <div key={index} />
-              :
-              <div key={index}>
-                {comment}
-              </div>
-          ))
+          .map((studentCommentItem, index) => (getStringArrayItem(studentCommentItem, index)))
       );
     },
   }),
@@ -78,14 +93,7 @@ export const columns = [
     cell: ({row}) => {
       return (
         row.original.learnedForToday
-          .map((learned, index) => (
-            (!learned) ?
-              <div key={index} />
-              :
-              <div key={index}>
-                {learned}
-              </div>
-          ))
+          .map((learnedForTodayItem, index) => (getStringArrayItem(learnedForTodayItem, index)))
       );
     },
   }),
@@ -94,26 +102,12 @@ export const columns = [
     cell: ({row}) => {
       return (
         row.original.mentorComment
-          .map((comment, index) => (
-            (!comment) ?
-              <div key={index} />
-              :
-              <div key={index}>
-                {comment}
-              </div>
-          ))
+          .map((mentorCommentItem, index) => (getStringArrayItem(mentorCommentItem, index)))
       );
     },
   }),
   columnHelper.accessor("isDayOff", {
     header: "Is day off",
-    cell: (info) => info.getValue() === true ?
-      <div>
-        Yes
-      </div>
-      :
-      <div>
-        No
-      </div>,
+    cell: (isDAyOffValue) => getBoolean(isDAyOffValue),
   }),
 ];
