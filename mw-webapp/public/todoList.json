@@ -449,7 +449,7 @@
     "learnedForToday": [""],
     "mentorComment": [
       "✓ I added a script to git with an example of nested classes with some public fields and methods, please check it, you can run it with ts-node", 
-      "Try to read official documentation of your new table, they use typescript in the code (https://tanstack.com/table/v8/docs/guide/column-defs)"],
+      "✓ Try to read official documentation of your new table, they use typescript in the code (https://tanstack.com/table/v8/docs/guide/column-defs)"],
     "isDayOff": false
   },
   {

@@ -7,6 +7,7 @@ import styles from "src/component/table/Table.module.scss";
 import {ref, onValue} from "firebase/database";
 import {db} from "src/firebase";
 import {ReportDTO} from "src/model/report/ReportDTO";
+import {Button} from "../button/Button";
 
 export const Table = () => {
   const [data, setData] = useState<Report[]>([]);
@@ -89,6 +90,7 @@ export const Table = () => {
           ))}
         </tbody>
       </table>
+      <Button />
     </div>
   );
 };

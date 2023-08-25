@@ -1,0 +1,9 @@
+.button {
+  width: 300px;
+  height: 300px;
+  background-color: yellow;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
