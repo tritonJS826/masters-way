@@ -570,7 +570,7 @@
     "currentProblems": [""],
     "studentComment": ["Since the database contains an array of objects, the indices of which are randomly generated using the firebase methods, in order to map the received data, I first create a variable, where I call the Object.values() method"],
     "learnedForToday": ["Learned how to add TS typings to tanStack table columns", "Learned how to add data to firebase (POST)"],
-    "mentorComment": [""],
+    "mentorComment": ["Think more about naming, get* should return something, converters shoud convert and etc.", "fix models.drawio to discuss your model schemas (looks like it is just broken merge, just apply right changes in your IDE)", "remove unused hidden files (add to gitignore)", "add green color to completed problems and mentor comments", "add stats to the page with table (all days, days without day off, day off amount, work hours)", "pnpm run build does not work", "does docs directory related to only frontend? If it is dabase relations, please move it on the top level", "Updated models for firebase, create DTO models for them on the client"],
     "isDayOff": false
   }
 ]

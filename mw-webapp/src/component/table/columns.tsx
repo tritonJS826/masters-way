@@ -51,6 +51,15 @@ export const columns: ColumnDef<Report, Date & WorkDone[] & PlanForTomorrow[] & 
     header: "Date",
     cell: (dateValue) => getDateValue(dateValue),
   }),
+  columnHelper.accessor("workHours", {
+    header: "Sum time",
+    cell: (({row}) => {
+      return (
+        row.original.workDone
+          ?.reduce((accum, elem) => elem.time.amount + accum, 0)
+      );
+    }),
+  }),
   columnHelper.accessor("workDone", {
     header: "Work done",
     // cell: (info) => info.getValue(),

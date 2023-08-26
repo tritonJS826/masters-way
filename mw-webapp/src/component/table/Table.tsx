@@ -6,32 +6,35 @@ import {columns} from "src/component/table/columns";
 import styles from "src/component/table/Table.module.scss";
 import {ref, onValue} from "firebase/database";
 import {db} from "src/firebase";
-import {ReportDTO} from "src/model/report/ReportDTO";
 import {Button} from "../button/Button";
+import {ReportDTO} from "src/model/report/ReportDTO";
+
+class Test {
+
+  public static onValueFromRealTimeDb(callBack: (data: Report[]) => void) {
+    onValue(ref(db), async (snapshot) => {
+
+      const reportsRaw: ReportDTO[] = snapshot.val();
+      if (reportsRaw !== null) {
+        const reportsData: Report[] = await ReportService.getAllReports(reportsRaw);
+        const reportsArray = reportsData.reverse();
+        callBack(reportsArray);
+      }
+    });
+
+  }
+
+}
 
 export const Table = () => {
   const [data, setData] = useState<Report[]>([]);
 
-  const getReports = async (elem: ReportDTO[]) => {
-    const reportsData: Report[] = await ReportService.getAllReports(elem);
-    console.log(reportsData);
-    const reportsArray = reportsData.reverse();
-    console.log(reportsArray);
-    setData(reportsArray);
-  };
-
-
-  const getData = () => {
-    onValue(ref(db), async snapshot => {
-      const datas = snapshot.val();
-      if (datas !== null) {
-        getReports(datas);
-      }
-    });
-  };
-
   useEffect(() => {
-    getData();
+    Test.onValueFromRealTimeDb(setData);
+    () => {
+      // removeEventListener from db if needed (read about handling event listeners
+      // in react use effect components (when and whyu you shoud remove them))
+    };
   }, []);
 
   const table = useReactTable({

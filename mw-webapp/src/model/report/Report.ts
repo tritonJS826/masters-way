@@ -55,8 +55,8 @@ export class Report {
   constructor(reportDate: {
     id: string,
     date: Date,
-    workDone: {id: string, todoItem: string, time: { unit: string, amount: number }}[],
-    planForTomorrow: {id: string, todoItem: string, time: { unit: string, amount: number }}[],
+    workDone: { id: string, todoItem: string, time: { unit: string, amount: number } }[],
+    planForTomorrow: { id: string, todoItem: string, time: { unit: string, amount: number } }[],
     currentProblems: string[],
     studentComment: string[],
     learnedForToday: string[],
