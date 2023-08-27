@@ -32,6 +32,7 @@ export const Table = () => {
   useEffect(() => {
     Test.onValueFromRealTimeDb(setData);
     () => {
+      //TODO
       // removeEventListener from db if needed (read about handling event listeners
       // in react use effect components (when and whyu you shoud remove them))
     };
