@@ -592,5 +592,40 @@
     "learnedForToday": [""],
     "mentorComment": [""],
     "isDayOff": true
+  },
+  {
+    "id": "12",
+    "date": "2023-08-27",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Add enum Unit in Time class and change other models where it was used (Report, WorkDone, PlanForTomorrow)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 15
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Create DTO models (for local json file) and business models in draw.io based on firebase collections",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 45
+      }
+    },
+    {
+      "id": "2",
+      "todoItem": "Create firebase collections (User, Way, DayReport) in model folder",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 20
+      }
+    }
+  ],
+    "planForTomorrow": [],
+    "currentProblems": [""],
+    "studentComment": [""],
+    "learnedForToday": [""],
+    "mentorComment": [""],
+    "isDayOff": false
   }
 ]
