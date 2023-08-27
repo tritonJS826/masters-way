@@ -1,6 +1,7 @@
 import {WorkDone} from "src/model/report/workDone/WorkDone";
 import {PlanForTomorrow} from "src/model/report/planForTomorrow/PLanForTomorrow";
 import {Time} from "./time/Time";
+import {Unit} from "src/model/report/time/unit/Unit";
 
 /**
  * Case for one row in the table
@@ -55,8 +56,8 @@ export class ReportDTO {
   constructor(reportDTODate: {
     id: string,
     date: string,
-    workDone: {id: string, todoItem: string, time: { unit: string, amount: number }}[],
-    planForTomorrow: {id: string, todoItem: string, time: { unit: string, amount: number }}[],
+    workDone: {id: string, todoItem: string, time: { unit: Unit, amount: number }}[],
+    planForTomorrow: {id: string, todoItem: string, time: { unit: Unit, amount: number }}[],
     currentProblems: string[],
     studentComment: string[],
     learnedForToday: string[],

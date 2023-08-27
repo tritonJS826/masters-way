@@ -576,9 +576,10 @@
       "Think more about naming, get* should return something, converters shoud convert and etc.",
       "remove unused hidden files (add to gitignore)",
       "add green color to completed problems and mentor comments",
-      "add stats to the page with table (all days, days without day off, day off amount, work hours)",
       "pnpm run build does not work",
-      "Updated models for firebase, create DTO models for them on the client"],
+      "Updated models for firebase, create DTO models for them on the client",
+      "add stats to the page with table (all days, days without day off, day off amount, work hours)"
+    ],
     "isDayOff": false
   },
   {
