@@ -1,4 +1,4 @@
-// import {Unit} from "src/model/report/time/unit/Unit";
+import {Unit} from "src/model/report/time/unit/Unit";
 
 /**
  * What was done
@@ -8,14 +8,14 @@ export class Time {
   /**
    * Unit of time measurement
    */
-  public unit: string;
+  public unit: Unit;
 
   /**
    * Number of time units (minutes) spent doing the task
    */
   public amount: number;
 
-  constructor(unit: string, amount: number) {
+  constructor(unit: Unit, amount: number) {
     this.unit = unit;
     this.amount = amount;
   }
@@ -28,3 +28,4 @@ export class Time {
   }
 
 }
+
