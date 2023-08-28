@@ -597,9 +597,9 @@
       "✓ Remove unused hidden files (add to gitignore)",
       "✓ Add green color to completed problems and mentor comments",
       "✓ Updated models for firebase, create DTO models for them on the client",
+      "✓ Script pnpm run build does not work",
       "Think more about naming, get* should return something, converters should convert and etc.",
-      "pnpm run build does not work",
-      "add stats to the page with table (all days, days without day off, day off amount, work hours)"
+      "Add stats to the page with table (all days, days without day off, day off amount, work hours)"
     ],
     "isDayOff": false
   },
@@ -733,35 +733,34 @@
       }
     }
   ],
-    "planForTomorrow": [
-    {
-      "id": "2",
-      "todoItem": "Add green color to completed problems and mentor comments",
-      "time": {
-        "unit": "MINUTE",
-        "amount": 45
-      }
-    },
-    {
-      "id": "3",
-      "todoItem": "Check and fix pnpm run build command",
-      "time": {
-        "unit": "MINUTE",
-        "amount": 45
-      }
-    },
-    {
-      "id": "4",
+    "planForTomorrow": [{
+      "id": "0",
       "todoItem": "Add stats to the page with table (all days, days without day off, day off amount, work hours)",
       "time": {
         "unit": "MINUTE",
-        "amount": 30
+        "amount": 90
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Use new models in service layer",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 60
+      }
+    },
+    {
+      "id": "2",
+      "todoItem": "Change data according new models in local json and firebase",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 45
       }
     }
   ],
-    "currentProblems": [""],
-    "studentComment": [""],
-    "learnedForToday": [""],
+    "currentProblems": ["Is it possible to move out Column.accessor for don't repeat it so many times?"],
+    "studentComment": ["Script pnpm run build works after fix all mistakes in code (after I added ts typing)"],
+    "learnedForToday": ["Learned how to add typing to Column.accessor and updates method in real time firebase"],
     "mentorComment": [""],
     "isDayOff": false
   }
