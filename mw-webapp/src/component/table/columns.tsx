@@ -1,7 +1,9 @@
 import {createColumnHelper, ColumnDef, CellContext} from "@tanstack/react-table";
 import {PlanForTomorrow} from "src/model/report/planForTomorrow/PLanForTomorrow";
-import {Report} from "src/model/report/Report";
 import {WorkDone} from "src/model/report/workDone/WorkDone";
+import styles from "src/component/table/columns.module.scss";
+// import {TableColumns} from "src/model/report/TableColumns";
+import {Report} from "src/model/report/Report";
 
 const columnHelper = createColumnHelper<Report>();
 
@@ -21,7 +23,9 @@ const getStringArrayItem = (arrayItem: string, index: number) => {
     (!arrayItem) ?
       <div key={index} />
       :
-      <div key={index}>
+      <div className={arrayItem[0] === "✓" ? styles.completed : styles.notCompleted}
+        key={index}
+      >
         {`${+index + 1}. ${arrayItem}`}
       </div>
   );
@@ -47,11 +51,11 @@ const getDateValue = (cellValue: CellContext<Report, Date>) => {
 };
 
 export const columns: ColumnDef<Report, Date & WorkDone[] & PlanForTomorrow[] & string[] & boolean>[] = [
-  columnHelper.accessor("date", {
+  columnHelper.accessor<"date", Date>("date", {
     header: "Date",
     cell: (dateValue) => getDateValue(dateValue),
   }),
-  columnHelper.accessor("workHours", {
+  columnHelper.accessor<"workDone", WorkDone[]>("workDone", {
     header: "Sum time",
     cell: (({row}) => {
       return (
@@ -60,9 +64,8 @@ export const columns: ColumnDef<Report, Date & WorkDone[] & PlanForTomorrow[] & 
       );
     }),
   }),
-  columnHelper.accessor("workDone", {
+  columnHelper.accessor<"workDone", WorkDone[]>("workDone", {
     header: "Work done",
-    // cell: (info) => info.getValue(),
     cell: ({row}) => {
       return (
         row.original.workDone
@@ -70,7 +73,7 @@ export const columns: ColumnDef<Report, Date & WorkDone[] & PlanForTomorrow[] & 
       );
     },
   }),
-  columnHelper.accessor("planForTomorrow", {
+  columnHelper.accessor<"planForTomorrow", PlanForTomorrow[]>("planForTomorrow", {
     header: "Plan for tomorrow",
     cell: ({row}) => {
       return (
@@ -79,7 +82,7 @@ export const columns: ColumnDef<Report, Date & WorkDone[] & PlanForTomorrow[] & 
       );
     },
   }),
-  columnHelper.accessor("currentProblems", {
+  columnHelper.accessor<"currentProblems", string[]>("currentProblems", {
     header: "Current problems",
     cell: ({row}) => {
       return (
@@ -88,7 +91,7 @@ export const columns: ColumnDef<Report, Date & WorkDone[] & PlanForTomorrow[] & 
       );
     },
   }),
-  columnHelper.accessor("studentComment", {
+  columnHelper.accessor<"studentComment", string[]>("studentComment", {
     header: "Student comment",
     cell: ({row}) => {
       return (
@@ -97,7 +100,7 @@ export const columns: ColumnDef<Report, Date & WorkDone[] & PlanForTomorrow[] & 
       );
     },
   }),
-  columnHelper.accessor("learnedForToday", {
+  columnHelper.accessor<"learnedForToday", string[]>("learnedForToday", {
     header: "Learned for today",
     cell: ({row}) => {
       return (
@@ -106,7 +109,7 @@ export const columns: ColumnDef<Report, Date & WorkDone[] & PlanForTomorrow[] & 
       );
     },
   }),
-  columnHelper.accessor("mentorComment", {
+  columnHelper.accessor<"mentorComment", string[]>("mentorComment", {
     header: "Mentor comment",
     cell: ({row}) => {
       return (
@@ -115,7 +118,7 @@ export const columns: ColumnDef<Report, Date & WorkDone[] & PlanForTomorrow[] & 
       );
     },
   }),
-  columnHelper.accessor("isDayOff", {
+  columnHelper.accessor<"isDayOff", boolean>("isDayOff", {
     header: "Is day off",
     cell: (isDAyOffValue) => getBoolean(isDAyOffValue),
   }),

@@ -26,20 +26,20 @@ export class User {
   /**
    * Array of @Way.uuid
    */
-  public favouriteWays: string[];
+  public favoriteWays: string[];
 
   /**
    * Array of @Way.uuid
    */
-  public mentoringWay: string[];
+  public mentoringWays: string[];
 
   constructor(userData: User) {
     this.uuid = userData.uuid;
     this.name = userData.name;
     this.email = userData.email;
     this.ownWays = userData.ownWays;
-    this.favouriteWays = userData.favouriteWays;
-    this.mentoringWay = userData.mentoringWay;
+    this.favoriteWays = userData.favoriteWays;
+    this.mentoringWays = userData.mentoringWays;
   }
 
 }

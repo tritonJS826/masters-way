@@ -23,11 +23,11 @@ export class JobDone {
    */
   public time: number;
 
-  constructor(goalData: JobDone) {
-    this.uuid = goalData.uuid;
-    this.description = goalData.description;
-    this.timeUnit = goalData.timeUnit;
-    this.time = goalData.time;
+  constructor(jobDoneData: JobDone) {
+    this.uuid = jobDoneData.uuid;
+    this.description = jobDoneData.description;
+    this.timeUnit = jobDoneData.timeUnit;
+    this.time = jobDoneData.time;
   }
 
 }

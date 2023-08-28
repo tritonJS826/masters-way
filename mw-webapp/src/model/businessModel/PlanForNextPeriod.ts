@@ -1,3 +1,5 @@
+import {Time} from "src/model/businessModel/time/Time";
+
 /**
  * Plan for next period (day, month, etc.)
  */
@@ -14,20 +16,22 @@ export class PlanForNextPeriod {
   public job: string;
 
   /**
-   * Enum @Time.unit (minute, hour, day, etc.)
+   * How long was the job done
    */
-  public timeUnit: string;
+  public time: Time;
 
-  /**
-   * Estimation time for complete job
-   */
-  public estimationTime: number;
 
   constructor(planForNextPeriodData: PlanForNextPeriod) {
     this.uuid = planForNextPeriodData.uuid;
     this.job = planForNextPeriodData.job;
-    this.timeUnit = planForNextPeriodData.timeUnit;
-    this.estimationTime = planForNextPeriodData.estimationTime;
+    this.time = new Time(planForNextPeriodData.time.unit, planForNextPeriodData.time.amount);
+  }
+
+  /**
+   * Get formatted plan for the next period
+   */
+  public getFullPlanForNextPeriod() {
+    return `${this.job} (${this.time.amount} ${this.time.unit})`;
   }
 
 }

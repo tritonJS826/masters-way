@@ -1,3 +1,7 @@
+import {GoalMetric} from "src/model/businessModel/GoalMetric";
+import {Time} from "src/model/businessModel/time/Time";
+import {User} from "src/model/businessModel/User";
+
 /**
  * Goal of the way
  */
@@ -9,14 +13,14 @@ export class Goal {
   public uuid: string;
 
   /**
-   * Student's UUID @User.uuid
+   * Goal's user
    */
-  public studentUuid: string;
+  public studentUuid: User;
 
   /**
-   * Metrics @GoalMetrics.uuid
+   * Coal's metrics
    */
-  public metrics: string[];
+  public metrics: GoalMetric[];
 
   /**
    * Description of goal
@@ -24,22 +28,16 @@ export class Goal {
   public description: string;
 
   /**
-   * Enum @Time.unit
+   * How long was the goal done
    */
-  public timeUnit: string;
-
-  /**
-    * Estimation time for complete goal
-    */
-  public estimationTime: number;
+  public time: Time;
 
   constructor(goalData: Goal) {
     this.uuid = goalData.uuid;
     this.studentUuid = goalData.studentUuid;
     this.metrics = goalData.metrics;
     this.description = goalData.description;
-    this.timeUnit = goalData.timeUnit;
-    this.estimationTime = goalData.estimationTime;
+    this.time = new Time(goalData.time.unit, goalData.time.amount);
   }
 
 }

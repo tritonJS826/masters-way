@@ -11,7 +11,7 @@ export class Way {
   /**
    * Array of @DayReport.uuid
    */
-  public dayReportUuid: string[];
+  public dayReportUuids: string[];
 
   /**
    * Owner's UUID @User.uuid
@@ -21,7 +21,7 @@ export class Way {
   /**
    * Array of @MonthReport.uuid
    */
-  public monthReportUuid: string[];
+  public monthReportUuids: string[];
 
   /**
    *Goal's UUID @Goal.uuid
@@ -40,9 +40,9 @@ export class Way {
 
   constructor(wayData: Way) {
     this.uuid = wayData.uuid;
-    this.dayReportUuid = wayData.dayReportUuid;
+    this.dayReportUuids = wayData.dayReportUuids;
     this.ownerUuid = wayData.ownerUuid;
-    this.monthReportUuid = wayData.monthReportUuid;
+    this.monthReportUuids = wayData.monthReportUuids;
     this.goalUuid = wayData.goalUuid;
     this.currentMentors = wayData.currentMentors;
     this.isCompleted = wayData.isCompleted;

@@ -21,7 +21,7 @@ export class MonthReport {
   /**
    * Array of @PlanForNextPeriod.uuid
    */
-  public planForNextPeriod: string[];
+  public plansForNextPeriod: string[];
 
   /**
    * Array of @ProblemsForCurrent.uuid
@@ -31,27 +31,27 @@ export class MonthReport {
   /**
    * Anything that student wants to say about work
    */
-  public studentComment: string[];
+  public studentComments: string[];
 
   /**
    * New knowledge that the user has received
    */
-  public learnedForToday: string[];
+  public learnedForMonth: string[];
 
   /**
    * Array of @MentorComment.uuid
    */
-  public mentorComment: string[];
+  public mentorComments: string[];
 
   constructor(monthReportData: MonthReport) {
     this.uuid = monthReportData.uuid;
     this.date = monthReportData.date;
     this.jobsDone = monthReportData.jobsDone;
-    this.planForNextPeriod = monthReportData.planForNextPeriod;
+    this.plansForNextPeriod = monthReportData.plansForNextPeriod;
     this.problemsForCurrentPeriod = monthReportData.problemsForCurrentPeriod;
-    this.studentComment = monthReportData.studentComment;
-    this.learnedForToday = monthReportData.learnedForToday;
-    this.mentorComment = monthReportData.mentorComment;
+    this.studentComments = monthReportData.studentComments;
+    this.learnedForMonth = monthReportData.learnedForMonth;
+    this.mentorComments = monthReportData.mentorComments;
   }
 
 }
