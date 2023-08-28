@@ -1,9 +1,10 @@
 import {createColumnHelper, ColumnDef, CellContext} from "@tanstack/react-table";
 import {PlanForTomorrow} from "src/model/report/planForTomorrow/PLanForTomorrow";
-import {Report} from "src/model/report/Report";
 import {WorkDone} from "src/model/report/workDone/WorkDone";
+import styles from "src/component/table/columns.module.scss";
+import {TableColumns} from "src/model/report/TableColumns";
 
-const columnHelper = createColumnHelper<Report>();
+const columnHelper = createColumnHelper<TableColumns>();
 
 const getObjectArrayItem = (arrayItem: WorkDone | PlanForTomorrow, getFullItem?: string) => {
   return (
@@ -21,13 +22,15 @@ const getStringArrayItem = (arrayItem: string, index: number) => {
     (!arrayItem) ?
       <div key={index} />
       :
-      <div key={index}>
+      <div className={arrayItem[0] === "✓" ? styles.completed : styles.notCompleted}
+        key={index}
+      >
         {`${+index + 1}. ${arrayItem}`}
       </div>
   );
 };
 
-const getBoolean = (cellValue: CellContext<Report, boolean>) => {
+const getBoolean = (cellValue: CellContext<TableColumns, boolean>) => {
   return (
     cellValue.getValue() === true ?
       <div>
@@ -40,13 +43,17 @@ const getBoolean = (cellValue: CellContext<Report, boolean>) => {
   );
 };
 
-const getDateValue = (cellValue: CellContext<Report, Date>) => {
+const getDateValue = (cellValue: CellContext<TableColumns, Date>) => {
   return (
     cellValue.getValue().toISOString().slice(0, 10)
   );
 };
 
-export const columns: ColumnDef<Report, Date & WorkDone[] & PlanForTomorrow[] & string[] & boolean>[] = [
+export const columns: ColumnDef<TableColumns, Date & WorkDone[] & PlanForTomorrow[] & string[] & boolean & number>[] = [
+  columnHelper.accessor("date", {
+    header: "Date",
+    cell: (dateValue) => getDateValue(dateValue),
+  }),
   columnHelper.accessor("date", {
     header: "Date",
     cell: (dateValue) => getDateValue(dateValue),

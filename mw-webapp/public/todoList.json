@@ -60,7 +60,9 @@
       }
     }
   ],
-    "currentProblems": ["When adding eslint (typescript-eslint/prefer-optional-chain) rules, there was a conflict. I solved it by adding the projects property to parserOptions with the path to tsconfig."],
+    "currentProblems": [
+      "✓ When adding eslint (typescript-eslint/prefer-optional-chain) rules, there was a conflict. I solved it by adding the projects property to parserOptions with the path to tsconfig."
+    ],
     "studentComment": ["Repeated table tags when creating it."],
     "learnedForToday": ["Local json files can only be fetched if they are in a public folder. If they belong inside src, then imports should be used. It all depends on the paths."],
     "mentorComment": [""],
@@ -127,7 +129,9 @@
       }
     }
   ],
-    "currentProblems": ["Initially, I used a stub array for the basic display of the table, so after changing json, it took a very long time to change the models. And only then I realized that this array can be deleted altogether, and left empty."],
+    "currentProblems": [
+      "✓ Initially, I used a stub array for the basic display of the table, so after changing json, it took a very long time to change the models. And only then I realized that this array can be deleted altogether, and left empty."
+    ],
     "studentComment": ["Need to figure out how bundlers work. 'TODO it means nothing for both of us'"],
     "learnedForToday": ["ParserOptions.project property is an option allows to provide a path to your project's tsconfig.json. This setting is required if you want to use rules which require type information. True value indicates to look for the nearest tsconfig.json for each source file, and path - is the path to map tsconfig files relative to parserOptions.tsconfigRootDir, or current working directory if not specified."],
     "mentorComment": [
@@ -214,7 +218,9 @@
       }
     }
   ],
-    "currentProblems": ["When I use methods from model (getFullTime, getFullPlan, getFullWork) it return undefined."],
+    "currentProblems": [
+      "✓ When I use methods from model (getFullTime, getFullPlan, getFullWork) it return undefined."
+    ],
     "studentComment": ["Repeat how to set up routes"],
     "learnedForToday": [""],
     "mentorComment": [""],
@@ -292,7 +298,10 @@
       }
     }
   ],
-    "currentProblems": ["When I use methods from model (getFullTime, getFullPlan, getFullWork) it return undefined.", "Couldn't type accessor (tried string and AccessorFn but it doesn't work) to render function and follow DRY principle."],
+    "currentProblems": [
+      "✓ When I use methods from model (getFullTime, getFullPlan, getFullWork) it return undefined.",
+      "✓ Couldn't type accessor (tried string and AccessorFn but it doesn't work) to render function and follow DRY principle."
+    ],
     "studentComment": ["I found info that we can fetch data from local.json (that placed inside src folder) by using import, but if I want to use fetch then this file shoule be placed in public folder. I couldn't find info how to set up webpack (vite) for resolve this."],
     "learnedForToday": ["Headless UI is a term for libraries and utilities that provide the logic, state, processing and API for UI elements and interactions, but do not provide markup, styles, or pre-built implementations. (In this project I use @tanstack/react-table so I learn how to create basic tables with it)", "A module bundler helps you keep your code organised by making it easy to import and use other JavaScript files (modules) in your code. It keeps track of which files depend on which other files and ensures they are loaded in the right order. This helps make your code more modular and easier to maintain."],
     "mentorComment": [
@@ -350,7 +359,10 @@
       }
     }
   ],
-    "currentProblems": ["I tried to create instance of one class inside other instance of other class in service layer but don't understand how to use nested classes (for example class Time inside workDone class)", "Don't understand how to create database in firebase with array of objects (on site you cam choose only object or other types)"],
+    "currentProblems": [
+      "✓ I tried to create instance of one class inside other instance of other class in service layer but don't understand how to use nested classes (for example class Time inside workDone class)",
+      "✓ Don't understand how to create database in firebase with array of objects (on site you cam choose only object or other types)"
+    ],
     "studentComment": ["When I choose between firebase and cloud firestore I chose the last one because it has some pluses: Firebase stores data as one big JSON tree. Cloud Firestore stores data as a set of documents, making it easy to organize and store complex hierarchical data; firestore support not only web but also ios and android clients, etc."],
     "learnedForToday": ["Firebase is a platform for create web-app. It's interface is a service with data base that works in real time, so datas update in real time on all services."],
     "mentorComment": [""],
@@ -393,7 +405,10 @@
       }
     }
   ],
-    "currentProblems": ["I tried to create instance of one class inside other instance of other class in service layer but don't understand how to use nested classes (for example class Time inside workDone class)", "Can't fetch data from firebase in Report.ts file"],
+    "currentProblems": [
+      "✓ I tried to create instance of one class inside other instance of other class in service layer but don't understand how to use nested classes (for example class Time inside workDone class)",
+      "✓ Can't fetch data from firebase in Report.ts file"
+    ],
     "studentComment": ["Now we will work with real time database for update info in the moments but if we will need we will move our datas to cloud firestore"],
     "learnedForToday": ["onValue function listens for data changes at a particular location. This is the primary way to read data from a Database. Our callback will be triggered for the initial data and again whenever the data changes."],
     "mentorComment": [""],
@@ -444,7 +459,10 @@
       }
     }
   ],
-    "currentProblems": ["Can't understand how to create generic for ColumnHelper.accessor", "I tried to create instance of one class inside other instance of other class in service layer but don't understand how to use nested classes (for example class Time inside workDone class doesn't work while class Time works inside PlanForTomorrow class)"],
+    "currentProblems": [
+      "✓ Can't understand how to create generic for ColumnHelper.accessor",
+      "✓ I tried to create instance of one class inside other instance of other class in service layer but don't understand how to use nested classes (for example class Time inside workDone class doesn't work while class Time works inside PlanForTomorrow class)"
+    ],
     "studentComment": ["Thought about UI but don't know how to better render big text and small info as siblings"],
     "learnedForToday": [""],
     "mentorComment": [
@@ -457,7 +475,10 @@
     "date": "2023-08-23",
     "workDone": [{}],
     "planForTomorrow": [{}],
-    "currentProblems": ["Can't understand how to create generic for ColumnHelper.accessor", "I tried to create instance of one class inside other instance of other class in service layer but don't understand how to use nested classes (for example class Time inside workDone class doesn't work while class Time works inside PlanForTomorrow class)"],
+    "currentProblems": [
+      "✓ Can't understand how to create generic for ColumnHelper.accessor",
+      "✓ I tried to create instance of one class inside other instance of other class in service layer but don't understand how to use nested classes (for example class Time inside workDone class doesn't work while class Time works inside PlanForTomorrow class)"
+    ],
     "studentComment": ["I tried to fix mistakes in classes bit it failed. So let's write that it was day odd"],
     "learnedForToday": [""],
     "mentorComment": [""],
@@ -574,10 +595,10 @@
       "✓ Does docs directory related to only frontend? If it is dabase relations, please move it on the top level",
       "✓ Fix models.drawio to discuss your model schemas (looks like it is just broken merge, just apply right changes in your IDE)",
       "✓ Remove unused hidden files (add to gitignore)",
-      "Think more about naming, get* should return something, converters shoud convert and etc.",
-      "add green color to completed problems and mentor comments",
+      "✓ Add green color to completed problems and mentor comments",
+      "✓ Updated models for firebase, create DTO models for them on the client",
+      "Think more about naming, get* should return something, converters should convert and etc.",
       "pnpm run build does not work",
-      "Updated models for firebase, create DTO models for them on the client",
       "add stats to the page with table (all days, days without day off, day off amount, work hours)"
     ],
     "isDayOff": false
@@ -619,26 +640,10 @@
         "unit": "MINUTE",
         "amount": 20
       }
-    },
-    {
-      "id": "3",
-      "todoItem": "Add business models (User, Way, PlanForNextPeriod, MonthReport, MentorComment, JobDone, GoalMetrics, Goal, DayReport, CurrentProblem, Time)",
-      "time": {
-        "unit": "MINUTE",
-        "amount": 75
-      }
-    },
-    {
-      "id": "4",
-      "todoItem": "Check naming in models, collections",
-      "time": {
-        "unit": "MINUTE",
-        "amount": 25
-      }
     }
   ],
     "planForTomorrow": [{
-      "id": "1",
+      "id": "0",
       "todoItem": "Check naming of method and functions",
       "time": {
         "unit": "MINUTE",
@@ -646,7 +651,7 @@
       }
     },
     {
-      "id": "2",
+      "id": "1",
       "todoItem": "Add green color to completed problems and mentor comments",
       "time": {
         "unit": "MINUTE",
@@ -654,7 +659,7 @@
       }
     },
     {
-      "id": "3",
+      "id": "2",
       "todoItem": "Check and fix pnpm run build command",
       "time": {
         "unit": "MINUTE",
@@ -662,7 +667,7 @@
       }
     },
     {
-      "id": "4",
+      "id": "3",
       "todoItem": "Add stats to the page with table (all days, days without day off, day off amount, work hours)",
       "time": {
         "unit": "MINUTE",
@@ -686,16 +691,25 @@
         "unit": "MINUTE",
         "amount": 25
       }
-    }
-  ],
-    "planForTomorrow": [{
+    },
+    {
       "id": "1",
-      "todoItem": "Check naming of method and functions",
+      "todoItem": "Add business models (User, Way, PlanForNextPeriod, MonthReport, MentorComment, JobDone, GoalMetrics, Goal, DayReport, CurrentProblem, Time)",
       "time": {
         "unit": "MINUTE",
-        "amount": 30
+        "amount": 75
       }
     },
+    {
+      "id": "2",
+      "todoItem": "Check naming in models, collections",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 25
+      }
+    }
+  ],
+    "planForTomorrow": [
     {
       "id": "2",
       "todoItem": "Add green color to completed problems and mentor comments",
