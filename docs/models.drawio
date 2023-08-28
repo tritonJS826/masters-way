@@ -1,6 +1,6 @@
-<mxfile host="Electron" modified="2023-08-27T17:49:05.122Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.8 Chrome/114.0.5735.289 Electron/25.5.0 Safari/537.36" etag="cSNVP-nZ3Ybxxpox39Ag" version="21.6.8" type="device">
+<mxfile host="Electron" modified="2023-08-28T10:08:14.977Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.8 Chrome/114.0.5735.289 Electron/25.5.0 Safari/537.36" etag="GlNXe5kISU2cPIl7XHV8" version="21.6.8" type="device">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
-    <mxGraphModel dx="4969" dy="529" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="5011" dy="555" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
@@ -274,7 +274,7 @@
         <mxCell id="-4mPgHynalelNiIuFB-8-97" value="+ planForNextPeriod: string[] @PlanForNextPeriod.uuid[]" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rounded=0;shadow=0;html=0;" parent="-4mPgHynalelNiIuFB-8-34" vertex="1">
           <mxGeometry y="103" width="340" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="-4mPgHynalelNiIuFB-8-98" value="+ problemsForCurrentPeriod: string[] @CurrentProblem.uuid[]" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="-4mPgHynalelNiIuFB-8-34" vertex="1">
+        <mxCell id="-4mPgHynalelNiIuFB-8-98" value="ы" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="-4mPgHynalelNiIuFB-8-34" vertex="1">
           <mxGeometry y="129" width="340" height="26" as="geometry" />
         </mxCell>
         <mxCell id="-4mPgHynalelNiIuFB-8-99" value="+ studentComment: string[]" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rounded=0;shadow=0;html=0;" parent="-4mPgHynalelNiIuFB-8-34" vertex="1">

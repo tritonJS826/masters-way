@@ -36,7 +36,7 @@ export class MonthReport {
   /**
    * New knowledge that the user has received
    */
-  public learnedForToday: string[];
+  public learnedForMonth: string[];
 
   /**
    * Array of @MentorComment.uuid
@@ -50,7 +50,7 @@ export class MonthReport {
     this.planForNextPeriod = monthReportData.planForNextPeriod;
     this.problemsForCurrentPeriod = monthReportData.problemsForCurrentPeriod;
     this.studentComment = monthReportData.studentComment;
-    this.learnedForToday = monthReportData.learnedForToday;
+    this.learnedForMonth = monthReportData.learnedForMonth;
     this.mentorComment = monthReportData.mentorComment;
   }
 

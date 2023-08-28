@@ -619,17 +619,17 @@
         "unit": "MINUTE",
         "amount": 20
       }
+    },
+    {
+      "id": "3",
+      "todoItem": "Add business models (User, Way, PlanForNextPeriod, MonthReport, MentorComment, JobDone, GoalMetrics, Goal, DayReport, CurrentProblem, Time)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 75
+      }
     }
   ],
     "planForTomorrow": [{
-      "id": "0",
-      "todoItem": "Add collections (Goal, GoalMetrics, MonthReport, CurrentProblem, JobDone, PlanForNextPeriod, MentorComment",
-      "time": {
-        "unit": "MINUTE",
-        "amount": 30
-      }
-    },
-    {
       "id": "1",
       "todoItem": "Check naming of method and functions",
       "time": {
