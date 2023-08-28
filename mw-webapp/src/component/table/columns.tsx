@@ -2,9 +2,10 @@ import {createColumnHelper, ColumnDef, CellContext} from "@tanstack/react-table"
 import {PlanForTomorrow} from "src/model/report/planForTomorrow/PLanForTomorrow";
 import {WorkDone} from "src/model/report/workDone/WorkDone";
 import styles from "src/component/table/columns.module.scss";
-import {TableColumns} from "src/model/report/TableColumns";
+// import {TableColumns} from "src/model/report/TableColumns";
+import {Report} from "src/model/report/Report";
 
-const columnHelper = createColumnHelper<TableColumns>();
+const columnHelper = createColumnHelper<Report>();
 
 const getObjectArrayItem = (arrayItem: WorkDone | PlanForTomorrow, getFullItem?: string) => {
   return (
@@ -30,7 +31,7 @@ const getStringArrayItem = (arrayItem: string, index: number) => {
   );
 };
 
-const getBoolean = (cellValue: CellContext<TableColumns, boolean>) => {
+const getBoolean = (cellValue: CellContext<Report, boolean>) => {
   return (
     cellValue.getValue() === true ?
       <div>
@@ -43,22 +44,18 @@ const getBoolean = (cellValue: CellContext<TableColumns, boolean>) => {
   );
 };
 
-const getDateValue = (cellValue: CellContext<TableColumns, Date>) => {
+const getDateValue = (cellValue: CellContext<Report, Date>) => {
   return (
     cellValue.getValue().toISOString().slice(0, 10)
   );
 };
 
-export const columns: ColumnDef<TableColumns, Date & WorkDone[] & PlanForTomorrow[] & string[] & boolean & number>[] = [
-  columnHelper.accessor("date", {
+export const columns: ColumnDef<Report, Date & WorkDone[] & PlanForTomorrow[] & string[] & boolean>[] = [
+  columnHelper.accessor<"date", Date>("date", {
     header: "Date",
     cell: (dateValue) => getDateValue(dateValue),
   }),
-  columnHelper.accessor("date", {
-    header: "Date",
-    cell: (dateValue) => getDateValue(dateValue),
-  }),
-  columnHelper.accessor("workHours", {
+  columnHelper.accessor<"workDone", WorkDone[]>("workDone", {
     header: "Sum time",
     cell: (({row}) => {
       return (
@@ -67,9 +64,8 @@ export const columns: ColumnDef<TableColumns, Date & WorkDone[] & PlanForTomorro
       );
     }),
   }),
-  columnHelper.accessor("workDone", {
+  columnHelper.accessor<"workDone", WorkDone[]>("workDone", {
     header: "Work done",
-    // cell: (info) => info.getValue(),
     cell: ({row}) => {
       return (
         row.original.workDone
@@ -77,7 +73,7 @@ export const columns: ColumnDef<TableColumns, Date & WorkDone[] & PlanForTomorro
       );
     },
   }),
-  columnHelper.accessor("planForTomorrow", {
+  columnHelper.accessor<"planForTomorrow", PlanForTomorrow[]>("planForTomorrow", {
     header: "Plan for tomorrow",
     cell: ({row}) => {
       return (
@@ -86,7 +82,7 @@ export const columns: ColumnDef<TableColumns, Date & WorkDone[] & PlanForTomorro
       );
     },
   }),
-  columnHelper.accessor("currentProblems", {
+  columnHelper.accessor<"currentProblems", string[]>("currentProblems", {
     header: "Current problems",
     cell: ({row}) => {
       return (
@@ -95,7 +91,7 @@ export const columns: ColumnDef<TableColumns, Date & WorkDone[] & PlanForTomorro
       );
     },
   }),
-  columnHelper.accessor("studentComment", {
+  columnHelper.accessor<"studentComment", string[]>("studentComment", {
     header: "Student comment",
     cell: ({row}) => {
       return (
@@ -104,7 +100,7 @@ export const columns: ColumnDef<TableColumns, Date & WorkDone[] & PlanForTomorro
       );
     },
   }),
-  columnHelper.accessor("learnedForToday", {
+  columnHelper.accessor<"learnedForToday", string[]>("learnedForToday", {
     header: "Learned for today",
     cell: ({row}) => {
       return (
@@ -113,7 +109,7 @@ export const columns: ColumnDef<TableColumns, Date & WorkDone[] & PlanForTomorro
       );
     },
   }),
-  columnHelper.accessor("mentorComment", {
+  columnHelper.accessor<"mentorComment", string[]>("mentorComment", {
     header: "Mentor comment",
     cell: ({row}) => {
       return (
@@ -122,7 +118,7 @@ export const columns: ColumnDef<TableColumns, Date & WorkDone[] & PlanForTomorro
       );
     },
   }),
-  columnHelper.accessor("isDayOff", {
+  columnHelper.accessor<"isDayOff", boolean>("isDayOff", {
     header: "Is day off",
     cell: (isDAyOffValue) => getBoolean(isDAyOffValue),
   }),

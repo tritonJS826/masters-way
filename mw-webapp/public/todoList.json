@@ -310,7 +310,7 @@
       "✓ Lets put newest records in table above",
       "✓ Think a little bit about UX, checkmarks in the last column looks strange, columns width, ordered lists instead unordered etc, add list to other columns (problems)", 
       "✓ Learn how context works in js (this)", 
-      "ColumnHelper.accessor is a generic, use it like '...accessor<..., ...>(...)'"
+      "✓ ColumnHelper.accessor is a generic, use it like '...accessor<..., ...>(...)'"
     ],
     "isDayOff": false
   },
@@ -706,6 +706,30 @@
       "time": {
         "unit": "MINUTE",
         "amount": 25
+      }
+    },
+    {
+      "id": "3",
+      "todoItem": "Add ts typing to Column.accessor",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 35
+      }
+    },
+    {
+      "id": "4",
+      "todoItem": "Add styles to done comments in MentorComments and CurrentProblems columns",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 30
+      }
+    },
+    {
+      "id": "5",
+      "todoItem": "Fix mistake in Button.tsx: add updates typing ts",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 30
       }
     }
   ],

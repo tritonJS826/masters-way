@@ -39,7 +39,8 @@ function writeNewPost() {
   // Get a key for a new Post. Generate a random key
   const newPostKey = push(child(ref(db), "/")).key;
 
-  const updates = {};
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const updates: { [key: string]: any } = {};
   updates["/" + newPostKey] = postData;
 
   return update(ref(db), updates);
