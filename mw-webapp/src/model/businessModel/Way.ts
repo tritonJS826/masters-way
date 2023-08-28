@@ -16,7 +16,7 @@ export class Way {
   /**
    * Day reports
    */
-  public dayReport: DayReport[];
+  public dayReports: DayReport[];
 
   /**
    * Way's owner
@@ -26,7 +26,7 @@ export class Way {
   /**
    * Month reports
    */
-  public monthReport: MonthReport[];
+  public monthReports: MonthReport[];
 
   /**
    * Way's goal
@@ -45,9 +45,9 @@ export class Way {
 
   constructor(wayData: Way) {
     this.uuid = wayData.uuid;
-    this.dayReport = wayData.dayReport;
+    this.dayReports = wayData.dayReports;
     this.owner = wayData.owner;
-    this.monthReport = wayData.monthReport;
+    this.monthReports = wayData.monthReports;
     this.goal = wayData.goal;
     this.currentMentors = wayData.currentMentors?.map((currentMentorItem) =>
       new User(currentMentorItem));

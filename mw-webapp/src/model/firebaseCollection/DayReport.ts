@@ -21,7 +21,7 @@ export class DayReport {
   /**
    * Array of @PlanForNextPeriod.uuid
    */
-  public planForNextPeriod: string[];
+  public plansForNextPeriod: string[];
 
   /**
    * Array of @ProblemsForCurrent.uuid
@@ -31,7 +31,7 @@ export class DayReport {
   /**
    * Anything that student wants to say about work
    */
-  public studentComment: string[];
+  public studentComments: string[];
 
   /**
    * New knowledge that the user has received
@@ -41,7 +41,7 @@ export class DayReport {
   /**
    * Array of @MentorComment.uuid
    */
-  public mentorComment: string[];
+  public mentorComments: string[];
 
   /**
    * Return true if day is off and false if it is work day
@@ -52,11 +52,11 @@ export class DayReport {
     this.uuid = dayReportData.uuid;
     this.date = dayReportData.date;
     this.jobsDone = dayReportData.jobsDone;
-    this.planForNextPeriod = dayReportData.planForNextPeriod;
+    this.plansForNextPeriod = dayReportData.plansForNextPeriod;
     this.problemsForCurrentPeriod = dayReportData.problemsForCurrentPeriod;
-    this.studentComment = dayReportData.studentComment;
+    this.studentComments = dayReportData.studentComments;
     this.learnedForToday = dayReportData.learnedForToday;
-    this.mentorComment = dayReportData.mentorComment;
+    this.mentorComments = dayReportData.mentorComments;
     this.isDayOff = dayReportData.isDayOff;
   }
 

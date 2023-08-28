@@ -1,7 +1,7 @@
 /**
  * Goal's metrics
  */
-export class GoalMetrics {
+export class GoalMetric {
 
   /**
    * Metric's UUID
@@ -11,14 +11,14 @@ export class GoalMetrics {
   /**
    * Metrics's description
    */
-  public description: string[];
+  public description: string;
 
   /**
    * True if comment was done and false if not
    */
   public isDone: boolean;
 
-  constructor(goalMetricsData: GoalMetrics) {
+  constructor(goalMetricsData: GoalMetric) {
     this.uuid = goalMetricsData.uuid;
     this.description = goalMetricsData.description;
     this.isDone = goalMetricsData.isDone;

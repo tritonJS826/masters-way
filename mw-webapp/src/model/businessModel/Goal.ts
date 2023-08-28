@@ -1,4 +1,4 @@
-import {GoalMetrics} from "src/model/businessModel/GoalMetrics";
+import {GoalMetric} from "src/model/businessModel/GoalMetric";
 import {Time} from "src/model/businessModel/time/Time";
 import {User} from "src/model/businessModel/User";
 
@@ -20,7 +20,7 @@ export class Goal {
   /**
    * Coal's metrics
    */
-  public metrics: GoalMetrics;
+  public metrics: GoalMetric[];
 
   /**
    * Description of goal

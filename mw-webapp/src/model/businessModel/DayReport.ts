@@ -25,7 +25,7 @@ export class DayReport {
   /**
    * Plans for next period (for tomorrow)
    */
-  public planForNextPeriod: PlanForNextPeriod[];
+  public plansForNextPeriod: PlanForNextPeriod[];
 
   /**
    * Problems for this period (today)
@@ -35,7 +35,7 @@ export class DayReport {
   /**
    * Anything that student wants to say about work
    */
-  public studentComment: string[];
+  public studentComments: string[];
 
   /**
    * New knowledge that the user has received
@@ -45,7 +45,7 @@ export class DayReport {
   /**
    * Mentor's comments
    */
-  public mentorComment: string[];
+  public mentorComments: string[];
 
   /**
    * Return true if day is off and false if it is work day
@@ -57,13 +57,13 @@ export class DayReport {
     this.date = dayReportData.date;
     this.jobsDone = dayReportData.jobsDone?.map((jobsDoneItem) =>
       new JobDone(jobsDoneItem));
-    this.planForNextPeriod = dayReportData.planForNextPeriod?.map((planForNextPeriodItem) =>
+    this.plansForNextPeriod = dayReportData.plansForNextPeriod?.map((planForNextPeriodItem) =>
       new PlanForNextPeriod(planForNextPeriodItem));
     this.problemsForCurrentPeriod = dayReportData.problemsForCurrentPeriod?.map((currentProblemItem) =>
       new CurrentProblem(currentProblemItem));
-    this.studentComment = dayReportData.studentComment;
+    this.studentComments = dayReportData.studentComments;
     this.learnedForToday = dayReportData.learnedForToday;
-    this.mentorComment = dayReportData.mentorComment;
+    this.mentorComments = dayReportData.mentorComments;
     this.isDayOff = dayReportData.isDayOff;
   }
 

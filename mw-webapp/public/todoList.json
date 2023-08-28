@@ -627,6 +627,14 @@
         "unit": "MINUTE",
         "amount": 75
       }
+    },
+    {
+      "id": "4",
+      "todoItem": "Check naming in models, collections",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 25
+      }
     }
   ],
     "planForTomorrow": [{

@@ -16,7 +16,7 @@ export class Goal {
   /**
    * Metrics @GoalMetrics.uuid
    */
-  public metrics: string;
+  public metrics: string[];
 
   /**
    * Description of goal
