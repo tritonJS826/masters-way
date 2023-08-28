@@ -573,8 +573,8 @@
     "mentorComment": [
       "✓ Does docs directory related to only frontend? If it is dabase relations, please move it on the top level",
       "✓ Fix models.drawio to discuss your model schemas (looks like it is just broken merge, just apply right changes in your IDE)",
+      "✓ Remove unused hidden files (add to gitignore)",
       "Think more about naming, get* should return something, converters shoud convert and etc.",
-      "remove unused hidden files (add to gitignore)",
       "add green color to completed problems and mentor comments",
       "pnpm run build does not work",
       "Updated models for firebase, create DTO models for them on the client",
@@ -621,7 +621,98 @@
       }
     }
   ],
-    "planForTomorrow": [],
+    "planForTomorrow": [{
+      "id": "0",
+      "todoItem": "Add collections (Goal, GoalMetrics, MonthReport, CurrentProblem, JobDone, PlanForNextPeriod, MentorComment",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 30
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Check naming of method and functions",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 30
+      }
+    },
+    {
+      "id": "2",
+      "todoItem": "Add green color to completed problems and mentor comments",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 45
+      }
+    },
+    {
+      "id": "3",
+      "todoItem": "Check and fix pnpm run build command",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 45
+      }
+    },
+    {
+      "id": "4",
+      "todoItem": "Add stats to the page with table (all days, days without day off, day off amount, work hours)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 30
+      }
+    }
+  ],
+    "currentProblems": [""],
+    "studentComment": ["Found info how to get nested collections from firebase"],
+    "learnedForToday": [""],
+    "mentorComment": [""],
+    "isDayOff": false
+  },
+  {
+    "id": "13",
+    "date": "2023-08-28",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Add collections (Goal, GoalMetrics, MonthReport, CurrentProblem, JobDone, PlanForNextPeriod, MentorComment",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 25
+      }
+    }
+  ],
+    "planForTomorrow": [{
+      "id": "1",
+      "todoItem": "Check naming of method and functions",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 30
+      }
+    },
+    {
+      "id": "2",
+      "todoItem": "Add green color to completed problems and mentor comments",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 45
+      }
+    },
+    {
+      "id": "3",
+      "todoItem": "Check and fix pnpm run build command",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 45
+      }
+    },
+    {
+      "id": "4",
+      "todoItem": "Add stats to the page with table (all days, days without day off, day off amount, work hours)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 30
+      }
+    }
+  ],
     "currentProblems": [""],
     "studentComment": [""],
     "learnedForToday": [""],

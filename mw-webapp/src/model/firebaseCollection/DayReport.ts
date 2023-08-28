@@ -16,7 +16,7 @@ export class DayReport {
   /**
    * Array of @JobDone.uuid
    */
-  public jobDone: string[];
+  public jobsDone: string[];
 
   /**
    * Array of @PlanForNextPeriod.uuid
@@ -51,7 +51,7 @@ export class DayReport {
   constructor(dayReportData: DayReport) {
     this.uuid = dayReportData.uuid;
     this.date = dayReportData.date;
-    this.jobDone = dayReportData.jobDone;
+    this.jobsDone = dayReportData.jobsDone;
     this.planForNextPeriod = dayReportData.planForNextPeriod;
     this.problemsForCurrentPeriod = dayReportData.problemsForCurrentPeriod;
     this.studentComment = dayReportData.studentComment;
