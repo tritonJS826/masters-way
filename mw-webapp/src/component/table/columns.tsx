@@ -1,9 +1,10 @@
 import {createColumnHelper, ColumnDef, CellContext} from "@tanstack/react-table";
 import {PlanForTomorrow} from "src/model/report/planForTomorrow/PLanForTomorrow";
 import {WorkDone} from "src/model/report/workDone/WorkDone";
-import styles from "src/component/table/columns.module.scss";
-// import {TableColumns} from "src/model/report/TableColumns";
 import {Report} from "src/model/report/Report";
+import {Button} from "src/component/button/Button";
+// import {ReportService} from "src/service/Report";
+import styles from "src/component/table/columns.module.scss";
 
 const columnHelper = createColumnHelper<Report>();
 
@@ -18,15 +19,28 @@ const getObjectArrayItem = (arrayItem: WorkDone | PlanForTomorrow, getFullItem?:
   );
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const handleSubmit = (e: any) => {
+  e.preventDefault();
+  console.log(e.target.id);
+};
+
 const getStringArrayItem = (arrayItem: string, index: number) => {
   return (
     (!arrayItem) ?
       <div key={index} />
       :
-      <div className={arrayItem[0] === "✓" ? styles.completed : styles.notCompleted}
-        key={index}
-      >
-        {`${+index + 1}. ${arrayItem}`}
+      <div key={index}>
+        <div className={arrayItem[0] === "✓" ? styles.completed : styles.notCompleted}
+          key={index}
+        >
+          {`${+index + 1}. ${arrayItem}`}
+        </div>
+        <Button value="Edittt report"
+          // onClick={ReportService.updateReportToRealTimeDb}
+          onClick={handleSubmit}
+        />
+
       </div>
   );
 };
