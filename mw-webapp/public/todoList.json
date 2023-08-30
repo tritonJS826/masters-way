@@ -763,5 +763,16 @@
     "learnedForToday": ["Learned how to add typing to Column.accessor and updates method in real time firebase"],
     "mentorComment": [""],
     "isDayOff": false
+  },
+  {
+    "id": "14",
+    "date": "2023-08-29",
+    "workDone": [{}],
+    "planForTomorrow": [{}],
+    "currentProblems": [""],
+    "studentComment": [""],
+    "learnedForToday": [""],
+    "mentorComment": [""],
+    "isDayOff": true
   }
 ]
