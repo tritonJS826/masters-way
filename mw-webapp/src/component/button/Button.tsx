@@ -1,10 +1,10 @@
 import styles from "src/component/button/Button.module.scss";
 
-const getRandomInt = (max: number) => {
-  return Math.floor(Math.random() * max);
-};
-
 interface ButtonProps {
+  /**
+   * Button UUID
+   */
+  id?: string;
   /**
    * Button value (text)
    */
@@ -13,12 +13,14 @@ interface ButtonProps {
    * Callback triggered on button click
    */
   onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // onClick: (event?: any) => void;
 }
 
 export const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
   return (
     <button
-      id={`${getRandomInt(100)}`}
+      id={props.id}
       className={styles.button}
       onClick={props.onClick}
     >

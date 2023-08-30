@@ -3,7 +3,7 @@ import {PlanForTomorrow} from "src/model/report/planForTomorrow/PLanForTomorrow"
 import {WorkDone} from "src/model/report/workDone/WorkDone";
 import {Report} from "src/model/report/Report";
 import {Button} from "src/component/button/Button";
-// import {ReportService} from "src/service/Report";
+import {ReportService} from "src/service/Report";
 import styles from "src/component/table/columns.module.scss";
 
 const columnHelper = createColumnHelper<Report>();
@@ -20,25 +20,38 @@ const getObjectArrayItem = (arrayItem: WorkDone | PlanForTomorrow, getFullItem?:
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const handleSubmit = (e: any) => {
-  e.preventDefault();
-  console.log(e.target.id);
+// const handleSubmit = (e: any) => {
+//   e.preventDefault();
+//   console.log(e.target.parentElement);
+// };
+
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const onclick = (index: string, e: any) => {
+  // console.log(e.target.parentElement.id);
+  // console.log(e.target);
+  if (e.target.parentElement.id === e.target.id) {
+    console.log(true);
+    return ReportService.updateReportToRealTimeDb(index);
+  }
 };
 
-const getStringArrayItem = (arrayItem: string, index: number) => {
+const getStringArrayItem = (arrayItem: string, index: string) => {
   return (
     (!arrayItem) ?
       <div key={index} />
       :
-      <div key={index}>
-        <div className={arrayItem[0] === "✓" ? styles.completed : styles.notCompleted}
-          key={index}
-        >
+      <div id={index}
+        key={index}
+      >
+        <div className={arrayItem[0] === "✓" ? styles.completed : styles.notCompleted}>
           {`${+index + 1}. ${arrayItem}`}
         </div>
-        <Button value="Edittt report"
-          // onClick={ReportService.updateReportToRealTimeDb}
-          onClick={handleSubmit}
+        <Button id={index}
+          value="Edit report"
+          key={index}
+          onClick={(e) => onclick(index, e)}
+          // onClick={handleSubmit}
         />
 
       </div>
@@ -99,36 +112,40 @@ export const columns: ColumnDef<Report, Date & WorkDone[] & PlanForTomorrow[] & 
   columnHelper.accessor<"currentProblems", string[]>("currentProblems", {
     header: "Current problems",
     cell: ({row}) => {
+      const parentID = row.original.id;
       return (
         row.original.currentProblems
-          .map((currentProblemsItem, index) => (getStringArrayItem(currentProblemsItem, index)))
+          .map((currentProblemsItem) => (getStringArrayItem(currentProblemsItem, parentID)))
       );
     },
   }),
   columnHelper.accessor<"studentComment", string[]>("studentComment", {
     header: "Student comment",
     cell: ({row}) => {
+      const parentID = row.original.id;
       return (
         row.original.studentComment
-          .map((studentCommentItem, index) => (getStringArrayItem(studentCommentItem, index)))
+          .map((studentCommentItem) => (getStringArrayItem(studentCommentItem, parentID)))
       );
     },
   }),
   columnHelper.accessor<"learnedForToday", string[]>("learnedForToday", {
     header: "Learned for today",
     cell: ({row}) => {
+      const parentID = row.original.id;
       return (
         row.original.learnedForToday
-          .map((learnedForTodayItem, index) => (getStringArrayItem(learnedForTodayItem, index)))
+          .map((learnedForTodayItem) => (getStringArrayItem(learnedForTodayItem, parentID)))
       );
     },
   }),
   columnHelper.accessor<"mentorComment", string[]>("mentorComment", {
     header: "Mentor comment",
     cell: ({row}) => {
+      const parentID = row.original.id;
       return (
         row.original.mentorComment
-          .map((mentorCommentItem, index) => (getStringArrayItem(mentorCommentItem, index)))
+          .map((mentorCommentItem) => (getStringArrayItem(mentorCommentItem, parentID)))
       );
     },
   }),

@@ -38,9 +38,13 @@ export class ReportService {
 
   public static writeNewReportToRealTimeDb() {
 
+
+    // Get a key for a new Post. Generate a random key
+    const newPostKey = push(child(ref(db), "/")).key;
+
     // A post entry.
     const postData = {
-      "id": "11",
+      "id": newPostKey,
       "date": "2023-09-10",
       "workDone": [
         {
@@ -65,12 +69,9 @@ export class ReportService {
       "currentProblems": [""],
       "studentComment": [""],
       "learnedForToday": [""],
-      "mentorComment": [""],
+      "mentorComment": ["bbb"],
       "isDayOff": false,
     };
-
-    // Get a key for a new Post. Generate a random key
-    const newPostKey = push(child(ref(db), "/")).key;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const updates: { [key: string]: any } = {};
@@ -79,15 +80,15 @@ export class ReportService {
     return update(ref(db), updates);
   }
 
-  public static updateReportToRealTimeDb() {
+  public static updateReportToRealTimeDb(uuid: string) {
 
     // A post entry.
-    const postData = {mentorComment: [""]};
+    const postData = {mentorComment: ["aaa"]};
 
     // Get a key for a new Post. Generate a random key
     // const newPostKey = push(child(ref(db), "/")).key;
 
-    const postKey = 0;
+    const postKey = uuid;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const updates: { [key: string]: any } = {};
@@ -95,7 +96,7 @@ export class ReportService {
 
     // return update(ref(db), updates);
 
-    return update(ref(db, "/" + postKey), {mentorComment: ["New title!!!!!"]});
+    return update(ref(db, "/" + postKey), {mentorComment: ["New title!!!!"]});
   }
 
 }
