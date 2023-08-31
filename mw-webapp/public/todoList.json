@@ -774,5 +774,80 @@
     "learnedForToday": [""],
     "mentorComment": [""],
     "isDayOff": true
+  },
+  {
+    "id": "15",
+    "date": "2023-08-30",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Add button to update cells",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 30
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Create one button component instead of few buttons for each action (buttonCreateRow, buttonEdit, etc.)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 25
+      }
+    },
+    {
+      "id": "2",
+      "todoItem": "Move out firebase methods into service layer (methods updateReport and createNewReport)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 30
+      }
+    },
+    {
+      "id": "3",
+      "todoItem": "Check firebase keys for understand do we need squash all commits or not",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 15
+      }
+    },
+    {
+      "id": "4",
+      "todoItem": "Update mentor comment according by UUID",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 80
+      }
+    }
+  ],
+    "planForTomorrow": [{
+      "id": "0",
+      "todoItem": "Add possibility to write in browser and update cells",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 110
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Fix base row (when create a new report should return empty object",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 50
+      }
+    },
+    {
+      "id": "2",
+      "todoItem": "Clean project: delete consoles and commits",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 20
+      }
+    }
+  ],
+    "currentProblems": [""],
+    "studentComment": ["For resolve problem with firebase keys we decided do't use squash all commits but create a new firebase real time database and delete old db with keys on github"],
+    "learnedForToday": [""],
+    "mentorComment": [""],
+    "isDayOff": false
   }
 ]

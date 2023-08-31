@@ -1,58 +1,30 @@
-/* eslint-disable max-len */
-import {ref, push, child, update} from "firebase/database";
-import {db} from "src/firebase";
 import styles from "src/component/button/Button.module.scss";
 
-function writeNewPost() {
-
-  // A post entry.
-  const postData = {
-    "id": "11",
-    "date": "2023-05-12",
-    "workDone": [
-      {
-        "id": "",
-        "todoItem": "",
-        "time": {
-          "unit": "MINUTE",
-          "amount": 20,
-        },
-      },
-    ],
-    "planForTomorrow": [
-      {
-        "id": "0",
-        "todoItem": "Add possibility to add reports to firebase from browser",
-        "time": {
-          "unit": "MINUTE",
-          "amount": 90,
-        },
-      },
-    ],
-    "currentProblems": [""],
-    "studentComment": [""],
-    "learnedForToday": [""],
-    "mentorComment": [""],
-    "isDayOff": false,
-  };
-
-  // Get a key for a new Post. Generate a random key
-  const newPostKey = push(child(ref(db), "/")).key;
-
+interface ButtonProps {
+  /**
+   * Button UUID
+   */
+  id?: string;
+  /**
+   * Button value (text)
+   */
+  value: string;
+  /**
+   * Callback triggered on button click
+   */
+  onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const updates: { [key: string]: any } = {};
-  updates["/" + newPostKey] = postData;
-
-  return update(ref(db), updates);
+  // onClick: (event?: any) => void;
 }
 
-
-export const Button = () => {
+export const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
   return (
-    <button className={styles.button}
-      onClick={writeNewPost}
+    <button
+      id={props.id}
+      className={styles.button}
+      onClick={props.onClick}
     >
-      Create new report
+      {props.value}
     </button>
   );
 };
