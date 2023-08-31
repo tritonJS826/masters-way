@@ -20,10 +20,10 @@ export class JobDone {
    */
   public time: Time;
 
-  constructor(jobDoneData: JobDone) {
-    this.uuid = jobDoneData.uuid;
-    this.description = jobDoneData.description;
-    this.time = new Time(jobDoneData.time.unit, jobDoneData.time.amount);
+  constructor(uuid: string, description: string, time: Time) {
+    this.uuid = uuid;
+    this.description = description;
+    this.time = new Time(time.unit, time.amount);
   }
 
   /**

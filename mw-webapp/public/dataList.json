@@ -1,0 +1,78 @@
+{
+  "users": [{
+    "uuid": "abc",
+    "name": "Ekaterina",
+    "email": "mail@gmailcom",
+    "ownWays": ["vvv"],
+    "favoriteWays": ["vvv"],
+    "mentoringWays": ["vvv"]
+    }
+  ],
+  "ways": [{
+    "uuid": "vvv",
+    "dayReportUuids": ["yyy"],
+    "ownerUuid": "abc",
+    "monthReportUuids": ["mmm"],
+    "goalUuid": "ggg",
+    "currentMentors": ["abc"],
+    "isCompleted": false
+  }
+  ],
+  "dayReports": [{
+    "uuid": "yyy",
+    "date": "2023-12-31",
+    "jobsDone": ["jjj"],
+    "plansForNextPeriod": ["ppp"],
+    "problemsForCurrentPeriod": ["prprpr"],
+    "studentComments": ["Student comment"],
+    "learnedForToday": ["Learned"],
+    "mentorComments": ["mcmcmc"],
+    "isDayOff": false
+  }],
+  "monthReports": [{
+    "uuid": "mmm",
+    "date": "2023-12-31",
+    "jobsDone": ["jjj"],
+    "plansForNextPeriod": ["ppp"],
+    "problemsForCurrentPeriod": ["prprpr"],
+    "studentComments": ["Student comment"],
+    "learnedForMonth": ["LearnedMonth"],
+    "mentorComments": ["Mentor"]
+  }],
+    "goals": [{
+      "uuid": "ggg",
+      "studentUuid": "abc",
+      "metrics": ["gmgmgm"],
+      "description": "Description",
+      "timeUnit": "minute",
+      "estimationTime": 40
+    }],
+    "goalMetrics": [{
+      "uuid": "gmgmgm",
+      "description": "description description",
+      "isDone": false
+    }],
+    "jobsDone": [{
+      "uuid": "jjj",
+      "description": "job description",
+      "timeUnit": "minute",
+      "time": 20
+    }],
+    "plansForNextPeriod": [{
+      "uuid": "ppp",
+      "job": "plan description",
+      "timeUnit": "minute",
+      "estimationTime": 20
+    }],
+      "currentProblems": [{
+        "uuid": "prprpr",
+        "description": "problem description",
+        "isDone": false
+      }],
+      "mentorComments": [{
+        "uuid": "mcmcmc",
+        "mentorUuid": "abc",
+        "description": "mentor comment description",
+        "isDone": false
+      }]
+}

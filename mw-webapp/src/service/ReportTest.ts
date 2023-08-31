@@ -1,20 +1,27 @@
-import {Report} from "src/model/report/Report";
+// import {Report} from "src/model/report/Report";
 import {ReportDTO} from "src/model/report/ReportDTO";
-import {WorkDone} from "src/model/report/workDone/WorkDone";
-import {PlanForTomorrow} from "src/model/report/planForTomorrow/PLanForTomorrow";
-import {Time} from "src/model/report/time/Time";
-import {Unit} from "src/model/report/time/unit/Unit";
+// import {WorkDone} from "src/model/report/workDone/WorkDone";
+// import {PlanForTomorrow} from "src/model/report/planForTomorrow/PLanForTomorrow";
+// import {Time} from "src/model/report/time/Time";
+// import {Unit} from "src/model/report/time/unit/Unit";
 import {ref, onValue, update, push, child} from "firebase/database";
 import {db} from "src/firebase";
 import {currentDate} from "src/utils/getDate";
+import {DayReport as DayReportDTO} from "src/model/firebaseCollection/DayReport";
+import {DayReport} from "src/model/businessModel/DayReport";
+import {JobDone} from "src/model/businessModel/JobDone";
+import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
+import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
+import {Time} from "src/model/businessModel/time/Time";
+import {Unit} from "src/model/report/time/unit/Unit";
 
-const reportDTOToBusinessConverter = (reportRaw: ReportDTO) => new Report({
+const reportDTOToBusinessConverter = (reportRaw: DayReportDTO) => new DayReport({
   ...reportRaw,
   date: new Date(reportRaw.date),
-  workDone: reportRaw.workDone?.map((workItem) =>
-    new WorkDone(workItem.id, workItem.todoItem, new Time(Unit[workItem.time.unit], workItem.time.amount))),
-  planForTomorrow: reportRaw.planForTomorrow?.map((planItem) =>
-    new PlanForTomorrow(planItem.id, planItem.todoItem, new Time(Unit[planItem.time.unit], planItem.time.amount))),
+  jobsDone: reportRaw.jobsDone.map((item) => new JobDone(item, "desc", new Time(Unit.MINUTE, 30))),
+  plansForNextPeriod: reportRaw.plansForNextPeriod.map((item) => new PlanForNextPeriod(item)),
+  // eslint-disable-next-line max-len
+  problemsForCurrentPeriod: reportRaw.problemsForCurrentPeriod.map((item) => new CurrentProblem(item)),
 });
 
 export class ReportService {
@@ -25,11 +32,14 @@ export class ReportService {
   //   return reports;
   // }
 
-  public static onValueFromRealTimeDb(callBack: (data: Report[]) => void) {
-    onValue(ref(db), async (snapshot) => {
-      const reportsRaw: ReportDTO[] = snapshot.val();
+  public static onValueFromRealTimeDb(callBack: (data: DayReport[]) => void) {
+    onValue(ref(db, "/dayReports"), async (snapshot) => {
+      const reportsRaw: DayReportDTO[] = snapshot.val();
+      console.log(snapshot.val());
       if (reportsRaw !== null) {
-        const reportsDTO: ReportDTO[] = Object.values(reportsRaw);
+        console.log(2);
+        const reportsDTO: DayReportDTO[] = Object.values(reportsRaw);
+        console.log(reportsDTO);
         const reports = reportsDTO.map(reportDTOToBusinessConverter);
         const reportsArray = reports.reverse();
         callBack(reportsArray);

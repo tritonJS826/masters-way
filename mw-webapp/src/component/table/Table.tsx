@@ -1,13 +1,16 @@
 import {useState, useEffect} from "react";
 import {useReactTable, getCoreRowModel, flexRender} from "@tanstack/react-table";
-import {Report} from "src/model/report/Report";
-import {ReportService} from "src/service/Report";
+// import {Report} from "src/model/report/Report";
+import {ReportService} from "src/service/ReportTest";
 import {columns} from "src/component/table/columns";
 import {Button} from "src/component/button/Button";
 import styles from "src/component/table/Table.module.scss";
+import {Editable} from "../editable/Editable";
+// import {DayReport} from "src/model/businessModel/DayReport";
+import {DayReport as DayReportDTO} from "src/model/firebaseCollection/DayReport";
 
 export const Table = () => {
-  const [data, setData] = useState<Report[]>([]);
+  const [data, setData] = useState<DayReportDTO[]>([]);
 
   useEffect(() => {
     ReportService.onValueFromRealTimeDb(setData);
@@ -24,11 +27,29 @@ export const Table = () => {
     getCoreRowModel: getCoreRowModel(),
   });
 
+  console.log(data);
+
+  // State for the input
+  const [task, setTask] = useState("");
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>
         Hiii, Student!
       </h1>
+      <Editable
+        text={task}
+        placeholder="Write a task name"
+        type="input"
+      >
+        <input
+          type="text"
+          name="task"
+          placeholder="Write a task name"
+          value={task}
+          onChange={e => setTask(e.target.value)}
+        />
+      </Editable>
       <Button value="Create new report"
         onClick={ReportService.writeNewReportToRealTimeDb}
       />
