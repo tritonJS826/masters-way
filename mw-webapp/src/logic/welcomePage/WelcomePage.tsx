@@ -14,9 +14,7 @@ export const WelcomePage = () => {
           Sign Up
         </button>
       </Link>
-      <Link
-        to={"main"}
-      >
+      <Link to={"main"}>
         <button className={styles.button}>
           Workflow Page
         </button>
