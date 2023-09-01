@@ -9,8 +9,8 @@ export const Router = () => {
         element={pages.main.element}
       />
       <Route
-        path={pages.welcome.path}
-        element={pages.welcome.element}
+        path={pages.auth.path}
+        element={pages.auth.element}
       />
     </Routes>
   );
