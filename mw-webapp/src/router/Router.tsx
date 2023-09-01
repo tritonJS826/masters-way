@@ -8,6 +8,10 @@ export const Router = () => {
         path={pages.main.path}
         element={pages.main.element}
       />
+      <Route
+        path={pages.welcome.path}
+        element={pages.welcome.element}
+      />
     </Routes>
   );
 };

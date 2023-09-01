@@ -1,0 +1,17 @@
+.container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+
+  .button {
+    width:  200px;
+    height: 50px;
+    margin: 20px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
