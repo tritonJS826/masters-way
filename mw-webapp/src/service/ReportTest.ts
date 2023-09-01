@@ -9,19 +9,20 @@ import {db} from "src/firebase";
 import {currentDate} from "src/utils/getDate";
 import {DayReport as DayReportDTO} from "src/model/firebaseCollection/DayReport";
 import {DayReport} from "src/model/businessModel/DayReport";
-import {JobDone} from "src/model/businessModel/JobDone";
-import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
-import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
-import {Time} from "src/model/businessModel/time/Time";
-import {Unit} from "src/model/report/time/unit/Unit";
+// import {CurrentProblem} from "src/model/firebaseCollection/CurrentProblem";
+// import {JobDone} from "src/model/businessModel/JobDone";
+// import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
+// import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
+// import {Time} from "src/model/businessModel/time/Time";
+// import {Unit} from "src/model/report/time/unit/Unit";
 
 const reportDTOToBusinessConverter = (reportRaw: DayReportDTO) => new DayReport({
   ...reportRaw,
   date: new Date(reportRaw.date),
-  jobsDone: reportRaw.jobsDone.map((item) => new JobDone(item, "desc", new Time(Unit.MINUTE, 30))),
-  plansForNextPeriod: reportRaw.plansForNextPeriod.map((item) => new PlanForNextPeriod(item)),
-  // eslint-disable-next-line max-len
-  problemsForCurrentPeriod: reportRaw.problemsForCurrentPeriod.map((item) => new CurrentProblem(item)),
+  // jobsDone: reportRaw.jobsDone.map((item) => new JobDone(item, "desc", new Time(Unit.MINUTE, 30))),
+  // plansForNextPeriod: reportRaw.plansForNextPeriod.map((item) => new PlanForNextPeriod(item)),
+  // // eslint-disable-next-line max-len
+  // problemsForCurrentPeriod: reportRaw.problemsForCurrentPeriod.map((item) => new CurrentProblem(item)),
 });
 
 export class ReportService {

@@ -1,4 +1,4 @@
-import {Time} from "src/model/businessModel/time/Time";
+// import {Time} from "src/model/businessModel/time/Time";
 
 /**
  * Job that was done
@@ -16,21 +16,27 @@ export class JobDone {
   public description: string;
 
   /**
-   * How long was the job done
+   * Enum @Time.unit (minute, hour, day, etc.)
    */
-  public time: Time;
+  public timeUnit: string;
 
-  constructor(uuid: string, description: string, time: Time) {
-    this.uuid = uuid;
-    this.description = description;
-    this.time = new Time(time.unit, time.amount);
+  /**
+    * How long did the task take to complete
+    */
+  public time: number;
+
+  constructor(jobDone: JobDone) {
+    this.uuid = jobDone.uuid;
+    this.description = jobDone.description;
+    this.timeUnit = jobDone.timeUnit;
+    this.time = jobDone.time;
   }
 
   /**
    * Get formatted job that was done
    */
   public getFullJobDone() {
-    return `${this.description} (${this.time.amount} ${this.time.unit})`;
+    return `${this.description} (${this.time} ${this.timeUnit})`;
   }
 
 }

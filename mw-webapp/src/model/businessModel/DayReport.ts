@@ -57,7 +57,7 @@ export class DayReport {
     this.uuid = dayReportData.uuid;
     this.date = dayReportData.date;
     this.jobsDone = dayReportData.jobsDone?.map((jobsDoneItem) =>
-      new JobDone(jobsDoneItem.uuid, jobsDoneItem.description, jobsDoneItem.time));
+      new JobDone(jobsDoneItem));
     this.plansForNextPeriod = dayReportData.plansForNextPeriod?.map((planForNextPeriodItem) =>
       new PlanForNextPeriod(planForNextPeriodItem));
     this.problemsForCurrentPeriod = dayReportData.problemsForCurrentPeriod?.map((currentProblemItem) =>

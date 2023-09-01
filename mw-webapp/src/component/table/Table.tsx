@@ -6,11 +6,11 @@ import {columns} from "src/component/table/columns";
 import {Button} from "src/component/button/Button";
 import styles from "src/component/table/Table.module.scss";
 import {Editable} from "../editable/Editable";
-// import {DayReport} from "src/model/businessModel/DayReport";
-import {DayReport as DayReportDTO} from "src/model/firebaseCollection/DayReport";
+import {DayReport} from "src/model/businessModel/DayReport";
+// import {DayReport as DayReportDTO} from "src/model/firebaseCollection/DayReport";
 
 export const Table = () => {
-  const [data, setData] = useState<DayReportDTO[]>([]);
+  const [data, setData] = useState<DayReport[]>([]);
 
   useEffect(() => {
     ReportService.onValueFromRealTimeDb(setData);
