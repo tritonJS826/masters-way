@@ -4,12 +4,12 @@ import styles from "src/pages/authPage/AuthPage.module.scss";
 export const AuthPage = () => {
   return (
     <div className={styles.container}>
-      <Link to={"/"}>
+      <Link to={"sign-in"}>
         <button>
           Sign In
         </button>
       </Link>
-      <Link to={"/"}>
+      <Link to={"sign-up"}>
         <button>
           Sign Up
         </button>

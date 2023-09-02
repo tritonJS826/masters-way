@@ -12,6 +12,14 @@ export const Router = () => {
         path={pages.auth.path}
         element={pages.auth.element}
       />
+      <Route
+        path={pages.signIn.path}
+        element={pages.signIn.element}
+      />
+      <Route
+        path={pages.signUp.path}
+        element={pages.signUp.element}
+      />
     </Routes>
   );
 };
