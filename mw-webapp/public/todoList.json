@@ -908,5 +908,126 @@
     "learnedForToday": [""],
     "mentorComment": [""],
     "isDayOff": false
+  },
+  {
+    "id": "17",
+    "date": "2023-09-01",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Render table header according by new models",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 90
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Search info how to use uuid as ref to collections in real time db",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 45
+      }
+    },
+    {
+      "id": "2",
+      "todoItem": "Render cells with type string[]",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 45
+      }
+    }
+  ],
+    "planForTomorrow": [{
+      "id": "0",
+      "todoItem": "Create separate classes for get each collection from firebase",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 60
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Return all data for use it in the table",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 60
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Render right nested data in cells",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 60
+      }
+    }
+  ],
+    "currentProblems": [""],
+    "studentComment": [""],
+    "learnedForToday": [""],
+    "mentorComment": ["Need to find a books for career growth"],
+    "isDayOff": false
+  },
+  {
+    "id": "18",
+    "date": "2023-09-02",
+    "workDone": [{}],
+    "planForTomorrow": [{}],
+    "currentProblems": [""],
+    "studentComment": [""],
+    "learnedForToday": [""],
+    "mentorComment": [""],
+    "isDayOff": true
+  },
+  {
+    "id": "19",
+    "date": "2023-09-03",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Create separate service classes for get collections from realtime db: UserService and WayService (there are 2 methods for get all users and ways and get user and way by uuid)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 90
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Create converters from firebase models to business models (ReportTest.ts) (not finished)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 45
+      }
+    },
+    {
+      "id": "2",
+      "todoItem": "Render users and ways info on main page",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 40
+      }
+    }
+  ],
+    "planForTomorrow": [{
+      "id": "0",
+      "todoItem": "Render one way with table: render header's titles",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 100
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Render table's body: cells with info",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 180
+      }
+    }
+  ],
+    "currentProblems": [""],
+    "studentComment": [""],
+    "learnedForToday": [""],
+    "mentorComment": [""],
+    "isDayOff": false
   }
 ]

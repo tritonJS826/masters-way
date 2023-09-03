@@ -41,7 +41,7 @@ const getObjectArrayItem = (arrayItem: JobDone | PlanForNextPeriod | CurrentProb
       </div>
       : (arrayItem.uuid !== "prprpr") ?
         <div key={arrayItem.uuid}>
-          {`${+index + 1}. ${qqq[0].description}`}
+          {`${+index + 13}. ${qqq}`}
         </div>
         :
         <div key={arrayItem.uuid}>
