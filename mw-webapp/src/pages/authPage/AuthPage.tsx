@@ -1,24 +1,29 @@
-import {Link} from "react-router-dom";
-import styles from "src/pages/authPage/AuthPage.module.scss";
+import {getAuth, getRedirectResult, signInWithRedirect, GoogleAuthProvider} from "firebase/auth";
 
 export const AuthPage = () => {
+  const provider = new GoogleAuthProvider();
+  const auth = getAuth();
+
+  const handleGoogleSignIn = async () => {
+    try {
+      await signInWithRedirect(auth, provider);
+      const result = await getRedirectResult(auth);
+      if (result) {
+        const user = result.user;
+        console.log(user);
+      }
+    } catch (error) {
+      let errorMessage;
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      console.error(errorMessage);
+    }
+  };
+
   return (
-    <div className={styles.container}>
-      <Link to={"sign-in"}>
-        <button>
-          Sign In
-        </button>
-      </Link>
-      <Link to={"sign-up"}>
-        <button>
-          Sign Up
-        </button>
-      </Link>
-      <Link to={"main"}>
-        <button>
-          Workflow Page
-        </button>
-      </Link>
-    </div>
+    <button onClick={handleGoogleSignIn}>
+      Sign in with Google
+    </button>
   );
 };
