@@ -1,5 +1,6 @@
 import {ref, onValue} from "firebase/database";
 import {db} from "src/firebase";
+import {DayReport} from "src/model/businessModel/DayReport";
 // import {Way} from "src/model/businessModel/Way";
 import {Way as WayDTO} from "src/model/firebaseCollection/Way";
 
@@ -16,11 +17,11 @@ export class WayService {
     });
   }
 
-  public static onValueByIdFromRealTimeDb(callBack: (data: WayDTO) => void, uuid: string) {
+  public static onValueByIdFromRealTimeDb(callBack: (data: DayReport) => void, uuid: string) {
     onValue(ref(db, "/ways"), async (snapshot) => {
-      const wayRaw: WayDTO[] = snapshot.val();
+      const wayRaw: DayReport[] = snapshot.val();
       if (wayRaw !== null) {
-        const wayDTO: WayDTO[] = Object.values(wayRaw);
+        const wayDTO: DayReport[] = Object.values(wayRaw);
         // const ways = wayDTO.map(userDTOToBusinessConverter);
         const way = wayDTO.find((wayItem) => wayItem.uuid === uuid);
         if (way) {

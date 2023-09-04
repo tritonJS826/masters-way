@@ -16,13 +16,14 @@ import {DateValue} from "src/utils/DateValue";
 
 export const Table = () => {
   // const [data, setData] = useState<DayReport[]>([]);
+  // const [data, setData] = useState<DayReport>();
   const [users, setUsers] = useState<User[]>([]);
   const [ways, setWays] = useState<Way[]>([]);
 
   useEffect(() => {
     // ReportService.onValueFromRealTimeDb(setData);
     UserService.onValueFromRealTimeDb(setUsers);
-    // WayService.onValueByIdFromRealTimeDb(setWays, "vvv");
+    // WayService.onValueByIdFromRealTimeDb(setData, "vvv");
     WayService.onValueFromRealTimeDb(setWays);
     () => {
       //TODO

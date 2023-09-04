@@ -1048,14 +1048,6 @@
         "unit": "MINUTE",
         "amount": 45
       }
-    },
-    {
-      "id": "2",
-      "todoItem": "Render users and ways info on main page",
-      "time": {
-        "unit": "MINUTE",
-        "amount": 40
-      }
     }
   ],
     "planForTomorrow": [{

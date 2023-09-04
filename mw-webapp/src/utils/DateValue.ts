@@ -1,5 +1,5 @@
 /**
- * Date in ISO format yyyy-mm-dd
+ * Formatted date
  */
 export class DateValue {
 
