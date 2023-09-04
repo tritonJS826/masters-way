@@ -12,6 +12,7 @@ import {UserService} from "src/service/UserService";
 import {User} from "src/model/firebaseCollection/User";
 import {WayService} from "src/service/WayService";
 import {Way} from "src/model/firebaseCollection/Way";
+import {DateValue} from "src/utils/DateValue";
 
 export const Table = () => {
   // const [data, setData] = useState<DayReport[]>([]);
@@ -42,22 +43,28 @@ export const Table = () => {
   // State for the input
   const [task, setTask] = useState("");
 
-  const renderWays = (waysArray: string[]) => {
-    return waysArray.map((way, index) => (
-      <li key={index}>
-        {way}
-      </li>
-    ));
+  const renderWays = (waysArray?: string[]) => {
+    if (waysArray) {
+      return waysArray.map((way, index) => (
+        <li className={styles.li}
+          key={index}
+        >
+          {way}
+        </li>
+      ));
+    } else {
+      return ways.map((way) => (
+        <li className={styles.li}
+          key={way.uuid}
+        >
+          {`Way's uuid: ${way.uuid}`}
+        </li>
+      ));
+    }
+
   };
 
-  const renderAllWays = () => {
-    return ways.map((way) => (
-      <li key={way.uuid}>
-        {`Way's uuid: ${way.uuid}`}
-      </li>
-    ));
-  };
-
+  console.log(DateValue.getFormattedDateValue(new Date));
 
   const renderUsers = () => {
     return users.map((user) => (
@@ -131,7 +138,7 @@ export const Table = () => {
           Ways:
         </h2>
         <ul>
-          {renderAllWays()}
+          {renderWays()}
         </ul>
       </div>
       {/* <table className={styles.table}>

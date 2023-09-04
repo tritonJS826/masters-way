@@ -6,7 +6,7 @@ import {ReportDTO} from "src/model/report/ReportDTO";
 // import {Unit} from "src/model/report/time/unit/Unit";
 import {ref, onValue, update, push, child} from "firebase/database";
 import {db} from "src/firebase";
-import {currentDate} from "src/utils/getDate";
+// import {currentDate} from "src/utils/getDate";
 import {DayReport as DayReportDTO} from "src/model/firebaseCollection/DayReport";
 import {DayReport} from "src/model/businessModel/DayReport";
 // import {CurrentProblem} from "src/model/firebaseCollection/CurrentProblem";
@@ -62,7 +62,7 @@ export class ReportService {
     updates["/" + newPostKey] = postData;
 
     // return update(ref(db), updates);
-    return update(ref(db, "/" + newPostKey), {id: newPostKey, date: currentDate});
+    return update(ref(db, "/" + newPostKey), {id: newPostKey, date: "2023-01-09"});
   }
 
   public static updateReportToRealTimeDb(uuid: string) {

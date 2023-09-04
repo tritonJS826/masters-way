@@ -15,7 +15,6 @@ export class DayReport {
   /**
    * Report's date
    */
-  //TODO : date must be Date
   public date: Date;
 
   /**

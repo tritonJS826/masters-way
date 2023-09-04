@@ -6,7 +6,7 @@ import {Time} from "src/model/report/time/Time";
 import {Unit} from "src/model/report/time/unit/Unit";
 import {ref, onValue, update, push, child} from "firebase/database";
 import {db} from "src/firebase";
-import {currentDate} from "src/utils/getDate";
+import {currentDate} from "src/utils/DateValue";
 
 const reportDTOToBusinessConverter = (reportRaw: ReportDTO) => new Report({
   ...reportRaw,
