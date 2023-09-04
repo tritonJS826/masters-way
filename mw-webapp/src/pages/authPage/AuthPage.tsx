@@ -1,8 +1,10 @@
 import {getAuth, getRedirectResult, signInWithRedirect, GoogleAuthProvider} from "firebase/auth";
+import {Link} from "react-router-dom";
+import {secondaryApp} from "src/firebase";
 
 export const AuthPage = () => {
   const provider = new GoogleAuthProvider();
-  const auth = getAuth();
+  const auth = getAuth(secondaryApp);
 
   const handleGoogleSignIn = async () => {
     try {
@@ -22,8 +24,13 @@ export const AuthPage = () => {
   };
 
   return (
-    <button onClick={handleGoogleSignIn}>
-      Sign in with Google
-    </button>
+    <>
+      <button onClick={handleGoogleSignIn}>
+        Sign in with Google
+      </button>
+      <Link to={"main"}>
+        Workflow
+      </Link>
+    </>
   );
 };
