@@ -37,7 +37,7 @@ export class Goal {
     this.studentUuid = goalData.studentUuid;
     this.metrics = goalData.metrics;
     this.description = goalData.description;
-    this.time = new Time(goalData.time.unit, goalData.time.amount);
+    this.time = goalData.time;
   }
 
 }

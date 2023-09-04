@@ -19,7 +19,7 @@ export class JobDone {
   public timeUnit: string;
 
   /**
-   * How long did the task take to complete
+   * How long did the job take to complete
    */
   public time: number;
 

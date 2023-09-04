@@ -1029,5 +1029,56 @@
     "learnedForToday": [""],
     "mentorComment": [""],
     "isDayOff": false
+  },
+  {
+    "id": "20",
+    "date": "2023-09-04",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Fix mistakes after review PR",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 40
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Create converters from firebase models to business models (ReportTest.ts) (not finished)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 45
+      }
+    },
+    {
+      "id": "2",
+      "todoItem": "Render users and ways info on main page",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 40
+      }
+    }
+  ],
+    "planForTomorrow": [{
+      "id": "0",
+      "todoItem": "Render one way with table: render header's titles",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 100
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Render table's body: cells with info",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 180
+      }
+    }
+  ],
+    "currentProblems": [""],
+    "studentComment": ["Need to make table as reusable component (it shouldn't save specific data)"],
+    "learnedForToday": [""],
+    "mentorComment": [""],
+    "isDayOff": false
   }
 ]

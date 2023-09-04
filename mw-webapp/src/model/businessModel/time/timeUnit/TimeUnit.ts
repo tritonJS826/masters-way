@@ -1,7 +1,7 @@
 /**
  * Unit of time measurement
  */
-export enum Unit {
+export enum TimeUnit {
   /**
    * Minute is 60 seconds
    */

@@ -1,4 +1,4 @@
-// import {Time} from "src/model/businessModel/time/Time";
+import {TimeUnit} from "src/model/businessModel/time/timeUnit/TimeUnit";
 
 /**
  * Job that was done
@@ -18,10 +18,10 @@ export class JobDone {
   /**
    * Enum @Time.unit (minute, hour, day, etc.)
    */
-  public timeUnit: string;
+  public timeUnit: TimeUnit;
 
   /**
-    * How long did the task take to complete
+    * How long did the job take to complete
     */
   public time: number;
 
@@ -35,7 +35,7 @@ export class JobDone {
   /**
    * Get formatted job that was done
    */
-  public getFullJobDone() {
+  public getJobDone() {
     return `${this.description} (${this.time} ${this.timeUnit})`;
   }
 

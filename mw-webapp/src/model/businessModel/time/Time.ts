@@ -1,4 +1,4 @@
-import {Unit} from "src/model/report/time/unit/Unit";
+import {TimeUnit} from "src/model/businessModel/time/timeUnit/TimeUnit";
 
 /**
  * What was done
@@ -8,23 +8,23 @@ export class Time {
   /**
    * Unit of time measurement
    */
-  public unit: Unit;
+  public timeUnit: TimeUnit;
 
   /**
    * Number of time units (minutes) spent doing the task
    */
   public amount: number;
 
-  constructor(unit: Unit, amount: number) {
-    this.unit = unit;
-    this.amount = amount;
+  constructor(timeData: Time) {
+    this.timeUnit = timeData.timeUnit;
+    this.amount = timeData.amount;
   }
 
   /**
    * Get formatted time
    */
   public getFullTime() {
-    return `${this.amount} ${this.unit}`;
+    return `${this.amount} ${this.timeUnit}`;
   }
 
 }

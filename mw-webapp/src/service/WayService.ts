@@ -22,8 +22,10 @@ export class WayService {
       if (wayRaw !== null) {
         const wayDTO: WayDTO[] = Object.values(wayRaw);
         // const ways = wayDTO.map(userDTOToBusinessConverter);
-        const way = wayDTO.filter((wayItem) => wayItem.uuid === uuid);
-        callBack(way[0]);
+        const way = wayDTO.find((wayItem) => wayItem.uuid === uuid);
+        if (way) {
+          callBack(way);
+        }
       }
     });
   }

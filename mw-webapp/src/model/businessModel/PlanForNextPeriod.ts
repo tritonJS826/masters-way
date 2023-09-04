@@ -1,4 +1,4 @@
-// import {Time} from "src/model/businessModel/time/Time";
+import {TimeUnit} from "src/model/businessModel/time/timeUnit/TimeUnit";
 
 /**
  * Plan for next period (day, month, etc.)
@@ -16,22 +16,28 @@ export class PlanForNextPeriod {
   public job: string;
 
   /**
-   * How long was the job done
+   * Enum @Time.unit (minute, hour, day, etc.)
    */
+  public timeUnit: TimeUnit;
+
+  /**
+     * How long the task will take time
+     */
   public time: number;
 
 
   constructor(planForNextPeriodData: PlanForNextPeriod) {
     this.uuid = planForNextPeriodData.uuid;
     this.job = planForNextPeriodData.job;
+    this.timeUnit = planForNextPeriodData.timeUnit;
     this.time = planForNextPeriodData.time;
   }
 
   /**
    * Get formatted plan for the next period
    */
-  // public getFullPlanForNextPeriod() {
-  //   return `${this.job} (${this.time.amount} ${this.time.unit})`;
-  // }
+  public getPlanForNextPeriod() {
+    return `${this.job} (${this.time} ${this.timeUnit})`;
+  }
 
 }
