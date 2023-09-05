@@ -11,7 +11,7 @@ export const useAuth = () => {
       const result = await getRedirectResult(auth);
       if (result) {
         const user = result.user;
-        console.log(user);
+        alert(`Hello, ${user}!`);
       }
     } catch (error) {
       let errorMessage;
@@ -23,4 +23,3 @@ export const useAuth = () => {
   };
   return handleGoogleSignIn;
 };
-
