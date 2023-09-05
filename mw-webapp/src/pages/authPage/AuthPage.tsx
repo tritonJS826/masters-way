@@ -1,24 +1,17 @@
 import {Link} from "react-router-dom";
-import styles from "src/pages/authPage/AuthPage.module.scss";
+import {useAuth} from "src/utils/useAuth";
 
 export const AuthPage = () => {
+  const handleGoogleSignIn = useAuth();
+
   return (
-    <div className={styles.container}>
-      <Link to={"/"}>
-        <button>
-          Sign In
-        </button>
-      </Link>
-      <Link to={"/"}>
-        <button>
-          Sign Up
-        </button>
-      </Link>
+    <>
+      <button onClick={handleGoogleSignIn}>
+        Sign in with Google
+      </button>
       <Link to={"main"}>
-        <button>
-          Workflow Page
-        </button>
+        Workflow
       </Link>
-    </div>
+    </>
   );
 };
