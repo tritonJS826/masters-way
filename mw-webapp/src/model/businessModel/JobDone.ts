@@ -1,4 +1,4 @@
-import {Time} from "src/model/businessModel/time/Time";
+import {TimeUnit} from "src/model/businessModel/time/timeUnit/TimeUnit";
 
 /**
  * Job that was done
@@ -16,21 +16,27 @@ export class JobDone {
   public description: string;
 
   /**
+   * Enum @Time.unit (minute)
+   */
+  public timeUnit: TimeUnit;
+
+  /**
    * How long was the job done
    */
-  public time: Time;
+  public time: number;
 
   constructor(jobDoneData: JobDone) {
     this.uuid = jobDoneData.uuid;
     this.description = jobDoneData.description;
-    this.time = new Time(jobDoneData.time.unit, jobDoneData.time.amount);
+    this.timeUnit = jobDoneData.timeUnit;
+    this.time = jobDoneData.time;
   }
 
   /**
    * Get formatted job that was done
    */
-  public getFullJobDone() {
-    return `${this.description} (${this.time.amount} ${this.time.unit})`;
+  public getJobDone() {
+    return `${this.description} (${this.time} ${this.timeUnit})`;
   }
 
 }

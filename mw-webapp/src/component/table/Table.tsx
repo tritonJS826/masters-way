@@ -1,16 +1,15 @@
 import {useState, useEffect} from "react";
 import {useReactTable, getCoreRowModel, flexRender} from "@tanstack/react-table";
-import {Report} from "src/model/report/Report";
-import {ReportService} from "src/service/Report";
 import {columns} from "src/component/table/columns";
-import {Button} from "src/component/button/Button";
+import {DayReport} from "src/model/firebaseCollection/DayReport";
+import {DayReportService} from "src/service/DayReportService";
 import styles from "src/component/table/Table.module.scss";
 
 export const Table = () => {
-  const [data, setData] = useState<Report[]>([]);
+  const [data, setData] = useState<DayReport[]>([]);
 
   useEffect(() => {
-    ReportService.onValueFromRealTimeDb(setData);
+    DayReportService.onValueFromRealTimeDb(setData);
     () => {
       //TODO
       // removeEventListener from db if needed (read about handling event listeners
@@ -26,12 +25,6 @@ export const Table = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>
-        Hiii, Student!
-      </h1>
-      <Button value="Create new report"
-        onClick={ReportService.writeNewReportToRealTimeDb}
-      />
       <table className={styles.table}>
         <thead className={styles.thead}>
           {table.getHeaderGroups().map((headerGroup) => (
