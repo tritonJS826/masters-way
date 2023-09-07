@@ -849,5 +849,322 @@
     "learnedForToday": [""],
     "mentorComment": [""],
     "isDayOff": false
+  },
+  {
+    "id": "16",
+    "date": "2023-08-31",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Create empty row with current date (getDate function)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 30
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Destructure task about edit cells: create state, create input, add function onChange etc.",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 35
+      }
+    },
+    {
+      "id": "2",
+      "todoItem": "Synchronize model firebase and json (create dataList.json)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 65
+      }
+    },
+    {
+      "id": "3",
+      "todoItem": "Synchronize db with services (not finished)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 70
+      }
+    }
+  ],
+    "planForTomorrow": [{
+      "id": "0",
+      "todoItem": "Complete synchronize db with services",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 110
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Complete edit cells possibility",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 120
+      }
+    }
+  ],
+    "currentProblems": ["Can't synchronize db and business models"],
+    "studentComment": [""],
+    "learnedForToday": [""],
+    "mentorComment": [""],
+    "isDayOff": false
+  },
+  {
+    "id": "17",
+    "date": "2023-09-01",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Render table header according by new models",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 90
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Search info how to use uuid as ref to collections in real time db",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 45
+      }
+    },
+    {
+      "id": "2",
+      "todoItem": "Render cells with type string[]",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 45
+      }
+    }
+  ],
+    "planForTomorrow": [{
+      "id": "0",
+      "todoItem": "Create separate classes for get each collection from firebase",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 60
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Return all data for use it in the table",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 60
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Render right nested data in cells",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 60
+      }
+    }
+  ],
+    "currentProblems": [""],
+    "studentComment": [""],
+    "learnedForToday": [""],
+    "mentorComment": ["Need to find a books for career growth"],
+    "isDayOff": false
+  },
+  {
+    "id": "18",
+    "date": "2023-09-02",
+    "workDone": [{}],
+    "planForTomorrow": [{}],
+    "currentProblems": [""],
+    "studentComment": [""],
+    "learnedForToday": [""],
+    "mentorComment": [""],
+    "isDayOff": true
+  },
+  {
+    "id": "19",
+    "date": "2023-09-03",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Create separate service classes for get collections from realtime db: UserService and WayService (there are 2 methods for get all users and ways and get user and way by uuid)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 90
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Create converters from firebase models to business models (ReportTest.ts) (not finished)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 45
+      }
+    },
+    {
+      "id": "2",
+      "todoItem": "Render users and ways info on main page",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 40
+      }
+    }
+  ],
+    "planForTomorrow": [{
+      "id": "0",
+      "todoItem": "Render one way with table: render header's titles",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 100
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Render table's body: cells with info",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 180
+      }
+    }
+  ],
+    "currentProblems": [""],
+    "studentComment": [""],
+    "learnedForToday": [""],
+    "mentorComment": [""],
+    "isDayOff": false
+  },
+  {
+    "id": "20",
+    "date": "2023-09-04",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Fix mistakes after review PR",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 40
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Create converters from firebase models to business models (ReportTest.ts) (not finished)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 45
+      }
+    }
+  ],
+    "planForTomorrow": [{
+      "id": "0",
+      "todoItem": "Render one way with table: render header's titles",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 100
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Render table's body: cells with info",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 180
+      }
+    }
+  ],
+    "currentProblems": [""],
+    "studentComment": ["Need to make table as reusable component (it shouldn't save specific data)"],
+    "learnedForToday": [""],
+    "mentorComment": [""],
+    "isDayOff": false
+  },
+  {
+    "id": "21",
+    "date": "2023-09-05",
+    "workDone": [{}],
+    "planForTomorrow": [{}],
+    "currentProblems": [""],
+    "studentComment": [""],
+    "learnedForToday": [""],
+    "mentorComment": [""],
+    "isDayOff": true
+  },
+  {
+    "id": "22",
+    "date": "2023-09-06",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Create new branch from main and add render Users (fix mistake about firebase envs)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 45
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Create components UsersBlock, UserCard, WaysBlock, WayCard",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 40
+      }
+    },
+    {
+      "id": "2",
+      "todoItem": "Clean project (delete unused files and code)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 15
+      }
+    },
+    {
+      "id": "3",
+      "todoItem": "Add right models to columns.ts, fix typing mistakes in columns.ts",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 25
+      }
+    },
+    {
+      "id": "4",
+      "todoItem": "Render table with DayReport (render header cells)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 30
+      }
+    },
+    {
+      "id": "5",
+      "todoItem": "Fix old mistakes from PR #15",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 20
+      }
+    },
+    {
+      "id": "6",
+      "todoItem": "Check new and modified files before push and create PR",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 15
+      }
+    }
+  ],
+    "planForTomorrow": [{
+      "id": "0",
+      "todoItem": "Create converters layer for get business models of data from firebase collection data in service",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 90
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Render table with all cells",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 180
+      }
+    }
+  ],
+    "currentProblems": ["Typing columns in table.tsx are not compatible to typing of columns in columns.ts. It's because I didn't converted data from firebase to business models. I will do it tomorrow"],
+    "studentComment": [""],
+    "learnedForToday": [""],
+    "mentorComment": [""],
+    "isDayOff": false
   }
 ]
