@@ -1,9 +1,8 @@
 import {GoogleAuthProvider, getAuth, signInWithRedirect, getRedirectResult} from "firebase/auth";
-import {secondaryApp} from "src/firebase";
 
 export const useAuth = () => {
   const provider = new GoogleAuthProvider();
-  const auth = getAuth(secondaryApp);
+  const auth = getAuth();
 
   const handleGoogleSignIn = async () => {
     try {
