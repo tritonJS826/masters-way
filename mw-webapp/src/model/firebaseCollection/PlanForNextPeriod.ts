@@ -1,3 +1,5 @@
+import {TimeUnit} from "src/model/firebaseCollection/time/timeUnit/TimeUnit";
+
 /**
  * Plan for next period (day, month, etc.)
  */
@@ -16,7 +18,7 @@ export class PlanForNextPeriod {
   /**
    * Enum @Time.unit (minute, hour, day, etc.)
    */
-  public timeUnit: string;
+  public timeUnit: TimeUnit;
 
   /**
    * Estimation time for complete job
