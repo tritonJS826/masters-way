@@ -14,11 +14,11 @@
 
 4. Push branch to remote repository
 
-7. Create PR to main. PR name should contains issue number with "#" symbol and full issue name. Example
+5. Create PR to main. PR name should contains issue number with "#" symbol and full issue name. Example
 ```docs: #25 add Readme.md with description of project scripts, and setup (what to copy etc)```
 
-8. Wait for at least two approve from anyone
+6. Wait for at least two approve from anyone
 
-9. Resolve all conversations in PR (maybe additional changes required)
+7. Resolve all conversations in PR (maybe additional changes required)
 
-10. Squash to main
+8. Squash to main
