@@ -46,9 +46,7 @@ const getBoolean = (cellValue: CellContext<DayReport, boolean>) => {
 
 const getDateValue = (cellValue: CellContext<DayReport, Date>) => {
   return (
-    //TODO: after using business models instead of firebase collection it will be remove
-    // cellValue.getValue().toISOString().slice(0, 10)
-    cellValue.getValue()
+    cellValue.getValue().toISOString().slice(0, 10)
   );
 };
 
@@ -63,27 +61,26 @@ export const columns: ColumnDef<DayReport, Date & JobDone[] & PlanForNextPeriod[
     cell: (({row}) => {
       return (
         row.original.jobsDone
-          //TODO: need accumulate elems - time amount from jobsDobe
-          ?.reduce((accum) => 0 + accum, 0)
+          ?.reduce((accum, item) => item.time + accum, 0)
       );
     }),
   }),
   columnHelper.accessor<"jobsDone", JobDone[]>("jobsDone", {
-    header: "Job done",
+    header: "Jobs done",
     cell: ({row}) => {
       return (
         row.original.jobsDone
-          ?.map((jobDoneItem) => (getObjectArrayItem(jobDoneItem, jobDoneItem.description)))
+          ?.map((jobDoneItem) => (getObjectArrayItem(jobDoneItem, jobDoneItem.getJobDone())))
       );
     },
   }),
   columnHelper.accessor<"plansForNextPeriod", PlanForNextPeriod[]>("plansForNextPeriod", {
-    header: "Plan for tomorrow",
+    header: "Plans for tomorrow",
     cell: ({row}) => {
       return (
         row.original.plansForNextPeriod
           ?.map((planForNextPeriodItem) =>
-            (getObjectArrayItem(planForNextPeriodItem, planForNextPeriodItem.job)))
+            (getObjectArrayItem(planForNextPeriodItem, planForNextPeriodItem.getPlanForNextPeriod())))
       );
     },
   }),
@@ -92,7 +89,7 @@ export const columns: ColumnDef<DayReport, Date & JobDone[] & PlanForNextPeriod[
     cell: ({row}) => {
       return (
         row.original.problemsForCurrentPeriod
-          .map((currentProblemItem) =>
+          ?.map((currentProblemItem) =>
             (getObjectArrayItem(currentProblemItem, currentProblemItem.description)))
       );
     },
@@ -103,7 +100,7 @@ export const columns: ColumnDef<DayReport, Date & JobDone[] & PlanForNextPeriod[
       const parentID = row.original.uuid;
       return (
         row.original.studentComments
-          .map((studentCommentItem) => (getStringArrayItem(studentCommentItem, parentID)))
+          ?.map((studentCommentItem) => (getStringArrayItem(studentCommentItem, parentID)))
       );
     },
   }),
@@ -113,17 +110,17 @@ export const columns: ColumnDef<DayReport, Date & JobDone[] & PlanForNextPeriod[
       const parentID = row.original.uuid;
       return (
         row.original.learnedForToday
-          .map((learnedForTodayItem) => (getStringArrayItem(learnedForTodayItem, parentID)))
+          ?.map((learnedForTodayItem) => (getStringArrayItem(learnedForTodayItem, parentID)))
       );
     },
   }),
   columnHelper.accessor<"mentorComments", string[]>("mentorComments", {
-    header: "Mentor comment",
+    header: "Mentor comments",
     cell: ({row}) => {
       const parentID = row.original.uuid;
       return (
         row.original.mentorComments
-          .map((mentorCommentItem) => (getStringArrayItem(mentorCommentItem, parentID)))
+          ?.map((mentorCommentItem) => (getStringArrayItem(mentorCommentItem, parentID)))
       );
     },
   }),

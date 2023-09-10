@@ -1166,5 +1166,142 @@
     "learnedForToday": [""],
     "mentorComment": [""],
     "isDayOff": false
+  },
+  {
+    "id": "23",
+    "date": "2023-09-07",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Create converters from fb collections to business models (JobDone and DayReport)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 200
+      }
+    }
+  ],
+    "planForTomorrow": [{
+      "id": "0",
+      "todoItem": "Create converters layer for get business models of data from firebase collection data in service",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 90
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Render table with all cells",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 180
+      }
+    }
+  ],
+    "currentProblems": ["Can't create working converters"],
+    "studentComment": [""],
+    "learnedForToday": [""],
+    "mentorComment": [""],
+    "isDayOff": false
+  },
+  {
+    "id": "24",
+    "date": "2023-09-08",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Create converters from fb collections to business models (CurrentProblems, PlanForNextPeriod)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 40
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Create async await functions instead of using callBack with method onValue for get datas from db (JobDoneConverter)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 150
+      }
+    }
+  ],
+    "planForTomorrow": [{
+      "id": "0",
+      "todoItem": "Create converters layer for get business models of data from firebase collection data in service",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 90
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Render table with all cells",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 180
+      }
+    }
+  ],
+    "currentProblems": ["Can't return data instead of promise"],
+    "studentComment": [""],
+    "learnedForToday": [""],
+    "mentorComment": [""],
+    "isDayOff": false
+  },
+  {
+    "id": "25",
+    "date": "2023-09-09",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Fix all mistakes in converters layer (return data instead of promise)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 40
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Render table cells with right info from db",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 55
+      }
+    },
+    {
+      "id": "2",
+      "todoItem": "Fix styles into cells (if first symbol is ✓ use green color)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 15
+      }
+    },
+    {
+      "id": "3",
+      "todoItem": "Clear code in Converter and Service layers (renaming, move out map functions, delete unneeded comments)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 65
+      }
+    }
+  ],
+    "planForTomorrow": [{
+      "id": "0",
+      "todoItem": "Add README.md with info about project and conventions (rules for developers)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 30
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Render lists in dayReport (render few reports)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 120
+      }
+    }
+  ],
+    "currentProblems": [""],
+    "studentComment": ["Need to create a data in real time db with actual reports"],
+    "learnedForToday": [""],
+    "mentorComment": [""],
+    "isDayOff": false
   }
 ]

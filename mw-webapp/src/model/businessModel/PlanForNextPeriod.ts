@@ -23,20 +23,20 @@ export class PlanForNextPeriod {
   /**
      * How long the job will take time
      */
-  public time: number;
+  public estimationTime: number;
 
   constructor(planForNextPeriodData: PlanForNextPeriod) {
     this.uuid = planForNextPeriodData.uuid;
     this.job = planForNextPeriodData.job;
     this.timeUnit = planForNextPeriodData.timeUnit;
-    this.time = planForNextPeriodData.time;
+    this.estimationTime = planForNextPeriodData.estimationTime;
   }
 
   /**
    * Get formatted plan for the next period
    */
   public getPlanForNextPeriod() {
-    return `${this.job} (${this.time} ${this.timeUnit})`;
+    return `${this.job} (${this.estimationTime} ${this.timeUnit})`;
   }
 
 }
