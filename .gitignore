@@ -131,3 +131,6 @@ dist
 
 # VSCode settings
 .vscode
+
+# autosave draw.io
+.$models.drawio.bkp

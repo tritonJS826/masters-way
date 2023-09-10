@@ -1,3 +1,5 @@
+import {TimeUnit} from "src/model/firebaseCollection/time/timeUnit/TimeUnit";
+
 /**
  * Goal of the way
  */
@@ -26,7 +28,7 @@ export class Goal {
   /**
    * Enum @Time.unit
    */
-  public timeUnit: string;
+  public timeUnit: TimeUnit;
 
   /**
     * Estimation time for complete goal

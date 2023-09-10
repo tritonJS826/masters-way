@@ -16,7 +16,7 @@ export class PlanForNextPeriod {
   public job: string;
 
   /**
-   * Enum @Time.unit (minute)
+   * Enum @Time.unit
    */
   public timeUnit: TimeUnit;
 

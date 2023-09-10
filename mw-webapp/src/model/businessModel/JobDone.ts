@@ -16,7 +16,7 @@ export class JobDone {
   public description: string;
 
   /**
-   * Enum @Time.unit (minute)
+   * Enum @Time.unit
    */
   public timeUnit: TimeUnit;
 
