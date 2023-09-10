@@ -15,7 +15,7 @@ export class Goal {
   /**
    * Goal's user
    */
-  public studentUuid: User;
+  public student: User;
 
   /**
    * Coal's metrics
@@ -34,7 +34,7 @@ export class Goal {
 
   constructor(goalData: Goal) {
     this.uuid = goalData.uuid;
-    this.studentUuid = goalData.studentUuid;
+    this.student = goalData.student;
     this.metrics = goalData.metrics;
     this.description = goalData.description;
     this.time = goalData.time;

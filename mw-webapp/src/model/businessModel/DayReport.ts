@@ -1,6 +1,7 @@
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
+import {MentorComment} from "src/model/businessModel/MentorComment";
 
 /**
  * Day's report
@@ -45,7 +46,7 @@ export class DayReport {
   /**
    * Mentor's comments
    */
-  public mentorComments: string[];
+  public mentorComments: MentorComment[];
 
   /**
    * Return true if day is off and false if it is work day

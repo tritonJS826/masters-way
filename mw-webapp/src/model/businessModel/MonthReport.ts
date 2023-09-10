@@ -1,6 +1,7 @@
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
+import {MentorComment} from "src/model/businessModel/MentorComment";
 
 /**
  * Month's report
@@ -45,7 +46,7 @@ export class MonthReport {
   /**
    * Mentor's comments
    */
-  public mentorComments: string[];
+  public mentorComments: MentorComment[];
 
   constructor(monthReportData: MonthReport) {
     this.uuid = monthReportData.uuid;
