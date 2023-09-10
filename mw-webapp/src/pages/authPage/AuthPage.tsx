@@ -1,61 +1,65 @@
-// import {User, onAuthStateChanged} from "firebase/auth";
-// import {useEffect, useState} from "react";
-import {User, onAuthStateChanged} from "firebase/auth";
+import {User, getRedirectResult, onAuthStateChanged} from "firebase/auth";
 import {useEffect, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {useAuth} from "src/utils/useAuth";
 
 export const AuthPage = () => {
-  const {handleGoogleSignIn, writeUserData, auth} = useAuth();
-  const [user, setUser] = useState<User | null>(null);
+  const {handleGoogleSignIn, handleLogout, writeNewUserData, auth} = useAuth();
   const navigate = useNavigate();
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const handleAuthState = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
-        writeUserData(currentUser.uid, currentUser.email);
         setUser(currentUser);
+      } else {
+        setUser(null);
       }
     });
     return () => {
-      unsubscribe();
+      handleAuthState();
     };
-  });
+  }, []);
 
-  // useEffect(() => {
-  //   const getCredentials = async () => {
-  //     try {
-  //       const userCredentials = await getRedirectResult(auth);
-  //       console.log(userCredentials);
-  //       if (userCredentials) {
-  //         writeUserData(userCredentials.user.uid, userCredentials.user.email);
-  //         setIsAuth(true);
-  //       }
-  //     } catch (error) {
-  //       let errorMessage;
-  //       if (error instanceof Error) {
-  //         errorMessage = error.message;
-  //       }
-  //       alert(errorMessage);
-  //     }
-  //   };
-  //   return () => {
-  //     getCredentials();
-  //   };
-  // }, [isAuth]);
+  useEffect(() => {
+    const getNewUserCredentials = async () => {
+      try {
+        const userCredentials = await getRedirectResult(auth);
+        if (userCredentials) {
+          writeNewUserData(
+            userCredentials.user.uid, userCredentials.user.email, userCredentials.user.displayName,
+          );
+          navigate("/main");
+        } else {
+          return;
+        }
+      } catch (error) {
+        let errorMessage;
+        if (error instanceof Error) {
+          errorMessage = error.message;
+        }
+        alert(errorMessage);
+      }
+    };
+    return () => {
+      getNewUserCredentials();
+    };
+  }, []);
 
   return (
     <>
-      {user ? navigate("/main") : (
-        <>
-          <button onClick={handleGoogleSignIn}>
-            Sign in with Google
-          </button>
-          <Link to={"main"}>
-            Workflow
-          </Link>
-        </>
+      {user ? (
+        <button onClick={handleLogout}>
+          Logout
+        </button>
+      ) : (
+        <button onClick={handleGoogleSignIn}>
+          Sign in with Google
+        </button>
       )}
+      <Link to={"main"}>
+        Workflow
+      </Link>
     </>
   );
 };

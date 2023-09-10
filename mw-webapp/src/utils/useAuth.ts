@@ -1,4 +1,4 @@
-import {GoogleAuthProvider, getAuth, signInWithRedirect} from "firebase/auth";
+import {GoogleAuthProvider, getAuth, signInWithRedirect, signOut} from "firebase/auth";
 import {set, ref} from "firebase/database";
 import {db} from "src/firebase";
 
@@ -6,38 +6,18 @@ export const useAuth = () => {
   const provider = new GoogleAuthProvider();
   const auth = getAuth();
 
-  const writeUserData = (userId: string, email: string | null) => {
-    set(ref(db, "/users/" + userId), {
+  const writeNewUserData = (userId: string, email: string | null, name: string | null) => {
+    const usersListRef = ref(db, "/users/" + userId);
+    set(usersListRef, {
       uuid: userId,
       email: email,
+      name: name,
     });
   };
 
   const handleGoogleSignIn = async () => {
     try {
-      // const result = await signInWithPopup(auth, provider);
-      // writeUserData(result.user.uid, result.user.email);
       await signInWithRedirect(auth, provider);
-      // useEffect(() => {
-      //   const getCredentials = async () => {
-      //     try {
-      //       const userCredentials = await getRedirectResult(auth);
-      //       console.log(userCredentials);
-      //       if (userCredentials) {
-      //         writeUserData(userCredentials.user.uid, userCredentials.user.email);
-      //       }
-      //     } catch (error) {
-      //       let errorMessage;
-      //       if (error instanceof Error) {
-      //         errorMessage = error.message;
-      //       }
-      //       alert(errorMessage);
-      //     }
-      //   };
-      //   return () => {
-      //     getCredentials();
-      //   };
-      // }, []);
     } catch (error) {
       let errorMessage;
       if (error instanceof Error) {
@@ -45,7 +25,19 @@ export const useAuth = () => {
       }
       alert(errorMessage);
     }
-
   };
-  return {handleGoogleSignIn, writeUserData, auth};
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      let errorMessage;
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      alert(errorMessage);
+    }
+  };
+
+  return {handleGoogleSignIn, handleLogout, writeNewUserData, auth};
 };
