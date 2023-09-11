@@ -1,6 +1,7 @@
 import {User, getRedirectResult, onAuthStateChanged} from "firebase/auth";
 import {useEffect, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
+import {Button} from "src/component/button/Button";
 import {useAuth} from "src/utils/useAuth";
 
 export const AuthPage = () => {
@@ -49,13 +50,15 @@ export const AuthPage = () => {
   return (
     <>
       {user ? (
-        <button onClick={handleLogout}>
-          Logout
-        </button>
+        <Button
+          value="Logout"
+          onClick={handleLogout}
+        />
       ) : (
-        <button onClick={handleLogIn}>
-          Sign in with Google
-        </button>
+        <Button
+          value="Sign in with Google"
+          onClick={handleLogIn}
+        />
       )}
       <Link to={"main"}>
         Workflow
