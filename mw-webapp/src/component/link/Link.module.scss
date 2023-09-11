@@ -1,0 +1,20 @@
+.link {
+    color: rgb(246, 246, 150);
+    font-size: 1.2rem;
+    text-shadow: 1px 1px 1px #000;
+
+    &:hover {
+        cursor: pointer;
+        text-shadow: 2px 2px 2px rgb(233, 226, 25);
+      }
+
+      &:active {
+        color: rgb(251, 148, 5);
+      }
+}
+
+.link_container {
+    display:flex;
+    width: 10%;
+    justify-content: center;
+}

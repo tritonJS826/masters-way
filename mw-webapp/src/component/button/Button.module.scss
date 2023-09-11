@@ -1,9 +1,17 @@
 .button {
-  width:  200px;
-  height: 50px;
+  width:  100px;
+  height: 40px;
   margin: 20px;
+  background: rgb(177, 162, 149);
+  border-radius: 12px;
+
 
   &:hover {
     cursor: pointer;
+    text-shadow: 1px 1px 1px #000;
+  }
+
+  &:active {
+    color: #f4f489;
   }
 }
