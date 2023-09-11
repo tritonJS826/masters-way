@@ -4,7 +4,7 @@ import {Link, useNavigate} from "react-router-dom";
 import {useAuth} from "src/utils/useAuth";
 
 export const AuthPage = () => {
-  const {handleGoogleSignIn, handleLogout, writeNewUserData, auth} = useAuth();
+  const {handleLogIn, handleLogout, writeNewUserData, auth} = useAuth();
   const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
 
@@ -53,7 +53,7 @@ export const AuthPage = () => {
           Logout
         </button>
       ) : (
-        <button onClick={handleGoogleSignIn}>
+        <button onClick={handleLogIn}>
           Sign in with Google
         </button>
       )}

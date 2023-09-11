@@ -15,7 +15,7 @@ export const useAuth = () => {
     });
   };
 
-  const handleGoogleSignIn = async () => {
+  const handleLogIn = async () => {
     try {
       await signInWithRedirect(auth, provider);
     } catch (error) {
@@ -39,5 +39,5 @@ export const useAuth = () => {
     }
   };
 
-  return {handleGoogleSignIn, handleLogout, writeNewUserData, auth};
+  return {handleLogIn, handleLogout, writeNewUserData, auth};
 };
