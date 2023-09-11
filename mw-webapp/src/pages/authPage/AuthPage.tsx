@@ -14,19 +14,24 @@ export const AuthPage = () => {
   useEffect(() => {
     handleUserAuthState(setUser);
     return () => {
-      getNewUserCredentials(navigate, "/main");
+      getNewUserCredentials();
     };
   }, []);
 
   return (
     <>
-      <Button
-        value={user ? "Logout" : "Login"}
-        onClick={user ? handleLogOut : handleLogIn}
-      />
-      <Link to={"main"}>
-        Workflow
-      </Link>
+      {user ?
+        navigate("/main") : (
+          <>
+            <Button
+              value={user ? "Logout" : "Login"}
+              onClick={user ? handleLogOut : handleLogIn}
+            />
+            <Link to={"main"}>
+              Workflow
+            </Link>
+          </>
+        )}
     </>
   );
 };
