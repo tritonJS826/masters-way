@@ -1,4 +1,4 @@
-import {LinkComponent} from "../link/Link";
+import {Lnk} from "../link/Link";
 import styles from "src/component/header/Header.module.scss";
 import {useAuth} from "src/utils/useAuth";
 import {Button} from "../button/Button";
@@ -21,7 +21,7 @@ export const Header: React.FC<HeaderProps> = () => {
           onClick={handleGoogleSignIn}
           value={"Sign in with Google"}
         />
-        <LinkComponent
+        <Lnk
           path={"main"}
           value={"Workflow"}
         />

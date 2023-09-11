@@ -2,10 +2,6 @@ import styles from "src/component/button/Button.module.scss";
 
 interface ButtonProps {
   /**
-   * Button UUID
-   */
-  id?: string;
-  /**
    * Button value (text)
    */
   value: string;
@@ -20,7 +16,6 @@ interface ButtonProps {
 export const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
   return (
     <button
-      id={props.id}
       className={styles.button}
       onClick={props.onClick}
     >

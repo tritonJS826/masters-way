@@ -3,29 +3,22 @@ import styles from "src/component/link/Link.module.scss";
 
 interface LnkProps {
   /**
-   * Link UUID
-   */
-  id?: string;
-  /**
    * Link value (text)
    */
   value: string;
   /**
-   * Callback triggered on link click
+   * Go to path page on link
    */
   path: string;
 }
 
-export const LinkComponent: React.FC<LnkProps> = (props: LnkProps) => {
+export const Lnk: React.FC<LnkProps> = (props: LnkProps) => {
   return (
-    <p className={styles.link_container}>
-      <Link
-        id={props.id}
-        className={styles.link}
-        to={props.path}
-      >
-        {props.value}
-      </Link>
-    </p>
+    <Link
+      className={styles.link}
+      to={props.path}
+    >
+      {props.value}
+    </Link>
   );
 };

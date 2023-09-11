@@ -1,9 +1,10 @@
+@import "src/styles/variables.scss";
+
 .header {
     display: flex;
     flex-direction: column;
     width: 100%;
     background: rgb(85, 122, 149);
-    color: black
 }
 
 .title {
@@ -12,8 +13,8 @@
     align-items: center;
     justify-content: center;
     font-size: 2rem;
-    color: rgb(246, 246, 150);
-    text-shadow: 1px 1px 1px #000;
+    color: $color-main;
+    text-shadow: 2px 2px 2px $color-shadow;
 }
 
 .block_button {

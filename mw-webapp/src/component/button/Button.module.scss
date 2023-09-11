@@ -1,17 +1,19 @@
+@import "src/styles/variables.scss";
+
 .button {
   width:  100px;
   height: 40px;
   margin: 20px;
-  background: rgb(177, 162, 149);
+  background: $color-btn;
   border-radius: 12px;
 
 
   &:hover {
     cursor: pointer;
-    text-shadow: 1px 1px 1px #000;
+    text-shadow: 2px 2px 2px $color-shadow;
   }
 
   &:active {
-    color: #f4f489;
+    color: $color-main;
   }
 }
