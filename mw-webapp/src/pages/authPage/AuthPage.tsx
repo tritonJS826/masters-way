@@ -1,49 +1,20 @@
-import {User, getRedirectResult, onAuthStateChanged} from "firebase/auth";
+import {User} from "firebase/auth";
 import {useEffect, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {Button} from "src/component/button/Button";
-import {useAuth} from "src/utils/useAuth";
+import {getNewUserCredentials} from "src/utils/auth/getNewUserCredentials";
+import {handleUserAuthState} from "src/utils/auth/handleAuthState";
+import {handleLogIn} from "src/utils/auth/handleLogIn";
+import {handleLogOut} from "src/utils/auth/handleLogOut";
 
 export const AuthPage = () => {
-  const {handleLogIn, handleLogout, writeNewUserData, auth} = useAuth();
-  const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const handleAuthState = onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        setUser(currentUser);
-      } else {
-        setUser(null);
-      }
-    });
     return () => {
-      handleAuthState();
-    };
-  }, []);
-
-  useEffect(() => {
-    const getNewUserCredentials = async () => {
-      try {
-        const userCredentials = await getRedirectResult(auth);
-        if (userCredentials) {
-          writeNewUserData(
-            userCredentials.user.uid, userCredentials.user.email, userCredentials.user.displayName,
-          );
-          navigate("/main");
-        } else {
-          return;
-        }
-      } catch (error) {
-        let errorMessage;
-        if (error instanceof Error) {
-          errorMessage = error.message;
-        }
-        alert(errorMessage);
-      }
-    };
-    return () => {
-      getNewUserCredentials();
+      handleUserAuthState(setUser);
+      getNewUserCredentials(navigate, "/main");
     };
   }, []);
 
@@ -52,7 +23,7 @@ export const AuthPage = () => {
       {user ? (
         <Button
           value="Logout"
-          onClick={handleLogout}
+          onClick={handleLogOut}
         />
       ) : (
         <Button
