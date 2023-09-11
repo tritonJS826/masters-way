@@ -13,10 +13,6 @@ export const getNewUserCredentials = async () => {
       return;
     }
   } catch (error) {
-    let errorMessage;
-    if (error instanceof Error) {
-      errorMessage = error.message;
-    }
-    alert(errorMessage);
+    alert(error ?? null);
   }
 };

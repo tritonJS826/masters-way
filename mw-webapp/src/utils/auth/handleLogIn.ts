@@ -5,10 +5,6 @@ export const handleLogIn = async () => {
   try {
     await signInWithRedirect(auth, provider);
   } catch (error) {
-    let errorMessage;
-    if (error instanceof Error) {
-      errorMessage = error.message;
-    }
-    alert(errorMessage);
+    alert(error ?? null);
   }
 };
