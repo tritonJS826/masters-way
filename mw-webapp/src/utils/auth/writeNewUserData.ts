@@ -7,11 +7,11 @@ interface UserData {
   userName: string | null;
 }
 
-export const writeNewUserData = ({userId, userEmail, userName}: UserData) => {
-  const usersListRef = ref(db, "/users/" + userId);
+export const writeNewUserData = (params: UserData) => {
+  const usersListRef = ref(db, "/users/" + params.userId);
   set(usersListRef, {
-    uuid: userId,
-    email: userEmail,
-    name: userName,
+    uuid: params.userId,
+    email: params.userEmail,
+    name: params.userName,
   });
 };
