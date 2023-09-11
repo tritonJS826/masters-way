@@ -3,10 +3,6 @@ import {auth} from "src/firebase";
 
 export const handleUserAuthState = (setUserFunction: React.Dispatch<React.SetStateAction<User | null>>) => {
   onAuthStateChanged(auth, (currentUser) => {
-    if (currentUser) {
-      setUserFunction(currentUser);
-    } else {
-      setUserFunction(null);
-    }
+    setUserFunction(currentUser ?? null);
   });
 };
