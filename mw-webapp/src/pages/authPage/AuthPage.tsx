@@ -12,8 +12,8 @@ export const AuthPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    handleUserAuthState(setUser);
     return () => {
-      handleUserAuthState(setUser);
       getNewUserCredentials(navigate, "/main");
     };
   }, []);
