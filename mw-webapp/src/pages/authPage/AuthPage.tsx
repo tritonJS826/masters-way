@@ -20,17 +20,10 @@ export const AuthPage = () => {
 
   return (
     <>
-      {user ? (
-        <Button
-          value="Logout"
-          onClick={handleLogOut}
-        />
-      ) : (
-        <Button
-          value="Sign in with Google"
-          onClick={handleLogIn}
-        />
-      )}
+      <Button
+        value={user ? "Logout" : "Login"}
+        onClick={user ? handleLogOut : handleLogIn}
+      />
       <Link to={"main"}>
         Workflow
       </Link>
