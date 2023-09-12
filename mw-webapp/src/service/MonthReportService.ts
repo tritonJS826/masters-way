@@ -1,8 +1,8 @@
 import {ref, get} from "firebase/database";
-import {DayReportDTOToDayReportConverter} from "src/converter/DayReportConverter";
+import {MonthReportDTOToMonthReportConverter} from "src/converter/MonthReportConverter";
 import {db} from "src/firebase";
-import {DayReport} from "src/model/businessModel/DayReport";
-import {DayReport as DayReportDTO} from "src/model/firebaseCollection/DayReport";
+import {MonthReport} from "src/model/businessModel/MonthReport";
+import {MonthReport as MonthReportDTO} from "src/model/firebaseCollection/MonthReport";
 
 // export class DayReportService {
 
@@ -18,13 +18,13 @@ import {DayReport as DayReportDTO} from "src/model/firebaseCollection/DayReport"
 
 // }
 
-export class DayReportService {
+export class MonthReportService {
 
-  public static async onValueFromRealTimeDb(): Promise<DayReport[]> {
+  public static async onValueFromRealTimeDb(): Promise<MonthReport[]> {
     const snapshot = await get(ref(db, "/jobsDone"));
-    const dayReportsRaw: DayReportDTO[] = await snapshot.val();
-    const dayReports: DayReport[] = dayReportsRaw.map((item) => DayReportDTOToDayReportConverter(item));
-    return dayReports;
+    const monthReportsRaw: MonthReportDTO[] = await snapshot.val();
+    const monthReports: MonthReport[] = monthReportsRaw.map((item) => MonthReportDTOToMonthReportConverter(item));
+    return monthReports;
   }
 
 }

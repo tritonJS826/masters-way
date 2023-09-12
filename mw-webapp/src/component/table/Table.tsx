@@ -5,11 +5,14 @@ import {DayReport} from "src/model/businessModel/DayReport";
 import {DayReportService} from "src/service/DayReportService";
 import styles from "src/component/table/Table.module.scss";
 
+const dayReports = await DayReportService.onValueFromRealTimeDb();
+
 export const Table = () => {
   const [data, setData] = useState<DayReport[]>([]);
 
   useEffect(() => {
-    DayReportService.onValueFromRealTimeDb(setData);
+    // DayReportService.onValueFromRealTimeDb(setData);
+    setData(dayReports);
     () => {
       //TODO
       // removeEventListener from db if needed (read about handling event listeners

@@ -11,7 +11,7 @@ export class GoalMetric {
   /**
    * Metrics's description
    */
-  public description: string[];
+  public description: string;
 
   /**
    * True if comment was done and false if not

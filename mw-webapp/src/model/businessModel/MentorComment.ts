@@ -1,4 +1,4 @@
-import {User} from "src/model/businessModel/User";
+// import {User} from "src/model/businessModel/User";
 
 /**
  * Mentor's comments
@@ -13,7 +13,9 @@ export class MentorComment {
   /**
    * Mentor info
    */
-  public mentor: User;
+  // public mentor: User;
+  // @User.uuid
+  public mentor: string;
 
   /**
    * Comment's text

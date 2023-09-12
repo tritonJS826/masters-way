@@ -21,7 +21,9 @@ export class Way {
   /**
    * Way's owner
    */
-  public owner: User;
+  // public owner: User;
+  // @User.uuid
+  public owner: string;
 
   /**
    * Month reports

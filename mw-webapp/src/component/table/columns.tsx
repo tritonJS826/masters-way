@@ -4,6 +4,7 @@ import {JobDone} from "src/model/businessModel/JobDone";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import styles from "src/component/table/columns.module.scss";
+import {MentorComment} from "src/model/businessModel/MentorComment";
 
 const columnHelper = createColumnHelper<DayReport>();
 
@@ -45,13 +46,14 @@ const getBoolean = (cellValue: CellContext<DayReport, boolean>) => {
 };
 
 const getDateValue = (cellValue: CellContext<DayReport, Date>) => {
+  console.log(cellValue.getValue());
   return (
     cellValue.getValue().toISOString().slice(0, 10)
   );
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const columns: ColumnDef<DayReport, Date & JobDone[] & PlanForNextPeriod[] & CurrentProblem[] & string[] & boolean>[] = [
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, max-len
+export const columns: ColumnDef<DayReport, Date & JobDone[] & PlanForNextPeriod[] & CurrentProblem[] & MentorComment[] & string[] & boolean>[] = [
   columnHelper.accessor<"date", Date>("date", {
     header: "Date",
     cell: (dateValue) => getDateValue(dateValue),
@@ -114,13 +116,12 @@ export const columns: ColumnDef<DayReport, Date & JobDone[] & PlanForNextPeriod[
       );
     },
   }),
-  columnHelper.accessor<"mentorComments", string[]>("mentorComments", {
+  columnHelper.accessor<"mentorComments", MentorComment[]>("mentorComments", {
     header: "Mentor comments",
     cell: ({row}) => {
-      const parentID = row.original.uuid;
       return (
         row.original.mentorComments
-          ?.map((mentorCommentItem) => (getStringArrayItem(mentorCommentItem, parentID)))
+          ?.map((mentorCommentItem) => (getObjectArrayItem(mentorCommentItem, mentorCommentItem.description)))
       );
     },
   }),

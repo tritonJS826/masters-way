@@ -31,7 +31,7 @@ export class Way {
   /**
    * Array of @User.uuid who are mentors of this way
    */
-  public currentMentors: string[];
+  public currentMentorUuids: string[];
 
   /**
    * Return true if way is completed and false if not completed
@@ -44,7 +44,7 @@ export class Way {
     this.ownerUuid = wayData.ownerUuid;
     this.monthReportUuids = wayData.monthReportUuids;
     this.goalUuid = wayData.goalUuid;
-    this.currentMentors = wayData.currentMentors;
+    this.currentMentorUuids = wayData.currentMentorUuids;
     this.isCompleted = wayData.isCompleted;
   }
 
