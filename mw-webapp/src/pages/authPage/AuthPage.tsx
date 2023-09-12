@@ -7,6 +7,11 @@ import {handleUserAuthState} from "src/utils/auth/handleUserAuthState";
 import {handleLogIn} from "src/utils/auth/handleLogIn";
 import {handleLogOut} from "src/utils/auth/handleLogOut";
 
+const BUTTON_LOG_IN_VALUE = "Login";
+const BUTTON_LOG_OUT_VALUE = "Logout";
+const LINK_TEXT = "Workflow";
+const MAIN_PATH = "/main";
+
 export const AuthPage = () => {
   const [user, setUser] = useState<User | null>(null);
   const navigate = useNavigate();
@@ -19,14 +24,14 @@ export const AuthPage = () => {
   return (
     <>
       {user ?
-        navigate("/main") : (
+        navigate(MAIN_PATH) : (
           <>
             <Button
-              value={user ? "Logout" : "Login"}
+              value={user ? BUTTON_LOG_OUT_VALUE : BUTTON_LOG_IN_VALUE}
               onClick={user ? handleLogOut : handleLogIn}
             />
-            <Link to={"main"}>
-              Workflow
+            <Link to={MAIN_PATH}>
+              {LINK_TEXT}
             </Link>
           </>
         )}
