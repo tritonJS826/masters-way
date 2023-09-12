@@ -6,11 +6,11 @@ import {handleUserCredentials} from "src/utils/auth/handleUserCredentials";
 import {handleUserAuthState} from "src/utils/auth/handleUserAuthState";
 import {handleLogIn} from "src/utils/auth/handleLogIn";
 import {handleLogOut} from "src/utils/auth/handleLogOut";
+import {pages} from "src/router/pages";
 
 const BUTTON_LOG_IN_VALUE = "Login";
 const BUTTON_LOG_OUT_VALUE = "Logout";
 const LINK_TEXT = "Workflow";
-const MAIN_PATH = "/main";
 
 export const AuthPage = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -22,17 +22,16 @@ export const AuthPage = () => {
 
   return (
     <>
-      {user && <Navigate to={MAIN_PATH} /> }
+      {user && <Navigate to={pages.main.path} /> }
       <>
         <Button
           value={user ? BUTTON_LOG_OUT_VALUE : BUTTON_LOG_IN_VALUE}
           onClick={user ? handleLogOut : handleLogIn}
         />
-        <Link to={MAIN_PATH}>
+        <Link to={pages.main.path}>
           {LINK_TEXT}
         </Link>
       </>
-
     </>
   );
 };
