@@ -13,9 +13,7 @@ export const AuthPage = () => {
 
   useEffect(() => {
     handleUserAuthState(setUser);
-    return () => {
-      handleUserCredentials();
-    };
+    handleUserCredentials();
   }, []);
 
   return (
