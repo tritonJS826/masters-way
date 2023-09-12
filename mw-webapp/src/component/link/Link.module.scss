@@ -1,17 +1,17 @@
 @import "src/styles/variables.scss";
 
 .link {
-    color: rgb(246, 246, 150);
+    color: $button-active;
     font-size: 1.2rem;
-    text-shadow: 1px 1px 1px $color-shadow;
+    text-shadow: 1px 1px 1px $button-shadow;
 
     &:hover {
         cursor: pointer;
-        text-shadow: 1px 1px 1px $color-main;
+        text-shadow: 1px 1px 1px $button-active;
       }
 
       &:active {
-        color: $color-active;
+        color: $link-active;
       }
 }
 

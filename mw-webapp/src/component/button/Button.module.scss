@@ -3,17 +3,17 @@
 .button {
   width:  100px;
   height: 40px;
-  margin: 20px;
-  background: $color-btn;
-  border-radius: 12px;
+  margin: $button-margin;
+  background: $button-background;
+  border-radius: $button-radius;
 
 
   &:hover {
     cursor: pointer;
-    text-shadow: 2px 2px 2px $color-shadow;
+    text-shadow: 2px 2px 2px $button-shadow;
   }
 
   &:active {
-    color: $color-main;
+    color: $button-active;
   }
 }

@@ -3,12 +3,11 @@ import styles from "src/component/header/Header.module.scss";
 import {useAuth} from "src/utils/useAuth";
 import {Button} from "../button/Button";
 
-interface HeaderProps {
-  id?: string;
-}
 
-export const Header: React.FC<HeaderProps> = () => {
+export const Header = () => {
   const handleGoogleSignIn = useAuth();
+  const buttonValue = "Sign in with Google";
+  const linkValue = "Workflow";
   return (
     <div className={styles.header}>
       <div className={styles.title}>
@@ -19,11 +18,11 @@ export const Header: React.FC<HeaderProps> = () => {
       <div className={styles.block_button}>
         <Button
           onClick={handleGoogleSignIn}
-          value={"Sign in with Google"}
+          value={buttonValue}
         />
         <Lnk
           path={"main"}
-          value={"Workflow"}
+          value={linkValue}
         />
       </div>
     </div>

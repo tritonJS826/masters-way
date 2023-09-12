@@ -2,15 +2,13 @@ import styles from "src/component/button/Button.module.scss";
 
 interface ButtonProps {
   /**
-   * Button value (text)
+   * Button's value (text)
    */
   value: string;
   /**
    * Callback triggered on button click
    */
   onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  // onClick: (event?: any) => void;
 }
 
 export const Button: React.FC<ButtonProps> = (props: ButtonProps) => {

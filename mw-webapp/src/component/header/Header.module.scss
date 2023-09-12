@@ -4,17 +4,17 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    background: rgb(85, 122, 149);
+    background: $header-background;
 }
 
 .title {
     display: flex;
-    padding-top: 10px;
+    padding-top: $title-padding;
     align-items: center;
     justify-content: center;
     font-size: 2rem;
-    color: $color-main;
-    text-shadow: 2px 2px 2px $color-shadow;
+    color: $button-active;
+    text-shadow: 2px 2px 2px $button-shadow;
 }
 
 .block_button {
