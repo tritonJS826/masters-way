@@ -32,5 +32,6 @@ export default defineConfig(() => {
     build: {outDir: "build"},
     plugins: [react(), eslint(), viteTsconfigPaths()],
     define: getEnvs(envNames),
+    resolve: {alias: {src: "/src"}},
   };
 });
