@@ -2,7 +2,7 @@ import {getRedirectResult} from "firebase/auth";
 import {writeNewUserData} from "src/utils/auth/writeNewUserData";
 import {auth} from "src/firebase";
 
-export const getNewUserCredentials = async () => {
+export const handleUserCredentials = async () => {
   try {
     const userCredentials = await getRedirectResult(auth);
     if (userCredentials) {

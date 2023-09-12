@@ -2,7 +2,7 @@ import {User} from "firebase/auth";
 import {useEffect, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {Button} from "src/component/button/Button";
-import {getNewUserCredentials} from "src/utils/auth/getNewUserCredentials";
+import {handleUserCredentials} from "src/utils/auth/handleUserCredentials";
 import {handleUserAuthState} from "src/utils/auth/handleUserAuthState";
 import {handleLogIn} from "src/utils/auth/handleLogIn";
 import {handleLogOut} from "src/utils/auth/handleLogOut";
@@ -14,7 +14,7 @@ export const AuthPage = () => {
   useEffect(() => {
     handleUserAuthState(setUser);
     return () => {
-      getNewUserCredentials();
+      handleUserCredentials();
     };
   }, []);
 
