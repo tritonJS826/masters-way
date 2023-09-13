@@ -1385,15 +1385,7 @@
   ],
     "planForTomorrow": [{
       "id": "0",
-      "todoItem": "Create converters for new services",
-      "time": {
-        "unit": "MINUTE",
-        "amount": 80
-      }
-    },
-    {
-      "id": "1",
-      "todoItem": "Render lists in dayReport (render few reports with with possibility to get any info from fb collections)",
+      "todoItem": "Render lists in dayReport (render few reports with possibility to get any info from fb collections)",
       "time": {
         "unit": "MINUTE",
         "amount": 100
@@ -1403,6 +1395,100 @@
     "currentProblems": [""],
     "studentComment": ["If in Goal use User model than it return mistake because of User can't be used before initialize. For resolve it need or use userUuid instead of User inside Goal or return User by using this"],
     "learnedForToday": [""],
+    "mentorComment": [""],
+    "isDayOff": false
+  },
+  {
+    "id": "28",
+    "date": "2023-09-12",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Add projectSructure.md",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 30
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Add rules in ESlint (no-console and syntax of interfaces)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 45
+      }
+    },
+    {
+      "id": "2",
+      "todoItem": "Set up VSCode for import absolute path",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 20
+      }
+    }
+  ],
+    "planForTomorrow": [{
+      "id": "0",
+      "todoItem": "Add conventions in the project",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 40
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Render lists in dayReport (render few reports with possibility to get any info from fb collections)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 100
+      }
+    }
+  ],
+    "currentProblems": [""],
+    "studentComment": ["If in Goal use User model than it return mistake because of User can't be used before initialize. For resolve it need or use userUuid instead of User inside Goal or return User by using this"],
+    "learnedForToday": [""],
+    "mentorComment": [""],
+    "isDayOff": false
+  },
+  {
+    "id": "29",
+    "date": "2023-09-13",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Add conventions to the project",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 50
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Update models and service layer for render lists of DayReports",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 70
+      }
+    },
+    {
+      "id": "2",
+      "todoItem": "Check files and add TODO comments for the next tasks",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 55
+      }
+    }
+  ],
+    "planForTomorrow": [{
+      "id": "0",
+      "todoItem": "Set up Husky",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 180
+      }
+    }
+  ],
+    "currentProblems": [""],
+    "studentComment": [""],
+    "learnedForToday": ["Learned that Husky allows us to create scripts for check eslint and other rules before commit or push"],
     "mentorComment": [""],
     "isDayOff": false
   }
