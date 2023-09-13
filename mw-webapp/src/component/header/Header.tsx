@@ -1,4 +1,4 @@
-import {NavLink} from "../link/Link";
+import {NavLink} from "src/component/link/Link";
 import styles from "src/component/header/Header.module.scss";
 import {useAuth} from "src/utils/useAuth";
 import {Button} from "src/component/button/Button";
