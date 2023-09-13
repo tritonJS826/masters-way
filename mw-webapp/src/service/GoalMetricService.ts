@@ -6,7 +6,7 @@ import {GoalMetric as GoalMetricDTO} from "src/model/firebaseCollection/GoalMetr
 
 export class GoalMetricService {
 
-  public static async onValueFromRealTimeDb(): Promise<GoalMetric[]> {
+  public static async getValueFromRealTimeDb(): Promise<GoalMetric[]> {
     const snapshot = await get(ref(db, "/goalMetrics"));
     const goalMetricsRaw: GoalMetricDTO[] = await snapshot.val();
     const goalMetrics: GoalMetric[] = goalMetricsRaw.map((item) => GoalMetricDTOToGoalMetricConverter(item));

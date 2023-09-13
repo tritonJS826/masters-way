@@ -1,14 +1,15 @@
 import {useState, useEffect} from "react";
 import {Way} from "src/model/firebaseCollection/Way";
-import {WayService} from "src/service/WayService";
 import {WayCard} from "src/component/waysBlock/wayCard/WayCard";
 import styles from "src/component/waysBlock/WaysBlock.module.scss";
 
 export const WaysBlock = () => {
-  const [ways, setWays] = useState<Way[]>([]);
+  const [ways] = useState<Way[]>([]);
 
   useEffect(() => {
-    WayService.onValueFromRealTimeDb(setWays);
+    //TODO: need to add setWays if we will need to render ways on the page or delete this component
+    // WayService.onValueFromRealTimeDb(setWays);
+    // setWays(waysList);
     () => {
       //TODO
       // removeEventListener from db if needed (read about handling event listeners

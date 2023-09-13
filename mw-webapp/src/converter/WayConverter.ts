@@ -9,12 +9,13 @@ import {GoalService} from "src/service/GoalService";
 import {MonthReportService} from "src/service/MonthReportService";
 import {UserService} from "src/service/UserService";
 
-const usersRaw = await UserService.onValueFromRealTimeDb();
-const dayReportsRaw = await DayReportService.onValueFromRealTimeDb();
-const monthReportsRaw = await MonthReportService.onValueFromRealTimeDb();
-const goalsRaw = await GoalService.onValueFromRealTimeDb();
+const usersRaw = await UserService.getValueFromRealTimeDb();
+const dayReportsRaw = await DayReportService.getValueFromRealTimeDb();
+const monthReportsRaw = await MonthReportService.getValueFromRealTimeDb();
+const goalsRaw = await GoalService.getValueFromRealTimeDb();
 
 export const WayDTOToWayConverter = (wayRaw: WayDTO) => {
+  //TODO: get User instead of user.uuid for property owner
   // const user: User = usersRaw.find((elem) => elem.uuid === wayRaw.uuid) || usersRaw[0];
 
   const dayReports = wayRaw.dayReportUuids?.map((item) => {

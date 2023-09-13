@@ -46,7 +46,6 @@ const getBoolean = (cellValue: CellContext<DayReport, boolean>) => {
 };
 
 const getDateValue = (cellValue: CellContext<DayReport, Date>) => {
-  console.log(cellValue.getValue());
   return (
     cellValue.getValue().toISOString().slice(0, 10)
   );

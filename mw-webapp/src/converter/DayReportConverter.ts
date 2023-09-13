@@ -9,10 +9,10 @@ import {CurrentProblemService} from "src/service/CurrentProblemService";
 import {MentorCommentService} from "src/service/MentorCommentService";
 import {MentorComment} from "src/model/businessModel/MentorComment";
 
-const jobsDoneRaw = await JobDoneService.onValueFromRealTimeDb();
-const plansForNextPeriodRaw = await PlanForNextPeriodService.onValueFromRealTimeDb();
-const problemsForCurrentPeriodRaw = await CurrentProblemService.onValueFromRealTimeDb();
-const mentorCommentsRaw = await MentorCommentService.onValueFromRealTimeDb();
+const jobsDoneRaw = await JobDoneService.getValueFromRealTimeDb();
+const plansForNextPeriodRaw = await PlanForNextPeriodService.getValueFromRealTimeDb();
+const problemsForCurrentPeriodRaw = await CurrentProblemService.getValueFromRealTimeDb();
+const mentorCommentsRaw = await MentorCommentService.getValueFromRealTimeDb();
 
 export const DayReportDTOToDayReportConverter = (dayReportRaw: DayReportDTO) => {
   const jobsDone = dayReportRaw.jobsDone?.map((item) => {

@@ -6,7 +6,7 @@ import {CurrentProblem as CurrentProblemDTO} from "src/model/firebaseCollection/
 
 export class CurrentProblemService {
 
-  public static async onValueFromRealTimeDb(): Promise<CurrentProblem[]> {
+  public static async getValueFromRealTimeDb(): Promise<CurrentProblem[]> {
     const snapshot = await get(ref(db, "/currentProblems"));
     const currentProblemsRaw: CurrentProblemDTO[] = await snapshot.val();
     const currentProblems: CurrentProblem[] = currentProblemsRaw.map((item) =>

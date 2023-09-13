@@ -4,6 +4,7 @@ import {db} from "src/firebase";
 import {MonthReport} from "src/model/businessModel/MonthReport";
 import {MonthReport as MonthReportDTO} from "src/model/firebaseCollection/MonthReport";
 
+// TODO: use onValue method instead of get if it's possible (all services files)
 // export class DayReportService {
 
 //   public static onValueFromRealTimeDb(callBack: (data: DayReport[]) => void) {
@@ -20,8 +21,8 @@ import {MonthReport as MonthReportDTO} from "src/model/firebaseCollection/MonthR
 
 export class MonthReportService {
 
-  public static async onValueFromRealTimeDb(): Promise<MonthReport[]> {
-    const snapshot = await get(ref(db, "/jobsDone"));
+  public static async getValueFromRealTimeDb(): Promise<MonthReport[]> {
+    const snapshot = await get(ref(db, "/monthReports"));
     const monthReportsRaw: MonthReportDTO[] = await snapshot.val();
     const monthReports: MonthReport[] = monthReportsRaw.map((item) => MonthReportDTOToMonthReportConverter(item));
     return monthReports;

@@ -5,12 +5,13 @@ import {DayReport} from "src/model/businessModel/DayReport";
 import {DayReportService} from "src/service/DayReportService";
 import styles from "src/component/table/Table.module.scss";
 
-const dayReports = await DayReportService.onValueFromRealTimeDb();
+const dayReports = await DayReportService.getValueFromRealTimeDb();
 
 export const Table = () => {
   const [data, setData] = useState<DayReport[]>([]);
 
   useEffect(() => {
+    //TODO: use onValue method instead of get if it's possible
     // DayReportService.onValueFromRealTimeDb(setData);
     setData(dayReports);
     () => {

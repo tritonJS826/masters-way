@@ -6,7 +6,7 @@ import {MentorComment as MentorCommentDTO} from "src/model/firebaseCollection/Me
 
 export class MentorCommentService {
 
-  public static async onValueFromRealTimeDb(): Promise<MentorComment[]> {
+  public static async getValueFromRealTimeDb(): Promise<MentorComment[]> {
     const snapshot = await get(ref(db, "/mentorComments"));
     const mentorCommentsRaw: MentorCommentDTO[] = await snapshot.val();
     const mentorComments: MentorComment[] = mentorCommentsRaw.map((item) => MentorCommentDTOToMentorCommentConverter(item));

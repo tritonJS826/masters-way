@@ -6,7 +6,7 @@ import {PlanForNextPeriod as PlanForNextPeriodDTO} from "src/model/firebaseColle
 
 export class PlanForNextPeriodService {
 
-  public static async onValueFromRealTimeDb(): Promise<PlanForNextPeriod[]> {
+  public static async getValueFromRealTimeDb(): Promise<PlanForNextPeriod[]> {
     const snapshot = await get(ref(db, "/plansForNextPeriod"));
     const plansForNextPeriodRaw: PlanForNextPeriodDTO[] = await snapshot.val();
     const plansForNextPeriod: PlanForNextPeriod[] = plansForNextPeriodRaw.map((item) =>

@@ -6,7 +6,7 @@ import {Goal as GoalDTO} from "src/model/firebaseCollection/Goal";
 
 export class GoalService {
 
-  public static async onValueFromRealTimeDb(): Promise<Goal[]> {
+  public static async getValueFromRealTimeDb(): Promise<Goal[]> {
     const snapshot = await get(ref(db, "/goals"));
     const jobsDoneRaw: GoalDTO[] = await snapshot.val();
     const jobsDone: Goal[] = jobsDoneRaw.map((item) => GoalDTOToGoalConverter(item));
