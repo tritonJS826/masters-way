@@ -86,6 +86,7 @@
     "curly": "error",
     "comma-dangle": ["error", "always-multiline"],
     "brace-style": "error",
+    "@typescript-eslint/member-delimiter-style": "error",
     "no-mixed-operators": "error",
     "eqeqeq": "error",
     "dot-notation": ["off"],
