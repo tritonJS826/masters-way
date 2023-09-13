@@ -1,5 +1,3 @@
-// import {Way} from "src/model/businessModel/Way";
-
 /**
  * User
  */
@@ -22,16 +20,19 @@ export class User {
 
   /**
    * Owner's ways
+   * TODO: use Way[] instead of string[]
    */
   public ownWays: string[];
 
   /**
    * The favorite ways
+   * TODO: use Way[] instead of string[]
    */
   public favoriteWays: string[];
 
   /**
    * Ways for mentoring
+   * TODO: use Way[] instead of string[]
    */
   public mentoringWays: string[];
 
@@ -42,12 +43,6 @@ export class User {
     this.ownWays = userData.ownWays;
     this.favoriteWays = userData.ownWays;
     this.mentoringWays = userData.mentoringWays;
-    // this.ownWays = userData.ownWays?.map((ownWayItem) =>
-    //   new Way(ownWayItem));
-    // this.favoriteWays = userData.favoriteWays?.map((favoriteWayItem) =>
-    //   new Way(favoriteWayItem));
-    // this.mentoringWays = userData.mentoringWays?.map((mentoringWayItem) =>
-    //   new Way(mentoringWayItem));
   }
 
 }

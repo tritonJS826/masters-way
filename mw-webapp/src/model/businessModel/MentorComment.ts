@@ -1,5 +1,3 @@
-// import {User} from "src/model/businessModel/User";
-
 /**
  * Mentor's comments
  */
@@ -12,9 +10,9 @@ export class MentorComment {
 
   /**
    * Mentor info
+   *  TODO create mentor as User instead of mentorUuid
+   * @User.uuid
    */
-  // public mentor: User;
-  // @User.uuid
   public mentor: string;
 
   /**

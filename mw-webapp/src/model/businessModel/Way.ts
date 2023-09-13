@@ -20,9 +20,9 @@ export class Way {
 
   /**
    * Way's owner
+   * TODO: use User instead of string
+   *  @User.uuid
    */
-  // public owner: User;
-  // @User.uuid
   public owner: string;
 
   /**

@@ -1,6 +1,5 @@
 import {GoalMetric} from "src/model/businessModel/GoalMetric";
 import {Time} from "src/model/businessModel/time/Time";
-// import {User} from "src/model/businessModel/User";
 
 /**
  * Goal of the way
@@ -14,6 +13,7 @@ export class Goal {
 
   /**
    * Goal's user
+   * TODO create student as User instead of studentUuid
    */
   // public student: User;
 
@@ -39,7 +39,6 @@ export class Goal {
 
   constructor(goalData: Goal) {
     this.uuid = goalData.uuid;
-    // this.student = goalData.student;
     this.studentUuid = goalData.studentUuid;
     this.metrics = goalData.metrics;
     this.description = goalData.description;
