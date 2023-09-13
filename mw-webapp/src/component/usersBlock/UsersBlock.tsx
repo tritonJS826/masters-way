@@ -4,15 +4,15 @@ import {User} from "src/model/firebaseCollection/User";
 import {UserCard} from "src/component/usersBlock/userCard/UserCard";
 import styles from "src/component/usersBlock/UsersBlock.module.scss";
 
-const usersList = await UserService.getValueFromRealTimeDb();
+const usersListRaw = await UserService.getValueFromRealTimeDb();
 
 export const UsersBlock = () => {
-  const [users, setUsers] = useState<User[]>([]);
+  const [usersList, setUsersList] = useState<User[]>([]);
 
   useEffect(() => {
     //TODO use onValue method instead of get if possible
-    // UserService.onValueFromRealTimeDb(setUsers);
-    setUsers(usersList);
+    // UserService.onValueFromRealTimeDb(setUsersList);
+    setUsersList(usersListRaw);
     () => {
       //TODO
       // removeEventListener from db if needed (read about handling event listeners
@@ -21,6 +21,7 @@ export const UsersBlock = () => {
   }, []);
 
   const renderUsers = () => {
+    const users = Object.values(usersList);
     return users.map((user) => (
       <UserCard key={user.uuid}
         name={user.name}
