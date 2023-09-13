@@ -1,27 +1,28 @@
-import {Lnk} from "../link/Link";
+import {NavLink} from "../link/Link";
 import styles from "src/component/header/Header.module.scss";
 import {useAuth} from "src/utils/useAuth";
-import {Button} from "../button/Button";
+import {Button} from "src/component/button/Button";
+import {pages} from "src/router/pages";
+
+const handleGoogleSignIn = useAuth();
+const buttonValue = "Sign in with Google";
+const linkValue = "Workflow";
+const logo = "master-way";
 
 
 export const Header = () => {
-  const handleGoogleSignIn = useAuth();
-  const buttonValue = "Sign in with Google";
-  const linkValue = "Workflow";
   return (
     <div className={styles.header}>
       <div className={styles.title}>
-        <p>
-          MASTERS-WAY
-        </p>
+        {logo.toUpperCase()}
       </div>
       <div className={styles.block_button}>
         <Button
           onClick={handleGoogleSignIn}
           value={buttonValue}
         />
-        <Lnk
-          path={"main"}
+        <NavLink
+          path={pages.main.path}
           value={linkValue}
         />
       </div>

@@ -12,7 +12,7 @@ interface LinkProps {
   path: string;
 }
 
-export const Lnk: React.FC<LinkProps> = (props: LinkProps) => {
+export const NavLink: React.FC<LinkProps> = (props: LinkProps) => {
   return (
     <Link
       className={styles.link}
