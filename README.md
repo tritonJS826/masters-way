@@ -2,6 +2,13 @@
 
 Multi-user application for tracking the educational process.
 
+### Technologies
+
+- React
+- TypeScript
+- Vite
+- SCSS modules
+
 ### Modules
 * docs - project documentation
 * mw-webapp - front end
