@@ -17,8 +17,8 @@ export class UserService {
     const usersListRef = ref(db, "/users/" + data.uuid);
     set(usersListRef, {
       uuid: data.uuid,
-      email: data.name,
-      name: data.email,
+      email: data.email,
+      name: data.name,
       ownWays: data.ownWays,
       favoriteWays: data.favoriteWays,
       mentoringWays: data.mentoringWays,
