@@ -1303,5 +1303,177 @@
     "learnedForToday": [""],
     "mentorComment": [""],
     "isDayOff": false
+  },
+  {
+    "id": "26",
+    "date": "2023-09-10",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Update models in draw.io",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 50
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Fix mistake about users.map (it's because we can't to map objects with string keys - as a resolve need to use Object.values(users).map)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 15
+      }
+    },
+    {
+      "id": "2",
+      "todoItem": "Add description in README.md",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 35
+      }
+    },
+    {
+      "id": "3",
+      "todoItem": "Create process.md file with development processes",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 15
+      }
+    },
+    {
+      "id": "4",
+      "todoItem": "Add services (MonthReportService, MentorCommentService, GoalService, GoalMetricsService)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 65
+      }
+    }
+  ],
+    "planForTomorrow": [{
+      "id": "0",
+      "todoItem": "Create converters for new services",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 80
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Render lists in dayReport (render few reports with with possibility to get any info from fb collections)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 100
+      }
+    }
+  ],
+    "currentProblems": [""],
+    "studentComment": ["If in Goal use User model than it return mistake because of User can't be used before initialize"],
+    "learnedForToday": [""],
+    "mentorComment": [""],
+    "isDayOff": false
+  },
+  {
+    "id": "27",
+    "date": "2023-09-11",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Create converters (WayConverter, UserConverter, MonthReportConverter, MentorCommentConverter, GoalConverter, GoalMetricsConverter)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 55
+      }
+    }
+  ],
+    "planForTomorrow": [{
+      "id": "0",
+      "todoItem": "Render lists in dayReport (render few reports with possibility to get any info from fb collections)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 100
+      }
+    }
+  ],
+    "currentProblems": [""],
+    "studentComment": ["If in Goal use User model than it return mistake because of User can't be used before initialize. For resolve it need or use userUuid instead of User inside Goal or return User by using this"],
+    "learnedForToday": [""],
+    "mentorComment": [""],
+    "isDayOff": false
+  },
+  {
+    "id": "28",
+    "date": "2023-09-12",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Add projectSructure.md",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 30
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Add rules in ESlint (no-console and syntax of interfaces)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 45
+      }
+    },
+    {
+      "id": "2",
+      "todoItem": "Set up VSCode for import absolute path",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 20
+      }
+    }
+  ],
+    "planForTomorrow": [{
+      "id": "0",
+      "todoItem": "Add conventions in the project",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 40
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Render lists in dayReport (render few reports with possibility to get any info from fb collections)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 100
+      }
+    }
+  ],
+    "currentProblems": [""],
+    "studentComment": ["If in Goal use User model than it return mistake because of User can't be used before initialize. For resolve it need or use userUuid instead of User inside Goal or return User by using this"],
+    "learnedForToday": [""],
+    "mentorComment": [""],
+    "isDayOff": false
+  },
+  {
+    "id": "29",
+    "date": "2023-09-13",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Add conventions to the project",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 50
+      }
+    }
+  ],
+    "planForTomorrow": [{
+      "id": "0",
+      "todoItem": "Render lists in dayReport (render few reports with possibility to get any info from fb collections)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 100
+      }
+    }
+  ],
+    "currentProblems": [""],
+    "studentComment": ["If in Goal use User model than it return mistake because of User can't be used before initialize. For resolve it need or use userUuid instead of User inside Goal or return User by using this"],
+    "learnedForToday": ["Learned that Husky allows us to create scripts for check eslint and other rules before commit or push"],
+    "mentorComment": [""],
+    "isDayOff": false
   }
 ]
