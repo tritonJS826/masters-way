@@ -5,10 +5,10 @@ import {UserCard} from "src/component/usersBlock/userCard/UserCard";
 import styles from "src/component/usersBlock/UsersBlock.module.scss";
 
 export const UsersBlock = () => {
-  const [users, setUsers] = useState<User[]>([]);
+  const [usersList, setUsersList] = useState<User[]>([]);
 
   useEffect(() => {
-    UserService.onValueFromRealTimeDb(setUsers);
+    UserService.onValueFromRealTimeDb(setUsersList);
     () => {
       //TODO
       // removeEventListener from db if needed (read about handling event listeners
@@ -17,6 +17,7 @@ export const UsersBlock = () => {
   }, []);
 
   const renderUsers = () => {
+    const users = Object.values(usersList);
     return users.map((user) => (
       <UserCard key={user.uuid}
         name={user.name}
