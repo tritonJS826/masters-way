@@ -1,4 +1,4 @@
-import {ref, onValue} from "firebase/database";
+import {ref, onValue, set} from "firebase/database";
 import {db} from "src/firebase";
 import {User as UserDTO} from "src/model/firebaseCollection/User";
 
@@ -10,6 +10,18 @@ export class UserService {
       if (users !== null) {
         callBack(users);
       }
+    });
+  }
+
+  public static writeNewUserData(data: UserDTO) {
+    const usersListRef = ref(db, "/users/" + data.uuid);
+    set(usersListRef, {
+      uuid: data.uuid,
+      email: data.email,
+      name: data.name,
+      ownWays: data.ownWays,
+      favoriteWays: data.favoriteWays,
+      mentoringWays: data.mentoringWays,
     });
   }
 
