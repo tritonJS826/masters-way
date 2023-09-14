@@ -2,13 +2,7 @@ import {getRedirectResult} from "firebase/auth";
 import {auth} from "src/firebase";
 import {UserService} from "src/service/UserService";
 
-const newUserBlankWays = {
-  ownWays: [""],
-  favoriteWays: [""],
-  mentoringWays: [""],
-};
-
-export const writeNewUserCredentialsToDataBase = async () => {
+export const writeNewUserCredentials = async () => {
   try {
     const userCredentials = await getRedirectResult(auth);
     if(!userCredentials) {
@@ -20,7 +14,9 @@ export const writeNewUserCredentialsToDataBase = async () => {
           uuid: userCredentials.user.uid,
           email: userCredentials.user.email,
           name: userCredentials.user.displayName,
-          ...newUserBlankWays,
+          ownWays: [""],
+          favoriteWays: [""],
+          mentoringWays: [""],
         },
       );
     }
