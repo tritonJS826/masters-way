@@ -2,9 +2,13 @@ import {Link as LinkFromRouter} from "react-router-dom";
 import styles from "src/component/link/Link.module.scss";
 
 interface LinkProps {
-  //Link value (text)
+  /**
+   * Link value (text)
+   */
   value: string;
-  //Go to path page on link
+  /**
+   * Go to path page on link
+   */
   path: string;
 }
 
