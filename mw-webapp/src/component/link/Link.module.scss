@@ -1,0 +1,22 @@
+@import "src/styles/variables.scss";
+
+.link {
+    color: $button-active;
+    font-size: 18px;
+    text-shadow: 1px 1px 1px $button-shadow;
+
+    &:hover {
+        cursor: pointer;
+        text-shadow: 1px 1px 1px $button-active;
+      }
+
+      &:active {
+        color: $link-active;
+      }
+}
+
+.link_container {
+    display:flex;
+    width: 10%;
+    justify-content: center;
+}
