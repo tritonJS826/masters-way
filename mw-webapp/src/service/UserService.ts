@@ -1,4 +1,4 @@
-import {ref, get} from "firebase/database";
+import {ref, get, set} from "firebase/database";
 import {UserDTOToUserConverter} from "src/converter/UserConverter";
 import {db} from "src/firebase";
 import {User} from "src/model/businessModel/User";
@@ -27,6 +27,18 @@ export class UserService {
     const users: User[] = Object.values(usersRaw).map((item) =>
       UserDTOToUserConverter(item));
     return users;
+  }
+
+  public static writeNewUserData(data: UserDTO) {
+    const usersListRef = ref(db, "/users/" + data.uuid);
+    set(usersListRef, {
+      uuid: data.uuid,
+      email: data.email,
+      name: data.name,
+      ownWays: data.ownWays,
+      favoriteWays: data.favoriteWays,
+      mentoringWays: data.mentoringWays,
+    });
   }
 
 }
