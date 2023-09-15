@@ -1,4 +1,4 @@
-import {Link as LinkFronRouter} from "react-router-dom";
+import {Link as LinkFromRouter} from "react-router-dom";
 import styles from "src/component/link/Link.module.scss";
 
 interface LinkProps {
@@ -10,11 +10,11 @@ interface LinkProps {
 
 export const Link: React.FC<LinkProps> = (props: LinkProps) => {
   return (
-    <LinkFronRouter
+    <LinkFromRouter
       className={styles.link}
       to={props.path}
     >
       {props.value}
-    </LinkFronRouter>
+    </LinkFromRouter>
   );
 };
