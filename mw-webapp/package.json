@@ -3,13 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "main": "src/index.tsx",
+  "type": "module",
   "dependencies": {
     "@tanstack/react-table": "^8.9.3",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
-    "@types/node": "^16.18.40",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "firebase": "^10.2.0",
@@ -46,12 +46,15 @@
     ]
   },
   "devDependencies": {
+    "@types/node": "^20.6.2",
     "@types/testing-library__jest-dom": "^5.14.9",
     "@typescript-eslint/eslint-plugin": "^6.4.0",
     "@typescript-eslint/parser": "^6.4.0",
     "@vitejs/plugin-react": "^4.0.4",
     "eslint": "^8.47.0",
     "eslint-plugin-react": "^7.33.1",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
+    "ts-node": "^10.9.1",
     "vite": "^4.4.9",
     "vite-plugin-eslint": "^1.8.1",
     "vite-tsconfig-paths": "^4.2.0"
