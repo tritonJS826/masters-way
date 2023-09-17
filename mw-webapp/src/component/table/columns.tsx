@@ -7,7 +7,7 @@ import {DateUtils} from "src/utils/DateUtils";
 import styles from "src/component/table/columns.module.scss";
 
 const FIRST_INDEX = 0;
-const INITIAL_VALUE = 0;
+const DEFAULT_VALUE = 0;
 
 const columnHelper = createColumnHelper<DayReport>();
 
@@ -27,6 +27,7 @@ const getStringArrayItem = (arrayItem: string, index: string) => {
     (!arrayItem) ?
       <div />
       :
+    //TODO: task #65 use flag instead of first index
       <div key={index}>
         <div className={arrayItem[FIRST_INDEX] === "✓" ? styles.completed : styles.notCompleted}>
           {arrayItem}
@@ -65,7 +66,7 @@ export const columns: ColumnDef<DayReport, Date & JobDone[] & PlanForNextPeriod[
     cell: (({row}) => {
       return (
         row.original.jobsDone
-          ?.reduce((accum, item) => item.time + accum, INITIAL_VALUE)
+          ?.reduce((summaryTime, jobDone) => jobDone.time + summaryTime, DEFAULT_VALUE)
       );
     }),
   }),

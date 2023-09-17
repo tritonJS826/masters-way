@@ -23,7 +23,7 @@
   },
   "scripts": {
     "start": "vite",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "serve": "vite preview",
     "lint-check": "eslint .",
     "type-check": "tsc"
