@@ -7,7 +7,7 @@ import {DateUtils} from "src/utils/DateUtils";
 import styles from "src/component/table/columns.module.scss";
 
 const FIRST_INDEX = 0;
-const START_VALUE_ACCUM = 0;
+const INITIAL_VALUE = 0;
 
 const columnHelper = createColumnHelper<DayReport>();
 
@@ -65,7 +65,7 @@ export const columns: ColumnDef<DayReport, Date & JobDone[] & PlanForNextPeriod[
     cell: (({row}) => {
       return (
         row.original.jobsDone
-          ?.reduce((accum, item) => item.time + accum, START_VALUE_ACCUM)
+          ?.reduce((accum, item) => item.time + accum, INITIAL_VALUE)
       );
     }),
   }),
