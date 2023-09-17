@@ -12,8 +12,8 @@ export const Table = () => {
     DayReportService.onValueFromRealTimeDb(setData);
     () => {
       //TODO
-      // removeEventListener from db if needed (read about handling event listeners
-      // in react use effect components (when and whyu you shoud remove them))
+      // RemoveEventListener from db if needed (read about handling event listeners
+      // In react use effect components (when and whyu you shoud remove them))
     };
   }, []);
 

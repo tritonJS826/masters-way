@@ -1,9 +1,13 @@
-import {createColumnHelper, ColumnDef, CellContext} from "@tanstack/react-table";
+import {CellContext, ColumnDef, createColumnHelper} from "@tanstack/react-table";
+import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
-import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
+import {DateUtils} from "src/utils/DateUtils";
 import styles from "src/component/table/columns.module.scss";
+
+const FIRST_INDEX = 0;
+const START_VALUE_ACCUM = 0;
 
 const columnHelper = createColumnHelper<DayReport>();
 
@@ -24,7 +28,7 @@ const getStringArrayItem = (arrayItem: string, index: string) => {
       <div />
       :
       <div key={index}>
-        <div className={arrayItem[0] === "✓" ? styles.completed : styles.notCompleted}>
+        <div className={arrayItem[FIRST_INDEX] === "✓" ? styles.completed : styles.notCompleted}>
           {arrayItem}
         </div>
       </div>
@@ -46,7 +50,7 @@ const getBoolean = (cellValue: CellContext<DayReport, boolean>) => {
 
 const getDateValue = (cellValue: CellContext<DayReport, Date>) => {
   return (
-    cellValue.getValue().toISOString().slice(0, 10)
+    DateUtils.getShortISODateValue(cellValue.getValue())
   );
 };
 
@@ -61,7 +65,7 @@ export const columns: ColumnDef<DayReport, Date & JobDone[] & PlanForNextPeriod[
     cell: (({row}) => {
       return (
         row.original.jobsDone
-          ?.reduce((accum, item) => item.time + accum, 0)
+          ?.reduce((accum, item) => item.time + accum, START_VALUE_ACCUM)
       );
     }),
   }),

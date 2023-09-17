@@ -11,8 +11,6 @@ interface ButtonProps {
   onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-console.log(111);
-
 export const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
   return (
     <button

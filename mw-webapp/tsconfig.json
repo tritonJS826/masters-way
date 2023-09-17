@@ -15,7 +15,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "types": ["vite/client", "node"],
+    "types": ["vite/client"],
     "baseUrl": "./",
     "paths": {
       "src/*": ["./src/*"]
@@ -24,6 +24,6 @@
   "ts-node": {
     "esm": true
 },
-  "include": ["src", "vite.config.ts", "scripts"],
+  "include": ["src", "vite.config.ts"],
   "references": [{ "path": "tsconfig.node.json" }]
 }

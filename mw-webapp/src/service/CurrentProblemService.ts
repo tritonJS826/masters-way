@@ -1,4 +1,4 @@
-import {ref, get} from "firebase/database";
+import {get, ref} from "firebase/database";
 import {CurrentProblemDTOToCurrentProblemConverter} from "src/converter/CurrentProblemConverter";
 import {db} from "src/firebase";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";

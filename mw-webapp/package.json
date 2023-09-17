@@ -24,7 +24,9 @@
   "scripts": {
     "start": "vite",
     "build": "tsc && vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "lint-check": "eslint .",
+    "type-check": "tsc"
   },
   "eslintConfig": {
     "extends": [
@@ -46,7 +48,6 @@
     ]
   },
   "devDependencies": {
-    "@types/node": "^20.6.2",
     "@types/testing-library__jest-dom": "^5.14.9",
     "@typescript-eslint/eslint-plugin": "^6.4.0",
     "@typescript-eslint/parser": "^6.4.0",
@@ -54,7 +55,6 @@
     "eslint": "^8.47.0",
     "eslint-plugin-react": "^7.33.1",
     "eslint-plugin-simple-import-sort": "^10.0.0",
-    "ts-node": "^10.9.1",
     "vite": "^4.4.9",
     "vite-plugin-eslint": "^1.8.1",
     "vite-tsconfig-paths": "^4.2.0"

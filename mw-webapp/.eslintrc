@@ -29,6 +29,9 @@
         ]
       }
     ],
+    "capitalized-comments": ["error", "always", {"ignorePattern": "pragma|ignored", "ignoreInlineComments": true}],
+    "no-magic-numbers": "error",
+    "no-console": "error",
     "react/react-in-jsx-scope": "off",
     "no-tabs": ["error", { "allowIndentationTabs": true }],
     "max-lines": ["error", 3000],

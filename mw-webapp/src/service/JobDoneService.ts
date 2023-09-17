@@ -1,4 +1,4 @@
-import {ref, get} from "firebase/database";
+import {get, ref} from "firebase/database";
 import {JobDoneDTOToJobDoneConverter} from "src/converter/JobDoneConverter";
 import {db} from "src/firebase";
 import {JobDone} from "src/model/businessModel/JobDone";

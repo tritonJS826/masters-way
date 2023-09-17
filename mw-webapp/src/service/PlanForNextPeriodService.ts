@@ -1,4 +1,4 @@
-import {ref, get} from "firebase/database";
+import {get, ref} from "firebase/database";
 import {PlanForNextPeriodDTOToPlanForNextPeriodConverter} from "src/converter/PlanForNextPeriodConverter";
 import {db} from "src/firebase";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
