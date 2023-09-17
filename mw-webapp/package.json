@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "main": "src/index.tsx",
-  "type": "module",
   "dependencies": {
     "@tanstack/react-table": "^8.9.3",
     "@testing-library/jest-dom": "^5.17.0",

@@ -21,9 +21,6 @@
       "src/*": ["./src/*"]
     }
   },
-  "ts-node": {
-    "esm": true
-},
   "include": ["src", "vite.config.ts"],
   "references": [{ "path": "tsconfig.node.json" }]
 }
