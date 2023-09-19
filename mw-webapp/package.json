@@ -31,8 +31,8 @@
     "prepare": "cd .. && husky install"
   },
   "lint-staged": {
-    "**/*.{js, jsx, ts, tsx}": [
-      "pnpm run eslint . --fix"
+    "**/*.{ts, tsx}": [
+      "pnpm run eslint"
     ]
   },
   "eslintConfig": {
