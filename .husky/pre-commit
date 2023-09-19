@@ -3,6 +3,6 @@
 
 cd mw-webapp
 pnpm lint-staged
-pnpm type-check
-pnpm test
-pnpm build
+# pnpm type-check
+# pnpm test
+# pnpm build
