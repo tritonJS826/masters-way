@@ -32,8 +32,7 @@
   },
   "lint-staged": {
     "**/*.{js, jsx, ts, tsx}": [
-      "cd mw-webapp && pnpm run lint-fix",
-      "git add"
+      "cd mw-webapp && pnpm run lint-fix"
     ],
     "*.js": "eslint --cache --fix"
   },
