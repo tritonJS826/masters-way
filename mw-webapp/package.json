@@ -9,9 +9,9 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
+    "@types/node": "^16.18.40",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
-    "@types/node": "^16.18.40",
     "firebase": "^10.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -26,7 +26,19 @@
     "build": "vite build",
     "serve": "vite preview",
     "lint-check": "eslint .",
-    "type-check": "tsc"
+    "type-check": "tsc",
+    "precommit": "lint-staged",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": [
+        "eslint --fix"
+    ]
+  },
+  "husky": {
+    "hooks": {
+        "pre-commit": "pnpm run precommit"
+    }
   },
   "eslintConfig": {
     "extends": [
@@ -55,6 +67,8 @@
     "eslint": "^8.47.0",
     "eslint-plugin-react": "^7.33.1",
     "eslint-plugin-simple-import-sort": "^10.0.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^14.0.1",
     "vite": "^4.4.9",
     "vite-plugin-eslint": "^1.8.1",
     "vite-tsconfig-paths": "^4.2.0"
