@@ -9,21 +9,21 @@ interface TooltipProps {
   */
   children: ReactNode;
   /**
-  * Tooltip's content (text)
+  * Tooltip's content (string | ReactNode)
   */
-  content: string;
+  content: string | ReactNode;
   /**
-  * Tooltip's class-style (selector css)
+  * Tooltip's class-style (string)
   */
-  styleComponent: string;
+  className: string;
   /**
-  * Tooltip's position relative cursor (look enum PositionTooltip, optional, default - positon top)
+  * Tooltip's position relative cursor, optional (default - PositionTooltip.TOP)
   */
   position?: PositionTooltip;
 }
 
 export const Tooltip = (props: TooltipProps) => {
-  const classes = clsx(styles.tooltip, styles[props.styleComponent], styles[props.position ?? PositionTooltip.TOOOLTIP_TOP]);
+  const classes = clsx(styles.tooltip, styles[props.className], styles[props.position ?? PositionTooltip.TOOOLTIP_TOP]);
 
   return (
     <div className={styles.wrapper}>
