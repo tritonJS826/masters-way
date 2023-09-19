@@ -21,6 +21,11 @@
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "echo \"pre-commit msg\""
+    }
+  },
   "scripts": {
     "start": "vite",
     "build": "vite build",
