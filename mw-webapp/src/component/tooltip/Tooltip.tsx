@@ -1,16 +1,17 @@
-import {ReactNode, useState} from "react";
+import {ReactNode} from "react";
 import styles from "src/component/tooltip/Tooltip.module.scss";
 
 const enum PositionTooltip {
-  TOP = "top",
-  LEFT = "left",
-  RIGHT = "right",
-  BOTTOM = "bottom"
+  TOP = "tooltip_top",
+  LEFT = "tooltip_left",
+  RIGHT = "tooltip_right",
+  BOTTOM = "tooltip_bottom"
 } // In my opinion, this should be a global one that controls the naming of props
 
 const enum ClassesTooltip {
   MAIN = "main"
-} // In my opinion, this should be a global one that controls the naming of props
+}
+// In my opinion, this should be a global one that controls the naming of props
 
 interface TooltipProps {
   children: ReactNode;
@@ -20,23 +21,17 @@ interface TooltipProps {
 }
 
 export const Tooltip = (props: TooltipProps) => {
-  const [isVisible, setVisible] = useState(false);
-  const positionTooltop = `${styles[props?.position ? props.position : PositionTooltip.TOP]}`;
-  const classes = `${styles[props.styleComponent]} ${styles[positionTooltop]}`; // I recomended use package 'clsx'
+  const positionTooltop = `${styles[props.position ? props.position : PositionTooltip.TOP]}`;
+  const classes = `${styles.tooltip} ${styles[props.styleComponent]} ${positionTooltop}`;
 
   return (
     <div className={styles.wrapper}>
-      {
-        isVisible && <span className={classes}>
-          {props.content}
-        </span>
-      }
-      <span className={styles.target}
-        onMouseEnter={() => setVisible(!isVisible)}
-        onMouseLeave={() => setVisible(!isVisible)}
-      >
+      <span className={styles.target}>
         {props.children}
       </span>
+      <div className={classes}>
+        {props.content}
+      </div>
     </div>
   );
 };

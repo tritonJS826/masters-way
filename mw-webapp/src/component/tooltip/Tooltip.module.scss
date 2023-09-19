@@ -4,4 +4,38 @@
 
 .target {
   cursor: pointer;
+
+  &:hover + .tooltip {
+    display: block;
+  }
+}
+
+.tooltip {
+  display: none;
+  position: absolute;
+  overflow: hidden;
+
+  &_top {
+    bottom: 130%;
+    transform: translateX(-50%);
+    left: 50%;
+  }
+
+  &_right {
+    left: 130%;
+    transform: translateY(-50%);
+    top: 50%;
+  }
+
+  &_bottom  {
+    top: 130%;
+    transform: translateX(-50%);
+    left: 50%;
+  }
+
+  &_left {
+    right: 130%;
+    transform: translateY(-50%);
+    top: 50%;
+  }
 }
