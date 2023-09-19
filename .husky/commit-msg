@@ -2,6 +2,6 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 if ! head -1 "$1" | grep -qE "^(feat|fix|docs|test|style|refactor): #[0-9]+ .*"; then
-    echo "❌ Ooops! Aborting commit. Your commit message is invalid. Follow the pattern, please" >&2
+    echo "❌ Ooops! Aborting commit. Your commit message is invalid. See conventions.md ##commits to fix it" >&2
     exit 1
 fi

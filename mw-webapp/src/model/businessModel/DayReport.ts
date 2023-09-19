@@ -43,7 +43,7 @@ export class DayReport {
   public learnedForToday: string[];
 
   /**
-   * Mentor's comments
+   * Mentor's comments uuids
    * TODO: task #69 string[] -> MentorComments[]
    */
   public mentorComments: string[];

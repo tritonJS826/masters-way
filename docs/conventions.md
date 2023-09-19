@@ -88,3 +88,7 @@ import styles from "src/component/button/Button.module.scss";
 ```
 // Comment
 ```
+
+## COMMITS
+
+- The commit must match the pattern "issue_type: #issue_number short_issue_description" (Issue type can be one of: feat, fix, docs, test, style, refactor)
