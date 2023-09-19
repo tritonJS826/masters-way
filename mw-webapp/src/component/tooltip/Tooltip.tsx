@@ -1,4 +1,5 @@
 import {ReactNode} from "react";
+import clsx from "clsx";
 import {PositionTooltip} from "src/component/tooltip/positionTooltip/PositionTooltip";
 import styles from "src/component/tooltip/Tooltip.module.scss";
 
@@ -22,8 +23,7 @@ interface TooltipProps {
 }
 
 export const Tooltip = (props: TooltipProps) => {
-  const positionTooltop = `${styles[props.position ?? PositionTooltip.TOP]}`;
-  const classes = `${styles.tooltip} ${styles[props.styleComponent]} ${positionTooltop}`;
+  const classes = clsx(styles.tooltip, styles[props.styleComponent], styles[props.position ?? PositionTooltip.TOP]);
 
   return (
     <div className={styles.wrapper}>
