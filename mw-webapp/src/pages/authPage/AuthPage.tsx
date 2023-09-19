@@ -1,8 +1,8 @@
 import {useEffect, useState} from "react";
 import {Link, Navigate} from "react-router-dom";
 import {User} from "firebase/auth";
-import {Button} from "src/component/button/Button";
 import {pages} from "src/router/pages";
+import {Button} from "src/stories/button/Button";
 import {handleLogIn} from "src/utils/auth/handleLogIn";
 import {handleLogOut} from "src/utils/auth/handleLogOut";
 import {handleUserAuthState} from "src/utils/auth/handleUserAuthState";

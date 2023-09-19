@@ -1,4 +1,4 @@
-import styles from "src/component/button/Button.module.scss";
+import styles from "./Button.module.scss";
 
 interface ButtonProps {
   /**
