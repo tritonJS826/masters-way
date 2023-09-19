@@ -30,16 +30,6 @@
     "precommit": "lint-staged",
     "prepare": "husky install"
   },
-  "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx}": [
-        "eslint --fix"
-    ]
-  },
-  "husky": {
-    "hooks": {
-        "pre-commit": "pnpm run precommit"
-    }
-  },
   "eslintConfig": {
     "extends": [
       "react-app",
