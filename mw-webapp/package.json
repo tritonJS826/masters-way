@@ -26,18 +26,16 @@
     "build": "vite build",
     "serve": "vite preview",
     "lint-check": "eslint .",
+    "lint-fix": "eslint ./ --fix",
     "type-check": "tsc",
     "prepare": "cd .. && husky install"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "lint-staged": {
     "**/*.{js, jsx, ts, tsx}": [
-      "pnpm run eslint . --fix", "git add"
-    ]
+      "pnpm run lint-fix",
+      "git add"
+    ],
+    "*.js": "eslint --cache --fix"
   },
   "eslintConfig": {
     "extends": [

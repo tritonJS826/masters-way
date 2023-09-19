@@ -1,7 +1,7 @@
 import {DayReport} from "src/model/businessModel/DayReport";
-import {MonthReport} from "src/model/businessModel/MonthReport";
 import {User} from "src/model/businessModel/User";
 import {Goal} from "src/model/businessModel/Goal";
+import {MonthReport} from "src/model/businessModel/MonthReport";
 
 /**
  * One of user's ways
