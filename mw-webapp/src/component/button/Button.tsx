@@ -1,7 +1,7 @@
-import styles from 'src/component/button/Button.module.scss';
+import styles from "src/component/button/Button.module.scss";
 
 interface ButtonProps {
-  /**   
+  /**
   * Button's value (text)
   */
   value: string;
@@ -10,9 +10,6 @@ interface ButtonProps {
   */
   onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
-
-
-
 
 export const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
   return (

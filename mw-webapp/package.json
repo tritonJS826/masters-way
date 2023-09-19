@@ -26,13 +26,13 @@
     "build": "vite build",
     "serve": "vite preview",
     "lint-check": "eslint .",
-    "lint-fix": "eslint ./ --fix",
+    "lint-fix": "eslint . --fix",
     "type-check": "tsc",
     "prepare": "cd .. && husky install"
   },
   "lint-staged": {
     "**/*.{ts, tsx}": [
-      "pnpm run eslint"
+      "pnpm run lint-fix"
     ]
   },
   "eslintConfig": {
