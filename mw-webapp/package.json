@@ -21,11 +21,6 @@
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pnpm run lint-check"
-    }
-  },
   "scripts": {
     "start": "vite",
     "build": "vite build",
