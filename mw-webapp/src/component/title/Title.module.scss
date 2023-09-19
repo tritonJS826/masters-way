@@ -1,10 +1,7 @@
 @import "src/styles/variables.scss";
 
 .title {
-    display: flex;
     padding-top: $title-padding;
-    align-items: center;
-    justify-content: center;
-    color: $button-active;
-    text-shadow: 2px 2px 2px $button-shadow;
+    color: $title;
+    text-shadow: 2px 2px 2px $title-shadow;
 }
