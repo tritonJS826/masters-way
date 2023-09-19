@@ -15,25 +15,25 @@
   position: absolute;
   overflow: hidden;
 
-  &_top {
+  &Top {
     bottom: 130%;
     transform: translateX(-50%);
     left: 50%;
   }
 
-  &_right {
+  &Right {
     left: 130%;
     transform: translateY(-50%);
     top: 50%;
   }
 
-  &_bottom  {
+  &Bottom  {
     top: 130%;
     transform: translateX(-50%);
     left: 50%;
   }
 
-  &_left {
+  &Left {
     right: 130%;
     transform: translateY(-50%);
     top: 50%;

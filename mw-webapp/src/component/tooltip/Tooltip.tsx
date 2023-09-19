@@ -23,7 +23,7 @@ interface TooltipProps {
 }
 
 export const Tooltip = (props: TooltipProps) => {
-  const classes = clsx(styles.tooltip, styles[props.styleComponent], styles[props.position ?? PositionTooltip.TOP]);
+  const classes = clsx(styles.tooltip, styles[props.styleComponent], styles[props.position ?? PositionTooltip.TOOOLTIP_TOP]);
 
   return (
     <div className={styles.wrapper}>
