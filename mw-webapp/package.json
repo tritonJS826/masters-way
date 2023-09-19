@@ -23,7 +23,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "echo \"pre-commit msg\""
+      "pre-commit": "pnpm run lint-check"
     }
   },
   "scripts": {
