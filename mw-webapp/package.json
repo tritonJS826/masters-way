@@ -29,9 +29,14 @@
     "type-check": "tsc",
     "prepare": "cd .. && husky install"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "lint-staged": {
     "**/*.{js, jsx, ts, tsx}": [
-      "pnpm lint-check"
+      "pnpm run eslint . --fix", "git add"
     ]
   },
   "eslintConfig": {
