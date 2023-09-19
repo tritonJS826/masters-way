@@ -32,8 +32,12 @@
     "serve": "vite preview",
     "lint-check": "eslint .",
     "type-check": "tsc",
-    "precommit": "lint-staged",
-    "prepare": "husky install"
+    "prepare": "cd .. && husky install"
+  },
+  "lint-staged": {
+    "**/*.{js, jsx, ts, tsx}": [
+      "pnpm lint-check"
+    ]
   },
   "eslintConfig": {
     "extends": [
