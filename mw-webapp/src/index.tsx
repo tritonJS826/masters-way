@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import {BrowserRouter} from "react-router-dom";
+import {Theme} from "@radix-ui/themes";
 import App from "src/App";
 import reportWebVitals from "src/reportWebVitals";
 import "src/index.scss";
@@ -14,7 +15,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <Theme>
+        <App />
+      </Theme>
     </BrowserRouter>
   </React.StrictMode>,
 );
