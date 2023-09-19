@@ -9,9 +9,21 @@ const enum PositionTooltip {
 } // In my opinion, this should be a global one that controls the naming of props
 
 interface TooltipProps {
+  /**
+  * Tooltip's children (ReactNode)
+  */
   children: ReactNode;
+  /**
+  * Tooltip's content (text)
+  */
   content: string;
+  /**
+  * Tooltip's class-style (string)
+  */
   styleComponent: string;
+  /**
+  * Tooltip's position relative cursor (look enum PositionTooltip, optional - default - positon top)
+  */
   position?: PositionTooltip;
 }
 
