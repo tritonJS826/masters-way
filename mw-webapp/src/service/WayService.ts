@@ -1,4 +1,4 @@
-import {ref, onValue} from "firebase/database";
+import {onValue, ref} from "firebase/database";
 import {db} from "src/firebase";
 import {Way as WayDTO} from "src/model/firebaseCollection/Way";
 

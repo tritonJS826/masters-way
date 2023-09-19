@@ -1479,6 +1479,95 @@
   ],
     "planForTomorrow": [{
       "id": "0",
+      "todoItem": "Add scripts to the project",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 200
+      }
+    }
+  ],
+    "currentProblems": [""],
+    "studentComment": [""],
+    "learnedForToday": ["Learned that Husky allows us to create scripts for check eslint and other rules before commit or push"],
+    "mentorComment": [""],
+    "isDayOff": false
+  },
+  {
+    "id": "30",
+    "date": "2023-09-14",
+    "workDone": [{}],
+    "planForTomorrow": [{}],
+    "currentProblems": [""],
+    "studentComment": ["Thought about new features at the project"],
+    "learnedForToday": [""],
+    "mentorComment": [""],
+    "isDayOff": true
+  },
+  {
+    "id": "31",
+    "date": "2023-09-15",
+    "workDone": [{}],
+    "planForTomorrow": [{}],
+    "currentProblems": [""],
+    "studentComment": [""],
+    "learnedForToday": [""],
+    "mentorComment": [""],
+    "isDayOff": true
+  },
+  {
+    "id": "32",
+    "date": "2023-09-16",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Create script that read all files and finding console.log",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 50
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Move out scripts into script folder and set up call in from root of project",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 45
+      }
+    },
+    {
+      "id": "2",
+      "todoItem": "Set up ESLint for sort imports (chose plugin and rules)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 75
+      }
+    },
+    {
+      "id": "3",
+      "todoItem": "Change color of text in terminal after call scripts (red - if mistakes)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 35
+      }
+    },
+    {
+      "id": "4",
+      "todoItem": "Add lint-check and type-check scripts in command line",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 55
+      }
+    },
+    {
+      "id": "5",
+      "todoItem": "Add rule about first big letter for comments",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 15
+      }
+    }
+  ],
+    "planForTomorrow": [{
+      "id": "0",
       "todoItem": "Set up Husky",
       "time": {
         "unit": "MINUTE",
@@ -1487,8 +1576,43 @@
     }
   ],
     "currentProblems": [""],
+    "studentComment": ["Repeated node js basic methods: reading files,find string in the file, sync and async methods"],
+    "learnedForToday": [""],
+    "mentorComment": [""],
+    "isDayOff": false
+  },
+  {
+    "id": "33",
+    "date": "2023-09-17",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Clean project (delete unneeded files, code, comments, packages)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 45
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Fix PR comments",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 30
+      }
+    }
+  ],
+    "planForTomorrow": [{
+      "id": "0",
+      "todoItem": "",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 180
+      }
+    }
+  ],
+    "currentProblems": [""],
     "studentComment": [""],
-    "learnedForToday": ["Learned that Husky allows us to create scripts for check eslint and other rules before commit or push"],
+    "learnedForToday": [""],
     "mentorComment": [""],
     "isDayOff": false
   }
