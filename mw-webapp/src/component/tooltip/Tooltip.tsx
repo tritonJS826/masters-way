@@ -8,15 +8,10 @@ const enum PositionTooltip {
   BOTTOM = "tooltip_bottom"
 } // In my opinion, this should be a global one that controls the naming of props
 
-const enum ClassesTooltip {
-  MAIN = "main"
-}
-// In my opinion, this should be a global one that controls the naming of props
-
 interface TooltipProps {
   children: ReactNode;
   content: string;
-  styleComponent: ClassesTooltip;
+  styleComponent: string;
   position?: PositionTooltip;
 }
 
