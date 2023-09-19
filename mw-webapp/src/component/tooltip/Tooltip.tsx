@@ -1,5 +1,5 @@
 import {ReactNode, useState} from "react";
-import styles from "./Tooltip.module.scss";
+import styles from "src/component/tooltip/Tooltip.module.scss";
 
 const enum PositionTooltip {
   TOP = "top",
