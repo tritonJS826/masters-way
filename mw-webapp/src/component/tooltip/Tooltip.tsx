@@ -19,22 +19,23 @@ interface TooltipProps {
   position?: PositionTooltip;
 }
 
-export const Tooltip = ({children, content, styleComponent, position = PositionTooltip.TOP}: TooltipProps) => {
+export const Tooltip = (props: TooltipProps) => {
   const [isVisible, setVisible] = useState(false);
-  const classes = `${styles[styleComponent]} ${styles[position]}`; // I recomended use package 'clsx'
+  const positionTooltop = `${styles[props?.position ? props.position : PositionTooltip.TOP]}`;
+  const classes = `${styles[props.styleComponent]} ${styles[positionTooltop]}`; // I recomended use package 'clsx'
 
   return (
     <div className={styles.wrapper}>
       {
         isVisible && <span className={classes}>
-          {content}
+          {props.content}
         </span>
       }
       <span className={styles.target}
         onMouseEnter={() => setVisible(!isVisible)}
         onMouseLeave={() => setVisible(!isVisible)}
       >
-        {children}
+        {props.children}
       </span>
     </div>
   );
