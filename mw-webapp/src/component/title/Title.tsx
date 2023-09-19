@@ -1,25 +1,37 @@
 import React from "react";
-import styles from "src/component/title/Title.module.scss";
+import {Heading} from "@radix-ui/themes";
+import styles from "./Title.module.scss";
+
+export enum HeadingLevel {
+  H1 = "h1",
+  H2 = "h2",
+  H3 = "h3",
+  H4 = "h4",
+  H5 = "h5",
+  H6 = "h6",
+}
 
 interface TitleProps {
   /**
-   * Heading level (h1, h2, h3, h4, h5, h6)
+   * Heading level
    */
-  size: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
-
+  level: HeadingLevel;
+  /**
+   * CSS class name for styling the component.
+   */
+  className: string;
   /**
    * Text content of the heading
    */
   text: string;
 }
 
-export const Title: React.FC<TitleProps> = ({size, text}: TitleProps) => {
-  const HeadingElement = size;
+export const Title: React.FC<TitleProps> = (props: TitleProps) => {
   return (
-    <HeadingElement
-      className={styles.title}
+    <Heading as={props.level}
+      className={styles.title + " " + props.className}
     >
-      {text}
-    </HeadingElement>
+      {props.text}
+    </Heading>
   );
 };
