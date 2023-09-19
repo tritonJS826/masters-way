@@ -29,7 +29,7 @@ export default defineConfig(() => {
   }, {});
 
   return {
-    build: {outDir: "build"},
+    build: {target: "esnext", outDir: "build"},
     plugins: [react(), eslint(), viteTsconfigPaths()],
     define: getEnvs(envNames),
   };
