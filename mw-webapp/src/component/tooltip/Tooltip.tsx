@@ -21,7 +21,7 @@ interface TooltipProps {
 }
 
 export const Tooltip = (props: TooltipProps) => {
-  const positionTooltop = `${styles[props.position ? props.position : PositionTooltip.TOP]}`;
+  const positionTooltop = `${styles[props.position ?? PositionTooltip.TOP]}`;
   const classes = `${styles.tooltip} ${styles[props.styleComponent]} ${positionTooltop}`;
 
   return (
