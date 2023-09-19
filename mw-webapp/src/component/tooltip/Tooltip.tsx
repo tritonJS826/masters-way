@@ -1,12 +1,6 @@
 import {ReactNode} from "react";
+import {PositionTooltip} from "src/component/tooltip/positionTooltip/PositionTooltip";
 import styles from "src/component/tooltip/Tooltip.module.scss";
-
-const enum PositionTooltip {
-  TOP = "tooltip_top",
-  LEFT = "tooltip_left",
-  RIGHT = "tooltip_right",
-  BOTTOM = "tooltip_bottom"
-} // In my opinion, this should be a global one that controls the naming of props
 
 interface TooltipProps {
   /**
@@ -18,11 +12,11 @@ interface TooltipProps {
   */
   content: string;
   /**
-  * Tooltip's class-style (string)
+  * Tooltip's class-style (selector css)
   */
   styleComponent: string;
   /**
-  * Tooltip's position relative cursor (look enum PositionTooltip, optional - default - positon top)
+  * Tooltip's position relative cursor (look enum PositionTooltip, optional, default - positon top)
   */
   position?: PositionTooltip;
 }
