@@ -1,9 +1,15 @@
 import styles from "src/component/select/Select.module.scss";
 import {useState} from "react";
 
+interface OptionType {
+  id: string;
+  value: string;
+  text: string;
+}
+
 interface SelectProps {
   /**
-   * Label's text;
+   * Label's text
    */
   label: string;
   /**
@@ -15,14 +21,9 @@ interface SelectProps {
    */
   name: string;
   /**
-   * Options list (Array<OptionType>)
+   * Options list (array of options)
    */
   options: OptionType[];
-}
-interface OptionType {
-  id: string;
-  value: string;
-  text: string;
 }
 
 export const Select: React.FC<SelectProps> = (props: SelectProps) => {
@@ -31,7 +32,8 @@ export const Select: React.FC<SelectProps> = (props: SelectProps) => {
   return (
     <label>
       {props.label}
-      <select name={props.name}
+      <select
+        name={props.name}
         defaultValue={selected}
         onChange={handleOnChange}
         className={styles.select}
