@@ -13,9 +13,9 @@ interface TooltipProps {
   */
   content: string | ReactNode;
   /**
-  * Tooltip's class-style (string)
+  * Tooltip's class-style, optional (default - tooltipDefault)
   */
-  className: string;
+  className?: string;
   /**
   * Tooltip's position relative cursor, optional (default - PositionTooltip.TOP)
   */
@@ -23,7 +23,8 @@ interface TooltipProps {
 }
 
 export const Tooltip = (props: TooltipProps) => {
-  const classes = clsx(styles.tooltip, styles[props.className], styles[props.position ?? PositionTooltip.TOOOLTIP_TOP]);
+  const styleTooltip = styles[props.className ?? "tooltipDefault"];
+  const classes = clsx(styles.tooltip, styleTooltip, styles[props.position ?? PositionTooltip.TOOOLTIP_TOP]);
 
   return (
     <div className={styles.wrapper}>
