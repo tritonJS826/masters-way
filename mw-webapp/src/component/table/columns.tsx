@@ -6,7 +6,6 @@ import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
 import {DateUtils} from "src/utils/DateUtils";
 import styles from "src/component/table/columns.module.scss";
 
-const INDEX_OF_CHECK_MARK = 0;
 const DEFAULT_SUMMARY_TIME = 0;
 
 const columnHelper = createColumnHelper<DayReport>();
@@ -27,9 +26,8 @@ const getStringArrayItem = (arrayItem: string, index: string) => {
     (!arrayItem) ?
       <div />
       :
-    //TODO: task #65 use flag instead of first index
       <div key={index}>
-        <div className={arrayItem[INDEX_OF_CHECK_MARK] === "✓" ? styles.completed : styles.notCompleted}>
+        <div className={arrayItem.includes("✓") ? styles.completed : styles.notCompleted}>
           {arrayItem}
         </div>
       </div>
