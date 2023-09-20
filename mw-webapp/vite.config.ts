@@ -29,7 +29,7 @@ export default defineConfig(() => {
   }, {});
 
   return {
-    build: {outDir: "build"},
+    build: {target: "esnext", outDir: "build"},
     plugins: [
       react(),
       eslint(
@@ -39,7 +39,6 @@ export default defineConfig(() => {
       ),
       viteTsconfigPaths(),
     ],
-
     define: getEnvs(envNames),
   };
 });

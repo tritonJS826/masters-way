@@ -1610,6 +1610,92 @@
       }
     }
   ],
+    "currentProblems": ["Problem is that I created custom scripts for check-lint and etc but need to use exists script"],
+    "studentComment": [""],
+    "learnedForToday": [""],
+    "mentorComment": [""],
+    "isDayOff": false
+  },
+  {
+    "id": "34",
+    "date": "2023-09-18",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Rename const (DateUtils.ts)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 150
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Search for new developers (creating an ad, correspondence, calling)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 30
+      }
+    }
+  ],
+    "planForTomorrow": [{
+      "id": "0",
+      "todoItem": "Set up Husky",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 180
+      }
+    }
+  ],
+    "currentProblems": [""],
+    "studentComment": ["Search of new developers is a very hard work. It's take too much time. But it's fun to create a big group"],
+    "learnedForToday": [""],
+    "mentorComment": [""],
+    "isDayOff": false
+  },
+  {
+    "id": "35",
+    "date": "2023-09-19",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Set up Husky",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 130
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Set up lint-staged",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 50
+      }
+    },
+    {
+      "id": "2",
+      "todoItem": "Create commit-msg hook for check commit name",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 45
+      }
+    }
+  ],
+    "planForTomorrow": [{
+      "id": "0",
+      "todoItem": "Create editable cells (only client)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 90
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Create editable cells with save info on server",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 90
+      }
+    }
+  ],
     "currentProblems": [""],
     "studentComment": [""],
     "learnedForToday": [""],

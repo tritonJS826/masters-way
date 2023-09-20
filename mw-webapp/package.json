@@ -9,9 +9,9 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
+    "@types/node": "^16.18.40",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
-    "@types/node": "^16.18.40",
     "firebase": "^10.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -26,9 +26,17 @@
     "build": "vite build",
     "serve": "vite preview",
     "lint-check": "eslint .",
-    "type-check": "tsc",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "lint-fix": "eslint . --fix",
+    "type-check": "tsc",
+    "test": "echo \"Script doesn't work\"",
+    "prepare": "cd .. && husky install"
+  },
+  "lint-staged": {
+    "**/*.{ts, tsx}": [
+      "pnpm run lint-fix"
+    ]
   },
   "eslintConfig": {
     "extends": [
@@ -67,6 +75,8 @@
     "eslint-plugin-react": "^7.33.1",
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "storybook": "7.4.2",
+    "husky": "^8.0.0",
+    "lint-staged": "^14.0.1",
     "vite": "^4.4.9",
     "vite-plugin-eslint": "^1.8.1",
     "vite-tsconfig-paths": "^4.2.0"
