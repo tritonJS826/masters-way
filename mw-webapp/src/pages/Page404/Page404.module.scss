@@ -1,0 +1,10 @@
+@import "src/styles/variables.scss";
+
+.container {
+  display: flex;
+  width: 100%;
+  height: 70vh;
+  justify-content: center;
+  align-items: center;
+  font-size: $font-s-large; 
+}
