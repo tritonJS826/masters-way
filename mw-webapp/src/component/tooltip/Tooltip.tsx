@@ -1,6 +1,6 @@
 import {ReactNode} from "react";
 import clsx from "clsx";
-import {PositionTooltip} from "src/component/tooltip/positionTooltip/PositionTooltip";
+import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import styles from "src/component/tooltip/Tooltip.module.scss";
 
 interface TooltipProps {
