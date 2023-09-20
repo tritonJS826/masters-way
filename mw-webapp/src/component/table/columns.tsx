@@ -3,6 +3,7 @@ import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
+import {StudentComment} from "src/model/businessModel/StudentComment";
 import {DateUtils} from "src/utils/DateUtils";
 import styles from "src/component/table/columns.module.scss";
 
@@ -21,13 +22,13 @@ const getObjectArrayItem = (arrayItem: JobDone | PlanForNextPeriod | CurrentProb
   );
 };
 
-const getStringArrayItem = (arrayItem: string, index: string) => {
+const getStringArrayItem = (arrayItem: string, index: string, isDone?:boolean) => {
   return (
     (!arrayItem) ?
       <div />
       :
       <div key={index}>
-        <div className={arrayItem.includes("✓") ? styles.completed : styles.notCompleted}>
+        <div className={isDone ? styles.completed : styles.notCompleted}>
           {arrayItem}
         </div>
       </div>
@@ -97,13 +98,14 @@ export const columns: ColumnDef<DayReport, Date & JobDone[] & PlanForNextPeriod[
       );
     },
   }),
-  columnHelper.accessor<"studentComments", string[]>("studentComments", {
+  columnHelper.accessor<"studentComments", StudentComment[]>("studentComments", {
     header: "Student comments",
     cell: ({row}) => {
       const parentID = row.original.uuid;
+
       return (
         row.original.studentComments
-          ?.map((studentCommentItem) => (getStringArrayItem(studentCommentItem, parentID)))
+          ?.map((studentCommentItem) => (getStringArrayItem(studentCommentItem.description, parentID, studentCommentItem.isDone)))
       );
     },
   }),
