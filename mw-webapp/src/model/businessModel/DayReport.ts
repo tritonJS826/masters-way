@@ -1,6 +1,7 @@
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
+import {StudentComment} from "src/model/businessModel/StudentComment";
 
 /**
  * Day's report
@@ -35,7 +36,7 @@ export class DayReport {
   /**
    * Anything that student wants to say about work
    */
-  public studentComments: string[];
+  public studentComments: StudentComment[];
 
   /**
    * New knowledge that the user has received
