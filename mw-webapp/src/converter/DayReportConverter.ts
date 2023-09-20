@@ -14,19 +14,19 @@ const plansForNextPeriodRaw = await PlanForNextPeriodService.getPlansForNextPeri
 const problemsForCurrentPeriodRaw = await CurrentProblemService.getCurrentProblems();
 
 export const DayReportDTOToDayReportConverter = (dayReportRaw: DayReportDTO) => {
-  const jobsDone = dayReportRaw.jobsDone?.map((item) => {
+  const jobsDone = dayReportRaw.jobsDone.map((item) => {
     const jobDone: JobDone = jobsDoneRaw
       .find((elem) => elem.uuid === item) || jobsDoneRaw[FIRST_INDEX];
     return jobDone;
   });
 
-  const plansForNextPeriod = dayReportRaw.plansForNextPeriod?.map((item) => {
+  const plansForNextPeriod = dayReportRaw.plansForNextPeriod.map((item) => {
     const planForNextPeriod: PlanForNextPeriod = plansForNextPeriodRaw
       .find((elem) => elem.uuid === item) || plansForNextPeriodRaw[FIRST_INDEX];
     return planForNextPeriod;
   });
 
-  const problemsForCurrentPeriod = dayReportRaw.problemsForCurrentPeriod?.map((item) => {
+  const problemsForCurrentPeriod = dayReportRaw.problemsForCurrentPeriod.map((item) => {
     const problemForCurrentPeriod: CurrentProblem = problemsForCurrentPeriodRaw
       .find((elem) => elem.uuid === item) || problemsForCurrentPeriodRaw[FIRST_INDEX];
     return problemForCurrentPeriod;
