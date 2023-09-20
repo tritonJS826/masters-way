@@ -1,14 +1,15 @@
 import React from "react";
+import clsx from "clsx";
 import {Heading} from "@radix-ui/themes";
 import styles from "./Title.module.scss";
 
 export enum HeadingLevel {
-  H1 = "h1",
-  H2 = "h2",
-  H3 = "h3",
-  H4 = "h4",
-  H5 = "h5",
-  H6 = "h6",
+  h1 = "h1",
+  h2 = "h2",
+  h3 = "h3",
+  h4 = "h4",
+  h5 = "h5",
+  h6 = "h6",
 }
 
 interface TitleProps {
@@ -17,19 +18,20 @@ interface TitleProps {
    */
   level: HeadingLevel;
   /**
-   * CSS class name for styling the component.
+   * Additional custom class name for the component.
    */
   className: string;
   /**
-   * Text content of the heading
+   * The title text for the heading.
    */
   text: string;
 }
 
 export const Title: React.FC<TitleProps> = (props: TitleProps) => {
   return (
-    <Heading as={props.level}
-      className={styles.title + " " + props.className}
+    <Heading
+      as={props.level}
+      className={clsx(styles.title, props.className)}
     >
       {props.text}
     </Heading>
