@@ -8,11 +8,8 @@ export const WaysBlock = () => {
   const [ways, setWays] = useState<Way[]>([]);
 
   useEffect(() => {
-    WayService.getWays(setWays);
-    () => {
-      //TODO task #64
-      // RemoveEventListener from db if needed (read about handling event listeners
-      // In react use effect components (when and whyu you shoud remove them))
+    return () => {
+      WayService.getWays(setWays);
     };
   }, []);
 

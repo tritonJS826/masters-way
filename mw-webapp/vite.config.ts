@@ -30,7 +30,15 @@ export default defineConfig(() => {
 
   return {
     build: {target: "esnext", outDir: "build"},
-    plugins: [react(), eslint(), viteTsconfigPaths()],
+    plugins: [
+      react(),
+      eslint(
+      // Exclude "virtual" to fix bug with vite-plugin-eslint and Storybook
+      // https://github.com/storybookjs/builder-vite/issues/535#issuecomment-1507352550
+        {exclude: ["/virtual:/**"]},
+      ),
+      viteTsconfigPaths(),
+    ],
     define: getEnvs(envNames),
   };
 });
