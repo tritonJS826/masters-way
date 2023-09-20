@@ -9,24 +9,24 @@ import {PlanForNextPeriodService} from "src/service/PlanForNextPeriodService";
 
 const FIRST_INDEX = 0;
 
-const jobsDoneRaw = await JobDoneService.onValueFromRealTimeDb();
-const plansForNextPeriodRaw = await PlanForNextPeriodService.onValueFromRealTimeDb();
-const problemsForCurrentPeriodRaw = await CurrentProblemService.onValueFromRealTimeDb();
+const jobsDoneRaw = await JobDoneService.getJobsDone();
+const plansForNextPeriodRaw = await PlanForNextPeriodService.getPlansForNextPeriod();
+const problemsForCurrentPeriodRaw = await CurrentProblemService.getCurrentProblems();
 
 export const DayReportDTOToDayReportConverter = (dayReportRaw: DayReportDTO) => {
-  const jobsDone = dayReportRaw.jobsDone.map((item) => {
+  const jobsDone = dayReportRaw.jobsDone?.map((item) => {
     const jobDone: JobDone = jobsDoneRaw
       .find((elem) => elem.uuid === item) || jobsDoneRaw[FIRST_INDEX];
     return jobDone;
   });
 
-  const plansForNextPeriod = dayReportRaw.plansForNextPeriod.map((item) => {
+  const plansForNextPeriod = dayReportRaw.plansForNextPeriod?.map((item) => {
     const planForNextPeriod: PlanForNextPeriod = plansForNextPeriodRaw
       .find((elem) => elem.uuid === item) || plansForNextPeriodRaw[FIRST_INDEX];
     return planForNextPeriod;
   });
 
-  const problemsForCurrentPeriod = dayReportRaw.problemsForCurrentPeriod.map((item) => {
+  const problemsForCurrentPeriod = dayReportRaw.problemsForCurrentPeriod?.map((item) => {
     const problemForCurrentPeriod: CurrentProblem = problemsForCurrentPeriodRaw
       .find((elem) => elem.uuid === item) || problemsForCurrentPeriodRaw[FIRST_INDEX];
     return problemForCurrentPeriod;

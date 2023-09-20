@@ -8,7 +8,7 @@ export const WaysBlock = () => {
   const [ways, setWays] = useState<Way[]>([]);
 
   useEffect(() => {
-    WayService.onValueFromRealTimeDb(setWays);
+    WayService.getWays(setWays);
     () => {
       //TODO task #64
       // RemoveEventListener from db if needed (read about handling event listeners

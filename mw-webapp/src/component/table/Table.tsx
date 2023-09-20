@@ -9,7 +9,7 @@ export const Table = () => {
   const [data, setData] = useState<DayReport[]>([]);
 
   useEffect(() => {
-    DayReportService.onValueFromRealTimeDb(setData);
+    DayReportService.getDayReports(setData);
     () => {
       //TODO
       // RemoveEventListener from db if needed (read about handling event listeners

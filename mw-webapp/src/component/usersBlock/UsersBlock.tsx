@@ -8,7 +8,7 @@ export const UsersBlock = () => {
   const [usersList, setUsersList] = useState<User[]>([]);
 
   useEffect(() => {
-    UserService.onValueFromRealTimeDb(setUsersList);
+    UserService.getUsers(setUsersList);
     () => {
       //TODO
       // RemoveEventListener from db if needed (read about handling event listeners

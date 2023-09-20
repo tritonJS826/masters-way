@@ -1701,5 +1701,56 @@
     "learnedForToday": [""],
     "mentorComment": [""],
     "isDayOff": false
+  },
+  {
+    "id": "36",
+    "date": "2023-09-20",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Create base collections on firestore (Users, Ways, DayReports, JobsDone, PLansForNextPeriod, CurrentProblems)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 35
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "CRUD methods for users",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 75
+      }
+    },
+    {
+      "id": "2",
+      "todoItem": "Read method to get data in service layer (CurrentProblemService, DayReportService, JobDoneService, PlanForNextPeriodService, UserService, WaySevice)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 70
+      }
+    }
+  ],
+    "planForTomorrow": [{
+      "id": "0",
+      "todoItem": "Create right collections on firestorewith references",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 120 
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Create converters that use id references for import other collections",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 120
+      }
+    }
+  ],
+    "currentProblems": [""],
+    "studentComment": [""],
+    "learnedForToday": [""],
+    "mentorComment": [""],
+    "isDayOff": false
   }
 ]
