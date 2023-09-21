@@ -1,13 +1,9 @@
-import {ReactNode} from "react";
+import {PropsWithChildren, ReactNode} from "react";
 import clsx from "clsx";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import styles from "src/component/tooltip/Tooltip.module.scss";
 
 interface TooltipProps {
-  /**
-  * Tooltip's children (ReactNode)
-  */
-  children: ReactNode;
   /**
   * Tooltip's content (string | ReactNode)
   */
@@ -22,7 +18,7 @@ interface TooltipProps {
   position?: PositionTooltip;
 }
 
-export const Tooltip = (props: TooltipProps) => {
+export const Tooltip: React.FC<PropsWithChildren<TooltipProps>> = (props: PropsWithChildren<TooltipProps>) => {
   const styleTooltip = styles[props.className ?? "default"];
   const classes = clsx(styles.tooltip, styleTooltip, styles[props.position ?? PositionTooltip.TOP]);
 
