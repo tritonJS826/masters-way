@@ -1,7 +1,7 @@
 import React from "react";
-import clsx from "clsx";
 import {Heading} from "@radix-ui/themes";
-import styles from "./Title.module.scss";
+import clsx from "clsx";
+import styles from "src/component/title/Title.module.scss";
 
 export enum HeadingLevel {
   h1 = "h1",
