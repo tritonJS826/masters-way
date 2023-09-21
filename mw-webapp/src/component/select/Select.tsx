@@ -1,5 +1,5 @@
-import styles from "src/component/select/Select.module.scss";
 import {useState} from "react";
+import styles from "src/component/select/Select.module.scss";
 
 export interface OptionType {
   id: string;
@@ -7,7 +7,9 @@ export interface OptionType {
   text: string;
 }
 
-// implement a simple select component
+/**
+   * Implement a simple select component
+   */
 export interface SelectProps {
   /**
    * Label's text
