@@ -18,11 +18,11 @@ interface TitleProps {
    */
   level: HeadingLevel;
   /**
-   * Additional custom class name for the component.
+   * Additional custom class name for the component
    */
   className: string;
   /**
-   * The title text for the heading.
+   * Title
    */
   text: string;
 }
