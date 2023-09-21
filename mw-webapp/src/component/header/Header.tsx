@@ -26,7 +26,7 @@ export const Header = () => {
       <h1 className={styles.title}>
         {LOGO_TEXT.toUpperCase()}
       </h1>
-      <div className={styles.block_button}>
+      <div className={styles.blockButton}>
         <Button
           onClick={user ? logOut : logIn}
           value={user ? BUTTON_LOG_OUT_VALUE : BUTTON_LOG_IN_VALUE}
