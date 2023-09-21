@@ -18,28 +18,28 @@
   &Default {
     
   }
+}
 
-  &Top {
-    top: -20%;
-    transform: translateX(-50%);
-    left: 50%;
-  }
+.top {
+  top: -20%;
+  transform: translateX(-50%);
+  left: 50%;
+}
 
-  &Right {
-    right: -20%;
-    transform: translateY(-50%);
-    top: 50%;
-  }
+.right {
+  right: -20%;
+  transform: translateY(-50%);
+  top: 50%;
+}
 
-  &Bottom  {
-    bottom: -20%;
-    transform: translateX(-50%);
-    left: 50%;
-  }
+.bottom  {
+  bottom: -20%;
+  transform: translateX(-50%);
+  left: 50%;
+}
 
-  &Left {
-    left: -20%;
-    transform: translateY(-50%);
-    top: 50%;
-  }
+.left {
+  left: -20%;
+  transform: translateY(-50%);
+  top: 50%;
 }

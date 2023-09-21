@@ -1,18 +1,18 @@
 export const enum PositionTooltip {
   /**
-  * Position Tooltip is top relative cursor
+  * Position Tooltip is above the cursor relative to the element
   */
-  TOP = "tooltipTop",
+  TOP = "top",
   /**
-  * Position Tooltip is left relative cursor
+  * Position Tooltip to the left of the cursor relative to the element
   */
-  LEFT = "tooltipLeft",
+  LEFT = "left",
   /**
-  * Position Tooltip is right relative cursor
+  * Position Tooltip to the right of the cursor relative to the element
   */
-  RIGHT = "tooltipRight",
+  RIGHT = "right",
   /**
-  * Position Tooltip is bottom relative cursor
+  * Position Tooltip is below the cursor relative to the element
   */
-  BOTTOM = "tooltipBottom"
+  BOTTOM = "bottom"
 }
