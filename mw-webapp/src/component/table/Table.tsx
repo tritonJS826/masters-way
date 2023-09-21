@@ -1,5 +1,5 @@
-import {useState, useEffect} from "react";
-import {useReactTable, getCoreRowModel, flexRender} from "@tanstack/react-table";
+import {useEffect, useState} from "react";
+import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import {columns} from "src/component/table/columns";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {DayReportService} from "src/service/DayReportService";
@@ -12,8 +12,8 @@ export const Table = () => {
     DayReportService.onValueFromRealTimeDb(setData);
     () => {
       //TODO
-      // removeEventListener from db if needed (read about handling event listeners
-      // in react use effect components (when and whyu you shoud remove them))
+      // RemoveEventListener from db if needed (read about handling event listeners
+      // In react use effect components (when and whyu you shoud remove them))
     };
   }, []);
 

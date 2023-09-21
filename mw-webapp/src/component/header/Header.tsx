@@ -1,13 +1,13 @@
-import {Link} from "src/component/link/Link";
-import styles from "src/component/header/Header.module.scss";
-import {Button} from "src/component/button/Button";
-import {pages} from "src/router/pages";
 import {useEffect, useState} from "react";
 import {User} from "firebase/auth";
-import {writeNewUserCredentials} from "src/utils/auth/writeNewUserCredentials";
-import {handleUserAuthState} from "src/utils/auth/handleUserAuthState";
-import {handleLogOut} from "src/utils/auth/handleLogOut";
+import {Button} from "src/component/button/Button";
+import {Link} from "src/component/link/Link";
+import {pages} from "src/router/pages";
 import {handleLogIn} from "src/utils/auth/handleLogIn";
+import {handleLogOut} from "src/utils/auth/handleLogOut";
+import {handleUserAuthState} from "src/utils/auth/handleUserAuthState";
+import {writeNewUserCredentials} from "src/utils/auth/writeNewUserCredentials";
+import styles from "src/component/header/Header.module.scss";
 
 const BUTTON_LOG_IN_VALUE = "Login";
 const BUTTON_LOG_OUT_VALUE = "Logout";
