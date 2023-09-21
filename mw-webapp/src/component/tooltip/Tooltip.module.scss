@@ -20,25 +20,25 @@
   }
 
   &Top {
-    bottom: 130%;
+    top: -20%;
     transform: translateX(-50%);
     left: 50%;
   }
 
   &Right {
-    left: 130%;
+    right: -20%;
     transform: translateY(-50%);
     top: 50%;
   }
 
   &Bottom  {
-    top: 130%;
+    bottom: -20%;
     transform: translateX(-50%);
     left: 50%;
   }
 
   &Left {
-    right: 130%;
+    left: -20%;
     transform: translateY(-50%);
     top: 50%;
   }

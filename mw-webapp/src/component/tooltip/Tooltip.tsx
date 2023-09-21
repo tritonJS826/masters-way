@@ -9,11 +9,11 @@ interface TooltipProps {
   */
   content: string | ReactNode;
   /**
-  * Tooltip's class-style, optional (default - string)
+  * Tooltip's className, default ("default")
   */
   className?: string;
   /**
-  * Tooltip's position relative cursor, optional (default - PositionTooltip.TOP)
+  * Tooltip's position default {@link PositionTooltip.TOP}
   */
   position?: PositionTooltip;
 }
