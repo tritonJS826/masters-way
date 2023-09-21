@@ -1,7 +1,5 @@
-@import "src/styles/variables.scss";
+@import "src/styles/mixins";
 
 .title {
-    padding-top: $title-padding;
-    color: $title-color;
-    text-shadow: 2px 2px 2px $title-shadow;
+    @include title;
 }
