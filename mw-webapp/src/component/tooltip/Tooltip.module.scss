@@ -14,32 +14,31 @@
   display: none;
   position: absolute;
   overflow: hidden;
+}
 
-  &Default {
-    
-  }
+.default {
 }
 
 .top {
-  top: -20%;
-  transform: translateX(-50%);
+  transform: translateY(-102%) translateX(-50%);
+  top: 0;
   left: 50%;
 }
 
 .right {
-  right: -20%;
-  transform: translateY(-50%);
+  right: 0;
+  transform: translateX(102%) translateY(-50%);
   top: 50%;
 }
 
 .bottom  {
-  bottom: -20%;
-  transform: translateX(-50%);
+  bottom: 0;
+  transform: translateY(102%) translateX(-50%);
   left: 50%;
 }
 
 .left {
-  left: -20%;
-  transform: translateY(-50%);
+  left: 0;
+  transform: translateX(-102%) translateY(-50%);;
   top: 50%;
 }
