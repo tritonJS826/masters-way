@@ -18,8 +18,20 @@
     // "project": ["**/tsconfig.json", "**/vite.config.ts"] // путь для сопоставления файлов tsconfig относительно parserOptions.tsconfigRootDir, ​​или текущего рабочего каталога, если он не указан
     "project": true // указывает на поиск ближайшего tsconfig.json для каждого исходного файла
   },
-  "plugins": ["react", "@typescript-eslint"],
+  "plugins": ["react", "@typescript-eslint", "simple-import-sort"],
   "rules": {
+    "simple-import-sort/imports": [
+      "error",
+      {
+        "groups": [
+          // Packages `react` related packages come first, Side effect imports, Internal packages, Anything not matched in another group, Style imports
+          ["^react", "^\\u0000", "^(@|components)(/.*|$)", "^", "^.+\\.?(css)$"]
+        ]
+      }
+    ],
+    "capitalized-comments": ["error", "always", {"ignorePattern": "pragma|ignored", "ignoreInlineComments": true}],
+    "no-magic-numbers": "error",
+    "no-console": "error",
     "react/react-in-jsx-scope": "off",
     "no-tabs": ["error", { "allowIndentationTabs": true }],
     "max-lines": ["error", 3000],
@@ -116,6 +128,7 @@
     "no-var": "error",
     "prefer-const": "error"
   },
+  "ignorePatterns": ["/build"],
   "settings": {
     "import/resolver": {
       "node": { "extensions": [".js", ".jsx", ".ts", ".tsx"] }

@@ -1,12 +1,12 @@
-import {User} from "firebase/auth";
 import {useEffect, useState} from "react";
 import {Link, Navigate} from "react-router-dom";
+import {User} from "firebase/auth";
 import {Button} from "src/component/button/Button";
-import {writeNewUserCredentials} from "src/utils/auth/writeNewUserCredentials";
-import {handleUserAuthState} from "src/utils/auth/handleUserAuthState";
+import {pages} from "src/router/pages";
 import {handleLogIn} from "src/utils/auth/handleLogIn";
 import {handleLogOut} from "src/utils/auth/handleLogOut";
-import {pages} from "src/router/pages";
+import {handleUserAuthState} from "src/utils/auth/handleUserAuthState";
+import {writeNewUserCredentials} from "src/utils/auth/writeNewUserCredentials";
 
 const BUTTON_LOG_IN_VALUE = "Login";
 const BUTTON_LOG_OUT_VALUE = "Logout";
