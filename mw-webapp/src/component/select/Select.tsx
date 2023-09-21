@@ -1,13 +1,14 @@
 import styles from "src/component/select/Select.module.scss";
 import {useState} from "react";
 
-interface OptionType {
+export interface OptionType {
   id: string;
   value: string;
   text: string;
 }
 
-interface SelectProps {
+// implement a simple select component
+export interface SelectProps {
   /**
    * Label's text
    */
@@ -21,7 +22,7 @@ interface SelectProps {
    */
   name: string;
   /**
-   * Options list (array of options)
+   * Options list
    */
   options: OptionType[];
 }
