@@ -5,7 +5,7 @@ import styles from "src/component/tooltip/Tooltip.module.scss";
 
 interface TooltipProps {
   /**
-  * Tooltip's content (string | ReactNode)
+  * Tooltip's content (text or JSX.Element)
   */
   content: string | ReactNode;
   /**
