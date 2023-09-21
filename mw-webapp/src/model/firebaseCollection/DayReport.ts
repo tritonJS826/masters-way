@@ -31,7 +31,7 @@ export class DayReport {
   public problemsForCurrentPeriod: string[];
 
   /**
-   * Array of student comments and their status
+   * Student comments
    */
   public studentComments: StudentComment[];
 

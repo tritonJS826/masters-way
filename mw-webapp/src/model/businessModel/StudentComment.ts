@@ -1,5 +1,5 @@
 /**
- * Student comments
+ * Student comment
  */
 export class StudentComment {
 
