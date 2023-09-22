@@ -5,15 +5,17 @@ import styles from "src/component/tooltip/Tooltip.module.scss";
 
 interface TooltipProps {
   /**
-  * Tooltip's content (text or JSX.Element)
+  * Tooltip's content
   */
   content: string | ReactNode;
   /**
-  * Tooltip's className, default ("tooltip")
+  * Tooltip's className
+  * default ("tooltip")
   */
   className?: string;
   /**
-  * Tooltip's position default {@link PositionTooltip.TOP}
+  * Tooltip's position
+  * default: {@link PositionTooltip.TOP}
   */
   position?: PositionTooltip;
 }
