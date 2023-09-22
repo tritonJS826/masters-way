@@ -1,13 +1,26 @@
 import styles from "src/component/select/Select.module.scss";
 
-// Implement an option element for a select component
+/**
+ * Implement an option element for a select component
+ */
 export interface OptionType {
+  /**
+   * Unique value
+   */
   id: string;
+  /**
+   * Option value
+   */
   value: string;
+  /**
+   * Option`s text
+   */
   text: string;
 }
 
-// Implement a simple select component
+/**
+ * Implement a simple select component
+ */
 export interface SelectProps {
   /**
    * Label's text
