@@ -1,28 +1,31 @@
 import {collection, getDocs} from "firebase/firestore";
-import {DayReportDTOToDayReportConverter} from "src/converter/DayReportConverter";
+import {DayReportDTOToDayReportConverter, querySnapshotToDayReportDTOConverter} from "src/converter/dayReportConverter";
 import {db} from "src/firebase";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {DayReport as DayReportDTO} from "src/model/firebaseCollection/DayReport";
-
-const PATH_TO_DAY_REPORTS_COLLECTION = "dayReports";
+import {CurrentProblemService} from "src/service/CurrentProblemService";
+import {JobDoneService} from "src/service/JobDoneService";
+import {PathToCollection} from "src/service/PathToCollection";
+import {PlanForNextPeriodService} from "src/service/PlanForNextPeriodService";
 
 export class DayReportService {
 
-  public static async getDayReports(callBack: (data: DayReport[]) => void) {
-    const dayReportsRaw = await getDocs(collection(db, PATH_TO_DAY_REPORTS_COLLECTION));
-    const dayReportsDTO: DayReportDTO[] = dayReportsRaw.docs.map((dayReportRaw) => ({
-      uuid: dayReportRaw.data().uuid,
-      date: dayReportRaw.data().date,
-      jobsDone: dayReportRaw.data().jobsDone,
-      plansForNextPeriod: dayReportRaw.data().plansForNextPeriod,
-      problemsForCurrentPeriod: dayReportRaw.data().problemsForCurrentPeriod,
-      studentComments: dayReportRaw.data().studentComments,
-      learnedForToday: dayReportRaw.data().learnedForToday,
-      mentorComments: dayReportRaw.data().mentorComments,
-      isDayOff: dayReportRaw.data().isDayOff,
-    }));
-    const dayReports = dayReportsDTO.map((dayReportDTO) => DayReportDTOToDayReportConverter(dayReportDTO));
-    callBack(dayReports);
+  public static async getDayReports(): Promise<DayReport[]> {
+    const jobsDoneRaw = await JobDoneService.getJobsDone();
+    const plansForNextPeriodRaw = await PlanForNextPeriodService.getPlansForNextPeriod();
+    const problemsForCurrentPeriodRaw = await CurrentProblemService.getCurrentProblems();
+
+    const obj = {
+      jobsDoneRaw,
+      plansForNextPeriodRaw,
+      problemsForCurrentPeriodRaw,
+    };
+
+    const dayReportsRaw = await getDocs(collection(db, PathToCollection.dayReports));
+    const dayReportsDTO: DayReportDTO[] = querySnapshotToDayReportDTOConverter(dayReportsRaw);
+    const dayReports = dayReportsDTO.map((dayReportDTO) =>
+      DayReportDTOToDayReportConverter(dayReportDTO, obj));
+    return dayReports;
   }
 
 }

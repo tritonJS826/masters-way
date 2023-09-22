@@ -8,8 +8,12 @@ import styles from "src/component/table/Table.module.scss";
 export const Table = () => {
   const [data, setData] = useState<DayReport[]>([]);
 
+  const getDayReports = async () => {
+    setData(await DayReportService.getDayReports());
+  };
+
   useEffect(() => {
-    DayReportService.getDayReports(setData);
+    getDayReports();
     () => {
       //TODO
       // RemoveEventListener from db if needed (read about handling event listeners

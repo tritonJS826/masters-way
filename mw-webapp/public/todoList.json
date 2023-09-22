@@ -1752,5 +1752,56 @@
     "learnedForToday": [""],
     "mentorComment": [""],
     "isDayOff": false
+  },
+  {
+    "id": "37",
+    "date": "2023-09-21",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Resolve problem with getting data in converters (Now I get data from db in service layer and convert it in converters)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 40
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Move to converters layer DocumentToDTO converters from service layer",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 100
+      }
+    },
+    {
+      "id": "2",
+      "todoItem": "Rename functions (converters) and change methods to get data (delete callback, now it return data)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 35
+      }
+    }
+  ],
+    "planForTomorrow": [{
+      "id": "0",
+      "todoItem": "Fix mistakes in PR",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 60 
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Add eslint rules about comments",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 120
+      }
+    }
+  ],
+    "currentProblems": ["Long time didn't understand how don't use getData functions in converter layer while we need to convert uuid to object model"],
+    "studentComment": [""],
+    "learnedForToday": [""],
+    "mentorComment": [""],
+    "isDayOff": false
   }
 ]

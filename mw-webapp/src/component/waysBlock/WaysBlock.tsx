@@ -7,9 +7,13 @@ import styles from "src/component/waysBlock/WaysBlock.module.scss";
 export const WaysBlock = () => {
   const [ways, setWays] = useState<Way[]>([]);
 
+  const getWays = async () => {
+    setWays(await WayService.getWays());
+  };
+
   useEffect(() => {
     return () => {
-      WayService.getWays(setWays);
+      getWays();
     };
   }, []);
 

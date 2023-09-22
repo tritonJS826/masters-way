@@ -29,7 +29,11 @@
         ]
       }
     ],
-    "capitalized-comments": ["error", "always", {"ignorePattern": "pragma|ignored", "ignoreInlineComments": true}],
+    "capitalized-comments": [
+      "error",
+      "always",
+      { "ignoreInlineComments": true, "ignoreConsecutiveComments": true }
+    ],
     "no-magic-numbers": "error",
     "no-console": "error",
     "react/react-in-jsx-scope": "off",

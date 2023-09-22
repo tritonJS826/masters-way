@@ -7,8 +7,12 @@ import styles from "src/component/usersBlock/UsersBlock.module.scss";
 export const UsersBlock = () => {
   const [usersList, setUsersList] = useState<User[]>([]);
 
+  const getUsers = async () => {
+    setUsersList(await UserService.getUsers());
+  };
+
   useEffect(() => {
-    UserService.getUsers(setUsersList);
+    getUsers();
     () => {
       //TODO
       // RemoveEventListener from db if needed (read about handling event listeners
