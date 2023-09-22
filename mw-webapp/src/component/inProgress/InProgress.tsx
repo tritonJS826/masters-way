@@ -1,4 +1,4 @@
-import styles from "src/component/loading/loading.module.scss";
+import styles from "src/component/inProgress/InProgress.module.scss";
 
 const Loading = () => {
   return (

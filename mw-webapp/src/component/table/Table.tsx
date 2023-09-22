@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import Loading from "../loading/Loading";
+import Loading from "../inProgress/InProgress";
 import {
   flexRender,
   getCoreRowModel,
@@ -32,9 +32,6 @@ export const Table = () => {
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
-
-  // eslint-disable-next-line no-console
-  console.log(data);
 
   return (
     <div className={styles.container}>
