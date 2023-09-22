@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import Loading from "../inProgress/InProgress";
+import InProgress from "../inProgress/InProgress";
 import {
   flexRender,
   getCoreRowModel,
@@ -57,7 +57,7 @@ export const Table = () => {
           ))}
         </thead>
         <tbody className={styles.tbody}>
-          {loading ? <Loading /> : table.getRowModel().rows.map((row) => (
+          {loading ? <InProgress /> : table.getRowModel().rows.map((row) => (
             <tr className={styles.tr}
               key={row.id}
             >
