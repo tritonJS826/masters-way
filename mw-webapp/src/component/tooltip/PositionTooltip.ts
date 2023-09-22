@@ -1,3 +1,6 @@
+/**
+ * Public enum describe position Tooltip
+ */
 export const enum PositionTooltip {
   /**
   * Position Tooltip is above the cursor relative to the element
