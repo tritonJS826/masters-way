@@ -1,26 +1,28 @@
 import {useState} from "react";
 import styles from "src/component/select/Select.module.scss";
 
+
+// Implement an option element for a select component
+
 export interface OptionType {
   id: string;
   value: string;
   text: string;
 }
 
-/**
-   * Implement a simple select component
-   */
+// Implement a simple select component
+
 export interface SelectProps {
   /**
    * Label's text
    */
   label: string;
   /**
-   * Default select value (string)
+   * Default select value
    */
   value: string;
   /**
-   * Select's name (string)
+   * Select's name
    */
   name: string;
   /**
@@ -32,6 +34,7 @@ export interface SelectProps {
 export const Select: React.FC<SelectProps> = (props: SelectProps) => {
   const [selected, setSelected] = useState(props.value);
   const handleOnChange = (e: React.ChangeEvent<HTMLSelectElement>) => setSelected(e.target.value);
+
   return (
     <label>
       {props.label}
