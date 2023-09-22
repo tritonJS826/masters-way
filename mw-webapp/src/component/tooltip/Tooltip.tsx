@@ -13,7 +13,6 @@ interface TooltipProps {
   content: string | ReactNode;
   /**
   * Tooltip's className
-  * default ("tooltip")
   */
   className?: string;
   /**
