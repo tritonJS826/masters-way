@@ -1,11 +1,11 @@
 import styles from "src/component/select/Select.module.scss";
 
 /**
- * Implement an option element for a select component
+ * Option element for a select component
  */
 export interface OptionType {
   /**
-   * Unique value
+   * Option id. Should be unique
    */
   id: string;
   /**
@@ -13,13 +13,13 @@ export interface OptionType {
    */
   value: string;
   /**
-   * Option`s text
+   * Option`s visible text
    */
   text: string;
 }
 
 /**
- * Implement a simple select component
+ * Select component
  */
 export interface SelectProps {
   /**
@@ -49,6 +49,14 @@ export interface SelectProps {
 }
 
 export const Select: React.FC<SelectProps> = (props: SelectProps) => {
+  const renderOption = props.options.map((option) => (
+    <option key={option.id}
+      value={option.value}
+    >
+      {option.text}
+    </option>
+  ));
+
   return (
     <label>
       {props.label}
@@ -59,13 +67,7 @@ export const Select: React.FC<SelectProps> = (props: SelectProps) => {
         className={styles.select}
       >
         {props.value}
-        {props.options.map((option) => (
-          <option key={option.id}
-            value={option.value}
-          >
-            {option.text}
-          </option>
-        ))}
+        {renderOption}
       </select>
     </label>
   );
