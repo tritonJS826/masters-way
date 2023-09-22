@@ -1,5 +1,6 @@
 /**
- * Public enum describe position Tooltip
+ * Describes position Tooltip
+ * @public
  */
 export const enum PositionTooltip {
   /**
