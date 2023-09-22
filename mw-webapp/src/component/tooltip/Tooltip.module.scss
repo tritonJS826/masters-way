@@ -17,25 +17,25 @@
 }
 
 .top {
-  transform: translateY(-102%) translateX(-50%);
-  top: 0;
+  transform: translateY(-100%) translateX(-50%);
+  top: -5px;
   left: 50%;
 }
 
 .right {
-  right: 0;
-  transform: translateX(102%) translateY(-50%);
+  right: -5px;
+  transform: translateX(100%) translateY(-50%);
   top: 50%;
 }
 
 .bottom  {
-  bottom: 0;
-  transform: translateY(102%) translateX(-50%);
+  bottom: -5px;
+  transform: translateY(100%) translateX(-50%);
   left: 50%;
 }
 
 .left {
-  left: 0;
-  transform: translateX(-102%) translateY(-50%);;
+  left: -5px;
+  transform: translateX(-100%) translateY(-50%);;
   top: 50%;
 }
