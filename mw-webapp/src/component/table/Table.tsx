@@ -1,5 +1,10 @@
 import {useEffect, useState} from "react";
-import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
+import Loading from "../loading/Loading";
+import {
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 import {columns} from "src/component/table/columns";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {DayReportService} from "src/service/DayReportService";
@@ -7,9 +12,14 @@ import styles from "src/component/table/Table.module.scss";
 
 export const Table = () => {
   const [data, setData] = useState<DayReport[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     DayReportService.onValueFromRealTimeDb(setData);
+    setTimeout(() => {
+      setLoading(false);
+    // eslint-disable-next-line no-magic-numbers
+    }, 2000);
     () => {
       //TODO
       // RemoveEventListener from db if needed (read about handling event listeners
@@ -22,6 +32,9 @@ export const Table = () => {
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
+
+  // eslint-disable-next-line no-console
+  console.log(data);
 
   return (
     <div className={styles.container}>
@@ -47,17 +60,19 @@ export const Table = () => {
           ))}
         </thead>
         <tbody className={styles.tbody}>
-          {table.getRowModel().rows.map((row) => (
+          {loading ? <Loading /> : table.getRowModel().rows.map((row) => (
             <tr className={styles.tr}
               key={row.id}
             >
-              {row.getVisibleCells().map((cell) => (
-                <td className={styles.td}
-                  key={cell.id}
-                >
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              ))}
+              {
+                row.getVisibleCells().map((cell) => (
+                  <td className={styles.td}
+                    key={cell.id}
+                  >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
+                ))
+              }
             </tr>
           ))}
         </tbody>

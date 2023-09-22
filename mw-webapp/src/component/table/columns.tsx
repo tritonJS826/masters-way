@@ -1,4 +1,8 @@
-import {CellContext, ColumnDef, createColumnHelper} from "@tanstack/react-table";
+import {
+  CellContext,
+  ColumnDef,
+  createColumnHelper,
+} from "@tanstack/react-table";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
@@ -11,101 +15,111 @@ const DEFAULT_SUMMARY_TIME = 0;
 
 const columnHelper = createColumnHelper<DayReport>();
 
-const getObjectArrayItem = (arrayItem: JobDone | PlanForNextPeriod | CurrentProblem, getFullItem?: string) => {
-  return (
-    (JSON.stringify(arrayItem) === "{}") ?
-      <div />
-      :
-      <div key={arrayItem.uuid}>
-        {getFullItem}
-      </div>
+const getObjectArrayItem = (
+  arrayItem: JobDone | PlanForNextPeriod | CurrentProblem,
+  getFullItem?: string,
+) => {
+  return JSON.stringify(arrayItem) === "{}" ? (
+    <div />
+  ) : (
+    <div key={arrayItem.uuid}>
+      {getFullItem}
+    </div>
   );
 };
 
 const getStringArrayItem = (arrayItem: string, index: string) => {
-  return (
-    (!arrayItem) ?
-      <div />
-      :
-    //TODO: task #65 use flag instead of first index
-      <div key={index}>
-        <div className={arrayItem[INDEX_OF_CHECK_MARK] === "✓" ? styles.completed : styles.notCompleted}>
-          {arrayItem}
-        </div>
+  return !arrayItem ? (
+    <div />
+  ) : (
+  //TODO: task #65 use flag instead of first index
+    <div key={index}>
+      <div
+        className={
+          arrayItem[INDEX_OF_CHECK_MARK] === "✓"
+            ? styles.completed
+            : styles.notCompleted
+        }
+      >
+        {arrayItem}
       </div>
+    </div>
   );
 };
 
 const getBoolean = (cellValue: CellContext<DayReport, boolean>) => {
-  return (
-    cellValue.getValue() === true ?
-      <div>
-        Yes
-      </div>
-      :
-      <div>
-        No
-      </div>
-  );
+  return cellValue.getValue() === true ? <div>
+    Yes
+  </div> : <div>
+    No
+  </div>;
 };
 
 const getDateValue = (cellValue: CellContext<DayReport, Date>) => {
-  return (
-    DateUtils.getShortISODateValue(cellValue.getValue())
-  );
+  return DateUtils.getShortISODateValue(cellValue.getValue());
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const columns: ColumnDef<DayReport, Date & JobDone[] & PlanForNextPeriod[] & CurrentProblem[] & string[] & boolean>[] = [
+export const columns: ColumnDef<
+DayReport,
+Date & JobDone[] & PlanForNextPeriod[] & CurrentProblem[] & string[] & boolean
+>[] = [
   columnHelper.accessor<"date", Date>("date", {
     header: "Date",
     cell: (dateValue) => getDateValue(dateValue),
   }),
   columnHelper.accessor<"jobsDone", JobDone[]>("jobsDone", {
     header: "Sum time",
-    cell: (({row}) => {
-      return (
-        row.original.jobsDone
-          ?.reduce((summaryTime, jobDone) => jobDone.time + summaryTime, DEFAULT_SUMMARY_TIME)
+    cell: ({row}) => {
+      return row.original.jobsDone?.reduce(
+        (summaryTime, jobDone) => jobDone.time + summaryTime,
+        DEFAULT_SUMMARY_TIME,
       );
-    }),
+    },
   }),
   columnHelper.accessor<"jobsDone", JobDone[]>("jobsDone", {
     header: "Jobs done",
     cell: ({row}) => {
-      return (
-        row.original.jobsDone
-          ?.map((jobDoneItem) => (getObjectArrayItem(jobDoneItem, jobDoneItem.getJobDone())))
+      return row.original.jobsDone?.map((jobDoneItem) =>
+        getObjectArrayItem(jobDoneItem, jobDoneItem.getJobDone()),
       );
     },
   }),
-  columnHelper.accessor<"plansForNextPeriod", PlanForNextPeriod[]>("plansForNextPeriod", {
-    header: "Plans for tomorrow",
-    cell: ({row}) => {
-      return (
-        row.original.plansForNextPeriod
-          ?.map((planForNextPeriodItem) =>
-            (getObjectArrayItem(planForNextPeriodItem, planForNextPeriodItem.getPlanForNextPeriod())))
-      );
+  columnHelper.accessor<"plansForNextPeriod", PlanForNextPeriod[]>(
+    "plansForNextPeriod",
+    {
+      header: "Plans for tomorrow",
+      cell: ({row}) => {
+        return row.original.plansForNextPeriod?.map((planForNextPeriodItem) =>
+          getObjectArrayItem(
+            planForNextPeriodItem,
+            planForNextPeriodItem.getPlanForNextPeriod(),
+          ),
+        );
+      },
     },
-  }),
-  columnHelper.accessor<"problemsForCurrentPeriod", CurrentProblem[]>("problemsForCurrentPeriod", {
-    header: "Current problems",
-    cell: ({row}) => {
-      return (
-        row.original.problemsForCurrentPeriod
-          ?.map((currentProblemItem) =>
-            (getObjectArrayItem(currentProblemItem, currentProblemItem.description)))
-      );
+  ),
+  columnHelper.accessor<"problemsForCurrentPeriod", CurrentProblem[]>(
+    "problemsForCurrentPeriod",
+    {
+      header: "Current problems",
+      cell: ({row}) => {
+        return row.original.problemsForCurrentPeriod?.map(
+          (currentProblemItem) =>
+            getObjectArrayItem(
+              currentProblemItem,
+              currentProblemItem.description,
+            ),
+        );
+      },
     },
-  }),
+  ),
   columnHelper.accessor<"studentComments", string[]>("studentComments", {
     header: "Student comments",
     cell: ({row}) => {
       const parentID = row.original.uuid;
-      return (
-        row.original.studentComments
-          ?.map((studentCommentItem) => (getStringArrayItem(studentCommentItem, parentID)))
+      return row.original.studentComments?.map((studentCommentItem) =>
+        getStringArrayItem(studentCommentItem, parentID),
       );
     },
   }),
@@ -113,9 +127,8 @@ export const columns: ColumnDef<DayReport, Date & JobDone[] & PlanForNextPeriod[
     header: "Learned for today",
     cell: ({row}) => {
       const parentID = row.original.uuid;
-      return (
-        row.original.learnedForToday
-          ?.map((learnedForTodayItem) => (getStringArrayItem(learnedForTodayItem, parentID)))
+      return row.original.learnedForToday?.map((learnedForTodayItem) =>
+        getStringArrayItem(learnedForTodayItem, parentID),
       );
     },
   }),
@@ -123,9 +136,8 @@ export const columns: ColumnDef<DayReport, Date & JobDone[] & PlanForNextPeriod[
     header: "Mentor comments",
     cell: ({row}) => {
       const parentID = row.original.uuid;
-      return (
-        row.original.mentorComments
-          ?.map((mentorCommentItem) => (getStringArrayItem(mentorCommentItem, parentID)))
+      return row.original.mentorComments?.map((mentorCommentItem) =>
+        getStringArrayItem(mentorCommentItem, parentID),
       );
     },
   }),
