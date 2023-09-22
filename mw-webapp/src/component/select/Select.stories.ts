@@ -11,5 +11,9 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const options = [{id: "1", value: "minsk", text: "minsk"}, {id: "2", value: "moscow", text: "moscow"}];
-export const Default: Story = {args: {label: "city", value: "cities", name: "", options: options}};
+const options = [
+  {id: "1", value: "minsk", text: "minsk"},
+  {id: "2", value: "moscow", text: "moscow"},
+];
+export const Default: Story =
+  {args: {selected: "minsk", onChange: () => {}, label: "city", value: "cities", name: "", options: options}};

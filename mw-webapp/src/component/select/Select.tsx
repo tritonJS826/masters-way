@@ -1,9 +1,6 @@
-import {useState} from "react";
 import styles from "src/component/select/Select.module.scss";
 
-
 // Implement an option element for a select component
-
 export interface OptionType {
   id: string;
   value: string;
@@ -11,7 +8,6 @@ export interface OptionType {
 }
 
 // Implement a simple select component
-
 export interface SelectProps {
   /**
    * Label's text
@@ -29,19 +25,24 @@ export interface SelectProps {
    * Options list
    */
   options: OptionType[];
+  /**
+   * Default value for select
+   */
+  selected: string;
+  /**
+   * Callback triggered onChange select value
+   */
+  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 export const Select: React.FC<SelectProps> = (props: SelectProps) => {
-  const [selected, setSelected] = useState(props.value);
-  const handleOnChange = (e: React.ChangeEvent<HTMLSelectElement>) => setSelected(e.target.value);
-
   return (
     <label>
       {props.label}
       <select
         name={props.name}
-        defaultValue={selected}
-        onChange={handleOnChange}
+        defaultValue={props.selected}
+        onChange={props.onChange}
         className={styles.select}
       >
         {props.value}
