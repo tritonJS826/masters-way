@@ -1,5 +1,5 @@
 /**
- * Describes position Tooltip
+ * Tooltip position relative to child
  * @public
  */
 export const enum PositionTooltip {
