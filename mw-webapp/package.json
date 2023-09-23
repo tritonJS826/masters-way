@@ -72,11 +72,12 @@
     "@typescript-eslint/parser": "^6.4.0",
     "@vitejs/plugin-react": "^4.0.4",
     "eslint": "^8.47.0",
+    "eslint-plugin-import": "^2.28.1",
     "eslint-plugin-react": "^7.33.1",
     "eslint-plugin-simple-import-sort": "^10.0.0",
-    "storybook": "7.4.2",
     "husky": "^8.0.0",
     "lint-staged": "^14.0.1",
+    "storybook": "7.4.2",
     "vite": "^4.4.9",
     "vite-plugin-eslint": "^1.8.1",
     "vite-tsconfig-paths": "^4.2.0"
