@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import InProgress from "../inProgress/InProgress";
+import {useLoading} from "./LoadingContext";
 import {
   flexRender,
   getCoreRowModel,
@@ -12,14 +13,12 @@ import styles from "src/component/table/Table.module.scss";
 
 export const Table = () => {
   const [data, setData] = useState<DayReport[]>([]);
-  const [loading, setLoading] = useState(true);
-
+  const {loading, setLoading} = useLoading();
   useEffect(() => {
-    DayReportService.onValueFromRealTimeDb(setData);
-    setTimeout(() => {
+    DayReportService.onValueFromRealTimeDb((dayReports) => {
+      setData(dayReports);
       setLoading(false);
-    // eslint-disable-next-line no-magic-numbers
-    }, 2000);
+    });
     () => {
       //TODO
       // RemoveEventListener from db if needed (read about handling event listeners
@@ -33,47 +32,48 @@ export const Table = () => {
     getCoreRowModel: getCoreRowModel(),
   });
 
-  return (
-    <div className={styles.container}>
+  return (<>
+    {loading ? <InProgress /> : <div className={styles.container}>
       <table className={styles.table}>
         <thead className={styles.thead}>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr className={styles.tr}
-              key={headerGroup.id}
-            >
-              {headerGroup.headers.map((header) => (
-                <th className={styles.th}
-                  key={header.id}
-                >
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                      header.column.columnDef.header,
-                      header.getContext(),
-                    )}
-                </th>
-              ))}
-            </tr>
-          ))}
+          {loading ? (
+            <InProgress />
+          ) : (
+            table.getHeaderGroups().map((headerGroup) => (
+              <tr className={styles.tr}
+                key={headerGroup.id}
+              >
+                {headerGroup.headers.map((header) => (
+                  <th className={styles.th}
+                    key={header.id}
+                  >
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                        header.column.columnDef.header,
+                        header.getContext())}
+                  </th>
+                ))}
+              </tr>
+            ))
+          )}
         </thead>
         <tbody className={styles.tbody}>
-          {loading ? <InProgress /> : table.getRowModel().rows.map((row) => (
+          {table.getRowModel().rows.map((row) => (
             <tr className={styles.tr}
               key={row.id}
             >
-              {
-                row.getVisibleCells().map((cell) => (
-                  <td className={styles.td}
-                    key={cell.id}
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
-                ))
-              }
+              {row.getVisibleCells().map((cell) => (
+                <td className={styles.td}
+                  key={cell.id}
+                >
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </td>
+              ))}
             </tr>
           ))}
         </tbody>
       </table>
-    </div>
-  );
+    </div>}
+  </>);
 };
