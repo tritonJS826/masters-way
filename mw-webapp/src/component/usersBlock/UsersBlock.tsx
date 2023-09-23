@@ -19,7 +19,8 @@ export const UsersBlock = () => {
   const renderUsers = () => {
     const users = Object.values(usersList);
     return users.map((user) => (
-      <UserCard key={user.uuid}
+      <UserCard
+        key={user.uuid}
         name={user.name}
         email={user.email}
       />
