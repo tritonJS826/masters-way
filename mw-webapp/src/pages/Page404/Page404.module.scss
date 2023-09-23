@@ -4,5 +4,5 @@
   display: flex;
   justify-content: center;
   margin-top: 15%;
-  font-size: $font-size-large; 
+  @include font-size-large; 
 }

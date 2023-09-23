@@ -4,8 +4,8 @@ const ERROR_404 = "404 NOT FOUND";
 
 export const Page404 = () => {
   return (
-    <div className={styles.errorPageContainer}>
+    <h1 className={styles.errorPageContainer}>
       {ERROR_404}
-    </div>
+    </h1>
   );
 };

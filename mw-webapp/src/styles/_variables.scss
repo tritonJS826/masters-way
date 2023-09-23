@@ -15,4 +15,6 @@ $header-background: rgb(85, 122, 149);
 $title-padding: 10px;
 
 // Font size
-$font-size-large: 48px;
+@mixin font-size-large {
+    font-size: 48px;
+} 
