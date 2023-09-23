@@ -1,4 +1,4 @@
-import {Routes, Route} from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 import {pages} from "src/router/pages";
 
 export const Router = () => {
@@ -11,6 +11,10 @@ export const Router = () => {
       <Route
         path={pages.auth.path}
         element={pages.auth.element}
+      />
+      <Route
+        path={pages.page404.path}
+        element={pages.page404.element}
       />
     </Routes>
   );

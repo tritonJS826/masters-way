@@ -1,7 +1,7 @@
-import {useState, useEffect} from "react";
-import {UserService} from "src/service/UserService";
-import {User} from "src/model/firebaseCollection/User";
+import {useEffect, useState} from "react";
 import {UserCard} from "src/component/usersBlock/userCard/UserCard";
+import {User} from "src/model/firebaseCollection/User";
+import {UserService} from "src/service/UserService";
 import styles from "src/component/usersBlock/UsersBlock.module.scss";
 
 export const UsersBlock = () => {
@@ -11,15 +11,16 @@ export const UsersBlock = () => {
     UserService.onValueFromRealTimeDb(setUsersList);
     () => {
       //TODO
-      // removeEventListener from db if needed (read about handling event listeners
-      // in react use effect components (when and whyu you shoud remove them))
+      // RemoveEventListener from db if needed (read about handling event listeners
+      // In react use effect components (when and whyu you shoud remove them))
     };
   }, []);
 
   const renderUsers = () => {
     const users = Object.values(usersList);
     return users.map((user) => (
-      <UserCard key={user.uuid}
+      <UserCard
+        key={user.uuid}
         name={user.name}
         email={user.email}
       />

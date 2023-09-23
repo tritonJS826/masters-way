@@ -1,5 +1,9 @@
-import {useState, useEffect} from "react";
-import {useReactTable, getCoreRowModel, flexRender} from "@tanstack/react-table";
+import {useEffect, useState} from "react";
+import {
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 import {columns} from "src/component/table/columns";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {DayReportService} from "src/service/DayReportService";
@@ -12,8 +16,8 @@ export const Table = () => {
     DayReportService.onValueFromRealTimeDb(setData);
     () => {
       //TODO
-      // removeEventListener from db if needed (read about handling event listeners
-      // in react use effect components (when and whyu you shoud remove them))
+      // RemoveEventListener from db if needed (read about handling event listeners
+      // In react use effect components (when and whyu you shoud remove them))
     };
   }, []);
 
@@ -28,11 +32,13 @@ export const Table = () => {
       <table className={styles.table}>
         <thead className={styles.thead}>
           {table.getHeaderGroups().map((headerGroup) => (
-            <tr className={styles.tr}
+            <tr
+              className={styles.tr}
               key={headerGroup.id}
             >
               {headerGroup.headers.map((header) => (
-                <th className={styles.th}
+                <th
+                  className={styles.th}
                   key={header.id}
                 >
                   {header.isPlaceholder
@@ -48,11 +54,13 @@ export const Table = () => {
         </thead>
         <tbody className={styles.tbody}>
           {table.getRowModel().rows.map((row) => (
-            <tr className={styles.tr}
+            <tr
+              className={styles.tr}
               key={row.id}
             >
               {row.getVisibleCells().map((cell) => (
-                <td className={styles.td}
+                <td
+                  className={styles.td}
                   key={cell.id}
                 >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}

@@ -1,4 +1,4 @@
-import {ref, onValue, set} from "firebase/database";
+import {onValue, ref, set} from "firebase/database";
 import {db} from "src/firebase";
 import {User as UserDTO} from "src/model/firebaseCollection/User";
 
