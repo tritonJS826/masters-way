@@ -1,20 +1,18 @@
 import {useEffect, useState} from "react";
 import {WayCard} from "src/component/waysBlock/wayCard/WayCard";
-import {Way} from "src/model/firebaseCollection/Way";
+import {WayDTO} from "src/model/firebaseCollection/WayDTO";
 import {WayService} from "src/service/WayService";
 import styles from "src/component/waysBlock/WaysBlock.module.scss";
 
 export const WaysBlock = () => {
-  const [ways, setWays] = useState<Way[]>([]);
+  const [ways, setWays] = useState<WayDTO[]>([]);
 
-  const getWays = async () => {
+  const setWaysValue = async () => {
     setWays(await WayService.getWays());
   };
 
   useEffect(() => {
-    return () => {
-      getWays();
-    };
+    setWaysValue();
   }, []);
 
   const renderWays = () => {

@@ -1,19 +1,15 @@
 import {collection, getDocs} from "firebase/firestore";
-import {
-  planForNextPeriodDTOToPlanForNextPeriodConverter,
-  querySnapshotToPlanForNextPeriodDTOConverter,
-} from "src/converter/planForNextPeriodConverter";
+import {planForNextPeriodDTOToPlanForNextPeriodPreviewConverter} from "src/convertDTOToBusiness/planForNextPeriodConverter";
 import {db} from "src/firebase";
-import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
-import {PlanForNextPeriod as PlanForNextPeriodDTO} from "src/model/firebaseCollection/PlanForNextPeriod";
-import {PathToCollection} from "src/service/PathToCollection";
+import {PlanForNextPeriodPreview} from "src/model/businessModelPreview/PlanForNextPeriodPreview";
+
+const PATH_TO_PLANS_FOR_NEXT_PERIOD_COLLECTION = "plansForNextPeriod";
 
 export class PlanForNextPeriodService {
 
-  public static async getPlansForNextPeriod(): Promise<PlanForNextPeriod[]> {
-    const plansForNextPeriodRaw = await getDocs(collection(db, PathToCollection.plansForNextPeriod));
-    const plansForNextPeriodDTO: PlanForNextPeriodDTO[] = querySnapshotToPlanForNextPeriodDTOConverter(plansForNextPeriodRaw);
-    const plansForNextPeriod = plansForNextPeriodDTO.map(planForNextPeriodDTOToPlanForNextPeriodConverter);
+  public static async getPlansForNextPeriod(): Promise<PlanForNextPeriodPreview[]> {
+    const plansForNextPeriodRaw = await getDocs(collection(db, PATH_TO_PLANS_FOR_NEXT_PERIOD_COLLECTION));
+    const plansForNextPeriod = planForNextPeriodDTOToPlanForNextPeriodPreviewConverter(plansForNextPeriodRaw);
     return plansForNextPeriod;
   }
 

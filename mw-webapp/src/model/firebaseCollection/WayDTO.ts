@@ -1,7 +1,7 @@
 /**
  * One of user's ways
  */
-export class Way {
+export class WayDTO {
 
   /**
    * Way's UUID
@@ -38,7 +38,7 @@ export class Way {
    */
   public isCompleted: boolean;
 
-  constructor(wayData: Way) {
+  constructor(wayData: WayDTO) {
     this.uuid = wayData.uuid;
     this.dayReportUuids = wayData.dayReportUuids;
     this.ownerUuid = wayData.ownerUuid;

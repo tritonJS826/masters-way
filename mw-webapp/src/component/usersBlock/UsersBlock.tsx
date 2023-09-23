@@ -1,23 +1,18 @@
 import {useEffect, useState} from "react";
 import {UserCard} from "src/component/usersBlock/userCard/UserCard";
-import {User} from "src/model/firebaseCollection/User";
+import {UserDTO} from "src/model/firebaseCollection/UserDTO";
 import {UserService} from "src/service/UserService";
 import styles from "src/component/usersBlock/UsersBlock.module.scss";
 
 export const UsersBlock = () => {
-  const [usersList, setUsersList] = useState<User[]>([]);
+  const [usersList, setUsersList] = useState<UserDTO[]>([]);
 
-  const getUsers = async () => {
+  const setUsersValue = async () => {
     setUsersList(await UserService.getUsers());
   };
 
   useEffect(() => {
-    getUsers();
-    () => {
-      //TODO
-      // RemoveEventListener from db if needed (read about handling event listeners
-      // In react use effect components (when and whyu you shoud remove them))
-    };
+    setUsersValue();
   }, []);
 
   const renderUsers = () => {

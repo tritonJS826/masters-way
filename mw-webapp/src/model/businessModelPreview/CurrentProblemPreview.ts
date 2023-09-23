@@ -1,7 +1,7 @@
 /**
- * Problem for today
+ * Problem for current period
  */
-export class CurrentProblem {
+export class CurrentProblemPreview {
 
   /**
    * Problem's UUID
@@ -18,7 +18,7 @@ export class CurrentProblem {
    */
   public isDone: boolean;
 
-  constructor(currentProblemData: CurrentProblem) {
+  constructor(currentProblemData: CurrentProblemPreview) {
     this.uuid = currentProblemData.uuid;
     this.description = currentProblemData.description;
     this.isDone = currentProblemData.isDone;

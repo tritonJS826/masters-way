@@ -20,5 +20,12 @@ export class Time {
     this.amount = timeData.amount;
   }
 
+  /**
+   * Get formatted time
+   */
+  public getTime() {
+    return `${this.amount} ${this.timeUnit}`;
+  }
+
 }
 

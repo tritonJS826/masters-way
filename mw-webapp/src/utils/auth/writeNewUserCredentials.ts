@@ -9,7 +9,7 @@ export const writeNewUserCredentials = async () => {
       return;
     }
     if (userCredentials.user.email && userCredentials.user.displayName) {
-      UserService.addUser(
+      UserService.createUser(
         {
           uuid: userCredentials.user.uid,
           email: userCredentials.user.email,

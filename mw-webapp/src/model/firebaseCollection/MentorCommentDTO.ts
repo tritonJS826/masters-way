@@ -1,7 +1,7 @@
 /**
  * Mentor's comments
  */
-export class MentorComment {
+export class MentorCommentDTO {
 
   /**
    * Comment's UUID
@@ -23,7 +23,7 @@ export class MentorComment {
    */
   public isDone: boolean;
 
-  constructor(mentorCommentData: MentorComment) {
+  constructor(mentorCommentData: MentorCommentDTO) {
     this.uuid = mentorCommentData.uuid;
     this.mentorUuid = mentorCommentData.mentorUuid;
     this.description = mentorCommentData.description;

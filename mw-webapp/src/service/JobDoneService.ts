@@ -1,16 +1,15 @@
 import {collection, getDocs} from "firebase/firestore";
-import {jobDoneDTOToJobDoneConverter, querySnapshotToJobDoneDTOConverter} from "src/converter/jobDoneConverter";
+import {jobDoneDTOToJobDonePreviewConverter} from "src/convertDTOToBusiness/jobDoneConverter";
 import {db} from "src/firebase";
-import {JobDone} from "src/model/businessModel/JobDone";
-import {JobDone as JobDoneDTO} from "src/model/firebaseCollection/JobDone";
-import {PathToCollection} from "src/service/PathToCollection";
+import {JobDonePreview} from "src/model/businessModelPreview/JobDonePreview";
+
+const PATH_TO_JOBS_DONE_COLLECTION = "jobsDone";
 
 export class JobDoneService {
 
-  public static async getJobsDone(): Promise<JobDone[]> {
-    const jobsDoneRaw = await getDocs(collection(db, PathToCollection.jobsDone));
-    const jobsDoneDTO: JobDoneDTO[] = querySnapshotToJobDoneDTOConverter(jobsDoneRaw);
-    const jobsDone = jobsDoneDTO.map(jobDoneDTOToJobDoneConverter);
+  public static async getJobsDone(): Promise<JobDonePreview[]> {
+    const jobsDoneRaw = await getDocs(collection(db, PATH_TO_JOBS_DONE_COLLECTION));
+    const jobsDone = jobDoneDTOToJobDonePreviewConverter(jobsDoneRaw);
     return jobsDone;
   }
 

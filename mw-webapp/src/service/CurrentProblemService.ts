@@ -1,19 +1,15 @@
 import {collection, getDocs} from "firebase/firestore";
-import {
-  currentProblemDTOToCurrentProblemConverter,
-  querySnapshotToCurrentProblemDTOConverter,
-} from "src/converter/currentProblemConverter";
+import {currentProblemDTOToCurrentProblemPreviewConverter} from "src/convertDTOToBusiness/currentProblemConverter";
 import {db} from "src/firebase";
-import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
-import {CurrentProblem as CurrentProblemDTO} from "src/model/firebaseCollection/CurrentProblem";
-import {PathToCollection} from "src/service/PathToCollection";
+import {CurrentProblemPreview} from "src/model/businessModelPreview/CurrentProblemPreview";
+
+const PATH_TO_CURRENT_PROBLEMS_COLLECTION = "currentProblems";
 
 export class CurrentProblemService {
 
-  public static async getCurrentProblems(): Promise<CurrentProblem[]> {
-    const currentProblemsRaw = await getDocs(collection(db, PathToCollection.currentProblems));
-    const currentProblemsDTO: CurrentProblemDTO[] = querySnapshotToCurrentProblemDTOConverter(currentProblemsRaw);
-    const currentProblems = currentProblemsDTO.map(currentProblemDTOToCurrentProblemConverter);
+  public static async getCurrentProblems(): Promise<CurrentProblemPreview[]> {
+    const currentProblemsRaw = await getDocs(collection(db, PATH_TO_CURRENT_PROBLEMS_COLLECTION));
+    const currentProblems = currentProblemDTOToCurrentProblemPreviewConverter(currentProblemsRaw);
     return currentProblems;
   }
 

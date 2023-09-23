@@ -1,9 +1,9 @@
-import {TimeUnit} from "src/model/firebaseCollection/time/timeUnit/TimeUnit";
+import {TimeUnit} from "src/model/businessModel/time/timeUnit/TimeUnit";
 
 /**
  * Plan for next period (day, month, etc.)
  */
-export class PlanForNextPeriod {
+export class PlanForNextPeriodPreview {
 
   /**
    * Plan's UUID
@@ -11,7 +11,7 @@ export class PlanForNextPeriod {
   public uuid: string;
 
   /**
-   * Task that should be done in next period
+   * Job that should be done in next period
    */
   public job: string;
 
@@ -21,15 +21,22 @@ export class PlanForNextPeriod {
   public timeUnit: TimeUnit;
 
   /**
-   * Estimation time for complete job
-   */
+     * How long the job will take time
+     */
   public estimationTime: number;
 
-  constructor(planForNextPeriodData: PlanForNextPeriod) {
+  constructor(planForNextPeriodData: PlanForNextPeriodPreview) {
     this.uuid = planForNextPeriodData.uuid;
     this.job = planForNextPeriodData.job;
     this.timeUnit = planForNextPeriodData.timeUnit;
     this.estimationTime = planForNextPeriodData.estimationTime;
+  }
+
+  /**
+   * Get formatted plan for the next period
+   */
+  public getPlanForNextPeriod() {
+    return `${this.job} (${this.estimationTime} ${this.timeUnit})`;
   }
 
 }

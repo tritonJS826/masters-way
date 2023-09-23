@@ -1,14 +1,15 @@
 import {collection, getDocs} from "firebase/firestore";
-import {querySnapshotToWayDTOConverter} from "src/converter/wayConverter";
+import {WayDTOToWayPreviewConverter} from "src/convertDTOToBusiness/wayConverter";
 import {db} from "src/firebase";
-import {Way as WayDTO} from "src/model/firebaseCollection/Way";
-import {PathToCollection} from "src/service/PathToCollection";
+import {WayDTO} from "src/model/firebaseCollection/WayDTO";
+
+const PATH_TO_WAYS_COLLECTION = "ways";
 
 export class WayService {
 
   public static async getWays(): Promise<WayDTO[]> {
-    const waysRaw = await getDocs(collection(db, PathToCollection.ways));
-    const ways = querySnapshotToWayDTOConverter(waysRaw);
+    const waysRaw = await getDocs(collection(db, PATH_TO_WAYS_COLLECTION));
+    const ways = WayDTOToWayPreviewConverter(waysRaw);
     return ways;
   }
 

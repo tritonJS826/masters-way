@@ -1,7 +1,7 @@
 /**
  * Day's report
  */
-export class DayReport {
+export class DayReportDTO {
 
   /**
    * Day report's UUID
@@ -48,7 +48,7 @@ export class DayReport {
    */
   public isDayOff: boolean;
 
-  constructor(dayReportData: DayReport) {
+  constructor(dayReportData: DayReportDTO) {
     this.uuid = dayReportData.uuid;
     this.date = dayReportData.date;
     this.jobsDone = dayReportData.jobsDone;

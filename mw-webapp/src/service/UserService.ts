@@ -1,19 +1,21 @@
 import {collection, deleteDoc, doc, getDocs, setDoc, updateDoc} from "firebase/firestore";
-import {querySnapshotToUserDTOConverter} from "src/converter/userConverter";
+import {UserDTOToUserPreviewConverter} from "src/convertDTOToBusiness/userConverter";
 import {db} from "src/firebase";
-import {User as UserDTO} from "src/model/firebaseCollection/User";
-import {PathToCollection} from "src/service/PathToCollection";
+import {UserPreview} from "src/model/businessModelPreview/UserPreview";
+import {UserDTO} from "src/model/firebaseCollection/UserDTO";
+
+const PATH_TO_USERS_COLLECTION = "users";
 
 export class UserService {
 
-  public static async getUsers(): Promise<UserDTO[]> {
-    const usersRaw = await getDocs(collection(db, PathToCollection.users));
-    const users = querySnapshotToUserDTOConverter(usersRaw);
+  public static async getUsers(): Promise<UserPreview[]> {
+    const usersRaw = await getDocs(collection(db, PATH_TO_USERS_COLLECTION));
+    const users = UserDTOToUserPreviewConverter(usersRaw);
     return users;
   }
 
-  public static async addUser(data: UserDTO) {
-    await setDoc(doc(db, PathToCollection.users, data.uuid), {
+  public static async createUser(data: UserDTO) {
+    await setDoc(doc(db, PATH_TO_USERS_COLLECTION, data.uuid), {
       uuid: data.uuid,
       email: data.email,
       name: data.name,
@@ -24,7 +26,7 @@ export class UserService {
   }
 
   public static async updateUser(data: UserDTO) {
-    await updateDoc(doc(db, PathToCollection.users, data.uuid), {
+    await updateDoc(doc(db, PATH_TO_USERS_COLLECTION, data.uuid), {
       uuid: data.uuid,
       email: data.email,
       name: data.name,
@@ -35,7 +37,7 @@ export class UserService {
   }
 
   public static async deleteUser(uuid: string) {
-    await deleteDoc(doc(db, PathToCollection.users, uuid));
+    await deleteDoc(doc(db, PATH_TO_USERS_COLLECTION, uuid));
   }
 
 }
