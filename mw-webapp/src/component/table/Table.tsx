@@ -1,5 +1,4 @@
 import {useEffect, useState} from "react";
-import InProgress from "../inProgress/InProgress";
 import {
   flexRender,
   getCoreRowModel,
@@ -12,14 +11,9 @@ import styles from "src/component/table/Table.module.scss";
 
 export const Table = () => {
   const [data, setData] = useState<DayReport[]>([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     DayReportService.onValueFromRealTimeDb(setData);
-    setTimeout(() => {
-      setLoading(false);
-    // eslint-disable-next-line no-magic-numbers
-    }, 2000);
     () => {
       //TODO
       // RemoveEventListener from db if needed (read about handling event listeners
@@ -57,7 +51,7 @@ export const Table = () => {
           ))}
         </thead>
         <tbody className={styles.tbody}>
-          {loading ? <InProgress /> : table.getRowModel().rows.map((row) => (
+          {table.getRowModel().rows.map((row) => (
             <tr className={styles.tr}
               key={row.id}
             >
