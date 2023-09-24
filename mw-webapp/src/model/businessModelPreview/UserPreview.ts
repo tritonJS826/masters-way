@@ -1,3 +1,5 @@
+import {WayPreview} from "src/model/businessModelPreview/WayPreview";
+
 /**
  * User
  */
@@ -19,9 +21,9 @@ export class UserPreview {
   public email: string;
 
   /**
-   * Owner's ways @Way.uuid
+   * Owner's ways
    */
-  public ownWays: string[];
+  public ownWays: WayPreview[];
 
   /**
    * The favorite ways @Way.uuid

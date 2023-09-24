@@ -1913,5 +1913,56 @@
     "learnedForToday": [""],
     "mentorComment": [""],
     "isDayOff": false
+  },
+  {
+    "id": "40",
+    "date": "2023-09-24",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Create architecture of the project in draw.io",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 40
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Update Service layer (get DTO instead of Preview)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 25
+      }
+    },
+    {
+      "id": "2",
+      "todoItem": "Update Preview models (User, Way)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 15
+      }
+    },
+    {
+      "id": "3",
+      "todoItem": "Create Data access logic layer with converters and fix mistakes",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 120
+      }
+    }
+  ],
+    "planForTomorrow": [{
+      "id": "0",
+      "todoItem": "Add cell editing in table",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 120 
+      }
+    }
+  ],
+    "currentProblems": [""],
+    "studentComment": [""],
+    "learnedForToday": [""],
+    "mentorComment": [""],
+    "isDayOff": false
   }
 ]

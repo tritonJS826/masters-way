@@ -5,5 +5,5 @@ export enum TimeUnitDTO {
   /**
    * Minute
    */
-  MINUTE = "MINUTE",
+  minute = "minute",
 }

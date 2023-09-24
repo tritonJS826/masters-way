@@ -1,16 +1,15 @@
 import {collection, deleteDoc, doc, getDocs, setDoc, updateDoc} from "firebase/firestore";
-import {UserDTOToUserPreviewConverter} from "src/convertDTOToBusiness/userConverter";
 import {db} from "src/firebase";
-import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {UserDTO} from "src/model/firebaseCollection/UserDTO";
+import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
 
 const PATH_TO_USERS_COLLECTION = "users";
 
 export class UserService {
 
-  public static async getUsers(): Promise<UserPreview[]> {
+  public static async getUsers(): Promise<UserDTO[]> {
     const usersRaw = await getDocs(collection(db, PATH_TO_USERS_COLLECTION));
-    const users = UserDTOToUserPreviewConverter(usersRaw);
+    const users: UserDTO[] = querySnapshotToDTOConverter<UserDTO>(usersRaw);
     return users;
   }
 

@@ -2,7 +2,7 @@ import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
-import {DayReportPreview} from "src/model/businessModelPreview/DayReportPreview";
+import {DayReportDTO} from "src/model/firebaseCollection/DayReportDTO";
 
 interface DayReportProps {
   jobsDone: JobDone[];
@@ -10,10 +10,10 @@ interface DayReportProps {
   problemsForCurrentPeriod: CurrentProblem[];
 }
 
-export const DayReportPreviewToDayReportConverter = (dayReportPreview: DayReportPreview, dayReportPops: DayReportProps) => {
+export const dayReportDTOToDayReportConverter = (dayReportDTO: DayReportDTO, dayReportPops: DayReportProps) => {
   return new DayReport({
-    ...dayReportPreview,
-    date: dayReportPreview.date,
+    ...dayReportDTO,
+    date: new Date(dayReportDTO.date),
     jobsDone: dayReportPops.jobsDone,
     plansForNextPeriod: dayReportPops.plansForNextPeriod,
     problemsForCurrentPeriod: dayReportPops.problemsForCurrentPeriod,

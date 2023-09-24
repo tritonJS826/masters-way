@@ -1,7 +1,5 @@
-import {DayReport} from "src/model/businessModel/DayReport";
-import {Goal} from "src/model/businessModel/Goal";
-import {MonthReport} from "src/model/businessModel/MonthReport";
-import {User} from "src/model/businessModel/User";
+// Import {Goal} from "src/model/businessModel/Goal";
+import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 
 /**
  * One of user's ways
@@ -14,29 +12,29 @@ export class WayPreview {
   public uuid: string;
 
   /**
-   * Day reports
+   * Day reports uuids @DayReport.uuid
    */
-  public dayReports: DayReport[];
+  public dayReports: string[];
 
   /**
    * Way's owner
    */
-  public owner: User;
+  public owner: UserPreview;
 
   /**
-   * Month reports
+   * Month reports uuids @MonthReport.uuid
    */
-  public monthReports: MonthReport[];
+  public monthReports: string[];
 
   /**
-   * Way's goal
+   * Way's goal uuid @Goal.uuid
    */
-  public goal: Goal;
+  public goal: string;
 
   /**
    * Mentors of this way
    */
-  public currentMentors: User[];
+  public currentMentors: UserPreview[];
 
   /**
    * Return true if way is completed and false if not completed
@@ -50,7 +48,7 @@ export class WayPreview {
     this.monthReports = wayData.monthReports;
     this.goal = wayData.goal;
     this.currentMentors = wayData.currentMentors?.map((currentMentorItem) =>
-      new User(currentMentorItem));
+      new UserPreview(currentMentorItem));
     this.isCompleted = wayData.isCompleted;
   }
 
