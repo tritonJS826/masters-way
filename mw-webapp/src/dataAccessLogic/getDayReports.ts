@@ -18,21 +18,21 @@ export const getDayReports = async () => {
 
   const jobsDone = dayReportsDTO[FIRST_INDEX].jobsDone.map((jobDoneUuid) => {
     const jobDone: JobDone = jobsDonePreview
-      .find((elem) => elem.uuid === jobDoneUuid) || jobsDonePreview[FIRST_INDEX];
+      .find((elem) => elem.uuid === jobDoneUuid) || {} as JobDone;
     return jobDone;
   });
 
   const plansForNextPeriod = dayReportsDTO[FIRST_INDEX].plansForNextPeriod
     .map((planForNextPeriodUuid) => {
       const planForNextPeriod: PlanForNextPeriod = plansForNextPeriodPreview
-        .find((elem) => elem.uuid === planForNextPeriodUuid) || plansForNextPeriodPreview[FIRST_INDEX];
+        .find((elem) => elem.uuid === planForNextPeriodUuid) || {} as PlanForNextPeriod;
       return planForNextPeriod;
     });
 
   const problemsForCurrentPeriod = dayReportsDTO[FIRST_INDEX].problemsForCurrentPeriod
     .map((problemForCurrentPeriodUuid) => {
       const problemForCurrentPeriod: CurrentProblem = problemsForCurrentPeriodPreview
-        .find((elem) => elem.uuid === problemForCurrentPeriodUuid) || problemsForCurrentPeriodPreview[FIRST_INDEX];
+        .find((elem) => elem.uuid === problemForCurrentPeriodUuid) || {} as CurrentProblem;
       return problemForCurrentPeriod;
     });
 
