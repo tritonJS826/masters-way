@@ -123,6 +123,7 @@
     "react/jsx-uses-vars": "error",
     "react/jsx-filename-extension": ["warn", { "extensions": [".tsx"] }],
     "react/jsx-closing-bracket-location": [1, "tag-aligned"],
+    "react/jsx-first-prop-new-line": [2, "multiprop"],
     "react/no-unknown-property": "error",
     "react/self-closing-comp": "error",
     "react/jsx-wrap-multilines": "error",

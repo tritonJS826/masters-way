@@ -17,7 +17,8 @@ export const WaysBlock = () => {
 
   const renderWays = () => {
     return ways.map((way) => (
-      <WayCard key={way.uuid}
+      <WayCard
+        key={way.uuid}
         isCompleted={`${way.isCompleted}`}
       />
     ),
