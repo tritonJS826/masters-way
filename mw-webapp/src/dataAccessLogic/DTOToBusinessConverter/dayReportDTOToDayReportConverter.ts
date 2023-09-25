@@ -10,6 +10,12 @@ interface DayReportProps {
   problemsForCurrentPeriod: CurrentProblem[];
 }
 
+/**
+ * Convert DayReportDTO to DayReport
+ * @param dayReportDTO: DayReportDTO
+ * @param dayReportProps: {@link DayReportProps}
+ * @returns DayReport
+ */
 export const dayReportDTOToDayReportConverter = (dayReportDTO: DayReportDTO, dayReportProps: DayReportProps) => {
   return new DayReport({
     ...dayReportDTO,

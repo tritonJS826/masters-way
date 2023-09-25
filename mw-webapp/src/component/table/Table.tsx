@@ -9,6 +9,9 @@ import {getDayReports} from "src/dataAccessLogic/getDayReports";
 import {DayReport} from "src/model/businessModel/DayReport";
 import styles from "src/component/table/Table.module.scss";
 
+/**
+ * Table
+ */
 export const Table = () => {
   const [data, setData] = useState<DayReport[]>([]);
 

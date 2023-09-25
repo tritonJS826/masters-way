@@ -7,6 +7,12 @@ interface WayProps {
   currentMentors: UserPreview[];
 }
 
+/**
+ * Convert WayDTO to WayPreview
+ * @param wayDTO
+ * @param wayProps
+ * @returns WayPreview
+ */
 export const wayDTOToWayPreviewConverter = (wayDTO: WayDTO, wayProps: WayProps) => {
   return new WayPreview({
     ...wayDTO,
