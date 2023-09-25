@@ -15,7 +15,7 @@ export const getWaysPreview = async () => {
 
   const currentMentors = waysPreview[FIRST_INDEX].currentMentors.map((currentMentorUuid) => {
     const currentMentor: UserPreview = usersPreview
-      .find((elem) => elem.uuid === currentMentorUuid) || usersPreview[FIRST_INDEX];
+      .find((elem) => elem.uuid === currentMentorUuid) || {} as UserPreview;
     return currentMentor;
   });
 

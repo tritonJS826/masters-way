@@ -23,7 +23,7 @@ export class UserPreview {
   /**
    * Owner's ways
    */
-  public ownWays: WayPreview[];
+  public ownWays: WayPreview[] | null;
 
   /**
    * The favorite ways @Way.uuid
