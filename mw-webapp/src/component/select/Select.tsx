@@ -1,23 +1,7 @@
-import {Option} from "./option/Option";
+import {Option} from "src/component/select/option/Option";
+import {OptionType} from "src/component/select/option/Option";
 import styles from "src/component/select/Select.module.scss";
 
-/**
- * Option element for a select component
- */
-export interface OptionType {
-  /**
-   * Option id. Should be unique
-   */
-  id: string;
-  /**
-   * Option value
-   */
-  value: string;
-  /**
-   * Option`s visible text
-   */
-  text: string;
-}
 
 /**
  * Select component
@@ -42,10 +26,6 @@ export interface SelectProps {
   /**
    * Default option
    */
-  selected: string;
-  /**
-   * Callback triggered onChange select value
-   */
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
@@ -62,7 +42,6 @@ export const Select: React.FC<SelectProps> = (props: SelectProps) => {
       {props.label}
       <select
         name={props.name}
-        defaultValue={props.selected}
         onChange={props.onChange}
         className={styles.select}
       >

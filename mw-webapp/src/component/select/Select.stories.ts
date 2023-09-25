@@ -16,4 +16,4 @@ const options = [
   {id: "2", value: "moscow", text: "moscow"},
 ];
 export const Default: Story =
-  {args: {selected: "minsk", onChange: () => {}, label: "city", value: "cities", name: "", options: options}};
+  {args: {onChange: () => {}, label: "city", value: "cities", name: "", options: options}};
