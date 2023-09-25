@@ -24,7 +24,7 @@ export interface SelectProps {
    */
   options: OptionType[];
   /**
-   * Default option
+   * Callback triggered onChange select value
    */
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
