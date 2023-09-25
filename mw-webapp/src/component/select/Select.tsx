@@ -1,3 +1,4 @@
+import {Option} from "./option/Option";
 import styles from "src/component/select/Select.module.scss";
 
 /**
@@ -39,7 +40,7 @@ export interface SelectProps {
    */
   options: OptionType[];
   /**
-   * Default value for select
+   * Default option
    */
   selected: string;
   /**
@@ -50,11 +51,10 @@ export interface SelectProps {
 
 export const Select: React.FC<SelectProps> = (props: SelectProps) => {
   const renderOption = props.options.map((option) => (
-    <option key={option.id}
+    <Option key={option.id}
       value={option.value}
-    >
-      {option.text}
-    </option>
+      text={option.text}
+    />
   ));
 
   return (
