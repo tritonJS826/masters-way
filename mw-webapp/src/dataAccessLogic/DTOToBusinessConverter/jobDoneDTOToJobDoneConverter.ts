@@ -6,7 +6,7 @@ export const jobDoneDTOToJobDoneConverter = (jobDoneDTO: JobDoneDTO) => {
   return new JobDone({
     ...jobDoneDTO,
     timeUnit: TimeUnit[jobDoneDTO.timeUnit],
-    getJobDone() {
+    getJobDone: function() {
       return `${this.description} (${this.time} ${this.timeUnit})`;
     },
   });

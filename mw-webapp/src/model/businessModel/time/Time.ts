@@ -1,7 +1,7 @@
 import {TimeUnit} from "src/model/businessModel/time/timeUnit/TimeUnit";
 
 /**
- * How long was the job done
+ * Time
  */
 export class Time {
 
@@ -11,7 +11,7 @@ export class Time {
   public timeUnit: TimeUnit;
 
   /**
-   * Number of time units spent doing the job
+   * Number of time units
    */
   public amount: number;
 

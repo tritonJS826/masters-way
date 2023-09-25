@@ -1,8 +1,7 @@
-// Import {Goal} from "src/model/businessModel/Goal";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 
 /**
- * One of user's ways
+ * Way preview
  */
 export class WayPreview {
 

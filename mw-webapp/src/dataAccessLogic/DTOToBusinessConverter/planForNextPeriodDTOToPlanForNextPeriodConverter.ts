@@ -6,7 +6,7 @@ export const planForNextPeriodDTOToPlanForNextPeriodConverter = (planForNextPeri
   return new PlanForNextPeriod({
     ...planForNextPeriodDTO,
     timeUnit: TimeUnit[planForNextPeriodDTO.timeUnit],
-    getPlanForNextPeriod() {
+    getPlanForNextPeriod: function() {
       return `${this.job} (${this.estimationTime} ${this.timeUnit})`;
     },
   });

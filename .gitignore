@@ -133,4 +133,4 @@ dist
 .vscode
 
 # autosave draw.io
-.$models.drawio.bkp
+*.drawio.bkp

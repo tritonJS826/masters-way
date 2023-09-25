@@ -10,29 +10,35 @@ import {DayReportService} from "src/service/DayReportService";
 
 const FIRST_INDEX = 0;
 
+/**
+ * Day reports
+ * @returns DayReport[]
+ */
 export const getDayReports = async () => {
   const dayReportsDTO = await DayReportService.getDayReports();
   const jobsDonePreview = await getJobsDone();
   const plansForNextPeriodPreview = await getPlansForNextPeriod();
   const problemsForCurrentPeriodPreview = await getCurrentProblems();
 
-  const jobsDone = dayReportsDTO[FIRST_INDEX].jobsDone.map((jobDoneUuid) => {
+  const firstReport = dayReportsDTO[FIRST_INDEX];
+
+  const jobsDone = firstReport.jobsDone.map((jobDoneUuid) => {
     const jobDone: JobDone = jobsDonePreview
-      .find((elem) => elem.uuid === jobDoneUuid) || {} as JobDone;
+      .find((elem) => elem.uuid === jobDoneUuid) ?? {} as JobDone;
     return jobDone;
   });
 
-  const plansForNextPeriod = dayReportsDTO[FIRST_INDEX].plansForNextPeriod
+  const plansForNextPeriod = firstReport.plansForNextPeriod
     .map((planForNextPeriodUuid) => {
       const planForNextPeriod: PlanForNextPeriod = plansForNextPeriodPreview
-        .find((elem) => elem.uuid === planForNextPeriodUuid) || {} as PlanForNextPeriod;
+        .find((elem) => elem.uuid === planForNextPeriodUuid) ?? {} as PlanForNextPeriod;
       return planForNextPeriod;
     });
 
-  const problemsForCurrentPeriod = dayReportsDTO[FIRST_INDEX].problemsForCurrentPeriod
+  const problemsForCurrentPeriod = firstReport.problemsForCurrentPeriod
     .map((problemForCurrentPeriodUuid) => {
       const problemForCurrentPeriod: CurrentProblem = problemsForCurrentPeriodPreview
-        .find((elem) => elem.uuid === problemForCurrentPeriodUuid) || {} as CurrentProblem;
+        .find((elem) => elem.uuid === problemForCurrentPeriodUuid) ?? {} as CurrentProblem;
       return problemForCurrentPeriod;
     });
 

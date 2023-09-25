@@ -6,22 +6,30 @@ import {WayService} from "src/service/WayService";
 
 const FIRST_INDEX = 0;
 
+/**
+ * Ways preview
+ * @returns WayPreview[]
+ */
 export const getWaysPreview = async () => {
-  const waysPreview = await WayService.getWays();
+  const waysDTO = await WayService.getWays();
   const usersPreview = await getUsersPreview();
 
-  const owner: UserPreview = usersPreview
-    .find((elem) => elem.uuid === waysPreview[FIRST_INDEX].ownerUuid) || usersPreview[FIRST_INDEX];
+  const firstWay = waysDTO[FIRST_INDEX];
 
-  const currentMentors = waysPreview[FIRST_INDEX].currentMentors.map((currentMentorUuid) => {
+  const owner: UserPreview = usersPreview
+    .find((elem) => elem.uuid === firstWay.ownerUuid) ?? {} as UserPreview;
+
+  const currentMentors = firstWay.currentMentors.map((currentMentorUuid) => {
     const currentMentor: UserPreview = usersPreview
-      .find((elem) => elem.uuid === currentMentorUuid) || {} as UserPreview;
+      .find((elem) => elem.uuid === currentMentorUuid) ?? {} as UserPreview;
     return currentMentor;
   });
 
-  const ways: WayPreview[] = waysPreview.map((wayPreview) => {
-    return wayDTOToWayPreviewConverter(wayPreview, owner, currentMentors);
-  });
+  const wayProps = {
+    owner,
+    currentMentors,
+  };
 
+  const ways: WayPreview[] = waysDTO.map((wayPreview) => wayDTOToWayPreviewConverter(wayPreview, wayProps));
   return ways;
 };

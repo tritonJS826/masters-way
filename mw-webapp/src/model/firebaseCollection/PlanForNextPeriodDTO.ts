@@ -1,7 +1,7 @@
-import {TimeUnitDTO} from "src/model/firebaseCollection/time/timeUnit/TimeUnitDTO";
+import {TimeUnit} from "src/model/firebaseCollection/time/timeUnit/TimeUnit";
 
 /**
- * Plan for next period (day, month, etc.)
+ * Plan
  */
 export class PlanForNextPeriodDTO {
 
@@ -18,7 +18,7 @@ export class PlanForNextPeriodDTO {
   /**
    * Unit of time measurement
    */
-  public timeUnit: TimeUnitDTO;
+  public timeUnit: TimeUnit;
 
   /**
    * Estimation time for complete job

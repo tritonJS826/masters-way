@@ -1,7 +1,7 @@
 import {TimeUnit} from "src/model/businessModel/time/timeUnit/TimeUnit";
 
 /**
- * Plan for next period (day, month, etc.)
+ * Plan
  */
 export class PlanForNextPeriod {
 

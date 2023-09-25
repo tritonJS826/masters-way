@@ -1,7 +1,7 @@
 /**
  * Unit of time measurement
  */
-export enum TimeUnitDTO {
+export enum TimeUnit {
   /**
    * Minute
    */

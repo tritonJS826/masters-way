@@ -5,19 +5,23 @@ import {UserService} from "src/service/UserService";
 
 const FIRST_INDEX = 0;
 
+/**
+ * Users preview
+ * @returns UserPreview[]
+ */
 export const getUsersPreview = async () => {
   const waysPreview = await getWaysPreview();
-  const usersPreview = await UserService.getUsers();
+  const usersDTO = await UserService.getUsers();
 
-  const ownWays = usersPreview[FIRST_INDEX].ownWays.map((ownWayUuid) => {
+  const firstUser = usersDTO[FIRST_INDEX];
+
+  const ownWays = firstUser.ownWays.map((ownWayUuid) => {
     const ownWay: WayPreview = waysPreview
-      .find((elem) => elem.uuid === ownWayUuid) || {} as WayPreview;
+      .find((elem) => elem.uuid === ownWayUuid) ?? {} as WayPreview;
     return ownWay;
   });
 
-  const users = usersPreview.map((userPreview) => {
-    return UserDTOToUserPreviewConverter(userPreview, ownWays);
-  });
+  const users = usersDTO.map((userPreview) => UserDTOToUserPreviewConverter(userPreview, ownWays));
 
   return users;
 };

@@ -10,13 +10,13 @@ interface DayReportProps {
   problemsForCurrentPeriod: CurrentProblem[];
 }
 
-export const dayReportDTOToDayReportConverter = (dayReportDTO: DayReportDTO, dayReportPops: DayReportProps) => {
+export const dayReportDTOToDayReportConverter = (dayReportDTO: DayReportDTO, dayReportProps: DayReportProps) => {
   return new DayReport({
     ...dayReportDTO,
     date: new Date(dayReportDTO.date),
-    jobsDone: dayReportPops.jobsDone,
-    plansForNextPeriod: dayReportPops.plansForNextPeriod,
-    problemsForCurrentPeriod: dayReportPops.problemsForCurrentPeriod,
+    jobsDone: dayReportProps.jobsDone,
+    plansForNextPeriod: dayReportProps.plansForNextPeriod,
+    problemsForCurrentPeriod: dayReportProps.problemsForCurrentPeriod,
   });
 };
 

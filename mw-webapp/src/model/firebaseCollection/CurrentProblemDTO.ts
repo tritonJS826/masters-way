@@ -1,5 +1,5 @@
 /**
- * Problem for today
+ * Problem for current period
  */
 export class CurrentProblemDTO {
 

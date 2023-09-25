@@ -1,4 +1,4 @@
-import {TimeUnitDTO} from "src/model/firebaseCollection/time/timeUnit/TimeUnitDTO";
+import {TimeUnit} from "src/model/firebaseCollection/time/timeUnit/TimeUnit";
 
 /**
  * Job that was done
@@ -18,7 +18,7 @@ export class JobDoneDTO {
   /**
    * Unit of time measurement
    */
-  public timeUnit: TimeUnitDTO;
+  public timeUnit: TimeUnit;
 
   /**
    * How long did the task take to complete

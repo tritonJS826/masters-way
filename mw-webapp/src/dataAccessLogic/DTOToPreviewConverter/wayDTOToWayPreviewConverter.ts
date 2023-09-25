@@ -2,11 +2,16 @@ import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {WayDTO} from "src/model/firebaseCollection/WayDTO";
 
-export const wayDTOToWayPreviewConverter = (wayDTO: WayDTO, owner: UserPreview, currentMentors: UserPreview[]) => {
+interface WayProps {
+  owner: UserPreview;
+  currentMentors: UserPreview[];
+}
+
+export const wayDTOToWayPreviewConverter = (wayDTO: WayDTO, wayProps: WayProps) => {
   return new WayPreview({
     ...wayDTO,
-    owner: owner,
-    currentMentors: currentMentors,
+    owner: wayProps.owner,
+    currentMentors: wayProps.currentMentors,
     dayReports: wayDTO.dayReportUuids,
     monthReports: wayDTO.monthReportUuids,
     goal: wayDTO.goalUuid,

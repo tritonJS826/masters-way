@@ -12,12 +12,13 @@ import styles from "src/component/table/Table.module.scss";
 export const Table = () => {
   const [data, setData] = useState<DayReport[]>([]);
 
-  const setDayReportsValue = async () => {
-    setData(await getDayReports());
+  const loadDayReports = async () => {
+    const dayReports = await getDayReports();
+    setData(dayReports);
   };
 
   useEffect(() => {
-    setDayReportsValue();
+    loadDayReports();
   }, []);
 
   const table = useReactTable({

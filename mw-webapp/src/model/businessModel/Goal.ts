@@ -3,7 +3,7 @@ import {Time} from "src/model/businessModel/time/Time";
 import {User} from "src/model/businessModel/User";
 
 /**
- * Goal of the way
+ * Goal
  */
 export class Goal {
 

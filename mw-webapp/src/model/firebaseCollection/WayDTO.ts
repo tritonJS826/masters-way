@@ -1,5 +1,5 @@
 /**
- * One of user's ways
+ * Way
  */
 export class WayDTO {
 
