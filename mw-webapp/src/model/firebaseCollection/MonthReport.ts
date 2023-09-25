@@ -1,4 +1,3 @@
-import {StudentComment} from "src/model/firebaseCollection/StudentComment";
 
 /**
  * Month's report
@@ -33,7 +32,7 @@ export class MonthReport {
   /**
    * Student comments
    */
-  public studentComments: StudentComment[];
+  public studentComments: string[];
 
   /**
    * New knowledge that the user has received
