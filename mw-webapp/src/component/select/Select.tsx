@@ -1,10 +1,9 @@
-import {Option} from "src/component/select/option/Option";
-import {OptionType} from "src/component/select/option/Option";
+import {Option, OptionType} from "src/component/select/option/Option";
 import styles from "src/component/select/Select.module.scss";
 
 
 /**
- * Select component
+ * Select props
  */
 export interface SelectProps {
   /**
@@ -12,7 +11,7 @@ export interface SelectProps {
    */
   label: string;
   /**
-   * Default select value
+   * Select`s value
    */
   value: string;
   /**

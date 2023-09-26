@@ -1,14 +1,14 @@
 
 /**
- * Option element for a select component
+ * Option type for a select component
  */
 export interface OptionType {
   /**
-   * Option id. Should be unique
+   * Option`s id. Should be unique
    */
   id: string;
   /**
-   * Option value
+   * Option`s value
    */
   value: string;
   /**
@@ -17,7 +17,7 @@ export interface OptionType {
   text: string;
 }
 /**
-* Option component
+* Option props
 */
 interface OptionProps{
   /**
