@@ -11,12 +11,12 @@ interface DayReportProps {
 }
 
 /**
- * Convert DayReportDTO to DayReport
- * @param {DayReportDTO} dayReportDTO - DayReportDTO
+ * Convert {@link DayReportDTO} to {@link DayReport}
+ * @param {DayReportDTO} dayReportDTO
  * @param {DayReportProps} dayReportProps - {@link DayReportProps}
- * @returns {DayReport}
+ * @returns {DayReport} {@link DayReport}
  */
-export const dayReportDTOToDayReportConverter = (dayReportDTO: DayReportDTO, dayReportProps: DayReportProps) => {
+export const dayReportDTOToDayReportConverter = (dayReportDTO: DayReportDTO, dayReportProps: DayReportProps): DayReport => {
   return new DayReport({
     ...dayReportDTO,
     date: new Date(dayReportDTO.date),

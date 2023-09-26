@@ -3,9 +3,9 @@ import {TimeUnit} from "src/model/businessModel/time/timeUnit/TimeUnit";
 import {PlanForNextPeriodDTO} from "src/model/firebaseCollection/PlanForNextPeriodDTO";
 
 /**
- * Convert PLanForNextPeriodDTO to PLanForNextPeriod
+ * Convert {@link PLanForNextPeriodDTO} to P{@link LanForNextPeriod}
  * @param {PlanForNextPeriodDTO} planForNextPeriodDTO
- * @returns {PlanForNextPeriod}
+ * @returns {PlanForNextPeriod} {@link PlanForNextPeriod}
  */
 export const planForNextPeriodDTOToPlanForNextPeriodConverter =
   (planForNextPeriodDTO: PlanForNextPeriodDTO): PlanForNextPeriod => {

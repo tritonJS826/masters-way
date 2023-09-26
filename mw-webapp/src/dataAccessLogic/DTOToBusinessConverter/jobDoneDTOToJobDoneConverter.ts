@@ -3,9 +3,9 @@ import {TimeUnit} from "src/model/businessModel/time/timeUnit/TimeUnit";
 import {JobDoneDTO} from "src/model/firebaseCollection/JobDoneDTO";
 
 /**
- * Convert JobDoneDTO to JobDone
+ * Convert {@link JobDoneDTO} to {@link JobDone}
  * @param {JobDoneDTO} jobDoneDTO
- * @returns {JobDone}
+ * @returns {JobDone} {@link JobDone}
  */
 export const jobDoneDTOToJobDoneConverter = (jobDoneDTO: JobDoneDTO): JobDone => {
   return new JobDone({

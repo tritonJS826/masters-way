@@ -3,10 +3,10 @@ import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {UserDTO} from "src/model/firebaseCollection/UserDTO";
 
 /**
- * Convert UserDTO to UserPreview
+ * Convert {@link UserDTO} to {@link UserPreview}
  * @param {USerDTO} userDTO
- * @param {WayPreview[]} ownWays
- * @returns {UserPreview}
+ * @param {WayPreview[]} ownWays - {@link ownWays}
+ * @returns {UserPreview} {@link UserPreview}
  */
 export const UserDTOToUserPreviewConverter = (userDTO: UserDTO, ownWays: WayPreview[]): UserPreview => {
   return new UserPreview({
