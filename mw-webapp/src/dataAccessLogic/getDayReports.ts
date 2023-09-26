@@ -4,6 +4,7 @@ import {getCurrentProblems} from "src/dataAccessLogic/getCurrentProblems";
 import {getJobsDone} from "src/dataAccessLogic/getJobsDone";
 import {getPlansForNextPeriod} from "src/dataAccessLogic/getPlansForNextPeriod";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
+import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
 import {DayReportService} from "src/service/DayReportService";
@@ -12,9 +13,9 @@ const FIRST_INDEX = 0;
 
 /**
  * Day reports
- * @returns DayReport[]
+ * @returns {Promise<DayReport[]>}
  */
-export const getDayReports = async () => {
+export const getDayReports = async (): Promise<DayReport[]> => {
   const dayReportsDTO = await DayReportService.getDayReports();
   const jobsDonePreview = await getJobsDone();
   const plansForNextPeriodPreview = await getPlansForNextPeriod();

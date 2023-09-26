@@ -25,7 +25,7 @@ export class JobDone {
    */
   public time: number;
 
-  constructor(jobDoneData: JobDone) {
+  constructor(jobDoneData: {uuid: string; description: string; timeUnit: TimeUnit; time: number}) {
     this.uuid = jobDoneData.uuid;
     this.description = jobDoneData.description;
     this.timeUnit = jobDoneData.timeUnit;

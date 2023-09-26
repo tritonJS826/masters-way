@@ -6,13 +6,13 @@ import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotTo
 const PATH_TO_CURRENT_PROBLEMS_COLLECTION = "currentProblems";
 
 /**
- * CurrentProblems requests
+ * CurrentProblems requests: {@link getCurrentProblems}
  */
 export class CurrentProblemService {
 
   /**
    * Read CurrentProblems collection
-   * @returns CurrentProblemDTO[]
+   * @returns {Promise<CurrentProblemDTO[]>} promise of CurrentProblemDTO[]
    */
   public static async getCurrentProblems(): Promise<CurrentProblemDTO[]> {
     const currentProblemsRaw = await getDocs(collection(db, PATH_TO_CURRENT_PROBLEMS_COLLECTION));

@@ -25,7 +25,7 @@ export class PlanForNextPeriod {
      */
   public estimationTime: number;
 
-  constructor(planForNextPeriodData: PlanForNextPeriod) {
+  constructor(planForNextPeriodData: {uuid: string; job: string; timeUnit: TimeUnit; estimationTime: number}) {
     this.uuid = planForNextPeriodData.uuid;
     this.job = planForNextPeriodData.job;
     this.timeUnit = planForNextPeriodData.timeUnit;

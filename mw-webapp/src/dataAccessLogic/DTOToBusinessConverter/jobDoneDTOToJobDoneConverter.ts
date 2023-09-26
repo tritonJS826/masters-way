@@ -4,15 +4,12 @@ import {JobDoneDTO} from "src/model/firebaseCollection/JobDoneDTO";
 
 /**
  * Convert JobDoneDTO to JobDone
- * @param jobDoneDTO: JobDoneDTO
- * @returns JobDone
+ * @param {JobDoneDTO} jobDoneDTO
+ * @returns {JobDone}
  */
-export const jobDoneDTOToJobDoneConverter = (jobDoneDTO: JobDoneDTO) => {
+export const jobDoneDTOToJobDoneConverter = (jobDoneDTO: JobDoneDTO): JobDone => {
   return new JobDone({
     ...jobDoneDTO,
     timeUnit: TimeUnit[jobDoneDTO.timeUnit],
-    getJobDone: function() {
-      return `${this.description} (${this.time} ${this.timeUnit})`;
-    },
   });
 };

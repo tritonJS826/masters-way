@@ -3,10 +3,10 @@ import {CurrentProblemDTO} from "src/model/firebaseCollection/CurrentProblemDTO"
 
 /**
  * Convert CurrentProblemDTO to CurrentProblem
- * @param currentProblemDTO: CurrentProblemDTO
- * @returns CurrentProblem
+ * @param {CurrentProblemDTO} currentProblemDTO
+ * @returns {CurrentProblem}
  */
-export const currentProblemDTOToCurrentProblemConverter = (currentProblemDTO: CurrentProblemDTO) => {
+export const currentProblemDTOToCurrentProblemConverter = (currentProblemDTO: CurrentProblemDTO): CurrentProblem => {
   return new CurrentProblem(currentProblemDTO);
 };
 

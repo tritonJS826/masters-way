@@ -3,17 +3,15 @@ import {TimeUnit} from "src/model/businessModel/time/timeUnit/TimeUnit";
 import {PlanForNextPeriodDTO} from "src/model/firebaseCollection/PlanForNextPeriodDTO";
 
 /**
- * Convert PLanForNextPeriodDTO to PLabForNextPeriod
- * @param planForNextPeriodDTO: PlanForNextPeriodDTO
- * @returns PlanForNextPeriod
+ * Convert PLanForNextPeriodDTO to PLanForNextPeriod
+ * @param {PlanForNextPeriodDTO} planForNextPeriodDTO
+ * @returns {PlanForNextPeriod}
  */
-export const planForNextPeriodDTOToPlanForNextPeriodConverter = (planForNextPeriodDTO: PlanForNextPeriodDTO) => {
-  return new PlanForNextPeriod({
-    ...planForNextPeriodDTO,
-    timeUnit: TimeUnit[planForNextPeriodDTO.timeUnit],
-    getPlanForNextPeriod: function() {
-      return `${this.job} (${this.estimationTime} ${this.timeUnit})`;
-    },
-  });
-};
+export const planForNextPeriodDTOToPlanForNextPeriodConverter =
+  (planForNextPeriodDTO: PlanForNextPeriodDTO): PlanForNextPeriod => {
+    return new PlanForNextPeriod({
+      ...planForNextPeriodDTO,
+      timeUnit: TimeUnit[planForNextPeriodDTO.timeUnit],
+    });
+  };
 

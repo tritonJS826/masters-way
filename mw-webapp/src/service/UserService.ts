@@ -6,13 +6,13 @@ import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotTo
 const PATH_TO_USERS_COLLECTION = "users";
 
 /**
- * Users requests
+ * Users requests: {@link getUsers}, {@link createUser}, {@link updateUser}, {@link deleteUser}
  */
 export class UserService {
 
   /**
    * Read Users collection
-   * @returns UserDTO[]
+   * @returns {Promise<UserDTO[]>} promise of UserDTO[]
    */
   public static async getUsers(): Promise<UserDTO[]> {
     const usersRaw = await getDocs(collection(db, PATH_TO_USERS_COLLECTION));
@@ -52,7 +52,7 @@ export class UserService {
 
   /**
    * Delete user
-   * @param uuid User's uuid
+   * @param {string} uuid User's uuid
    */
   public static async deleteUser(uuid: string) {
     await deleteDoc(doc(db, PATH_TO_USERS_COLLECTION, uuid));

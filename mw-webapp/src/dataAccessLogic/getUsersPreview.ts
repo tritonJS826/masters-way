@@ -1,5 +1,6 @@
 import {UserDTOToUserPreviewConverter} from "src/dataAccessLogic/DTOToPreviewConverter/userDTOToUserPreviewConverter";
 import {getWaysPreview} from "src/dataAccessLogic/getWaysPreview";
+import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {UserService} from "src/service/UserService";
 
@@ -7,9 +8,9 @@ const FIRST_INDEX = 0;
 
 /**
  * Users preview
- * @returns UserPreview[]
+ * @returns {Promise<UserPreview[]>}
  */
-export const getUsersPreview = async () => {
+export const getUsersPreview = async (): Promise<UserPreview[]> => {
   const waysPreview = await getWaysPreview();
   const usersDTO = await UserService.getUsers();
 

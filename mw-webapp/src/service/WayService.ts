@@ -6,13 +6,13 @@ import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotTo
 const PATH_TO_WAYS_COLLECTION = "ways";
 
 /**
- * Ways requests
+ * Ways requests: {@link getWays}
  */
 export class WayService {
 
   /**
    * Read Ways collection
-   * @returns WayDTO[]
+   * @returns {Promise<WayDTO[]>} promise of WayDTO[]
    */
   public static async getWays(): Promise<WayDTO[]> {
     const waysRaw = await getDocs(collection(db, PATH_TO_WAYS_COLLECTION));

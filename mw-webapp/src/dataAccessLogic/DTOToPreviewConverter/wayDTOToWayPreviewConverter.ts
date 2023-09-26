@@ -9,11 +9,11 @@ interface WayProps {
 
 /**
  * Convert WayDTO to WayPreview
- * @param wayDTO
- * @param wayProps
- * @returns WayPreview
+ * @param {WayDTO} wayDTO
+ * @param {WayProps} wayProps - {@link WayProps}
+ * @returns {WayPreview}
  */
-export const wayDTOToWayPreviewConverter = (wayDTO: WayDTO, wayProps: WayProps) => {
+export const wayDTOToWayPreviewConverter = (wayDTO: WayDTO, wayProps: WayProps): WayPreview => {
   return new WayPreview({
     ...wayDTO,
     owner: wayProps.owner,

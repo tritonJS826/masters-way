@@ -8,9 +8,9 @@ const FIRST_INDEX = 0;
 
 /**
  * Ways preview
- * @returns WayPreview[]
+ * @returns {Promise<WayPreview[]>}
  */
-export const getWaysPreview = async () => {
+export const getWaysPreview = async (): Promise<WayPreview[]> => {
   const waysDTO = await WayService.getWays();
   const usersPreview = await getUsersPreview();
 

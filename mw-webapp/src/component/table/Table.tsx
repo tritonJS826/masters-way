@@ -10,7 +10,7 @@ import {DayReport} from "src/model/businessModel/DayReport";
 import styles from "src/component/table/Table.module.scss";
 
 /**
- * Table
+ * Table (need update for split component and logic code)
  */
 export const Table = () => {
   const [data, setData] = useState<DayReport[]>([]);

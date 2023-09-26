@@ -6,13 +6,13 @@ import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotTo
 const PATH_TO_JOBS_DONE_COLLECTION = "jobsDone";
 
 /**
- * JobsDone requests
+ * JobsDone requests: {@link getJobsDone}
  */
 export class JobDoneService {
 
   /**
    * Read JobsDone collection
-   * @returns JobDoneDTO[]
+   * @returns {Promise<JobDoneDTO[]>} promise of JobDoneDTO[]
    */
   public static async getJobsDone(): Promise<JobDoneDTO[]> {
     const jobsDoneRaw = await getDocs(collection(db, PATH_TO_JOBS_DONE_COLLECTION));

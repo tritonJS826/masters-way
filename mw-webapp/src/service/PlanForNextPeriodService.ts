@@ -6,13 +6,13 @@ import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotTo
 const PATH_TO_PLANS_FOR_NEXT_PERIOD_COLLECTION = "plansForNextPeriod";
 
 /**
- * PlansForNextPeriod requests
+ * PlansForNextPeriod requests: {@link getPlansForNextPeriod}
  */
 export class PlanForNextPeriodService {
 
   /**
    * Read PlansForNextPeriod collection
-   * @returns PLanForNextPeriodDTO[]
+   * @returns {Promise<PLanForNextPeriodDTO[]>} promise of PlanForNextPeriodDTO[]
    */
   public static async getPlansForNextPeriod(): Promise<PlanForNextPeriodDTO[]> {
     const plansForNextPeriodRaw = await getDocs(collection(db, PATH_TO_PLANS_FOR_NEXT_PERIOD_COLLECTION));

@@ -1964,5 +1964,31 @@
     "learnedForToday": [""],
     "mentorComment": [""],
     "isDayOff": false
+  },
+  {
+    "id": "41",
+    "date": "2023-09-25",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Fix mistakes from review PR",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 80
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Add tsDocs",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 120
+      }
+    }
+  ],
+    "currentProblems": [""],
+    "studentComment": [""],
+    "learnedForToday": ["Understood that constructor can take any value, not just reference its own class"],
+    "mentorComment": [""],
+    "isDayOff": false
   }
 ]
