@@ -4,7 +4,7 @@ import {MonthReport} from "src/model/businessModel/MonthReport";
 import {User} from "src/model/businessModel/User";
 
 /**
- * One of user's ways
+ * Way model
  */
 export class Way {
 

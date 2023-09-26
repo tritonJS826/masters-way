@@ -2,7 +2,7 @@ import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
 /**
- * Day's report
+ * Day's report model
  */
 export class DayReport {
 

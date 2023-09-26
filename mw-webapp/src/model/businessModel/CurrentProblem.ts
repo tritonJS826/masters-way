@@ -1,5 +1,5 @@
 /**
- * Problem for current period
+ * Problem for current period model
  */
 export class CurrentProblem {
 

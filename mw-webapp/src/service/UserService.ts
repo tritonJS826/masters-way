@@ -1,21 +1,31 @@
-import {onValue, ref, set} from "firebase/database";
+import {collection, deleteDoc, doc, getDocs, setDoc, updateDoc} from "firebase/firestore";
 import {db} from "src/firebase";
-import {User as UserDTO} from "src/model/firebaseCollection/User";
+import {UserDTO} from "src/model/firebaseCollection/UserDTO";
+import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
 
+const PATH_TO_USERS_COLLECTION = "users";
+
+/**
+ * Users requests: {@link getUsers}, {@link createUser}, {@link updateUser}, {@link deleteUser}
+ */
 export class UserService {
 
-  public static onValueFromRealTimeDb(callBack: (data: UserDTO[]) => void) {
-    onValue(ref(db, "/users"), async (snapshot) => {
-      const users: UserDTO[] = snapshot.val();
-      if (users !== null) {
-        callBack(users);
-      }
-    });
+  /**
+   * Read Users collection
+   * @returns {Promise<UserDTO[]>} promise of UserDTO[]
+   */
+  public static async getUsersDTO(): Promise<UserDTO[]> {
+    const usersRaw = await getDocs(collection(db, PATH_TO_USERS_COLLECTION));
+    const users: UserDTO[] = querySnapshotToDTOConverter<UserDTO>(usersRaw);
+    return users;
   }
 
-  public static writeNewUserData(data: UserDTO) {
-    const usersListRef = ref(db, "/users/" + data.uuid);
-    set(usersListRef, {
+  /**
+   * Create new user
+   * @param data UserDTO
+   */
+  public static async createUserDTO(data: UserDTO) {
+    await setDoc(doc(db, PATH_TO_USERS_COLLECTION, data.uuid), {
       uuid: data.uuid,
       email: data.email,
       name: data.name,
@@ -23,6 +33,29 @@ export class UserService {
       favoriteWays: data.favoriteWays,
       mentoringWays: data.mentoringWays,
     });
+  }
+
+  /**
+   * Update user
+   * @param data UserDTO
+   */
+  public static async updateUserDTO(data: UserDTO) {
+    await updateDoc(doc(db, PATH_TO_USERS_COLLECTION, data.uuid), {
+      uuid: data.uuid,
+      email: data.email,
+      name: data.name,
+      ownWays: data.ownWays,
+      favoriteWays: data.favoriteWays,
+      mentoringWays: data.mentoringWays,
+    });
+  }
+
+  /**
+   * Delete user
+   * @param {string} uuid User's uuid
+   */
+  public static async deleteUserDTO(uuid: string) {
+    await deleteDoc(doc(db, PATH_TO_USERS_COLLECTION, uuid));
   }
 
 }
