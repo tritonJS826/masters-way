@@ -1,9 +1,9 @@
 import {TimeUnit} from "src/model/firebaseCollection/time/timeUnit/TimeUnit";
 
 /**
- * Plan for next period (day, month, etc.)
+ * Plan for next period DTO model
  */
-export class PlanForNextPeriod {
+export class PlanForNextPeriodDTO {
 
   /**
    * Plan's UUID
@@ -16,7 +16,7 @@ export class PlanForNextPeriod {
   public job: string;
 
   /**
-   * Unit of time measurement
+   * Unit of time measurement for {@link estimationTime}
    */
   public timeUnit: TimeUnit;
 
@@ -25,7 +25,7 @@ export class PlanForNextPeriod {
    */
   public estimationTime: number;
 
-  constructor(planForNextPeriodData: PlanForNextPeriod) {
+  constructor(planForNextPeriodData: PlanForNextPeriodDTO) {
     this.uuid = planForNextPeriodData.uuid;
     this.job = planForNextPeriodData.job;
     this.timeUnit = planForNextPeriodData.timeUnit;

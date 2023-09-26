@@ -1,9 +1,9 @@
 import {TimeUnit} from "src/model/firebaseCollection/time/timeUnit/TimeUnit";
 
 /**
- * Job that was done
+ * Job done DTO model
  */
-export class JobDone {
+export class JobDoneDTO {
 
   /**
    * Job's UUID
@@ -16,7 +16,7 @@ export class JobDone {
   public description: string;
 
   /**
-   * Unit of time measurement
+   * Unit of time measurement for {@link time}
    */
   public timeUnit: TimeUnit;
 
@@ -25,7 +25,7 @@ export class JobDone {
    */
   public time: number;
 
-  constructor(jobDoneData: JobDone) {
+  constructor(jobDoneData: JobDoneDTO) {
     this.uuid = jobDoneData.uuid;
     this.description = jobDoneData.description;
     this.timeUnit = jobDoneData.timeUnit;

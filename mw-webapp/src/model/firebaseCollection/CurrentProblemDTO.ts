@@ -1,7 +1,7 @@
 /**
- * Problem for today
+ * Problem for current period DTO model
  */
-export class CurrentProblem {
+export class CurrentProblemDTO {
 
   /**
    * Problem's UUID
@@ -18,7 +18,7 @@ export class CurrentProblem {
    */
   public isDone: boolean;
 
-  constructor(currentProblemData: CurrentProblem) {
+  constructor(currentProblemData: CurrentProblemDTO) {
     this.uuid = currentProblemData.uuid;
     this.description = currentProblemData.description;
     this.isDone = currentProblemData.isDone;

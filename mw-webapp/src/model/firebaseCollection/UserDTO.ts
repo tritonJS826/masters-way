@@ -1,7 +1,7 @@
 /**
- * User
+ * User DTO model
  */
-export class User {
+export class UserDTO {
 
   /**
    * User's UUID
@@ -33,7 +33,7 @@ export class User {
    */
   public mentoringWays: string[];
 
-  constructor(userData: User) {
+  constructor(userData: UserDTO) {
     this.uuid = userData.uuid;
     this.name = userData.name;
     this.email = userData.email;

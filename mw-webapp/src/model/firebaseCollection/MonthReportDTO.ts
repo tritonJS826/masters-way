@@ -1,7 +1,7 @@
 /**
- * Month's report
+ * Month's report DTO model
  */
-export class MonthReport {
+export class MonthReportDTO {
 
   /**
    * Month report's UUID
@@ -43,7 +43,7 @@ export class MonthReport {
    */
   public mentorComments: string[];
 
-  constructor(monthReportData: MonthReport) {
+  constructor(monthReportData: MonthReportDTO) {
     this.uuid = monthReportData.uuid;
     this.date = monthReportData.date;
     this.jobsDone = monthReportData.jobsDone;

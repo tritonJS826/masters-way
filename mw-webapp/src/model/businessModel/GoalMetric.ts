@@ -1,5 +1,5 @@
 /**
- * Goal's metrics
+ * Goal's metrics model
  */
 export class GoalMetric {
 

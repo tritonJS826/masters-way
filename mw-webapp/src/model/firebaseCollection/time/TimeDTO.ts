@@ -1,9 +1,9 @@
 import {TimeUnit} from "src/model/businessModel/time/timeUnit/TimeUnit";
 
 /**
- * How long was the job done
+ * Time DTO model
  */
-export class Time {
+export class TimeDTO {
 
   /**
    * Unit of time measurement
@@ -11,11 +11,11 @@ export class Time {
   public timeUnit: TimeUnit;
 
   /**
-   * Number of time units spent doing the job
+   * Number of time units
    */
   public amount: number;
 
-  constructor(timeData: Time) {
+  constructor(timeData: TimeDTO) {
     this.timeUnit = timeData.timeUnit;
     this.amount = timeData.amount;
   }

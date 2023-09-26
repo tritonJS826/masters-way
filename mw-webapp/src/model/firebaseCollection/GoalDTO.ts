@@ -1,9 +1,9 @@
 import {TimeUnit} from "src/model/firebaseCollection/time/timeUnit/TimeUnit";
 
 /**
- * Goal of the way
+ * Goal DTO model
  */
-export class Goal {
+export class GoalDTO {
 
   /**
    * Goal's UUID
@@ -26,7 +26,7 @@ export class Goal {
   public description: string;
 
   /**
-   * Enum @Time.unit
+   * Enum @Time.unit for {@link estimationTime}
    */
   public timeUnit: TimeUnit;
 
@@ -35,7 +35,7 @@ export class Goal {
     */
   public estimationTime: number;
 
-  constructor(goalData: Goal) {
+  constructor(goalData: GoalDTO) {
     this.uuid = goalData.uuid;
     this.studentUuid = goalData.studentUuid;
     this.metrics = goalData.metrics;

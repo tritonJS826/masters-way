@@ -1,7 +1,7 @@
 /**
- * Goal's metrics
+ * Goal's metrics DTO model
  */
-export class GoalMetric {
+export class GoalMetricDTO {
 
   /**
    * Metric's UUID
@@ -18,7 +18,7 @@ export class GoalMetric {
    */
   public isDone: boolean;
 
-  constructor(goalMetricsData: GoalMetric) {
+  constructor(goalMetricsData: GoalMetricDTO) {
     this.uuid = goalMetricsData.uuid;
     this.description = goalMetricsData.description;
     this.isDone = goalMetricsData.isDone;
