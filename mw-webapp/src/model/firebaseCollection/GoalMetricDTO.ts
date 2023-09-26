@@ -1,5 +1,5 @@
 /**
- * Goal's metrics
+ * Goal's metrics DTO model
  */
 export class GoalMetricDTO {
 

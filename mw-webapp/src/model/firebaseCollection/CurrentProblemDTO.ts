@@ -1,5 +1,5 @@
 /**
- * Problem for current period
+ * Problem for current period DTO model
  */
 export class CurrentProblemDTO {
 

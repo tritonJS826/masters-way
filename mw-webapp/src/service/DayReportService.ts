@@ -14,7 +14,7 @@ export class DayReportService {
    * Read DayReports collection
    * @returns {Promise<DayReportDTO[]>} promise of DayReportsDTO[]
    */
-  public static async getDayReports(): Promise<DayReportDTO[]> {
+  public static async getDayReportsDTO(): Promise<DayReportDTO[]> {
     const dayReportsRaw = await getDocs(collection(db, PATH_TO_DAY_REPORTS_COLLECTION));
     const dayReports: DayReportDTO[] = querySnapshotToDTOConverter<DayReportDTO>(dayReportsRaw);
     return dayReports;

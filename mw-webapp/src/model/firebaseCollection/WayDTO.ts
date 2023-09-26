@@ -1,5 +1,5 @@
 /**
- * Way
+ * Way DTO model
  */
 export class WayDTO {
 

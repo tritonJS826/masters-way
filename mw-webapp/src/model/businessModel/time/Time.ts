@@ -1,7 +1,7 @@
 import {TimeUnit} from "src/model/businessModel/time/timeUnit/TimeUnit";
 
 /**
- * Time
+ * Time model
  */
 export class Time {
 

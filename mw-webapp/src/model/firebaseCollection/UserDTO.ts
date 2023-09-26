@@ -1,5 +1,5 @@
 /**
- * User
+ * User DTO model
  */
 export class UserDTO {
 

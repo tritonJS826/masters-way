@@ -1,7 +1,7 @@
 import {TimeUnit} from "src/model/firebaseCollection/time/timeUnit/TimeUnit";
 
 /**
- * Goal
+ * Goal DTO model
  */
 export class GoalDTO {
 
@@ -26,7 +26,7 @@ export class GoalDTO {
   public description: string;
 
   /**
-   * Enum @Time.unit
+   * Enum @Time.unit for {@link estimationTime}
    */
   public timeUnit: TimeUnit;
 

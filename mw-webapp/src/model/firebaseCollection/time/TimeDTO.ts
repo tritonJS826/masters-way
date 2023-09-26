@@ -1,7 +1,7 @@
 import {TimeUnit} from "src/model/businessModel/time/timeUnit/TimeUnit";
 
 /**
- * Time
+ * Time DTO model
  */
 export class TimeDTO {
 

@@ -8,7 +8,7 @@ import {CurrentProblemService} from "src/service/CurrentProblemService";
  * @returns {Promise<CurrentProblem[]>}
  */
 export const getCurrentProblems = async (): Promise<CurrentProblem[]> => {
-  const currentProblemsDTO = await CurrentProblemService.getCurrentProblems();
+  const currentProblemsDTO = await CurrentProblemService.getCurrentProblemsDTO();
   const currentProblems = currentProblemsDTO.map(currentProblemDTOToCurrentProblemConverter);
 
   return currentProblems;

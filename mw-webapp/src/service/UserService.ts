@@ -14,7 +14,7 @@ export class UserService {
    * Read Users collection
    * @returns {Promise<UserDTO[]>} promise of UserDTO[]
    */
-  public static async getUsers(): Promise<UserDTO[]> {
+  public static async getUsersDTO(): Promise<UserDTO[]> {
     const usersRaw = await getDocs(collection(db, PATH_TO_USERS_COLLECTION));
     const users: UserDTO[] = querySnapshotToDTOConverter<UserDTO>(usersRaw);
     return users;
@@ -24,7 +24,7 @@ export class UserService {
    * Create new user
    * @param data UserDTO
    */
-  public static async createUser(data: UserDTO) {
+  public static async createUserDTO(data: UserDTO) {
     await setDoc(doc(db, PATH_TO_USERS_COLLECTION, data.uuid), {
       uuid: data.uuid,
       email: data.email,
@@ -39,7 +39,7 @@ export class UserService {
    * Update user
    * @param data UserDTO
    */
-  public static async updateUser(data: UserDTO) {
+  public static async updateUserDTO(data: UserDTO) {
     await updateDoc(doc(db, PATH_TO_USERS_COLLECTION, data.uuid), {
       uuid: data.uuid,
       email: data.email,
@@ -54,7 +54,7 @@ export class UserService {
    * Delete user
    * @param {string} uuid User's uuid
    */
-  public static async deleteUser(uuid: string) {
+  public static async deleteUserDTO(uuid: string) {
     await deleteDoc(doc(db, PATH_TO_USERS_COLLECTION, uuid));
   }
 

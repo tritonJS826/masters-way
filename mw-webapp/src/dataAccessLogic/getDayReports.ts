@@ -9,6 +9,7 @@ import {JobDone} from "src/model/businessModel/JobDone";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
 import {DayReportService} from "src/service/DayReportService";
 
+// TODO: get rid of this variable (check all files)
 const FIRST_INDEX = 0;
 
 /**
@@ -16,7 +17,7 @@ const FIRST_INDEX = 0;
  * @returns {Promise<DayReport[]>}
  */
 export const getDayReports = async (): Promise<DayReport[]> => {
-  const dayReportsDTO = await DayReportService.getDayReports();
+  const dayReportsDTO = await DayReportService.getDayReportsDTO();
   const jobsDonePreview = await getJobsDone();
   const plansForNextPeriodPreview = await getPlansForNextPeriod();
   const problemsForCurrentPeriodPreview = await getCurrentProblems();

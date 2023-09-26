@@ -14,7 +14,7 @@ export class WayService {
    * Read Ways collection
    * @returns {Promise<WayDTO[]>} promise of WayDTO[]
    */
-  public static async getWays(): Promise<WayDTO[]> {
+  public static async getWaysDTO(): Promise<WayDTO[]> {
     const waysRaw = await getDocs(collection(db, PATH_TO_WAYS_COLLECTION));
     const ways = querySnapshotToDTOConverter<WayDTO>(waysRaw);
     return ways;

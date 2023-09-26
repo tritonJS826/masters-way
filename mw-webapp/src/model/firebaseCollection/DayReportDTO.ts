@@ -1,5 +1,5 @@
 /**
- * Day's report
+ * Day's report DTO model
  */
 export class DayReportDTO {
 

@@ -1,7 +1,7 @@
 import {TimeUnit} from "src/model/businessModel/time/timeUnit/TimeUnit";
 
 /**
- * Plan
+ * Plan for next period model
  */
 export class PlanForNextPeriod {
 
@@ -16,7 +16,7 @@ export class PlanForNextPeriod {
   public job: string;
 
   /**
-   * Unit of time measurement
+   * Unit of time measurement for {@link estimationTime}
    */
   public timeUnit: TimeUnit;
 

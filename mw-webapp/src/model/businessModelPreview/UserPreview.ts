@@ -1,7 +1,7 @@
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 
 /**
- * User preview
+ * User preview model
  */
 export class UserPreview {
 

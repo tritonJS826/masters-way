@@ -1,5 +1,5 @@
 /**
- * Month's report
+ * Month's report DTO model
  */
 export class MonthReportDTO {
 

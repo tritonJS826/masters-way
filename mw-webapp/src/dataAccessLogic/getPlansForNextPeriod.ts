@@ -8,7 +8,7 @@ import {PlanForNextPeriodService} from "src/service/PlanForNextPeriodService";
  * @returns {Promise<PlanForNextPeriod[]>}
  */
 export const getPlansForNextPeriod = async (): Promise<PlanForNextPeriod[]> => {
-  const plansForNextPeriodDTO = await PlanForNextPeriodService.getPlansForNextPeriod();
+  const plansForNextPeriodDTO = await PlanForNextPeriodService.getPlansForNextPeriodDTO();
   const plansForNextPeriod = plansForNextPeriodDTO.map(planForNextPeriodDTOToPlanForNextPeriodConverter);
   return plansForNextPeriod;
 };

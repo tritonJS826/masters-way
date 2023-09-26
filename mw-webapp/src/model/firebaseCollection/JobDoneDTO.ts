@@ -1,7 +1,7 @@
 import {TimeUnit} from "src/model/firebaseCollection/time/timeUnit/TimeUnit";
 
 /**
- * Job that was done
+ * Job done DTO model
  */
 export class JobDoneDTO {
 
@@ -16,7 +16,7 @@ export class JobDoneDTO {
   public description: string;
 
   /**
-   * Unit of time measurement
+   * Unit of time measurement for {@link time}
    */
   public timeUnit: TimeUnit;
 

@@ -1,5 +1,5 @@
 /**
- * Mentor's comments
+ * Mentor's comments DTO model
  */
 export class MentorCommentDTO {
 

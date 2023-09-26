@@ -4,6 +4,7 @@ import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {UserService} from "src/service/UserService";
 
+// TODO: get rid of this variable (check all files)
 const FIRST_INDEX = 0;
 
 /**
@@ -12,7 +13,7 @@ const FIRST_INDEX = 0;
  */
 export const getUsersPreview = async (): Promise<UserPreview[]> => {
   const waysPreview = await getWaysPreview();
-  const usersDTO = await UserService.getUsers();
+  const usersDTO = await UserService.getUsersDTO();
 
   const firstUser = usersDTO[FIRST_INDEX];
 
