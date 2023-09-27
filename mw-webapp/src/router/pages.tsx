@@ -1,7 +1,7 @@
-import {AllUsersPage} from "src/pages/allUsersPage/AllUsersPage";
 import {AuthPage} from "src/pages/authPage/AuthPage";
 import {MainPage} from "src/pages/mainPage/MainPage";
 import {Page404} from "src/pages/page404/Page404";
+import {UsersPage} from "src/pages/usersPage/UsersPage";
 
 /**
  * Pages meta data
@@ -15,9 +15,9 @@ export const pages = {
     path: "main",
     element: <MainPage />,
   },
-  allUserPage: {
-    path: "all-users",
-    element: <AllUsersPage />,
+  users: {
+    path: "users",
+    element: <UsersPage />,
   },
   page404: {
     path: "*",
