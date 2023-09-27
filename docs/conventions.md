@@ -76,7 +76,8 @@ import styles from "src/component/button/Button.module.scss";
 - All comments must start with big letter;
 
 - JSDoc comments should generally be placed immediately before the code being documented. This kind of comment describes the entities to use. Usually these elements can be found in different files (they are often exported). Also we can use this type of comments in we need to use a multiple comments:  
-  
+
+- All public members should be documented with comments
 ```
 /**
  * Comments
@@ -88,3 +89,7 @@ import styles from "src/component/button/Button.module.scss";
 ```
 // Comment
 ```
+
+## COMMITS
+
+- The commit must match the pattern "issue_type: #issue_number short_issue_description" (Issue type can be one of: feat, fix, docs, test, style, refactor)

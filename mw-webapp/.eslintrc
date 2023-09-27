@@ -29,8 +29,12 @@
         ]
       }
     ],
-    "capitalized-comments": ["error", "always", {"ignorePattern": "pragma|ignored", "ignoreInlineComments": true}],
-    "no-magic-numbers": "error",
+    "capitalized-comments": [
+      "error",
+      "always",
+      { "ignoreInlineComments": true, "ignoreConsecutiveComments": true }
+    ],
+    "no-magic-numbers": ["error" , { "ignore": [0] }],
     "no-console": "error",
     "react/react-in-jsx-scope": "off",
     "no-tabs": ["error", { "allowIndentationTabs": true }],
@@ -119,6 +123,7 @@
     "react/jsx-uses-vars": "error",
     "react/jsx-filename-extension": ["warn", { "extensions": [".tsx"] }],
     "react/jsx-closing-bracket-location": [1, "tag-aligned"],
+    "react/jsx-first-prop-new-line": [2, "multiprop"],
     "react/no-unknown-property": "error",
     "react/self-closing-comp": "error",
     "react/jsx-wrap-multilines": "error",
@@ -128,6 +133,7 @@
     "no-var": "error",
     "prefer-const": "error"
   },
+  "ignorePatterns": ["/build"],
   "settings": {
     "import/resolver": {
       "node": { "extensions": [".js", ".jsx", ".ts", ".tsx"] }

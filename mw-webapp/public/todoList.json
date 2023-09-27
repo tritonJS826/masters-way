@@ -1610,9 +1610,384 @@
       }
     }
   ],
+    "currentProblems": ["Problem is that I created custom scripts for check-lint and etc but need to use exists script"],
+    "studentComment": [""],
+    "learnedForToday": [""],
+    "mentorComment": [""],
+    "isDayOff": false
+  },
+  {
+    "id": "34",
+    "date": "2023-09-18",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Rename const (DateUtils.ts)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 150
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Search for new developers (creating an ad, correspondence, calling)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 30
+      }
+    }
+  ],
+    "planForTomorrow": [{
+      "id": "0",
+      "todoItem": "Set up Husky",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 180
+      }
+    }
+  ],
+    "currentProblems": [""],
+    "studentComment": ["Search of new developers is a very hard work. It's take too much time. But it's fun to create a big group"],
+    "learnedForToday": [""],
+    "mentorComment": [""],
+    "isDayOff": false
+  },
+  {
+    "id": "35",
+    "date": "2023-09-19",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Set up Husky",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 130
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Set up lint-staged",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 50
+      }
+    },
+    {
+      "id": "2",
+      "todoItem": "Create commit-msg hook for check commit name",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 45
+      }
+    }
+  ],
+    "planForTomorrow": [{
+      "id": "0",
+      "todoItem": "Create editable cells (only client)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 90
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Create editable cells with save info on server",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 90
+      }
+    }
+  ],
     "currentProblems": [""],
     "studentComment": [""],
     "learnedForToday": [""],
+    "mentorComment": [""],
+    "isDayOff": false
+  },
+  {
+    "id": "36",
+    "date": "2023-09-20",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Create base collections on firestore (Users, Ways, DayReports, JobsDone, PLansForNextPeriod, CurrentProblems)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 35
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "CRUD methods for users",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 75
+      }
+    },
+    {
+      "id": "2",
+      "todoItem": "Read method to get data in service layer (CurrentProblemService, DayReportService, JobDoneService, PlanForNextPeriodService, UserService, WaySevice)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 70
+      }
+    }
+  ],
+    "planForTomorrow": [{
+      "id": "0",
+      "todoItem": "Create right collections on firestorewith references",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 120 
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Create converters that use id references for import other collections",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 120
+      }
+    }
+  ],
+    "currentProblems": [""],
+    "studentComment": [""],
+    "learnedForToday": [""],
+    "mentorComment": [""],
+    "isDayOff": false
+  },
+  {
+    "id": "37",
+    "date": "2023-09-21",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Resolve problem with getting data in converters (Now I get data from db in service layer and convert it in converters)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 40
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Move to converters layer DocumentToDTO converters from service layer",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 100
+      }
+    },
+    {
+      "id": "2",
+      "todoItem": "Rename functions (converters) and change methods to get data (delete callback, now it return data)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 35
+      }
+    }
+  ],
+    "planForTomorrow": [{
+      "id": "0",
+      "todoItem": "Fix mistakes in PR",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 60 
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Add eslint rules about comments",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 120
+      }
+    }
+  ],
+    "currentProblems": ["Long time didn't understand how don't use getData functions in converter layer while we need to convert uuid to object model"],
+    "studentComment": [""],
+    "learnedForToday": [""],
+    "mentorComment": [""],
+    "isDayOff": false
+  },
+  {
+    "id": "38",
+    "date": "2023-09-22",
+    "workDone": [{}],
+    "planForTomorrow": [{}],
+    "currentProblems": [""],
+    "studentComment": [""],
+    "learnedForToday": [""],
+    "mentorComment": [""],
+    "isDayOff": true
+  },
+  {
+    "id": "39",
+    "date": "2023-09-23",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Rename Firebase collections and fix imports",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 15
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Create generic querySnapshotToDTOConverter",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 25
+      }
+    },
+    {
+      "id": "2",
+      "todoItem": "Create BusinessPreviewModels",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 10
+      }
+    },
+    {
+      "id": "3",
+      "todoItem": "Create 1 converter function in each converter instead of 2",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 65
+      }
+    },
+    {
+      "id": "4",
+      "todoItem": "Create PreviewToBusiness layer (dayReportConverter)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 25
+      }
+    },
+    {
+      "id": "5",
+      "todoItem": "Fix mistakes in project because of changing models, services and converters",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 25
+      }
+    },
+    {
+      "id": "6",
+      "todoItem": "Create Data access layer (getDayReports)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 45
+      }
+    },
+    {
+      "id": "7",
+      "todoItem": "Create architecture in draw.io",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 15
+      }
+    }
+  ],
+    "planForTomorrow": [{
+      "id": "0",
+      "todoItem": "Update Preview models (think which property should be converted and which not",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 60 
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Create DAL for user and way",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 120
+      }
+    },
+    {
+      "id": "2",
+      "todoItem": "Update models.draw.io",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 40
+      }
+    }
+  ],
+    "currentProblems": [""],
+    "studentComment": ["Repeat how to create generic functions"],
+    "learnedForToday": [""],
+    "mentorComment": [""],
+    "isDayOff": false
+  },
+  {
+    "id": "40",
+    "date": "2023-09-24",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Create architecture of the project in draw.io",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 40
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Update Service layer (get DTO instead of Preview)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 25
+      }
+    },
+    {
+      "id": "2",
+      "todoItem": "Update Preview models (User, Way)",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 15
+      }
+    },
+    {
+      "id": "3",
+      "todoItem": "Create Data access logic layer with converters and fix mistakes",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 120
+      }
+    }
+  ],
+    "planForTomorrow": [{
+      "id": "0",
+      "todoItem": "Add cell editing in table",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 120 
+      }
+    }
+  ],
+    "currentProblems": [""],
+    "studentComment": [""],
+    "learnedForToday": [""],
+    "mentorComment": [""],
+    "isDayOff": false
+  },
+  {
+    "id": "41",
+    "date": "2023-09-25",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Fix mistakes from review PR",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 80
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Add tsDocs",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 120
+      }
+    }
+  ],
+    "currentProblems": [""],
+    "studentComment": [""],
+    "learnedForToday": ["Understood that constructor can take any value, not just reference its own class"],
     "mentorComment": [""],
     "isDayOff": false
   }
