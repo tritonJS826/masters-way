@@ -2,10 +2,12 @@ import {dayReportDTOToDayReportConverter} from
   "src/dataAccessLogic/DTOToBusinessConverter/dayReportDTOToDayReportConverter";
 import {getCurrentProblems} from "src/dataAccessLogic/getCurrentProblems";
 import {getJobsDone} from "src/dataAccessLogic/getJobsDone";
+import {getMentorComments} from "src/dataAccessLogic/getMentorComments";
 import {getPlansForNextPeriod} from "src/dataAccessLogic/getPlansForNextPeriod";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
+import {MentorComment} from "src/model/businessModel/MentorComment";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
 import {DayReportService} from "src/service/DayReportService";
 
@@ -17,6 +19,7 @@ export const getDayReports = async (): Promise<DayReport[]> => {
   const dayReportsDTO = await DayReportService.getDayReportsDTO();
   const jobsDonePreview = await getJobsDone();
   const plansForNextPeriodPreview = await getPlansForNextPeriod();
+  const mentorCommentsPreview = await getMentorComments();
   const problemsForCurrentPeriodPreview = await getCurrentProblems();
 
   const firstReport = dayReportsDTO[0];
@@ -41,10 +44,18 @@ export const getDayReports = async (): Promise<DayReport[]> => {
       return problemForCurrentPeriod;
     });
 
+  const mentorComments = firstReport.mentorComments.
+    map((mentorCommentUuid) => {
+      const mentorComment: MentorComment = mentorCommentsPreview
+        .find((elem) => elem.uuid === mentorCommentUuid) ?? {} as MentorComment;
+      return mentorComment;
+    });
+
   const dayReportProps = {
     jobsDone,
     plansForNextPeriod,
     problemsForCurrentPeriod,
+    mentorComments,
   };
 
   const dayReports = dayReportsDTO

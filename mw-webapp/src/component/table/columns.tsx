@@ -2,6 +2,7 @@ import {CellContext, ColumnDef, createColumnHelper} from "@tanstack/react-table"
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
+import {MentorComment} from "src/model/businessModel/MentorComment";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
 import {DateUtils} from "src/utils/DateUtils";
 import styles from "src/component/table/columns.module.scss";
@@ -9,6 +10,20 @@ import styles from "src/component/table/columns.module.scss";
 const DEFAULT_SUMMARY_TIME = 0;
 
 const columnHelper = createColumnHelper<DayReport>();
+
+const renderMentorComment = (mentorComment: MentorComment): JSX.Element => {
+  return (
+    (!mentorComment) ?
+      <div />
+      :
+      <div
+        key={mentorComment.uuid}
+        className={mentorComment.isDone ? styles.completed : styles.notCompleted}
+      >
+        {mentorComment.description}
+      </div>
+  );
+};
 
 const getObjectArrayItem = (arrayItem: JobDone | PlanForNextPeriod | CurrentProblem, getFullItem?: string) => {
   return (
@@ -54,7 +69,8 @@ const getDateValue = (cellValue: CellContext<DayReport, Date>) => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const columns: ColumnDef<DayReport, Date & JobDone[] & PlanForNextPeriod[] & CurrentProblem[] & string[] & boolean>[] = [
+export const columns: ColumnDef<DayReport, Date & JobDone[] & PlanForNextPeriod[] & CurrentProblem[] & string[] &
+boolean & MentorComment[]>[] = [
   columnHelper.accessor<"date", Date>("date", {
     header: "Date",
     cell: (dateValue) => getDateValue(dateValue),
@@ -118,13 +134,12 @@ export const columns: ColumnDef<DayReport, Date & JobDone[] & PlanForNextPeriod[
       );
     },
   }),
-  columnHelper.accessor<"mentorComments", string[]>("mentorComments", {
+  columnHelper.accessor<"mentorComments", MentorComment[]>("mentorComments", {
     header: "Mentor comments",
     cell: ({row}) => {
-      const parentID = row.original.uuid;
       return (
         row.original.mentorComments
-          ?.map((mentorCommentItem) => (getStringArrayItem(mentorCommentItem, parentID)))
+          ?.map((mentorComment) => (renderMentorComment(mentorComment)))
       );
     },
   }),
