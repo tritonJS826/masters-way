@@ -11,20 +11,6 @@ const DEFAULT_SUMMARY_TIME = 0;
 
 const columnHelper = createColumnHelper<DayReport>();
 
-const renderMentorComment = (mentorComment: MentorComment): JSX.Element => {
-  return (
-    (!mentorComment) ?
-      <div />
-      :
-      <div
-        key={mentorComment.uuid}
-        className={mentorComment.isDone ? styles.completed : styles.notCompleted}
-      >
-        {mentorComment.description}
-      </div>
-  );
-};
-
 const getObjectArrayItem = (arrayItem: JobDone | PlanForNextPeriod | CurrentProblem, getFullItem?: string) => {
   return (
     (JSON.stringify(arrayItem) === "{}") ?
@@ -36,16 +22,13 @@ const getObjectArrayItem = (arrayItem: JobDone | PlanForNextPeriod | CurrentProb
   );
 };
 
-const getStringArrayItem = (arrayItem: string, index: string, isDone?:boolean) => {
+const renderStringItem = ({text, index, isDone}: {text:string; index:string; isDone?: boolean}) => {
   return (
-    (!arrayItem) ?
-      <div />
-      :
-      <div key={index}>
-        <div className={isDone ? styles.completed : styles.notCompleted}>
-          {arrayItem}
-        </div>
+    <div key={index}>
+      <div className={isDone ? styles.completed : styles.notCompleted}>
+        {text}
       </div>
+    </div>
   );
 };
 
@@ -120,7 +103,7 @@ boolean & MentorComment[]>[] = [
 
       return (
         row.original.studentComments
-          ?.map((studentCommentItem) => (getStringArrayItem(studentCommentItem, parentID)))
+          ?.map((studentCommentItem) => (renderStringItem({text: studentCommentItem, index: parentID})))
       );
     },
   }),
@@ -130,16 +113,19 @@ boolean & MentorComment[]>[] = [
       const parentID = row.original.uuid;
       return (
         row.original.learnedForToday
-          ?.map((learnedForTodayItem) => (getStringArrayItem(learnedForTodayItem, parentID)))
+          ?.map((learnedForTodayItem) => (renderStringItem({text: learnedForTodayItem, index: parentID})))
       );
     },
   }),
   columnHelper.accessor<"mentorComments", MentorComment[]>("mentorComments", {
     header: "Mentor comments",
     cell: ({row}) => {
+      const parentID = row.original.uuid;
       return (
         row.original.mentorComments
-          ?.map((mentorComment) => (renderMentorComment(mentorComment)))
+          ?.map((mentorComment) => (renderStringItem(
+            {text: mentorComment.description, index: parentID, isDone: mentorComment.isDone},
+          )))
       );
     },
   }),
