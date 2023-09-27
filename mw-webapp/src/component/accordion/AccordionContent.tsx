@@ -3,6 +3,7 @@ import styles from "src/component/accordion/AccordionContent.module.scss";
 
 /**
  * Props for the AccordionContent component.
+ * {@link AccordionContent}
  */
 export interface AccordionContentProps {
   /**

@@ -7,6 +7,7 @@ import styles from "src/component/accordion/AccordionTrigger.module.scss";
 
 /**
  * Props for the AccordionTrigger component.
+ * {@link AccordionTrigger}
  */
 export interface AccordionTriggerProps{
   /**

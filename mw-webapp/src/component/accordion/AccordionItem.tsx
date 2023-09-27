@@ -6,6 +6,7 @@ import styles from "src/component/accordion/AccordionItem.module.scss";
 
 /**
  * Props for an individual item within the Accordion component.
+ * {@link AccordionItem}
  */
 export interface AccordionItem {
   /**
