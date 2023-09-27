@@ -40,7 +40,7 @@ interface AccordionProps {
 /**
  * This component renders a vertically stacked set of interactive headings that each reveal an associated section of content.
  */
-export function Accordion(props: AccordionProps) {
+export const Accordion = (props: AccordionProps) => {
   return (
     <RadixAccordionRoot
       className={clsx(styles.accordionRoot, props.className)}
@@ -52,4 +52,4 @@ export function Accordion(props: AccordionProps) {
       })}
     </RadixAccordionRoot>
   );
-}
+};

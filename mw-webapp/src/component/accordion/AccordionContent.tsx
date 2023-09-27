@@ -15,7 +15,7 @@ export interface AccordionContentProps {
  * A component representing the content of an individual item within the Accordion.
  * It displays the text content associated with the AccordionTrigger.
  */
-export function AccordionContent(props: AccordionContentProps) {
+export const AccordionContent = (props: AccordionContentProps) => {
   return (
     <Content className={styles.accordionContent}>
       <div className={styles.accordionContentText}>
@@ -23,4 +23,4 @@ export function AccordionContent(props: AccordionContentProps) {
       </div>
     </Content>
   );
-}
+};

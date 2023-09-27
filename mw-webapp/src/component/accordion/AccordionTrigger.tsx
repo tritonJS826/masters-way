@@ -19,7 +19,7 @@ export interface AccordionTriggerProps{
  * A component representing the trigger (header) of an individual item within the Accordion.
  * It displays a text label and an optional chevron icon for expanding/collapsing the item.
  */
-export function AccordionTrigger(props: AccordionTriggerProps) {
+export const AccordionTrigger = (props: AccordionTriggerProps) => {
   return (
     <RadixAccordionHeader className={styles.accordionHeader}>
       <RadixAccordionTrigger className={styles.accordionTrigger}>
@@ -31,4 +31,4 @@ export function AccordionTrigger(props: AccordionTriggerProps) {
       </RadixAccordionTrigger>
     </RadixAccordionHeader>
   );
-}
+};

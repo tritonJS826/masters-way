@@ -23,7 +23,7 @@ export interface AccordionItem {
  * A component representing an individual item within the Accordion.
  * It should be used as a child of the Accordion component.
  */
-export function AccordionItem(props: AccordionItem) {
+export const AccordionItem = (props: AccordionItem) => {
   return (
     <RadixAccordionItem
       className={styles.accordionItem}
@@ -32,4 +32,4 @@ export function AccordionItem(props: AccordionItem) {
       {Children.map(props.children, (child) => child)}
     </RadixAccordionItem>
   );
-}
+};
