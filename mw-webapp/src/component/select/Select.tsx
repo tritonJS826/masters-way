@@ -25,7 +25,7 @@ export interface SelectProps {
   /**
    * Callback triggered onChange select value
    */
-  onChange: (value: React.ChangeEvent<HTMLSelectElement>) => void;
+  onChange: (value: string) => void;
 }
 /**
    * Represents a control that provides a menu of options.
@@ -37,13 +37,16 @@ export const Select: React.FC<SelectProps> = (props: SelectProps) => {
       text={option.text}
     />
   ));
+  const onChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    props.onChange(e.target.value);
+  };
 
   return (
     <label>
       {props.label}
       <select
         name={props.name}
-        onChange={props.onChange}
+        onChange={onChangeHandler}
         className={styles.select}
       >
         {props.value}
