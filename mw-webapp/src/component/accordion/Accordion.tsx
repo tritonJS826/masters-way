@@ -26,12 +26,11 @@ interface AccordionProps {
    * An array of React elements representing the items to be displayed within the accordion.
    */
   children: ReactElement<AccordionItem>[];
-
   /**
    * The mode of operation for the accordion.
    * @type {accordionTypes}
    */
-  type: accordionTypes;
+  type?: accordionTypes;
   /**
    * Additional custom class name for the component
    */
@@ -45,7 +44,7 @@ export function Accordion(props: AccordionProps) {
   return (
     <RadixAccordionRoot
       className={clsx(styles.accordionRoot, props.className)}
-      type={props.type}
+      type={accordionTypes.single || props.type}
     >
       {Children.map(props.children, (child, index) => {
         const itemKey = `item-${index}`;

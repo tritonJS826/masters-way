@@ -28,12 +28,7 @@ const childrenExample = [
   </AccordionItem>,
 ];
 
-export const Default: Story = {
-  args: {
-    type: accordionTypes.single,
-    children: childrenExample,
-  },
-};
+export const Default: Story = {args: {children: childrenExample}};
 
 export const MultipleMode: Story = {
   args: {
