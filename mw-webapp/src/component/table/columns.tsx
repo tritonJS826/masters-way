@@ -22,7 +22,18 @@ const getObjectArrayItem = (arrayItem: JobDone | PlanForNextPeriod | CurrentProb
   );
 };
 
-const renderStringItem = ({text, index, isDone}: {text:string; index:string; isDone?: boolean}) => {
+
+/**
+ * Render a string item within a div element.
+ *
+ * @param {object} params - The parameters for rendering the string item.
+ * @param {string} params.text - Text to be rendered
+ * @param {string} params.index - The key for the rendered div element, to ensure React elements have unique keys.
+ * @param {boolean} [params.isDone] - Optional. If true, the item is styled as completed.
+ *
+ * @returns {JSX.Element} The rendered string item.
+ */
+const renderStringItem = ({text, index, isDone}: {text:string; index:string; isDone?: boolean}): JSX.Element => {
   return (
     <div key={index}>
       <div className={isDone ? styles.completed : styles.notCompleted}>
