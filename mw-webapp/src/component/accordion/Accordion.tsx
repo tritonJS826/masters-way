@@ -35,7 +35,7 @@ interface AccordionProps {
   /**
    * Additional custom class name for the component
    */
-  className: string;
+  className?: string;
 }
 
 /**

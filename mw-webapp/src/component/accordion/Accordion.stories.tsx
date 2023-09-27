@@ -31,7 +31,6 @@ const childrenExample = [
 export const Default: Story = {
   args: {
     type: accordionTypes.single,
-    className: "accordion-example",
     children: childrenExample,
   },
 };
