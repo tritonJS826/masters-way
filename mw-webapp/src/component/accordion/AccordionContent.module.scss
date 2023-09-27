@@ -1,0 +1,38 @@
+@import "src/styles/variables";
+
+.AccordionContent {
+    overflow: hidden;
+    font-size: 15px;
+    color: $black;
+}
+
+.AccordionContent[data-state='open'] {
+    animation: slideDown 300ms cubic-bezier(0.87, 0, 0.13, 1);
+}
+
+.AccordionContent[data-state='closed'] {
+    animation: slideUp 300ms cubic-bezier(0.87, 0, 0.13, 1);
+}
+
+.AccordionContentText {
+    padding: 15px 20px;
+
+}
+
+@keyframes slideDown {
+    from {
+        height: 0;
+    }
+    to {
+        height: 47px;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        height: 47px;
+    }
+    to {
+        height: 0;
+    }
+}
