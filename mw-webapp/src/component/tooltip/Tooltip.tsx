@@ -4,7 +4,7 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import styles from "src/component/tooltip/Tooltip.module.scss";
 
 /**
- * Describe props component Tooltip
+ * Tooltip props
  */
 interface TooltipProps {
   /**
