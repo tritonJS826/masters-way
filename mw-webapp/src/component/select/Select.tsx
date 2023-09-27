@@ -27,7 +27,9 @@ export interface SelectProps {
    */
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
-
+/**
+   * Represents a control that provides a menu of options.
+   */
 export const Select: React.FC<SelectProps> = (props: SelectProps) => {
   const renderOption = props.options.map((option) => (
     <Option key={option.id}
