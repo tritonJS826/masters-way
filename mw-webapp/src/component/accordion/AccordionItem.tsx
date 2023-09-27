@@ -5,8 +5,7 @@ import {AccordionTriggerProps} from "src/component/accordion/AccordionTrigger";
 import styles from "src/component/accordion/AccordionItem.module.scss";
 
 /**
- * Props for an individual item within the Accordion component.
- * {@link AccordionItem}
+ * Props for the {@link AccordionItem} component.
  */
 export interface AccordionItem {
   /**

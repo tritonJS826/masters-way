@@ -6,8 +6,7 @@ import {ChevronDownIcon} from "@radix-ui/react-icons";
 import styles from "src/component/accordion/AccordionTrigger.module.scss";
 
 /**
- * Props for the AccordionTrigger component.
- * {@link AccordionTrigger}
+ * Props for the {@link AccordionTrigger} component.
  */
 export interface AccordionTriggerProps{
   /**

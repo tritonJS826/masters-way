@@ -1,9 +1,8 @@
-import {Content} from "@radix-ui/react-accordion";
+import {Content as RadixAccordionContent} from "@radix-ui/react-accordion";
 import styles from "src/component/accordion/AccordionContent.module.scss";
 
 /**
- * Props for the AccordionContent component.
- * {@link AccordionContent}
+ * Props for the {@link AccordionContent} component.
  */
 export interface AccordionContentProps {
   /**
@@ -18,10 +17,10 @@ export interface AccordionContentProps {
  */
 export const AccordionContent = (props: AccordionContentProps) => {
   return (
-    <Content className={styles.accordionContent}>
+    <RadixAccordionContent className={styles.accordionContent}>
       <div className={styles.accordionContentText}>
         {props.text}
       </div>
-    </Content>
+    </RadixAccordionContent>
   );
 };
