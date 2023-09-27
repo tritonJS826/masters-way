@@ -1,5 +1,6 @@
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {JobDone} from "src/model/businessModel/JobDone";
+import {MentorComment} from "src/model/businessModel/MentorComment";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
 /**
  * Day's report model
@@ -43,9 +44,8 @@ export class DayReport {
 
   /**
    * Mentor's comments uuids
-   * TODO: task #69 string[] -> MentorComments[]
    */
-  public mentorComments: string[];
+  public mentorComments: MentorComment[];
 
   /**
    * Return true if day is off and false if it is work day
@@ -63,7 +63,8 @@ export class DayReport {
       new CurrentProblem(currentProblemItem));
     this.studentComments = dayReportData.studentComments;
     this.learnedForToday = dayReportData.learnedForToday;
-    this.mentorComments = dayReportData.mentorComments;
+    this.mentorComments = dayReportData.mentorComments?.map((mentorComment) =>
+      new MentorComment(mentorComment));
     this.isDayOff = dayReportData.isDayOff;
   }
 
