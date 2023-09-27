@@ -2,7 +2,6 @@
 
 .accordionContent {
     overflow: hidden;
-    font-size: 15px;
     color: $black;
 
     &[data-state='open'] {
