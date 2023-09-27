@@ -1,7 +1,9 @@
-import React, {Children, ReactElement} from "react";
+import React, {ReactElement} from "react";
 import {Root as RadixAccordionRoot} from "@radix-ui/react-accordion";
 import clsx from "clsx";
+import {AccordionContentProps} from "src/component/accordion/AccordionContent";
 import {AccordionItem} from "src/component/accordion/AccordionItem";
+import {AccordionTriggerProps} from "src/component/accordion/AccordionTrigger";
 import styles from "src/component/accordion/Accordion.module.scss";
 
 /**
@@ -23,9 +25,12 @@ export enum accordionTypes {
 
 interface AccordionProps {
   /**
-   * An array of React elements representing the items to be displayed within the accordion.
+   * An array of React elements representing accordion items, each with a trigger and content.
    */
-  children: ReactElement<AccordionItem>[];
+  items: Array<{
+    trigger: ReactElement<AccordionTriggerProps>;
+    content: ReactElement<AccordionContentProps>;
+  }>;
   /**
    * The mode of operation for the accordion.
    * @type {accordionTypes}
@@ -44,11 +49,18 @@ export const Accordion = (props: AccordionProps) => {
   return (
     <RadixAccordionRoot
       className={clsx(styles.accordionRoot, props.className)}
-      type={accordionTypes.single || props.type}
+      type={props.type || accordionTypes.single}
     >
-      {Children.map(props.children, (child, index) => {
+      {props.items.map((item, index) => {
         const itemKey = `item-${index}`;
-        return React.cloneElement(child, {itemKey});
+        return (
+          <AccordionItem
+            trigger={item.trigger}
+            content={item.content}
+            itemKey={itemKey}
+            key={itemKey}
+          />
+        );
       })}
     </RadixAccordionRoot>
   );

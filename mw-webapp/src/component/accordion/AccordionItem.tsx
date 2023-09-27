@@ -1,4 +1,4 @@
-import {Children, ReactElement} from "react";
+import {ReactElement} from "react";
 import {Item as RadixAccordionItem} from "@radix-ui/react-accordion";
 import {AccordionContentProps} from "src/component/accordion/AccordionContent";
 import {AccordionTriggerProps} from "src/component/accordion/AccordionTrigger";
@@ -10,14 +10,17 @@ import styles from "src/component/accordion/AccordionItem.module.scss";
  */
 export interface AccordionItem {
   /**
-   * * An array of React elements representing the content of the AccordionItem.
-   * These elements should include AccordionTrigger and AccordionContent components.
+   * React element representing the trigger for this AccordionItem.
    */
-  children: ReactElement<AccordionTriggerProps | AccordionContentProps>[];
+  trigger: ReactElement<AccordionTriggerProps>;
+  /**
+   * React element representing the content for this AccordionItem.
+   */
+  content: ReactElement<AccordionContentProps>;
   /**
    *  A unique key to identify the AccordionItem.
    */
-  itemKey?: string;
+  itemKey: string;
 }
 
 /**
@@ -28,9 +31,10 @@ export const AccordionItem = (props: AccordionItem) => {
   return (
     <RadixAccordionItem
       className={styles.accordionItem}
-      value={props.itemKey!}
+      value={props.itemKey}
     >
-      {Children.map(props.children, (child) => child)}
+      {props.trigger}
+      {props.content}
     </RadixAccordionItem>
   );
 };

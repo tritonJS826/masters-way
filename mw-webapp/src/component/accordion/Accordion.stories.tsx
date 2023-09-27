@@ -1,7 +1,6 @@
 import type {StoryObj} from "@storybook/react";
 import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
 import {AccordionContent} from "src/component/accordion/AccordionContent";
-import {AccordionItem} from "src/component/accordion/AccordionItem";
 import {AccordionTrigger} from "src/component/accordion/AccordionTrigger";
 
 const meta = {
@@ -13,28 +12,28 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const childrenExample = [
-  <AccordionItem key="item-1">
-    <AccordionTrigger text={"Is it accessible?"} />
-    <AccordionContent text={"Yes. It adheres to the WAI-ARIA design pattern."} />
-  </AccordionItem>,
-  <AccordionItem key="item-2">
-    <AccordionTrigger text={"Is it unstyled?"} />
-    <AccordionContent text={"Yes. It's unstyled by default, giving you freedom over the look and feel."} />
-  </AccordionItem>,
-  <AccordionItem key="item-3">
-    <AccordionTrigger text={"Can it be animated?"} />
-    <AccordionContent text={"Yes! You can animate the Accordion with CSS or JavaScript."} />
-  </AccordionItem>,
+const itemsExample = [
+  {
+    trigger: <AccordionTrigger text={"Is it accessible?"} />,
+    content: <AccordionContent text={"Yes. It adheres to the WAI-ARIA design pattern."} />,
+  },
+  {
+    trigger: <AccordionTrigger text={"Is it unstyled?"} />,
+    content: <AccordionContent text={"Yes. It's unstyled by default, giving you freedom over the look and feel."} />,
+  },
+  {
+    trigger: <AccordionTrigger text={"Can it be animated?"} />,
+    content: <AccordionContent text={"Yes! You can animate the Accordion with CSS or JavaScript."} />,
+  },
 ];
 
-export const Default: Story = {args: {children: childrenExample}};
+export const Default: Story = {args: {items: itemsExample}};
 
 export const MultipleMode: Story = {
   args: {
     type: accordionTypes.multiple,
     className: "accordion-example",
-    children: childrenExample,
+    items: itemsExample,
   },
 };
 
@@ -42,11 +41,11 @@ export const SingleItem: Story = {
   args: {
     type: accordionTypes.multiple,
     className: "accordion-example",
-    children: [
-      <AccordionItem key="item-1">
-        <AccordionTrigger text={"Is it accessible?"} />
-        <AccordionContent text={"Yes. It adheres to the WAI-ARIA design pattern."} />
-      </AccordionItem>,
+    items: [
+      {
+        trigger: <AccordionTrigger text={"Is it accessible?"} />,
+        content: <AccordionContent text={"Yes. It adheres to the WAI-ARIA design pattern."} />,
+      },
     ],
   },
 };
