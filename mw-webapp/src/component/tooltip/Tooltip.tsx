@@ -12,7 +12,7 @@ interface TooltipProps {
   */
   content: string | ReactNode;
   /**
-  * Tooltip's className
+  * Additional custom class name for the component
   */
   className?: string;
   /**
