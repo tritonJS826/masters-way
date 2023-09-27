@@ -23,7 +23,8 @@ interface TooltipProps {
 }
 
 export const Tooltip: React.FC<PropsWithChildren<TooltipProps>> = (props: PropsWithChildren<TooltipProps>) => {
-  const classes = clsx(styles.tooltip, props.className && styles[props.className], styles[props.position ?? PositionTooltip.TOP]);
+  const classes = clsx(styles.tooltip, styles[props.position ?? PositionTooltip.TOP],
+    {[styles[props.className!]]: props.className});
 
   return (
     <div className={styles.wrapper}>
