@@ -1,7 +1,7 @@
 import {Way} from "src/model/businessModel/Way";
 
 /**
- * User
+ * User model
  */
 export class User {
 

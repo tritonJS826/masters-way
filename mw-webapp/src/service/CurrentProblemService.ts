@@ -1,16 +1,22 @@
-import {get, ref} from "firebase/database";
-import {CurrentProblemDTOToCurrentProblemConverter} from "src/converter/CurrentProblemConverter";
+import {collection, getDocs} from "firebase/firestore";
 import {db} from "src/firebase";
-import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
-import {CurrentProblem as CurrentProblemDTO} from "src/model/firebaseCollection/CurrentProblem";
+import {CurrentProblemDTO} from "src/model/firebaseCollection/CurrentProblemDTO";
+import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
 
+const PATH_TO_CURRENT_PROBLEMS_COLLECTION = "currentProblems";
+
+/**
+ * CurrentProblems requests: {@link getCurrentProblems}
+ */
 export class CurrentProblemService {
 
-  public static async onValueFromRealTimeDb(): Promise<CurrentProblem[]> {
-    const snapshot = await get(ref(db, "/currentProblems"));
-    const currentProblemsRaw: CurrentProblemDTO[] = await snapshot.val();
-    const currentProblems: CurrentProblem[] = currentProblemsRaw.map((item) =>
-      CurrentProblemDTOToCurrentProblemConverter(item));
+  /**
+   * Read CurrentProblems collection
+   * @returns {Promise<CurrentProblemDTO[]>} promise of CurrentProblemDTO[]
+   */
+  public static async getCurrentProblemsDTO(): Promise<CurrentProblemDTO[]> {
+    const currentProblemsRaw = await getDocs(collection(db, PATH_TO_CURRENT_PROBLEMS_COLLECTION));
+    const currentProblems: CurrentProblemDTO[] = querySnapshotToDTOConverter<CurrentProblemDTO>(currentProblemsRaw);
     return currentProblems;
   }
 

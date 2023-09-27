@@ -4,7 +4,7 @@ import {MentorComment} from "src/model/businessModel/MentorComment";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
 
 /**
- * Month's report
+ * Month's report model
  */
 export class MonthReport {
 
