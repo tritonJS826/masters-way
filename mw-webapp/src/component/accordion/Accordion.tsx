@@ -46,23 +46,26 @@ interface AccordionProps {
  * This component renders a vertically stacked set of interactive headings that each reveal an associated section of content.
  */
 export const Accordion = (props: AccordionProps) => {
-  const generateItemKey = (index: number): string => `item-${index}`;
+  const renderAccordionItems = () => {
+    return props.items.map((item, index) => {
+      const itemKey = `item-${index}`;
+      return (
+        <AccordionItem
+          trigger={item.trigger}
+          content={item.content}
+          itemKey={itemKey}
+          key={itemKey}
+        />
+      );
+    });
+  };
 
   return (
     <RadixAccordionRoot
       className={clsx(styles.accordionRoot, props.className)}
       type={props.type ?? accordionTypes.single}
     >
-      {props.items.map((item, index) => {
-        return (
-          <AccordionItem
-            trigger={item.trigger}
-            content={item.content}
-            itemKey={generateItemKey(index)}
-            key={generateItemKey(index)}
-          />
-        );
-      })}
+      {renderAccordionItems()}
     </RadixAccordionRoot>
   );
 };
