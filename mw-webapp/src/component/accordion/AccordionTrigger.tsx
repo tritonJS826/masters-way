@@ -21,11 +21,11 @@ export interface AccordionTriggerProps{
  */
 export function AccordionTrigger(props: AccordionTriggerProps) {
   return (
-    <RadixAccordionHeader className={styles.AccordionHeader}>
-      <RadixAccordionTrigger className={styles.AccordionTrigger}>
+    <RadixAccordionHeader className={styles.accordionHeader}>
+      <RadixAccordionTrigger className={styles.accordionTrigger}>
         {props.text}
         <ChevronDownIcon
-          className={styles.AccordionChevron}
+          className={styles.accordionChevron}
           aria-hidden
         />
       </RadixAccordionTrigger>

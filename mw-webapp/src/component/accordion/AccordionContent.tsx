@@ -17,8 +17,8 @@ export interface AccordionContentProps {
  */
 export function AccordionContent(props: AccordionContentProps) {
   return (
-    <Content className={styles.AccordionContent}>
-      <div className={styles.AccordionContentText}>
+    <Content className={styles.accordionContent}>
+      <div className={styles.accordionContentText}>
         {props.text}
       </div>
     </Content>

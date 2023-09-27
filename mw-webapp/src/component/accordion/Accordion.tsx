@@ -44,7 +44,7 @@ interface AccordionProps {
 export function Accordion(props: AccordionProps) {
   return (
     <RadixAccordionRoot
-      className={clsx(styles.AccordionRoot, props.className)}
+      className={clsx(styles.accordionRoot, props.className)}
       type={props.type}
     >
       {Children.map(props.children, (child, index) => {

@@ -1,32 +1,32 @@
 @import "src/styles/variables";
 
-.AccordionHeader {
+.accordionHeader {
+    margin: 0;
     display: flex;
 }
 
-.AccordionTrigger {
-    background-color: transparent;
+.accordionTrigger {
     padding: 1% 4%;
     min-height: 45px;
-    flex: 1;
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
+    flex: 1;
+    border: none;
+    background-color: transparent;
     font-size: 15px;
     line-height: 1;
     color: $green;
     box-shadow: 0 1px 0 $green;
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+    &[data-state='open'] > .accordionChevron {
+        transform: rotate(180deg);
+    }
 }
 
-.AccordionTrigger:hover {
-    background-color: rgba(0, 0, 0, 0.05);
-}
-
-.AccordionTrigger[data-state='open'] > .AccordionChevron {
-    transform: rotate(180deg);
-}
-
-.AccordionChevron {
+.accordionChevron {
     flex-shrink: 0;
     transition: transform 300ms cubic-bezier(0.87, 0, 0.13, 1);
 }

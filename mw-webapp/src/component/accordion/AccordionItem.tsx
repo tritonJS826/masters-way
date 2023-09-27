@@ -26,7 +26,7 @@ export interface AccordionItem {
 export function AccordionItem(props: AccordionItem) {
   return (
     <RadixAccordionItem
-      className={styles.AccordionItem}
+      className={styles.accordionItem}
       value={props.itemKey!}
     >
       {Children.map(props.children, (child) => child)}

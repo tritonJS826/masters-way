@@ -1,14 +1,10 @@
 @import "src/styles/variables";
 
-button,
-h3 {
-    all: unset;
-}
-
-.AccordionRoot {
+.accordionRoot {
     border-radius: 6px;
     margin: 1rem auto;
     box-shadow: 0 2px 10px $lightgray;
+
 }
 
 
