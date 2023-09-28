@@ -28,14 +28,14 @@ const getObjectArrayItem = (arrayItem: JobDone | PlanForNextPeriod | CurrentProb
  *
  * @param {object} params - The parameters for rendering the string item.
  * @param {string} params.text - Text to be rendered
- * @param {string} params.index - The key for the rendered div element, to ensure React elements have unique keys.
+ * @param {string} params.key - The key for the rendered div element, to ensure React elements have unique keys.
  * @param {boolean} [params.isDone] - Optional. If true, the item is styled as completed.
  *
  * @returns {JSX.Element} The rendered string item.
  */
-const renderStringItem = ({text, index, isDone}: {text:string; index:string; isDone?: boolean}): JSX.Element => {
+const renderStringItem = ({text, key, isDone}: {text:string; key:string; isDone?: boolean}): JSX.Element => {
   return (
-    <div key={index}>
+    <div key={key}>
       <div className={isDone ? styles.completed : styles.notCompleted}>
         {text}
       </div>
@@ -113,7 +113,7 @@ boolean & MentorComment[]>[] = [
 
       return (
         row.original.studentComments
-          ?.map((studentCommentItem) => (renderStringItem({text: studentCommentItem, index: parentID})))
+          ?.map((studentCommentItem) => (renderStringItem({text: studentCommentItem, key: parentID})))
       );
     },
   }),
@@ -123,7 +123,7 @@ boolean & MentorComment[]>[] = [
       const parentID = row.original.uuid;
       return (
         row.original.learnedForToday
-          ?.map((learnedForTodayItem) => (renderStringItem({text: learnedForTodayItem, index: parentID})))
+          ?.map((learnedForTodayItem) => (renderStringItem({text: learnedForTodayItem, key: parentID})))
       );
     },
   }),
@@ -134,7 +134,7 @@ boolean & MentorComment[]>[] = [
       return (
         row.original.mentorComments
           ?.map((mentorComment) => (renderStringItem(
-            {text: mentorComment.description, index: parentID, isDone: mentorComment.isDone},
+            {text: mentorComment.description, key: parentID, isDone: mentorComment.isDone},
           )))
       );
     },
