@@ -1,4 +1,4 @@
-import {Table} from "src/component/table/Table";
+import {Table, TableContext, WrapperTable} from "src/component/table/Table";
 import styles from "src/pages/mainPage/MainPage.module.scss";
 
 /**
@@ -11,7 +11,9 @@ export const MainPage = () => {
       <h1 className={styles.title}>
         Hiii, Student!
       </h1>
-      <Table />
+      <WrapperTable>
+        <Table context={TableContext} />
+      </WrapperTable>
     </div>
   );
 };
