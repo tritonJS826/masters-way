@@ -8,7 +8,7 @@ const MILLISECONDS = 1000;
 
 export interface NoticeProps {
   /**
-   * ID for notification, it will be help closing notice by button (number, which we will be use like string)
+   * ID for notification, it will be help closing notice by button
    */
   id: string;
   /**
@@ -33,27 +33,18 @@ export interface NoticeProps {
   closeNotice: (id: string) => void;
 }
 
-export const Notice = (props: NoticeProps) => {
-
-  const {id, title, description, type, timer, closeNotice} = props;
+export const Notice = ({id, title, description, type, timer, closeNotice}: NoticeProps) => {
 
   const millisecondsTimer = timer * MILLISECONDS;
 
   useEffect(() => {
     setTimeout(() => closeNotice(id), millisecondsTimer);
   }, []);
-
   return (
     <article
       className={[styles.notice, styles[type]].join(" ")}
       id={id}
     >
-      <div className={styles.crose_box}>
-        <img
-          src="./"
-          alt="close_img"
-        />
-      </div>
       <Title
         level={HeadingLevel.h3}
         className={styles.title}
