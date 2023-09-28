@@ -7,7 +7,6 @@ import {getPlansForNextPeriod} from "src/dataAccessLogic/getPlansForNextPeriod";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
-import {MentorComment} from "src/model/businessModel/MentorComment";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
 import {DayReportService} from "src/service/DayReportService";
 
@@ -46,8 +45,11 @@ export const getDayReports = async (): Promise<DayReport[]> => {
 
   const mentorComments = firstReport.mentorComments.
     map((mentorCommentUuid) => {
-      const mentorComment: MentorComment = mentorCommentsPreview
-        .find((elem) => elem.uuid === mentorCommentUuid) ?? {} as MentorComment;
+      const mentorComment = mentorCommentsPreview
+        .find((elem) => elem.uuid === mentorCommentUuid);
+      if (!mentorComment) {
+        throw new Error(`MentorComment not found for UUID ${mentorCommentUuid}`);
+      }
       return mentorComment;
     });
 
