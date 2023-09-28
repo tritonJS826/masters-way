@@ -1,28 +1,17 @@
-import {useEffect, useState} from "react";
 import {
   flexRender,
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 import {columns} from "src/component/table/columns";
-import {getDayReports} from "src/dataAccessLogic/getDayReports";
-import {DayReport} from "src/model/businessModel/DayReport";
+import {useGetDataTable} from "src/service/TableService";
 import styles from "src/component/table/Table.module.scss";
 
 /**
  * Table (need update for split component and logic code)
  */
 export const Table = () => {
-  const [data, setData] = useState<DayReport[]>([]);
-
-  const loadDayReports = async () => {
-    const dayReports = await getDayReports();
-    setData(dayReports);
-  };
-
-  useEffect(() => {
-    loadDayReports();
-  }, []);
+  const data = useGetDataTable();
 
   const table = useReactTable({
     data,
