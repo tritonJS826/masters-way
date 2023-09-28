@@ -16,6 +16,10 @@ export const Router = () => {
         path={pages.page404.path}
         element={pages.page404.element}
       />
+      <Route
+        path={pages.waysPage.path}
+        element={pages.waysPage.element}
+      />
     </Routes>
   );
 };

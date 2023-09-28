@@ -1,6 +1,7 @@
 import {AuthPage} from "src/pages/authPage/AuthPage";
 import {MainPage} from "src/pages/mainPage/MainPage";
 import {Page404} from "src/pages/page404/Page404";
+import {AllWaysPage} from "src/pages/pageAllWays/AllWaysPage";
 
 /**
  * Pages meta data
@@ -17,5 +18,9 @@ export const pages = {
   page404: {
     path: "*",
     element: <Page404 />,
+  },
+  waysPage: {
+    path: "waysPage",
+    element: <AllWaysPage />,
   },
 };
