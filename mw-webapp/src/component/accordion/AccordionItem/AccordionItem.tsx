@@ -1,8 +1,8 @@
 import {ReactElement} from "react";
 import {Item as RadixAccordionItem} from "@radix-ui/react-accordion";
-import {AccordionContentProps} from "src/component/accordion/AccordionContent";
-import {AccordionTriggerProps} from "src/component/accordion/AccordionTrigger";
-import styles from "src/component/accordion/AccordionItem.module.scss";
+import {AccordionContentProps} from "src/component/accordion/AccordionContent/AccordionContent";
+import {AccordionTriggerProps} from "src/component/accordion/AccordionTrigger/AccordionTrigger";
+import styles from "src/component/accordion/AccordionItem/AccordionItem.module.scss";
 
 /**
  * Props for the {@link AccordionItem} component.

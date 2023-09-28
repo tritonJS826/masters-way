@@ -3,7 +3,7 @@ import {
   Trigger as RadixAccordionTrigger,
 } from "@radix-ui/react-accordion";
 import {ChevronDownIcon} from "@radix-ui/react-icons";
-import styles from "src/component/accordion/AccordionTrigger.module.scss";
+import styles from "src/component/accordion/AccordionTrigger/AccordionTrigger.module.scss";
 
 /**
  * Props for the {@link AccordionTrigger} component.

@@ -1,9 +1,9 @@
 import React, {ReactElement} from "react";
 import {Root as RadixAccordionRoot} from "@radix-ui/react-accordion";
 import clsx from "clsx";
-import {AccordionContentProps} from "src/component/accordion/AccordionContent";
-import {AccordionItem} from "src/component/accordion/AccordionItem";
-import {AccordionTriggerProps} from "src/component/accordion/AccordionTrigger";
+import {AccordionContentProps} from "src/component/accordion/AccordionContent/AccordionContent";
+import {AccordionItem} from "src/component/accordion/AccordionItem/AccordionItem";
+import {AccordionTriggerProps} from "src/component/accordion/AccordionTrigger/AccordionTrigger";
 import styles from "src/component/accordion/Accordion.module.scss";
 
 /**

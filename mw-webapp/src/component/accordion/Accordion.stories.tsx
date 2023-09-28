@@ -1,7 +1,7 @@
 import type {StoryObj} from "@storybook/react";
 import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
-import {AccordionContent} from "src/component/accordion/AccordionContent";
-import {AccordionTrigger} from "src/component/accordion/AccordionTrigger";
+import {AccordionContent} from "src/component/accordion/AccordionContent/AccordionContent";
+import {AccordionTrigger} from "src/component/accordion/AccordionTrigger/AccordionTrigger";
 
 const meta = {
   title: "Accordion",

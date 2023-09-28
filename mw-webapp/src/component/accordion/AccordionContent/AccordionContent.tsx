@@ -1,5 +1,5 @@
 import {Content as RadixAccordionContent} from "@radix-ui/react-accordion";
-import styles from "src/component/accordion/AccordionContent.module.scss";
+import styles from "src/component/accordion/AccordionContent/AccordionContent.module.scss";
 
 /**
  * Props for the {@link AccordionContent} component.
