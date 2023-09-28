@@ -24,7 +24,7 @@ const getObjectArrayItem = (arrayItem: JobDone | PlanForNextPeriod | CurrentProb
 
 
 /**
- * Render a string item within a div element.
+ * Render a string within a div element.
  *
  * @param {object} params - The parameters for rendering the string item.
  * @param {string} params.text - Text to be rendered
