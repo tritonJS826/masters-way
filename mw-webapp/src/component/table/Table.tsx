@@ -1,64 +1,36 @@
-import {createContext, PropsWithChildren, useContext, useMemo} from "react";
+import {useContext} from "react";
 import {
   flexRender,
-  getCoreRowModel,
   HeaderGroup,
   RowModel,
-  useReactTable,
 } from "@tanstack/react-table";
-import {columns} from "src/component/table/columns";
 import {DayReport} from "src/model/businessModel/DayReport";
-import {useGetDataTable} from "src/service/TableService";
 import styles from "src/component/table/Table.module.scss";
 
-interface Table {
-  header: HeaderGroup<DayReport>[];
-  row: RowModel<DayReport>;
+export interface TableUsers {
+  headerGroup: HeaderGroup<DayReport>[];
+  rowModel: RowModel<DayReport>;
 }
 
-type ContextTable = React.Context<Table | null>
+type ContextTable = React.Context<TableUsers | null>
 
-interface ITable {
+interface TableProps {
   context: ContextTable;
 }
 
-export const TableContext = createContext<null | Table>(null);
-
-export const useTableContext = (props: ITable) => useContext(props.context);
-
-export const WrapperTable: React.FC<Required<PropsWithChildren>> = (props: Required<PropsWithChildren>) => {
-  const data = useGetDataTable();
-
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-  });
-
-  const header = table.getHeaderGroups();
-  const row = table.getRowModel();
-
-  const valueContent = useMemo(() => {
-    return {header, row};
-  }, [data]);
-  return (
-    <TableContext.Provider value={valueContent}>
-      {props.children}
-    </TableContext.Provider>
-  );
-};
+const useGetTableContext = (props: TableProps) => useContext(props.context);
 
 /**
  * Table (need update for split component and logic code)
  */
-export const Table = (props: ITable) => {
-  const data = useTableContext(props);
+export const Table = (props: TableProps) => {
+  const data = useGetTableContext(props);
 
   return (
     <div className={styles.container}>
       <table className={styles.table}>
         <thead className={styles.thead}>
-          {data?.header.map((headerGroup) => (
+          {data?.headerGroup.map((headerGroup) => (
             <tr
               className={styles.tr}
               key={headerGroup.id}
@@ -80,7 +52,7 @@ export const Table = (props: ITable) => {
           ))}
         </thead>
         <tbody className={styles.tbody}>
-          {data?.row.rows.map((row) => (
+          {data?.rowModel.rows.map((row) => (
             <tr
               className={styles.tr}
               key={row.id}
