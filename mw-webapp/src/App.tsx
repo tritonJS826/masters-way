@@ -5,8 +5,8 @@ import {Router} from "src/router/Router";
 function App() {
   return (
     <>
-      <Header />
       <ErrorBoundary>
+        <Header />
         <Router />
       </ErrorBoundary>
     </>
