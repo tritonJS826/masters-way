@@ -1,9 +1,12 @@
-import React, {Component} from "react";
+import React, {Component, PropsWithChildren} from "react";
 import {Page404} from "src/pages/page404/Page404";
 
 /**
  *   They are React components that catch JavaScript errors anywhere in their child component tree,
  * log those errors, and display a fallback UI instead of the component tree that crashed.
+ *
+ * Example: The component will work fine as long as everything is fine with retrieving data from the DataBase.
+ *          But, if for some reason Data is undefined or null, our application will be broken.
 
      It’s important to note that error boundaries catch errors during rendering, in lifecycle methods,
    and constructors of the whole tree below them. However, error boundaries do not catch errors for:
@@ -13,10 +16,6 @@ import {Page404} from "src/pages/page404/Page404";
    Server-side rendering
    Errors thrown in the error boundary itself (rather than its children).
  */
-
-interface PropsWithChildren {
-  children: React.ReactNode;
-}
 
 interface State {
   hasError: boolean;
