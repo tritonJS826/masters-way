@@ -62,7 +62,6 @@ const getDateValue = (cellValue: CellContext<DayReport, Date>) => {
   );
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const columns: ColumnDef<DayReport, Date & JobDone[] & PlanForNextPeriod[] & CurrentProblem[] & string[] &
 boolean & MentorComment[]>[] = [
   columnHelper.accessor<"date", Date>("date", {
