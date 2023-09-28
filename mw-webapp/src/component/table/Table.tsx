@@ -28,7 +28,7 @@ export const Table = () => {
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
-  let keyCounter = 0;
+
   return (
     <div className={styles.container}>
       <table className={styles.table}>
@@ -60,17 +60,15 @@ export const Table = () => {
               className={styles.tr}
               key={row.id}
             >
-              {row.getVisibleCells().map((cell) => {
-                keyCounter++;
-                return (
-                  <td
-                    className={styles.td}
-                    key={keyCounter}
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
-                );
-              })}
+              {row.getVisibleCells().map((cell) => (
+                <td
+                  className={styles.td}
+                  key={cell.id}
+                >
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </td>
+              ))
+              }
             </tr>
           ))}
         </tbody>

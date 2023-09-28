@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import {dayReportDTOToDayReportConverter} from
   "src/dataAccessLogic/DTOToBusinessConverter/dayReportDTOToDayReportConverter";
 import {getCurrentProblems} from "src/dataAccessLogic/getCurrentProblems";
