@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import {dayReportDTOToDayReportConverter} from
   "src/dataAccessLogic/DTOToBusinessConverter/dayReportDTOToDayReportConverter";
 import {getCurrentProblems} from "src/dataAccessLogic/getCurrentProblems";
@@ -18,7 +19,6 @@ export const getDayReports = async (): Promise<DayReport[]> => {
   const jobsDonePreview = await getJobsDone();
   const plansForNextPeriodPreview = await getPlansForNextPeriod();
   const problemsForCurrentPeriodPreview = await getCurrentProblems();
-
   const firstReport = dayReportsDTO[0];
 
   const jobsDone = firstReport.jobsDone.map((jobDoneUuid) => {
@@ -26,6 +26,7 @@ export const getDayReports = async (): Promise<DayReport[]> => {
       .find((elem) => elem.uuid === jobDoneUuid) ?? {} as JobDone;
     return jobDone;
   });
+
 
   const plansForNextPeriod = firstReport.plansForNextPeriod
     .map((planForNextPeriodUuid) => {

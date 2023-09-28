@@ -14,7 +14,6 @@ import styles from "src/component/table/Table.module.scss";
  */
 export const Table = () => {
   const [data, setData] = useState<DayReport[]>([]);
-
   const loadDayReports = async () => {
     const dayReports = await getDayReports();
     setData(dayReports);
@@ -29,7 +28,7 @@ export const Table = () => {
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
-
+  let keyCounter = 0;
   return (
     <div className={styles.container}>
       <table className={styles.table}>
@@ -42,7 +41,7 @@ export const Table = () => {
               {headerGroup.headers.map((header) => (
                 <th
                   className={styles.th}
-                  key={header.id}
+                  key={header.index}
                 >
                   {header.isPlaceholder
                     ? null
@@ -61,14 +60,17 @@ export const Table = () => {
               className={styles.tr}
               key={row.id}
             >
-              {row.getVisibleCells().map((cell) => (
-                <td
-                  className={styles.td}
-                  key={cell.id}
-                >
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              ))}
+              {row.getVisibleCells().map((cell) => {
+                keyCounter++;
+                return (
+                  <td
+                    className={styles.td}
+                    key={keyCounter}
+                  >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
+                );
+              })}
             </tr>
           ))}
         </tbody>
