@@ -1,7 +1,7 @@
 import {User} from "src/model/businessModel/User";
 
 /**
- * Mentor's comments
+ * Mentor's comments model
  */
 export class MentorComment {
 

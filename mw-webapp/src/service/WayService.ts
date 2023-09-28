@@ -1,24 +1,23 @@
-import {DataSnapshot, off, onValue, ref} from "firebase/database";
+import {collection, getDocs} from "firebase/firestore";
 import {db} from "src/firebase";
-import {Way as WayDTO} from "src/model/firebaseCollection/Way";
+import {WayDTO} from "src/model/firebaseCollection/WayDTO";
+import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
 
+const PATH_TO_WAYS_COLLECTION = "ways";
+
+/**
+ * Ways requests: {@link getWays}
+ */
 export class WayService {
 
-  public static onValueFromRealTimeDb(callBack: (data: WayDTO[]) => void) {
-    const wayRef = ref(db, "/ways");
-
-    const handleValueChange = async (snapshot: DataSnapshot) => {
-      const ways: WayDTO[] = snapshot.val();
-      if (ways !== null) {
-        callBack(ways);
-      }
-    };
-
-    onValue(wayRef, handleValueChange);
-
-    return () => {
-      off(wayRef, "value", handleValueChange);
-    };
+  /**
+   * Read Ways collection
+   * @returns {Promise<WayDTO[]>} promise of WayDTO[]
+   */
+  public static async getWaysDTO(): Promise<WayDTO[]> {
+    const waysRaw = await getDocs(collection(db, PATH_TO_WAYS_COLLECTION));
+    const ways = querySnapshotToDTOConverter<WayDTO>(waysRaw);
+    return ways;
   }
 
 }
