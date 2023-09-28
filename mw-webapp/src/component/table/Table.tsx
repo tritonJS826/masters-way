@@ -38,15 +38,10 @@ interface TableProps {
 }
 
 /**
- * Hook implementation get data from context
- */
-const useGetTableContext = (props: TableProps) => useContext(props.context);
-
-/**
  * Table
  */
-export const Table:React.FC<TableProps> = (props) => {
-  const dataContentTable = useGetTableContext(props);
+export const Table:React.FC<TableProps> = (props: TableProps) => {
+  const dataContentTable = useContext(props.context);
 
   return (
     <div className={styles.container}>
