@@ -63,7 +63,7 @@ export class DayReport {
       new CurrentProblem(currentProblemItem));
     this.studentComments = dayReportData.studentComments;
     this.learnedForToday = dayReportData.learnedForToday;
-    this.mentorComments = dayReportData.mentorComments?.map((mentorComment) =>
+    this.mentorComments = dayReportData.mentorComments.map((mentorComment) =>
       new MentorComment(mentorComment));
     this.isDayOff = dayReportData.isDayOff;
   }
