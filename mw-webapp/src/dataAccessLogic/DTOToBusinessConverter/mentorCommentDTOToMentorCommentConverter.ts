@@ -3,11 +3,18 @@ import {User} from "src/model/businessModel/User";
 import {MentorCommentDTO} from "src/model/firebaseCollection/MentorCommentDTO";
 import {UserDTO} from "src/model/firebaseCollection/UserDTO";
 
-export const MentorCommentDTOToMentorCommentConverter = (mentorComment: MentorCommentDTO, usersDTO: UserDTO[]) => {
-  const matchingUser = usersDTO.find(user => user.uuid === mentorComment.mentorUuid);
+
+/**
+ * Convert {@link MentorCommentDTO} to {@link MentorComment}
+ * @param {MentorCommentDTO} mentorCommentDTO {@link MentorCommentDTO}
+ * @param {UserDTO[]} usersDTO - {@link UserDTO}
+ * @returns {MentorComment} mentorComment {@link MentorComment}
+ */
+export const MentorCommentDTOToMentorCommentConverter = (mentorCommentDTO: MentorCommentDTO, usersDTO: UserDTO[]) => {
+  const matchingUser = usersDTO.find(user => user.uuid === mentorCommentDTO.mentorUuid);
 
   if (!matchingUser) {
-    throw new Error(`User not found for uuid: ${mentorComment.mentorUuid}`);
+    throw new Error(`User not found for uuid: ${mentorCommentDTO.mentorUuid}`);
   }
 
   const user = new User(
@@ -23,10 +30,10 @@ export const MentorCommentDTOToMentorCommentConverter = (mentorComment: MentorCo
 
   return new MentorComment(
     {
-      uuid: mentorComment.uuid,
+      uuid: mentorCommentDTO.uuid,
       mentor: user,
-      description: mentorComment.description,
-      isDone: mentorComment.isDone,
+      description: mentorCommentDTO.description,
+      isDone: mentorCommentDTO.isDone,
     },
   );
 };
