@@ -1,4 +1,4 @@
-import React, {ReactElement} from "react";
+import React, {ReactElement, useId} from "react";
 import {Root as RadixAccordionRoot} from "@radix-ui/react-accordion";
 import clsx from "clsx";
 import {AccordionContentProps} from "src/component/accordion/AccordionContent/AccordionContent";
@@ -48,14 +48,14 @@ interface AccordionProps {
  */
 export const Accordion = (props: AccordionProps) => {
   const renderAccordionItems = () => {
-    return props.items.map((item, index) => {
-      const itemKey = `item-${index}`;
+    return props.items.map((item) => {
+      const uniqueId = useId();
       return (
         <AccordionItem
           trigger={item.trigger}
           content={item.content}
-          itemKey={itemKey}
-          key={itemKey}
+          itemKey={uniqueId}
+          key={uniqueId}
         />
       );
     });
