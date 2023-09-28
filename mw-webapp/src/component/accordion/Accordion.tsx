@@ -1,4 +1,4 @@
-import React, {ReactElement, useId} from "react";
+import {ReactElement, useId} from "react";
 import {Root as RadixAccordionRoot} from "@radix-ui/react-accordion";
 import clsx from "clsx";
 import {AccordionContentProps} from "src/component/accordion/AccordionContent/AccordionContent";
@@ -23,50 +23,56 @@ export enum accordionTypes {
   multiple = "multiple",
 }
 
+interface AccordionItemData {
+  /**
+   * The trigger element that users can interact with to expand or collapse the item.
+   */
+  trigger: ReactElement<AccordionTriggerProps>;
+  /**
+   * The content element that becomes visible when the item is expanded.
+   */
+  content: ReactElement<AccordionContentProps>;
+}
+
 interface AccordionProps {
   /**
-   * An array of React elements representing accordion items, each with a trigger and content.
+   * An array of objects representing the accordion items, each containing a trigger and content element.
    */
-  items: Array<{
-    trigger: ReactElement<AccordionTriggerProps>;
-    content: ReactElement<AccordionContentProps>;
-  }>;
+  items: AccordionItemData[];
   /**
-   * The mode of operation for the accordion.
+   * The mode of operation for the accordion. (Optional)
    * @type {accordionTypes}
    * @default "single"
    */
   type?: accordionTypes;
   /**
-   * Additional custom class name for the component
+   * Additional custom class name for the component (Optional)
    */
   className?: string;
 }
+
+const renderAccordionItem = (item: AccordionItemData, uniqueId: string) => (
+  <AccordionItem
+    trigger={item.trigger}
+    content={item.content}
+    itemKey={uniqueId}
+    key={uniqueId}
+  />
+);
 
 /**
  * This component renders a vertically stacked set of interactive headings that each reveal an associated section of content.
  */
 export const Accordion = (props: AccordionProps) => {
-  const renderAccordionItems = () => {
-    return props.items.map((item) => {
-      const uniqueId = useId();
-      return (
-        <AccordionItem
-          trigger={item.trigger}
-          content={item.content}
-          itemKey={uniqueId}
-          key={uniqueId}
-        />
-      );
-    });
-  };
-
   return (
     <RadixAccordionRoot
       className={clsx(styles.accordionRoot, props.className)}
       type={props.type ?? accordionTypes.single}
     >
-      {renderAccordionItems()}
+      {props.items.map((item) => {
+        const uniqueId = useId();
+        return renderAccordionItem(item, uniqueId);
+      })}
     </RadixAccordionRoot>
   );
 };
