@@ -34,6 +34,7 @@ interface AccordionProps {
   /**
    * The mode of operation for the accordion.
    * @type {accordionTypes}
+   * @default "single"
    */
   type?: accordionTypes;
   /**
