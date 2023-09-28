@@ -8,7 +8,7 @@ import {DayReport} from "src/model/businessModel/DayReport";
 import styles from "src/component/table/Table.module.scss";
 
 /**
- * Context props table users
+ * Context's props table users
  * @public
  */
 export interface TableUsers {
@@ -46,13 +46,13 @@ const useGetTableContext = (props: TableProps) => useContext(props.context);
  * Table
  */
 export const Table:React.FC<TableProps> = (props) => {
-  const data = useGetTableContext(props);
+  const dataContentTable = useGetTableContext(props);
 
   return (
     <div className={styles.container}>
       <table className={styles.table}>
         <thead className={styles.thead}>
-          {data?.headerGroup.map((headerGroup) => (
+          {dataContentTable?.headerGroup.map((headerGroup) => (
             <tr
               className={styles.tr}
               key={headerGroup.id}
@@ -74,7 +74,7 @@ export const Table:React.FC<TableProps> = (props) => {
           ))}
         </thead>
         <tbody className={styles.tbody}>
-          {data?.rowModel.rows.map((row) => (
+          {dataContentTable?.rowModel.rows.map((row) => (
             <tr
               className={styles.tr}
               key={row.id}
