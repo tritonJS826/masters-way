@@ -41,7 +41,7 @@ export const Table = () => {
               {headerGroup.headers.map((header) => (
                 <th
                   className={styles.th}
-                  key={header.index}
+                  key={header.id}
                 >
                   {header.isPlaceholder
                     ? null
