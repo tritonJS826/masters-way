@@ -8,7 +8,7 @@ import {DayReport} from "src/model/businessModel/DayReport";
 import styles from "src/component/table/Table.module.scss";
 
 /**
- * Table's users context props
+ * Context props table users
  * @public
  */
 export interface TableUsers {
