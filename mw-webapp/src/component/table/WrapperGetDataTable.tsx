@@ -6,13 +6,11 @@ import {useGetDataTable} from "src/service/TableService";
 
 /**
  * Users table context
- * @public
  */
 export const TableUsersContext = createContext<null | TableUsers>(null);
 
 /**
  * Wrapper that prepares data for the table
- * @public
  */
 export const WrapperGetDataTable: React.FC<PropsWithChildren> = (props: PropsWithChildren) => {
   const data = useGetDataTable();

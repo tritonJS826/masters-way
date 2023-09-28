@@ -9,7 +9,6 @@ import styles from "src/component/table/Table.module.scss";
 
 /**
  * Context's props table users
- * @public
  */
 export interface TableUsers {
   /**
