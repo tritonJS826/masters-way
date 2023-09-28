@@ -7,23 +7,45 @@ import {
 import {DayReport} from "src/model/businessModel/DayReport";
 import styles from "src/component/table/Table.module.scss";
 
+/**
+ * Table's users context props
+ * @public
+ */
 export interface TableUsers {
+  /**
+ * Group headers table
+ */
   headerGroup: HeaderGroup<DayReport>[];
+  /**
+ * Object rows table
+ */
   rowModel: RowModel<DayReport>;
 }
 
+/**
+ * Table's contexts
+ */
 type ContextTable = React.Context<TableUsers | null>
 
+/**
+ * Table's props
+ */
 interface TableProps {
+  /**
+  * Table's context
+  */
   context: ContextTable;
 }
 
+/**
+ * Hook implementation get data from context
+ */
 const useGetTableContext = (props: TableProps) => useContext(props.context);
 
 /**
- * Table (need update for split component and logic code)
+ * Table
  */
-export const Table = (props: TableProps) => {
+export const Table:React.FC<TableProps> = (props) => {
   const data = useGetTableContext(props);
 
   return (
