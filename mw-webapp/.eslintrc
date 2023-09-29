@@ -142,7 +142,10 @@
       "contexts": ["TSPropertySignature"]
     }],
     "object-shorthand": ["error", "always"],
-    "no-duplicate-imports": ["error"]
+    "no-duplicate-imports": ["error"],
+    "no-restricted-imports": ["error", {
+      "patterns": [".*"]
+    }]
   },
   "ignorePatterns": ["/build"],
   "settings": {
