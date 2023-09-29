@@ -24,6 +24,7 @@ export const getDayReports = async (): Promise<DayReport[]> => {
   const jobsDone = firstReport.jobsDone.map((jobDoneUuid) => {
     const jobDone: JobDone = jobsDonePreview
       .find((elem) => elem.uuid === jobDoneUuid) ?? {} as JobDone;
+
     return jobDone;
   });
 
@@ -31,6 +32,7 @@ export const getDayReports = async (): Promise<DayReport[]> => {
     .map((planForNextPeriodUuid) => {
       const planForNextPeriod: PlanForNextPeriod = plansForNextPeriodPreview
         .find((elem) => elem.uuid === planForNextPeriodUuid) ?? {} as PlanForNextPeriod;
+
       return planForNextPeriod;
     });
 
@@ -38,6 +40,7 @@ export const getDayReports = async (): Promise<DayReport[]> => {
     .map((problemForCurrentPeriodUuid) => {
       const problemForCurrentPeriod: CurrentProblem = problemsForCurrentPeriodPreview
         .find((elem) => elem.uuid === problemForCurrentPeriodUuid) ?? {} as CurrentProblem;
+
       return problemForCurrentPeriod;
     });
 

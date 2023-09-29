@@ -103,6 +103,7 @@ export const columns: ColumnDef<DayReport, Date & JobDone[] & PlanForNextPeriod[
     header: "Student comments",
     cell: ({row}) => {
       const parentID = row.original.uuid;
+
       return (
         row.original.studentComments
           ?.map((studentCommentItem) => (getStringArrayItem(studentCommentItem, parentID)))
@@ -113,6 +114,7 @@ export const columns: ColumnDef<DayReport, Date & JobDone[] & PlanForNextPeriod[
     header: "Learned for today",
     cell: ({row}) => {
       const parentID = row.original.uuid;
+
       return (
         row.original.learnedForToday
           ?.map((learnedForTodayItem) => (getStringArrayItem(learnedForTodayItem, parentID)))
@@ -123,6 +125,7 @@ export const columns: ColumnDef<DayReport, Date & JobDone[] & PlanForNextPeriod[
     header: "Mentor comments",
     cell: ({row}) => {
       const parentID = row.original.uuid;
+
       return (
         row.original.mentorComments
           ?.map((mentorCommentItem) => (getStringArrayItem(mentorCommentItem, parentID)))

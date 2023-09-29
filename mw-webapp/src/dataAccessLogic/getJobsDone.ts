@@ -9,5 +9,6 @@ import {JobDoneService} from "src/service/JobDoneService";
 export const getJobsDone = async (): Promise<JobDone[]> => {
   const jobsDoneDTO = await JobDoneService.getJobsDoneDTO();
   const jobsDone = jobsDoneDTO.map(jobDoneDTOToJobDoneConverter);
+
   return jobsDone;
 };

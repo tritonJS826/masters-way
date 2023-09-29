@@ -17,6 +17,7 @@ export class JobDoneService {
   public static async getJobsDoneDTO(): Promise<JobDoneDTO[]> {
     const jobsDoneRaw = await getDocs(collection(db, PATH_TO_JOBS_DONE_COLLECTION));
     const jobsDone: JobDoneDTO[] = querySnapshotToDTOConverter<JobDoneDTO>(jobsDoneRaw);
+
     return jobsDone;
   }
 

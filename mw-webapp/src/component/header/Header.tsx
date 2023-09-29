@@ -21,6 +21,7 @@ export const Header = () => {
     handleUserAuthState(setUser);
     writeNewUserCredentials();
   }, []);
+
   return (
     <div className={styles.header}>
       <h1 className={styles.title}>
