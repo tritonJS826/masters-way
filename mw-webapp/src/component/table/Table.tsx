@@ -1,4 +1,4 @@
-import {useContext} from "react";
+import {memo} from "react";
 import {
   flexRender,
   HeaderGroup,
@@ -8,9 +8,9 @@ import {DayReport} from "src/model/businessModel/DayReport";
 import styles from "src/component/table/Table.module.scss";
 
 /**
- * Context's props table users
+ * Table's data props
  */
-export interface TableUsers {
+export interface TableReports {
   /**
  * Group headers table
  */
@@ -22,31 +22,25 @@ export interface TableUsers {
 }
 
 /**
- * Table's contexts
- */
-type ContextTable = React.Context<TableUsers | null>
-
-/**
  * Table's props
  */
 interface TableProps {
   /**
-  * Table's context
+  * Table's data
   */
-  context: ContextTable;
+  data: TableReports;
 }
 
 /**
  * Table
  */
-export const Table:React.FC<TableProps> = (props: TableProps) => {
-  const dataContentTable = useContext(props.context);
-
+export const Table:React.FC<TableProps> = memo((props: TableProps) => {
+  const data = props.data;
   return (
     <div className={styles.container}>
       <table className={styles.table}>
         <thead className={styles.thead}>
-          {dataContentTable?.headerGroup.map((headerGroup) => (
+          {data.headerGroup?.map((headerGroup) => (
             <tr
               className={styles.tr}
               key={headerGroup.id}
@@ -68,7 +62,7 @@ export const Table:React.FC<TableProps> = (props: TableProps) => {
           ))}
         </thead>
         <tbody className={styles.tbody}>
-          {dataContentTable?.rowModel.rows.map((row) => (
+          {data.rowModel?.rows.map((row) => (
             <tr
               className={styles.tr}
               key={row.id}
@@ -87,4 +81,6 @@ export const Table:React.FC<TableProps> = (props: TableProps) => {
       </table>
     </div>
   );
-};
+});
+
+Table.displayName = "Table";

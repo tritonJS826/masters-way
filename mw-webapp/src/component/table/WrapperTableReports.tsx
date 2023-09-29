@@ -1,18 +1,10 @@
-import {createContext, PropsWithChildren, useMemo} from "react";
+import {useMemo} from "react";
 import {getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import {columns} from "src/component/table/columns";
-import {TableUsers} from "src/component/table/Table";
+import {Table} from "src/component/table/Table";
 import {useGetDataTable} from "src/service/TableService";
 
-/**
- * Users table context
- */
-export const TableUsersContext = createContext<null | TableUsers>(null);
-
-/**
- * Wrapper that prepares data for the table
- */
-export const WrapperGetDataTable: React.FC<PropsWithChildren> = (props: PropsWithChildren) => {
+export const WrapperTableReports: React.FC = () => {
   const data = useGetDataTable();
 
   const table = useReactTable({
@@ -29,8 +21,6 @@ export const WrapperGetDataTable: React.FC<PropsWithChildren> = (props: PropsWit
   }, [data]);
 
   return (
-    <TableUsersContext.Provider value={tableContent}>
-      {props.children}
-    </TableUsersContext.Provider>
+    <Table data={tableContent} />
   );
 };
