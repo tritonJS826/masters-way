@@ -10,7 +10,9 @@ import {UserDTO} from "src/model/firebaseCollection/UserDTO";
  * @param {UserDTO[]} usersDTO - {@link UserDTO}
  * @returns {MentorComment} mentorComment {@link MentorComment}
  */
-export const MentorCommentDTOToMentorCommentConverter = (mentorCommentDTO: MentorCommentDTO, usersDTO: UserDTO[]) => {
+export const MentorCommentDTOToMentorCommentConverter = (
+  mentorCommentDTO: MentorCommentDTO, usersDTO: UserDTO[],
+): MentorComment => {
   const matchingUser = usersDTO.find(user => user.uuid === mentorCommentDTO.mentorUuid);
 
   if (!matchingUser) {
