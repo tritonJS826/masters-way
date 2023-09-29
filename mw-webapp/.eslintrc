@@ -141,7 +141,8 @@
       "checkSetters": true,
       "contexts": ["TSPropertySignature"]
     }],
-    "object-shorthand": ["error", "always"]
+    "object-shorthand": ["error", "always"],
+    "no-duplicate-imports": ["error"]
   },
   "ignorePatterns": ["/build"],
   "settings": {
