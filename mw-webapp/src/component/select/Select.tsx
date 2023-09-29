@@ -32,7 +32,8 @@ export interface SelectProps {
    */
 export const Select: React.FC<SelectProps> = (props: SelectProps) => {
   const renderSelectOptions = props.options.map((option) => (
-    <Option key={option.id}
+    <Option
+      key={option.id}
       value={option.value}
       text={option.text}
     />
