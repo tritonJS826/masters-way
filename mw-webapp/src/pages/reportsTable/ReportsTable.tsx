@@ -6,7 +6,7 @@ import {DayReport} from "src/model/businessModel/DayReport";
 import {useGetDataTable} from "src/service/TableService";
 
 /**
- * Table's reports data props
+ * Generated table data of {@link DayReport[]}
  */
 export interface TableReports {
   /**
@@ -19,7 +19,11 @@ export interface TableReports {
   rowModel: RowModel<DayReport>;
 }
 
-export const WrapperTableReports: React.FC = () => {
+/**
+ * Wrapper for receiving {@link DayReport[]} data and transferring it to table
+ * @returns {Table}
+ */
+export const ReportsTable: React.FC = () => {
   const data = useGetDataTable();
 
   const table = useReactTable({

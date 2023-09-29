@@ -1,6 +1,6 @@
 import {memo} from "react";
-import {TableReports} from "./WrapperTableReports";
 import {flexRender} from "@tanstack/react-table";
+import {TableReports} from "src/pages/reportsTable/ReportsTable";
 import styles from "src/component/table/Table.module.scss";
 
 /**

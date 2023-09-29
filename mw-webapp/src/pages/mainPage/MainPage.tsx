@@ -1,4 +1,5 @@
-import {WrapperTableReports} from "src/component/table/WrapperTableReports";
+
+import {ReportsTable} from "../reportsTable/ReportsTable";
 import styles from "src/pages/mainPage/MainPage.module.scss";
 
 /**
@@ -11,7 +12,7 @@ export const MainPage = () => {
       <h1 className={styles.title}>
         Hiii, Student!
       </h1>
-      <WrapperTableReports />
+      <ReportsTable />
     </div>
   );
 };
