@@ -140,7 +140,8 @@
       "checkConstructors": false,
       "checkSetters": true,
       "contexts": ["TSPropertySignature"]
-    }]
+    }],
+    "object-shorthand": ["error", "always"]
   },
   "ignorePatterns": ["/build"],
   "settings": {
