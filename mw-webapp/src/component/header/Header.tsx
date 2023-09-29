@@ -6,7 +6,6 @@ import {pages} from "src/router/pages";
 import {handleUserAuthState} from "src/service/auth/handleUserAuthState";
 import {logIn} from "src/service/auth/logIn";
 import {logOut} from "src/service/auth/logOut";
-import {writeNewUserCredentials} from "src/service/auth/writeNewUserCredentials";
 import styles from "src/component/header/Header.module.scss";
 
 const BUTTON_LOG_IN_VALUE = "Login";
@@ -19,8 +18,8 @@ export const Header = () => {
 
   useEffect(() => {
     handleUserAuthState(setUser);
-    writeNewUserCredentials();
   }, []);
+
   return (
     <div className={styles.header}>
       <h1 className={styles.title}>

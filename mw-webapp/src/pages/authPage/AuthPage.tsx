@@ -6,7 +6,6 @@ import {pages} from "src/router/pages";
 import {handleUserAuthState} from "src/service/auth/handleUserAuthState";
 import {logIn} from "src/service/auth/logIn";
 import {logOut} from "src/service/auth/logOut";
-import {writeNewUserCredentials} from "src/service/auth/writeNewUserCredentials";
 
 const BUTTON_LOG_IN_VALUE = "Login";
 const BUTTON_LOG_OUT_VALUE = "Logout";
@@ -17,7 +16,6 @@ export const AuthPage = () => {
 
   useEffect(() => {
     handleUserAuthState(setUser);
-    writeNewUserCredentials();
   }, []);
 
   return (
