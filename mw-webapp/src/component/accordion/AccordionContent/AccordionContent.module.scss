@@ -1,36 +1,36 @@
 @import "src/styles/variables";
 
 .accordionContent {
-    overflow: hidden;
-    color: $black;
+  overflow: hidden;
+  color: $black;
 
-    &[data-state='open'] {
-        animation: slideDown 300ms cubic-bezier(0.87, 0, 0.13, 1);
-    }
+  &[data-state="open"] {
+    animation: slideDown 300ms cubic-bezier(0.87, 0, 0.13, 1);
+  }
 
-    &[data-state='closed'] {
-        animation: slideUp 300ms cubic-bezier(0.87, 0, 0.13, 1);
-    }
+  &[data-state="closed"] {
+    animation: slideUp 300ms cubic-bezier(0.87, 0, 0.13, 1);
+  }
 }
 
 .accordionContentText {
-    padding: 15px 20px;
+  padding: 15px 20px;
 }
 
 @keyframes slideDown {
-    from {
-        height: 0;
-    }
-    to {
-        height: 47px;
-    }
+  from {
+    height: 0;
+  }
+  to {
+    height: 47px;
+  }
 }
 
 @keyframes slideUp {
-    from {
-        height: 47px;
-    }
-    to {
-        height: 0;
-    }
+  from {
+    height: 47px;
+  }
+  to {
+    height: 0;
+  }
 }

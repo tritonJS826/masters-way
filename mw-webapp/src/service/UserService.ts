@@ -17,6 +17,7 @@ export class UserService {
   public static async getUsersDTO(): Promise<UserDTO[]> {
     const usersRaw = await getDocs(collection(db, PATH_TO_USERS_COLLECTION));
     const users: UserDTO[] = querySnapshotToDTOConverter<UserDTO>(usersRaw);
+
     return users;
   }
 

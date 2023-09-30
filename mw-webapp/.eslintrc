@@ -18,7 +18,7 @@
     // "project": ["**/tsconfig.json", "**/vite.config.ts"] // путь для сопоставления файлов tsconfig относительно parserOptions.tsconfigRootDir, ​​или текущего рабочего каталога, если он не указан
     "project": true // указывает на поиск ближайшего tsconfig.json для каждого исходного файла
   },
-  "plugins": ["react", "@typescript-eslint", "simple-import-sort"],
+  "plugins": ["react", "@typescript-eslint", "simple-import-sort", "jsdoc"],
   "rules": {
     "simple-import-sort/imports": [
       "error",
@@ -131,7 +131,28 @@
     "@typescript-eslint/prefer-optional-chain": "error",
     "@typescript-eslint/no-explicit-any": "error",
     "no-var": "error",
-    "prefer-const": "error"
+    "prefer-const": "error",
+    "jsdoc/require-jsdoc": ["error", {
+      "publicOnly": true,
+      "require": {
+        "MethodDefinition": true
+      },
+      "checkConstructors": false,
+      "checkSetters": true,
+      "contexts": ["TSPropertySignature"]
+    }],
+    "object-shorthand": ["error", "always"],
+    "no-duplicate-imports": ["error"],
+    "no-restricted-imports": ["error", {
+      "patterns": [".*"]
+    }],
+    "padding-line-between-statements": [
+      "error",
+      { "blankLine": "always", "prev": "*", "next": "return" },
+      { "blankLine": "always", "prev": "import", "next": "block-like" },
+      { "blankLine": "always", "prev": "import", "next": "class" },
+      { "blankLine": "always", "prev": "import", "next": "const" }
+  ]
   },
   "ignorePatterns": ["/build"],
   "settings": {

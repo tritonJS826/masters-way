@@ -1,12 +1,13 @@
-import {writeNewUserCredentials} from "./writeNewUserCredentials";
 import {onAuthStateChanged, User} from "firebase/auth";
 import {doc, getDoc} from "firebase/firestore";
 import {auth, db} from "src/firebase";
+import {writeNewUserCredentials} from "src/service/auth/writeNewUserCredentials";
 
 export const handleUserAuthState = (setUser: React.Dispatch<React.SetStateAction<User | null>>) => {
   onAuthStateChanged(auth, async (currentUser) => {
     if (!currentUser) {
       setUser(null);
+
       return;
     }
 

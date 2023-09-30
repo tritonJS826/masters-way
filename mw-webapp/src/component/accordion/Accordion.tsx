@@ -71,6 +71,7 @@ export const Accordion = (props: AccordionProps) => {
     >
       {props.items.map((item) => {
         const uniqueId = useId();
+
         return renderAccordionItem(item, uniqueId);
       })}
     </RadixAccordionRoot>
