@@ -28,16 +28,20 @@
     "build": "vite build",
     "serve": "vite preview",
     "lint-check": "eslint .",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
     "lint-fix": "eslint . --fix",
+    "format": "prettier . --write",
     "type-check": "tsc",
     "test": "echo \"Script doesn't work\"",
-    "prepare": "cd .. && husky install"
+    "prepare": "cd .. && husky install",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "lint-staged": {
     "**/*.{ts, tsx}": [
       "pnpm run lint-fix"
+    ],
+    "**/*.{scss,module.scss}": [
+      "pnpm run format"
     ]
   },
   "eslintConfig": {
@@ -79,6 +83,7 @@
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "husky": "^8.0.0",
     "lint-staged": "^14.0.1",
+    "prettier": "^3.0.3",
     "storybook": "7.4.2",
     "vite": "^4.4.9",
     "vite-plugin-eslint": "^1.8.1",
