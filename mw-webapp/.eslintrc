@@ -20,7 +20,6 @@
   },
   "plugins": ["react", "@typescript-eslint", "simple-import-sort", "import"],
   "rules": {
-    "import/no-default-export": "off",
     "simple-import-sort/imports": [
       "error",
       {
@@ -30,6 +29,7 @@
         ]
       }
     ],
+    "no-restricted-exports": ["error", { "restrictedNamedExports": ["default"] }],
     "capitalized-comments": ["error", "always", {"ignorePattern": "pragma|ignored", "ignoreInlineComments": true}],
     "no-magic-numbers": "error",
     "no-console": "error",

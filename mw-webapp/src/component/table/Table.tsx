@@ -1,6 +1,4 @@
 import {useEffect, useState} from "react";
-import InProgress from "../inProgress/InProgress";
-import {useLoading} from "./LoadingContext";
 import {
   flexRender,
   getCoreRowModel,
@@ -13,12 +11,8 @@ import styles from "src/component/table/Table.module.scss";
 
 export const Table = () => {
   const [data, setData] = useState<DayReport[]>([]);
-  const {isLoading, setLoading} = useLoading();
   useEffect(() => {
-    DayReportService.onValueFromRealTimeDb((dayReports) => {
-      setData(dayReports);
-      setLoading(false);
-    });
+    DayReportService.onValueFromRealTimeDb(setData);
     () => {
       //TODO
       // RemoveEventListener from db if needed (read about handling event listeners
@@ -33,7 +27,6 @@ export const Table = () => {
   });
 
   return (<>
-    {isLoading && <InProgress />}
     <div className={styles.container}>
       <table className={styles.table}>
         <thead className={styles.thead}>

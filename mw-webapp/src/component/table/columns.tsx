@@ -29,7 +29,7 @@ const getObjectArrayItem = (
 };
 
 const getStringArrayItem = (arrayItem: string, index: string) => {
-  return !arrayItem ? (
+  return (!arrayItem) ? (
     <div />
   ) : (
   //TODO: task #65 use flag instead of first index

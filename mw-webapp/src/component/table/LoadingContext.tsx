@@ -1,4 +1,4 @@
-import React, {createContext, ReactNode, useContext, useState} from "react";
+import React, {createContext, PropsWithChildren, useContext, useState} from "react";
 
 type LoadingContextType = {
   isLoading: boolean;
@@ -7,9 +7,8 @@ type LoadingContextType = {
 
 const LoadingContext = createContext<LoadingContextType | undefined>(undefined);
 
-type LoadingProviderProps = {
-  children: ReactNode;
-};
+type LoadingProviderProps = PropsWithChildren<{}>;
+
 
 export const LoadingProvider: React.FC<LoadingProviderProps> = ({children}) => {
   const [isLoading, setLoading] = useState(true);
