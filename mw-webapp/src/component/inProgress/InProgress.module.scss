@@ -3,8 +3,9 @@
   position: absolute;
   top: 0;
   left: 0;
-  height: 2px;
+  height: 4px;
   background-color: white;
+  // background-color: $progressBar-background;
   animation: progress 1s linear forwards;
 }
 
