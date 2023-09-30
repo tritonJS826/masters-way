@@ -29,7 +29,7 @@
     "serve": "vite preview",
     "lint-check": "eslint .",
     "lint-fix": "eslint . --fix",
-    "format": "prettier . --write",
+    "format": "prettier --write",
     "type-check": "tsc",
     "test": "echo \"Script doesn't work\"",
     "prepare": "cd .. && husky install",
@@ -41,7 +41,7 @@
       "pnpm run lint-fix"
     ],
     "**/*.{scss,module.scss}": [
-      "pnpm run format"
+      "pnpm run format --"
     ]
   },
   "eslintConfig": {
