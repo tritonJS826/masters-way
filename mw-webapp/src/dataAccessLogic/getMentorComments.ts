@@ -11,8 +11,8 @@ import {UserService} from "src/service/UserService";
 export const getMentorComments = async (): Promise<MentorComment[]> => {
   const mentorCommentsDTO = await MentorCommentsService.getMentorCommentsDTO();
   const usersDTO = await UserService.getUsersDTO();
-  const mentorComments = mentorCommentsDTO.map((mentorComment) =>
-    (MentorCommentDTOToMentorCommentConverter(mentorComment, usersDTO)));
+  const mentorComments = mentorCommentsDTO
+    .map((mentorComment) => (MentorCommentDTOToMentorCommentConverter(mentorComment, usersDTO)));
 
   return mentorComments;
 };

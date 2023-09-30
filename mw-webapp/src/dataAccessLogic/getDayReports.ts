@@ -43,8 +43,8 @@ export const getDayReports = async (): Promise<DayReport[]> => {
       return problemForCurrentPeriod;
     });
 
-  const mentorComments = firstReport.mentorComments.
-    map((mentorCommentUuid) => {
+  const mentorComments = firstReport.mentorComments
+    .map((mentorCommentUuid) => {
       const mentorComment = mentorCommentsPreview
         .find((elem) => elem.uuid === mentorCommentUuid);
       if (!mentorComment) {
