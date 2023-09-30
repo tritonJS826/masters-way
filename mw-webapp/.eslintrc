@@ -18,7 +18,7 @@
     // "project": ["**/tsconfig.json", "**/vite.config.ts"] // путь для сопоставления файлов tsconfig относительно parserOptions.tsconfigRootDir, ​​или текущего рабочего каталога, если он не указан
     "project": true // указывает на поиск ближайшего tsconfig.json для каждого исходного файла
   },
-  "plugins": ["react", "@typescript-eslint", "simple-import-sort", "import"],
+  "plugins": ["react", "@typescript-eslint", "simple-import-sort"],
   "rules": {
     "simple-import-sort/imports": [
       "error",
