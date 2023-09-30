@@ -7,7 +7,7 @@ type LoadingContextType = {
 
 const LoadingContext = createContext<LoadingContextType | undefined>(undefined);
 
-type LoadingProviderProps = PropsWithChildren<{}>;
+type LoadingProviderProps = PropsWithChildren<unknown>;
 
 
 export const LoadingProvider: React.FC<LoadingProviderProps> = ({children}) => {
