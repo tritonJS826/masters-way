@@ -1,8 +1,15 @@
+import {useState} from "react";
 import {CellContext, ColumnDef, createColumnHelper} from "@tanstack/react-table";
+import {Input} from "src/component/input/Input";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
+import {DayReportDTO} from "src/model/firebaseCollection/DayReportDTO";
+import {JobDoneDTO} from "src/model/firebaseCollection/JobDoneDTO";
+import {TimeUnit} from "src/model/firebaseCollection/time/timeUnit/TimeUnit";
+import {DayReportService} from "src/service/DayReportService";
+import {JobDoneService} from "src/service/JobDoneService";
 import {DateUtils} from "src/utils/DateUtils";
 import styles from "src/component/table/columns.module.scss";
 
@@ -12,27 +19,114 @@ const DEFAULT_SUMMARY_TIME = 0;
 const columnHelper = createColumnHelper<DayReport>();
 
 const getObjectArrayItem = (arrayItem: JobDone | PlanForNextPeriod | CurrentProblem, getFullItem?: string) => {
+  const [isEdit, setIsEdit] = useState(false);
+  const [text, setText] = useState(getFullItem);
+  const handleDoubleClick = () => {
+    setIsEdit(true);
+  };
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setText(event.target.value);
+  };
+
+  const updateDayReport = async () => {
+    const updatedJobDone: JobDoneDTO = {
+      uuid: arrayItem.uuid,
+      description: text!,
+      time: 30,
+      timeUnit: TimeUnit.minute,
+    };
+    await JobDoneService.updateJobDoneDTO(updatedJobDone, arrayItem.uuid);
+  };
+
+  const handleBlur = async () => {
+    setIsEdit(false);
+    updateDayReport();
+  };
+
   return (
-    (JSON.stringify(arrayItem) === "{}") ?
-      <div />
-      :
-      <div key={arrayItem.uuid}>
-        {getFullItem}
-      </div>
+    // (JSON.stringify(arrayItem) === "{}") ?
+    //   <div />
+    //   :
+    //   <div key={arrayItem.uuid}>
+    //     {getFullItem}
+    //   </div>
+    <div onDoubleClick={handleDoubleClick}>
+      {isEdit ? (
+        <Input
+          type="text"
+          value={text ?? ""}
+          autoFocus={true}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          // OnKeyDown={handleEnter}
+        />
+      ) : (
+        <span className={getFullItem![INDEX_OF_CHECK_MARK] === "✓" ? styles.completed : styles.notCompleted}>
+          {text}
+        </span>
+      )}
+    </div>
   );
 };
 
-const getStringArrayItem = (arrayItem: string, index: string) => {
+const getStringArrayItem = (arrayItem: string, parentUuid: string) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [text, setText] = useState(arrayItem);
+
+  const handleDoubleClick = () => {
+    setIsEditing(true);
+    // eslint-disable-next-line no-console
+    console.log(parentUuid);
+  };
+
+  const updateDayReport = async () => {
+    const updatedDayReport: DayReportDTO = {
+      uuid: parentUuid,
+      date: "2023-01-01",
+      jobsDone: [],
+      plansForNextPeriod: [],
+      problemsForCurrentPeriod: [],
+      studentComments: [`${text}`],
+      learnedForToday: [""],
+      mentorComments: [""],
+      isDayOff: false,
+    };
+    await DayReportService.updateDayReportDTO(updatedDayReport, parentUuid);
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setText(event.target.value);
+  };
+
+  const handleBlur = async () => {
+    setIsEditing(false);
+    updateDayReport();
+  };
+
+  const handleEnter = async (event: React.KeyboardEvent<HTMLElement>) => {
+    if (event.key === "Enter") {
+      updateDayReport();
+      setIsEditing(false);
+    }
+  };
+
   return (
-    (!arrayItem) ?
-      <div />
-      :
-    //TODO: task #65 use flag instead of first index
-      <div key={index}>
-        <div className={arrayItem[INDEX_OF_CHECK_MARK] === "✓" ? styles.completed : styles.notCompleted}>
-          {arrayItem}
-        </div>
-      </div>
+    <div onDoubleClick={handleDoubleClick}>
+      {isEditing ? (
+        <Input
+          type="text"
+          value={text}
+          autoFocus={true}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          onKeyDown={handleEnter}
+        />
+      ) : (
+        <span className={arrayItem[INDEX_OF_CHECK_MARK] === "✓" ? styles.completed : styles.notCompleted}>
+          {text}
+        </span>
+      )}
+    </div>
   );
 };
 
@@ -55,7 +149,6 @@ const getDateValue = (cellValue: CellContext<DayReport, Date>) => {
   );
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const columns: ColumnDef<DayReport, Date & JobDone[] & PlanForNextPeriod[] & CurrentProblem[] & string[] & boolean>[] = [
   columnHelper.accessor<"date", Date>("date", {
     header: "Date",

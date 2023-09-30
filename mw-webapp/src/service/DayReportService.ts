@@ -1,9 +1,23 @@
-import {collection, getDocs} from "firebase/firestore";
+import {collection, doc, getDocs, setDoc, updateDoc} from "firebase/firestore";
 import {db} from "src/firebase";
 import {DayReportDTO} from "src/model/firebaseCollection/DayReportDTO";
 import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
 
 const PATH_TO_DAY_REPORTS_COLLECTION = "dayReports";
+
+/**
+ * New day report props without uuid for {@link data} for possibility to auto-generate uuid on firestore
+ */
+export interface NewDayReportProps {
+  date: string;
+  jobsDone: string[];
+  plansForNextPeriod: string[];
+  problemsForCurrentPeriod: string[];
+  studentComments: string[];
+  learnedForToday: string[];
+  mentorComments: string[];
+  isDayOff: boolean;
+}
 
 /**
  * DayReports requests: {@link getDayReports}
@@ -18,6 +32,27 @@ export class DayReportService {
     const dayReportsRaw = await getDocs(collection(db, PATH_TO_DAY_REPORTS_COLLECTION));
     const dayReports: DayReportDTO[] = querySnapshotToDTOConverter<DayReportDTO>(dayReportsRaw);
     return dayReports;
+  }
+
+  /**
+   * Create new day report
+   */
+  public static async createDayReportDTO(data: NewDayReportProps) {
+    const docRef = doc(collection(db, PATH_TO_DAY_REPORTS_COLLECTION));
+    const DEFAULT_DAY_REPORT: DayReportDTO = {
+      ...data,
+      uuid: docRef.id,
+    };
+
+    await setDoc(docRef, DEFAULT_DAY_REPORT);
+  }
+
+  /**
+   * Update day report
+   * @param {DayReportDTO} data DayReportDTO
+   */
+  public static async updateDayReportDTO(data: DayReportDTO, uuid: string) {
+    await updateDoc(doc(db, PATH_TO_DAY_REPORTS_COLLECTION, uuid), {...data});
   }
 
 }

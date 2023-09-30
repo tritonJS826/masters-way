@@ -1,4 +1,6 @@
+import {Button} from "src/component/button/Button";
 import {Table} from "src/component/table/Table";
+import {createNewDayReport} from "src/dataAccessLogic/createNewDayReport";
 import styles from "src/pages/mainPage/MainPage.module.scss";
 
 /**
@@ -11,6 +13,10 @@ export const MainPage = () => {
       <h1 className={styles.title}>
         Hiii, Student!
       </h1>
+      <Button
+        value="Create new day report"
+        onClick={createNewDayReport}
+      />
       <Table />
     </div>
   );

@@ -1,4 +1,4 @@
-import {collection, getDocs} from "firebase/firestore";
+import {collection, doc, getDocs, updateDoc} from "firebase/firestore";
 import {db} from "src/firebase";
 import {JobDoneDTO} from "src/model/firebaseCollection/JobDoneDTO";
 import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
@@ -19,5 +19,14 @@ export class JobDoneService {
     const jobsDone: JobDoneDTO[] = querySnapshotToDTOConverter<JobDoneDTO>(jobsDoneRaw);
     return jobsDone;
   }
+
+  /**
+   * Update jobs done
+   * @param {JobDoneDTO} data JobDoneDTO
+   */
+  public static async updateJobDoneDTO(data: JobDoneDTO, uuid: string) {
+    await updateDoc(doc(db, PATH_TO_JOBS_DONE_COLLECTION, uuid), {...data});
+  }
+
 
 }
