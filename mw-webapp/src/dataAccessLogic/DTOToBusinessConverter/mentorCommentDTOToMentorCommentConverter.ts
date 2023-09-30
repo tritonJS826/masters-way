@@ -2,7 +2,6 @@ import {MentorComment} from "src/model/businessModel/MentorComment";
 import {MentorCommentDTO} from "src/model/firebaseCollection/MentorCommentDTO";
 import {UserDTO} from "src/model/firebaseCollection/UserDTO";
 
-
 /**
  * Convert {@link MentorCommentDTO} to {@link MentorComment}
  * @param {MentorCommentDTO} mentorCommentDTO {@link MentorCommentDTO}
@@ -17,7 +16,6 @@ export const MentorCommentDTOToMentorCommentConverter = (
   if (!matchingUser) {
     throw new Error(`User not found for uuid: ${mentorCommentDTO.mentorUuid}`);
   }
-
 
   return new MentorComment(
     {
