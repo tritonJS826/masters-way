@@ -13,7 +13,7 @@ import styles from "src/component/table/Table.module.scss";
 
 export const Table = () => {
   const [data, setData] = useState<DayReport[]>([]);
-  const {loading, setLoading} = useLoading();
+  const {isLoading, setLoading} = useLoading();
   useEffect(() => {
     DayReportService.onValueFromRealTimeDb((dayReports) => {
       setData(dayReports);
@@ -33,29 +33,27 @@ export const Table = () => {
   });
 
   return (<>
-    {loading ? <InProgress /> : <div className={styles.container}>
+    {isLoading && <InProgress />}
+    <div className={styles.container}>
       <table className={styles.table}>
         <thead className={styles.thead}>
-          {loading ? (
-            <InProgress />
-          ) : (
-            table.getHeaderGroups().map((headerGroup) => (
-              <tr className={styles.tr}
-                key={headerGroup.id}
-              >
-                {headerGroup.headers.map((header) => (
-                  <th className={styles.th}
-                    key={header.id}
-                  >
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext())}
-                  </th>
-                ))}
-              </tr>
-            ))
+          {(table.getHeaderGroups().map((headerGroup) => (
+            <tr className={styles.tr}
+              key={headerGroup.id}
+            >
+              {headerGroup.headers.map((header) => (
+                <th className={styles.th}
+                  key={header.id}
+                >
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
+                      header.column.columnDef.header,
+                      header.getContext())}
+                </th>
+              ))}
+            </tr>
+          ))
           )}
         </thead>
         <tbody className={styles.tbody}>
@@ -74,6 +72,6 @@ export const Table = () => {
           ))}
         </tbody>
       </table>
-    </div>}
+    </div>
   </>);
 };

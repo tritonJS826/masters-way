@@ -1,7 +1,7 @@
 import React, {createContext, ReactNode, useContext, useState} from "react";
 
 type LoadingContextType = {
-  loading: boolean;
+  isLoading: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
@@ -12,10 +12,10 @@ type LoadingProviderProps = {
 };
 
 export const LoadingProvider: React.FC<LoadingProviderProps> = ({children}) => {
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(true);
 
   return (
-    <LoadingContext.Provider value={{loading, setLoading}}>
+    <LoadingContext.Provider value={{isLoading, setLoading}}>
       {children}
     </LoadingContext.Provider>
   );
