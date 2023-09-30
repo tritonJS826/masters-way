@@ -134,3 +134,6 @@ dist
 
 # autosave draw.io
 .$models.drawio.bkp
+
+# misc
+.DS_Store
