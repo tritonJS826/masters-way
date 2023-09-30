@@ -26,7 +26,6 @@ export const getDayReports = async (): Promise<DayReport[]> => {
     return jobDone;
   });
 
-
   const plansForNextPeriod = firstReport.plansForNextPeriod
     .map((planForNextPeriodUuid) => {
       const planForNextPeriod: PlanForNextPeriod = plansForNextPeriodPreview
