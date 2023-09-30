@@ -29,9 +29,6 @@ export class UserService {
       uuid: data.uuid,
       email: data.email,
       name: data.name,
-      ownWays: data.ownWays,
-      favoriteWays: data.favoriteWays,
-      mentoringWays: data.mentoringWays,
     });
   }
 
