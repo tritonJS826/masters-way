@@ -22,7 +22,7 @@ export const Table:React.FC<TableProps> = memo((props: TableProps) => {
     <div className={styles.container}>
       <table className={styles.table}>
         <thead className={styles.thead}>
-          {data.headerGroup?.map((headerGroup) => (
+          {data.headerGroup.map((headerGroup) => (
             <tr
               className={styles.tr}
               key={headerGroup.id}
@@ -44,7 +44,7 @@ export const Table:React.FC<TableProps> = memo((props: TableProps) => {
           ))}
         </thead>
         <tbody className={styles.tbody}>
-          {data.rowModel?.rows.map((row) => (
+          {data.rowModel.rows.map((row) => (
             <tr
               className={styles.tr}
               key={row.id}
