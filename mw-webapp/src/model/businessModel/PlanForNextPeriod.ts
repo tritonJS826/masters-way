@@ -1,7 +1,7 @@
 import {TimeUnit} from "src/model/businessModel/time/timeUnit/TimeUnit";
 
 /**
- * Plan for next period (day, month, etc.)
+ * Plan for next period model
  */
 export class PlanForNextPeriod {
 
@@ -16,7 +16,7 @@ export class PlanForNextPeriod {
   public job: string;
 
   /**
-   * Unit of time measurement
+   * Unit of time measurement for {@link estimationTime}
    */
   public timeUnit: TimeUnit;
 
@@ -25,7 +25,7 @@ export class PlanForNextPeriod {
      */
   public estimationTime: number;
 
-  constructor(planForNextPeriodData: PlanForNextPeriod) {
+  constructor(planForNextPeriodData: {uuid: string; job: string; timeUnit: TimeUnit; estimationTime: number}) {
     this.uuid = planForNextPeriodData.uuid;
     this.job = planForNextPeriodData.job;
     this.timeUnit = planForNextPeriodData.timeUnit;

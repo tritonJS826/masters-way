@@ -1,0 +1,32 @@
+@import "src/styles/variables";
+
+.accordionHeader {
+  margin: 0;
+  display: flex;
+}
+
+.accordionTrigger {
+  padding: 1% 4%;
+  min-height: 45px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1;
+  border: none;
+  background-color: transparent;
+  font-size: 15px;
+  line-height: 1;
+  color: $green;
+  box-shadow: 0 1px 0 $green;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+  &[data-state="open"] > .accordionChevron {
+    transform: rotate(180deg);
+  }
+}
+
+.accordionChevron {
+  flex-shrink: 0;
+  transition: transform 300ms cubic-bezier(0.87, 0, 0.13, 1);
+}

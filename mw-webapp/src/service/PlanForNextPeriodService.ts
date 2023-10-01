@@ -1,16 +1,23 @@
-import {get, ref} from "firebase/database";
-import {PlanForNextPeriodDTOToPlanForNextPeriodConverter} from "src/converter/PlanForNextPeriodConverter";
+import {collection, getDocs} from "firebase/firestore";
 import {db} from "src/firebase";
-import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
-import {PlanForNextPeriod as PlanForNextPeriodDTO} from "src/model/firebaseCollection/PlanForNextPeriod";
+import {PlanForNextPeriodDTO} from "src/model/firebaseCollection/PlanForNextPeriodDTO";
+import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
 
+const PATH_TO_PLANS_FOR_NEXT_PERIOD_COLLECTION = "plansForNextPeriod";
+
+/**
+ * PlansForNextPeriod requests: {@link getPlansForNextPeriod}
+ */
 export class PlanForNextPeriodService {
 
-  public static async onValueFromRealTimeDb(): Promise<PlanForNextPeriod[]> {
-    const snapshot = await get(ref(db, "/plansForNextPeriod"));
-    const plansForNextPeriodRaw: PlanForNextPeriodDTO[] = await snapshot.val();
-    const plansForNextPeriod: PlanForNextPeriod[] = plansForNextPeriodRaw.map((item) =>
-      PlanForNextPeriodDTOToPlanForNextPeriodConverter(item));
+  /**
+   * Read PlansForNextPeriod collection
+   * @returns {Promise<PLanForNextPeriodDTO[]>} promise of PlanForNextPeriodDTO[]
+   */
+  public static async getPlansForNextPeriodDTO(): Promise<PlanForNextPeriodDTO[]> {
+    const plansForNextPeriodRaw = await getDocs(collection(db, PATH_TO_PLANS_FOR_NEXT_PERIOD_COLLECTION));
+    const plansForNextPeriod: PlanForNextPeriodDTO[] = querySnapshotToDTOConverter<PlanForNextPeriodDTO>(plansForNextPeriodRaw);
+
     return plansForNextPeriod;
   }
 

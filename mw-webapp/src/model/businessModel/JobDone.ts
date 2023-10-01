@@ -1,7 +1,7 @@
 import {TimeUnit} from "src/model/businessModel/time/timeUnit/TimeUnit";
 
 /**
- * Job that was done
+ * Job done model
  */
 export class JobDone {
 
@@ -16,7 +16,7 @@ export class JobDone {
   public description: string;
 
   /**
-   * Unit of time measurement
+   * Unit of time measurement for {@link time}
    */
   public timeUnit: TimeUnit;
 
@@ -25,7 +25,7 @@ export class JobDone {
    */
   public time: number;
 
-  constructor(jobDoneData: JobDone) {
+  constructor(jobDoneData: {uuid: string; description: string; timeUnit: TimeUnit; time: number}) {
     this.uuid = jobDoneData.uuid;
     this.description = jobDoneData.description;
     this.timeUnit = jobDoneData.timeUnit;

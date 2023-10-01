@@ -1,15 +1,23 @@
-import {get, ref} from "firebase/database";
-import {JobDoneDTOToJobDoneConverter} from "src/converter/JobDoneConverter";
+import {collection, getDocs} from "firebase/firestore";
 import {db} from "src/firebase";
-import {JobDone} from "src/model/businessModel/JobDone";
-import {JobDone as JobDoneDTO} from "src/model/firebaseCollection/JobDone";
+import {JobDoneDTO} from "src/model/firebaseCollection/JobDoneDTO";
+import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
 
+const PATH_TO_JOBS_DONE_COLLECTION = "jobsDone";
+
+/**
+ * JobsDone requests: {@link getJobsDone}
+ */
 export class JobDoneService {
 
-  public static async onValueFromRealTimeDb(): Promise<JobDone[]> {
-    const snapshot = await get(ref(db, "/jobsDone"));
-    const jobsDoneRaw: JobDoneDTO[] = await snapshot.val();
-    const jobsDone: JobDone[] = jobsDoneRaw.map((item) => JobDoneDTOToJobDoneConverter(item));
+  /**
+   * Read JobsDone collection
+   * @returns {Promise<JobDoneDTO[]>} promise of JobDoneDTO[]
+   */
+  public static async getJobsDoneDTO(): Promise<JobDoneDTO[]> {
+    const jobsDoneRaw = await getDocs(collection(db, PATH_TO_JOBS_DONE_COLLECTION));
+    const jobsDone: JobDoneDTO[] = querySnapshotToDTOConverter<JobDoneDTO>(jobsDoneRaw);
+
     return jobsDone;
   }
 
