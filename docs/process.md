@@ -3,7 +3,7 @@
 ## Implement feature
 1. Open the issue in a new tab by clicking on the "Open in new tab" button located on the right side of the issue.
 
-2. In right left corner, in "Development" block, click on "Create a branch"
+2. On the right side, in "Development" block, click on "Create a branch"
 
 3. Create branch which contains issue number and short description. Example
 ```MW-25/create-docs`````
