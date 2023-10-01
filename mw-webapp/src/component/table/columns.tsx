@@ -130,11 +130,11 @@ boolean & MentorComment[]>[] = [
   columnHelper.accessor<"mentorComments", MentorComment[]>("mentorComments", {
     header: "Mentor comments",
     cell: ({row}) => {
-      const parentID = row.original.uuid;
+
       return (
         row.original.mentorComments
           .map((mentorComment) => (renderStringCell(
-            {text: mentorComment.description, key: parentID, isDone: mentorComment.isDone},
+            {text: mentorComment.description, key: mentorComment.uuid, isDone: mentorComment.isDone},
           )))
       );
     },
