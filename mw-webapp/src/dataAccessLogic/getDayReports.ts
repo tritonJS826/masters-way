@@ -18,7 +18,6 @@ export const getDayReports = async (): Promise<DayReport[]> => {
   const jobsDonePreview = await getJobsDone();
   const plansForNextPeriodPreview = await getPlansForNextPeriod();
   const problemsForCurrentPeriodPreview = await getCurrentProblems();
-
   const firstReport = dayReportsDTO[0];
 
   const jobsDone = firstReport.jobsDone.map((jobDoneUuid) => {

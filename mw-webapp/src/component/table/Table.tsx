@@ -14,7 +14,6 @@ import styles from "src/component/table/Table.module.scss";
  */
 export const Table = () => {
   const [data, setData] = useState<DayReport[]>([]);
-
   const loadDayReports = async () => {
     const dayReports = await getDayReports();
     setData(dayReports);
@@ -68,7 +67,8 @@ export const Table = () => {
                 >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
-              ))}
+              ))
+              }
             </tr>
           ))}
         </tbody>
