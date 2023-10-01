@@ -1,5 +1,4 @@
 import React, {Component, PropsWithChildren} from "react";
-import {Page404} from "src/pages/page404/Page404";
 
 /**
  *   They are React components that catch JavaScript errors anywhere in their child component tree,
@@ -34,7 +33,9 @@ export class ErrorBoundary extends Component<PropsWithChildren, State> {
 
   public render(): React.ReactNode {
     if (this.state.hasError) {
-      return <Page404 />;
+      return (<h1>
+        Something went wrong.
+      </h1>);
     }
     return this.props.children;
   }
