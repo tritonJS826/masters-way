@@ -12,7 +12,7 @@ export class MentorCommentsService {
 
   /**
    * Read MentorComments collection
-   * @returns {Promise<MentorCommentDTO[]>}
+   * @returns {Promise<MentorCommentDTO[]>} promise of MentorCommentDTO[]
    */
   public static async getMentorCommentsDTO(): Promise<MentorCommentDTO[]> {
     const mentorCommentsRaw = await getDocs(collection(db, PATH_TO_MENTOR_COMMENTS_COLLECTION));
