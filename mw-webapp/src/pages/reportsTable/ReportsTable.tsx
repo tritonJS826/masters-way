@@ -6,7 +6,7 @@ import {DayReport} from "src/model/businessModel/DayReport";
 import {useGetDataTable} from "src/service/TableService";
 
 /**
- * Generated data of table reports
+ * Props table of reports
  */
 export interface TableReports {
   /**
@@ -20,7 +20,7 @@ export interface TableReports {
 }
 
 /**
- * Wrapper for receiving {@link DayReport[]} data and transferring it to table
+ * Render table of reports
  * @returns {Table}
  */
 export const ReportsTable: React.FC = () => {
