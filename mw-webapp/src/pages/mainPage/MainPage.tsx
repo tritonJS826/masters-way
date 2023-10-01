@@ -1,4 +1,3 @@
-import {LoadingProvider} from "src/component/table/LoadingContext";
 import {Table} from "src/component/table/Table";
 import styles from "src/pages/mainPage/MainPage.module.scss";
 

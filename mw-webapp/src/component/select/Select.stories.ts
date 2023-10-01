@@ -1,14 +1,13 @@
 import type {StoryObj} from "@storybook/react";
 import {Select} from "src/component/select/Select";
 
-const meta = {
+export const meta = {
   title: "Select",
   component: Select,
   parameters: {layout: "centered"},
   tags: ["autodocs"],
 };
 
-export default meta;
 type Story = StoryObj<typeof meta>;
 
 const options = [

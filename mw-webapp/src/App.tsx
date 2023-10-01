@@ -4,7 +4,7 @@ import {Router} from "src/router/Router";
 /**
  * App
  */
-function App() {
+export function App() {
 
   return (
     <>
@@ -13,5 +13,3 @@ function App() {
     </>
   );
 }
-
-export default App;

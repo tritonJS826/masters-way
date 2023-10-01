@@ -32,7 +32,7 @@ export const Table = () => {
     <div className={styles.container}>
       <table className={styles.table}>
         <thead className={styles.thead}>
-          {table.getHeaderGroups().map((headerGroup) => (
+          {(table.getHeaderGroups().map((headerGroup) => (
             <tr
               className={styles.tr}
               key={headerGroup.id}

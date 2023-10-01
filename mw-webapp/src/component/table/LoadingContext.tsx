@@ -25,5 +25,6 @@ export const useLoading = (): LoadingContextType => {
   if (context === undefined) {
     throw new Error("useLoading must be used within a LoadingProvider");
   }
+
   return context;
 };

@@ -3,6 +3,7 @@ import {defineConfig, loadEnv} from "vite";
 import eslint from "vite-plugin-eslint";
 import viteTsconfigPaths from "vite-tsconfig-paths";
 
+// eslint-disable-next-line no-restricted-exports
 export default defineConfig(() => {
   const env = loadEnv("", process.cwd(), "");
   const envNames = [

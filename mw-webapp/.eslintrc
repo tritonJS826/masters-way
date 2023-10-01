@@ -29,7 +29,7 @@
         ]
       }
     ],
-    "no-restricted-exports": ["error", {"restrictedNamedExports": ["default"]}],
+    "no-restricted-exports": ["error", {"restrictDefaultExports": {"direct": true}}],
     "capitalized-comments": [
       "error",
       "always",

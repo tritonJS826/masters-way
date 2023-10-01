@@ -34,12 +34,11 @@ const getStringArrayItem = (arrayItem: string, index: string) => {
   ) : (
   //TODO: task #65 use flag instead of first index
     <div key={index}>
-      <div
-        className={
-          arrayItem[INDEX_OF_CHECK_MARK] === "✓"
-            ? styles.completed
-            : styles.notCompleted
-        }
+      <div className={
+        arrayItem[INDEX_OF_CHECK_MARK] === "✓"
+          ? styles.completed
+          : styles.notCompleted
+      }
       >
         {arrayItem}
       </div>
@@ -118,6 +117,7 @@ Date & JobDone[] & PlanForNextPeriod[] & CurrentProblem[] & string[] & boolean
     header: "Student comments",
     cell: ({row}) => {
       const parentID = row.original.uuid;
+
       return (
         row.original.studentComments
           ?.map((studentCommentItem) => (getStringArrayItem(studentCommentItem, parentID)))
@@ -128,6 +128,7 @@ Date & JobDone[] & PlanForNextPeriod[] & CurrentProblem[] & string[] & boolean
     header: "Learned for today",
     cell: ({row}) => {
       const parentID = row.original.uuid;
+
       return (
         row.original.learnedForToday
           ?.map((learnedForTodayItem) => (getStringArrayItem(learnedForTodayItem, parentID)))
@@ -138,6 +139,7 @@ Date & JobDone[] & PlanForNextPeriod[] & CurrentProblem[] & string[] & boolean
     header: "Mentor comments",
     cell: ({row}) => {
       const parentID = row.original.uuid;
+
       return (
         row.original.mentorComments
           ?.map((mentorCommentItem) => (getStringArrayItem(mentorCommentItem, parentID)))
