@@ -26,7 +26,7 @@ export const Table = () => {
     getCoreRowModel: getCoreRowModel(),
   });
 
-  return (<>
+  return (
     <div className={styles.container}>
       <table className={styles.table}>
         <thead className={styles.thead}>
@@ -66,5 +66,5 @@ export const Table = () => {
         </tbody>
       </table>
     </div>
-  </>);
+  );
 };
