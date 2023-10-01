@@ -6,7 +6,7 @@ import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotTo
 const PATH_TO_CURRENT_PROBLEMS_COLLECTION = "currentProblems";
 
 /**
- * CurrentProblems requests: {@link getCurrentProblems}
+ * Provides methods to interact with the CurrentProblems collection in Firestore.
  */
 export class CurrentProblemService {
 

@@ -6,7 +6,7 @@ import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotTo
 const PATH_TO_USERS_COLLECTION = "users";
 
 /**
- * Users requests: {@link getUsers}, {@link createUser}, {@link updateUser}, {@link deleteUser}
+ * Provides methods to interact with the Users collection in Firestore.
  */
 export class UserService {
 
