@@ -6,7 +6,7 @@ import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotTo
 const PATH_TO_MENTOR_COMMENTS_COLLECTION = "mentorComments";
 
 /**
- * MentorCommentsService class provides methods to interact with the MentorComments collection in Firestore.
+ * Provides methods to interact with the MentorComments collection in Firestore.
  */
 export class MentorCommentsService {
 
