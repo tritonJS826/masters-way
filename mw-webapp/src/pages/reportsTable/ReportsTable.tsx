@@ -6,15 +6,15 @@ import {DayReport} from "src/model/businessModel/DayReport";
 import {useGetDataTable} from "src/service/TableService";
 
 /**
- * Generated table data of {@link DayReport[]}
+ * Generated data of table reports
  */
 export interface TableReports {
   /**
- * Group headers table
+ * Table headers
  */
   headerGroup: HeaderGroup<DayReport>[];
   /**
- * Object rows table
+ * Table rows
  */
   rowModel: RowModel<DayReport>;
 }
