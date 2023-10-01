@@ -2,8 +2,9 @@ import {useMemo} from "react";
 import {getCoreRowModel, HeaderGroup, RowModel, useReactTable} from "@tanstack/react-table";
 import {columns} from "src/component/table/columns";
 import {Table} from "src/component/table/Table";
+import {useGetDataTable} from "src/dataAccessLogic/useGetDataTable";
 import {DayReport} from "src/model/businessModel/DayReport";
-import {useGetDataTable} from "src/service/TableService";
+
 
 /**
  * Props table of reports
