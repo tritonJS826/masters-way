@@ -33,7 +33,7 @@ const getObjectArrayItem = (arrayItem: JobDone | PlanForNextPeriod | CurrentProb
  *
  * @returns {JSX.Element} The rendered string item.
  */
-const renderStringItem = ({text, key, isDone}: {text:string; key:string; isDone?: boolean}): JSX.Element => {
+const renderStringCell = ({text, key, isDone}: {text:string; key:string; isDone?: boolean}): JSX.Element => {
   return (
     <div key={key}>
       <div className={isDone ? styles.completed : styles.notCompleted}>
@@ -73,7 +73,7 @@ boolean & MentorComment[]>[] = [
     cell: (({row}) => {
       return (
         row.original.jobsDone
-          ?.reduce((summaryTime, jobDone) => jobDone.time + summaryTime, DEFAULT_SUMMARY_TIME)
+          .reduce((summaryTime, jobDone) => jobDone.time + summaryTime, DEFAULT_SUMMARY_TIME)
       );
     }),
   }),
@@ -82,7 +82,7 @@ boolean & MentorComment[]>[] = [
     cell: ({row}) => {
       return (
         row.original.jobsDone
-          ?.map((jobDoneItem) => (getObjectArrayItem(jobDoneItem, jobDoneItem.getJobDone())))
+          .map((jobDoneItem) => (getObjectArrayItem(jobDoneItem, jobDoneItem.getJobDone())))
       );
     },
   }),
@@ -91,7 +91,7 @@ boolean & MentorComment[]>[] = [
     cell: ({row}) => {
       return (
         row.original.plansForNextPeriod
-          ?.map((planForNextPeriodItem) =>
+          .map((planForNextPeriodItem) =>
             (getObjectArrayItem(planForNextPeriodItem, planForNextPeriodItem.getPlanForNextPeriod())))
       );
     },
@@ -101,7 +101,7 @@ boolean & MentorComment[]>[] = [
     cell: ({row}) => {
       return (
         row.original.problemsForCurrentPeriod
-          ?.map((currentProblemItem) =>
+          .map((currentProblemItem) =>
             (getObjectArrayItem(currentProblemItem, currentProblemItem.description)))
       );
     },
@@ -113,7 +113,7 @@ boolean & MentorComment[]>[] = [
 
       return (
         row.original.studentComments
-          ?.map((studentCommentItem) => (renderStringItem({text: studentCommentItem, key: parentID})))
+          .map((studentCommentItem) => (renderStringCell({text: studentCommentItem, key: parentID})))
       );
     },
   }),
@@ -123,7 +123,7 @@ boolean & MentorComment[]>[] = [
       const parentID = row.original.uuid;
       return (
         row.original.learnedForToday
-          ?.map((learnedForTodayItem) => (renderStringItem({text: learnedForTodayItem, key: parentID})))
+          .map((learnedForTodayItem) => (renderStringCell({text: learnedForTodayItem, key: parentID})))
       );
     },
   }),
@@ -133,7 +133,7 @@ boolean & MentorComment[]>[] = [
       const parentID = row.original.uuid;
       return (
         row.original.mentorComments
-          ?.map((mentorComment) => (renderStringItem(
+          .map((mentorComment) => (renderStringCell(
             {text: mentorComment.description, key: parentID, isDone: mentorComment.isDone},
           )))
       );
