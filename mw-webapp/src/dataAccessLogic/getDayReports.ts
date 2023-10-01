@@ -4,10 +4,7 @@ import {getCurrentProblems} from "src/dataAccessLogic/getCurrentProblems";
 import {getJobsDone} from "src/dataAccessLogic/getJobsDone";
 import {getMentorComments} from "src/dataAccessLogic/getMentorComments";
 import {getPlansForNextPeriod} from "src/dataAccessLogic/getPlansForNextPeriod";
-import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {DayReport} from "src/model/businessModel/DayReport";
-import {JobDone} from "src/model/businessModel/JobDone";
-import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
 import {DayReportService} from "src/service/DayReportService";
 
 /**
@@ -24,22 +21,31 @@ export const getDayReports = async (): Promise<DayReport[]> => {
   const firstReport = dayReportsDTO[0];
 
   const jobsDone = firstReport.jobsDone.map((jobDoneUuid) => {
-    const jobDone: JobDone = jobsDonePreview
-      .find((elem) => elem.uuid === jobDoneUuid) ?? {} as JobDone;
+    const jobDone = jobsDonePreview
+      .find((elem) => elem.uuid === jobDoneUuid);
+    if (!jobDone) {
+      throw new Error(`JobDone not found for UUID ${jobDone}`);
+    }
     return jobDone;
   });
 
   const plansForNextPeriod = firstReport.plansForNextPeriod
     .map((planForNextPeriodUuid) => {
-      const planForNextPeriod: PlanForNextPeriod = plansForNextPeriodPreview
-        .find((elem) => elem.uuid === planForNextPeriodUuid) ?? {} as PlanForNextPeriod;
+      const planForNextPeriod = plansForNextPeriodPreview
+        .find((elem) => elem.uuid === planForNextPeriodUuid);
+      if (!planForNextPeriod) {
+        throw new Error(`PlanForNextPeriod not found for UUID ${planForNextPeriod}`);
+      }
       return planForNextPeriod;
     });
 
   const problemsForCurrentPeriod = firstReport.problemsForCurrentPeriod
     .map((problemForCurrentPeriodUuid) => {
-      const problemForCurrentPeriod: CurrentProblem = problemsForCurrentPeriodPreview
-        .find((elem) => elem.uuid === problemForCurrentPeriodUuid) ?? {} as CurrentProblem;
+      const problemForCurrentPeriod = problemsForCurrentPeriodPreview
+        .find((elem) => elem.uuid === problemForCurrentPeriodUuid);
+      if (!problemForCurrentPeriod) {
+        throw new Error(`CurrentProblem not found for UUID ${problemForCurrentPeriod}`);
+      }
       return problemForCurrentPeriod;
     });
 
