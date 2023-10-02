@@ -8,7 +8,6 @@ interface ButtonProps {
   /**
   * Callback triggered on button click
   */
-
   onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
