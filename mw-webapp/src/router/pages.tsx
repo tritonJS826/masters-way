@@ -1,7 +1,8 @@
-import {AuthPage} from "src/pages/authPage/AuthPage";
-import {MainPage} from "src/pages/mainPage/MainPage";
-import {Page404} from "src/pages/page404/Page404";
-import {WaysPage} from "src/pages/waysPage/WaysPage";
+import { AuthPage } from "src/pages/authPage/AuthPage";
+import { MainPage } from "src/pages/mainPage/MainPage";
+import { WaysPage } from "src/pages/waysPage/WaysPage";
+import { UsersPage } from "src/pages/usersPage/UsersPage";
+import { Page404 } from "src/pages/page404/Page404";
 
 /**
  * Pages meta data
@@ -18,6 +19,10 @@ export const pages = {
   waysPage: {
     path: "waysPage",
     element: <WaysPage />,
+  },
+  users: {
+    path: "users",
+    element: <UsersPage />,
   },
   page404: {
     path: "*",

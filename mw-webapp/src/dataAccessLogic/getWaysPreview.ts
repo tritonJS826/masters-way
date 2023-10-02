@@ -20,6 +20,7 @@ export const getWaysPreview = async (): Promise<WayPreview[]> => {
   const currentMentors = firstWay.currentMentors.map((currentMentorUuid) => {
     const currentMentor: UserPreview = usersPreview
       .find((elem) => elem.uuid === currentMentorUuid) ?? {} as UserPreview;
+
     return currentMentor;
   });
 
@@ -29,5 +30,6 @@ export const getWaysPreview = async (): Promise<WayPreview[]> => {
   };
 
   const ways: WayPreview[] = waysDTO.map((wayPreview) => wayDTOToWayPreviewConverter(wayPreview, wayProps));
+
   return ways;
 };
