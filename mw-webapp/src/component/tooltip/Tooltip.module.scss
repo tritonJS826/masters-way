@@ -1,0 +1,41 @@
+.wrapper {
+  position: relative;
+}
+
+.target {
+  cursor: pointer;
+
+  &:hover + .tooltip {
+    display: block;
+  }
+}
+
+.tooltip {
+  display: none;
+  position: absolute;
+  overflow: hidden;
+}
+
+.top {
+  transform: translateY(-100%) translateX(-50%);
+  top: -5px;
+  left: 50%;
+}
+
+.right {
+  right: -5px;
+  transform: translateX(100%) translateY(-50%);
+  top: 50%;
+}
+
+.bottom {
+  bottom: -5px;
+  transform: translateY(100%) translateX(-50%);
+  left: 50%;
+}
+
+.left {
+  left: -5px;
+  transform: translateX(-100%) translateY(-50%);
+  top: 50%;
+}

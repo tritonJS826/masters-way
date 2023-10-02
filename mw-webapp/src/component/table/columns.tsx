@@ -121,6 +121,7 @@ boolean & MentorComment[]>[] = [
     header: "Learned for today",
     cell: ({row}) => {
       const parentID = row.original.uuid;
+
       return (
         row.original.learnedForToday
           .map((learnedForTodayItem) => (renderStringCell({text: learnedForTodayItem, key: parentID})))
@@ -130,6 +131,7 @@ boolean & MentorComment[]>[] = [
   columnHelper.accessor<"mentorComments", MentorComment[]>("mentorComments", {
     header: "Mentor comments",
     cell: ({row}) => {
+
 
       return (
         row.original.mentorComments

@@ -17,6 +17,7 @@ export const getUsersPreview = async (): Promise<UserPreview[]> => {
   const ownWays = firstUser.ownWays.map((ownWayUuid) => {
     const ownWay: WayPreview = waysPreview
       .find((elem) => elem.uuid === ownWayUuid) ?? {} as WayPreview;
+
     return ownWay;
   });
 

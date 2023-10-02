@@ -17,7 +17,6 @@ export const getDayReports = async (): Promise<DayReport[]> => {
   const plansForNextPeriodPreview = await getPlansForNextPeriod();
   const mentorCommentsPreview = await getMentorComments();
   const problemsForCurrentPeriodPreview = await getCurrentProblems();
-
   const firstReport = dayReportsDTO[0];
 
   const jobsDone = firstReport.jobsDone.map((jobDoneUuid) => {
@@ -26,16 +25,19 @@ export const getDayReports = async (): Promise<DayReport[]> => {
     if (!jobDone) {
       throw new Error(`JobDone not found for UUID ${jobDone}`);
     }
+
     return jobDone;
   });
 
   const plansForNextPeriod = firstReport.plansForNextPeriod
     .map((planForNextPeriodUuid) => {
+
       const planForNextPeriod = plansForNextPeriodPreview
         .find((elem) => elem.uuid === planForNextPeriodUuid);
       if (!planForNextPeriod) {
         throw new Error(`PlanForNextPeriod not found for UUID ${planForNextPeriod}`);
       }
+
       return planForNextPeriod;
     });
 
@@ -46,6 +48,7 @@ export const getDayReports = async (): Promise<DayReport[]> => {
       if (!problemForCurrentPeriod) {
         throw new Error(`CurrentProblem not found for UUID ${problemForCurrentPeriod}`);
       }
+
       return problemForCurrentPeriod;
     });
 
@@ -56,6 +59,7 @@ export const getDayReports = async (): Promise<DayReport[]> => {
       if (!mentorComment) {
         throw new Error(`MentorComment not found for UUID ${mentorCommentUuid}`);
       }
+
       return mentorComment;
     });
 
