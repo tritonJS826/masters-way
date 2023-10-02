@@ -17,6 +17,7 @@ export class MentorCommentsService {
   public static async getMentorCommentsDTO(): Promise<MentorCommentDTO[]> {
     const mentorCommentsRaw = await getDocs(collection(db, PATH_TO_MENTOR_COMMENTS_COLLECTION));
     const mentorComments: MentorCommentDTO[] = querySnapshotToDTOConverter<MentorCommentDTO>(mentorCommentsRaw);
+
     return mentorComments;
   }
 
