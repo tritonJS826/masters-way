@@ -13,12 +13,12 @@ export const Router = () => {
         element={pages.auth.element}
       />
       <Route
-        path={pages.page404.path}
-        element={pages.page404.element}
-      />
-      <Route
         path={pages.waysPage.path}
         element={pages.waysPage.element}
+      />
+      <Route
+        path={pages.page404.path}
+        element={pages.page404.element}
       />
     </Routes>
   );
