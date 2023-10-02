@@ -35,6 +35,7 @@
       { "ignoreInlineComments": true, "ignoreConsecutiveComments": true }
     ],
     "no-magic-numbers": ["error" , { "ignore": [0] }],
+    "multiline-ternary": ["error", "always-multiline"],
     "no-console": "error",
     "react/react-in-jsx-scope": "off",
     "no-tabs": ["error", { "allowIndentationTabs": true }],
