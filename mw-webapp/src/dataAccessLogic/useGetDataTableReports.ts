@@ -3,8 +3,8 @@ import {getDayReports} from "src/dataAccessLogic/getDayReports";
 import {DayReport} from "src/model/businessModel/DayReport";
 
 /**
- * Reports requests: {@link getDayReports}
- * @returns {DayReport[]} data of reports
+ * Receives and transfer data of reports
+ * @returns {DayReport[]}
  */
 export const useGetDataTableReports = () => {
   const [data, setData] = useState<DayReport[]>([]);

@@ -2,7 +2,7 @@ import {useMemo} from "react";
 import {getCoreRowModel, HeaderGroup, RowModel, useReactTable} from "@tanstack/react-table";
 import {columns} from "src/component/table/columns";
 import {Table} from "src/component/table/Table";
-import {useGetDataTableReports} from "src/dataAccessLogic/useGetDataTable";
+import {useGetDataTableReports} from "src/dataAccessLogic/useGetDataTableReports";
 
 /**
  * Props table of reports
