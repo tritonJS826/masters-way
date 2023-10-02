@@ -1,7 +1,7 @@
 import {memo} from "react";
 import {flexRender} from "@tanstack/react-table";
 import {DayReport} from "src/model/businessModel/DayReport";
-import {TableReportsProps} from "src/pages/reportsTable/ReportsTable";
+import {ReportsTableProps} from "src/pages/reportsTable/ReportsTable";
 import styles from "src/component/table/Table.module.scss";
 
 /**
@@ -11,7 +11,7 @@ interface TableProps<T> {
   /**
   * Table's data
   */
-  data: TableReportsProps<T>;
+  data: ReportsTableProps<T>;
 }
 
 /**

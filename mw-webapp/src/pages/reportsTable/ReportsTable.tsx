@@ -7,7 +7,7 @@ import {useGetDataTableReports} from "src/dataAccessLogic/useGetDataTable";
 /**
  * Props table of reports
  */
-export interface TableReportsProps<T> {
+export interface ReportsTableProps<T> {
   /**
  * Table headers
  */
