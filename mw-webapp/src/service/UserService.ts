@@ -6,7 +6,7 @@ import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotTo
 const PATH_TO_USERS_COLLECTION = "users";
 
 /**
- * Users requests: {@link getUsers}, {@link createUser}, {@link updateUser}, {@link deleteUser}
+ * Provides methods to interact with the Users collection in Firestore.
  */
 export class UserService {
 
@@ -17,6 +17,7 @@ export class UserService {
   public static async getUsersDTO(): Promise<UserDTO[]> {
     const usersRaw = await getDocs(collection(db, PATH_TO_USERS_COLLECTION));
     const users: UserDTO[] = querySnapshotToDTOConverter<UserDTO>(usersRaw);
+
     return users;
   }
 
@@ -29,9 +30,6 @@ export class UserService {
       uuid: data.uuid,
       email: data.email,
       name: data.name,
-      ownWays: data.ownWays,
-      favoriteWays: data.favoriteWays,
-      mentoringWays: data.mentoringWays,
     });
   }
 

@@ -1,6 +1,7 @@
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
+import {MentorComment} from "src/model/businessModel/MentorComment";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
 import {DayReportDTO} from "src/model/firebaseCollection/DayReportDTO";
 
@@ -8,6 +9,7 @@ interface DayReportProps {
   jobsDone: JobDone[];
   plansForNextPeriod: PlanForNextPeriod[];
   problemsForCurrentPeriod: CurrentProblem[];
+  mentorComments: MentorComment[];
 }
 
 /**
@@ -23,6 +25,7 @@ export const dayReportDTOToDayReportConverter = (dayReportDTO: DayReportDTO, day
     jobsDone: dayReportProps.jobsDone,
     plansForNextPeriod: dayReportProps.plansForNextPeriod,
     problemsForCurrentPeriod: dayReportProps.problemsForCurrentPeriod,
+    mentorComments: dayReportProps.mentorComments,
   });
 };
 
