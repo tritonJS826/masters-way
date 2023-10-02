@@ -28,11 +28,13 @@ export class ErrorBoundary extends Component<PropsWithChildren, State> {
   }
 
   public componentDidCatch(): void {
+    // Update state so the next render will show the fallback UI.
     this.setState({hasError: true});
   }
 
   public render(): React.ReactNode {
     if (this.state.hasError) {
+    // You can render the fallback UI.
       return (<h1>
         Something went wrong.
       </h1>);

@@ -2,7 +2,7 @@ import {ErrorBoundary} from "src/component/errorBoundary/ErrorBoundary";
 import {Header} from "src/component/header/Header";
 import {Router} from "src/router/Router";
 
-const App = () => {
+export const App = () => {
   return (
     <ErrorBoundary>
       <Header />
@@ -10,5 +10,3 @@ const App = () => {
     </ErrorBoundary>
   );
 };
-
-export default App;
