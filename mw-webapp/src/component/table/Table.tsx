@@ -1,22 +1,28 @@
 import {memo} from "react";
 import {flexRender} from "@tanstack/react-table";
-import {TableReports} from "src/pages/reportsTable/ReportsTable";
+import {DayReport} from "src/model/businessModel/DayReport";
+import {TableReportsProps} from "src/pages/reportsTable/ReportsTable";
 import styles from "src/component/table/Table.module.scss";
 
 /**
  * Table's props
  */
-interface TableProps {
+interface TableProps<T> {
   /**
   * Table's data
   */
-  data: TableReports;
+  data: TableReportsProps<T>;
 }
+
+/**
+ * Table's model
+ */
+type TablesModel = DayReport
 
 /**
  * Table
  */
-export const Table:React.FC<TableProps> = memo((props: TableProps) => {
+export const Table = memo(<T extends TablesModel >(props: TableProps<T>) => {
   const data = props.data;
   return (
     <div className={styles.container}>

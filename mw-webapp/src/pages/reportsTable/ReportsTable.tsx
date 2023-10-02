@@ -2,22 +2,20 @@ import {useMemo} from "react";
 import {getCoreRowModel, HeaderGroup, RowModel, useReactTable} from "@tanstack/react-table";
 import {columns} from "src/component/table/columns";
 import {Table} from "src/component/table/Table";
-import {useGetDataTable} from "src/dataAccessLogic/useGetDataTable";
-import {DayReport} from "src/model/businessModel/DayReport";
-
+import {useGetDataTableReports} from "src/dataAccessLogic/useGetDataTable";
 
 /**
  * Props table of reports
  */
-export interface TableReports {
+export interface TableReportsProps<T> {
   /**
  * Table headers
  */
-  headerGroup: HeaderGroup<DayReport>[];
+  headerGroup: HeaderGroup<T>[];
   /**
  * Table rows
  */
-  rowModel: RowModel<DayReport>;
+  rowModel: RowModel<T>;
 }
 
 /**
@@ -25,7 +23,7 @@ export interface TableReports {
  * @returns {Table}
  */
 export const ReportsTable: React.FC = () => {
-  const data = useGetDataTable();
+  const data = useGetDataTableReports();
 
   const table = useReactTable({
     data,

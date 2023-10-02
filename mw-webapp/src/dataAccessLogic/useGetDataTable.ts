@@ -6,7 +6,7 @@ import {DayReport} from "src/model/businessModel/DayReport";
  * Reports requests: {@link getDayReports}
  * @returns {DayReport[]} data of reports
  */
-export const useGetDataTable = () => {
+export const useGetDataTableReports = () => {
   const [data, setData] = useState<DayReport[]>([]);
 
   const loadDayReports = async () => {
