@@ -1,4 +1,3 @@
-
 import {ReportsTable} from "../reportsTable/ReportsTable";
 import styles from "src/pages/mainPage/MainPage.module.scss";
 
