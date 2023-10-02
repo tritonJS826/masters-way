@@ -6,7 +6,7 @@ import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotTo
 const PATH_TO_WAYS_COLLECTION = "ways";
 
 /**
- * Ways requests: {@link getWays}
+ * Provides methods to interact with the Ways collection in Firestore.
  */
 export class WayService {
 

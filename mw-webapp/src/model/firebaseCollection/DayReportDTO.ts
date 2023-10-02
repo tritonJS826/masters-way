@@ -1,3 +1,4 @@
+
 /**
  * Day's report DTO model
  */
@@ -29,7 +30,7 @@ export class DayReportDTO {
   public problemsForCurrentPeriod: string[];
 
   /**
-   * Anything that student wants to say about work
+   * Student comments
    */
   public studentComments: string[];
 
