@@ -1,8 +1,21 @@
 import {memo} from "react";
-import {flexRender} from "@tanstack/react-table";
+import {flexRender, HeaderGroup, RowModel} from "@tanstack/react-table";
 import {DayReport} from "src/model/businessModel/DayReport";
-import {ReportsTableProps} from "src/pages/reportsTable/ReportsTable";
 import styles from "src/component/table/Table.module.scss";
+
+/**
+ * Tables data
+ */
+export interface TablesData<T> {
+  /**
+ * Table headers
+ */
+  headerGroup: HeaderGroup<T>[];
+  /**
+ * Table rows
+ */
+  rowModel: RowModel<T>;
+}
 
 /**
  * Table's props
@@ -11,7 +24,7 @@ interface TableProps<T> {
   /**
   * Table's data
   */
-  data: ReportsTableProps<T>;
+  data: TablesData<T>;
 }
 
 /**

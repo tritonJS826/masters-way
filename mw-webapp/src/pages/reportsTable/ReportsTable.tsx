@@ -1,22 +1,8 @@
 import {useMemo} from "react";
-import {getCoreRowModel, HeaderGroup, RowModel, useReactTable} from "@tanstack/react-table";
+import {getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import {columns} from "src/component/table/columns";
 import {Table} from "src/component/table/Table";
 import {useGetDataTableReports} from "src/dataAccessLogic/useGetDataTableReports";
-
-/**
- * Props table of reports
- */
-export interface ReportsTableProps<T> {
-  /**
- * Table headers
- */
-  headerGroup: HeaderGroup<T>[];
-  /**
- * Table rows
- */
-  rowModel: RowModel<T>;
-}
 
 /**
  * Render table of reports

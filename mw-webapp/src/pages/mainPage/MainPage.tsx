@@ -1,4 +1,4 @@
-import {ReportsTable} from "../reportsTable/ReportsTable";
+import {ReportsTable} from "src/pages/reportsTable/ReportsTable";
 import styles from "src/pages/mainPage/MainPage.module.scss";
 
 /**
