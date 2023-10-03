@@ -23,6 +23,7 @@ export const getPlansForNextPeriod = async (): Promise<PlanForNextPeriod[]> => {
 export const getPlanForNextPeriod = async (uuid: string): Promise<PlanForNextPeriod> => {
   const PlaForNextPeriodDTO = await PlanForNextPeriodService.getPlanForNextPeriodDTO(uuid);
   const planForNextPeriod = planForNextPeriodDTOToPlanForNextPeriodConverter(PlaForNextPeriodDTO);
+
   return planForNextPeriod;
 };
 

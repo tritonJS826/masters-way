@@ -6,6 +6,6 @@ import {MentorCommentDTO} from "src/model/firebaseCollection/MentorCommentDTO";
  * @param {MentorCommentDTO} mentorCommentDTO {@link MentorCommentDTO}
  * @returns {MentorComment} mentorComment {@link MentorComment}
  */
-export const MentorCommentDTOToMentorCommentConverter = (mentorCommentDTO: MentorCommentDTO): MentorComment => {
+export const mentorCommentDTOToMentorCommentConverter = (mentorCommentDTO: MentorCommentDTO): MentorComment => {
   return new MentorComment(mentorCommentDTO);
 };

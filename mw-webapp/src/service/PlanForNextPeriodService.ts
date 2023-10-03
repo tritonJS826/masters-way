@@ -29,6 +29,7 @@ export class PlanForNextPeriodService {
   public static async getPlanForNextPeriodDTO(uuid: string): Promise<PlanForNextPeriodDTO> {
     const planForNextPeriodRaw = await getDoc(doc(db, PATH_TO_PLANS_FOR_NEXT_PERIOD_COLLECTION, uuid));
     const planForNextPeriod: PlanForNextPeriodDTO = documentSnapshotToDTOConverter<PlanForNextPeriodDTO>(planForNextPeriodRaw);
+
     return planForNextPeriod;
   }
 

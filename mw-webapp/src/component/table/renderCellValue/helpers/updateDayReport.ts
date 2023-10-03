@@ -10,10 +10,6 @@ interface ColumnNameProps {
    */
   studentComments: string[];
   /**
-   * Mentor comments
-   */
-  mentorComments: string[];
-  /**
    * Learned for today
    */
   learnedForToday: string[];
@@ -32,6 +28,7 @@ export const updateDayReport = async (text: string, uuid: string, columnName: ke
       if (i === index) {
         return `${text}`;
       }
+
       return item;
     }),
   };

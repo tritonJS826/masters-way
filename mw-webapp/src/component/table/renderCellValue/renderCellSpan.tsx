@@ -1,7 +1,7 @@
 import styles from "src/component/table/columns.module.scss";
 
-const renderCellSpanWithValue = (value: string) => (
-  <span>
+const renderCellSpanWithValue = (value: string, isDone?: boolean) => (
+  <span className={isDone ? styles.completed : styles.notCompleted}>
     {value}
   </span>
 );
@@ -15,11 +15,12 @@ const renderCellEmptySpan = () => (
 /**
  * Render cell's span
  * @param {string} value
+ * @param {boolean} isDone
  * @returns {JSX.Element} JSX.Element
  */
-export const renderCellSpan = (value: string) => (
+export const renderCellSpan = (value: string, isDone?: boolean): JSX.Element => (
   (value !== "" && value !== " ") ?
-    renderCellSpanWithValue(value)
+    renderCellSpanWithValue(value, isDone)
     :
     renderCellEmptySpan()
 );

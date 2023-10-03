@@ -85,32 +85,57 @@ export const getDayReport = async (uuid: string): Promise<DayReport> => {
   const dayReportDTO = await DayReportService.getDayReportDTO(uuid);
   const jobsDonePreview = await getJobsDone();
   const plansForNextPeriodPreview = await getPlansForNextPeriod();
+  const mentorCommentsPreview = await getMentorComments();
   const problemsForCurrentPeriodPreview = await getCurrentProblems();
 
   const jobsDone = dayReportDTO.jobsDone.map((jobDoneUuid) => {
-    const jobDone: JobDone = jobsDonePreview
-      .find((elem) => elem.uuid === jobDoneUuid) ?? {} as JobDone;
+    const jobDone = jobsDonePreview
+      .find((elem) => elem.uuid === jobDoneUuid);
+    if (!jobDone) {
+      throw new Error(`JobDone not found for UUID ${jobDone}`);
+    }
+
     return jobDone;
   });
 
   const plansForNextPeriod = dayReportDTO.plansForNextPeriod
     .map((planForNextPeriodUuid) => {
-      const planForNextPeriod: PlanForNextPeriod = plansForNextPeriodPreview
-        .find((elem) => elem.uuid === planForNextPeriodUuid) ?? {} as PlanForNextPeriod;
+      const planForNextPeriod = plansForNextPeriodPreview
+        .find((elem) => elem.uuid === planForNextPeriodUuid);
+      if (!planForNextPeriod) {
+        throw new Error(`PlanForNextPeriod not found for UUID ${planForNextPeriod}`);
+      }
+
       return planForNextPeriod;
     });
 
   const problemsForCurrentPeriod = dayReportDTO.problemsForCurrentPeriod
     .map((problemForCurrentPeriodUuid) => {
-      const problemForCurrentPeriod: CurrentProblem = problemsForCurrentPeriodPreview
-        .find((elem) => elem.uuid === problemForCurrentPeriodUuid) ?? {} as CurrentProblem;
+      const problemForCurrentPeriod = problemsForCurrentPeriodPreview
+        .find((elem) => elem.uuid === problemForCurrentPeriodUuid);
+      if (!problemForCurrentPeriod) {
+        throw new Error(`MentorComment not found for UUID ${problemForCurrentPeriod}`);
+      }
+
       return problemForCurrentPeriod;
+    });
+
+  const mentorComments = dayReportDTO.mentorComments
+    .map((mentorCommentUuid) => {
+      const mentorComment = mentorCommentsPreview
+        .find((elem) => elem.uuid === mentorCommentUuid);
+      if (!mentorComment) {
+        throw new Error(`MentorComment not found for UUID ${mentorComment}`);
+      }
+
+      return mentorComment;
     });
 
   const dayReportProps = {
     jobsDone,
     plansForNextPeriod,
     problemsForCurrentPeriod,
+    mentorComments,
   };
 
   const dayReport = dayReportDTOToDayReportConverter(dayReportDTO, dayReportProps);
@@ -126,11 +151,14 @@ export const updatesDayReport = async (dayReport: DayReport) => {
   const jobsDone = dayReport.jobsDone.map((item) => item.uuid);
   const plansForNextPeriod = dayReport.plansForNextPeriod.map((item) => item.uuid);
   const problemsForCurrentPeriod = dayReport.problemsForCurrentPeriod.map((item) => item.uuid);
+  const mentorComments = dayReport.mentorComments.map((item) => item.uuid);
+
 
   const dayReportDTOProps = {
     jobsDone,
     plansForNextPeriod,
     problemsForCurrentPeriod,
+    mentorComments,
   };
 
   const dayReportDTO = dayReportToDayReportDTOConverter(dayReport, dayReportDTOProps);

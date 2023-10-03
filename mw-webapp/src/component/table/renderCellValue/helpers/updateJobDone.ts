@@ -12,7 +12,7 @@ export const updateJobDone = async (text: string, uuid: string) => {
   const updatedJobDone: JobDone = new JobDone({
     ...oldJobDone,
     description: text.replace(/\d/g, ""),
-    time: time,
+    time,
   });
   await updatesJobDone(updatedJobDone);
 };

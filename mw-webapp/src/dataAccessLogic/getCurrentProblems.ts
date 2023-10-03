@@ -23,6 +23,7 @@ export const getCurrentProblems = async (): Promise<CurrentProblem[]> => {
 export const getCurrentProblem = async (uuid: string): Promise<CurrentProblem> => {
   const CurrentProblemDTO = await CurrentProblemService.getCurrentProblemDTO(uuid);
   const currentProblem = currentProblemDTOToCurrentProblemConverter(CurrentProblemDTO);
+
   return currentProblem;
 };
 

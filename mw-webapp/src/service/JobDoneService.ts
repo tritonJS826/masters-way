@@ -29,6 +29,7 @@ export class JobDoneService {
   public static async getJobDoneDTO(uuid: string): Promise<JobDoneDTO> {
     const jobDoneRaw = await getDoc(doc(db, PATH_TO_JOBS_DONE_COLLECTION, uuid));
     const jobDone: JobDoneDTO = documentSnapshotToDTOConverter<JobDoneDTO>(jobDoneRaw);
+
     return jobDone;
   }
 

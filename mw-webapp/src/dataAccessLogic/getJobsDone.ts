@@ -21,6 +21,7 @@ export const getJobsDone = async (): Promise<JobDone[]> => {
 export const getJobDone = async (uuid: string): Promise<JobDone> => {
   const jobDoneDTO = await JobDoneService.getJobDoneDTO(uuid);
   const jobDone = jobDoneDTOToJobDoneConverter(jobDoneDTO);
+
   return jobDone;
 };
 

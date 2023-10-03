@@ -29,6 +29,7 @@ export class CurrentProblemService {
   public static async getCurrentProblemDTO(uuid: string): Promise<CurrentProblemDTO> {
     const currentProblemRaw = await getDoc(doc(db, PATH_TO_CURRENT_PROBLEMS_COLLECTION, uuid));
     const currentProblem: CurrentProblemDTO = documentSnapshotToDTOConverter<CurrentProblemDTO>(currentProblemRaw);
+
     return currentProblem;
   }
 

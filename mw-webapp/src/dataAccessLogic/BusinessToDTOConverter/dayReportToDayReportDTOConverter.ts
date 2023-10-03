@@ -6,6 +6,7 @@ interface DayReportDTOProps {
   jobsDone: string[];
   plansForNextPeriod: string[];
   problemsForCurrentPeriod: string[];
+  mentorComments: string[];
 }
 
 /**
@@ -21,6 +22,7 @@ export const dayReportToDayReportDTOConverter = (dayReport: DayReport, dayReport
     jobsDone: dayReportDTOProps.jobsDone,
     plansForNextPeriod: dayReportDTOProps.plansForNextPeriod,
     problemsForCurrentPeriod: dayReportDTOProps.problemsForCurrentPeriod,
+    mentorComments: dayReportDTOProps.mentorComments,
   });
 };
 

@@ -12,7 +12,7 @@ export const updatePlanForNextPeriod = async (text: string, uuid: string) => {
   const job = text.replace(/\d/g, "");
   const updatedPlanForNextPeriod: PlanForNextPeriod = new PlanForNextPeriod({
     ...oldPlanForNextPeriod,
-    job: job,
+    job,
     estimationTime: time,
   });
 

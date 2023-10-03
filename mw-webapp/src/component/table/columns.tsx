@@ -42,8 +42,8 @@ export const columns: ColumnDef<DayReport, DayReportCells>[] = [
     cell: ({row}) => {
       return (
         row.original.plansForNextPeriod
-          .map((planForNextPeriodItem) =>
-            (renderCellItem({item: planForNextPeriodItem.getPlanForNextPeriod(), arrayItem: planForNextPeriodItem})))
+          .map((planForNextPeriod) =>
+            (renderCellItem({item: planForNextPeriod.getPlanForNextPeriod(), arrayItem: planForNextPeriod})))
       );
     },
   }),
@@ -52,8 +52,8 @@ export const columns: ColumnDef<DayReport, DayReportCells>[] = [
     cell: ({row}) => {
       return (
         row.original.problemsForCurrentPeriod
-          .map((currentProblemItem) =>
-            (renderCellItem({item: currentProblemItem.description, arrayItem: currentProblemItem})))
+          .map((currentProblem) =>
+            (renderCellItem({item: currentProblem.description, arrayItem: currentProblem, isDone: currentProblem.isDone})))
       );
     },
   }),
@@ -61,6 +61,7 @@ export const columns: ColumnDef<DayReport, DayReportCells>[] = [
     header: "Student comments",
     cell: ({row}) => {
       const parentUuid = row.original.uuid;
+
       return (
         row.original.studentComments
           .map((item, index) => renderCellItem({item, parentUuid, columnName: "studentComments", index}))
@@ -71,6 +72,7 @@ export const columns: ColumnDef<DayReport, DayReportCells>[] = [
     header: "Learned for today",
     cell: ({row}) => {
       const parentUuid = row.original.uuid;
+
       return (
         row.original.learnedForToday
           .map((item, index) => renderCellItem({item, parentUuid, columnName: "learnedForToday", index}))
@@ -82,7 +84,8 @@ export const columns: ColumnDef<DayReport, DayReportCells>[] = [
     cell: ({row}) => {
       return (
         row.original.mentorComments
-          .map((mentorComment) => renderCellItem({item: mentorComment.description, arrayItem: mentorComment}))
+          .map((mentorComment) =>
+            renderCellItem({item: mentorComment.description, arrayItem: mentorComment, isDone: mentorComment.isDone}))
       );
     },
   }),

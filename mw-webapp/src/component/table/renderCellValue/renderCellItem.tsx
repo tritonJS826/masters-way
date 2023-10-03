@@ -6,20 +6,21 @@ import {updateCell} from "src/component/table/renderCellValue/helpers/updateCell
 import {renderCellSpan} from "src/component/table/renderCellValue/renderCellSpan";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {JobDone} from "src/model/businessModel/JobDone";
+import {MentorComment} from "src/model/businessModel/MentorComment";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
 
 interface ColumnNameProps {
   studentComments: string[];
-  mentorComments: string[];
   learnedForToday: string[];
 }
 
 interface CellItemProps {
   item: string;
-  arrayItem?: JobDone | PlanForNextPeriod | CurrentProblem;
+  arrayItem?: JobDone | PlanForNextPeriod | CurrentProblem | MentorComment;
   parentUuid?: string;
   columnName?: keyof ColumnNameProps;
   index?: number;
+  isDone?: boolean;
 }
 
 /**
@@ -57,7 +58,7 @@ export const renderCellItem = (props: CellItemProps): JSX.Element => {
       {isEditing
         ? renderInput()
         :
-        renderCellSpan(text)
+        renderCellSpan(text, props.isDone)
       }
     </div>
   );
