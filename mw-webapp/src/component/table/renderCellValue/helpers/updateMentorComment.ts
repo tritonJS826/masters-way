@@ -1,4 +1,4 @@
-import {getMentorComment, updatesMentorComment} from "src/dataAccessLogic/getMentorComments";
+import {MentorCommentDAL} from "src/dataAccessLogic/MentorCommentDAL";
 import {MentorComment} from "src/model/businessModel/MentorComment";
 
 /**
@@ -7,10 +7,10 @@ import {MentorComment} from "src/model/businessModel/MentorComment";
  * @param {string} uuid
  */
 export const updateMentorComment = async (text: string, uuid: string) => {
-  const oldMentorComment = await getMentorComment(uuid);
+  const oldMentorComment = await MentorCommentDAL.getMentorComment(uuid);
   const updatedMentorComment: MentorComment = new MentorComment({
     ...oldMentorComment,
     description: text,
   });
-  await updatesMentorComment(updatedMentorComment);
+  await MentorCommentDAL.updateMentorComment(updatedMentorComment);
 };

@@ -3,22 +3,27 @@ import {updateDayReport} from "src/component/table/renderCellValue/helpers/updat
 import {updateJobDone} from "src/component/table/renderCellValue/helpers/updateJobDone";
 import {updateMentorComment} from "src/component/table/renderCellValue/helpers/updateMentorComment";
 import {updatePlanForNextPeriod} from "src/component/table/renderCellValue/helpers/updatePlanForNextPeriod";
+import {ColumnNameProps} from "src/component/table/renderCellValue/renderCellItem";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {MentorComment} from "src/model/businessModel/MentorComment";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
 
-interface DayReportProps {
-  studentComments: string[];
-  learnedForToday: string[];
-}
-
+/**
+ * Update cell value
+ * @param {string} text
+ * @param {function} callback
+ * @param {JobDone | PlanForNextPeriod | CurrentProblem | MentorComment | string} arrayItem
+ * @param {string} parentUuid
+ * @param {keyof ColumnNameProps} columnName
+ * @param {number} index
+ */
 export const updateCell = (
   text: string,
   callback: (arg: boolean) => void,
   arrayItem?: JobDone | PlanForNextPeriod | CurrentProblem | MentorComment | string,
   parentUuid?: string,
-  columnName?: keyof DayReportProps,
+  columnName?: keyof ColumnNameProps,
   index?: number,
 ) => {
   if (arrayItem instanceof JobDone) {

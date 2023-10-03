@@ -1,4 +1,4 @@
-import {getJobDone, updatesJobDone} from "src/dataAccessLogic/getJobsDone";
+import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
 import {JobDone} from "src/model/businessModel/JobDone";
 
 /**
@@ -7,12 +7,12 @@ import {JobDone} from "src/model/businessModel/JobDone";
  * @param {string} uuid
  */
 export const updateJobDone = async (text: string, uuid: string) => {
-  const oldJobDone = await getJobDone(uuid);
+  const oldJobDone = await JobDoneDAL.getJobDone(uuid);
   const time = Number(/\d+/.exec(text)) ?? 0;
   const updatedJobDone: JobDone = new JobDone({
     ...oldJobDone,
     description: text.replace(/\d/g, ""),
     time,
   });
-  await updatesJobDone(updatedJobDone);
+  await JobDoneDAL.updateJobDone(updatedJobDone);
 };

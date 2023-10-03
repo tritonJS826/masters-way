@@ -1,4 +1,4 @@
-import {getCurrentProblem, updatesCurrentProblem} from "src/dataAccessLogic/getCurrentProblems";
+import {CurrentProblemDAL} from "src/dataAccessLogic/CurrentProblemDAL";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 
 /**
@@ -7,10 +7,10 @@ import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
  * @param {string} uuid
  */
 export const updateCurrentProblem = async (text: string, uuid: string) => {
-  const oldCurrentProblem = await getCurrentProblem(uuid);
+  const oldCurrentProblem = await CurrentProblemDAL.getCurrentProblem(uuid);
   const updatedCurrentProblem: CurrentProblem = new CurrentProblem({
     ...oldCurrentProblem,
     description: text,
   });
-  await updatesCurrentProblem(updatedCurrentProblem);
+  await CurrentProblemDAL.updateCurrentProblem(updatedCurrentProblem);
 };

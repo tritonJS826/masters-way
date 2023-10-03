@@ -5,7 +5,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import {columns} from "src/component/table/columns";
-import {getDayReports} from "src/dataAccessLogic/getDayReports";
+import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {DayReport} from "src/model/businessModel/DayReport";
 import styles from "src/component/table/Table.module.scss";
 
@@ -15,7 +15,7 @@ import styles from "src/component/table/Table.module.scss";
 export const Table = () => {
   const [data, setData] = useState<DayReport[]>([]);
   const loadDayReports = async () => {
-    const dayReports = await getDayReports();
+    const dayReports = await DayReportDAL.getDayReports();
     setData(dayReports);
   };
 

@@ -14,6 +14,9 @@ const columnHelper = createColumnHelper<DayReport>();
 
 type DayReportCells = Date & JobDone[] & PlanForNextPeriod[] & CurrentProblem[] & MentorComment[] & string[] & boolean;
 
+/**
+ * Render cells in table with data types {@link DayReportCells}
+ */
 export const columns: ColumnDef<DayReport, DayReportCells>[] = [
   columnHelper.accessor<"date", Date>("date", {
     header: "Date",
@@ -64,7 +67,8 @@ export const columns: ColumnDef<DayReport, DayReportCells>[] = [
 
       return (
         row.original.studentComments
-          .map((item, index) => renderCellItem({item, parentUuid, columnName: "studentComments", index}))
+          .map((studentComment, index) =>
+            renderCellItem({item: studentComment, parentUuid, columnName: "studentComments", index}))
       );
     },
   }),
@@ -75,7 +79,8 @@ export const columns: ColumnDef<DayReport, DayReportCells>[] = [
 
       return (
         row.original.learnedForToday
-          .map((item, index) => renderCellItem({item, parentUuid, columnName: "learnedForToday", index}))
+          .map((learnedForToday, index) =>
+            renderCellItem({item: learnedForToday, parentUuid, columnName: "learnedForToday", index}))
       );
     },
   }),

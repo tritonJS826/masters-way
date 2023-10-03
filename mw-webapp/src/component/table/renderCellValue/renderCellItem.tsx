@@ -9,17 +9,47 @@ import {JobDone} from "src/model/businessModel/JobDone";
 import {MentorComment} from "src/model/businessModel/MentorComment";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
 
-interface ColumnNameProps {
+/**
+ * Properties of {@link DayReport} that have type string[] for dynamic update
+ */
+export interface ColumnNameProps {
+  /**
+   * Student comments
+   */
   studentComments: string[];
+  /**
+   * LearnedForToday
+   */
   learnedForToday: string[];
 }
 
+/**
+ * Cell item props
+ */
 interface CellItemProps {
+  /**
+   * Cell item's text
+   */
   item: string;
+  /**
+   * Element of custom arrays
+   */
   arrayItem?: JobDone | PlanForNextPeriod | CurrentProblem | MentorComment;
+  /**
+   * Parent uuid for cells with type string[]
+   */
   parentUuid?: string;
+  /**
+   * Column name for cells with type string[]
+   */
   columnName?: keyof ColumnNameProps;
+  /**
+   * Index of element for cells with type string[]
+   */
   index?: number;
+  /**
+   * Value isDone for different styles for cells with type string[]
+   */
   isDone?: boolean;
 }
 

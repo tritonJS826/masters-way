@@ -1,19 +1,6 @@
-import {getDayReport, updatesDayReport} from "src/dataAccessLogic/getDayReports";
+import {ColumnNameProps} from "src/component/table/renderCellValue/renderCellItem";
+import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {DayReport} from "src/model/businessModel/DayReport";
-
-/**
- * Properties of {@link DayReport} that have type string[] for dynamic update
- */
-interface ColumnNameProps {
-  /**
-   * Student comments
-   */
-  studentComments: string[];
-  /**
-   * Learned for today
-   */
-  learnedForToday: string[];
-}
 
 /**
  * Update data in DayReport collection
@@ -21,7 +8,7 @@ interface ColumnNameProps {
  * @param {string} uuid
  */
 export const updateDayReport = async (text: string, uuid: string, columnName: keyof ColumnNameProps, index: number) => {
-  const oldDayReport = await getDayReport(uuid);
+  const oldDayReport = await DayReportDAL.getDayReport(uuid);
   const updatedDayReport: DayReport = {
     ...oldDayReport,
     [`${columnName}`]: oldDayReport[`${columnName}`].map((item: string, i: number) => {
@@ -32,5 +19,5 @@ export const updateDayReport = async (text: string, uuid: string, columnName: ke
       return item;
     }),
   };
-  await updatesDayReport(updatedDayReport);
+  await DayReportDAL.updateDayReport(updatedDayReport);
 };
