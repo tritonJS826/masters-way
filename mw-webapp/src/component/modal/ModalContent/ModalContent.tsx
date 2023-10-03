@@ -1,4 +1,4 @@
-import {ReactElement} from "react";
+import {PropsWithChildren, ReactElement} from "react";
 import {
   Close as DialogClose,
   Content as DialogContent,
@@ -8,17 +8,17 @@ import {
 import {Cross2Icon} from "@radix-ui/react-icons";
 import styles from "src/component/modal/ModalContent/ModalContent.module.scss";
 
-interface ModalContentProps {
+interface ModalContentProps<T> {
   /**
    * The content to be displayed within the modal.
    */
-  children: ReactElement<HTMLElement>;
+  children: ReactElement<T>;
 }
 
 /**
  * Displays the content within a modal.
  */
-export const ModalContent = (props: ModalContentProps) => {
+export const ModalContent = <T extends HTMLElement>(props: PropsWithChildren<ModalContentProps<T>>) => {
   return (
     <DialogPortal>
       <DialogOverlay className={styles.dialogOverlay} />
