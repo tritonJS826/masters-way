@@ -15,8 +15,7 @@ interface DialogProps {
 }
 
 /**
- * A component that creates a modal dialog. It requires a trigger
- * element and content to display within the modal.
+ * A component that creates a modal dialog.
  */
 export const Modal = (props: DialogProps) => {
   return (
