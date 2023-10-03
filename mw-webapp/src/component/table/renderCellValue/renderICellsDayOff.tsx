@@ -1,7 +1,12 @@
 import {CellContext} from "@tanstack/react-table";
 import {DayReport} from "src/model/businessModel/DayReport";
 
-export const renderIsDayOff = (cellValue: CellContext<DayReport, boolean>) => {
+/**
+ * Render cell IsDayOff
+ * @param {CellContext<DayReport, boolean>} cellValue
+ * @returns {JSX.Element} JSX.Element
+ */
+export const renderCellIsDayOff = (cellValue: CellContext<DayReport, boolean>): JSX.Element => {
   return (
     cellValue.getValue() === true ?
       <div>

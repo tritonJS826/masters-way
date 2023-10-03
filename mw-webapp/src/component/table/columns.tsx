@@ -1,8 +1,7 @@
 import {ColumnDef, createColumnHelper} from "@tanstack/react-table";
-import {renderDate} from "src/component/table/renderDate";
-import {renderIsDayOff} from "src/component/table/renderIsDayOff";
-import {renderObjectArrayItem} from "src/component/table/renderObjectArrayItem";
-import {renderStringArray} from "src/component/table/renderStringArrayitem";
+import {renderCellDate} from "src/component/table/renderCellValue/renderCellDate";
+import {renderCellItem} from "src/component/table/renderCellValue/renderCellItem";
+import {renderCellIsDayOff} from "src/component/table/renderCellValue/renderICellsDayOff";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
@@ -17,7 +16,7 @@ type DayReportCells = Date & JobDone[] & PlanForNextPeriod[] & CurrentProblem[] 
 export const columns: ColumnDef<DayReport, DayReportCells>[] = [
   columnHelper.accessor<"date", Date>("date", {
     header: "Date",
-    cell: (dateValue) => renderDate(dateValue),
+    cell: (dateValue) => renderCellDate(dateValue),
   }),
   columnHelper.accessor<"jobsDone", JobDone[]>("jobsDone", {
     header: "Sum time",
@@ -33,7 +32,7 @@ export const columns: ColumnDef<DayReport, DayReportCells>[] = [
     cell: ({row}) => {
       return (
         row.original.jobsDone
-          .map((jobDoneItem) => (renderObjectArrayItem(jobDoneItem, jobDoneItem.getJobDone())))
+          .map((jobDoneItem) => (renderCellItem({item: jobDoneItem.getJobDone(), arrayItem: jobDoneItem})))
       );
     },
   }),
@@ -43,7 +42,7 @@ export const columns: ColumnDef<DayReport, DayReportCells>[] = [
       return (
         row.original.plansForNextPeriod
           .map((planForNextPeriodItem) =>
-            (renderObjectArrayItem(planForNextPeriodItem, planForNextPeriodItem.getPlanForNextPeriod())))
+            (renderCellItem({item: planForNextPeriodItem.getPlanForNextPeriod(), arrayItem: planForNextPeriodItem})))
       );
     },
   }),
@@ -53,42 +52,42 @@ export const columns: ColumnDef<DayReport, DayReportCells>[] = [
       return (
         row.original.problemsForCurrentPeriod
           .map((currentProblemItem) =>
-            (renderObjectArrayItem(currentProblemItem, currentProblemItem.description)))
+            (renderCellItem({item: currentProblemItem.description, arrayItem: currentProblemItem})))
       );
     },
   }),
   columnHelper.accessor<"studentComments", string[]>("studentComments", {
     header: "Student comments",
     cell: ({row}) => {
-      const parentID = row.original.uuid;
+      const parentUuid = row.original.uuid;
       return (
         row.original.studentComments
-          .map((studentCommentItem, index) => (renderStringArray(studentCommentItem, parentID, "studentComments", index)))
+          .map((item, index) => renderCellItem({item, parentUuid, columnName: "studentComments", index}))
       );
     },
   }),
   columnHelper.accessor<"learnedForToday", string[]>("learnedForToday", {
     header: "Learned for today",
     cell: ({row}) => {
-      const parentID = row.original.uuid;
+      const parentUuid = row.original.uuid;
       return (
         row.original.learnedForToday
-          .map((learnedForTodayItem, index) => (renderStringArray(learnedForTodayItem, parentID, "learnedForToday", index)))
+          .map((item, index) => renderCellItem({item, parentUuid, columnName: "learnedForToday", index}))
       );
     },
   }),
   columnHelper.accessor<"mentorComments", string[]>("mentorComments", {
     header: "Mentor comments",
     cell: ({row}) => {
-      const parentID = row.original.uuid;
+      const parentUuid = row.original.uuid;
       return (
-        row.original.mentorComments
-          .map((mentorCommentItem, index) => (renderStringArray(mentorCommentItem, parentID, "mentorComments", index)))
+        row.original["mentorComments"]
+          .map((item, index) => renderCellItem({item, parentUuid, columnName: "mentorComments", index}))
       );
     },
   }),
   columnHelper.accessor<"isDayOff", boolean>("isDayOff", {
     header: "Is day off",
-    cell: (isDAyOffValue) => renderIsDayOff(isDAyOffValue),
+    cell: (isDAyOffValue) => renderCellIsDayOff(isDAyOffValue),
   }),
 ];

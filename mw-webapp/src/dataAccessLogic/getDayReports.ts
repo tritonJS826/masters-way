@@ -1,3 +1,4 @@
+import {dayReportToDayReportDTOConverter} from "src/dataAccessLogic/BusinessToDTOConverter/dayReportToDayReportDTOConverter";
 import {dayReportDTOToDayReportConverter} from
   "src/dataAccessLogic/DTOToBusinessConverter/dayReportDTOToDayReportConverter";
 import {getCurrentProblems} from "src/dataAccessLogic/getCurrentProblems";
@@ -51,4 +52,64 @@ export const getDayReports = async (): Promise<DayReport[]> => {
     .map((dayReportPreview) => dayReportDTOToDayReportConverter(dayReportPreview, dayReportProps));
 
   return dayReports;
+};
+
+/**
+ * Day report
+ * @returns {Promise<DayReport>}
+ */
+export const getDayReport = async (uuid: string): Promise<DayReport> => {
+  const dayReportDTO = await DayReportService.getDayReportDTO(uuid);
+  const jobsDonePreview = await getJobsDone();
+  const plansForNextPeriodPreview = await getPlansForNextPeriod();
+  const problemsForCurrentPeriodPreview = await getCurrentProblems();
+
+  const jobsDone = dayReportDTO.jobsDone.map((jobDoneUuid) => {
+    const jobDone: JobDone = jobsDonePreview
+      .find((elem) => elem.uuid === jobDoneUuid) ?? {} as JobDone;
+    return jobDone;
+  });
+
+  const plansForNextPeriod = dayReportDTO.plansForNextPeriod
+    .map((planForNextPeriodUuid) => {
+      const planForNextPeriod: PlanForNextPeriod = plansForNextPeriodPreview
+        .find((elem) => elem.uuid === planForNextPeriodUuid) ?? {} as PlanForNextPeriod;
+      return planForNextPeriod;
+    });
+
+  const problemsForCurrentPeriod = dayReportDTO.problemsForCurrentPeriod
+    .map((problemForCurrentPeriodUuid) => {
+      const problemForCurrentPeriod: CurrentProblem = problemsForCurrentPeriodPreview
+        .find((elem) => elem.uuid === problemForCurrentPeriodUuid) ?? {} as CurrentProblem;
+      return problemForCurrentPeriod;
+    });
+
+  const dayReportProps = {
+    jobsDone,
+    plansForNextPeriod,
+    problemsForCurrentPeriod,
+  };
+
+  const dayReport = dayReportDTOToDayReportConverter(dayReportDTO, dayReportProps);
+
+  return dayReport;
+};
+
+/**
+ * Update day report
+ * @param {DayReport} dayReport
+ */
+export const updatesDayReport = async (dayReport: DayReport) => {
+  const jobsDone = dayReport.jobsDone.map((item) => item.uuid);
+  const plansForNextPeriod = dayReport.plansForNextPeriod.map((item) => item.uuid);
+  const problemsForCurrentPeriod = dayReport.problemsForCurrentPeriod.map((item) => item.uuid);
+
+  const dayReportDTOProps = {
+    jobsDone,
+    plansForNextPeriod,
+    problemsForCurrentPeriod,
+  };
+
+  const dayReportDTO = dayReportToDayReportDTOConverter(dayReport, dayReportDTOProps);
+  await DayReportService.updateDayReportDTO(dayReportDTO, dayReport.uuid);
 };
