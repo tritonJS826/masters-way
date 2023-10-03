@@ -1,6 +1,5 @@
 import {wayDTOToWayPreviewConverter} from "src/dataAccessLogic/DTOToPreviewConverter/wayDTOToWayPreviewConverter";
 import {getUsersPreview} from "src/dataAccessLogic/getUsersPreview";
-import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {WayService} from "src/service/WayService";
 
@@ -14,12 +13,20 @@ export const getWaysPreview = async (): Promise<WayPreview[]> => {
 
   const firstWay = waysDTO[0];
 
-  const owner: UserPreview = usersPreview
-    .find((elem) => elem.uuid === firstWay.ownerUuid) ?? {} as UserPreview;
+  const owner = usersPreview
+    .find((elem) => elem.uuid === firstWay.ownerUuid);
+
+  if (!owner) {
+    throw new Error(`owner not found for UUID ${firstWay.ownerUuid}`);
+  }
 
   const currentMentors = firstWay.currentMentors.map((currentMentorUuid) => {
-    const currentMentor: UserPreview = usersPreview
-      .find((elem) => elem.uuid === currentMentorUuid) ?? {} as UserPreview;
+    const currentMentor = usersPreview
+      .find((elem) => elem.uuid === currentMentorUuid);
+
+    if (!currentMentor) {
+      throw new Error(`currentMentor not found for UUID ${currentMentorUuid}`);
+    }
 
     return currentMentor;
   });
