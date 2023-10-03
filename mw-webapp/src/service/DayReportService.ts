@@ -21,7 +21,7 @@ export interface NewDayReportProps {
 }
 
 /**
- * DayReports requests: {@link getDayReports}
+ * Provides methods to interact with the DayReports collection in Firestore.
  */
 export class DayReportService {
 
@@ -32,6 +32,7 @@ export class DayReportService {
   public static async getDayReportsDTO(): Promise<DayReportDTO[]> {
     const dayReportsRaw = await getDocs(collection(db, PATH_TO_DAY_REPORTS_COLLECTION));
     const dayReports: DayReportDTO[] = querySnapshotToDTOConverter<DayReportDTO>(dayReportsRaw);
+
     return dayReports;
   }
 

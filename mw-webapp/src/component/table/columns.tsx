@@ -5,13 +5,14 @@ import {renderCellIsDayOff} from "src/component/table/renderCellValue/renderICel
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
+import {MentorComment} from "src/model/businessModel/MentorComment";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
 
 const DEFAULT_SUMMARY_TIME = 0;
 
 const columnHelper = createColumnHelper<DayReport>();
 
-type DayReportCells = Date & JobDone[] & PlanForNextPeriod[] & CurrentProblem[] & string[] & boolean;
+type DayReportCells = Date & JobDone[] & PlanForNextPeriod[] & CurrentProblem[] & MentorComment[] & string[] & boolean;
 
 export const columns: ColumnDef<DayReport, DayReportCells>[] = [
   columnHelper.accessor<"date", Date>("date", {
@@ -76,13 +77,12 @@ export const columns: ColumnDef<DayReport, DayReportCells>[] = [
       );
     },
   }),
-  columnHelper.accessor<"mentorComments", string[]>("mentorComments", {
+  columnHelper.accessor<"mentorComments", MentorComment[]>("mentorComments", {
     header: "Mentor comments",
     cell: ({row}) => {
-      const parentUuid = row.original.uuid;
       return (
-        row.original["mentorComments"]
-          .map((item, index) => renderCellItem({item, parentUuid, columnName: "mentorComments", index}))
+        row.original.mentorComments
+          .map((mentorComment) => renderCellItem({item: mentorComment.description, arrayItem: mentorComment}))
       );
     },
   }),
