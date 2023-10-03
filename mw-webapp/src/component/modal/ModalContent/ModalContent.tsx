@@ -16,7 +16,7 @@ interface ModalContentProps<T> {
 }
 
 /**
- * Displays the content within a modal.
+ * A container for the content to be displayed within a modal dialog.
  */
 export const ModalContent = <T extends HTMLElement>(props: PropsWithChildren<ModalContentProps<T>>) => {
   return (
