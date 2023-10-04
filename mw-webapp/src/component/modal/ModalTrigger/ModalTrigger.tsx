@@ -12,7 +12,9 @@ interface ModalTriggerProps<T> {
  * This component is used to wrap elements that act as triggers to open a modal when clicked.
  */
 export const ModalTrigger = <T extends HTMLElement>(props: PropsWithChildren<ModalTriggerProps<T>>) => {
-  return (<DialogTrigger asChild>
-    {props.children}
-  </DialogTrigger>);
+  return (
+    <DialogTrigger asChild>
+      {props.children}
+    </DialogTrigger>
+  );
 };
