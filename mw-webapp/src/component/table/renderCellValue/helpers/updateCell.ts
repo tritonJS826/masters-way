@@ -9,18 +9,16 @@ import {JobDone} from "src/model/businessModel/JobDone";
 import {MentorComment} from "src/model/businessModel/MentorComment";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-const magicWand: { [K: string]: Function } = {
+const functionName: {[K: string]: (text: string, uuid: string) => Promise<void>} = {
   updateJobDone,
   updatePlanForNextPeriod,
-  updateCurrentProblem, // This allows you to use a different value for the argument
-  updateMentorComment, // ... to use multiple names for the same function
-  // ... and to handle gracefully the calls of non-existing functions
+  updateCurrentProblem,
+  updateMentorComment,
 };
 
-const magicMethod = (name: string, text: string, uuid: string) => {
-  if (magicWand[name]) {
-    return magicWand[name](text, uuid);
+const updateCells = (name: string, text: string, uuid: string) => {
+  if (functionName[name]) {
+    return functionName[name](text, uuid);
   }
 };
 
@@ -42,27 +40,7 @@ export const updateCell = (
   index?: number,
 ) => {
   if (arrayItem) {
-    // Window[`update${arrayItem.constructor.name}`](text, arrayItem.uuid);
-    magicMethod(`update${arrayItem.constructor.name}`, text, arrayItem.uuid);
-
-    // Switch (arrayItem.constructor.name) {
-    //   case "JobDone": {
-    //     updateJobDone(text, arrayItem.uuid);
-    //     break;
-    //   }
-    //   case "PlanForNextPeriod": {
-    //     updatePlanForNextPeriod(text, arrayItem.uuid);
-    //     break;
-    //   }
-    //   case "CurrentProblem": {
-    //     updateCurrentProblem(text, arrayItem.uuid);
-    //     break;
-    //   }
-    //   case "MentorComment": {
-    //     updateMentorComment(text, arrayItem.uuid);
-    //     break;
-    //   }
-    // }
+    updateCells(`update${arrayItem.constructor.name}`, text, arrayItem.uuid);
   } else {
     updateDayReport(text, parentUuid!, columnName!, index!);
   }
