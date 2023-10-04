@@ -1,9 +1,9 @@
-import {HTMLInputTypeAttribute} from "react";
+import React, {HTMLInputTypeAttribute} from "react";
 import clsx from "clsx";
 import styles from "src/component/input/Input.module.scss";
 
 /**
- * Input's modes {@link InputMode}
+ * Defines what kind of input mode browser should present to the user
  */
 export enum InputMode {
   none = "none",
@@ -17,14 +17,16 @@ export enum InputMode {
 }
 
 /**
- * Input's props {@link InputProps}
+ * Input's props
  */
 interface InputProps {
-
+  /**
+   * Input's value
+   */
   value: string;
   /**
    * Input's type (what type of value is expected)
- */
+   */
   type?: HTMLInputTypeAttribute;
 
   /**
@@ -38,39 +40,29 @@ interface InputProps {
   className?: string | Array<string>;
 
   /**
-   * Input's mode (defines what kind of input mode browser should present to the user) {@link InputMode}
+   * Input's mode (defines what kind of input mode browser should present to the user)
    */
   inputMode?: InputMode;
 
   /**
-   * A flag indicating whether the input available or not
+   * The input usable or not
    */
   disabled?: boolean;
 
   /**
-   * A flag indicating whether the input is required or not
+   * The input is required or not
    */
   required?: boolean;
 
   /**
-   * A flag indicating whether the input is autofocus or not
+   * The input is autofocus or not
    */
   autoFocus?: boolean;
 
   /**
    * The event handler for the input change event
    */
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-
-  /**
-   * The event handler for the input change event
-   */
-  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
-
-  /**
-   * The event handler for the1 input change event
-   */
-  onKeyDown?: (event: React.KeyboardEvent<HTMLElement>) => void;
+  onChange: (value: string) => void;
 
 }
 
@@ -79,6 +71,10 @@ interface InputProps {
  * @param {InputProps} props {@link InputProps}
  */
 export const Input: React.FC<InputProps> = (props: InputProps) => {
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    props.onChange(event.target.value);
+  };
+
   return (
     <input
       value={props.value}
@@ -89,9 +85,7 @@ export const Input: React.FC<InputProps> = (props: InputProps) => {
       disabled={!!props.disabled}
       required={!!props.required}
       autoFocus={!!props.autoFocus}
-      onChange={props.onChange}
-      onBlur={props.onBlur}
-      onKeyDown={props.onKeyDown}
+      onChange={onChange}
     />
   );
 };

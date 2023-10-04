@@ -2,7 +2,7 @@ import {MentorCommentDAL} from "src/dataAccessLogic/MentorCommentDAL";
 import {MentorComment} from "src/model/businessModel/MentorComment";
 
 /**
- * Update data in MentorComments collection
+ * Update text in MentorComments cell
  * @param {string} text
  * @param {string} uuid
  */

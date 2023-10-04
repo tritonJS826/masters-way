@@ -48,7 +48,7 @@ export class DayReport {
   public mentorComments: MentorComment[];
 
   /**
-   * Return true if day is off and false if it is work day
+   * Return true if day off and false if it is work day
    */
   public isDayOff: boolean;
 

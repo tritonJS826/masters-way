@@ -1,7 +1,7 @@
 import {ColumnDef, createColumnHelper} from "@tanstack/react-table";
 import {renderCellDate} from "src/component/table/renderCellValue/renderCellDate";
+import {renderCellIsDayOff} from "src/component/table/renderCellValue/renderCellIsDayOff";
 import {renderCellItem} from "src/component/table/renderCellValue/renderCellItem";
-import {renderCellIsDayOff} from "src/component/table/renderCellValue/renderICellsDayOff";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";

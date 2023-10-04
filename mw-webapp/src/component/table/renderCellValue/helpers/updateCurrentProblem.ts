@@ -2,7 +2,7 @@ import {CurrentProblemDAL} from "src/dataAccessLogic/CurrentProblemDAL";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 
 /**
- * Update data in CurrentProblems collection
+ * Update text in CurrentProblems cell
  * @param {string} text
  * @param {string} uuid
  */

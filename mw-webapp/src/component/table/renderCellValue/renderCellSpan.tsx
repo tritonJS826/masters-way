@@ -19,7 +19,7 @@ const renderCellEmptySpan = () => (
  * @returns {JSX.Element} JSX.Element
  */
 export const renderCellSpan = (value: string, isDone?: boolean): JSX.Element => (
-  (value !== "" && value !== " ") ?
+  (value) ?
     renderCellSpanWithValue(value, isDone)
     :
     renderCellEmptySpan()

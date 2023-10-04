@@ -7,42 +7,9 @@ import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotTo
 const PATH_TO_DAY_REPORTS_COLLECTION = "dayReports";
 
 /**
- * New day report props without uuid for {@link data} for possibility to auto-generate uuid on firestore
+ * DayReportDTO props without uuid
  */
-export interface NewDayReportProps {
-  /**
-   * Report's date
-   */
-  date: string;
-  /**
-   * Array of @JobDone.uuid
-   */
-  jobsDone: string[];
-  /**
-   * Array of @PlanForNextPeriod.uuid
-   */
-  plansForNextPeriod: string[];
-  /**
-   * Array of @ProblemsForCurrent.uuid
-   */
-  problemsForCurrentPeriod: string[];
-  /**
-   * Student comments
-   */
-  studentComments: string[];
-  /**
-   * New knowledge that the user has received
-   */
-  learnedForToday: string[];
-  /**
-   * Array of @MentorComment.uuid
-   */
-  mentorComments: string[];
-  /**
-   * Return true if day is off and false if it is work day
-   */
-  isDayOff: boolean;
-}
+export type NewDayReport = Omit<DayReportDTO, "uuid">;
 
 /**
  * Provides methods to interact with the DayReports collection in Firestore.
@@ -74,7 +41,7 @@ export class DayReportService {
   /**
    * Create new day report
    */
-  public static async createDayReportDTO(data: NewDayReportProps) {
+  public static async createDayReportDTO(data: NewDayReport) {
     const docRef = doc(collection(db, PATH_TO_DAY_REPORTS_COLLECTION));
     const DEFAULT_DAY_REPORT: DayReportDTO = {
       ...data,

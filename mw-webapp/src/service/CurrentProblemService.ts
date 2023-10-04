@@ -12,7 +12,7 @@ const PATH_TO_CURRENT_PROBLEMS_COLLECTION = "currentProblems";
 export class CurrentProblemService {
 
   /**
-   * Read CurrentProblems collection
+   * Get CurrentProblems collection
    * @returns {Promise<CurrentProblemDTO[]>} promise of CurrentProblemDTO[]
    */
   public static async getCurrentProblemsDTO(): Promise<CurrentProblemDTO[]> {
@@ -23,7 +23,7 @@ export class CurrentProblemService {
   }
 
   /**
-   * Read CurrentProblem by Uuid
+   * Get CurrentProblemDTO
    * @returns {Promise<CurrentProblemDTO>} promise of CurrentProblemDTO
    */
   public static async getCurrentProblemDTO(uuid: string): Promise<CurrentProblemDTO> {

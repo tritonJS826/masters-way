@@ -78,13 +78,15 @@ export const renderCellItem = (props: CellItemProps): JSX.Element => {
       value={text}
       autoFocus={true}
       onChange={(event) => handleChange(event, setText)}
-      onBlur={handleBlur}
-      onKeyDown={handleEnter}
     />
   );
 
   return (
-    <div onDoubleClick={() => handleDoubleClick(setIsEditing)}>
+    <div
+      onDoubleClick={() => handleDoubleClick(setIsEditing)}
+      onBlur={handleBlur}
+      onKeyDown={handleEnter}
+    >
       {isEditing
         ? renderInput()
         :

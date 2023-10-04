@@ -11,9 +11,9 @@ import {PlanForNextPeriodService} from "src/service/PlanForNextPeriodService";
 export class PlanForNextPeriodDAL {
 
   /**
- * Plans for next period
- * @returns {Promise<PlanForNextPeriod[]>}
- */
+   * Get PLanForNextPeriod[]
+   * @returns {Promise<PlanForNextPeriod[]>}
+   */
   public static async getPlansForNextPeriod(): Promise<PlanForNextPeriod[]> {
     const plansForNextPeriodDTO = await PlanForNextPeriodService.getPlansForNextPeriodDTO();
     const plansForNextPeriod = plansForNextPeriodDTO.map(planForNextPeriodDTOToPlanForNextPeriodConverter);
@@ -22,9 +22,9 @@ export class PlanForNextPeriodDAL {
   }
 
   /**
- * Plan for next period
- * @returns {Promise<PlanForNextPeriod>}
- */
+   * Get PlanForNextPeriod
+   * @returns {Promise<PlanForNextPeriod>}
+   */
   public static async getPlanForNextPeriod(uuid: string): Promise<PlanForNextPeriod> {
     const PlaForNextPeriodDTO = await PlanForNextPeriodService.getPlanForNextPeriodDTO(uuid);
     const planForNextPeriod = planForNextPeriodDTOToPlanForNextPeriodConverter(PlaForNextPeriodDTO);
@@ -33,9 +33,9 @@ export class PlanForNextPeriodDAL {
   }
 
   /**
- * Plans for next period
- * @param {PlanForNextPeriod} planForNextPeriod
- */
+   * Update planForNextPeriod
+   * @param {PlanForNextPeriod} planForNextPeriod
+   */
   public static async updatePlanForNextPeriod(planForNextPeriod: PlanForNextPeriod) {
     const planForNextPeriodDTO = planForNextPeriodToPlanForNextPeriodDTOConverter(planForNextPeriod);
     await PlanForNextPeriodService.updatePLanForNextPeriodDTO(planForNextPeriodDTO, planForNextPeriod.uuid);

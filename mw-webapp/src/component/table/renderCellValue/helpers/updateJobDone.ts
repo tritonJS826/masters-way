@@ -2,7 +2,7 @@ import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
 import {JobDone} from "src/model/businessModel/JobDone";
 
 /**
- * Update data in JobsDone collection
+ * Update text in JobsDone cell
  * @param {string} text
  * @param {string} uuid
  */

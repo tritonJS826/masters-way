@@ -2,7 +2,7 @@ import {PlanForNextPeriodDAL} from "src/dataAccessLogic/PlanForNextPeriodDAL";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
 
 /**
- * Update data in PlansForNextPeriod collection
+ * Update text in PlansForNextPeriod cell
  * @param {string} text
  * @param {string} uuid
  */
