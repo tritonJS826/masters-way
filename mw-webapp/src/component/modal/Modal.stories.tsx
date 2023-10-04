@@ -11,18 +11,29 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+const defaultTrigger = (
+  <button>
+    Click me!
+  </button>
+);
+
+const defaultContent = (
+  <div>
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit...
+  </div>
+);
+
 export const Default: Story = {
   args: {
-    trigger: (
-      <button>
-        Click me!
-      </button>
-    ),
-    content: (
-      <div>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam assumenda autem culpa distinctio, dolor ex fugiat
-        illum ipsum magnam molestiae neque non officia quidem, veritatis, vitae! Delectus minus nostrum quam.
-      </div>
-    ),
+    trigger: defaultTrigger,
+    content: defaultContent,
+  },
+};
+
+export const Opened: Story = {
+  args: {
+    trigger: defaultTrigger,
+    content: defaultContent,
+    open: true,
   },
 };
