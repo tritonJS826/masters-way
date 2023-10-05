@@ -1,3 +1,4 @@
+
 /**
  * Month's report DTO model
  */
@@ -29,7 +30,7 @@ export class MonthReportDTO {
   public problemsForCurrentPeriod: string[];
 
   /**
-   * Anything that student wants to say about work
+   * Student comments
    */
   public studentComments: string[];
 

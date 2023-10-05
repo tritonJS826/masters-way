@@ -66,7 +66,8 @@ export const Table = () => {
                 >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
-              ))}
+              ))
+              }
             </tr>
           ))}
         </tbody>
