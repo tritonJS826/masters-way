@@ -1,4 +1,4 @@
-import {PropsWithChildren, ReactElement} from "react";
+import {PropsWithChildren} from "react";
 import {
   Close as DialogClose,
   Content as DialogContent,
@@ -8,17 +8,10 @@ import {
 import {Cross2Icon} from "@radix-ui/react-icons";
 import styles from "src/component/sidebar/SidebarContent/SidebarContent.module.scss";
 
-interface SidebarContentProps<T> {
-  /**
-   * The content to be displayed within the Sidebar.
-   */
-  children: ReactElement<T>;
-}
-
 /**
  * A container for the content to be displayed within a Sidebar.
  */
-export const SidebarContent = <T extends HTMLElement>(props: PropsWithChildren<SidebarContentProps<T>>) => {
+export const SidebarContent = (props: PropsWithChildren) => {
   return (
     <DialogPortal>
       <DialogOverlay className={styles.dialogOverlay} />

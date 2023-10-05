@@ -3,7 +3,7 @@ import {Root as DialogRoot} from "@radix-ui/react-dialog";
 import {SidebarContent} from "src/component/sidebar/SidebarContent/SidebarContent";
 import {SidebarTrigger} from "src/component/sidebar/SidebarTrigger/SidebarTrigger";
 
-interface DialogProps {
+interface SidebarProps {
   /**
    * The element that triggers the Sidebar.
    */
@@ -17,7 +17,7 @@ interface DialogProps {
 /**
  * Sidebar component
  */
-export const Sidebar = (props: DialogProps) => {
+export const Sidebar = (props: SidebarProps) => {
   const [open, setOpen] = useState(false);
 
   return (
