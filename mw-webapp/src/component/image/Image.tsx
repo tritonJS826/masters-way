@@ -33,4 +33,3 @@ export const Image: React.FC<ImageProps> = (props: ImageProps) => {
     </div>);
 };
 
-
