@@ -110,7 +110,7 @@ boolean & MentorComment[]>[] = [
   columnHelper.accessor<"jobsDone", JobDone[]>("jobsDone", {
     header: "Jobs done",
     /**
-     * Cell with Jobsdone items
+     * Cell with JobsDone items
      */
     cell: ({row}) => {
       return (
