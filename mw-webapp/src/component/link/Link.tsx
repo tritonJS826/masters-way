@@ -18,9 +18,8 @@ interface LinkProps {
 /**
  * Link component
  * @param {LinkProps} props
- * @returns {JSX.Element}
  */
-export const Link: React.FC<LinkProps> = (props: LinkProps): JSX.Element => {
+export const Link: React.FC<LinkProps> = (props: LinkProps) => {
   return (
     <LinkFromRouter
       className={styles.link}

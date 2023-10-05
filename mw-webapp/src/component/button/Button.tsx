@@ -17,9 +17,8 @@ interface ButtonProps {
 /**
  * Button component
  * @param {ButtonProps} props
- * @returns {JSX.Element}
  */
-export const Button: React.FC<ButtonProps> = (props: ButtonProps): JSX.Element => {
+export const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
   return (
     <button
       className={styles.button}

@@ -4,10 +4,9 @@ import styles from "src/pages/page404/Page404.module.scss";
 const ERROR_404 = "404 NOT FOUND";
 
 /**
- * Page 404
- * @returns {JSX.Element}
+ * Page 404 will be displayed if app's address is not correct
  */
-export const Page404 = (): JSX.Element => {
+export const Page404 = () => {
   return (
     <Title
       level={HeadingLevel.h2}

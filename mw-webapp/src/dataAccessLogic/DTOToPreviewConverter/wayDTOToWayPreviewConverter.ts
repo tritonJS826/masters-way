@@ -3,9 +3,9 @@ import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {WayDTO} from "src/model/firebaseCollection/WayDTO";
 
 /**
- * Way prps
+ * WayPreview props {@link WayPreview} that have custom type
  */
-interface WayProps {
+interface WayPreviewProps {
   /**
    * Owner
    */
@@ -19,10 +19,10 @@ interface WayProps {
 /**
  * Convert {@link WayDTO} to {@link WayPreview}
  * @param {WayDTO} wayDTO
- * @param {WayProps} wayProps - {@link WayProps}
+ * @param {WayPreviewProps} wayProps - {@link WayPreviewProps}
  * @returns {WayPreview} {@link WayPreview}
  */
-export const wayDTOToWayPreviewConverter = (wayDTO: WayDTO, wayProps: WayProps): WayPreview => {
+export const wayDTOToWayPreviewConverter = (wayDTO: WayDTO, wayProps: WayPreviewProps): WayPreview => {
   return new WayPreview({
     ...wayDTO,
     owner: wayProps.owner,
