@@ -1,3 +1,4 @@
+import {Sidebar} from "src/component/sidebar/Sidebar";
 import {Table} from "src/component/table/Table";
 import styles from "src/pages/mainPage/MainPage.module.scss";
 
@@ -12,6 +13,16 @@ export const MainPage = () => {
         Hiii, Student!
       </h1>
       <Table />
+      {/* To test Sidebar component, will delete before merge */}
+      <Sidebar
+        trigger={
+          <button>
+            Open sidebar
+          </button>}
+        content={
+          <></>
+        }
+      />
     </div>
   );
 };
