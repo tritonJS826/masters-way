@@ -35,6 +35,7 @@
       { "ignoreInlineComments": true, "ignoreConsecutiveComments": true }
     ],
     "no-magic-numbers": ["error" , { "ignore": [0] }],
+    "multiline-ternary": ["error", "always-multiline"],
     "no-console": "error",
     "react/react-in-jsx-scope": "off",
     "no-tabs": ["error", { "allowIndentationTabs": true }],
@@ -96,7 +97,7 @@
     ],
     "lines-between-class-members": ["error", "always"],
     "padded-blocks": ["error", { "classes": "always" }],
-    "no-multiple-empty-lines": "error",
+    "no-multiple-empty-lines": ["error", { "max": 1}],
     "max-len": ["error", { "code": 130 }],
     "max-params": ["error", 7],
     "curly": "error",
@@ -132,14 +133,22 @@
     "@typescript-eslint/no-explicit-any": "error",
     "no-var": "error",
     "prefer-const": "error",
+    "jsdoc/check-alignment": "error",
+    "jsdoc/no-blank-blocks": ["error", {"enableFixer":false}],
     "jsdoc/require-jsdoc": ["error", {
-      "publicOnly": true,
       "require": {
-        "MethodDefinition": true
+        "MethodDefinition": true,
+        "ClassDeclaration": true
       },
       "checkConstructors": false,
       "checkSetters": true,
-      "contexts": ["TSPropertySignature"]
+      "contexts": [
+        "TSEnumDeclaration",
+        "TSInterfaceDeclaration",
+        "TSPropertySignature",
+        "ArrowFunctionExpression",
+        "TSProperySignature"
+      ]
     }],
     "object-shorthand": ["error", "always"],
     "no-duplicate-imports": ["error"],
@@ -154,7 +163,7 @@
       { "blankLine": "always", "prev": "import", "next": "const" }
   ]
   },
-  "ignorePatterns": ["/build"],
+  "ignorePatterns": ["/build", "**.stories.ts"],
   "settings": {
     "import/resolver": {
       "node": { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
