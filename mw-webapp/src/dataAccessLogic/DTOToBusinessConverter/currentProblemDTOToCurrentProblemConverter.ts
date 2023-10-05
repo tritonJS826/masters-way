@@ -10,4 +10,3 @@ export const currentProblemDTOToCurrentProblemConverter = (currentProblemDTO: Cu
   return new CurrentProblem(currentProblemDTO);
 };
 
-
