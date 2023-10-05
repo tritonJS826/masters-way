@@ -1,6 +1,9 @@
 import {Link as LinkFromRouter} from "react-router-dom";
 import styles from "src/component/link/Link.module.scss";
 
+/**
+ * Link props
+ */
 interface LinkProps {
   /**
    * Link value (text)
@@ -12,7 +15,12 @@ interface LinkProps {
   path: string;
 }
 
-export const Link: React.FC<LinkProps> = (props: LinkProps) => {
+/**
+ * Link component
+ * @param {LinkProps} props
+ * @returns {JSX.Element}
+ */
+export const Link: React.FC<LinkProps> = (props: LinkProps): JSX.Element => {
   return (
     <LinkFromRouter
       className={styles.link}

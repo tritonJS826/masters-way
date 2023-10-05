@@ -11,9 +11,9 @@ import {MentorCommentsService} from "src/service/MentorCommentsService";
 export class MentorCommentDAL {
 
   /**
- * Mentor comments
- * @returns {Promise<MentorComment[]>}
- */
+   * Mentor comments
+   * @returns {Promise<MentorComment[]>}
+   */
   public static async getMentorComments(): Promise<MentorComment[]> {
     const mentorCommentsDTO = await MentorCommentsService.getMentorCommentsDTO();
     const mentorComments = mentorCommentsDTO.map((mentorComment) => (mentorCommentDTOToMentorCommentConverter(mentorComment)));
@@ -22,9 +22,9 @@ export class MentorCommentDAL {
   }
 
   /**
- * MentorComment
- * @returns {Promise<MentorComment>}
- */
+   * MentorComment
+   * @returns {Promise<MentorComment>}
+   */
   public static async getMentorComment(uuid: string): Promise<MentorComment> {
     const mentorCommentDTO = await MentorCommentsService.getMentorCommentDTO(uuid);
     const mentorComment = mentorCommentDTOToMentorCommentConverter(mentorCommentDTO);
@@ -33,9 +33,9 @@ export class MentorCommentDAL {
   }
 
   /**
- * Update mentorComment
- * @param {MentorComment} mentorComment
- */
+   * Update mentorComment
+   * @param {MentorComment} mentorComment
+   */
   public static async updateMentorComment(mentorComment: MentorComment) {
     const mentorCommentDTO = mentorCommentToMentorCommentDTOConverter(mentorComment);
     await MentorCommentsService.updateMentorCommentDTO(mentorCommentDTO, mentorComment.uuid);

@@ -14,6 +14,9 @@ import styles from "src/component/table/Table.module.scss";
  */
 export const Table = () => {
   const [data, setData] = useState<DayReport[]>([]);
+  /**
+   * Load DayReports data
+   */
   const loadDayReports = async () => {
     const dayReports = await DayReportDAL.getDayReports();
     setData(dayReports);

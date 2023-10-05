@@ -1,7 +1,7 @@
 import {useState} from "react";
 import {Input} from "src/component/input/Input";
 import {handleChange} from "src/component/table/renderCellValue/handlers/handleChange";
-import {handleDoubleClick} from "src/component/table/renderCellValue/handlers/handleDoubleClick";
+import {setTrueValue} from "src/component/table/renderCellValue/handlers/setTrueValue";
 import {updateCell} from "src/component/table/renderCellValue/helpers/updateCell";
 import {renderCellSpan} from "src/component/table/renderCellValue/renderCellSpan";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
@@ -62,16 +62,25 @@ export const renderCellItem = (props: CellItemProps): JSX.Element => {
   const [isEditing, setIsEditing] = useState(false);
   const [text, setText] = useState(props.item);
 
+  /**
+   * Update cell value after onBlur event
+   */
   const handleBlur = async () => {
     updateCell(text, setIsEditing, props.arrayItem, props.parentUuid, props.columnName, props.index);
   };
 
+  /**
+   * Update cell value after OnKeyDown event
+   */
   const handleEnter = async (event: React.KeyboardEvent<HTMLElement>) => {
     if (event.key === "Enter") {
       updateCell(text, setIsEditing, props.arrayItem, props.parentUuid, props.columnName, props.index);
     }
   };
 
+  /**
+   * Render input
+   */
   const renderInput = () => (
     <Input
       type="text"
@@ -83,7 +92,7 @@ export const renderCellItem = (props: CellItemProps): JSX.Element => {
 
   return (
     <div
-      onDoubleClick={() => handleDoubleClick(setIsEditing)}
+      onDoubleClick={() => setTrueValue(setIsEditing)}
       onBlur={handleBlur}
       onKeyDown={handleEnter}
     >

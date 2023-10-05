@@ -2,10 +2,25 @@ import {DayReport} from "src/model/businessModel/DayReport";
 import {DayReportDTO} from "src/model/firebaseCollection/DayReportDTO";
 import {DateUtils} from "src/utils/DateUtils";
 
+/**
+ * DayReportDToO prop
+ */
 interface DayReportDTOProps {
+  /**
+   * JobsDoneDTO
+   */
   jobsDone: string[];
+  /**
+   * PlansForNextPeriodDTO
+   */
   plansForNextPeriod: string[];
+  /**
+   * ProblemsForCurrentPeriodDTO
+   */
   problemsForCurrentPeriod: string[];
+  /**
+   * MentorCommentsDTO
+   */
   mentorComments: string[];
 }
 

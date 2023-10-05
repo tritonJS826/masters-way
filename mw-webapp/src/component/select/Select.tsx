@@ -28,8 +28,8 @@ export interface SelectProps {
   onChange: (value: string) => void;
 }
 /**
-   * Represents a control that provides a menu of options.
-   */
+ * Represents a control that provides a menu of options.
+ */
 export const Select: React.FC<SelectProps> = (props: SelectProps) => {
   const renderSelectOptions = props.options.map((option) => (
     <Option
@@ -38,6 +38,9 @@ export const Select: React.FC<SelectProps> = (props: SelectProps) => {
       text={option.text}
     />
   ));
+  /**
+   * OnChange handler
+   */
   const onChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     props.onChange(e.target.value);
   };

@@ -20,10 +20,16 @@ type DayReportCells = Date & JobDone[] & PlanForNextPeriod[] & CurrentProblem[] 
 export const columns: ColumnDef<DayReport, DayReportCells>[] = [
   columnHelper.accessor<"date", Date>("date", {
     header: "Date",
+    /**
+     * Render date
+     */
     cell: (dateValue) => renderCellDate(dateValue),
   }),
   columnHelper.accessor<"jobsDone", JobDone[]>("jobsDone", {
     header: "Sum time",
+    /**
+     * Render Summary time
+     */
     cell: (({row}) => {
       return (
         row.original.jobsDone
@@ -33,6 +39,9 @@ export const columns: ColumnDef<DayReport, DayReportCells>[] = [
   }),
   columnHelper.accessor<"jobsDone", JobDone[]>("jobsDone", {
     header: "Jobs done",
+    /**
+     * Render Jobs done
+     */
     cell: ({row}) => {
       return (
         row.original.jobsDone
@@ -42,6 +51,9 @@ export const columns: ColumnDef<DayReport, DayReportCells>[] = [
   }),
   columnHelper.accessor<"plansForNextPeriod", PlanForNextPeriod[]>("plansForNextPeriod", {
     header: "Plans for tomorrow",
+    /**
+     * Render Plans for next period
+     */
     cell: ({row}) => {
       return (
         row.original.plansForNextPeriod
@@ -52,6 +64,9 @@ export const columns: ColumnDef<DayReport, DayReportCells>[] = [
   }),
   columnHelper.accessor<"problemsForCurrentPeriod", CurrentProblem[]>("problemsForCurrentPeriod", {
     header: "Current problems",
+    /**
+     * Render Problems for current period
+     */
     cell: ({row}) => {
       return (
         row.original.problemsForCurrentPeriod
@@ -62,6 +77,9 @@ export const columns: ColumnDef<DayReport, DayReportCells>[] = [
   }),
   columnHelper.accessor<"studentComments", string[]>("studentComments", {
     header: "Student comments",
+    /**
+     * Render Student comments
+     */
     cell: ({row}) => {
       const parentUuid = row.original.uuid;
 
@@ -74,6 +92,9 @@ export const columns: ColumnDef<DayReport, DayReportCells>[] = [
   }),
   columnHelper.accessor<"learnedForToday", string[]>("learnedForToday", {
     header: "Learned for today",
+    /**
+     * Render Learned for today
+     */
     cell: ({row}) => {
       const parentUuid = row.original.uuid;
 
@@ -86,6 +107,9 @@ export const columns: ColumnDef<DayReport, DayReportCells>[] = [
   }),
   columnHelper.accessor<"mentorComments", MentorComment[]>("mentorComments", {
     header: "Mentor comments",
+    /**
+     * Render Mentor comments
+     */
     cell: ({row}) => {
       return (
         row.original.mentorComments
@@ -96,6 +120,9 @@ export const columns: ColumnDef<DayReport, DayReportCells>[] = [
   }),
   columnHelper.accessor<"isDayOff", boolean>("isDayOff", {
     header: "Is day off",
+    /**
+     * Render Is day off value
+     */
     cell: (isDAyOffValue) => renderCellIsDayOff(isDAyOffValue),
   }),
 ];

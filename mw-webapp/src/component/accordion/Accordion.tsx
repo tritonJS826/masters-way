@@ -23,6 +23,9 @@ export enum accordionTypes {
   multiple = "multiple",
 }
 
+/**
+ * Accordion item data
+ */
 interface AccordionItemData {
   /**
    * The trigger element that users can interact with to expand or collapse the item.
@@ -34,6 +37,9 @@ interface AccordionItemData {
   content: ReactElement<AccordionContentProps>;
 }
 
+/**
+ * Accordion props
+ */
 interface AccordionProps {
   /**
    * An array of objects representing the accordion items, each containing a trigger and content element.
@@ -51,6 +57,9 @@ interface AccordionProps {
   className?: string;
 }
 
+/**
+ * ACcordion item component
+ */
 const renderAccordionItem = (item: AccordionItemData, uniqueId: string) => (
   <AccordionItem
     trigger={item.trigger}

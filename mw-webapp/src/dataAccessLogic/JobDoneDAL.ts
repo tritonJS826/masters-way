@@ -9,9 +9,9 @@ import {JobDoneService} from "src/service/JobDoneService";
 export class JobDoneDAL {
 
   /**
- * Jobs done
- * @returns {Promise<JobDone[]>}
- */
+   * Jobs done
+   * @returns {Promise<JobDone[]>}
+   */
   public static async getJobsDone(): Promise<JobDone[]> {
     const jobsDoneDTO = await JobDoneService.getJobsDoneDTO();
     const jobsDone = jobsDoneDTO.map(jobDoneDTOToJobDoneConverter);
@@ -20,9 +20,9 @@ export class JobDoneDAL {
   }
 
   /**
- * Job done
- * @returns {Promise<JobDone>}
- */
+   * Job done
+   * @returns {Promise<JobDone>}
+   */
   public static async getJobDone(uuid: string): Promise<JobDone> {
     const jobDoneDTO = await JobDoneService.getJobDoneDTO(uuid);
     const jobDone = jobDoneDTOToJobDoneConverter(jobDoneDTO);
@@ -31,9 +31,9 @@ export class JobDoneDAL {
   }
 
   /**
- * Update job done
- * @param {JobDone} jobDone
- */
+   * Update job done
+   * @param {JobDone} jobDone
+   */
   public static async updateJobDone(jobDone: JobDone) {
     const jobDoneDTO = jobDoneToJobDoneDTOConverter(jobDone);
     await JobDoneService.updateJobDoneDTO(jobDoneDTO, jobDone.uuid);

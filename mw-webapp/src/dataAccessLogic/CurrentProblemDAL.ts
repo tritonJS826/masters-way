@@ -11,9 +11,9 @@ import {CurrentProblemService} from "src/service/CurrentProblemService";
 export class CurrentProblemDAL {
 
   /**
- * Problems for current period
- * @returns {Promise<CurrentProblem[]>}
- */
+   * Problems for current period
+   * @returns {Promise<CurrentProblem[]>}
+   */
   public static async getCurrentProblems (): Promise<CurrentProblem[]> {
     const currentProblemsDTO = await CurrentProblemService.getCurrentProblemsDTO();
     const currentProblems = currentProblemsDTO.map(currentProblemDTOToCurrentProblemConverter);
@@ -22,9 +22,9 @@ export class CurrentProblemDAL {
   }
 
   /**
- * Problem for current period
- * @returns {Promise<CurrentProblem>}
- */
+   * Problem for current period
+   * @returns {Promise<CurrentProblem>}
+   */
   public static async getCurrentProblem (uuid: string): Promise<CurrentProblem> {
     const CurrentProblemDTO = await CurrentProblemService.getCurrentProblemDTO(uuid);
     const currentProblem = currentProblemDTOToCurrentProblemConverter(CurrentProblemDTO);
@@ -33,9 +33,9 @@ export class CurrentProblemDAL {
   }
 
   /**
- * Update Problems for current period
- * @param {CurrentProblem} currentProblem
- */
+   * Update Problems for current period
+   * @param {CurrentProblem} currentProblem
+   */
   public static async updateCurrentProblem (currentProblem: CurrentProblem) {
     const currentProblemDTO = currentProblemToCurrentProblemDTOConverter(currentProblem);
     await CurrentProblemService.updateCurrentProblemDTO(currentProblemDTO, currentProblem.uuid);

@@ -16,6 +16,9 @@ const functionName: {[K: string]: (text: string, uuid: string) => Promise<void>}
   updateMentorComment,
 };
 
+/**
+ * Update cells
+ */
 const updateCells = (name: string, text: string, uuid: string) => {
   if (functionName[name]) {
     return functionName[name](text, uuid);

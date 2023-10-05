@@ -15,6 +15,9 @@ export default defineConfig(() => {
     "FIREBASE_APP_ID",
   ];
 
+  /**
+   * Return object with env
+   */
   const getEnvs = (envs: string[]) => envs.reduce((prev, envName) => {
     return {
       ...prev,

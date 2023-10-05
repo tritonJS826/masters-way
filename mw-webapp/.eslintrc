@@ -133,15 +133,24 @@
     "@typescript-eslint/no-explicit-any": "error",
     "no-var": "error",
     "prefer-const": "error",
+    "jsdoc/check-alignment": "error",
+    "jsdoc/no-blank-blocks": ["error", {"enableFixer":false}],
     "jsdoc/require-jsdoc": ["error", {
-      "publicOnly": true,
       "require": {
-        "MethodDefinition": true
+        "MethodDefinition": true,
+        "ClassDeclaration": true
       },
       "checkConstructors": false,
       "checkSetters": true,
-      "contexts": ["TSPropertySignature"]
-    }],
+      "contexts": [
+        "TSEnumDeclaration",
+        "TSInterfaceDeclaration",
+        "TSPropertySignature",
+        "ArrowFunctionExpression",
+        "TSProperySignature"
+      ]
+    }
+  ],
     "object-shorthand": ["error", "always"],
     "no-duplicate-imports": ["error"],
     "no-restricted-imports": ["error", {

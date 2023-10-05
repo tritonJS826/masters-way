@@ -15,6 +15,9 @@ export enum HeadingLevel {
   h6 = "h6",
 }
 
+/**
+ * Title props
+ */
 interface TitleProps {
   /**
    * Heading level

@@ -17,8 +17,8 @@ export interface OptionType {
   text: string;
 }
 /**
-* Option props
-*/
+ * Option props
+ */
 interface OptionProps{
   /**
    * Unique value
@@ -34,8 +34,8 @@ interface OptionProps{
   text: string;
 }
 /**
-   * Element of Select
-   */
+ * Element of Select
+ */
 export const Option: React.FC<OptionProps> = (props: OptionProps) => {
   return(
     <option

@@ -71,6 +71,9 @@ interface InputProps {
  * @param {InputProps} props {@link InputProps}
  */
 export const Input: React.FC<InputProps> = (props: InputProps) => {
+  /**
+   * Event handler for the input change event
+   */
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     props.onChange(event.target.value);
   };

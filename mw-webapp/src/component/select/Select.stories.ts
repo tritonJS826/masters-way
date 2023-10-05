@@ -16,4 +16,10 @@ const options = [
   {id: "2", value: "moscow", text: "moscow"},
 ];
 export const Default: Story =
-  {args: {onChange: () => {}, label: "city", value: "cities", name: "", options}};
+  {
+    args: {/**
+Aaaaaaa *
+aaaaaaa */
+      onChange: () => {}, label: "city", value: "cities", name: "", options,
+    },
+  };

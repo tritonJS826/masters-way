@@ -34,9 +34,9 @@ export class CurrentProblemService {
   }
 
   /**
-     * Update CurrentProblem
-     * @param {CurrentProblemDTO} data CurrentProblemDTO
-     */
+   * Update CurrentProblem
+   * @param {CurrentProblemDTO} data CurrentProblemDTO
+   */
   public static async updateCurrentProblemDTO(data: CurrentProblemDTO, uuid: string) {
     await updateDoc(doc(db, PATH_TO_CURRENT_PROBLEMS_COLLECTION, uuid), {...data});
   }

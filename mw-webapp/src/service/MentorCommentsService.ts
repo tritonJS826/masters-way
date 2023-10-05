@@ -34,9 +34,9 @@ export class MentorCommentsService {
   }
 
   /**
-     * Update MentorComment
-     * @param {MentorCommentDTO} data MentorCommentDTO
-     */
+   * Update MentorComment
+   * @param {MentorCommentDTO} data MentorCommentDTO
+   */
   public static async updateMentorCommentDTO(data: MentorCommentDTO, uuid: string) {
     await updateDoc(doc(db, PATH_TO_MENTOR_COMMENTS_COLLECTION, uuid), {...data});
   }
