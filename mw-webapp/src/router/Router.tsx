@@ -1,6 +1,9 @@
 import {Route, Routes} from "react-router-dom";
 import {pages} from "src/router/pages";
 
+/**
+ * Router
+ */
 export const Router = () => {
   return (
     <Routes>

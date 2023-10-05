@@ -11,7 +11,11 @@ const BUTTON_LOG_IN_VALUE = "Login";
 const BUTTON_LOG_OUT_VALUE = "Logout";
 const LINK_TEXT = "Workflow";
 
-export const AuthPage = () => {
+/**
+ * Auth page
+ * @returns {JSX.Element}
+ */
+export const AuthPage = (): JSX.Element => {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {

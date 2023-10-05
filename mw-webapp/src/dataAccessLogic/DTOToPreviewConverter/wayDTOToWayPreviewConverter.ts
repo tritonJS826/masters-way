@@ -2,8 +2,17 @@ import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {WayDTO} from "src/model/firebaseCollection/WayDTO";
 
+/**
+ * Way prps
+ */
 interface WayProps {
+  /**
+   * Owner
+   */
   owner: UserPreview;
+  /**
+   * Current mentors
+   */
   currentMentors: UserPreview[];
 }
 

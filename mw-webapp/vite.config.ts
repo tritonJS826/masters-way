@@ -21,13 +21,15 @@ export default defineConfig(() => {
     "AUTH_FIREBASE_APP_ID",
   ];
 
-  const getEnvs = (envs: string[]) =>
-    envs.reduce((prev, envName) => {
-      return {
-        ...prev,
-        [`import.meta.env.${envName}`]: JSON.stringify(env[envName]),
-      };
-    }, {});
+  /**
+   * Return object with env
+   */
+  const getEnvs = (envs: string[]) => envs.reduce((prev, envName) => {
+    return {
+      ...prev,
+      [`import.meta.env.${envName}`]: JSON.stringify(env[envName]),
+    };
+  }, {});
 
   return {
     build: {target: "esnext", outDir: "build"},

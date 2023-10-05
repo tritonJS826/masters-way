@@ -5,10 +5,25 @@ import {MentorComment} from "src/model/businessModel/MentorComment";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
 import {DayReportDTO} from "src/model/firebaseCollection/DayReportDTO";
 
+/**
+ * DayReport props
+ */
 interface DayReportProps {
+  /**
+   * Jobs done
+   */
   jobsDone: JobDone[];
+  /**
+   * Plans for next period
+   */
   plansForNextPeriod: PlanForNextPeriod[];
+  /**
+   * Problems for current period
+   */
   problemsForCurrentPeriod: CurrentProblem[];
+  /**
+   * Mentor comments
+   */
   mentorComments: MentorComment[];
 }
 

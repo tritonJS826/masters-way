@@ -1,7 +1,6 @@
 import {Option, OptionType} from "src/component/select/option/Option";
 import styles from "src/component/select/Select.module.scss";
 
-
 /**
  * Select props
  */
@@ -28,8 +27,8 @@ export interface SelectProps {
   onChange: (value: string) => void;
 }
 /**
-   * Represents a control that provides a menu of options.
-   */
+ * Represents a control that provides a menu of options.
+ */
 export const Select: React.FC<SelectProps> = (props: SelectProps) => {
   const renderSelectOptions = props.options.map((option) => (
     <Option
@@ -38,6 +37,11 @@ export const Select: React.FC<SelectProps> = (props: SelectProps) => {
       text={option.text}
     />
   ));
+
+  /**
+   * Handle onChange event
+   * @param {React.ChangeEvent<HTMLSelectElement>} e
+   */
   const onChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     props.onChange(e.target.value);
   };

@@ -11,6 +11,9 @@ const DEFAULT_SUMMARY_TIME = 0;
 
 const columnHelper = createColumnHelper<DayReport>();
 
+/**
+ * Render cell item based on array item
+ */
 const getObjectArrayItem = (arrayItem: JobDone | PlanForNextPeriod | CurrentProblem, getFullItem?: string) => {
   return (
     (JSON.stringify(arrayItem) === "{}") ?
@@ -22,7 +25,6 @@ const getObjectArrayItem = (arrayItem: JobDone | PlanForNextPeriod | CurrentProb
   );
 };
 
-
 /**
  * Render a string within a div element.
  *
@@ -33,7 +35,20 @@ const getObjectArrayItem = (arrayItem: JobDone | PlanForNextPeriod | CurrentProb
  *
  * @returns {JSX.Element} The rendered string item.
  */
-const renderStringCell = ({text, key, isDone}: {text:string; key:string; isDone?: boolean}): JSX.Element => {
+const renderStringCell = ({text, key, isDone}: {
+  /**
+   * Text
+   */
+  text:string;
+  /**
+   * Key
+   */
+  key:string;
+  /**
+   * Is done
+   */
+  isDone?: boolean;
+}): JSX.Element => {
   return (
     <div key={key}>
       <div className={isDone ? styles.completed : styles.notCompleted}>
@@ -43,6 +58,9 @@ const renderStringCell = ({text, key, isDone}: {text:string; key:string; isDone?
   );
 };
 
+/**
+ * Render cell with boolean value
+ */
 const getBoolean = (cellValue: CellContext<DayReport, boolean>) => {
   return (
     cellValue.getValue() === true ?
@@ -56,6 +74,9 @@ const getBoolean = (cellValue: CellContext<DayReport, boolean>) => {
   );
 };
 
+/**
+ * Render cell with date
+ */
 const getDateValue = (cellValue: CellContext<DayReport, Date>) => {
   return (
     DateUtils.getShortISODateValue(cellValue.getValue())
@@ -66,10 +87,16 @@ export const columns: ColumnDef<DayReport, Date & JobDone[] & PlanForNextPeriod[
 boolean & MentorComment[]>[] = [
   columnHelper.accessor<"date", Date>("date", {
     header: "Date",
+    /**
+     * Render date
+     */
     cell: (dateValue) => getDateValue(dateValue),
   }),
   columnHelper.accessor<"jobsDone", JobDone[]>("jobsDone", {
     header: "Sum time",
+    /**
+     * Render summary of work time
+     */
     cell: (({row}) => {
       return (
         row.original.jobsDone
@@ -79,6 +106,9 @@ boolean & MentorComment[]>[] = [
   }),
   columnHelper.accessor<"jobsDone", JobDone[]>("jobsDone", {
     header: "Jobs done",
+    /**
+     * Render jobs done
+     */
     cell: ({row}) => {
       return (
         row.original.jobsDone
@@ -88,6 +118,9 @@ boolean & MentorComment[]>[] = [
   }),
   columnHelper.accessor<"plansForNextPeriod", PlanForNextPeriod[]>("plansForNextPeriod", {
     header: "Plans for tomorrow",
+    /**
+     * Render plans for next period
+     */
     cell: ({row}) => {
       return (
         row.original.plansForNextPeriod
@@ -98,6 +131,9 @@ boolean & MentorComment[]>[] = [
   }),
   columnHelper.accessor<"problemsForCurrentPeriod", CurrentProblem[]>("problemsForCurrentPeriod", {
     header: "Current problems",
+    /**
+     * Render problems for current period
+     */
     cell: ({row}) => {
       return (
         row.original.problemsForCurrentPeriod
@@ -108,6 +144,9 @@ boolean & MentorComment[]>[] = [
   }),
   columnHelper.accessor<"studentComments", string[]>("studentComments", {
     header: "Student comments",
+    /**
+     * Render student comments
+     */
     cell: ({row}) => {
       const parentID = row.original.uuid;
 
@@ -119,6 +158,9 @@ boolean & MentorComment[]>[] = [
   }),
   columnHelper.accessor<"learnedForToday", string[]>("learnedForToday", {
     header: "Learned for today",
+    /**
+     * Render learnder for today
+     */
     cell: ({row}) => {
       const parentID = row.original.uuid;
 
@@ -130,8 +172,10 @@ boolean & MentorComment[]>[] = [
   }),
   columnHelper.accessor<"mentorComments", MentorComment[]>("mentorComments", {
     header: "Mentor comments",
+    /**
+     * Render mentor comments
+     */
     cell: ({row}) => {
-
 
       return (
         row.original.mentorComments
@@ -143,6 +187,9 @@ boolean & MentorComment[]>[] = [
   }),
   columnHelper.accessor<"isDayOff", boolean>("isDayOff", {
     header: "Is day off",
+    /**
+     * Render is day off value
+     */
     cell: (isDAyOffValue) => getBoolean(isDAyOffValue),
   }),
 ];

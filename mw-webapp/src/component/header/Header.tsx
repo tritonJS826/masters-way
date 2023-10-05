@@ -13,7 +13,11 @@ const BUTTON_LOG_OUT_VALUE = "Logout";
 const LINK_TEXT = "Workflow";
 const LOGO_TEXT = "master's way";
 
-export const Header = () => {
+/**
+ * Header component
+ * @returns {JSX.Element}
+ */
+export const Header = (): JSX.Element => {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
