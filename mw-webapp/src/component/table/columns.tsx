@@ -1,4 +1,8 @@
-import {CellContext, ColumnDef, createColumnHelper} from "@tanstack/react-table";
+import {
+  CellContext,
+  ColumnDef,
+  createColumnHelper,
+} from "@tanstack/react-table";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
@@ -11,17 +15,18 @@ const DEFAULT_SUMMARY_TIME = 0;
 
 const columnHelper = createColumnHelper<DayReport>();
 
-const getObjectArrayItem = (arrayItem: JobDone | PlanForNextPeriod | CurrentProblem, getFullItem?: string) => {
-  return (
-    (JSON.stringify(arrayItem) === "{}") ?
-      <div />
-      :
-      <div key={arrayItem.uuid}>
-        {getFullItem}
-      </div>
+const getObjectArrayItem = (
+  arrayItem: JobDone | PlanForNextPeriod | CurrentProblem,
+  getFullItem?: string,
+) => {
+  return JSON.stringify(arrayItem) === "{}" ? (
+    <div />
+  ) : (
+    <div key={arrayItem.uuid}>
+      {getFullItem}
+    </div>
   );
 };
-
 
 /**
  * Render a string within a div element.
@@ -44,22 +49,15 @@ const renderStringCell = ({text, key, isDone}: {text:string; key:string; isDone?
 };
 
 const getBoolean = (cellValue: CellContext<DayReport, boolean>) => {
-  return (
-    cellValue.getValue() === true ?
-      <div>
-        Yes
-      </div>
-      :
-      <div>
-        No
-      </div>
-  );
+  return cellValue.getValue() === true ? <div>
+    Yes
+  </div> : <div>
+    No
+  </div>;
 };
 
 const getDateValue = (cellValue: CellContext<DayReport, Date>) => {
-  return (
-    DateUtils.getShortISODateValue(cellValue.getValue())
-  );
+  return DateUtils.getShortISODateValue(cellValue.getValue());
 };
 
 export const columns: ColumnDef<DayReport, Date & JobDone[] & PlanForNextPeriod[] & CurrentProblem[] & string[] &
@@ -75,7 +73,7 @@ boolean & MentorComment[]>[] = [
         row.original.jobsDone
           .reduce((summaryTime, jobDone) => jobDone.time + summaryTime, DEFAULT_SUMMARY_TIME)
       );
-    }),
+    },
   }),
   columnHelper.accessor<"jobsDone", JobDone[]>("jobsDone", {
     header: "Jobs done",
@@ -105,7 +103,7 @@ boolean & MentorComment[]>[] = [
             (getObjectArrayItem(currentProblemItem, currentProblemItem.description)))
       );
     },
-  }),
+  ),
   columnHelper.accessor<"studentComments", string[]>("studentComments", {
     header: "Student comments",
     cell: ({row}) => {
