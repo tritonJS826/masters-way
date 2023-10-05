@@ -3,7 +3,7 @@ import {auth} from "src/firebase";
 import {UserService} from "src/service/UserService";
 
 /**
- * Write new user credentials
+ * Create new user on firebase Users collection after google login
  */
 export const writeNewUserCredentials = async () => {
   const userCredentials = await getRedirectResult(auth);

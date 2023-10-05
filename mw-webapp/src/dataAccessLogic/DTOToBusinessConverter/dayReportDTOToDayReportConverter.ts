@@ -6,7 +6,7 @@ import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
 import {DayReportDTO} from "src/model/firebaseCollection/DayReportDTO";
 
 /**
- * DayReport props
+ * DayReport props {@link DayReport} that have custom type
  */
 interface DayReportProps {
   /**

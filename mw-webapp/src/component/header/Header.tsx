@@ -15,9 +15,8 @@ const LOGO_TEXT = "master's way";
 
 /**
  * Header component
- * @returns {JSX.Element}
  */
-export const Header = (): JSX.Element => {
+export const Header = () => {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {

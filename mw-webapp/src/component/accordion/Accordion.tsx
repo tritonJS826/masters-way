@@ -61,9 +61,8 @@ interface AccordionProps {
  * Accordion item component
  * @param {AccordionItemData} item
  * @param {string} uniqueId
- * @returns {JSX.Element}
  */
-const renderAccordionItem = (item: AccordionItemData, uniqueId: string): JSX.Element => (
+const renderAccordionItem = (item: AccordionItemData, uniqueId: string) => (
   <AccordionItem
     trigger={item.trigger}
     content={item.content}
