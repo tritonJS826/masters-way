@@ -1,7 +1,7 @@
 import {TimeUnit} from "src/model/businessModel/time/timeUnit/TimeUnit";
 
 /**
- *JobDone props
+ * JobDone props
  */
 interface JobDoneProps {
 
@@ -16,7 +16,7 @@ interface JobDoneProps {
   description: string;
 
   /**
-   *  Unit of time measurement for {@link estimationTime}
+   * Unit of time measurement for {@link estimationTime}
    */
   timeUnit: TimeUnit;
 

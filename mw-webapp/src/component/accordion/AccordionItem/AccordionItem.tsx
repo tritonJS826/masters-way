@@ -8,16 +8,19 @@ import styles from "src/component/accordion/AccordionItem/AccordionItem.module.s
  * Props for the {@link AccordionItem} component.
  */
 export interface AccordionItem {
+
   /**
    * React element representing the trigger for this AccordionItem.
    */
   trigger: ReactElement<AccordionTriggerProps>;
+
   /**
    * React element representing the content for this AccordionItem.
    */
   content: ReactElement<AccordionContentProps>;
+
   /**
-   *  A unique key to identify the AccordionItem.
+   * A unique key to identify the AccordionItem.
    */
   itemKey: string;
 }

@@ -19,14 +19,17 @@ export enum HeadingLevel {
  * Title props
  */
 interface TitleProps {
+
   /**
    * Heading level
    */
   level: HeadingLevel;
+
   /**
    * Additional custom class name for the component
    */
   className: string;
+
   /**
    * Title
    */
@@ -34,7 +37,8 @@ interface TitleProps {
 }
 
 /**
- * This component renders a title
+ * Title component
+ * @param {TitleProps} props
  */
 export const Title: React.FC<TitleProps> = (props: TitleProps) => {
   return (

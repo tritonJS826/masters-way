@@ -14,6 +14,7 @@ import styles from "src/component/table/Table.module.scss";
  */
 export const Table = () => {
   const [data, setData] = useState<DayReport[]>([]);
+
   /**
    * Load DayReports and set data for using in the table
    */

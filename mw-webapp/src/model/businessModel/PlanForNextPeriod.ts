@@ -16,7 +16,7 @@ interface PlanForNextPeriodProps {
   job: string;
 
   /**
-   *  Unit of time measurement for {@link estimationTime}
+   * Unit of time measurement for {@link estimationTime}
    */
   timeUnit: TimeUnit;
 
