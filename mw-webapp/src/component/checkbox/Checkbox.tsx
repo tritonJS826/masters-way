@@ -1,42 +1,47 @@
+import styles from "src/component/checkbox/Checkbox.module.scss";
+
+/**
+ * Checkbox props
+ */
 interface CheckboxProps {
   /**
-   * Status flag whether the element is checked or not
+   * Checkbox status
    */
   checked: boolean;
   /**
-  * Label's text
-  */
+   * Label's text
+   */
   label: string;
   /**
-   * Additional custom class name for the component
-  */
-  className?: string;
+   * Checkbox`s value
+   */
+  value?: string;
   /**
-   * Select`s value
-  */
-  value: string;
-  /**
-   * Select's name
-  */
-  name: string;
+   * Checkbox's name
+   */
+  name?: string;
   /**
    * The flag sets the element to be required
    */
   required?: boolean;
   /**
-   * Callback triggered on checkbox or label click
+   * Callback triggered on change checkbox
    */
-  onCheckedChange: () => void;
+  onChange: () => void;
 }
 
-const Checkbox = (props : CheckboxProps) => {
-  const {className} = props;
-
+export const Checkbox: React.FC<CheckboxProps> = (props : CheckboxProps) => {
   return (
-    <label className={className}>
-      <input type="checkbox" />
+    <label className={styles.checkbox}>
+      <input
+        type="checkbox"
+        checked={props.checked}
+        onChange={props.onChange}
+        value={props.value}
+        name={props.name}
+        required={props.required}
+      />
+      {props.label}
     </label>
   );
 };
-
-export {Checkbox};
