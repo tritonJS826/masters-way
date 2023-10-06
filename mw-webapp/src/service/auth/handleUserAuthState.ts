@@ -5,6 +5,7 @@ import {writeNewUserCredentials} from "src/service/auth/writeNewUserCredentials"
 
 /**
  * Set user state
+ * @param {React.Dispatch<React.SetStateAction<User | null>>} setUser
  */
 export const handleUserAuthState = (setUser: React.Dispatch<React.SetStateAction<User | null>>) => {
   onAuthStateChanged(auth, async (currentUser) => {

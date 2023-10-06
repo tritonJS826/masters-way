@@ -5,10 +5,12 @@ import styles from "src/component/link/Link.module.scss";
  * Link props
  */
 interface LinkProps {
+
   /**
    * Link value (text)
    */
   value: string;
+
   /**
    * Go to path page on link
    */

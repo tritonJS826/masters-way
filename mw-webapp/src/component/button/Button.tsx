@@ -4,10 +4,12 @@ import styles from "src/component/button/Button.module.scss";
  * Button props
  */
 interface ButtonProps {
+
   /**
    * Button's value (text)
    */
   value: string;
+
   /**
    * Callback triggered on button click
    */
