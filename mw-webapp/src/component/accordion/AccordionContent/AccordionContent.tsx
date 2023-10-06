@@ -5,6 +5,7 @@ import styles from "src/component/accordion/AccordionContent/AccordionContent.mo
  * Props for the {@link AccordionContent} component.
  */
 export interface AccordionContentProps {
+
   /**
    * The text content to be displayed within the AccordionContent.
    */

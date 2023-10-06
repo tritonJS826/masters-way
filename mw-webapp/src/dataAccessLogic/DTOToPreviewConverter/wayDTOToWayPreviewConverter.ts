@@ -6,10 +6,12 @@ import {WayDTO} from "src/model/firebaseCollection/WayDTO";
  * WayPreview props {@link WayPreview} that have custom type
  */
 interface WayPreviewProps {
+
   /**
    * Owner
    */
   owner: UserPreview;
+
   /**
    * Current mentors
    */

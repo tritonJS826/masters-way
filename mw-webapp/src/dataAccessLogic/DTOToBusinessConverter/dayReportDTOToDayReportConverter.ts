@@ -9,18 +9,22 @@ import {DayReportDTO} from "src/model/firebaseCollection/DayReportDTO";
  * DayReport props {@link DayReport} that have custom type
  */
 interface DayReportProps {
+
   /**
    * Jobs done
    */
   jobsDone: JobDone[];
+
   /**
    * Plans for next period
    */
   plansForNextPeriod: PlanForNextPeriod[];
+
   /**
    * Problems for current period
    */
   problemsForCurrentPeriod: CurrentProblem[];
+
   /**
    * Mentor comments
    */
