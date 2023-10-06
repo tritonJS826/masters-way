@@ -3,7 +3,10 @@ import {Root as DialogRoot} from "@radix-ui/react-dialog";
 import {ModalContent} from "src/component/modal/ModalContent/ModalContent";
 import {ModalTrigger} from "src/component/modal/ModalTrigger/ModalTrigger";
 
-interface DialogProps {
+/**
+ * Modal props
+ */
+interface ModalProps {
   /**
    * The element that triggers the modal.
    */
@@ -21,8 +24,10 @@ interface DialogProps {
 
 /**
  * A component that creates a modal dialog.
+ *  @param {ModalProps} props
+ *  @returns {JSX.Element}
  */
-export const Modal = (props: DialogProps) => {
+export const Modal = (props: ModalProps): JSX.Element => {
   const [open, setOpen] = useState(props.open ?? false);
 
   return (
