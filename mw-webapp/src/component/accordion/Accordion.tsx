@@ -38,7 +38,7 @@ interface AccordionItemData {
 }
 
 /**
- * ACcordion props
+ * Accordion props
  */
 interface AccordionProps {
   /**
