@@ -134,7 +134,15 @@
     "@typescript-eslint/no-explicit-any": "error",
     "no-var": "error",
     "prefer-const": "error",
+    "lines-around-comment": [
+      "error",
+      {
+        "afterBlockComment": false,
+        "beforeBlockComment": true
+      }
+    ],
     "jsdoc/check-alignment": "error",
+    "jsdoc/check-indentation": ["error"],
     "jsdoc/no-blank-blocks": ["error", {"enableFixer":false}],
     "jsdoc/require-jsdoc": ["error", {
       "require": {

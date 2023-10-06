@@ -10,6 +10,7 @@ import styles from "src/component/accordion/Accordion.module.scss";
  * Enum defines the available modes of operation for the accordion component.
  */
 export enum accordionTypes {
+
   /**
    * Single mode (`"single"`) - In this mode, only one accordion item can be open at a time.
    * If a user opens one item, any previously open item will automatically close.
@@ -27,10 +28,12 @@ export enum accordionTypes {
  * Accordion item data
  */
 interface AccordionItemData {
+
   /**
    * The trigger element that users can interact with to expand or collapse the item.
    */
   trigger: ReactElement<AccordionTriggerProps>;
+
   /**
    * The content element that becomes visible when the item is expanded.
    */
@@ -41,16 +44,19 @@ interface AccordionItemData {
  * Accordion props
  */
 interface AccordionProps {
+
   /**
    * An array of objects representing the accordion items, each containing a trigger and content element.
    */
   items: AccordionItemData[];
+
   /**
    * The mode of operation for the accordion. (Optional)
    * @type {accordionTypes}
    * @default "single"
    */
   type?: accordionTypes;
+
   /**
    * Additional custom class name for the component (Optional)
    */
@@ -73,6 +79,7 @@ const renderAccordionItem = (item: AccordionItemData, uniqueId: string) => (
 
 /**
  * This component renders a vertically stacked set of interactive headings that each reveal an associated section of content.
+ * @param {AccordionProps} props
  */
 export const Accordion = (props: AccordionProps) => {
   return (

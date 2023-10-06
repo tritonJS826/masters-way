@@ -14,7 +14,7 @@ const columnHelper = createColumnHelper<DayReport>();
 /**
  * Render cell item based on array item
  */
-const getObjectArrayItem = (arrayItem: JobDone | PlanForNextPeriod | CurrentProblem, getFullItem?: string) => {
+const renderObjectArrayItem = (arrayItem: JobDone | PlanForNextPeriod | CurrentProblem, getFullItem?: string) => {
   return (
     (JSON.stringify(arrayItem) === "{}") ?
       <div />
@@ -29,21 +29,24 @@ const getObjectArrayItem = (arrayItem: JobDone | PlanForNextPeriod | CurrentProb
  * Render a string within a div element.
  *
  * @param {object} params - The parameters for rendering the string item.
- * @param {string} params.context - Text to be rendered
+ * @param {string} params.content - Text to be rendered
  * @param {string} params.key - The key for the rendered div element, to ensure React elements have unique keys.
  * @param {boolean} [params.isDone] - Optional. If true, the item is styled as completed.
  *
  * @returns {JSX.Element} The rendered string item.
  */
 const renderStringCell = ({content, key, isDone}: {
+
   /**
    * Cell's content
    */
   content: string;
+
   /**
    * Unique value for cells in table
    */
   key: string;
+
   /**
    * TODO: delete or rename this prop for split render cell and styles.
    * TODO: Because props isDone can be unusable for other tables cells
@@ -61,9 +64,8 @@ const renderStringCell = ({content, key, isDone}: {
 
 /**
  * Render cell with boolean value
- * TODO:need to rename function
  */
-const getBoolean = (cellValue: CellContext<DayReport, boolean>) => {
+const renderBoolean = (cellValue: CellContext<DayReport, boolean>) => {
   return (
     cellValue.getValue() === true ?
       <div>
@@ -78,9 +80,8 @@ const getBoolean = (cellValue: CellContext<DayReport, boolean>) => {
 
 /**
  * Render cell with date value
- * TODO: need rename function
  */
-const getDateValue = (cellValue: CellContext<DayReport, Date>) => {
+const renderDateValue = (cellValue: CellContext<DayReport, Date>) => {
   return (
     DateUtils.getShortISODateValue(cellValue.getValue())
   );
@@ -90,13 +91,15 @@ export const columns: ColumnDef<DayReport, Date & JobDone[] & PlanForNextPeriod[
 boolean & MentorComment[]>[] = [
   columnHelper.accessor<"date", Date>("date", {
     header: "Date",
+
     /**
      * Cell with date value
      */
-    cell: (dateValue) => getDateValue(dateValue),
+    cell: (dateValue) => renderDateValue(dateValue),
   }),
   columnHelper.accessor<"jobsDone", JobDone[]>("jobsDone", {
     header: "Sum time",
+
     /**
      * Cell with summary of work time
      */
@@ -109,18 +112,20 @@ boolean & MentorComment[]>[] = [
   }),
   columnHelper.accessor<"jobsDone", JobDone[]>("jobsDone", {
     header: "Jobs done",
+
     /**
      * Cell with JobsDone items
      */
     cell: ({row}) => {
       return (
         row.original.jobsDone
-          .map((jobDoneItem) => (getObjectArrayItem(jobDoneItem, jobDoneItem.getJobDone())))
+          .map((jobDoneItem) => (renderObjectArrayItem(jobDoneItem, jobDoneItem.getJobDone())))
       );
     },
   }),
   columnHelper.accessor<"plansForNextPeriod", PlanForNextPeriod[]>("plansForNextPeriod", {
     header: "Plans for tomorrow",
+
     /**
      * Cell with PlanForNextPeriod items
      */
@@ -128,12 +133,13 @@ boolean & MentorComment[]>[] = [
       return (
         row.original.plansForNextPeriod
           .map((planForNextPeriodItem) =>
-            (getObjectArrayItem(planForNextPeriodItem, planForNextPeriodItem.getPlanForNextPeriod())))
+            (renderObjectArrayItem(planForNextPeriodItem, planForNextPeriodItem.getPlanForNextPeriod())))
       );
     },
   }),
   columnHelper.accessor<"problemsForCurrentPeriod", CurrentProblem[]>("problemsForCurrentPeriod", {
     header: "Current problems",
+
     /**
      * Cell with ProblemsForCurrentPeriod items
      */
@@ -141,12 +147,13 @@ boolean & MentorComment[]>[] = [
       return (
         row.original.problemsForCurrentPeriod
           .map((currentProblemItem) =>
-            (getObjectArrayItem(currentProblemItem, currentProblemItem.description)))
+            (renderObjectArrayItem(currentProblemItem, currentProblemItem.description)))
       );
     },
   }),
   columnHelper.accessor<"studentComments", string[]>("studentComments", {
     header: "Student comments",
+
     /**
      * Cell with StudentComments items
      */
@@ -161,6 +168,7 @@ boolean & MentorComment[]>[] = [
   }),
   columnHelper.accessor<"learnedForToday", string[]>("learnedForToday", {
     header: "Learned for today",
+
     /**
      * Cell with LearnForToday items
      */
@@ -175,6 +183,7 @@ boolean & MentorComment[]>[] = [
   }),
   columnHelper.accessor<"mentorComments", MentorComment[]>("mentorComments", {
     header: "Mentor comments",
+
     /**
      * Cell with MentorComments items
      */
@@ -190,9 +199,10 @@ boolean & MentorComment[]>[] = [
   }),
   columnHelper.accessor<"isDayOff", boolean>("isDayOff", {
     header: "Is day off",
+
     /**
      * Cell with IsDayOff value
      */
-    cell: (isDAyOffValue) => getBoolean(isDAyOffValue),
+    cell: (isDAyOffValue) => renderBoolean(isDAyOffValue),
   }),
 ];
