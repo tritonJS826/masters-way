@@ -1,4 +1,8 @@
-import {CellContext, ColumnDef, createColumnHelper} from "@tanstack/react-table";
+import {
+  CellContext,
+  ColumnDef,
+  createColumnHelper,
+} from "@tanstack/react-table";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
@@ -103,12 +107,12 @@ boolean & MentorComment[]>[] = [
     /**
      * Cell with summary of work time
      */
-    cell: (({row}) => {
+    cell: ({row}) => {
       return (
         row.original.jobsDone
           .reduce((summaryTime, jobDone) => jobDone.time + summaryTime, DEFAULT_SUMMARY_TIME)
       );
-    }),
+    },
   }),
   columnHelper.accessor<"jobsDone", JobDone[]>("jobsDone", {
     header: "Jobs done",

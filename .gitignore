@@ -133,6 +133,10 @@ dist
 .vscode
 
 # autosave draw.io
+.$models.drawio.bkp
+
+# misc
+.DS_Store
 *.drawio.bkp
 
 # dependencies

@@ -29,6 +29,7 @@
         ]
       }
     ],
+    "no-restricted-exports": ["error", {"restrictDefaultExports": {"direct": true}}],
     "capitalized-comments": [
       "error",
       "always",
@@ -171,7 +172,7 @@
       { "blankLine": "always", "prev": "import", "next": "const" }
   ]
   },
-  "ignorePatterns": ["/build", "**.stories.ts"],
+  "ignorePatterns": ["/build", "**.stories.ts", "vite.config.ts"],
   "settings": {
     "import/resolver": {
       "node": { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
