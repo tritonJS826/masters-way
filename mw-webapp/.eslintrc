@@ -155,10 +155,18 @@
       { "blankLine": "always", "prev": "import", "next": "const" }
   ]
   },
-  "ignorePatterns": ["/build", "vite.config.ts", "*.stories.ts*"],
+  "ignorePatterns": ["/build", "vite.config.ts"],
   "settings": {
     "import/resolver": {
       "node": { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
     }
-  }
+  },
+  "overrides": [
+    {
+      "files": ["*.stories.ts*"],
+      "rules": {
+        "no-restricted-exports": ["error", {"restrictDefaultExports": {"direct": false}}]
+      }
+    }
+  ]  
 }
