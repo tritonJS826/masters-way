@@ -8,12 +8,12 @@ import {WayDTO} from "src/model/firebaseCollection/WayDTO";
 interface WayPreviewProps {
 
   /**
-   * Owner
+   * Way's user
    */
   owner: UserPreview;
 
   /**
-   * Current mentors
+   * Way's current mentors
    */
   currentMentors: UserPreview[];
 }
