@@ -31,7 +31,7 @@ export const LoadingProvider: React.FC<LoadingProviderProps> = ({children}) => {
 };
 
 /**
- * CHeck context and return Error if it's not exist
+ * Check context and return Error if it's not exist
  */
 export const useLoading = (): LoadingContextType => {
   const context = useContext(LoadingContext);
