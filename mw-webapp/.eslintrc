@@ -175,7 +175,7 @@
   "ignorePatterns": ["/build", "node_modules/", "storybook-static", "vite.config.ts"],
   "overrides": [
     {
-      "files": ["*.stories.ts*"],
+      "files": ["*.stories.tsx*"],
       "rules": {
         "no-restricted-exports": ["error", {"restrictDefaultExports": {"direct": false}}],
         "jsdoc/require-jsdoc": ["error", {
