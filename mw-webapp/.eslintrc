@@ -163,7 +163,7 @@
   },
   "overrides": [
     {
-      "files": ["*.stories.ts*"],
+      "files": ["*.stories.tsx*"],
       "rules": {
         "no-restricted-exports": ["error", {"restrictDefaultExports": {"direct": false}}]
       }

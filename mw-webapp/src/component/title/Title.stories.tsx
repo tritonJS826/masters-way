@@ -1,12 +1,14 @@
 import type {StoryObj} from "@storybook/react";
 import {HeadingLevel, Title} from "src/component/title/Title";
 
-export default meta = {
+const meta = {
   title: "Title",
   component: Title,
   parameters: {layout: "centered"},
   tags: ["autodocs"],
 };
+
+export default meta;
 
 type Story = StoryObj<typeof meta>;
 

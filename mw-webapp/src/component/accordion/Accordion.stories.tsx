@@ -3,11 +3,13 @@ import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
 import {AccordionContent} from "src/component/accordion/AccordionContent/AccordionContent";
 import {AccordionTrigger} from "src/component/accordion/AccordionTrigger/AccordionTrigger";
 
-export default meta = {
+const meta = {
   title: "Accordion",
   component: Accordion,
   tags: ["autodocs"],
 };
+
+export default meta;
 
 type Story = StoryObj<typeof meta>;
 
