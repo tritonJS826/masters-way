@@ -3,4 +3,5 @@
 
 cd mw-webapp
 pnpm lint-staged
+# TODO: add concurrently to dev dependencies, adjust monorepo
 pnpm dlx concurrently "pnpm type-check" "pnpm test" "pnpm build-storybook" "pnpm build"
