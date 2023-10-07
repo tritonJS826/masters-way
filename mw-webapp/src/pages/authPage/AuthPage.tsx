@@ -11,6 +11,9 @@ const BUTTON_LOG_IN_VALUE = "Login";
 const BUTTON_LOG_OUT_VALUE = "Logout";
 const LINK_TEXT = "Workflow";
 
+/**
+ * Auth page
+ */
 export const AuthPage = () => {
   const [user, setUser] = useState<User | null>(null);
 

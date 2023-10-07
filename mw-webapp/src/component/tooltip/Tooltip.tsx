@@ -7,24 +7,26 @@ import styles from "src/component/tooltip/Tooltip.module.scss";
  * Tooltip props
  */
 interface TooltipProps {
+
   /**
-  * Tooltip's content
-  */
+   * Tooltip's content
+   */
   content: string | ReactNode;
+
   /**
-  * Additional custom class name for the component
-  */
+   * Additional custom class name for the component
+   */
   className?: string;
+
   /**
-  * Tooltip's position
-  * default: {@link PositionTooltip.TOP}
-  */
+   * Tooltip's position
+   * default: {@link PositionTooltip.TOP}
+   */
   position?: PositionTooltip;
 }
 
 /**
- * This component renders a tooltip
- * @public
+ * Tooltip component
  */
 export const Tooltip: React.FC<PropsWithChildren<TooltipProps>> = (props: PropsWithChildren<TooltipProps>) => {
   const classes = clsx(styles.tooltip, props.className && styles[props.className], styles[props.position ?? PositionTooltip.TOP]);
