@@ -1,7 +1,11 @@
 import {Header} from "src/component/header/Header";
 import {Router} from "src/router/Router";
 
-function App() {
+/**
+ * App
+ */
+export function App() {
+
   return (
     <>
       <Header />
@@ -9,5 +13,3 @@ function App() {
     </>
   );
 }
-
-export default App;

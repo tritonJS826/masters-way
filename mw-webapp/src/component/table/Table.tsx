@@ -55,8 +55,7 @@ export const Table = memo(<T extends TablesModel >(props: TableProps<T>) => {
                     ? null
                     : flexRender(
                       header.column.columnDef.header,
-                      header.getContext(),
-                    )}
+                      header.getContext())}
                 </th>
               ))}
             </tr>
@@ -75,7 +74,8 @@ export const Table = memo(<T extends TablesModel >(props: TableProps<T>) => {
                 >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
-              ))}
+              ))
+              }
             </tr>
           ))}
         </tbody>

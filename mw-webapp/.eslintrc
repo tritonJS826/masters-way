@@ -18,7 +18,7 @@
     // "project": ["**/tsconfig.json", "**/vite.config.ts"] // путь для сопоставления файлов tsconfig относительно parserOptions.tsconfigRootDir, ​​или текущего рабочего каталога, если он не указан
     "project": true // указывает на поиск ближайшего tsconfig.json для каждого исходного файла
   },
-  "plugins": ["react", "@typescript-eslint", "simple-import-sort"],
+  "plugins": ["react", "@typescript-eslint", "simple-import-sort", "jsdoc"],
   "rules": {
     "simple-import-sort/imports": [
       "error",
@@ -29,12 +29,14 @@
         ]
       }
     ],
+    "no-restricted-exports": ["error", {"restrictDefaultExports": {"direct": true}}],
     "capitalized-comments": [
       "error",
       "always",
       { "ignoreInlineComments": true, "ignoreConsecutiveComments": true }
     ],
     "no-magic-numbers": ["error" , { "ignore": [0] }],
+    "multiline-ternary": ["error", "always-multiline"],
     "no-console": "error",
     "react/react-in-jsx-scope": "off",
     "no-tabs": ["error", { "allowIndentationTabs": true }],
@@ -96,7 +98,7 @@
     ],
     "lines-between-class-members": ["error", "always"],
     "padded-blocks": ["error", { "classes": "always" }],
-    "no-multiple-empty-lines": "error",
+    "no-multiple-empty-lines": ["error", { "max": 1}],
     "max-len": ["error", { "code": 130 }],
     "max-params": ["error", 7],
     "curly": "error",
@@ -131,9 +133,62 @@
     "@typescript-eslint/prefer-optional-chain": "error",
     "@typescript-eslint/no-explicit-any": "error",
     "no-var": "error",
-    "prefer-const": "error"
+    "prefer-const": "error",
+    "lines-around-comment": [
+      "error",
+      {
+        "afterBlockComment": false,
+        "beforeBlockComment": true
+      }
+    ],
+    "jsdoc/check-alignment": "error",
+    "jsdoc/check-indentation": ["error"],
+    "jsdoc/no-blank-blocks": ["error", {"enableFixer":false}],
+    "jsdoc/require-jsdoc": ["error", {
+      "require": {
+        "MethodDefinition": true,
+        "ClassDeclaration": true
+      },
+      "checkConstructors": false,
+      "checkSetters": true,
+      "contexts": [
+        "TSEnumDeclaration",
+        "TSInterfaceDeclaration",
+        "TSPropertySignature",
+        "ArrowFunctionExpression",
+        "TSProperySignature"
+      ]
+    }],
+    "object-shorthand": ["error", "always"],
+    "no-duplicate-imports": ["error"],
+    "no-restricted-imports": ["error", {
+      "patterns": [".*"]
+    }],
+    "padding-line-between-statements": [
+      "error",
+      { "blankLine": "always", "prev": "*", "next": "return" },
+      { "blankLine": "always", "prev": "import", "next": "block-like" },
+      { "blankLine": "always", "prev": "import", "next": "class" },
+      { "blankLine": "always", "prev": "import", "next": "const" }
+  ]
   },
-  "ignorePatterns": ["/build"],
+  "ignorePatterns": ["/build", "node_modules/", "storybook-static", "vite.config.ts"],
+  "overrides": [
+    {
+      "files": ["*.stories.tsx*"],
+      "rules": {
+        "no-restricted-exports": ["error", {"restrictDefaultExports": {"direct": false}}],
+        "jsdoc/require-jsdoc": ["error", {
+          "publicOnly": true,
+          "require": {
+            "ArrowFunctionExpression": true
+          },
+          "checkConstructors": false,
+          "checkSetters": true
+        }]
+      }
+    }
+  ], 
   "settings": {
     "import/resolver": {
       "node": { "extensions": [".js", ".jsx", ".ts", ".tsx"] }

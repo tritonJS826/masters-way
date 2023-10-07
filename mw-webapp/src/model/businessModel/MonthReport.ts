@@ -34,7 +34,7 @@ export class MonthReport {
   public problemsForCurrentPeriod: CurrentProblem[];
 
   /**
-   * Anything that student wants to say about work
+   * Student comments
    */
   public studentComments: string[];
 

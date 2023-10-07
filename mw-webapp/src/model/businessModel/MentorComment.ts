@@ -1,5 +1,3 @@
-import {User} from "src/model/businessModel/User";
-
 /**
  * Mentor's comments model
  */
@@ -11,9 +9,9 @@ export class MentorComment {
   public uuid: string;
 
   /**
-   * Mentor info
+   * Mentor uuid
    */
-  public mentor: User;
+  public mentorUuid: string;
 
   /**
    * Comment's text
@@ -27,7 +25,7 @@ export class MentorComment {
 
   constructor(mentorCommentData: MentorComment) {
     this.uuid = mentorCommentData.uuid;
-    this.mentor = mentorCommentData.mentor;
+    this.mentorUuid = mentorCommentData.mentorUuid;
     this.description = mentorCommentData.description;
     this.isDone = mentorCommentData.isDone;
   }

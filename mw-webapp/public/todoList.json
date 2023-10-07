@@ -1990,5 +1990,39 @@
     "learnedForToday": ["Understood that constructor can take any value, not just reference its own class"],
     "mentorComment": [""],
     "isDayOff": false
+  },
+  {
+    "id": "42",
+    "date": "2023-10-05",
+    "workDone": [{
+      "id": "0",
+      "todoItem": "Create new PR based on #27 - Updated architecture, eslint, gitignore",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 30
+      }
+    },
+    {
+      "id": "1",
+      "todoItem": "Add js-docs",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 50
+      }
+    },
+    {
+      "id": "2",
+      "todoItem": "Rename js-docs, fix PR mistakes",
+      "time": {
+        "unit": "MINUTE",
+        "amount": 100
+      }
+    }
+  ],
+    "currentProblems": [""],
+    "studentComment": ["Read about comments McConnell"],
+    "learnedForToday": [""],
+    "mentorComment": [""],
+    "isDayOff": false
   }
 ]

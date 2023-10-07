@@ -1,6 +1,9 @@
 import {Route, Routes} from "react-router-dom";
 import {pages} from "src/router/pages";
 
+/**
+ * Router
+ */
 export const Router = () => {
   return (
     <Routes>
@@ -11,6 +14,14 @@ export const Router = () => {
       <Route
         path={pages.auth.path}
         element={pages.auth.element}
+      />
+      <Route
+        path={pages.waysPage.path}
+        element={pages.waysPage.element}
+      />
+      <Route
+        path={pages.users.path}
+        element={pages.users.element}
       />
       <Route
         path={pages.page404.path}
