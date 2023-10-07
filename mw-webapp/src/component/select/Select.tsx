@@ -34,7 +34,6 @@ export interface SelectProps {
 
 /**
  * Represents a control that provides a menu of options
- * @param {SelectProps} props
  */
 export const Select: React.FC<SelectProps> = (props: SelectProps) => {
   const renderSelectOptions = props.options.map((option) => (
@@ -47,7 +46,6 @@ export const Select: React.FC<SelectProps> = (props: SelectProps) => {
 
   /**
    * Handle onChange event
-   * @param {React.ChangeEvent<HTMLSelectElement>} e
    */
   const onChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     props.onChange(e.target.value);

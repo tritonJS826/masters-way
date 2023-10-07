@@ -65,8 +65,6 @@ interface AccordionProps {
 
 /**
  * Accordion item component
- * @param {AccordionItemData} item
- * @param {string} uniqueId
  */
 const renderAccordionItem = (item: AccordionItemData, uniqueId: string) => (
   <AccordionItem
@@ -79,7 +77,6 @@ const renderAccordionItem = (item: AccordionItemData, uniqueId: string) => (
 
 /**
  * This component renders a vertically stacked set of interactive headings that each reveal an associated section of content.
- * @param {AccordionProps} props
  */
 export const Accordion = (props: AccordionProps) => {
   return (

@@ -19,7 +19,6 @@ interface LinkProps {
 
 /**
  * Link component
- * @param {LinkProps} props
  */
 export const Link: React.FC<LinkProps> = (props: LinkProps) => {
   return (

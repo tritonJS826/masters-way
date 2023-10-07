@@ -13,9 +13,8 @@ const LINK_TEXT = "Workflow";
 
 /**
  * Auth page
- * @returns {JSX.Element}
  */
-export const AuthPage = (): JSX.Element => {
+export const AuthPage = () => {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {

@@ -16,12 +16,12 @@ interface JobDoneProps {
   description: string;
 
   /**
-   * Unit of time measurement for {@link estimationTime}
+   * Unit of time measurement for {@link time}
    */
   timeUnit: TimeUnit;
 
   /**
-   * How long was the job done
+   * Number of time units {@link timeUnit}
    */
   time: number;
 }

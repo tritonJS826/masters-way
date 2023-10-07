@@ -38,7 +38,6 @@ interface TitleProps {
 
 /**
  * Title component
- * @param {TitleProps} props
  */
 export const Title: React.FC<TitleProps> = (props: TitleProps) => {
   return (
