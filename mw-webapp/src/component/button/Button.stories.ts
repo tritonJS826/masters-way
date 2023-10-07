@@ -1,7 +1,7 @@
 import type {StoryObj} from "@storybook/react";
 import {Button} from "src/component/button/Button";
 
-export const meta = {
+export default meta = {
   title: "Button",
   component: Button,
   parameters: {layout: "centered"},

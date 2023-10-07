@@ -1,7 +1,7 @@
 import type {StoryObj} from "@storybook/react";
 import {Select} from "src/component/select/Select";
 
-export const meta = {
+export default meta = {
   title: "Select",
   component: Select,
   parameters: {layout: "centered"},

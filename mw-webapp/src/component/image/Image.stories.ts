@@ -1,14 +1,13 @@
-import type {StoryObj} from "@storybook/react";
-import {Image} from "src/component/image/Image";
+import type { StoryObj } from "@storybook/react";
+import { Image } from "src/component/image/Image";
 
-const meta = {
+export default meta = {
   title: "Image",
   component: Image,
-  parameters: {layout: "centered"},
+  parameters: { layout: "centered" },
   tags: ["autodocs"],
 };
 
-export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {

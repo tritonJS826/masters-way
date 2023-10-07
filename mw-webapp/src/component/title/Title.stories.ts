@@ -1,7 +1,7 @@
 import type {StoryObj} from "@storybook/react";
 import {HeadingLevel, Title} from "src/component/title/Title";
 
-export const meta = {
+export default meta = {
   title: "Title",
   component: Title,
   parameters: {layout: "centered"},
