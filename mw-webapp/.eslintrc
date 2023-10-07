@@ -177,7 +177,15 @@
     {
       "files": ["*.stories.ts*"],
       "rules": {
-        "no-restricted-exports": ["error", {"restrictDefaultExports": {"direct": false}}]
+        "no-restricted-exports": ["error", {"restrictDefaultExports": {"direct": false}}],
+        "jsdoc/require-jsdoc": ["error", {
+          "publicOnly": true,
+          "require": {
+            "ArrowFunctionExpression": true
+          },
+          "checkConstructors": false,
+          "checkSetters": true
+        }]
       }
     }
   ], 
