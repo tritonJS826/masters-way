@@ -1,5 +1,4 @@
 import {flexRender, HeaderGroup, RowModel} from "@tanstack/react-table";
-import {DayReport} from "src/model/businessModel/DayReport";
 import styles from "src/component/table/Table.module.scss";
 
 /**
@@ -26,18 +25,13 @@ interface TableProps<T> {
   /**
    * Table's data
    */
-  data: TableData<T>;
+  data: T;
 }
-
-/**
- * Table's model
- */
-type TablesModel = DayReport
 
 /**
  * Table
  */
-export const Table = <T extends TablesModel >(props: TableProps<T>) => {
+export const Table = <T, > (props: TableProps<TableData<T>>) => {
   const data = props.data;
 
   return (
