@@ -172,18 +172,18 @@
       { "blankLine": "always", "prev": "import", "next": "const" }
   ]
   },
-  "ignorePatterns": ["/build", "vite.config.ts"],
-  "settings": {
-    "import/resolver": {
-      "node": { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
-    }
-  },
+  "ignorePatterns": ["/build", "node_modules/", "vite.config.ts"],
   "overrides": [
     {
-      "files": ["*.stories.tsx*"],
+      "files": ["*.stories.ts*"],
       "rules": {
         "no-restricted-exports": ["error", {"restrictDefaultExports": {"direct": false}}]
       }
     }
-  ]  
+  ], 
+  "settings": {
+    "import/resolver": {
+      "node": { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
+    }
+  }
 }
