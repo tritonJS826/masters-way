@@ -3,7 +3,7 @@ import {getDayReports} from "src/dataAccessLogic/getDayReports";
 import {DayReport} from "src/model/businessModel/DayReport";
 
 /**
- * Receives and transfer data of reports
+ * Load day reports
  * @returns {DayReport[]}
  */
 export const useGetDataTableReports = () => {
