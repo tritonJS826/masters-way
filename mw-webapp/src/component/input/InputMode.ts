@@ -1,6 +1,5 @@
 /**
  * Input's modes for virtual keyboard
- * @public
  */
 export enum InputMode {
 
