@@ -109,7 +109,7 @@ boolean & MentorComment[]>[] = [
         row.original.jobsDone
           .reduce((summaryTime, jobDone) => jobDone.time + summaryTime, DEFAULT_SUMMARY_TIME)
       );
-    }),
+    },
   }),
   columnHelper.accessor<"jobsDone", JobDone[]>("jobsDone", {
     header: "Jobs done",
