@@ -1,4 +1,3 @@
-import {memo} from "react";
 import {flexRender, HeaderGroup, RowModel} from "@tanstack/react-table";
 import {DayReport} from "src/model/businessModel/DayReport";
 import styles from "src/component/table/Table.module.scss";
