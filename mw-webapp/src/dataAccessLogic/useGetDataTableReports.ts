@@ -9,6 +9,9 @@ import {DayReport} from "src/model/businessModel/DayReport";
 export const useGetDataTableReports = () => {
   const [data, setData] = useState<DayReport[]>([]);
 
+  /**
+ * Receives and transfer data of reports
+ */
   const loadDayReports = async () => {
     const dayReports = await getDayReports();
     setData(dayReports);

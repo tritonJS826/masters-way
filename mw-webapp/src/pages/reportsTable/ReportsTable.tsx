@@ -20,9 +20,7 @@ export const ReportsTable: React.FC = () => {
   const headerGroup = table.getHeaderGroups();
   const rowModel = table.getRowModel();
 
-  const tableContent = useMemo(() => {
-    return {headerGroup, rowModel};
-  }, [data]);
+  const tableContent = {headerGroup, rowModel};
 
   return (
     <Table data={tableContent} />

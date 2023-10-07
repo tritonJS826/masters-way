@@ -7,13 +7,15 @@ import styles from "src/component/table/Table.module.scss";
  * Tables data
  */
 interface TableData<T> {
+
   /**
- * Table headers
- */
+   * Table headers
+   */
   headerGroup: HeaderGroup<T>[];
+
   /**
- * Table rows
- */
+   * Table rows
+   */
   rowModel: RowModel<T>;
 }
 
@@ -21,9 +23,10 @@ interface TableData<T> {
  * Table's props
  */
 interface TableProps<T> {
+
   /**
-  * Table's data
-  */
+   * Table's data
+   */
   data: TableData<T>;
 }
 
@@ -35,8 +38,9 @@ type TablesModel = DayReport
 /**
  * Table
  */
-export const Table = memo(<T extends TablesModel >(props: TableProps<T>) => {
+export const Table = <T extends TablesModel >(props: TableProps<T>) => {
   const data = props.data;
+
   return (
     <div className={styles.container}>
       <table className={styles.table}>
@@ -82,6 +86,4 @@ export const Table = memo(<T extends TablesModel >(props: TableProps<T>) => {
       </table>
     </div>
   );
-});
-
-Table.displayName = "Table";
+};
