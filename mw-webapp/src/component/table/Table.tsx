@@ -6,7 +6,7 @@ import styles from "src/component/table/Table.module.scss";
 /**
  * Tables data
  */
-interface TablesData<T> {
+interface TableData<T> {
   /**
  * Table headers
  */
@@ -24,7 +24,7 @@ interface TableProps<T> {
   /**
   * Table's data
   */
-  data: TablesData<T>;
+  data: TableData<T>;
 }
 
 /**
