@@ -2,7 +2,6 @@ import {ReportHandler} from "web-vitals";
 
 /**
  * Report Web Vitals
- * @param {ReportHandler} onPerfEntry
  */
 export const reportWebVitals = (onPerfEntry?: ReportHandler) => {
   if (onPerfEntry && onPerfEntry instanceof Function) {

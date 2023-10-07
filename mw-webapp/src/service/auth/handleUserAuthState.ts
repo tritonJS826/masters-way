@@ -4,8 +4,7 @@ import {auth, db} from "src/firebase";
 import {writeNewUserCredentials} from "src/service/auth/writeNewUserCredentials";
 
 /**
- * Set user state
- * @param {React.Dispatch<React.SetStateAction<User | null>>} setUser
+ * Tracks whether the user is logged in or not
  */
 export const handleUserAuthState = (setUser: React.Dispatch<React.SetStateAction<User | null>>) => {
   onAuthStateChanged(auth, async (currentUser) => {

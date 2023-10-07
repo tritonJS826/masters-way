@@ -18,7 +18,6 @@ interface ButtonProps {
 
 /**
  * Button component
- * @param {ButtonProps} props
  */
 export const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
   return (

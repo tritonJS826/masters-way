@@ -16,7 +16,8 @@ const DEFAULT_SUMMARY_TIME = 0;
 const columnHelper = createColumnHelper<DayReport>();
 
 /**
- * Render cell item based on array item
+ * Render string in the cell
+ * TODO: change this function in task #27
  */
 const renderObjectArrayItem = (arrayItem: JobDone | PlanForNextPeriod | CurrentProblem, getFullItem?: string) => {
   return (
@@ -47,7 +48,7 @@ const renderStringCell = ({content, key, isDone}: {
   content: string;
 
   /**
-   * Unique value for cells in table
+   * Unique value for cells in in one row of table
    */
   key: string;
 

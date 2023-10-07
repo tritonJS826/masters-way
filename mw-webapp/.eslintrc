@@ -172,7 +172,7 @@
       { "blankLine": "always", "prev": "import", "next": "const" }
   ]
   },
-  "ignorePatterns": ["/build", "**.stories.ts", "vite.config.ts"],
+  "ignorePatterns": ["/build", "node_modules/", "*.stories.ts", "vite.config.ts"],
   "settings": {
     "import/resolver": {
       "node": { "extensions": [".js", ".jsx", ".ts", ".tsx"] }

@@ -21,7 +21,7 @@ interface PlanForNextPeriodProps {
   timeUnit: TimeUnit;
 
   /**
-   * How long the job will take time
+   * Number of time units {@link timeUnit}
    */
   estimationTime: number;
 }

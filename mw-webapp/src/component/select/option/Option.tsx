@@ -43,7 +43,6 @@ interface OptionProps{
 
 /**
  * Element of Select
- * @param {OptionProps} props
  */
 export const Option: React.FC<OptionProps> = (props: OptionProps) => {
   return(

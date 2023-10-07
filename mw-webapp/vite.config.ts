@@ -13,16 +13,10 @@ export default defineConfig(() => {
     "FIREBASE_STORAGE_BUCKET",
     "FIREBASE_MESSAGING_SENDER_ID",
     "FIREBASE_APP_ID",
-    "AUTH_FIREBASE_API_KEY",
-    "AUTH_FIREBASE_AUTH_DOMAIN",
-    "AUTH_FIREBASE_PROJECT_ID",
-    "AUTH_FIREBASE_STORAGE_BUCKET",
-    "AUTH_FIREBASE_MESSAGING_SENDER_ID",
-    "AUTH_FIREBASE_APP_ID",
   ];
 
   /**
-   * Return object with env
+   * Return envs
    */
   const getEnvs = (envs: string[]) => envs.reduce((prev, envName) => {
     return {
