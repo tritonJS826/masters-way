@@ -3,11 +3,16 @@ import {Root as DialogRoot} from "@radix-ui/react-dialog";
 import {SidebarContent} from "src/component/sidebar/SidebarContent/SidebarContent";
 import {SidebarTrigger} from "src/component/sidebar/SidebarTrigger/SidebarTrigger";
 
+/**
+ * Sidebar props
+ */
 interface SidebarProps {
+
   /**
    * The element that triggers the Sidebar.
    */
   trigger: ReactElement<HTMLElement>;
+
   /**
    * The content to display within the Sidebar.
    */
