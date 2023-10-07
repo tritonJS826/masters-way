@@ -31,7 +31,7 @@ interface InputProps {
 
   /**
    * Input's mode (defines what kind of input mode browser should present to the user)
-   * @default InputMode.text
+   * @default: {@link InputMode.text}
    */
   inputMode?: InputMode;
 
@@ -54,7 +54,7 @@ interface InputProps {
   autoFocus?: boolean;
 
   /**
-   * The event handler
+   * Tracks the value entered into the input
    */
   onChange: (value: string) => void;
 
