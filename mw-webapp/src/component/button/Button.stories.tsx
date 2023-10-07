@@ -21,9 +21,7 @@ export const Default: Story = {
 
 export const Submit: Story = {
   args: {
-    value: "Submit", /**
-Eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee *
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee */
+    value: "Submit",
     onClick: () => {},
   },
 };
