@@ -55,10 +55,9 @@ interface InputProps {
 
   /**
    * The event handler
-   *  
    */
   onChange: (value: string) => void;
-     
+
 }
 
 /**

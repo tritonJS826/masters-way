@@ -39,7 +39,7 @@
     "build-storybook": "storybook build"
   },
   "lint-staged": {
-    "**/*.{ts, tsx}": [
+    "**/*.{ts,tsx}": [
       "pnpm run lint-fix"
     ],
     "**/*.{scss,module.scss}": [
