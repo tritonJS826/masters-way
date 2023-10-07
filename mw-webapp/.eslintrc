@@ -172,7 +172,7 @@
       { "blankLine": "always", "prev": "import", "next": "const" }
   ]
   },
-  "ignorePatterns": ["/build", "node_modules/", "vite.config.ts"],
+  "ignorePatterns": ["/build", "node_modules/", "storybook-static", "vite.config.ts"],
   "overrides": [
     {
       "files": ["*.stories.ts*"],
