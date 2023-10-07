@@ -1,16 +1,24 @@
 import styles from "src/component/button/Button.module.scss";
 
+/**
+ * Button props
+ */
 interface ButtonProps {
+
   /**
-  * Button's value (text)
-  */
+   * Button's value (text)
+   */
   value: string;
+
   /**
-  * Callback triggered on button click
-  */
+   * Callback triggered on button click
+   */
   onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
+/**
+ * Button component
+ */
 export const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
   return (
     <button

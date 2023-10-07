@@ -13,6 +13,9 @@ const BUTTON_LOG_OUT_VALUE = "Logout";
 const LINK_TEXT = "Workflow";
 const LOGO_TEXT = "master's way";
 
+/**
+ * Header component
+ */
 export const Header = () => {
   const [user, setUser] = useState<User | null>(null);
 

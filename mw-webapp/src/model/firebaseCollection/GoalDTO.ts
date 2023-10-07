@@ -31,8 +31,8 @@ export class GoalDTO {
   public timeUnit: TimeUnit;
 
   /**
-    * Estimation time for complete goal
-    */
+   * Estimation time for complete goal
+   */
   public estimationTime: number;
 
   constructor(goalData: GoalDTO) {

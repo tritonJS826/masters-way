@@ -5,14 +5,17 @@ import styles from "src/component/image/Image.module.scss";
  * Props for the Image component
  */
 interface ImageProps {
+
   /**
    * Image source
    */
   src: string;
+
   /**
    * Image alt text
    */
   alt: string;
+
   /**
    * Additional custom class name for the component
    */
@@ -32,5 +35,4 @@ export const Image: React.FC<ImageProps> = (props: ImageProps) => {
       />
     </div>);
 };
-
 

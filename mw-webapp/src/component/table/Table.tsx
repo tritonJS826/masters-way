@@ -14,11 +14,14 @@ import styles from "src/component/table/Table.module.scss";
  */
 export const Table = () => {
   const [data, setData] = useState<DayReport[]>([]);
+
+  /**
+   * Load DayReports and set data for using in the table
+   */
   const loadDayReports = async () => {
     const dayReports = await getDayReports();
     setData(dayReports);
   };
-
   useEffect(() => {
     loadDayReports();
   }, []);
@@ -33,7 +36,7 @@ export const Table = () => {
     <div className={styles.container}>
       <table className={styles.table}>
         <thead className={styles.thead}>
-          {table.getHeaderGroups().map((headerGroup) => (
+          {(table.getHeaderGroups().map((headerGroup) => (
             <tr
               className={styles.tr}
               key={headerGroup.id}
@@ -47,12 +50,12 @@ export const Table = () => {
                     ? null
                     : flexRender(
                       header.column.columnDef.header,
-                      header.getContext(),
-                    )}
+                      header.getContext())}
                 </th>
               ))}
             </tr>
-          ))}
+          ))
+          )}
         </thead>
         <tbody className={styles.tbody}>
           {table.getRowModel().rows.map((row) => (
