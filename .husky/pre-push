@@ -2,8 +2,5 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 cd mw-webapp
-pnpm lint-staged &
-pnpm type-check &
-pnpm test &
-pnpm build-storybook &
-pnpm build &
+pnpm lint-staged
+pnpm dlx concurrently "pnpm type-check" "pnpm test" "pnpm build-storybook" "pnpm build"
