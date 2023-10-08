@@ -13,12 +13,15 @@ type LoadingContextType = {
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
+/**
+ * TODO: how does it possible that context is undefined
+ */
 const LoadingContext = createContext<LoadingContextType | undefined>(undefined);
 
 /**
  * Loading provider
  */
-export const LoadingProvider: React.FC<PropsWithChildren> = (props: PropsWithChildren) => {
+export const LoadingProvider = (props: PropsWithChildren) => {
   const [isLoading, setLoading] = useState(true);
 
   return (

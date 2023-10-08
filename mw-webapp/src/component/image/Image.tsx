@@ -24,7 +24,7 @@ interface ImageProps {
 /**
  * Сomponent for displaying images
  */
-export const Image: React.FC<ImageProps> = (props: ImageProps) => {
+export const Image = (props: ImageProps) => {
   return (
     <div className={props.className}>
       <img

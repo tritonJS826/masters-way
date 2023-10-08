@@ -38,7 +38,7 @@ interface TitleProps {
 /**
  * Title component
  */
-export const Title: React.FC<TitleProps> = (props: TitleProps) => {
+export const Title = (props: TitleProps) => {
   return (
     <Heading
       as={props.level}

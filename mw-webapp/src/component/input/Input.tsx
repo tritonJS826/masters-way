@@ -63,7 +63,7 @@ interface InputProps {
 /**
  * Input component
  */
-export const Input: React.FC<InputProps> = (props: InputProps) => {
+export const Input = (props: InputProps) => {
 
   /**
    * Event handler for the input change event
