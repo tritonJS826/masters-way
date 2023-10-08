@@ -23,11 +23,20 @@ $font-size-large: 48px;
 // Colors
 $lightgray: rgb(211, 211, 211);
 $black: rgb(0, 0, 0);
+$transparent-black:  rgba(0, 0, 0, 0.9);
 $white: rgb(255, 255, 255);
 $green: rgb(0, 128, 0);
 
 // Accordion
 $accordion-radius: 6px;
 
+// Sidebar
+$sidebar-animation-time: 350ms;
+$sidebar-padding: 25px;
+$sidebar-width: 300px;
+$sidebar-button-size: 20px;
+$sidebar-button-offset: 5px;
+
 // Size
 $width-primary: 100%;
+$height-full: 100%;
