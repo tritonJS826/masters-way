@@ -28,7 +28,7 @@ interface TooltipProps {
 /**
  * Tooltip component
  */
-export const Tooltip: React.FC<PropsWithChildren<TooltipProps>> = (props: PropsWithChildren<TooltipProps>) => {
+export const Tooltip = (props: PropsWithChildren<TooltipProps>) => {
   const classes = clsx(styles.tooltip, props.className && styles[props.className], styles[props.position ?? PositionTooltip.TOP]);
 
   return (

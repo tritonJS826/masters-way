@@ -20,7 +20,7 @@ interface LinkProps {
 /**
  * Link component
  */
-export const Link: React.FC<LinkProps> = (props: LinkProps) => {
+export const Link = (props: LinkProps) => {
   return (
     <LinkFromRouter
       className={styles.link}

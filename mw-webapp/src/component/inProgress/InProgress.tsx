@@ -1,8 +1,7 @@
 import styles from "src/component/inProgress/InProgress.module.scss";
 
 /**
- * Represents a component that renders a Progress Bar
- * @component
+ * InProgress component
  */
 export const InProgress = () => {
   return (
