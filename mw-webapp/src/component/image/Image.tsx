@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "src/component/image/Image.module.scss";
 
 /**
@@ -25,7 +24,7 @@ interface ImageProps {
 /**
  * Сomponent for displaying images
  */
-export const Image: React.FC<ImageProps> = (props: ImageProps) => {
+export const Image = (props: ImageProps) => {
   return (
     <div className={props.className}>
       <img

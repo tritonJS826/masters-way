@@ -1,25 +1,39 @@
-import React, {createContext, PropsWithChildren, useContext, useState} from "react";
+import {createContext, PropsWithChildren, useContext, useState} from "react";
 
 type LoadingContextType = {
+
+  /**
+   * Render InProgress component if true
+   */
   isLoading: boolean;
 
+  /**
+   * Change value of isLoading
+   */
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
+/**
+ * TODO: how does it possible that context is undefined
+ */
 const LoadingContext = createContext<LoadingContextType | undefined>(undefined);
 
-type LoadingProviderProps = PropsWithChildren<unknown>;
-
-export const LoadingProvider: React.FC<LoadingProviderProps> = ({children}) => {
+/**
+ * Loading provider
+ */
+export const LoadingProvider = (props: PropsWithChildren) => {
   const [isLoading, setLoading] = useState(true);
 
   return (
     <LoadingContext.Provider value={{isLoading, setLoading}}>
-      {children}
+      {props.children}
     </LoadingContext.Provider>
   );
 };
 
+/**
+ * Check context and return Error if it's not exist
+ */
 export const useLoading = (): LoadingContextType => {
   const context = useContext(LoadingContext);
   if (context === undefined) {

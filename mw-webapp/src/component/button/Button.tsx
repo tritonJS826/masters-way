@@ -19,7 +19,7 @@ interface ButtonProps {
 /**
  * Button component
  */
-export const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
+export const Button = (props: ButtonProps) => {
   return (
     <button
       className={styles.button}

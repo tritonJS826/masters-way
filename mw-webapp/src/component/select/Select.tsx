@@ -35,7 +35,7 @@ export interface SelectProps {
 /**
  * Represents a control that provides a menu of options
  */
-export const Select: React.FC<SelectProps> = (props: SelectProps) => {
+export const Select = (props: SelectProps) => {
   const renderSelectOptions = props.options.map((option) => (
     <Option
       key={option.id}

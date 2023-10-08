@@ -1,4 +1,3 @@
-
 /**
  * Option type for a select component
  */
@@ -44,7 +43,7 @@ interface OptionProps{
 /**
  * Element of Select
  */
-export const Option: React.FC<OptionProps> = (props: OptionProps) => {
+export const Option = (props: OptionProps) => {
   return(
     <option
       key={props.key}

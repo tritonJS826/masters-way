@@ -1,4 +1,3 @@
-import React from "react";
 import {Heading} from "@radix-ui/themes";
 import clsx from "clsx";
 import styles from "src/component/title/Title.module.scss";
@@ -39,7 +38,7 @@ interface TitleProps {
 /**
  * Title component
  */
-export const Title: React.FC<TitleProps> = (props: TitleProps) => {
+export const Title = (props: TitleProps) => {
   return (
     <Heading
       as={props.level}

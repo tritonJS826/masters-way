@@ -4,7 +4,7 @@ import {Router} from "src/router/Router";
 /**
  * App
  */
-export function App() {
+export const App = () => {
 
   return (
     <>
@@ -12,4 +12,4 @@ export function App() {
       <Router />
     </>
   );
-}
+};
