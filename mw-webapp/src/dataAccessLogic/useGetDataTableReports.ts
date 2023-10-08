@@ -7,19 +7,19 @@ import {DayReport} from "src/model/businessModel/DayReport";
  * @returns {DayReport[]}
  */
 export const useGetDataTableReports = () => {
-  const [data, setData] = useState<DayReport[]>([]);
+  const [dayReports, setDayReports] = useState<DayReport[]>([]);
 
   /**
    * Receives and transfer data of reports
    */
   const loadDayReports = async () => {
-    const dayReports = await getDayReports();
-    setData(dayReports);
+    const data = await getDayReports();
+    setDayReports(data);
   };
 
   useEffect(() => {
     loadDayReports();
   }, []);
 
-  return data;
+  return dayReports;
 };
