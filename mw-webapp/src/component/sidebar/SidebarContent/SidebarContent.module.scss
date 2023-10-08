@@ -1,22 +1,21 @@
+@import "src/styles/_variables.scss";
+
 .dialogOverlay {
-  background-color: rgba(0, 0, 0, 0.9);
+  background-color: $transparent-black;
   position: fixed;
   inset: 0;
-  animation: overlayShow 350ms cubic-bezier(0.16, 1, 0.3, 1);
+  animation: overlayShow $sidebar-animation-time cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .dialogContent {
-  background-color: white;
-  box-shadow:
-    hsl(206 22% 7% / 35%) 0px 10px 38px -10px,
-    hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
+  background-color: $white;
   position: fixed;
   top: 0;
-  left: -300px;
-  width: 300px;
-  height: 100%;
-  padding: 25px;
-  animation: contentShow 350ms cubic-bezier(0.16, 1, 0.3, 1);
+  left: -$sidebar-width;
+  width: $sidebar-width;
+  height: $height-full;
+  padding: $sidebar-padding;
+  animation: contentShow $sidebar-animation-time cubic-bezier(0.16, 1, 0.3, 1);
   &:focus {
     outline: none;
   }
@@ -25,35 +24,18 @@
   }
 }
 
-.dialogTitle {
-  margin: 0;
-  font-weight: 500;
-  color: #4b5563;
-  font-size: 17px;
-}
-
-.dialogDescription {
-  margin: 10px 0 20px;
-  color: #6b7280;
-  font-size: 15px;
-  line-height: 1.5;
-}
-
 .closeButton {
-  height: 20px;
-  width: 20px;
+  height: $sidebar-button-size;
+  width: $sidebar-button-size;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   position: absolute;
-  top: 5px;
-  right: 5px;
+  top: $sidebar-button-offset;
+  right: $sidebar-button-offset;
   cursor: pointer;
   &:hover {
-    background-color: #ede9fe;
-  }
-  &:focus {
-    box-shadow: 0 0 0 2px #d8d3ff;
+    text-shadow: 2px 2px 2px $button-shadow;
   }
 }
 
