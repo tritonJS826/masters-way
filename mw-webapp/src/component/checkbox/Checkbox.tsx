@@ -30,6 +30,9 @@ interface CheckboxProps {
   onChange: () => void;
 }
 
+/**
+ * Checkbox component
+ */
 export const Checkbox: React.FC<CheckboxProps> = (props : CheckboxProps) => {
   return (
     <label className={styles.checkbox}>
