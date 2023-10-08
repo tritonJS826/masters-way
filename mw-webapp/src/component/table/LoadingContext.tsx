@@ -1,4 +1,4 @@
-import React, {createContext, PropsWithChildren, useContext, useState} from "react";
+import {createContext, PropsWithChildren, useContext, useState} from "react";
 
 type LoadingContextType = {
 
@@ -15,17 +15,15 @@ type LoadingContextType = {
 
 const LoadingContext = createContext<LoadingContextType | undefined>(undefined);
 
-type LoadingProviderProps = PropsWithChildren<unknown>;
-
 /**
  * Loading provider
  */
-export const LoadingProvider: React.FC<LoadingProviderProps> = ({children}) => {
+export const LoadingProvider: React.FC<PropsWithChildren> = (props: PropsWithChildren) => {
   const [isLoading, setLoading] = useState(true);
 
   return (
     <LoadingContext.Provider value={{isLoading, setLoading}}>
-      {children}
+      {props.children}
     </LoadingContext.Provider>
   );
 };

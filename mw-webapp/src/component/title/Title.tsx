@@ -1,4 +1,3 @@
-import React from "react";
 import {Heading} from "@radix-ui/themes";
 import clsx from "clsx";
 import styles from "src/component/title/Title.module.scss";

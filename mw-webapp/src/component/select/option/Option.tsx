@@ -1,4 +1,3 @@
-
 /**
  * Option type for a select component
  */

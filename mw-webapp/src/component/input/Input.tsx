@@ -1,4 +1,4 @@
-import React, {HTMLInputTypeAttribute} from "react";
+import {HTMLInputTypeAttribute} from "react";
 import clsx from "clsx";
 import {InputMode} from "src/component/input/InputMode";
 import styles from "src/component/input/Input.module.scss";
