@@ -1,4 +1,4 @@
-import {Table} from "src/component/table/Table";
+import {ReportsTable} from "src/pages/reportsTable/ReportsTable";
 import styles from "src/pages/mainPage/MainPage.module.scss";
 
 /**
@@ -11,7 +11,7 @@ export const MainPage = () => {
       <h1 className={styles.title}>
         Hiii, Student!
       </h1>
-      <Table />
+      <ReportsTable />
     </div>
   );
 };
