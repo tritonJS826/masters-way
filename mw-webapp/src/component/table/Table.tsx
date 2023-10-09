@@ -1,39 +1,44 @@
-import {useEffect, useState} from "react";
-import {
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
-import {columns} from "src/component/table/columns";
-import {getDayReports} from "src/dataAccessLogic/getDayReports";
-import {DayReport} from "src/model/businessModel/DayReport";
+import {flexRender, HeaderGroup, RowModel} from "@tanstack/react-table";
 import styles from "src/component/table/Table.module.scss";
 
 /**
- * Table (need update for split component and logic code)
+ * Tables data
  */
-export const Table = () => {
-  const [data, setData] = useState<DayReport[]>([]);
-  const loadDayReports = async () => {
-    const dayReports = await getDayReports();
-    setData(dayReports);
-  };
+interface TableData<T> {
 
-  useEffect(() => {
-    loadDayReports();
-  }, []);
+  /**
+   * Table headers
+   */
+  headerGroup: HeaderGroup<T>[];
 
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-  });
+  /**
+   * Table rows
+   */
+  rowModel: RowModel<T>;
+}
+
+/**
+ * Table's props
+ */
+interface TableProps<T> {
+
+  /**
+   * Table's data
+   */
+  data: T;
+}
+
+/**
+ * Table
+ */
+export const Table = <T, > (props: TableProps<TableData<T>>) => {
+  const data = props.data;
 
   return (
     <div className={styles.container}>
       <table className={styles.table}>
         <thead className={styles.thead}>
-          {table.getHeaderGroups().map((headerGroup) => (
+          {data.headerGroup.map((headerGroup) => (
             <tr
               className={styles.tr}
               key={headerGroup.id}
@@ -47,15 +52,14 @@ export const Table = () => {
                     ? null
                     : flexRender(
                       header.column.columnDef.header,
-                      header.getContext(),
-                    )}
+                      header.getContext())}
                 </th>
               ))}
             </tr>
           ))}
         </thead>
         <tbody className={styles.tbody}>
-          {table.getRowModel().rows.map((row) => (
+          {data.rowModel.rows.map((row) => (
             <tr
               className={styles.tr}
               key={row.id}

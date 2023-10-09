@@ -1,4 +1,4 @@
-//Button
+// Button
 $button-background: rgb(177, 162, 149);
 $button-shadow: rgb(77, 77, 77);
 $button-active: rgb(246, 246, 150);
@@ -14,14 +14,29 @@ $header-background: rgb(85, 122, 149);
 // Title
 $title-padding: 10px;
 
+// ProgressBar
+$progressBar-bg: rgb(255, 255, 255);
+
 // Font size
 $font-size-large: 48px;
 
-//Colors
+// Colors
 $lightgray: rgb(211, 211, 211);
 $black: rgb(0, 0, 0);
+$transparent-black: rgba(0, 0, 0, 0.9);
 $white: rgb(255, 255, 255);
 $green: rgb(0, 128, 0);
 
-//Accordion
+// Accordion
 $accordion-radius: 6px;
+
+// Sidebar
+$sidebar-animation-time: 350ms;
+$sidebar-padding: 25px;
+$sidebar-width: 300px;
+$sidebar-button-size: 20px;
+$sidebar-button-offset: 5px;
+
+// Size
+$width-primary: 100%;
+$height-full: 100%;

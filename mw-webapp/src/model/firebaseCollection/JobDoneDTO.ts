@@ -21,7 +21,7 @@ export class JobDoneDTO {
   public timeUnit: TimeUnit;
 
   /**
-   * How long did the task take to complete
+   * Number of time units {@link timeUnit}
    */
   public time: number;
 

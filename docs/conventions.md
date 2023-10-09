@@ -71,6 +71,14 @@ interface SwitchProps {
 import styles from "src/component/button/Button.module.scss";
 ```
 
+- If a function returns JSX, prefix `render` should be added.
+
+```
+const renderSomething = () => {
+  ...
+}
+```
+
 ## COMMENTS
 
 - All comments must start with big letter;

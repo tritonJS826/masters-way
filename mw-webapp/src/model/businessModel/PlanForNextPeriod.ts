@@ -1,6 +1,32 @@
 import {TimeUnit} from "src/model/businessModel/time/timeUnit/TimeUnit";
 
 /**
+ * PlanForNextPeriod props
+ */
+interface PlanForNextPeriodProps {
+
+  /**
+   * PlanForNextPeriod's UUID
+   */
+  uuid: string;
+
+  /**
+   * Job that should be done in next period
+   */
+  job: string;
+
+  /**
+   * Unit of time measurement for {@link estimationTime}
+   */
+  timeUnit: TimeUnit;
+
+  /**
+   * Number of time units {@link timeUnit}
+   */
+  estimationTime: number;
+}
+
+/**
  * Plan for next period model
  */
 export class PlanForNextPeriod {
@@ -21,11 +47,11 @@ export class PlanForNextPeriod {
   public timeUnit: TimeUnit;
 
   /**
-     * How long the job will take time
-     */
+   * How long the job will take time
+   */
   public estimationTime: number;
 
-  constructor(planForNextPeriodData: {uuid: string; job: string; timeUnit: TimeUnit; estimationTime: number}) {
+  constructor(planForNextPeriodData: PlanForNextPeriodProps) {
     this.uuid = planForNextPeriodData.uuid;
     this.job = planForNextPeriodData.job;
     this.timeUnit = planForNextPeriodData.timeUnit;

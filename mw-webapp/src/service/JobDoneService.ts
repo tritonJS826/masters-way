@@ -6,7 +6,7 @@ import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotTo
 const PATH_TO_JOBS_DONE_COLLECTION = "jobsDone";
 
 /**
- * JobsDone requests: {@link getJobsDone}
+ * Provides methods to interact with the JobsDone collection in Firestore.
  */
 export class JobDoneService {
 

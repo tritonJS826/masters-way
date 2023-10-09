@@ -4,8 +4,6 @@ import {JobDoneDTO} from "src/model/firebaseCollection/JobDoneDTO";
 
 /**
  * Convert {@link JobDoneDTO} to {@link JobDone}
- * @param {JobDoneDTO} jobDoneDTO
- * @returns {JobDone} {@link JobDone}
  */
 export const jobDoneDTOToJobDoneConverter = (jobDoneDTO: JobDoneDTO): JobDone => {
   return new JobDone({

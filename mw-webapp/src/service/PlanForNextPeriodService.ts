@@ -6,7 +6,7 @@ import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotTo
 const PATH_TO_PLANS_FOR_NEXT_PERIOD_COLLECTION = "plansForNextPeriod";
 
 /**
- * PlansForNextPeriod requests: {@link getPlansForNextPeriod}
+ * Provides methods to interact with the PlansForNextPeriod collection in Firestore.
  */
 export class PlanForNextPeriodService {
 
