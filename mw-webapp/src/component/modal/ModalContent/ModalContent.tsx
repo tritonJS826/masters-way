@@ -10,10 +10,8 @@ import styles from "src/component/modal/ModalContent/ModalContent.module.scss";
 
 /**
  * A container for the content to be displayed within a modal dialog.
- @param {PropsWithChildren} props
- @returns {JSX.Element}
  */
-export const ModalContent = (props: PropsWithChildren): JSX.Element => {
+export const ModalContent = (props: PropsWithChildren) => {
   return (
     <DialogPortal>
       <DialogOverlay className={styles.dialogOverlay} />

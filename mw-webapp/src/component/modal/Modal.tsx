@@ -7,14 +7,17 @@ import {ModalTrigger} from "src/component/modal/ModalTrigger/ModalTrigger";
  * Modal props
  */
 interface ModalProps {
+
   /**
    * The element that triggers the modal.
    */
   trigger: ReactElement<HTMLElement>;
+
   /**
    * The content to display within the modal.
    */
   content: ReactElement<HTMLElement>;
+
   /**
    * Controls whether the model is initially open or closed.
    * @default false
@@ -23,11 +26,9 @@ interface ModalProps {
 }
 
 /**
- * A component that creates a modal dialog.
- *  @param {ModalProps} props
- *  @returns {JSX.Element}
+ * Modal component
  */
-export const Modal = (props: ModalProps): JSX.Element => {
+export const Modal = (props: ModalProps) => {
   const [open, setOpen] = useState(props.open ?? false);
 
   return (
