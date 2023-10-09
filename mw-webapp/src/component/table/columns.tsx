@@ -1,102 +1,31 @@
-import {CellContext, ColumnDef, createColumnHelper} from "@tanstack/react-table";
+import {ColumnDef, createColumnHelper} from "@tanstack/react-table";
+import {renderCellDate} from "src/dataAccessLogic/renderCellValue/renderCellDate";
+import {renderCellIsDayOff} from "src/dataAccessLogic/renderCellValue/renderCellIsDayOff";
+import {renderCellItem} from "src/dataAccessLogic/renderCellValue/renderCellItem";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {MentorComment} from "src/model/businessModel/MentorComment";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
-import {DateUtils} from "src/utils/DateUtils";
-import styles from "src/component/table/columns.module.scss";
 
 const DEFAULT_SUMMARY_TIME = 0;
 
 const columnHelper = createColumnHelper<DayReport>();
 
-/**
- * Render string in the cell
- * TODO: change this function in task #27
- */
-const renderObjectArrayItem = (arrayItem: JobDone | PlanForNextPeriod | CurrentProblem, getFullItem?: string) => {
-  return (
-    (JSON.stringify(arrayItem) === "{}") ?
-      <div />
-      :
-      <div key={arrayItem.uuid}>
-        {getFullItem}
-      </div>
-  );
-};
+type DayReportCells = Date & JobDone[] & PlanForNextPeriod[] & CurrentProblem[] & MentorComment[] & string[] & boolean;
 
 /**
- * Render a string within a div element.
- *
- * @param {object} params - The parameters for rendering the string item.
- * @param {string} params.content - Text to be rendered
- * @param {string} params.key - The key for the rendered div element, to ensure React elements have unique keys.
- * @param {boolean} [params.isDone] - Optional. If true, the item is styled as completed.
- *
- * @returns {JSX.Element} The rendered string item.
+ * Render cells in table with data types {@link DayReportCells}
  */
-const renderStringCell = ({content, key, isDone}: {
 
-  /**
-   * Cell's content
-   */
-  content: string;
-
-  /**
-   * Unique value for cells in in one row of table
-   */
-  key: string;
-
-  /**
-   * TODO: delete or rename this prop for split render cell and styles.
-   * TODO: Because props isDone can be unusable for other tables cells
-   */
-  isDone?: boolean;
-}): JSX.Element => {
-  return (
-    <div key={key}>
-      <div className={isDone ? styles.completed : styles.notCompleted}>
-        {content}
-      </div>
-    </div>
-  );
-};
-
-/**
- * Render cell with boolean value
- */
-const renderBoolean = (cellValue: CellContext<DayReport, boolean>) => {
-  return (
-    cellValue.getValue() === true ?
-      <div>
-        Yes
-      </div>
-      :
-      <div>
-        No
-      </div>
-  );
-};
-
-/**
- * Render cell with date value
- */
-const renderDateValue = (cellValue: CellContext<DayReport, Date>) => {
-  return (
-    DateUtils.getShortISODateValue(cellValue.getValue())
-  );
-};
-
-export const columns: ColumnDef<DayReport, Date & JobDone[] & PlanForNextPeriod[] & CurrentProblem[] & string[] &
-boolean & MentorComment[]>[] = [
+export const columns: ColumnDef<DayReport, DayReportCells>[] = [
   columnHelper.accessor<"date", Date>("date", {
     header: "Date",
 
     /**
      * Cell with date value
      */
-    cell: (dateValue) => renderDateValue(dateValue),
+    cell: (dateValue) => renderCellDate(dateValue),
   }),
   columnHelper.accessor<"jobsDone", JobDone[]>("jobsDone", {
     header: "Sum time",
@@ -120,7 +49,7 @@ boolean & MentorComment[]>[] = [
     cell: ({row}) => {
       return (
         row.original.jobsDone
-          .map((jobDoneItem) => (renderObjectArrayItem(jobDoneItem, jobDoneItem.getJobDone())))
+          .map((jobDoneItem) => (renderCellItem({content: jobDoneItem.getJobDone(), arrayItem: jobDoneItem})))
       );
     },
   }),
@@ -133,8 +62,8 @@ boolean & MentorComment[]>[] = [
     cell: ({row}) => {
       return (
         row.original.plansForNextPeriod
-          .map((planForNextPeriodItem) =>
-            (renderObjectArrayItem(planForNextPeriodItem, planForNextPeriodItem.getPlanForNextPeriod())))
+          .map((planForNextPeriod) =>
+            (renderCellItem({content: planForNextPeriod.getPlanForNextPeriod(), arrayItem: planForNextPeriod})))
       );
     },
   }),
@@ -147,8 +76,8 @@ boolean & MentorComment[]>[] = [
     cell: ({row}) => {
       return (
         row.original.problemsForCurrentPeriod
-          .map((currentProblemItem) =>
-            (renderObjectArrayItem(currentProblemItem, currentProblemItem.description)))
+          .map((currentProblem) =>
+            (renderCellItem({content: currentProblem.description, arrayItem: currentProblem, isDone: currentProblem.isDone})))
       );
     },
   }),
@@ -159,11 +88,12 @@ boolean & MentorComment[]>[] = [
      * Cell with StudentComments items
      */
     cell: ({row}) => {
-      const parentID = row.original.uuid;
+      const parentUuid = row.original.uuid;
 
       return (
         row.original.studentComments
-          .map((studentCommentItem) => (renderStringCell({content: studentCommentItem, key: parentID})))
+          .map((studentComment, index) =>
+            renderCellItem({content: studentComment, parentUuid, columnName: "studentComments", index}))
       );
     },
   }),
@@ -174,11 +104,12 @@ boolean & MentorComment[]>[] = [
      * Cell with LearnForToday items
      */
     cell: ({row}) => {
-      const parentID = row.original.uuid;
+      const parentUuid = row.original.uuid;
 
       return (
         row.original.learnedForToday
-          .map((learnedForTodayItem) => (renderStringCell({content: learnedForTodayItem, key: parentID})))
+          .map((learnedForToday, index) =>
+            renderCellItem({content: learnedForToday, parentUuid, columnName: "learnedForToday", index}))
       );
     },
   }),
@@ -192,9 +123,8 @@ boolean & MentorComment[]>[] = [
 
       return (
         row.original.mentorComments
-          .map((mentorComment) => (renderStringCell(
-            {content: mentorComment.description, key: mentorComment.uuid, isDone: mentorComment.isDone},
-          )))
+          .map((mentorComment) =>
+            renderCellItem({content: mentorComment.description, arrayItem: mentorComment, isDone: mentorComment.isDone}))
       );
     },
   }),
@@ -204,6 +134,6 @@ boolean & MentorComment[]>[] = [
     /**
      * Cell with IsDayOff value
      */
-    cell: (isDAyOffValue) => renderBoolean(isDAyOffValue),
+    cell: (isDAyOffValue) => renderCellIsDayOff(isDAyOffValue),
   }),
 ];
