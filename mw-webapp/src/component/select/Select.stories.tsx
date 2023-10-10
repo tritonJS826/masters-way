@@ -9,6 +9,7 @@ const meta = {
 };
 
 export default meta;
+
 type Story = StoryObj<typeof meta>;
 
 const options = [

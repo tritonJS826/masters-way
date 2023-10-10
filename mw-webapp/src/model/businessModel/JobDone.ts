@@ -1,6 +1,32 @@
 import {TimeUnit} from "src/model/businessModel/time/timeUnit/TimeUnit";
 
 /**
+ * JobDone props
+ */
+interface JobDoneProps {
+
+  /**
+   * JobDone's UUID
+   */
+  uuid: string;
+
+  /**
+   * What was done
+   */
+  description: string;
+
+  /**
+   * Unit of time measurement for {@link time}
+   */
+  timeUnit: TimeUnit;
+
+  /**
+   * Number of time units {@link timeUnit}
+   */
+  time: number;
+}
+
+/**
  * Job done model
  */
 export class JobDone {
@@ -25,7 +51,7 @@ export class JobDone {
    */
   public time: number;
 
-  constructor(jobDoneData: {uuid: string; description: string; timeUnit: TimeUnit; time: number}) {
+  constructor(jobDoneData: JobDoneProps) {
     this.uuid = jobDoneData.uuid;
     this.description = jobDoneData.description;
     this.timeUnit = jobDoneData.timeUnit;

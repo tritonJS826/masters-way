@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-import {User} from "firebase/auth";
 import {dayReportDTOToDayReportConverter} from
   "src/dataAccessLogic/DTOToBusinessConverter/dayReportDTOToDayReportConverter";
 import {getCurrentProblems} from "src/dataAccessLogic/getCurrentProblems";
@@ -7,40 +6,14 @@ import {getJobsDone} from "src/dataAccessLogic/getJobsDone";
 import {getMentorComments} from "src/dataAccessLogic/getMentorComments";
 import {getPlansForNextPeriod} from "src/dataAccessLogic/getPlansForNextPeriod";
 import {DayReport} from "src/model/businessModel/DayReport";
-import {DayReportDTO} from "src/model/firebaseCollection/DayReportDTO";
 import {DayReportService} from "src/service/DayReportService";
-import {UserService} from "src/service/UserService";
-import {WayService} from "src/service/WayService";
 
 /**
  * Day reports
  * @returns {Promise<DayReport[]>}
  */
-export const getDayReports = async (currentUser: User | null): Promise<DayReport[]> => {
-  let dayReportsDTO = await DayReportService.getDayReportsDTO();
-
-  // TODO: change after table will be component, get Ways instead of dayReports
-  if (currentUser) {
-    const usersDTO = await UserService.getUsersDTO();
-    const matchingUser = usersDTO.find(user => user.uuid === currentUser.uid);
-
-    if (!matchingUser) {
-      throw new Error(`User not found for UUID ${currentUser.uid}`);
-    }
-
-    const waysDTO = await WayService.getWaysDTO();
-    const userOwnWays = waysDTO.filter(way => way.ownerUuid === matchingUser.uuid);
-    const filteredDayReportsDTO: DayReportDTO[] = [];
-
-    userOwnWays.forEach((way) => {
-      const dayReports = dayReportsDTO.filter(dayReport => way.dayReportUuids.includes(dayReport.uuid));
-      dayReports.forEach((dayReport) => {
-        filteredDayReportsDTO.push(dayReport);
-      });
-    });
-
-    dayReportsDTO = filteredDayReportsDTO;
-  }
+export const getDayReports = async (): Promise<DayReport[]> => {
+  const dayReportsDTO = await DayReportService.getDayReportsDTO();
 
   const jobsDonePreview = await getJobsDone();
   const plansForNextPeriodPreview = await getPlansForNextPeriod();

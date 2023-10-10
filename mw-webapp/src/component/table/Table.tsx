@@ -1,50 +1,44 @@
-import {useEffect, useState} from "react";
-import {
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
-import {User} from "firebase/auth";
-import {columns} from "src/component/table/columns";
-import {getDayReports} from "src/dataAccessLogic/getDayReports";
-import {DayReport} from "src/model/businessModel/DayReport";
-import {handleUserAuthState} from "src/service/auth/handleUserAuthState";
+import {flexRender, HeaderGroup, RowModel} from "@tanstack/react-table";
 import styles from "src/component/table/Table.module.scss";
 
 /**
- * Table (need update for split component and logic code)
+ * Tables data
  */
-export const Table = () => {
-  const [user, setUser] = useState<User | null>(null);
+interface TableData<T> {
 
-  useEffect(() => {
-    handleUserAuthState(setUser);
-  }, []);
+  /**
+   * Table headers
+   */
+  headerGroup: HeaderGroup<T>[];
 
-  const [data, setData] = useState<DayReport[]>([]);
+  /**
+   * Table rows
+   */
+  rowModel: RowModel<T>;
+}
 
-  // TODO: change after table will be component, get Ways instead of dayReports
-  const loadDayReports = async (currentUser: User | null) => {
-    const dayReports = await getDayReports(currentUser);
-    setData(dayReports);
-  };
+/**
+ * Table's props
+ */
+interface TableProps<T> {
 
-  useEffect(() => {
-    loadDayReports(user);
-  }, [user]);
+  /**
+   * Table's data
+   */
+  data: T;
+}
 
-
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-  });
+/**
+ * Table
+ */
+export const Table = <T, > (props: TableProps<TableData<T>>) => {
+  const data = props.data;
 
   return (
     <div className={styles.container}>
       <table className={styles.table}>
         <thead className={styles.thead}>
-          {table.getHeaderGroups().map((headerGroup) => (
+          {data.headerGroup.map((headerGroup) => (
             <tr
               className={styles.tr}
               key={headerGroup.id}
@@ -58,15 +52,14 @@ export const Table = () => {
                     ? null
                     : flexRender(
                       header.column.columnDef.header,
-                      header.getContext(),
-                    )}
+                      header.getContext())}
                 </th>
               ))}
             </tr>
           ))}
         </thead>
         <tbody className={styles.tbody}>
-          {table.getRowModel().rows.map((row) => (
+          {data.rowModel.rows.map((row) => (
             <tr
               className={styles.tr}
               key={row.id}

@@ -37,6 +37,8 @@ bower_components
 
 # Compiled binary addons (https://nodejs.org/api/addons.html)
 build/Release
+storybook-static
+
 
 # Dependency directories
 node_modules/
@@ -133,4 +135,21 @@ dist
 .vscode
 
 # autosave draw.io
+.$models.drawio.bkp
+
+# misc
+.DS_Store
 *.drawio.bkp
+
+# dependencies
+/node_modules
+
+# testing
+/coverage
+
+# production
+/*/build
+
+# misc
+.DS_Store
+storybook-static/

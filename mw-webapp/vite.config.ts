@@ -13,14 +13,11 @@ export default defineConfig(() => {
     "FIREBASE_STORAGE_BUCKET",
     "FIREBASE_MESSAGING_SENDER_ID",
     "FIREBASE_APP_ID",
-    "AUTH_FIREBASE_API_KEY",
-    "AUTH_FIREBASE_AUTH_DOMAIN",
-    "AUTH_FIREBASE_PROJECT_ID",
-    "AUTH_FIREBASE_STORAGE_BUCKET",
-    "AUTH_FIREBASE_MESSAGING_SENDER_ID",
-    "AUTH_FIREBASE_APP_ID",
   ];
 
+  /**
+   * Return envs
+   */
   const getEnvs = (envs: string[]) => envs.reduce((prev, envName) => {
     return {
       ...prev,
@@ -33,9 +30,9 @@ export default defineConfig(() => {
     plugins: [
       react(),
       eslint(
-      // Exclude "virtual" to fix bug with vite-plugin-eslint and Storybook
-      // https://github.com/storybookjs/builder-vite/issues/535#issuecomment-1507352550
-        {exclude: ["/virtual:/**"]},
+        // Exclude "virtual" to fix bug with vite-plugin-eslint and Storybook
+        // https://github.com/storybookjs/builder-vite/issues/535#issuecomment-1507352550
+        {exclude: ["/virtual:/**"], failOnError: false},
       ),
       viteTsconfigPaths(),
     ],

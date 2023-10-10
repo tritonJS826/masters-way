@@ -21,7 +21,7 @@ export class PlanForNextPeriodDTO {
   public timeUnit: TimeUnit;
 
   /**
-   * Estimation time for complete job
+   * Estimation number of time units {@link timeUnit}
    */
   public estimationTime: number;
 

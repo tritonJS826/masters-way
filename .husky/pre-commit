@@ -3,6 +3,4 @@
 
 cd mw-webapp
 pnpm lint-staged
-pnpm type-check
-pnpm test
-pnpm build
+pnpm dlx concurrently "pnpm type-check" "pnpm test" "pnpm build-storybook" "pnpm build"
