@@ -13,8 +13,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    checked: true,
+    isDefaultChecked: false,
     label: "Some text",
-    onChange: () => {},
   },
 };
