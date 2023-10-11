@@ -130,8 +130,14 @@
     "react/self-closing-comp": "error",
     "react/jsx-wrap-multilines": "error",
     "react/jsx-one-expression-per-line": "error",
+    "space-before-blocks": ["error", "always"],
+    "keyword-spacing": ["error", { "overrides": {
+      "return": { "after": true }
+    } }],
+    "@typescript-eslint/space-before-blocks": "error",
     "@typescript-eslint/prefer-optional-chain": "error",
     "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/type-annotation-spacing": "error",
     "no-var": "error",
     "prefer-const": "error",
     "lines-around-comment": [

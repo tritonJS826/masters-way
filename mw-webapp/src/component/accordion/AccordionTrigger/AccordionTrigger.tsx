@@ -8,7 +8,7 @@ import styles from "src/component/accordion/AccordionTrigger/AccordionTrigger.mo
 /**
  * Props for the {@link AccordionTrigger} component.
  */
-export interface AccordionTriggerProps{
+export interface AccordionTriggerProps {
 
   /**
    * The text to be displayed within the AccordionTrigger.
