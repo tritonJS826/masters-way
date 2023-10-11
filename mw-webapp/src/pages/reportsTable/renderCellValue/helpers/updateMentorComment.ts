@@ -4,11 +4,11 @@ import {MentorComment} from "src/model/businessModel/MentorComment";
 /**
  * Update MentorComment
  */
-export const updateMentorComment = async (text: string, uuid: string) => {
+export const updateMentorComment = async (description: string, uuid: string) => {
   const oldMentorComment = await MentorCommentDAL.getMentorComment(uuid);
   const updatedMentorComment: MentorComment = new MentorComment({
     ...oldMentorComment,
-    description: text,
+    description,
   });
   await MentorCommentDAL.updateMentorComment(updatedMentorComment);
 };

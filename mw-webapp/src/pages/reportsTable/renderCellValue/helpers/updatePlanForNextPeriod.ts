@@ -4,11 +4,11 @@ import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
 /**
  * Update PlanForNextPeriod
  */
-export const updatePlanForNextPeriod = async (text: string, uuid: string) => {
+export const updatePlanForNextPeriod = async (job: string, uuid: string) => {
   const oldPlanForNextPeriod = await PlanForNextPeriodDAL.getPlanForNextPeriod(uuid);
   const updatedPlanForNextPeriod: PlanForNextPeriod = new PlanForNextPeriod({
     ...oldPlanForNextPeriod,
-    job: text,
+    job,
   });
 
   await PlanForNextPeriodDAL.updatePlanForNextPeriod(updatedPlanForNextPeriod);

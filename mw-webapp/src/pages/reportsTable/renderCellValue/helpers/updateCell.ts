@@ -1,13 +1,13 @@
-import {updateCurrentProblem} from "src/dataAccessLogic/renderCellValue/helpers/updateCurrentProblem";
-import {updateDayReport} from "src/dataAccessLogic/renderCellValue/helpers/updateDayReport";
-import {updateJobDone} from "src/dataAccessLogic/renderCellValue/helpers/updateJobDone";
-import {updateMentorComment} from "src/dataAccessLogic/renderCellValue/helpers/updateMentorComment";
-import {updatePlanForNextPeriod} from "src/dataAccessLogic/renderCellValue/helpers/updatePlanForNextPeriod";
-import {ColumnNameProps} from "src/dataAccessLogic/renderCellValue/renderCellItem";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {MentorComment} from "src/model/businessModel/MentorComment";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
+import {updateCurrentProblem} from "src/pages/reportsTable/renderCellValue/helpers/updateCurrentProblem";
+import {updateDayReport} from "src/pages/reportsTable/renderCellValue/helpers/updateDayReport";
+import {updateJobDone} from "src/pages/reportsTable/renderCellValue/helpers/updateJobDone";
+import {updateMentorComment} from "src/pages/reportsTable/renderCellValue/helpers/updateMentorComment";
+import {updatePlanForNextPeriod} from "src/pages/reportsTable/renderCellValue/helpers/updatePlanForNextPeriod";
+import {ColumnNameProps} from "src/pages/reportsTable/renderCellValue/renderCellItem";
 
 const updateCellsFunctions: Record<string, (text: string, uuid: string) => Promise<void>> = {
   updateJobDone,
@@ -19,12 +19,12 @@ const updateCellsFunctions: Record<string, (text: string, uuid: string) => Promi
 /**
  * Update cells
  */
-const updateCells = (name: string, text: string, uuid: string) => {
-  if (!updateCellsFunctions[name]) {
+const updateCells = (nameOfFunction: string, text: string, uuid: string) => {
+  if (!updateCellsFunctions[nameOfFunction]) {
     throw new Error("Function is not exist");
   }
 
-  return updateCellsFunctions[name](text, uuid);
+  return updateCellsFunctions[nameOfFunction](text, uuid);
 };
 
 /**

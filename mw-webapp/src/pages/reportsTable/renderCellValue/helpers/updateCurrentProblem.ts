@@ -4,11 +4,11 @@ import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 /**
  * Update CurrentProblems
  */
-export const updateCurrentProblem = async (text: string, uuid: string) => {
+export const updateCurrentProblem = async (description: string, uuid: string) => {
   const oldCurrentProblem = await CurrentProblemDAL.getCurrentProblem(uuid);
   const updatedCurrentProblem: CurrentProblem = new CurrentProblem({
     ...oldCurrentProblem,
-    description: text,
+    description,
   });
   await CurrentProblemDAL.updateCurrentProblem(updatedCurrentProblem);
 };

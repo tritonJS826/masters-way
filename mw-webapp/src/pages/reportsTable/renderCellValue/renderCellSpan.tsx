@@ -1,4 +1,9 @@
-import styles from "src/component/table/columns.module.scss";
+import styles from "src/pages/reportsTable/columns.module.scss";
+
+/**
+ * Zero-width space by unicode
+ */
+const SPACE = "\u200B";
 
 /**
  * Render Cell span with text
@@ -14,7 +19,7 @@ const renderCellSpanWithValue = (value: string, isDone?: boolean) => (
  */
 const renderCellEmptySpan = () => (
   <span className={styles.notCompleted}>
-    &#8203;
+    {SPACE}
   </span>
 );
 

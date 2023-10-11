@@ -1,16 +1,16 @@
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
-import {ColumnNameProps} from "src/dataAccessLogic/renderCellValue/renderCellItem";
 import {DayReport} from "src/model/businessModel/DayReport";
+import {ColumnNameProps} from "src/pages/reportsTable/renderCellValue/renderCellItem";
 
 /**
  * Update DayReport
  */
-export const updateDayReport = async (text: string, uuid: string, columnName: keyof ColumnNameProps, index: number) => {
+export const updateDayReport = async (updatedText: string, uuid: string, columnName: keyof ColumnNameProps, index: number) => {
   const oldDayReport = await DayReportDAL.getDayReport(uuid);
 
-  const updatedText = oldDayReport[`${columnName}`].map((item: string, i: number) => {
+  const getUpdatedText = oldDayReport[`${columnName}`].map((item: string, i: number) => {
     if (i === index) {
-      return `${text}`;
+      return `${updatedText}`;
     }
 
     return item;
@@ -18,7 +18,7 @@ export const updateDayReport = async (text: string, uuid: string, columnName: ke
 
   const updatedDayReport: DayReport = {
     ...oldDayReport,
-    [`${columnName}`]: updatedText,
+    [`${columnName}`]: getUpdatedText,
   };
   await DayReportDAL.updateDayReport(updatedDayReport);
 };

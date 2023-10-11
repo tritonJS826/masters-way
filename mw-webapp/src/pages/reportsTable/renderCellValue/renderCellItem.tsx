@@ -1,11 +1,11 @@
 import {useState} from "react";
 import {Input} from "src/component/input/Input";
-import {updateCell} from "src/dataAccessLogic/renderCellValue/helpers/updateCell";
-import {renderCellSpan} from "src/dataAccessLogic/renderCellValue/renderCellSpan";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {MentorComment} from "src/model/businessModel/MentorComment";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
+import {updateCell} from "src/pages/reportsTable/renderCellValue/helpers/updateCell";
+import {renderCellSpan} from "src/pages/reportsTable/renderCellValue/renderCellSpan";
 
 /**
  * Properties of {@link DayReport} that have type string[] for dynamic update
@@ -56,7 +56,7 @@ interface CellItemProps {
   /**
    * Value isDone for different styles
    */
-  isDone?: boolean;
+  isContentDone?: boolean;
 }
 
 /**
@@ -103,7 +103,7 @@ export const renderCellItem = (props: CellItemProps) => {
       {isEditing
         ? renderInput()
         :
-        renderCellSpan(text, props.isDone)
+        renderCellSpan(text, props.isContentDone)
       }
     </div>
   );
