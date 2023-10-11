@@ -1,4 +1,4 @@
-import {ColumnDef, createColumnHelper} from "@tanstack/react-table";
+import {createColumnHelper} from "@tanstack/react-table";
 import {renderCellDate} from "src/dataAccessLogic/renderCellValue/renderCellDate";
 import {renderCellIsDayOff} from "src/dataAccessLogic/renderCellValue/renderCellIsDayOff";
 import {renderCellItem} from "src/dataAccessLogic/renderCellValue/renderCellItem";
@@ -12,13 +12,16 @@ const DEFAULT_SUMMARY_TIME = 0;
 
 const columnHelper = createColumnHelper<DayReport>();
 
-type DayReportCells = Date & JobDone[] & PlanForNextPeriod[] & CurrentProblem[] & MentorComment[] & string[] & boolean;
-
 /**
- * Render cells in table with data types {@link DayReportCells}
+ * Determines which columns will be in the table, the values in the cells and what types of data can be rendered in cells
+ * The tanstack table has a bug about typing columns:
+ * https://github.com/TanStack/table/issues/4382
+ * According to creators should only be using the column helper and not pre-typing columns
+ * We can add type as:
+ * ColumnDef<DayReport, Date & JobDone[] & PlanForNextPeriod[] & CurrentProblem[] & MentorComment[] & string[] & boolean>
+ * but it's not recommend by creators
  */
-
-export const columns: ColumnDef<DayReport, DayReportCells>[] = [
+export const columns = [
   columnHelper.accessor<"date", Date>("date", {
     header: "Date",
 
