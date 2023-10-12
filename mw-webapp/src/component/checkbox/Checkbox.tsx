@@ -12,11 +12,6 @@ interface CheckboxProps {
    */
   label: string;
   /**
-   * Default checkbox status
-   * @default false
-   */
-  isChecked?: boolean;
-  /**
    * Checkbox`s value
    */
   value?: string;
@@ -34,7 +29,7 @@ interface CheckboxProps {
  * Checkbox component
  */
 export const Checkbox = (props : CheckboxProps) => {
-  const [isChecked, setIsChecked] = useState(!!props.isChecked);
+  const [isChecked, setIsChecked] = useState(false);
 
   return (
     <label className={clsx(styles.checkbox, props.className)}>
