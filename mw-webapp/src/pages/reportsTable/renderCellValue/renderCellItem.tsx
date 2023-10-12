@@ -56,7 +56,7 @@ interface CellItemProps {
   /**
    * Value isDone for different styles
    */
-  isContentDone?: boolean;
+  isListItemDone?: boolean;
 }
 
 /**
@@ -103,7 +103,7 @@ export const renderCellItem = (props: CellItemProps) => {
       {isEditing
         ? renderInput()
         :
-        renderCellSpan(text, props.isContentDone)
+        renderCellSpan(text, props.isListItemDone)
       }
     </div>
   );

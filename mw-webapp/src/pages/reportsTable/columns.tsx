@@ -83,7 +83,7 @@ export const columns = [
             (renderCellItem({
               content: currentProblem.description,
               arrayItem: currentProblem,
-              isContentDone: currentProblem.isDone,
+              isListItemDone: currentProblem.isDone,
             })))
       );
     },
@@ -131,7 +131,7 @@ export const columns = [
       return (
         row.original.mentorComments
           .map((mentorComment) =>
-            renderCellItem({content: mentorComment.description, arrayItem: mentorComment, isContentDone: mentorComment.isDone}))
+            renderCellItem({content: mentorComment.description, arrayItem: mentorComment, isListItemDone: mentorComment.isDone}))
       );
     },
   }),
