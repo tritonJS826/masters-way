@@ -26,7 +26,6 @@ interface CheckboxProps {
   name?: string;
   /**
    * The checkbox must be filled out if true
-   * @default false
    */
   required?: boolean;
   /**
@@ -41,19 +40,12 @@ interface CheckboxProps {
 export const Checkbox = (props : CheckboxProps) => {
   const [isChecked, setIsChecked] = useState(!!props.isDefaultChecked);
 
-  /**
-   * Event handler for the checkbox change event
-   */
-  const onChangeHandler = () => (
-    setIsChecked((prev) => !prev)
-  );
-
   return (
     <label className={clsx(styles.checkbox, props.className)}>
       <input
         type="checkbox"
         checked={isChecked}
-        onChange={onChangeHandler}
+        onChange={() => setIsChecked((prev) => !prev)}
         value={props.value}
         name={props.name}
         required={props.required}
