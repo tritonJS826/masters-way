@@ -1,0 +1,45 @@
+@import "src/styles/variables";
+
+.checkboxContainer {
+  display: flex;
+  align-items: center;
+  margin: $checkbox-margin;
+}
+
+.checkboxRoot {
+  background-color: $white;
+  width: $checkbox-width;
+  height: $checkbox-height;
+  border-radius: $checkbox-radius;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 10px $grey-35-transparent;
+  border: none;
+
+  &[data-disabled] {
+    background-color: $grey-20-transparent;
+  }
+
+  &:hover {
+    background-color: $grey-10-transparent;
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 2px $black;
+  }
+}
+
+.checkboxIndicator {
+  color: $black;
+}
+
+.label {
+  color: $black;
+  padding-left: $checkbox-label-padding;
+  line-height: 1;
+}
+
+.disabled {
+  color: $grey-35-transparent;
+}
