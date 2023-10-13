@@ -15,7 +15,8 @@ const defaultLabel = "please check it";
 export const Default: Story = {
   args: {
     className: "customClass",
-    id: "id1", label: defaultLabel,
+    id: "id1",
+    label: defaultLabel,
     name: "name",
     value: "value",
   },
