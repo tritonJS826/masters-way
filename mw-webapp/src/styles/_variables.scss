@@ -26,6 +26,8 @@ $black: rgb(0, 0, 0);
 $transparent-black: rgba(0, 0, 0, 0.9);
 $white: rgb(255, 255, 255);
 $green: rgb(0, 128, 0);
+$grey-35-transparent: rgba(14, 18, 22, 0.35);
+$grey-20-transparent: rgba(14, 18, 22, 0.2);
 
 // Accordion
 $accordion-radius: 6px;
@@ -42,6 +44,13 @@ $width-primary: 100%;
 $height-full: 100%;
 
 // Notification
+$notice-width: 90vw;
+$notice-max-width: 390px;
 $notice-margin: 15px;
 $notice-padding: 15px;
 $notice-radius: 6px;
+$notice-close-button-top: 10px;
+$notice-close-button-right: 10px;
+
+//Modal
+$overlay-background: rgba(0, 0, 0, 0.447);

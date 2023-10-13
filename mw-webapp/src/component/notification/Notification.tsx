@@ -52,7 +52,7 @@ export const Notification = (props: NotificationProps) => {
       duration={props.duration}
       label={props.label}
     >
-      <Root className={styles.root}>
+      <Root className={styles.noticeRoot}>
         <Description asChild>
           {props.description}
         </Description>
@@ -63,7 +63,7 @@ export const Notification = (props: NotificationProps) => {
           <Cross2Icon />
         </Close>
       </Root>
-      <Viewport className={styles.viewport} />
+      <Viewport className={styles.noticeViewport} />
     </Provider>
   );
 };
