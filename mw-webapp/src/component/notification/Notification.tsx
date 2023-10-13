@@ -34,7 +34,7 @@ interface NotificationProps {
   /**
    * The content to display within the notification.
    */
-  description: ReactElement<HTMLElement>;
+  content: ReactElement<HTMLElement>;
 
   /**
    * Notification type
@@ -54,7 +54,7 @@ export const Notification = (props: NotificationProps) => {
     >
       <Root className={styles.noticeRoot}>
         <Description asChild>
-          {props.description}
+          {props.content}
         </Description>
         <Close
           className={styles.closeButton}

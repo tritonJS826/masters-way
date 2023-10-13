@@ -17,11 +17,11 @@ const defaultDescription = (
   </div>
 );
 
-export const Default: Story = {args: {description: defaultDescription}};
+export const Default: Story = {args: {content: defaultDescription}};
 
 export const SecondNotice: Story = {
   args: {
-    description: defaultDescription,
+    content: defaultDescription,
     duration: 1000,
     label: "warning",
     type: NotificationType.background,
@@ -30,7 +30,7 @@ export const SecondNotice: Story = {
 
 export const InfinityNotice: Story = {
   args: {
-    description: defaultDescription,
+    content: defaultDescription,
     duration: 0,
     label: "alert",
     type: NotificationType.background,
