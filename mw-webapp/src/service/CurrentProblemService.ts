@@ -1,6 +1,6 @@
 import {collection, doc, getDoc, getDocs, updateDoc} from "firebase/firestore";
 import {db} from "src/firebase";
-import {CurrentProblemDTO} from "src/model/firebaseCollection/CurrentProblemDTO";
+import {CurrentProblemDTO} from "src/model/DTOModel/CurrentProblemDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
 import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
 

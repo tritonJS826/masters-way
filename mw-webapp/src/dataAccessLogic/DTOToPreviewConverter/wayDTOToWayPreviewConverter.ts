@@ -1,6 +1,6 @@
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
-import {WayDTO} from "src/model/firebaseCollection/WayDTO";
+import {WayDTO} from "src/model/DTOModel/WayDTO";
 
 /**
  * WayPreview props

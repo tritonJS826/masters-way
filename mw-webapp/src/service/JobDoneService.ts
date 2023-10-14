@@ -1,6 +1,6 @@
 import {collection, doc, getDoc, getDocs, updateDoc} from "firebase/firestore";
 import {db} from "src/firebase";
-import {JobDoneDTO} from "src/model/firebaseCollection/JobDoneDTO";
+import {JobDoneDTO} from "src/model/DTOModel/JobDoneDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
 import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
 

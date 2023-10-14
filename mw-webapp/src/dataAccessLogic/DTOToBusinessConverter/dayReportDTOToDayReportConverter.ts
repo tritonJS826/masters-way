@@ -1,6 +1,6 @@
 import {DayReportConverterProps} from "src/dataAccessLogic/getConvertedValues";
 import {DayReport} from "src/model/businessModel/DayReport";
-import {DayReportDTO} from "src/model/firebaseCollection/DayReportDTO";
+import {DayReportDTO} from "src/model/DTOModel/DayReportDTO";
 
 /**
  * Convert {@link DayReportDTO} to {@link DayReport}

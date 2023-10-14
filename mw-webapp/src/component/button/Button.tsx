@@ -3,7 +3,7 @@ import styles from "src/component/button/Button.module.scss";
 /**
  * Button props
  */
-interface ButtonProps {
+export interface ButtonProps {
 
   /**
    * Button's value (text)
@@ -14,6 +14,11 @@ interface ButtonProps {
    * Callback triggered on button click
    */
   onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCy?: string;
 }
 
 /**
@@ -24,6 +29,7 @@ export const Button = (props: ButtonProps) => {
     <button
       className={styles.button}
       onClick={props.onClick}
+      data-cy={props.dataCy ?? "button"}
     >
       {props.value}
     </button>

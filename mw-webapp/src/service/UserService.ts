@@ -1,6 +1,6 @@
 import {collection, deleteDoc, doc, getDocs, setDoc, updateDoc} from "firebase/firestore";
 import {db} from "src/firebase";
-import {UserDTO} from "src/model/firebaseCollection/UserDTO";
+import {UserDTO} from "src/model/DTOModel/UserDTO";
 import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
 
 const PATH_TO_USERS_COLLECTION = "users";

@@ -1,5 +1,5 @@
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
-import {CurrentProblemDTO} from "src/model/firebaseCollection/CurrentProblemDTO";
+import {CurrentProblemDTO} from "src/model/DTOModel/CurrentProblemDTO";
 
 /**
  * Convert {@link CurrentProblemDTO} to {@link CurrentProblem}

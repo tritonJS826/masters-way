@@ -15,12 +15,12 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "types": ["vite/client"],
+    "types": ["vite/client", "cypress"],
     "baseUrl": "./",
     "paths": {
       "src/*": ["./src/*"]
     }
   },
-  "include": ["src", "vite.config.ts"],
+  "include": ["src", "vite.config.ts", "**/*.ts"],
   "references": [{ "path": "tsconfig.node.json" }]
 }

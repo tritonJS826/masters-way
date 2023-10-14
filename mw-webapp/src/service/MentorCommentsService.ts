@@ -1,6 +1,6 @@
 import {collection, doc, getDoc, getDocs, updateDoc} from "firebase/firestore";
 import {db} from "src/firebase";
-import {MentorCommentDTO} from "src/model/firebaseCollection/MentorCommentDTO";
+import {MentorCommentDTO} from "src/model/DTOModel/MentorCommentDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
 import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
 
