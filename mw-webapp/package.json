@@ -37,7 +37,9 @@
     "test": "echo \"Script doesn't work\"",
     "prepare": "cd .. && husky install",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "cypress-open": "cypress open",
+    "cypress-run": "cypress run"
   },
   "lint-staged": {
     "**/*.{ts,tsx}": [
@@ -80,6 +82,7 @@
     "@typescript-eslint/eslint-plugin": "^6.4.0",
     "@typescript-eslint/parser": "^6.4.0",
     "@vitejs/plugin-react": "^4.0.4",
+    "cypress": "^13.3.1",
     "eslint": "^8.47.0",
     "eslint-plugin-jsdoc": "^46.8.2",
     "eslint-plugin-react": "^7.33.1",

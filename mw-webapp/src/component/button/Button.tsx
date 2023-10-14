@@ -3,7 +3,7 @@ import styles from "src/component/button/Button.module.scss";
 /**
  * Button props
  */
-interface ButtonProps {
+export interface ButtonProps {
 
   /**
    * Button's value (text)
