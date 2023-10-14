@@ -11,7 +11,7 @@ describe("Button component", () => {
         onClick={STUB_FUNCTION}
         data-cy="button"
       />);
-    cy.get("[data-cy='button']").should("contains.text", BUTTON_VALUE);
+    cy.get("[data-cy=\"button\"]").should("contains.text", BUTTON_VALUE);
   });
 
   it("onClick is triggered when button is clicked", () => {
@@ -22,7 +22,7 @@ describe("Button component", () => {
         onClick={STUB_FUNCTION}
         data-cy="button"
       />);
-    cy.get("[data-cy='button']").click().then(() => {
+    cy.get("[data-cy=\"button\"]").click().then(() => {
       expect(STUB_FUNCTION).to.be.called;
     });
   });
