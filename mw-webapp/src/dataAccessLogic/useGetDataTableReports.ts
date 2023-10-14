@@ -1,10 +1,9 @@
 import {useEffect, useState} from "react";
-import {getDayReports} from "src/dataAccessLogic/getDayReports";
+import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {DayReport} from "src/model/businessModel/DayReport";
 
 /**
  * Load day reports
- * @returns {DayReport[]}
  */
 export const useGetDataTableReports = () => {
   const [dayReports, setDayReports] = useState<DayReport[]>([]);
@@ -13,7 +12,7 @@ export const useGetDataTableReports = () => {
    * Receives and transfer data of reports
    */
   const loadDayReports = async () => {
-    const data = await getDayReports();
+    const data = await DayReportDAL.getDayReports();
     setDayReports(data);
   };
 
