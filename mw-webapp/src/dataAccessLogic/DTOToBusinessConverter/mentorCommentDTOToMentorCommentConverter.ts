@@ -4,6 +4,6 @@ import {MentorCommentDTO} from "src/model/DTOModel/MentorCommentDTO";
 /**
  * Convert {@link MentorCommentDTO} to {@link MentorComment}
  */
-export const MentorCommentDTOToMentorCommentConverter = (mentorCommentDTO: MentorCommentDTO): MentorComment => {
+export const mentorCommentDTOToMentorCommentConverter = (mentorCommentDTO: MentorCommentDTO): MentorComment => {
   return new MentorComment(mentorCommentDTO);
 };
