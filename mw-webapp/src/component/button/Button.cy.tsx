@@ -2,34 +2,27 @@ import {Button} from "src/component/button/Button";
 
 const BUTTON_VALUE = "Click button";
 
-describe("<Button />", () => {
-  it("renders", () => {
+describe("Button component", () => {
+  it("render right value", () => {
     const STUB_FUNCTION = cy.stub();
     cy.mount(
       <Button
         value={BUTTON_VALUE}
         onClick={STUB_FUNCTION}
+        data-cy="button"
       />);
+    cy.get("[data-cy='button']").should("contains.text", BUTTON_VALUE);
   });
 
-  it("uses custom text for the button", () => {
+  it("onClick is triggered when button is clicked", () => {
     const STUB_FUNCTION = cy.stub();
     cy.mount(
       <Button
         value={BUTTON_VALUE}
         onClick={STUB_FUNCTION}
+        data-cy="button"
       />);
-    cy.get("button").should("contains.text", "Click button");
-  });
-
-  it("clicking", () => {
-    const STUB_FUNCTION = cy.stub();
-    cy.mount(
-      <Button
-        value={BUTTON_VALUE}
-        onClick={STUB_FUNCTION}
-      />);
-    cy.get("button").click().then(() => {
+    cy.get("[data-cy='button']").click().then(() => {
       expect(STUB_FUNCTION).to.be.called;
     });
   });
