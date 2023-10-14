@@ -1,6 +1,6 @@
 import {collection, getDocs} from "firebase/firestore";
 import {db} from "src/firebase";
-import {PlanForNextPeriodDTO} from "src/model/firebaseCollection/PlanForNextPeriodDTO";
+import {PlanForNextPeriodDTO} from "src/model/DTOModel/PlanForNextPeriodDTO";
 import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
 
 const PATH_TO_PLANS_FOR_NEXT_PERIOD_COLLECTION = "plansForNextPeriod";

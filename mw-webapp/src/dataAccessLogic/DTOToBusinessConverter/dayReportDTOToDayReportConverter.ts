@@ -3,7 +3,7 @@ import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {MentorComment} from "src/model/businessModel/MentorComment";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
-import {DayReportDTO} from "src/model/firebaseCollection/DayReportDTO";
+import {DayReportDTO} from "src/model/DTOModel/DayReportDTO";
 
 /**
  * DayReportConverter props

@@ -1,6 +1,6 @@
 import {collection, getDocs} from "firebase/firestore";
 import {db} from "src/firebase";
-import {JobDoneDTO} from "src/model/firebaseCollection/JobDoneDTO";
+import {JobDoneDTO} from "src/model/DTOModel/JobDoneDTO";
 import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
 
 const PATH_TO_JOBS_DONE_COLLECTION = "jobsDone";

@@ -1,6 +1,6 @@
 import {collection, getDocs} from "firebase/firestore";
 import {db} from "src/firebase";
-import {DayReportDTO} from "src/model/firebaseCollection/DayReportDTO";
+import {DayReportDTO} from "src/model/DTOModel/DayReportDTO";
 import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
 
 const PATH_TO_DAY_REPORTS_COLLECTION = "dayReports";

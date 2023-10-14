@@ -1,4 +1,4 @@
-import {TimeUnit} from "src/model/firebaseCollection/time/timeUnit/TimeUnit";
+import {TimeUnit} from "src/model/DTOModel/time/timeUnit/TimeUnit";
 
 /**
  * Plan for next period DTO model

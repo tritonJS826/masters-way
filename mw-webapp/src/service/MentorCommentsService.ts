@@ -1,6 +1,6 @@
 import {collection, getDocs} from "firebase/firestore";
 import {db} from "src/firebase";
-import {MentorCommentDTO} from "src/model/firebaseCollection/MentorCommentDTO";
+import {MentorCommentDTO} from "src/model/DTOModel/MentorCommentDTO";
 import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
 
 const PATH_TO_MENTOR_COMMENTS_COLLECTION = "mentorComments";
