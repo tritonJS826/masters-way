@@ -7,6 +7,10 @@
 [] favourite ways table
 [] ways to check (updated favorite or updated mentoring)
 
+## WayPage
+
+[] render page for specific way
+
 ## AllWaysPage (default for not logged in)
 
 [] all ways table
