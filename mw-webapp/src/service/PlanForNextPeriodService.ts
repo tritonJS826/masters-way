@@ -9,7 +9,7 @@ const PATH_TO_PLANS_FOR_NEXT_PERIOD_COLLECTION = "plansForNextPeriod";
 /**
  * PlanForNextPeriodDTO props without uuid
  */
-export type NewPlanForNextPeriodDTO = Omit<PlanForNextPeriodDTO, "uuid">;
+export type PlanForNextPeriodDTOWithoutUuid = Omit<PlanForNextPeriodDTO, "uuid">;
 
 /**
  * Provides methods to interact with the PlansForNextPeriod collection
@@ -37,10 +37,10 @@ export class PlanForNextPeriodService {
   }
 
   /**
-   * Create new PlanForNextPeriodDTO
-   * @return {string} Uuid of new PlanForNextPeriodDTO
+   * Create PlanForNextPeriodDTO
+   * @return {string} Uuid of PlanForNextPeriodDTO
    */
-  public static async createPlanForNextPeriodDTO(data: NewPlanForNextPeriodDTO): Promise<string> {
+  public static async createPlanForNextPeriodDTO(data: PlanForNextPeriodDTOWithoutUuid): Promise<string> {
     const docRef = doc(collection(db, PATH_TO_PLANS_FOR_NEXT_PERIOD_COLLECTION));
     const DEFAULT_PLAN_FOR_NEXT_PERIOD: PlanForNextPeriodDTO = {
       ...data,

@@ -9,7 +9,7 @@ const PATH_TO_JOBS_DONE_COLLECTION = "jobsDone";
 /**
  * JobDoneDTO props without uuid
  */
-export type NewJobDoneDTO = Omit<JobDoneDTO, "uuid">;
+export type JobDoneDTOWithoutUuid = Omit<JobDoneDTO, "uuid">;
 
 /**
  * Provides methods to interact with the JobsDone collection
@@ -40,7 +40,7 @@ export class JobDoneService {
    * Create new JobDoneDTO
    * @return {string} Uuid of new JobDoneDTO
    */
-  public static async createJobDoneDTO(data: NewJobDoneDTO): Promise<string> {
+  public static async createJobDoneDTO(data: JobDoneDTOWithoutUuid): Promise<string> {
     const docRef = doc(collection(db, PATH_TO_JOBS_DONE_COLLECTION));
     const DEFAULT_JOB_DONE: JobDoneDTO = {
       ...data,

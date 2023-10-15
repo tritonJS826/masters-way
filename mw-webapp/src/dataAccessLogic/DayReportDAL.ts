@@ -11,7 +11,7 @@ import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {MentorComment} from "src/model/businessModel/MentorComment";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
-import {DayReportService, NewDayReport} from "src/service/DayReportService";
+import {DayReportDTOWithoutUuid, DayReportService} from "src/service/DayReportService";
 import {DateUtils} from "src/utils/DateUtils";
 
 /**
@@ -94,7 +94,7 @@ export class DayReportDAL {
     const newCurrentProblemUuid = await CurrentProblemDAL.createNewCurrentProblem();
     const newMentorCommentUuid = await MentorCommentDAL.createNewMentorComment();
 
-    const DEFAULT_DAY_REPORT: NewDayReport = {
+    const DEFAULT_DAY_REPORT: DayReportDTOWithoutUuid = {
       date: DateUtils.getShortISODateValue(new Date),
       jobsDone: [`${newJobDoneUuid}`],
       plansForNextPeriod: [`${newPlanForNextPeriodUuid}`],

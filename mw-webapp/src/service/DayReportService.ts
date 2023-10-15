@@ -9,7 +9,7 @@ const PATH_TO_DAY_REPORTS_COLLECTION = "dayReports";
 /**
  * DayReportDTO props without uuid
  */
-export type NewDayReport = Omit<DayReportDTO, "uuid">;
+export type DayReportDTOWithoutUuid = Omit<DayReportDTO, "uuid">;
 
 /**
  * Provides methods to interact with the DayReports collection
@@ -39,7 +39,7 @@ export class DayReportService {
   /**
    * Create new DayReportDTO
    */
-  public static async createDayReportDTO(data: NewDayReport) {
+  public static async createDayReportDTO(data: DayReportDTOWithoutUuid) {
     const docRef = doc(collection(db, PATH_TO_DAY_REPORTS_COLLECTION));
     const DEFAULT_DAY_REPORT: DayReportDTO = {
       ...data,

@@ -3,7 +3,7 @@ import {currentProblemToCurrentProblemDTOConverter} from
 import {currentProblemDTOToCurrentProblemConverter} from
   "src/dataAccessLogic/DTOToBusinessConverter/currentProblemDTOToCurrentProblemConverter";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
-import {CurrentProblemService, NewCurrentProblemDTO} from "src/service/CurrentProblemService";
+import {CurrentProblemDTOWithoutUuid, CurrentProblemService} from "src/service/CurrentProblemService";
 
 /**
  * Provides methods to interact with the CurrentProblem business model
@@ -35,8 +35,8 @@ export class CurrentProblemDAL {
    * @return {string} Uuid of new CurrentProblem
    */
   public static async createNewCurrentProblem(): Promise<string> {
-    const currentProblemWithoutUuid: NewCurrentProblemDTO = {
-      description: "empty current problem",
+    const currentProblemWithoutUuid: CurrentProblemDTOWithoutUuid = {
+      description: "",
       isDone: false,
     };
 

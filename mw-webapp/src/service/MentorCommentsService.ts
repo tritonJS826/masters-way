@@ -9,7 +9,7 @@ const PATH_TO_MENTOR_COMMENTS_COLLECTION = "mentorComments";
 /**
  * MentorCommentDTO props without uuid
  */
-export type NewMentorCommentDTO = Omit<MentorCommentDTO, "uuid">;
+export type MentorCommentDTOWithoutUuid = Omit<MentorCommentDTO, "uuid">;
 
 /**
  * Provides methods to interact with the MentorComments collection
@@ -40,7 +40,7 @@ export class MentorCommentsService {
    * Create new MentorCommentDTO
    * @return {string} Uuid of new MentorCommentDTO
    */
-  public static async createMentorCommentDTO(data: NewMentorCommentDTO): Promise<string> {
+  public static async createMentorCommentDTO(data: MentorCommentDTOWithoutUuid): Promise<string> {
     const docRef = doc(collection(db, PATH_TO_MENTOR_COMMENTS_COLLECTION));
     const DEFAULT_MENTOR_COMMENT: MentorCommentDTO = {
       ...data,

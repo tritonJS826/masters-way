@@ -2,7 +2,7 @@ import {jobDoneToJobDoneDTOConverter} from "src/dataAccessLogic/BusinessToDTOCon
 import {jobDoneDTOToJobDoneConverter} from "src/dataAccessLogic/DTOToBusinessConverter/jobDoneDTOToJobDoneConverter";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {TimeUnit} from "src/model/businessModel/time/timeUnit/TimeUnit";
-import {JobDoneService, NewJobDoneDTO} from "src/service/JobDoneService";
+import {JobDoneDTOWithoutUuid, JobDoneService} from "src/service/JobDoneService";
 
 /**
  * Provides methods to interact with the JobDone business model
@@ -34,8 +34,8 @@ export class JobDoneDAL {
    * @return {string} Uuid of new JobDone
    */
   public static async createNewJobDone(): Promise<string> {
-    const jobDoneWithoutUuid: NewJobDoneDTO = {
-      description: "empty job done",
+    const jobDoneWithoutUuid: JobDoneDTOWithoutUuid = {
+      description: "",
       time: 0,
       timeUnit: TimeUnit.minute,
     };
