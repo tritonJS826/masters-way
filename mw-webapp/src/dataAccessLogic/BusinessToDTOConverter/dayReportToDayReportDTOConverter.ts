@@ -1,5 +1,5 @@
 import {DayReport} from "src/model/businessModel/DayReport";
-import {DayReportDTO} from "src/model/firebaseCollection/DayReportDTO";
+import {DayReportDTO} from "src/model/DTOModel/DayReportDTO";
 import {DateUtils} from "src/utils/DateUtils";
 
 /**
