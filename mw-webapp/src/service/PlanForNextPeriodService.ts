@@ -1,10 +1,15 @@
-import {collection, doc, getDoc, getDocs, updateDoc} from "firebase/firestore";
+import {collection, doc, getDoc, getDocs, setDoc, updateDoc} from "firebase/firestore";
 import {db} from "src/firebase";
 import {PlanForNextPeriodDTO} from "src/model/DTOModel/PlanForNextPeriodDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
 import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
 
 const PATH_TO_PLANS_FOR_NEXT_PERIOD_COLLECTION = "plansForNextPeriod";
+
+/**
+ * PlanForNextPeriodDTO props without uuid
+ */
+export type PlanForNextPeriodDTOWithoutUuid = Omit<PlanForNextPeriodDTO, "uuid">;
 
 /**
  * Provides methods to interact with the PlansForNextPeriod collection
@@ -29,6 +34,22 @@ export class PlanForNextPeriodService {
     const planForNextPeriod: PlanForNextPeriodDTO = documentSnapshotToDTOConverter<PlanForNextPeriodDTO>(planForNextPeriodRaw);
 
     return planForNextPeriod;
+  }
+
+  /**
+   * Create PlanForNextPeriodDTO
+   * @return {string} Uuid of PlanForNextPeriodDTO
+   */
+  public static async createPlanForNextPeriodDTO(data: PlanForNextPeriodDTOWithoutUuid): Promise<string> {
+    const docRef = doc(collection(db, PATH_TO_PLANS_FOR_NEXT_PERIOD_COLLECTION));
+    const DEFAULT_PLAN_FOR_NEXT_PERIOD: PlanForNextPeriodDTO = {
+      ...data,
+      uuid: docRef.id,
+    };
+
+    await setDoc(docRef, DEFAULT_PLAN_FOR_NEXT_PERIOD);
+
+    return docRef.id;
   }
 
   /**
