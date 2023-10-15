@@ -1,10 +1,15 @@
-import {collection, doc, getDoc, getDocs, updateDoc} from "firebase/firestore";
+import {collection, doc, getDoc, getDocs, setDoc, updateDoc} from "firebase/firestore";
 import {db} from "src/firebase";
 import {MentorCommentDTO} from "src/model/DTOModel/MentorCommentDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
 import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
 
 const PATH_TO_MENTOR_COMMENTS_COLLECTION = "mentorComments";
+
+/**
+ * MentorCommentDTO props without uuid
+ */
+export type NewMentorCommentDTO = Omit<MentorCommentDTO, "uuid">;
 
 /**
  * Provides methods to interact with the MentorComments collection
@@ -29,6 +34,22 @@ export class MentorCommentsService {
     const mentorComment: MentorCommentDTO = documentSnapshotToDTOConverter<MentorCommentDTO>(mentorCommentRaw);
 
     return mentorComment;
+  }
+
+  /**
+   * Create new MentorCommentDTO
+   * @return {string} Uuid of new MentorCommentDTO
+   */
+  public static async createMentorCommentDTO(data: NewMentorCommentDTO): Promise<string> {
+    const docRef = doc(collection(db, PATH_TO_MENTOR_COMMENTS_COLLECTION));
+    const DEFAULT_MENTOR_COMMENT: MentorCommentDTO = {
+      ...data,
+      uuid: docRef.id,
+    };
+
+    await setDoc(docRef, DEFAULT_MENTOR_COMMENT);
+
+    return docRef.id;
   }
 
   /**
