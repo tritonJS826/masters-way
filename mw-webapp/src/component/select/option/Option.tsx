@@ -22,7 +22,7 @@ export interface OptionType {
 /**
  * Option props
  */
-interface OptionProps{
+interface OptionProps {
 
   /**
    * Unique value
@@ -44,7 +44,7 @@ interface OptionProps{
  * Element of Select
  */
 export const Option = (props: OptionProps) => {
-  return(
+  return (
     <option
       key={props.key}
       value={props.value}

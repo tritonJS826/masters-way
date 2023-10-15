@@ -1,6 +1,6 @@
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
-import {UserDTO} from "src/model/firebaseCollection/UserDTO";
+import {UserDTO} from "src/model/DTOModel/UserDTO";
 
 /**
  * Convert {@link UserDTO} to {@link UserPreview}

@@ -1,7 +1,7 @@
 import {getCoreRowModel, useReactTable} from "@tanstack/react-table";
-import {columns} from "src/component/table/columns";
 import {Table} from "src/component/table/Table";
 import {useGetDataTableReports} from "src/dataAccessLogic/useGetDataTableReports";
+import {columns} from "src/pages/reportsTable/columns";
 
 /**
  * Render table of reports

@@ -7,7 +7,7 @@ import {UserService} from "src/service/UserService";
  */
 export const writeNewUserCredentials = async () => {
   const userCredentials = await getRedirectResult(auth);
-  if(!userCredentials) {
+  if (!userCredentials) {
     return;
   }
   if (userCredentials.user.email && userCredentials.user.displayName) {
