@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+import {Navigate} from "react-router-dom";
 import {User} from "firebase/auth";
 import {Button} from "src/component/button/Button";
 import {Link} from "src/component/link/Link";
@@ -28,13 +29,16 @@ export const Header = () => {
       <h1 className={styles.title}>
         {LOGO_TEXT.toUpperCase()}
       </h1>
+      {/* //TODO: we need delete this navigate after main features about dayReports table will be finished */}
+      {user && <Navigate to={pages.way.path} />}
       <div className={styles.blockButton}>
         <Button
           onClick={user ? logOut : logIn}
           value={user ? BUTTON_LOG_OUT_VALUE : BUTTON_LOG_IN_VALUE}
         />
+        {/* //TODO: we need delete this link when after sidebar with all links to al pages will be added */}
         <Link
-          path={pages.main.path}
+          path={pages.way.path}
           value={LINK_TEXT}
         />
       </div>

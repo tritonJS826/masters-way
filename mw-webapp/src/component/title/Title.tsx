@@ -27,7 +27,7 @@ interface TitleProps {
   /**
    * Additional custom class name for the component
    */
-  className: string;
+  className?: string;
 
   /**
    * Title
