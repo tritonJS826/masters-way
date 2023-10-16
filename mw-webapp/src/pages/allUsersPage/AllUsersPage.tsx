@@ -1,6 +1,6 @@
 /**
  * Page users
  */
-export const UsersPage = () => {
+export const AllUsersPage = () => {
   return <div />;
 };

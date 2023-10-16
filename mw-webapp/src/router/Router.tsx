@@ -16,12 +16,16 @@ export const Router = () => {
         element={pages.auth.element}
       />
       <Route
-        path={pages.waysPage.path}
-        element={pages.waysPage.element}
+        path={pages.allWays.path}
+        element={pages.allWays.element}
       />
       <Route
-        path={pages.users.path}
-        element={pages.users.element}
+        path={pages.allUsers.path}
+        element={pages.allUsers.element}
+      />
+      <Route
+        path={pages.user.path}
+        element={pages.user.element}
       />
       <Route
         path={pages.page404.path}

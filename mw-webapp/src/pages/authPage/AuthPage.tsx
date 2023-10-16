@@ -23,7 +23,7 @@ export const AuthPage = () => {
 
   return (
     <>
-      {user && <Navigate to={pages.main.path} /> }
+      {user && <Navigate to={pages.user.path} /> }
       <>
         <Button
           value={user ? BUTTON_LOG_OUT_VALUE : BUTTON_LOG_IN_VALUE}
