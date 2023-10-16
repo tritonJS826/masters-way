@@ -1,47 +1,29 @@
+import React, {useState} from "react";
 import type {StoryObj} from "@storybook/react";
 import {Checkbox} from "src/component/checkbox/Сheckbox";
 
 const meta = {
   title: "Checkbox",
   component: Checkbox,
+  parameters: {layout: "centered"},
   tags: ["autodocs"],
 };
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const defaultLabel = "please check it";
+/**
+ * HandleCheckboxChange
+ */
+export const Default: React.FC<Story> = () => {
+  const [isChecked, setIsChecked] = useState(false);
+  const handleCheckboxChange = () => setIsChecked(!isChecked);
 
-export const Default: Story = {
-  args: {
-    className: "customClass",
-    id: "id1",
-    label: defaultLabel,
-    name: "name",
-    value: "value",
-  },
-};
-
-export const DefaultChecked: Story = {
-  args: {
-    id: "id1",
-    label: defaultLabel,
-    defaultChecked: true,
-  },
-};
-
-export const Disabled: Story = {
-  args: {
-    id: "id1",
-    label: defaultLabel,
-    disabled: true,
-  },
-};
-
-export const Required: Story = {
-  args: {
-    id: "id1",
-    label: defaultLabel,
-    required: true,
-  },
+  return (
+    <Checkbox
+      className="customClass"
+      checked={isChecked}
+      onChange={handleCheckboxChange}
+    />
+  );
 };
