@@ -3,7 +3,7 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 /**
  * Users page
  */
-export const UsersPage = () => {
+export const AllUsersPage = () => {
   return (
     <Title
       level={HeadingLevel.h2}

@@ -8,23 +8,23 @@ export const Router = () => {
   return (
     <Routes>
       <Route
-        path={pages.ways.path}
-        element={pages.ways.element}
+        path={pages.allWays.path}
+        element={pages.allWays.element}
       />
       <Route
-        path={pages.user.path}
+        path={pages.user.path(":uuid")}
         element={pages.user.element}
       />
       <Route
-        path={pages.way.path}
+        path={pages.way.path(":uuid")}
         element={pages.way.element}
       />
       <Route
-        path={pages.users.path}
-        element={pages.users.element}
+        path={pages.allUsers.path}
+        element={pages.allUsers.element}
       />
       <Route
-        path={pages.userProfile.path}
+        path={pages.userProfile.path(":uuid")}
         element={pages.userProfile.element}
       />
       <Route

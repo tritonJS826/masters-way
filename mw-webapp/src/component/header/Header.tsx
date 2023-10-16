@@ -30,7 +30,7 @@ export const Header = () => {
         {LOGO_TEXT.toUpperCase()}
       </h1>
       {/* //TODO: we need delete this navigate after main features about dayReports table will be finished */}
-      {user && <Navigate to={pages.way.path} />}
+      {user && <Navigate to={pages.way.path("uuid")} />}
       <div className={styles.blockButton}>
         <Button
           onClick={user ? logOut : logIn}
@@ -38,7 +38,7 @@ export const Header = () => {
         />
         {/* //TODO: we need delete this link when after sidebar with all links to al pages will be added */}
         <Link
-          path={pages.way.path}
+          path={pages.way.path("uuid")}
           value={LINK_TEXT}
         />
       </div>

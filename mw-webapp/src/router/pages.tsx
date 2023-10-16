@@ -1,33 +1,48 @@
 import {AboutProjectPage} from "src/logic/aboutProjectPage/AboutProjectPage";
+import {AllUsersPage} from "src/logic/allUsersPage/AllUsersPage";
+import {AllWaysPage} from "src/logic/allWaysPage/AllWaysPage";
 import {Page404} from "src/logic/page404/Page404";
 import {UserPage} from "src/logic/userPage/UserPage";
 import {UserProfilePage} from "src/logic/userProfilePage/UserProfilePage";
-import {UsersPage} from "src/logic/usersPage/UsersPage";
 import {WayPage} from "src/logic/wayPage/WayPage";
-import {WaysPage} from "src/logic/waysPage/WaysPage";
 
 /**
  * Pages meta data
  */
 export const pages = {
-  ways: {
+  allWays: {
     path: "/",
-    element: <WaysPage />,
+    element: <AllWaysPage />,
   },
   user: {
-    path: "user",
+
+    /**
+     * @param {string} uuid Could be param name (if we want to create new path) OR could be user uuid.
+     * @returns {string} path to react-router OR Specific URl path to specific user
+     */
+    path: (uuid: string): string => `user/${uuid}`,
     element: <UserPage />,
   },
   way: {
-    path: "way",
+
+    /**
+     * @param {string} uuid Could be param name (if we want to create new path) OR could be way uuid.
+     * @returns {string} path to react-router OR Specific URl path to specific way
+     */
+    path: (uuid: string): string => `way/${uuid}`,
     element: <WayPage />,
   },
-  users: {
+  allUsers: {
     path: "users",
-    element: <UsersPage />,
+    element: <AllUsersPage />,
   },
   userProfile: {
-    path: "userProfile",
+
+    /**
+     * @param {string} uuid Could be param name (if we want to create new path) OR could be userProfile uuid.
+     * @returns {string} path to react-router OR Specific URl path to specific userProfile
+     */
+    path: (uuid: string): string => `userProfile/${uuid}`,
     element: <UserProfilePage />,
   },
   aboutProject: {

@@ -3,7 +3,7 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 /**
  * Ways page
  */
-export const WaysPage = () => {
+export const AllWaysPage = () => {
   return (
     <Title
       level={HeadingLevel.h2}
