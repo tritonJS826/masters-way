@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {Fragment, useEffect, useState} from "react";
 import {WayDTO} from "src/model/DTOModel/WayDTO";
 import {ReportsTable} from "src/pages/reportsTable/ReportsTable";
 import {WayService} from "src/service/WayService";
@@ -26,7 +26,7 @@ export const AllWaysPage = () => {
       {ways
         ? (
           ways.map((way) => (
-            <>
+            <Fragment key={way.uuid}>
               <h4>
                 Table for
                 &quot;
@@ -34,11 +34,8 @@ export const AllWaysPage = () => {
                 &quot;
                 way
               </h4>
-              <ReportsTable
-                wayUuid={way.uuid}
-                key={way.uuid}
-              />
-            </>
+              <ReportsTable wayUuid={way.uuid} />
+            </Fragment>
           ))
         )
         : (

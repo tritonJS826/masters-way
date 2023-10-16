@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {Fragment, useEffect, useState} from "react";
 import {User} from "firebase/auth";
 import {ReportsTable} from "src/pages/reportsTable/ReportsTable";
 import {handleUserAuthState} from "src/service/auth/handleUserAuthState";
@@ -36,7 +36,7 @@ export const UserPage = () => {
       {ways
         ? (
           ways.map((wayUuid) => (
-            <>
+            <Fragment key={wayUuid}>
               <h4>
                 Table for
                 &quot;
@@ -44,11 +44,8 @@ export const UserPage = () => {
                 &quot;
                 way
               </h4>
-              <ReportsTable
-                wayUuid={wayUuid}
-                key={wayUuid}
-              />
-            </>
+              <ReportsTable wayUuid={wayUuid} />
+            </Fragment>
           ))
         )
         : (
