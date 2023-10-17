@@ -23,7 +23,6 @@ export const SecondNotice: Story = {
   args: {
     content: defaultDescription,
     duration: 1000,
-    label: "warning",
     type: NotificationType.background,
   },
 };
@@ -32,7 +31,6 @@ export const InfinityNotice: Story = {
   args: {
     content: defaultDescription,
     duration: 0,
-    label: "alert",
     type: NotificationType.background,
   },
 };
