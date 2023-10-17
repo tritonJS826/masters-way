@@ -69,5 +69,5 @@
 }
 
 .closeButton {
-  @include closeButton($notice-close-button-top, $notice-close-button-right);
+  @include closeButton($notice-close-button-top, $notice-close-button-right, $notice-close-button-size);
 }

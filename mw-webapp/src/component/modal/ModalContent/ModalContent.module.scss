@@ -5,7 +5,7 @@
   background-color: $overlay-background;
   position: fixed;
   inset: 0;
-  animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  animation: overlayShow $modal-animation-time cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .dialogContent {
@@ -22,7 +22,7 @@
   max-width: 450px;
   max-height: 85vh;
   padding: 20px 45px;
-  animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  animation: contentShow $modal-animation-time cubic-bezier(0.16, 1, 0.3, 1);
   overflow: auto;
 
   &:focus {
@@ -31,7 +31,7 @@
 }
 
 .closeButton {
-  @include closeButton(10px, 10px);
+  @include closeButton($modal-close-btn-top, $modal-close-btn-right, $modal-close-btn-size);
 }
 
 @keyframes overlayShow {
