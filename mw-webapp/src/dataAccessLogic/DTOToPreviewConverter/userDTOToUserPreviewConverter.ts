@@ -1,5 +1,4 @@
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
-// Import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {UserDTO} from "src/model/DTOModel/UserDTO";
 
 /**

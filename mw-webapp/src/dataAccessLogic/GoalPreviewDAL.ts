@@ -12,7 +12,7 @@ export class GoalPreviewDAL {
    */
   public static async getGoalsPreview(): Promise<GoalPreview[]> {
     const goalsDTO = await GoalService.getGoalsDTO();
-    const goalsPreview = goalsDTO.map((goalDTO) => (goalDTOToGoalPreviewConverter(goalDTO)));
+    const goalsPreview = goalsDTO.map(goalDTOToGoalPreviewConverter);
 
     return goalsPreview;
   }

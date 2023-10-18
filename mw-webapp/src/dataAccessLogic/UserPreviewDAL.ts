@@ -13,8 +13,7 @@ export class UserPreviewDAL {
   public static async getUsersPreview(): Promise<UserPreview[]> {
     const usersDTO = await UserService.getUsersDTO();
 
-    const usersPreview = usersDTO
-      .map((userDTO) => UserDTOToUserPreviewConverter(userDTO));
+    const usersPreview = usersDTO.map(UserDTOToUserPreviewConverter);
 
     return usersPreview;
   }

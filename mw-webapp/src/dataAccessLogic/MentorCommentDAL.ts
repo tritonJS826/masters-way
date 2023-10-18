@@ -15,7 +15,7 @@ export class MentorCommentDAL {
    */
   public static async getMentorComments(): Promise<MentorComment[]> {
     const mentorCommentsDTO = await MentorCommentsService.getMentorCommentsDTO();
-    const mentorComments = mentorCommentsDTO.map((mentorComment) => (mentorCommentDTOToMentorCommentConverter(mentorComment)));
+    const mentorComments = mentorCommentsDTO.map(mentorCommentDTOToMentorCommentConverter);
 
     return mentorComments;
   }
