@@ -12,22 +12,22 @@ export interface DayReportConverterProps {
   /**
    * Jobs done
    */
-  jobsDone: JobDone[];
+  jobDoneUuids: JobDone[];
 
   /**
    * Plans for next period
    */
-  plansForNextPeriod: PlanForNextPeriod[];
+  planForNextPeriodUuids: PlanForNextPeriod[];
 
   /**
    * Problems for current period
    */
-  problemsForCurrentPeriod: CurrentProblem[];
+  problemForCurrentPeriodUuids: CurrentProblem[];
 
   /**
    * Mentor comments
    */
-  mentorComments: MentorComment[];
+  mentorCommentUuids: MentorComment[];
 }
 
 /**

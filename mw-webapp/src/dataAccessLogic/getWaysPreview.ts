@@ -17,7 +17,8 @@ export const getWaysPreview = async (): Promise<WayPreview[]> => {
   const owner: UserPreview = usersPreview
     .find((elem) => elem.uuid === firstWay.ownerUuid) ?? {} as UserPreview;
 
-  const currentMentors = firstWay.currentMentors.map((currentMentorUuid) => {
+  // TODO: this file will be deleted after merge PR #95
+  const currentMentors = firstWay.currentMentorUuids.map((currentMentorUuid) => {
     const currentMentor: UserPreview = usersPreview
       .find((elem) => elem.uuid === currentMentorUuid) ?? {} as UserPreview;
 

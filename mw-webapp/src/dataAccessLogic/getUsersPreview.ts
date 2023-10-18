@@ -14,7 +14,8 @@ export const getUsersPreview = async (): Promise<UserPreview[]> => {
 
   const firstUser = usersDTO[0];
 
-  const ownWays = firstUser.ownWays.map((ownWayUuid) => {
+  // TODO: this file will be deleted after merge PR #95
+  const ownWays = firstUser.ownWayUuids.map((ownWayUuid) => {
     const ownWay: WayPreview = waysPreview
       .find((elem) => elem.uuid === ownWayUuid) ?? {} as WayPreview;
 

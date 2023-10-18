@@ -1,4 +1,3 @@
-
 /**
  * Day's report DTO model
  */
@@ -15,19 +14,19 @@ export class DayReportDTO {
   public date: string;
 
   /**
-   * Array of @JobDone.uuid
+   * @JobDone.uuids
    */
-  public jobsDone: string[];
+  public jobDoneUuids: string[];
 
   /**
-   * Array of @PlanForNextPeriod.uuid
+   * @PlanForNextPeriod.uuids
    */
-  public plansForNextPeriod: string[];
+  public planForNextPeriodUuids: string[];
 
   /**
-   * Array of @ProblemsForCurrent.uuid
+   * @CurrentProblem.uuids
    */
-  public problemsForCurrentPeriod: string[];
+  public problemForCurrentPeriodUuids: string[];
 
   /**
    * Student comments
@@ -40,9 +39,9 @@ export class DayReportDTO {
   public learnedForToday: string[];
 
   /**
-   * Array of @MentorComment.uuid
+   * @MentorComment.uuids
    */
-  public mentorComments: string[];
+  public mentorCommentUuids: string[];
 
   /**
    * Return true if day is off and false if it is work day
@@ -52,12 +51,12 @@ export class DayReportDTO {
   constructor(dayReportData: DayReportDTO) {
     this.uuid = dayReportData.uuid;
     this.date = dayReportData.date;
-    this.jobsDone = dayReportData.jobsDone;
-    this.plansForNextPeriod = dayReportData.plansForNextPeriod;
-    this.problemsForCurrentPeriod = dayReportData.problemsForCurrentPeriod;
+    this.jobDoneUuids = dayReportData.jobDoneUuids;
+    this.planForNextPeriodUuids = dayReportData.planForNextPeriodUuids;
+    this.problemForCurrentPeriodUuids = dayReportData.problemForCurrentPeriodUuids;
     this.studentComments = dayReportData.studentComments;
     this.learnedForToday = dayReportData.learnedForToday;
-    this.mentorComments = dayReportData.mentorComments;
+    this.mentorCommentUuids = dayReportData.mentorCommentUuids;
     this.isDayOff = dayReportData.isDayOff;
   }
 
