@@ -1,4 +1,4 @@
-import styles from "src/pages/reportsTable/columns.module.scss";
+import styles from "src/logic/reportsTable/columns.module.scss";
 
 /**
  * Zero-width space by unicode

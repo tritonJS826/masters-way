@@ -28,5 +28,5 @@
 11. Share the link to your PR in the "PRs" chat.
 
 12. Continue to address any discussions in the PR until you receive a total of three approvals.
-    
+
 13. Squash and merge the PR into the main branch.
