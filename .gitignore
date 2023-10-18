@@ -135,10 +135,8 @@ dist
 .vscode
 
 # autosave draw.io
-*.drawio.*
-
-# misc
-.DS_Store
+*.drawio.bkp
+*.drawio.dtmp
 
 # dependencies
 /node_modules
@@ -152,3 +150,6 @@ dist
 # misc
 .DS_Store
 storybook-static/
+
+# cypress
+/cypress/screenshots

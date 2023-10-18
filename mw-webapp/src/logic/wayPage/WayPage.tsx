@@ -5,7 +5,7 @@ import {ReportsTable} from "src/logic/reportsTable/ReportsTable";
 import styles from "src/logic/wayPage/WayPage.module.scss";
 
 /**
- * Way page includes {@link ReportsTable}
+ * Way page
  */
 export const WayPage = () => {
   return (
