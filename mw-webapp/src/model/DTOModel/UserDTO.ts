@@ -19,27 +19,27 @@ export class UserDTO {
   public email: string;
 
   /**
-   * Array of @Way.uuid
+   * @Way.uuids
    */
-  public ownWays: string[];
+  public ownWayUuids: string[];
 
   /**
-   * Array of @Way.uuid
+   * @Way.uuids
    */
-  public favoriteWays: string[];
+  public favoriteWayUuids: string[];
 
   /**
-   * Array of @Way.uuid
+   * @Way.uuids
    */
-  public mentoringWays: string[];
+  public mentoringWayUuids: string[];
 
   constructor(userData: UserDTO) {
     this.uuid = userData.uuid;
     this.name = userData.name;
     this.email = userData.email;
-    this.ownWays = userData.ownWays;
-    this.favoriteWays = userData.favoriteWays;
-    this.mentoringWays = userData.mentoringWays;
+    this.ownWayUuids = userData.ownWayUuids;
+    this.favoriteWayUuids = userData.favoriteWayUuids;
+    this.mentoringWayUuids = userData.mentoringWayUuids;
   }
 
 }

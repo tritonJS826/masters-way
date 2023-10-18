@@ -152,4 +152,4 @@ dist
 storybook-static/
 
 # cypress
-/cypress/screenshots
+/*/cypress/screenshots

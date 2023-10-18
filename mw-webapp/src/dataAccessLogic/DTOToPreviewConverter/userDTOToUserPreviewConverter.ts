@@ -9,5 +9,8 @@ export const UserDTOToUserPreviewConverter = (userDTO: UserDTO, ownWays: WayPrev
   return new UserPreview({
     ...userDTO,
     ownWays,
+    //TODO: need convert uuids to ways
+    favoriteWays: userDTO.favoriteWayUuids,
+    mentoringWays: userDTO.mentoringWayUuids,
   });
 };

@@ -29,22 +29,22 @@ export class DayReportDAL {
     const mentorCommentsPreview = await MentorCommentDAL.getMentorComments();
     const problemsForCurrentPeriodPreview = await CurrentProblemDAL.getCurrentProblems();
 
-    const jobsDone = getConvertedValues<JobDone>(dayReportsDTO, "jobsDone", jobsDonePreview);
-    const plansForNextPeriod =
-      getConvertedValues<PlanForNextPeriod>(dayReportsDTO, "plansForNextPeriod", plansForNextPeriodPreview);
-    const problemsForCurrentPeriod =
-      getConvertedValues<CurrentProblem>(dayReportsDTO, "problemsForCurrentPeriod", problemsForCurrentPeriodPreview);
-    const mentorComments = getConvertedValues<MentorComment>(dayReportsDTO, "mentorComments", mentorCommentsPreview);
+    const jobDoneUuids = getConvertedValues<JobDone>(dayReportsDTO, "jobDoneUuids", jobsDonePreview);
+    const planForNextPeriodUuids =
+      getConvertedValues<PlanForNextPeriod>(dayReportsDTO, "planForNextPeriodUuids", plansForNextPeriodPreview);
+    const problemForCurrentPeriodUuids =
+      getConvertedValues<CurrentProblem>(dayReportsDTO, "problemForCurrentPeriodUuids", problemsForCurrentPeriodPreview);
+    const mentorCommentUuids = getConvertedValues<MentorComment>(dayReportsDTO, "mentorCommentUuids", mentorCommentsPreview);
 
     /**
      * DayReportProps for each day report separately
      */
     const getDayReportProps = (i: number) => {
       const obj = {
-        jobsDone: jobsDone[i],
-        plansForNextPeriod: plansForNextPeriod[i],
-        problemsForCurrentPeriod: problemsForCurrentPeriod[i],
-        mentorComments: mentorComments[i],
+        jobDoneUuids: jobDoneUuids[i],
+        planForNextPeriodUuids: planForNextPeriodUuids[i],
+        problemForCurrentPeriodUuids: problemForCurrentPeriodUuids[i],
+        mentorCommentUuids: mentorCommentUuids[i],
       };
 
       return obj;
@@ -66,18 +66,18 @@ export class DayReportDAL {
     const mentorCommentsPreview = await MentorCommentDAL.getMentorComments();
     const problemsForCurrentPeriodPreview = await CurrentProblemDAL.getCurrentProblems();
 
-    const jobsDone = getConvertedValue<JobDone>(dayReportDTO, "jobsDone", jobsDonePreview);
-    const plansForNextPeriod =
-      getConvertedValue<PlanForNextPeriod>(dayReportDTO, "plansForNextPeriod", plansForNextPeriodPreview);
-    const problemsForCurrentPeriod =
-      getConvertedValue<CurrentProblem>(dayReportDTO, "problemsForCurrentPeriod", problemsForCurrentPeriodPreview);
-    const mentorComments = getConvertedValue<MentorComment>(dayReportDTO, "mentorComments", mentorCommentsPreview);
+    const jobDoneUuids = getConvertedValue<JobDone>(dayReportDTO, "jobDoneUuids", jobsDonePreview);
+    const planForNextPeriodUuids =
+      getConvertedValue<PlanForNextPeriod>(dayReportDTO, "planForNextPeriodUuids", plansForNextPeriodPreview);
+    const problemForCurrentPeriodUuids =
+      getConvertedValue<CurrentProblem>(dayReportDTO, "problemForCurrentPeriodUuids", problemsForCurrentPeriodPreview);
+    const mentorCommentUuids = getConvertedValue<MentorComment>(dayReportDTO, "mentorCommentUuids", mentorCommentsPreview);
 
     const dayReportProps = {
-      jobsDone,
-      plansForNextPeriod,
-      problemsForCurrentPeriod,
-      mentorComments,
+      jobDoneUuids,
+      planForNextPeriodUuids,
+      problemForCurrentPeriodUuids,
+      mentorCommentUuids,
     };
 
     const dayReport = dayReportDTOToDayReportConverter(dayReportDTO, dayReportProps);
@@ -96,12 +96,12 @@ export class DayReportDAL {
 
     const DEFAULT_DAY_REPORT: DayReportDTOWithoutUuid = {
       date: DateUtils.getShortISODateValue(new Date),
-      jobsDone: [`${newJobDoneUuid}`],
-      plansForNextPeriod: [`${newPlanForNextPeriodUuid}`],
-      problemsForCurrentPeriod: [`${newCurrentProblemUuid}`],
+      jobDoneUuids: [`${newJobDoneUuid}`],
+      planForNextPeriodUuids: [`${newPlanForNextPeriodUuid}`],
+      problemForCurrentPeriodUuids: [`${newCurrentProblemUuid}`],
       studentComments: [""],
       learnedForToday: [""],
-      mentorComments: [`${newMentorCommentUuid}`],
+      mentorCommentUuids: [`${newMentorCommentUuid}`],
       isDayOff: false,
     };
     await DayReportService.createDayReportDTO(DEFAULT_DAY_REPORT);
@@ -111,16 +111,16 @@ export class DayReportDAL {
    * Update DayReport
    */
   public static async updateDayReport(dayReport: DayReport) {
-    const jobsDone = dayReport.jobsDone.map((item) => item.uuid);
-    const plansForNextPeriod = dayReport.plansForNextPeriod.map((item) => item.uuid);
-    const problemsForCurrentPeriod = dayReport.problemsForCurrentPeriod.map((item) => item.uuid);
-    const mentorComments = dayReport.mentorComments.map((item) => item.uuid);
+    const jobDoneUuids = dayReport.jobsDone.map((item) => item.uuid);
+    const planForNextPeriodUuids = dayReport.plansForNextPeriod.map((item) => item.uuid);
+    const problemForCurrentPeriodUuids = dayReport.problemsForCurrentPeriod.map((item) => item.uuid);
+    const mentorCommentUuids = dayReport.mentorComments.map((item) => item.uuid);
 
     const dayReportDTOProps = {
-      jobsDone,
-      plansForNextPeriod,
-      problemsForCurrentPeriod,
-      mentorComments,
+      jobDoneUuids,
+      planForNextPeriodUuids,
+      problemForCurrentPeriodUuids,
+      mentorCommentUuids,
     };
 
     const dayReportDTO = dayReportToDayReportDTOConverter(dayReport, dayReportDTOProps);

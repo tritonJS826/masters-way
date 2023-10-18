@@ -8,7 +8,7 @@ import {MentorComment} from "src/model/businessModel/MentorComment";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
 
 /**
- * Properties of {@link DayReport} that have type string[] for dynamic update
+ * Properties of DayReport model that have type string[] for dynamic update
  */
 export interface ColumnNameProps {
 
