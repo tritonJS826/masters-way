@@ -4,7 +4,7 @@ import styles from "src/component/table/Table.module.scss";
 /**
  * Tables data
  */
-interface TableData<T> {
+export interface TableData<T> {
 
   /**
    * Table headers

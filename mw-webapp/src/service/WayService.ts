@@ -1,4 +1,4 @@
-import {collection, doc, getDoc, getDocs} from "firebase/firestore";
+import {collection, doc, getDoc, getDocs, query, where} from "firebase/firestore";
 import {db} from "src/firebase";
 import {WayDTO} from "src/model/DTOModel/WayDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
@@ -29,6 +29,18 @@ export class WayService {
     const way: WayDTO = documentSnapshotToDTOConverter<WayDTO>(wayRaw);
 
     return way;
+  }
+
+  /**
+   * Get WaysDTO by Owner Uuid
+   */
+  public static async getOwnedWaysDTO(uuid: string): Promise<WayDTO[]> {
+    const waysRef = collection(db, PATH_TO_WAYS_COLLECTION);
+    const waysQuery = query(waysRef, where("ownerUuid", "==", uuid));
+    const waysRaw = await getDocs(waysQuery);
+    const ways = querySnapshotToDTOConverter<WayDTO>(waysRaw);
+
+    return ways;
   }
 
 }
