@@ -1,5 +1,5 @@
 import {createColumnHelper} from "@tanstack/react-table";
-import {renderCellValue} from "src/logic/allWaysPage/allWaysTable/renderCellValue/renderCellValue";
+import {renderCellValue} from "src/logic/waysTable/renderCellValue/renderCellValue";
 import {GoalPreview} from "src/model/businessModelPreview/GoalPreview";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";

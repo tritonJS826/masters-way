@@ -1,8 +1,7 @@
 import {useEffect, useState} from "react";
-import {getCoreRowModel, useReactTable} from "@tanstack/react-table";
-import {Table} from "src/component/table/Table";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
-import {columns} from "src/logic/allWaysPage/allWaysTable/columns";
+import {columns} from "src/logic/waysTable/columns";
+import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 
 /**
@@ -23,20 +22,10 @@ export const AllWaysTable = () => {
     loadAllWays();
   }, []);
 
-  const data = allWays;
-
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-  });
-
-  const headerGroup = table.getHeaderGroups();
-  const rowModel = table.getRowModel();
-
-  const tableContent = {headerGroup, rowModel};
-
   return (
-    <Table data={tableContent} />
+    <WaysTable
+      data={allWays}
+      columns={columns}
+    />
   );
 };
