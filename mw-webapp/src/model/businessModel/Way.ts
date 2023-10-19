@@ -49,7 +49,7 @@ export class Way {
     this.owner = wayData.owner;
     this.monthReports = wayData.monthReports;
     this.goal = wayData.goal;
-    this.currentMentors = wayData.currentMentors?.map((currentMentorItem) =>
+    this.currentMentors = wayData.currentMentors.map((currentMentorItem) =>
       new User(currentMentorItem));
     this.isCompleted = wayData.isCompleted;
   }

@@ -1,3 +1,4 @@
+import {GoalPreview} from "src/model/businessModelPreview/GoalPreview";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {WayDTO} from "src/model/DTOModel/WayDTO";
@@ -16,6 +17,11 @@ interface WayPreviewProps {
    * Way's current mentors
    */
   currentMentors: UserPreview[];
+
+  /**
+   * Way's goal
+   */
+  goal: GoalPreview;
 }
 
 /**
@@ -28,6 +34,6 @@ export const wayDTOToWayPreviewConverter = (wayDTO: WayDTO, wayProps: WayPreview
     currentMentors: wayProps.currentMentors,
     dayReports: wayDTO.dayReportUuids,
     monthReports: wayDTO.monthReportUuids,
-    goal: wayDTO.goalUuid,
+    goal: wayProps.goal,
   });
 };

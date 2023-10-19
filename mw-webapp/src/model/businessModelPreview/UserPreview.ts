@@ -1,5 +1,3 @@
-import {WayPreview} from "src/model/businessModelPreview/WayPreview";
-
 /**
  * User preview model
  */
@@ -22,8 +20,10 @@ export class UserPreview {
 
   /**
    * User's ways
+   * TODO: need to change UserPreview model in task #52 (Create table with all users).
+   * TODO: Now I changed it for easer render allWays table
    */
-  public ownWays: WayPreview[];
+  public ownWays: string[];
 
   /**
    * The favorite ways @Way.uuid
