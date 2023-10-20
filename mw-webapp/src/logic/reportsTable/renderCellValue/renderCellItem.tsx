@@ -1,14 +1,14 @@
 import {useState} from "react";
 import {Input} from "src/component/input/Input";
+import {updateCell} from "src/logic/reportsTable/renderCellValue/helpers/updateCell";
+import {renderCellSpan} from "src/logic/reportsTable/renderCellValue/renderCellSpan";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {MentorComment} from "src/model/businessModel/MentorComment";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
-import {updateCell} from "src/pages/reportsTable/renderCellValue/helpers/updateCell";
-import {renderCellSpan} from "src/pages/reportsTable/renderCellValue/renderCellSpan";
 
 /**
- * Properties of {@link DayReport} that have type string[] for dynamic update
+ * Properties of DayReport model that have type string[] for dynamic update
  */
 export interface ColumnNameProps {
 

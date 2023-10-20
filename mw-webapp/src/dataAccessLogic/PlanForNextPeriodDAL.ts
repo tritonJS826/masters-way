@@ -3,7 +3,8 @@ import {planForNextPeriodToPlanForNextPeriodDTOConverter} from
 import {planForNextPeriodDTOToPlanForNextPeriodConverter} from
   "src/dataAccessLogic/DTOToBusinessConverter/planForNextPeriodDTOToPlanForNextPeriodConverter";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
-import {PlanForNextPeriodService} from "src/service/PlanForNextPeriodService";
+import {TimeUnit} from "src/model/businessModel/time/timeUnit/TimeUnit";
+import {PlanForNextPeriodDTOWithoutUuid, PlanForNextPeriodService} from "src/service/PlanForNextPeriodService";
 
 /**
  * Provides methods to interact with the PlanForNextPeriod business model
@@ -28,6 +29,22 @@ export class PlanForNextPeriodDAL {
     const planForNextPeriod = planForNextPeriodDTOToPlanForNextPeriodConverter(PlaForNextPeriodDTO);
 
     return planForNextPeriod;
+  }
+
+  /**
+   * Create new PlanForNextPeriod
+   * @return {string} Uuid of new PlanForNextPeriod
+   */
+  public static async createNewPlanForNextPeriod(): Promise<string> {
+    const planForNextPeriodWithoutUuid: PlanForNextPeriodDTOWithoutUuid = {
+      job: "",
+      estimationTime: 0,
+      timeUnit: TimeUnit.minute,
+    };
+
+    const newPlanForNextPeriodUuid = await PlanForNextPeriodService.createPlanForNextPeriodDTO(planForNextPeriodWithoutUuid);
+
+    return newPlanForNextPeriodUuid;
   }
 
   /**

@@ -1,4 +1,3 @@
-
 /**
  * Month's report DTO model
  */
@@ -15,19 +14,19 @@ export class MonthReportDTO {
   public date: string;
 
   /**
-   * Array of @JobDone.uuid
+   * @JobDone.uuids
    */
-  public jobsDone: string[];
+  public jobDoneUuids: string[];
 
   /**
-   * Array of @PlanForNextPeriod.uuid
+   * @PlanForNextPeriod.uuids
    */
-  public plansForNextPeriod: string[];
+  public planForNextPeriodUuids: string[];
 
   /**
-   * Array of @ProblemsForCurrent.uuid
+   * @CurrentProblem.uuids
    */
-  public problemsForCurrentPeriod: string[];
+  public problemForCurrentPeriodUuids: string[];
 
   /**
    * Student comments
@@ -40,19 +39,19 @@ export class MonthReportDTO {
   public learnedForMonth: string[];
 
   /**
-   * Array of @MentorComment.uuid
+   * @MentorComment.uuids
    */
-  public mentorComments: string[];
+  public mentorCommentUuids: string[];
 
   constructor(monthReportData: MonthReportDTO) {
     this.uuid = monthReportData.uuid;
     this.date = monthReportData.date;
-    this.jobsDone = monthReportData.jobsDone;
-    this.plansForNextPeriod = monthReportData.plansForNextPeriod;
-    this.problemsForCurrentPeriod = monthReportData.problemsForCurrentPeriod;
+    this.jobDoneUuids = monthReportData.jobDoneUuids;
+    this.planForNextPeriodUuids = monthReportData.planForNextPeriodUuids;
+    this.problemForCurrentPeriodUuids = monthReportData.problemForCurrentPeriodUuids;
     this.studentComments = monthReportData.studentComments;
     this.learnedForMonth = monthReportData.learnedForMonth;
-    this.mentorComments = monthReportData.mentorComments;
+    this.mentorCommentUuids = monthReportData.mentorCommentUuids;
   }
 
 }

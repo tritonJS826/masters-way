@@ -1,12 +1,12 @@
 import {createColumnHelper} from "@tanstack/react-table";
+import {renderCellDate} from "src/logic/reportsTable/renderCellValue/renderCellDate";
+import {renderCellIsDayOff} from "src/logic/reportsTable/renderCellValue/renderCellIsDayOff";
+import {renderCellItem} from "src/logic/reportsTable/renderCellValue/renderCellItem";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {MentorComment} from "src/model/businessModel/MentorComment";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
-import {renderCellDate} from "src/pages/reportsTable/renderCellValue/renderCellDate";
-import {renderCellIsDayOff} from "src/pages/reportsTable/renderCellValue/renderCellIsDayOff";
-import {renderCellItem} from "src/pages/reportsTable/renderCellValue/renderCellItem";
 
 const DEFAULT_SUMMARY_TIME = 0;
 

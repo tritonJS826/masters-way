@@ -10,22 +10,22 @@ interface DayReportDTOProps {
   /**
    * @JobsDone.uuids
    */
-  jobsDone: string[];
+  jobDoneUuids: string[];
 
   /**
    * @PlansForNextPeriod.uuids
    */
-  plansForNextPeriod: string[];
+  planForNextPeriodUuids: string[];
 
   /**
    * @ProblemsForCurrentPeriod.uuids
    */
-  problemsForCurrentPeriod: string[];
+  problemForCurrentPeriodUuids: string[];
 
   /**
    * @MentorComments.uuids
    */
-  mentorComments: string[];
+  mentorCommentUuids: string[];
 }
 
 /**
@@ -35,9 +35,9 @@ export const dayReportToDayReportDTOConverter = (dayReport: DayReport, dayReport
   return new DayReportDTO({
     ...dayReport,
     date: DateUtils.getShortISODateValue(dayReport.date),
-    jobsDone: dayReportDTOProps.jobsDone,
-    plansForNextPeriod: dayReportDTOProps.plansForNextPeriod,
-    problemsForCurrentPeriod: dayReportDTOProps.problemsForCurrentPeriod,
-    mentorComments: dayReportDTOProps.mentorComments,
+    jobDoneUuids: dayReportDTOProps.jobDoneUuids,
+    planForNextPeriodUuids: dayReportDTOProps.planForNextPeriodUuids,
+    problemForCurrentPeriodUuids: dayReportDTOProps.problemForCurrentPeriodUuids,
+    mentorCommentUuids: dayReportDTOProps.mentorCommentUuids,
   });
 };

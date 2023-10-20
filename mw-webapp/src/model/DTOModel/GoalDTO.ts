@@ -18,7 +18,7 @@ export class GoalDTO {
   /**
    * Metrics @GoalMetrics.uuid
    */
-  public metrics: string[];
+  public metricUuids: string[];
 
   /**
    * Description of goal
@@ -38,7 +38,7 @@ export class GoalDTO {
   constructor(goalData: GoalDTO) {
     this.uuid = goalData.uuid;
     this.studentUuid = goalData.studentUuid;
-    this.metrics = goalData.metrics;
+    this.metricUuids = goalData.metricUuids;
     this.description = goalData.description;
     this.timeUnit = goalData.timeUnit;
     this.estimationTime = goalData.estimationTime;

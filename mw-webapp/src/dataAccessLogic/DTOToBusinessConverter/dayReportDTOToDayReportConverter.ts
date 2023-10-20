@@ -10,10 +10,10 @@ export const dayReportDTOToDayReportConverter =
     return new DayReport({
       ...dayReportDTO,
       date: new Date(dayReportDTO.date),
-      jobsDone: dayReportProps.jobsDone,
-      plansForNextPeriod: dayReportProps.plansForNextPeriod,
-      problemsForCurrentPeriod: dayReportProps.problemsForCurrentPeriod,
-      mentorComments: dayReportProps.mentorComments,
+      jobsDone: dayReportProps.jobDoneUuids,
+      plansForNextPeriod: dayReportProps.planForNextPeriodUuids,
+      problemsForCurrentPeriod: dayReportProps.problemForCurrentPeriodUuids,
+      mentorComments: dayReportProps.mentorCommentUuids,
     });
   };
 

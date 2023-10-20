@@ -9,17 +9,17 @@ export class WayDTO {
   public uuid: string;
 
   /**
-   * Array of @DayReport.uuid
+   * @DayReport.uuids
    */
   public dayReportUuids: string[];
 
   /**
-   * Owner's UUID @User.uuid
+   * Owner's UUIDs @User.uuid
    */
   public ownerUuid: string;
 
   /**
-   * Array of @MonthReport.uuid
+   * @MonthReport.uuids
    */
   public monthReportUuids: string[];
 
@@ -29,9 +29,9 @@ export class WayDTO {
   public goalUuid: string;
 
   /**
-   * Array of @User.uuid who are mentors of this way
+   * Mentor's UUIDs @User.uuid
    */
-  public currentMentors: string[];
+  public currentMentorUuids: string[];
 
   /**
    * Return true if way is completed and false if not completed
@@ -44,7 +44,7 @@ export class WayDTO {
     this.ownerUuid = wayData.ownerUuid;
     this.monthReportUuids = wayData.monthReportUuids;
     this.goalUuid = wayData.goalUuid;
-    this.currentMentors = wayData.currentMentors;
+    this.currentMentorUuids = wayData.currentMentorUuids;
     this.isCompleted = wayData.isCompleted;
   }
 

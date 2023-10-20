@@ -1,6 +1,6 @@
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
+import {ColumnNameProps} from "src/logic/reportsTable/renderCellValue/renderCellItem";
 import {DayReport} from "src/model/businessModel/DayReport";
-import {ColumnNameProps} from "src/pages/reportsTable/renderCellValue/renderCellItem";
 
 /**
  * Update DayReport
