@@ -3,13 +3,13 @@ import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {DayReport} from "src/model/businessModel/DayReport";
 
 /**
- * Load day reports
+ * Load all day reports and returns them
  */
-export const useGetDataTableReports = () => {
+export const loadAllDayReports = () => {
   const [dayReports, setDayReports] = useState<DayReport[]>([]);
 
   /**
-   * Receives and transfer data of reports
+   * Gets all day reports
    */
   const loadDayReports = async () => {
     const data = await DayReportDAL.getDayReports();
