@@ -77,7 +77,7 @@ export class WayPreviewDAL {
   }
 
   /**
-   * Get User own ways preview
+   * Get User ways preview based of provided type
    */
   public static async getUserWaysPreview(uuid: string, type: "OwnWays" | "MentoringWays"): Promise<WayPreview[]> {
 
