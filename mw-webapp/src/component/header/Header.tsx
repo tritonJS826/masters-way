@@ -29,6 +29,12 @@ export const Header = () => {
       <h1 className={styles.title}>
         {LOGO_TEXT.toUpperCase()}
       </h1>
+      {user && <h2 className={styles.title}>
+        Hello,
+        {" "}
+        {user.displayName}
+        !
+      </h2>}
       {/* //TODO: we need delete this navigate after main features about dayReports table will be finished */}
       {user && <Navigate to={pages.way.path("uuid")} />}
       <div className={styles.blockButton}>
