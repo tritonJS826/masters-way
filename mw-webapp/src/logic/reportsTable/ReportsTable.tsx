@@ -4,22 +4,11 @@ import {useGetDataTableReports} from "src/dataAccessLogic/useGetDataTableReports
 import {columns} from "src/logic/reportsTable/columns";
 
 /**
- * Reports Table props
- */
-interface ReportsTableProps {
-
-  /**
-   * Optional parameter to create Table for specific way
-   */
-  wayUuid?: string;
-}
-
-/**
  * Render table of reports
  * @returns {Table}
  */
-export const ReportsTable = (props: ReportsTableProps) => {
-  const data = useGetDataTableReports(props.wayUuid);
+export const ReportsTable = () => {
+  const data = useGetDataTableReports();
 
   const table = useReactTable({
     data,
