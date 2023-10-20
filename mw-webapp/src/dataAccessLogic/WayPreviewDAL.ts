@@ -77,8 +77,8 @@ export class WayPreviewDAL {
   /**
    * Get Ways preview owned by User
    */
-  public static async getOwnedWaysPreview(uuid: string): Promise<WayPreview[]> {
-    const waysDTO = await WayService.getOwnedWaysDTO(uuid);
+  public static async getOwnWaysPreview(uuid: string): Promise<WayPreview[]> {
+    const waysDTO = await WayService.getOwnWaysDTO(uuid);
     const usersPreview = await UserPreviewDAL.getUsersPreview();
     const goalsPreview = await GoalPreviewDAL.getGoalsPreview();
 

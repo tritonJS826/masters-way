@@ -5,7 +5,6 @@ import {columns} from "src/logic/reportsTable/columns";
 
 /**
  * Render table of reports
- * @returns {Table}
  */
 export const ReportsTable = () => {
   const data = useGetDataTableReports();

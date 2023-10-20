@@ -4,7 +4,7 @@ import {columns} from "src/logic/waysTable/columns";
 import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 
-export type OwnedWaysTableProps = {
+export type OwnWaysTableProps = {
 
   /**
    * User Uuid
@@ -13,26 +13,26 @@ export type OwnedWaysTableProps = {
 }
 
 /**
- * Render table of all ways preview
+ * Render table of own ways preview
  */
-export const OwnedWaysTable = (props: OwnedWaysTableProps) => {
-  const [ownedWays, setOwnedWays] = useState<WayPreview[]>([]);
+export const OwnWaysTable = (props: OwnWaysTableProps) => {
+  const [ownWays, setOwnWays] = useState<WayPreview[]>([]);
 
   /**
-   * Load User owned ways
+   * Load User own ways
    */
-  const loadOwnedWays = async () => {
-    const data = await WayPreviewDAL.getOwnedWaysPreview(props.uuid);
-    setOwnedWays(data);
+  const loadOwnWays = async () => {
+    const data = await WayPreviewDAL.getOwnWaysPreview(props.uuid);
+    setOwnWays(data);
   };
 
   useEffect(() => {
-    loadOwnedWays();
+    loadOwnWays();
   }, []);
 
   const columnsToExclude = ["Owner's name", "Owner's email"];
 
-  const filteredColumns = columns.filter(column => {
+  const ownWaysTableColumns = columns.filter(column => {
     if (column.header) {
       return !columnsToExclude.includes(column.header.toString());
     }
@@ -40,8 +40,8 @@ export const OwnedWaysTable = (props: OwnedWaysTableProps) => {
 
   return (
     <WaysTable
-      data={ownedWays}
-      columns={filteredColumns}
+      data={ownWays}
+      columns={ownWaysTableColumns}
     />
   );
 };

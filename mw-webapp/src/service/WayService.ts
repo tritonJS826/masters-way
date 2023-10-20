@@ -34,13 +34,13 @@ export class WayService {
   /**
    * Get WaysDTO by Owner Uuid
    */
-  public static async getOwnedWaysDTO(uuid: string): Promise<WayDTO[]> {
-    const waysRef = collection(db, PATH_TO_WAYS_COLLECTION);
-    const waysQuery = query(waysRef, where("ownerUuid", "==", uuid));
-    const waysRaw = await getDocs(waysQuery);
-    const ways = querySnapshotToDTOConverter<WayDTO>(waysRaw);
+  public static async getOwnWaysDTO(uuid: string): Promise<WayDTO[]> {
+    const ownWaysRef = collection(db, PATH_TO_WAYS_COLLECTION);
+    const ownWaysQuery = query(ownWaysRef, where("ownerUuid", "==", uuid));
+    const ownWaysRaw = await getDocs(ownWaysQuery);
+    const ownWays = querySnapshotToDTOConverter<WayDTO>(ownWaysRaw);
 
-    return ways;
+    return ownWays;
   }
 
 }

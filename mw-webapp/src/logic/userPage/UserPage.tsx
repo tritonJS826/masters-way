@@ -1,7 +1,7 @@
 
 import {useParams} from "react-router-dom";
 import {HeadingLevel, Title} from "src/component/title/Title";
-import {OwnedWaysTable} from "src/logic/waysTable/OwnedWaysTable";
+import {OwnWaysTable} from "src/logic/waysTable/OwnWaysTable";
 import styles from "src/logic/userPage/UserPage.module.scss";
 
 /**
@@ -17,11 +17,10 @@ export const UserPage = () => {
         text="User page"
       />
       <Title
-        text="Owned ways"
+        text="Own ways"
         level={HeadingLevel.h3}
-        className={""}
       />
-      {uuid ? <OwnedWaysTable uuid={uuid} /> : null}
+      {uuid ? <OwnWaysTable uuid={uuid} /> : null}
     </div>
   );
 };
