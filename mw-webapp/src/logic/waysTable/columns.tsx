@@ -1,5 +1,6 @@
 import {createColumnHelper} from "@tanstack/react-table";
 import {renderCellValue} from "src/logic/waysTable/renderCellValue/renderCellValue";
+import {renderLinkInCell} from "src/logic/waysTable/renderLinkInCell/renderLinkInCell";
 import {GoalPreview} from "src/model/businessModelPreview/GoalPreview";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
@@ -24,6 +25,14 @@ export const columns = [
      * Cell with owner's name
      */
     cell: ({row}) => renderCellValue(row.original.uuid),
+  }),
+  columnHelper.accessor<"uuid", string>("uuid", {
+    header: "Link to Way",
+
+    /**
+     * Cell with link to way page
+     */
+    cell: (uuid) => renderLinkInCell(`/way/${uuid.getValue()}`, "Way Page"),
   }),
   columnHelper.accessor<"isCompleted", boolean>("isCompleted", {
     header: "Is completed?",

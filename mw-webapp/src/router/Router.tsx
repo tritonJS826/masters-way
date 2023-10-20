@@ -16,6 +16,14 @@ export const Router = () => {
         element={pages.user.element}
       />
       <Route
+        path={pages.way.path(":uuid")}
+        element={pages.way.element}
+      />
+      <Route
+        path={pages.allUsers.path}
+        element={pages.allUsers.element}
+      />
+      <Route
         path={pages.userProfile.path(":uuid")}
         element={pages.userProfile.element}
       />
@@ -23,7 +31,6 @@ export const Router = () => {
         path={pages.aboutProject.path}
         element={pages.aboutProject.element}
       />
-
       <Route
         path={pages.page404.path}
         element={pages.page404.element}
