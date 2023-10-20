@@ -19,14 +19,14 @@ interface MentoringWaysTableProps {
  * Render table of mentoring ways preview
  */
 export const MentoringWaysTable = (props: MentoringWaysTableProps) => {
-  const [ownWays, setOwnWays] = useState<WayPreview[]>([]);
+  const [mentoringWays, setMentoringWays] = useState<WayPreview[]>([]);
 
   /**
    * Load User mentoring ways
    */
   const loadMentoringWays = async () => {
     const data = await WayPreviewDAL.getUserWaysPreview(props.uuid, "MentoringWays");
-    setOwnWays(data);
+    setMentoringWays(data);
   };
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export const MentoringWaysTable = (props: MentoringWaysTableProps) => {
 
   return (
     <WaysTable
-      data={ownWays}
+      data={mentoringWays}
       columns={columns}
     />
   );
