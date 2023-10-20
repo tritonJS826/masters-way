@@ -4,7 +4,10 @@ import {columns} from "src/logic/waysTable/columns";
 import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 
-export type OwnWaysTableProps = {
+/**
+ * Own ways table props
+ */
+interface OwnWaysTableProps {
 
   /**
    * User Uuid
