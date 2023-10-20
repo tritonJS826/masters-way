@@ -1,7 +1,8 @@
 
-import {useParams} from "react-router-dom";
+import {Navigate, useParams} from "react-router-dom";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {OwnWaysTable} from "src/logic/waysTable/OwnWaysTable";
+import {pages} from "src/router/pages";
 import styles from "src/logic/userPage/UserPage.module.scss";
 
 /**
@@ -20,7 +21,7 @@ export const UserPage = () => {
         text="Own ways"
         level={HeadingLevel.h3}
       />
-      {uuid ? <OwnWaysTable uuid={uuid} /> : null}
+      {uuid ? <OwnWaysTable uuid={uuid} /> : <Navigate to={pages.page404.path} />}
     </div>
   );
 };

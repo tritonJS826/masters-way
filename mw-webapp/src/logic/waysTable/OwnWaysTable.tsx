@@ -33,7 +33,10 @@ export const OwnWaysTable = (props: OwnWaysTableProps) => {
     loadOwnWays();
   }, []);
 
-  const columnsToExclude = ["Owner's name", "Owner's email"];
+  const OWNER_NAME = "Owner's name";
+  const OWNER_EMAIL = "Owner's email";
+
+  const columnsToExclude = [OWNER_NAME, OWNER_EMAIL];
 
   const ownWaysTableColumns = columns.filter(column => {
     if (column.header) {

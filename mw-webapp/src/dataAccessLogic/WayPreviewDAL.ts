@@ -19,6 +19,7 @@ export class WayPreviewDAL {
 
     const ownersPreview = waysDTO.map((wayDTO) => {
       const ownerPreview = usersPreview
+      //TODO: task #114 Use hashmap instead of .find
         .find((elem) => elem.uuid === wayDTO.ownerUuid);
       if (!ownerPreview) {
         throw new Error(`${ownerPreview} was not found`);
@@ -47,6 +48,7 @@ export class WayPreviewDAL {
 
     const goals = waysDTO.map((wayDTO) => {
       const goalPreview = goalsPreview
+      //TODO: task #114 Use hashmap instead of .find
         .find((elem) => elem.uuid === wayDTO.goalUuid);
       if (!goalPreview) {
         throw new Error(`${goalPreview} was not found`);
@@ -84,6 +86,7 @@ export class WayPreviewDAL {
 
     const ownersPreview = waysDTO.map((wayDTO) => {
       const ownerPreview = usersPreview
+      //TODO: task #114 Use hashmap instead of .find
         .find((elem) => elem.uuid === wayDTO.ownerUuid);
       if (!ownerPreview) {
         throw new Error(`${ownerPreview} was not found`);
@@ -112,6 +115,7 @@ export class WayPreviewDAL {
 
     const goals = waysDTO.map((wayDTO) => {
       const goalPreview = goalsPreview
+      //TODO: task #114 Use hashmap instead of .find
         .find((elem) => elem.uuid === wayDTO.goalUuid);
       if (!goalPreview) {
         throw new Error(`${goalPreview} was not found`);
@@ -134,6 +138,7 @@ export class WayPreviewDAL {
     };
 
     const waysPreview = waysDTO
+    // Very slow function, should be improved in the future
       .map((wayDTO, i) => wayDTOToWayPreviewConverter(wayDTO, getWayPreviewProps(i)));
 
     return waysPreview;

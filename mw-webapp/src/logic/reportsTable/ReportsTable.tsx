@@ -1,13 +1,13 @@
 import {getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import {Table} from "src/component/table/Table";
-import {useGetDataTableReports} from "src/dataAccessLogic/useGetDataTableReports";
 import {columns} from "src/logic/reportsTable/columns";
+import {loadAllDayReports} from "src/logic/reportsTable/loadAllDayReports";
 
 /**
  * Render table of reports
  */
 export const ReportsTable = () => {
-  const data = useGetDataTableReports();
+  const data = loadAllDayReports();
 
   const table = useReactTable({
     data,
