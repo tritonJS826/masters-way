@@ -75,7 +75,7 @@ export class WayPreviewDAL {
   }
 
   /**
-   * Get Ways preview owned by User
+   * Get User own ways preview
    */
   public static async getOwnWaysPreview(uuid: string): Promise<WayPreview[]> {
     const waysDTO = await WayService.getOwnWaysDTO(uuid);
