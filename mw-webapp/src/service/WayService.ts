@@ -43,4 +43,16 @@ export class WayService {
     return ownWays;
   }
 
+  /**
+   * Get WaysDTO of user mentoring ways
+   */
+  public static async getMentoringWaysDTO(uuid: string): Promise<WayDTO[]> {
+    const mentoringWaysRef = collection(db, PATH_TO_WAYS_COLLECTION);
+    const mentoringWaysQuery = query(mentoringWaysRef, where("currentMentorUuids", "array-contains", uuid));
+    const mentoringWaysRaw = await getDocs(mentoringWaysQuery);
+    const mentoringWays = querySnapshotToDTOConverter<WayDTO>(mentoringWaysRaw);
+
+    return mentoringWays;
+  }
+
 }
