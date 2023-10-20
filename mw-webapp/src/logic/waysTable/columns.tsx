@@ -7,6 +7,9 @@ import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 
 const columnHelper = createColumnHelper<WayPreview>();
 
+export const OWNER_NAME = "Owner's name";
+export const OWNER_EMAIL = "Owner's email";
+
 /**
  * Determines which columns will be in the table, the values in the cells and what types of data can be rendered in cells
  * The tanstack table has a bug about typing columns:
@@ -51,7 +54,7 @@ export const columns = [
     cell: ({row}) => renderCellValue(row.original.goal.description),
   }),
   columnHelper.accessor<"owner", UserPreview>("owner", {
-    header: "Owner's name",
+    header: OWNER_NAME,
 
     /**
      * Cell with owner's name
@@ -59,7 +62,7 @@ export const columns = [
     cell: ({row}) => renderCellValue(row.original.owner.name),
   }),
   columnHelper.accessor<"owner", UserPreview>("owner", {
-    header: "Owner's email",
+    header: OWNER_EMAIL,
 
     /**
      * Cell with owner's email
