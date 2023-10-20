@@ -36,7 +36,7 @@ export class WayPreviewDAL {
           //TODO: task #114 Use hashmap instead of .find
           .find((elem) => elem.uuid === uuid);
         if (!mentorsPreview) {
-          throw new Error(`${mentorsPreview} was not found`);
+          throw new Error(`MentorPreview with uuid:${uuid} was not found`);
         }
 
         return mentorsPreview;
@@ -49,7 +49,7 @@ export class WayPreviewDAL {
       const goalPreview = goalsPreview
         .find((elem) => elem.uuid === wayDTO.goalUuid);
       if (!goalPreview) {
-        throw new Error(`${goalPreview} was not found`);
+        throw new Error(`GoalPreview with uuid:${wayDTO.goalUuid} was not found`);
       }
 
       return goalPreview;
@@ -81,11 +81,11 @@ export class WayPreviewDAL {
     const newGoalUuid = await GoalPreviewDAL.createGoalPreview();
 
     const DEFAULT_WAY: WayDTOWithoutUuid = {
-      dayReportUuids: [""],
+      dayReportUuids: [],
       ownerUuid: `${userUuid}`,
-      monthReportUuids: [""],
+      monthReportUuids: [],
       goalUuid: `${newGoalUuid}`,
-      currentMentorUuids: [""],
+      currentMentorUuids: [],
       isCompleted: false,
     };
     await WayService.createWayDTO(DEFAULT_WAY);
