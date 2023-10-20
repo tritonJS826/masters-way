@@ -19,6 +19,7 @@ export class WayPreviewDAL {
 
     const ownersPreview = waysDTO.map((wayDTO) => {
       const ownerPreview = usersPreview
+      //TODO: task #114 Use hashmap instead of .find
         .find((elem) => elem.uuid === wayDTO.ownerUuid);
       if (!ownerPreview) {
         throw new Error(`${ownerPreview} was not found`);
@@ -47,6 +48,7 @@ export class WayPreviewDAL {
 
     const goals = waysDTO.map((wayDTO) => {
       const goalPreview = goalsPreview
+      //TODO: task #114 Use hashmap instead of .find
         .find((elem) => elem.uuid === wayDTO.goalUuid);
       if (!goalPreview) {
         throw new Error(`${goalPreview} was not found`);
@@ -69,6 +71,74 @@ export class WayPreviewDAL {
     };
 
     const waysPreview = waysDTO
+      .map((wayDTO, i) => wayDTOToWayPreviewConverter(wayDTO, getWayPreviewProps(i)));
+
+    return waysPreview;
+  }
+
+  /**
+   * Get User own ways preview
+   */
+  public static async getOwnWaysPreview(uuid: string): Promise<WayPreview[]> {
+    const waysDTO = await WayService.getOwnWaysDTO(uuid);
+    const usersPreview = await UserPreviewDAL.getUsersPreview();
+    const goalsPreview = await GoalPreviewDAL.getGoalsPreview();
+
+    const ownersPreview = waysDTO.map((wayDTO) => {
+      const ownerPreview = usersPreview
+      //TODO: task #114 Use hashmap instead of .find
+        .find((elem) => elem.uuid === wayDTO.ownerUuid);
+      if (!ownerPreview) {
+        throw new Error(`${ownerPreview} was not found`);
+      }
+
+      return ownerPreview;
+    });
+
+    /**
+     * Get currentMentors from currentMentorUuids for each way
+     */
+    const currentMentorsPreview = waysDTO.map((wayDTO) => {
+      const currentMentorPreview = wayDTO.currentMentorUuids.map((userUuid: string) => {
+        const mentorsPreview = usersPreview
+          //TODO: task #114 Use hashmap instead of .find
+          .find((elem) => elem.uuid === userUuid);
+        if (!mentorsPreview) {
+          throw new Error(`${mentorsPreview} was not found`);
+        }
+
+        return mentorsPreview;
+      });
+
+      return currentMentorPreview;
+    });
+
+    const goals = waysDTO.map((wayDTO) => {
+      const goalPreview = goalsPreview
+      //TODO: task #114 Use hashmap instead of .find
+        .find((elem) => elem.uuid === wayDTO.goalUuid);
+      if (!goalPreview) {
+        throw new Error(`${goalPreview} was not found`);
+      }
+
+      return goalPreview;
+    });
+
+    /**
+     * WayPreviewProps for each way separately
+     */
+    const getWayPreviewProps = (i: number) => {
+      const obj = {
+        owner: ownersPreview[i],
+        currentMentors: currentMentorsPreview[i],
+        goal: goals[i],
+      };
+
+      return obj;
+    };
+
+    const waysPreview = waysDTO
+    // Very slow function, should be improved in the future
       .map((wayDTO, i) => wayDTOToWayPreviewConverter(wayDTO, getWayPreviewProps(i)));
 
     return waysPreview;

@@ -36,7 +36,7 @@ export const Header = () => {
         !
       </h2>}
       {/* //TODO: we need delete this navigate after main features about dayReports table will be finished */}
-      {user && <Navigate to={pages.way.path("uuid")} />}
+      {user && <Navigate to={pages.user.path(user.uid)} />}
       <div className={styles.blockButton}>
         <Button
           onClick={user ? logOut : logIn}
