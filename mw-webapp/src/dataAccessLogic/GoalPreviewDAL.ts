@@ -31,9 +31,9 @@ export class GoalPreviewDAL {
       timeUnit: TimeUnit.minute,
     };
 
-    const newJobDoneUuid = await GoalService.createGoalDTO(goalPreviewWithoutUuid);
+    const newGoalUuid = await GoalService.createGoalDTO(goalPreviewWithoutUuid);
 
-    return newJobDoneUuid;
+    return newGoalUuid;
   }
 
 }
