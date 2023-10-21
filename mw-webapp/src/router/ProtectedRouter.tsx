@@ -1,18 +1,18 @@
 import {Navigate, Outlet} from "react-router-dom";
 
 /**
- *1
+ *Protected Router props
  */
 interface ProtectedRouterProps {
 
   /**
-   *1
+   * Autorization users
    */
   isAuth: boolean;
 }
 
 /**
- *1
+ * Protected Router
  */
 export const ProtectedRouter = (props: ProtectedRouterProps) => {
   if (props.isAuth) {

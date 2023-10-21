@@ -3,12 +3,12 @@ import {pages} from "src/router/pages";
 import {ProtectedRouter} from "src/router/ProtectedRouter";
 
 /**
- *1
+ * Router props
  */
 interface RouterProps {
 
   /**
-   *1
+   * Autorization users
    */
   isAuth: boolean;
 }
