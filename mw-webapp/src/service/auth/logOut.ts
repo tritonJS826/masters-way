@@ -6,4 +6,5 @@ import {auth} from "src/firebase";
  */
 export const logOut = async () => {
   await signOut(auth);
+  localStorage.setItem("auth", "false");
 };
