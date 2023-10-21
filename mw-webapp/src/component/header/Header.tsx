@@ -12,12 +12,12 @@ const LINK_TEXT = "Workflow";
 const LOGO_TEXT = "master's way";
 
 /**
- *1
+ * Header props
  */
 interface HeaderProps {
 
   /**
-   *1
+   * Current user
    */
   user: User | null;
 }

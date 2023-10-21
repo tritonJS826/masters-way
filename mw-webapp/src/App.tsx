@@ -17,7 +17,7 @@ export const App = () => {
   return (
     <>
       <Header user={user} />
-      <Router isAuth={Boolean(user)} />
+      <Router />
     </>
   );
 };

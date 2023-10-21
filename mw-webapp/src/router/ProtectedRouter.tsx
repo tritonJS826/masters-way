@@ -1,27 +1,19 @@
-import {Navigate, Outlet} from "react-router-dom";
-
-/**
- *Protected Router props
- */
-interface ProtectedRouterProps {
-
-  /**
-   * Autorization users
-   */
-  isAuth: boolean;
-}
+import {Navigate, Outlet, useLocation} from "react-router-dom";
+import {auth} from "src/firebase";
 
 /**
  * Protected Router
  */
-export const ProtectedRouter = (props: ProtectedRouterProps) => {
-  if (props.isAuth) {
-
+export const ProtectedRouter = () => {
+  const location = useLocation();
+  const isAuth = auth.currentUser;
+  if (isAuth) {
     return <Outlet />;
   }
 
   return (<Navigate
     to='/'
+    state={{from: location}}
     replace
   />);
 };

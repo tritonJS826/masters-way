@@ -3,20 +3,9 @@ import {pages} from "src/router/pages";
 import {ProtectedRouter} from "src/router/ProtectedRouter";
 
 /**
- * Router props
- */
-interface RouterProps {
-
-  /**
-   * Autorization users
-   */
-  isAuth: boolean;
-}
-
-/**
  * Router
  */
-export const Router = (props: RouterProps) => {
+export const Router = () => {
   return (
     <Routes>
       <Route
@@ -27,11 +16,11 @@ export const Router = (props: RouterProps) => {
         path={pages.page404.path}
         element={pages.page404.element}
       />
-      <Route element={<ProtectedRouter isAuth={props.isAuth} />}>
-        <Route
-          path={pages.aboutProject.path}
-          element={pages.aboutProject.element}
-        />
+      <Route
+        path={pages.aboutProject.path}
+        element={pages.aboutProject.element}
+      />
+      <Route element={<ProtectedRouter />}>
         <Route
           path={pages.user.path(":uuid")}
           element={pages.user.element}
