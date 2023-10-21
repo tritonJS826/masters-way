@@ -33,6 +33,12 @@ export const UserPage = () => {
             <MentoringWaysTable uuid={uuid} />
           </>
         )
+
+      /**
+       * TODO: Refactor ternary operator after history\redirecting logic is done
+       * (user is asked to log in and after that he is returned to the page)
+       */
+
         : <Navigate to={pages.page404.path} />}
     </div>
   );
