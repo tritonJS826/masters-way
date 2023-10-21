@@ -13,7 +13,6 @@ export const handleUserAuthState = (setUser: React.Dispatch<React.SetStateAction
 
       return;
     }
-
     const userDocRef = doc(db, "users", currentUser.uid);
     const userDocSnapshot = await getDoc(userDocRef);
 

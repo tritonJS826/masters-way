@@ -1,10 +1,7 @@
-import {useEffect, useState} from "react";
-import {Navigate} from "react-router-dom";
 import {User} from "firebase/auth";
 import {Button} from "src/component/button/Button";
 import {Link} from "src/component/link/Link";
 import {pages} from "src/router/pages";
-import {handleUserAuthState} from "src/service/auth/handleUserAuthState";
 import {logIn} from "src/service/auth/logIn";
 import {logOut} from "src/service/auth/logOut";
 import styles from "src/component/header/Header.module.scss";
@@ -15,14 +12,21 @@ const LINK_TEXT = "Workflow";
 const LOGO_TEXT = "master's way";
 
 /**
+ *1
+ */
+interface HeaderProps {
+
+  /**
+   *1
+   */
+  user: User | null;
+}
+
+/**
  * Header component
  */
-export const Header = () => {
-  const [user, setUser] = useState<User | null>(null);
-
-  useEffect(() => {
-    handleUserAuthState(setUser);
-  }, []);
+export const Header = (props: HeaderProps) => {
+  const user = props.user;
 
   return (
     <div className={styles.header}>
@@ -36,7 +40,6 @@ export const Header = () => {
         !
       </h2>}
       {/* //TODO: we need delete this navigate after main features about dayReports table will be finished */}
-      {user && <Navigate to={pages.user.path(user.uid)} />}
       <div className={styles.blockButton}>
         <Button
           onClick={user ? logOut : logIn}
