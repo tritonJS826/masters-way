@@ -91,8 +91,9 @@ export class WayPreviewDAL {
       isCompleted: false,
     };
     await WayService.createWayDTO(DEFAULT_WAY);
+  }
 
-   /**
+  /**
    * Get User own ways preview
    */
   public static async getOwnWaysPreview(uuid: string): Promise<WayPreview[]> {

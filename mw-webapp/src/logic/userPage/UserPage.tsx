@@ -1,4 +1,4 @@
-import {Navigate, useParams} from "react-router-dom";
+import {Navigate, Params, useParams} from "react-router-dom";
 import {Button} from "src/component/button/Button";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
@@ -7,10 +7,21 @@ import {pages} from "src/router/pages";
 import styles from "src/logic/userPage/UserPage.module.scss";
 
 /**
+ * Query param types
+ */
+interface QueryParamTypes extends Params {
+
+  /**
+   * User's uuid
+   */
+  uuid: string;
+}
+
+/**
  * User page
  */
 export const UserPage = () => {
-  const {uuid} = useParams();
+  const {uuid} = useParams() as QueryParamTypes;
 
   return (
     <div className={styles.container}>
@@ -20,7 +31,7 @@ export const UserPage = () => {
       />
       <Button
         value="Create new way"
-        onClick={() => WayPreviewDAL.createWayPreview(uuid!)}
+        onClick={() => WayPreviewDAL.createWayPreview(uuid)}
       />
       <Title
         text="Own ways"
