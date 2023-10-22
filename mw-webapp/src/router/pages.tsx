@@ -2,6 +2,7 @@ import {AboutProjectPage} from "src/logic/aboutProjectPage/AboutProjectPage";
 import {AllUsersPage} from "src/logic/allUsersPage/AllUsersPage";
 import {AllWaysPage} from "src/logic/allWaysPage/AllWaysPage";
 import {Page404} from "src/logic/page404/Page404";
+import {RedirectPage} from "src/logic/redirectPage/RedirectPage";
 import {UserPage} from "src/logic/userPage/UserPage";
 import {UserProfilePage} from "src/logic/userProfilePage/UserProfilePage";
 import {WayPage} from "src/logic/wayPage/WayPage";
@@ -35,6 +36,10 @@ export const pages = {
   allUsers: {
     path: "users",
     element: <AllUsersPage />,
+  },
+  redirect: {
+    path: "redirect",
+    element: <RedirectPage />,
   },
   userProfile: {
 

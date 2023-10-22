@@ -1,0 +1,10 @@
+@import "src/styles/variables.scss";
+@import "src/styles/mixins.scss";
+
+.redirectPageContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+  font-size: $font-size-large;
+  @include title;
+}
