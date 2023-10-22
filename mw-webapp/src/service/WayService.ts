@@ -63,10 +63,10 @@ export class WayService {
     const userDTO = await UserService.getUserDTO(uuid);
     const waysRef = collection(db, PATH_TO_WAYS_COLLECTION);
     const favouriteWaysQuery = query(waysRef, where("uuid", "in", userDTO.favoriteWayUuids));
-    const mentoringWaysRaw = await getDocs(favouriteWaysQuery);
-    const mentoringWays = querySnapshotToDTOConverter<WayDTO>(mentoringWaysRaw);
+    const favouriteWaysRaw = await getDocs(favouriteWaysQuery);
+    const favouriteWays = querySnapshotToDTOConverter<WayDTO>(favouriteWaysRaw);
 
-    return mentoringWays;
+    return favouriteWays;
   }
 
 }
