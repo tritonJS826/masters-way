@@ -1,21 +1,11 @@
-import {Navigate, Params, useParams} from "react-router-dom";
+import {Navigate, useParams} from "react-router-dom";
 import {Button} from "src/component/button/Button";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
+import {QueryParamTypes} from "src/logic/QueryParamTypes";
 import {OwnWaysTable} from "src/logic/waysTable/OwnWaysTable";
 import {pages} from "src/router/pages";
 import styles from "src/logic/userPage/UserPage.module.scss";
-
-/**
- * Query param types
- */
-interface QueryParamTypes extends Params {
-
-  /**
-   * User's uuid
-   */
-  uuid: string;
-}
 
 /**
  * User page

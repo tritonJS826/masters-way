@@ -1,6 +1,7 @@
 import {goalDTOToGoalPreviewConverter} from "src/dataAccessLogic/DTOToPreviewConverter/goalDTOToGoalPreviewConverter";
 import {GoalPreview} from "src/model/businessModelPreview/GoalPreview";
 import {TimeUnit} from "src/model/businessModelPreview/time/timeUnit/TimeUnit";
+import {GoalDTO} from "src/model/DTOModel/GoalDTO";
 import {GoalDTOWithoutUuid, GoalService} from "src/service/GoalService";
 
 /**
@@ -20,9 +21,8 @@ export class GoalPreviewDAL {
 
   /**
    * Create GoalPreview
-   * @return {string} Uuid of new Goal
    */
-  public static async createGoalPreview(): Promise<string> {
+  public static async createGoalPreview(): Promise<GoalDTO> {
     const goalPreviewWithoutUuid: GoalDTOWithoutUuid = {
       studentUuid: "",
       metricUuids: [""],
@@ -31,9 +31,9 @@ export class GoalPreviewDAL {
       timeUnit: TimeUnit.minute,
     };
 
-    const newGoalUuid = await GoalService.createGoalDTO(goalPreviewWithoutUuid);
+    const newGoalPreview = await GoalService.createGoalDTO(goalPreviewWithoutUuid);
 
-    return newGoalUuid;
+    return newGoalPreview;
   }
 
 }

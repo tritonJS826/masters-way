@@ -27,9 +27,8 @@ export class GoalService {
 
   /**
    * Create GoalDTO
-   * @return {string} Uuid of new GoalDTO
    */
-  public static async createGoalDTO(data: GoalDTOWithoutUuid): Promise<string> {
+  public static async createGoalDTO(data: GoalDTOWithoutUuid): Promise<GoalDTO> {
     const docRef = doc(collection(db, PATH_TO_GOALS_COLLECTION));
     const DEFAULT_GOAL: GoalDTO = {
       ...data,
@@ -38,7 +37,7 @@ export class GoalService {
 
     await setDoc(docRef, DEFAULT_GOAL);
 
-    return docRef.id;
+    return DEFAULT_GOAL;
   }
 
 }
