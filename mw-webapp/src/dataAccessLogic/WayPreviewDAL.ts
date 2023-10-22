@@ -77,10 +77,21 @@ export class WayPreviewDAL {
   }
 
   /**
-   * Get User own ways preview
+   * Get User ways preview based of provided type
    */
-  public static async getOwnWaysPreview(uuid: string): Promise<WayPreview[]> {
-    const waysDTO = await WayService.getOwnWaysDTO(uuid);
+  public static async getUserWaysPreview(uuid: string, type: "OwnWays" | "MentoringWays"): Promise<WayPreview[]> {
+
+    let waysDTO;
+
+    switch (type) {
+      case "OwnWays":
+        waysDTO = await WayService.getOwnWaysDTO(uuid);
+        break;
+      case "MentoringWays":
+        waysDTO = await WayService.getMentoringWaysDTO(uuid);
+        break;
+    }
+
     const usersPreview = await UserPreviewDAL.getUsersPreview();
     const goalsPreview = await GoalPreviewDAL.getGoalsPreview();
 
