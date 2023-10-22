@@ -1,6 +1,7 @@
 
 import {Navigate, useParams} from "react-router-dom";
 import {HeadingLevel, Title} from "src/component/title/Title";
+import {FavouriteWaysTable} from "src/logic/waysTable/FavouriteWaysTable";
 import {MentoringWaysTable} from "src/logic/waysTable/MentoringWaysTable";
 import {OwnWaysTable} from "src/logic/waysTable/OwnWaysTable";
 import {pages} from "src/router/pages";
@@ -26,11 +27,18 @@ export const UserPage = () => {
               level={HeadingLevel.h3}
             />
             <OwnWaysTable uuid={uuid} />
+
             <Title
               text="Mentoring ways"
               level={HeadingLevel.h3}
             />
             <MentoringWaysTable uuid={uuid} />
+
+            <Title
+              text="Favourite ways"
+              level={HeadingLevel.h3}
+            />
+            <FavouriteWaysTable uuid={uuid} />
           </>
         )
 

@@ -79,16 +79,19 @@ export class WayPreviewDAL {
   /**
    * Get User ways preview based of provided type
    */
-  public static async getUserWaysPreview(uuid: string, type: "OwnWays" | "MentoringWays"): Promise<WayPreview[]> {
+  public static async getUserWaysPreview(uuid: string, type: "Own" | "Mentoring" | "Favourite"): Promise<WayPreview[]> {
 
     let waysDTO;
 
     switch (type) {
-      case "OwnWays":
+      case "Own":
         waysDTO = await WayService.getOwnWaysDTO(uuid);
         break;
-      case "MentoringWays":
+      case "Mentoring":
         waysDTO = await WayService.getMentoringWaysDTO(uuid);
+        break;
+      case "Favourite":
+        waysDTO = await WayService.getFavouriteWaysDTO(uuid);
         break;
     }
 

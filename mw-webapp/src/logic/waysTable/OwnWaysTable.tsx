@@ -25,7 +25,7 @@ export const OwnWaysTable = (props: OwnWaysTableProps) => {
    * Load User own ways
    */
   const loadOwnWays = async () => {
-    const data = await WayPreviewDAL.getUserWaysPreview(props.uuid, "OwnWays");
+    const data = await WayPreviewDAL.getUserWaysPreview(props.uuid, "Own");
     setOwnWays(data);
   };
 

@@ -25,7 +25,7 @@ export const MentoringWaysTable = (props: MentoringWaysTableProps) => {
    * Load User mentoring ways
    */
   const loadMentoringWays = async () => {
-    const data = await WayPreviewDAL.getUserWaysPreview(props.uuid, "MentoringWays");
+    const data = await WayPreviewDAL.getUserWaysPreview(props.uuid, "Mentoring");
     setMentoringWays(data);
   };
 
