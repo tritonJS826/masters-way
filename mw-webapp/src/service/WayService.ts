@@ -57,16 +57,16 @@ export class WayService {
   }
 
   /**
-   * Get WaysDTO of user favourite ways
+   * Get WaysDTO of user favorite ways
    */
-  public static async getFavouriteWaysDTO(uuid: string): Promise<WayDTO[]> {
+  public static async getFavoriteWaysDTO(uuid: string): Promise<WayDTO[]> {
     const userDTO = await UserService.getUserDTO(uuid);
     const waysRef = collection(db, PATH_TO_WAYS_COLLECTION);
-    const favouriteWaysQuery = query(waysRef, where("uuid", "in", userDTO.favoriteWayUuids));
-    const favouriteWaysRaw = await getDocs(favouriteWaysQuery);
-    const favouriteWays = querySnapshotToDTOConverter<WayDTO>(favouriteWaysRaw);
+    const favoriteWaysQuery = query(waysRef, where("uuid", "in", userDTO.favoriteWayUuids));
+    const favoriteWaysRaw = await getDocs(favoriteWaysQuery);
+    const favoriteWays = querySnapshotToDTOConverter<WayDTO>(favoriteWaysRaw);
 
-    return favouriteWays;
+    return favoriteWays;
   }
 
 }
