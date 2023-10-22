@@ -1,9 +1,10 @@
+@import "src/styles/variables";
+
 .accordion {
-  margin: 0 auto;
-  width: 60%;
+  width: 80%;
+  margin: $accordion-margin;
 }
 
 .titleAccordion {
-  margin: 10px auto;
   text-align: center;
 }
