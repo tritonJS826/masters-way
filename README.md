@@ -14,10 +14,6 @@ Multi-user application for tracking the educational process.
 * mw-webapp - front end
 ___
 
-### Requirements: 
-* node.js: 18.13.0
-* pnpm: 7.25.0
-
 ### Run in dev mode locally
 1. Download repository
 
