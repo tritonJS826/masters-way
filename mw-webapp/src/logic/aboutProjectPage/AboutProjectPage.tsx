@@ -22,6 +22,13 @@ export const AboutProjectPage = () => {
   />,
     },
     {
+      trigger: <AccordionTrigger text="What is the Way?" />,
+      content:
+  <AccordionContent text="The “Way” in our application is the path along
+   which you learn or develop. This route includes training, tasks and goals that you set for yourself."
+  />,
+    },
+    {
       trigger: <AccordionTrigger text="How can I start using the application?" />,
       content:
   <AccordionContent text="First, you need to register and create an account.
