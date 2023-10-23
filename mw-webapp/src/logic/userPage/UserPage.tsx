@@ -12,7 +12,7 @@ import styles from "src/logic/userPage/UserPage.module.scss";
  * User page
  */
 export const UserPage = () => {
-  const {uuid} = useParams() as QueryParamTypes;
+  const {uuid} = useParams<QueryParamTypes["uuid"]>();
 
   return (
     <div className={styles.container}>
@@ -20,13 +20,13 @@ export const UserPage = () => {
         level={HeadingLevel.h2}
         text="User page"
       />
-      <Button
-        value="Create new way"
-        onClick={() => WayPreviewDAL.createWayPreview(uuid)}
-      />
       {uuid
         ? (
           <>
+            <Button
+              value="Create new way"
+              onClick={() => WayPreviewDAL.createWayPreview(uuid)}
+            />
             <Title
               text="Own ways"
               level={HeadingLevel.h3}
@@ -44,7 +44,6 @@ export const UserPage = () => {
        * TODO: Refactor ternary operator after history\redirecting logic is done
        * (user is asked to log in and after that he is returned to the page)
        */
-
         : <Navigate to={pages.page404.path} />}
     </div>
   );

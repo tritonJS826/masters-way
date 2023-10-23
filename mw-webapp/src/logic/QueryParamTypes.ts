@@ -1,9 +1,7 @@
-import {Params} from "react-router-dom";
-
 /**
  * Query param types
  */
-export interface QueryParamTypes extends Params {
+export type QueryParamTypes = {
 
   /**
    * User's uuid
