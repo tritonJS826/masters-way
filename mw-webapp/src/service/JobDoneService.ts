@@ -38,9 +38,8 @@ export class JobDoneService {
 
   /**
    * Create new JobDoneDTO
-   * @return {string} Uuid of new JobDoneDTO
    */
-  public static async createJobDoneDTO(data: JobDoneDTOWithoutUuid): Promise<string> {
+  public static async createJobDoneDTO(data: JobDoneDTOWithoutUuid): Promise<JobDoneDTO> {
     const docRef = doc(collection(db, PATH_TO_JOBS_DONE_COLLECTION));
     const DEFAULT_JOB_DONE: JobDoneDTO = {
       ...data,
@@ -49,7 +48,7 @@ export class JobDoneService {
 
     await setDoc(docRef, DEFAULT_JOB_DONE);
 
-    return docRef.id;
+    return DEFAULT_JOB_DONE;
   }
 
   /**

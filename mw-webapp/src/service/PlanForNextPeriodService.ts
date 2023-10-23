@@ -38,9 +38,8 @@ export class PlanForNextPeriodService {
 
   /**
    * Create PlanForNextPeriodDTO
-   * @return {string} Uuid of PlanForNextPeriodDTO
    */
-  public static async createPlanForNextPeriodDTO(data: PlanForNextPeriodDTOWithoutUuid): Promise<string> {
+  public static async createPlanForNextPeriodDTO(data: PlanForNextPeriodDTOWithoutUuid): Promise<PlanForNextPeriodDTO> {
     const docRef = doc(collection(db, PATH_TO_PLANS_FOR_NEXT_PERIOD_COLLECTION));
     const DEFAULT_PLAN_FOR_NEXT_PERIOD: PlanForNextPeriodDTO = {
       ...data,
@@ -49,7 +48,7 @@ export class PlanForNextPeriodService {
 
     await setDoc(docRef, DEFAULT_PLAN_FOR_NEXT_PERIOD);
 
-    return docRef.id;
+    return DEFAULT_PLAN_FOR_NEXT_PERIOD;
   }
 
   /**

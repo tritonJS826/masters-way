@@ -1,10 +1,15 @@
-import {collection, doc, getDoc, getDocs, query, where} from "firebase/firestore";
+import {collection, doc, getDoc, getDocs, query, setDoc, where} from "firebase/firestore";
 import {db} from "src/firebase";
 import {WayDTO} from "src/model/DTOModel/WayDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
 import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
 
 const PATH_TO_WAYS_COLLECTION = "ways";
+
+/**
+ * WayDTO props without uuid
+ */
+export type WayDTOWithoutUuid = Omit<WayDTO, "uuid">;
 
 /**
  * Provides methods to interact with the Ways collection in Firestore.
@@ -29,6 +34,19 @@ export class WayService {
     const way: WayDTO = documentSnapshotToDTOConverter<WayDTO>(wayRaw);
 
     return way;
+  }
+
+  /**
+   * Create WayDTO
+   */
+  public static async createWayDTO(data: WayDTOWithoutUuid) {
+    const docRef = doc(collection(db, PATH_TO_WAYS_COLLECTION));
+    const DEFAULT_WAY: WayDTO = {
+      ...data,
+      uuid: docRef.id,
+    };
+
+    await setDoc(docRef, DEFAULT_WAY);
   }
 
   /**
