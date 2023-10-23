@@ -1,24 +1,14 @@
 import {useEffect, useState} from "react";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
 import {columns} from "src/logic/waysTable/columns";
+import {PropsWithUuid} from "src/logic/waysTable/OwnWaysTable";
 import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 
 /**
- * Mentoring ways table props
- */
-interface MentoringWaysTableProps {
-
-  /**
-   * User Uuid
-   */
-  uuid: string;
-}
-
-/**
  * Render table of mentoring ways preview
  */
-export const MentoringWaysTable = (props: MentoringWaysTableProps) => {
+export const MentoringWaysTable = (props: PropsWithUuid) => {
   const [mentoringWays, setMentoringWays] = useState<WayPreview[]>([]);
 
   /**
