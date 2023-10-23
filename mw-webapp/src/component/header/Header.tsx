@@ -39,7 +39,6 @@ export const Header = (props: HeaderProps) => {
         {user.displayName}
         !
       </h2>}
-      {/* //TODO: we need delete this navigate after main features about dayReports table will be finished */}
       <div className={styles.blockButton}>
         <Button
           onClick={user ? logOut : logIn}
