@@ -1,6 +1,8 @@
 import {goalDTOToGoalPreviewConverter} from "src/dataAccessLogic/DTOToPreviewConverter/goalDTOToGoalPreviewConverter";
 import {GoalPreview} from "src/model/businessModelPreview/GoalPreview";
-import {GoalService} from "src/service/GoalService";
+import {TimeUnit} from "src/model/businessModelPreview/time/timeUnit/TimeUnit";
+import {GoalDTO} from "src/model/DTOModel/GoalDTO";
+import {GoalDTOWithoutUuid, GoalService} from "src/service/GoalService";
 
 /**
  * Provides methods to interact with the GoalPreview model
@@ -15,6 +17,23 @@ export class GoalPreviewDAL {
     const goalsPreview = goalsDTO.map(goalDTOToGoalPreviewConverter);
 
     return goalsPreview;
+  }
+
+  /**
+   * Create GoalPreview
+   */
+  public static async createGoalPreview(): Promise<GoalDTO> {
+    const goalPreviewWithoutUuid: GoalDTOWithoutUuid = {
+      studentUuid: "",
+      metricUuids: [""],
+      description: "",
+      estimationTime: 0,
+      timeUnit: TimeUnit.minute,
+    };
+
+    const newGoalPreview = await GoalService.createGoalDTO(goalPreviewWithoutUuid);
+
+    return newGoalPreview;
   }
 
 }

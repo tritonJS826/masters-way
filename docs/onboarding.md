@@ -4,7 +4,7 @@
 
 ### Killer features
 
-1. Learn anything yo want by just following the masters
+1. Learn anything you want by just following the masters
 2. Find masters/mentors for an advice or to collaborate
 
 
@@ -14,8 +14,8 @@
 2. [Github](https://github.com/tritonJS826/masters-way)
 3. Telegram group link (ask @Ekaterina)
 4. Firebase (ask @Ekaterina)
-5. [Demo app]()
-6. [Prod app (not eist yet)](.)
+5. [Demo app](https://mastersway.netlify.app/)
+6. [Prod app (not exist yet)](.)
 
 ### Staff requirements
 

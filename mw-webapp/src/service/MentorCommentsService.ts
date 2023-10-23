@@ -38,9 +38,8 @@ export class MentorCommentsService {
 
   /**
    * Create new MentorCommentDTO
-   * @return {string} Uuid of new MentorCommentDTO
    */
-  public static async createMentorCommentDTO(data: MentorCommentDTOWithoutUuid): Promise<string> {
+  public static async createMentorCommentDTO(data: MentorCommentDTOWithoutUuid): Promise<MentorCommentDTO> {
     const docRef = doc(collection(db, PATH_TO_MENTOR_COMMENTS_COLLECTION));
     const DEFAULT_MENTOR_COMMENT: MentorCommentDTO = {
       ...data,
@@ -49,7 +48,7 @@ export class MentorCommentsService {
 
     await setDoc(docRef, DEFAULT_MENTOR_COMMENT);
 
-    return docRef.id;
+    return DEFAULT_MENTOR_COMMENT;
   }
 
   /**
