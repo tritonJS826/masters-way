@@ -1,6 +1,7 @@
-import {collection, deleteDoc, doc, getDocs, setDoc, updateDoc} from "firebase/firestore";
+import {collection, deleteDoc, doc, getDoc, getDocs, setDoc, updateDoc} from "firebase/firestore";
 import {db} from "src/firebase";
-import {UserDTO} from "src/model/firebaseCollection/UserDTO";
+import {UserDTO} from "src/model/DTOModel/UserDTO";
+import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
 import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
 
 const PATH_TO_USERS_COLLECTION = "users";
@@ -11,14 +12,23 @@ const PATH_TO_USERS_COLLECTION = "users";
 export class UserService {
 
   /**
-   * Read Users collection
-   * @returns {Promise<UserDTO[]>} promise of UserDTO[]
+   * Get UsersDTO
    */
   public static async getUsersDTO(): Promise<UserDTO[]> {
     const usersRaw = await getDocs(collection(db, PATH_TO_USERS_COLLECTION));
     const users: UserDTO[] = querySnapshotToDTOConverter<UserDTO>(usersRaw);
 
     return users;
+  }
+
+  /**
+   * Get UserDTO by Uuid
+   */
+  public static async getUserDTO(uuid: string): Promise<UserDTO> {
+    const userRaw = await getDoc(doc(db, PATH_TO_USERS_COLLECTION, uuid));
+    const user: UserDTO = documentSnapshotToDTOConverter<UserDTO>(userRaw);
+
+    return user;
   }
 
   /**
@@ -42,9 +52,9 @@ export class UserService {
       uuid: data.uuid,
       email: data.email,
       name: data.name,
-      ownWays: data.ownWays,
-      favoriteWays: data.favoriteWays,
-      mentoringWays: data.mentoringWays,
+      ownWays: data.ownWayUuids,
+      favoriteWays: data.favoriteWayUuids,
+      mentoringWays: data.mentoringWayUuids,
     });
   }
 

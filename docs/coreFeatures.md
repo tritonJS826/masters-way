@@ -2,47 +2,51 @@
 
 ## UserPage (default for logged in)
 
-[] own ways table
-[] mentoring ways table
-[] favourite ways table
-[] ways to check (updated favorite or updated mentoring)
+- [] own ways table
+- [] mentoring ways table
+- [] favorite ways table
+- [] ways to check (updated favorite or updated mentoring)
+
+## WayPage
+
+- [] render page for specific way
 
 ## AllWaysPage (default for not logged in)
 
-[] all ways table
-[] search/filter panel
+- [] all ways table
+- [] search/filter panel
 
 ## AllUsersPage
 
-[] all users table
-[] search/filter panel
+- [] all users table
+- [] search/filter panel
 
 ## UserProfilePage
 
-[] description
-[] name
-[] email
-[] attach pdf (for cv)
-[] other contacts (links)
-[] status isOpenToMentoring
+- [] description
+- [] name
+- [] email
+- [] attach pdf (for cv)
+- [] other contacts (links)
+- [] status isOpenToMentoring
 
 ## AboutProjectPage
 
-[] sent feedback
-[] project description
-[] FAQ accordeon
-[] how to contribute
-[] donates
+- [] sent feedback
+- [] project description
+- [] FAQ accordion
+- [] how to contribute
+- [] donates
 
 ## Additional feature
 
-[] attach files, images, videos to records
-[] chat with mentor
-[] public/private ways
-[] public/private users
-[] add link to records
-[] bold/italic format for record
-[] share result (with LinkedIn - way completed)
-[] Make AnaliticalReport (statistic)
-[] Analitics page
-[] Achievements
+- [] attach files, images, videos to records
+- [] chat with mentor
+- [] public/private ways
+- [] public/private users
+- [] add link to records
+- [] bold/italic format for record
+- [] share result (with LinkedIn - way completed)
+- [] Make AnalyticalReport (statistic)
+- [] Analytics page
+- [] Achievements

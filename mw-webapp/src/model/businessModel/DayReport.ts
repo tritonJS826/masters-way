@@ -56,11 +56,11 @@ export class DayReport {
   constructor(dayReportData: DayReport) {
     this.uuid = dayReportData.uuid;
     this.date = dayReportData.date;
-    this.jobsDone = dayReportData.jobsDone?.map((jobsDoneItem) =>
+    this.jobsDone = dayReportData.jobsDone.map((jobsDoneItem) =>
       new JobDone(jobsDoneItem));
-    this.plansForNextPeriod = dayReportData.plansForNextPeriod?.map((planForNextPeriodItem) =>
+    this.plansForNextPeriod = dayReportData.plansForNextPeriod.map((planForNextPeriodItem) =>
       new PlanForNextPeriod(planForNextPeriodItem));
-    this.problemsForCurrentPeriod = dayReportData.problemsForCurrentPeriod?.map((currentProblemItem) =>
+    this.problemsForCurrentPeriod = dayReportData.problemsForCurrentPeriod.map((currentProblemItem) =>
       new CurrentProblem(currentProblemItem));
     this.studentComments = dayReportData.studentComments;
     this.learnedForToday = dayReportData.learnedForToday;
