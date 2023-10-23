@@ -1,3 +1,4 @@
+import {GoalPreview} from "src/model/businessModelPreview/GoalPreview";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 
 /**
@@ -28,7 +29,7 @@ export class WayPreview {
   /**
    * Way's goal uuid @Goal.uuid
    */
-  public goal: string;
+  public goal: GoalPreview;
 
   /**
    * Mentors of this way
@@ -46,7 +47,7 @@ export class WayPreview {
     this.owner = wayData.owner;
     this.monthReports = wayData.monthReports;
     this.goal = wayData.goal;
-    this.currentMentors = wayData.currentMentors?.map((currentMentorItem) =>
+    this.currentMentors = wayData.currentMentors.map((currentMentorItem) =>
       new UserPreview(currentMentorItem));
     this.isCompleted = wayData.isCompleted;
   }

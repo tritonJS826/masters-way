@@ -51,11 +51,11 @@ export class MonthReport {
   constructor(monthReportData: MonthReport) {
     this.uuid = monthReportData.uuid;
     this.date = monthReportData.date;
-    this.jobsDone = monthReportData.jobsDone?.map((jobsDoneItem) =>
+    this.jobsDone = monthReportData.jobsDone.map((jobsDoneItem) =>
       new JobDone(jobsDoneItem));
-    this.plansForNextPeriod = monthReportData.plansForNextPeriod?.map((planForNextPeriodItem) =>
+    this.plansForNextPeriod = monthReportData.plansForNextPeriod.map((planForNextPeriodItem) =>
       new PlanForNextPeriod(planForNextPeriodItem));
-    this.problemsForCurrentPeriod = monthReportData.problemsForCurrentPeriod?.map((currentProblemItem) =>
+    this.problemsForCurrentPeriod = monthReportData.problemsForCurrentPeriod.map((currentProblemItem) =>
       new CurrentProblem(currentProblemItem));
     this.studentComments = monthReportData.studentComments;
     this.learnedForMonth = monthReportData.learnedForMonth;

@@ -8,20 +8,28 @@ export const Router = () => {
   return (
     <Routes>
       <Route
-        path={pages.main.path}
-        element={pages.main.element}
+        path={pages.allWays.path}
+        element={pages.allWays.element}
       />
       <Route
-        path={pages.auth.path}
-        element={pages.auth.element}
+        path={pages.user.path(":uuid")}
+        element={pages.user.element}
       />
       <Route
-        path={pages.waysPage.path}
-        element={pages.waysPage.element}
+        path={pages.way.path(":uuid")}
+        element={pages.way.element}
       />
       <Route
-        path={pages.users.path}
-        element={pages.users.element}
+        path={pages.allUsers.path}
+        element={pages.allUsers.element}
+      />
+      <Route
+        path={pages.userProfile.path(":uuid")}
+        element={pages.userProfile.element}
+      />
+      <Route
+        path={pages.aboutProject.path}
+        element={pages.aboutProject.element}
       />
       <Route
         path={pages.page404.path}

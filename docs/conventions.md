@@ -54,7 +54,7 @@ const potentialEnergy = (double mass, double height) => {
  
 
 ```
-import MainPage from "src/pages/mainPage/MainPage";
+import MainPage from "src/logic/mainPage/MainPage";
 ```  
 
 

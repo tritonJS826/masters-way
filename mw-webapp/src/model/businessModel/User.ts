@@ -39,11 +39,11 @@ export class User {
     this.uuid = userData.uuid;
     this.name = userData.name;
     this.email = userData.email;
-    this.ownWays = userData.ownWays?.map((ownWayItem) =>
+    this.ownWays = userData.ownWays.map((ownWayItem) =>
       new Way(ownWayItem));
-    this.favoriteWays = userData.favoriteWays?.map((favoriteWayItem) =>
+    this.favoriteWays = userData.favoriteWays.map((favoriteWayItem) =>
       new Way(favoriteWayItem));
-    this.mentoringWays = userData.mentoringWays?.map((mentoringWayItem) =>
+    this.mentoringWays = userData.mentoringWays.map((mentoringWayItem) =>
       new Way(mentoringWayItem));
   }
 

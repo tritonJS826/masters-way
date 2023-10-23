@@ -1,28 +1,53 @@
-import {AuthPage} from "src/pages/authPage/AuthPage";
-import {MainPage} from "src/pages/mainPage/MainPage";
-import {Page404} from "src/pages/page404/Page404";
-import {UsersPage} from "src/pages/usersPage/UsersPage";
-import {WaysPage} from "src/pages/waysPage/WaysPage";
+import {AboutProjectPage} from "src/logic/aboutProjectPage/AboutProjectPage";
+import {AllUsersPage} from "src/logic/allUsersPage/AllUsersPage";
+import {AllWaysPage} from "src/logic/allWaysPage/AllWaysPage";
+import {Page404} from "src/logic/page404/Page404";
+import {UserPage} from "src/logic/userPage/UserPage";
+import {UserProfilePage} from "src/logic/userProfilePage/UserProfilePage";
+import {WayPage} from "src/logic/wayPage/WayPage";
 
 /**
  * Pages meta data
  */
 export const pages = {
-  auth: {
+  allWays: {
     path: "/",
-    element: <AuthPage />,
+    element: <AllWaysPage />,
   },
-  main: {
-    path: "main",
-    element: <MainPage />,
+  user: {
+
+    /**
+     * @param {string} uuid Could be param name (if we want to create new path) OR could be user uuid.
+     * @returns {string} path to react-router OR Specific URl path to specific user
+     */
+    path: (uuid: string): string => `user/${uuid}`,
+    element: <UserPage />,
   },
-  waysPage: {
-    path: "waysPage",
-    element: <WaysPage />,
+  way: {
+
+    /**
+     * @param {string} uuid Could be param name (if we want to create new path) OR could be way uuid.
+     * @returns {string} path to react-router OR Specific URl path to specific way
+     */
+    path: (uuid: string): string => `way/${uuid}`,
+    element: <WayPage />,
   },
-  users: {
+  allUsers: {
     path: "users",
-    element: <UsersPage />,
+    element: <AllUsersPage />,
+  },
+  userProfile: {
+
+    /**
+     * @param {string} uuid Could be param name (if we want to create new path) OR could be userProfile uuid.
+     * @returns {string} path to react-router OR Specific URl path to specific userProfile
+     */
+    path: (uuid: string): string => `userProfile/${uuid}`,
+    element: <UserProfilePage />,
+  },
+  aboutProject: {
+    path: "aboutProject",
+    element: <AboutProjectPage />,
   },
   page404: {
     path: "*",
