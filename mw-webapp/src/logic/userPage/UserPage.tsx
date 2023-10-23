@@ -1,6 +1,7 @@
 import {Navigate, useParams} from "react-router-dom";
 import {Button} from "src/component/button/Button";
 import {HeadingLevel, Title} from "src/component/title/Title";
+import {FavoriteWaysTable} from "src/logic/waysTable/FavoriteWaysTable";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
 import {QueryParamTypes} from "src/logic/QueryParamTypes";
 import {MentoringWaysTable} from "src/logic/waysTable/MentoringWaysTable";
@@ -32,11 +33,18 @@ export const UserPage = () => {
               level={HeadingLevel.h3}
             />
             <OwnWaysTable uuid={uuid} />
+
             <Title
               text="Mentoring ways"
               level={HeadingLevel.h3}
             />
             <MentoringWaysTable uuid={uuid} />
+
+            <Title
+              text="Favorite ways"
+              level={HeadingLevel.h3}
+            />
+            <FavoriteWaysTable uuid={uuid} />
           </>
         )
 
