@@ -3,6 +3,7 @@ import {currentProblemToCurrentProblemDTOConverter} from
 import {currentProblemDTOToCurrentProblemConverter} from
   "src/dataAccessLogic/DTOToBusinessConverter/currentProblemDTOToCurrentProblemConverter";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
+import {CurrentProblemDTO} from "src/model/DTOModel/CurrentProblemDTO";
 import {CurrentProblemDTOWithoutUuid, CurrentProblemService} from "src/service/CurrentProblemService";
 
 /**
@@ -23,26 +24,25 @@ export class CurrentProblemDAL {
   /**
    * Get CurrentProblem by uuid
    */
-  public static async getCurrentProblem (uuid: string): Promise<CurrentProblem> {
-    const CurrentProblemDTO = await CurrentProblemService.getCurrentProblemDTO(uuid);
-    const currentProblem = currentProblemDTOToCurrentProblemConverter(CurrentProblemDTO);
+  public static async getCurrentProblem(uuid: string): Promise<CurrentProblem> {
+    const currentProblemDTO = await CurrentProblemService.getCurrentProblemDTO(uuid);
+    const currentProblem = currentProblemDTOToCurrentProblemConverter(currentProblemDTO);
 
     return currentProblem;
   }
 
   /**
    * Create new CurrentProblem
-   * @return {string} Uuid of new CurrentProblem
    */
-  public static async createNewCurrentProblem(): Promise<string> {
+  public static async createNewCurrentProblem(): Promise<CurrentProblemDTO> {
     const currentProblemWithoutUuid: CurrentProblemDTOWithoutUuid = {
       description: "",
       isDone: false,
     };
 
-    const newCurrentProblemUuid = await CurrentProblemService.createCurrentProblemDTO(currentProblemWithoutUuid);
+    const newCurrentProblem = await CurrentProblemService.createCurrentProblemDTO(currentProblemWithoutUuid);
 
-    return newCurrentProblemUuid;
+    return newCurrentProblem;
   }
 
   /**
