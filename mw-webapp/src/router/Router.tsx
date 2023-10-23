@@ -21,6 +21,10 @@ export const Router = () => {
         path={pages.aboutProject.path}
         element={pages.aboutProject.element}
       />
+      <Route
+        path={pages.redirect.path}
+        element={pages.redirect.element}
+      />
       <Route element={<ProtectedRouter />}>
         <Route
           path={pages.user.path(":uuid")}
