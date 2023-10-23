@@ -19,11 +19,11 @@ export const App = () => {
   useEffect(() => {
     if (authObject.currentUser) {
       localStorage.setItem("auth", "true");
-      const historyPath = sessionStorage.getItem("path");
-      if (historyPath) {
+      const pathBeforeRedirect = sessionStorage.getItem("path");
+      if (pathBeforeRedirect) {
         sessionStorage.removeItem("path");
 
-        navigate(historyPath);
+        navigate(pathBeforeRedirect);
       }
     }
   }, [authObject.currentUser]);

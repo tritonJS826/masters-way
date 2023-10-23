@@ -6,8 +6,8 @@ import {pages} from "src/router/pages";
  */
 export const ProtectedRouter = () => {
   const location = useLocation();
-  const flagAuth = localStorage.getItem("auth") ?? "";
-  const isAuth = JSON.parse(flagAuth);
+  const authStatus = localStorage.getItem("auth") ?? "";
+  const isAuth = JSON.parse(authStatus);
   if (isAuth) {
     return <Outlet />;
   }
