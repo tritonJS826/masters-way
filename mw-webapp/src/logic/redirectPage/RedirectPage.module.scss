@@ -5,7 +5,7 @@
   display: flex;
   justify-content: center;
   text-align: center;
-  margin-top: 50px;
+  margin-top: $page-margin-top;
   font-size: $font-size-large;
   @include title;
 }
