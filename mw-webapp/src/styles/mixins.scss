@@ -1,5 +1,27 @@
+@import "variables";
+
 @mixin title {
   padding-top: 10px;
-  color: rgb(246, 246, 150);
-  text-shadow: 2px 2px 2px rgb(77, 77, 77);
+  color: $black;
+}
+
+@mixin closeButton($top, $right, $button-size) {
+  border: none;
+  border-radius: 100%;
+  height: $button-size;
+  width: $button-size;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: $black;
+  position: absolute;
+  top: $top;
+  right: $right;
+  cursor: pointer;
+  &:hover {
+    background-color: $black;
+  }
+  &:focus {
+    box-shadow: 0 0 0 2px $black;
+  }
 }
