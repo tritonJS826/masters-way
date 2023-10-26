@@ -19,7 +19,7 @@ interface CheckboxProps {
   /**
    * A callback function to be called when the checkbox's state changes.
    */
-  onChange: () => void;
+  onChange: (value?: boolean) => void;
 }
 
 /**
@@ -31,7 +31,7 @@ export const Checkbox = (props: CheckboxProps) => {
       className={clsx(styles.checkbox, props.className)}
       type="checkbox"
       checked={props.checked}
-      onChange={props.onChange}
+      onChange={(event) => props.onChange(!!event.target.value)}
     />
   );
 };
