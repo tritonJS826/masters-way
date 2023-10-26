@@ -38,9 +38,8 @@ export class CurrentProblemService {
 
   /**
    * Create new CurrentProblemDTO
-   * @return {string} Uuid of new CurrentProblemDTO
    */
-  public static async createCurrentProblemDTO(data: CurrentProblemDTOWithoutUuid): Promise<string> {
+  public static async createCurrentProblemDTO(data: CurrentProblemDTOWithoutUuid): Promise<CurrentProblemDTO> {
     const docRef = doc(collection(db, PATH_TO_CURRENT_PROBLEMS_COLLECTION));
     const DEFAULT_CURRENT_PROBLEM: CurrentProblemDTO = {
       ...data,
@@ -49,7 +48,7 @@ export class CurrentProblemService {
 
     await setDoc(docRef, DEFAULT_CURRENT_PROBLEM);
 
-    return docRef.id;
+    return DEFAULT_CURRENT_PROBLEM;
   }
 
   /**

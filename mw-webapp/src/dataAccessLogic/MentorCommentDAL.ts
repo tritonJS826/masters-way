@@ -3,6 +3,7 @@ import {mentorCommentToMentorCommentDTOConverter} from
 import {mentorCommentDTOToMentorCommentConverter}
   from "src/dataAccessLogic/DTOToBusinessConverter/mentorCommentDTOToMentorCommentConverter";
 import {MentorComment} from "src/model/businessModel/MentorComment";
+import {MentorCommentDTO} from "src/model/DTOModel/MentorCommentDTO";
 import {MentorCommentDTOWithoutUuid, MentorCommentsService} from "src/service/MentorCommentsService";
 
 /**
@@ -32,18 +33,17 @@ export class MentorCommentDAL {
 
   /**
    * Create new MentorComment
-   * @return {string} Uuid of new MentorComment
    */
-  public static async createNewMentorComment(): Promise<string> {
+  public static async createNewMentorComment(): Promise<MentorCommentDTO> {
     const mentorCommentWithoutUuid: MentorCommentDTOWithoutUuid = {
       description: "",
-      mentorUuid: "WfzQvMP88AGBt5W9SGuj",
+      mentorUuid: "",
       isDone: false,
     };
 
-    const newMentorCommentUuid = await MentorCommentsService.createMentorCommentDTO(mentorCommentWithoutUuid);
+    const newMentorComment = await MentorCommentsService.createMentorCommentDTO(mentorCommentWithoutUuid);
 
-    return newMentorCommentUuid;
+    return newMentorComment;
   }
 
   /**

@@ -6,26 +6,26 @@ import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 
 /**
- * Render table of mentoring ways preview
+ * Render table of favorite ways preview
  */
-export const MentoringWaysTable = (props: PropsWithUuid) => {
-  const [mentoringWays, setMentoringWays] = useState<WayPreview[]>([]);
+export const FavoriteWaysTable = (props: PropsWithUuid) => {
+  const [favoriteWays, setFavoriteWays] = useState<WayPreview[]>([]);
 
   /**
-   * Load User mentoring ways
+   * Load User Favorite ways
    */
-  const loadMentoringWays = async () => {
-    const data = await WayPreviewDAL.getUserWaysPreview(props.uuid, "Mentoring");
-    setMentoringWays(data);
+  const loadFavoriteWays = async () => {
+    const data = await WayPreviewDAL.getUserWaysPreview(props.uuid, "Favorite");
+    setFavoriteWays(data);
   };
 
   useEffect(() => {
-    loadMentoringWays();
+    loadFavoriteWays();
   }, []);
 
   return (
     <WaysTable
-      data={mentoringWays}
+      data={favoriteWays}
       columns={columns}
     />
   );
