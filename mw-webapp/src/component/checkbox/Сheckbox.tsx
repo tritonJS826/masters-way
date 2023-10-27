@@ -1,3 +1,4 @@
+import {useState} from "react";
 import clsx from "clsx";
 import styles from "src/component/checkbox/Сheckbox.module.scss";
 
@@ -12,26 +13,38 @@ interface CheckboxProps {
   className?: string;
 
   /**
-   * Indicates whether the checkbox is checked.
+   * Indicates whether the checkbox is checked by default.
+   * @default false
    */
-  checked: boolean;
+  isDefaultChecked?: boolean;
 
   /**
    * A callback function to be called when the checkbox's state changes.
    */
-  onChange: (value?: boolean) => void;
+  onChange: (value: boolean) => void;
 }
 
 /**
  * Checkbox component
  */
 export const Checkbox = (props: CheckboxProps) => {
+  const [isChecked, setIsChecked] = useState<boolean>(props.isDefaultChecked ?? false);
+
+  /**
+   * Function to handle checkbox change
+   */
+  const handleCheckboxChange = () => {
+    const toggledChecked = !isChecked;
+    setIsChecked(toggledChecked);
+    props.onChange(toggledChecked);
+  };
+
   return (
     <input
       className={clsx(styles.checkbox, props.className)}
       type="checkbox"
-      checked={props.checked}
-      onChange={(event) => props.onChange(!!event.target.value)}
+      checked={isChecked}
+      onChange={handleCheckboxChange}
     />
   );
 };
