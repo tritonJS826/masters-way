@@ -1,9 +1,9 @@
 import {Navigate, useParams} from "react-router-dom";
 import {Button} from "src/component/button/Button";
 import {HeadingLevel, Title} from "src/component/title/Title";
-import {FavoriteWaysTable} from "src/logic/waysTable/FavoriteWaysTable";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
 import {QueryParamTypes} from "src/logic/QueryParamTypes";
+import {FavoriteWaysTable} from "src/logic/waysTable/FavoriteWaysTable";
 import {MentoringWaysTable} from "src/logic/waysTable/MentoringWaysTable";
 import {OwnWaysTable} from "src/logic/waysTable/OwnWaysTable";
 import {pages} from "src/router/pages";
