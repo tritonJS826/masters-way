@@ -34,9 +34,8 @@ export const Checkbox = (props: CheckboxProps) => {
    * Function to handle checkbox change
    */
   const handleCheckboxChange = () => {
-    const toggledChecked = !isChecked;
-    setIsChecked(toggledChecked);
-    props.onChange(toggledChecked);
+    setIsChecked(!isChecked);
+    props.onChange;
   };
 
   return (
