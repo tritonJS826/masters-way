@@ -1,5 +1,9 @@
 @import "src/styles/variables";
 
+$checkbox-margin: 10px;
+$checkbox-width: 25px;
+$checkbox-height: 25px;
+
 .checkbox {
   cursor: pointer;
   accent-color: $green;
