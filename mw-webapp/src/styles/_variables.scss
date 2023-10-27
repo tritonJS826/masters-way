@@ -45,6 +45,23 @@ $sidebar-button-offset: 5px;
 $width-primary: 100%;
 $height-full: 100%;
 
+// Notification
+$notice-width: 90vw;
+$notice-max-width: 390px;
+$notice-margin: 15px;
+$notice-padding: 15px;
+$notice-radius: 6px;
+$notice-close-button-top: 10px;
+$notice-close-button-right: 10px;
+$notice-close-button-size: 25px;
+
+//Modal
+$overlay-background: rgba(0, 0, 0, 0.447);
+$modal-close-btn-top: 10px;
+$modal-close-btn-right: 10px;
+$modal-close-btn-size: 25px;
+$modal-animation-time: 150ms;
+
 // Checkbox
 $checkbox-margin: 10px;
 $checkbox-width: 25px;
