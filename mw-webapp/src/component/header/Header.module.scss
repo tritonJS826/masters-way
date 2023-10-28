@@ -2,8 +2,10 @@
 
 .header {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
+  padding: $header-padding;
   background: $header-background;
 }
 
