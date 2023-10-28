@@ -38,7 +38,7 @@ export const pages = {
     element: <AllUsersPage />,
   },
   redirect: {
-    path: "redirect",
+    path: "redirectPage",
     element: <RedirectPage />,
   },
   userProfile: {

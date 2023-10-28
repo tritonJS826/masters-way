@@ -26,23 +26,22 @@ interface HeaderProps {
  * Header component
  */
 export const Header = (props: HeaderProps) => {
-  const user = props.user;
 
   return (
     <div className={styles.header}>
       <h1 className={styles.title}>
         {LOGO_TEXT.toUpperCase()}
       </h1>
-      {user && <h2 className={styles.title}>
+      {props.user && <h2 className={styles.title}>
         Hello,
         {" "}
-        {user.displayName}
+        {props.user.displayName}
         !
       </h2>}
       <div className={styles.blockButton}>
         <Button
-          onClick={user ? logOut : logIn}
-          value={user ? BUTTON_LOG_OUT_VALUE : BUTTON_LOG_IN_VALUE}
+          onClick={props.user ? logOut : logIn}
+          value={props.user ? BUTTON_LOG_OUT_VALUE : BUTTON_LOG_IN_VALUE}
         />
         {/* //TODO: we need delete this link when after sidebar with all links to al pages will be added */}
         <Link

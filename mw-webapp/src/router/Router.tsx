@@ -1,6 +1,6 @@
 import {Route, Routes} from "react-router-dom";
 import {pages} from "src/router/pages";
-import {ProtectedRouter} from "src/router/ProtectedRouter";
+import {ProtectedRouterLayer} from "src/router/ProtectedRouter";
 
 /**
  * Router
@@ -25,7 +25,7 @@ export const Router = () => {
         path={pages.redirect.path}
         element={pages.redirect.element}
       />
-      <Route element={<ProtectedRouter />}>
+      <Route element={<ProtectedRouterLayer />}>
         <Route
           path={pages.user.path(":uuid")}
           element={pages.user.element}
