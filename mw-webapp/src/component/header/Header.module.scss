@@ -5,13 +5,12 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: $header-padding;
-  background: $header-background;
+  padding: 0 1rem;
+  background: rgb(85, 122, 149);
 }
 
 .title {
   display: flex;
-  padding-top: $title-padding;
   align-items: center;
   justify-content: center;
   color: $button-active;
