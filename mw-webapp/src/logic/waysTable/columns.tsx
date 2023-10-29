@@ -21,7 +21,6 @@ export const OWNER_EMAIL = "Owner's email";
  */
 export const columns = [
   columnHelper.accessor<"uuid", string>("uuid", {
-    // Maybe we should add way's name? Need to think)
     header: "Way's uuid",
 
     /**
@@ -29,13 +28,13 @@ export const columns = [
      */
     cell: ({row}) => renderCellValue(row.original.uuid),
   }),
-  columnHelper.accessor<"uuid", string>("uuid", {
-    header: "Link to Way",
+  columnHelper.accessor<"name", string>("name", {
+    header: "Way's name",
 
     /**
-     * Cell with link to way page
+     * Cell with clickable way name that leads to way page
      */
-    cell: (uuid) => renderLinkInCell(`/way/${uuid.getValue()}`, "Way Page"),
+    cell: ({row}) => renderLinkInCell(`/way/${row.original.uuid}`, row.original.name),
   }),
   columnHelper.accessor<"isCompleted", boolean>("isCompleted", {
     header: "Is completed?",
