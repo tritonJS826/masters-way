@@ -1,6 +1,6 @@
 import {Navigate, Outlet, useLocation} from "react-router-dom";
 import {pages} from "src/router/pages";
-import {PATH, USER_IS_AUTH} from "src/service/auth/constants";
+import {PATH, USER_IS_AUTH} from "src/service/auth/keysStorage";
 
 /**
  * Protected Router

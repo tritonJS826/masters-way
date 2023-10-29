@@ -37,6 +37,8 @@ export const pages = {
     path: "users",
     element: <AllUsersPage />,
   },
+
+  // TODO: make one page Error for Error404, Redirect and etc
   redirect: {
     path: "redirectPage",
     element: <RedirectPage />,

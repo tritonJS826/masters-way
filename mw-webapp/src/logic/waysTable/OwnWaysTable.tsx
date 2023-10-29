@@ -5,12 +5,12 @@ import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 
 /**
- * Own ways table props
+ * Props with User uuid
  */
-interface OwnWaysTableProps {
+export interface PropsWithUuid {
 
   /**
-   * User Uuid
+   * User uuid
    */
   uuid: string;
 }
@@ -18,14 +18,14 @@ interface OwnWaysTableProps {
 /**
  * Render table of own ways preview
  */
-export const OwnWaysTable = (props: OwnWaysTableProps) => {
+export const OwnWaysTable = (props: PropsWithUuid) => {
   const [ownWays, setOwnWays] = useState<WayPreview[]>([]);
 
   /**
    * Load User own ways
    */
   const loadOwnWays = async () => {
-    const data = await WayPreviewDAL.getOwnWaysPreview(props.uuid);
+    const data = await WayPreviewDAL.getUserWaysPreview(props.uuid, "Own");
     setOwnWays(data);
   };
 

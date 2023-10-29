@@ -6,7 +6,6 @@ import {ProtectedRouterLayer} from "src/router/ProtectedRouter";
  * Router
  */
 export const Router = () => {
-
   return (
     <Routes>
       <Route
@@ -25,19 +24,19 @@ export const Router = () => {
         path={pages.redirect.path}
         element={pages.redirect.element}
       />
+      <Route
+        path={pages.way.path(":uuid")}
+        element={pages.way.element}
+      />
+      <Route
+        path={pages.allUsers.path}
+        element={pages.allUsers.element}
+      />
+      <Route
+        path={pages.user.path(":uuid")}
+        element={pages.user.element}
+      />
       <Route element={<ProtectedRouterLayer />}>
-        <Route
-          path={pages.user.path(":uuid")}
-          element={pages.user.element}
-        />
-        <Route
-          path={pages.way.path(":uuid")}
-          element={pages.way.element}
-        />
-        <Route
-          path={pages.allUsers.path}
-          element={pages.allUsers.element}
-        />
         <Route
           path={pages.userProfile.path(":uuid")}
           element={pages.userProfile.element}

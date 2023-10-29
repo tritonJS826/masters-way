@@ -3,8 +3,8 @@ import {useNavigate} from "react-router-dom";
 import {getAuth, User} from "firebase/auth";
 import {Header} from "src/component/header/Header";
 import {Router} from "src/router/Router";
-import {PATH, USER_IS_AUTH, USER_REGISTERED} from "src/service/auth/constants";
 import {handleUserAuthState} from "src/service/auth/handleUserAuthState";
+import {PATH, USER_AUTHORIZATION, USER_IS_AUTH} from "src/service/auth/keysStorage";
 
 /**
  * App
@@ -19,7 +19,7 @@ export const App = () => {
 
   useEffect(() => {
     if (authObject.currentUser) {
-      localStorage.setItem(USER_IS_AUTH, USER_REGISTERED);
+      localStorage.setItem(USER_IS_AUTH, USER_AUTHORIZATION);
       const pathBeforeRedirect = sessionStorage.getItem(PATH);
       if (pathBeforeRedirect) {
         sessionStorage.removeItem(PATH);
