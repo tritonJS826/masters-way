@@ -12,6 +12,11 @@ export class WayPreview {
   public uuid: string;
 
   /**
+   * Way's name
+   */
+  public name: string;
+
+  /**
    * Day reports uuids @DayReport.uuid
    */
   public dayReports: string[];
@@ -43,6 +48,7 @@ export class WayPreview {
 
   constructor(wayData: WayPreview) {
     this.uuid = wayData.uuid;
+    this.name = wayData.name;
     this.dayReports = wayData.dayReports;
     this.owner = wayData.owner;
     this.monthReports = wayData.monthReports;
