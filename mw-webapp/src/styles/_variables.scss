@@ -17,6 +17,7 @@ $font-size-large: 48px;
 // Colors
 $lightblue: rgb(85, 122, 149);
 $lightgray: rgb(211, 211, 211);
+$lightgray2: #efefef;
 $black: rgb(0, 0, 0);
 $transparent-black: rgba(0, 0, 0, 0.9);
 $white: rgb(255, 255, 255);
@@ -24,6 +25,9 @@ $green: rgb(0, 128, 0);
 $grey-35-transparent: rgba(14, 18, 22, 0.35);
 $grey-20-transparent: rgba(14, 18, 22, 0.2);
 $grey-10-transparent: rgba(14, 18, 22, 0.1);
+
+// Borders
+$border-lightgray: 1px solid #dddddd;
 
 // Accordion
 $accordion-radius: 6px;
