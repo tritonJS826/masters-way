@@ -20,14 +20,6 @@ export const OWNER_EMAIL = "Owner's email";
  * but it's not recommend by creators
  */
 export const columns = [
-  columnHelper.accessor<"uuid", string>("uuid", {
-    header: "Way's uuid",
-
-    /**
-     * Cell with owner's name
-     */
-    cell: ({row}) => renderCellValue(row.original.uuid),
-  }),
   columnHelper.accessor<"name", string>("name", {
     header: "Way's name",
 
