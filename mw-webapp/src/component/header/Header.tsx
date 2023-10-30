@@ -1,5 +1,4 @@
 import {useEffect, useState} from "react";
-import {Navigate} from "react-router-dom";
 import {User} from "firebase/auth";
 import {Button} from "src/component/button/Button";
 import {Link} from "src/component/link/Link";
@@ -35,8 +34,6 @@ export const Header = () => {
         {user.displayName}
         !
       </h2>}
-      {/* //TODO: we need delete this navigate after main features about dayReports table will be finished */}
-      {user && <Navigate to={pages.user.path(user.uid)} />}
       <div className={styles.blockButton}>
         <Button
           onClick={user ? logOut : logIn}

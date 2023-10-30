@@ -1,4 +1,4 @@
-import {collection, doc, getDoc, getDocs, query, setDoc, where} from "firebase/firestore";
+import {collection, doc, getDoc, getDocs, query, setDoc, updateDoc, where} from "firebase/firestore";
 import {db} from "src/firebase";
 import {WayDTO} from "src/model/DTOModel/WayDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
@@ -48,6 +48,14 @@ export class WayService {
     };
 
     await setDoc(docRef, DEFAULT_WAY);
+  }
+
+  /**
+   * Update WayDTO
+   */
+  public static async updateWayDTO(data: WayDTO, dayReportUuids: string[]) {
+    await updateDoc(doc(db, PATH_TO_WAYS_COLLECTION, data.uuid), {...data, dayReportUuids});
+
   }
 
   /**

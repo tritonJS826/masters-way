@@ -14,7 +14,7 @@ export type MentorCommentDTOWithoutUuid = Omit<MentorCommentDTO, "uuid">;
 /**
  * Provides methods to interact with the MentorComments collection
  */
-export class MentorCommentsService {
+export class MentorCommentService {
 
   /**
    * Get MentorCommentsDTO

@@ -3,8 +3,7 @@ import {mentorCommentToMentorCommentDTOConverter} from
 import {mentorCommentDTOToMentorCommentConverter}
   from "src/dataAccessLogic/DTOToBusinessConverter/mentorCommentDTOToMentorCommentConverter";
 import {MentorComment} from "src/model/businessModel/MentorComment";
-import {MentorCommentDTO} from "src/model/DTOModel/MentorCommentDTO";
-import {MentorCommentDTOWithoutUuid, MentorCommentsService} from "src/service/MentorCommentsService";
+import {MentorCommentDTOWithoutUuid, MentorCommentService} from "src/service/MentorCommentService";
 
 /**
  * Provides methods to interact with the MentorComment business model
@@ -15,7 +14,7 @@ export class MentorCommentDAL {
    * Get MentorComments
    */
   public static async getMentorComments(): Promise<MentorComment[]> {
-    const mentorCommentsDTO = await MentorCommentsService.getMentorCommentsDTO();
+    const mentorCommentsDTO = await MentorCommentService.getMentorCommentsDTO();
     const mentorComments = mentorCommentsDTO.map(mentorCommentDTOToMentorCommentConverter);
 
     return mentorComments;
@@ -25,25 +24,27 @@ export class MentorCommentDAL {
    * Get MentorComment by uuid
    */
   public static async getMentorComment(uuid: string): Promise<MentorComment> {
-    const mentorCommentDTO = await MentorCommentsService.getMentorCommentDTO(uuid);
+    const mentorCommentDTO = await MentorCommentService.getMentorCommentDTO(uuid);
     const mentorComment = mentorCommentDTOToMentorCommentConverter(mentorCommentDTO);
 
     return mentorComment;
   }
 
   /**
-   * Create new MentorComment
+   * Create MentorComment
    */
-  public static async createNewMentorComment(): Promise<MentorCommentDTO> {
+  public static async createMentorComment(): Promise<MentorComment> {
     const mentorCommentWithoutUuid: MentorCommentDTOWithoutUuid = {
-      description: "",
+      description: "\u200B",
       mentorUuid: "",
       isDone: false,
     };
 
-    const newMentorComment = await MentorCommentsService.createMentorCommentDTO(mentorCommentWithoutUuid);
+    const newMentorComment = await MentorCommentService.createMentorCommentDTO(mentorCommentWithoutUuid);
 
-    return newMentorComment;
+    const mentorComment = mentorCommentDTOToMentorCommentConverter(newMentorComment);
+
+    return mentorComment;
   }
 
   /**
@@ -51,7 +52,7 @@ export class MentorCommentDAL {
    */
   public static async updateMentorComment(mentorComment: MentorComment) {
     const mentorCommentDTO = mentorCommentToMentorCommentDTOConverter(mentorComment);
-    await MentorCommentsService.updateMentorCommentDTO(mentorCommentDTO, mentorComment.uuid);
+    await MentorCommentService.updateMentorCommentDTO(mentorCommentDTO, mentorComment.uuid);
   }
 
 }

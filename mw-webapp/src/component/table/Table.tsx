@@ -2,6 +2,17 @@ import {flexRender, HeaderGroup, RowModel} from "@tanstack/react-table";
 import styles from "src/component/table/Table.module.scss";
 
 /**
+ * Uuid props
+ */
+interface UuidProps {
+
+  /**
+   * Uuid of row in the table
+   */
+  uuid: string;
+}
+
+/**
  * Tables data
  */
 interface TableData<T> {
@@ -31,7 +42,7 @@ interface TableProps<T> {
 /**
  * Table
  */
-export const Table = <T, > (props: TableProps<TableData<T>>) => {
+export const Table = <T extends UuidProps, > (props: TableProps<TableData<T>>) => {
   const data = props.data;
 
   return (
@@ -63,6 +74,7 @@ export const Table = <T, > (props: TableProps<TableData<T>>) => {
             <tr
               className={styles.tr}
               key={row.id}
+              id={row.original.uuid}
             >
               {row.getVisibleCells().map((cell) => (
                 <td

@@ -1,4 +1,6 @@
 import {createColumnHelper} from "@tanstack/react-table";
+import {Button} from "src/component/button/Button";
+import {addCellItem} from "src/logic/reportsTable/renderCellValue/helpers/addCellItem";
 import {renderCellDate} from "src/logic/reportsTable/renderCellValue/renderCellDate";
 import {renderCellIsDayOff} from "src/logic/reportsTable/renderCellValue/renderCellIsDayOff";
 import {renderCellItem} from "src/logic/reportsTable/renderCellValue/renderCellItem";
@@ -51,8 +53,15 @@ export const columns = [
      */
     cell: ({row}) => {
       return (
-        row.original.jobsDone
-          .map((jobDoneItem) => (renderCellItem({content: jobDoneItem.getJobDone(), arrayItem: jobDoneItem})))
+        <div>
+          {row.original.jobsDone
+            .map((jobDoneItem) => (renderCellItem({content: jobDoneItem.getJobDone(), arrayItem: jobDoneItem})))
+          }
+          <Button
+            value="+"
+            onClick={(e) => addCellItem(e, {arrayItem: row.original.jobsDone[0]})}
+          />
+        </div>
       );
     },
   }),
@@ -64,9 +73,16 @@ export const columns = [
      */
     cell: ({row}) => {
       return (
-        row.original.plansForNextPeriod
-          .map((planForNextPeriod) =>
-            (renderCellItem({content: planForNextPeriod.getPlanForNextPeriod(), arrayItem: planForNextPeriod})))
+        <div>
+          {row.original.plansForNextPeriod
+            .map((planForNextPeriod) =>
+              (renderCellItem({content: planForNextPeriod.getPlanForNextPeriod(), arrayItem: planForNextPeriod})))
+          }
+          <Button
+            value="+"
+            onClick={(e) => addCellItem(e, {arrayItem: row.original.plansForNextPeriod[0]})}
+          />
+        </div>
       );
     },
   }),
@@ -78,13 +94,20 @@ export const columns = [
      */
     cell: ({row}) => {
       return (
-        row.original.problemsForCurrentPeriod
-          .map((currentProblem) =>
-            (renderCellItem({
-              content: currentProblem.description,
-              arrayItem: currentProblem,
-              isListItemDone: currentProblem.isDone,
-            })))
+        <div>
+          {row.original.problemsForCurrentPeriod
+            .map((currentProblem) =>
+              (renderCellItem({
+                content: currentProblem.description,
+                arrayItem: currentProblem,
+                isListItemDone: currentProblem.isDone,
+              })))
+          }
+          <Button
+            value="+"
+            onClick={(e) => addCellItem(e, {arrayItem: row.original.problemsForCurrentPeriod[0]})}
+          />
+        </div>
       );
     },
   }),
@@ -98,9 +121,17 @@ export const columns = [
       const parentUuid = row.original.uuid;
 
       return (
-        row.original.studentComments
-          .map((studentComment, index) =>
-            renderCellItem({content: studentComment, parentUuid, columnName: "studentComments", index}))
+        <div>
+          {
+            row.original.studentComments
+              .map((studentComment, index) =>
+                renderCellItem({content: studentComment, parentUuid, columnName: "studentComments", index}))
+          }
+          <Button
+            value="+"
+            onClick={(e) => addCellItem(e, {parentUuid}, "studentComments")}
+          />
+        </div>
       );
     },
   }),
@@ -114,9 +145,17 @@ export const columns = [
       const parentUuid = row.original.uuid;
 
       return (
-        row.original.learnedForToday
-          .map((learnedForToday, index) =>
-            renderCellItem({content: learnedForToday, parentUuid, columnName: "learnedForToday", index}))
+        <div>
+          {
+            row.original.learnedForToday
+              .map((learnedForToday, index) =>
+                renderCellItem({content: learnedForToday, parentUuid, columnName: "learnedForToday", index}))
+          }
+          <Button
+            value="+"
+            onClick={(e) => addCellItem(e, {parentUuid}, "learnedForToday")}
+          />
+        </div>
       );
     },
   }),
@@ -129,9 +168,21 @@ export const columns = [
     cell: ({row}) => {
 
       return (
-        row.original.mentorComments
-          .map((mentorComment) =>
-            renderCellItem({content: mentorComment.description, arrayItem: mentorComment, isListItemDone: mentorComment.isDone}))
+        <div>
+          {
+            row.original.mentorComments
+              .map((mentorComment) =>
+                renderCellItem({
+                  content: mentorComment.description,
+                  arrayItem: mentorComment,
+                  isListItemDone: mentorComment.isDone,
+                }))
+          }
+          <Button
+            value="+"
+            onClick={(e) => addCellItem(e, {arrayItem: row.original.mentorComments[0]})}
+          />
+        </div>
       );
     },
   }),

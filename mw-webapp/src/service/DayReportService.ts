@@ -41,12 +41,14 @@ export class DayReportService {
    */
   public static async createDayReportDTO(data: DayReportDTOWithoutUuid) {
     const docRef = doc(collection(db, PATH_TO_DAY_REPORTS_COLLECTION));
-    const DEFAULT_DAY_REPORT: DayReportDTO = {
+    const dayReportDTO: DayReportDTO = {
       ...data,
       uuid: docRef.id,
     };
 
-    await setDoc(docRef, DEFAULT_DAY_REPORT);
+    await setDoc(docRef, dayReportDTO);
+
+    return dayReportDTO;
   }
 
   /**
