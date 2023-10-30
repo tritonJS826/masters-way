@@ -1,32 +1,21 @@
-.container {
-  width: 100%;
-  position: relative;
-  margin: 0 auto;
-}
-
-.title {
-  padding: 20px;
-  text-align: center;
-}
+@import "src/styles/variables.scss";
 
 .table {
   width: 100%;
   margin-bottom: 20px;
-  border: 1px solid #dddddd;
+  border: $border-lightgray;
   border-collapse: collapse;
 }
 
 .table th {
   font-weight: bold;
   padding: 5px;
-  background: #efefef;
-  border: 1px solid #dddddd;
-  width: calc(100% / 8);
+  background: $lightgray2;
+  border: $border-lightgray;
 }
 
 .table td {
-  border: 1px solid #dddddd;
+  border: $border-lightgray;
   padding: 8px 10px;
   text-align: left;
-  vertical-align: baseline;
 }
