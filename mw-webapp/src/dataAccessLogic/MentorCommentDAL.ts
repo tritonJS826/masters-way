@@ -1,3 +1,4 @@
+import {SPACE} from "src/constants/unicodeSymbols/unicodeSymbols";
 import {mentorCommentToMentorCommentDTOConverter} from
   "src/dataAccessLogic/BusinessToDTOConverter/mentorCommentToMentorCommentDTOConverter";
 import {mentorCommentDTOToMentorCommentConverter}
@@ -35,7 +36,7 @@ export class MentorCommentDAL {
    */
   public static async createMentorComment(): Promise<MentorComment> {
     const mentorCommentWithoutUuid: MentorCommentDTOWithoutUuid = {
-      description: "\u200B",
+      description: SPACE,
       mentorUuid: "",
       isDone: false,
     };

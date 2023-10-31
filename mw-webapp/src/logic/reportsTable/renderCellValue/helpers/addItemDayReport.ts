@@ -1,3 +1,4 @@
+import {SPACE} from "src/constants/unicodeSymbols/unicodeSymbols";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {ColumnNameProps} from "src/logic/reportsTable/renderCellValue/renderCellItem";
 import {DayReport} from "src/model/businessModel/DayReport";
@@ -8,7 +9,7 @@ import {DayReport} from "src/model/businessModel/DayReport";
 export const addItemDayReport = async (uuid: string, columnName: keyof ColumnNameProps) => {
   const oldDayReport = await DayReportDAL.getDayReport(uuid);
 
-  const updatedCell = [...oldDayReport[`${columnName}`], "\u200B"];
+  const updatedCell = [...oldDayReport[`${columnName}`], SPACE];
 
   const updatedDayReport: DayReport = {
     ...oldDayReport,

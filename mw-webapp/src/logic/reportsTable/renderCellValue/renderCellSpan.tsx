@@ -1,9 +1,5 @@
+import {SPACE} from "src/constants/unicodeSymbols/unicodeSymbols";
 import styles from "src/logic/reportsTable/columns.module.scss";
-
-/**
- * Zero-width space by unicode
- */
-const SPACE = "\u200B";
 
 /**
  * Render Cell span with text

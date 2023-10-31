@@ -39,10 +39,10 @@ export class JobDoneService {
   /**
    * Create new JobDoneDTO
    */
-  public static async createJobDoneDTO(data: JobDoneDTOWithoutUuid): Promise<JobDoneDTO> {
+  public static async createJobDoneDTO(jobDoneDTOWithoutUuid: JobDoneDTOWithoutUuid): Promise<JobDoneDTO> {
     const docRef = doc(collection(db, PATH_TO_JOBS_DONE_COLLECTION));
     const DEFAULT_JOB_DONE: JobDoneDTO = {
-      ...data,
+      ...jobDoneDTOWithoutUuid,
       uuid: docRef.id,
     };
 
@@ -54,8 +54,8 @@ export class JobDoneService {
   /**
    * Update JobDoneDTO
    */
-  public static async updateJobDoneDTO(data: JobDoneDTO, uuid: string) {
-    await updateDoc(doc(db, PATH_TO_JOBS_DONE_COLLECTION, uuid), {...data});
+  public static async updateJobDoneDTO(jobDoneDTO: JobDoneDTO, uuid: string) {
+    await updateDoc(doc(db, PATH_TO_JOBS_DONE_COLLECTION, uuid), {...jobDoneDTO});
   }
 
 }

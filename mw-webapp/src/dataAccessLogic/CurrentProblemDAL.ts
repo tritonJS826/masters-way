@@ -1,3 +1,4 @@
+import {SPACE} from "src/constants/unicodeSymbols/unicodeSymbols";
 import {currentProblemToCurrentProblemDTOConverter} from
   "src/dataAccessLogic/BusinessToDTOConverter/currentProblemToCurrentProblemDTOConverter";
 import {currentProblemDTOToCurrentProblemConverter} from
@@ -35,7 +36,7 @@ export class CurrentProblemDAL {
    */
   public static async createCurrentProblem(): Promise<CurrentProblem> {
     const currentProblemWithoutUuid: CurrentProblemDTOWithoutUuid = {
-      description: "\u200B",
+      description: SPACE,
       isDone: false,
     };
 

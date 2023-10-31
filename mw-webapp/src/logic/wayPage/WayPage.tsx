@@ -18,10 +18,14 @@ export const WayPage = () => {
         level={HeadingLevel.h2}
         text="Way page"
       />
-      <Button
-        value="Create new day report"
-        onClick={() => DayReportDAL.createDayReport(uuid!)}
-      />
+      {uuid ?
+        <Button
+          value="Create new day report"
+          onClick={() => DayReportDAL.createDayReport(uuid)}
+        />
+        :
+        null
+      }
       <ReportsTable />
     </div>
   );

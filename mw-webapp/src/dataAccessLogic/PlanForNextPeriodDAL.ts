@@ -1,3 +1,4 @@
+import {SPACE} from "src/constants/unicodeSymbols/unicodeSymbols";
 import {planForNextPeriodToPlanForNextPeriodDTOConverter} from
   "src/dataAccessLogic/BusinessToDTOConverter/planForNextPeriodToPlanForNextPeriodDTOConverter";
 import {planForNextPeriodDTOToPlanForNextPeriodConverter} from
@@ -36,7 +37,7 @@ export class PlanForNextPeriodDAL {
    */
   public static async createPlanForNextPeriod(): Promise<PlanForNextPeriod> {
     const planForNextPeriodWithoutUuid: PlanForNextPeriodDTOWithoutUuid = {
-      job: "\u200B",
+      job: SPACE,
       estimationTime: 0,
       timeUnit: TimeUnit.minute,
     };

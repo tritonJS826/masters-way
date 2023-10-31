@@ -40,21 +40,21 @@ export class WayService {
   /**
    * Create WayDTO
    */
-  public static async createWayDTO(data: WayDTOWithoutUuid) {
+  public static async createWayDTO(wayDTOWithoutUuid: WayDTOWithoutUuid) {
     const docRef = doc(collection(db, PATH_TO_WAYS_COLLECTION));
-    const DEFAULT_WAY: WayDTO = {
-      ...data,
+    const wayDTO: WayDTO = {
+      ...wayDTOWithoutUuid,
       uuid: docRef.id,
     };
 
-    await setDoc(docRef, DEFAULT_WAY);
+    await setDoc(docRef, wayDTO);
   }
 
   /**
    * Update WayDTO
    */
-  public static async updateWayDTO(data: WayDTO, dayReportUuids: string[]) {
-    await updateDoc(doc(db, PATH_TO_WAYS_COLLECTION, data.uuid), {...data, dayReportUuids});
+  public static async updateWayDTO(wayDTO: WayDTO, dayReportUuids: string[]) {
+    await updateDoc(doc(db, PATH_TO_WAYS_COLLECTION, wayDTO.uuid), {...wayDTO, dayReportUuids});
 
   }
 

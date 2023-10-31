@@ -15,14 +15,15 @@ import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
 interface CellItemProps {
 
   /**
-   * Element of custom arrays
+   * DayReport uuid
    */
-  arrayItem?: JobDone | PlanForNextPeriod | CurrentProblem | MentorComment;
+  dayReportUuid: string;
 
   /**
-   * Parent uuid for cells with type string
+   * Type of data inside cell
    */
-  parentUuid?: string;
+  dataType: JobDone | PlanForNextPeriod | CurrentProblem | MentorComment | keyof ColumnNameProps;
+
 }
 
 const addCellItemFunctions: Record<string, (dayReportUuid: string) => Promise<void>> = {
@@ -35,7 +36,7 @@ const addCellItemFunctions: Record<string, (dayReportUuid: string) => Promise<vo
 /**
  * Update cells
  */
-const updateCellItems = (nameOfFunction: string, dayReportUuid: string) => {
+const addItemCell = (nameOfFunction: string, dayReportUuid: string) => {
   if (!addCellItemFunctions[nameOfFunction]) {
     throw new Error("Function is not exist");
   }
@@ -46,14 +47,16 @@ const updateCellItems = (nameOfFunction: string, dayReportUuid: string) => {
 /**
  * Add element (input) into cell
  */
-export const addCellItem = async (
-  e: React.MouseEvent<HTMLButtonElement>,
-  props: CellItemProps,
-  columnName?: keyof ColumnNameProps) => {
-  const dayReportUuid = e.currentTarget.parentElement!.parentElement!.parentElement!.id;
-  if (props.arrayItem) {
-    updateCellItems(`add${props.arrayItem.constructor.name}`, dayReportUuid);
-  } else if (props.parentUuid && columnName) {
-    addItemDayReport(props.parentUuid, columnName);
+export const addCellItem = async (props: CellItemProps) => {
+  const constructorName = props.dataType.constructor.name;
+
+  if (constructorName === "JobDone" ?? "PlanForNextPeriod" ?? "CurrentProblem" ?? "MentorComment") {
+    // Add element to cells that have own type (for example, JobDone, PlanForNextPeriod, etc)
+    addItemCell(`add${constructorName}`, props.dayReportUuid);
+  } else if (props.dataType === "studentComments" || props.dataType === "learnedForToday") {
+    // Add element to cells that have type string[] (for example, cells in column studentComment)
+    addItemDayReport(props.dayReportUuid, props.dataType);
+  } else {
+    throw new Error("Impossible to add new element in cell without getting column name or cell's type");
   }
 };
