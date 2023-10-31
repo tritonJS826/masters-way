@@ -2,14 +2,15 @@
 
 .header {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
-  background: $header-background;
+  padding: 0 1rem;
+  background: $lightblue;
 }
 
 .title {
   display: flex;
-  padding-top: $title-padding;
   align-items: center;
   justify-content: center;
   color: $button-active;
