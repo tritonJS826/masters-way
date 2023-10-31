@@ -1,4 +1,3 @@
-import {SPACE} from "src/constants/unicodeSymbols/unicodeSymbols";
 import {planForNextPeriodToPlanForNextPeriodDTOConverter} from
   "src/dataAccessLogic/BusinessToDTOConverter/planForNextPeriodToPlanForNextPeriodDTOConverter";
 import {planForNextPeriodDTOToPlanForNextPeriodConverter} from
@@ -6,6 +5,7 @@ import {planForNextPeriodDTOToPlanForNextPeriodConverter} from
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
 import {TimeUnit} from "src/model/businessModel/time/timeUnit/TimeUnit";
 import {PlanForNextPeriodDTOWithoutUuid, PlanForNextPeriodService} from "src/service/PlanForNextPeriodService";
+import {SPACE} from "src/utils/unicodeSymbols";
 
 /**
  * Provides methods to interact with the PlanForNextPeriod business model

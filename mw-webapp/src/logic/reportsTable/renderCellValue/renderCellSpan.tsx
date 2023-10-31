@@ -1,4 +1,4 @@
-import {SPACE} from "src/constants/unicodeSymbols/unicodeSymbols";
+import {SPACE} from "src/utils/unicodeSymbols";
 import styles from "src/logic/reportsTable/columns.module.scss";
 
 /**

@@ -1,10 +1,10 @@
-import {SPACE} from "src/constants/unicodeSymbols/unicodeSymbols";
 import {currentProblemToCurrentProblemDTOConverter} from
   "src/dataAccessLogic/BusinessToDTOConverter/currentProblemToCurrentProblemDTOConverter";
 import {currentProblemDTOToCurrentProblemConverter} from
   "src/dataAccessLogic/DTOToBusinessConverter/currentProblemDTOToCurrentProblemConverter";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {CurrentProblemDTOWithoutUuid, CurrentProblemService} from "src/service/CurrentProblemService";
+import {SPACE} from "src/utils/unicodeSymbols";
 
 /**
  * Provides methods to interact with the CurrentProblem business model

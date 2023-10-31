@@ -1,10 +1,10 @@
-import {SPACE} from "src/constants/unicodeSymbols/unicodeSymbols";
 import {mentorCommentToMentorCommentDTOConverter} from
   "src/dataAccessLogic/BusinessToDTOConverter/mentorCommentToMentorCommentDTOConverter";
 import {mentorCommentDTOToMentorCommentConverter}
   from "src/dataAccessLogic/DTOToBusinessConverter/mentorCommentDTOToMentorCommentConverter";
 import {MentorComment} from "src/model/businessModel/MentorComment";
 import {MentorCommentDTOWithoutUuid, MentorCommentService} from "src/service/MentorCommentService";
+import {SPACE} from "src/utils/unicodeSymbols";
 
 /**
  * Provides methods to interact with the MentorComment business model

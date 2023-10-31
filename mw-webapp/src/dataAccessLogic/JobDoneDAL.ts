@@ -1,9 +1,9 @@
-import {SPACE} from "src/constants/unicodeSymbols/unicodeSymbols";
 import {jobDoneToJobDoneDTOConverter} from "src/dataAccessLogic/BusinessToDTOConverter/jobDoneToJobDoneDTOConverter";
 import {jobDoneDTOToJobDoneConverter} from "src/dataAccessLogic/DTOToBusinessConverter/jobDoneDTOToJobDoneConverter";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {TimeUnit} from "src/model/businessModel/time/timeUnit/TimeUnit";
 import {JobDoneDTOWithoutUuid, JobDoneService} from "src/service/JobDoneService";
+import {SPACE} from "src/utils/unicodeSymbols";
 
 /**
  * Provides methods to interact with the JobDone business model
