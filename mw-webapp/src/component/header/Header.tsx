@@ -25,14 +25,16 @@ export const Header = () => {
 
   return (
     <div className={styles.header}>
-      <h1 className={styles.title}>
+      <h1 className={styles.logo}>
         {LOGO_TEXT.toUpperCase()}
       </h1>
       {user && <h2 className={styles.title}>
-        Hello,
+        Welcome
         {" "}
         {user.displayName}
-        !
+        {" "}
+        {" "}
+        to
       </h2>}
       <div className={styles.blockButton}>
         <Button

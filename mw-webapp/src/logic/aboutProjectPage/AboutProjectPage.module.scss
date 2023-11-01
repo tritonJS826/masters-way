@@ -8,3 +8,19 @@
 .titleAccordion {
   text-align: center;
 }
+
+.titlePage {
+  position: absolute;
+  top: 1rem;
+  left: 44%;
+  color: $lightyellow;
+  text-shadow: 2px 2px 2px $button-shadow;
+}
+
+.titleWhenLoggedIn {
+  position: absolute;
+  top: 2.2rem;
+  left: 44%;
+  color: $lightyellow;
+  text-shadow: 2px 2px 2px $button-shadow;
+}
