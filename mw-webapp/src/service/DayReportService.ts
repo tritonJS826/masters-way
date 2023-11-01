@@ -39,21 +39,23 @@ export class DayReportService {
   /**
    * Create new DayReportDTO
    */
-  public static async createDayReportDTO(data: DayReportDTOWithoutUuid) {
+  public static async createDayReportDTO(dayReportDTOWithoutUuid: DayReportDTOWithoutUuid) {
     const docRef = doc(collection(db, PATH_TO_DAY_REPORTS_COLLECTION));
-    const DEFAULT_DAY_REPORT: DayReportDTO = {
-      ...data,
+    const dayReportDTO: DayReportDTO = {
+      ...dayReportDTOWithoutUuid,
       uuid: docRef.id,
     };
 
-    await setDoc(docRef, DEFAULT_DAY_REPORT);
+    await setDoc(docRef, dayReportDTO);
+
+    return dayReportDTO;
   }
 
   /**
    * Update DayReportDTO
    */
-  public static async updateDayReportDTO(data: DayReportDTO, uuid: string) {
-    await updateDoc(doc(db, PATH_TO_DAY_REPORTS_COLLECTION, uuid), {...data});
+  public static async updateDayReportDTO(dayReportDTO: DayReportDTO, uuid: string) {
+    await updateDoc(doc(db, PATH_TO_DAY_REPORTS_COLLECTION, uuid), {...dayReportDTO});
   }
 
 }

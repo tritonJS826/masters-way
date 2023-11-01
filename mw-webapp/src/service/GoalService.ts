@@ -28,10 +28,10 @@ export class GoalService {
   /**
    * Create GoalDTO
    */
-  public static async createGoalDTO(data: GoalDTOWithoutUuid): Promise<GoalDTO> {
+  public static async createGoalDTO(goalDTOWithoutUuid: GoalDTOWithoutUuid): Promise<GoalDTO> {
     const docRef = doc(collection(db, PATH_TO_GOALS_COLLECTION));
     const DEFAULT_GOAL: GoalDTO = {
-      ...data,
+      ...goalDTOWithoutUuid,
       uuid: docRef.id,
     };
 

@@ -39,10 +39,11 @@ export class CurrentProblemService {
   /**
    * Create new CurrentProblemDTO
    */
-  public static async createCurrentProblemDTO(data: CurrentProblemDTOWithoutUuid): Promise<CurrentProblemDTO> {
+  public static async createCurrentProblemDTO
+  (currentProblemDTOWithoutUuid: CurrentProblemDTOWithoutUuid): Promise<CurrentProblemDTO> {
     const docRef = doc(collection(db, PATH_TO_CURRENT_PROBLEMS_COLLECTION));
     const DEFAULT_CURRENT_PROBLEM: CurrentProblemDTO = {
-      ...data,
+      ...currentProblemDTOWithoutUuid,
       uuid: docRef.id,
     };
 
@@ -54,8 +55,8 @@ export class CurrentProblemService {
   /**
    * Update CurrentProblemDTO
    */
-  public static async updateCurrentProblemDTO(data: CurrentProblemDTO, uuid: string) {
-    await updateDoc(doc(db, PATH_TO_CURRENT_PROBLEMS_COLLECTION, uuid), {...data});
+  public static async updateCurrentProblemDTO(currentProblemDTO: CurrentProblemDTO, uuid: string) {
+    await updateDoc(doc(db, PATH_TO_CURRENT_PROBLEMS_COLLECTION, uuid), {...currentProblemDTO});
   }
 
 }

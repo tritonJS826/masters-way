@@ -3,8 +3,8 @@ import {currentProblemToCurrentProblemDTOConverter} from
 import {currentProblemDTOToCurrentProblemConverter} from
   "src/dataAccessLogic/DTOToBusinessConverter/currentProblemDTOToCurrentProblemConverter";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
-import {CurrentProblemDTO} from "src/model/DTOModel/CurrentProblemDTO";
 import {CurrentProblemDTOWithoutUuid, CurrentProblemService} from "src/service/CurrentProblemService";
+import {SPACE} from "src/utils/unicodeSymbols";
 
 /**
  * Provides methods to interact with the CurrentProblem business model
@@ -32,17 +32,19 @@ export class CurrentProblemDAL {
   }
 
   /**
-   * Create new CurrentProblem
+   * Create CurrentProblem
    */
-  public static async createNewCurrentProblem(): Promise<CurrentProblemDTO> {
+  public static async createCurrentProblem(): Promise<CurrentProblem> {
     const currentProblemWithoutUuid: CurrentProblemDTOWithoutUuid = {
-      description: "",
+      description: SPACE,
       isDone: false,
     };
 
     const newCurrentProblem = await CurrentProblemService.createCurrentProblemDTO(currentProblemWithoutUuid);
 
-    return newCurrentProblem;
+    const currentProblem = currentProblemDTOToCurrentProblemConverter(newCurrentProblem);
+
+    return currentProblem;
   }
 
   /**

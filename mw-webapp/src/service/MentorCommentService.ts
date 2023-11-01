@@ -14,7 +14,7 @@ export type MentorCommentDTOWithoutUuid = Omit<MentorCommentDTO, "uuid">;
 /**
  * Provides methods to interact with the MentorComments collection
  */
-export class MentorCommentsService {
+export class MentorCommentService {
 
   /**
    * Get MentorCommentsDTO
@@ -39,10 +39,11 @@ export class MentorCommentsService {
   /**
    * Create new MentorCommentDTO
    */
-  public static async createMentorCommentDTO(data: MentorCommentDTOWithoutUuid): Promise<MentorCommentDTO> {
+  public static async createMentorCommentDTO
+  (mentorCommentDTOWithoutUuid: MentorCommentDTOWithoutUuid): Promise<MentorCommentDTO> {
     const docRef = doc(collection(db, PATH_TO_MENTOR_COMMENTS_COLLECTION));
     const DEFAULT_MENTOR_COMMENT: MentorCommentDTO = {
-      ...data,
+      ...mentorCommentDTOWithoutUuid,
       uuid: docRef.id,
     };
 
@@ -54,8 +55,8 @@ export class MentorCommentsService {
   /**
    * Update MentorCommentDTO
    */
-  public static async updateMentorCommentDTO(data: MentorCommentDTO, uuid: string) {
-    await updateDoc(doc(db, PATH_TO_MENTOR_COMMENTS_COLLECTION, uuid), {...data});
+  public static async updateMentorCommentDTO(mentorCommentDTO: MentorCommentDTO, uuid: string) {
+    await updateDoc(doc(db, PATH_TO_MENTOR_COMMENTS_COLLECTION, uuid), {...mentorCommentDTO});
   }
 
 }

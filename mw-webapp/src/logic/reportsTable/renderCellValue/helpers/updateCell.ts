@@ -40,8 +40,8 @@ export const updateCell = (
 ) => {
   if (arrayItem) {
     updateCells(`update${arrayItem.constructor.name}`, text, arrayItem.uuid);
-  } else {
-    updateDayReport(text, parentUuid!, columnName!, index!);
+  } else if (parentUuid && columnName && index) {
+    updateDayReport(text, parentUuid, columnName, index);
   }
   callback(false);
 };

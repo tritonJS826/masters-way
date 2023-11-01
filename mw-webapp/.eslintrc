@@ -20,6 +20,7 @@
   },
   "plugins": ["react", "@typescript-eslint", "simple-import-sort", "jsdoc"],
   "rules": {
+    "@typescript-eslint/no-non-null-assertion": "error",
     "simple-import-sort/imports": [
       "error",
       {

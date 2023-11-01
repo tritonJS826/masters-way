@@ -33,28 +33,28 @@ export class UserService {
 
   /**
    * Create new user
-   * @param data UserDTO
+   * @param userDTO UserDTO
    */
-  public static async createUserDTO(data: UserDTO) {
-    await setDoc(doc(db, PATH_TO_USERS_COLLECTION, data.uuid), {
-      uuid: data.uuid,
-      email: data.email,
-      name: data.name,
+  public static async createUserDTO(userDTO: UserDTO) {
+    await setDoc(doc(db, PATH_TO_USERS_COLLECTION, userDTO.uuid), {
+      uuid: userDTO.uuid,
+      email: userDTO.email,
+      name: userDTO.name,
     });
   }
 
   /**
    * Update user
-   * @param data UserDTO
+   * @param userDTO UserDTO
    */
-  public static async updateUserDTO(data: UserDTO) {
-    await updateDoc(doc(db, PATH_TO_USERS_COLLECTION, data.uuid), {
-      uuid: data.uuid,
-      email: data.email,
-      name: data.name,
-      ownWays: data.ownWayUuids,
-      favoriteWays: data.favoriteWayUuids,
-      mentoringWays: data.mentoringWayUuids,
+  public static async updateUserDTO(userDTO: UserDTO) {
+    await updateDoc(doc(db, PATH_TO_USERS_COLLECTION, userDTO.uuid), {
+      uuid: userDTO.uuid,
+      email: userDTO.email,
+      name: userDTO.name,
+      ownWays: userDTO.ownWayUuids,
+      favoriteWays: userDTO.favoriteWayUuids,
+      mentoringWays: userDTO.mentoringWayUuids,
     });
   }
 
