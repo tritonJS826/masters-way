@@ -31,7 +31,7 @@
     ],
     "**/*.{scss,module.scss}": [
       "pnpm run format --",
-      "pnpm run stylelint-fix --"
+      "pnpm run stylelint-fix"
     ]
   },
   "eslintConfig": {

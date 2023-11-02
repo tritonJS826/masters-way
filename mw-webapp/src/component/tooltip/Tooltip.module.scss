@@ -2,6 +2,12 @@
   position: relative;
 }
 
+.tooltip {
+  position: absolute;
+  display: none;
+  overflow: hidden;
+}
+
 .target {
   cursor: pointer;
 
@@ -10,32 +16,26 @@
   }
 }
 
-.tooltip {
-  display: none;
-  position: absolute;
-  overflow: hidden;
-}
-
 .top {
-  transform: translateY(-100%) translateX(-50%);
   top: -5px;
   left: 50%;
+  transform: translateY(-100%) translateX(-50%);
 }
 
 .right {
+  top: 50%;
   right: -5px;
   transform: translateX(100%) translateY(-50%);
-  top: 50%;
 }
 
 .bottom {
   bottom: -5px;
-  transform: translateY(100%) translateX(-50%);
   left: 50%;
+  transform: translateY(100%) translateX(-50%);
 }
 
 .left {
+  top: 50%;
   left: -5px;
   transform: translateX(-100%) translateY(-50%);
-  top: 50%;
 }
