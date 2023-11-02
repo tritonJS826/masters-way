@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
-import {columns, OWNER_EMAIL, OWNER_NAME} from "src/logic/waysTable/columns";
+import {columns, WAYS_OWNER} from "src/logic/waysTable/columns";
 import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 
@@ -33,7 +33,7 @@ export const OwnWaysTable = (props: PropsWithUuid) => {
     loadOwnWays();
   }, []);
 
-  const columnsToExclude = [OWNER_NAME, OWNER_EMAIL];
+  const columnsToExclude = [WAYS_OWNER];
 
   const ownWaysTableColumns = columns.filter(column => {
     if (column.header) {
