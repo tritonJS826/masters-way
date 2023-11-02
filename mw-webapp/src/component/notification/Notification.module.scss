@@ -3,21 +3,21 @@
 
 .noticeViewport {
   position: fixed;
-  bottom: 0;
   right: 0;
-  max-width: $notice-max-width;
+  bottom: 0;
   width: $notice-width;
+  max-width: $notice-max-width;
   margin: $notice-margin;
   list-style: none;
 }
 
 .noticeRoot {
-  background-color: $white;
+  padding: $notice-padding;
   border-radius: $notice-radius;
+  background-color: $white;
   box-shadow:
     $grey-35-transparent 0 10px 38px -10px,
-    $grey-20-transparent 0px 10px 20px -15px;
-  padding: $notice-padding;
+    $grey-20-transparent 0 10px 20px -15px;
 
   &[data-state="open"] {
     animation: slideIn 150ms cubic-bezier(0.16, 1, 0.3, 1);
@@ -45,6 +45,7 @@
   from {
     opacity: 1;
   }
+
   to {
     opacity: 0;
   }
@@ -54,6 +55,7 @@
   from {
     transform: translateX(100%);
   }
+
   to {
     transform: translateX(0);
   }
@@ -63,6 +65,7 @@
   from {
     transform: translateX(var(--radix-toast-swipe-end-x));
   }
+
   to {
     transform: translateX(100%);
   }

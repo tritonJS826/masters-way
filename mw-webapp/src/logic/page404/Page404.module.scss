@@ -1,10 +1,11 @@
-@import "src/styles/variables.scss";
-@import "src/styles/mixins.scss";
+@import "src/styles/variables";
+@import "src/styles/mixins";
 
 .errorPageContainer {
   display: flex;
   justify-content: center;
   margin-top: 50px;
   font-size: $font-size-large;
+
   @include title;
 }
