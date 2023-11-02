@@ -5,6 +5,22 @@
   color: $black;
 }
 
+@mixin titlePage {
+  position: absolute;
+  top: 1rem;
+  left: 46%;
+  color: $lightyellow;
+  text-shadow: 2px 2px 2px rgb(77, 77, 77);
+}
+
+@mixin titleWhenLoggedIn {
+  position: absolute;
+  top: 2.2rem;
+  left: 46%;
+  color: $lightyellow;
+  text-shadow: 2px 2px 2px rgb(77, 77, 77);
+}
+
 @mixin closeButton($top, $right, $button-size) {
   border: none;
   border-radius: 100%;

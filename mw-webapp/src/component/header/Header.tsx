@@ -29,12 +29,10 @@ export const Header = () => {
         {LOGO_TEXT.toUpperCase()}
       </h1>
       {user && <h2 className={styles.title}>
-        Welcome
+        Hello,
         {" "}
         {user.displayName}
-        {" "}
-        {" "}
-        to
+        !
       </h2>}
       <div className={styles.blockButton}>
         <Button

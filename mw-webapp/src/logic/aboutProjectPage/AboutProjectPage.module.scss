@@ -1,4 +1,5 @@
 @import "src/styles/variables";
+@import "src/styles/mixins";
 
 .accordion {
   width: 80%;
@@ -10,17 +11,9 @@
 }
 
 .titlePage {
-  position: absolute;
-  top: 1rem;
-  left: 44%;
-  color: $lightyellow;
-  text-shadow: 2px 2px 2px $button-shadow;
+  @include titlePage;
 }
 
 .titleWhenLoggedIn {
-  position: absolute;
-  top: 2.2rem;
-  left: 44%;
-  color: $lightyellow;
-  text-shadow: 2px 2px 2px $button-shadow;
+  @include titleWhenLoggedIn;
 }

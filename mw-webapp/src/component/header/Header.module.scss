@@ -13,16 +13,16 @@
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  color: $button-active;
-  text-shadow: 2px 2px 2px $button-shadow;
+  color: $lightyellow;
+  text-shadow: 2px 2px 2px rgb(77, 77, 77);
   margin-top: -1em;
 }
 
 .logo {
   display: flex;
   justify-content: center;
-  color: $button-active;
-  text-shadow: 2px 2px 2px $button-shadow;
+  color: $lightyellow;
+  text-shadow: 2px 2px 2px rgb(77, 77, 77);
 }
 
 .blockButton {

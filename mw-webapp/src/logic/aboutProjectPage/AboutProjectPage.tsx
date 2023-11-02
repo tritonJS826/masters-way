@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+import clsx from "clsx";
 import {User} from "firebase/auth";
 import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
 import {AccordionContent} from "src/component/accordion/AccordionContent/AccordionContent";
@@ -12,18 +13,10 @@ import styles from "src/logic/aboutProjectPage/AboutProjectPage.module.scss";
  */
 export const AboutProjectPage = () => {
   const [user, setUser] = useState<User | null>(null);
-  const [titleStyles, setTitleStyles] = useState(styles.titlePage);
 
   useEffect(() => {
     handleUserAuthState(setUser);
   }, []);
-
-  useEffect(() => {
-    if (user) {
-      setTitleStyles(styles.titleWhenLoggedIn);
-    }
-
-  }, [user]);
 
   /**
    * Accordion props
@@ -65,7 +58,7 @@ export const AboutProjectPage = () => {
       <Title
         level={HeadingLevel.h2}
         text="About project page"
-        className={titleStyles}
+        className={clsx(styles.title, user ? styles.titleWhenLoggedIn : styles.titlePage)}
       />
 
       <Title

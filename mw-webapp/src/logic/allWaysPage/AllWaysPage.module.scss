@@ -1,17 +1,10 @@
 @import "src/styles/variables.scss";
+@import "src/styles/mixins";
 
 .titlePage {
-  position: absolute;
-  top: 1rem;
-  left: 47%;
-  color: $lightyellow;
-  text-shadow: 2px 2px 2px $button-shadow;
+  @include titlePage;
 }
 
 .titleWhenLoggedIn {
-  position: absolute;
-  top: 2.2rem;
-  left: 47%;
-  color: $lightyellow;
-  text-shadow: 2px 2px 2px $button-shadow;
+  @include titleWhenLoggedIn;
 }
