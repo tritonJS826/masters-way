@@ -1,9 +1,10 @@
 import {createColumnHelper} from "@tanstack/react-table";
+import {Link} from "src/component/link/Link";
 import {renderCellValue} from "src/logic/waysTable/renderCellValue/renderCellValue";
-import {renderLinkInCell} from "src/logic/waysTable/renderLinkInCell/renderLinkInCell";
 import {GoalPreview} from "src/model/businessModelPreview/GoalPreview";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
+import styles from "src/logic/waysTable/columns.module.scss";
 
 const columnHelper = createColumnHelper<WayPreview>();
 
@@ -25,7 +26,13 @@ export const columns = [
     /**
      * Cell with clickable way name that leads to way page
      */
-    cell: ({row}) => renderLinkInCell(`/way/${row.original.uuid}`, row.original.name),
+    cell: ({row}) => (
+      <Link
+        path={`/way/${row.original.uuid}`}
+        value={row.original.name}
+        className={styles.link}
+      />
+    ),
   }),
   columnHelper.accessor<"isCompleted", boolean>("isCompleted", {
     header: "Is completed?",
@@ -52,7 +59,11 @@ export const columns = [
     cell: ({row}) => {
       return (
         <>
-          {renderLinkInCell(`/user/${row.original.owner.uuid}`, row.original.owner.name)}
+          <Link
+            path={`/user/${row.original.owner.uuid}`}
+            value={row.original.owner.name}
+            className={styles.link}
+          />
           {renderCellValue(row.original.owner.email)}
         </>
       );
