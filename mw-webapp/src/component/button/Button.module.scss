@@ -1,11 +1,11 @@
-@import "src/styles/variables.scss";
+@import "src/styles/variables";
 
 .button {
   width: 100px;
   height: 40px;
+  border-radius: $button-radius;
   margin: $button-margin;
   background: $button-background;
-  border-radius: $button-radius;
 
   &:hover {
     cursor: pointer;

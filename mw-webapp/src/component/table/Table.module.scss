@@ -1,21 +1,21 @@
-@import "src/styles/variables.scss";
+@import "src/styles/variables";
 
 .table {
   width: 100%;
-  margin-bottom: 20px;
   border: $border-lightgray;
+  margin-bottom: 20px;
   border-collapse: collapse;
 }
 
 .table th {
-  font-weight: bold;
   padding: 5px;
-  background: $lightgray2;
   border: $border-lightgray;
+  background: $lightgray2;
+  font-weight: bold;
 }
 
 .table td {
-  border: $border-lightgray;
   padding: 8px 10px;
+  border: $border-lightgray;
   text-align: left;
 }

@@ -19,15 +19,15 @@ $lightblue: rgb(85, 122, 149);
 $lightgray: rgb(211, 211, 211);
 $lightgray2: #efefef;
 $black: rgb(0, 0, 0);
-$transparent-black: rgba(0, 0, 0, 0.9);
+$transparent-black: rgba(0, 0, 0, 90%);
 $white: rgb(255, 255, 255);
 $green: rgb(0, 128, 0);
-$grey-35-transparent: rgba(14, 18, 22, 0.35);
-$grey-20-transparent: rgba(14, 18, 22, 0.2);
-$grey-10-transparent: rgba(14, 18, 22, 0.1);
+$grey-35-transparent: rgba(14, 18, 22, 35%);
+$grey-20-transparent: rgba(14, 18, 22, 20%);
+$grey-10-transparent: rgba(14, 18, 22, 10%);
 
 // Borders
-$border-lightgray: 1px solid #dddddd;
+$border-lightgray: 1px solid #ddd;
 
 // Accordion
 $accordion-radius: 6px;
@@ -55,7 +55,7 @@ $notice-close-button-right: 10px;
 $notice-close-button-size: 25px;
 
 //Modal
-$overlay-background: rgba(0, 0, 0, 0.447);
+$overlay-background: rgba(0, 0, 0, 44.7%);
 $modal-close-btn-top: 10px;
 $modal-close-btn-right: 10px;
 $modal-close-btn-size: 25px;

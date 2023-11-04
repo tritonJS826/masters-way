@@ -2,28 +2,28 @@
 @import "src/styles/mixins";
 
 .dialogOverlay {
-  background-color: $overlay-background;
   position: fixed;
-  inset: 0;
   animation: overlayShow $modal-animation-time cubic-bezier(0.16, 1, 0.3, 1);
+  background-color: $overlay-background;
+  inset: 0;
 }
 
 .dialogContent {
-  background-color: $white;
-  border-radius: 6px;
-  box-shadow:
-    $grey-35-transparent 0 10px 38px -10px,
-    $grey-20-transparent 0px 10px 20px -15px;
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  overflow: auto;
   width: 70vw;
   max-width: 450px;
   max-height: 85vh;
   padding: 20px 45px;
+  border-radius: 6px;
   animation: contentShow $modal-animation-time cubic-bezier(0.16, 1, 0.3, 1);
-  overflow: auto;
+  background-color: $white;
+  box-shadow:
+    $grey-35-transparent 0 10px 38px -10px,
+    $grey-20-transparent 0 10px 20px -15px;
+  transform: translate(-50%, -50%);
 
   &:focus {
     outline: none;
@@ -38,6 +38,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -48,6 +49,7 @@
     opacity: 0;
     transform: translate(-50%, -48%) scale(0.96);
   }
+
   to {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);

@@ -1,14 +1,13 @@
-@import "src/styles/_variables.scss";
+@import "src/styles/_variables";
 
 .dialogOverlay {
-  background-color: $transparent-black;
   position: fixed;
-  inset: 0;
   animation: overlayShow $sidebar-animation-time cubic-bezier(0.16, 1, 0.3, 1);
+  background-color: $transparent-black;
+  inset: 0;
 }
 
 .dialogContent {
-  background-color: $white;
   position: fixed;
   top: 0;
   left: -$sidebar-width;
@@ -16,24 +15,28 @@
   height: $height-full;
   padding: $sidebar-padding;
   animation: contentShow $sidebar-animation-time cubic-bezier(0.16, 1, 0.3, 1);
+  background-color: $white;
+
   &:focus {
     outline: none;
   }
+
   &[data-state="open"] {
     left: 0;
   }
 }
 
 .closeButton {
-  height: $sidebar-button-size;
-  width: $sidebar-button-size;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   position: absolute;
   top: $sidebar-button-offset;
   right: $sidebar-button-offset;
+  display: inline-flex;
+  width: $sidebar-button-size;
+  height: $sidebar-button-size;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
+
   &:hover {
     text-shadow: 2px 2px 2px $button-shadow;
   }
@@ -43,6 +46,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -53,6 +57,7 @@
     opacity: 0;
     transform: translateX(-100%);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);

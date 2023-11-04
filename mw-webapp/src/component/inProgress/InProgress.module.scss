@@ -1,11 +1,11 @@
 .container {
-  width: 0%;
   position: absolute;
   top: 0;
   left: 0;
+  width: 0;
   height: 4px;
-  background-color: $progressBar-bg;
   animation: progress 1s linear forwards;
+  background-color: $progressBar-bg;
 }
 
 @keyframes progress {
