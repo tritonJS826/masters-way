@@ -1,6 +1,35 @@
-import {DayReportConverterProps} from "src/dataAccessLogic/getConvertedValues";
+import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {DayReport} from "src/model/businessModel/DayReport";
+import {JobDone} from "src/model/businessModel/JobDone";
+import {MentorComment} from "src/model/businessModel/MentorComment";
+import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
 import {DayReportDTO} from "src/model/DTOModel/DayReportDTO";
+
+/**
+ * DayReport props used into converter
+ */
+export interface DayReportConverterProps {
+
+  /**
+   * Jobs done
+   */
+  jobsDone: JobDone[];
+
+  /**
+   * Plans for next period
+   */
+  plansForNextPeriod: PlanForNextPeriod[];
+
+  /**
+   * Problems for current period
+   */
+  problemsForCurrentPeriod: CurrentProblem[];
+
+  /**
+   * Mentor comments
+   */
+  mentorComments: MentorComment[];
+}
 
 /**
  * Convert {@link DayReportDTO} to {@link DayReport}
@@ -10,10 +39,10 @@ export const dayReportDTOToDayReportConverter =
     return new DayReport({
       ...dayReportDTO,
       date: new Date(dayReportDTO.date),
-      jobsDone: dayReportProps.jobDoneUuids,
-      plansForNextPeriod: dayReportProps.planForNextPeriodUuids,
-      problemsForCurrentPeriod: dayReportProps.problemForCurrentPeriodUuids,
-      mentorComments: dayReportProps.mentorCommentUuids,
+      jobsDone: dayReportProps.jobsDone,
+      plansForNextPeriod: dayReportProps.plansForNextPeriod,
+      problemsForCurrentPeriod: dayReportProps.problemsForCurrentPeriod,
+      mentorComments: dayReportProps.mentorComments,
     });
   };
 

@@ -13,7 +13,7 @@ import {SPACE} from "src/utils/unicodeSymbols";
 export class PlanForNextPeriodDAL {
 
   /**
-   * Get PLansForNextPeriod
+   * Get PlansForNextPeriod
    */
   public static async getPlansForNextPeriod(): Promise<PlanForNextPeriod[]> {
     const plansForNextPeriodDTO = await PlanForNextPeriodService.getPlansForNextPeriodDTO();

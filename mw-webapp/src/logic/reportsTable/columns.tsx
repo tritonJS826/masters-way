@@ -59,7 +59,7 @@ export const columns = [
           }
           <Button
             value="+"
-            onClick={() => addCellItem({dayReportUuid: row.original.uuid, dataType: row.original.jobsDone[0]})}
+            onClick={() => addCellItem({rowUuid: row.original.uuid, dataType: "JobDone"})}
           />
         </div>
       );
@@ -80,7 +80,7 @@ export const columns = [
           }
           <Button
             value="+"
-            onClick={() => addCellItem({dayReportUuid: row.original.uuid, dataType: row.original.plansForNextPeriod[0]})}
+            onClick={() => addCellItem({rowUuid: row.original.uuid, dataType: "PlanForNextPeriod"})}
           />
         </div>
       );
@@ -105,7 +105,7 @@ export const columns = [
           }
           <Button
             value="+"
-            onClick={() => addCellItem({dayReportUuid: row.original.uuid, dataType: row.original.problemsForCurrentPeriod[0]})}
+            onClick={() => addCellItem({rowUuid: row.original.uuid, dataType: "CurrentProblem"})}
           />
         </div>
       );
@@ -129,7 +129,7 @@ export const columns = [
           }
           <Button
             value="+"
-            onClick={() => addCellItem({dayReportUuid: row.original.uuid, dataType: "studentComments"})}
+            onClick={() => addCellItem({rowUuid: row.original.uuid, dataType: "studentComments"})}
           />
         </div>
       );
@@ -153,7 +153,7 @@ export const columns = [
           }
           <Button
             value="+"
-            onClick={() => addCellItem({dayReportUuid: row.original.uuid, dataType: "learnedForToday"})}
+            onClick={() => addCellItem({rowUuid: row.original.uuid, dataType: "learnedForToday"})}
           />
         </div>
       );
@@ -180,7 +180,7 @@ export const columns = [
           }
           <Button
             value="+"
-            onClick={() => addCellItem({dayReportUuid: row.original.uuid, dataType: row.original.mentorComments[0]})}
+            onClick={() => addCellItem({rowUuid: row.original.uuid, dataType: "MentorComment"})}
           />
         </div>
       );
