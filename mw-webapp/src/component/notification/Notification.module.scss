@@ -1,6 +1,15 @@
 @import "src/styles/variables";
 @import "src/styles/mixins";
 
+$notice-width: 90vw;
+$notice-max-width: 390px;
+$notice-margin: 15px;
+$notice-padding: 15px;
+$notice-radius: 6px;
+$notice-close-button-top: 10px;
+$notice-close-button-right: 10px;
+$notice-close-button-size: 25px;
+
 .noticeViewport {
   position: fixed;
   right: 0;
@@ -14,10 +23,7 @@
 .noticeRoot {
   padding: $notice-padding;
   border-radius: $notice-radius;
-  background-color: $white;
-  box-shadow:
-    $grey-35-transparent 0 10px 38px -10px,
-    $grey-20-transparent 0 10px 20px -15px;
+  background-color: $primary-background;
 
   &[data-state="open"] {
     animation: slideIn 150ms cubic-bezier(0.16, 1, 0.3, 1);

@@ -58,7 +58,7 @@ export const columns = [
             .map((jobDoneItem) => (renderCellItem({content: jobDoneItem.getJobDone(), arrayItem: jobDoneItem})))
           }
           <Button
-            value="+"
+            value="add job done"
             onClick={() => addCellItem({rowUuid: row.original.uuid, dataType: "JobDone"})}
           />
         </div>
@@ -79,7 +79,7 @@ export const columns = [
               (renderCellItem({content: planForNextPeriod.getPlanForNextPeriod(), arrayItem: planForNextPeriod})))
           }
           <Button
-            value="+"
+            value="Add plan for tomorrow"
             onClick={() => addCellItem({rowUuid: row.original.uuid, dataType: "PlanForNextPeriod"})}
           />
         </div>
@@ -104,7 +104,7 @@ export const columns = [
               })))
           }
           <Button
-            value="+"
+            value="Add problem"
             onClick={() => addCellItem({rowUuid: row.original.uuid, dataType: "CurrentProblem"})}
           />
         </div>
@@ -128,7 +128,7 @@ export const columns = [
                 renderCellItem({content: studentComment, parentUuid, columnName: "studentComments", index}))
           }
           <Button
-            value="+"
+            value="Add comment"
             onClick={() => addCellItem({rowUuid: row.original.uuid, dataType: "studentComments"})}
           />
         </div>
@@ -152,7 +152,7 @@ export const columns = [
                 renderCellItem({content: learnedForToday, parentUuid, columnName: "learnedForToday", index}))
           }
           <Button
-            value="+"
+            value="Add learned for today"
             onClick={() => addCellItem({rowUuid: row.original.uuid, dataType: "learnedForToday"})}
           />
         </div>
@@ -179,7 +179,7 @@ export const columns = [
                 }))
           }
           <Button
-            value="+"
+            value="Add comment"
             onClick={() => addCellItem({rowUuid: row.original.uuid, dataType: "MentorComment"})}
           />
         </div>

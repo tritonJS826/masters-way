@@ -1,21 +1,23 @@
 @import "src/styles/variables";
 
+$table-border: 1px solid black;
+
 .table {
   width: 100%;
-  border: $border-lightgray;
+  border: $table-border;
   margin-bottom: 20px;
   border-collapse: collapse;
 }
 
 .table th {
   padding: 5px;
-  border: $border-lightgray;
-  background: $lightgray2;
+  border: $table-border;
+  background: $shadow-color;
   font-weight: bold;
 }
 
 .table td {
   padding: 8px 10px;
-  border: $border-lightgray;
+  border: $table-border;
   text-align: left;
 }

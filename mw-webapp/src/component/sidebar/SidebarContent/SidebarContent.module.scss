@@ -1,5 +1,11 @@
 @import "src/styles/_variables";
 
+$sidebar-animation-time: 350ms;
+$sidebar-padding: 25px;
+$sidebar-width: 300px;
+$sidebar-button-size: 20px;
+$sidebar-button-offset: 5px;
+
 .dialogOverlay {
   position: fixed;
   animation: overlayShow $sidebar-animation-time cubic-bezier(0.16, 1, 0.3, 1);
@@ -12,10 +18,10 @@
   top: 0;
   left: -$sidebar-width;
   width: $sidebar-width;
-  height: $height-full;
+  height: 100%;
   padding: $sidebar-padding;
   animation: contentShow $sidebar-animation-time cubic-bezier(0.16, 1, 0.3, 1);
-  background-color: $white;
+  background-color: $primary-background;
 
   &:focus {
     outline: none;
@@ -36,10 +42,6 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-
-  &:hover {
-    text-shadow: 2px 2px 2px $button-shadow;
-  }
 }
 
 @keyframes overlayShow {
