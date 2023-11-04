@@ -1,0 +1,21 @@
+{
+  "extends": [
+    "stylelint-config-idiomatic-order",
+    "stylelint-config-standard-scss",
+    "stylelint-prettier/recommended"
+  ],
+  "plugins": [
+    "stylelint-scss"
+  ],
+  "rules": {
+    "color-function-notation": "legacy",
+    "no-duplicate-selectors": true,
+    "declaration-block-no-duplicate-properties": true,
+    "scss/at-mixin-pattern": null,
+    "scss/dollar-variable-pattern": null,
+    "scss/double-slash-comment-whitespace-inside": null,
+    "scss/at-import-no-partial-leading-underscore": null,
+    "selector-class-pattern": null,
+    "keyframes-name-pattern": null
+  }
+}

@@ -6,21 +6,23 @@
 }
 
 @mixin closeButton($top, $right, $button-size) {
-  border: none;
-  border-radius: 100%;
-  height: $button-size;
-  width: $button-size;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: $black;
   position: absolute;
   top: $top;
   right: $right;
+  display: inline-flex;
+  width: $button-size;
+  height: $button-size;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 100%;
+  color: $black;
   cursor: pointer;
+
   &:hover {
     background-color: $black;
   }
+
   &:focus {
     box-shadow: 0 0 0 2px $black;
   }
