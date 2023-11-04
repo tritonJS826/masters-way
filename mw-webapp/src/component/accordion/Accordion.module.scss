@@ -1,6 +1,5 @@
 @import "src/styles/variables";
 
 .accordionRoot {
-  border-radius: $accordion-radius;
-  box-shadow: 0 2px 10px $lightgray;
+  box-shadow: 0 2px 10px $shadow-color;
 }

@@ -1,60 +1,8 @@
-// Button
-$button-background: rgb(177, 162, 149);
-$button-shadow: rgb(77, 77, 77);
-$button-active: rgb(246, 246, 150);
-$button-radius: 12px;
-$button-margin: 20px;
-
-// ProgressBar
-$progressBar-bg: rgb(255, 255, 255);
-
 // Font size
 $font-size-large: 48px;
 
 // Colors
-$lightblue: rgb(85, 122, 149);
-$lightgray: rgb(211, 211, 211);
-$lightgray2: #efefef;
-$black: rgb(0, 0, 0);
+$shadow-color: rgb(211, 211, 211);
+$primary-background: rgb(255, 255, 255);
 $transparent-black: rgba(0, 0, 0, 90%);
-$white: rgb(255, 255, 255);
-$green: rgb(0, 128, 0);
-$grey-35-transparent: rgba(14, 18, 22, 0.35);
-$grey-20-transparent: rgba(14, 18, 22, 0.2);
-$grey-10-transparent: rgba(14, 18, 22, 0.1);
-$red: rgb(216 15 15);
-
-// Borders
-$border-lightgray: 1px solid #ddd;
-
-// Accordion
-$accordion-radius: 6px;
-$accordion-margin: 10px auto;
-
-// Sidebar
-$sidebar-animation-time: 350ms;
-$sidebar-padding: 25px;
-$sidebar-width: 300px;
-$sidebar-button-size: 20px;
-$sidebar-button-offset: 5px;
-
-// Size
-$width-primary: 100%;
-$height-full: 100%;
-
-// Notification
-$notice-width: 90vw;
-$notice-max-width: 390px;
-$notice-margin: 15px;
-$notice-padding: 15px;
-$notice-radius: 6px;
-$notice-close-button-top: 10px;
-$notice-close-button-right: 10px;
-$notice-close-button-size: 25px;
-
-// Modal
-$overlay-background: rgba(0, 0, 0, 0.447);
-$modal-close-btn-top: 10px;
-$modal-close-btn-right: 10px;
-$modal-close-btn-size: 25px;
-$modal-animation-time: 150ms;
+$black: rgb(0, 0, 0);

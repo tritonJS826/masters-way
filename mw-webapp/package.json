@@ -5,7 +5,7 @@
   "main": "src/index.tsx",
   "scripts": {
     "start": "vite",
-    "build": "vite build",
+    "build": "vite build && echo \"Copying _redirects for netlify\" && cp ./deploy/_redirects ./build/_redirects",
     "serve": "vite preview",
     "lint-check": "eslint .",
     "lint-fix": "eslint . --fix",
