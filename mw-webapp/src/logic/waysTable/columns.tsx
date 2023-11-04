@@ -1,14 +1,14 @@
 import {createColumnHelper} from "@tanstack/react-table";
+import {Link} from "src/component/link/Link";
 import {renderCellValue} from "src/logic/waysTable/renderCellValue/renderCellValue";
-import {renderLinkInCell} from "src/logic/waysTable/renderLinkInCell/renderLinkInCell";
 import {GoalPreview} from "src/model/businessModelPreview/GoalPreview";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
+import {pages} from "src/router/pages";
 
 const columnHelper = createColumnHelper<WayPreview>();
 
-export const OWNER_NAME = "Owner's name";
-export const OWNER_EMAIL = "Owner's email";
+export const WAYS_OWNER = "Way's Owner";
 
 /**
  * Determines which columns will be in the table, the values in the cells and what types of data can be rendered in cells
@@ -26,7 +26,12 @@ export const columns = [
     /**
      * Cell with clickable way name that leads to way page
      */
-    cell: ({row}) => renderLinkInCell(`/way/${row.original.uuid}`, row.original.name),
+    cell: ({row}) => (
+      <Link
+        path={pages.way.path(row.original.uuid)}
+        value={row.original.name}
+      />
+    ),
   }),
   columnHelper.accessor<"isCompleted", boolean>("isCompleted", {
     header: "Is completed?",
@@ -45,20 +50,22 @@ export const columns = [
     cell: ({row}) => renderCellValue(row.original.goal.description),
   }),
   columnHelper.accessor<"owner", UserPreview>("owner", {
-    header: OWNER_NAME,
+    header: WAYS_OWNER,
 
     /**
-     * Cell with owner's name
+     * Cell with way's owner
      */
-    cell: ({row}) => renderCellValue(row.original.owner.name),
-  }),
-  columnHelper.accessor<"owner", UserPreview>("owner", {
-    header: OWNER_EMAIL,
-
-    /**
-     * Cell with owner's email
-     */
-    cell: ({row}) => renderCellValue(row.original.owner.email),
+    cell: ({row}) => {
+      return (
+        <>
+          <Link
+            path={pages.user.path(row.original.owner.uuid)}
+            value={row.original.owner.name}
+          />
+          {renderCellValue(row.original.owner.email)}
+        </>
+      );
+    },
   }),
   columnHelper.accessor<"currentMentors", UserPreview[]>("currentMentors", {
     header: "Current mentors",

@@ -1,17 +1,11 @@
 @import "src/styles/variables";
 
 .link {
-  color: $button-active;
+  color: $red;
   font-size: 18px;
-  text-shadow: 1px 1px 1px $button-shadow;
 
   &:hover {
     cursor: pointer;
-    text-shadow: 1px 1px 1px $button-active;
-  }
-
-  &:active {
-    color: $link-active;
   }
 }
 
