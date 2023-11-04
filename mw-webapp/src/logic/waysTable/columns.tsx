@@ -4,7 +4,7 @@ import {renderCellValue} from "src/logic/waysTable/renderCellValue/renderCellVal
 import {GoalPreview} from "src/model/businessModelPreview/GoalPreview";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
-import styles from "src/logic/waysTable/columns.module.scss";
+import {pages} from "src/router/pages";
 
 const columnHelper = createColumnHelper<WayPreview>();
 
@@ -28,9 +28,8 @@ export const columns = [
      */
     cell: ({row}) => (
       <Link
-        path={`/way/${row.original.uuid}`}
+        path={pages.way.path(row.original.uuid)}
         value={row.original.name}
-        className={styles.link}
       />
     ),
   }),
@@ -60,9 +59,8 @@ export const columns = [
       return (
         <>
           <Link
-            path={`/user/${row.original.owner.uuid}`}
+            path={pages.user.path(row.original.owner.uuid)}
             value={row.original.owner.name}
-            className={styles.link}
           />
           {renderCellValue(row.original.owner.email)}
         </>

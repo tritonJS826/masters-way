@@ -5,9 +5,6 @@ $button-active: rgb(246, 246, 150);
 $button-radius: 12px;
 $button-margin: 20px;
 
-// Link
-$link-active: rgb(255, 149, 0);
-
 // ProgressBar
 $progressBar-bg: rgb(255, 255, 255);
 
@@ -25,6 +22,7 @@ $green: rgb(0, 128, 0);
 $grey-35-transparent: rgba(14, 18, 22, 0.35);
 $grey-20-transparent: rgba(14, 18, 22, 0.2);
 $grey-10-transparent: rgba(14, 18, 22, 0.1);
+$red: rgb(216 15 15);
 
 // Borders
 $border-lightgray: 1px solid #dddddd;
@@ -54,7 +52,7 @@ $notice-close-button-top: 10px;
 $notice-close-button-right: 10px;
 $notice-close-button-size: 25px;
 
-//Modal
+// Modal
 $overlay-background: rgba(0, 0, 0, 0.447);
 $modal-close-btn-top: 10px;
 $modal-close-btn-right: 10px;

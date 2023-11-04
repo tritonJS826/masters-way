@@ -1,5 +1,4 @@
 import {Link as LinkFromRouter} from "react-router-dom";
-import clsx from "clsx";
 import styles from "src/component/link/Link.module.scss";
 
 /**
@@ -16,11 +15,6 @@ interface LinkProps {
    * Go to path page on link
    */
   path: string;
-
-  /**
-   * Additional custom class name for the component
-   */
-  className?: string;
 }
 
 /**
@@ -29,7 +23,7 @@ interface LinkProps {
 export const Link = (props: LinkProps) => {
   return (
     <LinkFromRouter
-      className={clsx(styles.link, props.className)}
+      className={styles.link}
       to={props.path}
     >
       {props.value}
