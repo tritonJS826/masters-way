@@ -12,16 +12,6 @@ import {SPACE} from "src/utils/unicodeSymbols";
 export class CurrentProblemDAL {
 
   /**
-   * Get CurrentProblems
-   */
-  public static async getCurrentProblems(): Promise<CurrentProblem[]> {
-    const currentProblemsDTO = await CurrentProblemService.getCurrentProblemsDTO();
-    const currentProblems = currentProblemsDTO.map(currentProblemDTOToCurrentProblemConverter);
-
-    return currentProblems;
-  }
-
-  /**
    * Get CurrentProblem by uuid
    */
   public static async getCurrentProblem(uuid: string): Promise<CurrentProblem> {

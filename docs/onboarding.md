@@ -10,12 +10,7 @@
 
 ### Resources
 
-1. [Project concept](https://youtu.be/4zDaMngvd28)
-2. [Github](https://github.com/tritonJS826/masters-way)
-3. Telegram group link (ask @Ekaterina)
-4. Firebase (ask @Ekaterina)
-5. [Demo app](https://mastersway.netlify.app/)
-6. [Prod app (not exist yet)](.)
+[Resources] https://docs.google.com/spreadsheets/d/1B4M-YhVFiwsQNFj41K1_yki4bBo9RJBZkc4fkt6Bq-Q/edit#gid=0
 
 ### Staff requirements
 

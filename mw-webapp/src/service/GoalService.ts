@@ -1,6 +1,7 @@
-import {collection, doc, getDocs, setDoc} from "firebase/firestore";
+import {collection, doc, getDoc, getDocs, setDoc} from "firebase/firestore";
 import {db} from "src/firebase";
 import {GoalDTO} from "src/model/DTOModel/GoalDTO";
+import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
 import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
 
 const PATH_TO_GOALS_COLLECTION = "goals";
@@ -23,6 +24,16 @@ export class GoalService {
     const goals: GoalDTO[] = querySnapshotToDTOConverter<GoalDTO>(goalsRaw);
 
     return goals;
+  }
+
+  /**
+   * Get GoalDTO
+   */
+  public static async getGoalDTO(uuid: string): Promise<GoalDTO> {
+    const goalRaw = await getDoc(doc(db, PATH_TO_GOALS_COLLECTION, uuid));
+    const goal: GoalDTO = documentSnapshotToDTOConverter<GoalDTO>(goalRaw);
+
+    return goal;
   }
 
   /**
