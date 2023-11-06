@@ -14,11 +14,7 @@ export class WayPreviewDAL {
    */
   public static async getWaysPreview(): Promise<WayPreview[]> {
     const waysDTO = await WayService.getWaysDTO();
-    const waysUuids = waysDTO.map((item) => {
-      const wayUuid = item.uuid;
-
-      return wayUuid;
-    });
+    const waysUuids = waysDTO.map((item) => item.uuid);
 
     const waysPreview = await Promise.all(waysUuids.map(async (wayUuid) => {
       const wayPreview = await WayPreviewDAL.getWayPreview(wayUuid);
