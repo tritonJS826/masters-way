@@ -13,7 +13,7 @@ export interface ButtonProps {
   /**
    * Callback triggered on button click
    */
-  onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 
   /**
    * Data attribute for cypress testing
