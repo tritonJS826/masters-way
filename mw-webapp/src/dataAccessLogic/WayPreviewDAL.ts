@@ -34,17 +34,16 @@ export class WayPreviewDAL {
    */
   public static async getWayPreview(uuid: string): Promise<WayPreview> {
     const wayDTO = await WayService.getWayDTO(uuid);
-    const {ownerUuid, currentMentorUuids, goalUuid} = wayDTO;
 
-    const owner = await UserPreviewDAL.getUserPreview(ownerUuid);
+    const owner = await UserPreviewDAL.getUserPreview(wayDTO.ownerUuid);
 
-    const currentMentors = await Promise.all(currentMentorUuids.map(async (currentMentorUuid) => {
+    const currentMentors = await Promise.all(wayDTO.currentMentorUuids.map(async (currentMentorUuid) => {
       const currentMentor = await UserPreviewDAL.getUserPreview(currentMentorUuid);
 
       return currentMentor;
     }));
 
-    const goal = await GoalPreviewDAL.getGoalPreview(goalUuid);
+    const goal = await GoalPreviewDAL.getGoalPreview(wayDTO.goalUuid);
 
     const wayPreviewProps = {
       owner,
