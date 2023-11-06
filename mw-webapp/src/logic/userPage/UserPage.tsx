@@ -1,7 +1,5 @@
 import {Navigate, useParams} from "react-router-dom";
-import {Button} from "src/component/button/Button";
 import {HeadingLevel, Title} from "src/component/title/Title";
-import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
 import {QueryParamTypes} from "src/logic/QueryParamTypes";
 import {FavoriteWaysTable} from "src/logic/waysTable/FavoriteWaysTable";
 import {MentoringWaysTable} from "src/logic/waysTable/MentoringWaysTable";
@@ -24,10 +22,6 @@ export const UserPage = () => {
       {uuid
         ? (
           <>
-            <Button
-              value="Create new way"
-              onClick={() => WayPreviewDAL.createWayPreview(uuid)}
-            />
             <Title
               text="Own ways"
               level={HeadingLevel.h3}

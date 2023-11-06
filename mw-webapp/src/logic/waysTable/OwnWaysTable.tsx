@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+import {Button} from "src/component/button/Button";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
 import {columns, WAYS_OWNER} from "src/logic/waysTable/columns";
 import {WaysTable} from "src/logic/waysTable/WaysTable";
@@ -33,6 +34,14 @@ export const OwnWaysTable = (props: PropsWithUuid) => {
     loadOwnWays();
   }, []);
 
+  /**
+   * Create way
+   */
+  const createWay = async(id: string) => {
+    await WayPreviewDAL.createWayPreview(id);
+    loadOwnWays();
+  };
+
   const columnsToExclude = [WAYS_OWNER];
 
   const ownWaysTableColumns = columns.filter(column => {
@@ -42,9 +51,19 @@ export const OwnWaysTable = (props: PropsWithUuid) => {
   });
 
   return (
-    <WaysTable
-      data={ownWays}
-      columns={ownWaysTableColumns}
-    />
+    <>
+      {props.uuid ?
+        <Button
+          value="Create new way"
+          onClick={() => createWay(props.uuid)}
+        />
+        :
+        null
+      }
+      <WaysTable
+        data={ownWays}
+        columns={ownWaysTableColumns}
+      />
+    </>
   );
 };
