@@ -11,16 +11,6 @@ import {SPACE} from "src/utils/unicodeSymbols";
 export class JobDoneDAL {
 
   /**
-   * Get JobsDone
-   */
-  public static async getJobsDone(): Promise<JobDone[]> {
-    const jobsDoneDTO = await JobDoneService.getJobsDoneDTO();
-    const jobsDone = jobsDoneDTO.map(jobDoneDTOToJobDoneConverter);
-
-    return jobsDone;
-  }
-
-  /**
    * Get JobDone by uuid
    */
   public static async getJobDone(uuid: string): Promise<JobDone> {
