@@ -16,6 +16,12 @@ interface ReportsTableProps {
    * Reports table columns type
    * It's a bug of tanstack. We can't use type instead of any in this case.
    * That because this type depends on type of each columns of table.
+   * The tanstack table has a bug about typing columns:
+   * https://github.com/TanStack/table/issues/4382
+   * According to creators should only be using the column helper and not pre-typing columns
+   * We can add type as:
+   * ColumnDef<DayReport, Date & JobDone[] & PlanForNextPeriod[] & CurrentProblem[] & MentorComment[] & string[] & boolean>
+   * but it's not recommend by creators
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   columns: ColumnDef<DayReport, any>[];

@@ -40,7 +40,7 @@ export class WayService {
   /**
    * Create WayDTO
    */
-  public static async createWayDTO(wayDTOWithoutUuid: WayDTOWithoutUuid) {
+  public static async createWayDTO(wayDTOWithoutUuid: WayDTOWithoutUuid): Promise<WayDTO> {
     const docRef = doc(collection(db, PATH_TO_WAYS_COLLECTION));
     const wayDTO: WayDTO = {
       ...wayDTOWithoutUuid,
@@ -48,6 +48,8 @@ export class WayService {
     };
 
     await setDoc(docRef, wayDTO);
+
+    return wayDTO;
   }
 
   /**

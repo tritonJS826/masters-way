@@ -37,9 +37,10 @@ export const OwnWaysTable = (props: PropsWithUuid) => {
   /**
    * Create way
    */
-  const createWay = async(id: string) => {
-    await WayPreviewDAL.createWayPreview(id);
-    loadOwnWays();
+  const createWay = async(userUuid: string, waysData: WayPreview[]) => {
+    const newWay = await WayPreviewDAL.createWayPreview(userUuid);
+    const ways = [...waysData, newWay];
+    setOwnWays(ways);
   };
 
   const columnsToExclude = [WAYS_OWNER];
@@ -55,7 +56,7 @@ export const OwnWaysTable = (props: PropsWithUuid) => {
       {props.uuid ?
         <Button
           value="Create new way"
-          onClick={() => createWay(props.uuid)}
+          onClick={() => createWay(props.uuid, ownWays)}
         />
         :
         null

@@ -11,7 +11,7 @@ import styles from "src/logic/userPage/UserPage.module.scss";
  * User page
  */
 export const UserPage = () => {
-  const {uuid} = useParams<QueryParamTypes["uuid"]>();
+  const {uuid} = useParams<QueryParamTypes>();
 
   return (
     <div className={styles.container}>
