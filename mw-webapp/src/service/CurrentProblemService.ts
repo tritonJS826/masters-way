@@ -1,8 +1,7 @@
-import {collection, doc, getDoc, getDocs, setDoc, updateDoc} from "firebase/firestore";
+import {collection, doc, getDoc, setDoc, updateDoc} from "firebase/firestore";
 import {db} from "src/firebase";
 import {CurrentProblemDTO} from "src/model/DTOModel/CurrentProblemDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
-import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
 
 const PATH_TO_CURRENT_PROBLEMS_COLLECTION = "currentProblems";
 
@@ -15,16 +14,6 @@ export type CurrentProblemDTOWithoutUuid = Omit<CurrentProblemDTO, "uuid">;
  * Provides methods to interact with the CurrentProblems collection
  */
 export class CurrentProblemService {
-
-  /**
-   * Get CurrentProblemsDTO
-   */
-  public static async getCurrentProblemsDTO(): Promise<CurrentProblemDTO[]> {
-    const currentProblemsRaw = await getDocs(collection(db, PATH_TO_CURRENT_PROBLEMS_COLLECTION));
-    const currentProblems: CurrentProblemDTO[] = querySnapshotToDTOConverter<CurrentProblemDTO>(currentProblemsRaw);
-
-    return currentProblems;
-  }
 
   /**
    * Get CurrentProblemDTO by Uuid

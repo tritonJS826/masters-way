@@ -1,20 +1,6 @@
-@import "src/styles/variables";
-
 .header {
   display: flex;
   width: 100%;
   align-items: center;
   justify-content: space-between;
-  padding: 0 1rem;
-}
-
-.title {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.blockButton {
-  display: flex;
-  align-items: center;
 }

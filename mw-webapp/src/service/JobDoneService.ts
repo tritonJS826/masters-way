@@ -1,8 +1,7 @@
-import {collection, doc, getDoc, getDocs, setDoc, updateDoc} from "firebase/firestore";
+import {collection, doc, getDoc, setDoc, updateDoc} from "firebase/firestore";
 import {db} from "src/firebase";
 import {JobDoneDTO} from "src/model/DTOModel/JobDoneDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
-import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
 
 const PATH_TO_JOBS_DONE_COLLECTION = "jobsDone";
 
@@ -15,16 +14,6 @@ export type JobDoneDTOWithoutUuid = Omit<JobDoneDTO, "uuid">;
  * Provides methods to interact with the JobsDone collection
  */
 export class JobDoneService {
-
-  /**
-   * Get JobsDoneDTO
-   */
-  public static async getJobsDoneDTO(): Promise<JobDoneDTO[]> {
-    const jobsDoneRaw = await getDocs(collection(db, PATH_TO_JOBS_DONE_COLLECTION));
-    const jobsDone: JobDoneDTO[] = querySnapshotToDTOConverter<JobDoneDTO>(jobsDoneRaw);
-
-    return jobsDone;
-  }
 
   /**
    * Get JobDoneDTO by Uuid
