@@ -19,6 +19,33 @@ const LOGO_TEXT = "master's way";
 export const Header = () => {
   const [user, setUser] = useState<User | null>(null);
 
+  const navigationLinks = [
+    {
+      path: pages.allWays.path,
+      value: "All ways",
+    },
+    {
+      path: pages.allUsers.path,
+      value: "All users",
+    },
+    user && {
+      path: pages.way.path(user.uid),
+      value: "Workflow",
+    },
+    user && {
+      path: pages.user.path(user.uid),
+      value: "My ways",
+    },
+    user && {
+      path: pages.userProfile.path(user.uid),
+      value: "Profile",
+    },
+    {
+      path: pages.aboutProject.path,
+      value: "About",
+    },
+  ];
+
   useEffect(() => {
     handleUserAuthState(setUser);
   }, []);
@@ -45,39 +72,19 @@ export const Header = () => {
           }
           content={
             <div className={styles.navSidebarContent}>
-              <Link
-                path={pages.allWays.path}
-                value={"All ways"}
-              />
-              <Link
-                path={pages.allUsers.path}
-                value={"All users"}
-              />
-              {user && (
-                <>
+              {navigationLinks.map((item) => (
+                item && (
                   <Link
-                    path={pages.way.path(user.uid)}
-                    value={"Workflow"}
+                    key={item.value}
+                    path={item.path}
+                    value={item.value}
                   />
-                  <Link
-                    path={pages.user.path(user.uid)}
-                    value={"My ways"}
-                  />
-                  <Link
-                    path={pages.userProfile.path(user.uid)}
-                    value={"Profile"}
-                  />
-                </>
-              )}
-              <Link
-                path={pages.aboutProject.path}
-                value={"About"}
-              />
+                )
+              ))}
             </div>
           }
         />
       </div>
     </div>
-  )
-  ;
+  );
 };
