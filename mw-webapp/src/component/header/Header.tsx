@@ -1,9 +1,9 @@
 import {useEffect, useState} from "react";
 import {User} from "firebase/auth";
 import {Button} from "src/component/button/Button";
-import {HeadingLevel, Title} from "src/component/title/Title";
 import {Link} from "src/component/link/Link";
 import {Sidebar} from "src/component/sidebar/Sidebar";
+import {HeadingLevel, Title} from "src/component/title/Title";
 import {pages} from "src/router/pages";
 import {handleUserAuthState} from "src/service/auth/handleUserAuthState";
 import {logIn} from "src/service/auth/logIn";
