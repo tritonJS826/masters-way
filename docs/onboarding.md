@@ -10,7 +10,7 @@
 
 ### Resources
 
-[Resources] https://docs.google.com/spreadsheets/d/1B4M-YhVFiwsQNFj41K1_yki4bBo9RJBZkc4fkt6Bq-Q/edit#gid=0
+[Resources] https://drive.google.com/drive/folders/1q0d6492Qeu2LWT7HqgPVgkKoUdRuPXLy?usp=sharing
 
 ### Staff requirements
 
