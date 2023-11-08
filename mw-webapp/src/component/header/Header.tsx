@@ -15,12 +15,43 @@ const BUTTON_LOG_OUT_VALUE = "Logout";
 const LOGO_TEXT = "master's way";
 
 /**
+ * Navigation link props.
+ */
+interface navigationLink {
+
+  /**
+   * Navigation link path.
+   */
+  path: string;
+
+  /**
+   * Navigation link value.
+   */
+  value: string;
+}
+
+/**
+ * Renders navigation links based on the provided navigationLinks array.
+ */
+const renderNavigationLinks = (navigationLinks: (navigationLink | null)[]) => {
+  return navigationLinks.map((item) => (
+    item && (
+      <Link
+        key={item.value}
+        path={item.path}
+        value={item.value}
+      />
+    )
+  ));
+};
+
+/**
  * Header component
  */
 export const Header = () => {
   const [user, setUser] = useState<User | null>(null);
 
-  const navigationLinks = [
+  const navigationLinks: (navigationLink | null)[] = [
     {
       path: pages.allWays.path,
       value: "All ways",
@@ -72,20 +103,13 @@ export const Header = () => {
           trigger={
             <Button
               value={"Navigation"}
-              onClick={() => {}}
+              onClick={() => {
+              }}
             />
           }
           content={
             <div className={styles.navSidebarContent}>
-              {navigationLinks.map((item) => (
-                item && (
-                  <Link
-                    key={item.value}
-                    path={item.path}
-                    value={item.value}
-                  />
-                )
-              ))}
+              {renderNavigationLinks(navigationLinks)}
             </div>
           }
         />
