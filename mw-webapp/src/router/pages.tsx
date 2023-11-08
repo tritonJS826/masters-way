@@ -20,7 +20,7 @@ export const pages = {
      * @param {string} uuid Could be param name (if we want to create new path) OR could be user uuid.
      * @returns {string} path to react-router OR Specific URl path to specific user
      */
-    path: (uuid: string): string => `user/${uuid}`,
+    path: (uuid: string): string => `/user/${uuid}`,
     element: <UserPage />,
   },
   way: {
@@ -29,11 +29,11 @@ export const pages = {
      * @param {string} uuid Could be param name (if we want to create new path) OR could be way uuid.
      * @returns {string} path to react-router OR Specific URl path to specific way
      */
-    path: (uuid: string): string => `way/${uuid}`,
+    path: (uuid: string): string => `/way/${uuid}`,
     element: <WayPage />,
   },
   allUsers: {
-    path: "users",
+    path: "/users",
     element: <AllUsersPage />,
   },
   userProfile: {
@@ -42,11 +42,11 @@ export const pages = {
      * @param {string} uuid Could be param name (if we want to create new path) OR could be userProfile uuid.
      * @returns {string} path to react-router OR Specific URl path to specific userProfile
      */
-    path: (uuid: string): string => `userProfile/${uuid}`,
+    path: (uuid: string): string => `/userProfile/${uuid}`,
     element: <UserProfilePage />,
   },
   aboutProject: {
-    path: "aboutProject",
+    path: "/aboutProject",
     element: <AboutProjectPage />,
   },
   page404: {
