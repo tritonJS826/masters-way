@@ -12,16 +12,6 @@ import {SPACE} from "src/utils/unicodeSymbols";
 export class MentorCommentDAL {
 
   /**
-   * Get MentorComments
-   */
-  public static async getMentorComments(): Promise<MentorComment[]> {
-    const mentorCommentsDTO = await MentorCommentService.getMentorCommentsDTO();
-    const mentorComments = mentorCommentsDTO.map(mentorCommentDTOToMentorCommentConverter);
-
-    return mentorComments;
-  }
-
-  /**
    * Get MentorComment by uuid
    */
   public static async getMentorComment(uuid: string): Promise<MentorComment> {

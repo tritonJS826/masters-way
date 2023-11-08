@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import {User} from "firebase/auth";
 import {Button} from "src/component/button/Button";
+import {HeadingLevel, Title} from "src/component/title/Title";
 import {Link} from "src/component/link/Link";
 import {Sidebar} from "src/component/sidebar/Sidebar";
 import {pages} from "src/router/pages";
@@ -52,16 +53,17 @@ export const Header = () => {
 
   return (
     <div className={styles.header}>
-      <h1 className={styles.title}>
-        {LOGO_TEXT.toUpperCase()}
-      </h1>
-      {user && <h2 className={styles.title}>
-        Hello,
-        {" "}
-        {user.displayName}
-        !
-      </h2>}
-      <div className={styles.blockButton}>
+      <Title
+        level={HeadingLevel.h1}
+        text={LOGO_TEXT.toUpperCase()}
+      />
+      {user &&
+        <Title
+          level={HeadingLevel.h2}
+          text={`Hello, ${user.displayName}!`}
+        />
+      }
+      <div>
         <Button
           onClick={user ? logOut : logIn}
           value={user ? BUTTON_LOG_OUT_VALUE : BUTTON_LOG_IN_VALUE}
