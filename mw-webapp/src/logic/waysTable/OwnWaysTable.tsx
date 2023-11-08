@@ -53,13 +53,11 @@ export const OwnWaysTable = (props: PropsWithUuid) => {
 
   return (
     <>
-      {props.uuid ?
+      {props.uuid &&
         <Button
           value="Create new way"
           onClick={() => createWay(props.uuid, ownWays)}
         />
-        :
-        null
       }
       <WaysTable
         data={ownWays}
