@@ -68,7 +68,10 @@ export const Header = () => {
         />
         <Sidebar
           trigger={
-            <Button value={"Navigation"} />
+            <Button
+              value={"Navigation"}
+              onClick={() => {}}
+            />
           }
           content={
             <div className={styles.navSidebarContent}>
