@@ -4,9 +4,9 @@ import styles from "src/logic/reportsTable/columns.module.scss";
 /**
  * Render Cell span with text
  */
-const renderCellSpanWithValue = (value: string, isDone?: boolean) => (
+const renderCellSpanWithValue = (value: string, isDone?: boolean, time?: boolean) => (
   <span className={isDone ? styles.completed : styles.notCompleted}>
-    {value}
+    {time ? `${value} minutes` : value}
   </span>
 );
 
@@ -14,7 +14,7 @@ const renderCellSpanWithValue = (value: string, isDone?: boolean) => (
  * Render empty span
  */
 const renderCellEmptySpan = () => (
-  <span className={styles.notCompleted}>
+  <span className={styles.emptyInput}>
     {SPACE}
   </span>
 );
@@ -22,9 +22,9 @@ const renderCellEmptySpan = () => (
 /**
  * Render cell's span
  */
-export const renderCellSpan = (value: string, isDone?: boolean) => (
-  (value) ?
-    renderCellSpanWithValue(value, isDone)
+export const renderCellSpan = (value: string, isDone?: boolean, time?: boolean) => (
+  (value !== SPACE) ?
+    renderCellSpanWithValue(value, isDone, time)
     :
     renderCellEmptySpan()
 );

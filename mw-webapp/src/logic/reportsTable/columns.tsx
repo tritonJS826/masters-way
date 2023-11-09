@@ -9,6 +9,7 @@ import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {MentorComment} from "src/model/businessModel/MentorComment";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
+import styles from "src/logic/reportsTable/columns.module.scss";
 
 const DEFAULT_SUMMARY_TIME = 0;
 
@@ -53,12 +54,21 @@ export const columns = [
      */
     cell: ({row}) => {
       return (
-        <div>
+        <div className={styles.cell}>
           {row.original.jobsDone
-            .map((jobDoneItem) => (renderCellItem({content: jobDoneItem.getJobDone(), arrayItem: jobDoneItem})))
+            .map((jobDoneItem) => (
+              <div
+                className={styles.cellItem}
+                key={jobDoneItem.uuid}
+              >
+                {renderCellItem({content: jobDoneItem.description, arrayItem: jobDoneItem})}
+                {renderCellItem({content: `${jobDoneItem.time}`, arrayItem: jobDoneItem, time: true})}
+              </div>
+            ),
+            )
           }
           <Button
-            value="add job done"
+            value="add job"
             onClick={() => addCellItem({rowUuid: row.original.uuid, dataType: "JobDone"})}
           />
         </div>
@@ -73,13 +83,21 @@ export const columns = [
      */
     cell: ({row}) => {
       return (
-        <div>
+        <div className={styles.cell}>
           {row.original.plansForNextPeriod
-            .map((planForNextPeriod) =>
-              (renderCellItem({content: planForNextPeriod.getPlanForNextPeriod(), arrayItem: planForNextPeriod})))
+            .map((planForNextPeriod) => (
+              <div
+                className={styles.cellItem}
+                key={planForNextPeriod.uuid}
+              >
+                {renderCellItem({content: planForNextPeriod.job, arrayItem: planForNextPeriod})}
+                {renderCellItem({content: `${planForNextPeriod.estimationTime}`, arrayItem: planForNextPeriod, time: true})}
+              </div>
+            ),
+            )
           }
           <Button
-            value="Add plan for tomorrow"
+            value="Add plan"
             onClick={() => addCellItem({rowUuid: row.original.uuid, dataType: "PlanForNextPeriod"})}
           />
         </div>

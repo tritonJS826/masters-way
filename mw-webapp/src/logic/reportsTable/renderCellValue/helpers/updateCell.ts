@@ -1,8 +1,10 @@
 import {updateCurrentProblem} from "src/logic/reportsTable/renderCellValue/helpers/updateCurrentProblem";
 import {updateDayReport} from "src/logic/reportsTable/renderCellValue/helpers/updateDayReport";
 import {updateJobDone} from "src/logic/reportsTable/renderCellValue/helpers/updateJobDone";
+import {updateJobDoneTime} from "src/logic/reportsTable/renderCellValue/helpers/updateJobDoneTime";
 import {updateMentorComment} from "src/logic/reportsTable/renderCellValue/helpers/updateMentorComment";
 import {updatePlanForNextPeriod} from "src/logic/reportsTable/renderCellValue/helpers/updatePlanForNextPeriod";
+import {updatePlanForNextPeriodTime} from "src/logic/reportsTable/renderCellValue/helpers/updatePlanForNextPeriodTime";
 import {ColumnNameProps} from "src/logic/reportsTable/renderCellValue/renderCellItem";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {JobDone} from "src/model/businessModel/JobDone";
@@ -14,6 +16,9 @@ const updateCellsFunctions: Record<string, (text: string, uuid: string) => Promi
   updatePlanForNextPeriod,
   updateCurrentProblem,
   updateMentorComment,
+  updateJobDoneTime,
+  updatePlanForNextPeriodTime,
+
 };
 
 /**
@@ -34,12 +39,17 @@ export const updateCell = (
   text: string,
   callback: (arg: boolean) => void,
   arrayItem?: JobDone | PlanForNextPeriod | CurrentProblem | MentorComment,
+  time?: boolean,
   parentUuid?: string,
   columnName?: keyof ColumnNameProps,
   index?: number,
 ) => {
-  if (arrayItem) {
-    updateCells(`update${arrayItem.constructor.name}`, text, arrayItem.uuid);
+  if (arrayItem && time) {
+    if (time) {
+      updateCells(`update${arrayItem.constructor.name}Time`, text, arrayItem.uuid);
+    } else {
+      updateCells(`update${arrayItem.constructor.name}`, text, arrayItem.uuid);
+    }
   } else if (parentUuid && columnName && index) {
     updateDayReport(text, parentUuid, columnName, index);
   }

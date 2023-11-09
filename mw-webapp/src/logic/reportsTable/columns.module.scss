@@ -3,5 +3,27 @@
 }
 
 .notCompleted {
+  width: 100%;
   color: black;
+}
+
+.cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+}
+
+.cellItem {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+.emptyInput {
+  display: block;
+  width: 50px;
 }

@@ -39,6 +39,11 @@ interface CellItemProps {
   arrayItem?: JobDone | PlanForNextPeriod | CurrentProblem | MentorComment;
 
   /**
+   * TODO: ADd description!!!
+   */
+  time?: boolean;
+
+  /**
    * Parent uuid for cells with type string
    */
   parentUuid?: string;
@@ -70,7 +75,7 @@ export const renderCellItem = (props: CellItemProps) => {
    * Update cell value after onBlur event
    */
   const handleBlur = async () => {
-    updateCell(text, setIsEditing, props.arrayItem, props.parentUuid, props.columnName, props.index);
+    updateCell(text, setIsEditing, props.arrayItem, props.time, props.parentUuid, props.columnName, props.index);
   };
 
   /**
@@ -78,7 +83,7 @@ export const renderCellItem = (props: CellItemProps) => {
    */
   const handleEnter = async (event: React.KeyboardEvent<HTMLElement>) => {
     if (event.key === "Enter") {
-      updateCell(text, setIsEditing, props.arrayItem, props.parentUuid, props.columnName, props.index);
+      updateCell(text, setIsEditing, props.arrayItem, props.time, props.parentUuid, props.columnName, props.index);
     }
   };
 
@@ -103,7 +108,7 @@ export const renderCellItem = (props: CellItemProps) => {
       {isEditing
         ? renderInput()
         :
-        renderCellSpan(text, props.isListItemDone)
+        renderCellSpan(text, props.isListItemDone, props.time)
       }
     </div>
   );
