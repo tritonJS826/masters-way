@@ -4,3 +4,8 @@
   align-items: center;
   justify-content: space-between;
 }
+
+.navSidebarContent {
+  display: flex;
+  flex-direction: column;
+}
