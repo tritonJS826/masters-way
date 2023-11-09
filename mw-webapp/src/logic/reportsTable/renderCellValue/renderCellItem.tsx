@@ -39,7 +39,7 @@ interface CellItemProps {
   arrayItem?: JobDone | PlanForNextPeriod | CurrentProblem | MentorComment;
 
   /**
-   * TODO: ADd description!!!
+   * Value of time that was need or will need for jobDone or PlanForNextPeriod
    */
   time?: boolean;
 
@@ -108,7 +108,7 @@ export const renderCellItem = (props: CellItemProps) => {
       {isEditing
         ? renderInput()
         :
-        renderCellSpan(text, props.isListItemDone, props.time)
+        renderCellSpan(text, props.isListItemDone)
       }
     </div>
   );

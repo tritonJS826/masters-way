@@ -44,7 +44,7 @@ export const updateCell = (
   columnName?: keyof ColumnNameProps,
   index?: number,
 ) => {
-  if (arrayItem && time) {
+  if (arrayItem) {
     if (time) {
       updateCells(`update${arrayItem.constructor.name}Time`, text, arrayItem.uuid);
     } else {

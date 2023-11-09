@@ -9,6 +9,7 @@ import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {MentorComment} from "src/model/businessModel/MentorComment";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
+import {DOT} from "src/utils/unicodeSymbols";
 import styles from "src/logic/reportsTable/columns.module.scss";
 
 const DEFAULT_SUMMARY_TIME = 0;
@@ -47,7 +48,7 @@ export const columns = [
     }),
   }),
   columnHelper.accessor<"jobsDone", JobDone[]>("jobsDone", {
-    header: "Jobs done",
+    header: "Jobs done (minutes)",
 
     /**
      * Cell with JobsDone items
@@ -57,13 +58,14 @@ export const columns = [
         <div className={styles.cell}>
           {row.original.jobsDone
             .map((jobDoneItem) => (
-              <div
+              <li
                 className={styles.cellItem}
                 key={jobDoneItem.uuid}
               >
                 {renderCellItem({content: jobDoneItem.description, arrayItem: jobDoneItem})}
+                {DOT}
                 {renderCellItem({content: `${jobDoneItem.time}`, arrayItem: jobDoneItem, time: true})}
-              </div>
+              </li>
             ),
             )
           }
@@ -76,7 +78,7 @@ export const columns = [
     },
   }),
   columnHelper.accessor<"plansForNextPeriod", PlanForNextPeriod[]>("plansForNextPeriod", {
-    header: "Plans for tomorrow",
+    header: "Plans for tomorrow (minutes)",
 
     /**
      * Cell with PlanForNextPeriod items
@@ -91,6 +93,7 @@ export const columns = [
                 key={planForNextPeriod.uuid}
               >
                 {renderCellItem({content: planForNextPeriod.job, arrayItem: planForNextPeriod})}
+                {DOT}
                 {renderCellItem({content: `${planForNextPeriod.estimationTime}`, arrayItem: planForNextPeriod, time: true})}
               </div>
             ),
