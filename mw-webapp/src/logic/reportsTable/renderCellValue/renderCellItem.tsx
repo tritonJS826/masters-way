@@ -39,7 +39,7 @@ interface CellItemProps {
   arrayItem?: JobDone | PlanForNextPeriod | CurrentProblem | MentorComment;
 
   /**
-   * Value of time that was need or will need for jobDone or PlanForNextPeriod
+   * Is input include time amount
    */
   time?: boolean;
 

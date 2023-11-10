@@ -63,7 +63,9 @@ export const columns = [
                 key={jobDoneItem.uuid}
               >
                 {renderCellItem({content: jobDoneItem.description, arrayItem: jobDoneItem})}
-                {DOT}
+                <div className={styles.dot}>
+                  {DOT}
+                </div>
                 {renderCellItem({content: `${jobDoneItem.time}`, arrayItem: jobDoneItem, time: true})}
               </li>
             ),
@@ -93,7 +95,9 @@ export const columns = [
                 key={planForNextPeriod.uuid}
               >
                 {renderCellItem({content: planForNextPeriod.job, arrayItem: planForNextPeriod})}
-                {DOT}
+                <div className={styles.dot}>
+                  {DOT}
+                </div>
                 {renderCellItem({content: `${planForNextPeriod.estimationTime}`, arrayItem: planForNextPeriod, time: true})}
               </div>
             ),

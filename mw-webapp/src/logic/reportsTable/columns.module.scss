@@ -12,18 +12,28 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  counter-reset: cnt;
   gap: 5px;
 }
 
 .cellItem {
+  position: relative;
   display: flex;
   width: 100%;
   align-items: flex-start;
   justify-content: space-between;
+  padding-left: 10px;
+  counter-increment: cnt;
   gap: 15px;
 }
 
 .emptyInput {
   display: block;
   width: 50px;
+}
+
+.dot::before {
+  position: absolute;
+  left: -5px;
+  content: counter(cnt) ". ";
 }
