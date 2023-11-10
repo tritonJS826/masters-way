@@ -4,7 +4,7 @@
 
 - [] show user name (3h)
 - [x] render own ways table
-    - [] fix button create new way (new should be visible) (9h)
+    - [x] fix button create new way (new should be visible) (9h)
     - [] add ability to edit own way (way name, goal etc) (12h)
     - [] add ability to delete way (12h)
 - [x] render mentoring ways table
@@ -14,7 +14,7 @@
 
 ## WayPage
 
-- [] fix button create new day report (new should be visible without page reloading) (12h)
+- [x] fix button create new day report (new should be visible without page reloading) (12h)
 - [] add button "become a mentor" which put the way into your mentors ways (18h)
 - [] show mentors (link to user page) in the mentor comments (12h)
 - [] add button "favorite" which put the way into your favorite ways (add field favorite to WayDTO) (24h)
