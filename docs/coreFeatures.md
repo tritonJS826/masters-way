@@ -17,8 +17,6 @@
 - [] fix button create new day report (new should be visible without page reloading) (12h)
 - [] add button "become a mentor" which put the way into your mentors ways (18h)
 - [] show mentors (link to user page) in the mentor comments (12h)
-- [] add button "favorite" which put the way into your favorite ways (add field favorite to WayDTO) (24h)
-- [] show number favorite (increased when somebody add the way to favorite and decreased when somebody remove the way from favorite) (9h)
 - [] render goal (description) (9h)
 - [] render way name (6h)
 
@@ -26,7 +24,6 @@
 
 - [x] render all ways table
 - [] add links to mentors (9h)
-- [] show number favorite (12h)
 
 ## AllUsersPage
 
@@ -48,13 +45,16 @@
 
 ## Additional feature
 
-- [] donates
-- [] sent feedback (add lambda to netlify)
+- [] AllWaysPage: show number favorite (12h)
+- [] WayPage: add button "favorite" which put the way into your favorite ways (add field favorite to WayDTO) (24h)
+- [] WayPage: show number favorite (increased when somebody add the way to favorite and decreased when somebody remove the way from favorite) (9h)
+- [] AboutProjectPage: donates
+- [] AboutProjectPage: sent feedback (add lambda to netlify)
 - [] UserProfilePage: attach resource (pdf for cv for example)
 - [] AllWaysPage: search/filter panel
 - [] AllUsersPage: search/filter panel
 - [] UserPage: add visual notifications which favourite and mentoring ways changed
-- [] attach files, images, videos to records
+- [] WayPage: attach files, images, videos to records
 - [] chat with mentor
 - [] public/private ways
 - [] public/private users

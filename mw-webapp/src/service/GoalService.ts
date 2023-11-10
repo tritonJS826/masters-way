@@ -1,4 +1,4 @@
-import {collection, doc, getDoc, getDocs, setDoc} from "firebase/firestore";
+import {collection, doc, getDoc, getDocs, setDoc, updateDoc} from "firebase/firestore";
 import {db} from "src/firebase";
 import {GoalDTO} from "src/model/DTOModel/GoalDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
@@ -49,6 +49,13 @@ export class GoalService {
     await setDoc(docRef, DEFAULT_GOAL);
 
     return DEFAULT_GOAL;
+  }
+
+  /**
+   * Update GoalDTO
+   */
+  public static async updateGoalDTO(goalDTO: GoalDTO, uuid: string) {
+    await updateDoc(doc(db, PATH_TO_GOALS_COLLECTION, uuid), {...goalDTO});
   }
 
 }

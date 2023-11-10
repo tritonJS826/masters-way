@@ -26,12 +26,19 @@ export const columns = [
     /**
      * Cell with clickable way name that leads to way page
      */
-    cell: ({row}) => (
-      <Link
-        path={pages.way.path(row.original.uuid)}
-        value={row.original.name}
-      />
-    ),
+    cell: ({row}) => {
+      const parentUuid = row.original.uuid;
+
+      return (
+        <div>
+          {renderCellValue({content: row.original.name, parentUuid, columnName: "name"})}
+          <Link
+            path={pages.way.path(row.original.uuid)}
+            value="See details"
+          />
+        </div>
+      );
+    },
   }),
   columnHelper.accessor<"isCompleted", boolean>("isCompleted", {
     header: "Is completed?",
@@ -39,7 +46,7 @@ export const columns = [
     /**
      * Cell with isCompleted value
      */
-    cell: (cellValue) => renderCellValue(`${cellValue.getValue()}`),
+    cell: (cellValue) => renderCellValue({content: `${cellValue.getValue()}`}),
   }),
   columnHelper.accessor<"goal", GoalPreview>("goal", {
     header: "Goal",
@@ -47,7 +54,7 @@ export const columns = [
     /**
      * Cell with isCompleted value
      */
-    cell: ({row}) => renderCellValue(row.original.goal.description),
+    cell: ({row}) => renderCellValue({content: row.original.goal.description, arrayItem: row.original.goal}),
   }),
   columnHelper.accessor<"owner", UserPreview>("owner", {
     header: WAYS_OWNER,
@@ -62,7 +69,7 @@ export const columns = [
             path={pages.user.path(row.original.owner.uuid)}
             value={row.original.owner.name}
           />
-          {renderCellValue(row.original.owner.email)}
+          {renderCellValue({content: row.original.owner.email})}
         </>
       );
     },
@@ -75,7 +82,7 @@ export const columns = [
      */
     cell: ({row}) => {
       return (
-        row.original.currentMentors.map((currentMentor) => renderCellValue(currentMentor.name))
+        row.original.currentMentors.map((currentMentor) => renderCellValue({content: currentMentor.name}))
       );
     },
   }),

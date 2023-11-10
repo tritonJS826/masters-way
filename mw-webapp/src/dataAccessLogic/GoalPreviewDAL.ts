@@ -1,4 +1,5 @@
 import {goalDTOToGoalPreviewConverter} from "src/dataAccessLogic/DTOToPreviewConverter/goalDTOToGoalPreviewConverter";
+import {goalPreviewToGoalDTOConverter} from "src/dataAccessLogic/PreviewToDTOConverter/goalPreviewToGoalDTOConverter";
 import {GoalPreview} from "src/model/businessModelPreview/GoalPreview";
 import {TimeUnit} from "src/model/businessModelPreview/time/timeUnit/TimeUnit";
 import {GoalDTO} from "src/model/DTOModel/GoalDTO";
@@ -44,6 +45,14 @@ export class GoalPreviewDAL {
     const newGoalPreview = await GoalService.createGoalDTO(goalPreviewWithoutUuid);
 
     return newGoalPreview;
+  }
+
+  /**
+   * Update GoalPreview
+   */
+  public static async updateGoalPreview(goalPreview: GoalPreview) {
+    const goalDTO = goalPreviewToGoalDTOConverter(goalPreview);
+    await GoalService.updateGoalDTO(goalDTO, goalPreview.uuid);
   }
 
 }

@@ -1,5 +1,6 @@
 import {wayDTOToWayPreviewConverter} from "src/dataAccessLogic/DTOToPreviewConverter/wayDTOToWayPreviewConverter";
 import {GoalPreviewDAL} from "src/dataAccessLogic/GoalPreviewDAL";
+import {wayPreviewToWayDTOConverter} from "src/dataAccessLogic/PreviewToDTOConverter/wayPreviewToWayDTOConverter";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {WayDTOWithoutUuid, WayService} from "src/service/WayService";
@@ -102,6 +103,24 @@ export class WayPreviewDAL {
     }));
 
     return waysPreview;
+  }
+
+  /**
+   * Update Way
+   */
+  public static async updateWayPreview(wayPreview: WayPreview) {
+    const ownerUuid = wayPreview.owner.uuid;
+    const goalUuid = wayPreview.goal.uuid;
+    const currentMentorsUuids = wayPreview.currentMentors.map((item) => item.uuid);
+
+    const wayDTOProps = {
+      ownerUuid,
+      goalUuid,
+      currentMentorsUuids,
+    };
+
+    const wayDTO = wayPreviewToWayDTOConverter(wayPreview, wayDTOProps);
+    await WayService.updateWayDTO(wayDTO, wayDTO.uuid);
   }
 
 }

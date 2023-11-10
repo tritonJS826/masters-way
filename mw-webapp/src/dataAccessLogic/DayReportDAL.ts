@@ -94,7 +94,9 @@ export class DayReportDAL {
 
     const updatedDayReportUuids = [...way.dayReportUuids, dayReportDTO.uuid];
 
-    await WayService.updateWayDTO(way, updatedDayReportUuids);
+    way.dayReportUuids = updatedDayReportUuids;
+
+    await WayService.updateWayDTO(way, way.uuid);
 
     const dayReport = await DayReportDAL.getDayReport(dayReportDTO.uuid);
 
