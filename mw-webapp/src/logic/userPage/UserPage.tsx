@@ -1,5 +1,7 @@
+import {useEffect, useState} from "react";
 import {Navigate, useParams} from "react-router-dom";
 import {HeadingLevel, Title} from "src/component/title/Title";
+import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {QueryParamTypes} from "src/logic/QueryParamTypes";
 import {FavoriteWaysTable} from "src/logic/waysTable/FavoriteWaysTable";
 import {MentoringWaysTable} from "src/logic/waysTable/MentoringWaysTable";
@@ -12,12 +14,29 @@ import styles from "src/logic/userPage/UserPage.module.scss";
  */
 export const UserPage = () => {
   const {uuid} = useParams<QueryParamTypes>();
+  const [userName, setUserName] = useState<string>("");
+
+  /**
+   * Set user name
+   */
+  const getUser = async () => {
+    if (uuid) {
+      const user = await UserPreviewDAL.getUserPreview(uuid);
+      setUserName(user.name);
+    } else {
+      throw new Error("User is not exist");
+    }
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   return (
     <div className={styles.container}>
       <Title
         level={HeadingLevel.h2}
-        text="User page"
+        text={`Page of ${userName}`}
       />
       {uuid
         ? (
