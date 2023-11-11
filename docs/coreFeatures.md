@@ -2,7 +2,7 @@
 
 ## UserPage (default for logged in)
 
-- [] show user name (3h)
+- [x] show user name (3h)
 - [x] render own ways table
     - [] fix button create new way (new should be visible) (9h)
     - [] add ability to edit own way (way name, goal etc) (12h)
