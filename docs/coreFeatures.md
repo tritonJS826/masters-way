@@ -48,6 +48,7 @@
 
 ## Additional feature
 
+- [] multi language interface 
 - [] donates
 - [] sent feedback (add lambda to netlify)
 - [] UserProfilePage: attach resource (pdf for cv for example)

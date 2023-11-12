@@ -1,0 +1,57 @@
+[
+  {
+    "id": 0,
+    "header": {
+      "ru": "Зачем мне Master's way? Для кого это приложение?",
+      "en": "What is the Master's Way? Who is this app for?"
+    },
+    "description": {
+      "ru": "Мы помогаем сформировать трек любого процесса (например для обучения, тренировки) и использовать его для анализа и корректировки совместно с более опытными людьми и как пример который можно повторить для менее опытных.",
+      "en": "We help to form a track of any process (e.g. for training, learning, onboarding etc.) and use it to analyze and adjust with mentors and as an example that can be repeated for less experienced people." 
+    }
+  },
+  {
+    "id": 1,
+    "header": {
+      "ru": "Что такое 'Way'?",
+      "en": "What is the Way?"
+    },
+    "description": {
+      "ru": "Путь - ключевая сущность нашего приложения. По сути это набор зафиксированных ежедневных отчетов о том как пользователь достигал своей цели. Во время следованию по своему пути пользователь может получать максимально быстрый фидбек от ментора в комментариях и корректировать свой путь. ",
+      "en": "The 'Way' is the key entity of our application. In essence, it is a set of daily reports on how the user reached his/her goal. While following the way, the user can get the fastest possible feedback from the mentor and adjust his/her path."
+    }
+  },
+  {
+    "id": 2,
+    "header": {
+      "ru": "Как начать пользоваться приложением?",
+      "en": "How can I start using the application?"
+    },
+    "description": {
+      "ru": "Приложением можно пользоваться полностью бесплатно. Вы можете посмотреть за публичными путями и пользователями без регистрации. После регистрации вам откроется возможность создавать и сохранять свои пути, оставлять комментарии. ",
+      "en": "The application can be used completely free of charge. You can watch public paths and users without registration. After registration you will be able to create and save your own paths and leave comments. "
+    }
+  },
+  {
+    "id": 3,
+    "header": {
+      "ru": "Для кого это приложение?",
+      "en": "Who is this app for?"
+    },
+    "description": {
+      "ru": "1. Для любого кто хочет достигнуть своей цели максимально быстрым способом с помощью максимально быстрого фидбека от одного или нескольких менторов.\n 2. Для тех кто хочет сопроводить менее опытного и помочь ему корректировать действия во время достижения целей (например для коучеров)\n 3. Для тех кто хочет зафиксировать свои действия для последующего использования - например при обучении программированию можно использовать путь как отчет о вашей проделанной работе прикрепив к резюме.",
+      "en": "1. For anyone who wants to achieve their goal in the fastest possible way with the fastest possible feedback from one or more mentors.\n 2. For those who want to accompany a less experienced person and help them adjust their actions while achieving their goals (e.g. coaches).\n 3. For those who want to record their actions for later use - for example, when learning programming, you can use the path as a report on your progress and attach it to your resume."
+    }
+  },
+  {
+    "id": 4,
+    "header": {
+      "ru": "Как можно посотрудничать с нами?",
+      "en": "How can you cooperate with us?"
+    },
+    "description": {
+      "ru": "Напишите письмо на почту victorveretennikov58@gmail.com с предложением о взаимодействии. В письме опишите свои навыки, сколько вы готовы уделять времени проекту, как можете быть полезным, опишите вашу мотивацию. После этого мы постараемся связаться с вами.\n Если вы не получили ответ в течение трех дней - вы можете связаться с нами через мой linkedIn: www.linkedin.com/in/victor-veretennikov.\n Так же будем рады получить любой фидбек о приложении.",
+      "en": "Write an email to victorveretennikov58@gmail.com with an offer to collaborate. In your letter, describe your skills, how much time you are willing to devote to the project, how you can be useful, describe your motivation. After that we will try to contact you.\n If you have not received a reply in 3 days you can contact us via my linkedIn: www.linkedin.com/in/victor-veretennikov.\n Also any feedback about the app would be welcome."
+    }
+  }
+]
