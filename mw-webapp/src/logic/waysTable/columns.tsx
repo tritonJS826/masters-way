@@ -1,10 +1,10 @@
 import {createColumnHelper} from "@tanstack/react-table";
 import {Link} from "src/component/link/Link";
-import {renderCellValue} from "src/logic/waysTable/renderCellValue/renderCellValue";
 import {GoalPreview} from "src/model/businessModelPreview/GoalPreview";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
+import {renderCellValue} from "src/utils/renderCellValue";
 
 const columnHelper = createColumnHelper<WayPreview>();
 
