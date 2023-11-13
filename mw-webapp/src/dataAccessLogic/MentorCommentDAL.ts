@@ -4,7 +4,7 @@ import {mentorCommentDTOToMentorCommentConverter}
   from "src/dataAccessLogic/DTOToBusinessConverter/mentorCommentDTOToMentorCommentConverter";
 import {MentorComment} from "src/model/businessModel/MentorComment";
 import {MentorCommentDTOWithoutUuid, MentorCommentService} from "src/service/MentorCommentService";
-import {SPACE} from "src/utils/unicodeSymbols";
+import {unicodeSymbols} from "src/utils/unicodeSymbols";
 
 /**
  * Provides methods to interact with the MentorComment business model
@@ -26,7 +26,7 @@ export class MentorCommentDAL {
    */
   public static async createMentorComment(): Promise<MentorComment> {
     const mentorCommentWithoutUuid: MentorCommentDTOWithoutUuid = {
-      description: SPACE,
+      description: unicodeSymbols.space,
       mentorUuid: "",
       isDone: false,
     };

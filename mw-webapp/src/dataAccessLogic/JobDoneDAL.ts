@@ -3,7 +3,7 @@ import {jobDoneDTOToJobDoneConverter} from "src/dataAccessLogic/DTOToBusinessCon
 import {JobDone} from "src/model/businessModel/JobDone";
 import {TimeUnit} from "src/model/businessModel/time/timeUnit/TimeUnit";
 import {JobDoneDTOWithoutUuid, JobDoneService} from "src/service/JobDoneService";
-import {SPACE} from "src/utils/unicodeSymbols";
+import {unicodeSymbols} from "src/utils/unicodeSymbols";
 
 /**
  * Provides methods to interact with the JobDone business model
@@ -25,7 +25,7 @@ export class JobDoneDAL {
    */
   public static async createJobDone(): Promise<JobDone> {
     const jobDoneWithoutUuid: JobDoneDTOWithoutUuid = {
-      description: SPACE,
+      description: unicodeSymbols.space,
       time: 0,
       timeUnit: TimeUnit.minute,
     };

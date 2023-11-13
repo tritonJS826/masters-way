@@ -5,7 +5,7 @@ import {planForNextPeriodDTOToPlanForNextPeriodConverter} from
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
 import {TimeUnit} from "src/model/businessModel/time/timeUnit/TimeUnit";
 import {PlanForNextPeriodDTOWithoutUuid, PlanForNextPeriodService} from "src/service/PlanForNextPeriodService";
-import {SPACE} from "src/utils/unicodeSymbols";
+import {unicodeSymbols} from "src/utils/unicodeSymbols";
 
 /**
  * Provides methods to interact with the PlanForNextPeriod business model
@@ -27,7 +27,7 @@ export class PlanForNextPeriodDAL {
    */
   public static async createPlanForNextPeriod(): Promise<PlanForNextPeriod> {
     const planForNextPeriodWithoutUuid: PlanForNextPeriodDTOWithoutUuid = {
-      job: SPACE,
+      job: unicodeSymbols.space,
       estimationTime: 0,
       timeUnit: TimeUnit.minute,
     };

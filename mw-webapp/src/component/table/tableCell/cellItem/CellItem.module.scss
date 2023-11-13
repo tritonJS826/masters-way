@@ -1,0 +1,16 @@
+.cellItem {
+  position: relative;
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding-left: 10px;
+  counter-increment: cnt;
+  gap: 15px;
+}
+
+.cellItem::before {
+  position: absolute;
+  left: -5px;
+  content: counter(cnt) ". ";
+}

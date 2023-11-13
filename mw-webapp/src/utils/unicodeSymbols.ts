@@ -1,9 +1,15 @@
 /**
- * Zero-width space by unicode
+ * Unicode symbols
  */
-export const SPACE = "\u200B";
+export enum unicodeSymbols {
 
-/**
- * Dividing point by unicode
- */
-export const DOT = "\u00B7";
+  /**
+   * Zero-width space by unicode
+   */
+  space = "\u200B",
+
+  /**
+   * Dividing point by unicode
+   */
+  dot = "\u00B7",
+}

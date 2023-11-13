@@ -1,16 +1,18 @@
 import {createColumnHelper} from "@tanstack/react-table";
-import {Button} from "src/component/button/Button";
-import {addCellItem} from "src/logic/reportsTable/renderCellValue/helpers/addCellItem";
-import {renderCellDate} from "src/logic/reportsTable/renderCellValue/renderCellDate";
-import {renderCellIsDayOff} from "src/logic/reportsTable/renderCellValue/renderCellIsDayOff";
-import {renderCellItem} from "src/logic/reportsTable/renderCellValue/renderCellItem";
+import {CellItem} from "src/component/table/tableCell/cellItem/CellItem";
+import {TableCell} from "src/component/table/tableCell/TableCell";
+import {addCellItem} from "src/logic/reportsTable/renderCellItem/helpers/addCellItem";
+import {renderCellDate} from "src/logic/reportsTable/renderCellItem/renderCellDate";
+import {renderCellIsDayOff} from "src/logic/reportsTable/renderCellItem/renderCellIsDayOff";
+import {renderEditableString} from "src/logic/reportsTable/renderCellItem/renderEditableString";
+import {renderEditableText} from "src/logic/reportsTable/renderCellItem/renderEditableText";
+import {renderEditableTime} from "src/logic/reportsTable/renderCellItem/renderEditableTime";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {MentorComment} from "src/model/businessModel/MentorComment";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
-import {DOT} from "src/utils/unicodeSymbols";
-import styles from "src/logic/reportsTable/columns.module.scss";
+import {unicodeSymbols} from "src/utils/unicodeSymbols";
 
 const DEFAULT_SUMMARY_TIME = 0;
 
@@ -32,7 +34,11 @@ export const columns = [
     /**
      * Cell with date value
      */
-    cell: (dateValue) => renderCellDate(dateValue),
+    cell: (dateValue) => (
+      <TableCell callback={() => {}}>
+        {renderCellDate(dateValue)}
+      </TableCell>
+    ),
   }),
   columnHelper.accessor<"jobsDone", JobDone[]>("jobsDone", {
     header: "Sum time",
@@ -42,8 +48,11 @@ export const columns = [
      */
     cell: (({row}) => {
       return (
-        row.original.jobsDone
-          .reduce((summaryTime, jobDone) => jobDone.time + summaryTime, DEFAULT_SUMMARY_TIME)
+        <TableCell callback={() => {}}>
+          {row.original.jobsDone
+            .reduce((summaryTime, jobDone) => jobDone.time + summaryTime, DEFAULT_SUMMARY_TIME)
+          }
+        </TableCell>
       );
     }),
   }),
@@ -55,27 +64,21 @@ export const columns = [
      */
     cell: ({row}) => {
       return (
-        <div className={styles.cell}>
+        <TableCell
+          buttonValue="add job"
+          callback={() => addCellItem({rowUuid: row.original.uuid, dataType: "JobDone"})}
+        >
           {row.original.jobsDone
             .map((jobDoneItem) => (
-              <li
-                className={styles.cellItem}
-                key={jobDoneItem.uuid}
-              >
-                {renderCellItem({content: jobDoneItem.description, arrayItem: jobDoneItem})}
-                <div className={styles.dot}>
-                  {DOT}
-                </div>
-                {renderCellItem({content: `${jobDoneItem.time}`, arrayItem: jobDoneItem, time: true})}
-              </li>
+              <CellItem key={jobDoneItem.uuid}>
+                {renderEditableText({content: jobDoneItem.description, arrayItem: jobDoneItem})}
+                {unicodeSymbols.dot}
+                {renderEditableTime({time: jobDoneItem.time, arrayItem: jobDoneItem})}
+              </CellItem>
             ),
             )
           }
-          <Button
-            value="add job"
-            onClick={() => addCellItem({rowUuid: row.original.uuid, dataType: "JobDone"})}
-          />
-        </div>
+        </TableCell>
       );
     },
   }),
@@ -87,27 +90,21 @@ export const columns = [
      */
     cell: ({row}) => {
       return (
-        <div className={styles.cell}>
+        <TableCell
+          buttonValue="add plan"
+          callback={() => addCellItem({rowUuid: row.original.uuid, dataType: "PlanForNextPeriod"})}
+        >
           {row.original.plansForNextPeriod
             .map((planForNextPeriod) => (
-              <div
-                className={styles.cellItem}
-                key={planForNextPeriod.uuid}
-              >
-                {renderCellItem({content: planForNextPeriod.job, arrayItem: planForNextPeriod})}
-                <div className={styles.dot}>
-                  {DOT}
-                </div>
-                {renderCellItem({content: `${planForNextPeriod.estimationTime}`, arrayItem: planForNextPeriod, time: true})}
-              </div>
+              <CellItem key={planForNextPeriod.uuid}>
+                {renderEditableText({content: planForNextPeriod.job, arrayItem: planForNextPeriod})}
+                {unicodeSymbols.dot}
+                {renderEditableTime({time: planForNextPeriod.estimationTime, arrayItem: planForNextPeriod})}
+              </CellItem>
             ),
             )
           }
-          <Button
-            value="Add plan"
-            onClick={() => addCellItem({rowUuid: row.original.uuid, dataType: "PlanForNextPeriod"})}
-          />
-        </div>
+        </TableCell>
       );
     },
   }),
@@ -119,20 +116,18 @@ export const columns = [
      */
     cell: ({row}) => {
       return (
-        <div>
+        <TableCell
+          buttonValue="add problem"
+          callback={() => addCellItem({rowUuid: row.original.uuid, dataType: "CurrentProblem"})}
+        >
           {row.original.problemsForCurrentPeriod
-            .map((currentProblem) =>
-              (renderCellItem({
-                content: currentProblem.description,
-                arrayItem: currentProblem,
-                isListItemDone: currentProblem.isDone,
-              })))
+            .map((currentProblem) => (
+              <CellItem key={currentProblem.uuid}>
+                {renderEditableText({content: currentProblem.description, arrayItem: currentProblem})}
+              </CellItem>
+            ))
           }
-          <Button
-            value="Add problem"
-            onClick={() => addCellItem({rowUuid: row.original.uuid, dataType: "CurrentProblem"})}
-          />
-        </div>
+        </TableCell>
       );
     },
   }),
@@ -143,20 +138,21 @@ export const columns = [
      * Cell with StudentComments items
      */
     cell: ({row}) => {
-      const parentUuid = row.original.uuid;
+      const rowUuid = row.original.uuid;
 
       return (
-        <div>
-          {
-            row.original.studentComments
-              .map((studentComment, index) =>
-                renderCellItem({content: studentComment, parentUuid, columnName: "studentComments", index}))
-          }
-          <Button
-            value="Add comment"
-            onClick={() => addCellItem({rowUuid: row.original.uuid, dataType: "studentComments"})}
-          />
-        </div>
+        <TableCell
+          buttonValue="add comment"
+          callback={() => addCellItem({rowUuid: row.original.uuid, dataType: "studentComments"})}
+        >
+          {row.original.studentComments
+            .map((studentComment, index) => (
+              <CellItem key={index.toString()}>
+                {renderEditableString({content: studentComment, rowUuid, propertyName: "studentComments", index})}
+              </CellItem>
+            ),
+            )}
+        </TableCell>
       );
     },
   }),
@@ -167,20 +163,21 @@ export const columns = [
      * Cell with LearnForToday items
      */
     cell: ({row}) => {
-      const parentUuid = row.original.uuid;
+      const rowUuid = row.original.uuid;
 
       return (
-        <div>
-          {
-            row.original.learnedForToday
-              .map((learnedForToday, index) =>
-                renderCellItem({content: learnedForToday, parentUuid, columnName: "learnedForToday", index}))
-          }
-          <Button
-            value="Add learned for today"
-            onClick={() => addCellItem({rowUuid: row.original.uuid, dataType: "learnedForToday"})}
-          />
-        </div>
+        <TableCell
+          buttonValue="add learned for today"
+          callback={() => addCellItem({rowUuid: row.original.uuid, dataType: "learnedForToday"})}
+        >
+          {row.original.learnedForToday
+            .map((learnedForToday, index) => (
+              <CellItem key={index.toString()}>
+                {renderEditableString({content: learnedForToday, rowUuid, propertyName: "learnedForToday", index})}
+              </CellItem>
+            ),
+            )}
+        </TableCell>
       );
     },
   }),
@@ -193,21 +190,18 @@ export const columns = [
     cell: ({row}) => {
 
       return (
-        <div>
-          {
-            row.original.mentorComments
-              .map((mentorComment) =>
-                renderCellItem({
-                  content: mentorComment.description,
-                  arrayItem: mentorComment,
-                  isListItemDone: mentorComment.isDone,
-                }))
-          }
-          <Button
-            value="Add comment"
-            onClick={() => addCellItem({rowUuid: row.original.uuid, dataType: "MentorComment"})}
-          />
-        </div>
+        <TableCell
+          buttonValue="add comment"
+          callback={() => addCellItem({rowUuid: row.original.uuid, dataType: "MentorComment"})}
+        >
+          {row.original.mentorComments
+            .map((mentorComment) => (
+              <CellItem key={mentorComment.uuid}>
+                {renderEditableText({content: mentorComment.description, arrayItem: mentorComment})}
+              </CellItem>
+            ),
+            )}
+        </TableCell>
       );
     },
   }),
@@ -217,6 +211,11 @@ export const columns = [
     /**
      * Cell with IsDayOff value
      */
-    cell: (isDAyOffValue) => renderCellIsDayOff(isDAyOffValue),
+    cell: (isDayOffValue) => (
+      <TableCell callback={() => {}}>
+        {renderCellIsDayOff(isDayOffValue)}
+      </TableCell>
+    )
+    ,
   }),
 ];

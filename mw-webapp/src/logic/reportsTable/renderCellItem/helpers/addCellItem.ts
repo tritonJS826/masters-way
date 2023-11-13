@@ -1,8 +1,8 @@
-import {addCurrentProblem} from "src/logic/reportsTable/renderCellValue/helpers/addCurrentProblem";
-import {addItemDayReport} from "src/logic/reportsTable/renderCellValue/helpers/addItemDayReport";
-import {addJobDone} from "src/logic/reportsTable/renderCellValue/helpers/addJobDone";
-import {addMentorComment} from "src/logic/reportsTable/renderCellValue/helpers/addMentorComment";
-import {addPlanForNextPeriod} from "src/logic/reportsTable/renderCellValue/helpers/addPlanForNextPeriod";
+import {addCurrentProblem} from "src/logic/reportsTable/renderCellItem/helpers/addCurrentProblem";
+import {addItemDayReport} from "src/logic/reportsTable/renderCellItem/helpers/addItemDayReport";
+import {addJobDone} from "src/logic/reportsTable/renderCellItem/helpers/addJobDone";
+import {addMentorComment} from "src/logic/reportsTable/renderCellItem/helpers/addMentorComment";
+import {addPlanForNextPeriod} from "src/logic/reportsTable/renderCellItem/helpers/addPlanForNextPeriod";
 
 /**
  * CellItem props
