@@ -5,11 +5,10 @@ $sidebar-padding: 25px;
 $sidebar-width: 300px;
 $sidebar-button-size: 20px;
 $sidebar-button-offset: 5px;
-$high-z-index: 100;
 
 .dialogOverlay {
   position: fixed;
-  z-index: $high-z-index;
+  z-index: $sidebarZIndex;
   animation: overlayShow $sidebar-animation-time cubic-bezier(0.16, 1, 0.3, 1);
   background-color: $transparent-black;
   inset: 0;
@@ -17,7 +16,7 @@ $high-z-index: 100;
 
 .dialogContent {
   position: fixed;
-  z-index: $high-z-index;
+  z-index: $sidebarZIndex;
   top: 0;
   left: -$sidebar-width;
   width: $sidebar-width;
