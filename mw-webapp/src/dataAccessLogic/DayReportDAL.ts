@@ -22,12 +22,12 @@ interface DayReportProps {
   dayReportUuid: string;
 
   /**
-   * Text
+   * New value for update DayReport.studentComments and DayReport.learnedForToday items
    */
   text: string;
 
   /**
-   * Index
+   * Index of changed item
    */
   index: number;
 }

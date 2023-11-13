@@ -8,17 +8,17 @@ import {CurrentProblemDTOWithoutUuid, CurrentProblemService} from "src/service/C
 import {unicodeSymbols} from "src/utils/unicodeSymbols";
 
 /**
- * Sdf
+ * CurrentProblem props
  */
 interface CurrentProblemProps {
 
   /**
-   * Sdf
+   * Current problem element
    */
   currentProblem: CurrentProblem;
 
   /**
-   * Sdf
+   * New description of currentProblem.description
    */
   description: string;
 

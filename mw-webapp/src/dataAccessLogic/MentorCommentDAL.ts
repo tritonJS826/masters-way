@@ -8,17 +8,17 @@ import {MentorCommentDTOWithoutUuid, MentorCommentService} from "src/service/Men
 import {unicodeSymbols} from "src/utils/unicodeSymbols";
 
 /**
- * Sdf
+ * MentorComment props
  */
 interface MentorCommentProps {
 
   /**
-   * Sdf
+   * MentorComment element
    */
   mentorComment: MentorComment;
 
   /**
-   * Sdf
+   * New description of MentorComment.description
    */
   description: string;
 

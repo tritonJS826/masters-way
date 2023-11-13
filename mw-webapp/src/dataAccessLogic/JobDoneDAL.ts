@@ -7,22 +7,22 @@ import {JobDoneDTOWithoutUuid, JobDoneService} from "src/service/JobDoneService"
 import {unicodeSymbols} from "src/utils/unicodeSymbols";
 
 /**
- * Sdf
+ * JobDone props
  */
 interface JobDoneProps {
 
   /**
-   * Sdf
+   * JobDone element
    */
   jobDone: JobDone;
 
   /**
-   * Sdf
+   * New description of JobDone.description
    */
   description?: string;
 
   /**
-   * Sdf
+   * New time of JobDone.time
    */
   time?: number;
 }

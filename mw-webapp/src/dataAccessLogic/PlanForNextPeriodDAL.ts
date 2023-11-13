@@ -9,22 +9,22 @@ import {PlanForNextPeriodDTOWithoutUuid, PlanForNextPeriodService} from "src/ser
 import {unicodeSymbols} from "src/utils/unicodeSymbols";
 
 /**
- * Sdf
+ * PlanForNextPeriod props
  */
 interface PlanForNextPeriodProps {
 
   /**
-   * Sdf
+   * PlanForNextPeriod element
    */
   planForNextPeriod: PlanForNextPeriod;
 
   /**
-   * Sdf
+   * New job of PlanForNextPeriod.job
    */
   job?: string;
 
   /**
-   * Sdf
+   * New time of PlanForNextPeriod.estimationTime
    */
   time?: number;
 }

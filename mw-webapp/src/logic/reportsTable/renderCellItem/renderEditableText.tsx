@@ -4,7 +4,6 @@ import {CurrentProblemDAL} from "src/dataAccessLogic/CurrentProblemDAL";
 import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
 import {MentorCommentDAL} from "src/dataAccessLogic/MentorCommentDAL";
 import {PlanForNextPeriodDAL} from "src/dataAccessLogic/PlanForNextPeriodDAL";
-// Import {updateElement} from "src/logic/reportsTable/renderCellItem/updateElement";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {MentorComment} from "src/model/businessModel/MentorComment";
