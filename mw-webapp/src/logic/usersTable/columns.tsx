@@ -8,9 +8,10 @@ const columnHelper = createColumnHelper<UserPreview>();
 
 /**
  * Table columns
+ * Don't get rid of any https://github.com/TanStack/table/issues/4382
  */
 export const columns = [
-  columnHelper.accessor<"name", string>("name", {
+  columnHelper.accessor("name", {
     header: "Name",
 
     /**
@@ -23,7 +24,7 @@ export const columns = [
       />
     ),
   }),
-  columnHelper.accessor<"email", string>("email", {
+  columnHelper.accessor("email", {
     header: "Email",
 
     /**
@@ -33,7 +34,7 @@ export const columns = [
       renderCellValue(row.original.email)
     ),
   }),
-  columnHelper.accessor<"ownWays", string[]>("ownWays", {
+  columnHelper.accessor("ownWays", {
     header: "Own Ways",
 
     /**
@@ -41,7 +42,7 @@ export const columns = [
      */
     cell: ({row}) => renderCellValue(row.original.ownWays.length.toString()),
   }),
-  columnHelper.accessor<"favoriteWays", string[]>("favoriteWays", {
+  columnHelper.accessor("favoriteWays", {
     header: "Favorite Ways",
 
     /**
@@ -49,7 +50,7 @@ export const columns = [
      */
     cell: ({row}) => renderCellValue(row.original.favoriteWays.length.toString()),
   }),
-  columnHelper.accessor<"mentoringWays", string[]>("mentoringWays", {
+  columnHelper.accessor("mentoringWays", {
     header: "Mentoring Ways",
 
     /**
