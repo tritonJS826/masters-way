@@ -1,4 +1,5 @@
-import {ReactElement, useState} from "react";
+import {ReactElement, useEffect, useState} from "react";
+import {useLocation} from "react-router-dom";
 import {Root as DialogRoot} from "@radix-ui/react-dialog";
 import {SidebarContent} from "src/component/sidebar/SidebarContent/SidebarContent";
 import {SidebarTrigger} from "src/component/sidebar/SidebarTrigger/SidebarTrigger";
@@ -24,6 +25,11 @@ interface SidebarProps {
  */
 export const Sidebar = (props: SidebarProps) => {
   const [open, setOpen] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    setOpen(false);
+  }, [location.pathname]);
 
   return (
     <DialogRoot
