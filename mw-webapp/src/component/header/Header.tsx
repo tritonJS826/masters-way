@@ -90,7 +90,7 @@ export const Header = () => {
           text={`Hello, ${user.displayName}!`}
         />
       }
-      <div className={styles.headerBtnContainer}>
+      <div className={styles.headerButtonsContainer}>
         <Button
           onClick={user ? logOut : logIn}
           value={user ? BUTTON_LOG_OUT_VALUE : BUTTON_LOG_IN_VALUE}
