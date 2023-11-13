@@ -3,17 +3,17 @@ import {Table} from "src/component/table/Table";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 
 /**
- * Ways table props
+ * Users table props
  */
 interface UsersTableProps {
 
   /**
-   * Ways table data
+   * Users table data
    */
   data: UserPreview[];
 
   /**
-   * Ways table columns type
+   * Users table columns type
    * It's a bug of tanstack. We can't use type instead of any in this case.
    * That because this type depends on type of each columns of table.
    */
@@ -22,7 +22,7 @@ interface UsersTableProps {
 }
 
 /**
- * Render table of all ways preview
+ * Render table of all users preview
  */
 export const UsersTable = (props: UsersTableProps) => {
   const data = props.data;
