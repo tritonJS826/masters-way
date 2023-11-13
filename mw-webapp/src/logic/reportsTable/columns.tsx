@@ -1,7 +1,11 @@
 import {createColumnHelper} from "@tanstack/react-table";
 import {CellItem} from "src/component/table/tableCell/cellItem/CellItem";
 import {TableCell} from "src/component/table/tableCell/TableCell";
-import {addCellItem} from "src/logic/reportsTable/renderCellItem/helpers/addCellItem";
+import {CurrentProblemDAL} from "src/dataAccessLogic/CurrentProblemDAL";
+import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
+import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
+import {MentorCommentDAL} from "src/dataAccessLogic/MentorCommentDAL";
+import {PlanForNextPeriodDAL} from "src/dataAccessLogic/PlanForNextPeriodDAL";
 import {renderCellDate} from "src/logic/reportsTable/renderCellItem/renderCellDate";
 import {renderCellIsDayOff} from "src/logic/reportsTable/renderCellItem/renderCellIsDayOff";
 import {renderEditableString} from "src/logic/reportsTable/renderCellItem/renderEditableString";
@@ -66,7 +70,7 @@ export const columns = [
       return (
         <TableCell
           buttonValue="add job"
-          callback={() => addCellItem({rowUuid: row.original.uuid, dataType: "JobDone"})}
+          callback={() => JobDoneDAL.createJobDone((row.original.uuid))}
         >
           {row.original.jobsDone
             .map((jobDoneItem) => (
@@ -92,7 +96,7 @@ export const columns = [
       return (
         <TableCell
           buttonValue="add plan"
-          callback={() => addCellItem({rowUuid: row.original.uuid, dataType: "PlanForNextPeriod"})}
+          callback={() => PlanForNextPeriodDAL.createPlanForNextPeriod(row.original.uuid)}
         >
           {row.original.plansForNextPeriod
             .map((planForNextPeriod) => (
@@ -118,7 +122,7 @@ export const columns = [
       return (
         <TableCell
           buttonValue="add problem"
-          callback={() => addCellItem({rowUuid: row.original.uuid, dataType: "CurrentProblem"})}
+          callback={() => CurrentProblemDAL.createCurrentProblem(row.original.uuid)}
         >
           {row.original.problemsForCurrentPeriod
             .map((currentProblem) => (
@@ -143,7 +147,7 @@ export const columns = [
       return (
         <TableCell
           buttonValue="add comment"
-          callback={() => addCellItem({rowUuid: row.original.uuid, dataType: "studentComments"})}
+          callback={() => DayReportDAL.createStudentComment(rowUuid)}
         >
           {row.original.studentComments
             .map((studentComment, index) => (
@@ -168,7 +172,7 @@ export const columns = [
       return (
         <TableCell
           buttonValue="add learned for today"
-          callback={() => addCellItem({rowUuid: row.original.uuid, dataType: "learnedForToday"})}
+          callback={() => DayReportDAL.createLearnedForToday(rowUuid)}
         >
           {row.original.learnedForToday
             .map((learnedForToday, index) => (
@@ -188,11 +192,10 @@ export const columns = [
      * Cell with MentorComments items
      */
     cell: ({row}) => {
-
       return (
         <TableCell
           buttonValue="add comment"
-          callback={() => addCellItem({rowUuid: row.original.uuid, dataType: "MentorComment"})}
+          callback={() => MentorCommentDAL.createMentorComment(row.original.uuid)}
         >
           {row.original.mentorComments
             .map((mentorComment) => (

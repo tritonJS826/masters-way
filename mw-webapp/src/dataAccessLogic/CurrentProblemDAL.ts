@@ -1,10 +1,28 @@
 import {currentProblemToCurrentProblemDTOConverter} from
   "src/dataAccessLogic/BusinessToDTOConverter/currentProblemToCurrentProblemDTOConverter";
+import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {currentProblemDTOToCurrentProblemConverter} from
   "src/dataAccessLogic/DTOToBusinessConverter/currentProblemDTOToCurrentProblemConverter";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {CurrentProblemDTOWithoutUuid, CurrentProblemService} from "src/service/CurrentProblemService";
 import {unicodeSymbols} from "src/utils/unicodeSymbols";
+
+/**
+ * Sdf
+ */
+interface CurrentProblemProps {
+
+  /**
+   * Sdf
+   */
+  currentProblem: CurrentProblem;
+
+  /**
+   * Sdf
+   */
+  description: string;
+
+}
 
 /**
  * Provides methods to interact with the CurrentProblem business model
@@ -24,7 +42,7 @@ export class CurrentProblemDAL {
   /**
    * Create CurrentProblem
    */
-  public static async createCurrentProblem(): Promise<CurrentProblem> {
+  public static async createCurrentProblem(dayReportUuid: string): Promise<CurrentProblem> {
     const currentProblemWithoutUuid: CurrentProblemDTOWithoutUuid = {
       description: unicodeSymbols.space,
       isDone: false,
@@ -33,6 +51,10 @@ export class CurrentProblemDAL {
     const newCurrentProblem = await CurrentProblemService.createCurrentProblemDTO(currentProblemWithoutUuid);
 
     const currentProblem = currentProblemDTOToCurrentProblemConverter(newCurrentProblem);
+    const updatedDayReport = await DayReportDAL.getDayReport(dayReportUuid);
+    const updatedCurrentProblem = [...updatedDayReport.problemsForCurrentPeriod, currentProblem];
+    const dayReportUpdated = {...updatedDayReport, problemsForCurrentPeriod: updatedCurrentProblem};
+    await DayReportDAL.updateDayReport(dayReportUpdated);
 
     return currentProblem;
   }
@@ -40,9 +62,10 @@ export class CurrentProblemDAL {
   /**
    * Update CurrentProblem
    */
-  public static async updateCurrentProblem (currentProblem: CurrentProblem) {
-    const currentProblemDTO = currentProblemToCurrentProblemDTOConverter(currentProblem);
-    await CurrentProblemService.updateCurrentProblemDTO(currentProblemDTO, currentProblem.uuid);
+  public static async updateCurrentProblem(props: CurrentProblemProps) {
+    props.currentProblem.description = props.description;
+    const currentProblemDTO = currentProblemToCurrentProblemDTOConverter(props.currentProblem);
+    await CurrentProblemService.updateCurrentProblemDTO(currentProblemDTO, props.currentProblem.uuid);
   }
 
 }

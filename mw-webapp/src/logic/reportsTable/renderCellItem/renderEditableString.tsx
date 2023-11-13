@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {EditableText} from "src/component/editableText/EditableText";
-import {updateElementString} from "src/logic/reportsTable/renderCellItem/helpers/updateElementString";
+import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 
 /**
  * Cell item props
@@ -37,8 +37,12 @@ export const renderEditableString = (props: EditableStringProps) => {
   /**
    * Callback get text from editable text component and set to content state
    */
-  const handleChangeString = (text: string) => {
-    updateElementString({text, rowUuid: props.rowUuid, propertyName: props.propertyName, index: props.index});
+  const handleChangeString = async (text: string) => {
+    if (props.propertyName === "studentComments") {
+      await DayReportDAL.updateStudentComment({dayReportUuid: props.rowUuid, text, index: props.index});
+    } else if (props.propertyName === "learnedForToday") {
+      await DayReportDAL.updateLearnedForToday({dayReportUuid: props.rowUuid, text, index: props.index});
+    }
     setContent(text);
   };
 
