@@ -13,9 +13,13 @@ interface UsersTableProps {
   data: UserPreview[];
 
   /**
-   * Users table columns type
-   * It's a bug of tanstack. We can't use type instead of any in this case.
-   * That because this type depends on type of each columns of table.
+   * Determines which columns will be in the table, the values in the cells and what types of data can be rendered in cells
+   * The tanstack table has a bug about typing columns:
+   * https://github.com/TanStack/table/issues/4382
+   * According to creators should only be using the column helper and not pre-typing columns
+   * We can add type as:
+   * ColumnDef<UserPreview, string & string[]>
+   * but it's not recommend by creators
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   columns: ColumnDef<UserPreview, any>[];

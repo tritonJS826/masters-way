@@ -7,13 +7,7 @@ import {renderCellValue} from "src/utils/renderCellValue";
 const columnHelper = createColumnHelper<UserPreview>();
 
 /**
- * Determines which columns will be in the table, the values in the cells and what types of data can be rendered in cells
- * The tanstack table has a bug about typing columns:
- * https://github.com/TanStack/table/issues/4382
- * According to creators should only be using the column helper and not pre-typing columns
- * We can add type as:
- * ColumnDef<WayPreview, string & boolean & GoalPreview & userPreview & UserPreview[]>
- * but it's not recommend by creators
+ * Table columns
  */
 export const columns = [
   columnHelper.accessor<"name", string>("name", {
