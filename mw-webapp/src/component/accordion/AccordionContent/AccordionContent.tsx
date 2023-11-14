@@ -10,6 +10,11 @@ export interface AccordionContentProps {
    * The text content to be displayed within the AccordionContent.
    */
   content: string | React.ReactElement | React.ReactElement[];
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCy?: string;
 }
 
 /**
@@ -18,7 +23,10 @@ export interface AccordionContentProps {
  */
 export const AccordionContent = (props: AccordionContentProps) => {
   return (
-    <RadixAccordionContent className={styles.accordionContent}>
+    <RadixAccordionContent
+      className={styles.accordionContent}
+      data-cy={props.dataCy ?? "accordion-content"}
+    >
       <div className={styles.accordionContentText}>
         {props.content}
       </div>

@@ -14,6 +14,11 @@ export interface AccordionTriggerProps {
    * The text to be displayed within the AccordionTrigger.
    */
   text: string;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCy?: string;
 }
 
 /**
@@ -22,7 +27,10 @@ export interface AccordionTriggerProps {
  */
 export const AccordionTrigger = (props: AccordionTriggerProps) => {
   return (
-    <RadixAccordionHeader className={styles.accordionHeader}>
+    <RadixAccordionHeader
+      className={styles.accordionHeader}
+      data-cy={props.dataCy ?? "accordion-trigger"}
+    >
       <RadixAccordionTrigger className={styles.accordionTrigger}>
         {props.text}
         <ChevronDownIcon
