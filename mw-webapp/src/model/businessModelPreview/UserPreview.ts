@@ -19,9 +19,7 @@ export class UserPreview {
   public email: string;
 
   /**
-   * User's ways
-   * TODO: need to change UserPreview model in task #52 (Create table with all users).
-   * TODO: Now I changed it for easer render allWays table
+   * Own ways @Way.uuid
    */
   public ownWays: string[];
 

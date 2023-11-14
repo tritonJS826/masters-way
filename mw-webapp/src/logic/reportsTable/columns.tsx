@@ -4,27 +4,18 @@ import {addCellItem} from "src/logic/reportsTable/renderCellValue/helpers/addCel
 import {renderCellDate} from "src/logic/reportsTable/renderCellValue/renderCellDate";
 import {renderCellIsDayOff} from "src/logic/reportsTable/renderCellValue/renderCellIsDayOff";
 import {renderCellItem} from "src/logic/reportsTable/renderCellValue/renderCellItem";
-import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {DayReport} from "src/model/businessModel/DayReport";
-import {JobDone} from "src/model/businessModel/JobDone";
-import {MentorComment} from "src/model/businessModel/MentorComment";
-import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
 
 const DEFAULT_SUMMARY_TIME = 0;
 
 const columnHelper = createColumnHelper<DayReport>();
 
 /**
- * Determines which columns will be in the table, the values in the cells and what types of data can be rendered in cells
- * The tanstack table has a bug about typing columns:
- * https://github.com/TanStack/table/issues/4382
- * According to creators should only be using the column helper and not pre-typing columns
- * We can add type as:
- * ColumnDef<DayReport, Date & JobDone[] & PlanForNextPeriod[] & CurrentProblem[] & MentorComment[] & string[] & boolean>
- * but it's not recommend by creators
+ * Table columns
+ * Don't get rid of any https://github.com/TanStack/table/issues/4382
  */
 export const columns = [
-  columnHelper.accessor<"date", Date>("date", {
+  columnHelper.accessor("date", {
     header: "Date",
 
     /**
@@ -32,7 +23,7 @@ export const columns = [
      */
     cell: (dateValue) => renderCellDate(dateValue),
   }),
-  columnHelper.accessor<"jobsDone", JobDone[]>("jobsDone", {
+  columnHelper.accessor("jobsDone", {
     header: "Sum time",
 
     /**
@@ -45,7 +36,7 @@ export const columns = [
       );
     }),
   }),
-  columnHelper.accessor<"jobsDone", JobDone[]>("jobsDone", {
+  columnHelper.accessor("jobsDone", {
     header: "Jobs done",
 
     /**
@@ -65,7 +56,7 @@ export const columns = [
       );
     },
   }),
-  columnHelper.accessor<"plansForNextPeriod", PlanForNextPeriod[]>("plansForNextPeriod", {
+  columnHelper.accessor("plansForNextPeriod", {
     header: "Plans for tomorrow",
 
     /**
@@ -86,7 +77,7 @@ export const columns = [
       );
     },
   }),
-  columnHelper.accessor<"problemsForCurrentPeriod", CurrentProblem[]>("problemsForCurrentPeriod", {
+  columnHelper.accessor("problemsForCurrentPeriod", {
     header: "Current problems",
 
     /**
@@ -111,7 +102,7 @@ export const columns = [
       );
     },
   }),
-  columnHelper.accessor<"studentComments", string[]>("studentComments", {
+  columnHelper.accessor("studentComments", {
     header: "Student comments",
 
     /**
@@ -135,7 +126,7 @@ export const columns = [
       );
     },
   }),
-  columnHelper.accessor<"learnedForToday", string[]>("learnedForToday", {
+  columnHelper.accessor("learnedForToday", {
     header: "Learned for today",
 
     /**
@@ -159,7 +150,7 @@ export const columns = [
       );
     },
   }),
-  columnHelper.accessor<"mentorComments", MentorComment[]>("mentorComments", {
+  columnHelper.accessor("mentorComments", {
     header: "Mentor comments",
 
     /**
@@ -186,7 +177,7 @@ export const columns = [
       );
     },
   }),
-  columnHelper.accessor<"isDayOff", boolean>("isDayOff", {
+  columnHelper.accessor("isDayOff", {
     header: "Is day off",
 
     /**

@@ -30,7 +30,7 @@
 
 ## AllUsersPage
 
-- [] all users table columns: name, email, number of own ways, number of mentoring ways, number of favorit (36h) 
+- [x] all users table columns: name, email, number of own ways, number of mentoring ways, number of favorit (36h) 
 
 ## UserProfilePage
 

@@ -1,26 +1,19 @@
 import {createColumnHelper} from "@tanstack/react-table";
 import {Link} from "src/component/link/Link";
-import {renderCellValue} from "src/logic/waysTable/renderCellValue/renderCellValue";
-import {GoalPreview} from "src/model/businessModelPreview/GoalPreview";
-import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
+import {renderCellValue} from "src/utils/renderCellValue";
 
 const columnHelper = createColumnHelper<WayPreview>();
 
 export const WAYS_OWNER = "Way's Owner";
 
 /**
- * Determines which columns will be in the table, the values in the cells and what types of data can be rendered in cells
- * The tanstack table has a bug about typing columns:
- * https://github.com/TanStack/table/issues/4382
- * According to creators should only be using the column helper and not pre-typing columns
- * We can add type as:
- * ColumnDef<WayPreview, string & boolean & GoalPreview & userPreview & UserPreview[]>
- * but it's not recommend by creators
+ * Table columns
+ * Don't get rid of any https://github.com/TanStack/table/issues/4382
  */
 export const columns = [
-  columnHelper.accessor<"name", string>("name", {
+  columnHelper.accessor("name", {
     header: "Way's name",
 
     /**
@@ -33,7 +26,7 @@ export const columns = [
       />
     ),
   }),
-  columnHelper.accessor<"isCompleted", boolean>("isCompleted", {
+  columnHelper.accessor("isCompleted", {
     header: "Is completed?",
 
     /**
@@ -41,7 +34,7 @@ export const columns = [
      */
     cell: (cellValue) => renderCellValue(`${cellValue.getValue()}`),
   }),
-  columnHelper.accessor<"goal", GoalPreview>("goal", {
+  columnHelper.accessor("goal", {
     header: "Goal",
 
     /**
@@ -49,7 +42,7 @@ export const columns = [
      */
     cell: ({row}) => renderCellValue(row.original.goal.description),
   }),
-  columnHelper.accessor<"owner", UserPreview>("owner", {
+  columnHelper.accessor("owner", {
     header: WAYS_OWNER,
 
     /**
@@ -67,7 +60,7 @@ export const columns = [
       );
     },
   }),
-  columnHelper.accessor<"currentMentors", UserPreview[]>("currentMentors", {
+  columnHelper.accessor("currentMentors", {
     header: "Current mentors",
 
     /**
