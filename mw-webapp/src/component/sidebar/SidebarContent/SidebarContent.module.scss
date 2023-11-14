@@ -8,6 +8,7 @@ $sidebar-button-offset: 5px;
 
 .dialogOverlay {
   position: fixed;
+  z-index: $sidebarZIndex;
   animation: overlayShow $sidebar-animation-time cubic-bezier(0.16, 1, 0.3, 1);
   background-color: $transparent-black;
   inset: 0;
@@ -15,6 +16,7 @@ $sidebar-button-offset: 5px;
 
 .dialogContent {
   position: fixed;
+  z-index: $sidebarZIndex;
   top: 0;
   left: -$sidebar-width;
   width: $sidebar-width;
