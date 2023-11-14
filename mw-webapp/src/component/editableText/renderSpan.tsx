@@ -1,5 +1,5 @@
 import {UnicodeSymbols} from "src/utils/UnicodeSymbols";
-import styles from "src/logic/reportsTable/columns.module.scss";
+import styles from "src/component/editableText/renderSpan.module.scss";
 
 /**
  * Render span with text
@@ -14,7 +14,7 @@ const renderSpanWithValue = (value: string | number, isDone?: boolean) => (
  * Render empty span
  */
 const renderEmptySpan = () => (
-  <span className={styles.emptyInput}>
+  <span className={styles.emptySpan}>
     {UnicodeSymbols.ZERO_WIDTH_SPACE}
   </span>
 );
