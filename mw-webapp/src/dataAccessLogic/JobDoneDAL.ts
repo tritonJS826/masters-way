@@ -4,28 +4,7 @@ import {jobDoneDTOToJobDoneConverter} from "src/dataAccessLogic/DTOToBusinessCon
 import {JobDone} from "src/model/businessModel/JobDone";
 import {TimeUnit} from "src/model/businessModel/time/timeUnit/TimeUnit";
 import {JobDoneDTOWithoutUuid, JobDoneService} from "src/service/JobDoneService";
-import {unicodeSymbols} from "src/utils/unicodeSymbols";
-
-/**
- * JobDone props
- */
-interface JobDoneProps {
-
-  /**
-   * JobDone element
-   */
-  jobDone: JobDone;
-
-  /**
-   * New description of JobDone.description
-   */
-  description?: string;
-
-  /**
-   * New time of JobDone.time
-   */
-  time?: number;
-}
+import {UnicodeSymbols} from "src/utils/UnicodeSymbols";
 
 /**
  * Provides methods to interact with the JobDone business model
@@ -47,7 +26,7 @@ export class JobDoneDAL {
    */
   public static async createJobDone(dayReportUuid: string): Promise<JobDone> {
     const jobDoneWithoutUuid: JobDoneDTOWithoutUuid = {
-      description: unicodeSymbols.space,
+      description: UnicodeSymbols.ZERO_WIDTH_SPACE,
       time: 0,
       timeUnit: TimeUnit.minute,
     };
@@ -66,15 +45,25 @@ export class JobDoneDAL {
   /**
    * Update jJobDone
    */
-  public static async updateJobDone(props: JobDoneProps) {
-    if (props.description) {
-      props.jobDone.description = props.description;
-    } else if (props.time) {
-      props.jobDone.time = props.time;
-    }
+  public static async updateJobDone(jobDone: JobDone, description: string) {
+    const updatedJobDone = new JobDone({
+      ...jobDone,
+      description,
+    });
+    const jobDoneDTO = jobDoneToJobDoneDTOConverter(updatedJobDone);
+    await JobDoneService.updateJobDoneDTO(jobDoneDTO, jobDone.uuid);
+  }
 
-    const jobDoneDTO = jobDoneToJobDoneDTOConverter(props.jobDone);
-    await JobDoneService.updateJobDoneDTO(jobDoneDTO, props.jobDone.uuid);
+  /**
+   * Update JobDoneTime
+   */
+  public static async updateJobDoneTime(jobDone: JobDone, time: number) {
+    const updatedJobDone = new JobDone({
+      ...jobDone,
+      time,
+    });
+    const jobDoneDTO = jobDoneToJobDoneDTOConverter(updatedJobDone);
+    await JobDoneService.updateJobDoneDTO(jobDoneDTO, jobDone.uuid);
   }
 
 }

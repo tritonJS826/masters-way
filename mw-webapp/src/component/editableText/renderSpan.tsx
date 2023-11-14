@@ -1,4 +1,4 @@
-import {unicodeSymbols} from "src/utils/unicodeSymbols";
+import {UnicodeSymbols} from "src/utils/UnicodeSymbols";
 import styles from "src/logic/reportsTable/columns.module.scss";
 
 /**
@@ -15,7 +15,7 @@ const renderSpanWithValue = (value: string | number, isDone?: boolean) => (
  */
 const renderEmptySpan = () => (
   <span className={styles.emptyInput}>
-    {unicodeSymbols.space}
+    {UnicodeSymbols.ZERO_WIDTH_SPACE}
   </span>
 );
 
@@ -24,8 +24,7 @@ const renderEmptySpan = () => (
  * TODO: move to separate component, task #208
  */
 export const renderSpan = (value: string | number, isDone?: boolean) => (
-  (value === unicodeSymbols.space) ?
-    renderEmptySpan()
-    :
-    renderSpanWithValue(value, isDone)
+  (value === UnicodeSymbols.ZERO_WIDTH_SPACE)
+    ? renderEmptySpan()
+    : renderSpanWithValue(value, isDone)
 );

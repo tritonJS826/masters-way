@@ -5,24 +5,7 @@ import {currentProblemDTOToCurrentProblemConverter} from
   "src/dataAccessLogic/DTOToBusinessConverter/currentProblemDTOToCurrentProblemConverter";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {CurrentProblemDTOWithoutUuid, CurrentProblemService} from "src/service/CurrentProblemService";
-import {unicodeSymbols} from "src/utils/unicodeSymbols";
-
-/**
- * CurrentProblem props
- */
-interface CurrentProblemProps {
-
-  /**
-   * Current problem element
-   */
-  currentProblem: CurrentProblem;
-
-  /**
-   * New description of currentProblem.description
-   */
-  description: string;
-
-}
+import {UnicodeSymbols} from "src/utils/UnicodeSymbols";
 
 /**
  * Provides methods to interact with the CurrentProblem business model
@@ -44,7 +27,7 @@ export class CurrentProblemDAL {
    */
   public static async createCurrentProblem(dayReportUuid: string): Promise<CurrentProblem> {
     const currentProblemWithoutUuid: CurrentProblemDTOWithoutUuid = {
-      description: unicodeSymbols.space,
+      description: UnicodeSymbols.ZERO_WIDTH_SPACE,
       isDone: false,
     };
 
@@ -62,10 +45,13 @@ export class CurrentProblemDAL {
   /**
    * Update CurrentProblem
    */
-  public static async updateCurrentProblem(props: CurrentProblemProps) {
-    props.currentProblem.description = props.description;
-    const currentProblemDTO = currentProblemToCurrentProblemDTOConverter(props.currentProblem);
-    await CurrentProblemService.updateCurrentProblemDTO(currentProblemDTO, props.currentProblem.uuid);
+  public static async updateCurrentProblem(currentProblem: CurrentProblem, description: string) {
+    const updatedCurrentProblem = new CurrentProblem({
+      ...currentProblem,
+      description,
+    });
+    const currentProblemDTO = currentProblemToCurrentProblemDTOConverter(updatedCurrentProblem);
+    await CurrentProblemService.updateCurrentProblemDTO(currentProblemDTO, currentProblem.uuid);
   }
 
 }

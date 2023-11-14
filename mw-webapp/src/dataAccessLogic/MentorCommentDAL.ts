@@ -5,24 +5,7 @@ import {mentorCommentDTOToMentorCommentConverter}
   from "src/dataAccessLogic/DTOToBusinessConverter/mentorCommentDTOToMentorCommentConverter";
 import {MentorComment} from "src/model/businessModel/MentorComment";
 import {MentorCommentDTOWithoutUuid, MentorCommentService} from "src/service/MentorCommentService";
-import {unicodeSymbols} from "src/utils/unicodeSymbols";
-
-/**
- * MentorComment props
- */
-interface MentorCommentProps {
-
-  /**
-   * MentorComment element
-   */
-  mentorComment: MentorComment;
-
-  /**
-   * New description of MentorComment.description
-   */
-  description: string;
-
-}
+import {UnicodeSymbols} from "src/utils/UnicodeSymbols";
 
 /**
  * Provides methods to interact with the MentorComment business model
@@ -44,7 +27,7 @@ export class MentorCommentDAL {
    */
   public static async createMentorComment(dayReportUuid: string): Promise<MentorComment> {
     const mentorCommentWithoutUuid: MentorCommentDTOWithoutUuid = {
-      description: unicodeSymbols.space,
+      description: UnicodeSymbols.ZERO_WIDTH_SPACE,
       mentorUuid: "",
       isDone: false,
     };
@@ -63,10 +46,13 @@ export class MentorCommentDAL {
   /**
    * Update MentorComment
    */
-  public static async updateMentorComment(props: MentorCommentProps) {
-    props.mentorComment.description = props.description;
-    const mentorCommentDTO = mentorCommentToMentorCommentDTOConverter(props.mentorComment);
-    await MentorCommentService.updateMentorCommentDTO(mentorCommentDTO, props.mentorComment.uuid);
+  public static async updateMentorComment(mentorComment: MentorComment, description: string) {
+    const updatedMentorComment = new MentorComment({
+      ...mentorComment,
+      description,
+    });
+    const mentorCommentDTO = mentorCommentToMentorCommentDTOConverter(updatedMentorComment);
+    await MentorCommentService.updateMentorCommentDTO(mentorCommentDTO, mentorComment.uuid);
   }
 
 }

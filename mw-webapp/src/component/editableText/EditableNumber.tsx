@@ -10,12 +10,12 @@ interface EditableNumberProps {
   /**
    * Cell item's number
    */
-  content: number;
+  value: number;
 
   /**
    * Function that update element on Enter click or unfocused
    */
-  onChangeNumber: (number: number) => void;
+  onChangeFinish: (value: number) => void;
 }
 
 /**
@@ -23,13 +23,14 @@ interface EditableNumberProps {
  */
 export const EditableNumber = (props: EditableNumberProps) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [number, setNumber] = useState(props.content);
+  const [value, setValue] = useState(props.value);
 
   /**
    * HandleChangeText
    */
   const handleChangeNumber = () => {
-    props.onChangeNumber(number);
+    props.onChangeFinish(value);
+    setIsEditing(false);
   };
 
   /**
@@ -37,7 +38,6 @@ export const EditableNumber = (props: EditableNumberProps) => {
    */
   const handleBlur = async () => {
     handleChangeNumber();
-    setIsEditing(false);
   };
 
   /**
@@ -46,7 +46,6 @@ export const EditableNumber = (props: EditableNumberProps) => {
   const handleEnter = async (event: React.KeyboardEvent<HTMLElement>) => {
     if (event.key === "Enter") {
       handleChangeNumber();
-      setIsEditing(false);
     }
   };
 
@@ -56,9 +55,9 @@ export const EditableNumber = (props: EditableNumberProps) => {
   const renderInput = () => (
     <Input
       type="number"
-      value={number}
+      value={value}
       autoFocus={true}
-      onChange={(event) => setNumber(Number(event))}
+      onChange={(event) => setValue(Number(event))}
     />
   );
 
@@ -70,8 +69,7 @@ export const EditableNumber = (props: EditableNumberProps) => {
     >
       {isEditing
         ? renderInput()
-        :
-        renderSpan(number)
+        : renderSpan(value)
       }
     </div>
   );

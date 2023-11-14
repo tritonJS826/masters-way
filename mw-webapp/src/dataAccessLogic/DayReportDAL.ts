@@ -9,28 +9,7 @@ import {DayReport} from "src/model/businessModel/DayReport";
 import {DayReportDTOWithoutUuid, DayReportService} from "src/service/DayReportService";
 import {WayService} from "src/service/WayService";
 import {DateUtils} from "src/utils/DateUtils";
-import {unicodeSymbols} from "src/utils/unicodeSymbols";
-
-/**
- * DayReport props
- */
-interface DayReportProps {
-
-  /**
-   * DayReport uuid
-   */
-  dayReportUuid: string;
-
-  /**
-   * New value for update DayReport.studentComments and DayReport.learnedForToday items
-   */
-  text: string;
-
-  /**
-   * Index of changed item
-   */
-  index: number;
-}
+import {UnicodeSymbols} from "src/utils/UnicodeSymbols";
 
 /**
  * Provides methods to interact with the DayReport business model
@@ -149,7 +128,7 @@ export class DayReportDAL {
   public static async createStudentComment(dayReportUuid: string) {
     const oldDayReport = await DayReportDAL.getDayReport(dayReportUuid);
 
-    const updatedCell = [...oldDayReport.studentComments, unicodeSymbols.space];
+    const updatedCell = [...oldDayReport.studentComments, UnicodeSymbols.ZERO_WIDTH_SPACE];
 
     const updatedDayReport: DayReport = {
       ...oldDayReport,
@@ -161,12 +140,12 @@ export class DayReportDAL {
   /**
    * Update student comment to DayReport
    */
-  public static async updateStudentComment(props: DayReportProps) {
-    const oldDayReport = await DayReportDAL.getDayReport(props.dayReportUuid);
+  public static async updateStudentComment(dayReportUuid: string, text: string, index: number) {
+    const oldDayReport = await DayReportDAL.getDayReport(dayReportUuid);
 
     const getUpdatedText = oldDayReport.studentComments.map((item: string, i: number) => {
-      if (i === props.index) {
-        return `${props.text}`;
+      if (i === index) {
+        return `${text}`;
       }
 
       return item;
@@ -185,7 +164,7 @@ export class DayReportDAL {
   public static async createLearnedForToday(dayReportUuid: string) {
     const oldDayReport = await DayReportDAL.getDayReport(dayReportUuid);
 
-    const updatedCell = [...oldDayReport.learnedForToday, unicodeSymbols.space];
+    const updatedCell = [...oldDayReport.learnedForToday, UnicodeSymbols.ZERO_WIDTH_SPACE];
 
     const updatedDayReport: DayReport = {
       ...oldDayReport,
@@ -197,12 +176,12 @@ export class DayReportDAL {
   /**
    * Update learnedForToday to DayReport
    */
-  public static async updateLearnedForToday(props: DayReportProps) {
-    const oldDayReport = await DayReportDAL.getDayReport(props.dayReportUuid);
+  public static async updateLearnedForToday(dayReportUuid: string, text: string, index: number) {
+    const oldDayReport = await DayReportDAL.getDayReport(dayReportUuid);
 
     const getUpdatedText = oldDayReport.learnedForToday.map((item: string, i: number) => {
-      if (i === props.index) {
-        return `${props.text}`;
+      if (i === index) {
+        return `${text}`;
       }
 
       return item;

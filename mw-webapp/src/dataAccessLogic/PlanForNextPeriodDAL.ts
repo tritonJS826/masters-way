@@ -6,28 +6,7 @@ import {planForNextPeriodDTOToPlanForNextPeriodConverter} from
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
 import {TimeUnit} from "src/model/businessModel/time/timeUnit/TimeUnit";
 import {PlanForNextPeriodDTOWithoutUuid, PlanForNextPeriodService} from "src/service/PlanForNextPeriodService";
-import {unicodeSymbols} from "src/utils/unicodeSymbols";
-
-/**
- * PlanForNextPeriod props
- */
-interface PlanForNextPeriodProps {
-
-  /**
-   * PlanForNextPeriod element
-   */
-  planForNextPeriod: PlanForNextPeriod;
-
-  /**
-   * New job of PlanForNextPeriod.job
-   */
-  job?: string;
-
-  /**
-   * New time of PlanForNextPeriod.estimationTime
-   */
-  time?: number;
-}
+import {UnicodeSymbols} from "src/utils/UnicodeSymbols";
 
 /**
  * Provides methods to interact with the PlanForNextPeriod business model
@@ -49,7 +28,7 @@ export class PlanForNextPeriodDAL {
    */
   public static async createPlanForNextPeriod(dayReportUuid: string): Promise<PlanForNextPeriod> {
     const planForNextPeriodWithoutUuid: PlanForNextPeriodDTOWithoutUuid = {
-      job: unicodeSymbols.space,
+      job: UnicodeSymbols.ZERO_WIDTH_SPACE,
       estimationTime: 0,
       timeUnit: TimeUnit.minute,
     };
@@ -68,15 +47,25 @@ export class PlanForNextPeriodDAL {
   /**
    * Update PlanForNextPeriod
    */
-  public static async updatePlanForNextPeriod(props: PlanForNextPeriodProps) {
-    if (props.job) {
-      props.planForNextPeriod.job = props.job;
-    } else if (props.time) {
-      props.planForNextPeriod.estimationTime = props.time;
-    }
+  public static async updatePlanForNextPeriod(planForNextPeriod: PlanForNextPeriod, job: string) {
+    const updatedPlansForNextPeriod = new PlanForNextPeriod({
+      ...planForNextPeriod,
+      job,
+    });
+    const planForNextPeriodDTO = planForNextPeriodToPlanForNextPeriodDTOConverter(updatedPlansForNextPeriod);
+    await PlanForNextPeriodService.updatePLanForNextPeriodDTO(planForNextPeriodDTO, planForNextPeriod.uuid);
+  }
 
-    const planForNextPeriodDTO = planForNextPeriodToPlanForNextPeriodDTOConverter(props.planForNextPeriod);
-    await PlanForNextPeriodService.updatePLanForNextPeriodDTO(planForNextPeriodDTO, props.planForNextPeriod.uuid);
+  /**
+   * Update PlanForNextPeriodTime
+   */
+  public static async updatePlanForNextPeriodTime(planForNextPeriod: PlanForNextPeriod, estimationTime: number) {
+    const updatedPlansForNextPeriod = new PlanForNextPeriod({
+      ...planForNextPeriod,
+      estimationTime,
+    });
+    const planForNextPeriodDTO = planForNextPeriodToPlanForNextPeriodDTOConverter(updatedPlansForNextPeriod);
+    await PlanForNextPeriodService.updatePLanForNextPeriodDTO(planForNextPeriodDTO, planForNextPeriod.uuid);
   }
 
 }

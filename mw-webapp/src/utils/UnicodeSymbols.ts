@@ -1,15 +1,15 @@
 /**
  * Unicode symbols
  */
-export enum unicodeSymbols {
+export enum UnicodeSymbols {
 
   /**
    * Zero-width space by unicode
    */
-  space = "\u200B",
+  ZERO_WIDTH_SPACE = "\u200B",
 
   /**
    * Dividing point by unicode
    */
-  dot = "\u00B7",
+  DIVIDING_POINT = "\u00B7",
 }

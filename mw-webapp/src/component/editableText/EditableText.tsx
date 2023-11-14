@@ -10,12 +10,12 @@ interface EditableTextProps {
   /**
    * Cell item's text
    */
-  content: string;
+  text: string;
 
   /**
    * Function that update element on Enter click or unfocused
    */
-  onChangeText: (text: string) => void;
+  onChangeFinish: (value: string) => void;
 }
 
 /**
@@ -23,13 +23,14 @@ interface EditableTextProps {
  */
 export const EditableText = (props: EditableTextProps) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [text, setText] = useState(props.content);
+  const [text, setText] = useState(props.text);
 
   /**
    * HandleChangeText
    */
   const handleChangeText = () => {
-    props.onChangeText(text);
+    props.onChangeFinish(text);
+    setIsEditing(false);
   };
 
   /**
@@ -37,7 +38,6 @@ export const EditableText = (props: EditableTextProps) => {
    */
   const handleBlur = async () => {
     handleChangeText();
-    setIsEditing(false);
   };
 
   /**
@@ -46,7 +46,6 @@ export const EditableText = (props: EditableTextProps) => {
   const handleEnter = async (event: React.KeyboardEvent<HTMLElement>) => {
     if (event.key === "Enter") {
       handleChangeText();
-      setIsEditing(false);
     }
   };
 

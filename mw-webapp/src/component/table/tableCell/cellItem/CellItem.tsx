@@ -9,7 +9,7 @@ interface CellItemProps {
   /**
    * Unique key of cell item
    */
-  key: string;
+  key: string | number;
 }
 
 /**
