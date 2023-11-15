@@ -6,12 +6,12 @@ import {AllWaysTable} from "src/logic/waysTable/AllWaysTable";
  */
 export const AllWaysPage = () => {
   return (
-    <div>
+    <>
       <Title
         level={HeadingLevel.h2}
         text="Ways page"
       />
       <AllWaysTable />
-    </div>
+    </>
   );
 };

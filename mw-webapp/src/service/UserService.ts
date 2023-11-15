@@ -40,6 +40,9 @@ export class UserService {
       uuid: userDTO.uuid,
       email: userDTO.email,
       name: userDTO.name,
+      ownWayUuids: [],
+      favoriteWayUuids: [],
+      mentoringWayUuids: [],
     });
   }
 

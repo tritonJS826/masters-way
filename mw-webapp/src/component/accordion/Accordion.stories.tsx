@@ -16,15 +16,15 @@ type Story = StoryObj<typeof meta>;
 const itemsExample = [
   {
     trigger: <AccordionTrigger text={"Is it accessible?"} />,
-    content: <AccordionContent text={"Yes. It adheres to the WAI-ARIA design pattern."} />,
+    content: <AccordionContent content={"Yes. It adheres to the WAI-ARIA design pattern."} />,
   },
   {
     trigger: <AccordionTrigger text={"Is it unstyled?"} />,
-    content: <AccordionContent text={"Yes. It's unstyled by default, giving you freedom over the look and feel."} />,
+    content: <AccordionContent content={"Yes. It's unstyled by default, giving you freedom over the look and feel."} />,
   },
   {
     trigger: <AccordionTrigger text={"Can it be animated?"} />,
-    content: <AccordionContent text={"Yes! You can animate the Accordion with CSS or JavaScript."} />,
+    content: <AccordionContent content={"Yes! You can animate the Accordion with CSS or JavaScript."} />,
   },
 ];
 
@@ -45,7 +45,7 @@ export const SingleItem: Story = {
     items: [
       {
         trigger: <AccordionTrigger text={"Is it accessible?"} />,
-        content: <AccordionContent text={"Yes. It adheres to the WAI-ARIA design pattern."} />,
+        content: <AccordionContent content={"Yes. It adheres to the WAI-ARIA design pattern."} />,
       },
     ],
   },

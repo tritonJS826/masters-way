@@ -26,7 +26,7 @@
 
 ## AllUsersPage
 
-- [] all users table columns: name, email, number of own ways, number of mentoring ways, number of favorite ways (36h) 
+- [x] all users table columns: name, email, number of own ways, number of mentoring ways, number of favorit (36h) 
 
 ## UserProfilePage
 
@@ -44,6 +44,7 @@
 
 ## Additional feature
 
+- [] multi language interface 
 - [] donates
 - [] sent feedback (add lambda to netlify)
 - [] UserProfilePage: attach resource (pdf for cv for example)

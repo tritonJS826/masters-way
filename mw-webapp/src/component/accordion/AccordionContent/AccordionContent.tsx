@@ -9,7 +9,7 @@ export interface AccordionContentProps {
   /**
    * The text content to be displayed within the AccordionContent.
    */
-  text: string;
+  content: string | React.ReactElement | React.ReactElement[];
 }
 
 /**
@@ -20,7 +20,7 @@ export const AccordionContent = (props: AccordionContentProps) => {
   return (
     <RadixAccordionContent className={styles.accordionContent}>
       <div className={styles.accordionContentText}>
-        {props.text}
+        {props.content}
       </div>
     </RadixAccordionContent>
   );

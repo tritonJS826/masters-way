@@ -33,7 +33,7 @@ export const Sidebar = (props: SidebarProps) => {
       <SidebarTrigger>
         {props.trigger}
       </SidebarTrigger>
-      <SidebarContent>
+      <SidebarContent onClick={() => setOpen(false)}>
         {props.content}
       </SidebarContent>
     </DialogRoot>

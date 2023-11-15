@@ -61,10 +61,6 @@ export const Header = () => {
       value: "All users",
     },
     user && {
-      path: pages.way.path(user.uid),
-      value: "Workflow",
-    },
-    user && {
       path: pages.user.path(user.uid),
       value: "My ways",
     },
@@ -94,7 +90,7 @@ export const Header = () => {
           text={`Hello, ${user.displayName}!`}
         />
       }
-      <div>
+      <div className={styles.headerButtonsContainer}>
         <Button
           onClick={user ? logOut : logIn}
           value={user ? BUTTON_LOG_OUT_VALUE : BUTTON_LOG_IN_VALUE}
@@ -103,8 +99,7 @@ export const Header = () => {
           trigger={
             <Button
               value={"Navigation"}
-              onClick={() => {
-              }}
+              onClick={() => {}}
             />
           }
           content={
