@@ -1,10 +1,12 @@
 import {mentorCommentToMentorCommentDTOConverter} from
   "src/dataAccessLogic/BusinessToDTOConverter/mentorCommentToMentorCommentDTOConverter";
+import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {mentorCommentDTOToMentorCommentConverter}
   from "src/dataAccessLogic/DTOToBusinessConverter/mentorCommentDTOToMentorCommentConverter";
+import {DayReport} from "src/model/businessModel/DayReport";
 import {MentorComment} from "src/model/businessModel/MentorComment";
 import {MentorCommentDTOWithoutUuid, MentorCommentService} from "src/service/MentorCommentService";
-import {SPACE} from "src/utils/unicodeSymbols";
+import {UnicodeSymbols} from "src/utils/UnicodeSymbols";
 
 /**
  * Provides methods to interact with the MentorComment business model
@@ -24,9 +26,9 @@ export class MentorCommentDAL {
   /**
    * Create MentorComment
    */
-  public static async createMentorComment(): Promise<MentorComment> {
+  public static async createMentorComment(dayReport: DayReport): Promise<MentorComment> {
     const mentorCommentWithoutUuid: MentorCommentDTOWithoutUuid = {
-      description: SPACE,
+      description: UnicodeSymbols.ZERO_WIDTH_SPACE,
       mentorUuid: "",
       isDone: false,
     };
@@ -34,6 +36,9 @@ export class MentorCommentDAL {
     const newMentorComment = await MentorCommentService.createMentorCommentDTO(mentorCommentWithoutUuid);
 
     const mentorComment = mentorCommentDTOToMentorCommentConverter(newMentorComment);
+    const updatedMentorComment = [...dayReport.mentorComments, mentorComment];
+    const dayReportUpdated = {...dayReport, mentorComments: updatedMentorComment};
+    await DayReportDAL.updateDayReport(dayReportUpdated);
 
     return mentorComment;
   }
@@ -41,8 +46,12 @@ export class MentorCommentDAL {
   /**
    * Update MentorComment
    */
-  public static async updateMentorComment(mentorComment: MentorComment) {
-    const mentorCommentDTO = mentorCommentToMentorCommentDTOConverter(mentorComment);
+  public static async updateMentorComment(mentorComment: MentorComment, description: string) {
+    const updatedMentorComment = new MentorComment({
+      ...mentorComment,
+      description,
+    });
+    const mentorCommentDTO = mentorCommentToMentorCommentDTOConverter(updatedMentorComment);
     await MentorCommentService.updateMentorCommentDTO(mentorCommentDTO, mentorComment.uuid);
   }
 

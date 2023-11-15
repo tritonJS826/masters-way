@@ -4,7 +4,7 @@
 
 - [] show user name (3h)
 - [x] render own ways table
-    - [] fix button create new way (new should be visible) (9h)
+    - [x] fix button create new way (new should be visible) (9h)
     - [] add ability to edit own way (way name, goal etc) (12h)
     - [] add ability to delete way (12h)
 - [x] render mentoring ways table
@@ -14,11 +14,8 @@
 
 ## WayPage
 
-- [] fix button create new day report (new should be visible without page reloading) (12h)
-- [] add button "become a mentor" which put the way into your mentors ways (18h)
+- [x] fix button create new day report (new should be visible without page reloading) (12h)
 - [] show mentors (link to user page) in the mentor comments (12h)
-- [] add button "favorite" which put the way into your favorite ways (add field favorite to WayDTO) (24h)
-- [] show number favorite (increased when somebody add the way to favorite and decreased when somebody remove the way from favorite) (9h)
 - [] render goal (description) (9h)
 - [] render way name (6h)
 
@@ -26,7 +23,6 @@
 
 - [x] render all ways table
 - [] add links to mentors (9h)
-- [] show number favorite (12h)
 
 ## AllUsersPage
 
@@ -65,3 +61,11 @@
 - [] Make AnalyticalReport (statistic)
 - [] Analytics page
 - [] Achievements
+- [] WayPage: Add possibility to attach links on docs, video, audio, etc
+- [] Possibility to add tags for each JobDone
+- [] Investigation with coming soon tooltip (component)
+- [] AllWaysPage: show number favorite (12h)
+- [] WayPage: add button "favorite" which put the way into your favorite ways (add field favorite to WayDTO) (24h)
+- [] WayPage: show number favorite (increased when somebody add the way to favorite and decreased when somebody remove the way from favorite) (9h)
+- [] WayPage: add button "become a mentor" which put the way into your mentors ways (18h)
+- Mentor could send request, user can send invite to mentor (do nothing), only user could accept 

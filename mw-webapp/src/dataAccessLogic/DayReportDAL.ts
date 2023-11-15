@@ -9,6 +9,7 @@ import {DayReport} from "src/model/businessModel/DayReport";
 import {DayReportDTOWithoutUuid, DayReportService} from "src/service/DayReportService";
 import {WayService} from "src/service/WayService";
 import {DateUtils} from "src/utils/DateUtils";
+import {UnicodeSymbols} from "src/utils/UnicodeSymbols";
 
 /**
  * Provides methods to interact with the DayReport business model
@@ -119,6 +120,71 @@ export class DayReportDAL {
 
     const dayReportDTO = dayReportToDayReportDTOConverter(dayReport, dayReportDTOProps);
     await DayReportService.updateDayReportDTO(dayReportDTO, dayReport.uuid);
+  }
+
+  /**
+   * Create student comment to DayReport
+   */
+  public static async createStudentComment(dayReport: DayReport) {
+    const updatedCell = [...dayReport.studentComments, UnicodeSymbols.ZERO_WIDTH_SPACE];
+
+    const updatedDayReport: DayReport = {
+      ...dayReport,
+      studentComments: updatedCell,
+    };
+    await DayReportDAL.updateDayReport(updatedDayReport);
+  }
+
+  /**
+   * Update student comment to DayReport
+   */
+  public static async updateStudentComment(dayReport: DayReport, text: string, index: number) {
+    const getUpdatedText = dayReport.studentComments.map((item: string, i: number) => {
+      if (i === index) {
+        return `${text}`;
+      }
+
+      return item;
+    });
+
+    const updatedDayReport: DayReport = {
+      ...dayReport,
+      studentComments: getUpdatedText,
+    };
+    await DayReportDAL.updateDayReport(updatedDayReport);
+  }
+
+  /**
+   * Create learned for today to DayReport
+   */
+  public static async createLearnedForToday(dayReport: DayReport) {
+    const updatedCell = [...dayReport.learnedForToday, UnicodeSymbols.ZERO_WIDTH_SPACE];
+
+    const updatedDayReport: DayReport = {
+      ...dayReport,
+      learnedForToday: updatedCell,
+    };
+    await DayReportDAL.updateDayReport(updatedDayReport);
+  }
+
+  /**
+   * Update learnedForToday to DayReport
+   */
+  public static async updateLearnedForToday(dayReport: DayReport, text: string, index: number) {
+    const getUpdatedText = dayReport.learnedForToday.map((item: string, i: number) => {
+      if (i === index) {
+        return `${text}`;
+      }
+
+      return item;
+    });
+
+    const updatedDayReport: DayReport = {
+      ...dayReport,
+      learnedForToday: getUpdatedText,
+    };
+
+    await DayReportDAL.updateDayReport(updatedDayReport);
   }
 
 }

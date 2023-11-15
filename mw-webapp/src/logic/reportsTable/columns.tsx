@@ -1,10 +1,16 @@
 import {createColumnHelper} from "@tanstack/react-table";
-import {Button} from "src/component/button/Button";
-import {addCellItem} from "src/logic/reportsTable/renderCellValue/helpers/addCellItem";
-import {renderCellDate} from "src/logic/reportsTable/renderCellValue/renderCellDate";
-import {renderCellIsDayOff} from "src/logic/reportsTable/renderCellValue/renderCellIsDayOff";
-import {renderCellItem} from "src/logic/reportsTable/renderCellValue/renderCellItem";
+import {EditableText} from "src/component/editableText/EditableText";
+import {CellItem} from "src/component/table/tableCell/cellItem/CellItem";
+import {TableCell} from "src/component/table/tableCell/TableCell";
+import {CurrentProblemDAL} from "src/dataAccessLogic/CurrentProblemDAL";
+import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
+import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
+import {MentorCommentDAL} from "src/dataAccessLogic/MentorCommentDAL";
+import {PlanForNextPeriodDAL} from "src/dataAccessLogic/PlanForNextPeriodDAL";
+import {renderCellDate} from "src/logic/reportsTable/renderCellItem/renderCellDate";
+import {renderCellIsDayOff} from "src/logic/reportsTable/renderCellItem/renderCellIsDayOff";
 import {DayReport} from "src/model/businessModel/DayReport";
+import {UnicodeSymbols} from "src/utils/UnicodeSymbols";
 
 const DEFAULT_SUMMARY_TIME = 0;
 
@@ -21,7 +27,11 @@ export const columns = [
     /**
      * Cell with date value
      */
-    cell: (dateValue) => renderCellDate(dateValue),
+    cell: (dateValue) => (
+      <TableCell>
+        {renderCellDate(dateValue)}
+      </TableCell>
+    ),
   }),
   columnHelper.accessor("jobsDone", {
     header: "Sum time",
@@ -31,49 +41,75 @@ export const columns = [
      */
     cell: (({row}) => {
       return (
-        row.original.jobsDone
-          .reduce((summaryTime, jobDone) => jobDone.time + summaryTime, DEFAULT_SUMMARY_TIME)
+        <TableCell>
+          {row.original.jobsDone
+            .reduce((summaryTime, jobDone) => jobDone.time + summaryTime, DEFAULT_SUMMARY_TIME)
+          }
+        </TableCell>
       );
     }),
   }),
   columnHelper.accessor("jobsDone", {
-    header: "Jobs done",
+    header: "Jobs done (minutes)",
 
     /**
      * Cell with JobsDone items
      */
     cell: ({row}) => {
       return (
-        <div>
+        <TableCell
+          buttonValue="add job"
+          onButtonClick={() => JobDoneDAL.createJobDone((row.original))}
+        >
           {row.original.jobsDone
-            .map((jobDoneItem) => (renderCellItem({content: jobDoneItem.getJobDone(), arrayItem: jobDoneItem})))
+            .map((jobDone) => (
+              <CellItem key={jobDone.uuid}>
+                <EditableText
+                  text={jobDone.description}
+                  onChangeFinish={(text) => JobDoneDAL.updateJobDone(jobDone, text)}
+                />
+                {UnicodeSymbols.DIVIDING_POINT}
+                <EditableText
+                  text={jobDone.time}
+                  onChangeFinish={(text) => JobDoneDAL.updateJobDoneTime(jobDone, text)}
+                />
+              </CellItem>
+            ),
+            )
           }
-          <Button
-            value="add job done"
-            onClick={() => addCellItem({rowUuid: row.original.uuid, dataType: "JobDone"})}
-          />
-        </div>
+        </TableCell>
       );
     },
   }),
   columnHelper.accessor("plansForNextPeriod", {
-    header: "Plans for tomorrow",
+    header: "Plans for tomorrow (minutes)",
 
     /**
      * Cell with PlanForNextPeriod items
      */
     cell: ({row}) => {
       return (
-        <div>
+        <TableCell
+          buttonValue="add plan"
+          onButtonClick={() => PlanForNextPeriodDAL.createPlanForNextPeriod(row.original)}
+        >
           {row.original.plansForNextPeriod
-            .map((planForNextPeriod) =>
-              (renderCellItem({content: planForNextPeriod.getPlanForNextPeriod(), arrayItem: planForNextPeriod})))
+            .map((planForNextPeriod) => (
+              <CellItem key={planForNextPeriod.uuid}>
+                <EditableText
+                  text={planForNextPeriod.job}
+                  onChangeFinish={(text) => PlanForNextPeriodDAL.updatePlanForNextPeriod(planForNextPeriod, text)}
+                />
+                {UnicodeSymbols.DIVIDING_POINT}
+                <EditableText
+                  text={planForNextPeriod.estimationTime}
+                  onChangeFinish={(value) => PlanForNextPeriodDAL.updatePlanForNextPeriodTime(planForNextPeriod, value)}
+                />
+              </CellItem>
+            ),
+            )
           }
-          <Button
-            value="Add plan for tomorrow"
-            onClick={() => addCellItem({rowUuid: row.original.uuid, dataType: "PlanForNextPeriod"})}
-          />
-        </div>
+        </TableCell>
       );
     },
   }),
@@ -85,20 +121,21 @@ export const columns = [
      */
     cell: ({row}) => {
       return (
-        <div>
+        <TableCell
+          buttonValue="add problem"
+          onButtonClick={() => CurrentProblemDAL.createCurrentProblem(row.original)}
+        >
           {row.original.problemsForCurrentPeriod
-            .map((currentProblem) =>
-              (renderCellItem({
-                content: currentProblem.description,
-                arrayItem: currentProblem,
-                isListItemDone: currentProblem.isDone,
-              })))
+            .map((currentProblem) => (
+              <CellItem key={currentProblem.uuid}>
+                <EditableText
+                  text={currentProblem.description}
+                  onChangeFinish={(text) => CurrentProblemDAL.updateCurrentProblem(currentProblem, text)}
+                />
+              </CellItem>
+            ))
           }
-          <Button
-            value="Add problem"
-            onClick={() => addCellItem({rowUuid: row.original.uuid, dataType: "CurrentProblem"})}
-          />
-        </div>
+        </TableCell>
       );
     },
   }),
@@ -109,20 +146,24 @@ export const columns = [
      * Cell with StudentComments items
      */
     cell: ({row}) => {
-      const parentUuid = row.original.uuid;
+      const dayReport = row.original;
 
       return (
-        <div>
-          {
-            row.original.studentComments
-              .map((studentComment, index) =>
-                renderCellItem({content: studentComment, parentUuid, columnName: "studentComments", index}))
-          }
-          <Button
-            value="Add comment"
-            onClick={() => addCellItem({rowUuid: row.original.uuid, dataType: "studentComments"})}
-          />
-        </div>
+        <TableCell
+          buttonValue="add comment"
+          onButtonClick={() => DayReportDAL.createStudentComment(dayReport)}
+        >
+          {row.original.studentComments
+            .map((studentComment, index) => (
+              <CellItem key={index}>
+                <EditableText
+                  text={studentComment}
+                  onChangeFinish={(text) => DayReportDAL.updateStudentComment(dayReport, text, index)}
+                />
+              </CellItem>
+            ),
+            )}
+        </TableCell>
       );
     },
   }),
@@ -133,20 +174,24 @@ export const columns = [
      * Cell with LearnForToday items
      */
     cell: ({row}) => {
-      const parentUuid = row.original.uuid;
+      const dayReport = row.original;
 
       return (
-        <div>
-          {
-            row.original.learnedForToday
-              .map((learnedForToday, index) =>
-                renderCellItem({content: learnedForToday, parentUuid, columnName: "learnedForToday", index}))
-          }
-          <Button
-            value="Add learned for today"
-            onClick={() => addCellItem({rowUuid: row.original.uuid, dataType: "learnedForToday"})}
-          />
-        </div>
+        <TableCell
+          buttonValue="add learned for today"
+          onButtonClick={() => DayReportDAL.createLearnedForToday(dayReport)}
+        >
+          {row.original.learnedForToday
+            .map((learnedForToday, index) => (
+              <CellItem key={index}>
+                <EditableText
+                  text={learnedForToday}
+                  onChangeFinish={(text) => DayReportDAL.updateLearnedForToday(dayReport, text, index)}
+                />
+              </CellItem>
+            ),
+            )}
+        </TableCell>
       );
     },
   }),
@@ -157,23 +202,22 @@ export const columns = [
      * Cell with MentorComments items
      */
     cell: ({row}) => {
-
       return (
-        <div>
-          {
-            row.original.mentorComments
-              .map((mentorComment) =>
-                renderCellItem({
-                  content: mentorComment.description,
-                  arrayItem: mentorComment,
-                  isListItemDone: mentorComment.isDone,
-                }))
-          }
-          <Button
-            value="Add comment"
-            onClick={() => addCellItem({rowUuid: row.original.uuid, dataType: "MentorComment"})}
-          />
-        </div>
+        <TableCell
+          buttonValue="add comment"
+          onButtonClick={() => MentorCommentDAL.createMentorComment(row.original)}
+        >
+          {row.original.mentorComments
+            .map((mentorComment) => (
+              <CellItem key={mentorComment.uuid}>
+                <EditableText
+                  text={mentorComment.description}
+                  onChangeFinish={(text) => MentorCommentDAL.updateMentorComment(mentorComment, text)}
+                />
+              </CellItem>
+            ),
+            )}
+        </TableCell>
       );
     },
   }),
@@ -183,6 +227,11 @@ export const columns = [
     /**
      * Cell with IsDayOff value
      */
-    cell: (isDAyOffValue) => renderCellIsDayOff(isDAyOffValue),
+    cell: (isDayOffValue) => (
+      <TableCell>
+        {renderCellIsDayOff(isDayOffValue)}
+      </TableCell>
+    )
+    ,
   }),
 ];

@@ -11,7 +11,7 @@ interface InputProps {
   /**
    * Input's value
    */
-  value: string;
+  value: string | number;
 
   /**
    * Input's type (what type of value is expected)
