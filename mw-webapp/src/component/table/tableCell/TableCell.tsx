@@ -15,7 +15,7 @@ interface TableCellProps {
   /**
    * Callback for button inside tableCell
    */
-  onButtonClick: () => void;
+  onButtonClick?: () => void;
 }
 
 /**
@@ -28,7 +28,7 @@ export const TableCell = (props: PropsWithChildren<TableCellProps>) => {
       {props.buttonValue &&
         <Button
           value={props.buttonValue}
-          onClick={props.onButtonClick}
+          onClick={props.onButtonClick ?? (() => {})}
         />
       }
     </div>

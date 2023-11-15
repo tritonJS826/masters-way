@@ -9,11 +9,7 @@ import {MentorCommentDAL} from "src/dataAccessLogic/MentorCommentDAL";
 import {PlanForNextPeriodDAL} from "src/dataAccessLogic/PlanForNextPeriodDAL";
 import {renderCellDate} from "src/logic/reportsTable/renderCellItem/renderCellDate";
 import {renderCellIsDayOff} from "src/logic/reportsTable/renderCellItem/renderCellIsDayOff";
-import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {DayReport} from "src/model/businessModel/DayReport";
-import {JobDone} from "src/model/businessModel/JobDone";
-import {MentorComment} from "src/model/businessModel/MentorComment";
-import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
 import {UnicodeSymbols} from "src/utils/UnicodeSymbols";
 
 const DEFAULT_SUMMARY_TIME = 0;
@@ -32,7 +28,7 @@ export const columns = [
      * Cell with date value
      */
     cell: (dateValue) => (
-      <TableCell onButtonClick={() => {}}>
+      <TableCell>
         {renderCellDate(dateValue)}
       </TableCell>
     ),
@@ -45,7 +41,7 @@ export const columns = [
      */
     cell: (({row}) => {
       return (
-        <TableCell onButtonClick={() => {}}>
+        <TableCell>
           {row.original.jobsDone
             .reduce((summaryTime, jobDone) => jobDone.time + summaryTime, DEFAULT_SUMMARY_TIME)
           }
@@ -75,7 +71,7 @@ export const columns = [
                 {UnicodeSymbols.DIVIDING_POINT}
                 <EditableText
                   text={jobDone.time}
-                  onChangeFinish={(text) => JobDoneDAL.updateJobDoneTime(jobDone, Number(text))}
+                  onChangeFinish={(text) => JobDoneDAL.updateJobDoneTime(jobDone, text)}
                 />
               </CellItem>
             ),
@@ -107,7 +103,7 @@ export const columns = [
                 {UnicodeSymbols.DIVIDING_POINT}
                 <EditableText
                   text={planForNextPeriod.estimationTime}
-                  onChangeFinish={(value) => PlanForNextPeriodDAL.updatePlanForNextPeriodTime(planForNextPeriod, Number(value))}
+                  onChangeFinish={(value) => PlanForNextPeriodDAL.updatePlanForNextPeriodTime(planForNextPeriod, value)}
                 />
               </CellItem>
             ),
@@ -232,7 +228,7 @@ export const columns = [
      * Cell with IsDayOff value
      */
     cell: (isDayOffValue) => (
-      <TableCell onButtonClick={() => {}}>
+      <TableCell>
         {renderCellIsDayOff(isDayOffValue)}
       </TableCell>
     )

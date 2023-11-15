@@ -1,36 +1,36 @@
 import {useState} from "react";
 import {renderSpan} from "src/component/editableText/renderSpan";
 import {Input} from "src/component/input/Input";
-import {KeyboardSymbols} from "src/utils/KeyboardSymbols";
+import {KeySymbols} from "src/utils/KeySymbols";
 
 /**
  * Cell item props
  */
-interface EditableTextProps {
+interface EditableTextProps<T> {
 
   /**
    * Cell item's text
    */
-  text: string | number;
+  text: T;
 
   /**
    * Function that update element on Enter click or unfocused
    */
-  onChangeFinish: (value: string) => void;
+  onChangeFinish: (value: T) => void;
 }
 
 /**
  * Render Input or span depend on client actions
  */
-export const EditableText = (props: EditableTextProps) => {
+export const EditableText = <T extends string | number>(props: EditableTextProps<T>) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [text, setText] = useState(props.text);
+  const [text, setText] = useState<T>(props.text);
 
   /**
    * HandleChangeFinish
    */
   const handleChangeFinish = () => {
-    props.onChangeFinish(text.toString());
+    props.onChangeFinish(text);
     setIsEditing(false);
   };
 
@@ -45,7 +45,7 @@ export const EditableText = (props: EditableTextProps) => {
    * Update cell value after OnKeyDown event
    */
   const handleEnter = (event: React.KeyboardEvent<HTMLElement>) => {
-    if (event.key === KeyboardSymbols.ENTER) {
+    if (event.key === KeySymbols.ENTER) {
       handleChangeFinish();
     }
   };
@@ -58,7 +58,7 @@ export const EditableText = (props: EditableTextProps) => {
       type="text"
       value={text}
       autoFocus={true}
-      onChange={(event) => setText(event)}
+      onChange={(event) => setText(event as T)}
     />
   );
 
