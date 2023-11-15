@@ -1,7 +1,5 @@
 import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
-import {AccordionContent} from "src/component/accordion/AccordionContent/AccordionContent";
-import {AccordionTrigger} from "src/component/accordion/AccordionTrigger/AccordionTrigger";
-import {getDataCy} from "src/helpers/getDataCy";
+import {getDataCy} from "src/utils/cyTesting/getDataCy";
 
 describe("Accordion component", () => {
   const FIRST_TRIGGER = "trigger1";
@@ -11,28 +9,12 @@ describe("Accordion component", () => {
 
   const ACCORDION_ITEMS_EXAMPLE = [
     {
-      trigger: <AccordionTrigger
-        text={FIRST_TRIGGER}
-        dataCy={FIRST_TRIGGER}
-      />,
-      content: <AccordionContent
-        content={<div>
-          {FIRST_CONTENT}
-        </div>}
-        dataCy={FIRST_CONTENT}
-      />,
+      trigger: {child: FIRST_TRIGGER, dataCy: FIRST_TRIGGER},
+      content: {child: FIRST_CONTENT, dataCy: FIRST_CONTENT},
     },
     {
-      trigger: <AccordionTrigger
-        text={SECOND_TRIGGER}
-        dataCy={SECOND_TRIGGER}
-      />,
-      content: <AccordionContent
-        content={<div>
-          {SECOND_CONTENT}
-        </div>}
-        dataCy={SECOND_CONTENT}
-      />,
+      trigger: {child: SECOND_TRIGGER, dataCy: SECOND_TRIGGER},
+      content: {child: SECOND_CONTENT, dataCy: SECOND_CONTENT},
     },
   ];
 

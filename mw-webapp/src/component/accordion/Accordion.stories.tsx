@@ -1,7 +1,5 @@
 import type {StoryObj} from "@storybook/react";
 import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
-import {AccordionContent} from "src/component/accordion/AccordionContent/AccordionContent";
-import {AccordionTrigger} from "src/component/accordion/AccordionTrigger/AccordionTrigger";
 
 const meta = {
   title: "Accordion",
@@ -15,16 +13,16 @@ type Story = StoryObj<typeof meta>;
 
 const itemsExample = [
   {
-    trigger: <AccordionTrigger text={"Is it accessible?"} />,
-    content: <AccordionContent content={"Yes. It adheres to the WAI-ARIA design pattern."} />,
+    trigger: {child: "Is it accessible?"},
+    content: {child: "Yes. It adheres to the WAI-ARIA design pattern."},
   },
   {
-    trigger: <AccordionTrigger text={"Is it unstyled?"} />,
-    content: <AccordionContent content={"Yes. It's unstyled by default, giving you freedom over the look and feel."} />,
+    trigger: {child: "Is it unstyled?"},
+    content: {child: "Yes. It's unstyled by default, giving you freedom over the look and feel."},
   },
   {
-    trigger: <AccordionTrigger text={"Can it be animated?"} />,
-    content: <AccordionContent content={"Yes! You can animate the Accordion with CSS or JavaScript."} />,
+    trigger: {child: "Can it be animated?"},
+    content: {child: "Yes! You can animate the Accordion with CSS or JavaScript."},
   },
 ];
 
@@ -44,8 +42,8 @@ export const SingleItem: Story = {
     className: "accordion-example",
     items: [
       {
-        trigger: <AccordionTrigger text={"Is it accessible?"} />,
-        content: <AccordionContent content={"Yes. It adheres to the WAI-ARIA design pattern."} />,
+        trigger: {child: "Is it accessible?"},
+        content: {child: "Yes. It adheres to the WAI-ARIA design pattern."},
       },
     ],
   },

@@ -7,9 +7,9 @@ import styles from "src/component/accordion/AccordionContent/AccordionContent.mo
 export interface AccordionContentProps {
 
   /**
-   * The text content to be displayed within the AccordionContent.
+   * The children to be displayed within the AccordionContent.
    */
-  content: string | React.ReactElement | React.ReactElement[];
+  child: React.ReactNode;
 
   /**
    * Data attribute for cypress testing
@@ -28,7 +28,7 @@ export const AccordionContent = (props: AccordionContentProps) => {
       data-cy={props.dataCy ?? "accordion-content"}
     >
       <div className={styles.accordionContentText}>
-        {props.content}
+        {props.child}
       </div>
     </RadixAccordionContent>
   );

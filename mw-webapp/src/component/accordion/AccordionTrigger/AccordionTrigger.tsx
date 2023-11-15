@@ -11,9 +11,9 @@ import styles from "src/component/accordion/AccordionTrigger/AccordionTrigger.mo
 export interface AccordionTriggerProps {
 
   /**
-   * The text to be displayed within the AccordionTrigger.
+   * The child to be displayed within the AccordionTrigger.
    */
-  text: string;
+  child: React.ReactNode;
 
   /**
    * Data attribute for cypress testing
@@ -29,10 +29,10 @@ export const AccordionTrigger = (props: AccordionTriggerProps) => {
   return (
     <RadixAccordionHeader
       className={styles.accordionHeader}
-      data-cy={props.dataCy ?? "accordion-trigger"}
+      data-cy={props.dataCy}
     >
       <RadixAccordionTrigger className={styles.accordionTrigger}>
-        {props.text}
+        {props.child}
         <ChevronDownIcon
           className={styles.accordionChevron}
           aria-hidden
