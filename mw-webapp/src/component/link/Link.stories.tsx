@@ -13,15 +13,13 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-/**
- * Link must be wrapped by BrowserRouter otherwise there will be an error
- */
 export const Default: Story = {
   args: {
     value: "Default Link",
     path: "/",
   },
   render: (args) => (
+    // Link must be wrapped by BrowserRouter otherwise there will be an error
     <BrowserRouter>
       <Link {...args} />
     </BrowserRouter>

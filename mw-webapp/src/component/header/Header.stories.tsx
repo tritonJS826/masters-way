@@ -13,12 +13,9 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-/**
- * Header must be wrapped by BrowserRouter otherwise there will be an error with Link component
- */
-
 export const Default: Story = {
   render: () => (
+    // Header must be wrapped by BrowserRouter otherwise there will be an error with Link component
     <BrowserRouter>
       <Header />
     </BrowserRouter>

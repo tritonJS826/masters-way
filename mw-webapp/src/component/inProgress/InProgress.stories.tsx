@@ -21,8 +21,13 @@ export const Default: Story = {
 };
 
 export const LimitedByParent: Story = {
-  render: () => (
-    <div style={{position: "relative", width: "100px", height: "100px"}}>
+  args: {
+    position: "relative",
+    width: "100px",
+    height: "100px",
+  },
+  render: (args) => (
+    <div style={args}>
       <InProgress />
     </div>
   ),
