@@ -36,7 +36,10 @@ export const Tooltip = (props: PropsWithChildren<TooltipProps>) => {
       <span className={styles.target}>
         {props.children}
       </span>
-      <div className={classes}>
+      <div
+        className={classes}
+        data-cy="tooltipContent"
+      >
         {props.content}
       </div>
     </div>
