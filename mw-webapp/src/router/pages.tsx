@@ -21,7 +21,11 @@ export const pages = {
      * @returns {string} path to react-router OR Specific URl path to specific user
      */
     path: (uuid: string): string => `/user/${uuid}`,
-    element: <UserPage />,
+
+    /**
+     * Sdf
+     */
+    element: (uuid: string) => <UserPage uuid={uuid} />,
   },
   way: {
 

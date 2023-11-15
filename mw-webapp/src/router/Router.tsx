@@ -1,10 +1,14 @@
-import {Route, Routes} from "react-router-dom";
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import {Route, Routes, useParams} from "react-router-dom";
 import {pages} from "src/router/pages";
+import {QueryParamTypes, ValidatedParams} from "src/router/useValidatedParams";
 
 /**
  * Router
  */
 export const Router = () => {
+  const {uuid} = useParams<QueryParamTypes>();
+
   return (
     <Routes>
       <Route
@@ -13,7 +17,11 @@ export const Router = () => {
       />
       <Route
         path={pages.user.path(":uuid")}
-        element={pages.user.element}
+        element={
+          <ValidatedParams>
+            {pages.user.element(uuid!)}
+          </ValidatedParams>
+        }
       />
       <Route
         path={pages.way.path(":uuid")}
