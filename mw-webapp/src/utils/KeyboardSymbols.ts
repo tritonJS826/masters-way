@@ -6,6 +6,6 @@ export enum KeyboardSymbols {
   /**
    * Enter
    */
-  ENTER = "enter",
+  ENTER = "Enter",
 }
 

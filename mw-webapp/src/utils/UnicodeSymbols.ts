@@ -4,12 +4,12 @@
 export enum UnicodeSymbols {
 
   /**
-   * Zero-width space by unicode
+   * Zero-width space
    */
   ZERO_WIDTH_SPACE = "\u200B",
 
   /**
-   * Dividing point by unicode
+   * Dividing point
    */
   DIVIDING_POINT = "\u00B7",
 }
