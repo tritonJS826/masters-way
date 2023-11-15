@@ -25,7 +25,7 @@ export const AccordionContent = (props: AccordionContentProps) => {
   return (
     <RadixAccordionContent
       className={styles.accordionContent}
-      data-cy={props.dataCy ?? "accordion-content"}
+      data-cy={props.dataCy}
     >
       <div className={styles.accordionContentText}>
         {props.child}
