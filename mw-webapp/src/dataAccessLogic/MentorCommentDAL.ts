@@ -3,6 +3,7 @@ import {mentorCommentToMentorCommentDTOConverter} from
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {mentorCommentDTOToMentorCommentConverter}
   from "src/dataAccessLogic/DTOToBusinessConverter/mentorCommentDTOToMentorCommentConverter";
+import {DayReport} from "src/model/businessModel/DayReport";
 import {MentorComment} from "src/model/businessModel/MentorComment";
 import {MentorCommentDTOWithoutUuid, MentorCommentService} from "src/service/MentorCommentService";
 import {UnicodeSymbols} from "src/utils/UnicodeSymbols";
@@ -25,7 +26,7 @@ export class MentorCommentDAL {
   /**
    * Create MentorComment
    */
-  public static async createMentorComment(dayReportUuid: string): Promise<MentorComment> {
+  public static async createMentorComment(dayReport: DayReport): Promise<MentorComment> {
     const mentorCommentWithoutUuid: MentorCommentDTOWithoutUuid = {
       description: UnicodeSymbols.ZERO_WIDTH_SPACE,
       mentorUuid: "",
@@ -35,9 +36,8 @@ export class MentorCommentDAL {
     const newMentorComment = await MentorCommentService.createMentorCommentDTO(mentorCommentWithoutUuid);
 
     const mentorComment = mentorCommentDTOToMentorCommentConverter(newMentorComment);
-    const updatedDayReport = await DayReportDAL.getDayReport(dayReportUuid);
-    const updatedMentorComment = [...updatedDayReport.mentorComments, mentorComment];
-    const dayReportUpdated = {...updatedDayReport, mentorComments: updatedMentorComment};
+    const updatedMentorComment = [...dayReport.mentorComments, mentorComment];
+    const dayReportUpdated = {...dayReport, mentorComments: updatedMentorComment};
     await DayReportDAL.updateDayReport(dayReportUpdated);
 
     return mentorComment;

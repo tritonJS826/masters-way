@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {renderSpan} from "src/component/editableText/renderSpan";
 import {Input} from "src/component/input/Input";
+import {KeyboardSymbols} from "src/utils/KeyboardSymbols";
 
 /**
  * Cell item props
@@ -10,7 +11,7 @@ interface EditableTextProps {
   /**
    * Cell item's text
    */
-  text: string;
+  text: string | number;
 
   /**
    * Function that update element on Enter click or unfocused
@@ -26,26 +27,26 @@ export const EditableText = (props: EditableTextProps) => {
   const [text, setText] = useState(props.text);
 
   /**
-   * HandleChangeText
+   * HandleChangeFinish
    */
-  const handleChangeText = () => {
-    props.onChangeFinish(text);
+  const handleChangeFinish = () => {
+    props.onChangeFinish(text.toString());
     setIsEditing(false);
   };
 
   /**
    * Update cell value after onBlur event
    */
-  const handleBlur = async () => {
-    handleChangeText();
+  const handleBlur = () => {
+    handleChangeFinish();
   };
 
   /**
    * Update cell value after OnKeyDown event
    */
-  const handleEnter = async (event: React.KeyboardEvent<HTMLElement>) => {
-    if (event.key === "Enter") {
-      handleChangeText();
+  const handleEnter = (event: React.KeyboardEvent<HTMLElement>) => {
+    if (event.key === KeyboardSymbols.ENTER) {
+      handleChangeFinish();
     }
   };
 

@@ -3,6 +3,7 @@ import {planForNextPeriodToPlanForNextPeriodDTOConverter} from
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {planForNextPeriodDTOToPlanForNextPeriodConverter} from
   "src/dataAccessLogic/DTOToBusinessConverter/planForNextPeriodDTOToPlanForNextPeriodConverter";
+import {DayReport} from "src/model/businessModel/DayReport";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
 import {TimeUnit} from "src/model/businessModel/time/timeUnit/TimeUnit";
 import {PlanForNextPeriodDTOWithoutUuid, PlanForNextPeriodService} from "src/service/PlanForNextPeriodService";
@@ -26,7 +27,7 @@ export class PlanForNextPeriodDAL {
   /**
    * Create PlanForNextPeriod
    */
-  public static async createPlanForNextPeriod(dayReportUuid: string): Promise<PlanForNextPeriod> {
+  public static async createPlanForNextPeriod(dayReport: DayReport): Promise<PlanForNextPeriod> {
     const planForNextPeriodWithoutUuid: PlanForNextPeriodDTOWithoutUuid = {
       job: UnicodeSymbols.ZERO_WIDTH_SPACE,
       estimationTime: 0,
@@ -36,9 +37,8 @@ export class PlanForNextPeriodDAL {
     const newPlanForNextPeriod = await PlanForNextPeriodService.createPlanForNextPeriodDTO(planForNextPeriodWithoutUuid);
 
     const planForNextPeriod = planForNextPeriodDTOToPlanForNextPeriodConverter(newPlanForNextPeriod);
-    const updatedDayReport = await DayReportDAL.getDayReport(dayReportUuid);
-    const updatedPlansForNextPeriod = [...updatedDayReport.plansForNextPeriod, planForNextPeriod];
-    const dayReportUpdated = {...updatedDayReport, plansForNextPeriod: updatedPlansForNextPeriod};
+    const updatedPlansForNextPeriod = [...dayReport.plansForNextPeriod, planForNextPeriod];
+    const dayReportUpdated = {...dayReport, plansForNextPeriod: updatedPlansForNextPeriod};
     await DayReportDAL.updateDayReport(dayReportUpdated);
 
     return planForNextPeriod;

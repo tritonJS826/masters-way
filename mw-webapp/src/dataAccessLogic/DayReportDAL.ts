@@ -125,13 +125,11 @@ export class DayReportDAL {
   /**
    * Create student comment to DayReport
    */
-  public static async createStudentComment(dayReportUuid: string) {
-    const oldDayReport = await DayReportDAL.getDayReport(dayReportUuid);
-
-    const updatedCell = [...oldDayReport.studentComments, UnicodeSymbols.ZERO_WIDTH_SPACE];
+  public static async createStudentComment(dayReport: DayReport) {
+    const updatedCell = [...dayReport.studentComments, UnicodeSymbols.ZERO_WIDTH_SPACE];
 
     const updatedDayReport: DayReport = {
-      ...oldDayReport,
+      ...dayReport,
       studentComments: updatedCell,
     };
     await DayReportDAL.updateDayReport(updatedDayReport);
@@ -140,10 +138,8 @@ export class DayReportDAL {
   /**
    * Update student comment to DayReport
    */
-  public static async updateStudentComment(dayReportUuid: string, text: string, index: number) {
-    const oldDayReport = await DayReportDAL.getDayReport(dayReportUuid);
-
-    const getUpdatedText = oldDayReport.studentComments.map((item: string, i: number) => {
+  public static async updateStudentComment(dayReport: DayReport, text: string, index: number) {
+    const getUpdatedText = dayReport.studentComments.map((item: string, i: number) => {
       if (i === index) {
         return `${text}`;
       }
@@ -152,7 +148,7 @@ export class DayReportDAL {
     });
 
     const updatedDayReport: DayReport = {
-      ...oldDayReport,
+      ...dayReport,
       studentComments: getUpdatedText,
     };
     await DayReportDAL.updateDayReport(updatedDayReport);
@@ -161,13 +157,11 @@ export class DayReportDAL {
   /**
    * Create learned for today to DayReport
    */
-  public static async createLearnedForToday(dayReportUuid: string) {
-    const oldDayReport = await DayReportDAL.getDayReport(dayReportUuid);
-
-    const updatedCell = [...oldDayReport.learnedForToday, UnicodeSymbols.ZERO_WIDTH_SPACE];
+  public static async createLearnedForToday(dayReport: DayReport) {
+    const updatedCell = [...dayReport.learnedForToday, UnicodeSymbols.ZERO_WIDTH_SPACE];
 
     const updatedDayReport: DayReport = {
-      ...oldDayReport,
+      ...dayReport,
       learnedForToday: updatedCell,
     };
     await DayReportDAL.updateDayReport(updatedDayReport);
@@ -176,10 +170,8 @@ export class DayReportDAL {
   /**
    * Update learnedForToday to DayReport
    */
-  public static async updateLearnedForToday(dayReportUuid: string, text: string, index: number) {
-    const oldDayReport = await DayReportDAL.getDayReport(dayReportUuid);
-
-    const getUpdatedText = oldDayReport.learnedForToday.map((item: string, i: number) => {
+  public static async updateLearnedForToday(dayReport: DayReport, text: string, index: number) {
+    const getUpdatedText = dayReport.learnedForToday.map((item: string, i: number) => {
       if (i === index) {
         return `${text}`;
       }
@@ -188,7 +180,7 @@ export class DayReportDAL {
     });
 
     const updatedDayReport: DayReport = {
-      ...oldDayReport,
+      ...dayReport,
       learnedForToday: getUpdatedText,
     };
 

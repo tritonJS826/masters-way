@@ -1,6 +1,7 @@
 import {jobDoneToJobDoneDTOConverter} from "src/dataAccessLogic/BusinessToDTOConverter/jobDoneToJobDoneDTOConverter";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {jobDoneDTOToJobDoneConverter} from "src/dataAccessLogic/DTOToBusinessConverter/jobDoneDTOToJobDoneConverter";
+import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {TimeUnit} from "src/model/businessModel/time/timeUnit/TimeUnit";
 import {JobDoneDTOWithoutUuid, JobDoneService} from "src/service/JobDoneService";
@@ -24,7 +25,7 @@ export class JobDoneDAL {
   /**
    * Create JobDone
    */
-  public static async createJobDone(dayReportUuid: string): Promise<JobDone> {
+  public static async createJobDone(dayReport: DayReport): Promise<JobDone> {
     const jobDoneWithoutUuid: JobDoneDTOWithoutUuid = {
       description: UnicodeSymbols.ZERO_WIDTH_SPACE,
       time: 0,
@@ -34,9 +35,8 @@ export class JobDoneDAL {
     const newJobDone = await JobDoneService.createJobDoneDTO(jobDoneWithoutUuid);
 
     const jobDone = jobDoneDTOToJobDoneConverter(newJobDone);
-    const updatedDayReport = await DayReportDAL.getDayReport(dayReportUuid);
-    const updatedJobsDone = [...updatedDayReport.jobsDone, jobDone];
-    const dayReportUpdated = {...updatedDayReport, jobsDone: updatedJobsDone};
+    const updatedJobsDone = [...dayReport.jobsDone, jobDone];
+    const dayReportUpdated = {...dayReport, jobsDone: updatedJobsDone};
     await DayReportDAL.updateDayReport(dayReportUpdated);
 
     return jobDone;

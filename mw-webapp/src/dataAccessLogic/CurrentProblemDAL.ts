@@ -4,6 +4,7 @@ import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {currentProblemDTOToCurrentProblemConverter} from
   "src/dataAccessLogic/DTOToBusinessConverter/currentProblemDTOToCurrentProblemConverter";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
+import {DayReport} from "src/model/businessModel/DayReport";
 import {CurrentProblemDTOWithoutUuid, CurrentProblemService} from "src/service/CurrentProblemService";
 import {UnicodeSymbols} from "src/utils/UnicodeSymbols";
 
@@ -25,7 +26,7 @@ export class CurrentProblemDAL {
   /**
    * Create CurrentProblem
    */
-  public static async createCurrentProblem(dayReportUuid: string): Promise<CurrentProblem> {
+  public static async createCurrentProblem(dayReport: DayReport): Promise<CurrentProblem> {
     const currentProblemWithoutUuid: CurrentProblemDTOWithoutUuid = {
       description: UnicodeSymbols.ZERO_WIDTH_SPACE,
       isDone: false,
@@ -34,9 +35,8 @@ export class CurrentProblemDAL {
     const newCurrentProblem = await CurrentProblemService.createCurrentProblemDTO(currentProblemWithoutUuid);
 
     const currentProblem = currentProblemDTOToCurrentProblemConverter(newCurrentProblem);
-    const updatedDayReport = await DayReportDAL.getDayReport(dayReportUuid);
-    const updatedCurrentProblem = [...updatedDayReport.problemsForCurrentPeriod, currentProblem];
-    const dayReportUpdated = {...updatedDayReport, problemsForCurrentPeriod: updatedCurrentProblem};
+    const updatedCurrentProblem = [...dayReport.problemsForCurrentPeriod, currentProblem];
+    const dayReportUpdated = {...dayReport, problemsForCurrentPeriod: updatedCurrentProblem};
     await DayReportDAL.updateDayReport(dayReportUpdated);
 
     return currentProblem;

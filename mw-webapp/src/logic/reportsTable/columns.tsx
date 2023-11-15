@@ -1,5 +1,4 @@
 import {createColumnHelper} from "@tanstack/react-table";
-import {EditableNumber} from "src/component/editableText/EditableNumber";
 import {EditableText} from "src/component/editableText/EditableText";
 import {CellItem} from "src/component/table/tableCell/cellItem/CellItem";
 import {TableCell} from "src/component/table/tableCell/TableCell";
@@ -69,7 +68,7 @@ export const columns = [
       return (
         <TableCell
           buttonValue="add job"
-          onButtonClick={() => JobDoneDAL.createJobDone((row.original.uuid))}
+          onButtonClick={() => JobDoneDAL.createJobDone((row.original))}
         >
           {row.original.jobsDone
             .map((jobDone) => (
@@ -79,9 +78,9 @@ export const columns = [
                   onChangeFinish={(text) => JobDoneDAL.updateJobDone(jobDone, text)}
                 />
                 {UnicodeSymbols.DIVIDING_POINT}
-                <EditableNumber
-                  value={jobDone.time}
-                  onChangeFinish={(value) => JobDoneDAL.updateJobDoneTime(jobDone, value)}
+                <EditableText
+                  text={jobDone.time}
+                  onChangeFinish={(text) => JobDoneDAL.updateJobDoneTime(jobDone, Number(text))}
                 />
               </CellItem>
             ),
@@ -101,7 +100,7 @@ export const columns = [
       return (
         <TableCell
           buttonValue="add plan"
-          onButtonClick={() => PlanForNextPeriodDAL.createPlanForNextPeriod(row.original.uuid)}
+          onButtonClick={() => PlanForNextPeriodDAL.createPlanForNextPeriod(row.original)}
         >
           {row.original.plansForNextPeriod
             .map((planForNextPeriod) => (
@@ -111,9 +110,9 @@ export const columns = [
                   onChangeFinish={(text) => PlanForNextPeriodDAL.updatePlanForNextPeriod(planForNextPeriod, text)}
                 />
                 {UnicodeSymbols.DIVIDING_POINT}
-                <EditableNumber
-                  value={planForNextPeriod.estimationTime}
-                  onChangeFinish={(value) => PlanForNextPeriodDAL.updatePlanForNextPeriodTime(planForNextPeriod, value)}
+                <EditableText
+                  text={planForNextPeriod.estimationTime}
+                  onChangeFinish={(value) => PlanForNextPeriodDAL.updatePlanForNextPeriodTime(planForNextPeriod, Number(value))}
                 />
               </CellItem>
             ),
@@ -133,7 +132,7 @@ export const columns = [
       return (
         <TableCell
           buttonValue="add problem"
-          onButtonClick={() => CurrentProblemDAL.createCurrentProblem(row.original.uuid)}
+          onButtonClick={() => CurrentProblemDAL.createCurrentProblem(row.original)}
         >
           {row.original.problemsForCurrentPeriod
             .map((currentProblem) => (
@@ -156,19 +155,19 @@ export const columns = [
      * Cell with StudentComments items
      */
     cell: ({row}) => {
-      const dayReportUuid = row.original.uuid;
+      const dayReport = row.original;
 
       return (
         <TableCell
           buttonValue="add comment"
-          onButtonClick={() => DayReportDAL.createStudentComment(dayReportUuid)}
+          onButtonClick={() => DayReportDAL.createStudentComment(dayReport)}
         >
           {row.original.studentComments
             .map((studentComment, index) => (
               <CellItem key={index}>
                 <EditableText
                   text={studentComment}
-                  onChangeFinish={(text) => DayReportDAL.updateStudentComment(dayReportUuid, text, index)}
+                  onChangeFinish={(text) => DayReportDAL.updateStudentComment(dayReport, text, index)}
                 />
               </CellItem>
             ),
@@ -184,19 +183,19 @@ export const columns = [
      * Cell with LearnForToday items
      */
     cell: ({row}) => {
-      const dayReportUuid = row.original.uuid;
+      const dayReport = row.original;
 
       return (
         <TableCell
           buttonValue="add learned for today"
-          onButtonClick={() => DayReportDAL.createLearnedForToday(dayReportUuid)}
+          onButtonClick={() => DayReportDAL.createLearnedForToday(dayReport)}
         >
           {row.original.learnedForToday
             .map((learnedForToday, index) => (
               <CellItem key={index}>
                 <EditableText
                   text={learnedForToday}
-                  onChangeFinish={(text) => DayReportDAL.updateLearnedForToday(dayReportUuid, text, index)}
+                  onChangeFinish={(text) => DayReportDAL.updateLearnedForToday(dayReport, text, index)}
                 />
               </CellItem>
             ),
@@ -215,7 +214,7 @@ export const columns = [
       return (
         <TableCell
           buttonValue="add comment"
-          onButtonClick={() => MentorCommentDAL.createMentorComment(row.original.uuid)}
+          onButtonClick={() => MentorCommentDAL.createMentorComment(row.original)}
         >
           {row.original.mentorComments
             .map((mentorComment) => (
