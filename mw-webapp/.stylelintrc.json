@@ -2,7 +2,7 @@
   "extends": [
     "stylelint-config-idiomatic-order",
     "stylelint-config-standard-scss",
-    "stylelint-prettier/recommended"
+    "stylelint-stylistic/config"
   ],
   "plugins": [
     "stylelint-scss"
@@ -16,6 +16,8 @@
     "scss/double-slash-comment-whitespace-inside": null,
     "scss/at-import-no-partial-leading-underscore": null,
     "selector-class-pattern": null,
-    "keyframes-name-pattern": null
+    "keyframes-name-pattern": null,
+    "stylistic/value-list-comma-newline-after": null,
+    "stylistic/declaration-colon-newline-after": null
   }
 }
