@@ -18,8 +18,18 @@ describe("Accordion component", () => {
     },
   ];
 
+  /**
+   * Beginning of the test for the Accordion component.
+   */
+  const mountAccordion = (type: accordionTypes) => {
+    cy.mount(<Accordion
+      items={ACCORDION_ITEMS_EXAMPLE}
+      type={type}
+    />);
+  };
+
   it("should render the accordion and all options", () => {
-    cy.mount(<Accordion items={ACCORDION_ITEMS_EXAMPLE} />);
+    mountAccordion(accordionTypes.single);
 
     cy.get(getDataCy(FIRST_CONTENT)).should("exist");
     cy.get(getDataCy(SECOND_CONTENT)).should("exist");
@@ -28,13 +38,13 @@ describe("Accordion component", () => {
   });
 
   it("should accordion option be closed (text hidden)", () => {
-    cy.mount(<Accordion items={ACCORDION_ITEMS_EXAMPLE} />);
+    mountAccordion(accordionTypes.single);
 
     cy.get(getDataCy(FIRST_CONTENT)).should("be.not.visible");
   });
 
   it("should accordion option be opened when click trigger", () => {
-    cy.mount(<Accordion items={ACCORDION_ITEMS_EXAMPLE} />);
+    mountAccordion(accordionTypes.single);
 
     cy.get(getDataCy(FIRST_TRIGGER)).click();
 
@@ -42,7 +52,7 @@ describe("Accordion component", () => {
   });
 
   it("should all options could be opened and closed one by one", () => {
-    cy.mount(<Accordion items={ACCORDION_ITEMS_EXAMPLE} />);
+    mountAccordion(accordionTypes.single);
 
     cy.get(getDataCy(FIRST_TRIGGER)).click();
     cy.get(getDataCy(SECOND_TRIGGER)).click();
@@ -52,10 +62,7 @@ describe("Accordion component", () => {
   });
 
   it("should all options be opened and closed in multiple mode", () => {
-    cy.mount(<Accordion
-      items={ACCORDION_ITEMS_EXAMPLE}
-      type={accordionTypes.multiple}
-    />);
+    mountAccordion(accordionTypes.multiple);
 
     cy.get(getDataCy(FIRST_TRIGGER)).click();
     cy.get(getDataCy(SECOND_TRIGGER)).click();
@@ -65,10 +72,7 @@ describe("Accordion component", () => {
   });
 
   it("should only one option be opened in not multiple mode", () => {
-    cy.mount(<Accordion
-      items={ACCORDION_ITEMS_EXAMPLE}
-      type={accordionTypes.single}
-    />);
+    mountAccordion(accordionTypes.single);
 
     cy.get(getDataCy(FIRST_TRIGGER)).click();
 
