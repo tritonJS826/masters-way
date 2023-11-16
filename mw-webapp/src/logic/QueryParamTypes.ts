@@ -6,5 +6,5 @@ export type QueryParamTypes = {
   /**
    * User's uuid
    */
-  uuid: string;
+  uuid?: string;
 }

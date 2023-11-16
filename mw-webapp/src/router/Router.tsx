@@ -1,5 +1,6 @@
 import {Route, Routes} from "react-router-dom";
 import {pages} from "src/router/pages";
+import {ValidatedParams} from "src/router/ValidatedParams";
 
 /**
  * Router
@@ -13,7 +14,12 @@ export const Router = () => {
       />
       <Route
         path={pages.user.path(":uuid")}
-        element={pages.user.pageComponent}
+        element={
+          <ValidatedParams
+            params={pages.user.params}
+            page={pages.user.pageComponent}
+          />
+        }
       />
       <Route
         path={pages.way.path(":uuid")}
