@@ -2,9 +2,9 @@ import {AboutProjectPage} from "src/logic/aboutProjectPage/AboutProjectPage";
 import {AllUsersPage} from "src/logic/allUsersPage/AllUsersPage";
 import {AllWaysPage} from "src/logic/allWaysPage/AllWaysPage";
 import {Page404} from "src/logic/page404/Page404";
-import {UserPage} from "src/logic/userPage/UserPage";
 import {UserProfilePage} from "src/logic/userProfilePage/UserProfilePage";
 import {WayPage} from "src/logic/wayPage/WayPage";
+import {ValidatedUser} from "src/router/ValidatedUser";
 
 /**
  * Pages meta data
@@ -12,7 +12,7 @@ import {WayPage} from "src/logic/wayPage/WayPage";
 export const pages = {
   allWays: {
     path: "/",
-    element: <AllWaysPage />,
+    pageComponent: <AllWaysPage />,
   },
   user: {
 
@@ -21,11 +21,7 @@ export const pages = {
      * @returns {string} path to react-router OR Specific URl path to specific user
      */
     path: (uuid: string): string => `/user/${uuid}`,
-
-    /**
-     * Sdf
-     */
-    element: (uuid: string) => <UserPage uuid={uuid} />,
+    pageComponent: <ValidatedUser />,
   },
   way: {
 
@@ -34,11 +30,11 @@ export const pages = {
      * @returns {string} path to react-router OR Specific URl path to specific way
      */
     path: (uuid: string): string => `/way/${uuid}`,
-    element: <WayPage />,
+    pageComponent: <WayPage />,
   },
   allUsers: {
     path: "/users",
-    element: <AllUsersPage />,
+    pageComponent: <AllUsersPage />,
   },
   userProfile: {
 
@@ -47,14 +43,14 @@ export const pages = {
      * @returns {string} path to react-router OR Specific URl path to specific userProfile
      */
     path: (uuid: string): string => `/userProfile/${uuid}`,
-    element: <UserProfilePage />,
+    pageComponent: <UserProfilePage />,
   },
   aboutProject: {
     path: "/aboutProject",
-    element: <AboutProjectPage />,
+    pageComponent: <AboutProjectPage />,
   },
   page404: {
     path: "*",
-    element: <Page404 />,
+    pageComponent: <Page404 />,
   },
 };

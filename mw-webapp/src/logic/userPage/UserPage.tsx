@@ -1,5 +1,4 @@
 import {useEffect, useState} from "react";
-// Import {Navigate} from "react-router-dom";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {FavoriteWaysTable} from "src/logic/waysTable/FavoriteWaysTable";
@@ -10,7 +9,7 @@ import styles from "src/logic/userPage/UserPage.module.scss";
 /**
  * PageProps
  */
-interface PageProps {
+interface UserPageProps {
 
   /**
    * Page's uuid
@@ -21,7 +20,7 @@ interface PageProps {
 /**
  * User page
  */
-export const UserPage = (props: PageProps) => {
+export const UserPage = (props: UserPageProps) => {
   const [userName, setUserName] = useState<string>("");
 
   /**
