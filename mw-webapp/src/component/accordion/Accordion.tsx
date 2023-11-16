@@ -1,4 +1,4 @@
-import {ReactElement, useId} from "react";
+import {useId} from "react";
 import {Root as RadixAccordionRoot} from "@radix-ui/react-accordion";
 import clsx from "clsx";
 import {AccordionContentProps} from "src/component/accordion/AccordionContent/AccordionContent";
@@ -32,12 +32,12 @@ interface AccordionItemData {
   /**
    * The trigger element that users can interact with to expand or collapse the item.
    */
-  trigger: ReactElement<AccordionTriggerProps>;
+  trigger: AccordionTriggerProps;
 
   /**
    * The content element that becomes visible when the item is expanded.
    */
-  content: ReactElement<AccordionContentProps>;
+  content: AccordionContentProps;
 }
 
 /**
@@ -46,7 +46,7 @@ interface AccordionItemData {
 interface AccordionProps {
 
   /**
-   * An array of objects representing the accordion items, each containing a trigger and content element.
+   * An array of objects representing the accordion items, each containing a trigger (ReactNode) and content (ReactNode) element.
    */
   items: AccordionItemData[];
 
