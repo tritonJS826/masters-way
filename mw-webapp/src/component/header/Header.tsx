@@ -53,23 +53,23 @@ export const Header = () => {
 
   const navigationLinks: (navigationLink | null)[] = [
     {
-      path: pages.allWays.path,
+      path: pages.allWays.getPath(),
       value: "All ways",
     },
     {
-      path: pages.allUsers.path,
+      path: pages.allUsers.getPath(),
       value: "All users",
     },
     user && {
-      path: pages.user.path(user.uid),
+      path: pages.user.getPath(user.uid),
       value: "My ways",
     },
     user && {
-      path: pages.userProfile.path(user.uid),
+      path: pages.userProfile.getPath(user.uid),
       value: "Profile",
     },
     {
-      path: pages.aboutProject.path,
+      path: pages.aboutProject.getPath(),
       value: "About",
     },
   ];

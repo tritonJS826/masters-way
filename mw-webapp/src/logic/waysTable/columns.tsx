@@ -28,7 +28,7 @@ export const columns = [
      */
     cell: ({row}) => (
       <Link
-        path={pages.way.path(row.original.uuid)}
+        path={pages.way.getPath(row.original.uuid)}
         value={row.original.name}
       />
     ),
@@ -59,7 +59,7 @@ export const columns = [
       return (
         <>
           <Link
-            path={pages.user.path(row.original.owner.uuid)}
+            path={pages.user.getPath(row.original.owner.uuid)}
             value={row.original.owner.name}
           />
           {renderCellValue(row.original.owner.email)}

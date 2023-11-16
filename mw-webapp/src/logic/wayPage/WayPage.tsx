@@ -1,6 +1,5 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {HeadingLevel, Title} from "src/component/title/Title";
-import {QueryParamTypes} from "src/logic/QueryParamTypes";
 import {DayReportsTable} from "src/logic/reportsTable/DayReportsTable";
 import {pages} from "src/router/pages";
 import styles from "src/logic/wayPage/WayPage.module.scss";
@@ -10,7 +9,7 @@ import styles from "src/logic/wayPage/WayPage.module.scss";
  */
 export const WayPage = () => {
   const navigate = useNavigate();
-  const {uuid} = useParams<QueryParamTypes>();
+  const {uuid} = useParams();
 
   return (
     <>
@@ -23,7 +22,7 @@ export const WayPage = () => {
           <DayReportsTable wayUuid={uuid} />
         </div>
         :
-        navigate(pages.page404.path)
+        navigate(pages.page404.getPath())
       }
     </>
   );
