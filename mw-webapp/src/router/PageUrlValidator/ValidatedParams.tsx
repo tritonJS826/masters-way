@@ -27,7 +27,7 @@ const validateUuid = (uuid: Readonly<Params<string>>) => {
  */
 const validateParam = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  realParamValue: Readonly<Params<string>>,
+  realParamValue: any,
   paramType: UrlParamsType,
 ) => {
   switch (paramType) {

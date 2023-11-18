@@ -45,7 +45,8 @@ export const pages: Record<string, PageParams> = {
   },
   user: {
     getPath: (uuid: string): string => `/user/${uuid}`,
-    getPageComponent: (params: Readonly<Params<string>>) => <UserPage uuid={params.uuid} />,
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    getPageComponent: (params: Readonly<Params<string>>) => <UserPage uuid={params.uuid!} />,
     urlParams: {uuid: UrlParamsType.UUID},
   },
   way: {
