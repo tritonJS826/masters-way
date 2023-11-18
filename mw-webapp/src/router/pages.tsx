@@ -1,5 +1,6 @@
 /* eslint-disable jsdoc/require-jsdoc */
 import {ReactElement} from "react";
+import {Params} from "react-router-dom";
 import {AboutProjectPage} from "src/logic/aboutProjectPage/AboutProjectPage";
 import {AllUsersPage} from "src/logic/allUsersPage/AllUsersPage";
 import {AllWaysPage} from "src/logic/allWaysPage/AllWaysPage";
@@ -20,7 +21,7 @@ export type PageParams = {
   /**
    * A
    */
-  pageComponent: ReactElement;
+  getPageComponent: (params: Readonly<Params<string>>) => ReactElement;
 
   /**
    * A
@@ -31,59 +32,45 @@ export type PageParams = {
 /**
  * Create url with appropriate params for @UserPage
  */
-const getPathForUserPage = (params: {uuid: string}): string => `/user/${params.uuid}`;
+// const getPathForUserPage = (params: {uuid: string}): string => `/user/${params.uuid}`;
 
 /**
  * Pages meta data
  */
 export const pages: Record<string, PageParams> = {
   allWays: {
-
-    /**
-     * A
-     */
     getPath: () => "/",
-    pageComponent: <AllWaysPage />,
+    getPageComponent: () => <AllWaysPage />,
     urlParams: {},
   },
   user: {
-    getPath: getPathForUserPage,
-    pageComponent: <UserPage uuid={""} />,
+    getPath: (uuid: string): string => `/user/${uuid}`,
+    getPageComponent: (params: Readonly<Params<string>>) => <UserPage uuid={params.uuid} />,
     urlParams: {uuid: UrlParamsType.UUID},
   },
   way: {
-
-    /**
-     * @param {string} uuid Could be param name (if we want to create new path) OR could be way uuid.
-     * @returns {string} path to react-router OR Specific URl path to specific way
-     */
     getPath: (uuid: string): string => `/way/${uuid}`,
-    pageComponent: <WayPage />,
+    getPageComponent: () => <WayPage />,
     urlParams: {uuid: UrlParamsType.UUID},
   },
   allUsers: {
     getPath: () => "/users",
-    pageComponent: <AllUsersPage />,
+    getPageComponent: () => <AllUsersPage />,
     urlParams: {},
   },
   userProfile: {
-
-    /**
-     * @param {string} uuid Could be param name (if we want to create new path) OR could be userProfile uuid.
-     * @returns {string} path to react-router OR Specific URl path to specific userProfile
-     */
     getPath: (uuid: string): string => `/userProfile/${uuid}`,
-    pageComponent: <UserProfilePage />,
+    getPageComponent: () => <UserProfilePage />,
     urlParams: {uuid: UrlParamsType.UUID},
   },
   aboutProject: {
     getPath: () => "/aboutProject",
-    pageComponent: <AboutProjectPage />,
+    getPageComponent: () => <AboutProjectPage />,
     urlParams: {},
   },
   page404: {
     getPath: () => "*",
-    pageComponent: <Page404 />,
+    getPageComponent: () => <Page404 />,
     urlParams: {},
   },
 };

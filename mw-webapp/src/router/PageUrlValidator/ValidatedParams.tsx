@@ -1,6 +1,5 @@
-import React from "react";
-import {Params, useParams} from "react-router-dom";
-import {PageParams} from "src/router/pages";
+import {Params, useNavigate, useParams} from "react-router-dom";
+import {PageParams, pages} from "src/router/pages";
 import {UrlParamsType} from "src/router/PageUrlValidator/UrlParamsType";
 
 /**
@@ -9,26 +8,26 @@ import {UrlParamsType} from "src/router/PageUrlValidator/UrlParamsType";
 interface ValidatedParamsProps {
 
   /**
-   * A
+   * Page params
    */
   paramsSchema: PageParams;
 }
 
 /**
- * A
+ * Validate uuid
  */
-const validateUuid = (uuid: string) => {
+const validateUuid = (uuid: Readonly<Params<string>>) => {
   if (!uuid) {
     throw new Error(`Not valid uuid ${uuid}`);
   }
 };
 
 /**
- * A
+ * Validate param
  */
 const validateParam = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  realParamValue: any,
+  realParamValue: Readonly<Params<string>>,
   paramType: UrlParamsType,
 ) => {
   switch (paramType) {
@@ -41,7 +40,7 @@ const validateParam = (
 };
 
 /**
- * A
+ * Validate params
  */
 const validateParams = (
   realParams: Readonly<Params<string>>,
@@ -58,28 +57,16 @@ const validateParams = (
 export const ValidatedParams = (props: ValidatedParamsProps) => {
   const params = useParams();
 
-  // A const navigate = useNavigate();
+  const navigate = useNavigate();
 
   try {
     validateParams(params, props.paramsSchema.urlParams);
   } catch (e) {
     alert("Wrong param");
-    // eslint-disable-next-line no-console
-    console.error(e);
+    navigate(pages.page404.getPath());
     // Navigate() show notification!
     // navigate to error page with error message
   }
 
-  /**
-   * Render children with possibility pass props
-   */
-  const renderPage = () => {
-    return React.createElement(
-      React.Fragment,
-      null,
-      React.cloneElement(props.paramsSchema.pageComponent, params),
-    );
-  };
-
-  return renderPage();
+  return props.paramsSchema.getPageComponent(params);
 };
