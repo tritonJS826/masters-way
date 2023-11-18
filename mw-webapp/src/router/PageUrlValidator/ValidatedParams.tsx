@@ -68,8 +68,8 @@ export const WithValidatedParams = (props: ValidatedParamsProps) => {
   } catch (e) {
     alert("Wrong param");
     navigate(pages.page404.getPath({}));
-    // Navigate() show notification!
-    // navigate to error page with error message
+    // TODO: Navigate() show notification!
+    // TODO: navigate to error page with error message
   }
 
   return props.paramsSchema.getPageComponent(params);

@@ -15,17 +15,17 @@ type EmptyObject = object;
 export type PageParams<T extends Record<ParamName, ParamValue> | EmptyObject = EmptyObject> = {
 
   /**
-   * A
+   * Page's path
    */
   getPath: (params: T) => string;
 
   /**
-   * A
+   * Page's component
    */
   getPageComponent: (params: T) => ReactElement;
 
   /**
-   * A
+   * Page's query params
    */
   urlParams: Record<keyof T, UrlParamsType> ;
 }
@@ -33,7 +33,17 @@ export type PageParams<T extends Record<ParamName, ParamValue> | EmptyObject = E
 /**
  * Create url with appropriate params for @UserPage
  */
-const getPathForUserPage = (params: {uuid: string}): string => `/user/${params.uuid}`;
+const getPathForUserPage = (params: { uuid: string }): string => `/user/${params.uuid}`;
+
+/**
+ * Create url with appropriate params for @WayPage
+ */
+const getPathForWayPage = (params: {uuid: string}): string => `/way/${params.uuid}`;
+
+/**
+ * Create url with appropriate params for @UserProfilePage
+ */
+const getPathForUserProfilePage = (params: {uuid: string}): string => `/userProfile/${params.uuid}`;
 
 /**
  * Pages meta data
@@ -50,9 +60,8 @@ export const pages = {
     urlParams: {uuid: UrlParamsType.UUID} as const,
   } as PageParams<{uuid: string}>,
   way: {
-    getPath: (params): string => `/way/${params}`,
-    // TODO add uuid param
-    getPageComponent: () => <WayPage />,
+    getPath: (params): string => getPathForWayPage({uuid: params.uuid}),
+    getPageComponent: (params) => <WayPage {...params} />,
     urlParams: {uuid: UrlParamsType.UUID} as const,
   } as PageParams<{uuid: string}>,
   allUsers: {
@@ -61,9 +70,8 @@ export const pages = {
     urlParams: {},
   } as PageParams,
   userProfile: {
-    getPath: (params): string => `/userProfile/${params}`,
-    // TODO add uuid param
-    getPageComponent: () => <UserProfilePage />,
+    getPath: (params): string => getPathForUserProfilePage({uuid: params.uuid}),
+    getPageComponent: (params) => <UserProfilePage {...params} />,
     urlParams: {uuid: UrlParamsType.UUID},
   } as PageParams<{uuid: string}>,
   aboutProject: {
