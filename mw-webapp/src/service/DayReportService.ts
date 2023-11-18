@@ -1,6 +1,6 @@
 import {collection, doc, getDoc, getDocs, setDoc, updateDoc} from "firebase/firestore";
 import {db} from "src/firebase";
-import {DayReportDTO, DayReportsArraySchema, DayReportSchema} from "src/model/DTOModel/DayReportDTO";
+import {DayReportDTO, DayReportDTOSchema, DayReportsDTOArraySchema} from "src/model/DTOModel/DayReportDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
 import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
 
@@ -23,7 +23,7 @@ export class DayReportService {
     const dayReportsRaw = await getDocs(collection(db, PATH_TO_DAY_REPORTS_COLLECTION));
     const dayReportsDTO = querySnapshotToDTOConverter<DayReportDTO>(dayReportsRaw);
 
-    const validatedDayReportsDTO = DayReportsArraySchema.parse(dayReportsDTO);
+    const validatedDayReportsDTO = DayReportsDTOArraySchema.parse(dayReportsDTO);
 
     return validatedDayReportsDTO;
   }
@@ -35,7 +35,7 @@ export class DayReportService {
     const dayReportRaw = await getDoc(doc(db, PATH_TO_DAY_REPORTS_COLLECTION, uuid));
     const dayReportDTO = documentSnapshotToDTOConverter<DayReportDTO>(dayReportRaw);
 
-    const validatedDayReportDTO = DayReportSchema.parse(dayReportDTO);
+    const validatedDayReportDTO = DayReportDTOSchema.parse(dayReportDTO);
 
     return validatedDayReportDTO;
   }
@@ -50,7 +50,7 @@ export class DayReportService {
       uuid: docRef.id,
     };
 
-    const validatedDayReportDTO = DayReportSchema.parse(dayReportDTO);
+    const validatedDayReportDTO = DayReportDTOSchema.parse(dayReportDTO);
 
     await setDoc(docRef, validatedDayReportDTO);
 
@@ -61,7 +61,7 @@ export class DayReportService {
    * Update DayReportDTO
    */
   public static async updateDayReportDTO(dayReportDTO: DayReportDTO, uuid: string) {
-    const validatedDayReportDTO = DayReportSchema.parse(dayReportDTO);
+    const validatedDayReportDTO = DayReportDTOSchema.parse(dayReportDTO);
 
     await updateDoc(doc(db, PATH_TO_DAY_REPORTS_COLLECTION, uuid), validatedDayReportDTO);
   }

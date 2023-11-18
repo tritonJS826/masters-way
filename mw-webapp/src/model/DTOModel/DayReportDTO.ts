@@ -1,7 +1,7 @@
 
 import {z} from "zod";
 
-export const DayReportSchema = z.object({
+export const DayReportDTOSchema = z.object({
 
   /**
    * Day report's UUID
@@ -49,9 +49,9 @@ export const DayReportSchema = z.object({
   isDayOff: z.boolean(),
 }).strict();
 
-export const DayReportsArraySchema = z.array(DayReportSchema);
+export const DayReportsDTOArraySchema = z.array(DayReportDTOSchema);
 
 /**
  * Day's report DTO model
  */
-export type DayReportDTO = z.infer<typeof DayReportSchema>;
+export type DayReportDTO = z.infer<typeof DayReportDTOSchema>;
