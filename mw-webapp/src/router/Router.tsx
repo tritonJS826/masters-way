@@ -1,6 +1,6 @@
 import {Route, Routes} from "react-router-dom";
 import {pages} from "src/router/pages";
-import {ValidatedParams} from "src/router/PageUrlValidator/ValidatedParams";
+import {WithValidatedParams} from "src/router/PageUrlValidator/ValidatedParams";
 
 /**
  * Router
@@ -9,32 +9,32 @@ export const Router = () => {
   return (
     <Routes>
       <Route
-        path={pages.allWays.getPath()}
-        element={<ValidatedParams paramsSchema={pages.allWays} />}
+        path={pages.allWays.getPath({})}
+        element={<WithValidatedParams paramsSchema={pages.allWays} />}
       />
       <Route
-        path={pages.user.getPath(":uuid")}
-        element={<ValidatedParams paramsSchema={pages.user} />}
+        path={pages.user.getPath({uuid: ":uuid"})}
+        element={<WithValidatedParams paramsSchema={pages.user} />}
       />
       <Route
-        path={pages.way.getPath(":uuid")}
-        element={<ValidatedParams paramsSchema={pages.way} />}
+        path={pages.way.getPath({uuid: ":uuid"})}
+        element={<WithValidatedParams paramsSchema={pages.way} />}
       />
       <Route
-        path={pages.allUsers.getPath()}
-        element={<ValidatedParams paramsSchema={pages.allUsers} />}
+        path={pages.allUsers.getPath({})}
+        element={<WithValidatedParams paramsSchema={pages.allUsers} />}
       />
       <Route
-        path={pages.userProfile.getPath(":uuid")}
-        element={<ValidatedParams paramsSchema={pages.userProfile} />}
+        path={pages.userProfile.getPath({uuid: ":uuid"})}
+        element={<WithValidatedParams paramsSchema={pages.userProfile} />}
       />
       <Route
-        path={pages.aboutProject.getPath()}
-        element={<ValidatedParams paramsSchema={pages.aboutProject} />}
+        path={pages.aboutProject.getPath({})}
+        element={<WithValidatedParams paramsSchema={pages.aboutProject} />}
       />
       <Route
-        path={pages.page404.getPath()}
-        element={<ValidatedParams paramsSchema={pages.page404} />}
+        path={pages.page404.getPath({})}
+        element={<WithValidatedParams paramsSchema={pages.page404} />}
       />
     </Routes>
   );

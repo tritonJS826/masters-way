@@ -22,7 +22,7 @@ export const WayPage = () => {
           <DayReportsTable wayUuid={uuid} />
         </div>
         :
-        navigate(pages.page404.getPath())
+        navigate(pages.page404.getPath({}))
       }
     </>
   );
