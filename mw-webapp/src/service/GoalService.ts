@@ -1,6 +1,6 @@
 import {collection, doc, getDoc, getDocs, setDoc} from "firebase/firestore";
 import {db} from "src/firebase";
-import {GoalDTO} from "src/model/DTOModel/GoalDTO";
+import {GoalDTO, GoalDTOArraySchema, GoalDTOSchema} from "src/model/DTOModel/GoalDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
 import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
 
@@ -21,9 +21,11 @@ export class GoalService {
    */
   public static async getGoalsDTO(): Promise<GoalDTO[]> {
     const goalsRaw = await getDocs(collection(db, PATH_TO_GOALS_COLLECTION));
-    const goals: GoalDTO[] = querySnapshotToDTOConverter<GoalDTO>(goalsRaw);
+    const goalsDTO = querySnapshotToDTOConverter<GoalDTO>(goalsRaw);
 
-    return goals;
+    const validatedGoalsDTO = GoalDTOArraySchema.parse(goalsDTO);
+
+    return validatedGoalsDTO;
   }
 
   /**
@@ -31,9 +33,11 @@ export class GoalService {
    */
   public static async getGoalDTO(uuid: string): Promise<GoalDTO> {
     const goalRaw = await getDoc(doc(db, PATH_TO_GOALS_COLLECTION, uuid));
-    const goal: GoalDTO = documentSnapshotToDTOConverter<GoalDTO>(goalRaw);
+    const goalDTO = documentSnapshotToDTOConverter<GoalDTO>(goalRaw);
 
-    return goal;
+    const validatedGoalDTO = GoalDTOSchema.parse(goalDTO);
+
+    return validatedGoalDTO;
   }
 
   /**
@@ -41,14 +45,17 @@ export class GoalService {
    */
   public static async createGoalDTO(goalDTOWithoutUuid: GoalDTOWithoutUuid): Promise<GoalDTO> {
     const docRef = doc(collection(db, PATH_TO_GOALS_COLLECTION));
-    const DEFAULT_GOAL: GoalDTO = {
+
+    const goalDTO = {
       ...goalDTOWithoutUuid,
       uuid: docRef.id,
     };
 
-    await setDoc(docRef, DEFAULT_GOAL);
+    const validatedGoalDTO = GoalDTOSchema.parse(goalDTO);
 
-    return DEFAULT_GOAL;
+    await setDoc(docRef, validatedGoalDTO);
+
+    return validatedGoalDTO;
   }
 
 }

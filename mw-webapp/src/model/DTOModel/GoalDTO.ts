@@ -1,47 +1,42 @@
 import {TimeUnit} from "src/model/DTOModel/time/timeUnit/TimeUnit";
+import {z} from "zod";
 
-/**
- * Goal DTO model
- */
-export class GoalDTO {
+export const GoalDTOSchema = z.object({
 
   /**
    * Goal's UUID
    */
-  public uuid: string;
+  uuid: z.string(),
 
   /**
    * Student's UUID @User.uuid
    */
-  public studentUuid: string;
+  studentUuid: z.string(),
 
   /**
    * Metrics @GoalMetrics.uuid
    */
-  public metricUuids: string[];
+  metricUuids: z.array(z.string()),
 
   /**
    * Description of goal
    */
-  public description: string;
+  description: z.string(),
 
   /**
    * Enum @Time.unit for {@link estimationTime}
    */
-  public timeUnit: TimeUnit;
+  timeUnit: z.nativeEnum(TimeUnit),
 
   /**
    * Estimation time for complete goal
    */
-  public estimationTime: number;
+  estimationTime: z.number(),
+}).strict();
 
-  constructor(goalData: GoalDTO) {
-    this.uuid = goalData.uuid;
-    this.studentUuid = goalData.studentUuid;
-    this.metricUuids = goalData.metricUuids;
-    this.description = goalData.description;
-    this.timeUnit = goalData.timeUnit;
-    this.estimationTime = goalData.estimationTime;
-  }
+export const GoalDTOArraySchema = z.array(GoalDTOSchema);
 
-}
+/**
+ * Goal DTO model
+ */
+export type GoalDTO = z.infer<typeof GoalDTOSchema>

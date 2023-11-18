@@ -1,57 +1,52 @@
-/**
- * Way DTO model
- */
-export class WayDTO {
+import {z} from "zod";
+
+export const WayDTOSchema = z.object({
 
   /**
    * Way's UUID
    */
-  public uuid: string;
+  uuid: z.string(),
 
   /**
    * Way's name
    */
-  public name: string;
+  name: z.string(),
 
   /**
    * @DayReport.uuids
    */
-  public dayReportUuids: string[];
+  dayReportUuids: z.array(z.string()),
 
   /**
    * Owner's UUIDs @User.uuid
    */
-  public ownerUuid: string;
+  ownerUuid: z.string(),
 
   /**
    * @MonthReport.uuids
    */
-  public monthReportUuids: string[];
+  monthReportUuids: z.array(z.string()),
 
   /**
    *Goal's UUID @Goal.uuid
    */
-  public goalUuid: string;
+  goalUuid: z.string(),
 
   /**
    * Mentor's UUIDs @User.uuid
    */
-  public currentMentorUuids: string[];
+  currentMentorUuids: z.array(z.string()),
 
   /**
    * Return true if way is completed and false if not completed
    */
-  public isCompleted: boolean;
+  isCompleted: z.boolean(),
 
-  constructor(wayData: WayDTO) {
-    this.uuid = wayData.uuid;
-    this.name = wayData.name;
-    this.dayReportUuids = wayData.dayReportUuids;
-    this.ownerUuid = wayData.ownerUuid;
-    this.monthReportUuids = wayData.monthReportUuids;
-    this.goalUuid = wayData.goalUuid;
-    this.currentMentorUuids = wayData.currentMentorUuids;
-    this.isCompleted = wayData.isCompleted;
-  }
+}).strict();
 
-}
+export const WayDTOArraySchema = z.array(WayDTOSchema);
+
+/**
+ * Way DTO model
+ */
+export type WayDTO = z.infer<typeof WayDTOSchema>

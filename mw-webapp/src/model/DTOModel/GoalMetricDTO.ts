@@ -1,27 +1,24 @@
-/**
- * Goal's metrics DTO model
- */
-export class GoalMetricDTO {
+import {z} from "zod";
+
+export const GoalMetricDTOSchema = z.object({
 
   /**
    * Metric's UUID
    */
-  public uuid: string;
+  uuid: z.string(),
 
   /**
    * Metrics's description
    */
-  public description: string;
+  description: z.string(),
 
   /**
    * True if comment was done and false if not
    */
-  public isDone: boolean;
+  isDone: z.boolean(),
+}).strict();
 
-  constructor(goalMetricsData: GoalMetricDTO) {
-    this.uuid = goalMetricsData.uuid;
-    this.description = goalMetricsData.description;
-    this.isDone = goalMetricsData.isDone;
-  }
-
-}
+/**
+ * Goal's metrics DTO model
+ */
+export type GoalMetricDTO = z.infer<typeof GoalMetricDTOSchema>

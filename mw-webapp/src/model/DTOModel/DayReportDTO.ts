@@ -49,7 +49,7 @@ export const DayReportDTOSchema = z.object({
   isDayOff: z.boolean(),
 }).strict();
 
-export const DayReportsDTOArraySchema = z.array(DayReportDTOSchema);
+export const DayReportDTOArraySchema = z.array(DayReportDTOSchema);
 
 /**
  * Day's report DTO model
