@@ -1,5 +1,5 @@
 import {DayReport} from "src/model/businessModel/DayReport";
-import {DayReportDTO} from "src/model/DTOModel/DayReportDTO";
+import {DayReportDTO, DayReportSchema} from "src/model/DTOModel/DayReportDTO";
 import {DateUtils} from "src/utils/DateUtils";
 
 /**
@@ -32,7 +32,7 @@ interface DayReportDTOProps {
  * Convert {@link DayReport} to {@link DayReportDTO}
  */
 export const dayReportToDayReportDTOConverter = (dayReport: DayReport, dayReportDTOProps: DayReportDTOProps): DayReportDTO => {
-  return new DayReportDTO({
+  return DayReportSchema.parse({
     ...dayReport,
     date: DateUtils.getShortISODateValue(dayReport.date),
     jobDoneUuids: dayReportDTOProps.jobDoneUuids,
