@@ -6,6 +6,8 @@ Multi-user application for tracking the educational process.
 
 [Demo Master's Way](https://mastersway.netlify.app/)
 
+All files in this repository are licensed under AGPL ([COPYING](./COPYING))
+
 ### Technologies
 
 - React
