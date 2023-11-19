@@ -19,7 +19,7 @@ export const columns = [
      */
     cell: ({row}) => (
       <Link
-        path={pages.user.path(row.original.uuid)}
+        path={pages.user.getPath({uuid: row.original.uuid})}
         value={row.original.name}
       />
     ),

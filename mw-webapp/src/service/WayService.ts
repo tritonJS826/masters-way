@@ -55,9 +55,8 @@ export class WayService {
   /**
    * Update WayDTO
    */
-  public static async updateWayDTO(wayDTO: WayDTO, dayReportUuids: string[]) {
-    await updateDoc(doc(db, PATH_TO_WAYS_COLLECTION, wayDTO.uuid), {...wayDTO, dayReportUuids});
-
+  public static async updateWayDTO(wayDTO: WayDTO, uuid: string) {
+    await updateDoc(doc(db, PATH_TO_WAYS_COLLECTION, uuid), {...wayDTO});
   }
 
   /**

@@ -1,0 +1,17 @@
+.editableText {
+  overflow: hidden;
+  width: 80%;
+}
+
+.editableTime {
+  width: 15%;
+}
+
+.summaryTimeWrapper {
+  position: relative;
+  right: 0;
+  display: flex;
+  justify-content: flex-end;
+  border-top: 1px solid black;
+  font-weight: bold;
+}
