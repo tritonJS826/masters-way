@@ -1,35 +1,30 @@
 import {TimeUnit} from "src/model/DTOModel/time/timeUnit/TimeUnit";
+import {z} from "zod";
 
-/**
- * Job done DTO model
- */
-export class JobDoneDTO {
+export const JobDoneDTOSchema = z.object({
 
   /**
    * Job's UUID
    */
-  public uuid: string;
+  uuid: z.string(),
 
   /**
    * What was done
    */
-  public description: string;
+  description: z.string(),
 
   /**
    * Unit of time measurement for {@link time}
    */
-  public timeUnit: TimeUnit;
+  timeUnit: z.nativeEnum(TimeUnit),
 
   /**
    * Number of time units {@link timeUnit}
    */
-  public time: number;
+  time: z.number(),
+}).strict();
 
-  constructor(jobDoneData: JobDoneDTO) {
-    this.uuid = jobDoneData.uuid;
-    this.description = jobDoneData.description;
-    this.timeUnit = jobDoneData.timeUnit;
-    this.time = jobDoneData.time;
-  }
-
-}
+/**
+ * Job done DTO model
+ */
+export type JobDoneDTO = z.infer<typeof JobDoneDTOSchema>
