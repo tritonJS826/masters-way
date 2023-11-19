@@ -1,6 +1,6 @@
 import {collection, deleteDoc, doc, getDoc, getDocs, setDoc, updateDoc} from "firebase/firestore";
 import {db} from "src/firebase";
-import {UserDTO, UserDTOArraySchema, UserDTOSchema} from "src/model/DTOModel/UserDTO";
+import {UserDTO, UserDTOSchema, UsersDTOSchema} from "src/model/DTOModel/UserDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
 import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
 
@@ -18,7 +18,7 @@ export class UserService {
     const usersRaw = await getDocs(collection(db, PATH_TO_USERS_COLLECTION));
     const usersDTO = querySnapshotToDTOConverter<UserDTO>(usersRaw);
 
-    const validatedUsersDTO = UserDTOArraySchema.parse(usersDTO);
+    const validatedUsersDTO = UsersDTOSchema.parse(usersDTO);
 
     return validatedUsersDTO;
   }

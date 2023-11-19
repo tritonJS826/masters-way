@@ -1,6 +1,6 @@
 import {collection, doc, getDoc, getDocs, setDoc} from "firebase/firestore";
 import {db} from "src/firebase";
-import {GoalDTO, GoalDTOArraySchema, GoalDTOSchema} from "src/model/DTOModel/GoalDTO";
+import {GoalDTO, GoalDTOSchema, GoalsDTOSchema} from "src/model/DTOModel/GoalDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
 import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
 
@@ -23,7 +23,7 @@ export class GoalService {
     const goalsRaw = await getDocs(collection(db, PATH_TO_GOALS_COLLECTION));
     const goalsDTO = querySnapshotToDTOConverter<GoalDTO>(goalsRaw);
 
-    const validatedGoalsDTO = GoalDTOArraySchema.parse(goalsDTO);
+    const validatedGoalsDTO = GoalsDTOSchema.parse(goalsDTO);
 
     return validatedGoalsDTO;
   }

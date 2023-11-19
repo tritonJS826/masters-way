@@ -1,6 +1,6 @@
 import {collection, doc, getDoc, getDocs, setDoc, updateDoc} from "firebase/firestore";
 import {db} from "src/firebase";
-import {DayReportDTO, DayReportDTOArraySchema, DayReportDTOSchema} from "src/model/DTOModel/DayReportDTO";
+import {DayReportDTO, DayReportDTOSchema, DayReportsDTOSchema} from "src/model/DTOModel/DayReportDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
 import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
 
@@ -23,7 +23,7 @@ export class DayReportService {
     const dayReportsRaw = await getDocs(collection(db, PATH_TO_DAY_REPORTS_COLLECTION));
     const dayReportsDTO = querySnapshotToDTOConverter<DayReportDTO>(dayReportsRaw);
 
-    const validatedDayReportsDTO = DayReportDTOArraySchema.parse(dayReportsDTO);
+    const validatedDayReportsDTO = DayReportsDTOSchema.parse(dayReportsDTO);
 
     return validatedDayReportsDTO;
   }

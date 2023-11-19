@@ -34,7 +34,7 @@ export const GoalDTOSchema = z.object({
   estimationTime: z.number(),
 }).strict();
 
-export const GoalDTOArraySchema = z.array(GoalDTOSchema);
+export const GoalsDTOSchema = z.array(GoalDTOSchema);
 
 /**
  * Goal DTO model

@@ -34,7 +34,7 @@ export const UserDTOSchema = z.object({
 
 }).strict();
 
-export const UserDTOArraySchema = z.array(UserDTOSchema);
+export const UsersDTOSchema = z.array(UserDTOSchema);
 
 /**
  * User DTO model

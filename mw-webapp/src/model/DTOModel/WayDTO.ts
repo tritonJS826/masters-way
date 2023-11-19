@@ -44,7 +44,7 @@ export const WayDTOSchema = z.object({
 
 }).strict();
 
-export const WayDTOArraySchema = z.array(WayDTOSchema);
+export const WaysDTOSchema = z.array(WayDTOSchema);
 
 /**
  * Way DTO model
