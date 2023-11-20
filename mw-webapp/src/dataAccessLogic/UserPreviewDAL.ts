@@ -1,4 +1,5 @@
 import {UserDTOToUserPreviewConverter} from "src/dataAccessLogic/DTOToPreviewConverter/userDTOToUserPreviewConverter";
+import {userPreviewToUserDTOConverter} from "src/dataAccessLogic/PreviewToDTOConverter/UserPreviewToUserDTOConverter";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {UserService} from "src/service/UserService";
 
@@ -25,6 +26,14 @@ export class UserPreviewDAL {
     const userDTO = await UserService.getUserDTO(uuid);
 
     return UserDTOToUserPreviewConverter(userDTO);
+  }
+
+  /**
+   * Update User
+   */
+  public static async updateUserPreview(userPreview: UserPreview) {
+    const userDTO = userPreviewToUserDTOConverter(userPreview);
+    await UserService.updateUserDTO(userDTO);
   }
 
 }

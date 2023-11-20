@@ -6,6 +6,7 @@ import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
 import {MentorCommentDAL} from "src/dataAccessLogic/MentorCommentDAL";
 import {PlanForNextPeriodDAL} from "src/dataAccessLogic/PlanForNextPeriodDAL";
 import {DayReport} from "src/model/businessModel/DayReport";
+import {WayDTOSchema} from "src/model/DTOModel/WayDTO";
 import {DayReportDTOWithoutUuid, DayReportService} from "src/service/DayReportService";
 import {WayService} from "src/service/WayService";
 import {DateUtils} from "src/utils/DateUtils";
@@ -95,7 +96,18 @@ export class DayReportDAL {
 
     const updatedDayReportUuids = [...way.dayReportUuids, dayReportDTO.uuid];
 
-    await WayService.updateWayDTO(way, updatedDayReportUuids);
+    const updatedWay = WayDTOSchema.parse({
+      uuid: way.uuid,
+      name: way.name,
+      dayReportUuids: updatedDayReportUuids,
+      monthReportUuids: way.monthReportUuids,
+      ownerUuid: way.ownerUuid,
+      goalUuid: way.goalUuid,
+      currentMentorUuids: way.currentMentorUuids,
+      isCompleted: way.isCompleted,
+    });
+
+    await WayService.updateWayDTO(updatedWay, way.uuid);
 
     const dayReport = await DayReportDAL.getDayReport(dayReportDTO.uuid);
 

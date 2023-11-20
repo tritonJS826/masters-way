@@ -1,10 +1,13 @@
 # Masters-way app 
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/39b894b6-7a7c-4b45-bc98-3f7a7257500c/deploy-status)](https://app.netlify.com/sites/tritons-things/deploys)
+[![Demo storybook](https://api.netlify.com/api/v1/badges/fba15c04-f28a-4a13-9430-087d9a76ab84/deploy-status)](https://app.netlify.com/sites/mastersway/deploys)
 
 Multi-user application for tracking the educational process.
 
 [Demo Master's Way](https://mastersway.netlify.app/)
+
+All files in this repository are licensed under AGPL ([COPYING](./COPYING))
 
 ### Technologies
 

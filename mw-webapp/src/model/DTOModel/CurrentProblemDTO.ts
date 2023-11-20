@@ -1,27 +1,24 @@
-/**
- * Problem for current period DTO model
- */
-export class CurrentProblemDTO {
+import {z} from "zod";
+
+export const CurrentProblemDTOSchema = z.object({
 
   /**
    * Problem's UUID
    */
-  public uuid: string;
+  uuid: z.string(),
 
   /**
    * Problem's description
    */
-  public description: string;
+  description: z.string(),
 
   /**
    * True if problem is resolved and false if not resolved
    */
-  public isDone: boolean;
+  isDone: z.boolean(),
+}).strict();
 
-  constructor(currentProblemData: CurrentProblemDTO) {
-    this.uuid = currentProblemData.uuid;
-    this.description = currentProblemData.description;
-    this.isDone = currentProblemData.isDone;
-  }
-
-}
+/**
+ * Problem for current period DTO model
+ */
+export type CurrentProblemDTO = z.infer<typeof CurrentProblemDTOSchema>

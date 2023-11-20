@@ -1,29 +1,66 @@
-import {useNavigate, useParams} from "react-router-dom";
+import {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 import {HeadingLevel, Title} from "src/component/title/Title";
-import {QueryParamTypes} from "src/logic/QueryParamTypes";
+import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
 import {DayReportsTable} from "src/logic/reportsTable/DayReportsTable";
+import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
 import styles from "src/logic/wayPage/WayPage.module.scss";
 
 /**
+ * PageProps
+ */
+interface WayPageProps {
+
+  /**
+   * Pages's uuid
+   */
+  uuid: string;
+}
+
+/**
  * Way page
  */
-export const WayPage = () => {
+export const WayPage = (props: WayPageProps) => {
   const navigate = useNavigate();
-  const {uuid} = useParams<QueryParamTypes>();
+  const [way, setWay] = useState<WayPreview>();
+
+  /**
+   * Get Way
+   */
+  const loadWay = async () => {
+    const data = await WayPreviewDAL.getWayPreview(props.uuid);
+    // Navigate to PageError if transmitted way's uuid is not exist
+    if (!data) {
+      navigate(pages.page404.getPath({}));
+    }
+    setWay(data);
+  };
+
+  useEffect(() => {
+    loadWay();
+  }, []);
+
+  /**
+   * Change name of Way
+   */
+  const changeWayName = (wayPreview: WayPreview, text: string) => {
+    const updatedWay = new WayPreview({...wayPreview, name: text});
+    WayPreviewDAL.updateWayPreview(updatedWay);
+  };
 
   return (
     <>
-      {uuid ?
+      {way &&
         <div className={styles.container}>
           <Title
             level={HeadingLevel.h2}
-            text="Way page"
+            text={`${way.name}`}
+            onChangeFinish={(text) => changeWayName(way, text)}
+            isEditable={true}
           />
-          <DayReportsTable wayUuid={uuid} />
+          <DayReportsTable wayUuid={props.uuid} />
         </div>
-        :
-        navigate(pages.page404.path)
       }
     </>
   );

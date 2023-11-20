@@ -1,45 +1,42 @@
-/**
- * User DTO model
- */
-export class UserDTO {
+import {z} from "zod";
+
+export const UserDTOSchema = z.object({
 
   /**
    * User's UUID
    */
-  public uuid: string;
+  uuid: z.string(),
 
   /**
    * User's name
    */
-  public name: string;
+  name: z.string(),
 
   /**
    * User's e-mail
    */
-  public email: string;
+  email: z.string(),
 
   /**
    * @Way.uuids
    */
-  public ownWayUuids: string[];
+  ownWayUuids: z.array(z.string()),
 
   /**
    * @Way.uuids
    */
-  public favoriteWayUuids: string[];
+  favoriteWayUuids: z.array(z.string()),
 
   /**
    * @Way.uuids
    */
-  public mentoringWayUuids: string[];
+  mentoringWayUuids: z.array(z.string()),
 
-  constructor(userData: UserDTO) {
-    this.uuid = userData.uuid;
-    this.name = userData.name;
-    this.email = userData.email;
-    this.ownWayUuids = userData.ownWayUuids;
-    this.favoriteWayUuids = userData.favoriteWayUuids;
-    this.mentoringWayUuids = userData.mentoringWayUuids;
-  }
+}).strict();
 
-}
+export const UsersDTOSchema = z.array(UserDTOSchema);
+
+/**
+ * User DTO model
+ */
+export type UserDTO = z.infer<typeof UserDTOSchema>
