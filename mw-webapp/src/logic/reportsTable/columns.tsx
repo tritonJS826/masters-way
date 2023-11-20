@@ -1,3 +1,4 @@
+import {useState} from "react";
 import {createColumnHelper} from "@tanstack/react-table";
 import {EditableText} from "src/component/editableText/EditableText";
 import {CellItem} from "src/component/table/tableCell/cellItem/CellItem";
@@ -10,6 +11,7 @@ import {PlanForNextPeriodDAL} from "src/dataAccessLogic/PlanForNextPeriodDAL";
 import {renderCellDate} from "src/logic/reportsTable/renderCellItem/renderCellDate";
 import {renderCellIsDayOff} from "src/logic/reportsTable/renderCellItem/renderCellIsDayOff";
 import {DayReport} from "src/model/businessModel/DayReport";
+import {JobDone} from "src/model/businessModel/JobDone";
 import {UnicodeSymbols} from "src/utils/UnicodeSymbols";
 import styles from "src/component/editableText/EditableText.module.scss";
 
@@ -41,22 +43,65 @@ export const columns = [
      * Cell with JobsDone items
      */
     cell: ({row}) => {
+      const initialJobsDone = row.original.jobsDone;
+      const [jobsDone, setJobsDone] = useState(initialJobsDone);
+      const [updatedJobDone, setUpdatedJobDone] = useState<JobDone>();
+      const [updatedTime, setUpdatedTime] = useState<JobDone>();
+
+      /**
+       * Create jobDone
+       */
+      const createJobDone = async (dayReport: DayReport) => {
+        const jobDone = await JobDoneDAL.createJobDone(dayReport);
+        const updatedJobsDone = [...jobsDone, jobDone];
+        setJobsDone(updatedJobsDone);
+      };
+
+      /**
+       * Update jobDone
+       */
+      const updateJobDone = async (jobDone: JobDone, text: string) => {
+        await JobDoneDAL.updateJobDone(jobDone, text);
+        // Const x = await JobDoneDAL.getJobDone(jobDone.uuid);
+        const updatedJob = new JobDone({
+          ...jobDone,
+          description: text,
+          time: updatedTime?.time ?? jobDone.time,
+        });
+        setUpdatedJobDone(updatedJob);
+      };
+
+      /**
+       * Update jobDoneTime
+       */
+      const updateJobDoneTime = async (jobDone: JobDone, text: number) => {
+        await JobDoneDAL.updateJobDoneTime(jobDone, text);
+        // Const x = await JobDoneDAL.getJobDone(jobDone.uuid);
+        const updatedJobTime = new JobDone({
+          ...jobDone,
+          description: updatedJobDone?.description ?? jobDone.description,
+          time: text,
+        });
+        setUpdatedTime(updatedJobTime);
+      };
+
       return (
         <TableCell
           buttonValue="add job"
-          onButtonClick={() => JobDoneDAL.createJobDone((row.original))}
+          onButtonClick={() => createJobDone((row.original))}
         >
-          {row.original.jobsDone
+          {jobsDone
             .map((jobDone) => (
               <CellItem key={jobDone.uuid}>
                 <EditableText
                   text={jobDone.description}
-                  onChangeFinish={(text) => JobDoneDAL.updateJobDone(jobDone, text)}
+                  onChangeFinish={(text) => updateJobDone(updatedJobDone ?? jobDone, text)}
                 />
                 {UnicodeSymbols.DIVIDING_POINT}
                 <EditableText
                   text={jobDone.time}
-                  onChangeFinish={(text) => JobDoneDAL.updateJobDoneTime(jobDone, text)}
+                  onChangeFinish={(text) =>
+                    updateJobDoneTime(updatedTime ?? jobDone, text)}
                   className={styles.editableTime}
                 />
               </CellItem>
