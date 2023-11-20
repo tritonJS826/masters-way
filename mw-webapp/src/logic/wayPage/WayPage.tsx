@@ -57,7 +57,7 @@ export const WayPage = (props: WayPageProps) => {
             level={HeadingLevel.h2}
             text={`${way.name}`}
             onChangeFinish={(text) => changeWayName(way, text)}
-            editable={true}
+            isEditable={true}
           />
           <DayReportsTable wayUuid={props.uuid} />
         </div>

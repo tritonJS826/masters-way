@@ -45,14 +45,14 @@ interface TitleProps {
   /**
    * Is title editable or not
    */
-  editable?: boolean;
+  isEditable?: boolean;
 }
 
 /**
  * Render Input or span depend on client actions
  */
 export const Title = (props: TitleProps) => {
-  if (!props.editable) {
+  if (!props.isEditable) {
     return (
       <Heading
         as={props.level}

@@ -71,7 +71,7 @@ export const EditableText = <T extends string | number>(props: EditableTextProps
    */
   const renderInput = () => (
     <Input
-      type={typeof props.text === "string" ? "text" : "number"}
+      type={"text" || "number"}
       value={text}
       autoFocus={true}
       onChange={(event) => setValue(event)}
