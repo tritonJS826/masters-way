@@ -1,4 +1,4 @@
-import {ChangeEvent, useEffect, useRef} from "react";
+import {ChangeEvent, useState} from "react";
 import clsx from "clsx";
 import styles from "src/component/textarea/Textarea.module.scss";
 
@@ -8,19 +8,25 @@ import styles from "src/component/textarea/Textarea.module.scss";
 interface TextareaProps {
 
   /**
-   * Textarea value
+   * Textarea default value
    */
-  value: string;
+  defaultValue?: string;
 
   /**
    * Tracks the value entered into the Textarea
    */
-  onChange: (value: string) => void;
+  onChange?: (value: string) => void;
 
   /**
    * Textarea placeholder text
    */
   placeholder?: string;
+
+  /**
+   * Specifies the default height in average character heights.
+   * @default 2
+   */
+  rows?: number;
 
   /**
    * Custom class for the Textarea.
@@ -32,31 +38,25 @@ interface TextareaProps {
  * Textarea component
  */
 export const Textarea = (props: TextareaProps) => {
-  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
-
-  useEffect(() => {
-    const currentTextarea = textareaRef.current;
-
-    if (currentTextarea) {
-      currentTextarea.style.height = "auto";
-      currentTextarea.style.height = `${currentTextarea.scrollHeight}px`;
-    }
-  }, [props.value]);
+  const [value, setValue] = useState<string>(props.defaultValue || "");
 
   /**
    * Handle textarea event
    */
   const handleTextChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    props.onChange(event.target.value);
+    if (props.onChange) {
+      props.onChange(event.target.value);
+    }
+    setValue(event.target.value);
   };
 
   return (
     <textarea
-      ref={textareaRef}
       className={clsx(styles.textarea, props.className)}
       placeholder={props.placeholder}
-      value={props.value}
+      value={value}
       onChange={handleTextChange}
+      rows={props.rows}
     />
   );
 };

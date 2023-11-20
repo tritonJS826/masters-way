@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {StoryObj} from "@storybook/react";
 import {Textarea} from "src/component/textarea/Textarea";
 
 const meta = {
@@ -10,18 +10,15 @@ const meta = {
 
 export default meta;
 
-/**
- * Default story for the Textarea component.
- */
-export const Default = () => {
-  const [text, setText] = useState<string>("");
+type Story = StoryObj<typeof meta>;
 
-  return (
-    <Textarea
-      value={text}
-      onChange={setText}
-      placeholder={"Some placeholder to textarea"}
-      className={"customClassName"}
-    />
-  );
+export const Default: Story = {};
+export const withProperties: Story = {
+  args: {
+    defaultValue: "Default textarea value",
+    onChange: () => {},
+    placeholder: "Some placeholder to textarea",
+    className: "customClassName",
+    rows: 5,
+  },
 };
