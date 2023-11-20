@@ -74,8 +74,12 @@ export class WayPreviewDAL {
     const wayDTO = await WayService.createWayDTO(DEFAULT_WAY);
 
     const updatedUser = new UserPreview({
-      ...user,
+      uuid: user.uuid,
+      name: user.name,
+      email: user.email,
       ownWays: [...user.ownWays, wayDTO.uuid],
+      favoriteWays: user.favoriteWays,
+      mentoringWays: user.mentoringWays,
     });
 
     await UserPreviewDAL.updateUserPreview(updatedUser);

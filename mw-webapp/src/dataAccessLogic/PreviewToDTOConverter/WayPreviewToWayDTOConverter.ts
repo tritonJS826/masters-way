@@ -1,5 +1,5 @@
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
-import {WayDTO} from "src/model/DTOModel/WayDTO";
+import {WayDTO, WayDTOSchema} from "src/model/DTOModel/WayDTO";
 
 /**
  * WayDTO props
@@ -26,12 +26,14 @@ interface WayDTOProps {
  * Convert {@link wayPreview} to {@link WayDTO}
  */
 export const wayPreviewToWayDTOConverter = (wayPreview: WayPreview, wayDTOProps: WayDTOProps): WayDTO => {
-  return new WayDTO({
-    ...wayPreview,
+  return WayDTOSchema.parse({
+    uuid: wayPreview.uuid,
+    name: wayPreview.name,
     dayReportUuids: wayPreview.dayReports,
     monthReportUuids: wayPreview.monthReports,
     ownerUuid: wayDTOProps.ownerUuid,
     goalUuid: wayDTOProps.goalUuid,
     currentMentorUuids: wayDTOProps.currentMentorsUuids,
+    isCompleted: wayPreview.isCompleted,
   });
 };
