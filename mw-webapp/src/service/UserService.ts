@@ -1,6 +1,6 @@
 import {collection, deleteDoc, doc, getDoc, getDocs, setDoc, updateDoc} from "firebase/firestore";
 import {db} from "src/firebase";
-import {UserDTO} from "src/model/DTOModel/UserDTO";
+import {UserDTO, UserDTOSchema, UsersDTOSchema} from "src/model/DTOModel/UserDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
 import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
 
@@ -16,9 +16,11 @@ export class UserService {
    */
   public static async getUsersDTO(): Promise<UserDTO[]> {
     const usersRaw = await getDocs(collection(db, PATH_TO_USERS_COLLECTION));
-    const users: UserDTO[] = querySnapshotToDTOConverter<UserDTO>(usersRaw);
+    const usersDTO = querySnapshotToDTOConverter<UserDTO>(usersRaw);
 
-    return users;
+    const validatedUsersDTO = UsersDTOSchema.parse(usersDTO);
+
+    return validatedUsersDTO;
   }
 
   /**
@@ -26,9 +28,11 @@ export class UserService {
    */
   public static async getUserDTO(uuid: string): Promise<UserDTO> {
     const userRaw = await getDoc(doc(db, PATH_TO_USERS_COLLECTION, uuid));
-    const user: UserDTO = documentSnapshotToDTOConverter<UserDTO>(userRaw);
+    const userDTO = documentSnapshotToDTOConverter<UserDTO>(userRaw);
 
-    return user;
+    const validatedUserDTO = UserDTOSchema.parse(userDTO);
+
+    return validatedUserDTO;
   }
 
   /**
@@ -36,14 +40,9 @@ export class UserService {
    * @param userDTO UserDTO
    */
   public static async createUserDTO(userDTO: UserDTO) {
-    await setDoc(doc(db, PATH_TO_USERS_COLLECTION, userDTO.uuid), {
-      uuid: userDTO.uuid,
-      email: userDTO.email,
-      name: userDTO.name,
-      ownWayUuids: [],
-      favoriteWayUuids: [],
-      mentoringWayUuids: [],
-    });
+    const validatedUserDTO = UserDTOSchema.parse(userDTO);
+
+    await setDoc(doc(db, PATH_TO_USERS_COLLECTION, userDTO.uuid), validatedUserDTO);
   }
 
   /**
@@ -51,14 +50,9 @@ export class UserService {
    * @param userDTO UserDTO
    */
   public static async updateUserDTO(userDTO: UserDTO) {
-    await updateDoc(doc(db, PATH_TO_USERS_COLLECTION, userDTO.uuid), {
-      uuid: userDTO.uuid,
-      email: userDTO.email,
-      name: userDTO.name,
-      ownWays: userDTO.ownWayUuids,
-      favoriteWays: userDTO.favoriteWayUuids,
-      mentoringWays: userDTO.mentoringWayUuids,
-    });
+    const validatedUserDTO = UserDTOSchema.parse(userDTO);
+
+    await updateDoc(doc(db, PATH_TO_USERS_COLLECTION, userDTO.uuid), validatedUserDTO);
   }
 
   /**

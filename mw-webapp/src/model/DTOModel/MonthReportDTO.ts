@@ -1,57 +1,49 @@
-/**
- * Month's report DTO model
- */
-export class MonthReportDTO {
+import {z} from "zod";
+
+export const MonthReportDTOSchema = z.object({
 
   /**
    * Month report's UUID
    */
-  public uuid: string;
+  uuid: z.string(),
 
   /**
    * Report's date
    */
-  public date: string;
+  date: z.string(),
 
   /**
    * @JobDone.uuids
    */
-  public jobDoneUuids: string[];
+  jobDoneUuids: z.array(z.string()),
 
   /**
    * @PlanForNextPeriod.uuids
    */
-  public planForNextPeriodUuids: string[];
+  planForNextPeriodUuids: z.array(z.string()),
 
   /**
    * @CurrentProblem.uuids
    */
-  public problemForCurrentPeriodUuids: string[];
+  problemForCurrentPeriodUuids: z.array(z.string()),
 
   /**
    * Student comments
    */
-  public studentComments: string[];
+  studentComments: z.array(z.string()),
 
   /**
    * New knowledge that the user has received
    */
-  public learnedForMonth: string[];
+  learnedForMonth: z.array(z.string()),
 
   /**
    * @MentorComment.uuids
    */
-  public mentorCommentUuids: string[];
+  mentorCommentUuids: z.array(z.string()),
+}).strict();
 
-  constructor(monthReportData: MonthReportDTO) {
-    this.uuid = monthReportData.uuid;
-    this.date = monthReportData.date;
-    this.jobDoneUuids = monthReportData.jobDoneUuids;
-    this.planForNextPeriodUuids = monthReportData.planForNextPeriodUuids;
-    this.problemForCurrentPeriodUuids = monthReportData.problemForCurrentPeriodUuids;
-    this.studentComments = monthReportData.studentComments;
-    this.learnedForMonth = monthReportData.learnedForMonth;
-    this.mentorCommentUuids = monthReportData.mentorCommentUuids;
-  }
-
-}
+/**
+ * Month's report DTO model
+ */
+export type MonthReportDTO = z.infer<typeof MonthReportDTOSchema>
