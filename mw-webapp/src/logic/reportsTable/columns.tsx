@@ -11,6 +11,7 @@ import {renderCellDate} from "src/logic/reportsTable/renderCellItem/renderCellDa
 import {renderCellIsDayOff} from "src/logic/reportsTable/renderCellItem/renderCellIsDayOff";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {UnicodeSymbols} from "src/utils/UnicodeSymbols";
+import styles from "src/component/editableText/EditableText.module.scss";
 
 const DEFAULT_SUMMARY_TIME = 0;
 
@@ -32,22 +33,6 @@ export const columns = [
         {renderCellDate(dateValue)}
       </TableCell>
     ),
-  }),
-  columnHelper.accessor("jobsDone", {
-    header: "Sum time",
-
-    /**
-     * Cell with summary of work time
-     */
-    cell: (({row}) => {
-      return (
-        <TableCell>
-          {row.original.jobsDone
-            .reduce((summaryTime, jobDone) => jobDone.time + summaryTime, DEFAULT_SUMMARY_TIME)
-          }
-        </TableCell>
-      );
-    }),
   }),
   columnHelper.accessor("jobsDone", {
     header: "Jobs done (minutes)",
@@ -72,11 +57,18 @@ export const columns = [
                 <EditableText
                   text={jobDone.time}
                   onChangeFinish={(text) => JobDoneDAL.updateJobDoneTime(jobDone, text)}
+                  className={styles.editableTime}
                 />
               </CellItem>
             ),
             )
           }
+          <div className={styles.summaryTimeWrapper}>
+            {"Summary time: "}
+            {row.original.jobsDone
+              .reduce((summaryTime, jobDone) => jobDone.time + summaryTime, DEFAULT_SUMMARY_TIME)
+            }
+          </div>
         </TableCell>
       );
     },
@@ -104,6 +96,7 @@ export const columns = [
                 <EditableText
                   text={planForNextPeriod.estimationTime}
                   onChangeFinish={(value) => PlanForNextPeriodDAL.updatePlanForNextPeriodTime(planForNextPeriod, value)}
+                  className={styles.editableTime}
                 />
               </CellItem>
             ),
