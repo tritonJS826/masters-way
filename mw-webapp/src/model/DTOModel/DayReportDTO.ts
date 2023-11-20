@@ -1,63 +1,57 @@
-/**
- * Day's report DTO model
- */
-export class DayReportDTO {
+
+import {z} from "zod";
+
+export const DayReportDTOSchema = z.object({
 
   /**
    * Day report's UUID
    */
-  public uuid: string;
+  uuid: z.string(),
 
   /**
    * Report's date
    */
-  public date: string;
+  date: z.string(),
 
   /**
    * @JobDone.uuids
    */
-  public jobDoneUuids: string[];
+  jobDoneUuids: z.array(z.string()),
 
   /**
    * @PlanForNextPeriod.uuids
    */
-  public planForNextPeriodUuids: string[];
+  planForNextPeriodUuids: z.array(z.string()),
 
   /**
    * @CurrentProblem.uuids
    */
-  public problemForCurrentPeriodUuids: string[];
+  problemForCurrentPeriodUuids: z.array(z.string()),
 
   /**
    * Student comments
    */
-  public studentComments: string[];
+  studentComments: z.array(z.string()),
 
   /**
    * New knowledge that the user has received
    */
-  public learnedForToday: string[];
+  learnedForToday: z.array(z.string()),
 
   /**
    * @MentorComment.uuids
    */
-  public mentorCommentUuids: string[];
+  mentorCommentUuids: z.array(z.string()),
 
   /**
    * Return true if day is off and false if it is work day
    */
-  public isDayOff: boolean;
+  isDayOff: z.boolean(),
+}).strict();
 
-  constructor(dayReportData: DayReportDTO) {
-    this.uuid = dayReportData.uuid;
-    this.date = dayReportData.date;
-    this.jobDoneUuids = dayReportData.jobDoneUuids;
-    this.planForNextPeriodUuids = dayReportData.planForNextPeriodUuids;
-    this.problemForCurrentPeriodUuids = dayReportData.problemForCurrentPeriodUuids;
-    this.studentComments = dayReportData.studentComments;
-    this.learnedForToday = dayReportData.learnedForToday;
-    this.mentorCommentUuids = dayReportData.mentorCommentUuids;
-    this.isDayOff = dayReportData.isDayOff;
-  }
+export const DayReportsDTOSchema = z.array(DayReportDTOSchema);
 
-}
+/**
+ * Day's report DTO model
+ */
+export type DayReportDTO = z.infer<typeof DayReportDTOSchema>;

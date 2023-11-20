@@ -1,6 +1,6 @@
 import {collection, doc, getDoc, setDoc, updateDoc} from "firebase/firestore";
 import {db} from "src/firebase";
-import {MentorCommentDTO} from "src/model/DTOModel/MentorCommentDTO";
+import {MentorCommentDTO, MentorCommentDTOSchema} from "src/model/DTOModel/MentorCommentDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
 
 const PATH_TO_MENTOR_COMMENTS_COLLECTION = "mentorComments";
@@ -20,9 +20,11 @@ export class MentorCommentService {
    */
   public static async getMentorCommentDTO(uuid: string): Promise<MentorCommentDTO> {
     const mentorCommentRaw = await getDoc(doc(db, PATH_TO_MENTOR_COMMENTS_COLLECTION, uuid));
-    const mentorComment: MentorCommentDTO = documentSnapshotToDTOConverter<MentorCommentDTO>(mentorCommentRaw);
+    const mentorCommentDTO = documentSnapshotToDTOConverter<MentorCommentDTO>(mentorCommentRaw);
 
-    return mentorComment;
+    const validatedMentorCommentDTO = MentorCommentDTOSchema.parse(mentorCommentDTO);
+
+    return validatedMentorCommentDTO;
   }
 
   /**
@@ -31,21 +33,25 @@ export class MentorCommentService {
   public static async createMentorCommentDTO
   (mentorCommentDTOWithoutUuid: MentorCommentDTOWithoutUuid): Promise<MentorCommentDTO> {
     const docRef = doc(collection(db, PATH_TO_MENTOR_COMMENTS_COLLECTION));
-    const DEFAULT_MENTOR_COMMENT: MentorCommentDTO = {
+
+    const mentorCommentDTO = {
       ...mentorCommentDTOWithoutUuid,
       uuid: docRef.id,
     };
 
-    await setDoc(docRef, DEFAULT_MENTOR_COMMENT);
+    const validatedMentorCommentDTO = MentorCommentDTOSchema.parse(mentorCommentDTO);
 
-    return DEFAULT_MENTOR_COMMENT;
+    await setDoc(docRef, validatedMentorCommentDTO);
+
+    return validatedMentorCommentDTO;
   }
 
   /**
    * Update MentorCommentDTO
    */
   public static async updateMentorCommentDTO(mentorCommentDTO: MentorCommentDTO, uuid: string) {
-    await updateDoc(doc(db, PATH_TO_MENTOR_COMMENTS_COLLECTION, uuid), {...mentorCommentDTO});
+    const validatedMentorCommentDTO = MentorCommentDTOSchema.parse(mentorCommentDTO);
+    await updateDoc(doc(db, PATH_TO_MENTOR_COMMENTS_COLLECTION, uuid), validatedMentorCommentDTO);
   }
 
 }

@@ -1,33 +1,29 @@
-/**
- * Mentor's comments DTO model
- */
-export class MentorCommentDTO {
+import {z} from "zod";
+
+export const MentorCommentDTOSchema = z.object({
 
   /**
    * Comment's UUID
    */
-  public uuid: string;
+  uuid: z.string(),
 
   /**
    * Mentor's UUID @User.uuid
    */
-  public mentorUuid: string;
+  mentorUuid: z.string(),
 
   /**
    * Comment's text
    */
-  public description: string;
+  description: z.string(),
 
   /**
    * True if comment was done and false if not
    */
-  public isDone: boolean;
+  isDone: z.boolean(),
+}).strict();
 
-  constructor(mentorCommentData: MentorCommentDTO) {
-    this.uuid = mentorCommentData.uuid;
-    this.mentorUuid = mentorCommentData.mentorUuid;
-    this.description = mentorCommentData.description;
-    this.isDone = mentorCommentData.isDone;
-  }
-
-}
+/**
+ * Mentor's comments DTO model
+ */
+export type MentorCommentDTO = z.infer<typeof MentorCommentDTOSchema>

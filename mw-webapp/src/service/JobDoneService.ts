@@ -1,6 +1,6 @@
 import {collection, doc, getDoc, setDoc, updateDoc} from "firebase/firestore";
 import {db} from "src/firebase";
-import {JobDoneDTO} from "src/model/DTOModel/JobDoneDTO";
+import {JobDoneDTO, JobDoneDTOSchema} from "src/model/DTOModel/JobDoneDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
 
 const PATH_TO_JOBS_DONE_COLLECTION = "jobsDone";
@@ -20,9 +20,11 @@ export class JobDoneService {
    */
   public static async getJobDoneDTO(uuid: string): Promise<JobDoneDTO> {
     const jobDoneRaw = await getDoc(doc(db, PATH_TO_JOBS_DONE_COLLECTION, uuid));
-    const jobDone: JobDoneDTO = documentSnapshotToDTOConverter<JobDoneDTO>(jobDoneRaw);
+    const jobDoneDTO = documentSnapshotToDTOConverter<JobDoneDTO>(jobDoneRaw);
 
-    return jobDone;
+    const validatedJobDoneDTO = JobDoneDTOSchema.parse(jobDoneDTO);
+
+    return validatedJobDoneDTO;
   }
 
   /**
@@ -30,21 +32,25 @@ export class JobDoneService {
    */
   public static async createJobDoneDTO(jobDoneDTOWithoutUuid: JobDoneDTOWithoutUuid): Promise<JobDoneDTO> {
     const docRef = doc(collection(db, PATH_TO_JOBS_DONE_COLLECTION));
-    const DEFAULT_JOB_DONE: JobDoneDTO = {
+
+    const jobDoneDTO = {
       ...jobDoneDTOWithoutUuid,
       uuid: docRef.id,
     };
 
-    await setDoc(docRef, DEFAULT_JOB_DONE);
+    const validatedJobDoneDTO = JobDoneDTOSchema.parse(jobDoneDTO);
 
-    return DEFAULT_JOB_DONE;
+    await setDoc(docRef, validatedJobDoneDTO);
+
+    return validatedJobDoneDTO;
   }
 
   /**
    * Update JobDoneDTO
    */
   public static async updateJobDoneDTO(jobDoneDTO: JobDoneDTO, uuid: string) {
-    await updateDoc(doc(db, PATH_TO_JOBS_DONE_COLLECTION, uuid), {...jobDoneDTO});
+    const validatedJobDoneDTO = JobDoneDTOSchema.parse(jobDoneDTO);
+    await updateDoc(doc(db, PATH_TO_JOBS_DONE_COLLECTION, uuid), validatedJobDoneDTO);
   }
 
 }
