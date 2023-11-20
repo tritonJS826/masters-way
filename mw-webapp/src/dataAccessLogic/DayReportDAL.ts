@@ -187,4 +187,16 @@ export class DayReportDAL {
     await DayReportDAL.updateDayReport(updatedDayReport);
   }
 
+  /**
+   * Update isDayOff to DayReport
+   */
+  public static async updateIsDayOff(dayReport: DayReport, isDayOff: boolean) {
+    const updatedDayReport: DayReport = {
+      ...dayReport,
+      isDayOff,
+    };
+
+    await DayReportDAL.updateDayReport(updatedDayReport);
+  }
+
 }
