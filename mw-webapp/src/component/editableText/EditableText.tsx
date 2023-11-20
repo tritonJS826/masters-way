@@ -58,14 +58,23 @@ export const EditableText = <T extends string | number>(props: EditableTextProps
   };
 
   /**
+   * Check type of coming value and convert it to Number if need to use input with type "number"
+   */
+  const setValue = (value: string) => {
+    const number = Number(value);
+    const updatedValue = typeof props.text === "string" ? value : number;
+    setText(updatedValue as T);
+  };
+
+  /**
    * Render input
    */
   const renderInput = () => (
     <Input
-      type="text"
+      type={typeof props.text === "string" ? "text" : "number"}
       value={text}
       autoFocus={true}
-      onChange={(event) => setText(event as T)}
+      onChange={(event) => setValue(event)}
     />
   );
 

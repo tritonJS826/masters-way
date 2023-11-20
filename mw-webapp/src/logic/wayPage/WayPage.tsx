@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {EditableText} from "src/component/editableText/EditableText";
+import {HeadingLevel, Title} from "src/component/title/Title";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
 import {DayReportsTable} from "src/logic/reportsTable/DayReportsTable";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
@@ -23,34 +23,41 @@ interface WayPageProps {
  */
 export const WayPage = (props: WayPageProps) => {
   const navigate = useNavigate();
-  const [wayName, setWayName] = useState<string>("");
-
-  let data: WayPreview;
+  const [way, setWay] = useState<WayPreview>();
 
   /**
    * Get Way
    */
   const loadWay = async () => {
-    data = await WayPreviewDAL.getWayPreview(props.uuid);
+    const data = await WayPreviewDAL.getWayPreview(props.uuid);
     // Navigate to PageError if transmitted way's uuid is not exist
-    if (!data.uuid) {
+    if (!data) {
       navigate(pages.page404.getPath({}));
     }
-    setWayName(data.name);
+    setWay(data);
   };
 
   useEffect(() => {
     loadWay();
   }, []);
 
+  /**
+   * Change name of Way
+   */
+  const changeWayName = (wayPreview: WayPreview, text: string) => {
+    const updatedWay = new WayPreview({...wayPreview, name: text});
+    WayPreviewDAL.updateWayPreview(updatedWay);
+  };
+
   return (
     <>
-      {wayName &&
+      {way &&
         <div className={styles.container}>
-          <EditableText
-            text={`${wayName}`}
-            onChangeFinish={(text) => WayPreviewDAL.updateWayPreview({...data, name: text})}
-            className={styles.wayName}
+          <Title
+            level={HeadingLevel.h2}
+            text={`${way.name}`}
+            onChangeFinish={(text) => changeWayName(way, text)}
+            editable={true}
           />
           <DayReportsTable wayUuid={props.uuid} />
         </div>

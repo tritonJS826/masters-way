@@ -1,17 +1,22 @@
+@import "src/styles/variables";
+
+$editableText-width: 80%;
+$editableTime-width: 15%;
+
 .editableText {
   overflow: hidden;
-  width: 80%;
+  width: $editableText-width;
 }
 
 .editableTime {
-  width: 15%;
+  width: $editableTime-width;
+  text-align: right;
 }
 
 .summaryTimeWrapper {
-  position: relative;
-  right: 0;
   display: flex;
+  width: 100%;
   justify-content: flex-end;
-  border-top: 1px solid black;
+  border-top: 1px solid $black;
   font-weight: bold;
 }

@@ -64,11 +64,10 @@ export const columns = [
             )
           }
           <div className={styles.summaryTimeWrapper}>
-            {"Summary time "}
+            {"Summary time: "}
             {row.original.jobsDone
               .reduce((summaryTime, jobDone) => jobDone.time + summaryTime, DEFAULT_SUMMARY_TIME)
             }
-            {" minutes"}
           </div>
         </TableCell>
       );
