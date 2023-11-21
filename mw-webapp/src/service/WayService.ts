@@ -62,10 +62,9 @@ export class WayService {
   /**
    * Update WayDTO
    */
-  public static async updateWayDTO(wayDTO: WayDTO, dayReportUuids: string[]) {
+  public static async updateWayDTO(wayDTO: WayDTO, uuid: string) {
     const validatedWayDTO = WayDTOSchema.parse(wayDTO);
-
-    await updateDoc(doc(db, PATH_TO_WAYS_COLLECTION, wayDTO.uuid), {...validatedWayDTO, dayReportUuids});
+    await updateDoc(doc(db, PATH_TO_WAYS_COLLECTION, uuid), {...validatedWayDTO});
   }
 
   /**
