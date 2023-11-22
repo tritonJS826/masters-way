@@ -1,4 +1,3 @@
-import {useState} from "react";
 import {createColumnHelper} from "@tanstack/react-table";
 import {EditableText} from "src/component/editableText/EditableText";
 import {CellItem} from "src/component/table/tableCell/cellItem/CellItem";
@@ -65,23 +64,14 @@ export const columns = [
      * Cell with JobsDone items
      */
     cell: ({row}) => {
-      const initialJobsDone = row.original.jobsDone;
-      const [jobsDone, setJobsDone] = useState(initialJobsDone);
-      const [updatedJobs, setUpdatedJobs] = useState<JobDone[]>(initialJobsDone);
-
       const {dayReports, setDayReports} = useDayReportsContext();
 
       /**
        * Create jobDone
        */
       const createJobDone = async (dayReport: DayReport) => {
-        const jobDone = await JobDoneDAL.createJobDone(dayReport);
-        const updatedJobsDone = [...jobsDone, jobDone];
-        setJobsDone(updatedJobsDone);
-        setUpdatedJobs(updatedJobsDone);
-
+        await JobDoneDAL.createJobDone(dayReport);
         updateDayReportContext(row.original.uuid, dayReports, setDayReports);
-
       };
 
       /**
@@ -89,21 +79,7 @@ export const columns = [
        */
       const updateJobDone = async (jobDone: JobDone, text: string) => {
         await JobDoneDAL.updateJobDone(jobDone, text);
-        const updatedJobsDone = updatedJobs.map((item) => {
-          if (item.uuid === jobDone.uuid) {
-            return new JobDone({
-              ...jobDone,
-              description: text,
-            });
-          }
-
-          return item;
-        });
-
-        setUpdatedJobs(updatedJobsDone);
-
         updateDayReportContext(row.original.uuid, dayReports, setDayReports);
-
       };
 
       /**
@@ -111,19 +87,6 @@ export const columns = [
        */
       const updateJobDoneTime = async (jobDone: JobDone, text: number) => {
         await JobDoneDAL.updateJobDoneTime(jobDone, text);
-        const updatedJobsDone = updatedJobs.map((item) => {
-          if (item.uuid === jobDone.uuid) {
-            return new JobDone({
-              ...jobDone,
-              time: text,
-            });
-          }
-
-          return item;
-        });
-
-        setUpdatedJobs(updatedJobsDone);
-
         updateDayReportContext(row.original.uuid, dayReports, setDayReports);
       };
 
@@ -132,7 +95,7 @@ export const columns = [
           buttonValue="add job"
           onButtonClick={() => createJobDone(row.original)}
         >
-          {updatedJobs
+          {row.original.jobsDone
             .map((jobDone) => (
               <CellItem key={jobDone.uuid}>
                 <EditableText
@@ -166,23 +129,14 @@ export const columns = [
      * Cell with PlanForNextPeriod items
      */
     cell: ({row}) => {
-      const initialPlansForNextPeriod = row.original.plansForNextPeriod;
-      const [plansForNextPeriod, setPlansForNextPeriod] = useState(initialPlansForNextPeriod);
-      const [updatedPlans, setUpdatedPlans] = useState<PlanForNextPeriod[]>(initialPlansForNextPeriod);
-
       const {dayReports, setDayReports} = useDayReportsContext();
 
       /**
        * Create PlanForNextPeriod
        */
       const createPlanForNextPeriod = async (dayReport: DayReport) => {
-        const jobDone = await PlanForNextPeriodDAL.createPlanForNextPeriod(dayReport);
-        const updatedJobsDone = [...plansForNextPeriod, jobDone];
-        setPlansForNextPeriod(updatedJobsDone);
-        setUpdatedPlans(updatedJobsDone);
-
+        await PlanForNextPeriodDAL.createPlanForNextPeriod(dayReport);
         updateDayReportContext(row.original.uuid, dayReports, setDayReports);
-
       };
 
       /**
@@ -190,21 +144,7 @@ export const columns = [
        */
       const updatePlanForNextPeriod = async (planForNextPeriod: PlanForNextPeriod, text: string) => {
         await PlanForNextPeriodDAL.updatePlanForNextPeriod(planForNextPeriod, text);
-        const updatedJobsDone = updatedPlans.map((item) => {
-          if (item.uuid === planForNextPeriod.uuid) {
-            return new PlanForNextPeriod({
-              ...planForNextPeriod,
-              job: text,
-            });
-          }
-
-          return item;
-        });
-
-        setUpdatedPlans(updatedJobsDone);
-
         updateDayReportContext(row.original.uuid, dayReports, setDayReports);
-
       };
 
       /**
@@ -212,19 +152,6 @@ export const columns = [
        */
       const updatePlanForNextPeriodTime = async (planForNextPeriod: PlanForNextPeriod, text: number) => {
         await PlanForNextPeriodDAL.updatePlanForNextPeriodTime(planForNextPeriod, text);
-        const updatedJobsDone = updatedPlans.map((item) => {
-          if (item.uuid === planForNextPeriod.uuid) {
-            return new PlanForNextPeriod({
-              ...planForNextPeriod,
-              estimationTime: text,
-            });
-          }
-
-          return item;
-        });
-
-        setUpdatedPlans(updatedJobsDone);
-
         updateDayReportContext(row.original.uuid, dayReports, setDayReports);
       };
 
@@ -233,7 +160,7 @@ export const columns = [
           buttonValue="add plan"
           onButtonClick={() => createPlanForNextPeriod(row.original)}
         >
-          {updatedPlans
+          {row.original.plansForNextPeriod
             .map((planForNextPeriod) => (
               <CellItem key={planForNextPeriod.uuid}>
                 <EditableText
@@ -261,23 +188,14 @@ export const columns = [
      * Cell with ProblemsForCurrentPeriod items
      */
     cell: ({row}) => {
-      const initialCurrentProblems = row.original.problemsForCurrentPeriod;
-      const [currentProblems, setCurrentProblems] = useState(initialCurrentProblems);
-      const [updatedCurrentProblems, setUpdatedCurrentProblems] = useState(initialCurrentProblems);
-
       const {dayReports, setDayReports} = useDayReportsContext();
 
       /**
        * Create CurrentProblem
        */
       const createCurrentProblem = async (dayReport: DayReport) => {
-        const currentProblem = await CurrentProblemDAL.createCurrentProblem(dayReport);
-        const updatedProblems = [...currentProblems, currentProblem];
-        setCurrentProblems(updatedProblems);
-        setUpdatedCurrentProblems(updatedProblems);
-
+        await CurrentProblemDAL.createCurrentProblem(dayReport);
         updateDayReportContext(row.original.uuid, dayReports, setDayReports);
-
       };
 
       /**
@@ -285,21 +203,7 @@ export const columns = [
        */
       const updateCurrentProblem = async (currentProblem: CurrentProblem, text: string) => {
         await CurrentProblemDAL.updateCurrentProblem(currentProblem, text);
-        const updatedProblems = updatedCurrentProblems.map((item) => {
-          if (item.uuid === currentProblem.uuid) {
-            return new CurrentProblem({
-              ...currentProblem,
-              description: text,
-            });
-          }
-
-          return item;
-        });
-
-        setUpdatedCurrentProblems(updatedProblems);
-
         updateDayReportContext(row.original.uuid, dayReports, setDayReports);
-
       };
 
       return (
@@ -328,23 +232,14 @@ export const columns = [
      * Cell with StudentComments items
      */
     cell: ({row}) => {
-      const initialStudentComments = row.original.studentComments;
-      const [, setStudentComments] = useState<string[]>(initialStudentComments);
-      const [updatedStudentComments, setUpdatedStudentComments] = useState<string[]>(initialStudentComments);
-
       const {dayReports, setDayReports} = useDayReportsContext();
 
       /**
        * Create StudentComment
        */
       const createStudentComment = async (dayReport: DayReport) => {
-        const studentComment = await DayReportDAL.createStudentComment(dayReport);
-        const updatedComment: string[] = [...studentComment.studentComments];
-        setStudentComments(updatedComment);
-        setUpdatedStudentComments(updatedComment);
-
+        await DayReportDAL.createStudentComment(dayReport);
         updateDayReportContext(row.original.uuid, dayReports, setDayReports);
-
       };
 
       /**
@@ -352,18 +247,7 @@ export const columns = [
        */
       const updateStudentComment = async (dayReport: DayReport, text: string, index: number) => {
         await DayReportDAL.updateStudentComment(dayReport, text, index);
-        const updatedComments = updatedStudentComments.map((item, i) => {
-          if (i === index) {
-            return text;
-          }
-
-          return item;
-        });
-
-        setUpdatedStudentComments(updatedComments);
-
         updateDayReportContext(row.original.uuid, dayReports, setDayReports);
-
       };
 
       return (
@@ -392,42 +276,22 @@ export const columns = [
      * Cell with LearnForToday items
      */
     cell: ({row}) => {
-      const initialLearnedForToday = row.original.learnedForToday;
-      const [, setLearnedForToday] = useState<string[]>(initialLearnedForToday);
-      const [updatedLearnedForToday, setUpdatedLearnedForToday] = useState<string[]>(initialLearnedForToday);
-
       const {dayReports, setDayReports} = useDayReportsContext();
 
       /**
        * Create LearnForToday
        */
       const createLearnForToday = async (dayReport: DayReport) => {
-        const learnForToday = await DayReportDAL.createLearnedForToday(dayReport);
-        const updatedLearned: string[] = [...learnForToday.learnedForToday];
-        setLearnedForToday(updatedLearned);
-        setUpdatedLearnedForToday(updatedLearned);
-
+        await DayReportDAL.createLearnedForToday(dayReport);
         updateDayReportContext(row.original.uuid, dayReports, setDayReports);
-
       };
 
       /**
        * Update LearnForToday
        */
-      const updateLearnForToday = async (dayReport: DayReport, text: string, index: number) => {
+      const updateLearnForToday = async (dayReportUuid: string, text: string, index: number) => {
         await DayReportDAL.updateLearnedForToday(row.original, text, index);
-        const updatedLearned = updatedLearnedForToday.map((item, i) => {
-          if (i === index) {
-            return text;
-          }
-
-          return item;
-        });
-
-        setUpdatedLearnedForToday(updatedLearned);
-
         updateDayReportContext(row.original.uuid, dayReports, setDayReports);
-
       };
 
       return (
@@ -440,7 +304,7 @@ export const columns = [
               <CellItem key={index}>
                 <EditableText
                   text={learnedForTodayItem}
-                  onChangeFinish={(text) => updateLearnForToday(row.original, text, index)}
+                  onChangeFinish={(text) => updateLearnForToday(row.original.uuid, text, index)}
                 />
               </CellItem>
             ),
@@ -456,23 +320,14 @@ export const columns = [
      * Cell with MentorComments items
      */
     cell: ({row}) => {
-      const initialMentorComments = row.original.mentorComments;
-      const [mentorComments, setMentorComments] = useState(initialMentorComments);
-      const [updatedMentorComments, setUpdatedMentorComments] = useState(initialMentorComments);
-
       const {dayReports, setDayReports} = useDayReportsContext();
 
       /**
        * Create MentorComment
        */
       const createMentorComment = async (dayReport: DayReport) => {
-        const mentorComment = await MentorCommentDAL.createMentorComment(dayReport);
-        const updatedComments = [...mentorComments, mentorComment];
-        setMentorComments(updatedComments);
-        setUpdatedMentorComments(updatedComments);
-
+        await MentorCommentDAL.createMentorComment(dayReport);
         updateDayReportContext(row.original.uuid, dayReports, setDayReports);
-
       };
 
       /**
@@ -480,21 +335,7 @@ export const columns = [
        */
       const updateMentorComment = async (mentorComment: MentorComment, text: string) => {
         await MentorCommentDAL.updateMentorComment(mentorComment, text);
-        const updatedComments = updatedMentorComments.map((item) => {
-          if (item.uuid === mentorComment.uuid) {
-            return new MentorComment({
-              ...mentorComment,
-              description: text,
-            });
-          }
-
-          return item;
-        });
-
-        setUpdatedMentorComments(updatedComments);
-
         updateDayReportContext(row.original.uuid, dayReports, setDayReports);
-
       };
 
       return (

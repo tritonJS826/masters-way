@@ -10,12 +10,12 @@ const STUB_DAY_REPORTS: DayReport[] = [];
 export type DayReports = {
 
   /**
-   * Dfg
+   * DayReports
    */
   dayReports: DayReport[];
 
   /**
-   * Dfg
+   * Set day reports
    */
   setDayReports: (dayReports: DayReport[]) => void;
 }
@@ -26,6 +26,6 @@ export const DayReportsContext: React.Context<DayReports> = createContext<DayRep
 });
 
 /**
- * Fdg
+ * Let use and change dayReports inside context.provider
  */
 export const useDayReportsContext = () => useContext(DayReportsContext);
