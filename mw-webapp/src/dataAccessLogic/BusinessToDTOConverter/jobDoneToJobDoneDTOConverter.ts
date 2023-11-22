@@ -6,8 +6,10 @@ import {JobDoneDTO, JobDoneDTOSchema} from "src/model/DTOModel/JobDoneDTO";
  * Convert {@link JobDone} to {@link JobDoneDTO}
  */
 export const jobDoneToJobDoneDTOConverter = (jobDone: JobDone): JobDoneDTO => {
-  return JobDoneDTOSchema.parse({
+  const validatedJobDoneDTO = JobDoneDTOSchema.parse({
     ...jobDone,
     timeUnit: TimeUnit[jobDone.timeUnit],
   });
+
+  return validatedJobDoneDTO;
 };

@@ -7,8 +7,10 @@ import {PlanForNextPeriodDTO, PlanForNextPeriodDTOSchema} from "src/model/DTOMod
  */
 export const planForNextPeriodToPlanForNextPeriodDTOConverter =
   (planForNextPeriod: PlanForNextPeriod): PlanForNextPeriodDTO => {
-    return PlanForNextPeriodDTOSchema.parse({
+    const validatedPlanForNextPlanDTO = PlanForNextPeriodDTOSchema.parse({
       ...planForNextPeriod,
       timeUnit: TimeUnit[planForNextPeriod.timeUnit],
     });
+
+    return validatedPlanForNextPlanDTO;
   };
