@@ -26,7 +26,7 @@ interface WayDTOProps {
  * Convert {@link wayPreview} to {@link WayDTO}
  */
 export const wayPreviewToWayDTOConverter = (wayPreview: WayPreview, wayDTOProps: WayDTOProps): WayDTO => {
-  return WayDTOSchema.parse({
+  const validatedWayDTO = WayDTOSchema.parse({
     uuid: wayPreview.uuid,
     name: wayPreview.name,
     dayReportUuids: wayPreview.dayReports,
@@ -36,4 +36,6 @@ export const wayPreviewToWayDTOConverter = (wayPreview: WayPreview, wayDTOProps:
     currentMentorUuids: wayDTOProps.currentMentorsUuids,
     isCompleted: wayPreview.isCompleted,
   });
+
+  return validatedWayDTO;
 };
