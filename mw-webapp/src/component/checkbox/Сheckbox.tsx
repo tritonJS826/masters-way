@@ -21,7 +21,7 @@ interface CheckboxProps {
   /**
    * A callback function to be called when the checkbox's state changes.
    */
-  onChange: (value?: boolean) => void;
+  onChange: (value: boolean) => void;
 }
 
 /**
@@ -35,7 +35,7 @@ export const Checkbox = (props: CheckboxProps) => {
    */
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
-    props.onChange();
+    props.onChange(!isChecked);
   };
 
   return (

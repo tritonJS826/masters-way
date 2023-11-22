@@ -226,7 +226,7 @@ export const columns = [
       return (<TableCell>
         <Checkbox
           isDefaultChecked={dayReport.isDayOff}
-          onChange={() => DayReportDAL.updateIsDayOff(dayReport, !dayReport.isDayOff)}
+          onChange={(value) => DayReportDAL.updateIsDayOff(dayReport, value)}
         />
       </TableCell>);
     },
