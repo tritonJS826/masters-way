@@ -5,5 +5,7 @@ import {MentorCommentDTO, MentorCommentDTOSchema} from "src/model/DTOModel/Mento
  * Convert {@link mentorComment} to {@link mentorCommentDTO}
  */
 export const mentorCommentToMentorCommentDTOConverter = (mentorComment: MentorComment): MentorCommentDTO => {
-  return MentorCommentDTOSchema.parse(mentorComment);
+  const validatedMentorCommentDTO = MentorCommentDTOSchema.parse(mentorComment);
+
+  return validatedMentorCommentDTO;
 };

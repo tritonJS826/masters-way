@@ -32,7 +32,7 @@ interface DayReportDTOProps {
  * Convert {@link DayReport} to {@link DayReportDTO}
  */
 export const dayReportToDayReportDTOConverter = (dayReport: DayReport, dayReportDTOProps: DayReportDTOProps): DayReportDTO => {
-  return DayReportDTOSchema.parse({
+  const validatedDayReportDTO = DayReportDTOSchema.parse({
     uuid: dayReport.uuid,
     date: DateUtils.getShortISODateValue(dayReport.date),
     jobDoneUuids: dayReportDTOProps.jobDoneUuids,
@@ -43,4 +43,6 @@ export const dayReportToDayReportDTOConverter = (dayReport: DayReport, dayReport
     learnedForToday: dayReport.learnedForToday,
     isDayOff: dayReport.isDayOff,
   });
+
+  return validatedDayReportDTO;
 };
