@@ -3,6 +3,7 @@ import {Button} from "src/component/button/Button";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {columns} from "src/logic/reportsTable/columns";
 import {ReportsTable} from "src/logic/reportsTable/ReportsTable";
+import {DayReportsContext} from "src/logic/reportsTable/reportTableContext";
 import {DayReport} from "src/model/businessModel/DayReport";
 
 /**
@@ -44,17 +45,19 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
   };
 
   return (
-    <>
-      {props.wayUuid &&
+    <DayReportsContext.Provider value={{dayReports, setDayReports}}>
+      <>
+        {props.wayUuid &&
         <Button
           value="Create new day report"
           onClick={() => createDayReport(props.wayUuid, dayReports)}
         />
-      }
-      <ReportsTable
-        data={dayReports}
-        columns={columns}
-      />
-    </>
+        }
+        <ReportsTable
+          data={dayReports}
+          columns={columns}
+        />
+      </>
+    </DayReportsContext.Provider>
   );
 };
