@@ -2,7 +2,7 @@ import {createColumnHelper} from "@tanstack/react-table";
 import {Link} from "src/component/link/Link";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
-import {renderCellValue} from "src/utils/renderCellValue";
+import style from "src/logic/waysTable/columns.module.scss";
 
 const columnHelper = createColumnHelper<WayPreview>();
 
@@ -32,15 +32,23 @@ export const columns = [
     /**
      * Cell with isCompleted value
      */
-    cell: (cellValue) => renderCellValue(`${cellValue.getValue()}`),
+    cell: (cellValue) => (
+      <div>
+        {`${cellValue.getValue()}`}
+      </div>
+    ),
   }),
   columnHelper.accessor("goal", {
     header: "Goal",
 
     /**
-     * Cell with isCompleted value
+     * Cell with Goal
      */
-    cell: ({row}) => renderCellValue(row.original.goal.description),
+    cell: ({row}) => (
+      <span className={style.goalDescription}>
+        {row.original.goal.description}
+      </span>
+    ),
   }),
   columnHelper.accessor("owner", {
     header: WAYS_OWNER,
@@ -55,7 +63,9 @@ export const columns = [
             path={pages.user.getPath({uuid: row.original.owner.uuid})}
             value={row.original.owner.name}
           />
-          {renderCellValue(row.original.owner.email)}
+          <div>
+            {row.original.owner.email}
+          </div>
         </>
       );
     },
@@ -68,7 +78,11 @@ export const columns = [
      */
     cell: ({row}) => {
       return (
-        row.original.currentMentors.map((currentMentor) => renderCellValue(currentMentor.name))
+        row.original.currentMentors.map((currentMentor) => (
+          <div key={currentMentor.uuid}>
+            {currentMentor.name}
+          </div>
+        ))
       );
     },
   }),

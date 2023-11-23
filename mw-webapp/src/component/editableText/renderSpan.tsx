@@ -24,7 +24,7 @@ const renderEmptySpan = () => (
  * TODO: move to separate component, task #208
  */
 export const renderSpan = (value: string | number, isDone?: boolean) => (
-  (value === UnicodeSymbols.ZERO_WIDTH_SPACE)
+  (value === UnicodeSymbols.ZERO_WIDTH_SPACE || !value)
     ? renderEmptySpan()
     : renderSpanWithValue(value, isDone)
 );

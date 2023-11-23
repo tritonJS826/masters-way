@@ -1,0 +1,9 @@
+.goalDescription {
+  display: -webkit-box;
+  overflow: hidden;
+  max-width: 150px;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+}

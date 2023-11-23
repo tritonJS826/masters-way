@@ -1,6 +1,8 @@
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HeadingLevel, Title} from "src/component/title/Title";
+import {GoalPreviewDAL} from "src/dataAccessLogic/GoalPreviewDAL";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
 import {DayReportsTable} from "src/logic/reportsTable/DayReportsTable";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
@@ -59,6 +61,17 @@ export const WayPage = (props: WayPageProps) => {
             onChangeFinish={(text) => changeWayName(way, text)}
             isEditable={true}
           />
+          <EditableTextarea
+            text={way.goal.description}
+            onChangeFinish={(description) => {
+              const goalDTO = {
+                ...way.goal,
+                description,
+              };
+              GoalPreviewDAL.updateGoalPreview(goalDTO);
+            }}
+          />
+
           <DayReportsTable wayUuid={props.uuid} />
         </div>
       }
