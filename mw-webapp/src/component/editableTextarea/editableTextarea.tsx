@@ -1,6 +1,5 @@
 import {useState} from "react";
 import clsx from "clsx";
-// TODO: after task #208 use separate component
 import {renderSpan} from "src/component/editableText/renderSpan";
 import {Textarea} from "src/component/textarea/Textarea";
 import {KeySymbols} from "src/utils/KeySymbols";
