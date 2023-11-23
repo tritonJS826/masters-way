@@ -1,9 +1,8 @@
 import {useEffect, useState} from "react";
 import {Button} from "src/component/button/Button";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
-import {columns} from "src/logic/reportsTable/columns";
+import {Columns} from "src/logic/reportsTable/Columns";
 import {ReportsTable} from "src/logic/reportsTable/ReportsTable";
-import {DayReportsContext} from "src/logic/reportsTable/reportTableContext";
 import {DayReport} from "src/model/businessModel/DayReport";
 
 /**
@@ -45,19 +44,17 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
   };
 
   return (
-    <DayReportsContext.Provider value={{dayReports, setDayReports}}>
-      <>
-        {props.wayUuid &&
-        <Button
-          value="Create new day report"
-          onClick={() => createDayReport(props.wayUuid, dayReports)}
-        />
-        }
-        <ReportsTable
-          data={dayReports}
-          columns={columns}
-        />
-      </>
-    </DayReportsContext.Provider>
+    <>
+      {props.wayUuid &&
+      <Button
+        value="Create new day report"
+        onClick={() => createDayReport(props.wayUuid, dayReports)}
+      />
+      }
+      <ReportsTable
+        data={dayReports}
+        columns={Columns({dayReports, setDayReports})}
+      />
+    </>
   );
 };

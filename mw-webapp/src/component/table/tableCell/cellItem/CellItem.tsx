@@ -17,11 +17,11 @@ interface CellItemProps {
  */
 export const CellItem = (props: PropsWithChildren<CellItemProps>) => {
   return (
-    <div
+    <li
       className={styles.cellItem}
       key={props.key}
     >
       {props.children}
-    </div>
+    </li>
   );
 };

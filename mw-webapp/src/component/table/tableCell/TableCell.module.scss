@@ -1,8 +1,5 @@
 .cell {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  counter-reset: cnt;
   gap: 5px;
 }

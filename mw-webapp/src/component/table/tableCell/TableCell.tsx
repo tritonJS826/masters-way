@@ -23,7 +23,7 @@ interface TableCellProps {
  */
 export const TableCell = (props: PropsWithChildren<TableCellProps>) => {
   return (
-    <div className={styles.cell}>
+    <ol className={styles.cell}>
       {props.children}
       {props.buttonValue &&
         <Button
@@ -31,6 +31,6 @@ export const TableCell = (props: PropsWithChildren<TableCellProps>) => {
           onClick={props.onButtonClick ?? (() => {})}
         />
       }
-    </div>
+    </ol>
   );
 };
