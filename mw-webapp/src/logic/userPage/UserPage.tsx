@@ -5,6 +5,7 @@ import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {FavoriteWaysTable} from "src/logic/waysTable/FavoriteWaysTable";
 import {MentoringWaysTable} from "src/logic/waysTable/MentoringWaysTable";
 import {OwnWaysTable} from "src/logic/waysTable/OwnWaysTable";
+import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {pages} from "src/router/pages";
 import styles from "src/logic/userPage/UserPage.module.scss";
 
@@ -23,7 +24,7 @@ interface UserPageProps {
  * User page
  */
 export const UserPage = (props: UserPageProps) => {
-  const [userName, setUserName] = useState<string>("");
+  const [userPreview, setUserPreview] = useState<UserPreview | null>(null);
   const navigate = useNavigate();
 
   /**
@@ -35,7 +36,7 @@ export const UserPage = (props: UserPageProps) => {
     if (!user.uuid) {
       navigate(pages.page404.getPath({}));
     }
-    setUserName(user.name);
+    setUserPreview(user);
   };
 
   useEffect(() => {
@@ -43,24 +44,25 @@ export const UserPage = (props: UserPageProps) => {
   }, []);
 
   return (
+    userPreview &&
     <div className={styles.container}>
       <Title
         level={HeadingLevel.h2}
-        text={`Page of ${userName}`}
+        text={`Page of ${userPreview.name}`}
       />
       <>
         <Title
-          text="Own ways"
+          text= {`Own Ways (totally ${userPreview.ownWays.length} ways)`}
           level={HeadingLevel.h3}
         />
         <OwnWaysTable uuid={props.uuid} />
         <Title
-          text="Mentoring ways"
+          text={`Own Ways (totally ${userPreview.mentoringWays.length} ways)`}
           level={HeadingLevel.h3}
         />
         <MentoringWaysTable uuid={props.uuid} />
         <Title
-          text="Favorite ways"
+          text={`Own Ways (totally ${userPreview.favoriteWays.length} ways)`}
           level={HeadingLevel.h3}
         />
         <FavoriteWaysTable uuid={props.uuid} />

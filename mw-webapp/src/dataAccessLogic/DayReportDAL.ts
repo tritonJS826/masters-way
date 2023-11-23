@@ -145,6 +145,8 @@ export class DayReportDAL {
       studentComments: updatedCell,
     };
     await DayReportDAL.updateDayReport(updatedDayReport);
+
+    return updatedDayReport;
   }
 
   /**
@@ -177,6 +179,8 @@ export class DayReportDAL {
       learnedForToday: updatedCell,
     };
     await DayReportDAL.updateDayReport(updatedDayReport);
+
+    return updatedDayReport;
   }
 
   /**
