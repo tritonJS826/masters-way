@@ -1,4 +1,5 @@
 import {createColumnHelper} from "@tanstack/react-table";
+import {Checkbox} from "src/component/checkbox/Сheckbox";
 import {EditableText} from "src/component/editableText/EditableText";
 import {CellItem} from "src/component/table/tableCell/cellItem/CellItem";
 import {TableCell} from "src/component/table/tableCell/TableCell";
@@ -8,7 +9,6 @@ import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
 import {MentorCommentDAL} from "src/dataAccessLogic/MentorCommentDAL";
 import {PlanForNextPeriodDAL} from "src/dataAccessLogic/PlanForNextPeriodDAL";
 import {renderCellDate} from "src/logic/reportsTable/renderCellItem/renderCellDate";
-import {renderCellIsDayOff} from "src/logic/reportsTable/renderCellItem/renderCellIsDayOff";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
@@ -474,12 +474,14 @@ export const Columns = (props: ColumnsProps) => {
       /**
        * Cell with IsDayOff value
        */
-      cell: (isDayOffValue) => (
+      cell: ({row}) => (
         <TableCell>
-          {renderCellIsDayOff(isDayOffValue)}
+          <Checkbox
+            isDefaultChecked={row.original.isDayOff}
+            onChange={(value) => DayReportDAL.updateIsDayOff(row.original, value)}
+          />
         </TableCell>
-      )
-      ,
+      ),
     }),
   ];
 
