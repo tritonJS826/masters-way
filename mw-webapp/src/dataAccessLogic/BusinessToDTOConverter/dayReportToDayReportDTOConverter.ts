@@ -34,14 +34,14 @@ interface DayReportDTOProps {
 export const dayReportToDayReportDTOConverter = (dayReport: DayReport, dayReportDTOProps: DayReportDTOProps): DayReportDTO => {
   const validatedDayReportDTO = DayReportDTOSchema.parse({
     uuid: dayReport.uuid,
-    studentComments: dayReport.studentComments,
-    learnedForToday: dayReport.learnedForToday,
-    isDayOff: dayReport.isDayOff,
     date: DateUtils.getShortISODateValue(dayReport.date),
     jobDoneUuids: dayReportDTOProps.jobDoneUuids,
     planForNextPeriodUuids: dayReportDTOProps.planForNextPeriodUuids,
     problemForCurrentPeriodUuids: dayReportDTOProps.problemForCurrentPeriodUuids,
     mentorCommentUuids: dayReportDTOProps.mentorCommentUuids,
+    studentComments: dayReport.studentComments,
+    learnedForToday: dayReport.learnedForToday,
+    isDayOff: dayReport.isDayOff,
   });
 
   return validatedDayReportDTO;
