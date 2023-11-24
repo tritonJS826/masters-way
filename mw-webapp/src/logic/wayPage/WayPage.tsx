@@ -5,9 +5,26 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {GoalPreviewDAL} from "src/dataAccessLogic/GoalPreviewDAL";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
 import {DayReportsTable} from "src/logic/reportsTable/DayReportsTable";
+import {GoalPreview} from "src/model/businessModelPreview/GoalPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
 import styles from "src/logic/wayPage/WayPage.module.scss";
+
+/**
+ * Change name of Way
+ */
+const changeWayName = (wayPreview: WayPreview, text: string) => {
+  const updatedWay = new WayPreview({...wayPreview, name: text});
+  WayPreviewDAL.updateWayPreview(updatedWay);
+};
+
+/**
+ * Change description of Way
+ */
+const updateGoalWay = (wayPreview: WayPreview, description: string) => {
+  const newGoal = new GoalPreview({...wayPreview.goal, description});
+  GoalPreviewDAL.updateGoalPreview(newGoal);
+};
 
 /**
  * PageProps
@@ -43,14 +60,6 @@ export const WayPage = (props: WayPageProps) => {
     loadWay();
   }, []);
 
-  /**
-   * Change name of Way
-   */
-  const changeWayName = (wayPreview: WayPreview, text: string) => {
-    const updatedWay = new WayPreview({...wayPreview, name: text});
-    WayPreviewDAL.updateWayPreview(updatedWay);
-  };
-
   return (
     <>
       {way &&
@@ -63,13 +72,7 @@ export const WayPage = (props: WayPageProps) => {
           />
           <EditableTextarea
             text={way.goal.description}
-            onChangeFinish={(description) => {
-              const goalDTO = {
-                ...way.goal,
-                description,
-              };
-              GoalPreviewDAL.updateGoalPreview(goalDTO);
-            }}
+            onChangeFinish={(description) => updateGoalWay(way, description)}
           />
 
           <DayReportsTable wayUuid={props.uuid} />
