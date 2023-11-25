@@ -3,6 +3,7 @@ import {Button} from "src/component/button/Button";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {ReportsTable} from "src/logic/wayPage/reportsTable/ReportsTable";
 import {Columns} from "src/logic/wayPage/reportsTable/WayColumns";
+import {WayStatistic} from "src/logic/wayPage/WayStatistic";
 import {DayReport} from "src/model/businessModel/DayReport";
 
 /**
@@ -18,6 +19,9 @@ interface DayReportsTableProps {
 
 /**
  * Render table with dayReports of specific way
+ *
+ * TODO:  get rid statistics in this component,
+ * move load logic to the parent component and share data with other components
  */
 export const DayReportsTable = (props: DayReportsTableProps) => {
   const [dayReports, setDayReports] = useState<DayReport[]>([]);
@@ -51,6 +55,9 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
         onClick={() => createDayReport(props.wayUuid, dayReports)}
       />
       }
+
+      <WayStatistic dayReports={dayReports} />
+
       <ReportsTable
         data={dayReports}
         columns={Columns({dayReports, setDayReports})}
