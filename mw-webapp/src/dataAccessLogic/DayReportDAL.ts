@@ -25,9 +25,9 @@ export class DayReportDAL {
 
     const dayReports = await Promise.all(dayReportsUuids.map(DayReportDAL.getDayReport));
 
-    const dayReportReverse = dayReports.reverse();
+    const dayReportSortedByDate = dayReports.sort((a, b) => b.date.getTime() - a.date.getTime());
 
-    return dayReportReverse;
+    return dayReportSortedByDate;
   }
 
   /**

@@ -59,7 +59,10 @@ export const WayPage = (props: WayPageProps) => {
             onChangeFinish={(text) => changeWayName(way, text)}
             isEditable={true}
           />
-          <DayReportsTable wayUuid={props.uuid} />
+          <DayReportsTable
+            wayUuid={props.uuid}
+            way={way}
+          />
         </div>
       }
     </>

@@ -41,7 +41,7 @@ interface ColumnsProps {
   setDayReports: (dayReports: DayReport[]) => void;
 
   /**
-   * Way's mentors
+   * Way's mentors where string is mentor's uuid
    */
   mentors: Map<string, UserPreview>;
 }
