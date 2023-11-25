@@ -34,11 +34,6 @@ export const DayReportDTOSchema = z.object({
   studentComments: z.array(z.string()),
 
   /**
-   * New knowledge that the user has received
-   */
-  learnedForToday: z.array(z.string()),
-
-  /**
    * @MentorComment.uuids
    */
   mentorCommentUuids: z.array(z.string()),

@@ -39,11 +39,6 @@ export class DayReport {
   public studentComments: string[];
 
   /**
-   * New knowledge that the user has received
-   */
-  public learnedForToday: string[];
-
-  /**
    * Mentor's comments uuids
    */
   public mentorComments: MentorComment[];
@@ -63,7 +58,6 @@ export class DayReport {
     this.problemsForCurrentPeriod = dayReportData.problemsForCurrentPeriod.map((currentProblemItem) =>
       new CurrentProblem(currentProblemItem));
     this.studentComments = dayReportData.studentComments;
-    this.learnedForToday = dayReportData.learnedForToday;
     this.mentorComments = dayReportData.mentorComments.map((mentorComment) =>
       new MentorComment(mentorComment));
     this.isDayOff = dayReportData.isDayOff;

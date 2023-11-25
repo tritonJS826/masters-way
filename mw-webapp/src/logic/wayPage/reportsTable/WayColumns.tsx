@@ -3,17 +3,19 @@ import {Checkbox} from "src/component/checkbox/Сheckbox";
 import {EditableText} from "src/component/editableText/EditableText";
 import {CellItem} from "src/component/table/tableCell/cellItem/CellItem";
 import {TableCell} from "src/component/table/tableCell/TableCell";
+import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
+import {Tooltip} from "src/component/tooltip/Tooltip";
 import {CurrentProblemDAL} from "src/dataAccessLogic/CurrentProblemDAL";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
 import {MentorCommentDAL} from "src/dataAccessLogic/MentorCommentDAL";
 import {PlanForNextPeriodDAL} from "src/dataAccessLogic/PlanForNextPeriodDAL";
-import {renderCellDate} from "src/logic/reportsTable/renderCellItem/renderCellDate";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {MentorComment} from "src/model/businessModel/MentorComment";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
+import {DateUtils} from "src/utils/DateUtils";
 import {UnicodeSymbols} from "src/utils/UnicodeSymbols";
 import styles from "src/component/editableText/EditableText.module.scss";
 
@@ -66,9 +68,18 @@ export const Columns = (props: ColumnsProps) => {
       /**
        * Cell with date value
        */
-      cell: (dateValue) => (
+      cell: ({row}) => (
         <TableCell>
-          {renderCellDate(dateValue)}
+          {DateUtils.getShortISODateValue(row.original.date)}
+          <Tooltip
+            content="is day off ?"
+            position={PositionTooltip.TOP}
+          >
+            <Checkbox
+              isDefaultChecked={row.original.isDayOff}
+              onChange={(value) => DayReportDAL.updateIsDayOff(row.original, value)}
+            />
+          </Tooltip>
         </TableCell>
       ),
     }),
@@ -357,60 +368,6 @@ export const Columns = (props: ColumnsProps) => {
         );
       },
     }),
-    columnHelper.accessor("learnedForToday", {
-      header: "Learned for today",
-
-      /**
-       * Cell with LearnForToday items
-       */
-      cell: ({row}) => {
-
-        /**
-         * Create LearnForToday
-         */
-        const createLearnForToday = async () => {
-          await DayReportDAL.createLearnedForToday(row.original);
-          const learnedForToday = [...row.original.learnedForToday, UnicodeSymbols.ZERO_WIDTH_SPACE];
-          const updatedDayReport = {...row.original, learnedForToday};
-          updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
-        };
-
-        /**
-         * Update LearnForToday
-         */
-        const updateLearnForToday = async (text: string, index: number) => {
-          await DayReportDAL.updateLearnedForToday(row.original, text, index);
-          const updatedLearnedForToday = row.original.learnedForToday.map((item, i) => {
-            if (i === index) {
-              return text;
-            }
-
-            return item;
-          });
-
-          const updatedDayReport = {...row.original, learnedForToday: updatedLearnedForToday};
-          updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
-        };
-
-        return (
-          <TableCell
-            buttonValue="add learned for today"
-            onButtonClick={() => createLearnForToday()}
-          >
-            {row.original.learnedForToday
-              .map((learnedForTodayItem, index) => (
-                <CellItem key={index}>
-                  <EditableText
-                    text={learnedForTodayItem}
-                    onChangeFinish={(text) => updateLearnForToday(text, index)}
-                  />
-                </CellItem>
-              ),
-              )}
-          </TableCell>
-        );
-      },
-    }),
     columnHelper.accessor("mentorComments", {
       header: "Mentor comments",
 
@@ -467,21 +424,6 @@ export const Columns = (props: ColumnsProps) => {
           </TableCell>
         );
       },
-    }),
-    columnHelper.accessor("isDayOff", {
-      header: "Is day off",
-
-      /**
-       * Cell with IsDayOff value
-       */
-      cell: ({row}) => (
-        <TableCell>
-          <Checkbox
-            isDefaultChecked={row.original.isDayOff}
-            onChange={(value) => DayReportDAL.updateIsDayOff(row.original, value)}
-          />
-        </TableCell>
-      ),
     }),
   ];
 

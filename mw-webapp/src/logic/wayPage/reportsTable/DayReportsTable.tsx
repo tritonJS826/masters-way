@@ -1,8 +1,8 @@
 import {useEffect, useState} from "react";
 import {Button} from "src/component/button/Button";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
-import {Columns} from "src/logic/reportsTable/Columns";
-import {ReportsTable} from "src/logic/reportsTable/ReportsTable";
+import {ReportsTable} from "src/logic/wayPage/reportsTable/ReportsTable";
+import {Columns} from "src/logic/wayPage/reportsTable/WayColumns";
 import {DayReport} from "src/model/businessModel/DayReport";
 
 /**

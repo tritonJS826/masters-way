@@ -33,11 +33,6 @@ export const MonthReportDTOSchema = z.object({
   studentComments: z.array(z.string()),
 
   /**
-   * New knowledge that the user has received
-   */
-  learnedForMonth: z.array(z.string()),
-
-  /**
    * @MentorComment.uuids
    */
   mentorCommentUuids: z.array(z.string()),
