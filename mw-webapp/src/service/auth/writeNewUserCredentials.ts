@@ -16,6 +16,7 @@ export const writeNewUserCredentials = async () => {
         uuid: userCredentials.user.uid,
         email: userCredentials.user.email,
         name: userCredentials.user.displayName,
+        description: "",
         ownWayUuids: [],
         favoriteWayUuids: [],
         mentoringWayUuids: [],
