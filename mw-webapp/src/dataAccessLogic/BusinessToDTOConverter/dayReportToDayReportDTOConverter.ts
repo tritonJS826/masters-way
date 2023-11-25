@@ -40,7 +40,6 @@ export const dayReportToDayReportDTOConverter = (dayReport: DayReport, dayReport
     problemForCurrentPeriodUuids: dayReportDTOProps.problemForCurrentPeriodUuids,
     mentorCommentUuids: dayReportDTOProps.mentorCommentUuids,
     studentComments: dayReport.studentComments,
-    learnedForToday: dayReport.learnedForToday,
     isDayOff: dayReport.isDayOff,
   });
 

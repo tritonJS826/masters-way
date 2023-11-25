@@ -81,8 +81,8 @@
   - [] average time for job
   - [] medial time for job
 - [] Add tags for way
-- [] Delete LearnedForToday from Way model
-- [] Combine Date and isDayOff cells
+- [x] Delete LearnedForToday from Way model
+- [x] Combine Date and isDayOff cells
 - [] Add status for Way (Done, notDone, inProgress)
 - [] Add metrics for Goal on WayPage (checkbox + text)
 - [] Optimization: load only last 5-10 DayReports (lazy loading)
@@ -91,5 +91,5 @@
 - [] AllWaysPage: add property lastDayReportAdded for Way (must auto update when click on button add dayReport)
 - [] AllWaysPage: cell goal should contain short description (max 2 line) but by clicking modal window should be opened with full description and metrics(think about statistic info that could be shown)
 - [] Add property dateOfCreatedWay (whe Way was created)
-- [] Add tupe of user (optional) : 1) newbie - directive 2) frustrated novice 3) insecure professional 4) independent professional
+- [] Add type of user (optional) : 1) newbie - directive 2) frustrated novice 3) insecure professional 4) independent professional
 - [] Add a page with a tree of paths (chain of goals) for visualization

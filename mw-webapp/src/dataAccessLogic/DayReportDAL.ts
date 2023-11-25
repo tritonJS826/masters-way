@@ -86,7 +86,6 @@ export class DayReportDAL {
       planForNextPeriodUuids: [],
       problemForCurrentPeriodUuids: [],
       studentComments: [],
-      learnedForToday: [],
       mentorCommentUuids: [],
       isDayOff: false,
     };
@@ -165,41 +164,6 @@ export class DayReportDAL {
       ...dayReport,
       studentComments: getUpdatedText,
     };
-    await DayReportDAL.updateDayReport(updatedDayReport);
-  }
-
-  /**
-   * Create learned for today to DayReport
-   */
-  public static async createLearnedForToday(dayReport: DayReport) {
-    const updatedCell = [...dayReport.learnedForToday, UnicodeSymbols.ZERO_WIDTH_SPACE];
-
-    const updatedDayReport: DayReport = {
-      ...dayReport,
-      learnedForToday: updatedCell,
-    };
-    await DayReportDAL.updateDayReport(updatedDayReport);
-
-    return updatedDayReport;
-  }
-
-  /**
-   * Update learnedForToday to DayReport
-   */
-  public static async updateLearnedForToday(dayReport: DayReport, text: string, index: number) {
-    const getUpdatedText = dayReport.learnedForToday.map((item: string, i: number) => {
-      if (i === index) {
-        return `${text}`;
-      }
-
-      return item;
-    });
-
-    const updatedDayReport: DayReport = {
-      ...dayReport,
-      learnedForToday: getUpdatedText,
-    };
-
     await DayReportDAL.updateDayReport(updatedDayReport);
   }
 

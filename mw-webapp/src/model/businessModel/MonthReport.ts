@@ -39,11 +39,6 @@ export class MonthReport {
   public studentComments: string[];
 
   /**
-   * New knowledge that the user has received
-   */
-  public learnedForMonth: string[];
-
-  /**
    * Mentor's comments
    */
   public mentorComments: MentorComment[];
@@ -58,7 +53,6 @@ export class MonthReport {
     this.problemsForCurrentPeriod = monthReportData.problemsForCurrentPeriod.map((currentProblemItem) =>
       new CurrentProblem(currentProblemItem));
     this.studentComments = monthReportData.studentComments;
-    this.learnedForMonth = monthReportData.learnedForMonth;
     this.mentorComments = monthReportData.mentorComments;
   }
 

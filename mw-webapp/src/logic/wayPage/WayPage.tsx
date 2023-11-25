@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
-import {DayReportsTable} from "src/logic/reportsTable/DayReportsTable";
+import {DayReportsTable} from "src/logic/wayPage/reportsTable/DayReportsTable";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
 import styles from "src/logic/wayPage/WayPage.module.scss";
