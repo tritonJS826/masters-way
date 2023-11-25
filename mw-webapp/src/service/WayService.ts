@@ -1,4 +1,4 @@
-import {collection, doc, getDoc, getDocs, query, setDoc, updateDoc, where} from "firebase/firestore";
+import {collection, doc, getDoc, getDocs, orderBy, query, setDoc, updateDoc, where} from "firebase/firestore";
 import {db} from "src/firebase";
 import {WayDTO, WayDTOSchema, WaysDTOSchema} from "src/model/DTOModel/WayDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
@@ -21,7 +21,9 @@ export class WayService {
    * Get WaysDTO
    */
   public static async getWaysDTO(): Promise<WayDTO[]> {
-    const waysRaw = await getDocs(collection(db, PATH_TO_WAYS_COLLECTION));
+    const waysRef = collection(db, PATH_TO_WAYS_COLLECTION);
+    const waysOrderedByName = query(waysRef, orderBy("name"));
+    const waysRaw = await getDocs(waysOrderedByName);
     const waysDTO = querySnapshotToDTOConverter<WayDTO>(waysRaw);
 
     const validatedWaysDTO = WaysDTOSchema.parse(waysDTO);

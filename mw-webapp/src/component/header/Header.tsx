@@ -64,10 +64,6 @@ export const Header = () => {
       path: pages.user.getPath({uuid: user.uid}),
       value: "My ways",
     },
-    user && {
-      path: pages.userProfile.getPath({uuid: user.uid}),
-      value: "Profile",
-    },
     {
       path: pages.aboutProject.getPath({}),
       value: "About",

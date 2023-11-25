@@ -1,10 +1,12 @@
 import {useEffect, useState} from "react";
 import {Button} from "src/component/button/Button";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
+import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
 import {ReportsTable} from "src/logic/wayPage/reportsTable/ReportsTable";
 import {Columns} from "src/logic/wayPage/reportsTable/WayColumns";
 import {WayStatistic} from "src/logic/wayPage/WayStatistic";
 import {DayReport} from "src/model/businessModel/DayReport";
+import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 
 /**
  * DayReportsTable props
@@ -25,6 +27,7 @@ interface DayReportsTableProps {
  */
 export const DayReportsTable = (props: DayReportsTableProps) => {
   const [dayReports, setDayReports] = useState<DayReport[]>([]);
+  const [mentorsList, setMentorsList] = useState<UserPreview[]>([]);
 
   /**
    * Gets all day reports
@@ -34,9 +37,21 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
     setDayReports(data);
   };
 
+  /**
+   * Load mentors
+   */
+  const loadMentors = async () => {
+    const way = await WayPreviewDAL.getWayPreview(props.wayUuid);
+    const mentors = way.currentMentors;
+    setMentorsList(mentors);
+  };
+
   useEffect(() => {
     loadDayReports();
+    loadMentors();
   }, []);
+
+  const mentors = new Map(mentorsList.map((item): [string, UserPreview] => [item.uuid, item]));
 
   /**
    * Create day report
@@ -60,7 +75,7 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
 
       <ReportsTable
         data={dayReports}
-        columns={Columns({dayReports, setDayReports})}
+        columns={Columns({dayReports, setDayReports, mentors})}
       />
     </>
   );

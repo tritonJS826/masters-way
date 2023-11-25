@@ -1,6 +1,7 @@
 import {createColumnHelper} from "@tanstack/react-table";
 import {Checkbox} from "src/component/checkbox/Сheckbox";
 import {EditableText} from "src/component/editableText/EditableText";
+import {Link} from "src/component/link/Link";
 import {CellItem} from "src/component/table/tableCell/cellItem/CellItem";
 import {TableCell} from "src/component/table/tableCell/TableCell";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
@@ -15,6 +16,8 @@ import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {MentorComment} from "src/model/businessModel/MentorComment";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
+import {UserPreview} from "src/model/businessModelPreview/UserPreview";
+import {pages} from "src/router/pages";
 import {DateUtils} from "src/utils/DateUtils";
 import {UnicodeSymbols} from "src/utils/UnicodeSymbols";
 import styles from "src/component/editableText/EditableText.module.scss";
@@ -36,6 +39,11 @@ interface ColumnsProps {
    * Callback that change dayReports
    */
   setDayReports: (dayReports: DayReport[]) => void;
+
+  /**
+   * Way's mentors
+   */
+  mentors: Map<string, UserPreview>;
 }
 
 /**
@@ -406,6 +414,19 @@ export const Columns = (props: ColumnsProps) => {
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
         };
 
+        /**
+         * Get mentor name
+         */
+        const getMentorName = (uuid: string) => {
+          const mentor = props.mentors.get(uuid);
+          if (!mentor) {
+            throw Error("Mentor is not exist");
+          }
+          const mentorName = mentor.name;
+
+          return mentorName;
+        };
+
         return (
           <TableCell
             buttonValue="add comment"
@@ -414,6 +435,10 @@ export const Columns = (props: ColumnsProps) => {
             {row.original.mentorComments
               .map((mentorComment) => (
                 <CellItem key={mentorComment.uuid}>
+                  <Link
+                    value={getMentorName(mentorComment.mentorUuid)}
+                    path={pages.user.getPath({uuid: mentorComment.mentorUuid})}
+                  />
                   <EditableText
                     text={mentorComment.description}
                     onChangeFinish={(text) => updateMentorComment(mentorComment, text)}
