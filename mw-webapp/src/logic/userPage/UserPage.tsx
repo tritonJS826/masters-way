@@ -78,6 +78,7 @@ export const UserPage = (props: UserPageProps) => {
           text="Name:"
           level={HeadingLevel.h3}
         />
+        {" "}
         <Title
           level={HeadingLevel.h3}
           text={userPreview.name}
@@ -90,6 +91,7 @@ export const UserPage = (props: UserPageProps) => {
           text="Email:"
           level={HeadingLevel.h3}
         />
+        {" "}
         <Title
           level={HeadingLevel.h3}
           text={userPreview.email}
@@ -102,6 +104,7 @@ export const UserPage = (props: UserPageProps) => {
           text="Description:"
           level={HeadingLevel.h3}
         />
+        {" "}
         <Title
           level={HeadingLevel.h3}
           text={userPreview.description}
