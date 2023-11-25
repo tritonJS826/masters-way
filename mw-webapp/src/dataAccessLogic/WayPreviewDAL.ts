@@ -77,6 +77,7 @@ export class WayPreviewDAL {
       uuid: user.uuid,
       name: user.name,
       email: user.email,
+      description: user.description,
       ownWays: [...user.ownWays, wayDTO.uuid],
       favoriteWays: user.favoriteWays,
       mentoringWays: user.mentoringWays,
