@@ -1,16 +1,15 @@
 import {dayReportToDayReportDTOConverter} from "src/dataAccessLogic/BusinessToDTOConverter/dayReportToDayReportDTOConverter";
+import {CommentDAL} from "src/dataAccessLogic/CommentDAL";
 import {CurrentProblemDAL} from "src/dataAccessLogic/CurrentProblemDAL";
 import {dayReportDTOToDayReportConverter} from
   "src/dataAccessLogic/DTOToBusinessConverter/dayReportDTOToDayReportConverter";
 import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
-import {MentorCommentDAL} from "src/dataAccessLogic/MentorCommentDAL";
 import {PlanForNextPeriodDAL} from "src/dataAccessLogic/PlanForNextPeriodDAL";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {WayDTOSchema} from "src/model/DTOModel/WayDTO";
 import {DayReportDTOWithoutUuid, DayReportService} from "src/service/DayReportService";
 import {WayService} from "src/service/WayService";
 import {DateUtils} from "src/utils/DateUtils";
-import {UnicodeSymbols} from "src/utils/UnicodeSymbols";
 
 /**
  * Provides methods to interact with the DayReport business model
@@ -38,13 +37,13 @@ export class DayReportDAL {
    */
   public static async getDayReport(uuid: string): Promise<DayReport> {
     const dayReportDTO = await DayReportService.getDayReportDTO(uuid);
-    const {jobDoneUuids, planForNextPeriodUuids, mentorCommentUuids, problemForCurrentPeriodUuids} = dayReportDTO;
+    const {jobDoneUuids, planForNextPeriodUuids, commentUuids, problemForCurrentPeriodUuids} = dayReportDTO;
 
     const jobsDone = await Promise.all(jobDoneUuids.map(JobDoneDAL.getJobDone));
 
     const plansForNextPeriod = await Promise.all(planForNextPeriodUuids.map(PlanForNextPeriodDAL.getPlanForNextPeriod));
 
-    const mentorComments = await Promise.all(mentorCommentUuids.map(MentorCommentDAL.getMentorComment));
+    const comments = await Promise.all(commentUuids.map(CommentDAL.getComment));
 
     const problemsForCurrentPeriod = await Promise.all(problemForCurrentPeriodUuids.map(CurrentProblemDAL.getCurrentProblem));
 
@@ -52,7 +51,7 @@ export class DayReportDAL {
       jobsDone,
       plansForNextPeriod,
       problemsForCurrentPeriod,
-      mentorComments,
+      comments,
     };
 
     const dayReport = dayReportDTOToDayReportConverter(dayReportDTO, dayReportProps);
@@ -69,8 +68,7 @@ export class DayReportDAL {
       jobDoneUuids: [],
       planForNextPeriodUuids: [],
       problemForCurrentPeriodUuids: [],
-      studentComments: [],
-      mentorCommentUuids: [],
+      commentUuids: [],
       isDayOff: false,
     };
     const dayReportDTO = await DayReportService.createDayReportDTO(DEFAULT_DAY_REPORT);
@@ -104,51 +102,17 @@ export class DayReportDAL {
     const jobDoneUuids = dayReport.jobsDone.map((item) => item.uuid);
     const planForNextPeriodUuids = dayReport.plansForNextPeriod.map((item) => item.uuid);
     const problemForCurrentPeriodUuids = dayReport.problemsForCurrentPeriod.map((item) => item.uuid);
-    const mentorCommentUuids = dayReport.mentorComments.map((item) => item.uuid);
+    const commentUuids = dayReport.comments.map((item) => item.uuid);
 
     const dayReportDTOProps = {
       jobDoneUuids,
       planForNextPeriodUuids,
       problemForCurrentPeriodUuids,
-      mentorCommentUuids,
+      commentUuids,
     };
 
     const dayReportDTO = dayReportToDayReportDTOConverter(dayReport, dayReportDTOProps);
     await DayReportService.updateDayReportDTO(dayReportDTO, dayReport.uuid);
-  }
-
-  /**
-   * Create student comment to DayReport
-   */
-  public static async createStudentComment(dayReport: DayReport) {
-    const updatedCell = [...dayReport.studentComments, UnicodeSymbols.ZERO_WIDTH_SPACE];
-
-    const updatedDayReport: DayReport = {
-      ...dayReport,
-      studentComments: updatedCell,
-    };
-    await DayReportDAL.updateDayReport(updatedDayReport);
-
-    return updatedDayReport;
-  }
-
-  /**
-   * Update student comment to DayReport
-   */
-  public static async updateStudentComment(dayReport: DayReport, text: string, index: number) {
-    const getUpdatedText = dayReport.studentComments.map((item: string, i: number) => {
-      if (i === index) {
-        return `${text}`;
-      }
-
-      return item;
-    });
-
-    const updatedDayReport: DayReport = {
-      ...dayReport,
-      studentComments: getUpdatedText,
-    };
-    await DayReportDAL.updateDayReport(updatedDayReport);
   }
 
   /**

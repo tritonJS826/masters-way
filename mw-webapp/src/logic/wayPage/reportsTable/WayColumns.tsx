@@ -6,15 +6,15 @@ import {CellItem} from "src/component/table/tableCell/cellItem/CellItem";
 import {TableCell} from "src/component/table/tableCell/TableCell";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
+import {CommentDAL} from "src/dataAccessLogic/CommentDAL";
 import {CurrentProblemDAL} from "src/dataAccessLogic/CurrentProblemDAL";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
-import {MentorCommentDAL} from "src/dataAccessLogic/MentorCommentDAL";
 import {PlanForNextPeriodDAL} from "src/dataAccessLogic/PlanForNextPeriodDAL";
+import {Comment} from "src/model/businessModel/Comment";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
-import {MentorComment} from "src/model/businessModel/MentorComment";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
@@ -328,88 +328,34 @@ export const Columns = (props: ColumnsProps) => {
         );
       },
     }),
-    columnHelper.accessor("studentComments", {
-      header: "Student comments",
+    columnHelper.accessor("comments", {
+      header: "Comments",
 
       /**
-       * Cell with StudentComments items
+       * Cell with Comments items
        */
       cell: ({row}) => {
+        const userUuid = sessionStorage.getItem("user") ?? "";
 
         /**
-         * Create StudentComment
+         * Create Comment
          */
-        const createStudentComment = async () => {
-          await DayReportDAL.createStudentComment(row.original);
-          const studentComments = [...row.original.studentComments, UnicodeSymbols.ZERO_WIDTH_SPACE];
-          const updatedDayReport = {...row.original, studentComments};
+        const createComment = async (uuid: string, way: WayPreview) => {
+          const comment = await CommentDAL.createComment(row.original, uuid, way);
+          const comments = [...row.original.comments, comment];
+          const updatedDayReport = {...row.original, comments};
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
         };
 
         /**
-         * Update StudentComment
+         * Update Comment
          */
-        const updateStudentComment = async (text: string, index: number) => {
-          await DayReportDAL.updateStudentComment(row.original, text, index);
-          const updatedStudentComments = row.original.studentComments.map((item, i) => {
-            if (i === index) {
-              return text;
-            }
-
-            return item;
-          });
-
-          const updatedDayReport = {...row.original, studentComments: updatedStudentComments};
-          updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
-        };
-
-        return (
-          <TableCell
-            buttonValue="add comment"
-            onButtonClick={() => createStudentComment()}
-          >
-            {row.original.studentComments
-              .map((studentComment, index) => (
-                <CellItem key={index}>
-                  <EditableText
-                    text={studentComment}
-                    onChangeFinish={(text) => updateStudentComment(text, index)}
-                  />
-                </CellItem>
-              ),
-              )}
-          </TableCell>
-        );
-      },
-    }),
-    columnHelper.accessor("mentorComments", {
-      header: "Mentor comments",
-
-      /**
-       * Cell with MentorComments items
-       */
-      cell: ({row}) => {
-        const mentorUuid = sessionStorage.getItem("mentor") ?? "";
-
-        /**
-         * Create MentorComment
-         */
-        const createMentorComment = async (uuid: string, way: WayPreview) => {
-          const mentorComment = await MentorCommentDAL.createMentorComment(row.original, uuid, way);
-          const mentorComments = [...row.original.mentorComments, mentorComment];
-          const updatedDayReport = {...row.original, mentorComments};
-          updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
-        };
-
-        /**
-         * Update MentorComment
-         */
-        const updateMentorComment = async (mentorComment: MentorComment, text: string) => {
-          await MentorCommentDAL.updateMentorComment(mentorComment, text);
-          const updatedMentorComments = row.original.mentorComments.map((item) => {
-            if (item.uuid === mentorComment.uuid) {
-              return new MentorComment({
-                ...mentorComment,
+        const updateComment = async (comment: Comment, text: string) => {
+          await CommentDAL.updateComment(comment, text);
+          const updatedComments = row.original.comments.map((item) => {
+            if (item.uuid === comment.uuid) {
+              return new Comment({
+                ...comment,
                 description: text,
               });
             }
@@ -417,38 +363,38 @@ export const Columns = (props: ColumnsProps) => {
             return item;
           });
 
-          const updatedDayReport = {...row.original, mentorComments: updatedMentorComments};
+          const updatedDayReport = {...row.original, comments: updatedComments};
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
         };
 
         /**
-         * Get mentor name
+         * Get user name
          */
-        const getMentorName = (mentors: Map<string, UserPreview>, uuid: string) => {
-          const mentor = mentors.get(uuid);
-          if (!mentor) {
+        const getUserName = (users: Map<string, UserPreview>, uuid: string) => {
+          const user = users.get(uuid);
+          if (!user) {
             return "unregistered user";
           }
-          const mentorName = mentor.name;
+          const userName = user.name;
 
-          return mentorName;
+          return userName;
         };
 
         return (
           <TableCell
             buttonValue="add comment"
-            onButtonClick={() => createMentorComment(mentorUuid, props.way)}
+            onButtonClick={() => createComment(userUuid, props.way)}
           >
-            {row.original.mentorComments
-              .map((mentorComment) => (
-                <CellItem key={mentorComment.uuid}>
+            {row.original.comments
+              .map((comment) => (
+                <CellItem key={comment.uuid}>
                   <Link
-                    value={getMentorName(props.mentors, mentorComment.mentorUuid)}
-                    path={pages.user.getPath({uuid: mentorComment.mentorUuid})}
+                    value={getUserName(props.mentors, comment.ownerUuid)}
+                    path={pages.user.getPath({uuid: comment.ownerUuid})}
                   />
                   <EditableText
-                    text={mentorComment.description}
-                    onChangeFinish={(text) => updateMentorComment(mentorComment, text)}
+                    text={comment.description}
+                    onChangeFinish={(text) => updateComment(comment, text)}
                   />
                 </CellItem>
               ),

@@ -1,0 +1,33 @@
+/**
+ * User's comments model
+ */
+export class Comment {
+
+  /**
+   * Comment's UUID
+   */
+  public uuid: string;
+
+  /**
+   * Owner's uui
+   */
+  public ownerUuid: string;
+
+  /**
+   * Comment's text
+   */
+  public description: string;
+
+  /**
+   * True if comment was done and false if not
+   */
+  public isDone: boolean;
+
+  constructor(commentData: Comment) {
+    this.uuid = commentData.uuid;
+    this.ownerUuid = commentData.ownerUuid;
+    this.description = commentData.description;
+    this.isDone = commentData.isDone;
+  }
+
+}

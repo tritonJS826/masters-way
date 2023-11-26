@@ -75,7 +75,7 @@ export const Header = () => {
   }, []);
 
   if (user) {
-    sessionStorage.setItem("mentor", user.uid);
+    sessionStorage.setItem("user", user.uid);
   }
 
   return (

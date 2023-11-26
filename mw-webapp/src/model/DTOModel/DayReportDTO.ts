@@ -29,14 +29,9 @@ export const DayReportDTOSchema = z.object({
   problemForCurrentPeriodUuids: z.array(z.string()),
 
   /**
-   * Student comments
+   * @Comment.uuids
    */
-  studentComments: z.array(z.string()),
-
-  /**
-   * @MentorComment.uuids
-   */
-  mentorCommentUuids: z.array(z.string()),
+  commentUuids: z.array(z.string()),
 
   /**
    * Return true if day is off and false if it is work day
