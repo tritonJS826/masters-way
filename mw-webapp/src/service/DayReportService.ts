@@ -35,7 +35,7 @@ export class DayReportService {
     const dayReportRaw = await getDoc(doc(db, PATH_TO_DAY_REPORTS_COLLECTION, uuid));
     const dayReportDTO = documentSnapshotToDTOConverter<DayReportDTO>(dayReportRaw);
 
-    const validatedDayReportDTO = DayReportDTOSchema.parse(dayReportDTO);
+    const validatedDayReportDTO = DayReportDTOSchema.parse({...dayReportDTO, s: 1});
 
     return validatedDayReportDTO;
   }
