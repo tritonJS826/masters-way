@@ -17,6 +17,7 @@ import {JobDone} from "src/model/businessModel/JobDone";
 import {MentorComment} from "src/model/businessModel/MentorComment";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
+import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
 import {DateUtils} from "src/utils/DateUtils";
 import {UnicodeSymbols} from "src/utils/UnicodeSymbols";
@@ -44,6 +45,11 @@ interface ColumnsProps {
    * Way's mentors where string is mentor's uuid
    */
   mentors: Map<string, UserPreview>;
+
+  /**
+   * Way
+   */
+  way: WayPreview;
 }
 
 /**
@@ -383,12 +389,13 @@ export const Columns = (props: ColumnsProps) => {
        * Cell with MentorComments items
        */
       cell: ({row}) => {
+        const mentorUuid = sessionStorage.getItem("mentor") ?? "";
 
         /**
          * Create MentorComment
          */
-        const createMentorComment = async () => {
-          const mentorComment = await MentorCommentDAL.createMentorComment(row.original);
+        const createMentorComment = async (uuid: string, way: WayPreview) => {
+          const mentorComment = await MentorCommentDAL.createMentorComment(row.original, uuid, way);
           const mentorComments = [...row.original.mentorComments, mentorComment];
           const updatedDayReport = {...row.original, mentorComments};
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
@@ -417,10 +424,10 @@ export const Columns = (props: ColumnsProps) => {
         /**
          * Get mentor name
          */
-        const getMentorName = (uuid: string) => {
-          const mentor = props.mentors.get(uuid);
+        const getMentorName = (mentors: Map<string, UserPreview>, uuid: string) => {
+          const mentor = mentors.get(uuid);
           if (!mentor) {
-            throw Error("Mentor is not exist");
+            return "unregistered user";
           }
           const mentorName = mentor.name;
 
@@ -430,13 +437,13 @@ export const Columns = (props: ColumnsProps) => {
         return (
           <TableCell
             buttonValue="add comment"
-            onButtonClick={() => createMentorComment()}
+            onButtonClick={() => createMentorComment(mentorUuid, props.way)}
           >
             {row.original.mentorComments
               .map((mentorComment) => (
                 <CellItem key={mentorComment.uuid}>
                   <Link
-                    value={getMentorName(mentorComment.mentorUuid)}
+                    value={getMentorName(props.mentors, mentorComment.mentorUuid)}
                     path={pages.user.getPath({uuid: mentorComment.mentorUuid})}
                   />
                   <EditableText

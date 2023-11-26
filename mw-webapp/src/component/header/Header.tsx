@@ -74,6 +74,10 @@ export const Header = () => {
     handleUserAuthState(setUser);
   }, []);
 
+  if (user) {
+    sessionStorage.setItem("mentor", user.uid);
+  }
+
   return (
     <div className={styles.header}>
       <Title

@@ -1,7 +1,6 @@
 import {useEffect, useState} from "react";
 import {Button} from "src/component/button/Button";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
-// Import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {ReportsTable} from "src/logic/wayPage/reportsTable/ReportsTable";
 import {Columns} from "src/logic/wayPage/reportsTable/WayColumns";
 import {WayStatistic} from "src/logic/wayPage/WayStatistic";
@@ -15,12 +14,7 @@ import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 interface DayReportsTableProps {
 
   /**
-   * Way's uuid
-   */
-  wayUuid: string;
-
-  /**
-   * Way
+   * Way of DayReports
    */
   way: WayPreview;
 }
@@ -34,12 +28,13 @@ interface DayReportsTableProps {
 export const DayReportsTable = (props: DayReportsTableProps) => {
   const [dayReports, setDayReports] = useState<DayReport[]>([]);
   const [mentors, setMentors] = useState<Map<string, UserPreview>>(new Map());
+  const way = props.way;
 
   /**
    * Gets all day reports
    */
   const loadDayReports = async () => {
-    const data = await DayReportDAL.getDayReports(props.wayUuid);
+    const data = await DayReportDAL.getDayReports(props.way.uuid);
     setDayReports(data);
   };
 
@@ -68,10 +63,10 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
 
   return (
     <>
-      {props.wayUuid &&
+      {props.way.uuid &&
       <Button
         value="Create new day report"
-        onClick={() => createDayReport(props.wayUuid, dayReports)}
+        onClick={() => createDayReport(props.way.uuid, dayReports)}
       />
       }
 
@@ -79,7 +74,7 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
 
       <ReportsTable
         data={dayReports}
-        columns={Columns({dayReports, setDayReports, mentors})}
+        columns={Columns({dayReports, setDayReports, mentors, way})}
       />
     </>
   );

@@ -3,8 +3,11 @@ import {mentorCommentToMentorCommentDTOConverter} from
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {mentorCommentDTOToMentorCommentConverter}
   from "src/dataAccessLogic/DTOToBusinessConverter/mentorCommentDTOToMentorCommentConverter";
+import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
+import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {MentorComment} from "src/model/businessModel/MentorComment";
+import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {MentorCommentDTOWithoutUuid, MentorCommentService} from "src/service/MentorCommentService";
 import {UnicodeSymbols} from "src/utils/UnicodeSymbols";
 
@@ -26,10 +29,13 @@ export class MentorCommentDAL {
   /**
    * Create MentorComment
    */
-  public static async createMentorComment(dayReport: DayReport): Promise<MentorComment> {
+  public static async createMentorComment(
+    dayReport: DayReport,
+    mentorUuid: string,
+    wayPreview: WayPreview): Promise<MentorComment> {
     const mentorCommentWithoutUuid: MentorCommentDTOWithoutUuid = {
       description: UnicodeSymbols.ZERO_WIDTH_SPACE,
-      mentorUuid: "",
+      mentorUuid,
       isDone: false,
     };
 
@@ -39,6 +45,33 @@ export class MentorCommentDAL {
     const updatedMentorComment = [...dayReport.mentorComments, mentorComment];
     const dayReportUpdated = {...dayReport, mentorComments: updatedMentorComment};
     await DayReportDAL.updateDayReport(dayReportUpdated);
+
+    const mentor = await UserPreviewDAL.getUserPreview(mentorUuid);
+
+    /**
+     * Get currentMentors
+     */
+    const getCurrentMentors = () => {
+      const mentorsUuids = wayPreview.currentMentors.map((item) => item.uuid);
+      if (mentorsUuids.includes(mentorUuid)) {
+        return wayPreview.currentMentors;
+      } else {
+        return [...wayPreview.currentMentors, mentor];
+      }
+    };
+
+    const updatedWay = new WayPreview({
+      uuid: wayPreview.uuid,
+      name: wayPreview.name,
+      dayReports: wayPreview.dayReports,
+      monthReports: wayPreview.monthReports,
+      goal: wayPreview.goal,
+      owner: wayPreview.owner,
+      currentMentors: getCurrentMentors(),
+      isCompleted: wayPreview.isCompleted,
+    });
+
+    await WayPreviewDAL.updateWayPreview(updatedWay);
 
     return mentorComment;
   }
