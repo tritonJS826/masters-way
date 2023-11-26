@@ -20,9 +20,8 @@ export class WayPreviewDAL {
     const waysUuids = waysDTO.map((item) => item.uuid);
 
     const waysPreview = await Promise.all(waysUuids.map(WayPreviewDAL.getWayPreview));
-    const waysPreviewReverse = waysPreview.reverse();
 
-    return waysPreviewReverse;
+    return waysPreview;
   }
 
   /**

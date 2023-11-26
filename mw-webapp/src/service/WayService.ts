@@ -22,7 +22,7 @@ export class WayService {
    */
   public static async getWaysDTO(): Promise<WayDTO[]> {
     const waysRef = collection(db, PATH_TO_WAYS_COLLECTION);
-    const waysOrderedByName = query(waysRef, orderBy("name"));
+    const waysOrderedByName = query(waysRef, orderBy("name", "desc"));
     const waysRaw = await getDocs(waysOrderedByName);
     const waysDTO = querySnapshotToDTOConverter<WayDTO>(waysRaw);
 

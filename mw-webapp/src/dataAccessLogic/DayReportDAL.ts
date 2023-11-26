@@ -25,6 +25,9 @@ export class DayReportDAL {
 
     const dayReports = await Promise.all(dayReportsUuids.map(DayReportDAL.getDayReport));
 
+    /**
+     * TODO: convert date type string to timestamp for sort dayReports be date on firebase
+     */
     const dayReportSortedByDate = dayReports.sort((a, b) => b.date.getTime() - a.date.getTime());
 
     return dayReportSortedByDate;
