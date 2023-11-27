@@ -1,6 +1,7 @@
 import {createColumnHelper} from "@tanstack/react-table";
 import {Checkbox} from "src/component/checkbox/Сheckbox";
 import {EditableText} from "src/component/editableText/EditableText";
+import {useUserContext} from "src/component/header/HeaderContext";
 import {Link} from "src/component/link/Link";
 import {CellItem} from "src/component/table/tableCell/cellItem/CellItem";
 import {TableCell} from "src/component/table/tableCell/TableCell";
@@ -42,7 +43,7 @@ interface ColumnsProps {
   setDayReports: (dayReports: DayReport[]) => void;
 
   /**
-   * Way's mentors where string is mentor's uuid
+   * Way's mentors where key is mentor's uuid @UserPreview.uuid
    */
   mentors: Map<string, UserPreview>;
 
@@ -335,13 +336,17 @@ export const Columns = (props: ColumnsProps) => {
        * Cell with Comments items
        */
       cell: ({row}) => {
-        const userUuid = sessionStorage.getItem("user") ?? "";
+        const {user} = useUserContext();
 
         /**
          * Create Comment
          */
-        const createComment = async (uuid: string, way: WayPreview) => {
-          const comment = await CommentDAL.createComment(row.original, uuid, way);
+        const createComment = async (commentatorUuid?: string) => {
+          const mentorsUuids = [...props.mentors.keys()];
+          if (!commentatorUuid || !(mentorsUuids.includes(commentatorUuid))) {
+            return;
+          }
+          const comment = await CommentDAL.createComment(row.original, commentatorUuid);
           const comments = [...row.original.comments, comment];
           const updatedDayReport = {...row.original, comments};
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
@@ -353,14 +358,14 @@ export const Columns = (props: ColumnsProps) => {
         const updateComment = async (comment: Comment, text: string) => {
           await CommentDAL.updateComment(comment, text);
           const updatedComments = row.original.comments.map((item) => {
-            if (item.uuid === comment.uuid) {
-              return new Comment({
+            const itemToReturn = item.uuid === comment.uuid
+              ? new Comment({
                 ...comment,
                 description: text,
-              });
-            }
+              })
+              : item;
 
-            return item;
+            return itemToReturn;
           });
 
           const updatedDayReport = {...row.original, comments: updatedComments};
@@ -370,12 +375,16 @@ export const Columns = (props: ColumnsProps) => {
         /**
          * Get user name
          */
-        const getUserName = (users: Map<string, UserPreview>, uuid: string) => {
-          const user = users.get(uuid);
-          if (!user) {
-            throw Error("User is not registered");
+        const getMentorName = (users: Map<string, UserPreview>, uuid: string) => {
+          const mentor = users.get(uuid);
+
+          /**
+           * TODO: need to delete this check after we will add possibility to add comments only for mentors
+           */
+          if (!mentor) {
+            return "User is not mentor";
           }
-          const userName = user.name;
+          const userName = mentor.name;
 
           return userName;
         };
@@ -383,13 +392,13 @@ export const Columns = (props: ColumnsProps) => {
         return (
           <TableCell
             buttonValue="add comment"
-            onButtonClick={() => createComment(userUuid, props.way)}
+            onButtonClick={() => createComment(user?.uid)}
           >
             {row.original.comments
               .map((comment) => (
                 <CellItem key={comment.uuid}>
                   <Link
-                    value={getUserName(props.mentors, comment.commentatorUuid)}
+                    value={getMentorName(props.mentors, comment.commentatorUuid)}
                     path={pages.user.getPath({uuid: comment.commentatorUuid})}
                   />
                   <EditableText

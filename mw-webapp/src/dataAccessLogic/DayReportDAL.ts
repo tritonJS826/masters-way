@@ -22,14 +22,32 @@ export class DayReportDAL {
   public static async getDayReports(wayUuid: string): Promise<DayReport[]> {
     const dayReportsUuids = (await WayService.getWayDTO(wayUuid)).dayReportUuids;
 
-    const dayReports = await Promise.all(dayReportsUuids.map(DayReportDAL.getDayReport));
+    const dayReportsDTO = await DayReportService.getDayReportsDTO(dayReportsUuids);
 
-    /**
-     * TODO: convert date type string to timestamp for sort dayReports be date on firebase
-     */
-    const dayReportSortedByDate = dayReports.sort((a, b) => b.date.getTime() - a.date.getTime());
+    const dayReports = await Promise.all(dayReportsDTO.map(async (dayReportDTO) => {
+      const {jobDoneUuids, planForNextPeriodUuids, commentUuids, problemForCurrentPeriodUuids} = dayReportDTO;
 
-    return dayReportSortedByDate;
+      const jobsDone = await Promise.all(jobDoneUuids.map(JobDoneDAL.getJobDone));
+
+      const plansForNextPeriod = await Promise.all(planForNextPeriodUuids.map(PlanForNextPeriodDAL.getPlanForNextPeriod));
+
+      const comments = await Promise.all(commentUuids.map(CommentDAL.getComment));
+
+      const problemsForCurrentPeriod = await Promise.all(problemForCurrentPeriodUuids.map(CurrentProblemDAL.getCurrentProblem));
+
+      const dayReportProps = {
+        jobsDone,
+        plansForNextPeriod,
+        problemsForCurrentPeriod,
+        comments,
+      };
+
+      const dayReport = dayReportDTOToDayReportConverter(dayReportDTO, dayReportProps);
+
+      return dayReport;
+    }));
+
+    return dayReports;
   }
 
   /**
