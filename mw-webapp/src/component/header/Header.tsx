@@ -1,11 +1,9 @@
-// Import {useEffect} from "react";
 import {Button} from "src/component/button/Button";
 import {useUserContext} from "src/component/header/HeaderContext";
 import {Link} from "src/component/link/Link";
 import {Sidebar} from "src/component/sidebar/Sidebar";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {pages} from "src/router/pages";
-// Import {handleUserAuthState} from "src/service/auth/handleUserAuthState";
 import {logIn} from "src/service/auth/logIn";
 import {logOut} from "src/service/auth/logOut";
 import styles from "src/component/header/Header.module.scss";
@@ -69,10 +67,6 @@ export const Header = () => {
       value: "About",
     },
   ];
-
-  // UseEffect(() => {
-  //   handleUserAuthState(setUser);
-  // }, []);
 
   return (
     <div className={styles.header}>
