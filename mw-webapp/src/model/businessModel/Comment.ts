@@ -9,9 +9,9 @@ export class Comment {
   public uuid: string;
 
   /**
-   * Owner's uui
+   * Commentator's uuid
    */
-  public ownerUuid: string;
+  public commentatorUuid: string;
 
   /**
    * Comment's text
@@ -25,7 +25,7 @@ export class Comment {
 
   constructor(commentData: Comment) {
     this.uuid = commentData.uuid;
-    this.ownerUuid = commentData.ownerUuid;
+    this.commentatorUuid = commentData.commentatorUuid;
     this.description = commentData.description;
     this.isDone = commentData.isDone;
   }

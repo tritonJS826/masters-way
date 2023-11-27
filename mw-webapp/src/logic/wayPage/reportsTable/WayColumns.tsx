@@ -373,7 +373,7 @@ export const Columns = (props: ColumnsProps) => {
         const getUserName = (users: Map<string, UserPreview>, uuid: string) => {
           const user = users.get(uuid);
           if (!user) {
-            return "unregistered user";
+            throw Error("User is not registered");
           }
           const userName = user.name;
 
@@ -389,8 +389,8 @@ export const Columns = (props: ColumnsProps) => {
               .map((comment) => (
                 <CellItem key={comment.uuid}>
                   <Link
-                    value={getUserName(props.mentors, comment.ownerUuid)}
-                    path={pages.user.getPath({uuid: comment.ownerUuid})}
+                    value={getUserName(props.mentors, comment.commentatorUuid)}
+                    path={pages.user.getPath({uuid: comment.commentatorUuid})}
                   />
                   <EditableText
                     text={comment.description}

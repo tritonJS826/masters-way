@@ -10,7 +10,7 @@ export const CommentDTOSchema = z.object({
   /**
    * Mentor's and way owner's UUID @User.uuid
    */
-  ownerUuid: z.string(),
+  commentatorUuid: z.string(),
 
   /**
    * Comment's text

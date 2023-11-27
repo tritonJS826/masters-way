@@ -29,11 +29,11 @@ export class CommentDAL {
    */
   public static async createComment(
     dayReport: DayReport,
-    ownerUuid: string,
+    commentatorUuid: string,
     wayPreview: WayPreview): Promise<Comment> {
     const commentWithoutUuid: CommentDTOWithoutUuid = {
       description: UnicodeSymbols.ZERO_WIDTH_SPACE,
-      ownerUuid,
+      commentatorUuid,
       isDone: false,
     };
 
@@ -44,14 +44,14 @@ export class CommentDAL {
     const dayReportUpdated = {...dayReport, comments: updatedComment};
     await DayReportDAL.updateDayReport(dayReportUpdated);
 
-    const mentor = await UserPreviewDAL.getUserPreview(ownerUuid);
+    const mentor = await UserPreviewDAL.getUserPreview(commentatorUuid);
 
     /**
      * Get currentMentors
      */
     const getCurrentMentors = () => {
       const mentorsUuids = wayPreview.currentMentors.map((item) => item.uuid);
-      if (mentorsUuids.includes(ownerUuid)) {
+      if (mentorsUuids.includes(commentatorUuid)) {
         return wayPreview.currentMentors;
       } else {
         return [...wayPreview.currentMentors, mentor];
