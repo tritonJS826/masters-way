@@ -7,16 +7,15 @@ import {Router} from "src/router/Router";
  * App
  */
 export const App = () => {
-  const error = useErrorHandler();
+  const errorMessage = useErrorHandler();
 
   return (
     <>
-      {error &&
+      {errorMessage &&
         <Notification
           content={<div>
-            {error}
+            {errorMessage}
           </div>}
-          duration={5000}
           type={NotificationType.foreground}
         />
       }
