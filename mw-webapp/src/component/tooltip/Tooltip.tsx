@@ -23,6 +23,11 @@ interface TooltipProps {
    * default: {@link PositionTooltip.TOP}
    */
   position?: PositionTooltip;
+
+  /**
+   * TestId property
+   */
+  testId?: string;
 }
 
 /**
@@ -38,7 +43,7 @@ export const Tooltip = (props: PropsWithChildren<TooltipProps>) => {
       </span>
       <div
         className={classes}
-        data-cy="tooltipContent"
+        data-cy={props.testId}
       >
         {props.content}
       </div>

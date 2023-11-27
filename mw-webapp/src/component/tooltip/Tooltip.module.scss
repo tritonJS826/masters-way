@@ -13,6 +13,10 @@
 
   &:hover + .tooltip {
     display: block;
+    overflow: hidden;
+    width: 120px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
 
