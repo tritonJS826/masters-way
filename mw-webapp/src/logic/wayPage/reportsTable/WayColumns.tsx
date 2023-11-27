@@ -1,20 +1,25 @@
 import {createColumnHelper} from "@tanstack/react-table";
 import {Checkbox} from "src/component/checkbox/Сheckbox";
 import {EditableText} from "src/component/editableText/EditableText";
+import {useUserContext} from "src/component/header/HeaderContext";
+import {Link} from "src/component/link/Link";
 import {CellItem} from "src/component/table/tableCell/cellItem/CellItem";
 import {TableCell} from "src/component/table/tableCell/TableCell";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
+import {CommentDAL} from "src/dataAccessLogic/CommentDAL";
 import {CurrentProblemDAL} from "src/dataAccessLogic/CurrentProblemDAL";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
-import {MentorCommentDAL} from "src/dataAccessLogic/MentorCommentDAL";
 import {PlanForNextPeriodDAL} from "src/dataAccessLogic/PlanForNextPeriodDAL";
+import {Comment} from "src/model/businessModel/Comment";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
-import {MentorComment} from "src/model/businessModel/MentorComment";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
+import {UserPreview} from "src/model/businessModelPreview/UserPreview";
+import {WayPreview} from "src/model/businessModelPreview/WayPreview";
+import {pages} from "src/router/pages";
 import {DateUtils} from "src/utils/DateUtils";
 import {UnicodeSymbols} from "src/utils/UnicodeSymbols";
 import styles from "src/component/editableText/EditableText.module.scss";
@@ -36,6 +41,18 @@ interface ColumnsProps {
    * Callback that change dayReports
    */
   setDayReports: (dayReports: DayReport[]) => void;
+
+  /**
+   * Way's mentors
+   * @key @User.uuid
+   * @value @UserPreview
+   */
+  mentors: Map<string, UserPreview>;
+
+  /**
+   * Way
+   */
+  way: WayPreview;
 }
 
 /**
@@ -314,109 +331,81 @@ export const Columns = (props: ColumnsProps) => {
         );
       },
     }),
-    columnHelper.accessor("studentComments", {
-      header: "Student comments",
+    columnHelper.accessor("comments", {
+      header: "Comments",
 
       /**
-       * Cell with StudentComments items
+       * Cell with Comments items
        */
       cell: ({row}) => {
+        const {user} = useUserContext();
 
         /**
-         * Create StudentComment
+         * Create Comment
          */
-        const createStudentComment = async () => {
-          await DayReportDAL.createStudentComment(row.original);
-          const studentComments = [...row.original.studentComments, UnicodeSymbols.ZERO_WIDTH_SPACE];
-          const updatedDayReport = {...row.original, studentComments};
+        const createComment = async (commentatorUuid?: string) => {
+          const mentorsUuids = [...props.mentors.keys()];
+          if (!commentatorUuid || !(mentorsUuids.includes(commentatorUuid))) {
+            return;
+          }
+          const comment = await CommentDAL.createComment(row.original, commentatorUuid);
+          const comments = [...row.original.comments, comment];
+          const updatedDayReport = {...row.original, comments};
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
         };
 
         /**
-         * Update StudentComment
+         * Update Comment
          */
-        const updateStudentComment = async (text: string, index: number) => {
-          await DayReportDAL.updateStudentComment(row.original, text, index);
-          const updatedStudentComments = row.original.studentComments.map((item, i) => {
-            if (i === index) {
-              return text;
-            }
-
-            return item;
-          });
-
-          const updatedDayReport = {...row.original, studentComments: updatedStudentComments};
-          updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
-        };
-
-        return (
-          <TableCell
-            buttonValue="add comment"
-            onButtonClick={() => createStudentComment()}
-          >
-            {row.original.studentComments
-              .map((studentComment, index) => (
-                <CellItem key={index}>
-                  <EditableText
-                    text={studentComment}
-                    onChangeFinish={(text) => updateStudentComment(text, index)}
-                  />
-                </CellItem>
-              ),
-              )}
-          </TableCell>
-        );
-      },
-    }),
-    columnHelper.accessor("mentorComments", {
-      header: "Mentor comments",
-
-      /**
-       * Cell with MentorComments items
-       */
-      cell: ({row}) => {
-
-        /**
-         * Create MentorComment
-         */
-        const createMentorComment = async () => {
-          const mentorComment = await MentorCommentDAL.createMentorComment(row.original);
-          const mentorComments = [...row.original.mentorComments, mentorComment];
-          const updatedDayReport = {...row.original, mentorComments};
-          updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
-        };
-
-        /**
-         * Update MentorComment
-         */
-        const updateMentorComment = async (mentorComment: MentorComment, text: string) => {
-          await MentorCommentDAL.updateMentorComment(mentorComment, text);
-          const updatedMentorComments = row.original.mentorComments.map((item) => {
-            if (item.uuid === mentorComment.uuid) {
-              return new MentorComment({
-                ...mentorComment,
+        const updateComment = async (comment: Comment, text: string) => {
+          await CommentDAL.updateComment(comment, text);
+          const updatedComments = row.original.comments.map((item) => {
+            const itemToReturn = item.uuid === comment.uuid
+              ? new Comment({
+                ...comment,
                 description: text,
-              });
-            }
+              })
+              : item;
 
-            return item;
+            return itemToReturn;
           });
 
-          const updatedDayReport = {...row.original, mentorComments: updatedMentorComments};
+          const updatedDayReport = {...row.original, comments: updatedComments};
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
+        };
+
+        /**
+         * Get user name
+         */
+        const getMentorName = (users: Map<string, UserPreview>, uuid: string) => {
+          const mentor = users.get(uuid);
+
+          /**
+           * TODO: need to delete this check after we will add possibility to add comments only for mentors
+           */
+          if (!mentor) {
+            return "User is not a mentor";
+          }
+          const userName = mentor.name;
+
+          return userName;
         };
 
         return (
           <TableCell
             buttonValue="add comment"
-            onButtonClick={() => createMentorComment()}
+            onButtonClick={() => createComment(user?.uid)}
           >
-            {row.original.mentorComments
-              .map((mentorComment) => (
-                <CellItem key={mentorComment.uuid}>
+            {row.original.comments
+              .map((comment) => (
+                <CellItem key={comment.uuid}>
+                  <Link
+                    value={getMentorName(props.mentors, comment.commentatorUuid)}
+                    path={pages.user.getPath({uuid: comment.commentatorUuid})}
+                  />
                   <EditableText
-                    text={mentorComment.description}
-                    onChangeFinish={(text) => updateMentorComment(mentorComment, text)}
+                    text={comment.description}
+                    onChangeFinish={(text) => updateComment(comment, text)}
                   />
                 </CellItem>
               ),

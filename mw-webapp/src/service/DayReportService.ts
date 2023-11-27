@@ -1,6 +1,7 @@
-import {collection, doc, getDoc, getDocs, setDoc, updateDoc} from "firebase/firestore";
+import {collection, doc, getDoc, getDocs, orderBy, query, setDoc, updateDoc, where} from "firebase/firestore";
 import {db} from "src/firebase";
-import {DayReportDTO, DayReportDTOSchema, DayReportsDTOSchema} from "src/model/DTOModel/DayReportDTO";
+import {DAY_REPORT_DATE_FIELD, DAY_REPORT_UUID_FIELD, DayReportDTO, DayReportDTOSchema, DayReportsDTOSchema}
+  from "src/model/DTOModel/DayReportDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
 import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
 
@@ -19,8 +20,11 @@ export class DayReportService {
   /**
    * Get DayReportsDTO
    */
-  public static async getDayReportsDTO(): Promise<DayReportDTO[]> {
-    const dayReportsRaw = await getDocs(collection(db, PATH_TO_DAY_REPORTS_COLLECTION));
+  public static async getDayReportsDTO(dayReportUuids: string[]): Promise<DayReportDTO[]> {
+    const dayReportsRef = collection(db, PATH_TO_DAY_REPORTS_COLLECTION);
+    const dayReportsQuery =
+      query(dayReportsRef, where(DAY_REPORT_UUID_FIELD, "in", dayReportUuids), orderBy(DAY_REPORT_DATE_FIELD, "desc"));
+    const dayReportsRaw = await getDocs(dayReportsQuery);
     const dayReportsDTO = querySnapshotToDTOConverter<DayReportDTO>(dayReportsRaw);
 
     const validatedDayReportsDTO = DayReportsDTOSchema.parse(dayReportsDTO);

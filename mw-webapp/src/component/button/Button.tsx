@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import styles from "src/component/button/Button.module.scss";
 
 /**
@@ -19,6 +20,11 @@ export interface ButtonProps {
    * Data attribute for cypress testing
    */
   dataCy?: string;
+
+  /**
+   * Additional custom class name
+   */
+  className?: string;
 }
 
 /**
@@ -27,7 +33,7 @@ export interface ButtonProps {
 export const Button = (props: ButtonProps) => {
   return (
     <button
-      className={styles.button}
+      className={clsx(styles.button, props.className)}
       onClick={props.onClick}
       data-cy={props.dataCy ?? "button"}
     >

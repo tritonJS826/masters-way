@@ -28,14 +28,9 @@ export const MonthReportDTOSchema = z.object({
   problemForCurrentPeriodUuids: z.array(z.string()),
 
   /**
-   * Student comments
+   * @Comment.uuids
    */
-  studentComments: z.array(z.string()),
-
-  /**
-   * @MentorComment.uuids
-   */
-  mentorCommentUuids: z.array(z.string()),
+  commentUuids: z.array(z.string()),
 }).strict();
 
 /**

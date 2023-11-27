@@ -25,10 +25,6 @@ export const Router = () => {
         element={<WithValidatedParams paramsSchema={pages.allUsers} />}
       />
       <Route
-        path={pages.userProfile.getPath({uuid: ":uuid"})}
-        element={<WithValidatedParams paramsSchema={pages.userProfile} />}
-      />
-      <Route
         path={pages.aboutProject.getPath({})}
         element={<WithValidatedParams paramsSchema={pages.aboutProject} />}
       />
