@@ -21,23 +21,18 @@ export class DayReportDAL {
    */
   public static async getDayReports(wayUuid: string): Promise<DayReport[]> {
 
-    /**
-     * TODO: think about optimization amount of requests
-     */
     const dayReportsUuids = (await WayService.getWayDTO(wayUuid)).dayReportUuids;
 
     const dayReportsDTO = await DayReportService.getDayReportsDTO(dayReportsUuids);
 
     const dayReports = await Promise.all(dayReportsDTO.map(async (dayReportDTO) => {
       const {jobDoneUuids, planForNextPeriodUuids, commentUuids, problemForCurrentPeriodUuids} = dayReportDTO;
-
-      const jobsDone = await Promise.all(jobDoneUuids.map(JobDoneDAL.getJobDone));
-
-      const plansForNextPeriod = await Promise.all(planForNextPeriodUuids.map(PlanForNextPeriodDAL.getPlanForNextPeriod));
-
-      const comments = await Promise.all(commentUuids.map(CommentDAL.getComment));
-
-      const problemsForCurrentPeriod = await Promise.all(problemForCurrentPeriodUuids.map(CurrentProblemDAL.getCurrentProblem));
+      const jobsDonePromise = Promise.all(jobDoneUuids.map(JobDoneDAL.getJobDone));
+      const plansForNextPeriodPromise = Promise.all(planForNextPeriodUuids.map(PlanForNextPeriodDAL.getPlanForNextPeriod));
+      const commentsPromise = Promise.all(commentUuids.map(CommentDAL.getComment));
+      const problemsForCurrentPeriodPromise = Promise.all(problemForCurrentPeriodUuids.map(CurrentProblemDAL.getCurrentProblem));
+      const [jobsDone, plansForNextPeriod, comments, problemsForCurrentPeriod] =
+        await Promise.all([jobsDonePromise, plansForNextPeriodPromise, commentsPromise, problemsForCurrentPeriodPromise]);
 
       const dayReportProps = {
         jobsDone,
@@ -60,14 +55,12 @@ export class DayReportDAL {
   public static async getDayReport(uuid: string): Promise<DayReport> {
     const dayReportDTO = await DayReportService.getDayReportDTO(uuid);
     const {jobDoneUuids, planForNextPeriodUuids, commentUuids, problemForCurrentPeriodUuids} = dayReportDTO;
-
-    const jobsDone = await Promise.all(jobDoneUuids.map(JobDoneDAL.getJobDone));
-
-    const plansForNextPeriod = await Promise.all(planForNextPeriodUuids.map(PlanForNextPeriodDAL.getPlanForNextPeriod));
-
-    const comments = await Promise.all(commentUuids.map(CommentDAL.getComment));
-
-    const problemsForCurrentPeriod = await Promise.all(problemForCurrentPeriodUuids.map(CurrentProblemDAL.getCurrentProblem));
+    const jobsDonePromise = Promise.all(jobDoneUuids.map(JobDoneDAL.getJobDone));
+    const plansForNextPeriodPromise = Promise.all(planForNextPeriodUuids.map(PlanForNextPeriodDAL.getPlanForNextPeriod));
+    const commentsPromise = Promise.all(commentUuids.map(CommentDAL.getComment));
+    const problemsForCurrentPeriodPromise = Promise.all(problemForCurrentPeriodUuids.map(CurrentProblemDAL.getCurrentProblem));
+    const [jobsDone, plansForNextPeriod, comments, problemsForCurrentPeriod] =
+      await Promise.all([jobsDonePromise, plansForNextPeriodPromise, commentsPromise, problemsForCurrentPeriodPromise]);
 
     const dayReportProps = {
       jobsDone,
