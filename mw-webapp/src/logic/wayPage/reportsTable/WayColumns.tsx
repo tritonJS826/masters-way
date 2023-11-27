@@ -43,7 +43,9 @@ interface ColumnsProps {
   setDayReports: (dayReports: DayReport[]) => void;
 
   /**
-   * Way's mentors where key is mentor's uuid @UserPreview.uuid
+   * Way's mentors
+   * @key @User.uuid
+   * @value @UserPreview
    */
   mentors: Map<string, UserPreview>;
 
@@ -382,7 +384,7 @@ export const Columns = (props: ColumnsProps) => {
            * TODO: need to delete this check after we will add possibility to add comments only for mentors
            */
           if (!mentor) {
-            return "User is not mentor";
+            return "User is not a mentor";
           }
           const userName = mentor.name;
 

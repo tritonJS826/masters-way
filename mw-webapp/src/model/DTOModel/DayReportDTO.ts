@@ -1,17 +1,20 @@
 
 import {z} from "zod";
 
+export const DAY_REPORT_UUID_FIELD = "uuid";
+export const DAY_REPORT_DATE_FIELD = "date";
+
 export const DayReportDTOSchema = z.object({
 
   /**
    * Day report's UUID
    */
-  uuid: z.string(),
+  [DAY_REPORT_UUID_FIELD]: z.string(),
 
   /**
    * Report's date
    */
-  date: z.string(),
+  [DAY_REPORT_DATE_FIELD]: z.string(),
 
   /**
    * @JobDone.uuids

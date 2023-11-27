@@ -1,12 +1,7 @@
 import {createContext, useContext} from "react";
 import {User} from "firebase/auth";
 
-const STUB_USER = null;
-
-/**
- * Stub for set user
- */
-const STUB_SET_USER = () => undefined;
+const STUB_USER = {} as User;
 
 export type UserType = {
 
@@ -15,16 +10,9 @@ export type UserType = {
    */
   user: User | null;
 
-  /**
-   * Change value of user's context
-   */
-  setUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
-export const UserContext: React.Context<UserType> = createContext<UserType>({
-  user: STUB_USER,
-  setUser: STUB_SET_USER,
-});
+export const UserContext: React.Context<UserType> = createContext<UserType>({user: STUB_USER});
 
 /**
  * Use UserContext
