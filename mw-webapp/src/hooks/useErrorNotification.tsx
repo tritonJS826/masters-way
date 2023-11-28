@@ -39,7 +39,9 @@ export function useErrorNotification () {
    * Updates the error state to trigger the display of a notification
    */
   const triggerErrorNotification = (message: string, timestamp: number) => {
-    setError({message, timestamp});
+    useEffect(() => {
+      setError({message, timestamp});
+    }, []);
   };
 
   useEffect(() => {
