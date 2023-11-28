@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {Link} from "src/component/link/Link";
+import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {GoalPreviewDAL} from "src/dataAccessLogic/GoalPreviewDAL";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
@@ -94,7 +95,9 @@ export const WayPage = (props: WayPageProps) => {
             text="Mentors of this way:"
           />
           {renderMentors(way)}
-          <DayReportsTable way={way} />
+          <ScrollableBlock>
+            <DayReportsTable way={way} />
+          </ScrollableBlock>
         </div>
       }
     </>
