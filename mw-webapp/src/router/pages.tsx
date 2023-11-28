@@ -5,7 +5,6 @@ import {AllUsersPage} from "src/logic/allUsersPage/AllUsersPage";
 import {AllWaysPage} from "src/logic/allWaysPage/AllWaysPage";
 import {Page404} from "src/logic/page404/Page404";
 import {UserPage} from "src/logic/userPage/UserPage";
-import {UserProfilePage} from "src/logic/userProfilePage/UserProfilePage";
 import {WayPage} from "src/logic/wayPage/WayPage";
 import {UrlParamsType} from "src/router/PageUrlValidator/UrlParamsType";
 
@@ -41,11 +40,6 @@ const getPathForUserPage = (params: { uuid: string }): string => `/user/${params
 const getPathForWayPage = (params: {uuid: string}): string => `/way/${params.uuid}`;
 
 /**
- * Create url with appropriate params for @UserProfilePage
- */
-const getPathForUserProfilePage = (params: {uuid: string}): string => `/userProfile/${params.uuid}`;
-
-/**
  * Pages meta data
  */
 export const pages = {
@@ -69,11 +63,6 @@ export const pages = {
     getPageComponent: () => <AllUsersPage />,
     urlParams: {},
   } as PageParams,
-  userProfile: {
-    getPath: (params): string => getPathForUserProfilePage({uuid: params.uuid}),
-    getPageComponent: (params) => <UserProfilePage {...params} />,
-    urlParams: {uuid: UrlParamsType.UUID},
-  } as PageParams<{uuid: string}>,
   aboutProject: {
     getPath: () => "/aboutProject",
     getPageComponent: () => <AboutProjectPage />,

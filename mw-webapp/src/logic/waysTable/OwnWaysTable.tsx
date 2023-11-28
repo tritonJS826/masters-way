@@ -39,7 +39,7 @@ export const OwnWaysTable = (props: PropsWithUuid) => {
    */
   const createWay = async(userUuid: string, waysData: WayPreview[]) => {
     const newWay = await WayPreviewDAL.createWayPreview(userUuid);
-    const ways = [...waysData, newWay];
+    const ways = [newWay, ...waysData];
     setOwnWays(ways);
   };
 

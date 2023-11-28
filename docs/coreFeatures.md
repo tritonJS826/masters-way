@@ -13,7 +13,7 @@
 ## WayPage
 
 - [x] fix button create new day report (new should be visible without page reloading) (12h)
-- [] show mentors (link to user page) in the mentor comments (12h)
+- [x] show mentors (link to user page) in the mentor comments (12h)
 - [] render goal (description), add ability to edit own way (goal) (12h) (9h)
 - [x] render way name, add ability to edit own way (way name) (12h)
 - [] add button "favorite" which put the way into your favorite ways (add field favorite to WayDTO) (24h)
@@ -29,9 +29,9 @@
 
 ## UserProfilePage
 
-- [] description + ability to change it (12h)
-- [] add name + ability to change it (12h)
-- [] add email + ability to change it (12h)
+- [x] description + ability to change it (12h)
+- [x] add name + ability to change it (12h)
+- [x] add email + ability to change it (12h)
 - [] add attach custom link with resource description (12h) (for cv or video etc)
 - [] add other user contacts (links) + ability to change them (12h)
 
@@ -39,8 +39,8 @@
 
 - [] project description (12h)
 - [x] FAQ accordion
-- [] how to contribute (6h)
-- [] donates
+- [x] how to contribute (6h)
+- [x] donates
 
 ## Additional feature
 

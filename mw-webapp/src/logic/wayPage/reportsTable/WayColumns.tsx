@@ -1,23 +1,29 @@
 import {createColumnHelper} from "@tanstack/react-table";
+import {Button} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Сheckbox";
 import {EditableText} from "src/component/editableText/EditableText";
-import {CellItem} from "src/component/table/tableCell/cellItem/CellItem";
-import {TableCell} from "src/component/table/tableCell/TableCell";
+import {useUserContext} from "src/component/header/HeaderContext";
+import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {Link} from "src/component/link/Link";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
+import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {CommentDAL} from "src/dataAccessLogic/CommentDAL";
 import {CurrentProblemDAL} from "src/dataAccessLogic/CurrentProblemDAL";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
-import {MentorCommentDAL} from "src/dataAccessLogic/MentorCommentDAL";
 import {PlanForNextPeriodDAL} from "src/dataAccessLogic/PlanForNextPeriodDAL";
+import {Comment} from "src/model/businessModel/Comment";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
-import {MentorComment} from "src/model/businessModel/MentorComment";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
+import {UserPreview} from "src/model/businessModelPreview/UserPreview";
+import {WayPreview} from "src/model/businessModelPreview/WayPreview";
+import {pages} from "src/router/pages";
 import {DateUtils} from "src/utils/DateUtils";
 import {UnicodeSymbols} from "src/utils/UnicodeSymbols";
-import styles from "src/component/editableText/EditableText.module.scss";
+import styles from "src/logic/wayPage/reportsTable/WayColumns.module.scss";
 
 const DEFAULT_SUMMARY_TIME = 0;
 const columnHelper = createColumnHelper<DayReport>();
@@ -36,6 +42,18 @@ interface ColumnsProps {
    * Callback that change dayReports
    */
   setDayReports: (dayReports: DayReport[]) => void;
+
+  /**
+   * Way's mentors
+   * @key @User.uuid
+   * @value @UserPreview
+   */
+  mentors: Map<string, UserPreview>;
+
+  /**
+   * Way
+   */
+  way: WayPreview;
 }
 
 /**
@@ -61,6 +79,13 @@ const updateDayReportState = (
  * Don't get rid of any https://github.com/TanStack/table/issues/4382
  */
 export const Columns = (props: ColumnsProps) => {
+  const {user} = useUserContext();
+  const ownerUuid = props.way.owner.uuid;
+  const ownerName = props.way.owner.name;
+  const isOwner = user?.uid === ownerUuid;
+  const isMentor = user ? !!props.mentors.get(user.uid) : false;
+  const isUserCanEditComments = isOwner || isMentor;
+
   const columns = [
     columnHelper.accessor("date", {
       header: "Date",
@@ -69,7 +94,7 @@ export const Columns = (props: ColumnsProps) => {
        * Cell with date value
        */
       cell: ({row}) => (
-        <TableCell>
+        <VerticalContainer>
           {DateUtils.getShortISODateValue(row.original.date)}
           <Tooltip
             content="is day off ?"
@@ -80,7 +105,7 @@ export const Columns = (props: ColumnsProps) => {
               onChange={(value) => DayReportDAL.updateIsDayOff(row.original, value)}
             />
           </Tooltip>
-        </TableCell>
+        </VerticalContainer>
       ),
     }),
     columnHelper.accessor("jobsDone", {
@@ -142,13 +167,13 @@ export const Columns = (props: ColumnsProps) => {
         };
 
         return (
-          <TableCell
-            buttonValue="add job"
-            onButtonClick={() => createJobDone()}
-          >
+          <VerticalContainer className={styles.cell}>
             {row.original.jobsDone
               .map((jobDone) => (
-                <CellItem key={jobDone.uuid}>
+                <HorizontalContainer
+                  key={jobDone.uuid}
+                  className={styles.numeric}
+                >
                   <EditableText
                     text={jobDone.description}
                     onChangeFinish={(text) => updateJobDone(jobDone, text)}
@@ -159,7 +184,7 @@ export const Columns = (props: ColumnsProps) => {
                     onChangeFinish={(text) => updateJobDoneTime(jobDone, text)}
                     className={styles.editableTime}
                   />
-                </CellItem>
+                </HorizontalContainer>
               ),
               )
             }
@@ -169,7 +194,13 @@ export const Columns = (props: ColumnsProps) => {
                 .reduce((summaryTime, jobDone) => jobDone.time + summaryTime, DEFAULT_SUMMARY_TIME)
               }
             </div>
-          </TableCell>
+            {isOwner &&
+              <Button
+                value="add job"
+                onClick={createJobDone}
+              />
+            }
+          </VerticalContainer>
         );
       },
     }),
@@ -232,13 +263,13 @@ export const Columns = (props: ColumnsProps) => {
         };
 
         return (
-          <TableCell
-            buttonValue="add plan"
-            onButtonClick={() => createPlanForNextPeriod()}
-          >
+          <VerticalContainer className={styles.cell}>
             {row.original.plansForNextPeriod
               .map((planForNextPeriod) => (
-                <CellItem key={planForNextPeriod.uuid}>
+                <HorizontalContainer
+                  key={planForNextPeriod.uuid}
+                  className={styles.numeric}
+                >
                   <EditableText
                     text={planForNextPeriod.job}
                     onChangeFinish={(text) => updatePlanForNextPeriod(planForNextPeriod, text)}
@@ -249,11 +280,17 @@ export const Columns = (props: ColumnsProps) => {
                     onChangeFinish={(value) => updatePlanForNextPeriodTime(planForNextPeriod, value)}
                     className={styles.editableTime}
                   />
-                </CellItem>
+                </HorizontalContainer>
               ),
               )
             }
-          </TableCell>
+            {isOwner &&
+              <Button
+                value="add plan"
+                onClick={createPlanForNextPeriod}
+              />
+            }
+          </VerticalContainer>
         );
       },
     }),
@@ -296,132 +333,102 @@ export const Columns = (props: ColumnsProps) => {
         };
 
         return (
-          <TableCell
-            buttonValue="add problem"
-            onButtonClick={() => createCurrentProblem()}
-          >
+          <VerticalContainer className={styles.cell}>
             {row.original.problemsForCurrentPeriod
               .map((currentProblem) => (
-                <CellItem key={currentProblem.uuid}>
+                <HorizontalContainer
+                  key={currentProblem.uuid}
+                  className={styles.numeric}
+                >
                   <EditableText
                     text={currentProblem.description}
                     onChangeFinish={(text) => updateCurrentProblem(currentProblem, text)}
                   />
-                </CellItem>
+                </HorizontalContainer>
               ))
             }
-          </TableCell>
-        );
-      },
-    }),
-    columnHelper.accessor("studentComments", {
-      header: "Student comments",
-
-      /**
-       * Cell with StudentComments items
-       */
-      cell: ({row}) => {
-
-        /**
-         * Create StudentComment
-         */
-        const createStudentComment = async () => {
-          await DayReportDAL.createStudentComment(row.original);
-          const studentComments = [...row.original.studentComments, UnicodeSymbols.ZERO_WIDTH_SPACE];
-          const updatedDayReport = {...row.original, studentComments};
-          updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
-        };
-
-        /**
-         * Update StudentComment
-         */
-        const updateStudentComment = async (text: string, index: number) => {
-          await DayReportDAL.updateStudentComment(row.original, text, index);
-          const updatedStudentComments = row.original.studentComments.map((item, i) => {
-            if (i === index) {
-              return text;
+            {isOwner &&
+              <Button
+                value="add problem"
+                onClick={createCurrentProblem}
+              />
             }
-
-            return item;
-          });
-
-          const updatedDayReport = {...row.original, studentComments: updatedStudentComments};
-          updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
-        };
-
-        return (
-          <TableCell
-            buttonValue="add comment"
-            onButtonClick={() => createStudentComment()}
-          >
-            {row.original.studentComments
-              .map((studentComment, index) => (
-                <CellItem key={index}>
-                  <EditableText
-                    text={studentComment}
-                    onChangeFinish={(text) => updateStudentComment(text, index)}
-                  />
-                </CellItem>
-              ),
-              )}
-          </TableCell>
+          </VerticalContainer>
         );
       },
     }),
-    columnHelper.accessor("mentorComments", {
-      header: "Mentor comments",
+    columnHelper.accessor("comments", {
+      header: "Comments",
 
       /**
-       * Cell with MentorComments items
+       * Cell with Comments items
        */
       cell: ({row}) => {
 
         /**
-         * Create MentorComment
+         * Create Comment
          */
-        const createMentorComment = async () => {
-          const mentorComment = await MentorCommentDAL.createMentorComment(row.original);
-          const mentorComments = [...row.original.mentorComments, mentorComment];
-          const updatedDayReport = {...row.original, mentorComments};
+        const createComment = async (commentatorUuid: string) => {
+          const comment = await CommentDAL.createComment(row.original, commentatorUuid);
+          const comments = [...row.original.comments, comment];
+          const updatedDayReport = {...row.original, comments};
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
         };
 
         /**
-         * Update MentorComment
+         * Update Comment
          */
-        const updateMentorComment = async (mentorComment: MentorComment, text: string) => {
-          await MentorCommentDAL.updateMentorComment(mentorComment, text);
-          const updatedMentorComments = row.original.mentorComments.map((item) => {
-            if (item.uuid === mentorComment.uuid) {
-              return new MentorComment({
-                ...mentorComment,
+        const updateComment = async (comment: Comment, text: string) => {
+          await CommentDAL.updateComment(comment, text);
+          const updatedComments = row.original.comments.map((item) => {
+            const itemToReturn = item.uuid === comment.uuid
+              ? new Comment({
+                ...comment,
                 description: text,
-              });
-            }
+              })
+              : item;
 
-            return item;
+            return itemToReturn;
           });
 
-          const updatedDayReport = {...row.original, mentorComments: updatedMentorComments};
+          const updatedDayReport = {...row.original, comments: updatedComments};
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
         };
 
+        /**
+         * Get user name
+         */
+        const getCommentatorName = (users: Map<string, UserPreview>, uuid: string) => {
+          const mentor = users.get(uuid);
+          const userName = mentor ? mentor.name : ownerName;
+
+          return userName;
+        };
+
         return (
-          <TableCell
-            buttonValue="add comment"
-            onButtonClick={() => createMentorComment()}
-          >
-            {row.original.mentorComments
-              .map((mentorComment) => (
-                <CellItem key={mentorComment.uuid}>
-                  <EditableText
-                    text={mentorComment.description}
-                    onChangeFinish={(text) => updateMentorComment(mentorComment, text)}
+          user &&
+          <VerticalContainer className={styles.cell}>
+            {row.original.comments
+              .map((comment) => (
+                <>
+                  <Link
+                    value={getCommentatorName(props.mentors, comment.commentatorUuid)}
+                    path={pages.user.getPath({uuid: comment.commentatorUuid})}
                   />
-                </CellItem>
+                  <EditableText
+                    text={comment.description}
+                    onChangeFinish={(text) => updateComment(comment, text)}
+                  />
+                </>
               ),
               )}
-          </TableCell>
+            {isUserCanEditComments &&
+            <Button
+              value="add comment"
+              onClick={() => createComment(user.uid)}
+            />
+            }
+          </VerticalContainer>
         );
       },
     }),

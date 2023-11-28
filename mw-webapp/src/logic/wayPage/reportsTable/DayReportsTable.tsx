@@ -5,6 +5,8 @@ import {ReportsTable} from "src/logic/wayPage/reportsTable/ReportsTable";
 import {Columns} from "src/logic/wayPage/reportsTable/WayColumns";
 import {WayStatistic} from "src/logic/wayPage/WayStatistic";
 import {DayReport} from "src/model/businessModel/DayReport";
+import {UserPreview} from "src/model/businessModelPreview/UserPreview";
+import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 
 /**
  * DayReportsTable props
@@ -12,9 +14,9 @@ import {DayReport} from "src/model/businessModel/DayReport";
 interface DayReportsTableProps {
 
   /**
-   * Way's uuid
+   * Way of DayReports
    */
-  wayUuid: string;
+  way: WayPreview;
 }
 
 /**
@@ -25,17 +27,29 @@ interface DayReportsTableProps {
  */
 export const DayReportsTable = (props: DayReportsTableProps) => {
   const [dayReports, setDayReports] = useState<DayReport[]>([]);
+  const [mentors, setMentors] = useState<Map<string, UserPreview>>(new Map());
+  const way = props.way;
 
   /**
    * Gets all day reports
    */
   const loadDayReports = async () => {
-    const data = await DayReportDAL.getDayReports(props.wayUuid);
+    const data = await DayReportDAL.getDayReports(props.way.uuid);
     setDayReports(data);
+  };
+
+  /**
+   * Load mentors
+   */
+  const loadMentors = () => {
+    const mentorsList = props.way.currentMentors;
+    const mentorsHashMap = new Map(mentorsList.map((item): [string, UserPreview] => [item.uuid, item]));
+    setMentors(mentorsHashMap);
   };
 
   useEffect(() => {
     loadDayReports();
+    loadMentors();
   }, []);
 
   /**
@@ -43,16 +57,16 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
    */
   const createDayReport = async(wayUuid: string, dayReportsData: DayReport[]) => {
     const newDayReport = await DayReportDAL.createDayReport(wayUuid);
-    const dayReportsList = [...dayReportsData, newDayReport];
+    const dayReportsList = [ newDayReport, ...dayReportsData];
     setDayReports(dayReportsList);
   };
 
   return (
     <>
-      {props.wayUuid &&
+      {props.way.uuid &&
       <Button
         value="Create new day report"
-        onClick={() => createDayReport(props.wayUuid, dayReports)}
+        onClick={() => createDayReport(props.way.uuid, dayReports)}
       />
       }
 
@@ -60,7 +74,7 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
 
       <ReportsTable
         data={dayReports}
-        columns={Columns({dayReports, setDayReports})}
+        columns={Columns({dayReports, setDayReports, mentors, way})}
       />
     </>
   );
