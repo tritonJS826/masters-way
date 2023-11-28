@@ -1,4 +1,5 @@
 import {Tooltip} from "src/component/tooltip/Tooltip";
+import {getDataCy} from "src/utils/cyTesting/getDataCy";
 
 describe("Tooltip component", () => {
   const TOOLTIP_CONTENT_ID = "tooltipContent";
@@ -11,7 +12,7 @@ describe("Tooltip component", () => {
       content={TOOLTIP_CONTENT}
       testId={TOOLTIP_CONTENT_ID}
     />);
-    cy.get(`[data-cy="${TOOLTIP_CONTENT_ID}"]`).should("contain.text", TOOLTIP_CONTENT);
+    cy.get(getDataCy(TOOLTIP_CONTENT_ID)).should("contain.text", TOOLTIP_CONTENT);
   });
 
   it("Long content gets truncatet", () => {
@@ -19,7 +20,7 @@ describe("Tooltip component", () => {
       content={TOOLTIP_CONTENT_LONG}
       testId={TOOLTIP_CONTENT_ID}
     />);
-    cy.get(`[data-cy="${TOOLTIP_CONTENT_ID}"]`).invoke("show").then((text) => {
+    cy.get(getDataCy(TOOLTIP_CONTENT_ID)).invoke("show").then((text) => {
       expect(text.length).to.be.lessThan(TOOLTIP_CONTENT_LONG.length);
     });
   });

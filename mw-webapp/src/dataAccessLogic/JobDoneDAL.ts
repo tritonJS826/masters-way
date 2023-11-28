@@ -5,7 +5,6 @@ import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {TimeUnit} from "src/model/businessModel/time/timeUnit/TimeUnit";
 import {JobDoneDTOWithoutUuid, JobDoneService} from "src/service/JobDoneService";
-import {UnicodeSymbols} from "src/utils/UnicodeSymbols";
 
 /**
  * Provides methods to interact with the JobDone business model
@@ -27,7 +26,7 @@ export class JobDoneDAL {
    */
   public static async createJobDone(dayReport: DayReport): Promise<JobDone> {
     const jobDoneWithoutUuid: JobDoneDTOWithoutUuid = {
-      description: UnicodeSymbols.ZERO_WIDTH_SPACE,
+      description: "",
       time: 0,
       timeUnit: TimeUnit.minute,
     };

@@ -1,0 +1,8 @@
+@import "src/styles/variables";
+
+$editableText-width: 100%;
+
+.editableText {
+  overflow: hidden;
+  width: $editableText-width;
+}

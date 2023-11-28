@@ -1,7 +1,7 @@
+import {Comment} from "src/model/businessModel/Comment";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
-import {MentorComment} from "src/model/businessModel/MentorComment";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
 import {DayReportDTO} from "src/model/DTOModel/DayReportDTO";
 
@@ -26,9 +26,9 @@ export interface DayReportConverterProps {
   problemsForCurrentPeriod: CurrentProblem[];
 
   /**
-   * Mentor comments
+   * Mentor and way owner's comments
    */
-  mentorComments: MentorComment[];
+  comments: Comment[];
 }
 
 /**
@@ -42,7 +42,7 @@ export const dayReportDTOToDayReportConverter =
       jobsDone: dayReportProps.jobsDone,
       plansForNextPeriod: dayReportProps.plansForNextPeriod,
       problemsForCurrentPeriod: dayReportProps.problemsForCurrentPeriod,
-      mentorComments: dayReportProps.mentorComments,
+      comments: dayReportProps.comments,
     });
   };
 

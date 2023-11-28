@@ -1,6 +1,6 @@
+import {Comment} from "src/model/businessModel/Comment";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {JobDone} from "src/model/businessModel/JobDone";
-import {MentorComment} from "src/model/businessModel/MentorComment";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
 
 /**
@@ -34,19 +34,9 @@ export class MonthReport {
   public problemsForCurrentPeriod: CurrentProblem[];
 
   /**
-   * Student comments
+   * Mentor's and way owner's comments
    */
-  public studentComments: string[];
-
-  /**
-   * New knowledge that the user has received
-   */
-  public learnedForMonth: string[];
-
-  /**
-   * Mentor's comments
-   */
-  public mentorComments: MentorComment[];
+  public comments: Comment[];
 
   constructor(monthReportData: MonthReport) {
     this.uuid = monthReportData.uuid;
@@ -57,9 +47,7 @@ export class MonthReport {
       new PlanForNextPeriod(planForNextPeriodItem));
     this.problemsForCurrentPeriod = monthReportData.problemsForCurrentPeriod.map((currentProblemItem) =>
       new CurrentProblem(currentProblemItem));
-    this.studentComments = monthReportData.studentComments;
-    this.learnedForMonth = monthReportData.learnedForMonth;
-    this.mentorComments = monthReportData.mentorComments;
+    this.comments = monthReportData.comments;
   }
 
 }

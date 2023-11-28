@@ -1,3 +1,5 @@
+@import "src/styles/variables";
+
 .wrapper {
   position: relative;
 }
@@ -6,6 +8,9 @@
   position: absolute;
   display: none;
   overflow: hidden;
+  padding: 20px;
+  background-color: $blackBackground;
+  color: $whiteText;
 }
 
 .target {

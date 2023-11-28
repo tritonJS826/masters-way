@@ -129,7 +129,7 @@
     "react/jsx-first-prop-new-line": [2, "multiprop"],
     "react/no-unknown-property": "error",
     "react/self-closing-comp": "error",
-    "react/jsx-wrap-multilines": "error",
+    "react/jsx-wrap-multilines": ["error", {"return": "parens-new-line"}],
     "react/jsx-one-expression-per-line": "error",
     "space-before-blocks": ["error", "always"],
     "keyword-spacing": ["error", { "overrides": {

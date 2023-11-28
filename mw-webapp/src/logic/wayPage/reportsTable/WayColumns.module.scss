@@ -1,0 +1,37 @@
+@import "src/styles/variables";
+
+$editableTime-width: 15%;
+
+.editableTime {
+  width: $editableTime-width;
+  text-align: right;
+}
+
+.summaryTimeWrapper {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  border-top: 1px solid $borderBlack;
+  font-weight: bold;
+}
+
+.numeric {
+  position: relative;
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding-left: 10px;
+  counter-increment: cnt;
+  gap: 15px;
+}
+
+.numeric::before {
+  position: absolute;
+  left: -5px;
+  content: counter(cnt) ". ";
+}
+
+.cell {
+  align-items: start;
+}

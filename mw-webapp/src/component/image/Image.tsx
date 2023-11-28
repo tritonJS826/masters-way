@@ -32,6 +32,7 @@ export const Image = (props: ImageProps) => {
         alt={props.alt}
         className={styles.image}
       />
-    </div>);
+    </div>
+  );
 };
 

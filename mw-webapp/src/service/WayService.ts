@@ -1,6 +1,6 @@
-import {collection, doc, getDoc, getDocs, query, setDoc, updateDoc, where} from "firebase/firestore";
+import {collection, doc, getDoc, getDocs, orderBy, query, setDoc, updateDoc, where} from "firebase/firestore";
 import {db} from "src/firebase";
-import {WayDTO} from "src/model/DTOModel/WayDTO";
+import {WayDTO, WayDTOSchema, WaysDTOSchema} from "src/model/DTOModel/WayDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
 import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
 import {UserService} from "src/service/UserService";
@@ -21,10 +21,14 @@ export class WayService {
    * Get WaysDTO
    */
   public static async getWaysDTO(): Promise<WayDTO[]> {
-    const waysRaw = await getDocs(collection(db, PATH_TO_WAYS_COLLECTION));
-    const ways = querySnapshotToDTOConverter<WayDTO>(waysRaw);
+    const waysRef = collection(db, PATH_TO_WAYS_COLLECTION);
+    const waysOrderedByName = query(waysRef, orderBy("name", "desc"));
+    const waysRaw = await getDocs(waysOrderedByName);
+    const waysDTO = querySnapshotToDTOConverter<WayDTO>(waysRaw);
 
-    return ways;
+    const validatedWaysDTO = WaysDTOSchema.parse(waysDTO);
+
+    return validatedWaysDTO;
   }
 
   /**
@@ -32,9 +36,11 @@ export class WayService {
    */
   public static async getWayDTO(uuid: string): Promise<WayDTO> {
     const wayRaw = await getDoc(doc(db, PATH_TO_WAYS_COLLECTION, uuid));
-    const way: WayDTO = documentSnapshotToDTOConverter<WayDTO>(wayRaw);
+    const wayDTO = documentSnapshotToDTOConverter<WayDTO>(wayRaw);
 
-    return way;
+    const validatedWayDTO = WayDTOSchema.parse(wayDTO);
+
+    return validatedWayDTO;
   }
 
   /**
@@ -42,22 +48,25 @@ export class WayService {
    */
   public static async createWayDTO(wayDTOWithoutUuid: WayDTOWithoutUuid): Promise<WayDTO> {
     const docRef = doc(collection(db, PATH_TO_WAYS_COLLECTION));
-    const wayDTO: WayDTO = {
+
+    const wayDTO = {
       ...wayDTOWithoutUuid,
       uuid: docRef.id,
     };
 
-    await setDoc(docRef, wayDTO);
+    const validatedWayDTO = WayDTOSchema.parse(wayDTO);
 
-    return wayDTO;
+    await setDoc(docRef, validatedWayDTO);
+
+    return validatedWayDTO;
   }
 
   /**
    * Update WayDTO
    */
-  public static async updateWayDTO(wayDTO: WayDTO, dayReportUuids: string[]) {
-    await updateDoc(doc(db, PATH_TO_WAYS_COLLECTION, wayDTO.uuid), {...wayDTO, dayReportUuids});
-
+  public static async updateWayDTO(wayDTO: WayDTO, uuid: string) {
+    const validatedWayDTO = WayDTOSchema.parse(wayDTO);
+    await updateDoc(doc(db, PATH_TO_WAYS_COLLECTION, uuid), {...validatedWayDTO});
   }
 
   /**
@@ -67,9 +76,11 @@ export class WayService {
     const waysRef = collection(db, PATH_TO_WAYS_COLLECTION);
     const ownWaysQuery = query(waysRef, where("ownerUuid", "==", uuid));
     const ownWaysRaw = await getDocs(ownWaysQuery);
-    const ownWays = querySnapshotToDTOConverter<WayDTO>(ownWaysRaw);
+    const ownWaysDTO = querySnapshotToDTOConverter<WayDTO>(ownWaysRaw);
 
-    return ownWays;
+    const validatedOwnWaysDTO = WaysDTOSchema.parse(ownWaysDTO);
+
+    return validatedOwnWaysDTO;
   }
 
   /**
@@ -79,9 +90,11 @@ export class WayService {
     const waysRef = collection(db, PATH_TO_WAYS_COLLECTION);
     const mentoringWaysQuery = query(waysRef, where("currentMentorUuids", "array-contains", uuid));
     const mentoringWaysRaw = await getDocs(mentoringWaysQuery);
-    const mentoringWays = querySnapshotToDTOConverter<WayDTO>(mentoringWaysRaw);
+    const mentoringWaysDTO = querySnapshotToDTOConverter<WayDTO>(mentoringWaysRaw);
 
-    return mentoringWays;
+    const validatedMentoringWaysDTO = WaysDTOSchema.parse(mentoringWaysDTO);
+
+    return validatedMentoringWaysDTO;
   }
 
   /**
@@ -89,12 +102,19 @@ export class WayService {
    */
   public static async getFavoriteWaysDTO(uuid: string): Promise<WayDTO[]> {
     const userDTO = await UserService.getUserDTO(uuid);
+
+    if (!userDTO.favoriteWayUuids.length) {
+      return [];
+    }
+
     const waysRef = collection(db, PATH_TO_WAYS_COLLECTION);
     const favoriteWaysQuery = query(waysRef, where("uuid", "in", userDTO.favoriteWayUuids));
     const favoriteWaysRaw = await getDocs(favoriteWaysQuery);
-    const favoriteWays = querySnapshotToDTOConverter<WayDTO>(favoriteWaysRaw);
+    const favoriteWaysDTO = querySnapshotToDTOConverter<WayDTO>(favoriteWaysRaw);
 
-    return favoriteWays;
+    const validatedFavoriteWaysDTO = WaysDTOSchema.parse(favoriteWaysDTO);
+
+    return validatedFavoriteWaysDTO;
   }
 
 }

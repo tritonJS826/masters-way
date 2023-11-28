@@ -1,6 +1,6 @@
 import {collection, doc, getDoc, setDoc, updateDoc} from "firebase/firestore";
 import {db} from "src/firebase";
-import {PlanForNextPeriodDTO} from "src/model/DTOModel/PlanForNextPeriodDTO";
+import {PlanForNextPeriodDTO, PlanForNextPeriodDTOSchema} from "src/model/DTOModel/PlanForNextPeriodDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
 
 const PATH_TO_PLANS_FOR_NEXT_PERIOD_COLLECTION = "plansForNextPeriod";
@@ -20,9 +20,11 @@ export class PlanForNextPeriodService {
    */
   public static async getPlanForNextPeriodDTO(uuid: string): Promise<PlanForNextPeriodDTO> {
     const planForNextPeriodRaw = await getDoc(doc(db, PATH_TO_PLANS_FOR_NEXT_PERIOD_COLLECTION, uuid));
-    const planForNextPeriod: PlanForNextPeriodDTO = documentSnapshotToDTOConverter<PlanForNextPeriodDTO>(planForNextPeriodRaw);
+    const planForNextPeriodDTO = documentSnapshotToDTOConverter<PlanForNextPeriodDTO>(planForNextPeriodRaw);
 
-    return planForNextPeriod;
+    const validatedPlanForNextPeriodDTO = PlanForNextPeriodDTOSchema.parse(planForNextPeriodDTO);
+
+    return validatedPlanForNextPeriodDTO;
   }
 
   /**
@@ -31,21 +33,26 @@ export class PlanForNextPeriodService {
   public static async createPlanForNextPeriodDTO
   (planForNextPeriodDTOWithoutUuid: PlanForNextPeriodDTOWithoutUuid): Promise<PlanForNextPeriodDTO> {
     const docRef = doc(collection(db, PATH_TO_PLANS_FOR_NEXT_PERIOD_COLLECTION));
-    const DEFAULT_PLAN_FOR_NEXT_PERIOD: PlanForNextPeriodDTO = {
+
+    const planForNextPeriodDTO = {
       ...planForNextPeriodDTOWithoutUuid,
       uuid: docRef.id,
     };
 
-    await setDoc(docRef, DEFAULT_PLAN_FOR_NEXT_PERIOD);
+    const validatedPlanForNextPeriodDTO = PlanForNextPeriodDTOSchema.parse(planForNextPeriodDTO);
 
-    return DEFAULT_PLAN_FOR_NEXT_PERIOD;
+    await setDoc(docRef, validatedPlanForNextPeriodDTO);
+
+    return validatedPlanForNextPeriodDTO;
   }
 
   /**
    * Update PlanForNextPeriodDTO
    */
   public static async updatePLanForNextPeriodDTO(planForNextPeriodDTO: PlanForNextPeriodDTO, uuid: string) {
-    await updateDoc(doc(db, PATH_TO_PLANS_FOR_NEXT_PERIOD_COLLECTION, uuid), {...planForNextPeriodDTO});
+    const validatedPlanForNextPeriodDTO = PlanForNextPeriodDTOSchema.parse(planForNextPeriodDTO);
+
+    await updateDoc(doc(db, PATH_TO_PLANS_FOR_NEXT_PERIOD_COLLECTION, uuid), validatedPlanForNextPeriodDTO);
   }
 
 }

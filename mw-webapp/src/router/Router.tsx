@@ -1,5 +1,6 @@
 import {Route, Routes} from "react-router-dom";
 import {pages} from "src/router/pages";
+import {WithValidatedParams} from "src/router/PageUrlValidator/ValidatedParams";
 
 /**
  * Router
@@ -8,32 +9,28 @@ export const Router = () => {
   return (
     <Routes>
       <Route
-        path={pages.allWays.path}
-        element={pages.allWays.element}
+        path={pages.allWays.getPath({})}
+        element={<WithValidatedParams paramsSchema={pages.allWays} />}
       />
       <Route
-        path={pages.user.path(":uuid")}
-        element={pages.user.element}
+        path={pages.user.getPath({uuid: ":uuid"})}
+        element={<WithValidatedParams paramsSchema={pages.user} />}
       />
       <Route
-        path={pages.way.path(":uuid")}
-        element={pages.way.element}
+        path={pages.way.getPath({uuid: ":uuid"})}
+        element={<WithValidatedParams paramsSchema={pages.way} />}
       />
       <Route
-        path={pages.allUsers.path}
-        element={pages.allUsers.element}
+        path={pages.allUsers.getPath({})}
+        element={<WithValidatedParams paramsSchema={pages.allUsers} />}
       />
       <Route
-        path={pages.userProfile.path(":uuid")}
-        element={pages.userProfile.element}
+        path={pages.aboutProject.getPath({})}
+        element={<WithValidatedParams paramsSchema={pages.aboutProject} />}
       />
       <Route
-        path={pages.aboutProject.path}
-        element={pages.aboutProject.element}
-      />
-      <Route
-        path={pages.page404.path}
-        element={pages.page404.element}
+        path={pages.page404.getPath({})}
+        element={<WithValidatedParams paramsSchema={pages.page404} />}
       />
     </Routes>
   );

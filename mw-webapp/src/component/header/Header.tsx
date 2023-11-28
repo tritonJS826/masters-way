@@ -1,11 +1,9 @@
-import {useEffect, useState} from "react";
-import {User} from "firebase/auth";
 import {Button} from "src/component/button/Button";
+import {useUserContext} from "src/component/header/HeaderContext";
 import {Link} from "src/component/link/Link";
 import {Sidebar} from "src/component/sidebar/Sidebar";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {pages} from "src/router/pages";
-import {handleUserAuthState} from "src/service/auth/handleUserAuthState";
 import {logIn} from "src/service/auth/logIn";
 import {logOut} from "src/service/auth/logOut";
 import styles from "src/component/header/Header.module.scss";
@@ -49,34 +47,26 @@ const renderNavigationLinks = (navigationLinks: (navigationLink | null)[]) => {
  * Header component
  */
 export const Header = () => {
-  const [user, setUser] = useState<User | null>(null);
+  const {user} = useUserContext();
 
   const navigationLinks: (navigationLink | null)[] = [
     {
-      path: pages.allWays.path,
+      path: pages.allWays.getPath({}),
       value: "All ways",
     },
     {
-      path: pages.allUsers.path,
+      path: pages.allUsers.getPath({}),
       value: "All users",
     },
     user && {
-      path: pages.user.path(user.uid),
+      path: pages.user.getPath({uuid: user.uid}),
       value: "My ways",
     },
-    user && {
-      path: pages.userProfile.path(user.uid),
-      value: "Profile",
-    },
     {
-      path: pages.aboutProject.path,
+      path: pages.aboutProject.getPath({}),
       value: "About",
     },
   ];
-
-  useEffect(() => {
-    handleUserAuthState(setUser);
-  }, []);
 
   return (
     <div className={styles.header}>

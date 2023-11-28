@@ -1,7 +1,6 @@
-import {ReactElement} from "react";
 import {Item as RadixAccordionItem} from "@radix-ui/react-accordion";
-import {AccordionContentProps} from "src/component/accordion/AccordionContent/AccordionContent";
-import {AccordionTriggerProps} from "src/component/accordion/AccordionTrigger/AccordionTrigger";
+import {AccordionContent, AccordionContentProps} from "src/component/accordion/AccordionContent/AccordionContent";
+import {AccordionTrigger, AccordionTriggerProps} from "src/component/accordion/AccordionTrigger/AccordionTrigger";
 import styles from "src/component/accordion/AccordionItem/AccordionItem.module.scss";
 
 /**
@@ -12,12 +11,12 @@ export interface AccordionItem {
   /**
    * React element representing the trigger for this AccordionItem.
    */
-  trigger: ReactElement<AccordionTriggerProps>;
+  trigger: AccordionTriggerProps;
 
   /**
    * React element representing the content for this AccordionItem.
    */
-  content: ReactElement<AccordionContentProps>;
+  content: AccordionContentProps;
 
   /**
    * A unique key to identify the AccordionItem.
@@ -35,8 +34,14 @@ export const AccordionItem = (props: AccordionItem) => {
       className={styles.accordionItem}
       value={props.itemKey}
     >
-      {props.trigger}
-      {props.content}
+      <AccordionTrigger
+        child={props.trigger.child}
+        dataCy={props.trigger.dataCy}
+      />
+      <AccordionContent
+        child={props.content.child}
+        dataCy={props.content.dataCy}
+      />
     </RadixAccordionItem>
   );
 };

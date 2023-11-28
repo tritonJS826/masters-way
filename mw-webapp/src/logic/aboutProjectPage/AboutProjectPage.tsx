@@ -1,14 +1,12 @@
 import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
-import {AccordionContent} from "src/component/accordion/AccordionContent/AccordionContent";
-import {AccordionTrigger} from "src/component/accordion/AccordionTrigger/AccordionTrigger";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import accordionData from "src/logic/aboutProjectPage/AboutProjectPageAccordionData.json";
 import {jsonWithLineBreakToReact} from "src/utils/textUtils/jsonToLineBreak";
 import styles from "src/logic/aboutProjectPage/AboutProjectPage.module.scss";
 
 const accordionItems = accordionData.map((data) => ({
-  trigger: <AccordionTrigger text={data.header.ru} />,
-  content: <AccordionContent content={jsonWithLineBreakToReact(data.description.ru)} />,
+  trigger: {child: data.header.ru},
+  content: {child: jsonWithLineBreakToReact(data.description.ru)},
 }));
 
 /**
@@ -27,6 +25,7 @@ export const AboutProjectPage = () => {
         level={HeadingLevel.h3}
         text="FAQ"
       />
+
       <Accordion
         items={accordionItems}
         type={accordionTypes.multiple}
