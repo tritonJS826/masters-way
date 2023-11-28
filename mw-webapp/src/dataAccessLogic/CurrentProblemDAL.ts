@@ -6,7 +6,6 @@ import {currentProblemDTOToCurrentProblemConverter} from
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {CurrentProblemDTOWithoutUuid, CurrentProblemService} from "src/service/CurrentProblemService";
-import {UnicodeSymbols} from "src/utils/UnicodeSymbols";
 
 /**
  * Provides methods to interact with the CurrentProblem business model
@@ -28,7 +27,7 @@ export class CurrentProblemDAL {
    */
   public static async createCurrentProblem(dayReport: DayReport): Promise<CurrentProblem> {
     const currentProblemWithoutUuid: CurrentProblemDTOWithoutUuid = {
-      description: UnicodeSymbols.ZERO_WIDTH_SPACE,
+      description: "",
       isDone: false,
     };
 
