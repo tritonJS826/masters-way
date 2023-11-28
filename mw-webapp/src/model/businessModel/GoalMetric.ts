@@ -18,10 +18,10 @@ export class GoalMetric {
    */
   public isDone: boolean;
 
-  constructor(mentorCommentData: GoalMetric) {
-    this.uuid = mentorCommentData.uuid;
-    this.description = mentorCommentData.description;
-    this.isDone = mentorCommentData.isDone;
+  constructor(goalMetricData: GoalMetric) {
+    this.uuid = goalMetricData.uuid;
+    this.description = goalMetricData.description;
+    this.isDone = goalMetricData.isDone;
   }
 
 }

@@ -18,6 +18,11 @@ export const UserDTOSchema = z.object({
   email: z.string(),
 
   /**
+   * User's description
+   */
+  description: z.string(),
+
+  /**
    * @Way.uuids
    */
   ownWayUuids: z.array(z.string()),

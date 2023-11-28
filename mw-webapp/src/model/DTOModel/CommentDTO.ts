@@ -1,6 +1,6 @@
 import {z} from "zod";
 
-export const MentorCommentDTOSchema = z.object({
+export const CommentDTOSchema = z.object({
 
   /**
    * Comment's UUID
@@ -8,9 +8,9 @@ export const MentorCommentDTOSchema = z.object({
   uuid: z.string(),
 
   /**
-   * Mentor's UUID @User.uuid
+   * Mentor's and way owner's UUID @User.uuid
    */
-  mentorUuid: z.string(),
+  commentatorUuid: z.string(),
 
   /**
    * Comment's text
@@ -24,6 +24,6 @@ export const MentorCommentDTOSchema = z.object({
 }).strict();
 
 /**
- * Mentor's comments DTO model
+ * Mentor's and way owner's comments DTO model
  */
-export type MentorCommentDTO = z.infer<typeof MentorCommentDTOSchema>
+export type CommentDTO = z.infer<typeof CommentDTOSchema>

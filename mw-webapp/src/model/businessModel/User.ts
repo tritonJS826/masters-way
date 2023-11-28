@@ -21,6 +21,11 @@ export class User {
   public email: string;
 
   /**
+   * User's description
+   */
+  public description: string;
+
+  /**
    * Owner's ways
    */
   public ownWays: Way[];
@@ -39,6 +44,7 @@ export class User {
     this.uuid = userData.uuid;
     this.name = userData.name;
     this.email = userData.email;
+    this.description = userData.description;
     this.ownWays = userData.ownWays.map((ownWayItem) =>
       new Way(ownWayItem));
     this.favoriteWays = userData.favoriteWays.map((favoriteWayItem) =>

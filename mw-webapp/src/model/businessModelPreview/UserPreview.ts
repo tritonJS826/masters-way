@@ -19,6 +19,11 @@ export class UserPreview {
   public email: string;
 
   /**
+   * User's description
+   */
+  public description: string;
+
+  /**
    * Own ways @Way.uuid
    */
   public ownWays: string[];
@@ -37,6 +42,7 @@ export class UserPreview {
     this.uuid = userData.uuid;
     this.name = userData.name;
     this.email = userData.email;
+    this.description = userData.description;
     this.ownWays = userData.ownWays;
     this.favoriteWays = userData.favoriteWays;
     this.mentoringWays = userData.mentoringWays;

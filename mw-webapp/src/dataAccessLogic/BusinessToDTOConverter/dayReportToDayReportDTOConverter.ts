@@ -23,9 +23,9 @@ interface DayReportDTOProps {
   problemForCurrentPeriodUuids: string[];
 
   /**
-   * @MentorComments.uuids
+   * @Comments.uuids
    */
-  mentorCommentUuids: string[];
+  commentUuids: string[];
 }
 
 /**
@@ -38,9 +38,7 @@ export const dayReportToDayReportDTOConverter = (dayReport: DayReport, dayReport
     jobDoneUuids: dayReportDTOProps.jobDoneUuids,
     planForNextPeriodUuids: dayReportDTOProps.planForNextPeriodUuids,
     problemForCurrentPeriodUuids: dayReportDTOProps.problemForCurrentPeriodUuids,
-    mentorCommentUuids: dayReportDTOProps.mentorCommentUuids,
-    studentComments: dayReport.studentComments,
-    learnedForToday: dayReport.learnedForToday,
+    commentUuids: dayReportDTOProps.commentUuids,
     isDayOff: dayReport.isDayOff,
   });
 

@@ -1,6 +1,6 @@
+import {Comment} from "src/model/businessModel/Comment";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {JobDone} from "src/model/businessModel/JobDone";
-import {MentorComment} from "src/model/businessModel/MentorComment";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
 
 /**
@@ -34,19 +34,9 @@ export class DayReport {
   public problemsForCurrentPeriod: CurrentProblem[];
 
   /**
-   * Student comments
+   * Mentor's and way owner's comments uuids
    */
-  public studentComments: string[];
-
-  /**
-   * New knowledge that the user has received
-   */
-  public learnedForToday: string[];
-
-  /**
-   * Mentor's comments uuids
-   */
-  public mentorComments: MentorComment[];
+  public comments: Comment[];
 
   /**
    * Return true if day is off and false if it is work day
@@ -62,10 +52,8 @@ export class DayReport {
       new PlanForNextPeriod(planForNextPeriodItem));
     this.problemsForCurrentPeriod = dayReportData.problemsForCurrentPeriod.map((currentProblemItem) =>
       new CurrentProblem(currentProblemItem));
-    this.studentComments = dayReportData.studentComments;
-    this.learnedForToday = dayReportData.learnedForToday;
-    this.mentorComments = dayReportData.mentorComments.map((mentorComment) =>
-      new MentorComment(mentorComment));
+    this.comments = dayReportData.comments.map((comment) =>
+      new Comment(comment));
     this.isDayOff = dayReportData.isDayOff;
   }
 

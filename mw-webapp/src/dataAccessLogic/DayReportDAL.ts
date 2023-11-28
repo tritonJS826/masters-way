@@ -1,16 +1,15 @@
 import {dayReportToDayReportDTOConverter} from "src/dataAccessLogic/BusinessToDTOConverter/dayReportToDayReportDTOConverter";
+import {CommentDAL} from "src/dataAccessLogic/CommentDAL";
 import {CurrentProblemDAL} from "src/dataAccessLogic/CurrentProblemDAL";
 import {dayReportDTOToDayReportConverter} from
   "src/dataAccessLogic/DTOToBusinessConverter/dayReportDTOToDayReportConverter";
 import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
-import {MentorCommentDAL} from "src/dataAccessLogic/MentorCommentDAL";
 import {PlanForNextPeriodDAL} from "src/dataAccessLogic/PlanForNextPeriodDAL";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {WayDTOSchema} from "src/model/DTOModel/WayDTO";
 import {DayReportDTOWithoutUuid, DayReportService} from "src/service/DayReportService";
 import {WayService} from "src/service/WayService";
 import {DateUtils} from "src/utils/DateUtils";
-import {UnicodeSymbols} from "src/utils/UnicodeSymbols";
 
 /**
  * Provides methods to interact with the DayReport business model
@@ -21,10 +20,28 @@ export class DayReportDAL {
    * Get DayReports that belong to a specific way
    */
   public static async getDayReports(wayUuid: string): Promise<DayReport[]> {
+
     const dayReportsUuids = (await WayService.getWayDTO(wayUuid)).dayReportUuids;
 
-    const dayReports = await Promise.all(dayReportsUuids.map(async (dayReportUuid) => {
-      const dayReport = await DayReportDAL.getDayReport(dayReportUuid);
+    const dayReportsDTO = await DayReportService.getDayReportsDTO(dayReportsUuids);
+
+    const dayReports = await Promise.all(dayReportsDTO.map(async (dayReportDTO) => {
+      const {jobDoneUuids, planForNextPeriodUuids, commentUuids, problemForCurrentPeriodUuids} = dayReportDTO;
+      const jobsDonePromise = Promise.all(jobDoneUuids.map(JobDoneDAL.getJobDone));
+      const plansForNextPeriodPromise = Promise.all(planForNextPeriodUuids.map(PlanForNextPeriodDAL.getPlanForNextPeriod));
+      const commentsPromise = Promise.all(commentUuids.map(CommentDAL.getComment));
+      const problemsForCurrentPeriodPromise = Promise.all(problemForCurrentPeriodUuids.map(CurrentProblemDAL.getCurrentProblem));
+      const [jobsDone, plansForNextPeriod, comments, problemsForCurrentPeriod] =
+        await Promise.all([jobsDonePromise, plansForNextPeriodPromise, commentsPromise, problemsForCurrentPeriodPromise]);
+
+      const dayReportProps = {
+        jobsDone,
+        plansForNextPeriod,
+        problemsForCurrentPeriod,
+        comments,
+      };
+
+      const dayReport = dayReportDTOToDayReportConverter(dayReportDTO, dayReportProps);
 
       return dayReport;
     }));
@@ -37,38 +54,19 @@ export class DayReportDAL {
    */
   public static async getDayReport(uuid: string): Promise<DayReport> {
     const dayReportDTO = await DayReportService.getDayReportDTO(uuid);
-    const {jobDoneUuids, planForNextPeriodUuids, mentorCommentUuids, problemForCurrentPeriodUuids} = dayReportDTO;
-
-    const jobsDone = await Promise.all(jobDoneUuids.map(async (jobDoneUuid) => {
-      const jobDone = await JobDoneDAL.getJobDone(jobDoneUuid);
-
-      return jobDone;
-    }));
-
-    const plansForNextPeriod = await Promise.all(planForNextPeriodUuids.map(async (planForNextPeriodUuid) => {
-      const jobDone = await PlanForNextPeriodDAL.getPlanForNextPeriod(planForNextPeriodUuid);
-
-      return jobDone;
-    }));
-
-    const mentorComments = await Promise.all(mentorCommentUuids.map(async (mentorCommentUuid) => {
-      const jobDone = await MentorCommentDAL.getMentorComment(mentorCommentUuid);
-
-      return jobDone;
-    }));
-
-    const problemsForCurrentPeriod =
-      await Promise.all(problemForCurrentPeriodUuids.map(async (problemForCurrentPeriodUuid) => {
-        const jobDone = await CurrentProblemDAL.getCurrentProblem(problemForCurrentPeriodUuid);
-
-        return jobDone;
-      }));
+    const {jobDoneUuids, planForNextPeriodUuids, commentUuids, problemForCurrentPeriodUuids} = dayReportDTO;
+    const jobsDonePromise = Promise.all(jobDoneUuids.map(JobDoneDAL.getJobDone));
+    const plansForNextPeriodPromise = Promise.all(planForNextPeriodUuids.map(PlanForNextPeriodDAL.getPlanForNextPeriod));
+    const commentsPromise = Promise.all(commentUuids.map(CommentDAL.getComment));
+    const problemsForCurrentPeriodPromise = Promise.all(problemForCurrentPeriodUuids.map(CurrentProblemDAL.getCurrentProblem));
+    const [jobsDone, plansForNextPeriod, comments, problemsForCurrentPeriod] =
+      await Promise.all([jobsDonePromise, plansForNextPeriodPromise, commentsPromise, problemsForCurrentPeriodPromise]);
 
     const dayReportProps = {
       jobsDone,
       plansForNextPeriod,
       problemsForCurrentPeriod,
-      mentorComments,
+      comments,
     };
 
     const dayReport = dayReportDTOToDayReportConverter(dayReportDTO, dayReportProps);
@@ -85,9 +83,7 @@ export class DayReportDAL {
       jobDoneUuids: [],
       planForNextPeriodUuids: [],
       problemForCurrentPeriodUuids: [],
-      studentComments: [],
-      learnedForToday: [],
-      mentorCommentUuids: [],
+      commentUuids: [],
       isDayOff: false,
     };
     const dayReportDTO = await DayReportService.createDayReportDTO(DEFAULT_DAY_REPORT);
@@ -121,86 +117,17 @@ export class DayReportDAL {
     const jobDoneUuids = dayReport.jobsDone.map((item) => item.uuid);
     const planForNextPeriodUuids = dayReport.plansForNextPeriod.map((item) => item.uuid);
     const problemForCurrentPeriodUuids = dayReport.problemsForCurrentPeriod.map((item) => item.uuid);
-    const mentorCommentUuids = dayReport.mentorComments.map((item) => item.uuid);
+    const commentUuids = dayReport.comments.map((item) => item.uuid);
 
     const dayReportDTOProps = {
       jobDoneUuids,
       planForNextPeriodUuids,
       problemForCurrentPeriodUuids,
-      mentorCommentUuids,
+      commentUuids,
     };
 
     const dayReportDTO = dayReportToDayReportDTOConverter(dayReport, dayReportDTOProps);
     await DayReportService.updateDayReportDTO(dayReportDTO, dayReport.uuid);
-  }
-
-  /**
-   * Create student comment to DayReport
-   */
-  public static async createStudentComment(dayReport: DayReport) {
-    const updatedCell = [...dayReport.studentComments, UnicodeSymbols.ZERO_WIDTH_SPACE];
-
-    const updatedDayReport: DayReport = {
-      ...dayReport,
-      studentComments: updatedCell,
-    };
-    await DayReportDAL.updateDayReport(updatedDayReport);
-
-    return updatedDayReport;
-  }
-
-  /**
-   * Update student comment to DayReport
-   */
-  public static async updateStudentComment(dayReport: DayReport, text: string, index: number) {
-    const getUpdatedText = dayReport.studentComments.map((item: string, i: number) => {
-      if (i === index) {
-        return `${text}`;
-      }
-
-      return item;
-    });
-
-    const updatedDayReport: DayReport = {
-      ...dayReport,
-      studentComments: getUpdatedText,
-    };
-    await DayReportDAL.updateDayReport(updatedDayReport);
-  }
-
-  /**
-   * Create learned for today to DayReport
-   */
-  public static async createLearnedForToday(dayReport: DayReport) {
-    const updatedCell = [...dayReport.learnedForToday, UnicodeSymbols.ZERO_WIDTH_SPACE];
-
-    const updatedDayReport: DayReport = {
-      ...dayReport,
-      learnedForToday: updatedCell,
-    };
-    await DayReportDAL.updateDayReport(updatedDayReport);
-
-    return updatedDayReport;
-  }
-
-  /**
-   * Update learnedForToday to DayReport
-   */
-  public static async updateLearnedForToday(dayReport: DayReport, text: string, index: number) {
-    const getUpdatedText = dayReport.learnedForToday.map((item: string, i: number) => {
-      if (i === index) {
-        return `${text}`;
-      }
-
-      return item;
-    });
-
-    const updatedDayReport: DayReport = {
-      ...dayReport,
-      learnedForToday: getUpdatedText,
-    };
-
-    await DayReportDAL.updateDayReport(updatedDayReport);
   }
 
   /**

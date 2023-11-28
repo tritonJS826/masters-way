@@ -2,6 +2,8 @@ import React from "react";
 
 /**
  * Replace '/n' in text from json to react element with <br/>
+ *
+ * TODO: lets use something like https://www.npmjs.com/package/react-markdown instead
  */
 export const jsonWithLineBreakToReact = (text: string) => {
   const paragraphs = text.split("\n");

@@ -10,6 +10,33 @@ import {pages} from "src/router/pages";
 import styles from "src/logic/userPage/UserPage.module.scss";
 
 /**
+ * Change user's name
+ */
+const changeUserName = (user: UserPreview, text: string, callback: (user: UserPreview) => void) => {
+  const updatedUser = new UserPreview({...user, name: text});
+  callback(updatedUser);
+  UserPreviewDAL.updateUserPreview(updatedUser);
+};
+
+/**
+ * Change user's email
+ */
+const changeUserEmail = (user: UserPreview, text: string, callback: (user: UserPreview) => void) => {
+  const updatedUser = new UserPreview({...user, email: text});
+  callback(updatedUser);
+  UserPreviewDAL.updateUserPreview(updatedUser);
+};
+
+/**
+ * Change user's description
+ */
+const changeUserDescription = (user: UserPreview, text: string, callback: (user: UserPreview) => void) => {
+  const updatedUser = new UserPreview({...user, description: text});
+  callback(updatedUser);
+  UserPreviewDAL.updateUserPreview(updatedUser);
+};
+
+/**
  * PageProps
  */
 interface UserPageProps {
@@ -46,10 +73,45 @@ export const UserPage = (props: UserPageProps) => {
   return (
     userPreview &&
     <div className={styles.container}>
-      <Title
-        level={HeadingLevel.h2}
-        text={`Page of ${userPreview.name}`}
-      />
+      <div className={styles.row}>
+        <Title
+          text="Name:"
+          level={HeadingLevel.h3}
+        />
+        {" "}
+        <Title
+          level={HeadingLevel.h3}
+          text={userPreview.name}
+          onChangeFinish={(text) => changeUserName(userPreview, text, setUserPreview)}
+          isEditable={true}
+        />
+      </div>
+      <div className={styles.row}>
+        <Title
+          text="Email:"
+          level={HeadingLevel.h3}
+        />
+        {" "}
+        <Title
+          level={HeadingLevel.h3}
+          text={userPreview.email}
+          onChangeFinish={(text) => changeUserEmail(userPreview, text, setUserPreview)}
+          isEditable={true}
+        />
+      </div>
+      <div className={styles.row}>
+        <Title
+          text="Description:"
+          level={HeadingLevel.h3}
+        />
+        {" "}
+        <Title
+          level={HeadingLevel.h3}
+          text={userPreview.description}
+          onChangeFinish={(text) => changeUserDescription(userPreview, text, setUserPreview)}
+          isEditable={true}
+        />
+      </div>
       <>
         <Title
           text= {`Own Ways (totally ${userPreview.ownWays.length} ways)`}
@@ -57,12 +119,12 @@ export const UserPage = (props: UserPageProps) => {
         />
         <OwnWaysTable uuid={props.uuid} />
         <Title
-          text={`Own Ways (totally ${userPreview.mentoringWays.length} ways)`}
+          text={`Mentoring Ways (totally ${userPreview.mentoringWays.length} ways)`}
           level={HeadingLevel.h3}
         />
         <MentoringWaysTable uuid={props.uuid} />
         <Title
-          text={`Own Ways (totally ${userPreview.favoriteWays.length} ways)`}
+          text={`Favorite Ways (totally ${userPreview.favoriteWays.length} ways)`}
           level={HeadingLevel.h3}
         />
         <FavoriteWaysTable uuid={props.uuid} />

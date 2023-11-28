@@ -19,11 +19,7 @@ export class WayPreviewDAL {
     const waysDTO = await WayService.getWaysDTO();
     const waysUuids = waysDTO.map((item) => item.uuid);
 
-    const waysPreview = await Promise.all(waysUuids.map(async (wayUuid) => {
-      const wayPreview = await WayPreviewDAL.getWayPreview(wayUuid);
-
-      return wayPreview;
-    }));
+    const waysPreview = await Promise.all(waysUuids.map(WayPreviewDAL.getWayPreview));
 
     return waysPreview;
   }
@@ -36,11 +32,7 @@ export class WayPreviewDAL {
 
     const owner = await UserPreviewDAL.getUserPreview(wayDTO.ownerUuid);
 
-    const currentMentors = await Promise.all(wayDTO.currentMentorUuids.map(async (currentMentorUuid) => {
-      const currentMentor = await UserPreviewDAL.getUserPreview(currentMentorUuid);
-
-      return currentMentor;
-    }));
+    const currentMentors = await Promise.all(wayDTO.currentMentorUuids.map(UserPreviewDAL.getUserPreview));
 
     const goal = await GoalPreviewDAL.getGoalPreview(wayDTO.goalUuid);
 
@@ -77,6 +69,7 @@ export class WayPreviewDAL {
       uuid: user.uuid,
       name: user.name,
       email: user.email,
+      description: user.description,
       ownWays: [...user.ownWays, wayDTO.uuid],
       favoriteWays: user.favoriteWays,
       mentoringWays: user.mentoringWays,
@@ -110,11 +103,7 @@ export class WayPreviewDAL {
 
     const waysUuids = waysDTO.map((item) => item.uuid);
 
-    const waysPreview = await Promise.all(waysUuids.map(async (wayUuid) => {
-      const wayPreview = await WayPreviewDAL.getWayPreview(wayUuid);
-
-      return wayPreview;
-    }));
+    const waysPreview = await Promise.all(waysUuids.map(WayPreviewDAL.getWayPreview));
 
     return waysPreview;
   }
