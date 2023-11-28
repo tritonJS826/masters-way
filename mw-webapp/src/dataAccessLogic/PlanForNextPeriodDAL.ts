@@ -7,7 +7,6 @@ import {DayReport} from "src/model/businessModel/DayReport";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
 import {TimeUnit} from "src/model/businessModel/time/timeUnit/TimeUnit";
 import {PlanForNextPeriodDTOWithoutUuid, PlanForNextPeriodService} from "src/service/PlanForNextPeriodService";
-import {UnicodeSymbols} from "src/utils/UnicodeSymbols";
 
 /**
  * Provides methods to interact with the PlanForNextPeriod business model
@@ -29,7 +28,7 @@ export class PlanForNextPeriodDAL {
    */
   public static async createPlanForNextPeriod(dayReport: DayReport): Promise<PlanForNextPeriod> {
     const planForNextPeriodWithoutUuid: PlanForNextPeriodDTOWithoutUuid = {
-      job: UnicodeSymbols.ZERO_WIDTH_SPACE,
+      job: "",
       estimationTime: 0,
       timeUnit: TimeUnit.minute,
     };
