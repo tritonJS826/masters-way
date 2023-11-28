@@ -1,12 +1,13 @@
 import {createColumnHelper} from "@tanstack/react-table";
+import {Button} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Сheckbox";
 import {EditableText} from "src/component/editableText/EditableText";
 import {useUserContext} from "src/component/header/HeaderContext";
+import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
-import {CellItem} from "src/component/table/tableCell/cellItem/CellItem";
-import {TableCell} from "src/component/table/tableCell/TableCell";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
+import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {CommentDAL} from "src/dataAccessLogic/CommentDAL";
 import {CurrentProblemDAL} from "src/dataAccessLogic/CurrentProblemDAL";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
@@ -22,7 +23,7 @@ import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
 import {DateUtils} from "src/utils/DateUtils";
 import {UnicodeSymbols} from "src/utils/UnicodeSymbols";
-import styles from "src/component/editableText/EditableText.module.scss";
+import styles from "src/logic/wayPage/reportsTable/WayColumns.module.scss";
 
 const DEFAULT_SUMMARY_TIME = 0;
 const columnHelper = createColumnHelper<DayReport>();
@@ -80,6 +81,9 @@ const updateDayReportState = (
 export const Columns = (props: ColumnsProps) => {
   const {user} = useUserContext();
   const ownerUuid = props.way.owner.uuid;
+  const ownerName = props.way.owner.name;
+  const isOwner = user?.uid === ownerUuid;
+  const isMentor = user ? !!props.mentors.get(user.uid) : false;
 
   const columns = [
     columnHelper.accessor("date", {
@@ -89,7 +93,7 @@ export const Columns = (props: ColumnsProps) => {
        * Cell with date value
        */
       cell: ({row}) => (
-        <TableCell>
+        <VerticalContainer>
           {DateUtils.getShortISODateValue(row.original.date)}
           <Tooltip
             content="is day off ?"
@@ -100,7 +104,7 @@ export const Columns = (props: ColumnsProps) => {
               onChange={(value) => DayReportDAL.updateIsDayOff(row.original, value)}
             />
           </Tooltip>
-        </TableCell>
+        </VerticalContainer>
       ),
     }),
     columnHelper.accessor("jobsDone", {
@@ -162,13 +166,13 @@ export const Columns = (props: ColumnsProps) => {
         };
 
         return (
-          <TableCell
-            buttonValue={user?.uid === ownerUuid ? "add job" : ""}
-            onButtonClick={() => createJobDone()}
-          >
+          <VerticalContainer className={styles.cell}>
             {row.original.jobsDone
               .map((jobDone) => (
-                <CellItem key={jobDone.uuid}>
+                <HorizontalContainer
+                  key={jobDone.uuid}
+                  className={styles.numeric}
+                >
                   <EditableText
                     text={jobDone.description}
                     onChangeFinish={(text) => updateJobDone(jobDone, text)}
@@ -179,7 +183,7 @@ export const Columns = (props: ColumnsProps) => {
                     onChangeFinish={(text) => updateJobDoneTime(jobDone, text)}
                     className={styles.editableTime}
                   />
-                </CellItem>
+                </HorizontalContainer>
               ),
               )
             }
@@ -189,7 +193,13 @@ export const Columns = (props: ColumnsProps) => {
                 .reduce((summaryTime, jobDone) => jobDone.time + summaryTime, DEFAULT_SUMMARY_TIME)
               }
             </div>
-          </TableCell>
+            {isOwner &&
+              <Button
+                value="add job"
+                onClick={() => createJobDone()}
+              />
+            }
+          </VerticalContainer>
         );
       },
     }),
@@ -252,13 +262,13 @@ export const Columns = (props: ColumnsProps) => {
         };
 
         return (
-          <TableCell
-            buttonValue={user?.uid === ownerUuid ? "add plan" : ""}
-            onButtonClick={() => createPlanForNextPeriod()}
-          >
+          <VerticalContainer className={styles.cell}>
             {row.original.plansForNextPeriod
               .map((planForNextPeriod) => (
-                <CellItem key={planForNextPeriod.uuid}>
+                <HorizontalContainer
+                  key={planForNextPeriod.uuid}
+                  className={styles.numeric}
+                >
                   <EditableText
                     text={planForNextPeriod.job}
                     onChangeFinish={(text) => updatePlanForNextPeriod(planForNextPeriod, text)}
@@ -269,11 +279,17 @@ export const Columns = (props: ColumnsProps) => {
                     onChangeFinish={(value) => updatePlanForNextPeriodTime(planForNextPeriod, value)}
                     className={styles.editableTime}
                   />
-                </CellItem>
+                </HorizontalContainer>
               ),
               )
             }
-          </TableCell>
+            {isOwner &&
+              <Button
+                value="add plan"
+                onClick={() => createPlanForNextPeriod()}
+              />
+            }
+          </VerticalContainer>
         );
       },
     }),
@@ -316,21 +332,27 @@ export const Columns = (props: ColumnsProps) => {
         };
 
         return (
-          <TableCell
-            buttonValue={user?.uid === ownerUuid ? "add problem" : ""}
-            onButtonClick={() => createCurrentProblem()}
-          >
+          <VerticalContainer className={styles.cell}>
             {row.original.problemsForCurrentPeriod
               .map((currentProblem) => (
-                <CellItem key={currentProblem.uuid}>
+                <HorizontalContainer
+                  key={currentProblem.uuid}
+                  className={styles.numeric}
+                >
                   <EditableText
                     text={currentProblem.description}
                     onChangeFinish={(text) => updateCurrentProblem(currentProblem, text)}
                   />
-                </CellItem>
+                </HorizontalContainer>
               ))
             }
-          </TableCell>
+            {isOwner &&
+              <Button
+                value="add problem"
+                onClick={() => createCurrentProblem()}
+              />
+            }
+          </VerticalContainer>
         );
       },
     }),
@@ -341,7 +363,6 @@ export const Columns = (props: ColumnsProps) => {
        * Cell with Comments items
        */
       cell: ({row}) => {
-        // Const {user} = useUserContext();
 
         /**
          * Create Comment
@@ -376,46 +397,37 @@ export const Columns = (props: ColumnsProps) => {
         /**
          * Get user name
          */
-        const getMentorName = (users: Map<string, UserPreview>, uuid: string) => {
+        const getCommentatorName = (users: Map<string, UserPreview>, uuid: string) => {
           const mentor = users.get(uuid);
-
-          /**
-           * TODO: need to delete this check after we will add possibility to add comments only for mentors
-           */
-          if (!user?.displayName) {
-            return "User is not registered";
-          }
-          const userName = mentor ? mentor.name : user.displayName;
+          const userName = mentor ? mentor.name : ownerName;
 
           return userName;
         };
 
         return (
           user &&
-          <TableCell
-            buttonValue={user?.uid === ownerUuid || Array.from(props.mentors.keys()).includes(user?.uid)
-              ? "add comment"
-              : ""
-            }
-            onButtonClick={() => createComment(user.uid)}
-          >
+          <VerticalContainer className={styles.cell}>
             {row.original.comments
               .map((comment) => (
-                <CellItem key={comment.uuid}>
-                  <div>
-                    <Link
-                      value={getMentorName(props.mentors, comment.commentatorUuid)}
-                      path={pages.user.getPath({uuid: comment.commentatorUuid})}
-                    />
-                    <EditableText
-                      text={comment.description}
-                      onChangeFinish={(text) => updateComment(comment, text)}
-                    />
-                  </div>
-                </CellItem>
+                <>
+                  <Link
+                    value={getCommentatorName(props.mentors, comment.commentatorUuid)}
+                    path={pages.user.getPath({uuid: comment.commentatorUuid})}
+                  />
+                  <EditableText
+                    text={comment.description}
+                    onChangeFinish={(text) => updateComment(comment, text)}
+                  />
+                </>
               ),
               )}
-          </TableCell>
+            {(isOwner || isMentor) &&
+            <Button
+              value="add comment"
+              onClick={() => createComment(user.uid)}
+            />
+            }
+          </VerticalContainer>
         );
       },
     }),

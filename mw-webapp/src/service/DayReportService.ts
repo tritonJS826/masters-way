@@ -1,4 +1,5 @@
-import {collection, doc, getDoc, getDocs, orderBy, query, setDoc, updateDoc, where} from "firebase/firestore";
+import {collection, CollectionReference, doc, DocumentData, getDoc, getDocs, orderBy, query, setDoc, updateDoc, where}
+  from "firebase/firestore";
 import {db} from "src/firebase";
 import {DAY_REPORT_DATE_FIELD, DAY_REPORT_UUID_FIELD, DayReportDTO, DayReportDTOSchema, DayReportsDTOSchema}
   from "src/model/DTOModel/DayReportDTO";
@@ -13,6 +14,19 @@ const PATH_TO_DAY_REPORTS_COLLECTION = "dayReports";
 export type DayReportDTOWithoutUuid = Omit<DayReportDTO, "uuid">;
 
 /**
+ * Get sorted and filtered DayReportsDTO
+ */
+const getSortedDayReportsDTO =
+  async (dayReportsRef: CollectionReference<DocumentData, DocumentData>, dayReportUuids: string[]) => {
+    const dayReportsQuery =
+      query(dayReportsRef, where(DAY_REPORT_UUID_FIELD, "in", dayReportUuids), orderBy(DAY_REPORT_DATE_FIELD, "desc"));
+    const dayReportsRaw = await getDocs(dayReportsQuery);
+    const dayReportsDTO = querySnapshotToDTOConverter<DayReportDTO>(dayReportsRaw);
+
+    return dayReportsDTO;
+  };
+
+/**
  * Provides methods to interact with the DayReports collection
  */
 export class DayReportService {
@@ -22,15 +36,11 @@ export class DayReportService {
    */
   public static async getDayReportsDTO(dayReportUuids: string[]): Promise<DayReportDTO[]> {
     const dayReportsRef = collection(db, PATH_TO_DAY_REPORTS_COLLECTION);
-    let dayReportsDTO: DayReportDTO[];
-    if (dayReportUuids.length === 0) {
-      dayReportsDTO = [];
-    } else {
-      const dayReportsQuery =
-        query(dayReportsRef, where(DAY_REPORT_UUID_FIELD, "in", dayReportUuids), orderBy(DAY_REPORT_DATE_FIELD, "desc"));
-      const dayReportsRaw = await getDocs(dayReportsQuery);
-      dayReportsDTO = querySnapshotToDTOConverter<DayReportDTO>(dayReportsRaw);
-    }
+    const isDayReportUuidsExists = dayReportUuids.length !== 0;
+
+    const dayReportsDTO = isDayReportUuidsExists
+      ? getSortedDayReportsDTO(dayReportsRef, dayReportUuids)
+      : [];
 
     const validatedDayReportsDTO = DayReportsDTOSchema.parse(dayReportsDTO);
 
