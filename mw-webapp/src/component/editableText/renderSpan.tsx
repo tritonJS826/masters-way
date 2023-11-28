@@ -1,3 +1,4 @@
+import {jsonWithLineBreakToReact} from "src/utils/textUtils/jsonToLineBreak";
 import styles from "src/component/editableText/renderSpan.module.scss";
 
 /**
@@ -5,7 +6,7 @@ import styles from "src/component/editableText/renderSpan.module.scss";
  */
 const renderSpanWithValue = (value: string | number, isDone?: boolean) => (
   <span className={isDone ? styles.completed : styles.notCompleted}>
-    {value}
+    {jsonWithLineBreakToReact(value.toString())}
   </span>
 );
 

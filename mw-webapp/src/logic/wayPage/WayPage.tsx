@@ -86,15 +86,25 @@ export const WayPage = (props: WayPageProps) => {
             onChangeFinish={(text) => changeWayName(way, text)}
             isEditable={true}
           />
+          <Title
+            level={HeadingLevel.h3}
+            text="Goal"
+            onChangeFinish={(text) => changeWayName(way, text)}
+          />
           <EditableTextarea
             text={way.goal.description}
             onChangeFinish={(description) => updateGoalWay(way, description)}
+            rows={5}
           />
-          <Title
-            level={HeadingLevel.h3}
-            text="Mentors of this way:"
-          />
-          {renderMentors(way)}
+          {!!renderMentors(way).length && (
+            <>
+              <Title
+                level={HeadingLevel.h3}
+                text="Mentors of this way:"
+              />
+              {renderMentors(way)}
+            </>
+          )}
           <ScrollableBlock>
             <DayReportsTable way={way} />
           </ScrollableBlock>

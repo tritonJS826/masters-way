@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import {Button} from "src/component/button/Button";
+import {HeadingLevel, Title} from "src/component/title/Title";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {ReportsTable} from "src/logic/wayPage/reportsTable/ReportsTable";
 import {Columns} from "src/logic/wayPage/reportsTable/WayColumns";
@@ -70,6 +71,10 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
       />
       }
 
+      <Title
+        level={HeadingLevel.h3}
+        text="Statistics"
+      />
       <WayStatistic dayReports={dayReports} />
 
       <ReportsTable

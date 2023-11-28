@@ -32,6 +32,11 @@ interface TextareaProps {
    * Custom class for the Textarea.
    */
   className?: string;
+
+  /**
+   * Is auto focused by default
+   */
+  isAutofocus?: boolean;
 }
 
 /**
@@ -57,6 +62,7 @@ export const Textarea = (props: TextareaProps) => {
       value={value}
       onChange={handleTextChange}
       rows={props.rows}
+      autoFocus={props.isAutofocus}
     />
   );
 };
