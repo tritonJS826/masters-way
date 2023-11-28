@@ -4,7 +4,6 @@ import {commentDTOToCommentConverter} from "src/dataAccessLogic/DTOToBusinessCon
 import {Comment} from "src/model/businessModel/Comment";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {CommentDTOWithoutUuid, CommentService} from "src/service/CommentService";
-import {UnicodeSymbols} from "src/utils/UnicodeSymbols";
 
 /**
  * Provides methods to interact with the Comment business model
@@ -28,7 +27,7 @@ export class CommentDAL {
     dayReport: DayReport,
     commentatorUuid: string): Promise<Comment> {
     const commentWithoutUuid: CommentDTOWithoutUuid = {
-      description: UnicodeSymbols.ZERO_WIDTH_SPACE,
+      description: "",
       commentatorUuid,
       isDone: false,
     };
