@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Link} from "src/component/link/Link";
+import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
 import {DayReportsTable} from "src/logic/wayPage/reportsTable/DayReportsTable";
@@ -79,7 +80,9 @@ export const WayPage = (props: WayPageProps) => {
             text="Mentors of this way:"
           />
           {renderMentors(way)}
-          <DayReportsTable way={way} />
+          <ScrollableBlock>
+            <DayReportsTable way={way} />
+          </ScrollableBlock>
         </div>
       }
     </>
