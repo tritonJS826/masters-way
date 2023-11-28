@@ -69,7 +69,7 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
     <Textarea
       defaultValue={text}
       onChange={(value) => setText(value)}
-      placeholder={props.placeholder || ""}
+      placeholder={props.placeholder ?? ""}
       rows={props.rows}
     />
   );
