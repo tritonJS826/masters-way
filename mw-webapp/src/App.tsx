@@ -8,7 +8,7 @@ import {Router} from "src/router/Router";
 export const App = () => {
   const {ErrorNotification, triggerErrorNotification} = useErrorNotification();
 
-  triggerErrorNotification("test error", Date.now());
+  triggerErrorNotification("test error");
 
   return (
     <>
