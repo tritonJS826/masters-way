@@ -1,9 +1,7 @@
 import {useState} from "react";
 import clsx from "clsx";
-// TODO: after task #208 use separate component
 import {renderSpan} from "src/component/editableText/renderSpan";
 import {Textarea} from "src/component/textarea/Textarea";
-import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/component/editableTextarea/editableTextarea.module.scss";
 
 /**
@@ -54,23 +52,15 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
   };
 
   /**
-   * Update cell value after OnKeyDown event
-   */
-  const handleEnter = (event: React.KeyboardEvent<HTMLElement>) => {
-    if (event.key === KeySymbols.ENTER) {
-      handleChangeFinish();
-    }
-  };
-
-  /**
    * Render Textarea
    */
   const renderTextarea = () => (
     <Textarea
       defaultValue={text}
-      onChange={(value) => setText(value)}
+      onChange={setText}
       placeholder={props.placeholder ?? ""}
       rows={props.rows}
+      isAutofocus
     />
   );
 
@@ -78,7 +68,6 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
     <div
       onDoubleClick={() => setIsEditing(true)}
       onBlur={handleChangeFinish}
-      onKeyDown={handleEnter}
       className={clsx(styles.editableTextarea)}
     >
       {isEditing ? renderTextarea() : renderSpan(text)}

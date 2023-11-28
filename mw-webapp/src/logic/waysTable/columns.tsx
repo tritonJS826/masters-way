@@ -1,5 +1,6 @@
 import {createColumnHelper} from "@tanstack/react-table";
 import {Link} from "src/component/link/Link";
+import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
 import style from "src/logic/waysTable/columns.module.scss";
@@ -58,15 +59,13 @@ export const columns = [
      */
     cell: ({row}) => {
       return (
-        <>
+        <VerticalContainer>
           <Link
             path={pages.user.getPath({uuid: row.original.owner.uuid})}
             value={row.original.owner.name}
           />
-          <>
-            {row.original.owner.email}
-          </>
-        </>
+          {row.original.owner.email}
+        </VerticalContainer>
       );
     },
   }),
