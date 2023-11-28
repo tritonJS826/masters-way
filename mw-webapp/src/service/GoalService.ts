@@ -1,4 +1,4 @@
-import {collection, doc, getDoc, getDocs, setDoc} from "firebase/firestore";
+import {collection, doc, getDoc, getDocs, setDoc, updateDoc} from "firebase/firestore";
 import {db} from "src/firebase";
 import {GoalDTO, GoalDTOSchema, GoalsDTOSchema} from "src/model/DTOModel/GoalDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
@@ -56,6 +56,15 @@ export class GoalService {
     await setDoc(docRef, validatedGoalDTO);
 
     return validatedGoalDTO;
+  }
+
+  /**
+   * Update GoalDTO
+   */
+  public static async updateGoalDTO(goalDTO: GoalDTO, uuid: string): Promise<void> {
+    const validatedGoalDTO = GoalDTOSchema.parse(goalDTO);
+
+    await updateDoc(doc(db, PATH_TO_GOALS_COLLECTION, uuid), validatedGoalDTO);
   }
 
 }

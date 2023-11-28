@@ -12,9 +12,9 @@ const renderSpanWithValue = (value: string | number, isDone?: boolean) => (
 /**
  * Render empty span
  */
-const renderEmptySpan = () => (
+const renderEmptySpan = (placeholderSpanText?: string) => (
   <span className={styles.emptySpan}>
-    {""}
+    {placeholderSpanText ?? "Empty line..."}
   </span>
 );
 
@@ -22,8 +22,8 @@ const renderEmptySpan = () => (
  * Render cell's span
  * TODO: move to separate component, task #208
  */
-export const renderSpan = (value: string | number, isDone?: boolean) => (
+export const renderSpan = (value: string | number, isDone?: boolean, placeholderSpanText?: string) => (
   (value === "")
-    ? renderEmptySpan()
+    ? renderEmptySpan(placeholderSpanText)
     : renderSpanWithValue(value, isDone)
 );

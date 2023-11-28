@@ -1,13 +1,24 @@
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {Link} from "src/component/link/Link";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
+import {GoalPreviewDAL} from "src/dataAccessLogic/GoalPreviewDAL";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
 import {DayReportsTable} from "src/logic/wayPage/reportsTable/DayReportsTable";
+import {GoalPreview} from "src/model/businessModelPreview/GoalPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
 import styles from "src/logic/wayPage/WayPage.module.scss";
+
+/**
+ * Change description of Way
+ */
+const updateGoalWay = (wayPreview: WayPreview, description: string) => {
+  const newGoal = new GoalPreview({...wayPreview.goal, description});
+  GoalPreviewDAL.updateGoalPreview(newGoal);
+};
 
 /**
  * PageProps
@@ -74,6 +85,10 @@ export const WayPage = (props: WayPageProps) => {
             text={`${way.name}`}
             onChangeFinish={(text) => changeWayName(way, text)}
             isEditable={true}
+          />
+          <EditableTextarea
+            text={way.goal.description}
+            onChangeFinish={(description) => updateGoalWay(way, description)}
           />
           <Title
             level={HeadingLevel.h3}

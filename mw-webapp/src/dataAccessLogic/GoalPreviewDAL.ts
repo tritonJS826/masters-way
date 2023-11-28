@@ -46,4 +46,11 @@ export class GoalPreviewDAL {
     return newGoalPreview;
   }
 
+  /**
+   * Update GoalPreview
+   */
+  public static async updateGoalPreview(goalDTO: GoalPreview): Promise<void> {
+    await GoalService.updateGoalDTO(goalDTO, goalDTO.uuid);
+  }
+
 }
