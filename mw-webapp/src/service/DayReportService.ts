@@ -39,7 +39,7 @@ export class DayReportService {
     const isDayReportUuidsExists = !!dayReportUuids.length;
 
     const dayReportsDTO = isDayReportUuidsExists
-      ? getSortedDayReportsDTO(dayReportsRef, dayReportUuids)
+      ? await getSortedDayReportsDTO(dayReportsRef, dayReportUuids)
       : [];
 
     const validatedDayReportsDTO = DayReportsDTOSchema.parse(dayReportsDTO);
