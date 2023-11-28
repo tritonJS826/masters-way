@@ -118,16 +118,16 @@ export const UserPage = (props: UserPageProps) => {
           text= {`Own Ways (totally ${userPreview.ownWays.length} ways)`}
           level={HeadingLevel.h3}
         />
-        <div className={styles.scrollable}>
+        <ScrollableBlock>
           <OwnWaysTable uuid={props.uuid} />
-        </div>
+        </ScrollableBlock>
         <Title
           text={`Mentoring Ways (totally ${userPreview.mentoringWays.length} ways)`}
           level={HeadingLevel.h3}
         />
-        <div className={styles.scrollable}>
+        <ScrollableBlock>
           <MentoringWaysTable uuid={props.uuid} />
-        </div>
+        </ScrollableBlock>
         <Title
           text={`Favorite Ways (totally ${userPreview.favoriteWays.length} ways)`}
           level={HeadingLevel.h3}

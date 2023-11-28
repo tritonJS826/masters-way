@@ -84,6 +84,7 @@ export const Columns = (props: ColumnsProps) => {
   const ownerName = props.way.owner.name;
   const isOwner = user?.uid === ownerUuid;
   const isMentor = user ? !!props.mentors.get(user.uid) : false;
+  const isUserCanEditComments = isOwner || isMentor;
 
   const columns = [
     columnHelper.accessor("date", {
@@ -196,7 +197,7 @@ export const Columns = (props: ColumnsProps) => {
             {isOwner &&
               <Button
                 value="add job"
-                onClick={() => createJobDone()}
+                onClick={createJobDone}
               />
             }
           </VerticalContainer>
@@ -286,7 +287,7 @@ export const Columns = (props: ColumnsProps) => {
             {isOwner &&
               <Button
                 value="add plan"
-                onClick={() => createPlanForNextPeriod()}
+                onClick={createPlanForNextPeriod}
               />
             }
           </VerticalContainer>
@@ -349,7 +350,7 @@ export const Columns = (props: ColumnsProps) => {
             {isOwner &&
               <Button
                 value="add problem"
-                onClick={() => createCurrentProblem()}
+                onClick={createCurrentProblem}
               />
             }
           </VerticalContainer>
@@ -421,7 +422,7 @@ export const Columns = (props: ColumnsProps) => {
                 </>
               ),
               )}
-            {(isOwner || isMentor) &&
+            {isUserCanEditComments &&
             <Button
               value="add comment"
               onClick={() => createComment(user.uid)}

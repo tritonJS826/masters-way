@@ -36,7 +36,7 @@ export class DayReportService {
    */
   public static async getDayReportsDTO(dayReportUuids: string[]): Promise<DayReportDTO[]> {
     const dayReportsRef = collection(db, PATH_TO_DAY_REPORTS_COLLECTION);
-    const isDayReportUuidsExists = dayReportUuids.length !== 0;
+    const isDayReportUuidsExists = !!dayReportUuids.length;
 
     const dayReportsDTO = isDayReportUuidsExists
       ? getSortedDayReportsDTO(dayReportsRef, dayReportUuids)
