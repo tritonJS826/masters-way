@@ -78,6 +78,9 @@ const updateDayReportState = (
  * Don't get rid of any https://github.com/TanStack/table/issues/4382
  */
 export const Columns = (props: ColumnsProps) => {
+  const {user} = useUserContext();
+  const ownerUuid = props.way.owner.uuid;
+
   const columns = [
     columnHelper.accessor("date", {
       header: "Date",
@@ -160,7 +163,7 @@ export const Columns = (props: ColumnsProps) => {
 
         return (
           <TableCell
-            buttonValue="add job"
+            buttonValue={user?.uid === ownerUuid ? "add job" : ""}
             onButtonClick={() => createJobDone()}
           >
             {row.original.jobsDone
@@ -250,7 +253,7 @@ export const Columns = (props: ColumnsProps) => {
 
         return (
           <TableCell
-            buttonValue="add plan"
+            buttonValue={user?.uid === ownerUuid ? "add plan" : ""}
             onButtonClick={() => createPlanForNextPeriod()}
           >
             {row.original.plansForNextPeriod
@@ -314,7 +317,7 @@ export const Columns = (props: ColumnsProps) => {
 
         return (
           <TableCell
-            buttonValue="add problem"
+            buttonValue={user?.uid === ownerUuid ? "add problem" : ""}
             onButtonClick={() => createCurrentProblem()}
           >
             {row.original.problemsForCurrentPeriod
@@ -338,16 +341,12 @@ export const Columns = (props: ColumnsProps) => {
        * Cell with Comments items
        */
       cell: ({row}) => {
-        const {user} = useUserContext();
+        // Const {user} = useUserContext();
 
         /**
          * Create Comment
          */
-        const createComment = async (commentatorUuid?: string) => {
-          const mentorsUuids = [...props.mentors.keys()];
-          if (!commentatorUuid || !(mentorsUuids.includes(commentatorUuid))) {
-            return;
-          }
+        const createComment = async (commentatorUuid: string) => {
           const comment = await CommentDAL.createComment(row.original, commentatorUuid);
           const comments = [...row.original.comments, comment];
           const updatedDayReport = {...row.original, comments};
@@ -383,30 +382,36 @@ export const Columns = (props: ColumnsProps) => {
           /**
            * TODO: need to delete this check after we will add possibility to add comments only for mentors
            */
-          if (!mentor) {
-            return "User is not a mentor";
+          if (!user?.displayName) {
+            return "User is not registered";
           }
-          const userName = mentor.name;
+          const userName = mentor ? mentor.name : user.displayName;
 
           return userName;
         };
 
         return (
+          user &&
           <TableCell
-            buttonValue="add comment"
-            onButtonClick={() => createComment(user?.uid)}
+            buttonValue={user?.uid === ownerUuid || Array.from(props.mentors.keys()).includes(user?.uid)
+              ? "add comment"
+              : ""
+            }
+            onButtonClick={() => createComment(user.uid)}
           >
             {row.original.comments
               .map((comment) => (
                 <CellItem key={comment.uuid}>
-                  <Link
-                    value={getMentorName(props.mentors, comment.commentatorUuid)}
-                    path={pages.user.getPath({uuid: comment.commentatorUuid})}
-                  />
-                  <EditableText
-                    text={comment.description}
-                    onChangeFinish={(text) => updateComment(comment, text)}
-                  />
+                  <div>
+                    <Link
+                      value={getMentorName(props.mentors, comment.commentatorUuid)}
+                      path={pages.user.getPath({uuid: comment.commentatorUuid})}
+                    />
+                    <EditableText
+                      text={comment.description}
+                      onChangeFinish={(text) => updateComment(comment, text)}
+                    />
+                  </div>
                 </CellItem>
               ),
               )}

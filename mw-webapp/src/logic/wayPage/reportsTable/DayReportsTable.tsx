@@ -57,7 +57,7 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
    */
   const createDayReport = async(wayUuid: string, dayReportsData: DayReport[]) => {
     const newDayReport = await DayReportDAL.createDayReport(wayUuid);
-    const dayReportsList = [...dayReportsData, newDayReport];
+    const dayReportsList = [ newDayReport, ...dayReportsData];
     setDayReports(dayReportsList);
   };
 

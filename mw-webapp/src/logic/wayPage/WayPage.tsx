@@ -79,7 +79,9 @@ export const WayPage = (props: WayPageProps) => {
             text="Mentors of this way:"
           />
           {renderMentors(way)}
-          <DayReportsTable way={way} />
+          <div className={styles.scrollable}>
+            <DayReportsTable way={way} />
+          </div>
         </div>
       }
     </>

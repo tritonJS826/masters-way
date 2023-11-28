@@ -117,17 +117,23 @@ export const UserPage = (props: UserPageProps) => {
           text= {`Own Ways (totally ${userPreview.ownWays.length} ways)`}
           level={HeadingLevel.h3}
         />
-        <OwnWaysTable uuid={props.uuid} />
+        <div className={styles.scrollable}>
+          <OwnWaysTable uuid={props.uuid} />
+        </div>
         <Title
           text={`Mentoring Ways (totally ${userPreview.mentoringWays.length} ways)`}
           level={HeadingLevel.h3}
         />
-        <MentoringWaysTable uuid={props.uuid} />
+        <div className={styles.scrollable}>
+          <MentoringWaysTable uuid={props.uuid} />
+        </div>
         <Title
           text={`Favorite Ways (totally ${userPreview.favoriteWays.length} ways)`}
           level={HeadingLevel.h3}
         />
-        <FavoriteWaysTable uuid={props.uuid} />
+        <div className={styles.scrollable}>
+          <FavoriteWaysTable uuid={props.uuid} />
+        </div>
       </>
     </div>
   );

@@ -1,5 +1,6 @@
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {AllUsersTable} from "src/logic/usersTable/AllUsersTable";
+import styles from "src/logic/allUsersPage/AllUsersPage.module.scss";
 
 /**
  * Users page
@@ -11,7 +12,9 @@ export const AllUsersPage = () => {
         level={HeadingLevel.h2}
         text="Users page"
       />
-      <AllUsersTable />
+      <div className={styles.scrollable}>
+        <AllUsersTable />
+      </div>
     </>
   );
 };

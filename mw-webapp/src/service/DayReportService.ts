@@ -22,10 +22,15 @@ export class DayReportService {
    */
   public static async getDayReportsDTO(dayReportUuids: string[]): Promise<DayReportDTO[]> {
     const dayReportsRef = collection(db, PATH_TO_DAY_REPORTS_COLLECTION);
-    const dayReportsQuery =
-      query(dayReportsRef, where(DAY_REPORT_UUID_FIELD, "in", dayReportUuids), orderBy(DAY_REPORT_DATE_FIELD, "desc"));
-    const dayReportsRaw = await getDocs(dayReportsQuery);
-    const dayReportsDTO = querySnapshotToDTOConverter<DayReportDTO>(dayReportsRaw);
+    let dayReportsDTO: DayReportDTO[];
+    if (dayReportUuids.length === 0) {
+      dayReportsDTO = [];
+    } else {
+      const dayReportsQuery =
+        query(dayReportsRef, where(DAY_REPORT_UUID_FIELD, "in", dayReportUuids), orderBy(DAY_REPORT_DATE_FIELD, "desc"));
+      const dayReportsRaw = await getDocs(dayReportsQuery);
+      dayReportsDTO = querySnapshotToDTOConverter<DayReportDTO>(dayReportsRaw);
+    }
 
     const validatedDayReportsDTO = DayReportsDTOSchema.parse(dayReportsDTO);
 
