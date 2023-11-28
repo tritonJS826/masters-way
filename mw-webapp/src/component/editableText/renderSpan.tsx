@@ -12,7 +12,7 @@ const renderSpanWithValue = (value: string | number, isDone?: boolean) => (
 /**
  * Render empty span
  */
-const renderEmptySpan = (placeholderSpanText: string | undefined) => (
+const renderEmptySpan = (placeholderSpanText?: string) => (
   <span className={styles.emptySpan}>
     {placeholderSpanText ?? "Empty line..."}
   </span>

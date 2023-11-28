@@ -33,9 +33,9 @@ export const columns = [
      * Cell with isCompleted value
      */
     cell: (cellValue) => (
-      <div>
+      <>
         {`${cellValue.getValue()}`}
-      </div>
+      </>
     ),
   }),
   columnHelper.accessor("goal", {
@@ -63,9 +63,9 @@ export const columns = [
             path={pages.user.getPath({uuid: row.original.owner.uuid})}
             value={row.original.owner.name}
           />
-          <div>
+          <>
             {row.original.owner.email}
-          </div>
+          </>
         </>
       );
     },
@@ -79,9 +79,9 @@ export const columns = [
     cell: ({row}) => {
       return (
         row.original.currentMentors.map((currentMentor) => (
-          <div key={currentMentor.uuid}>
+          <>
             {currentMentor.name}
-          </div>
+          </>
         ))
       );
     },
