@@ -1,3 +1,4 @@
+import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {AllWaysTable} from "src/logic/waysTable/AllWaysTable";
 
@@ -11,7 +12,9 @@ export const AllWaysPage = () => {
         level={HeadingLevel.h2}
         text="Ways page"
       />
-      <AllWaysTable />
+      <ScrollableBlock>
+        <AllWaysTable />
+      </ScrollableBlock>
     </>
   );
 };

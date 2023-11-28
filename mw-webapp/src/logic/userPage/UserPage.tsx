@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {FavoriteWaysTable} from "src/logic/waysTable/FavoriteWaysTable";
@@ -117,17 +118,23 @@ export const UserPage = (props: UserPageProps) => {
           text= {`Own Ways (totally ${userPreview.ownWays.length} ways)`}
           level={HeadingLevel.h3}
         />
-        <OwnWaysTable uuid={props.uuid} />
+        <ScrollableBlock>
+          <OwnWaysTable uuid={props.uuid} />
+        </ScrollableBlock>
         <Title
           text={`Mentoring Ways (totally ${userPreview.mentoringWays.length} ways)`}
           level={HeadingLevel.h3}
         />
-        <MentoringWaysTable uuid={props.uuid} />
+        <ScrollableBlock>
+          <MentoringWaysTable uuid={props.uuid} />
+        </ScrollableBlock>
         <Title
           text={`Favorite Ways (totally ${userPreview.favoriteWays.length} ways)`}
           level={HeadingLevel.h3}
         />
-        <FavoriteWaysTable uuid={props.uuid} />
+        <ScrollableBlock>
+          <FavoriteWaysTable uuid={props.uuid} />
+        </ScrollableBlock>
       </>
     </div>
   );
