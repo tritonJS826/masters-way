@@ -1,5 +1,5 @@
 import {Button} from "src/component/button/Button";
-import {useUserContext} from "src/component/header/HeaderContext";
+import {useUserContext} from "src/component/header/UserContext";
 import {Link} from "src/component/link/Link";
 import {Sidebar} from "src/component/sidebar/Sidebar";
 import {HeadingLevel, Title} from "src/component/title/Title";

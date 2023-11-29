@@ -2,7 +2,7 @@ import {createColumnHelper} from "@tanstack/react-table";
 import {Button} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Сheckbox";
 import {EditableText} from "src/component/editableText/EditableText";
-import {useUserContext} from "src/component/header/HeaderContext";
+import {useUserContext} from "src/component/header/UserContext";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
