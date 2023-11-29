@@ -93,20 +93,32 @@ export const Columns = (props: ColumnsProps) => {
       /**
        * Cell with date value
        */
-      cell: ({row}) => (
-        <VerticalContainer>
-          {DateUtils.getShortISODateValue(row.original.date)}
-          <Tooltip
-            content="is day off ?"
-            position={PositionTooltip.TOP}
-          >
-            <Checkbox
-              isDefaultChecked={row.original.isDayOff}
-              onChange={(value) => DayReportDAL.updateIsDayOff(row.original, value)}
-            />
-          </Tooltip>
-        </VerticalContainer>
-      ),
+      cell: ({row}) => {
+
+        /**
+         * Update isDayOff
+         */
+        const udateIsDayOff = async (value: boolean) => {
+          await DayReportDAL.updateIsDayOff(row.original, value);
+          const updatedDayReport = {...row.original, isDayOff: value};
+          updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
+        };
+
+        return (
+          <VerticalContainer>
+            {DateUtils.getShortISODateValue(row.original.date)}
+            <Tooltip
+              content="is day off ?"
+              position={PositionTooltip.TOP}
+            >
+              <Checkbox
+                isDefaultChecked={row.original.isDayOff}
+                onChange={udateIsDayOff}
+              />
+            </Tooltip>
+          </VerticalContainer>
+        );
+      },
     }),
     columnHelper.accessor("jobsDone", {
       header: "Jobs done (minutes)",
