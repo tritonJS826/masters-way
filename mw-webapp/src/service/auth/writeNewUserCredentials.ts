@@ -1,21 +1,19 @@
-import {getRedirectResult} from "firebase/auth";
-import {auth} from "src/firebase";
+import {User} from "firebase/auth";
 import {UserService} from "src/service/UserService";
 
 /**
  * Create new user on firebase Users collection after google login
  */
-export const writeNewUserCredentials = async () => {
-  const userCredentials = await getRedirectResult(auth);
-  if (!userCredentials) {
+export const writeNewUserCredentials = async (currentUser: User) => {
+  if (!currentUser) {
     return;
   }
-  if (userCredentials.user.email && userCredentials.user.displayName) {
+  if (currentUser.email && currentUser.displayName) {
     UserService.createUserDTO(
       {
-        uuid: userCredentials.user.uid,
-        email: userCredentials.user.email,
-        name: userCredentials.user.displayName,
+        uuid: currentUser.uid,
+        email: currentUser.email,
+        name: currentUser.displayName,
         description: "",
         ownWayUuids: [],
         favoriteWayUuids: [],

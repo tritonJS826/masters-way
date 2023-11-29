@@ -18,7 +18,7 @@ export const handleUserAuthState = (setUser: React.Dispatch<React.SetStateAction
     const userDocSnapshot = await getDoc(userDocRef);
 
     if (!userDocSnapshot.exists()) {
-      writeNewUserCredentials();
+      writeNewUserCredentials(currentUser);
     }
     setUser(currentUser);
   });
