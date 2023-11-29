@@ -113,7 +113,7 @@ export const Columns = (props: ColumnsProps) => {
             >
               <Checkbox
                 isDefaultChecked={row.original.isDayOff}
-                onChange={(value) => udateIsDayOff(value)}
+                onChange={udateIsDayOff}
               />
             </Tooltip>
           </VerticalContainer>
