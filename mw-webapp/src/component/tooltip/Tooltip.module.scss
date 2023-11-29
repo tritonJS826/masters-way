@@ -7,15 +7,12 @@
 .tooltip {
   position: absolute;
   display: none;
-  overflow: hidden;
   padding: 20px;
   background-color: $blackBackground;
   color: $whiteText;
 }
 
 .target {
-  cursor: pointer;
-
   &:hover + .tooltip {
     display: block;
   }

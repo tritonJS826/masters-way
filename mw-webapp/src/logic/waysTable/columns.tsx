@@ -21,10 +21,12 @@ export const columns = [
      * Cell with clickable way name that leads to way page
      */
     cell: ({row}) => (
-      <Link
-        path={pages.way.getPath({uuid: row.original.uuid})}
-        value={row.original.name}
-      />
+      <span className={style.shortCell}>
+        <Link
+          path={pages.way.getPath({uuid: row.original.uuid})}
+          value={row.original.name}
+        />
+      </span>
     ),
   }),
   columnHelper.accessor("isCompleted", {
@@ -45,11 +47,13 @@ export const columns = [
     /**
      * Cell with Goal
      */
-    cell: ({row}) => (
-      <span className={style.goalDescription}>
-        {row.original.goal.description}
-      </span>
-    ),
+    cell: ({row}) => {
+      return (
+        <span className={style.shortCell}>
+          {row.original.goal.description}
+        </span>
+      );
+    },
   }),
   columnHelper.accessor("owner", {
     header: WAYS_OWNER,

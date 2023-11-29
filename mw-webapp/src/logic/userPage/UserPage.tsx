@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
@@ -100,17 +101,14 @@ export const UserPage = (props: UserPageProps) => {
           isEditable={true}
         />
       </div>
-      <div className={styles.row}>
+      <div>
         <Title
           text="Description:"
           level={HeadingLevel.h3}
         />
-        {" "}
-        <Title
-          level={HeadingLevel.h3}
+        <EditableTextarea
           text={userPreview.description}
           onChangeFinish={(text) => changeUserDescription(userPreview, text, setUserPreview)}
-          isEditable={true}
         />
       </div>
       <>
