@@ -84,7 +84,7 @@ export const Columns = (props: ColumnsProps) => {
   const ownerName = props.way.owner.name;
   const isOwner = user?.uid === ownerUuid;
   const isMentor = user ? !!props.mentors.get(user.uid) : false;
-  const isUserCanEditComments = isOwner || isMentor;
+  const isUserCanEditComments = (isOwner || isMentor) && user;
 
   const columns = [
     columnHelper.accessor("date", {
@@ -418,7 +418,6 @@ export const Columns = (props: ColumnsProps) => {
         };
 
         return (
-          user &&
           <VerticalContainer className={styles.cell}>
             {row.original.comments
               .map((comment) => (

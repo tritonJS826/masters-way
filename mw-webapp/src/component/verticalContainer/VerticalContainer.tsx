@@ -19,7 +19,7 @@ interface VerticalContainerProps {
 }
 
 /**
- * HorizontalContainer
+ * VerticalContainer
  */
 export const VerticalContainer = (props: PropsWithChildren<VerticalContainerProps>) => {
   return (
