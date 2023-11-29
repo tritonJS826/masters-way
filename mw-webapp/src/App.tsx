@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {User} from "firebase/auth";
 import {Header} from "src/component/header/Header";
-import {UserContext} from "src/component/header/HeaderContext";
+import {UserContext} from "src/component/header/UserContext";
 import {useErrorNotification} from "src/hooks/useErrorNotification";
 import {Router} from "src/router/Router";
 import {handleUserAuthState} from "src/service/auth/handleUserAuthState";
