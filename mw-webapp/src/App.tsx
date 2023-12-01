@@ -3,7 +3,7 @@ import {User} from "firebase/auth";
 import {Header} from "src/component/header/Header";
 import {UserContext} from "src/component/header/HeaderContext";
 import {displayNotification} from "src/component/notification/Notification";
-import {useErrorHandler} from "src/hooks/useErrorNotification";
+import {useErrorHandler} from "src/hooks/useErrorHandler";
 import {Router} from "src/router/Router";
 import {handleUserAuthState} from "src/service/auth/handleUserAuthState";
 
