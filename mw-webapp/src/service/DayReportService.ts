@@ -42,7 +42,7 @@ export class DayReportService {
       ? await getSortedDayReportsDTO(dayReportsRef, dayReportUuids)
       : [];
 
-    const validatedDayReportsDTO = DayReportsDTOSchema.parse({...dayReportsDTO, s: 1});
+    const validatedDayReportsDTO = DayReportsDTOSchema.parse(dayReportsDTO);
 
     return validatedDayReportsDTO;
   }
