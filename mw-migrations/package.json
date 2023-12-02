@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "migrate:mentor-req": "ts-node ./src/addMentorRequests.ts"
+    "migrate:mentor-req": "ts-node ./src/wayMigrations.ts"
   },
   "type": "module",
   "dependencies": {
