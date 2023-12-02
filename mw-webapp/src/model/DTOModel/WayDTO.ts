@@ -38,6 +38,11 @@ export const WayDTOSchema = z.object({
   currentMentorUuids: z.array(z.string()),
 
   /**
+   * UUIDs of Users who sent request to become Way's mentor @User.uuid
+   */
+  mentorRequestsUuids: z.array(z.string()),
+
+  /**
    * Return true if way is completed and false if not completed
    */
   isCompleted: z.boolean(),

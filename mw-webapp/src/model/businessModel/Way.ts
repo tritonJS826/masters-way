@@ -44,6 +44,11 @@ export class Way {
   public currentMentors: User[];
 
   /**
+   * Users who sent request to become Way's mentor
+   */
+  public mentorRequests: User[];
+
+  /**
    * Return true if way is completed and false if not completed
    */
   public isCompleted: boolean;
@@ -57,6 +62,8 @@ export class Way {
     this.goal = wayData.goal;
     this.currentMentors = wayData.currentMentors.map((currentMentorItem) =>
       new User(currentMentorItem));
+    this.mentorRequests = wayData.mentorRequests.map((mentorRequest) =>
+      new User(mentorRequest));
     this.isCompleted = wayData.isCompleted;
   }
 

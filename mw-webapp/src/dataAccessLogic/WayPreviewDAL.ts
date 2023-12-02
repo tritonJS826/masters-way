@@ -34,11 +34,14 @@ export class WayPreviewDAL {
 
     const currentMentors = await Promise.all(wayDTO.currentMentorUuids.map(UserPreviewDAL.getUserPreview));
 
+    const mentorRequests = await Promise.all(wayDTO.mentorRequestsUuids.map(UserPreviewDAL.getUserPreview));
+
     const goal = await GoalPreviewDAL.getGoalPreview(wayDTO.goalUuid);
 
     const wayPreviewProps = {
       owner,
       currentMentors,
+      mentorRequests,
       goal,
     };
 
@@ -61,6 +64,7 @@ export class WayPreviewDAL {
       monthReportUuids: [],
       goalUuid: `${newGoal.uuid}`,
       currentMentorUuids: [],
+      mentorRequestsUuids: [],
       isCompleted: false,
     };
     const wayDTO = await WayService.createWayDTO(DEFAULT_WAY);
@@ -115,11 +119,13 @@ export class WayPreviewDAL {
     const ownerUuid = wayPreview.owner.uuid;
     const goalUuid = wayPreview.goal.uuid;
     const currentMentorsUuids = wayPreview.currentMentors.map((item) => item.uuid);
+    const mentorRequestsUuids = wayPreview.mentorRequests.map((item) => item.uuid);
 
     const wayDTOProps = {
       ownerUuid,
       goalUuid,
       currentMentorsUuids,
+      mentorRequestsUuids,
     };
 
     const wayDTO = wayPreviewToWayDTOConverter(wayPreview, wayDTOProps);
