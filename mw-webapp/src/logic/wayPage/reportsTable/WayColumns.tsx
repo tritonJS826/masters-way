@@ -2,7 +2,7 @@ import {createColumnHelper} from "@tanstack/react-table";
 import {Button} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Сheckbox";
 import {EditableText} from "src/component/editableText/EditableText";
-import {useUserContext} from "src/component/header/HeaderContext";
+import {useUserContext} from "src/component/header/UserContext";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
@@ -84,7 +84,7 @@ export const Columns = (props: ColumnsProps) => {
   const ownerName = props.way.owner.name;
   const isOwner = user?.uid === ownerUuid;
   const isMentor = user ? !!props.mentors.get(user.uid) : false;
-  const isUserCanEditComments = isOwner || isMentor;
+  const isUserCanEditComments = (isOwner || isMentor) && user;
 
   const columns = [
     columnHelper.accessor("date", {
@@ -93,20 +93,32 @@ export const Columns = (props: ColumnsProps) => {
       /**
        * Cell with date value
        */
-      cell: ({row}) => (
-        <VerticalContainer>
-          {DateUtils.getShortISODateValue(row.original.date)}
-          <Tooltip
-            content="is day off ?"
-            position={PositionTooltip.TOP}
-          >
-            <Checkbox
-              isDefaultChecked={row.original.isDayOff}
-              onChange={(value) => DayReportDAL.updateIsDayOff(row.original, value)}
-            />
-          </Tooltip>
-        </VerticalContainer>
-      ),
+      cell: ({row}) => {
+
+        /**
+         * Update isDayOff
+         */
+        const udateIsDayOff = async (value: boolean) => {
+          await DayReportDAL.updateIsDayOff(row.original, value);
+          const updatedDayReport = {...row.original, isDayOff: value};
+          updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
+        };
+
+        return (
+          <VerticalContainer>
+            {DateUtils.getShortISODateValue(row.original.date)}
+            <Tooltip
+              content="is day off ?"
+              position={PositionTooltip.TOP}
+            >
+              <Checkbox
+                isDefaultChecked={row.original.isDayOff}
+                onChange={udateIsDayOff}
+              />
+            </Tooltip>
+          </VerticalContainer>
+        );
+      },
     }),
     columnHelper.accessor("jobsDone", {
       header: "Jobs done (minutes)",
@@ -406,7 +418,6 @@ export const Columns = (props: ColumnsProps) => {
         };
 
         return (
-          user &&
           <VerticalContainer className={styles.cell}>
             {row.original.comments
               .map((comment) => (

@@ -87,8 +87,7 @@ export const EditableText = <T extends string | number>(props: EditableTextProps
     >
       {isEditing
         ? renderInput()
-        :
-        renderSpan(text)
+        : renderSpan(text)
       }
     </div>
   );

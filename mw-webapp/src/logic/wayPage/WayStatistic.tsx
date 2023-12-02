@@ -45,7 +45,7 @@ export const WayStatistic = (props: WayStatisticProps) => {
   const totalWayTime = allJobsAmount
     .reduce((totalTime, jobDone) => totalTime + jobDone.time, 0);
 
-  const averageWorkingTimeInWorkedRecords = Math.round(totalWayTime / totalWorkedRecords);
+  const averageWorkingTimeInWorkedRecords = totalWorkedRecords > 0 ? Math.round(totalWayTime / totalWorkedRecords) : 0;
   const averageWorkingTimeInRecords = Math.round(totalWayTime / totalRecordsAmount);
   const averageWorkingTimeInDay = Math.round(totalWayTime / totalDaysOnAWay);
 

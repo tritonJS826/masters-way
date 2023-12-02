@@ -29,14 +29,18 @@ interface TooltipProps {
  * Tooltip component
  */
 export const Tooltip = (props: PropsWithChildren<TooltipProps>) => {
-  const classes = clsx(styles.tooltip, props.className && styles[props.className], styles[props.position ?? PositionTooltip.TOP]);
+  const contentClassNames = clsx(
+    styles.tooltip,
+    props.className && styles[props.className],
+    styles[props.position ?? PositionTooltip.TOP],
+  );
 
   return (
     <div className={styles.wrapper}>
       <span className={styles.target}>
         {props.children}
       </span>
-      <div className={classes}>
+      <div className={contentClassNames}>
         {props.content}
       </div>
     </div>
