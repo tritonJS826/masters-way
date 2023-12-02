@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {User} from "firebase/auth";
 import {Header} from "src/component/header/Header";
 import {UserContext} from "src/component/header/UserContext";
-import {useErrorNotification} from "src/hooks/useErrorNotification";
+import {useErrorHandler} from "src/hooks/useErrorHandler";
 import {Router} from "src/router/Router";
 import {handleUserAuthState} from "src/service/auth/handleUserAuthState";
 
@@ -10,7 +10,7 @@ import {handleUserAuthState} from "src/service/auth/handleUserAuthState";
  * App
  */
 export const App = () => {
-  const {ErrorNotification} = useErrorNotification();
+  useErrorHandler();
 
   const [user, setUser] = useState<User | null>(null);
 
@@ -20,7 +20,6 @@ export const App = () => {
 
   return (
     <>
-      {ErrorNotification}
       <UserContext.Provider value={{user}}>
         <Header />
         <Router />

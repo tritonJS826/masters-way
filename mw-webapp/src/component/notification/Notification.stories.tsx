@@ -1,9 +1,11 @@
 import type {StoryObj} from "@storybook/react";
-import {Notification, NotificationType} from "src/component/notification/Notification";
+import {Button} from "src/component/button/Button";
+import {displayNotification} from "src/component/notification/Notification";
 
 const meta = {
   title: "Notification",
-  component: Notification,
+  component: Button,
+  parameters: {layout: "centered"},
   tags: ["autodocs"],
 };
 
@@ -11,26 +13,20 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const defaultDescription = (
-  <div>
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit...
-  </div>
-);
-
-export const Default: Story = {args: {content: defaultDescription}};
-
-export const SecondNotice: Story = {
+export const InfoNotification: Story = {
   args: {
-    content: defaultDescription,
-    duration: 1000,
-    type: NotificationType.background,
+    value: "Trigger notification",
+    onClick: () => {
+      displayNotification({text: "Info Notification", type: "info"});
+    },
   },
 };
 
-export const InfinityNotice: Story = {
+export const ErrorNotification: Story = {
   args: {
-    content: defaultDescription,
-    duration: 0,
-    type: NotificationType.background,
+    value: "Trigger notification",
+    onClick: () => {
+      displayNotification({text: "Error Notification", type: "error"});
+    },
   },
 };
