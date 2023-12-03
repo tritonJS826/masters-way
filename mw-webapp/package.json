@@ -67,6 +67,7 @@
     "@types/node": "^16.18.40",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
+    "@types/toastify-js": "^1.12.3",
     "clsx": "^2.0.0",
     "firebase": "^10.2.0",
     "react": "^18.2.0",
@@ -74,6 +75,7 @@
     "react-router-dom": "^6.15.0",
     "react-scripts": "5.0.1",
     "sass": "^1.65.1",
+    "toastify-js": "^1.12.0",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4",
     "zod": "^3.22.4"

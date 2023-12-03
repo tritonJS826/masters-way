@@ -14,7 +14,7 @@
 
 - [x] fix button create new day report (new should be visible without page reloading) (12h)
 - [x] show mentors (link to user page) in the mentor comments (12h)
-- [] render goal (description), add ability to edit own way (goal) (12h) (9h)
+- [x] render goal (description), add ability to edit own way (goal) (12h) (9h)
 - [x] render way name, add ability to edit own way (way name) (12h)
 - [] add button "favorite" which put the way into your favorite ways (add field favorite to WayDTO) (24h)
 

@@ -86,6 +86,8 @@ export const Title = (props: TitleProps) => {
     }
   };
 
+  const DEFAULT_PLACEHOLDER = "Empty line...";
+
   return (
     <div
       onDoubleClick={() => setIsEditing(true)}
@@ -107,7 +109,7 @@ export const Title = (props: TitleProps) => {
             as={props.level}
             className={clsx(styles.title, props.className)}
           >
-            {text}
+            {text === "" ? DEFAULT_PLACEHOLDER : text}
           </Heading>
         )
       }
