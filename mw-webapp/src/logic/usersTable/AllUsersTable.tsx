@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+import {HeadingLevel, Title} from "src/component/title/Title";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {columns} from "src/logic/usersTable/columns";
 import {UsersTable} from "src/logic/usersTable/UsersTable";
@@ -23,9 +24,15 @@ export const AllUsersTable = () => {
   }, []);
 
   return (
-    <UsersTable
-      data={allUsers}
-      columns={columns}
-    />
+    <>
+      <Title
+        text={`All users (total amount: ${allUsers.length})`}
+        level={HeadingLevel.h3}
+      />
+      <UsersTable
+        data={allUsers}
+        columns={columns}
+      />
+    </>
   );
 };
