@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import {Button} from "src/component/button/Button";
+import {useUserContext} from "src/component/header/UserContext";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {ReportsTable} from "src/logic/wayPage/reportsTable/ReportsTable";
@@ -30,6 +31,8 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
   const [dayReports, setDayReports] = useState<DayReport[]>([]);
   const [mentors, setMentors] = useState<Map<string, UserPreview>>(new Map());
   const way = props.way;
+  const {user} = useUserContext();
+  const isOwner = user?.uid === way.owner.uuid;
 
   /**
    * Gets all day reports
@@ -64,7 +67,7 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
 
   return (
     <>
-      {props.way.uuid &&
+      {isOwner &&
       <Button
         value="Create new day report"
         onClick={() => createDayReport(props.way.uuid, dayReports)}

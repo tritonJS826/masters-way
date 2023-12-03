@@ -34,6 +34,11 @@ interface EditableTextareaProps {
    * @default 2
    */
   rows?: number;
+
+  /**
+   * Is textarea editable or not
+   */
+  isEditable?: boolean;
 }
 
 /**
@@ -42,6 +47,14 @@ interface EditableTextareaProps {
 export const EditableTextarea = (props: EditableTextareaProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [text, setText] = useState(props.text);
+
+  if (!props.isEditable) {
+    return (
+      <div className={clsx(styles.editableTextarea, props.className)}>
+        {renderSpan(text)}
+      </div>
+    );
+  }
 
   /**
    * HandleChangeFinish

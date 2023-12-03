@@ -24,6 +24,11 @@ interface EditableTextProps<T> {
    * Additional custom class name for the editable input
    */
   className?: string;
+
+  /**
+   * Is text editable or not
+   */
+  isEditable?: boolean;
 }
 
 /**
@@ -32,6 +37,14 @@ interface EditableTextProps<T> {
 export const EditableText = <T extends string | number>(props: EditableTextProps<T>) => {
   const [isEditing, setIsEditing] = useState(false);
   const [text, setText] = useState<T>(props.text);
+
+  if (!props.isEditable) {
+    return (
+      <div className={clsx(styles.editableText, props.className)}>
+        {renderSpan(text)}
+      </div>
+    );
+  }
 
   /**
    * HandleChangeFinish
