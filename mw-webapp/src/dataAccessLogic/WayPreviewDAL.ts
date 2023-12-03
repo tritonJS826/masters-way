@@ -55,7 +55,7 @@ export class WayPreviewDAL {
     const newGoal = await GoalPreviewDAL.createGoalPreview();
 
     const DEFAULT_WAY: WayDTOWithoutUuid = {
-      name: `${DateUtils.getShortISODateValue(new Date)} Way of ${user.name}`,
+      name: `${DateUtils.getShortISODateValue(new Date())} Way of ${user.name}`,
       dayReportUuids: [],
       ownerUuid: `${userUuid}`,
       monthReportUuids: [],
@@ -86,7 +86,6 @@ export class WayPreviewDAL {
    * Get User ways preview based of provided type
    */
   public static async getUserWaysPreview(uuid: string, type: "Own" | "Mentoring" | "Favorite"): Promise<WayPreview[]> {
-
     let waysDTO;
 
     switch (type) {

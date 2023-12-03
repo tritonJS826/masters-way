@@ -64,10 +64,10 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
 
   return (
     <>
-      {props.way.uuid &&
+      {way.uuid &&
       <Button
         value="Create new day report"
-        onClick={() => createDayReport(props.way.uuid, dayReports)}
+        onClick={() => createDayReport(way.uuid, dayReports)}
       />
       }
 
