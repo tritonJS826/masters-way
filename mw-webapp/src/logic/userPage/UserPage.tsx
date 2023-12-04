@@ -88,7 +88,7 @@ export const UserPage = (props: UserPageProps) => {
           level={HeadingLevel.h3}
           text={userPreview.name}
           onChangeFinish={(text) => changeUserName(userPreview, text, setUserPreview)}
-          isEditable={isOwner ?? true}
+          isEditable={isOwner}
         />
       </div>
       <div className={styles.row}>
@@ -101,7 +101,7 @@ export const UserPage = (props: UserPageProps) => {
           level={HeadingLevel.h3}
           text={userPreview.email}
           onChangeFinish={(text) => changeUserEmail(userPreview, text, setUserPreview)}
-          isEditable={isOwner ?? true}
+          isEditable={isOwner}
         />
       </div>
       <div>
@@ -112,7 +112,7 @@ export const UserPage = (props: UserPageProps) => {
         <EditableTextarea
           text={userPreview.description}
           onChangeFinish={(text) => changeUserDescription(userPreview, text, setUserPreview)}
-          isEditable={isOwner ?? true}
+          isEditable={isOwner}
         />
       </div>
       <>

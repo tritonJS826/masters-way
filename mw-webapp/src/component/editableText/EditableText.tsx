@@ -26,7 +26,8 @@ interface EditableTextProps<T> {
   className?: string;
 
   /**
-   * Is text editable or not
+   * If false - doubleclick handler disabled, if true - doubleclick handler allowed
+   * @default false
    */
   isEditable?: boolean;
 }
@@ -38,27 +39,12 @@ export const EditableText = <T extends string | number>(props: EditableTextProps
   const [isEditing, setIsEditing] = useState(false);
   const [text, setText] = useState<T>(props.text);
 
-  if (!props.isEditable) {
-    return (
-      <div className={clsx(styles.editableText, props.className)}>
-        {renderSpan(text)}
-      </div>
-    );
-  }
-
   /**
    * HandleChangeFinish
    */
   const handleChangeFinish = () => {
     props.onChangeFinish(text);
     setIsEditing(false);
-  };
-
-  /**
-   * Update cell value after onBlur event
-   */
-  const handleBlur = () => {
-    handleChangeFinish();
   };
 
   /**
@@ -87,14 +73,16 @@ export const EditableText = <T extends string | number>(props: EditableTextProps
       type={"text" || "number"}
       value={text}
       autoFocus={true}
-      onChange={(event) => setValue(event)}
+      onChange={setValue}
     />
   );
 
   return (
     <div
-      onDoubleClick={() => setIsEditing(true)}
-      onBlur={handleBlur}
+      onDoubleClick={() => {
+        props.isEditable && setIsEditing(true);
+      }}
+      onBlur={handleChangeFinish}
       onKeyDown={handleEnter}
       className={clsx(styles.editableText, props.className)}
     >

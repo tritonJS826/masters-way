@@ -84,14 +84,7 @@ export const Columns = (props: ColumnsProps) => {
   const ownerName = props.way.owner.name;
   const isOwner = user?.uid === ownerUuid;
   const isMentor = user ? !!props.mentors.get(user.uid) : false;
-  const isUserCanAddComments = (isOwner || isMentor) && user;
-
-  /**
-   * Is User can edit comment
-   */
-  const isUserCanEditComment = (commentatorUuid: string) => {
-    return commentatorUuid === user?.uid ?? true;
-  };
+  const isUserCanAddComments = user && (isOwner || isMentor);
 
   const columns = [
     columnHelper.accessor("date", {
@@ -196,14 +189,14 @@ export const Columns = (props: ColumnsProps) => {
                   <EditableText
                     text={jobDone.description}
                     onChangeFinish={(text) => updateJobDone(jobDone, text)}
-                    isEditable={isOwner ?? true}
+                    isEditable={isOwner}
                   />
                   {UnicodeSymbols.DIVIDING_POINT}
                   <EditableText
                     text={jobDone.time}
                     onChangeFinish={(text) => updateJobDoneTime(jobDone, text)}
                     className={styles.editableTime}
-                    isEditable={isOwner ?? true}
+                    isEditable={isOwner}
                   />
                 </HorizontalContainer>
               ),
@@ -294,14 +287,14 @@ export const Columns = (props: ColumnsProps) => {
                   <EditableText
                     text={planForNextPeriod.job}
                     onChangeFinish={(text) => updatePlanForNextPeriod(planForNextPeriod, text)}
-                    isEditable={isOwner ?? true}
+                    isEditable={isOwner}
                   />
                   {UnicodeSymbols.DIVIDING_POINT}
                   <EditableText
                     text={planForNextPeriod.estimationTime}
                     onChangeFinish={(value) => updatePlanForNextPeriodTime(planForNextPeriod, value)}
                     className={styles.editableTime}
-                    isEditable={isOwner ?? true}
+                    isEditable={isOwner}
                   />
                 </HorizontalContainer>
               ),
@@ -366,7 +359,7 @@ export const Columns = (props: ColumnsProps) => {
                   <EditableText
                     text={currentProblem.description}
                     onChangeFinish={(text) => updateCurrentProblem(currentProblem, text)}
-                    isEditable={isOwner ?? true}
+                    isEditable={isOwner}
                   />
                 </HorizontalContainer>
               ))
@@ -441,7 +434,7 @@ export const Columns = (props: ColumnsProps) => {
                   <EditableText
                     text={comment.description}
                     onChangeFinish={(text) => updateComment(comment, text)}
-                    isEditable={isUserCanEditComment(comment.commentatorUuid)}
+                    isEditable={comment.commentatorUuid === user?.uid}
                   />
                 </>
               ),

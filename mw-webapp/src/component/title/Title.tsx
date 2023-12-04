@@ -43,7 +43,8 @@ interface TitleProps {
   onChangeFinish?: (value: string) => void;
 
   /**
-   * Is title editable or not
+   * If false - doubleclick handler disabled, if true - doubleclick handler allowed
+   * @default false
    */
   isEditable?: boolean;
 }
@@ -52,17 +53,6 @@ interface TitleProps {
  * Render Input or span depend on client actions
  */
 export const Title = (props: TitleProps) => {
-  if (!props.isEditable) {
-    return (
-      <Heading
-        as={props.level}
-        className={clsx(styles.title, props.className)}
-      >
-        {props.text}
-      </Heading>
-    );
-  }
-
   const [isEditing, setIsEditing] = useState(false);
   const [text, setText] = useState<string>(props.text);
 
@@ -90,8 +80,10 @@ export const Title = (props: TitleProps) => {
 
   return (
     <div
-      onDoubleClick={() => setIsEditing(true)}
-      onBlur={() => handleChangeFinish()}
+      onDoubleClick={() => {
+        props.isEditable && setIsEditing(true);
+      }}
+      onBlur={handleChangeFinish}
       onKeyDown={handleEnter}
       className={clsx(styles.editableText, props.className)}
     >
@@ -101,7 +93,7 @@ export const Title = (props: TitleProps) => {
             type="text"
             value={text}
             autoFocus={true}
-            onChange={(value) => setText(value)}
+            onChange={setText}
           />
         )
         : (

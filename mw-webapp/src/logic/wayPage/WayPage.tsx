@@ -39,7 +39,7 @@ export const WayPage = (props: WayPageProps) => {
   const navigate = useNavigate();
   const [way, setWay] = useState<WayPreview>();
   const {user} = useUserContext();
-  const isUserCanEditWay = user?.uid === way?.owner.uuid;
+  const isOwner = user?.uid === way?.owner.uuid;
 
   /**
    * Get Way
@@ -87,7 +87,7 @@ export const WayPage = (props: WayPageProps) => {
             level={HeadingLevel.h2}
             text={`${way.name}`}
             onChangeFinish={(text) => changeWayName(way, text)}
-            isEditable={isUserCanEditWay ?? true}
+            isEditable={isOwner}
           />
           <Title
             level={HeadingLevel.h3}
@@ -98,7 +98,7 @@ export const WayPage = (props: WayPageProps) => {
             text={way.goal.description}
             onChangeFinish={(description) => updateGoalWay(way, description)}
             rows={5}
-            isEditable={isUserCanEditWay ?? true}
+            isEditable={isOwner}
           />
           {!!renderMentors(way).length && (
             <>
