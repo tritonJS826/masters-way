@@ -84,7 +84,7 @@ export const Columns = (props: ColumnsProps) => {
   const ownerName = props.way.owner.name;
   const isOwner = user?.uid === ownerUuid;
   const isMentor = user ? !!props.mentors.get(user.uid) : false;
-  const isUserCanAddComments = user && (isOwner || isMentor);
+  const isUserCanAddComments = !!user && (isOwner || isMentor);
 
   const columns = [
     columnHelper.accessor("date", {
