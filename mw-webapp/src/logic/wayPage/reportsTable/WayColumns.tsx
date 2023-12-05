@@ -83,22 +83,22 @@ export const Columns = (props: ColumnsProps) => {
   const ownerUuid = props.way.owner.uuid;
   const ownerName = props.way.owner.name;
   const isOwner = user?.uid === ownerUuid;
-  const isMentor = user ? !!props.mentors.get(user.uid) : false;
-  const isUserCanAddComments = !!user && (isOwner || isMentor);
+  const isMentor = !!user && !!user.uid && props.mentors.has(user.uid);
+  const isUserCanAddComments = isOwner || isMentor;
 
   const columns = [
     columnHelper.accessor("date", {
       header: "Date",
 
       /**
-       * Cell with date value
+       * Cell  with date value
        */
       cell: ({row}) => {
 
         /**
          * Update isDayOff
          */
-        const udateIsDayOff = async (value: boolean) => {
+        const updateIsDayOff = async (value: boolean) => {
           await DayReportDAL.updateIsDayOff(row.original, value);
           const updatedDayReport = {...row.original, isDayOff: value};
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
@@ -113,7 +113,8 @@ export const Columns = (props: ColumnsProps) => {
             >
               <Checkbox
                 isDefaultChecked={row.original.isDayOff}
-                onChange={udateIsDayOff}
+                onChange={(value) => isOwner && updateIsDayOff(value)}
+                isEditable={isOwner}
               />
             </Tooltip>
           </VerticalContainer>

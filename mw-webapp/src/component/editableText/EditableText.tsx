@@ -27,7 +27,7 @@ interface EditableTextProps<T> {
 
   /**
    * If false - doubleclick handler disabled, if true - doubleclick handler allowed
-   * @default false
+   * @default true
    */
   isEditable?: boolean;
 }
@@ -80,7 +80,7 @@ export const EditableText = <T extends string | number>(props: EditableTextProps
   return (
     <div
       onDoubleClick={() => {
-        props.isEditable && setIsEditing(true);
+        props.isEditable !== false && setIsEditing(true);
       }}
       onBlur={handleChangeFinish}
       onKeyDown={handleEnter}
