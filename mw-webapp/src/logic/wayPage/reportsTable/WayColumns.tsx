@@ -83,22 +83,22 @@ export const Columns = (props: ColumnsProps) => {
   const ownerUuid = props.way.owner.uuid;
   const ownerName = props.way.owner.name;
   const isOwner = user?.uid === ownerUuid;
-  const isMentor = user ? !!props.mentors.get(user.uid) : false;
-  const isUserCanEditComments = (isOwner || isMentor) && user;
+  const isMentor = !!user && !!user.uid && props.mentors.has(user.uid);
+  const isUserCanAddComments = isOwner || isMentor;
 
   const columns = [
     columnHelper.accessor("date", {
       header: "Date",
 
       /**
-       * Cell with date value
+       * Cell  with date value
        */
       cell: ({row}) => {
 
         /**
          * Update isDayOff
          */
-        const udateIsDayOff = async (value: boolean) => {
+        const updateIsDayOff = async (value: boolean) => {
           await DayReportDAL.updateIsDayOff(row.original, value);
           const updatedDayReport = {...row.original, isDayOff: value};
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
@@ -113,7 +113,8 @@ export const Columns = (props: ColumnsProps) => {
             >
               <Checkbox
                 isDefaultChecked={row.original.isDayOff}
-                onChange={udateIsDayOff}
+                onChange={(value) => isOwner && updateIsDayOff(value)}
+                isEditable={isOwner}
               />
             </Tooltip>
           </VerticalContainer>
@@ -189,12 +190,14 @@ export const Columns = (props: ColumnsProps) => {
                   <EditableText
                     text={jobDone.description}
                     onChangeFinish={(text) => updateJobDone(jobDone, text)}
+                    isEditable={isOwner}
                   />
                   {UnicodeSymbols.DIVIDING_POINT}
                   <EditableText
                     text={jobDone.time}
                     onChangeFinish={(text) => updateJobDoneTime(jobDone, text)}
                     className={styles.editableTime}
+                    isEditable={isOwner}
                   />
                 </HorizontalContainer>
               ),
@@ -285,12 +288,14 @@ export const Columns = (props: ColumnsProps) => {
                   <EditableText
                     text={planForNextPeriod.job}
                     onChangeFinish={(text) => updatePlanForNextPeriod(planForNextPeriod, text)}
+                    isEditable={isOwner}
                   />
                   {UnicodeSymbols.DIVIDING_POINT}
                   <EditableText
                     text={planForNextPeriod.estimationTime}
                     onChangeFinish={(value) => updatePlanForNextPeriodTime(planForNextPeriod, value)}
                     className={styles.editableTime}
+                    isEditable={isOwner}
                   />
                 </HorizontalContainer>
               ),
@@ -355,6 +360,7 @@ export const Columns = (props: ColumnsProps) => {
                   <EditableText
                     text={currentProblem.description}
                     onChangeFinish={(text) => updateCurrentProblem(currentProblem, text)}
+                    isEditable={isOwner}
                   />
                 </HorizontalContainer>
               ))
@@ -429,11 +435,12 @@ export const Columns = (props: ColumnsProps) => {
                   <EditableText
                     text={comment.description}
                     onChangeFinish={(text) => updateComment(comment, text)}
+                    isEditable={comment.commentatorUuid === user?.uid}
                   />
                 </>
               ),
               )}
-            {isUserCanEditComments &&
+            {isUserCanAddComments &&
             <Button
               value="add comment"
               onClick={() => createComment(user.uid)}

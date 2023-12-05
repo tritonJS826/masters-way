@@ -34,6 +34,12 @@ interface EditableTextareaProps {
    * @default 2
    */
   rows?: number;
+
+  /**
+   * If false - doubleclick handler disabled, if true - doubleclick handler allowed
+   * @default true
+   */
+  isEditable?: boolean;
 }
 
 /**
@@ -66,7 +72,9 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
 
   return (
     <div
-      onDoubleClick={() => setIsEditing(true)}
+      onDoubleClick={() => {
+        props.isEditable !== false && setIsEditing(true);
+      }}
       onBlur={handleChangeFinish}
       className={clsx(styles.editableTextarea)}
     >

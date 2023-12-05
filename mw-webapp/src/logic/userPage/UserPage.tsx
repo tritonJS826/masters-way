@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
+import {useUserContext} from "src/component/header/UserContext";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
@@ -55,17 +56,19 @@ interface UserPageProps {
 export const UserPage = (props: UserPageProps) => {
   const [userPreview, setUserPreview] = useState<UserPreview | null>(null);
   const navigate = useNavigate();
+  const {user} = useUserContext();
+  const isOwner = user?.uid === userPreview?.uuid;
 
   /**
    * Load user
    */
   const getUser = async () => {
-    const user = await UserPreviewDAL.getUserPreview(props.uuid);
+    const userPreviewData = await UserPreviewDAL.getUserPreview(props.uuid);
     // Navigate to PageError if transmitted user's uuid is not exist
-    if (!user.uuid) {
+    if (!userPreviewData.uuid) {
       navigate(pages.page404.getPath({}));
     }
-    setUserPreview(user);
+    setUserPreview(userPreviewData);
   };
 
   useEffect(() => {
@@ -85,7 +88,7 @@ export const UserPage = (props: UserPageProps) => {
           level={HeadingLevel.h3}
           text={userPreview.name}
           onChangeFinish={(text) => changeUserName(userPreview, text, setUserPreview)}
-          isEditable={true}
+          isEditable={isOwner}
         />
       </div>
       <div className={styles.row}>
@@ -98,7 +101,7 @@ export const UserPage = (props: UserPageProps) => {
           level={HeadingLevel.h3}
           text={userPreview.email}
           onChangeFinish={(text) => changeUserEmail(userPreview, text, setUserPreview)}
-          isEditable={true}
+          isEditable={isOwner}
         />
       </div>
       <div>
@@ -109,6 +112,7 @@ export const UserPage = (props: UserPageProps) => {
         <EditableTextarea
           text={userPreview.description}
           onChangeFinish={(text) => changeUserDescription(userPreview, text, setUserPreview)}
+          isEditable={isOwner}
         />
       </div>
       <>

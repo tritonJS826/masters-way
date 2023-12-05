@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
+import {useUserContext} from "src/component/header/UserContext";
 import {Link} from "src/component/link/Link";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
@@ -37,6 +38,8 @@ interface WayPageProps {
 export const WayPage = (props: WayPageProps) => {
   const navigate = useNavigate();
   const [way, setWay] = useState<WayPreview>();
+  const {user} = useUserContext();
+  const isOwner = user?.uid === way?.owner.uuid;
 
   /**
    * Get Way
@@ -84,7 +87,7 @@ export const WayPage = (props: WayPageProps) => {
             level={HeadingLevel.h2}
             text={`${way.name}`}
             onChangeFinish={(text) => changeWayName(way, text)}
-            isEditable={true}
+            isEditable={isOwner}
           />
           <Title
             level={HeadingLevel.h3}
@@ -95,6 +98,7 @@ export const WayPage = (props: WayPageProps) => {
             text={way.goal.description}
             onChangeFinish={(description) => updateGoalWay(way, description)}
             rows={5}
+            isEditable={isOwner}
           />
           {!!renderMentors(way).length && (
             <>

@@ -24,6 +24,12 @@ interface EditableTextProps<T> {
    * Additional custom class name for the editable input
    */
   className?: string;
+
+  /**
+   * If false - doubleclick handler disabled, if true - doubleclick handler allowed
+   * @default true
+   */
+  isEditable?: boolean;
 }
 
 /**
@@ -39,13 +45,6 @@ export const EditableText = <T extends string | number>(props: EditableTextProps
   const handleChangeFinish = () => {
     props.onChangeFinish(text);
     setIsEditing(false);
-  };
-
-  /**
-   * Update cell value after onBlur event
-   */
-  const handleBlur = () => {
-    handleChangeFinish();
   };
 
   /**
@@ -74,14 +73,16 @@ export const EditableText = <T extends string | number>(props: EditableTextProps
       type={"text" || "number"}
       value={text}
       autoFocus={true}
-      onChange={(event) => setValue(event)}
+      onChange={setValue}
     />
   );
 
   return (
     <div
-      onDoubleClick={() => setIsEditing(true)}
-      onBlur={handleBlur}
+      onDoubleClick={() => {
+        props.isEditable !== false && setIsEditing(true);
+      }}
+      onBlur={handleChangeFinish}
       onKeyDown={handleEnter}
       className={clsx(styles.editableText, props.className)}
     >

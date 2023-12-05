@@ -22,6 +22,12 @@ interface CheckboxProps {
    * A callback function to be called when the checkbox's state changes.
    */
   onChange: (value: boolean) => void;
+
+  /**
+   * If false - checkbox is disabled, if true - checkbox is not disabled
+   * @default true
+   */
+  isEditable?: boolean;
 }
 
 /**
@@ -43,7 +49,9 @@ export const Checkbox = (props: CheckboxProps) => {
       className={clsx(styles.checkbox, props.className)}
       type="checkbox"
       checked={isChecked}
-      onChange={handleCheckboxChange}
+      onChange={() => {
+        props.isEditable !== false && handleCheckboxChange();
+      }}
     />
   );
 };
