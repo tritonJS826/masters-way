@@ -1,6 +1,7 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Heading} from "@radix-ui/themes";
 import clsx from "clsx";
+import {DEFAULT_PLACEHOLDER} from "src/component/editableText/renderSpan";
 import {Input} from "src/component/input/Input";
 import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/component/title/Title.module.scss";
@@ -50,11 +51,15 @@ interface TitleProps {
 }
 
 /**
- * Render Input or span depend on client actions
+ * Render Input or heading depend on client actions
  */
 export const Title = (props: TitleProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [text, setText] = useState<string>(props.text);
+
+  useEffect(() => {
+    setText(props.text);
+  }, [props.text]);
 
   /**
    * HandleChangeFinish
@@ -75,8 +80,6 @@ export const Title = (props: TitleProps) => {
       handleChangeFinish();
     }
   };
-
-  const DEFAULT_PLACEHOLDER = "Empty line...";
 
   return (
     <div

@@ -19,16 +19,16 @@ const {
  */
 type Lang = "ru" | "en"
 
-const accordionItems = accordionContent.map((data) => ({
-  trigger: {child: data.header.ru},
-  content: {child: jsonWithLineBreakToReact(data.description.ru)},
-}));
-
 /**
  * About project page
  */
 export const AboutProjectPage = () => {
   const [lang, setLang] = useState<Lang>("en");
+
+  const accordionItems = accordionContent.map((data) => ({
+    trigger: {child: data.header[lang]},
+    content: {child: jsonWithLineBreakToReact(data.description.ru)},
+  }));
 
   return (
     <div className={styles.pageWrapper}>

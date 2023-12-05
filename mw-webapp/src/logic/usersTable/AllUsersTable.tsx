@@ -26,7 +26,7 @@ export const AllUsersTable = () => {
   return (
     <>
       <Title
-        text={`All users (total amount: ${allUsers.length})`}
+        text={`All users (total amount: ${allUsers.length} users)`}
         level={HeadingLevel.h3}
       />
       <UsersTable
