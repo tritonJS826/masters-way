@@ -6,6 +6,6 @@ export type WayDTO = {
   monthReportUuids: string[];
   goalUuid: string;
   currentMentorUuids: string[];
-  mentorRequestsUuids: string[];
+  mentorRequestUuids: string[];
   isCompleted: boolean;
 }
