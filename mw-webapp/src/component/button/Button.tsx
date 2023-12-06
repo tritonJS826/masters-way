@@ -35,7 +35,7 @@ export const Button = (props: ButtonProps) => {
     <button
       className={clsx(styles.button, props.className)}
       onClick={props.onClick}
-      data-cy={props.dataCy ?? "button"}
+      data-cy={props.dataCy}
     >
       {props.value}
     </button>

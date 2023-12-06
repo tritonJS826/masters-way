@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
-import {columns} from "src/logic/waysTable/columns";
+import {waysColumns} from "src/logic/waysTable/waysColumns";
 import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 
@@ -37,7 +37,7 @@ export const AllWaysPage = () => {
       <ScrollableBlock>
         <WaysTable
           data={allWays}
-          columns={columns}
+          columns={waysColumns}
         />
       </ScrollableBlock>
     </>

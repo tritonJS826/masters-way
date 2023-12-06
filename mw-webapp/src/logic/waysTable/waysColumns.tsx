@@ -1,8 +1,10 @@
+import React from "react";
 import {createColumnHelper} from "@tanstack/react-table";
 import {Link} from "src/component/link/Link";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
+import {renderMarkdown} from "src/utils/textUtils/renderMarkdown";
 import style from "src/logic/waysTable/columns.module.scss";
 
 const columnHelper = createColumnHelper<WayPreview>();
@@ -13,7 +15,7 @@ export const WAYS_OWNER = "Way's Owner";
  * Table columns
  * Don't get rid of any https://github.com/TanStack/table/issues/4382
  */
-export const columns = [
+export const waysColumns = [
   columnHelper.accessor("name", {
     header: "Way's name",
 
@@ -50,7 +52,7 @@ export const columns = [
     cell: ({row}) => {
       return (
         <span className={style.shortCell}>
-          {row.original.goal.description}
+          {renderMarkdown(row.original.goal.description)}
         </span>
       );
     },
@@ -82,9 +84,11 @@ export const columns = [
     cell: ({row}) => {
       return (
         row.original.currentMentors.map((currentMentor) => (
-          <>
-            {currentMentor.name}
-          </>
+          <Link
+            key={currentMentor.uuid}
+            path={pages.user.getPath({uuid: row.original.uuid})}
+            value={currentMentor.name}
+          />
         ))
       );
     },

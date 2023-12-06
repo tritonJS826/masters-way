@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
-import {columns} from "src/logic/usersTable/columns";
+import {usersColumns} from "src/logic/usersTable/usersColumns";
 import {UsersTable} from "src/logic/usersTable/UsersTable";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 
@@ -31,7 +31,7 @@ export const AllUsersTable = () => {
       />
       <UsersTable
         data={allUsers}
-        columns={columns}
+        columns={usersColumns}
       />
     </>
   );
