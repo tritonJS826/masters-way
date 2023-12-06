@@ -100,6 +100,7 @@ export class DayReportDAL {
       ownerUuid: way.ownerUuid,
       goalUuid: way.goalUuid,
       currentMentorUuids: way.currentMentorUuids,
+      mentorRequestUuids: way.mentorRequestUuids,
       isCompleted: way.isCompleted,
     });
 

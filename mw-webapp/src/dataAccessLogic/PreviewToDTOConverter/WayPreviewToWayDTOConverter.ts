@@ -20,6 +20,11 @@ interface WayDTOProps {
    * @User.uuids
    */
   currentMentorsUuids: string[];
+
+  /**
+   * @User.uuids
+   */
+  mentorRequestUuids: string[];
 }
 
 /**
@@ -34,6 +39,7 @@ export const wayPreviewToWayDTOConverter = (wayPreview: WayPreview, wayDTOProps:
     ownerUuid: wayDTOProps.ownerUuid,
     goalUuid: wayDTOProps.goalUuid,
     currentMentorUuids: wayDTOProps.currentMentorsUuids,
+    mentorRequestUuids: wayDTOProps.mentorRequestUuids,
     isCompleted: wayPreview.isCompleted,
   });
 

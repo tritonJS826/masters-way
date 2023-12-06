@@ -19,6 +19,11 @@ interface WayPreviewProps {
   currentMentors: UserPreview[];
 
   /**
+   * Users who sent request to become Way's mentor
+   */
+  mentorRequests: UserPreview[];
+
+  /**
    * Way's goal
    */
   goal: GoalPreview;
@@ -32,6 +37,7 @@ export const wayDTOToWayPreviewConverter = (wayDTO: WayDTO, wayProps: WayPreview
     ...wayDTO,
     owner: wayProps.owner,
     currentMentors: wayProps.currentMentors,
+    mentorRequests: wayProps.mentorRequests,
     dayReports: wayDTO.dayReportUuids,
     monthReports: wayDTO.monthReportUuids,
     goal: wayProps.goal,
