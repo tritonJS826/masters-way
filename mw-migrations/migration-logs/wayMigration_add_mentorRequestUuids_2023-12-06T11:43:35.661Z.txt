@@ -1,0 +1,52 @@
+2023-12-06T11:43:35.661Z: Migration started$
+2023-12-06T11:43:35.663Z: Getting all ways
+2023-12-06T11:43:36.267Z: Got 17 ways
+2023-12-06T11:43:36.267Z: Getting all ways to migrate
+2023-12-06T11:43:36.267Z: Got 17 ways to migrate
+2023-12-06T11:43:36.268Z: start migrate ways one by one
+2023-12-06T11:43:36.268Z: started 5QgPSCKfzcifoIQSywSc migration
+2023-12-06T11:43:36.269Z: finished 5QgPSCKfzcifoIQSywSc migration successfully in 1 ms
+2023-12-06T11:43:36.270Z: started C8oIrFVJog0TxtHQuYBV migration
+2023-12-06T11:43:36.270Z: finished C8oIrFVJog0TxtHQuYBV migration successfully in 0 ms
+2023-12-06T11:43:36.270Z: started CaEw1lhj7acS8ZlCfsW9 migration
+2023-12-06T11:43:36.270Z: finished CaEw1lhj7acS8ZlCfsW9 migration successfully in 0 ms
+2023-12-06T11:43:36.270Z: started CvXveF2qOiJirutOVk5P migration
+2023-12-06T11:43:36.271Z: finished CvXveF2qOiJirutOVk5P migration successfully in 1 ms
+2023-12-06T11:43:36.271Z: started Ez0jt0qOwGmn0Wsj4ju4 migration
+2023-12-06T11:43:36.271Z: finished Ez0jt0qOwGmn0Wsj4ju4 migration successfully in 0 ms
+2023-12-06T11:43:36.271Z: started HkkflGVhfC0VyVXWe68y migration
+2023-12-06T11:43:36.271Z: finished HkkflGVhfC0VyVXWe68y migration successfully in 0 ms
+2023-12-06T11:43:36.271Z: started MW06oKIHKzjeaq16OQob migration
+2023-12-06T11:43:36.271Z: finished MW06oKIHKzjeaq16OQob migration successfully in 0 ms
+2023-12-06T11:43:36.271Z: started NVhIvB2r7HSJ4XXqCBFL migration
+2023-12-06T11:43:36.272Z: finished NVhIvB2r7HSJ4XXqCBFL migration successfully in 1 ms
+2023-12-06T11:43:36.272Z: started b4Fe2dRwe0gyE4hhhTkW migration
+2023-12-06T11:43:36.272Z: finished b4Fe2dRwe0gyE4hhhTkW migration successfully in 0 ms
+2023-12-06T11:43:36.272Z: started dvq5aMPWkMZDMhXspJlG migration
+2023-12-06T11:43:36.272Z: finished dvq5aMPWkMZDMhXspJlG migration successfully in 0 ms
+2023-12-06T11:43:36.272Z: started kCxtpptkBXxX3Aov9LPR migration
+2023-12-06T11:43:36.272Z: finished kCxtpptkBXxX3Aov9LPR migration successfully in 0 ms
+2023-12-06T11:43:36.272Z: started le1Odq5KPGsN8Fn03J4Q migration
+2023-12-06T11:43:36.273Z: finished le1Odq5KPGsN8Fn03J4Q migration successfully in 1 ms
+2023-12-06T11:43:36.273Z: started nRwBbZBa8v6KHtvcrOwQ migration
+2023-12-06T11:43:36.273Z: finished nRwBbZBa8v6KHtvcrOwQ migration successfully in 0 ms
+2023-12-06T11:43:36.273Z: started ovXDWr8ULb6Eqk9JLoDN migration
+2023-12-06T11:43:36.273Z: finished ovXDWr8ULb6Eqk9JLoDN migration successfully in 0 ms
+2023-12-06T11:43:36.273Z: started oyK9GzYqX4LYUinj4xna migration
+2023-12-06T11:43:36.273Z: finished oyK9GzYqX4LYUinj4xna migration successfully in 0 ms
+2023-12-06T11:43:36.274Z: started pUfdxyHy9yjAiFutDxMV migration
+2023-12-06T11:43:36.274Z: finished pUfdxyHy9yjAiFutDxMV migration successfully in 0 ms
+2023-12-06T11:43:36.274Z: started uJIwYL84SFh5G9AtTqWx migration
+2023-12-06T11:43:36.274Z: finished uJIwYL84SFh5G9AtTqWx migration successfully in 0 ms
+2023-12-06T11:43:36.675Z: 
+    Migrations report:
+
+    Migration goal:
+    Add mentorRequestUuids to Way collection
+    
+    Start time: Wed Dec 06 2023 15:43:35 GMT+0400 (Georgia Standard Time)
+    End time: Wed Dec 06 2023 15:43:36 GMT+0400 (Georgia Standard Time)
+    Total time: 1013 ms
+
+    Total Models to changed: 17
+  

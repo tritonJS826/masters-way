@@ -1,4 +1,6 @@
+import { doc, writeBatch } from "firebase/firestore";
 import { WayDTO } from "../DTOModel/WayDTO.js";
+import { db } from "../firebase.js";
 import { WayService } from "../service/WayService.js";
 
 import { logToFile } from "../utils/logToFile.js";
@@ -21,13 +23,20 @@ const migrateWays = async () => {
   const waysToMigrate: WayDTO[] = allWays.filter(way => !Array.isArray(way.mentorRequestUuids))
   log(`Got ${waysToMigrate.length} ways to migrate`);
 
-  /** Add batching\transaction */
   log(`start migrate ways one by one`)
+
+  const batch = writeBatch(db);
   for (const way of waysToMigrate) {
     const wayMigrationStartTime = new Date();
     try {
       log(`started ${way.uuid} migration`);
-      // await WayService.updateWayDTO({...way, mentorRequestUuids: []});
+      
+      const wayRef = doc(db, "ways", way.uuid);
+      batch.set(wayRef, {
+        ...way,
+        mentorRequestUuids: [],
+      });
+
       const wayMigrationEndTime = new Date();
       const wayMigrationTime = wayMigrationEndTime.getTime() - wayMigrationStartTime.getTime();
       log(`finished ${way.uuid} migration successfully in ${wayMigrationTime} ms`);
@@ -37,6 +46,8 @@ const migrateWays = async () => {
       log(`Error when migrating ${way.uuid} with error: ${(e as Error)?.message} (in ${wayMigrationTime} ms)`)
     }
   }
+
+  await batch.commit();
 
   const waysMigrationEndTime = new Date();
   const waysMigrationTime = waysMigrationEndTime.getTime() - waysMigrationStartTime.getTime();
