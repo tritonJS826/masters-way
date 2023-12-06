@@ -1,6 +1,8 @@
 import {jsonWithLineBreakToReact} from "src/utils/textUtils/jsonToLineBreak";
 import styles from "src/component/editableText/renderSpan.module.scss";
 
+export const DEFAULT_PLACEHOLDER = "Double click on me!";
+
 /**
  * Render span with text
  */
@@ -15,7 +17,7 @@ const renderSpanWithValue = (value: string | number, isDone?: boolean) => (
  */
 const renderEmptySpan = (placeholderSpanText?: string) => (
   <span className={styles.emptySpan}>
-    {placeholderSpanText ?? "Empty line..."}
+    {placeholderSpanText ?? DEFAULT_PLACEHOLDER}
   </span>
 );
 
