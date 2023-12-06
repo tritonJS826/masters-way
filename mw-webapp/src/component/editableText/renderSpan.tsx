@@ -1,14 +1,14 @@
-import {jsonWithLineBreakToReact} from "src/utils/textUtils/jsonToLineBreak";
+import {renderMarkdown} from "src/utils/textUtils/renderMarkdown";
 import styles from "src/component/editableText/renderSpan.module.scss";
 
-export const DEFAULT_PLACEHOLDER = "Double click on me!";
+export const DEFAULT_PLACEHOLDER = "*Empty markdown! Double click on me!*";
 
 /**
  * Render span with text
  */
 const renderSpanWithValue = (value: string | number, isDone?: boolean) => (
   <span className={isDone ? styles.completed : styles.notCompleted}>
-    {jsonWithLineBreakToReact(value.toString())}
+    {renderMarkdown(value.toString())}
   </span>
 );
 
@@ -17,7 +17,7 @@ const renderSpanWithValue = (value: string | number, isDone?: boolean) => (
  */
 const renderEmptySpan = (placeholderSpanText?: string) => (
   <span className={styles.emptySpan}>
-    {placeholderSpanText ?? DEFAULT_PLACEHOLDER}
+    {placeholderSpanText ?? renderMarkdown(DEFAULT_PLACEHOLDER)}
   </span>
 );
 

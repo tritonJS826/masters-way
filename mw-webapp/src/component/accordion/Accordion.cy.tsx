@@ -22,10 +22,12 @@ describe("Accordion component", () => {
    * Beginning of the test for the Accordion component.
    */
   const mountAccordion = (type: accordionTypes) => {
-    cy.mount(<Accordion
-      items={ACCORDION_ITEMS_EXAMPLE}
-      type={type}
-    />);
+    cy.mount(
+      <Accordion
+        items={ACCORDION_ITEMS_EXAMPLE}
+        type={type}
+      />,
+    );
   };
 
   it("should render the accordion and all options", () => {

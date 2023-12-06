@@ -10,7 +10,7 @@ const columnHelper = createColumnHelper<UserPreview>();
  * Table columns
  * Don't get rid of any https://github.com/TanStack/table/issues/4382
  */
-export const columns = [
+export const usersColumns = [
   columnHelper.accessor("name", {
     header: "Name",
 

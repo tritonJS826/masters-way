@@ -181,28 +181,25 @@ export const Columns = (props: ColumnsProps) => {
 
         return (
           <VerticalContainer className={styles.cell}>
-            {row.original.jobsDone
-              .map((jobDone) => (
-                <HorizontalContainer
-                  key={jobDone.uuid}
-                  className={styles.numeric}
-                >
-                  <EditableText
-                    text={jobDone.description}
-                    onChangeFinish={(text) => updateJobDone(jobDone, text)}
-                    isEditable={isOwner}
-                  />
-                  {UnicodeSymbols.DIVIDING_POINT}
-                  <EditableText
-                    text={jobDone.time}
-                    onChangeFinish={(text) => updateJobDoneTime(jobDone, text)}
-                    className={styles.editableTime}
-                    isEditable={isOwner}
-                  />
-                </HorizontalContainer>
-              ),
-              )
-            }
+            {row.original.jobsDone.map((jobDone) => (
+              <HorizontalContainer
+                key={jobDone.uuid}
+                className={styles.numeric}
+              >
+                <EditableText
+                  text={jobDone.description}
+                  onChangeFinish={(text) => updateJobDone(jobDone, text)}
+                  isEditable={isOwner}
+                />
+                {UnicodeSymbols.DIVIDING_POINT}
+                <EditableText
+                  text={jobDone.time}
+                  onChangeFinish={(text) => updateJobDoneTime(jobDone, text)}
+                  className={styles.editableTime}
+                  isEditable={isOwner}
+                />
+              </HorizontalContainer>
+            ))}
             <div className={styles.summaryTimeWrapper}>
               {"Summary time: "}
               {row.original.jobsDone
@@ -279,28 +276,25 @@ export const Columns = (props: ColumnsProps) => {
 
         return (
           <VerticalContainer className={styles.cell}>
-            {row.original.plansForNextPeriod
-              .map((planForNextPeriod) => (
-                <HorizontalContainer
-                  key={planForNextPeriod.uuid}
-                  className={styles.numeric}
-                >
-                  <EditableText
-                    text={planForNextPeriod.job}
-                    onChangeFinish={(text) => updatePlanForNextPeriod(planForNextPeriod, text)}
-                    isEditable={isOwner}
-                  />
-                  {UnicodeSymbols.DIVIDING_POINT}
-                  <EditableText
-                    text={planForNextPeriod.estimationTime}
-                    onChangeFinish={(value) => updatePlanForNextPeriodTime(planForNextPeriod, value)}
-                    className={styles.editableTime}
-                    isEditable={isOwner}
-                  />
-                </HorizontalContainer>
-              ),
-              )
-            }
+            {row.original.plansForNextPeriod.map((planForNextPeriod) => (
+              <HorizontalContainer
+                key={planForNextPeriod.uuid}
+                className={styles.numeric}
+              >
+                <EditableText
+                  text={planForNextPeriod.job}
+                  onChangeFinish={(text) => updatePlanForNextPeriod(planForNextPeriod, text)}
+                  isEditable={isOwner}
+                />
+                {UnicodeSymbols.DIVIDING_POINT}
+                <EditableText
+                  text={planForNextPeriod.estimationTime}
+                  onChangeFinish={(value) => updatePlanForNextPeriodTime(planForNextPeriod, value)}
+                  className={styles.editableTime}
+                  isEditable={isOwner}
+                />
+              </HorizontalContainer>
+            ))}
             {isOwner &&
               <Button
                 value="add plan"
@@ -351,20 +345,18 @@ export const Columns = (props: ColumnsProps) => {
 
         return (
           <VerticalContainer className={styles.cell}>
-            {row.original.problemsForCurrentPeriod
-              .map((currentProblem) => (
-                <HorizontalContainer
-                  key={currentProblem.uuid}
-                  className={styles.numeric}
-                >
-                  <EditableText
-                    text={currentProblem.description}
-                    onChangeFinish={(text) => updateCurrentProblem(currentProblem, text)}
-                    isEditable={isOwner}
-                  />
-                </HorizontalContainer>
-              ))
-            }
+            {row.original.problemsForCurrentPeriod.map((currentProblem) => (
+              <HorizontalContainer
+                key={currentProblem.uuid}
+                className={styles.numeric}
+              >
+                <EditableText
+                  text={currentProblem.description}
+                  onChangeFinish={(text) => updateCurrentProblem(currentProblem, text)}
+                  isEditable={isOwner}
+                />
+              </HorizontalContainer>
+            ))}
             {isOwner &&
               <Button
                 value="add problem"
