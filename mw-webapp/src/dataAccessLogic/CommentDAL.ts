@@ -25,11 +25,12 @@ export class CommentDAL {
    */
   public static async createComment(
     dayReport: DayReport,
-    commentatorUuid: string): Promise<Comment> {
+    ownerUuid: string): Promise<Comment> {
     const commentWithoutUuid: CommentDTOWithoutUuid = {
       description: "",
-      commentatorUuid,
+      ownerUuid,
       isDone: false,
+      tags: [],
     };
 
     const comment = await CommentService.createCommentDTO(commentWithoutUuid);

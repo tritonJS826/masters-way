@@ -3,7 +3,6 @@ import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {jobDoneDTOToJobDoneConverter} from "src/dataAccessLogic/DTOToBusinessConverter/jobDoneDTOToJobDoneConverter";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
-import {TimeUnit} from "src/model/businessModel/time/timeUnit/TimeUnit";
 import {JobDoneDTOWithoutUuid, JobDoneService} from "src/service/JobDoneService";
 
 /**
@@ -28,7 +27,7 @@ export class JobDoneDAL {
     const jobDoneWithoutUuid: JobDoneDTOWithoutUuid = {
       description: "",
       time: 0,
-      timeUnit: TimeUnit.minute,
+      tags: [],
     };
 
     const newJobDone = await JobDoneService.createJobDoneDTO(jobDoneWithoutUuid);

@@ -27,7 +27,7 @@ export const AboutProjectPage = () => {
 
   const accordionItems = accordionContent.map((data) => ({
     trigger: {child: data.header[lang]},
-    content: {child: renderMarkdown(data.description.ru)},
+    content: {child: renderMarkdown(data.description[lang])},
   }));
 
   return (

@@ -1,4 +1,5 @@
 
+import {timestampType} from "fireschema";
 import {z} from "zod";
 
 export const DAY_REPORT_UUID_FIELD = "uuid";
@@ -14,7 +15,7 @@ export const DayReportDTOSchema = z.object({
   /**
    * Report's date
    */
-  [DAY_REPORT_DATE_FIELD]: z.string(),
+  [DAY_REPORT_DATE_FIELD]: timestampType(),
 
   /**
    * @JobDone.uuids

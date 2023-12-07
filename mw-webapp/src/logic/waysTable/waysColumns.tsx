@@ -75,19 +75,19 @@ export const waysColumns = [
       );
     },
   }),
-  columnHelper.accessor("currentMentors", {
-    header: "Current mentors",
+  columnHelper.accessor("mentors", {
+    header: "Mentors",
 
     /**
      * Cell with current mentors
      */
     cell: ({row}) => {
       return (
-        row.original.currentMentors.map((currentMentor) => (
+        row.original.mentors.map((mentor) => (
           <Link
-            key={currentMentor.uuid}
+            key={mentor.uuid}
             path={pages.user.getPath({uuid: row.original.uuid})}
-            value={currentMentor.name}
+            value={mentor.name}
           />
         ))
       );

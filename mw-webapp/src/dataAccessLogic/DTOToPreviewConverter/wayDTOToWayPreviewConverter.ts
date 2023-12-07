@@ -16,7 +16,7 @@ interface WayPreviewProps {
   /**
    * Way's current mentors
    */
-  currentMentors: UserPreview[];
+  mentors: UserPreview[];
 
   /**
    * Users who sent request to become Way's mentor
@@ -27,6 +27,16 @@ interface WayPreviewProps {
    * Way's goal
    */
   goal: GoalPreview;
+
+  /**
+   * Last day when way was updated in ms
+   */
+  lastUpdate: Date;
+
+  /**
+   * Date when way was created in ms
+   */
+  createdAt: Date;
 }
 
 /**
@@ -35,11 +45,16 @@ interface WayPreviewProps {
 export const wayDTOToWayPreviewConverter = (wayDTO: WayDTO, wayProps: WayPreviewProps): WayPreview => {
   return new WayPreview({
     ...wayDTO,
+    uuid: wayDTO.uuid,
+    name: wayDTO.name,
+    dayReportUuids: wayDTO.dayReportUuids,
     owner: wayProps.owner,
-    currentMentors: wayProps.currentMentors,
-    mentorRequests: wayProps.mentorRequests,
-    dayReports: wayDTO.dayReportUuids,
-    monthReports: wayDTO.monthReportUuids,
     goal: wayProps.goal,
+    mentors: wayProps.mentors,
+    mentorRequests: wayProps.mentorRequests,
+    isCompleted: wayDTO.isCompleted,
+    lastUpdate: wayProps.lastUpdate,
+    favoriteForUserUuids: wayDTO.favoriteForUserUuids,
+    createdAt: wayProps.createdAt,
   });
 };

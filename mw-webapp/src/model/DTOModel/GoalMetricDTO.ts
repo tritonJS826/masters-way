@@ -1,3 +1,4 @@
+import {timestampType} from "fireschema";
 import {z} from "zod";
 
 export const GoalMetricDTOSchema = z.object({
@@ -16,9 +17,14 @@ export const GoalMetricDTOSchema = z.object({
    * True if comment was done and false if not
    */
   isDone: z.boolean(),
+
+  /**
+   * Time when goal metric was done in ms
+   */
+  doneDate: timestampType(),
 }).strict();
 
 /**
  * Goal's metrics DTO model
  */
-export type GoalMetricDTO = z.infer<typeof GoalMetricDTOSchema>
+export type GoalMetricDTO = z.infer<typeof GoalMetricDTOSchema>;

@@ -1,5 +1,3 @@
-import {TimeUnit} from "src/model/businessModel/time/timeUnit/TimeUnit";
-
 /**
  * JobDone props
  */
@@ -16,14 +14,14 @@ interface JobDoneProps {
   description: string;
 
   /**
-   * Unit of time measurement for {@link time}
-   */
-  timeUnit: TimeUnit;
-
-  /**
-   * Number of time units {@link timeUnit}
+   * Number of time units
    */
   time: number;
+
+  /**
+   * CurrentProblem's tags
+   */
+  tags: string[];
 }
 
 /**
@@ -42,27 +40,27 @@ export class JobDone {
   public description: string;
 
   /**
-   * Unit of time measurement for {@link time}
-   */
-  public timeUnit: TimeUnit;
-
-  /**
    * How long was the job done
    */
   public time: number;
 
+  /**
+   * JobDone's tags
+   */
+  public tags: string[];
+
   constructor(jobDoneData: JobDoneProps) {
     this.uuid = jobDoneData.uuid;
     this.description = jobDoneData.description;
-    this.timeUnit = jobDoneData.timeUnit;
     this.time = jobDoneData.time;
+    this.tags = jobDoneData.tags;
   }
 
   /**
    * Get formatted job that was done
    */
   public getJobDone() {
-    return `${this.description} (${this.time} ${this.timeUnit})`;
+    return `${this.description} (${this.time})`;
   }
 
 }

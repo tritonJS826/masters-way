@@ -1,5 +1,4 @@
 import {GoalMetric} from "src/model/businessModel/GoalMetric";
-import {Time} from "src/model/businessModel/time/Time";
 import {User} from "src/model/businessModel/User";
 
 /**
@@ -30,7 +29,7 @@ export class Goal {
   /**
    * How long was the goal done
    */
-  public time: Time;
+  public time: number;
 
   constructor(goalData: Goal) {
     this.uuid = goalData.uuid;

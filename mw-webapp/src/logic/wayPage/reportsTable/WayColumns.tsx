@@ -85,6 +85,8 @@ export const Columns = (props: ColumnsProps) => {
   const isOwner = user?.uid === ownerUuid;
   const isMentor = !!user && !!user.uid && props.mentors.has(user.uid);
   const isUserCanAddComments = isOwner || isMentor;
+  const isUserCanAddPlans = isOwner || isMentor;
+  const isUserCanAddProblem = isOwner || isMentor;
 
   const columns = [
     columnHelper.accessor("date", {
@@ -227,8 +229,8 @@ export const Columns = (props: ColumnsProps) => {
         /**
          * Create PlanForNextPeriod
          */
-        const createPlanForNextPeriod = async () => {
-          const planForNextPeriod = await PlanForNextPeriodDAL.createPlanForNextPeriod(row.original);
+        const createPlanForNextPeriod = async (userUuid: string) => {
+          const planForNextPeriod = await PlanForNextPeriodDAL.createPlanForNextPeriod(row.original, userUuid);
           const plansForNextPeriod = [...row.original.plansForNextPeriod, planForNextPeriod];
           const updatedDayReport = {...row.original, plansForNextPeriod};
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
@@ -295,10 +297,10 @@ export const Columns = (props: ColumnsProps) => {
                 />
               </HorizontalContainer>
             ))}
-            {isOwner &&
+            {isUserCanAddPlans &&
               <Button
                 value="add plan"
-                onClick={createPlanForNextPeriod}
+                onClick={() => createPlanForNextPeriod(user.uid)}
               />
             }
           </VerticalContainer>
@@ -316,8 +318,8 @@ export const Columns = (props: ColumnsProps) => {
         /**
          * Create CurrentProblem
          */
-        const createCurrentProblem = async () => {
-          const currentProblem = await CurrentProblemDAL.createCurrentProblem(row.original);
+        const createCurrentProblem = async (userUuid: string) => {
+          const currentProblem = await CurrentProblemDAL.createCurrentProblem(row.original, userUuid);
           const currentProblems = [...row.original.problemsForCurrentPeriod, currentProblem];
           const updatedDayReport = {...row.original, problemsForCurrentPeriod: currentProblems};
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
@@ -357,10 +359,10 @@ export const Columns = (props: ColumnsProps) => {
                 />
               </HorizontalContainer>
             ))}
-            {isOwner &&
+            {isUserCanAddProblem &&
               <Button
                 value="add problem"
-                onClick={createCurrentProblem}
+                onClick={() => createCurrentProblem(user.uid)}
               />
             }
           </VerticalContainer>
@@ -421,13 +423,13 @@ export const Columns = (props: ColumnsProps) => {
               .map((comment) => (
                 <>
                   <Link
-                    value={getCommentatorName(props.mentors, comment.commentatorUuid)}
-                    path={pages.user.getPath({uuid: comment.commentatorUuid})}
+                    value={getCommentatorName(props.mentors, comment.ownerUuid)}
+                    path={pages.user.getPath({uuid: comment.ownerUuid})}
                   />
                   <EditableText
                     text={comment.description}
                     onChangeFinish={(text) => updateComment(comment, text)}
-                    isEditable={comment.commentatorUuid === user?.uid}
+                    isEditable={comment.ownerUuid === user?.uid}
                   />
                 </>
               ),
