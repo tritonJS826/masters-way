@@ -1,4 +1,5 @@
 import {User} from "firebase/auth";
+import {Timestamp} from "firebase/firestore";
 import {UserService} from "src/service/UserService";
 
 /**
@@ -17,6 +18,7 @@ export const writeNewUserCredentials = async (currentUser: User) => {
       ownWayUuids: [],
       favoriteWayUuids: [],
       mentoringWayUuids: [],
+      createdAt: Timestamp.fromDate(new Date()),
     },
   );
 };

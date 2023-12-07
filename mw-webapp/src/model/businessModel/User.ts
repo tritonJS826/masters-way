@@ -40,6 +40,11 @@ export class User {
    */
   public mentoringWays: Way[];
 
+  /**
+   * Date when user was created
+   */
+  public createdAt: Date;
+
   constructor(userData: User) {
     this.uuid = userData.uuid;
     this.name = userData.name;
@@ -51,6 +56,7 @@ export class User {
       new Way(favoriteWayItem));
     this.mentoringWays = userData.mentoringWays.map((mentoringWayItem) =>
       new Way(mentoringWayItem));
+    this.createdAt = userData.createdAt;
   }
 
 }

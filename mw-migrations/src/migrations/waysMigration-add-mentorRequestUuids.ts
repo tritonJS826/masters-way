@@ -2,7 +2,6 @@ import { doc, writeBatch } from "firebase/firestore";
 import { WayDTO } from "../DTOModel/WayDTO.js";
 import { db } from "../firebase.js";
 import { WayService } from "../service/WayService.js";
-
 import { logToFile } from "../utils/logToFile.js";
 
 const FILE_TO_LOG = "wayMigration_add_mentorRequestUuids"

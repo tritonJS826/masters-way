@@ -1,3 +1,4 @@
+import {timestampType} from "fireschema";
 import {z} from "zod";
 
 export const UserDTOSchema = z.object({
@@ -36,6 +37,11 @@ export const UserDTOSchema = z.object({
    * @Way.uuids
    */
   mentoringWayUuids: z.array(z.string()),
+
+  /**
+   * Date when user was created
+   */
+  createdAt: timestampType(),
 
 }).strict();
 

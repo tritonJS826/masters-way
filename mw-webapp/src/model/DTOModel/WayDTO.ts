@@ -1,3 +1,4 @@
+import {timestampType} from "fireschema";
 import {z} from "zod";
 
 export const WayDTOSchema = z.object({
@@ -23,11 +24,6 @@ export const WayDTOSchema = z.object({
   ownerUuid: z.string(),
 
   /**
-   * @MonthReport.uuids
-   */
-  monthReportUuids: z.array(z.string()),
-
-  /**
    *Goal's UUID @Goal.uuid
    */
   goalUuid: z.string(),
@@ -35,7 +31,7 @@ export const WayDTOSchema = z.object({
   /**
    * Mentor's UUIDs @User.uuid
    */
-  currentMentorUuids: z.array(z.string()),
+  mentorUuids: z.array(z.string()),
 
   /**
    * UUIDs of Users who sent request to become Way's mentor @User.uuid
@@ -47,6 +43,31 @@ export const WayDTOSchema = z.object({
    */
   isCompleted: z.boolean(),
 
+  /**
+   * Last time whe way was updated in ms (timestamp)
+   */
+  lastUpdate: timestampType(),
+
+  /**
+   * Uuids od Users for whom this way are favorite
+   */
+  favoriteForUserUuids: z.array(z.string()),
+
+  /**
+   * Time when way was created in ms (timestamp)
+   */
+  createdAt: timestampType(),
+
+  /**
+   * Way's tags
+   */
+  wayTags: z.array(z.string()),
+
+  /**
+   * Tags that was used for jobDone
+   */
+  jobTags: z.array(z.string()),
+
 }).strict();
 
 export const WaysDTOSchema = z.array(WayDTOSchema);
@@ -54,4 +75,4 @@ export const WaysDTOSchema = z.array(WayDTOSchema);
 /**
  * Way DTO model
  */
-export type WayDTO = z.infer<typeof WayDTOSchema>
+export type WayDTO = z.infer<typeof WayDTOSchema>;

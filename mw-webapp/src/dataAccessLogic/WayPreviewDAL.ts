@@ -1,3 +1,4 @@
+import {Timestamp} from "firebase/firestore";
 import {wayDTOToWayPreviewConverter} from "src/dataAccessLogic/DTOToPreviewConverter/wayDTOToWayPreviewConverter";
 import {GoalPreviewDAL} from "src/dataAccessLogic/GoalPreviewDAL";
 import {wayPreviewToWayDTOConverter} from "src/dataAccessLogic/PreviewToDTOConverter/WayPreviewToWayDTOConverter";
@@ -32,17 +33,22 @@ export class WayPreviewDAL {
 
     const owner = await UserPreviewDAL.getUserPreview(wayDTO.ownerUuid);
 
-    const currentMentors = await Promise.all(wayDTO.currentMentorUuids.map(UserPreviewDAL.getUserPreview));
+    const mentors = await Promise.all(wayDTO.mentorUuids.map(UserPreviewDAL.getUserPreview));
 
     const mentorRequests = await Promise.all(wayDTO.mentorRequestUuids.map(UserPreviewDAL.getUserPreview));
 
     const goal = await GoalPreviewDAL.getGoalPreview(wayDTO.goalUuid);
 
+    const lastUpdate = wayDTO.lastUpdate.toDate();
+    const createdAt = wayDTO.createdAt.toDate();
+
     const wayPreviewProps = {
       owner,
-      currentMentors,
+      mentors,
       mentorRequests,
       goal,
+      lastUpdate,
+      createdAt,
     };
 
     const wayPreview = wayDTOToWayPreviewConverter(wayDTO, wayPreviewProps);
@@ -61,11 +67,15 @@ export class WayPreviewDAL {
       name: `${DateUtils.getShortISODateValue(new Date)} Way of ${user.name}`,
       dayReportUuids: [],
       ownerUuid: `${userUuid}`,
-      monthReportUuids: [],
       goalUuid: `${newGoal.uuid}`,
-      currentMentorUuids: [],
+      mentorUuids: [],
       mentorRequestUuids: [],
       isCompleted: false,
+      lastUpdate: Timestamp.fromDate(new Date()),
+      createdAt: Timestamp.fromDate(new Date()),
+      favoriteForUserUuids: [],
+      wayTags: [],
+      jobTags: [],
     };
     const wayDTO = await WayService.createWayDTO(DEFAULT_WAY);
 
@@ -77,6 +87,7 @@ export class WayPreviewDAL {
       ownWays: [...user.ownWays, wayDTO.uuid],
       favoriteWays: user.favoriteWays,
       mentoringWays: user.mentoringWays,
+      createdAt: user.createdAt,
     });
 
     await UserPreviewDAL.updateUserPreview(updatedUser);
@@ -118,14 +129,20 @@ export class WayPreviewDAL {
   public static async updateWayPreview(wayPreview: WayPreview) {
     const ownerUuid = wayPreview.owner.uuid;
     const goalUuid = wayPreview.goal.uuid;
-    const currentMentorsUuids = wayPreview.currentMentors.map((item) => item.uuid);
     const mentorRequestUuids = wayPreview.mentorRequests.map((item) => item.uuid);
+    const mentorsUuids = wayPreview.mentors.map((item) => item.uuid);
+    const lastUpdate = Timestamp.fromDate(wayPreview.lastUpdate);
+    const favoriteForUserUuids = wayPreview.favoriteForUserUuids;
+    const createdAt = Timestamp.fromDate(wayPreview.createdAt);
 
     const wayDTOProps = {
       ownerUuid,
       goalUuid,
-      currentMentorsUuids,
       mentorRequestUuids,
+      mentorsUuids,
+      lastUpdate,
+      favoriteForUserUuids,
+      createdAt,
     };
 
     const wayDTO = wayPreviewToWayDTOConverter(wayPreview, wayDTOProps);

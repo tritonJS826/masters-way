@@ -5,5 +5,5 @@ import {GoalDTO} from "src/model/DTOModel/GoalDTO";
  * Convert {@link GoalDTO} to {@link GoalPreview}
  */
 export const goalDTOToGoalPreviewConverter = (goalDTO: GoalDTO): GoalPreview => {
-  return new GoalPreview({...goalDTO});
+  return new GoalPreview(goalDTO);
 };

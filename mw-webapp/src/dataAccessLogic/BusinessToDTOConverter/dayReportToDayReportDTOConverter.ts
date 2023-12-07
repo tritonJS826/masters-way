@@ -1,6 +1,6 @@
+import {Timestamp} from "firebase/firestore";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {DayReportDTO, DayReportDTOSchema} from "src/model/DTOModel/DayReportDTO";
-import {DateUtils} from "src/utils/DateUtils";
 
 /**
  * DayReportDTO props
@@ -34,7 +34,7 @@ interface DayReportDTOProps {
 export const dayReportToDayReportDTOConverter = (dayReport: DayReport, dayReportDTOProps: DayReportDTOProps): DayReportDTO => {
   const validatedDayReportDTO = DayReportDTOSchema.parse({
     uuid: dayReport.uuid,
-    date: DateUtils.getShortISODateValue(dayReport.date),
+    date: Timestamp.fromDate(dayReport.date),
     jobDoneUuids: dayReportDTOProps.jobDoneUuids,
     planForNextPeriodUuids: dayReportDTOProps.planForNextPeriodUuids,
     problemForCurrentPeriodUuids: dayReportDTOProps.problemForCurrentPeriodUuids,

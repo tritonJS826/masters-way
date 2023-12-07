@@ -25,10 +25,12 @@ export class CurrentProblemDAL {
   /**
    * Create CurrentProblem
    */
-  public static async createCurrentProblem(dayReport: DayReport): Promise<CurrentProblem> {
+  public static async createCurrentProblem(dayReport: DayReport, ownerUuid: string): Promise<CurrentProblem> {
     const currentProblemWithoutUuid: CurrentProblemDTOWithoutUuid = {
       description: "",
       isDone: false,
+      ownerUuid,
+      tags: [],
     };
 
     const newCurrentProblem = await CurrentProblemService.createCurrentProblemDTO(currentProblemWithoutUuid);

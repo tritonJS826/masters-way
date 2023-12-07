@@ -9,8 +9,9 @@
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
-    // I temporaly install @ljharb to fix problem with building storybook. Let's remove this dependency if it is possible
+    // I temporaly install @ljharb and @yarnaimo to fix problem with building storybook. Let's remove this dependency if it is possible
     // "@ljharb"
+    // "@yarnaimo"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
