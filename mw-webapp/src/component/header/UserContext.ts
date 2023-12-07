@@ -1,12 +1,12 @@
 import {createContext, useContext} from "react";
-import {User} from "firebase/auth";
+import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 
 export type UserType = {
 
   /**
    * If user is not logged - null , if logged - User always
    */
-  user: User | null;
+  user: UserPreview | null;
 
 }
 

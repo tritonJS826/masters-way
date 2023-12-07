@@ -82,8 +82,8 @@ export const Columns = (props: ColumnsProps) => {
   const {user} = useUserContext();
   const ownerUuid = props.way.owner.uuid;
   const ownerName = props.way.owner.name;
-  const isOwner = user?.uid === ownerUuid;
-  const isMentor = !!user && !!user.uid && props.mentors.has(user.uid);
+  const isOwner = user?.uuid === ownerUuid;
+  const isMentor = !!user && !!user.uuid && props.mentors.has(user.uuid);
   const isUserCanAddComments = isOwner || isMentor;
 
   const columns = [
@@ -427,7 +427,7 @@ export const Columns = (props: ColumnsProps) => {
                   <EditableText
                     text={comment.description}
                     onChangeFinish={(text) => updateComment(comment, text)}
-                    isEditable={comment.commentatorUuid === user?.uid}
+                    isEditable={comment.commentatorUuid === user?.uuid}
                   />
                 </>
               ),
@@ -435,7 +435,7 @@ export const Columns = (props: ColumnsProps) => {
             {isUserCanAddComments &&
             <Button
               value="add comment"
-              onClick={() => createComment(user.uid)}
+              onClick={() => createComment(user.uuid)}
             />
             }
           </VerticalContainer>

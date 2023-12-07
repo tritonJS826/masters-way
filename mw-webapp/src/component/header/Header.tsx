@@ -15,7 +15,7 @@ const LOGO_TEXT = "master's way";
 /**
  * Navigation link props.
  */
-interface navigationLink {
+interface NavigationLink {
 
   /**
    * Navigation link path.
@@ -31,7 +31,7 @@ interface navigationLink {
 /**
  * Renders navigation links based on the provided navigationLinks array.
  */
-const renderNavigationLinks = (navigationLinks: (navigationLink | null)[]) => {
+const renderNavigationLinks = (navigationLinks: (NavigationLink | null)[]) => {
   return navigationLinks.map((item) => (
     item && (
       <Link
@@ -49,7 +49,7 @@ const renderNavigationLinks = (navigationLinks: (navigationLink | null)[]) => {
 export const Header = () => {
   const {user} = useUserContext();
 
-  const navigationLinks: (navigationLink | null)[] = [
+  const navigationLinks: (NavigationLink | null)[] = [
     {
       path: pages.allWays.getPath({}),
       value: "All ways",
@@ -59,7 +59,7 @@ export const Header = () => {
       value: "All users",
     },
     user && {
-      path: pages.user.getPath({uuid: user.uid}),
+      path: pages.user.getPath({uuid: user.uuid}),
       value: "My ways",
     },
     {
@@ -77,7 +77,7 @@ export const Header = () => {
       {user &&
         <Title
           level={HeadingLevel.h2}
-          text={`Hello, ${user.displayName}!`}
+          text={`Hello, ${user.name}!`}
         />
       }
       <div className={styles.headerButtonsContainer}>
