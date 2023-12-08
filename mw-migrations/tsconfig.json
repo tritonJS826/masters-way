@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2018",
-    "lib": ["ES6"],
+    "lib": ["ES2021"],
     "module": "NodeNext",
     "rootDir": ".",
     "resolveJsonModule": true,

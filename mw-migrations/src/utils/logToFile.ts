@@ -4,7 +4,7 @@ import * as fs from "fs";
 const OUT_DIR = "migration-logs";
 
 // there are some troubles with ':' in windows
-const date = new Date().toISOString().replace(":", "-");
+const date = new Date().toISOString().replaceAll(":", "-");
 const logsDir = path.join(process.cwd(), OUT_DIR);
 
 export const logToFile = (textToLog: string, fileName: string) => {
