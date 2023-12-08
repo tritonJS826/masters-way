@@ -23,17 +23,11 @@ export class Comment {
    */
   public isDone: boolean;
 
-  /**
-   * Comment's tags
-   */
-  public tags: string[];
-
   constructor(commentData: Comment) {
     this.uuid = commentData.uuid;
     this.ownerUuid = commentData.ownerUuid;
     this.description = commentData.description;
     this.isDone = commentData.isDone;
-    this.tags = commentData.tags;
   }
 
 }

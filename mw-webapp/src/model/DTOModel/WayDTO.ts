@@ -1,17 +1,22 @@
 import {timestampType} from "fireschema";
 import {z} from "zod";
 
+export const WAY_UUID_FIELD = "uuid";
+export const WAY_NAME_FIELD = "name";
+export const WAY_OWNER_UUID_FIELD = "ownerUuid";
+export const WAY_MENTOR_UUIDS_FIELD = "mentorUuids";
+
 export const WayDTOSchema = z.object({
 
   /**
    * Way's UUID
    */
-  uuid: z.string(),
+  [WAY_UUID_FIELD]: z.string(),
 
   /**
    * Way's name
    */
-  name: z.string(),
+  [WAY_NAME_FIELD]: z.string(),
 
   /**
    * @DayReport.uuids
@@ -21,7 +26,7 @@ export const WayDTOSchema = z.object({
   /**
    * Owner's UUIDs @User.uuid
    */
-  ownerUuid: z.string(),
+  [WAY_OWNER_UUID_FIELD]: z.string(),
 
   /**
    *Goal's UUID @Goal.uuid
@@ -31,7 +36,7 @@ export const WayDTOSchema = z.object({
   /**
    * Mentor's UUIDs @User.uuid
    */
-  mentorUuids: z.array(z.string()),
+  [WAY_MENTOR_UUIDS_FIELD]: z.array(z.string()),
 
   /**
    * UUIDs of Users who sent request to become Way's mentor @User.uuid

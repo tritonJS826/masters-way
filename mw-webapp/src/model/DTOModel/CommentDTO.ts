@@ -22,10 +22,6 @@ export const CommentDTOSchema = z.object({
    */
   isDone: z.boolean(),
 
-  /**
-   * Comment's tags
-   */
-  tags: z.array(z.string()),
 }).strict();
 
 /**
