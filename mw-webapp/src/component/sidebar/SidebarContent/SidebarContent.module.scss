@@ -10,7 +10,7 @@ $sidebar-button-offset: 5px;
   position: fixed;
   z-index: $sidebarZIndex;
   animation: overlayShow $sidebar-animation-time cubic-bezier(0.16, 1, 0.3, 1);
-  background-color: $transparent-black;
+  background-color: $secondaryBackgroundColorTransparent;
   inset: 0;
 }
 
@@ -23,7 +23,7 @@ $sidebar-button-offset: 5px;
   height: 100%;
   padding: $sidebar-padding;
   animation: contentShow $sidebar-animation-time cubic-bezier(0.16, 1, 0.3, 1);
-  background-color: $primary-background;
+  background-color: $primaryBackgroundColor;
 
   &:focus {
     outline: none;

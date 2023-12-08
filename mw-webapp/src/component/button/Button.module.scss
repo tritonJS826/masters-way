@@ -1,29 +1,21 @@
 @import "src/styles/variables";
 
 .button {
+  padding: 13px 17px;
   border: none;
-  background-color: $buttonInitial;
-  color: $whiteText;
-  transition-duration: 0.3s;
+  border-radius: $primaryBorderRadius;
+  background-color: $tertiaryBackgroundColor;
+  color: $primaryTextColor;
+  font-family: $primaryFontFamily;
+  font-size: $primaryFontSize;
+  transition-duration: $primaryTransitionDuration;
 
   &:hover {
-    background-color: $buttonHover;
+    background-color: $hoverColor;
     cursor: pointer;
   }
 
   &:active {
-    background-color: $buttonActive;
+    background-color: $activeColor;
   }
-}
-
-.buttonSmall {
-  width: 72px;
-  height: 36px;
-  border-radius: $smallButtonBorderRadius;
-}
-
-.buttonLarge {
-  width: 86px;
-  height: 44px;
-  border-radius: $largeButtonBorderRadius;
 }

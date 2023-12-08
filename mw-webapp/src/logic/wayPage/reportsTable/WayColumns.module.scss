@@ -1,62 +1,37 @@
 @import "src/styles/variables";
 
-$editableTimeWidth: 40px;
-$listLeftMargin: 20px;
+$editableTime-width: 15%;
 
 .editableTime {
-  width: $editableTimeWidth;
+  width: $editableTime-width;
   text-align: right;
 }
 
-.summarySection {
+.summaryTimeWrapper {
   display: flex;
   width: 100%;
-  align-items: end;
-  justify-content: space-between;
-  padding-top: 5px;
-  border-top: 2px solid $borderBlack;
+  justify-content: flex-end;
+  border-top: 1px solid $primaryBorderColor;
   font-weight: bold;
 }
 
-.flatButton {
-  height: 20px;
+.numeric {
+  position: relative;
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding-left: 10px;
+  counter-increment: cnt;
+  gap: 15px;
 }
 
-.summaryText {
-  text-wrap: nowrap;
+.numeric::before {
+  position: absolute;
+  left: -5px;
+  content: counter(cnt) ". ";
 }
 
 .cell {
-}
-
-.numberedList {
-  width: calc(100% - $listLeftMargin);
-  margin-left: $listLeftMargin;
-}
-
-.numberedListItem {
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px dotted $borderBlack;
-}
-
-.center {
-  align-items: center;
-}
-
-.editableTextarea {
-  flex-grow: 1;
-  textarea {
-    width: 100%;
-  }
-}
-
-.icon {
-  min-width: 15px;
-  min-height: 15px;
-  margin-left: 5px;
-}
-
-.icon:hover {
-  cursor: pointer;
+  align-items: start;
 }
