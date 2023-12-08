@@ -4,7 +4,6 @@ export type CommentDTOMigration = {
   isDone: boolean;
   commentatorUuid: string;
   ownerUuid: string;
-  tags: string[];
 }
 
 export type CommentDTO = {

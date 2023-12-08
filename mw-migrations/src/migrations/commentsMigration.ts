@@ -21,7 +21,6 @@ const migrateComments = async () => {
   log(`Getting all comments to migrate`);
   const commentsToMigrate: CommentDTOMigration[] = allComments.filter(comment =>
     !Array.isArray(comment.ownerUuid)
-    || !Array.isArray(comment.tags)
     || Array.isArray(comment.commentatorUuid))
   log(`Got ${commentsToMigrate.length} comments to migrate`);
 
@@ -38,7 +37,6 @@ const migrateComments = async () => {
       batch.set(commentRef, {
         ...commentWithoutCommentatorUuid,
         ownerUuid: comment.commentatorUuid,
-        tags: []
       });
 
       const commentMigrationEndTime = new Date();

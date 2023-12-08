@@ -19,7 +19,7 @@ const migratePlansForNextPeriod = async () => {
   log(`Got ${allPlansForNextPeriod.length} goals`)
 
   log(`Getting all plansForNextPeriod to migrate`);
-  const plansForNextPeriodToMigrate: PlanForNextPeriodDTO[] = allPlansForNextPeriod.filter(planForNextPeriod => planForNextPeriod.timeUnit || !planForNextPeriod.tags)
+  const plansForNextPeriodToMigrate: PlanForNextPeriodDTO[] = allPlansForNextPeriod.filter(planForNextPeriod => planForNextPeriod.timeUnit || !planForNextPeriod.tags || !planForNextPeriod.ownerUuid)
   log(`Got ${plansForNextPeriodToMigrate.length} plansForNextPeriod to migrate`);
 
   log(`start migrate plansForNextPeriod one by one`)

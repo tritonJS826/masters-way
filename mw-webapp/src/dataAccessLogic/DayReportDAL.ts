@@ -101,7 +101,7 @@ export class DayReportDAL {
       mentorUuids: way.mentorUuids,
       mentorRequestUuids: way.mentorRequestUuids,
       isCompleted: way.isCompleted,
-      lastUpdate: new Date().getTime(),
+      lastUpdate: Timestamp.fromDate(new Date()),
       createdAt: way.createdAt,
       favoriteForUserUuids: way.favoriteForUserUuids,
       wayTags: way.wayTags,

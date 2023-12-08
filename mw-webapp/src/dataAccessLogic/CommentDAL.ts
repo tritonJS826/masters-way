@@ -30,7 +30,6 @@ export class CommentDAL {
       description: "",
       ownerUuid,
       isDone: false,
-      tags: [],
     };
 
     const comment = await CommentService.createCommentDTO(commentWithoutUuid);
