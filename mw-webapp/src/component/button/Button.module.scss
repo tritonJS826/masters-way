@@ -1,14 +1,29 @@
 @import "src/styles/variables";
 
 .button {
-  width: 100px;
-  height: 40px;
+  border: none;
+  background-color: $buttonInitial;
+  color: $whiteText;
+  transition-duration: 0.3s;
 
   &:hover {
+    background-color: $buttonHover;
     cursor: pointer;
   }
 
   &:active {
-    color: rgb(246, 246, 150);
+    background-color: $buttonActive;
   }
+}
+
+.buttonSmall {
+  width: 72px;
+  height: 36px;
+  border-radius: $smallButtonBorderRadius;
+}
+
+.buttonLarge {
+  width: 86px;
+  height: 44px;
+  border-radius: $largeButtonBorderRadius;
 }
