@@ -3,7 +3,6 @@ import {Button} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Сheckbox";
 import {EditableText} from "src/component/editableText/EditableText";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
-import {useUserContext} from "src/component/header/UserContext";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
@@ -14,6 +13,7 @@ import {CurrentProblemDAL} from "src/dataAccessLogic/CurrentProblemDAL";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
 import {PlanForNextPeriodDAL} from "src/dataAccessLogic/PlanForNextPeriodDAL";
+import {useGlobalContext} from "src/GlobalContext";
 import {Comment} from "src/model/businessModel/Comment";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {DayReport} from "src/model/businessModel/DayReport";
@@ -89,7 +89,7 @@ const updateDayReportState = (
  * Don't get rid of any https://github.com/TanStack/table/issues/4382
  */
 export const Columns = (props: ColumnsProps) => {
-  const {user} = useUserContext();
+  const {user} = useGlobalContext();
   const ownerUuid = props.way.owner.uuid;
   const ownerName = props.way.owner.name;
   const isOwner = user?.uuid === ownerUuid;

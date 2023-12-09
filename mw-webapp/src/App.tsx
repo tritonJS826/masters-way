@@ -1,12 +1,13 @@
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Header} from "src/component/header/Header";
-import {UserContext} from "src/component/header/UserContext";
+import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
+import {globalContext} from "src/GlobalContext";
 import {useErrorHandler} from "src/hooks/useErrorHandler";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {pages} from "src/router/pages";
 import {Router} from "src/router/Router";
-import {handleUserAuthState} from "src/service/auth/handleUserAuthState";
+import {AuthService} from "src/service/AuthService";
 
 /**
  * App
@@ -16,8 +17,23 @@ export const App = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<UserPreview | null>(null);
 
+  /**
+   * OnLog in
+   */
+  const onLogIn = async (value: string) => {
+    const currentUserPreview = await UserPreviewDAL.getUserPreview(value);
+    setUser(currentUserPreview);
+  };
+
+  /**
+   * OnLog out
+   */
+  const onLogOut = async () => {
+    setUser(null);
+  };
+
   useEffect(() => {
-    handleUserAuthState(setUser);
+    AuthService.listenAuthStateChange(onLogIn, onLogOut);
   }, []);
 
   useEffect(() => {
@@ -28,10 +44,9 @@ export const App = () => {
 
   return (
 
-    <UserContext.Provider value={{user}}>
+    <globalContext.Provider value={{user}}>
       <Header />
       <Router />
-    </UserContext.Provider>
-
+    </globalContext.Provider>
   );
 };

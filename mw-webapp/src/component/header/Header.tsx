@@ -1,11 +1,10 @@
 import {Button} from "src/component/button/Button";
-import {useUserContext} from "src/component/header/UserContext";
 import {Link} from "src/component/link/Link";
 import {Sidebar} from "src/component/sidebar/Sidebar";
 import {HeadingLevel, Title} from "src/component/title/Title";
+import {useGlobalContext} from "src/GlobalContext";
 import {pages} from "src/router/pages";
-import {logIn} from "src/service/auth/logIn";
-import {logOut} from "src/service/auth/logOut";
+import {AuthService} from "src/service/AuthService";
 import styles from "src/component/header/Header.module.scss";
 
 const BUTTON_LOG_IN_VALUE = "Login";
@@ -47,7 +46,7 @@ const renderNavigationLinks = (navigationLinks: (NavigationLink | null)[]) => {
  * Header component
  */
 export const Header = () => {
-  const {user} = useUserContext();
+  const {user} = useGlobalContext();
 
   const navigationLinks: (NavigationLink | null)[] = [
     {
@@ -82,7 +81,7 @@ export const Header = () => {
       }
       <div className={styles.headerButtonsContainer}>
         <Button
-          onClick={user ? logOut : logIn}
+          onClick={user ? AuthService.logOut : AuthService.logIn}
           value={user ? BUTTON_LOG_OUT_VALUE : BUTTON_LOG_IN_VALUE}
         />
         <Sidebar

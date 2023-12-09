@@ -1,8 +1,8 @@
 import {useEffect, useState} from "react";
 import {Button} from "src/component/button/Button";
-import {useUserContext} from "src/component/header/UserContext";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
+import {useGlobalContext} from "src/GlobalContext";
 import {ReportsTable} from "src/logic/wayPage/reportsTable/ReportsTable";
 import {Columns} from "src/logic/wayPage/reportsTable/WayColumns";
 import {WayStatistic} from "src/logic/wayPage/WayStatistic";
@@ -31,7 +31,7 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
   const [dayReports, setDayReports] = useState<DayReport[]>([]);
   const [mentors, setMentors] = useState<Map<string, UserPreview>>(new Map());
   const way = props.way;
-  const {user} = useUserContext();
+  const {user} = useGlobalContext();
   const isOwner = user?.uuid === way.owner.uuid;
 
   /**
