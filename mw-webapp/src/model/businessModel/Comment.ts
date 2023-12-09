@@ -11,7 +11,7 @@ export class Comment {
   /**
    * Commentator's uuid
    */
-  public commentatorUuid: string;
+  public ownerUuid: string;
 
   /**
    * Comment's text
@@ -25,7 +25,7 @@ export class Comment {
 
   constructor(commentData: Comment) {
     this.uuid = commentData.uuid;
-    this.commentatorUuid = commentData.commentatorUuid;
+    this.ownerUuid = commentData.ownerUuid;
     this.description = commentData.description;
     this.isDone = commentData.isDone;
   }

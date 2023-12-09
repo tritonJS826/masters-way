@@ -1,3 +1,4 @@
+import {Timestamp} from "firebase/firestore";
 import {dayReportToDayReportDTOConverter} from "src/dataAccessLogic/BusinessToDTOConverter/dayReportToDayReportDTOConverter";
 import {CommentDAL} from "src/dataAccessLogic/CommentDAL";
 import {CurrentProblemDAL} from "src/dataAccessLogic/CurrentProblemDAL";
@@ -9,7 +10,6 @@ import {DayReport} from "src/model/businessModel/DayReport";
 import {WayDTOSchema} from "src/model/DTOModel/WayDTO";
 import {DayReportDTOWithoutUuid, DayReportService} from "src/service/DayReportService";
 import {WayService} from "src/service/WayService";
-import {DateUtils} from "src/utils/DateUtils";
 
 /**
  * Provides methods to interact with the DayReport business model
@@ -79,7 +79,7 @@ export class DayReportDAL {
    */
   public static async createDayReport(wayUuid: string): Promise<DayReport> {
     const DEFAULT_DAY_REPORT: DayReportDTOWithoutUuid = {
-      date: DateUtils.getShortISODateValue(new Date),
+      date: Timestamp.fromDate(new Date()),
       jobDoneUuids: [],
       planForNextPeriodUuids: [],
       problemForCurrentPeriodUuids: [],
@@ -96,12 +96,16 @@ export class DayReportDAL {
       uuid: way.uuid,
       name: way.name,
       dayReportUuids: updatedDayReportUuids,
-      monthReportUuids: way.monthReportUuids,
       ownerUuid: way.ownerUuid,
       goalUuid: way.goalUuid,
-      currentMentorUuids: way.currentMentorUuids,
+      mentorUuids: way.mentorUuids,
       mentorRequestUuids: way.mentorRequestUuids,
       isCompleted: way.isCompleted,
+      lastUpdate: Timestamp.fromDate(new Date()),
+      createdAt: way.createdAt,
+      favoriteForUserUuids: way.favoriteForUserUuids,
+      wayTags: way.wayTags,
+      jobTags: way.jobTags,
     });
 
     await WayService.updateWayDTO(updatedWay, way.uuid);

@@ -46,7 +46,7 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
    * Load mentors
    */
   const loadMentors = () => {
-    const mentorsList = props.way.currentMentors;
+    const mentorsList = props.way.mentors;
     const mentorsHashMap = new Map(mentorsList.map((item): [string, UserPreview] => [item.uuid, item]));
     setMentors(mentorsHashMap);
   };

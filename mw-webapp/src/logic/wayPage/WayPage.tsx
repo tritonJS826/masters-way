@@ -69,7 +69,7 @@ export const WayPage = (props: WayPageProps) => {
    * Render all way's mentors
    */
   const renderMentors = (wayPreview: WayPreview) => {
-    return wayPreview.currentMentors.map((item) => (
+    return wayPreview.mentors.map((item) => (
       <Link
         key={item.uuid}
         value={item.name}

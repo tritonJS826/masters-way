@@ -38,7 +38,7 @@ export const dayReportDTOToDayReportConverter =
   (dayReportDTO: DayReportDTO, dayReportProps: DayReportConverterProps): DayReport => {
     return new DayReport({
       ...dayReportDTO,
-      date: new Date(dayReportDTO.date),
+      date: dayReportDTO.date.toDate(),
       jobsDone: dayReportProps.jobsDone,
       plansForNextPeriod: dayReportProps.plansForNextPeriod,
       problemsForCurrentPeriod: dayReportProps.problemsForCurrentPeriod,
