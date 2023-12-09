@@ -32,7 +32,7 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
   const [mentors, setMentors] = useState<Map<string, UserPreview>>(new Map());
   const way = props.way;
   const {user} = useUserContext();
-  const isOwner = user?.uid === way.owner.uuid;
+  const isOwner = user?.uuid === way.owner.uuid;
 
   /**
    * Gets all day reports

@@ -39,7 +39,7 @@ export const WayPage = (props: WayPageProps) => {
   const navigate = useNavigate();
   const [way, setWay] = useState<WayPreview>();
   const {user} = useUserContext();
-  const isOwner = user?.uid === way?.owner.uuid;
+  const isOwner = user?.uuid === way?.owner.uuid;
 
   /**
    * Get Way

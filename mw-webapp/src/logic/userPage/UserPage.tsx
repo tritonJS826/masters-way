@@ -57,7 +57,7 @@ export const UserPage = (props: UserPageProps) => {
   const [userPreview, setUserPreview] = useState<UserPreview | null>(null);
   const navigate = useNavigate();
   const {user} = useUserContext();
-  const isOwner = user?.uid === userPreview?.uuid;
+  const isOwner = user?.uuid === userPreview?.uuid;
 
   /**
    * Load user

@@ -92,8 +92,8 @@ export const Columns = (props: ColumnsProps) => {
   const {user} = useUserContext();
   const ownerUuid = props.way.owner.uuid;
   const ownerName = props.way.owner.name;
-  const isOwner = user?.uid === ownerUuid;
-  const isMentor = !!user && !!user.uid && props.mentors.has(user.uid);
+  const isOwner = user?.uuid === ownerUuid;
+  const isMentor = !!user && !!user.uuid && props.mentors.has(user.uuid);
   const isUserOwnerOrMentor = isOwner || isMentor;
 
   const columns = [
@@ -300,14 +300,14 @@ export const Columns = (props: ColumnsProps) => {
                     <EditableTextarea
                       text={planForNextPeriod.job}
                       onChangeFinish={(text) => updatePlanForNextPeriod(planForNextPeriod, text)}
-                      isEditable={planForNextPeriod.ownerUuid === user?.uid}
+                      isEditable={planForNextPeriod.ownerUuid === user?.uuid}
                       className={styles.editableTextarea}
                     />
                     <EditableText
                       text={planForNextPeriod.estimationTime}
                       onChangeFinish={(value) => updatePlanForNextPeriodTime(planForNextPeriod, value)}
                       className={styles.editableTime}
-                      isEditable={planForNextPeriod.ownerUuid === user?.uid}
+                      isEditable={planForNextPeriod.ownerUuid === user?.uuid}
                     />
                   </HorizontalContainer>
                 </li>
@@ -316,7 +316,7 @@ export const Columns = (props: ColumnsProps) => {
             {isUserOwnerOrMentor &&
               <Button
                 value="add plan"
-                onClick={() => createPlanForNextPeriod(user.uid)}
+                onClick={() => createPlanForNextPeriod(user.uuid)}
               />
             }
           </VerticalContainer>
@@ -373,7 +373,7 @@ export const Columns = (props: ColumnsProps) => {
                   <EditableTextarea
                     text={currentProblem.description}
                     onChangeFinish={(text) => updateCurrentProblem(currentProblem, text)}
-                    isEditable={currentProblem.ownerUuid === user?.uid}
+                    isEditable={currentProblem.ownerUuid === user?.uuid}
                     className={styles.editableTextarea}
                   />
                 </li>
@@ -382,7 +382,7 @@ export const Columns = (props: ColumnsProps) => {
             {isUserOwnerOrMentor &&
               <Button
                 value="add problem"
-                onClick={() => createCurrentProblem(user.uid)}
+                onClick={() => createCurrentProblem(user.uuid)}
               />
             }
           </VerticalContainer>
@@ -439,7 +439,7 @@ export const Columns = (props: ColumnsProps) => {
                   <EditableTextarea
                     text={comment.description}
                     onChangeFinish={(text) => updateComment(comment, text)}
-                    isEditable={comment.ownerUuid === user?.uid}
+                    isEditable={comment.ownerUuid === user?.uuid}
                     className={styles.editableTextarea}
                   />
                 </>
@@ -448,7 +448,7 @@ export const Columns = (props: ColumnsProps) => {
             {isUserOwnerOrMentor &&
             <Button
               value="add comment"
-              onClick={() => createComment(user.uid)}
+              onClick={() => createComment(user.uuid)}
             />
             }
           </VerticalContainer>
