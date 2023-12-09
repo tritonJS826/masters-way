@@ -31,11 +31,11 @@ const columnHelper = createColumnHelper<DayReport>();
 /**
  * Get user name
  */
-const getUserName = (users: Map<string, UserPreview>, uuid: string, name: string) => {
-  const mentor = users.get(uuid);
-  const userName = mentor ? mentor.name : name;
+const getName = (mentors: Map<string, UserPreview>, mentorUuid: string, ownerName: string) => {
+  const mentor = mentors.get(mentorUuid);
+  const name = mentor ? mentor.name : ownerName;
 
-  return userName;
+  return name;
 };
 
 /**
@@ -293,7 +293,7 @@ export const Columns = (props: ColumnsProps) => {
               {row.original.plansForNextPeriod.map((planForNextPeriod) => (
                 <li key={planForNextPeriod.uuid}>
                   <Link
-                    value={getUserName(props.mentors, planForNextPeriod.ownerUuid, ownerName)}
+                    value={getName(props.mentors, planForNextPeriod.ownerUuid, ownerName)}
                     path={pages.user.getPath({uuid: planForNextPeriod.ownerUuid})}
                   />
                   <HorizontalContainer className={styles.numberedListItem}>
@@ -367,7 +367,7 @@ export const Columns = (props: ColumnsProps) => {
               {row.original.problemsForCurrentPeriod.map((currentProblem) => (
                 <li key={currentProblem.uuid}>
                   <Link
-                    value={getUserName(props.mentors, currentProblem.ownerUuid, ownerName)}
+                    value={getName(props.mentors, currentProblem.ownerUuid, ownerName)}
                     path={pages.user.getPath({uuid: currentProblem.ownerUuid})}
                   />
                   <EditableTextarea
@@ -433,7 +433,7 @@ export const Columns = (props: ColumnsProps) => {
               .map((comment) => (
                 <>
                   <Link
-                    value={getUserName(props.mentors, comment.ownerUuid, ownerName)}
+                    value={getName(props.mentors, comment.ownerUuid, ownerName)}
                     path={pages.user.getPath({uuid: comment.ownerUuid})}
                   />
                   <EditableTextarea
