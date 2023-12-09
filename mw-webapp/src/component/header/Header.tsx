@@ -30,7 +30,7 @@ interface NavigationLink {
 /**
  * Renders navigation links based on the provided navigationLinks array.
  */
-const renderNavigationLinks = (navigationLinks: (NavigationLink | null)[]) => {
+const renderNavigationLinks = (navigationLinks: (NavigationLink| null)[]) => {
   return navigationLinks.map((item) => (
     item && (
       <Link
@@ -66,6 +66,14 @@ export const Header = () => {
       value: "About",
     },
   ];
+
+  // eslint-disable-next-line no-console
+  console.log(navigationLinks);
+
+  // Const navigationLinksWithoutNull: NavigationLink[] = navigationLinks.filter((item) => item);
+
+  // eslint-disable-next-line no-console
+  // console.log(navigationLinksWithoutNull);
 
   return (
     <div className={styles.header}>

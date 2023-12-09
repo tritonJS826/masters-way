@@ -4,7 +4,7 @@ import {UserDTO, UserDTOSchema, UsersDTOSchema} from "src/model/DTOModel/UserDTO
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
 import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
 
-const PATH_TO_USERS_COLLECTION = "users";
+export const PATH_TO_USERS_COLLECTION = "users";
 
 /**
  * Provides methods to interact with the Users collection in Firestore.

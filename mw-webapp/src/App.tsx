@@ -33,7 +33,7 @@ export const App = () => {
   };
 
   useEffect(() => {
-    AuthService.listenAuthStateChange(onLogIn, onLogOut);
+    AuthService.listenAuthStateChange({onLogIn, onLogOut});
   }, []);
 
   useEffect(() => {

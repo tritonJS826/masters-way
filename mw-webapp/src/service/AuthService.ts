@@ -1,7 +1,25 @@
 import {onAuthStateChanged, signInWithPopup, signOut} from "firebase/auth";
 import {doc, getDoc, Timestamp} from "firebase/firestore";
 import {auth, db, provider} from "src/firebase";
-import {UserService} from "src/service/UserService";
+import {PATH_TO_USERS_COLLECTION, UserService} from "src/service/UserService";
+
+const DEFAULT_USER_NAME = "Noname";
+
+/**
+ * Listen auth state change params
+ */
+interface ListenAuthStateChangeParams {
+
+  /**
+   * OnLogIn handler
+   */
+  onLogIn: (userUid: string) => void;
+
+  /**
+   * OnLogOut handler
+   */
+  onLogOut: () => void;
+}
 
 /**
  * Provides methods to interact with the Comments collection
@@ -36,27 +54,27 @@ export class AuthService {
   /**
    * Tracks whether the user is logged in or not
    */
-  public static async listenAuthStateChange(onLogIn: (userUid: string) => void, onLogOut: (user: null) => void) {
+  public static async listenAuthStateChange(params: ListenAuthStateChangeParams) {
     onAuthStateChanged(auth, async (currentUser) => {
       if (!currentUser) {
-        onLogOut(null);
+        params.onLogOut();
 
         return;
       }
 
-      const userDocRef = doc(db, "users", currentUser.uid);
+      const userDocRef = doc(db, PATH_TO_USERS_COLLECTION, currentUser.uid);
       const userDocSnapshot = await getDoc(userDocRef);
 
       if (!userDocSnapshot.exists()) {
         if (!currentUser.email) {
-          throw Error ("Current user doesn't have an email");
+          throw Error (`Current user ${currentUser} with uuid ${currentUser.uid} doesn't have an email`);
         }
         // Create new user on firebase Users collection after google login
         UserService.createUserDTO(
           {
             uuid: currentUser.uid,
             email: currentUser.email,
-            name: currentUser.displayName ?? "Current user doesn't have a name",
+            name: currentUser.displayName ?? DEFAULT_USER_NAME,
             description: "",
             ownWayUuids: [],
             favoriteWayUuids: [],
@@ -66,7 +84,7 @@ export class AuthService {
         );
       }
 
-      onLogIn(currentUser.uid);
+      params.onLogIn(currentUser.uid);
 
     });
   }
