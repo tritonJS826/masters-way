@@ -2,6 +2,7 @@ import {createColumnHelper} from "@tanstack/react-table";
 import {Button} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Сheckbox";
 import {EditableText} from "src/component/editableText/EditableText";
+import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {useUserContext} from "src/component/header/UserContext";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
@@ -22,7 +23,6 @@ import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
 import {DateUtils} from "src/utils/DateUtils";
-import {UnicodeSymbols} from "src/utils/UnicodeSymbols";
 import styles from "src/logic/wayPage/reportsTable/WayColumns.module.scss";
 
 const DEFAULT_SUMMARY_TIME = 0;
@@ -183,37 +183,40 @@ export const Columns = (props: ColumnsProps) => {
 
         return (
           <VerticalContainer className={styles.cell}>
-            {row.original.jobsDone.map((jobDone) => (
-              <HorizontalContainer
-                key={jobDone.uuid}
-                className={styles.numeric}
-              >
-                <EditableText
-                  text={jobDone.description}
-                  onChangeFinish={(text) => updateJobDone(jobDone, text)}
-                  isEditable={isOwner}
+            <ol className={styles.numberedList}>
+              {row.original.jobsDone.map((jobDone) => (
+                <li key={jobDone.uuid}>
+                  <HorizontalContainer className={styles.numberedListItem}>
+                    <EditableTextarea
+                      text={jobDone.description}
+                      onChangeFinish={(text) => updateJobDone(jobDone, text)}
+                      isEditable={isOwner}
+                      className={styles.editableTextarea}
+                    />
+                    <EditableText
+                      text={jobDone.time}
+                      onChangeFinish={(text) => updateJobDoneTime(jobDone, text)}
+                      className={styles.editableTime}
+                      isEditable={isOwner}
+                    />
+                  </HorizontalContainer>
+                </li>
+              ))}
+            </ol>
+            <div className={styles.jobDoneSummarySection}>
+              {isOwner &&
+                <Button
+                  value="add job"
+                  onClick={createJobDone}
                 />
-                {UnicodeSymbols.DIVIDING_POINT}
-                <EditableText
-                  text={jobDone.time}
-                  onChangeFinish={(text) => updateJobDoneTime(jobDone, text)}
-                  className={styles.editableTime}
-                  isEditable={isOwner}
-                />
-              </HorizontalContainer>
-            ))}
-            <div className={styles.summaryTimeWrapper}>
-              {"Summary time: "}
-              {row.original.jobsDone
-                .reduce((summaryTime, jobDone) => jobDone.time + summaryTime, DEFAULT_SUMMARY_TIME)
               }
+              <span>
+                {"Summary time: "}
+                {row.original.jobsDone
+                  .reduce((summaryTime, jobDone) => jobDone.time + summaryTime, DEFAULT_SUMMARY_TIME)
+                }
+              </span>
             </div>
-            {isOwner &&
-              <Button
-                value="add job"
-                onClick={createJobDone}
-              />
-            }
           </VerticalContainer>
         );
       },
@@ -278,25 +281,26 @@ export const Columns = (props: ColumnsProps) => {
 
         return (
           <VerticalContainer className={styles.cell}>
-            {row.original.plansForNextPeriod.map((planForNextPeriod) => (
-              <HorizontalContainer
-                key={planForNextPeriod.uuid}
-                className={styles.numeric}
-              >
-                <EditableText
-                  text={planForNextPeriod.job}
-                  onChangeFinish={(text) => updatePlanForNextPeriod(planForNextPeriod, text)}
-                  isEditable={isOwner}
-                />
-                {UnicodeSymbols.DIVIDING_POINT}
-                <EditableText
-                  text={planForNextPeriod.estimationTime}
-                  onChangeFinish={(value) => updatePlanForNextPeriodTime(planForNextPeriod, value)}
-                  className={styles.editableTime}
-                  isEditable={isOwner}
-                />
-              </HorizontalContainer>
-            ))}
+            <ol className={styles.numberedList}>
+              {row.original.plansForNextPeriod.map((planForNextPeriod) => (
+                <li key={planForNextPeriod.uuid}>
+                  <HorizontalContainer className={styles.numberedListItem}>
+                    <EditableTextarea
+                      text={planForNextPeriod.job}
+                      onChangeFinish={(text) => updatePlanForNextPeriod(planForNextPeriod, text)}
+                      isEditable={isOwner}
+                      className={styles.editableTextarea}
+                    />
+                    <EditableText
+                      text={planForNextPeriod.estimationTime}
+                      onChangeFinish={(value) => updatePlanForNextPeriodTime(planForNextPeriod, value)}
+                      className={styles.editableTime}
+                      isEditable={isOwner}
+                    />
+                  </HorizontalContainer>
+                </li>
+              ))}
+            </ol>
             {isUserCanAddPlans &&
               <Button
                 value="add plan"
@@ -347,18 +351,20 @@ export const Columns = (props: ColumnsProps) => {
 
         return (
           <VerticalContainer className={styles.cell}>
-            {row.original.problemsForCurrentPeriod.map((currentProblem) => (
-              <HorizontalContainer
-                key={currentProblem.uuid}
-                className={styles.numeric}
-              >
-                <EditableText
-                  text={currentProblem.description}
-                  onChangeFinish={(text) => updateCurrentProblem(currentProblem, text)}
-                  isEditable={isOwner}
-                />
-              </HorizontalContainer>
-            ))}
+            <ol className={styles.numberedList}>
+              {row.original.problemsForCurrentPeriod.map((currentProblem) => (
+                <li key={currentProblem.uuid}>
+                  <HorizontalContainer className={styles.numberedListItem}>
+                    <EditableTextarea
+                      text={currentProblem.description}
+                      onChangeFinish={(text) => updateCurrentProblem(currentProblem, text)}
+                      isEditable={isOwner}
+                      className={styles.editableTextarea}
+                    />
+                  </HorizontalContainer>
+                </li>
+              ))}
+            </ol>
             {isUserCanAddProblem &&
               <Button
                 value="add problem"
@@ -426,10 +432,11 @@ export const Columns = (props: ColumnsProps) => {
                     value={getCommentatorName(props.mentors, comment.ownerUuid)}
                     path={pages.user.getPath({uuid: comment.ownerUuid})}
                   />
-                  <EditableText
+                  <EditableTextarea
                     text={comment.description}
                     onChangeFinish={(text) => updateComment(comment, text)}
                     isEditable={comment.ownerUuid === user?.uid}
+                    className={styles.editableTextarea}
                   />
                 </>
               ),

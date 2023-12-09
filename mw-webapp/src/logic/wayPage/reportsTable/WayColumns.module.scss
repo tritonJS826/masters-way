@@ -1,37 +1,39 @@
 @import "src/styles/variables";
 
-$editableTime-width: 15%;
+$editableTimeWidth: 40px;
+$listLeftMargin: 20px;
 
 .editableTime {
-  width: $editableTime-width;
+  width: $editableTimeWidth;
   text-align: right;
 }
 
-.summaryTimeWrapper {
+.jobDoneSummarySection {
   display: flex;
   width: 100%;
-  justify-content: flex-end;
-  border-top: 1px solid $borderBlack;
+  align-items: end;
+  justify-content: space-between;
+  padding-top: 5px;
+  border-top: 2px solid $borderBlack;
   font-weight: bold;
 }
 
-.numeric {
-  position: relative;
-  display: flex;
-  width: 100%;
-  align-items: flex-start;
-  justify-content: space-between;
-  padding-left: 10px;
-  counter-increment: cnt;
-  gap: 15px;
-}
-
-.numeric::before {
-  position: absolute;
-  left: -5px;
-  content: counter(cnt) ". ";
-}
-
 .cell {
-  align-items: start;
+}
+
+.numberedList {
+  width: calc(100% - $listLeftMargin);
+  margin-left: $listLeftMargin;
+}
+
+.numberedListItem {
+  justify-content: space-between;
+  border-bottom: 1px dotted $borderBlack;
+}
+
+.editableTextarea {
+  flex-grow: 1;
+  textarea {
+    width: 100%;
+  }
 }

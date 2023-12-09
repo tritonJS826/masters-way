@@ -8,7 +8,7 @@
   - [] add ability to delete way (12h)
 - [x] render mentoring ways table
 - [x] render favorite ways table
-- [] change format in cells lists (use ol li instead of css styles, put button "add item" to bottom of cell)
+- [x] change format in cells lists (use ol li instead of css styles, put button "add item" to bottom of cell)
 
 ## WayPage
 
