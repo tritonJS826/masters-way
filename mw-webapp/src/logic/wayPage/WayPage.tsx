@@ -106,7 +106,7 @@ export const WayPage = (props: WayPageProps) => {
           />
           <Link
             value={way.owner.name}
-            path={pages.user.getPath({uuid: way.owner.name})}
+            path={pages.user.getPath({uuid: way.owner.uuid})}
             className={styles.mentors}
           />
           {!!renderMentors(way).length && (
