@@ -100,6 +100,15 @@ export const WayPage = (props: WayPageProps) => {
             rows={5}
             isEditable={isOwner}
           />
+          <Title
+            level={HeadingLevel.h3}
+            text="Way owner:"
+          />
+          <Link
+            value={way.owner.name}
+            path={pages.user.getPath({uuid: way.owner.name})}
+            className={styles.mentors}
+          />
           {!!renderMentors(way).length && (
             <>
               <Title

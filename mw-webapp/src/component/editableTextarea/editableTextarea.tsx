@@ -76,7 +76,7 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
         props.isEditable !== false && setIsEditing(true);
       }}
       onBlur={handleChangeFinish}
-      className={clsx(styles.editableTextarea)}
+      className={clsx(styles.editableTextarea, props.className)}
     >
       {isEditing ? renderTextarea() : renderSpan(text)}
     </div>
