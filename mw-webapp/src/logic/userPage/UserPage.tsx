@@ -1,10 +1,10 @@
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
-import {useUserContext} from "src/component/header/UserContext";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
+import {useGlobalContext} from "src/GlobalContext";
 import {FavoriteWaysTable} from "src/logic/waysTable/FavoriteWaysTable";
 import {MentoringWaysTable} from "src/logic/waysTable/MentoringWaysTable";
 import {OwnWaysTable} from "src/logic/waysTable/OwnWaysTable";
@@ -56,7 +56,7 @@ interface UserPageProps {
 export const UserPage = (props: UserPageProps) => {
   const [userPreview, setUserPreview] = useState<UserPreview | null>(null);
   const navigate = useNavigate();
-  const {user} = useUserContext();
+  const {user} = useGlobalContext();
   const isOwner = user?.uuid === userPreview?.uuid;
 
   /**
