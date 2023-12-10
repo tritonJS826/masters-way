@@ -1,12 +1,12 @@
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
-import {useUserContext} from "src/component/header/UserContext";
 import {Link} from "src/component/link/Link";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {GoalPreviewDAL} from "src/dataAccessLogic/GoalPreviewDAL";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
+import {useGlobalContext} from "src/GlobalContext";
 import {DayReportsTable} from "src/logic/wayPage/reportsTable/DayReportsTable";
 import {GoalPreview} from "src/model/businessModelPreview/GoalPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
@@ -38,8 +38,8 @@ interface WayPageProps {
 export const WayPage = (props: WayPageProps) => {
   const navigate = useNavigate();
   const [way, setWay] = useState<WayPreview>();
-  const {user} = useUserContext();
-  const isOwner = user?.uid === way?.owner.uuid;
+  const {user} = useGlobalContext();
+  const isOwner = user?.uuid === way?.owner.uuid;
 
   /**
    * Get Way
@@ -106,7 +106,7 @@ export const WayPage = (props: WayPageProps) => {
           />
           <Link
             value={way.owner.name}
-            path={pages.user.getPath({uuid: way.owner.name})}
+            path={pages.user.getPath({uuid: way.owner.uuid})}
             className={styles.mentors}
           />
           {!!renderMentors(way).length && (
