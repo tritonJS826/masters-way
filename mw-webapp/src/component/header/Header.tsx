@@ -48,7 +48,7 @@ const renderNavigationLinks = (navigationLinks: (NavigationLink)[]) => {
 export const Header = () => {
   const {user} = useGlobalContext();
 
-  const navigationLinks: (NavigationLink | null)[] = [
+  const navigationLinksRaw: (NavigationLink | null)[] = [
     {
       path: pages.allWays.getPath({}),
       value: "All ways",
@@ -67,7 +67,8 @@ export const Header = () => {
     },
   ];
 
-  const navigationLinksWithoutNull: NavigationLink[] = navigationLinks.flatMap((link) => link ? [link] : []);
+  const navigationLinks: NavigationLink[] = navigationLinksRaw
+    .filter((link): link is NavigationLink => Boolean(link));
 
   return (
     <div className={styles.header}>
@@ -95,7 +96,7 @@ export const Header = () => {
           }
           content={
             <div className={styles.navSidebarContent}>
-              {renderNavigationLinks(navigationLinksWithoutNull)}
+              {renderNavigationLinks(navigationLinks)}
             </div>
           }
         />
