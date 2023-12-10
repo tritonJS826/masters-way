@@ -1,0 +1,15 @@
+@import "src/styles/variables";
+
+.navSidebarContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.menuItem {
+  padding: 10px;
+  color: black;
+  transition-duration: $elementHoverTransition;
+  &:hover {
+    background-color: $shadow-color;
+  }
+}
