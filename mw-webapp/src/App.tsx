@@ -1,4 +1,4 @@
-import {useEffect, useMemo, useState} from "react";
+import {useEffect, useState} from "react";
 import {Header} from "src/component/header/Header";
 import {UserContext} from "src/component/header/UserContext";
 import {useErrorHandler} from "src/hooks/useErrorHandler";
@@ -18,11 +18,9 @@ export const App = () => {
     handleUserAuthState(setUser);
   }, []);
 
-  const userMemo = useMemo(() => ({user}), [user]);
-
   return (
 
-    <UserContext.Provider value={userMemo}>
+    <UserContext.Provider value={{user}}>
       <Header />
       <Router />
     </UserContext.Provider>

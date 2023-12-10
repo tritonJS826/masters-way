@@ -4,7 +4,7 @@ import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 export type UserType = {
 
   /**
-   * If user is not logged - null , if logged - User always
+   * If user is not logged - null
    */
   user: UserPreview | null;
 
