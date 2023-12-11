@@ -3,7 +3,7 @@ import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
 import {Button} from "src/component/button/Button";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import aboutProjectPageContent from "src/logic/aboutProjectPage/AboutProjectPageContent.json";
-import {jsonWithLineBreakToReact} from "src/utils/textUtils/jsonToLineBreak";
+import {renderMarkdown} from "src/utils/textUtils/renderMarkdown";
 import styles from "src/logic/aboutProjectPage/AboutProjectPage.module.scss";
 
 /**
@@ -19,16 +19,16 @@ const {
  */
 type Lang = "ru" | "en"
 
-const accordionItems = accordionContent.map((data) => ({
-  trigger: {child: data.header.ru},
-  content: {child: jsonWithLineBreakToReact(data.description.ru)},
-}));
-
 /**
  * About project page
  */
 export const AboutProjectPage = () => {
   const [lang, setLang] = useState<Lang>("en");
+
+  const accordionItems = accordionContent.map((data) => ({
+    trigger: {child: data.header[lang]},
+    content: {child: renderMarkdown(data.description[lang])},
+  }));
 
   return (
     <div className={styles.pageWrapper}>
@@ -43,7 +43,7 @@ export const AboutProjectPage = () => {
       />
 
       <div className={styles.projectDescription}>
-        {jsonWithLineBreakToReact(projectDescriptionContent[lang])}
+        {renderMarkdown(projectDescriptionContent[lang])}
       </div>
 
       <Title

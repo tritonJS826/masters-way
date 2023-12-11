@@ -1,4 +1,3 @@
-import {TimeUnit} from "src/model/DTOModel/time/timeUnit/TimeUnit";
 import {z} from "zod";
 
 export const PlanForNextPeriodDTOSchema = z.object({
@@ -14,18 +13,23 @@ export const PlanForNextPeriodDTOSchema = z.object({
   job: z.string(),
 
   /**
-   * Unit of time measurement for {@link estimationTime}
+   * Uuid of User @User.uuid
    */
-  timeUnit: z.nativeEnum(TimeUnit),
+  ownerUuid: z.string(),
 
   /**
-   * Estimation number of time units {@link timeUnit}
+   * Estimation number of time units in minutes
    */
   estimationTime: z.number(),
+
+  /**
+   * JobDone's tags
+   */
+  tags: z.array(z.string()),
 
 }).strict();
 
 /**
  * Plan for next period DTO model
  */
-export type PlanForNextPeriodDTO = z.infer<typeof PlanForNextPeriodDTOSchema>
+export type PlanForNextPeriodDTO = z.infer<typeof PlanForNextPeriodDTOSchema>;

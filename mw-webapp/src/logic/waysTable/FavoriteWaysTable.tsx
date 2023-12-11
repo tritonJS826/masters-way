@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
-import {columns} from "src/logic/waysTable/columns";
 import {PropsWithUuid} from "src/logic/waysTable/OwnWaysTable";
+import {waysColumns} from "src/logic/waysTable/waysColumns";
 import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 
@@ -26,7 +26,7 @@ export const FavoriteWaysTable = (props: PropsWithUuid) => {
   return (
     <WaysTable
       data={favoriteWays}
-      columns={columns}
+      columns={waysColumns}
     />
   );
 };

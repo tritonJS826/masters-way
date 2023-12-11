@@ -18,10 +18,16 @@ export class GoalMetric {
    */
   public isDone: boolean;
 
+  /**
+   * Time when goal metric was done
+   */
+  public doneDate: Date;
+
   constructor(goalMetricData: GoalMetric) {
     this.uuid = goalMetricData.uuid;
     this.description = goalMetricData.description;
     this.isDone = goalMetricData.isDone;
+    this.doneDate = goalMetricData.doneDate;
   }
 
 }

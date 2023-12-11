@@ -2,7 +2,7 @@ import {createColumnHelper} from "@tanstack/react-table";
 import {Button} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Сheckbox";
 import {EditableText} from "src/component/editableText/EditableText";
-import {useUserContext} from "src/component/header/UserContext";
+import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
@@ -13,6 +13,7 @@ import {CurrentProblemDAL} from "src/dataAccessLogic/CurrentProblemDAL";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
 import {PlanForNextPeriodDAL} from "src/dataAccessLogic/PlanForNextPeriodDAL";
+import {useGlobalContext} from "src/GlobalContext";
 import {Comment} from "src/model/businessModel/Comment";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {DayReport} from "src/model/businessModel/DayReport";
@@ -22,11 +23,20 @@ import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
 import {DateUtils} from "src/utils/DateUtils";
-import {UnicodeSymbols} from "src/utils/UnicodeSymbols";
 import styles from "src/logic/wayPage/reportsTable/WayColumns.module.scss";
 
 const DEFAULT_SUMMARY_TIME = 0;
 const columnHelper = createColumnHelper<DayReport>();
+
+/**
+ * Get user name
+ */
+const getName = (mentors: Map<string, UserPreview>, mentorUuid: string, ownerName: string) => {
+  const mentor = mentors.get(mentorUuid);
+  const name = mentor ? mentor.name : ownerName;
+
+  return name;
+};
 
 /**
  * Columns props
@@ -79,26 +89,26 @@ const updateDayReportState = (
  * Don't get rid of any https://github.com/TanStack/table/issues/4382
  */
 export const Columns = (props: ColumnsProps) => {
-  const {user} = useUserContext();
+  const {user} = useGlobalContext();
   const ownerUuid = props.way.owner.uuid;
   const ownerName = props.way.owner.name;
-  const isOwner = user?.uid === ownerUuid;
-  const isMentor = user ? !!props.mentors.get(user.uid) : false;
-  const isUserCanEditComments = (isOwner || isMentor) && user;
+  const isOwner = user?.uuid === ownerUuid;
+  const isMentor = !!user && !!user.uuid && props.mentors.has(user.uuid);
+  const isUserOwnerOrMentor = isOwner || isMentor;
 
   const columns = [
     columnHelper.accessor("date", {
       header: "Date",
 
       /**
-       * Cell with date value
+       * Cell  with date value
        */
       cell: ({row}) => {
 
         /**
          * Update isDayOff
          */
-        const udateIsDayOff = async (value: boolean) => {
+        const updateIsDayOff = async (value: boolean) => {
           await DayReportDAL.updateIsDayOff(row.original, value);
           const updatedDayReport = {...row.original, isDayOff: value};
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
@@ -113,7 +123,8 @@ export const Columns = (props: ColumnsProps) => {
             >
               <Checkbox
                 isDefaultChecked={row.original.isDayOff}
-                onChange={udateIsDayOff}
+                onChange={(value) => isOwner && updateIsDayOff(value)}
+                isEditable={isOwner}
               />
             </Tooltip>
           </VerticalContainer>
@@ -180,38 +191,40 @@ export const Columns = (props: ColumnsProps) => {
 
         return (
           <VerticalContainer className={styles.cell}>
-            {row.original.jobsDone
-              .map((jobDone) => (
-                <HorizontalContainer
-                  key={jobDone.uuid}
-                  className={styles.numeric}
-                >
-                  <EditableText
-                    text={jobDone.description}
-                    onChangeFinish={(text) => updateJobDone(jobDone, text)}
-                  />
-                  {UnicodeSymbols.DIVIDING_POINT}
-                  <EditableText
-                    text={jobDone.time}
-                    onChangeFinish={(text) => updateJobDoneTime(jobDone, text)}
-                    className={styles.editableTime}
-                  />
-                </HorizontalContainer>
-              ),
-              )
-            }
-            <div className={styles.summaryTimeWrapper}>
-              {"Summary time: "}
-              {row.original.jobsDone
-                .reduce((summaryTime, jobDone) => jobDone.time + summaryTime, DEFAULT_SUMMARY_TIME)
+            <ol className={styles.numberedList}>
+              {row.original.jobsDone.map((jobDone) => (
+                <li key={jobDone.uuid}>
+                  <HorizontalContainer className={styles.numberedListItem}>
+                    <EditableTextarea
+                      text={jobDone.description}
+                      onChangeFinish={(text) => updateJobDone(jobDone, text)}
+                      isEditable={isOwner}
+                      className={styles.editableTextarea}
+                    />
+                    <EditableText
+                      text={jobDone.time}
+                      onChangeFinish={(text) => updateJobDoneTime(jobDone, text)}
+                      className={styles.editableTime}
+                      isEditable={isOwner}
+                    />
+                  </HorizontalContainer>
+                </li>
+              ))}
+            </ol>
+            <div className={styles.jobDoneSummarySection}>
+              {isOwner &&
+                <Button
+                  value="add job"
+                  onClick={createJobDone}
+                />
               }
+              <span>
+                {"Summary time: "}
+                {row.original.jobsDone
+                  .reduce((summaryTime, jobDone) => jobDone.time + summaryTime, DEFAULT_SUMMARY_TIME)
+                }
+              </span>
             </div>
-            {isOwner &&
-              <Button
-                value="add job"
-                onClick={createJobDone}
-              />
-            }
           </VerticalContainer>
         );
       },
@@ -227,8 +240,8 @@ export const Columns = (props: ColumnsProps) => {
         /**
          * Create PlanForNextPeriod
          */
-        const createPlanForNextPeriod = async () => {
-          const planForNextPeriod = await PlanForNextPeriodDAL.createPlanForNextPeriod(row.original);
+        const createPlanForNextPeriod = async (userUuid: string) => {
+          const planForNextPeriod = await PlanForNextPeriodDAL.createPlanForNextPeriod(row.original, userUuid);
           const plansForNextPeriod = [...row.original.plansForNextPeriod, planForNextPeriod];
           const updatedDayReport = {...row.original, plansForNextPeriod};
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
@@ -276,30 +289,34 @@ export const Columns = (props: ColumnsProps) => {
 
         return (
           <VerticalContainer className={styles.cell}>
-            {row.original.plansForNextPeriod
-              .map((planForNextPeriod) => (
-                <HorizontalContainer
-                  key={planForNextPeriod.uuid}
-                  className={styles.numeric}
-                >
-                  <EditableText
-                    text={planForNextPeriod.job}
-                    onChangeFinish={(text) => updatePlanForNextPeriod(planForNextPeriod, text)}
+            <ol className={styles.numberedList}>
+              {row.original.plansForNextPeriod.map((planForNextPeriod) => (
+                <li key={planForNextPeriod.uuid}>
+                  <Link
+                    value={getName(props.mentors, planForNextPeriod.ownerUuid, ownerName)}
+                    path={pages.user.getPath({uuid: planForNextPeriod.ownerUuid})}
                   />
-                  {UnicodeSymbols.DIVIDING_POINT}
-                  <EditableText
-                    text={planForNextPeriod.estimationTime}
-                    onChangeFinish={(value) => updatePlanForNextPeriodTime(planForNextPeriod, value)}
-                    className={styles.editableTime}
-                  />
-                </HorizontalContainer>
-              ),
-              )
-            }
-            {isOwner &&
+                  <HorizontalContainer className={styles.numberedListItem}>
+                    <EditableTextarea
+                      text={planForNextPeriod.job}
+                      onChangeFinish={(text) => updatePlanForNextPeriod(planForNextPeriod, text)}
+                      isEditable={planForNextPeriod.ownerUuid === user?.uuid}
+                      className={styles.editableTextarea}
+                    />
+                    <EditableText
+                      text={planForNextPeriod.estimationTime}
+                      onChangeFinish={(value) => updatePlanForNextPeriodTime(planForNextPeriod, value)}
+                      className={styles.editableTime}
+                      isEditable={planForNextPeriod.ownerUuid === user?.uuid}
+                    />
+                  </HorizontalContainer>
+                </li>
+              ))}
+            </ol>
+            {isUserOwnerOrMentor &&
               <Button
                 value="add plan"
-                onClick={createPlanForNextPeriod}
+                onClick={() => createPlanForNextPeriod(user.uuid)}
               />
             }
           </VerticalContainer>
@@ -317,8 +334,8 @@ export const Columns = (props: ColumnsProps) => {
         /**
          * Create CurrentProblem
          */
-        const createCurrentProblem = async () => {
-          const currentProblem = await CurrentProblemDAL.createCurrentProblem(row.original);
+        const createCurrentProblem = async (userUuid: string) => {
+          const currentProblem = await CurrentProblemDAL.createCurrentProblem(row.original, userUuid);
           const currentProblems = [...row.original.problemsForCurrentPeriod, currentProblem];
           const updatedDayReport = {...row.original, problemsForCurrentPeriod: currentProblems};
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
@@ -346,23 +363,26 @@ export const Columns = (props: ColumnsProps) => {
 
         return (
           <VerticalContainer className={styles.cell}>
-            {row.original.problemsForCurrentPeriod
-              .map((currentProblem) => (
-                <HorizontalContainer
-                  key={currentProblem.uuid}
-                  className={styles.numeric}
-                >
-                  <EditableText
+            <ol className={styles.numberedList}>
+              {row.original.problemsForCurrentPeriod.map((currentProblem) => (
+                <li key={currentProblem.uuid}>
+                  <Link
+                    value={getName(props.mentors, currentProblem.ownerUuid, ownerName)}
+                    path={pages.user.getPath({uuid: currentProblem.ownerUuid})}
+                  />
+                  <EditableTextarea
                     text={currentProblem.description}
                     onChangeFinish={(text) => updateCurrentProblem(currentProblem, text)}
+                    isEditable={currentProblem.ownerUuid === user?.uuid}
+                    className={styles.editableTextarea}
                   />
-                </HorizontalContainer>
-              ))
-            }
-            {isOwner &&
+                </li>
+              ))}
+            </ol>
+            {isUserOwnerOrMentor &&
               <Button
                 value="add problem"
-                onClick={createCurrentProblem}
+                onClick={() => createCurrentProblem(user.uuid)}
               />
             }
           </VerticalContainer>
@@ -407,36 +427,28 @@ export const Columns = (props: ColumnsProps) => {
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
         };
 
-        /**
-         * Get user name
-         */
-        const getCommentatorName = (users: Map<string, UserPreview>, uuid: string) => {
-          const mentor = users.get(uuid);
-          const userName = mentor ? mentor.name : ownerName;
-
-          return userName;
-        };
-
         return (
           <VerticalContainer className={styles.cell}>
             {row.original.comments
               .map((comment) => (
                 <>
                   <Link
-                    value={getCommentatorName(props.mentors, comment.commentatorUuid)}
-                    path={pages.user.getPath({uuid: comment.commentatorUuid})}
+                    value={getName(props.mentors, comment.ownerUuid, ownerName)}
+                    path={pages.user.getPath({uuid: comment.ownerUuid})}
                   />
-                  <EditableText
+                  <EditableTextarea
                     text={comment.description}
                     onChangeFinish={(text) => updateComment(comment, text)}
+                    isEditable={comment.ownerUuid === user?.uuid}
+                    className={styles.editableTextarea}
                   />
                 </>
               ),
               )}
-            {isUserCanEditComments &&
+            {isUserOwnerOrMentor &&
             <Button
               value="add comment"
-              onClick={() => createComment(user.uid)}
+              onClick={() => createComment(user.uuid)}
             />
             }
           </VerticalContainer>

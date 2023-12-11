@@ -1,5 +1,3 @@
-import {TimeUnit} from "src/model/businessModelPreview/time/timeUnit/TimeUnit";
-
 /**
  * Goal preview model
  */
@@ -26,11 +24,6 @@ export class GoalPreview {
   public description: string;
 
   /**
-   * Enum @Time.unit for {@link estimationTime}
-   */
-  public timeUnit: TimeUnit;
-
-  /**
    * Estimation time for complete goal
    */
   public estimationTime: number;
@@ -40,7 +33,6 @@ export class GoalPreview {
     this.studentUuid = goalData.studentUuid;
     this.metricUuids = goalData.metricUuids;
     this.description = goalData.description;
-    this.timeUnit = goalData.timeUnit;
     this.estimationTime = goalData.estimationTime;
   }
 

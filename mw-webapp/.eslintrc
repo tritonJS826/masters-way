@@ -8,7 +8,10 @@
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    // I temporaly install @ljharb and @yarnaimo to fix problem with building storybook. Let's remove this dependency if it is possible
+    // "@ljharb"
+    // "@yarnaimo"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -179,7 +182,14 @@
       { "blankLine": "always", "prev": "import", "next": "const" }
   ]
   },
-  "ignorePatterns": ["/build", "node_modules/", "storybook-static", "vite.config.ts", "cypress.config.ts", "cypress/"],
+  "ignorePatterns": [
+    "/build",
+    "**/node_modules",
+    "storybook-static",
+    "vite.config.ts",
+    "cypress.config.ts",
+    "cypress/"
+  ],
   "overrides": [
     {
       "files": ["*.stories.tsx*"],

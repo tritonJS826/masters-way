@@ -18,10 +18,22 @@ export class CurrentProblem {
    */
   public isDone: boolean;
 
+  /**
+   * Owner or mentor's uuid @User.uuid
+   */
+  public ownerUuid: string;
+
+  /**
+   * CurrentProblem's tags
+   */
+  public tags: string[];
+
   constructor(currentProblemData: CurrentProblem) {
     this.uuid = currentProblemData.uuid;
     this.description = currentProblemData.description;
     this.isDone = currentProblemData.isDone;
+    this.ownerUuid = currentProblemData.ownerUuid;
+    this.tags = currentProblemData.tags;
   }
 
 }

@@ -10,7 +10,7 @@ export const CommentDTOSchema = z.object({
   /**
    * Mentor's and way owner's UUID @User.uuid
    */
-  commentatorUuid: z.string(),
+  ownerUuid: z.string(),
 
   /**
    * Comment's text
@@ -21,9 +21,10 @@ export const CommentDTOSchema = z.object({
    * True if comment was done and false if not
    */
   isDone: z.boolean(),
+
 }).strict();
 
 /**
  * Mentor's and way owner's comments DTO model
  */
-export type CommentDTO = z.infer<typeof CommentDTOSchema>
+export type CommentDTO = z.infer<typeof CommentDTOSchema>;

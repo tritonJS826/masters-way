@@ -4,9 +4,11 @@ import {db} from "src/firebase";
 import {DAY_REPORT_DATE_FIELD, DAY_REPORT_UUID_FIELD, DayReportDTO, DayReportDTOSchema, DayReportsDTOSchema}
   from "src/model/DTOModel/DayReportDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
-import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
+import {querySnapshotsToDTOConverter} from "src/service/converter/querySnapshotsToDTOConverter";
+import {getChunksArray} from "src/utils/getChunkArray";
 
 const PATH_TO_DAY_REPORTS_COLLECTION = "dayReports";
+const QUERY_LIMIT = 30;
 
 /**
  * DayReportDTO props without uuid
@@ -18,12 +20,23 @@ export type DayReportDTOWithoutUuid = Omit<DayReportDTO, "uuid">;
  */
 const getSortedDayReportsDTO =
   async (dayReportsRef: CollectionReference<DocumentData, DocumentData>, dayReportUuids: string[]) => {
-    const dayReportsQuery =
-      query(dayReportsRef, where(DAY_REPORT_UUID_FIELD, "in", dayReportUuids), orderBy(DAY_REPORT_DATE_FIELD, "desc"));
-    const dayReportsRaw = await getDocs(dayReportsQuery);
-    const dayReportsDTO = querySnapshotToDTOConverter<DayReportDTO>(dayReportsRaw);
+    const chunksDayReports = getChunksArray(dayReportUuids, QUERY_LIMIT);
+    const dayReportQueries = chunksDayReports.map((chunk) => {
+      return query(dayReportsRef, where(DAY_REPORT_UUID_FIELD, "in", chunk), orderBy(DAY_REPORT_DATE_FIELD, "desc"));
+    });
 
-    return dayReportsDTO;
+    const dayReportsRaw = await Promise.all(dayReportQueries.map(async(item) => {
+      const chunkDayReportRaw = await getDocs(item);
+
+      return chunkDayReportRaw;
+    }));
+    const dayReportsDTO = querySnapshotsToDTOConverter<DayReportDTO>(dayReportsRaw);
+
+    // Additional sort need because firestore method orderBy works only inside method query
+    const dayReportsDToOrderedByDate =
+      dayReportsDTO.sort((a, b) => b[DAY_REPORT_DATE_FIELD].toDate().getTime() - a[DAY_REPORT_DATE_FIELD].toDate().getTime());
+
+    return dayReportsDToOrderedByDate;
   };
 
 /**

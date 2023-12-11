@@ -1,4 +1,3 @@
-import {TimeUnit} from "src/model/DTOModel/time/timeUnit/TimeUnit";
 import {z} from "zod";
 
 export const GoalDTOSchema = z.object({
@@ -24,11 +23,6 @@ export const GoalDTOSchema = z.object({
   description: z.string(),
 
   /**
-   * Enum @Time.unit for {@link estimationTime}
-   */
-  timeUnit: z.nativeEnum(TimeUnit),
-
-  /**
    * Estimation time for complete goal
    */
   estimationTime: z.number(),
@@ -39,4 +33,4 @@ export const GoalsDTOSchema = z.array(GoalDTOSchema);
 /**
  * Goal DTO model
  */
-export type GoalDTO = z.infer<typeof GoalDTOSchema>
+export type GoalDTO = z.infer<typeof GoalDTOSchema>;

@@ -2,13 +2,13 @@ import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Button} from "src/component/button/Button";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
-import {useUserContext} from "src/component/header/UserContext";
 import {Link} from "src/component/link/Link";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {GoalPreviewDAL} from "src/dataAccessLogic/GoalPreviewDAL";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
+import {useGlobalContext} from "src/GlobalContext";
 import {DayReportsTable} from "src/logic/wayPage/reportsTable/DayReportsTable";
 import {GoalPreview} from "src/model/businessModelPreview/GoalPreview";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
@@ -37,6 +37,7 @@ const deleteFavoriteWayUuid = async (userPreview: UserPreview, wayUuid: string) 
     description: userPreview.description,
     ownWays: userPreview.ownWays,
     mentoringWays: userPreview.mentoringWays,
+    createdAt: userPreview.createdAt,
   });
 
   await UserPreviewDAL.updateUserPreview(updatedUserPreview);
@@ -55,6 +56,7 @@ const addFavoriteWayUuid = async (userPreview: UserPreview, wayUuid: string) => 
     description: userPreview.description,
     ownWays: userPreview.ownWays,
     mentoringWays: userPreview.mentoringWays,
+    createdAt: userPreview.createdAt,
   });
 
   await UserPreviewDAL.updateUserPreview(updatedUserPreview);
@@ -76,10 +78,10 @@ interface WayPageProps {
  */
 export const WayPage = (props: WayPageProps) => {
   const navigate = useNavigate();
-  const {user} = useUserContext();
+  const {user} = useGlobalContext();
   const [way, setWay] = useState<WayPreview>();
-  const [currentUser, setCurrentUser] = useState<UserPreview | null>(null);
-  const isWayInFavorites = currentUser && way && currentUser.favoriteWays.includes(way.uuid);
+  const isOwner = user?.uuid === way?.owner.uuid;
+  const isWayInFavorites = user && way && user.favoriteWays.includes(way.uuid);
 
   /**
    * Get Way
@@ -93,20 +95,9 @@ export const WayPage = (props: WayPageProps) => {
     setWay(data);
   };
 
-  /**
-   * Load current user
-   */
-  const loadCurrentUser = async () => {
-    if (user) {
-      const currentUserPreview = await UserPreviewDAL.getUserPreview(user.uid);
-      setCurrentUser(currentUserPreview);
-    }
-  };
-
   useEffect(() => {
     loadWay();
-    loadCurrentUser();
-  }, [currentUser, user]);
+  }, [user]);
 
   /**
    * Change name of Way
@@ -120,7 +111,7 @@ export const WayPage = (props: WayPageProps) => {
    * Render all way's mentors
    */
   const renderMentors = (wayPreview: WayPreview) => {
-    return wayPreview.currentMentors.map((item) => (
+    return wayPreview.mentors.map((item) => (
       <Link
         key={item.uuid}
         value={item.name}
@@ -138,7 +129,7 @@ export const WayPage = (props: WayPageProps) => {
             level={HeadingLevel.h2}
             text={`${way.name}`}
             onChangeFinish={(text) => changeWayName(way, text)}
-            isEditable={true}
+            isEditable={isOwner}
           />
           <Title
             level={HeadingLevel.h3}
@@ -149,19 +140,29 @@ export const WayPage = (props: WayPageProps) => {
             text={way.goal.description}
             onChangeFinish={(description) => updateGoalWay(way, description)}
             rows={5}
+            isEditable={isOwner}
+          />
+          <Title
+            level={HeadingLevel.h3}
+            text="Way owner:"
+          />
+          <Link
+            value={way.owner.name}
+            path={pages.user.getPath({uuid: way.owner.uuid})}
+            className={styles.mentors}
           />
           {
             isWayInFavorites &&
             <Button
               value={"Remove from favorite"}
-              onClick={() => deleteFavoriteWayUuid(currentUser, way.uuid)}
+              onClick={() => deleteFavoriteWayUuid(user, way.uuid)}
             />
           }
           {
-            currentUser && !isWayInFavorites &&
+            user && !isWayInFavorites &&
             <Button
               value={"Add to favorite"}
-              onClick={() => addFavoriteWayUuid(currentUser, way.uuid)}
+              onClick={() => addFavoriteWayUuid(user, way.uuid)}
             />
           }
           {!!renderMentors(way).length && (

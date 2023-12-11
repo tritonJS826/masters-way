@@ -1,6 +1,5 @@
 import {goalDTOToGoalPreviewConverter} from "src/dataAccessLogic/DTOToPreviewConverter/goalDTOToGoalPreviewConverter";
 import {GoalPreview} from "src/model/businessModelPreview/GoalPreview";
-import {TimeUnit} from "src/model/businessModelPreview/time/timeUnit/TimeUnit";
 import {GoalDTO} from "src/model/DTOModel/GoalDTO";
 import {GoalDTOWithoutUuid, GoalService} from "src/service/GoalService";
 
@@ -38,7 +37,6 @@ export class GoalPreviewDAL {
       metricUuids: [""],
       description: "",
       estimationTime: 0,
-      timeUnit: TimeUnit.minute,
     };
 
     const newGoalPreview = await GoalService.createGoalDTO(goalPreviewWithoutUuid);

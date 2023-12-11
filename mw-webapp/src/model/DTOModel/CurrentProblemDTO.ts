@@ -16,9 +16,19 @@ export const CurrentProblemDTOSchema = z.object({
    * True if problem is resolved and false if not resolved
    */
   isDone: z.boolean(),
+
+  /**
+   * Uuid of owner or mentor @User.uuid
+   */
+  ownerUuid: z.string(),
+
+  /**
+   * CurrentProblem's tags
+   */
+  tags: z.array(z.string()),
 }).strict();
 
 /**
  * Problem for current period DTO model
  */
-export type CurrentProblemDTO = z.infer<typeof CurrentProblemDTOSchema>
+export type CurrentProblemDTO = z.infer<typeof CurrentProblemDTOSchema>;

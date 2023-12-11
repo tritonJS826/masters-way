@@ -10,5 +10,6 @@ export const UserDTOToUserPreviewConverter = (userDTO: UserDTO): UserPreview => 
     ownWays: userDTO.ownWayUuids,
     favoriteWays: userDTO.favoriteWayUuids,
     mentoringWays: userDTO.mentoringWayUuids,
+    createdAt: userDTO.createdAt.toDate(),
   });
 };

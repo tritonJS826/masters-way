@@ -1,11 +1,10 @@
 import {Button} from "src/component/button/Button";
-import {useUserContext} from "src/component/header/UserContext";
 import {Link} from "src/component/link/Link";
 import {Sidebar} from "src/component/sidebar/Sidebar";
 import {HeadingLevel, Title} from "src/component/title/Title";
+import {useGlobalContext} from "src/GlobalContext";
 import {pages} from "src/router/pages";
-import {logIn} from "src/service/auth/logIn";
-import {logOut} from "src/service/auth/logOut";
+import {AuthService} from "src/service/AuthService";
 import styles from "src/component/header/Header.module.scss";
 
 const BUTTON_LOG_IN_VALUE = "Login";
@@ -15,7 +14,7 @@ const LOGO_TEXT = "master's way";
 /**
  * Navigation link props.
  */
-interface navigationLink {
+interface NavigationLink {
 
   /**
    * Navigation link path.
@@ -31,7 +30,7 @@ interface navigationLink {
 /**
  * Renders navigation links based on the provided navigationLinks array.
  */
-const renderNavigationLinks = (navigationLinks: (navigationLink | null)[]) => {
+const renderNavigationLinks = (navigationLinks: (NavigationLink)[]) => {
   return navigationLinks.map((item) => (
     item && (
       <Link
@@ -47,9 +46,9 @@ const renderNavigationLinks = (navigationLinks: (navigationLink | null)[]) => {
  * Header component
  */
 export const Header = () => {
-  const {user} = useUserContext();
+  const {user} = useGlobalContext();
 
-  const navigationLinks: (navigationLink | null)[] = [
+  const navigationLinksRaw: (NavigationLink | null)[] = [
     {
       path: pages.allWays.getPath({}),
       value: "All ways",
@@ -59,7 +58,7 @@ export const Header = () => {
       value: "All users",
     },
     user && {
-      path: pages.user.getPath({uuid: user.uid}),
+      path: pages.user.getPath({uuid: user.uuid}),
       value: "My ways",
     },
     {
@@ -67,6 +66,9 @@ export const Header = () => {
       value: "About",
     },
   ];
+
+  const navigationLinks: NavigationLink[] = navigationLinksRaw
+    .filter((link): link is NavigationLink => Boolean(link));
 
   return (
     <div className={styles.header}>
@@ -77,12 +79,12 @@ export const Header = () => {
       {user &&
         <Title
           level={HeadingLevel.h2}
-          text={`Hello, ${user.displayName}!`}
+          text={`Hello, ${user.name}!`}
         />
       }
       <div className={styles.headerButtonsContainer}>
         <Button
-          onClick={user ? logOut : logIn}
+          onClick={user ? AuthService.logOut : AuthService.logIn}
           value={user ? BUTTON_LOG_OUT_VALUE : BUTTON_LOG_IN_VALUE}
         />
         <Sidebar

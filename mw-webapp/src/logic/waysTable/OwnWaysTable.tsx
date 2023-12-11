@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {Button} from "src/component/button/Button";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
-import {columns, WAYS_OWNER} from "src/logic/waysTable/columns";
+import {WAYS_OWNER, waysColumns} from "src/logic/waysTable/waysColumns";
 import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 
@@ -45,7 +45,7 @@ export const OwnWaysTable = (props: PropsWithUuid) => {
 
   const columnsToExclude = [WAYS_OWNER];
 
-  const ownWaysTableColumns = columns.filter(column => {
+  const ownWaysTableColumns = waysColumns.filter(column => {
     if (column.header) {
       return !columnsToExclude.includes(column.header.toString());
     }

@@ -8,7 +8,7 @@
   - [] add ability to delete way (12h)
 - [x] render mentoring ways table
 - [x] render favorite ways table
-- [] change format in cells lists (use ol li instead of css styles, put button "add item" to bottom of cell)
+- [x] change format in cells lists (use ol li instead of css styles, put button "add item" to bottom of cell)
 
 ## WayPage
 
@@ -21,7 +21,7 @@
 ## AllWaysPage (default for not logged in)
 
 - [x] render all ways table
-- [] add links to mentors (9h)
+- [x] add links to mentors (9h)
 
 ## AllUsersPage
 
@@ -33,11 +33,10 @@
 - [x] add name + ability to change it (12h)
 - [x] add email + ability to change it (12h)
 - [] add attach custom link with resource description (12h) (for cv or video etc)
-- [] add other user contacts (links) + ability to change them (12h)
 
 ## AboutProjectPage
 
-- [] project description (12h)
+- [x] project description (12h)
 - [x] FAQ accordion
 - [x] how to contribute (6h)
 - [x] donates
@@ -49,47 +48,53 @@
 - [] UserProfilePage: attach resource (pdf for cv for example)
 - [] AllWaysPage: search/filter panel
 - [] AllUsersPage: search/filter panel
-- [] UserPage: add visual notifications which favourite and mentoring ways changed
+- [] UserPage: add visual notifications which favorite and mentoring ways changed
 - [] attach files, images, videos to records
 - [] chat with mentor
 - [] public/private ways
 - [] public/private users
-- [] add link to records
-- [] bold/italic format for record
+- [x] add link to records (md format)
+- [x] bold/italic format for record (md format)
 - [] share result (with LinkedIn - way completed)
 - [] Make AnalyticalReport (statistic)
 - [] Analytics page
 - [] Achievements
-- [] WayPage: Add possibility to attach links on docs, video, audio, etc
+- [x] WayPage: Add possibility to attach links on docs, video, audio, etc (md format)
 - [] Possibility to add tags for each JobDone
 - [] Investigation with coming soon tooltip (component)
 - [] AllWaysPage: show number favorite (12h)
 - [] WayPage: show number favorite (increased when somebody add the way to favorite and decreased when somebody remove the way from favorite) (9h)
 - [] WayPage: add button "become a mentor" which put the way into your mentors ways (18h)
-- Mentor could send request, user can send invite to mentor (do nothing), only user could accept 
+- [] Mentor could send request, user can send invite to mentor (do nothing), only user could accept 
 - [] UserPage: add ability to remove way from mentoring ways (9h)
 - [] UserPage: add ability to remove way from favorite ways (9h)
-- [] Add property isReadOnly to checkbox component
-- [] To each table:
-  - [] add sum time for all table
-  - [] full amount of days in way
-  - [] amount of records
-  - [] amount of work days
-  - [] amount of days off
-  - [] average time in working day
-  - [] average time in real day
-  - [] average time for job
-  - [] medial time for job
+- [x] Add property isReadOnly to checkbox component
+- [x] To each table:
+  - [x] add sum time for each way
+  - [x] full amount of days in way
+  - [x] amount of records
+  - [x] amount of work days
+  - [x] amount of days off
+  - [x] average time in working day
+  - [x] average time in real day
+  - [x] average time for job
 - [] Add tags for way
 - [x] Delete LearnedForToday from Way model
-- [x] Combine Date and isDayOff cells
-- [] Add status for Way (Done, notDone, inProgress)
+- [x] Combine Date and isDayOff cells 
+- [] AllWaysPage: Add status for Way (finished, inProgress, abandoned) (colored)
 - [] Add metrics for Goal on WayPage (checkbox + text)
-- [] Optimization: load only last 5-10 DayReports (lazy loading)
-- [] AllWaysPage: add pagination
-- [] AllWaysPage: add checkbox in isCompleted cells
+- [] Optimization: load only last 30 DayReports (lazy loading) (think about it)
+- [] AllWaysPage: add pagination (think about it)
+- [] AllWaysPage: request optimization, save users into hashmap and load each user once
 - [] AllWaysPage: add property lastDayReportAdded for Way (must auto update when click on button add dayReport)
 - [] AllWaysPage: cell goal should contain short description (max 2 line) but by clicking modal window should be opened with full description and metrics(think about statistic info that could be shown)
-- [] Add property dateOfCreatedWay (whe Way was created)
+- [x] Add property createdAt to WayDTO model (when Way was created)
 - [] Add type of user (optional) : 1) newbie - directive 2) frustrated novice 3) insecure professional 4) independent professional
 - [] Add a page with a tree of paths (chain of goals) for visualization
+- [] Add MonthReportDTO and WeekReportDTO models (MonthReportDTO: uuid: string, date: string, jobDoneUuids: string[] @JobDone.uuid[], planForNextPeriodUuids: string[] @PlanForNextPeriod.uuid[], problemForCurrentPeriodUuids: string[] @CurrentProblem.uuid[], commentUuids: string[] @MentorComment.uuid[])
+- [] Add description which jobs should be (CUS - complete, unique, specific)
+- [] Add description which goals should be (SMART)
+- [] Add types of Way:
+  * repeatable jobDone - sport;
+  * with no repeatable jobDone - programming, science, art, engineering, language, onboarding;
+  * mixed type - music

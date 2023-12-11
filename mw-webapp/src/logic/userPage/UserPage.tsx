@@ -4,6 +4,7 @@ import {EditableTextarea} from "src/component/editableTextarea/editableTextarea"
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
+import {useGlobalContext} from "src/GlobalContext";
 import {FavoriteWaysTable} from "src/logic/waysTable/FavoriteWaysTable";
 import {MentoringWaysTable} from "src/logic/waysTable/MentoringWaysTable";
 import {OwnWaysTable} from "src/logic/waysTable/OwnWaysTable";
@@ -55,17 +56,19 @@ interface UserPageProps {
 export const UserPage = (props: UserPageProps) => {
   const [userPreview, setUserPreview] = useState<UserPreview | null>(null);
   const navigate = useNavigate();
+  const {user} = useGlobalContext();
+  const isOwner = user?.uuid === userPreview?.uuid;
 
   /**
    * Load user
    */
   const getUser = async () => {
-    const user = await UserPreviewDAL.getUserPreview(props.uuid);
+    const userPreviewData = await UserPreviewDAL.getUserPreview(props.uuid);
     // Navigate to PageError if transmitted user's uuid is not exist
-    if (!user.uuid) {
+    if (!userPreviewData.uuid) {
       navigate(pages.page404.getPath({}));
     }
-    setUserPreview(user);
+    setUserPreview(userPreviewData);
   };
 
   useEffect(() => {
@@ -85,7 +88,7 @@ export const UserPage = (props: UserPageProps) => {
           level={HeadingLevel.h3}
           text={userPreview.name}
           onChangeFinish={(text) => changeUserName(userPreview, text, setUserPreview)}
-          isEditable={true}
+          isEditable={isOwner}
         />
       </div>
       <div className={styles.row}>
@@ -98,7 +101,7 @@ export const UserPage = (props: UserPageProps) => {
           level={HeadingLevel.h3}
           text={userPreview.email}
           onChangeFinish={(text) => changeUserEmail(userPreview, text, setUserPreview)}
-          isEditable={true}
+          isEditable={isOwner}
         />
       </div>
       <div>
@@ -109,24 +112,25 @@ export const UserPage = (props: UserPageProps) => {
         <EditableTextarea
           text={userPreview.description}
           onChangeFinish={(text) => changeUserDescription(userPreview, text, setUserPreview)}
+          isEditable={isOwner}
         />
       </div>
       <Title
-        text= {`Own Ways (totally ${userPreview.ownWays.length} ways)`}
+        text= {`Own Ways (total amount: ${userPreview.ownWays.length} ways)`}
         level={HeadingLevel.h3}
       />
       <ScrollableBlock>
         <OwnWaysTable uuid={props.uuid} />
       </ScrollableBlock>
       <Title
-        text={`Mentoring Ways (totally ${userPreview.mentoringWays.length} ways)`}
+        text={`Mentoring Ways (total amount: ${userPreview.mentoringWays.length} ways)`}
         level={HeadingLevel.h3}
       />
       <ScrollableBlock>
         <MentoringWaysTable uuid={props.uuid} />
       </ScrollableBlock>
       <Title
-        text={`Favorite Ways (totally ${userPreview.favoriteWays.length} ways)`}
+        text={`Favorite Ways (total amount: ${userPreview.favoriteWays.length} ways)`}
         level={HeadingLevel.h3}
       />
       <ScrollableBlock>
