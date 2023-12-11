@@ -130,18 +130,16 @@ export class WayPreviewDAL {
     const ownerUuid = wayPreview.owner.uuid;
     const goalUuid = wayPreview.goal.uuid;
     const mentorRequestUuids = wayPreview.mentorRequests.map((item) => item.uuid);
-    const mentorsUuids = wayPreview.mentors.map((item) => item.uuid);
+    const mentorUuids = wayPreview.mentors.map((item) => item.uuid);
     const lastUpdate = Timestamp.fromDate(wayPreview.lastUpdate);
-    const favoriteForUserUuids = wayPreview.favoriteForUserUuids;
     const createdAt = Timestamp.fromDate(wayPreview.createdAt);
 
     const wayDTOProps = {
       ownerUuid,
       goalUuid,
       mentorRequestUuids,
-      mentorsUuids,
+      mentorUuids,
       lastUpdate,
-      favoriteForUserUuids,
       createdAt,
     };
 
