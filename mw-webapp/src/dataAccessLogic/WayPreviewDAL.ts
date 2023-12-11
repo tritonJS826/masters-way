@@ -101,7 +101,6 @@ export class WayPreviewDAL {
    * Get User ways preview based of provided type
    */
   public static async getUserWaysPreview(uuid: string, type: "Own" | "Mentoring" | "Favorite"): Promise<WayPreview[]> {
-
     let waysDTO;
 
     switch (type) {

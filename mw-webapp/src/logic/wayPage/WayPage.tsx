@@ -1,14 +1,17 @@
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {Button} from "src/component/button/Button";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {Link} from "src/component/link/Link";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {GoalPreviewDAL} from "src/dataAccessLogic/GoalPreviewDAL";
+import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {DayReportsTable} from "src/logic/wayPage/reportsTable/DayReportsTable";
 import {GoalPreview} from "src/model/businessModelPreview/GoalPreview";
+import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
 import styles from "src/logic/wayPage/WayPage.module.scss";
@@ -19,6 +22,54 @@ import styles from "src/logic/wayPage/WayPage.module.scss";
 const updateGoalWay = (wayPreview: WayPreview, description: string) => {
   const newGoal = new GoalPreview({...wayPreview.goal, description});
   GoalPreviewDAL.updateGoalPreview(newGoal);
+};
+
+/**
+ * Create user with updated favorites
+ */
+const createUserPreviewWithUpdatedFavorites = (user: UserPreview, updatedFavoriteWays: string[]) => {
+  return new UserPreview({
+    uuid: user.uuid,
+    favoriteWays: updatedFavoriteWays,
+    name: user.name,
+    email: user.email,
+    description: user.description,
+    ownWays: user.ownWays,
+    mentoringWays: user.mentoringWays,
+    createdAt: user.createdAt,
+  });
+};
+
+/**
+ * Delete favoriteWayUuid from favoriteWay array
+ */
+const deleteFavoriteWayUuid = async (
+  userPreview: UserPreview,
+  wayUuid: string,
+  setUser: React.Dispatch<React.SetStateAction<UserPreview | null>>,
+) => {
+  const updatedFavoriteWays = userPreview.favoriteWays.filter((favoriteWay) => favoriteWay !== wayUuid);
+  const updatedUserPreview = createUserPreviewWithUpdatedFavorites(userPreview, updatedFavoriteWays);
+
+  setUser(updatedUserPreview);
+
+  await UserPreviewDAL.updateUserPreview(updatedUserPreview);
+};
+
+/**
+ * Add favoriteWayUuid to favoriteWay array
+ */
+const addFavoriteWayUuid = async (
+  userPreview: UserPreview,
+  wayUuid: string,
+  setUser: React.Dispatch<React.SetStateAction<UserPreview | null>>,
+) => {
+  const updatedFavoriteWays = [...userPreview.favoriteWays, wayUuid];
+  const updatedUserPreview = createUserPreviewWithUpdatedFavorites(userPreview, updatedFavoriteWays);
+
+  setUser(updatedUserPreview);
+
+  await UserPreviewDAL.updateUserPreview(updatedUserPreview);
 };
 
 /**
@@ -37,9 +88,10 @@ interface WayPageProps {
  */
 export const WayPage = (props: WayPageProps) => {
   const navigate = useNavigate();
+  const {user, setUser} = useGlobalContext();
   const [way, setWay] = useState<WayPreview>();
-  const {user} = useGlobalContext();
   const isOwner = user?.uuid === way?.owner.uuid;
+  const isWayInFavorites = user && way && user.favoriteWays.includes(way.uuid);
 
   /**
    * Get Way
@@ -55,7 +107,7 @@ export const WayPage = (props: WayPageProps) => {
 
   useEffect(() => {
     loadWay();
-  }, []);
+  }, [user]);
 
   /**
    * Change name of Way
@@ -109,6 +161,20 @@ export const WayPage = (props: WayPageProps) => {
             path={pages.user.getPath({uuid: way.owner.uuid})}
             className={styles.mentors}
           />
+          {
+            isWayInFavorites && setUser &&
+            <Button
+              value={"Remove from favorite"}
+              onClick={() => deleteFavoriteWayUuid(user, way.uuid, setUser)}
+            />
+          }
+          {
+            !isWayInFavorites && user && setUser &&
+            <Button
+              value={"Add to favorite"}
+              onClick={() => addFavoriteWayUuid(user, way.uuid, setUser)}
+            />
+          }
           {!!renderMentors(way).length && (
             <>
               <Title

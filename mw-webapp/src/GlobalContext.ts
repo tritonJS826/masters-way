@@ -8,6 +8,11 @@ export type GlobalContext = {
    */
   user: UserPreview | null;
 
+  /**
+   * Update user
+   */
+  setUser?: React.Dispatch<React.SetStateAction<UserPreview | null>>;
+
 }
 
 export const globalContext: React.Context<GlobalContext> = createContext<GlobalContext>({user: null});

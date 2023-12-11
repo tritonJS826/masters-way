@@ -115,29 +115,27 @@ export const UserPage = (props: UserPageProps) => {
           isEditable={isOwner}
         />
       </div>
-      <>
-        <Title
-          text= {`Own Ways (total amount: ${userPreview.ownWays.length} ways)`}
-          level={HeadingLevel.h3}
-        />
-        <ScrollableBlock>
-          <OwnWaysTable uuid={props.uuid} />
-        </ScrollableBlock>
-        <Title
-          text={`Mentoring Ways (total amount: ${userPreview.mentoringWays.length} ways)`}
-          level={HeadingLevel.h3}
-        />
-        <ScrollableBlock>
-          <MentoringWaysTable uuid={props.uuid} />
-        </ScrollableBlock>
-        <Title
-          text={`Favorite Ways (total amount: ${userPreview.favoriteWays.length} ways)`}
-          level={HeadingLevel.h3}
-        />
-        <ScrollableBlock>
-          <FavoriteWaysTable uuid={props.uuid} />
-        </ScrollableBlock>
-      </>
+      <Title
+        text= {`Own Ways (total amount: ${userPreview.ownWays.length} ways)`}
+        level={HeadingLevel.h3}
+      />
+      <ScrollableBlock>
+        <OwnWaysTable uuid={props.uuid} />
+      </ScrollableBlock>
+      <Title
+        text={`Mentoring Ways (total amount: ${userPreview.mentoringWays.length} ways)`}
+        level={HeadingLevel.h3}
+      />
+      <ScrollableBlock>
+        <MentoringWaysTable uuid={props.uuid} />
+      </ScrollableBlock>
+      <Title
+        text={`Favorite Ways (total amount: ${userPreview.favoriteWays.length} ways)`}
+        level={HeadingLevel.h3}
+      />
+      <ScrollableBlock>
+        <FavoriteWaysTable uuid={props.uuid} />
+      </ScrollableBlock>
     </div>
   );
 };
