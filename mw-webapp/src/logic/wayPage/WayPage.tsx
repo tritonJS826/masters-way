@@ -196,9 +196,9 @@ export const WayPage = (props: WayPageProps) => {
             isEditable={isOwner}
           />
           <div>
-            {likes && likes === 0 && "No likes"}
-            {likes && likes === ONE_LIKE && `${likes} like`}
-            {likes && likes > ONE_LIKE && `${likes} likes`}
+            {likes === 0 && "No likes"}
+            {likes === ONE_LIKE && `${likes} like`}
+            {!!likes && likes > ONE_LIKE && `${likes} likes`}
           </div>
           <Title
             level={HeadingLevel.h3}
