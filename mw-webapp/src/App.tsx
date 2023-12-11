@@ -35,7 +35,7 @@ export const App = () => {
 
   return (
 
-    <globalContext.Provider value={{user}}>
+    <globalContext.Provider value={{user, setUser}}>
       <Header />
       <Router />
     </globalContext.Provider>
