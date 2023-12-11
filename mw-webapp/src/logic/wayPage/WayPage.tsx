@@ -41,6 +41,27 @@ const createUserPreviewWithUpdatedFavorites = (user: UserPreview, updatedFavorit
 };
 
 /**
+ * Create way with updated favorites
+ */
+const createWayWithUpdatedFavorites = (way: WayPreview, updatedFavoriteForUserUuids: string[]) => {
+  return new WayPreview({
+    uuid: way.uuid,
+    name: way.name,
+    dayReportUuids: way.dayReportUuids,
+    owner: way.owner,
+    goal: way.goal,
+    mentors: way.mentors,
+    mentorRequests: way.mentorRequests,
+    isCompleted: way.isCompleted,
+    lastUpdate: way.lastUpdate,
+    favoriteForUserUuids: updatedFavoriteForUserUuids,
+    createdAt: way.createdAt,
+    wayTags: way.wayTags,
+    jobTags: way.jobTags,
+  });
+};
+
+/**
  * Delete favoriteWayUuid from favoriteWay array
  */
 const deleteFavoriteWayUuid = async (
@@ -73,6 +94,36 @@ const addFavoriteWayUuid = async (
 };
 
 /**
+ * Add new favoriteUserUuid to favoriteForUserUuids array
+ */
+const addFavoriteForUserUuids = async (
+  way: WayPreview,
+  userUuid: string,
+  setWay: React.Dispatch<React.SetStateAction<WayPreview | undefined>>,
+) => {
+  const updatedFavoriteForUserUuids = [...way.favoriteForUserUuids, userUuid];
+  const updatedWay = createWayWithUpdatedFavorites(way, updatedFavoriteForUserUuids);
+
+  await WayPreviewDAL.updateWayPreview(updatedWay);
+  setWay(updatedWay);
+};
+
+/**
+ * Delete new favoriteUserUuid to favoriteForUserUuids array
+ */
+const removeFavoriteForUserUuids = async (
+  way: WayPreview,
+  userUuid: string,
+  setWay: React.Dispatch<React.SetStateAction<WayPreview | undefined>>,
+) => {
+  const updatedFavoriteForUserUuids = way.favoriteForUserUuids.filter((favorite) => favorite !== userUuid);
+  const updatedWay = createWayWithUpdatedFavorites(way, updatedFavoriteForUserUuids);
+
+  await WayPreviewDAL.updateWayPreview(updatedWay);
+  setWay(updatedWay);
+};
+
+/**
  * PageProps
  */
 interface WayPageProps {
@@ -92,6 +143,9 @@ export const WayPage = (props: WayPageProps) => {
   const [way, setWay] = useState<WayPreview>();
   const isOwner = user?.uuid === way?.owner.uuid;
   const isWayInFavorites = user && way && user.favoriteWays.includes(way.uuid);
+  const likes = way?.favoriteForUserUuids.length;
+
+  const ONE_LIKE = 1;
 
   /**
    * Get Way
@@ -141,6 +195,11 @@ export const WayPage = (props: WayPageProps) => {
             onChangeFinish={(text) => changeWayName(way, text)}
             isEditable={isOwner}
           />
+          <div>
+            {likes && likes === 0 && "No likes"}
+            {likes && likes === ONE_LIKE && `${likes} like`}
+            {likes && likes > ONE_LIKE && `${likes} likes`}
+          </div>
           <Title
             level={HeadingLevel.h3}
             text="Goal"
@@ -165,14 +224,20 @@ export const WayPage = (props: WayPageProps) => {
             isWayInFavorites && setUser &&
             <Button
               value={"Remove from favorite"}
-              onClick={() => deleteFavoriteWayUuid(user, way.uuid, setUser)}
+              onClick={() => {
+                deleteFavoriteWayUuid(user, way.uuid, setUser);
+                removeFavoriteForUserUuids(way, user.uuid, setWay);
+              }}
             />
           }
           {
             !isWayInFavorites && user && setUser &&
             <Button
               value={"Add to favorite"}
-              onClick={() => addFavoriteWayUuid(user, way.uuid, setUser)}
+              onClick={() => {
+                addFavoriteWayUuid(user, way.uuid, setUser);
+                addFavoriteForUserUuids(way, user.uuid, setWay);
+              }}
             />
           }
           {!!renderMentors(way).length && (

@@ -59,6 +59,8 @@ export const wayPreviewToWayDTOConverter = (wayPreview: WayPreview, wayDTOProps:
     lastUpdate: wayDTOProps.lastUpdate,
     favoriteForUserUuids: wayDTOProps.favoriteForUserUuids,
     createdAt: wayDTOProps.createdAt,
+    jobTags: wayPreview.jobTags,
+    wayTags: wayPreview.wayTags,
   });
 
   return validatedWayDTO;
