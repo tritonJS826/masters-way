@@ -384,7 +384,7 @@ export const Columns = (props: ColumnsProps) => {
         const deleteCurrentProblem = async (currentProblemUuid: string) => {
           const currentProblems =
             row.original.problemsForCurrentPeriod.filter((currentProblem) => currentProblem.uuid !== currentProblemUuid);
-          const updatedDayReport = {...row.original, currentProblems};
+          const updatedDayReport = {...row.original, problemsForCurrentPeriod: currentProblems};
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
           await PlanForNextPeriodDAL.deletePlanForNextPeriod(currentProblemUuid, updatedDayReport);
         };
