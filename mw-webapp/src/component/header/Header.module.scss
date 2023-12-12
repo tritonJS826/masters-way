@@ -8,9 +8,14 @@
 
 .headerButtonsContainer {
   display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.navSidebarContent {
-  display: flex;
-  flex-direction: column;
+.logo {
+  cursor: pointer;
+}
+
+.userName {
+  cursor: pointer;
 }
