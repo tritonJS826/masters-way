@@ -1,48 +1,31 @@
-import {Comment} from "src/model/businessModel/Comment";
-import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
+import {CommentDAL} from "src/dataAccessLogic/CommentDAL";
+import {CurrentProblemDAL} from "src/dataAccessLogic/CurrentProblemDAL";
+import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
+import {PlanForNextPeriodDAL} from "src/dataAccessLogic/PlanForNextPeriodDAL";
 import {DayReport} from "src/model/businessModel/DayReport";
-import {JobDone} from "src/model/businessModel/JobDone";
-import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
 import {DayReportDTO} from "src/model/DTOModel/DayReportDTO";
-
-/**
- * DayReport props used into converter
- */
-export interface DayReportConverterProps {
-
-  /**
-   * Jobs done
-   */
-  jobsDone: JobDone[];
-
-  /**
-   * Plans for next period
-   */
-  plansForNextPeriod: PlanForNextPeriod[];
-
-  /**
-   * Problems for current period
-   */
-  problemsForCurrentPeriod: CurrentProblem[];
-
-  /**
-   * Mentor and way owner's comments
-   */
-  comments: Comment[];
-}
 
 /**
  * Convert {@link DayReportDTO} to {@link DayReport}
  */
-export const dayReportDTOToDayReportConverter =
-  (dayReportDTO: DayReportDTO, dayReportProps: DayReportConverterProps): DayReport => {
-    return new DayReport({
-      ...dayReportDTO,
-      date: dayReportDTO.date.toDate(),
-      jobsDone: dayReportProps.jobsDone,
-      plansForNextPeriod: dayReportProps.plansForNextPeriod,
-      problemsForCurrentPeriod: dayReportProps.problemsForCurrentPeriod,
-      comments: dayReportProps.comments,
-    });
-  };
+export const dayReportDTOToDayReportConverter = async (dayReportDTO: DayReportDTO): Promise<DayReport> => {
+  const {jobDoneUuids, planForNextPeriodUuids, commentUuids, problemForCurrentPeriodUuids} = dayReportDTO;
+
+  const jobsDonePromise = Promise.all(jobDoneUuids.map(JobDoneDAL.getJobDone));
+  const plansForNextPeriodPromise = Promise.all(planForNextPeriodUuids.map(PlanForNextPeriodDAL.getPlanForNextPeriod));
+  const commentsPromise = Promise.all(commentUuids.map(CommentDAL.getComment));
+  const problemsForCurrentPeriodPromise = Promise.all(problemForCurrentPeriodUuids.map(CurrentProblemDAL.getCurrentProblem));
+
+  const [jobsDone, plansForNextPeriod, comments, problemsForCurrentPeriod] =
+      await Promise.all([jobsDonePromise, plansForNextPeriodPromise, commentsPromise, problemsForCurrentPeriodPromise]);
+
+  return new DayReport({
+    ...dayReportDTO,
+    date: dayReportDTO.date.toDate(),
+    jobsDone,
+    plansForNextPeriod,
+    problemsForCurrentPeriod,
+    comments,
+  });
+};
 

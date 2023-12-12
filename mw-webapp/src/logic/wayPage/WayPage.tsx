@@ -1,5 +1,3 @@
-import {useEffect, useMemo, useState} from "react";
-import {useNavigate} from "react-router-dom";
 import {Button} from "src/component/button/Button";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {Link} from "src/component/link/Link";
@@ -9,7 +7,9 @@ import {GoalPreviewDAL} from "src/dataAccessLogic/GoalPreviewDAL";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
 import {useGlobalContext} from "src/GlobalContext";
+import {useWayPreview} from "src/hooks/useWayPreview";
 import {DayReportsTable} from "src/logic/wayPage/reportsTable/DayReportsTable";
+import {GoalPreview} from "src/model/businessModelPreview/GoalPreview";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
@@ -18,55 +18,70 @@ import styles from "src/logic/wayPage/WayPage.module.scss";
 /**
  * Change description of Way
  */
-const updateGoalWay = (wayPreview: WayPreview, description: string) => {
-  wayPreview.goal.description = description;
-  GoalPreviewDAL.updateGoalPreview(wayPreview.goal);
-};
-
-/**
- * Add mentor to Way
- */
-const addMentor = (
-  wayPreview: WayPreview,
-  setWay: React.Dispatch<React.SetStateAction<WayPreview | undefined>>,
-  userPreview: UserPreview,
-) => {
-  userPreview.mentoringWays.push(userPreview.uuid);
-  UserPreviewDAL.updateUserPreview(userPreview);
-
-  const newWayPreview = {...wayPreview};
-
-  newWayPreview.mentors.push(userPreview);
-  WayPreviewDAL.updateWayPreview(newWayPreview);
-  setWay(newWayPreview);
-};
-
-/**
- * Updates Way's mentor requests
- */
-const updateMentorRequests = (
-  wayPreview: WayPreview,
-  setWay: React.Dispatch<React.SetStateAction<WayPreview | undefined>>,
-  userPreview: UserPreview,
-  action: "add" | "remove") => {
-  const newWayPreview = {...wayPreview};
-
-  if (action === "add") {
-    newWayPreview.mentorRequests.push(userPreview);
-  } else if (action === "remove") {
-    newWayPreview.mentorRequests = newWayPreview.mentorRequests.filter((item) => item !== userPreview);
-  }
-
-  WayPreviewDAL.updateWayPreview(newWayPreview);
-  setWay(newWayPreview);
+const changeGoalDescription = (wayPreview: WayPreview, description: string) => {
+  const newGoalPreview = new GoalPreview({...wayPreview.goal, description});
+  GoalPreviewDAL.updateGoalPreview(newGoalPreview);
 };
 
 /**
  * Change name of Way
  */
-const changeWayName = (wayPreview: WayPreview, text: string) => {
-  wayPreview.name = text;
-  WayPreviewDAL.updateWayPreview(wayPreview);
+const changeWayName = (wayPreview: WayPreview, name: string) => {
+  const newWayPreview = new WayPreview({...wayPreview, name});
+  WayPreviewDAL.updateWayPreview(newWayPreview);
+};
+
+/**
+ * Add mentor to Way
+ */
+const addMentorToWay = (
+  wayPreview: WayPreview,
+  setWay: React.Dispatch<React.SetStateAction<WayPreview | null>>,
+  userPreview: UserPreview,
+) => {
+  const mentoringWays = userPreview.mentoringWays.concat(userPreview.uuid);
+  const newUserPreview = new UserPreview({...userPreview, mentoringWays});
+
+  UserPreviewDAL.updateUserPreview(newUserPreview);
+
+  const mentors = wayPreview.mentors.concat(newUserPreview);
+  const newWayPreview = new WayPreview({...wayPreview, mentors});
+
+  WayPreviewDAL.updateWayPreview(newWayPreview);
+
+  setWay(newWayPreview);
+};
+
+/**
+ * Add user to Way's mentor requests
+ */
+const addUserToMentorRequests = (
+  wayPreview: WayPreview,
+  setWay: React.Dispatch<React.SetStateAction<WayPreview | null>>,
+  userPreview: UserPreview) => {
+
+  const mentorRequests = wayPreview.mentorRequests.concat(userPreview);
+
+  const newWayPreview = new WayPreview({...wayPreview, mentorRequests});
+
+  WayPreviewDAL.updateWayPreview(newWayPreview);
+  setWay(newWayPreview);
+};
+
+/**
+ * Remove user from Way's mentor requests
+ */
+const removeUserFromMentorRequests = (
+  wayPreview: WayPreview,
+  setWay: React.Dispatch<React.SetStateAction<WayPreview | null>>,
+  userPreview: UserPreview) => {
+
+  const mentorRequests = wayPreview.mentorRequests.filter((item) => item !== userPreview);
+
+  const newWayPreview = new WayPreview({...wayPreview, mentorRequests});
+
+  WayPreviewDAL.updateWayPreview(newWayPreview);
+  setWay(newWayPreview);
 };
 
 /**
@@ -86,7 +101,7 @@ const renderMentors = (wayPreview: WayPreview) => {
 /**
  * Render Way's mentor requests
  */
-const renderMentorRequests = (wayPreview: WayPreview, setWay: React.Dispatch<React.SetStateAction<WayPreview | undefined>>) => {
+const renderMentorRequests = (wayPreview: WayPreview, setWay: React.Dispatch<React.SetStateAction<WayPreview | null>>) => {
   return wayPreview.mentorRequests.map((userPreview) => (
     <div key={userPreview.uuid}>
       <Link
@@ -96,13 +111,13 @@ const renderMentorRequests = (wayPreview: WayPreview, setWay: React.Dispatch<Rea
       <Button
         value='Accept'
         onClick={() => {
-          addMentor(wayPreview, setWay, userPreview);
+          addMentorToWay(wayPreview, setWay, userPreview);
         }}
       />
       <Button
         value='Decline'
         onClick={() => {
-          updateMentorRequests(wayPreview, setWay, userPreview, "remove");
+          removeUserFromMentorRequests(wayPreview, setWay, userPreview);
         }}
       />
     </div>
@@ -124,39 +139,15 @@ interface WayPageProps {
  * Way page
  */
 export const WayPage = (props: WayPageProps) => {
-  const navigate = useNavigate();
-  const [way, setWay] = useState<WayPreview>();
+  const {way, setWay} = useWayPreview(props.uuid);
+
   const {user} = useGlobalContext();
 
-  const mentors = useMemo(() => {
-    return way && way.mentors.length > 0 && renderMentors(way);
-  }, [way]);
+  const isOwner = !!user && !!way && user.uuid === way.owner.uuid;
+  const isMentor = !!user && !!way && way.mentors.some((mentor) => mentor.uuid === user.uuid);
 
-  const mentorRequests = useMemo(() => {
-    return way && way.mentorRequests.length > 0 && renderMentorRequests(way, setWay);
-  }, [way]);
-
-  const isOwner = user?.uuid === way?.owner.uuid;
-  const isMentor = user && !!way?.mentors.find((mentor) => mentor.uuid === user.uuid);
-
-  const hasUserSentMentorRequest = user && !!way?.mentorRequests.find((request) => request.uuid === user.uuid);
-  const eligibleToSendRequest = user && !isOwner && !isMentor && !hasUserSentMentorRequest;
-
-  /**
-   * Get Way
-   */
-  const loadWay = async () => {
-    const data = await WayPreviewDAL.getWayPreview(props.uuid);
-    // Navigate to PageError if transmitted way's uuid is not exist
-    if (!data) {
-      navigate(pages.page404.getPath({}));
-    }
-    setWay(data);
-  };
-
-  useEffect(() => {
-    loadWay();
-  }, []);
+  const isUserHasSentMentorRequest = !!user && !!way && way.mentorRequests.some((request) => request.uuid === user.uuid);
+  const isEligibleToSendRequest = !!user && !isOwner && !isMentor && !isUserHasSentMentorRequest;
 
   return (
     <>
@@ -165,17 +156,16 @@ export const WayPage = (props: WayPageProps) => {
         <Title
           level={HeadingLevel.h2}
           text={`${way.name}`}
-          onChangeFinish={(text) => changeWayName(way, text)}
+          onChangeFinish={(name) => changeWayName(way, name)}
           isEditable={isOwner}
         />
         <Title
           level={HeadingLevel.h3}
           text="Goal"
-          onChangeFinish={(text) => changeWayName(way, text)}
         />
         <EditableTextarea
           text={way.goal.description}
-          onChangeFinish={(description) => updateGoalWay(way, description)}
+          onChangeFinish={(description) => changeGoalDescription(way, description)}
           rows={5}
           isEditable={isOwner}
         />
@@ -188,30 +178,30 @@ export const WayPage = (props: WayPageProps) => {
           path={pages.user.getPath({uuid: way.owner.uuid})}
           className={styles.mentors}
         />
-        {mentors && (
+        {way && !!way.mentors.length && (
           <>
             <Title
               level={HeadingLevel.h3}
               text="Mentors of this way:"
             />
-            {mentors}
+            {renderMentors(way)}
           </>
         )}
-        {isOwner && mentorRequests && (
+        {isOwner && way && !!way.mentorRequests.length && (
           <>
             <Title
               level={HeadingLevel.h3}
               text="Requests to become mentor of this way:"
             />
-            {mentorRequests}
+            {renderMentorRequests(way, setWay)}
           </>
         )
         }
-        {eligibleToSendRequest && (
+        {isEligibleToSendRequest && (
           <Button
             value="Apply as Mentor"
             onClick={() => {
-              updateMentorRequests(way, setWay, user, "add");
+              addUserToMentorRequests(way, setWay, user);
             }}
           />
         )

@@ -30,28 +30,7 @@ export class WayPreviewDAL {
    */
   public static async getWayPreview(uuid: string): Promise<WayPreview> {
     const wayDTO = await WayService.getWayDTO(uuid);
-
-    const owner = await UserPreviewDAL.getUserPreview(wayDTO.ownerUuid);
-
-    const mentors = await Promise.all(wayDTO.mentorUuids.map(UserPreviewDAL.getUserPreview));
-
-    const mentorRequests = await Promise.all(wayDTO.mentorRequestUuids.map(UserPreviewDAL.getUserPreview));
-
-    const goal = await GoalPreviewDAL.getGoalPreview(wayDTO.goalUuid);
-
-    const lastUpdate = wayDTO.lastUpdate.toDate();
-    const createdAt = wayDTO.createdAt.toDate();
-
-    const wayPreviewProps = {
-      owner,
-      mentors,
-      mentorRequests,
-      goal,
-      lastUpdate,
-      createdAt,
-    };
-
-    const wayPreview = wayDTOToWayPreviewConverter(wayDTO, wayPreviewProps);
+    const wayPreview = wayDTOToWayPreviewConverter(wayDTO);
 
     return wayPreview;
   }
@@ -127,23 +106,7 @@ export class WayPreviewDAL {
    * Update Way
    */
   public static async updateWayPreview(wayPreview: WayPreview) {
-    const ownerUuid = wayPreview.owner.uuid;
-    const goalUuid = wayPreview.goal.uuid;
-    const mentorRequestUuids = wayPreview.mentorRequests.map((item) => item.uuid);
-    const mentorUuids = wayPreview.mentors.map((item) => item.uuid);
-    const lastUpdate = Timestamp.fromDate(wayPreview.lastUpdate);
-    const createdAt = Timestamp.fromDate(wayPreview.createdAt);
-
-    const wayDTOProps = {
-      ownerUuid,
-      goalUuid,
-      mentorRequestUuids,
-      mentorUuids,
-      lastUpdate,
-      createdAt,
-    };
-
-    const wayDTO = wayPreviewToWayDTOConverter(wayPreview, wayDTOProps);
+    const wayDTO = wayPreviewToWayDTOConverter(wayPreview);
     await WayService.updateWayDTO(wayDTO, wayDTO.uuid);
   }
 

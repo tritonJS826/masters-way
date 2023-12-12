@@ -1,23 +1,19 @@
+import {Timestamp} from "firebase/firestore";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {WayDTO, WayDTOSchema} from "src/model/DTOModel/WayDTO";
-
-export type WayDTOProps = Pick<WayDTO,
-"ownerUuid" | "goalUuid" | "mentorRequestUuids" | "mentorUuids" | "lastUpdate" | "createdAt"
->
 
 /**
  * Convert {@link wayPreview} to {@link WayDTO}
  */
-export const wayPreviewToWayDTOConverter = (wayPreview: WayPreview, wayDTOProps: WayDTOProps): WayDTO => {
+export const wayPreviewToWayDTOConverter = (wayPreview: WayPreview): WayDTO => {
   const wayDTO: WayDTO = {
-    uuid: wayPreview.uuid,
-    name: wayPreview.name,
-    dayReportUuids: wayPreview.dayReportUuids,
-    isCompleted: wayPreview.isCompleted,
-    favoriteForUserUuids: wayPreview.favoriteForUserUuids,
-    wayTags: wayPreview.wayTags,
-    jobTags: wayPreview.jobTags,
-    ...wayDTOProps,
+    ...wayPreview,
+    ownerUuid: wayPreview.owner.uuid,
+    goalUuid: wayPreview.goal.uuid,
+    mentorRequestUuids: wayPreview.mentorRequests.map((item) => item.uuid),
+    mentorUuids: wayPreview.mentors.map((item) => item.uuid),
+    lastUpdate: Timestamp.fromDate(wayPreview.lastUpdate),
+    createdAt: Timestamp.fromDate(wayPreview.createdAt),
   };
 
   return WayDTOSchema.parse(wayDTO);

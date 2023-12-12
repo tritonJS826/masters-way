@@ -6,16 +6,13 @@ import {UserDTO, UserDTOSchema} from "src/model/DTOModel/UserDTO";
  * Convert {@link userPreview} to {@link UserDTO}
  */
 export const userPreviewToUserDTOConverter = (userPreview: UserPreview): UserDTO => {
-  const validatedUserDTO = UserDTOSchema.parse({
-    uuid: userPreview.uuid,
-    name: userPreview.name,
-    email: userPreview.email,
-    description: userPreview.description,
+  const userDTO: UserDTO = {
+    ...userPreview,
     ownWayUuids: userPreview.ownWays,
     favoriteWayUuids: userPreview.favoriteWays,
     mentoringWayUuids: userPreview.mentoringWays,
     createdAt: Timestamp.fromDate(userPreview.createdAt),
-  });
+  };
 
-  return validatedUserDTO;
+  return UserDTOSchema.parse(userDTO);
 };
