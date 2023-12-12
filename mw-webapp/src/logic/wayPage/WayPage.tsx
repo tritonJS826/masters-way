@@ -94,7 +94,7 @@ const addFavoriteWayUuid = async (
 };
 
 /**
- * Add new favoriteUserUuid to favoriteForUserUuids array
+ * Add user uuid to favoriteForUserUuids array
  */
 const addFavoriteForUserUuids = async (
   way: WayPreview,
@@ -109,9 +109,9 @@ const addFavoriteForUserUuids = async (
 };
 
 /**
- * Delete new favoriteUserUuid to favoriteForUserUuids array
+ * Delete user uuid from favoriteForUserUuids array
  */
-const removeFavoriteForUserUuids = async (
+const deleteFavoriteForUserUuids = async (
   way: WayPreview,
   userUuid: string,
   setWay: React.Dispatch<React.SetStateAction<WayPreview | undefined>>,
@@ -144,7 +144,6 @@ export const WayPage = (props: WayPageProps) => {
   const isOwner = user?.uuid === way?.owner.uuid;
   const isWayInFavorites = user && way && user.favoriteWays.includes(way.uuid);
   const likes = way?.favoriteForUserUuids.length;
-
   const ONE_LIKE = 1;
 
   /**
@@ -198,7 +197,7 @@ export const WayPage = (props: WayPageProps) => {
           <div>
             {likes === 0 && "No likes"}
             {likes === ONE_LIKE && `${likes} like`}
-            {!!likes && likes > ONE_LIKE && `${likes} likes`}
+            {typeof likes === "number" && likes > ONE_LIKE && `${likes} likes`}
           </div>
           <Title
             level={HeadingLevel.h3}
@@ -226,7 +225,7 @@ export const WayPage = (props: WayPageProps) => {
               value={"Remove from favorite"}
               onClick={() => {
                 deleteFavoriteWayUuid(user, way.uuid, setUser);
-                removeFavoriteForUserUuids(way, user.uuid, setWay);
+                deleteFavoriteForUserUuids(way, user.uuid, setWay);
               }}
             />
           }
