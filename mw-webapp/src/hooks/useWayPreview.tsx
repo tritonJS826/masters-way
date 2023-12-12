@@ -15,12 +15,12 @@ export function useWayPreview (uuid: string) {
    * Get WayPreview
    */
   const loadWay = async () => {
-    const data = await WayPreviewDAL.getWayPreview(uuid);
+    const wayData = await WayPreviewDAL.getWayPreview(uuid);
     // Navigate to PageError if transmitted way's uuid is not exist
-    if (!data) {
+    if (!wayData) {
       navigate(pages.page404.getPath({}));
     }
-    setWay(data);
+    setWay(wayData);
   };
 
   useEffect(() => {
