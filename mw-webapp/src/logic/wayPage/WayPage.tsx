@@ -1,3 +1,4 @@
+import {useNavigate} from "react-router-dom";
 import {Button} from "src/component/button/Button";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {Link} from "src/component/link/Link";
@@ -139,7 +140,14 @@ interface WayPageProps {
  * Way page
  */
 export const WayPage = (props: WayPageProps) => {
-  const {way, setWay} = useWayPreview(props.uuid);
+  const navigate = useNavigate();
+
+  const {way, setWay, error} = useWayPreview(props.uuid);
+
+  if (error) {
+    // Navigate to PageError if transmitted way's uuid doesn't exist
+    navigate(pages.page404.getPath({}));
+  }
 
   const {user} = useGlobalContext();
 

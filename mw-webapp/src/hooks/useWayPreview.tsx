@@ -1,31 +1,30 @@
 import {useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
-import {pages} from "src/router/pages";
 
 /**
- * Fetches WayPreview and returns state
+ * Fetches WayPreview, returns Way or error if way doesn't exist
  */
 export function useWayPreview (uuid: string) {
   const [way, setWay] = useState<WayPreview | null>(null);
-  const navigate = useNavigate();
+  const [error, setError] = useState(false);
 
   /**
    * Get WayPreview
    */
   const loadWay = async () => {
     const wayData = await WayPreviewDAL.getWayPreview(uuid);
-    // Navigate to PageError if transmitted way's uuid is not exist
     if (!wayData) {
-      navigate(pages.page404.getPath({}));
+      setError(true);
+    } else {
+      setWay(wayData);
     }
-    setWay(wayData);
+
   };
 
   useEffect(() => {
     loadWay();
   }, []);
 
-  return {way, setWay};
+  return {way, setWay, error};
 }
