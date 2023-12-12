@@ -150,6 +150,16 @@ export const Columns = (props: ColumnsProps) => {
         };
 
         /**
+         * Delete jobDone
+         */
+        const deleteJobDone = async (jobDoneUuid: string) => {
+          const jobsDone = row.original.jobsDone.filter((jobDone) => jobDone.uuid !== jobDoneUuid);
+          const updatedDayReport = {...row.original, jobsDone};
+          updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
+          await JobDoneDAL.deleteJobDone(jobDoneUuid, updatedDayReport);
+        };
+
+        /**
          * Update jobDone
          */
         const updateJobDone = async (jobDone: JobDone, text: string) => {
@@ -207,6 +217,12 @@ export const Columns = (props: ColumnsProps) => {
                       className={styles.editableTime}
                       isEditable={isOwner}
                     />
+                    {isOwner &&
+                      <Button
+                        value="Delete job"
+                        onClick={() => deleteJobDone(jobDone.uuid)}
+                      />
+                    }
                   </HorizontalContainer>
                 </li>
               ))}
@@ -245,6 +261,17 @@ export const Columns = (props: ColumnsProps) => {
           const plansForNextPeriod = [...row.original.plansForNextPeriod, planForNextPeriod];
           const updatedDayReport = {...row.original, plansForNextPeriod};
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
+        };
+
+        /**
+         * Delete planForNextPeriod
+         */
+        const deletePlanForNextPeriod = async (planForNextPeriodUuid: string) => {
+          const plansForNextPeriod =
+            row.original.plansForNextPeriod.filter((planForNextPeriod) => planForNextPeriod.uuid !== planForNextPeriodUuid);
+          const updatedDayReport = {...row.original, plansForNextPeriod};
+          updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
+          await PlanForNextPeriodDAL.deletePlanForNextPeriod(planForNextPeriodUuid, updatedDayReport);
         };
 
         /**
@@ -292,23 +319,33 @@ export const Columns = (props: ColumnsProps) => {
             <ol className={styles.numberedList}>
               {row.original.plansForNextPeriod.map((planForNextPeriod) => (
                 <li key={planForNextPeriod.uuid}>
-                  <Link
-                    value={getName(props.mentors, planForNextPeriod.ownerUuid, ownerName)}
-                    path={pages.user.getPath({uuid: planForNextPeriod.ownerUuid})}
-                  />
                   <HorizontalContainer className={styles.numberedListItem}>
-                    <EditableTextarea
-                      text={planForNextPeriod.job}
-                      onChangeFinish={(text) => updatePlanForNextPeriod(planForNextPeriod, text)}
-                      isEditable={planForNextPeriod.ownerUuid === user?.uuid}
-                      className={styles.editableTextarea}
+                    <VerticalContainer>
+                      <Link
+                        value={getName(props.mentors, planForNextPeriod.ownerUuid, ownerName)}
+                        path={pages.user.getPath({uuid: planForNextPeriod.ownerUuid})}
+                      />
+                      <HorizontalContainer>
+                        <EditableTextarea
+                          text={planForNextPeriod.job}
+                          onChangeFinish={(text) => updatePlanForNextPeriod(planForNextPeriod, text)}
+                          isEditable={planForNextPeriod.ownerUuid === user?.uuid}
+                          className={styles.editableTextarea}
+                        />
+                        <EditableText
+                          text={planForNextPeriod.estimationTime}
+                          onChangeFinish={(value) => updatePlanForNextPeriodTime(planForNextPeriod, value)}
+                          className={styles.editableTime}
+                          isEditable={planForNextPeriod.ownerUuid === user?.uuid}
+                        />
+                      </HorizontalContainer>
+                    </VerticalContainer>
+                    {planForNextPeriod.ownerUuid === user?.uuid &&
+                    <Button
+                      value="Delete plan"
+                      onClick={() => deletePlanForNextPeriod(planForNextPeriod.uuid)}
                     />
-                    <EditableText
-                      text={planForNextPeriod.estimationTime}
-                      onChangeFinish={(value) => updatePlanForNextPeriodTime(planForNextPeriod, value)}
-                      className={styles.editableTime}
-                      isEditable={planForNextPeriod.ownerUuid === user?.uuid}
-                    />
+                    }
                   </HorizontalContainer>
                 </li>
               ))}
@@ -342,6 +379,17 @@ export const Columns = (props: ColumnsProps) => {
         };
 
         /**
+         * Delete CurrentProblem
+         */
+        const deleteCurrentProblem = async (currentProblemUuid: string) => {
+          const currentProblems =
+            row.original.problemsForCurrentPeriod.filter((currentProblem) => currentProblem.uuid !== currentProblemUuid);
+          const updatedDayReport = {...row.original, currentProblems};
+          updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
+          await PlanForNextPeriodDAL.deletePlanForNextPeriod(currentProblemUuid, updatedDayReport);
+        };
+
+        /**
          * Update CurrentProblem
          */
         const updateCurrentProblem = async (currentProblem: CurrentProblem, text: string) => {
@@ -366,16 +414,26 @@ export const Columns = (props: ColumnsProps) => {
             <ol className={styles.numberedList}>
               {row.original.problemsForCurrentPeriod.map((currentProblem) => (
                 <li key={currentProblem.uuid}>
-                  <Link
-                    value={getName(props.mentors, currentProblem.ownerUuid, ownerName)}
-                    path={pages.user.getPath({uuid: currentProblem.ownerUuid})}
-                  />
-                  <EditableTextarea
-                    text={currentProblem.description}
-                    onChangeFinish={(text) => updateCurrentProblem(currentProblem, text)}
-                    isEditable={currentProblem.ownerUuid === user?.uuid}
-                    className={styles.editableTextarea}
-                  />
+                  <HorizontalContainer className={styles.numberedListItem}>
+                    <VerticalContainer>
+                      <Link
+                        value={getName(props.mentors, currentProblem.ownerUuid, ownerName)}
+                        path={pages.user.getPath({uuid: currentProblem.ownerUuid})}
+                      />
+                      <EditableTextarea
+                        text={currentProblem.description}
+                        onChangeFinish={(text) => updateCurrentProblem(currentProblem, text)}
+                        isEditable={currentProblem.ownerUuid === user?.uuid}
+                        className={styles.editableTextarea}
+                      />
+                    </VerticalContainer>
+                    {currentProblem.ownerUuid === user?.uuid &&
+                      <Button
+                        value="Delete problem"
+                        onClick={() => deleteCurrentProblem(currentProblem.uuid)}
+                      />
+                    }
+                  </HorizontalContainer>
                 </li>
               ))}
             </ol>
@@ -408,6 +466,16 @@ export const Columns = (props: ColumnsProps) => {
         };
 
         /**
+         * Delete Comment
+         */
+        const deleteComment = async (commentUuid: string) => {
+          const comments = row.original.comments.filter((comment) => comment.uuid !== commentUuid);
+          const updatedDayReport = {...row.original, comments};
+          updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
+          await CommentDAL.deleteComment(commentUuid, updatedDayReport);
+        };
+
+        /**
          * Update Comment
          */
         const updateComment = async (comment: Comment, text: string) => {
@@ -431,18 +499,29 @@ export const Columns = (props: ColumnsProps) => {
           <VerticalContainer className={styles.cell}>
             {row.original.comments
               .map((comment) => (
-                <>
-                  <Link
-                    value={getName(props.mentors, comment.ownerUuid, ownerName)}
-                    path={pages.user.getPath({uuid: comment.ownerUuid})}
+                <HorizontalContainer
+                  className={styles.gap}
+                  key={comment.uuid}
+                >
+                  <VerticalContainer>
+                    <Link
+                      value={getName(props.mentors, comment.ownerUuid, ownerName)}
+                      path={pages.user.getPath({uuid: comment.ownerUuid})}
+                    />
+                    <EditableTextarea
+                      text={comment.description}
+                      onChangeFinish={(text) => updateComment(comment, text)}
+                      isEditable={comment.ownerUuid === user?.uuid}
+                      className={styles.editableTextarea}
+                    />
+                  </VerticalContainer>
+                  {comment.ownerUuid === user?.uuid &&
+                  <Button
+                    value="Delete comment"
+                    onClick={() => deleteComment(comment.uuid)}
                   />
-                  <EditableTextarea
-                    text={comment.description}
-                    onChangeFinish={(text) => updateComment(comment, text)}
-                    isEditable={comment.ownerUuid === user?.uuid}
-                    className={styles.editableTextarea}
-                  />
-                </>
+                  }
+                </HorizontalContainer>
               ),
               )}
             {isUserOwnerOrMentor &&

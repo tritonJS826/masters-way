@@ -67,4 +67,12 @@ export class PlanForNextPeriodDAL {
     await PlanForNextPeriodService.updatePLanForNextPeriodDTO(planForNextPeriodDTO, planForNextPeriod.uuid);
   }
 
+  /**
+   * Delete PlanForNextPeriod by uuid
+   */
+  public static async deletePlanForNextPeriod(planForNextPeriodUuid: string, dayReport: DayReport) {
+    await PlanForNextPeriodService.deletePlanForNextPeriodDTO(planForNextPeriodUuid);
+    await DayReportDAL.updateDayReport(dayReport);
+  }
+
 }

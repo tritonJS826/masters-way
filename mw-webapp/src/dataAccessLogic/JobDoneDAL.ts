@@ -64,4 +64,12 @@ export class JobDoneDAL {
     await JobDoneService.updateJobDoneDTO(jobDoneDTO, jobDone.uuid);
   }
 
+  /**
+   * Delete JobDone by uuid
+   */
+  public static async deleteJobDone(jobDoneUuid: string, dayReport: DayReport) {
+    await JobDoneService.deleteJobDoneDTO(jobDoneUuid);
+    await DayReportDAL.updateDayReport(dayReport);
+  }
+
 }

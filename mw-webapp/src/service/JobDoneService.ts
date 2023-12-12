@@ -1,4 +1,4 @@
-import {collection, doc, getDoc, setDoc, updateDoc} from "firebase/firestore";
+import {collection, deleteDoc, doc, getDoc, setDoc, updateDoc} from "firebase/firestore";
 import {db} from "src/firebase";
 import {JobDoneDTO, JobDoneDTOSchema} from "src/model/DTOModel/JobDoneDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
@@ -51,6 +51,13 @@ export class JobDoneService {
   public static async updateJobDoneDTO(jobDoneDTO: JobDoneDTO, uuid: string) {
     const validatedJobDoneDTO = JobDoneDTOSchema.parse(jobDoneDTO);
     await updateDoc(doc(db, PATH_TO_JOBS_DONE_COLLECTION, uuid), validatedJobDoneDTO);
+  }
+
+  /**
+   * Delete JobDoneDTO
+   */
+  public static async deleteJobDoneDTO(jobDoneDTOUuid: string) {
+    deleteDoc(doc(db, PATH_TO_JOBS_DONE_COLLECTION, jobDoneDTOUuid));
   }
 
 }

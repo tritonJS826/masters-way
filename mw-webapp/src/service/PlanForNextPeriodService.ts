@@ -1,4 +1,4 @@
-import {collection, doc, getDoc, setDoc, updateDoc} from "firebase/firestore";
+import {collection, deleteDoc, doc, getDoc, setDoc, updateDoc} from "firebase/firestore";
 import {db} from "src/firebase";
 import {PlanForNextPeriodDTO, PlanForNextPeriodDTOSchema} from "src/model/DTOModel/PlanForNextPeriodDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
@@ -53,6 +53,13 @@ export class PlanForNextPeriodService {
     const validatedPlanForNextPeriodDTO = PlanForNextPeriodDTOSchema.parse(planForNextPeriodDTO);
 
     await updateDoc(doc(db, PATH_TO_PLANS_FOR_NEXT_PERIOD_COLLECTION, uuid), validatedPlanForNextPeriodDTO);
+  }
+
+  /**
+   * Delete PlanForNextPeriodDTO
+   */
+  public static async deletePlanForNextPeriodDTO(planForNextPeriodDTOUuid: string) {
+    deleteDoc(doc(db, PATH_TO_PLANS_FOR_NEXT_PERIOD_COLLECTION, planForNextPeriodDTOUuid));
   }
 
 }

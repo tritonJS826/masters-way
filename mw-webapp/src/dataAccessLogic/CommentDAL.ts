@@ -54,4 +54,12 @@ export class CommentDAL {
     await CommentService.updateCommentDTO(commentDTO, comment.uuid);
   }
 
+  /**
+   * Delete Comment by uuid
+   */
+  public static async deleteComment(commentUuid: string, dayReport: DayReport) {
+    await CommentService.deleteCommentDTO(commentUuid);
+    await DayReportDAL.updateDayReport(dayReport);
+  }
+
 }

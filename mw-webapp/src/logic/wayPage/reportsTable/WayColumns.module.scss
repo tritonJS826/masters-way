@@ -18,9 +18,6 @@ $listLeftMargin: 20px;
   font-weight: bold;
 }
 
-.cell {
-}
-
 .numberedList {
   width: calc(100% - $listLeftMargin);
   margin-left: $listLeftMargin;
@@ -29,6 +26,7 @@ $listLeftMargin: 20px;
 .numberedListItem {
   justify-content: space-between;
   border-bottom: 1px dotted $borderBlack;
+  gap: 5px;
 }
 
 .editableTextarea {
@@ -36,4 +34,8 @@ $listLeftMargin: 20px;
   textarea {
     width: 100%;
   }
+}
+
+.gap {
+  gap: 5px;
 }

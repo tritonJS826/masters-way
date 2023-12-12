@@ -55,4 +55,12 @@ export class CurrentProblemDAL {
     await CurrentProblemService.updateCurrentProblemDTO(currentProblemDTO, currentProblem.uuid);
   }
 
+  /**
+   * Delete CurrentProblem by uuid
+   */
+  public static async deleteCurrentProblem(currentProblemUuid: string, dayReport: DayReport) {
+    await CurrentProblemService.deleteCurrentProblemDTO(currentProblemUuid);
+    await DayReportDAL.updateDayReport(dayReport);
+  }
+
 }
