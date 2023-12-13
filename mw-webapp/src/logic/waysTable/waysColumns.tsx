@@ -8,7 +8,7 @@ import {pages} from "src/router/pages";
 import {renderMarkdown} from "src/utils/textUtils/renderMarkdown";
 import style from "src/logic/waysTable/columns.module.scss";
 
-const columnHelper = createColumnHelper<WayPreview>();
+export const columnHelper = createColumnHelper<WayPreview>();
 
 export const WAYS_OWNER = "Way's Owner";
 

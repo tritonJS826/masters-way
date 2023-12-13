@@ -1,4 +1,6 @@
-import type {StoryObj} from "@storybook/react";
+import {useState} from "react";
+import type {StoryFn} from "@storybook/react";
+import {Button} from "src/component/button/Button";
 import {Modal} from "src/component/modal/Modal";
 
 const meta = {
@@ -9,13 +11,6 @@ const meta = {
 };
 
 export default meta;
-type Story = StoryObj<typeof meta>;
-
-const defaultTrigger = (
-  <button>
-    Click me!
-  </button>
-);
 
 const defaultContent = (
   <div>
@@ -23,17 +18,28 @@ const defaultContent = (
   </div>
 );
 
-export const Default: Story = {
-  args: {
-    trigger: defaultTrigger,
-    content: defaultContent,
-  },
+const Template: StoryFn<typeof Modal> = (args) => {
+  const [open, setOpen] = useState(args.open);
+
+  return (
+    <>
+      <Button
+        value="Click me!"
+        onClick={() => {
+          setOpen(true);
+        }}
+      />
+      <Modal
+        content={defaultContent}
+        open={open}
+        setOpen={setOpen}
+      />
+    </>
+  );
 };
 
-export const Opened: Story = {
-  args: {
-    trigger: defaultTrigger,
-    content: defaultContent,
-    open: true,
-  },
-};
+export const Default = Template.bind({});
+Default.args = {open: false};
+
+export const Opened = Template.bind({});
+Opened.args = {open: true};
