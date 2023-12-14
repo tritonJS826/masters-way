@@ -7,7 +7,8 @@ import {DayReportDTO, DayReportDTOSchema} from "src/model/DTOModel/DayReportDTO"
  */
 export const dayReportToDayReportDTOConverter = (dayReport: DayReport): DayReportDTO => {
   const dayReportDTO: DayReportDTO = {
-    ...dayReport,
+    uuid: dayReport.uuid,
+    isDayOff: dayReport.isDayOff,
     date: Timestamp.fromDate(dayReport.date),
     jobDoneUuids: dayReport.jobsDone.map((item) => item.uuid),
     planForNextPeriodUuids: dayReport.plansForNextPeriod.map((item) => item.uuid),

@@ -7,13 +7,19 @@ import {WayDTO, WayDTOSchema} from "src/model/DTOModel/WayDTO";
  */
 export const wayPreviewToWayDTOConverter = (wayPreview: WayPreview): WayDTO => {
   const wayDTO: WayDTO = {
-    ...wayPreview,
+    uuid: wayPreview.uuid,
+    name: wayPreview.name,
     ownerUuid: wayPreview.owner.uuid,
+    mentorUuids: wayPreview.mentors.map((item) => item.uuid),
+    dayReportUuids: wayPreview.dayReportUuids,
     goalUuid: wayPreview.goal.uuid,
     mentorRequestUuids: wayPreview.mentorRequests.map((item) => item.uuid),
-    mentorUuids: wayPreview.mentors.map((item) => item.uuid),
+    isCompleted: wayPreview.isCompleted,
     lastUpdate: Timestamp.fromDate(wayPreview.lastUpdate),
+    favoriteForUserUuids: wayPreview.favoriteForUserUuids,
     createdAt: Timestamp.fromDate(wayPreview.createdAt),
+    wayTags: wayPreview.wayTags,
+    jobTags: wayPreview.jobTags,
   };
 
   return WayDTOSchema.parse(wayDTO);

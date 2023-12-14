@@ -9,7 +9,7 @@ import {DayReportDTO} from "src/model/DTOModel/DayReportDTO";
  * Convert {@link DayReportDTO} to {@link DayReport}
  */
 export const dayReportDTOToDayReportConverter = async (dayReportDTO: DayReportDTO): Promise<DayReport> => {
-  const {jobDoneUuids, planForNextPeriodUuids, commentUuids, problemForCurrentPeriodUuids} = dayReportDTO;
+  const {jobDoneUuids, planForNextPeriodUuids, commentUuids, problemForCurrentPeriodUuids, uuid, isDayOff, date} = dayReportDTO;
 
   const jobsDonePromise = Promise.all(jobDoneUuids.map(JobDoneDAL.getJobDone));
   const plansForNextPeriodPromise = Promise.all(planForNextPeriodUuids.map(PlanForNextPeriodDAL.getPlanForNextPeriod));
@@ -20,8 +20,9 @@ export const dayReportDTOToDayReportConverter = async (dayReportDTO: DayReportDT
       await Promise.all([jobsDonePromise, plansForNextPeriodPromise, commentsPromise, problemsForCurrentPeriodPromise]);
 
   return new DayReport({
-    ...dayReportDTO,
-    date: dayReportDTO.date.toDate(),
+    uuid,
+    isDayOff,
+    date: date.toDate(),
     jobsDone,
     plansForNextPeriod,
     problemsForCurrentPeriod,

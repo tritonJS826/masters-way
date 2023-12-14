@@ -7,7 +7,10 @@ import {UserDTO, UserDTOSchema} from "src/model/DTOModel/UserDTO";
  */
 export const userPreviewToUserDTOConverter = (userPreview: UserPreview): UserDTO => {
   const userDTO: UserDTO = {
-    ...userPreview,
+    uuid: userPreview.uuid,
+    name: userPreview.name,
+    email: userPreview.email,
+    description: userPreview.description,
     ownWayUuids: userPreview.ownWays,
     favoriteWayUuids: userPreview.favoriteWays,
     mentoringWayUuids: userPreview.mentoringWays,

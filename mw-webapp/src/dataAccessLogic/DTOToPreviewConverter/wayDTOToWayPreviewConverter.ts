@@ -8,7 +8,12 @@ import {WayDTO} from "src/model/DTOModel/WayDTO";
  */
 export const wayDTOToWayPreviewConverter = async (wayDTO: WayDTO): Promise<WayPreview> => {
   return new WayPreview({
-    ...wayDTO,
+    uuid: wayDTO.uuid,
+    name: wayDTO.name,
+    isCompleted: wayDTO.isCompleted,
+    favoriteForUserUuids: wayDTO.favoriteForUserUuids,
+    wayTags: wayDTO.wayTags,
+    jobTags: wayDTO.jobTags,
     dayReportUuids: wayDTO.dayReportUuids,
     owner: await UserPreviewDAL.getUserPreview(wayDTO.ownerUuid),
     goal: await GoalPreviewDAL.getGoalPreview(wayDTO.goalUuid),

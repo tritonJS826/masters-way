@@ -6,7 +6,10 @@ import {UserDTO} from "src/model/DTOModel/UserDTO";
  */
 export const UserDTOToUserPreviewConverter = (userDTO: UserDTO): UserPreview => {
   return new UserPreview({
-    ...userDTO,
+    uuid: userDTO.uuid,
+    name: userDTO.name,
+    email: userDTO.email,
+    description: userDTO.description,
     ownWays: userDTO.ownWayUuids,
     favoriteWays: userDTO.favoriteWayUuids,
     mentoringWays: userDTO.mentoringWayUuids,
