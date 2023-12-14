@@ -5,7 +5,7 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {getWayStatus} from "src/logic/waysTable/wayStatus";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
-import {renderMarkdown} from "src/utils/textUtils/renderMarkdown";
+import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import style from "src/logic/waysTable/columns.module.scss";
 
 const columnHelper = createColumnHelper<WayPreview>();

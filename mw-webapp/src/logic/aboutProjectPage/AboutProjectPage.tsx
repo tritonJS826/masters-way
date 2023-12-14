@@ -3,7 +3,7 @@ import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
 import {Button} from "src/component/button/Button";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import aboutProjectPageContent from "src/logic/aboutProjectPage/AboutProjectPageContent.json";
-import {renderMarkdown} from "src/utils/textUtils/renderMarkdown";
+import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import styles from "src/logic/aboutProjectPage/AboutProjectPage.module.scss";
 
 /**
