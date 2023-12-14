@@ -21,7 +21,7 @@ export const FavoriteWaysTable = (props: PropsWithUuid) => {
 
   useEffect(() => {
     loadFavoriteWays();
-  }, []);
+  }, [props.uuid]);
 
   return (
     <WaysTable

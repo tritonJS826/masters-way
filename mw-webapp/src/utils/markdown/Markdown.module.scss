@@ -5,3 +5,21 @@
   margin-right: auto;
   margin-left: auto;
 }
+
+$listLeftMargin: 20px;
+
+.markdownList {
+  width: calc(100% - $listLeftMargin);
+  margin-left: $listLeftMargin;
+}
+
+.listItem {
+  &::marker {
+    visibility: hidden;
+  }
+}
+
+.markdownDivider {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
