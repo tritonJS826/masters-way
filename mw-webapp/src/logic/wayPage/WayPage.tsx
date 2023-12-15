@@ -154,72 +154,75 @@ export const WayPage = (props: WayPageProps) => {
     ));
   };
 
+  if (!way) {
+    return "loading...";
+  }
+
   return (
-    <>
-      {way &&
-        <div className={styles.container}>
-          <Title
-            level={HeadingLevel.h2}
-            text={`${way.name}`}
-            onChangeFinish={(text) => changeWayName(way, text)}
-            isEditable={isOwner}
-          />
-          <div>
-            Amount of users who add it to favorite:
-            {UnicodeSymbols.SPACE + favoriteForUsersAmount}
-          </div>
-          <Title
-            level={HeadingLevel.h3}
-            text="Goal"
-            onChangeFinish={(text) => changeWayName(way, text)}
-          />
-          <EditableTextarea
-            text={way.goal.description}
-            onChangeFinish={(description) => updateGoalWay(way, description)}
-            rows={5}
-            isEditable={isOwner}
-          />
-          <Title
-            level={HeadingLevel.h3}
-            text="Way owner:"
-          />
-          <Link
-            value={way.owner.name}
-            path={pages.user.getPath({uuid: way.owner.uuid})}
-            className={styles.mentors}
-          />
-          {
-            isWayInFavorites && setUser &&
-            <Button
-              value={"Remove from favorite"}
-              onClick={() => {
-                deleteFavoriteFromWayAndFromUser(user, way, setUser, setWay);
-              }}
-            />
-          }
-          {
-            !isWayInFavorites && user && setUser &&
-            <Button
-              value={"Add to favorite"}
-              onClick={() => {
-                addFavoriteToWayAndToUser(user, way, setUser, setWay);
-              }}
-            />
-          }
-          {!!renderMentors(way).length && (
-            <>
-              <Title
-                level={HeadingLevel.h3}
-                text="Mentors of this way:"
-              />
-              {renderMentors(way)}
-            </>
-          )}
-          <ScrollableBlock>
-            <DayReportsTable way={way} />
-          </ScrollableBlock>
+    <div className={styles.container}>
+      <Title
+        level={HeadingLevel.h2}
+        text={`${way.name}`}
+        onChangeFinish={(text) => changeWayName(way, text)}
+        isEditable={isOwner}
+      />
+      <div>
+        <div>
+          Amount of users who add it to favorite:
+          {UnicodeSymbols.SPACE + favoriteForUsersAmount}
         </div>
+        <Title
+          level={HeadingLevel.h3}
+          text="Goal"
+          onChangeFinish={(text) => changeWayName(way, text)}
+        />
+        <EditableTextarea
+          text={way.goal.description}
+          onChangeFinish={(description) => updateGoalWay(way, description)}
+          rows={5}
+          isEditable={isOwner}
+          className={styles.goalDescription}
+        />
+      </div>
+      <Title
+        level={HeadingLevel.h3}
+        text="Way owner:"
+      />
+      <Link
+        value={way.owner.name}
+        path={pages.user.getPath({uuid: way.owner.uuid})}
+        className={styles.mentors}
+      />
+      {
+        isWayInFavorites && setUser &&
+        <Button
+          value={"Remove from favorite"}
+          onClick={() => {
+            deleteFavoriteFromWayAndFromUser(user, way, setUser, setWay);
+          }}
+        />
       }
-    </>
+      {
+        !isWayInFavorites && user && setUser &&
+        <Button
+          value={"Add to favorite"}
+          onClick={() => {
+            addFavoriteToWayAndToUser(user, way, setUser, setWay);
+          }}
+        />
+      }
+      {!!way.mentors.length && (
+        <>
+          <Title
+            level={HeadingLevel.h3}
+            text="Mentors of this way:"
+          />
+          {renderMentors(way)}
+        </>
+      )}
+      <ScrollableBlock>
+        <DayReportsTable way={way} />
+      </ScrollableBlock>
+    </div>
   );
 };
