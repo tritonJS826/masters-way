@@ -7,8 +7,8 @@ import {ReportsTable} from "src/logic/wayPage/reportsTable/ReportsTable";
 import {Columns} from "src/logic/wayPage/reportsTable/WayColumns";
 import {WayStatistic} from "src/logic/wayPage/WayStatistic";
 import {DayReport} from "src/model/businessModel/DayReport";
+import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
-import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 
 /**
  * DayReportsTable props
@@ -18,7 +18,7 @@ interface DayReportsTableProps {
   /**
    * Way of DayReports
    */
-  way: WayPreview;
+  way: Way;
 }
 
 /**

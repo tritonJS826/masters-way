@@ -1,27 +1,32 @@
 import {timestampType} from "fireschema";
 import {z} from "zod";
 
+/**
+ * If you choose all fields by the same index you will get data for specific GoalMetric
+ */
 export const GoalMetricDTOSchema = z.object({
+
+  uuid: z.string(),
 
   /**
    * Metric's UUID
    */
-  uuid: z.string(),
+  metricUuids: z.array(z.string()),
 
   /**
    * Metrics's description
    */
-  description: z.string(),
+  description: z.array(z.string()),
 
   /**
    * True if comment was done and false if not
    */
-  isDone: z.boolean(),
+  isDone: z.array(z.boolean()),
 
   /**
    * Time when goal metric was done in ms
    */
-  doneDate: timestampType(),
+  doneDate: z.array(timestampType()),
 }).strict();
 
 /**

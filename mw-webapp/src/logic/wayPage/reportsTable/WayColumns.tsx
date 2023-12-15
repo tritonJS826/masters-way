@@ -20,8 +20,8 @@ import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
+import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
-import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
 import {DateUtils} from "src/utils/DateUtils";
 import styles from "src/logic/wayPage/reportsTable/WayColumns.module.scss";
@@ -73,7 +73,7 @@ interface ColumnsProps {
   /**
    * Way
    */
-  way: WayPreview;
+  way: Way;
 }
 
 /**

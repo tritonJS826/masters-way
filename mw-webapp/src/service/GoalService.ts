@@ -61,10 +61,10 @@ export class GoalService {
   /**
    * Update GoalDTO
    */
-  public static async updateGoalDTO(goalDTO: GoalDTO, uuid: string): Promise<void> {
+  public static async updateGoalDTO(goalDTO: GoalDTO): Promise<void> {
     const validatedGoalDTO = GoalDTOSchema.parse(goalDTO);
 
-    await updateDoc(doc(db, PATH_TO_GOALS_COLLECTION, uuid), validatedGoalDTO);
+    await updateDoc(doc(db, PATH_TO_GOALS_COLLECTION, goalDTO.uuid), validatedGoalDTO);
   }
 
 }
