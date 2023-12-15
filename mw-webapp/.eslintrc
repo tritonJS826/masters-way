@@ -180,7 +180,8 @@
       { "blankLine": "always", "prev": "import", "next": "block-like" },
       { "blankLine": "always", "prev": "import", "next": "class" },
       { "blankLine": "always", "prev": "import", "next": "const" }
-  ]
+    ],
+    "eol-last": ["error", "always"]
   },
   "ignorePatterns": [
     "/build",
