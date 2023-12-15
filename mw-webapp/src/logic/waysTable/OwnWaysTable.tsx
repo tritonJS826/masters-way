@@ -32,7 +32,7 @@ export const OwnWaysTable = (props: PropsWithUuid) => {
 
   useEffect(() => {
     loadOwnWays();
-  }, []);
+  }, [props.uuid]);
 
   /**
    * Create way

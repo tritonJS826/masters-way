@@ -8,7 +8,7 @@
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
-    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended"
     // I temporaly install @ljharb and @yarnaimo to fix problem with building storybook. Let's remove this dependency if it is possible
     // "@ljharb"
     // "@yarnaimo"
@@ -21,8 +21,9 @@
     // "project": ["**/tsconfig.json", "**/vite.config.ts"] // путь для сопоставления файлов tsconfig относительно parserOptions.tsconfigRootDir, ​​или текущего рабочего каталога, если он не указан
     "project": true // указывает на поиск ближайшего tsconfig.json для каждого исходного файла
   },
-  "plugins": ["react", "@typescript-eslint", "simple-import-sort", "jsdoc"],
+  "plugins": ["react", "@typescript-eslint", "simple-import-sort", "jsdoc", "@stylistic"],
   "rules": {
+    "@stylistic/eol-last": ["error", "always"],
     "@typescript-eslint/no-non-null-assertion": "error",
     "simple-import-sort/imports": [
       "error",
@@ -180,7 +181,8 @@
       { "blankLine": "always", "prev": "import", "next": "block-like" },
       { "blankLine": "always", "prev": "import", "next": "class" },
       { "blankLine": "always", "prev": "import", "next": "const" }
-  ]
+    ],
+    "eol-last": ["error", "always"]
   },
   "ignorePatterns": [
     "/build",

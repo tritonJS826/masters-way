@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import clsx from "clsx";
 import {renderSpan} from "src/component/editableText/renderSpan";
 import {Textarea} from "src/component/textarea/Textarea";
@@ -50,6 +50,10 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [text, setText] = useState(props.text);
 
+  useEffect(() => {
+    setText(props.text);
+  }, [props.text]);
+
   /**
    * HandleChangeFinish
    */
@@ -61,7 +65,7 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
   /**
    * Update cell value after OnKeyDown event
    */
-  const handleEnter = (event: React.KeyboardEvent<HTMLElement>) => {
+  const handleCtrlEnter = (event: React.KeyboardEvent<HTMLElement>) => {
     if (event.key === KeySymbols.ENTER && event.ctrlKey) {
       handleChangeFinish();
     }
@@ -77,6 +81,7 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
       placeholder={props.placeholder ?? ""}
       rows={props.rows}
       isAutofocus
+      onKeyPress={handleCtrlEnter}
     />
   );
 
@@ -86,7 +91,7 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
         props.isEditable !== false && setIsEditing(true);
       }}
       onBlur={handleChangeFinish}
-      onKeyDown={handleEnter}
+      onKeyDown={handleCtrlEnter}
       className={clsx(styles.editableTextarea, props.className)}
     >
       {isEditing ? renderTextarea() : renderSpan(text)}

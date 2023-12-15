@@ -237,19 +237,22 @@ export const Columns = (props: ColumnsProps) => {
                 </li>
               ))}
             </ol>
-            <div className={styles.jobDoneSummarySection}>
-              {isOwner &&
-                <Button
-                  value="add job"
-                  onClick={createJobDone}
-                />
-              }
-              <span>
-                {"Summary time: "}
+            <div className={styles.summarySection}>
+              <div>
+                {isOwner &&
+                  <Button
+                    value="add job"
+                    onClick={createJobDone}
+                    className={styles.flatButton}
+                  />
+                }
+              </div>
+              <div className={styles.summaryText}>
+                {"Total: "}
                 {row.original.jobsDone
                   .reduce((summaryTime, jobDone) => jobDone.time + summaryTime, DEFAULT_SUMMARY_TIME)
                 }
-              </span>
+              </div>
             </div>
           </VerticalContainer>
         );
@@ -360,12 +363,23 @@ export const Columns = (props: ColumnsProps) => {
                 </li>
               ))}
             </ol>
-            {isUserOwnerOrMentor &&
-              <Button
-                value="add plan"
-                onClick={() => createPlanForNextPeriod(user.uuid)}
-              />
-            }
+            <div className={styles.summarySection}>
+              <div>
+                {isUserOwnerOrMentor &&
+                <Button
+                  value="add plan"
+                  onClick={() => createPlanForNextPeriod(user.uuid)}
+                  className={styles.flatButton}
+                />
+                }
+              </div>
+              <div className={styles.summaryText}>
+                {"Total: "}
+                {row.original.plansForNextPeriod
+                  .reduce((summaryTime, jobDone) => jobDone.estimationTime + summaryTime, DEFAULT_SUMMARY_TIME)
+                }
+              </div>
+            </div>
           </VerticalContainer>
         );
       },
@@ -451,6 +465,7 @@ export const Columns = (props: ColumnsProps) => {
               <Button
                 value="add problem"
                 onClick={() => createCurrentProblem(user.uuid)}
+                className={styles.flatButton}
               />
             }
           </VerticalContainer>
@@ -538,6 +553,7 @@ export const Columns = (props: ColumnsProps) => {
             <Button
               value="add comment"
               onClick={() => createComment(user.uuid)}
+              className={styles.flatButton}
             />
             }
           </VerticalContainer>

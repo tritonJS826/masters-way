@@ -8,7 +8,7 @@ $listLeftMargin: 20px;
   text-align: right;
 }
 
-.jobDoneSummarySection {
+.summarySection {
   display: flex;
   width: 100%;
   align-items: end;
@@ -16,6 +16,17 @@ $listLeftMargin: 20px;
   padding-top: 5px;
   border-top: 2px solid $borderBlack;
   font-weight: bold;
+}
+
+.flatButton {
+  height: 20px;
+}
+
+.summaryText {
+  text-wrap: nowrap;
+}
+
+.cell {
 }
 
 .numberedList {
