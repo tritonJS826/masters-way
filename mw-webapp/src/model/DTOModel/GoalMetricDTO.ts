@@ -6,12 +6,12 @@ import {z} from "zod";
  */
 export const GoalMetricDTOSchema = z.object({
 
-  uuid: z.string().uuid(),
+  uuid: z.string(),
 
   /**
    * Metric's UUID
    */
-  metricUuids: z.array(z.string().uuid()),
+  metricUuids: z.array(z.string()),
 
   /**
    * Metrics's description

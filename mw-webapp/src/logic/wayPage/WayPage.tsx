@@ -8,7 +8,7 @@ import {Link} from "src/component/link/Link";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {GoalDAL} from "src/dataAccessLogic/GoalDAL";
-import {GoalMetricDAL} from "src/dataAccessLogic/GoalMetricPreviewDAL";
+import {GoalMetricDAL} from "src/dataAccessLogic/GoalMetricDAL";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {DayReportsTable} from "src/logic/wayPage/reportsTable/DayReportsTable";
@@ -199,7 +199,7 @@ export const WayPage = (props: WayPageProps) => {
   /**
    * Change goal metric
    */
-  const changeGoalMetric = (updatedSingleGoalMetric: SingleGoalMetric) => {
+  const changeGoalMetric = async (updatedSingleGoalMetric: SingleGoalMetric) => {
     if (!way) {
       throw new Error("Way is not exist");
     }
@@ -217,7 +217,7 @@ export const WayPage = (props: WayPageProps) => {
         (item, index) => index === changedIndex ? updatedSingleGoalMetric.doneDate : item,
       ),
     });
-    GoalMetricDAL.updateGoalMetric(updatedGoalMetric);
+    await GoalMetricDAL.updateGoalMetric(updatedGoalMetric);
   };
 
   /**

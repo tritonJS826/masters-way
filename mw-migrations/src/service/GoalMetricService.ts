@@ -1,6 +1,6 @@
 import {collection, doc, setDoc} from "firebase/firestore";
-import { GoalMetricDTONew } from "../DTOModel/GoalmetricDTO.js";
 import { db } from "../firebase.js";
+import { GoalMetricDTONew } from "../DTOModel/GoalMetricDTO.js";
 
 const PATH_TO_GOAL_METRICS_COLLECTION = "goalMetrics";
 

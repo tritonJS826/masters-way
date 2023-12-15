@@ -17,7 +17,7 @@ export class GoalDAL {
    */
   public static async getGoal(goalUuid: string, goalOwner: UserPreview): Promise<Goal> {
     const goalDTO = await GoalService.getGoalDTO(goalUuid);
-    const goalMetricDTO = await GoalMetricService.getGoalMetricsDTO(goalUuid);
+    const goalMetricDTO = await GoalMetricService.getGoalMetricsDTO(goalDTO.metricUuids[0]);
 
     const goalMetric = goalMetricDTOToGoalMetricConverter(goalMetricDTO);
     const goal = goalDTOToGoalConverter(goalDTO, goalOwner, goalMetric);
