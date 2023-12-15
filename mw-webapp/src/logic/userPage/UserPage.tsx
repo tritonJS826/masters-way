@@ -45,7 +45,7 @@ const changeUserDescription = (user: UserPreview, text: string, callback: (user:
 interface UserPageProps {
 
   /**
-   * Page's uuid
+   * User's uuid
    */
   uuid: string;
 }
@@ -73,10 +73,13 @@ export const UserPage = (props: UserPageProps) => {
 
   useEffect(() => {
     getUser();
-  }, []);
+  }, [props.uuid]);
+
+  if (!userPreview) {
+    return "...loading";
+  }
 
   return (
-    userPreview &&
     <div className={styles.container}>
       <div className={styles.row}>
         <Title
@@ -115,29 +118,27 @@ export const UserPage = (props: UserPageProps) => {
           isEditable={isOwner}
         />
       </div>
-      <>
-        <Title
-          text= {`Own Ways (total amount: ${userPreview.ownWays.length} ways)`}
-          level={HeadingLevel.h3}
-        />
-        <ScrollableBlock>
-          <OwnWaysTable uuid={props.uuid} />
-        </ScrollableBlock>
-        <Title
-          text={`Mentoring Ways (total amount: ${userPreview.mentoringWays.length} ways)`}
-          level={HeadingLevel.h3}
-        />
-        <ScrollableBlock>
-          <MentoringWaysTable uuid={props.uuid} />
-        </ScrollableBlock>
-        <Title
-          text={`Favorite Ways (total amount: ${userPreview.favoriteWays.length} ways)`}
-          level={HeadingLevel.h3}
-        />
-        <ScrollableBlock>
-          <FavoriteWaysTable uuid={props.uuid} />
-        </ScrollableBlock>
-      </>
+      <Title
+        text= {`Own Ways (total amount: ${userPreview.ownWays.length} ways)`}
+        level={HeadingLevel.h3}
+      />
+      <ScrollableBlock>
+        <OwnWaysTable uuid={props.uuid} />
+      </ScrollableBlock>
+      <Title
+        text={`Mentoring Ways (total amount: ${userPreview.mentoringWays.length} ways)`}
+        level={HeadingLevel.h3}
+      />
+      <ScrollableBlock>
+        <MentoringWaysTable uuid={props.uuid} />
+      </ScrollableBlock>
+      <Title
+        text={`Favorite Ways (total amount: ${userPreview.favoriteWays.length} ways)`}
+        level={HeadingLevel.h3}
+      />
+      <ScrollableBlock>
+        <FavoriteWaysTable uuid={props.uuid} />
+      </ScrollableBlock>
     </div>
   );
 };

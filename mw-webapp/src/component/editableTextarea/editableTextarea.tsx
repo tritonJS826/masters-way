@@ -1,7 +1,8 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import clsx from "clsx";
 import {renderSpan} from "src/component/editableText/renderSpan";
 import {Textarea} from "src/component/textarea/Textarea";
+import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/component/editableTextarea/editableTextarea.module.scss";
 
 /**
@@ -49,12 +50,25 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [text, setText] = useState(props.text);
 
+  useEffect(() => {
+    setText(props.text);
+  }, [props.text]);
+
   /**
    * HandleChangeFinish
    */
   const handleChangeFinish = () => {
     props.onChangeFinish(text);
     setIsEditing(false);
+  };
+
+  /**
+   * Update cell value after OnKeyDown event
+   */
+  const handleCtrlEnter = (event: React.KeyboardEvent<HTMLElement>) => {
+    if (event.key === KeySymbols.ENTER && event.ctrlKey) {
+      handleChangeFinish();
+    }
   };
 
   /**
@@ -67,6 +81,7 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
       placeholder={props.placeholder ?? ""}
       rows={props.rows}
       isAutofocus
+      onKeyPress={handleCtrlEnter}
     />
   );
 

@@ -1,10 +1,11 @@
-import React from "react";
 import {createColumnHelper} from "@tanstack/react-table";
 import {Link} from "src/component/link/Link";
+import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {getWayStatus} from "src/logic/waysTable/wayStatus";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
-import {renderMarkdown} from "src/utils/textUtils/renderMarkdown";
+import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import style from "src/logic/waysTable/columns.module.scss";
 
 const columnHelper = createColumnHelper<WayPreview>();
@@ -32,16 +33,23 @@ export const waysColumns = [
     ),
   }),
   columnHelper.accessor("isCompleted", {
-    header: "Is completed?",
+    header: "Status",
 
     /**
      * Cell with isCompleted value
      */
-    cell: (cellValue) => (
-      <>
-        {`${cellValue.getValue()}`}
-      </>
-    ),
+    cell: ({row}) => {
+      const wayStatus = getWayStatus({
+        isCompleted: row.original.isCompleted,
+        lastUpdate: row.original.lastUpdate,
+      });
+
+      return (
+        <Tooltip content="The path is abandoned if it is not completed, but has not been edited in the last 14 days">
+          {wayStatus}
+        </Tooltip>
+      );
+    },
   }),
   columnHelper.accessor("goal", {
     header: "Goal",
@@ -86,7 +94,7 @@ export const waysColumns = [
         row.original.mentors.map((mentor) => (
           <Link
             key={mentor.uuid}
-            path={pages.user.getPath({uuid: row.original.uuid})}
+            path={pages.user.getPath({uuid: mentor.uuid})}
             value={mentor.name}
           />
         ))

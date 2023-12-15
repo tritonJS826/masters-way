@@ -1,6 +1,6 @@
+import {useNavigate} from "react-router-dom";
 import {Button} from "src/component/button/Button";
-import {Link} from "src/component/link/Link";
-import {Sidebar} from "src/component/sidebar/Sidebar";
+import {NavigationLink, Sidebar} from "src/component/sidebar/Sidebar";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {useGlobalContext} from "src/GlobalContext";
 import {pages} from "src/router/pages";
@@ -12,43 +12,13 @@ const BUTTON_LOG_OUT_VALUE = "Logout";
 const LOGO_TEXT = "master's way";
 
 /**
- * Navigation link props.
- */
-interface NavigationLink {
-
-  /**
-   * Navigation link path.
-   */
-  path: string;
-
-  /**
-   * Navigation link value.
-   */
-  value: string;
-}
-
-/**
- * Renders navigation links based on the provided navigationLinks array.
- */
-const renderNavigationLinks = (navigationLinks: (NavigationLink)[]) => {
-  return navigationLinks.map((item) => (
-    item && (
-      <Link
-        key={item.value}
-        path={item.path}
-        value={item.value}
-      />
-    )
-  ));
-};
-
-/**
  * Header component
  */
 export const Header = () => {
   const {user} = useGlobalContext();
+  const navigate = useNavigate();
 
-  const navigationLinksRaw: (NavigationLink | null)[] = [
+  const menuLinks: (NavigationLink)[] = [
     {
       path: pages.allWays.getPath({}),
       value: "All ways",
@@ -57,32 +27,36 @@ export const Header = () => {
       path: pages.allUsers.getPath({}),
       value: "All users",
     },
-    user && {
-      path: pages.user.getPath({uuid: user.uuid}),
+    {
+      path: user
+        ? pages.user.getPath({uuid: user.uuid})
+        : pages.page404.getPath({}),
       value: "My ways",
+      isHidden: !user,
     },
     {
       path: pages.aboutProject.getPath({}),
-      value: "About",
+      value: "About the project",
     },
   ];
-
-  const navigationLinks: NavigationLink[] = navigationLinksRaw
-    .filter((link): link is NavigationLink => Boolean(link));
 
   return (
     <div className={styles.header}>
       <Title
         level={HeadingLevel.h1}
         text={LOGO_TEXT.toUpperCase()}
+        onClick={() => navigate(pages.allWays.getPath({}))}
+        className={styles.logo}
       />
-      {user &&
-        <Title
-          level={HeadingLevel.h2}
-          text={`Hello, ${user.name}!`}
-        />
-      }
       <div className={styles.headerButtonsContainer}>
+        {user &&
+        <Title
+          level={HeadingLevel.h4}
+          text={user.name}
+          className={styles.userName}
+          onClick={() => navigate(pages.user.getPath({uuid: user.uuid}))}
+        />
+        }
         <Button
           onClick={user ? AuthService.logOut : AuthService.logIn}
           value={user ? BUTTON_LOG_OUT_VALUE : BUTTON_LOG_IN_VALUE}
@@ -90,15 +64,11 @@ export const Header = () => {
         <Sidebar
           trigger={
             <Button
-              value={"Navigation"}
+              value="Navigation"
               onClick={() => {}}
             />
           }
-          content={
-            <div className={styles.navSidebarContent}>
-              {renderNavigationLinks(navigationLinks)}
-            </div>
-          }
+          linkList={menuLinks}
         />
       </div>
     </div>

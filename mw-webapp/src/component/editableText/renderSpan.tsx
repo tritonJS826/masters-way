@@ -1,4 +1,4 @@
-import {renderMarkdown} from "src/utils/textUtils/renderMarkdown";
+import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import styles from "src/component/editableText/renderSpan.module.scss";
 
 export const DEFAULT_PLACEHOLDER = "*Empty markdown! Double click on me!*";

@@ -70,7 +70,7 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
       {isOwner &&
       <Button
         value="Create new day report"
-        onClick={() => createDayReport(props.way.uuid, dayReports)}
+        onClick={() => createDayReport(way.uuid, dayReports)}
       />
       }
 

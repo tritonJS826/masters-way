@@ -35,7 +35,17 @@ $modal-animation-time: 150ms;
 }
 
 .closeButton {
-  @include closeButton($modal-close-btn-top, $modal-close-btn-right, $modal-close-btn-size);
+  position: absolute;
+  top: $modal-close-btn-top;
+  right: $modal-close-btn-right;
+  display: inline-flex;
+  width: $modal-close-btn-size;
+  height: $modal-close-btn-size;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 100%;
+  cursor: pointer;
 }
 
 @keyframes overlayShow {

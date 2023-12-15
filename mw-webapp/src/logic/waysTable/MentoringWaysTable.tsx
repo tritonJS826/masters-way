@@ -21,7 +21,7 @@ export const MentoringWaysTable = (props: PropsWithUuid) => {
 
   useEffect(() => {
     loadMentoringWays();
-  }, []);
+  }, [props.uuid]);
 
   return (
     <WaysTable

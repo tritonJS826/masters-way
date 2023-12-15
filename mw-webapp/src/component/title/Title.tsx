@@ -48,6 +48,11 @@ interface TitleProps {
    * @default false
    */
   isEditable?: boolean;
+
+  /**
+   * Looks like it used only for logo. If logo does not use Title anymore, we can remove it
+   */
+  onClick?: () => void;
 }
 
 /**
@@ -101,6 +106,7 @@ export const Title = (props: TitleProps) => {
         )
         : (
           <Heading
+            onClick={props.onClick}
             as={props.level}
             className={clsx(styles.title, props.className)}
           >

@@ -1,19 +1,1 @@
 @import "variables";
-
-@mixin title {
-  padding-top: 10px;
-}
-
-@mixin closeButton($top, $right, $button-size) {
-  position: absolute;
-  top: $top;
-  right: $right;
-  display: inline-flex;
-  width: $button-size;
-  height: $button-size;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  border-radius: 100%;
-  cursor: pointer;
-}
