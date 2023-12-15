@@ -36,15 +36,15 @@ export interface DayReportConverterProps {
  * Convert {@link DayReportDTO} to {@link DayReport}
  */
 export const dayReportDTOToDayReportConverter =
- async (dayReportDTO: DayReportDTO, dayReportProps: DayReportConverterProps): Promise<DayReport> => {
+(dayReportDTO: DayReportDTO, dayReportProps: DayReportConverterProps): DayReport => {
 
-   return new DayReport({
-     ...dayReportDTO,
-     date: dayReportDTO.date.toDate(),
-     jobsDone: dayReportProps.jobsDone,
-     plansForNextPeriod: dayReportProps.plansForNextPeriod,
-     problemsForCurrentPeriod: dayReportProps.problemsForCurrentPeriod,
-     comments: dayReportProps.comments,
-   });
- };
+  return new DayReport({
+    ...dayReportDTO,
+    date: dayReportDTO.date.toDate(),
+    jobsDone: dayReportProps.jobsDone,
+    plansForNextPeriod: dayReportProps.plansForNextPeriod,
+    problemsForCurrentPeriod: dayReportProps.problemsForCurrentPeriod,
+    comments: dayReportProps.comments,
+  });
+};
 
