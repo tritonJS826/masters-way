@@ -21,7 +21,7 @@ export class GoalPreviewDAL {
   /**
    * Get GoalPreview
    */
-  public static async getGoalPreview(uuid: string): Promise<GoalPreview> {
+  public static async getGoal(uuid: string): Promise<GoalPreview> {
     const goalDTO = await GoalService.getGoalDTO(uuid);
     const goalPreview = goalDTOToGoalPreviewConverter(goalDTO);
 
@@ -48,7 +48,7 @@ export class GoalPreviewDAL {
    * Update GoalPreview
    */
   public static async updateGoalPreview(goalDTO: GoalPreview): Promise<void> {
-    await GoalService.updateGoalDTO(goalDTO, goalDTO.uuid);
+    await GoalService.updateGoalDTO(goalDTO);
   }
 
 }

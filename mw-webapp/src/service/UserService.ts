@@ -66,9 +66,9 @@ export class UserService {
   /**
    * Update favoriteWayUuids of User with batch
    */
-  public static async updateFavoritesWayUuidsWithBatch(userUuid: string, updatedFavoriteWayUuids: string[], batch: WriteBatch) {
-    const userRef = doc(db, PATH_TO_USERS_COLLECTION, userUuid);
-    batch.update(userRef, {favoriteWayUuids: updatedFavoriteWayUuids});
+  public static async updateUserDTOWithBatch(updatedUserDTO: UserDTO, batch: WriteBatch) {
+    const userRef = doc(db, PATH_TO_USERS_COLLECTION, updatedUserDTO.uuid);
+    batch.update(userRef, updatedUserDTO);
   }
 
 }

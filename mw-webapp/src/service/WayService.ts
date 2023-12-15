@@ -72,9 +72,9 @@ export class WayService {
   /**
    * Update WayDTO
    */
-  public static async updateWayDTO(wayDTO: WayDTO, uuid: string) {
+  public static async updateWayDTO(wayDTO: WayDTO) {
     const validatedWayDTO = WayDTOSchema.parse(wayDTO);
-    await updateDoc(doc(db, PATH_TO_WAYS_COLLECTION, uuid), {...validatedWayDTO});
+    await updateDoc(doc(db, PATH_TO_WAYS_COLLECTION, wayDTO.uuid), {...validatedWayDTO});
   }
 
   /**
@@ -128,13 +128,12 @@ export class WayService {
   /**
    * Update favoriteForUserUuids of Way with batch
    */
-  public static async updateFavoriteForUserUuidsWithBatch(
-    wayUuid: string,
-    updatedFavoriteForUserUuids: string[],
+  public static async updateWayDTOWithBatch(
+    updatedWay: WayDTO,
     batch: WriteBatch,
   ) {
-    const wayref = doc(db, PATH_TO_WAYS_COLLECTION, wayUuid);
-    batch.update(wayref, {favoriteForUserUuids: updatedFavoriteForUserUuids});
+    const wayref = doc(db, PATH_TO_WAYS_COLLECTION, updatedWay[WAY_UUID_FIELD]);
+    batch.update(wayref, updatedWay);
   }
 
 }
