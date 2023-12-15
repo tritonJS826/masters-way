@@ -45,7 +45,7 @@ const changeUserDescription = (user: UserPreview, text: string, callback: (user:
 interface UserPageProps {
 
   /**
-   * Page's uuid
+   * User's uuid
    */
   uuid: string;
 }
@@ -73,10 +73,13 @@ export const UserPage = (props: UserPageProps) => {
 
   useEffect(() => {
     getUser();
-  }, []);
+  }, [props.uuid]);
+
+  if (!userPreview) {
+    return "...loading";
+  }
 
   return (
-    userPreview &&
     <div className={styles.container}>
       <div className={styles.row}>
         <Title

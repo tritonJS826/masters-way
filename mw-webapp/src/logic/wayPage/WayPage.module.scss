@@ -6,3 +6,11 @@
 .mentors {
   display: flex;
 }
+
+.goalDescription {
+  max-width: 600px;
+
+  textarea {
+    width: 100%;
+  }
+}
