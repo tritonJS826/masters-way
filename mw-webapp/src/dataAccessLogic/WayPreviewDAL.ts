@@ -66,7 +66,7 @@ export class WayPreviewDAL {
     const newGoal = await GoalPreviewDAL.createGoalPreview();
 
     const DEFAULT_WAY: WayDTOWithoutUuid = {
-      name: `${DateUtils.getShortISODateValue(new Date())} Way of ${user.name}`,
+      name: `${DateUtils.getShortISODateValue(new Date)} Way of ${user.name}`,
       dayReportUuids: [],
       ownerUuid: `${userUuid}`,
       goalUuid: `${newGoal.uuid}`,

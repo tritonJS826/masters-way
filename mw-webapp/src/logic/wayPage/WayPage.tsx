@@ -179,7 +179,7 @@ export const WayPage = (props: WayPageProps) => {
         <EditableTextarea
           text={way.goal.description}
           onChangeFinish={(description) => updateGoalWay(way, description)}
-          rows={5}
+          rows={10}
           isEditable={isOwner}
           className={styles.goalDescription}
         />
