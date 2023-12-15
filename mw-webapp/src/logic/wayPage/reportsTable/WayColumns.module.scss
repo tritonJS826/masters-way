@@ -35,8 +35,13 @@ $listLeftMargin: 20px;
 }
 
 .numberedListItem {
+  align-items: center;
   justify-content: space-between;
   border-bottom: 1px dotted $borderBlack;
+}
+
+.center {
+  align-items: center;
 }
 
 .editableTextarea {
@@ -44,4 +49,14 @@ $listLeftMargin: 20px;
   textarea {
     width: 100%;
   }
+}
+
+.icon {
+  min-width: 15px;
+  min-height: 15px;
+  margin-left: 5px;
+}
+
+.icon:hover {
+  cursor: pointer;
 }

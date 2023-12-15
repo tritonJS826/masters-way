@@ -1,8 +1,12 @@
+import {writeBatch} from "firebase/firestore";
+import {dayReportToDayReportDTOConverter} from "src/dataAccessLogic/BusinessToDTOConverter/dayReportToDayReportDTOConverter";
 import {jobDoneToJobDoneDTOConverter} from "src/dataAccessLogic/BusinessToDTOConverter/jobDoneToJobDoneDTOConverter";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {jobDoneDTOToJobDoneConverter} from "src/dataAccessLogic/DTOToBusinessConverter/jobDoneDTOToJobDoneConverter";
+import {db} from "src/firebase";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
+import {DayReportService} from "src/service/DayReportService";
 import {JobDoneDTOWithoutUuid, JobDoneService} from "src/service/JobDoneService";
 
 /**
@@ -62,6 +66,28 @@ export class JobDoneDAL {
     });
     const jobDoneDTO = jobDoneToJobDoneDTOConverter(updatedJobDone);
     await JobDoneService.updateJobDoneDTO(jobDoneDTO, jobDone.uuid);
+  }
+
+  /**
+   * Delete JobDone by uuid
+   */
+  public static async deleteJobDone(jobDoneUuid: string, dayReport: DayReport) {
+    const jobDoneUuids = dayReport.jobsDone.map((item) => item.uuid);
+    const planForNextPeriodUuids = dayReport.plansForNextPeriod.map((item) => item.uuid);
+    const problemForCurrentPeriodUuids = dayReport.problemsForCurrentPeriod.map((item) => item.uuid);
+    const commentUuids = dayReport.comments.map((item) => item.uuid);
+
+    const dayReportDTOProps = {
+      jobDoneUuids,
+      planForNextPeriodUuids,
+      problemForCurrentPeriodUuids,
+      commentUuids,
+    };
+    const dayReportDTO = dayReportToDayReportDTOConverter(dayReport, dayReportDTOProps);
+    const batch = writeBatch(db);
+    JobDoneService.deleteJobDoneDTOWithBatch(jobDoneUuid, batch);
+    DayReportService.updateDayReportDTOWithBatch(dayReport.uuid, dayReportDTO, batch);
+    await batch.commit();
   }
 
 }
