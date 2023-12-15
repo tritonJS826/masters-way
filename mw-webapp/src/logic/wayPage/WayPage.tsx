@@ -1,3 +1,4 @@
+import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Button} from "src/component/button/Button";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
@@ -8,7 +9,6 @@ import {GoalPreviewDAL} from "src/dataAccessLogic/GoalPreviewDAL";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
 import {useGlobalContext} from "src/GlobalContext";
-import {useWayPreview} from "src/hooks/useWayPreview";
 import {DayReportsTable} from "src/logic/wayPage/reportsTable/DayReportsTable";
 import {GoalPreview} from "src/model/businessModelPreview/GoalPreview";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
@@ -37,7 +37,7 @@ const changeWayName = (wayPreview: WayPreview, name: string) => {
  */
 const addMentorToWay = (
   wayPreview: WayPreview,
-  setWay: React.Dispatch<React.SetStateAction<WayPreview | null>>,
+  setWay: React.Dispatch<React.SetStateAction<WayPreview | undefined>>,
   userPreview: UserPreview,
 ) => {
   const mentoringWays = userPreview.mentoringWays.concat(userPreview.uuid);
@@ -58,7 +58,7 @@ const addMentorToWay = (
  */
 const addUserToMentorRequests = (
   wayPreview: WayPreview,
-  setWay: React.Dispatch<React.SetStateAction<WayPreview | null>>,
+  setWay: React.Dispatch<React.SetStateAction<WayPreview | undefined>>,
   userPreview: UserPreview) => {
 
   const mentorRequests = wayPreview.mentorRequests.concat(userPreview);
@@ -74,7 +74,7 @@ const addUserToMentorRequests = (
  */
 const removeUserFromMentorRequests = (
   wayPreview: WayPreview,
-  setWay: React.Dispatch<React.SetStateAction<WayPreview | null>>,
+  setWay: React.Dispatch<React.SetStateAction<WayPreview | undefined>>,
   userPreview: UserPreview) => {
 
   const mentorRequests = wayPreview.mentorRequests.filter((item) => item !== userPreview);
@@ -102,7 +102,7 @@ const renderMentors = (wayPreview: WayPreview) => {
 /**
  * Render Way's mentor requests
  */
-const renderMentorRequests = (wayPreview: WayPreview, setWay: React.Dispatch<React.SetStateAction<WayPreview | null>>) => {
+const renderMentorRequests = (wayPreview: WayPreview, setWay: React.Dispatch<React.SetStateAction<WayPreview | undefined>>) => {
   return wayPreview.mentorRequests.map((userPreview) => (
     <div key={userPreview.uuid}>
       <Link
@@ -141,15 +141,25 @@ interface WayPageProps {
  */
 export const WayPage = (props: WayPageProps) => {
   const navigate = useNavigate();
-
-  const {way, setWay, error} = useWayPreview(props.uuid);
-
-  if (error) {
-    // Navigate to PageError if transmitted way's uuid doesn't exist
-    navigate(pages.page404.getPath({}));
-  }
+  const [way, setWay] = useState<WayPreview>();
 
   const {user} = useGlobalContext();
+
+  /**
+   * Get WayPreview
+   */
+  const loadWay = async () => {
+    const wayData = await WayPreviewDAL.getWayPreview(props.uuid);
+    if (!wayData) {
+    // Navigate to PageError if transmitted way's uuid doesn't exist
+      navigate(pages.page404.getPath({}));
+    }
+    setWay(wayData);
+  };
+
+  useEffect(() => {
+    loadWay();
+  }, []);
 
   const isOwner = !!user && !!way && user.uuid === way.owner.uuid;
   const isMentor = !!user && !!way && way.mentors.some((mentor) => mentor.uuid === user.uuid);

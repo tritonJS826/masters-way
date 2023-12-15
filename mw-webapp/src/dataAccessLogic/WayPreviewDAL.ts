@@ -30,7 +30,23 @@ export class WayPreviewDAL {
    */
   public static async getWayPreview(uuid: string): Promise<WayPreview> {
     const wayDTO = await WayService.getWayDTO(uuid);
-    const wayPreview = wayDTOToWayPreviewConverter(wayDTO);
+
+    const owner = await UserPreviewDAL.getUserPreview(wayDTO.ownerUuid);
+
+    const mentors = await Promise.all(wayDTO.mentorUuids.map(UserPreviewDAL.getUserPreview));
+
+    const mentorRequests = await Promise.all(wayDTO.mentorRequestUuids.map(UserPreviewDAL.getUserPreview));
+
+    const goal = await GoalPreviewDAL.getGoalPreview(wayDTO.goalUuid);
+
+    const wayPreviewProps = {
+      owner,
+      mentors,
+      mentorRequests,
+      goal,
+    };
+
+    const wayPreview = wayDTOToWayPreviewConverter(wayDTO, wayPreviewProps);
 
     return wayPreview;
   }
