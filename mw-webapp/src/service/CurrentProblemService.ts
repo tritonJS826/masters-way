@@ -1,8 +1,7 @@
-import {collection, deleteDoc, doc, getDoc, setDoc, updateDoc, writeBatch} from "firebase/firestore";
+import {collection, deleteDoc, doc, getDoc, setDoc, updateDoc, WriteBatch} from "firebase/firestore";
 import {db} from "src/firebase";
 import {CurrentProblemDTO, CurrentProblemDTOSchema} from "src/model/DTOModel/CurrentProblemDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
-import {PATH_TO_DAY_REPORTS_COLLECTION} from "src/service/DayReportService";
 
 export const PATH_TO_CURRENT_PROBLEMS_COLLECTION = "currentProblems";
 
@@ -66,16 +65,9 @@ export class CurrentProblemService {
   /**
    * Delete CurrentProblemDTO with batch
    */
-  public static async deleteCurrentProblemDTOWithBatch(
-    currentProblemDTOUuid: string,
-    dayReportUuid: string,
-    problemForCurrentPeriodUuids: string[]) {
-    const batch = writeBatch(db);
-    const dayReportRef = doc(db, PATH_TO_DAY_REPORTS_COLLECTION, dayReportUuid);
+  public static async deleteCurrentProblemDTOWithBatch(currentProblemDTOUuid: string, batching: WriteBatch) {
     const currentProblemRef = doc(db, PATH_TO_CURRENT_PROBLEMS_COLLECTION, currentProblemDTOUuid);
-    batch.update(dayReportRef, {problemForCurrentPeriodUuids});
-    batch.delete(currentProblemRef);
-    await batch.commit();
+    batching.delete(currentProblemRef);
   }
 
 }

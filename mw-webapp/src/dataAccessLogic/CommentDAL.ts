@@ -1,9 +1,13 @@
+import {writeBatch} from "firebase/firestore";
 import {commentToCommentDTOConverter} from "src/dataAccessLogic/BusinessToDTOConverter/commentToCommentDTOConverter";
+import {dayReportToDayReportDTOConverter} from "src/dataAccessLogic/BusinessToDTOConverter/dayReportToDayReportDTOConverter";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {commentDTOToCommentConverter} from "src/dataAccessLogic/DTOToBusinessConverter/commentDTOToCommentConverter";
+import {db} from "src/firebase";
 import {Comment} from "src/model/businessModel/Comment";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {CommentDTOWithoutUuid, CommentService} from "src/service/CommentService";
+import {DayReportService} from "src/service/DayReportService";
 
 /**
  * Provides methods to interact with the Comment business model
@@ -58,8 +62,22 @@ export class CommentDAL {
    * Delete Comment by uuid
    */
   public static async deleteComment(commentUuid: string, dayReport: DayReport) {
+    const jobDoneUuids = dayReport.jobsDone.map((item) => item.uuid);
+    const planForNextPeriodUuids = dayReport.plansForNextPeriod.map((item) => item.uuid);
+    const problemForCurrentPeriodUuids = dayReport.problemsForCurrentPeriod.map((item) => item.uuid);
     const commentUuids = dayReport.comments.map((item) => item.uuid);
-    await CommentService.deleteCommentDTOWithBatch(commentUuid, dayReport.uuid, commentUuids);
+
+    const dayReportDTOProps = {
+      jobDoneUuids,
+      planForNextPeriodUuids,
+      problemForCurrentPeriodUuids,
+      commentUuids,
+    };
+    const dayReportDTO = dayReportToDayReportDTOConverter(dayReport, dayReportDTOProps);
+    const batch = writeBatch(db);
+    CommentService.deleteCommentDTOWithBatch(commentUuid, batch);
+    DayReportService.updateDayReportDTOWithBatch(dayReport.uuid, dayReportDTO, batch);
+    await batch.commit();
   }
 
 }

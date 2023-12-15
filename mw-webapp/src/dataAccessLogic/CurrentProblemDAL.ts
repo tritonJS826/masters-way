@@ -1,11 +1,15 @@
+import {writeBatch} from "firebase/firestore";
 import {currentProblemToCurrentProblemDTOConverter} from
   "src/dataAccessLogic/BusinessToDTOConverter/currentProblemToCurrentProblemDTOConverter";
+import {dayReportToDayReportDTOConverter} from "src/dataAccessLogic/BusinessToDTOConverter/dayReportToDayReportDTOConverter";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {currentProblemDTOToCurrentProblemConverter} from
   "src/dataAccessLogic/DTOToBusinessConverter/currentProblemDTOToCurrentProblemConverter";
+import {db} from "src/firebase";
 import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {CurrentProblemDTOWithoutUuid, CurrentProblemService} from "src/service/CurrentProblemService";
+import {DayReportService} from "src/service/DayReportService";
 
 /**
  * Provides methods to interact with the CurrentProblem business model
@@ -59,8 +63,22 @@ export class CurrentProblemDAL {
    * Delete CurrentProblem by uuid
    */
   public static async deleteCurrentProblem(currentProblemUuid: string, dayReport: DayReport) {
-    const currentProblemUuids = dayReport.problemsForCurrentPeriod.map((item) => item.uuid);
-    await CurrentProblemService.deleteCurrentProblemDTOWithBatch(currentProblemUuid, dayReport.uuid, currentProblemUuids);
+    const jobDoneUuids = dayReport.jobsDone.map((item) => item.uuid);
+    const planForNextPeriodUuids = dayReport.plansForNextPeriod.map((item) => item.uuid);
+    const problemForCurrentPeriodUuids = dayReport.problemsForCurrentPeriod.map((item) => item.uuid);
+    const commentUuids = dayReport.comments.map((item) => item.uuid);
+
+    const dayReportDTOProps = {
+      jobDoneUuids,
+      planForNextPeriodUuids,
+      problemForCurrentPeriodUuids,
+      commentUuids,
+    };
+    const dayReportDTO = dayReportToDayReportDTOConverter(dayReport, dayReportDTOProps);
+    const batch = writeBatch(db);
+    CurrentProblemService.deleteCurrentProblemDTOWithBatch(currentProblemUuid, batch);
+    DayReportService.updateDayReportDTOWithBatch(dayReport.uuid, dayReportDTO, batch);
+    await batch.commit();
   }
 
 }
