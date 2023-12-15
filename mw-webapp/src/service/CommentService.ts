@@ -1,7 +1,8 @@
-import {collection, deleteDoc, doc, getDoc, setDoc, updateDoc} from "firebase/firestore";
+import {collection, deleteDoc, doc, getDoc, setDoc, updateDoc, writeBatch} from "firebase/firestore";
 import {db} from "src/firebase";
 import {CommentDTO, CommentDTOSchema} from "src/model/DTOModel/CommentDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
+import {PATH_TO_DAY_REPORTS_COLLECTION} from "src/service/DayReportService";
 
 const PATH_TO_COMMENTS_COLLECTION = "comments";
 
@@ -58,6 +59,18 @@ export class CommentService {
    */
   public static async deleteCommentDTO(CommentDTOUuid: string) {
     deleteDoc(doc(db, PATH_TO_COMMENTS_COLLECTION, CommentDTOUuid));
+  }
+
+  /**
+   * Delete CommentDTO with batch
+   */
+  public static async deleteCommentDTOWithBatch(commentDTOUuid: string, dayReportUuid: string, commentUuids: string[]) {
+    const batch = writeBatch(db);
+    const dayReportRef = doc(db, PATH_TO_DAY_REPORTS_COLLECTION, dayReportUuid);
+    const commentRef = doc(db, PATH_TO_COMMENTS_COLLECTION, commentDTOUuid);
+    batch.update(dayReportRef, {commentUuids});
+    batch.delete(commentRef);
+    await batch.commit();
   }
 
 }

@@ -58,8 +58,8 @@ export class CommentDAL {
    * Delete Comment by uuid
    */
   public static async deleteComment(commentUuid: string, dayReport: DayReport) {
-    await CommentService.deleteCommentDTO(commentUuid);
-    await DayReportDAL.updateDayReport(dayReport);
+    const commentUuids = dayReport.comments.map((item) => item.uuid);
+    await CommentService.deleteCommentDTOWithBatch(commentUuid, dayReport.uuid, commentUuids);
   }
 
 }

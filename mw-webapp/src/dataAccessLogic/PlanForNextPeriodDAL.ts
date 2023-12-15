@@ -71,8 +71,10 @@ export class PlanForNextPeriodDAL {
    * Delete PlanForNextPeriod by uuid
    */
   public static async deletePlanForNextPeriod(planForNextPeriodUuid: string, dayReport: DayReport) {
-    await PlanForNextPeriodService.deletePlanForNextPeriodDTO(planForNextPeriodUuid);
-    await DayReportDAL.updateDayReport(dayReport);
+    const planForNextPeriodUuids = dayReport.jobsDone.map((item) => item.uuid);
+    await PlanForNextPeriodService.deletePlanForNextPeriodDTOWithBatch(
+      planForNextPeriodUuid, dayReport.uuid, planForNextPeriodUuids,
+    );
   }
 
 }

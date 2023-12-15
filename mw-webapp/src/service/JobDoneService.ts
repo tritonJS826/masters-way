@@ -1,7 +1,8 @@
-import {collection, deleteDoc, doc, getDoc, setDoc, updateDoc} from "firebase/firestore";
+import {collection, deleteDoc, doc, getDoc, setDoc, updateDoc, writeBatch} from "firebase/firestore";
 import {db} from "src/firebase";
 import {JobDoneDTO, JobDoneDTOSchema} from "src/model/DTOModel/JobDoneDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
+import {PATH_TO_DAY_REPORTS_COLLECTION} from "src/service/DayReportService";
 
 const PATH_TO_JOBS_DONE_COLLECTION = "jobsDone";
 
@@ -58,6 +59,18 @@ export class JobDoneService {
    */
   public static async deleteJobDoneDTO(jobDoneDTOUuid: string) {
     deleteDoc(doc(db, PATH_TO_JOBS_DONE_COLLECTION, jobDoneDTOUuid));
+  }
+
+  /**
+   * Delete JobDoneDTO with batch
+   */
+  public static async deleteJobDoneDTOWithBatch(jobDoneUuid: string, dayReportUuid: string, jobDoneUuids: string[]) {
+    const batch = writeBatch(db);
+    const dayReportRef = doc(db, PATH_TO_DAY_REPORTS_COLLECTION, dayReportUuid);
+    const jobDoneRef = doc(db, PATH_TO_JOBS_DONE_COLLECTION, jobDoneUuid);
+    batch.update(dayReportRef, {jobDoneUuids});
+    batch.delete(jobDoneRef);
+    await batch.commit();
   }
 
 }

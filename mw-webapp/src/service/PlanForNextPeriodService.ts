@@ -1,7 +1,8 @@
-import {collection, deleteDoc, doc, getDoc, setDoc, updateDoc} from "firebase/firestore";
+import {collection, deleteDoc, doc, getDoc, setDoc, updateDoc, writeBatch} from "firebase/firestore";
 import {db} from "src/firebase";
 import {PlanForNextPeriodDTO, PlanForNextPeriodDTOSchema} from "src/model/DTOModel/PlanForNextPeriodDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
+import {PATH_TO_DAY_REPORTS_COLLECTION} from "src/service/DayReportService";
 
 const PATH_TO_PLANS_FOR_NEXT_PERIOD_COLLECTION = "plansForNextPeriod";
 
@@ -60,6 +61,21 @@ export class PlanForNextPeriodService {
    */
   public static async deletePlanForNextPeriodDTO(planForNextPeriodDTOUuid: string) {
     deleteDoc(doc(db, PATH_TO_PLANS_FOR_NEXT_PERIOD_COLLECTION, planForNextPeriodDTOUuid));
+  }
+
+  /**
+   * Delete PlanForNextPeriod with batch
+   */
+  public static async deletePlanForNextPeriodDTOWithBatch(
+    planForNextPeriodUuid: string,
+    dayReportUuid: string,
+    planForNextPeriodUuids: string[]) {
+    const batch = writeBatch(db);
+    const dayReportRef = doc(db, PATH_TO_DAY_REPORTS_COLLECTION, dayReportUuid);
+    const planForNextPeriodRef = doc(db, PATH_TO_PLANS_FOR_NEXT_PERIOD_COLLECTION, planForNextPeriodUuid);
+    batch.update(dayReportRef, {planForNextPeriodUuids});
+    batch.delete(planForNextPeriodRef);
+    await batch.commit();
   }
 
 }

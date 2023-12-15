@@ -7,7 +7,7 @@ import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnap
 import {querySnapshotsToDTOConverter} from "src/service/converter/querySnapshotsToDTOConverter";
 import {getChunksArray} from "src/utils/getChunkArray";
 
-const PATH_TO_DAY_REPORTS_COLLECTION = "dayReports";
+export const PATH_TO_DAY_REPORTS_COLLECTION = "dayReports";
 const QUERY_LIMIT = 30;
 
 /**

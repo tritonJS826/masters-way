@@ -2,6 +2,7 @@ import {useState} from "react";
 import clsx from "clsx";
 import {renderSpan} from "src/component/editableText/renderSpan";
 import {Textarea} from "src/component/textarea/Textarea";
+import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/component/editableTextarea/editableTextarea.module.scss";
 
 /**
@@ -58,6 +59,15 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
   };
 
   /**
+   * Update cell value after OnKeyDown event
+   */
+  const handleEnter = (event: React.KeyboardEvent<HTMLElement>) => {
+    if (event.key === KeySymbols.ENTER && event.ctrlKey) {
+      handleChangeFinish();
+    }
+  };
+
+  /**
    * Render Textarea
    */
   const renderTextarea = () => (
@@ -76,6 +86,7 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
         props.isEditable !== false && setIsEditing(true);
       }}
       onBlur={handleChangeFinish}
+      onKeyDown={handleEnter}
       className={clsx(styles.editableTextarea, props.className)}
     >
       {isEditing ? renderTextarea() : renderSpan(text)}

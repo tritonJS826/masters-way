@@ -59,8 +59,8 @@ export class CurrentProblemDAL {
    * Delete CurrentProblem by uuid
    */
   public static async deleteCurrentProblem(currentProblemUuid: string, dayReport: DayReport) {
-    await CurrentProblemService.deleteCurrentProblemDTO(currentProblemUuid);
-    await DayReportDAL.updateDayReport(dayReport);
+    const currentProblemUuids = dayReport.problemsForCurrentPeriod.map((item) => item.uuid);
+    await CurrentProblemService.deleteCurrentProblemDTOWithBatch(currentProblemUuid, dayReport.uuid, currentProblemUuids);
   }
 
 }

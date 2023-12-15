@@ -68,8 +68,8 @@ export class JobDoneDAL {
    * Delete JobDone by uuid
    */
   public static async deleteJobDone(jobDoneUuid: string, dayReport: DayReport) {
-    await JobDoneService.deleteJobDoneDTO(jobDoneUuid);
-    await DayReportDAL.updateDayReport(dayReport);
+    const jobDoneUuids = dayReport.jobsDone.map((item) => item.uuid);
+    await JobDoneService.deleteJobDoneDTOWithBatch(jobDoneUuid, dayReport.uuid, jobDoneUuids);
   }
 
 }

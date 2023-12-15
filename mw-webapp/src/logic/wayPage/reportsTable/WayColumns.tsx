@@ -1,3 +1,4 @@
+import {TrashIcon} from "@radix-ui/react-icons";
 import {createColumnHelper} from "@tanstack/react-table";
 import {Button} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Сheckbox";
@@ -27,6 +28,15 @@ import styles from "src/logic/wayPage/reportsTable/WayColumns.module.scss";
 
 const DEFAULT_SUMMARY_TIME = 0;
 const columnHelper = createColumnHelper<DayReport>();
+
+/**
+ * Render modal content
+ * TODO: use modal instead of confirm task #305
+ */
+const renderModalContent = (uuid: string, description: string, callback: (uuid: string) => void) => {
+  const isUserWantToDeleteJobDone = confirm(`Are you sure that you want to delete jobDone "${description}"?`);
+  !!isUserWantToDeleteJobDone && callback(uuid);
+};
 
 /**
  * Get user name
@@ -110,7 +120,7 @@ export const Columns = (props: ColumnsProps) => {
          */
         const updateIsDayOff = async (value: boolean) => {
           await DayReportDAL.updateIsDayOff(row.original, value);
-          const updatedDayReport = {...row.original, isDayOff: value};
+          const updatedDayReport = new DayReport({...row.original, isDayOff: value});
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
         };
 
@@ -145,7 +155,7 @@ export const Columns = (props: ColumnsProps) => {
         const createJobDone = async () => {
           const jobDone = await JobDoneDAL.createJobDone(row.original);
           const jobsDone = [...row.original.jobsDone, jobDone];
-          const updatedDayReport = {...row.original, jobsDone};
+          const updatedDayReport = new DayReport({...row.original, jobsDone});
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
         };
 
@@ -154,7 +164,7 @@ export const Columns = (props: ColumnsProps) => {
          */
         const deleteJobDone = async (jobDoneUuid: string) => {
           const jobsDone = row.original.jobsDone.filter((jobDone) => jobDone.uuid !== jobDoneUuid);
-          const updatedDayReport = {...row.original, jobsDone};
+          const updatedDayReport = new DayReport({...row.original, jobsDone});
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
           await JobDoneDAL.deleteJobDone(jobDoneUuid, updatedDayReport);
         };
@@ -175,7 +185,7 @@ export const Columns = (props: ColumnsProps) => {
             return item;
           });
 
-          const updatedDayReport = {...row.original, jobsDone: updatedJobsDone};
+          const updatedDayReport = new DayReport({...row.original, jobsDone: updatedJobsDone});
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
         };
 
@@ -195,7 +205,7 @@ export const Columns = (props: ColumnsProps) => {
             return item;
           });
 
-          const updatedDayReport = {...row.original, jobsDone: updatedJobsDone};
+          const updatedDayReport = new DayReport({...row.original, jobsDone: updatedJobsDone});
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
         };
 
@@ -218,10 +228,10 @@ export const Columns = (props: ColumnsProps) => {
                       isEditable={isOwner}
                     />
                     {isOwner &&
-                      <Button
-                        value="Delete job"
-                        onClick={() => deleteJobDone(jobDone.uuid)}
-                      />
+                    <TrashIcon
+                      className={styles.icon}
+                      onClick={() => renderModalContent(jobDone.uuid, jobDone.description, deleteJobDone)}
+                    />
                     }
                   </HorizontalContainer>
                 </li>
@@ -259,7 +269,7 @@ export const Columns = (props: ColumnsProps) => {
         const createPlanForNextPeriod = async (userUuid: string) => {
           const planForNextPeriod = await PlanForNextPeriodDAL.createPlanForNextPeriod(row.original, userUuid);
           const plansForNextPeriod = [...row.original.plansForNextPeriod, planForNextPeriod];
-          const updatedDayReport = {...row.original, plansForNextPeriod};
+          const updatedDayReport = new DayReport({...row.original, plansForNextPeriod});
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
         };
 
@@ -269,7 +279,7 @@ export const Columns = (props: ColumnsProps) => {
         const deletePlanForNextPeriod = async (planForNextPeriodUuid: string) => {
           const plansForNextPeriod =
             row.original.plansForNextPeriod.filter((planForNextPeriod) => planForNextPeriod.uuid !== planForNextPeriodUuid);
-          const updatedDayReport = {...row.original, plansForNextPeriod};
+          const updatedDayReport = new DayReport({...row.original, plansForNextPeriod});
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
           await PlanForNextPeriodDAL.deletePlanForNextPeriod(planForNextPeriodUuid, updatedDayReport);
         };
@@ -290,7 +300,7 @@ export const Columns = (props: ColumnsProps) => {
             return item;
           });
 
-          const updatedDayReport = {...row.original, plansForNextPeriod: updatedPlansForNextPeriod};
+          const updatedDayReport = new DayReport({...row.original, plansForNextPeriod: updatedPlansForNextPeriod});
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
         };
 
@@ -310,7 +320,7 @@ export const Columns = (props: ColumnsProps) => {
             return item;
           });
 
-          const updatedDayReport = {...row.original, plansForNextPeriod: updatedPlansForNextPeriod};
+          const updatedDayReport = new DayReport({...row.original, plansForNextPeriod: updatedPlansForNextPeriod});
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
         };
 
@@ -341,9 +351,9 @@ export const Columns = (props: ColumnsProps) => {
                       </HorizontalContainer>
                     </VerticalContainer>
                     {planForNextPeriod.ownerUuid === user?.uuid &&
-                    <Button
-                      value="Delete plan"
-                      onClick={() => deletePlanForNextPeriod(planForNextPeriod.uuid)}
+                    <TrashIcon
+                      className={styles.icon}
+                      onClick={() => renderModalContent(planForNextPeriod.uuid, planForNextPeriod.job, deletePlanForNextPeriod)}
                     />
                     }
                   </HorizontalContainer>
@@ -374,7 +384,7 @@ export const Columns = (props: ColumnsProps) => {
         const createCurrentProblem = async (userUuid: string) => {
           const currentProblem = await CurrentProblemDAL.createCurrentProblem(row.original, userUuid);
           const currentProblems = [...row.original.problemsForCurrentPeriod, currentProblem];
-          const updatedDayReport = {...row.original, problemsForCurrentPeriod: currentProblems};
+          const updatedDayReport = new DayReport({...row.original, problemsForCurrentPeriod: currentProblems});
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
         };
 
@@ -384,9 +394,9 @@ export const Columns = (props: ColumnsProps) => {
         const deleteCurrentProblem = async (currentProblemUuid: string) => {
           const currentProblems =
             row.original.problemsForCurrentPeriod.filter((currentProblem) => currentProblem.uuid !== currentProblemUuid);
-          const updatedDayReport = {...row.original, problemsForCurrentPeriod: currentProblems};
+          const updatedDayReport = new DayReport({...row.original, problemsForCurrentPeriod: currentProblems});
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
-          await PlanForNextPeriodDAL.deletePlanForNextPeriod(currentProblemUuid, updatedDayReport);
+          await CurrentProblemDAL.deleteCurrentProblem(currentProblemUuid, updatedDayReport);
         };
 
         /**
@@ -405,7 +415,7 @@ export const Columns = (props: ColumnsProps) => {
             return item;
           });
 
-          const updatedDayReport = {...row.original, problemsForCurrentPeriod: updatedCurrentProblems};
+          const updatedDayReport = new DayReport({...row.original, problemsForCurrentPeriod: updatedCurrentProblems});
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
         };
 
@@ -428,10 +438,10 @@ export const Columns = (props: ColumnsProps) => {
                       />
                     </VerticalContainer>
                     {currentProblem.ownerUuid === user?.uuid &&
-                      <Button
-                        value="Delete problem"
-                        onClick={() => deleteCurrentProblem(currentProblem.uuid)}
-                      />
+                    <TrashIcon
+                      className={styles.icon}
+                      onClick={() => renderModalContent(currentProblem.uuid, currentProblem.description, deleteCurrentProblem)}
+                    />
                     }
                   </HorizontalContainer>
                 </li>
@@ -461,7 +471,7 @@ export const Columns = (props: ColumnsProps) => {
         const createComment = async (commentatorUuid: string) => {
           const comment = await CommentDAL.createComment(row.original, commentatorUuid);
           const comments = [...row.original.comments, comment];
-          const updatedDayReport = {...row.original, comments};
+          const updatedDayReport = new DayReport({...row.original, comments});
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
         };
 
@@ -470,7 +480,7 @@ export const Columns = (props: ColumnsProps) => {
          */
         const deleteComment = async (commentUuid: string) => {
           const comments = row.original.comments.filter((comment) => comment.uuid !== commentUuid);
-          const updatedDayReport = {...row.original, comments};
+          const updatedDayReport = new DayReport({...row.original, comments});
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
           await CommentDAL.deleteComment(commentUuid, updatedDayReport);
         };
@@ -491,7 +501,7 @@ export const Columns = (props: ColumnsProps) => {
             return itemToReturn;
           });
 
-          const updatedDayReport = {...row.original, comments: updatedComments};
+          const updatedDayReport = new DayReport({...row.original, comments: updatedComments});
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
         };
 
@@ -500,7 +510,7 @@ export const Columns = (props: ColumnsProps) => {
             {row.original.comments
               .map((comment) => (
                 <HorizontalContainer
-                  className={styles.gap}
+                  className={styles.center}
                   key={comment.uuid}
                 >
                   <VerticalContainer>
@@ -516,10 +526,10 @@ export const Columns = (props: ColumnsProps) => {
                     />
                   </VerticalContainer>
                   {comment.ownerUuid === user?.uuid &&
-                  <Button
-                    value="Delete comment"
-                    onClick={() => deleteComment(comment.uuid)}
-                  />
+                    <TrashIcon
+                      className={styles.icon}
+                      onClick={() => renderModalContent(comment.uuid, comment.description, deleteComment)}
+                    />
                   }
                 </HorizontalContainer>
               ),
