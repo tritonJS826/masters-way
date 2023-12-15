@@ -1,10 +1,12 @@
-import {Timestamp} from "firebase/firestore";
+import {Timestamp, writeBatch} from "firebase/firestore";
 import {wayDTOToWayPreviewConverter} from "src/dataAccessLogic/DTOToPreviewConverter/wayDTOToWayPreviewConverter";
 import {GoalPreviewDAL} from "src/dataAccessLogic/GoalPreviewDAL";
 import {wayPreviewToWayDTOConverter} from "src/dataAccessLogic/PreviewToDTOConverter/WayPreviewToWayDTOConverter";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
+import {db} from "src/firebase";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
+import {UserService} from "src/service/UserService";
 import {WayDTOWithoutUuid, WayService} from "src/service/WayService";
 import {DateUtils} from "src/utils/DateUtils";
 
@@ -157,12 +159,12 @@ export class WayPreviewDAL {
     updatedFavoriteForUserUuids: string[],
     updatedFavoriteWays: string[],
   ): Promise<void> {
-    await WayService.updateFavoriteForUserUuidsWithBatch(
-      userUuid,
-      wayUuid,
-      updatedFavoriteForUserUuids,
-      updatedFavoriteWays,
-    );
+    const batch = writeBatch(db);
+
+    await WayService.updateFavoriteForUserUuidsWithBatch(wayUuid, updatedFavoriteForUserUuids, batch);
+    await UserService.updateFavoritesWayUuidsWithBatch(userUuid, updatedFavoriteWays, batch);
+
+    await batch.commit();
   }
 
 }

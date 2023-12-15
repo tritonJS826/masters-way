@@ -1,4 +1,4 @@
-import {collection, deleteDoc, doc, getDoc, getDocs, setDoc, updateDoc} from "firebase/firestore";
+import {collection, deleteDoc, doc, getDoc, getDocs, setDoc, updateDoc, WriteBatch} from "firebase/firestore";
 import {db} from "src/firebase";
 import {UserDTO, UserDTOSchema, UsersDTOSchema} from "src/model/DTOModel/UserDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
@@ -61,6 +61,14 @@ export class UserService {
    */
   public static async deleteUserDTO(uuid: string) {
     await deleteDoc(doc(db, PATH_TO_USERS_COLLECTION, uuid));
+  }
+
+  /**
+   * Update favoriteWayUuids of User with batch
+   */
+  public static async updateFavoritesWayUuidsWithBatch(userUuid: string, updatedFavoriteWayUuids: string[], batch: WriteBatch) {
+    const userRef = doc(db, PATH_TO_USERS_COLLECTION, userUuid);
+    batch.update(userRef, {favoriteWayUuids: updatedFavoriteWayUuids});
   }
 
 }

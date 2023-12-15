@@ -29,14 +29,8 @@ const updateGoalWay = (wayPreview: WayPreview, description: string) => {
  */
 const createUserPreviewWithUpdatedFavorites = (user: UserPreview, updatedFavoriteWays: string[]) => {
   return new UserPreview({
-    uuid: user.uuid,
+    ...user,
     favoriteWays: updatedFavoriteWays,
-    name: user.name,
-    email: user.email,
-    description: user.description,
-    ownWays: user.ownWays,
-    mentoringWays: user.mentoringWays,
-    createdAt: user.createdAt,
   });
 };
 
@@ -45,19 +39,8 @@ const createUserPreviewWithUpdatedFavorites = (user: UserPreview, updatedFavorit
  */
 const createWayWithUpdatedFavorites = (way: WayPreview, updatedFavoriteForUserUuids: string[]) => {
   return new WayPreview({
-    uuid: way.uuid,
-    name: way.name,
-    dayReportUuids: way.dayReportUuids,
-    owner: way.owner,
-    goal: way.goal,
-    mentors: way.mentors,
-    mentorRequests: way.mentorRequests,
-    isCompleted: way.isCompleted,
-    lastUpdate: way.lastUpdate,
+    ...way,
     favoriteForUserUuids: updatedFavoriteForUserUuids,
-    createdAt: way.createdAt,
-    wayTags: way.wayTags,
-    jobTags: way.jobTags,
   });
 };
 
@@ -67,8 +50,8 @@ const createWayWithUpdatedFavorites = (way: WayPreview, updatedFavoriteForUserUu
 const addFavoriteToWayAndToUser = async (
   userPreview: UserPreview,
   wayPreview: WayPreview,
-  setUser: React.Dispatch<React.SetStateAction<UserPreview | null>>,
-  setWay: React.Dispatch<React.SetStateAction<WayPreview | undefined>>,
+  setUser: (user: UserPreview) => void,
+  setWay: (way: WayPreview) => void,
 ) => {
   const updatedFavoriteForUserUuids = wayPreview.favoriteForUserUuids.concat(userPreview.uuid);
   const updatedFavoriteWays = userPreview.favoriteWays.concat(wayPreview.uuid);
@@ -92,8 +75,8 @@ const addFavoriteToWayAndToUser = async (
 const deleteFavoriteFromWayAndFromUser = async (
   userPreview: UserPreview,
   wayPreview: WayPreview,
-  setUser: React.Dispatch<React.SetStateAction<UserPreview | null>>,
-  setWay: React.Dispatch<React.SetStateAction<WayPreview | undefined>>,
+  setUser: (user: UserPreview) => void,
+  setWay: (way: WayPreview) => void,
 ) => {
   const updatedFavoriteForUserUuids = wayPreview.favoriteForUserUuids.filter((favorite) => favorite !== userPreview.uuid);
   const updatedFavoriteWays = userPreview.favoriteWays.filter((favoriteWay) => favoriteWay !== wayPreview.uuid);
