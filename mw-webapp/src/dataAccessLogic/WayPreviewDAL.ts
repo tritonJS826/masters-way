@@ -64,7 +64,7 @@ export class WayPreviewDAL {
     const newGoal = await GoalPreviewDAL.createGoalPreview();
 
     const DEFAULT_WAY: WayDTOWithoutUuid = {
-      name: `${DateUtils.getShortISODateValue(new Date)} Way of ${user.name}`,
+      name: `${DateUtils.getShortISODateValue(new Date())} Way of ${user.name}`,
       dayReportUuids: [],
       ownerUuid: `${userUuid}`,
       goalUuid: `${newGoal.uuid}`,
@@ -146,6 +146,23 @@ export class WayPreviewDAL {
 
     const wayDTO = wayPreviewToWayDTOConverter(wayPreview, wayDTOProps);
     await WayService.updateWayDTO(wayDTO, wayDTO.uuid);
+  }
+
+  /**
+   * Updates favorites for user and way.
+   */
+  public static async updateFavoritesForUserAndWay(
+    userUuid: string,
+    wayUuid: string,
+    updatedFavoriteForUserUuids: string[],
+    updatedFavoriteWays: string[],
+  ): Promise<void> {
+    await WayService.updateFavoriteForUserUuidsWithBatch(
+      userUuid,
+      wayUuid,
+      updatedFavoriteForUserUuids,
+      updatedFavoriteWays,
+    );
   }
 
 }
