@@ -3,8 +3,10 @@
   margin: 0 auto;
 }
 
-.mentors {
+.goalSection {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
 
 .goalDescription {
@@ -13,4 +15,22 @@
   textarea {
     width: 100%;
   }
+}
+
+.singularMetric {
+  display: flex;
+  max-width: 600px;
+  align-items: center;
+  margin-bottom: 4px;
+  gap: 4px;
+}
+
+.mentors {
+  display: flex;
+}
+
+.icon {
+  min-width: 15px;
+  min-height: 15px;
+  margin-left: 5px;
 }

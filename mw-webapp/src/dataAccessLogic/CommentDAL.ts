@@ -1,9 +1,13 @@
+import {writeBatch} from "firebase/firestore";
 import {commentToCommentDTOConverter} from "src/dataAccessLogic/BusinessToDTOConverter/commentToCommentDTOConverter";
+import {dayReportToDayReportDTOConverter} from "src/dataAccessLogic/BusinessToDTOConverter/dayReportToDayReportDTOConverter";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {commentDTOToCommentConverter} from "src/dataAccessLogic/DTOToBusinessConverter/commentDTOToCommentConverter";
+import {db} from "src/firebase";
 import {Comment} from "src/model/businessModel/Comment";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {CommentDTOWithoutUuid, CommentService} from "src/service/CommentService";
+import {DayReportService} from "src/service/DayReportService";
 
 /**
  * Provides methods to interact with the Comment business model
@@ -52,6 +56,17 @@ export class CommentDAL {
     });
     const commentDTO = commentToCommentDTOConverter(updatedComment);
     await CommentService.updateCommentDTO(commentDTO, comment.uuid);
+  }
+
+  /**
+   * Delete Comment by uuid
+   */
+  public static async deleteComment(commentUuid: string, dayReport: DayReport) {
+    const dayReportDTO = dayReportToDayReportDTOConverter(dayReport);
+    const batch = writeBatch(db);
+    CommentService.deleteCommentDTOWithBatch(commentUuid, batch);
+    DayReportService.updateDayReportDTOWithBatch(dayReport.uuid, dayReportDTO, batch);
+    await batch.commit();
   }
 
 }

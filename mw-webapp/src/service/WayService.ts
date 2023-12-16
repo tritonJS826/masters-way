@@ -1,7 +1,14 @@
-import {collection, doc, getDoc, getDocs, orderBy, query, setDoc, updateDoc, where} from "firebase/firestore";
+import {collection, doc, getDoc, getDocs, orderBy, query, setDoc, updateDoc, where, WriteBatch} from "firebase/firestore";
 import {db} from "src/firebase";
-import {WAY_MENTOR_UUIDS_FIELD, WAY_NAME_FIELD, WAY_OWNER_UUID_FIELD, WAY_UUID_FIELD, WayDTO, WayDTOSchema, WaysDTOSchema}
-  from "src/model/DTOModel/WayDTO";
+import {
+  WAY_MENTOR_UUIDS_FIELD,
+  WAY_NAME_FIELD,
+  WAY_OWNER_UUID_FIELD,
+  WAY_UUID_FIELD,
+  WayDTO,
+  WayDTOSchema,
+  WaysDTOSchema,
+} from "src/model/DTOModel/WayDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
 import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
 import {UserService} from "src/service/UserService";
@@ -65,9 +72,9 @@ export class WayService {
   /**
    * Update WayDTO
    */
-  public static async updateWayDTO(wayDTO: WayDTO, uuid: string) {
+  public static async updateWayDTO(wayDTO: WayDTO) {
     const validatedWayDTO = WayDTOSchema.parse(wayDTO);
-    await updateDoc(doc(db, PATH_TO_WAYS_COLLECTION, uuid), {...validatedWayDTO});
+    await updateDoc(doc(db, PATH_TO_WAYS_COLLECTION, wayDTO.uuid), {...validatedWayDTO});
   }
 
   /**
@@ -116,6 +123,17 @@ export class WayService {
     const validatedFavoriteWaysDTO = WaysDTOSchema.parse(favoriteWaysDTO);
 
     return validatedFavoriteWaysDTO;
+  }
+
+  /**
+   * Update favoriteForUserUuids of Way with batch
+   */
+  public static async updateWayDTOWithBatch(
+    updatedWay: WayDTO,
+    batch: WriteBatch,
+  ) {
+    const wayref = doc(db, PATH_TO_WAYS_COLLECTION, updatedWay[WAY_UUID_FIELD]);
+    batch.update(wayref, updatedWay);
   }
 
 }

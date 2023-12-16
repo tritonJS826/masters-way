@@ -1,9 +1,9 @@
-import {collection, doc, getDoc, setDoc, updateDoc} from "firebase/firestore";
+import {collection, deleteDoc, doc, getDoc, setDoc, updateDoc, WriteBatch} from "firebase/firestore";
 import {db} from "src/firebase";
 import {CurrentProblemDTO, CurrentProblemDTOSchema} from "src/model/DTOModel/CurrentProblemDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
 
-const PATH_TO_CURRENT_PROBLEMS_COLLECTION = "currentProblems";
+export const PATH_TO_CURRENT_PROBLEMS_COLLECTION = "currentProblems";
 
 /**
  * CurrentProblemDTO props without uuid
@@ -53,6 +53,21 @@ export class CurrentProblemService {
     const validatedCurrentProblemDTO = CurrentProblemDTOSchema.parse(currentProblemDTO);
 
     await updateDoc(doc(db, PATH_TO_CURRENT_PROBLEMS_COLLECTION, uuid), validatedCurrentProblemDTO);
+  }
+
+  /**
+   * Delete CurrentProblemDTO
+   */
+  public static async deleteCurrentProblemDTO(currentProblemDTOUuid: string) {
+    deleteDoc(doc(db, PATH_TO_CURRENT_PROBLEMS_COLLECTION, currentProblemDTOUuid));
+  }
+
+  /**
+   * Delete CurrentProblemDTO with batch
+   */
+  public static async deleteCurrentProblemDTOWithBatch(currentProblemDTOUuid: string, batching: WriteBatch) {
+    const currentProblemRef = doc(db, PATH_TO_CURRENT_PROBLEMS_COLLECTION, currentProblemDTOUuid);
+    batching.delete(currentProblemRef);
   }
 
 }

@@ -31,13 +31,25 @@ export class WayPreviewDAL {
   public static async getWayPreview(uuid: string): Promise<WayPreview> {
     const wayDTO = await WayService.getWayDTO(uuid);
 
-    const owner = await UserPreviewDAL.getUserPreview(wayDTO.ownerUuid);
+    const ownerPromise = UserPreviewDAL.getUserPreview(wayDTO.ownerUuid);
 
-    const mentors = await Promise.all(wayDTO.mentorUuids.map(UserPreviewDAL.getUserPreview));
+    const mentorsPromise = Promise.all(wayDTO.mentorUuids.map(UserPreviewDAL.getUserPreview));
 
-    const mentorRequests = await Promise.all(wayDTO.mentorRequestUuids.map(UserPreviewDAL.getUserPreview));
+    const mentorRequestsPromise = Promise.all(wayDTO.mentorRequestUuids.map(UserPreviewDAL.getUserPreview));
 
-    const goal = await GoalPreviewDAL.getGoalPreview(wayDTO.goalUuid);
+    const goalPromise = await GoalPreviewDAL.getGoal(wayDTO.goalUuid);
+
+    const [
+      owner,
+      mentors,
+      mentorRequests,
+      goal,
+    ] = await Promise.all([
+      ownerPromise,
+      mentorsPromise,
+      mentorRequestsPromise,
+      goalPromise,
+    ]);
 
     const wayPreviewProps = {
       owner,
@@ -122,7 +134,7 @@ export class WayPreviewDAL {
    */
   public static async updateWayPreview(wayPreview: WayPreview) {
     const wayDTO = wayPreviewToWayDTOConverter(wayPreview);
-    await WayService.updateWayDTO(wayDTO, wayDTO.uuid);
+    await WayService.updateWayDTO(wayDTO);
   }
 
 }

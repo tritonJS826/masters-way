@@ -1,10 +1,14 @@
+import {writeBatch} from "firebase/firestore";
+import {dayReportToDayReportDTOConverter} from "src/dataAccessLogic/BusinessToDTOConverter/dayReportToDayReportDTOConverter";
 import {planForNextPeriodToPlanForNextPeriodDTOConverter} from
   "src/dataAccessLogic/BusinessToDTOConverter/planForNextPeriodToPlanForNextPeriodDTOConverter";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {planForNextPeriodDTOToPlanForNextPeriodConverter} from
   "src/dataAccessLogic/DTOToBusinessConverter/planForNextPeriodDTOToPlanForNextPeriodConverter";
+import {db} from "src/firebase";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
+import {DayReportService} from "src/service/DayReportService";
 import {PlanForNextPeriodDTOWithoutUuid, PlanForNextPeriodService} from "src/service/PlanForNextPeriodService";
 
 /**
@@ -65,6 +69,17 @@ export class PlanForNextPeriodDAL {
     });
     const planForNextPeriodDTO = planForNextPeriodToPlanForNextPeriodDTOConverter(updatedPlansForNextPeriod);
     await PlanForNextPeriodService.updatePLanForNextPeriodDTO(planForNextPeriodDTO, planForNextPeriod.uuid);
+  }
+
+  /**
+   * Delete PlanForNextPeriod by uuid
+   */
+  public static async deletePlanForNextPeriod(planForNextPeriodUuid: string, dayReport: DayReport) {
+    const dayReportDTO = dayReportToDayReportDTOConverter(dayReport);
+    const batch = writeBatch(db);
+    PlanForNextPeriodService.deletePlanForNextPeriodDTOWithBatch(planForNextPeriodUuid, batch);
+    DayReportService.updateDayReportDTOWithBatch(dayReport.uuid, dayReportDTO, batch);
+    await batch.commit();
   }
 
 }

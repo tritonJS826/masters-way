@@ -109,7 +109,7 @@ export class DayReportDAL {
       jobTags: way.jobTags,
     });
 
-    await WayService.updateWayDTO(updatedWay, way.uuid);
+    await WayService.updateWayDTO(updatedWay);
 
     const dayReport = await DayReportDAL.getDayReport(dayReportDTO.uuid);
 

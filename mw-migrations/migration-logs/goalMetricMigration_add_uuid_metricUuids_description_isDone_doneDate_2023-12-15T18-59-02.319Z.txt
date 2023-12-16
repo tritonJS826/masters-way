@@ -1,0 +1,103 @@
+2023-12-15T18:59:02.320Z: Migration started$
+2023-12-15T18:59:02.321Z: Getting all goals
+2023-12-15T18:59:03.044Z: Got 42 goals
+2023-12-15T18:59:03.045Z: Getting all goals to migrate
+2023-12-15T18:59:03.045Z: Got 42 goals to migrate
+2023-12-15T18:59:03.045Z: start migrate goals, goalMetrics one by one
+2023-12-15T18:59:03.046Z: started goal.uuid:0yJwcvmjsUmQHjK4BaNA migration
+2023-12-15T18:59:03.467Z: finished goal.uuid:0yJwcvmjsUmQHjK4BaNA migration successfully in 421 ms
+2023-12-15T18:59:03.467Z: started goal.uuid:1KxrHfxpJpsNupIxGdmc migration
+2023-12-15T18:59:03.584Z: finished goal.uuid:1KxrHfxpJpsNupIxGdmc migration successfully in 117 ms
+2023-12-15T18:59:03.585Z: started goal.uuid:252li580lThlT2IChvll migration
+2023-12-15T18:59:03.720Z: finished goal.uuid:252li580lThlT2IChvll migration successfully in 135 ms
+2023-12-15T18:59:03.720Z: started goal.uuid:3CpIuYCQFP2OdPHqvV4t migration
+2023-12-15T18:59:03.860Z: finished goal.uuid:3CpIuYCQFP2OdPHqvV4t migration successfully in 140 ms
+2023-12-15T18:59:03.860Z: started goal.uuid:53fNSkJYKvSsyLL47Grc migration
+2023-12-15T18:59:04.008Z: finished goal.uuid:53fNSkJYKvSsyLL47Grc migration successfully in 148 ms
+2023-12-15T18:59:04.009Z: started goal.uuid:5VqhQpqhPIMsotSykhGC migration
+2023-12-15T18:59:04.148Z: finished goal.uuid:5VqhQpqhPIMsotSykhGC migration successfully in 139 ms
+2023-12-15T18:59:04.148Z: started goal.uuid:6ob7uoNBVjQYx5OHpL5G migration
+2023-12-15T18:59:04.286Z: finished goal.uuid:6ob7uoNBVjQYx5OHpL5G migration successfully in 138 ms
+2023-12-15T18:59:04.286Z: started goal.uuid:8asdh6GiKI7GDTuQ3jOd migration
+2023-12-15T18:59:04.428Z: finished goal.uuid:8asdh6GiKI7GDTuQ3jOd migration successfully in 142 ms
+2023-12-15T18:59:04.428Z: started goal.uuid:8lAvVQALNjEhdy6iImeq migration
+2023-12-15T18:59:04.599Z: finished goal.uuid:8lAvVQALNjEhdy6iImeq migration successfully in 171 ms
+2023-12-15T18:59:04.599Z: started goal.uuid:9rxzgTj7iTcGu1lhl9Wb migration
+2023-12-15T18:59:04.706Z: finished goal.uuid:9rxzgTj7iTcGu1lhl9Wb migration successfully in 107 ms
+2023-12-15T18:59:04.707Z: started goal.uuid:BGiEYdECndwm37PNGBEr migration
+2023-12-15T18:59:04.809Z: finished goal.uuid:BGiEYdECndwm37PNGBEr migration successfully in 102 ms
+2023-12-15T18:59:04.809Z: started goal.uuid:BxJPnzWtqjysFNZHLY5H migration
+2023-12-15T18:59:04.912Z: finished goal.uuid:BxJPnzWtqjysFNZHLY5H migration successfully in 103 ms
+2023-12-15T18:59:04.912Z: started goal.uuid:CjSuLUyNhWYp7iEOmc85 migration
+2023-12-15T18:59:05.053Z: finished goal.uuid:CjSuLUyNhWYp7iEOmc85 migration successfully in 141 ms
+2023-12-15T18:59:05.054Z: started goal.uuid:H7ffahGcOqE0aWUBzTqO migration
+2023-12-15T18:59:05.283Z: finished goal.uuid:H7ffahGcOqE0aWUBzTqO migration successfully in 229 ms
+2023-12-15T18:59:05.284Z: started goal.uuid:NcCGGKpPMzGYrxBoL2k9 migration
+2023-12-15T18:59:05.411Z: finished goal.uuid:NcCGGKpPMzGYrxBoL2k9 migration successfully in 127 ms
+2023-12-15T18:59:05.411Z: started goal.uuid:NcPoZFJO7YqyEclaYXSk migration
+2023-12-15T18:59:05.550Z: finished goal.uuid:NcPoZFJO7YqyEclaYXSk migration successfully in 139 ms
+2023-12-15T18:59:05.550Z: started goal.uuid:NuVyaPsUOXReU20kRuH4 migration
+2023-12-15T18:59:05.683Z: finished goal.uuid:NuVyaPsUOXReU20kRuH4 migration successfully in 133 ms
+2023-12-15T18:59:05.684Z: started goal.uuid:PNGZPiGEMVrVEu1zqEyr migration
+2023-12-15T18:59:05.819Z: finished goal.uuid:PNGZPiGEMVrVEu1zqEyr migration successfully in 135 ms
+2023-12-15T18:59:05.819Z: started goal.uuid:XBD41SgitZFjTCfZhi6m migration
+2023-12-15T18:59:05.960Z: finished goal.uuid:XBD41SgitZFjTCfZhi6m migration successfully in 141 ms
+2023-12-15T18:59:05.961Z: started goal.uuid:YbxYROiKyvQWiDM5GSIN migration
+2023-12-15T18:59:06.104Z: finished goal.uuid:YbxYROiKyvQWiDM5GSIN migration successfully in 143 ms
+2023-12-15T18:59:06.104Z: started goal.uuid:ZX1Xtr6XBCFLZnZZI640 migration
+2023-12-15T18:59:06.244Z: finished goal.uuid:ZX1Xtr6XBCFLZnZZI640 migration successfully in 140 ms
+2023-12-15T18:59:06.244Z: started goal.uuid:ZgilF9hZvetJwAiEbu7y migration
+2023-12-15T18:59:06.575Z: finished goal.uuid:ZgilF9hZvetJwAiEbu7y migration successfully in 331 ms
+2023-12-15T18:59:06.575Z: started goal.uuid:agPDRHg7kPBqQ7K2Zk0Y migration
+2023-12-15T18:59:06.742Z: finished goal.uuid:agPDRHg7kPBqQ7K2Zk0Y migration successfully in 167 ms
+2023-12-15T18:59:06.743Z: started goal.uuid:cdNy7RGQbJpu8t6AaUmi migration
+2023-12-15T18:59:06.845Z: finished goal.uuid:cdNy7RGQbJpu8t6AaUmi migration successfully in 102 ms
+2023-12-15T18:59:06.845Z: started goal.uuid:dSYkN4rnGxny5Osjm5qV migration
+2023-12-15T18:59:06.984Z: finished goal.uuid:dSYkN4rnGxny5Osjm5qV migration successfully in 139 ms
+2023-12-15T18:59:06.984Z: started goal.uuid:egNg9u9AvMigHV8sHtmj migration
+2023-12-15T18:59:07.089Z: finished goal.uuid:egNg9u9AvMigHV8sHtmj migration successfully in 105 ms
+2023-12-15T18:59:07.090Z: started goal.uuid:gzemCIcdQfHcCJdqI0rb migration
+2023-12-15T18:59:07.231Z: finished goal.uuid:gzemCIcdQfHcCJdqI0rb migration successfully in 141 ms
+2023-12-15T18:59:07.231Z: started goal.uuid:hDCdbGgPGxVBIKinLXgg migration
+2023-12-15T18:59:07.337Z: finished goal.uuid:hDCdbGgPGxVBIKinLXgg migration successfully in 106 ms
+2023-12-15T18:59:07.337Z: started goal.uuid:iZ62SQwxGUTdMbhE827f migration
+2023-12-15T18:59:07.436Z: finished goal.uuid:iZ62SQwxGUTdMbhE827f migration successfully in 99 ms
+2023-12-15T18:59:07.436Z: started goal.uuid:jCkwpNgradQzV5yYoiHj migration
+2023-12-15T18:59:07.536Z: finished goal.uuid:jCkwpNgradQzV5yYoiHj migration successfully in 100 ms
+2023-12-15T18:59:07.536Z: started goal.uuid:jPMsWKmiPg38ysvOmVK1 migration
+2023-12-15T18:59:07.634Z: finished goal.uuid:jPMsWKmiPg38ysvOmVK1 migration successfully in 98 ms
+2023-12-15T18:59:07.634Z: started goal.uuid:kIBRsLsTKYBoGBoTyMG1 migration
+2023-12-15T18:59:07.771Z: finished goal.uuid:kIBRsLsTKYBoGBoTyMG1 migration successfully in 137 ms
+2023-12-15T18:59:07.772Z: started goal.uuid:leRWJj7UJsniwizSpbQk migration
+2023-12-15T18:59:07.880Z: finished goal.uuid:leRWJj7UJsniwizSpbQk migration successfully in 108 ms
+2023-12-15T18:59:07.880Z: started goal.uuid:mzROxJDO7sutqGFWCrpD migration
+2023-12-15T18:59:08.038Z: finished goal.uuid:mzROxJDO7sutqGFWCrpD migration successfully in 158 ms
+2023-12-15T18:59:08.038Z: started goal.uuid:nmrvGXVHBbyaS9ZwW765 migration
+2023-12-15T18:59:08.164Z: finished goal.uuid:nmrvGXVHBbyaS9ZwW765 migration successfully in 126 ms
+2023-12-15T18:59:08.164Z: started goal.uuid:oHf7a3B0O2adz1N93Lfg migration
+2023-12-15T18:59:08.270Z: finished goal.uuid:oHf7a3B0O2adz1N93Lfg migration successfully in 106 ms
+2023-12-15T18:59:08.270Z: started goal.uuid:quGLfnzqnx7uXMmA4LIN migration
+2023-12-15T18:59:08.419Z: finished goal.uuid:quGLfnzqnx7uXMmA4LIN migration successfully in 149 ms
+2023-12-15T18:59:08.419Z: started goal.uuid:sQ9QeFeeZMJCgFxnovvi migration
+2023-12-15T18:59:08.627Z: finished goal.uuid:sQ9QeFeeZMJCgFxnovvi migration successfully in 208 ms
+2023-12-15T18:59:08.628Z: started goal.uuid:thEwvNgIey07YMFccmJW migration
+2023-12-15T18:59:08.730Z: finished goal.uuid:thEwvNgIey07YMFccmJW migration successfully in 102 ms
+2023-12-15T18:59:08.730Z: started goal.uuid:tmzcsC7tN0ihlMdCSUbo migration
+2023-12-15T18:59:08.829Z: finished goal.uuid:tmzcsC7tN0ihlMdCSUbo migration successfully in 99 ms
+2023-12-15T18:59:08.829Z: started goal.uuid:yMl4THvPNJchg2HqHPd2 migration
+2023-12-15T18:59:08.961Z: finished goal.uuid:yMl4THvPNJchg2HqHPd2 migration successfully in 132 ms
+2023-12-15T18:59:08.961Z: started goal.uuid:zHQMw7M2bMNiStTJsthH migration
+2023-12-15T18:59:09.066Z: finished goal.uuid:zHQMw7M2bMNiStTJsthH migration successfully in 105 ms
+2023-12-15T18:59:09.317Z: 
+    Migrations report:
+
+    Migration goal:
+    Add default goalMetric for each goal
+    
+    Start time: Fri Dec 15 2023 22:59:02 GMT+0400 (Georgia Standard Time)
+    End time: Fri Dec 15 2023 22:59:09 GMT+0400 (Georgia Standard Time)
+    Total time: 6997 ms
+
+    Total Goals Models to changed: 42
+    Total GoalMetrics Models to changed: 42
+  

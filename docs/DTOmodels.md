@@ -36,21 +36,21 @@ isDayOff: boolean
 GoalDTO
 uuid: string
 studentUuid: string @UserUuid
-metricUuids: string[] @GoalMetric.uuid[]
+metricUuids: string[] @GoalMetric.uuid[] // only one element in the array
 description: string
 estimationTime: number
 
 PlanForNextPeriodDTO
 uuid: string
 job: string
-estimationTime: number (sec)
+estimationTime: number
 ownerUuid: string @User.uuid
 tags: string[]
 
 JobDoneDTO
 uuid: string
 description: string
-time: number (sec)
+time: number
 tags: string[]
 
 CurrentProblemDTO
@@ -69,6 +69,7 @@ tags: string[]
 
 GoalMetricDTO
 uuid: string
-description: string
-isDone: boolean
-doneDate: timestamp
+metricUuids: string[]
+description: string[]
+isDone: boolean[]
+doneDate: (timestamp|null)[]

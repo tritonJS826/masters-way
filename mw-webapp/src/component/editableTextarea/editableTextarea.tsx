@@ -91,6 +91,7 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
         props.isEditable !== false && setIsEditing(true);
       }}
       onBlur={handleChangeFinish}
+      onKeyDown={handleCtrlEnter}
       className={clsx(styles.editableTextarea, props.className)}
     >
       {isEditing ? renderTextarea() : renderSpan(text)}

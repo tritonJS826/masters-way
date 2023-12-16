@@ -14,7 +14,7 @@ type LoadingContextType = {
 };
 
 /**
- * TODO: how does it possible that context is undefined
+ * TODO: how does it possible that context is undefined, probably better to define default context here
  */
 const LoadingContext = createContext<LoadingContextType | undefined>(undefined);
 

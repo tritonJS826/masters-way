@@ -1,6 +1,6 @@
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Goal} from "src/model/businessModel/Goal";
-import {User} from "src/model/businessModel/User";
+import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 
 /**
  * Way model
@@ -25,7 +25,7 @@ export class Way {
   /**
    * Way's owner
    */
-  public owner: User;
+  public owner: UserPreview;
 
   /**
    * Way's goal
@@ -35,12 +35,12 @@ export class Way {
   /**
    * Mentors of this way
    */
-  public mentors: User[];
+  public mentors: UserPreview[];
 
   /**
    * Users who sent request to become Way's mentor
    */
-  public mentorRequests: User[];
+  public mentorRequests: UserPreview[];
 
   /**
    * Return true if way is completed and false if not completed
@@ -55,7 +55,7 @@ export class Way {
   /**
    * Users for whom this way are favorite
    */
-  public favoriteForUsers: User[];
+  public favoriteForUsers: UserPreview[];
 
   /**
    * Date when way was created
