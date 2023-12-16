@@ -6,7 +6,6 @@ import {PlanForNextPeriodDTO, PlanForNextPeriodDTOSchema} from "src/model/DTOMod
  */
 export const planForNextPeriodToPlanForNextPeriodDTOConverter =
   (planForNextPeriod: PlanForNextPeriod): PlanForNextPeriodDTO => {
-    const validatedPlanForNextPlanDTO = PlanForNextPeriodDTOSchema.parse(planForNextPeriod);
 
-    return validatedPlanForNextPlanDTO;
+    return PlanForNextPeriodDTOSchema.parse(planForNextPeriod);
   };

@@ -63,18 +63,7 @@ export class CurrentProblemDAL {
    * Delete CurrentProblem by uuid
    */
   public static async deleteCurrentProblem(currentProblemUuid: string, dayReport: DayReport) {
-    const jobDoneUuids = dayReport.jobsDone.map((item) => item.uuid);
-    const planForNextPeriodUuids = dayReport.plansForNextPeriod.map((item) => item.uuid);
-    const problemForCurrentPeriodUuids = dayReport.problemsForCurrentPeriod.map((item) => item.uuid);
-    const commentUuids = dayReport.comments.map((item) => item.uuid);
-
-    const dayReportDTOProps = {
-      jobDoneUuids,
-      planForNextPeriodUuids,
-      problemForCurrentPeriodUuids,
-      commentUuids,
-    };
-    const dayReportDTO = dayReportToDayReportDTOConverter(dayReport, dayReportDTOProps);
+    const dayReportDTO = dayReportToDayReportDTOConverter(dayReport);
     const batch = writeBatch(db);
     CurrentProblemService.deleteCurrentProblemDTOWithBatch(currentProblemUuid, batch);
     DayReportService.updateDayReportDTOWithBatch(dayReportDTO, batch);

@@ -5,7 +5,6 @@ import {CurrentProblemDTO, CurrentProblemDTOSchema} from "src/model/DTOModel/Cur
  * Convert {@link CurrentProblem} to {@link CurrentProblemDTO}
  */
 export const currentProblemToCurrentProblemDTOConverter = (currentProblem: CurrentProblem): CurrentProblemDTO => {
-  const validatedCurrentProblem = CurrentProblemDTOSchema.parse(currentProblem);
 
-  return validatedCurrentProblem;
+  return CurrentProblemDTOSchema.parse(currentProblem);
 };

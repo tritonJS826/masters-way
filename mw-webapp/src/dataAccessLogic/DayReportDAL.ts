@@ -54,6 +54,7 @@ export class DayReportDAL {
    */
   public static async getDayReport(uuid: string): Promise<DayReport> {
     const dayReportDTO = await DayReportService.getDayReportDTO(uuid);
+
     const {jobDoneUuids, planForNextPeriodUuids, commentUuids, problemForCurrentPeriodUuids} = dayReportDTO;
     const jobsDonePromise = Promise.all(jobDoneUuids.map(JobDoneDAL.getJobDone));
     const plansForNextPeriodPromise = Promise.all(planForNextPeriodUuids.map(PlanForNextPeriodDAL.getPlanForNextPeriod));
@@ -119,19 +120,7 @@ export class DayReportDAL {
    * Update DayReport
    */
   public static async updateDayReport(dayReport: DayReport) {
-    const jobDoneUuids = dayReport.jobsDone.map((item) => item.uuid);
-    const planForNextPeriodUuids = dayReport.plansForNextPeriod.map((item) => item.uuid);
-    const problemForCurrentPeriodUuids = dayReport.problemsForCurrentPeriod.map((item) => item.uuid);
-    const commentUuids = dayReport.comments.map((item) => item.uuid);
-
-    const dayReportDTOProps = {
-      jobDoneUuids,
-      planForNextPeriodUuids,
-      problemForCurrentPeriodUuids,
-      commentUuids,
-    };
-
-    const dayReportDTO = dayReportToDayReportDTOConverter(dayReport, dayReportDTOProps);
+    const dayReportDTO = dayReportToDayReportDTOConverter(dayReport);
     await DayReportService.updateDayReportDTO(dayReportDTO);
   }
 
