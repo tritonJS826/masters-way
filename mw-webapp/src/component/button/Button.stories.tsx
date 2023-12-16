@@ -25,4 +25,3 @@ export const Submit: Story = {
     onClick: () => {},
   },
 };
-
