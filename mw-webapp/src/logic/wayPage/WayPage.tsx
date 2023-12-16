@@ -27,7 +27,7 @@ import {v4 as uuidv4} from "uuid";
 import styles from "src/logic/wayPage/WayPage.module.scss";
 
 /**
- * Change description of Way
+ * Change Goal description
  */
 const changeGoalDescription = (goal: Goal, description: string) => {
   const newGoal = new Goal({...goal, description});
