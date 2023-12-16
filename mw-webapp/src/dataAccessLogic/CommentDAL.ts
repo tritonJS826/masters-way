@@ -27,9 +27,7 @@ export class CommentDAL {
   /**
    * Create Comment
    */
-  public static async createComment(
-    dayReport: DayReport,
-    ownerUuid: string): Promise<Comment> {
+  public static async createComment(dayReport: DayReport, ownerUuid: string): Promise<Comment> {
     const commentWithoutUuid: CommentDTOWithoutUuid = {
       description: "",
       ownerUuid,
@@ -55,7 +53,7 @@ export class CommentDAL {
       description,
     });
     const commentDTO = commentToCommentDTOConverter(updatedComment);
-    await CommentService.updateCommentDTO(commentDTO, comment.uuid);
+    await CommentService.updateCommentDTO(commentDTO);
   }
 
   /**
@@ -76,7 +74,7 @@ export class CommentDAL {
     const dayReportDTO = dayReportToDayReportDTOConverter(dayReport, dayReportDTOProps);
     const batch = writeBatch(db);
     CommentService.deleteCommentDTOWithBatch(commentUuid, batch);
-    DayReportService.updateDayReportDTOWithBatch(dayReport.uuid, dayReportDTO, batch);
+    DayReportService.updateDayReportDTOWithBatch(dayReportDTO, batch);
     await batch.commit();
   }
 

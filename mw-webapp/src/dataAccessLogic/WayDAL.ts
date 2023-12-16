@@ -3,7 +3,7 @@ import {wayToWayDTOConverter} from "src/dataAccessLogic/BusinessToDTOConverter/w
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {wayDTOToWayConverter} from "src/dataAccessLogic/DTOToBusinessConverter/wayDTOToWayPreviewConverter";
 import {GoalDAL} from "src/dataAccessLogic/GoalDAL";
-import {userPreviewToUserDTOConverter} from "src/dataAccessLogic/PreviewToDTOConverter/UserPreviewToUserDTOConverter";
+import {userPreviewToUserDTOConverter} from "src/dataAccessLogic/PreviewToDTOConverter/userPreviewToUserDTOConverter";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {db} from "src/firebase";
 import {Way} from "src/model/businessModel/Way";

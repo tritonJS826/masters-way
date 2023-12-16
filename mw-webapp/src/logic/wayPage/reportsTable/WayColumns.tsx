@@ -134,9 +134,9 @@ export const Columns = (props: ColumnsProps) => {
          * Update isDayOff
          */
         const updateIsDayOff = async (value: boolean) => {
-          await DayReportDAL.updateIsDayOff(row.original, value);
           const updatedDayReport = new DayReport({...row.original, isDayOff: value});
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
+          await DayReportDAL.updateDayReport(updatedDayReport);
         };
 
         return (

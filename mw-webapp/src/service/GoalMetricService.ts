@@ -1,4 +1,4 @@
-import {collection, doc, getDoc, setDoc, updateDoc} from "firebase/firestore";
+import {collection, doc, getDoc, setDoc, updateDoc, WriteBatch} from "firebase/firestore";
 import {db} from "src/firebase";
 import {GoalMetricDTO, GoalMetricDTOSchema} from "src/model/DTOModel/GoalMetricDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
@@ -52,6 +52,28 @@ export class GoalMetricService {
     const validatedGoalMetricsDTO = GoalMetricDTOSchema.parse(goalMetricsDTO);
 
     await updateDoc(doc(db, PATH_TO_GOAL_METRICS_COLLECTION, goalMetricsDTO.uuid), validatedGoalMetricsDTO);
+  }
+
+  /**
+   * Create GoalMetricsDTO with Batch
+   */
+  public static async createGoalMetricsDTOWithBatch(
+    goalMetricDTOWithoutUuid: GoalMetricDTOWithoutUuid,
+    batch: WriteBatch): Promise<GoalMetricDTO> {
+    const docRef = doc(collection(db, PATH_TO_GOAL_METRICS_COLLECTION));
+
+    const goalMetricsDTO: GoalMetricDTO = {
+      ...goalMetricDTOWithoutUuid,
+      uuid: docRef.id,
+    };
+
+    batch.set(docRef, goalMetricsDTO);
+
+    const validatedGoalMetricsDTO = GoalMetricDTOSchema.parse(goalMetricsDTO);
+
+    // Await setDoc(docRef, validatedGoalMetricsDTO);
+
+    return validatedGoalMetricsDTO;
   }
 
 }

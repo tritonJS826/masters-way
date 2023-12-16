@@ -56,7 +56,7 @@ export class PlanForNextPeriodDAL {
       job,
     });
     const planForNextPeriodDTO = planForNextPeriodToPlanForNextPeriodDTOConverter(updatedPlansForNextPeriod);
-    await PlanForNextPeriodService.updatePLanForNextPeriodDTO(planForNextPeriodDTO, planForNextPeriod.uuid);
+    await PlanForNextPeriodService.updatePLanForNextPeriodDTO(planForNextPeriodDTO);
   }
 
   /**
@@ -68,7 +68,7 @@ export class PlanForNextPeriodDAL {
       estimationTime,
     });
     const planForNextPeriodDTO = planForNextPeriodToPlanForNextPeriodDTOConverter(updatedPlansForNextPeriod);
-    await PlanForNextPeriodService.updatePLanForNextPeriodDTO(planForNextPeriodDTO, planForNextPeriod.uuid);
+    await PlanForNextPeriodService.updatePLanForNextPeriodDTO(planForNextPeriodDTO);
   }
 
   /**
@@ -89,7 +89,7 @@ export class PlanForNextPeriodDAL {
     const dayReportDTO = dayReportToDayReportDTOConverter(dayReport, dayReportDTOProps);
     const batch = writeBatch(db);
     PlanForNextPeriodService.deletePlanForNextPeriodDTOWithBatch(planForNextPeriodUuid, batch);
-    DayReportService.updateDayReportDTOWithBatch(dayReport.uuid, dayReportDTO, batch);
+    DayReportService.updateDayReportDTOWithBatch(dayReportDTO, batch);
     await batch.commit();
   }
 
