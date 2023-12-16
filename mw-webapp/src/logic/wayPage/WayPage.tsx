@@ -281,13 +281,20 @@ export const WayPage = (props: WayPageProps) => {
     return "loading...";
   }
 
+  const isWayInFavorites = user && user.favoriteWays.includes(way.uuid);
+
+  const isOwner = !!user && user.uuid === way.owner.uuid;
+  const isMentor = !!user && way.mentors.some((mentor) => mentor.uuid === user.uuid);
+
+  const isUserHasSentMentorRequest = !!user && way.mentorRequests.some((request) => request.uuid === user.uuid);
+  const isEligibleToSendRequest = !!user && !isOwner && !isMentor && !isUserHasSentMentorRequest;
+
+  const favoriteForUsersAmount = way.favoriteForUsers.length ?? 0;
+
   /**
    * Set goal metric to the way state
    */
   const setGoalMetric = (updatedGoalMetric: GoalMetric) => {
-    if (!way) {
-      throw new Error("Way is not exist");
-    }
     setWay(new Way({...way, goal: new Goal({...way.goal, metrics: [updatedGoalMetric]})}));
   };
 
@@ -295,9 +302,6 @@ export const WayPage = (props: WayPageProps) => {
    * Remove singular goal Metric from goal
    */
   const removeSingularGoalMetric = async (singularGoalMetricUuid: string) => {
-    if (!way) {
-      throw new Error("Way is not exist");
-    }
     const goalMetricToUpdate: GoalMetric = structuredClone(way.goal.metrics[0]);
     const indexToDelete = goalMetricToUpdate.metricUuids.indexOf(singularGoalMetricUuid);
 
@@ -317,9 +321,6 @@ export const WayPage = (props: WayPageProps) => {
    * Change goal metric
    */
   const updateGoalMetric = async (updatedSingleGoalMetric: SingleGoalMetric) => {
-    if (!way) {
-      throw new Error("Way is not exist");
-    }
     const goalMetricToUpdate: GoalMetric = structuredClone(way.goal.metrics[0]);
     const changedIndex = goalMetricToUpdate.metricUuids.indexOf(updatedSingleGoalMetric.metricUuid);
 
@@ -339,16 +340,6 @@ export const WayPage = (props: WayPageProps) => {
     setWay(new Way({...way, goal: new Goal({...way.goal, metrics: [updatedGoalMetric]})}));
     await GoalMetricDAL.updateGoalMetric(updatedGoalMetric);
   };
-
-  const isWayInFavorites = user && user.favoriteWays.includes(way.uuid);
-
-  const isOwner = !!user && user.uuid === way.owner.uuid;
-  const isMentor = !!user && way.mentors.some((mentor) => mentor.uuid === user.uuid);
-
-  const isUserHasSentMentorRequest = !!user && way.mentorRequests.some((request) => request.uuid === user.uuid);
-  const isEligibleToSendRequest = !!user && !isOwner && !isMentor && !isUserHasSentMentorRequest;
-
-  const favoriteForUsersAmount = way.favoriteForUsers.length ?? 0;
 
   /**
    * Render goal metric
