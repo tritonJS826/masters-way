@@ -8,14 +8,22 @@ $listLeftMargin: 20px;
   text-align: right;
 }
 
-.jobDoneSummarySection {
+.summarySection {
   display: flex;
   width: 100%;
   align-items: end;
   justify-content: space-between;
   padding-top: 5px;
-  border-top: 2px solid $borderBlack;
+  border-top: 2px solid $primaryBorderColor;
   font-weight: bold;
+}
+
+.flatButton {
+  height: 20px;
+}
+
+.summaryText {
+  text-wrap: nowrap;
 }
 
 .cell {
@@ -27,8 +35,13 @@ $listLeftMargin: 20px;
 }
 
 .numberedListItem {
+  align-items: center;
   justify-content: space-between;
-  border-bottom: 1px dotted $borderBlack;
+  border-bottom: 1px dotted $primaryBorderColor;
+}
+
+.center {
+  align-items: center;
 }
 
 .editableTextarea {
@@ -36,4 +49,14 @@ $listLeftMargin: 20px;
   textarea {
     width: 100%;
   }
+}
+
+.icon {
+  min-width: 15px;
+  min-height: 15px;
+  margin-left: 5px;
+}
+
+.icon:hover {
+  cursor: pointer;
 }

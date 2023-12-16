@@ -1,4 +1,4 @@
-import {collection, CollectionReference, doc, DocumentData, getDoc, getDocs, orderBy, query, setDoc, updateDoc, where}
+import {collection, CollectionReference, doc, DocumentData, getDoc, getDocs, orderBy, query, setDoc, updateDoc, where, WriteBatch}
   from "firebase/firestore";
 import {db} from "src/firebase";
 import {DAY_REPORT_DATE_FIELD, DAY_REPORT_UUID_FIELD, DayReportDTO, DayReportDTOSchema, DayReportsDTOSchema}
@@ -7,7 +7,7 @@ import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnap
 import {querySnapshotsToDTOConverter} from "src/service/converter/querySnapshotsToDTOConverter";
 import {getChunksArray} from "src/utils/getChunkArray";
 
-const PATH_TO_DAY_REPORTS_COLLECTION = "dayReports";
+export const PATH_TO_DAY_REPORTS_COLLECTION = "dayReports";
 const QUERY_LIMIT = 30;
 
 /**
@@ -97,6 +97,14 @@ export class DayReportService {
     const validatedDayReportDTO = DayReportDTOSchema.parse(dayReportDTO);
 
     await updateDoc(doc(db, PATH_TO_DAY_REPORTS_COLLECTION, uuid), validatedDayReportDTO);
+  }
+
+  /**
+   * Update DayReportDTO with Batch
+   */
+  public static async updateDayReportDTOWithBatch(dayReportDTOUuid: string, dayReportDTO: DayReportDTO, batching: WriteBatch) {
+    const dayReportRef = doc(db, PATH_TO_DAY_REPORTS_COLLECTION, dayReportDTOUuid);
+    batching.update(dayReportRef, dayReportDTO);
   }
 
 }

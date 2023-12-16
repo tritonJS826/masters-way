@@ -1,14 +1,21 @@
 @import "src/styles/variables";
 
 .button {
-  width: 100px;
-  height: 40px;
+  padding: 13px 17px;
+  border: none;
+  border-radius: $primaryBorderRadius;
+  background-color: $tertiaryBackgroundColor;
+  color: $primaryTextColor;
+  font-family: $primaryFontFamily;
+  font-size: $primaryFontSize;
+  transition-duration: $primaryTransitionDuration;
 
   &:hover {
+    background-color: $hoverColor;
     cursor: pointer;
   }
 
   &:active {
-    color: rgb(246, 246, 150);
+    background-color: $activeColor;
   }
 }

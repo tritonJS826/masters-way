@@ -67,7 +67,7 @@ export const MentoringWaysTable = (props: PropsWithUuid) => {
 
   useEffect(() => {
     loadMentoringWays();
-  }, []);
+  }, [props.uuid]);
 
   const mentorshipActionsColumn = columnHelper.accessor("uuid", {
     header: "Mentorship Actions",

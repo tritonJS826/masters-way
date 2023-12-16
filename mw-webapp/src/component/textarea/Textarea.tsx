@@ -1,4 +1,4 @@
-import {ChangeEvent, useState} from "react";
+import {ChangeEvent, KeyboardEventHandler, useState} from "react";
 import clsx from "clsx";
 import styles from "src/component/textarea/Textarea.module.scss";
 
@@ -37,6 +37,11 @@ interface TextareaProps {
    * Is auto focused by default
    */
   isAutofocus?: boolean;
+
+  /**
+   * Handle key press
+   */
+  onKeyPress?: KeyboardEventHandler<HTMLTextAreaElement>;
 }
 
 /**
@@ -63,6 +68,7 @@ export const Textarea = (props: TextareaProps) => {
       onChange={handleTextChange}
       rows={props.rows}
       autoFocus={props.isAutofocus}
+      onKeyDown={props.onKeyPress}
     />
   );
 };

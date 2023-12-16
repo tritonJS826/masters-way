@@ -5,7 +5,7 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {getWayStatus} from "src/logic/waysTable/wayStatus";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
-import {renderMarkdown} from "src/utils/textUtils/renderMarkdown";
+import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import style from "src/logic/waysTable/columns.module.scss";
 
 export const columnHelper = createColumnHelper<WayPreview>();
@@ -94,7 +94,7 @@ export const waysColumns = [
         row.original.mentors.map((mentor) => (
           <Link
             key={mentor.uuid}
-            path={pages.user.getPath({uuid: row.original.uuid})}
+            path={pages.user.getPath({uuid: mentor.uuid})}
             value={mentor.name}
           />
         ))

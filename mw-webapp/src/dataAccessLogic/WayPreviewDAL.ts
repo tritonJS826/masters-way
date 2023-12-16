@@ -31,24 +31,31 @@ export class WayPreviewDAL {
   public static async getWayPreview(uuid: string): Promise<WayPreview> {
     const wayDTO = await WayService.getWayDTO(uuid);
 
-    const owner = await UserPreviewDAL.getUserPreview(wayDTO.ownerUuid);
+    const ownerPromise = UserPreviewDAL.getUserPreview(wayDTO.ownerUuid);
 
-    const mentors = await Promise.all(wayDTO.mentorUuids.map(UserPreviewDAL.getUserPreview));
+    const mentorsPromise = Promise.all(wayDTO.mentorUuids.map(UserPreviewDAL.getUserPreview));
 
-    const mentorRequests = await Promise.all(wayDTO.mentorRequestUuids.map(UserPreviewDAL.getUserPreview));
+    const mentorRequestsPromise = Promise.all(wayDTO.mentorRequestUuids.map(UserPreviewDAL.getUserPreview));
 
-    const goal = await GoalPreviewDAL.getGoalPreview(wayDTO.goalUuid);
+    const goalPromise = await GoalPreviewDAL.getGoal(wayDTO.goalUuid);
 
-    const lastUpdate = wayDTO.lastUpdate.toDate();
-    const createdAt = wayDTO.createdAt.toDate();
+    const [
+      owner,
+      mentors,
+      mentorRequests,
+      goal,
+    ] = await Promise.all([
+      ownerPromise,
+      mentorsPromise,
+      mentorRequestsPromise,
+      goalPromise,
+    ]);
 
     const wayPreviewProps = {
       owner,
       mentors,
       mentorRequests,
       goal,
-      lastUpdate,
-      createdAt,
     };
 
     const wayPreview = wayDTOToWayPreviewConverter(wayDTO, wayPreviewProps);
@@ -126,26 +133,8 @@ export class WayPreviewDAL {
    * Update Way
    */
   public static async updateWayPreview(wayPreview: WayPreview) {
-    const ownerUuid = wayPreview.owner.uuid;
-    const goalUuid = wayPreview.goal.uuid;
-    const mentorRequestUuids = wayPreview.mentorRequests.map((item) => item.uuid);
-    const mentorsUuids = wayPreview.mentors.map((item) => item.uuid);
-    const lastUpdate = Timestamp.fromDate(wayPreview.lastUpdate);
-    const favoriteForUserUuids = wayPreview.favoriteForUserUuids;
-    const createdAt = Timestamp.fromDate(wayPreview.createdAt);
-
-    const wayDTOProps = {
-      ownerUuid,
-      goalUuid,
-      mentorRequestUuids,
-      mentorsUuids,
-      lastUpdate,
-      favoriteForUserUuids,
-      createdAt,
-    };
-
-    const wayDTO = wayPreviewToWayDTOConverter(wayPreview, wayDTOProps);
-    await WayService.updateWayDTO(wayDTO, wayDTO.uuid);
+    const wayDTO = wayPreviewToWayDTOConverter(wayPreview);
+    await WayService.updateWayDTO(wayDTO);
   }
 
 }

@@ -33,9 +33,9 @@ type NotificationParams = {
 /**
  * Displays a notification with the specified options.
  */
-export function displayNotification (
+export const displayNotification = (
   {text, type, duration = DEFAULT_NOTIFICATION_DURATION, onClick}: NotificationParams,
-) {
+) => {
   Toastify({
     text,
     duration,
@@ -46,4 +46,4 @@ export function displayNotification (
     className: `toastify ${type}`,
     onClick,
   }).showToast();
-}
+};
