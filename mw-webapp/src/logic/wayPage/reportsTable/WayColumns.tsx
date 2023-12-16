@@ -30,12 +30,27 @@ const DEFAULT_SUMMARY_TIME = 0;
 const columnHelper = createColumnHelper<DayReport>();
 
 /**
+ * Params for {@link renderModalContent}
+ */
+interface RenderModalContentParams {
+
+  /**
+   * Modal prompt
+   */
+  description: string;
+
+  /**
+   * On Ok callback
+   */
+  onOk: () => void;}
+
+/**
  * Render modal content
  * TODO: use modal instead of confirm task #305
  */
-const renderModalContent = (uuid: string, description: string, callback: (uuid: string) => void) => {
-  const isUserWantToDeleteJobDone = confirm(`Are you sure that you want to delete jobDone "${description}"?`);
-  !!isUserWantToDeleteJobDone && callback(uuid);
+export const renderModalContent = (params: RenderModalContentParams) => {
+  const isUserWantToDeleteJobDone = confirm(`Are you sure that you want to delete jobDone "${params.description}"?`);
+  !!isUserWantToDeleteJobDone && params.onOk();
 };
 
 /**
@@ -230,7 +245,19 @@ export const Columns = (props: ColumnsProps) => {
                     {isOwner &&
                     <TrashIcon
                       className={styles.icon}
-                      onClick={() => renderModalContent(jobDone.uuid, jobDone.description, deleteJobDone)}
+                      onClick={() => {
+
+                        /**
+                         * CallBack triggered on press ok
+                         */
+                        const onOk = () => deleteJobDone(jobDone.uuid);
+
+                        renderModalContent({
+                          description: jobDone.description,
+                          onOk,
+                        });
+                      }
+                      }
                     />
                     }
                   </HorizontalContainer>
@@ -356,7 +383,18 @@ export const Columns = (props: ColumnsProps) => {
                     {planForNextPeriod.ownerUuid === user?.uuid &&
                     <TrashIcon
                       className={styles.icon}
-                      onClick={() => renderModalContent(planForNextPeriod.uuid, planForNextPeriod.job, deletePlanForNextPeriod)}
+                      onClick={() => {
+
+                        /**
+                         * CallBack triggered on press ok
+                         */
+                        const onOk = () => deletePlanForNextPeriod(planForNextPeriod.uuid);
+
+                        renderModalContent({
+                          description: planForNextPeriod.job,
+                          onOk,
+                        });
+                      }}
                     />
                     }
                   </HorizontalContainer>
@@ -454,7 +492,19 @@ export const Columns = (props: ColumnsProps) => {
                     {currentProblem.ownerUuid === user?.uuid &&
                     <TrashIcon
                       className={styles.icon}
-                      onClick={() => renderModalContent(currentProblem.uuid, currentProblem.description, deleteCurrentProblem)}
+                      onClick={() => {
+
+                        /**
+                         * CallBack triggered on press ok
+                         */
+                        const onOk = () => deleteCurrentProblem(currentProblem.uuid);
+
+                        renderModalContent({
+                          description: currentProblem.description,
+                          onOk,
+                        });
+
+                      }}
                     />
                     }
                   </HorizontalContainer>
@@ -543,7 +593,18 @@ export const Columns = (props: ColumnsProps) => {
                   {comment.ownerUuid === user?.uuid &&
                     <TrashIcon
                       className={styles.icon}
-                      onClick={() => renderModalContent(comment.uuid, comment.description, deleteComment)}
+                      onClick={() => {
+
+                        /**
+                         * CallBack triggered on press ok
+                         */
+                        const onOk = () => deleteComment(comment.uuid);
+
+                        renderModalContent({
+                          description: comment.description,
+                          onOk,
+                        });
+                      }}
                     />
                   }
                 </HorizontalContainer>
