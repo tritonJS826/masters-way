@@ -274,7 +274,7 @@ export const WayPage = (props: WayPageProps) => {
           className={styles.singularMetric}
         >
           <Checkbox
-            isEditable
+            isEditable={isOwner}
             isDefaultChecked={singleGoalMetric.isDone}
             onChange={(isDone) => {
               const updatedSingleGoalMetric = new SingleGoalMetric({...singleGoalMetric, isDone});
@@ -287,22 +287,25 @@ export const WayPage = (props: WayPageProps) => {
             onChangeFinish={(description) => updateGoalMetric(
               new SingleGoalMetric({...singleGoalMetric, description}),
             )}
+            isEditable={isOwner}
           />
-          <TrashIcon
-            className={styles.icon}
-            onClick={() => {
+          {isOwner && (
+            <TrashIcon
+              className={styles.icon}
+              onClick={() => {
 
-              /**
-               * CallBack triggered on press ok
-               */
-              const onOk = () => removeSingularGoalMetric(singleGoalMetric.metricUuid);
+                /**
+                 * CallBack triggered on press ok
+                 */
+                const onOk = () => removeSingularGoalMetric(singleGoalMetric.metricUuid);
 
-              renderModalContent({
-                description: singleGoalMetric.description,
-                onOk,
-              });
-            }}
-          />
+                renderModalContent({
+                  description: singleGoalMetric.description,
+                  onOk,
+                });
+              }}
+            />)
+          }
         </div>
       </Tooltip>
     );
@@ -359,27 +362,29 @@ export const WayPage = (props: WayPageProps) => {
             text="Metrics"
           />
           {renderGoalMetric(way.goal.metrics[0])}
-          <Button
-            value="Add new goal metric"
-            onClick={async () => {
+          {isOwner && (
+            <Button
+              value="Add new goal metric"
+              onClick={async () => {
 
-              /**
-               * Get current goal metric from way
-               */
-              const currentGoalMetric = way.goal.metrics[0];
+                /**
+                 * Get current goal metric from way
+                 */
+                const currentGoalMetric = way.goal.metrics[0];
 
-              const updatedGoalMetric = new GoalMetric({
-                uuid: currentGoalMetric.uuid,
-                description: currentGoalMetric.description.concat(""),
-                metricUuids: currentGoalMetric.metricUuids.concat(uuidv4()),
-                isDone: currentGoalMetric.isDone.concat(false),
-                doneDate: currentGoalMetric.doneDate.concat(new Date()),
-              });
+                const updatedGoalMetric = new GoalMetric({
+                  uuid: currentGoalMetric.uuid,
+                  description: currentGoalMetric.description.concat(""),
+                  metricUuids: currentGoalMetric.metricUuids.concat(uuidv4()),
+                  isDone: currentGoalMetric.isDone.concat(false),
+                  doneDate: currentGoalMetric.doneDate.concat(new Date()),
+                });
 
-              setGoalMetric(updatedGoalMetric);
-              await GoalMetricDAL.updateGoalMetric(updatedGoalMetric);
-            }}
-          />
+                setGoalMetric(updatedGoalMetric);
+                await GoalMetricDAL.updateGoalMetric(updatedGoalMetric);
+              }}
+            />)
+          }
         </div>
       </div>
       <Title
