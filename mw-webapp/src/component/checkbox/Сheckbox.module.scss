@@ -1,13 +1,11 @@
 @import "src/styles/variables";
 
-$checkbox-margin: 10px;
 $checkbox-width: 25px;
 $checkbox-height: 25px;
 
 .checkbox {
   width: $checkbox-width;
   height: $checkbox-height;
-  margin: $checkbox-margin;
   accent-color: rgb(0, 128, 0);
   cursor: pointer;
   transition: 0.3s all;
