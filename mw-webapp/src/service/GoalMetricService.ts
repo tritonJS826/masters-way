@@ -71,8 +71,6 @@ export class GoalMetricService {
 
     const validatedGoalMetricsDTO = GoalMetricDTOSchema.parse(goalMetricsDTO);
 
-    // Await setDoc(docRef, validatedGoalMetricsDTO);
-
     return validatedGoalMetricsDTO;
   }
 

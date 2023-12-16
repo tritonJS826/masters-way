@@ -81,8 +81,6 @@ export class GoalService {
 
     const validatedGoalDTO = GoalDTOSchema.parse(goalDTO);
 
-    // Await setDoc(docRef, validatedGoalDTO);
-
     return validatedGoalDTO;
   }
 
