@@ -10,6 +10,6 @@
   color: black;
   transition-duration: $elementHoverTransition;
   &:hover {
-    background-color: $shadow-color;
+    background-color: $primaryShadowColor;
   }
 }
