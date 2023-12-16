@@ -10,9 +10,9 @@ import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 
 /**
- * Removes Way from User Mentoring Ways and User from Way's mentors
+ * Removes mentor from Way and returns new User Preview
  */
-async function removeMentorFromWay (userUuid: string, wayPreview: WayPreview) {
+const removeMentorFromWay = async (userUuid: string, wayPreview: WayPreview) => {
   const userPreview = await UserPreviewDAL.getUserPreview(userUuid);
   const mentoringWays = userPreview.mentoringWays.filter((wayUuid) => wayUuid !== wayPreview.uuid);
   const newUserPreview = new UserPreview({...userPreview, mentoringWays});
@@ -23,51 +23,51 @@ async function removeMentorFromWay (userUuid: string, wayPreview: WayPreview) {
   const newWayPreview = new WayPreview({...wayPreview, mentors});
 
   await WayPreviewDAL.updateWayPreview(newWayPreview);
-}
+
+  return newUserPreview;
+};
 
 /**
- * Updates Way Preview inside Mentoring Ways and sets it to the state
+ * Mentoring Ways table props
  */
-function updateMentoringWays (mentoringWays: WayPreview[], newWayPreview: WayPreview) {
-  const updatedMentoringWays = mentoringWays.map(way => {
-    if (way.uuid === newWayPreview.uuid) {
-      return newWayPreview;
-    }
+interface MentoringWaysTableProps extends PropsWithUuid {
 
-    return way;
-  });
-
-  return updatedMentoringWays;
+  /**
+   * Function to change user preview state
+   */
+  setUserPreview: React.Dispatch<React.SetStateAction<UserPreview | null>>;
 }
 
 /**
  * Render table of mentoring ways preview
  */
-export const MentoringWaysTable = (props: PropsWithUuid) => {
+export const MentoringWaysTable = ({uuid, setUserPreview}: MentoringWaysTableProps) => {
   const [mentoringWays, setMentoringWays] = useState<WayPreview[]>([]);
   const [isStopMentoringModalOpen, setIsStopMentoringModalOpen] = useState(false);
-
-  /**
-   * Handles confirm stop mentoring button click
-   */
-  async function handleStopMentoring(userUuid: string, wayPreview: WayPreview) {
-    await removeMentorFromWay(userUuid, wayPreview);
-    const newWayPreview = await WayPreviewDAL.getWayPreview(wayPreview.uuid);
-    const updatedMentoringWays = updateMentoringWays(mentoringWays, newWayPreview);
-    setMentoringWays(updatedMentoringWays);
-  }
 
   /**
    * Load User mentoring ways
    */
   const loadMentoringWays = async () => {
-    const data = await WayPreviewDAL.getUserWaysPreview(props.uuid, "Mentoring");
+    const data = await WayPreviewDAL.getUserWaysPreview(uuid, "Mentoring");
     setMentoringWays(data);
   };
 
   useEffect(() => {
     loadMentoringWays();
-  }, [props.uuid]);
+  }, [uuid]);
+
+  /**
+   * Handles confirm stop mentoring button
+   */
+  const handleStopMentoring = async (userUuid: string, wayPreview: WayPreview) => {
+    const newUserPreview = await removeMentorFromWay(userUuid, wayPreview);
+
+    const updatedMentoringWays = mentoringWays.filter((way) => way.uuid !== wayPreview.uuid);
+    setMentoringWays(updatedMentoringWays);
+
+    setUserPreview(newUserPreview);
+  };
 
   const mentorshipActionsColumn = columnHelper.accessor("uuid", {
     header: "Mentorship Actions",
@@ -86,7 +86,7 @@ export const MentoringWaysTable = (props: PropsWithUuid) => {
               <Button
                 value="Confirm"
                 onClick={() => {
-                  handleStopMentoring(props.uuid, row.original);
+                  handleStopMentoring(uuid, row.original);
                   setIsStopMentoringModalOpen(false);
                 }}
               />

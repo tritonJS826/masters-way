@@ -57,7 +57,7 @@ export const UserPage = (props: UserPageProps) => {
   const [userPreview, setUserPreview] = useState<UserPreview | null>(null);
   const navigate = useNavigate();
   const {user} = useGlobalContext();
-  const isOwner = user?.uuid === userPreview?.uuid;
+  const isOwner = !!user && !!userPreview && user.uuid === userPreview.uuid;
 
   /**
    * Load user
@@ -130,7 +130,10 @@ export const UserPage = (props: UserPageProps) => {
         level={HeadingLevel.h3}
       />
       <ScrollableBlock>
-        <MentoringWaysTable uuid={props.uuid} />
+        <MentoringWaysTable
+          uuid={props.uuid}
+          setUserPreview={setUserPreview}
+        />
       </ScrollableBlock>
       <Title
         text={`Favorite Ways (total amount: ${userPreview.favoriteWays.length} ways)`}
