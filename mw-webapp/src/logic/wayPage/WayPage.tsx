@@ -11,6 +11,7 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {GoalDAL} from "src/dataAccessLogic/GoalDAL";
 import {GoalMetricDAL} from "src/dataAccessLogic/GoalMetricDAL";
+import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {DayReportsTable} from "src/logic/wayPage/reportsTable/DayReportsTable";
@@ -26,11 +27,113 @@ import {v4 as uuidv4} from "uuid";
 import styles from "src/logic/wayPage/WayPage.module.scss";
 
 /**
- * Change description of Way
+ * Change Goal description
  */
-const updateGoalInWay = (way: Way, description: string) => {
-  const newGoal = new Goal({...way.goal, description});
+const changeGoalDescription = (goal: Goal, description: string) => {
+  const newGoal = new Goal({...goal, description});
   GoalDAL.updateGoal(newGoal);
+};
+
+/**
+ * Change name of Way
+ * TODO: this function should change state
+ */
+const changeWayName = (currentWay: Way, text: string) => {
+  const updatedWay = new Way({...currentWay, name: text});
+  WayDAL.updateWay(updatedWay);
+};
+
+/**
+ * Add mentor to Way
+ */
+const addMentorToWay = (
+  way: Way,
+  setWay: React.Dispatch<React.SetStateAction<Way | null>>,
+  userPreview: UserPreview,
+) => {
+  const mentoringWays = userPreview.mentoringWays.concat(userPreview.uuid);
+  const newUserPreview = new UserPreview({...userPreview, mentoringWays});
+
+  UserPreviewDAL.updateUserPreview(newUserPreview);
+
+  const mentors = way.mentors.concat(newUserPreview);
+  const newWay = new Way({...way, mentors});
+
+  WayDAL.updateWay(newWay);
+
+  setWay(newWay);
+};
+
+/**
+ * Add user to Way's mentor requests
+ */
+const addUserToMentorRequests = (
+  way: Way,
+  setWay: React.Dispatch<React.SetStateAction<Way | null>>,
+  userPreview: UserPreview) => {
+
+  const mentorRequests = way.mentorRequests.concat(userPreview);
+
+  const newWay = new Way({...way, mentorRequests});
+
+  WayDAL.updateWay(newWay);
+  setWay(newWay);
+};
+
+/**
+ * Remove user from Way's mentor requests
+ */
+const removeUserFromMentorRequests = (
+  way: Way,
+  setWay: React.Dispatch<React.SetStateAction<Way| null>>,
+  userPreview: UserPreview) => {
+
+  const mentorRequests = way.mentorRequests.filter((item) => item !== userPreview);
+
+  const newWay = new Way({...way, mentorRequests});
+
+  WayDAL.updateWay(newWay);
+  setWay(newWay);
+};
+
+/**
+ * Render all way's mentors
+ */
+const renderMentors = (way: Way) => {
+  return way.mentors.map(({uuid, name}) => (
+    <Link
+      key={uuid}
+      value={name}
+      path={pages.user.getPath({uuid})}
+      className={styles.mentors}
+    />
+  ));
+};
+
+/**
+ * Render Way's mentor requests
+ */
+const renderMentorRequests = (way: Way, setWay: React.Dispatch<React.SetStateAction<Way | null>>) => {
+  return way.mentorRequests.map((userPreview) => (
+    <div key={userPreview.uuid}>
+      <Link
+        value={userPreview.name}
+        path={pages.user.getPath({uuid: userPreview.uuid})}
+      />
+      <Button
+        value='Accept'
+        onClick={() => {
+          addMentorToWay(way, setWay, userPreview);
+        }}
+      />
+      <Button
+        value='Decline'
+        onClick={() => {
+          removeUserFromMentorRequests(way, setWay, userPreview);
+        }}
+      />
+    </div>
+  ));
 };
 
 /**
@@ -44,7 +147,7 @@ const createUserPreviewWithUpdatedFavorites = (user: UserPreview, updatedFavorit
 };
 
 /**
- * Add way uuid to UserPreview favoriteWays and add user uuid to WayPreview favoriteForUserUuids
+ * Add way uuid to UserPreview favoriteWays and add user uuid to Way favoriteForUserUuids
  */
 const addFavoriteToWayAndToUser = async (
   userPreview: UserPreview,
@@ -72,7 +175,7 @@ const addFavoriteToWayAndToUser = async (
 };
 
 /**
- * Delete way uuid from UserPreview favoriteWays and delete user uuid from WayPreview favoriteForUserUuids
+ * Delete way uuid from UserPreview favoriteWays and delete user uuid from Way favoriteForUserUuids
  */
 const deleteFavoriteFromWayAndFromUser = async (
   userPreview: UserPreview,
@@ -97,40 +200,6 @@ const deleteFavoriteFromWayAndFromUser = async (
   const user = createUserPreviewWithUpdatedFavorites(userPreview, updatedFavoriteWays);
   setUser(user);
   setWay(updatedWay);
-};
-
-/**
- * PageProps
- */
-interface WayPageProps {
-
-  /**
-   * Pages's uuid
-   */
-  uuid: string;
-}
-
-/**
- * Change name of Way
- * TODO: this function should change state
- */
-const changeWayName = (currentWay: Way, text: string) => {
-  const updatedWay = new Way({...currentWay, name: text});
-  WayDAL.updateWay(updatedWay);
-};
-
-/**
- * Render all way's mentors
- */
-const renderMentors = (wayPreview: Way) => {
-  return wayPreview.mentors.map((item) => (
-    <Link
-      key={item.uuid}
-      value={item.name}
-      path={pages.user.getPath({uuid: item.uuid})}
-      className={styles.mentors}
-    />
-  ));
 };
 
 /**
@@ -159,7 +228,7 @@ class SingleGoalMetric {
   public isDone: boolean;
 
   /**
-   * Date owhen metric was done
+   * Date when metric was done
    */
   public doneDate: Date;
 
@@ -174,15 +243,23 @@ class SingleGoalMetric {
 }
 
 /**
+ * PageProps
+ */
+interface WayPageProps {
+
+  /**
+   * Page's uuid
+   */
+  uuid: string;
+}
+
+/**
  * Way page
  */
 export const WayPage = (props: WayPageProps) => {
   const navigate = useNavigate();
   const {user, setUser} = useGlobalContext();
-  const [way, setWay] = useState<Way>();
-  const isOwner = user?.uuid === way?.owner.uuid;
-  const isWayInFavorites = user && way && user.favoriteWays.includes(way.uuid);
-  const favoriteForUsersAmount = way?.favoriteForUsers.length ?? 0;
+  const [way, setWay] = useState<Way | null>(null);
 
   /**
    * Get Way
@@ -200,13 +277,24 @@ export const WayPage = (props: WayPageProps) => {
     loadPageData();
   }, [user]);
 
+  if (!way) {
+    return "loading...";
+  }
+
+  const isWayInFavorites = user && user.favoriteWays.includes(way.uuid);
+
+  const isOwner = !!user && user.uuid === way.owner.uuid;
+  const isMentor = !!user && way.mentors.some((mentor) => mentor.uuid === user.uuid);
+
+  const isUserHasSentMentorRequest = !!user && way.mentorRequests.some((request) => request.uuid === user.uuid);
+  const isEligibleToSendRequest = !!user && !isOwner && !isMentor && !isUserHasSentMentorRequest;
+
+  const favoriteForUsersAmount = way.favoriteForUsers.length ?? 0;
+
   /**
    * Set goal metric to the way state
    */
   const setGoalMetric = (updatedGoalMetric: GoalMetric) => {
-    if (!way) {
-      throw new Error("Way is not exist");
-    }
     setWay(new Way({...way, goal: new Goal({...way.goal, metrics: [updatedGoalMetric]})}));
   };
 
@@ -214,9 +302,6 @@ export const WayPage = (props: WayPageProps) => {
    * Remove singular goal Metric from goal
    */
   const removeSingularGoalMetric = async (singularGoalMetricUuid: string) => {
-    if (!way) {
-      throw new Error("Way is not exist");
-    }
     const goalMetricToUpdate: GoalMetric = structuredClone(way.goal.metrics[0]);
     const indexToDelete = goalMetricToUpdate.metricUuids.indexOf(singularGoalMetricUuid);
 
@@ -236,9 +321,6 @@ export const WayPage = (props: WayPageProps) => {
    * Change goal metric
    */
   const updateGoalMetric = async (updatedSingleGoalMetric: SingleGoalMetric) => {
-    if (!way) {
-      throw new Error("Way is not exist");
-    }
     const goalMetricToUpdate: GoalMetric = structuredClone(way.goal.metrics[0]);
     const changedIndex = goalMetricToUpdate.metricUuids.indexOf(updatedSingleGoalMetric.metricUuid);
 
@@ -326,10 +408,6 @@ export const WayPage = (props: WayPageProps) => {
     ));
   };
 
-  if (!way) {
-    return "loading...";
-  }
-
   return (
     <div className={styles.container}>
       <Title
@@ -350,7 +428,7 @@ export const WayPage = (props: WayPageProps) => {
           />
           <EditableTextarea
             text={way.goal.description}
-            onChangeFinish={(description) => updateGoalInWay(way, description)}
+            onChangeFinish={(description) => changeGoalDescription(way.goal, description)}
             rows={10}
             isEditable={isOwner}
             className={styles.goalDescription}
@@ -423,9 +501,29 @@ export const WayPage = (props: WayPageProps) => {
           {renderMentors(way)}
         </>
       )}
+      {isOwner && !!way.mentorRequests.length && (
+        <>
+          <Title
+            level={HeadingLevel.h3}
+            text="Requests to become mentor of this way:"
+          />
+          {renderMentorRequests(way, setWay)}
+        </>
+      )
+      }
+      {isEligibleToSendRequest && (
+        <Button
+          value="Apply as Mentor"
+          onClick={() => {
+            addUserToMentorRequests(way, setWay, user);
+          }}
+        />
+      )
+      }
       <ScrollableBlock>
         <DayReportsTable way={way} />
       </ScrollableBlock>
     </div>
   );
 };
+

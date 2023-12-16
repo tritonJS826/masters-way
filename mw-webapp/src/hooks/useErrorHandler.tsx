@@ -4,7 +4,7 @@ import {displayNotification} from "src/component/notification/Notification";
 /**
  * Handles global unhandled errors and promise rejections, displays notification with error message
  */
-export function useErrorHandler () {
+export const useErrorHandler = () => {
 
   /**
    * Handle global error and display notification
@@ -29,5 +29,5 @@ export function useErrorHandler () {
       window.removeEventListener("unhandledrejection", handlePromiseRejection);
     };
   }, []);
-}
+};
 

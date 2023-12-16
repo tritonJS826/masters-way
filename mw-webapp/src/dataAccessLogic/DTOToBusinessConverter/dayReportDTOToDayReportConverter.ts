@@ -7,6 +7,7 @@ import {DayReportDTO} from "src/model/DTOModel/DayReportDTO";
 
 /**
  * DayReport props used into converter
+ * Convert {@link DayReportDTO} to {@link DayReport}
  */
 export interface DayReportConverterProps {
 
@@ -35,14 +36,15 @@ export interface DayReportConverterProps {
  * Convert {@link DayReportDTO} to {@link DayReport}
  */
 export const dayReportDTOToDayReportConverter =
-  (dayReportDTO: DayReportDTO, dayReportProps: DayReportConverterProps): DayReport => {
-    return new DayReport({
-      ...dayReportDTO,
-      date: dayReportDTO.date.toDate(),
-      jobsDone: dayReportProps.jobsDone,
-      plansForNextPeriod: dayReportProps.plansForNextPeriod,
-      problemsForCurrentPeriod: dayReportProps.problemsForCurrentPeriod,
-      comments: dayReportProps.comments,
-    });
-  };
+(dayReportDTO: DayReportDTO, dayReportProps: DayReportConverterProps): DayReport => {
+
+  return new DayReport({
+    ...dayReportDTO,
+    date: dayReportDTO.date.toDate(),
+    jobsDone: dayReportProps.jobsDone,
+    plansForNextPeriod: dayReportProps.plansForNextPeriod,
+    problemsForCurrentPeriod: dayReportProps.problemsForCurrentPeriod,
+    comments: dayReportProps.comments,
+  });
+};
 

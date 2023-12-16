@@ -51,16 +51,11 @@ export class WayPreviewDAL {
       goalPromise,
     ]);
 
-    const lastUpdate = wayDTO.lastUpdate.toDate();
-    const createdAt = wayDTO.createdAt.toDate();
-
     const wayPreviewProps = {
       owner,
       mentors,
       mentorRequests,
       goal,
-      lastUpdate,
-      createdAt,
     };
 
     const wayPreview = wayDTOToWayPreviewConverter(wayDTO, wayPreviewProps);
@@ -138,25 +133,7 @@ export class WayPreviewDAL {
    * Update Way
    */
   public static async updateWayPreview(wayPreview: WayPreview) {
-    const ownerUuid = wayPreview.owner.uuid;
-    const goalUuid = wayPreview.goal.uuid;
-    const mentorRequestUuids = wayPreview.mentorRequests.map((item) => item.uuid);
-    const mentorsUuids = wayPreview.mentors.map((item) => item.uuid);
-    const lastUpdate = Timestamp.fromDate(wayPreview.lastUpdate);
-    const favoriteForUserUuids = wayPreview.favoriteForUserUuids;
-    const createdAt = Timestamp.fromDate(wayPreview.createdAt);
-
-    const wayDTOProps = {
-      ownerUuid,
-      goalUuid,
-      mentorRequestUuids,
-      mentorsUuids,
-      lastUpdate,
-      favoriteForUserUuids,
-      createdAt,
-    };
-
-    const wayDTO = wayPreviewToWayDTOConverter(wayPreview, wayDTOProps);
+    const wayDTO = wayPreviewToWayDTOConverter(wayPreview);
     await WayService.updateWayDTO(wayDTO);
   }
 
