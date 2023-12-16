@@ -91,13 +91,15 @@ export const waysColumns = [
      */
     cell: ({row}) => {
       return (
-        row.original.mentors.map((mentor) => (
-          <Link
-            key={mentor.uuid}
-            path={pages.user.getPath({uuid: mentor.uuid})}
-            value={mentor.name}
-          />
-        ))
+        <VerticalContainer>
+          {row.original.mentors.map((mentor) => (
+            <Link
+              key={mentor.uuid}
+              path={pages.user.getPath({uuid: mentor.uuid})}
+              value={mentor.name}
+            />
+          ))}
+        </VerticalContainer>
       );
     },
   }),

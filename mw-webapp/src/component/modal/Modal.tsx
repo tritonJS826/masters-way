@@ -15,26 +15,26 @@ interface ModalProps {
   /**
    * Controls whether the modal is open or closed.
    */
-  open: boolean;
+  isOpen: boolean;
 
   /**
-   * Function to set the open state.
+   * Function that handles closing the modal.
    */
-  setOpen: (open: boolean) => void;
+  handleClose: (open: boolean) => void;
 }
 
 /**
  * Modal component
  */
-export const Modal = ({open, setOpen, content}: ModalProps) => {
+export const Modal = (props: ModalProps) => {
 
   return (
     <DialogRoot
-      open={open}
-      onOpenChange={setOpen}
+      open={props.isOpen}
+      onOpenChange={props.handleClose}
     >
       <ModalContent>
-        {content}
+        {props.content}
       </ModalContent>
     </DialogRoot>
   );

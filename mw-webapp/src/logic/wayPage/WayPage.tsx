@@ -57,7 +57,8 @@ const addMentorToWay = (
   UserPreviewDAL.updateUserPreview(newUserPreview);
 
   const mentors = way.mentors.concat(newUserPreview);
-  const newWay = new Way({...way, mentors});
+  const mentorRequests = way.mentorRequests.filter((item) => item !== userPreview);
+  const newWay = new Way({...way, mentors, mentorRequests});
 
   WayDAL.updateWay(newWay);
 

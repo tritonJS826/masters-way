@@ -19,27 +19,27 @@ const defaultContent = (
 );
 
 const Template: StoryFn<typeof Modal> = (args) => {
-  const [open, setOpen] = useState(args.open);
+  const [isOpen, setIsOpen] = useState(args.isOpen);
 
   return (
     <>
       <Button
         value="Click me!"
         onClick={() => {
-          setOpen(true);
+          setIsOpen(true);
         }}
       />
       <Modal
         content={defaultContent}
-        open={open}
-        setOpen={setOpen}
+        isOpen={isOpen}
+        handleClose={setIsOpen}
       />
     </>
   );
 };
 
 export const Default = Template.bind({});
-Default.args = {open: false};
+Default.args = {isOpen: false};
 
 export const Opened = Template.bind({});
-Opened.args = {open: true};
+Opened.args = {isOpen: true};
