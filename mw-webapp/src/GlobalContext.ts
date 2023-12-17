@@ -4,7 +4,7 @@ import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 /**
  * Default value of setUser
  */
-const DEFAULT_SET_USER = () => undefined;
+const DEFAULT_SET_USER = () => null;
 
 export type GlobalContext = {
 
@@ -16,7 +16,7 @@ export type GlobalContext = {
   /**
    * Update user
    */
-  setUser: (user: UserPreview) => void;
+  setUser: (user: UserPreview | null) => void;
 
 }
 
