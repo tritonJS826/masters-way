@@ -1,6 +1,11 @@
 import {createContext, useContext} from "react";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 
+/**
+ * Default value of setUser
+ */
+const DEFAULT_SET_USER = () => undefined;
+
 export type GlobalContext = {
 
   /**
@@ -11,11 +16,14 @@ export type GlobalContext = {
   /**
    * Update user
    */
-  setUser?: React.Dispatch<React.SetStateAction<UserPreview | null>>;
+  setUser: (user: UserPreview) => void;
 
 }
 
-export const globalContext: React.Context<GlobalContext> = createContext<GlobalContext>({user: null});
+export const globalContext: React.Context<GlobalContext> = createContext<GlobalContext>({
+  user: null,
+  setUser: DEFAULT_SET_USER,
+});
 
 /**
  * Use UserContext
