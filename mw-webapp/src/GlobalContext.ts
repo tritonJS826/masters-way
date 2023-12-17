@@ -2,9 +2,11 @@ import {createContext, useContext} from "react";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 
 /**
- * Default value of setUser
+ * Default setUser's value
  */
-const DEFAULT_SET_USER = () => new Error ("The project is not initialized");
+const DEFAULT_SET_USER = () => {
+  throw Error("The user context is not initialized");
+};
 
 const DEFAULT_USER_CONTEXT = {
   user: null,
