@@ -20,7 +20,7 @@ interface ModalProps {
   /**
    * Function that handles closing the modal.
    */
-  handleClose: (open: boolean) => void;
+  handleClose: () => void;
 }
 
 /**

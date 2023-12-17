@@ -38,9 +38,9 @@ interface MentoringWaysTableProps {
   uuid: string;
 
   /**
-   * Function to change user preview state
+   * Function to change user preview
    */
-  setUserPreview: React.Dispatch<React.SetStateAction<UserPreview | null>>;
+  handleUserPreviewChange: (userPreview: UserPreview) => void;
 }
 
 /**
@@ -71,7 +71,7 @@ export const MentoringWaysTable = (props: MentoringWaysTableProps) => {
     const updatedMentoringWays = mentoringWays.filter((way) => way.uuid !== wayPreview.uuid);
     setMentoringWays(updatedMentoringWays);
 
-    props.setUserPreview(newUserPreview);
+    props.handleUserPreviewChange(newUserPreview);
   };
 
   const mentorshipActionsColumn = columnHelper.accessor("uuid", {
@@ -97,20 +97,22 @@ export const MentoringWaysTable = (props: MentoringWaysTableProps) => {
               />
               <Button
                 value="Cancel"
-                onClick={() => {
-                  setIsStopMentoringModalOpen(false);
-                }}
+                onClick={() =>
+                  setIsStopMentoringModalOpen(false)
+                }
               />
             </>
           }
           isOpen={isStopMentoringModalOpen}
-          handleClose={setIsStopMentoringModalOpen}
+          handleClose={() =>
+            setIsStopMentoringModalOpen(false)
+          }
         />
         <Button
           value="Stop Mentoring"
-          onClick={() => {
-            setIsStopMentoringModalOpen(true);
-          }}
+          onClick={() =>
+            setIsStopMentoringModalOpen(true)
+          }
         />
       </>
     ),

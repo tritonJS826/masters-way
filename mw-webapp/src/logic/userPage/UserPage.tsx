@@ -54,7 +54,7 @@ interface UserPageProps {
  * User page
  */
 export const UserPage = (props: UserPageProps) => {
-  const [userPreview, setUserPreview] = useState<UserPreview | null>(null);
+  const [userPreview, setUserPreview] = useState<UserPreview>();
   const navigate = useNavigate();
   const {user} = useGlobalContext();
   const isOwner = !!user && !!userPreview && user.uuid === userPreview.uuid;
@@ -132,7 +132,9 @@ export const UserPage = (props: UserPageProps) => {
       <ScrollableBlock>
         <MentoringWaysTable
           uuid={props.uuid}
-          setUserPreview={setUserPreview}
+          handleUserPreviewChange={(newUserPreview: UserPreview) => {
+            setUserPreview(newUserPreview);
+          }}
         />
       </ScrollableBlock>
       <Title

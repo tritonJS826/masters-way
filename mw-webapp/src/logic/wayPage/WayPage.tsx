@@ -123,15 +123,15 @@ const renderMentorRequests = (way: Way, setWay: React.Dispatch<React.SetStateAct
       />
       <Button
         value='Accept'
-        onClick={() => {
-          addMentorToWay(way, setWay, userPreview);
-        }}
+        onClick={() =>
+          addMentorToWay(way, setWay, userPreview)
+        }
       />
       <Button
         value='Decline'
-        onClick={() => {
-          removeUserFromMentorRequests(way, setWay, userPreview);
-        }}
+        onClick={() =>
+          removeUserFromMentorRequests(way, setWay, userPreview)
+        }
       />
     </div>
   ));
@@ -479,18 +479,18 @@ export const WayPage = (props: WayPageProps) => {
         isWayInFavorites && setUser &&
         <Button
           value={"Remove from favorite"}
-          onClick={() => {
-            deleteFavoriteFromWayAndFromUser(user, way, setUser, setWay);
-          }}
+          onClick={() =>
+            deleteFavoriteFromWayAndFromUser(user, way, setUser, setWay)
+          }
         />
       }
       {
         !isWayInFavorites && user && setUser &&
         <Button
           value={"Add to favorite"}
-          onClick={() => {
-            addFavoriteToWayAndToUser(user, way, setUser, setWay);
-          }}
+          onClick={() =>
+            addFavoriteToWayAndToUser(user, way, setUser, setWay)
+          }
         />
       }
       {!!way.mentors.length && (
@@ -515,9 +515,9 @@ export const WayPage = (props: WayPageProps) => {
       {isEligibleToSendRequest && (
         <Button
           value="Apply as Mentor"
-          onClick={() => {
-            addUserToMentorRequests(way, setWay, user);
-          }}
+          onClick={() =>
+            addUserToMentorRequests(way, setWay, user)
+          }
         />
       )
       }
