@@ -64,9 +64,9 @@
 - [ ] Investigation with coming soon tooltip (component)
 - [ ] AllWaysPage: show number favorite (12h)
 - [ ] WayPage: show number favorite (increased when somebody add the way to favorite and decreased when somebody remove the way from favorite) (9h)
-- [ ] WayPage: add button "become a mentor" which put the way into your mentors ways (18h)
+- [x] WayPage: add button "become a mentor" which put the way into your mentors ways (18h)
 - [ ] Mentor could send request, user can send invite to mentor (do nothing), only user could accept 
-- [ ] UserPage: add ability to remove way from mentoring ways (9h)
+- [x] UserPage: add ability to remove way from mentoring ways (9h)
 - [ ] UserPage: add ability to remove way from favorite ways (9h)
 - [x] Add property isReadOnly to checkbox component
 - [x] To each table:
