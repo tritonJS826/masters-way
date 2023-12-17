@@ -56,7 +56,7 @@ export class CurrentProblemDAL {
       description,
     });
     const currentProblemDTO = currentProblemToCurrentProblemDTOConverter(updatedCurrentProblem);
-    await CurrentProblemService.updateCurrentProblemDTO(currentProblemDTO, currentProblem.uuid);
+    await CurrentProblemService.updateCurrentProblemDTO(currentProblemDTO);
   }
 
   /**
@@ -66,7 +66,7 @@ export class CurrentProblemDAL {
     const dayReportDTO = dayReportToDayReportDTOConverter(dayReport);
     const batch = writeBatch(db);
     CurrentProblemService.deleteCurrentProblemDTOWithBatch(currentProblemUuid, batch);
-    DayReportService.updateDayReportDTOWithBatch(dayReport.uuid, dayReportDTO, batch);
+    DayReportService.updateDayReportDTOWithBatch(dayReportDTO, batch);
     await batch.commit();
   }
 

@@ -421,6 +421,24 @@ export const WayPage = (props: WayPageProps) => {
         Amount of users who add it to favorite:
         {UnicodeSymbols.SPACE + favoriteForUsersAmount}
       </div>
+      {
+        isWayInFavorites &&
+        <Button
+          value={"Remove from favorite"}
+          onClick={() => 
+            deleteFavoriteFromWayAndFromUser(user, way, setUser, setWay)
+          }
+        />
+      }
+      {
+        !isWayInFavorites && user &&
+        <Button
+          value={"Add to favorite"}
+          onClick={() => 
+            addFavoriteToWayAndToUser(user, way, setUser, setWay)
+          }
+        />
+      }
       <div className={styles.goalSection}>
         <div>
           <Title
@@ -475,24 +493,6 @@ export const WayPage = (props: WayPageProps) => {
         path={pages.user.getPath({uuid: way.owner.uuid})}
         className={styles.mentors}
       />
-      {
-        isWayInFavorites && setUser &&
-        <Button
-          value={"Remove from favorite"}
-          onClick={() =>
-            deleteFavoriteFromWayAndFromUser(user, way, setUser, setWay)
-          }
-        />
-      }
-      {
-        !isWayInFavorites && user && setUser &&
-        <Button
-          value={"Add to favorite"}
-          onClick={() =>
-            addFavoriteToWayAndToUser(user, way, setUser, setWay)
-          }
-        />
-      }
       {!!way.mentors.length && (
         <>
           <Title

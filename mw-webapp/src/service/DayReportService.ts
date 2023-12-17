@@ -93,18 +93,18 @@ export class DayReportService {
   /**
    * Update DayReportDTO
    */
-  public static async updateDayReportDTO(dayReportDTO: DayReportDTO, uuid: string) {
+  public static async updateDayReportDTO(dayReportDTO: DayReportDTO) {
     const validatedDayReportDTO = DayReportDTOSchema.parse(dayReportDTO);
 
-    await updateDoc(doc(db, PATH_TO_DAY_REPORTS_COLLECTION, uuid), validatedDayReportDTO);
+    await updateDoc(doc(db, PATH_TO_DAY_REPORTS_COLLECTION, dayReportDTO[DAY_REPORT_UUID_FIELD]), validatedDayReportDTO);
   }
 
   /**
    * Update DayReportDTO with Batch
    */
-  public static async updateDayReportDTOWithBatch(dayReportDTOUuid: string, dayReportDTO: DayReportDTO, batching: WriteBatch) {
-    const dayReportRef = doc(db, PATH_TO_DAY_REPORTS_COLLECTION, dayReportDTOUuid);
-    batching.update(dayReportRef, dayReportDTO);
+  public static async updateDayReportDTOWithBatch(updatedDayReportDTO: DayReportDTO, batch: WriteBatch) {
+    const dayReportRef = doc(db, PATH_TO_DAY_REPORTS_COLLECTION, updatedDayReportDTO[DAY_REPORT_UUID_FIELD]);
+    batch.update(dayReportRef, updatedDayReportDTO);
   }
 
 }

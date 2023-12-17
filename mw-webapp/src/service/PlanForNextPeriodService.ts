@@ -49,10 +49,10 @@ export class PlanForNextPeriodService {
   /**
    * Update PlanForNextPeriodDTO
    */
-  public static async updatePLanForNextPeriodDTO(planForNextPeriodDTO: PlanForNextPeriodDTO, uuid: string) {
+  public static async updatePLanForNextPeriodDTO(planForNextPeriodDTO: PlanForNextPeriodDTO) {
     const validatedPlanForNextPeriodDTO = PlanForNextPeriodDTOSchema.parse(planForNextPeriodDTO);
 
-    await updateDoc(doc(db, PATH_TO_PLANS_FOR_NEXT_PERIOD_COLLECTION, uuid), validatedPlanForNextPeriodDTO);
+    await updateDoc(doc(db, PATH_TO_PLANS_FOR_NEXT_PERIOD_COLLECTION, planForNextPeriodDTO.uuid), validatedPlanForNextPeriodDTO);
   }
 
   /**
@@ -65,9 +65,9 @@ export class PlanForNextPeriodService {
   /**
    * Delete PlanForNextPeriod with batch
    */
-  public static async deletePlanForNextPeriodDTOWithBatch(planForNextPeriodUuid: string, batching: WriteBatch) {
+  public static async deletePlanForNextPeriodDTOWithBatch(planForNextPeriodUuid: string, batch: WriteBatch) {
     const planForNextPeriodRef = doc(db, PATH_TO_PLANS_FOR_NEXT_PERIOD_COLLECTION, planForNextPeriodUuid);
-    batching.delete(planForNextPeriodRef);
+    batch.delete(planForNextPeriodRef);
   }
 
 }

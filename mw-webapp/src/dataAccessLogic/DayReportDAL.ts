@@ -121,19 +121,7 @@ export class DayReportDAL {
    */
   public static async updateDayReport(dayReport: DayReport) {
     const dayReportDTO = dayReportToDayReportDTOConverter(dayReport);
-    await DayReportService.updateDayReportDTO(dayReportDTO, dayReport.uuid);
-  }
-
-  /**
-   * Update isDayOff to DayReport
-   */
-  public static async updateIsDayOff(dayReport: DayReport, isDayOff: boolean) {
-    const updatedDayReport: DayReport = {
-      ...dayReport,
-      isDayOff,
-    };
-
-    await DayReportDAL.updateDayReport(updatedDayReport);
+    await DayReportService.updateDayReportDTO(dayReportDTO);
   }
 
 }
