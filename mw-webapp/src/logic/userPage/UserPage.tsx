@@ -133,9 +133,7 @@ export const UserPage = (props: UserPageProps) => {
         <MentoringWaysTable
           uuid={props.uuid}
           isPageOwner={isPageOwner}
-          handleUserPreviewChange={(newUserPreview: UserPreview) => {
-            setUserPreview(newUserPreview);
-          }}
+          handleUserPreviewChange={setUserPreview}
         />
       </ScrollableBlock>
       <Title
