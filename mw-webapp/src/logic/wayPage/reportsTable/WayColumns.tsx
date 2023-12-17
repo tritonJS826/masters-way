@@ -42,7 +42,8 @@ interface RenderModalContentParams {
   /**
    * On Ok callback
    */
-  onOk: () => void;}
+  onOk: () => void;
+}
 
 /**
  * Render modal content
@@ -134,9 +135,9 @@ export const Columns = (props: ColumnsProps) => {
          * Update isDayOff
          */
         const updateIsDayOff = async (value: boolean) => {
-          await DayReportDAL.updateIsDayOff(row.original, value);
           const updatedDayReport = new DayReport({...row.original, isDayOff: value});
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
+          await DayReportDAL.updateDayReport(updatedDayReport);
         };
 
         return (
@@ -225,23 +226,25 @@ export const Columns = (props: ColumnsProps) => {
         };
 
         return (
-          <VerticalContainer className={styles.cell}>
+          <VerticalContainer>
             <ol className={styles.numberedList}>
               {row.original.jobsDone.map((jobDone) => (
                 <li key={jobDone.uuid}>
-                  <HorizontalContainer className={styles.numberedListItem}>
-                    <EditableTextarea
-                      text={jobDone.description}
-                      onChangeFinish={(text) => updateJobDone(jobDone, text)}
-                      isEditable={isOwner}
-                      className={styles.editableTextarea}
-                    />
-                    <EditableText
-                      text={jobDone.time}
-                      onChangeFinish={(text) => updateJobDoneTime(jobDone, text)}
-                      className={styles.editableTime}
-                      isEditable={isOwner}
-                    />
+                  <HorizontalContainer>
+                    <HorizontalContainer className={styles.numberedListItem}>
+                      <EditableTextarea
+                        text={jobDone.description}
+                        onChangeFinish={(text) => updateJobDone(jobDone, text)}
+                        isEditable={isOwner}
+                        className={styles.editableTextarea}
+                      />
+                      <EditableText
+                        text={jobDone.time}
+                        onChangeFinish={(text) => updateJobDoneTime(jobDone, text)}
+                        className={styles.editableTime}
+                        isEditable={isOwner}
+                      />
+                    </HorizontalContainer>
                     {isOwner &&
                     <TrashIcon
                       className={styles.icon}
@@ -355,16 +358,35 @@ export const Columns = (props: ColumnsProps) => {
         };
 
         return (
-          <VerticalContainer className={styles.cell}>
+          <VerticalContainer>
             <ol className={styles.numberedList}>
               {row.original.plansForNextPeriod.map((planForNextPeriod) => (
                 <li key={planForNextPeriod.uuid}>
                   <HorizontalContainer className={styles.numberedListItem}>
                     <VerticalContainer>
-                      <Link
-                        value={getName(props.mentors, planForNextPeriod.ownerUuid, ownerName)}
-                        path={pages.user.getPath({uuid: planForNextPeriod.ownerUuid})}
-                      />
+                      <HorizontalContainer className={styles.width}>
+                        <Link
+                          value={getName(props.mentors, planForNextPeriod.ownerUuid, ownerName)}
+                          path={pages.user.getPath({uuid: planForNextPeriod.ownerUuid})}
+                        />
+                        {planForNextPeriod.ownerUuid === user?.uuid &&
+                        <TrashIcon
+                          className={styles.icon}
+                          onClick={() => {
+
+                            /**
+                             * CallBack triggered on press ok
+                             */
+                            const onOk = () => deletePlanForNextPeriod(planForNextPeriod.uuid);
+
+                            renderModalContent({
+                              description: planForNextPeriod.job,
+                              onOk,
+                            });
+                          }}
+                        />
+                        }
+                      </HorizontalContainer>
                       <HorizontalContainer>
                         <EditableTextarea
                           text={planForNextPeriod.job}
@@ -380,23 +402,6 @@ export const Columns = (props: ColumnsProps) => {
                         />
                       </HorizontalContainer>
                     </VerticalContainer>
-                    {planForNextPeriod.ownerUuid === user?.uuid &&
-                    <TrashIcon
-                      className={styles.icon}
-                      onClick={() => {
-
-                        /**
-                         * CallBack triggered on press ok
-                         */
-                        const onOk = () => deletePlanForNextPeriod(planForNextPeriod.uuid);
-
-                        renderModalContent({
-                          description: planForNextPeriod.job,
-                          onOk,
-                        });
-                      }}
-                    />
-                    }
                   </HorizontalContainer>
                 </li>
               ))}
@@ -472,16 +477,35 @@ export const Columns = (props: ColumnsProps) => {
         };
 
         return (
-          <VerticalContainer className={styles.cell}>
+          <VerticalContainer>
             <ol className={styles.numberedList}>
               {row.original.problemsForCurrentPeriod.map((currentProblem) => (
                 <li key={currentProblem.uuid}>
                   <HorizontalContainer className={styles.numberedListItem}>
                     <VerticalContainer>
-                      <Link
-                        value={getName(props.mentors, currentProblem.ownerUuid, ownerName)}
-                        path={pages.user.getPath({uuid: currentProblem.ownerUuid})}
-                      />
+                      <HorizontalContainer className={styles.width}>
+                        <Link
+                          value={getName(props.mentors, currentProblem.ownerUuid, ownerName)}
+                          path={pages.user.getPath({uuid: currentProblem.ownerUuid})}
+                        />
+                        {currentProblem.ownerUuid === user?.uuid &&
+                        <TrashIcon
+                          className={styles.icon}
+                          onClick={() => {
+
+                            /**
+                             * CallBack triggered on press ok
+                             */
+                            const onOk = () => deleteCurrentProblem(currentProblem.uuid);
+
+                            renderModalContent({
+                              description: currentProblem.description,
+                              onOk,
+                            });
+                          }}
+                        />
+                        }
+                      </HorizontalContainer>
                       <EditableTextarea
                         text={currentProblem.description}
                         onChangeFinish={(text) => updateCurrentProblem(currentProblem, text)}
@@ -489,24 +513,6 @@ export const Columns = (props: ColumnsProps) => {
                         className={styles.editableTextarea}
                       />
                     </VerticalContainer>
-                    {currentProblem.ownerUuid === user?.uuid &&
-                    <TrashIcon
-                      className={styles.icon}
-                      onClick={() => {
-
-                        /**
-                         * CallBack triggered on press ok
-                         */
-                        const onOk = () => deleteCurrentProblem(currentProblem.uuid);
-
-                        renderModalContent({
-                          description: currentProblem.description,
-                          onOk,
-                        });
-
-                      }}
-                    />
-                    }
                   </HorizontalContainer>
                 </li>
               ))}
@@ -571,18 +577,34 @@ export const Columns = (props: ColumnsProps) => {
         };
 
         return (
-          <VerticalContainer className={styles.cell}>
+          <VerticalContainer>
             {row.original.comments
               .map((comment) => (
-                <HorizontalContainer
-                  className={styles.center}
-                  key={comment.uuid}
-                >
+                <HorizontalContainer key={comment.uuid}>
                   <VerticalContainer>
-                    <Link
-                      value={getName(props.mentors, comment.ownerUuid, ownerName)}
-                      path={pages.user.getPath({uuid: comment.ownerUuid})}
-                    />
+                    <HorizontalContainer className={styles.width}>
+                      <Link
+                        value={getName(props.mentors, comment.ownerUuid, ownerName)}
+                        path={pages.user.getPath({uuid: comment.ownerUuid})}
+                      />
+                      {comment.ownerUuid === user?.uuid &&
+                      <TrashIcon
+                        className={styles.icon}
+                        onClick={() => {
+
+                          /**
+                           * CallBack triggered on press ok
+                           */
+                          const onOk = () => deleteComment(comment.uuid);
+
+                          renderModalContent({
+                            description: comment.description,
+                            onOk,
+                          });
+                        }}
+                      />
+                      }
+                    </HorizontalContainer>
                     <EditableTextarea
                       text={comment.description}
                       onChangeFinish={(text) => updateComment(comment, text)}
@@ -590,23 +612,6 @@ export const Columns = (props: ColumnsProps) => {
                       className={styles.editableTextarea}
                     />
                   </VerticalContainer>
-                  {comment.ownerUuid === user?.uuid &&
-                    <TrashIcon
-                      className={styles.icon}
-                      onClick={() => {
-
-                        /**
-                         * CallBack triggered on press ok
-                         */
-                        const onOk = () => deleteComment(comment.uuid);
-
-                        renderModalContent({
-                          description: comment.description,
-                          onOk,
-                        });
-                      }}
-                    />
-                  }
                 </HorizontalContainer>
               ),
               )}

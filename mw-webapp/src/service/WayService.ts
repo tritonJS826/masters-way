@@ -128,10 +128,7 @@ export class WayService {
   /**
    * Update favoriteForUserUuids of Way with batch
    */
-  public static async updateWayDTOWithBatch(
-    updatedWay: WayDTO,
-    batch: WriteBatch,
-  ) {
+  public static async updateWayDTOWithBatch(updatedWay: WayDTO, batch: WriteBatch) {
     const wayref = doc(db, PATH_TO_WAYS_COLLECTION, updatedWay[WAY_UUID_FIELD]);
     batch.update(wayref, updatedWay);
   }
