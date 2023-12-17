@@ -57,7 +57,7 @@ export const UserPage = (props: UserPageProps) => {
   const [userPreview, setUserPreview] = useState<UserPreview>();
   const navigate = useNavigate();
   const {user} = useGlobalContext();
-  const isOwner = !!user && !!userPreview && user.uuid === userPreview.uuid;
+  const isPageOwner = !!user && !!userPreview && user.uuid === userPreview.uuid;
 
   /**
    * Load user
@@ -91,7 +91,7 @@ export const UserPage = (props: UserPageProps) => {
           level={HeadingLevel.h3}
           text={userPreview.name}
           onChangeFinish={(text) => changeUserName(userPreview, text, setUserPreview)}
-          isEditable={isOwner}
+          isEditable={isPageOwner}
         />
       </div>
       <div className={styles.row}>
@@ -104,7 +104,7 @@ export const UserPage = (props: UserPageProps) => {
           level={HeadingLevel.h3}
           text={userPreview.email}
           onChangeFinish={(text) => changeUserEmail(userPreview, text, setUserPreview)}
-          isEditable={isOwner}
+          isEditable={isPageOwner}
         />
       </div>
       <div>
@@ -115,7 +115,7 @@ export const UserPage = (props: UserPageProps) => {
         <EditableTextarea
           text={userPreview.description}
           onChangeFinish={(text) => changeUserDescription(userPreview, text, setUserPreview)}
-          isEditable={isOwner}
+          isEditable={isPageOwner}
         />
       </div>
       <Title
@@ -132,6 +132,7 @@ export const UserPage = (props: UserPageProps) => {
       <ScrollableBlock>
         <MentoringWaysTable
           uuid={props.uuid}
+          isPageOwner={isPageOwner}
           handleUserPreviewChange={(newUserPreview: UserPreview) => {
             setUserPreview(newUserPreview);
           }}

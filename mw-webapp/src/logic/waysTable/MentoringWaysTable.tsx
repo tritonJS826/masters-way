@@ -1,12 +1,18 @@
 import {useEffect, useState} from "react";
+import {TrashIcon} from "@radix-ui/react-icons";
 import {Button} from "src/component/button/Button";
+import {Link} from "src/component/link/Link";
 import {Modal} from "src/component/modal/Modal";
+import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
-import {columnHelper, waysColumns} from "src/logic/waysTable/waysColumns";
+import {columnHelper, WAY_MENTORS, waysColumns} from "src/logic/waysTable/waysColumns";
 import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
+import {pages} from "src/router/pages";
+import {v4 as uuidv4} from "uuid";
+import styles from "src/logic/waysTable/MentoringWaysTable.module.scss";
 
 /**
  * Removes mentor from Way and returns new User Preview
@@ -38,6 +44,11 @@ interface MentoringWaysTableProps {
   uuid: string;
 
   /**
+   * Is current authorized user is owner of current page
+   */
+  isPageOwner: boolean;
+
+  /**
    * Function to change user preview
    */
   handleUserPreviewChange: (userPreview: UserPreview) => void;
@@ -62,6 +73,15 @@ export const MentoringWaysTable = (props: MentoringWaysTableProps) => {
     loadMentoringWays();
   }, [props.uuid]);
 
+  if (!props.isPageOwner) {
+    return (
+      <WaysTable
+        data={mentoringWays}
+        columns={waysColumns}
+      />
+    );
+  }
+
   /**
    * Handles confirm stop mentoring button
    */
@@ -74,51 +94,74 @@ export const MentoringWaysTable = (props: MentoringWaysTableProps) => {
     props.handleUserPreviewChange(newUserPreview);
   };
 
-  const mentorshipActionsColumn = columnHelper.accessor("uuid", {
-    header: "Mentorship Actions",
+  const columnsToExclude = [WAY_MENTORS];
 
-    /**
-     * Cell with buttons for mentorship actions
-     */
-    cell: ({row}) => (
-      <>
-        <Modal
-          content={
-            <>
-              <p>
-                Are you sure you want to stop Mentoring this Way?
-              </p>
-              <Button
-                value="Confirm"
-                onClick={() => {
-                  stopMentoring(props.uuid, row.original);
-                  setIsStopMentoringModalOpen(false);
-                }}
-              />
-              <Button
-                value="Cancel"
-                onClick={() =>
-                  setIsStopMentoringModalOpen(false)
-                }
-              />
-            </>
-          }
-          isOpen={isStopMentoringModalOpen}
-          handleClose={() =>
-            setIsStopMentoringModalOpen(false)
-          }
-        />
-        <Button
-          value="Stop Mentoring"
-          onClick={() =>
-            setIsStopMentoringModalOpen(true)
-          }
-        />
-      </>
-    ),
+  const mentoringWaysTableColumns = waysColumns.filter(column => {
+    if (column.header) {
+      return !columnsToExclude.includes(column.header.toString());
+    }
   });
 
-  const mentoringWaysTableColumns = waysColumns.concat(mentorshipActionsColumn);
+  const mentorsColumn = columnHelper.accessor("mentors", {
+    header: WAY_MENTORS,
+
+    /**
+     * Cell with current mentors
+     */
+    cell: ({row}) => {
+      return (
+        <VerticalContainer>
+          {row.original.mentors.map((mentor) => (
+            <div key={uuidv4().concat(mentor.uuid)}>
+              <Link
+                key={mentor.uuid}
+                path={pages.user.getPath({uuid: mentor.uuid})}
+                value={mentor.name}
+              />
+              {props.uuid === mentor.uuid && (
+                <>
+                  <TrashIcon
+                    className={styles.icon}
+                    onClick={() =>
+                      setIsStopMentoringModalOpen(true)
+                    }
+                  />
+                  <Modal
+                    content={
+                      <>
+                        <p>
+                          Are you sure you want to stop Mentoring this Way?
+                        </p>
+                        <Button
+                          value="Confirm"
+                          onClick={() => {
+                            stopMentoring(props.uuid, row.original);
+                            setIsStopMentoringModalOpen(false);
+                          }}
+                        />
+                        <Button
+                          value="Cancel"
+                          onClick={() =>
+                            setIsStopMentoringModalOpen(false)
+                          }
+                        />
+                      </>
+                    }
+                    isOpen={isStopMentoringModalOpen}
+                    handleClose={() =>
+                      setIsStopMentoringModalOpen(false)
+                    }
+                  />
+                </>
+              )}
+            </div>
+          ))}
+        </VerticalContainer>
+      );
+    },
+  });
+
+  mentoringWaysTableColumns.push(mentorsColumn);
 
   return (
     <WaysTable

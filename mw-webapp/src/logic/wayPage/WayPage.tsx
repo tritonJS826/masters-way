@@ -425,7 +425,7 @@ export const WayPage = (props: WayPageProps) => {
         isWayInFavorites &&
         <Button
           value={"Remove from favorite"}
-          onClick={() => 
+          onClick={() =>
             deleteFavoriteFromWayAndFromUser(user, way, setUser, setWay)
           }
         />
@@ -434,7 +434,7 @@ export const WayPage = (props: WayPageProps) => {
         !isWayInFavorites && user &&
         <Button
           value={"Add to favorite"}
-          onClick={() => 
+          onClick={() =>
             addFavoriteToWayAndToUser(user, way, setUser, setWay)
           }
         />

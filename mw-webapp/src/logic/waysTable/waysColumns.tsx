@@ -11,6 +11,7 @@ import style from "src/logic/waysTable/columns.module.scss";
 export const columnHelper = createColumnHelper<WayPreview>();
 
 export const WAYS_OWNER = "Way's Owner";
+export const WAY_MENTORS = "Mentors";
 
 /**
  * Table columns
@@ -84,7 +85,7 @@ export const waysColumns = [
     },
   }),
   columnHelper.accessor("mentors", {
-    header: "Mentors",
+    header: WAY_MENTORS,
 
     /**
      * Cell with current mentors
