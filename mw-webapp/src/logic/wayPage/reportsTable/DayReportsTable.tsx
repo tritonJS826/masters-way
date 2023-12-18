@@ -67,18 +67,18 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
 
   return (
     <>
+      <Title
+        level={HeadingLevel.h3}
+        text="Statistics"
+      />
+      <WayStatistic dayReports={dayReports} />
+
       {isOwner &&
       <Button
         value="Create new day report"
         onClick={() => createDayReport(way.uuid, dayReports)}
       />
       }
-
-      <Title
-        level={HeadingLevel.h3}
-        text="Statistics"
-      />
-      <WayStatistic dayReports={dayReports} />
 
       <ReportsTable
         data={dayReports}
