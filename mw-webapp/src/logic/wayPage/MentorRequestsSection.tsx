@@ -15,7 +15,7 @@ const addMentorToWay = (
   setWay: (newWay: Way) => void,
   userPreview: UserPreview,
 ) => {
-  const mentoringWays = userPreview.mentoringWays.concat(userPreview.uuid);
+  const mentoringWays = userPreview.mentoringWays.concat(way.uuid);
   const newUserPreview = new UserPreview({...userPreview, mentoringWays});
 
   UserPreviewDAL.updateUserPreview(newUserPreview);
