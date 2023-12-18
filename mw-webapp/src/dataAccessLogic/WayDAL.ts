@@ -8,6 +8,13 @@ import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {db} from "src/firebase";
 import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
+import {CommentService} from "src/service/CommentService";
+import {CurrentProblemService} from "src/service/CurrentProblemService";
+import {DayReportService} from "src/service/DayReportService";
+import {GoalMetricService} from "src/service/GoalMetricService";
+import {GoalService} from "src/service/GoalService";
+import {JobDoneService} from "src/service/JobDoneService";
+import {PlanForNextPeriodService} from "src/service/PlanForNextPeriodService";
 import {UserService} from "src/service/UserService";
 import {WayDTOWithoutUuid, WayService} from "src/service/WayService";
 import {DateUtils} from "src/utils/DateUtils";
@@ -171,6 +178,63 @@ export class WayDAL {
 
     Promise.all([updateWayPromise, updateUserPromise]);
 
+    await batch.commit();
+  }
+
+  /**
+   * Delete Way
+   */
+  public static async deleteWay(way: Way) {
+    const wayDTO = wayToWayDTOConverter(way);
+    const batch = writeBatch(db);
+    const updatedOwner = new UserPreview({
+      ...way.owner,
+      ownWays: way.owner.ownWays.filter((ownWay) => ownWay !== way.uuid),
+      favoriteWays: way.owner.favoriteWays.filter((ownWay) => ownWay !== way.uuid),
+    });
+    const updatedOwnerDTO = userPreviewToUserDTOConverter(updatedOwner);
+
+    const deleteWayFromOwner = UserService.updateUserDTOWithBatch(updatedOwnerDTO, batch);
+    const deleteWayFromMentors = Promise.all(way.mentors.map((mentor) => {
+      const updatedMentor = new UserPreview({
+        ...mentor,
+        mentoringWays: mentor.mentoringWays.filter((mentoringWay) => mentoringWay !== way.uuid),
+      });
+      const updatedMentorDTO = userPreviewToUserDTOConverter(updatedMentor);
+      UserService.updateUserDTOWithBatch(updatedMentorDTO, batch);
+    }));
+    const deleteWayFromFavoriteForUsers = Promise.all(way.favoriteForUsers.map((favoriteForUser) => {
+      const updatedFavoriteForUser = new UserPreview({
+        ...favoriteForUser,
+        favoriteWays: favoriteForUser.favoriteWays.filter((favoriteWay) => favoriteWay !== way.uuid),
+      });
+      const updatedFavoriteForUserDTO = userPreviewToUserDTOConverter(updatedFavoriteForUser);
+      UserService.updateUserDTOWithBatch(updatedFavoriteForUserDTO, batch);
+    }));
+
+    const deleteGoalMetrics = GoalMetricService.deleteGoalMetricsDTOWithBatch(way.goal.metrics[0].uuid, batch);
+    const deleteGoal = GoalService.deleteGoalDTOWithBatch(wayDTO.goalUuid, batch);
+    const deleteDayReports = Promise.all(way.dayReports
+      .map((dayReport) => {
+        Promise.all(dayReport.jobsDone.map((jobDone) => JobDoneService.deleteJobDoneDTOWithBatch(jobDone.uuid, batch)));
+        Promise.all(dayReport.plansForNextPeriod
+          .map((plan) => PlanForNextPeriodService.deletePlanForNextPeriodDTOWithBatch(plan.uuid, batch)));
+        Promise.all(dayReport.problemsForCurrentPeriod
+          .map((problem) => CurrentProblemService.deleteCurrentProblemDTOWithBatch(problem.uuid, batch)));
+        Promise.all(dayReport.comments.map((comment) => CommentService.deleteCommentDTOWithBatch(comment.uuid, batch)));
+        DayReportService.deleteDayReportDTOWithBatch(dayReport.uuid, batch);
+      }));
+    const deleteWay = WayService.deleteWayDTOWithBatch(wayDTO.uuid, batch);
+
+    await Promise.all([
+      deleteWayFromOwner,
+      deleteWayFromMentors,
+      deleteWayFromFavoriteForUsers,
+      deleteGoalMetrics,
+      deleteGoal,
+      deleteDayReports,
+      deleteWay,
+    ]);
     await batch.commit();
   }
 

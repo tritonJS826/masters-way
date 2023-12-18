@@ -74,4 +74,12 @@ export class GoalMetricService {
     return validatedGoalMetricsDTO;
   }
 
+  /**
+   * Delete GoalMetricsDTO with batch
+   */
+  public static async deleteGoalMetricsDTOWithBatch(goalMetricsDTOUuid: string, batch: WriteBatch) {
+    const wayRef = doc(db, PATH_TO_GOAL_METRICS_COLLECTION, goalMetricsDTOUuid);
+    batch.delete(wayRef);
+  }
+
 }

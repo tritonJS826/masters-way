@@ -107,4 +107,12 @@ export class DayReportService {
     batch.update(dayReportRef, updatedDayReportDTO);
   }
 
+  /**
+   * Delete DayReportDTO with batch
+   */
+  public static async deleteDayReportDTOWithBatch(dayReportDTOUuid: string, batch: WriteBatch) {
+    const wayRef = doc(db, PATH_TO_DAY_REPORTS_COLLECTION, dayReportDTOUuid);
+    batch.delete(wayRef);
+  }
+
 }

@@ -307,6 +307,7 @@ export const WayPage = (props: WayPageProps) => {
 
                 renderModalContent({
                   description: singleGoalMetric.description,
+                  type: "goal metric",
                   onOk,
                 });
               }}
@@ -332,6 +333,13 @@ export const WayPage = (props: WayPageProps) => {
     ));
   };
 
+  /**
+   * Delete Way
+   */
+  const deleteWay = async (wayForDelete: Way) => {
+    await WayDAL.deleteWay(wayForDelete);
+  };
+
   return (
     <div className={styles.container}>
       <Title
@@ -339,6 +347,25 @@ export const WayPage = (props: WayPageProps) => {
         text={`${way.name}`}
         onChangeFinish={(text) => changeWayName(way, text)}
         isEditable={isOwner}
+      />
+      <Button
+        value="Delete way"
+        onClick={() => {
+
+          /**
+           * CallBack triggered on press ok
+           */
+          const onOk = () => {
+            deleteWay(way);
+            navigate(pages.user.getPath({uuid: way.owner.uuid}));
+          };
+
+          renderModalContent({
+            description: way.name,
+            type: "way",
+            onOk,
+          });
+        }}
       />
       <div>
         Amount of users who add it to favorite:

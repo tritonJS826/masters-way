@@ -1,4 +1,5 @@
-import {collection, doc, getDoc, getDocs, orderBy, query, setDoc, updateDoc, where, WriteBatch} from "firebase/firestore";
+import {collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, setDoc, updateDoc, where, WriteBatch}
+  from "firebase/firestore";
 import {db} from "src/firebase";
 import {
   WAY_MENTOR_UUIDS_FIELD,
@@ -126,11 +127,26 @@ export class WayService {
   }
 
   /**
+   * Delete WayDTO
+   */
+  public static async deleteWayDTO(wayDTOUuid: string) {
+    deleteDoc(doc(db, PATH_TO_WAYS_COLLECTION, wayDTOUuid));
+  }
+
+  /**
    * Update favoriteForUserUuids of Way with batch
    */
   public static async updateWayDTOWithBatch(updatedWay: WayDTO, batch: WriteBatch) {
     const wayref = doc(db, PATH_TO_WAYS_COLLECTION, updatedWay[WAY_UUID_FIELD]);
     batch.update(wayref, updatedWay);
+  }
+
+  /**
+   * Delete WayDTO with batch
+   */
+  public static async deleteWayDTOWithBatch(wayDTOUuid: string, batch: WriteBatch) {
+    const wayRef = doc(db, PATH_TO_WAYS_COLLECTION, wayDTOUuid);
+    batch.delete(wayRef);
   }
 
 }

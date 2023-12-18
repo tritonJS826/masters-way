@@ -40,6 +40,11 @@ interface RenderModalContentParams {
   description: string;
 
   /**
+   * Type of element (jobDone, planForTomorrow, way, etc)
+   */
+  type: string;
+
+  /**
    * On Ok callback
    */
   onOk: () => void;
@@ -50,7 +55,7 @@ interface RenderModalContentParams {
  * TODO: use modal instead of confirm task #305
  */
 export const renderModalContent = (params: RenderModalContentParams) => {
-  const isUserWantToDeleteJobDone = confirm(`Are you sure that you want to delete jobDone "${params.description}"?`);
+  const isUserWantToDeleteJobDone = confirm(`Are you sure that you want to delete ${params.type} "${params.description}"?`);
   !!isUserWantToDeleteJobDone && params.onOk();
 };
 
@@ -257,6 +262,7 @@ export const Columns = (props: ColumnsProps) => {
 
                         renderModalContent({
                           description: jobDone.description,
+                          type: "jobDone",
                           onOk,
                         });
                       }
@@ -381,6 +387,7 @@ export const Columns = (props: ColumnsProps) => {
 
                             renderModalContent({
                               description: planForNextPeriod.job,
+                              type: "planForNextPeriod",
                               onOk,
                             });
                           }}
@@ -500,6 +507,7 @@ export const Columns = (props: ColumnsProps) => {
 
                             renderModalContent({
                               description: currentProblem.description,
+                              type: "problem",
                               onOk,
                             });
                           }}
@@ -599,6 +607,7 @@ export const Columns = (props: ColumnsProps) => {
 
                           renderModalContent({
                             description: comment.description,
+                            type: "comment",
                             onOk,
                           });
                         }}

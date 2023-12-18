@@ -84,4 +84,12 @@ export class GoalService {
     return validatedGoalDTO;
   }
 
+  /**
+   * Delete GoalDTO with batch
+   */
+  public static async deleteGoalDTOWithBatch(goalDTOUuid: string, batch: WriteBatch) {
+    const wayRef = doc(db, PATH_TO_GOALS_COLLECTION, goalDTOUuid);
+    batch.delete(wayRef);
+  }
+
 }

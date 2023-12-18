@@ -56,8 +56,8 @@ export class CommentService {
   /**
    * Delete CommentDTO
    */
-  public static async deleteCommentDTO(CommentDTOUuid: string) {
-    deleteDoc(doc(db, PATH_TO_COMMENTS_COLLECTION, CommentDTOUuid));
+  public static async deleteCommentDTO(commentDTOUuid: string) {
+    deleteDoc(doc(db, PATH_TO_COMMENTS_COLLECTION, commentDTOUuid));
   }
 
   /**
