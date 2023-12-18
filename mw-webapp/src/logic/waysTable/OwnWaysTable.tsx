@@ -1,8 +1,10 @@
 import {useEffect, useState} from "react";
 import {Button} from "src/component/button/Button";
+import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
 import {WAYS_OWNER, waysColumns} from "src/logic/waysTable/waysColumns";
 import {WaysTable} from "src/logic/waysTable/WaysTable";
+import {Way} from "src/model/businessModel/Way";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 
 /**
@@ -37,9 +39,10 @@ export const OwnWaysTable = (props: PropsWithUuid) => {
   /**
    * Create way
    */
-  const createWay = async(userUuid: string, waysData: WayPreview[]) => {
-    const newWay = await WayPreviewDAL.createWayPreview(userUuid);
-    const ways = [newWay, ...waysData];
+  const createWay = async(userUuid: string, waysPreview: WayPreview[]) => {
+    const newWay: Way = await WayDAL.createWay(userUuid);
+    const newWayPreview: WayPreview = await WayPreviewDAL.getWayPreview(newWay.uuid);
+    const ways = [newWayPreview, ...waysPreview];
     setOwnWays(ways);
   };
 

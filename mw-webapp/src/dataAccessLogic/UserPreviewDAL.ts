@@ -1,5 +1,5 @@
 import {UserDTOToUserPreviewConverter} from "src/dataAccessLogic/DTOToPreviewConverter/userDTOToUserPreviewConverter";
-import {userPreviewToUserDTOConverter} from "src/dataAccessLogic/PreviewToDTOConverter/UserPreviewToUserDTOConverter";
+import {userPreviewToUserDTOConverter} from "src/dataAccessLogic/PreviewToDTOConverter/userPreviewToUserDTOConverter";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {UserService} from "src/service/UserService";
 

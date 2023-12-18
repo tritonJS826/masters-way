@@ -53,7 +53,7 @@ export class JobDoneDAL {
       description,
     });
     const jobDoneDTO = jobDoneToJobDoneDTOConverter(updatedJobDone);
-    await JobDoneService.updateJobDoneDTO(jobDoneDTO, jobDone.uuid);
+    await JobDoneService.updateJobDoneDTO(jobDoneDTO);
   }
 
   /**
@@ -65,7 +65,7 @@ export class JobDoneDAL {
       time,
     });
     const jobDoneDTO = jobDoneToJobDoneDTOConverter(updatedJobDone);
-    await JobDoneService.updateJobDoneDTO(jobDoneDTO, jobDone.uuid);
+    await JobDoneService.updateJobDoneDTO(jobDoneDTO);
   }
 
   /**
@@ -75,7 +75,7 @@ export class JobDoneDAL {
     const dayReportDTO = dayReportToDayReportDTOConverter(dayReport);
     const batch = writeBatch(db);
     JobDoneService.deleteJobDoneDTOWithBatch(jobDoneUuid, batch);
-    DayReportService.updateDayReportDTOWithBatch(dayReport.uuid, dayReportDTO, batch);
+    DayReportService.updateDayReportDTOWithBatch(dayReportDTO, batch);
     await batch.commit();
   }
 

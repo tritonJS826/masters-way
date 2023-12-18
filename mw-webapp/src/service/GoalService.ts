@@ -1,4 +1,4 @@
-import {collection, doc, getDoc, getDocs, setDoc, updateDoc} from "firebase/firestore";
+import {collection, doc, getDoc, getDocs, setDoc, updateDoc, WriteBatch} from "firebase/firestore";
 import {db} from "src/firebase";
 import {GoalDTO, GoalDTOSchema, GoalsDTOSchema} from "src/model/DTOModel/GoalDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
@@ -59,12 +59,29 @@ export class GoalService {
   }
 
   /**
-   * Update GoalDTO
+   *Update GoalDTO
    */
   public static async updateGoalDTO(goalDTO: GoalDTO): Promise<void> {
     const validatedGoalDTO = GoalDTOSchema.parse(goalDTO);
 
     await updateDoc(doc(db, PATH_TO_GOALS_COLLECTION, goalDTO.uuid), validatedGoalDTO);
+  }
+
+  /**
+   * Create GoalDTO with Batch
+   */
+  public static async createGoalDTOWithBatch(goalDTOWithoutUuid: GoalDTOWithoutUuid, batch: WriteBatch): Promise<GoalDTO> {
+    const docRef = doc(collection(db, PATH_TO_GOALS_COLLECTION));
+    const goalDTO = {
+      ...goalDTOWithoutUuid,
+      uuid: docRef.id,
+    };
+
+    batch.set(docRef, goalDTO);
+
+    const validatedGoalDTO = GoalDTOSchema.parse(goalDTO);
+
+    return validatedGoalDTO;
   }
 
 }

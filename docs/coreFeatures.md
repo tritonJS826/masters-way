@@ -16,7 +16,7 @@
 - [x] show mentors (link to user page) in the mentor comments (12h)
 - [x] render goal (description), add ability to edit own way (goal) (12h) (9h)
 - [x] render way name, add ability to edit own way (way name) (12h)
-- [ ] add button "favorite" which put the way into your favorite ways (add field favorite to WayDTO) (24h)
+- [x] add button "favorite" which put the way into your favorite ways (add field favorite to WayDTO) (24h)
 
 ## AllWaysPage (default for not logged in)
 
@@ -32,7 +32,7 @@
 - [x] description + ability to change it (12h)
 - [x] add name + ability to change it (12h)
 - [x] add email + ability to change it (12h)
-- [ ] add attach custom link with resource description (12h) (for cv or video etc)
+
 
 ## AboutProjectPage
 
@@ -50,7 +50,7 @@
 - [ ] AllUsersPage: search/filter panel
 - [ ] UserPage: add visual notifications which favorite and mentoring ways changed
 - [ ] attach files, images, videos to records
-- [ ] chat with mentor
+- [ ] realtime chat with mentor
 - [ ] public/private ways
 - [ ] public/private users
 - [x] add link to records (md format)
@@ -63,11 +63,11 @@
 - [ ] Possibility to add tags for each JobDone
 - [ ] Investigation with coming soon tooltip (component)
 - [ ] AllWaysPage: show number favorite (12h)
-- [ ] WayPage: show number favorite (increased when somebody add the way to favorite and decreased when somebody remove the way from favorite) (9h)
-- [ ] WayPage: add button "become a mentor" which put the way into your mentors ways (18h)
-- [ ] Mentor could send request, user can send invite to mentor (do nothing), only user could accept 
-- [ ] UserPage: add ability to remove way from mentoring ways (9h)
-- [ ] UserPage: add ability to remove way from favorite ways (9h)
+- [x] WayPage: show number favorite (increased when somebody add the way to favorite and decreased when somebody remove the way from favorite) (9h)
+- [x] WayPage: add button "become a mentor" which put the way into your mentors ways (18h)
+- [x] Mentor could send request, user can send invite to mentor (do nothing), only user could accept 
+- [x] UserPage: add ability to remove way from mentoring ways (9h)
+- [x] WayPage: add ability to remove way from favorite ways (9h)
 - [x] Add property isReadOnly to checkbox component
 - [x] To each table:
   - [x] add sum time for each way
@@ -82,7 +82,7 @@
 - [x] Delete LearnedForToday from Way model
 - [x] Combine Date and isDayOff cells 
 - [ ] AllWaysPage: Add status for Way (finished, inProgress, abandoned) (colored)
-- [ ] Add metrics for Goal on WayPage (checkbox + text)
+- [x] Add metrics for Goal on WayPage (checkbox + text)
 - [ ] Optimization: load only last 30 DayReports (lazy loading) (think about it)
 - [ ] AllWaysPage: add pagination (think about it)
 - [ ] AllWaysPage: request optimization, save users into hashmap and load each user once
@@ -90,10 +90,10 @@
 - [ ] AllWaysPage: cell goal should contain short description (max 2 line) but by clicking modal window should be opened with full description and metrics(think about statistic info that could be shown)
 - [x] Add property createdAt to WayDTO model (when Way was created)
 - [ ] Add type of user (optional) : 
-  1. newbie - directive
-  2. frustrated novice
-  3. insecure professional
-  4. independent professional
+  * newbie - directive
+  * frustrated novice
+  * insecure professional
+  * independent professional
 - [ ] Add a page with a tree of paths (chain of goals) for visualization
 - [ ] Add MonthReportDTO and WeekReportDTO models (MonthReportDTO: uuid: string, date: string, jobDoneUuids: string[] @JobDone.uuid[], planForNextPeriodUuids: string[] @PlanForNextPeriod.uuid[], problemForCurrentPeriodUuids: string[] @CurrentProblem.uuid[], commentUuids: string[] @MentorComment.uuid[])
 - [ ] Add description which jobs should be (CUS - complete, unique, specific)
@@ -103,3 +103,7 @@
   * with no repeatable jobDone - programming, science, art, engineering, language, onboarding;
   * mixed type - music
 - [ ] add settings page (language, modal with hints)
+- [ ] put jobDone, problems etc into report to reduce firebase reads
+- [ ] add to settings checkboxes for all available way statistic and allow user to adjust what to show
+- [ ] hide of button create new day report if report for today already created
+- [ ] AI analyze reports in a way

@@ -57,7 +57,8 @@ const addMentorToWay = (
   UserPreviewDAL.updateUserPreview(newUserPreview);
 
   const mentors = way.mentors.concat(newUserPreview);
-  const newWay = new Way({...way, mentors});
+  const mentorRequests = way.mentorRequests.filter((item) => item !== userPreview);
+  const newWay = new Way({...way, mentors, mentorRequests});
 
   WayDAL.updateWay(newWay);
 
@@ -122,15 +123,15 @@ const renderMentorRequests = (way: Way, setWay: React.Dispatch<React.SetStateAct
       />
       <Button
         value='Accept'
-        onClick={() => {
-          addMentorToWay(way, setWay, userPreview);
-        }}
+        onClick={() =>
+          addMentorToWay(way, setWay, userPreview)
+        }
       />
       <Button
         value='Decline'
-        onClick={() => {
-          removeUserFromMentorRequests(way, setWay, userPreview);
-        }}
+        onClick={() =>
+          removeUserFromMentorRequests(way, setWay, userPreview)
+        }
       />
     </div>
   ));
@@ -420,6 +421,24 @@ export const WayPage = (props: WayPageProps) => {
         Amount of users who add it to favorite:
         {UnicodeSymbols.SPACE + favoriteForUsersAmount}
       </div>
+      {
+        isWayInFavorites &&
+        <Button
+          value={"Remove from favorite"}
+          onClick={() =>
+            deleteFavoriteFromWayAndFromUser(user, way, setUser, setWay)
+          }
+        />
+      }
+      {
+        !isWayInFavorites && user &&
+        <Button
+          value={"Add to favorite"}
+          onClick={() =>
+            addFavoriteToWayAndToUser(user, way, setUser, setWay)
+          }
+        />
+      }
       <div className={styles.goalSection}>
         <div>
           <Title
@@ -474,24 +493,6 @@ export const WayPage = (props: WayPageProps) => {
         path={pages.user.getPath({uuid: way.owner.uuid})}
         className={styles.mentors}
       />
-      {
-        isWayInFavorites && setUser &&
-        <Button
-          value={"Remove from favorite"}
-          onClick={() => {
-            deleteFavoriteFromWayAndFromUser(user, way, setUser, setWay);
-          }}
-        />
-      }
-      {
-        !isWayInFavorites && user && setUser &&
-        <Button
-          value={"Add to favorite"}
-          onClick={() => {
-            addFavoriteToWayAndToUser(user, way, setUser, setWay);
-          }}
-        />
-      }
       {!!way.mentors.length && (
         <>
           <Title
@@ -514,9 +515,9 @@ export const WayPage = (props: WayPageProps) => {
       {isEligibleToSendRequest && (
         <Button
           value="Apply as Mentor"
-          onClick={() => {
-            addUserToMentorRequests(way, setWay, user);
-          }}
+          onClick={() =>
+            addUserToMentorRequests(way, setWay, user)
+          }
         />
       )
       }

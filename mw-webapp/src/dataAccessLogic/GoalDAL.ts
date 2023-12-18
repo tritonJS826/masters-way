@@ -1,6 +1,10 @@
+import {writeBatch} from "firebase/firestore";
 import {goalToGoalDTOConverter} from "src/dataAccessLogic/BusinessToDTOConverter/goalToGoalDTOConverter";
 import {goalDTOToGoalConverter} from "src/dataAccessLogic/DTOToBusinessConverter/goalDTOToGoalConverter";
 import {goalMetricDTOToGoalMetricConverter} from "src/dataAccessLogic/DTOToBusinessConverter/goalMetricDTOToGoalMetricConverter";
+import {GoalMetricDAL} from "src/dataAccessLogic/GoalMetricDAL";
+import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
+import {db} from "src/firebase";
 import {Goal} from "src/model/businessModel/Goal";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {GoalDTO} from "src/model/DTOModel/GoalDTO";
@@ -28,7 +32,9 @@ export class GoalDAL {
   /**
    * Create Goal
    */
-  public static async createGoal(ownerUuid: string): Promise<GoalDTO> {
+  public static async createGoal(ownerUuid: string): Promise<Goal> {
+    const batch = writeBatch(db);
+
     const goalMetricWithoutUuid: GoalMetricDTOWithoutUuid = {
       metricUuids: [],
       description: [],
@@ -36,7 +42,7 @@ export class GoalDAL {
       doneDate: [],
     };
 
-    const newGoalMetric = await GoalMetricService.createGoalMetricsDTO(goalMetricWithoutUuid);
+    const newGoalMetric = await GoalMetricService.createGoalMetricsDTOWithBatch(goalMetricWithoutUuid, batch);
 
     const goalWithoutUuid: GoalDTOWithoutUuid = {
       studentUuid: ownerUuid,
@@ -45,9 +51,15 @@ export class GoalDAL {
       estimationTime: 0,
     };
 
-    const newGoal = await GoalService.createGoalDTO(goalWithoutUuid);
+    const newGoalDTO = await GoalService.createGoalDTOWithBatch(goalWithoutUuid, batch);
 
-    return newGoal;
+    await batch.commit();
+
+    const goalOwner = await UserPreviewDAL.getUserPreview(ownerUuid);
+    const goalMetric = await GoalMetricDAL.getGoalsMetric(newGoalMetric.uuid);
+    const goal = goalDTOToGoalConverter(newGoalDTO, goalOwner, goalMetric);
+
+    return goal;
   }
 
   /**

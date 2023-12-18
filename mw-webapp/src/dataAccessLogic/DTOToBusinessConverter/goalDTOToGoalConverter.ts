@@ -4,7 +4,7 @@ import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {GoalDTO} from "src/model/DTOModel/GoalDTO";
 
 /**
- * Convert {@link GoalMetricDTO} to {@link GoalMetric}
+ * Convert {@link GoalDTO} to {@link Goal}
  */
 export const goalDTOToGoalConverter = (goalDTO: GoalDTO, goalOwner: UserPreview, goalMetric: GoalMetric): Goal => {
   return new Goal({
@@ -13,3 +13,4 @@ export const goalDTOToGoalConverter = (goalDTO: GoalDTO, goalOwner: UserPreview,
     metrics: [goalMetric],
   });
 };
+
