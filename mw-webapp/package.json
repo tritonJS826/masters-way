@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "main": "src/index.tsx",
+  "type": "module",
   "scripts": {
     "start": "vite",
     "build": "vite build && echo \"Copying _redirects for netlify\" && cp ./deploy/_redirects ./build/_redirects",
@@ -97,8 +98,8 @@
     "@types/react-dom": "18.2.17",
     "@types/toastify-js": "1.12.3",
     "@types/uuid": "^9.0.7",
-    "@typescript-eslint/eslint-plugin": "6.13.2",
-    "@typescript-eslint/parser": "6.13.2",
+    "@typescript-eslint/eslint-plugin": "6.14.0",
+    "@typescript-eslint/parser": "6.14.0",
     "@vitejs/plugin-react": "4.2.1",
     "@yarnaimo/eslint-config": "0.4.4",
     "cypress": "13.6.1",
@@ -115,8 +116,8 @@
     "stylelint-config-idiomatic-order": "9.0.0",
     "stylelint-scss": "5.3.1",
     "stylelint-stylistic": "0.4.3",
-    "vite": "4.5.1",
+    "vite": "5.0.10",
     "vite-plugin-eslint": "1.8.1",
-    "vite-tsconfig-paths": "4.2.1"
+    "vite-tsconfig-paths": "4.2.2"
   }
 }
