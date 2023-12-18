@@ -123,16 +123,13 @@ export const MentoringWaysTable = (props: MentoringWaysTableProps) => {
                     onClick={() => {
 
                       /**
-                       * TODO: use modal instead of confirm task #305
-                       */
-
-                      /**
                        * CallBack triggered on press ok
                        */
                       const onOk = () => stopMentoring(props.uuid, row.original);
 
+                      // TODO: use modal instead of confirm task #305
                       const isConfirmed = confirm(`Are you sure you want to stop mentoring "${row.original.name}"?`);
-                      !!isConfirmed && onOk();
+                      isConfirmed && onOk();
                     }}
                   />
                 )}
