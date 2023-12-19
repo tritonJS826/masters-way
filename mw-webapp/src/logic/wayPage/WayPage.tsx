@@ -90,11 +90,11 @@ const addFavoriteToWayAndToUser = async (
       favoriteWays: updatedFavoriteWays,
     },
   });
+  const updatedUser = createUserPreviewWithUpdatedFavorites(userPreview, updatedFavoriteWays);
 
-  await WayDAL.updateWayWithUser(updatedWay);
+  await WayDAL.updateWayWithUser(updatedWay, updatedUser);
 
-  const user = createUserPreviewWithUpdatedFavorites(userPreview, updatedFavoriteWays);
-  setUser(user);
+  setUser(updatedUser);
   setWay(updatedWay);
 };
 
@@ -118,11 +118,11 @@ const deleteFavoriteFromWayAndFromUser = async (
       favoriteWays: updatedFavoriteWays,
     },
   });
+  const updatedUser = createUserPreviewWithUpdatedFavorites(userPreview, updatedFavoriteWays);
 
-  await WayDAL.updateWayWithUser(updatedWay);
+  await WayDAL.updateWayWithUser(updatedWay, updatedUser);
 
-  const user = createUserPreviewWithUpdatedFavorites(userPreview, updatedFavoriteWays);
-  setUser(user);
+  setUser(updatedUser);
   setWay(updatedWay);
 };
 
