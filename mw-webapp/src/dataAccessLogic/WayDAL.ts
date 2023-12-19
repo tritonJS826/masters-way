@@ -160,14 +160,15 @@ export class WayDAL {
    */
   public static async updateWayWithUser(
     updatedWay: Way,
+    updatedUser: UserPreview,
   ): Promise<void> {
     const batch = writeBatch(db);
 
     const updatedWayDTO = wayToWayDTOConverter(updatedWay);
-    const updatedOwnerDTO = userPreviewToUserDTOConverter(updatedWay.owner);
+    const updatedUserDTO = userPreviewToUserDTOConverter(updatedUser);
 
     const updateWayPromise = WayService.updateWayDTOWithBatch(updatedWayDTO, batch);
-    const updateUserPromise = UserService.updateUserDTOWithBatch(updatedOwnerDTO, batch);
+    const updateUserPromise = UserService.updateUserDTOWithBatch(updatedUserDTO, batch);
 
     Promise.all([updateWayPromise, updateUserPromise]);
 
