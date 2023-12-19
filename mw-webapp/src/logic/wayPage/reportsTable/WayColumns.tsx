@@ -40,9 +40,9 @@ interface RenderModalContentParams {
   description: string;
 
   /**
-   * Type of element (jobDone, planForTomorrow, way, etc)
+   * Name of element (jobDone, planForTomorrow, way, etc)
    */
-  type: string;
+  text: string;
 
   /**
    * On Ok callback
@@ -55,7 +55,7 @@ interface RenderModalContentParams {
  * TODO: use modal instead of confirm task #305
  */
 export const renderModalContent = (params: RenderModalContentParams) => {
-  const isUserWantToDeleteJobDone = confirm(`Are you sure that you want to delete ${params.type} "${params.description}"?`);
+  const isUserWantToDeleteJobDone = confirm(`Are you sure that you want to delete ${params.text} "${params.description}"?`);
   !!isUserWantToDeleteJobDone && params.onOk();
 };
 
@@ -262,7 +262,7 @@ export const Columns = (props: ColumnsProps) => {
 
                         renderModalContent({
                           description: jobDone.description,
-                          type: "jobDone",
+                          text: "jobDone",
                           onOk,
                         });
                       }
@@ -387,7 +387,7 @@ export const Columns = (props: ColumnsProps) => {
 
                             renderModalContent({
                               description: planForNextPeriod.job,
-                              type: "planForNextPeriod",
+                              text: "planForNextPeriod",
                               onOk,
                             });
                           }}
@@ -507,7 +507,7 @@ export const Columns = (props: ColumnsProps) => {
 
                             renderModalContent({
                               description: currentProblem.description,
-                              type: "problem",
+                              text: "problem",
                               onOk,
                             });
                           }}
@@ -607,7 +607,7 @@ export const Columns = (props: ColumnsProps) => {
 
                           renderModalContent({
                             description: comment.description,
-                            type: "comment",
+                            text: "comment",
                             onOk,
                           });
                         }}

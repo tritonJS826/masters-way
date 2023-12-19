@@ -212,31 +212,45 @@ export class WayDAL {
       UserService.updateUserDTOWithBatch(updatedFavoriteForUserDTO, batch);
     }));
 
+    const jobsDoneForDelete = (way.dayReports.map((dayReport) => dayReport.jobsDone.map((jobDone) => jobDone.uuid))).flat();
+    const deleteJobsDone = Promise.all(jobsDoneForDelete
+      .map((jobDone) => JobDoneService.deleteJobDoneDTOWithBatch(jobDone, batch)));
+
+    const plansForDelete = (way.dayReports.map((dayReport) => dayReport.plansForNextPeriod.map((plan) => plan.uuid))).flat();
+    const deletePlansForNextPeriod = Promise.all(plansForDelete
+      .map((plan) => PlanForNextPeriodService.deletePlanForNextPeriodDTOWithBatch(plan, batch)));
+
+    const problemsForDelete = (way.dayReports.map((dayReport) => dayReport.problemsForCurrentPeriod
+      .map((problem) => problem.uuid))).flat();
+    const deleteCurrentProblems = Promise.all(problemsForDelete
+      .map((problem) => CurrentProblemService.deleteCurrentProblemDTOWithBatch(problem, batch)));
+
+    const commentsForDelete = (way.dayReports.map((dayReport) => dayReport.comments.map((comment) => comment.uuid))).flat();
+    const deleteComments = Promise.all(commentsForDelete
+      .map((comment) => CommentService.deleteCommentDTOWithBatch(comment, batch)));
+
+    const deleteDayReports = Promise.all(wayDTO.dayReportUuids
+      .map((dayReportUuid) => DayReportService.deleteDayReportDTOWithBatch(dayReportUuid, batch)));
+
     const deleteGoalMetrics = GoalMetricService.deleteGoalMetricsDTOWithBatch(way.goal.metrics[0].uuid, batch);
-    const deleteGoal = GoalService.deleteGoalDTOWithBatch(wayDTO.goalUuid, batch);
-    const deleteDayReports = Promise.all(way.dayReports
-      .map((dayReport) => {
-        Promise.all(dayReport.jobsDone.map((jobDone) => JobDoneService.deleteJobDoneDTOWithBatch(jobDone.uuid, batch)));
-        Promise.all(dayReport.plansForNextPeriod
-          .map((plan) => PlanForNextPeriodService.deletePlanForNextPeriodDTOWithBatch(plan.uuid, batch)));
-        Promise.all(dayReport.problemsForCurrentPeriod
-          .map((problem) => CurrentProblemService.deleteCurrentProblemDTOWithBatch(problem.uuid, batch)));
-        Promise.all(dayReport.comments.map((comment) => CommentService.deleteCommentDTOWithBatch(comment.uuid, batch)));
-        DayReportService.deleteDayReportDTOWithBatch(dayReport.uuid, batch);
-      }));
-    const deleteWay = WayService.deleteWayDTOWithBatch(wayDTO.uuid, batch);
+    const deleteGoal = GoalService.deleteGoalDTOWithBatch(way.goal.uuid, batch);
+    const deleteWay = WayService.deleteWayDTOWithBatch(way.uuid, batch);
 
     await Promise.all([
       deleteWayFromOwner,
       deleteWayFromMentors,
       deleteWayFromFavoriteForUsers,
+      deleteJobsDone,
+      deletePlansForNextPeriod,
+      deleteCurrentProblems,
+      deleteComments,
+      deleteDayReports,
       deleteGoalMetrics,
       deleteGoal,
-      deleteDayReports,
       deleteWay,
     ]);
+
     await batch.commit();
   }
 
 }
-
