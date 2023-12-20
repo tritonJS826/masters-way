@@ -5,6 +5,7 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {getWayStatus} from "src/logic/waysTable/wayStatus";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
+import {DateUtils} from "src/utils/DateUtils";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import style from "src/logic/waysTable/columns.module.scss";
 
@@ -18,6 +19,18 @@ export const WAY_MENTORS = "Mentors";
  * Don't get rid of any https://github.com/TanStack/table/issues/4382
  */
 export const waysColumns = [
+  columnHelper.accessor("createdAt", {
+    header: "Created at",
+
+    /**
+     * Cell with date of created way
+     */
+    cell: ({row}) => (
+      <span className={style.shortCell}>
+        {DateUtils.getShortISODateValue(row.original.createdAt)}
+      </span>
+    ),
+  }),
   columnHelper.accessor("name", {
     header: "Way's name",
 

@@ -1,4 +1,7 @@
-import {collection, CollectionReference, doc, DocumentData, getDoc, getDocs, orderBy, query, setDoc, updateDoc, where, WriteBatch}
+import {
+  collection, CollectionReference, deleteDoc, doc,
+  DocumentData, getDoc, getDocs, orderBy, query, setDoc, updateDoc, where, WriteBatch,
+}
   from "firebase/firestore";
 import {db} from "src/firebase";
 import {DAY_REPORT_DATE_FIELD, DAY_REPORT_UUID_FIELD, DayReportDTO, DayReportDTOSchema, DayReportsDTOSchema}
@@ -100,9 +103,16 @@ export class DayReportService {
   }
 
   /**
+   * Delete DayReportDTO
+   */
+  public static async deleteDayReportDTO(dayReportDTOUuid: string) {
+    deleteDoc(doc(db, PATH_TO_DAY_REPORTS_COLLECTION, dayReportDTOUuid));
+  }
+
+  /**
    * Update DayReportDTO with Batch
    */
-  public static async updateDayReportDTOWithBatch(updatedDayReportDTO: DayReportDTO, batch: WriteBatch) {
+  public static updateDayReportDTOWithBatch(updatedDayReportDTO: DayReportDTO, batch: WriteBatch) {
     const dayReportRef = doc(db, PATH_TO_DAY_REPORTS_COLLECTION, updatedDayReportDTO[DAY_REPORT_UUID_FIELD]);
     batch.update(dayReportRef, updatedDayReportDTO);
   }
@@ -110,7 +120,7 @@ export class DayReportService {
   /**
    * Delete DayReportDTO with batch
    */
-  public static async deleteDayReportDTOWithBatch(dayReportDTOUuid: string, batch: WriteBatch) {
+  public static deleteDayReportDTOWithBatch(dayReportDTOUuid: string, batch: WriteBatch) {
     const wayRef = doc(db, PATH_TO_DAY_REPORTS_COLLECTION, dayReportDTOUuid);
     batch.delete(wayRef);
   }

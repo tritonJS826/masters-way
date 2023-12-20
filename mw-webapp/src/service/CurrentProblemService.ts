@@ -65,7 +65,7 @@ export class CurrentProblemService {
   /**
    * Delete CurrentProblemDTO with batch
    */
-  public static async deleteCurrentProblemDTOWithBatch(currentProblemDTOUuid: string, batch: WriteBatch) {
+  public static deleteCurrentProblemDTOWithBatch(currentProblemDTOUuid: string, batch: WriteBatch) {
     const currentProblemRef = doc(db, PATH_TO_CURRENT_PROBLEMS_COLLECTION, currentProblemDTOUuid);
     batch.delete(currentProblemRef);
   }

@@ -351,7 +351,7 @@ export const WayPage = (props: WayPageProps) => {
              */
             const onOk = async () => {
               await WayDAL.deleteWay(way);
-              navigate(pages.user.getPath({uuid: way.owner.uuid}));
+              navigate(pages.user.getPath({uuid: user.uuid}));
             };
 
             renderModalContent({

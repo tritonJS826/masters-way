@@ -63,7 +63,7 @@ export class CommentService {
   /**
    * Delete CommentDTO with batch
    */
-  public static async deleteCommentDTOWithBatch(commentDTOUuid: string, batch: WriteBatch) {
+  public static deleteCommentDTOWithBatch(commentDTOUuid: string, batch: WriteBatch) {
     const commentRef = doc(db, PATH_TO_COMMENTS_COLLECTION, commentDTOUuid);
     batch.delete(commentRef);
   }

@@ -65,7 +65,7 @@ export class PlanForNextPeriodService {
   /**
    * Delete PlanForNextPeriod with batch
    */
-  public static async deletePlanForNextPeriodDTOWithBatch(planForNextPeriodUuid: string, batch: WriteBatch) {
+  public static deletePlanForNextPeriodDTOWithBatch(planForNextPeriodUuid: string, batch: WriteBatch) {
     const planForNextPeriodRef = doc(db, PATH_TO_PLANS_FOR_NEXT_PERIOD_COLLECTION, planForNextPeriodUuid);
     batch.delete(planForNextPeriodRef);
   }

@@ -57,9 +57,9 @@ export class GoalMetricService {
   /**
    * Create GoalMetricsDTO with Batch
    */
-  public static async createGoalMetricsDTOWithBatch(
+  public static createGoalMetricsDTOWithBatch(
     goalMetricDTOWithoutUuid: GoalMetricDTOWithoutUuid,
-    batch: WriteBatch): Promise<GoalMetricDTO> {
+    batch: WriteBatch): GoalMetricDTO {
     const docRef = doc(collection(db, PATH_TO_GOAL_METRICS_COLLECTION));
 
     const goalMetricsDTO: GoalMetricDTO = {

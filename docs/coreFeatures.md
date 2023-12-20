@@ -34,12 +34,12 @@
   - [x] average time in real day
   - [x] average time for job
 - [x] Add metrics for Goal on WayPage (checkbox + text)
-- [ ] WayPage: hide button "create new day report" if report for today already created
+- [x] WayPage: hide button "create new day report" if report for today already created
 
 ## AllWaysPage (default for not logged in)
 - [x] render all ways table
 - [x] add links to mentors (9h)
-- [ ] Add property createdAt to WayDTO model (when Way was created). Show it the tables 
+- [x] Add property createdAt to WayDTO model (when Way was created). Show it the tables 
 
 ## AllUsersPage
 - [x] all users table columns: name, email, number of own ways, number of mentoring ways, number of favorite (36h) 
@@ -67,7 +67,7 @@
 ## WayPage
 - [ ] WayPage: realtime chat with mentor
 - [ ] WayPage: AI analyze reports in a way
-- [ ] Add type of user (describe the sense optional) : 
+- [ ] Add type of user (describe the sense optional) :
   * newbie - directive
   * frustrated novice
   * insecure professional

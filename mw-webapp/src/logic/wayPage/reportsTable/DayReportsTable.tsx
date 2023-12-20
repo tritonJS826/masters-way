@@ -9,6 +9,7 @@ import {WayStatistic} from "src/logic/wayPage/WayStatistic";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
+import {DateUtils} from "src/utils/DateUtils";
 
 /**
  * DayReportsTable props
@@ -65,6 +66,15 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
     setDayReports(dayReportsList);
   };
 
+  /**
+   * Check date
+   */
+  const isDateExist = (report: DayReport) => {
+    return report
+      ? DateUtils.getShortISODateValue(report.date) !== DateUtils.getShortISODateValue(new Date())
+      : true;
+  };
+
   return (
     <>
       <Title
@@ -73,7 +83,7 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
       />
       <WayStatistic dayReports={dayReports} />
 
-      {isOwner &&
+      {isOwner && isDateExist(dayReports[0]) &&
       <Button
         value="Create new day report"
         onClick={() => createDayReport(way.uuid, dayReports)}

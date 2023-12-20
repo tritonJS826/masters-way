@@ -136,15 +136,15 @@ export class WayService {
   /**
    * Update favoriteForUserUuids of Way with batch
    */
-  public static async updateWayDTOWithBatch(updatedWay: WayDTO, batch: WriteBatch) {
-    const wayref = doc(db, PATH_TO_WAYS_COLLECTION, updatedWay[WAY_UUID_FIELD]);
-    batch.update(wayref, updatedWay);
+  public static updateWayDTOWithBatch(updatedWay: WayDTO, batch: WriteBatch) {
+    const wayRef = doc(db, PATH_TO_WAYS_COLLECTION, updatedWay[WAY_UUID_FIELD]);
+    batch.update(wayRef, updatedWay);
   }
 
   /**
    * Delete WayDTO with batch
    */
-  public static async deleteWayDTOWithBatch(wayDTOUuid: string, batch: WriteBatch) {
+  public static deleteWayDTOWithBatch(wayDTOUuid: string, batch: WriteBatch) {
     const wayRef = doc(db, PATH_TO_WAYS_COLLECTION, wayDTOUuid);
     batch.delete(wayRef);
   }
