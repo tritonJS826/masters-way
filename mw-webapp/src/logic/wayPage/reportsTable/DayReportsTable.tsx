@@ -71,8 +71,8 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
    */
   const isDateExist = (report: DayReport) => {
     return report
-      ? DateUtils.getShortISODateValue(report.date) !== DateUtils.getShortISODateValue(new Date())
-      : true;
+      ? DateUtils.getShortISODateValue(report.date) === DateUtils.getShortISODateValue(new Date())
+      : false;
   };
 
   return (
@@ -83,7 +83,7 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
       />
       <WayStatistic dayReports={dayReports} />
 
-      {isOwner && isDateExist(dayReports[0]) &&
+      {isOwner && !isDateExist(dayReports[0]) &&
       <Button
         value="Create new day report"
         onClick={() => createDayReport(way.uuid, dayReports)}
