@@ -40,11 +40,6 @@ interface RenderModalContentParams {
   description: string;
 
   /**
-   * Name of element (jobDone, planForTomorrow, way, etc)
-   */
-  text: string;
-
-  /**
    * On Ok callback
    */
   onOk: () => void;
@@ -55,7 +50,7 @@ interface RenderModalContentParams {
  * TODO: use modal instead of confirm task #305
  */
 export const renderModalContent = (params: RenderModalContentParams) => {
-  const isUserWantToDeleteJobDone = confirm(`Are you sure that you want to delete ${params.text} "${params.description}"?`);
+  const isUserWantToDeleteJobDone = confirm(params.description);
   !!isUserWantToDeleteJobDone && params.onOk();
 };
 
@@ -261,8 +256,7 @@ export const Columns = (props: ColumnsProps) => {
                         const onOk = () => deleteJobDone(jobDone.uuid);
 
                         renderModalContent({
-                          description: jobDone.description,
-                          text: "jobDone",
+                          description: `Are you sure that you want to delete jobDone "${jobDone.description}"?`,
                           onOk,
                         });
                       }
@@ -386,8 +380,7 @@ export const Columns = (props: ColumnsProps) => {
                             const onOk = () => deletePlanForNextPeriod(planForNextPeriod.uuid);
 
                             renderModalContent({
-                              description: planForNextPeriod.job,
-                              text: "planForNextPeriod",
+                              description: `Are you sure that you want to delete  planForNextPeriod "${planForNextPeriod.job}"?`,
                               onOk,
                             });
                           }}
@@ -506,8 +499,7 @@ export const Columns = (props: ColumnsProps) => {
                             const onOk = () => deleteCurrentProblem(currentProblem.uuid);
 
                             renderModalContent({
-                              description: currentProblem.description,
-                              text: "problem",
+                              description: `Are you sure that you want to delete currentProblem "${currentProblem.description}"?`,
                               onOk,
                             });
                           }}
@@ -606,8 +598,7 @@ export const Columns = (props: ColumnsProps) => {
                           const onOk = () => deleteComment(comment.uuid);
 
                           renderModalContent({
-                            description: comment.description,
-                            text: "comment",
+                            description: `Are you sure that you want to delete comment "${comment.description}"?`,
                             onOk,
                           });
                         }}

@@ -306,8 +306,7 @@ export const WayPage = (props: WayPageProps) => {
                 const onOk = () => removeSingularGoalMetric(singleGoalMetric.metricUuid);
 
                 renderModalContent({
-                  description: singleGoalMetric.description,
-                  text: "goal metric",
+                  description: `Are you sure that you want to delete singleGoalMetric "${singleGoalMetric.description}"?`,
                   onOk,
                 });
               }}
@@ -355,8 +354,7 @@ export const WayPage = (props: WayPageProps) => {
             };
 
             renderModalContent({
-              description: way.name,
-              text: "way",
+              description: `Are you sure that you want to delete way "${way.name}"?`,
               onOk,
             });
           }}

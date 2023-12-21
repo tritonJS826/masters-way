@@ -34,6 +34,8 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
   const way = props.way;
   const {user} = useGlobalContext();
   const isOwner = user?.uuid === way.owner.uuid;
+  const isPossibleToCreateDayReport = isOwner && (dayReports.length === 0
+    || (dayReports[0] && DateUtils.getShortISODateValue(dayReports[0].date) !== DateUtils.getShortISODateValue(new Date())));
 
   /**
    * Gets all day reports
@@ -66,15 +68,6 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
     setDayReports(dayReportsList);
   };
 
-  /**
-   * Check date
-   */
-  const isDateExist = (report: DayReport) => {
-    return report
-      ? DateUtils.getShortISODateValue(report.date) === DateUtils.getShortISODateValue(new Date())
-      : false;
-  };
-
   return (
     <>
       <Title
@@ -83,7 +76,7 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
       />
       <WayStatistic dayReports={dayReports} />
 
-      {isOwner && !isDateExist(dayReports[0]) &&
+      {isPossibleToCreateDayReport &&
       <Button
         value="Create new day report"
         onClick={() => createDayReport(way.uuid, dayReports)}
