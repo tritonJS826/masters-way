@@ -2,8 +2,8 @@ import {collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, setDoc, upd
   from "firebase/firestore";
 import {db} from "src/firebase";
 import {
+  WAY_CREATED_AT_FIELD,
   WAY_MENTOR_UUIDS_FIELD,
-  WAY_NAME_FIELD,
   WAY_OWNER_UUID_FIELD,
   WAY_UUID_FIELD,
   WayDTO,
@@ -31,7 +31,7 @@ export class WayService {
    */
   public static async getWaysDTO(): Promise<WayDTO[]> {
     const waysRef = collection(db, PATH_TO_WAYS_COLLECTION);
-    const waysOrderedByName = query(waysRef, orderBy(WAY_NAME_FIELD, "desc"));
+    const waysOrderedByName = query(waysRef, orderBy(WAY_CREATED_AT_FIELD, "desc"));
     const waysRaw = await getDocs(waysOrderedByName);
     const waysDTO = querySnapshotToDTOConverter<WayDTO>(waysRaw);
 

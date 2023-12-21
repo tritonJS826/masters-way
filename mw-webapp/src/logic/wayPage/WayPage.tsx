@@ -16,7 +16,7 @@ import {useGlobalContext} from "src/GlobalContext";
 import {MentorRequestsSection} from "src/logic/wayPage/MentorRequestsSection";
 import {MentorsSection} from "src/logic/wayPage/MentorsSection";
 import {DayReportsTable} from "src/logic/wayPage/reportsTable/DayReportsTable";
-import {renderModalContent} from "src/logic/wayPage/reportsTable/WayColumns";
+import {handleOnClick} from "src/logic/wayPage/reportsTable/WayColumns";
 import {Goal} from "src/model/businessModel/Goal";
 import {GoalMetric} from "src/model/businessModel/GoalMetric";
 import {Way} from "src/model/businessModel/Way";
@@ -298,18 +298,10 @@ export const WayPage = (props: WayPageProps) => {
           {isOwner && (
             <TrashIcon
               className={styles.icon}
-              onClick={() => {
-
-                /**
-                 * CallBack triggered on press ok
-                 */
-                const onOk = () => removeSingularGoalMetric(singleGoalMetric.metricUuid);
-
-                renderModalContent({
-                  description: `Are you sure that you want to delete singleGoalMetric "${singleGoalMetric.description}"?`,
-                  onOk,
-                });
-              }}
+              onClick={() => handleOnClick(
+                `Are you sure that you want to delete singleGoalMetric "${singleGoalMetric.description}"?`,
+                () => removeSingularGoalMetric(singleGoalMetric.metricUuid),
+              )}
             />)
           }
         </div>
@@ -343,21 +335,14 @@ export const WayPage = (props: WayPageProps) => {
       {isOwner &&
         <Button
           value="Delete way"
-          onClick={() => {
-
-            /**
-             * CallBack triggered on press ok
-             */
-            const onOk = async () => {
+          onClick={() => handleOnClick(
+            `Are you sure that you want to delete way "${way.name}"?`,
+            async () => {
               await WayDAL.deleteWay(way);
               navigate(pages.user.getPath({uuid: user.uuid}));
-            };
-
-            renderModalContent({
-              description: `Are you sure that you want to delete way "${way.name}"?`,
-              onOk,
-            });
-          }}
+            },
+          )
+          }
         />
       }
       <div>
