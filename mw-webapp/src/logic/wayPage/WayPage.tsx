@@ -339,6 +339,7 @@ export const WayPage = (props: WayPageProps) => {
       {isOwner &&
         <Button
           value="Delete way"
+          // TODO: need refactoring
           onClick={() => renderModalContent({
             description: `Are you sure that you want to delete way "${way.name}"?`,
 

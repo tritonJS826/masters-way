@@ -50,8 +50,8 @@ interface RenderModalContentParams {
  * TODO: use modal instead of confirm task #305
  */
 export const renderModalContent = (params: RenderModalContentParams) => {
-  const isUserWantToDeleteJobDone = confirm(params.description);
-  !!isUserWantToDeleteJobDone && params.onOk();
+  const isOkClicked = confirm(params.description);
+  isOkClicked && params.onOk();
 };
 
 /**
