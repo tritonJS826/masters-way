@@ -35,9 +35,9 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
   const {user} = useGlobalContext();
   const isOwner = user?.uuid === way.owner.uuid;
   const isEmptyWay = dayReports.length === 0;
-  const shortISODateToday = DateUtils.getShortISODateValue(new Date());
-  const shortISODate = !isEmptyWay && DateUtils.getShortISODateValue(dayReports[0].date);
-  const isReportForTodayAlreadyCreated = shortISODate === shortISODateToday;
+  const currentDate = DateUtils.getShortISODateValue(new Date());
+  const lastReportDate = !isEmptyWay && DateUtils.getShortISODateValue(dayReports[0].date);
+  const isReportForTodayAlreadyCreated = lastReportDate === currentDate;
   const isReportForTodayIsNotCreated = isEmptyWay || !isReportForTodayAlreadyCreated;
   const isPossibleCreateDayReport = isOwner && isReportForTodayIsNotCreated;
 

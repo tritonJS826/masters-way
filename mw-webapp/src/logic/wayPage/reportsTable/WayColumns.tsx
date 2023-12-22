@@ -50,8 +50,8 @@ interface RenderModalContentParams {
  * TODO: use modal instead of confirm task #305
  */
 export const renderModalContent = (params: RenderModalContentParams) => {
-  const isOkClicked = confirm(params.description);
-  isOkClicked && params.onOk();
+  const isAccepted = confirm(params.description);
+  isAccepted && params.onOk();
 };
 
 /**
