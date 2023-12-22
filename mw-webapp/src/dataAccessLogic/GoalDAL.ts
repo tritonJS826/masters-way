@@ -42,7 +42,7 @@ export class GoalDAL {
       doneDate: [],
     };
 
-    const newGoalMetric = await GoalMetricService.createGoalMetricsDTOWithBatch(goalMetricWithoutUuid, batch);
+    const newGoalMetric = GoalMetricService.createGoalMetricsDTOWithBatch(goalMetricWithoutUuid, batch);
 
     const goalWithoutUuid: GoalDTOWithoutUuid = {
       studentUuid: ownerUuid,
@@ -51,7 +51,7 @@ export class GoalDAL {
       estimationTime: 0,
     };
 
-    const newGoalDTO = await GoalService.createGoalDTOWithBatch(goalWithoutUuid, batch);
+    const newGoalDTO = GoalService.createGoalDTOWithBatch(goalWithoutUuid, batch);
 
     await batch.commit();
 

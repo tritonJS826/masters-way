@@ -50,8 +50,8 @@ interface RenderModalContentParams {
  * TODO: use modal instead of confirm task #305
  */
 export const renderModalContent = (params: RenderModalContentParams) => {
-  const isUserWantToDeleteJobDone = confirm(`Are you sure that you want to delete jobDone "${params.description}"?`);
-  !!isUserWantToDeleteJobDone && params.onOk();
+  const isAccepted = confirm(params.description);
+  isAccepted && params.onOk();
 };
 
 /**
@@ -248,18 +248,14 @@ export const Columns = (props: ColumnsProps) => {
                     {isOwner &&
                     <TrashIcon
                       className={styles.icon}
-                      onClick={() => {
+                      onClick={() => renderModalContent({
+                        description: `Are you sure that you want to delete jobDone "${jobDone.description}"?`,
 
                         /**
                          * CallBack triggered on press ok
                          */
-                        const onOk = () => deleteJobDone(jobDone.uuid);
-
-                        renderModalContent({
-                          description: jobDone.description,
-                          onOk,
-                        });
-                      }
+                        onOk: () => deleteJobDone(jobDone.uuid),
+                      })
                       }
                     />
                     }
@@ -370,21 +366,18 @@ export const Columns = (props: ColumnsProps) => {
                           path={pages.user.getPath({uuid: planForNextPeriod.ownerUuid})}
                         />
                         {planForNextPeriod.ownerUuid === user?.uuid &&
-                        <TrashIcon
-                          className={styles.icon}
-                          onClick={() => {
+                          <TrashIcon
+                            className={styles.icon}
+                            onClick={() => renderModalContent({
+                              description: `Are you sure that you want to delete  planForNextPeriod "${planForNextPeriod.job}"?`,
 
-                            /**
-                             * CallBack triggered on press ok
-                             */
-                            const onOk = () => deletePlanForNextPeriod(planForNextPeriod.uuid);
-
-                            renderModalContent({
-                              description: planForNextPeriod.job,
-                              onOk,
-                            });
-                          }}
-                        />
+                              /**
+                               * CallBack triggered on press ok
+                               */
+                              onOk: () => deletePlanForNextPeriod(planForNextPeriod.uuid),
+                            })
+                            }
+                          />
                         }
                       </HorizontalContainer>
                       <HorizontalContainer>
@@ -491,18 +484,15 @@ export const Columns = (props: ColumnsProps) => {
                         {currentProblem.ownerUuid === user?.uuid &&
                         <TrashIcon
                           className={styles.icon}
-                          onClick={() => {
+                          onClick={() => renderModalContent({
+                            description: `Are you sure that you want to delete currentProblem "${currentProblem.description}"?`,
 
                             /**
                              * CallBack triggered on press ok
                              */
-                            const onOk = () => deleteCurrentProblem(currentProblem.uuid);
-
-                            renderModalContent({
-                              description: currentProblem.description,
-                              onOk,
-                            });
-                          }}
+                            onOk: () => deleteCurrentProblem(currentProblem.uuid),
+                          })
+                          }
                         />
                         }
                       </HorizontalContainer>
@@ -588,21 +578,18 @@ export const Columns = (props: ColumnsProps) => {
                         path={pages.user.getPath({uuid: comment.ownerUuid})}
                       />
                       {comment.ownerUuid === user?.uuid &&
-                      <TrashIcon
-                        className={styles.icon}
-                        onClick={() => {
+                        <TrashIcon
+                          className={styles.icon}
+                          onClick={() => renderModalContent({
+                            description: `Are you sure that you want to delete comment "${comment.description}"?`,
 
-                          /**
-                           * CallBack triggered on press ok
-                           */
-                          const onOk = () => deleteComment(comment.uuid);
-
-                          renderModalContent({
-                            description: comment.description,
-                            onOk,
-                          });
-                        }}
-                      />
+                            /**
+                             * CallBack triggered on press ok
+                             */
+                            onOk: () => deleteComment(comment.uuid),
+                          })
+                          }
+                        />
                       }
                     </HorizontalContainer>
                     <EditableTextarea

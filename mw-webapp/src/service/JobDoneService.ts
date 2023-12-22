@@ -63,7 +63,7 @@ export class JobDoneService {
   /**
    * Delete JobDoneDTO with batch
    */
-  public static async deleteJobDoneDTOWithBatch(jobDoneUuid: string, batch: WriteBatch) {
+  public static deleteJobDoneDTOWithBatch(jobDoneUuid: string, batch: WriteBatch) {
     const jobDoneRef = doc(db, PATH_TO_JOBS_DONE_COLLECTION, jobDoneUuid);
     batch.delete(jobDoneRef);
   }

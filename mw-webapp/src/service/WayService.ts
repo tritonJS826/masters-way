@@ -1,8 +1,9 @@
-import {collection, doc, getDoc, getDocs, orderBy, query, setDoc, updateDoc, where, WriteBatch} from "firebase/firestore";
+import {collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, setDoc, updateDoc, where, WriteBatch}
+  from "firebase/firestore";
 import {db} from "src/firebase";
 import {
+  WAY_CREATED_AT_FIELD,
   WAY_MENTOR_UUIDS_FIELD,
-  WAY_NAME_FIELD,
   WAY_OWNER_UUID_FIELD,
   WAY_UUID_FIELD,
   WayDTO,
@@ -30,7 +31,7 @@ export class WayService {
    */
   public static async getWaysDTO(): Promise<WayDTO[]> {
     const waysRef = collection(db, PATH_TO_WAYS_COLLECTION);
-    const waysOrderedByName = query(waysRef, orderBy(WAY_NAME_FIELD, "desc"));
+    const waysOrderedByName = query(waysRef, orderBy(WAY_CREATED_AT_FIELD, "desc"));
     const waysRaw = await getDocs(waysOrderedByName);
     const waysDTO = querySnapshotToDTOConverter<WayDTO>(waysRaw);
 
@@ -126,11 +127,26 @@ export class WayService {
   }
 
   /**
+   * Delete WayDTO
+   */
+  public static async deleteWayDTO(wayDTOUuid: string) {
+    deleteDoc(doc(db, PATH_TO_WAYS_COLLECTION, wayDTOUuid));
+  }
+
+  /**
    * Update favoriteForUserUuids of Way with batch
    */
-  public static async updateWayDTOWithBatch(updatedWay: WayDTO, batch: WriteBatch) {
-    const wayref = doc(db, PATH_TO_WAYS_COLLECTION, updatedWay[WAY_UUID_FIELD]);
-    batch.update(wayref, updatedWay);
+  public static updateWayDTOWithBatch(updatedWay: WayDTO, batch: WriteBatch) {
+    const wayRef = doc(db, PATH_TO_WAYS_COLLECTION, updatedWay[WAY_UUID_FIELD]);
+    batch.update(wayRef, updatedWay);
+  }
+
+  /**
+   * Delete WayDTO with batch
+   */
+  public static deleteWayDTOWithBatch(wayDTOUuid: string, batch: WriteBatch) {
+    const wayRef = doc(db, PATH_TO_WAYS_COLLECTION, wayDTOUuid);
+    batch.delete(wayRef);
   }
 
 }

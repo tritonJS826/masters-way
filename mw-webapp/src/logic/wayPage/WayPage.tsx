@@ -298,18 +298,14 @@ export const WayPage = (props: WayPageProps) => {
           {isOwner && (
             <TrashIcon
               className={styles.icon}
-              onClick={() => {
+              onClick={() => renderModalContent({
+                description: `Are you sure that you want to delete singleGoalMetric "${singleGoalMetric.description}"?`,
 
                 /**
                  * CallBack triggered on press ok
                  */
-                const onOk = () => removeSingularGoalMetric(singleGoalMetric.metricUuid);
-
-                renderModalContent({
-                  description: singleGoalMetric.description,
-                  onOk,
-                });
-              }}
+                onOk: () => removeSingularGoalMetric(singleGoalMetric.metricUuid),
+              })}
             />)
           }
         </div>
@@ -340,6 +336,24 @@ export const WayPage = (props: WayPageProps) => {
         onChangeFinish={(text) => changeWayName(way, text)}
         isEditable={isOwner}
       />
+      {isOwner &&
+        <Button
+          value="Delete way"
+          // TODO: need refactoring
+          onClick={() => renderModalContent({
+            description: `Are you sure that you want to delete way "${way.name}"?`,
+
+            /**
+             * CallBack triggered on press ok
+             */
+            onOk: async () => {
+              await WayDAL.deleteWay(way);
+              navigate(pages.user.getPath({uuid: user.uuid}));
+            },
+          })
+          }
+        />
+      }
       <div>
         Amount of users who add it to favorite:
         {UnicodeSymbols.SPACE + favoriteForUsersAmount}
