@@ -202,7 +202,11 @@ export const WayPage = (props: WayPageProps) => {
   }, [user]);
 
   if (!way) {
-    return "loading...";
+    return (
+      <span>
+        loading...
+      </span>
+    );
   }
 
   const isWayInFavorites = user && user.favoriteWays.includes(way.uuid);
