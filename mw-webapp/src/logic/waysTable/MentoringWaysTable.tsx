@@ -1,8 +1,6 @@
 import {useEffect, useState} from "react";
 import {TrashIcon} from "@radix-ui/react-icons";
-import {Button} from "src/component/button/Button";
 import {Link} from "src/component/link/Link";
-import {Modal} from "src/component/modal/Modal";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
@@ -59,7 +57,6 @@ interface MentoringWaysTableProps {
  */
 export const MentoringWaysTable = (props: MentoringWaysTableProps) => {
   const [mentoringWays, setMentoringWays] = useState<WayPreview[]>([]);
-  const [isStopMentoringModalOpen, setIsStopMentoringModalOpen] = useState(false);
 
   /**
    * Load User mentoring ways
@@ -111,51 +108,34 @@ export const MentoringWaysTable = (props: MentoringWaysTableProps) => {
     cell: ({row}) => {
       return (
         <VerticalContainer>
-          {row.original.mentors.map((mentor) => (
-            <div key={uuidv4().concat(mentor.uuid)}>
-              <Link
-                key={mentor.uuid}
-                path={pages.user.getPath({uuid: mentor.uuid})}
-                value={mentor.name}
-              />
-              {props.uuid === mentor.uuid && (
-                <>
+          {row.original.mentors.map((mentor) => {
+            return (
+              <div key={uuidv4().concat(mentor.uuid)}>
+                <Link
+                  key={mentor.uuid}
+                  path={pages.user.getPath({uuid: mentor.uuid})}
+                  value={mentor.name}
+                />
+                {props.uuid === mentor.uuid && (
                   <TrashIcon
                     className={styles.icon}
-                    onClick={() =>
-                      setIsStopMentoringModalOpen(true)
-                    }
+
+                    onClick={() => {
+
+                      /**
+                       * CallBack triggered on press ok
+                       */
+                      const onOk = () => stopMentoring(props.uuid, row.original);
+
+                      // TODO: use modal instead of confirm task #305
+                      const isConfirmed = confirm(`Are you sure you want to stop mentoring "${row.original.name}"?`);
+                      isConfirmed && onOk();
+                    }}
                   />
-                  <Modal
-                    content={
-                      <>
-                        <p>
-                          Are you sure you want to stop Mentoring this Way?
-                        </p>
-                        <Button
-                          value="Confirm"
-                          onClick={() => {
-                            stopMentoring(props.uuid, row.original);
-                            setIsStopMentoringModalOpen(false);
-                          }}
-                        />
-                        <Button
-                          value="Cancel"
-                          onClick={() =>
-                            setIsStopMentoringModalOpen(false)
-                          }
-                        />
-                      </>
-                    }
-                    isOpen={isStopMentoringModalOpen}
-                    handleClose={() =>
-                      setIsStopMentoringModalOpen(false)
-                    }
-                  />
-                </>
-              )}
-            </div>
-          ))}
+                )}
+              </div>
+            );
+          })}
         </VerticalContainer>
       );
     },
