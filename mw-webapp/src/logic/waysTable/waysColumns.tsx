@@ -117,4 +117,16 @@ export const waysColumns = [
       );
     },
   }),
+  columnHelper.accessor("favoriteForUserUuids", {
+    header: "favorites",
+
+    /**
+     * Cell with amount of favorite for user uuids
+     */
+    cell: ({row}) => (
+      <span>
+        {row.original.favoriteForUserUuids.length}
+      </span>
+    ),
+  }),
 ];
