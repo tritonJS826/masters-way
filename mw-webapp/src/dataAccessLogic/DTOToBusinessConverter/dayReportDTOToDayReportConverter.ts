@@ -1,33 +1,6 @@
 import {DayReport} from "src/model/businessModel/DayReport";
 import {DayReportDTO} from "src/model/DTOModel/DayReportDTO";
 
-// /**
-//  * DayReport props used into converter
-//  * Convert {@link DayReportDTO} to {@link DayReport}
-//  */
-// export interface DayReportConverterProps {
-
-//   /**
-//    * Jobs done
-//    */
-//   jobsDone: JobDone[];
-
-//   /**
-//    * Plans for next period
-//    */
-//   plansForNextPeriod: PlanForNextPeriod[];
-
-//   /**
-//    * Problems for current period
-//    */
-//   problemsForCurrentPeriod: CurrentProblem[];
-
-//   /**
-//    * Mentor and way owner's comments
-//    */
-//   comments: Comment[];
-// }
-
 /**
  * Convert {@link DayReportDTO} to {@link DayReport}
  */
