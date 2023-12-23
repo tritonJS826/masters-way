@@ -1,7 +1,8 @@
-import {collection, getDocs} from "firebase/firestore";
+import {collection, getDoc, getDocs, doc} from "firebase/firestore";
 import {db} from "../firebase.js";
 import {querySnapshotToDTOConverter} from "../converter/querySnapshotToDTOConverter.js";
-import { JobDoneDTOMigration } from "../DTOModel/JobDoneDTO.js";
+import { JobDoneDTO, JobDoneDTOMigration } from "../DTOModel/JobDoneDTO.js";
+import { documentSnapshotToDTOConverter } from "../converter/documentSnapshotToDTOConverter.js";
 
 const PATH_TO_JOBS_DONE_COLLECTION = "jobsDone";
 
@@ -20,5 +21,15 @@ export class JobDoneService {
 
     return jobsDoneDTO;
   }
+
+    /**
+   * Get JobDoneDTO by Uuid
+   */
+  public static async getJobDoneDTO(uuid: string): Promise<JobDoneDTO> {
+    const jobDoneRaw = await getDoc(doc(db, PATH_TO_JOBS_DONE_COLLECTION, uuid));
+    const jobDoneDTO = documentSnapshotToDTOConverter<JobDoneDTO>(jobDoneRaw);
+
+    return jobDoneDTO;
+    }
 
 }
