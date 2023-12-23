@@ -12,7 +12,7 @@ export const logToFile = (textToLog: string, fileName: string) => {
     fs.mkdirSync(logsDir);
   }
 
-  const logFilePath = path.join(logsDir, `${fileName}_${date}.txt`);
+  const logFilePath = path.join(logsDir, `${date}_${fileName}.txt`);
   
   if (fs.existsSync(logFilePath)) {
     console.log(textToLog);

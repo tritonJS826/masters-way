@@ -76,7 +76,11 @@ export const UserPage = (props: UserPageProps) => {
   }, [props.uuid]);
 
   if (!userPreview) {
-    return "...loading";
+    return (
+      <span>
+        loading..
+      </span>
+    );
   }
 
   return (

@@ -9,6 +9,7 @@ import {WayStatistic} from "src/logic/wayPage/WayStatistic";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
+import {DateUtils} from "src/utils/DateUtils";
 
 /**
  * DayReportsTable props
@@ -33,6 +34,12 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
   const way = props.way;
   const {user} = useGlobalContext();
   const isOwner = user?.uuid === way.owner.uuid;
+  const isEmptyWay = dayReports.length === 0;
+  const currentDate = DateUtils.getShortISODateValue(new Date());
+  const lastReportDate = !isEmptyWay && DateUtils.getShortISODateValue(dayReports[0].date);
+  const isReportForTodayAlreadyCreated = lastReportDate === currentDate;
+  const isReportForTodayIsNotCreated = isEmptyWay || !isReportForTodayAlreadyCreated;
+  const isPossibleCreateDayReport = isOwner && isReportForTodayIsNotCreated;
 
   /**
    * Gets all day reports
@@ -73,7 +80,7 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
       />
       <WayStatistic dayReports={dayReports} />
 
-      {isOwner &&
+      {isPossibleCreateDayReport &&
       <Button
         value="Create new day report"
         onClick={() => createDayReport(way.uuid, dayReports)}

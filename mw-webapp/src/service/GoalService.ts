@@ -70,7 +70,7 @@ export class GoalService {
   /**
    * Create GoalDTO with Batch
    */
-  public static async createGoalDTOWithBatch(goalDTOWithoutUuid: GoalDTOWithoutUuid, batch: WriteBatch): Promise<GoalDTO> {
+  public static createGoalDTOWithBatch(goalDTOWithoutUuid: GoalDTOWithoutUuid, batch: WriteBatch): GoalDTO {
     const docRef = doc(collection(db, PATH_TO_GOALS_COLLECTION));
     const goalDTO = {
       ...goalDTOWithoutUuid,
@@ -82,6 +82,14 @@ export class GoalService {
     const validatedGoalDTO = GoalDTOSchema.parse(goalDTO);
 
     return validatedGoalDTO;
+  }
+
+  /**
+   * Delete GoalDTO with batch
+   */
+  public static deleteGoalDTOWithBatch(goalDTOUuid: string, batch: WriteBatch) {
+    const wayRef = doc(db, PATH_TO_GOALS_COLLECTION, goalDTOUuid);
+    batch.delete(wayRef);
   }
 
 }

@@ -1,4 +1,5 @@
 import {Timestamp, writeBatch} from "firebase/firestore";
+import {dayReportToDayReportDTOConverter} from "src/dataAccessLogic/BusinessToDTOConverter/dayReportToDayReportDTOConverter";
 import {wayToWayDTOConverter} from "src/dataAccessLogic/BusinessToDTOConverter/wayToWayDTOConverter";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {wayDTOToWayConverter} from "src/dataAccessLogic/DTOToBusinessConverter/wayDTOToWayPreviewConverter";
@@ -8,6 +9,13 @@ import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {db} from "src/firebase";
 import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
+import {CommentService} from "src/service/CommentService";
+import {CurrentProblemService} from "src/service/CurrentProblemService";
+import {DayReportService} from "src/service/DayReportService";
+import {GoalMetricService} from "src/service/GoalMetricService";
+import {GoalService} from "src/service/GoalService";
+import {JobDoneService} from "src/service/JobDoneService";
+import {PlanForNextPeriodService} from "src/service/PlanForNextPeriodService";
 import {UserService} from "src/service/UserService";
 import {WayDTOWithoutUuid, WayService} from "src/service/WayService";
 import {DateUtils} from "src/utils/DateUtils";
@@ -175,5 +183,64 @@ export class WayDAL {
     await batch.commit();
   }
 
-}
+  /**
+   * Delete Way
+   */
+  public static async deleteWay(way: Way) {
+    const batch = writeBatch(db);
 
+    const dayReportsForDelete = way.dayReports;
+    const mentorsForDelete = way.mentors;
+    const favoriteForUsersForDelete = way.favoriteForUsers;
+    const ownWaysForDelete = way.owner.ownWays;
+    const favoriteWaysForDelete = way.owner.favoriteWays;
+    const dayReportsDTO = way.dayReports.map(dayReportToDayReportDTOConverter);
+    const jobsDoneForDelete = (dayReportsDTO.map((dayReport) => dayReport.jobDoneUuids)).flat();
+    const plansForDelete = (dayReportsDTO.map((dayReport) => dayReport.planForNextPeriodUuids)).flat();
+    const problemsForDelete = (dayReportsDTO.map((dayReport) => dayReport.problemForCurrentPeriodUuids)).flat();
+    const commentsForDelete = (dayReportsDTO.map((dayReport) => dayReport.commentUuids)).flat();
+
+    const updatedOwner = new UserPreview({
+      ...way.owner,
+      ownWays: ownWaysForDelete.filter((ownWay) => ownWay !== way.uuid),
+      favoriteWays: favoriteWaysForDelete.filter((ownWay) => ownWay !== way.uuid),
+    });
+    const updatedOwnerDTO = userPreviewToUserDTOConverter(updatedOwner);
+    UserService.updateUserDTOWithBatch(updatedOwnerDTO, batch);
+
+    mentorsForDelete.forEach((mentor) => {
+      const updatedMentor = new UserPreview({
+        ...mentor,
+        mentoringWays: mentor.mentoringWays.filter((mentoringWay) => mentoringWay !== way.uuid),
+      });
+      const updatedMentorDTO = userPreviewToUserDTOConverter(updatedMentor);
+      UserService.updateUserDTOWithBatch(updatedMentorDTO, batch);
+    });
+
+    favoriteForUsersForDelete.forEach((favoriteForUser) => {
+      const updatedFavoriteForUser = new UserPreview({
+        ...favoriteForUser,
+        favoriteWays: favoriteForUser.favoriteWays.filter((favoriteWay) => favoriteWay !== way.uuid),
+      });
+      const updatedFavoriteForUserDTO = userPreviewToUserDTOConverter(updatedFavoriteForUser);
+      UserService.updateUserDTOWithBatch(updatedFavoriteForUserDTO, batch);
+    });
+
+    jobsDoneForDelete.forEach((jobDone) => JobDoneService.deleteJobDoneDTOWithBatch(jobDone, batch));
+
+    plansForDelete.forEach((plan) => PlanForNextPeriodService.deletePlanForNextPeriodDTOWithBatch(plan, batch));
+
+    problemsForDelete.forEach((problem) => CurrentProblemService.deleteCurrentProblemDTOWithBatch(problem, batch));
+
+    commentsForDelete.forEach((comment) => CommentService.deleteCommentDTOWithBatch(comment, batch));
+
+    dayReportsForDelete.forEach((dayReport) => DayReportService.deleteDayReportDTOWithBatch(dayReport.uuid, batch));
+
+    GoalMetricService.deleteGoalMetricsDTOWithBatch(way.goal.metrics[0].uuid, batch);
+    GoalService.deleteGoalDTOWithBatch(way.goal.uuid, batch);
+    WayService.deleteWayDTOWithBatch(way.uuid, batch);
+
+    await batch.commit();
+  }
+
+}
