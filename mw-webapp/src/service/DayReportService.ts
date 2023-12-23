@@ -1,4 +1,7 @@
-import {collection, CollectionReference, doc, DocumentData, getDoc, getDocs, orderBy, query, setDoc, updateDoc, where, WriteBatch}
+import {
+  collection, CollectionReference, deleteDoc, doc,
+  DocumentData, getDoc, getDocs, orderBy, query, setDoc, updateDoc, where, WriteBatch,
+}
   from "firebase/firestore";
 import {db} from "src/firebase";
 import {DAY_REPORT_DATE_FIELD, DAY_REPORT_UUID_FIELD, DayReportDTO, DayReportDTOSchema, DayReportsDTOSchema}
@@ -93,18 +96,33 @@ export class DayReportService {
   /**
    * Update DayReportDTO
    */
-  public static async updateDayReportDTO(dayReportDTO: DayReportDTO, uuid: string) {
+  public static async updateDayReportDTO(dayReportDTO: DayReportDTO) {
     const validatedDayReportDTO = DayReportDTOSchema.parse(dayReportDTO);
 
-    await updateDoc(doc(db, PATH_TO_DAY_REPORTS_COLLECTION, uuid), validatedDayReportDTO);
+    await updateDoc(doc(db, PATH_TO_DAY_REPORTS_COLLECTION, dayReportDTO[DAY_REPORT_UUID_FIELD]), validatedDayReportDTO);
+  }
+
+  /**
+   * Delete DayReportDTO
+   */
+  public static async deleteDayReportDTO(dayReportDTOUuid: string) {
+    deleteDoc(doc(db, PATH_TO_DAY_REPORTS_COLLECTION, dayReportDTOUuid));
   }
 
   /**
    * Update DayReportDTO with Batch
    */
-  public static async updateDayReportDTOWithBatch(dayReportDTOUuid: string, dayReportDTO: DayReportDTO, batching: WriteBatch) {
-    const dayReportRef = doc(db, PATH_TO_DAY_REPORTS_COLLECTION, dayReportDTOUuid);
-    batching.update(dayReportRef, dayReportDTO);
+  public static updateDayReportDTOWithBatch(updatedDayReportDTO: DayReportDTO, batch: WriteBatch) {
+    const dayReportRef = doc(db, PATH_TO_DAY_REPORTS_COLLECTION, updatedDayReportDTO[DAY_REPORT_UUID_FIELD]);
+    batch.update(dayReportRef, updatedDayReportDTO);
+  }
+
+  /**
+   * Delete DayReportDTO with batch
+   */
+  public static deleteDayReportDTOWithBatch(dayReportDTOUuid: string, batch: WriteBatch) {
+    const wayRef = doc(db, PATH_TO_DAY_REPORTS_COLLECTION, dayReportDTOUuid);
+    batch.delete(wayRef);
   }
 
 }

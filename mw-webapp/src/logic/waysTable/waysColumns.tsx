@@ -5,18 +5,32 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {getWayStatus} from "src/logic/waysTable/wayStatus";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
+import {DateUtils} from "src/utils/DateUtils";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import style from "src/logic/waysTable/columns.module.scss";
 
-const columnHelper = createColumnHelper<WayPreview>();
+export const columnHelper = createColumnHelper<WayPreview>();
 
 export const WAYS_OWNER = "Way's Owner";
+export const WAY_MENTORS = "Mentors";
 
 /**
  * Table columns
  * Don't get rid of any https://github.com/TanStack/table/issues/4382
  */
 export const waysColumns = [
+  columnHelper.accessor("createdAt", {
+    header: "Created at",
+
+    /**
+     * Cell with date of created way
+     */
+    cell: ({row}) => (
+      <span className={style.shortCell}>
+        {DateUtils.getShortISODateValue(row.original.createdAt)}
+      </span>
+    ),
+  }),
   columnHelper.accessor("name", {
     header: "Way's name",
 
@@ -84,20 +98,22 @@ export const waysColumns = [
     },
   }),
   columnHelper.accessor("mentors", {
-    header: "Mentors",
+    header: WAY_MENTORS,
 
     /**
      * Cell with current mentors
      */
     cell: ({row}) => {
       return (
-        row.original.mentors.map((mentor) => (
-          <Link
-            key={mentor.uuid}
-            path={pages.user.getPath({uuid: mentor.uuid})}
-            value={mentor.name}
-          />
-        ))
+        <VerticalContainer>
+          {row.original.mentors.map((mentor) => (
+            <Link
+              key={mentor.uuid}
+              path={pages.user.getPath({uuid: mentor.uuid})}
+              value={mentor.name}
+            />
+          ))}
+        </VerticalContainer>
       );
     },
   }),

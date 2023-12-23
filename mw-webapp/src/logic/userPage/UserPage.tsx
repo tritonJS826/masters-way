@@ -54,10 +54,10 @@ interface UserPageProps {
  * User page
  */
 export const UserPage = (props: UserPageProps) => {
-  const [userPreview, setUserPreview] = useState<UserPreview | null>(null);
+  const [userPreview, setUserPreview] = useState<UserPreview>();
   const navigate = useNavigate();
   const {user} = useGlobalContext();
-  const isOwner = user?.uuid === userPreview?.uuid;
+  const isPageOwner = !!user && !!userPreview && user.uuid === userPreview.uuid;
 
   /**
    * Load user
@@ -76,7 +76,11 @@ export const UserPage = (props: UserPageProps) => {
   }, [props.uuid]);
 
   if (!userPreview) {
-    return "...loading";
+    return (
+      <span>
+        loading..
+      </span>
+    );
   }
 
   return (
@@ -91,7 +95,7 @@ export const UserPage = (props: UserPageProps) => {
           level={HeadingLevel.h3}
           text={userPreview.name}
           onChangeFinish={(text) => changeUserName(userPreview, text, setUserPreview)}
-          isEditable={isOwner}
+          isEditable={isPageOwner}
         />
       </div>
       <div className={styles.row}>
@@ -104,7 +108,7 @@ export const UserPage = (props: UserPageProps) => {
           level={HeadingLevel.h3}
           text={userPreview.email}
           onChangeFinish={(text) => changeUserEmail(userPreview, text, setUserPreview)}
-          isEditable={isOwner}
+          isEditable={isPageOwner}
         />
       </div>
       <div>
@@ -115,7 +119,7 @@ export const UserPage = (props: UserPageProps) => {
         <EditableTextarea
           text={userPreview.description}
           onChangeFinish={(text) => changeUserDescription(userPreview, text, setUserPreview)}
-          isEditable={isOwner}
+          isEditable={isPageOwner}
         />
       </div>
       <Title
@@ -130,7 +134,11 @@ export const UserPage = (props: UserPageProps) => {
         level={HeadingLevel.h3}
       />
       <ScrollableBlock>
-        <MentoringWaysTable uuid={props.uuid} />
+        <MentoringWaysTable
+          uuid={props.uuid}
+          isPageOwner={isPageOwner}
+          handleUserPreviewChange={setUserPreview}
+        />
       </ScrollableBlock>
       <Title
         text={`Favorite Ways (total amount: ${userPreview.favoriteWays.length} ways)`}

@@ -49,10 +49,10 @@ export class CurrentProblemService {
   /**
    * Update CurrentProblemDTO
    */
-  public static async updateCurrentProblemDTO(currentProblemDTO: CurrentProblemDTO, uuid: string) {
+  public static async updateCurrentProblemDTO(currentProblemDTO: CurrentProblemDTO) {
     const validatedCurrentProblemDTO = CurrentProblemDTOSchema.parse(currentProblemDTO);
 
-    await updateDoc(doc(db, PATH_TO_CURRENT_PROBLEMS_COLLECTION, uuid), validatedCurrentProblemDTO);
+    await updateDoc(doc(db, PATH_TO_CURRENT_PROBLEMS_COLLECTION, currentProblemDTO.uuid), validatedCurrentProblemDTO);
   }
 
   /**
@@ -65,9 +65,9 @@ export class CurrentProblemService {
   /**
    * Delete CurrentProblemDTO with batch
    */
-  public static async deleteCurrentProblemDTOWithBatch(currentProblemDTOUuid: string, batching: WriteBatch) {
+  public static deleteCurrentProblemDTOWithBatch(currentProblemDTOUuid: string, batch: WriteBatch) {
     const currentProblemRef = doc(db, PATH_TO_CURRENT_PROBLEMS_COLLECTION, currentProblemDTOUuid);
-    batching.delete(currentProblemRef);
+    batch.delete(currentProblemRef);
   }
 
 }

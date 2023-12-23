@@ -11,9 +11,10 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {GoalDAL} from "src/dataAccessLogic/GoalDAL";
 import {GoalMetricDAL} from "src/dataAccessLogic/GoalMetricDAL";
-import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {useGlobalContext} from "src/GlobalContext";
+import {MentorRequestsSection} from "src/logic/wayPage/MentorRequestsSection";
+import {MentorsSection} from "src/logic/wayPage/MentorsSection";
 import {DayReportsTable} from "src/logic/wayPage/reportsTable/DayReportsTable";
 import {renderModalContent} from "src/logic/wayPage/reportsTable/WayColumns";
 import {Goal} from "src/model/businessModel/Goal";
@@ -44,32 +45,11 @@ const changeWayName = (currentWay: Way, text: string) => {
 };
 
 /**
- * Add mentor to Way
- */
-const addMentorToWay = (
-  way: Way,
-  setWay: React.Dispatch<React.SetStateAction<Way | null>>,
-  userPreview: UserPreview,
-) => {
-  const mentoringWays = userPreview.mentoringWays.concat(userPreview.uuid);
-  const newUserPreview = new UserPreview({...userPreview, mentoringWays});
-
-  UserPreviewDAL.updateUserPreview(newUserPreview);
-
-  const mentors = way.mentors.concat(newUserPreview);
-  const newWay = new Way({...way, mentors});
-
-  WayDAL.updateWay(newWay);
-
-  setWay(newWay);
-};
-
-/**
  * Add user to Way's mentor requests
  */
 const addUserToMentorRequests = (
   way: Way,
-  setWay: React.Dispatch<React.SetStateAction<Way | null>>,
+  setWay: (newWay: Way) => void,
   userPreview: UserPreview) => {
 
   const mentorRequests = way.mentorRequests.concat(userPreview);
@@ -78,62 +58,6 @@ const addUserToMentorRequests = (
 
   WayDAL.updateWay(newWay);
   setWay(newWay);
-};
-
-/**
- * Remove user from Way's mentor requests
- */
-const removeUserFromMentorRequests = (
-  way: Way,
-  setWay: React.Dispatch<React.SetStateAction<Way| null>>,
-  userPreview: UserPreview) => {
-
-  const mentorRequests = way.mentorRequests.filter((item) => item !== userPreview);
-
-  const newWay = new Way({...way, mentorRequests});
-
-  WayDAL.updateWay(newWay);
-  setWay(newWay);
-};
-
-/**
- * Render all way's mentors
- */
-const renderMentors = (way: Way) => {
-  return way.mentors.map(({uuid, name}) => (
-    <Link
-      key={uuid}
-      value={name}
-      path={pages.user.getPath({uuid})}
-      className={styles.mentors}
-    />
-  ));
-};
-
-/**
- * Render Way's mentor requests
- */
-const renderMentorRequests = (way: Way, setWay: React.Dispatch<React.SetStateAction<Way | null>>) => {
-  return way.mentorRequests.map((userPreview) => (
-    <div key={userPreview.uuid}>
-      <Link
-        value={userPreview.name}
-        path={pages.user.getPath({uuid: userPreview.uuid})}
-      />
-      <Button
-        value='Accept'
-        onClick={() => {
-          addMentorToWay(way, setWay, userPreview);
-        }}
-      />
-      <Button
-        value='Decline'
-        onClick={() => {
-          removeUserFromMentorRequests(way, setWay, userPreview);
-        }}
-      />
-    </div>
-  ));
 };
 
 /**
@@ -166,11 +90,11 @@ const addFavoriteToWayAndToUser = async (
       favoriteWays: updatedFavoriteWays,
     },
   });
+  const updatedUser = createUserPreviewWithUpdatedFavorites(userPreview, updatedFavoriteWays);
 
-  await WayDAL.updateWayWithUser(updatedWay);
+  await WayDAL.updateWayWithUser(updatedWay, updatedUser);
 
-  const user = createUserPreviewWithUpdatedFavorites(userPreview, updatedFavoriteWays);
-  setUser(user);
+  setUser(updatedUser);
   setWay(updatedWay);
 };
 
@@ -194,11 +118,11 @@ const deleteFavoriteFromWayAndFromUser = async (
       favoriteWays: updatedFavoriteWays,
     },
   });
+  const updatedUser = createUserPreviewWithUpdatedFavorites(userPreview, updatedFavoriteWays);
 
-  await WayDAL.updateWayWithUser(updatedWay);
+  await WayDAL.updateWayWithUser(updatedWay, updatedUser);
 
-  const user = createUserPreviewWithUpdatedFavorites(userPreview, updatedFavoriteWays);
-  setUser(user);
+  setUser(updatedUser);
   setWay(updatedWay);
 };
 
@@ -259,7 +183,7 @@ interface WayPageProps {
 export const WayPage = (props: WayPageProps) => {
   const navigate = useNavigate();
   const {user, setUser} = useGlobalContext();
-  const [way, setWay] = useState<Way | null>(null);
+  const [way, setWay] = useState<Way>();
 
   /**
    * Get Way
@@ -278,7 +202,11 @@ export const WayPage = (props: WayPageProps) => {
   }, [user]);
 
   if (!way) {
-    return "loading...";
+    return (
+      <span>
+        loading...
+      </span>
+    );
   }
 
   const isWayInFavorites = user && user.favoriteWays.includes(way.uuid);
@@ -374,18 +302,14 @@ export const WayPage = (props: WayPageProps) => {
           {isOwner && (
             <TrashIcon
               className={styles.icon}
-              onClick={() => {
+              onClick={() => renderModalContent({
+                description: `Are you sure that you want to delete singleGoalMetric "${singleGoalMetric.description}"?`,
 
                 /**
                  * CallBack triggered on press ok
                  */
-                const onOk = () => removeSingularGoalMetric(singleGoalMetric.metricUuid);
-
-                renderModalContent({
-                  description: singleGoalMetric.description,
-                  onOk,
-                });
-              }}
+                onOk: () => removeSingularGoalMetric(singleGoalMetric.metricUuid),
+              })}
             />)
           }
         </div>
@@ -416,10 +340,46 @@ export const WayPage = (props: WayPageProps) => {
         onChangeFinish={(text) => changeWayName(way, text)}
         isEditable={isOwner}
       />
+      {isOwner &&
+        <Button
+          value="Delete way"
+          // TODO: need refactoring
+          onClick={() => renderModalContent({
+            description: `Are you sure that you want to delete way "${way.name}"?`,
+
+            /**
+             * CallBack triggered on press ok
+             */
+            onOk: async () => {
+              await WayDAL.deleteWay(way);
+              navigate(pages.user.getPath({uuid: user.uuid}));
+            },
+          })
+          }
+        />
+      }
       <div>
         Amount of users who add it to favorite:
         {UnicodeSymbols.SPACE + favoriteForUsersAmount}
       </div>
+      {
+        isWayInFavorites &&
+        <Button
+          value={"Remove from favorite"}
+          onClick={() =>
+            deleteFavoriteFromWayAndFromUser(user, way, setUser, setWay)
+          }
+        />
+      }
+      {
+        !isWayInFavorites && user &&
+        <Button
+          value={"Add to favorite"}
+          onClick={() =>
+            addFavoriteToWayAndToUser(user, way, setUser, setWay)
+          }
+        />
+      }
       <div className={styles.goalSection}>
         <div>
           <Title
@@ -474,49 +434,26 @@ export const WayPage = (props: WayPageProps) => {
         path={pages.user.getPath({uuid: way.owner.uuid})}
         className={styles.mentors}
       />
-      {
-        isWayInFavorites && setUser &&
-        <Button
-          value={"Remove from favorite"}
-          onClick={() => {
-            deleteFavoriteFromWayAndFromUser(user, way, setUser, setWay);
-          }}
+      {!!way.mentors.length &&
+        <MentorsSection
+          way={way}
+          setWay={setWay}
+          isOwner={isOwner}
         />
       }
-      {
-        !isWayInFavorites && user && setUser &&
-        <Button
-          value={"Add to favorite"}
-          onClick={() => {
-            addFavoriteToWayAndToUser(user, way, setUser, setWay);
-          }}
-        />
-      }
-      {!!way.mentors.length && (
-        <>
-          <Title
-            level={HeadingLevel.h3}
-            text="Mentors of this way:"
-          />
-          {renderMentors(way)}
-        </>
-      )}
       {isOwner && !!way.mentorRequests.length && (
-        <>
-          <Title
-            level={HeadingLevel.h3}
-            text="Requests to become mentor of this way:"
-          />
-          {renderMentorRequests(way, setWay)}
-        </>
+        <MentorRequestsSection
+          way={way}
+          setWay={setWay}
+        />
       )
       }
       {isEligibleToSendRequest && (
         <Button
           value="Apply as Mentor"
-          onClick={() => {
-            addUserToMentorRequests(way, setWay, user);
-          }}
+          onClick={() =>
+            addUserToMentorRequests(way, setWay, user)
+          }
         />
       )
       }

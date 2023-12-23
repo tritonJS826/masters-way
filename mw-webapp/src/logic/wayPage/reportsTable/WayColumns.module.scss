@@ -19,14 +19,13 @@ $listLeftMargin: 20px;
 }
 
 .flatButton {
+  width: 100px;
   height: 20px;
+  padding: 0px;
 }
 
 .summaryText {
   text-wrap: nowrap;
-}
-
-.cell {
 }
 
 .numberedList {
@@ -35,13 +34,10 @@ $listLeftMargin: 20px;
 }
 
 .numberedListItem {
+  width: 100%;
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px dotted $primaryBorderColor;
-}
-
-.center {
-  align-items: center;
 }
 
 .editableTextarea {
@@ -59,4 +55,9 @@ $listLeftMargin: 20px;
 
 .icon:hover {
   cursor: pointer;
+}
+
+.width {
+  width: 100%;
+  justify-content: space-between;
 }

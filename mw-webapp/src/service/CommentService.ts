@@ -48,24 +48,24 @@ export class CommentService {
   /**
    * Update CommentDTO
    */
-  public static async updateCommentDTO(commentDTO: CommentDTO, uuid: string) {
+  public static async updateCommentDTO(commentDTO: CommentDTO) {
     const validatedCommentDTO = CommentDTOSchema.parse(commentDTO);
-    await updateDoc(doc(db, PATH_TO_COMMENTS_COLLECTION, uuid), validatedCommentDTO);
+    await updateDoc(doc(db, PATH_TO_COMMENTS_COLLECTION, commentDTO.uuid), validatedCommentDTO);
   }
 
   /**
    * Delete CommentDTO
    */
-  public static async deleteCommentDTO(CommentDTOUuid: string) {
-    deleteDoc(doc(db, PATH_TO_COMMENTS_COLLECTION, CommentDTOUuid));
+  public static async deleteCommentDTO(commentDTOUuid: string) {
+    deleteDoc(doc(db, PATH_TO_COMMENTS_COLLECTION, commentDTOUuid));
   }
 
   /**
    * Delete CommentDTO with batch
    */
-  public static async deleteCommentDTOWithBatch(commentDTOUuid: string, batching: WriteBatch) {
+  public static deleteCommentDTOWithBatch(commentDTOUuid: string, batch: WriteBatch) {
     const commentRef = doc(db, PATH_TO_COMMENTS_COLLECTION, commentDTOUuid);
-    batching.delete(commentRef);
+    batch.delete(commentRef);
   }
 
 }

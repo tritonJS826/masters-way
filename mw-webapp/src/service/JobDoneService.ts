@@ -48,9 +48,9 @@ export class JobDoneService {
   /**
    * Update JobDoneDTO
    */
-  public static async updateJobDoneDTO(jobDoneDTO: JobDoneDTO, uuid: string) {
+  public static async updateJobDoneDTO(jobDoneDTO: JobDoneDTO) {
     const validatedJobDoneDTO = JobDoneDTOSchema.parse(jobDoneDTO);
-    await updateDoc(doc(db, PATH_TO_JOBS_DONE_COLLECTION, uuid), validatedJobDoneDTO);
+    await updateDoc(doc(db, PATH_TO_JOBS_DONE_COLLECTION, jobDoneDTO.uuid), validatedJobDoneDTO);
   }
 
   /**
@@ -63,9 +63,9 @@ export class JobDoneService {
   /**
    * Delete JobDoneDTO with batch
    */
-  public static async deleteJobDoneDTOWithBatch(jobDoneUuid: string, batching: WriteBatch) {
+  public static deleteJobDoneDTOWithBatch(jobDoneUuid: string, batch: WriteBatch) {
     const jobDoneRef = doc(db, PATH_TO_JOBS_DONE_COLLECTION, jobDoneUuid);
-    batching.delete(jobDoneRef);
+    batch.delete(jobDoneRef);
   }
 
 }

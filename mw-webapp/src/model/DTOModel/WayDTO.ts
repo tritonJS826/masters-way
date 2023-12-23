@@ -5,6 +5,7 @@ export const WAY_UUID_FIELD = "uuid";
 export const WAY_NAME_FIELD = "name";
 export const WAY_OWNER_UUID_FIELD = "ownerUuid";
 export const WAY_MENTOR_UUIDS_FIELD = "mentorUuids";
+export const WAY_CREATED_AT_FIELD = "createdAt";
 
 export const WayDTOSchema = z.object({
 
@@ -61,7 +62,7 @@ export const WayDTOSchema = z.object({
   /**
    * Time when way was created in ms (timestamp)
    */
-  createdAt: timestampType(),
+  [WAY_CREATED_AT_FIELD]: timestampType(),
 
   /**
    * Way's tags
