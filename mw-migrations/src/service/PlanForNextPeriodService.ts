@@ -1,7 +1,8 @@
-import {collection, getDocs} from "firebase/firestore";
+import {collection, getDoc, getDocs, doc} from "firebase/firestore";
 import {db} from "../firebase.js";
 import {querySnapshotToDTOConverter} from "../converter/querySnapshotToDTOConverter.js";
-import { PlanForNextPeriodDTOMigration } from "../DTOModel/PlanForNextPeriodDTO.js";
+import { PlanForNextPeriodDTO, PlanForNextPeriodDTOMigration } from "../DTOModel/PlanForNextPeriodDTO.js";
+import { documentSnapshotToDTOConverter } from "../converter/documentSnapshotToDTOConverter.js";
 
 const PATH_TO_PLANS_FOR_NEXT_PERIOD_COLLECTION = "plansForNextPeriod";
 
@@ -19,6 +20,16 @@ export class PlanForNextPeriodService {
     const plansForNextPeriodDTO = querySnapshotToDTOConverter<PlanForNextPeriodDTOMigration>(plansForNextPeriodRaw);
 
     return plansForNextPeriodDTO;
+  }
+
+  /**
+   * Get PlanForNextPeriod by Uuid
+   */
+  public static async getPlanForNextPeriodDTO(uuid: string): Promise<PlanForNextPeriodDTO> {
+    const planRaw = await getDoc(doc(db, PATH_TO_PLANS_FOR_NEXT_PERIOD_COLLECTION, uuid));
+    const planDTO = documentSnapshotToDTOConverter<PlanForNextPeriodDTO>(planRaw);
+
+    return planDTO;
   }
 
 }

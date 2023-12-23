@@ -10,7 +10,7 @@ export type JobDoneDTO = {
   uuid: string;
   description: string;
   time: number;
-  timeUnit: string;
+  tags: string[];
 }
 
 
