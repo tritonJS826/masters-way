@@ -4,7 +4,7 @@ import {
 }
   from "firebase/firestore";
 import {db} from "src/firebase";
-import {DAY_REPORT_DATE_FIELD, DAY_REPORT_UUID_FIELD, DayReportDTO, DayReportDTOSchema, DayReportsDTOSchema}
+import {DAY_REPORT_CREATED_AT_FIELD, DAY_REPORT_UUID_FIELD, DayReportDTO, DayReportDTOSchema, DayReportsDTOSchema}
   from "src/model/DTOModel/DayReportDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
 import {querySnapshotsToDTOConverter} from "src/service/converter/querySnapshotsToDTOConverter";
@@ -25,7 +25,7 @@ const getSortedDayReportsDTO =
   async (dayReportsRef: CollectionReference<DocumentData, DocumentData>, dayReportUuids: string[]) => {
     const chunksDayReports = getChunksArray(dayReportUuids, QUERY_LIMIT);
     const dayReportQueries = chunksDayReports.map((chunk) => {
-      return query(dayReportsRef, where(DAY_REPORT_UUID_FIELD, "in", chunk), orderBy(DAY_REPORT_DATE_FIELD, "desc"));
+      return query(dayReportsRef, where(DAY_REPORT_UUID_FIELD, "in", chunk), orderBy(DAY_REPORT_CREATED_AT_FIELD, "desc"));
     });
 
     const dayReportsRaw = await Promise.all(dayReportQueries.map(async(item) => {
@@ -36,8 +36,8 @@ const getSortedDayReportsDTO =
     const dayReportsDTO = querySnapshotsToDTOConverter<DayReportDTO>(dayReportsRaw);
 
     // Additional sort need because firestore method orderBy works only inside method query
-    const dayReportsDToOrderedByDate =
-      dayReportsDTO.sort((a, b) => b[DAY_REPORT_DATE_FIELD].toDate().getTime() - a[DAY_REPORT_DATE_FIELD].toDate().getTime());
+    const dayReportsDToOrderedByDate = dayReportsDTO
+      .sort((a, b) => b[DAY_REPORT_CREATED_AT_FIELD].toDate().getTime() - a[DAY_REPORT_CREATED_AT_FIELD].toDate().getTime());
 
     return dayReportsDToOrderedByDate;
   };
