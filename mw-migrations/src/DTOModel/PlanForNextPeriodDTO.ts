@@ -8,9 +8,10 @@ export type PlanForNextPeriodDTOMigration = {
 }
 
 export type PlanForNextPeriodDTO = {
-  uuid: string;
-  job: string;
   estimationTime: number;
-  timeUnit: string;
+  job: string;
+  ownerUuid: string;
+  tags: string[];
+  uuid: string;
 }
 
