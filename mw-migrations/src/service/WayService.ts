@@ -3,7 +3,7 @@ import {db} from "../firebase.js";
 import {WayDTOMigration} from "../DTOModel/WayDTO.js";
 import {querySnapshotToDTOConverter} from "../converter/querySnapshotToDTOConverter.js";
 
-const PATH_TO_WAYS_COLLECTION = "ways";
+export const PATH_TO_WAYS_COLLECTION = "ways";
 
 /**
  * Provides methods to interact with the Ways collection in Firestore.
