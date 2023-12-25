@@ -4,11 +4,20 @@ import {
 }
   from "firebase/firestore";
 import {db} from "src/firebase";
-import {DAY_REPORT_CREATED_AT_FIELD, DAY_REPORT_UUID_FIELD, DayReportDTO, DayReportDTOSchema, DayReportsDTOSchema}
+import {CommentDTO, CommentsDTOSchema} from "src/model/DTOModel/CommentDTO";
+import {
+  DAY_REPORT_CREATED_AT_FIELD,
+  DAY_REPORT_UUID_FIELD, DayReportDTO,
+  DayReportDTOSchema, DayReportsDTOSchema,
+}
   from "src/model/DTOModel/DayReportDTO";
+import {JobDoneDTO, JobsDoneDTOSchema} from "src/model/DTOModel/JobDoneDTO";
+import {PlanDTO, PlansDTOSchema} from "src/model/DTOModel/PlanDTO";
+import {ProblemDTO, ProblemsDTOSchema} from "src/model/DTOModel/ProblemDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
 import {querySnapshotsToDTOConverter} from "src/service/converter/querySnapshotsToDTOConverter";
 import {getChunksArray} from "src/utils/getChunkArray";
+import {z} from "zod";
 
 export const PATH_TO_DAY_REPORTS_COLLECTION = "dayReports";
 const QUERY_LIMIT = 30;
@@ -17,6 +26,23 @@ const QUERY_LIMIT = 30;
  * DayReportDTO props without uuid
  */
 export type DayReportDTOWithoutUuid = Omit<DayReportDTO, "uuid">;
+
+/**
+ * Create model from JSON
+ */
+const createModelFromJson = <T>(content: string): T => {
+  return z.custom<string>(() => {
+    try {
+      JSON.parse(content);
+    } catch (error) {
+      return false;
+    }
+
+    return true;
+  }, "invalid json")
+    .transform((contents) => JSON.parse(contents))
+    .parse(content);
+};
 
 /**
  * Get sorted and filtered DayReportsDTO
@@ -70,7 +96,20 @@ export class DayReportService {
     const dayReportRaw = await getDoc(doc(db, PATH_TO_DAY_REPORTS_COLLECTION, uuid));
     const dayReportDTO = documentSnapshotToDTOConverter<DayReportDTO>(dayReportRaw);
 
-    const validatedDayReportDTO = DayReportDTOSchema.parse(dayReportDTO);
+    const jobsDone = dayReportDTO.jobsDoneStringified.map((item) => createModelFromJson<JobDoneDTO>(item));
+    const plans = dayReportDTO.plansStringified.map((item) => createModelFromJson<PlanDTO>(item));
+    const problems = dayReportDTO.problemsStringified.map((item) =>
+      createModelFromJson<ProblemDTO>(item));
+    const comments = dayReportDTO.commentsStringified.map((item) => createModelFromJson<CommentDTO>(item));
+
+    const validatedJobsDone = JobsDoneDTOSchema.parse(jobsDone);
+    const validatedPlans = PlansDTOSchema.parse(plans);
+    const validatedProblems = ProblemsDTOSchema.parse(problems);
+    const validatedComments = CommentsDTOSchema.parse(comments);
+
+    const validatedStringifiedFields = validatedJobsDone && validatedPlans && validatedProblems && validatedComments;
+
+    const validatedDayReportDTO = validatedStringifiedFields && DayReportDTOSchema.parse(dayReportDTO);
 
     return validatedDayReportDTO;
   }

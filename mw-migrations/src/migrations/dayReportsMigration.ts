@@ -53,7 +53,7 @@ const migrateDayReports = async () => {
           date: dayReport.date,
           jobDoneUuids: dayReport.jobDoneUuids,
           planForNextPeriodUuids: dayReport.planForNextPeriodUuids,
-          currentProblemUuids: dayReport.problemForCurrentPeriodUuids,
+          problemForCurrentPeriodUuids: dayReport.problemForCurrentPeriodUuids,
           commentUuids: dayReport.commentUuids,
           isDayOff: dayReport.isDayOff,
         })

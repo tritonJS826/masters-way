@@ -24,6 +24,8 @@ export const CommentDTOSchema = z.object({
 
 }).strict();
 
+export const CommentsDTOSchema = z.array(CommentDTOSchema);
+
 /**
  * Mentor's and way owner's comments DTO model
  */

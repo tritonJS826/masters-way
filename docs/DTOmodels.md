@@ -37,7 +37,6 @@ problemsStringified: string[] @CurrentProblem
 commentsStringified: string[] @Comment
 isDayOff: boolean
 
-
 GoalDTO
 uuid: string
 studentUuid: string @UserUuid

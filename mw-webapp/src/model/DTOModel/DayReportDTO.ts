@@ -75,3 +75,4 @@ export const DayReportsDTOSchema = z.array(DayReportDTOSchema);
  * Day's report DTO model
  */
 export type DayReportDTO = z.infer<typeof DayReportDTOSchema>;
+
