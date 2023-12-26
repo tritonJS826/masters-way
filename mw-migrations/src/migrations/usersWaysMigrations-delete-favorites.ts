@@ -1,8 +1,8 @@
 import { writeBatch } from "firebase/firestore";
 import { db } from "../firebase.js";
 import { logToFile } from "../utils/logToFile.js";
-import { updateUsersFavorites } from "./updateUsersFavorites.js";
-import { updateWaysFavorites } from "./updateWaysFavorites.js";
+import { updateUsersFavorites } from "./usersMigration-update-favorites.js";
+import { updateWaysFavorites } from "./waysMigration-update-favorites.js";
 
 const FILE_TO_LOG = "usersMigration_delete_favoriteWayUuids_waysMigration_delete_favoriteForUserUuids"
 const log = (textToLog: string) => logToFile(`${(new Date()).toISOString()}: ${textToLog}`, FILE_TO_LOG);
