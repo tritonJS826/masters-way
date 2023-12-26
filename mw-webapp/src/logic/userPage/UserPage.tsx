@@ -90,7 +90,7 @@ export const UserPage = (props: UserPageProps) => {
     validateData,
     onSuccess,
     onError,
-    dependency: props.uuid,
+    dependencies: [props.uuid],
   },
   );
 
@@ -142,7 +142,7 @@ export const UserPage = (props: UserPageProps) => {
         />
       </div>
       <Title
-        text= {`Own Ways (total amount: ${userPreview.ownWays.length} ways)`}
+        text={`Own Ways (total amount: ${userPreview.ownWays.length} ways)`}
         level={HeadingLevel.h3}
       />
       <ScrollableBlock>

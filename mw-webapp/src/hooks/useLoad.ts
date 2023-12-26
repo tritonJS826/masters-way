@@ -3,22 +3,22 @@ import {useEffect, useState} from "react";
 /**
  * Use Load hook Props
  */
-interface useLoadProps<T, D> {
+interface useLoadProps<DataType, DependencyType> {
 
   /**
    * Callback that is called to fetch data
    */
-  loadData: () => Promise<T>;
+  loadData: () => Promise<DataType>;
 
   /**
    * Callback that is called to validate data
    */
-  validateData?: (data: T) => boolean;
+  validateData?: (data: DataType) => boolean;
 
   /**
    * Callback that is called on fetch and validation success
    */
-  onSuccess: (data: T) => void;
+  onSuccess: (data: DataType) => void;
 
   /**
    * Callback this is called on fetch or validation error
@@ -26,22 +26,23 @@ interface useLoadProps<T, D> {
   onError?: (error: Error) => void;
 
   /**
-   * Passed dependency to refetch and revalidate data
+   * Passed dependencies to re-fetch and re-validate data
    */
-  dependency?: D;
+  dependencies: DependencyType[];
 }
 
 /**
  * Custom hook to fetch, validate, and manage the state of data
  */
-export function useLoad<T, D>({
+export function useLoad<DataType, DependencyType>({
   loadData,
   validateData = () => true,
   onSuccess,
-  onError = () => {},
-  dependency = undefined,
-}: useLoadProps<T, D>) {
-  const [data, setData] = useState<T>();
+  onError = () => {
+  },
+  dependencies,
+}: useLoadProps<DataType, DependencyType>) {
+  const [data, setData] = useState<DataType>();
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -69,7 +70,7 @@ export function useLoad<T, D>({
     }
 
     fetchAndValidateData();
-  }, [dependency]);
+  }, dependencies);
 
   return {data, setData, isLoading};
 }

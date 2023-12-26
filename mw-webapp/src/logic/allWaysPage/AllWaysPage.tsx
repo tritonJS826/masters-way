@@ -25,7 +25,13 @@ export const AllWaysPage = () => {
     setAllWays(data);
   };
 
-  useLoad({loadData, onSuccess});
+  useLoad(
+    {
+      loadData,
+      onSuccess,
+      dependencies: [],
+    },
+  );
 
   return (
     <>
