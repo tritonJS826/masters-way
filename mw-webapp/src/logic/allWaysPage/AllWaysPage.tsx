@@ -1,7 +1,8 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
+import {useLoad} from "src/hooks/useLoad";
 import {waysColumns} from "src/logic/waysTable/waysColumns";
 import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
@@ -13,16 +14,18 @@ export const AllWaysPage = () => {
   const [allWays, setAllWays] = useState<WayPreview[]>([]);
 
   /**
-   * Receives and transfer data of ways
+   * Callback that is called to fetch data
    */
-  const loadAllWays = async () => {
-    const data = await WayPreviewDAL.getWaysPreview();
+  const loadData = () => WayPreviewDAL.getWaysPreview();
+
+  /**
+   * Callback that is called on fetch and validation success
+   */
+  const onSuccess = (data: WayPreview[]) => {
     setAllWays(data);
   };
 
-  useEffect(() => {
-    loadAllWays();
-  }, []);
+  useLoad({loadData, onSuccess});
 
   return (
     <>

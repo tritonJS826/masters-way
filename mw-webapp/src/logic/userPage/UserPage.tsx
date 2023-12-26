@@ -1,10 +1,11 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {useGlobalContext} from "src/GlobalContext";
+import {useLoad} from "src/hooks/useLoad";
 import {FavoriteWaysTable} from "src/logic/waysTable/FavoriteWaysTable";
 import {MentoringWaysTable} from "src/logic/waysTable/MentoringWaysTable";
 import {OwnWaysTable} from "src/logic/waysTable/OwnWaysTable";
@@ -60,22 +61,40 @@ export const UserPage = (props: UserPageProps) => {
   const isPageOwner = !!user && !!userPreview && user.uuid === userPreview.uuid;
 
   /**
-   * Load user
+   * Callback that is called to fetch data
    */
-  const getUser = async () => {
-    const userPreviewData = await UserPreviewDAL.getUserPreview(props.uuid);
-    // Navigate to PageError if transmitted user's uuid is not exist
-    if (!userPreviewData.uuid) {
-      navigate(pages.page404.getPath({}));
-    }
-    setUserPreview(userPreviewData);
+  const loadData = () => UserPreviewDAL.getUserPreview(props.uuid);
+
+  /**
+   * Callback that is called to validate data
+   */
+  const validateData = (data: UserPreview) => !!data.uuid;
+
+  /**
+   * Callback that is called on fetch and validation success
+   */
+  const onSuccess = (data: UserPreview) => {
+    setUserPreview(data);
   };
 
-  useEffect(() => {
-    getUser();
-  }, [props.uuid]);
+  /**
+   * Callback this is called on fetch or validation error
+   */
+  const onError = () => {
+    // Navigate to PageError if transmitted user's uuid is not exist
+    navigate(pages.page404.getPath({}));
+  };
 
-  if (!userPreview) {
+  const {isLoading} = useLoad({
+    loadData,
+    validateData,
+    onSuccess,
+    onError,
+    dependency: props.uuid,
+  },
+  );
+
+  if (isLoading || !userPreview) {
     return (
       <span>
         loading..
