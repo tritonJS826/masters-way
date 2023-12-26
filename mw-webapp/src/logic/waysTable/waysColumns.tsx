@@ -118,7 +118,7 @@ export const waysColumns = [
     },
   }),
   columnHelper.accessor("favoriteForUserUuids", {
-    header: "favorites",
+    header: "Favorites",
 
     /**
      * Cell with amount of favorite for user uuids
