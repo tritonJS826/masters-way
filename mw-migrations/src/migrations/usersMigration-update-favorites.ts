@@ -1,5 +1,5 @@
 import { WriteBatch, doc } from "firebase/firestore";
-import { PATH_TO_USERS_COLLECTION, UsersService } from "../service/UsersService.js";
+import { PATH_TO_USERS_COLLECTION, UserService } from "../service/UserService.js";
 import { db } from "../firebase.js";
 
 export const updateUsersFavorites = async (
@@ -7,7 +7,7 @@ export const updateUsersFavorites = async (
   log: (textToLog: string) => void
 ) => {
   log(`Getting all users`)
-  const users = await UsersService.getUsersDTO();
+  const users = await UserService.getUsersDTO();
   log(`Got ${users.length} users`)
 
   log(`start migrate users one by one`)

@@ -8,7 +8,7 @@ export const PATH_TO_USERS_COLLECTION = "users";
 /**
  * Provides methods to interact with the Users collection in Firestore.
  */
-export class UsersService {
+export class UserService {
 
   /**
    * Get UsersDTO
