@@ -4,16 +4,16 @@ import {
 }
   from "firebase/firestore";
 import {db} from "src/firebase";
-import {CommentDTO, CommentsDTOSchema} from "src/model/DTOModel/CommentDTO";
+import {CommentDTO, CommentDTOSchema, CommentsDTOSchema} from "src/model/DTOModel/CommentDTO";
 import {
   DAY_REPORT_CREATED_AT_FIELD,
   DAY_REPORT_UUID_FIELD, DayReportDTO,
   DayReportDTOSchema, DayReportsDTOSchema,
 }
   from "src/model/DTOModel/DayReportDTO";
-import {JobDoneDTO, JobsDoneDTOSchema} from "src/model/DTOModel/JobDoneDTO";
-import {PlanDTO, PlansDTOSchema} from "src/model/DTOModel/PlanDTO";
-import {ProblemDTO, ProblemsDTOSchema} from "src/model/DTOModel/ProblemDTO";
+import {JobDoneDTO, JobDoneDTOSchema, JobsDoneDTOSchema} from "src/model/DTOModel/JobDoneDTO";
+import {PlanDTO, PlanDTOSchema, PlansDTOSchema} from "src/model/DTOModel/PlanDTO";
+import {ProblemDTO, ProblemDTOSchema, ProblemsDTOSchema} from "src/model/DTOModel/ProblemDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
 import {querySnapshotsToDTOConverter} from "src/service/converter/querySnapshotsToDTOConverter";
 import {getChunksArray} from "src/utils/getChunkArray";
@@ -28,9 +28,9 @@ const QUERY_LIMIT = 30;
 export type DayReportDTOWithoutUuid = Omit<DayReportDTO, "uuid">;
 
 /**
- * Create model from JSON
+ * Parse and validate json
  */
-const createModelFromJson = <T>(content: string): T => {
+const parseStringifiedModel = <T extends z.ZodTypeAny>(content: string, schema: T) => {
   return z.custom<string>(() => {
     try {
       JSON.parse(content);
@@ -39,8 +39,9 @@ const createModelFromJson = <T>(content: string): T => {
     }
 
     return true;
-  }, "invalid json")
+  }, "json can't be parsed")
     .transform((contents) => JSON.parse(contents))
+    .pipe(schema)
     .parse(content);
 };
 
@@ -96,11 +97,14 @@ export class DayReportService {
     const dayReportRaw = await getDoc(doc(db, PATH_TO_DAY_REPORTS_COLLECTION, uuid));
     const dayReportDTO = documentSnapshotToDTOConverter<DayReportDTO>(dayReportRaw);
 
-    const jobsDone = dayReportDTO.jobsDoneStringified.map((item) => createModelFromJson<JobDoneDTO>(item));
-    const plans = dayReportDTO.plansStringified.map((item) => createModelFromJson<PlanDTO>(item));
-    const problems = dayReportDTO.problemsStringified.map((item) =>
-      createModelFromJson<ProblemDTO>(item));
-    const comments = dayReportDTO.commentsStringified.map((item) => createModelFromJson<CommentDTO>(item));
+    const jobsDone: JobDoneDTO[] = dayReportDTO.jobsDoneStringified
+      .map((item) => parseStringifiedModel<typeof JobDoneDTOSchema>(item, JobDoneDTOSchema));
+    const plans: PlanDTO[] = dayReportDTO.plansStringified
+      .map((item) => parseStringifiedModel<typeof PlanDTOSchema>(item, PlanDTOSchema));
+    const problems: ProblemDTO[] = dayReportDTO.problemsStringified
+      .map((item) => parseStringifiedModel<typeof ProblemDTOSchema>(item, ProblemDTOSchema));
+    const comments: CommentDTO[] = dayReportDTO.commentsStringified
+      .map((item) => parseStringifiedModel<typeof CommentDTOSchema>(item, CommentDTOSchema));
 
     const validatedJobsDone = JobsDoneDTOSchema.parse(jobsDone);
     const validatedPlans = PlansDTOSchema.parse(plans);
@@ -108,7 +112,6 @@ export class DayReportService {
     const validatedComments = CommentsDTOSchema.parse(comments);
 
     const validatedStringifiedFields = validatedJobsDone && validatedPlans && validatedProblems && validatedComments;
-
     const validatedDayReportDTO = validatedStringifiedFields && DayReportDTOSchema.parse(dayReportDTO);
 
     return validatedDayReportDTO;
