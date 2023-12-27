@@ -30,19 +30,19 @@ export type DayReportDTOWithoutUuid = Omit<DayReportDTO, "uuid">;
 /**
  * Parse and validate json
  */
-const parseStringifiedModel = <T extends z.ZodTypeAny>(content: string, schema: T) => {
+const parseWithValidationStringifiedModel = <SchemaType extends z.ZodTypeAny>(rawData: string, schema: SchemaType) => {
   return z.custom<string>(() => {
     try {
-      JSON.parse(content);
+      JSON.parse(rawData);
     } catch (error) {
       return false;
     }
 
     return true;
   }, "json can't be parsed")
-    .transform((contents) => JSON.parse(contents))
+    .transform((content) => JSON.parse(content))
     .pipe(schema)
-    .parse(content);
+    .parse(rawData);
 };
 
 /**
@@ -98,13 +98,13 @@ export class DayReportService {
     const dayReportDTO = documentSnapshotToDTOConverter<DayReportDTO>(dayReportRaw);
 
     const jobsDone: JobDoneDTO[] = dayReportDTO.jobsDoneStringified
-      .map((item) => parseStringifiedModel<typeof JobDoneDTOSchema>(item, JobDoneDTOSchema));
+      .map((item) => parseWithValidationStringifiedModel<typeof JobDoneDTOSchema>(item, JobDoneDTOSchema));
     const plans: PlanDTO[] = dayReportDTO.plansStringified
-      .map((item) => parseStringifiedModel<typeof PlanDTOSchema>(item, PlanDTOSchema));
+      .map((item) => parseWithValidationStringifiedModel<typeof PlanDTOSchema>(item, PlanDTOSchema));
     const problems: ProblemDTO[] = dayReportDTO.problemsStringified
-      .map((item) => parseStringifiedModel<typeof ProblemDTOSchema>(item, ProblemDTOSchema));
+      .map((item) => parseWithValidationStringifiedModel<typeof ProblemDTOSchema>(item, ProblemDTOSchema));
     const comments: CommentDTO[] = dayReportDTO.commentsStringified
-      .map((item) => parseStringifiedModel<typeof CommentDTOSchema>(item, CommentDTOSchema));
+      .map((item) => parseWithValidationStringifiedModel<typeof CommentDTOSchema>(item, CommentDTOSchema));
 
     const validatedJobsDone = JobsDoneDTOSchema.parse(jobsDone);
     const validatedPlans = PlansDTOSchema.parse(plans);

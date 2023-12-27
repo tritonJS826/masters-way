@@ -31,10 +31,10 @@ planForNextPeriodUuids?: string[] @PlanForNextPeriod.uuid[] // deprecated
 problemForCurrentPeriodUuids?: string[] @CurrentProblem.uuid[] // deprecated
 commentUuids?: string[] @Comment.uuid[] // // deprecated
 createdAt: timestamp
-jobsDoneStringified: string[] Stringified @JobDone
-plansStringified: string[] Stringified @PlanForNextPeriod
-problemsStringified: string[] Stringified @CurrentProblem
-commentsStringified: string[] Stringified @Comment
+jobsDoneStringified: string[] stringified@JobDone
+plansStringified: string[] stringified@PlanForNextPeriod
+problemsStringified: string[] stringified@CurrentProblem
+commentsStringified: string[] stringified@Comment
 isDayOff: boolean
 
 GoalDTO
