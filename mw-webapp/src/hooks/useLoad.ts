@@ -3,46 +3,45 @@ import {useEffect, useState} from "react";
 /**
  * Use Load hook Props
  */
-interface useLoadProps<DataType, DependenciesType> {
+interface useLoadProps<Data, Dependencies> {
 
   /**
    * Callback that is called to fetch data
    */
-  loadData: () => Promise<DataType>;
+  loadData: () => Promise<Data>;
 
   /**
    * Callback that is called to validate data
    */
-  validateData?: (data: DataType) => boolean;
+  validateData?: (data: Data) => boolean;
 
   /**
    * Callback that is called on fetch and validation success
    */
-  onSuccess: (data: DataType) => void;
+  onSuccess: (data: Data) => void;
 
   /**
    * Callback this is called on fetch or validation error
    */
-  onError?: (error: Error) => void;
+  onError: (error: Error) => void;
 
   /**
    * Passed array of dependencies to re-fetch and re-validate data
    */
-  dependencies: DependenciesType[];
+  dependencies: Dependencies[];
 }
 
 /**
  * Custom hook to fetch, validate, and manage the state of data
  */
-export function useLoad<DataType, DependenciesType>({
+export function useLoad<Data, Dependencies>({
   loadData,
   validateData = () => true,
   onSuccess,
-  onError = () => {
-  },
+  onError,
   dependencies,
-}: useLoadProps<DataType, DependenciesType>) {
-  const [data, setData] = useState<DataType>();
+}: useLoadProps<Data, Dependencies>) {
+  const [data, setData] = useState<Data>();
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {

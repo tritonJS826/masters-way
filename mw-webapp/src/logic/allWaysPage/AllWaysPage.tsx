@@ -1,4 +1,5 @@
 import {useState} from "react";
+import {displayNotification} from "src/component/notification/displayNotification";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
@@ -19,6 +20,13 @@ export const AllWaysPage = () => {
   const loadData = () => WayPreviewDAL.getWaysPreview();
 
   /**
+   * Callback that is called on fetch or validation error
+   */
+  const onError = (error: Error) => {
+    displayNotification({text: error.message, type: "error"});
+  };
+
+  /**
    * Callback that is called on fetch and validation success
    */
   const onSuccess = (data: WayPreview[]) => {
@@ -29,6 +37,7 @@ export const AllWaysPage = () => {
     {
       loadData,
       onSuccess,
+      onError,
       dependencies: [],
     },
   );
