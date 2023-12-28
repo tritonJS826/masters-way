@@ -9,21 +9,18 @@ import {Link} from "src/component/link/Link";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {CommentDAL} from "src/dataAccessLogic/CommentDAL";
-import {CurrentProblemDAL} from "src/dataAccessLogic/CurrentProblemDAL";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
-import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
-import {PlanForNextPeriodDAL} from "src/dataAccessLogic/PlanForNextPeriodDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {Comment} from "src/model/businessModel/Comment";
-import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
-import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
+import {Plan} from "src/model/businessModel/Plan";
+import {Problem} from "src/model/businessModel/Problem";
 import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {pages} from "src/router/pages";
 import {DateUtils} from "src/utils/DateUtils";
+import {v4 as uuidv4} from "uuid";
 import styles from "src/logic/wayPage/reportsTable/WayColumns.module.scss";
 
 const DEFAULT_SUMMARY_TIME = 0;
@@ -123,7 +120,7 @@ export const Columns = (props: ColumnsProps) => {
   const isUserOwnerOrMentor = isOwner || isMentor;
 
   const columns = [
-    columnHelper.accessor("date", {
+    columnHelper.accessor("createdAt", {
       header: "Date",
 
       /**
@@ -142,7 +139,7 @@ export const Columns = (props: ColumnsProps) => {
 
         return (
           <VerticalContainer>
-            {DateUtils.getShortISODateValue(row.original.date)}
+            {DateUtils.getShortISODateValue(row.original.createdAt)}
             <Tooltip
               content="is day off ?"
               position={PositionTooltip.TOP}
@@ -169,9 +166,15 @@ export const Columns = (props: ColumnsProps) => {
          * Create jobDone
          */
         const createJobDone = async () => {
-          const jobDone = await JobDoneDAL.createJobDone(row.original);
+          const jobDone: JobDone = new JobDone({
+            description: "",
+            time: 0,
+            uuid: uuidv4(),
+            tags: [],
+          });
           const jobsDone = [...row.original.jobsDone, jobDone];
           const updatedDayReport = new DayReport({...row.original, jobsDone});
+          await DayReportDAL.updateDayReport(updatedDayReport);
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
         };
 
@@ -182,47 +185,47 @@ export const Columns = (props: ColumnsProps) => {
           const jobsDone = row.original.jobsDone.filter((jobDone) => jobDone.uuid !== jobDoneUuid);
           const updatedDayReport = new DayReport({...row.original, jobsDone});
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
-          await JobDoneDAL.deleteJobDone(jobDoneUuid, updatedDayReport);
+          await DayReportDAL.updateDayReport(updatedDayReport);
         };
 
         /**
          * Update jobDone
          */
         const updateJobDone = async (jobDone: JobDone, text: string) => {
-          await JobDoneDAL.updateJobDone(jobDone, text);
           const updatedJobsDone = row.original.jobsDone.map((item) => {
-            if (item.uuid === jobDone.uuid) {
-              return new JobDone({
+            const itemToReturn = item.uuid === jobDone.uuid
+              ? new JobDone({
                 ...jobDone,
                 description: text,
-              });
-            }
+              })
+              : item;
 
-            return item;
+            return itemToReturn;
           });
 
           const updatedDayReport = new DayReport({...row.original, jobsDone: updatedJobsDone});
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
+          await DayReportDAL.updateDayReport(updatedDayReport);
         };
 
         /**
          * Update jobDoneTime
          */
         const updateJobDoneTime = async (jobDone: JobDone, text: number) => {
-          await JobDoneDAL.updateJobDoneTime(jobDone, text);
           const updatedJobsDone = row.original.jobsDone.map((item) => {
-            if (item.uuid === jobDone.uuid) {
-              return new JobDone({
+            const itemToReturn = item.uuid === jobDone.uuid
+              ? new JobDone({
                 ...jobDone,
                 time: text,
-              });
-            }
+              })
+              : item;
 
-            return item;
+            return itemToReturn;
           });
 
           const updatedDayReport = new DayReport({...row.original, jobsDone: updatedJobsDone});
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
+          await DayReportDAL.updateDayReport(updatedDayReport);
         };
 
         return (
@@ -284,97 +287,103 @@ export const Columns = (props: ColumnsProps) => {
         );
       },
     }),
-    columnHelper.accessor("plansForNextPeriod", {
-      header: "Plans for tomorrow (minutes)",
+    columnHelper.accessor("plans", {
+      header: "Plans (minutes)",
 
       /**
-       * Cell with PlanForNextPeriod items
+       * Cell with Plan items
        */
       cell: ({row}) => {
 
         /**
-         * Create PlanForNextPeriod
+         * Create Plan
          */
-        const createPlanForNextPeriod = async (userUuid: string) => {
-          const planForNextPeriod = await PlanForNextPeriodDAL.createPlanForNextPeriod(row.original, userUuid);
-          const plansForNextPeriod = [...row.original.plansForNextPeriod, planForNextPeriod];
-          const updatedDayReport = new DayReport({...row.original, plansForNextPeriod});
+        const createPlan = async (userUuid: string) => {
+          const plan: Plan = new Plan({
+            job: "",
+            ownerUuid: userUuid,
+            uuid: uuidv4(),
+            tags: [],
+            estimationTime: 0,
+          });
+          const plans = [...row.original.plans, plan];
+          const updatedDayReport = new DayReport({...row.original, plans});
+          await DayReportDAL.updateDayReport(updatedDayReport);
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
         };
 
         /**
-         * Delete planForNextPeriod
+         * Delete plan
          */
-        const deletePlanForNextPeriod = async (planForNextPeriodUuid: string) => {
-          const plansForNextPeriod =
-            row.original.plansForNextPeriod.filter((planForNextPeriod) => planForNextPeriod.uuid !== planForNextPeriodUuid);
-          const updatedDayReport = new DayReport({...row.original, plansForNextPeriod});
+        const deletePlan = async (planUuid: string) => {
+          const plans = row.original.plans.filter((plan) => plan.uuid !== planUuid);
+          const updatedDayReport = new DayReport({...row.original, plans});
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
-          await PlanForNextPeriodDAL.deletePlanForNextPeriod(planForNextPeriodUuid, updatedDayReport);
+          await DayReportDAL.updateDayReport(updatedDayReport);
         };
 
         /**
-         * Update PlanForNextPeriod
+         * Update Plan
          */
-        const updatePlanForNextPeriod = async (planForNextPeriod: PlanForNextPeriod, text: string) => {
-          await PlanForNextPeriodDAL.updatePlanForNextPeriod(planForNextPeriod, text);
-          const updatedPlansForNextPeriod = row.original.plansForNextPeriod.map((item) => {
-            if (item.uuid === planForNextPeriod.uuid) {
-              return new PlanForNextPeriod({
-                ...planForNextPeriod,
+        const updatePlan = async (plan: Plan, text: string) => {
+          const updatedPlans = row.original.plans.map((item) => {
+            const itemToReturn = item.uuid === plan.uuid
+              ? new Plan({
+                ...plan,
                 job: text,
-              });
-            }
+              })
+              : item;
 
-            return item;
+            return itemToReturn;
           });
 
-          const updatedDayReport = new DayReport({...row.original, plansForNextPeriod: updatedPlansForNextPeriod});
+          const updatedDayReport = new DayReport({...row.original, plans: updatedPlans});
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
+          await DayReportDAL.updateDayReport(updatedDayReport);
         };
 
         /**
-         * Update PlanForNextPeriodTime
+         * Update Plan time
          */
-        const updatePlanForNextPeriodTime = async (planForNextPeriod: PlanForNextPeriod, text: number) => {
-          await PlanForNextPeriodDAL.updatePlanForNextPeriodTime(planForNextPeriod, text);
-          const updatedPlansForNextPeriod = row.original.plansForNextPeriod.map((item) => {
-            if (item.uuid === planForNextPeriod.uuid) {
-              return new PlanForNextPeriod({
-                ...planForNextPeriod,
+        const updatePlanTime = async (plan: Plan, text: number) => {
+          const updatedPlans = row.original.plans.map((item) => {
+            const itemToReturn = item.uuid === plan.uuid
+              ? new Plan({
+                ...plan,
                 estimationTime: text,
-              });
-            }
+              })
+              : item;
 
-            return item;
+            return itemToReturn;
           });
 
-          const updatedDayReport = new DayReport({...row.original, plansForNextPeriod: updatedPlansForNextPeriod});
+          const updatedDayReport = new DayReport({...row.original, plans: updatedPlans});
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
+          await DayReportDAL.updateDayReport(updatedDayReport);
         };
 
         return (
           <VerticalContainer>
             <ol className={styles.numberedList}>
-              {row.original.plansForNextPeriod.map((planForNextPeriod) => (
-                <li key={planForNextPeriod.uuid}>
+              {row.original.plans.map((plan) => (
+                <li key={plan.uuid}>
                   <HorizontalContainer className={styles.numberedListItem}>
                     <VerticalContainer>
                       <HorizontalContainer className={styles.width}>
                         <Link
-                          value={getName(props.mentors, planForNextPeriod.ownerUuid, ownerName)}
-                          path={pages.user.getPath({uuid: planForNextPeriod.ownerUuid})}
+                          value={getName(props.mentors, plan.ownerUuid, ownerName)}
+                          path={pages.user.getPath({uuid: plan.ownerUuid})}
                         />
-                        {planForNextPeriod.ownerUuid === user?.uuid &&
+                        {plan.ownerUuid === user?.uuid &&
                           <TrashIcon
                             className={styles.icon}
                             onClick={() => renderModalContent({
-                              description: `Are you sure that you want to delete  planForNextPeriod "${planForNextPeriod.job}"?`,
+                              description: `Are you sure that you want to delete plan "${plan.job}"?`,
 
                               /**
                                * CallBack triggered on press ok
                                */
-                              onOk: () => deletePlanForNextPeriod(planForNextPeriod.uuid),
+                              onOk: () => deletePlan(plan.uuid),
                             })
                             }
                           />
@@ -382,16 +391,16 @@ export const Columns = (props: ColumnsProps) => {
                       </HorizontalContainer>
                       <HorizontalContainer>
                         <EditableTextarea
-                          text={planForNextPeriod.job}
-                          onChangeFinish={(text) => updatePlanForNextPeriod(planForNextPeriod, text)}
-                          isEditable={planForNextPeriod.ownerUuid === user?.uuid}
+                          text={plan.job}
+                          onChangeFinish={(text) => updatePlan(plan, text)}
+                          isEditable={plan.ownerUuid === user?.uuid}
                           className={styles.editableTextarea}
                         />
                         <EditableText
-                          text={planForNextPeriod.estimationTime}
-                          onChangeFinish={(value) => updatePlanForNextPeriodTime(planForNextPeriod, value)}
+                          text={plan.estimationTime}
+                          onChangeFinish={(value) => updatePlanTime(plan, value)}
                           className={styles.editableTime}
-                          isEditable={planForNextPeriod.ownerUuid === user?.uuid}
+                          isEditable={plan.ownerUuid === user?.uuid}
                         />
                       </HorizontalContainer>
                     </VerticalContainer>
@@ -404,15 +413,15 @@ export const Columns = (props: ColumnsProps) => {
                 {isUserOwnerOrMentor &&
                 <Button
                   value="add plan"
-                  onClick={() => createPlanForNextPeriod(user.uuid)}
+                  onClick={() => createPlan(user.uuid)}
                   className={styles.flatButton}
                 />
                 }
               </div>
               <div className={styles.summaryText}>
                 {"Total: "}
-                {row.original.plansForNextPeriod
-                  .reduce((summaryTime, jobDone) => jobDone.estimationTime + summaryTime, DEFAULT_SUMMARY_TIME)
+                {row.original.plans
+                  .reduce((summaryTime, plan) => plan.estimationTime + summaryTime, DEFAULT_SUMMARY_TIME)
                 }
               </div>
             </div>
@@ -420,86 +429,92 @@ export const Columns = (props: ColumnsProps) => {
         );
       },
     }),
-    columnHelper.accessor("problemsForCurrentPeriod", {
-      header: "Current problems",
+    columnHelper.accessor("problems", {
+      header: "Problems",
 
       /**
-       * Cell with ProblemsForCurrentPeriod items
+       * Cell with Problems items
        */
       cell: ({row}) => {
 
         /**
-         * Create CurrentProblem
+         * Create Problem
          */
-        const createCurrentProblem = async (userUuid: string) => {
-          const currentProblem = await CurrentProblemDAL.createCurrentProblem(row.original, userUuid);
-          const currentProblems = [...row.original.problemsForCurrentPeriod, currentProblem];
-          const updatedDayReport = new DayReport({...row.original, problemsForCurrentPeriod: currentProblems});
+        const createProblem = async (userUuid: string) => {
+          const problem: Problem = new Problem({
+            description: "",
+            ownerUuid: userUuid,
+            isDone: false,
+            uuid: uuidv4(),
+            tags: [],
+          });
+          const problems = [...row.original.problems, problem];
+          const updatedDayReport = new DayReport({...row.original, problems});
+          await DayReportDAL.updateDayReport(updatedDayReport);
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
         };
 
         /**
-         * Delete CurrentProblem
+         * Delete Problem
          */
-        const deleteCurrentProblem = async (currentProblemUuid: string) => {
-          const currentProblems =
-            row.original.problemsForCurrentPeriod.filter((currentProblem) => currentProblem.uuid !== currentProblemUuid);
-          const updatedDayReport = new DayReport({...row.original, problemsForCurrentPeriod: currentProblems});
+        const deleteProblem = async (problemUuid: string) => {
+          const problems = row.original.problems.filter((problem) => problem.uuid !== problemUuid);
+          const updatedDayReport = new DayReport({...row.original, problems});
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
-          await CurrentProblemDAL.deleteCurrentProblem(currentProblemUuid, updatedDayReport);
+          await DayReportDAL.updateDayReport(updatedDayReport);
         };
 
         /**
-         * Update CurrentProblem
+         * Update Problem
          */
-        const updateCurrentProblem = async (currentProblem: CurrentProblem, text: string) => {
-          await CurrentProblemDAL.updateCurrentProblem(currentProblem, text);
-          const updatedCurrentProblems = row.original.problemsForCurrentPeriod.map((item) => {
-            if (item.uuid === currentProblem.uuid) {
-              return new CurrentProblem({
-                ...currentProblem,
+        const updateProblem = async (problem: Problem, text: string) => {
+          const updatedProblems = row.original.problems.map((item) => {
+            const itemToReturn = item.uuid === problem.uuid
+              ? new Problem({
+                ...problem,
                 description: text,
-              });
-            }
+              })
+              : item;
 
-            return item;
+            return itemToReturn;
           });
 
-          const updatedDayReport = new DayReport({...row.original, problemsForCurrentPeriod: updatedCurrentProblems});
+          const updatedDayReport = new DayReport({...row.original, problems: updatedProblems});
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
+          await DayReportDAL.updateDayReport(updatedDayReport);
         };
 
         return (
           <VerticalContainer>
             <ol className={styles.numberedList}>
-              {row.original.problemsForCurrentPeriod.map((currentProblem) => (
-                <li key={currentProblem.uuid}>
+              {row.original.problems.map((problem) => (
+                <li key={problem.uuid}>
                   <HorizontalContainer className={styles.numberedListItem}>
                     <VerticalContainer>
                       <HorizontalContainer className={styles.width}>
                         <Link
-                          value={getName(props.mentors, currentProblem.ownerUuid, ownerName)}
-                          path={pages.user.getPath({uuid: currentProblem.ownerUuid})}
+                          value={getName(props.mentors, problem.ownerUuid, ownerName)}
+                          path={pages.user.getPath({uuid: problem.ownerUuid})}
                         />
-                        {currentProblem.ownerUuid === user?.uuid &&
+                        {problem.ownerUuid === user?.uuid &&
                         <TrashIcon
                           className={styles.icon}
                           onClick={() => renderModalContent({
-                            description: `Are you sure that you want to delete currentProblem "${currentProblem.description}"?`,
+                            description: `Are you sure that you want to delete problem "${problem.description}"?`,
 
                             /**
                              * CallBack triggered on press ok
                              */
-                            onOk: () => deleteCurrentProblem(currentProblem.uuid),
+                            onOk: () => deleteProblem(problem.uuid),
                           })
                           }
                         />
                         }
                       </HorizontalContainer>
                       <EditableTextarea
-                        text={currentProblem.description}
-                        onChangeFinish={(text) => updateCurrentProblem(currentProblem, text)}
-                        isEditable={currentProblem.ownerUuid === user?.uuid}
+                        text={problem.description}
+                        onChangeFinish={(text) => updateProblem(problem, text)}
+                        isEditable={problem.ownerUuid === user?.uuid}
                         className={styles.editableTextarea}
                       />
                     </VerticalContainer>
@@ -510,7 +525,7 @@ export const Columns = (props: ColumnsProps) => {
             {isUserOwnerOrMentor &&
               <Button
                 value="add problem"
-                onClick={() => createCurrentProblem(user.uuid)}
+                onClick={() => createProblem(user.uuid)}
                 className={styles.flatButton}
               />
             }
@@ -530,9 +545,15 @@ export const Columns = (props: ColumnsProps) => {
          * Create Comment
          */
         const createComment = async (commentatorUuid: string) => {
-          const comment = await CommentDAL.createComment(row.original, commentatorUuid);
+          const comment: Comment = new Comment({
+            description: "",
+            ownerUuid: commentatorUuid,
+            isDone: false,
+            uuid: uuidv4(),
+          });
           const comments = [...row.original.comments, comment];
           const updatedDayReport = new DayReport({...row.original, comments});
+          await DayReportDAL.updateDayReport(updatedDayReport);
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
         };
 
@@ -543,14 +564,13 @@ export const Columns = (props: ColumnsProps) => {
           const comments = row.original.comments.filter((comment) => comment.uuid !== commentUuid);
           const updatedDayReport = new DayReport({...row.original, comments});
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
-          await CommentDAL.deleteComment(commentUuid, updatedDayReport);
+          await DayReportDAL.updateDayReport(updatedDayReport);
         };
 
         /**
          * Update Comment
          */
         const updateComment = async (comment: Comment, text: string) => {
-          await CommentDAL.updateComment(comment, text);
           const updatedComments = row.original.comments.map((item) => {
             const itemToReturn = item.uuid === comment.uuid
               ? new Comment({
@@ -563,6 +583,7 @@ export const Columns = (props: ColumnsProps) => {
           });
 
           const updatedDayReport = new DayReport({...row.original, comments: updatedComments});
+          await DayReportDAL.updateDayReport(updatedDayReport);
           updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
         };
 

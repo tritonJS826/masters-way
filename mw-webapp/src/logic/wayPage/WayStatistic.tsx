@@ -25,7 +25,7 @@ const SMAL_CORECTION_MILLISECONDS = 1;
  * Render table of reports
  */
 export const WayStatistic = (props: WayStatisticProps) => {
-  const allDatesTimestamps = props.dayReports.map(report => report.date.getTime());
+  const allDatesTimestamps = props.dayReports.map(report => report.createdAt.getTime());
   const maximumDateTimestamp = Math.max(...allDatesTimestamps);
   const minimumDateTimestamp = Math.min(...allDatesTimestamps);
 

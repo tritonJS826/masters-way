@@ -1,11 +1,7 @@
 import {Timestamp} from "firebase/firestore";
 import {dayReportToDayReportDTOConverter} from "src/dataAccessLogic/BusinessToDTOConverter/dayReportToDayReportDTOConverter";
-import {CommentDAL} from "src/dataAccessLogic/CommentDAL";
-import {CurrentProblemDAL} from "src/dataAccessLogic/CurrentProblemDAL";
 import {dayReportDTOToDayReportConverter} from
   "src/dataAccessLogic/DTOToBusinessConverter/dayReportDTOToDayReportConverter";
-import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
-import {PlanForNextPeriodDAL} from "src/dataAccessLogic/PlanForNextPeriodDAL";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {WayDTOSchema} from "src/model/DTOModel/WayDTO";
 import {DayReportDTOWithoutUuid, DayReportService} from "src/service/DayReportService";
@@ -25,26 +21,7 @@ export class DayReportDAL {
 
     const dayReportsDTO = await DayReportService.getDayReportsDTO(dayReportsUuids);
 
-    const dayReports = await Promise.all(dayReportsDTO.map(async (dayReportDTO) => {
-      const {jobDoneUuids, planForNextPeriodUuids, commentUuids, problemForCurrentPeriodUuids} = dayReportDTO;
-      const jobsDonePromise = Promise.all(jobDoneUuids.map(JobDoneDAL.getJobDone));
-      const plansForNextPeriodPromise = Promise.all(planForNextPeriodUuids.map(PlanForNextPeriodDAL.getPlanForNextPeriod));
-      const commentsPromise = Promise.all(commentUuids.map(CommentDAL.getComment));
-      const problemsForCurrentPeriodPromise = Promise.all(problemForCurrentPeriodUuids.map(CurrentProblemDAL.getCurrentProblem));
-      const [jobsDone, plansForNextPeriod, comments, problemsForCurrentPeriod] =
-        await Promise.all([jobsDonePromise, plansForNextPeriodPromise, commentsPromise, problemsForCurrentPeriodPromise]);
-
-      const dayReportProps = {
-        jobsDone,
-        plansForNextPeriod,
-        problemsForCurrentPeriod,
-        comments,
-      };
-
-      const dayReport = dayReportDTOToDayReportConverter(dayReportDTO, dayReportProps);
-
-      return dayReport;
-    }));
+    const dayReports = dayReportsDTO.map(dayReportDTOToDayReportConverter);
 
     return dayReports;
   }
@@ -54,23 +31,7 @@ export class DayReportDAL {
    */
   public static async getDayReport(uuid: string): Promise<DayReport> {
     const dayReportDTO = await DayReportService.getDayReportDTO(uuid);
-
-    const {jobDoneUuids, planForNextPeriodUuids, commentUuids, problemForCurrentPeriodUuids} = dayReportDTO;
-    const jobsDonePromise = Promise.all(jobDoneUuids.map(JobDoneDAL.getJobDone));
-    const plansForNextPeriodPromise = Promise.all(planForNextPeriodUuids.map(PlanForNextPeriodDAL.getPlanForNextPeriod));
-    const commentsPromise = Promise.all(commentUuids.map(CommentDAL.getComment));
-    const problemsForCurrentPeriodPromise = Promise.all(problemForCurrentPeriodUuids.map(CurrentProblemDAL.getCurrentProblem));
-    const [jobsDone, plansForNextPeriod, comments, problemsForCurrentPeriod] =
-      await Promise.all([jobsDonePromise, plansForNextPeriodPromise, commentsPromise, problemsForCurrentPeriodPromise]);
-
-    const dayReportProps = {
-      jobsDone,
-      plansForNextPeriod,
-      problemsForCurrentPeriod,
-      comments,
-    };
-
-    const dayReport = dayReportDTOToDayReportConverter(dayReportDTO, dayReportProps);
+    const dayReport = dayReportDTOToDayReportConverter(dayReportDTO);
 
     return dayReport;
   }
@@ -80,11 +41,11 @@ export class DayReportDAL {
    */
   public static async createDayReport(wayUuid: string): Promise<DayReport> {
     const DEFAULT_DAY_REPORT: DayReportDTOWithoutUuid = {
-      date: Timestamp.fromDate(new Date()),
-      jobDoneUuids: [],
-      planForNextPeriodUuids: [],
-      problemForCurrentPeriodUuids: [],
-      commentUuids: [],
+      createdAt: Timestamp.fromDate(new Date()),
+      jobsDoneStringified: [],
+      plansStringified: [],
+      problemsStringified: [],
+      commentsStringified: [],
       isDayOff: false,
     };
     const dayReportDTO = await DayReportService.createDayReportDTO(DEFAULT_DAY_REPORT);

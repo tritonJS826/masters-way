@@ -36,7 +36,7 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
   const isOwner = user?.uuid === way.owner.uuid;
   const isEmptyWay = dayReports.length === 0;
   const currentDate = DateUtils.getShortISODateValue(new Date());
-  const lastReportDate = !isEmptyWay && DateUtils.getShortISODateValue(dayReports[0].date);
+  const lastReportDate = !isEmptyWay && DateUtils.getShortISODateValue(dayReports[0].createdAt);
   const isReportForTodayAlreadyCreated = lastReportDate === currentDate;
   const isReportForTodayIsNotCreated = isEmptyWay || !isReportForTodayAlreadyCreated;
   const isPossibleCreateDayReport = isOwner && isReportForTodayIsNotCreated;

@@ -1,7 +1,7 @@
 import {Comment} from "src/model/businessModel/Comment";
-import {CurrentProblem} from "src/model/businessModel/CurrentProblem";
 import {JobDone} from "src/model/businessModel/JobDone";
-import {PlanForNextPeriod} from "src/model/businessModel/PlanForNextPeriod";
+import {Plan} from "src/model/businessModel/Plan";
+import {Problem} from "src/model/businessModel/Problem";
 
 /**
  * Day's report model
@@ -16,7 +16,7 @@ export class DayReport {
   /**
    * Report's date
    */
-  public date: Date;
+  public createdAt: Date;
 
   /**
    * Job done per day
@@ -26,12 +26,12 @@ export class DayReport {
   /**
    * Plans for next period (for tomorrow)
    */
-  public plansForNextPeriod: PlanForNextPeriod[];
+  public plans: Plan[];
 
   /**
    * Problems for this period (today)
    */
-  public problemsForCurrentPeriod: CurrentProblem[];
+  public problems: Problem[];
 
   /**
    * Mentor's and way owner's comments uuids
@@ -45,15 +45,11 @@ export class DayReport {
 
   constructor(dayReportData: DayReport) {
     this.uuid = dayReportData.uuid;
-    this.date = dayReportData.date;
-    this.jobsDone = dayReportData.jobsDone.map((jobsDoneItem) =>
-      new JobDone(jobsDoneItem));
-    this.plansForNextPeriod = dayReportData.plansForNextPeriod.map((planForNextPeriodItem) =>
-      new PlanForNextPeriod(planForNextPeriodItem));
-    this.problemsForCurrentPeriod = dayReportData.problemsForCurrentPeriod.map((currentProblemItem) =>
-      new CurrentProblem(currentProblemItem));
-    this.comments = dayReportData.comments.map((comment) =>
-      new Comment(comment));
+    this.createdAt = dayReportData.createdAt;
+    this.jobsDone = dayReportData.jobsDone;
+    this.plans = dayReportData.plans;
+    this.problems = dayReportData.problems;
+    this.comments = dayReportData.comments;
     this.isDayOff = dayReportData.isDayOff;
   }
 

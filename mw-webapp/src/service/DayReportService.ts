@@ -4,11 +4,20 @@ import {
 }
   from "firebase/firestore";
 import {db} from "src/firebase";
-import {DAY_REPORT_DATE_FIELD, DAY_REPORT_UUID_FIELD, DayReportDTO, DayReportDTOSchema, DayReportsDTOSchema}
+import {CommentDTO, CommentDTOSchema, CommentsDTOSchema} from "src/model/DTOModel/CommentDTO";
+import {
+  DAY_REPORT_CREATED_AT_FIELD,
+  DAY_REPORT_UUID_FIELD, DayReportDTO,
+  DayReportDTOSchema, DayReportsDTOSchema,
+}
   from "src/model/DTOModel/DayReportDTO";
+import {JobDoneDTO, JobDoneDTOSchema, JobsDoneDTOSchema} from "src/model/DTOModel/JobDoneDTO";
+import {PlanDTO, PlanDTOSchema, PlansDTOSchema} from "src/model/DTOModel/PlanDTO";
+import {ProblemDTO, ProblemDTOSchema, ProblemsDTOSchema} from "src/model/DTOModel/ProblemDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
 import {querySnapshotsToDTOConverter} from "src/service/converter/querySnapshotsToDTOConverter";
 import {getChunksArray} from "src/utils/getChunkArray";
+import {z} from "zod";
 
 export const PATH_TO_DAY_REPORTS_COLLECTION = "dayReports";
 const QUERY_LIMIT = 30;
@@ -19,13 +28,31 @@ const QUERY_LIMIT = 30;
 export type DayReportDTOWithoutUuid = Omit<DayReportDTO, "uuid">;
 
 /**
+ * Parse and validate json
+ */
+const parseWithValidationStringifiedModel = <SchemaType extends z.ZodTypeAny>(rawData: string, schema: SchemaType) => {
+  return z.custom<string>(() => {
+    try {
+      JSON.parse(rawData);
+    } catch (error) {
+      return false;
+    }
+
+    return true;
+  }, "json can't be parsed")
+    .transform((content) => JSON.parse(content))
+    .pipe(schema)
+    .parse(rawData);
+};
+
+/**
  * Get sorted and filtered DayReportsDTO
  */
 const getSortedDayReportsDTO =
   async (dayReportsRef: CollectionReference<DocumentData, DocumentData>, dayReportUuids: string[]) => {
     const chunksDayReports = getChunksArray(dayReportUuids, QUERY_LIMIT);
     const dayReportQueries = chunksDayReports.map((chunk) => {
-      return query(dayReportsRef, where(DAY_REPORT_UUID_FIELD, "in", chunk), orderBy(DAY_REPORT_DATE_FIELD, "desc"));
+      return query(dayReportsRef, where(DAY_REPORT_UUID_FIELD, "in", chunk), orderBy(DAY_REPORT_CREATED_AT_FIELD, "desc"));
     });
 
     const dayReportsRaw = await Promise.all(dayReportQueries.map(async(item) => {
@@ -36,8 +63,8 @@ const getSortedDayReportsDTO =
     const dayReportsDTO = querySnapshotsToDTOConverter<DayReportDTO>(dayReportsRaw);
 
     // Additional sort need because firestore method orderBy works only inside method query
-    const dayReportsDToOrderedByDate =
-      dayReportsDTO.sort((a, b) => b[DAY_REPORT_DATE_FIELD].toDate().getTime() - a[DAY_REPORT_DATE_FIELD].toDate().getTime());
+    const dayReportsDToOrderedByDate = dayReportsDTO
+      .sort((a, b) => b[DAY_REPORT_CREATED_AT_FIELD].toDate().getTime() - a[DAY_REPORT_CREATED_AT_FIELD].toDate().getTime());
 
     return dayReportsDToOrderedByDate;
   };
@@ -70,7 +97,22 @@ export class DayReportService {
     const dayReportRaw = await getDoc(doc(db, PATH_TO_DAY_REPORTS_COLLECTION, uuid));
     const dayReportDTO = documentSnapshotToDTOConverter<DayReportDTO>(dayReportRaw);
 
-    const validatedDayReportDTO = DayReportDTOSchema.parse(dayReportDTO);
+    const jobsDone: JobDoneDTO[] = dayReportDTO.jobsDoneStringified
+      .map((item) => parseWithValidationStringifiedModel<typeof JobDoneDTOSchema>(item, JobDoneDTOSchema));
+    const plans: PlanDTO[] = dayReportDTO.plansStringified
+      .map((item) => parseWithValidationStringifiedModel<typeof PlanDTOSchema>(item, PlanDTOSchema));
+    const problems: ProblemDTO[] = dayReportDTO.problemsStringified
+      .map((item) => parseWithValidationStringifiedModel<typeof ProblemDTOSchema>(item, ProblemDTOSchema));
+    const comments: CommentDTO[] = dayReportDTO.commentsStringified
+      .map((item) => parseWithValidationStringifiedModel<typeof CommentDTOSchema>(item, CommentDTOSchema));
+
+    const validatedJobsDone = JobsDoneDTOSchema.parse(jobsDone);
+    const validatedPlans = PlansDTOSchema.parse(plans);
+    const validatedProblems = ProblemsDTOSchema.parse(problems);
+    const validatedComments = CommentsDTOSchema.parse(comments);
+
+    const validatedStringifiedFields = validatedJobsDone && validatedPlans && validatedProblems && validatedComments;
+    const validatedDayReportDTO = validatedStringifiedFields && DayReportDTOSchema.parse(dayReportDTO);
 
     return validatedDayReportDTO;
   }

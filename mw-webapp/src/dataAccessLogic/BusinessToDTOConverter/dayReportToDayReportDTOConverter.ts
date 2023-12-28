@@ -8,17 +8,12 @@ import {DayReportDTO, DayReportDTOSchema} from "src/model/DTOModel/DayReportDTO"
 export const dayReportToDayReportDTOConverter = (dayReport: DayReport): DayReportDTO => {
   const dayReportDTO: DayReportDTO = {
     uuid: dayReport.uuid,
+    createdAt: Timestamp.fromDate(dayReport.createdAt),
+    jobsDoneStringified: dayReport.jobsDone.map((jobDone) => JSON.stringify(jobDone)),
+    plansStringified: dayReport.plans.map((plan) => JSON.stringify(plan)),
+    problemsStringified: dayReport.problems.map((problem) => JSON.stringify(problem)),
+    commentsStringified: dayReport.comments.map((comment) => JSON.stringify(comment)),
     isDayOff: dayReport.isDayOff,
-    date: Timestamp.fromDate(dayReport.date),
-    jobDoneUuids: dayReport.jobsDone.map((jobDone) => jobDone.uuid),
-    planForNextPeriodUuids: dayReport.plansForNextPeriod.map((plan) => plan.uuid),
-    problemForCurrentPeriodUuids: dayReport.problemsForCurrentPeriod.map((problem) => problem.uuid),
-    commentUuids: dayReport.comments.map((comment) => comment.uuid),
-    // CreatedAt: Timestamp.fromDate(dayReport.date),
-    // jobsDoneStringified: dayReport.jobsDone.map((jobDone) => JSON.stringify(jobDone)),
-    // plansStringified: dayReport.plansForNextPeriod.map((plan) => JSON.stringify(plan)),
-    // problemsStringified: dayReport.problemsForCurrentPeriod.map((problem) => JSON.stringify(problem)),
-    // commentsStringified: dayReport.comments.map((comment) => JSON.stringify(comment)),
   };
 
   return DayReportDTOSchema.parse(dayReportDTO);
