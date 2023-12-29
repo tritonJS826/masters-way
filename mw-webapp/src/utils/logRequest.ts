@@ -42,13 +42,11 @@ type logRequestParams = {
   requestOperation: RequestOperations;
 }
 
-const featureFlag = process.env.LOG_FEATURE_FLAG;
-
 /**
  * Tracks the number of reads and writes on firebase
  */
 export const logRequest = (params: logRequestParams) => {
-  if (featureFlag === "true") {
+  if (process.env.IS_LOGGER_ENABLED === "true") {
     Array.isArray(params.data)
       ? console.log(`${params.text} required ${params.data.length} ${params.requestOperation} operations`)
       : console.log(`${params.text} required 1 ${params.requestOperation} operations`);
