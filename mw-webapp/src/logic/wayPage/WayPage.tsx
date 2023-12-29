@@ -199,7 +199,7 @@ export const WayPage = (props: WayPageProps) => {
 
   useEffect(() => {
     loadPageData();
-  }, [user]);
+  }, []);
 
   if (!way) {
     return (

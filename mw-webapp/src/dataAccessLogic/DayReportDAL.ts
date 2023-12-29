@@ -15,11 +15,9 @@ export class DayReportDAL {
   /**
    * Get DayReports that belong to a specific way
    */
-  public static async getDayReports(wayUuid: string): Promise<DayReport[]> {
+  public static async getDayReports(dayReportUuids: string[]): Promise<DayReport[]> {
 
-    const dayReportsUuids = (await WayService.getWayDTO(wayUuid)).dayReportUuids;
-
-    const dayReportsDTO = await DayReportService.getDayReportsDTO(dayReportsUuids);
+    const dayReportsDTO = await DayReportService.getDayReportsDTO(dayReportUuids);
 
     const dayReports = dayReportsDTO.map(dayReportDTOToDayReportConverter);
 

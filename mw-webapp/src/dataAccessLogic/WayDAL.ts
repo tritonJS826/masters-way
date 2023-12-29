@@ -62,6 +62,8 @@ export class WayDAL {
       favoriteForUsersPromise,
     ]);
 
+    const dayReportsOrderedByDate = dayReports.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+
     const goal = await GoalDAL.getGoal(wayDTO.goalUuid, owner);
 
     const lastUpdate = wayDTO.lastUpdate.toDate();
@@ -70,7 +72,7 @@ export class WayDAL {
     const wayPreviewProps = {
       owner,
       mentors,
-      dayReports,
+      dayReports: dayReportsOrderedByDate,
       mentorRequests,
       goal,
       lastUpdate,

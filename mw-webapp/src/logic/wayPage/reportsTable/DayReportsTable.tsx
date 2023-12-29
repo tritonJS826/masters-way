@@ -45,8 +45,7 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
    * Gets all day reports
    */
   const loadDayReports = async () => {
-    const data = await DayReportDAL.getDayReports(props.way.uuid);
-    setDayReports(data);
+    setDayReports(way.dayReports);
   };
 
   /**

@@ -17,7 +17,8 @@ import {ProblemDTO, ProblemDTOSchema, ProblemsDTOSchema} from "src/model/DTOMode
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
 import {querySnapshotsToDTOConverter} from "src/service/converter/querySnapshotsToDTOConverter";
 import {getChunksArray} from "src/utils/getChunkArray";
-import {z} from "zod";
+import {logRequest, RequestOperations} from "src/utils/logRequest";
+import {parseWithValidationStringifiedModel} from "src/utils/parseWithValidationStringifiedModel";
 
 export const PATH_TO_DAY_REPORTS_COLLECTION = "dayReports";
 const QUERY_LIMIT = 30;
@@ -26,24 +27,6 @@ const QUERY_LIMIT = 30;
  * DayReportDTO props without uuid
  */
 export type DayReportDTOWithoutUuid = Omit<DayReportDTO, "uuid">;
-
-/**
- * Parse and validate json
- */
-const parseWithValidationStringifiedModel = <SchemaType extends z.ZodTypeAny>(rawData: string, schema: SchemaType) => {
-  return z.custom<string>(() => {
-    try {
-      JSON.parse(rawData);
-    } catch (error) {
-      return false;
-    }
-
-    return true;
-  }, "json can't be parsed")
-    .transform((content) => JSON.parse(content))
-    .pipe(schema)
-    .parse(rawData);
-};
 
 /**
  * Get sorted and filtered DayReportsDTO
@@ -87,6 +70,8 @@ export class DayReportService {
 
     const validatedDayReportsDTO = DayReportsDTOSchema.parse(dayReportsDTO);
 
+    logRequest({data: validatedDayReportsDTO, text: "ValidatedDayReportsDTO", requestOperation: RequestOperations.READ});
+
     return validatedDayReportsDTO;
   }
 
@@ -114,6 +99,8 @@ export class DayReportService {
     const validatedStringifiedFields = validatedJobsDone && validatedPlans && validatedProblems && validatedComments;
     const validatedDayReportDTO = validatedStringifiedFields && DayReportDTOSchema.parse(dayReportDTO);
 
+    logRequest({data: validatedDayReportDTO, text: "ValidatedDayReportDTO", requestOperation: RequestOperations.READ});
+
     return validatedDayReportDTO;
   }
 
@@ -132,6 +119,8 @@ export class DayReportService {
 
     await setDoc(docRef, validatedDayReportDTO);
 
+    logRequest({data: validatedDayReportDTO, text: "ValidatedDayReportDTO", requestOperation: RequestOperations.WRITE});
+
     return validatedDayReportDTO;
   }
 
@@ -142,6 +131,8 @@ export class DayReportService {
     const validatedDayReportDTO = DayReportDTOSchema.parse(dayReportDTO);
 
     await updateDoc(doc(db, PATH_TO_DAY_REPORTS_COLLECTION, dayReportDTO[DAY_REPORT_UUID_FIELD]), validatedDayReportDTO);
+
+    logRequest({data: validatedDayReportDTO, text: "ValidatedDayReportDTO", requestOperation: RequestOperations.WRITE});
   }
 
   /**
