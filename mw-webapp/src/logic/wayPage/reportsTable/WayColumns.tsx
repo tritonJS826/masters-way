@@ -77,13 +77,6 @@ interface ColumnsProps {
   setDayReports: (dayReports: DayReport[]) => void;
 
   /**
-   * Way's mentors
-   * @key @User.uuid
-   * @value @UserPreview
-   */
-  mentors: Map<string, UserPreview>;
-
-  /**
    * Way
    */
   way: Way;
@@ -116,7 +109,7 @@ export const Columns = (props: ColumnsProps) => {
   const ownerUuid = props.way.owner.uuid;
   const ownerName = props.way.owner.name;
   const isOwner = user?.uuid === ownerUuid;
-  const isMentor = !!user && !!user.uuid && props.mentors.has(user.uuid);
+  const isMentor = !!user && !!user.uuid && props.way.mentors.has(user.uuid);
   const isUserOwnerOrMentor = isOwner || isMentor;
 
   const columns = [
@@ -371,7 +364,7 @@ export const Columns = (props: ColumnsProps) => {
                     <VerticalContainer>
                       <HorizontalContainer className={styles.width}>
                         <Link
-                          value={getName(props.mentors, plan.ownerUuid, ownerName)}
+                          value={getName(props.way.mentors, plan.ownerUuid, ownerName)}
                           path={pages.user.getPath({uuid: plan.ownerUuid})}
                         />
                         {plan.ownerUuid === user?.uuid &&
@@ -493,7 +486,7 @@ export const Columns = (props: ColumnsProps) => {
                     <VerticalContainer>
                       <HorizontalContainer className={styles.width}>
                         <Link
-                          value={getName(props.mentors, problem.ownerUuid, ownerName)}
+                          value={getName(props.way.mentors, problem.ownerUuid, ownerName)}
                           path={pages.user.getPath({uuid: problem.ownerUuid})}
                         />
                         {problem.ownerUuid === user?.uuid &&
@@ -595,7 +588,7 @@ export const Columns = (props: ColumnsProps) => {
                   <VerticalContainer>
                     <HorizontalContainer className={styles.width}>
                       <Link
-                        value={getName(props.mentors, comment.ownerUuid, ownerName)}
+                        value={getName(props.way.mentors, comment.ownerUuid, ownerName)}
                         path={pages.user.getPath({uuid: comment.ownerUuid})}
                       />
                       {comment.ownerUuid === user?.uuid &&

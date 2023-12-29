@@ -13,6 +13,7 @@ import {GoalMetricService} from "src/service/GoalMetricService";
 import {GoalService} from "src/service/GoalService";
 import {UserService} from "src/service/UserService";
 import {WayDTOWithoutUuid, WayService} from "src/service/WayService";
+import {createHashMap} from "src/utils/createHashMap";
 import {DateUtils} from "src/utils/DateUtils";
 
 /**
@@ -62,7 +63,7 @@ export class WayDAL {
       favoriteForUsersPromise,
     ]);
 
-    const mentorsDictionary = new Map(mentors.map((item): [string, UserPreview] => [item.uuid, item]));
+    const mentorsDictionary = createHashMap(mentors);
 
     const dayReportsOrderedByDate = dayReports.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 

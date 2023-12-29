@@ -8,7 +8,6 @@ import {Columns} from "src/logic/wayPage/reportsTable/WayColumns";
 import {WayStatistic} from "src/logic/wayPage/WayStatistic";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Way} from "src/model/businessModel/Way";
-import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {DateUtils} from "src/utils/DateUtils";
 
 /**
@@ -30,7 +29,6 @@ interface DayReportsTableProps {
  */
 export const DayReportsTable = (props: DayReportsTableProps) => {
   const [dayReports, setDayReports] = useState<DayReport[]>([]);
-  const [mentors, setMentors] = useState<Map<string, UserPreview>>(new Map());
   const way = props.way;
   const {user} = useGlobalContext();
   const isOwner = user?.uuid === way.owner.uuid;
@@ -43,7 +41,6 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
 
   useEffect(() => {
     setDayReports(way.dayReports);
-    setMentors(way.mentors);
   }, []);
 
   /**
@@ -72,7 +69,7 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
 
       <ReportsTable
         data={dayReports}
-        columns={Columns({dayReports, setDayReports, mentors, way})}
+        columns={Columns({dayReports, setDayReports, way})}
       />
     </>
   );

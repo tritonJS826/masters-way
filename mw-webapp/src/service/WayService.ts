@@ -12,9 +12,9 @@ import {
 } from "src/model/DTOModel/WayDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
 import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
+import {RequestOperations} from "src/service/RequestOperations";
 import {UserService} from "src/service/UserService";
 import {logToConsole} from "src/utils/logToConsole";
-import {RequestOperations} from "src/utils/RequestOperations";
 
 const PATH_TO_WAYS_COLLECTION = "ways";
 

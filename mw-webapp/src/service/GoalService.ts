@@ -3,8 +3,8 @@ import {db} from "src/firebase";
 import {GoalDTO, GoalDTOSchema, GoalsDTOSchema} from "src/model/DTOModel/GoalDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
 import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
+import {RequestOperations} from "src/service/RequestOperations";
 import {logToConsole} from "src/utils/logToConsole";
-import {RequestOperations} from "src/utils/RequestOperations";
 
 const PATH_TO_GOALS_COLLECTION = "goals";
 

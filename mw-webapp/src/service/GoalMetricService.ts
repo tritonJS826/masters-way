@@ -2,8 +2,8 @@ import {collection, doc, getDoc, setDoc, updateDoc, WriteBatch} from "firebase/f
 import {db} from "src/firebase";
 import {GoalMetricDTO, GoalMetricDTOSchema} from "src/model/DTOModel/GoalMetricDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
+import {RequestOperations} from "src/service/RequestOperations";
 import {logToConsole} from "src/utils/logToConsole";
-import {RequestOperations} from "src/utils/RequestOperations";
 
 const PATH_TO_GOAL_METRICS_COLLECTION = "goalMetrics";
 

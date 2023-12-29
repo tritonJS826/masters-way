@@ -212,7 +212,7 @@ export const WayPage = (props: WayPageProps) => {
   const isWayInFavorites = user && user.favoriteWays.includes(way.uuid);
 
   const isOwner = !!user && user.uuid === way.owner.uuid;
-  const isMentor = !!user && Array.from(way.mentors.keys()).some((mentorUuid) => mentorUuid === user.uuid);
+  const isMentor = !!user && way.mentors.has(user.uuid);
 
   const isUserHasSentMentorRequest = !!user && way.mentorRequests.some((request) => request.uuid === user.uuid);
   const isEligibleToSendRequest = !!user && !isOwner && !isMentor && !isUserHasSentMentorRequest;
