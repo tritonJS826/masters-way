@@ -1,19 +1,19 @@
-<mxfile host="Electron" modified="2023-10-16T07:23:45.459Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.0.2 Chrome/114.0.5735.289 Electron/25.8.4 Safari/537.36" etag="mMDpwgbZaT_qCqf6me8j" version="22.0.2" type="device">
+<mxfile host="Electron" modified="2023-12-29T07:01:43.525Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.1.11 Chrome/114.0.5735.289 Electron/25.9.8 Safari/537.36" etag="YhmflPLr_cCvPHbWOrk9" version="22.1.11" type="device">
   <diagram name="Page-1" id="qXiaa-e5cX-Asu3SHQ3i">
-    <mxGraphModel dx="880" dy="595" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1430" dy="858" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="JeiDQeIqSDZP37zK-pn1-1" value="" style="endArrow=none;dashed=1;html=1;rounded=0;" parent="1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="40" y="320" as="sourcePoint" />
-            <mxPoint x="760" y="320" as="targetPoint" />
+            <mxPoint x="230" y="320" as="sourcePoint" />
+            <mxPoint x="950" y="320" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="JeiDQeIqSDZP37zK-pn1-2" value="" style="endArrow=none;dashed=1;html=1;rounded=0;" parent="1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="40" y="440" as="sourcePoint" />
-            <mxPoint x="760" y="440" as="targetPoint" />
+            <mxPoint x="230" y="440" as="sourcePoint" />
+            <mxPoint x="950" y="440" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="JeiDQeIqSDZP37zK-pn1-11" value="Service" style="html=1;whiteSpace=wrap;" parent="1" vertex="1">
@@ -27,18 +27,9 @@
         </mxCell>
         <mxCell id="JeiDQeIqSDZP37zK-pn1-14" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" target="JeiDQeIqSDZP37zK-pn1-11" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="420" y="600" as="sourcePoint" />
+            <mxPoint x="420" y="570" as="sourcePoint" />
             <mxPoint x="480" y="520" as="targetPoint" />
           </mxGeometry>
-        </mxCell>
-        <mxCell id="JeiDQeIqSDZP37zK-pn1-15" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" edge="1">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="280" y="480" as="sourcePoint" />
-            <mxPoint x="360" y="480" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="JeiDQeIqSDZP37zK-pn1-16" value="ConvertSnapshotToDTO" style="html=1;whiteSpace=wrap;dashed=1;" parent="1" vertex="1">
-          <mxGeometry x="120" y="470" width="160" height="60" as="geometry" />
         </mxCell>
         <mxCell id="JeiDQeIqSDZP37zK-pn1-17" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="JeiDQeIqSDZP37zK-pn1-11" target="JeiDQeIqSDZP37zK-pn1-12" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
@@ -52,53 +43,44 @@
             <mxPoint x="440" y="540" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="JeiDQeIqSDZP37zK-pn1-20" value="DTOToPreviewConverter&lt;br&gt;DTOToBusinessConverter" style="html=1;whiteSpace=wrap;dashed=1;" parent="1" vertex="1">
-          <mxGeometry x="120" y="350" width="160" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="JeiDQeIqSDZP37zK-pn1-21" value="Components" style="html=1;whiteSpace=wrap;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" parent="1" vertex="1">
-          <mxGeometry x="560" y="260" width="120" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="JeiDQeIqSDZP37zK-pn1-23" value="Utils" style="html=1;whiteSpace=wrap;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" parent="1" vertex="1">
-          <mxGeometry x="560" y="210" width="120" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="7Neqq3dsCcLXtfbqQzyr-2" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" edge="1">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="360" y="520" as="sourcePoint" />
-            <mxPoint x="280" y="520" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="7Neqq3dsCcLXtfbqQzyr-3" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" edge="1">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="280" y="360" as="sourcePoint" />
-            <mxPoint x="360" y="360" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="7Neqq3dsCcLXtfbqQzyr-4" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" edge="1">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="360" y="399.89" as="sourcePoint" />
-            <mxPoint x="280" y="400" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
         <mxCell id="7Neqq3dsCcLXtfbqQzyr-12" value="&lt;ul&gt;&lt;li style=&quot;text-align: left;&quot;&gt;Firebase collections&lt;/li&gt;&lt;li style=&quot;text-align: left;&quot;&gt;DTO models&lt;/li&gt;&lt;/ul&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="730" y="485" width="150" height="30" as="geometry" />
+          <mxGeometry x="750" y="475" width="150" height="30" as="geometry" />
         </mxCell>
         <mxCell id="YTr6dIwD4O5Q6CULZTlz-1" value="&lt;ul&gt;&lt;li&gt;Business models&lt;/li&gt;&lt;li style=&quot;&quot;&gt;Preview models&lt;/li&gt;&lt;/ul&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="730" y="240" width="150" height="30" as="geometry" />
+          <mxGeometry x="750" y="230" width="150" height="30" as="geometry" />
         </mxCell>
         <mxCell id="YTr6dIwD4O5Q6CULZTlz-3" value="&lt;ul&gt;&lt;li&gt;Business models&lt;/li&gt;&lt;li style=&quot;&quot;&gt;Preview models&lt;/li&gt;&lt;li style=&quot;&quot;&gt;DTO models&lt;/li&gt;&lt;/ul&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="730" y="350" width="150" height="30" as="geometry" />
+          <mxGeometry x="750" y="340" width="150" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="YTr6dIwD4O5Q6CULZTlz-4" value="Router" style="html=1;whiteSpace=wrap;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" parent="1" vertex="1">
-          <mxGeometry x="560" y="160" width="120" height="40" as="geometry" />
+        <mxCell id="YTr6dIwD4O5Q6CULZTlz-4" value="Routing, URL validation" style="html=1;whiteSpace=wrap;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" parent="1" vertex="1">
+          <mxGeometry x="560" y="210" width="120" height="40" as="geometry" />
         </mxCell>
         <mxCell id="YTr6dIwD4O5Q6CULZTlz-5" value="View layer" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-          <mxGeometry y="245" width="80" height="30" as="geometry" />
+          <mxGeometry x="210" y="245" width="80" height="30" as="geometry" />
         </mxCell>
         <mxCell id="YTr6dIwD4O5Q6CULZTlz-6" value="DAL layer" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-          <mxGeometry y="365" width="90" height="30" as="geometry" />
+          <mxGeometry x="210" y="365" width="90" height="30" as="geometry" />
         </mxCell>
         <mxCell id="YTr6dIwD4O5Q6CULZTlz-7" value="Transport layer" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-          <mxGeometry y="485" width="90" height="30" as="geometry" />
+          <mxGeometry x="210" y="485" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="xu9rCJrtn5sGh2Ad8RDT-1" value="validate DTO models&amp;nbsp;" style="html=1;whiteSpace=wrap;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="560" y="520" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="xu9rCJrtn5sGh2Ad8RDT-2" value="Convert firebase Snapshot data to DTO and vice versa" style="html=1;whiteSpace=wrap;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="560" y="460" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="xu9rCJrtn5sGh2Ad8RDT-3" value="convert DTO To Preview and Business&amp;nbsp;&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;&amp;nbsp;and vice versa&lt;/span&gt;" style="html=1;whiteSpace=wrap;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="560" y="330" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="xu9rCJrtn5sGh2Ad8RDT-4" value="batch logic for complex queries" style="html=1;whiteSpace=wrap;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="560" y="395" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="xu9rCJrtn5sGh2Ad8RDT-5" value="UseLoad - to fetch data" style="html=1;whiteSpace=wrap;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="560" y="265" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="xu9rCJrtn5sGh2Ad8RDT-7" value="Back-end" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="390" y="580" width="60" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
