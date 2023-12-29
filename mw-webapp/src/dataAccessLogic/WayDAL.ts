@@ -62,6 +62,8 @@ export class WayDAL {
       favoriteForUsersPromise,
     ]);
 
+    const mentorsDictionary = new Map(mentors.map((item): [string, UserPreview] => [item.uuid, item]));
+
     const dayReportsOrderedByDate = dayReports.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 
     const goal = await GoalDAL.getGoal(wayDTO.goalUuid, owner);
@@ -71,7 +73,7 @@ export class WayDAL {
 
     const wayPreviewProps = {
       owner,
-      mentors,
+      mentors: mentorsDictionary,
       dayReports: dayReportsOrderedByDate,
       mentorRequests,
       goal,

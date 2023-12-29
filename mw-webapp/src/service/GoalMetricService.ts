@@ -26,7 +26,7 @@ export class GoalMetricService {
 
     const validatedGoalMetricsDTO = GoalMetricDTOSchema.parse(goalMetricsDTO);
 
-    logToConsole(`GoalMetricService: getGoalMetricsDTO: 1 ${RequestOperations.READ} operation`);
+    logToConsole(`GoalMetricService:getGoalMetricsDTO: 1 ${RequestOperations.READ} operation`);
 
     return validatedGoalMetricsDTO;
   }
@@ -46,7 +46,7 @@ export class GoalMetricService {
 
     await setDoc(docRef, validatedGoalMetricsDTO);
 
-    logToConsole(`GoalMetricService: createGoalMetricsDTO: 1 ${RequestOperations.WRITE} operation`);
+    logToConsole(`GoalMetricService:createGoalMetricsDTO: 1 ${RequestOperations.WRITE} operation`);
 
     return validatedGoalMetricsDTO;
   }
@@ -59,7 +59,7 @@ export class GoalMetricService {
 
     await updateDoc(doc(db, PATH_TO_GOAL_METRICS_COLLECTION, goalMetricsDTO.uuid), validatedGoalMetricsDTO);
 
-    logToConsole(`GoalMetricService: updateGoalMetricsDTO: 1 ${RequestOperations.WRITE} operation`);
+    logToConsole(`GoalMetricService:updateGoalMetricsDTO: 1 ${RequestOperations.WRITE} operation`);
   }
 
   /**
@@ -79,7 +79,7 @@ export class GoalMetricService {
 
     const validatedGoalMetricsDTO = GoalMetricDTOSchema.parse(goalMetricsDTO);
 
-    logToConsole(`GoalMetricService: createGoalMetricsDTOWithBatch: 1 ${RequestOperations.WRITE} operation`);
+    logToConsole(`GoalMetricService:createGoalMetricsDTOWithBatch: 1 ${RequestOperations.WRITE} operation`);
 
     return validatedGoalMetricsDTO;
   }
@@ -91,7 +91,7 @@ export class GoalMetricService {
     const wayRef = doc(db, PATH_TO_GOAL_METRICS_COLLECTION, goalMetricsDTOUuid);
     batch.delete(wayRef);
 
-    logToConsole(`GoalMetricService: deleteGoalMetricsDTOWithBatch: 1 ${RequestOperations.DELETE} operation`);
+    logToConsole(`GoalMetricService:deleteGoalMetricsDTOWithBatch: 1 ${RequestOperations.DELETE} operation`);
   }
 
 }

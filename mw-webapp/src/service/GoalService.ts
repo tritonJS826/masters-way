@@ -27,7 +27,7 @@ export class GoalService {
 
     const validatedGoalsDTO = GoalsDTOSchema.parse(goalsDTO);
 
-    logToConsole(`GoalService: getGoalsDTO: ${validatedGoalsDTO.length} ${RequestOperations.READ} operations`);
+    logToConsole(`GoalService:getGoalsDTO: ${validatedGoalsDTO.length} ${RequestOperations.READ} operations`);
 
     return validatedGoalsDTO;
   }
@@ -41,7 +41,7 @@ export class GoalService {
 
     const validatedGoalDTO = GoalDTOSchema.parse(goalDTO);
 
-    logToConsole(`GoalService: getGoalDTO: 1 ${RequestOperations.READ} operation`);
+    logToConsole(`GoalService:getGoalDTO: 1 ${RequestOperations.READ} operation`);
 
     return validatedGoalDTO;
   }
@@ -61,7 +61,7 @@ export class GoalService {
 
     await setDoc(docRef, validatedGoalDTO);
 
-    logToConsole(`GoalService: createGoalDTO: 1 ${RequestOperations.WRITE} operation`);
+    logToConsole(`GoalService:createGoalDTO: 1 ${RequestOperations.WRITE} operation`);
 
     return validatedGoalDTO;
   }
@@ -74,7 +74,7 @@ export class GoalService {
 
     await updateDoc(doc(db, PATH_TO_GOALS_COLLECTION, goalDTO.uuid), validatedGoalDTO);
 
-    logToConsole(`GoalService: updateGoalDTO: 1 ${RequestOperations.WRITE} operation`);
+    logToConsole(`GoalService:updateGoalDTO: 1 ${RequestOperations.WRITE} operation`);
   }
 
   /**
@@ -91,7 +91,7 @@ export class GoalService {
 
     const validatedGoalDTO = GoalDTOSchema.parse(goalDTO);
 
-    logToConsole(`GoalService: createGoalDTOWithBatch: 1 ${RequestOperations.WRITE} operation`);
+    logToConsole(`GoalService:createGoalDTOWithBatch: 1 ${RequestOperations.WRITE} operation`);
 
     return validatedGoalDTO;
   }
@@ -103,7 +103,7 @@ export class GoalService {
     const wayRef = doc(db, PATH_TO_GOALS_COLLECTION, goalDTOUuid);
     batch.delete(wayRef);
 
-    logToConsole(`GoalService: deleteGoalDTOWithBatch: 1 ${RequestOperations.WRITE} operation`);
+    logToConsole(`GoalService:deleteGoalDTOWithBatch: 1 ${RequestOperations.WRITE} operation`);
   }
 
 }

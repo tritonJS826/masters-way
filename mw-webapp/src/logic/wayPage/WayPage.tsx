@@ -212,7 +212,7 @@ export const WayPage = (props: WayPageProps) => {
   const isWayInFavorites = user && user.favoriteWays.includes(way.uuid);
 
   const isOwner = !!user && user.uuid === way.owner.uuid;
-  const isMentor = !!user && way.mentors.some((mentor) => mentor.uuid === user.uuid);
+  const isMentor = !!user && Array.from(way.mentors.keys()).some((mentorUuid) => mentorUuid === user.uuid);
 
   const isUserHasSentMentorRequest = !!user && way.mentorRequests.some((request) => request.uuid === user.uuid);
   const isEligibleToSendRequest = !!user && !isOwner && !isMentor && !isUserHasSentMentorRequest;
@@ -434,7 +434,7 @@ export const WayPage = (props: WayPageProps) => {
         path={pages.user.getPath({uuid: way.owner.uuid})}
         className={styles.mentors}
       />
-      {!!way.mentors.length &&
+      {!!way.mentors.size &&
         <MentorsSection
           way={way}
           setWay={setWay}

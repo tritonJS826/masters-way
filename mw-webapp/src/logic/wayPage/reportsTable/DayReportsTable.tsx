@@ -41,18 +41,9 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
   const isReportForTodayIsNotCreated = isEmptyWay || !isReportForTodayAlreadyCreated;
   const isPossibleCreateDayReport = isOwner && isReportForTodayIsNotCreated;
 
-  /**
-   * Create hashmap with mentors and set value to state
-   */
-  const createHashMapWithMentors = () => {
-    const mentorsList = props.way.mentors;
-    const mentorsHashMap = new Map(mentorsList.map((item): [string, UserPreview] => [item.uuid, item]));
-    setMentors(mentorsHashMap);
-  };
-
   useEffect(() => {
     setDayReports(way.dayReports);
-    createHashMapWithMentors();
+    setMentors(way.mentors);
   }, []);
 
   /**

@@ -39,7 +39,7 @@ export class WayService {
 
     const validatedWaysDTO = WaysDTOSchema.parse(waysDTO);
 
-    logToConsole(`WayService: getWaysDTO: ${validatedWaysDTO.length} ${RequestOperations.READ} operations`);
+    logToConsole(`WayService:getWaysDTO: ${validatedWaysDTO.length} ${RequestOperations.READ} operations`);
 
     return validatedWaysDTO;
   }
@@ -53,7 +53,7 @@ export class WayService {
 
     const validatedWayDTO = WayDTOSchema.parse(wayDTO);
 
-    logToConsole(`WayService: getWayDTO: 1 ${RequestOperations.READ} operation`);
+    logToConsole(`WayService:getWayDTO: 1 ${RequestOperations.READ} operation`);
 
     return validatedWayDTO;
   }
@@ -73,7 +73,7 @@ export class WayService {
 
     await setDoc(docRef, validatedWayDTO);
 
-    logToConsole(`WayService: createWayDTO: 1 ${RequestOperations.WRITE} operation`);
+    logToConsole(`WayService:createWayDTO: 1 ${RequestOperations.WRITE} operation`);
 
     return validatedWayDTO;
   }
@@ -85,7 +85,7 @@ export class WayService {
     const validatedWayDTO = WayDTOSchema.parse(wayDTO);
     await updateDoc(doc(db, PATH_TO_WAYS_COLLECTION, wayDTO.uuid), {...validatedWayDTO});
 
-    logToConsole(`WayService: updateWayDTO: 1 ${RequestOperations.WRITE} operation`);
+    logToConsole(`WayService:updateWayDTO: 1 ${RequestOperations.WRITE} operation`);
   }
 
   /**
@@ -99,7 +99,7 @@ export class WayService {
 
     const validatedOwnWaysDTO = WaysDTOSchema.parse(ownWaysDTO);
 
-    logToConsole(`WayService: getOwnWaysDTO: ${validatedOwnWaysDTO.length} ${RequestOperations.READ} operations`);
+    logToConsole(`WayService:getOwnWaysDTO: ${validatedOwnWaysDTO.length} ${RequestOperations.READ} operations`);
 
     return validatedOwnWaysDTO;
   }
@@ -115,7 +115,7 @@ export class WayService {
 
     const validatedMentoringWaysDTO = WaysDTOSchema.parse(mentoringWaysDTO);
 
-    logToConsole(`WayService: getMentoringWaysDTO: ${validatedMentoringWaysDTO.length} ${RequestOperations.READ} operations`);
+    logToConsole(`WayService:getMentoringWaysDTO: ${validatedMentoringWaysDTO.length} ${RequestOperations.READ} operations`);
 
     return validatedMentoringWaysDTO;
   }
@@ -137,7 +137,7 @@ export class WayService {
 
     const validatedFavoriteWaysDTO = WaysDTOSchema.parse(favoriteWaysDTO);
 
-    logToConsole(`WayService: getFavoriteWaysDTO: ${validatedFavoriteWaysDTO.length} ${RequestOperations.READ} operations`);
+    logToConsole(`WayService:getFavoriteWaysDTO: ${validatedFavoriteWaysDTO.length} ${RequestOperations.READ} operations`);
 
     return validatedFavoriteWaysDTO;
   }
@@ -148,7 +148,7 @@ export class WayService {
   public static async deleteWayDTO(wayDTOUuid: string) {
     deleteDoc(doc(db, PATH_TO_WAYS_COLLECTION, wayDTOUuid));
 
-    logToConsole(`WayService: deleteWayDTO: 1 ${RequestOperations.DELETE} operation`);
+    logToConsole(`WayService:deleteWayDTO: 1 ${RequestOperations.DELETE} operation`);
   }
 
   /**
@@ -158,7 +158,7 @@ export class WayService {
     const wayRef = doc(db, PATH_TO_WAYS_COLLECTION, updatedWay[WAY_UUID_FIELD]);
     batch.update(wayRef, updatedWay);
 
-    logToConsole(`WayService: updateWayDTOWithBatch: 1 ${RequestOperations.WRITE} operation`);
+    logToConsole(`WayService:updateWayDTOWithBatch: 1 ${RequestOperations.WRITE} operation`);
   }
 
   /**
@@ -168,7 +168,7 @@ export class WayService {
     const wayRef = doc(db, PATH_TO_WAYS_COLLECTION, wayDTOUuid);
     batch.delete(wayRef);
 
-    logToConsole(`WayService: deleteWayDTOWithBatch: 1 ${RequestOperations.DELETE} operation`);
+    logToConsole(`WayService:deleteWayDTOWithBatch: 1 ${RequestOperations.DELETE} operation`);
   }
 
 }

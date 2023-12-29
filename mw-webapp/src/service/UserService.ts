@@ -22,7 +22,7 @@ export class UserService {
 
     const validatedUsersDTO = UsersDTOSchema.parse(usersDTO);
 
-    logToConsole(`UserService: getUsersDTO: ${validatedUsersDTO.length} ${RequestOperations.READ} operations`);
+    logToConsole(`UserService:getUsersDTO: ${validatedUsersDTO.length} ${RequestOperations.READ} operations`);
 
     return validatedUsersDTO;
   }
@@ -36,7 +36,7 @@ export class UserService {
 
     const validatedUserDTO = UserDTOSchema.parse(userDTO);
 
-    logToConsole(`UserService: getUserDTO: 1 ${RequestOperations.READ} operation`);
+    logToConsole(`UserService:getUserDTO: 1 ${RequestOperations.READ} operation`);
 
     return validatedUserDTO;
   }
@@ -50,7 +50,7 @@ export class UserService {
 
     await setDoc(doc(db, PATH_TO_USERS_COLLECTION, userDTO.uuid), validatedUserDTO);
 
-    logToConsole(`UserService: createUserDTO: 1 ${RequestOperations.WRITE} operation`);
+    logToConsole(`UserService:createUserDTO: 1 ${RequestOperations.WRITE} operation`);
   }
 
   /**
@@ -62,7 +62,7 @@ export class UserService {
 
     await updateDoc(doc(db, PATH_TO_USERS_COLLECTION, userDTO.uuid), validatedUserDTO);
 
-    logToConsole(`UserService: updateUserDTO: 1 ${RequestOperations.WRITE} operation`);
+    logToConsole(`UserService:updateUserDTO: 1 ${RequestOperations.WRITE} operation`);
   }
 
   /**
@@ -72,7 +72,7 @@ export class UserService {
   public static async deleteUserDTO(uuid: string) {
     await deleteDoc(doc(db, PATH_TO_USERS_COLLECTION, uuid));
 
-    logToConsole(`UserService: deleteUserDTO: 1 ${RequestOperations.DELETE} operation`);
+    logToConsole(`UserService:deleteUserDTO: 1 ${RequestOperations.DELETE} operation`);
   }
 
   /**
@@ -82,7 +82,7 @@ export class UserService {
     const userRef = doc(db, PATH_TO_USERS_COLLECTION, updatedUserDTO.uuid);
     batch.update(userRef, updatedUserDTO);
 
-    logToConsole(`UserService: updateUserDTOWithBatch: 1 ${RequestOperations.DELETE} operation`);
+    logToConsole(`UserService:updateUserDTOWithBatch: 1 ${RequestOperations.DELETE} operation`);
   }
 
 }
