@@ -6,6 +6,20 @@ import styles from "src/utils/markdown/Markdown.module.scss";
 const customComponents: Components = {
 
   /**
+   * Custom anchor element for markdown
+   */
+  a: ({children, ...params}) => {
+    return (
+      <a
+        {...params}
+        className={styles.a}
+      >
+        {children}
+      </a>
+    );
+  },
+
+  /**
    * Custom Image element for markdown
    * @returns
    */

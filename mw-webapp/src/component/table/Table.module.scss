@@ -1,6 +1,6 @@
 @import "src/styles/variables";
 
-$table-border: 1px solid black;
+$table-border: 1px solid $primaryBorderColor;
 
 .table {
   width: 100%;
@@ -12,7 +12,7 @@ $table-border: 1px solid black;
 .table th {
   padding: 5px;
   border: $table-border;
-  background: $primaryShadowColor;
+  background: $primaryBackgroundColor;
   font-weight: bold;
 }
 
