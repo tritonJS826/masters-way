@@ -25,11 +25,6 @@ jobDoneTags: string[]
 
 DayReportDTO
 uuid: string
-date?: timestamp // deprecated
-jobDoneUuids?: string[] @JobDone.uuid[] // deprecated
-planForNextPeriodUuids?: string[] @PlanForNextPeriod.uuid[] // deprecated
-problemForCurrentPeriodUuids?: string[] @CurrentProblem.uuid[] // deprecated
-commentUuids?: string[] @Comment.uuid[] // // deprecated
 createdAt: timestamp
 jobsDoneStringified: string[] stringified@JobDone
 plansStringified: string[] stringified@PlanForNextPeriod
