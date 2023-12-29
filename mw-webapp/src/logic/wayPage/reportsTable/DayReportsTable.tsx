@@ -42,13 +42,6 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
   const isPossibleCreateDayReport = isOwner && isReportForTodayIsNotCreated;
 
   /**
-   * Gets all day reports
-   */
-  const loadDayReports = async () => {
-    setDayReports(way.dayReports);
-  };
-
-  /**
    * Load mentors
    */
   const loadMentors = () => {
@@ -58,7 +51,7 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
   };
 
   useEffect(() => {
-    loadDayReports();
+    setDayReports(way.dayReports);
     loadMentors();
   }, []);
 
