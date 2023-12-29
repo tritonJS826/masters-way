@@ -42,9 +42,9 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
   const isPossibleCreateDayReport = isOwner && isReportForTodayIsNotCreated;
 
   /**
-   * Load mentors
+   * Create hashmap with mentors and set value to state
    */
-  const loadMentors = () => {
+  const createHashMapWithMentors = () => {
     const mentorsList = props.way.mentors;
     const mentorsHashMap = new Map(mentorsList.map((item): [string, UserPreview] => [item.uuid, item]));
     setMentors(mentorsHashMap);
@@ -52,7 +52,7 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
 
   useEffect(() => {
     setDayReports(way.dayReports);
-    loadMentors();
+    createHashMapWithMentors();
   }, []);
 
   /**

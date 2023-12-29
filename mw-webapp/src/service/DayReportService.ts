@@ -19,6 +19,7 @@ import {querySnapshotsToDTOConverter} from "src/service/converter/querySnapshots
 import {getChunksArray} from "src/utils/getChunkArray";
 import {logToConsole} from "src/utils/logToConsole";
 import {parseWithValidationStringifiedModel} from "src/utils/parseWithValidationStringifiedModel";
+import {RequestOperations} from "src/utils/RequestOperations";
 
 export const PATH_TO_DAY_REPORTS_COLLECTION = "dayReports";
 const QUERY_LIMIT = 30;
@@ -70,7 +71,7 @@ export class DayReportService {
 
     const validatedDayReportsDTO = DayReportsDTOSchema.parse(dayReportsDTO);
 
-    logToConsole(`GetDayReportsDTO required ${validatedDayReportsDTO.length} READ operations`);
+    logToConsole(`DayReportService: getDayReportsDTO: ${validatedDayReportsDTO.length} ${RequestOperations.READ} operations`);
 
     return validatedDayReportsDTO;
   }
@@ -99,7 +100,7 @@ export class DayReportService {
     const validatedStringifiedFields = validatedJobsDone && validatedPlans && validatedProblems && validatedComments;
     const validatedDayReportDTO = validatedStringifiedFields && DayReportDTOSchema.parse(dayReportDTO);
 
-    logToConsole("GetDayReportDTO required 1 READ operation");
+    logToConsole(`DayReportService: getDayReportDTO: 1 ${RequestOperations.READ} operation`);
 
     return validatedDayReportDTO;
   }
@@ -119,7 +120,7 @@ export class DayReportService {
 
     await setDoc(docRef, validatedDayReportDTO);
 
-    logToConsole("CreateDayReportDTO required 1 WRITE operation");
+    logToConsole(`DayReportService: createDayReportDTO: 1 ${RequestOperations.WRITE} operation`);
 
     return validatedDayReportDTO;
   }
@@ -132,7 +133,7 @@ export class DayReportService {
 
     await updateDoc(doc(db, PATH_TO_DAY_REPORTS_COLLECTION, dayReportDTO[DAY_REPORT_UUID_FIELD]), validatedDayReportDTO);
 
-    logToConsole("UpdateDayReportDTO required 1 WRITE operation");
+    logToConsole(`DayReportService: updateDayReportDTO: 1 ${RequestOperations.WRITE} operation`);
   }
 
   /**
@@ -141,7 +142,7 @@ export class DayReportService {
   public static async deleteDayReportDTO(dayReportDTOUuid: string) {
     deleteDoc(doc(db, PATH_TO_DAY_REPORTS_COLLECTION, dayReportDTOUuid));
 
-    logToConsole("DeleteDayReportDTO required 1 DELETE operation");
+    logToConsole(`DayReportService: deleteDayReportDTO: 1 ${RequestOperations.DELETE} operation`);
   }
 
   /**
@@ -151,7 +152,7 @@ export class DayReportService {
     const dayReportRef = doc(db, PATH_TO_DAY_REPORTS_COLLECTION, updatedDayReportDTO[DAY_REPORT_UUID_FIELD]);
     batch.update(dayReportRef, updatedDayReportDTO);
 
-    logToConsole("UpdateDayReportDTOWithBatch required 1 WRITE operation");
+    logToConsole(`DayReportService: updateDayReportDTOWithBatch: 1 ${RequestOperations.WRITE} operation`);
   }
 
   /**
@@ -161,7 +162,7 @@ export class DayReportService {
     const wayRef = doc(db, PATH_TO_DAY_REPORTS_COLLECTION, dayReportDTOUuid);
     batch.delete(wayRef);
 
-    logToConsole("DeleteDayReportDTOWithBatch required 1 DELETE operation");
+    logToConsole(`DayReportService: deleteDayReportDTOWithBatch: 1 ${RequestOperations.DELETE} operation`);
   }
 
 }
