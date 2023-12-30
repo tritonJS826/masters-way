@@ -37,9 +37,9 @@ export const Tooltip = (props: PropsWithChildren<TooltipProps>) => {
 
   return (
     <div className={styles.wrapper}>
-      <span className={styles.target}>
+      <div className={styles.target}>
         {props.children}
-      </span>
+      </div>
       <div className={contentClassNames}>
         {props.content}
       </div>

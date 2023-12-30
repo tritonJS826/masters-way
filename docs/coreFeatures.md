@@ -60,14 +60,15 @@
 # Core features (round 2)
 
 ## UserPage (default for logged in)
-- [ ] add visual notifications when favorite or mentoring ways changed
+- [ ] add visual notifications when favorite or mentoring ways changed (or just show last update)
 - [ ] add push notifications when favorite or mentoring ways changed
 - [ ] add ability to archive the way (add filter hide archived)
+- [ ] create/delete composite way - readonly
 
 ## WayPage
 - [ ] WayPage: realtime chat with mentor
 - [ ] WayPage: AI analyze reports in a way
-- [ ] Add type of user (describe the sense optional) :
+- [ ] Add type of user (way specific data) (describe the sense optional) :
   * newbie - directive
   * frustrated novice
   * insecure professional
@@ -87,6 +88,13 @@
   * mixed type - music
 - [ ] show progress (and compare percentage of completed tasks, worked time, time period)
 - [ ] Add tags for way
+- [ ] complete plan feature icon (copy to jobDone for today)
+- [ ] Possibility to add tags for each JobDone, plan
+- [ ] export way data to csv
+- [ ] export way to pdf
+- [ ] add to way statistics settings checkboxes for all available way statistic and allow user to adjust what to show
+- [ ] Optimization: load only last 30 DayReports (lazy loading) 
+- [ ] share result (with LinkedIn - way completed)
 
 ## AllWaysPage (default for not logged in)
 - [ ] AllWaysPage: search/filter panel
@@ -103,21 +111,15 @@
 ## AboutProjectPage
 
 ## Additional feature
-- [ ] put jobDone, problems etc into report to reduce firebase reads
+- [x] put jobDone, problems etc into report to reduce firebase reads
 - [ ] multi language interface 
 - [ ] sent feedback (add lambda to netlify)
 - [ ] attach files, images, videos to records
 - [ ] public/private ways
 - [ ] public/private users
-- [ ] share result (with LinkedIn - way completed)
 - [ ] Make AnalyticalReport (statistic)
 - [ ] Analytics page
 - [ ] Achievements
-- [ ] Possibility to add tags for each JobDone
 - [ ] Investigation with coming soon tooltip (component)
-- [ ] Optimization: load only last 30 DayReports (lazy loading) (think about it)
-- [ ] Add a page with a tree of paths (chain of goals) for visualization
+- [ ] Add a page with a tree of ways (chain of goals) for visualization
 - [ ] add settings page (language, modal with hints)
-- [ ] add to settings checkboxes for all available way statistic and allow user to adjust what to show
-- [ ] export way data to csv
-- [ ] export way to csv

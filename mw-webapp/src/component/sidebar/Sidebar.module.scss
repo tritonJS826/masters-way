@@ -7,7 +7,7 @@
 
 .menuItem {
   padding: 10px;
-  color: black;
+  color: $primaryTextColor;
   transition-duration: $elementHoverTransition;
   &:hover {
     background-color: $primaryShadowColor;

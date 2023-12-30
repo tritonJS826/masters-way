@@ -1,9 +1,13 @@
+@import "src/styles/variables";
+
 .header {
   display: flex;
   width: 100%;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
+  padding: 4px;
+  background-color: $primaryBackgroundColor;
 }
 
 .headerButtonsContainer {

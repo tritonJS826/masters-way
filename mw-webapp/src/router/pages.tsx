@@ -4,6 +4,7 @@ import {AboutProjectPage} from "src/logic/aboutProjectPage/AboutProjectPage";
 import {AllUsersPage} from "src/logic/allUsersPage/AllUsersPage";
 import {AllWaysPage} from "src/logic/allWaysPage/AllWaysPage";
 import {Page404} from "src/logic/page404/Page404";
+import {SettingsPage} from "src/logic/settingsPage/SettingsPage";
 import {UserPage} from "src/logic/userPage/UserPage";
 import {WayPage} from "src/logic/wayPage/WayPage";
 import {UrlParamsType} from "src/router/PageUrlValidator/UrlParamsType";
@@ -61,6 +62,11 @@ export const pages = {
   allUsers: {
     getPath: () => "/users",
     getPageComponent: () => <AllUsersPage />,
+    urlParams: {},
+  } as PageParams,
+  settings: {
+    getPath: () => "/settings",
+    getPageComponent: () => <SettingsPage />,
     urlParams: {},
   } as PageParams,
   aboutProject: {
