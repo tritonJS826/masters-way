@@ -22,3 +22,7 @@ $table-border: 1px solid $primaryBorderColor;
   text-align: left;
   vertical-align: top;
 }
+
+.tooltip {
+  color: $secondaryTextColor;
+}

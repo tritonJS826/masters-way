@@ -1,4 +1,4 @@
-import {PropsWithChildren, ReactNode} from "react";
+import {PropsWithChildren, ReactElement, ReactNode} from "react";
 import clsx from "clsx";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import styles from "src/component/tooltip/Tooltip.module.scss";
@@ -11,7 +11,7 @@ interface TooltipProps {
   /**
    * Tooltip's content
    */
-  content: string | ReactNode;
+  content: string | ReactNode | ReactElement;
 
   /**
    * Additional custom class name for the component

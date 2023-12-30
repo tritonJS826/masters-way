@@ -1,11 +1,14 @@
 import {useEffect, useState} from "react";
-import {Button} from "src/component/button/Button";
+import {HeadingLevel, Title} from "src/component/title/Title";
+import {Tooltip} from "src/component/tooltip/Tooltip";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
 import {WAYS_OWNER, waysColumns} from "src/logic/waysTable/waysColumns";
 import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {Way} from "src/model/businessModel/Way";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
+import {UnicodeSymbols} from "src/utils/UnicodeSymbols";
+import styles from "src/logic/waysTable/columns.module.scss";
 
 /**
  * Props with User uuid
@@ -57,10 +60,15 @@ export const OwnWaysTable = (props: PropsWithUuid) => {
   return (
     <>
       {props.uuid &&
-        <Button
-          value="Create new way"
-          onClick={() => createWay(props.uuid, ownWays)}
-        />
+        <div className={styles.tooltip}>
+          <Tooltip content="Create new way">
+            <Title
+              level={HeadingLevel.h2}
+              text={UnicodeSymbols.PLUS}
+              onClick={() => createWay(props.uuid, ownWays)}
+            />
+          </Tooltip>
+        </div>
       }
       <WaysTable
         data={ownWays}

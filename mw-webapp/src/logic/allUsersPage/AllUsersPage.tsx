@@ -1,5 +1,4 @@
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
-import {HeadingLevel, Title} from "src/component/title/Title";
 import {AllUsersTable} from "src/logic/usersTable/AllUsersTable";
 
 /**
@@ -7,14 +6,8 @@ import {AllUsersTable} from "src/logic/usersTable/AllUsersTable";
  */
 export const AllUsersPage = () => {
   return (
-    <>
-      <Title
-        level={HeadingLevel.h2}
-        text="Users page"
-      />
-      <ScrollableBlock>
-        <AllUsersTable />
-      </ScrollableBlock>
-    </>
+    <ScrollableBlock>
+      <AllUsersTable />
+    </ScrollableBlock>
   );
 };

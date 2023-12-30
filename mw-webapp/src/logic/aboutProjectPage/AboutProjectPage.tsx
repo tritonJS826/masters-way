@@ -32,14 +32,14 @@ export const AboutProjectPage = () => {
 
   return (
     <div className={styles.pageWrapper}>
-      <Title
-        level={HeadingLevel.h2}
-        text="About project page"
-      />
-
       <Button
         value={lang === "en" ? "change on ru" : "change on en"}
         onClick={() => setLang(lang === "en" ? "ru" : "en")}
+      />
+
+      <Title
+        level={HeadingLevel.h2}
+        text="About project"
       />
 
       <div className={styles.projectDescription}>

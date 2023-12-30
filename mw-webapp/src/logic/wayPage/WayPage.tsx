@@ -5,6 +5,7 @@ import {Button} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Сheckbox";
 import {EditableText} from "src/component/editableText/EditableText";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
+import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
@@ -300,17 +301,20 @@ export const WayPage = (props: WayPageProps) => {
             isEditable={isOwner}
           />
           {isOwner && (
-            <TrashIcon
-              className={styles.icon}
-              onClick={() => renderModalContent({
-                description: `Are you sure that you want to delete singleGoalMetric "${singleGoalMetric.description}"?`,
+            <Tooltip content="Delete goal metric">
+              <TrashIcon
+                className={styles.icon}
+                onClick={() => renderModalContent({
+                  description: `Are you sure that you want to delete singleGoalMetric "${singleGoalMetric.description}"?`,
 
-                /**
-                 * CallBack triggered on press ok
-                 */
-                onOk: () => removeSingularGoalMetric(singleGoalMetric.metricUuid),
-              })}
-            />)
+                  /**
+                   * CallBack triggered on press ok
+                   */
+                  onOk: () => removeSingularGoalMetric(singleGoalMetric.metricUuid),
+                })}
+              />
+            </Tooltip>
+          )
           }
         </div>
       </Tooltip>
@@ -334,51 +338,57 @@ export const WayPage = (props: WayPageProps) => {
 
   return (
     <div className={styles.container}>
-      <Title
-        level={HeadingLevel.h2}
-        text={`${way.name}`}
-        onChangeFinish={(text) => changeWayName(way, text)}
-        isEditable={isOwner}
-      />
-      {isOwner &&
-        <Button
-          value="Delete way"
-          // TODO: need refactoring
-          onClick={() => renderModalContent({
-            description: `Are you sure that you want to delete way "${way.name}"?`,
+      <HorizontalContainer className={styles.alignItems}>
+        <Title
+          level={HeadingLevel.h2}
+          text={`${way.name}`}
+          onChangeFinish={(text) => changeWayName(way, text)}
+          isEditable={isOwner}
+        />
+        {isOwner &&
+        <Tooltip content="Delete way">
+          <TrashIcon
+            className={styles.iconHeader}
+            // TODO: need refactoring
+            onClick={() => renderModalContent({
+              description: `Are you sure that you want to delete way "${way.name}"?`,
 
-            /**
-             * CallBack triggered on press ok
-             */
-            onOk: async () => {
-              await WayDAL.deleteWay(way);
-              navigate(pages.user.getPath({uuid: user.uuid}));
-            },
-          })
-          }
-        />
-      }
-      <div>
-        Amount of users who add it to favorite:
-        {UnicodeSymbols.SPACE + favoriteForUsersAmount}
-      </div>
+              /**
+               * CallBack triggered on press ok
+               */
+              onOk: async () => {
+                await WayDAL.deleteWay(way);
+                navigate(pages.user.getPath({uuid: user.uuid}));
+              },
+            })
+            }
+          />
+        </Tooltip>
+        }
+      </HorizontalContainer>
       {
-        isWayInFavorites &&
-        <Button
-          value={"Remove from favorite"}
-          onClick={() =>
-            deleteFavoriteFromWayAndFromUser(user, way, setUser, setWay)
-          }
-        />
-      }
-      {
-        !isWayInFavorites && user &&
-        <Button
-          value={"Add to favorite"}
-          onClick={() =>
-            addFavoriteToWayAndToUser(user, way, setUser, setWay)
-          }
-        />
+        isWayInFavorites ?
+          <Tooltip content="Delete from favorite">
+            <Title
+              level={HeadingLevel.h2}
+              text={`${UnicodeSymbols.STAR} ${favoriteForUsersAmount}`}
+              className={styles.favorites}
+              onClick={() =>
+                deleteFavoriteFromWayAndFromUser(user, way, setUser, setWay)
+              }
+            />
+          </Tooltip>
+          :
+          <Tooltip content="Add to favorite">
+            <Title
+              level={HeadingLevel.h2}
+              text={`${UnicodeSymbols.OUTLINED_STAR} ${favoriteForUsersAmount}`}
+              className={styles.favorites}
+              onClick={() =>
+                user && addFavoriteToWayAndToUser(user, way, setUser, setWay)
+              }
+            />
+          </Tooltip>
       }
       <div className={styles.goalSection}>
         <div>
@@ -401,27 +411,33 @@ export const WayPage = (props: WayPageProps) => {
           />
           {renderGoalMetric(way.goal.metrics[0])}
           {isOwner && (
-            <Button
-              value="Add new goal metric"
-              onClick={async () => {
+            <div className={styles.iconHeader}>
+              <Tooltip content="Add new goal metric">
+                <Title
+                  level={HeadingLevel.h2}
+                  text={UnicodeSymbols.PLUS}
+                  onClick={async () => {
 
-                /**
-                 * Get current goal metric from way
-                 */
-                const currentGoalMetric = way.goal.metrics[0];
+                    /**
+                     * Get current goal metric from way
+                     */
+                    const currentGoalMetric = way.goal.metrics[0];
 
-                const updatedGoalMetric = new GoalMetric({
-                  uuid: currentGoalMetric.uuid,
-                  description: currentGoalMetric.description.concat(""),
-                  metricUuids: currentGoalMetric.metricUuids.concat(uuidv4()),
-                  isDone: currentGoalMetric.isDone.concat(false),
-                  doneDate: currentGoalMetric.doneDate.concat(new Date()),
-                });
+                    const updatedGoalMetric = new GoalMetric({
+                      uuid: currentGoalMetric.uuid,
+                      description: currentGoalMetric.description.concat(""),
+                      metricUuids: currentGoalMetric.metricUuids.concat(uuidv4()),
+                      isDone: currentGoalMetric.isDone.concat(false),
+                      doneDate: currentGoalMetric.doneDate.concat(new Date()),
+                    });
 
-                setGoalMetric(updatedGoalMetric);
-                await GoalMetricDAL.updateGoalMetric(updatedGoalMetric);
-              }}
-            />)
+                    setGoalMetric(updatedGoalMetric);
+                    await GoalMetricDAL.updateGoalMetric(updatedGoalMetric);
+                  }}
+                />
+              </Tooltip>
+            </div>
+          )
           }
         </div>
       </div>

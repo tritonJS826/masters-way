@@ -124,14 +124,14 @@ export const UserPage = (props: UserPageProps) => {
       </div>
       <Title
         text= {`Own Ways (total amount: ${userPreview.ownWays.length} ways)`}
-        level={HeadingLevel.h3}
+        level={HeadingLevel.h2}
       />
       <ScrollableBlock>
         <OwnWaysTable uuid={props.uuid} />
       </ScrollableBlock>
       <Title
         text={`Mentoring Ways (total amount: ${userPreview.mentoringWays.length} ways)`}
-        level={HeadingLevel.h3}
+        level={HeadingLevel.h2}
       />
       <ScrollableBlock>
         <MentoringWaysTable
@@ -142,7 +142,7 @@ export const UserPage = (props: UserPageProps) => {
       </ScrollableBlock>
       <Title
         text={`Favorite Ways (total amount: ${userPreview.favoriteWays.length} ways)`}
-        level={HeadingLevel.h3}
+        level={HeadingLevel.h2}
       />
       <ScrollableBlock>
         <FavoriteWaysTable uuid={props.uuid} />

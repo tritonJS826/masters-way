@@ -14,14 +14,7 @@ $listLeftMargin: 20px;
   align-items: end;
   justify-content: space-between;
   padding-top: 5px;
-  border-top: 2px solid $primaryBorderColor;
   font-weight: bold;
-}
-
-.flatButton {
-  width: 100px;
-  height: 20px;
-  padding: 0px;
 }
 
 .summaryText {
@@ -60,4 +53,8 @@ $listLeftMargin: 20px;
 .width {
   width: 100%;
   justify-content: space-between;
+}
+
+.tooltip {
+  cursor: pointer;
 }

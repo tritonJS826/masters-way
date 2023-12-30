@@ -12,6 +12,7 @@ $secondaryBackgroundColorTransparent: rgba(255, 255, 255, 50%);
 $tertiaryBackgroundColor: rgb(99, 99, 99);
 $primaryTextColor: rgb(207, 207, 207);
 $secondaryTextColor: rgb(20, 20, 20);
+$tertiaryTextColor: rgb(200, 50, 50);
 $primaryBorderColor: rgb(255, 255, 255);
 $primaryShadowColor: rgb(211, 211, 211);
 $hoverColor: rgb(135, 135, 135);
@@ -26,3 +27,8 @@ $elementHoverTransition: 500ms;
 
 // z-index
 $sidebarZIndex: 100;
+
+// Margins, paddings, gaps
+$defaultPadding: 10px;
+$defaultMargin: 10px;
+$defaultGap: 10px;

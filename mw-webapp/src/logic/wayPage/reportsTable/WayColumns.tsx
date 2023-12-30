@@ -1,11 +1,11 @@
 import {TrashIcon} from "@radix-ui/react-icons";
 import {createColumnHelper} from "@tanstack/react-table";
-import {Button} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Сheckbox";
 import {EditableText} from "src/component/editableText/EditableText";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
+import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
@@ -20,6 +20,7 @@ import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {pages} from "src/router/pages";
 import {DateUtils} from "src/utils/DateUtils";
+import {UnicodeSymbols} from "src/utils/UnicodeSymbols";
 import {v4 as uuidv4} from "uuid";
 import styles from "src/logic/wayPage/reportsTable/WayColumns.module.scss";
 
@@ -242,31 +243,35 @@ export const Columns = (props: ColumnsProps) => {
                       />
                     </HorizontalContainer>
                     {isOwner &&
-                    <TrashIcon
-                      className={styles.icon}
-                      onClick={() => renderModalContent({
-                        description: `Are you sure that you want to delete jobDone "${jobDone.description}"?`,
+                      <Tooltip content="Delete jobDone">
+                        <TrashIcon
+                          className={styles.icon}
+                          onClick={() => renderModalContent({
+                            description: `Are you sure that you want to delete jobDone "${jobDone.description}"?`,
 
-                        /**
-                         * CallBack triggered on press ok
-                         */
-                        onOk: () => deleteJobDone(jobDone.uuid),
-                      })
-                      }
-                    />
+                            /**
+                             * CallBack triggered on press ok
+                             */
+                            onOk: () => deleteJobDone(jobDone.uuid),
+                          })
+                          }
+                        />
+                      </Tooltip>
                     }
                   </HorizontalContainer>
                 </li>
               ))}
             </ol>
             <div className={styles.summarySection}>
-              <div>
+              <div className={styles.tooltip}>
                 {isOwner &&
-                  <Button
-                    value="add job"
-                    onClick={createJobDone}
-                    className={styles.flatButton}
-                  />
+                  <Tooltip content="add job">
+                    <Title
+                      level={HeadingLevel.h3}
+                      text={UnicodeSymbols.PLUS}
+                      onClick={createJobDone}
+                    />
+                  </Tooltip>
                 }
               </div>
               <div className={styles.summaryText}>
@@ -368,18 +373,20 @@ export const Columns = (props: ColumnsProps) => {
                           path={pages.user.getPath({uuid: plan.ownerUuid})}
                         />
                         {plan.ownerUuid === user?.uuid &&
-                          <TrashIcon
-                            className={styles.icon}
-                            onClick={() => renderModalContent({
-                              description: `Are you sure that you want to delete plan "${plan.job}"?`,
+                          <Tooltip content="Delete plan">
+                            <TrashIcon
+                              className={styles.icon}
+                              onClick={() => renderModalContent({
+                                description: `Are you sure that you want to delete plan "${plan.job}"?`,
 
-                              /**
-                               * CallBack triggered on press ok
-                               */
-                              onOk: () => deletePlan(plan.uuid),
-                            })
-                            }
-                          />
+                                /**
+                                 * CallBack triggered on press ok
+                                 */
+                                onOk: () => deletePlan(plan.uuid),
+                              })
+                              }
+                            />
+                          </Tooltip>
                         }
                       </HorizontalContainer>
                       <HorizontalContainer>
@@ -402,13 +409,17 @@ export const Columns = (props: ColumnsProps) => {
               ))}
             </ol>
             <div className={styles.summarySection}>
-              <div>
+              <div className={styles.tooltip}>
                 {isUserOwnerOrMentor &&
-                <Button
-                  value="add plan"
-                  onClick={() => createPlan(user.uuid)}
-                  className={styles.flatButton}
-                />
+                  <div className={styles.tooltip}>
+                    <Tooltip content="add plan">
+                      <Title
+                        level={HeadingLevel.h3}
+                        text={UnicodeSymbols.PLUS}
+                        onClick={() => createPlan(user.uuid)}
+                      />
+                    </Tooltip>
+                  </div>
                 }
               </div>
               <div className={styles.summaryText}>
@@ -490,18 +501,20 @@ export const Columns = (props: ColumnsProps) => {
                           path={pages.user.getPath({uuid: problem.ownerUuid})}
                         />
                         {problem.ownerUuid === user?.uuid &&
-                        <TrashIcon
-                          className={styles.icon}
-                          onClick={() => renderModalContent({
-                            description: `Are you sure that you want to delete problem "${problem.description}"?`,
+                          <Tooltip content="Delete problem">
+                            <TrashIcon
+                              className={styles.icon}
+                              onClick={() => renderModalContent({
+                                description: `Are you sure that you want to delete problem "${problem.description}"?`,
 
-                            /**
-                             * CallBack triggered on press ok
-                             */
-                            onOk: () => deleteProblem(problem.uuid),
-                          })
-                          }
-                        />
+                                /**
+                                 * CallBack triggered on press ok
+                                 */
+                                onOk: () => deleteProblem(problem.uuid),
+                              })
+                              }
+                            />
+                          </Tooltip>
                         }
                       </HorizontalContainer>
                       <EditableTextarea
@@ -516,11 +529,15 @@ export const Columns = (props: ColumnsProps) => {
               ))}
             </ol>
             {isUserOwnerOrMentor &&
-              <Button
-                value="add problem"
-                onClick={() => createProblem(user.uuid)}
-                className={styles.flatButton}
-              />
+              <div className={styles.tooltip}>
+                <Tooltip content="add problem">
+                  <Title
+                    level={HeadingLevel.h3}
+                    text={UnicodeSymbols.PLUS}
+                    onClick={() => createProblem(user.uuid)}
+                  />
+                </Tooltip>
+              </div>
             }
           </VerticalContainer>
         );
@@ -592,18 +609,20 @@ export const Columns = (props: ColumnsProps) => {
                         path={pages.user.getPath({uuid: comment.ownerUuid})}
                       />
                       {comment.ownerUuid === user?.uuid &&
-                        <TrashIcon
-                          className={styles.icon}
-                          onClick={() => renderModalContent({
-                            description: `Are you sure that you want to delete comment "${comment.description}"?`,
+                        <Tooltip content="Delete comment">
+                          <TrashIcon
+                            className={styles.icon}
+                            onClick={() => renderModalContent({
+                              description: `Are you sure that you want to delete comment "${comment.description}"?`,
 
-                            /**
-                             * CallBack triggered on press ok
-                             */
-                            onOk: () => deleteComment(comment.uuid),
-                          })
-                          }
-                        />
+                              /**
+                               * CallBack triggered on press ok
+                               */
+                              onOk: () => deleteComment(comment.uuid),
+                            })
+                            }
+                          />
+                        </Tooltip>
                       }
                     </HorizontalContainer>
                     <EditableTextarea
@@ -617,11 +636,15 @@ export const Columns = (props: ColumnsProps) => {
               ),
               )}
             {isUserOwnerOrMentor &&
-            <Button
-              value="add comment"
-              onClick={() => createComment(user.uuid)}
-              className={styles.flatButton}
-            />
+              <div className={styles.tooltip}>
+                <Tooltip content="add comment">
+                  <Title
+                    level={HeadingLevel.h3}
+                    text={UnicodeSymbols.PLUS}
+                    onClick={() => createComment(user.uuid)}
+                  />
+                </Tooltip>
+              </div>
             }
           </VerticalContainer>
         );
