@@ -13,6 +13,7 @@ import {GoalMetricService} from "src/service/GoalMetricService";
 import {GoalService} from "src/service/GoalService";
 import {UserService} from "src/service/UserService";
 import {WayDTOWithoutUuid, WayService} from "src/service/WayService";
+import {createHashMap} from "src/utils/createHashMap";
 import {DateUtils} from "src/utils/DateUtils";
 
 /**
@@ -62,6 +63,10 @@ export class WayDAL {
       favoriteForUsersPromise,
     ]);
 
+    const mentorsDictionary = createHashMap(mentors);
+
+    const dayReportsOrderedByDate = dayReports.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+
     const goal = await GoalDAL.getGoal(wayDTO.goalUuid, owner);
 
     const lastUpdate = wayDTO.lastUpdate.toDate();
@@ -69,8 +74,8 @@ export class WayDAL {
 
     const wayPreviewProps = {
       owner,
-      mentors,
-      dayReports,
+      mentors: mentorsDictionary,
+      dayReports: dayReportsOrderedByDate,
       mentorRequests,
       goal,
       lastUpdate,

@@ -8,7 +8,6 @@ import {Columns} from "src/logic/wayPage/reportsTable/WayColumns";
 import {WayStatistic} from "src/logic/wayPage/WayStatistic";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Way} from "src/model/businessModel/Way";
-import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {DateUtils} from "src/utils/DateUtils";
 
 /**
@@ -30,7 +29,6 @@ interface DayReportsTableProps {
  */
 export const DayReportsTable = (props: DayReportsTableProps) => {
   const [dayReports, setDayReports] = useState<DayReport[]>([]);
-  const [mentors, setMentors] = useState<Map<string, UserPreview>>(new Map());
   const way = props.way;
   const {user} = useGlobalContext();
   const isOwner = user?.uuid === way.owner.uuid;
@@ -41,26 +39,8 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
   const isReportForTodayIsNotCreated = isEmptyWay || !isReportForTodayAlreadyCreated;
   const isPossibleCreateDayReport = isOwner && isReportForTodayIsNotCreated;
 
-  /**
-   * Gets all day reports
-   */
-  const loadDayReports = async () => {
-    const data = await DayReportDAL.getDayReports(props.way.uuid);
-    setDayReports(data);
-  };
-
-  /**
-   * Load mentors
-   */
-  const loadMentors = () => {
-    const mentorsList = props.way.mentors;
-    const mentorsHashMap = new Map(mentorsList.map((item): [string, UserPreview] => [item.uuid, item]));
-    setMentors(mentorsHashMap);
-  };
-
   useEffect(() => {
-    loadDayReports();
-    loadMentors();
+    setDayReports(way.dayReports);
   }, []);
 
   /**
@@ -89,7 +69,7 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
 
       <ReportsTable
         data={dayReports}
-        columns={Columns({dayReports, setDayReports, mentors, way})}
+        columns={Columns({dayReports, setDayReports, way})}
       />
     </>
   );

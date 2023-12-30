@@ -34,8 +34,10 @@ export class Way {
 
   /**
    * Mentors of this way
+   * @key @User.uuid
+   * @value @UserPreview
    */
-  public mentors: UserPreview[];
+  public mentors: Map<string, UserPreview>;
 
   /**
    * Users who sent request to become Way's mentor

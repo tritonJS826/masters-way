@@ -16,8 +16,10 @@ import {PlanDTO, PlanDTOSchema, PlansDTOSchema} from "src/model/DTOModel/PlanDTO
 import {ProblemDTO, ProblemDTOSchema, ProblemsDTOSchema} from "src/model/DTOModel/ProblemDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
 import {querySnapshotsToDTOConverter} from "src/service/converter/querySnapshotsToDTOConverter";
+import {RequestOperations} from "src/service/RequestOperations";
 import {getChunksArray} from "src/utils/getChunkArray";
-import {z} from "zod";
+import {logToConsole} from "src/utils/logToConsole";
+import {parseWithValidationStringifiedModel} from "src/utils/parseWithValidationStringifiedModel";
 
 export const PATH_TO_DAY_REPORTS_COLLECTION = "dayReports";
 const QUERY_LIMIT = 30;
@@ -26,24 +28,6 @@ const QUERY_LIMIT = 30;
  * DayReportDTO props without uuid
  */
 export type DayReportDTOWithoutUuid = Omit<DayReportDTO, "uuid">;
-
-/**
- * Parse and validate json
- */
-const parseWithValidationStringifiedModel = <SchemaType extends z.ZodTypeAny>(rawData: string, schema: SchemaType) => {
-  return z.custom<string>(() => {
-    try {
-      JSON.parse(rawData);
-    } catch (error) {
-      return false;
-    }
-
-    return true;
-  }, "json can't be parsed")
-    .transform((content) => JSON.parse(content))
-    .pipe(schema)
-    .parse(rawData);
-};
 
 /**
  * Get sorted and filtered DayReportsDTO
@@ -87,6 +71,8 @@ export class DayReportService {
 
     const validatedDayReportsDTO = DayReportsDTOSchema.parse(dayReportsDTO);
 
+    logToConsole(`DayReportService:getDayReportsDTO: ${validatedDayReportsDTO.length} ${RequestOperations.READ} operations`);
+
     return validatedDayReportsDTO;
   }
 
@@ -114,6 +100,8 @@ export class DayReportService {
     const validatedStringifiedFields = validatedJobsDone && validatedPlans && validatedProblems && validatedComments;
     const validatedDayReportDTO = validatedStringifiedFields && DayReportDTOSchema.parse(dayReportDTO);
 
+    logToConsole(`DayReportService:getDayReportDTO: 1 ${RequestOperations.READ} operation`);
+
     return validatedDayReportDTO;
   }
 
@@ -132,6 +120,8 @@ export class DayReportService {
 
     await setDoc(docRef, validatedDayReportDTO);
 
+    logToConsole(`DayReportService:createDayReportDTO: 1 ${RequestOperations.WRITE} operation`);
+
     return validatedDayReportDTO;
   }
 
@@ -142,6 +132,8 @@ export class DayReportService {
     const validatedDayReportDTO = DayReportDTOSchema.parse(dayReportDTO);
 
     await updateDoc(doc(db, PATH_TO_DAY_REPORTS_COLLECTION, dayReportDTO[DAY_REPORT_UUID_FIELD]), validatedDayReportDTO);
+
+    logToConsole(`DayReportService:updateDayReportDTO: 1 ${RequestOperations.WRITE} operation`);
   }
 
   /**
@@ -149,6 +141,8 @@ export class DayReportService {
    */
   public static async deleteDayReportDTO(dayReportDTOUuid: string) {
     deleteDoc(doc(db, PATH_TO_DAY_REPORTS_COLLECTION, dayReportDTOUuid));
+
+    logToConsole(`DayReportService:deleteDayReportDTO: 1 ${RequestOperations.DELETE} operation`);
   }
 
   /**
@@ -157,6 +151,8 @@ export class DayReportService {
   public static updateDayReportDTOWithBatch(updatedDayReportDTO: DayReportDTO, batch: WriteBatch) {
     const dayReportRef = doc(db, PATH_TO_DAY_REPORTS_COLLECTION, updatedDayReportDTO[DAY_REPORT_UUID_FIELD]);
     batch.update(dayReportRef, updatedDayReportDTO);
+
+    logToConsole(`DayReportService:updateDayReportDTOWithBatch: 1 ${RequestOperations.WRITE} operation`);
   }
 
   /**
@@ -165,6 +161,8 @@ export class DayReportService {
   public static deleteDayReportDTOWithBatch(dayReportDTOUuid: string, batch: WriteBatch) {
     const wayRef = doc(db, PATH_TO_DAY_REPORTS_COLLECTION, dayReportDTOUuid);
     batch.delete(wayRef);
+
+    logToConsole(`DayReportService:deleteDayReportDTOWithBatch: 1 ${RequestOperations.DELETE} operation`);
   }
 
 }

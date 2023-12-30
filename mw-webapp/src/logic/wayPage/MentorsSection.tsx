@@ -22,7 +22,8 @@ const removeMentorFromWay = (
 
   UserPreviewDAL.updateUserPreview(newUserPreview);
 
-  const mentors = way.mentors.filter((item) => item !== userPreview);
+  way.mentors.delete(userPreview.uuid);
+  const mentors = way.mentors;
   const newWay = new Way({...way, mentors});
 
   WayDAL.updateWay(newWay);
@@ -55,13 +56,15 @@ interface MentorsSectionProps {
  * Section with all Way mentors
  */
 export const MentorsSection = (props: MentorsSectionProps) => {
+  const mentors = Array.from(props.way.mentors.values());
+
   return (
     <>
       <Title
         level={HeadingLevel.h3}
         text="Mentors of this way:"
       />
-      {props.way.mentors.map((mentor) => (
+      {mentors.map((mentor) => (
         <div key={uuidv4().concat(mentor.uuid)}>
           <Link
             key={mentor.uuid}
