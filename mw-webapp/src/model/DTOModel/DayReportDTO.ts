@@ -42,31 +42,6 @@ export const DayReportDTOSchema = z.object({
    */
   isDayOff: z.boolean(),
 
-  /**
-   * Report's date (deprecated)
-   */
-  date: z.optional(timestampType()),
-
-  /**
-   * @JobDone.uuids (deprecated)
-   */
-  jobDoneUuids: z.optional(z.array(z.string())),
-
-  /**
-   * @PlanForNextPeriod.uuids (deprecated)
-   */
-  planForNextPeriodUuids: z.optional(z.array(z.string())),
-
-  /**
-   * @CurrentProblem.uuids (deprecated)
-   */
-  problemForCurrentPeriodUuids: z.optional(z.array(z.string())),
-
-  /**
-   * @Comment.uuids (deprecated)
-   */
-  commentUuids: z.optional(z.array(z.string())),
-
 }).strict();
 
 export const DayReportsDTOSchema = z.array(DayReportDTOSchema);
