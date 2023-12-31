@@ -12,4 +12,20 @@ export enum UnicodeSymbols {
    * Space
    */
   SPACE = "\u0020",
+
+  /**
+   * Outlined Black Star
+   */
+  OUTLINED_STAR = "\u2606",
+
+  /**
+   * Black star
+   */
+  STAR = "\u2605",
+
+  /**
+   * Plus Sign
+   */
+  PLUS = "\u002B",
+
 }

@@ -91,14 +91,6 @@ export const MentoringWaysTable = (props: MentoringWaysTableProps) => {
     props.handleUserPreviewChange(newUserPreview);
   };
 
-  const columnsToExclude = [WAY_MENTORS];
-
-  const mentoringWaysTableColumns = waysColumns.filter(column => {
-    if (column.header) {
-      return !columnsToExclude.includes(column.header.toString());
-    }
-  });
-
   const mentorsColumn = columnHelper.accessor("mentors", {
     header: WAY_MENTORS,
 
@@ -116,6 +108,7 @@ export const MentoringWaysTable = (props: MentoringWaysTableProps) => {
                   path={pages.user.getPath({uuid: mentor.uuid})}
                   value={mentor.name}
                 />
+                {/* TODO: think about moving logic about deleted mentoring on Way page */}
                 {props.uuid === mentor.uuid && (
                   <TrashIcon
                     className={styles.icon}
@@ -141,7 +134,9 @@ export const MentoringWaysTable = (props: MentoringWaysTableProps) => {
     },
   });
 
-  mentoringWaysTableColumns.push(mentorsColumn);
+  const mentoringWaysTableColumns = waysColumns.map(column => {
+    return column.header === WAY_MENTORS ? mentorsColumn : column;
+  });
 
   return (
     <WaysTable

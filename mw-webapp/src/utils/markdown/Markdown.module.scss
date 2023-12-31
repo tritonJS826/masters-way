@@ -1,5 +1,7 @@
+@import "src/styles/variables";
+
 .a {
-  color: red;
+  color: $tertiaryTextColor;
 }
 
 .markdownImg {

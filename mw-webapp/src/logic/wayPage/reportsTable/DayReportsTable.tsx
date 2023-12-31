@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
-import {Button} from "src/component/button/Button";
 import {HeadingLevel, Title} from "src/component/title/Title";
+import {Tooltip} from "src/component/tooltip/Tooltip";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {ReportsTable} from "src/logic/wayPage/reportsTable/ReportsTable";
@@ -9,6 +9,7 @@ import {WayStatistic} from "src/logic/wayPage/WayStatistic";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Way} from "src/model/businessModel/Way";
 import {DateUtils} from "src/utils/DateUtils";
+import {UnicodeSymbols} from "src/utils/UnicodeSymbols";
 
 /**
  * DayReportsTable props
@@ -61,10 +62,13 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
       <WayStatistic dayReports={dayReports} />
 
       {isPossibleCreateDayReport &&
-      <Button
-        value="Create new day report"
-        onClick={() => createDayReport(way.uuid, dayReports)}
-      />
+        <Tooltip content="Create new day report">
+          <Title
+            level={HeadingLevel.h2}
+            text={UnicodeSymbols.PLUS}
+            onClick={() => createDayReport(way.uuid, dayReports)}
+          />
+        </Tooltip>
       }
 
       <ReportsTable

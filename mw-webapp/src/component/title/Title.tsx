@@ -108,7 +108,7 @@ export const Title = (props: TitleProps) => {
           <Heading
             onClick={props.onClick}
             as={props.level}
-            className={clsx(styles.title, props.className)}
+            className={clsx(props.className)}
           >
             {text === "" ? DEFAULT_PLACEHOLDER : text}
           </Heading>
