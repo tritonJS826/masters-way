@@ -96,78 +96,86 @@ export const WayStatistic = (props: WayStatisticProps) => {
           </p>
           {totalDaysOnAWay}
         </div>
-        <p>
-          Total days on a way:
-        </p>
-        {totalDaysOnAWay}
-        <p>
-          Total days on a way:
-        </p>
-        {totalDaysOnAWay}
-        <p>
-          Total amount of records:
-        </p>
-        {totalRecordsAmount}
-        <p>
-          Amount of records marked as worked:
-        </p>
-        {totalWorkedRecords}
-        <p>
-          Total way time:
-        </p>
-        {totalWayTime}
-        <p>
-          minutes
-        </p>
-        <p>
-          Average working time per day:
-        </p>
-        {averageWorkingTimeInDay}
-        <p>
-          Average working time in worked records:
-        </p>
-        {averageWorkingTimeInWorkedRecords}
-        <p>
-          Avereage working time in all records:
-
-        </p>
-        {averageWorkingTimeInRecords}
+        <div className={styles.alignContent}>
+          <p>
+            Total amount of records:
+          </p>
+          {totalRecordsAmount}
+        </div>
+        <div className={styles.alignContent}>
+          <p>
+            Amount of records marked as worked:
+          </p>
+          {totalWorkedRecords}
+        </div>
+        <div className={styles.alignContent}>
+          <p>
+            Total way time (minutes):
+          </p>
+          {totalWayTime}
+        </div>
+        <div className={styles.alignContent}>
+          <p>
+            Average working time per day:
+          </p>
+          {averageWorkingTimeInDay}
+        </div>
+        <div className={styles.alignContent}>
+          <p>
+            Average working time in worked records:
+          </p>
+          {averageWorkingTimeInWorkedRecords}
+        </div>
+        <div className={styles.alignContent}>
+          <p>
+            Average working time in all records:
+          </p>
+          {averageWorkingTimeInRecords}
+        </div>
         <Tooltip content="Shows level of task decomposition">
-          <div>
-            Avereage job time:
-            {" "}
+          <div className={styles.alignContent}>
+            <p>
+              Average job time:
+            </p>
             {averageTimeForJob}
           </div>
         </Tooltip>
-        <p>
-          Last calendar week total time:
-        </p>
-        {lastCalendarWeekTotalTime}
-        <p>
-          Last calendar week average day time:
-          {" "}
+        <div className={styles.alignContent}>
+          <p>
+            Last calendar week total time:
+          </p>
+          {lastCalendarWeekTotalTime}
+        </div>
+        <div className={styles.alignContent}>
+          <p>
+            Last calendar week average day time:
+          </p>
           {lastCalendarWeekAverageWorkingTime}
-        </p>
-        <p>
-          Last calendar week average job time:
-          {" "}
+        </div>
+        <div className={styles.alignContent}>
+          <p>
+            Last calendar week average job time:
+          </p>
           {lastCalendarWeekAverageJobTime}
-        </p>
-        <p>
-          Last 2 calendar week total time:
-          {" "}
+        </div>
+        <div className={styles.alignContent}>
+          <p>
+            Last 2 calendar week total time:
+          </p>
           {lastCalendarTwoWeekTotalTime}
-        </p>
-        <p>
-          Last 2 calendar week average day time:
-          {" "}
+        </div>
+        <div className={styles.alignContent}>
+          <p>
+            Last 2 calendar week average day time:
+          </p>
           {lastCalendarTwoWeekAverageWorkingTime}
-        </p>
-        <p>
-          Last 2 calendar week average job time:
-          {" "}
+        </div>
+        <div className={styles.alignContent}>
+          <p>
+            Last 2 calendar week average job time:
+          </p>
           {lastCalendarTwoWeekAverageJobTime}
-        </p>
+        </div>
       </div>
     );
   };
