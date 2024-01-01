@@ -291,7 +291,7 @@ export const WayPage = (props: WayPageProps) => {
             isEditable={isOwner}
             isDefaultChecked={singleGoalMetric.isDone}
             onChange={(isDone) => {
-              const updatedSingleGoalMetric = new SingleGoalMetric({...singleGoalMetric, isDone});
+              const updatedSingleGoalMetric = new SingleGoalMetric({...singleGoalMetric, isDone, doneDate: new Date()});
               updateGoalMetric(updatedSingleGoalMetric);
             }
             }
