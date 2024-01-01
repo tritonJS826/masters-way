@@ -10,6 +10,7 @@ $table-border: 1px solid $primaryBorderColor;
 }
 
 .table th {
+  position: relative;
   padding: 5px;
   border: $table-border;
   background: $primaryBackgroundColor;

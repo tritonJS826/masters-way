@@ -4,8 +4,6 @@
   padding: 13px 17px;
   border: none;
   border-radius: $primaryBorderRadius;
-  background-color: $tertiaryBackgroundColor;
-  color: $primaryTextColor;
   font-family: $primaryFontFamily;
   font-size: $primaryFontSize;
   transition-duration: $primaryTransitionDuration;
@@ -18,4 +16,19 @@
   &:active {
     background-color: $activeColor;
   }
+}
+
+.primary {
+  background-color: $tertiaryBackgroundColor;
+  color: $secondaryTextColor;
+}
+
+.secondary {
+  background-color: $secondaryBackgroundColor;
+  color: $secondaryTextColor;
+}
+
+.tertiary {
+  background-color: transparent;
+  color: $primaryTextColor;
 }

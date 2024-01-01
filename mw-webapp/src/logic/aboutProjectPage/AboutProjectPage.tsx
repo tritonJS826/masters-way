@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
-import {Button} from "src/component/button/Button";
+import {Button, ButtonType} from "src/component/button/Button";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import aboutProjectPageContent from "src/logic/aboutProjectPage/AboutProjectPageContent.json";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
@@ -35,6 +35,7 @@ export const AboutProjectPage = () => {
       <Button
         value={lang === "en" ? "change on ru" : "change on en"}
         onClick={() => setLang(lang === "en" ? "ru" : "en")}
+        buttonType={ButtonType.PRIMARY}
       />
 
       <Title
@@ -47,7 +48,7 @@ export const AboutProjectPage = () => {
       </div>
 
       <Title
-        level={HeadingLevel.h3}
+        level={HeadingLevel.h2}
         text="FAQ"
       />
 

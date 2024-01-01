@@ -1,6 +1,6 @@
 import {useNavigate} from "react-router-dom";
 import logo from "src/assets/mastersWayLogo.svg";
-import {Button} from "src/component/button/Button";
+import {Button, ButtonType} from "src/component/button/Button";
 import {Image} from "src/component/image/Image";
 import {NavigationLink, Sidebar} from "src/component/sidebar/Sidebar";
 import {HeadingLevel, Title} from "src/component/title/Title";
@@ -69,19 +69,23 @@ export const Header = () => {
           onClick={() => navigate(pages.user.getPath({uuid: user.uuid}))}
         />
         }
-        <Button
-          onClick={user ? AuthService.logOut : AuthService.logIn}
-          value={user ? BUTTON_LOG_OUT_VALUE : BUTTON_LOG_IN_VALUE}
-        />
-        <Sidebar
-          trigger={
-            <Button
-              value="Navigation"
-              onClick={() => {}}
-            />
-          }
-          linkList={menuItems}
-        />
+        <div className={styles.buttons}>
+          <Button
+            onClick={user ? AuthService.logOut : AuthService.logIn}
+            value={user ? BUTTON_LOG_OUT_VALUE : BUTTON_LOG_IN_VALUE}
+            buttonType={ButtonType.TERTIARY}
+          />
+          <Sidebar
+            trigger={
+              <Button
+                value="Menu"
+                onClick={() => { }}
+                buttonType={ButtonType.TERTIARY}
+              />
+            }
+            linkList={menuItems}
+          />
+        </div>
       </div>
     </div>
   );

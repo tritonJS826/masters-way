@@ -7,12 +7,16 @@
 
 .goalSection {
   display: flex;
+  width: 100%;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: space-between;
+  margin-bottom: $defaultMargin;
+  gap: $defaultGap;
 }
 
 .goalDescription {
-  max-width: 600px;
+  min-width: $minWidthBlock;
+  max-width: $maxWidthBlock;
 
   textarea {
     width: 100%;
@@ -21,7 +25,7 @@
 
 .singularMetric {
   display: flex;
-  max-width: 600px;
+  max-width: $maxWidthBlock;
   align-items: center;
   margin-bottom: 4px;
   gap: 4px;
@@ -32,24 +36,40 @@
 }
 
 .icon {
+  display: block;
   min-width: 15px;
   min-height: 15px;
   margin-left: 5px;
   cursor: pointer;
 }
 
-.favorites {
-  cursor: pointer;
-}
-
-.iconHeader {
-  width: 24px;
-  height: 24px;
-  cursor: pointer;
-}
-
 .alignItems {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
+}
+
+.alignTrashIcon {
+  align-items: center;
+  gap: $defaultGap;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  gap: $defaultGap;
+}
+
+.gap {
+  gap: $defaultGap;
+}
+
+.accordion {
+  min-width: $minWidthBlock;
+  max-width: $maxWidthBlock;
+  margin-top: $defaultMargin;
+}
+
+.trash {
+  display: inline-block;
 }

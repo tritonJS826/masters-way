@@ -6,8 +6,10 @@
 
 .tooltip {
   position: absolute;
+  z-index: $tooltipZIndex;
   display: none;
-  padding: 20px;
+  padding: $defaultPadding;
+  border-radius: $primaryBorderRadius;
   background-color: $secondaryBackgroundColor;
   color: $secondaryTextColor;
   cursor: pointer;

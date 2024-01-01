@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import {TrashIcon} from "@radix-ui/react-icons";
 import {Link} from "src/component/link/Link";
+import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
@@ -72,10 +73,16 @@ export const MentoringWaysTable = (props: MentoringWaysTableProps) => {
 
   if (!props.isPageOwner) {
     return (
-      <WaysTable
-        data={mentoringWays}
-        columns={waysColumns}
-      />
+      <>
+        <Title
+          text= {`Mentoring Ways (total amount: ${mentoringWays.length} ways)`}
+          level={HeadingLevel.h2}
+        />
+        <WaysTable
+          data={mentoringWays}
+          columns={waysColumns}
+        />
+      </>
     );
   }
 
@@ -139,9 +146,15 @@ export const MentoringWaysTable = (props: MentoringWaysTableProps) => {
   });
 
   return (
-    <WaysTable
-      data={mentoringWays}
-      columns={mentoringWaysTableColumns}
-    />
+    <>
+      <Title
+        text= {`Mentoring Ways (total amount: ${mentoringWays.length} ways)`}
+        level={HeadingLevel.h2}
+      />
+      <WaysTable
+        data={mentoringWays}
+        columns={mentoringWaysTableColumns}
+      />
+    </>
   );
 };

@@ -1,7 +1,7 @@
 /**
- * Unicode symbols
+ * Unicode and emoji symbols
  */
-export enum UnicodeSymbols {
+export enum Symbols {
 
   /**
    * Dividing point
@@ -12,6 +12,11 @@ export enum UnicodeSymbols {
    * Space
    */
   SPACE = "\u0020",
+
+  /**
+   * No-Break Space
+   */
+  NO_BREAK_SPACE = "\u00A0",
 
   /**
    * Outlined Black Star
@@ -26,6 +31,6 @@ export enum UnicodeSymbols {
   /**
    * Plus Sign
    */
-  PLUS = "\u002B",
+  PLUS = "➕",
 
 }

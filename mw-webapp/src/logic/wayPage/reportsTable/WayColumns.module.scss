@@ -13,8 +13,15 @@ $listLeftMargin: 20px;
   width: 100%;
   align-items: end;
   justify-content: space-between;
-  padding-top: 5px;
   font-weight: bold;
+}
+
+.flatButton {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  line-height: 20px;
+  text-align: center;
 }
 
 .summaryText {
@@ -23,7 +30,20 @@ $listLeftMargin: 20px;
 
 .numberedList {
   width: calc(100% - $listLeftMargin);
+  flex: 1 0 auto;
   margin-left: $listLeftMargin;
+}
+
+.numberedList li:last-child {
+  margin-bottom: $defaultMargin;
+}
+
+.comments li {
+  list-style: none;
+}
+
+.comments li:last-child {
+  margin-bottom: $defaultMargin;
 }
 
 .numberedListItem {
@@ -55,6 +75,7 @@ $listLeftMargin: 20px;
   justify-content: space-between;
 }
 
-.tooltip {
-  cursor: pointer;
+.dateCell {
+  display: block;
+  min-width: $minWidthDate;
 }

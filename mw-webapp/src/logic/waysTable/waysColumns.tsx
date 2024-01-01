@@ -1,5 +1,6 @@
 import {createColumnHelper} from "@tanstack/react-table";
 import {Link} from "src/component/link/Link";
+import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {getWayStatus} from "src/logic/waysTable/wayStatus";
@@ -7,18 +8,18 @@ import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
 import {DateUtils} from "src/utils/DateUtils";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
-import {UnicodeSymbols} from "src/utils/UnicodeSymbols";
+import {Symbols} from "src/utils/Symbols";
 import styles from "src/logic/waysTable/columns.module.scss";
 
 export const columnHelper = createColumnHelper<WayPreview>();
 
-export const WAYS_OWNER = "Way's Owner";
+export const WAYS_OWNER = "Way's owner";
 export const WAY_MENTORS = "Mentors";
 
 /**
  * Get first name from user name
  */
-const getFirstName = (userName: string) => {
+export const getFirstName = (userName: string) => {
   const firstName = userName.split(" ")[0];
 
   return firstName;
@@ -30,7 +31,18 @@ const getFirstName = (userName: string) => {
  */
 export const waysColumns = [
   columnHelper.accessor("createdAt", {
-    header: "Created at",
+
+    /**
+     * Header
+     */
+    header: () => (<>
+      <Tooltip
+        position={PositionTooltip.BOTTOM}
+        content="Date, when way was created"
+      >
+        Created at
+      </Tooltip>
+    </>),
 
     /**
      * Cell with date of created way
@@ -42,7 +54,18 @@ export const waysColumns = [
     ),
   }),
   columnHelper.accessor("lastUpdate", {
-    header: "Last update",
+
+    /**
+     * Header
+     */
+    header: () => (<>
+      <Tooltip
+        position={PositionTooltip.BOTTOM}
+        content="Date when the last Day Report was created"
+      >
+        Last update
+      </Tooltip>
+    </>),
 
     /**
      * Cell with date of last updated way
@@ -54,7 +77,18 @@ export const waysColumns = [
     ),
   }),
   columnHelper.accessor("isCompleted", {
-    header: "Status",
+
+    /**
+     * Header
+     */
+    header: () => (<>
+      <Tooltip
+        position={PositionTooltip.BOTTOM}
+        content="The path is abandoned if it is not completed, but has not been edited in the last 14 days"
+      >
+        Status
+      </Tooltip>
+    </>),
 
     /**
      * Cell with isCompleted value
@@ -66,9 +100,9 @@ export const waysColumns = [
       });
 
       return (
-        <Tooltip content="The path is abandoned if it is not completed, but has not been edited in the last 14 days">
+        <div>
           {wayStatus}
-        </Tooltip>
+        </div>
       );
     },
   }),
@@ -93,7 +127,18 @@ export const waysColumns = [
     ),
   }),
   columnHelper.accessor("owner", {
-    header: WAYS_OWNER,
+
+    /**
+     * Header
+     */
+    header: () => (<>
+      <Tooltip
+        position={PositionTooltip.TOP}
+        content="Owner's name and email"
+      >
+        {WAYS_OWNER}
+      </Tooltip>
+    </>),
 
     /**
      * Cell with way's owner
@@ -135,7 +180,18 @@ export const waysColumns = [
     },
   }),
   columnHelper.accessor("favoriteForUserUuids", {
-    header: UnicodeSymbols.STAR,
+
+    /**
+     * Header
+     */
+    header: () => (<>
+      <Tooltip
+        position={PositionTooltip.BOTTOM}
+        content="Amount of favorites"
+      >
+        {Symbols.STAR}
+      </Tooltip>
+    </>),
 
     /**
      * Cell with amount of favorite for user uuids

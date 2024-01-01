@@ -19,8 +19,10 @@
   padding: 1% 4%;
   border: none;
   background-color: transparent;
+  color: $primaryTextColor;
   font-size: 15px;
   line-height: 1;
+  text-align: left;
 
   &:hover {
     background-color: rgba(0, 0, 0, 5%);
