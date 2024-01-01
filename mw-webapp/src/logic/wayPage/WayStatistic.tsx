@@ -1,4 +1,5 @@
 import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
+import {HeadingLevel, Title} from "src/component/title/Title";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {DateUtils} from "src/utils/DateUtils";
@@ -90,6 +91,10 @@ export const WayStatistic = (props: WayStatisticProps) => {
   const getContent = () => {
     return (
       <div className={styles.wrapper}>
+        <Title
+          level={HeadingLevel.h4}
+          text="Total statistics"
+        />
         <div className={styles.alignContent}>
           <p>
             Total days on a way:
@@ -140,6 +145,11 @@ export const WayStatistic = (props: WayStatisticProps) => {
             {averageTimeForJob}
           </div>
         </Tooltip>
+        <Title
+          level={HeadingLevel.h4}
+          text="Last week statistics"
+          className={styles.title}
+        />
         <div className={styles.alignContent}>
           <p>
             Last calendar week total time:
@@ -158,6 +168,11 @@ export const WayStatistic = (props: WayStatisticProps) => {
           </p>
           {lastCalendarWeekAverageJobTime}
         </div>
+        <Title
+          level={HeadingLevel.h4}
+          text="Last two weeks statistics"
+          className={styles.title}
+        />
         <div className={styles.alignContent}>
           <p>
             Last 2 calendar week total time:
