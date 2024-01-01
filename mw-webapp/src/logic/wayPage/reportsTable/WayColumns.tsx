@@ -586,9 +586,9 @@ export const Columns = (props: ColumnsProps) => {
         return (
           <VerticalContainer>
             <ol className={styles.comments}>
-              <li>
-                {row.original.comments
-                  .map((comment) => (
+              {row.original.comments
+                .map((comment) => (
+                  <li key={comment.uuid}>
                     <HorizontalContainer key={comment.uuid}>
                       <VerticalContainer>
                         <HorizontalContainer className={styles.width}>
@@ -597,20 +597,20 @@ export const Columns = (props: ColumnsProps) => {
                             path={pages.user.getPath({uuid: comment.ownerUuid})}
                           />
                           {comment.ownerUuid === user?.uuid &&
-                          <Tooltip content="Delete comment">
-                            <TrashIcon
-                              className={styles.icon}
-                              onClick={() => renderModalContent({
-                                description: `Are you sure that you want to delete comment "${comment.description}"?`,
+                            <Tooltip content="Delete comment">
+                              <TrashIcon
+                                className={styles.icon}
+                                onClick={() => renderModalContent({
+                                  description: `Are you sure that you want to delete comment "${comment.description}"?`,
 
-                                /**
-                                 * CallBack triggered on press ok
-                                 */
-                                onOk: () => deleteComment(comment.uuid),
-                              })
-                              }
-                            />
-                          </Tooltip>
+                                  /**
+                                   * CallBack triggered on press ok
+                                   */
+                                  onOk: () => deleteComment(comment.uuid),
+                                })
+                                }
+                              />
+                            </Tooltip>
                           }
                         </HorizontalContainer>
                         <EditableTextarea
@@ -621,9 +621,9 @@ export const Columns = (props: ColumnsProps) => {
                         />
                       </VerticalContainer>
                     </HorizontalContainer>
-                  ),
-                  )}
-              </li>
+                  </li>
+                ),
+                )}
             </ol>
             <div className={styles.summarySection}>
               {isUserOwnerOrMentor &&
