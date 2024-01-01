@@ -250,7 +250,7 @@ export const Columns = (props: ColumnsProps) => {
                 position={PositionTooltip.RIGHT}
               >
                 <Button
-                  value="➕"
+                  value={Symbols.PLUS}
                   onClick={createJobDone}
                   className={styles.flatButton}
                 />
