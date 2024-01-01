@@ -1,5 +1,6 @@
 const START_OF_ISO_SUBSTRING_RANGE = 0;
 const END_OF_ISO_SUBSTRING_RANGE = 10;
+const DAY_MILLISECONDS = 86400000;
 
 /**
  * Formatted date
@@ -16,18 +17,13 @@ export class DateUtils {
   }
 
   /**
-   * Get array with last {@link amount} dates
+   * Date that was {@link amount} days ago
    */
-  public static getLastDates(amount: number): string[] {
-    const lastDates = [...Array(amount)].map((elem, index) => {
-      const currentDate = new Date();
-      const date = currentDate.setDate(currentDate.getDate() - index);
-      const formattedDate = DateUtils.getShortISODateValue(new Date(date));
+  public static getLastDate(amount: number): Date {
+    const currentDate = new Date();
+    const dateInPast = new Date(currentDate.getTime() - (amount * DAY_MILLISECONDS));
 
-      return formattedDate;
-    });
-
-    return lastDates;
+    return new Date(dateInPast);
   }
 
 }

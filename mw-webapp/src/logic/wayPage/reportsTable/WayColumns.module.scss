@@ -75,12 +75,7 @@ $listLeftMargin: 20px;
   justify-content: space-between;
 }
 
-.tooltip {
-  width: 120px;
-}
-
 .dateCell {
-  display: flex;
-  min-width: 80px;
-  flex-wrap: nowrap;
+  display: block;
+  min-width: $minWidthDate;
 }

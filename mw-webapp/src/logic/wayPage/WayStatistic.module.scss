@@ -1,8 +1,8 @@
 @import "src/styles/variables";
 
 .accordion {
-  min-width: 360px;
-  max-width: 600px;
+  min-width: $minWidthBlock;
+  max-width: $maxWidthBlock;
   margin-top: $defaultMargin;
 }
 

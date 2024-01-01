@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {Button, ButtonsType} from "src/component/button/Button";
+import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {Tooltip} from "src/component/tooltip/Tooltip";
@@ -34,6 +34,7 @@ export const OwnWaysTable = (props: OwnWaysTableProps) => {
    * Load User own ways
    */
   const loadOwnWays = async () => {
+    // TODO: move to const
     const data = await WayPreviewDAL.getUserWaysPreview(userPreviewUuid, "Own");
     setOwnWays(data);
   };
@@ -67,7 +68,7 @@ export const OwnWaysTable = (props: OwnWaysTableProps) => {
           <Button
             value="Create new way"
             onClick={() => createWay(userPreviewUuid, ownWays)}
-            buttonType={ButtonsType.PRIMARY}
+            buttonType={ButtonType.PRIMARY}
           />
         </Tooltip>
       }

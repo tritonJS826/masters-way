@@ -6,7 +6,7 @@
 
 .tooltip {
   position: absolute;
-  z-index: 100;
+  z-index: $tooltipZIndex;
   display: none;
   padding: $defaultPadding;
   border-radius: $primaryBorderRadius;

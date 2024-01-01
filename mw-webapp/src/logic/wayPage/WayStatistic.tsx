@@ -26,10 +26,10 @@ const MILLISECONDS_IN_DAY = 86_400_000;
 const SMAL_CORECTION_MILLISECONDS = 1;
 
 const AMOUNT_DAYS_IN_WEEK = 7;
-const AMOUNT_DAYS_IN_TWO_WEEK = 7;
+const AMOUNT_DAYS_IN_TWO_WEEK = 14;
 
-const lastWeekDates = DateUtils.getLastDates(AMOUNT_DAYS_IN_WEEK);
-const lastTwoWeekDates = DateUtils.getLastDates(AMOUNT_DAYS_IN_TWO_WEEK);
+const lastWeekDate = DateUtils.getLastDate(AMOUNT_DAYS_IN_WEEK);
+const lastTwoWeekDate = DateUtils.getLastDate(AMOUNT_DAYS_IN_TWO_WEEK);
 
 /**
  * Render table of reports
@@ -61,7 +61,7 @@ export const WayStatistic = (props: WayStatisticProps) => {
   const averageTimeForJob = Math.round(totalWayTime / allJobsAmount.length);
 
   const lastWeekDayReports = props.dayReports.filter((dayReport) => {
-    return lastWeekDates.includes(DateUtils.getShortISODateValue(dayReport.createdAt));
+    return dayReport.createdAt > lastWeekDate;
   });
 
   const lastWeekJobsAmount = lastWeekDayReports.flatMap(report => report.jobsDone);
@@ -73,7 +73,7 @@ export const WayStatistic = (props: WayStatisticProps) => {
   const lastCalendarWeekAverageJobTime = Math.round(lastCalendarWeekTotalTime / lastWeekJobsAmount.length);
 
   const lastTwoWeekDayReports = props.dayReports.filter((dayReport) => {
-    return lastTwoWeekDates.includes(DateUtils.getShortISODateValue(dayReport.createdAt));
+    return dayReport.createdAt > lastTwoWeekDate;
   });
 
   const lastTwoWeekJobsAmount = lastTwoWeekDayReports.flatMap(report => report.jobsDone);

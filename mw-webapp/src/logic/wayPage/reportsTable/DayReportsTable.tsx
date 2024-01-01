@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {Button, ButtonsType} from "src/component/button/Button";
+import {Button, ButtonType} from "src/component/button/Button";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {ReportsTable} from "src/logic/wayPage/reportsTable/ReportsTable";
@@ -57,7 +57,7 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
       <Button
         value="Create new day report"
         onClick={() => createDayReport(way.uuid, dayReports)}
-        buttonType={ButtonsType.PRIMARY}
+        buttonType={ButtonType.PRIMARY}
         className={styles.button}
       />
       }

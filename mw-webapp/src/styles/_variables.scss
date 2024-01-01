@@ -9,7 +9,6 @@ $fontSizeLarge: 48px;
 $primaryBackgroundColor: rgb(20, 20, 20);
 $secondaryBackgroundColor: rgb(202, 200, 200);
 $secondaryBackgroundColorTransparent: rgba(255, 255, 255, 50%);
-// $tertiaryBackgroundColor: rgb(99, 99, 99);
 $tertiaryBackgroundColor: rgb(200, 30, 30);
 $primaryTextColor: rgb(207, 207, 207);
 $secondaryTextColor: rgb(20, 20, 20);
@@ -28,8 +27,14 @@ $elementHoverTransition: 500ms;
 
 // z-index
 $sidebarZIndex: 100;
+$tooltipZIndex: 100;
 
 // Margins, paddings, gaps
 $defaultPadding: 10px;
 $defaultMargin: 10px;
 $defaultGap: 10px;
+
+// Widths and heights
+$minWidthBlock: 360px;
+$maxWidthBlock: 600px;
+$minWidthDate: 80px;

@@ -79,7 +79,6 @@ export const MentorsSection = (props: MentorsSectionProps) => {
               <Tooltip
                 content="Delete from mentors"
                 position={PositionTooltip.RIGHT}
-                className={styles.tooltip}
               >
                 <TrashIcon
                   className={styles.icon}

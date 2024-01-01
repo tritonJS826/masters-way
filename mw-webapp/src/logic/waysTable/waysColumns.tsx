@@ -8,7 +8,7 @@ import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
 import {DateUtils} from "src/utils/DateUtils";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
-import {UnicodeSymbols} from "src/utils/UnicodeSymbols";
+import {Symbols} from "src/utils/Symbols";
 import styles from "src/logic/waysTable/columns.module.scss";
 
 export const columnHelper = createColumnHelper<WayPreview>();
@@ -118,10 +118,7 @@ export const waysColumns = [
           path={pages.way.getPath({uuid: row.original.uuid})}
           value={row.original.name}
         />
-        <Tooltip
-          className={styles.tooltip}
-          content={renderMarkdown(row.original.goal.description)}
-        >
+        <Tooltip content={renderMarkdown(row.original.goal.description)}>
           <div className={styles.shortCell}>
             {renderMarkdown(row.original.goal.description)}
           </div>
@@ -192,7 +189,7 @@ export const waysColumns = [
         position={PositionTooltip.BOTTOM}
         content="Amount of favorites"
       >
-        {UnicodeSymbols.STAR}
+        {Symbols.STAR}
       </Tooltip>
     </>),
 

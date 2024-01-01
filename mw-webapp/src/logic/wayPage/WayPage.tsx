@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {TrashIcon} from "@radix-ui/react-icons";
 import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
-import {Button, ButtonsType} from "src/component/button/Button";
+import {Button, ButtonType} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Сheckbox";
 import {EditableText} from "src/component/editableText/EditableText";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
@@ -27,7 +27,7 @@ import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {pages} from "src/router/pages";
 import {DateUtils} from "src/utils/DateUtils";
-import {UnicodeSymbols} from "src/utils/UnicodeSymbols";
+import {Symbols} from "src/utils/Symbols";
 import {v4 as uuidv4} from "uuid";
 import styles from "src/logic/wayPage/WayPage.module.scss";
 
@@ -325,22 +325,11 @@ export const WayPage = (props: WayPageProps) => {
   };
 
   /**
-   * Render goal metrics
+   * Render button Add goal metrics
    */
-  const renderGoalMetric = (goalMetric: GoalMetric) => {
+  const renderButtonAddMetrics = () => {
     return (
-      <div>
-        {
-          goalMetric.metricUuids.map((metricUuid, index) => renderSingleGoalMetric(
-            {
-              uuid: goalMetric.uuid,
-              metricUuid,
-              description: goalMetric.description[index],
-              doneDate: goalMetric.doneDate[index],
-              isDone: goalMetric.isDone[index],
-            },
-          ))
-        }
+      <>
         {isOwner && (
           <Button
             value="Add new goal metric"
@@ -365,6 +354,27 @@ export const WayPage = (props: WayPageProps) => {
           />
         )
         }
+      </>
+    );
+  };
+
+  /**
+   * Render goal metrics
+   */
+  const renderGoalMetric = (goalMetric: GoalMetric) => {
+    return (
+      <div>
+        {goalMetric.metricUuids.map((metricUuid, index) => renderSingleGoalMetric(
+          {
+            uuid: goalMetric.uuid,
+            metricUuid,
+            description: goalMetric.description[index],
+            doneDate: goalMetric.doneDate[index],
+            isDone: goalMetric.isDone[index],
+          },
+        ))
+        }
+        {renderButtonAddMetrics()}
       </div>
     );
   };
@@ -382,37 +392,35 @@ export const WayPage = (props: WayPageProps) => {
           {
             isWayInFavorites ?
               <Tooltip
-                className={styles.tooltip}
                 content="Delete from favorite"
                 position={PositionTooltip.LEFT}
               >
                 <Button
-                  value={`${UnicodeSymbols.STAR} ${favoriteForUsersAmount}`}
+                  value={`${Symbols.STAR}${Symbols.NO_BREAK_SPACE}${favoriteForUsersAmount}`}
                   onClick={() =>
                     deleteFavoriteFromWayAndFromUser(user, way, setUser, setWay)
                   }
-                  buttonType={ButtonsType.TERTIARY}
+                  buttonType={ButtonType.TERTIARY}
                 />
               </Tooltip>
               :
               <Tooltip
                 content="Add to favorite"
                 position={PositionTooltip.LEFT}
-                className={styles.tooltip}
               >
                 <Button
-                  value={`${UnicodeSymbols.OUTLINED_STAR} ${favoriteForUsersAmount}`}
+                  value={`${Symbols.OUTLINED_STAR}${Symbols.NO_BREAK_SPACE}${favoriteForUsersAmount}`}
                   onClick={() =>
                     user && addFavoriteToWayAndToUser(user, way, setUser, setWay)
                   }
-                  buttonType={ButtonsType.TERTIARY}
+                  buttonType={ButtonType.TERTIARY}
                 />
               </Tooltip>
           }
           {isOwner &&
           <Button
             value="Delete way"
-            buttonType={ButtonsType.TERTIARY}
+            buttonType={ButtonType.TERTIARY}
             // TODO: need refactoring
             onClick={() => renderModalContent({
               description: `Are you sure that you want to delete way "${way.name}"?`,
@@ -465,7 +473,7 @@ export const WayPage = (props: WayPageProps) => {
       )
       }
       <div className={styles.goalSection}>
-        <div className={styles.width}>
+        <div>
           <Title
             level={HeadingLevel.h3}
             text="Goal"
@@ -478,7 +486,7 @@ export const WayPage = (props: WayPageProps) => {
             className={styles.goalDescription}
           />
         </div>
-        <div className={styles.width}>
+        <div>
           <Title
             level={HeadingLevel.h3}
             text="Metrics"
@@ -494,7 +502,7 @@ export const WayPage = (props: WayPageProps) => {
             className={styles.accordion}
           />
         </div>
-        <div className={styles.width}>
+        <div>
           <Title
             level={HeadingLevel.h3}
             text="Statistics"

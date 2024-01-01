@@ -17,7 +17,6 @@
 }
 
 .dateCell {
-  display: flex;
-  min-width: 80px;
-  flex-wrap: nowrap;
+  display: block;
+  min-width: $minWidthDate;
 }

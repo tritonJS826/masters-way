@@ -20,7 +20,7 @@ import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {pages} from "src/router/pages";
 import {DateUtils} from "src/utils/DateUtils";
-import {UnicodeSymbols} from "src/utils/UnicodeSymbols";
+import {Symbols} from "src/utils/Symbols";
 import {v4 as uuidv4} from "uuid";
 import styles from "src/logic/wayPage/reportsTable/WayColumns.module.scss";
 
@@ -248,10 +248,9 @@ export const Columns = (props: ColumnsProps) => {
               <Tooltip
                 content="Add job"
                 position={PositionTooltip.RIGHT}
-                className={styles.tooltip}
               >
                 <Button
-                  value={UnicodeSymbols.PLUS}
+                  value="➕"
                   onClick={createJobDone}
                   className={styles.flatButton}
                 />
@@ -392,15 +391,14 @@ export const Columns = (props: ColumnsProps) => {
               ))}
             </ol>
             <div className={styles.summarySection}>
-              <div className={styles.tooltip}>
+              <div>
                 {isUserOwnerOrMentor &&
                 <Tooltip
                   content="Add plan"
                   position={PositionTooltip.RIGHT}
-                  className={styles.tooltip}
                 >
                   <Button
-                    value={UnicodeSymbols.PLUS}
+                    value={Symbols.PLUS}
                     onClick={() => createPlan(user.uuid)}
                     className={styles.flatButton}
                   />
@@ -518,10 +516,9 @@ export const Columns = (props: ColumnsProps) => {
               <Tooltip
                 content="Add problem"
                 position={PositionTooltip.RIGHT}
-                className={styles.tooltip}
               >
                 <Button
-                  value={UnicodeSymbols.PLUS}
+                  value={Symbols.PLUS}
                   onClick={() => createProblem(user.uuid)}
                   className={styles.flatButton}
                 />
@@ -633,10 +630,9 @@ export const Columns = (props: ColumnsProps) => {
               <Tooltip
                 content="Add comment"
                 position={PositionTooltip.RIGHT}
-                className={styles.tooltip}
               >
                 <Button
-                  value={UnicodeSymbols.PLUS}
+                  value={Symbols.PLUS}
                   onClick={() => createComment(user.uuid)}
                   className={styles.flatButton}
                 />

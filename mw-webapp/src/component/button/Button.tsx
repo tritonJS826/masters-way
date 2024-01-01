@@ -4,7 +4,7 @@ import styles from "src/component/button/Button.module.scss";
 /**
  * Type of button's styles
  */
-export enum ButtonsType {
+export enum ButtonType {
 
   /**
    * Important button
@@ -49,9 +49,9 @@ export interface ButtonProps {
 
   /**
    * Type of button styles
-   * @default StylesType.Secondary
+   * @default {@link ButtonType.Secondary}
    */
-  buttonType?: ButtonsType;
+  buttonType?: ButtonType;
 }
 
 /**
@@ -60,7 +60,7 @@ export interface ButtonProps {
 export const Button = (props: ButtonProps) => {
   return (
     <button
-      className={clsx(styles.button, styles[props.buttonType ?? ButtonsType.SECONDARY], props.className)}
+      className={clsx(styles.button, styles[props.buttonType ?? ButtonType.SECONDARY], props.className)}
       onClick={props.onClick}
       data-cy={props.dataCy}
     >
