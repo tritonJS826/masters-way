@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {TrashIcon} from "@radix-ui/react-icons";
 import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
-import {Button, StylesType} from "src/component/button/Button";
+import {Button, ButtonsType} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Сheckbox";
 import {EditableText} from "src/component/editableText/EditableText";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
@@ -391,7 +391,7 @@ export const WayPage = (props: WayPageProps) => {
                   onClick={() =>
                     deleteFavoriteFromWayAndFromUser(user, way, setUser, setWay)
                   }
-                  styleType={StylesType.TERTIARY}
+                  buttonType={ButtonsType.TERTIARY}
                 />
               </Tooltip>
               :
@@ -405,14 +405,14 @@ export const WayPage = (props: WayPageProps) => {
                   onClick={() =>
                     user && addFavoriteToWayAndToUser(user, way, setUser, setWay)
                   }
-                  styleType={StylesType.TERTIARY}
+                  buttonType={ButtonsType.TERTIARY}
                 />
               </Tooltip>
           }
           {isOwner &&
           <Button
             value="Delete way"
-            styleType={StylesType.TERTIARY}
+            buttonType={ButtonsType.TERTIARY}
             // TODO: need refactoring
             onClick={() => renderModalContent({
               description: `Are you sure that you want to delete way "${way.name}"?`,

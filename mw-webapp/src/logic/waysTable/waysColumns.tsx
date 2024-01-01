@@ -13,13 +13,13 @@ import styles from "src/logic/waysTable/columns.module.scss";
 
 export const columnHelper = createColumnHelper<WayPreview>();
 
-export const WAYS_OWNER = "Way's Owner";
+export const WAYS_OWNER = "Way's owner";
 export const WAY_MENTORS = "Mentors";
 
 /**
  * Get first name from user name
  */
-const getFirstName = (userName: string) => {
+export const getFirstName = (userName: string) => {
   const firstName = userName.split(" ")[0];
 
   return firstName;
@@ -136,8 +136,8 @@ export const waysColumns = [
      */
     header: () => (<>
       <Tooltip
-        position={PositionTooltip.BOTTOM}
-        content="Name and email of user, who created the Way"
+        position={PositionTooltip.TOP}
+        content="Owner's name and email"
       >
         {WAYS_OWNER}
       </Tooltip>

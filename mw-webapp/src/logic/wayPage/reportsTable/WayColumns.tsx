@@ -10,6 +10,7 @@ import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {useGlobalContext} from "src/GlobalContext";
+import {getFirstName} from "src/logic/waysTable/waysColumns";
 import {Comment} from "src/model/businessModel/Comment";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
@@ -57,8 +58,9 @@ export const renderModalContent = (params: RenderModalContentParams) => {
 const getName = (mentors: Map<string, UserPreview>, mentorUuid: string, ownerName: string) => {
   const mentor = mentors.get(mentorUuid);
   const name = mentor ? mentor.name : ownerName;
+  const firstName = getFirstName(name);
 
-  return name;
+  return firstName;
 };
 
 /**
@@ -586,42 +588,46 @@ export const Columns = (props: ColumnsProps) => {
 
         return (
           <VerticalContainer>
-            {row.original.comments
-              .map((comment) => (
-                <HorizontalContainer key={comment.uuid}>
-                  <VerticalContainer>
-                    <HorizontalContainer className={styles.width}>
-                      <Link
-                        value={getName(props.way.mentors, comment.ownerUuid, ownerName)}
-                        path={pages.user.getPath({uuid: comment.ownerUuid})}
-                      />
-                      {comment.ownerUuid === user?.uuid &&
-                        <Tooltip content="Delete comment">
-                          <TrashIcon
-                            className={styles.icon}
-                            onClick={() => renderModalContent({
-                              description: `Are you sure that you want to delete comment "${comment.description}"?`,
-
-                              /**
-                               * CallBack triggered on press ok
-                               */
-                              onOk: () => deleteComment(comment.uuid),
-                            })
-                            }
+            <ol className={styles.comments}>
+              <li>
+                {row.original.comments
+                  .map((comment) => (
+                    <HorizontalContainer key={comment.uuid}>
+                      <VerticalContainer>
+                        <HorizontalContainer className={styles.width}>
+                          <Link
+                            value={getName(props.way.mentors, comment.ownerUuid, ownerName)}
+                            path={pages.user.getPath({uuid: comment.ownerUuid})}
                           />
-                        </Tooltip>
-                      }
+                          {comment.ownerUuid === user?.uuid &&
+                          <Tooltip content="Delete comment">
+                            <TrashIcon
+                              className={styles.icon}
+                              onClick={() => renderModalContent({
+                                description: `Are you sure that you want to delete comment "${comment.description}"?`,
+
+                                /**
+                                 * CallBack triggered on press ok
+                                 */
+                                onOk: () => deleteComment(comment.uuid),
+                              })
+                              }
+                            />
+                          </Tooltip>
+                          }
+                        </HorizontalContainer>
+                        <EditableTextarea
+                          text={comment.description}
+                          onChangeFinish={(text) => updateComment(comment, text)}
+                          isEditable={comment.ownerUuid === user?.uuid}
+                          className={styles.editableTextarea}
+                        />
+                      </VerticalContainer>
                     </HorizontalContainer>
-                    <EditableTextarea
-                      text={comment.description}
-                      onChangeFinish={(text) => updateComment(comment, text)}
-                      isEditable={comment.ownerUuid === user?.uuid}
-                      className={styles.editableTextarea}
-                    />
-                  </VerticalContainer>
-                </HorizontalContainer>
-              ),
-              )}
+                  ),
+                  )}
+              </li>
+            </ol>
             <div className={styles.summarySection}>
               {isUserOwnerOrMentor &&
               <Tooltip

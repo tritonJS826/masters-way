@@ -111,7 +111,7 @@ export const UserPage = (props: UserPageProps) => {
           isEditable={isPageOwner}
         />
       </div>
-      <div>
+      <div className={styles.marginBottom}>
         <Title
           text="Description:"
           level={HeadingLevel.h3}

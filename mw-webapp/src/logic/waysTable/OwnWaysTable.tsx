@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {Button, StylesType} from "src/component/button/Button";
+import {Button, ButtonsType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {Tooltip} from "src/component/tooltip/Tooltip";
@@ -62,20 +62,20 @@ export const OwnWaysTable = (props: OwnWaysTableProps) => {
 
   return (
     <>
+      {userPreviewUuid &&
+        <Tooltip content="Create new way">
+          <Button
+            value="Create new way"
+            onClick={() => createWay(userPreviewUuid, ownWays)}
+            buttonType={ButtonsType.PRIMARY}
+          />
+        </Tooltip>
+      }
       <HorizontalContainer className={styles.gap}>
         <Title
           text= {`Own Ways (total amount: ${ownWays.length} ways)`}
           level={HeadingLevel.h2}
         />
-        {userPreviewUuid &&
-        <Tooltip content="Create new way">
-          <Button
-            value="Create new way"
-            onClick={() => createWay(userPreviewUuid, ownWays)}
-            styleType={StylesType.PRIMARY}
-          />
-        </Tooltip>
-        }
       </HorizontalContainer>
       <WaysTable
         data={ownWays}

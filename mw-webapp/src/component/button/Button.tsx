@@ -4,20 +4,20 @@ import styles from "src/component/button/Button.module.scss";
 /**
  * Type of button's styles
  */
-export enum StylesType {
+export enum ButtonsType {
 
   /**
-   * Use for important button
+   * Important button
    */
   PRIMARY = "primary",
 
   /**
-   * Use for common repetitive button
+   * Common repetitive button type 1
    */
   SECONDARY = "secondary",
 
   /**
-   * Use for rare unique button
+   * Rare unique button type 2
    */
   TERTIARY = "tertiary",
 }
@@ -51,7 +51,7 @@ export interface ButtonProps {
    * Type of button styles
    * @default StylesType.Secondary
    */
-  styleType?: StylesType;
+  buttonType?: ButtonsType;
 }
 
 /**
@@ -60,7 +60,7 @@ export interface ButtonProps {
 export const Button = (props: ButtonProps) => {
   return (
     <button
-      className={clsx(styles.button, styles[props.styleType ?? StylesType.SECONDARY], props.className)}
+      className={clsx(styles.button, styles[props.buttonType ?? ButtonsType.SECONDARY], props.className)}
       onClick={props.onClick}
       data-cy={props.dataCy}
     >

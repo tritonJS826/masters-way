@@ -13,7 +13,6 @@ $listLeftMargin: 20px;
   width: 100%;
   align-items: end;
   justify-content: space-between;
-  border-top: 1px solid $primaryBorderColor;
   font-weight: bold;
 }
 
@@ -21,7 +20,6 @@ $listLeftMargin: 20px;
   width: 20px;
   height: 20px;
   padding: 0;
-  margin-top: $defaultMargin;
   line-height: 20px;
   text-align: center;
 }
@@ -34,6 +32,18 @@ $listLeftMargin: 20px;
   width: calc(100% - $listLeftMargin);
   flex: 1 0 auto;
   margin-left: $listLeftMargin;
+}
+
+.numberedList li:last-child {
+  margin-bottom: $defaultMargin;
+}
+
+.comments li {
+  list-style: none;
+}
+
+.comments li:last-child {
+  margin-bottom: $defaultMargin;
 }
 
 .numberedListItem {
