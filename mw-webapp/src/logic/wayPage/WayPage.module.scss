@@ -7,11 +7,19 @@
 
 .goalSection {
   display: flex;
+  width: 100%;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: space-between;
+  margin-bottom: $defaultMargin;
+  gap: $defaultGap;
+}
+
+.width {
+  min-width: 30%;
 }
 
 .goalDescription {
+  min-width: 360px;
   max-width: 600px;
 
   textarea {
@@ -32,19 +40,10 @@
 }
 
 .icon {
+  display: block;
   min-width: 15px;
   min-height: 15px;
   margin-left: 5px;
-  cursor: pointer;
-}
-
-.favorites {
-  cursor: pointer;
-}
-
-.iconHeader {
-  width: 24px;
-  height: 24px;
   cursor: pointer;
 }
 
@@ -52,4 +51,39 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.alignTrashIcon {
+  align-items: center;
+  gap: $defaultGap;
+}
+
+.tooltip {
+  width: 180px;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  gap: $defaultGap;
+}
+
+.flatButton {
+  width: 100px;
+  height: 20px;
+  padding: 0px;
+}
+
+.gap {
+  gap: $defaultGap;
+}
+
+.accordion {
+  min-width: 360px;
+  max-width: 600px;
+  margin-top: $defaultMargin;
+}
+
+.trash {
+  display: inline-block;
 }

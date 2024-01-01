@@ -1,4 +1,8 @@
+import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
+import {Tooltip} from "src/component/tooltip/Tooltip";
 import {DayReport} from "src/model/businessModel/DayReport";
+import {DateUtils} from "src/utils/DateUtils";
+import styles from "src/logic/wayPage/WayStatistic.module.scss";
 
 /**
  * Reports table props
@@ -21,6 +25,12 @@ const MILLISECONDS_IN_DAY = 86_400_000;
  */
 const SMAL_CORECTION_MILLISECONDS = 1;
 
+const AMOUNT_DAYS_IN_WEEK = 7;
+const AMOUNT_DAYS_IN_TWO_WEEK = 7;
+
+const lastWeekDates = DateUtils.getLastDates(AMOUNT_DAYS_IN_WEEK);
+const lastTwoWeekDates = DateUtils.getLastDates(AMOUNT_DAYS_IN_TWO_WEEK);
+
 /**
  * Render table of reports
  */
@@ -34,7 +44,6 @@ export const WayStatistic = (props: WayStatisticProps) => {
   );
   const totalRecordsAmount = props.dayReports.length;
   const totalWorkedRecords = props.dayReports.filter((report) => !report.isDayOff).length;
-  const totalDayOffRecords = props.dayReports.filter((report) => report.isDayOff).length;
 
   const allJobsAmount = props.dayReports
     .flatMap(report => report.jobsDone);
@@ -51,55 +60,130 @@ export const WayStatistic = (props: WayStatisticProps) => {
 
   const averageTimeForJob = Math.round(totalWayTime / allJobsAmount.length);
 
-  return (
-    <div>
-      <p>
-        Total days on a way:
-        {" "}
+  const lastWeekDayReports = props.dayReports.filter((dayReport) => {
+    return lastWeekDates.includes(DateUtils.getShortISODateValue(dayReport.createdAt));
+  });
+
+  const lastWeekJobsAmount = lastWeekDayReports.flatMap(report => report.jobsDone);
+
+  const lastCalendarWeekTotalTime = lastWeekJobsAmount.reduce((totalTime, jobDone) => totalTime + jobDone.time, 0);
+
+  const lastCalendarWeekAverageWorkingTime = Math.round(lastCalendarWeekTotalTime / AMOUNT_DAYS_IN_WEEK);
+
+  const lastCalendarWeekAverageJobTime = Math.round(lastCalendarWeekTotalTime / lastWeekJobsAmount.length);
+
+  const lastTwoWeekDayReports = props.dayReports.filter((dayReport) => {
+    return lastTwoWeekDates.includes(DateUtils.getShortISODateValue(dayReport.createdAt));
+  });
+
+  const lastTwoWeekJobsAmount = lastTwoWeekDayReports.flatMap(report => report.jobsDone);
+
+  const lastCalendarTwoWeekTotalTime = lastTwoWeekJobsAmount.reduce((totalTime, jobDone) => totalTime + jobDone.time, 0);
+
+  const lastCalendarTwoWeekAverageWorkingTime = Math.round(lastCalendarTwoWeekTotalTime / AMOUNT_DAYS_IN_WEEK);
+
+  const lastCalendarTwoWeekAverageJobTime = Math.round(lastCalendarTwoWeekTotalTime / lastWeekJobsAmount.length);
+
+  /**
+   * Get Total Statistics
+   */
+  const getContent = () => {
+    return (
+      <div className={styles.wrapper}>
+        <div className={styles.alignContent}>
+          <p>
+            Total days on a way:
+          </p>
+          {totalDaysOnAWay}
+        </div>
+        <p>
+          Total days on a way:
+        </p>
         {totalDaysOnAWay}
-      </p>
-      <p>
-        Total amount of records:
-        {" "}
+        <p>
+          Total days on a way:
+        </p>
+        {totalDaysOnAWay}
+        <p>
+          Total amount of records:
+        </p>
         {totalRecordsAmount}
-      </p>
-      <p>
-        Amount of records marked as worked:
-        {" "}
+        <p>
+          Amount of records marked as worked:
+        </p>
         {totalWorkedRecords}
-      </p>
-      <p>
-        Amount of records marked as day off:
-        {" "}
-        {totalDayOffRecords}
-      </p>
-      <p>
-        Total way time:
-        {" "}
+        <p>
+          Total way time:
+        </p>
         {totalWayTime}
-        {" "}
-        minutes
-      </p>
-      <p>
-        Average working time per day:
-        {" "}
+        <p>
+          minutes
+        </p>
+        <p>
+          Average working time per day:
+        </p>
         {averageWorkingTimeInDay}
-      </p>
-      <p>
-        Average working time in worked records:
-        {" "}
+        <p>
+          Average working time in worked records:
+        </p>
         {averageWorkingTimeInWorkedRecords}
-      </p>
-      <p>
-        Avereage working time in all records:
-        {" "}
+        <p>
+          Avereage working time in all records:
+
+        </p>
         {averageWorkingTimeInRecords}
-      </p>
-      <p>
-        Avereage job time (shows level of task decomposition):
-        {" "}
-        {averageTimeForJob}
-      </p>
-    </div>
+        <Tooltip content="Shows level of task decomposition">
+          <div>
+            Avereage job time:
+            {" "}
+            {averageTimeForJob}
+          </div>
+        </Tooltip>
+        <p>
+          Last calendar week total time:
+        </p>
+        {lastCalendarWeekTotalTime}
+        <p>
+          Last calendar week average day time:
+          {" "}
+          {lastCalendarWeekAverageWorkingTime}
+        </p>
+        <p>
+          Last calendar week average job time:
+          {" "}
+          {lastCalendarWeekAverageJobTime}
+        </p>
+        <p>
+          Last 2 calendar week total time:
+          {" "}
+          {lastCalendarTwoWeekTotalTime}
+        </p>
+        <p>
+          Last 2 calendar week average day time:
+          {" "}
+          {lastCalendarTwoWeekAverageWorkingTime}
+        </p>
+        <p>
+          Last 2 calendar week average job time:
+          {" "}
+          {lastCalendarTwoWeekAverageJobTime}
+        </p>
+      </div>
+    );
+  };
+
+  const accordionItems = [
+    {
+      trigger: {child: "Statistics"},
+      content: {child: getContent()},
+    },
+  ];
+
+  return (
+    <Accordion
+      items={accordionItems}
+      type={accordionTypes.multiple}
+      className={styles.accordion}
+    />
   );
 };

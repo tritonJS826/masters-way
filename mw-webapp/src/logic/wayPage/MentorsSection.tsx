@@ -1,6 +1,9 @@
 import {TrashIcon} from "@radix-ui/react-icons";
+import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
 import {HeadingLevel, Title} from "src/component/title/Title";
+import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
+import {Tooltip} from "src/component/tooltip/Tooltip";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {Way} from "src/model/businessModel/Way";
@@ -66,28 +69,35 @@ export const MentorsSection = (props: MentorsSectionProps) => {
       />
       {mentors.map((mentor) => (
         <div key={uuidv4().concat(mentor.uuid)}>
-          <Link
-            key={mentor.uuid}
-            path={pages.user.getPath({uuid: mentor.uuid})}
-            value={mentor.name}
-          />
-          {props.isOwner && (
-            <TrashIcon
-              className={styles.icon}
-
-              onClick={() => {
-
-                /**
-                 * CallBack triggered on press ok
-                 */
-                const onOk = () => removeMentorFromWay(props.way, props.setWay, mentor);
-
-                // TODO: use modal instead of confirm task #305
-                const isConfirmed = confirm(`Are you sure you want remove "${mentor.name}" from mentors?`);
-                isConfirmed && onOk();
-              }}
+          <HorizontalContainer className={styles.alignTrashIcon}>
+            <Link
+              key={mentor.uuid}
+              path={pages.user.getPath({uuid: mentor.uuid})}
+              value={mentor.name}
             />
-          )}
+            {props.isOwner && (
+              <Tooltip
+                content="Delete from mentors"
+                position={PositionTooltip.RIGHT}
+                className={styles.tooltip}
+              >
+                <TrashIcon
+                  className={styles.icon}
+                  onClick={() => {
+
+                    /**
+                     * CallBack triggered on press ok
+                     */
+                    const onOk = () => removeMentorFromWay(props.way, props.setWay, mentor);
+
+                    // TODO: use modal instead of confirm task #305
+                    const isConfirmed = confirm(`Are you sure you want remove "${mentor.name}" from mentors?`);
+                    isConfirmed && onOk();
+                  }}
+                />
+              </Tooltip>
+            )}
+          </HorizontalContainer>
         </div>
       ))}
     </>

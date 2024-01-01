@@ -6,6 +6,8 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
+  padding-bottom: $defaultPadding;
+  border-bottom: 1px solid $primaryBorderColor;
   background-color: $primaryBackgroundColor;
 }
 

@@ -15,4 +15,19 @@ export class DateUtils {
       .substring(START_OF_ISO_SUBSTRING_RANGE, END_OF_ISO_SUBSTRING_RANGE);
   }
 
+  /**
+   * Get array with last {@link amount} dates
+   */
+  public static getLastDates(amount: number): string[] {
+    const lastDates = [...Array(amount)].map((elem, index) => {
+      const currentDate = new Date();
+      const date = currentDate.setDate(currentDate.getDate() - index);
+      const formattedDate = DateUtils.getShortISODateValue(new Date(date));
+
+      return formattedDate;
+    });
+
+    return lastDates;
+  }
+
 }

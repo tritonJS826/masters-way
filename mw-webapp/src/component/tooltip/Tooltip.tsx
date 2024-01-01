@@ -31,7 +31,7 @@ interface TooltipProps {
 export const Tooltip = (props: PropsWithChildren<TooltipProps>) => {
   const contentClassNames = clsx(
     styles.tooltip,
-    props.className && styles[props.className],
+    props.className,
     styles[props.position ?? PositionTooltip.TOP],
   );
 

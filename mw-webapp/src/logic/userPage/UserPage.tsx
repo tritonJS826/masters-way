@@ -122,17 +122,9 @@ export const UserPage = (props: UserPageProps) => {
           isEditable={isPageOwner}
         />
       </div>
-      <Title
-        text= {`Own Ways (total amount: ${userPreview.ownWays.length} ways)`}
-        level={HeadingLevel.h2}
-      />
       <ScrollableBlock>
         <OwnWaysTable uuid={props.uuid} />
       </ScrollableBlock>
-      <Title
-        text={`Mentoring Ways (total amount: ${userPreview.mentoringWays.length} ways)`}
-        level={HeadingLevel.h2}
-      />
       <ScrollableBlock>
         <MentoringWaysTable
           uuid={props.uuid}
@@ -140,10 +132,6 @@ export const UserPage = (props: UserPageProps) => {
           handleUserPreviewChange={setUserPreview}
         />
       </ScrollableBlock>
-      <Title
-        text={`Favorite Ways (total amount: ${userPreview.favoriteWays.length} ways)`}
-        level={HeadingLevel.h2}
-      />
       <ScrollableBlock>
         <FavoriteWaysTable uuid={props.uuid} />
       </ScrollableBlock>

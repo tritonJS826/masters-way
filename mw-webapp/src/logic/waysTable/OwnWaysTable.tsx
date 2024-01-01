@@ -1,4 +1,6 @@
 import {useEffect, useState} from "react";
+import {Button, StylesType} from "src/component/button/Button";
+import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
@@ -7,37 +9,38 @@ import {WAYS_OWNER, waysColumns} from "src/logic/waysTable/waysColumns";
 import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {Way} from "src/model/businessModel/Way";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
-import {UnicodeSymbols} from "src/utils/UnicodeSymbols";
-import styles from "src/logic/waysTable/columns.module.scss";
+import styles from "src/logic/waysTable/OwnWaysTable.module.scss";
 
 /**
- * Props with User uuid
+ * Own ways table props
  */
-export interface PropsWithUuid {
+interface OwnWaysTableProps {
 
   /**
-   * User uuid
+   * User's uuid
    */
   uuid: string;
+
 }
 
 /**
  * Render table of own ways preview
  */
-export const OwnWaysTable = (props: PropsWithUuid) => {
+export const OwnWaysTable = (props: OwnWaysTableProps) => {
   const [ownWays, setOwnWays] = useState<WayPreview[]>([]);
+  const userPreviewUuid = props.uuid;
 
   /**
    * Load User own ways
    */
   const loadOwnWays = async () => {
-    const data = await WayPreviewDAL.getUserWaysPreview(props.uuid, "Own");
+    const data = await WayPreviewDAL.getUserWaysPreview(userPreviewUuid, "Own");
     setOwnWays(data);
   };
 
   useEffect(() => {
     loadOwnWays();
-  }, [props.uuid]);
+  }, [userPreviewUuid]);
 
   /**
    * Create way
@@ -59,17 +62,21 @@ export const OwnWaysTable = (props: PropsWithUuid) => {
 
   return (
     <>
-      {props.uuid &&
-        <div className={styles.tooltip}>
-          <Tooltip content="Create new way">
-            <Title
-              level={HeadingLevel.h2}
-              text={UnicodeSymbols.PLUS}
-              onClick={() => createWay(props.uuid, ownWays)}
-            />
-          </Tooltip>
-        </div>
-      }
+      <HorizontalContainer className={styles.gap}>
+        <Title
+          text= {`Own Ways (total amount: ${ownWays.length} ways)`}
+          level={HeadingLevel.h2}
+        />
+        {userPreviewUuid &&
+        <Tooltip content="Create new way">
+          <Button
+            value="Create new way"
+            onClick={() => createWay(userPreviewUuid, ownWays)}
+            styleType={StylesType.PRIMARY}
+          />
+        </Tooltip>
+        }
+      </HorizontalContainer>
       <WaysTable
         data={ownWays}
         columns={ownWaysTableColumns}

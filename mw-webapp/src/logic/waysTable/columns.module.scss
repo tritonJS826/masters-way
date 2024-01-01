@@ -1,3 +1,5 @@
+@import "src/styles/variables";
+
 .shortCell {
   display: -webkit-box;
   overflow: hidden;
@@ -15,18 +17,7 @@
 }
 
 .dateCell {
-  display: -webkit-box;
-  overflow: hidden;
-  min-width: 75px;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  text-overflow: ellipsis;
-  word-wrap: break-word;
-  @media (max-width: 800px) {
-    -webkit-line-clamp: 5;
-  }
-}
-
-.tooltip {
-  cursor: pointer;
+  display: flex;
+  min-width: 80px;
+  flex-wrap: nowrap;
 }

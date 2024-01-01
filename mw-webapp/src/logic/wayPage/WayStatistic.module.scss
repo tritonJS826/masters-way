@@ -1,0 +1,19 @@
+@import "src/styles/variables";
+
+.accordion {
+  min-width: 360px;
+  max-width: 600px;
+  margin-top: $defaultMargin;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.alignContent {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  border-bottom: 1px dotted $primaryBorderColor;
+}

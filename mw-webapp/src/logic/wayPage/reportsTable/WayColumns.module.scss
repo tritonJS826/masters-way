@@ -13,8 +13,17 @@ $listLeftMargin: 20px;
   width: 100%;
   align-items: end;
   justify-content: space-between;
-  padding-top: 5px;
+  border-top: 1px solid $primaryBorderColor;
   font-weight: bold;
+}
+
+.flatButton {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  margin-top: $defaultMargin;
+  line-height: 20px;
+  text-align: center;
 }
 
 .summaryText {
@@ -23,6 +32,7 @@ $listLeftMargin: 20px;
 
 .numberedList {
   width: calc(100% - $listLeftMargin);
+  flex: 1 0 auto;
   margin-left: $listLeftMargin;
 }
 
@@ -56,5 +66,11 @@ $listLeftMargin: 20px;
 }
 
 .tooltip {
-  cursor: pointer;
+  width: 120px;
+}
+
+.dateCell {
+  display: flex;
+  min-width: 80px;
+  flex-wrap: nowrap;
 }

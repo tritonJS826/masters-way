@@ -1,11 +1,10 @@
 import {TrashIcon} from "@radix-ui/react-icons";
 import {createColumnHelper} from "@tanstack/react-table";
-import {Checkbox} from "src/component/checkbox/Сheckbox";
+import {Button} from "src/component/button/Button";
 import {EditableText} from "src/component/editableText/EditableText";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
-import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
@@ -121,29 +120,9 @@ export const Columns = (props: ColumnsProps) => {
        * Cell  with date value
        */
       cell: ({row}) => {
-
-        /**
-         * Update isDayOff
-         */
-        const updateIsDayOff = async (value: boolean) => {
-          const updatedDayReport = new DayReport({...row.original, isDayOff: value});
-          updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
-          await DayReportDAL.updateDayReport(updatedDayReport);
-        };
-
         return (
-          <VerticalContainer>
+          <VerticalContainer className={styles.dateCell}>
             {DateUtils.getShortISODateValue(row.original.createdAt)}
-            <Tooltip
-              content="is day off ?"
-              position={PositionTooltip.TOP}
-            >
-              <Checkbox
-                isDefaultChecked={row.original.isDayOff}
-                onChange={(value) => isOwner && updateIsDayOff(value)}
-                isEditable={isOwner}
-              />
-            </Tooltip>
           </VerticalContainer>
         );
       },
@@ -223,7 +202,7 @@ export const Columns = (props: ColumnsProps) => {
         };
 
         return (
-          <VerticalContainer>
+          <VerticalContainer className={styles.parent}>
             <ol className={styles.numberedList}>
               {row.original.jobsDone.map((jobDone) => (
                 <li key={jobDone.uuid}>
@@ -263,17 +242,19 @@ export const Columns = (props: ColumnsProps) => {
               ))}
             </ol>
             <div className={styles.summarySection}>
-              <div className={styles.tooltip}>
-                {isOwner &&
-                  <Tooltip content="add job">
-                    <Title
-                      level={HeadingLevel.h3}
-                      text={UnicodeSymbols.PLUS}
-                      onClick={createJobDone}
-                    />
-                  </Tooltip>
-                }
-              </div>
+              {isOwner &&
+              <Tooltip
+                content="Add job"
+                position={PositionTooltip.RIGHT}
+                className={styles.tooltip}
+              >
+                <Button
+                  value={UnicodeSymbols.PLUS}
+                  onClick={createJobDone}
+                  className={styles.flatButton}
+                />
+              </Tooltip>
+              }
               <div className={styles.summaryText}>
                 {"Total: "}
                 {row.original.jobsDone
@@ -411,15 +392,17 @@ export const Columns = (props: ColumnsProps) => {
             <div className={styles.summarySection}>
               <div className={styles.tooltip}>
                 {isUserOwnerOrMentor &&
-                  <div className={styles.tooltip}>
-                    <Tooltip content="add plan">
-                      <Title
-                        level={HeadingLevel.h3}
-                        text={UnicodeSymbols.PLUS}
-                        onClick={() => createPlan(user.uuid)}
-                      />
-                    </Tooltip>
-                  </div>
+                <Tooltip
+                  content="Add plan"
+                  position={PositionTooltip.RIGHT}
+                  className={styles.tooltip}
+                >
+                  <Button
+                    value={UnicodeSymbols.PLUS}
+                    onClick={() => createPlan(user.uuid)}
+                    className={styles.flatButton}
+                  />
+                </Tooltip>
                 }
               </div>
               <div className={styles.summaryText}>
@@ -528,17 +511,21 @@ export const Columns = (props: ColumnsProps) => {
                 </li>
               ))}
             </ol>
-            {isUserOwnerOrMentor &&
-              <div className={styles.tooltip}>
-                <Tooltip content="add problem">
-                  <Title
-                    level={HeadingLevel.h3}
-                    text={UnicodeSymbols.PLUS}
-                    onClick={() => createProblem(user.uuid)}
-                  />
-                </Tooltip>
-              </div>
-            }
+            <div className={styles.summarySection}>
+              {isUserOwnerOrMentor &&
+              <Tooltip
+                content="Add problem"
+                position={PositionTooltip.RIGHT}
+                className={styles.tooltip}
+              >
+                <Button
+                  value={UnicodeSymbols.PLUS}
+                  onClick={() => createProblem(user.uuid)}
+                  className={styles.flatButton}
+                />
+              </Tooltip>
+              }
+            </div>
           </VerticalContainer>
         );
       },
@@ -635,17 +622,21 @@ export const Columns = (props: ColumnsProps) => {
                 </HorizontalContainer>
               ),
               )}
-            {isUserOwnerOrMentor &&
-              <div className={styles.tooltip}>
-                <Tooltip content="add comment">
-                  <Title
-                    level={HeadingLevel.h3}
-                    text={UnicodeSymbols.PLUS}
-                    onClick={() => createComment(user.uuid)}
-                  />
-                </Tooltip>
-              </div>
-            }
+            <div className={styles.summarySection}>
+              {isUserOwnerOrMentor &&
+              <Tooltip
+                content="Add comment"
+                position={PositionTooltip.RIGHT}
+                className={styles.tooltip}
+              >
+                <Button
+                  value={UnicodeSymbols.PLUS}
+                  onClick={() => createComment(user.uuid)}
+                  className={styles.flatButton}
+                />
+              </Tooltip>
+              }
+            </div>
           </VerticalContainer>
         );
       },
