@@ -1,9 +1,11 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {TrashIcon} from "@radix-ui/react-icons";
 import {Link} from "src/component/link/Link";
+import {displayNotification} from "src/component/notification/displayNotification";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
+import {useLoad} from "src/hooks/useLoad";
 import {columnHelper, WAY_MENTORS, waysColumns} from "src/logic/waysTable/waysColumns";
 import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
@@ -59,16 +61,32 @@ export const MentoringWaysTable = (props: MentoringWaysTableProps) => {
   const [mentoringWays, setMentoringWays] = useState<WayPreview[]>([]);
 
   /**
-   * Load User mentoring ways
+   * Callback that is called to fetch data
    */
-  const loadMentoringWays = async () => {
-    const data = await WayPreviewDAL.getUserWaysPreview(props.uuid, "Mentoring");
+  const loadData = () => WayPreviewDAL.getUserWaysPreview(props.uuid, "Mentoring");
+
+  /**
+   * Callback that is called on fetch or validation error
+   */
+  const onError = (error: Error) => {
+    displayNotification({text: error.message, type: "error"});
+  };
+
+  /**
+   * Callback that is called on fetch and validation success
+   */
+  const onSuccess = (data: WayPreview[]) => {
     setMentoringWays(data);
   };
 
-  useEffect(() => {
-    loadMentoringWays();
-  }, [props.uuid]);
+  useLoad(
+    {
+      loadData,
+      onSuccess,
+      onError,
+      dependency: [props.uuid],
+    },
+  );
 
   if (!props.isPageOwner) {
     return (

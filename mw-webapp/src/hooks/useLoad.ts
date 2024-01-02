@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 /**
  * Use Load hook Props
  */
-interface useLoadProps<Data, Dependencies> {
+interface useLoadProps<Data, Dependency> {
 
   /**
    * Callback that is called to fetch data
@@ -26,21 +26,21 @@ interface useLoadProps<Data, Dependencies> {
   onError: (error: Error) => void;
 
   /**
-   * Passed array of dependencies to re-fetch and re-validate data
+   * Dependency array to re-fetch and re-validate data
    */
-  dependencies: Dependencies[];
+  dependency?: Dependency[];
 }
 
 /**
  * Custom hook to fetch, validate, and manage the state of data
  */
-export function useLoad<Data, Dependencies>({
+export const useLoad = <Data, Dependency>({
   loadData,
   validateData = () => true,
   onSuccess,
   onError,
-  dependencies,
-}: useLoadProps<Data, Dependencies>) {
+  dependency = [],
+}: useLoadProps<Data, Dependency>) => {
   const [data, setData] = useState<Data>();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -69,7 +69,7 @@ export function useLoad<Data, Dependencies>({
     }
 
     fetchAndValidateData();
-  }, dependencies);
+  }, dependency);
 
   return {data, setData, isLoading};
-}
+};

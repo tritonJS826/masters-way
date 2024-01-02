@@ -15,7 +15,7 @@ export const usersColumns = [
     header: "Name",
 
     /**
-     * Cell with clickable user name that leads to user page
+     * Cell with clickable username that leads to user page
      */
     cell: ({row}) => (
       <Link

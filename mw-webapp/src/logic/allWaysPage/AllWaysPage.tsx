@@ -38,7 +38,6 @@ export const AllWaysPage = () => {
       loadData,
       onSuccess,
       onError,
-      dependencies: [],
     },
   );
 

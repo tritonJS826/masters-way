@@ -81,26 +81,32 @@ export const UserPage = (props: UserPageProps) => {
    * Callback this is called on fetch or validation error
    */
   const onError = () => {
-    // Navigate to PageError if transmitted user's uuid is not exist
+    // Navigate to 404 Page if transmitted user's uuid doesn't exist
     navigate(pages.page404.getPath({}));
   };
 
-  const {isLoading} = useLoad({
+  useLoad({
     loadData,
     validateData,
     onSuccess,
     onError,
-    dependencies: [props.uuid],
-  },
-  );
+    dependency: [props.uuid],
+  });
 
-  if (isLoading || !userPreview) {
+  if (!userPreview) {
     return (
       <span>
         loading..
       </span>
     );
   }
+
+  /**
+   * Function to handle user own ways change
+   */
+  const handleOwnWaysChange = (ownWays: string[]) => {
+    setUserPreview({...userPreview, ownWays});
+  };
 
   return (
     <div className={styles.container}>
@@ -146,7 +152,11 @@ export const UserPage = (props: UserPageProps) => {
         level={HeadingLevel.h3}
       />
       <ScrollableBlock>
-        <OwnWaysTable uuid={props.uuid} />
+        <OwnWaysTable
+          uuid={props.uuid}
+          isPageOwner={isPageOwner}
+          handleOwnWaysChange={handleOwnWaysChange}
+        />
       </ScrollableBlock>
       <Title
         text={`Mentoring Ways (total amount: ${userPreview.mentoringWays.length} ways)`}

@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {TrashIcon} from "@radix-ui/react-icons";
 import {Button} from "src/component/button/Button";
@@ -13,6 +13,7 @@ import {GoalDAL} from "src/dataAccessLogic/GoalDAL";
 import {GoalMetricDAL} from "src/dataAccessLogic/GoalMetricDAL";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {useGlobalContext} from "src/GlobalContext";
+import {useLoad} from "src/hooks/useLoad";
 import {MentorRequestsSection} from "src/logic/wayPage/MentorRequestsSection";
 import {MentorsSection} from "src/logic/wayPage/MentorsSection";
 import {DayReportsTable} from "src/logic/wayPage/reportsTable/DayReportsTable";
@@ -186,20 +187,33 @@ export const WayPage = (props: WayPageProps) => {
   const [way, setWay] = useState<Way>();
 
   /**
-   * Get Way
+   * Callback that is called to fetch data
    */
-  const loadPageData = async () => {
-    const wayData = await WayDAL.getWay(props.uuid);
+  const loadData = () => WayDAL.getWay(props.uuid);
 
-    if (!wayData) {
-      navigate(pages.page404.getPath({}));
-    }
-    setWay(wayData);
+  /**
+   * Callback that is called on fetch or validation error
+   */
+  const onError = () => {
+    // Navigate to 404 Page if transmitted way's uuid doesn't exist
+    navigate(pages.page404.getPath({}));
   };
 
-  useEffect(() => {
-    loadPageData();
-  }, [user]);
+  /**
+   * Callback that is called on fetch and validation success
+   */
+  const onSuccess = (data: Way) => {
+    setWay(data);
+  };
+
+  useLoad(
+    {
+      loadData,
+      onSuccess,
+      onError,
+      dependency: [user],
+    },
+  );
 
   if (!way) {
     return (
@@ -341,22 +355,22 @@ export const WayPage = (props: WayPageProps) => {
         isEditable={isOwner}
       />
       {isOwner &&
-        <Button
-          value="Delete way"
-          // TODO: need refactoring
-          onClick={() => renderModalContent({
-            description: `Are you sure that you want to delete way "${way.name}"?`,
+      <Button
+        value="Delete way"
+        // TODO: need refactoring
+        onClick={() => renderModalContent({
+          description: `Are you sure that you want to delete way "${way.name}"?`,
 
-            /**
-             * CallBack triggered on press ok
-             */
-            onOk: async () => {
-              await WayDAL.deleteWay(way);
-              navigate(pages.user.getPath({uuid: user.uuid}));
-            },
-          })
-          }
-        />
+          /**
+           * CallBack triggered on press ok
+           */
+          onOk: async () => {
+            await WayDAL.deleteWay(way);
+            navigate(pages.user.getPath({uuid: user.uuid}));
+          },
+        })
+        }
+      />
       }
       <div>
         Amount of users who add it to favorite:
@@ -435,11 +449,11 @@ export const WayPage = (props: WayPageProps) => {
         className={styles.mentors}
       />
       {!!way.mentors.length &&
-        <MentorsSection
-          way={way}
-          setWay={setWay}
-          isOwner={isOwner}
-        />
+      <MentorsSection
+        way={way}
+        setWay={setWay}
+        isOwner={isOwner}
+      />
       }
       {isOwner && !!way.mentorRequests.length && (
         <MentorRequestsSection
