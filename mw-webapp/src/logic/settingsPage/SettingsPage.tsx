@@ -5,6 +5,7 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {globalContext} from "src/GlobalContext";
 import {OSNotification} from "src/utils/notifications/OSNotification";
+import {Theme, ThemeWorker} from "src/utils/ThemeWorker";
 import styles from "src/logic/settingsPage/SettingsPage.module.scss";
 
 /**
@@ -12,6 +13,11 @@ import styles from "src/logic/settingsPage/SettingsPage.module.scss";
  */
 export const SettingsPage = () => {
   const {notification} = useContext(globalContext);
+
+  const currentTheme = ThemeWorker.getCurrentTheme();
+  if (!currentTheme) {
+    throw new Error("Theme is not defined!");
+  }
 
   return (
     <>
@@ -22,14 +28,17 @@ export const SettingsPage = () => {
       <div className={styles.settingsList}>
         <Tooltip content="Coming soon">
           <Select
-            label="theme"
-            value="dark"
+            label="Theme: "
+            value={currentTheme}
             name="theme"
             options={[
-              {id: "1", value: "dark", text: "dark"},
-              {id: "2", value: "light", text: "light"},
+              {id: "1", value: Theme.DARK, text: "dark"},
+              {id: "2", value: Theme.LIGHT, text: "light"},
             ]}
-            onChange={() => {}}
+            onChange={(value) => {
+              // TODO: improve select interface to avoid 'as' operator
+              ThemeWorker.setTheme(value as Theme);
+            }}
           />
         </Tooltip>
         <Tooltip content="Coming soon">

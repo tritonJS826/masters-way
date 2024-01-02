@@ -10,8 +10,8 @@
   display: none;
   padding: $defaultPadding;
   border-radius: $primaryBorderRadius;
-  background-color: $secondaryBackgroundColor;
-  color: $secondaryTextColor;
+  background-color: var(--secondaryBackgroundColor);
+  color: var(--secondaryTextColor);
   cursor: pointer;
 }
 

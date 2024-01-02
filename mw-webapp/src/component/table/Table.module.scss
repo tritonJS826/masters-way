@@ -1,6 +1,6 @@
 @import "src/styles/variables";
 
-$table-border: 1px solid $primaryBorderColor;
+$table-border: 1px solid var(--primaryBorderColor);
 
 .table {
   width: 100%;
@@ -13,7 +13,7 @@ $table-border: 1px solid $primaryBorderColor;
   position: relative;
   padding: 5px;
   border: $table-border;
-  background: $primaryBackgroundColor;
+  background: var(--primaryBackgroundColor);
   font-weight: bold;
 }
 
@@ -25,5 +25,5 @@ $table-border: 1px solid $primaryBorderColor;
 }
 
 .tooltip {
-  color: $secondaryTextColor;
+  color: var(--secondaryTextColor);
 }

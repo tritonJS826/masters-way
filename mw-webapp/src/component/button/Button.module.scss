@@ -9,26 +9,26 @@
   transition-duration: $primaryTransitionDuration;
 
   &:hover {
-    background-color: $hoverColor;
+    background-color: var(--hoverColor);
     cursor: pointer;
   }
 
   &:active {
-    background-color: $activeColor;
+    background-color: var(--activeColor);
   }
 }
 
 .primary {
-  background-color: $tertiaryBackgroundColor;
-  color: $secondaryTextColor;
+  background-color: var(--tertiaryBackgroundColor);
+  color: var(--secondaryTextColor);
 }
 
 .secondary {
-  background-color: $secondaryBackgroundColor;
-  color: $secondaryTextColor;
+  background-color: var(--secondaryBackgroundColor);
+  color: var(--secondaryTextColor);
 }
 
 .tertiary {
   background-color: transparent;
-  color: $primaryTextColor;
+  color: var(--primaryTextColor);
 }

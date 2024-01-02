@@ -3,13 +3,14 @@
 .navSidebarContent {
   display: flex;
   flex-direction: column;
+  background: var(--primaryBackgroundColor);
 }
 
 .menuItem {
   padding: 10px;
-  color: $primaryTextColor;
+  color: var(--primaryTextColor);
   transition-duration: $elementHoverTransition;
   &:hover {
-    background-color: $primaryShadowColor;
+    background-color: var(--primaryShadowColor);
   }
 }

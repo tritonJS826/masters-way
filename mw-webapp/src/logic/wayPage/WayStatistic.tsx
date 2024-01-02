@@ -32,6 +32,32 @@ const AMOUNT_DAYS_IN_TWO_WEEK = 14;
 const lastWeekDate = DateUtils.getLastDate(AMOUNT_DAYS_IN_WEEK);
 const lastTwoWeekDate = DateUtils.getLastDate(AMOUNT_DAYS_IN_TWO_WEEK);
 
+type StatisticLineProps = {
+
+  /**
+   * Line description (left part)
+   */
+  description: string;
+
+  /**
+   * Line value (right part)
+   */
+  value: number;}
+
+/**
+ * One line for statistic block
+ */
+const StatisticLine = (params: StatisticLineProps) => {
+  return (
+    <p className={styles.alignContent}>
+      <span>
+        {params.description}
+      </span>
+      {params.value}
+    </p>
+  );
+};
+
 /**
  * Render table of reports
  */
@@ -44,7 +70,6 @@ export const WayStatistic = (props: WayStatisticProps) => {
     (maximumDateTimestamp - minimumDateTimestamp + SMAL_CORECTION_MILLISECONDS) / MILLISECONDS_IN_DAY,
   );
   const totalRecordsAmount = props.dayReports.length;
-  const totalWorkedRecords = props.dayReports.filter((report) => !report.isDayOff).length;
 
   const allJobsAmount = props.dayReports
     .flatMap(report => report.jobsDone);
@@ -55,7 +80,6 @@ export const WayStatistic = (props: WayStatisticProps) => {
   const totalWayTime = allJobsAmount
     .reduce((totalTime, jobDone) => totalTime + jobDone.time, 0);
 
-  const averageWorkingTimeInWorkedRecords = totalWorkedRecords > 0 ? Math.round(totalWayTime / totalWorkedRecords) : 0;
   const averageWorkingTimeInRecords = Math.round(totalWayTime / totalRecordsAmount);
   const averageWorkingTimeInDay = Math.round(totalWayTime / totalDaysOnAWay);
 
@@ -93,104 +117,70 @@ export const WayStatistic = (props: WayStatisticProps) => {
       <div className={styles.wrapper}>
         <Title
           level={HeadingLevel.h4}
-          text="Total statistics"
+          text="Total"
         />
-        <div className={styles.alignContent}>
-          <p>
-            Total days on a way:
-          </p>
-          {totalDaysOnAWay}
-        </div>
-        <div className={styles.alignContent}>
-          <p>
-            Total amount of records:
-          </p>
-          {totalRecordsAmount}
-        </div>
-        <div className={styles.alignContent}>
-          <p>
-            Amount of records marked as worked:
-          </p>
-          {totalWorkedRecords}
-        </div>
-        <div className={styles.alignContent}>
-          <p>
-            Total way time (minutes):
-          </p>
-          {totalWayTime}
-        </div>
-        <div className={styles.alignContent}>
-          <p>
-            Average working time per day:
-          </p>
-          {averageWorkingTimeInDay}
-        </div>
-        <div className={styles.alignContent}>
-          <p>
-            Average working time in worked records:
-          </p>
-          {averageWorkingTimeInWorkedRecords}
-        </div>
-        <div className={styles.alignContent}>
-          <p>
-            Average working time in all records:
-          </p>
-          {averageWorkingTimeInRecords}
-        </div>
+        <StatisticLine
+          description="Days from start:"
+          value={totalDaysOnAWay}
+        />
+        <StatisticLine
+          description="Total records:"
+          value={totalRecordsAmount}
+        />
+        <StatisticLine
+          description="Total time:"
+          value={totalWayTime}
+        />
+        <StatisticLine
+          description="Average time per calendar day:"
+          value={averageWorkingTimeInDay}
+        />
+        <StatisticLine
+          description="Average working time in working day:"
+          value={averageWorkingTimeInRecords}
+        />
+
         <Tooltip content="Shows level of task decomposition">
-          <div className={styles.alignContent}>
-            <p>
-              Average job time:
-            </p>
-            {averageTimeForJob}
-          </div>
+          <StatisticLine
+            description="Average job time:"
+            value={averageTimeForJob}
+          />
         </Tooltip>
         <Title
           level={HeadingLevel.h4}
-          text="Last week statistics"
+          text="Last week"
           className={styles.title}
         />
-        <div className={styles.alignContent}>
-          <p>
-            Last calendar week total time:
-          </p>
-          {lastCalendarWeekTotalTime}
-        </div>
-        <div className={styles.alignContent}>
-          <p>
-            Last calendar week average day time:
-          </p>
-          {lastCalendarWeekAverageWorkingTime}
-        </div>
-        <div className={styles.alignContent}>
-          <p>
-            Last calendar week average job time:
-          </p>
-          {lastCalendarWeekAverageJobTime}
-        </div>
+        <StatisticLine
+          description="Total time:"
+          value={lastCalendarWeekTotalTime}
+        />
+        <StatisticLine
+          description="Average time per calendar day:"
+          value={lastCalendarWeekAverageWorkingTime}
+        />
+        <StatisticLine
+          description="Average time per worked day:"
+          value={lastCalendarWeekAverageJobTime}
+        />
+
         <Title
           level={HeadingLevel.h4}
           text="Last two weeks statistics"
           className={styles.title}
         />
-        <div className={styles.alignContent}>
-          <p>
-            Last 2 calendar week total time:
-          </p>
-          {lastCalendarTwoWeekTotalTime}
-        </div>
-        <div className={styles.alignContent}>
-          <p>
-            Last 2 calendar week average day time:
-          </p>
-          {lastCalendarTwoWeekAverageWorkingTime}
-        </div>
-        <div className={styles.alignContent}>
-          <p>
-            Last 2 calendar week average job time:
-          </p>
-          {lastCalendarTwoWeekAverageJobTime}
-        </div>
+        <StatisticLine
+          description="Total time:"
+          value={lastCalendarTwoWeekTotalTime}
+        />
+        <StatisticLine
+          description="Average time per calendar day:"
+          value={lastCalendarTwoWeekAverageWorkingTime}
+        />
+        <StatisticLine
+          description="Average time per worked day:"
+          value={lastCalendarTwoWeekAverageJobTime}
+        />
       </div>
     );
   };
