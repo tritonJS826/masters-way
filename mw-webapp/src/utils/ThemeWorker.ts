@@ -51,14 +51,7 @@ const themedVariables: Record<string, Record<Theme, string>> = {
   },
 };
 
-/**
- * Set site theme
- */
-const setTheme = (theme: Theme) => {
-  Object.entries(themedVariables).forEach(([variableName, variableValue]) => {
-    document.documentElement.style.setProperty(`--${variableName}`, variableValue[theme]);
-  });
-};
+export const DEFAULT_THEME = Theme.DARK;
 
 /**
  * All theme-related methods
@@ -69,7 +62,9 @@ export class ThemeWorker {
    * Set theme
    */
   public static setTheme(theme: Theme) {
-    setTheme(theme);
+    Object.entries(themedVariables).forEach(([variableName, variableValue]) => {
+      document.documentElement.style.setProperty(`--${variableName}`, variableValue[theme]);
+    });
     localStorageWorker.setItemByKey("theme", theme);
   }
 
@@ -78,12 +73,7 @@ export class ThemeWorker {
    */
   public static loadTheme() {
     const theme = localStorageWorker.getItemByKey("theme");
-    if (theme) {
-      setTheme(theme);
-    } else {
-      const DEFAULT_THEME = Theme.DARK;
-      setTheme(DEFAULT_THEME);
-    }
+    this.setTheme(theme ?? DEFAULT_THEME);
   }
 
   /**

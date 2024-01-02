@@ -5,7 +5,7 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {globalContext} from "src/GlobalContext";
 import {OSNotification} from "src/utils/notifications/OSNotification";
-import {Theme, ThemeWorker} from "src/utils/ThemeWorker";
+import {DEFAULT_THEME, Theme, ThemeWorker} from "src/utils/ThemeWorker";
 import styles from "src/logic/settingsPage/SettingsPage.module.scss";
 
 /**
@@ -14,10 +14,7 @@ import styles from "src/logic/settingsPage/SettingsPage.module.scss";
 export const SettingsPage = () => {
   const {notification} = useContext(globalContext);
 
-  const currentTheme = ThemeWorker.getCurrentTheme();
-  if (!currentTheme) {
-    throw new Error("Theme is not defined!");
-  }
+  const currentTheme = ThemeWorker.getCurrentTheme() ?? DEFAULT_THEME;
 
   return (
     <>
