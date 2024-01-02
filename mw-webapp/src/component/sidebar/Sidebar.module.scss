@@ -1,5 +1,9 @@
 @import "src/styles/variables";
 
+[role="dialog"] {
+  border-right: 1px solid var(--secondaryBackgroundColor);
+}
+
 .navSidebarContent {
   display: flex;
   flex-direction: column;

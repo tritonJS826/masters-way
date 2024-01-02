@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {TrashIcon} from "@radix-ui/react-icons";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
@@ -46,7 +46,7 @@ interface MentoringWaysTableProps {
   /**
    * User's mentoring way uuids
    */
-  mentoringWayUuids: string[];
+  mentoringWays: WayPreview[];
 
   /**
    * Is current authorized user is owner of current page
@@ -63,19 +63,7 @@ interface MentoringWaysTableProps {
  * Render table of mentoring ways preview
  */
 export const MentoringWaysTable = (props: MentoringWaysTableProps) => {
-  const [mentoringWays, setMentoringWays] = useState<WayPreview[]>([]);
-
-  /**
-   * Load User mentoring ways
-   */
-  const loadMentoringWays = async () => {
-    const data = await Promise.all(props.mentoringWayUuids.map(WayPreviewDAL.getWayPreview));
-    setMentoringWays(data);
-  };
-
-  useEffect(() => {
-    loadMentoringWays();
-  }, [props.uuid]);
+  const [mentoringWays, setMentoringWays] = useState<WayPreview[]>(props.mentoringWays);
 
   if (!props.isPageOwner) {
     return (

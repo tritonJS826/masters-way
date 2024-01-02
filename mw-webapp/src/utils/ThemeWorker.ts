@@ -73,7 +73,8 @@ export class ThemeWorker {
    */
   public static loadTheme() {
     const theme = localStorageWorker.getItemByKey("theme");
-    this.setTheme(theme ?? DEFAULT_THEME);
+    // TODO: font use as
+    this.setTheme(theme as Theme ?? DEFAULT_THEME);
   }
 
   /**

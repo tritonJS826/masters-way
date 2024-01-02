@@ -38,11 +38,11 @@ $listLeftMargin: 20px;
   margin-bottom: $defaultMargin;
 }
 
-.comments li {
+.comments > li {
   list-style: none;
 }
 
-.comments li:last-child {
+.comments > li:last-child {
   margin-bottom: $defaultMargin;
 }
 
@@ -79,4 +79,9 @@ $listLeftMargin: 20px;
 .dateCell {
   display: block;
   min-width: $minWidthDate;
+  hyphens: none;
+}
+
+.checkbox {
+  margin-right: $defaultSmallMargin;
 }

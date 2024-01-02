@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HeadingLevel, Title} from "src/component/title/Title";
@@ -22,9 +22,9 @@ interface OwnWaysTableProps {
   uuid: string;
 
   /**
-   * User's own way uuids
+   * User's own ways preview
    */
-  ownWayUuids: string[];
+  ownWays: WayPreview[];
 
 }
 
@@ -32,21 +32,8 @@ interface OwnWaysTableProps {
  * Render table of own ways preview
  */
 export const OwnWaysTable = (props: OwnWaysTableProps) => {
-  const [ownWays, setOwnWays] = useState<WayPreview[]>([]);
+  const [ownWays, setOwnWays] = useState<WayPreview[]>(props.ownWays);
   const userPreviewUuid = props.uuid;
-
-  /**
-   * Load User own ways
-   */
-  const loadOwnWays = async () => {
-    // TODO: move to const
-    const data = await Promise.all(props.ownWayUuids.map(WayPreviewDAL.getWayPreview));
-    setOwnWays(data);
-  };
-
-  useEffect(() => {
-    loadOwnWays();
-  }, [userPreviewUuid]);
 
   /**
    * Create way

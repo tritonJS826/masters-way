@@ -1,6 +1,7 @@
 import {TrashIcon} from "@radix-ui/react-icons";
 import {createColumnHelper} from "@tanstack/react-table";
 import {Button} from "src/component/button/Button";
+import {Checkbox} from "src/component/checkbox/Сheckbox";
 import {EditableText} from "src/component/editableText/EditableText";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
@@ -355,23 +356,27 @@ export const Columns = (props: ColumnsProps) => {
                           path={pages.user.getPath({uuid: plan.ownerUuid})}
                         />
                         {plan.ownerUuid === user?.uuid &&
-                          <Tooltip content="Delete plan">
-                            <TrashIcon
-                              className={styles.icon}
-                              onClick={() => renderModalContent({
-                                description: `Are you sure that you want to delete plan "${plan.job}"?`,
+                        <Tooltip content="Delete plan">
+                          <TrashIcon
+                            className={styles.icon}
+                            onClick={() => renderModalContent({
+                              description: `Are you sure that you want to delete plan "${plan.job}"?`,
 
-                                /**
-                                 * CallBack triggered on press ok
-                                 */
-                                onOk: () => deletePlan(plan.uuid),
-                              })
-                              }
-                            />
-                          </Tooltip>
+                              /**
+                               * CallBack triggered on press ok
+                               */
+                              onOk: () => deletePlan(plan.uuid),
+                            })
+                            }
+                          />
+                        </Tooltip>
                         }
                       </HorizontalContainer>
                       <HorizontalContainer>
+                        <Checkbox
+                          onChange={() => {}}
+                          className={styles.checkbox}
+                        />
                         <EditableTextarea
                           text={plan.job}
                           onChangeFinish={(text) => updatePlan(plan, text)}
@@ -500,12 +505,18 @@ export const Columns = (props: ColumnsProps) => {
                           </Tooltip>
                         }
                       </HorizontalContainer>
-                      <EditableTextarea
-                        text={problem.description}
-                        onChangeFinish={(text) => updateProblem(problem, text)}
-                        isEditable={problem.ownerUuid === user?.uuid}
-                        className={styles.editableTextarea}
-                      />
+                      <HorizontalContainer>
+                        <Checkbox
+                          onChange={() => {}}
+                          className={styles.checkbox}
+                        />
+                        <EditableTextarea
+                          text={problem.description}
+                          onChangeFinish={(text) => updateProblem(problem, text)}
+                          isEditable={problem.ownerUuid === user?.uuid}
+                          className={styles.editableTextarea}
+                        />
+                      </HorizontalContainer>
                     </VerticalContainer>
                   </HorizontalContainer>
                 </li>
@@ -613,12 +624,18 @@ export const Columns = (props: ColumnsProps) => {
                             </Tooltip>
                           }
                         </HorizontalContainer>
-                        <EditableTextarea
-                          text={comment.description}
-                          onChangeFinish={(text) => updateComment(comment, text)}
-                          isEditable={comment.ownerUuid === user?.uuid}
-                          className={styles.editableTextarea}
-                        />
+                        <HorizontalContainer>
+                          <Checkbox
+                            onChange={() => {}}
+                            className={styles.checkbox}
+                          />
+                          <EditableTextarea
+                            text={comment.description}
+                            onChangeFinish={(text) => updateComment(comment, text)}
+                            isEditable={comment.ownerUuid === user?.uuid}
+                            className={styles.editableTextarea}
+                          />
+                        </HorizontalContainer>
                       </VerticalContainer>
                     </HorizontalContainer>
                   </li>

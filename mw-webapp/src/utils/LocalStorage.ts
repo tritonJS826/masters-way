@@ -1,3 +1,4 @@
+import {Language} from "src/utils/LanguageWorker";
 import {Theme} from "src/utils/ThemeWorker";
 
 /**
@@ -69,4 +70,11 @@ type LocalStorageData = {
    * Supported themes
    */
   theme: Theme;
+
+  /**
+   * Supported languages
+   */
+  language: Language;
+
 }
+
