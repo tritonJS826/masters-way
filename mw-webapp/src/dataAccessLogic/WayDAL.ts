@@ -13,7 +13,7 @@ import {GoalMetricService} from "src/service/GoalMetricService";
 import {GoalService} from "src/service/GoalService";
 import {UserService} from "src/service/UserService";
 import {WayDTOWithoutUuid, WayService} from "src/service/WayService";
-import {createHashMap} from "src/utils/createHashMap";
+import {arrayToHashMap} from "src/utils/createHashMap";
 
 /**
  * Provides methods to interact with the Way model
@@ -62,7 +62,7 @@ export class WayDAL {
       favoriteForUsersPromise,
     ]);
 
-    const mentorsDictionary = createHashMap(mentors);
+    const mentorsDictionary = arrayToHashMap(mentors);
 
     const dayReportsOrderedByDate = dayReports.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 

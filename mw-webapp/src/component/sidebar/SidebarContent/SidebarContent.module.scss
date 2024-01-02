@@ -10,8 +10,9 @@ $sidebar-button-offset: 5px;
   position: fixed;
   z-index: $sidebarZIndex;
   animation: overlayShow $sidebar-animation-time cubic-bezier(0.16, 1, 0.3, 1);
-  background-color: $secondaryBackgroundColorTransparent;
+  background-color: var(--primaryBackgroundColor);
   inset: 0;
+  opacity: 0.5;
 }
 
 .dialogContent {
@@ -23,7 +24,7 @@ $sidebar-button-offset: 5px;
   height: 100%;
   padding: $sidebar-padding;
   animation: contentShow $sidebar-animation-time cubic-bezier(0.16, 1, 0.3, 1);
-  background-color: $primaryBackgroundColor;
+  background-color: var(--primaryBackgroundColor);
 
   &:focus {
     outline: none;

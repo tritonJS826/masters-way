@@ -7,7 +7,7 @@
   width: 0;
   height: 4px;
   animation: progress 1s linear forwards;
-  background-color: $secondaryBackgroundColorTransparent;
+  background-color: var(--secondaryBackgroundColor);
 }
 
 @keyframes progress {

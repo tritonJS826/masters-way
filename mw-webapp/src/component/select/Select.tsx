@@ -58,8 +58,8 @@ export const Select = (props: SelectProps) => {
         name={props.name}
         onChange={onChangeHandler}
         className={styles.select}
+        defaultValue={props.value}
       >
-        {props.value}
         {renderSelectOptions}
       </select>
     </label>
