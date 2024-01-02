@@ -34,11 +34,6 @@ interface TitleProps {
   className?: string;
 
   /**
-   * Additional style for input
-   */
-  styleInput?: string;
-
-  /**
    * Title
    */
   text: string;
@@ -107,7 +102,6 @@ export const Title = (props: TitleProps) => {
             value={text}
             autoFocus={true}
             onChange={setText}
-            className={props.styleInput}
           />
         )
         : (

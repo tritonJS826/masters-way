@@ -21,14 +21,9 @@ interface EditableTextareaProps {
   onChangeFinish: (value: string) => void;
 
   /**
-   * Additional custom class name for the editable input
+   * Class name for the editable input
    */
   className?: string;
-
-  /**
-   * Additional custom class name for the editable textarea
-   */
-  styleTextArea?: string;
 
   /**
    * Textarea placeholder text
@@ -87,7 +82,6 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
       rows={props.rows}
       isAutofocus
       onKeyPress={handleCtrlEnter}
-      className={clsx(styles.editableTextarea, props.styleTextArea)}
     />
   );
 

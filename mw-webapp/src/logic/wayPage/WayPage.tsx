@@ -387,7 +387,7 @@ export const WayPage = (props: WayPageProps) => {
           text={`${way.name}`}
           onChangeFinish={(text) => changeWayName(way, text)}
           isEditable={isOwner}
-          styleInput={styles.inputH2}
+          className={styles.titleH2}
         />
         <HorizontalContainer className={styles. buttons}>
           {
@@ -485,7 +485,6 @@ export const WayPage = (props: WayPageProps) => {
             rows={10}
             isEditable={isOwner}
             className={styles.goalDescription}
-            styleTextArea={styles.textarea}
           />
         </div>
         <div>

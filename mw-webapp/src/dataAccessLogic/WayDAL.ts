@@ -14,7 +14,6 @@ import {GoalService} from "src/service/GoalService";
 import {UserService} from "src/service/UserService";
 import {WayDTOWithoutUuid, WayService} from "src/service/WayService";
 import {createHashMap} from "src/utils/createHashMap";
-import {DateUtils} from "src/utils/DateUtils";
 
 /**
  * Provides methods to interact with the Way model
@@ -96,7 +95,7 @@ export class WayDAL {
     const newGoal = await GoalDAL.createGoal(userUuid);
 
     const DEFAULT_WAY: WayDTOWithoutUuid = {
-      name: `${DateUtils.getShortISODateValue(new Date)} Way of ${user.name}`,
+      name: `Way of ${user.name}`,
       dayReportUuids: [],
       ownerUuid: `${userUuid}`,
       goalUuid: `${newGoal.uuid}`,

@@ -10,23 +10,27 @@
   align-items: baseline;
 }
 
-.marginBottom {
+.editableTextarea {
   margin-bottom: $defaultMargin;
+
+  textarea {
+    width: $minWidthBlock;
+    padding: $defaultSmallPadding;
+  }
 }
 
-.inputH2 {
-  width: $minWidthBlock;
-  height: 27px;
-  margin-top: $defaultMargin;
-  margin-bottom: $defaultMargin;
+.titleH2 {
+  input {
+    width: $minWidthBlock;
+    height: $heightH2;
+    margin-top: $defaultMargin;
+    margin-bottom: $defaultMargin;
+  }
 }
 
-.inputH3 {
-  width: $minWidthBlock;
-  height: 22px;
-}
-
-.textarea {
-  width: $minWidthBlock;
-  padding: $defaultSmallPadding;
+.titleH3 {
+  input {
+    width: $minWidthBlock;
+    height: $heightH3;
+  }
 }

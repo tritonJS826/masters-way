@@ -115,7 +115,10 @@ export const MentoringWaysTable = (props: MentoringWaysTableProps) => {
         <VerticalContainer>
           {row.original.mentors.map((mentor) => {
             return (
-              <HorizontalContainer key={uuidv4().concat(mentor.uuid)}>
+              <HorizontalContainer
+                className={styles.horizontalContainer}
+                key={uuidv4().concat(mentor.uuid)}
+              >
                 <Link
                   key={mentor.uuid}
                   path={pages.user.getPath({uuid: mentor.uuid})}

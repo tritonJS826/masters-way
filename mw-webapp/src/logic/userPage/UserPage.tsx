@@ -90,21 +90,20 @@ export const UserPage = (props: UserPageProps) => {
         text={userPreview.name}
         onChangeFinish={(text) => changeUserName(userPreview, text, setUserPreview)}
         isEditable={isPageOwner}
-        styleInput={styles.inputH2}
+        className={styles.titleH2}
       />
       <Title
         level={HeadingLevel.h3}
         text={userPreview.email}
         onChangeFinish={(text) => changeUserEmail(userPreview, text, setUserPreview)}
         isEditable={isPageOwner}
-        styleInput={styles.inputH3}
+        className={styles.titleH3}
       />
       <EditableTextarea
         text={userPreview.description}
         onChangeFinish={(text) => changeUserDescription(userPreview, text, setUserPreview)}
         isEditable={isPageOwner}
-        className={styles.marginBottom}
-        styleTextArea={styles.textarea}
+        className={styles.editableTextarea}
       />
       <ScrollableBlock>
         <OwnWaysTable
