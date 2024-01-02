@@ -349,7 +349,7 @@ export const Columns = (props: ColumnsProps) => {
                 <li key={plan.uuid}>
                   <HorizontalContainer className={styles.numberedListItem}>
                     <VerticalContainer>
-                      <HorizontalContainer className={styles.width}>
+                      <HorizontalContainer className={styles.horizontalContainer}>
                         <Link
                           value={getName(props.way.mentors, plan.ownerUuid, ownerName)}
                           path={pages.user.getPath({uuid: plan.ownerUuid})}
@@ -478,7 +478,7 @@ export const Columns = (props: ColumnsProps) => {
                 <li key={problem.uuid}>
                   <HorizontalContainer className={styles.numberedListItem}>
                     <VerticalContainer>
-                      <HorizontalContainer className={styles.width}>
+                      <HorizontalContainer className={styles.horizontalContainer}>
                         <Link
                           value={getName(props.way.mentors, problem.ownerUuid, ownerName)}
                           path={pages.user.getPath({uuid: problem.ownerUuid})}
@@ -591,7 +591,7 @@ export const Columns = (props: ColumnsProps) => {
                   <li key={comment.uuid}>
                     <HorizontalContainer key={comment.uuid}>
                       <VerticalContainer>
-                        <HorizontalContainer className={styles.width}>
+                        <HorizontalContainer className={styles.horizontalContainer}>
                           <Link
                             value={getName(props.way.mentors, comment.ownerUuid, ownerName)}
                             path={pages.user.getPath({uuid: comment.ownerUuid})}

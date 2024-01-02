@@ -15,6 +15,11 @@ interface FavoriteWaysTableProps {
    */
   uuid: string;
 
+  /**
+   * User's favorite way uuids
+   */
+  favoriteWayUuids: string[];
+
 }
 
 /**
@@ -28,7 +33,7 @@ export const FavoriteWaysTable = (props: FavoriteWaysTableProps) => {
    * Load User Favorite ways
    */
   const loadFavoriteWays = async () => {
-    const data = await WayPreviewDAL.getUserWaysPreview(userPreviewUuid, "Favorite");
+    const data = await Promise.all(props.favoriteWayUuids.map(WayPreviewDAL.getWayPreview));
     setFavoriteWays(data);
   };
 

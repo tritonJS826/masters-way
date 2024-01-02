@@ -14,7 +14,6 @@ import {GoalService} from "src/service/GoalService";
 import {UserService} from "src/service/UserService";
 import {WayDTOWithoutUuid, WayService} from "src/service/WayService";
 import {arrayToHashMap} from "src/utils/createHashMap";
-import {DateUtils} from "src/utils/DateUtils";
 
 /**
  * Provides methods to interact with the Way model
@@ -96,7 +95,7 @@ export class WayDAL {
     const newGoal = await GoalDAL.createGoal(userUuid);
 
     const DEFAULT_WAY: WayDTOWithoutUuid = {
-      name: `${DateUtils.getShortISODateValue(new Date)} Way of ${user.name}`,
+      name: `Way of ${user.name}`,
       dayReportUuids: [],
       ownerUuid: `${userUuid}`,
       goalUuid: `${newGoal.uuid}`,
@@ -127,32 +126,6 @@ export class WayDAL {
     const way = WayDAL.getWay(wayDTO.uuid);
 
     return way;
-  }
-
-  /**
-   * Get User ways preview based of provided type
-   * TODO: get rid of this functions it is dangerous to use this kind of polymorphism
-   */
-  public static async getUserWaysPreview(uuid: string, type: "Own" | "Mentoring" | "Favorite"): Promise<Way[]> {
-    let waysDTO;
-
-    switch (type) {
-      case "Own":
-        waysDTO = await WayService.getOwnWaysDTO(uuid);
-        break;
-      case "Mentoring":
-        waysDTO = await WayService.getMentoringWaysDTO(uuid);
-        break;
-      case "Favorite":
-        waysDTO = await WayService.getFavoriteWaysDTO(uuid);
-        break;
-    }
-
-    const waysUuids = waysDTO.map((item) => item.uuid);
-
-    const ways = await Promise.all(waysUuids.map(WayDAL.getWay));
-
-    return ways;
   }
 
   /**

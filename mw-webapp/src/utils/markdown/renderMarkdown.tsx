@@ -1,6 +1,5 @@
 import MarkdownLib, {Components} from "react-markdown";
 import remarkGfm from "remark-gfm";
-import {Image} from "src/component/image/Image";
 import styles from "src/utils/markdown/Markdown.module.scss";
 
 const customComponents: Components = {
@@ -24,22 +23,15 @@ const customComponents: Components = {
    * @returns
    */
   img: (params) => {
-    if (!params.src || !params.alt) {
-      return (
+    return (
+      <div className={styles.imageContainer}>
         <img
-          src={params.src}
-          alt={params.alt}
-        />
-      );
-    } else {
-      return (
-        <Image
           src={params.src}
           alt={params.alt}
           className={styles.markdownImg}
         />
-      );
-    }
+      </div>
+    );
   },
 
   /**

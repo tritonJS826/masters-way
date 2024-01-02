@@ -387,6 +387,7 @@ export const WayPage = (props: WayPageProps) => {
           text={`${way.name}`}
           onChangeFinish={(text) => changeWayName(way, text)}
           isEditable={isOwner}
+          className={styles.titleH2}
         />
         <HorizontalContainer className={styles. buttons}>
           {

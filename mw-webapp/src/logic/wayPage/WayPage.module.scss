@@ -20,6 +20,7 @@
 
   textarea {
     width: 100%;
+    padding: $defaultSmallPadding;
   }
 }
 
@@ -27,8 +28,7 @@
   display: flex;
   max-width: $maxWidthBlock;
   align-items: center;
-  margin-bottom: 4px;
-  gap: 4px;
+  margin-bottom: $defaultSmallGap;
 }
 
 .mentors {
@@ -72,4 +72,13 @@
 
 .trash {
   display: inline-block;
+}
+
+.titleH2 {
+  input {
+    width: $minWidthBlock;
+    height: $heightH2;
+    margin-top: $defaultMargin;
+    margin-bottom: $defaultMargin;
+  }
 }
