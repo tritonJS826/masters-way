@@ -7,7 +7,7 @@
   align-items: center;
   justify-content: space-between;
   padding-bottom: $defaultPadding;
-  border-bottom: 1px solid $primaryBorderColor;
+  border-bottom: 1px solid var(--primaryBorderColor);
   background-color: var(--primaryBackgroundColor);
 }
 

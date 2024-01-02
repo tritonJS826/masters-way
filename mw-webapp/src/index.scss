@@ -8,6 +8,6 @@
 
 body {
   margin: $defaultMargin;
-  background-color: $primaryBackgroundColor;
-  color: $primaryTextColor;
+  background-color: var(--primaryBackgroundColor);
+  color: var(--primaryTextColor);
 }

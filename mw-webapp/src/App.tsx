@@ -6,11 +6,13 @@ import {useErrorHandler} from "src/hooks/useErrorHandler";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {Router} from "src/router/Router";
 import {AuthService} from "src/service/AuthService";
+import {ThemeWorker} from "src/utils/ThemeWorker";
 
 /**
  * App
  */
 export const App = () => {
+  ThemeWorker.loadTheme();
   useErrorHandler();
   const [user, setUser] = useState<UserPreview | null>(null);
 

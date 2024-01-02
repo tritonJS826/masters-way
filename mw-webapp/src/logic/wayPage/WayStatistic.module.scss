@@ -15,7 +15,7 @@
   display: flex;
   width: 100%;
   justify-content: space-between;
-  border-bottom: 1px dotted $primaryBorderColor;
+  border-bottom: 1px dotted var(--primaryBorderColor);
 }
 
 .title {
