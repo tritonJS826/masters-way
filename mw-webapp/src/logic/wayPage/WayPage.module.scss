@@ -73,3 +73,15 @@
 .trash {
   display: inline-block;
 }
+
+.inputH2 {
+  width: $minWidthBlock;
+  height: 27px;
+  margin-top: $defaultMargin;
+  margin-bottom: $defaultMargin;
+}
+
+.textarea {
+  width: $minWidthBlock;
+  padding: $defaultSmallPadding;
+}

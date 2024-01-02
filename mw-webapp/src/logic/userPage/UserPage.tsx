@@ -85,55 +85,46 @@ export const UserPage = (props: UserPageProps) => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.row}>
-        <Title
-          text="Name:"
-          level={HeadingLevel.h3}
-        />
-        {" "}
-        <Title
-          level={HeadingLevel.h3}
-          text={userPreview.name}
-          onChangeFinish={(text) => changeUserName(userPreview, text, setUserPreview)}
-          isEditable={isPageOwner}
-        />
-      </div>
-      <div className={styles.row}>
-        <Title
-          text="Email:"
-          level={HeadingLevel.h3}
-        />
-        {" "}
-        <Title
-          level={HeadingLevel.h3}
-          text={userPreview.email}
-          onChangeFinish={(text) => changeUserEmail(userPreview, text, setUserPreview)}
-          isEditable={isPageOwner}
-        />
-      </div>
-      <div className={styles.marginBottom}>
-        <Title
-          text="Description:"
-          level={HeadingLevel.h3}
-        />
-        <EditableTextarea
-          text={userPreview.description}
-          onChangeFinish={(text) => changeUserDescription(userPreview, text, setUserPreview)}
-          isEditable={isPageOwner}
-        />
-      </div>
+      <Title
+        level={HeadingLevel.h2}
+        text={userPreview.name}
+        onChangeFinish={(text) => changeUserName(userPreview, text, setUserPreview)}
+        isEditable={isPageOwner}
+        styleInput={styles.inputH2}
+      />
+      <Title
+        level={HeadingLevel.h3}
+        text={userPreview.email}
+        onChangeFinish={(text) => changeUserEmail(userPreview, text, setUserPreview)}
+        isEditable={isPageOwner}
+        styleInput={styles.inputH3}
+      />
+      <EditableTextarea
+        text={userPreview.description}
+        onChangeFinish={(text) => changeUserDescription(userPreview, text, setUserPreview)}
+        isEditable={isPageOwner}
+        className={styles.marginBottom}
+        styleTextArea={styles.textarea}
+      />
       <ScrollableBlock>
-        <OwnWaysTable uuid={props.uuid} />
+        <OwnWaysTable
+          uuid={props.uuid}
+          ownWayUuids={userPreview.ownWays}
+        />
       </ScrollableBlock>
       <ScrollableBlock>
         <MentoringWaysTable
           uuid={props.uuid}
+          mentoringWayUuids={userPreview.mentoringWays}
           isPageOwner={isPageOwner}
           handleUserPreviewChange={setUserPreview}
         />
       </ScrollableBlock>
       <ScrollableBlock>
-        <FavoriteWaysTable uuid={props.uuid} />
+        <FavoriteWaysTable
+          uuid={props.uuid}
+          favoriteWayUuids={userPreview.favoriteWays}
+        />
       </ScrollableBlock>
     </div>
   );

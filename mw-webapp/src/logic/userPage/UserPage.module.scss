@@ -13,3 +13,20 @@
 .marginBottom {
   margin-bottom: $defaultMargin;
 }
+
+.inputH2 {
+  width: $minWidthBlock;
+  height: 27px;
+  margin-top: $defaultMargin;
+  margin-bottom: $defaultMargin;
+}
+
+.inputH3 {
+  width: $minWidthBlock;
+  height: 22px;
+}
+
+.textarea {
+  width: $minWidthBlock;
+  padding: $defaultSmallPadding;
+}

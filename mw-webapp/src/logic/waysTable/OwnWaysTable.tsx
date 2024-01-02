@@ -21,6 +21,11 @@ interface OwnWaysTableProps {
    */
   uuid: string;
 
+  /**
+   * User's own way uuids
+   */
+  ownWayUuids: string[];
+
 }
 
 /**
@@ -35,7 +40,7 @@ export const OwnWaysTable = (props: OwnWaysTableProps) => {
    */
   const loadOwnWays = async () => {
     // TODO: move to const
-    const data = await WayPreviewDAL.getUserWaysPreview(userPreviewUuid, "Own");
+    const data = await Promise.all(props.ownWayUuids.map(WayPreviewDAL.getWayPreview));
     setOwnWays(data);
   };
 

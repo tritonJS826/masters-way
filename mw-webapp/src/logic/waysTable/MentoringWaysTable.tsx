@@ -1,11 +1,12 @@
 import {useEffect, useState} from "react";
 import {TrashIcon} from "@radix-ui/react-icons";
+import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
-import {columnHelper, WAY_MENTORS, waysColumns} from "src/logic/waysTable/waysColumns";
+import {columnHelper, getFirstName, WAY_MENTORS, waysColumns} from "src/logic/waysTable/waysColumns";
 import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
@@ -43,6 +44,11 @@ interface MentoringWaysTableProps {
   uuid: string;
 
   /**
+   * User's mentoring way uuids
+   */
+  mentoringWayUuids: string[];
+
+  /**
    * Is current authorized user is owner of current page
    */
   isPageOwner: boolean;
@@ -63,7 +69,7 @@ export const MentoringWaysTable = (props: MentoringWaysTableProps) => {
    * Load User mentoring ways
    */
   const loadMentoringWays = async () => {
-    const data = await WayPreviewDAL.getUserWaysPreview(props.uuid, "Mentoring");
+    const data = await Promise.all(props.mentoringWayUuids.map(WayPreviewDAL.getWayPreview));
     setMentoringWays(data);
   };
 
@@ -109,11 +115,11 @@ export const MentoringWaysTable = (props: MentoringWaysTableProps) => {
         <VerticalContainer>
           {row.original.mentors.map((mentor) => {
             return (
-              <div key={uuidv4().concat(mentor.uuid)}>
+              <HorizontalContainer key={uuidv4().concat(mentor.uuid)}>
                 <Link
                   key={mentor.uuid}
                   path={pages.user.getPath({uuid: mentor.uuid})}
-                  value={mentor.name}
+                  value={getFirstName(mentor.name)}
                 />
                 {/* TODO: think about moving logic about deleted mentoring on Way page */}
                 {props.uuid === mentor.uuid && (
@@ -133,7 +139,7 @@ export const MentoringWaysTable = (props: MentoringWaysTableProps) => {
                     }}
                   />
                 )}
-              </div>
+              </HorizontalContainer>
             );
           })}
         </VerticalContainer>

@@ -130,32 +130,6 @@ export class WayDAL {
   }
 
   /**
-   * Get User ways preview based of provided type
-   * TODO: get rid of this functions it is dangerous to use this kind of polymorphism
-   */
-  public static async getUserWaysPreview(uuid: string, type: "Own" | "Mentoring" | "Favorite"): Promise<Way[]> {
-    let waysDTO;
-
-    switch (type) {
-      case "Own":
-        waysDTO = await WayService.getOwnWaysDTO(uuid);
-        break;
-      case "Mentoring":
-        waysDTO = await WayService.getMentoringWaysDTO(uuid);
-        break;
-      case "Favorite":
-        waysDTO = await WayService.getFavoriteWaysDTO(uuid);
-        break;
-    }
-
-    const waysUuids = waysDTO.map((item) => item.uuid);
-
-    const ways = await Promise.all(waysUuids.map(WayDAL.getWay));
-
-    return ways;
-  }
-
-  /**
    * Update Way
    */
   public static async updateWay(way: Way) {

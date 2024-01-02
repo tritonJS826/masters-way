@@ -26,18 +26,22 @@ const customComponents: Components = {
   img: (params) => {
     if (!params.src || !params.alt) {
       return (
-        <img
-          src={params.src}
-          alt={params.alt}
-        />
+        <div className={styles.imageContainer}>
+          <img
+            src={params.src}
+            alt={params.alt}
+          />
+        </div>
       );
     } else {
       return (
-        <Image
-          src={params.src}
-          alt={params.alt}
-          className={styles.markdownImg}
-        />
+        <div className={styles.imageContainer}>
+          <Image
+            src={params.src}
+            alt={params.alt}
+            className={styles.markdownImg}
+          />
+        </div>
       );
     }
   },

@@ -1,10 +1,8 @@
-import {collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, setDoc, updateDoc, where, WriteBatch}
+import {collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, setDoc, updateDoc, WriteBatch}
   from "firebase/firestore";
 import {db} from "src/firebase";
 import {
   WAY_CREATED_AT_FIELD,
-  WAY_MENTOR_UUIDS_FIELD,
-  WAY_OWNER_UUID_FIELD,
   WAY_UUID_FIELD,
   WayDTO,
   WayDTOSchema,
@@ -13,7 +11,6 @@ import {
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
 import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
 import {RequestOperations} from "src/service/RequestOperations";
-import {UserService} from "src/service/UserService";
 import {logToConsole} from "src/utils/logToConsole";
 
 const PATH_TO_WAYS_COLLECTION = "ways";
@@ -86,60 +83,6 @@ export class WayService {
     await updateDoc(doc(db, PATH_TO_WAYS_COLLECTION, wayDTO.uuid), {...validatedWayDTO});
 
     logToConsole(`WayService:updateWayDTO: 1 ${RequestOperations.WRITE} operation`);
-  }
-
-  /**
-   * Get WaysDTO by Owner Uuid
-   */
-  public static async getOwnWaysDTO(uuid: string): Promise<WayDTO[]> {
-    const waysRef = collection(db, PATH_TO_WAYS_COLLECTION);
-    const ownWaysQuery = query(waysRef, where(WAY_OWNER_UUID_FIELD, "==", uuid));
-    const ownWaysRaw = await getDocs(ownWaysQuery);
-    const ownWaysDTO = querySnapshotToDTOConverter<WayDTO>(ownWaysRaw);
-
-    const validatedOwnWaysDTO = WaysDTOSchema.parse(ownWaysDTO);
-
-    logToConsole(`WayService:getOwnWaysDTO: ${validatedOwnWaysDTO.length} ${RequestOperations.READ} operations`);
-
-    return validatedOwnWaysDTO;
-  }
-
-  /**
-   * Get WaysDTO of user mentoring ways
-   */
-  public static async getMentoringWaysDTO(uuid: string): Promise<WayDTO[]> {
-    const waysRef = collection(db, PATH_TO_WAYS_COLLECTION);
-    const mentoringWaysQuery = query(waysRef, where(WAY_MENTOR_UUIDS_FIELD, "array-contains", uuid));
-    const mentoringWaysRaw = await getDocs(mentoringWaysQuery);
-    const mentoringWaysDTO = querySnapshotToDTOConverter<WayDTO>(mentoringWaysRaw);
-
-    const validatedMentoringWaysDTO = WaysDTOSchema.parse(mentoringWaysDTO);
-
-    logToConsole(`WayService:getMentoringWaysDTO: ${validatedMentoringWaysDTO.length} ${RequestOperations.READ} operations`);
-
-    return validatedMentoringWaysDTO;
-  }
-
-  /**
-   * Get WaysDTO of user favorite ways
-   */
-  public static async getFavoriteWaysDTO(uuid: string): Promise<WayDTO[]> {
-    const userDTO = await UserService.getUserDTO(uuid);
-
-    if (!userDTO.favoriteWayUuids.length) {
-      return [];
-    }
-
-    const waysRef = collection(db, PATH_TO_WAYS_COLLECTION);
-    const favoriteWaysQuery = query(waysRef, where(WAY_UUID_FIELD, "in", userDTO.favoriteWayUuids));
-    const favoriteWaysRaw = await getDocs(favoriteWaysQuery);
-    const favoriteWaysDTO = querySnapshotToDTOConverter<WayDTO>(favoriteWaysRaw);
-
-    const validatedFavoriteWaysDTO = WaysDTOSchema.parse(favoriteWaysDTO);
-
-    logToConsole(`WayService:getFavoriteWaysDTO: ${validatedFavoriteWaysDTO.length} ${RequestOperations.READ} operations`);
-
-    return validatedFavoriteWaysDTO;
   }
 
   /**
