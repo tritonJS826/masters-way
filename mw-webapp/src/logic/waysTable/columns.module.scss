@@ -20,4 +20,9 @@
   display: block;
   min-width: $minWidthDate;
   hyphens: none;
+  white-space: nowrap;
+}
+
+.tooltip {
+  left: -100%;
 }

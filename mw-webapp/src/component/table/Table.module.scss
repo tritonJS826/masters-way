@@ -18,6 +18,7 @@ $table-border: 1px solid var(--primaryBorderColor);
 }
 
 .table td {
+  position: relative;
   padding: 8px 10px;
   border: $table-border;
   text-align: left;
