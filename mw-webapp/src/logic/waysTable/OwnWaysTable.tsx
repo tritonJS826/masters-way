@@ -5,6 +5,7 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
+import {useGlobalContext} from "src/GlobalContext";
 import {WAYS_OWNER, waysColumns} from "src/logic/waysTable/waysColumns";
 import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {Way} from "src/model/businessModel/Way";
@@ -22,9 +23,9 @@ interface OwnWaysTableProps {
   uuid: string;
 
   /**
-   * User's own way uuids
+   * User's own ways preview
    */
-  ownWayUuids: string[];
+  ownWays: WayPreview[];
 
 }
 
@@ -32,21 +33,14 @@ interface OwnWaysTableProps {
  * Render table of own ways preview
  */
 export const OwnWaysTable = (props: OwnWaysTableProps) => {
-  const [ownWays, setOwnWays] = useState<WayPreview[]>([]);
+  const [ownWays, setOwnWays] = useState<WayPreview[]>(props.ownWays);
   const userPreviewUuid = props.uuid;
-
-  /**
-   * Load User own ways
-   */
-  const loadOwnWays = async () => {
-    // TODO: move to const
-    const data = await Promise.all(props.ownWayUuids.map(WayPreviewDAL.getWayPreview));
-    setOwnWays(data);
-  };
+  const {user} = useGlobalContext();
+  const isPageOwner = !!user && user.uuid === userPreviewUuid;
 
   useEffect(() => {
-    loadOwnWays();
-  }, [userPreviewUuid]);
+    setOwnWays(props.ownWays);
+  }, [props.ownWays]);
 
   /**
    * Create way
@@ -68,7 +62,7 @@ export const OwnWaysTable = (props: OwnWaysTableProps) => {
 
   return (
     <>
-      {userPreviewUuid &&
+      {isPageOwner &&
         <Tooltip content="Create new way">
           <Button
             value="Create new way"

@@ -46,7 +46,7 @@ interface MentoringWaysTableProps {
   /**
    * User's mentoring way uuids
    */
-  mentoringWayUuids: string[];
+  mentoringWays: WayPreview[];
 
   /**
    * Is current authorized user is owner of current page
@@ -63,19 +63,11 @@ interface MentoringWaysTableProps {
  * Render table of mentoring ways preview
  */
 export const MentoringWaysTable = (props: MentoringWaysTableProps) => {
-  const [mentoringWays, setMentoringWays] = useState<WayPreview[]>([]);
-
-  /**
-   * Load User mentoring ways
-   */
-  const loadMentoringWays = async () => {
-    const data = await Promise.all(props.mentoringWayUuids.map(WayPreviewDAL.getWayPreview));
-    setMentoringWays(data);
-  };
+  const [mentoringWays, setMentoringWays] = useState<WayPreview[]>(props.mentoringWays);
 
   useEffect(() => {
-    loadMentoringWays();
-  }, [props.uuid]);
+    setMentoringWays(props.mentoringWays);
+  }, [props.mentoringWays]);
 
   if (!props.isPageOwner) {
     return (

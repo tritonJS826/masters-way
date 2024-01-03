@@ -133,12 +133,13 @@ export const waysColumns = [
      */
     header: () => (<>
       <Tooltip
-        position={PositionTooltip.TOP}
+        position={PositionTooltip.BOTTOM}
         content="Owner's name and email"
       >
         {WAYS_OWNER}
       </Tooltip>
-    </>),
+    </>
+    ),
 
     /**
      * Cell with way's owner

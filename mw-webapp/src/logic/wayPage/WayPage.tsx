@@ -474,7 +474,7 @@ export const WayPage = (props: WayPageProps) => {
       )
       }
       <div className={styles.goalSection}>
-        <div>
+        <div className={styles.goalSubSection}>
           <Title
             level={HeadingLevel.h3}
             text="Goal"
@@ -487,7 +487,7 @@ export const WayPage = (props: WayPageProps) => {
             className={styles.goalDescription}
           />
         </div>
-        <div>
+        <div className={styles.goalSubSection}>
           <Title
             level={HeadingLevel.h3}
             text="Metrics"
@@ -503,12 +503,15 @@ export const WayPage = (props: WayPageProps) => {
             className={styles.accordion}
           />
         </div>
-        <div>
+        <div className={styles.goalSubSection}>
           <Title
             level={HeadingLevel.h3}
             text="Statistics"
           />
-          <WayStatistic dayReports={way.dayReports} />
+          <WayStatistic
+            dayReports={way.dayReports}
+            wayCreatedAt={way.createdAt}
+          />
         </div>
       </div>
 
