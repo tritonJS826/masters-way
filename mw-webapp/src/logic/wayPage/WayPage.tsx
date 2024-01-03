@@ -1,13 +1,16 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {TrashIcon} from "@radix-ui/react-icons";
-import {Button} from "src/component/button/Button";
+import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
+import {Button, ButtonType} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Сheckbox";
 import {EditableText} from "src/component/editableText/EditableText";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
+import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
+import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {GoalDAL} from "src/dataAccessLogic/GoalDAL";
 import {GoalMetricDAL} from "src/dataAccessLogic/GoalMetricDAL";
@@ -18,13 +21,14 @@ import {MentorRequestsSection} from "src/logic/wayPage/MentorRequestsSection";
 import {MentorsSection} from "src/logic/wayPage/MentorsSection";
 import {DayReportsTable} from "src/logic/wayPage/reportsTable/DayReportsTable";
 import {renderModalContent} from "src/logic/wayPage/reportsTable/WayColumns";
+import {WayStatistic} from "src/logic/wayPage/WayStatistic";
 import {Goal} from "src/model/businessModel/Goal";
 import {GoalMetric} from "src/model/businessModel/GoalMetric";
 import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {pages} from "src/router/pages";
 import {DateUtils} from "src/utils/DateUtils";
-import {UnicodeSymbols} from "src/utils/UnicodeSymbols";
+import {Symbols} from "src/utils/Symbols";
 import {v4 as uuidv4} from "uuid";
 import styles from "src/logic/wayPage/WayPage.module.scss";
 
@@ -226,7 +230,7 @@ export const WayPage = (props: WayPageProps) => {
   const isWayInFavorites = user && user.favoriteWays.includes(way.uuid);
 
   const isOwner = !!user && user.uuid === way.owner.uuid;
-  const isMentor = !!user && way.mentors.some((mentor) => mentor.uuid === user.uuid);
+  const isMentor = !!user && way.mentors.has(user.uuid);
 
   const isUserHasSentMentorRequest = !!user && way.mentorRequests.some((request) => request.uuid === user.uuid);
   const isEligibleToSendRequest = !!user && !isOwner && !isMentor && !isUserHasSentMentorRequest;
@@ -301,7 +305,11 @@ export const WayPage = (props: WayPageProps) => {
             isEditable={isOwner}
             isDefaultChecked={singleGoalMetric.isDone}
             onChange={(isDone) => {
-              const updatedSingleGoalMetric = new SingleGoalMetric({...singleGoalMetric, isDone});
+              const updatedSingleGoalMetric = new SingleGoalMetric({
+                ...singleGoalMetric,
+                isDone,
+                doneDate: new Date(),
+              });
               updateGoalMetric(updatedSingleGoalMetric);
             }
             }
@@ -314,17 +322,20 @@ export const WayPage = (props: WayPageProps) => {
             isEditable={isOwner}
           />
           {isOwner && (
-            <TrashIcon
-              className={styles.icon}
-              onClick={() => renderModalContent({
-                description: `Are you sure that you want to delete singleGoalMetric "${singleGoalMetric.description}"?`,
+            <Tooltip content="Delete goal metric">
+              <TrashIcon
+                className={styles.icon}
+                onClick={() => renderModalContent({
+                  description: `Are you sure that you want to delete singleGoalMetric "${singleGoalMetric.description}"?`,
 
-                /**
-                 * CallBack triggered on press ok
-                 */
-                onOk: () => removeSingularGoalMetric(singleGoalMetric.metricUuid),
-              })}
-            />)
+                  /**
+                   * CallBack triggered on press ok
+                   */
+                  onOk: () => removeSingularGoalMetric(singleGoalMetric.metricUuid),
+                })}
+              />
+            </Tooltip>
+          )
           }
         </div>
       </Tooltip>
@@ -332,123 +343,132 @@ export const WayPage = (props: WayPageProps) => {
   };
 
   /**
+   * Render button Add goal metrics
+   */
+  const renderButtonAddMetrics = () => {
+    return (
+      <>
+        {isOwner && (
+          <Button
+            value="Add new goal metric"
+            onClick={async () => {
+
+              /**
+               * Get current goal metric from way
+               */
+              const currentGoalMetric = way.goal.metrics[0];
+
+              const updatedGoalMetric = new GoalMetric({
+                uuid: currentGoalMetric.uuid,
+                description: currentGoalMetric.description.concat(""),
+                metricUuids: currentGoalMetric.metricUuids.concat(uuidv4()),
+                isDone: currentGoalMetric.isDone.concat(false),
+                doneDate: currentGoalMetric.doneDate.concat(new Date()),
+              });
+
+              setGoalMetric(updatedGoalMetric);
+              await GoalMetricDAL.updateGoalMetric(updatedGoalMetric);
+            }}
+          />
+        )
+        }
+      </>
+    );
+  };
+
+  /**
    * Render goal metrics
    */
   const renderGoalMetric = (goalMetric: GoalMetric) => {
-    return goalMetric.metricUuids.map((metricUuid, index) => renderSingleGoalMetric(
-      {
-        uuid: goalMetric.uuid,
-        metricUuid,
-        description: goalMetric.description[index],
-        doneDate: goalMetric.doneDate[index],
-        isDone: goalMetric.isDone[index],
-      },
-    ));
+    return (
+      <div>
+        {goalMetric.metricUuids.map((metricUuid, index) => renderSingleGoalMetric(
+          {
+            uuid: goalMetric.uuid,
+            metricUuid,
+            description: goalMetric.description[index],
+            doneDate: goalMetric.doneDate[index],
+            isDone: goalMetric.isDone[index],
+          },
+        ))
+        }
+        {renderButtonAddMetrics()}
+      </div>
+    );
   };
 
   return (
     <div className={styles.container}>
-      <Title
-        level={HeadingLevel.h2}
-        text={`${way.name}`}
-        onChangeFinish={(text) => changeWayName(way, text)}
-        isEditable={isOwner}
-      />
-      {isOwner &&
-      <Button
-        value="Delete way"
-        // TODO: need refactoring
-        onClick={() => renderModalContent({
-          description: `Are you sure that you want to delete way "${way.name}"?`,
-
-          /**
-           * CallBack triggered on press ok
-           */
-          onOk: async () => {
-            await WayDAL.deleteWay(way);
-            navigate(pages.user.getPath({uuid: user.uuid}));
-          },
-        })
-        }
-      />
-      }
-      <div>
-        Amount of users who add it to favorite:
-        {UnicodeSymbols.SPACE + favoriteForUsersAmount}
-      </div>
-      {
-        isWayInFavorites &&
-        <Button
-          value={"Remove from favorite"}
-          onClick={() =>
-            deleteFavoriteFromWayAndFromUser(user, way, setUser, setWay)
-          }
+      <HorizontalContainer className={styles.alignItems}>
+        <Title
+          level={HeadingLevel.h2}
+          text={`${way.name}`}
+          onChangeFinish={(text) => changeWayName(way, text)}
+          isEditable={isOwner}
+          className={styles.titleH2}
         />
-      }
-      {
-        !isWayInFavorites && user &&
-        <Button
-          value={"Add to favorite"}
-          onClick={() =>
-            addFavoriteToWayAndToUser(user, way, setUser, setWay)
+        <HorizontalContainer className={styles.buttons}>
+          {
+            isWayInFavorites ?
+              <Tooltip
+                content="Delete from favorite"
+                position={PositionTooltip.LEFT}
+              >
+                <Button
+                  value={`${Symbols.STAR}${Symbols.NO_BREAK_SPACE}${favoriteForUsersAmount}`}
+                  onClick={() =>
+                    deleteFavoriteFromWayAndFromUser(user, way, setUser, setWay)
+                  }
+                  buttonType={ButtonType.TERTIARY}
+                />
+              </Tooltip>
+              :
+              <Tooltip
+                content="Add to favorite"
+                position={PositionTooltip.LEFT}
+              >
+                <Button
+                  value={`${Symbols.OUTLINED_STAR}${Symbols.NO_BREAK_SPACE}${favoriteForUsersAmount}`}
+                  onClick={() =>
+                    user && addFavoriteToWayAndToUser(user, way, setUser, setWay)
+                  }
+                  buttonType={ButtonType.TERTIARY}
+                />
+              </Tooltip>
           }
+          {isOwner &&
+          <Button
+            value="Delete way"
+            buttonType={ButtonType.TERTIARY}
+            // TODO: need refactoring
+            onClick={() => renderModalContent({
+              description: `Are you sure that you want to delete way "${way.name}"?`,
+
+              /**
+               * CallBack triggered on press ok
+               */
+              onOk: async () => {
+                await WayDAL.deleteWay(way);
+                navigate(pages.user.getPath({uuid: user.uuid}));
+              },
+            })
+            }
+          />
+          }
+        </HorizontalContainer>
+      </HorizontalContainer>
+      <HorizontalContainer className={styles.gap}>
+        <Title
+          level={HeadingLevel.h3}
+          text="Way's owner:"
         />
-      }
-      <div className={styles.goalSection}>
-        <div>
-          <Title
-            level={HeadingLevel.h3}
-            text="Goal"
-          />
-          <EditableTextarea
-            text={way.goal.description}
-            onChangeFinish={(description) => changeGoalDescription(way.goal, description)}
-            rows={10}
-            isEditable={isOwner}
-            className={styles.goalDescription}
-          />
-        </div>
-        <div>
-          <Title
-            level={HeadingLevel.h3}
-            text="Metrics"
-          />
-          {renderGoalMetric(way.goal.metrics[0])}
-          {isOwner && (
-            <Button
-              value="Add new goal metric"
-              onClick={async () => {
-
-                /**
-                 * Get current goal metric from way
-                 */
-                const currentGoalMetric = way.goal.metrics[0];
-
-                const updatedGoalMetric = new GoalMetric({
-                  uuid: currentGoalMetric.uuid,
-                  description: currentGoalMetric.description.concat(""),
-                  metricUuids: currentGoalMetric.metricUuids.concat(uuidv4()),
-                  isDone: currentGoalMetric.isDone.concat(false),
-                  doneDate: currentGoalMetric.doneDate.concat(new Date()),
-                });
-
-                setGoalMetric(updatedGoalMetric);
-                await GoalMetricDAL.updateGoalMetric(updatedGoalMetric);
-              }}
-            />)
-          }
-        </div>
-      </div>
-      <Title
-        level={HeadingLevel.h3}
-        text="Way owner:"
-      />
-      <Link
-        value={way.owner.name}
-        path={pages.user.getPath({uuid: way.owner.uuid})}
-        className={styles.mentors}
-      />
-      {!!way.mentors.length &&
+        <Link
+          value={way.owner.name}
+          path={pages.user.getPath({uuid: way.owner.uuid})}
+          className={styles.mentors}
+        />
+      </HorizontalContainer>
+      {!!way.mentors.size &&
       <MentorsSection
         way={way}
         setWay={setWay}
@@ -471,6 +491,45 @@ export const WayPage = (props: WayPageProps) => {
         />
       )
       }
+      <div className={styles.goalSection}>
+        <div>
+          <Title
+            level={HeadingLevel.h3}
+            text="Goal"
+          />
+          <EditableTextarea
+            text={way.goal.description}
+            onChangeFinish={(description) => changeGoalDescription(way.goal, description)}
+            rows={10}
+            isEditable={isOwner}
+            className={styles.goalDescription}
+          />
+        </div>
+        <div>
+          <Title
+            level={HeadingLevel.h3}
+            text="Metrics"
+          />
+          <Accordion
+            items={[
+              {
+                trigger: {child: "Metrics"},
+                content: {child: renderGoalMetric(way.goal.metrics[0])},
+              },
+            ]}
+            type={accordionTypes.multiple}
+            className={styles.accordion}
+          />
+        </div>
+        <div>
+          <Title
+            level={HeadingLevel.h3}
+            text="Statistics"
+          />
+          <WayStatistic dayReports={way.dayReports} />
+        </div>
+      </div>
+
       <ScrollableBlock>
         <DayReportsTable way={way} />
       </ScrollableBlock>

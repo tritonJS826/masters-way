@@ -13,15 +13,15 @@ $listLeftMargin: 20px;
   width: 100%;
   align-items: end;
   justify-content: space-between;
-  padding-top: 5px;
-  border-top: 2px solid $primaryBorderColor;
   font-weight: bold;
 }
 
 .flatButton {
-  width: 100px;
+  width: 20px;
   height: 20px;
-  padding: 0px;
+  padding: 0;
+  line-height: 20px;
+  text-align: center;
 }
 
 .summaryText {
@@ -30,14 +30,27 @@ $listLeftMargin: 20px;
 
 .numberedList {
   width: calc(100% - $listLeftMargin);
+  flex: 1 0 auto;
   margin-left: $listLeftMargin;
+}
+
+.numberedList li:last-child {
+  margin-bottom: $defaultMargin;
+}
+
+.comments li {
+  list-style: none;
+}
+
+.comments li:last-child {
+  margin-bottom: $defaultMargin;
 }
 
 .numberedListItem {
   width: 100%;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px dotted $primaryBorderColor;
+  border-bottom: 1px dotted var(--primaryBorderColor);
 }
 
 .editableTextarea {
@@ -57,7 +70,13 @@ $listLeftMargin: 20px;
   cursor: pointer;
 }
 
-.width {
+.horizontalContainer {
   width: 100%;
+  align-items: center;
   justify-content: space-between;
+}
+
+.dateCell {
+  display: block;
+  min-width: $minWidthDate;
 }

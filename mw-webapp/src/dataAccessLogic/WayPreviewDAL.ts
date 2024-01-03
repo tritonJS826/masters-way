@@ -61,31 +61,6 @@ export class WayPreviewDAL {
   }
 
   /**
-   * Get User ways preview based of provided type
-   */
-  public static async getUserWaysPreview(uuid: string, type: "Own" | "Mentoring" | "Favorite"): Promise<WayPreview[]> {
-    let waysDTO;
-
-    switch (type) {
-      case "Own":
-        waysDTO = await WayService.getOwnWaysDTO(uuid);
-        break;
-      case "Mentoring":
-        waysDTO = await WayService.getMentoringWaysDTO(uuid);
-        break;
-      case "Favorite":
-        waysDTO = await WayService.getFavoriteWaysDTO(uuid);
-        break;
-    }
-
-    const waysUuids = waysDTO.map((item) => item.uuid);
-
-    const waysPreview = await Promise.all(waysUuids.map(WayPreviewDAL.getWayPreview));
-
-    return waysPreview;
-  }
-
-  /**
    * Update Way
    */
   public static async updateWayPreview(wayPreview: WayPreview) {

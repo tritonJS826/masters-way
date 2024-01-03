@@ -1,5 +1,7 @@
 import {useNavigate} from "react-router-dom";
-import {Button} from "src/component/button/Button";
+import logo from "src/assets/mastersWayLogo.svg";
+import {Button, ButtonType} from "src/component/button/Button";
+import {Image} from "src/component/image/Image";
 import {NavigationLink, Sidebar} from "src/component/sidebar/Sidebar";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {useGlobalContext} from "src/GlobalContext";
@@ -18,7 +20,7 @@ export const Header = () => {
   const {user} = useGlobalContext();
   const navigate = useNavigate();
 
-  const menuLinks: (NavigationLink)[] = [
+  const menuItems: (NavigationLink)[] = [
     {
       path: pages.allWays.getPath({}),
       value: "All ways",
@@ -35,6 +37,13 @@ export const Header = () => {
       isHidden: !user,
     },
     {
+      path: user
+        ? pages.settings.getPath({})
+        : pages.page404.getPath({}),
+      value: "Settings",
+      isHidden: !user,
+    },
+    {
       path: pages.aboutProject.getPath({}),
       value: "About the project",
     },
@@ -42,12 +51,15 @@ export const Header = () => {
 
   return (
     <div className={styles.header}>
-      <Title
-        level={HeadingLevel.h1}
-        text={LOGO_TEXT.toUpperCase()}
-        onClick={() => navigate(pages.allWays.getPath({}))}
+      <div
         className={styles.logo}
-      />
+        onClick={() => navigate(pages.allWays.getPath({}))}
+      >
+        <Image
+          src={logo}
+          alt={LOGO_TEXT}
+        />
+      </div>
       <div className={styles.headerButtonsContainer}>
         {user &&
         <Title
@@ -57,19 +69,23 @@ export const Header = () => {
           onClick={() => navigate(pages.user.getPath({uuid: user.uuid}))}
         />
         }
-        <Button
-          onClick={user ? AuthService.logOut : AuthService.logIn}
-          value={user ? BUTTON_LOG_OUT_VALUE : BUTTON_LOG_IN_VALUE}
-        />
-        <Sidebar
-          trigger={
-            <Button
-              value="Navigation"
-              onClick={() => {}}
-            />
-          }
-          linkList={menuLinks}
-        />
+        <div className={styles.buttons}>
+          <Button
+            onClick={user ? AuthService.logOut : AuthService.logIn}
+            value={user ? BUTTON_LOG_OUT_VALUE : BUTTON_LOG_IN_VALUE}
+            buttonType={ButtonType.TERTIARY}
+          />
+          <Sidebar
+            trigger={
+              <Button
+                value="Menu"
+                onClick={() => { }}
+                buttonType={ButtonType.TERTIARY}
+              />
+            }
+            linkList={menuItems}
+          />
+        </div>
       </div>
     </div>
   );

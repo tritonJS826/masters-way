@@ -1,5 +1,6 @@
 import {useState} from "react";
 import {displayNotification} from "src/component/notification/Notification";
+import {HeadingLevel, Title} from "src/component/title/Title";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
 import {useLoad} from "src/hooks/useLoad";
 import {waysColumns} from "src/logic/waysTable/waysColumns";
@@ -7,26 +8,32 @@ import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 
 /**
- * Props with User uuid
+ * Favorite ways table props
  */
-interface PropsWithUuid {
+interface FavoriteWaysTableProps {
 
   /**
-   * User uuid
+   * User's uuid
    */
   uuid: string;
+
+  /**
+   * User's favorite way uuids
+   */
+  favoriteWayUuids: string[];
+
 }
 
 /**
  * Render table of favorite ways preview
  */
-export const FavoriteWaysTable = (props: PropsWithUuid) => {
+export const FavoriteWaysTable = (props: FavoriteWaysTableProps) => {
   const [favoriteWays, setFavoriteWays] = useState<WayPreview[]>([]);
 
   /**
    * Callback that is called to fetch data
    */
-  const loadData = () => WayPreviewDAL.getUserWaysPreview(props.uuid, "Favorite");
+  const loadData = () => Promise.all(props.favoriteWayUuids.map(WayPreviewDAL.getWayPreview));
 
   /**
    * Callback that is called on fetch or validation error
@@ -47,14 +54,20 @@ export const FavoriteWaysTable = (props: PropsWithUuid) => {
       loadData,
       onSuccess,
       onError,
-      dependency: [props.uuid],
+      dependency: [props.favoriteWayUuids],
     },
   );
 
   return (
-    <WaysTable
-      data={favoriteWays}
-      columns={waysColumns}
-    />
+    <>
+      <Title
+        text={`Favorite Ways (total amount: ${favoriteWays.length} ways)`}
+        level={HeadingLevel.h2}
+      />
+      <WaysTable
+        data={favoriteWays}
+        columns={waysColumns}
+      />
+    </>
   );
 };

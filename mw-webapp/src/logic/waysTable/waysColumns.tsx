@@ -1,5 +1,6 @@
 import {createColumnHelper} from "@tanstack/react-table";
 import {Link} from "src/component/link/Link";
+import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {getWayStatus} from "src/logic/waysTable/wayStatus";
@@ -7,12 +8,22 @@ import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
 import {DateUtils} from "src/utils/DateUtils";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
-import style from "src/logic/waysTable/columns.module.scss";
+import {Symbols} from "src/utils/Symbols";
+import styles from "src/logic/waysTable/columns.module.scss";
 
 export const columnHelper = createColumnHelper<WayPreview>();
 
-export const WAYS_OWNER = "Way's Owner";
+export const WAYS_OWNER = "Way's owner";
 export const WAY_MENTORS = "Mentors";
+
+/**
+ * Get first name from user name
+ */
+export const getFirstName = (userName: string) => {
+  const firstName = userName.split(" ")[0];
+
+  return firstName;
+};
 
 /**
  * Table columns
@@ -20,34 +31,64 @@ export const WAY_MENTORS = "Mentors";
  */
 export const waysColumns = [
   columnHelper.accessor("createdAt", {
-    header: "Created at",
+
+    /**
+     * Header
+     */
+    header: () => (<>
+      <Tooltip
+        position={PositionTooltip.BOTTOM}
+        content="Date, when way was created"
+      >
+        Created at
+      </Tooltip>
+    </>),
 
     /**
      * Cell with date of created way
      */
     cell: ({row}) => (
-      <span className={style.shortCell}>
+      <span className={styles.dateCell}>
         {DateUtils.getShortISODateValue(row.original.createdAt)}
       </span>
     ),
   }),
-  columnHelper.accessor("name", {
-    header: "Way's name",
+  columnHelper.accessor("lastUpdate", {
 
     /**
-     * Cell with clickable way name that leads to way page
+     * Header
+     */
+    header: () => (<>
+      <Tooltip
+        position={PositionTooltip.BOTTOM}
+        content="Date when the last Day Report was created"
+      >
+        Last update
+      </Tooltip>
+    </>),
+
+    /**
+     * Cell with date of last updated way
      */
     cell: ({row}) => (
-      <span className={style.shortCell}>
-        <Link
-          path={pages.way.getPath({uuid: row.original.uuid})}
-          value={row.original.name}
-        />
+      <span className={styles.dateCell}>
+        {DateUtils.getShortISODateValue(row.original.lastUpdate)}
       </span>
     ),
   }),
   columnHelper.accessor("isCompleted", {
-    header: "Status",
+
+    /**
+     * Header
+     */
+    header: () => (<>
+      <Tooltip
+        position={PositionTooltip.BOTTOM}
+        content="The path is abandoned if it is not completed, but has not been edited in the last 14 days"
+      >
+        Status
+      </Tooltip>
+    </>),
 
     /**
      * Cell with isCompleted value
@@ -59,28 +100,45 @@ export const waysColumns = [
       });
 
       return (
-        <Tooltip content="The path is abandoned if it is not completed, but has not been edited in the last 14 days">
+        <div>
           {wayStatus}
-        </Tooltip>
+        </div>
       );
     },
   }),
-  columnHelper.accessor("goal", {
-    header: "Goal",
+  columnHelper.accessor("name", {
+    header: "Way",
 
     /**
-     * Cell with Goal
+     * Cell with clickable way name that leads to way page
      */
-    cell: ({row}) => {
-      return (
-        <span className={style.shortCell}>
-          {renderMarkdown(row.original.goal.description)}
-        </span>
-      );
-    },
+    cell: ({row}) => (
+      <div>
+        <Link
+          path={pages.way.getPath({uuid: row.original.uuid})}
+          value={row.original.name}
+        />
+        <Tooltip content={renderMarkdown(row.original.goal.description)}>
+          <div className={styles.shortCell}>
+            {renderMarkdown(row.original.goal.description)}
+          </div>
+        </Tooltip>
+      </div>
+    ),
   }),
   columnHelper.accessor("owner", {
-    header: WAYS_OWNER,
+
+    /**
+     * Header
+     */
+    header: () => (<>
+      <Tooltip
+        position={PositionTooltip.TOP}
+        content="Owner's name and email"
+      >
+        {WAYS_OWNER}
+      </Tooltip>
+    </>),
 
     /**
      * Cell with way's owner
@@ -107,26 +165,41 @@ export const waysColumns = [
       return (
         <VerticalContainer>
           {row.original.mentors.map((mentor) => (
-            <Link
+            <Tooltip
               key={mentor.uuid}
-              path={pages.user.getPath({uuid: mentor.uuid})}
-              value={mentor.name}
-            />
+              content={mentor.name}
+            >
+              <Link
+                path={pages.user.getPath({uuid: mentor.uuid})}
+                value={getFirstName(mentor.name)}
+              />
+            </Tooltip>
           ))}
         </VerticalContainer>
       );
     },
   }),
   columnHelper.accessor("favoriteForUserUuids", {
-    header: "favorites",
+
+    /**
+     * Header
+     */
+    header: () => (<>
+      <Tooltip
+        position={PositionTooltip.BOTTOM}
+        content="Amount of favorites"
+      >
+        {Symbols.STAR}
+      </Tooltip>
+    </>),
 
     /**
      * Cell with amount of favorite for user uuids
      */
     cell: ({row}) => (
-      <span>
-        {row.original.favoriteForUserUuids.length}
-      </span>
+      <div className={styles.number}>
+        {row.original.favoriteForUserUuids.length.toString()}
+      </div>
     ),
   }),
 ];

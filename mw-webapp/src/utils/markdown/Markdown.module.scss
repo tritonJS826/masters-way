@@ -1,9 +1,21 @@
+@import "src/styles/variables";
+
+.a {
+  color: var(--tertiaryTextColor);
+}
+
+.imageContainer {
+  display: flex;
+  width: 360px;
+  height: 360px;
+  margin-top: $defaultMargin;
+}
+
 .markdownImg {
-  width: 400px;
-  max-width: 400px;
-  max-height: 400px;
+  width: auto;
   margin-right: auto;
   margin-left: auto;
+  object-fit: contain;
 }
 
 $listLeftMargin: 20px;

@@ -1,7 +1,7 @@
 @import "src/styles/variables";
 
 .link {
-  color: red;
+  color: var(--tertiaryTextColor);
   font-size: 18px;
 
   &:hover {

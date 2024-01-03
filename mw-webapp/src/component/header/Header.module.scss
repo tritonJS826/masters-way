@@ -1,15 +1,26 @@
+@import "src/styles/variables";
+
 .header {
   display: flex;
   width: 100%;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
+  padding-bottom: $defaultPadding;
+  border-bottom: 1px solid var(--primaryBorderColor);
+  background-color: var(--primaryBackgroundColor);
 }
 
 .headerButtonsContainer {
   display: flex;
+  width: auto;
   align-items: center;
+  justify-content: space-between;
   gap: 10px;
+}
+
+.buttons {
+  display: flex;
 }
 
 .logo {
@@ -18,4 +29,10 @@
 
 .userName {
   cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  .headerButtonsContainer {
+    width: 100%;
+  }
 }

@@ -1,10 +1,12 @@
+@import "src/styles/variables";
+
 .completed {
   color: green;
 }
 
 .notCompleted {
   width: 100%;
-  color: black;
+  color: var(--primaryTextColor);
 }
 
 .emptySpan {

@@ -1,6 +1,6 @@
 import {z} from "zod";
 
-export const CurrentProblemDTOSchema = z.object({
+export const ProblemDTOSchema = z.object({
 
   /**
    * Problem's UUID
@@ -28,7 +28,9 @@ export const CurrentProblemDTOSchema = z.object({
   tags: z.array(z.string()),
 }).strict();
 
+export const ProblemsDTOSchema = z.array(ProblemDTOSchema);
+
 /**
  * Problem for current period DTO model
  */
-export type CurrentProblemDTO = z.infer<typeof CurrentProblemDTOSchema>;
+export type ProblemDTO = z.infer<typeof ProblemDTOSchema>;

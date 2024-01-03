@@ -1,3 +1,5 @@
+@import "src/styles/variables";
+
 .container {
   display: flex;
   flex-direction: column;
@@ -6,4 +8,29 @@
 .row {
   display: flex;
   align-items: baseline;
+}
+
+.editableTextarea {
+  margin-bottom: $defaultMargin;
+
+  textarea {
+    width: $minWidthBlock;
+    padding: $defaultSmallPadding;
+  }
+}
+
+.titleH2 {
+  input {
+    width: $minWidthBlock;
+    height: $heightH2;
+    margin-top: $defaultMargin;
+    margin-bottom: $defaultMargin;
+  }
+}
+
+.titleH3 {
+  input {
+    width: $minWidthBlock;
+    height: $heightH3;
+  }
 }

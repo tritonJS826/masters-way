@@ -1,3 +1,4 @@
+import {BrowserRouter} from "react-router-dom";
 import type {StoryObj} from "@storybook/react";
 import {NavigationLink, Sidebar} from "src/component/sidebar/Sidebar";
 
@@ -43,6 +44,8 @@ export const Default: Story = {
     linkList,
   },
   render: (args) => (
-    <Sidebar {...args} />
+    <BrowserRouter>
+      <Sidebar {...args} />
+    </BrowserRouter>
   ),
 };

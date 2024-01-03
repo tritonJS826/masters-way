@@ -1,0 +1,438 @@
+2023-12-28T09:53:04.076Z: Migration started$
+2023-12-28T09:53:04.078Z: Getting all day reports
+2023-12-28T09:53:05.099Z: Got 210 day reports
+2023-12-28T09:53:05.099Z: Getting all day reports to migrate
+2023-12-28T09:53:05.099Z: Got 210 dayReports to migrate
+2023-12-28T09:53:05.100Z: start migrate dayReports one by one
+2023-12-28T09:53:05.100Z: started 0Brcv4z4AFAyJi8l6hC8 migration
+2023-12-28T09:53:05.103Z: finished 0Brcv4z4AFAyJi8l6hC8 migration successfully in 3 ms
+2023-12-28T09:53:05.103Z: started 0CoeRGdqYHdkXyQBbYJg migration
+2023-12-28T09:53:05.316Z: finished 0CoeRGdqYHdkXyQBbYJg migration successfully in 213 ms
+2023-12-28T09:53:05.316Z: started 0aol15YZWwDMFzje5bzh migration
+2023-12-28T09:53:05.420Z: finished 0aol15YZWwDMFzje5bzh migration successfully in 104 ms
+2023-12-28T09:53:05.420Z: started 2UpFofeH8KRGbF92zKKV migration
+2023-12-28T09:53:05.421Z: finished 2UpFofeH8KRGbF92zKKV migration successfully in 1 ms
+2023-12-28T09:53:05.421Z: started 2gHO5r9bFi4iKgEDDBwK migration
+2023-12-28T09:53:05.422Z: finished 2gHO5r9bFi4iKgEDDBwK migration successfully in 1 ms
+2023-12-28T09:53:05.422Z: started 2u4PW03LcIbKO7UCLLjK migration
+2023-12-28T09:53:05.493Z: finished 2u4PW03LcIbKO7UCLLjK migration successfully in 71 ms
+2023-12-28T09:53:05.493Z: started 3AqowDdSZ6wdVSaqwfAO migration
+2023-12-28T09:53:05.494Z: finished 3AqowDdSZ6wdVSaqwfAO migration successfully in 1 ms
+2023-12-28T09:53:05.494Z: started 3H57110Ndc5rZbzIVJaG migration
+2023-12-28T09:53:05.494Z: finished 3H57110Ndc5rZbzIVJaG migration successfully in 0 ms
+2023-12-28T09:53:05.494Z: started 3tulr4vcqxYLBOXtvIu5 migration
+2023-12-28T09:53:05.495Z: finished 3tulr4vcqxYLBOXtvIu5 migration successfully in 1 ms
+2023-12-28T09:53:05.495Z: started 49iPHyUGFmJIAyxeKzfe migration
+2023-12-28T09:53:05.562Z: finished 49iPHyUGFmJIAyxeKzfe migration successfully in 67 ms
+2023-12-28T09:53:05.563Z: started 4pwL3Io2h6sZpwe8mEzO migration
+2023-12-28T09:53:05.628Z: finished 4pwL3Io2h6sZpwe8mEzO migration successfully in 65 ms
+2023-12-28T09:53:05.629Z: started 4tR96qTHuFgAkqQiiJAf migration
+2023-12-28T09:53:05.692Z: finished 4tR96qTHuFgAkqQiiJAf migration successfully in 63 ms
+2023-12-28T09:53:05.693Z: started 5Rqfdj0kqKrzs4GUBzm3 migration
+2023-12-28T09:53:05.759Z: finished 5Rqfdj0kqKrzs4GUBzm3 migration successfully in 66 ms
+2023-12-28T09:53:05.760Z: started 5YS9SfJcylJ6FzTiZz3m migration
+2023-12-28T09:53:05.760Z: finished 5YS9SfJcylJ6FzTiZz3m migration successfully in 0 ms
+2023-12-28T09:53:05.760Z: started 5ep1SJuzIU8LtLtOu2eo migration
+2023-12-28T09:53:05.828Z: finished 5ep1SJuzIU8LtLtOu2eo migration successfully in 68 ms
+2023-12-28T09:53:05.828Z: started 5ilPhD4oVOThCzRfBlFu migration
+2023-12-28T09:53:05.829Z: finished 5ilPhD4oVOThCzRfBlFu migration successfully in 1 ms
+2023-12-28T09:53:05.829Z: started 5pBHsdWO42wJTUrGyq92 migration
+2023-12-28T09:53:05.887Z: finished 5pBHsdWO42wJTUrGyq92 migration successfully in 58 ms
+2023-12-28T09:53:05.888Z: started 6hxE2c9QZEHG0WA1lXqp migration
+2023-12-28T09:53:05.984Z: finished 6hxE2c9QZEHG0WA1lXqp migration successfully in 96 ms
+2023-12-28T09:53:05.985Z: started 6kL1R5SMLW7VZg7rm2WH migration
+2023-12-28T09:53:05.985Z: finished 6kL1R5SMLW7VZg7rm2WH migration successfully in 0 ms
+2023-12-28T09:53:05.985Z: started 6qNzGKuW4pNF8vWLmANd migration
+2023-12-28T09:53:06.052Z: finished 6qNzGKuW4pNF8vWLmANd migration successfully in 67 ms
+2023-12-28T09:53:06.053Z: started 6qllgOmfJ5Hn4Gpq1BoF migration
+2023-12-28T09:53:06.053Z: finished 6qllgOmfJ5Hn4Gpq1BoF migration successfully in 0 ms
+2023-12-28T09:53:06.053Z: started 6wEaN0MuHXZkuNER8Uq9 migration
+2023-12-28T09:53:06.121Z: finished 6wEaN0MuHXZkuNER8Uq9 migration successfully in 68 ms
+2023-12-28T09:53:06.121Z: started 71jgX4omBINuwOnuowAb migration
+2023-12-28T09:53:06.184Z: finished 71jgX4omBINuwOnuowAb migration successfully in 63 ms
+2023-12-28T09:53:06.184Z: started 78Fdq1JtTXEZFEQsu4nH migration
+2023-12-28T09:53:06.249Z: finished 78Fdq1JtTXEZFEQsu4nH migration successfully in 65 ms
+2023-12-28T09:53:06.249Z: started 7G6bkEpLB9VcjUZvE0z8 migration
+2023-12-28T09:53:06.250Z: finished 7G6bkEpLB9VcjUZvE0z8 migration successfully in 1 ms
+2023-12-28T09:53:06.250Z: started 7cUl1FZoXunFkSxPv77Y migration
+2023-12-28T09:53:06.315Z: finished 7cUl1FZoXunFkSxPv77Y migration successfully in 65 ms
+2023-12-28T09:53:06.315Z: started 7ekQbGGaZRq2DlF5OieA migration
+2023-12-28T09:53:06.315Z: finished 7ekQbGGaZRq2DlF5OieA migration successfully in 0 ms
+2023-12-28T09:53:06.315Z: started 7oYi0N5wGllmRRuGJFgb migration
+2023-12-28T09:53:06.413Z: finished 7oYi0N5wGllmRRuGJFgb migration successfully in 98 ms
+2023-12-28T09:53:06.413Z: started 8ziTY7lZAFwHjMSJs3tT migration
+2023-12-28T09:53:06.481Z: finished 8ziTY7lZAFwHjMSJs3tT migration successfully in 68 ms
+2023-12-28T09:53:06.481Z: started 91EXcBIRnUN8u37eLeAA migration
+2023-12-28T09:53:06.546Z: finished 91EXcBIRnUN8u37eLeAA migration successfully in 65 ms
+2023-12-28T09:53:06.546Z: started 98TE94eEMYFIQ8AQFx0R migration
+2023-12-28T09:53:06.547Z: finished 98TE94eEMYFIQ8AQFx0R migration successfully in 1 ms
+2023-12-28T09:53:06.547Z: started 9nvS03p6myeDn0zdiXM4 migration
+2023-12-28T09:53:06.612Z: finished 9nvS03p6myeDn0zdiXM4 migration successfully in 65 ms
+2023-12-28T09:53:06.612Z: started Aoq63pf4QuLX6p6uassA migration
+2023-12-28T09:53:06.675Z: finished Aoq63pf4QuLX6p6uassA migration successfully in 63 ms
+2023-12-28T09:53:06.676Z: started B1cnGjvtJgDygegdcSht migration
+2023-12-28T09:53:06.676Z: finished B1cnGjvtJgDygegdcSht migration successfully in 0 ms
+2023-12-28T09:53:06.676Z: started B4mR5iSyVJOEYxJ7nl8J migration
+2023-12-28T09:53:06.739Z: finished B4mR5iSyVJOEYxJ7nl8J migration successfully in 63 ms
+2023-12-28T09:53:06.739Z: started BNPkzxPCtg1FZGj9lxSJ migration
+2023-12-28T09:53:06.804Z: finished BNPkzxPCtg1FZGj9lxSJ migration successfully in 65 ms
+2023-12-28T09:53:06.804Z: started BmDO97OWDFSG5qYG4FgC migration
+2023-12-28T09:53:06.805Z: finished BmDO97OWDFSG5qYG4FgC migration successfully in 1 ms
+2023-12-28T09:53:06.805Z: started C3RzT1RwYOetThATStfw migration
+2023-12-28T09:53:06.872Z: finished C3RzT1RwYOetThATStfw migration successfully in 67 ms
+2023-12-28T09:53:06.872Z: started C5MwDMRwNr02Gjd18GSR migration
+2023-12-28T09:53:06.946Z: finished C5MwDMRwNr02Gjd18GSR migration successfully in 74 ms
+2023-12-28T09:53:06.946Z: started CaDfnIDFsfm2H6tGY10O migration
+2023-12-28T09:53:07.007Z: finished CaDfnIDFsfm2H6tGY10O migration successfully in 61 ms
+2023-12-28T09:53:07.007Z: started CbtCmtrzlN4UMMTxvmbA migration
+2023-12-28T09:53:07.007Z: finished CbtCmtrzlN4UMMTxvmbA migration successfully in 0 ms
+2023-12-28T09:53:07.007Z: started CvQlfU8NOpHHBtwLJ3un migration
+2023-12-28T09:53:07.215Z: finished CvQlfU8NOpHHBtwLJ3un migration successfully in 208 ms
+2023-12-28T09:53:07.216Z: started DgrXUJdKJ9cZuMd79pgf migration
+2023-12-28T09:53:07.282Z: finished DgrXUJdKJ9cZuMd79pgf migration successfully in 66 ms
+2023-12-28T09:53:07.282Z: started DvMs3g9XTQHQCTrzVToJ migration
+2023-12-28T09:53:07.345Z: finished DvMs3g9XTQHQCTrzVToJ migration successfully in 63 ms
+2023-12-28T09:53:07.345Z: started E2C6Zz3vIKMwz96XAyfw migration
+2023-12-28T09:53:07.413Z: finished E2C6Zz3vIKMwz96XAyfw migration successfully in 68 ms
+2023-12-28T09:53:07.414Z: started EIaM91GXV9U2iDbgA6dc migration
+2023-12-28T09:53:07.491Z: finished EIaM91GXV9U2iDbgA6dc migration successfully in 77 ms
+2023-12-28T09:53:07.491Z: started EIm2exeWVWjFOO1vnVCq migration
+2023-12-28T09:53:07.492Z: finished EIm2exeWVWjFOO1vnVCq migration successfully in 1 ms
+2023-12-28T09:53:07.492Z: started EeHfdBenytgJ86RE7K8u migration
+2023-12-28T09:53:07.493Z: finished EeHfdBenytgJ86RE7K8u migration successfully in 1 ms
+2023-12-28T09:53:07.493Z: started EvmUkIUN2a4SI9mksMY6 migration
+2023-12-28T09:53:07.560Z: finished EvmUkIUN2a4SI9mksMY6 migration successfully in 67 ms
+2023-12-28T09:53:07.560Z: started GCPsNBaegNbzR2ca0ZNF migration
+2023-12-28T09:53:07.624Z: finished GCPsNBaegNbzR2ca0ZNF migration successfully in 64 ms
+2023-12-28T09:53:07.624Z: started GJk9TybRrQGybWoIsHBJ migration
+2023-12-28T09:53:07.684Z: finished GJk9TybRrQGybWoIsHBJ migration successfully in 60 ms
+2023-12-28T09:53:07.684Z: started Gvr9nzvnJDup9mRHywD1 migration
+2023-12-28T09:53:07.684Z: finished Gvr9nzvnJDup9mRHywD1 migration successfully in 0 ms
+2023-12-28T09:53:07.684Z: started GyJwInW3i7mJGq2ID5B4 migration
+2023-12-28T09:53:07.747Z: finished GyJwInW3i7mJGq2ID5B4 migration successfully in 63 ms
+2023-12-28T09:53:07.747Z: started H2xC7BMeOf0OffSKIngN migration
+2023-12-28T09:53:07.747Z: finished H2xC7BMeOf0OffSKIngN migration successfully in 0 ms
+2023-12-28T09:53:07.748Z: started HEUrAgQb4x7aWWc4FWPw migration
+2023-12-28T09:53:07.748Z: finished HEUrAgQb4x7aWWc4FWPw migration successfully in 0 ms
+2023-12-28T09:53:07.748Z: started HKDXihPxrYqJxRTqHfht migration
+2023-12-28T09:53:07.748Z: finished HKDXihPxrYqJxRTqHfht migration successfully in 0 ms
+2023-12-28T09:53:07.748Z: started I3GRIn6MRhbfCyrqm4eI migration
+2023-12-28T09:53:07.818Z: finished I3GRIn6MRhbfCyrqm4eI migration successfully in 70 ms
+2023-12-28T09:53:07.818Z: started IPAR0iYsKAQjlDIO8t2B migration
+2023-12-28T09:53:07.818Z: finished IPAR0iYsKAQjlDIO8t2B migration successfully in 0 ms
+2023-12-28T09:53:07.819Z: started IPOgyMzggoOWhgTAgpG1 migration
+2023-12-28T09:53:07.880Z: finished IPOgyMzggoOWhgTAgpG1 migration successfully in 61 ms
+2023-12-28T09:53:07.881Z: started IWrqmD65ii5BlgrifJlX migration
+2023-12-28T09:53:07.881Z: finished IWrqmD65ii5BlgrifJlX migration successfully in 0 ms
+2023-12-28T09:53:07.881Z: started IkH1ZsV8UJS2YXNoDP3U migration
+2023-12-28T09:53:07.947Z: finished IkH1ZsV8UJS2YXNoDP3U migration successfully in 66 ms
+2023-12-28T09:53:07.947Z: started JRZjvs453bmQ9FbnPH5K migration
+2023-12-28T09:53:07.947Z: finished JRZjvs453bmQ9FbnPH5K migration successfully in 0 ms
+2023-12-28T09:53:07.947Z: started JmzRD5LsqZwzGSCvGOxL migration
+2023-12-28T09:53:08.008Z: finished JmzRD5LsqZwzGSCvGOxL migration successfully in 61 ms
+2023-12-28T09:53:08.008Z: started Jo0SKaPHXBb9JwjqeVRJ migration
+2023-12-28T09:53:08.009Z: finished Jo0SKaPHXBb9JwjqeVRJ migration successfully in 1 ms
+2023-12-28T09:53:08.009Z: started JohtLMfIQDXET3Ylu4kD migration
+2023-12-28T09:53:08.086Z: finished JohtLMfIQDXET3Ylu4kD migration successfully in 77 ms
+2023-12-28T09:53:08.086Z: started K6Z4fZGgyEIhrAxExIRW migration
+2023-12-28T09:53:08.087Z: finished K6Z4fZGgyEIhrAxExIRW migration successfully in 1 ms
+2023-12-28T09:53:08.087Z: started KIAyFALWnJrfX08jHHDL migration
+2023-12-28T09:53:08.150Z: finished KIAyFALWnJrfX08jHHDL migration successfully in 63 ms
+2023-12-28T09:53:08.150Z: started KIWWvhoXlG3a2RsL8qnp migration
+2023-12-28T09:53:08.213Z: finished KIWWvhoXlG3a2RsL8qnp migration successfully in 63 ms
+2023-12-28T09:53:08.213Z: started KJ6JnNneOgrmPoOyy71V migration
+2023-12-28T09:53:08.277Z: finished KJ6JnNneOgrmPoOyy71V migration successfully in 64 ms
+2023-12-28T09:53:08.277Z: started KnqzCU8m0X3mMYnxl9IL migration
+2023-12-28T09:53:08.345Z: finished KnqzCU8m0X3mMYnxl9IL migration successfully in 68 ms
+2023-12-28T09:53:08.345Z: started L8DekedB9e6p2iAbGJmm migration
+2023-12-28T09:53:08.413Z: finished L8DekedB9e6p2iAbGJmm migration successfully in 68 ms
+2023-12-28T09:53:08.414Z: started LFzisLz6i80A9g0cvqfP migration
+2023-12-28T09:53:08.478Z: finished LFzisLz6i80A9g0cvqfP migration successfully in 64 ms
+2023-12-28T09:53:08.478Z: started LUblgyAjgC6CG7T7XC79 migration
+2023-12-28T09:53:08.478Z: finished LUblgyAjgC6CG7T7XC79 migration successfully in 0 ms
+2023-12-28T09:53:08.478Z: started LfIFQM5VA4D9iyIar4mJ migration
+2023-12-28T09:53:08.550Z: finished LfIFQM5VA4D9iyIar4mJ migration successfully in 72 ms
+2023-12-28T09:53:08.550Z: started MtoIro2BlyeyVINC0rOU migration
+2023-12-28T09:53:08.618Z: finished MtoIro2BlyeyVINC0rOU migration successfully in 68 ms
+2023-12-28T09:53:08.619Z: started N8qQESuVvFoDO8TO1HlH migration
+2023-12-28T09:53:08.619Z: finished N8qQESuVvFoDO8TO1HlH migration successfully in 0 ms
+2023-12-28T09:53:08.619Z: started NPQ5InGBQMmwcSeJVYAl migration
+2023-12-28T09:53:08.619Z: finished NPQ5InGBQMmwcSeJVYAl migration successfully in 0 ms
+2023-12-28T09:53:08.619Z: started NQH2BYGSDohpMXifjQ84 migration
+2023-12-28T09:53:08.620Z: finished NQH2BYGSDohpMXifjQ84 migration successfully in 1 ms
+2023-12-28T09:53:08.620Z: started Nc5wPcyRLbbjQQ5S4DLK migration
+2023-12-28T09:53:08.620Z: finished Nc5wPcyRLbbjQQ5S4DLK migration successfully in 0 ms
+2023-12-28T09:53:08.620Z: started O906FTx5ZiTyhuDeGmh7 migration
+2023-12-28T09:53:08.621Z: finished O906FTx5ZiTyhuDeGmh7 migration successfully in 1 ms
+2023-12-28T09:53:08.621Z: started OIcGmgPk9MZulITq8d4K migration
+2023-12-28T09:53:08.686Z: finished OIcGmgPk9MZulITq8d4K migration successfully in 65 ms
+2023-12-28T09:53:08.686Z: started OPjsq0aB5lW1zLHko9fi migration
+2023-12-28T09:53:08.686Z: finished OPjsq0aB5lW1zLHko9fi migration successfully in 0 ms
+2023-12-28T09:53:08.686Z: started ORI1fYPrYY2kAKhlYwJB migration
+2023-12-28T09:53:08.686Z: finished ORI1fYPrYY2kAKhlYwJB migration successfully in 0 ms
+2023-12-28T09:53:08.686Z: started OYaldMF5jDbRGKZWw3u8 migration
+2023-12-28T09:53:08.751Z: finished OYaldMF5jDbRGKZWw3u8 migration successfully in 65 ms
+2023-12-28T09:53:08.751Z: started PIWTHWTe1Ikj2RmGi8Pt migration
+2023-12-28T09:53:08.814Z: finished PIWTHWTe1Ikj2RmGi8Pt migration successfully in 63 ms
+2023-12-28T09:53:08.814Z: started Q6tcR3EC5oMJmRbG7Q6R migration
+2023-12-28T09:53:08.815Z: finished Q6tcR3EC5oMJmRbG7Q6R migration successfully in 1 ms
+2023-12-28T09:53:08.815Z: started QTET9WjzcYc75Mstp4jb migration
+2023-12-28T09:53:08.879Z: finished QTET9WjzcYc75Mstp4jb migration successfully in 64 ms
+2023-12-28T09:53:08.880Z: started QZacS98cXJGaiDxfaI6P migration
+2023-12-28T09:53:08.946Z: finished QZacS98cXJGaiDxfaI6P migration successfully in 66 ms
+2023-12-28T09:53:08.946Z: started Qyjdlr4waXicIPKtHkVV migration
+2023-12-28T09:53:08.946Z: finished Qyjdlr4waXicIPKtHkVV migration successfully in 0 ms
+2023-12-28T09:53:08.946Z: started RfmPitIpCDm09CNJgiEZ migration
+2023-12-28T09:53:09.010Z: finished RfmPitIpCDm09CNJgiEZ migration successfully in 64 ms
+2023-12-28T09:53:09.010Z: started RiN1sRZSBe7AINRb1vWF migration
+2023-12-28T09:53:09.073Z: finished RiN1sRZSBe7AINRb1vWF migration successfully in 63 ms
+2023-12-28T09:53:09.073Z: started Rib23mJhOOIjqGORNhbL migration
+2023-12-28T09:53:09.135Z: finished Rib23mJhOOIjqGORNhbL migration successfully in 62 ms
+2023-12-28T09:53:09.135Z: started SBRZcvL2MEgq0k02jd3V migration
+2023-12-28T09:53:09.135Z: finished SBRZcvL2MEgq0k02jd3V migration successfully in 0 ms
+2023-12-28T09:53:09.135Z: started SOuO8MWS8POnjkWMeqPk migration
+2023-12-28T09:53:09.206Z: finished SOuO8MWS8POnjkWMeqPk migration successfully in 71 ms
+2023-12-28T09:53:09.207Z: started Sfedzi7U6YMrhi1bN6bc migration
+2023-12-28T09:53:09.271Z: finished Sfedzi7U6YMrhi1bN6bc migration successfully in 64 ms
+2023-12-28T09:53:09.271Z: started StUnn2CLPfUHNEvh73iS migration
+2023-12-28T09:53:09.271Z: finished StUnn2CLPfUHNEvh73iS migration successfully in 0 ms
+2023-12-28T09:53:09.271Z: started UQ1VStsUuq0GRuCC3M4M migration
+2023-12-28T09:53:09.345Z: finished UQ1VStsUuq0GRuCC3M4M migration successfully in 74 ms
+2023-12-28T09:53:09.345Z: started UW1qacUhRYprfp9GMQiD migration
+2023-12-28T09:53:09.346Z: finished UW1qacUhRYprfp9GMQiD migration successfully in 1 ms
+2023-12-28T09:53:09.346Z: started UfiLScCPpk0nXykIiBDu migration
+2023-12-28T09:53:09.347Z: finished UfiLScCPpk0nXykIiBDu migration successfully in 1 ms
+2023-12-28T09:53:09.347Z: started V1wmSxkuMApHYOw1HgWj migration
+2023-12-28T09:53:09.411Z: finished V1wmSxkuMApHYOw1HgWj migration successfully in 64 ms
+2023-12-28T09:53:09.412Z: started V2ROyExAUFRJ2el3i9PS migration
+2023-12-28T09:53:09.413Z: finished V2ROyExAUFRJ2el3i9PS migration successfully in 1 ms
+2023-12-28T09:53:09.413Z: started V2cZKsHYUgOBRhn11wZz migration
+2023-12-28T09:53:09.413Z: finished V2cZKsHYUgOBRhn11wZz migration successfully in 0 ms
+2023-12-28T09:53:09.414Z: started V63jUzzkUbhTpOu9Rp7H migration
+2023-12-28T09:53:09.474Z: finished V63jUzzkUbhTpOu9Rp7H migration successfully in 60 ms
+2023-12-28T09:53:09.475Z: started VpENLflQqTm0EB6qwwcK migration
+2023-12-28T09:53:09.541Z: finished VpENLflQqTm0EB6qwwcK migration successfully in 66 ms
+2023-12-28T09:53:09.541Z: started WJYdV1JLmODKDRRltnzN migration
+2023-12-28T09:53:09.610Z: finished WJYdV1JLmODKDRRltnzN migration successfully in 69 ms
+2023-12-28T09:53:09.610Z: started XAIhLFTR59Phptj7HbEz migration
+2023-12-28T09:53:09.611Z: finished XAIhLFTR59Phptj7HbEz migration successfully in 1 ms
+2023-12-28T09:53:09.611Z: started XMOJraVu5RawhLsttZCo migration
+2023-12-28T09:53:09.673Z: finished XMOJraVu5RawhLsttZCo migration successfully in 62 ms
+2023-12-28T09:53:09.673Z: started Y6hGI7PANULpUYtkkZiz migration
+2023-12-28T09:53:09.746Z: finished Y6hGI7PANULpUYtkkZiz migration successfully in 73 ms
+2023-12-28T09:53:09.746Z: started YfD2pVNvp2rtIPve0vLr migration
+2023-12-28T09:53:09.808Z: finished YfD2pVNvp2rtIPve0vLr migration successfully in 62 ms
+2023-12-28T09:53:09.808Z: started YjcbmQPFMduPXnKpGPek migration
+2023-12-28T09:53:09.809Z: finished YjcbmQPFMduPXnKpGPek migration successfully in 1 ms
+2023-12-28T09:53:09.809Z: started YpklXdYmfmfljorkEG2h migration
+2023-12-28T09:53:09.809Z: finished YpklXdYmfmfljorkEG2h migration successfully in 0 ms
+2023-12-28T09:53:09.809Z: started YutHPXfK7KkQbRlu8cAX migration
+2023-12-28T09:53:09.810Z: finished YutHPXfK7KkQbRlu8cAX migration successfully in 1 ms
+2023-12-28T09:53:09.810Z: started Z4FE4dTQU73ldfzBXwQu migration
+2023-12-28T09:53:09.877Z: finished Z4FE4dTQU73ldfzBXwQu migration successfully in 67 ms
+2023-12-28T09:53:09.878Z: started ZBW4gJRAbBo8DeySuUkl migration
+2023-12-28T09:53:09.878Z: finished ZBW4gJRAbBo8DeySuUkl migration successfully in 0 ms
+2023-12-28T09:53:09.879Z: started ZRUjPUZfN72qLkezX41P migration
+2023-12-28T09:53:09.942Z: finished ZRUjPUZfN72qLkezX41P migration successfully in 63 ms
+2023-12-28T09:53:09.943Z: started Zm66UE86XjF2o7omeA0k migration
+2023-12-28T09:53:10.014Z: finished Zm66UE86XjF2o7omeA0k migration successfully in 72 ms
+2023-12-28T09:53:10.014Z: started Zqtesi1LF12rym2zRFQI migration
+2023-12-28T09:53:10.081Z: finished Zqtesi1LF12rym2zRFQI migration successfully in 67 ms
+2023-12-28T09:53:10.081Z: started ZuzHy21Ij8VRo1LncRmv migration
+2023-12-28T09:53:10.149Z: finished ZuzHy21Ij8VRo1LncRmv migration successfully in 68 ms
+2023-12-28T09:53:10.149Z: started b6JFZBpEP7nJ56gIJ2PU migration
+2023-12-28T09:53:10.293Z: finished b6JFZBpEP7nJ56gIJ2PU migration successfully in 144 ms
+2023-12-28T09:53:10.293Z: started bEcFTWH9VQOcmSyMsrEo migration
+2023-12-28T09:53:10.358Z: finished bEcFTWH9VQOcmSyMsrEo migration successfully in 65 ms
+2023-12-28T09:53:10.358Z: started bbcah1W4VicH9griN18E migration
+2023-12-28T09:53:10.449Z: finished bbcah1W4VicH9griN18E migration successfully in 91 ms
+2023-12-28T09:53:10.449Z: started beV39lxWYISRieGv1920 migration
+2023-12-28T09:53:10.450Z: finished beV39lxWYISRieGv1920 migration successfully in 1 ms
+2023-12-28T09:53:10.450Z: started bmzzxlNNBNo11CLy8551 migration
+2023-12-28T09:53:10.450Z: finished bmzzxlNNBNo11CLy8551 migration successfully in 0 ms
+2023-12-28T09:53:10.450Z: started c67yTtaxhQWfu2U9RXlD migration
+2023-12-28T09:53:10.564Z: finished c67yTtaxhQWfu2U9RXlD migration successfully in 114 ms
+2023-12-28T09:53:10.565Z: started cH3sz2fejFMqn32CkqJL migration
+2023-12-28T09:53:10.632Z: finished cH3sz2fejFMqn32CkqJL migration successfully in 67 ms
+2023-12-28T09:53:10.632Z: started cHT5dVAN0dVTZNCWnqZg migration
+2023-12-28T09:53:10.693Z: finished cHT5dVAN0dVTZNCWnqZg migration successfully in 61 ms
+2023-12-28T09:53:10.693Z: started cdL4DSQyYTmH00cCfrhK migration
+2023-12-28T09:53:10.806Z: finished cdL4DSQyYTmH00cCfrhK migration successfully in 113 ms
+2023-12-28T09:53:10.806Z: started cycNyxYLyXODdZgAgq03 migration
+2023-12-28T09:53:10.806Z: finished cycNyxYLyXODdZgAgq03 migration successfully in 0 ms
+2023-12-28T09:53:10.807Z: started dZ85LEusdRQmOiUHiPZD migration
+2023-12-28T09:53:10.877Z: finished dZ85LEusdRQmOiUHiPZD migration successfully in 70 ms
+2023-12-28T09:53:10.877Z: started doXahh3KutvOcgZNcMqQ migration
+2023-12-28T09:53:10.944Z: finished doXahh3KutvOcgZNcMqQ migration successfully in 67 ms
+2023-12-28T09:53:10.944Z: started e7df3JDctF3cBC2s7RLv migration
+2023-12-28T09:53:11.008Z: finished e7df3JDctF3cBC2s7RLv migration successfully in 64 ms
+2023-12-28T09:53:11.008Z: started ea5mpKdnUSYNcwo8X4Q0 migration
+2023-12-28T09:53:11.076Z: finished ea5mpKdnUSYNcwo8X4Q0 migration successfully in 68 ms
+2023-12-28T09:53:11.077Z: started ehODW9G6RcRTEUJGCR3p migration
+2023-12-28T09:53:11.142Z: finished ehODW9G6RcRTEUJGCR3p migration successfully in 65 ms
+2023-12-28T09:53:11.143Z: started ehYnw9mhXmIKLZbJWl7b migration
+2023-12-28T09:53:11.143Z: finished ehYnw9mhXmIKLZbJWl7b migration successfully in 0 ms
+2023-12-28T09:53:11.143Z: started er3a5AJFum9QdEwt5E0x migration
+2023-12-28T09:53:11.208Z: finished er3a5AJFum9QdEwt5E0x migration successfully in 65 ms
+2023-12-28T09:53:11.208Z: started f1jVRP3vBpt4tfRQxcZt migration
+2023-12-28T09:53:11.275Z: finished f1jVRP3vBpt4tfRQxcZt migration successfully in 67 ms
+2023-12-28T09:53:11.275Z: started f34nk5kroUXs7SytpZMz migration
+2023-12-28T09:53:11.335Z: finished f34nk5kroUXs7SytpZMz migration successfully in 60 ms
+2023-12-28T09:53:11.336Z: started f95AIg2qi3cRuMRjg3El migration
+2023-12-28T09:53:11.410Z: finished f95AIg2qi3cRuMRjg3El migration successfully in 74 ms
+2023-12-28T09:53:11.410Z: started fctQQeOguzBY0L1Pe0oq migration
+2023-12-28T09:53:11.411Z: finished fctQQeOguzBY0L1Pe0oq migration successfully in 1 ms
+2023-12-28T09:53:11.411Z: started gNaRkfCABgToaiHTkSYo migration
+2023-12-28T09:53:11.413Z: finished gNaRkfCABgToaiHTkSYo migration successfully in 2 ms
+2023-12-28T09:53:11.413Z: started gU7OyynRb8PoQ6JhuY42 migration
+2023-12-28T09:53:11.413Z: finished gU7OyynRb8PoQ6JhuY42 migration successfully in 0 ms
+2023-12-28T09:53:11.414Z: started gdhEXGVfv7LDWOSpt4Jn migration
+2023-12-28T09:53:11.414Z: finished gdhEXGVfv7LDWOSpt4Jn migration successfully in 0 ms
+2023-12-28T09:53:11.414Z: started gqcU5fs3zdNprmxSJ7mz migration
+2023-12-28T09:53:11.477Z: finished gqcU5fs3zdNprmxSJ7mz migration successfully in 63 ms
+2023-12-28T09:53:11.477Z: started hj0bPX9zqj8UWv8E8CYL migration
+2023-12-28T09:53:11.544Z: finished hj0bPX9zqj8UWv8E8CYL migration successfully in 67 ms
+2023-12-28T09:53:11.545Z: started iCHJCkHRG4qbP493b4bJ migration
+2023-12-28T09:53:11.610Z: finished iCHJCkHRG4qbP493b4bJ migration successfully in 65 ms
+2023-12-28T09:53:11.610Z: started itcnJbCJ2sRvd9FGpH2R migration
+2023-12-28T09:53:11.611Z: finished itcnJbCJ2sRvd9FGpH2R migration successfully in 1 ms
+2023-12-28T09:53:11.611Z: started jiZQp8fMbTlEFp4PJMdQ migration
+2023-12-28T09:53:11.612Z: finished jiZQp8fMbTlEFp4PJMdQ migration successfully in 1 ms
+2023-12-28T09:53:11.612Z: started kSjGeFlbUVUJa3dwxCkO migration
+2023-12-28T09:53:11.612Z: finished kSjGeFlbUVUJa3dwxCkO migration successfully in 0 ms
+2023-12-28T09:53:11.612Z: started kjSyRzdHEFCSzg0P2vTz migration
+2023-12-28T09:53:11.689Z: finished kjSyRzdHEFCSzg0P2vTz migration successfully in 77 ms
+2023-12-28T09:53:11.690Z: started ktgmPgRoq3J7m4iwhPeX migration
+2023-12-28T09:53:11.753Z: finished ktgmPgRoq3J7m4iwhPeX migration successfully in 63 ms
+2023-12-28T09:53:11.753Z: started kweDO5QZYu2gwu0Mjur2 migration
+2023-12-28T09:53:11.753Z: finished kweDO5QZYu2gwu0Mjur2 migration successfully in 0 ms
+2023-12-28T09:53:11.754Z: started lcX9lIDSP05qw4suZsOW migration
+2023-12-28T09:53:11.754Z: finished lcX9lIDSP05qw4suZsOW migration successfully in 0 ms
+2023-12-28T09:53:11.754Z: started m51q1jaN6uGV9LlQ2KkJ migration
+2023-12-28T09:53:11.820Z: finished m51q1jaN6uGV9LlQ2KkJ migration successfully in 66 ms
+2023-12-28T09:53:11.820Z: started m8OmRVZeAtPS85sVcV9W migration
+2023-12-28T09:53:11.885Z: finished m8OmRVZeAtPS85sVcV9W migration successfully in 65 ms
+2023-12-28T09:53:11.885Z: started mABKyDcPulGlJwsyHpzi migration
+2023-12-28T09:53:11.950Z: finished mABKyDcPulGlJwsyHpzi migration successfully in 65 ms
+2023-12-28T09:53:11.951Z: started mFvUIMVtQI6q5bt7UDo2 migration
+2023-12-28T09:53:11.951Z: finished mFvUIMVtQI6q5bt7UDo2 migration successfully in 0 ms
+2023-12-28T09:53:11.951Z: started ml90Yz375erJdzOQ1O7E migration
+2023-12-28T09:53:12.010Z: finished ml90Yz375erJdzOQ1O7E migration successfully in 59 ms
+2023-12-28T09:53:12.010Z: started n3k14Ph3Bpo9crkZLd1Z migration
+2023-12-28T09:53:12.074Z: finished n3k14Ph3Bpo9crkZLd1Z migration successfully in 64 ms
+2023-12-28T09:53:12.074Z: started nEd0UKPSXmx4JDOaRaZG migration
+2023-12-28T09:53:12.136Z: finished nEd0UKPSXmx4JDOaRaZG migration successfully in 62 ms
+2023-12-28T09:53:12.136Z: started nOyvhvIaQoKGXBYSVuqG migration
+2023-12-28T09:53:12.137Z: finished nOyvhvIaQoKGXBYSVuqG migration successfully in 1 ms
+2023-12-28T09:53:12.137Z: started nn4NhHYHIkH4XPni7D79 migration
+2023-12-28T09:53:12.202Z: finished nn4NhHYHIkH4XPni7D79 migration successfully in 65 ms
+2023-12-28T09:53:12.202Z: started nrXSLsbVHJBKkxvn9KSs migration
+2023-12-28T09:53:12.275Z: finished nrXSLsbVHJBKkxvn9KSs migration successfully in 73 ms
+2023-12-28T09:53:12.275Z: started o6lhwLuR0Yxxx8UrHqeX migration
+2023-12-28T09:53:12.276Z: finished o6lhwLuR0Yxxx8UrHqeX migration successfully in 1 ms
+2023-12-28T09:53:12.276Z: started oKKl0cD3ji4lChUOD0J7 migration
+2023-12-28T09:53:12.276Z: finished oKKl0cD3ji4lChUOD0J7 migration successfully in 0 ms
+2023-12-28T09:53:12.276Z: started oPQMbVObbVonehykThYB migration
+2023-12-28T09:53:12.343Z: finished oPQMbVObbVonehykThYB migration successfully in 67 ms
+2023-12-28T09:53:12.343Z: started ob42c4zPQ8eVY8cWn3Td migration
+2023-12-28T09:53:12.343Z: finished ob42c4zPQ8eVY8cWn3Td migration successfully in 0 ms
+2023-12-28T09:53:12.344Z: started oi7fj2sOEsdGQopHiRsp migration
+2023-12-28T09:53:12.408Z: finished oi7fj2sOEsdGQopHiRsp migration successfully in 64 ms
+2023-12-28T09:53:12.409Z: started oqLLHSfhYzjyGP8974JR migration
+2023-12-28T09:53:12.475Z: finished oqLLHSfhYzjyGP8974JR migration successfully in 66 ms
+2023-12-28T09:53:12.475Z: started ouMqW48j8gCcSeJi2JT9 migration
+2023-12-28T09:53:12.475Z: finished ouMqW48j8gCcSeJi2JT9 migration successfully in 0 ms
+2023-12-28T09:53:12.476Z: started pWuZ14aeMCkqrazC0Mf8 migration
+2023-12-28T09:53:12.538Z: finished pWuZ14aeMCkqrazC0Mf8 migration successfully in 62 ms
+2023-12-28T09:53:12.538Z: started pYdm77jBqwgEhD5vIak6 migration
+2023-12-28T09:53:12.608Z: finished pYdm77jBqwgEhD5vIak6 migration successfully in 70 ms
+2023-12-28T09:53:12.609Z: started peSHryjWIr4V3sdSPR2j migration
+2023-12-28T09:53:12.609Z: finished peSHryjWIr4V3sdSPR2j migration successfully in 0 ms
+2023-12-28T09:53:12.609Z: started pvrO26dyvDbcocLR7g7F migration
+2023-12-28T09:53:12.609Z: finished pvrO26dyvDbcocLR7g7F migration successfully in 0 ms
+2023-12-28T09:53:12.610Z: started q9JjK86egNm5DrmUdaur migration
+2023-12-28T09:53:12.674Z: finished q9JjK86egNm5DrmUdaur migration successfully in 64 ms
+2023-12-28T09:53:12.674Z: started q9YSEGUSmM56m78AH1cS migration
+2023-12-28T09:53:12.735Z: finished q9YSEGUSmM56m78AH1cS migration successfully in 61 ms
+2023-12-28T09:53:12.735Z: started qGhgHSxMEp8LnBOimUBU migration
+2023-12-28T09:53:12.796Z: finished qGhgHSxMEp8LnBOimUBU migration successfully in 61 ms
+2023-12-28T09:53:12.796Z: started qLO3rTKNGdu0eufud1a5 migration
+2023-12-28T09:53:12.796Z: finished qLO3rTKNGdu0eufud1a5 migration successfully in 0 ms
+2023-12-28T09:53:12.796Z: started qea5T22BVgZ9IP0EopvT migration
+2023-12-28T09:53:12.917Z: finished qea5T22BVgZ9IP0EopvT migration successfully in 121 ms
+2023-12-28T09:53:12.917Z: started qfimLDsRP96vLKjlL2U1 migration
+2023-12-28T09:53:12.982Z: finished qfimLDsRP96vLKjlL2U1 migration successfully in 65 ms
+2023-12-28T09:53:12.982Z: started qzOF8m18vayCa2xrKhoQ migration
+2023-12-28T09:53:13.047Z: finished qzOF8m18vayCa2xrKhoQ migration successfully in 65 ms
+2023-12-28T09:53:13.048Z: started rex8rCCett7JtotF36Vq migration
+2023-12-28T09:53:13.048Z: finished rex8rCCett7JtotF36Vq migration successfully in 0 ms
+2023-12-28T09:53:13.049Z: started rju4Yppdjmo6cYT3D572 migration
+2023-12-28T09:53:13.112Z: finished rju4Yppdjmo6cYT3D572 migration successfully in 63 ms
+2023-12-28T09:53:13.112Z: started roeO8FwJdozo2hbwV4Tl migration
+2023-12-28T09:53:13.189Z: finished roeO8FwJdozo2hbwV4Tl migration successfully in 77 ms
+2023-12-28T09:53:13.189Z: started s0fYpZcg6iSH7Zoqi4ED migration
+2023-12-28T09:53:13.251Z: finished s0fYpZcg6iSH7Zoqi4ED migration successfully in 62 ms
+2023-12-28T09:53:13.251Z: started s69wjC3FJu0LECndpauj migration
+2023-12-28T09:53:13.251Z: finished s69wjC3FJu0LECndpauj migration successfully in 0 ms
+2023-12-28T09:53:13.251Z: started sOH3c8oXJCpEWOKcHqXo migration
+2023-12-28T09:53:13.335Z: finished sOH3c8oXJCpEWOKcHqXo migration successfully in 84 ms
+2023-12-28T09:53:13.335Z: started teD98c1W00GT2tolSZnx migration
+2023-12-28T09:53:13.398Z: finished teD98c1W00GT2tolSZnx migration successfully in 63 ms
+2023-12-28T09:53:13.398Z: started tj5zU4lxd1uiJqaSkZRG migration
+2023-12-28T09:53:13.480Z: finished tj5zU4lxd1uiJqaSkZRG migration successfully in 82 ms
+2023-12-28T09:53:13.481Z: started u0enRH4QqCGCD7uDjuAw migration
+2023-12-28T09:53:13.577Z: finished u0enRH4QqCGCD7uDjuAw migration successfully in 96 ms
+2023-12-28T09:53:13.578Z: started uJvxRSrF50eqSVO3rAKb migration
+2023-12-28T09:53:13.663Z: finished uJvxRSrF50eqSVO3rAKb migration successfully in 85 ms
+2023-12-28T09:53:13.664Z: started v1NUgjx8IgYynUwDWFal migration
+2023-12-28T09:53:13.664Z: finished v1NUgjx8IgYynUwDWFal migration successfully in 0 ms
+2023-12-28T09:53:13.664Z: started v4e9qGUrgcRIxjXxrROC migration
+2023-12-28T09:53:13.759Z: finished v4e9qGUrgcRIxjXxrROC migration successfully in 95 ms
+2023-12-28T09:53:13.760Z: started v6HqBBKjmuVaQ9eVpP2r migration
+2023-12-28T09:53:13.760Z: finished v6HqBBKjmuVaQ9eVpP2r migration successfully in 0 ms
+2023-12-28T09:53:13.760Z: started vcDHrjKKInOk2ODF9KKV migration
+2023-12-28T09:53:13.841Z: finished vcDHrjKKInOk2ODF9KKV migration successfully in 81 ms
+2023-12-28T09:53:13.842Z: started vtjp9OJwSyznkCf5eOTx migration
+2023-12-28T09:53:13.918Z: finished vtjp9OJwSyznkCf5eOTx migration successfully in 76 ms
+2023-12-28T09:53:13.918Z: started w2tehKjwNg2ZQ7ushiR2 migration
+2023-12-28T09:53:13.919Z: finished w2tehKjwNg2ZQ7ushiR2 migration successfully in 1 ms
+2023-12-28T09:53:13.919Z: started weRQhi0lRdSf968iSULM migration
+2023-12-28T09:53:14.009Z: finished weRQhi0lRdSf968iSULM migration successfully in 90 ms
+2023-12-28T09:53:14.009Z: started wjLjxGvKeCCbTMVUn5IH migration
+2023-12-28T09:53:14.073Z: finished wjLjxGvKeCCbTMVUn5IH migration successfully in 64 ms
+2023-12-28T09:53:14.073Z: started wzGJF0i7045Vj5KOTNKA migration
+2023-12-28T09:53:14.073Z: finished wzGJF0i7045Vj5KOTNKA migration successfully in 0 ms
+2023-12-28T09:53:14.074Z: started x0M3CkW8fkFggr2EMpJa migration
+2023-12-28T09:53:14.133Z: finished x0M3CkW8fkFggr2EMpJa migration successfully in 59 ms
+2023-12-28T09:53:14.133Z: started x23PkEl2y5VXP3doYda8 migration
+2023-12-28T09:53:14.218Z: finished x23PkEl2y5VXP3doYda8 migration successfully in 85 ms
+2023-12-28T09:53:14.218Z: started x494zGSgP9BebLWZb2eb migration
+2023-12-28T09:53:14.286Z: finished x494zGSgP9BebLWZb2eb migration successfully in 68 ms
+2023-12-28T09:53:14.286Z: started xMUGMlk5wgvEqQWVjAW6 migration
+2023-12-28T09:53:14.287Z: finished xMUGMlk5wgvEqQWVjAW6 migration successfully in 1 ms
+2023-12-28T09:53:14.288Z: started xgLLZM5cLOYC3zg26AXk migration
+2023-12-28T09:53:14.365Z: finished xgLLZM5cLOYC3zg26AXk migration successfully in 78 ms
+2023-12-28T09:53:14.365Z: started xxWU1SbGLVhLcg5tvfSO migration
+2023-12-28T09:53:14.366Z: finished xxWU1SbGLVhLcg5tvfSO migration successfully in 1 ms
+2023-12-28T09:53:14.366Z: started yBmask2iKw61jYF6rD9W migration
+2023-12-28T09:53:14.366Z: finished yBmask2iKw61jYF6rD9W migration successfully in 0 ms
+2023-12-28T09:53:14.366Z: started yXkHA7peUYUa0hsxkEQl migration
+2023-12-28T09:53:14.429Z: finished yXkHA7peUYUa0hsxkEQl migration successfully in 63 ms
+2023-12-28T09:53:14.429Z: started yruFPl2DVFnGZRnuFx6w migration
+2023-12-28T09:53:14.430Z: finished yruFPl2DVFnGZRnuFx6w migration successfully in 1 ms
+2023-12-28T09:53:14.430Z: started yuRYNnGv6ebbWvWXbI8X migration
+2023-12-28T09:53:14.498Z: finished yuRYNnGv6ebbWvWXbI8X migration successfully in 68 ms
+2023-12-28T09:53:14.499Z: started yvMCP5PExZibyzIxa2Ha migration
+2023-12-28T09:53:14.564Z: finished yvMCP5PExZibyzIxa2Ha migration successfully in 65 ms
+2023-12-28T09:53:15.502Z: 
+    Migrations report:
+
+    Migration goal:
+    Add to DayReport model "jobsDoneStringified" field, "plansStringified" fields,"problemsStringified" field, "commentsStringified" field that will include stringified info from collections JobsDone, PlansForNextPeriod, CurrentProblem, Comments
+    
+    Start time: Thu Dec 28 2023 12:53:04 GMT+0300 (Moscow Standard Time)
+    End time: Thu Dec 28 2023 12:53:15 GMT+0300 (Moscow Standard Time)
+    Total time: 11426 ms
+
+    Total Models to changed: 210
+  

@@ -1,5 +1,4 @@
 import {Timestamp, writeBatch} from "firebase/firestore";
-import {dayReportToDayReportDTOConverter} from "src/dataAccessLogic/BusinessToDTOConverter/dayReportToDayReportDTOConverter";
 import {wayToWayDTOConverter} from "src/dataAccessLogic/BusinessToDTOConverter/wayToWayDTOConverter";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {wayDTOToWayConverter} from "src/dataAccessLogic/DTOToBusinessConverter/wayDTOToWayPreviewConverter";
@@ -9,16 +8,12 @@ import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {db} from "src/firebase";
 import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
-import {CommentService} from "src/service/CommentService";
-import {CurrentProblemService} from "src/service/CurrentProblemService";
 import {DayReportService} from "src/service/DayReportService";
 import {GoalMetricService} from "src/service/GoalMetricService";
 import {GoalService} from "src/service/GoalService";
-import {JobDoneService} from "src/service/JobDoneService";
-import {PlanForNextPeriodService} from "src/service/PlanForNextPeriodService";
 import {UserService} from "src/service/UserService";
 import {WayDTOWithoutUuid, WayService} from "src/service/WayService";
-import {DateUtils} from "src/utils/DateUtils";
+import {arrayToHashMap} from "src/utils/createHashMap";
 
 /**
  * Provides methods to interact with the Way model
@@ -67,6 +62,10 @@ export class WayDAL {
       favoriteForUsersPromise,
     ]);
 
+    const mentorsDictionary = arrayToHashMap(mentors);
+
+    const dayReportsOrderedByDate = dayReports.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+
     const goal = await GoalDAL.getGoal(wayDTO.goalUuid, owner);
 
     const lastUpdate = wayDTO.lastUpdate.toDate();
@@ -74,8 +73,8 @@ export class WayDAL {
 
     const wayPreviewProps = {
       owner,
-      mentors,
-      dayReports,
+      mentors: mentorsDictionary,
+      dayReports: dayReportsOrderedByDate,
       mentorRequests,
       goal,
       lastUpdate,
@@ -96,7 +95,7 @@ export class WayDAL {
     const newGoal = await GoalDAL.createGoal(userUuid);
 
     const DEFAULT_WAY: WayDTOWithoutUuid = {
-      name: `${DateUtils.getShortISODateValue(new Date)} Way of ${user.name}`,
+      name: `Way of ${user.name}`,
       dayReportUuids: [],
       ownerUuid: `${userUuid}`,
       goalUuid: `${newGoal.uuid}`,
@@ -127,32 +126,6 @@ export class WayDAL {
     const way = WayDAL.getWay(wayDTO.uuid);
 
     return way;
-  }
-
-  /**
-   * Get User ways preview based of provided type
-   * TODO: get rid of this functions it is dangerous to use this kind of polymorphism
-   */
-  public static async getUserWaysPreview(uuid: string, type: "Own" | "Mentoring" | "Favorite"): Promise<Way[]> {
-    let waysDTO;
-
-    switch (type) {
-      case "Own":
-        waysDTO = await WayService.getOwnWaysDTO(uuid);
-        break;
-      case "Mentoring":
-        waysDTO = await WayService.getMentoringWaysDTO(uuid);
-        break;
-      case "Favorite":
-        waysDTO = await WayService.getFavoriteWaysDTO(uuid);
-        break;
-    }
-
-    const waysUuids = waysDTO.map((item) => item.uuid);
-
-    const ways = await Promise.all(waysUuids.map(WayDAL.getWay));
-
-    return ways;
   }
 
   /**
@@ -194,11 +167,6 @@ export class WayDAL {
     const favoriteForUsersForDelete = way.favoriteForUsers;
     const ownWaysForDelete = way.owner.ownWays;
     const favoriteWaysForDelete = way.owner.favoriteWays;
-    const dayReportsDTO = way.dayReports.map(dayReportToDayReportDTOConverter);
-    const jobsDoneForDelete = (dayReportsDTO.map((dayReport) => dayReport.jobDoneUuids)).flat();
-    const plansForDelete = (dayReportsDTO.map((dayReport) => dayReport.planForNextPeriodUuids)).flat();
-    const problemsForDelete = (dayReportsDTO.map((dayReport) => dayReport.problemForCurrentPeriodUuids)).flat();
-    const commentsForDelete = (dayReportsDTO.map((dayReport) => dayReport.commentUuids)).flat();
 
     const updatedOwner = new UserPreview({
       ...way.owner,
@@ -225,14 +193,6 @@ export class WayDAL {
       const updatedFavoriteForUserDTO = userPreviewToUserDTOConverter(updatedFavoriteForUser);
       UserService.updateUserDTOWithBatch(updatedFavoriteForUserDTO, batch);
     });
-
-    jobsDoneForDelete.forEach((jobDone) => JobDoneService.deleteJobDoneDTOWithBatch(jobDone, batch));
-
-    plansForDelete.forEach((plan) => PlanForNextPeriodService.deletePlanForNextPeriodDTOWithBatch(plan, batch));
-
-    problemsForDelete.forEach((problem) => CurrentProblemService.deleteCurrentProblemDTOWithBatch(problem, batch));
-
-    commentsForDelete.forEach((comment) => CommentService.deleteCommentDTOWithBatch(comment, batch));
 
     dayReportsForDelete.forEach((dayReport) => DayReportService.deleteDayReportDTOWithBatch(dayReport.uuid, batch));
 

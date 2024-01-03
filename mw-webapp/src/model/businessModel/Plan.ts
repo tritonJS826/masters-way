@@ -1,10 +1,10 @@
 /**
- * PlanForNextPeriod props
+ * Plan props
  */
-interface PlanForNextPeriodProps {
+interface PlanProps {
 
   /**
-   * PlanForNextPeriod's UUID
+   * Plan's UUID
    */
   uuid: string;
 
@@ -19,7 +19,7 @@ interface PlanForNextPeriodProps {
   ownerUuid: string;
 
   /**
-   * Number of time units {@link timeUnit}
+   * Number of time units (in minutes)
    */
   estimationTime: number;
 
@@ -30,9 +30,9 @@ interface PlanForNextPeriodProps {
 }
 
 /**
- * Plan for next period model
+ * Plan model
  */
-export class PlanForNextPeriod {
+export class Plan {
 
   /**
    * Plan's UUID
@@ -59,12 +59,12 @@ export class PlanForNextPeriod {
    */
   public tags: string[];
 
-  constructor(planForNextPeriodData: PlanForNextPeriodProps) {
-    this.uuid = planForNextPeriodData.uuid;
-    this.job = planForNextPeriodData.job;
-    this.ownerUuid = planForNextPeriodData.ownerUuid;
-    this.estimationTime = planForNextPeriodData.estimationTime;
-    this.tags = planForNextPeriodData.tags;
+  constructor(planData: PlanProps) {
+    this.uuid = planData.uuid;
+    this.job = planData.job;
+    this.ownerUuid = planData.ownerUuid;
+    this.estimationTime = planData.estimationTime;
+    this.tags = planData.tags;
   }
 
   /**

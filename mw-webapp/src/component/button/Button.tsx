@@ -2,6 +2,27 @@ import clsx from "clsx";
 import styles from "src/component/button/Button.module.scss";
 
 /**
+ * Type of button's styles
+ */
+export enum ButtonType {
+
+  /**
+   * Important button
+   */
+  PRIMARY = "primary",
+
+  /**
+   * Common repetitive button type 1
+   */
+  SECONDARY = "secondary",
+
+  /**
+   * Rare unique button type 2
+   */
+  TERTIARY = "tertiary",
+}
+
+/**
  * Button props
  */
 export interface ButtonProps {
@@ -25,6 +46,12 @@ export interface ButtonProps {
    * Additional custom class name
    */
   className?: string;
+
+  /**
+   * Type of button styles
+   * @default {@link ButtonType.Secondary}
+   */
+  buttonType?: ButtonType;
 }
 
 /**
@@ -33,7 +60,7 @@ export interface ButtonProps {
 export const Button = (props: ButtonProps) => {
   return (
     <button
-      className={clsx(styles.button, props.className)}
+      className={clsx(styles.button, styles[props.buttonType ?? ButtonType.SECONDARY], props.className)}
       onClick={props.onClick}
       data-cy={props.dataCy}
     >

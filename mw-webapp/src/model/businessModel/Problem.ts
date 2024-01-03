@@ -1,7 +1,7 @@
 /**
  * Problem for current period model
  */
-export class CurrentProblem {
+export class Problem {
 
   /**
    * Problem's UUID
@@ -28,12 +28,12 @@ export class CurrentProblem {
    */
   public tags: string[];
 
-  constructor(currentProblemData: CurrentProblem) {
-    this.uuid = currentProblemData.uuid;
-    this.description = currentProblemData.description;
-    this.isDone = currentProblemData.isDone;
-    this.ownerUuid = currentProblemData.ownerUuid;
-    this.tags = currentProblemData.tags;
+  constructor(problemData: Problem) {
+    this.uuid = problemData.uuid;
+    this.description = problemData.description;
+    this.isDone = problemData.isDone;
+    this.ownerUuid = problemData.ownerUuid;
+    this.tags = problemData.tags;
   }
 
 }

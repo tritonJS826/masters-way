@@ -45,10 +45,6 @@ export const AllWaysPage = () => {
     <>
       <Title
         level={HeadingLevel.h2}
-        text="Ways page"
-      />
-      <Title
-        level={HeadingLevel.h3}
         text={`All ways (total amount: ${allWays.length} ways)`}
       />
       <ScrollableBlock>

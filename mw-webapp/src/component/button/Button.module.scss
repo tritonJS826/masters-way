@@ -4,18 +4,31 @@
   padding: 13px 17px;
   border: none;
   border-radius: $primaryBorderRadius;
-  background-color: $tertiaryBackgroundColor;
-  color: $primaryTextColor;
   font-family: $primaryFontFamily;
   font-size: $primaryFontSize;
   transition-duration: $primaryTransitionDuration;
 
   &:hover {
-    background-color: $hoverColor;
+    background-color: var(--hoverColor);
     cursor: pointer;
   }
 
   &:active {
-    background-color: $activeColor;
+    background-color: var(--activeColor);
   }
+}
+
+.primary {
+  background-color: var(--tertiaryBackgroundColor);
+  color: var(--secondaryTextColor);
+}
+
+.secondary {
+  background-color: var(--secondaryBackgroundColor);
+  color: var(--secondaryTextColor);
+}
+
+.tertiary {
+  background-color: transparent;
+  color: var(--primaryTextColor);
 }

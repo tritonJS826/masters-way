@@ -21,7 +21,7 @@ interface EditableTextareaProps {
   onChangeFinish: (value: string) => void;
 
   /**
-   * Additional custom class name for the editable input
+   * Class name for the editable input
    */
   className?: string;
 

@@ -1,4 +1,9 @@
+import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
+import {HeadingLevel, Title} from "src/component/title/Title";
+import {Tooltip} from "src/component/tooltip/Tooltip";
 import {DayReport} from "src/model/businessModel/DayReport";
+import {DateUtils} from "src/utils/DateUtils";
+import styles from "src/logic/wayPage/WayStatistic.module.scss";
 
 /**
  * Reports table props
@@ -21,11 +26,43 @@ const MILLISECONDS_IN_DAY = 86_400_000;
  */
 const SMAL_CORECTION_MILLISECONDS = 1;
 
+const AMOUNT_DAYS_IN_WEEK = 7;
+const AMOUNT_DAYS_IN_TWO_WEEK = 14;
+
+const lastWeekDate = DateUtils.getLastDate(AMOUNT_DAYS_IN_WEEK);
+const lastTwoWeekDate = DateUtils.getLastDate(AMOUNT_DAYS_IN_TWO_WEEK);
+
+type StatisticLineProps = {
+
+  /**
+   * Line description (left part)
+   */
+  description: string;
+
+  /**
+   * Line value (right part)
+   */
+  value: number;}
+
+/**
+ * One line for statistic block
+ */
+const StatisticLine = (params: StatisticLineProps) => {
+  return (
+    <p className={styles.alignContent}>
+      <span>
+        {params.description}
+      </span>
+      {params.value}
+    </p>
+  );
+};
+
 /**
  * Render table of reports
  */
 export const WayStatistic = (props: WayStatisticProps) => {
-  const allDatesTimestamps = props.dayReports.map(report => report.date.getTime());
+  const allDatesTimestamps = props.dayReports.map(report => report.createdAt.getTime());
   const maximumDateTimestamp = Math.max(...allDatesTimestamps);
   const minimumDateTimestamp = Math.min(...allDatesTimestamps);
 
@@ -33,8 +70,6 @@ export const WayStatistic = (props: WayStatisticProps) => {
     (maximumDateTimestamp - minimumDateTimestamp + SMAL_CORECTION_MILLISECONDS) / MILLISECONDS_IN_DAY,
   );
   const totalRecordsAmount = props.dayReports.length;
-  const totalWorkedRecords = props.dayReports.filter((report) => !report.isDayOff).length;
-  const totalDayOffRecords = props.dayReports.filter((report) => report.isDayOff).length;
 
   const allJobsAmount = props.dayReports
     .flatMap(report => report.jobsDone);
@@ -45,61 +80,123 @@ export const WayStatistic = (props: WayStatisticProps) => {
   const totalWayTime = allJobsAmount
     .reduce((totalTime, jobDone) => totalTime + jobDone.time, 0);
 
-  const averageWorkingTimeInWorkedRecords = totalWorkedRecords > 0 ? Math.round(totalWayTime / totalWorkedRecords) : 0;
   const averageWorkingTimeInRecords = Math.round(totalWayTime / totalRecordsAmount);
   const averageWorkingTimeInDay = Math.round(totalWayTime / totalDaysOnAWay);
 
   const averageTimeForJob = Math.round(totalWayTime / allJobsAmount.length);
 
+  const lastWeekDayReports = props.dayReports.filter((dayReport) => {
+    return dayReport.createdAt > lastWeekDate;
+  });
+
+  const lastWeekJobsAmount = lastWeekDayReports.flatMap(report => report.jobsDone);
+
+  const lastCalendarWeekTotalTime = lastWeekJobsAmount.reduce((totalTime, jobDone) => totalTime + jobDone.time, 0);
+
+  const lastCalendarWeekAverageWorkingTime = Math.round(lastCalendarWeekTotalTime / AMOUNT_DAYS_IN_WEEK);
+
+  const lastCalendarWeekAverageJobTime = Math.round(lastCalendarWeekTotalTime / lastWeekJobsAmount.length);
+
+  const lastTwoWeekDayReports = props.dayReports.filter((dayReport) => {
+    return dayReport.createdAt > lastTwoWeekDate;
+  });
+
+  const lastTwoWeekJobsAmount = lastTwoWeekDayReports.flatMap(report => report.jobsDone);
+
+  const lastCalendarTwoWeekTotalTime = lastTwoWeekJobsAmount.reduce((totalTime, jobDone) => totalTime + jobDone.time, 0);
+
+  const lastCalendarTwoWeekAverageWorkingTime = Math.round(lastCalendarTwoWeekTotalTime / AMOUNT_DAYS_IN_WEEK);
+
+  const lastCalendarTwoWeekAverageJobTime = Math.round(lastCalendarTwoWeekTotalTime / lastWeekJobsAmount.length);
+
+  /**
+   * Get Total Statistics
+   */
+  const getContent = () => {
+    return (
+      <div className={styles.wrapper}>
+        <Title
+          level={HeadingLevel.h4}
+          text="Total"
+        />
+        <StatisticLine
+          description="Days from start:"
+          value={totalDaysOnAWay}
+        />
+        <StatisticLine
+          description="Total records:"
+          value={totalRecordsAmount}
+        />
+        <StatisticLine
+          description="Total time:"
+          value={totalWayTime}
+        />
+        <StatisticLine
+          description="Average time per calendar day:"
+          value={averageWorkingTimeInDay}
+        />
+        <StatisticLine
+          description="Average working time in working day:"
+          value={averageWorkingTimeInRecords}
+        />
+
+        <Tooltip content="Shows level of task decomposition">
+          <StatisticLine
+            description="Average job time:"
+            value={averageTimeForJob}
+          />
+        </Tooltip>
+        <Title
+          level={HeadingLevel.h4}
+          text="Last week"
+          className={styles.title}
+        />
+        <StatisticLine
+          description="Total time:"
+          value={lastCalendarWeekTotalTime}
+        />
+        <StatisticLine
+          description="Average time per calendar day:"
+          value={lastCalendarWeekAverageWorkingTime}
+        />
+        <StatisticLine
+          description="Average time per worked day:"
+          value={lastCalendarWeekAverageJobTime}
+        />
+
+        <Title
+          level={HeadingLevel.h4}
+          text="Last two weeks statistics"
+          className={styles.title}
+        />
+        <StatisticLine
+          description="Total time:"
+          value={lastCalendarTwoWeekTotalTime}
+        />
+        <StatisticLine
+          description="Average time per calendar day:"
+          value={lastCalendarTwoWeekAverageWorkingTime}
+        />
+        <StatisticLine
+          description="Average time per worked day:"
+          value={lastCalendarTwoWeekAverageJobTime}
+        />
+      </div>
+    );
+  };
+
+  const accordionItems = [
+    {
+      trigger: {child: "Statistics"},
+      content: {child: getContent()},
+    },
+  ];
+
   return (
-    <div>
-      <p>
-        Total days on a way:
-        {" "}
-        {totalDaysOnAWay}
-      </p>
-      <p>
-        Total amount of records:
-        {" "}
-        {totalRecordsAmount}
-      </p>
-      <p>
-        Amount of records marked as worked:
-        {" "}
-        {totalWorkedRecords}
-      </p>
-      <p>
-        Amount of records marked as day off:
-        {" "}
-        {totalDayOffRecords}
-      </p>
-      <p>
-        Total way time:
-        {" "}
-        {totalWayTime}
-        {" "}
-        minutes
-      </p>
-      <p>
-        Average working time per day:
-        {" "}
-        {averageWorkingTimeInDay}
-      </p>
-      <p>
-        Average working time in worked records:
-        {" "}
-        {averageWorkingTimeInWorkedRecords}
-      </p>
-      <p>
-        Avereage working time in all records:
-        {" "}
-        {averageWorkingTimeInRecords}
-      </p>
-      <p>
-        Avereage job time (shows level of task decomposition):
-        {" "}
-        {averageTimeForJob}
-      </p>
-    </div>
+    <Accordion
+      items={accordionItems}
+      type={accordionTypes.multiple}
+      className={styles.accordion}
+    />
   );
 };

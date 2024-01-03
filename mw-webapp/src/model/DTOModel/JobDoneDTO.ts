@@ -23,6 +23,8 @@ export const JobDoneDTOSchema = z.object({
   tags: z.array(z.string()),
 }).strict();
 
+export const JobsDoneDTOSchema = z.array(JobDoneDTOSchema);
+
 /**
  * Job done DTO model
  */

@@ -25,6 +25,10 @@ export const Router = () => {
         element={<WithValidatedParams paramsSchema={pages.allUsers} />}
       />
       <Route
+        path={pages.settings.getPath({})}
+        element={<WithValidatedParams paramsSchema={pages.settings} />}
+      />
+      <Route
         path={pages.aboutProject.getPath({})}
         element={<WithValidatedParams paramsSchema={pages.aboutProject} />}
       />

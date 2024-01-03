@@ -1,3 +1,5 @@
+@import "src/styles/variables";
+
 .container {
   width: 100%;
   margin: 0 auto;
@@ -5,24 +7,28 @@
 
 .goalSection {
   display: flex;
+  width: 100%;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: space-between;
+  margin-bottom: $defaultMargin;
+  gap: $defaultGap;
 }
 
 .goalDescription {
-  max-width: 600px;
+  min-width: $minWidthBlock;
+  max-width: $maxWidthBlock;
 
   textarea {
     width: 100%;
+    padding: $defaultSmallPadding;
   }
 }
 
 .singularMetric {
   display: flex;
-  max-width: 600px;
+  max-width: $maxWidthBlock;
   align-items: center;
-  margin-bottom: 4px;
-  gap: 4px;
+  margin-bottom: $defaultSmallGap;
 }
 
 .mentors {
@@ -30,7 +36,49 @@
 }
 
 .icon {
+  display: block;
   min-width: 15px;
   min-height: 15px;
   margin-left: 5px;
+  cursor: pointer;
+}
+
+.alignItems {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.alignTrashIcon {
+  align-items: center;
+  gap: $defaultGap;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  gap: $defaultGap;
+}
+
+.gap {
+  gap: $defaultGap;
+}
+
+.accordion {
+  min-width: $minWidthBlock;
+  max-width: $maxWidthBlock;
+  margin-top: $defaultMargin;
+}
+
+.trash {
+  display: inline-block;
+}
+
+.titleH2 {
+  input {
+    width: $minWidthBlock;
+    height: $heightH2;
+    margin-top: $defaultMargin;
+    margin-bottom: $defaultMargin;
+  }
 }

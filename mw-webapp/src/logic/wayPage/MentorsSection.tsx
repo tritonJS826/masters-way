@@ -1,6 +1,9 @@
 import {TrashIcon} from "@radix-ui/react-icons";
+import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
 import {HeadingLevel, Title} from "src/component/title/Title";
+import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
+import {Tooltip} from "src/component/tooltip/Tooltip";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {Way} from "src/model/businessModel/Way";
@@ -22,7 +25,8 @@ const removeMentorFromWay = (
 
   UserPreviewDAL.updateUserPreview(newUserPreview);
 
-  const mentors = way.mentors.filter((item) => item !== userPreview);
+  way.mentors.delete(userPreview.uuid);
+  const mentors = way.mentors;
   const newWay = new Way({...way, mentors});
 
   WayDAL.updateWay(newWay);
@@ -55,36 +59,44 @@ interface MentorsSectionProps {
  * Section with all Way mentors
  */
 export const MentorsSection = (props: MentorsSectionProps) => {
+  const mentors = Array.from(props.way.mentors.values());
+
   return (
     <>
       <Title
         level={HeadingLevel.h3}
         text="Mentors of this way:"
       />
-      {props.way.mentors.map((mentor) => (
+      {mentors.map((mentor) => (
         <div key={uuidv4().concat(mentor.uuid)}>
-          <Link
-            key={mentor.uuid}
-            path={pages.user.getPath({uuid: mentor.uuid})}
-            value={mentor.name}
-          />
-          {props.isOwner && (
-            <TrashIcon
-              className={styles.icon}
-
-              onClick={() => {
-
-                /**
-                 * CallBack triggered on press ok
-                 */
-                const onOk = () => removeMentorFromWay(props.way, props.setWay, mentor);
-
-                // TODO: use modal instead of confirm task #305
-                const isConfirmed = confirm(`Are you sure you want remove "${mentor.name}" from mentors?`);
-                isConfirmed && onOk();
-              }}
+          <HorizontalContainer className={styles.alignTrashIcon}>
+            <Link
+              key={mentor.uuid}
+              path={pages.user.getPath({uuid: mentor.uuid})}
+              value={mentor.name}
             />
-          )}
+            {props.isOwner && (
+              <Tooltip
+                content="Delete from mentors"
+                position={PositionTooltip.RIGHT}
+              >
+                <TrashIcon
+                  className={styles.icon}
+                  onClick={() => {
+
+                    /**
+                     * CallBack triggered on press ok
+                     */
+                    const onOk = () => removeMentorFromWay(props.way, props.setWay, mentor);
+
+                    // TODO: use modal instead of confirm task #305
+                    const isConfirmed = confirm(`Are you sure you want remove "${mentor.name}" from mentors?`);
+                    isConfirmed && onOk();
+                  }}
+                />
+              </Tooltip>
+            )}
+          </HorizontalContainer>
         </div>
       ))}
     </>

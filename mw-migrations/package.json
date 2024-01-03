@@ -13,7 +13,8 @@
     "migrate-plan": "ts-node ./src/migrations/plansForNextPeriodMigration.ts",
     "migrate-way": "ts-node ./src/migrations/waysMigration.ts",
     "migrate-goal-metrics": "ts-node ./src/migrations/goalMetricMigration.ts",
-    "migrate-dayReport-Stringified": "ts-node ./src/migrations/dayReportsMigration.ts"
+    "migrate-dayReport-Stringified": "ts-node ./src/migrations/dayReportsMigration.ts",
+    "migrate-dayReport-deprecated": "ts-node ./src/migrations/dayReportsMigration-delete-deprecated-fields.ts"
   },
   "dependencies": {
     "firebase": "10.7.0",

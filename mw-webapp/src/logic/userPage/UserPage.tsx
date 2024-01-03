@@ -101,80 +101,47 @@ export const UserPage = (props: UserPageProps) => {
     );
   }
 
-  /**
-   * Function to handle user own ways change
-   */
-  const handleOwnWaysChange = (ownWays: string[]) => {
-    setUserPreview({...userPreview, ownWays});
-  };
-
   return (
     <div className={styles.container}>
-      <div className={styles.row}>
-        <Title
-          text="Name:"
-          level={HeadingLevel.h3}
-        />
-        {" "}
-        <Title
-          level={HeadingLevel.h3}
-          text={userPreview.name}
-          onChangeFinish={(text) => changeUserName(userPreview, text, setUserPreview)}
-          isEditable={isPageOwner}
-        />
-      </div>
-      <div className={styles.row}>
-        <Title
-          text="Email:"
-          level={HeadingLevel.h3}
-        />
-        {" "}
-        <Title
-          level={HeadingLevel.h3}
-          text={userPreview.email}
-          onChangeFinish={(text) => changeUserEmail(userPreview, text, setUserPreview)}
-          isEditable={isPageOwner}
-        />
-      </div>
-      <div>
-        <Title
-          text="Description:"
-          level={HeadingLevel.h3}
-        />
-        <EditableTextarea
-          text={userPreview.description}
-          onChangeFinish={(text) => changeUserDescription(userPreview, text, setUserPreview)}
-          isEditable={isPageOwner}
-        />
-      </div>
       <Title
-        text={`Own Ways (total amount: ${userPreview.ownWays.length} ways)`}
+        level={HeadingLevel.h2}
+        text={userPreview.name}
+        onChangeFinish={(text) => changeUserName(userPreview, text, setUserPreview)}
+        isEditable={isPageOwner}
+        className={styles.titleH2}
+      />
+      <Title
         level={HeadingLevel.h3}
+        text={userPreview.email}
+        onChangeFinish={(text) => changeUserEmail(userPreview, text, setUserPreview)}
+        isEditable={isPageOwner}
+        className={styles.titleH3}
+      />
+      <EditableTextarea
+        text={userPreview.description}
+        onChangeFinish={(text) => changeUserDescription(userPreview, text, setUserPreview)}
+        isEditable={isPageOwner}
+        className={styles.editableTextarea}
       />
       <ScrollableBlock>
         <OwnWaysTable
           uuid={props.uuid}
+          ownWayUuids={userPreview.ownWays}
           isPageOwner={isPageOwner}
-          handleOwnWaysChange={handleOwnWaysChange}
         />
       </ScrollableBlock>
-      <Title
-        text={`Mentoring Ways (total amount: ${userPreview.mentoringWays.length} ways)`}
-        level={HeadingLevel.h3}
-      />
       <ScrollableBlock>
         <MentoringWaysTable
           uuid={props.uuid}
+          mentoringWayUuids={userPreview.mentoringWays}
           isPageOwner={isPageOwner}
-          handleUserPreviewChange={setUserPreview}
         />
       </ScrollableBlock>
-      <Title
-        text={`Favorite Ways (total amount: ${userPreview.favoriteWays.length} ways)`}
-        level={HeadingLevel.h3}
-      />
       <ScrollableBlock>
-        <FavoriteWaysTable uuid={props.uuid} />
+        <FavoriteWaysTable
+          uuid={props.uuid}
+          favoriteWayUuids={userPreview.favoriteWays}
+        />
       </ScrollableBlock>
     </div>
   );

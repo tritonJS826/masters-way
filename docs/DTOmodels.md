@@ -25,18 +25,12 @@ jobDoneTags: string[]
 
 DayReportDTO
 uuid: string
-date: timestamp // deprecated
-jobDoneUuids: string[] @JobDone.uuid[] // deprecated
-planForNextPeriodUuids: string[] @PlanForNextPeriod.uuid[] // deprecated
-problemForCurrentPeriodUuids: string[] @CurrentProblem.uuid[] // deprecated
-commentUuids: string[] @Comment.uuid[] // // deprecated
-createdAt?: timestamp
-jobsDoneStringified?: string[] @JobDone
-plansStringified?: string[] @PlanForNextPeriod
-problemsStringified?: string[] @CurrentProblem
-commentsStringified?: string[] @Comment
+createdAt: timestamp
+jobsDoneStringified: string[] stringified@JobDone
+plansStringified: string[] stringified@PlanForNextPeriod
+problemsStringified: string[] stringified@CurrentProblem
+commentsStringified: string[] stringified@Comment
 isDayOff: boolean
-
 
 GoalDTO
 uuid: string
@@ -45,27 +39,27 @@ metricUuids: string[] @GoalMetric.uuid[] // only one element in the array
 description: string
 estimationTime: number
 
-PlanForNextPeriodDTO (subCollection of DayReport)
+PlanDTO
 uuid: string
 job: string
 estimationTime: number
 ownerUuid: string @User.uuid
 tags: string[]
 
-JobDoneDTO (subCollection of DayReport)
+JobDoneDTO
 uuid: string
 description: string
 time: number
 tags: string[]
 
-CurrentProblemDTO (subCollection of DayReport)
+ProblemDTO
 uuid: string
 description: string
 isDone: boolean
 ownerUuid: string @User.uuid
 tags: string[]
 
-CommentDTO (subCollection of DayReport)
+CommentDTO
 uuid: string
 ownerUuid: string @User.uuid
 description: string

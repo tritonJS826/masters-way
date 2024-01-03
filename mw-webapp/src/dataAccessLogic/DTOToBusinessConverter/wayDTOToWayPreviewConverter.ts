@@ -16,8 +16,10 @@ interface WayProps {
 
   /**
    * Way's current mentors
+   * @key @User.uuid
+   * @value @UserPreview
    */
-  mentors: UserPreview[];
+  mentors: Map<string, UserPreview>;
 
   /**
    * Users who sent request to become Way's mentor

@@ -1,6 +1,9 @@
 import {useState} from "react";
-import {Button} from "src/component/button/Button";
-import {displayNotification} from "src/component/notification/displayNotification";
+import {Button, ButtonType} from "src/component/button/Button";
+import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {displayNotification} from "src/component/notification/Notification";
+import {HeadingLevel, Title} from "src/component/title/Title";
+import {Tooltip} from "src/component/tooltip/Tooltip";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
 import {useLoad} from "src/hooks/useLoad";
@@ -8,6 +11,7 @@ import {WAYS_OWNER, waysColumns} from "src/logic/waysTable/waysColumns";
 import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {Way} from "src/model/businessModel/Way";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
+import styles from "src/logic/waysTable/OwnWaysTable.module.scss";
 
 /**
  * Own Ways table props
@@ -15,7 +19,7 @@ import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 interface OwnWaysTableProps {
 
   /**
-   * User uuid
+   * User's uuid
    */
   uuid: string;
 
@@ -25,9 +29,10 @@ interface OwnWaysTableProps {
   isPageOwner: boolean;
 
   /**
-   * Function to change user own ways
+   * User's own way uuids
    */
-  handleOwnWaysChange: (ownWays: string[]) => void;
+  ownWayUuids: string[];
+
 }
 
 /**
@@ -39,7 +44,7 @@ export const OwnWaysTable = (props: OwnWaysTableProps) => {
   /**
    * Callback that is called to fetch data
    */
-  const loadData = () => WayPreviewDAL.getUserWaysPreview(props.uuid, "Own");
+  const loadData = () => Promise.all(props.ownWayUuids.map(WayPreviewDAL.getWayPreview));
 
   /**
    * Callback that is called on fetch or validation error
@@ -60,7 +65,7 @@ export const OwnWaysTable = (props: OwnWaysTableProps) => {
       loadData,
       onSuccess,
       onError,
-      dependency: [props.uuid],
+      dependency: [props.ownWayUuids],
     },
   );
 
@@ -72,9 +77,6 @@ export const OwnWaysTable = (props: OwnWaysTableProps) => {
     const newWayPreview: WayPreview = await WayPreviewDAL.getWayPreview(newWay.uuid);
     const ways = [newWayPreview, ...waysPreview];
     setOwnWays(ways);
-
-    const waysUuid = ways.map((way) => way.uuid);
-    props.handleOwnWaysChange(waysUuid);
   };
 
   const columnsToExclude = [WAYS_OWNER];
@@ -88,11 +90,20 @@ export const OwnWaysTable = (props: OwnWaysTableProps) => {
   return (
     <>
       {props.isPageOwner &&
-      <Button
-        value="Create new way"
-        onClick={() => createWay(props.uuid, ownWays)}
-      />
+      <Tooltip content="Create new way">
+        <Button
+          value="Create new way"
+          onClick={() => createWay(props.uuid, ownWays)}
+          buttonType={ButtonType.PRIMARY}
+        />
+      </Tooltip>
       }
+      <HorizontalContainer className={styles.gap}>
+        <Title
+          text={`Own Ways (total amount: ${ownWays.length} ways)`}
+          level={HeadingLevel.h2}
+        />
+      </HorizontalContainer>
       <WaysTable
         data={ownWays}
         columns={ownWaysTableColumns}

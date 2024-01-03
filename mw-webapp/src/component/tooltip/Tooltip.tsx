@@ -1,4 +1,4 @@
-import {PropsWithChildren, ReactNode} from "react";
+import {PropsWithChildren, ReactElement, ReactNode} from "react";
 import clsx from "clsx";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import styles from "src/component/tooltip/Tooltip.module.scss";
@@ -11,7 +11,7 @@ interface TooltipProps {
   /**
    * Tooltip's content
    */
-  content: string | ReactNode;
+  content: string | ReactNode | ReactElement;
 
   /**
    * Additional custom class name for the component
@@ -31,15 +31,15 @@ interface TooltipProps {
 export const Tooltip = (props: PropsWithChildren<TooltipProps>) => {
   const contentClassNames = clsx(
     styles.tooltip,
-    props.className && styles[props.className],
+    props.className,
     styles[props.position ?? PositionTooltip.TOP],
   );
 
   return (
     <div className={styles.wrapper}>
-      <span className={styles.target}>
+      <div className={styles.target}>
         {props.children}
-      </span>
+      </div>
       <div className={contentClassNames}>
         {props.content}
       </div>

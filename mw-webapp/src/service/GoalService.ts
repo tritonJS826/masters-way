@@ -3,6 +3,8 @@ import {db} from "src/firebase";
 import {GoalDTO, GoalDTOSchema, GoalsDTOSchema} from "src/model/DTOModel/GoalDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
 import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
+import {RequestOperations} from "src/service/RequestOperations";
+import {logToConsole} from "src/utils/logToConsole";
 
 const PATH_TO_GOALS_COLLECTION = "goals";
 
@@ -25,6 +27,8 @@ export class GoalService {
 
     const validatedGoalsDTO = GoalsDTOSchema.parse(goalsDTO);
 
+    logToConsole(`GoalService:getGoalsDTO: ${validatedGoalsDTO.length} ${RequestOperations.READ} operations`);
+
     return validatedGoalsDTO;
   }
 
@@ -36,6 +40,8 @@ export class GoalService {
     const goalDTO = documentSnapshotToDTOConverter<GoalDTO>(goalRaw);
 
     const validatedGoalDTO = GoalDTOSchema.parse(goalDTO);
+
+    logToConsole(`GoalService:getGoalDTO: 1 ${RequestOperations.READ} operation`);
 
     return validatedGoalDTO;
   }
@@ -55,6 +61,8 @@ export class GoalService {
 
     await setDoc(docRef, validatedGoalDTO);
 
+    logToConsole(`GoalService:createGoalDTO: 1 ${RequestOperations.WRITE} operation`);
+
     return validatedGoalDTO;
   }
 
@@ -65,6 +73,8 @@ export class GoalService {
     const validatedGoalDTO = GoalDTOSchema.parse(goalDTO);
 
     await updateDoc(doc(db, PATH_TO_GOALS_COLLECTION, goalDTO.uuid), validatedGoalDTO);
+
+    logToConsole(`GoalService:updateGoalDTO: 1 ${RequestOperations.WRITE} operation`);
   }
 
   /**
@@ -81,6 +91,8 @@ export class GoalService {
 
     const validatedGoalDTO = GoalDTOSchema.parse(goalDTO);
 
+    logToConsole(`GoalService:createGoalDTOWithBatch: 1 ${RequestOperations.WRITE} operation`);
+
     return validatedGoalDTO;
   }
 
@@ -90,6 +102,8 @@ export class GoalService {
   public static deleteGoalDTOWithBatch(goalDTOUuid: string, batch: WriteBatch) {
     const wayRef = doc(db, PATH_TO_GOALS_COLLECTION, goalDTOUuid);
     batch.delete(wayRef);
+
+    logToConsole(`GoalService:deleteGoalDTOWithBatch: 1 ${RequestOperations.WRITE} operation`);
   }
 
 }

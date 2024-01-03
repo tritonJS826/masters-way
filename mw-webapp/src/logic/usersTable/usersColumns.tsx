@@ -2,7 +2,7 @@ import {createColumnHelper} from "@tanstack/react-table";
 import {Link} from "src/component/link/Link";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {pages} from "src/router/pages";
-import {renderCellValue} from "src/utils/renderCellValue";
+import styles from "src/logic/usersTable/UserColumns.module.scss";
 
 const columnHelper = createColumnHelper<UserPreview>();
 
@@ -31,7 +31,9 @@ export const usersColumns = [
      * Cell user email
      */
     cell: ({row}) => (
-      renderCellValue(row.original.email)
+      <span>
+        {row.original.email}
+      </span>
     ),
   }),
   columnHelper.accessor("ownWays", {
@@ -40,7 +42,11 @@ export const usersColumns = [
     /**
      * Cell with user's own ways
      */
-    cell: ({row}) => renderCellValue(row.original.ownWays.length.toString()),
+    cell: ({row}) => (
+      <div className={styles.number}>
+        {row.original.ownWays.length.toString()}
+      </div>
+    ),
   }),
   columnHelper.accessor("favoriteWays", {
     header: "Favorite Ways",
@@ -48,7 +54,12 @@ export const usersColumns = [
     /**
      * Cell with user's favorite ways
      */
-    cell: ({row}) => renderCellValue(row.original.favoriteWays.length.toString()),
+    cell: ({row}) => (
+      <div className={styles.number}>
+        {row.original.favoriteWays.length.toString()}
+      </div>
+
+    ),
   }),
   columnHelper.accessor("mentoringWays", {
     header: "Mentoring Ways",
@@ -56,6 +67,10 @@ export const usersColumns = [
     /**
      * Cell with user's mentoring ways
      */
-    cell: ({row}) => renderCellValue(row.original.mentoringWays.length.toString()),
+    cell: ({row}) => (
+      <div className={styles.number}>
+        {row.original.mentoringWays.length.toString()}
+      </div>
+    ),
   }),
 ];

@@ -1,4 +1,7 @@
-@import "src/styles/mixins";
+@import "src/styles/variables";
 
-.title {
+h1,
+h2 {
+  padding-top: $defaultPadding;
+  padding-bottom: $defaultPadding;
 }

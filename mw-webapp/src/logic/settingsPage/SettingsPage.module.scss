@@ -1,0 +1,7 @@
+@import "src/styles/variables";
+
+.settingsList {
+  display: inline-flex;
+  flex-direction: column;
+  gap: $defaultGap;
+}

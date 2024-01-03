@@ -1,6 +1,6 @@
 @import "src/styles/variables";
 
-$table-border: 1px solid black;
+$table-border: 1px solid var(--primaryBorderColor);
 
 .table {
   width: 100%;
@@ -10,9 +10,10 @@ $table-border: 1px solid black;
 }
 
 .table th {
+  position: relative;
   padding: 5px;
   border: $table-border;
-  background: $primaryShadowColor;
+  background: var(--primaryBackgroundColor);
   font-weight: bold;
 }
 
@@ -21,4 +22,8 @@ $table-border: 1px solid black;
   border: $table-border;
   text-align: left;
   vertical-align: top;
+}
+
+.tooltip {
+  color: var(--secondaryTextColor);
 }

@@ -6,10 +6,13 @@
 
 .tooltip {
   position: absolute;
+  z-index: $tooltipZIndex;
   display: none;
-  padding: 20px;
-  background-color: $secondaryBackgroundColor;
-  color: $primaryTextColor;
+  padding: $defaultPadding;
+  border-radius: $primaryBorderRadius;
+  background-color: var(--secondaryBackgroundColor);
+  color: var(--secondaryTextColor);
+  cursor: pointer;
 }
 
 .target {

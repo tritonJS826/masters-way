@@ -1,6 +1,6 @@
 import {z} from "zod";
 
-export const PlanForNextPeriodDTOSchema = z.object({
+export const PlanDTOSchema = z.object({
 
   /**
    * Plan's UUID
@@ -29,7 +29,9 @@ export const PlanForNextPeriodDTOSchema = z.object({
 
 }).strict();
 
+export const PlansDTOSchema = z.array(PlanDTOSchema);
+
 /**
  * Plan for next period DTO model
  */
-export type PlanForNextPeriodDTO = z.infer<typeof PlanForNextPeriodDTOSchema>;
+export type PlanDTO = z.infer<typeof PlanDTOSchema>;
