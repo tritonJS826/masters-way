@@ -18,7 +18,7 @@ interface WayStatisticProps {
   /**
    * Date of way created
    */
-  wayCreated: Date;
+  wayCreatedAt: Date;
 }
 
 const MILLISECONDS_IN_DAY = 86_400_000;
@@ -98,7 +98,7 @@ export const WayStatistic = (props: WayStatisticProps) => {
 
   const lastCalendarWeekTotalTime = lastWeekJobsAmount.reduce((totalTime, jobDone) => totalTime + jobDone.time, 0);
 
-  const amountDaysLastWeek = props.wayCreated > lastWeekDate ? lastWeekDayReports.length : AMOUNT_DAYS_IN_WEEK;
+  const amountDaysLastWeek = props.wayCreatedAt > lastWeekDate ? lastWeekDayReports.length : AMOUNT_DAYS_IN_WEEK;
 
   const lastCalendarWeekAverageWorkingTime =
     Math.round(lastCalendarWeekTotalTime / amountDaysLastWeek);
@@ -113,7 +113,7 @@ export const WayStatistic = (props: WayStatisticProps) => {
 
   const lastCalendarTwoWeekTotalTime = lastTwoWeekJobsAmount.reduce((totalTime, jobDone) => totalTime + jobDone.time, 0);
 
-  const amountDaysLastTwoWeek = props.wayCreated > lastTwoWeekDate ? lastTwoWeekDayReports.length : AMOUNT_DAYS_IN_TWO_WEEK;
+  const amountDaysLastTwoWeek = props.wayCreatedAt > lastTwoWeekDate ? lastTwoWeekDayReports.length : AMOUNT_DAYS_IN_TWO_WEEK;
 
   const lastCalendarTwoWeekAverageWorkingTime =
     Math.round(lastCalendarTwoWeekTotalTime / amountDaysLastTwoWeek);

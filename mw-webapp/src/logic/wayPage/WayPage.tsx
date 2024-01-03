@@ -510,7 +510,7 @@ export const WayPage = (props: WayPageProps) => {
           />
           <WayStatistic
             dayReports={way.dayReports}
-            wayCreated={way.createdAt}
+            wayCreatedAt={way.createdAt}
           />
         </div>
       </div>
