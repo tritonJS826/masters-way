@@ -38,11 +38,11 @@ $listLeftMargin: 20px;
   margin-bottom: $defaultMargin;
 }
 
-.comments > li {
+.comment {
   list-style: none;
 }
 
-.comments > li:last-child {
+.comment:last-child {
   margin-bottom: $defaultMargin;
 }
 

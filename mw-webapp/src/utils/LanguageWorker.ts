@@ -8,6 +8,9 @@ export enum Language {
   RUSSIAN = "ru"
 }
 
+/**
+ * Default language of the app
+ */
 export const DEFAULT_LANGUAGE = Language.ENGLISH;
 
 /**

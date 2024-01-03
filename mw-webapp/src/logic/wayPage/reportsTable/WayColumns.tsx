@@ -599,7 +599,10 @@ export const Columns = (props: ColumnsProps) => {
             <ol className={styles.comments}>
               {row.original.comments
                 .map((comment) => (
-                  <li key={comment.uuid}>
+                  <li
+                    key={comment.uuid}
+                    className={styles.comment}
+                  >
                     <HorizontalContainer key={comment.uuid}>
                       <VerticalContainer>
                         <HorizontalContainer className={styles.horizontalContainer}>
