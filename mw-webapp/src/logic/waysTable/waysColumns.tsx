@@ -17,12 +17,10 @@ export const WAYS_OWNER = "Way's owner";
 export const WAY_MENTORS = "Mentors";
 
 /**
- * Get first name from user name
+ * Get first name from username
  */
 export const getFirstName = (userName: string) => {
-  const firstName = userName.split(" ")[0];
-
-  return firstName;
+  return userName.split(" ")[0];
 };
 
 /**
@@ -133,12 +131,13 @@ export const waysColumns = [
      */
     header: () => (<>
       <Tooltip
-        position={PositionTooltip.TOP}
+        position={PositionTooltip.BOTTOM}
         content="Owner's name and email"
       >
         {WAYS_OWNER}
       </Tooltip>
-    </>),
+    </>
+    ),
 
     /**
      * Cell with way's owner

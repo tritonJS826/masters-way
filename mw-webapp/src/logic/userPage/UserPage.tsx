@@ -4,12 +4,14 @@ import {EditableTextarea} from "src/component/editableTextarea/editableTextarea"
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
+import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {useLoad} from "src/hooks/useLoad";
 import {FavoriteWaysTable} from "src/logic/waysTable/FavoriteWaysTable";
 import {MentoringWaysTable} from "src/logic/waysTable/MentoringWaysTable";
 import {OwnWaysTable} from "src/logic/waysTable/OwnWaysTable";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
+import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
 import styles from "src/logic/userPage/UserPage.module.scss";
 
@@ -56,6 +58,11 @@ interface UserPageProps {
  */
 export const UserPage = (props: UserPageProps) => {
   const [userPreview, setUserPreview] = useState<UserPreview>();
+
+  const [ownWays, setOwnWays] = useState<WayPreview[]>([]);
+  const [mentoringWays, setMentoringWays] = useState<WayPreview[]>([]);
+  const [favoriteWays, setFavoriteWays] = useState<WayPreview[]>([]);
+
   const navigate = useNavigate();
   const {user} = useGlobalContext();
   const isPageOwner = !!user && !!userPreview && user.uuid === userPreview.uuid;
@@ -63,35 +70,67 @@ export const UserPage = (props: UserPageProps) => {
   /**
    * Callback that is called to fetch data
    */
-  const loadData = () => UserPreviewDAL.getUserPreview(props.uuid);
+  const loadData = async () => {
+    const fetchedUserPreview = await UserPreviewDAL.getUserPreview(props.uuid);
+
+    {/* TODO: get all ways in one request and then split them into arrays by uuid's in userPreview */
+    }
+
+    const ownWaysPreviewPromise = WayPreviewDAL.getWaysPreviewByUuids(fetchedUserPreview.ownWays);
+    const mentoringWaysPreviewPromise = WayPreviewDAL.getWaysPreviewByUuids(fetchedUserPreview.mentoringWays);
+    const favoriteWaysPreviewPromise = WayPreviewDAL.getWaysPreviewByUuids(fetchedUserPreview.favoriteWays);
+
+    const [
+      ownWaysPreview,
+      mentoringWaysPreview,
+      favoriteWaysPreview,
+    ] = await Promise.all([
+      ownWaysPreviewPromise,
+      mentoringWaysPreviewPromise,
+      favoriteWaysPreviewPromise,
+    ]);
+
+    return {
+      userPreview: fetchedUserPreview,
+      ownWaysPreview,
+      mentoringWaysPreview,
+      favoriteWaysPreview,
+    };
+  };
 
   /**
    * Callback that is called to validate data
    */
-  const validateData = (data: UserPreview) => !!data.uuid;
+  const validateData = (data: Awaited<ReturnType<typeof loadData>>) => !!data.userPreview;
+
+  /**
+   * Callback that is called on fetch or validation error
+   */
+  const onError = () => {
+    // Navigate to 404 Page if user with transmitted uuid doesn't exist
+    navigate(pages.page404.getPath({}));
+  };
 
   /**
    * Callback that is called on fetch and validation success
    */
-  const onSuccess = (data: UserPreview) => {
-    setUserPreview(data);
+  const onSuccess = async (data: Awaited<ReturnType<typeof loadData>>) => {
+    setOwnWays(data.ownWaysPreview);
+    setMentoringWays(data.mentoringWaysPreview);
+    setFavoriteWays(data.favoriteWaysPreview);
+
+    setUserPreview(data.userPreview);
   };
 
-  /**
-   * Callback this is called on fetch or validation error
-   */
-  const onError = () => {
-    // Navigate to 404 Page if transmitted user's uuid doesn't exist
-    navigate(pages.page404.getPath({}));
-  };
-
-  useLoad({
-    loadData,
-    validateData,
-    onSuccess,
-    onError,
-    dependency: [props.uuid],
-  });
+  useLoad(
+    {
+      loadData,
+      validateData,
+      onSuccess,
+      onError,
+      dependency: [props.uuid],
+    },
+  );
 
   if (!userPreview) {
     return (
@@ -126,22 +165,19 @@ export const UserPage = (props: UserPageProps) => {
       <ScrollableBlock>
         <OwnWaysTable
           uuid={props.uuid}
-          ownWayUuids={userPreview.ownWays}
+          ownWays={ownWays}
           isPageOwner={isPageOwner}
         />
       </ScrollableBlock>
       <ScrollableBlock>
         <MentoringWaysTable
           uuid={props.uuid}
-          mentoringWayUuids={userPreview.mentoringWays}
+          mentoringWays={mentoringWays}
           isPageOwner={isPageOwner}
         />
       </ScrollableBlock>
       <ScrollableBlock>
-        <FavoriteWaysTable
-          uuid={props.uuid}
-          favoriteWayUuids={userPreview.favoriteWays}
-        />
+        <FavoriteWaysTable favoriteWays={favoriteWays} />
       </ScrollableBlock>
     </div>
   );

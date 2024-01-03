@@ -4,8 +4,9 @@ import {Select} from "src/component/select/Select";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {globalContext} from "src/GlobalContext";
+import {Language, LanguageWorker} from "src/utils/LanguageWorker";
 import {OSNotification} from "src/utils/notifications/OSNotification";
-import {DEFAULT_THEME, Theme, ThemeWorker} from "src/utils/ThemeWorker";
+import {Theme, ThemeWorker} from "src/utils/ThemeWorker";
 import styles from "src/logic/settingsPage/SettingsPage.module.scss";
 
 /**
@@ -14,7 +15,8 @@ import styles from "src/logic/settingsPage/SettingsPage.module.scss";
 export const SettingsPage = () => {
   const {notification} = useContext(globalContext);
 
-  const currentTheme = ThemeWorker.getCurrentTheme() ?? DEFAULT_THEME;
+  const currentTheme = ThemeWorker.getCurrentTheme();
+  const currentLanguage = LanguageWorker.getCurrentLanguage();
 
   return (
     <>
@@ -40,14 +42,17 @@ export const SettingsPage = () => {
         </Tooltip>
         <Tooltip content="Coming soon">
           <Select
-            label="language"
-            value="en"
+            label="Language: "
+            value={currentLanguage}
             name="language"
             options={[
-              {id: "1", value: "en", text: "en"},
-              {id: "2", value: "ru", text: "ru"},
+              {id: "1", value: Language.ENGLISH, text: "en"},
+              {id: "2", value: Language.RUSSIAN, text: "ru"},
             ]}
-            onChange={() => {}}
+            onChange={(value) => {
+              // TODO: improve select interface to avoid 'as' operator
+              LanguageWorker.setLanguage(value as Language);
+            }}
           />
         </Tooltip>
         <Tooltip content="Coming soon">

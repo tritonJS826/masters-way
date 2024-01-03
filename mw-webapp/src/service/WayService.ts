@@ -1,4 +1,4 @@
-import {collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, setDoc, updateDoc, WriteBatch}
+import {collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, setDoc, updateDoc, where, WriteBatch}
   from "firebase/firestore";
 import {db} from "src/firebase";
 import {
@@ -37,6 +37,22 @@ export class WayService {
     const validatedWaysDTO = WaysDTOSchema.parse(waysDTO);
 
     logToConsole(`WayService:getWaysDTO: ${validatedWaysDTO.length} ${RequestOperations.READ} operations`);
+
+    return validatedWaysDTO;
+  }
+
+  /**
+   * Get WaysDTO by uuids
+   */
+  public static async getWaysDTOByUuids(wayUuids: string[]): Promise<WayDTO[]> {
+    const waysRef = collection(db, PATH_TO_WAYS_COLLECTION);
+    const waysSortedByUuid = query(waysRef, where(WAY_UUID_FIELD, "in", wayUuids), orderBy(WAY_CREATED_AT_FIELD, "desc"));
+    const waysRaw = await getDocs(waysSortedByUuid);
+    const waysDTO = querySnapshotToDTOConverter<WayDTO>(waysRaw);
+
+    const validatedWaysDTO = WaysDTOSchema.parse(waysDTO);
+
+    logToConsole(`WayService:getWaysDTOByUuids: ${validatedWaysDTO.length} ${RequestOperations.READ} operations`);
 
     return validatedWaysDTO;
   }

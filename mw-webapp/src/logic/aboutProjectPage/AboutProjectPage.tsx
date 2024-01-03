@@ -1,8 +1,7 @@
-import {useState} from "react";
 import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
-import {Button, ButtonType} from "src/component/button/Button";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import aboutProjectPageContent from "src/logic/aboutProjectPage/AboutProjectPageContent.json";
+import {LanguageWorker} from "src/utils/LanguageWorker";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import styles from "src/logic/aboutProjectPage/AboutProjectPage.module.scss";
 
@@ -15,36 +14,25 @@ const {
 } = aboutProjectPageContent;
 
 /**
- * TODO: it's just an example, we should implement normal multi-lang service
- */
-type Lang = "ru" | "en"
-
-/**
  * About project page
  */
 export const AboutProjectPage = () => {
-  const [lang, setLang] = useState<Lang>("en");
+  const currentLanguage = LanguageWorker.getCurrentLanguage();
 
   const accordionItems = accordionContent.map((data) => ({
-    trigger: {child: data.header[lang]},
-    content: {child: renderMarkdown(data.description[lang])},
+    trigger: {child: data.header[currentLanguage]},
+    content: {child: renderMarkdown(data.description[currentLanguage])},
   }));
 
   return (
     <div className={styles.pageWrapper}>
-      <Button
-        value={lang === "en" ? "change on ru" : "change on en"}
-        onClick={() => setLang(lang === "en" ? "ru" : "en")}
-        buttonType={ButtonType.PRIMARY}
-      />
-
       <Title
         level={HeadingLevel.h2}
         text="About project"
       />
 
       <div className={styles.projectDescription}>
-        {renderMarkdown(projectDescriptionContent[lang])}
+        {renderMarkdown(projectDescriptionContent[currentLanguage])}
       </div>
 
       <Title

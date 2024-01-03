@@ -2,6 +2,8 @@ import {ChangeEvent, KeyboardEventHandler, useState} from "react";
 import clsx from "clsx";
 import styles from "src/component/textarea/Textarea.module.scss";
 
+const DEFAULT_ROWS_AMOUNT = 5;
+
 /**
  * Textarea props
  */
@@ -24,7 +26,7 @@ interface TextareaProps {
 
   /**
    * Specifies the default height in average character heights.
-   * @default 2
+   * @default {@link DEFAULT_ROWS_AMOUNT}
    */
   rows?: number;
 
@@ -66,7 +68,7 @@ export const Textarea = (props: TextareaProps) => {
       placeholder={props.placeholder}
       value={value}
       onChange={handleTextChange}
-      rows={props.rows}
+      rows={props.rows ?? DEFAULT_ROWS_AMOUNT}
       autoFocus={props.isAutofocus}
       onKeyDown={props.onKeyPress}
     />

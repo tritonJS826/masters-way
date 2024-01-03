@@ -199,7 +199,7 @@ export const WayPage = (props: WayPageProps) => {
    * Callback that is called on fetch or validation error
    */
   const onError = () => {
-    // Navigate to 404 Page if transmitted way's uuid doesn't exist
+    // Navigate to 404 Page if way with transmitted uuid doesn't exist
     navigate(pages.page404.getPath({}));
   };
 
@@ -492,7 +492,7 @@ export const WayPage = (props: WayPageProps) => {
       )
       }
       <div className={styles.goalSection}>
-        <div>
+        <div className={styles.goalSubSection}>
           <Title
             level={HeadingLevel.h3}
             text="Goal"
@@ -505,7 +505,7 @@ export const WayPage = (props: WayPageProps) => {
             className={styles.goalDescription}
           />
         </div>
-        <div>
+        <div className={styles.goalSubSection}>
           <Title
             level={HeadingLevel.h3}
             text="Metrics"
@@ -521,12 +521,15 @@ export const WayPage = (props: WayPageProps) => {
             className={styles.accordion}
           />
         </div>
-        <div>
+        <div className={styles.goalSubSection}>
           <Title
             level={HeadingLevel.h3}
             text="Statistics"
           />
-          <WayStatistic dayReports={way.dayReports} />
+          <WayStatistic
+            dayReports={way.dayReports}
+            wayCreatedAt={way.createdAt}
+          />
         </div>
       </div>
 

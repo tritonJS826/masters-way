@@ -1,3 +1,4 @@
+import {Language} from "src/utils/LanguageWorker";
 import {Theme} from "src/utils/ThemeWorker";
 
 /**
@@ -31,7 +32,7 @@ class LocalStorageWorker<T extends LocalStorageData> {
   /**
    * Get Item by key
    */
-  public getItemByKey(key: keyof T): T[keyof T] | null {
+  public getItemByKey<U extends T[keyof T]>(key: keyof T): U | null {
     this.checkLocalStorageSupport();
 
     return JSON.parse(String(localStorage.getItem(String(key))));
@@ -69,4 +70,11 @@ type LocalStorageData = {
    * Supported themes
    */
   theme: Theme;
+
+  /**
+   * Supported languages
+   */
+  language: Language;
+
 }
+

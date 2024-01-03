@@ -1,13 +1,11 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {TrashIcon} from "@radix-ui/react-icons";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
-import {displayNotification} from "src/component/notification/Notification";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
-import {useLoad} from "src/hooks/useLoad";
 import {columnHelper, getFirstName, WAY_MENTORS, waysColumns} from "src/logic/waysTable/waysColumns";
 import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
@@ -46,9 +44,9 @@ interface MentoringWaysTableProps {
   uuid: string;
 
   /**
-   * User's mentoring way uuids
+   * User's mentoring ways
    */
-  mentoringWayUuids: string[];
+  mentoringWays: WayPreview[];
 
   /**
    * Is current authorized user is owner of current page
@@ -60,35 +58,11 @@ interface MentoringWaysTableProps {
  * Render table of mentoring ways preview
  */
 export const MentoringWaysTable = (props: MentoringWaysTableProps) => {
-  const [mentoringWays, setMentoringWays] = useState<WayPreview[]>([]);
+  const [mentoringWays, setMentoringWays] = useState<WayPreview[]>(props.mentoringWays);
 
-  /**
-   * Callback that is called to fetch data
-   */
-  const loadData = () => Promise.all(props.mentoringWayUuids.map(WayPreviewDAL.getWayPreview));
-
-  /**
-   * Callback that is called on fetch or validation error
-   */
-  const onError = (error: Error) => {
-    displayNotification({text: error.message, type: "error"});
-  };
-
-  /**
-   * Callback that is called on fetch and validation success
-   */
-  const onSuccess = (data: WayPreview[]) => {
-    setMentoringWays(data);
-  };
-
-  useLoad(
-    {
-      loadData,
-      onSuccess,
-      onError,
-      dependency: [props.mentoringWayUuids],
-    },
-  );
+  useEffect(() => {
+    setMentoringWays(props.mentoringWays);
+  }, [props.mentoringWays]);
 
   if (!props.isPageOwner) {
     return (

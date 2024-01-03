@@ -72,7 +72,7 @@ export class ThemeWorker {
    * Load theme
    */
   public static loadTheme() {
-    const theme = localStorageWorker.getItemByKey("theme");
+    const theme = localStorageWorker.getItemByKey<Theme>("theme");
     this.setTheme(theme ?? DEFAULT_THEME);
   }
 
@@ -80,7 +80,7 @@ export class ThemeWorker {
    * Get current theme
    */
   public static getCurrentTheme() {
-    return localStorageWorker.getItemByKey("theme");
+    return localStorageWorker.getItemByKey("theme") ?? DEFAULT_THEME;
   }
 
 }

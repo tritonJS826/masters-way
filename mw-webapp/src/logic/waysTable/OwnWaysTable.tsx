@@ -1,12 +1,10 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
-import {displayNotification} from "src/component/notification/Notification";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
-import {useLoad} from "src/hooks/useLoad";
 import {WAYS_OWNER, waysColumns} from "src/logic/waysTable/waysColumns";
 import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {Way} from "src/model/businessModel/Way";
@@ -14,7 +12,7 @@ import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import styles from "src/logic/waysTable/OwnWaysTable.module.scss";
 
 /**
- * Own Ways table props
+ * Own ways table props
  */
 interface OwnWaysTableProps {
 
@@ -24,14 +22,14 @@ interface OwnWaysTableProps {
   uuid: string;
 
   /**
+   * User's own ways preview
+   */
+  ownWays: WayPreview[];
+
+  /**
    * Is current authorized user is owner of current page
    */
   isPageOwner: boolean;
-
-  /**
-   * User's own way uuids
-   */
-  ownWayUuids: string[];
 
 }
 
@@ -41,33 +39,9 @@ interface OwnWaysTableProps {
 export const OwnWaysTable = (props: OwnWaysTableProps) => {
   const [ownWays, setOwnWays] = useState<WayPreview[]>([]);
 
-  /**
-   * Callback that is called to fetch data
-   */
-  const loadData = () => Promise.all(props.ownWayUuids.map(WayPreviewDAL.getWayPreview));
-
-  /**
-   * Callback that is called on fetch or validation error
-   */
-  const onError = (error: Error) => {
-    displayNotification({text: error.message, type: "error"});
-  };
-
-  /**
-   * Callback that is called on fetch and validation success
-   */
-  const onSuccess = (data: WayPreview[]) => {
-    setOwnWays(data);
-  };
-
-  useLoad(
-    {
-      loadData,
-      onSuccess,
-      onError,
-      dependency: [props.ownWayUuids],
-    },
-  );
+  useEffect(() => {
+    setOwnWays(props.ownWays);
+  }, [props.ownWays]);
 
   /**
    * Create way
