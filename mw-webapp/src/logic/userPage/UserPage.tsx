@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
@@ -6,6 +6,7 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
 import {useGlobalContext} from "src/GlobalContext";
+import {useLoad} from "src/hooks/useLoad";
 import {FavoriteWaysTable} from "src/logic/waysTable/FavoriteWaysTable";
 import {MentoringWaysTable} from "src/logic/waysTable/MentoringWaysTable";
 import {OwnWaysTable} from "src/logic/waysTable/OwnWaysTable";
@@ -42,7 +43,33 @@ const changeUserDescription = (user: UserPreview, text: string, callback: (user:
 };
 
 /**
- * PageProps
+ * User Page Data
+ */
+interface UserPageData {
+
+  /**
+   * User Preview
+   */
+  userPreview: UserPreview;
+
+  /**
+   * Own Ways Preview
+   */
+  ownWaysPreview: WayPreview[];
+
+  /**
+   * Mentoring Ways Preview
+   */
+  mentoringWaysPreview: WayPreview[];
+
+  /**
+   * Favorite Ways Preview
+   */
+  favoriteWaysPreview: WayPreview[];
+}
+
+/**
+ * User Page Props
  */
 interface UserPageProps {
 
@@ -57,47 +84,81 @@ interface UserPageProps {
  */
 export const UserPage = (props: UserPageProps) => {
   const [userPreview, setUserPreview] = useState<UserPreview>();
+
   const [ownWays, setOwnWays] = useState<WayPreview[]>([]);
   const [mentoringWays, setMentoringWays] = useState<WayPreview[]>([]);
   const [favoriteWays, setFavoriteWays] = useState<WayPreview[]>([]);
+
   const navigate = useNavigate();
   const {user} = useGlobalContext();
   const isPageOwner = !!user && !!userPreview && user.uuid === userPreview.uuid;
 
   /**
-   * Load user
+   * Callback that is called to fetch data
    */
-  const getUser = async () => {
-    const userPreviewData = await UserPreviewDAL.getUserPreview(props.uuid);
-    // Navigate to PageError if transmitted user's uuid is not exist
-    if (!userPreviewData.uuid) {
-      navigate(pages.page404.getPath({}));
-    }
-    if (userPreviewData) {
-      const ownWaysPreviewPromise = WayPreviewDAL.getWaysPreviewByUuids(userPreviewData.ownWays);
-      const mentoringWaysPreviewPromise = WayPreviewDAL.getWaysPreviewByUuids(userPreviewData.mentoringWays);
-      const favoriteWaysPreviewPromise = WayPreviewDAL.getWaysPreviewByUuids(userPreviewData.favoriteWays);
+  const loadData = async (): Promise<UserPageData> => {
+    const fetchedUserPreview = await UserPreviewDAL.getUserPreview(props.uuid);
 
-      const [
-        ownWaysPreview,
-        mentoringWaysPreview,
-        favoriteWaysPreview,
-      ] = await Promise.all([
-        ownWaysPreviewPromise,
-        mentoringWaysPreviewPromise,
-        favoriteWaysPreviewPromise,
-      ]);
-
-      setOwnWays(ownWaysPreview);
-      setMentoringWays(mentoringWaysPreview);
-      setFavoriteWays(favoriteWaysPreview);
+    {/* TODO: get all ways in one request and then split them into arrays by uuid's in userPreview */
     }
-    setUserPreview(userPreviewData);
+
+    const ownWaysPreviewPromise = WayPreviewDAL.getWaysPreviewByUuids(fetchedUserPreview.ownWays);
+    const mentoringWaysPreviewPromise = WayPreviewDAL.getWaysPreviewByUuids(fetchedUserPreview.mentoringWays);
+    const favoriteWaysPreviewPromise = WayPreviewDAL.getWaysPreviewByUuids(fetchedUserPreview.favoriteWays);
+
+    const [
+      ownWaysPreview,
+      mentoringWaysPreview,
+      favoriteWaysPreview,
+    ] = await Promise.all([
+      ownWaysPreviewPromise,
+      mentoringWaysPreviewPromise,
+      favoriteWaysPreviewPromise,
+    ]);
+
+    return {
+      userPreview: fetchedUserPreview,
+      ownWaysPreview,
+      mentoringWaysPreview,
+      favoriteWaysPreview,
+    };
   };
 
-  useEffect(() => {
-    getUser();
-  }, [props.uuid]);
+  /**
+   * Callback that is called to validate data
+   */
+  const validateData = (data: UserPageData) => {
+    return !!data.userPreview && !!data.ownWaysPreview && !!data.mentoringWaysPreview && !!data.favoriteWaysPreview;
+  };
+
+  /**
+   * Callback that is called on fetch or validation error
+   */
+  const onError = () => {
+    // Navigate to 404 Page if user with transmitted uuid doesn't exist
+    navigate(pages.page404.getPath({}));
+  };
+
+  /**
+   * Callback that is called on fetch and validation success
+   */
+  const onSuccess = async (data: UserPageData) => {
+    setOwnWays(data.ownWaysPreview);
+    setMentoringWays(data.mentoringWaysPreview);
+    setFavoriteWays(data.favoriteWaysPreview);
+
+    setUserPreview(data.userPreview);
+  };
+
+  useLoad(
+    {
+      loadData,
+      validateData,
+      onSuccess,
+      onError,
+      dependency: [props.uuid],
+    },
+  );
 
   if (!userPreview) {
     return (
@@ -133,6 +194,7 @@ export const UserPage = (props: UserPageProps) => {
         <OwnWaysTable
           uuid={props.uuid}
           ownWays={ownWays}
+          isPageOwner={isPageOwner}
         />
       </ScrollableBlock>
       <ScrollableBlock>
@@ -140,14 +202,10 @@ export const UserPage = (props: UserPageProps) => {
           uuid={props.uuid}
           mentoringWays={mentoringWays}
           isPageOwner={isPageOwner}
-          handleUserPreviewChange={setUserPreview}
         />
       </ScrollableBlock>
       <ScrollableBlock>
-        <FavoriteWaysTable
-          uuid={props.uuid}
-          favoriteWays={favoriteWays}
-        />
+        <FavoriteWaysTable favoriteWays={favoriteWays} />
       </ScrollableBlock>
     </div>
   );

@@ -5,7 +5,6 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
-import {useGlobalContext} from "src/GlobalContext";
 import {WAYS_OWNER, waysColumns} from "src/logic/waysTable/waysColumns";
 import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {Way} from "src/model/businessModel/Way";
@@ -27,16 +26,18 @@ interface OwnWaysTableProps {
    */
   ownWays: WayPreview[];
 
+  /**
+   * Is current authorized user is owner of current page
+   */
+  isPageOwner: boolean;
+
 }
 
 /**
  * Render table of own ways preview
  */
 export const OwnWaysTable = (props: OwnWaysTableProps) => {
-  const [ownWays, setOwnWays] = useState<WayPreview[]>(props.ownWays);
-  const userPreviewUuid = props.uuid;
-  const {user} = useGlobalContext();
-  const isPageOwner = !!user && user.uuid === userPreviewUuid;
+  const [ownWays, setOwnWays] = useState<WayPreview[]>([]);
 
   useEffect(() => {
     setOwnWays(props.ownWays);
@@ -45,7 +46,7 @@ export const OwnWaysTable = (props: OwnWaysTableProps) => {
   /**
    * Create way
    */
-  const createWay = async(userUuid: string, waysPreview: WayPreview[]) => {
+  const createWay = async (userUuid: string, waysPreview: WayPreview[]) => {
     const newWay: Way = await WayDAL.createWay(userUuid);
     const newWayPreview: WayPreview = await WayPreviewDAL.getWayPreview(newWay.uuid);
     const ways = [newWayPreview, ...waysPreview];
@@ -62,18 +63,18 @@ export const OwnWaysTable = (props: OwnWaysTableProps) => {
 
   return (
     <>
-      {isPageOwner &&
-        <Tooltip content="Create new way">
-          <Button
-            value="Create new way"
-            onClick={() => createWay(userPreviewUuid, ownWays)}
-            buttonType={ButtonType.PRIMARY}
-          />
-        </Tooltip>
+      {props.isPageOwner &&
+      <Tooltip content="Create new way">
+        <Button
+          value="Create new way"
+          onClick={() => createWay(props.uuid, ownWays)}
+          buttonType={ButtonType.PRIMARY}
+        />
+      </Tooltip>
       }
       <HorizontalContainer className={styles.gap}>
         <Title
-          text= {`Own Ways (total amount: ${ownWays.length} ways)`}
+          text={`Own Ways (total amount: ${ownWays.length} ways)`}
           level={HeadingLevel.h2}
         />
       </HorizontalContainer>

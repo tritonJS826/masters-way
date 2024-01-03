@@ -44,7 +44,7 @@ interface MentoringWaysTableProps {
   uuid: string;
 
   /**
-   * User's mentoring way uuids
+   * User's mentoring ways
    */
   mentoringWays: WayPreview[];
 
@@ -52,11 +52,6 @@ interface MentoringWaysTableProps {
    * Is current authorized user is owner of current page
    */
   isPageOwner: boolean;
-
-  /**
-   * Function to change user preview
-   */
-  handleUserPreviewChange: (userPreview: UserPreview) => void;
 }
 
 /**
@@ -73,7 +68,7 @@ export const MentoringWaysTable = (props: MentoringWaysTableProps) => {
     return (
       <>
         <Title
-          text= {`Mentoring Ways (total amount: ${mentoringWays.length} ways)`}
+          text={`Mentoring Ways (total amount: ${mentoringWays.length} ways)`}
           level={HeadingLevel.h2}
         />
         <WaysTable
@@ -88,12 +83,10 @@ export const MentoringWaysTable = (props: MentoringWaysTableProps) => {
    * Handles confirm stop mentoring button
    */
   const stopMentoring = async (userUuid: string, wayPreview: WayPreview) => {
-    const newUserPreview = await removeMentorFromWay(userUuid, wayPreview);
+    await removeMentorFromWay(userUuid, wayPreview);
 
     const updatedMentoringWays = mentoringWays.filter((way) => way.uuid !== wayPreview.uuid);
     setMentoringWays(updatedMentoringWays);
-
-    props.handleUserPreviewChange(newUserPreview);
   };
 
   const mentorsColumn = columnHelper.accessor("mentors", {
@@ -149,7 +142,7 @@ export const MentoringWaysTable = (props: MentoringWaysTableProps) => {
   return (
     <>
       <Title
-        text= {`Mentoring Ways (total amount: ${mentoringWays.length} ways)`}
+        text={`Mentoring Ways (total amount: ${mentoringWays.length} ways)`}
         level={HeadingLevel.h2}
       />
       <WaysTable

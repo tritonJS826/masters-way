@@ -17,12 +17,10 @@ export const WAYS_OWNER = "Way's owner";
 export const WAY_MENTORS = "Mentors";
 
 /**
- * Get first name from user name
+ * Get first name from username
  */
 export const getFirstName = (userName: string) => {
-  const firstName = userName.split(" ")[0];
-
-  return firstName;
+  return userName.split(" ")[0];
 };
 
 /**

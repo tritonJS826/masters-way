@@ -4,17 +4,12 @@ import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 
 /**
- * Own ways table props
+ * Favorite ways table props
  */
 interface FavoriteWaysTableProps {
 
   /**
-   * User's uuid
-   */
-  uuid: string;
-
-  /**
-   * User's favorite way uuids
+   * User's favorite ways preview
    */
   favoriteWays: WayPreview[];
 

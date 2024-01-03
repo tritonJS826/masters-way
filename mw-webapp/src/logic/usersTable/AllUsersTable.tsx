@@ -1,6 +1,8 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
+import {displayNotification} from "src/component/notification/Notification";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
+import {useLoad} from "src/hooks/useLoad";
 import {usersColumns} from "src/logic/usersTable/usersColumns";
 import {UsersTable} from "src/logic/usersTable/UsersTable";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
@@ -12,16 +14,29 @@ export const AllUsersTable = () => {
   const [allUsers, setAllUsers] = useState<UserPreview[]>([]);
 
   /**
-   * Load all Users
+   * Callback that is called to fetch data
    */
-  const loadAllUsers = async () => {
-    const data = await UserPreviewDAL.getUsersPreview();
+  const loadData = () => UserPreviewDAL.getUsersPreview();
+
+  /**
+   * Callback that is called on fetch and validation success
+   */
+  const onSuccess = (data: UserPreview[]) => {
     setAllUsers(data);
   };
 
-  useEffect(() => {
-    loadAllUsers();
-  }, []);
+  /**
+   * Callback this is called on fetch or validation error
+   */
+  const onError = (error: Error) => {
+    displayNotification({text: error.message, type: "error"});
+  };
+
+  useLoad({
+    loadData,
+    onSuccess,
+    onError,
+  });
 
   return (
     <>
