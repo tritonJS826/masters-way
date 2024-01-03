@@ -205,7 +205,7 @@ export const Columns = (props: ColumnsProps) => {
         };
 
         return (
-          <VerticalContainer className={styles.parent}>
+          <VerticalContainer>
             <ol className={styles.numberedList}>
               {row.original.jobsDone.map((jobDone) => (
                 <li key={jobDone.uuid}>
@@ -246,16 +246,16 @@ export const Columns = (props: ColumnsProps) => {
             </ol>
             <div className={styles.summarySection}>
               {isOwner &&
-              <Tooltip
-                content="Add job"
-                position={PositionTooltip.RIGHT}
-              >
-                <Button
-                  value={Symbols.PLUS}
-                  onClick={createJobDone}
-                  className={styles.flatButton}
-                />
-              </Tooltip>
+                <Tooltip
+                  content="Add job"
+                  position={PositionTooltip.TOP}
+                >
+                  <Button
+                    value={Symbols.PLUS}
+                    onClick={createJobDone}
+                    className={styles.flatButton}
+                  />
+                </Tooltip>
               }
               <div className={styles.summaryText}>
                 {"Total: "}
@@ -355,28 +355,34 @@ export const Columns = (props: ColumnsProps) => {
                           value={getName(props.way.mentors, plan.ownerUuid, ownerName)}
                           path={pages.user.getPath({uuid: plan.ownerUuid})}
                         />
-                        {plan.ownerUuid === user?.uuid &&
-                        <Tooltip content="Delete plan">
-                          <TrashIcon
-                            className={styles.icon}
-                            onClick={() => renderModalContent({
-                              description: `Are you sure that you want to delete plan "${plan.job}"?`,
+                        <HorizontalContainer className={styles.icons}>
+                          {isOwner &&
+                          <Tooltip content="Coming soon">
+                            <Checkbox
+                              onChange={() => {}}
+                              className={styles.checkbox}
+                            />
+                          </Tooltip>
+                          }
+                          {plan.ownerUuid === user?.uuid &&
+                          <Tooltip content="Delete plan">
+                            <TrashIcon
+                              className={styles.icon}
+                              onClick={() => renderModalContent({
+                                description: `Are you sure that you want to delete plan "${plan.job}"?`,
 
-                              /**
-                               * CallBack triggered on press ok
-                               */
-                              onOk: () => deletePlan(plan.uuid),
-                            })
-                            }
-                          />
-                        </Tooltip>
-                        }
+                                /**
+                                 * CallBack triggered on press ok
+                                 */
+                                onOk: () => deletePlan(plan.uuid),
+                              })
+                              }
+                            />
+                          </Tooltip>
+                          }
+                        </HorizontalContainer>
                       </HorizontalContainer>
                       <HorizontalContainer>
-                        <Checkbox
-                          onChange={() => {}}
-                          className={styles.checkbox}
-                        />
                         <EditableTextarea
                           text={plan.job}
                           onChangeFinish={(text) => updatePlan(plan, text)}
@@ -400,7 +406,7 @@ export const Columns = (props: ColumnsProps) => {
                 {isUserOwnerOrMentor &&
                 <Tooltip
                   content="Add plan"
-                  position={PositionTooltip.RIGHT}
+                  position={PositionTooltip.TOP}
                 >
                   <Button
                     value={Symbols.PLUS}
@@ -488,7 +494,16 @@ export const Columns = (props: ColumnsProps) => {
                           value={getName(props.way.mentors, problem.ownerUuid, ownerName)}
                           path={pages.user.getPath({uuid: problem.ownerUuid})}
                         />
-                        {problem.ownerUuid === user?.uuid &&
+                        <HorizontalContainer className={styles.icons}>
+                          {isOwner &&
+                          <Tooltip content="Coming soon">
+                            <Checkbox
+                              onChange={() => {}}
+                              className={styles.checkbox}
+                            />
+                          </Tooltip>
+                          }
+                          {problem.ownerUuid === user?.uuid &&
                           <Tooltip content="Delete problem">
                             <TrashIcon
                               className={styles.icon}
@@ -503,20 +518,15 @@ export const Columns = (props: ColumnsProps) => {
                               }
                             />
                           </Tooltip>
-                        }
+                          }
+                        </HorizontalContainer>
                       </HorizontalContainer>
-                      <HorizontalContainer>
-                        <Checkbox
-                          onChange={() => {}}
-                          className={styles.checkbox}
-                        />
-                        <EditableTextarea
-                          text={problem.description}
-                          onChangeFinish={(text) => updateProblem(problem, text)}
-                          isEditable={problem.ownerUuid === user?.uuid}
-                          className={styles.editableTextarea}
-                        />
-                      </HorizontalContainer>
+                      <EditableTextarea
+                        text={problem.description}
+                        onChangeFinish={(text) => updateProblem(problem, text)}
+                        isEditable={problem.ownerUuid === user?.uuid}
+                        className={styles.editableTextarea}
+                      />
                     </VerticalContainer>
                   </HorizontalContainer>
                 </li>
@@ -526,7 +536,7 @@ export const Columns = (props: ColumnsProps) => {
               {isUserOwnerOrMentor &&
               <Tooltip
                 content="Add problem"
-                position={PositionTooltip.RIGHT}
+                position={PositionTooltip.TOP}
               >
                 <Button
                   value={Symbols.PLUS}
@@ -611,7 +621,10 @@ export const Columns = (props: ColumnsProps) => {
                             path={pages.user.getPath({uuid: comment.ownerUuid})}
                           />
                           {comment.ownerUuid === user?.uuid &&
-                            <Tooltip content="Delete comment">
+                            <Tooltip
+                              content="Delete comment"
+                              position={PositionTooltip.LEFT}
+                            >
                               <TrashIcon
                                 className={styles.icon}
                                 onClick={() => renderModalContent({
@@ -628,10 +641,6 @@ export const Columns = (props: ColumnsProps) => {
                           }
                         </HorizontalContainer>
                         <HorizontalContainer>
-                          <Checkbox
-                            onChange={() => {}}
-                            className={styles.checkbox}
-                          />
                           <EditableTextarea
                             text={comment.description}
                             onChangeFinish={(text) => updateComment(comment, text)}
@@ -649,7 +658,7 @@ export const Columns = (props: ColumnsProps) => {
               {isUserOwnerOrMentor &&
               <Tooltip
                 content="Add comment"
-                position={PositionTooltip.RIGHT}
+                position={PositionTooltip.TOP}
               >
                 <Button
                   value={Symbols.PLUS}

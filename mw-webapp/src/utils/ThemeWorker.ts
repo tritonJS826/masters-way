@@ -30,7 +30,7 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     [Theme.LIGHT]: "rgb(200, 200, 200)",
   },
   tertiaryTextColor: {
-    [Theme.DARK]: "rgb(200, 30, 30)",
+    [Theme.DARK]: "rgb(245, 61,61)",
     [Theme.LIGHT]: "rgb(50, 30, 200)",
   },
   primaryBorderColor: {

@@ -35,7 +35,7 @@ $listLeftMargin: 20px;
 }
 
 .numberedList li:last-child {
-  margin-bottom: $defaultMargin;
+  margin-bottom: 30px;
 }
 
 .comment {
@@ -61,8 +61,10 @@ $listLeftMargin: 20px;
 }
 
 .icon {
+  display: flex;
   min-width: 15px;
   min-height: 15px;
+  align-items: center;
   margin-left: 5px;
 }
 
@@ -80,8 +82,22 @@ $listLeftMargin: 20px;
   display: block;
   min-width: $minWidthDate;
   hyphens: none;
+  white-space: nowrap;
 }
 
 .checkbox {
-  margin-right: $defaultSmallMargin;
+  width: 15px;
+  height: 15px;
+}
+
+.summarySection {
+  position: absolute;
+  bottom: $defaultGap;
+  width: calc(100% - 2 * $defaultGap);
+}
+
+.icons {
+  display: flex;
+  align-items: center;
+  margin-left: $defaultSmallMargin;
 }

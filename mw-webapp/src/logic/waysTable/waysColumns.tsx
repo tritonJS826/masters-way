@@ -189,6 +189,7 @@ export const waysColumns = [
       <Tooltip
         position={PositionTooltip.BOTTOM}
         content="Amount of favorites"
+        className={styles.tooltip}
       >
         {Symbols.STAR}
       </Tooltip>

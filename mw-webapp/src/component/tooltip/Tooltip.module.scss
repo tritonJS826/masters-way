@@ -16,6 +16,8 @@
 }
 
 .target {
+  display: flex;
+  align-items: center;
   &:hover + .tooltip {
     display: block;
   }
