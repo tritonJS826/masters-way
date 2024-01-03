@@ -187,7 +187,7 @@ export const waysColumns = [
      */
     header: () => (<>
       <Tooltip
-        position={PositionTooltip.BOTTOM}
+        position={PositionTooltip.LEFT}
         content="Amount of favorites"
       >
         {Symbols.STAR}
