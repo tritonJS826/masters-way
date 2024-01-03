@@ -72,9 +72,8 @@ export class ThemeWorker {
    * Load theme
    */
   public static loadTheme() {
-    const theme = localStorageWorker.getItemByKey("theme");
-    // TODO: font use as
-    this.setTheme(theme as Theme ?? DEFAULT_THEME);
+    const theme = localStorageWorker.getItemByKey<Theme>("theme");
+    this.setTheme(theme ?? DEFAULT_THEME);
   }
 
   /**

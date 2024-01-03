@@ -4,8 +4,8 @@ import {localStorageWorker} from "src/utils/LocalStorage";
  * Available languages
  */
 export enum Language {
-  ENGLISH = "english",
-  RUSSIAN = "russian"
+  ENGLISH = "en",
+  RUSSIAN = "ru"
 }
 
 export const DEFAULT_LANGUAGE = Language.ENGLISH;
@@ -26,9 +26,9 @@ export class LanguageWorker {
    * Load language
    */
   public static loadLanguage() {
-    const language = localStorageWorker.getItemByKey("language");
-    // TODO: font use as
-    this.setLanguage(language as Language ?? DEFAULT_LANGUAGE);
+    const language = localStorageWorker.getItemByKey<Language>("language");
+
+    this.setLanguage(language ?? DEFAULT_LANGUAGE);
   }
 
   /**

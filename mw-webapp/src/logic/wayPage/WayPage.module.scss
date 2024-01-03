@@ -65,8 +65,6 @@
 }
 
 .accordion {
-  min-width: $minWidthBlock;
-  max-width: $maxWidthBlock;
   margin-top: $defaultMargin;
 }
 
@@ -83,6 +81,8 @@
   }
 }
 
-.goalSuSection {
+.goalSubSection {
   width: 30%;
+  min-width: $minWidthBlock;
+  max-width: $maxWidthBlock;
 }

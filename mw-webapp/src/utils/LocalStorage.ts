@@ -32,7 +32,7 @@ class LocalStorageWorker<T extends LocalStorageData> {
   /**
    * Get Item by key
    */
-  public getItemByKey(key: keyof T): T[keyof T] | null {
+  public getItemByKey<U extends T[keyof T]>(key: keyof T): U | null {
     this.checkLocalStorageSupport();
 
     return JSON.parse(String(localStorage.getItem(String(key))));
