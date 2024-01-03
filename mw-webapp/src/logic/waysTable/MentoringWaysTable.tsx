@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {TrashIcon} from "@radix-ui/react-icons";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
@@ -64,6 +64,10 @@ interface MentoringWaysTableProps {
  */
 export const MentoringWaysTable = (props: MentoringWaysTableProps) => {
   const [mentoringWays, setMentoringWays] = useState<WayPreview[]>(props.mentoringWays);
+
+  useEffect(() => {
+    setMentoringWays(props.mentoringWays);
+  }, [props.mentoringWays]);
 
   if (!props.isPageOwner) {
     return (

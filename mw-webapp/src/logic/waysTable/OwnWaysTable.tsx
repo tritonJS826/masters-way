@@ -1,10 +1,11 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
+import {useGlobalContext} from "src/GlobalContext";
 import {WAYS_OWNER, waysColumns} from "src/logic/waysTable/waysColumns";
 import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {Way} from "src/model/businessModel/Way";
@@ -34,6 +35,12 @@ interface OwnWaysTableProps {
 export const OwnWaysTable = (props: OwnWaysTableProps) => {
   const [ownWays, setOwnWays] = useState<WayPreview[]>(props.ownWays);
   const userPreviewUuid = props.uuid;
+  const {user} = useGlobalContext();
+  const isPageOwner = !!user && user.uuid === userPreviewUuid;
+
+  useEffect(() => {
+    setOwnWays(props.ownWays);
+  }, [props.ownWays]);
 
   /**
    * Create way
@@ -55,7 +62,7 @@ export const OwnWaysTable = (props: OwnWaysTableProps) => {
 
   return (
     <>
-      {userPreviewUuid &&
+      {isPageOwner &&
         <Tooltip content="Create new way">
           <Button
             value="Create new way"
