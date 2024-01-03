@@ -80,7 +80,7 @@ export class ThemeWorker {
    * Get current theme
    */
   public static getCurrentTheme() {
-    return localStorageWorker.getItemByKey("theme");
+    return localStorageWorker.getItemByKey("theme") ?? DEFAULT_THEME;
   }
 
 }

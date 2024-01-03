@@ -4,9 +4,9 @@ import {Select} from "src/component/select/Select";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {globalContext} from "src/GlobalContext";
-import {DEFAULT_LANGUAGE, Language, LanguageWorker} from "src/utils/LanguageWorker";
+import {Language, LanguageWorker} from "src/utils/LanguageWorker";
 import {OSNotification} from "src/utils/notifications/OSNotification";
-import {DEFAULT_THEME, Theme, ThemeWorker} from "src/utils/ThemeWorker";
+import {Theme, ThemeWorker} from "src/utils/ThemeWorker";
 import styles from "src/logic/settingsPage/SettingsPage.module.scss";
 
 /**
@@ -15,8 +15,8 @@ import styles from "src/logic/settingsPage/SettingsPage.module.scss";
 export const SettingsPage = () => {
   const {notification} = useContext(globalContext);
 
-  const currentTheme = ThemeWorker.getCurrentTheme() ?? DEFAULT_THEME;
-  const currentLanguage = LanguageWorker.getCurrentLanguage() ?? DEFAULT_LANGUAGE;
+  const currentTheme = ThemeWorker.getCurrentTheme();
+  const currentLanguage = LanguageWorker.getCurrentLanguage();
 
   return (
     <>

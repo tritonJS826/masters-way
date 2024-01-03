@@ -508,7 +508,10 @@ export const WayPage = (props: WayPageProps) => {
             level={HeadingLevel.h3}
             text="Statistics"
           />
-          <WayStatistic dayReports={way.dayReports} />
+          <WayStatistic
+            dayReports={way.dayReports}
+            wayCreated={way.createdAt}
+          />
         </div>
       </div>
 

@@ -38,7 +38,7 @@ export class LanguageWorker {
    * Get current language
    */
   public static getCurrentLanguage() {
-    return localStorageWorker.getItemByKey<Language>("language");
+    return localStorageWorker.getItemByKey<Language>("language") ?? DEFAULT_LANGUAGE;
   }
 
 }

@@ -1,7 +1,7 @@
 import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import aboutProjectPageContent from "src/logic/aboutProjectPage/AboutProjectPageContent.json";
-import {DEFAULT_LANGUAGE, LanguageWorker} from "src/utils/LanguageWorker";
+import {LanguageWorker} from "src/utils/LanguageWorker";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import styles from "src/logic/aboutProjectPage/AboutProjectPage.module.scss";
 
@@ -17,7 +17,7 @@ const {
  * About project page
  */
 export const AboutProjectPage = () => {
-  const currentLanguage = LanguageWorker.getCurrentLanguage() ?? DEFAULT_LANGUAGE;
+  const currentLanguage = LanguageWorker.getCurrentLanguage();
 
   const accordionItems = accordionContent.map((data) => ({
     trigger: {child: data.header[currentLanguage]},
