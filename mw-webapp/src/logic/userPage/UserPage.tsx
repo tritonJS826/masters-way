@@ -43,7 +43,33 @@ const changeUserDescription = (user: UserPreview, text: string, callback: (user:
 };
 
 /**
- * PageProps
+ * User Page Data
+ */
+interface UserPageData {
+
+  /**
+   * User Preview
+   */
+  userPreview: UserPreview;
+
+  /**
+   * Own Ways Preview
+   */
+  ownWaysPreview: WayPreview[];
+
+  /**
+   * Mentoring Ways Preview
+   */
+  mentoringWaysPreview: WayPreview[];
+
+  /**
+   * Favorite Ways Preview
+   */
+  favoriteWaysPreview: WayPreview[];
+}
+
+/**
+ * User Page Props
  */
 interface UserPageProps {
 
@@ -70,7 +96,7 @@ export const UserPage = (props: UserPageProps) => {
   /**
    * Callback that is called to fetch data
    */
-  const loadData = async () => {
+  const loadData = async (): Promise<UserPageData> => {
     const fetchedUserPreview = await UserPreviewDAL.getUserPreview(props.uuid);
 
     {/* TODO: get all ways in one request and then split them into arrays by uuid's in userPreview */
@@ -101,7 +127,9 @@ export const UserPage = (props: UserPageProps) => {
   /**
    * Callback that is called to validate data
    */
-  const validateData = (data: Awaited<ReturnType<typeof loadData>>) => !!data.userPreview;
+  const validateData = (data: UserPageData) => {
+    return !!data.userPreview && !!data.ownWaysPreview && !!data.mentoringWaysPreview && !!data.favoriteWaysPreview;
+  };
 
   /**
    * Callback that is called on fetch or validation error
@@ -114,7 +142,7 @@ export const UserPage = (props: UserPageProps) => {
   /**
    * Callback that is called on fetch and validation success
    */
-  const onSuccess = async (data: Awaited<ReturnType<typeof loadData>>) => {
+  const onSuccess = async (data: UserPageData) => {
     setOwnWays(data.ownWaysPreview);
     setMentoringWays(data.mentoringWaysPreview);
     setFavoriteWays(data.favoriteWaysPreview);
