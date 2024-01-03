@@ -26,7 +26,7 @@ export class WayPreviewDAL {
    * Get WaysPreview by uuid
    */
   public static async getWaysPreviewByUuids(wayUuids: string[]): Promise<WayPreview[]> {
-    const waysDTO = await WayService.getWaysDTOByUuids(wayUuids);
+    const waysDTO = wayUuids.length !== 0 ? await WayService.getWaysDTOByUuids(wayUuids) : [];
 
     const waysPreview = Promise.all(waysDTO.map(async (wayDTO) => {
       const ownerPromise = UserPreviewDAL.getUserPreview(wayDTO.ownerUuid);
