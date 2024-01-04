@@ -7,7 +7,7 @@ Deploy demo masters way status:
 
 
 Deploy demo storybook status:
-[![Netlify Status](https://api.netlify.com/api/v1/badges/39b894b6-7a7c-4b45-bc98-3f7a7257500c/deploy-status)](https://app.netlify.com/sites/mastersway-storybook/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/004b24b2-f693-4ee8-8321-7a9c1a086261/deploy-status)](https://app.netlify.com/sites/mastersways-storybook/deploys)
 
 
 [Demo Master's Way](https://mastersway.netlify.app/)
