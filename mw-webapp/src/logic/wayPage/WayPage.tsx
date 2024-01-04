@@ -1,7 +1,6 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {TrashIcon} from "@radix-ui/react-icons";
-import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Сheckbox";
 import {EditableText} from "src/component/editableText/EditableText";
@@ -296,11 +295,11 @@ export const WayPage = (props: WayPageProps) => {
       : "Not finished yet...";
 
     return (
-      <Tooltip content={tooltipContent}>
-        <div
-          key={singleGoalMetric.metricUuid}
-          className={styles.singularMetric}
-        >
+      <div
+        key={singleGoalMetric.metricUuid}
+        className={styles.singularMetric}
+      >
+        <HorizontalContainer className={styles.horizontalContainer}>
           <Checkbox
             isEditable={isOwner}
             isDefaultChecked={singleGoalMetric.isDone}
@@ -314,31 +313,33 @@ export const WayPage = (props: WayPageProps) => {
             }
             }
           />
-          <EditableText
-            text={singleGoalMetric.description ?? ""}
-            onChangeFinish={(description) => updateGoalMetric(
-              new SingleGoalMetric({...singleGoalMetric, description}),
-            )}
-            isEditable={isOwner}
-          />
-          {isOwner && (
-            <Tooltip content="Delete goal metric">
-              <TrashIcon
-                className={styles.icon}
-                onClick={() => renderModalContent({
-                  description: `Are you sure that you want to delete singleGoalMetric "${singleGoalMetric.description}"?`,
+          <Tooltip content={tooltipContent}>
+            <EditableText
+              text={singleGoalMetric.description ?? ""}
+              onChangeFinish={(description) => updateGoalMetric(
+                new SingleGoalMetric({...singleGoalMetric, description}),
+              )}
+              isEditable={isOwner}
+            />
+          </Tooltip>
+        </HorizontalContainer>
+        {isOwner && (
+          <Tooltip content="Delete goal metric">
+            <TrashIcon
+              className={styles.icon}
+              onClick={() => renderModalContent({
+                description: `Are you sure that you want to delete singleGoalMetric "${singleGoalMetric.description}"?`,
 
-                  /**
-                   * CallBack triggered on press ok
-                   */
-                  onOk: () => removeSingularGoalMetric(singleGoalMetric.metricUuid),
-                })}
-              />
-            </Tooltip>
-          )
-          }
-        </div>
-      </Tooltip>
+                /**
+                 * CallBack triggered on press ok
+                 */
+                onOk: () => removeSingularGoalMetric(singleGoalMetric.metricUuid),
+              })}
+            />
+          </Tooltip>
+        )
+        }
+      </div>
     );
   };
 
@@ -381,7 +382,7 @@ export const WayPage = (props: WayPageProps) => {
    */
   const renderGoalMetric = (goalMetric: GoalMetric) => {
     return (
-      <div>
+      <>
         {goalMetric.metricUuids.map((metricUuid, index) => renderSingleGoalMetric(
           {
             uuid: goalMetric.uuid,
@@ -393,7 +394,7 @@ export const WayPage = (props: WayPageProps) => {
         ))
         }
         {renderButtonAddMetrics()}
-      </div>
+      </>
     );
   };
 
@@ -510,16 +511,7 @@ export const WayPage = (props: WayPageProps) => {
             level={HeadingLevel.h3}
             text="Metrics"
           />
-          <Accordion
-            items={[
-              {
-                trigger: {child: "Metrics"},
-                content: {child: renderGoalMetric(way.goal.metrics[0])},
-              },
-            ]}
-            type={accordionTypes.multiple}
-            className={styles.accordion}
-          />
+          {renderGoalMetric(way.goal.metrics[0])}
         </div>
         <div className={styles.goalSubSection}>
           <Title

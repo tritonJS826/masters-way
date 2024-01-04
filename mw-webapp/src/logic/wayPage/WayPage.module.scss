@@ -28,6 +28,7 @@
   display: flex;
   max-width: $maxWidthBlock;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: $defaultSmallGap;
 }
 
@@ -85,4 +86,9 @@
   width: 30%;
   min-width: $minWidthBlock;
   max-width: $maxWidthBlock;
+}
+
+.horizontalContainer {
+  align-items: center;
+  gap: $defaultSmallGap;
 }

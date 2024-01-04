@@ -79,14 +79,14 @@ export const waysColumns = [
     /**
      * Header
      */
-    header: () => (<>
+    header: () => (
       <Tooltip
         position={PositionTooltip.BOTTOM}
         content="The path is abandoned if it is not completed, but has not been edited in the last 14 days"
       >
         Status
       </Tooltip>
-    </>),
+    ),
 
     /**
      * Cell with isCompleted value
