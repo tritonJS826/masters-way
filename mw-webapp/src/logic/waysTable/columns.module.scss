@@ -7,6 +7,11 @@
   -webkit-line-clamp: 2;
   text-overflow: ellipsis;
   word-wrap: break-word;
+
+  img {
+    max-width: $minWidthBlock;
+    max-height: $minWidthBlock;
+  }
   @media (max-width: 800px) {
     -webkit-line-clamp: 5;
   }
