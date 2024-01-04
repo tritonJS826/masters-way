@@ -14,6 +14,7 @@ $table-border: 1px solid var(--primaryBorderColor);
   padding: 5px;
   border: $table-border;
   background: var(--primaryBackgroundColor);
+  background-clip: padding-box;
   font-weight: bold;
 }
 

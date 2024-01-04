@@ -41,7 +41,7 @@ ___
 
 ```pnpm i```
 
-3. Create .env file inside mw-webapp folder with variables from .env.example
+3. Create .env file inside mw-webapp folder with variables from .env.example (ask Ekaterina1994 for values)
 
 4. Run application
 

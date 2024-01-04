@@ -2,7 +2,6 @@ import {useEffect, useState} from "react";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HeadingLevel, Title} from "src/component/title/Title";
-import {Tooltip} from "src/component/tooltip/Tooltip";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
 import {WAYS_OWNER, waysColumns} from "src/logic/waysTable/waysColumns";
@@ -64,13 +63,11 @@ export const OwnWaysTable = (props: OwnWaysTableProps) => {
   return (
     <>
       {props.isPageOwner &&
-      <Tooltip content="Create new way">
         <Button
           value="Create new way"
           onClick={() => createWay(props.uuid, ownWays)}
           buttonType={ButtonType.PRIMARY}
         />
-      </Tooltip>
       }
       <HorizontalContainer className={styles.gap}>
         <Title
