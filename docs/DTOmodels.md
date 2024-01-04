@@ -18,6 +18,7 @@ isCompleted: boolean
 lastUpdate: timestamp
 favoriteForUserUuids: string[] @User.uuid[]
 mentorUuids: string[] @User.uuid[]
+formerMentorUuids?: string[] @User.uuid
 mentorRequestUuids: string[] @User.uuid
 createdAt: timestamp
 wayRags: string[]
