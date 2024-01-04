@@ -11,6 +11,7 @@ export const wayPreviewToWayDTOConverter = (wayPreview: WayPreview): WayDTO => {
     name: wayPreview.name,
     ownerUuid: wayPreview.owner.uuid,
     mentorUuids: wayPreview.mentors.map((item) => item.uuid),
+    formerMentorUuids: wayPreview.formerMentorUuids,
     dayReportUuids: wayPreview.dayReportUuids,
     goalUuid: wayPreview.goal.uuid,
     mentorRequestUuids: wayPreview.mentorRequests.map((item) => item.uuid),

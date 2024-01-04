@@ -13,7 +13,7 @@ th .wrapper {
   position: absolute;
   z-index: $tooltipZIndex;
   display: none;
-  padding: $defaultPadding;
+  padding: $paddingMedium;
   border-radius: $primaryBorderRadius;
   background-color: var(--secondaryBackgroundColor);
   color: var(--secondaryTextColor);

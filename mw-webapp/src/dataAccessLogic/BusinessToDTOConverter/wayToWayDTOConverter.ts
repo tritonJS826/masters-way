@@ -13,6 +13,7 @@ export const wayToWayDTOConverter = (way: Way): WayDTO => {
     ownerUuid: way.owner.uuid,
     goalUuid: way.goal.uuid,
     mentorUuids: Array.from(way.mentors.keys()),
+    formerMentorUuids: Array.from(way.formerMentors.keys()),
     mentorRequestUuids: way.mentorRequests.map((mentorRequestUuid) => mentorRequestUuid.uuid),
     isCompleted: way.isCompleted,
     lastUpdate: Timestamp.fromDate(way.lastUpdate),

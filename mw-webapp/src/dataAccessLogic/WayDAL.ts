@@ -42,6 +42,8 @@ export class WayDAL {
 
     const mentorsPromise = Promise.all(wayDTO.mentorUuids.map(UserPreviewDAL.getUserPreview));
 
+    const formerMentorsPromise = Promise.all(wayDTO.formerMentorUuids.map(UserPreviewDAL.getUserPreview));
+
     const mentorRequestsPromise = Promise.all(wayDTO.mentorRequestUuids.map(UserPreviewDAL.getUserPreview));
 
     const dayReportsPromise = Promise.all(wayDTO.dayReportUuids.map(DayReportDAL.getDayReport));
@@ -51,18 +53,22 @@ export class WayDAL {
     const [
       owner,
       mentors,
+      formerMentors,
       mentorRequests,
       dayReports,
       favoriteForUsers,
     ] = await Promise.all([
       ownerPromise,
       mentorsPromise,
+      formerMentorsPromise,
       mentorRequestsPromise,
       dayReportsPromise,
       favoriteForUsersPromise,
     ]);
 
     const mentorsDictionary = arrayToHashMap(mentors);
+
+    const formerMentorsDictionary = arrayToHashMap(formerMentors);
 
     const dayReportsOrderedByDate = dayReports.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 
@@ -74,6 +80,7 @@ export class WayDAL {
     const wayPreviewProps = {
       owner,
       mentors: mentorsDictionary,
+      formerMentors: formerMentorsDictionary,
       dayReports: dayReportsOrderedByDate,
       mentorRequests,
       goal,
@@ -100,6 +107,7 @@ export class WayDAL {
       ownerUuid: `${userUuid}`,
       goalUuid: `${newGoal.uuid}`,
       mentorUuids: [],
+      formerMentorUuids: [],
       mentorRequestUuids: [],
       isCompleted: false,
       lastUpdate: Timestamp.fromDate(new Date()),

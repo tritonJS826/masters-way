@@ -3,7 +3,7 @@
 .accordion {
   min-width: $minWidthBlock;
   max-width: $maxWidthBlock;
-  margin-top: $defaultMargin;
+  margin-top: $marginMedium;
 }
 
 .wrapper {
@@ -19,5 +19,5 @@
 }
 
 .title {
-  margin-top: $defaultSmallMargin;
+  margin-top: $marginSmall;
 }

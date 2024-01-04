@@ -6,6 +6,7 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
+import {useGlobalContext} from "src/GlobalContext";
 import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {pages} from "src/router/pages";
@@ -27,7 +28,9 @@ const removeMentorFromWay = (
 
   way.mentors.delete(userPreview.uuid);
   const mentors = way.mentors;
-  const newWay = new Way({...way, mentors});
+  const formerMentors = way.formerMentors.set(userPreview.uuid, userPreview);
+
+  const newWay = new Way({...way, mentors, formerMentors});
 
   WayDAL.updateWay(newWay);
 
@@ -60,6 +63,7 @@ interface MentorsSectionProps {
  */
 export const MentorsSection = (props: MentorsSectionProps) => {
   const mentors = Array.from(props.way.mentors.values());
+  const {user} = useGlobalContext();
 
   return (
     <>
@@ -75,7 +79,7 @@ export const MentorsSection = (props: MentorsSectionProps) => {
               path={pages.user.getPath({uuid: mentor.uuid})}
               value={mentor.name}
             />
-            {props.isOwner && (
+            {(props.isOwner || user?.uuid === mentor.uuid) && (
               <Tooltip
                 content="Delete from mentors"
                 position={PositionTooltip.RIGHT}

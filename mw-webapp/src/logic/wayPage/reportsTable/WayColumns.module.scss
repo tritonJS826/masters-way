@@ -38,7 +38,7 @@ $listLeftMargin: 20px;
 
 .numberedList li:last-child,
 .comments li:last-child {
-  margin-bottom: $bigGap;
+  margin-bottom: $gapBig;
 }
 
 .comment {
@@ -46,7 +46,7 @@ $listLeftMargin: 20px;
 }
 
 .comment:last-child {
-  margin-bottom: $defaultMargin;
+  margin-bottom: $marginMedium;
 }
 
 .numberedListItem {
@@ -95,12 +95,12 @@ $listLeftMargin: 20px;
 
 .summarySection {
   position: absolute;
-  bottom: $defaultGap;
-  width: calc(100% - 2 * $defaultGap);
+  bottom: $gapMedium;
+  width: calc(100% - 2 * $gapMedium);
 }
 
 .icons {
   display: flex;
   align-items: center;
-  margin-left: $defaultSmallMargin;
+  margin-left: $marginSmall;
 }

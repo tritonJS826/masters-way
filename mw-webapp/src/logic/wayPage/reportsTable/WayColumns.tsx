@@ -56,9 +56,14 @@ export const renderModalContent = (params: RenderModalContentParams) => {
 /**
  * Get user name
  */
-const getName = (mentors: Map<string, UserPreview>, mentorUuid: string, ownerName: string) => {
-  const mentor = mentors.get(mentorUuid);
-  const name = mentor ? mentor.name : ownerName;
+const getName = (
+  mentors: Map<string, UserPreview>,
+  formerMentors: Map<string, UserPreview>,
+  mentorUuid: string,
+  ownerName: string) => {
+  const mentorName = mentors.get(mentorUuid) || formerMentors.get(mentorUuid);
+
+  const name = mentorName ? mentorName.name : ownerName;
   const firstName = getFirstName(name);
 
   return firstName;
@@ -352,7 +357,7 @@ export const Columns = (props: ColumnsProps) => {
                     <VerticalContainer>
                       <HorizontalContainer className={styles.horizontalContainer}>
                         <Link
-                          value={getName(props.way.mentors, plan.ownerUuid, ownerName)}
+                          value={getName(props.way.mentors, props.way.formerMentors, plan.ownerUuid, ownerName)}
                           path={pages.user.getPath({uuid: plan.ownerUuid})}
                         />
                         <HorizontalContainer className={styles.icons}>
@@ -491,7 +496,7 @@ export const Columns = (props: ColumnsProps) => {
                     <VerticalContainer>
                       <HorizontalContainer className={styles.horizontalContainer}>
                         <Link
-                          value={getName(props.way.mentors, problem.ownerUuid, ownerName)}
+                          value={getName(props.way.mentors, props.way.formerMentors, problem.ownerUuid, ownerName)}
                           path={pages.user.getPath({uuid: problem.ownerUuid})}
                         />
                         <HorizontalContainer className={styles.icons}>
@@ -617,7 +622,7 @@ export const Columns = (props: ColumnsProps) => {
                       <VerticalContainer>
                         <HorizontalContainer className={styles.horizontalContainer}>
                           <Link
-                            value={getName(props.way.mentors, comment.ownerUuid, ownerName)}
+                            value={getName(props.way.mentors, props.way.formerMentors, comment.ownerUuid, ownerName)}
                             path={pages.user.getPath({uuid: comment.ownerUuid})}
                           />
                           {comment.ownerUuid === user?.uuid &&
