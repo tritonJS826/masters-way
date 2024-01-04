@@ -331,7 +331,7 @@ export const WayPage = (props: WayPageProps) => {
                 description: `Are you sure that you want to delete singleGoalMetric "${singleGoalMetric.description}"?`,
 
                 /**
-                 * CallBack triggered on press ok
+                 * CallBack remove singular goal metric
                  */
                 onOk: () => removeSingularGoalMetric(singleGoalMetric.metricUuid),
               })}
