@@ -54,17 +54,30 @@ export const renderModalContent = (params: RenderModalContentParams) => {
 };
 
 /**
+ * Get all users involved in the {@link way}
+ */
+const getUsersInWay = (way: Way) => {
+  const usersInWay: Map<string, UserPreview> = new Map([
+    ...way.mentors.entries(),
+    ...way.formerMentors.entries(),
+    [way.owner.uuid, way.owner],
+  ]);
+
+  return usersInWay;
+};
+
+/**
  * Get user name
  */
-const getName = (
-  mentors: Map<string, UserPreview>,
-  formerMentors: Map<string, UserPreview>,
-  mentorUuid: string,
-  ownerName: string) => {
-  const mentorName = mentors.get(mentorUuid) || formerMentors.get(mentorUuid);
+const getName = (way: Way, userUuid: string) => {
+  const usersInWay = getUsersInWay(way);
+  const user = usersInWay.get(userUuid);
 
-  const name = mentorName ? mentorName.name : ownerName;
-  const firstName = getFirstName(name);
+  if (!user) {
+    throw Error(`User with uuid ${userUuid} is not defined`);
+  }
+
+  const firstName = getFirstName(user.name);
 
   return firstName;
 };
@@ -115,7 +128,6 @@ const updateDayReportState = (
 export const Columns = (props: ColumnsProps) => {
   const {user} = useGlobalContext();
   const ownerUuid = props.way.owner.uuid;
-  const ownerName = props.way.owner.name;
   const isOwner = user?.uuid === ownerUuid;
   const isMentor = !!user && !!user.uuid && props.way.mentors.has(user.uuid);
   const isUserOwnerOrMentor = isOwner || isMentor;
@@ -357,7 +369,7 @@ export const Columns = (props: ColumnsProps) => {
                     <VerticalContainer>
                       <HorizontalContainer className={styles.horizontalContainer}>
                         <Link
-                          value={getName(props.way.mentors, props.way.formerMentors, plan.ownerUuid, ownerName)}
+                          value={getName(props.way, plan.ownerUuid)}
                           path={pages.user.getPath({uuid: plan.ownerUuid})}
                         />
                         <HorizontalContainer className={styles.icons}>
@@ -496,7 +508,7 @@ export const Columns = (props: ColumnsProps) => {
                     <VerticalContainer>
                       <HorizontalContainer className={styles.horizontalContainer}>
                         <Link
-                          value={getName(props.way.mentors, props.way.formerMentors, problem.ownerUuid, ownerName)}
+                          value={getName(props.way, problem.ownerUuid)}
                           path={pages.user.getPath({uuid: problem.ownerUuid})}
                         />
                         <HorizontalContainer className={styles.icons}>
@@ -622,7 +634,7 @@ export const Columns = (props: ColumnsProps) => {
                       <VerticalContainer>
                         <HorizontalContainer className={styles.horizontalContainer}>
                           <Link
-                            value={getName(props.way.mentors, props.way.formerMentors, comment.ownerUuid, ownerName)}
+                            value={getName(props.way, comment.ownerUuid)}
                             path={pages.user.getPath({uuid: comment.ownerUuid})}
                           />
                           {comment.ownerUuid === user?.uuid &&
