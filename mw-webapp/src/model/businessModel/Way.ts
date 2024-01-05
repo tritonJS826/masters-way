@@ -40,6 +40,13 @@ export class Way {
   public mentors: Map<string, UserPreview>;
 
   /**
+   * Former mentors of this way
+   * @key @User.uuid
+   * @value @UserPreview
+   */
+  public formerMentors: Map<string, UserPreview>;
+
+  /**
    * Users who sent request to become Way's mentor
    */
   public mentorRequests: UserPreview[];
@@ -88,6 +95,7 @@ export class Way {
     this.createdAt = wayData.createdAt;
     this.wayTags = wayData.wayTags;
     this.jobTags = wayData.jobTags;
+    this.formerMentors = wayData.formerMentors;
   }
 
 }

@@ -303,6 +303,7 @@ export const WayPage = (props: WayPageProps) => {
           <Checkbox
             isEditable={isOwner}
             isDefaultChecked={singleGoalMetric.isDone}
+            className={styles.checkbox}
             onChange={(isDone) => {
               const updatedSingleGoalMetric = new SingleGoalMetric({
                 ...singleGoalMetric,

@@ -22,6 +22,13 @@ interface WayProps {
   mentors: Map<string, UserPreview>;
 
   /**
+   * Way's former mentors
+   * @key @User.uuid
+   * @value @UserPreview
+   */
+  formerMentors: Map<string, UserPreview>;
+
+  /**
    * Users who sent request to become Way's mentor
    */
   mentorRequests: UserPreview[];
@@ -64,6 +71,7 @@ export const wayDTOToWayConverter = (wayDTO: WayDTO, wayProps: WayProps): Way =>
     owner: wayProps.owner,
     goal: wayProps.goal,
     mentors: wayProps.mentors,
+    formerMentors: wayProps.formerMentors,
     mentorRequests: wayProps.mentorRequests,
     isCompleted: wayDTO.isCompleted,
     lastUpdate: wayProps.lastUpdate,

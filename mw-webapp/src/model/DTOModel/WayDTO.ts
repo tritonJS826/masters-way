@@ -42,7 +42,7 @@ export const WayDTOSchema = z.object({
   /**
    * Former mentor's UUIDs @User.uuid
    */
-  formerMentorUuids: z.optional(z.array(z.string())),
+  formerMentorUuids: z.array(z.string()),
 
   /**
    * UUIDs of Users who sent request to become Way's mentor @User.uuid

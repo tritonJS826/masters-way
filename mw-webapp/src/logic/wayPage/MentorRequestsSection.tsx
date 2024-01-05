@@ -22,7 +22,10 @@ const addMentorToWay = (
 
   const mentors = way.mentors.set(newUserPreview.uuid, newUserPreview);
   const mentorRequests = way.mentorRequests.filter((item) => item !== userPreview);
-  const newWay = new Way({...way, mentors, mentorRequests});
+  const formerMentors = new Map(Array.from(way.formerMentors)
+    .filter(([formerMentorUuid]) => formerMentorUuid !== userPreview.uuid));
+
+  const newWay = new Way({...way, mentors, mentorRequests, formerMentors});
 
   WayDAL.updateWay(newWay);
 

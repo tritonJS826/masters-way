@@ -37,6 +37,11 @@ export class WayPreview {
   public mentors: UserPreview[];
 
   /**
+   * Former mentor's UUIDs @User.uuid
+   */
+  public formerMentorUuids: string[];
+
+  /**
    * Users who sent request to become Way's mentor
    */
   public mentorRequests: UserPreview[];
@@ -85,6 +90,7 @@ export class WayPreview {
     this.createdAt = wayData.createdAt;
     this.wayTags = wayData.wayTags;
     this.jobTags = wayData.jobTags;
+    this.formerMentorUuids = wayData.formerMentorUuids;
   }
 
 }
