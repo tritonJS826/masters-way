@@ -1,4 +1,3 @@
-import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {DayReport} from "src/model/businessModel/DayReport";
@@ -19,6 +18,12 @@ interface WayStatisticProps {
    * Date of way created
    */
   wayCreatedAt: Date;
+
+  /**
+   * Is visible
+   * @default true
+   */
+  isVisible: boolean;
 }
 
 const MILLISECONDS_IN_DAY = 86_400_000;
@@ -196,18 +201,9 @@ export const WayStatistic = (props: WayStatisticProps) => {
     );
   };
 
-  const accordionItems = [
-    {
-      trigger: {child: "Statistics"},
-      content: {child: getContent()},
-    },
-  ];
-
   return (
-    <Accordion
-      items={accordionItems}
-      type={accordionTypes.multiple}
-      className={styles.accordion}
-    />
+    <>
+      {props.isVisible && getContent()}
+    </>
   );
 };
