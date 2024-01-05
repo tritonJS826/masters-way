@@ -59,6 +59,7 @@ export class DayReportDAL {
       ownerUuid: way.ownerUuid,
       goalUuid: way.goalUuid,
       mentorUuids: way.mentorUuids,
+      formerMentorUuids: way.formerMentorUuids,
       mentorRequestUuids: way.mentorRequestUuids,
       isCompleted: way.isCompleted,
       lastUpdate: Timestamp.fromDate(new Date()),
