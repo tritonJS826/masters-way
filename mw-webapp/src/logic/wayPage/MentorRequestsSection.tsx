@@ -22,7 +22,6 @@ const addMentorToWay = (
 
   const mentors = way.mentors.set(newUserPreview.uuid, newUserPreview);
   const mentorRequests = way.mentorRequests.filter((item) => item !== userPreview);
-  way.formerMentors.delete(userPreview.uuid);
   const formerMentors = new Map(Array.from(way.formerMentors)
     .filter(([formerMentorUuid]) => formerMentorUuid !== userPreview.uuid));
 
