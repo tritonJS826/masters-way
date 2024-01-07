@@ -1,14 +1,35 @@
 import {localStorageWorker} from "src/utils/LocalStorage";
 
-/**
- * Default goalMetrics block is opened
- */
-export const DEFAULT_GOAL_METRICS_VISIBILITY = true;
+export type WayStorageData = {
+
+  /**
+   * Supported statistics visibility
+   */
+  statisticsVisibility: boolean;
+
+  /**
+   * Supported goal metrics visibility
+   */
+  goalMetricsVisibility: boolean;
+}
+
+const DEFAULT_WAY = {
+
+  /**
+   * Default goalMetrics block is opened
+   */
+  statisticsVisibility: true,
+
+  /**
+   * Default statistics block is opened
+   */
+  goalMetricsVisibility: true,
+};
 
 /**
- * Default statistics block is opened
+ * Default way stringified
  */
-export const DEFAULT_STATISTICS = true;
+export const DEFAULT_WAY_STRINGIFIED = JSON.stringify(DEFAULT_WAY);
 
 /**
  * All way-related methods
@@ -19,46 +40,68 @@ export class WayWorker {
    * Set goalMetricsVisibility
    */
   public static setGoalMetricsVisibility(goalMetricsVisibility: boolean) {
-    localStorageWorker.setItemByKey("goalMetricsVisibility", goalMetricsVisibility);
+    const statisticsVisibility = WayWorker.getCurrentStatisticsVisibility();
+    const wayStorageData = {
+      statisticsVisibility,
+      goalMetricsVisibility,
+    };
+
+    localStorageWorker.setItemByKey("way", JSON.stringify(wayStorageData));
   }
 
   /**
    * Load goalMetricsVisibility
    */
   public static loadGoalMetricsVisibility() {
-    const goalMetricsVisibility = localStorageWorker.getItemByKey<boolean>("goalMetricsVisibility");
-
-    this.setGoalMetricsVisibility(goalMetricsVisibility ?? DEFAULT_GOAL_METRICS_VISIBILITY);
+    const wayStorageDataStringified = localStorageWorker.getItemByKey("way") ?? DEFAULT_WAY_STRINGIFIED;
+    const wayStorageDataParsed: WayStorageData = JSON.parse(wayStorageDataStringified);
+    const goalMetricsVisibility = wayStorageDataParsed.goalMetricsVisibility;
+    this.setGoalMetricsVisibility(goalMetricsVisibility ?? DEFAULT_WAY.goalMetricsVisibility);
   }
 
   /**
    * Get current goalMetricsVisibility
    */
   public static getCurrentGoalMetricsVisibility() {
-    return localStorageWorker.getItemByKey<boolean>("goalMetricsVisibility") ?? DEFAULT_GOAL_METRICS_VISIBILITY;
+    const wayStorageDataStringified = localStorageWorker.getItemByKey("way") ?? DEFAULT_WAY_STRINGIFIED;
+    const wayStorageDataParsed: WayStorageData = JSON.parse(wayStorageDataStringified);
+    const goalMetricsVisibility = wayStorageDataParsed.goalMetricsVisibility;
+
+    return goalMetricsVisibility;
   }
 
   /**
    * Set statisticVisibility
    */
   public static setStatisticsVisibility(statisticsVisibility: boolean) {
-    localStorageWorker.setItemByKey("statisticsVisibility", statisticsVisibility);
+    const goalMetricsVisibility = WayWorker.getCurrentGoalMetricsVisibility();
+    const wayStorageData = {
+      statisticsVisibility,
+      goalMetricsVisibility,
+    };
+
+    localStorageWorker.setItemByKey("way", JSON.stringify(wayStorageData));
   }
 
   /**
    * Load statisticVisibility
    */
   public static loadStatisticsVisibility() {
-    const statisticVisibility = localStorageWorker.getItemByKey<boolean>("statisticsVisibility");
-
-    this.setStatisticsVisibility(statisticVisibility ?? DEFAULT_STATISTICS);
+    const wayStorageDataStringified = localStorageWorker.getItemByKey("way") ?? DEFAULT_WAY_STRINGIFIED;
+    const wayStorageDataParsed: WayStorageData = JSON.parse(wayStorageDataStringified);
+    const statisticVisibility = wayStorageDataParsed.statisticsVisibility;
+    this.setGoalMetricsVisibility(statisticVisibility ?? DEFAULT_WAY.statisticsVisibility);
   }
 
   /**
    * Get current statisticVisibility
    */
   public static getCurrentStatisticsVisibility() {
-    return localStorageWorker.getItemByKey<boolean>("statisticsVisibility") ?? DEFAULT_STATISTICS;
+    const wayStorageDataStringified = localStorageWorker.getItemByKey("way") ?? DEFAULT_WAY_STRINGIFIED;
+    const wayStorageDataParsed: WayStorageData = JSON.parse(wayStorageDataStringified);
+    const statisticVisibility = wayStorageDataParsed.statisticsVisibility;
+
+    return statisticVisibility;
   }
 
 }

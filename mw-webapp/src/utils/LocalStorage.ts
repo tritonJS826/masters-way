@@ -77,14 +77,9 @@ type LocalStorageData = {
   language: Language;
 
   /**
-   * Supported statistics visibility
+   * Supported way
    */
-  statisticsVisibility: boolean;
-
-  /**
-   * Supported goal metrics visibility
-   */
-  goalMetricsVisibility: boolean;
+  way: string;
 
 }
 
