@@ -5,6 +5,7 @@ $listLeftMargin: 20px;
 
 .editableTime {
   width: $editableTimeWidth;
+  min-width: $editableTimeWidth;
   text-align: right;
 }
 
@@ -116,5 +117,10 @@ $listLeftMargin: 20px;
 }
 
 .verticalContainer {
+  overflow: auto;
   width: 100%;
+}
+
+.tooltipTop {
+  margin-top: -20px;
 }

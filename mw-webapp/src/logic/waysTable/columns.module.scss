@@ -28,6 +28,10 @@
   white-space: nowrap;
 }
 
-.tooltip {
-  left: -100%;
+.tooltipFavorites {
+  transform: translateY(-100%) translateX(-50%);
+}
+
+.tooltipFixed {
+  position: fixed;
 }

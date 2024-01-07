@@ -6,7 +6,6 @@ import {EditableText} from "src/component/editableText/EditableText";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {GoalMetricDAL} from "src/dataAccessLogic/GoalMetricDAL";
-import {useGlobalContext} from "src/GlobalContext";
 import {renderModalContent} from "src/logic/wayPage/reportsTable/WayColumns";
 import {Goal} from "src/model/businessModel/Goal";
 import {GoalMetric} from "src/model/businessModel/GoalMetric";
@@ -71,6 +70,11 @@ interface GoalMetricStatisticsBlockProps {
    */
   way: Way;
 
+  /**
+   * Is active user owner of way
+   */
+  isOwner: boolean;
+
 }
 
 /**
@@ -78,9 +82,6 @@ interface GoalMetricStatisticsBlockProps {
  */
 export const GoalMetricStatisticsBlock = (props: GoalMetricStatisticsBlockProps) => {
   const [way, setWay] = useState<Way>(props.way);
-  const {user} = useGlobalContext();
-
-  const isOwner = !!user && user.uuid === way.owner.uuid;
 
   /**
    * Set goal metric to the way state
@@ -147,7 +148,7 @@ export const GoalMetricStatisticsBlock = (props: GoalMetricStatisticsBlockProps)
       >
         <HorizontalContainer className={styles.horizontalContainer}>
           <Checkbox
-            isEditable={isOwner}
+            isEditable={props.isOwner}
             isDefaultChecked={singleGoalMetric.isDone}
             className={styles.checkbox}
             onChange={(isDone) => {
@@ -166,11 +167,11 @@ export const GoalMetricStatisticsBlock = (props: GoalMetricStatisticsBlockProps)
               onChangeFinish={(description) => updateGoalMetric(
                 new SingleGoalMetric({...singleGoalMetric, description}),
               )}
-              isEditable={isOwner}
+              isEditable={props.isOwner}
             />
           </Tooltip>
         </HorizontalContainer>
-        {isOwner && (
+        {props.isOwner && (
           <Tooltip content="Delete goal metric">
             <TrashIcon
               className={styles.icon}
@@ -196,7 +197,7 @@ export const GoalMetricStatisticsBlock = (props: GoalMetricStatisticsBlockProps)
   const renderButtonAddMetrics = () => {
     return (
       <>
-        {isOwner && (
+        {props.isOwner && (
           <Button
             value="Add new goal metric"
             onClick={async () => {

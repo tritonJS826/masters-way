@@ -2,6 +2,7 @@ import {useContext} from "react";
 import {Button} from "src/component/button/Button";
 import {Select} from "src/component/select/Select";
 import {HeadingLevel, Title} from "src/component/title/Title";
+import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {globalContext} from "src/GlobalContext";
 import {Language, LanguageWorker} from "src/utils/LanguageWorker";
@@ -25,7 +26,10 @@ export const SettingsPage = () => {
         text="Settings"
       />
       <div className={styles.settingsList}>
-        <Tooltip content="Coming soon">
+        <Tooltip
+          position={PositionTooltip.RIGHT}
+          content="Coming soon"
+        >
           <Select
             label="Theme: "
             value={currentTheme}
@@ -40,7 +44,10 @@ export const SettingsPage = () => {
             }}
           />
         </Tooltip>
-        <Tooltip content="Coming soon">
+        <Tooltip
+          position={PositionTooltip.RIGHT}
+          content="Coming soon"
+        >
           <Select
             label="Language: "
             value={currentLanguage}
@@ -55,7 +62,10 @@ export const SettingsPage = () => {
             }}
           />
         </Tooltip>
-        <Tooltip content="Coming soon">
+        <Tooltip
+          position={PositionTooltip.RIGHT}
+          content="Coming soon"
+        >
           <Select
             label="isShowHintOnLoadApp"
             value="true"
@@ -67,7 +77,10 @@ export const SettingsPage = () => {
             onChange={() => {}}
           />
         </Tooltip>
-        <Tooltip content="Coming soon">
+        <Tooltip
+          position={PositionTooltip.RIGHT}
+          content="Coming soon"
+        >
           <Select
             label=" tables view for mobile (set horizontal resolution)"
             value="dark"
@@ -80,7 +93,10 @@ export const SettingsPage = () => {
             onChange={() => {}}
           />
         </Tooltip>
-        <Tooltip content="Coming soon">
+        <Tooltip
+          position={PositionTooltip.RIGHT}
+          content="Coming soon"
+        >
           <Select
             label="tables view for tablet (set horizontal resolution)"
             value="dark"
@@ -93,7 +109,10 @@ export const SettingsPage = () => {
             onChange={() => {}}
           />
         </Tooltip>
-        <Tooltip content="Coming soon">
+        <Tooltip
+          position={PositionTooltip.RIGHT}
+          content="Coming soon"
+        >
           <Select
             label="tables view for desktop (set horizontal resolution)"
             value="dark"
@@ -106,7 +125,10 @@ export const SettingsPage = () => {
             onChange={() => {}}
           />
         </Tooltip>
-        <Tooltip content="Coming soon">
+        <Tooltip
+          position={PositionTooltip.RIGHT}
+          content="Coming soon"
+        >
           isShowNotifications:
           {" "}
           {notification.isEnabled}

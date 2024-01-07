@@ -1,6 +1,4 @@
-import {GoalMetricsVisibility} from "src/utils/GoalMetricsVisibilityWorker";
 import {Language} from "src/utils/LanguageWorker";
-import {StatisticsVisibility} from "src/utils/StatisticsWorker";
 import {Theme} from "src/utils/ThemeWorker";
 
 /**
@@ -81,12 +79,12 @@ type LocalStorageData = {
   /**
    * Supported statistics visibility
    */
-  statisticsVisibility: StatisticsVisibility;
+  statisticsVisibility: boolean;
 
   /**
    * Supported goal metrics visibility
    */
-  goalMetricsVisibility: GoalMetricsVisibility;
+  goalMetricsVisibility: boolean;
 
 }
 

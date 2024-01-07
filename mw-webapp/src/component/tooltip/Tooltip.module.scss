@@ -20,34 +20,45 @@ th .wrapper {
   cursor: pointer;
 }
 
+// .fixed {
+//   position: fixed;
+// }
+
 .target {
   display: flex;
   align-items: center;
   &:hover + .tooltip {
+    z-index: 999;
     display: block;
+    display: inline-block;
   }
 }
 
 .top {
-  top: -5px;
-  left: 50%;
-  transform: translateY(-100%) translateX(-50%);
+  margin-top: -$marginSmall;
+  transform: translateY(-100%);
 }
 
 .right {
-  top: 50%;
-  right: -5px;
-  transform: translateX(100%) translateY(-50%);
+  margin-top: -$marginSmall;
+  transform: translateX(100%);
+  // top: 50%;
+  // right: -5px;
+  // transform: translateX(100%) translateY(-50%);
 }
 
 .bottom {
-  bottom: -5px;
-  left: 50%;
-  transform: translateY(100%) translateX(-50%);
+  // margin-top: -$marginSmall;
+  transform: translateY(100%);
+  // bottom: -5px;
+  // left: 50%;
+  // transform: translateY(100%) translateX(-50%);
 }
 
 .left {
-  top: 50%;
-  left: -5px;
-  transform: translateX(-100%) translateY(-50%);
+  // margin-top: -$marginSmall;
+  transform: translateX(-100%);
+  // top: 50%;
+  // left: -5px;
+  // transform: translateX(-100%) translateY(-50%);
 }

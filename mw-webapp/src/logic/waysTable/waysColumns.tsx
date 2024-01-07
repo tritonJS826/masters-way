@@ -1,4 +1,5 @@
 import {createColumnHelper} from "@tanstack/react-table";
+import clsx from "clsx";
 import {Link} from "src/component/link/Link";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
@@ -35,8 +36,9 @@ export const waysColumns = [
      */
     header: () => (<>
       <Tooltip
-        position={PositionTooltip.BOTTOM}
+        position={PositionTooltip.TOP}
         content="Date, when way was created"
+        className={styles.tooltipFixed}
       >
         Created at
       </Tooltip>
@@ -58,8 +60,9 @@ export const waysColumns = [
      */
     header: () => (<>
       <Tooltip
-        position={PositionTooltip.BOTTOM}
+        position={PositionTooltip.TOP}
         content="Date when the last Day Report was created"
+        className={styles.tooltipFixed}
       >
         Last update
       </Tooltip>
@@ -81,8 +84,9 @@ export const waysColumns = [
      */
     header: () => (
       <Tooltip
-        position={PositionTooltip.BOTTOM}
+        position={PositionTooltip.TOP}
         content="The path is abandoned if it is not completed, but has not been edited in the last 14 days"
+        className={styles.tooltipFixed}
       >
         Status
       </Tooltip>
@@ -131,8 +135,9 @@ export const waysColumns = [
      */
     header: () => (<>
       <Tooltip
-        position={PositionTooltip.BOTTOM}
+        position={PositionTooltip.TOP}
         content="Owner's name and email"
+        className={styles.tooltipFixed}
       >
         {WAYS_OWNER}
       </Tooltip>
@@ -167,6 +172,7 @@ export const waysColumns = [
             <Tooltip
               key={mentor.uuid}
               content={mentor.name}
+              position={PositionTooltip.LEFT}
             >
               <Link
                 path={pages.user.getPath({uuid: mentor.uuid})}
@@ -183,15 +189,24 @@ export const waysColumns = [
     /**
      * Header
      */
-    header: () => (<>
-      <Tooltip
-        position={PositionTooltip.BOTTOM}
-        content="Amount of favorites"
-        className={styles.tooltip}
-      >
-        {Symbols.STAR}
-      </Tooltip>
-    </>),
+    header: () => (
+      <>
+        {/* <div className={styles.tooltips}> */}
+        <Tooltip
+          position={PositionTooltip.TOP}
+          content="Amount of favorites"
+          className={clsx(styles.tooltipFavorites, styles.tooltipFixed)}
+        >
+          {Symbols.STAR}
+        </Tooltip>
+
+        {/* <div className={styles.tooltip}>
+            Amount of favorites
+          </div> */}
+        {/* {Symbols.STAR} */}
+        {/* </Tooltip> */}
+        {/* </div> */}
+      </>),
 
     /**
      * Cell with amount of favorite for user uuids

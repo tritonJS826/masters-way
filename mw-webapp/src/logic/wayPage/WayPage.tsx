@@ -23,9 +23,8 @@ import {Goal} from "src/model/businessModel/Goal";
 import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {pages} from "src/router/pages";
-import {GoalMetricsVisibility, GoalMetricsWorker} from "src/utils/GoalMetricsVisibilityWorker";
-import {StatisticsVisibility, StatisticsWorker} from "src/utils/StatisticsWorker";
 import {Symbols} from "src/utils/Symbols";
+import {WayWorker} from "src/utils/WayWorker";
 import styles from "src/logic/wayPage/WayPage.module.scss";
 
 /**
@@ -143,8 +142,8 @@ interface WayPageProps {
  */
 export const WayPage = (props: WayPageProps) => {
   const navigate = useNavigate();
-  const currentGoalMetricsVisibility = GoalMetricsWorker.getCurrentGoalMetricsVisibility() === "true" ? true : false;
-  const currentStatisticsVisibility = StatisticsWorker.getCurrentStatisticsVisibility() === "true" ? true : false;
+  const currentGoalMetricsVisibility = WayWorker.getCurrentGoalMetricsVisibility();
+  const currentStatisticsVisibility = WayWorker.getCurrentStatisticsVisibility();
   const [isGoalMetricsVisible, setIsGoalMetricsVisible] = useState<boolean>(currentGoalMetricsVisibility);
   const [isStatisticsVisible, setIsStatisticsVisible] = useState<boolean>(currentStatisticsVisibility);
   const {user, setUser} = useGlobalContext();
@@ -313,15 +312,14 @@ export const WayPage = (props: WayPageProps) => {
             />
             <Select
               label=""
-              value={isGoalMetricsVisible ? "opened" : "closed"}
+              value={JSON.stringify(isGoalMetricsVisible)}
               name="goalMetricsVisibility"
               options={[
-                {id: "1", value: GoalMetricsVisibility.TRUE, text: "opened"},
-                {id: "2", value: GoalMetricsVisibility.FALSE, text: "closed"},
+                {id: "1", value: "true", text: "opened"},
+                {id: "2", value: "false", text: "closed"},
               ]}
               onChange={(value) => {
-              // TODO: improve select interface to avoid 'as' operator
-                GoalMetricsWorker.setGoalMetricsVisibility(value as GoalMetricsVisibility);
+                WayWorker.setGoalMetricsVisibility(JSON.parse(value));
                 setIsGoalMetricsVisible(!isGoalMetricsVisible);
               }}
             />
@@ -329,6 +327,7 @@ export const WayPage = (props: WayPageProps) => {
           <GoalMetricStatisticsBlock
             isVisible={isGoalMetricsVisible}
             way={way}
+            isOwner={isOwner}
           />
         </div>
         <div className={styles.goalSubSection}>
@@ -339,15 +338,14 @@ export const WayPage = (props: WayPageProps) => {
             />
             <Select
               label=""
-              value={isStatisticsVisible ? "opened" : "closed"}
+              value={JSON.stringify(isGoalMetricsVisible)}
               name="statisticsVisibility"
               options={[
-                {id: "1", value: StatisticsVisibility.TRUE, text: "opened"},
-                {id: "2", value: StatisticsVisibility.FALSE, text: "closed"},
+                {id: "1", value: "true", text: "opened"},
+                {id: "2", value: "false", text: "closed"},
               ]}
               onChange={(value) => {
-              // TODO: improve select interface to avoid 'as' operator
-                StatisticsWorker.setStatisticsVisibility(value as StatisticsVisibility);
+                WayWorker.setStatisticsVisibility(JSON.parse(value));
                 setIsStatisticsVisible(!isStatisticsVisible);
               }}
             />

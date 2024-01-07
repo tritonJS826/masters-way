@@ -272,6 +272,7 @@ export const Columns = (props: ColumnsProps) => {
               <Tooltip
                 content="Add job"
                 position={PositionTooltip.TOP}
+                className={styles.tooltipTop}
               >
                 <Button
                   value={Symbols.PLUS}
@@ -433,6 +434,7 @@ export const Columns = (props: ColumnsProps) => {
                 <Tooltip
                   content="Add plan"
                   position={PositionTooltip.TOP}
+                  className={styles.tooltipTop}
                 >
                   <Button
                     value={Symbols.PLUS}
@@ -566,6 +568,7 @@ export const Columns = (props: ColumnsProps) => {
               <Tooltip
                 content="Add problem"
                 position={PositionTooltip.TOP}
+                className={styles.tooltipTop}
               >
                 <Button
                   value={Symbols.PLUS}
@@ -683,8 +686,9 @@ export const Columns = (props: ColumnsProps) => {
             <div className={styles.summarySection}>
               {isUserOwnerOrMentor &&
               <Tooltip
-                content="Add comment"
                 position={PositionTooltip.TOP}
+                content="Add comment"
+                className={styles.tooltipTop}
               >
                 <Button
                   value={Symbols.PLUS}
