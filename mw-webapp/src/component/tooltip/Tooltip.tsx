@@ -32,7 +32,6 @@ export const Tooltip = (props: PropsWithChildren<TooltipProps>) => {
   const contentClassNames = clsx(
     styles.tooltip,
     props.className,
-    {[styles.fixed]: props.position},
     styles[props.position ?? PositionTooltip.TOP],
   );
 

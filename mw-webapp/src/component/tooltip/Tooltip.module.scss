@@ -20,10 +20,6 @@ th .wrapper {
   cursor: pointer;
 }
 
-// .fixed {
-//   position: fixed;
-// }
-
 .target {
   display: flex;
   align-items: center;
@@ -42,23 +38,12 @@ th .wrapper {
 .right {
   margin-top: -$marginSmall;
   transform: translateX(100%);
-  // top: 50%;
-  // right: -5px;
-  // transform: translateX(100%) translateY(-50%);
 }
 
 .bottom {
-  // margin-top: -$marginSmall;
   transform: translateY(100%);
-  // bottom: -5px;
-  // left: 50%;
-  // transform: translateY(100%) translateX(-50%);
 }
 
 .left {
-  // margin-top: -$marginSmall;
   transform: translateX(-100%);
-  // top: 50%;
-  // left: -5px;
-  // transform: translateX(-100%) translateY(-50%);
 }
