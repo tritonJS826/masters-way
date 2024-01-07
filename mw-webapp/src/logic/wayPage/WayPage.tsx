@@ -338,7 +338,7 @@ export const WayPage = (props: WayPageProps) => {
             />
             <Select
               label=""
-              value={JSON.stringify(isGoalMetricsVisible)}
+              value={JSON.stringify(isStatisticsVisible)}
               name="statisticsVisibility"
               options={[
                 {id: "1", value: "true", text: "opened"},

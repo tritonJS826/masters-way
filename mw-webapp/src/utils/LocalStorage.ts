@@ -1,5 +1,6 @@
 import {Language} from "src/utils/LanguageWorker";
 import {Theme} from "src/utils/ThemeWorker";
+import {WayStorageData} from "src/utils/WayWorker";
 
 /**
  * Worker for accessing local storage
@@ -79,7 +80,7 @@ type LocalStorageData = {
   /**
    * Supported way
    */
-  way: string;
+  way: WayStorageData;
 
 }
 
