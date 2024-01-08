@@ -13,7 +13,7 @@ import {GoalDAL} from "src/dataAccessLogic/GoalDAL";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {useLoad} from "src/hooks/useLoad";
-import {GoalMetricStatisticsBlock} from "src/logic/wayPage/GoalMetricsBlock";
+import {GoalMetricsBlock} from "src/logic/wayPage/GoalMetricsBlock";
 import {MentorRequestsSection} from "src/logic/wayPage/MentorRequestsSection";
 import {MentorsSection} from "src/logic/wayPage/MentorsSection";
 import {DayReportsTable} from "src/logic/wayPage/reportsTable/DayReportsTable";
@@ -24,8 +24,17 @@ import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {pages} from "src/router/pages";
 import {Symbols} from "src/utils/Symbols";
-import {WayWorker} from "src/utils/WayWorker";
 import styles from "src/logic/wayPage/WayPage.module.scss";
+
+/**
+ * Default goalMetrics block is opened
+ */
+const DEFAULT_IS_STATISTICS_VISIBLE = "true";
+
+/**
+ * Default statistics block is opened
+ */
+const DEFAULT_IS_GOAL_METRICS_VISIBLE = "true";
 
 /**
  * Change Goal description
@@ -142,10 +151,10 @@ interface WayPageProps {
  */
 export const WayPage = (props: WayPageProps) => {
   const navigate = useNavigate();
-  const currentGoalMetricsVisibility = WayWorker.getCurrentGoalMetricsVisibility();
-  const currentStatisticsVisibility = WayWorker.getCurrentStatisticsVisibility();
-  const [isGoalMetricsVisible, setIsGoalMetricsVisible] = useState<boolean>(currentGoalMetricsVisibility);
-  const [isStatisticsVisible, setIsStatisticsVisible] = useState<boolean>(currentStatisticsVisibility);
+  const isCurrentGoalMetricsVisible = JSON.parse(localStorage.getItem("isGoalMetricsVisible") ?? DEFAULT_IS_GOAL_METRICS_VISIBLE);
+  const isCurrentStatisticsVisible = JSON.parse(localStorage.getItem("isStatisticsVisible") ?? DEFAULT_IS_STATISTICS_VISIBLE);
+  const [isGoalMetricsVisible, setIsGoalMetricsVisible] = useState<boolean>(isCurrentGoalMetricsVisible);
+  const [isStatisticsVisible, setIsStatisticsVisible] = useState<boolean>(isCurrentStatisticsVisible);
   const {user, setUser} = useGlobalContext();
   const [way, setWay] = useState<Way>();
 
@@ -195,6 +204,22 @@ export const WayPage = (props: WayPageProps) => {
   const isEligibleToSendRequest = !!user && !isOwner && !isMentor && !isUserHasSentMentorRequest;
 
   const favoriteForUsersAmount = way.favoriteForUsers.length;
+
+  /**
+   * Change goal metrics visibility
+   */
+  const changeGoalMetricsVisibility = (value: string) => {
+    localStorage.setItem("isGoalMetricsVisible", value);
+    setIsGoalMetricsVisible(!isGoalMetricsVisible);
+  };
+
+  /**
+   * Change way statistics visibility
+   */
+  const changeStatisticsVisibility = (value: string) => {
+    localStorage.setItem("isStatisticsVisible", value);
+    setIsStatisticsVisible(!isStatisticsVisible);
+  };
 
   return (
     <div className={styles.container}>
@@ -318,16 +343,13 @@ export const WayPage = (props: WayPageProps) => {
                 {id: "1", value: "true", text: "opened"},
                 {id: "2", value: "false", text: "closed"},
               ]}
-              onChange={(value) => {
-                WayWorker.setGoalMetricsVisibility(JSON.parse(value));
-                setIsGoalMetricsVisible(!isGoalMetricsVisible);
-              }}
+              onChange={(value) => changeGoalMetricsVisibility(value)}
             />
           </HorizontalContainer>
-          <GoalMetricStatisticsBlock
+          <GoalMetricsBlock
             isVisible={isGoalMetricsVisible}
             way={way}
-            isOwner={isOwner}
+            isEditable={isOwner}
           />
         </div>
         <div className={styles.goalSubSection}>
@@ -344,10 +366,7 @@ export const WayPage = (props: WayPageProps) => {
                 {id: "1", value: "true", text: "opened"},
                 {id: "2", value: "false", text: "closed"},
               ]}
-              onChange={(value) => {
-                WayWorker.setStatisticsVisibility(JSON.parse(value));
-                setIsStatisticsVisible(!isStatisticsVisible);
-              }}
+              onChange={(value) => changeStatisticsVisibility(value)}
             />
           </HorizontalContainer>
           <WayStatistic

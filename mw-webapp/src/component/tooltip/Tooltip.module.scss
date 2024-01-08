@@ -24,14 +24,13 @@ th .wrapper {
   display: flex;
   align-items: center;
   &:hover + .tooltip {
-    z-index: 999;
     display: block;
     display: inline-block;
   }
 }
 
 .top {
-  margin-top: -$marginSmall;
+  margin-top: -$marginBig;
   transform: translateY(-100%);
 }
 

@@ -191,7 +191,6 @@ export const waysColumns = [
      */
     header: () => (
       <>
-        {/* <div className={styles.tooltips}> */}
         <Tooltip
           position={PositionTooltip.TOP}
           content="Amount of favorites"
@@ -199,13 +198,6 @@ export const waysColumns = [
         >
           {Symbols.STAR}
         </Tooltip>
-
-        {/* <div className={styles.tooltip}>
-            Amount of favorites
-          </div> */}
-        {/* {Symbols.STAR} */}
-        {/* </Tooltip> */}
-        {/* </div> */}
       </>),
 
     /**
