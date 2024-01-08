@@ -1,16 +1,49 @@
 @import "src/styles/variables";
 
-$checkbox-width: 25px;
-$checkbox-height: 25px;
+$checkbox-width: 0px;
+$checkbox-height: 0px;
+
+.checkMark {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.checkMark::before {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: inline-block;
+
+  width: 14px;
+  height: 14px;
+  border: 2px solid $tertiaryBackgroundColor;
+  border-radius: 3px;
+
+  margin-right: 10px;
+  background-color: $primaryBackgroundColor;
+  content: "";
+}
 
 .checkbox {
-  width: $checkbox-width;
-  height: $checkbox-height;
-  accent-color: rgb(0, 128, 0);
-  cursor: pointer;
-  transition: 0.3s all;
+  display: none;
+}
 
-  &:hover {
-    scale: 1.1;
-  }
+input[type="checkbox"]:checked + .checkMark::before {
+  color: red;
+  content: "\2713";
+  font-size: 12px;
+  line-height: 12px;
+  text-align: center;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+
+  // left: 9px;
+  // top: 5px;
+  // width: 5px;
+  // height: 10px;
+  // border: solid white;
+  // border-width: 0 3px 3px 0;
+  // -webkit-transform: rotate(45deg);
+  // -ms-transform: rotate(45deg);
+  // transform: rotate(45deg);
 }
