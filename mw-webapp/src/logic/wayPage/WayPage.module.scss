@@ -38,9 +38,9 @@
 
 .icon {
   display: block;
-  min-width: 15px;
-  min-height: 15px;
-  margin-left: 5px;
+  min-width: $iconSizeSmall;
+  min-height: $iconSizeSmall;
+  margin-left: $marginSmall;
   cursor: pointer;
 }
 
@@ -48,11 +48,6 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-}
-
-.alignTrashIcon {
-  align-items: center;
-  gap: $gapMedium;
 }
 
 .buttons {

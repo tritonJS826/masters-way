@@ -1,35 +1,40 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {TrashIcon} from "@radix-ui/react-icons";
 import {Button, ButtonType} from "src/component/button/Button";
-import {Checkbox} from "src/component/checkbox/Сheckbox";
-import {EditableText} from "src/component/editableText/EditableText";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
+import {Select} from "src/component/select/Select";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {GoalDAL} from "src/dataAccessLogic/GoalDAL";
-import {GoalMetricDAL} from "src/dataAccessLogic/GoalMetricDAL";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {useLoad} from "src/hooks/useLoad";
+import {GoalMetricsBlock} from "src/logic/wayPage/GoalMetricsBlock";
 import {MentorRequestsSection} from "src/logic/wayPage/MentorRequestsSection";
 import {MentorsSection} from "src/logic/wayPage/MentorsSection";
 import {DayReportsTable} from "src/logic/wayPage/reportsTable/DayReportsTable";
 import {renderModalContent} from "src/logic/wayPage/reportsTable/WayColumns";
 import {WayStatistic} from "src/logic/wayPage/WayStatistic";
 import {Goal} from "src/model/businessModel/Goal";
-import {GoalMetric} from "src/model/businessModel/GoalMetric";
 import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {pages} from "src/router/pages";
-import {DateUtils} from "src/utils/DateUtils";
 import {Symbols} from "src/utils/Symbols";
-import {v4 as uuidv4} from "uuid";
 import styles from "src/logic/wayPage/WayPage.module.scss";
+
+/**
+ * Default goalMetrics block is opened
+ */
+const DEFAULT_IS_STATISTICS_VISIBLE = "true";
+
+/**
+ * Default statistics block is opened
+ */
+const DEFAULT_IS_GOAL_METRICS_VISIBLE = "true";
 
 /**
  * Change Goal description
@@ -131,46 +136,6 @@ const deleteFavoriteFromWayAndFromUser = async (
 };
 
 /**
- * Singular metric for goal
- */
-class SingleGoalMetric {
-
-  /**
-   * Goal metric uuid
-   */
-  public uuid: string;
-
-  /**
-   * Metric uuid
-   */
-  public metricUuid: string;
-
-  /**
-   * Metric description
-   */
-  public description: string;
-
-  /**
-   * Metric is done or not
-   */
-  public isDone: boolean;
-
-  /**
-   * Date when metric was done
-   */
-  public doneDate: Date;
-
-  constructor(params: SingleGoalMetric) {
-    this.uuid = params.uuid;
-    this.metricUuid = params.metricUuid;
-    this.description = params.description;
-    this.isDone = params.isDone;
-    this.doneDate = params.doneDate;
-  }
-
-}
-
-/**
  * PageProps
  */
 interface WayPageProps {
@@ -186,6 +151,10 @@ interface WayPageProps {
  */
 export const WayPage = (props: WayPageProps) => {
   const navigate = useNavigate();
+  const isCurrentGoalMetricsVisible = JSON.parse(localStorage.getItem("isGoalMetricsVisible") ?? DEFAULT_IS_GOAL_METRICS_VISIBLE);
+  const isCurrentStatisticsVisible = JSON.parse(localStorage.getItem("isStatisticsVisible") ?? DEFAULT_IS_STATISTICS_VISIBLE);
+  const [isGoalMetricsVisible, setIsGoalMetricsVisible] = useState<boolean>(isCurrentGoalMetricsVisible);
+  const [isStatisticsVisible, setIsStatisticsVisible] = useState<boolean>(isCurrentStatisticsVisible);
   const {user, setUser} = useGlobalContext();
   const [way, setWay] = useState<Way>();
 
@@ -234,169 +203,22 @@ export const WayPage = (props: WayPageProps) => {
   const isUserHasSentMentorRequest = !!user && way.mentorRequests.some((request) => request.uuid === user.uuid);
   const isEligibleToSendRequest = !!user && !isOwner && !isMentor && !isUserHasSentMentorRequest;
 
-  const favoriteForUsersAmount = way.favoriteForUsers.length ?? 0;
+  const favoriteForUsersAmount = way.favoriteForUsers.length;
 
   /**
-   * Set goal metric to the way state
+   * Change goal metrics visibility
    */
-  const setGoalMetric = (updatedGoalMetric: GoalMetric) => {
-    setWay(new Way({...way, goal: new Goal({...way.goal, metrics: [updatedGoalMetric]})}));
+  const changeGoalMetricsVisibility = (value: string) => {
+    localStorage.setItem("isGoalMetricsVisible", value);
+    setIsGoalMetricsVisible(!isGoalMetricsVisible);
   };
 
   /**
-   * Remove singular goal Metric from goal
+   * Change way statistics visibility
    */
-  const removeSingularGoalMetric = async (singularGoalMetricUuid: string) => {
-    const goalMetricToUpdate: GoalMetric = structuredClone(way.goal.metrics[0]);
-    const indexToDelete = goalMetricToUpdate.metricUuids.indexOf(singularGoalMetricUuid);
-
-    const AMOUNT_TO_DELETE = 1;
-    goalMetricToUpdate.metricUuids.splice(indexToDelete, AMOUNT_TO_DELETE);
-    goalMetricToUpdate.description.splice(indexToDelete, AMOUNT_TO_DELETE);
-    goalMetricToUpdate.isDone.splice(indexToDelete, AMOUNT_TO_DELETE);
-    goalMetricToUpdate.doneDate.splice(indexToDelete, AMOUNT_TO_DELETE);
-
-    const updatedGoalMetric: GoalMetric = new GoalMetric(goalMetricToUpdate);
-
-    setWay(new Way({...way, goal: new Goal({...way.goal, metrics: [updatedGoalMetric]})}));
-    await GoalMetricDAL.updateGoalMetric(updatedGoalMetric);
-  };
-
-  /**
-   * Change goal metric
-   */
-  const updateGoalMetric = async (updatedSingleGoalMetric: SingleGoalMetric) => {
-    const goalMetricToUpdate: GoalMetric = structuredClone(way.goal.metrics[0]);
-    const changedIndex = goalMetricToUpdate.metricUuids.indexOf(updatedSingleGoalMetric.metricUuid);
-
-    const updatedGoalMetric: GoalMetric = new GoalMetric({
-      ...goalMetricToUpdate,
-      description: goalMetricToUpdate.description.map(
-        (item, index) => index === changedIndex ? updatedSingleGoalMetric.description : item,
-      ),
-      isDone: goalMetricToUpdate.isDone.map(
-        (item, index) => index === changedIndex ? updatedSingleGoalMetric.isDone : item,
-      ),
-      doneDate: goalMetricToUpdate.doneDate.map(
-        (item, index) => index === changedIndex ? updatedSingleGoalMetric.doneDate : item,
-      ),
-    });
-
-    setWay(new Way({...way, goal: new Goal({...way.goal, metrics: [updatedGoalMetric]})}));
-    await GoalMetricDAL.updateGoalMetric(updatedGoalMetric);
-  };
-
-  /**
-   * Render goal metric
-   */
-  const renderSingleGoalMetric = (singleGoalMetric: SingleGoalMetric) => {
-    const tooltipContent = singleGoalMetric.isDone
-      ? `Done date ${DateUtils.getShortISODateValue(singleGoalMetric.doneDate)}`
-      : "Not finished yet...";
-
-    return (
-      <div
-        key={singleGoalMetric.metricUuid}
-        className={styles.singularMetric}
-      >
-        <HorizontalContainer className={styles.horizontalContainer}>
-          <Checkbox
-            isEditable={isOwner}
-            isDefaultChecked={singleGoalMetric.isDone}
-            className={styles.checkbox}
-            onChange={(isDone) => {
-              const updatedSingleGoalMetric = new SingleGoalMetric({
-                ...singleGoalMetric,
-                isDone,
-                doneDate: new Date(),
-              });
-              updateGoalMetric(updatedSingleGoalMetric);
-            }
-            }
-          />
-          <Tooltip content={tooltipContent}>
-            <EditableText
-              text={singleGoalMetric.description ?? ""}
-              onChangeFinish={(description) => updateGoalMetric(
-                new SingleGoalMetric({...singleGoalMetric, description}),
-              )}
-              isEditable={isOwner}
-            />
-          </Tooltip>
-        </HorizontalContainer>
-        {isOwner && (
-          <Tooltip content="Delete goal metric">
-            <TrashIcon
-              className={styles.icon}
-              onClick={() => renderModalContent({
-                description: `Are you sure that you want to delete singleGoalMetric "${singleGoalMetric.description}"?`,
-
-                /**
-                 * CallBack remove singular goal metric
-                 */
-                onOk: () => removeSingularGoalMetric(singleGoalMetric.metricUuid),
-              })}
-            />
-          </Tooltip>
-        )
-        }
-      </div>
-    );
-  };
-
-  /**
-   * Render button Add goal metrics
-   */
-  const renderButtonAddMetrics = () => {
-    return (
-      <>
-        {isOwner && (
-          <Button
-            value="Add new goal metric"
-            onClick={async () => {
-
-              /**
-               * Get current goal metric from way
-               */
-              const currentGoalMetric = way.goal.metrics[0];
-
-              const updatedGoalMetric = new GoalMetric({
-                uuid: currentGoalMetric.uuid,
-                description: currentGoalMetric.description.concat(""),
-                metricUuids: currentGoalMetric.metricUuids.concat(uuidv4()),
-                isDone: currentGoalMetric.isDone.concat(false),
-                doneDate: currentGoalMetric.doneDate.concat(new Date()),
-              });
-
-              setGoalMetric(updatedGoalMetric);
-              await GoalMetricDAL.updateGoalMetric(updatedGoalMetric);
-            }}
-          />
-        )
-        }
-      </>
-    );
-  };
-
-  /**
-   * Render goal metrics
-   */
-  const renderGoalMetric = (goalMetric: GoalMetric) => {
-    return (
-      <>
-        {goalMetric.metricUuids.map((metricUuid, index) => renderSingleGoalMetric(
-          {
-            uuid: goalMetric.uuid,
-            metricUuid,
-            description: goalMetric.description[index],
-            doneDate: goalMetric.doneDate[index],
-            isDone: goalMetric.isDone[index],
-          },
-        ))
-        }
-        {renderButtonAddMetrics()}
-      </>
-    );
+  const changeStatisticsVisibility = (value: string) => {
+    localStorage.setItem("isStatisticsVisible", value);
+    setIsStatisticsVisible(!isStatisticsVisible);
   };
 
   return (
@@ -508,20 +330,49 @@ export const WayPage = (props: WayPageProps) => {
           />
         </div>
         <div className={styles.goalSubSection}>
-          <Title
-            level={HeadingLevel.h3}
-            text="Metrics"
+          <HorizontalContainer className={styles.horizontalContainer}>
+            <Title
+              level={HeadingLevel.h3}
+              text="Metrics"
+            />
+            <Select
+              label=""
+              value={JSON.stringify(isGoalMetricsVisible)}
+              name="goalMetricsVisibility"
+              options={[
+                {id: "1", value: "true", text: "opened"},
+                {id: "2", value: "false", text: "closed"},
+              ]}
+              onChange={(value) => changeGoalMetricsVisibility(value)}
+            />
+          </HorizontalContainer>
+          <GoalMetricsBlock
+            isVisible={isGoalMetricsVisible}
+            way={way}
+            isEditable={isOwner}
           />
-          {renderGoalMetric(way.goal.metrics[0])}
         </div>
         <div className={styles.goalSubSection}>
-          <Title
-            level={HeadingLevel.h3}
-            text="Statistics"
-          />
+          <HorizontalContainer className={styles.horizontalContainer}>
+            <Title
+              level={HeadingLevel.h3}
+              text="Statistics"
+            />
+            <Select
+              label=""
+              value={JSON.stringify(isStatisticsVisible)}
+              name="statisticsVisibility"
+              options={[
+                {id: "1", value: "true", text: "opened"},
+                {id: "2", value: "false", text: "closed"},
+              ]}
+              onChange={(value) => changeStatisticsVisibility(value)}
+            />
+          </HorizontalContainer>
           <WayStatistic
             dayReports={way.dayReports}
             wayCreatedAt={way.createdAt}
+            isVisible={isStatisticsVisible}
           />
         </div>
       </div>
@@ -532,4 +383,3 @@ export const WayPage = (props: WayPageProps) => {
     </div>
   );
 };
-

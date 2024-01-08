@@ -1,6 +1,7 @@
 @import "src/styles/variables";
 
 $table-border: 1px solid var(--primaryBorderColor);
+$cell-max-width: 600px;
 
 .table {
   width: 100%;
@@ -20,10 +21,16 @@ $table-border: 1px solid var(--primaryBorderColor);
 
 .table td {
   position: relative;
+  max-width: $cell-max-width;
   padding: 8px 10px;
   border: $table-border;
   text-align: left;
   vertical-align: top;
+  word-wrap: break-word;
+
+  pre {
+    overflow: auto;
+  }
 }
 
 .tooltip {

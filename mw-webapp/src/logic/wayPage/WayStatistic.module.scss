@@ -1,11 +1,5 @@
 @import "src/styles/variables";
 
-.accordion {
-  min-width: $minWidthBlock;
-  max-width: $maxWidthBlock;
-  margin-top: $marginMedium;
-}
-
 .wrapper {
   display: flex;
   flex-direction: column;

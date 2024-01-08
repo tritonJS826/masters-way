@@ -1,5 +1,6 @@
 import {TrashIcon} from "@radix-ui/react-icons";
 import {createColumnHelper} from "@tanstack/react-table";
+import {clsx} from "clsx";
 import {Button} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Сheckbox";
 import {EditableText} from "src/component/editableText/EditableText";
@@ -27,6 +28,16 @@ import styles from "src/logic/wayPage/reportsTable/WayColumns.module.scss";
 
 const DEFAULT_SUMMARY_TIME = 0;
 const columnHelper = createColumnHelper<DayReport>();
+const DIFFERENCE_INDEX_LIST_NUMBER = 1;
+
+/**
+ * Convert index of element to list number
+ */
+const getListNumberByIndex = (index: number) => {
+  const listNumber = `${index + DIFFERENCE_INDEX_LIST_NUMBER}.${Symbols.NO_BREAK_SPACE}`;
+
+  return listNumber;
+};
 
 /**
  * Params for {@link renderModalContent}
@@ -222,57 +233,63 @@ export const Columns = (props: ColumnsProps) => {
         };
 
         return (
-          <VerticalContainer>
+          <VerticalContainer className={styles.list}>
             <ol className={styles.numberedList}>
-              {row.original.jobsDone.map((jobDone) => (
-                <li key={jobDone.uuid}>
-                  <HorizontalContainer>
-                    <HorizontalContainer className={styles.numberedListItem}>
-                      <EditableTextarea
-                        text={jobDone.description}
-                        onChangeFinish={(text) => updateJobDone(jobDone, text)}
-                        isEditable={isOwner}
-                        className={styles.editableTextarea}
-                      />
-                      <EditableText
-                        text={jobDone.time}
-                        onChangeFinish={(text) => updateJobDoneTime(jobDone, text)}
-                        className={styles.editableTime}
-                        isEditable={isOwner}
-                      />
-                    </HorizontalContainer>
-                    {isOwner &&
-                      <Tooltip content="Delete jobDone">
-                        <TrashIcon
-                          className={styles.icon}
-                          onClick={() => renderModalContent({
-                            description: `Are you sure that you want to delete jobDone "${jobDone.description}"?`,
-
-                            /**
-                             * CallBack triggered on press ok
-                             */
-                            onOk: () => deleteJobDone(jobDone.uuid),
-                          })
-                          }
+              {row.original.jobsDone.map((jobDone, index) => (
+                <li
+                  key={jobDone.uuid}
+                  className={styles.numberedListItem}
+                >
+                  <VerticalContainer className={styles.verticalContainer}>
+                    <HorizontalContainer className={clsx(styles.horizontalContainer, styles.listNumberAndName)}>
+                      {getListNumberByIndex(index)}
+                      <HorizontalContainer className={styles.icons}>
+                        <EditableText
+                          text={jobDone.time}
+                          onChangeFinish={(text) => updateJobDoneTime(jobDone, text)}
+                          className={styles.editableTime}
+                          isEditable={isOwner}
                         />
-                      </Tooltip>
-                    }
-                  </HorizontalContainer>
+                        {isOwner &&
+                          <Tooltip content="Delete jobDone">
+                            <TrashIcon
+                              className={styles.icon}
+                              onClick={() => renderModalContent({
+                                description: `Are you sure that you want to delete jobDone "${jobDone.description}"?`,
+
+                                /**
+                                 * CallBack triggered on press ok
+                                 */
+                                onOk: () => deleteJobDone(jobDone.uuid),
+                              })
+                              }
+                            />
+                          </Tooltip>
+                        }
+                      </HorizontalContainer>
+                    </HorizontalContainer>
+                    <EditableTextarea
+                      text={jobDone.description}
+                      onChangeFinish={(text) => updateJobDone(jobDone, text)}
+                      isEditable={isOwner}
+                      className={styles.editableTextarea}
+                    />
+                  </VerticalContainer>
                 </li>
               ))}
             </ol>
             <div className={styles.summarySection}>
               {isOwner &&
-                <Tooltip
-                  content="Add job"
-                  position={PositionTooltip.TOP}
-                >
-                  <Button
-                    value={Symbols.PLUS}
-                    onClick={createJobDone}
-                    className={styles.flatButton}
-                  />
-                </Tooltip>
+              <Tooltip
+                content="Add job"
+                position={PositionTooltip.TOP}
+              >
+                <Button
+                  value={Symbols.PLUS}
+                  onClick={createJobDone}
+                  className={styles.flatButton}
+                />
+              </Tooltip>
               }
               <div className={styles.summaryText}>
                 {"Total: "}
@@ -361,27 +378,38 @@ export const Columns = (props: ColumnsProps) => {
         };
 
         return (
-          <VerticalContainer>
+          <VerticalContainer className={styles.list}>
             <ol className={styles.numberedList}>
-              {row.original.plans.map((plan) => (
-                <li key={plan.uuid}>
-                  <HorizontalContainer className={styles.numberedListItem}>
-                    <VerticalContainer>
-                      <HorizontalContainer className={styles.horizontalContainer}>
+              {row.original.plans.map((plan, index) => (
+                <li
+                  key={plan.uuid}
+                  className={styles.numberedListItem}
+                >
+                  <VerticalContainer className={styles.verticalContainer}>
+                    <HorizontalContainer className={styles.horizontalContainer}>
+                      <HorizontalContainer className={styles.listNumberAndName}>
+                        {getListNumberByIndex(index)}
                         <Link
                           value={getName(props.way, plan.ownerUuid)}
                           path={pages.user.getPath({uuid: plan.ownerUuid})}
                         />
-                        <HorizontalContainer className={styles.icons}>
-                          {isOwner &&
+                      </HorizontalContainer>
+                      <HorizontalContainer className={styles.icons}>
+                        <EditableText
+                          text={plan.estimationTime}
+                          onChangeFinish={(value) => updatePlanTime(plan, value)}
+                          className={styles.editableTime}
+                          isEditable={plan.ownerUuid === user?.uuid}
+                        />
+                        {isOwner &&
                           <Tooltip content="Coming soon">
                             <Checkbox
                               onChange={() => {}}
                               className={styles.checkbox}
                             />
                           </Tooltip>
-                          }
-                          {plan.ownerUuid === user?.uuid &&
+                        }
+                        {plan.ownerUuid === user?.uuid &&
                           <Tooltip content="Delete plan">
                             <TrashIcon
                               className={styles.icon}
@@ -396,25 +424,18 @@ export const Columns = (props: ColumnsProps) => {
                               }
                             />
                           </Tooltip>
-                          }
-                        </HorizontalContainer>
+                        }
                       </HorizontalContainer>
-                      <HorizontalContainer>
-                        <EditableTextarea
-                          text={plan.job}
-                          onChangeFinish={(text) => updatePlan(plan, text)}
-                          isEditable={plan.ownerUuid === user?.uuid}
-                          className={styles.editableTextarea}
-                        />
-                        <EditableText
-                          text={plan.estimationTime}
-                          onChangeFinish={(value) => updatePlanTime(plan, value)}
-                          className={styles.editableTime}
-                          isEditable={plan.ownerUuid === user?.uuid}
-                        />
-                      </HorizontalContainer>
-                    </VerticalContainer>
-                  </HorizontalContainer>
+                    </HorizontalContainer>
+                    <HorizontalContainer>
+                      <EditableTextarea
+                        text={plan.job}
+                        onChangeFinish={(text) => updatePlan(plan, text)}
+                        isEditable={plan.ownerUuid === user?.uuid}
+                        className={styles.editableTextarea}
+                      />
+                    </HorizontalContainer>
+                  </VerticalContainer>
                 </li>
               ))}
             </ol>
@@ -500,27 +521,32 @@ export const Columns = (props: ColumnsProps) => {
         };
 
         return (
-          <VerticalContainer>
+          <VerticalContainer className={styles.list}>
             <ol className={styles.numberedList}>
-              {row.original.problems.map((problem) => (
-                <li key={problem.uuid}>
-                  <HorizontalContainer className={styles.numberedListItem}>
-                    <VerticalContainer>
-                      <HorizontalContainer className={styles.horizontalContainer}>
+              {row.original.problems.map((problem, index) => (
+                <li
+                  key={problem.uuid}
+                  className={styles.numberedListItem}
+                >
+                  <VerticalContainer className={styles.verticalContainer}>
+                    <HorizontalContainer className={styles.horizontalContainer}>
+                      <HorizontalContainer className={styles.listNumberAndName}>
+                        {getListNumberByIndex(index)}
                         <Link
                           value={getName(props.way, problem.ownerUuid)}
                           path={pages.user.getPath({uuid: problem.ownerUuid})}
                         />
-                        <HorizontalContainer className={styles.icons}>
-                          {isOwner &&
+                      </HorizontalContainer>
+                      <HorizontalContainer className={styles.icons}>
+                        {isOwner &&
                           <Tooltip content="Coming soon">
                             <Checkbox
                               onChange={() => {}}
                               className={styles.checkbox}
                             />
                           </Tooltip>
-                          }
-                          {problem.ownerUuid === user?.uuid &&
+                        }
+                        {problem.ownerUuid === user?.uuid &&
                           <Tooltip content="Delete problem">
                             <TrashIcon
                               className={styles.icon}
@@ -535,17 +561,16 @@ export const Columns = (props: ColumnsProps) => {
                               }
                             />
                           </Tooltip>
-                          }
-                        </HorizontalContainer>
+                        }
                       </HorizontalContainer>
-                      <EditableTextarea
-                        text={problem.description}
-                        onChangeFinish={(text) => updateProblem(problem, text)}
-                        isEditable={problem.ownerUuid === user?.uuid}
-                        className={styles.editableTextarea}
-                      />
-                    </VerticalContainer>
-                  </HorizontalContainer>
+                    </HorizontalContainer>
+                    <EditableTextarea
+                      text={problem.description}
+                      onChangeFinish={(text) => updateProblem(problem, text)}
+                      isEditable={problem.ownerUuid === user?.uuid}
+                      className={styles.editableTextarea}
+                    />
+                  </VerticalContainer>
                 </li>
               ))}
             </ol>
@@ -622,60 +647,58 @@ export const Columns = (props: ColumnsProps) => {
         };
 
         return (
-          <VerticalContainer>
-            <ol className={styles.comments}>
-              {row.original.comments
-                .map((comment) => (
-                  <li
-                    key={comment.uuid}
-                    className={styles.comment}
-                  >
-                    <HorizontalContainer key={comment.uuid}>
-                      <VerticalContainer>
-                        <HorizontalContainer className={styles.horizontalContainer}>
-                          <Link
-                            value={getName(props.way, comment.ownerUuid)}
-                            path={pages.user.getPath({uuid: comment.ownerUuid})}
-                          />
-                          {comment.ownerUuid === user?.uuid &&
-                            <Tooltip
-                              content="Delete comment"
-                              position={PositionTooltip.LEFT}
-                            >
-                              <TrashIcon
-                                className={styles.icon}
-                                onClick={() => renderModalContent({
-                                  description: `Are you sure that you want to delete comment "${comment.description}"?`,
-
-                                  /**
-                                   * CallBack triggered on press ok
-                                   */
-                                  onOk: () => deleteComment(comment.uuid),
-                                })
-                                }
-                              />
-                            </Tooltip>
-                          }
-                        </HorizontalContainer>
-                        <HorizontalContainer>
-                          <EditableTextarea
-                            text={comment.description}
-                            onChangeFinish={(text) => updateComment(comment, text)}
-                            isEditable={comment.ownerUuid === user?.uuid}
-                            className={styles.editableTextarea}
-                          />
-                        </HorizontalContainer>
-                      </VerticalContainer>
+          <VerticalContainer className={styles.list}>
+            {row.original.comments
+              .map((comment, index) => (
+                <VerticalContainer
+                  key={comment.uuid}
+                  className={styles.verticalContainer}
+                >
+                  <HorizontalContainer className={styles.horizontalContainer}>
+                    <HorizontalContainer className={styles.listNumberAndName}>
+                      {getListNumberByIndex(index)}
+                      <Link
+                        value={getName(props.way, comment.ownerUuid)}
+                        path={pages.user.getPath({uuid: comment.ownerUuid})}
+                      />
                     </HorizontalContainer>
-                  </li>
-                ),
-                )}
-            </ol>
+                    {comment.ownerUuid === user?.uuid &&
+                      <Tooltip
+                        content="Delete comment"
+                        position={PositionTooltip.LEFT}
+                      >
+                        <TrashIcon
+                          className={styles.icon}
+                          onClick={() => renderModalContent({
+                            description: `Are you sure that you want to delete comment "${comment.description}"?`,
+
+                            /**
+                             * CallBack triggered on press ok
+                             */
+                            onOk: () => deleteComment(comment.uuid),
+                          })
+                          }
+                        />
+                      </Tooltip>
+                    }
+                  </HorizontalContainer>
+                  <HorizontalContainer>
+                    <EditableTextarea
+                      text={comment.description}
+                      onChangeFinish={(text) => updateComment(comment, text)}
+                      isEditable={comment.ownerUuid === user?.uuid}
+                      className={styles.editableTextarea}
+                    />
+                  </HorizontalContainer>
+                </VerticalContainer>
+              ),
+              )}
+
             <div className={styles.summarySection}>
               {isUserOwnerOrMentor &&
               <Tooltip
-                content="Add comment"
                 position={PositionTooltip.TOP}
+                content="Add comment"
               >
                 <Button
                   value={Symbols.PLUS}

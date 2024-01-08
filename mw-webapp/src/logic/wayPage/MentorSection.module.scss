@@ -1,0 +1,19 @@
+@import "src/styles/variables";
+
+$mentorSectionWidth: 250px;
+
+.alignTrashIcon {
+  display: flex;
+  width: mentorSectionWidth;
+  align-items: center;
+  justify-content: space-between;
+  gap: $gapMedium;
+}
+
+.icon {
+  display: block;
+  min-width: $iconSizeSmall;
+  min-height: $iconSizeSmall;
+  margin-left: $marginSmall;
+  cursor: pointer;
+}

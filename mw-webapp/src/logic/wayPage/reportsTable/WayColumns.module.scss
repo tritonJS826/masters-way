@@ -5,6 +5,7 @@ $listLeftMargin: 20px;
 
 .editableTime {
   width: $editableTimeWidth;
+  min-width: $editableTimeWidth;
   text-align: right;
 }
 
@@ -31,13 +32,11 @@ $listLeftMargin: 20px;
 }
 
 .numberedList {
-  width: calc(100% - $listLeftMargin);
   flex: 1 0 auto;
-  margin-left: $listLeftMargin;
+  list-style-type: none;
 }
 
-.numberedList li:last-child,
-.comments li:last-child {
+.list:last-child {
   margin-bottom: $gapBig;
 }
 
@@ -56,8 +55,13 @@ $listLeftMargin: 20px;
   border-bottom: 1px dotted var(--primaryBorderColor);
 }
 
+.listNumberAndName {
+  align-items: baseline;
+}
+
 .editableTextarea {
   flex-grow: 1;
+
   textarea {
     width: 100%;
   }
@@ -65,10 +69,9 @@ $listLeftMargin: 20px;
 
 .icon {
   display: flex;
-  min-width: 15px;
-  min-height: 15px;
+  min-width: $iconSizeSmall;
+  min-height: $iconSizeSmall;
   align-items: center;
-  margin-left: 5px;
 }
 
 .icon:hover {
@@ -103,4 +106,14 @@ $listLeftMargin: 20px;
   display: flex;
   align-items: center;
   margin-left: $marginSmall;
+  gap: $marginSmall;
+}
+
+.list {
+  display: flex;
+  width: 100%;
+}
+
+.verticalContainer {
+  width: 100%;
 }

@@ -25,29 +25,24 @@ th .wrapper {
   align-items: center;
   &:hover + .tooltip {
     display: block;
+    display: inline-block;
   }
 }
 
 .top {
-  top: -5px;
-  left: 50%;
-  transform: translateY(-100%) translateX(-50%);
+  margin-top: -$marginBig;
+  transform: translateY(-100%);
 }
 
 .right {
-  top: 50%;
-  right: -5px;
-  transform: translateX(100%) translateY(-50%);
+  margin-top: -$marginSmall;
+  transform: translateX(100%);
 }
 
 .bottom {
-  bottom: -5px;
-  left: 50%;
-  transform: translateY(100%) translateX(-50%);
+  transform: translateY(100%);
 }
 
 .left {
-  top: 50%;
-  left: -5px;
-  transform: translateX(-100%) translateY(-50%);
+  transform: translateX(-100%);
 }
