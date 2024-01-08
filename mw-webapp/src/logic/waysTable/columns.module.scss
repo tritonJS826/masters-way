@@ -25,7 +25,11 @@
   display: block;
   min-width: $minWidthDate;
   hyphens: none;
+  text-align: center;
   white-space: nowrap;
+}
+.status {
+  text-align: center;
 }
 
 .tooltipFavorites {

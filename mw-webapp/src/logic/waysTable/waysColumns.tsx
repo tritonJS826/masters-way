@@ -102,7 +102,7 @@ export const waysColumns = [
       });
 
       return (
-        <div>
+        <div className={styles.status}>
           {wayStatus}
         </div>
       );
