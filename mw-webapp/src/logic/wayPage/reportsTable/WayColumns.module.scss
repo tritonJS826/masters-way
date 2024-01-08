@@ -69,8 +69,8 @@ $listLeftMargin: 20px;
 
 .icon {
   display: flex;
-  min-width: 15px;
-  min-height: 15px;
+  min-width: $iconSizeSmall;
+  min-height: $iconSizeSmall;
   align-items: center;
 }
 

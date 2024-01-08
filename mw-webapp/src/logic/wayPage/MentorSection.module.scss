@@ -12,8 +12,8 @@ $mentorSectionWidth: 250px;
 
 .icon {
   display: block;
-  min-width: 15px;
-  min-height: 15px;
-  margin-left: 5px;
+  min-width: $iconSizeSmall;
+  min-height: $iconSizeSmall;
+  margin-left: $marginSmall;
   cursor: pointer;
 }
