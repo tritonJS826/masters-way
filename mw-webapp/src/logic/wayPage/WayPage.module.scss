@@ -1,5 +1,7 @@
 @import "src/styles/variables";
 
+$iconContainerSize: 25px;
+
 .container {
   width: 100%;
   margin: 0 auto;
@@ -34,6 +36,12 @@
 
 .mentors {
   display: flex;
+}
+
+.iconContainer {
+  width: $iconContainerSize;
+  height: $iconContainerSize;
+  cursor: pointer;
 }
 
 .icon {

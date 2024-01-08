@@ -33,41 +33,41 @@ problemsStringified: string[] stringified@CurrentProblem
 commentsStringified: string[] stringified@Comment
 isDayOff: boolean
 
-GoalDTO
+GoalDTO ?? deprecated ??
 uuid: string
 studentUuid: string @UserUuid
 metricUuids: string[] @GoalMetric.uuid[] // only one element in the array
 description: string
 estimationTime: number
 
-PlanDTO
+PlanDTO ?? deprecated ??
 uuid: string
 job: string
 estimationTime: number
 ownerUuid: string @User.uuid
 tags: string[]
 
-JobDoneDTO
+JobDoneDTO ?? deprecated ??
 uuid: string
 description: string
 time: number
 tags: string[]
 
-ProblemDTO
+ProblemDTO ?? deprecated ??
 uuid: string
 description: string
 isDone: boolean
 ownerUuid: string @User.uuid
 tags: string[]
 
-CommentDTO
+CommentDTO ?? deprecated ??
 uuid: string
 ownerUuid: string @User.uuid
 description: string
 isDone: boolean
 tags: string[]
 
-GoalMetricDTO
+GoalMetricDTO ?? deprecated ??
 uuid: string
 metricUuids: string[]
 description: string[]

@@ -1,11 +1,13 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
+import eyeOpened from "src/assets/eyeOpened.svg";
+import eyeSlashed from "src/assets/eyeSlashed.svg";
 import {Button, ButtonType} from "src/component/button/Button";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {Image} from "src/component/image/Image";
 import {Link} from "src/component/link/Link";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
-import {Select} from "src/component/select/Select";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
@@ -208,16 +210,16 @@ export const WayPage = (props: WayPageProps) => {
   /**
    * Change goal metrics visibility
    */
-  const changeGoalMetricsVisibility = (value: string) => {
-    localStorage.setItem("isGoalMetricsVisible", value);
+  const changeGoalMetricsVisibility = () => {
+    localStorage.setItem("isGoalMetricsVisible", JSON.stringify(!isGoalMetricsVisible));
     setIsGoalMetricsVisible(!isGoalMetricsVisible);
   };
 
   /**
    * Change way statistics visibility
    */
-  const changeStatisticsVisibility = (value: string) => {
-    localStorage.setItem("isStatisticsVisible", value);
+  const changeStatisticsVisibility = () => {
+    localStorage.setItem("isStatisticsVisible", JSON.stringify(!isStatisticsVisible));
     setIsStatisticsVisible(!isStatisticsVisible);
   };
 
@@ -335,16 +337,17 @@ export const WayPage = (props: WayPageProps) => {
               level={HeadingLevel.h3}
               text="Metrics"
             />
-            <Select
-              label=""
-              value={JSON.stringify(isGoalMetricsVisible)}
-              name="goalMetricsVisibility"
-              options={[
-                {id: "1", value: "true", text: "opened"},
-                {id: "2", value: "false", text: "closed"},
-              ]}
-              onChange={(value) => changeGoalMetricsVisibility(value)}
-            />
+            <Tooltip content={`Click to ${isGoalMetricsVisible ? "hide" : "open"} goal metrics block`}>
+              <div
+                className={styles.iconContainer}
+                onClick={() => changeGoalMetricsVisibility()}
+              >
+                <Image
+                  src={isGoalMetricsVisible ? eyeOpened : eyeSlashed}
+                  alt={"Eye icon"}
+                />
+              </div>
+            </Tooltip>
           </HorizontalContainer>
           <GoalMetricsBlock
             isVisible={isGoalMetricsVisible}
@@ -358,16 +361,17 @@ export const WayPage = (props: WayPageProps) => {
               level={HeadingLevel.h3}
               text="Statistics"
             />
-            <Select
-              label=""
-              value={JSON.stringify(isStatisticsVisible)}
-              name="statisticsVisibility"
-              options={[
-                {id: "1", value: "true", text: "opened"},
-                {id: "2", value: "false", text: "closed"},
-              ]}
-              onChange={(value) => changeStatisticsVisibility(value)}
-            />
+            <Tooltip content={`Click to ${isStatisticsVisible ? "hide" : "open"} statistics block`}>
+              <div
+                className={styles.iconContainer}
+                onClick={() => changeStatisticsVisibility()}
+              >
+                <Image
+                  src={isStatisticsVisible ? eyeOpened : eyeSlashed}
+                  alt={"Eye icon"}
+                />
+              </div>
+            </Tooltip>
           </HorizontalContainer>
           <WayStatistic
             dayReports={way.dayReports}

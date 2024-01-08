@@ -123,3 +123,5 @@
 - [ ] Investigation with coming soon tooltip (component)
 - [ ] Add a page with a tree of ways (chain of goals) for visualization
 - [ ] add settings page (language, modal with hints)
+- [x] add settings page (language, modal with hints)
+- [ ] add content page (to save all the hints there)
