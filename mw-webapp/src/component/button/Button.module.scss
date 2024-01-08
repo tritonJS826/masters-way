@@ -20,15 +20,34 @@
 
 .primary {
   background-color: var(--tertiaryBackgroundColor);
-  color: var(--secondaryTextColor);
+  color: var(--fourthTextColor);
 }
 
 .secondary {
-  background-color: var(--secondaryBackgroundColor);
-  color: var(--secondaryTextColor);
+  border: var(--border);
+  background-color: var(--buttonColor);
+  color: var(--primaryTextColor);
+
+  &:hover {
+    background-color: var(--secondaryHoverColor);
+  }
 }
 
 .tertiary {
   background-color: transparent;
+  color: var(--primaryTextColor);
+
+  &:hover {
+    background-color: var(--hoverColorLink);
+    cursor: pointer;
+  }
+
+  &:active {
+    background-color: var(--activeColorLink);
+  }
+}
+
+.fourth {
+  background-color: var(--buttonColor);
   color: var(--primaryTextColor);
 }

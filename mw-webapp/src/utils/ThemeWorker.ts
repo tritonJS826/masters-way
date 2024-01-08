@@ -10,44 +10,80 @@ export enum Theme {
 
 const themedVariables: Record<string, Record<Theme, string>> = {
   primaryBackgroundColor: {
-    [Theme.DARK]: "rgb(20, 20, 20)",
-    [Theme.LIGHT]: "rgb(200, 200, 200)",
+    [Theme.DARK]: "rgb(11, 9, 10)",
+    [Theme.LIGHT]: "rgb(245, 243, 244)",
   },
   secondaryBackgroundColor: {
-    [Theme.DARK]: "rgb(200, 200, 200)",
-    [Theme.LIGHT]: "rgb(20, 20, 20)",
+    [Theme.DARK]: "rgb(177, 167, 166)",
+    [Theme.LIGHT]: "rgb(38, 41, 44)",
   },
   tertiaryBackgroundColor: {
-    [Theme.DARK]: "rgb(200, 30, 30)",
-    [Theme.LIGHT]: "rgb(50, 30, 200)",
+    [Theme.DARK]: "rgb(186, 24, 27)",
+    [Theme.LIGHT]: "rgb(186, 24, 27)",
   },
   primaryTextColor: {
-    [Theme.DARK]: "rgb(200, 200, 200)",
-    [Theme.LIGHT]: "rgb(20, 20, 20)",
+    [Theme.DARK]: "rgb(200, 194, 194)",
+    [Theme.LIGHT]: "rgb(11, 9, 10)",
   },
   secondaryTextColor: {
-    [Theme.DARK]: "rgb(20, 20, 20)",
-    [Theme.LIGHT]: "rgb(200, 200, 200)",
+    [Theme.DARK]: "rgb(11, 9, 10)",
+    [Theme.LIGHT]: "rgb(252, 252, 252)",
   },
   tertiaryTextColor: {
-    [Theme.DARK]: "rgb(245, 61,61)",
-    [Theme.LIGHT]: "rgb(50, 30, 200)",
+    [Theme.DARK]: "rgb(236, 165, 100)",
+    [Theme.LIGHT]: "rgb(102, 7, 8)",
+  },
+  fourthTextColor: {
+    [Theme.DARK]: "rgb(252, 252, 252)",
+    [Theme.LIGHT]: "rgb(252, 252, 252)",
+  },
+  fifthTextColor: {
+    [Theme.DARK]: "rgb(200, 194, 194)",
+    [Theme.LIGHT]: "rgb(252, 252, 252)",
   },
   primaryBorderColor: {
-    [Theme.DARK]: "rgb(255, 255, 255)",
-    [Theme.LIGHT]: "rgb(20, 20, 20)",
+    [Theme.DARK]: "rgb(73, 69, 69)",
+    [Theme.LIGHT]: "rgb(200, 194, 194)",
+  },
+  secondaryBorderColor: {
+    [Theme.DARK]: "rgb(73, 69, 69)",
+    [Theme.LIGHT]: "rgb(102, 7, 8)",
   },
   primaryShadowColor: {
-    [Theme.DARK]: "rgb(215, 215, 215)",
-    [Theme.LIGHT]: "rgb(100, 100, 100)",
+    [Theme.DARK]: "rgb(22, 26, 29)",
+    [Theme.LIGHT]: "rgb(225, 222, 222)",
   },
   hoverColor: {
-    [Theme.DARK]: "rgb(135, 135, 135)",
-    [Theme.LIGHT]: "rgb(135, 135, 135)",
+    [Theme.DARK]: "rgb(229, 56, 59)",
+    [Theme.LIGHT]: "rgb(229, 56, 59)",
+  },
+  secondaryHoverColor: {
+    [Theme.DARK]: "rgb(229, 56, 59)",
+    [Theme.LIGHT]: "rgb(225, 222, 222)",
+  },
+  hoverColorLink: {
+    [Theme.DARK]: "rgb(38, 41, 44)",
+    [Theme.LIGHT]: "rgb(225, 222, 222)",
   },
   activeColor: {
-    [Theme.DARK]: "rgb(45, 44, 44)",
-    [Theme.LIGHT]: "rgb(45, 44, 44)",
+    [Theme.DARK]: "rgb(164, 22, 26)",
+    [Theme.LIGHT]: "rgb(164, 22, 26)",
+  },
+  secondaryActiveColor: {
+    [Theme.DARK]: "rgb(164, 22, 26)",
+    [Theme.LIGHT]: "rgb(164, 22, 26)",
+  },
+  activeColorLink: {
+    [Theme.DARK]: "rgb(22, 26, 29)",
+    [Theme.LIGHT]: "rgb(200, 194, 194)",
+  },
+  buttonColor: {
+    [Theme.DARK]: "rgb(102, 7, 8)",
+    [Theme.LIGHT]: "transparent",
+  },
+  border: {
+    [Theme.DARK]: "none",
+    [Theme.LIGHT]: "1px var(--secondaryBorderColor) solid",
   },
 };
 
