@@ -1,7 +1,7 @@
 import {useState} from "react";
 import {Button} from "src/component/button/Button";
 import {GoalMetricDAL} from "src/dataAccessLogic/GoalMetricDAL";
-import {GoalMetricSingle} from "src/logic/wayPage/SingleGoalMetric";
+import {GoalMetricItem} from "src/logic/wayPage/GoalMetricItem";
 import {Goal} from "src/model/businessModel/Goal";
 import {GoalMetric} from "src/model/businessModel/GoalMetric";
 import {Way} from "src/model/businessModel/Way";
@@ -86,7 +86,7 @@ export const GoalMetricsBlock = (props: GoalMetricStatisticsBlockProps) => {
         {goalMetric.metricUuids.map((metricUuid, index) => {
           return (
             <>
-              <GoalMetricSingle
+              <GoalMetricItem
                 singleGoalMetric={{
                   uuid: goalMetric.uuid,
                   metricUuid,

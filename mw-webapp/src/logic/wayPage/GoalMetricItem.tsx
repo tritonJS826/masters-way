@@ -52,27 +52,27 @@ class SingleGoalMetric {
 }
 
 /**
- * Sdf
+ * Single Goal Metric Props
  */
-interface GoalMetricSingle {
+interface SingleGoalMetricProps {
 
   /**
-   * Sdf
+   * Single goal mentric
    */
   singleGoalMetric: SingleGoalMetric;
 
   /**
-   * Sad
+   * Is editable
    */
   isEditable: boolean;
 
   /**
-   * Dsf
+   * Way
    */
   way: Way;
 
   /**
-   * Sdf
+   * Callback for change way
    */
   setWay: (newWay: Way) => void;
 }
@@ -80,7 +80,7 @@ interface GoalMetricSingle {
 /**
  * Goal metric
  */
-export const GoalMetricSingle = (props: GoalMetricSingle) => {
+export const GoalMetricItem = (props: SingleGoalMetricProps) => {
 
   /**
    * Remove singular goal Metric from goal
