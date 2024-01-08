@@ -4,7 +4,7 @@ $mentorSectionWidth: 250px;
 
 .alignTrashIcon {
   display: flex;
-  width: mentorSectionWidth;
+  width: $mentorSectionWidth;
   align-items: center;
   justify-content: space-between;
   gap: $gapMedium;
