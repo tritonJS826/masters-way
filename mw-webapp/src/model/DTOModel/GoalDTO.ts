@@ -1,11 +1,13 @@
 import {z} from "zod";
 
+export const GOAL_UUID_FIELD = "uuid";
+
 export const GoalDTOSchema = z.object({
 
   /**
    * Goal's UUID
    */
-  uuid: z.string(),
+  [GOAL_UUID_FIELD]: z.string(),
 
   /**
    * Student's UUID @User.uuid

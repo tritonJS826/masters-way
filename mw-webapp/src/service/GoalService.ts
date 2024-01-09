@@ -1,6 +1,6 @@
-import {collection, doc, getDoc, getDocs, setDoc, updateDoc, WriteBatch} from "firebase/firestore";
+import {collection, doc, getDoc, getDocs, query, setDoc, updateDoc, where, WriteBatch} from "firebase/firestore";
 import {db} from "src/firebase";
-import {GoalDTO, GoalDTOSchema, GoalsDTOSchema} from "src/model/DTOModel/GoalDTO";
+import {GOAL_UUID_FIELD, GoalDTO, GoalDTOSchema, GoalsDTOSchema} from "src/model/DTOModel/GoalDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
 import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
 import {RequestOperations} from "src/service/RequestOperations";
@@ -28,6 +28,22 @@ export class GoalService {
     const validatedGoalsDTO = GoalsDTOSchema.parse(goalsDTO);
 
     logToConsole(`GoalService:getGoalsDTO: ${validatedGoalsDTO.length} ${RequestOperations.READ} operations`);
+
+    return validatedGoalsDTO;
+  }
+
+  /**
+   * Get GoalsDTO by uuid
+   */
+  public static async getGoalsDTOByUuids(goalUuids: string[]): Promise<GoalDTO[]> {
+    const goalsRef = collection(db, PATH_TO_GOALS_COLLECTION);
+    const goalsFilteredByUuid = query(goalsRef, where(GOAL_UUID_FIELD, "in", goalUuids));
+    const goalsRaw = await getDocs(goalsFilteredByUuid);
+    const goalsDTO = querySnapshotToDTOConverter<GoalDTO>(goalsRaw);
+
+    const validatedGoalsDTO = GoalsDTOSchema.parse(goalsDTO);
+
+    logToConsole(`GoalService:getGoalsDTOByUuids: ${validatedGoalsDTO.length} ${RequestOperations.READ} operations`);
 
     return validatedGoalsDTO;
   }
