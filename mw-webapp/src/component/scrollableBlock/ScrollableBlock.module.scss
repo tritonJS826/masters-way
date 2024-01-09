@@ -1,6 +1,10 @@
-.scrollableBlock {
+.wrapper {
   position: relative;
+}
+
+.scrollableBlock {
   overflow: auto;
   width: 100%;
+  max-width: 1800px;
   height: auto;
 }

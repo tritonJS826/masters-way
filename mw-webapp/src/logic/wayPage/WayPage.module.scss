@@ -100,3 +100,9 @@ $iconContainerSize: 25px;
   min-width: 25px;
   min-height: 25px;
 }
+
+@media (max-width: 600px) {
+  .goalSection {
+    justify-content: center;
+  }
+}

@@ -38,7 +38,6 @@ export const waysColumns = [
       <Tooltip
         position={PositionTooltip.TOP}
         content="Date, when way was created"
-        className={styles.tooltipFixed}
       >
         Created at
       </Tooltip>
@@ -86,7 +85,6 @@ export const waysColumns = [
       <Tooltip
         position={PositionTooltip.TOP}
         content="The path is abandoned if it is not completed, but has not been edited in the last 14 days"
-        className={styles.tooltipFixed}
       >
         Status
       </Tooltip>
@@ -109,7 +107,18 @@ export const waysColumns = [
     },
   }),
   columnHelper.accessor("name", {
-    header: "Way",
+
+    /**
+     * Header
+     */
+    header: () => (
+      <Tooltip
+        position={PositionTooltip.TOP}
+        content="Way's name and it's goal"
+      >
+        Way
+      </Tooltip>
+    ),
 
     /**
      * Cell with clickable way name that leads to way page
@@ -137,7 +146,6 @@ export const waysColumns = [
       <Tooltip
         position={PositionTooltip.TOP}
         content="Owner's name and email"
-        className={styles.tooltipFixed}
       >
         {WAYS_OWNER}
       </Tooltip>
@@ -160,7 +168,18 @@ export const waysColumns = [
     },
   }),
   columnHelper.accessor("mentors", {
-    header: WAY_MENTORS,
+
+    /**
+     * Header
+     */
+    header: () => (
+      <Tooltip
+        position={PositionTooltip.TOP}
+        content="Links to way's mentors"
+      >
+        {WAY_MENTORS}
+      </Tooltip>
+    ),
 
     /**
      * Cell with current mentors
@@ -194,7 +213,7 @@ export const waysColumns = [
         <Tooltip
           position={PositionTooltip.TOP}
           content="Amount of favorites"
-          className={clsx(styles.tooltipFavorites, styles.tooltipFixed)}
+          className={clsx(styles.tooltipFavorites)}
         >
           {Symbols.STAR}
         </Tooltip>

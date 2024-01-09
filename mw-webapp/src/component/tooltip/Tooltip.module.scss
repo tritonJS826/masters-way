@@ -1,8 +1,6 @@
 @import "src/styles/variables";
 
-.wrapper {
-  position: relative;
-}
+$tooltipMarginLeft: 25px;
 
 th .wrapper {
   display: flex;
@@ -24,8 +22,8 @@ th .wrapper {
   display: flex;
   align-items: center;
   &:hover + .tooltip {
-    display: block;
     display: inline-block;
+    max-width: $maxWidthBlock;
   }
 }
 
@@ -35,12 +33,12 @@ th .wrapper {
 }
 
 .right {
-  margin-top: -$marginSmall;
-  transform: translateX(100%);
+  margin-left: $tooltipMarginLeft;
+  transform: translateY(-90%);
 }
 
 .bottom {
-  transform: translateY(100%);
+  transform: translateY(0);
 }
 
 .left {

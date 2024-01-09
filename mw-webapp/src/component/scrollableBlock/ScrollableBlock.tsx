@@ -28,11 +28,13 @@ interface ScrollableBlockProps {
  */
 export const ScrollableBlock = (props: PropsWithChildren<ScrollableBlockProps>) => {
   return (
-    <div
-      style={{width: `${props.width}`, height: `${props.height}`}}
-      className={clsx(styles.scrollableBlock, props.className)}
-    >
-      {props.children}
+    <div className={styles.wrapper}>
+      <div
+        style={{width: `${props.width}`, height: `${props.height}`}}
+        className={clsx(styles.scrollableBlock, props.className)}
+      >
+        {props.children}
+      </div>
     </div>
   );
 };

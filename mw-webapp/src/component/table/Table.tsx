@@ -1,4 +1,5 @@
 import {flexRender, HeaderGroup, RowModel} from "@tanstack/react-table";
+import clsx from "clsx";
 import styles from "src/component/table/Table.module.scss";
 
 /**
@@ -37,6 +38,11 @@ interface TableProps<T> {
    * Table's data
    */
   data: T;
+
+  /**
+   * Additional class for td
+   */
+  className?: string;
 }
 
 /**
@@ -77,7 +83,7 @@ export const Table = <T extends UuidProps, > (props: TableProps<TableData<T>>) =
           >
             {row.getVisibleCells().map((cell) => (
               <td
-                className={styles.td}
+                className={clsx(styles.td, props.className)}
                 key={cell.id}
               >
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}

@@ -11,7 +11,7 @@ $cell-max-width: 600px;
 }
 
 .table th {
-  position: relative;
+  // position: relative;
   padding: 5px;
   border: $table-border;
   background: var(--primaryBackgroundColor);
@@ -20,7 +20,7 @@ $cell-max-width: 600px;
 }
 
 .table td {
-  position: relative;
+  // position: relative;
   max-width: $cell-max-width;
   padding: 8px 10px;
   border: $table-border;

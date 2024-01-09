@@ -1,11 +1,9 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
-import eyeOpened from "src/assets/eyeOpened.svg";
-import eyeSlashed from "src/assets/eyeSlashed.svg";
 import {Button, ButtonType} from "src/component/button/Button";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
-import {Image} from "src/component/image/Image";
+import {EyeOpenedIcon, EyeSlashedIcon} from "src/component/icon/EyeIcon";
 import {Link} from "src/component/link/Link";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
@@ -342,10 +340,19 @@ export const WayPage = (props: WayPageProps) => {
                 className={styles.iconContainer}
                 onClick={() => changeGoalMetricsVisibility()}
               >
-                <Image
-                  src={isGoalMetricsVisible ? eyeOpened : eyeSlashed}
-                  alt={"Eye icon"}
-                />
+                {isGoalMetricsVisible ?
+                  <EyeOpenedIcon
+                    size={25}
+                    fill="none"
+                    stroke="var(--secondaryBorderColor)"
+                  />
+                  :
+                  <EyeSlashedIcon
+                    size={25}
+                    fill="none"
+                    stroke="var(--secondaryBorderColor)"
+                  />
+                }
               </div>
             </Tooltip>
           </HorizontalContainer>
@@ -366,10 +373,19 @@ export const WayPage = (props: WayPageProps) => {
                 className={styles.iconContainer}
                 onClick={() => changeStatisticsVisibility()}
               >
-                <Image
-                  src={isStatisticsVisible ? eyeOpened : eyeSlashed}
-                  alt={"Eye icon"}
-                />
+                {isStatisticsVisible ?
+                  <EyeOpenedIcon
+                    size={25}
+                    fill="none"
+                    stroke="var(--secondaryBorderColor)"
+                  />
+                  :
+                  <EyeSlashedIcon
+                    size={25}
+                    fill="none"
+                    stroke="var(--secondaryBorderColor)"
+                  />
+                }
               </div>
             </Tooltip>
           </HorizontalContainer>

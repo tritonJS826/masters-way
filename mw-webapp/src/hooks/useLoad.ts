@@ -62,6 +62,7 @@ export const useLoad = <Data, Dependency>({
       } catch (err) {
         if (err instanceof Error) {
           onError(err);
+          throw err;
         }
       } finally {
         setIsLoading(false);

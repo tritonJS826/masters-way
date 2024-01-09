@@ -118,3 +118,11 @@ $listLeftMargin: 20px;
 .verticalContainer {
   width: 100%;
 }
+
+.positionTd {
+  position: relative;
+}
+
+.lastColumn {
+  transform: translateY(-100%) translateX(-50%);
+}
