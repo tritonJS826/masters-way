@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom";
 import {Button, ButtonType} from "src/component/button/Button";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
-import {EyeOpenedIcon, EyeSlashedIcon} from "src/component/icon/EyeIcon";
+import {Icon} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
@@ -341,16 +341,18 @@ export const WayPage = (props: WayPageProps) => {
                 onClick={() => changeGoalMetricsVisibility()}
               >
                 {isGoalMetricsVisible ?
-                  <EyeOpenedIcon
+                  <Icon
                     size={25}
                     fill="none"
                     stroke="var(--secondaryBorderColor)"
+                    iconName="EyeOpenedIcon"
                   />
                   :
-                  <EyeSlashedIcon
+                  <Icon
                     size={25}
                     fill="none"
                     stroke="var(--secondaryBorderColor)"
+                    iconName="EyeSlashedIcon"
                   />
                 }
               </div>
@@ -374,16 +376,18 @@ export const WayPage = (props: WayPageProps) => {
                 onClick={() => changeStatisticsVisibility()}
               >
                 {isStatisticsVisible ?
-                  <EyeOpenedIcon
+                  <Icon
                     size={25}
                     fill="none"
                     stroke="var(--secondaryBorderColor)"
+                    iconName="EyeOpenedIcon"
                   />
                   :
-                  <EyeSlashedIcon
+                  <Icon
                     size={25}
                     fill="none"
                     stroke="var(--secondaryBorderColor)"
+                    iconName="EyeSlashedIcon"
                   />
                 }
               </div>
