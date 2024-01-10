@@ -1,5 +1,4 @@
 import {createColumnHelper} from "@tanstack/react-table";
-import clsx from "clsx";
 import {Link} from "src/component/link/Link";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
@@ -211,9 +210,8 @@ export const waysColumns = [
     header: () => (
       <>
         <Tooltip
-          position={PositionTooltip.TOP}
+          position={PositionTooltip.TOP_LEFT}
           content="Amount of favorites"
-          className={clsx(styles.tooltipFavorites)}
         >
           {Symbols.STAR}
         </Tooltip>

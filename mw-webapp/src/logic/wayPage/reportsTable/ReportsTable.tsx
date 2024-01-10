@@ -42,7 +42,7 @@ export const ReportsTable = (props: ReportsTableProps) => {
   return (
     <Table
       data={tableContent}
-      className={styles.positionTd}
+      classNameTd={styles.positionTd}
     />
   );
 };

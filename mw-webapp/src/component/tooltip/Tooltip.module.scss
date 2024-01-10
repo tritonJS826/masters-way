@@ -34,13 +34,18 @@ th .wrapper {
 
 .right {
   margin-left: $tooltipMarginLeft;
-  transform: translateY(-90%);
+  transform: translateY(-100%);
 }
 
+// Don't delete empty style because it's one of default tooltip position className and can ne change in the future
 .bottom {
-  transform: translateY(0);
 }
 
 .left {
   transform: translateX(-100%);
+}
+
+.topLeft {
+  margin-top: -$marginBig;
+  transform: translateY(-100%) translateX(-50%);
 }

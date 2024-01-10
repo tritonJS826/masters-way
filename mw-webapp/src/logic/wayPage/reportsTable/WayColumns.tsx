@@ -449,7 +449,8 @@ export const Columns = (props: ColumnsProps) => {
                         </Tooltip>
                         {isOwner &&
                           <Tooltip
-                            content="Coming soon"
+                            content={`Click${Symbols.NO_BREAK_SPACE}to${Symbols.NO_BREAK_SPACE}mark the plan as completed.
+                              Coming soon`}
                             position={PositionTooltip.RIGHT}
                           >
                             <Checkbox
@@ -602,7 +603,11 @@ export const Columns = (props: ColumnsProps) => {
                       </HorizontalContainer>
                       <HorizontalContainer className={styles.icons}>
                         {isOwner &&
-                          <Tooltip content="Coming soon">
+                          <Tooltip
+                            position={PositionTooltip.RIGHT}
+                            content={`Click${Symbols.NO_BREAK_SPACE}to${Symbols.NO_BREAK_SPACE}mark
+                            the problem as completed. Coming soon`}
+                          >
                             <Checkbox
                               onChange={() => {}}
                               className={styles.checkbox}
@@ -665,9 +670,8 @@ export const Columns = (props: ColumnsProps) => {
        */
       header: () => (<>
         <Tooltip
-          position={PositionTooltip.TOP}
+          position={PositionTooltip.TOP_LEFT}
           content="Explanations from the mentor and any information related to completing this path"
-          className={clsx(styles.lastColumn)}
         >
           Comments
         </Tooltip>

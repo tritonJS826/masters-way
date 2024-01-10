@@ -10,7 +10,7 @@
 
   img {
     max-width: $minWidthBlock;
-    max-height: $minWidthBlock;
+    max-height: $minHeightBlock;
   }
 }
 
@@ -27,8 +27,4 @@
 }
 .status {
   text-align: center;
-}
-
-.tooltipFavorites {
-  transform: translateY(-100%) translateX(-50%);
 }

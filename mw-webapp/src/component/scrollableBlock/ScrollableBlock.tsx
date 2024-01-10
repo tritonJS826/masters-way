@@ -30,7 +30,7 @@ export const ScrollableBlock = (props: PropsWithChildren<ScrollableBlockProps>) 
   return (
     <div className={styles.wrapper}>
       <div
-        style={{width: `${props.width}`, height: `${props.height}`}}
+        style={{width: props.width, height: props.height}}
         className={clsx(styles.scrollableBlock, props.className)}
       >
         {props.children}

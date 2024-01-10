@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom";
 import {Button, ButtonType} from "src/component/button/Button";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
-import {Icon} from "src/component/icon/Icon";
+import {Icon, IconFill, IconSize, IconStroke} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
@@ -226,7 +226,7 @@ export const WayPage = (props: WayPageProps) => {
       <HorizontalContainer className={styles.alignItems}>
         <Title
           level={HeadingLevel.h2}
-          text={`${way.name}`}
+          text={way.name}
           onChangeFinish={(text) => changeWayName(way, text)}
           isEditable={isOwner}
           className={styles.titleH2}
@@ -342,16 +342,16 @@ export const WayPage = (props: WayPageProps) => {
               >
                 {isGoalMetricsVisible ?
                   <Icon
-                    size={25}
-                    fill="none"
-                    stroke="var(--secondaryBorderColor)"
+                    size={IconSize.MEDIUM}
+                    fill={IconFill.NONE}
+                    stroke={IconStroke.PRIMARY}
                     iconName="EyeOpenedIcon"
                   />
                   :
                   <Icon
-                    size={25}
-                    fill="none"
-                    stroke="var(--secondaryBorderColor)"
+                    size={IconSize.MEDIUM}
+                    fill={IconFill.NONE}
+                    stroke={IconStroke.PRIMARY}
                     iconName="EyeSlashedIcon"
                   />
                 }
@@ -377,16 +377,16 @@ export const WayPage = (props: WayPageProps) => {
               >
                 {isStatisticsVisible ?
                   <Icon
-                    size={25}
-                    fill="none"
-                    stroke="var(--secondaryBorderColor)"
+                    size={IconSize.MEDIUM}
+                    fill={IconFill.NONE}
+                    stroke={IconStroke.PRIMARY}
                     iconName="EyeOpenedIcon"
                   />
                   :
                   <Icon
-                    size={25}
-                    fill="none"
-                    stroke="var(--secondaryBorderColor)"
+                    size={IconSize.MEDIUM}
+                    fill={IconFill.NONE}
+                    stroke={IconStroke.PRIMARY}
                     iconName="EyeSlashedIcon"
                   />
                 }

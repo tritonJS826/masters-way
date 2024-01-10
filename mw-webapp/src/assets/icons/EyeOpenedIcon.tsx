@@ -1,7 +1,7 @@
 import {IconProps} from "src/component/icon/Icon";
 
 /**
- * Icon opened
+ * Eye opened icon
  */
 export const EyeOpenedIcon = (props: IconProps) => {
   return (

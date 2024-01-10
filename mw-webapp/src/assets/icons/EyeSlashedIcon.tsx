@@ -1,7 +1,7 @@
 import {IconProps} from "src/component/icon/Icon";
 
 /**
- * Icon slashed
+ * Eye slashed icon
  */
 export const EyeSlashedIcon = (props: IconProps) => {
   return (

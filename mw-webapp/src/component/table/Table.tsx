@@ -40,9 +40,10 @@ interface TableProps<T> {
   data: T;
 
   /**
-   * Additional class for td
+   * Custom class for td
+   * @default is none
    */
-  className?: string;
+  classNameTd?: string;
 }
 
 /**
@@ -83,7 +84,7 @@ export const Table = <T extends UuidProps, > (props: TableProps<TableData<T>>) =
           >
             {row.getVisibleCells().map((cell) => (
               <td
-                className={clsx(styles.td, props.className)}
+                className={clsx(styles.td, props.classNameTd)}
                 key={cell.id}
               >
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}

@@ -29,7 +29,12 @@ $gapBig: 30px;
 // Widths and heights
 $iconSizeSmall: 15px;
 $minWidthBlock: 360px;
+$minHeightBlock: 360px;
 $maxWidthBlock: 600px;
 $minWidthDate: 80px;
 $heightH2: 27px;
 $heightH3: 22px;
+
+// MediaQuery max-widths
+$widthExtraSmall: 360px;
+$widthMedium: 600px;
