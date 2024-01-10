@@ -2,7 +2,6 @@ import {IconProps} from "src/component/icon/Icon";
 
 /**
  * Icon opened
- * TODO: need to create a component icon for any icons task #376
  */
 export const EyeOpenedIcon = (props: IconProps) => {
   return (
