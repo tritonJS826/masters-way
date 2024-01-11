@@ -1,5 +1,7 @@
+import clsx from "clsx";
 import {EyeOpenedIcon} from "src/assets/icons/EyeOpenedIcon";
 import {EyeSlashedIcon} from "src/assets/icons/EyeSlashedIcon";
+import styles from "src/component/icon/Icon.module.scss";
 
 /**
  * Icon dictionary
@@ -20,7 +22,7 @@ const IconDictionary = {
 /**
  * Icon className
  */
-export enum IconClassName {
+export enum IconSize {
   SMALL = "small",
   MEDIUM = "medium"
 }
@@ -33,17 +35,30 @@ export interface IconProps {
   /**
    * Icon name
    */
-  iconName: keyof typeof IconDictionary;
+  name: keyof typeof IconDictionary;
 
   /**
-   * Icon's className {@link IconClassName}
-   * @default IconClassName.MEDIUM
+   * Icon's size {@link IconSize}
+   * @default {@link IconSize.MEDIUM}
    */
-  className: IconClassName;
+  size: IconSize;
+
+  /**
+   * Additional className
+   */
+  className?: string;
 
 }
 
 /**
  * Icon
  */
-export const Icon = (props: IconProps) => IconDictionary[props.iconName](props);
+export const Icon = (props: IconProps) => {
+  const className = clsx(
+    styles.icon,
+    props.className,
+    styles[props.size],
+  );
+
+  return IconDictionary[props.name]({...props, className});
+};

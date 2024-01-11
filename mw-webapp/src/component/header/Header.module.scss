@@ -31,7 +31,7 @@
   cursor: pointer;
 }
 
-@media (max-width: $widthMedium) {
+@media (max-width: $mediaWidthMobileBig) {
   .headerButtonsContainer {
     width: 100%;
   }

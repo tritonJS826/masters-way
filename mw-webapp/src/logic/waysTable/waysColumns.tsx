@@ -113,7 +113,7 @@ export const waysColumns = [
     header: () => (
       <Tooltip
         position={PositionTooltip.TOP}
-        content="Way's name and it's goal"
+        content="Way's name and goal"
       >
         Way
       </Tooltip>

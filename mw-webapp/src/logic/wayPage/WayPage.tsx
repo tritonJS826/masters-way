@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom";
 import {Button, ButtonType} from "src/component/button/Button";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
-import {Icon, IconClassName} from "src/component/icon/Icon";
+import {Icon, IconSize} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
@@ -342,13 +342,13 @@ export const WayPage = (props: WayPageProps) => {
               >
                 {isGoalMetricsVisible ?
                   <Icon
-                    iconName="EyeOpenedIcon"
-                    className={IconClassName.MEDIUM}
+                    size={IconSize.MEDIUM}
+                    name="EyeOpenedIcon"
                   />
                   :
                   <Icon
-                    iconName="EyeSlashedIcon"
-                    className={IconClassName.MEDIUM}
+                    size={IconSize.MEDIUM}
+                    name="EyeSlashedIcon"
                   />
                 }
               </div>
@@ -373,13 +373,13 @@ export const WayPage = (props: WayPageProps) => {
               >
                 {isStatisticsVisible ?
                   <Icon
-                    iconName="EyeOpenedIcon"
-                    className={IconClassName.MEDIUM}
+                    size={IconSize.MEDIUM}
+                    name="EyeOpenedIcon"
                   />
                   :
                   <Icon
-                    iconName="EyeSlashedIcon"
-                    className={IconClassName.MEDIUM}
+                    size={IconSize.MEDIUM}
+                    name="EyeSlashedIcon"
                   />
                 }
               </div>

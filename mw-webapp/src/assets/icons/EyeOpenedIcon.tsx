@@ -1,6 +1,4 @@
-import clsx from "clsx";
-import {IconClassName, IconProps} from "src/component/icon/Icon";
-import styles from "src/component/icon/Icon.module.scss";
+import {IconProps} from "src/component/icon/Icon";
 
 /**
  * Eye opened icon
@@ -11,7 +9,7 @@ export const EyeOpenedIcon = (props: IconProps) => {
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       fill="none"
-      className={clsx(styles.defaultIcon, styles[props.className] ?? IconClassName.MEDIUM)}
+      className={props.className}
     >
       <path
         d="M15.0007 12C15.0007 13.6569 13.6576 15 12.0007 15C10.3439 15 9.00073 13.6569 9.00073

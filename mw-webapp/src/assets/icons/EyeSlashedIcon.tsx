@@ -1,6 +1,4 @@
-import clsx from "clsx";
-import {IconClassName, IconProps} from "src/component/icon/Icon";
-import styles from "src/component/icon/Icon.module.scss";
+import {IconProps} from "src/component/icon/Icon";
 
 /**
  * Eye slashed icon
@@ -11,7 +9,7 @@ export const EyeSlashedIcon = (props: IconProps) => {
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       fill="none"
-      className={clsx(styles.defaultIcon, styles[props.className] ?? IconClassName.MEDIUM)}
+      className={props.className}
     >
       <path
         d="M2.99902 3L20.999 21M9.8433 9.91364C9.32066 10.4536 8.99902 11.1892 8.99902 12C8.99902 13.6569 10.3422 15
