@@ -98,11 +98,10 @@
 
 ## AllWaysPage (default for not logged in)
 - [ ] AllWaysPage: search/filter panel
-- [ ] AllWaysPage: show number favorite (12h)
-- [ ] AllWaysPage: Add status for Way (finished, inProgress, abandoned) (colored)
+- [ ] AllWaysPage: Add status for Way (finished, inProgress, abandoned) (colored?)
 - [ ] AllWaysPage: add pagination (think about it)
 - [ ] AllWaysPage: request optimization, save users into hashmap and load each user once
-- [ ] AllWaysPage: add property lastDayReportAdded for Way (must auto update when click on button add dayReport)
+- [x] AllWaysPage: add property Way.lastUpdate for Way (must auto update when click on button add dayReport)
 - [ ] AllWaysPage: cell goal should contain short description (max 2 line) but by clicking modal window should be opened with full description and metrics(think about statistic info that could be shown)
 
 ## AllUsersPage
@@ -122,4 +121,5 @@
 - [ ] Achievements
 - [ ] Investigation with coming soon tooltip (component)
 - [ ] Add a page with a tree of ways (chain of goals) for visualization
-- [ ] add settings page (language, modal with hints)
+- [x] add settings page (language, modal with hints)
+- [ ] add content page (to save all the hints there)
