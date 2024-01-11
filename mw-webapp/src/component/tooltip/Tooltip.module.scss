@@ -29,13 +29,11 @@ th .wrapper {
 }
 
 .top {
-  margin-top: -$marginBig;
-  transform: translateY(-100%);
+  transform: translateY(calc(-100% - $marginBig));
 }
 
 .right {
-  margin-left: $tooltipMarginLeft;
-  transform: translateY(-100%);
+  transform: translateY(-100%) translateX($tooltipMarginLeft);
 }
 
 // Don't delete empty style because it's one of default tooltip position className and can be change in the future
@@ -43,11 +41,9 @@ th .wrapper {
 }
 
 .left {
-  margin-left: -$marginBig;
-  transform: translateY(-100%) translateX(-100%);
+  transform: translateY(-100%) translateX(calc(-100% - $marginBig));
 }
 
 .topLeft {
-  margin-top: -$marginBig;
-  transform: translateY(-100%) translateX(-50%);
+  transform: translateY(calc(-100% - $marginBig)) translateX(-50%);
 }
