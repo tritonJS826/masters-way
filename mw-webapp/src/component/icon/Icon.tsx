@@ -20,7 +20,7 @@ const IconDictionary = {
 };
 
 /**
- * Icon className
+ * Icon size
  */
 export enum IconSize {
   SMALL = "small",
@@ -44,7 +44,7 @@ export interface IconProps {
   size: IconSize;
 
   /**
-   * Additional className
+   * Custom className
    */
   className?: string;
 
@@ -56,8 +56,8 @@ export interface IconProps {
 export const Icon = (props: IconProps) => {
   const className = clsx(
     styles.icon,
-    props.className,
     styles[props.size],
+    props.className,
   );
 
   return IconDictionary[props.name]({...props, className});
