@@ -1,4 +1,4 @@
-import {collection, getDocs} from "firebase/firestore";
+import {collection, getDocs, deleteDoc, doc} from "firebase/firestore";
 import {db} from "../firebase.js";
 import {DayReportDTO} from "../DTOModel/DayReportDTO.js";
 import {querySnapshotToDTOConverter} from "../converter/querySnapshotToDTOConverter.js";
@@ -19,6 +19,13 @@ export class DayReportService {
     const dayReportsDTO = querySnapshotToDTOConverter<DayReportDTO>(dayReportsRaw);
 
     return dayReportsDTO;
+  }
+
+  /**
+   * Delete DayReportDTO
+   */
+  public static async deleteDayReportDTO(dayReportDTOUuid: string) {
+    deleteDoc(doc(db, PATH_TO_DAY_REPORTS_COLLECTION, dayReportDTOUuid));
   }
 
 }
