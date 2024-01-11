@@ -28,8 +28,14 @@ $gapBig: 30px;
 
 // Widths and heights
 $iconSizeSmall: 15px;
+$iconSizeMedium: 25px;
 $minWidthBlock: 360px;
+$minHeightBlock: 360px;
 $maxWidthBlock: 600px;
 $minWidthDate: 80px;
 $heightH2: 27px;
 $heightH3: 22px;
+
+// MediaQuery widths
+$mediaWidthMobileSmall: 360px;
+$mediaWidthMobileBig: 600px;

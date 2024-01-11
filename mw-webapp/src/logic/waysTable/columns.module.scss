@@ -10,10 +10,7 @@
 
   img {
     max-width: $minWidthBlock;
-    max-height: $minWidthBlock;
-  }
-  @media (max-width: 800px) {
-    -webkit-line-clamp: 5;
+    max-height: $minHeightBlock;
   }
 }
 
@@ -30,12 +27,4 @@
 }
 .status {
   text-align: center;
-}
-
-.tooltipFavorites {
-  transform: translateY(-100%) translateX(-50%);
-}
-
-.tooltipFixed {
-  position: fixed;
 }

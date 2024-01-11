@@ -49,6 +49,10 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     [Theme.DARK]: "rgb(73, 69, 69)",
     [Theme.LIGHT]: "rgb(102, 7, 8)",
   },
+  primaryIconColor: {
+    [Theme.DARK]: "rgb(200, 194, 194)",
+    [Theme.LIGHT]: "rgb(11, 9, 10)",
+  },
   primaryShadowColor: {
     [Theme.DARK]: "rgb(22, 26, 29)",
     [Theme.LIGHT]: "rgb(225, 222, 222)",

@@ -24,7 +24,7 @@ $listLeftMargin: 20px;
   color: transparent;
   line-height: 20px;
   text-align: center;
-  text-shadow: 0 0 0 var(--secondaryTextColor);
+  text-shadow: 0 0 0 var(--primaryTextColor);
 }
 
 .summaryText {
@@ -117,4 +117,8 @@ $listLeftMargin: 20px;
 
 .verticalContainer {
   width: 100%;
+}
+
+.positionTd {
+  position: relative;
 }

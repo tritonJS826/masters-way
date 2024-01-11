@@ -145,7 +145,18 @@ export const Columns = (props: ColumnsProps) => {
 
   const columns = [
     columnHelper.accessor("createdAt", {
-      header: "Date",
+
+      /**
+       * Header
+       */
+      header: () => (<>
+        <Tooltip
+          position={PositionTooltip.TOP}
+          content="Date, when day report was created"
+        >
+          Date
+        </Tooltip>
+      </>),
 
       /**
        * Cell  with date value
@@ -159,7 +170,18 @@ export const Columns = (props: ColumnsProps) => {
       },
     }),
     columnHelper.accessor("jobsDone", {
-      header: "Jobs done (minutes)",
+
+      /**
+       * Header
+       */
+      header: () => (<>
+        <Tooltip
+          position={PositionTooltip.TOP}
+          content="The most specific and decomposed jobs related to this way (in minutes)"
+        >
+          Jobs done
+        </Tooltip>
+      </>),
 
       /**
        * Cell with JobsDone items
@@ -244,14 +266,22 @@ export const Columns = (props: ColumnsProps) => {
                     <HorizontalContainer className={clsx(styles.horizontalContainer, styles.listNumberAndName)}>
                       {getListNumberByIndex(index)}
                       <HorizontalContainer className={styles.icons}>
-                        <EditableText
-                          text={jobDone.time}
-                          onChangeFinish={(text) => updateJobDoneTime(jobDone, text)}
-                          className={styles.editableTime}
-                          isEditable={isOwner}
-                        />
+                        <Tooltip
+                          position={PositionTooltip.RIGHT}
+                          content={`Time${Symbols.NO_BREAK_SPACE}spent on job`}
+                        >
+                          <EditableText
+                            text={jobDone.time}
+                            onChangeFinish={(text) => updateJobDoneTime(jobDone, text)}
+                            className={styles.editableTime}
+                            isEditable={isOwner}
+                          />
+                        </Tooltip>
                         {isOwner &&
-                          <Tooltip content="Delete jobDone">
+                          <Tooltip
+                            position={PositionTooltip.RIGHT}
+                            content="Delete jobDone"
+                          >
                             <TrashIcon
                               className={styles.icon}
                               onClick={() => renderModalContent({
@@ -282,7 +312,7 @@ export const Columns = (props: ColumnsProps) => {
               {isOwner &&
               <Tooltip
                 content="Add job"
-                position={PositionTooltip.TOP}
+                position={PositionTooltip.RIGHT}
               >
                 <Button
                   value={Symbols.PLUS}
@@ -303,7 +333,18 @@ export const Columns = (props: ColumnsProps) => {
       },
     }),
     columnHelper.accessor("plans", {
-      header: "Plans (minutes)",
+
+      /**
+       * Header
+       */
+      header: () => (<>
+        <Tooltip
+          position={PositionTooltip.TOP}
+          content="Plans related to this way (in minutes)"
+        >
+          Plans
+        </Tooltip>
+      </>),
 
       /**
        * Cell with Plan items
@@ -395,14 +436,23 @@ export const Columns = (props: ColumnsProps) => {
                         />
                       </HorizontalContainer>
                       <HorizontalContainer className={styles.icons}>
-                        <EditableText
-                          text={plan.estimationTime}
-                          onChangeFinish={(value) => updatePlanTime(plan, value)}
-                          className={styles.editableTime}
-                          isEditable={plan.ownerUuid === user?.uuid}
-                        />
+                        <Tooltip
+                          position={PositionTooltip.RIGHT}
+                          content={`Estimated${Symbols.NO_BREAK_SPACE}time for the plan`}
+                        >
+                          <EditableText
+                            text={plan.estimationTime}
+                            onChangeFinish={(value) => updatePlanTime(plan, value)}
+                            className={styles.editableTime}
+                            isEditable={plan.ownerUuid === user?.uuid}
+                          />
+                        </Tooltip>
                         {isOwner &&
-                          <Tooltip content="Coming soon">
+                          <Tooltip
+                            content={`Click${Symbols.NO_BREAK_SPACE}to${Symbols.NO_BREAK_SPACE}mark the plan as completed.
+                              Coming soon`}
+                            position={PositionTooltip.RIGHT}
+                          >
                             <Checkbox
                               onChange={() => {}}
                               className={styles.checkbox}
@@ -410,7 +460,10 @@ export const Columns = (props: ColumnsProps) => {
                           </Tooltip>
                         }
                         {plan.ownerUuid === user?.uuid &&
-                          <Tooltip content="Delete plan">
+                          <Tooltip
+                            content="Delete plan"
+                            position={PositionTooltip.RIGHT}
+                          >
                             <TrashIcon
                               className={styles.icon}
                               onClick={() => renderModalContent({
@@ -440,11 +493,11 @@ export const Columns = (props: ColumnsProps) => {
               ))}
             </ol>
             <div className={styles.summarySection}>
-              <div>
+              <div className={styles.wrap}>
                 {isUserOwnerOrMentor &&
                 <Tooltip
                   content="Add plan"
-                  position={PositionTooltip.TOP}
+                  position={PositionTooltip.RIGHT}
                 >
                   <Button
                     value={Symbols.PLUS}
@@ -466,7 +519,18 @@ export const Columns = (props: ColumnsProps) => {
       },
     }),
     columnHelper.accessor("problems", {
-      header: "Problems",
+
+      /**
+       * Header
+       */
+      header: () => (<>
+        <Tooltip
+          position={PositionTooltip.TOP}
+          content="Problems you encountered while completing the task"
+        >
+          Problems
+        </Tooltip>
+      </>),
 
       /**
        * Cell with Problems items
@@ -539,7 +603,11 @@ export const Columns = (props: ColumnsProps) => {
                       </HorizontalContainer>
                       <HorizontalContainer className={styles.icons}>
                         {isOwner &&
-                          <Tooltip content="Coming soon">
+                          <Tooltip
+                            position={PositionTooltip.RIGHT}
+                            content={`Click${Symbols.NO_BREAK_SPACE}to${Symbols.NO_BREAK_SPACE}mark
+                            the problem as completed. Coming soon`}
+                          >
                             <Checkbox
                               onChange={() => {}}
                               className={styles.checkbox}
@@ -547,7 +615,10 @@ export const Columns = (props: ColumnsProps) => {
                           </Tooltip>
                         }
                         {problem.ownerUuid === user?.uuid &&
-                          <Tooltip content="Delete problem">
+                          <Tooltip
+                            content="Delete problem"
+                            position={PositionTooltip.RIGHT}
+                          >
                             <TrashIcon
                               className={styles.icon}
                               onClick={() => renderModalContent({
@@ -578,7 +649,7 @@ export const Columns = (props: ColumnsProps) => {
               {isUserOwnerOrMentor &&
               <Tooltip
                 content="Add problem"
-                position={PositionTooltip.TOP}
+                position={PositionTooltip.RIGHT}
               >
                 <Button
                   value={Symbols.PLUS}
@@ -593,7 +664,18 @@ export const Columns = (props: ColumnsProps) => {
       },
     }),
     columnHelper.accessor("comments", {
-      header: "Comments",
+
+      /**
+       * Header
+       */
+      header: () => (<>
+        <Tooltip
+          position={PositionTooltip.TOP_LEFT}
+          content="Explanations from the mentor and any information related to completing this path"
+        >
+          Comments
+        </Tooltip>
+      </>),
 
       /**
        * Cell with Comments items
@@ -697,7 +779,7 @@ export const Columns = (props: ColumnsProps) => {
             <div className={styles.summarySection}>
               {isUserOwnerOrMentor &&
               <Tooltip
-                position={PositionTooltip.TOP}
+                position={PositionTooltip.LEFT}
                 content="Add comment"
               >
                 <Button

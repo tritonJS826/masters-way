@@ -1,0 +1,15 @@
+@import "src/styles/variables";
+
+.icon {
+  stroke: var(--primaryIconColor);
+}
+
+.small {
+  width: $iconSizeSmall;
+  height: $iconSizeSmall;
+}
+
+.medium {
+  width: $iconSizeMedium;
+  height: $iconSizeMedium;
+}

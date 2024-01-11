@@ -1,5 +1,4 @@
 import {createColumnHelper} from "@tanstack/react-table";
-import clsx from "clsx";
 import {Link} from "src/component/link/Link";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
@@ -38,7 +37,6 @@ export const waysColumns = [
       <Tooltip
         position={PositionTooltip.TOP}
         content="Date, when way was created"
-        className={styles.tooltipFixed}
       >
         Created at
       </Tooltip>
@@ -86,7 +84,6 @@ export const waysColumns = [
       <Tooltip
         position={PositionTooltip.TOP}
         content="The path is abandoned if it is not completed, but has not been edited in the last 14 days"
-        className={styles.tooltipFixed}
       >
         Status
       </Tooltip>
@@ -109,7 +106,18 @@ export const waysColumns = [
     },
   }),
   columnHelper.accessor("name", {
-    header: "Way",
+
+    /**
+     * Header
+     */
+    header: () => (
+      <Tooltip
+        position={PositionTooltip.TOP}
+        content="Way's name and goal"
+      >
+        Way
+      </Tooltip>
+    ),
 
     /**
      * Cell with clickable way name that leads to way page
@@ -137,7 +145,6 @@ export const waysColumns = [
       <Tooltip
         position={PositionTooltip.TOP}
         content="Owner's name and email"
-        className={styles.tooltipFixed}
       >
         {WAYS_OWNER}
       </Tooltip>
@@ -160,7 +167,18 @@ export const waysColumns = [
     },
   }),
   columnHelper.accessor("mentors", {
-    header: WAY_MENTORS,
+
+    /**
+     * Header
+     */
+    header: () => (
+      <Tooltip
+        position={PositionTooltip.TOP}
+        content="Links to way's mentors"
+      >
+        {WAY_MENTORS}
+      </Tooltip>
+    ),
 
     /**
      * Cell with current mentors
@@ -192,9 +210,8 @@ export const waysColumns = [
     header: () => (
       <>
         <Tooltip
-          position={PositionTooltip.TOP}
+          position={PositionTooltip.TOP_LEFT}
           content="Amount of favorites"
-          className={clsx(styles.tooltipFavorites, styles.tooltipFixed)}
         >
           {Symbols.STAR}
         </Tooltip>
