@@ -4,35 +4,25 @@ import {EyeSlashedIcon} from "src/assets/icons/EyeSlashedIcon";
 /**
  * Icon dictionary
  */
-const IconDictionary = (params: IconProps) => {
-  const icons: Record<IconProps["iconName"], JSX.Element> = {
-    EyeOpenedIcon: <EyeOpenedIcon {...params} />,
-    EyeSlashedIcon: <EyeSlashedIcon {...params} />,
-  };
+const IconDictionary = {
 
-  return icons;
+  /**
+   * Eye opened icon
+   */
+  EyeOpenedIcon: (params: IconProps) => <EyeOpenedIcon {...params} />,
+
+  /**
+   * Eye slash icon
+   */
+  EyeSlashedIcon: (params: IconProps) => <EyeSlashedIcon {...params} />,
 };
 
 /**
- * Icon's width and height
+ * Icon className
  */
-export enum IconSize {
-  SMALL = "15px",
-  MEDIUM = "25px",
-}
-
-/**
- * Icon's width and height
- */
-export enum IconFill {
-  NONE = "none",
-}
-
-/**
- * Icon's width and height
- */
-export enum IconStroke {
-  PRIMARY = "var(--secondaryBorderColor)",
+export enum IconClassName {
+  SMALL = "small",
+  MEDIUM = "medium"
 }
 
 /**
@@ -41,33 +31,19 @@ export enum IconStroke {
 export interface IconProps {
 
   /**
-   * Width and height of icon
-   */
-  size: IconSize;
-
-  /**
-   * Icon's fill color
-   */
-  fill: IconFill;
-
-  /**
-   * Icon's stroke color
-   */
-  stroke: IconStroke;
-
-  /**
    * Icon name
    */
-  iconName: "EyeOpenedIcon" | "EyeSlashedIcon";
+  iconName: keyof typeof IconDictionary;
+
+  /**
+   * Icon's className {@link IconClassName}
+   * @default IconClassName.MEDIUM
+   */
+  className: IconClassName;
 
 }
 
 /**
  * Icon
  */
-export const Icon = (props: IconProps) => {
-  const icon = IconDictionary(props)[props.iconName];
-
-  return icon;
-};
-
+export const Icon = (props: IconProps) => IconDictionary[props.iconName](props);
