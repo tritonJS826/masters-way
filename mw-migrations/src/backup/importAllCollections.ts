@@ -55,7 +55,7 @@ const importToFirebase = async () => {
     End time: ${importEndTime}
     Total time: ${fullImportTime} ms
 
-    Total Models to changed: ${totalModelsImport}
+    Total Models written: ${totalModelsImport}
   `)
 };
 

@@ -14,23 +14,29 @@ export const clearAllCollections = async () => {
   log(`Getting Users collection`)
   const allUsers = await UserService.getUsersDTO();
   log(`Got ${allUsers.length} users`)
+  log(`Required ${allUsers.length} READ operations`)
 
   log(`Getting Ways collection`)
   const allWays = await WayService.getWaysDTO();
-  log(`Got ${allWays.length} users`)
+  log(`Got ${allWays.length} ways`)
+  log(`Required ${allWays.length} READ operations`)
 
   log(`Getting DayReports collection`)
   const allDayReports = await DayReportService.getDayReportsDTO();
-  log(`Got ${allDayReports.length} users`)
+  log(`Got ${allDayReports.length} dayReports`)
+  log(`Required ${allDayReports.length} READ operations`)
 
   log(`Getting Goals collection`)
   const allGoals = await GoalService.getGoalsDTO();
-  log(`Got ${allGoals.length} users`)
+  log(`Got ${allGoals.length} goals`)
+  log(`Required ${allGoals.length} READ operations`)
 
   log(`Getting GoalMetrics collection`)
   const allGoalMetrics = await GoalMetricService.getGoalMetricsDTO();
-  log(`Got ${allGoalMetrics.length} users`)
+  log(`Got ${allGoalMetrics.length} goalMetrics`)
+  log(`Required ${allGoalMetrics.length} READ operations`)
 
+  const totalReadOperationsAmount = allUsers.length + allWays.length + allDayReports.length + allGoals.length + allGoalMetrics.length;
   const totalDocumentsAmount = allUsers.length + allWays.length + allDayReports.length + allGoals.length + allGoalMetrics.length;
 
   log(`Deleting documents in collections`)
@@ -57,6 +63,7 @@ export const clearAllCollections = async () => {
   End time: ${clearAllCollectionsEndTime}
   Total time: ${clearAllCollectionsTime} ms
 
+  Total READ operations amount: ${totalReadOperationsAmount}
   Total Documents to deleted: ${totalDocumentsAmount}
 `)
 
