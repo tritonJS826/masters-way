@@ -1,7 +1,7 @@
-import { collection, getDocs } from "firebase/firestore";
+import { collection, doc, deleteDoc, getDocs, setDoc } from "firebase/firestore";
 import { querySnapshotToDTOConverter } from "../converter/querySnapshotToDTOConverter.js";
 import { db } from "../firebase.js";
-import { UserDTOMigration } from "../DTOModel/UserDTO.js";
+import { UserDTOMigration, UserDTONew } from "../DTOModel/UserDTO.js";
 
 export const PATH_TO_USERS_COLLECTION = "users";
 
@@ -19,6 +19,24 @@ export class UserService {
     const usersDTO = querySnapshotToDTOConverter<UserDTOMigration>(usersRaw);
 
     return usersDTO;
+  }
+
+  /**
+   * Create UserDTO
+   */
+  public static async createUserDTO(userDTO: UserDTONew): Promise<UserDTONew> {
+    const docRef = doc(collection(db, PATH_TO_USERS_COLLECTION));
+    
+    await setDoc(docRef, userDTO);
+    
+    return userDTO;
+  }
+
+  /**
+   * Delete UserDTO
+   */
+  public static async deleteUserDTO(userUuid: string) {
+    deleteDoc(doc(db, PATH_TO_USERS_COLLECTION, userUuid));
   }
 
 }

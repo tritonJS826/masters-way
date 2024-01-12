@@ -1,4 +1,4 @@
-import {collection, getDocs} from "firebase/firestore";
+import {collection, doc, deleteDoc, getDocs, setDoc} from "firebase/firestore";
 import {db} from "../firebase.js";
 import {WayDTOMigration} from "../DTOModel/WayDTO.js";
 import {querySnapshotToDTOConverter} from "../converter/querySnapshotToDTOConverter.js";
@@ -19,6 +19,25 @@ export class WayService {
     const waysDTO = querySnapshotToDTOConverter<WayDTOMigration>(waysRaw);
 
     return waysDTO;
+  }
+
+  /**
+   * Create WayTO
+   */
+  public static async createWayDTO(wayDTO: WayDTOMigration): Promise<WayDTOMigration> {
+    const docRef = doc(collection(db, PATH_TO_WAYS_COLLECTION));
+
+    await setDoc(docRef, wayDTO);
+      
+    return wayDTO;
+  }
+  
+
+  /**
+   * Delete WayDTO
+   */
+  public static async deleteWayDTO(wayUuid: string) {
+    deleteDoc(doc(db, PATH_TO_WAYS_COLLECTION, wayUuid));
   }
 
 }

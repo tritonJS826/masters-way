@@ -1,6 +1,7 @@
 import { logToFile } from "../utils/logToFile.js";
 import { writeBackup } from "../utils/writeBackup.js";
 import { exportDayReports } from "./dayReports.js";
+import { exportGoalMetrics } from "./goalMetrics.js";
 import { exportGoals } from "./goals.js";
 import { exportUsers } from "./users.js";
 import { exportWays } from "./ways.js";
@@ -8,6 +9,7 @@ import { exportWays } from "./ways.js";
 const LOG_FILE = "firebase.log";
 const DAY_REPORTS_BACKUP_FILE = "dayReports.bkp";
 const GOALS_BACKUP_FILE = "goals.bkp";
+const GOAL_METRICS_BACKUP_FILE = "goalMetrics.bkp";
 const USERS_BACKUP_FILE = "users.bkp";
 const WAYS_BACKUP_FILE = "ways.bkp";
 const log = (textToLog: string) => logToFile(`${(new Date()).toISOString()}: ${textToLog}`, LOG_FILE);
@@ -26,18 +28,19 @@ const exportFirebase = async () => {
     const goalsAmountPromise = exportGoals({log, backupToFile: (data: string) => writeBackup(data, GOALS_BACKUP_FILE) });
     const usersAmountPromise = exportUsers({log, backupToFile: (data: string) => writeBackup(data, USERS_BACKUP_FILE) });
     const waysAmountPromise = exportWays({log, backupToFile: (data: string) => writeBackup(data, WAYS_BACKUP_FILE) });
+    const goalMetricsAmountPromise = exportGoalMetrics({ log, backupToFile: (data: string) => writeBackup(data, GOAL_METRICS_BACKUP_FILE) });
     
-    
-    const [dayReportsAmount, goalsAmount, usersAmount, waysAmount] = await Promise.all([
-        dayReportsAmountPromise,
-        goalsAmountPromise,
-        usersAmountPromise,
-        waysAmountPromise,
+    const [dayReportsAmount, goalsAmount, usersAmount, waysAmount, goalMetricsAmount] = await Promise.all([
+      dayReportsAmountPromise,
+      goalsAmountPromise,
+      usersAmountPromise,
+      waysAmountPromise,
+      goalMetricsAmountPromise,
     ]);
     
     const backupEndTime = new Date();
     const fullBackupTime = backupEndTime.getTime() - backupStartTime.getTime();
-    const totalModelsBackup = dayReportsAmount + goalsAmount + usersAmount + waysAmount;
+    const totalModelsBackup = dayReportsAmount + goalsAmount + usersAmount + waysAmount + goalMetricsAmount;
 
     log(`
     Start time: ${backupStartTime}
