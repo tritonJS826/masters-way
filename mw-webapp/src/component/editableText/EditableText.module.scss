@@ -1,8 +1,13 @@
 @import "src/styles/variables";
 
-$editableText-width: 100%;
+$editableTextWidth: 100%;
+$editableTextMinWidth: 40px;
 
 .editableText {
   overflow: hidden;
-  width: $editableText-width;
+  width: $editableTextWidth;
+
+  input {
+    min-width: $editableTextMinWidth;
+  }
 }
