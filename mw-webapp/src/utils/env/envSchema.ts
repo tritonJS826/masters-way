@@ -7,6 +7,6 @@ export const envSchema = {
   FIREBASE_STORAGE_BUCKET: str(),
   FIREBASE_MESSAGING_SENDER_ID: str(),
   FIREBASE_APP_ID: str(),
-  FIREBASE_MEASUREMENT_ID: str(),
+  FIREBASE_MEASUREMENT_ID: str(), // Need for prod
   IS_LOGGER_ENABLED: str(),
 };

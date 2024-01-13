@@ -35,8 +35,6 @@ export class WayService {
 
   /**
    * For import purposes
-   * 
-   * {"seconds":1702731520,"nanoseconds":776000000}
    */
   public static async importWay(way: WayBackup): Promise<WayBackup> {
     const createdAtTimestamp = Number(`${way.createdAt.seconds}${way.createdAt.nanoseconds.toString().substring(0,3)}`);
