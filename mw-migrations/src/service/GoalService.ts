@@ -33,6 +33,15 @@ export class GoalService {
   }
 
   /**
+   * For import purposes
+   */
+  public static async importGoal(goal: GoalDTO): Promise<GoalDTO> {
+    await setDoc(doc(db, PATH_TO_GOALS_COLLECTION, goal.uuid), goal);
+
+    return goal;
+  }
+
+  /**
    * Delete GoalDTO
    */
   public static async deleteGoalDTO(dayReportDTOUuid: string) {

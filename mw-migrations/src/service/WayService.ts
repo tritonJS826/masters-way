@@ -1,7 +1,8 @@
 import {collection, doc, deleteDoc, getDocs, setDoc} from "firebase/firestore";
 import {db} from "../firebase.js";
-import {WayDTOMigration} from "../DTOModel/WayDTO.js";
-import {querySnapshotToDTOConverter} from "../converter/querySnapshotToDTOConverter.js";
+import {WayBackup, WayDTOMigration} from "../DTOModel/WayDTO.js";
+import { querySnapshotToDTOConverter } from "../converter/querySnapshotToDTOConverter.js";
+import { Timestamp } from "firebase/firestore";
 
 export const PATH_TO_WAYS_COLLECTION = "ways";
 
@@ -30,6 +31,28 @@ export class WayService {
     await setDoc(docRef, wayDTO);
       
     return wayDTO;
+  }
+
+  /**
+   * For import purposes
+   * 
+   * {"seconds":1702731520,"nanoseconds":776000000}
+   */
+  public static async importWay(way: WayBackup): Promise<WayBackup> {
+    const createdAtTimestamp = Number(`${way.createdAt.seconds}${way.createdAt.nanoseconds.toString().substring(0,3)}`);
+    const createdAt = new Date(createdAtTimestamp);
+    const lastUpdateTimestamp = Number(`${way.lastUpdate.seconds}${way.lastUpdate.nanoseconds.toString().substring(0,3)}`);
+    const lastUpdate = new Date(lastUpdateTimestamp);
+
+    const wayToImport = {
+      ...way,
+      createdAt: Timestamp.fromDate(createdAt),
+      lastUpdate: Timestamp.fromDate(lastUpdate),
+    };
+
+    await setDoc(doc(db, PATH_TO_WAYS_COLLECTION, way.uuid), wayToImport);
+  
+    return way;
   }
   
 

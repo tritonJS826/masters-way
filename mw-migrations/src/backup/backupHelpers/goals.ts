@@ -1,4 +1,4 @@
-import { GoalService } from "../service/GoalService.js";
+import { GoalService } from "../../service/GoalService.js";
 
 export const exportGoals = async (params: {log: (textToLog: string) => void, backupToFile: (data:string) => void}) => {
   params.log(`Starting export Goals collection`)

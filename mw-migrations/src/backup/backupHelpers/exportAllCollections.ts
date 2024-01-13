@@ -1,17 +1,17 @@
-import { logToFile } from "../utils/logToFile.js";
-import { writeBackup } from "../utils/writeBackup.js";
+import { logToFile } from "../../utils/logToFile.js";
+import { writeBackup } from "../../utils/writeBackup.js";
 import { exportDayReports } from "./dayReports.js";
 import { exportGoalMetrics } from "./goalMetrics.js";
 import { exportGoals } from "./goals.js";
 import { exportUsers } from "./users.js";
 import { exportWays } from "./ways.js";
 
-const LOG_FILE = "firebase.log";
-const DAY_REPORTS_BACKUP_FILE = "dayReports.bkp";
-const GOALS_BACKUP_FILE = "goals.bkp";
-const GOAL_METRICS_BACKUP_FILE = "goalMetrics.bkp";
-const USERS_BACKUP_FILE = "users.bkp";
-const WAYS_BACKUP_FILE = "ways.bkp";
+export const LOG_FILE = "firebase.log";
+export const DAY_REPORTS_BACKUP_FILE = "dayReports.bkp";
+export const GOALS_BACKUP_FILE = "goals.bkp";
+export const GOAL_METRICS_BACKUP_FILE = "goalMetrics.bkp";
+export const USERS_BACKUP_FILE = "users.bkp";
+export const WAYS_BACKUP_FILE = "ways.bkp";
 const log = (textToLog: string) => logToFile(`${(new Date()).toISOString()}: ${textToLog}`, LOG_FILE);
 
 
@@ -21,7 +21,7 @@ const log = (textToLog: string) => logToFile(`${(new Date()).toISOString()}: ${t
  * Also there is a limit for http request size - 10 Mb, so it will work only for now
  * should be fixed before productions
  */
-const exportFirebase = async () => {
+export const exportFirebase = async () => {
     const backupStartTime = new Date();
 
     const dayReportsAmountPromise = exportDayReports({log, backupToFile: (data: string) => writeBackup(data, DAY_REPORTS_BACKUP_FILE) });
@@ -47,8 +47,6 @@ const exportFirebase = async () => {
     End time: ${backupEndTime}
     Total time: ${fullBackupTime} ms
 
-    Total Models to changed: ${totalModelsBackup}
+    Total Models exported: ${totalModelsBackup}
   `)
 };
-
-exportFirebase();

@@ -31,3 +31,17 @@ export type UserDTO = {
   mentoringWayUuids: string[];
   description: string;
 }
+
+export type UserDTOBackup = {
+  uuid: string;
+  name: string;
+  email: string;
+  ownWayUuids: string[];
+  favoriteWayUuids: string[];
+  mentoringWayUuids: string[];
+  description: string;
+  createdAt: {
+    seconds: number,
+    nanoseconds: number,
+  };
+}

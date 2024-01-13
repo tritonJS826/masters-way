@@ -1,7 +1,8 @@
 import {collection, deleteDoc, doc, getDocs, setDoc} from "firebase/firestore";
 import { db } from "../firebase.js";
-import { GoalMetricDTONew } from "../DTOModel/GoalMetricDTO.js";
+import { GoalMetricBackup, GoalMetricDTONew } from "../DTOModel/GoalMetricDTO.js";
 import { querySnapshotToDTOConverter } from "../converter/querySnapshotToDTOConverter.js";
+import { Timestamp } from "firebase/firestore";
 
 const PATH_TO_GOAL_METRICS_COLLECTION = "goalMetrics";
 
@@ -30,6 +31,23 @@ export class GoalMetricService {
     await setDoc(docRef, goalMetricsDTO);
 
     return goalMetricsDTO;
+  }
+
+  /**
+   * For import purposes
+   */
+  public static async importGoalMetrics(goalMetrics: GoalMetricBackup): Promise< GoalMetricBackup> {
+   
+    const doneDate = goalMetrics.doneDate.map(doneDate => Timestamp.fromDate(new Date(Number(`${doneDate.seconds}${doneDate.nanoseconds.toString().substring(0,3)}`))));
+
+    const goalMetricsToImport = {
+      ...goalMetrics,
+      doneDate: doneDate,
+    };
+
+    await setDoc(doc(db, PATH_TO_GOAL_METRICS_COLLECTION, goalMetrics.uuid), goalMetricsToImport);
+  
+    return goalMetrics;
   }
 
   /**

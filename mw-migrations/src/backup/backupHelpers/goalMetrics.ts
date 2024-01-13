@@ -1,4 +1,4 @@
-import { GoalMetricService } from "../service/GoalMetricService.js";
+import { GoalMetricService } from "../../service/GoalMetricService.js";
 
 export const exportGoalMetrics = async (params: {log: (textToLog: string) => void, backupToFile: (data:string) => void}) => {
   params.log(`Starting export GoalMetrics collection`)

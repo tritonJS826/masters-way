@@ -1,9 +1,9 @@
-import { DayReportService } from "../service/DayReportService.js";
-import { GoalMetricService } from "../service/GoalMetricService.js";
-import { GoalService } from "../service/GoalService.js";
-import { UserService } from "../service/UserService.js";
-import { WayService } from "../service/WayService.js";
-import { logToFile } from "../utils/logToFile.js";
+import { DayReportService } from "../../service/DayReportService.js";
+import { GoalMetricService } from "../../service/GoalMetricService.js";
+import { GoalService } from "../../service/GoalService.js";
+import { UserService } from "../../service/UserService.js";
+import { WayService } from "../../service/WayService.js";
+import { logToFile } from "../../utils/logToFile.js";
 
 const LOG_FILE = "clearAllCollections.log";
 const log = (textToLog: string) => logToFile(`${(new Date()).toISOString()}: ${textToLog}`, LOG_FILE);
@@ -37,21 +37,20 @@ export const clearAllCollections = async () => {
   log(`Required ${allGoalMetrics.length} READ operations`)
 
   const totalReadOperationsAmount = allUsers.length + allWays.length + allDayReports.length + allGoals.length + allGoalMetrics.length;
-  const totalDocumentsAmount = allUsers.length + allWays.length + allDayReports.length + allGoals.length + allGoalMetrics.length;
 
   log(`Deleting documents in collections`)
-  const deleteUsersPromise = allUsers.forEach((user) => UserService.deleteUserDTO(user.uuid))
-  const deleteWaysPromise = allWays.forEach((way) => WayService.deleteWayDTO(way.uuid))
-  const deleteDayReportsPromise = allDayReports.forEach((dayReport) => DayReportService.deleteDayReportDTO(dayReport.uuid))
-  const deleteGoalsPromise = allGoals.forEach((goal) => GoalService.deleteGoalDTO(goal.uuid))
-  const deleteGoalMetricsPromise = allGoalMetrics.forEach((goalMetrics) => GoalMetricService.deleteGoalMetricsDTO(goalMetrics.uuid))
+  const deleteUsersPromise = allUsers.map(user => user.uuid).map(UserService.deleteUserDTO);
+  const deleteWaysPromise = allWays.map(way => way.uuid).map(WayService.deleteWayDTO);
+  const deleteDayReportsPromise = allDayReports.map(report => report.uuid).map(DayReportService.deleteDayReportDTO);
+  const deleteGoalsPromise = allGoals.map(goal => goal.uuid).map(GoalService.deleteGoalDTO);
+  const deleteGoalMetricsPromise = allGoalMetrics.map(goalMetric => goalMetric.uuid).map(GoalMetricService.deleteGoalMetricsDTO);
 
-  await Promise.all([
-    deleteUsersPromise,
-    deleteWaysPromise,
-    deleteDayReportsPromise,
-    deleteGoalsPromise,
-    deleteGoalMetricsPromise,
+  const { length: deletedAmount } = await Promise.all([
+    ...deleteUsersPromise,
+    ...deleteWaysPromise,
+    ...deleteDayReportsPromise,
+    ...deleteGoalsPromise,
+    ...deleteGoalMetricsPromise,
   ])
   log(`Deleting documents in collections finished`)
 
@@ -64,7 +63,7 @@ export const clearAllCollections = async () => {
   Total time: ${clearAllCollectionsTime} ms
 
   Total READ operations amount: ${totalReadOperationsAmount}
-  Total Documents to deleted: ${totalDocumentsAmount}
+  Total Documents to deleted: ${deletedAmount}
 `)
 
 };
