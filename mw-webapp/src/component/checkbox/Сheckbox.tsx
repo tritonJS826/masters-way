@@ -46,19 +46,17 @@ export const Checkbox = (props: CheckboxProps) => {
 
   return (
     <>
-      <label
-        htmlFor="checkbox"
-        className={styles.checkMark}
-      />
-      <input
-        className={clsx(styles.checkbox, props.className)}
-        type="checkbox"
-        id="checkbox"
-        checked={isChecked}
-        onChange={() => {
-          props.isEditable !== false && handleCheckboxChange();
-        }}
-      />
+      <label htmlFor="checkbox">
+        <input
+          className={clsx(props.className, styles.checkbox)}
+          type="checkbox"
+          id="checkbox"
+          checked={isChecked}
+          onChange={() => {
+            props.isEditable !== false && handleCheckboxChange();
+          }}
+        />
+      </label>
     </>
   );
 };

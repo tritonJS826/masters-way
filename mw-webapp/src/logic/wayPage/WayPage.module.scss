@@ -101,6 +101,12 @@ $iconContainerSize: 25px;
   min-height: 25px;
 }
 
+.checkbox::after {
+  width: 16px;
+  height: 16px;
+  box-shadow: inset 16px 16px var(--primaryTextColor);
+}
+
 @media (max-width: $mediaWidthMobileBig) {
   .goalSection {
     justify-content: center;
