@@ -1,7 +1,8 @@
-import {collection, getDocs, deleteDoc, doc} from "firebase/firestore";
+import {collection, getDocs, deleteDoc, doc, setDoc} from "firebase/firestore";
 import {db} from "../firebase.js";
-import {DayReportDTO} from "../DTOModel/DayReportDTO.js";
-import {querySnapshotToDTOConverter} from "../converter/querySnapshotToDTOConverter.js";
+import {DayReportBackup, DayReportDTO} from "../DTOModel/DayReportDTO.js";
+import { querySnapshotToDTOConverter } from "../converter/querySnapshotToDTOConverter.js";
+import { Timestamp } from "firebase/firestore";
 
 const PATH_TO_DAY_REPORTS_COLLECTION = "dayReports";
 
@@ -21,6 +22,34 @@ export class DayReportService {
     return dayReportsDTO;
   }
 
+  /**
+   * Create DayReportDTO
+   */
+  public static async createDayReportDTO(dayReportDTO: DayReportDTO): Promise<DayReportDTO> {
+    const docRef = doc(collection(db, PATH_TO_DAY_REPORTS_COLLECTION));
+    
+    await setDoc(docRef, dayReportDTO);
+    
+    return dayReportDTO;
+    }
+
+  /**
+   * For import purposes
+   */
+  public static async importDayReport(dayReport: DayReportBackup): Promise<DayReportBackup> {
+    const createdAtTimestamp = Number(`${dayReport.createdAt.seconds}${dayReport.createdAt.nanoseconds.toString().substring(0,3)}`);
+    const createdAt = new Date(createdAtTimestamp);
+    
+    const dayReportToImport = {
+      ...dayReport,
+      createdAt: Timestamp.fromDate(createdAt),
+    };
+     
+    await setDoc(doc(db, PATH_TO_DAY_REPORTS_COLLECTION, dayReport.uuid), dayReportToImport);
+
+    return dayReport;
+  }
+  
   /**
    * Delete DayReportDTO
    */

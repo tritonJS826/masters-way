@@ -1,4 +1,4 @@
-import { DayReportService } from "../service/DayReportService.js";
+import { DayReportService } from "../../service/DayReportService.js";
 
 export const exportDayReports = async (params: {log: (textToLog: string) => void, backupToFile: (data:string) => void}) => {
   params.log(`Starting export DayReport collection`)

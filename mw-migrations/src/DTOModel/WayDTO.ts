@@ -27,3 +27,27 @@ export type WayDTO = {
   dayReportUuids: string[];
   currentMentorUuids: string[];
 }
+
+export type WayBackup = {
+  uuid: string;
+  name: string;
+  dayReportUuids: string[];
+  ownerUuid: string;
+  goalUuid: string;
+  mentorRequestUuids: string[];
+  isCompleted: boolean;
+  lastUpdate: {
+    seconds: number,
+    nanoseconds: number,
+  };
+  favoriteForUserUuids: string[];
+  mentorUuids: string[];
+  createdAt: {
+    seconds: number,
+    nanoseconds: number,
+  };
+  currentMentorUuids: string[];
+  wayTags: string[];
+  jobTags: string[];
+  monthReportUuids: string[];
+}
