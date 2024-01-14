@@ -105,12 +105,13 @@ $listLeftMargin: 20px;
   display: flex;
   align-items: center;
   margin-left: $marginSmall;
-  gap: $marginSmall;
+  gap: $marginBig;
 }
 
 .list {
   display: flex;
   width: 100%;
+  min-width: 80px;
 }
 
 .verticalContainer {
