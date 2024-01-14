@@ -24,13 +24,13 @@ const customComponents: Components = {
    */
   img: (params) => {
     return (
-      <div className={styles.imageContainer}>
+      <span className={styles.imageContainer}>
         <img
           src={params.src}
           alt={params.alt}
           className={styles.markdownImg}
         />
-      </div>
+      </span>
     );
   },
 
