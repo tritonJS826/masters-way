@@ -85,20 +85,19 @@ export const GoalMetricsBlock = (props: GoalMetricStatisticsBlockProps) => {
       <>
         {goalMetric.metricUuids.map((metricUuid, index) => {
           return (
-            <>
-              <GoalMetricItem
-                singleGoalMetric={{
-                  uuid: goalMetric.uuid,
-                  metricUuid,
-                  description: goalMetric.description[index],
-                  doneDate: goalMetric.doneDate[index],
-                  isDone: goalMetric.isDone[index],
-                }}
-                way={way}
-                setWay={setWay}
-                isEditable={props.isEditable}
-              />
-            </>
+            <GoalMetricItem
+              key={metricUuid}
+              singleGoalMetric={{
+                uuid: goalMetric.uuid,
+                metricUuid,
+                description: goalMetric.description[index],
+                doneDate: goalMetric.doneDate[index],
+                isDone: goalMetric.isDone[index],
+              }}
+              way={way}
+              setWay={setWay}
+              isEditable={props.isEditable}
+            />
           );
         })
         }
