@@ -12,17 +12,19 @@ export class GoalPreviewDAL {
    */
   public static async getGoalsPreview(): Promise<GoalPreview[]> {
     const goalsDTO = await GoalService.getGoalsDTO();
+    const goalsPreview = goalsDTO.map(goalDTOToGoalPreviewConverter);
 
-    return goalsDTO.map(goalDTOToGoalPreviewConverter);
+    return goalsPreview;
   }
 
   /**
    * Get GoalsPreview by uuids
    */
   public static async getGoalsPreviewByUuids(goalUuids: string[]): Promise<GoalPreview[]> {
-    const goalDTO = goalUuids.length !== 0 ? await GoalService.getGoalsDTOByUuids(goalUuids) : [];
+    const goalDTO = goalUuids.length ? await GoalService.getGoalsDTOByUuids(goalUuids) : [];
+    const goalPreviews = goalDTO.map(goalDTOToGoalPreviewConverter);
 
-    return goalDTO.map(goalDTOToGoalPreviewConverter);
+    return goalPreviews;
   }
 
   /**
@@ -30,8 +32,9 @@ export class GoalPreviewDAL {
    */
   public static async getGoal(uuid: string): Promise<GoalPreview> {
     const goalDTO = await GoalService.getGoalDTO(uuid);
+    const goalPreview = goalDTOToGoalPreviewConverter(goalDTO);
 
-    return goalDTOToGoalPreviewConverter(goalDTO);
+    return goalPreview;
   }
 
   /**

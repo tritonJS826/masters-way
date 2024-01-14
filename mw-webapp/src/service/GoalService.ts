@@ -2,11 +2,15 @@ import {collection, doc, getDoc, getDocs, query, setDoc, updateDoc, where, Write
 import {db} from "src/firebase";
 import {GOAL_UUID_FIELD, GoalDTO, GoalDTOSchema, GoalsDTOSchema} from "src/model/DTOModel/GoalDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
+import {querySnapshotsToDTOConverter} from "src/service/converter/querySnapshotsToDTOConverter";
 import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
 import {RequestOperations} from "src/service/RequestOperations";
+import {getChunksArray} from "src/utils/getChunkArray";
 import {logToConsole} from "src/utils/logToConsole";
 
 const PATH_TO_GOALS_COLLECTION = "goals";
+
+const QUERY_LIMIT = 30;
 
 /**
  * GoalDTO props without uuid
@@ -37,9 +41,18 @@ export class GoalService {
    */
   public static async getGoalsDTOByUuids(goalUuids: string[]): Promise<GoalDTO[]> {
     const goalsRef = collection(db, PATH_TO_GOALS_COLLECTION);
-    const goalsFilteredByUuid = query(goalsRef, where(GOAL_UUID_FIELD, "in", goalUuids));
-    const goalsRaw = await getDocs(goalsFilteredByUuid);
-    const goalsDTO = querySnapshotToDTOConverter<GoalDTO>(goalsRaw);
+    const chunksGoalsDTO = getChunksArray(goalUuids, QUERY_LIMIT);
+    const goalsDTOQueries = chunksGoalsDTO.map((chunk) => {
+      return query(goalsRef, where(GOAL_UUID_FIELD, "in", chunk));
+    });
+
+    const goalsRaw = await Promise.all(goalsDTOQueries.map(async (item) => {
+      const chunksUserDTO = await getDocs(item);
+
+      return chunksUserDTO;
+    }));
+
+    const goalsDTO = querySnapshotsToDTOConverter<GoalDTO>(goalsRaw);
 
     const validatedGoalsDTO = GoalsDTOSchema.parse(goalsDTO);
 
