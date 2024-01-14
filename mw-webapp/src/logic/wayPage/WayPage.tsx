@@ -253,9 +253,11 @@ export const WayPage = (props: WayPageProps) => {
               >
                 <Button
                   value={`${Symbols.OUTLINED_STAR}${Symbols.NO_BREAK_SPACE}${favoriteForUsersAmount}`}
-                  onClick={() =>
-                    user && addFavoriteToWayAndToUser(user, way, setUser, setWay)
-                  }
+                  onClick={() => {
+                    if (user) {
+                      addFavoriteToWayAndToUser(user, way, setUser, setWay);
+                    }
+                  }}
                   buttonType={ButtonType.TERTIARY}
                 />
               </Tooltip>
