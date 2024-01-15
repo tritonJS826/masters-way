@@ -11,8 +11,9 @@
 7. In the left sidebar choose: Build => Firestore database => create database => chose appropriate location => Next
 8. Choose Production mode or set up your custom mode
 9. Configure authorization: Build => Authentication => Get started => Choose Google
-10. Check if the application starts locally
-11. If an error appears related to indexes in firebase, follow the link that you will find in the error description and add the necessary indexes
+10. Go to the mw-migration folder of our project and run the script ```import-backup``` (ask Ekaterina or Victor to send you a backup file)
+11. Check if the application starts locally
+12. If an error appears related to indexes in firebase, follow the link that you will find in the error description and add the necessary indexes
 
 ## Import registered users
 
