@@ -14,6 +14,7 @@ import {
 import {JobDoneDTO, JobDoneDTOSchema, JobsDoneDTOSchema} from "src/model/DTOModel/JobDoneDTO";
 import {PlanDTO, PlanDTOSchema, PlansDTOSchema} from "src/model/DTOModel/PlanDTO";
 import {ProblemDTO, ProblemDTOSchema, ProblemsDTOSchema} from "src/model/DTOModel/ProblemDTO";
+import {QUERY_LIMIT} from "src/service/config";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
 import {querySnapshotsToDTOConverter} from "src/service/converter/querySnapshotsToDTOConverter";
 import {RequestOperations} from "src/service/RequestOperations";
@@ -22,7 +23,6 @@ import {logToConsole} from "src/utils/logToConsole";
 import {parseWithValidationStringifiedModel} from "src/utils/parseWithValidationStringifiedModel";
 
 export const PATH_TO_DAY_REPORTS_COLLECTION = "dayReports";
-const QUERY_LIMIT = 30;
 
 /**
  * DayReportDTO props without uuid

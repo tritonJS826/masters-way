@@ -12,6 +12,7 @@ import {
 } from "firebase/firestore";
 import {db} from "src/firebase";
 import {USER_UUID_FIELD, UserDTO, UserDTOSchema, UsersDTOSchema} from "src/model/DTOModel/UserDTO";
+import {QUERY_LIMIT} from "src/service/config";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
 import {querySnapshotsToDTOConverter} from "src/service/converter/querySnapshotsToDTOConverter";
 import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
@@ -20,8 +21,6 @@ import {getChunksArray} from "src/utils/getChunkArray";
 import {logToConsole} from "src/utils/logToConsole";
 
 export const PATH_TO_USERS_COLLECTION = "users";
-
-const QUERY_LIMIT = 30;
 
 /**
  * Provides methods to interact with the Users collection in Firestore.

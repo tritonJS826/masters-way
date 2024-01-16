@@ -25,7 +25,9 @@ export class UserPreviewDAL {
   public static async getUsersPreviewByUuids(userUuids: string[]): Promise<UserPreview[]> {
     const usersDTO = userUuids.length ? await UserService.getUsersDTOByUuids(userUuids) : [];
 
-    return usersDTO.map(UserDTOToUserPreviewConverter);
+    const usersPreview = usersDTO.map(UserDTOToUserPreviewConverter);
+
+    return usersPreview;
   }
 
   /**
@@ -34,7 +36,9 @@ export class UserPreviewDAL {
   public static async getUserPreview(uuid: string): Promise<UserPreview> {
     const userDTO = await UserService.getUserDTO(uuid);
 
-    return UserDTOToUserPreviewConverter(userDTO);
+    const userPreview = UserDTOToUserPreviewConverter(userDTO);
+
+    return userPreview;
   }
 
   /**

@@ -13,7 +13,7 @@ import {GoalMetricService} from "src/service/GoalMetricService";
 import {GoalService} from "src/service/GoalService";
 import {UserService} from "src/service/UserService";
 import {WayDTOWithoutUuid, WayService} from "src/service/WayService";
-import {arrayToHashMap} from "src/utils/createHashMap";
+import {arrayToHashMap} from "src/utils/arrayToHashMap";
 
 /**
  * Provides methods to interact with the Way model
