@@ -21,7 +21,7 @@ mentorUuids: string[] @User.uuid[]
 formerMentorUuids: string[] @User.uuid
 mentorRequestUuids: string[] @User.uuid
 createdAt: timestamp
-wayRags: string[]
+wayTags: string[]
 jobDoneTags: string[]
 
 DayReportDTO #collection
