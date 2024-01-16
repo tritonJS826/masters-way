@@ -18,6 +18,16 @@ export class GoalPreviewDAL {
   }
 
   /**
+   * Get GoalsPreview by uuids
+   */
+  public static async getGoalsPreviewByUuids(goalUuids: string[]): Promise<GoalPreview[]> {
+    const goalDTO = goalUuids.length ? await GoalService.getGoalsDTOByUuids(goalUuids) : [];
+    const goalPreviews = goalDTO.map(goalDTOToGoalPreviewConverter);
+
+    return goalPreviews;
+  }
+
+  /**
    * Get GoalPreview
    */
   public static async getGoal(uuid: string): Promise<GoalPreview> {

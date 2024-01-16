@@ -1,21 +1,29 @@
 /**
- * Uuid props
+ * ArrayToHashMapArgs
  */
-interface UuidProps {
+interface ArrayToHashMapArgs<Entity extends object, Key extends keyof Entity> {
 
   /**
-   * Uuid of {@link T}
+   * Field of {@link Entity} that will be used as key for hashmap
    */
-  uuid: string;
+  keyField: Key;
+
+  /**
+   * Array's values that will be converted to hashmap
+   */
+  list: Entity[];
 }
 
 /**
  * Create hashmap from array
- * !! Works only for arrays with entities with 'uuid' field !!
- * TODO: add ability to choose 'key' field
  */
-export const arrayToHashMap = <T extends UuidProps>(array: T[]): Map<string, T> => {
-  const hashMap = new Map(array.map((item: T): [string, T] => [item.uuid, item]));
+export const arrayToHashMap = <
+  Entity extends object,
+  Key extends keyof Entity
+>(args: ArrayToHashMapArgs<Entity, Key>): Map<Entity[Key], Entity> => {
+
+  const mappedList = args.list.map((item: Entity): [Entity[Key], Entity] => [item[args.keyField], item]);
+  const hashMap = new Map(mappedList);
 
   return hashMap;
 };

@@ -1,9 +1,23 @@
-import {collection, deleteDoc, doc, getDoc, getDocs, setDoc, updateDoc, WriteBatch} from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  setDoc,
+  updateDoc,
+  where,
+  WriteBatch,
+} from "firebase/firestore";
 import {db} from "src/firebase";
-import {UserDTO, UserDTOSchema, UsersDTOSchema} from "src/model/DTOModel/UserDTO";
+import {USER_UUID_FIELD, UserDTO, UserDTOSchema, UsersDTOSchema} from "src/model/DTOModel/UserDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
+import {querySnapshotsToDTOConverter} from "src/service/converter/querySnapshotsToDTOConverter";
 import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
+import {QUERY_LIMIT} from "src/service/firebaseVariables";
 import {RequestOperations} from "src/service/RequestOperations";
+import {getChunksArray} from "src/utils/getChunkArray";
 import {logToConsole} from "src/utils/logToConsole";
 
 export const PATH_TO_USERS_COLLECTION = "users";
@@ -23,6 +37,27 @@ export class UserService {
     const validatedUsersDTO = UsersDTOSchema.parse(usersDTO);
 
     logToConsole(`UserService:getUsersDTO: ${validatedUsersDTO.length} ${RequestOperations.READ} operations`);
+
+    return validatedUsersDTO;
+  }
+
+  /**
+   * Get UsersDTO by uuids
+   */
+  public static async getUsersDTOByUuids(userUuids: string[]): Promise<UserDTO[]> {
+    const usersRef = collection(db, PATH_TO_USERS_COLLECTION);
+    const chunksUsersDTO = getChunksArray(userUuids, QUERY_LIMIT);
+    const userDTOQueries = chunksUsersDTO.map((chunk) => {
+      return query(usersRef, where(USER_UUID_FIELD, "in", chunk));
+    });
+
+    const usersRaw = await Promise.all(userDTOQueries.map(getDocs));
+
+    const usersDTO = querySnapshotsToDTOConverter<UserDTO>(usersRaw);
+
+    const validatedUsersDTO = UsersDTOSchema.parse(usersDTO);
+
+    logToConsole(`UserService:getUsersDTOByUuids: ${validatedUsersDTO.length} ${RequestOperations.READ} operations`);
 
     return validatedUsersDTO;
   }

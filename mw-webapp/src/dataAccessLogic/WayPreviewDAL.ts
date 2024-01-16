@@ -1,9 +1,14 @@
 import {wayDTOToWayPreviewConverter} from "src/dataAccessLogic/DTOToPreviewConverter/wayDTOToWayPreviewConverter";
 import {GoalPreviewDAL} from "src/dataAccessLogic/GoalPreviewDAL";
 import {wayPreviewToWayDTOConverter} from "src/dataAccessLogic/PreviewToDTOConverter/wayPreviewToWayDTOConverter";
+import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
+import {GOAL_UUID_FIELD} from "src/model/DTOModel/GoalDTO";
+import {USER_UUID_FIELD} from "src/model/DTOModel/UserDTO";
+import {WAY_OWNER_UUID_FIELD} from "src/model/DTOModel/WayDTO";
 import {WayService} from "src/service/WayService";
+import {arrayToHashMap} from "src/utils/arrayToHashMap";
 
 /**
  * Provides methods to interact with the WayPreview model
@@ -15,39 +20,37 @@ export class WayPreviewDAL {
    */
   public static async getWaysPreview(): Promise<WayPreview[]> {
     const waysDTO = await WayService.getWaysDTO();
-    const waysUuids = waysDTO.map((item) => item.uuid);
 
-    const waysPreview = await Promise.all(waysUuids.map(WayPreviewDAL.getWayPreview));
+    const allNeededUsersUuids = new Set(waysDTO.flatMap(wayDTO => [
+      wayDTO.ownerUuid,
+      ...wayDTO.mentorUuids,
+      ...wayDTO.mentorRequestUuids,
+    ]));
 
-    return waysPreview;
-  }
+    const allNeededGoalsUuids = waysDTO.map(wayDTO => wayDTO.goalUuid);
 
-  /**
-   * Get WaysPreview by uuid
-   */
-  public static async getWaysPreviewByUuids(wayUuids: string[]): Promise<WayPreview[]> {
-    const waysDTO = wayUuids.length !== 0 ? await WayService.getWaysDTOByUuids(wayUuids) : [];
+    const allNeededUsersPreviewPromise = UserPreviewDAL.getUsersPreviewByUuids(Array.from(allNeededUsersUuids));
+    const allNeededGoalsPreviewPromise = GoalPreviewDAL.getGoalsPreviewByUuids(Array.from(allNeededGoalsUuids));
 
-    const waysPreview = Promise.all(waysDTO.map(async (wayDTO) => {
-      const ownerPromise = UserPreviewDAL.getUserPreview(wayDTO.ownerUuid);
+    const [
+      allNeededUsersPreview,
+      allNeededGoalsPreview,
+    ] = await Promise.all([
+      allNeededUsersPreviewPromise,
+      allNeededGoalsPreviewPromise,
+    ]);
 
-      const mentorsPromise = Promise.all(wayDTO.mentorUuids.map(UserPreviewDAL.getUserPreview));
+    const usersHashmap = arrayToHashMap({keyField: USER_UUID_FIELD, list: allNeededUsersPreview});
+    const goalsHashMap = arrayToHashMap({keyField: GOAL_UUID_FIELD, list: allNeededGoalsPreview});
 
-      const mentorRequestsPromise = Promise.all(wayDTO.mentorRequestUuids.map(UserPreviewDAL.getUserPreview));
+    const usersSafeHashmap = new SafeMap(usersHashmap);
+    const goalsSafeHashMap = new SafeMap(goalsHashMap);
 
-      const goalPromise = GoalPreviewDAL.getGoal(wayDTO.goalUuid);
-
-      const [
-        owner,
-        mentors,
-        mentorRequests,
-        goal,
-      ] = await Promise.all([
-        ownerPromise,
-        mentorsPromise,
-        mentorRequestsPromise,
-        goalPromise,
-      ]);
+    const waysPreview = waysDTO.map((wayDTO) => {
+      const owner = usersSafeHashmap.getValue(wayDTO[WAY_OWNER_UUID_FIELD]);
+      const mentors = wayDTO.mentorUuids.map((item) => usersSafeHashmap.getValue(item));
+      const mentorRequests = wayDTO.mentorRequestUuids.map((item) => usersSafeHashmap.getValue(item));
+      const goal = goalsSafeHashMap.getValue(wayDTO.goalUuid);
 
       const wayPreviewProps = {
         owner,
@@ -56,11 +59,58 @@ export class WayPreviewDAL {
         goal,
       };
 
-      const wayPreview = wayDTOToWayPreviewConverter(wayDTO, wayPreviewProps);
+      return wayDTOToWayPreviewConverter(wayDTO, wayPreviewProps);
+    });
 
-      return wayPreview;
-    }),
-    );
+    return waysPreview;
+  }
+
+  /**
+   * Get WaysPreview by uuid
+   */
+  public static async getWaysPreviewByUuids(wayUuids: string[]): Promise<WayPreview[]> {
+    const waysDTO = wayUuids.length ? await WayService.getWaysDTOByUuids(wayUuids) : [];
+
+    const allNeededUsersUuids = new Set(waysDTO.flatMap(wayDTO => [
+      wayDTO.ownerUuid,
+      ...wayDTO.mentorUuids,
+      ...wayDTO.mentorRequestUuids,
+    ]));
+
+    const allNeededGoalsUuids = waysDTO.map(wayDTO => wayDTO.goalUuid);
+
+    const allNeededUsersPreviewPromise = UserPreviewDAL.getUsersPreviewByUuids(Array.from(allNeededUsersUuids));
+    const allNeededGoalsPreviewPromise = GoalPreviewDAL.getGoalsPreviewByUuids(Array.from(allNeededGoalsUuids));
+
+    const [
+      allNeededUsersPreview,
+      allNeededGoalsPreview,
+    ] = await Promise.all([
+      allNeededUsersPreviewPromise,
+      allNeededGoalsPreviewPromise,
+    ]);
+
+    const usersHashmap = arrayToHashMap({keyField: USER_UUID_FIELD, list: allNeededUsersPreview});
+    const goalsHashMap = arrayToHashMap({keyField: GOAL_UUID_FIELD, list: allNeededGoalsPreview});
+
+    const usersSafeHashmap = new SafeMap(usersHashmap);
+    const goalsSafeHashMap = new SafeMap(goalsHashMap);
+
+    const waysPreview = waysDTO.map((wayDTO) => {
+      const owner = usersSafeHashmap.getValue(wayDTO.ownerUuid);
+      const mentors = wayDTO.mentorUuids.map((mentorUuid) => usersSafeHashmap.getValue(mentorUuid));
+      const mentorRequests = wayDTO.mentorRequestUuids.map((mentorRequestUuid) => usersSafeHashmap.getValue(mentorRequestUuid));
+      const goal = goalsSafeHashMap.getValue(wayDTO.goalUuid);
+
+      const wayPreviewProps = {
+        owner,
+        mentors,
+        mentorRequests,
+        goal,
+      };
+
+      return wayDTOToWayPreviewConverter(wayDTO, wayPreviewProps);
+    });
 
     return waysPreview;
   }

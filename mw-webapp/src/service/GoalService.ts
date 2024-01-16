@@ -1,9 +1,12 @@
-import {collection, doc, getDoc, getDocs, setDoc, updateDoc, WriteBatch} from "firebase/firestore";
+import {collection, doc, getDoc, getDocs, query, setDoc, updateDoc, where, WriteBatch} from "firebase/firestore";
 import {db} from "src/firebase";
-import {GoalDTO, GoalDTOSchema, GoalsDTOSchema} from "src/model/DTOModel/GoalDTO";
+import {GOAL_UUID_FIELD, GoalDTO, GoalDTOSchema, GoalsDTOSchema} from "src/model/DTOModel/GoalDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
+import {querySnapshotsToDTOConverter} from "src/service/converter/querySnapshotsToDTOConverter";
 import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
+import {QUERY_LIMIT} from "src/service/firebaseVariables";
 import {RequestOperations} from "src/service/RequestOperations";
+import {getChunksArray} from "src/utils/getChunkArray";
 import {logToConsole} from "src/utils/logToConsole";
 
 const PATH_TO_GOALS_COLLECTION = "goals";
@@ -28,6 +31,27 @@ export class GoalService {
     const validatedGoalsDTO = GoalsDTOSchema.parse(goalsDTO);
 
     logToConsole(`GoalService:getGoalsDTO: ${validatedGoalsDTO.length} ${RequestOperations.READ} operations`);
+
+    return validatedGoalsDTO;
+  }
+
+  /**
+   * Get GoalsDTO by uuid
+   */
+  public static async getGoalsDTOByUuids(goalUuids: string[]): Promise<GoalDTO[]> {
+    const goalsRef = collection(db, PATH_TO_GOALS_COLLECTION);
+    const chunksGoalsDTO = getChunksArray(goalUuids, QUERY_LIMIT);
+    const goalsDTOQueries = chunksGoalsDTO.map((chunk) => {
+      return query(goalsRef, where(GOAL_UUID_FIELD, "in", chunk));
+    });
+
+    const goalsRaw = await Promise.all(goalsDTOQueries.map(getDocs));
+
+    const goalsDTO = querySnapshotsToDTOConverter<GoalDTO>(goalsRaw);
+
+    const validatedGoalsDTO = GoalsDTOSchema.parse(goalsDTO);
+
+    logToConsole(`GoalService:getGoalsDTOByUuids: ${validatedGoalsDTO.length} ${RequestOperations.READ} operations`);
 
     return validatedGoalsDTO;
   }

@@ -16,13 +16,13 @@ import {PlanDTO, PlanDTOSchema, PlansDTOSchema} from "src/model/DTOModel/PlanDTO
 import {ProblemDTO, ProblemDTOSchema, ProblemsDTOSchema} from "src/model/DTOModel/ProblemDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
 import {querySnapshotsToDTOConverter} from "src/service/converter/querySnapshotsToDTOConverter";
+import {QUERY_LIMIT} from "src/service/firebaseVariables";
 import {RequestOperations} from "src/service/RequestOperations";
 import {getChunksArray} from "src/utils/getChunkArray";
 import {logToConsole} from "src/utils/logToConsole";
 import {parseWithValidationStringifiedModel} from "src/utils/parseWithValidationStringifiedModel";
 
 export const PATH_TO_DAY_REPORTS_COLLECTION = "dayReports";
-const QUERY_LIMIT = 30;
 
 /**
  * DayReportDTO props without uuid
@@ -39,11 +39,7 @@ const getSortedDayReportsDTO =
       return query(dayReportsRef, where(DAY_REPORT_UUID_FIELD, "in", chunk), orderBy(DAY_REPORT_CREATED_AT_FIELD, "desc"));
     });
 
-    const dayReportsRaw = await Promise.all(dayReportQueries.map(async(item) => {
-      const chunkDayReportRaw = await getDocs(item);
-
-      return chunkDayReportRaw;
-    }));
+    const dayReportsRaw = await Promise.all(dayReportQueries.map(getDocs));
     const dayReportsDTO = querySnapshotsToDTOConverter<DayReportDTO>(dayReportsRaw);
 
     // Additional sort need because firestore method orderBy works only inside method query

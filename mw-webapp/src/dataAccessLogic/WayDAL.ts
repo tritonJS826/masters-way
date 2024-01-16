@@ -8,6 +8,7 @@ import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {db} from "src/firebase";
 import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
+import {USER_UUID_FIELD} from "src/model/DTOModel/UserDTO";
 import {DayReportService} from "src/service/DayReportService";
 import {GoalMetricService} from "src/service/GoalMetricService";
 import {GoalService} from "src/service/GoalService";
@@ -66,9 +67,9 @@ export class WayDAL {
       favoriteForUsersPromise,
     ]);
 
-    const mentorsDictionary = arrayToHashMap(mentors);
+    const mentorsDictionary = arrayToHashMap({keyField: USER_UUID_FIELD, list: mentors});
 
-    const formerMentorsDictionary = arrayToHashMap(formerMentors);
+    const formerMentorsDictionary = arrayToHashMap({keyField: USER_UUID_FIELD, list: formerMentors});
 
     const dayReportsOrderedByDate = dayReports.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 
