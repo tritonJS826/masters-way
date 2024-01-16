@@ -4,8 +4,6 @@ $editableTimeWidth: 40px;
 $listLeftMargin: 20px;
 
 .editableTime {
-  width: $editableTimeWidth;
-  min-width: $editableTimeWidth;
   text-align: right;
 }
 
@@ -24,7 +22,7 @@ $listLeftMargin: 20px;
   color: transparent;
   line-height: 20px;
   text-align: center;
-  text-shadow: 0 0 0 var(--secondaryTextColor);
+  text-shadow: 0 0 0 var(--primaryTextColor);
 }
 
 .summaryText {
@@ -93,8 +91,8 @@ $listLeftMargin: 20px;
 }
 
 .checkbox {
-  width: 15px;
-  height: 15px;
+  width: $checkboxWidthSmall;
+  height: $checkboxHeightSmall;
 }
 
 .summarySection {
@@ -107,14 +105,19 @@ $listLeftMargin: 20px;
   display: flex;
   align-items: center;
   margin-left: $marginSmall;
-  gap: $marginSmall;
+  gap: $marginBig;
 }
 
 .list {
   display: flex;
   width: 100%;
+  min-width: 80px;
 }
 
 .verticalContainer {
   width: 100%;
+}
+
+.positionTd {
+  position: relative;
 }

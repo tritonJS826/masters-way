@@ -28,11 +28,14 @@ interface ScrollableBlockProps {
  */
 export const ScrollableBlock = (props: PropsWithChildren<ScrollableBlockProps>) => {
   return (
-    <div
-      style={{width: `${props.width}`, height: `${props.height}`}}
-      className={clsx(styles.scrollableBlock, props.className)}
-    >
-      {props.children}
+    // Don't delete this wrapper. With it we can position tooltips over blocks that have property overflow: hidden
+    <div className={styles.wrapper}>
+      <div
+        style={{width: props.width, height: props.height}}
+        className={clsx(styles.scrollableBlock, props.className)}
+      >
+        {props.children}
+      </div>
     </div>
   );
 };

@@ -5,12 +5,13 @@
 }
 
 .imageContainer {
+  display: inline-block;
   margin-top: $marginMedium;
 }
 
 .markdownImg {
-  max-width: 100%;
-  max-height: 100%;
+  max-width: $minWidthBlock;
+  max-height: $minHeightBlock;
   object-fit: contain;
 }
 

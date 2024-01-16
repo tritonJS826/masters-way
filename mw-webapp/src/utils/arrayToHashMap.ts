@@ -1,17 +1,17 @@
 /**
- * Sdf
+ * ArrayToHashMapArgs
  */
 interface ArrayToHashMapArgs<Entity extends object> {
 
-  /**
-   * Sf
+  /**keyField
    */
   keyField: keyof Entity;
 
   /**
-   * Sf
+   * list
    */
   list: Entity[];
+
 }
 
 /**

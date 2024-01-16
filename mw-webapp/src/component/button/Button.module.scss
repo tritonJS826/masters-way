@@ -51,3 +51,7 @@
   background-color: var(--buttonColor);
   color: var(--primaryTextColor);
 }
+
+.disabled {
+  opacity: $disableOpacity;
+}

@@ -1,7 +1,8 @@
-import { collection, getDocs } from "firebase/firestore";
+import { collection, doc, deleteDoc, getDocs, setDoc } from "firebase/firestore";
 import { querySnapshotToDTOConverter } from "../converter/querySnapshotToDTOConverter.js";
 import { db } from "../firebase.js";
-import { UserDTOMigration } from "../DTOModel/UserDTO.js";
+import { UserDTOMigration, UserDTOBackup } from "../DTOModel/UserDTO.js";
+import { Timestamp } from "firebase/firestore";
 
 export const PATH_TO_USERS_COLLECTION = "users";
 
@@ -19,6 +20,42 @@ export class UserService {
     const usersDTO = querySnapshotToDTOConverter<UserDTOMigration>(usersRaw);
 
     return usersDTO;
+  }
+
+  /**
+   * Create UserDTO
+   */
+  public static async createUserDTO(userDTO: UserDTOBackup): Promise<UserDTOBackup> {
+    const docRef = doc(collection(db, PATH_TO_USERS_COLLECTION));
+
+    await setDoc(docRef, userDTO);
+    
+    return userDTO;
+  }
+
+  /**
+   * For import purposes
+   */
+  public static async importUser(user: UserDTOBackup): Promise<UserDTOBackup> {
+    const createdAtTimestamp = Number(`${user.createdAt.seconds}${user.createdAt.nanoseconds.toString().substring(0,3)}`);
+    const createdAt = new Date(createdAtTimestamp);
+
+    const userToImport = {
+      ...user,
+      createdAt: Timestamp.fromDate(createdAt),
+    };
+
+    await setDoc(doc(db, PATH_TO_USERS_COLLECTION, user.uuid), userToImport);
+
+    return user;
+  }
+
+  /**
+   * Delete UserDTO
+   */
+  public static async deleteUserDTO(userUuid: string) {
+      await deleteDoc(doc(db, PATH_TO_USERS_COLLECTION, userUuid))
+      
   }
 
 }

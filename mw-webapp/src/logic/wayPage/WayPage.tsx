@@ -1,11 +1,9 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
-import eyeOpened from "src/assets/eyeOpened.svg";
-import eyeSlashed from "src/assets/eyeSlashed.svg";
 import {Button, ButtonType} from "src/component/button/Button";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
-import {Image} from "src/component/image/Image";
+import {Icon, IconSize} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
@@ -228,7 +226,7 @@ export const WayPage = (props: WayPageProps) => {
       <HorizontalContainer className={styles.alignItems}>
         <Title
           level={HeadingLevel.h2}
-          text={`${way.name}`}
+          text={way.name}
           onChangeFinish={(text) => changeWayName(way, text)}
           isEditable={isOwner}
           className={styles.titleH2}
@@ -255,9 +253,11 @@ export const WayPage = (props: WayPageProps) => {
               >
                 <Button
                   value={`${Symbols.OUTLINED_STAR}${Symbols.NO_BREAK_SPACE}${favoriteForUsersAmount}`}
-                  onClick={() =>
-                    user && addFavoriteToWayAndToUser(user, way, setUser, setWay)
-                  }
+                  onClick={() => {
+                    if (user) {
+                      addFavoriteToWayAndToUser(user, way, setUser, setWay);
+                    }
+                  }}
                   buttonType={ButtonType.TERTIARY}
                 />
               </Tooltip>
@@ -342,10 +342,17 @@ export const WayPage = (props: WayPageProps) => {
                 className={styles.iconContainer}
                 onClick={() => changeGoalMetricsVisibility()}
               >
-                <Image
-                  src={isGoalMetricsVisible ? eyeOpened : eyeSlashed}
-                  alt={"Eye icon"}
-                />
+                {isGoalMetricsVisible ?
+                  <Icon
+                    size={IconSize.MEDIUM}
+                    name="EyeOpenedIcon"
+                  />
+                  :
+                  <Icon
+                    size={IconSize.MEDIUM}
+                    name="EyeSlashedIcon"
+                  />
+                }
               </div>
             </Tooltip>
           </HorizontalContainer>
@@ -366,10 +373,17 @@ export const WayPage = (props: WayPageProps) => {
                 className={styles.iconContainer}
                 onClick={() => changeStatisticsVisibility()}
               >
-                <Image
-                  src={isStatisticsVisible ? eyeOpened : eyeSlashed}
-                  alt={"Eye icon"}
-                />
+                {isStatisticsVisible ?
+                  <Icon
+                    size={IconSize.MEDIUM}
+                    name="EyeOpenedIcon"
+                  />
+                  :
+                  <Icon
+                    size={IconSize.MEDIUM}
+                    name="EyeSlashedIcon"
+                  />
+                }
               </div>
             </Tooltip>
           </HorizontalContainer>

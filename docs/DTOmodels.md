@@ -1,4 +1,4 @@
-UserDTO
+UserDTO #collection
 uuid: string
 name: string
 email: string
@@ -8,7 +8,7 @@ mentoringWayUuids: string[] @Way.uuid
 description: string
 createdAt: timestamp
 
-WayDTO
+WayDTO #collection
 uuid: string
 name: string
 dayReportUuids: string[] @DayReport.uuid[]
@@ -24,7 +24,7 @@ createdAt: timestamp
 wayRags: string[]
 jobDoneTags: string[]
 
-DayReportDTO
+DayReportDTO #collection
 uuid: string
 createdAt: timestamp
 jobsDoneStringified: string[] stringified@JobDone
@@ -33,7 +33,7 @@ problemsStringified: string[] stringified@CurrentProblem
 commentsStringified: string[] stringified@Comment
 isDayOff: boolean
 
-GoalDTO
+GoalDTO #collection
 uuid: string
 studentUuid: string @UserUuid
 metricUuids: string[] @GoalMetric.uuid[] // only one element in the array
@@ -67,7 +67,7 @@ description: string
 isDone: boolean
 tags: string[]
 
-GoalMetricDTO
+GoalMetricDTO #collection
 uuid: string
 metricUuids: string[]
 description: string[]

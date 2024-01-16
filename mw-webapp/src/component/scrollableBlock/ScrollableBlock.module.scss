@@ -1,5 +1,8 @@
-.scrollableBlock {
+.wrapper {
   position: relative;
+}
+
+.scrollableBlock {
   overflow: auto;
   width: 100%;
   height: auto;

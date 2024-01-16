@@ -1,6 +1,7 @@
 import {ColumnDef, getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import {Table} from "src/component/table/Table";
 import {DayReport} from "src/model/businessModel/DayReport";
+import styles from "src/logic/wayPage/reportsTable/WayColumns.module.scss";
 
 /**
  * Reports table props
@@ -39,6 +40,9 @@ export const ReportsTable = (props: ReportsTableProps) => {
   const tableContent = {headerGroup, rowModel};
 
   return (
-    <Table data={tableContent} />
+    <Table
+      data={tableContent}
+      classNameTd={styles.positionTd}
+    />
   );
 };

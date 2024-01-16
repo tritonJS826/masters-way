@@ -10,6 +10,7 @@ $primaryBorderRadius: 6px;
 
 //Transitions
 $primaryTransitionDuration: 300ms;
+$secondaryTransitionDuration: 150ms;
 $elementHoverTransition: 500ms;
 
 // z-index
@@ -28,8 +29,27 @@ $gapBig: 30px;
 
 // Widths and heights
 $iconSizeSmall: 15px;
+$iconSizeMedium: 25px;
 $minWidthBlock: 360px;
+$minHeightBlock: 360px;
 $maxWidthBlock: 600px;
 $minWidthDate: 80px;
 $heightH2: 27px;
 $heightH3: 22px;
+$checkboxWidthSmall: 15px;
+$checkboxHeightSmall: 15px;
+$checkboxWidthMedium: 18px;
+$checkboxHeightMedium: 18px;
+$checkboxWidthLarge: 25px;
+$checkboxHeightLarge: 25px;
+$checkmarkWidthMedium: 10px;
+$checkmarkHeightMedium: 10px;
+$checkmarkWidthLarge: 16px;
+$checkmarkHeightLarge: 16px;
+
+// MediaQuery widths
+$mediaWidthMobileSmall: 360px;
+$mediaWidthMobileBig: 600px;
+
+// opacity
+$disableOpacity: 0.7;

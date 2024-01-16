@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import styles from "src/component/image/Image.module.scss";
 
 /**
@@ -25,14 +26,14 @@ interface ImageProps {
  * Сomponent for displaying images
  */
 export const Image = (props: ImageProps) => {
+  const className = clsx(styles.image, props.className);
+
   return (
-    <div className={props.className}>
-      <img
-        src={props.src}
-        alt={props.alt}
-        className={styles.image}
-      />
-    </div>
+    <img
+      src={props.src}
+      alt={props.alt}
+      className={className}
+    />
   );
 };
 

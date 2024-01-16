@@ -1,13 +1,10 @@
-import {collection, doc, setDoc} from "firebase/firestore";
+import {collection, deleteDoc, doc, getDocs, setDoc} from "firebase/firestore";
 import { db } from "../firebase.js";
-import { GoalMetricDTONew } from "../DTOModel/GoalMetricDTO.js";
+import { GoalMetricBackup, GoalMetricDTONew } from "../DTOModel/GoalMetricDTO.js";
+import { querySnapshotToDTOConverter } from "../converter/querySnapshotToDTOConverter.js";
+import { Timestamp } from "firebase/firestore";
 
 const PATH_TO_GOAL_METRICS_COLLECTION = "goalMetrics";
-
-/**
- * GoalMetricDTO props without uuid
- */
-export type GoalMetricDTOWithoutUuid = Omit<GoalMetricDTONew, "uuid">;
 
 /**
  * Provides methods to interact with the @goalMetrics collection
@@ -15,29 +12,21 @@ export type GoalMetricDTOWithoutUuid = Omit<GoalMetricDTONew, "uuid">;
 export class GoalMetricService {
 
   /**
-   * Get GoalDTO
+   * Get GoalMetricsDTO
    */
-  // public static async getGoalMetricsDTO(metricUuid: string): Promise<GoalMetricDTONew> {
-  //   const goalMetricsRaw = await getDoc(doc(db, PATH_TO_GOAL_METRICS_COLLECTION, metricUuid));
-  //   const goalMetricsDTO = documentSnapshotToDTOConverter<GoalMetricDTONew>(goalMetricsRaw);
+  public static async getGoalMetricsDTO(): Promise<GoalMetricDTONew[]> {
+    const goalMetricsRef = collection(db, PATH_TO_GOAL_METRICS_COLLECTION);
+    const goalMetricsRaw = await getDocs(goalMetricsRef);
+    const goalMetricsDTO = querySnapshotToDTOConverter<GoalMetricDTONew>(goalMetricsRaw);
 
-  //   const validatedGoalMetricsDTO = GoalMetricDTOSchema.parse(goalMetricsDTO);
-
-  //   return validatedGoalMetricsDTO;
-  // }
+    return goalMetricsDTO;
+  }
 
   /**
    * Create GoalMetricsDTO
    */
-  public static async createGoalMetricsDTO(goalMetricDTOWithoutUuid: GoalMetricDTOWithoutUuid): Promise<GoalMetricDTONew> {
+  public static async createGoalMetricsDTO(goalMetricsDTO: GoalMetricDTONew): Promise<GoalMetricDTONew> {
     const docRef = doc(collection(db, PATH_TO_GOAL_METRICS_COLLECTION));
-
-    const goalMetricsDTO: GoalMetricDTONew = {
-      ...goalMetricDTOWithoutUuid,
-      uuid: docRef.id,
-    };
-
-    // const validatedGoalMetricsDTO = GoalMetricDTOSchema.parse(goalMetricsDTO);
 
     await setDoc(docRef, goalMetricsDTO);
 
@@ -45,12 +34,27 @@ export class GoalMetricService {
   }
 
   /**
-   * Update GoalMetricsDTO
+   * For import purposes
    */
-  // public static async updateGoalMetricsDTO(goalMetricsDTO: GoalMetricDTONew): Promise<void> {
-  //   const validatedGoalMetricsDTO = GoalMetricDTOSchema.parse(goalMetricsDTO);
+  public static async importGoalMetrics(goalMetrics: GoalMetricBackup): Promise< GoalMetricBackup> {
+   
+    const doneDate = goalMetrics.doneDate.map(doneDate => Timestamp.fromDate(new Date(Number(`${doneDate.seconds}${doneDate.nanoseconds.toString().substring(0,3)}`))));
 
-  //   await updateDoc(doc(db, PATH_TO_GOAL_METRICS_COLLECTION, goalMetricsDTO.uuid), validatedGoalMetricsDTO);
-  // }
+    const goalMetricsToImport = {
+      ...goalMetrics,
+      doneDate: doneDate,
+    };
+
+    await setDoc(doc(db, PATH_TO_GOAL_METRICS_COLLECTION, goalMetrics.uuid), goalMetricsToImport);
+  
+    return goalMetrics;
+  }
+
+  /**
+   * Delete GoalMetricsDTO
+   */
+  public static async deleteGoalMetricsDTO(goalMetricsUuid: string) {
+    deleteDoc(doc(db, PATH_TO_GOAL_METRICS_COLLECTION, goalMetricsUuid));
+  }
 
 }

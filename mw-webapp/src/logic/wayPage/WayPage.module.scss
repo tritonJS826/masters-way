@@ -97,6 +97,19 @@ $iconContainerSize: 25px;
 }
 
 .checkbox {
-  min-width: 25px;
-  min-height: 25px;
+  min-width: $checkboxWidthLarge;
+  min-height: $checkboxHeightLarge;
+}
+
+.checkbox::after {
+  width: $checkmarkWidthLarge;
+  height: $checkmarkHeightLarge;
+  box-shadow: inset $checkmarkWidthLarge $checkmarkHeightLarge
+    var(--primaryTextColor);
+}
+
+@media (max-width: $mediaWidthMobileBig) {
+  .goalSection {
+    justify-content: center;
+  }
 }
