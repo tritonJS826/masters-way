@@ -1,14 +1,15 @@
 /**
  * ArrayToHashMapArgs
  */
-interface ArrayToHashMapArgs<Entity extends object> {
+interface ArrayToHashMapArgs<Entity> {
 
-  /**keyField
+  /**
+   * Field of {@link Entity} that will be used as key for hashmap
    */
   keyField: keyof Entity;
 
   /**
-   * list
+   * Array's values that will be converted to hashmap
    */
   list: Entity[];
 
@@ -16,12 +17,10 @@ interface ArrayToHashMapArgs<Entity extends object> {
 
 /**
  * Create hashmap from array
- * {@link key} is one of {@link item} properties with string type
  */
-export const arrayToHashMap =
-  <Entity extends object>(args: ArrayToHashMapArgs<Entity>): Map<string, Entity> => {
-    const mappedList = args.list.map((item: Entity): [string, Entity] => [String(item[args.keyField]), item]);
-    const hashMap = new Map(mappedList);
+export const arrayToHashMap = <Entity>(args: ArrayToHashMapArgs<Entity>): Map<string, Entity> => {
+  const mappedList = args.list.map((item: Entity): [string, Entity] => [String(item[args.keyField]), item]);
+  const hashMap = new Map(mappedList);
 
-    return hashMap;
-  };
+  return hashMap;
+};
