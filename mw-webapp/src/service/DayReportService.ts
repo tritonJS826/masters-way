@@ -39,11 +39,7 @@ const getSortedDayReportsDTO =
       return query(dayReportsRef, where(DAY_REPORT_UUID_FIELD, "in", chunk), orderBy(DAY_REPORT_CREATED_AT_FIELD, "desc"));
     });
 
-    const dayReportsRaw = await Promise.all(dayReportQueries.map(async(item) => {
-      const chunkDayReportRaw = await getDocs(item);
-
-      return chunkDayReportRaw;
-    }));
+    const dayReportsRaw = await Promise.all(dayReportQueries.map(getDocs));
     const dayReportsDTO = querySnapshotsToDTOConverter<DayReportDTO>(dayReportsRaw);
 
     // Additional sort need because firestore method orderBy works only inside method query

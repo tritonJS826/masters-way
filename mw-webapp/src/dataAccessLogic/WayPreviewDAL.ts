@@ -1,13 +1,16 @@
-import {CustomHashMap} from "src/dataAccessLogic/customHashMap";
 import {wayDTOToWayPreviewConverter} from "src/dataAccessLogic/DTOToPreviewConverter/wayDTOToWayPreviewConverter";
 import {GoalPreviewDAL} from "src/dataAccessLogic/GoalPreviewDAL";
 import {wayPreviewToWayDTOConverter} from "src/dataAccessLogic/PreviewToDTOConverter/wayPreviewToWayDTOConverter";
+import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {GoalPreview} from "src/model/businessModelPreview/GoalPreview";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
+import {GOAL_UUID_FIELD} from "src/model/DTOModel/GoalDTO";
+import {USER_UUID_FIELD} from "src/model/DTOModel/UserDTO";
 import {WAY_OWNER_UUID_FIELD} from "src/model/DTOModel/WayDTO";
 import {WayService} from "src/service/WayService";
+import {arrayToHashMap} from "src/utils/arrayToHashMap";
 
 /**
  * Provides methods to interact with the WayPreview model
@@ -39,14 +42,17 @@ export class WayPreviewDAL {
       allNeededGoalsPreviewPromise,
     ]);
 
-    const usersHashmap = new CustomHashMap<UserPreview>(allNeededUsersPreview);
-    const goalsHashMap = new CustomHashMap<GoalPreview>(allNeededGoalsPreview);
+    const usersHashmap = arrayToHashMap({keyField: USER_UUID_FIELD, list: allNeededUsersPreview});
+    const goalsHashMap = arrayToHashMap({keyField: GOAL_UUID_FIELD, list: allNeededGoalsPreview});
+
+    const usersCustomHashmap = new SafeMap<string, UserPreview>(usersHashmap);
+    const goalsCustomHashMap = new SafeMap<string, GoalPreview>(goalsHashMap);
 
     const waysPreview = waysDTO.map((wayDTO) => {
-      const owner = usersHashmap.getValue(wayDTO[WAY_OWNER_UUID_FIELD]);
-      const mentors = wayDTO.mentorUuids.map((item) => usersHashmap.getValue(item));
-      const mentorRequests = wayDTO.mentorRequestUuids.map((item) => usersHashmap.getValue(item));
-      const goal = goalsHashMap.getValue(wayDTO.goalUuid);
+      const owner = usersCustomHashmap.getValue(wayDTO[WAY_OWNER_UUID_FIELD]);
+      const mentors = wayDTO.mentorUuids.map((item) => usersCustomHashmap.getValue(item));
+      const mentorRequests = wayDTO.mentorRequestUuids.map((item) => usersCustomHashmap.getValue(item));
+      const goal = goalsCustomHashMap.getValue(wayDTO.goalUuid);
 
       const wayPreviewProps = {
         owner,
@@ -86,14 +92,17 @@ export class WayPreviewDAL {
       allNeededGoalsPreviewPromise,
     ]);
 
-    const usersHashmap = new CustomHashMap<UserPreview>(allNeededUsersPreview);
-    const goalsHashMap = new CustomHashMap<GoalPreview>(allNeededGoalsPreview);
+    const usersHashmap = arrayToHashMap({keyField: USER_UUID_FIELD, list: allNeededUsersPreview});
+    const goalsHashMap = arrayToHashMap({keyField: GOAL_UUID_FIELD, list: allNeededGoalsPreview});
+
+    const usersCustomHashmap = new SafeMap<string, UserPreview>(usersHashmap);
+    const goalsCustomHashMap = new SafeMap<string, GoalPreview>(goalsHashMap);
 
     const waysPreview = waysDTO.map((wayDTO) => {
-      const owner = usersHashmap.getValue(wayDTO.ownerUuid);
-      const mentors = wayDTO.mentorUuids.map((mentorUuid) => usersHashmap.getValue(mentorUuid));
-      const mentorRequests = wayDTO.mentorRequestUuids.map((mentorRequestUuid) => usersHashmap.getValue(mentorRequestUuid));
-      const goal = goalsHashMap.getValue(wayDTO.goalUuid);
+      const owner = usersCustomHashmap.getValue(wayDTO.ownerUuid);
+      const mentors = wayDTO.mentorUuids.map((mentorUuid) => usersCustomHashmap.getValue(mentorUuid));
+      const mentorRequests = wayDTO.mentorRequestUuids.map((mentorRequestUuid) => usersCustomHashmap.getValue(mentorRequestUuid));
+      const goal = goalsCustomHashMap.getValue(wayDTO.goalUuid);
 
       const wayPreviewProps = {
         owner,

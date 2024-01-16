@@ -1,21 +1,27 @@
 /**
- * Uuid props
+ * Sdf
  */
-interface UuidProps {
+interface ArrayToHashMapArgs<Entity extends object> {
 
   /**
-   * Uuid of {@link T}
+   * Sf
    */
-  uuid: string;
+  keyField: keyof Entity;
+
+  /**
+   * Sf
+   */
+  list: Entity[];
 }
 
 /**
  * Create hashmap from array
- * !! Works only for arrays with entities with 'uuid' field !!
- * TODO: add ability to choose 'key' field
+ * {@link key} is one of {@link item} properties with string type
  */
-export const arrayToHashMap = <T extends UuidProps>(array: T[]): Map<string, T> => {
-  const hashMap = new Map(array.map((item: T): [string, T] => [item.uuid, item]));
+export const arrayToHashMap =
+  <Entity extends object>(args: ArrayToHashMapArgs<Entity>): Map<string, Entity> => {
+    const mappedList = args.list.map((item: Entity): [string, Entity] => [String(item[args.keyField]), item]);
+    const hashMap = new Map(mappedList);
 
-  return hashMap;
-};
+    return hashMap;
+  };

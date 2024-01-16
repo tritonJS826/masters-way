@@ -51,11 +51,7 @@ export class UserService {
       return query(usersRef, where(USER_UUID_FIELD, "in", chunk));
     });
 
-    const usersRaw = await Promise.all(userDTOQueries.map(async (item) => {
-      const chunksUserDTO = await getDocs(item);
-
-      return chunksUserDTO;
-    }));
+    const usersRaw = await Promise.all(userDTOQueries.map(getDocs));
 
     const usersDTO = querySnapshotsToDTOConverter<UserDTO>(usersRaw);
 

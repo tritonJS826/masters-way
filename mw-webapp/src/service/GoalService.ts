@@ -45,11 +45,7 @@ export class GoalService {
       return query(goalsRef, where(GOAL_UUID_FIELD, "in", chunk));
     });
 
-    const goalsRaw = await Promise.all(goalsDTOQueries.map(async (item) => {
-      const chunksUserDTO = await getDocs(item);
-
-      return chunksUserDTO;
-    }));
+    const goalsRaw = await Promise.all(goalsDTOQueries.map(getDocs));
 
     const goalsDTO = querySnapshotsToDTOConverter<GoalDTO>(goalsRaw);
 
