@@ -4,11 +4,13 @@ import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {wayDTOToWayConverter} from "src/dataAccessLogic/DTOToBusinessConverter/wayDTOToWayPreviewConverter";
 import {GoalDAL} from "src/dataAccessLogic/GoalDAL";
 import {userPreviewToUserDTOConverter} from "src/dataAccessLogic/PreviewToDTOConverter/userPreviewToUserDTOConverter";
+import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {db} from "src/firebase";
 import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {USER_UUID_FIELD} from "src/model/DTOModel/UserDTO";
+import {WAY_MENTOR_UUIDS_FIELD, WAY_OWNER_UUID_FIELD} from "src/model/DTOModel/WayDTO";
 import {DayReportService} from "src/service/DayReportService";
 import {GoalMetricService} from "src/service/GoalMetricService";
 import {GoalService} from "src/service/GoalService";
@@ -39,33 +41,34 @@ export class WayDAL {
   public static async getWay(uuid: string): Promise<Way> {
     const wayDTO = await WayService.getWayDTO(uuid);
 
-    const ownerPromise = UserPreviewDAL.getUserPreview(wayDTO.ownerUuid);
+    const allNeededUsersUuids = new Set([
+      wayDTO[WAY_OWNER_UUID_FIELD],
+      ...wayDTO.favoriteForUserUuids,
+      ...wayDTO.formerMentorUuids,
+      ...wayDTO[WAY_MENTOR_UUIDS_FIELD],
+      ...wayDTO.mentorRequestUuids,
+    ]);
 
-    const mentorsPromise = Promise.all(wayDTO.mentorUuids.map(UserPreviewDAL.getUserPreview));
-
-    const formerMentorsPromise = Promise.all(wayDTO.formerMentorUuids.map(UserPreviewDAL.getUserPreview));
-
-    const mentorRequestsPromise = Promise.all(wayDTO.mentorRequestUuids.map(UserPreviewDAL.getUserPreview));
-
-    const dayReportsPromise = Promise.all(wayDTO.dayReportUuids.map(DayReportDAL.getDayReport));
-
-    const favoriteForUsersPromise = Promise.all(wayDTO.favoriteForUserUuids.map(UserPreviewDAL.getUserPreview));
+    const allNeededUsersPreviewPromise = UserPreviewDAL.getUsersPreviewByUuids(Array.from(allNeededUsersUuids));
+    const dayReportsPromise = DayReportDAL.getDayReports(wayDTO.dayReportUuids);
 
     const [
-      owner,
-      mentors,
-      formerMentors,
-      mentorRequests,
+      allNeededUsersPreview,
       dayReports,
-      favoriteForUsers,
     ] = await Promise.all([
-      ownerPromise,
-      mentorsPromise,
-      formerMentorsPromise,
-      mentorRequestsPromise,
+      allNeededUsersPreviewPromise,
       dayReportsPromise,
-      favoriteForUsersPromise,
     ]);
+
+    const usersHashmap = arrayToHashMap({keyField: USER_UUID_FIELD, list: allNeededUsersPreview});
+
+    const usersSafeHashmap = new SafeMap(usersHashmap);
+
+    const owner = usersSafeHashmap.getValue(wayDTO[WAY_OWNER_UUID_FIELD]);
+    const mentors = wayDTO.mentorUuids.map((mentorUuid) => usersSafeHashmap.getValue(mentorUuid));
+    const mentorRequests = wayDTO.mentorRequestUuids.map((mentorRequestUuid) => usersSafeHashmap.getValue(mentorRequestUuid));
+    const formerMentors = wayDTO.formerMentorUuids.map((formerMentorUuid) => usersSafeHashmap.getValue(formerMentorUuid));
+    const favoriteForUsers = wayDTO.favoriteForUserUuids.map((userUuid) => usersSafeHashmap.getValue(userUuid));
 
     const mentorsDictionary = arrayToHashMap({keyField: USER_UUID_FIELD, list: mentors});
 

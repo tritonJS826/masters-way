@@ -3,7 +3,7 @@ import { db } from "../firebase.js";
 import { GoalMetricBackup, GoalMetricDTONew } from "../DTOModel/GoalMetricDTO.js";
 import { querySnapshotToDTOConverter } from "../converter/querySnapshotToDTOConverter.js";
 import { Timestamp } from "firebase/firestore";
-import { truncateToThreeChars } from "../utils/getNanoSecondsThreeSymbols.js";
+import { truncateToThreeChars } from "../utils/truncateToThreeChars.js";
 
 const PATH_TO_GOAL_METRICS_COLLECTION = "goalMetrics";
 

@@ -3,7 +3,7 @@ import { querySnapshotToDTOConverter } from "../converter/querySnapshotToDTOConv
 import { db } from "../firebase.js";
 import { UserDTOMigration, UserDTOBackup } from "../DTOModel/UserDTO.js";
 import { Timestamp } from "firebase/firestore";
-import { truncateToThreeChars } from "../utils/getNanoSecondsThreeSymbols.js";
+import { truncateToThreeChars } from "../utils/truncateToThreeChars.js";
 
 export const PATH_TO_USERS_COLLECTION = "users";
 

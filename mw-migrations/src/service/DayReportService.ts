@@ -3,7 +3,7 @@ import {db} from "../firebase.js";
 import {DayReportBackup, DayReportDTO} from "../DTOModel/DayReportDTO.js";
 import { querySnapshotToDTOConverter } from "../converter/querySnapshotToDTOConverter.js";
 import { Timestamp } from "firebase/firestore";
-import { truncateToThreeChars } from "../utils/getNanoSecondsThreeSymbols.js";
+import { truncateToThreeChars } from "../utils/truncateToThreeChars.js";
 
 const PATH_TO_DAY_REPORTS_COLLECTION = "dayReports";
 

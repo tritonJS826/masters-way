@@ -14,8 +14,11 @@ import {
 import {db} from "src/firebase";
 import {WAY_CREATED_AT_FIELD, WAY_UUID_FIELD, WayDTO, WayDTOSchema, WaysDTOSchema} from "src/model/DTOModel/WayDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
+import {querySnapshotsToDTOConverter} from "src/service/converter/querySnapshotsToDTOConverter";
 import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
+import {QUERY_LIMIT} from "src/service/firebaseVariables";
 import {RequestOperations} from "src/service/RequestOperations";
+import {getChunksArray} from "src/utils/getChunkArray";
 import {logToConsole} from "src/utils/logToConsole";
 
 const PATH_TO_WAYS_COLLECTION = "ways";
@@ -51,11 +54,19 @@ export class WayService {
    */
   public static async getWaysDTOByUuids(wayUuids: string[]): Promise<WayDTO[]> {
     const waysRef = collection(db, PATH_TO_WAYS_COLLECTION);
-    const waysSortedByUuid = query(waysRef, where(WAY_UUID_FIELD, "in", wayUuids), orderBy(WAY_CREATED_AT_FIELD, "desc"));
-    const waysRaw = await getDocs(waysSortedByUuid);
-    const waysDTO = querySnapshotToDTOConverter<WayDTO>(waysRaw);
+    const chunksWaysDTO = getChunksArray(wayUuids, QUERY_LIMIT);
+    const waysDTOQueries = chunksWaysDTO.map((chunk) => {
+      return query(waysRef, where(WAY_UUID_FIELD, "in", chunk), orderBy(WAY_CREATED_AT_FIELD, "desc"));
+    });
 
-    const validatedWaysDTO = WaysDTOSchema.parse(waysDTO);
+    const waysRaw = await Promise.all(waysDTOQueries.map(getDocs));
+    const waysDTO = querySnapshotsToDTOConverter<WayDTO>(waysRaw);
+
+    // Additional sort need because firestore method orderBy works only inside method query
+    const waysDTOOrderedByDate = waysDTO
+      .sort((a, b) => b[WAY_CREATED_AT_FIELD].toDate().getTime() - a[WAY_CREATED_AT_FIELD].toDate().getTime());
+
+    const validatedWaysDTO = WaysDTOSchema.parse(waysDTOOrderedByDate);
 
     logToConsole(`WayService:getWaysDTOByUuids: ${validatedWaysDTO.length} ${RequestOperations.READ} operations`);
 
