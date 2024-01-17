@@ -184,7 +184,7 @@ export const WayPage = (props: WayPageProps) => {
       loadData,
       onSuccess,
       onError,
-      dependency: [user],
+      dependency: [],
     },
   );
 
