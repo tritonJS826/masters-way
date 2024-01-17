@@ -3,7 +3,7 @@ import { db } from "../firebase.js";
 import { GoalMetricBackup, GoalMetricDTONew } from "../DTOModel/GoalMetricDTO.js";
 import { querySnapshotToDTOConverter } from "../converter/querySnapshotToDTOConverter.js";
 import { Timestamp } from "firebase/firestore";
-import { getNanosecondsThreeSymbols } from "../utils/getNanoSecondsThreeSymbols.js";
+import { truncateToThreeChars } from "../utils/getNanoSecondsThreeSymbols.js";
 
 const PATH_TO_GOAL_METRICS_COLLECTION = "goalMetrics";
 
@@ -38,7 +38,7 @@ export class GoalMetricService {
    * For import purposes
    */
   public static async importGoalMetrics(goalMetrics: GoalMetricBackup): Promise<GoalMetricBackup> {
-    const doneDate = goalMetrics.doneDate.map(doneDate => Timestamp.fromDate(new Date(Number(`${doneDate.seconds}${getNanosecondsThreeSymbols(doneDate.nanoseconds)}`))));
+    const doneDate = goalMetrics.doneDate.map(doneDate => Timestamp.fromDate(new Date(Number(`${doneDate.seconds}${truncateToThreeChars(doneDate.nanoseconds)}`))));
 
     const goalMetricsToImport = {
       ...goalMetrics,

@@ -3,7 +3,7 @@ import { querySnapshotToDTOConverter } from "../converter/querySnapshotToDTOConv
 import { db } from "../firebase.js";
 import { UserDTOMigration, UserDTOBackup } from "../DTOModel/UserDTO.js";
 import { Timestamp } from "firebase/firestore";
-import { getNanosecondsThreeSymbols } from "../utils/getNanoSecondsThreeSymbols.js";
+import { truncateToThreeChars } from "../utils/getNanoSecondsThreeSymbols.js";
 
 export const PATH_TO_USERS_COLLECTION = "users";
 
@@ -38,7 +38,7 @@ export class UserService {
    * For import purposes
    */
   public static async importUser(user: UserDTOBackup): Promise<UserDTOBackup> {
-    const createdAtNanoseconds = getNanosecondsThreeSymbols(user.createdAt.nanoseconds);
+    const createdAtNanoseconds = truncateToThreeChars(user.createdAt.nanoseconds);
 
     const createdAtTimestamp = Number(`${user.createdAt.seconds}${createdAtNanoseconds}`);
     const createdAt = new Date(createdAtTimestamp);
