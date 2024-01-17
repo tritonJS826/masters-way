@@ -263,6 +263,10 @@ export const WayPage = (props: WayPageProps) => {
                 />
               </Tooltip>
           }
+          <Button
+            value="Download as pdf"
+            onClick={() => downloadWayPdf(way)}
+          />
           {isOwner &&
           <Button
             value="Delete way"
@@ -395,11 +399,6 @@ export const WayPage = (props: WayPageProps) => {
           />
         </div>
       </div>
-
-      <Button
-        value="Download as pdf"
-        onClick={() => downloadWayPdf(way)}
-      />
 
       <ScrollableBlock>
         <DayReportsTable way={way} />
