@@ -16,6 +16,7 @@ import {useLoad} from "src/hooks/useLoad";
 import {GoalMetricsBlock} from "src/logic/wayPage/GoalMetricsBlock";
 import {MentorRequestsSection} from "src/logic/wayPage/MentorRequestsSection";
 import {MentorsSection} from "src/logic/wayPage/MentorsSection";
+import {downloadWayPdf} from "src/logic/wayPage/renderWayToPdf/downloadWayPdf";
 import {DayReportsTable} from "src/logic/wayPage/reportsTable/DayReportsTable";
 import {renderModalContent} from "src/logic/wayPage/reportsTable/WayColumns";
 import {WayStatistic} from "src/logic/wayPage/WayStatistic";
@@ -262,6 +263,10 @@ export const WayPage = (props: WayPageProps) => {
                 />
               </Tooltip>
           }
+          <Button
+            value="Download as pdf"
+            onClick={() => downloadWayPdf(way)}
+          />
           {isOwner &&
           <Button
             value="Delete way"

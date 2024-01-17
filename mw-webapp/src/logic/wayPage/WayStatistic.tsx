@@ -26,7 +26,7 @@ interface WayStatisticProps {
   isVisible: boolean;
 }
 
-const MILLISECONDS_IN_DAY = 86_400_000;
+export const MILLISECONDS_IN_DAY = 86_400_000;
 
 /**
  * Used to calculate date properly without libs
@@ -34,13 +34,13 @@ const MILLISECONDS_IN_DAY = 86_400_000;
  * mathematically time between three Date timestamps is equal 2 days.
  * but in application for 3 records we want to see 3 days
  */
-const SMAL_CORECTION_MILLISECONDS = 1;
+export const SMALL_CORRECTION_MILLISECONDS = 1;
 
-const AMOUNT_DAYS_IN_WEEK = 7;
-const AMOUNT_DAYS_IN_TWO_WEEK = 14;
+export const AMOUNT_DAYS_IN_WEEK = 7;
+export const AMOUNT_DAYS_IN_TWO_WEEK = 14;
 
-const lastWeekDate = DateUtils.getLastDate(AMOUNT_DAYS_IN_WEEK);
-const lastTwoWeekDate = DateUtils.getLastDate(AMOUNT_DAYS_IN_TWO_WEEK);
+export const lastWeekDate = DateUtils.getLastDate(AMOUNT_DAYS_IN_WEEK);
+export const lastTwoWeekDate = DateUtils.getLastDate(AMOUNT_DAYS_IN_TWO_WEEK);
 
 type StatisticLineProps = {
 
@@ -77,7 +77,7 @@ export const WayStatistic = (props: WayStatisticProps) => {
   const minimumDateTimestamp = Math.min(...allDatesTimestamps);
 
   const totalDaysOnAWay = Math.ceil(
-    (maximumDateTimestamp - minimumDateTimestamp + SMAL_CORECTION_MILLISECONDS) / MILLISECONDS_IN_DAY,
+    (maximumDateTimestamp - minimumDateTimestamp + SMALL_CORRECTION_MILLISECONDS) / MILLISECONDS_IN_DAY,
   );
   const totalRecordsAmount = props.dayReports.length;
 
