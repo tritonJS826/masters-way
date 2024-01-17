@@ -123,8 +123,11 @@ const getGoal = (goal: Goal) => {
       bold: true,
       margin: [0, MARGIN_SMALL, 0, 0],
     },
-    `*${goal.metrics[0].description.map}`,
-    ...goal.metrics[0].description.map(goalMetric => `*${goalMetric}`),
+    ...goal.metrics[0].description
+      .map((goalMetric, index) =>
+        `${goal.metrics[0].isDone[index]
+          ? DateUtils.getShortISODateValue(goal.metrics[0].doneDate[index])
+          : "Not finished"}: ${goalMetric}`),
   ];
 };
 
@@ -229,6 +232,17 @@ const getStatistics = (dayReports: DayReport[], wayCreatedAt: Date) => {
 const renderReportDate = (date: Date) => ({
   text: DateUtils.getShortISODateValue(date),
   bold: true,
+  margin: [0, MARGIN_MEDIUM, 0, 0],
+});
+
+/**
+ * Render title
+ */
+const getTitle = (title: string) => ({
+  alignment: "center",
+  text: title,
+  style: "header",
+  bold: true,
   margin: [0, MARGIN_MEDIUM],
 });
 
@@ -241,20 +255,14 @@ const getReportsTemplate = (dayReport: DayReport) => {
    * TODO: improve template to render reports
    */
   return [
-    {
-      alignment: "center",
-      text: "Day Reports",
-      style: "header",
-      bold: true,
-      margin: [0, MARGIN_MEDIUM],
-    },
+
     renderReportDate(dayReport.createdAt),
     {
       text: "Jobs done:",
       bold: true,
       margin: [0, MARGIN_SMALL, 0, 0],
     },
-    ...dayReport.jobsDone.map(job => `*${job.time} (tags:${job.tags}) minutes: ${job.description}`),
+    ...dayReport.jobsDone.map(job => `*${job.time} minutes (tags:${job.tags}): ${job.description}`),
     {
       text: "Plans:",
       bold: true,
@@ -292,6 +300,7 @@ export const downloadWayPdf = (way: Way) => {
   const formerMentorsDefinition = getFormerMentors(way.formerMentors);
   const goalDefinition = getGoal(way.goal);
   const statisticsDefinition = getStatistics(way.dayReports, way.createdAt);
+  const dayReportsTitleDefinition = getTitle("Day Reports");
   const reportDefinitions = way.dayReports.reverse().flatMap(getReportsTemplate);
 
   const docDefinition = {
@@ -304,6 +313,7 @@ export const downloadWayPdf = (way: Way) => {
       formerMentorsDefinition,
       goalDefinition,
       statisticsDefinition,
+      dayReportsTitleDefinition,
       ...reportDefinitions,
     ],
   };
