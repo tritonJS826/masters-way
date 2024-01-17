@@ -3,6 +3,7 @@ import {db} from "../firebase.js";
 import {WayBackup, WayDTOMigration} from "../DTOModel/WayDTO.js";
 import { querySnapshotToDTOConverter } from "../converter/querySnapshotToDTOConverter.js";
 import { Timestamp } from "firebase/firestore";
+import { getNanosecondsThreeSymbols } from "../utils/getNanoSecondsThreeSymbols.js";
 
 export const PATH_TO_WAYS_COLLECTION = "ways";
 
@@ -37,9 +38,11 @@ export class WayService {
    * For import purposes
    */
   public static async importWay(way: WayBackup): Promise<WayBackup> {
-    const createdAtTimestamp = Number(`${way.createdAt.seconds}${way.createdAt.nanoseconds.toString().substring(0,3)}`);
+    const createdAtNanoseconds = getNanosecondsThreeSymbols(way.createdAt.nanoseconds);
+    const lastUpdateNanoseconds = getNanosecondsThreeSymbols(way.lastUpdate.nanoseconds);
+    const createdAtTimestamp = Number(`${way.createdAt.seconds}${createdAtNanoseconds}`);
     const createdAt = new Date(createdAtTimestamp);
-    const lastUpdateTimestamp = Number(`${way.lastUpdate.seconds}${way.lastUpdate.nanoseconds.toString().substring(0,3)}`);
+    const lastUpdateTimestamp = Number(`${way.lastUpdate.seconds}${lastUpdateNanoseconds}`);
     const lastUpdate = new Date(lastUpdateTimestamp);
 
     const wayToImport = {
