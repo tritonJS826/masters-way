@@ -28,7 +28,7 @@ export enum Analytics {
 /**
  * Log event to A
  */
-export const logEvent = (event: Analytics) => logEventFirebase(analytics, event);
+export const logEvent = (event: Analytics, metadata: object) => logEventFirebase(analytics, event, metadata);
 
 export const db = getFirestore(app);
 export const provider = new GoogleAuthProvider().setCustomParameters({prompt: "select_account"});

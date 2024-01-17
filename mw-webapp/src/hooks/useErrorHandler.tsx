@@ -12,7 +12,7 @@ export const useErrorHandler = () => {
    */
   const handleError = (event: ErrorEvent) => {
     displayNotification({text: `Error: ${event.message}`, type: "error"});
-    logEvent(Analytics.ERROR);
+    logEvent(Analytics.ERROR, {error: event});
   };
 
   /**
@@ -20,7 +20,7 @@ export const useErrorHandler = () => {
    */
   const handlePromiseRejection = (event: PromiseRejectionEvent) => {
     displayNotification({text: `Unhandled Promise Rejection: ${event.reason}`, type: "error"});
-    logEvent(Analytics.PROMISE_REJECTION);
+    logEvent(Analytics.PROMISE_REJECTION, {error: event});
   };
 
   useEffect(() => {
