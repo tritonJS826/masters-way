@@ -3,7 +3,7 @@ import {db} from "../firebase.js";
 import {WayBackup, WayDTOMigration} from "../DTOModel/WayDTO.js";
 import { querySnapshotToDTOConverter } from "../converter/querySnapshotToDTOConverter.js";
 import { Timestamp } from "firebase/firestore";
-import { truncateToThreeChars } from "../utils/getNanoSecondsThreeSymbols.js";
+import { truncateToThreeChars } from "../utils/truncateToThreeChars.js";
 
 export const PATH_TO_WAYS_COLLECTION = "ways";
 

@@ -3,6 +3,7 @@ import {useNavigate} from "react-router-dom";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
+import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
 import {useGlobalContext} from "src/GlobalContext";
@@ -12,7 +13,9 @@ import {MentoringWaysTable} from "src/logic/waysTable/MentoringWaysTable";
 import {OwnWaysTable} from "src/logic/waysTable/OwnWaysTable";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
+import {WAY_UUID_FIELD} from "src/model/DTOModel/WayDTO";
 import {pages} from "src/router/pages";
+import {arrayToHashMap} from "src/utils/arrayToHashMap";
 import styles from "src/logic/userPage/UserPage.module.scss";
 
 /**
@@ -99,22 +102,23 @@ export const UserPage = (props: UserPageProps) => {
   const loadData = async (): Promise<UserPageData> => {
     const fetchedUserPreview = await UserPreviewDAL.getUserPreview(props.uuid);
 
-    {/* TODO: get all ways in one request and then split them into arrays by uuid's in userPreview */
-    }
-
-    const ownWaysPreviewPromise = WayPreviewDAL.getWaysPreviewByUuids(fetchedUserPreview.ownWays);
-    const mentoringWaysPreviewPromise = WayPreviewDAL.getWaysPreviewByUuids(fetchedUserPreview.mentoringWays);
-    const favoriteWaysPreviewPromise = WayPreviewDAL.getWaysPreviewByUuids(fetchedUserPreview.favoriteWays);
-
-    const [
-      ownWaysPreview,
-      mentoringWaysPreview,
-      favoriteWaysPreview,
-    ] = await Promise.all([
-      ownWaysPreviewPromise,
-      mentoringWaysPreviewPromise,
-      favoriteWaysPreviewPromise,
+    const allNeededWayUuids = new Set([
+      ...fetchedUserPreview.ownWays,
+      ...fetchedUserPreview.mentoringWays,
+      ...fetchedUserPreview.favoriteWays,
     ]);
+
+    const allNeededWaysPreviewPromise = WayPreviewDAL.getWaysPreviewByUuids(Array.from(allNeededWayUuids));
+
+    const [allNeededWaysPreview] = await Promise.all([allNeededWaysPreviewPromise]);
+
+    const waysHashmap = arrayToHashMap({keyField: WAY_UUID_FIELD, list: allNeededWaysPreview});
+
+    const waysSafeHashmap = new SafeMap(waysHashmap);
+
+    const ownWaysPreview = fetchedUserPreview.ownWays.map((ownWay) => waysSafeHashmap.getValue(ownWay));
+    const mentoringWaysPreview = fetchedUserPreview.mentoringWays.map((mentoringWay) => waysSafeHashmap.getValue(mentoringWay));
+    const favoriteWaysPreview = fetchedUserPreview.favoriteWays.map((favoriteWay) => waysSafeHashmap.getValue(favoriteWay));
 
     return {
       userPreview: fetchedUserPreview,
