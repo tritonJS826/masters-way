@@ -3,6 +3,7 @@ import {db} from "../firebase.js";
 import {DayReportBackup, DayReportDTO} from "../DTOModel/DayReportDTO.js";
 import { querySnapshotToDTOConverter } from "../converter/querySnapshotToDTOConverter.js";
 import { Timestamp } from "firebase/firestore";
+import { truncateToThreeChars } from "../utils/getNanoSecondsThreeSymbols.js";
 
 const PATH_TO_DAY_REPORTS_COLLECTION = "dayReports";
 
@@ -37,14 +38,16 @@ export class DayReportService {
    * For import purposes
    */
   public static async importDayReport(dayReport: DayReportBackup): Promise<DayReportBackup> {
-    const createdAtTimestamp = Number(`${dayReport.createdAt.seconds}${dayReport.createdAt.nanoseconds.toString().substring(0,3)}`);
+    const createdAtNanoseconds = truncateToThreeChars(dayReport.createdAt.nanoseconds);
+
+    const createdAtTimestamp = Number(`${dayReport.createdAt.seconds}${createdAtNanoseconds}`);
     const createdAt = new Date(createdAtTimestamp);
     
     const dayReportToImport = {
       ...dayReport,
       createdAt: Timestamp.fromDate(createdAt),
     };
-     
+
     await setDoc(doc(db, PATH_TO_DAY_REPORTS_COLLECTION, dayReport.uuid), dayReportToImport);
 
     return dayReport;
