@@ -3,7 +3,8 @@
  */
 enum WayStatus {
   Completed = "Completed",
-  InProgress = "In progress",
+  // It's not possible to use computed value inside string enum
+  InProgress = "In\u00A0progress",
   Abandoned = "Abandoned"
 }
 
