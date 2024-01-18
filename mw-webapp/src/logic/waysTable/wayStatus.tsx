@@ -1,12 +1,15 @@
+import {Symbols} from "src/utils/Symbols";
+
 /**
  * Available way statuses
  */
-enum WayStatus {
-  Completed = "Completed",
-  // It's not possible to use computed value inside string enum
-  InProgress = "In\u00A0progress",
-  Abandoned = "Abandoned"
-}
+const WayStatus = {
+  Completed: "Completed",
+  InProgress: `In${Symbols.NO_BREAK_SPACE}progress`,
+  Abandoned: "Abandoned",
+} as const;
+
+type WayStatusType = typeof WayStatus[keyof typeof WayStatus];
 
 /**
  * {@link getWayStatus} parameters
@@ -27,7 +30,7 @@ type getWayStatusParams = {
 /**
  * Get way status
  */
-export const getWayStatus = (params: getWayStatusParams): WayStatus => {
+export const getWayStatus = (params: getWayStatusParams): WayStatusType => {
   if (params.isCompleted) {
     return WayStatus.Completed;
   } else {
