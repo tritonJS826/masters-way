@@ -8,11 +8,6 @@ import styles from "src/component/horizontalContainer/HorizontalContainer.module
 interface HorizontalContainerProps {
 
   /**
-   * Unique key of HorizontalContainer
-   */
-  key?: string;
-
-  /**
    * Additional custom class name
    */
   className?: string;
@@ -23,10 +18,7 @@ interface HorizontalContainerProps {
  */
 export const HorizontalContainer = (props: PropsWithChildren<HorizontalContainerProps>) => {
   return (
-    <div
-      className={clsx(styles.horizontalContainer, props.className)}
-      key={props.key}
-    >
+    <div className={clsx(styles.horizontalContainer, props.className)}>
       {props.children}
     </div>
   );
