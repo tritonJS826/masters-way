@@ -4,7 +4,6 @@ import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
-import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
 import {WAYS_OWNER, waysColumns} from "src/logic/waysTable/waysColumns";
 import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {Way} from "src/model/businessModel/Way";
@@ -48,11 +47,8 @@ export const OwnWaysTable = (props: OwnWaysTableProps) => {
   /**
    * Create way
    */
-  const createWay = async (userUuid: string, waysPreview: WayPreview[]) => {
+  const createWay = async (userUuid: string) => {
     const newWay: Way = await WayDAL.createWay(userUuid);
-    const newWayPreview: WayPreview = await WayPreviewDAL.getWayPreview(newWay.uuid);
-    const ways = [newWayPreview, ...waysPreview];
-    setOwnWays(ways);
     navigate(pages.way.getPath({uuid: newWay.uuid}));
   };
 
@@ -69,7 +65,7 @@ export const OwnWaysTable = (props: OwnWaysTableProps) => {
       {props.isPageOwner &&
         <Button
           value="Create new way"
-          onClick={() => createWay(props.uuid, ownWays)}
+          onClick={() => createWay(props.uuid)}
           buttonType={ButtonType.PRIMARY}
         />
       }

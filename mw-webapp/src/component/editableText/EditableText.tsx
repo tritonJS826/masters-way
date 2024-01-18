@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {HTMLInputTypeAttribute, useState} from "react";
 import clsx from "clsx";
 import {renderSpan} from "src/component/editableText/renderSpan";
 import {Input} from "src/component/input/Input";
@@ -30,6 +30,13 @@ interface EditableTextProps<T> {
    * @default true
    */
   isEditable?: boolean;
+
+  /**
+   * Type of input
+   * @default "text"
+   */
+  type?: HTMLInputTypeAttribute;
+
 }
 
 /**
@@ -60,8 +67,8 @@ export const EditableText = <T extends string | number>(props: EditableTextProps
    * Check type of coming value and convert it to Number if need to use input with type "number"
    */
   const setValue = (value: string) => {
-    const number = Number(value);
-    const updatedValue = typeof props.text === "string" ? value : number;
+    const number = isNaN(Number(value)) ? 0 : Number(value);
+    const updatedValue = props.type === "number" ? number : value;
     setText(updatedValue as T);
   };
 
@@ -70,7 +77,7 @@ export const EditableText = <T extends string | number>(props: EditableTextProps
    */
   const renderInput = () => (
     <Input
-      type={"text" || "number"}
+      type={props.type ?? "text"}
       value={text}
       autoFocus={true}
       onChange={setValue}
