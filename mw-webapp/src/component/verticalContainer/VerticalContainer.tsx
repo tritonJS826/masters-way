@@ -8,11 +8,6 @@ import styles from "src/component/verticalContainer/VerticalContainer.module.scs
 interface VerticalContainerProps {
 
   /**
-   * Unique key of VerticalContainer
-   */
-  key?: string;
-
-  /**
    * Additional custom class name
    */
   className?: string;
@@ -23,10 +18,7 @@ interface VerticalContainerProps {
  */
 export const VerticalContainer = (props: PropsWithChildren<VerticalContainerProps>) => {
   return (
-    <div
-      className={clsx(styles.verticalContainer, props.className)}
-      key={props.key}
-    >
+    <div className={clsx(styles.verticalContainer, props.className)}>
       {props.children}
     </div>
   );

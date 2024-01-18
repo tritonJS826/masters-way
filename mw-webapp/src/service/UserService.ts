@@ -91,6 +91,7 @@ export class UserService {
   /**
    * Update user
    * @param userDTO UserDTO
+   * TODO #407: TS Partial (analog patch )
    */
   public static async updateUserDTO(userDTO: UserDTO) {
     const validatedUserDTO = UserDTOSchema.parse(userDTO);

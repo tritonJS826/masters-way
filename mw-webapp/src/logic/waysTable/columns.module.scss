@@ -29,3 +29,20 @@
 .status {
   text-align: center;
 }
+
+th {
+  // make lastUpdate fill minimum width
+  &:nth-child(2) {
+    width: 0;
+  }
+
+  // make status fill minimum width
+  &:nth-child(3) {
+    width: 0;
+  }
+
+  // make favorites fill minimum width
+  &:nth-child(7) {
+    width: 0;
+  }
+}

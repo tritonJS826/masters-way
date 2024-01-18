@@ -272,6 +272,7 @@ export const Columns = (props: ColumnsProps) => {
                         >
                           <EditableText
                             text={jobDone.time}
+                            type="number"
                             onChangeFinish={(text) => updateJobDoneTime(jobDone, text)}
                             className={styles.editableTime}
                             isEditable={isOwner}
@@ -442,6 +443,7 @@ export const Columns = (props: ColumnsProps) => {
                         >
                           <EditableText
                             text={plan.estimationTime}
+                            type="number"
                             onChangeFinish={(value) => updatePlanTime(plan, value)}
                             className={styles.editableTime}
                             isEditable={plan.ownerUuid === user?.uuid}
