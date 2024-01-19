@@ -18,10 +18,6 @@ interface ModalProps {
    */
   isOpen?: boolean;
 
-  /**
-   * Sdfd
-   */
-  id?: string;
 }
 
 /**
@@ -31,15 +27,13 @@ export const Modal = (props: ModalProps) => {
   const [isOpen, setIsOpen] = useState(props.isOpen ?? false);
 
   return (
-    <div id={props.id}>
-      <DialogRoot
-        open={isOpen}
-        onOpenChange={setIsOpen}
-      >
-        <ModalContent>
-          {props.content}
-        </ModalContent>
-      </DialogRoot>
-    </div>
+    <DialogRoot
+      open={isOpen}
+      onOpenChange={setIsOpen}
+    >
+      <ModalContent>
+        {props.content}
+      </ModalContent>
+    </DialogRoot>
   );
 };
