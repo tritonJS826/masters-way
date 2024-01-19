@@ -5,7 +5,7 @@ import {EditableText} from "src/component/editableText/EditableText";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {GoalMetricDAL} from "src/dataAccessLogic/GoalMetricDAL";
-import {renderModalContent} from "src/logic/wayPage/reportsTable/WayColumns";
+import {isRenderConfirm, renderConfirmContent} from "src/logic/wayPage/reportsTable/WayColumns";
 import {Goal} from "src/model/businessModel/Goal";
 import {GoalMetric} from "src/model/businessModel/GoalMetric";
 import {Way} from "src/model/businessModel/Way";
@@ -82,8 +82,7 @@ interface SingleGoalMetricProps {
  * Goal metric
  */
 export const GoalMetricItem = (props: SingleGoalMetricProps) => {
-  const [modalElementUuid, setModalElementUuid] = useState<string>();
-  const isModalElementUuidExist = !!modalElementUuid;
+  const [confirmElementUuid, setConfirmElementUuid] = useState<string>();
 
   /**
    * Remove singular goal Metric from goal
@@ -166,10 +165,10 @@ export const GoalMetricItem = (props: SingleGoalMetricProps) => {
         <Tooltip content="Delete goal metric">
           <TrashIcon
             className={styles.icon}
-            onClick={() => setModalElementUuid(props.singleGoalMetric.metricUuid)}
+            onClick={() => setConfirmElementUuid(props.singleGoalMetric.metricUuid)}
           />
-          {isModalElementUuidExist && modalElementUuid === props.singleGoalMetric.metricUuid &&
-            renderModalContent({
+          {isRenderConfirm(confirmElementUuid, props.singleGoalMetric.metricUuid) &&
+            renderConfirmContent({
               description: `Are you sure that you want to delete singleGoalMetric "${props.singleGoalMetric.description}"?`,
 
               /**

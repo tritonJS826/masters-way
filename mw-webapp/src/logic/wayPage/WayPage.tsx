@@ -18,7 +18,7 @@ import {MentorRequestsSection} from "src/logic/wayPage/MentorRequestsSection";
 import {MentorsSection} from "src/logic/wayPage/MentorsSection";
 import {downloadWayPdf} from "src/logic/wayPage/renderWayToPdf/downloadWayPdf";
 import {DayReportsTable} from "src/logic/wayPage/reportsTable/DayReportsTable";
-import {renderModalContent} from "src/logic/wayPage/reportsTable/WayColumns";
+import {isRenderConfirm, renderConfirmContent} from "src/logic/wayPage/reportsTable/WayColumns";
 import {WayStatistic} from "src/logic/wayPage/WayStatistic";
 import {Goal} from "src/model/businessModel/Goal";
 import {Way} from "src/model/businessModel/Way";
@@ -158,8 +158,7 @@ export const WayPage = (props: WayPageProps) => {
   const [isStatisticsVisible, setIsStatisticsVisible] = useState<boolean>(isCurrentStatisticsVisible);
   const {user, setUser} = useGlobalContext();
   const [way, setWay] = useState<Way>();
-  const [modalElementUuid, setModalElementUuid] = useState<string>();
-  const isModalElementUuidExist = !!modalElementUuid;
+  const [confirmElementUuid, setConfirmElementUuid] = useState<string>();
 
   /**
    * Callback that is called to fetch data
@@ -228,7 +227,7 @@ export const WayPage = (props: WayPageProps) => {
    * Delete way
    */
   const deleteWay = async () => {
-    await WayDAL.deleteWay(way);
+    isOwner && await WayDAL.deleteWay(way);
     user && navigate(pages.user.getPath({uuid: user.uuid}));
   };
 
@@ -282,10 +281,10 @@ export const WayPage = (props: WayPageProps) => {
               <Button
                 value="Delete way"
                 buttonType={ButtonType.TERTIARY}
-                onClick={() => setModalElementUuid(way.uuid)}
+                onClick={() => setConfirmElementUuid(way.uuid)}
               />
-              {isModalElementUuidExist && modalElementUuid === way.uuid &&
-              renderModalContent({
+              {isRenderConfirm(confirmElementUuid, way.uuid) &&
+              renderConfirmContent({
                 description: `Are you sure that you want to delete way "${way.name}"?`,
 
                 /**

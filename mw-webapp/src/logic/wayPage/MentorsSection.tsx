@@ -8,7 +8,7 @@ import {Tooltip} from "src/component/tooltip/Tooltip";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {useGlobalContext} from "src/GlobalContext";
-import {renderModalContent} from "src/logic/wayPage/reportsTable/WayColumns";
+import {isRenderConfirm, renderConfirmContent} from "src/logic/wayPage/reportsTable/WayColumns";
 import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {pages} from "src/router/pages";
@@ -66,8 +66,7 @@ interface MentorsSectionProps {
 export const MentorsSection = (props: MentorsSectionProps) => {
   const mentors = Array.from(props.way.mentors.values());
   const {user} = useGlobalContext();
-  const [modalElementUuid, setModalElementUuid] = useState<string>();
-  const isModalElementUuidExist = !!modalElementUuid;
+  const [confirmElementUuid, setConfirmElementUuid] = useState<string>();
 
   return (
     <>
@@ -90,10 +89,10 @@ export const MentorsSection = (props: MentorsSectionProps) => {
               >
                 <TrashIcon
                   className={styles.icon}
-                  onClick={() => setModalElementUuid(mentor.uuid)}
+                  onClick={() => setConfirmElementUuid(mentor.uuid)}
                 />
-                {isModalElementUuidExist && modalElementUuid === mentor.uuid &&
-                  renderModalContent({
+                {isRenderConfirm(confirmElementUuid, mentor.uuid) &&
+                  renderConfirmContent({
                     description: `Are you sure that you want to to remove "${mentor.name}" from mentors"?`,
 
                     /**

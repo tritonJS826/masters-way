@@ -4,11 +4,11 @@ import {createColumnHelper} from "@tanstack/react-table";
 import {clsx} from "clsx";
 import {Button} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Сheckbox";
+import {Confirm} from "src/component/confirm/Confirm";
 import {EditableText} from "src/component/editableText/EditableText";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
-import {Modal} from "src/component/modal/Modal";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
@@ -42,7 +42,7 @@ const getListNumberByIndex = (index: number) => {
 };
 
 /**
- * Params for {@link renderModalContent}
+ * Params for {@link renderConfirmContent}
  */
 interface RenderModalContentParams {
 
@@ -55,14 +55,15 @@ interface RenderModalContentParams {
    * On Ok callback
    */
   onOk: () => void;
+
 }
 
 /**
- * Render modal content
+ * Render confirm content
  */
-export const renderModalContent = (params: RenderModalContentParams) => {
+export const renderConfirmContent = (params: RenderModalContentParams) => {
   return (
-    <Modal
+    <Confirm
       isOpen={true}
       content={
         <p>
@@ -70,7 +71,7 @@ export const renderModalContent = (params: RenderModalContentParams) => {
         </p>
       }
       onOk={params.onOk}
-      text="Delete"
+      okText="Delete"
     />
   );
 };
@@ -144,6 +145,13 @@ const updateDayReportState = (
 };
 
 /**
+ * Case when need render confirm
+ */
+export const isRenderConfirm = (confirmUuid: string | undefined, uuid: string) => {
+  return !!confirmUuid && confirmUuid === uuid;
+};
+
+/**
  * Table columns
  * Don't get rid of any https://github.com/TanStack/table/issues/4382
  */
@@ -153,8 +161,7 @@ export const Columns = (props: ColumnsProps) => {
   const isOwner = user?.uuid === ownerUuid;
   const isMentor = !!user && !!user.uuid && props.way.mentors.has(user.uuid);
   const isUserOwnerOrMentor = isOwner || isMentor;
-  const [modalElementUuid, setModalElementUuid] = useState<string>();
-  const isModalElementUuidExist = !!modalElementUuid;
+  const [confirmElementUuid, setConfirmElementUuid] = useState<string>();
 
   const columns = [
     columnHelper.accessor("createdAt", {
@@ -298,10 +305,10 @@ export const Columns = (props: ColumnsProps) => {
                           >
                             <TrashIcon
                               className={styles.icon}
-                              onClick={() => setModalElementUuid(jobDone.uuid)}
+                              onClick={() => setConfirmElementUuid(jobDone.uuid)}
                             />
-                            {isModalElementUuidExist && modalElementUuid === jobDone.uuid &&
-                              renderModalContent({
+                            {isRenderConfirm(confirmElementUuid, jobDone.uuid) &&
+                              renderConfirmContent({
                                 description: `Are you sure that you want to delete jobDone "${jobDone.description}"?`,
 
                                 /**
@@ -483,10 +490,10 @@ export const Columns = (props: ColumnsProps) => {
                           >
                             <TrashIcon
                               className={styles.icon}
-                              onClick={() => setModalElementUuid(plan.uuid)}
+                              onClick={() => setConfirmElementUuid(plan.uuid)}
                             />
-                            {isModalElementUuidExist && modalElementUuid === plan.uuid &&
-                              renderModalContent({
+                            {isRenderConfirm(confirmElementUuid, plan.uuid) &&
+                              renderConfirmContent({
                                 description: `Are you sure that you want to delete plan "${plan.job}"?`,
 
                                 /**
@@ -640,10 +647,10 @@ export const Columns = (props: ColumnsProps) => {
                           >
                             <TrashIcon
                               className={styles.icon}
-                              onClick={() => setModalElementUuid(problem.uuid)}
+                              onClick={() => setConfirmElementUuid(problem.uuid)}
                             />
-                            {isModalElementUuidExist && modalElementUuid === problem.uuid &&
-                              renderModalContent({
+                            {isRenderConfirm(confirmElementUuid, problem.uuid) &&
+                              renderConfirmContent({
                                 description: `Are you sure that you want to delete problem "${problem.description}"?`,
 
                                 /**
@@ -772,10 +779,10 @@ export const Columns = (props: ColumnsProps) => {
                       >
                         <TrashIcon
                           className={styles.icon}
-                          onClick={() => setModalElementUuid(comment.uuid)}
+                          onClick={() => setConfirmElementUuid(comment.uuid)}
                         />
-                        {isModalElementUuidExist && modalElementUuid === comment.uuid &&
-                              renderModalContent({
+                        {isRenderConfirm(confirmElementUuid, comment.uuid) &&
+                              renderConfirmContent({
                                 description: `Are you sure that you want to delete comment "${comment.description}"?`,
 
                                 /**
