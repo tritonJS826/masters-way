@@ -32,7 +32,8 @@ const Template: StoryFn<typeof Modal> = (args) => {
       <Modal
         content={defaultContent}
         isOpen={isOpen}
-        handleClose={() => setIsOpen(false)}
+        text="Okey"
+        onOk={() => setIsOpen(false)}
       />
     </>
   );

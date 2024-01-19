@@ -1,3 +1,4 @@
+import {useState} from "react";
 import {TrashIcon} from "@radix-ui/react-icons";
 import {Checkbox} from "src/component/checkbox/Сheckbox";
 import {EditableText} from "src/component/editableText/EditableText";
@@ -81,6 +82,8 @@ interface SingleGoalMetricProps {
  * Goal metric
  */
 export const GoalMetricItem = (props: SingleGoalMetricProps) => {
+  const [modalElementUuid, setModalElementUuid] = useState<string>();
+  const isModalElementUuidExist = !!modalElementUuid;
 
   /**
    * Remove singular goal Metric from goal
@@ -163,15 +166,18 @@ export const GoalMetricItem = (props: SingleGoalMetricProps) => {
         <Tooltip content="Delete goal metric">
           <TrashIcon
             className={styles.icon}
-            onClick={() => renderModalContent({
+            onClick={() => setModalElementUuid(props.singleGoalMetric.metricUuid)}
+          />
+          {isModalElementUuidExist && modalElementUuid === props.singleGoalMetric.metricUuid &&
+            renderModalContent({
               description: `Are you sure that you want to delete singleGoalMetric "${props.singleGoalMetric.description}"?`,
 
               /**
-               * CallBack remove singular goal metric
+               * CallBack triggered on press ok
                */
               onOk: () => removeSingularGoalMetric(props.singleGoalMetric.metricUuid),
-            })}
-          />
+            })
+          }
         </Tooltip>
       )
       }

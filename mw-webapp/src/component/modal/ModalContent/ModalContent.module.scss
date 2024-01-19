@@ -24,6 +24,7 @@ $modal-animation-time: 150ms;
   max-width: 450px;
   max-height: 85vh;
   padding: 20px 45px;
+  border: 2px solid var(--secondaryBackgroundColor);
   border-radius: 6px;
   animation: contentShow $modal-animation-time cubic-bezier(0.16, 1, 0.3, 1);
   background-color: var(--primaryBackgroundColor);

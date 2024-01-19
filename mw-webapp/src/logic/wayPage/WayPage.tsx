@@ -158,6 +158,8 @@ export const WayPage = (props: WayPageProps) => {
   const [isStatisticsVisible, setIsStatisticsVisible] = useState<boolean>(isCurrentStatisticsVisible);
   const {user, setUser} = useGlobalContext();
   const [way, setWay] = useState<Way>();
+  const [modalElementUuid, setModalElementUuid] = useState<string>();
+  const isModalElementUuidExist = !!modalElementUuid;
 
   /**
    * Callback that is called to fetch data
@@ -222,6 +224,14 @@ export const WayPage = (props: WayPageProps) => {
     setIsStatisticsVisible(!isStatisticsVisible);
   };
 
+  /**
+   * Delete way
+   */
+  const deleteWay = async () => {
+    await WayDAL.deleteWay(way);
+    user && navigate(pages.user.getPath({uuid: user.uuid}));
+  };
+
   return (
     <div className={styles.container}>
       <HorizontalContainer className={styles.alignItems}>
@@ -268,23 +278,23 @@ export const WayPage = (props: WayPageProps) => {
             onClick={() => downloadWayPdf(way)}
           />
           {isOwner &&
-          <Button
-            value="Delete way"
-            buttonType={ButtonType.TERTIARY}
-            // TODO: need refactoring
-            onClick={() => renderModalContent({
-              description: `Are you sure that you want to delete way "${way.name}"?`,
+            <>
+              <Button
+                value="Delete way"
+                buttonType={ButtonType.TERTIARY}
+                onClick={() => setModalElementUuid(way.uuid)}
+              />
+              {isModalElementUuidExist && modalElementUuid === way.uuid &&
+              renderModalContent({
+                description: `Are you sure that you want to delete way "${way.name}"?`,
 
-              /**
-               * CallBack triggered on press ok
-               */
-              onOk: async () => {
-                await WayDAL.deleteWay(way);
-                navigate(pages.user.getPath({uuid: user.uuid}));
-              },
-            })
-            }
-          />
+                /**
+                 * CallBack triggered on press ok
+                 */
+                onOk: () => deleteWay(),
+              })
+              }
+            </>
           }
         </HorizontalContainer>
       </HorizontalContainer>

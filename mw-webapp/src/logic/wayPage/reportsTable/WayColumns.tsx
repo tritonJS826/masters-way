@@ -1,3 +1,4 @@
+import {useState} from "react";
 import {TrashIcon} from "@radix-ui/react-icons";
 import {createColumnHelper} from "@tanstack/react-table";
 import {clsx} from "clsx";
@@ -7,6 +8,7 @@ import {EditableText} from "src/component/editableText/EditableText";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
+import {Modal} from "src/component/modal/Modal";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
@@ -60,8 +62,20 @@ interface RenderModalContentParams {
  * TODO: use modal instead of confirm task #305
  */
 export const renderModalContent = (params: RenderModalContentParams) => {
-  const isAccepted = confirm(params.description);
-  isAccepted && params.onOk();
+  return (
+    <Modal
+      isOpen={true}
+      content={
+        <>
+          <p>
+            {params.description}
+          </p>
+        </>
+      }
+      onOk={params.onOk}
+      text="Delete"
+    />
+  );
 };
 
 /**
@@ -142,6 +156,8 @@ export const Columns = (props: ColumnsProps) => {
   const isOwner = user?.uuid === ownerUuid;
   const isMentor = !!user && !!user.uuid && props.way.mentors.has(user.uuid);
   const isUserOwnerOrMentor = isOwner || isMentor;
+  const [modalElementUuid, setModalElementUuid] = useState<string>();
+  const isModalElementUuidExist = !!modalElementUuid;
 
   const columns = [
     columnHelper.accessor("createdAt", {
@@ -285,7 +301,10 @@ export const Columns = (props: ColumnsProps) => {
                           >
                             <TrashIcon
                               className={styles.icon}
-                              onClick={() => renderModalContent({
+                              onClick={() => setModalElementUuid(jobDone.uuid)}
+                            />
+                            {isModalElementUuidExist && modalElementUuid === jobDone.uuid &&
+                              renderModalContent({
                                 description: `Are you sure that you want to delete jobDone "${jobDone.description}"?`,
 
                                 /**
@@ -293,8 +312,7 @@ export const Columns = (props: ColumnsProps) => {
                                  */
                                 onOk: () => deleteJobDone(jobDone.uuid),
                               })
-                              }
-                            />
+                            }
                           </Tooltip>
                         }
                       </HorizontalContainer>
@@ -468,7 +486,10 @@ export const Columns = (props: ColumnsProps) => {
                           >
                             <TrashIcon
                               className={styles.icon}
-                              onClick={() => renderModalContent({
+                              onClick={() => setModalElementUuid(plan.uuid)}
+                            />
+                            {isModalElementUuidExist && modalElementUuid === plan.uuid &&
+                              renderModalContent({
                                 description: `Are you sure that you want to delete plan "${plan.job}"?`,
 
                                 /**
@@ -476,8 +497,7 @@ export const Columns = (props: ColumnsProps) => {
                                  */
                                 onOk: () => deletePlan(plan.uuid),
                               })
-                              }
-                            />
+                            }
                           </Tooltip>
                         }
                       </HorizontalContainer>
@@ -623,7 +643,10 @@ export const Columns = (props: ColumnsProps) => {
                           >
                             <TrashIcon
                               className={styles.icon}
-                              onClick={() => renderModalContent({
+                              onClick={() => setModalElementUuid(problem.uuid)}
+                            />
+                            {isModalElementUuidExist && modalElementUuid === problem.uuid &&
+                              renderModalContent({
                                 description: `Are you sure that you want to delete problem "${problem.description}"?`,
 
                                 /**
@@ -631,8 +654,7 @@ export const Columns = (props: ColumnsProps) => {
                                  */
                                 onOk: () => deleteProblem(problem.uuid),
                               })
-                              }
-                            />
+                            }
                           </Tooltip>
                         }
                       </HorizontalContainer>
@@ -753,16 +775,18 @@ export const Columns = (props: ColumnsProps) => {
                       >
                         <TrashIcon
                           className={styles.icon}
-                          onClick={() => renderModalContent({
-                            description: `Are you sure that you want to delete comment "${comment.description}"?`,
-
-                            /**
-                             * CallBack triggered on press ok
-                             */
-                            onOk: () => deleteComment(comment.uuid),
-                          })
-                          }
+                          onClick={() => setModalElementUuid(comment.uuid)}
                         />
+                        {isModalElementUuidExist && modalElementUuid === comment.uuid &&
+                              renderModalContent({
+                                description: `Are you sure that you want to delete comment "${comment.description}"?`,
+
+                                /**
+                                 * CallBack triggered on press ok
+                                 */
+                                onOk: () => deleteComment(comment.uuid),
+                              })
+                        }
                       </Tooltip>
                     }
                   </HorizontalContainer>
