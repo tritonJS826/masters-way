@@ -1,3 +1,4 @@
+import {useState} from "react";
 import {TrashIcon} from "@radix-ui/react-icons";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
@@ -7,6 +8,7 @@ import {Tooltip} from "src/component/tooltip/Tooltip";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {useGlobalContext} from "src/GlobalContext";
+import {renderModalContent} from "src/logic/wayPage/reportsTable/WayColumns";
 import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {pages} from "src/router/pages";
@@ -64,6 +66,8 @@ interface MentorsSectionProps {
 export const MentorsSection = (props: MentorsSectionProps) => {
   const mentors = Array.from(props.way.mentors.values());
   const {user} = useGlobalContext();
+  const [modalElementUuid, setModalElementUuid] = useState<string>();
+  const isModalElementUuidExist = !!modalElementUuid;
 
   return (
     <>
@@ -86,18 +90,18 @@ export const MentorsSection = (props: MentorsSectionProps) => {
               >
                 <TrashIcon
                   className={styles.icon}
-                  onClick={() => {
+                  onClick={() => setModalElementUuid(mentor.uuid)}
+                />
+                {isModalElementUuidExist && modalElementUuid === mentor.uuid &&
+                  renderModalContent({
+                    description: `Are you sure that you want to to remove "${mentor.name}" from mentors"?`,
 
                     /**
                      * CallBack triggered on press ok
                      */
-                    const onOk = () => removeMentorFromWay(props.way, props.setWay, mentor);
-
-                    // TODO: use modal instead of confirm task #305
-                    const isConfirmed = confirm(`Are you sure you want remove "${mentor.name}" from mentors?`);
-                    isConfirmed && onOk();
-                  }}
-                />
+                    onOk: () => removeMentorFromWay(props.way, props.setWay, mentor),
+                  })
+                }
               </Tooltip>
             )}
           </HorizontalContainer>

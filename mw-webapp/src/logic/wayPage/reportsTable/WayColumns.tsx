@@ -59,18 +59,15 @@ interface RenderModalContentParams {
 
 /**
  * Render modal content
- * TODO: use modal instead of confirm task #305
  */
 export const renderModalContent = (params: RenderModalContentParams) => {
   return (
     <Modal
       isOpen={true}
       content={
-        <>
-          <p>
-            {params.description}
-          </p>
-        </>
+        <p>
+          {params.description}
+        </p>
       }
       onOk={params.onOk}
       text="Delete"
