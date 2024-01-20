@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Button, ButtonType} from "src/component/button/Button";
+import {Confirm} from "src/component/confirm/Confirm";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
@@ -18,7 +19,6 @@ import {MentorRequestsSection} from "src/logic/wayPage/MentorRequestsSection";
 import {MentorsSection} from "src/logic/wayPage/MentorsSection";
 import {downloadWayPdf} from "src/logic/wayPage/renderWayToPdf/downloadWayPdf";
 import {DayReportsTable} from "src/logic/wayPage/reportsTable/DayReportsTable";
-import {isRenderConfirm, renderConfirmContent} from "src/logic/wayPage/reportsTable/WayColumns";
 import {WayStatistic} from "src/logic/wayPage/WayStatistic";
 import {Goal} from "src/model/businessModel/Goal";
 import {Way} from "src/model/businessModel/Way";
@@ -158,7 +158,6 @@ export const WayPage = (props: WayPageProps) => {
   const [isStatisticsVisible, setIsStatisticsVisible] = useState<boolean>(isCurrentStatisticsVisible);
   const {user, setUser} = useGlobalContext();
   const [way, setWay] = useState<Way>();
-  const [confirmElementUuid, setConfirmElementUuid] = useState<string>();
 
   /**
    * Callback that is called to fetch data
@@ -277,23 +276,19 @@ export const WayPage = (props: WayPageProps) => {
             onClick={() => downloadWayPdf(way)}
           />
           {isOwner &&
-            <>
+          <Confirm
+            trigger={
               <Button
                 value="Delete way"
                 buttonType={ButtonType.TERTIARY}
-                onClick={() => setConfirmElementUuid(way.uuid)}
-              />
-              {isRenderConfirm(confirmElementUuid, way.uuid) &&
-              renderConfirmContent({
-                description: `Are you sure that you want to delete way "${way.name}"?`,
-
-                /**
-                 * CallBack triggered on press ok
-                 */
-                onOk: () => deleteWay(),
-              })
-              }
-            </>
+                onClick={() => {}}
+              />}
+            content={<p>
+              {`Are you sure that you want to delete way "${way.name}"?`}
+            </p>}
+            onOk={() => deleteWay()}
+            okText="Delete"
+          />
           }
         </HorizontalContainer>
       </HorizontalContainer>

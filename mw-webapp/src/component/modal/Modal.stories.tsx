@@ -22,18 +22,17 @@ const Template: StoryFn<typeof Modal> = (args) => {
   const [isOpen, setIsOpen] = useState(args.isOpen);
 
   return (
-    <>
-      <Button
-        value="Click me!"
-        onClick={() => {
-          setIsOpen(true);
-        }}
-      />
-      <Modal
-        content={defaultContent}
-        isOpen={isOpen}
-      />
-    </>
+    <Modal
+      trigger={
+        <Button
+          value="Click me!"
+          onClick={() => {
+            setIsOpen(true);
+          }}
+        />}
+      content={defaultContent}
+      isOpen={isOpen}
+    />
   );
 };
 

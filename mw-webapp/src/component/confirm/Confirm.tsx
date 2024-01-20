@@ -1,4 +1,5 @@
 import {ReactElement, useState} from "react";
+import {Close as DialogClose} from "@radix-ui/react-dialog";
 import {Button} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Modal} from "src/component/modal/Modal";
@@ -8,6 +9,11 @@ import styles from "src/component/confirm/Confirm.module.scss";
  * Confirm props
  */
 interface ConfirmProps {
+
+  /**
+   * The element that triggers the modal.
+   */
+  trigger: ReactElement<HTMLElement>;
 
   /**
    * The content to display within the modal.
@@ -29,6 +35,7 @@ interface ConfirmProps {
    * Text for button that handle onOk click
    */
   okText: string;
+
 }
 
 /**
@@ -45,18 +52,20 @@ export const Confirm = (props: ConfirmProps) => {
       <>
         {props.content}
         <HorizontalContainer className={styles.buttons}>
-          <Button
-            value="Cancel"
-            onClick={() => setIsOpen(false)}
-          />
-          <Button
-            value={props.okText}
-            onClick={() => {
-              props.onOk();
-              setIsOpen(false);
-            }
-            }
-          />
+          <DialogClose asChild>
+            <Button
+              value="Cancel"
+              onClick={() => setIsOpen(false)}
+            />
+          </DialogClose>
+          <DialogClose asChild>
+            <Button
+              value={props.okText}
+              onClick={() => {
+                props.onOk();
+              }}
+            />
+          </DialogClose>
         </HorizontalContainer>
       </>
     );
@@ -66,6 +75,7 @@ export const Confirm = (props: ConfirmProps) => {
     <Modal
       isOpen={isOpen}
       content={confirmContent()}
+      trigger={props.trigger}
     />
   );
 };

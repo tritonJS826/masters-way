@@ -1,4 +1,3 @@
-import {useState} from "react";
 import {TrashIcon} from "@radix-ui/react-icons";
 import {createColumnHelper} from "@tanstack/react-table";
 import {clsx} from "clsx";
@@ -39,41 +38,6 @@ const getListNumberByIndex = (index: number) => {
   const listNumber = `${index + DIFFERENCE_INDEX_LIST_NUMBER}.${Symbols.NO_BREAK_SPACE}`;
 
   return listNumber;
-};
-
-/**
- * Params for {@link renderConfirmContent}
- */
-interface RenderModalContentParams {
-
-  /**
-   * Modal prompt
-   */
-  description: string;
-
-  /**
-   * On Ok callback
-   */
-  onOk: () => void;
-
-}
-
-/**
- * Render confirm content
- */
-export const renderConfirmContent = (params: RenderModalContentParams) => {
-  return (
-    <Confirm
-      isOpen={true}
-      content={
-        <p>
-          {params.description}
-        </p>
-      }
-      onOk={params.onOk}
-      okText="Delete"
-    />
-  );
 };
 
 /**
@@ -161,7 +125,7 @@ export const Columns = (props: ColumnsProps) => {
   const isOwner = user?.uuid === ownerUuid;
   const isMentor = !!user && !!user.uuid && props.way.mentors.has(user.uuid);
   const isUserOwnerOrMentor = isOwner || isMentor;
-  const [confirmElementUuid, setConfirmElementUuid] = useState<string>();
+  // Const [confirmElementUuid, setConfirmElementUuid] = useState<string>();
 
   const columns = [
     columnHelper.accessor("createdAt", {
@@ -303,20 +267,14 @@ export const Columns = (props: ColumnsProps) => {
                             position={PositionTooltip.RIGHT}
                             content="Delete jobDone"
                           >
-                            <TrashIcon
-                              className={styles.icon}
-                              onClick={() => setConfirmElementUuid(jobDone.uuid)}
+                            <Confirm
+                              trigger={<TrashIcon className={styles.icon} />}
+                              content={<p>
+                                {`Are you sure that you want to delete jobDone "${jobDone.description}"?`}
+                              </p>}
+                              onOk={() => deleteJobDone(jobDone.uuid)}
+                              okText="Delete"
                             />
-                            {isRenderConfirm(confirmElementUuid, jobDone.uuid) &&
-                              renderConfirmContent({
-                                description: `Are you sure that you want to delete jobDone "${jobDone.description}"?`,
-
-                                /**
-                                 * CallBack triggered on press ok
-                                 */
-                                onOk: () => deleteJobDone(jobDone.uuid),
-                              })
-                            }
                           </Tooltip>
                         }
                       </HorizontalContainer>
@@ -488,20 +446,14 @@ export const Columns = (props: ColumnsProps) => {
                             content="Delete plan"
                             position={PositionTooltip.RIGHT}
                           >
-                            <TrashIcon
-                              className={styles.icon}
-                              onClick={() => setConfirmElementUuid(plan.uuid)}
+                            <Confirm
+                              trigger={<TrashIcon className={styles.icon} />}
+                              content={<p>
+                                {`Are you sure that you want to delete plan "${plan.job}"?`}
+                              </p>}
+                              onOk={() => deletePlan(plan.uuid)}
+                              okText="Delete"
                             />
-                            {isRenderConfirm(confirmElementUuid, plan.uuid) &&
-                              renderConfirmContent({
-                                description: `Are you sure that you want to delete plan "${plan.job}"?`,
-
-                                /**
-                                 * CallBack triggered on press ok
-                                 */
-                                onOk: () => deletePlan(plan.uuid),
-                              })
-                            }
                           </Tooltip>
                         }
                       </HorizontalContainer>
@@ -645,20 +597,14 @@ export const Columns = (props: ColumnsProps) => {
                             content="Delete problem"
                             position={PositionTooltip.RIGHT}
                           >
-                            <TrashIcon
-                              className={styles.icon}
-                              onClick={() => setConfirmElementUuid(problem.uuid)}
+                            <Confirm
+                              trigger={<TrashIcon className={styles.icon} />}
+                              content={<p>
+                                {`Are you sure that you want to delete problem "${problem.description}"?`}
+                              </p>}
+                              onOk={() => deleteProblem(problem.uuid)}
+                              okText="Delete"
                             />
-                            {isRenderConfirm(confirmElementUuid, problem.uuid) &&
-                              renderConfirmContent({
-                                description: `Are you sure that you want to delete problem "${problem.description}"?`,
-
-                                /**
-                                 * CallBack triggered on press ok
-                                 */
-                                onOk: () => deleteProblem(problem.uuid),
-                              })
-                            }
                           </Tooltip>
                         }
                       </HorizontalContainer>
@@ -777,20 +723,14 @@ export const Columns = (props: ColumnsProps) => {
                         content="Delete comment"
                         position={PositionTooltip.LEFT}
                       >
-                        <TrashIcon
-                          className={styles.icon}
-                          onClick={() => setConfirmElementUuid(comment.uuid)}
+                        <Confirm
+                          trigger={<TrashIcon className={styles.icon} />}
+                          content={<p>
+                            {`Are you sure that you want to delete comment "${comment.description}"?`}
+                          </p>}
+                          onOk={() => deleteComment(comment.uuid)}
+                          okText="Delete"
                         />
-                        {isRenderConfirm(confirmElementUuid, comment.uuid) &&
-                              renderConfirmContent({
-                                description: `Are you sure that you want to delete comment "${comment.description}"?`,
-
-                                /**
-                                 * CallBack triggered on press ok
-                                 */
-                                onOk: () => deleteComment(comment.uuid),
-                              })
-                        }
                       </Tooltip>
                     }
                   </HorizontalContainer>

@@ -1,5 +1,5 @@
-import {useState} from "react";
 import {TrashIcon} from "@radix-ui/react-icons";
+import {Confirm} from "src/component/confirm/Confirm";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
 import {HeadingLevel, Title} from "src/component/title/Title";
@@ -8,7 +8,6 @@ import {Tooltip} from "src/component/tooltip/Tooltip";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {useGlobalContext} from "src/GlobalContext";
-import {isRenderConfirm, renderConfirmContent} from "src/logic/wayPage/reportsTable/WayColumns";
 import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {pages} from "src/router/pages";
@@ -66,7 +65,6 @@ interface MentorsSectionProps {
 export const MentorsSection = (props: MentorsSectionProps) => {
   const mentors = Array.from(props.way.mentors.values());
   const {user} = useGlobalContext();
-  const [confirmElementUuid, setConfirmElementUuid] = useState<string>();
 
   return (
     <>
@@ -87,20 +85,15 @@ export const MentorsSection = (props: MentorsSectionProps) => {
                 content="Delete from mentors"
                 position={PositionTooltip.RIGHT}
               >
-                <TrashIcon
-                  className={styles.icon}
-                  onClick={() => setConfirmElementUuid(mentor.uuid)}
+                <Confirm
+                  trigger={
+                    <TrashIcon className={styles.icon} />}
+                  content={<p>
+                    {`Are you sure that you want to to remove "${mentor.name}" from mentors"?`}
+                  </p>}
+                  onOk={() => removeMentorFromWay(props.way, props.setWay, mentor)}
+                  okText="Delete"
                 />
-                {isRenderConfirm(confirmElementUuid, mentor.uuid) &&
-                  renderConfirmContent({
-                    description: `Are you sure that you want to to remove "${mentor.name}" from mentors"?`,
-
-                    /**
-                     * CallBack triggered on press ok
-                     */
-                    onOk: () => removeMentorFromWay(props.way, props.setWay, mentor),
-                  })
-                }
               </Tooltip>
             )}
           </HorizontalContainer>
