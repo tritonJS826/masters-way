@@ -284,7 +284,7 @@ export const WayPage = (props: WayPageProps) => {
                 onClick={() => {}}
               />}
             content={<p>
-              {`Are you sure that you want to delete way "${way.name}"?`}
+              {`Are you sure you want to delete the way "${way.name}"?`}
             </p>}
             onOk={() => deleteWay()}
             okText="Delete"

@@ -89,7 +89,7 @@ export const MentorsSection = (props: MentorsSectionProps) => {
                   trigger={
                     <TrashIcon className={styles.icon} />}
                   content={<p>
-                    {`Are you sure that you want to to remove "${mentor.name}" from mentors"?`}
+                    {`Are you sure you want to remove "${mentor.name}" from mentors"?`}
                   </p>}
                   onOk={() => removeMentorFromWay(props.way, props.setWay, mentor)}
                   okText="Delete"

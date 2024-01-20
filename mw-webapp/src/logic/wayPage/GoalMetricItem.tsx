@@ -165,7 +165,7 @@ export const GoalMetricItem = (props: SingleGoalMetricProps) => {
             trigger={
               <TrashIcon className={styles.icon} />}
             content={<p>
-              {`Are you sure that you want to delete singleGoalMetric "${props.singleGoalMetric.description}"?`}
+              {`Are you sure that you want to delete goal metric "${props.singleGoalMetric.description}"?`}
             </p>}
             onOk={() => removeSingularGoalMetric(props.singleGoalMetric.metricUuid)}
             okText="Delete"

@@ -109,13 +109,6 @@ const updateDayReportState = (
 };
 
 /**
- * Case when need render confirm
- */
-export const isRenderConfirm = (confirmUuid: string | undefined, uuid: string) => {
-  return !!confirmUuid && confirmUuid === uuid;
-};
-
-/**
  * Table columns
  * Don't get rid of any https://github.com/TanStack/table/issues/4382
  */
@@ -125,7 +118,6 @@ export const Columns = (props: ColumnsProps) => {
   const isOwner = user?.uuid === ownerUuid;
   const isMentor = !!user && !!user.uuid && props.way.mentors.has(user.uuid);
   const isUserOwnerOrMentor = isOwner || isMentor;
-  // Const [confirmElementUuid, setConfirmElementUuid] = useState<string>();
 
   const columns = [
     columnHelper.accessor("createdAt", {
@@ -270,7 +262,7 @@ export const Columns = (props: ColumnsProps) => {
                             <Confirm
                               trigger={<TrashIcon className={styles.icon} />}
                               content={<p>
-                                {`Are you sure that you want to delete jobDone "${jobDone.description}"?`}
+                                {`Are you sure you want to delete the jobDone "${jobDone.description}"?`}
                               </p>}
                               onOk={() => deleteJobDone(jobDone.uuid)}
                               okText="Delete"
@@ -449,7 +441,7 @@ export const Columns = (props: ColumnsProps) => {
                             <Confirm
                               trigger={<TrashIcon className={styles.icon} />}
                               content={<p>
-                                {`Are you sure that you want to delete plan "${plan.job}"?`}
+                                {`Are you sure you want to delete the plan "${plan.job}"?`}
                               </p>}
                               onOk={() => deletePlan(plan.uuid)}
                               okText="Delete"
@@ -600,7 +592,7 @@ export const Columns = (props: ColumnsProps) => {
                             <Confirm
                               trigger={<TrashIcon className={styles.icon} />}
                               content={<p>
-                                {`Are you sure that you want to delete problem "${problem.description}"?`}
+                                {`Are you sure you want to delete the problem "${problem.description}"?`}
                               </p>}
                               onOk={() => deleteProblem(problem.uuid)}
                               okText="Delete"
@@ -726,7 +718,7 @@ export const Columns = (props: ColumnsProps) => {
                         <Confirm
                           trigger={<TrashIcon className={styles.icon} />}
                           content={<p>
-                            {`Are you sure that you want to delete comment "${comment.description}"?`}
+                            {`Are you sure you want to delete the comment "${comment.description}"?`}
                           </p>}
                           onOk={() => deleteComment(comment.uuid)}
                           okText="Delete"
