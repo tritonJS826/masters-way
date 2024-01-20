@@ -1,11 +1,11 @@
 import {useState} from "react";
 import type {StoryFn} from "@storybook/react";
 import {Button} from "src/component/button/Button";
-import {Modal} from "src/component/modal/Modal";
+import {Confirm} from "src/component/confirm/Confirm";
 
 const meta = {
-  title: "Modal",
-  component: Modal,
+  title: "Confirm",
+  component: Confirm,
   parameters: {layout: "centered"},
   tags: ["autodocs"],
 };
@@ -18,11 +18,11 @@ const defaultContent = (
   </div>
 );
 
-const Template: StoryFn<typeof Modal> = (args) => {
+const Template: StoryFn<typeof Confirm> = (args) => {
   const [isOpen, setIsOpen] = useState(args.isOpen);
 
   return (
-    <Modal
+    <Confirm
       trigger={
         <Button
           value="Click me!"
@@ -32,6 +32,8 @@ const Template: StoryFn<typeof Modal> = (args) => {
         />}
       content={defaultContent}
       isOpen={isOpen}
+      onOk={() => {}}
+      okText="Ok"
     />
   );
 };

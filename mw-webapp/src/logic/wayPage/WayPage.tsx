@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Button, ButtonType} from "src/component/button/Button";
+import {Confirm} from "src/component/confirm/Confirm";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
@@ -18,7 +19,6 @@ import {MentorRequestsSection} from "src/logic/wayPage/MentorRequestsSection";
 import {MentorsSection} from "src/logic/wayPage/MentorsSection";
 import {downloadWayPdf} from "src/logic/wayPage/renderWayToPdf/downloadWayPdf";
 import {DayReportsTable} from "src/logic/wayPage/reportsTable/DayReportsTable";
-import {renderModalContent} from "src/logic/wayPage/reportsTable/WayColumns";
 import {WayStatistic} from "src/logic/wayPage/WayStatistic";
 import {Goal} from "src/model/businessModel/Goal";
 import {Way} from "src/model/businessModel/Way";
@@ -222,6 +222,14 @@ export const WayPage = (props: WayPageProps) => {
     setIsStatisticsVisible(!isStatisticsVisible);
   };
 
+  /**
+   * Delete way
+   */
+  const deleteWay = async () => {
+    isOwner && await WayDAL.deleteWay(way);
+    user && navigate(pages.user.getPath({uuid: user.uuid}));
+  };
+
   return (
     <div className={styles.container}>
       <HorizontalContainer className={styles.alignItems}>
@@ -268,22 +276,18 @@ export const WayPage = (props: WayPageProps) => {
             onClick={() => downloadWayPdf(way)}
           />
           {isOwner &&
-          <Button
-            value="Delete way"
-            buttonType={ButtonType.TERTIARY}
-            // TODO: need refactoring
-            onClick={() => renderModalContent({
-              description: `Are you sure that you want to delete way "${way.name}"?`,
-
-              /**
-               * CallBack triggered on press ok
-               */
-              onOk: async () => {
-                await WayDAL.deleteWay(way);
-                navigate(pages.user.getPath({uuid: user.uuid}));
-              },
-            })
-            }
+          <Confirm
+            trigger={
+              <Button
+                value="Delete way"
+                buttonType={ButtonType.TERTIARY}
+                onClick={() => {}}
+              />}
+            content={<p>
+              {`Are you sure you want to delete the way "${way.name}"?`}
+            </p>}
+            onOk={() => deleteWay()}
+            okText="Delete"
           />
           }
         </HorizontalContainer>

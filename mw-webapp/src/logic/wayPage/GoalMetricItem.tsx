@@ -1,10 +1,10 @@
 import {TrashIcon} from "@radix-ui/react-icons";
 import {Checkbox} from "src/component/checkbox/Сheckbox";
+import {Confirm} from "src/component/confirm/Confirm";
 import {EditableText} from "src/component/editableText/EditableText";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {GoalMetricDAL} from "src/dataAccessLogic/GoalMetricDAL";
-import {renderModalContent} from "src/logic/wayPage/reportsTable/WayColumns";
 import {Goal} from "src/model/businessModel/Goal";
 import {GoalMetric} from "src/model/businessModel/GoalMetric";
 import {Way} from "src/model/businessModel/Way";
@@ -161,16 +161,14 @@ export const GoalMetricItem = (props: SingleGoalMetricProps) => {
       </HorizontalContainer>
       {props.isEditable && (
         <Tooltip content="Delete goal metric">
-          <TrashIcon
-            className={styles.icon}
-            onClick={() => renderModalContent({
-              description: `Are you sure that you want to delete singleGoalMetric "${props.singleGoalMetric.description}"?`,
-
-              /**
-               * CallBack remove singular goal metric
-               */
-              onOk: () => removeSingularGoalMetric(props.singleGoalMetric.metricUuid),
-            })}
+          <Confirm
+            trigger={
+              <TrashIcon className={styles.icon} />}
+            content={<p>
+              {`Are you sure that you want to delete goal metric "${props.singleGoalMetric.description}"?`}
+            </p>}
+            onOk={() => removeSingularGoalMetric(props.singleGoalMetric.metricUuid)}
+            okText="Delete"
           />
         </Tooltip>
       )

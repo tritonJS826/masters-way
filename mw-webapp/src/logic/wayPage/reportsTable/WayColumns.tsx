@@ -3,6 +3,7 @@ import {createColumnHelper} from "@tanstack/react-table";
 import {clsx} from "clsx";
 import {Button} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Сheckbox";
+import {Confirm} from "src/component/confirm/Confirm";
 import {EditableText} from "src/component/editableText/EditableText";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
@@ -37,31 +38,6 @@ const getListNumberByIndex = (index: number) => {
   const listNumber = `${index + DIFFERENCE_INDEX_LIST_NUMBER}.${Symbols.NO_BREAK_SPACE}`;
 
   return listNumber;
-};
-
-/**
- * Params for {@link renderModalContent}
- */
-interface RenderModalContentParams {
-
-  /**
-   * Modal prompt
-   */
-  description: string;
-
-  /**
-   * On Ok callback
-   */
-  onOk: () => void;
-}
-
-/**
- * Render modal content
- * TODO: use modal instead of confirm task #305
- */
-export const renderModalContent = (params: RenderModalContentParams) => {
-  const isAccepted = confirm(params.description);
-  isAccepted && params.onOk();
 };
 
 /**
@@ -283,17 +259,13 @@ export const Columns = (props: ColumnsProps) => {
                             position={PositionTooltip.RIGHT}
                             content="Delete jobDone"
                           >
-                            <TrashIcon
-                              className={styles.icon}
-                              onClick={() => renderModalContent({
-                                description: `Are you sure that you want to delete jobDone "${jobDone.description}"?`,
-
-                                /**
-                                 * CallBack triggered on press ok
-                                 */
-                                onOk: () => deleteJobDone(jobDone.uuid),
-                              })
-                              }
+                            <Confirm
+                              trigger={<TrashIcon className={styles.icon} />}
+                              content={<p>
+                                {`Are you sure you want to delete the jobDone "${jobDone.description}"?`}
+                              </p>}
+                              onOk={() => deleteJobDone(jobDone.uuid)}
+                              okText="Delete"
                             />
                           </Tooltip>
                         }
@@ -466,17 +438,13 @@ export const Columns = (props: ColumnsProps) => {
                             content="Delete plan"
                             position={PositionTooltip.RIGHT}
                           >
-                            <TrashIcon
-                              className={styles.icon}
-                              onClick={() => renderModalContent({
-                                description: `Are you sure that you want to delete plan "${plan.job}"?`,
-
-                                /**
-                                 * CallBack triggered on press ok
-                                 */
-                                onOk: () => deletePlan(plan.uuid),
-                              })
-                              }
+                            <Confirm
+                              trigger={<TrashIcon className={styles.icon} />}
+                              content={<p>
+                                {`Are you sure you want to delete the plan "${plan.job}"?`}
+                              </p>}
+                              onOk={() => deletePlan(plan.uuid)}
+                              okText="Delete"
                             />
                           </Tooltip>
                         }
@@ -621,17 +589,13 @@ export const Columns = (props: ColumnsProps) => {
                             content="Delete problem"
                             position={PositionTooltip.RIGHT}
                           >
-                            <TrashIcon
-                              className={styles.icon}
-                              onClick={() => renderModalContent({
-                                description: `Are you sure that you want to delete problem "${problem.description}"?`,
-
-                                /**
-                                 * CallBack triggered on press ok
-                                 */
-                                onOk: () => deleteProblem(problem.uuid),
-                              })
-                              }
+                            <Confirm
+                              trigger={<TrashIcon className={styles.icon} />}
+                              content={<p>
+                                {`Are you sure you want to delete the problem "${problem.description}"?`}
+                              </p>}
+                              onOk={() => deleteProblem(problem.uuid)}
+                              okText="Delete"
                             />
                           </Tooltip>
                         }
@@ -751,17 +715,13 @@ export const Columns = (props: ColumnsProps) => {
                         content="Delete comment"
                         position={PositionTooltip.LEFT}
                       >
-                        <TrashIcon
-                          className={styles.icon}
-                          onClick={() => renderModalContent({
-                            description: `Are you sure that you want to delete comment "${comment.description}"?`,
-
-                            /**
-                             * CallBack triggered on press ok
-                             */
-                            onOk: () => deleteComment(comment.uuid),
-                          })
-                          }
+                        <Confirm
+                          trigger={<TrashIcon className={styles.icon} />}
+                          content={<p>
+                            {`Are you sure you want to delete the comment "${comment.description}"?`}
+                          </p>}
+                          onOk={() => deleteComment(comment.uuid)}
+                          okText="Delete"
                         />
                       </Tooltip>
                     }

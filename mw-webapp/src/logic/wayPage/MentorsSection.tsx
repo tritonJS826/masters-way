@@ -1,4 +1,5 @@
 import {TrashIcon} from "@radix-ui/react-icons";
+import {Confirm} from "src/component/confirm/Confirm";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
 import {HeadingLevel, Title} from "src/component/title/Title";
@@ -84,19 +85,14 @@ export const MentorsSection = (props: MentorsSectionProps) => {
                 content="Delete from mentors"
                 position={PositionTooltip.RIGHT}
               >
-                <TrashIcon
-                  className={styles.icon}
-                  onClick={() => {
-
-                    /**
-                     * CallBack triggered on press ok
-                     */
-                    const onOk = () => removeMentorFromWay(props.way, props.setWay, mentor);
-
-                    // TODO: use modal instead of confirm task #305
-                    const isConfirmed = confirm(`Are you sure you want remove "${mentor.name}" from mentors?`);
-                    isConfirmed && onOk();
-                  }}
+                <Confirm
+                  trigger={
+                    <TrashIcon className={styles.icon} />}
+                  content={<p>
+                    {`Are you sure you want to remove "${mentor.name}" from mentors"?`}
+                  </p>}
+                  onOk={() => removeMentorFromWay(props.way, props.setWay, mentor)}
+                  okText="Delete"
                 />
               </Tooltip>
             )}

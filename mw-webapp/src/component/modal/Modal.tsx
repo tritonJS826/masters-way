@@ -1,6 +1,7 @@
-import {ReactElement} from "react";
+import {ReactElement, useState} from "react";
 import {Root as DialogRoot} from "@radix-ui/react-dialog";
 import {ModalContent} from "src/component/modal/ModalContent/ModalContent";
+import {ModalTrigger} from "src/component/modal/ModalTrigger/ModalTrigger";
 
 /**
  * Modal props
@@ -8,34 +9,41 @@ import {ModalContent} from "src/component/modal/ModalContent/ModalContent";
 interface ModalProps {
 
   /**
+   * The element that triggers the modal.
+   */
+  trigger: ReactElement<HTMLElement>;
+
+  /**
    * The content to display within the modal.
    */
   content: ReactElement<HTMLElement>;
 
   /**
-   * Controls whether the modal is open or closed.
+   * Controls whether the modal is initially open or closed.
+   * @default false
    */
-  isOpen: boolean;
+  isOpen?: boolean;
 
-  /**
-   * Function that handles closing the modal.
-   */
-  handleClose: () => void;
 }
 
 /**
  * Modal component
  */
 export const Modal = (props: ModalProps) => {
+  const [isOpen, setIsOpen] = useState(props.isOpen ?? false);
 
   return (
     <DialogRoot
-      open={props.isOpen}
-      onOpenChange={props.handleClose}
+      open={isOpen}
+      onOpenChange={setIsOpen}
     >
+      <ModalTrigger>
+        {props.trigger}
+      </ModalTrigger>
       <ModalContent>
         {props.content}
       </ModalContent>
     </DialogRoot>
+
   );
 };
