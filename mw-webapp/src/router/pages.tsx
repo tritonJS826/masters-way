@@ -59,12 +59,12 @@ export const pages = {
     getPath: (params): string => getPathForUserPage({uuid: params.uuid}),
     getPageComponent: (params) => <UserPage {...params} />,
     urlParams: {uuid: UrlParamsType.UUID} as const,
-  } as PageParams<{ uuid: string }>,
+  } as PageParams<{uuid: string}>,
   way: {
     getPath: (params): string => getPathForWayPage({uuid: params.uuid}),
     getPageComponent: (params) => <WayPage {...params} />,
     urlParams: {uuid: UrlParamsType.UUID} as const,
-  } as PageParams<{ uuid: string }>,
+  } as PageParams<{uuid: string}>,
   allUsers: {
     getPath: () => "/users",
     getPageComponent: () => <AllUsersPage />,
@@ -86,4 +86,3 @@ export const pages = {
     urlParams: {},
   } as PageParams,
 };
-
