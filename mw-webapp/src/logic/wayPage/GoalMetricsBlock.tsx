@@ -1,5 +1,6 @@
 import {useState} from "react";
 import {Button} from "src/component/button/Button";
+import {ProgressBar} from "src/component/progressBar/ProgressBar";
 import {GoalMetricDAL} from "src/dataAccessLogic/GoalMetricDAL";
 import {GoalMetricItem} from "src/logic/wayPage/GoalMetricItem";
 import {Goal} from "src/model/businessModel/Goal";
@@ -81,8 +82,11 @@ export const GoalMetricsBlock = (props: GoalMetricStatisticsBlockProps) => {
    * Render goal metrics
    */
   const renderGoalMetrics = (goalMetric: GoalMetric) => {
+    const arg: Array<boolean> = goalMetric.isDone;
+
     return (
       <>
+        <ProgressBar progress= {arg} />
         {goalMetric.metricUuids.map((metricUuid, index) => {
           return (
             <GoalMetricItem
