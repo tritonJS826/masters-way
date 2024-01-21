@@ -1,0 +1,20 @@
+@import "src/styles/variables";
+
+$progressBarContainerHeigh: 20px;
+
+.progressBarContainer {
+  height: $progressBarContainerHeigh;
+  border-radius: 5px;
+  background-color: beige;
+  text-align: right;
+}
+
+.progressIndicator {
+  height: 100%;
+  border-radius: 5px;
+  background-color: aqua;
+}
+
+.progressIndicatorPercent {
+  color: red;
+}

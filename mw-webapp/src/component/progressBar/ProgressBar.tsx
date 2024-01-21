@@ -1,3 +1,4 @@
+import styles from "src/component/progressBar/ProgressBar.module.scss";
  type ProgressBarProps = {/**
                            * ProgressBar prop type
                            */
@@ -13,16 +14,16 @@ export const ProgressBar = (arg: ProgressBarProps) => {
 
   return (
     <>
-      <div>
-        {computedProcent}
-      </div>
-      <div style={{backgroundColor: "#ddd", height: 20}}>
-        <div style={{
-          width: `${computedProcent}%`,
-          height: "100%",
-          backgroundColor: "#0070f3",
-        }}
-        />
+      <div className={styles.progressBarContainer}>
+        <div
+          style={{width: `${computedProcent}%`}}
+          className={styles.progressIndicator}
+        >
+          <div className={styles.progressIndicatorPercent}>
+            {computedProcent.toFixed() + "%"}
+          </div>
+        </div>
+
       </div>
 
     </>
