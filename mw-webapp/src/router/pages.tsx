@@ -3,6 +3,7 @@ import {ReactElement} from "react";
 import {AboutProjectPage} from "src/logic/aboutProjectPage/AboutProjectPage";
 import {AllUsersPage} from "src/logic/allUsersPage/AllUsersPage";
 import {AllWaysPage} from "src/logic/allWaysPage/AllWaysPage";
+import {HomePage} from "src/logic/homePage/HomePage";
 import {Page404} from "src/logic/page404/Page404";
 import {SettingsPage} from "src/logic/settingsPage/SettingsPage";
 import {UserPage} from "src/logic/userPage/UserPage";
@@ -44,8 +45,13 @@ const getPathForWayPage = (params: {uuid: string}): string => `/way/${params.uui
  * Pages meta data
  */
 export const pages = {
-  allWays: {
+  home: {
     getPath: () => "/",
+    getPageComponent: () => <HomePage />,
+    urlParams: {},
+  } as PageParams,
+  allWays: {
+    getPath: () => "/ways",
     getPageComponent: () => <AllWaysPage />,
     urlParams: {},
   } as PageParams,
@@ -53,12 +59,12 @@ export const pages = {
     getPath: (params): string => getPathForUserPage({uuid: params.uuid}),
     getPageComponent: (params) => <UserPage {...params} />,
     urlParams: {uuid: UrlParamsType.UUID} as const,
-  } as PageParams<{uuid: string}>,
+  } as PageParams<{ uuid: string }>,
   way: {
     getPath: (params): string => getPathForWayPage({uuid: params.uuid}),
     getPageComponent: (params) => <WayPage {...params} />,
     urlParams: {uuid: UrlParamsType.UUID} as const,
-  } as PageParams<{uuid: string}>,
+  } as PageParams<{ uuid: string }>,
   allUsers: {
     getPath: () => "/users",
     getPageComponent: () => <AllUsersPage />,
@@ -80,3 +86,4 @@ export const pages = {
     urlParams: {},
   } as PageParams,
 };
+
