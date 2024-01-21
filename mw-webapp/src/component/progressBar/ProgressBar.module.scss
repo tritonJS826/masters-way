@@ -5,16 +5,18 @@ $progressBarContainerHeigh: 20px;
 .progressBarContainer {
   height: $progressBarContainerHeigh;
   border-radius: 5px;
-  background-color: beige;
+  margin: 5px 0px 5px 0px;
+  background-color: rgb(74, 74, 70);
   text-align: right;
 }
 
 .progressIndicator {
   height: 100%;
   border-radius: 5px;
-  background-color: aqua;
+  background-color: rgb(0, 72, 255);
 }
 
 .progressIndicatorPercent {
-  color: red;
+  margin: 0px 5px 0px 5px;
+  color: rgb(22, 21, 21);
 }

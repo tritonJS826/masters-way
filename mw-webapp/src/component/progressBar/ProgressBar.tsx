@@ -11,23 +11,24 @@ export const ProgressBar = (arg: ProgressBarProps) => {
   const PERCENT = 100;
   const countTrue = arg.progress.filter((item) => item).length;
   const computedProcent = (PERCENT / arg.progress.length) * countTrue;
-
-  return (
-    <>
-      <div className={styles.progressBarContainer}>
-        <div
-          style={{width: `${computedProcent}%`}}
-          className={styles.progressIndicator}
-        >
-          <div className={styles.progressIndicatorPercent}>
-            {computedProcent.toFixed() + "%"}
+  if (arg.progress.length > 0) {
+    return (
+      <>
+        <div className={styles.progressBarContainer}>
+          <div
+            style={{width: `${computedProcent}%`}}
+            className={styles.progressIndicator}
+          >
+            <div className={styles.progressIndicatorPercent}>
+              {computedProcent.toFixed() + "%"}
+            </div>
           </div>
+
         </div>
 
-      </div>
+      </>
 
-    </>
-
-  );
+    );
+  }
 };
 
