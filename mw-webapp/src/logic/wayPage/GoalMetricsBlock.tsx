@@ -82,11 +82,9 @@ export const GoalMetricsBlock = (props: GoalMetricStatisticsBlockProps) => {
    * Render goal metrics
    */
   const renderGoalMetrics = (goalMetric: GoalMetric) => {
-    const arg: Array<boolean> = goalMetric.isDone;
-
     return (
       <>
-        <ProgressBar progress= {arg} />
+        <ProgressBar progress= {goalMetric.isDone} />
         {goalMetric.metricUuids.map((metricUuid, index) => {
           return (
             <GoalMetricItem
