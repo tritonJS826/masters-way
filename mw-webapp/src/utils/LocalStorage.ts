@@ -76,5 +76,26 @@ type LocalStorageData = {
    */
   language: Language;
 
+  /**
+   * Way page data
+   */
+  wayPage: WayPageSettings;
+}
+
+/**
+ * Way page settings
+ */
+export type WayPageSettings = {
+
+  /**
+   * Is metrics block visible on way page
+   */
+  isGoalMetricsVisible: boolean;
+
+  /**
+   * Is statistics block visible
+   */
+  isStatisticsVisible: boolean;
+
 }
 

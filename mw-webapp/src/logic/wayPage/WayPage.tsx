@@ -25,18 +25,22 @@ import {Goal} from "src/model/businessModel/Goal";
 import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {pages} from "src/router/pages";
+import {localStorageWorker, WayPageSettings} from "src/utils/LocalStorage";
 import {Symbols} from "src/utils/Symbols";
 import styles from "src/logic/wayPage/WayPage.module.scss";
 
-/**
- * Default goalMetrics block is opened
- */
-const DEFAULT_IS_STATISTICS_VISIBLE = "true";
+const DEFAULT_WAY_PAGE_SETTINGS: WayPageSettings = {
 
-/**
- * Default statistics block is opened
- */
-const DEFAULT_IS_GOAL_METRICS_VISIBLE = "true";
+  /**
+   * Default goalMetrics block is opened
+   */
+  isGoalMetricsVisible: true,
+
+  /**
+   * Default statistics block is opened
+   */
+  isStatisticsVisible: true,
+};
 
 /**
  * Change Goal description
@@ -149,14 +153,16 @@ interface WayPageProps {
 }
 
 /**
+ * Get way page settings from localstorage
+ */
+const getWayPageSavedSettings = () => localStorageWorker.getItemByKey<WayPageSettings>("wayPage") ?? DEFAULT_WAY_PAGE_SETTINGS;
+
+/**
  * Way page
  */
 export const WayPage = (props: WayPageProps) => {
   const navigate = useNavigate();
-  const isCurrentGoalMetricsVisible = JSON.parse(localStorage.getItem("isGoalMetricsVisible") ?? DEFAULT_IS_GOAL_METRICS_VISIBLE);
-  const isCurrentStatisticsVisible = JSON.parse(localStorage.getItem("isStatisticsVisible") ?? DEFAULT_IS_STATISTICS_VISIBLE);
-  const [isGoalMetricsVisible, setIsGoalMetricsVisible] = useState<boolean>(isCurrentGoalMetricsVisible);
-  const [isStatisticsVisible, setIsStatisticsVisible] = useState<boolean>(isCurrentStatisticsVisible);
+  const [wayPageSettings, setWayPageSettings] = useState<WayPageSettings>(getWayPageSavedSettings());
   const {user, setUser} = useGlobalContext();
   const [way, setWay] = useState<Way>();
 
@@ -169,7 +175,6 @@ export const WayPage = (props: WayPageProps) => {
    * Callback that is called on fetch or validation error
    */
   const onError = () => {
-    // Navigate to 404 Page if way with transmitted uuid doesn't exist
     navigate(pages.page404.getPath({}));
   };
 
@@ -206,19 +211,13 @@ export const WayPage = (props: WayPageProps) => {
   const favoriteForUsersAmount = way.favoriteForUsers.length;
 
   /**
-   * Change goal metrics visibility
+   * Update way page settings
    */
-  const changeGoalMetricsVisibility = () => {
-    localStorage.setItem("isGoalMetricsVisible", JSON.stringify(!isGoalMetricsVisible));
-    setIsGoalMetricsVisible(!isGoalMetricsVisible);
-  };
-
-  /**
-   * Change way statistics visibility
-   */
-  const changeStatisticsVisibility = () => {
-    localStorage.setItem("isStatisticsVisible", JSON.stringify(!isStatisticsVisible));
-    setIsStatisticsVisible(!isStatisticsVisible);
+  const updateWayPageSettings = (settingsToUpdate: Partial<WayPageSettings>) => {
+    const previousWayPageSettings = getWayPageSavedSettings();
+    const updatedSettings = {...previousWayPageSettings, ...settingsToUpdate};
+    localStorageWorker.setItemByKey("wayPage", updatedSettings);
+    setWayPageSettings(updatedSettings);
   };
 
   /**
@@ -345,12 +344,12 @@ export const WayPage = (props: WayPageProps) => {
               level={HeadingLevel.h3}
               text="Metrics"
             />
-            <Tooltip content={`Click to ${isGoalMetricsVisible ? "hide" : "open"} goal metrics block`}>
+            <Tooltip content={`Click to ${wayPageSettings.isGoalMetricsVisible ? "hide" : "open"} goal metrics block`}>
               <div
                 className={styles.iconContainer}
-                onClick={() => changeGoalMetricsVisibility()}
+                onClick={() => updateWayPageSettings({isGoalMetricsVisible: !wayPageSettings.isGoalMetricsVisible})}
               >
-                {isGoalMetricsVisible ?
+                {wayPageSettings.isGoalMetricsVisible ?
                   <Icon
                     size={IconSize.MEDIUM}
                     name="EyeOpenedIcon"
@@ -365,7 +364,7 @@ export const WayPage = (props: WayPageProps) => {
             </Tooltip>
           </HorizontalContainer>
           <GoalMetricsBlock
-            isVisible={isGoalMetricsVisible}
+            isVisible={wayPageSettings.isGoalMetricsVisible}
             way={way}
             isEditable={isOwner}
           />
@@ -376,12 +375,12 @@ export const WayPage = (props: WayPageProps) => {
               level={HeadingLevel.h3}
               text="Statistics"
             />
-            <Tooltip content={`Click to ${isStatisticsVisible ? "hide" : "open"} statistics block`}>
+            <Tooltip content={`Click to ${wayPageSettings.isStatisticsVisible ? "hide" : "open"} statistics block`}>
               <div
                 className={styles.iconContainer}
-                onClick={() => changeStatisticsVisibility()}
+                onClick={() => updateWayPageSettings({isStatisticsVisible: !wayPageSettings.isStatisticsVisible})}
               >
-                {isStatisticsVisible ?
+                {wayPageSettings.isStatisticsVisible ?
                   <Icon
                     size={IconSize.MEDIUM}
                     name="EyeOpenedIcon"
@@ -398,7 +397,7 @@ export const WayPage = (props: WayPageProps) => {
           <WayStatistic
             dayReports={way.dayReports}
             wayCreatedAt={way.createdAt}
-            isVisible={isStatisticsVisible}
+            isVisible={wayPageSettings.isStatisticsVisible}
           />
         </div>
       </div>
