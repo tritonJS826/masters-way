@@ -18,14 +18,26 @@ export const App = () => {
   useErrorHandler();
   const [user, setUser] = useState<UserPreview | null>(null);
   const navigate = useNavigate();
+  const isHomePage = pages.home.getPath({}) === location.pathname;
+
+  /**
+   * Get default page path
+   */
+  const getDefaultPagePath = (userUid: string | null) => {
+    return userUid ? pages.user.getPath({uuid: userUid}) : pages.allWays.getPath({});
+  };
 
   /**
    * OnLog in
    */
-  const onLogIn = async (value: string) => {
-    const currentUserPreview = await UserPreviewDAL.getUserPreview(value);
+  const onLogIn = async (userUid: string) => {
+    const currentUserPreview = await UserPreviewDAL.getUserPreview(userUid);
     setUser(currentUserPreview);
-    value ? navigate(pages.user.getPath({uuid: value})) : navigate(pages.allWays.getPath({}));
+    const defaultPagePath = getDefaultPagePath(userUid);
+
+    if (isHomePage) {
+      navigate(defaultPagePath);
+    }
   };
 
   /**
@@ -33,6 +45,11 @@ export const App = () => {
    */
   const onLogOut = async () => {
     setUser(null);
+    const defaultPagePath = getDefaultPagePath(null);
+
+    if (isHomePage) {
+      navigate(defaultPagePath);
+    }
   };
 
   useEffect(() => {

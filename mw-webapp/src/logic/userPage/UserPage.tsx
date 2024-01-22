@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
+import {Loader} from "src/component/loader/Loader";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {SafeMap} from "src/dataAccessLogic/SafeMap";
@@ -166,9 +167,7 @@ export const UserPage = (props: UserPageProps) => {
 
   if (!userPreview) {
     return (
-      <span>
-        loading..
-      </span>
+      <Loader />
     );
   }
 
