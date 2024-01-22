@@ -1,4 +1,5 @@
 import {useState} from "react";
+import {Loader} from "src/component/loader/Loader";
 import {displayNotification} from "src/component/notification/displayNotification";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
@@ -12,7 +13,7 @@ import {WayPreview} from "src/model/businessModelPreview/WayPreview";
  * Ways page
  */
 export const AllWaysPage = () => {
-  const [allWays, setAllWays] = useState<WayPreview[]>([]);
+  const [allWays, setAllWays] = useState<WayPreview[]>();
 
   /**
    * Callback that is called to fetch data
@@ -40,6 +41,12 @@ export const AllWaysPage = () => {
       onError,
     },
   );
+
+  if (!allWays) {
+    return (
+      <Loader />
+    );
+  }
 
   return (
     <>

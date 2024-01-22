@@ -9,6 +9,10 @@ export const Router = () => {
   return (
     <Routes>
       <Route
+        path={pages.home.getPath({})}
+        element={<WithValidatedParams paramsSchema={pages.home} />}
+      />
+      <Route
         path={pages.allWays.getPath({})}
         element={<WithValidatedParams paramsSchema={pages.allWays} />}
       />

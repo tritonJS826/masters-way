@@ -6,6 +6,7 @@ import {EditableTextarea} from "src/component/editableTextarea/editableTextarea"
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
+import {Loader} from "src/component/loader/Loader";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
@@ -190,9 +191,7 @@ export const WayPage = (props: WayPageProps) => {
 
   if (!way) {
     return (
-      <span>
-        loading...
-      </span>
+      <Loader />
     );
   }
 
