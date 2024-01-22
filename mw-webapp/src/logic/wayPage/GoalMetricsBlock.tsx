@@ -8,6 +8,8 @@ import {GoalMetric} from "src/model/businessModel/GoalMetric";
 import {Way} from "src/model/businessModel/Way";
 import {v4 as uuidv4} from "uuid";
 
+const MAX_PERCENTAGE = 100;
+
 /**
  * GoalMetricStatisticsBlock Props
  */
@@ -82,9 +84,15 @@ export const GoalMetricsBlock = (props: GoalMetricStatisticsBlockProps) => {
    * Render goal metrics
    */
   const renderGoalMetrics = (goalMetric: GoalMetric) => {
+    const countTrue = goalMetric.isDone.filter((item) => item).length;
+    const computedProcent = (MAX_PERCENTAGE / goalMetric.isDone.length) * countTrue;
+
     return (
       <>
-        <ProgressBar progress= {goalMetric.isDone} />
+        <ProgressBar
+          percentage= {computedProcent}
+          text={`${computedProcent}%`}
+        />
         {goalMetric.metricUuids.map((metricUuid, index) => {
           return (
             <GoalMetricItem

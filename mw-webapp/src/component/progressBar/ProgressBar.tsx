@@ -1,33 +1,36 @@
 import styles from "src/component/progressBar/ProgressBar.module.scss";
 
-const MAX_PERCENTAGE = 100;
-
 /**
  * Type props
  */
 interface ProgressBarProps {
 
   /**
-   * Array of metrics
+   * Text to show in progress bar
+   * No text by default
    */
-  progress: boolean[];
+  text?: string;
+
+  /**
+   * Fill percentage
+   * (minimum 0 maximum 100)
+   */
+  percentage: number;
 }
 
 /**
  * ProgressBar component
  */
 export const ProgressBar = (props: ProgressBarProps) => {
-  const countTrue = props.progress.filter((item) => item).length;
-  const computedProcent = (MAX_PERCENTAGE / props.progress.length) * countTrue;
-  if (props.progress.length > 0) {
+  if (!isNaN(props.percentage)) {
     return (
       <div className={styles.progressBarContainer}>
         <div
-          style={{width: `${computedProcent}%`}}
+          style={{width: `${props.percentage}%`}}
           className={styles.progressIndicator}
         >
           <div className={styles.progressIndicatorPercent}>
-            {computedProcent.toFixed() + "%"}
+            {props.text}
           </div>
         </div>
 
