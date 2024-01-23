@@ -6,7 +6,7 @@ import {
   lastWeekDate,
   MILLISECONDS_IN_DAY,
   SMALL_CORRECTION_MILLISECONDS,
-} from "src/logic/wayPage/WayStatistic";
+} from "src/logic/wayPage/wayStatistics/WayStatistic";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Goal} from "src/model/businessModel/Goal";
 import {Way} from "src/model/businessModel/Way";
