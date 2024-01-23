@@ -64,7 +64,7 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
 
       <ReportsTable
         data={dayReports}
-        columns={Columns({dayReports, setDayReports, way})}
+        columns={Columns({setDayReports, way})}
       />
     </>
   );

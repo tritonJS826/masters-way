@@ -1,0 +1,14 @@
+@import "src/styles/variables";
+
+.jobTags {
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  display: block;
+  min-width: $iconSizeSmall;
+  min-height: $iconSizeSmall;
+  margin-left: $marginSmall;
+  cursor: pointer;
+}

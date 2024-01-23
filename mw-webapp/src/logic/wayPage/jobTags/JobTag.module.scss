@@ -1,0 +1,7 @@
+@import "src/styles/variables";
+
+.jobTag {
+  padding: $paddingSmall;
+  border: 2px solid var(--primaryBorderColor);
+  border-radius: $primaryBorderRadius;
+}

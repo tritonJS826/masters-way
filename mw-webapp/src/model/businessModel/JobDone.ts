@@ -56,11 +56,4 @@ export class JobDone {
     this.tags = jobDoneData.tags;
   }
 
-  /**
-   * Get formatted job that was done
-   */
-  public getJobDone() {
-    return `${this.description} (${this.time})`;
-  }
-
 }

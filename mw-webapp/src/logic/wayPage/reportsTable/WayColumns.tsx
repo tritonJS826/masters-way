@@ -8,11 +8,13 @@ import {EditableText} from "src/component/editableText/EditableText";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
+import {Modal} from "src/component/modal/Modal";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {useGlobalContext} from "src/GlobalContext";
+import {JobDoneTags} from "src/logic/wayPage/reportsTable/JobDoneTags";
 import {getFirstName} from "src/logic/waysTable/waysColumns";
 import {Comment} from "src/model/businessModel/Comment";
 import {DayReport} from "src/model/businessModel/DayReport";
@@ -75,11 +77,6 @@ const getName = (way: Way, userUuid: string) => {
 interface ColumnsProps {
 
   /**
-   * DayReports
-   */
-  dayReports: DayReport[];
-
-  /**
    * Callback that change dayReports
    */
   setDayReports: (dayReports: DayReport[]) => void;
@@ -91,24 +88,6 @@ interface ColumnsProps {
 }
 
 /**
- * Update DayReport state
- */
-const updateDayReportState = (
-  dayReports: DayReport[],
-  setReports: (dayReports: DayReport[]) => void,
-  updatedDayReport: DayReport) => {
-  const updatedDayReports = dayReports.map((item) => {
-    if (item.uuid === updatedDayReport.uuid) {
-      return updatedDayReport;
-    }
-
-    return item;
-  });
-
-  setReports(updatedDayReports);
-};
-
-/**
  * Table columns
  * Don't get rid of any https://github.com/TanStack/table/issues/4382
  */
@@ -118,6 +97,31 @@ export const Columns = (props: ColumnsProps) => {
   const isOwner = user?.uuid === ownerUuid;
   const isMentor = !!user && !!user.uuid && props.way.mentors.has(user.uuid);
   const isUserOwnerOrMentor = isOwner || isMentor;
+
+  /**
+   * Update DayReport
+   */
+  const updateReport = async (report: Partial<DayReport> & {
+
+    /**
+     * Field uuid is required in DayReprot
+     */
+    uuid: string;
+  }) => {
+    const reportToUpdate = props.way.dayReports.find(dayReport => dayReport.uuid === report.uuid);
+    if (!reportToUpdate) {
+      throw new Error(`Report with uuid ${report.uuid} is undefined`);
+    }
+
+    const updatedReport = new DayReport({...reportToUpdate, ...report});
+    const updatedDayReports = props.way.dayReports.map(dayReport => dayReport.uuid === report.uuid
+      ? updatedReport
+      : dayReport,
+    );
+
+    props.setDayReports(updatedDayReports);
+    await DayReportDAL.updateDayReport(updatedReport);
+  };
 
   const columns = [
     columnHelper.accessor("createdAt", {
@@ -175,9 +179,8 @@ export const Columns = (props: ColumnsProps) => {
             tags: [],
           });
           const jobsDone = [...row.original.jobsDone, jobDone];
-          const updatedDayReport = new DayReport({...row.original, jobsDone});
-          await DayReportDAL.updateDayReport(updatedDayReport);
-          updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
+
+          updateReport({uuid: row.original.uuid, jobsDone});
         };
 
         /**
@@ -185,9 +188,8 @@ export const Columns = (props: ColumnsProps) => {
          */
         const deleteJobDone = async (jobDoneUuid: string) => {
           const jobsDone = row.original.jobsDone.filter((jobDone) => jobDone.uuid !== jobDoneUuid);
-          const updatedDayReport = new DayReport({...row.original, jobsDone});
-          updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
-          await DayReportDAL.updateDayReport(updatedDayReport);
+
+          updateReport({uuid: row.original.uuid, jobsDone});
         };
 
         /**
@@ -205,9 +207,7 @@ export const Columns = (props: ColumnsProps) => {
             return itemToReturn;
           });
 
-          const updatedDayReport = new DayReport({...row.original, jobsDone: updatedJobsDone});
-          updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
-          await DayReportDAL.updateDayReport(updatedDayReport);
+          updateReport({uuid: row.original.uuid, jobsDone: updatedJobsDone});
         };
 
         /**
@@ -225,9 +225,7 @@ export const Columns = (props: ColumnsProps) => {
             return itemToReturn;
           });
 
-          const updatedDayReport = new DayReport({...row.original, jobsDone: updatedJobsDone});
-          updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
-          await DayReportDAL.updateDayReport(updatedDayReport);
+          updateReport({uuid: row.original.uuid, jobsDone: updatedJobsDone});
         };
 
         return (
@@ -241,6 +239,26 @@ export const Columns = (props: ColumnsProps) => {
                   <VerticalContainer className={styles.verticalContainer}>
                     <HorizontalContainer className={clsx(styles.horizontalContainer, styles.listNumberAndName)}>
                       {getListNumberByIndex(index)}
+                      <Modal
+                        trigger={
+                          <JobDoneTags
+                            jobDoneTags={jobDone.tags}
+                            isEditable={isOwner}
+                            updateTags={async (tagsToUpdate: string[]) => {
+                              updateReport({
+                                ...row.original,
+                                jobsDone: row.original.jobsDone?.map(previousJobDone => previousJobDone.uuid === jobDone.uuid
+                                  ? {...previousJobDone, tags: tagsToUpdate}
+                                  : previousJobDone),
+                              });
+                            }
+                            }
+                          />
+                        }
+                        content={<div>
+                          Hello!
+                        </div>}
+                      />
                       <HorizontalContainer className={styles.icons}>
                         <Tooltip
                           position={PositionTooltip.RIGHT}
@@ -336,9 +354,8 @@ export const Columns = (props: ColumnsProps) => {
             estimationTime: 0,
           });
           const plans = [...row.original.plans, plan];
-          const updatedDayReport = new DayReport({...row.original, plans});
-          await DayReportDAL.updateDayReport(updatedDayReport);
-          updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
+
+          updateReport({uuid: row.original.uuid, plans});
         };
 
         /**
@@ -346,9 +363,8 @@ export const Columns = (props: ColumnsProps) => {
          */
         const deletePlan = async (planUuid: string) => {
           const plans = row.original.plans.filter((plan) => plan.uuid !== planUuid);
-          const updatedDayReport = new DayReport({...row.original, plans});
-          updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
-          await DayReportDAL.updateDayReport(updatedDayReport);
+
+          updateReport({uuid: row.original.uuid, plans});
         };
 
         /**
@@ -366,9 +382,7 @@ export const Columns = (props: ColumnsProps) => {
             return itemToReturn;
           });
 
-          const updatedDayReport = new DayReport({...row.original, plans: updatedPlans});
-          updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
-          await DayReportDAL.updateDayReport(updatedDayReport);
+          updateReport({uuid: row.original.uuid, plans: updatedPlans});
         };
 
         /**
@@ -386,9 +400,7 @@ export const Columns = (props: ColumnsProps) => {
             return itemToReturn;
           });
 
-          const updatedDayReport = new DayReport({...row.original, plans: updatedPlans});
-          updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
-          await DayReportDAL.updateDayReport(updatedDayReport);
+          updateReport({uuid: row.original.uuid, plans: updatedPlans});
         };
 
         return (
@@ -519,19 +531,18 @@ export const Columns = (props: ColumnsProps) => {
             tags: [],
           });
           const problems = [...row.original.problems, problem];
-          const updatedDayReport = new DayReport({...row.original, problems});
-          await DayReportDAL.updateDayReport(updatedDayReport);
-          updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
+
+          updateReport({uuid: row.original.uuid, problems});
         };
 
         /**
          * Delete Problem
          */
         const deleteProblem = async (problemUuid: string) => {
-          const problems = row.original.problems.filter((problem) => problem.uuid !== problemUuid);
-          const updatedDayReport = new DayReport({...row.original, problems});
-          updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
-          await DayReportDAL.updateDayReport(updatedDayReport);
+          updateReport({
+            uuid: row.original.uuid,
+            problems: row.original.problems.filter((problem) => problem.uuid !== problemUuid),
+          });
         };
 
         /**
@@ -549,9 +560,7 @@ export const Columns = (props: ColumnsProps) => {
             return itemToReturn;
           });
 
-          const updatedDayReport = new DayReport({...row.original, problems: updatedProblems});
-          updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
-          await DayReportDAL.updateDayReport(updatedDayReport);
+          updateReport({uuid: row.original.uuid, problems: updatedProblems});
         };
 
         return (
@@ -659,19 +668,18 @@ export const Columns = (props: ColumnsProps) => {
             uuid: uuidv4(),
           });
           const comments = [...row.original.comments, comment];
-          const updatedDayReport = new DayReport({...row.original, comments});
-          await DayReportDAL.updateDayReport(updatedDayReport);
-          updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
+
+          updateReport({uuid: row.original.uuid, comments});
         };
 
         /**
          * Delete Comment
          */
         const deleteComment = async (commentUuid: string) => {
-          const comments = row.original.comments.filter((comment) => comment.uuid !== commentUuid);
-          const updatedDayReport = new DayReport({...row.original, comments});
-          updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
-          await DayReportDAL.updateDayReport(updatedDayReport);
+          updateReport({
+            uuid: row.original.uuid,
+            comments: row.original.comments.filter((comment) => comment.uuid !== commentUuid),
+          });
         };
 
         /**
@@ -689,9 +697,7 @@ export const Columns = (props: ColumnsProps) => {
             return itemToReturn;
           });
 
-          const updatedDayReport = new DayReport({...row.original, comments: updatedComments});
-          await DayReportDAL.updateDayReport(updatedDayReport);
-          updateDayReportState(props.dayReports, props.setDayReports, updatedDayReport);
+          updateReport({uuid: row.original.uuid, comments: updatedComments});
         };
 
         return (

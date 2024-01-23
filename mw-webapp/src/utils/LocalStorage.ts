@@ -97,5 +97,10 @@ export type WayPageSettings = {
    */
   isStatisticsVisible: boolean;
 
+  /**
+   * Is job done tags block visible
+   */
+  isJobDoneTagsVisible: boolean;
+
 }
 

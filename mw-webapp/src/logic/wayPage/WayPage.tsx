@@ -16,6 +16,7 @@ import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {useLoad} from "src/hooks/useLoad";
 import {GoalMetricsBlock} from "src/logic/wayPage/GoalMetricsBlock";
+import {JobTags} from "src/logic/wayPage/jobTags/JobTags";
 import {MentorRequestsSection} from "src/logic/wayPage/MentorRequestsSection";
 import {MentorsSection} from "src/logic/wayPage/MentorsSection";
 import {downloadWayPdf} from "src/logic/wayPage/renderWayToPdf/downloadWayPdf";
@@ -40,6 +41,11 @@ const DEFAULT_WAY_PAGE_SETTINGS: WayPageSettings = {
    * Default statistics block is opened
    */
   isStatisticsVisible: true,
+
+  /**
+   * Default job done block is opened
+   */
+  isJobDoneTagsVisible: true,
 };
 
 /**
@@ -50,13 +56,45 @@ const changeGoalDescription = (goal: Goal, description: string) => {
   GoalDAL.updateGoal(newGoal);
 };
 
+// /**
+//  * Change name of Way
+//  * TODO: this function should change state
+//  */
+// const changeWayName = (currentWay: Way, text: string) => {
+//   const updatedWay = new Way({...currentWay, name: text});
+//   WayDAL.updateWay(updatedWay);
+// };
+
+/**
+ * Update Way params
+ */
+interface UpdateWayParams {
+
+  /**
+   * Currennt way
+   * TODO: deprecated field, need to delete
+   * @deprecated
+   */
+  currentWay: Way;
+
+  /**
+   * Way to update
+   */
+  wayToUpdate: Partial<Way>;
+
+  /**
+   * Callback to update wy
+   */
+  setWay: (way: Way) => void;
+}
+
 /**
  * Change name of Way
- * TODO: this function should change state
  */
-const changeWayName = (currentWay: Way, text: string) => {
-  const updatedWay = new Way({...currentWay, name: text});
-  WayDAL.updateWay(updatedWay);
+const updateWay = (params: UpdateWayParams) => {
+  const wayToUpdate = new Way({...params.currentWay, ...params.wayToUpdate});
+  WayDAL.updateWay(wayToUpdate);
+  params.setWay(wayToUpdate);
 };
 
 /**
@@ -234,7 +272,11 @@ export const WayPage = (props: WayPageProps) => {
         <Title
           level={HeadingLevel.h2}
           text={way.name}
-          onChangeFinish={(text) => changeWayName(way, text)}
+          onChangeFinish={(name) => updateWay({
+            currentWay: way,
+            wayToUpdate: {name},
+            setWay,
+          })}
           isEditable={isOwner}
           className={styles.titleH2}
         />
@@ -290,6 +332,42 @@ export const WayPage = (props: WayPageProps) => {
           }
         </HorizontalContainer>
       </HorizontalContainer>
+      <div className={styles.jobDoneTagsWrapper}>
+        <HorizontalContainer className={styles.horizontalContainer}>
+          <Title
+            level={HeadingLevel.h3}
+            text="Job done tags:"
+          />
+          <Tooltip content={`Click to ${wayPageSettings.isJobDoneTagsVisible ? "hide" : "open"} jobDone tags block`}>
+            <div
+              className={styles.iconContainer}
+              onClick={() => updateWayPageSettings({isJobDoneTagsVisible: !wayPageSettings.isJobDoneTagsVisible})}
+            >
+              {wayPageSettings.isJobDoneTagsVisible ?
+                <Icon
+                  size={IconSize.MEDIUM}
+                  name="EyeOpenedIcon"
+                />
+                :
+                <Icon
+                  size={IconSize.MEDIUM}
+                  name="EyeSlashedIcon"
+                />
+              }
+            </div>
+          </Tooltip>
+        </HorizontalContainer>
+        <JobTags
+          isVisible={wayPageSettings.isJobDoneTagsVisible}
+          jobTags={way.jobTags}
+          isEditable={isOwner}
+          updateTags={async (tagsToUpdate: string[]) => updateWay({
+            setWay,
+            wayToUpdate: {jobTags: tagsToUpdate},
+            currentWay: way,
+          })}
+        />
+      </div>
       <HorizontalContainer className={styles.gap}>
         <Title
           level={HeadingLevel.h3}
