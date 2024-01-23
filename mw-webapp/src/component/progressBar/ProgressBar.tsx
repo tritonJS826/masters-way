@@ -22,20 +22,18 @@ interface ProgressBarProps {
  * ProgressBar component
  */
 export const ProgressBar = (props: ProgressBarProps) => {
-  if (!isNaN(props.percentage)) {
-    return (
-      <div className={styles.progressBarContainer}>
-        <div
-          style={{width: `${props.percentage}%`}}
-          className={styles.progressIndicator}
-        >
-          <div className={styles.progressIndicatorPercent}>
-            {props.text}
-          </div>
+  return (
+    <div className={styles.progressBarContainer}>
+      <div
+        style={{width: `${props.percentage}%`}}
+        className={styles.progressIndicator}
+      >
+        <div className={styles.progressIndicatorPercent}>
+          {props.text}
         </div>
-
       </div>
-    );
-  }
+
+    </div>
+  );
 };
 

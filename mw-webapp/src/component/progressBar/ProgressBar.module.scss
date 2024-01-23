@@ -8,18 +8,18 @@ $progressBarBorderRadius: 20px;
   border-radius: $progressBarBorderRadius;
   margin-top: $marginSmall;
   margin-bottom: $marginSmall;
-  background-color: rgb(74, 74, 70);
+  background-color: var(--primaryBorderColor);
   text-align: right;
 }
 
 .progressIndicator {
   height: 100%;
   border-radius: $progressBarBorderRadius;
-  background-color: rgb(0, 72, 255);
+  background-color: var(--hoverColor);
 }
 
 .progressIndicatorPercent {
   margin-right: $marginSmall;
   margin-left: $marginSmall;
-  color: rgb(22, 21, 21);
+  color: var(--primaryTextColor);
 }

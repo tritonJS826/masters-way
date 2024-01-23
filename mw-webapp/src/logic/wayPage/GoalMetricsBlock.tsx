@@ -85,7 +85,7 @@ export const GoalMetricsBlock = (props: GoalMetricStatisticsBlockProps) => {
    */
   const renderGoalMetrics = (goalMetric: GoalMetric) => {
     const countTrue = goalMetric.isDone.filter((item) => item).length;
-    const computedProcent = (MAX_PERCENTAGE / goalMetric.isDone.length) * countTrue;
+    const computedProcent = countTrue > 0 ? (MAX_PERCENTAGE / goalMetric.isDone.length) * countTrue : 0;
 
     return (
       <>
