@@ -1,11 +1,14 @@
 import {useState} from "react";
 import {Button} from "src/component/button/Button";
+import {ProgressBar} from "src/component/progressBar/ProgressBar";
 import {GoalMetricDAL} from "src/dataAccessLogic/GoalMetricDAL";
 import {GoalMetricItem} from "src/logic/wayPage/GoalMetricItem";
 import {Goal} from "src/model/businessModel/Goal";
 import {GoalMetric} from "src/model/businessModel/GoalMetric";
 import {Way} from "src/model/businessModel/Way";
 import {v4 as uuidv4} from "uuid";
+
+const MAX_PERCENTAGE = 100;
 
 /**
  * GoalMetricStatisticsBlock Props
@@ -81,8 +84,15 @@ export const GoalMetricsBlock = (props: GoalMetricStatisticsBlockProps) => {
    * Render goal metrics
    */
   const renderGoalMetrics = (goalMetric: GoalMetric) => {
+    const doneMetricsAmount = goalMetric.isDone.filter(Boolean).length;
+    const computedProcent = doneMetricsAmount && Math.round(doneMetricsAmount / goalMetric.metricUuids.length * MAX_PERCENTAGE);
+
     return (
       <>
+        <ProgressBar
+          percentage= {computedProcent}
+          text={`${computedProcent}%`}
+        />
         {goalMetric.metricUuids.map((metricUuid, index) => {
           return (
             <GoalMetricItem
