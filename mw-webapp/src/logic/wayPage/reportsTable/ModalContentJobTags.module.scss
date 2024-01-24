@@ -1,0 +1,19 @@
+@import "src/styles/variables";
+
+.jobTagsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $gapMedium;
+}
+
+.jobTags {
+  display: flex;
+  width: 150px;
+  align-items: center;
+  gap: $gapMedium;
+}
+
+.buttons {
+  margin-top: $marginMedium;
+  gap: $gapMedium;
+}

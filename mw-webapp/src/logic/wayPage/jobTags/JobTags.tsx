@@ -67,7 +67,7 @@ export const JobTags = (props: JobTagsProps) => {
   };
 
   return (
-    <>
+    <div className={styles.jobTags}>
       {props.jobTags.map((jobTag) => {
         return (
           <div
@@ -111,6 +111,6 @@ export const JobTags = (props: JobTagsProps) => {
         }
       />
 
-    </>
+    </div>
   );
 };

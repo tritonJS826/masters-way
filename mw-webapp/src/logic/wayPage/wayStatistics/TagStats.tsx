@@ -21,12 +21,12 @@ export const TagStats = (props: TagStatsProps) => {
     <Fragment key={tagStat.name}>
       <StatisticLine
         description={`${tagStat.name} jobs finished:`}
-        value={`${tagStat.totalAmount} / ${tagStat.totalAmountPercentage} %`}
+        value={`${tagStat.totalAmount} (${tagStat.totalAmountPercentage} %)`}
       />
       <StatisticLine
         key={tagStat.name}
-        description={`${tagStat.name} time with:`}
-        value={`${tagStat.totalTime}  / ${tagStat.totalTimePercentage} %`}
+        description={`${tagStat.name} time:`}
+        value={`${tagStat.totalTime} (${tagStat.totalTimePercentage} %)`}
       />
     </Fragment>
   ));

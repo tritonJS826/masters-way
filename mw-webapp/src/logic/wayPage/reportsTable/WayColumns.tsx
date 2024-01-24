@@ -1,3 +1,4 @@
+import {useState} from "react";
 import {TrashIcon} from "@radix-ui/react-icons";
 import {createColumnHelper} from "@tanstack/react-table";
 import {clsx} from "clsx";
@@ -15,6 +16,7 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {JobDoneTags} from "src/logic/wayPage/reportsTable/JobDoneTags";
+import {ModalContentJobTags} from "src/logic/wayPage/reportsTable/ModalContentJobTags";
 import {getFirstName} from "src/logic/waysTable/waysColumns";
 import {Comment} from "src/model/businessModel/Comment";
 import {DayReport} from "src/model/businessModel/DayReport";
@@ -29,6 +31,7 @@ import {Symbols} from "src/utils/Symbols";
 import {v4 as uuidv4} from "uuid";
 import styles from "src/logic/wayPage/reportsTable/WayColumns.module.scss";
 
+export const DEFAULT_TAG = "no tag";
 const DEFAULT_SUMMARY_TIME = 0;
 const columnHelper = createColumnHelper<DayReport>();
 const DIFFERENCE_INDEX_LIST_NUMBER = 1;
@@ -97,6 +100,7 @@ export const Columns = (props: ColumnsProps) => {
   const isOwner = user?.uuid === ownerUuid;
   const isMentor = !!user && !!user.uuid && props.way.mentors.has(user.uuid);
   const isUserOwnerOrMentor = isOwner || isMentor;
+  const [dayReports, setDayReports] = useState<DayReport[]>(props.way.dayReports);
 
   /**
    * Update DayReport
@@ -108,16 +112,18 @@ export const Columns = (props: ColumnsProps) => {
      */
     uuid: string;
   }) => {
-    const reportToUpdate = props.way.dayReports.find(dayReport => dayReport.uuid === report.uuid);
+    const reportToUpdate = dayReports.find(dayReport => dayReport.uuid === report.uuid);
     if (!reportToUpdate) {
       throw new Error(`Report with uuid ${report.uuid} is undefined`);
     }
 
     const updatedReport = new DayReport({...reportToUpdate, ...report});
-    const updatedDayReports = props.way.dayReports.map(dayReport => dayReport.uuid === report.uuid
+    const updatedDayReports = dayReports.map(dayReport => dayReport.uuid === report.uuid
       ? updatedReport
       : dayReport,
     );
+
+    setDayReports(updatedDayReports);
 
     props.setDayReports(updatedDayReports);
     await DayReportDAL.updateDayReport(updatedReport);
@@ -176,7 +182,7 @@ export const Columns = (props: ColumnsProps) => {
             description: "",
             time: 0,
             uuid: uuidv4(),
-            tags: [],
+            tags: [DEFAULT_TAG],
           });
           const jobsDone = [...row.original.jobsDone, jobDone];
 
@@ -239,27 +245,33 @@ export const Columns = (props: ColumnsProps) => {
                   <VerticalContainer className={styles.verticalContainer}>
                     <HorizontalContainer className={clsx(styles.horizontalContainer, styles.listNumberAndName)}>
                       {getListNumberByIndex(index)}
-                      <Modal
-                        trigger={
-                          <JobDoneTags
-                            jobDoneTags={jobDone.tags}
-                            isEditable={isOwner}
-                            updateTags={async (tagsToUpdate: string[]) => {
-                              updateReport({
-                                ...row.original,
-                                jobsDone: row.original.jobsDone?.map(previousJobDone => previousJobDone.uuid === jobDone.uuid
-                                  ? {...previousJobDone, tags: tagsToUpdate}
-                                  : previousJobDone),
-                              });
-                            }
-                            }
-                          />
-                        }
-                        content={<div>
-                          Hello!
-                        </div>}
-                      />
                       <HorizontalContainer className={styles.icons}>
+                        <Modal
+                          trigger={
+                            <div className={styles.tagsBlockTrigger}>
+                              <JobDoneTags
+                                isEditable={isOwner}
+                                jobDoneTags={jobDone.tags}
+                              />
+                            </div>
+                          }
+                          content={
+                            <ModalContentJobTags
+                              jobTags={props.way.jobTags}
+                              jobDoneTags={jobDone.tags}
+                              isEditable={isOwner}
+                              updateTags={async (tagsToUpdate: string[]) => {
+                                updateReport({
+                                  ...row.original,
+                                  jobsDone: row.original.jobsDone?.map(previousJobDone => previousJobDone.uuid === jobDone.uuid
+                                    ? {...previousJobDone, tags: tagsToUpdate}
+                                    : previousJobDone),
+                                });
+                              }
+                              }
+                            />
+                          }
+                        />
                         <Tooltip
                           position={PositionTooltip.RIGHT}
                           content={`Time${Symbols.NO_BREAK_SPACE}spent on job`}
@@ -350,7 +362,7 @@ export const Columns = (props: ColumnsProps) => {
             job: "",
             ownerUuid: userUuid,
             uuid: uuidv4(),
-            tags: [],
+            tags: [DEFAULT_TAG],
             estimationTime: 0,
           });
           const plans = [...row.original.plans, plan];
@@ -421,6 +433,32 @@ export const Columns = (props: ColumnsProps) => {
                         />
                       </HorizontalContainer>
                       <HorizontalContainer className={styles.icons}>
+                        <Modal
+                          trigger={
+                            <div className={styles.tagsBlockTrigger}>
+                              <JobDoneTags
+                                isEditable={isOwner}
+                                jobDoneTags={plan.tags}
+                              />
+                            </div>
+                          }
+                          content={
+                            <ModalContentJobTags
+                              jobTags={props.way.jobTags}
+                              jobDoneTags={plan.tags}
+                              isEditable={isOwner}
+                              updateTags={async (tagsToUpdate: string[]) => {
+                                updateReport({
+                                  ...row.original,
+                                  plans: row.original.plans?.map(previousPlan => previousPlan.uuid === plan.uuid
+                                    ? {...previousPlan, tags: tagsToUpdate}
+                                    : previousPlan),
+                                });
+                              }
+                              }
+                            />
+                          }
+                        />
                         <Tooltip
                           position={PositionTooltip.RIGHT}
                           content={`Estimated${Symbols.NO_BREAK_SPACE}time for the plan`}

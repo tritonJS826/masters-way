@@ -1,9 +1,7 @@
-import {TrashIcon} from "@radix-ui/react-icons";
-import {Confirm} from "src/component/confirm/Confirm";
-import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
-import {Tooltip} from "src/component/tooltip/Tooltip";
 import {JobTag} from "src/logic/wayPage/jobTags/JobTag";
 import styles from "src/logic/wayPage/reportsTable/JobDoneTags.module.scss";
+
+const DEFAULT_AMOUNT_TAGS = 1;
 
 /**
  * JobDoneTagsProps
@@ -19,55 +17,29 @@ interface JobDoneTagsProps {
    * Is editable
    */
   isEditable: boolean;
-
-  /**
-   * Callback to update job done tags
-   */
-  updateTags: (newTags: string[]) => Promise<void>;
 }
 
 /**
  * Job done tags
  */
 export const JobDoneTags = (props: JobDoneTagsProps) => {
-
-  /**
-   * Remove job tag from Job done
-   */
-  const removeJobTagFromJobDone = async (jobTagToRemove: string) => {
-    const updatedJobTags = props.jobDoneTags.filter((jobTag) => jobTag !== jobTagToRemove);
-
-    return props.updateTags(updatedJobTags);
-  };
+  const jobDoneTags = props.jobDoneTags.length === DEFAULT_AMOUNT_TAGS
+    ? props.jobDoneTags
+    : props.jobDoneTags.slice(DEFAULT_AMOUNT_TAGS);
 
   return (
-    <div>
-      {props.jobDoneTags.map((jobDoneTag) => {
+    <div className={styles.jobTags}>
+      {jobDoneTags.map((jobDoneTag) => {
         return (
-          <div
+          <JobTag
             key={jobDoneTag}
-            className={styles.jobTags}
-          >
-            <JobTag jobTag={jobDoneTag} />
-            {props.isEditable && (
-              <Tooltip
-                content="Delete job done tag"
-                position={PositionTooltip.RIGHT}
-              >
-                <Confirm
-                  trigger={
-                    <TrashIcon className={styles.icon} />}
-                  content={<p>
-                    {`Are you sure you want to remove "${jobDoneTag}" tag"?`}
-                  </p>}
-                  onOk={() => removeJobTagFromJobDone(jobDoneTag)}
-                  okText="Delete"
-                />
-              </Tooltip>
-            )}
-          </div>
+            jobTag={jobDoneTag}
+            isSmall
+            isShort
+          />
         );
-      })}
+      })
+      }
     </div>
   );
 };

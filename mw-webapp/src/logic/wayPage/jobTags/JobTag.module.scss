@@ -1,7 +1,19 @@
 @import "src/styles/variables";
 
 .jobTag {
+  max-width: 100px;
   padding: $paddingSmall;
   border: 2px solid var(--primaryBorderColor);
   border-radius: $primaryBorderRadius;
+}
+
+.small {
+  padding: 1px 5px;
+  transform: scale(0.8);
+}
+
+.short {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

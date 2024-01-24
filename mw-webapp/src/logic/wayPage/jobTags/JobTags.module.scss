@@ -1,8 +1,14 @@
 @import "src/styles/variables";
 
+$jobTagsBlockWidth: 130px;
+
 .jobTags {
   display: flex;
+  width: $jobTagsBlockWidth;
+  flex-wrap: wrap;
   align-items: center;
+  justify-content: space-between;
+  gap: $gapMedium;
 }
 
 .icon {
