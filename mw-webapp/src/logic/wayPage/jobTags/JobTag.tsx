@@ -14,6 +14,7 @@ interface JobTagProps {
 
   /**
    * Is small
+   * @default false
    */
   isSmall?: boolean;
 

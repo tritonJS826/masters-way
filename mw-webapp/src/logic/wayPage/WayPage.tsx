@@ -34,16 +34,19 @@ const DEFAULT_WAY_PAGE_SETTINGS: WayPageSettings = {
 
   /**
    * Default goalMetrics block is opened
+   * @default true
    */
   isGoalMetricsVisible: true,
 
   /**
    * Default statistics block is opened
+   * @default true
    */
   isStatisticsVisible: true,
 
   /**
    * Default job done block is opened
+   * @default true
    */
   isJobDoneTagsVisible: true,
 };
