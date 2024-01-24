@@ -32,7 +32,6 @@ export const ProgressBar = (props: ProgressBarProps) => {
           {props.text}
         </div>
       </div>
-
     </div>
   );
 };
