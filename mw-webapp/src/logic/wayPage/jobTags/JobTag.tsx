@@ -17,11 +17,6 @@ interface JobTagProps {
    */
   isSmall?: boolean;
 
-  /**
-   * Is short
-   */
-  isShort?: boolean;
-
 }
 
 /**
@@ -33,7 +28,7 @@ export const JobTag = (props: JobTagProps) => {
   return (
     <div
       style={{color: randomColor, borderColor: randomColor}}
-      className={clsx(styles.jobTag, props.isSmall && styles.small, props.isShort && styles.short)}
+      className={clsx(styles.jobTag, props.isSmall && styles.small)}
     >
       {props.jobTag}
     </div>

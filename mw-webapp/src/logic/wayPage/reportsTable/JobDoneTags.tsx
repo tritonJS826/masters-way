@@ -15,6 +15,7 @@ interface JobDoneTagsProps {
 
   /**
    * Is editable
+   * @default false
    */
   isEditable: boolean;
 }
@@ -35,7 +36,6 @@ export const JobDoneTags = (props: JobDoneTagsProps) => {
             key={jobDoneTag}
             jobTag={jobDoneTag}
             isSmall
-            isShort
           />
         );
       })

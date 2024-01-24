@@ -12,12 +12,9 @@ $JobTagTransform: scale(0.8);
 }
 
 .small {
-  padding: $JobTagPadding;
-  transform: $JobTagTransform;
-}
-
-.short {
   overflow: hidden;
+  padding: $JobTagPadding;
   text-overflow: ellipsis;
+  transform: $JobTagTransform;
   white-space: nowrap;
 }

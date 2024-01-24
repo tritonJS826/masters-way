@@ -26,6 +26,7 @@ interface JobDoneTagsProps {
 
   /**
    * Is editable
+   * @default false
    */
   isEditable: boolean;
 
@@ -46,7 +47,7 @@ export const ModalContentJobTags = (props: JobDoneTagsProps) => {
   /**
    * Remove job tag from Job done
    */
-  const removeJobTagFromJobDone = async (jobTagToRemove: string) => {
+  const removeJobTagFromJobDone = (jobTagToRemove: string) => {
     const updatedJobTags = jobTagsUpdated.filter((jobTag) => jobTag !== jobTagToRemove);
 
     setJobTagsUpdated(updatedJobTags);
@@ -55,7 +56,7 @@ export const ModalContentJobTags = (props: JobDoneTagsProps) => {
   /**
    * Add job tag to Job done
    */
-  const addJobTagFromJobDone = async (jobTagToAdd: string) => {
+  const addJobTagFromJobDone = (jobTagToAdd: string) => {
     const updatedJobTags = jobTagsUpdated.concat(jobTagToAdd);
 
     setJobTagsUpdated(updatedJobTags);

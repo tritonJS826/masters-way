@@ -64,6 +64,7 @@ interface UpdateWayParams {
   /**
    * Currennt way
    * TODO: deprecated field, need to delete
+   * TODO: refactor service layer - update just required fields, not all Way Entity
    * @deprecated
    */
   currentWay: Way;
@@ -82,9 +83,9 @@ interface UpdateWayParams {
 /**
  * Change name of Way
  */
-const updateWay = (params: UpdateWayParams) => {
+const updateWay = async (params: UpdateWayParams) => {
   const wayToUpdate = new Way({...params.currentWay, ...params.wayToUpdate});
-  WayDAL.updateWay(wayToUpdate);
+  await WayDAL.updateWay(wayToUpdate);
   params.setWay(wayToUpdate);
 };
 
@@ -352,7 +353,7 @@ export const WayPage = (props: WayPageProps) => {
           isVisible={wayPageSettings.isJobDoneTagsVisible}
           jobTags={way.jobTags}
           isEditable={isOwner}
-          updateTags={async (tagsToUpdate: string[]) => updateWay({
+          updateTags={(tagsToUpdate: string[]) => updateWay({
             setWay,
             wayToUpdate: {jobTags: tagsToUpdate},
             currentWay: way,

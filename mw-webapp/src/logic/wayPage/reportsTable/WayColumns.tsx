@@ -104,6 +104,7 @@ export const Columns = (props: ColumnsProps) => {
 
   /**
    * Update DayReport
+   * TODO: create generic partialWithUuid
    */
   const updateReport = async (report: Partial<DayReport> & {
 
@@ -177,7 +178,7 @@ export const Columns = (props: ColumnsProps) => {
         /**
          * Create jobDone
          */
-        const createJobDone = async () => {
+        const createJobDone = () => {
           const jobDone: JobDone = new JobDone({
             description: "",
             time: 0,
@@ -192,7 +193,7 @@ export const Columns = (props: ColumnsProps) => {
         /**
          * Delete jobDone
          */
-        const deleteJobDone = async (jobDoneUuid: string) => {
+        const deleteJobDone = (jobDoneUuid: string) => {
           const jobsDone = row.original.jobsDone.filter((jobDone) => jobDone.uuid !== jobDoneUuid);
 
           updateReport({uuid: row.original.uuid, jobsDone});
@@ -201,7 +202,7 @@ export const Columns = (props: ColumnsProps) => {
         /**
          * Update jobDone
          */
-        const updateJobDone = async (jobDone: JobDone, text: string) => {
+        const updateJobDone = (jobDone: JobDone, text: string) => {
           const updatedJobsDone = row.original.jobsDone.map((item) => {
             const itemToReturn = item.uuid === jobDone.uuid
               ? new JobDone({
@@ -219,7 +220,7 @@ export const Columns = (props: ColumnsProps) => {
         /**
          * Update jobDoneTime
          */
-        const updateJobDoneTime = async (jobDone: JobDone, text: number) => {
+        const updateJobDoneTime = (jobDone: JobDone, text: number) => {
           const updatedJobsDone = row.original.jobsDone.map((item) => {
             const itemToReturn = item.uuid === jobDone.uuid
               ? new JobDone({
@@ -260,15 +261,12 @@ export const Columns = (props: ColumnsProps) => {
                               jobTags={props.way.jobTags}
                               jobDoneTags={jobDone.tags}
                               isEditable={isOwner}
-                              updateTags={async (tagsToUpdate: string[]) => {
-                                updateReport({
-                                  ...row.original,
-                                  jobsDone: row.original.jobsDone?.map(previousJobDone => previousJobDone.uuid === jobDone.uuid
-                                    ? {...previousJobDone, tags: tagsToUpdate}
-                                    : previousJobDone),
-                                });
-                              }
-                              }
+                              updateTags={(tagsToUpdate: string[]) => updateReport({
+                                ...row.original,
+                                jobsDone: row.original.jobsDone?.map(previousJobDone => previousJobDone.uuid === jobDone.uuid
+                                  ? {...previousJobDone, tags: tagsToUpdate}
+                                  : previousJobDone),
+                              })}
                             />
                           }
                         />
@@ -357,7 +355,7 @@ export const Columns = (props: ColumnsProps) => {
         /**
          * Create Plan
          */
-        const createPlan = async (userUuid: string) => {
+        const createPlan = (userUuid: string) => {
           const plan: Plan = new Plan({
             job: "",
             ownerUuid: userUuid,
@@ -373,7 +371,7 @@ export const Columns = (props: ColumnsProps) => {
         /**
          * Delete plan
          */
-        const deletePlan = async (planUuid: string) => {
+        const deletePlan = (planUuid: string) => {
           const plans = row.original.plans.filter((plan) => plan.uuid !== planUuid);
 
           updateReport({uuid: row.original.uuid, plans});
@@ -382,7 +380,7 @@ export const Columns = (props: ColumnsProps) => {
         /**
          * Update Plan
          */
-        const updatePlan = async (plan: Plan, text: string) => {
+        const updatePlan = (plan: Plan, text: string) => {
           const updatedPlans = row.original.plans.map((item) => {
             const itemToReturn = item.uuid === plan.uuid
               ? new Plan({
@@ -400,7 +398,7 @@ export const Columns = (props: ColumnsProps) => {
         /**
          * Update Plan time
          */
-        const updatePlanTime = async (plan: Plan, text: number) => {
+        const updatePlanTime = (plan: Plan, text: number) => {
           const updatedPlans = row.original.plans.map((item) => {
             const itemToReturn = item.uuid === plan.uuid
               ? new Plan({
@@ -447,15 +445,12 @@ export const Columns = (props: ColumnsProps) => {
                               jobTags={props.way.jobTags}
                               jobDoneTags={plan.tags}
                               isEditable={isOwner}
-                              updateTags={async (tagsToUpdate: string[]) => {
-                                updateReport({
-                                  ...row.original,
-                                  plans: row.original.plans?.map(previousPlan => previousPlan.uuid === plan.uuid
-                                    ? {...previousPlan, tags: tagsToUpdate}
-                                    : previousPlan),
-                                });
-                              }
-                              }
+                              updateTags={(tagsToUpdate: string[]) => updateReport({
+                                ...row.original,
+                                plans: row.original.plans?.map(previousPlan => previousPlan.uuid === plan.uuid
+                                  ? {...previousPlan, tags: tagsToUpdate}
+                                  : previousPlan),
+                              })}
                             />
                           }
                         />
@@ -560,7 +555,7 @@ export const Columns = (props: ColumnsProps) => {
         /**
          * Create Problem
          */
-        const createProblem = async (userUuid: string) => {
+        const createProblem = (userUuid: string) => {
           const problem: Problem = new Problem({
             description: "",
             ownerUuid: userUuid,
@@ -576,7 +571,7 @@ export const Columns = (props: ColumnsProps) => {
         /**
          * Delete Problem
          */
-        const deleteProblem = async (problemUuid: string) => {
+        const deleteProblem = (problemUuid: string) => {
           updateReport({
             uuid: row.original.uuid,
             problems: row.original.problems.filter((problem) => problem.uuid !== problemUuid),
@@ -586,7 +581,7 @@ export const Columns = (props: ColumnsProps) => {
         /**
          * Update Problem
          */
-        const updateProblem = async (problem: Problem, text: string) => {
+        const updateProblem = (problem: Problem, text: string) => {
           const updatedProblems = row.original.problems.map((item) => {
             const itemToReturn = item.uuid === problem.uuid
               ? new Problem({
@@ -698,7 +693,7 @@ export const Columns = (props: ColumnsProps) => {
         /**
          * Create Comment
          */
-        const createComment = async (commentatorUuid: string) => {
+        const createComment = (commentatorUuid: string) => {
           const comment: Comment = new Comment({
             description: "",
             ownerUuid: commentatorUuid,
@@ -713,7 +708,7 @@ export const Columns = (props: ColumnsProps) => {
         /**
          * Delete Comment
          */
-        const deleteComment = async (commentUuid: string) => {
+        const deleteComment = (commentUuid: string) => {
           updateReport({
             uuid: row.original.uuid,
             comments: row.original.comments.filter((comment) => comment.uuid !== commentUuid),
@@ -723,7 +718,7 @@ export const Columns = (props: ColumnsProps) => {
         /**
          * Update Comment
          */
-        const updateComment = async (comment: Comment, text: string) => {
+        const updateComment = (comment: Comment, text: string) => {
           const updatedComments = row.original.comments.map((item) => {
             const itemToReturn = item.uuid === comment.uuid
               ? new Comment({

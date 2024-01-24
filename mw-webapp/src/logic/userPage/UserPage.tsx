@@ -147,7 +147,7 @@ export const UserPage = (props: UserPageProps) => {
   /**
    * Callback that is called on fetch and validation success
    */
-  const onSuccess = async (data: UserPageData) => {
+  const onSuccess = (data: UserPageData) => {
     setOwnWays(data.ownWaysPreview);
     setMentoringWays(data.mentoringWaysPreview);
     setFavoriteWays(data.favoriteWaysPreview);

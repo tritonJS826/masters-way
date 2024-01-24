@@ -6,7 +6,7 @@ import {Input} from "src/component/input/Input";
 import styles from "src/logic/wayPage/jobTags/NewJobTagModalContent.module.scss";
 
 /**
- * NewJobTagModalContentProps
+ * New job tag modal content props
  */
 interface NewJobTagModalContentProps {
 

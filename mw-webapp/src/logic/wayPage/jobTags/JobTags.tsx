@@ -27,6 +27,7 @@ interface JobTagsProps {
 
   /**
    * Is editable
+   * @default false
    */
   isEditable: boolean;
 
@@ -49,10 +50,10 @@ export const JobTags = (props: JobTagsProps) => {
   /**
    * Remove job tag from Way
    */
-  const removeJobTagFromWay = async (jobTagToRemove: string) => {
+  const removeJobTagFromWay = (jobTagToRemove: string) => {
     const updatedJobTags = props.jobTags.filter((jobTag) => jobTag !== jobTagToRemove);
 
-    return props.updateTags(updatedJobTags);
+    props.updateTags(updatedJobTags);
   };
 
   /**
@@ -110,7 +111,6 @@ export const JobTags = (props: JobTagsProps) => {
           />
         }
       />
-
     </div>
   );
 };
