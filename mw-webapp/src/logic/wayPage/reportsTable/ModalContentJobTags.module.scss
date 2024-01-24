@@ -1,5 +1,7 @@
 @import "src/styles/variables";
 
+$ModalJobTagMaxWidth: 150px;
+
 .jobTagsContainer {
   display: flex;
   flex-wrap: wrap;
@@ -8,7 +10,7 @@
 
 .jobTags {
   display: flex;
-  width: 150px;
+  width: $ModalJobTagMaxWidth;
   align-items: center;
   gap: $gapMedium;
 }

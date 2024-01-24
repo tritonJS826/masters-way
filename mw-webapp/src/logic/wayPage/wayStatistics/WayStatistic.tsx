@@ -54,7 +54,6 @@ const getTagStats = (jobsDone: JobDone[]) => {
   const totalJobsTime = jobsDone.reduce((accum, jobDone) => accum + jobDone.time, 0);
   jobsDone.forEach((job: JobDone) => {
     job.tags.forEach((tag: string) => {
-      // If (tagStatsMap.has(tag)) {
       const AMOUNT_INCREMENT = 1;
       const PERCENTAGE_MULTIPLIER = 100;
 
@@ -70,7 +69,6 @@ const getTagStats = (jobsDone: JobDone[]) => {
         totalTimePercentage,
         name: tag,
       });
-      // }
     });
   });
 
@@ -141,7 +139,7 @@ export const WayStatistic = (props: WayStatisticProps) => {
     <div className={styles.wrapper}>
       <Title
         level={HeadingLevel.h4}
-        text="Total!"
+        text="Total"
       />
       <StatisticLine
         description="Days from start:"

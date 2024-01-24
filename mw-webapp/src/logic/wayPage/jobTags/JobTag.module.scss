@@ -1,15 +1,19 @@
 @import "src/styles/variables";
 
+$JobTagMaxWidth: 100px;
+$JobTagPadding: 1px 5px;
+$JobTagTransform: scale(0.8);
+
 .jobTag {
-  max-width: 100px;
+  max-width: $JobTagMaxWidth;
   padding: $paddingSmall;
   border: 2px solid var(--primaryBorderColor);
   border-radius: $primaryBorderRadius;
 }
 
 .small {
-  padding: 1px 5px;
-  transform: scale(0.8);
+  padding: $JobTagPadding;
+  transform: $JobTagTransform;
 }
 
 .short {

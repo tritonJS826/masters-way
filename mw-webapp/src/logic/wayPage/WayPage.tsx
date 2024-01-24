@@ -56,15 +56,6 @@ const changeGoalDescription = (goal: Goal, description: string) => {
   GoalDAL.updateGoal(newGoal);
 };
 
-// /**
-//  * Change name of Way
-//  * TODO: this function should change state
-//  */
-// const changeWayName = (currentWay: Way, text: string) => {
-//   const updatedWay = new Way({...currentWay, name: text});
-//   WayDAL.updateWay(updatedWay);
-// };
-
 /**
  * Update Way params
  */
