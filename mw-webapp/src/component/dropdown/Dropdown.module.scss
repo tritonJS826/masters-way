@@ -1,0 +1,13 @@
+.dropdown {
+  position: relative;
+}
+.menu {
+  position: absolute;
+  z-index: 10;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--primaryBorderColor);
+  background: var(--primaryBackgroundColor);
+  list-style: none;
+  transform: translateY(calc(100% - 70px));
+}

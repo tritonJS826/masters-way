@@ -1,12 +1,15 @@
 import {useNavigate} from "react-router-dom";
 import logo from "src/assets/mastersWayLogo.svg";
 import {Button, ButtonType} from "src/component/button/Button";
+import {Dropdown} from "src/component/dropdown/Dropdown";
 import {Image} from "src/component/image/Image";
 import {NavigationLink, Sidebar} from "src/component/sidebar/Sidebar";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {useGlobalContext} from "src/GlobalContext";
+import {useChangeTheme} from "src/hooks/useChangeTheme";
 import {pages} from "src/router/pages";
 import {AuthService} from "src/service/AuthService";
+import {Theme} from "src/utils/ThemeWorker";
 import styles from "src/component/header/Header.module.scss";
 
 const BUTTON_LOG_IN_VALUE = "Login";
@@ -19,8 +22,9 @@ const LOGO_TEXT = "master's way";
 export const Header = () => {
   const {user} = useGlobalContext();
   const navigate = useNavigate();
+  const {theme, onChangeTheme} = useChangeTheme();
 
-  const menuItems: (NavigationLink)[] = [
+  const menuItems: NavigationLink[] = [
     {
       path: pages.allWays.getPath({}),
       value: "All ways",
@@ -37,9 +41,7 @@ export const Header = () => {
       isHidden: !user,
     },
     {
-      path: user
-        ? pages.settings.getPath({})
-        : pages.page404.getPath({}),
+      path: user ? pages.settings.getPath({}) : pages.page404.getPath({}),
       value: "Settings",
       isHidden: !user,
     },
@@ -61,14 +63,14 @@ export const Header = () => {
         />
       </div>
       <div className={styles.headerButtonsContainer}>
-        {user &&
-        <Title
-          level={HeadingLevel.h4}
-          text={user.name}
-          className={styles.userName}
-          onClick={() => navigate(pages.user.getPath({uuid: user.uuid}))}
-        />
-        }
+        {user && (
+          <Title
+            level={HeadingLevel.h4}
+            text={user.name}
+            className={styles.userName}
+            onClick={() => navigate(pages.user.getPath({uuid: user.uuid}))}
+          />
+        )}
         <div className={styles.buttons}>
           <Button
             onClick={user ? AuthService.logOut : AuthService.logIn}
@@ -79,11 +81,26 @@ export const Header = () => {
             trigger={
               <Button
                 value="Menu"
-                onClick={() => { }}
+                onClick={() => {}}
                 buttonType={ButtonType.TERTIARY}
               />
             }
             linkList={menuItems}
+          />
+          <Dropdown
+            trigger={
+              <Button
+                value="Theme"
+                onClick={() => {}}
+                buttonType={ButtonType.TERTIARY}
+              />
+            }
+            value={theme}
+            dropdownMenuItems={[
+              {id: "1", value: Theme.DARK, text: "dark"},
+              {id: "2", value: Theme.LIGHT, text: "light"},
+            ]}
+            onChange={onChangeTheme}
           />
         </div>
       </div>

@@ -1,0 +1,12 @@
+.dropdownMenuItem {
+  padding: 5px;
+
+  &:hover {
+    background-color: var(--hoverColorLink);
+    cursor: pointer;
+  }
+
+  &_active {
+    background-color: var(--activeColorLink);
+  }
+}
