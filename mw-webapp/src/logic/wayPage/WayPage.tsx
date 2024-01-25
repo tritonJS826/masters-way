@@ -22,6 +22,7 @@ import {MentorsSection} from "src/logic/wayPage/MentorsSection";
 import {downloadWayPdf} from "src/logic/wayPage/renderWayToPdf/downloadWayPdf";
 import {DayReportsTable} from "src/logic/wayPage/reportsTable/DayReportsTable";
 import {WayStatistic} from "src/logic/wayPage/wayStatistics/WayStatistic";
+import {DayReport} from "src/model/businessModel/DayReport";
 import {Goal} from "src/model/businessModel/Goal";
 import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
@@ -261,6 +262,14 @@ export const WayPage = (props: WayPageProps) => {
     user && navigate(pages.user.getPath({uuid: user.uuid}));
   };
 
+  /**
+   * Update day reports
+   */
+  const setDayReports = (dayReports: DayReport[]) => {
+    const updatedWay = {...way, dayReports};
+    setWay(updatedWay);
+  };
+
   return (
     <div className={styles.container}>
       <HorizontalContainer className={styles.alignItems}>
@@ -311,19 +320,19 @@ export const WayPage = (props: WayPageProps) => {
             onClick={() => downloadWayPdf(way)}
           />
           {isOwner &&
-          <Confirm
-            trigger={
-              <Button
-                value="Delete way"
-                buttonType={ButtonType.TERTIARY}
-                onClick={() => {}}
-              />}
-            content={<p>
-              {`Are you sure you want to delete the way "${way.name}"?`}
-            </p>}
-            onOk={() => deleteWay()}
-            okText="Delete"
-          />
+            <Confirm
+              trigger={
+                <Button
+                  value="Delete way"
+                  buttonType={ButtonType.TERTIARY}
+                  onClick={() => {}}
+                />}
+              content={<p>
+                {`Are you sure you want to delete the way "${way.name}"?`}
+              </p>}
+              onOk={() => deleteWay()}
+              okText="Delete"
+            />
           }
         </HorizontalContainer>
       </HorizontalContainer>
@@ -476,7 +485,10 @@ export const WayPage = (props: WayPageProps) => {
       </div>
 
       <ScrollableBlock>
-        <DayReportsTable way={way} />
+        <DayReportsTable
+          way={way}
+          setDayReports={setDayReports}
+        />
       </ScrollableBlock>
     </div>
   );
