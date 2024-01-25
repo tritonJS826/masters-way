@@ -1,4 +1,3 @@
-import {useState} from "react";
 import {TrashIcon} from "@radix-ui/react-icons";
 import {createColumnHelper} from "@tanstack/react-table";
 import {clsx} from "clsx";
@@ -100,7 +99,6 @@ export const Columns = (props: ColumnsProps) => {
   const isOwner = user?.uuid === ownerUuid;
   const isMentor = !!user && !!user.uuid && props.way.mentors.has(user.uuid);
   const isUserOwnerOrMentor = isOwner || isMentor;
-  const [dayReports, setDayReports] = useState<DayReport[]>(props.way.dayReports);
 
   /**
    * Update DayReport
@@ -113,18 +111,16 @@ export const Columns = (props: ColumnsProps) => {
      */
     uuid: string;
   }) => {
-    const reportToUpdate = dayReports.find(dayReport => dayReport.uuid === report.uuid);
+    const reportToUpdate = props.way.dayReports.find(dayReport => dayReport.uuid === report.uuid);
     if (!reportToUpdate) {
       throw new Error(`Report with uuid ${report.uuid} is undefined`);
     }
 
     const updatedReport = new DayReport({...reportToUpdate, ...report});
-    const updatedDayReports = dayReports.map(dayReport => dayReport.uuid === report.uuid
+    const updatedDayReports = props.way.dayReports.map(dayReport => dayReport.uuid === report.uuid
       ? updatedReport
       : dayReport,
     );
-
-    setDayReports(updatedDayReports);
 
     props.setDayReports(updatedDayReports);
     await DayReportDAL.updateDayReport(updatedReport);

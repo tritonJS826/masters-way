@@ -1,4 +1,3 @@
-import {useEffect, useState} from "react";
 import {Button, ButtonType} from "src/component/button/Button";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {useGlobalContext} from "src/GlobalContext";
@@ -18,6 +17,11 @@ interface DayReportsTableProps {
    * Way of DayReports
    */
   way: Way;
+
+  /**
+   * Set day reports
+   */
+  setDayReports: (dayReportsList: DayReport[]) => void;
 }
 
 /**
@@ -27,20 +31,14 @@ interface DayReportsTableProps {
  * move load logic to the parent component and share data with other components
  */
 export const DayReportsTable = (props: DayReportsTableProps) => {
-  const [dayReports, setDayReports] = useState<DayReport[]>([]);
-  const way = props.way;
   const {user} = useGlobalContext();
-  const isOwner = user?.uuid === way.owner.uuid;
-  const isEmptyWay = dayReports.length === 0;
+  const isOwner = user?.uuid === props.way.owner.uuid;
+  const isEmptyWay = props.way.dayReports.length === 0;
   const currentDate = DateUtils.getShortISODateValue(new Date());
-  const lastReportDate = !isEmptyWay && DateUtils.getShortISODateValue(dayReports[0].createdAt);
+  const lastReportDate = !isEmptyWay && DateUtils.getShortISODateValue(props.way.dayReports[0].createdAt);
   const isReportForTodayAlreadyCreated = lastReportDate === currentDate;
   const isReportForTodayIsNotCreated = isEmptyWay || !isReportForTodayAlreadyCreated;
   const isPossibleCreateDayReport = isOwner && isReportForTodayIsNotCreated;
-
-  useEffect(() => {
-    setDayReports(way.dayReports);
-  }, []);
 
   /**
    * Create day report
@@ -48,7 +46,7 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
   const createDayReport = async(wayUuid: string, dayReportsData: DayReport[]) => {
     const newDayReport = await DayReportDAL.createDayReport(wayUuid);
     const dayReportsList = [ newDayReport, ...dayReportsData];
-    setDayReports(dayReportsList);
+    props.setDayReports(dayReportsList);
   };
 
   return (
@@ -56,15 +54,15 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
       {isPossibleCreateDayReport &&
       <Button
         value="Create new day report"
-        onClick={() => createDayReport(way.uuid, dayReports)}
+        onClick={() => createDayReport(props.way.uuid, props.way.dayReports)}
         buttonType={ButtonType.PRIMARY}
         className={styles.button}
       />
       }
 
       <ReportsTable
-        data={dayReports}
-        columns={Columns({setDayReports, way})}
+        data={props.way.dayReports}
+        columns={Columns({setDayReports: props.setDayReports, way: props.way})}
       />
     </>
   );
