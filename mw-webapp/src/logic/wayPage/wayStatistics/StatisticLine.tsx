@@ -1,4 +1,4 @@
-import styles from "src/logic/wayPage/WayStatistic.module.scss";
+import styles from "src/logic/wayPage/wayStatistics/WayStatistic.module.scss";
 
 type StatisticLineProps = {
 

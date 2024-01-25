@@ -3,7 +3,7 @@ import {Close as DialogClose} from "@radix-ui/react-dialog";
 import {Button} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Input} from "src/component/input/Input";
-import styles from "src/logic/wayPage/jobTags/NewJobTagModalContent.module.scss";
+import styles from "src/logic/wayPage/jobTags/newJobTagModalContent/NewJobTagModalContent.module.scss";
 
 /**
  * New job tag modal content props

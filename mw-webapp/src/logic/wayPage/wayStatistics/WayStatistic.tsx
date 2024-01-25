@@ -6,7 +6,7 @@ import {TagStats} from "src/logic/wayPage/wayStatistics/TagStats";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {DateUtils} from "src/utils/DateUtils";
-import styles from "src/logic/wayPage/WayStatistic.module.scss";
+import styles from "src/logic/wayPage/wayStatistics/WayStatistic.module.scss";
 
 /**
  * Reports table props

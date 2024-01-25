@@ -1,5 +1,6 @@
 import {Timestamp, writeBatch} from "firebase/firestore";
 import {wayToWayDTOConverter} from "src/dataAccessLogic/BusinessToDTOConverter/wayToWayDTOConverter";
+import {wayToWayDTOPartialConverter} from "src/dataAccessLogic/BusinessToDTOConverter/wayToWayDTOPartialConverter";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {wayDTOToWayConverter} from "src/dataAccessLogic/DTOToBusinessConverter/wayDTOToWayPreviewConverter";
 import {GoalDAL} from "src/dataAccessLogic/GoalDAL";
@@ -17,6 +18,7 @@ import {GoalService} from "src/service/GoalService";
 import {UserService} from "src/service/UserService";
 import {WayDTOWithoutUuid, WayService} from "src/service/WayService";
 import {arrayToHashMap} from "src/utils/arrayToHashMap";
+import {GenericPartialWithUuid} from "src/utils/genericPartialWithUuid";
 
 /**
  * Provides methods to interact with the Way model
@@ -146,9 +148,9 @@ export class WayDAL {
   /**
    * Update Way
    */
-  public static async updateWay(way: Way) {
-    const wayDTO = wayToWayDTOConverter(way);
-    await WayService.updateWayDTO(wayDTO);
+  public static async updateWay(field: GenericPartialWithUuid<Way>) {
+    const wayFieldDTO = wayToWayDTOPartialConverter(field);
+    await WayService.updateWayPartialDTO(wayFieldDTO);
   }
 
   /**

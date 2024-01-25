@@ -20,30 +20,36 @@ import {arrayToHashMap} from "src/utils/arrayToHashMap";
 import styles from "src/logic/userPage/UserPage.module.scss";
 
 /**
- * Change user's name
+ * Update User params
  */
-const changeUserName = (user: UserPreview, text: string, callback: (user: UserPreview) => void) => {
-  const updatedUser = new UserPreview({...user, name: text});
-  callback(updatedUser);
-  UserPreviewDAL.updateUserPreview(updatedUser);
-};
+interface UpdateUserParams {
+
+  /**
+   * Current user
+   * TODO: deprecated field, need to delete
+   * TODO: refactor service layer - update just required fields, not all User Entity
+   * @deprecated
+   */
+  currentUser: UserPreview;
+
+  /**
+   * User to update
+   */
+  userToUpdate: Partial<UserPreview>;
+
+  /**
+   * Callback to update user
+   */
+  setUser: (user: UserPreview) => void;
+}
 
 /**
- * Change user's email
+ * Update user
  */
-const changeUserEmail = (user: UserPreview, text: string, callback: (user: UserPreview) => void) => {
-  const updatedUser = new UserPreview({...user, email: text});
-  callback(updatedUser);
-  UserPreviewDAL.updateUserPreview(updatedUser);
-};
-
-/**
- * Change user's description
- */
-const changeUserDescription = (user: UserPreview, text: string, callback: (user: UserPreview) => void) => {
-  const updatedUser = new UserPreview({...user, description: text});
-  callback(updatedUser);
-  UserPreviewDAL.updateUserPreview(updatedUser);
+const updateUser = async (params: UpdateUserParams) => {
+  const userToUpdate = new UserPreview({...params.currentUser, ...params.userToUpdate});
+  await UserPreviewDAL.updateUserPreview(userToUpdate);
+  params.setUser(userToUpdate);
 };
 
 /**
@@ -176,20 +182,32 @@ export const UserPage = (props: UserPageProps) => {
       <Title
         level={HeadingLevel.h2}
         text={userPreview.name}
-        onChangeFinish={(text) => changeUserName(userPreview, text, setUserPreview)}
+        onChangeFinish={(name) => updateUser({
+          currentUser: userPreview,
+          userToUpdate: {name},
+          setUser: setUserPreview,
+        })}
         isEditable={isPageOwner}
         className={styles.titleH2}
       />
       <Title
         level={HeadingLevel.h3}
         text={userPreview.email}
-        onChangeFinish={(text) => changeUserEmail(userPreview, text, setUserPreview)}
+        onChangeFinish={(email) => updateUser({
+          currentUser: userPreview,
+          userToUpdate: {email},
+          setUser: setUserPreview,
+        })}
         isEditable={isPageOwner}
         className={styles.titleH3}
       />
       <EditableTextarea
         text={userPreview.description}
-        onChangeFinish={(text) => changeUserDescription(userPreview, text, setUserPreview)}
+        onChangeFinish={(description) => updateUser({
+          currentUser: userPreview,
+          userToUpdate: {description},
+          setUser: setUserPreview,
+        })}
         isEditable={isPageOwner}
         className={styles.editableTextarea}
       />
