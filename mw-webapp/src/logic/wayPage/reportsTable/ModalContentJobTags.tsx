@@ -42,6 +42,8 @@ interface JobDoneTagsProps {
 export const ModalContentJobTags = (props: JobDoneTagsProps) => {
   const [jobTagsUpdated, setJobTagsUpdated] = useState<string[]>(props.jobDoneTags);
 
+  const uniqueJobTags = Array.from(new Set(jobTagsUpdated));
+
   const allTags = Array.from(new Set(props.jobTags.concat(props.jobDoneTags).filter((tag) => tag !== DEFAULT_TAG)));
 
   /**
@@ -89,7 +91,7 @@ export const ModalContentJobTags = (props: JobDoneTagsProps) => {
         <DialogClose asChild>
           <Button
             value="Save"
-            onClick={() => props.updateTags(jobTagsUpdated)}
+            onClick={() => props.updateTags(uniqueJobTags)}
           />
         </DialogClose>
       </HorizontalContainer>
