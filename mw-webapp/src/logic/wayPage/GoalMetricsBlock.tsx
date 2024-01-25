@@ -28,6 +28,7 @@ interface GoalMetricStatisticsBlockProps {
 
   /**
    * Is editable
+   * @default false
    */
   isEditable: boolean;
 

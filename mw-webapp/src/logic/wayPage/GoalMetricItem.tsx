@@ -63,6 +63,7 @@ interface SingleGoalMetricProps {
 
   /**
    * Is editable
+   * @default false
    */
   isEditable: boolean;
 

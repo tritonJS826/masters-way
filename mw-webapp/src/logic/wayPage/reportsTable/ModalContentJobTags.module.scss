@@ -1,0 +1,21 @@
+@import "src/styles/variables";
+
+$ModalJobTagMaxWidth: 150px;
+
+.jobTagsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $gapMedium;
+}
+
+.jobTags {
+  display: flex;
+  width: $ModalJobTagMaxWidth;
+  align-items: center;
+  gap: $gapMedium;
+}
+
+.buttons {
+  margin-top: $marginMedium;
+  gap: $gapMedium;
+}

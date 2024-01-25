@@ -108,6 +108,11 @@ $iconContainerSize: 25px;
     var(--primaryTextColor);
 }
 
+.jobDoneTagsWrapper {
+  min-width: $minWidthBlock;
+  max-width: $maxWidthBlock;
+}
+
 @media (max-width: $mediaWidthMobileBig) {
   .goalSection {
     justify-content: center;

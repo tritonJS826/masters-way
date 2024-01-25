@@ -67,11 +67,4 @@ export class Plan {
     this.tags = planData.tags;
   }
 
-  /**
-   * Get formatted plan for the next period
-   */
-  public getPlanForNextPeriod() {
-    return `${this.job} (${this.estimationTime})`;
-  }
-
 }

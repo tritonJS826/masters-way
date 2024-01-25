@@ -1,0 +1,20 @@
+@import "src/styles/variables";
+
+$JobTagMaxWidth: 100px;
+$JobTagPadding: 1px 5px;
+$JobTagTransform: scale(0.8);
+
+.jobTag {
+  max-width: $JobTagMaxWidth;
+  padding: $paddingSmall;
+  border: 2px solid var(--primaryBorderColor);
+  border-radius: $primaryBorderRadius;
+}
+
+.small {
+  overflow: hidden;
+  padding: $JobTagPadding;
+  text-overflow: ellipsis;
+  transform: $JobTagTransform;
+  white-space: nowrap;
+}

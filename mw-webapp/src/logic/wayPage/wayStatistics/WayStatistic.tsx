@@ -54,23 +54,21 @@ const getTagStats = (jobsDone: JobDone[]) => {
   const totalJobsTime = jobsDone.reduce((accum, jobDone) => accum + jobDone.time, 0);
   jobsDone.forEach((job: JobDone) => {
     job.tags.forEach((tag: string) => {
-      if (tagStatsMap.has(tag)) {
-        const AMOUNT_INCREMENT = 1;
-        const PERCENTAGE_MULTIPLIER = 100;
+      const AMOUNT_INCREMENT = 1;
+      const PERCENTAGE_MULTIPLIER = 100;
 
-        const totalAmount = tagStatsMap.get(tag)?.totalAmount ?? 0 + AMOUNT_INCREMENT;
-        const totalAmountPercentage = Math.round(jobsDone.length / totalAmount) * PERCENTAGE_MULTIPLIER;
-        const totalTime = tagStatsMap.get(tag)?.totalTime ?? 0 + job.time;
-        const totalTimePercentage = Math.round(totalTime / totalJobsTime);
+      const totalAmount = tagStatsMap.get(tag)?.totalAmount ?? 0 + AMOUNT_INCREMENT;
+      const totalAmountPercentage = Math.round(totalAmount / jobsDone.length * PERCENTAGE_MULTIPLIER);
+      const totalTime = tagStatsMap.get(tag)?.totalTime ?? 0 + job.time;
+      const totalTimePercentage = Math.round(totalTime / totalJobsTime * PERCENTAGE_MULTIPLIER);
 
-        tagStatsMap.set(tag, {
-          totalAmount,
-          totalAmountPercentage,
-          totalTime,
-          totalTimePercentage,
-          name: tag,
-        });
-      }
+      tagStatsMap.set(tag, {
+        totalAmount,
+        totalAmountPercentage,
+        totalTime,
+        totalTimePercentage,
+        name: tag,
+      });
     });
   });
 
@@ -167,14 +165,15 @@ export const WayStatistic = (props: WayStatisticProps) => {
         description="Total finished jobs:"
         value={allJobs.length}
       />
-      <TagStats stats={allTagStats} />
-
       <Tooltip content="Shows level of task decomposition">
         <StatisticLine
           description="Average job time:"
           value={averageTimeForJob}
         />
       </Tooltip>
+
+      <TagStats stats={allTagStats} />
+
       <Title
         level={HeadingLevel.h4}
         text="Last week"

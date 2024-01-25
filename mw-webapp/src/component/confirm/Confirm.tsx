@@ -47,7 +47,7 @@ export const Confirm = (props: ConfirmProps) => {
   /**
    * Confirm content
    */
-  const confirmContent = () => {
+  const renderConfirmContent = () => {
     return (
       <>
         {props.content}
@@ -74,7 +74,7 @@ export const Confirm = (props: ConfirmProps) => {
   return (
     <Modal
       isOpen={isOpen}
-      content={confirmContent()}
+      content={renderConfirmContent()}
       trigger={props.trigger}
     />
   );
