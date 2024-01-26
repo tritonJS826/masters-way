@@ -24,7 +24,7 @@ export const Header = () => {
   const navigate = useNavigate();
   const {theme, onChangeTheme} = useChangeTheme();
 
-  const menuItems: NavigationLink[] = [
+  const menuItems: (NavigationLink)[] = [
     {
       path: pages.allWays.getPath({}),
       value: "All ways",
@@ -41,7 +41,9 @@ export const Header = () => {
       isHidden: !user,
     },
     {
-      path: user ? pages.settings.getPath({}) : pages.page404.getPath({}),
+      path: user
+        ? pages.settings.getPath({})
+        : pages.page404.getPath({}),
       value: "Settings",
       isHidden: !user,
     },
@@ -63,14 +65,14 @@ export const Header = () => {
         />
       </div>
       <div className={styles.headerButtonsContainer}>
-        {user && (
+        {user &&
           <Title
             level={HeadingLevel.h4}
             text={user.name}
             className={styles.userName}
             onClick={() => navigate(pages.user.getPath({uuid: user.uuid}))}
           />
-        )}
+        }
         <div className={styles.buttons}>
           <Button
             onClick={user ? AuthService.logOut : AuthService.logIn}
@@ -81,7 +83,7 @@ export const Header = () => {
             trigger={
               <Button
                 value="Menu"
-                onClick={() => {}}
+                onClick={() => { }}
                 buttonType={ButtonType.TERTIARY}
               />
             }

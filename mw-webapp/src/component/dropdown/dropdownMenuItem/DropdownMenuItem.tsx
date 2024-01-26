@@ -49,18 +49,18 @@ interface DropdownMenuItemProps {
 }
 
 /**
- * Element of Select
+ * DropdownMenuItem component
  */
-export const DropdownMenuItem = ({value, text, currentValue, onChangeHandler}: DropdownMenuItemProps) => {
+export const DropdownMenuItem = (props: DropdownMenuItemProps) => {
   return (
     <li
       className={clsx(
         styles.dropdownMenuItem,
-        styles[currentValue === value ? "dropdownMenuItem_active" : ""],
+        styles[props.currentValue === props.value ? "dropdownMenuItemActive" : ""],
       )}
-      onClick={() => onChangeHandler(value)}
+      onClick={() => props.onChangeHandler(props.value)}
     >
-      {text}
+      {props.text}
     </li>
   );
 };

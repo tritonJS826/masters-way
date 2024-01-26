@@ -1,12 +1,14 @@
+@import "src/styles/variables";
+
 .dropdownMenuItem {
-  padding: 5px;
+  padding: $paddingSmall;
 
   &:hover {
     background-color: var(--hoverColorLink);
     cursor: pointer;
   }
 
-  &_active {
+  &Active {
     background-color: var(--activeColorLink);
   }
 }
