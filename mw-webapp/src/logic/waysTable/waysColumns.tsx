@@ -202,6 +202,30 @@ export const waysColumns = [
       );
     },
   }),
+  columnHelper.accessor("dayReportUuids", {
+
+    /**
+     * Header
+     */
+    header: () => (
+      <>
+        <Tooltip
+          position={PositionTooltip.TOP_LEFT}
+          content="Amount of reports in the way"
+        >
+          Reports
+        </Tooltip>
+      </>),
+
+    /**
+     * Cell with amount of favorite for user uuids
+     */
+    cell: ({row}) => (
+      <div className={styles.number}>
+        {row.original.dayReportUuids.length.toString()}
+      </div>
+    ),
+  }),
   columnHelper.accessor("favoriteForUserUuids", {
 
     /**
