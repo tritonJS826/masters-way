@@ -10,15 +10,25 @@ import {WayStatistic} from "src/logic/wayPage/wayStatistics/WayStatistic";
 import {Goal} from "src/model/businessModel/Goal";
 import {Way} from "src/model/businessModel/Way";
 import {WayPageSettings} from "src/utils/LocalStorage";
-// Import styles from "src/logic/wayPage/goalBlock/GoalBlock.module.scss";
-import styles from "src/logic/wayPage/WayPage.module.scss";
+import {PartialWithUuid} from "src/utils/PartialWithUuid";
+import styles from "src/logic/wayPage/goalBlock/GoalBlock.module.scss";
 
 /**
- * Change Goal description
+ * Update Goal params
  */
-const changeGoalDescription = (goal: Goal, description: string) => {
-  const newGoal = new Goal({...goal, description});
-  GoalDAL.updateGoal(newGoal);
+interface UpdateGoalParams {
+
+  /**
+   * User to update
+   */
+  goalToUpdate: PartialWithUuid<Goal>;
+}
+
+/**
+ * Update goal
+ */
+const updateGoal = async (params: UpdateGoalParams) => {
+  await GoalDAL.updateGoal({...params.goalToUpdate});
 };
 
 /**
@@ -58,7 +68,8 @@ export const GoalBlock = (props: GoalBlockProps) => {
         />
         <EditableTextarea
           text={props.way.goal.description}
-          onChangeFinish={(description) => changeGoalDescription(props.way.goal, description)}
+          onChangeFinish={(description) => updateGoal({goalToUpdate: {uuid: props.way.goal.uuid, description}})
+          }
           rows={10}
           isEditable={isOwner}
           className={styles.goalDescription}

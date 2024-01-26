@@ -23,8 +23,8 @@ import {DayReport} from "src/model/businessModel/DayReport";
 import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {pages} from "src/router/pages";
-import {GenericPartialWithUuid} from "src/utils/genericPartialWithUuid";
 import {localStorageWorker, WayPageSettings} from "src/utils/LocalStorage";
+import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
 import styles from "src/logic/wayPage/WayPage.module.scss";
 
@@ -55,31 +55,28 @@ const DEFAULT_WAY_PAGE_SETTINGS: WayPageSettings = {
 interface UpdateWayParams {
 
   /**
-   * Currennt way
-   * TODO: deprecated field, need to delete
-   * TODO: refactor service layer - update just required fields, not all Way Entity
-   * @deprecated
-   */
-  currentWay: Way;
-
-  /**
    * Way to update
    */
-  wayToUpdate: GenericPartialWithUuid<Way>;
+  wayToUpdate: PartialWithUuid<Way>;
 
   /**
    * Callback to update wy
    */
-  setWay: (way: Way) => void;
+  setWay: (way: (prevWay: Way | undefined) => Way) => void;
 }
 
 /**
  * Change name of Way
  */
 const updateWay = async (params: UpdateWayParams) => {
-  const wayToUpdate = new Way({...params.currentWay, ...params.wayToUpdate});
-  await WayDAL.updateWay(params.wayToUpdate);
-  params.setWay(wayToUpdate);
+  // Is it ok to use this function or better to use try catch?
+  const showError = function () {
+    throw "Way is undefined";
+  };
+
+  await WayDAL.updateWay({...params.wayToUpdate});
+
+  params.setWay((prevWay) => prevWay ? new Way({...prevWay, ...params.wayToUpdate}) : showError());
 };
 
 /**
@@ -266,7 +263,6 @@ export const WayPage = (props: WayPageProps) => {
           level={HeadingLevel.h2}
           text={way.name}
           onChangeFinish={(name) => updateWay({
-            currentWay: way,
             wayToUpdate: {uuid: way.uuid, name},
             setWay,
           })}
@@ -355,9 +351,8 @@ export const WayPage = (props: WayPageProps) => {
           jobTags={way.jobTags}
           isEditable={isOwner}
           updateTags={(tagsToUpdate: string[]) => updateWay({
-            setWay,
             wayToUpdate: {uuid: way.uuid, jobTags: tagsToUpdate},
-            currentWay: way,
+            setWay,
           })}
         />
       </div>
@@ -395,7 +390,7 @@ export const WayPage = (props: WayPageProps) => {
       <GoalBlock
         way={way}
         wayPageSettings={wayPageSettings}
-        updateWaySettings={(updated) => updateWayPageSettings(updated)}
+        updateWaySettings={updateWayPageSettings}
       />
 
       <ScrollableBlock>

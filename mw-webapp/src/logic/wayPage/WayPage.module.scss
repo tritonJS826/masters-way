@@ -7,25 +7,6 @@ $iconContainerSize: 25px;
   margin: 0 auto;
 }
 
-.goalSection {
-  display: flex;
-  width: 100%;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin-bottom: $marginMedium;
-  gap: $gapMedium;
-}
-
-.goalDescription {
-  min-width: $minWidthBlock;
-  max-width: $maxWidthBlock;
-
-  textarea {
-    width: 100%;
-    padding: $paddingSmall;
-  }
-}
-
 .singularMetric {
   display: flex;
   max-width: $maxWidthBlock;
@@ -85,12 +66,6 @@ $iconContainerSize: 25px;
   }
 }
 
-.goalSubSection {
-  width: 30%;
-  min-width: $minWidthBlock;
-  max-width: $maxWidthBlock;
-}
-
 .horizontalContainer {
   align-items: flex-start;
   gap: $gapSmall;
@@ -111,10 +86,4 @@ $iconContainerSize: 25px;
 .jobDoneTagsWrapper {
   min-width: $minWidthBlock;
   max-width: $maxWidthBlock;
-}
-
-@media (max-width: $mediaWidthMobileBig) {
-  .goalSection {
-    justify-content: center;
-  }
 }

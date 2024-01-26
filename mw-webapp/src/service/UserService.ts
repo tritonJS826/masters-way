@@ -11,7 +11,7 @@ import {
   WriteBatch,
 } from "firebase/firestore";
 import {db} from "src/firebase";
-import {USER_UUID_FIELD, UserDTO, UserDTOSchema, UsersDTOSchema} from "src/model/DTOModel/UserDTO";
+import {USER_UUID_FIELD, UserDTO, UserDTOSchema, UserPartialDTOSchema, UsersDTOSchema} from "src/model/DTOModel/UserDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
 import {querySnapshotsToDTOConverter} from "src/service/converter/querySnapshotsToDTOConverter";
 import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
@@ -19,6 +19,7 @@ import {QUERY_LIMIT} from "src/service/firebaseVariables";
 import {RequestOperations} from "src/service/RequestOperations";
 import {getChunksArray} from "src/utils/getChunkArray";
 import {logToConsole} from "src/utils/logToConsole";
+import {PartialWithUuid} from "src/utils/PartialWithUuid";
 
 export const PATH_TO_USERS_COLLECTION = "users";
 
@@ -92,11 +93,23 @@ export class UserService {
    * Update user
    * @param userDTO UserDTO
    * TODO #407: TS Partial (analog patch )
+   * @deprecated
    */
   public static async updateUserDTO(userDTO: UserDTO) {
     const validatedUserDTO = UserDTOSchema.parse(userDTO);
 
     await updateDoc(doc(db, PATH_TO_USERS_COLLECTION, userDTO.uuid), validatedUserDTO);
+
+    logToConsole(`UserService:updateUserDTO: 1 ${RequestOperations.WRITE} operation`);
+  }
+
+  /**
+   * Update UserDTO (partial fields)
+   */
+  public static async updateUserPartialDTO(partialUserDTO: PartialWithUuid<UserDTO>) {
+    const validatedUserDTO = UserPartialDTOSchema.parse(partialUserDTO);
+
+    await updateDoc(doc(db, PATH_TO_USERS_COLLECTION, validatedUserDTO.uuid), {...validatedUserDTO});
 
     logToConsole(`UserService:updateUserDTO: 1 ${RequestOperations.WRITE} operation`);
   }

@@ -87,3 +87,13 @@ export const WaysDTOSchema = z.array(WayDTOSchema);
  * Way DTO model
  */
 export type WayDTO = z.infer<typeof WayDTOSchema>;
+
+/**
+ * Partial WayDTO schema
+ */
+export const WayPartialDTOSchema = WayDTOSchema.partial().required({[WAY_UUID_FIELD]: true});
+
+/**
+ * WayPartialDTO model
+ */
+export type WayPartialDTO = z.infer<typeof WayPartialDTOSchema>;

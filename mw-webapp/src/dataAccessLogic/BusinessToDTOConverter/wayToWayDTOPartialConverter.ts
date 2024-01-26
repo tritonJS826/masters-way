@@ -2,15 +2,14 @@
 import {Timestamp} from "firebase/firestore";
 import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
-import {WayDTO} from "src/model/DTOModel/WayDTO";
-import {WayPartialDTOSchema} from "src/model/DTOPartialModel/WayPartialDTO";
-import {GenericPartialWithUuid} from "src/utils/genericPartialWithUuid";
+import {WayDTO, WayPartialDTOSchema} from "src/model/DTOModel/WayDTO";
+import {PartialWithUuid} from "src/utils/PartialWithUuid";
 
 /**
- * Convert {@link WayDTO} to {@link Way}
+ * Convert {@link way} to {@link WayPartialDTO}
  */
-export const wayToWayDTOPartialConverter = (way: GenericPartialWithUuid<Way>): GenericPartialWithUuid<WayDTO> => {
-  const wayPartialDTO: GenericPartialWithUuid<WayDTO> = {uuid: way.uuid};
+export const wayToWayDTOPartialConverter = (way: PartialWithUuid<Way>): PartialWithUuid<WayDTO> => {
+  const wayPartialDTO: PartialWithUuid<WayDTO> = {uuid: way.uuid};
 
   for (const key in way) {
     switch (key) {
@@ -69,7 +68,7 @@ export const wayToWayDTOPartialConverter = (way: GenericPartialWithUuid<Way>): G
     }
   }
 
-  const validatedWayDTO = WayPartialDTOSchema.parse(wayPartialDTO);
+  const validatedWayPartialDTO = WayPartialDTOSchema.parse(wayPartialDTO);
 
-  return validatedWayDTO;
+  return validatedWayPartialDTO;
 };

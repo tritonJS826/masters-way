@@ -12,16 +12,21 @@ import {
   WriteBatch,
 } from "firebase/firestore";
 import {db} from "src/firebase";
-import {WAY_CREATED_AT_FIELD, WAY_UUID_FIELD, WayDTO, WayDTOSchema, WaysDTOSchema} from "src/model/DTOModel/WayDTO";
-import {WayPartialDTOSchema} from "src/model/DTOPartialModel/WayPartialDTO";
+import {
+  WAY_CREATED_AT_FIELD,
+  WAY_UUID_FIELD, WayDTO,
+  WayDTOSchema,
+  WayPartialDTOSchema,
+  WaysDTOSchema,
+} from "src/model/DTOModel/WayDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
 import {querySnapshotsToDTOConverter} from "src/service/converter/querySnapshotsToDTOConverter";
 import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
 import {QUERY_LIMIT} from "src/service/firebaseVariables";
 import {RequestOperations} from "src/service/RequestOperations";
-import {GenericPartialWithUuid} from "src/utils/genericPartialWithUuid";
 import {getChunksArray} from "src/utils/getChunkArray";
 import {logToConsole} from "src/utils/logToConsole";
+import {PartialWithUuid} from "src/utils/PartialWithUuid";
 
 const PATH_TO_WAYS_COLLECTION = "ways";
 
@@ -123,8 +128,8 @@ export class WayService {
   /**
    * Update WayDTO (partial fields)
    */
-  public static async updateWayPartialDTO(field: GenericPartialWithUuid<WayDTO>) {
-    const validatedWayDTO = WayPartialDTOSchema.parse(field);
+  public static async updateWayPartialDTO(partialWayDTO: PartialWithUuid<WayDTO>) {
+    const validatedWayDTO = WayPartialDTOSchema.parse(partialWayDTO);
 
     await updateDoc(doc(db, PATH_TO_WAYS_COLLECTION, validatedWayDTO.uuid), {...validatedWayDTO});
 

@@ -17,6 +17,7 @@ import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {WAY_UUID_FIELD} from "src/model/DTOModel/WayDTO";
 import {pages} from "src/router/pages";
 import {arrayToHashMap} from "src/utils/arrayToHashMap";
+import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import styles from "src/logic/userPage/UserPage.module.scss";
 
 /**
@@ -25,31 +26,25 @@ import styles from "src/logic/userPage/UserPage.module.scss";
 interface UpdateUserParams {
 
   /**
-   * Current user
-   * TODO: deprecated field, need to delete
-   * TODO: refactor service layer - update just required fields, not all User Entity
-   * @deprecated
-   */
-  currentUser: UserPreview;
-
-  /**
    * User to update
    */
-  userToUpdate: Partial<UserPreview>;
+  userToUpdate: PartialWithUuid<UserPreview>;
 
   /**
    * Callback to update user
    */
-  setUser: (user: UserPreview) => void;
+  setUser: (user: (prevUser: UserPreview | undefined) => UserPreview) => void; // Dispatch<SetStateAction<UserPreview>>;
 }
 
 /**
  * Update user
  */
 const updateUser = async (params: UpdateUserParams) => {
-  const userToUpdate = new UserPreview({...params.currentUser, ...params.userToUpdate});
-  await UserPreviewDAL.updateUserPreview(userToUpdate);
-  params.setUser(userToUpdate);
+  const showError = function () {
+    throw "Way is undefined";
+  };
+  await UserPreviewDAL.updateUserPreview({...params.userToUpdate});
+  params.setUser((prevUser) => prevUser ? new UserPreview({...prevUser, ...params.userToUpdate}) : showError());
 };
 
 /**
@@ -183,8 +178,7 @@ export const UserPage = (props: UserPageProps) => {
         level={HeadingLevel.h2}
         text={userPreview.name}
         onChangeFinish={(name) => updateUser({
-          currentUser: userPreview,
-          userToUpdate: {name},
+          userToUpdate: {uuid: userPreview.uuid, name},
           setUser: setUserPreview,
         })}
         isEditable={isPageOwner}
@@ -194,8 +188,7 @@ export const UserPage = (props: UserPageProps) => {
         level={HeadingLevel.h3}
         text={userPreview.email}
         onChangeFinish={(email) => updateUser({
-          currentUser: userPreview,
-          userToUpdate: {email},
+          userToUpdate: {uuid: userPreview.uuid, email},
           setUser: setUserPreview,
         })}
         isEditable={isPageOwner}
@@ -204,8 +197,7 @@ export const UserPage = (props: UserPageProps) => {
       <EditableTextarea
         text={userPreview.description}
         onChangeFinish={(description) => updateUser({
-          currentUser: userPreview,
-          userToUpdate: {description},
+          userToUpdate: {uuid: userPreview.uuid, description},
           setUser: setUserPreview,
         })}
         isEditable={isPageOwner}

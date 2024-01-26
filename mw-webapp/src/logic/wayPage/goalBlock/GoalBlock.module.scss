@@ -1,0 +1,45 @@
+@import "src/styles/variables";
+
+$iconContainerSize: 25px;
+
+.goalSection {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: $marginMedium;
+  gap: $gapMedium;
+}
+
+.goalDescription {
+  min-width: $minWidthBlock;
+  max-width: $maxWidthBlock;
+
+  textarea {
+    width: 100%;
+    padding: $paddingSmall;
+  }
+}
+
+.goalSubSection {
+  width: 30%;
+  min-width: $minWidthBlock;
+  max-width: $maxWidthBlock;
+}
+
+.horizontalContainer {
+  align-items: flex-start;
+  gap: $gapSmall;
+}
+
+.iconContainer {
+  width: $iconContainerSize;
+  height: $iconContainerSize;
+  cursor: pointer;
+}
+
+@media (max-width: $mediaWidthMobileBig) {
+  .goalSection {
+    justify-content: center;
+  }
+}

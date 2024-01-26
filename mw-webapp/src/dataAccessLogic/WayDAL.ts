@@ -18,7 +18,7 @@ import {GoalService} from "src/service/GoalService";
 import {UserService} from "src/service/UserService";
 import {WayDTOWithoutUuid, WayService} from "src/service/WayService";
 import {arrayToHashMap} from "src/utils/arrayToHashMap";
-import {GenericPartialWithUuid} from "src/utils/genericPartialWithUuid";
+import {PartialWithUuid} from "src/utils/PartialWithUuid";
 
 /**
  * Provides methods to interact with the Way model
@@ -148,8 +148,8 @@ export class WayDAL {
   /**
    * Update Way
    */
-  public static async updateWay(field: GenericPartialWithUuid<Way>) {
-    const wayFieldDTO = wayToWayDTOPartialConverter(field);
+  public static async updateWay(wayPartial: PartialWithUuid<Way>) {
+    const wayFieldDTO = wayToWayDTOPartialConverter(wayPartial);
     await WayService.updateWayPartialDTO(wayFieldDTO);
   }
 
