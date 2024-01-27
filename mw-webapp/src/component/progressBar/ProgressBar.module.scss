@@ -4,6 +4,7 @@ $progressBarContainerHeight: 20px;
 $progressBarBorderRadius: 20px;
 
 .progressBarContainer {
+  position: relative;
   height: $progressBarContainerHeight;
   border-radius: $progressBarBorderRadius;
   margin-top: $marginSmall;
@@ -19,7 +20,11 @@ $progressBarBorderRadius: 20px;
 }
 
 .progressIndicatorPercent {
+  position: absolute;
+  right: 0;
+  left: 0;
   margin-right: $marginSmall;
   margin-left: $marginSmall;
   color: var(--primaryTextColor);
+  text-align: center;
 }
