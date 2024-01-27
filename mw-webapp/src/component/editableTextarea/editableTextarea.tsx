@@ -1,9 +1,13 @@
-import {useEffect, useState} from "react";
+
+import {ChangeEvent, useEffect, useState, useRef} from "react";
 import clsx from "clsx";
 import {renderSpan} from "src/component/editableText/renderSpan";
 import {Textarea} from "src/component/textarea/Textarea";
 import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/component/editableTextarea/editableTextarea.module.scss";
+import { strict } from "assert";
+import { string } from "zod";
+import "./editableTextarea.css"
 
 /**
  * Cell item props
@@ -53,7 +57,6 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
   useEffect(() => {
     setText(props.text);
   }, [props.text]);
-
   /**
    * HandleChangeFinish
    */
@@ -71,18 +74,22 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
     }
   };
 
+  const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    const newText = event.target.value;
+    setText(newText);
+
+    if (event.target.parentNode instanceof HTMLElement) {
+      event.target.parentNode.dataset.replicatedValue = newText;
+    }
+  };
+
   /**
    * Render Textarea
    */
   const renderTextarea = () => (
-    <Textarea
-      defaultValue={text}
-      onChange={setText}
-      placeholder={props.placeholder ?? ""}
-      rows={props.rows}
-      isAutofocus
-      onKeyPress={handleCtrlEnter}
-    />
+    <div className="grow-wrap">
+      <textarea name="text" id="text" value={text} onChange={e => handleChange(e)} ></textarea>
+    </div>
   );
 
   return (
@@ -93,8 +100,9 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
       onBlur={handleChangeFinish}
       onKeyDown={handleCtrlEnter}
       className={clsx(styles.editableTextarea, props.className)}
+      // className="grow-wrap"
     >
-      {isEditing ? renderTextarea() : renderSpan(text)}
+      {isEditing ? renderTextarea() : <span style={{ whiteSpace: 'pre-wrap' }} >{text}</span>}
     </div>
   );
 };
