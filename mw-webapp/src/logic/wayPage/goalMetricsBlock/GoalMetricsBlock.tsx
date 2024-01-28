@@ -2,7 +2,7 @@ import {useState} from "react";
 import {Button} from "src/component/button/Button";
 import {ProgressBar} from "src/component/progressBar/ProgressBar";
 import {GoalMetricDAL} from "src/dataAccessLogic/GoalMetricDAL";
-import {GoalMetricItem} from "src/logic/wayPage/GoalMetricItem";
+import {GoalMetricItem} from "src/logic/wayPage/goalMetricsBlock/GoalMetricItem";
 import {Goal} from "src/model/businessModel/Goal";
 import {GoalMetric} from "src/model/businessModel/GoalMetric";
 import {Way} from "src/model/businessModel/Way";

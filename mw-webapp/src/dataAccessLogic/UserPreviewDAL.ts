@@ -1,7 +1,9 @@
+import {userToUserDTOPartialConverter}
+  from "src/dataAccessLogic/BusinessToDTOConverter/userPreviewToUserPreviewDTOPartialConverter";
 import {UserDTOToUserPreviewConverter} from "src/dataAccessLogic/DTOToPreviewConverter/userDTOToUserPreviewConverter";
-import {userPreviewToUserDTOConverter} from "src/dataAccessLogic/PreviewToDTOConverter/userPreviewToUserDTOConverter";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {UserService} from "src/service/UserService";
+import {PartialWithUuid} from "src/utils/PartialWithUuid";
 
 /**
  * Provides methods to interact with the UserPreview model
@@ -44,9 +46,9 @@ export class UserPreviewDAL {
   /**
    * Update User
    */
-  public static async updateUserPreview(userPreview: UserPreview) {
-    const userDTO = userPreviewToUserDTOConverter(userPreview);
-    await UserService.updateUserDTO(userDTO);
+  public static async updateUserPreview(userPreviewPartial: PartialWithUuid<UserPreview>) {
+    const userPartialDTO = userToUserDTOPartialConverter(userPreviewPartial);
+    await UserService.updateUserDTO(userPartialDTO);
   }
 
 }

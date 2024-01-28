@@ -5,8 +5,8 @@ import {Confirm} from "src/component/confirm/Confirm";
 import {Modal} from "src/component/modal/Modal";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
-import {JobTag} from "src/logic/wayPage/jobTags/JobTag";
-import {NewJobTagModalContent} from "src/logic/wayPage/jobTags/NewJobTagModalContent";
+import {JobTag} from "src/logic/wayPage/jobTags/jobTag/JobTag";
+import {NewJobTagModalContent} from "src/logic/wayPage/jobTags/newJobTagModalContent/NewJobTagModalContent";
 import styles from "src/logic/wayPage/jobTags/JobTags.module.scss";
 
 /**

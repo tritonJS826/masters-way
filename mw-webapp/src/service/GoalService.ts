@@ -1,6 +1,6 @@
 import {collection, doc, getDoc, getDocs, query, setDoc, updateDoc, where, WriteBatch} from "firebase/firestore";
 import {db} from "src/firebase";
-import {GOAL_UUID_FIELD, GoalDTO, GoalDTOSchema, GoalsDTOSchema} from "src/model/DTOModel/GoalDTO";
+import {GOAL_UUID_FIELD, GoalDTO, GoalDTOSchema, GoalPartialDTOSchema, GoalsDTOSchema} from "src/model/DTOModel/GoalDTO";
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
 import {querySnapshotsToDTOConverter} from "src/service/converter/querySnapshotsToDTOConverter";
 import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
@@ -8,6 +8,7 @@ import {QUERY_LIMIT} from "src/service/firebaseVariables";
 import {RequestOperations} from "src/service/RequestOperations";
 import {getChunksArray} from "src/utils/getChunkArray";
 import {logToConsole} from "src/utils/logToConsole";
+import {PartialWithUuid} from "src/utils/PartialWithUuid";
 
 const PATH_TO_GOALS_COLLECTION = "goals";
 
@@ -91,12 +92,12 @@ export class GoalService {
   }
 
   /**
-   *Update GoalDTO
+   * Update GoalDTO
    */
-  public static async updateGoalDTO(goalDTO: GoalDTO): Promise<void> {
-    const validatedGoalDTO = GoalDTOSchema.parse(goalDTO);
+  public static async updateGoalDTO(partialGoalDTO: PartialWithUuid<GoalDTO>) {
+    const validatedGoalDTO = GoalPartialDTOSchema.parse(partialGoalDTO);
 
-    await updateDoc(doc(db, PATH_TO_GOALS_COLLECTION, goalDTO.uuid), validatedGoalDTO);
+    await updateDoc(doc(db, PATH_TO_GOALS_COLLECTION, validatedGoalDTO.uuid), validatedGoalDTO);
 
     logToConsole(`GoalService:updateGoalDTO: 1 ${RequestOperations.WRITE} operation`);
   }

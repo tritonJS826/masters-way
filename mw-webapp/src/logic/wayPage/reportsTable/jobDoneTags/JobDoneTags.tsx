@@ -1,5 +1,5 @@
-import {JobTag} from "src/logic/wayPage/jobTags/JobTag";
-import styles from "src/logic/wayPage/reportsTable/JobDoneTags.module.scss";
+import {JobTag} from "src/logic/wayPage/jobTags/jobTag/JobTag";
+import styles from "src/logic/wayPage/reportsTable/jobDoneTags/JobDoneTags.module.scss";
 
 const DEFAULT_AMOUNT_TAGS = 1;
 

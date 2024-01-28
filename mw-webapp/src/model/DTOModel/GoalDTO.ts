@@ -36,3 +36,13 @@ export const GoalsDTOSchema = z.array(GoalDTOSchema);
  * Goal DTO model
  */
 export type GoalDTO = z.infer<typeof GoalDTOSchema>;
+
+/**
+ * Partial GoalDTO schema
+ */
+export const GoalPartialDTOSchema = GoalDTOSchema.partial().required({[GOAL_UUID_FIELD]: true});
+
+/**
+ * GoalPartialDTO model
+ */
+export type GoalPartialDTO = z.infer<typeof GoalPartialDTOSchema>;

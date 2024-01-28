@@ -1,6 +1,5 @@
 import {wayDTOToWayPreviewConverter} from "src/dataAccessLogic/DTOToPreviewConverter/wayDTOToWayPreviewConverter";
 import {GoalPreviewDAL} from "src/dataAccessLogic/GoalPreviewDAL";
-import {wayPreviewToWayDTOConverter} from "src/dataAccessLogic/PreviewToDTOConverter/wayPreviewToWayDTOConverter";
 import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
@@ -151,14 +150,6 @@ export class WayPreviewDAL {
     const wayPreview = wayDTOToWayPreviewConverter(wayDTO, wayPreviewProps);
 
     return wayPreview;
-  }
-
-  /**
-   * Update Way
-   */
-  public static async updateWayPreview(wayPreview: WayPreview) {
-    const wayDTO = wayPreviewToWayDTOConverter(wayPreview);
-    await WayService.updateWayDTO(wayDTO);
   }
 
 }

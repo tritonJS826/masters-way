@@ -2,7 +2,6 @@ import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Confirm} from "src/component/confirm/Confirm";
-import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
@@ -11,23 +10,21 @@ import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
-import {GoalDAL} from "src/dataAccessLogic/GoalDAL";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {useLoad} from "src/hooks/useLoad";
-import {GoalMetricsBlock} from "src/logic/wayPage/GoalMetricsBlock";
+import {GoalBlock} from "src/logic/wayPage/goalBlock/GoalBlock";
 import {JobTags} from "src/logic/wayPage/jobTags/JobTags";
 import {MentorRequestsSection} from "src/logic/wayPage/MentorRequestsSection";
 import {MentorsSection} from "src/logic/wayPage/MentorsSection";
 import {downloadWayPdf} from "src/logic/wayPage/renderWayToPdf/downloadWayPdf";
-import {DayReportsTable} from "src/logic/wayPage/reportsTable/DayReportsTable";
-import {WayStatistic} from "src/logic/wayPage/wayStatistics/WayStatistic";
+import {DayReportsTable} from "src/logic/wayPage/reportsTable/dayReportsTable/DayReportsTable";
 import {DayReport} from "src/model/businessModel/DayReport";
-import {Goal} from "src/model/businessModel/Goal";
 import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {pages} from "src/router/pages";
 import {localStorageWorker, WayPageSettings} from "src/utils/LocalStorage";
+import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
 import styles from "src/logic/wayPage/WayPage.module.scss";
 
@@ -53,44 +50,27 @@ const DEFAULT_WAY_PAGE_SETTINGS: WayPageSettings = {
 };
 
 /**
- * Change Goal description
- */
-const changeGoalDescription = (goal: Goal, description: string) => {
-  const newGoal = new Goal({...goal, description});
-  GoalDAL.updateGoal(newGoal);
-};
-
-/**
  * Update Way params
  */
 interface UpdateWayParams {
 
   /**
-   * Currennt way
-   * TODO: deprecated field, need to delete
-   * TODO: refactor service layer - update just required fields, not all Way Entity
-   * @deprecated
-   */
-  currentWay: Way;
-
-  /**
    * Way to update
    */
-  wayToUpdate: Partial<Way>;
+  wayToUpdate: PartialWithUuid<Way>;
 
   /**
    * Callback to update wy
    */
-  setWay: (way: Way) => void;
+  setWay: (way: PartialWithUuid<Way>) => void;
 }
 
 /**
  * Change name of Way
  */
 const updateWay = async (params: UpdateWayParams) => {
-  const wayToUpdate = new Way({...params.currentWay, ...params.wayToUpdate});
-  await WayDAL.updateWay(wayToUpdate);
-  params.setWay(wayToUpdate);
+  params.setWay(params.wayToUpdate);
+  await WayDAL.updateWay(params.wayToUpdate);
 };
 
 /**
@@ -201,6 +181,19 @@ export const WayPage = (props: WayPageProps) => {
   const [way, setWay] = useState<Way>();
 
   /**
+   * Update way state
+   */
+  const setWayPartial = (previousWay: Partial<Way>) => {
+    setWay((prevWay?: Way) => {
+      if (!prevWay) {
+        throw new Error("Previous way is undefined");
+      }
+
+      return {...prevWay, ...previousWay};
+    });
+  };
+
+  /**
    * Callback that is called to fetch data
    */
   const loadData = () => WayDAL.getWay(props.uuid);
@@ -277,9 +270,11 @@ export const WayPage = (props: WayPageProps) => {
           level={HeadingLevel.h2}
           text={way.name}
           onChangeFinish={(name) => updateWay({
-            currentWay: way,
-            wayToUpdate: {name},
-            setWay,
+            wayToUpdate: {
+              uuid: way.uuid,
+              name,
+            },
+            setWay: setWayPartial,
           })}
           isEditable={isOwner}
           className={styles.titleH2}
@@ -366,9 +361,11 @@ export const WayPage = (props: WayPageProps) => {
           jobTags={way.jobTags}
           isEditable={isOwner}
           updateTags={(tagsToUpdate: string[]) => updateWay({
-            setWay,
-            wayToUpdate: {jobTags: tagsToUpdate},
-            currentWay: way,
+            wayToUpdate: {
+              uuid: way.uuid,
+              jobTags: tagsToUpdate,
+            },
+            setWay: setWayPartial,
           })}
         />
       </div>
@@ -388,101 +385,26 @@ export const WayPage = (props: WayPageProps) => {
         way={way}
         setWay={setWay}
         isOwner={isOwner}
-      />
-      }
+      />}
       {isOwner && !!way.mentorRequests.length && (
         <MentorRequestsSection
           way={way}
           setWay={setWay}
         />
-      )
-      }
+      )}
       {isEligibleToSendRequest && (
         <Button
           value="Apply as Mentor"
           onClick={() =>
             addUserToMentorRequests(way, setWay, user)
           }
-        />
-      )
-      }
-      <div className={styles.goalSection}>
-        <div className={styles.goalSubSection}>
-          <Title
-            level={HeadingLevel.h3}
-            text="Goal"
-          />
-          <EditableTextarea
-            text={way.goal.description}
-            onChangeFinish={(description) => changeGoalDescription(way.goal, description)}
-            rows={10}
-            isEditable={isOwner}
-            className={styles.goalDescription}
-          />
-        </div>
-        <div className={styles.goalSubSection}>
-          <HorizontalContainer className={styles.horizontalContainer}>
-            <Title
-              level={HeadingLevel.h3}
-              text="Metrics"
-            />
-            <Tooltip content={`Click to ${wayPageSettings.isGoalMetricsVisible ? "hide" : "open"} goal metrics block`}>
-              <div
-                className={styles.iconContainer}
-                onClick={() => updateWayPageSettings({isGoalMetricsVisible: !wayPageSettings.isGoalMetricsVisible})}
-              >
-                {wayPageSettings.isGoalMetricsVisible ?
-                  <Icon
-                    size={IconSize.MEDIUM}
-                    name="EyeOpenedIcon"
-                  />
-                  :
-                  <Icon
-                    size={IconSize.MEDIUM}
-                    name="EyeSlashedIcon"
-                  />
-                }
-              </div>
-            </Tooltip>
-          </HorizontalContainer>
-          <GoalMetricsBlock
-            isVisible={wayPageSettings.isGoalMetricsVisible}
-            way={way}
-            isEditable={isOwner}
-          />
-        </div>
-        <div className={styles.goalSubSection}>
-          <HorizontalContainer className={styles.horizontalContainer}>
-            <Title
-              level={HeadingLevel.h3}
-              text="Statistics"
-            />
-            <Tooltip content={`Click to ${wayPageSettings.isStatisticsVisible ? "hide" : "open"} statistics block`}>
-              <div
-                className={styles.iconContainer}
-                onClick={() => updateWayPageSettings({isStatisticsVisible: !wayPageSettings.isStatisticsVisible})}
-              >
-                {wayPageSettings.isStatisticsVisible ?
-                  <Icon
-                    size={IconSize.MEDIUM}
-                    name="EyeOpenedIcon"
-                  />
-                  :
-                  <Icon
-                    size={IconSize.MEDIUM}
-                    name="EyeSlashedIcon"
-                  />
-                }
-              </div>
-            </Tooltip>
-          </HorizontalContainer>
-          <WayStatistic
-            dayReports={way.dayReports}
-            wayCreatedAt={way.createdAt}
-            isVisible={wayPageSettings.isStatisticsVisible}
-          />
-        </div>
-      </div>
+        />)}
+
+      <GoalBlock
+        way={way}
+        wayPageSettings={wayPageSettings}
+        updateWaySettings={updateWayPageSettings}
+      />
 
       <ScrollableBlock>
         <DayReportsTable

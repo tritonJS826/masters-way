@@ -52,4 +52,14 @@ export const UsersDTOSchema = z.array(UserDTOSchema);
 /**
  * User DTO model
  */
-export type UserDTO = z.infer<typeof UserDTOSchema>
+export type UserDTO = z.infer<typeof UserDTOSchema>;
+
+/**
+ * Partial UserDTO schema
+ */
+export const UserPartialDTOSchema = UserDTOSchema.partial().required({[USER_UUID_FIELD]: true});
+
+/**
+ * UserPartialDTO model
+ */
+export type UserPartialDTO = z.infer<typeof UserPartialDTOSchema>;

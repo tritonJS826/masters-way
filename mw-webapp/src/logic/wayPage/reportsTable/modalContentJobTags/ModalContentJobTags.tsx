@@ -5,9 +5,9 @@ import {Checkbox} from "src/component/checkbox/Сheckbox";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
-import {JobTag} from "src/logic/wayPage/jobTags/JobTag";
-import {DEFAULT_TAG} from "src/logic/wayPage/reportsTable/WayColumns";
-import styles from "src/logic/wayPage/reportsTable/ModalContentJobTags.module.scss";
+import {JobTag} from "src/logic/wayPage/jobTags/jobTag/JobTag";
+import {DEFAULT_TAG} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
+import styles from "src/logic/wayPage/reportsTable/modalContentJobTags/ModalContentJobTags.module.scss";
 
 /**
  * JobDoneTagsProps

@@ -14,8 +14,8 @@ import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {useGlobalContext} from "src/GlobalContext";
-import {JobDoneTags} from "src/logic/wayPage/reportsTable/JobDoneTags";
-import {ModalContentJobTags} from "src/logic/wayPage/reportsTable/ModalContentJobTags";
+import {JobDoneTags} from "src/logic/wayPage/reportsTable/jobDoneTags/JobDoneTags";
+import {ModalContentJobTags} from "src/logic/wayPage/reportsTable/modalContentJobTags/ModalContentJobTags";
 import {getFirstName} from "src/logic/waysTable/waysColumns";
 import {Comment} from "src/model/businessModel/Comment";
 import {DayReport} from "src/model/businessModel/DayReport";
@@ -28,7 +28,7 @@ import {pages} from "src/router/pages";
 import {DateUtils} from "src/utils/DateUtils";
 import {Symbols} from "src/utils/Symbols";
 import {v4 as uuidv4} from "uuid";
-import styles from "src/logic/wayPage/reportsTable/WayColumns.module.scss";
+import styles from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns.module.scss";
 
 export const DEFAULT_TAG = "no tag";
 const DEFAULT_SUMMARY_TIME = 0;
@@ -132,14 +132,14 @@ export const Columns = (props: ColumnsProps) => {
       /**
        * Header
        */
-      header: () => (<>
+      header: () => (
         <Tooltip
           position={PositionTooltip.TOP}
           content="Date, when day report was created"
         >
           Date
         </Tooltip>
-      </>),
+      ),
 
       /**
        * Cell  with date value
@@ -157,14 +157,14 @@ export const Columns = (props: ColumnsProps) => {
       /**
        * Header
        */
-      header: () => (<>
+      header: () => (
         <Tooltip
           position={PositionTooltip.TOP}
           content="The most specific and decomposed jobs related to this way (in minutes)"
         >
           Jobs done
         </Tooltip>
-      </>),
+      ),
 
       /**
        * Cell with JobsDone items
@@ -334,14 +334,14 @@ export const Columns = (props: ColumnsProps) => {
       /**
        * Header
        */
-      header: () => (<>
+      header: () => (
         <Tooltip
           position={PositionTooltip.TOP}
           content="Plans related to this way (in minutes)"
         >
           Plans
         </Tooltip>
-      </>),
+      ),
 
       /**
        * Cell with Plan items
@@ -534,14 +534,14 @@ export const Columns = (props: ColumnsProps) => {
       /**
        * Header
        */
-      header: () => (<>
+      header: () => (
         <Tooltip
           position={PositionTooltip.TOP}
           content="Problems you encountered while completing the task"
         >
           Problems
         </Tooltip>
-      </>),
+      ),
 
       /**
        * Cell with Problems items
@@ -672,14 +672,14 @@ export const Columns = (props: ColumnsProps) => {
       /**
        * Header
        */
-      header: () => (<>
+      header: () => (
         <Tooltip
           position={PositionTooltip.TOP_LEFT}
           content="Explanations from the mentor and any information related to completing this path"
         >
           Comments
         </Tooltip>
-      </>),
+      ),
 
       /**
        * Cell with Comments items

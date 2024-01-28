@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import {getColorByString} from "src/utils/getColorByString";
-import styles from "src/logic/wayPage/jobTags/JobTag.module.scss";
+import styles from "src/logic/wayPage/jobTags/jobTag/JobTag.module.scss";
 
 /**
  * JobTag props

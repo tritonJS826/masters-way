@@ -12,7 +12,7 @@ import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {pages} from "src/router/pages";
 import {v4 as uuidv4} from "uuid";
-import styles from "src/logic/wayPage/MentorSection.module.scss";
+import styles from "src/logic/wayPage/MentorsSection.module.scss";
 
 /**
  * Remove mentor from Way

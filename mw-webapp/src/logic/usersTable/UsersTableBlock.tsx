@@ -9,7 +9,7 @@ import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 interface UsersTableProps {
 
   /**
-   * Uses
+   * Users
    */
   users: UserPreview[];
 }

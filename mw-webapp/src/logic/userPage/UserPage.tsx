@@ -17,33 +17,31 @@ import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {WAY_UUID_FIELD} from "src/model/DTOModel/WayDTO";
 import {pages} from "src/router/pages";
 import {arrayToHashMap} from "src/utils/arrayToHashMap";
+import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import styles from "src/logic/userPage/UserPage.module.scss";
 
 /**
- * Change user's name
+ * Update User params
  */
-const changeUserName = (user: UserPreview, text: string, callback: (user: UserPreview) => void) => {
-  const updatedUser = new UserPreview({...user, name: text});
-  callback(updatedUser);
-  UserPreviewDAL.updateUserPreview(updatedUser);
-};
+interface UpdateUserParams {
+
+  /**
+   * User to update
+   */
+  userToUpdate: PartialWithUuid<UserPreview>;
+
+  /**
+   * Callback to update user
+   */
+  setUser: (user: PartialWithUuid<UserPreview>) => void;
+}
 
 /**
- * Change user's email
+ * Update user
  */
-const changeUserEmail = (user: UserPreview, text: string, callback: (user: UserPreview) => void) => {
-  const updatedUser = new UserPreview({...user, email: text});
-  callback(updatedUser);
-  UserPreviewDAL.updateUserPreview(updatedUser);
-};
-
-/**
- * Change user's description
- */
-const changeUserDescription = (user: UserPreview, text: string, callback: (user: UserPreview) => void) => {
-  const updatedUser = new UserPreview({...user, description: text});
-  callback(updatedUser);
-  UserPreviewDAL.updateUserPreview(updatedUser);
+const updateUser = async (params: UpdateUserParams) => {
+  params.setUser(params.userToUpdate);
+  await UserPreviewDAL.updateUserPreview(params.userToUpdate);
 };
 
 /**
@@ -88,6 +86,19 @@ interface UserPageProps {
  */
 export const UserPage = (props: UserPageProps) => {
   const [userPreview, setUserPreview] = useState<UserPreview>();
+
+  /**
+   * Update userPreview state
+   */
+  const setUserPreviewPartial = (previousUser: Partial<UserPreview>) => {
+    setUserPreview((prevUser?: UserPreview) => {
+      if (!prevUser) {
+        throw new Error("Previous user is undefined");
+      }
+
+      return {...prevUser, ...previousUser};
+    });
+  };
 
   const [ownWays, setOwnWays] = useState<WayPreview[]>([]);
   const [mentoringWays, setMentoringWays] = useState<WayPreview[]>([]);
@@ -176,20 +187,38 @@ export const UserPage = (props: UserPageProps) => {
       <Title
         level={HeadingLevel.h2}
         text={userPreview.name}
-        onChangeFinish={(text) => changeUserName(userPreview, text, setUserPreview)}
+        onChangeFinish={(name) => updateUser({
+          userToUpdate: {
+            uuid: userPreview.uuid,
+            name,
+          },
+          setUser: setUserPreviewPartial,
+        })}
         isEditable={isPageOwner}
         className={styles.titleH2}
       />
       <Title
         level={HeadingLevel.h3}
         text={userPreview.email}
-        onChangeFinish={(text) => changeUserEmail(userPreview, text, setUserPreview)}
+        onChangeFinish={(email) => updateUser({
+          userToUpdate: {
+            uuid: userPreview.uuid,
+            email,
+          },
+          setUser: setUserPreviewPartial,
+        })}
         isEditable={isPageOwner}
         className={styles.titleH3}
       />
       <EditableTextarea
         text={userPreview.description}
-        onChangeFinish={(text) => changeUserDescription(userPreview, text, setUserPreview)}
+        onChangeFinish={(description) => updateUser({
+          userToUpdate: {
+            uuid: userPreview.uuid,
+            description,
+          },
+          setUser: setUserPreviewPartial,
+        })}
         isEditable={isPageOwner}
         className={styles.editableTextarea}
       />

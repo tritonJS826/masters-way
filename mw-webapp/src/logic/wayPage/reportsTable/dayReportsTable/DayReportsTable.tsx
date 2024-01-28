@@ -1,12 +1,12 @@
 import {Button, ButtonType} from "src/component/button/Button";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {useGlobalContext} from "src/GlobalContext";
+import {Columns} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
 import {ReportsTable} from "src/logic/wayPage/reportsTable/ReportsTable";
-import {Columns} from "src/logic/wayPage/reportsTable/WayColumns";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Way} from "src/model/businessModel/Way";
 import {DateUtils} from "src/utils/DateUtils";
-import styles from "src/logic/wayPage/reportsTable/DayReportsTable.module.scss";
+import styles from "src/logic/wayPage/reportsTable/dayReportsTable/DayReportsTable.module.scss";
 
 /**
  * DayReportsTable props

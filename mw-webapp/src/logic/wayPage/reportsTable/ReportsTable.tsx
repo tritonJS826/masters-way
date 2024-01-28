@@ -1,7 +1,7 @@
 import {ColumnDef, getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import {Table} from "src/component/table/Table";
 import {DayReport} from "src/model/businessModel/DayReport";
-import styles from "src/logic/wayPage/reportsTable/WayColumns.module.scss";
+import styles from "src/logic/wayPage/reportsTable/ReportsTable.module.scss";
 
 /**
  * Reports table props

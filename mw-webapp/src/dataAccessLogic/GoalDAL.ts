@@ -1,5 +1,5 @@
 import {writeBatch} from "firebase/firestore";
-import {goalToGoalDTOConverter} from "src/dataAccessLogic/BusinessToDTOConverter/goalToGoalDTOConverter";
+import {goalToGoalDTOPartialConverter} from "src/dataAccessLogic/BusinessToDTOConverter/goalToGoalDTOPartialConverter";
 import {goalDTOToGoalConverter} from "src/dataAccessLogic/DTOToBusinessConverter/goalDTOToGoalConverter";
 import {goalMetricDTOToGoalMetricConverter} from "src/dataAccessLogic/DTOToBusinessConverter/goalMetricDTOToGoalMetricConverter";
 import {GoalMetricDAL} from "src/dataAccessLogic/GoalMetricDAL";
@@ -7,9 +7,9 @@ import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {db} from "src/firebase";
 import {Goal} from "src/model/businessModel/Goal";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
-import {GoalDTO} from "src/model/DTOModel/GoalDTO";
 import {GoalMetricDTOWithoutUuid, GoalMetricService} from "src/service/GoalMetricService";
 import {GoalDTOWithoutUuid, GoalService} from "src/service/GoalService";
+import {PartialWithUuid} from "src/utils/PartialWithUuid";
 
 /**
  * Provides methods to interact with the Goal model
@@ -65,9 +65,9 @@ export class GoalDAL {
   /**
    * Update Goal
    */
-  public static async updateGoal(goal: Goal): Promise<void> {
-    const goalDTO: GoalDTO = goalToGoalDTOConverter(goal);
-    await GoalService.updateGoalDTO(goalDTO);
+  public static async updateGoal(goalPartial: PartialWithUuid<Goal>): Promise<void> {
+    const goalPartialDTO = goalToGoalDTOPartialConverter(goalPartial);
+    await GoalService.updateGoalDTO(goalPartialDTO);
   }
 
 }
