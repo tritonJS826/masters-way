@@ -67,7 +67,7 @@ export class GoalDAL {
    */
   public static async updateGoal(goalPartial: PartialWithUuid<Goal>): Promise<void> {
     const goalPartialDTO = goalToGoalDTOPartialConverter(goalPartial);
-    await GoalService.updateGoalPartialDTO(goalPartialDTO);
+    await GoalService.updateGoalDTO(goalPartialDTO);
   }
 
 }

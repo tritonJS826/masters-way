@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import {showError} from "src/dataAccessLogic/BusinessToDTOConverter/showError";
 import {Goal} from "src/model/businessModel/Goal";
 import {GoalDTO, GoalPartialDTOSchema} from "src/model/DTOModel/GoalDTO";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
@@ -11,12 +11,8 @@ export const goalToGoalDTOPartialConverter = (goal: PartialWithUuid<Goal>): Part
 
   for (const key in goal) {
     switch (key) {
-      case "student": {
-        goalPartialDTO.studentUuid = goal[key]!.uuid;
-        break;
-      }
       case "metrics": {
-        goalPartialDTO.metricUuids = goal[key]!.map((metric) => metric.uuid);
+        goalPartialDTO.metricUuids = goal.metrics ? goal.metrics.map((metric) => metric.uuid) : showError(key);
         break;
       }
       case "description": {

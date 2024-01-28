@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {Timestamp} from "firebase/firestore";
+import {showError} from "src/dataAccessLogic/BusinessToDTOConverter/showError";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {UserDTO, UserPartialDTOSchema} from "src/model/DTOModel/UserDTO";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
@@ -37,7 +37,7 @@ export const userToUserDTOPartialConverter = (user: PartialWithUuid<UserPreview>
         break;
       }
       case "createdAt": {
-        userPartialDTO[key] = Timestamp.fromDate(user[key]!);
+        userPartialDTO[key] = user.createdAt ? Timestamp.fromDate(user.createdAt) : showError(key);
         break;
       }
     }

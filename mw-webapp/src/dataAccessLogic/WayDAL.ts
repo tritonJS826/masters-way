@@ -150,7 +150,7 @@ export class WayDAL {
    */
   public static async updateWay(wayPartial: PartialWithUuid<Way>) {
     const wayFieldDTO = wayToWayDTOPartialConverter(wayPartial);
-    await WayService.updateWayPartialDTO(wayFieldDTO);
+    await WayService.updateWayDTO(wayFieldDTO);
   }
 
   /**

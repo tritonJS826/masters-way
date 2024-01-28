@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {Timestamp} from "firebase/firestore";
+import {showError} from "src/dataAccessLogic/BusinessToDTOConverter/showError";
 import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {WayDTO, WayPartialDTOSchema} from "src/model/DTOModel/WayDTO";
@@ -18,27 +18,29 @@ export const wayToWayDTOPartialConverter = (way: PartialWithUuid<Way>): PartialW
         break;
       }
       case "dayReports": {
-        wayPartialDTO.dayReportUuids = way[key]!.map((dayReport) => dayReport.uuid);
+        wayPartialDTO.dayReportUuids = way.dayReports ? way.dayReports.map((dayReport) => dayReport.uuid) : showError(key);
         break;
       }
       case "owner": {
-        wayPartialDTO.ownerUuid = way[key]!.uuid;
+        wayPartialDTO.ownerUuid = way.owner ? way.owner.uuid : showError(key);
         break;
       }
       case "goal": {
-        wayPartialDTO.goalUuid = way[key]!.uuid;
+        wayPartialDTO.goalUuid = way.goal ? way.goal.uuid : showError(key);
         break;
       }
       case "mentors": {
-        wayPartialDTO.mentorUuids = Array.from(way[key]!.keys());
+        wayPartialDTO.mentorUuids = way.mentors ? Array.from(way.mentors.keys()) : showError(key);
         break;
       }
       case "formerMentors": {
-        wayPartialDTO.formerMentorUuids = Array.from(way[key]!.keys());
+        wayPartialDTO.formerMentorUuids = way.formerMentors ? Array.from(way.formerMentors.keys()) : showError(key);
         break;
       }
       case "mentorRequests": {
-        wayPartialDTO.mentorRequestUuids = way[key]!.map((mentorRequest: UserPreview) => mentorRequest.uuid);
+        wayPartialDTO.mentorRequestUuids = way.mentorRequests
+          ? way.mentorRequests.map((mentorRequest: UserPreview) => mentorRequest.uuid)
+          : showError(key);
         break;
       }
       case "isCompleted": {
@@ -46,15 +48,17 @@ export const wayToWayDTOPartialConverter = (way: PartialWithUuid<Way>): PartialW
         break;
       }
       case "lastUpdate": {
-        wayPartialDTO[key] = Timestamp.fromDate(way[key]!);
+        wayPartialDTO[key] = way.lastUpdate ? Timestamp.fromDate(way.lastUpdate) : showError(key);
         break;
       }
       case "favoriteForUsers": {
-        wayPartialDTO.favoriteForUserUuids = way[key]!.map((favoriteForUser) => favoriteForUser.uuid);
+        wayPartialDTO.favoriteForUserUuids = way.favoriteForUsers
+          ? way.favoriteForUsers.map((favoriteForUser) => favoriteForUser.uuid)
+          : showError(key);
         break;
       }
       case "createdAt": {
-        wayPartialDTO[key] = Timestamp.fromDate(way[key]!);
+        wayPartialDTO[key] = way.createdAt ? Timestamp.fromDate(way.createdAt) : showError(key);
         break;
       }
       case "wayTags": {

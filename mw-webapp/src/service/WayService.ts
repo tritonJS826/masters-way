@@ -116,20 +116,9 @@ export class WayService {
 
   /**
    * Update WayDTO
-   * @deprecated
    */
-  public static async updateWayDTO(wayDTO: WayDTO) {
-    const validatedWayDTO = WayDTOSchema.parse(wayDTO);
-    await updateDoc(doc(db, PATH_TO_WAYS_COLLECTION, wayDTO.uuid), {...validatedWayDTO});
-
-    logToConsole(`WayService:updateWayDTO: 1 ${RequestOperations.WRITE} operation`);
-  }
-
-  /**
-   * Update WayDTO (partial fields)
-   */
-  public static async updateWayPartialDTO(partialWayDTO: PartialWithUuid<WayDTO>) {
-    const validatedWayDTO = WayPartialDTOSchema.parse(partialWayDTO);
+  public static async updateWayDTO(wayDTO: PartialWithUuid<WayDTO>) {
+    const validatedWayDTO = WayPartialDTOSchema.parse(wayDTO);
 
     await updateDoc(doc(db, PATH_TO_WAYS_COLLECTION, validatedWayDTO.uuid), {...validatedWayDTO});
 

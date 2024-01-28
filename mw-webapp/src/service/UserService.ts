@@ -90,24 +90,10 @@ export class UserService {
   }
 
   /**
-   * Update user
-   * @param userDTO UserDTO
-   * TODO #407: TS Partial (analog patch )
-   * @deprecated
+   * Update UserDTO
    */
-  public static async updateUserDTO(userDTO: UserDTO) {
-    const validatedUserDTO = UserDTOSchema.parse(userDTO);
-
-    await updateDoc(doc(db, PATH_TO_USERS_COLLECTION, userDTO.uuid), validatedUserDTO);
-
-    logToConsole(`UserService:updateUserDTO: 1 ${RequestOperations.WRITE} operation`);
-  }
-
-  /**
-   * Update UserDTO (partial fields)
-   */
-  public static async updateUserPartialDTO(partialUserDTO: PartialWithUuid<UserDTO>) {
-    const validatedUserDTO = UserPartialDTOSchema.parse(partialUserDTO);
+  public static async updateUserDTO(userDTO: PartialWithUuid<UserDTO>) {
+    const validatedUserDTO = UserPartialDTOSchema.parse(userDTO);
 
     await updateDoc(doc(db, PATH_TO_USERS_COLLECTION, validatedUserDTO.uuid), {...validatedUserDTO});
 

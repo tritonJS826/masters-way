@@ -7,29 +7,9 @@ import {GoalDAL} from "src/dataAccessLogic/GoalDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {GoalMetricsBlock} from "src/logic/wayPage/goalMetricsBlock/GoalMetricsBlock";
 import {WayStatistic} from "src/logic/wayPage/wayStatistics/WayStatistic";
-import {Goal} from "src/model/businessModel/Goal";
 import {Way} from "src/model/businessModel/Way";
 import {WayPageSettings} from "src/utils/LocalStorage";
-import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import styles from "src/logic/wayPage/goalBlock/GoalBlock.module.scss";
-
-/**
- * Update Goal params
- */
-interface UpdateGoalParams {
-
-  /**
-   * User to update
-   */
-  goalToUpdate: PartialWithUuid<Goal>;
-}
-
-/**
- * Update goal
- */
-const updateGoal = async (params: UpdateGoalParams) => {
-  await GoalDAL.updateGoal({...params.goalToUpdate});
-};
 
 /**
  * Goal block props
@@ -68,7 +48,7 @@ export const GoalBlock = (props: GoalBlockProps) => {
         />
         <EditableTextarea
           text={props.way.goal.description}
-          onChangeFinish={(description) => updateGoal({goalToUpdate: {uuid: props.way.goal.uuid, description}})
+          onChangeFinish={async (description) => await GoalDAL.updateGoal({uuid: props.way.goal.uuid, description})
           }
           rows={10}
           isEditable={isOwner}

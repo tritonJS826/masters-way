@@ -48,7 +48,7 @@ export class UserPreviewDAL {
    */
   public static async updateUserPreview(userPreviewPartial: PartialWithUuid<UserPreview>) {
     const userPartialDTO = userToUserDTOPartialConverter(userPreviewPartial);
-    await UserService.updateUserPartialDTO(userPartialDTO);
+    await UserService.updateUserDTO(userPartialDTO);
   }
 
 }

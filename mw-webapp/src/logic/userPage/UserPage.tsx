@@ -33,15 +33,19 @@ interface UpdateUserParams {
   /**
    * Callback to update user
    */
-  setUser: (user: (prevUser: UserPreview | undefined) => UserPreview) => void; // Dispatch<SetStateAction<UserPreview>>;
+  setUser: (user: (prevUser: UserPreview | undefined) => UserPreview) => void;
 }
 
 /**
  * Update user
  */
 const updateUser = async (params: UpdateUserParams) => {
-  const showError = function () {
-    throw "Way is undefined";
+
+  /**
+   * Show error
+   */
+  const showError = () => {
+    throw Error("User is undefined");
   };
   await UserPreviewDAL.updateUserPreview({...params.userToUpdate});
   params.setUser((prevUser) => prevUser ? new UserPreview({...prevUser, ...params.userToUpdate}) : showError());

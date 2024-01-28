@@ -1,6 +1,7 @@
 import {goalDTOToGoalPreviewConverter} from "src/dataAccessLogic/DTOToPreviewConverter/goalDTOToGoalPreviewConverter";
 import {GoalPreview} from "src/model/businessModelPreview/GoalPreview";
 import {GoalService} from "src/service/GoalService";
+import {PartialWithUuid} from "src/utils/PartialWithUuid";
 
 /**
  * Provides methods to interact with the GoalPreview model
@@ -40,7 +41,7 @@ export class GoalPreviewDAL {
   /**
    * Update GoalPreview
    */
-  public static async updateGoalPreview(goalDTO: GoalPreview): Promise<void> {
+  public static async updateGoalPreview(goalDTO: PartialWithUuid<GoalPreview>): Promise<void> {
     await GoalService.updateGoalDTO(goalDTO);
   }
 

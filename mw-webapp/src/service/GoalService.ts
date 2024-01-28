@@ -92,22 +92,9 @@ export class GoalService {
   }
 
   /**
-   *Update GoalDTO
-   * TODO #407: TS Partial (analog patch )
-   * @deprecated
+   * Update GoalDTO
    */
-  public static async updateGoalDTO(goalDTO: GoalDTO): Promise<void> {
-    const validatedGoalDTO = GoalDTOSchema.parse(goalDTO);
-
-    await updateDoc(doc(db, PATH_TO_GOALS_COLLECTION, goalDTO.uuid), validatedGoalDTO);
-
-    logToConsole(`GoalService:updateGoalDTO: 1 ${RequestOperations.WRITE} operation`);
-  }
-
-  /**
-   * Update GoalDTO (partial fields)
-   */
-  public static async updateGoalPartialDTO(partialGoalDTO: PartialWithUuid<GoalDTO>) {
+  public static async updateGoalDTO(partialGoalDTO: PartialWithUuid<GoalDTO>) {
     const validatedGoalDTO = GoalPartialDTOSchema.parse(partialGoalDTO);
 
     await updateDoc(doc(db, PATH_TO_GOALS_COLLECTION, validatedGoalDTO.uuid), {...validatedGoalDTO});

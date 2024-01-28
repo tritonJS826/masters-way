@@ -69,9 +69,12 @@ interface UpdateWayParams {
  * Change name of Way
  */
 const updateWay = async (params: UpdateWayParams) => {
-  // Is it ok to use this function or better to use try catch?
-  const showError = function () {
-    throw "Way is undefined";
+
+  /**
+   * Show error
+   */
+  const showError = () => {
+    throw Error("Way is undefined");
   };
 
   await WayDAL.updateWay({...params.wayToUpdate});
