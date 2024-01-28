@@ -48,7 +48,10 @@ export const GoalBlock = (props: GoalBlockProps) => {
         />
         <EditableTextarea
           text={props.way.goal.description}
-          onChangeFinish={async (description) => await GoalDAL.updateGoal({uuid: props.way.goal.uuid, description})
+          onChangeFinish={async (description) => await GoalDAL.updateGoal({
+            uuid: props.way.goal.uuid,
+            description,
+          })
           }
           rows={10}
           isEditable={isOwner}

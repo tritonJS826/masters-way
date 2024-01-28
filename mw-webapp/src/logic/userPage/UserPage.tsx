@@ -40,8 +40,8 @@ interface UpdateUserParams {
  * Update user
  */
 const updateUser = async (params: UpdateUserParams) => {
-  await UserPreviewDAL.updateUserPreview(params.userToUpdate);
   params.setUser(params.userToUpdate);
+  await UserPreviewDAL.updateUserPreview(params.userToUpdate);
 };
 
 /**
@@ -90,7 +90,7 @@ export const UserPage = (props: UserPageProps) => {
   /**
    * Update userPreview state
    */
-  const handleUserPreview = (previousUser: Partial<UserPreview>) => {
+  const setUserPreviewPartial = (previousUser: Partial<UserPreview>) => {
     setUserPreview((prevUser?: UserPreview) => {
       if (!prevUser) {
         throw new Error("Previous user is undefined");
@@ -188,8 +188,11 @@ export const UserPage = (props: UserPageProps) => {
         level={HeadingLevel.h2}
         text={userPreview.name}
         onChangeFinish={(name) => updateUser({
-          userToUpdate: {uuid: userPreview.uuid, name},
-          setUser: handleUserPreview,
+          userToUpdate: {
+            uuid: userPreview.uuid,
+            name,
+          },
+          setUser: setUserPreviewPartial,
         })}
         isEditable={isPageOwner}
         className={styles.titleH2}
@@ -198,8 +201,11 @@ export const UserPage = (props: UserPageProps) => {
         level={HeadingLevel.h3}
         text={userPreview.email}
         onChangeFinish={(email) => updateUser({
-          userToUpdate: {uuid: userPreview.uuid, email},
-          setUser: handleUserPreview,
+          userToUpdate: {
+            uuid: userPreview.uuid,
+            email,
+          },
+          setUser: setUserPreviewPartial,
         })}
         isEditable={isPageOwner}
         className={styles.titleH3}
@@ -207,8 +213,11 @@ export const UserPage = (props: UserPageProps) => {
       <EditableTextarea
         text={userPreview.description}
         onChangeFinish={(description) => updateUser({
-          userToUpdate: {uuid: userPreview.uuid, description},
-          setUser: handleUserPreview,
+          userToUpdate: {
+            uuid: userPreview.uuid,
+            description,
+          },
+          setUser: setUserPreviewPartial,
         })}
         isEditable={isPageOwner}
         className={styles.editableTextarea}

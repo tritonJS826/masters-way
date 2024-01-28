@@ -69,9 +69,8 @@ interface UpdateWayParams {
  * Change name of Way
  */
 const updateWay = async (params: UpdateWayParams) => {
-  await WayDAL.updateWay(params.wayToUpdate);
-
   params.setWay(params.wayToUpdate);
+  await WayDAL.updateWay(params.wayToUpdate);
 };
 
 /**
@@ -184,7 +183,7 @@ export const WayPage = (props: WayPageProps) => {
   /**
    * Update way state
    */
-  const handleWay = (previousWay: Partial<Way>) => {
+  const setWayPartial = (previousWay: Partial<Way>) => {
     setWay((prevWay?: Way) => {
       if (!prevWay) {
         throw new Error("Previous way is undefined");
@@ -271,8 +270,11 @@ export const WayPage = (props: WayPageProps) => {
           level={HeadingLevel.h2}
           text={way.name}
           onChangeFinish={(name) => updateWay({
-            wayToUpdate: {uuid: way.uuid, name},
-            setWay: handleWay,
+            wayToUpdate: {
+              uuid: way.uuid,
+              name,
+            },
+            setWay: setWayPartial,
           })}
           isEditable={isOwner}
           className={styles.titleH2}
@@ -359,8 +361,11 @@ export const WayPage = (props: WayPageProps) => {
           jobTags={way.jobTags}
           isEditable={isOwner}
           updateTags={(tagsToUpdate: string[]) => updateWay({
-            wayToUpdate: {uuid: way.uuid, jobTags: tagsToUpdate},
-            setWay: handleWay,
+            wayToUpdate: {
+              uuid: way.uuid,
+              jobTags: tagsToUpdate,
+            },
+            setWay: setWayPartial,
           })}
         />
       </div>
