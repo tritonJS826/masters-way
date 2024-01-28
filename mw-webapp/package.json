@@ -22,7 +22,7 @@
     "cypress-run": "cypress run --component"
   },
   "engines": {
-    "node": "20.10.0",
+    "node": "20.11.0",
     "pnpm": "8.9.2"
   },
   "packageManager": "pnpm@8.9.2",
