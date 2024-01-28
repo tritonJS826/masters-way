@@ -2,18 +2,22 @@
 
 $dropdownZIndex: 100;
 $dropdownWidth: 100%;
-$dropdownIndentationBottom: 70px;
+$dropdownIndentationBottom: 10px;
 
 .dropdown {
   position: relative;
 }
+
 .menu {
+  list-style: none;
+}
+
+.dropdownContent {
   position: absolute;
   z-index: $dropdownZIndex;
-  width: $dropdownWidth;
   padding: $paddingMedium;
   border: 1px solid var(--primaryBorderColor);
   background: var(--primaryBackgroundColor);
   list-style: none;
-  transform: translateY(calc(100% - $dropdownIndentationBottom));
+  transform: translateY($dropdownIndentationBottom);
 }

@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import styles from "src/component/dropdown/DropdownMenuItem/DropdownMenuItem.module.scss";
 
 /**
@@ -17,9 +16,14 @@ export interface DropdownMenuItemType {
   value: string;
 
   /**
-   * Item`s visible text
+   * Item`s onClick
    */
-  text: string;
+  onClick: () => void;
+
+  /**
+   * Item`s visible state
+   */
+  isVisible: boolean;
 }
 
 /**
@@ -33,19 +37,9 @@ interface DropdownMenuItemProps {
   value: string;
 
   /**
-   * Inner option text
+   * Callback triggered onClick
    */
-  text: string;
-
-  /**
-   * Current value
-   */
-  currentValue: string;
-
-  /**
-   * Callback triggered onChange items's value
-   */
-  onChangeHandler: (value: string) => void;
+  onClick: () => void;
 }
 
 /**
@@ -54,13 +48,10 @@ interface DropdownMenuItemProps {
 export const DropdownMenuItem = (props: DropdownMenuItemProps) => {
   return (
     <li
-      className={clsx(
-        styles.dropdownMenuItem,
-        styles[props.currentValue === props.value ? "dropdownMenuItemActive" : ""],
-      )}
-      onClick={() => props.onChangeHandler(props.value)}
+      className={styles.dropdownMenuItem}
+      onClick={() => props.onClick()}
     >
-      {props.text}
+      {props.value}
     </li>
   );
 };

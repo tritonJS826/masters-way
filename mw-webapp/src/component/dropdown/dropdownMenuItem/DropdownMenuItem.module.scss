@@ -8,7 +8,7 @@
     cursor: pointer;
   }
 
-  &Active {
+  &:active {
     background-color: var(--activeColorLink);
   }
 }
