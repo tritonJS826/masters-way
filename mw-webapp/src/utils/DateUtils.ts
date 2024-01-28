@@ -23,7 +23,7 @@ export class DateUtils {
     const currentDate = new Date();
     const dateInPast = new Date(currentDate.getTime() - (amount * DAY_MILLISECONDS));
 
-    return new Date(dateInPast);
+    return new Date(dateInPast.toDateString());
   }
 
 }
