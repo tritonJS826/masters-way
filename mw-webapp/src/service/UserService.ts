@@ -95,7 +95,7 @@ export class UserService {
   public static async updateUserDTO(userDTO: PartialWithUuid<UserDTO>) {
     const validatedUserDTO = UserPartialDTOSchema.parse(userDTO);
 
-    await updateDoc(doc(db, PATH_TO_USERS_COLLECTION, validatedUserDTO.uuid), {...validatedUserDTO});
+    await updateDoc(doc(db, PATH_TO_USERS_COLLECTION, validatedUserDTO.uuid), validatedUserDTO);
 
     logToConsole(`UserService:updateUserDTO: 1 ${RequestOperations.WRITE} operation`);
   }

@@ -1,7 +1,6 @@
 import {Timestamp} from "firebase/firestore";
-import {showError} from "src/dataAccessLogic/BusinessToDTOConverter/showError";
+import {deleteUndefinedFields} from "src/dataAccessLogic/BusinessToDTOConverter/deleteUndefinedFields";
 import {Way} from "src/model/businessModel/Way";
-import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {WayDTO, WayPartialDTOSchema} from "src/model/DTOModel/WayDTO";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 
@@ -9,70 +8,26 @@ import {PartialWithUuid} from "src/utils/PartialWithUuid";
  * Convert {@link way} to {@link WayPartialDTO}
  */
 export const wayToWayDTOPartialConverter = (way: PartialWithUuid<Way>): PartialWithUuid<WayDTO> => {
-  const wayPartialDTO: PartialWithUuid<WayDTO> = {uuid: way.uuid};
+  const wayPartialDTO: PartialWithUuid<WayDTO> = {
+    uuid: way.uuid,
+    name: way.name,
+    dayReportUuids: way.dayReports ? way.dayReports.map((dayReport) => dayReport.uuid) : undefined,
+    ownerUuid: way.owner ? way.owner.uuid : undefined,
+    goalUuid: way.goal ? way.goal.uuid : undefined,
+    mentorUuids: way.mentors ? Array.from(way.mentors.keys()) : undefined,
+    formerMentorUuids: way.formerMentors ? Array.from(way.formerMentors.keys()) : undefined,
+    mentorRequestUuids: way.mentorRequests ? way.mentorRequests.map((mentorRequestUuid) => mentorRequestUuid.uuid) : undefined,
+    isCompleted: way.isCompleted,
+    lastUpdate: way.lastUpdate ? Timestamp.fromDate(way.lastUpdate) : undefined,
+    favoriteForUserUuids: way.favoriteForUsers ? way.favoriteForUsers.map((favoriteForUser) => favoriteForUser.uuid) : undefined,
+    createdAt: way.createdAt ? Timestamp.fromDate(way.createdAt) : undefined,
+    wayTags: way.wayTags,
+    jobTags: way.jobTags,
+  };
 
-  for (const key in way) {
-    switch (key) {
-      case "name": {
-        wayPartialDTO[key] = way[key];
-        break;
-      }
-      case "dayReports": {
-        wayPartialDTO.dayReportUuids = way.dayReports ? way.dayReports.map((dayReport) => dayReport.uuid) : showError(key);
-        break;
-      }
-      case "owner": {
-        wayPartialDTO.ownerUuid = way.owner ? way.owner.uuid : showError(key);
-        break;
-      }
-      case "goal": {
-        wayPartialDTO.goalUuid = way.goal ? way.goal.uuid : showError(key);
-        break;
-      }
-      case "mentors": {
-        wayPartialDTO.mentorUuids = way.mentors ? Array.from(way.mentors.keys()) : showError(key);
-        break;
-      }
-      case "formerMentors": {
-        wayPartialDTO.formerMentorUuids = way.formerMentors ? Array.from(way.formerMentors.keys()) : showError(key);
-        break;
-      }
-      case "mentorRequests": {
-        wayPartialDTO.mentorRequestUuids = way.mentorRequests
-          ? way.mentorRequests.map((mentorRequest: UserPreview) => mentorRequest.uuid)
-          : showError(key);
-        break;
-      }
-      case "isCompleted": {
-        wayPartialDTO[key] = way[key];
-        break;
-      }
-      case "lastUpdate": {
-        wayPartialDTO[key] = way.lastUpdate ? Timestamp.fromDate(way.lastUpdate) : showError(key);
-        break;
-      }
-      case "favoriteForUsers": {
-        wayPartialDTO.favoriteForUserUuids = way.favoriteForUsers
-          ? way.favoriteForUsers.map((favoriteForUser) => favoriteForUser.uuid)
-          : showError(key);
-        break;
-      }
-      case "createdAt": {
-        wayPartialDTO[key] = way.createdAt ? Timestamp.fromDate(way.createdAt) : showError(key);
-        break;
-      }
-      case "wayTags": {
-        wayPartialDTO[key] = way[key];
-        break;
-      }
-      case "jobTags": {
-        wayPartialDTO[key] = way[key];
-        break;
-      }
-    }
-  }
+  const preparedWayPartialDTO: PartialWithUuid<WayDTO> = deleteUndefinedFields(wayPartialDTO);
 
-  const validatedWayPartialDTO = WayPartialDTOSchema.parse(wayPartialDTO);
+  const validatedWayPartialDTO = WayPartialDTOSchema.parse(preparedWayPartialDTO);
 
   return validatedWayPartialDTO;
 };

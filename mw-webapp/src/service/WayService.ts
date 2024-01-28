@@ -120,7 +120,7 @@ export class WayService {
   public static async updateWayDTO(wayDTO: PartialWithUuid<WayDTO>) {
     const validatedWayDTO = WayPartialDTOSchema.parse(wayDTO);
 
-    await updateDoc(doc(db, PATH_TO_WAYS_COLLECTION, validatedWayDTO.uuid), {...validatedWayDTO});
+    await updateDoc(doc(db, PATH_TO_WAYS_COLLECTION, validatedWayDTO.uuid), validatedWayDTO);
 
     logToConsole(`WayService:updateWayDTO: 1 ${RequestOperations.WRITE} operation`);
   }

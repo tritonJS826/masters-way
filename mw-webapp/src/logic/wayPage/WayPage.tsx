@@ -62,24 +62,16 @@ interface UpdateWayParams {
   /**
    * Callback to update wy
    */
-  setWay: (way: (prevWay: Way | undefined) => Way) => void;
+  setWay: (way: PartialWithUuid<Way>) => void;
 }
 
 /**
  * Change name of Way
  */
 const updateWay = async (params: UpdateWayParams) => {
+  await WayDAL.updateWay(params.wayToUpdate);
 
-  /**
-   * Show error
-   */
-  const showError = () => {
-    throw Error("Way is undefined");
-  };
-
-  await WayDAL.updateWay({...params.wayToUpdate});
-
-  params.setWay((prevWay) => prevWay ? new Way({...prevWay, ...params.wayToUpdate}) : showError());
+  params.setWay(params.wayToUpdate);
 };
 
 /**
@@ -190,6 +182,19 @@ export const WayPage = (props: WayPageProps) => {
   const [way, setWay] = useState<Way>();
 
   /**
+   * Update way state
+   */
+  const handleWay = (previousWay: Partial<Way>) => {
+    setWay((prevWay?: Way) => {
+      if (!prevWay) {
+        throw new Error("Previous way is undefined");
+      }
+
+      return {...prevWay, ...previousWay};
+    });
+  };
+
+  /**
    * Callback that is called to fetch data
    */
   const loadData = () => WayDAL.getWay(props.uuid);
@@ -267,7 +272,7 @@ export const WayPage = (props: WayPageProps) => {
           text={way.name}
           onChangeFinish={(name) => updateWay({
             wayToUpdate: {uuid: way.uuid, name},
-            setWay,
+            setWay: handleWay,
           })}
           isEditable={isOwner}
           className={styles.titleH2}
@@ -355,7 +360,7 @@ export const WayPage = (props: WayPageProps) => {
           isEditable={isOwner}
           updateTags={(tagsToUpdate: string[]) => updateWay({
             wayToUpdate: {uuid: way.uuid, jobTags: tagsToUpdate},
-            setWay,
+            setWay: handleWay,
           })}
         />
       </div>

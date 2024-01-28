@@ -33,22 +33,15 @@ interface UpdateUserParams {
   /**
    * Callback to update user
    */
-  setUser: (user: (prevUser: UserPreview | undefined) => UserPreview) => void;
+  setUser: (user: PartialWithUuid<UserPreview>) => void;
 }
 
 /**
  * Update user
  */
 const updateUser = async (params: UpdateUserParams) => {
-
-  /**
-   * Show error
-   */
-  const showError = () => {
-    throw Error("User is undefined");
-  };
-  await UserPreviewDAL.updateUserPreview({...params.userToUpdate});
-  params.setUser((prevUser) => prevUser ? new UserPreview({...prevUser, ...params.userToUpdate}) : showError());
+  await UserPreviewDAL.updateUserPreview(params.userToUpdate);
+  params.setUser(params.userToUpdate);
 };
 
 /**
@@ -93,6 +86,19 @@ interface UserPageProps {
  */
 export const UserPage = (props: UserPageProps) => {
   const [userPreview, setUserPreview] = useState<UserPreview>();
+
+  /**
+   * Update userPreview state
+   */
+  const handleUserPreview = (previousUser: Partial<UserPreview>) => {
+    setUserPreview((prevUser?: UserPreview) => {
+      if (!prevUser) {
+        throw new Error("Previous user is undefined");
+      }
+
+      return {...prevUser, ...previousUser};
+    });
+  };
 
   const [ownWays, setOwnWays] = useState<WayPreview[]>([]);
   const [mentoringWays, setMentoringWays] = useState<WayPreview[]>([]);
@@ -183,7 +189,7 @@ export const UserPage = (props: UserPageProps) => {
         text={userPreview.name}
         onChangeFinish={(name) => updateUser({
           userToUpdate: {uuid: userPreview.uuid, name},
-          setUser: setUserPreview,
+          setUser: handleUserPreview,
         })}
         isEditable={isPageOwner}
         className={styles.titleH2}
@@ -193,7 +199,7 @@ export const UserPage = (props: UserPageProps) => {
         text={userPreview.email}
         onChangeFinish={(email) => updateUser({
           userToUpdate: {uuid: userPreview.uuid, email},
-          setUser: setUserPreview,
+          setUser: handleUserPreview,
         })}
         isEditable={isPageOwner}
         className={styles.titleH3}
@@ -202,7 +208,7 @@ export const UserPage = (props: UserPageProps) => {
         text={userPreview.description}
         onChangeFinish={(description) => updateUser({
           userToUpdate: {uuid: userPreview.uuid, description},
-          setUser: setUserPreview,
+          setUser: handleUserPreview,
         })}
         isEditable={isPageOwner}
         className={styles.editableTextarea}

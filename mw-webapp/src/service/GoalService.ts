@@ -97,7 +97,7 @@ export class GoalService {
   public static async updateGoalDTO(partialGoalDTO: PartialWithUuid<GoalDTO>) {
     const validatedGoalDTO = GoalPartialDTOSchema.parse(partialGoalDTO);
 
-    await updateDoc(doc(db, PATH_TO_GOALS_COLLECTION, validatedGoalDTO.uuid), {...validatedGoalDTO});
+    await updateDoc(doc(db, PATH_TO_GOALS_COLLECTION, validatedGoalDTO.uuid), validatedGoalDTO);
 
     logToConsole(`GoalService:updateGoalDTO: 1 ${RequestOperations.WRITE} operation`);
   }
