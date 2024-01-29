@@ -6,7 +6,7 @@ import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {GOAL_UUID_FIELD} from "src/model/DTOModel/GoalDTO";
 import {USER_UUID_FIELD} from "src/model/DTOModel/UserDTO";
 import {WAY_OWNER_UUID_FIELD} from "src/model/DTOModel/WayDTO";
-import {WayService} from "src/service/WayService";
+import {GetWaysFilter, WayService} from "src/service/WayService";
 import {arrayToHashMap} from "src/utils/arrayToHashMap";
 
 /**
@@ -67,8 +67,8 @@ export class WayPreviewDAL {
   /**
    * Get WaysPreview by uuid
    */
-  public static async getWaysPreviewByUuids(wayUuids: string[]): Promise<WayPreview[]> {
-    const waysDTO = wayUuids.length ? await WayService.getWaysDTOByUuids(wayUuids) : [];
+  public static async getWaysPreviewByUuids(wayUuids: string[], filter?: GetWaysFilter): Promise<WayPreview[]> {
+    const waysDTO = wayUuids.length ? await WayService.getWaysDTOByUuids(wayUuids, filter) : [];
 
     const allNeededUsersUuids = new Set(waysDTO.flatMap(wayDTO => [
       wayDTO.ownerUuid,

@@ -6,6 +6,8 @@ export const WAY_NAME_FIELD = "name";
 export const WAY_OWNER_UUID_FIELD = "ownerUuid";
 export const WAY_MENTOR_UUIDS_FIELD = "mentorUuids";
 export const WAY_CREATED_AT_FIELD = "createdAt";
+export const WAY_IS_COMPLETED_FIELD = "isCompleted";
+export const WAY_LAST_UPDATE_FIELD = "lastUpdate";
 
 export const WayDTOSchema = z.object({
 
@@ -52,12 +54,12 @@ export const WayDTOSchema = z.object({
   /**
    * Return true if way is completed and false if not completed
    */
-  isCompleted: z.boolean(),
+  [WAY_IS_COMPLETED_FIELD]: z.boolean(),
 
   /**
    * Last time whe way was updated in ms (timestamp)
    */
-  lastUpdate: timestampType(),
+  [WAY_LAST_UPDATE_FIELD]: timestampType(),
 
   /**
    * Uuids od Users for whom this way are favorite
