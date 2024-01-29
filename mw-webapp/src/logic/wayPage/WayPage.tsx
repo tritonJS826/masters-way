@@ -1,7 +1,6 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Button, ButtonType} from "src/component/button/Button";
-import {Dropdown} from "src/component/dropdown/Dropdown";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
@@ -234,38 +233,6 @@ export const WayPage = (props: WayPageProps) => {
           className={styles.titleH2}
         />
         <HorizontalContainer className={styles.buttons}>
-          <Dropdown
-            trigger={
-              <Button
-                value="Dropdown"
-                onClick={() => {}}
-                buttonType={ButtonType.TERTIARY}
-              />
-            }
-            dropdownMenuItems={[
-              {
-                id: "1",
-                value: "Download as pdf",
-
-                /**
-                 * Onckick callback
-                 */
-                onClick: () => downloadWayPdf(way),
-                isVisible: true,
-              },
-              {
-                id: "2",
-                value: "Delete way",
-
-                /**
-                 * Onckick callback
-                 */
-                onClick: () => {},
-                isVisible: isOwner,
-              },
-            ]
-            }
-          />
           {
             isWayInFavorites ?
               <Tooltip

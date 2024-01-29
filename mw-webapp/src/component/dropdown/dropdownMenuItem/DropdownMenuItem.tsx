@@ -23,7 +23,7 @@ export interface DropdownMenuItemType {
   /**
    * Item`s visible state
    */
-  isVisible: boolean;
+  isVisible?: boolean;
 }
 
 /**
@@ -49,7 +49,7 @@ export const DropdownMenuItem = (props: DropdownMenuItemProps) => {
   return (
     <li
       className={styles.dropdownMenuItem}
-      onClick={() => props.onClick()}
+      onClick={props.onClick}
     >
       {props.value}
     </li>

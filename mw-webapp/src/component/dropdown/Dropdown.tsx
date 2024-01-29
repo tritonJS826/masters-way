@@ -32,12 +32,13 @@ export const Dropdown = (props: DropdownProps) => {
   const [isOpenMenu, setIsOpenMenu] = useState(false);
 
   const renderDropdownMenuItems = props.dropdownMenuItems.map((item) => {
-    if (item.isVisible) {
+    const {id, value, onClick, isVisible = true} = item;
+    if (isVisible) {
       return (
         <DropdownMenuItem
-          key={item.id}
-          value={item.value}
-          onClick={item.onClick}
+          key={id}
+          value={value}
+          onClick={onClick}
         />
       );
     }
