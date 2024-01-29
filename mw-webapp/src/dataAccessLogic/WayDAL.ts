@@ -1,7 +1,6 @@
 import {Timestamp, writeBatch} from "firebase/firestore";
 import {userToUserDTOPartialConverter}
   from "src/dataAccessLogic/BusinessToDTOConverter/userPreviewToUserPreviewDTOPartialConverter";
-import {wayToWayDTOConverter} from "src/dataAccessLogic/BusinessToDTOConverter/wayToWayDTOConverter";
 import {wayToWayDTOPartialConverter} from "src/dataAccessLogic/BusinessToDTOConverter/wayToWayDTOPartialConverter";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {wayDTOToWayConverter} from "src/dataAccessLogic/DTOToBusinessConverter/wayDTOToWayPreviewConverter";
@@ -171,26 +170,6 @@ export class WayDAL {
   public static async updateWay(way: PartialWithUuid<Way>) {
     const wayDTO = wayToWayDTOPartialConverter(way);
     await WayService.updateWayDTO(wayDTO);
-  }
-
-  /**
-   * Updates favorites for user and way.
-   */
-  public static async updateWayWithUser(
-    updatedWay: Way,
-    updatedUser: UserPreview,
-  ): Promise<void> {
-    const batch = writeBatch(db);
-
-    const updatedWayDTO = wayToWayDTOConverter(updatedWay);
-    const updatedUserDTO = userPreviewToUserDTOConverter(updatedUser);
-
-    const updateWayPromise = WayService.updateWayDTOWithBatch(updatedWayDTO, batch);
-    const updateUserPromise = UserService.updateUserDTOWithBatch(updatedUserDTO, batch);
-
-    Promise.all([updateWayPromise, updateUserPromise]);
-
-    await batch.commit();
   }
 
   /**
