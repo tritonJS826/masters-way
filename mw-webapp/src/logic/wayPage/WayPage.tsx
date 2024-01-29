@@ -83,14 +83,17 @@ type UpdateWayAndUserParams = UpdateWayParams & UpdateUserParams;
  * Add way uuid to UserPreview favoriteWays and add user uuid to Way favoriteForUserUuids
  */
 export const updateWayAndUser = async (params: UpdateWayAndUserParams) => {
-  await updateWay({
+  const updateWayPromise = updateWay({
     wayToUpdate: params.wayToUpdate,
     setWay: params.setWay,
   });
-  await updateUser({
+
+  const updateUserPromise = updateUser({
     userToUpdate: params.userToUpdate,
     setUser: params.setUser,
   });
+
+  await Promise.all([updateWayPromise, updateUserPromise]);
 };
 
 /**
