@@ -1,4 +1,4 @@
-import {localStorageWorker} from "src/utils/LocalStorage";
+import {localStorageWorker} from "src/utils/LocalStorageWorker";
 
 /**
  * Available themes

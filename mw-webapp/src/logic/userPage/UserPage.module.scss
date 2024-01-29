@@ -1,8 +1,20 @@
 @import "src/styles/variables";
 
 .container {
-  display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  gap: $gapBig;
+}
+
+.descriptionSection {
+  min-width: $mediaWidthMobileSmall;
+  max-width: $mediaWidthMobileBig;
+}
+
+.tabsSection {
+  flex-wrap: wrap;
+  margin-top: $gapBig;
+  margin-bottom: $gapBig;
+  gap: $gapBig;
 }
 
 .row {
@@ -37,4 +49,9 @@
 
 .button {
   align-self: start;
+}
+
+.collectionButton {
+  width: 100px;
+  margin-bottom: auto;
 }

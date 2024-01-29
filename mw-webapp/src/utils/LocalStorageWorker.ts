@@ -80,6 +80,11 @@ type LocalStorageData = {
    * Way page data
    */
   wayPage: WayPageSettings;
+
+  /**
+   * User page data
+   */
+  userPage: UserPageSettings;
 }
 
 /**
@@ -102,5 +107,13 @@ export type WayPageSettings = {
    */
   isJobDoneTagsVisible: boolean;
 
+}
+
+export type UserPageSettings = {
+
+  /**
+   * Be careful thid data should be deprecated and tab with this id sometimes could not be exist
+   */
+  openedTabId: string;
 }
 
