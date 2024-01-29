@@ -23,7 +23,14 @@ export class DateUtils {
     const currentDate = new Date();
     const dateInPast = new Date(currentDate.getTime() - (amount * DAY_MILLISECONDS));
 
-    return new Date(dateInPast);
+    return new Date(dateInPast.toDateString());
+  }
+
+  /**
+   * Round a Date object to the year of the month and day
+   */
+  public static roundToDate(date: Date): Date {
+    return new Date (date.toDateString());
   }
 
 }
