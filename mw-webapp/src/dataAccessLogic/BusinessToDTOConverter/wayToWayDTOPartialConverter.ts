@@ -25,7 +25,7 @@ export const wayToWayDTOPartialConverter = (way: PartialWithUuid<Way>): PartialW
     jobTags: way.jobTags,
   };
 
-  const preparedWayPartialDTO: PartialWithUuid<WayDTO> = deleteUndefinedFields(wayPartialDTO);
+  const preparedWayPartialDTO = deleteUndefinedFields(wayPartialDTO);
 
   const validatedWayPartialDTO = WayPartialDTOSchema.parse(preparedWayPartialDTO);
 

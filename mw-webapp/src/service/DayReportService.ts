@@ -21,6 +21,7 @@ import {RequestOperations} from "src/service/RequestOperations";
 import {getChunksArray} from "src/utils/getChunkArray";
 import {logToConsole} from "src/utils/logToConsole";
 import {parseWithValidationStringifiedModel} from "src/utils/parseWithValidationStringifiedModel";
+import {PartialWithUuid} from "src/utils/PartialWithUuid";
 
 export const PATH_TO_DAY_REPORTS_COLLECTION = "dayReports";
 
@@ -124,7 +125,7 @@ export class DayReportService {
   /**
    * Update DayReportDTO
    */
-  public static async updateDayReportDTO(dayReportDTO: DayReportDTO) {
+  public static async updateDayReportDTO(dayReportDTO: PartialWithUuid<DayReportDTO>) {
     const validatedDayReportDTO = DayReportDTOSchema.parse(dayReportDTO);
 
     await updateDoc(doc(db, PATH_TO_DAY_REPORTS_COLLECTION, dayReportDTO[DAY_REPORT_UUID_FIELD]), validatedDayReportDTO);
@@ -144,7 +145,7 @@ export class DayReportService {
   /**
    * Update DayReportDTO with Batch
    */
-  public static updateDayReportDTOWithBatch(updatedDayReportDTO: DayReportDTO, batch: WriteBatch) {
+  public static updateDayReportDTOWithBatch(updatedDayReportDTO: PartialWithUuid<DayReportDTO>, batch: WriteBatch) {
     const dayReportRef = doc(db, PATH_TO_DAY_REPORTS_COLLECTION, updatedDayReportDTO[DAY_REPORT_UUID_FIELD]);
     batch.update(dayReportRef, updatedDayReportDTO);
 
