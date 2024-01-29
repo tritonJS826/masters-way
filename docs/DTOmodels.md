@@ -75,7 +75,7 @@ description: string[]
 isDone: boolean[]
 doneDate: (timestamp|null)[]
 
-WaysCollectionDTO #collection
+WaysCollectionDTO
 id: string
 name: string
 uuids: string[]
