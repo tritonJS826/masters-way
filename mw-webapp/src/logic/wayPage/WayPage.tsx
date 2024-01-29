@@ -138,8 +138,8 @@ export const WayPage = (props: WayPageProps) => {
     if (!user) {
       throw new Error("Previous user is undefined");
     }
-    const updated: UserPreview = {...user, ...previousUser};
-    setUser(updated);
+    const updatedUser: UserPreview = {...user, ...previousUser};
+    setUser(updatedUser);
   };
 
   /**
