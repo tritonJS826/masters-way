@@ -93,6 +93,7 @@ export class WayService {
     const abandonedDate = currentDate.getTime() - ABANDONED_AFTER_MS;
     const isInProgressConstraints = filter?.isInProgress
       ? [
+        where(WAY_IS_COMPLETED_FIELD, "==", false),
         orderBy(WAY_LAST_UPDATE_FIELD, "asc"),
         where(WAY_LAST_UPDATE_FIELD, ">", Timestamp.fromMillis(abandonedDate)),
       ]
