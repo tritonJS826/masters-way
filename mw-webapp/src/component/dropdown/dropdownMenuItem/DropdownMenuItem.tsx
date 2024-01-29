@@ -1,7 +1,7 @@
 import styles from "src/component/dropdown/DropdownMenuItem/DropdownMenuItem.module.scss";
 
 /**
- * Option type for a select component
+ * DropdownMenuItem types
  */
 export interface DropdownMenuItemType {
 
@@ -22,12 +22,13 @@ export interface DropdownMenuItemType {
 
   /**
    * Item`s visible state
+   * @default true
    */
   isVisible?: boolean;
 }
 
 /**
- * DropdownMenuItemProps props
+ * DropdownMenuItem props
  */
 interface DropdownMenuItemProps {
 
