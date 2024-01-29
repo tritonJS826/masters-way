@@ -7,6 +7,7 @@ favoriteWayUuids: string[] @Way.uuid
 mentoringWayUuids: string[] @Way.uuid
 description: string
 createdAt: timestamp
+customWayCollectionsStringified: string[] stringified@WaysCollection
 
 WayDTO #collection
 uuid: string
@@ -73,3 +74,8 @@ metricUuids: string[]
 description: string[]
 isDone: boolean[]
 doneDate: (timestamp|null)[]
+
+WaysCollectionDTO #collection
+id: string
+name: string
+uuids: string[]

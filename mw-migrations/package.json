@@ -16,6 +16,7 @@
     "migrate-dayReport-Stringified": "ts-node ./src/migrations/dayReportsMigration.ts",
     "migrate-dayReport-deprecated": "ts-node ./src/migrations/dayReportsMigration-delete-deprecated-fields.ts",
     "migrate-way-formerMentorUuids": "ts-node ./src/migrations/waysMigration-add-formerMentorUuids.ts",
+    "migrate-user-customWayCollectionsStringified": "ts-node ./src/migrations/usersMigration.ts",
     "export-backup": "ts-node ./src/backup/export.ts",
     "import-backup":  "ts-node ./src/backup/import.ts" 
   },

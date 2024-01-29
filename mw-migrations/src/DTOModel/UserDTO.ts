@@ -20,6 +20,7 @@ export type UserDTOMigration = {
   mentoringWayUuids: string[];
   description: string;
   createdAt: Timestamp;
+  customWayCollectionsStringified: string[];
 }
 
 export type UserDTO = {

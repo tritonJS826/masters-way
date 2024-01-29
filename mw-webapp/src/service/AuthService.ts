@@ -80,6 +80,7 @@ export class AuthService {
             favoriteWayUuids: [],
             mentoringWayUuids: [],
             createdAt: Timestamp.fromDate(new Date()),
+            customWayCollectionsStringified: [],
           },
         );
       }
