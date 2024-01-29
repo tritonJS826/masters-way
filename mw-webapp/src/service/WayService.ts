@@ -135,9 +135,28 @@ export class WayService {
   }
 
   /**
+   * Create WayDTO with Batch
+   */
+  public static createWayDTOWithBatch(wayDTOWithoutUuid: WayDTOWithoutUuid, batch: WriteBatch): WayDTO {
+    const docRef = doc(collection(db, PATH_TO_WAYS_COLLECTION));
+    const wayDTO = {
+      ...wayDTOWithoutUuid,
+      uuid: docRef.id,
+    };
+
+    batch.set(docRef, wayDTO);
+
+    const validatedWayDTO = WayDTOSchema.parse(wayDTO);
+
+    logToConsole(`WayService:createWayDTOWithBatch: 1 ${RequestOperations.WRITE} operation`);
+
+    return validatedWayDTO;
+  }
+
+  /**
    * Update favoriteForUserUuids of Way with batch
    */
-  public static updateWayDTOWithBatch(updatedWay: WayDTO, batch: WriteBatch) {
+  public static updateWayDTOWithBatch(updatedWay: PartialWithUuid<WayDTO>, batch: WriteBatch) {
     const wayRef = doc(db, PATH_TO_WAYS_COLLECTION, updatedWay[WAY_UUID_FIELD]);
     batch.update(wayRef, updatedWay);
 

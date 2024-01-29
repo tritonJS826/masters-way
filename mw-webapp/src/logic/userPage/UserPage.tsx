@@ -1,17 +1,20 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {Button, ButtonType} from "src/component/button/Button";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {Loader} from "src/component/loader/Loader";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
+import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {useLoad} from "src/hooks/useLoad";
 import {FavoriteWaysTable} from "src/logic/waysTable/FavoriteWaysTable";
 import {MentoringWaysTable} from "src/logic/waysTable/MentoringWaysTable";
 import {OwnWaysTable} from "src/logic/waysTable/OwnWaysTable";
+import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {WAY_UUID_FIELD} from "src/model/DTOModel/WayDTO";
@@ -182,6 +185,14 @@ export const UserPage = (props: UserPageProps) => {
     );
   }
 
+  /**
+   * Create way
+   */
+  const createWay = async (owner: UserPreview) => {
+    const newWay: Way = await WayDAL.createWay(owner);
+    navigate(pages.way.getPath({uuid: newWay.uuid}));
+  };
+
   return (
     <div className={styles.container}>
       <Title
@@ -222,9 +233,16 @@ export const UserPage = (props: UserPageProps) => {
         isEditable={isPageOwner}
         className={styles.editableTextarea}
       />
+      {isPageOwner &&
+      <Button
+        value="Create new way"
+        onClick={() => createWay(user)}
+        buttonType={ButtonType.PRIMARY}
+        className={styles.button}
+      />
+      }
       <ScrollableBlock>
         <OwnWaysTable
-          uuid={props.uuid}
           ownWays={ownWays}
           isPageOwner={isPageOwner}
         />

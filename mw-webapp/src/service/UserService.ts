@@ -113,7 +113,7 @@ export class UserService {
   /**
    * Update favoriteWayUuids of User with batch
    */
-  public static updateUserDTOWithBatch(updatedUserDTO: UserDTO, batch: WriteBatch) {
+  public static updateUserDTOWithBatch(updatedUserDTO: PartialWithUuid<UserDTO>, batch: WriteBatch) {
     const userRef = doc(db, PATH_TO_USERS_COLLECTION, updatedUserDTO.uuid);
     batch.update(userRef, updatedUserDTO);
 
