@@ -1,7 +1,7 @@
 import {getAnalytics, logEvent as logEventFirebase} from "firebase/analytics";
 import {initializeApp} from "firebase/app";
 import {getAuth, GoogleAuthProvider} from "firebase/auth";
-import {getFirestore} from "firebase/firestore";
+import {getFirestore, initializeFirestore, persistentLocalCache} from "firebase/firestore";
 import {env} from "src/utils/env/env";
 
 const firebaseConfig = {
@@ -16,6 +16,7 @@ const firebaseConfig = {
 
 export const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
+initializeFirestore(app, {localCache: persistentLocalCache()});
 
 /**
  * Available analytics events
