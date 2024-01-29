@@ -11,7 +11,8 @@ import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {useLoad} from "src/hooks/useLoad";
-import {BaseWaysTable} from "src/logic/waysTable/BaseWaysTable";
+import {BaseWaysTable, FILTER_STATUS_ALL_VALUE} from "src/logic/waysTable/BaseWaysTable";
+import {WayStatusType} from "src/logic/waysTable/wayStatus";
 import {Way} from "src/model/businessModel/Way";
 import {UserPreview, WaysCollection as WayCollection} from "src/model/businessModelPreview/UserPreview";
 import {pages} from "src/router/pages";
@@ -63,15 +64,27 @@ enum DefaultCollections {
   FAVORITE = "FAVORITE",
 }
 
+const DEFAULT_USER_PAGE_SETTINGS: UserPageSettings = {
+  openedTabId: DefaultCollections.OWN,
+  filterStatus: FILTER_STATUS_ALL_VALUE,
+};
+
 /**
  * Safe opened tab from localStorage
  */
-const getOpenedTabFromStorage = (allCollections: WayCollection[]) => {
-  const DEFAULT_OPENED_TAB_UUID = DefaultCollections.OWN;
-  const openedTabId = localStorageWorker.getItemByKey<UserPageSettings>("userPage")?.openedTabId;
-  const isTabExist = openedTabId && allCollections.some(collection => collection.id === openedTabId);
+const getUserPageSavedSettings = (allCollections: WayCollection[]) => {
+  const settings = localStorageWorker.getItemByKey<UserPageSettings>("wayPage") ?? DEFAULT_USER_PAGE_SETTINGS;
+  const isTabExist = settings.openedTabId && allCollections.some(collection => collection.id === settings.openedTabId);
 
-  return isTabExist ? openedTabId : DEFAULT_OPENED_TAB_UUID;
+  if (!isTabExist) {
+    settings.openedTabId = DEFAULT_USER_PAGE_SETTINGS.openedTabId;
+  }
+
+  if (!settings.filterStatus) {
+    settings.filterStatus = FILTER_STATUS_ALL_VALUE;
+  }
+
+  return settings;
 };
 
 /**
@@ -97,7 +110,17 @@ export const UserPage = (props: UserPageProps) => {
     },
   ];
 
-  const [openedTabId, setOpenedTabId] = useState<string>(getOpenedTabFromStorage(wayCollection));
+  const [userPageSettings, setUserPageSettings] = useState<UserPageSettings>(getUserPageSavedSettings(wayCollection));
+
+  /**
+   * Update way page settings
+   */
+  const updateUserPageSettings = (settingsToUpdate: Partial<UserPageSettings>) => {
+    const previousWayPageSettings = getUserPageSavedSettings(wayCollection);
+    const updatedSettings = {...previousWayPageSettings, ...settingsToUpdate};
+    localStorageWorker.setItemByKey("wayPage", updatedSettings);
+    setUserPageSettings(updatedSettings);
+  };
 
   /**
    * Update userPreview state
@@ -219,9 +242,9 @@ export const UserPage = (props: UserPageProps) => {
             <Button
               key={collection.id}
               value={`${collection.name} (${collection.uuids.length})`}
-              onClick={() => setOpenedTabId(collection.id)}
+              onClick={() => updateUserPageSettings({openedTabId: collection.id})}
               className={styles.collectionButton}
-              buttonType={collection.id === openedTabId ? ButtonType.PRIMARY : ButtonType.SECONDARY}
+              buttonType={collection.id === userPageSettings.openedTabId ? ButtonType.PRIMARY : ButtonType.SECONDARY}
             />
           ))}
 
@@ -237,7 +260,8 @@ export const UserPage = (props: UserPageProps) => {
       />
       }
 
-      {wayCollection.filter(collection => collection.id === openedTabId)
+      {/* Render table only for appropriate collection */}
+      {wayCollection.filter(collection => collection.id === userPageSettings.openedTabId)
         .map(collection => {
 
           return (
@@ -245,6 +269,10 @@ export const UserPage = (props: UserPageProps) => {
               <BaseWaysTable
                 title={collection.name}
                 wayUuids={collection.uuids}
+                filterStatus={userPageSettings.filterStatus}
+                setFilterStatus={(
+                  filterStatus: WayStatusType | typeof FILTER_STATUS_ALL_VALUE,
+                ) => updateUserPageSettings({filterStatus})}
               />
             </ScrollableBlock>
           );

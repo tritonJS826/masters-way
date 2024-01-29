@@ -6,14 +6,20 @@ import {
   getDocs,
   orderBy,
   query,
+  QueryFieldFilterConstraint,
+  QueryOrderByConstraint,
   setDoc,
+  Timestamp,
   updateDoc,
   where,
   WriteBatch,
 } from "firebase/firestore";
 import {db} from "src/firebase";
+import {ABANDONED_AFTER_MS} from "src/logic/waysTable/wayStatus";
 import {
   WAY_CREATED_AT_FIELD,
+  WAY_IS_COMPLETED_FIELD,
+  WAY_LAST_UPDATE_FIELD,
   WAY_UUID_FIELD, WayDTO,
   WayDTOSchema,
   WayPartialDTOSchema,
@@ -34,6 +40,24 @@ const PATH_TO_WAYS_COLLECTION = "ways";
  * WayDTO props without uuid
  */
 export type WayDTOWithoutUuid = Omit<WayDTO, "uuid">;
+
+export type GetWaysFilter = {
+
+  /**
+   * Show only ways in progress
+   */
+  isInProgress?: boolean;
+
+  /**
+   * Show only completed ways
+   */
+  isCompleted?: boolean;
+
+  /**
+   * Show only abandoned ways
+   */
+  isAbandoned?: boolean;
+}
 
 /**
  * Provides methods to interact with the Ways collection in Firestore.
@@ -59,21 +83,47 @@ export class WayService {
   /**
    * Get WaysDTO by uuids
    */
-  public static async getWaysDTOByUuids(wayUuids: string[]): Promise<WayDTO[]> {
+  public static async getWaysDTOByUuids(wayUuids: string[], filter?: GetWaysFilter): Promise<WayDTO[]> {
     const waysRef = collection(db, PATH_TO_WAYS_COLLECTION);
     const chunksWaysDTO = getChunksArray(wayUuids, QUERY_LIMIT);
+
+    const isCompletedConstraints = filter?.isCompleted ? [where(WAY_IS_COMPLETED_FIELD, "==", true)] : [];
+
+    const currentDate = new Date();
+    const abandonedDate = currentDate.getTime() - ABANDONED_AFTER_MS;
+    const isInProgressConstraints = filter?.isInProgress
+      ? [
+        orderBy(WAY_LAST_UPDATE_FIELD, "asc"),
+        where(WAY_LAST_UPDATE_FIELD, ">", Timestamp.fromMillis(abandonedDate)),
+      ]
+      : [];
+    const isAbandonedConstraints = filter?.isAbandoned
+      ? [
+        where(WAY_IS_COMPLETED_FIELD, "==", false),
+        orderBy(WAY_LAST_UPDATE_FIELD, "asc"),
+        where(WAY_LAST_UPDATE_FIELD, "<", Timestamp.fromMillis(abandonedDate)),
+      ]
+      : [];
+
+    const constraints: (QueryOrderByConstraint | QueryFieldFilterConstraint)[] = [
+      ...isCompletedConstraints,
+      ...isInProgressConstraints,
+      ...isAbandonedConstraints,
+      orderBy(WAY_CREATED_AT_FIELD, "desc"),
+    ];
+
     const waysDTOQueries = chunksWaysDTO.map((chunk) => {
-      return query(waysRef, where(WAY_UUID_FIELD, "in", chunk), orderBy(WAY_CREATED_AT_FIELD, "desc"));
+      return query(
+        waysRef,
+        where(WAY_UUID_FIELD, "in", chunk),
+        ...constraints,
+      );
     });
 
     const waysRaw = await Promise.all(waysDTOQueries.map(getDocs));
     const waysDTO = querySnapshotsToDTOConverter<WayDTO>(waysRaw);
 
-    // Additional sort need because firestore method orderBy works only inside method query
-    const waysDTOOrderedByDate = waysDTO
-      .sort((a, b) => b[WAY_CREATED_AT_FIELD].toDate().getTime() - a[WAY_CREATED_AT_FIELD].toDate().getTime());
-
-    const validatedWaysDTO = WaysDTOSchema.parse(waysDTOOrderedByDate);
+    const validatedWaysDTO = WaysDTOSchema.parse(waysDTO);
 
     logToConsole(`WayService:getWaysDTOByUuids: ${validatedWaysDTO.length} ${RequestOperations.READ} operations`);
 

@@ -1,3 +1,5 @@
+import {FILTER_STATUS_ALL_VALUE} from "src/logic/waysTable/BaseWaysTable";
+import {WayStatusType} from "src/logic/waysTable/wayStatus";
 import {Language} from "src/utils/LanguageWorker";
 import {Theme} from "src/utils/ThemeWorker";
 
@@ -115,5 +117,10 @@ export type UserPageSettings = {
    * Be careful thid data should be deprecated and tab with this id sometimes could not be exist
    */
   openedTabId: string;
+
+  /**
+   * Settled filter by statuses
+   */
+  filterStatus: WayStatusType | typeof FILTER_STATUS_ALL_VALUE;
 }
 
