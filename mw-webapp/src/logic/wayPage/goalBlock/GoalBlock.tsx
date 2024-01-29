@@ -8,7 +8,7 @@ import {useGlobalContext} from "src/GlobalContext";
 import {GoalMetricsBlock} from "src/logic/wayPage/goalMetricsBlock/GoalMetricsBlock";
 import {WayStatistic} from "src/logic/wayPage/wayStatistics/WayStatistic";
 import {Way} from "src/model/businessModel/Way";
-import {WayPageSettings} from "src/utils/LocalStorage";
+import {WayPageSettings} from "src/utils/LocalStorageWorker";
 import styles from "src/logic/wayPage/goalBlock/GoalBlock.module.scss";
 
 /**

@@ -1,4 +1,25 @@
 /**
+ * Specific way collection data
+ */
+export type WaysCollection = {
+
+  /**
+   * Collectoin uuid
+   */
+  id: string;
+
+  /**
+   * Collection name
+   */
+  name: string;
+
+  /**
+   * Ways uuid
+   */
+  uuids: string[];
+};
+
+/**
  * User preview model
  */
 export class UserPreview {
@@ -43,6 +64,11 @@ export class UserPreview {
    */
   public createdAt: Date;
 
+  /**
+   * Custom way collections
+   */
+  public customWayCollections: WaysCollection[];
+
   constructor(userData: UserPreview) {
     this.uuid = userData.uuid;
     this.name = userData.name;
@@ -52,6 +78,7 @@ export class UserPreview {
     this.favoriteWays = userData.favoriteWays;
     this.mentoringWays = userData.mentoringWays;
     this.createdAt = userData.createdAt;
+    this.customWayCollections = userData.customWayCollections;
   }
 
 }
