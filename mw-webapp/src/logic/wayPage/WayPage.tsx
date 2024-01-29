@@ -13,6 +13,7 @@ import {Tooltip} from "src/component/tooltip/Tooltip";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {useLoad} from "src/hooks/useLoad";
+import {updateUser, UpdateUserParams} from "src/logic/userPage/UserPage";
 import {GoalBlock} from "src/logic/wayPage/goalBlock/GoalBlock";
 import {JobTags} from "src/logic/wayPage/jobTags/JobTags";
 import {MentorRequestsSection} from "src/logic/wayPage/MentorRequestsSection";
@@ -60,7 +61,7 @@ interface UpdateWayParams {
   wayToUpdate: PartialWithUuid<Way>;
 
   /**
-   * Callback to update wy
+   * Callback to update way
    */
   setWay: (way: PartialWithUuid<Way>) => void;
 }
@@ -74,85 +75,25 @@ const updateWay = async (params: UpdateWayParams) => {
 };
 
 /**
- * Add user to Way's mentor requests
+ * Update Way and User params
  */
-const addUserToMentorRequests = (
-  way: Way,
-  setWay: (newWay: Way) => void,
-  userPreview: UserPreview) => {
-
-  const mentorRequests = way.mentorRequests.concat(userPreview);
-
-  const newWay = new Way({...way, mentorRequests});
-
-  WayDAL.updateWay(newWay);
-  setWay(newWay);
-};
-
-/**
- * Create user with updated favorites
- */
-const createUserPreviewWithUpdatedFavorites = (user: UserPreview, updatedFavoriteWays: string[]) => {
-  return new UserPreview({
-    ...user,
-    favoriteWays: updatedFavoriteWays,
-  });
-};
+type UpdateWayAndUserParams = UpdateWayParams & UpdateUserParams;
 
 /**
  * Add way uuid to UserPreview favoriteWays and add user uuid to Way favoriteForUserUuids
  */
-const addFavoriteToWayAndToUser = async (
-  userPreview: UserPreview,
-  oldWay: Way,
-  setUser: (user: UserPreview) => void,
-  setWay: (way: Way) => void,
-) => {
-  const updatedFavoriteForUser: UserPreview[] = oldWay.favoriteForUsers.concat(userPreview);
-  const updatedFavoriteWays = userPreview.favoriteWays.concat(oldWay.uuid);
-
-  const updatedWay = new Way({
-    ...oldWay,
-    favoriteForUsers: updatedFavoriteForUser,
-    owner: {
-      ...oldWay.owner,
-      favoriteWays: updatedFavoriteWays,
-    },
+export const updateWayAndUser = async (params: UpdateWayAndUserParams) => {
+  const updateWayPromise = updateWay({
+    wayToUpdate: params.wayToUpdate,
+    setWay: params.setWay,
   });
-  const updatedUser = createUserPreviewWithUpdatedFavorites(userPreview, updatedFavoriteWays);
 
-  await WayDAL.updateWayWithUser(updatedWay, updatedUser);
-
-  setUser(updatedUser);
-  setWay(updatedWay);
-};
-
-/**
- * Delete way uuid from UserPreview favoriteWays and delete user uuid from Way favoriteForUserUuids
- */
-const deleteFavoriteFromWayAndFromUser = async (
-  userPreview: UserPreview,
-  oldWay: Way,
-  setUser: (user: UserPreview) => void,
-  setWay: (way: Way) => void,
-) => {
-  const updatedFavoriteForUsers = oldWay.favoriteForUsers.filter((favorite) => favorite.uuid !== userPreview.uuid);
-  const updatedFavoriteWays = userPreview.favoriteWays.filter((favoriteWay) => favoriteWay !== oldWay.uuid);
-
-  const updatedWay = new Way({
-    ...oldWay,
-    favoriteForUsers: updatedFavoriteForUsers,
-    owner: {
-      ...oldWay.owner,
-      favoriteWays: updatedFavoriteWays,
-    },
+  const updateUserPromise = updateUser({
+    userToUpdate: params.userToUpdate,
+    setUser: params.setUser,
   });
-  const updatedUser = createUserPreviewWithUpdatedFavorites(userPreview, updatedFavoriteWays);
 
-  await WayDAL.updateWayWithUser(updatedWay, updatedUser);
-
-  setUser(updatedUser);
-  setWay(updatedWay);
+  await Promise.all([updateWayPromise, updateUserPromise]);
 };
 
 /**
@@ -167,7 +108,7 @@ interface WayPageProps {
 }
 
 /**
- * Get way page settings from localstorage
+ * Get way page settings from local storage
  */
 const getWayPageSavedSettings = () => localStorageWorker.getItemByKey<WayPageSettings>("wayPage") ?? DEFAULT_WAY_PAGE_SETTINGS;
 
@@ -191,6 +132,17 @@ export const WayPage = (props: WayPageProps) => {
 
       return {...prevWay, ...previousWay};
     });
+  };
+
+  /**
+   * Update userPreview state
+   */
+  const setUserPreviewPartial = (previousUser: Partial<UserPreview>) => {
+    if (!user) {
+      throw new Error("Previous user is undefined");
+    }
+    const updatedUser: UserPreview = {...user, ...previousUser};
+    setUser(updatedUser);
   };
 
   /**
@@ -289,7 +241,18 @@ export const WayPage = (props: WayPageProps) => {
                 <Button
                   value={`${Symbols.STAR}${Symbols.NO_BREAK_SPACE}${favoriteForUsersAmount}`}
                   onClick={() =>
-                    deleteFavoriteFromWayAndFromUser(user, way, setUser, setWay)
+                    updateWayAndUser({
+                      wayToUpdate: {
+                        uuid: way.uuid,
+                        favoriteForUsers: way.favoriteForUsers.filter((favoriteForUser) => favoriteForUser.uuid !== user.uuid),
+                      },
+                      userToUpdate: {
+                        uuid: user.uuid,
+                        favoriteWays: user.favoriteWays.filter((favoriteWay) => favoriteWay !== way.uuid),
+                      },
+                      setWay: setWayPartial,
+                      setUser: setUserPreviewPartial,
+                    })
                   }
                   buttonType={ButtonType.TERTIARY}
                 />
@@ -303,7 +266,18 @@ export const WayPage = (props: WayPageProps) => {
                   value={`${Symbols.OUTLINED_STAR}${Symbols.NO_BREAK_SPACE}${favoriteForUsersAmount}`}
                   onClick={() => {
                     if (user) {
-                      addFavoriteToWayAndToUser(user, way, setUser, setWay);
+                      updateWayAndUser({
+                        wayToUpdate: {
+                          uuid: way.uuid,
+                          favoriteForUsers: way.favoriteForUsers.concat(user),
+                        },
+                        userToUpdate: {
+                          uuid: user.uuid,
+                          favoriteWays: user.favoriteWays.concat(way.uuid),
+                        },
+                        setWay: setWayPartial,
+                        setUser: setUserPreviewPartial,
+                      });
                     }
                   }}
                   buttonType={ButtonType.TERTIARY}
@@ -383,7 +357,7 @@ export const WayPage = (props: WayPageProps) => {
       {!!way.mentors.size &&
       <MentorsSection
         way={way}
-        setWay={setWay}
+        setWay={setWayPartial}
         isOwner={isOwner}
       />}
       {isOwner && !!way.mentorRequests.length && (
@@ -395,8 +369,13 @@ export const WayPage = (props: WayPageProps) => {
       {isEligibleToSendRequest && (
         <Button
           value="Apply as Mentor"
-          onClick={() =>
-            addUserToMentorRequests(way, setWay, user)
+          onClick={() => updateWay({
+            wayToUpdate: {
+              uuid: way.uuid,
+              mentorRequests: way.mentorRequests.concat(user),
+            },
+            setWay: setWayPartial,
+          })
           }
         />)}
 

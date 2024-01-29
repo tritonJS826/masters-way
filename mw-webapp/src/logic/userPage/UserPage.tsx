@@ -22,7 +22,7 @@ import styles from "src/logic/userPage/UserPage.module.scss";
 /**
  * Update User params
  */
-interface UpdateUserParams {
+export interface UpdateUserParams {
 
   /**
    * User to update
@@ -38,7 +38,7 @@ interface UpdateUserParams {
 /**
  * Update user
  */
-const updateUser = async (params: UpdateUserParams) => {
+export const updateUser = async (params: UpdateUserParams) => {
   params.setUser(params.userToUpdate);
   await UserPreviewDAL.updateUserPreview(params.userToUpdate);
 };
