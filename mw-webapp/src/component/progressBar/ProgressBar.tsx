@@ -25,9 +25,9 @@ export const ProgressBar = (props: ProgressBarProps) => {
   return (
     <div
       style={{background: `linear-gradient(45deg,var(--primaryBorderColor) ${props.percentage}%,  var(--hoverColor) 0% )`}}
-      className={styles.progressBarContainer}
+      className={styles.progressBarContainerIndicator}
     >
-      <div className={styles.progressIndicatorPercent}>
+      <div className={styles.progressText}>
         {props.text}
       </div>
     </div>
