@@ -11,6 +11,9 @@ export const goalDTOToGoalConverter = (goalDTO: GoalDTO, goalOwner: UserPreview,
     ...goalDTO,
     student: goalOwner,
     metrics: [goalMetric],
+    // TODO: update after migration
+    goalMetrics: goalDTO.metricsStringified ? goalDTO.metricsStringified.map((metric) => JSON.parse(metric)) : [],
+    // GoalMetrics: goalDTO.metricsStringified.map((metricStringified) => JSON.parse(metricStringified))
   });
 };
 

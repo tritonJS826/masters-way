@@ -10,9 +10,11 @@ export const goalToGoalDTOPartialConverter = (goal: PartialWithUuid<Goal>): Part
   const goalPartialDTO: PartialWithUuid<GoalDTO> = {
     uuid: goal.uuid,
     description: goal.description,
+    // TODO: delete after migration
     metricUuids: goal.metrics ? goal.metrics.map((metric) => metric.uuid) : undefined,
     estimationTime: goal.estimationTime,
     studentUuid: goal.student ? goal.student.uuid : undefined,
+    metricsStringified: goal.goalMetrics ? goal.goalMetrics.map((goalMetric) => JSON.stringify(goalMetric)) : undefined,
   };
 
   const preparedGoalPartialDTO = deleteUndefinedFields(goalPartialDTO);

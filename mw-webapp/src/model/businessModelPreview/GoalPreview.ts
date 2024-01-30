@@ -28,12 +28,18 @@ export class GoalPreview {
    */
   public estimationTime: number;
 
+  /**
+   * Stringified metrics objects
+   */
+  public metricsStringified?: string[];
+
   constructor(goalData: GoalPreview) {
     this.uuid = goalData.uuid;
     this.studentUuid = goalData.studentUuid;
     this.metricUuids = goalData.metricUuids;
     this.description = goalData.description;
     this.estimationTime = goalData.estimationTime;
+    this.metricsStringified = goalData.metricsStringified;
   }
 
 }

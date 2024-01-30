@@ -37,9 +37,16 @@ isDayOff: boolean
 GoalDTO #collection
 uuid: string
 studentUuid: string @UserUuid
-metricUuids: string[] @GoalMetric.uuid[] // only one element in the array
+metricUuids?: string[] @GoalMetric.uuid[] // only one element in the array
+metricsStringified?: string[] stringified@Metric
 description: string
 estimationTime: number
+
+MetricDTO
+uuid: string
+description: string
+isDone: boolean
+doneDate: number|null
 
 PlanDTO
 uuid: string

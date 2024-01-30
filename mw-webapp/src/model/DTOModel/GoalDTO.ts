@@ -28,6 +28,12 @@ export const GoalDTOSchema = z.object({
    * Estimation time for complete goal
    */
   estimationTime: z.number(),
+
+  /**
+   * Stringified metrics objects
+   */
+  metricsStringified: z.array(z.string()).optional(),
+
 }).strict();
 
 export const GoalsDTOSchema = z.array(GoalDTOSchema);

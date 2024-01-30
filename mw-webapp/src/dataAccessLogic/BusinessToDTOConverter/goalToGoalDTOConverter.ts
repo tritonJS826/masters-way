@@ -11,6 +11,8 @@ export const goalToGoalDTOConverter = (goal: Goal): GoalDTO => {
     metricUuids: goal.metrics.map((metric) => metric.uuid),
     description: goal.description,
     estimationTime: goal.estimationTime,
+    // TODO: update after migration
+    metricsStringified: goal.goalMetrics ? goal.goalMetrics.map((goalMetric) => JSON.stringify(goalMetric)) : [],
   };
 
   return GoalDTOSchema.parse(goalDTO);

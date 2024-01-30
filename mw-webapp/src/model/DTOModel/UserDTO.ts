@@ -46,7 +46,7 @@ export const UserDTOSchema = z.object({
   createdAt: timestampType(),
 
   /**
-   * Custom way collections
+   * Stringified custom way collections
    */
   customWayCollectionsStringified: z.array(z.string()).optional(),
 
