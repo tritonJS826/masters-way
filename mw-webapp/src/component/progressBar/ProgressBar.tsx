@@ -23,14 +23,12 @@ interface ProgressBarProps {
  */
 export const ProgressBar = (props: ProgressBarProps) => {
   return (
-    <div className={styles.progressBarContainer}>
-      <div
-        style={{width: `${props.percentage}%`}}
-        className={styles.progressIndicator}
-      >
-        <div className={styles.progressIndicatorPercent}>
-          {props.text}
-        </div>
+    <div
+      style={{background: `linear-gradient(45deg,var(--primaryBorderColor) ${props.percentage}%,  var(--hoverColor) 0% )`}}
+      className={styles.progressBarContainerIndicator}
+    >
+      <div className={styles.progressText}>
+        {props.text}
       </div>
     </div>
   );
