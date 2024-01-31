@@ -26,6 +26,7 @@ mentorRequestUuids: string[] @User.uuid
 createdAt: timestamp
 wayTags: string[]
 jobDoneTags: string[]
+copiedFromWayUuid: string
 
 DayReportDTO #collection
 uuid: string

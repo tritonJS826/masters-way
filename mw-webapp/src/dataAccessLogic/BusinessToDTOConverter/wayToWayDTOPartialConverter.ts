@@ -23,6 +23,7 @@ export const wayToWayDTOPartialConverter = (way: PartialWithUuid<Way>): PartialW
     createdAt: way.createdAt ? Timestamp.fromDate(way.createdAt) : undefined,
     wayTags: way.wayTags,
     jobTags: way.jobTags,
+    copiedFromWayUuid: way.copiedFromWayUuid,
   };
 
   const preparedWayPartialDTO = deleteUndefinedFields(wayPartialDTO);
