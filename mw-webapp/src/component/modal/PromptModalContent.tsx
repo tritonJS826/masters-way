@@ -25,7 +25,7 @@ interface PromptModalContentProps {
   /**
    * Callback triggered on ok
    */
-  onOk: (inputValue: string) => Promise<void>;
+  onOk: (inputValue: string) => Promise<void> | void;
 }
 
 /**

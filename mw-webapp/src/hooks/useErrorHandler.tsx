@@ -19,8 +19,8 @@ export const useErrorHandler = () => {
    * Handle unhandled promise rejection and display notification
    */
   const handlePromiseRejection = (event: PromiseRejectionEvent) => {
-    displayNotification({text: `Unhandled Promise Rejection: ${event.reason}`, type: "error"});
-    logEvent(Analytics.PROMISE_REJECTION, {error: event});
+    displayNotification({text: `Ups, ${event.reason}`, type: "error"});
+    logEvent(Analytics.PROMISE_REJECTION, {reason: event.reason});
   };
 
   useEffect(() => {

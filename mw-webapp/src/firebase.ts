@@ -15,7 +15,7 @@ const firebaseConfig = {
 };
 
 export const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+export const analytics = getAnalytics(app);
 initializeFirestore(app, {localCache: persistentLocalCache()});
 
 /**
@@ -23,7 +23,8 @@ initializeFirestore(app, {localCache: persistentLocalCache()});
  */
 export enum Analytics {
   ERROR = "ERROR",
-  PROMISE_REJECTION = "PROMISE_REJECTION"
+  PROMISE_REJECTION = "PROMISE_REJECTION",
+  SCREEN_VIEW = "SCREEN_VIEW",
 }
 
 /**

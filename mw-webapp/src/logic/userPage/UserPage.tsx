@@ -362,8 +362,8 @@ export const UserPage = (props: UserPageProps) => {
               <BaseWaysTable
                 title={collection.name}
                 wayUuids={collection.wayUuids}
-                renameCollection={isCustomCollection
-                  ? (name: string) => updateCustomWayCollection({id: collection.id, name})
+                updateCollection={isCustomCollection
+                  ? (wayCollection: Partial<WayCollection>) => updateCustomWayCollection({id: collection.id, ...wayCollection})
                   : undefined
                 }
                 deleteCollection={isCustomCollection ? () => deleteCustomWayCollections(collection.id) : undefined}
@@ -375,6 +375,7 @@ export const UserPage = (props: UserPageProps) => {
             </ScrollableBlock>
           );
         })}
+
     </VerticalContainer>
   );
 };
