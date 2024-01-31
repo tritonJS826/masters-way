@@ -1,10 +1,12 @@
 @import "src/styles/variables";
 
 $iconContainerSize: 25px;
+$goalSectionWidth: 65%;
+$goalSubSectionWidth: 45%;
 
 .goalSection {
   display: flex;
-  width: 65%;
+  width: $goalSectionWidth;
   flex-wrap: nowrap;
   justify-content: space-between;
   margin-bottom: $marginMedium;
@@ -22,8 +24,7 @@ $iconContainerSize: 25px;
 }
 
 .goalSubSection {
-  width: 45%;
-  // min-width: $minWidthBlock;
+  width: $goalSubSectionWidth;
   max-width: $maxWidthBlock;
 }
 
