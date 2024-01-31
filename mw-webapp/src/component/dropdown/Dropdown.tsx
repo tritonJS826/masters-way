@@ -1,8 +1,9 @@
-import {ReactElement, useState} from "react";
+import {Fragment, ReactElement, useState} from "react";
 import {
   Content as DropdownContent,
   Root as DropdownRoot,
 } from "@radix-ui/react-dialog";
+import clsx from "clsx";
 import {
   DropdownMenuItem,
   DropdownMenuItemType,
@@ -23,24 +24,41 @@ export interface DropdownProps {
    * DropdownMenuItems list
    */
   dropdownMenuItems: DropdownMenuItemType[];
+
+  /**
+   * Custom class name
+   */
+  className?: string;
 }
 
 /**
- * Dropdown conponent
+ * Dropdown component
  */
 export const Dropdown = (props: DropdownProps) => {
   const [isOpenMenu, setIsOpenMenu] = useState(false);
 
   const renderDropdownMenuItems = props.dropdownMenuItems.map((item) => {
     const isVisible = item.isVisible ?? true;
+
     if (isVisible) {
-      return (
-        <DropdownMenuItem
-          key={item.id}
-          value={item.value}
-          onClick={item.onClick}
-        />
-      );
+      if (typeof item.value !== "string") {
+        return (
+          <Fragment key={item.id}>
+            {item.value}
+          </Fragment>
+        );
+      } else {
+        return (
+          <DropdownMenuItem
+            key={item.id}
+            value={item.value}
+            onClick={item.onClick ?? (() => {})}
+          />
+        );
+
+      }
+    } else {
+      return null;
     }
   });
 
@@ -54,7 +72,7 @@ export const Dropdown = (props: DropdownProps) => {
           {props.trigger}
         </div>
 
-        <DropdownContent className={styles.dropdownContent}>
+        <DropdownContent className={clsx(styles.dropdownContent, props.className)}>
           <ul className={styles.menu}>
             {renderDropdownMenuItems}
           </ul>

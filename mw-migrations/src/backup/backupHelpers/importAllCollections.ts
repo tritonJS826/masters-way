@@ -1,5 +1,4 @@
 import { DayReportService } from "../../service/DayReportService.js";
-import { GoalMetricService } from "../../service/GoalMetricService.js";
 import { GoalService } from "../../service/GoalService.js";
 import { UserService } from "../../service/UserService.js";
 import { WayService } from "../../service/WayService.js";
@@ -8,7 +7,6 @@ import { clearAllCollections } from "./clearAllCollections.js";
 import { LOG_FILE,
   DAY_REPORTS_BACKUP_FILE,
   GOALS_BACKUP_FILE,
-  GOAL_METRICS_BACKUP_FILE,
   USERS_BACKUP_FILE,
   WAYS_BACKUP_FILE
 } from "./exportAllCollections.js"
@@ -38,7 +36,6 @@ export const importToFirebase = async () => {
   const readDataStartTime = new Date();
   const dayReports = JSON.parse(getBackupByName(DAY_REPORTS_BACKUP_FILE));
   const goals = JSON.parse(getBackupByName(GOALS_BACKUP_FILE));
-  const goalMetrics = JSON.parse(getBackupByName(GOAL_METRICS_BACKUP_FILE));
   const users = JSON.parse(getBackupByName(USERS_BACKUP_FILE));
   const ways = JSON.parse(getBackupByName(WAYS_BACKUP_FILE));
   
@@ -52,14 +49,12 @@ export const importToFirebase = async () => {
   const importGoalsPromise = goals.map(GoalService.importGoal);
   const importUsersPromise = users.map(UserService.importUser);
   const importWaysPromise = ways.map(WayService.importWay);
-  const importGoalMetricsPromise = goalMetrics.map(GoalMetricService.importGoalMetrics);
 
   const createdEntities = await Promise.all([
     ...importDayReportsPromise,
     ...importGoalsPromise,
     ...importUsersPromise,
     ...importWaysPromise,
-    ...importGoalMetricsPromise,
   ]);
     
     const importEndTime = new Date();

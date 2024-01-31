@@ -7,6 +7,11 @@ $iconContainerSize: 25px;
   margin: 0 auto;
 }
 
+.wayActionMenu {
+  left: -98px;
+  width: 200px;
+}
+
 .singularMetric {
   display: flex;
   max-width: $maxWidthBlock;

@@ -2,16 +2,20 @@ import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Confirm} from "src/component/confirm/Confirm";
+import {Dropdown} from "src/component/dropdown/Dropdown";
+import {DropdownMenuItem, DropdownMenuItemType} from "src/component/dropdown/dropdownMenuItem/DropdownMenuItem";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
 import {Loader} from "src/component/loader/Loader";
+import {displayNotification} from "src/component/notification/displayNotification";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {GoalDAL} from "src/dataAccessLogic/GoalDAL";
+import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {useLoad} from "src/hooks/useLoad";
@@ -241,6 +245,71 @@ export const WayPage = (props: WayPageProps) => {
     setGoalPartial(goalToUpdate);
   };
 
+  const renderDeleteWayDropdownItem = (
+    <Confirm
+      trigger={
+        <DropdownMenuItem
+          value="Delete way"
+          onClick={() => {}}
+        />
+      }
+      content={<p>
+        {`Are you sure you want to delete the way "${way.name}"?`}
+      </p>}
+      onOk={deleteWay}
+      okText="Delete"
+    />);
+
+  /**
+   * Add or remove way from custom collection depends on custom collections.
+   */
+  const toggleWayInWayCollectionByUuid = async (collectionUuid: string) => {
+    if (!user) {
+      throw new Error("User is not exist");
+    }
+
+    const updatedCustomWayCollections = user?.customWayCollections
+      .map((userCollection) => {
+        const isCollectionToUpdate = userCollection.id === collectionUuid;
+        if (isCollectionToUpdate) {
+          const isWayExistInCollection = userCollection.wayUuids.some(wayUuid => wayUuid === props.uuid);
+
+          const updatedWayUuids = isWayExistInCollection
+            ? userCollection.wayUuids.filter(wayUuid => wayUuid !== props.uuid)
+            : userCollection.wayUuids.concat(props.uuid);
+
+          return {...userCollection, wayUuids: updatedWayUuids};
+        } else {
+          return userCollection;
+        }
+      });
+
+    setUser({...user, customWayCollections: updatedCustomWayCollections});
+    await UserPreviewDAL.updateUserPreview({uuid: user.uuid, customWayCollections: updatedCustomWayCollections});
+    displayNotification({
+      text: "Collection updated",
+      type: "info",
+    });
+  };
+
+  const renderAddToCustomCollectionDropdownItems: DropdownMenuItemType[] = (user?.customWayCollections ?? [])
+    .map((userCollection) => {
+      const isWayInUserCollection = userCollection.wayUuids.some((wayUuid: string) => wayUuid === props.uuid);
+
+      return {
+        id: userCollection.id,
+        value: (
+          <DropdownMenuItem
+            key={userCollection.id}
+            value={`${isWayInUserCollection ? "Remove from" : "Add to"} ${userCollection.name}`}
+            onClick={() => toggleWayInWayCollectionByUuid(userCollection.id)}
+          />
+        ),
+      };
+    },
+
+    );
+
   return (
     <div className={styles.container}>
       <HorizontalContainer className={styles.alignItems}>
@@ -258,78 +327,84 @@ export const WayPage = (props: WayPageProps) => {
           className={styles.titleH2}
         />
         <HorizontalContainer className={styles.buttons}>
-          {
-            isWayInFavorites ?
-              <Tooltip
-                content="Delete from favorite"
-                position={PositionTooltip.LEFT}
-              >
-                <Button
-                  value={`${Symbols.STAR}${Symbols.NO_BREAK_SPACE}${favoriteForUsersAmount}`}
-                  onClick={() =>
-                    updateWayAndUser({
-                      wayToUpdate: {
-                        uuid: way.uuid,
-                        favoriteForUserUuids: way.favoriteForUserUuids
-                          .filter((favoriteForUser) => favoriteForUser !== user.uuid),
-                      },
-                      userToUpdate: {
-                        uuid: user.uuid,
-                        favoriteWays: user.favoriteWays.filter((favoriteWay) => favoriteWay !== way.uuid),
-                      },
-                      setWay: setWayPartial,
-                      setUser: setUserPreviewPartial,
-                    })
-                  }
-                  buttonType={ButtonType.TERTIARY}
-                />
-              </Tooltip>
-              :
-              <Tooltip
-                content="Add to favorite"
-                position={PositionTooltip.LEFT}
-              >
-                <Button
-                  value={`${Symbols.OUTLINED_STAR}${Symbols.NO_BREAK_SPACE}${favoriteForUsersAmount}`}
-                  onClick={() => {
-                    if (user) {
-                      updateWayAndUser({
-                        wayToUpdate: {
-                          uuid: way.uuid,
-                          favoriteForUserUuids: way.favoriteForUserUuids.concat(user.uuid),
-                        },
-                        userToUpdate: {
-                          uuid: user.uuid,
-                          favoriteWays: user.favoriteWays.concat(way.uuid),
-                        },
-                        setWay: setWayPartial,
-                        setUser: setUserPreviewPartial,
-                      });
-                    }
-                  }}
-                  buttonType={ButtonType.TERTIARY}
-                />
-              </Tooltip>
-          }
-          <Button
-            value="Download as pdf"
-            onClick={() => downloadWayPdf(way)}
-          />
-          {isOwner &&
-            <Confirm
-              trigger={
-                <Button
-                  value="Delete way"
-                  buttonType={ButtonType.TERTIARY}
-                  onClick={() => {}}
-                />}
-              content={<p>
-                {`Are you sure you want to delete the way "${way.name}"?`}
-              </p>}
-              onOk={() => deleteWay()}
-              okText="Delete"
+          <Tooltip
+            content={`${isWayInFavorites ? "Delete from" : "Add to"} favorites`}
+            position={PositionTooltip.LEFT}
+          >
+            <Button
+              value={`${isWayInFavorites
+                ? Symbols.STAR
+                : Symbols.OUTLINED_STAR
+              }${Symbols.NO_BREAK_SPACE}${favoriteForUsersAmount}`}
+              onClick={() => {
+                if (!user) {
+                  return;
+                }
+
+                if (isWayInFavorites) {
+                  updateWayAndUser({
+                    wayToUpdate: {
+                      uuid: way.uuid,
+                      favoriteForUserUuids: way.favoriteForUserUuids
+                        .filter((favoriteForUser) => favoriteForUser !== user.uuid),
+                    },
+                    userToUpdate: {
+                      uuid: user.uuid,
+                      favoriteWays: user.favoriteWays.filter((favoriteWay) => favoriteWay !== way.uuid),
+                    },
+                    setWay: setWayPartial,
+                    setUser: setUserPreviewPartial,
+                  });
+                } else {
+                  updateWayAndUser({
+                    wayToUpdate: {
+                      uuid: way.uuid,
+                      favoriteForUserUuids: way.favoriteForUserUuids.concat(user.uuid),
+                    },
+                    userToUpdate: {
+                      uuid: user.uuid,
+                      favoriteWays: user.favoriteWays.concat(way.uuid),
+                    },
+                    setWay: setWayPartial,
+                    setUser: setUserPreviewPartial,
+                  });
+                }
+
+                displayNotification({
+                  text: `Way ${isWayInFavorites ? "removed from" : "added to" } favorites`,
+                  type: "info",
+                });
+              }}
+              buttonType={ButtonType.TERTIARY}
             />
-          }
+          </Tooltip>
+          <Dropdown
+            className={styles.wayActionMenu}
+            trigger={(
+              <Button
+                value="Way actions"
+                buttonType={ButtonType.SECONDARY}
+                onClick={() => {}}
+              />
+            )}
+            dropdownMenuItems={[
+              {
+                id: "Download as pdf",
+                value: "Download as pdf",
+
+                /**
+                 * Download way as pdf
+                 */
+                onClick: () => downloadWayPdf(way),
+              },
+              ...renderAddToCustomCollectionDropdownItems,
+              {
+                id: "Delete way",
+                value: renderDeleteWayDropdownItem,
+                isVisible: isOwner,
+              },
+            ]}
+          />
         </HorizontalContainer>
       </HorizontalContainer>
       <div className={styles.jobDoneTagsWrapper}>
