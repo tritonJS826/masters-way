@@ -79,7 +79,7 @@ export class WayPreview {
   /**
    * Way's uuid that was copied
    */
-  public copiedFrom: string;
+  public copiedFromWayUuid: string;
 
   constructor(wayData: WayPreview) {
     this.uuid = wayData.uuid;
@@ -96,7 +96,7 @@ export class WayPreview {
     this.wayTags = wayData.wayTags;
     this.jobTags = wayData.jobTags;
     this.formerMentorUuids = wayData.formerMentorUuids;
-    this.copiedFrom = wayData.copiedFrom;
+    this.copiedFromWayUuid = wayData.copiedFromWayUuid;
   }
 
 }

@@ -84,7 +84,7 @@ export const WayDTOSchema = z.object({
   /**
    * Way's uuid that was copied
    */
-  copiedFrom: z.string(),
+  copiedFromWayUuid: z.string(),
 
 }).strict();
 

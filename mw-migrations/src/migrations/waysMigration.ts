@@ -4,11 +4,11 @@ import { db } from "../firebase.js";
 import { WayService } from "../service/WayService.js";
 import { logToFile } from "../utils/logToFile.js";
 
-const FILE_TO_LOG = "wayMigration_add_copiedFrom"
+const FILE_TO_LOG = "wayMigration_add_copiedFromWayUuid"
 const log = (textToLog: string) => logToFile(`${(new Date()).toISOString()}: ${textToLog}`, FILE_TO_LOG);
 
 /*
- * Add copiedFrom property to all ways
+ * Add copiedFromWayUuid property to all ways
  */
 const migrateWays = async () => {
   const waysMigrationStartTime = new Date();
@@ -33,7 +33,7 @@ const migrateWays = async () => {
       
       const wayRef = doc(db, "ways", way.uuid);
       batch.update(wayRef, {
-        copiedFrom: "",
+        copiedFromWayUuid: "",
       });
 
       const wayMigrationEndTime = new Date();
@@ -55,7 +55,7 @@ const migrateWays = async () => {
     Migrations report:
 
     Migration goal:
-    Add "copiedFrom" field to all Ways
+    Add "copiedFromWayUuid" field to all Ways
     
     Start time: ${waysMigrationStartTime}
     End time: ${waysMigrationEndTime}

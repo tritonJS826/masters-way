@@ -123,7 +123,7 @@ export class WayDAL {
       favoriteForUserUuids: [],
       wayTags: [],
       jobTags: [],
-      copiedFrom: "",
+      copiedFromWayUuid: "",
     };
     const wayDTO = WayService.createWayDTOWithBatch(DEFAULT_WAY, batch);
 

@@ -73,6 +73,6 @@ export const wayDTOToWayConverter = (wayDTO: WayDTO, wayProps: WayProps): Way =>
     lastUpdate: wayProps.lastUpdate,
     favoriteForUserUuids: wayDTO.favoriteForUserUuids,
     createdAt: wayProps.createdAt,
-    copiedFrom: wayDTO.copiedFrom,
+    copiedFromWayUuid: wayDTO.copiedFromWayUuid,
   });
 };
