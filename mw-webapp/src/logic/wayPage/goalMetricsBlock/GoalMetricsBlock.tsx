@@ -1,14 +1,13 @@
 import {useState} from "react";
 import {Button} from "src/component/button/Button";
-import {ProgressBar} from "src/component/progressBar/ProgressBar";
+import {getDefaultLongValueLabel, ProgressBar} from "src/component/progressBar/ProgressBar";
 import {GoalMetricDAL} from "src/dataAccessLogic/GoalMetricDAL";
 import {GoalMetricItem} from "src/logic/wayPage/goalMetricsBlock/GoalMetricItem";
 import {Goal} from "src/model/businessModel/Goal";
 import {GoalMetric} from "src/model/businessModel/GoalMetric";
 import {Way} from "src/model/businessModel/Way";
 import {v4 as uuidv4} from "uuid";
-
-const MAX_PERCENTAGE = 100;
+import styles from "src/logic/wayPage/goalMetricsBlock/GoalMetricsBlock.module.scss";
 
 /**
  * GoalMetricStatisticsBlock Props
@@ -86,13 +85,13 @@ export const GoalMetricsBlock = (props: GoalMetricStatisticsBlockProps) => {
    */
   const renderGoalMetrics = (goalMetric: GoalMetric) => {
     const doneMetricsAmount = goalMetric.isDone.filter(Boolean).length;
-    const computedProcent = doneMetricsAmount && Math.round(doneMetricsAmount / goalMetric.metricUuids.length * MAX_PERCENTAGE);
 
     return (
-      <>
+      <div className={styles.goalMetricsBlock}>
         <ProgressBar
-          percentage= {computedProcent}
-          text={`${computedProcent}%`}
+          value={doneMetricsAmount}
+          max={goalMetric.metricUuids.length}
+          getValueLabel={getDefaultLongValueLabel}
         />
         {goalMetric.metricUuids.map((metricUuid, index) => {
           return (
@@ -112,7 +111,7 @@ export const GoalMetricsBlock = (props: GoalMetricStatisticsBlockProps) => {
           );
         })
         }
-      </>
+      </div>
     );
   };
 

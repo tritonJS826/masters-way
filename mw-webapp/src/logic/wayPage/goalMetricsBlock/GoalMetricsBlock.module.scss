@@ -1,0 +1,8 @@
+@import "src/styles/variables";
+
+.goalMetricsBlock {
+  display: flex;
+  flex-direction: column;
+  margin-top: $gapSmall;
+  gap: $gapMedium;
+}

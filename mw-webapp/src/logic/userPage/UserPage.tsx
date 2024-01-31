@@ -248,6 +248,13 @@ export const UserPage = (props: UserPageProps) => {
             />
           ))}
 
+          <Button
+            value="Create new collection"
+            onClick={() => alert("Coming soon")}
+            className={styles.collectionButton}
+            buttonType={ButtonType.SECONDARY}
+          />
+
         </HorizontalContainer>
       </HorizontalContainer>
 
