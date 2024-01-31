@@ -11,6 +11,6 @@ export const UserDTOToUserPreviewConverter = (userDTO: UserDTO): UserPreview => 
     favoriteWays: userDTO.favoriteWayUuids,
     mentoringWays: userDTO.mentoringWayUuids,
     createdAt: userDTO.createdAt.toDate(),
-    customWayCollections: [],
+    customWayCollections: userDTO.customWayCollectionsStringified.map((collection) => JSON.parse(collection)),
   });
 };

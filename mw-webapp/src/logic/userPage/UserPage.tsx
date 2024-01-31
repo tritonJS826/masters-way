@@ -17,7 +17,8 @@ import {Way} from "src/model/businessModel/Way";
 import {UserPreview, WaysCollection as WayCollection} from "src/model/businessModelPreview/UserPreview";
 import {pages} from "src/router/pages";
 import {localStorageWorker, UserPageSettings} from "src/utils/LocalStorageWorker";
-import {PartialWithUuid} from "src/utils/PartialWithUuid";
+import {PartialWithId, PartialWithUuid} from "src/utils/PartialWithUuid";
+import {v4 as uuidv4} from "uuid";
 import styles from "src/logic/userPage/UserPage.module.scss";
 
 /**
@@ -88,35 +89,41 @@ const getUserPageSavedSettings = (allCollections: WayCollection[]) => {
 };
 
 /**
+ * Get all way collections
+ */
+const getAllWayCollections = (userPreview: UserPreview): WayCollection[] => [
+  {
+    id: DefaultCollections.OWN,
+    name: "Own ways",
+    wayUuids: userPreview.ownWays ?? [],
+  }, {
+    id: DefaultCollections.MENTORING,
+    name: "Mentoring ways",
+    wayUuids: userPreview.mentoringWays ?? [],
+  },
+  {
+    id: DefaultCollections.FAVORITE,
+    name: "Favorite ways",
+    wayUuids: userPreview.favoriteWays ?? [],
+  },
+  ...(userPreview.customWayCollections ?? []),
+];
+
+/**
  * User page
  */
 export const UserPage = (props: UserPageProps) => {
   const [userPreview, setUserPreview] = useState<UserPreview>();
-  const wayCollection: WayCollection[] = [
-    ...(userPreview?.customWayCollections ?? []),
-    {
-      id: DefaultCollections.OWN,
-      name: "Own ways",
-      uuids: userPreview?.ownWays ?? [],
-    }, {
-      id: DefaultCollections.MENTORING,
-      name: "Mentoring ways",
-      uuids: userPreview?.mentoringWays ?? [],
-    },
-    {
-      id: DefaultCollections.FAVORITE,
-      name: "Favorite ways",
-      uuids: userPreview?.favoriteWays ?? [],
-    },
-  ];
-
-  const [userPageSettings, setUserPageSettings] = useState<UserPageSettings>(getUserPageSavedSettings(wayCollection));
+  const [userPageSettings, setUserPageSettings] = useState<UserPageSettings>();
 
   /**
    * Update way page settings
    */
   const updateUserPageSettings = (settingsToUpdate: Partial<UserPageSettings>) => {
-    const previousWayPageSettings = getUserPageSavedSettings(wayCollection);
+    if (!userPreview) {
+      throw new Error("UserPreview is not defined");
+    }
+    const previousWayPageSettings = getUserPageSavedSettings(getAllWayCollections(userPreview));
     const updatedSettings = {...previousWayPageSettings, ...settingsToUpdate};
     localStorageWorker.setItemByKey("wayPage", updatedSettings);
     setUserPageSettings(updatedSettings);
@@ -136,7 +143,7 @@ export const UserPage = (props: UserPageProps) => {
   };
 
   const navigate = useNavigate();
-  const {user} = useGlobalContext();
+  const {user, setUser} = useGlobalContext();
   const isPageOwner = !!user && !!userPreview && user.uuid === userPreview.uuid;
 
   /**
@@ -167,6 +174,8 @@ export const UserPage = (props: UserPageProps) => {
    */
   const onSuccess = (data: UserPreview) => {
     setUserPreview(data);
+    const loadedUserPageSettings = getUserPageSavedSettings(getAllWayCollections(data));
+    setUserPageSettings(loadedUserPageSettings);
   };
 
   useLoad(
@@ -179,7 +188,7 @@ export const UserPage = (props: UserPageProps) => {
     },
   );
 
-  if (!userPreview) {
+  if (!userPreview || !userPageSettings) {
     return (
       <Loader />
     );
@@ -191,6 +200,79 @@ export const UserPage = (props: UserPageProps) => {
   const createWay = async (owner: UserPreview) => {
     const newWay: Way = await WayDAL.createWay(owner);
     navigate(pages.way.getPath({uuid: newWay.uuid}));
+  };
+
+  /**
+   * Create collection
+   */
+  const createCustomWayCollection = async () => {
+    if (!user) {
+      throw new Error("User is not defined");
+    }
+    const newWayCollectionId = uuidv4();
+    const newWayCollection: WayCollection = {
+      id: newWayCollectionId,
+      name: "New collection",
+      wayUuids: [],
+    };
+
+    const updatedCustomWayCollections = user.customWayCollections.concat(newWayCollection);
+
+    await UserPreviewDAL.updateUserPreview({
+      uuid: user.uuid,
+      customWayCollections: updatedCustomWayCollections,
+    });
+    setUserPreviewPartial({customWayCollections: updatedCustomWayCollections});
+    setUser({...user, customWayCollections: updatedCustomWayCollections});
+
+    updateUserPageSettings({openedTabId: newWayCollectionId});
+  };
+
+  /**
+   * Delete custom way collection
+   */
+  const deleteCustomWayCollections = async (collectionId: string) => {
+    if (!user) {
+      throw new Error("User is not defined");
+    }
+    const updatedCustomWayCollections = user.customWayCollections
+      .filter(collection => collection.id !== collectionId);
+
+    await UserPreviewDAL.updateUserPreview({
+      uuid: user.uuid,
+      customWayCollections: updatedCustomWayCollections,
+    });
+    setUserPreviewPartial({customWayCollections: updatedCustomWayCollections});
+    setUser({...user, customWayCollections: updatedCustomWayCollections});
+
+    updateUserPageSettings({openedTabId: DEFAULT_USER_PAGE_SETTINGS.openedTabId});
+  };
+
+  /**
+   * Update custom way collection
+   */
+  const updateCustomWayCollection = async (wayCollectionToUpdate: PartialWithId<WayCollection>) => {
+    if (!user) {
+      throw new Error("User is not defined");
+    }
+
+    const updatedCustomWayCollections = user.customWayCollections
+      .map(collection => {
+        if (collection.id === wayCollectionToUpdate.id) {
+          return {...collection, ...wayCollectionToUpdate};
+        } else {
+          return collection;
+        }
+      });
+
+    await UserPreviewDAL.updateUserPreview({
+      uuid: user.uuid,
+      customWayCollections: updatedCustomWayCollections,
+    });
+    setUserPreviewPartial({customWayCollections: updatedCustomWayCollections});
+    setUser({...user, customWayCollections: updatedCustomWayCollections});
+
+    updateUserPageSettings({openedTabId: wayCollectionToUpdate.id});
   };
 
   return (
@@ -238,22 +320,24 @@ export const UserPage = (props: UserPageProps) => {
         </VerticalContainer>
 
         <HorizontalContainer className={styles.tabsSection}>
-          {wayCollection.map(collection => (
+          {getAllWayCollections(userPreview).map(collection => (
             <Button
               key={collection.id}
-              value={`${collection.name} (${collection.uuids.length})`}
+              value={`${collection.name} (${collection.wayUuids.length})`}
               onClick={() => updateUserPageSettings({openedTabId: collection.id})}
               className={styles.collectionButton}
               buttonType={collection.id === userPageSettings.openedTabId ? ButtonType.PRIMARY : ButtonType.SECONDARY}
             />
           ))}
 
-          <Button
-            value="Create new collection"
-            onClick={() => alert("Coming soon")}
-            className={styles.collectionButton}
-            buttonType={ButtonType.SECONDARY}
-          />
+          {isPageOwner && (
+            <Button
+              value="Add collection"
+              onClick={createCustomWayCollection}
+              className={styles.collectionButton}
+              buttonType={ButtonType.SECONDARY}
+            />
+          )}
 
         </HorizontalContainer>
       </HorizontalContainer>
@@ -268,14 +352,21 @@ export const UserPage = (props: UserPageProps) => {
       }
 
       {/* Render table only for appropriate collection */}
-      {wayCollection.filter(collection => collection.id === userPageSettings.openedTabId)
+      {getAllWayCollections(userPreview)
+        .filter(collection => collection.id === userPageSettings.openedTabId)
         .map(collection => {
+          const isCustomCollection = userPreview.customWayCollections.some((col) => col.id === collection.id);
 
           return (
             <ScrollableBlock key={collection.id}>
               <BaseWaysTable
                 title={collection.name}
-                wayUuids={collection.uuids}
+                wayUuids={collection.wayUuids}
+                renameCollection={isCustomCollection
+                  ? (name: string) => updateCustomWayCollection({id: collection.id, name})
+                  : undefined
+                }
+                deleteCollection={isCustomCollection ? () => deleteCustomWayCollections(collection.id) : undefined}
                 filterStatus={userPageSettings.filterStatus}
                 setFilterStatus={(
                   filterStatus: WayStatusType | typeof FILTER_STATUS_ALL_VALUE,

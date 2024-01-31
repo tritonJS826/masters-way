@@ -3,10 +3,10 @@ import {TrashIcon} from "@radix-ui/react-icons";
 import {Button} from "src/component/button/Button";
 import {Confirm} from "src/component/confirm/Confirm";
 import {Modal} from "src/component/modal/Modal";
+import {PromptModalContent} from "src/component/modal/PromptModalContent";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {JobTag} from "src/logic/wayPage/jobTags/jobTag/JobTag";
-import {NewJobTagModalContent} from "src/logic/wayPage/jobTags/newJobTagModalContent/NewJobTagModalContent";
 import styles from "src/logic/wayPage/jobTags/JobTags.module.scss";
 
 /**
@@ -99,9 +99,9 @@ export const JobTags = (props: JobTagsProps) => {
       <Modal
         isOpen={isJobDoneModalOpen}
         content={
-          <NewJobTagModalContent
+          <PromptModalContent
             close={() => setIsJobDoneModalOpen(false)}
-            createNewJobTag={createJobTag}
+            onOk={createJobTag}
           />
         }
         trigger={

@@ -4,7 +4,7 @@
 export type WaysCollection = {
 
   /**
-   * Collectoin uuid
+   * Collection uuid
    */
   id: string;
 
@@ -16,7 +16,7 @@ export type WaysCollection = {
   /**
    * Ways uuid
    */
-  uuids: string[];
+  wayUuids: string[];
 };
 
 /**
