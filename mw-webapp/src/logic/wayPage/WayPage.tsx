@@ -10,6 +10,7 @@ import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
+import {GoalDAL} from "src/dataAccessLogic/GoalDAL";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {useLoad} from "src/hooks/useLoad";
@@ -20,7 +21,9 @@ import {MentorRequestsSection} from "src/logic/wayPage/MentorRequestsSection";
 import {MentorsSection} from "src/logic/wayPage/MentorsSection";
 import {downloadWayPdf} from "src/logic/wayPage/renderWayToPdf/downloadWayPdf";
 import {DayReportsTable} from "src/logic/wayPage/reportsTable/dayReportsTable/DayReportsTable";
+import {WayStatistic} from "src/logic/wayPage/wayStatistics/WayStatistic";
 import {DayReport} from "src/model/businessModel/DayReport";
+import {Goal} from "src/model/businessModel/Goal";
 import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {pages} from "src/router/pages";
@@ -119,7 +122,9 @@ export const WayPage = (props: WayPageProps) => {
   const navigate = useNavigate();
   const [wayPageSettings, setWayPageSettings] = useState<WayPageSettings>(getWayPageSavedSettings());
   const {user, setUser} = useGlobalContext();
+  // TODO: goal inside way doesn't use for editing
   const [way, setWay] = useState<Way>();
+  const [goal, setGoal] = useState<Goal>();
 
   /**
    * Update way state
@@ -162,6 +167,7 @@ export const WayPage = (props: WayPageProps) => {
    */
   const onSuccess = (data: Way) => {
     setWay(data);
+    setGoal(data.goal);
   };
 
   useLoad(
@@ -173,11 +179,21 @@ export const WayPage = (props: WayPageProps) => {
     },
   );
 
-  if (!way) {
+  if (!way || !goal) {
     return (
       <Loader />
     );
   }
+
+  /**
+   * Update way state
+   */
+  const setGoalPartial = (previousGoal: Partial<Goal>) => {
+    if (goal) {
+      const updatedGoal: Goal = {...goal, ...previousGoal};
+      setGoal(updatedGoal);
+    }
+  };
 
   const isWayInFavorites = user && user.favoriteWays.includes(way.uuid);
 
@@ -213,6 +229,14 @@ export const WayPage = (props: WayPageProps) => {
   const setDayReports = (dayReports: DayReport[]) => {
     const updatedWay = {...way, dayReports};
     setWay(updatedWay);
+  };
+
+  /**
+   * Update goal
+   */
+  const updateGoal = async (goalToUpdate: PartialWithUuid<Goal>) => {
+    await GoalDAL.updateGoal(goalToUpdate);
+    setGoalPartial(goalToUpdate);
   };
 
   return (
@@ -380,9 +404,17 @@ export const WayPage = (props: WayPageProps) => {
         />)}
 
       <GoalBlock
-        way={way}
+        goal={goal}
+        updateGoal={updateGoal}
+        isEditable={isOwner}
         wayPageSettings={wayPageSettings}
         updateWaySettings={updateWayPageSettings}
+      />
+
+      <WayStatistic
+        dayReports={way.dayReports}
+        wayCreatedAt={way.createdAt}
+        isVisible={wayPageSettings.isStatisticsVisible}
       />
 
       <ScrollableBlock>

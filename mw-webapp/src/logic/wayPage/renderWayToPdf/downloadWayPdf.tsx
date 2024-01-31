@@ -123,11 +123,11 @@ const getGoal = (goal: Goal) => {
       bold: true,
       margin: [0, MARGIN_SMALL, 0, 0],
     },
-    ...goal.metrics[0].description
-      .map((goalMetric, index) =>
-        `${goal.metrics[0].isDone[index]
-          ? DateUtils.getShortISODateValue(goal.metrics[0].doneDate[index])
-          : "Not finished"}: ${goalMetric}`),
+    ...goal.metrics
+      .map((metric) =>
+        `${metric.isDone && metric.doneDate
+          ? DateUtils.getShortISODateValue(metric.doneDate)
+          : "Not finished"}: ${metric}`),
   ];
 };
 

@@ -4,52 +4,9 @@ import {Confirm} from "src/component/confirm/Confirm";
 import {EditableText} from "src/component/editableText/EditableText";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Tooltip} from "src/component/tooltip/Tooltip";
-import {GoalMetricDAL} from "src/dataAccessLogic/GoalMetricDAL";
-import {Goal} from "src/model/businessModel/Goal";
-import {GoalMetric} from "src/model/businessModel/GoalMetric";
-import {Way} from "src/model/businessModel/Way";
+import {Metric} from "src/model/businessModel/Metric";
 import {DateUtils} from "src/utils/DateUtils";
 import styles from "src/logic/wayPage/WayPage.module.scss";
-
-/**
- * Singular metric for goal
- */
-class SingleGoalMetric {
-
-  /**
-   * Goal metric uuid
-   */
-  public uuid: string;
-
-  /**
-   * Metric uuid
-   */
-  public metricUuid: string;
-
-  /**
-   * Metric description
-   */
-  public description: string;
-
-  /**
-   * Metric is done or not
-   */
-  public isDone: boolean;
-
-  /**
-   * Date when metric was done
-   */
-  public doneDate: Date;
-
-  constructor(params: SingleGoalMetric) {
-    this.uuid = params.uuid;
-    this.metricUuid = params.metricUuid;
-    this.description = params.description;
-    this.isDone = params.isDone;
-    this.doneDate = params.doneDate;
-  }
-
-}
 
 /**
  * Single Goal Metric Props
@@ -57,9 +14,9 @@ class SingleGoalMetric {
 interface SingleGoalMetricProps {
 
   /**
-   * Single goal mentric
+   * Single goal metric
    */
-  singleGoalMetric: SingleGoalMetric;
+  metric: Metric;
 
   /**
    * Is editable
@@ -68,94 +25,41 @@ interface SingleGoalMetricProps {
   isEditable: boolean;
 
   /**
-   * Way
+   * Callback to delete metric
    */
-  way: Way;
+  deleteMetric: (metricUuid: string) => Promise<void>;
 
   /**
-   * Callback for change way
+   * Callback to update Metric
    */
-  setWay: (newWay: Way) => void;
+  updateMetric: (metric: Metric) => Promise<void>;
+
 }
 
 /**
  * Goal metric
  */
 export const GoalMetricItem = (props: SingleGoalMetricProps) => {
-
-  /**
-   * Remove singular goal Metric from goal
-   */
-  const removeSingularGoalMetric = async (singularGoalMetricUuid: string) => {
-    const goalMetricToUpdate: GoalMetric = structuredClone(props.way.goal.metrics[0]);
-    const indexToDelete = goalMetricToUpdate.metricUuids.indexOf(singularGoalMetricUuid);
-
-    const AMOUNT_TO_DELETE = 1;
-    goalMetricToUpdate.metricUuids.splice(indexToDelete, AMOUNT_TO_DELETE);
-    goalMetricToUpdate.description.splice(indexToDelete, AMOUNT_TO_DELETE);
-    goalMetricToUpdate.isDone.splice(indexToDelete, AMOUNT_TO_DELETE);
-    goalMetricToUpdate.doneDate.splice(indexToDelete, AMOUNT_TO_DELETE);
-
-    const updatedGoalMetric: GoalMetric = new GoalMetric(goalMetricToUpdate);
-
-    props.setWay(new Way({...props.way, goal: new Goal({...props.way.goal, metrics: [updatedGoalMetric]})}));
-    await GoalMetricDAL.updateGoalMetric(updatedGoalMetric);
-  };
-
-  /**
-   * Change goal metric
-   */
-  const updateGoalMetric = async (updatedSingleGoalMetric: SingleGoalMetric) => {
-    const goalMetricToUpdate: GoalMetric = structuredClone(props.way.goal.metrics[0]);
-    const changedIndex = goalMetricToUpdate.metricUuids.indexOf(updatedSingleGoalMetric.metricUuid);
-
-    const updatedGoalMetric: GoalMetric = new GoalMetric({
-      ...goalMetricToUpdate,
-      description: goalMetricToUpdate.description.map(
-        (item, index) => index === changedIndex ? updatedSingleGoalMetric.description : item,
-      ),
-      isDone: goalMetricToUpdate.isDone.map(
-        (item, index) => index === changedIndex ? updatedSingleGoalMetric.isDone : item,
-      ),
-      doneDate: goalMetricToUpdate.doneDate.map(
-        (item, index) => index === changedIndex ? updatedSingleGoalMetric.doneDate : item,
-      ),
-    });
-
-    props.setWay(new Way({...props.way, goal: new Goal({...props.way.goal, metrics: [updatedGoalMetric]})}));
-    await GoalMetricDAL.updateGoalMetric(updatedGoalMetric);
-  };
-
-  const tooltipContent = props.singleGoalMetric.isDone
-    ? `Done date ${DateUtils.getShortISODateValue(props.singleGoalMetric.doneDate)}`
+  const tooltipContent = props.metric.isDone && props.metric.doneDate
+    ? `Done date ${DateUtils.getShortISODateValue(props.metric.doneDate)}`
     : "Not finished yet...";
 
   return (
     <div
-      key={props.singleGoalMetric.metricUuid}
+      key={props.metric.uuid}
       className={styles.singularMetric}
     >
       <HorizontalContainer className={styles.horizontalContainer}>
         <Checkbox
           isEditable={props.isEditable}
-          isDefaultChecked={props.singleGoalMetric.isDone}
+          isDefaultChecked={props.metric.isDone}
           className={styles.checkbox}
-          onChange={(isDone) => {
-            const updatedSingleGoalMetric = new SingleGoalMetric({
-              ...props.singleGoalMetric,
-              isDone,
-              doneDate: new Date(),
-            });
-            updateGoalMetric(updatedSingleGoalMetric);
-          }
-          }
+          onChange={(isDone) => props.updateMetric({...props.metric, isDone})}
         />
         <Tooltip content={tooltipContent}>
           <EditableText
-            text={props.singleGoalMetric.description ?? ""}
-            onChangeFinish={(description) => updateGoalMetric(
-              new SingleGoalMetric({...props.singleGoalMetric, description}),
-            )}
+            text={props.metric.description ?? ""}
+            onChangeFinish={(description) => props.updateMetric({...props.metric, description})}
             isEditable={props.isEditable}
           />
         </Tooltip>
@@ -166,9 +70,9 @@ export const GoalMetricItem = (props: SingleGoalMetricProps) => {
             trigger={
               <TrashIcon className={styles.icon} />}
             content={<p>
-              {`Are you sure that you want to delete goal metric "${props.singleGoalMetric.description}"?`}
+              {`Are you sure that you want to delete goal metric "${props.metric.description}"?`}
             </p>}
-            onOk={() => removeSingularGoalMetric(props.singleGoalMetric.metricUuid)}
+            onOk={() => props.deleteMetric(props.metric.uuid)}
             okText="Delete"
           />
         </Tooltip>
