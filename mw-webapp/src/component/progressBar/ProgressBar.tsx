@@ -31,7 +31,6 @@ interface ProgressBarProps {
   /**
    * Max available value
    * 100 by default
-   *
    */
   max?: number;
 
