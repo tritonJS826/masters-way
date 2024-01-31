@@ -108,32 +108,6 @@ export const GoalBlock = (props: GoalBlockProps) => {
           isEditable={props.isEditable}
         />
       </div>
-      <div className={styles.goalSubSection}>
-        <HorizontalContainer className={styles.horizontalContainer}>
-          <Title
-            level={HeadingLevel.h3}
-            text="Statistics"
-          />
-          <Tooltip content={`Click to ${props.wayPageSettings.isStatisticsVisible ? "hide" : "open"} statistics block`}>
-            <div
-              className={styles.iconContainer}
-              onClick={() => props.updateWaySettings({isStatisticsVisible: !props.wayPageSettings.isStatisticsVisible})}
-            >
-              {props.wayPageSettings.isStatisticsVisible ?
-                <Icon
-                  size={IconSize.MEDIUM}
-                  name="EyeOpenedIcon"
-                />
-                :
-                <Icon
-                  size={IconSize.MEDIUM}
-                  name="EyeSlashedIcon"
-                />
-              }
-            </div>
-          </Tooltip>
-        </HorizontalContainer>
-      </div>
     </div>
   );
 };

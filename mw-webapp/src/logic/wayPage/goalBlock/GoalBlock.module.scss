@@ -4,8 +4,8 @@ $iconContainerSize: 25px;
 
 .goalSection {
   display: flex;
-  width: 100%;
-  flex-wrap: wrap;
+  width: 65%;
+  flex-wrap: nowrap;
   justify-content: space-between;
   margin-bottom: $marginMedium;
   gap: $gapMedium;
@@ -22,8 +22,8 @@ $iconContainerSize: 25px;
 }
 
 .goalSubSection {
-  width: 30%;
-  min-width: $minWidthBlock;
+  width: 45%;
+  // min-width: $minWidthBlock;
   max-width: $maxWidthBlock;
 }
 
@@ -36,6 +36,18 @@ $iconContainerSize: 25px;
   width: $iconContainerSize;
   height: $iconContainerSize;
   cursor: pointer;
+}
+
+@media (max-width: $mediaWidthTabletBig) {
+  .goalSection {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .goalSubSection {
+    min-width: $minWidthBlock;
+    max-width: $maxWidthBlock;
+  }
 }
 
 @media (max-width: $mediaWidthMobileBig) {

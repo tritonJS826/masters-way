@@ -10,6 +10,7 @@ import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
+import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {GoalDAL} from "src/dataAccessLogic/GoalDAL";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {useGlobalContext} from "src/GlobalContext";
@@ -404,19 +405,49 @@ export const WayPage = (props: WayPageProps) => {
           }
         />)}
 
-      <GoalBlock
-        goal={goal}
-        updateGoal={updateGoal}
-        isEditable={isOwner}
-        wayPageSettings={wayPageSettings}
-        updateWaySettings={updateWayPageSettings}
-      />
+      <HorizontalContainer className={styles.wrap}>
 
-      <WayStatistic
-        dayReports={way.dayReports}
-        wayCreatedAt={way.createdAt}
-        isVisible={wayPageSettings.isStatisticsVisible}
-      />
+        <GoalBlock
+          goal={goal}
+          updateGoal={updateGoal}
+          isEditable={isOwner}
+          wayPageSettings={wayPageSettings}
+          updateWaySettings={updateWayPageSettings}
+        />
+
+        <VerticalContainer className={styles.statistics}>
+          <HorizontalContainer className={styles.horizontalContainer}>
+            <Title
+              level={HeadingLevel.h3}
+              text="Statistics"
+            />
+            <Tooltip content={`Click to ${wayPageSettings.isStatisticsVisible ? "hide" : "open"} statistics block`}>
+              <div
+                className={styles.iconContainer}
+                onClick={() => updateWayPageSettings({isStatisticsVisible: !wayPageSettings.isStatisticsVisible})}
+              >
+                {wayPageSettings.isStatisticsVisible ?
+                  <Icon
+                    size={IconSize.MEDIUM}
+                    name="EyeOpenedIcon"
+                  />
+                  :
+                  <Icon
+                    size={IconSize.MEDIUM}
+                    name="EyeSlashedIcon"
+                  />
+                }
+              </div>
+            </Tooltip>
+          </HorizontalContainer>
+          <WayStatistic
+            dayReports={way.dayReports}
+            wayCreatedAt={way.createdAt}
+            isVisible={wayPageSettings.isStatisticsVisible}
+          />
+        </VerticalContainer>
+
+      </HorizontalContainer>
 
       <ScrollableBlock>
         <DayReportsTable
