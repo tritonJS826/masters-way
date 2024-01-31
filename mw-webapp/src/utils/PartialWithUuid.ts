@@ -9,3 +9,15 @@ export type PartialWithUuid<T> = Partial<T> & {
    */
   uuid: string;
 }
+
+/**
+ * Partial type
+ * @required {@link id} field
+ */
+export type PartialWithId<T> = Partial<T> & {
+
+  /**
+   * Uuid
+   */
+  id: string;
+}

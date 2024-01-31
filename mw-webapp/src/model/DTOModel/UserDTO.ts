@@ -48,7 +48,7 @@ export const UserDTOSchema = z.object({
   /**
    * Stringified custom way collections
    */
-  customWayCollectionsStringified: z.array(z.string()).optional(),
+  customWayCollectionsStringified: z.array(z.string()),
 
 }).strict();
 

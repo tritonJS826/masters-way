@@ -1,7 +1,11 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {Button, ButtonType} from "src/component/button/Button";
+import {Confirm} from "src/component/confirm/Confirm";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Loader} from "src/component/loader/Loader";
+import {Modal} from "src/component/modal/Modal";
+import {PromptModalContent} from "src/component/modal/PromptModalContent";
 import {Select} from "src/component/select/Select";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
@@ -39,6 +43,16 @@ interface BaseWaysTableProps {
    * Callback to change filter status
    */
   setFilterStatus: (status: WayStatusType | typeof FILTER_STATUS_ALL_VALUE) => void;
+
+  /**
+   * Delete current collection
+   */
+  deleteCollection?: () => Promise<void>;
+
+  /**
+   * Rename collection
+   */
+  renameCollection?: (name: string) => Promise<void>;
 }
 
 export const FILTER_STATUS_ALL_VALUE = "all";
@@ -95,6 +109,8 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
     },
   );
 
+  const [isRenameCollectionModalOpen, setIsRenameCollectionModalOpen] = useState(false);
+
   if (!ways) {
     return (
       <VerticalContainer className={styles.loaderWrapper}>
@@ -105,9 +121,43 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
 
   return (
     <>
-      <HorizontalContainer className={styles.filter}>
+      <HorizontalContainer className={styles.wayCollectionActions}>
+        {props.deleteCollection && (
+          <Confirm
+            trigger={
+              <Button
+                value="Delete current collection"
+                onClick={() => {}}
+                buttonType={ButtonType.SECONDARY}
+                className={styles.button}
+              />
+            }
+            content={<p>
+              {`Are you sure you want to delete collection "${props.title}" ?`}
+            </p>}
+            onOk={props.deleteCollection}
+            okText="Ok"
+          />
+        )}
+        {props.renameCollection && (
+          <Modal
+            isOpen={isRenameCollectionModalOpen}
+            content={
+              <PromptModalContent
+                close={() => setIsRenameCollectionModalOpen(false)}
+                onOk={props.renameCollection}
+              />
+            }
+            trigger={
+              <Button
+                value="Rename collection"
+                onClick={() => setIsRenameCollectionModalOpen(true)}
+              />
+            }
+          />
+        )}
         <Select
-          label="Show only"
+          label="Show only: "
           value={props.filterStatus}
           name="filterStatus"
           options={[
