@@ -19,7 +19,7 @@ export const wayToWayDTOPartialConverter = (way: PartialWithUuid<Way>): PartialW
     mentorRequestUuids: way.mentorRequests ? way.mentorRequests.map((mentorRequestUuid) => mentorRequestUuid.uuid) : undefined,
     isCompleted: way.isCompleted,
     lastUpdate: way.lastUpdate ? Timestamp.fromDate(way.lastUpdate) : undefined,
-    favoriteForUserUuids: way.favoriteForUsers ? way.favoriteForUsers.map((favoriteForUser) => favoriteForUser.uuid) : undefined,
+    favoriteForUserUuids: way.favoriteForUserUuids ? way.favoriteForUserUuids : undefined,
     createdAt: way.createdAt ? Timestamp.fromDate(way.createdAt) : undefined,
     wayTags: way.wayTags,
     jobTags: way.jobTags,

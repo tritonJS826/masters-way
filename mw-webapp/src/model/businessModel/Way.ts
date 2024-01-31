@@ -64,7 +64,7 @@ export class Way {
   /**
    * Users for whom this way are favorite
    */
-  public favoriteForUsers: UserPreview[];
+  public favoriteForUserUuids: string[];
 
   /**
    * Date when way was created
@@ -91,7 +91,7 @@ export class Way {
     this.mentorRequests = wayData.mentorRequests;
     this.isCompleted = wayData.isCompleted;
     this.lastUpdate = wayData.lastUpdate;
-    this.favoriteForUsers = wayData.favoriteForUsers;
+    this.favoriteForUserUuids = wayData.favoriteForUserUuids;
     this.createdAt = wayData.createdAt;
     this.wayTags = wayData.wayTags;
     this.jobTags = wayData.jobTags;

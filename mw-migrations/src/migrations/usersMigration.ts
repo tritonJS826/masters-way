@@ -5,11 +5,11 @@ import { WayService } from "../service/WayService.js";
 import { logToFile } from "../utils/logToFile.js";
 import { UserService } from "../service/UserService.js";
 
-const FILE_TO_LOG = "wayMigration_add_formerMentorUuids"
+const FILE_TO_LOG = "wayMigration_add_favoriteForUserUuids_add_favoriteUserUuids"
 const log = (textToLog: string) => logToFile(`${(new Date()).toISOString()}: ${textToLog}`, FILE_TO_LOG);
 
 /*
- * Add customWayCollectionsStringified property to all users
+ * Add favoriteForUserUuids and favoriteUserUuids properties to all users
  */
 const migrateUsers = async () => {
   const usersMigrationStartTime = new Date();
@@ -20,7 +20,7 @@ const migrateUsers = async () => {
   log(`Got ${allUsers.length} users`)
 
   log(`Getting all users to migrate`);
-  const usersToMigrate = allUsers.filter(user => !Array.isArray(user.customWayCollectionsStringified));
+  const usersToMigrate = allUsers;
   log(`Got ${usersToMigrate.length} users to migrate`);
 
   log(`start migrate users one by one`)
@@ -33,7 +33,8 @@ const migrateUsers = async () => {
       
       const userRef = doc(db, "users", user.uuid);
       batch.update(userRef, {
-        customWayCollectionsStringified: [],
+        favoriteForUserUuids: [],
+        favoriteUserUuids: [],
       });
 
       const userMigrationEndTime = new Date();
@@ -55,7 +56,7 @@ const migrateUsers = async () => {
     Migrations report:
 
     Migration goal:
-    Add "customWayCollectionsStringified" field to the User documents
+    Add "favoriteForUserUuids" and "favoriteUserUuids" fields to the User documents
     
     Start time: ${usersMigrationStartTime}
     End time: ${usersMigrationEndTime}

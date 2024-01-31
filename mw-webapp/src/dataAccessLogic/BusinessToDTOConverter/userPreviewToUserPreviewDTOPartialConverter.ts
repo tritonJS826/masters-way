@@ -20,6 +20,8 @@ export const userToUserDTOPartialConverter = (user: PartialWithUuid<UserPreview>
     customWayCollectionsStringified: user.customWayCollections
       ? user.customWayCollections.map((collection) => JSON.stringify(collection))
       : undefined,
+    favoriteForUserUuids: user.favoriteForUserUuids,
+    favoriteUserUuids: user.favoriteUserUuids,
   };
 
   const preparedUserPartialDTO = deleteUndefinedFields(userPartialDTO);

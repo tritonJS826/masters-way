@@ -50,6 +50,16 @@ export const UserDTOSchema = z.object({
    */
   customWayCollectionsStringified: z.array(z.string()),
 
+  /**
+   * User's uuids for whom this user are favorite
+   */
+  favoriteForUserUuids: z.array(z.string()),
+
+  /**
+   * Uuids of users who you liked
+   */
+  favoriteUserUuids: z.array(z.string()),
+
 }).strict();
 
 export const UsersDTOSchema = z.array(UserDTOSchema);

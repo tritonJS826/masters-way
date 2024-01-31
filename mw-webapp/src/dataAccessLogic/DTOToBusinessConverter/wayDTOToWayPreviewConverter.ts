@@ -53,10 +53,6 @@ interface WayProps {
    */
   dayReports: DayReport[];
 
-  /**
-   * Favorite for users
-   */
-  favoriteForUsers: UserPreview[];
 }
 
 /**
@@ -75,7 +71,7 @@ export const wayDTOToWayConverter = (wayDTO: WayDTO, wayProps: WayProps): Way =>
     mentorRequests: wayProps.mentorRequests,
     isCompleted: wayDTO.isCompleted,
     lastUpdate: wayProps.lastUpdate,
-    favoriteForUsers: wayProps.favoriteForUsers,
+    favoriteForUserUuids: wayDTO.favoriteForUserUuids,
     createdAt: wayProps.createdAt,
   });
 };
