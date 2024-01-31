@@ -14,7 +14,7 @@ export const wayPreviewToWayDTOConverter = (wayPreview: WayPreview): WayDTO => {
     formerMentorUuids: wayPreview.formerMentorUuids,
     dayReportUuids: wayPreview.dayReportUuids,
     goalUuid: wayPreview.goal.uuid,
-    mentorRequestUuids: wayPreview.mentorRequests.map((item) => item.uuid),
+    mentorRequestUuids: wayPreview.mentorRequests,
     isCompleted: wayPreview.isCompleted,
     lastUpdate: Timestamp.fromDate(wayPreview.lastUpdate),
     favoriteForUserUuids: wayPreview.favoriteForUserUuids,

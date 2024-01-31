@@ -73,7 +73,6 @@ export class WayPreviewDAL {
     const allNeededUsersUuids = new Set(waysDTO.flatMap(wayDTO => [
       wayDTO.ownerUuid,
       ...wayDTO.mentorUuids,
-      ...wayDTO.mentorRequestUuids,
     ]));
 
     const allNeededGoalsUuids = waysDTO.map(wayDTO => wayDTO.goalUuid);
@@ -98,13 +97,11 @@ export class WayPreviewDAL {
     const waysPreview = waysDTO.map((wayDTO) => {
       const owner = usersSafeHashmap.getValue(wayDTO.ownerUuid);
       const mentors = wayDTO.mentorUuids.map((mentorUuid) => usersSafeHashmap.getValue(mentorUuid));
-      const mentorRequests = wayDTO.mentorRequestUuids.map((mentorRequestUuid) => usersSafeHashmap.getValue(mentorRequestUuid));
       const goal = goalsSafeHashMap.getValue(wayDTO.goalUuid);
 
       const wayPreviewProps = {
         owner,
         mentors,
-        mentorRequests,
         goal,
       };
 
@@ -124,26 +121,21 @@ export class WayPreviewDAL {
 
     const mentorsPromise = Promise.all(wayDTO.mentorUuids.map(UserPreviewDAL.getUserPreview));
 
-    const mentorRequestsPromise = Promise.all(wayDTO.mentorRequestUuids.map(UserPreviewDAL.getUserPreview));
-
     const goalPromise = await GoalPreviewDAL.getGoal(wayDTO.goalUuid);
 
     const [
       owner,
       mentors,
-      mentorRequests,
       goal,
     ] = await Promise.all([
       ownerPromise,
       mentorsPromise,
-      mentorRequestsPromise,
       goalPromise,
     ]);
 
     const wayPreviewProps = {
       owner,
       mentors,
-      mentorRequests,
       goal,
     };
 

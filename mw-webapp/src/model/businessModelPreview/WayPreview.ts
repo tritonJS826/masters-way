@@ -44,7 +44,7 @@ export class WayPreview {
   /**
    * Users who sent request to become Way's mentor
    */
-  public mentorRequests: UserPreview[];
+  public mentorRequests: string[];
 
   /**
    * Return true if way is completed and false if not completed
