@@ -389,6 +389,21 @@ export const WayPage = (props: WayPageProps) => {
             )}
             dropdownMenuItems={[
               {
+                id: "Copy to clipboard",
+                value: "Copy to clipboard",
+
+                /**
+                 * Copy url to clipboard
+                 */
+                onClick: async () => {
+                  await navigator.clipboard.writeText(location.href);
+                  displayNotification({
+                    text: "Url cpied",
+                    type: "info",
+                  });
+                },
+              },
+              {
                 id: "Download as pdf",
                 value: "Download as pdf",
 
