@@ -44,7 +44,7 @@ export interface ButtonProps {
   dataCy?: string;
 
   /**
-   * Additional custom class name
+   * Custom class name
    */
   className?: string;
 

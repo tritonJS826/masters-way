@@ -1,4 +1,5 @@
-import styles from "src/component/dropdown/DropdownMenuItem/DropdownMenuItem.module.scss";
+import React, {ReactNode} from "react";
+import styles from "src/component/dropdown/dropdownMenuItem/DropdownMenuItem.module.scss";
 
 /**
  * DropdownMenuItem types
@@ -13,12 +14,12 @@ export interface DropdownMenuItemType {
   /**
    * Item`s value
    */
-  value: string;
+  value: string | ReactNode;
 
   /**
    * Item`s onClick
    */
-  onClick: () => void;
+  onClick?: () => void;
 
   /**
    * Item`s visible state
@@ -49,8 +50,9 @@ interface DropdownMenuItemProps {
 export const DropdownMenuItem = (props: DropdownMenuItemProps) => {
   return (
     <li
+      key={props.value}
       className={styles.dropdownMenuItem}
-      onClick={props.onClick}
+      onClick={props.onClick ?? (() => {})}
     >
       {props.value}
     </li>
