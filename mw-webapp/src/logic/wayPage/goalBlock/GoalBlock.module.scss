@@ -1,11 +1,13 @@
 @import "src/styles/variables";
 
 $iconContainerSize: 25px;
+$goalSectionWidth: 65%;
+$goalSubSectionWidth: 45%;
 
 .goalSection {
   display: flex;
-  width: 100%;
-  flex-wrap: wrap;
+  width: $goalSectionWidth;
+  flex-wrap: nowrap;
   justify-content: space-between;
   margin-bottom: $marginMedium;
   gap: $gapMedium;
@@ -22,8 +24,7 @@ $iconContainerSize: 25px;
 }
 
 .goalSubSection {
-  width: 30%;
-  min-width: $minWidthBlock;
+  width: $goalSubSectionWidth;
   max-width: $maxWidthBlock;
 }
 
@@ -36,6 +37,18 @@ $iconContainerSize: 25px;
   width: $iconContainerSize;
   height: $iconContainerSize;
   cursor: pointer;
+}
+
+@media (max-width: $mediaWidthTabletBig) {
+  .goalSection {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .goalSubSection {
+    min-width: $minWidthBlock;
+    max-width: $maxWidthBlock;
+  }
 }
 
 @media (max-width: $mediaWidthMobileBig) {

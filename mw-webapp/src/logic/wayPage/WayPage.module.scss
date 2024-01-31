@@ -19,6 +19,19 @@ $iconContainerSize: 25px;
   display: flex;
 }
 
+.wrap {
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: $gapMedium;
+}
+
+.statistics {
+  display: flex;
+  min-width: $minWidthBlock;
+  max-width: $maxWidthBlock;
+}
+
 .iconContainer {
   width: $iconContainerSize;
   height: $iconContainerSize;
@@ -86,4 +99,10 @@ $iconContainerSize: 25px;
 .jobDoneTagsWrapper {
   min-width: $minWidthBlock;
   max-width: $maxWidthBlock;
+}
+
+@media (max-width: $mediaWidthMobileBig) {
+  .wrap {
+    justify-content: center;
+  }
 }
