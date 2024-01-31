@@ -21,6 +21,7 @@ export const wayToWayDTOConverter = (way: Way): WayDTO => {
     createdAt: Timestamp.fromDate(way.createdAt),
     wayTags: way.wayTags,
     jobTags: way.jobTags,
+    copiedFrom: way.copiedFrom,
   };
 
   const validatedWayDTO = WayDTOSchema.parse(wayDTO);

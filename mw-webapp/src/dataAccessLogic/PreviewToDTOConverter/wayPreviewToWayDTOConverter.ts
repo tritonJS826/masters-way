@@ -21,6 +21,7 @@ export const wayPreviewToWayDTOConverter = (wayPreview: WayPreview): WayDTO => {
     createdAt: Timestamp.fromDate(wayPreview.createdAt),
     wayTags: wayPreview.wayTags,
     jobTags: wayPreview.jobTags,
+    copiedFrom: wayPreview.copiedFrom,
   };
 
   return WayDTOSchema.parse(wayDTO);

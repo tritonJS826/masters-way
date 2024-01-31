@@ -81,6 +81,11 @@ export const WayDTOSchema = z.object({
    */
   jobTags: z.array(z.string()),
 
+  /**
+   * Way's uuid that was copied
+   */
+  copiedFrom: z.string(),
+
 }).strict();
 
 export const WaysDTOSchema = z.array(WayDTOSchema);

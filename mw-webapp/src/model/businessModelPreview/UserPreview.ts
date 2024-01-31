@@ -74,6 +74,9 @@ export class UserPreview {
    */
   public favoriteForUserUuids: string[];
 
+  /**
+   * Uuids of users who you liked
+   */
   public favoriteUserUuids: string[];
 
   constructor(userData: UserPreview) {
