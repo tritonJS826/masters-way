@@ -205,7 +205,7 @@ export const WayPage = (props: WayPageProps) => {
   const isUserHasSentMentorRequest = !!user && way.mentorRequests.some((request) => request.uuid === user.uuid);
   const isEligibleToSendRequest = !!user && !isOwner && !isMentor && !isUserHasSentMentorRequest;
 
-  const favoriteForUsersAmount = way.favoriteForUsers.length;
+  const favoriteForUsersAmount = way.favoriteForUserUuids.length;
 
   /**
    * Update way page settings
@@ -270,7 +270,8 @@ export const WayPage = (props: WayPageProps) => {
                     updateWayAndUser({
                       wayToUpdate: {
                         uuid: way.uuid,
-                        favoriteForUsers: way.favoriteForUsers.filter((favoriteForUser) => favoriteForUser.uuid !== user.uuid),
+                        favoriteForUserUuids: way.favoriteForUserUuids
+                          .filter((favoriteForUser) => favoriteForUser !== user.uuid),
                       },
                       userToUpdate: {
                         uuid: user.uuid,
@@ -295,7 +296,7 @@ export const WayPage = (props: WayPageProps) => {
                       updateWayAndUser({
                         wayToUpdate: {
                           uuid: way.uuid,
-                          favoriteForUsers: way.favoriteForUsers.concat(user),
+                          favoriteForUserUuids: way.favoriteForUserUuids.concat(user.uuid),
                         },
                         userToUpdate: {
                           uuid: user.uuid,

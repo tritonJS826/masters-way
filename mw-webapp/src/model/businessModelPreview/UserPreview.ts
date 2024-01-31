@@ -69,6 +69,13 @@ export class UserPreview {
    */
   public customWayCollections: WaysCollection[];
 
+  /**
+   * User's uuids for whom this user are favorite
+   */
+  public favoriteForUserUuids: string[];
+
+  public favoriteUserUuids: string[];
+
   constructor(userData: UserPreview) {
     this.uuid = userData.uuid;
     this.name = userData.name;
@@ -79,6 +86,8 @@ export class UserPreview {
     this.mentoringWays = userData.mentoringWays;
     this.createdAt = userData.createdAt;
     this.customWayCollections = userData.customWayCollections;
+    this.favoriteForUserUuids = userData.favoriteForUserUuids;
+    this.favoriteUserUuids = userData.favoriteUserUuids;
   }
 
 }

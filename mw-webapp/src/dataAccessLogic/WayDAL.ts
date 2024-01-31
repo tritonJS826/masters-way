@@ -179,7 +179,7 @@ export class WayDAL {
 
     const dayReportsForDelete = way.dayReports;
     const mentorsForDelete = way.mentors;
-    const favoriteForUsersForDelete = way.favoriteForUsers;
+    const favoriteForUsersForDelete = way.favoriteForUserUuids;
     const ownWaysForDelete = way.owner.ownWays;
     const favoriteWaysForDelete = way.owner.favoriteWays;
 
@@ -200,11 +200,14 @@ export class WayDAL {
       UserService.updateUserDTOWithBatch(updatedMentorDTO, batch);
     });
 
-    favoriteForUsersForDelete.forEach((favoriteForUser) => {
+    favoriteForUsersForDelete.forEach(async (favoriteForUser) => {
+      const user = await UserPreviewDAL.getUserPreview(favoriteForUser);
+
       const updatedFavoriteForUser = new UserPreview({
-        ...favoriteForUser,
-        favoriteWays: favoriteForUser.favoriteWays.filter((favoriteWay) => favoriteWay !== way.uuid),
+        ...user,
+        favoriteWays: user.favoriteWays.filter((favoriteWay) => favoriteWay !== way.uuid),
       });
+
       const updatedFavoriteForUserDTO = userPreviewToUserDTOConverter(updatedFavoriteForUser);
       UserService.updateUserDTOWithBatch(updatedFavoriteForUserDTO, batch);
     });

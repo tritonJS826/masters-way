@@ -8,12 +8,14 @@ mentoringWayUuids: string[] @Way.uuid
 description: string
 createdAt: timestamp
 customWayCollectionsStringified: string[] stringified@WaysCollection
+favoriteForUserUuids: string[] @User.uuid
+favoriteUserUuids: string[] @User.uuid
 
 WayDTO #collection
 uuid: string
 name: string
 dayReportUuids: string[] @DayReport.uuid[]
-ownerUuId: string @User.uuid
+ownerUuid: string @User.uuid
 goalUuid: string @Goal.uuid
 isCompleted: boolean
 lastUpdate: timestamp
@@ -37,8 +39,7 @@ isDayOff: boolean
 GoalDTO #collection
 uuid: string
 studentUuid: string @UserUuid
-metricUuids?: string[] @GoalMetric.uuid[] // only one element in the array
-metricsStringified?: string[] stringified@Metric
+metricsStringified: string[] stringified@Metric
 description: string
 estimationTime: number
 
@@ -75,14 +76,7 @@ description: string
 isDone: boolean
 tags: string[]
 
-GoalMetricDTO #collection
-uuid: string
-metricUuids: string[]
-description: string[]
-isDone: boolean[]
-doneDate: (timestamp|null)[]
-
 WaysCollectionDTO
 id: string
 name: string
-uuids: string[]
+wayUuids: string[]

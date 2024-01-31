@@ -17,7 +17,7 @@ export const wayToWayDTOConverter = (way: Way): WayDTO => {
     mentorRequestUuids: way.mentorRequests.map((mentorRequestUuid) => mentorRequestUuid.uuid),
     isCompleted: way.isCompleted,
     lastUpdate: Timestamp.fromDate(way.lastUpdate),
-    favoriteForUserUuids: way.favoriteForUsers.map((favoriteForUser) => favoriteForUser.uuid),
+    favoriteForUserUuids: way.favoriteForUserUuids,
     createdAt: Timestamp.fromDate(way.createdAt),
     wayTags: way.wayTags,
     jobTags: way.jobTags,
