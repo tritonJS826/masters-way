@@ -103,7 +103,6 @@ export const Columns = (props: ColumnsProps) => {
 
   /**
    * Update DayReport
-   * TODO: create generic partialWithUuid
    */
   const updateReport = async (report: PartialWithUuid<DayReport>) => {
     const reportToUpdate = props.way.dayReports.find(dayReport => dayReport.uuid === report.uuid);

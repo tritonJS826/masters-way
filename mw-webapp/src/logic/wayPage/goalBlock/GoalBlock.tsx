@@ -133,12 +133,6 @@ export const GoalBlock = (props: GoalBlockProps) => {
             </div>
           </Tooltip>
         </HorizontalContainer>
-        {/* // TODO: moved out statistics to WayPage because it's not a goal
-         <WayStatistic
-          dayReports={props.way.dayReports}
-          wayCreatedAt={props.way.createdAt}
-          isVisible={props.wayPageSettings.isStatisticsVisible}
-        /> */}
       </div>
     </div>
   );

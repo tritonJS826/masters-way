@@ -25,7 +25,7 @@ export const GoalDTOSchema = z.object({
   estimationTime: z.number(),
 
   /**
-   * Stringified metrics objects
+   * Stringified metrics objects {@link MetricDTO}
    */
   metricsStringified: z.array(z.string()),
 

@@ -24,7 +24,7 @@ export class GoalPreview {
   public estimationTime: number;
 
   /**
-   * Stringified metrics objects
+   * Goal's metrics {@link MetricDTO}
    */
   public metricsStringified: string[];
 

@@ -189,10 +189,11 @@ export const WayPage = (props: WayPageProps) => {
    * Update way state
    */
   const setGoalPartial = (previousGoal: Partial<Goal>) => {
-    if (goal) {
-      const updatedGoal: Goal = {...goal, ...previousGoal};
-      setGoal(updatedGoal);
+    if (!goal) {
+      throw new Error("Previous goal is undefined");
     }
+    const updatedGoal: Goal = {...goal, ...previousGoal};
+    setGoal(updatedGoal);
   };
 
   const isWayInFavorites = user && user.favoriteWays.includes(way.uuid);

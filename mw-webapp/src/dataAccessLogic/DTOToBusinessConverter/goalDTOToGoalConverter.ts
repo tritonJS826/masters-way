@@ -11,7 +11,7 @@ export const goalDTOToGoalConverter = (goalDTO: GoalDTO, goalOwner: UserPreview)
     student: goalOwner,
     metrics: goalDTO.metricsStringified.map((metricStringified) => {
       const metric = JSON.parse(metricStringified);
-      metric.doneDate ? metric.doneDate = new Date(metric.doneDate) : metric.doneDate = null;
+      metric.doneDate = new Date(metric.doneDate) ?? null;
 
       return metric;
     }),
