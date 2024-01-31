@@ -19,11 +19,6 @@ interface WayPreviewProps {
   mentors: UserPreview[];
 
   /**
-   * Users who sent request to become Way's mentor
-   */
-  mentorRequests: UserPreview[];
-
-  /**
    * Way's goal
    */
   goal: GoalPreview;
@@ -38,7 +33,7 @@ export const wayDTOToWayPreviewConverter = (wayDTO: WayDTO, wayProps: WayPreview
     owner: wayProps.owner,
     goal: wayProps.goal,
     mentors: wayProps.mentors,
-    mentorRequests: wayProps.mentorRequests,
+    mentorRequests: wayDTO.mentorRequestUuids,
     lastUpdate: wayDTO.lastUpdate.toDate(),
     createdAt: wayDTO.createdAt.toDate(),
   });

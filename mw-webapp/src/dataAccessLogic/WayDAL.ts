@@ -46,7 +46,6 @@ export class WayDAL {
 
     const allNeededUsersUuids = new Set([
       wayDTO[WAY_OWNER_UUID_FIELD],
-      ...wayDTO.favoriteForUserUuids,
       ...wayDTO.formerMentorUuids,
       ...wayDTO[WAY_MENTOR_UUIDS_FIELD],
       ...wayDTO.mentorRequestUuids,
@@ -71,7 +70,6 @@ export class WayDAL {
     const mentors = wayDTO.mentorUuids.map((mentorUuid) => usersSafeHashmap.getValue(mentorUuid));
     const mentorRequests = wayDTO.mentorRequestUuids.map((mentorRequestUuid) => usersSafeHashmap.getValue(mentorRequestUuid));
     const formerMentors = wayDTO.formerMentorUuids.map((formerMentorUuid) => usersSafeHashmap.getValue(formerMentorUuid));
-    const favoriteForUsers = wayDTO.favoriteForUserUuids.map((userUuid) => usersSafeHashmap.getValue(userUuid));
 
     const mentorsDictionary = arrayToHashMap({keyField: USER_UUID_FIELD, list: mentors});
 
@@ -93,7 +91,6 @@ export class WayDAL {
       goal,
       lastUpdate,
       createdAt,
-      favoriteForUsers,
     };
 
     const way = wayDTOToWayConverter(wayDTO, wayProps);
