@@ -26,6 +26,7 @@ import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {pages} from "src/router/pages";
 import {DateUtils} from "src/utils/DateUtils";
+import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
 import {v4 as uuidv4} from "uuid";
 import styles from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns.module.scss";
@@ -102,15 +103,8 @@ export const Columns = (props: ColumnsProps) => {
 
   /**
    * Update DayReport
-   * TODO: create generic partialWithUuid
    */
-  const updateReport = async (report: Partial<DayReport> & {
-
-    /**
-     * Field uuid is required in DayReprot
-     */
-    uuid: string;
-  }) => {
+  const updateReport = async (report: PartialWithUuid<DayReport>) => {
     const reportToUpdate = props.way.dayReports.find(dayReport => dayReport.uuid === report.uuid);
     if (!reportToUpdate) {
       throw new Error(`Report with uuid ${report.uuid} is undefined`);

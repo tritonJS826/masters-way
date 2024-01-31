@@ -4,11 +4,11 @@ import {Icon, IconSize} from "src/component/icon/Icon";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {GoalDAL} from "src/dataAccessLogic/GoalDAL";
-import {useGlobalContext} from "src/GlobalContext";
 import {GoalMetricsBlock} from "src/logic/wayPage/goalMetricsBlock/GoalMetricsBlock";
-import {WayStatistic} from "src/logic/wayPage/wayStatistics/WayStatistic";
-import {Way} from "src/model/businessModel/Way";
+import {Goal} from "src/model/businessModel/Goal";
+import {Metric} from "src/model/businessModel/Metric";
 import {WayPageSettings} from "src/utils/LocalStorageWorker";
+import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import styles from "src/logic/wayPage/goalBlock/GoalBlock.module.scss";
 
 /**
@@ -17,9 +17,19 @@ import styles from "src/logic/wayPage/goalBlock/GoalBlock.module.scss";
 interface GoalBlockProps {
 
   /**
-   * Way
+   * Way's goal
    */
-  way: Way;
+  goal: Goal;
+
+  /**
+   * Callback to update goal
+   */
+  updateGoal: (goal: PartialWithUuid<Goal>) => Promise<void>;
+
+  /**
+   * Is editable
+   */
+  isEditable: boolean;
 
   /**
    * Way page settings
@@ -36,8 +46,16 @@ interface GoalBlockProps {
  * Goal block
  */
 export const GoalBlock = (props: GoalBlockProps) => {
-  const {user} = useGlobalContext();
-  const isOwner = !!user && user.uuid === props.way.owner.uuid;
+
+  /**
+   * Update goal
+   */
+  const updateGoalMetrics = async (metricsToUpdate: Metric[]) => {
+    await props.updateGoal({
+      uuid: props.goal.uuid,
+      metrics: metricsToUpdate,
+    });
+  };
 
   return (
     <div className={styles.goalSection}>
@@ -47,14 +65,14 @@ export const GoalBlock = (props: GoalBlockProps) => {
           text="Goal"
         />
         <EditableTextarea
-          text={props.way.goal.description}
+          text={props.goal.description}
           onChangeFinish={async (description) => await GoalDAL.updateGoal({
-            uuid: props.way.goal.uuid,
+            uuid: props.goal.uuid,
             description,
           })
           }
           rows={10}
-          isEditable={isOwner}
+          isEditable={props.isEditable}
           className={styles.goalDescription}
         />
       </div>
@@ -85,8 +103,9 @@ export const GoalBlock = (props: GoalBlockProps) => {
         </HorizontalContainer>
         <GoalMetricsBlock
           isVisible={props.wayPageSettings.isGoalMetricsVisible}
-          way={props.way}
-          isEditable={isOwner}
+          goalMetrics={props.goal.metrics}
+          updateGoalMetrics={updateGoalMetrics}
+          isEditable={props.isEditable}
         />
       </div>
       <div className={styles.goalSubSection}>
@@ -114,11 +133,6 @@ export const GoalBlock = (props: GoalBlockProps) => {
             </div>
           </Tooltip>
         </HorizontalContainer>
-        <WayStatistic
-          dayReports={props.way.dayReports}
-          wayCreatedAt={props.way.createdAt}
-          isVisible={props.wayPageSettings.isStatisticsVisible}
-        />
       </div>
     </div>
   );

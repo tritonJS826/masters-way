@@ -15,11 +15,6 @@ export const GoalDTOSchema = z.object({
   studentUuid: z.string(),
 
   /**
-   * Metrics @GoalMetrics.uuid
-   */
-  metricUuids: z.array(z.string()),
-
-  /**
    * Description of goal
    */
   description: z.string(),
@@ -28,6 +23,12 @@ export const GoalDTOSchema = z.object({
    * Estimation time for complete goal
    */
   estimationTime: z.number(),
+
+  /**
+   * Stringified metrics objects {@link MetricDTO}
+   */
+  metricsStringified: z.array(z.string()),
+
 }).strict();
 
 export const GoalsDTOSchema = z.array(GoalDTOSchema);

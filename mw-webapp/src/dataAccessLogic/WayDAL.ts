@@ -15,7 +15,6 @@ import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {USER_UUID_FIELD} from "src/model/DTOModel/UserDTO";
 import {WAY_MENTOR_UUIDS_FIELD, WAY_OWNER_UUID_FIELD} from "src/model/DTOModel/WayDTO";
 import {DayReportService} from "src/service/DayReportService";
-import {GoalMetricService} from "src/service/GoalMetricService";
 import {GoalService} from "src/service/GoalService";
 import {UserService} from "src/service/UserService";
 import {WayDTOWithoutUuid, WayService} from "src/service/WayService";
@@ -212,7 +211,6 @@ export class WayDAL {
 
     dayReportsForDelete.forEach((dayReport) => DayReportService.deleteDayReportDTOWithBatch(dayReport.uuid, batch));
 
-    GoalMetricService.deleteGoalMetricsDTOWithBatch(way.goal.metrics[0].uuid, batch);
     GoalService.deleteGoalDTOWithBatch(way.goal.uuid, batch);
     WayService.deleteWayDTOWithBatch(way.uuid, batch);
 

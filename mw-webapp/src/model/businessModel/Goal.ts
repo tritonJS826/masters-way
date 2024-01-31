@@ -1,4 +1,4 @@
-import {GoalMetric} from "src/model/businessModel/GoalMetric";
+import {Metric} from "src/model/businessModel/Metric";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 
 /**
@@ -17,11 +17,6 @@ export class Goal {
   public student: UserPreview;
 
   /**
-   * Coal's metrics
-   */
-  public metrics: GoalMetric[];
-
-  /**
    * Description of goal
    */
   public description: string;
@@ -31,12 +26,17 @@ export class Goal {
    */
   public estimationTime: number;
 
+  /**
+   * Goal's metrics
+   */
+  public metrics: Metric[];
+
   constructor(goalData: Goal) {
     this.uuid = goalData.uuid;
     this.student = goalData.student;
-    this.metrics = goalData.metrics;
     this.description = goalData.description;
     this.estimationTime = goalData.estimationTime;
+    this.metrics = goalData.metrics;
   }
 
 }

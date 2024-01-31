@@ -1,11 +1,8 @@
-import {useState} from "react";
 import {Button} from "src/component/button/Button";
-import {getDefaultLongValueLabel, ProgressBar} from "src/component/progressBar/ProgressBar";
-import {GoalMetricDAL} from "src/dataAccessLogic/GoalMetricDAL";
+import {ProgressBar} from "src/component/progressBar/ProgressBar";
 import {GoalMetricItem} from "src/logic/wayPage/goalMetricsBlock/GoalMetricItem";
-import {Goal} from "src/model/businessModel/Goal";
-import {GoalMetric} from "src/model/businessModel/GoalMetric";
-import {Way} from "src/model/businessModel/Way";
+import {Metric} from "src/model/businessModel/Metric";
+import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {v4 as uuidv4} from "uuid";
 import styles from "src/logic/wayPage/goalMetricsBlock/GoalMetricsBlock.module.scss";
 
@@ -21,9 +18,14 @@ interface GoalMetricStatisticsBlockProps {
   isVisible: boolean;
 
   /**
-   * Way
+   * Goal metrics
    */
-  way: Way;
+  goalMetrics: Metric[];
+
+  /**
+   * Sdf
+   */
+  updateGoalMetrics: (goalMetrics: Metric[]) => Promise<void>;
 
   /**
    * Is editable
@@ -37,13 +39,20 @@ interface GoalMetricStatisticsBlockProps {
  * Goal metrics block
  */
 export const GoalMetricsBlock = (props: GoalMetricStatisticsBlockProps) => {
-  const [way, setWay] = useState<Way>(props.way);
 
   /**
-   * Set goal metric to the way state
+   * Add metric
    */
-  const setGoalMetric = (updatedGoalMetric: GoalMetric) => {
-    setWay(new Way({...way, goal: new Goal({...way.goal, metrics: [updatedGoalMetric]})}));
+  const addMetric = async () => {
+    const newMetric = new Metric({
+      uuid: uuidv4(),
+      description: "",
+      isDone: false,
+      doneDate: null,
+    });
+
+    const updatedGoalMetrics = props.goalMetrics.concat(newMetric);
+    await props.updateGoalMetrics(updatedGoalMetrics);
   };
 
   /**
@@ -55,24 +64,7 @@ export const GoalMetricsBlock = (props: GoalMetricStatisticsBlockProps) => {
         {props.isEditable && (
           <Button
             value="Add new goal metric"
-            onClick={async () => {
-
-              /**
-               * Get current goal metric from way
-               */
-              const currentGoalMetric = way.goal.metrics[0];
-
-              const updatedGoalMetric = new GoalMetric({
-                uuid: currentGoalMetric.uuid,
-                description: currentGoalMetric.description.concat(""),
-                metricUuids: currentGoalMetric.metricUuids.concat(uuidv4()),
-                isDone: currentGoalMetric.isDone.concat(false),
-                doneDate: currentGoalMetric.doneDate.concat(new Date()),
-              });
-
-              setGoalMetric(updatedGoalMetric);
-              await GoalMetricDAL.updateGoalMetric(updatedGoalMetric);
-            }}
+            onClick={addMetric}
           />
         )
         }
@@ -81,31 +73,45 @@ export const GoalMetricsBlock = (props: GoalMetricStatisticsBlockProps) => {
   };
 
   /**
+   * Delete metric
+   */
+  const deleteMetric = async (metricUuid: string) => {
+    const updatedMetrics = props.goalMetrics.filter((metric) => metric.uuid !== metricUuid);
+    await props.updateGoalMetrics(updatedMetrics);
+  };
+
+  /**
+   * Update metric
+   */
+  const updateMetric = async (metricToUpdate: PartialWithUuid<Metric>) => {
+    const updatedMetrics = props.goalMetrics.map((metric) => {
+      return metric.uuid === metricToUpdate.uuid
+        ? {...metric, ...metricToUpdate}
+        : metric;
+    });
+
+    await props.updateGoalMetrics(updatedMetrics);
+  };
+
+  /**
    * Render goal metrics
    */
-  const renderGoalMetrics = (goalMetric: GoalMetric) => {
-    const doneMetricsAmount = goalMetric.isDone.filter(Boolean).length;
+  const renderGoalMetrics = (metrics: Metric[]) => {
+    const doneMetricsAmount = metrics.filter((metric) => !!metric.isDone).length;
 
     return (
       <div className={styles.goalMetricsBlock}>
         <ProgressBar
           value={doneMetricsAmount}
-          max={goalMetric.metricUuids.length}
-          getValueLabel={getDefaultLongValueLabel}
+          max={props.goalMetrics.length}
         />
-        {goalMetric.metricUuids.map((metricUuid, index) => {
+        {metrics.map((metric) => {
           return (
             <GoalMetricItem
-              key={metricUuid}
-              singleGoalMetric={{
-                uuid: goalMetric.uuid,
-                metricUuid,
-                description: goalMetric.description[index],
-                doneDate: goalMetric.doneDate[index],
-                isDone: goalMetric.isDone[index],
-              }}
-              way={way}
-              setWay={setWay}
+              key={metric.uuid}
+              metric={metric}
+              deleteMetric={deleteMetric}
+              updateMetric={updateMetric}
               isEditable={props.isEditable}
             />
           );
@@ -119,7 +125,7 @@ export const GoalMetricsBlock = (props: GoalMetricStatisticsBlockProps) => {
     <>
       {props.isVisible &&
         <>
-          {renderGoalMetrics(way.goal.metrics[0])}
+          {renderGoalMetrics(props.goalMetrics)}
           {renderButtonAddMetrics()}
         </>
       }

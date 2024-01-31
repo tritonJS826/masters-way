@@ -8,9 +8,9 @@ export const goalToGoalDTOConverter = (goal: Goal): GoalDTO => {
   const goalDTO: GoalDTO = {
     uuid: goal.uuid,
     studentUuid: goal.student.uuid,
-    metricUuids: goal.metrics.map((metric) => metric.uuid),
     description: goal.description,
     estimationTime: goal.estimationTime,
+    metricsStringified: goal.metrics.map((goalMetric) => JSON.stringify(goalMetric)),
   };
 
   return GoalDTOSchema.parse(goalDTO);

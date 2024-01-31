@@ -14,11 +14,6 @@ export class GoalPreview {
   public studentUuid: string;
 
   /**
-   * Metrics @GoalMetrics.uuid
-   */
-  public metricUuids: string[];
-
-  /**
    * Description of goal
    */
   public description: string;
@@ -28,12 +23,17 @@ export class GoalPreview {
    */
   public estimationTime: number;
 
+  /**
+   * Goal's metrics {@link MetricDTO}
+   */
+  public metricsStringified: string[];
+
   constructor(goalData: GoalPreview) {
     this.uuid = goalData.uuid;
     this.studentUuid = goalData.studentUuid;
-    this.metricUuids = goalData.metricUuids;
     this.description = goalData.description;
     this.estimationTime = goalData.estimationTime;
+    this.metricsStringified = goalData.metricsStringified;
   }
 
 }
