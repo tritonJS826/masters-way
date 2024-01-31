@@ -144,6 +144,7 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
             isOpen={isRenameCollectionModalOpen}
             content={
               <PromptModalContent
+                defaultValue={props.title}
                 close={() => setIsRenameCollectionModalOpen(false)}
                 onOk={props.renameCollection}
               />

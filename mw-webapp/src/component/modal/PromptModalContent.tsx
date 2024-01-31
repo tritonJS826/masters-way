@@ -12,6 +12,12 @@ import styles from "src/logic/wayPage/jobTags/newJobTagModalContent/NewJobTagMod
 interface PromptModalContentProps {
 
   /**
+   * Default value
+   * @default empty string
+   */
+  defaultValue?: string;
+
+  /**
    * Callback to close modal
    */
   close: () => void;
@@ -26,7 +32,7 @@ interface PromptModalContentProps {
  * New job done modal content
  */
 export const PromptModalContent = (props: PromptModalContentProps) => {
-  const [inputValue, setInputValue] = useState<string>("");
+  const [inputValue, setInputValue] = useState<string>(props.defaultValue ?? "");
 
   /**
    * Update cell value after OnKeyDown event
