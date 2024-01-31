@@ -156,3 +156,6 @@ storybook-static/
 
 # backups
 /backups
+
+# logs file
+migration-logs/
