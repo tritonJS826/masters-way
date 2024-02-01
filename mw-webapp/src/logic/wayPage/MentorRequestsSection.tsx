@@ -6,6 +6,7 @@ import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {pages} from "src/router/pages";
+import styles from "src/logic/wayPage/MentorRequestsSection.module.scss";
 
 /**
  * Add mentor to Way
@@ -74,26 +75,31 @@ export const MentorRequestsSection = (props: MentorRequestsSectionProps) => {
         level={HeadingLevel.h3}
         text="Mentors of this way:"
       />
-      {props.way.mentorRequests.map((userPreview) => (
-        <div key={userPreview.uuid}>
-          <Link
-            value={userPreview.name}
-            path={pages.user.getPath({uuid: userPreview.uuid})}
-          />
-          <Button
-            value='Accept'
-            onClick={() =>
-              addMentorToWay(props.way, props.setWay, userPreview)
-            }
-          />
-          <Button
-            value='Decline'
-            onClick={() =>
-              removeUserFromMentorRequests(props.way, props.setWay, userPreview)
-            }
-          />
-        </div>
-      ))}
+      <div className={styles.mentorRequestsSection}>
+        {props.way.mentorRequests.map((userPreview) => (
+          <div
+            key={userPreview.uuid}
+            className={styles.mentorRequestsItem}
+          >
+            <Link
+              value={userPreview.name}
+              path={pages.user.getPath({uuid: userPreview.uuid})}
+            />
+            <Button
+              value='Accept'
+              onClick={() =>
+                addMentorToWay(props.way, props.setWay, userPreview)
+              }
+            />
+            <Button
+              value='Decline'
+              onClick={() =>
+                removeUserFromMentorRequests(props.way, props.setWay, userPreview)
+              }
+            />
+          </div>
+        ))}
+      </div>
     </>
   );
 };
