@@ -69,35 +69,41 @@ interface MentorRequestsSectionProps {
  * Section with requests to become Way mentor
  */
 export const MentorRequestsSection = (props: MentorRequestsSectionProps) => {
+  // Const ss = {
+
+  // }
+  // console.log([...props.way.mentorRequests, ...props.way.mentorRequests])
   return (
-    <div className={styles.mentorRequestsContainer}>
+    <>
       <Title
         level={HeadingLevel.h3}
         text="Mentors of this way:"
       />
-      {props.way.mentorRequests.map((userPreview) => (
-        <div
-          key={userPreview.uuid}
-          className={styles.mentorRequestsSection}
-        >
-          <Link
-            value={userPreview.name}
-            path={pages.user.getPath({uuid: userPreview.uuid})}
-          />
-          <Button
-            value='Accept'
-            onClick={() =>
-              addMentorToWay(props.way, props.setWay, userPreview)
-            }
-          />
-          <Button
-            value='Decline'
-            onClick={() =>
-              removeUserFromMentorRequests(props.way, props.setWay, userPreview)
-            }
-          />
-        </div>
-      ))}
-    </div>
+      <div className={styles.mentorRequestsSection}>
+        {props.way.mentorRequests.map((userPreview) => (
+          <div
+            key={userPreview.uuid}
+            className={styles.mentorRequestsItem}
+          >
+            <Link
+              value={userPreview.name}
+              path={pages.user.getPath({uuid: userPreview.uuid})}
+            />
+            <Button
+              value='Accept'
+              onClick={() =>
+                addMentorToWay(props.way, props.setWay, userPreview)
+              }
+            />
+            <Button
+              value='Decline'
+              onClick={() =>
+                removeUserFromMentorRequests(props.way, props.setWay, userPreview)
+              }
+            />
+          </div>
+        ))}
+      </div>
+    </>
   );
 };

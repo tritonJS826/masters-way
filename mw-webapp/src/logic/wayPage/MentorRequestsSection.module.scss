@@ -1,13 +1,12 @@
 @import "src/styles/variables";
 
-.mentorRequestsContainer {
+.mentorRequestsSection {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  flex-direction: column;
   gap: $gapMedium;
 }
 
-.mentorRequestsSection {
+.mentorRequestsItem {
   display: flex;
   align-items: center;
   gap: $gapMedium;
