@@ -6,6 +6,7 @@ import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {pages} from "src/router/pages";
+import styles from "src/logic/wayPage/MentorRequestsSection.module.scss";
 
 /**
  * Add mentor to Way
@@ -69,13 +70,16 @@ interface MentorRequestsSectionProps {
  */
 export const MentorRequestsSection = (props: MentorRequestsSectionProps) => {
   return (
-    <>
+    <div className={styles.mentorRequestsContainer}>
       <Title
         level={HeadingLevel.h3}
         text="Mentors of this way:"
       />
       {props.way.mentorRequests.map((userPreview) => (
-        <div key={userPreview.uuid}>
+        <div
+          key={userPreview.uuid}
+          className={styles.mentorRequestsSection}
+        >
           <Link
             value={userPreview.name}
             path={pages.user.getPath({uuid: userPreview.uuid})}
@@ -94,6 +98,6 @@ export const MentorRequestsSection = (props: MentorRequestsSectionProps) => {
           />
         </div>
       ))}
-    </>
+    </div>
   );
 };
