@@ -16,7 +16,6 @@ uuid: string
 name: string
 dayReportUuids: string[] @DayReport.uuid[]
 ownerUuid: string @User.uuid
-goalUuid: string @Goal.uuid
 isCompleted: boolean
 lastUpdate: timestamp
 favoriteForUserUuids: string[] @User.uuid[]
@@ -27,6 +26,9 @@ createdAt: timestamp
 wayTags: string[]
 jobDoneTags: string[]
 copiedFromWayUuid: string
+goalDescription: string
+metricsStringified: string[] stringified@Metric
+estimationTime: number
 
 DayReportDTO #collection
 uuid: string
@@ -36,13 +38,6 @@ plansStringified: string[] stringified@PlanForNextPeriod
 problemsStringified: string[] stringified@CurrentProblem
 commentsStringified: string[] stringified@Comment
 isDayOff: boolean
-
-GoalDTO #collection
-uuid: string
-studentUuid: string @UserUuid
-metricsStringified: string[] stringified@Metric
-description: string
-estimationTime: number
 
 MetricDTO
 uuid: string

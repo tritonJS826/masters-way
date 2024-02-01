@@ -4,7 +4,6 @@ import {userToUserDTOPartialConverter}
 import {wayToWayDTOPartialConverter} from "src/dataAccessLogic/BusinessToDTOConverter/wayToWayDTOPartialConverter";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {wayDTOToWayConverter} from "src/dataAccessLogic/DTOToBusinessConverter/wayDTOToWayPreviewConverter";
-import {GoalDAL} from "src/dataAccessLogic/GoalDAL";
 import {userPreviewToUserDTOConverter} from "src/dataAccessLogic/PreviewToDTOConverter/userPreviewToUserDTOConverter";
 import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
@@ -15,7 +14,6 @@ import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {USER_UUID_FIELD} from "src/model/DTOModel/UserDTO";
 import {WAY_MENTOR_UUIDS_FIELD, WAY_OWNER_UUID_FIELD} from "src/model/DTOModel/WayDTO";
 import {DayReportService} from "src/service/DayReportService";
-import {GoalService} from "src/service/GoalService";
 import {UserService} from "src/service/UserService";
 import {WayDTOWithoutUuid, WayService} from "src/service/WayService";
 import {arrayToHashMap} from "src/utils/arrayToHashMap";
@@ -77,8 +75,6 @@ export class WayDAL {
 
     const dayReportsOrderedByDate = dayReports.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 
-    const goal = await GoalDAL.getGoal(wayDTO.goalUuid, owner);
-
     const lastUpdate = wayDTO.lastUpdate.toDate();
     const createdAt = wayDTO.createdAt.toDate();
 
@@ -88,7 +84,6 @@ export class WayDAL {
       formerMentors: formerMentorsDictionary,
       dayReports: dayReportsOrderedByDate,
       mentorRequests,
-      goal,
       lastUpdate,
       createdAt,
     };
@@ -104,13 +99,10 @@ export class WayDAL {
   public static async createWay(user: UserPreview): Promise<Way> {
     const batch = writeBatch(db);
 
-    const newGoal = await GoalDAL.createGoal(user.uuid);
-
     const DEFAULT_WAY: WayDTOWithoutUuid = {
       name: `Way of ${user.name}`,
       dayReportUuids: [],
       ownerUuid: `${user.uuid}`,
-      goalUuid: `${newGoal.uuid}`,
       mentorUuids: [],
       formerMentorUuids: [],
       mentorRequestUuids: [],
@@ -121,6 +113,9 @@ export class WayDAL {
       wayTags: [],
       jobTags: [],
       copiedFromWayUuid: "",
+      goalDescription: "",
+      estimationTime: 0,
+      metricsStringified: [],
     };
     const wayDTO = WayService.createWayDTOWithBatch(DEFAULT_WAY, batch);
 
@@ -150,7 +145,6 @@ export class WayDAL {
       formerMentors,
       dayReports,
       mentorRequests,
-      goal: newGoal,
       lastUpdate,
       createdAt,
       favoriteForUsers,
@@ -212,7 +206,6 @@ export class WayDAL {
 
     dayReportsForDelete.forEach((dayReport) => DayReportService.deleteDayReportDTOWithBatch(dayReport.uuid, batch));
 
-    GoalService.deleteGoalDTOWithBatch(way.goal.uuid, batch);
     WayService.deleteWayDTOWithBatch(way.uuid, batch);
 
     await batch.commit();

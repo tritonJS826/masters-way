@@ -1,5 +1,5 @@
 import {DayReport} from "src/model/businessModel/DayReport";
-import {Goal} from "src/model/businessModel/Goal";
+import {Metric} from "src/model/businessModel/Metric";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 
 /**
@@ -26,11 +26,6 @@ export class Way {
    * Way's owner
    */
   public owner: UserPreview;
-
-  /**
-   * Way's goal
-   */
-  public goal: Goal;
 
   /**
    * Mentors of this way
@@ -86,12 +81,26 @@ export class Way {
    */
   public copiedFromWayUuid: string;
 
+  /**
+   * Description of goal
+   */
+  public goalDescription: string;
+
+  /**
+   * Estimation time for complete goal
+   */
+  public estimationTime: number;
+
+  /**
+   * Stringified metrics objects {@link MetricDTO}
+   */
+  public metrics: Metric[];
+
   constructor(wayData: Way) {
     this.uuid = wayData.uuid;
     this.name = wayData.name;
     this.dayReports = wayData.dayReports;
     this.owner = wayData.owner;
-    this.goal = wayData.goal;
     this.mentors = wayData.mentors;
     this.mentorRequests = wayData.mentorRequests;
     this.isCompleted = wayData.isCompleted;
@@ -102,6 +111,9 @@ export class Way {
     this.jobTags = wayData.jobTags;
     this.formerMentors = wayData.formerMentors;
     this.copiedFromWayUuid = wayData.copiedFromWayUuid;
+    this.goalDescription = wayData.goalDescription;
+    this.estimationTime = wayData.estimationTime;
+    this.metrics = wayData.metrics;
   }
 
 }

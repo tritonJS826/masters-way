@@ -54,7 +54,8 @@ export const GoalMetricItem = (props: SingleGoalMetricProps) => {
           isEditable={props.isEditable}
           isDefaultChecked={props.metric.isDone}
           className={styles.checkbox}
-          onChange={(isDone) => props.updateMetric({...props.metric, isDone})}
+          // TODO #487: check logic about update doneDate. What if I accidentally clicked checkbox few times
+          onChange={(isDone) => props.updateMetric({...props.metric, isDone, doneDate: new Date()})}
         />
         <Tooltip content={tooltipContent}>
           <EditableText

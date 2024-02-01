@@ -11,7 +11,6 @@ export const wayToWayDTOConverter = (way: Way): WayDTO => {
     name: way.name,
     dayReportUuids: way.dayReports.map((dayReport) => dayReport.uuid),
     ownerUuid: way.owner.uuid,
-    goalUuid: way.goal.uuid,
     mentorUuids: Array.from(way.mentors.keys()),
     formerMentorUuids: Array.from(way.formerMentors.keys()),
     mentorRequestUuids: way.mentorRequests.map((mentorRequestUuid) => mentorRequestUuid.uuid),
@@ -22,6 +21,9 @@ export const wayToWayDTOConverter = (way: Way): WayDTO => {
     wayTags: way.wayTags,
     jobTags: way.jobTags,
     copiedFromWayUuid: way.copiedFromWayUuid,
+    goalDescription: way.goalDescription,
+    metricsStringified: way.metrics.map((metric) => JSON.stringify(metric)),
+    estimationTime: way.estimationTime,
   };
 
   const validatedWayDTO = WayDTOSchema.parse(wayDTO);

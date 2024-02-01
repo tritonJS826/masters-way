@@ -1,4 +1,3 @@
-import {GoalPreview} from "src/model/businessModelPreview/GoalPreview";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 
 /**
@@ -25,11 +24,6 @@ export class WayPreview {
    * Way's owner
    */
   public owner: UserPreview;
-
-  /**
-   * Way's goal uuid @Goal.uuid
-   */
-  public goal: GoalPreview;
 
   /**
    * Mentors of this way
@@ -81,12 +75,26 @@ export class WayPreview {
    */
   public copiedFromWayUuid: string;
 
+  /**
+   * Description of goal
+   */
+  public goalDescription: string;
+
+  /**
+   * Estimation time for complete goal
+   */
+  public estimationTime: number;
+
+  /**
+   * Stringified metrics objects {@link MetricDTO}
+   */
+  public metricsStringified: string[];
+
   constructor(wayData: WayPreview) {
     this.uuid = wayData.uuid;
     this.name = wayData.name;
     this.dayReportUuids = wayData.dayReportUuids;
     this.owner = wayData.owner;
-    this.goal = wayData.goal;
     this.mentors = wayData.mentors;
     this.mentorRequests = wayData.mentorRequests;
     this.isCompleted = wayData.isCompleted;
@@ -97,6 +105,9 @@ export class WayPreview {
     this.jobTags = wayData.jobTags;
     this.formerMentorUuids = wayData.formerMentorUuids;
     this.copiedFromWayUuid = wayData.copiedFromWayUuid;
+    this.goalDescription = wayData.goalDescription;
+    this.estimationTime = wayData.estimationTime;
+    this.metricsStringified = wayData.metricsStringified;
   }
 
 }
