@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Header} from "src/component/header/Header";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
+import {FirebaseAnalytics} from "src/FirebaseAnalytics";
 import {
   DEFAULT_NOTIFICATION_SETTINGS,
   globalContext,
@@ -75,6 +76,7 @@ export const App = () => {
     >
       <Header />
       <Router />
+      <FirebaseAnalytics />
     </globalContext.Provider>
   );
 };

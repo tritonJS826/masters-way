@@ -14,9 +14,11 @@ import {useLoad} from "src/hooks/useLoad";
 import {waysColumns} from "src/logic/waysTable/waysColumns";
 import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {WayStatus, WayStatusType} from "src/logic/waysTable/wayStatus";
+import {WaysCollection} from "src/model/businessModelPreview/UserPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
 import {GetWaysFilter} from "src/service/WayService";
+import {ArrayUtils} from "src/utils/ArrayUtils";
 import styles from "src/logic/waysTable/BaseWaysTable.module.scss";
 
 /**
@@ -52,7 +54,7 @@ interface BaseWaysTableProps {
   /**
    * Rename collection
    */
-  renameCollection?: (name: string) => Promise<void>;
+  updateCollection?: (wayCollectionPartial: Partial<WaysCollection>) => Promise<void>;
 }
 
 export const FILTER_STATUS_ALL_VALUE = "all";
@@ -119,6 +121,11 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
     );
   }
 
+  /**
+   * Check is filters for collection used
+   */
+  const getIsNoFilters = () => props.filterStatus === FILTER_STATUS_ALL_VALUE;
+
   return (
     <>
       <HorizontalContainer className={styles.wayCollectionActions}>
@@ -139,14 +146,18 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
             okText="Ok"
           />
         )}
-        {props.renameCollection && (
+        {props.updateCollection && (
           <Modal
             isOpen={isRenameCollectionModalOpen}
             content={
               <PromptModalContent
                 defaultValue={props.title}
                 close={() => setIsRenameCollectionModalOpen(false)}
-                onOk={props.renameCollection}
+                onOk={(name: string) => {
+                  if (props.updateCollection) {
+                    return props.updateCollection({name});
+                  }
+                }}
               />
             }
             trigger={
@@ -179,6 +190,38 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
         data={ways}
         columns={waysColumns}
       />
+
+      {props.updateCollection && getIsNoFilters() && (
+        <>
+          {ArrayUtils.getDifference(
+            props.wayUuids,
+            ways.map(way => way.uuid),
+          ).map((notExistentWayUuid) => (
+            <>
+              <Confirm
+                trigger={
+                  // TODO: #480 make normal element for suggestions
+                  <Button
+                    value={`Way with uuid "${notExistentWayUuid}" is was removed or hidden. Remove it from the collection?`}
+                    onClick={() => {}}
+                    buttonType={ButtonType.SECONDARY}
+                    className={styles.button}
+                  />
+                }
+                content={<p>
+                  {`Are you sure you want the way "${notExistentWayUuid}" from the collection?`}
+                </p>}
+                onOk={() => {
+                  if (props.updateCollection) {
+                    props.updateCollection({wayUuids: props.wayUuids.filter(uuid => uuid !== notExistentWayUuid)});
+                  }
+                }}
+                okText="Ok"
+              />
+            </>
+          ))}
+        </>
+      )}
     </>
   );
 };
