@@ -3,10 +3,9 @@ import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalC
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {Tooltip} from "src/component/tooltip/Tooltip";
-import {GoalDAL} from "src/dataAccessLogic/GoalDAL";
 import {GoalMetricsBlock} from "src/logic/wayPage/goalMetricsBlock/GoalMetricsBlock";
-import {Goal} from "src/model/businessModel/Goal";
 import {Metric} from "src/model/businessModel/Metric";
+import {Way} from "src/model/businessModel/Way";
 import {WayPageSettings} from "src/utils/LocalStorageWorker";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import styles from "src/logic/wayPage/goalBlock/GoalBlock.module.scss";
@@ -19,12 +18,22 @@ interface GoalBlockProps {
   /**
    * Way's goal
    */
-  goal: Goal;
+  goalDescription: string;
+
+  /**
+   * Way's metrics
+   */
+  metrics: Metric[];
+
+  /**
+   * Df
+   */
+  wayUuid: string;
 
   /**
    * Callback to update goal
    */
-  updateGoal: (goal: PartialWithUuid<Goal>) => Promise<void>;
+  updateWay: (way: PartialWithUuid<Way>) => Promise<void>;
 
   /**
    * Is editable
@@ -51,8 +60,8 @@ export const GoalBlock = (props: GoalBlockProps) => {
    * Update goal
    */
   const updateGoalMetrics = async (metricsToUpdate: Metric[]) => {
-    await props.updateGoal({
-      uuid: props.goal.uuid,
+    await props.updateWay({
+      uuid: props.wayUuid,
       metrics: metricsToUpdate,
     });
   };
@@ -65,12 +74,11 @@ export const GoalBlock = (props: GoalBlockProps) => {
           text="Goal"
         />
         <EditableTextarea
-          text={props.goal.description}
-          onChangeFinish={async (description) => await GoalDAL.updateGoal({
-            uuid: props.goal.uuid,
-            description,
-          })
-          }
+          text={props.goalDescription}
+          onChangeFinish={async (goalDescription) => await props.updateWay({
+            uuid: props.wayUuid,
+            goalDescription,
+          })}
           rows={10}
           isEditable={props.isEditable}
           className={styles.goalDescription}
@@ -103,7 +111,7 @@ export const GoalBlock = (props: GoalBlockProps) => {
         </HorizontalContainer>
         <GoalMetricsBlock
           isVisible={props.wayPageSettings.isGoalMetricsVisible}
-          goalMetrics={props.goal.metrics}
+          goalMetrics={props.metrics}
           updateGoalMetrics={updateGoalMetrics}
           isEditable={props.isEditable}
         />

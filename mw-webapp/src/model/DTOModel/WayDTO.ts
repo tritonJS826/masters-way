@@ -32,11 +32,6 @@ export const WayDTOSchema = z.object({
   [WAY_OWNER_UUID_FIELD]: z.string(),
 
   /**
-   *Goal's UUID @Goal.uuid
-   */
-  goalUuid: z.string(),
-
-  /**
    * Mentor's UUIDs @User.uuid
    */
   [WAY_MENTOR_UUIDS_FIELD]: z.array(z.string()),
@@ -85,6 +80,21 @@ export const WayDTOSchema = z.object({
    * Way's uuid that was copied
    */
   copiedFromWayUuid: z.string(),
+
+  /**
+   * Description of goal
+   */
+  goalDescription: z.string(),
+
+  /**
+   * Estimation time for complete goal
+   */
+  estimationTime: z.number(),
+
+  /**
+   * Stringified metrics objects {@link MetricDTO}
+   */
+  metricsStringified: z.array(z.string()),
 
 }).strict();
 

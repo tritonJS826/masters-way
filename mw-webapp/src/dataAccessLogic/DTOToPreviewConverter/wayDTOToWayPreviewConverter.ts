@@ -1,4 +1,3 @@
-import {GoalPreview} from "src/model/businessModelPreview/GoalPreview";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {WayDTO} from "src/model/DTOModel/WayDTO";
@@ -18,10 +17,6 @@ interface WayPreviewProps {
    */
   mentors: UserPreview[];
 
-  /**
-   * Way's goal
-   */
-  goal: GoalPreview;
 }
 
 /**
@@ -31,7 +26,6 @@ export const wayDTOToWayPreviewConverter = (wayDTO: WayDTO, wayProps: WayPreview
   return new WayPreview({
     ...wayDTO,
     owner: wayProps.owner,
-    goal: wayProps.goal,
     mentors: wayProps.mentors,
     mentorRequests: wayDTO.mentorRequestUuids,
     lastUpdate: wayDTO.lastUpdate.toDate(),

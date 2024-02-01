@@ -14,7 +14,6 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {GoalDAL} from "src/dataAccessLogic/GoalDAL";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {useGlobalContext} from "src/GlobalContext";
@@ -28,7 +27,6 @@ import {downloadWayPdf} from "src/logic/wayPage/renderWayToPdf/downloadWayPdf";
 import {DayReportsTable} from "src/logic/wayPage/reportsTable/dayReportsTable/DayReportsTable";
 import {WayStatistic} from "src/logic/wayPage/wayStatistics/WayStatistic";
 import {DayReport} from "src/model/businessModel/DayReport";
-import {Goal} from "src/model/businessModel/Goal";
 import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {pages} from "src/router/pages";
@@ -75,7 +73,7 @@ interface UpdateWayParams {
 }
 
 /**
- * Change name of Way
+ * Update way Way
  */
 const updateWay = async (params: UpdateWayParams) => {
   params.setWay(params.wayToUpdate);
@@ -127,9 +125,8 @@ export const WayPage = (props: WayPageProps) => {
   const navigate = useNavigate();
   const [wayPageSettings, setWayPageSettings] = useState<WayPageSettings>(getWayPageSavedSettings());
   const {user, setUser} = useGlobalContext();
-  // TODO: goal inside way doesn't use for editing
+
   const [way, setWay] = useState<Way>();
-  const [goal, setGoal] = useState<Goal>();
 
   /**
    * Update way state
@@ -172,7 +169,6 @@ export const WayPage = (props: WayPageProps) => {
    */
   const onSuccess = (data: Way) => {
     setWay(data);
-    setGoal(data.goal);
   };
 
   useLoad(
@@ -184,22 +180,11 @@ export const WayPage = (props: WayPageProps) => {
     },
   );
 
-  if (!way || !goal) {
+  if (!way) {
     return (
       <Loader />
     );
   }
-
-  /**
-   * Update way state
-   */
-  const setGoalPartial = (previousGoal: Partial<Goal>) => {
-    if (!goal) {
-      throw new Error("Previous goal is undefined");
-    }
-    const updatedGoal: Goal = {...goal, ...previousGoal};
-    setGoal(updatedGoal);
-  };
 
   const isWayInFavorites = user && user.favoriteWays.includes(way.uuid);
 
@@ -235,14 +220,6 @@ export const WayPage = (props: WayPageProps) => {
   const setDayReports = (dayReports: DayReport[]) => {
     const updatedWay = {...way, dayReports};
     setWay(updatedWay);
-  };
-
-  /**
-   * Update goal
-   */
-  const updateGoal = async (goalToUpdate: PartialWithUuid<Goal>) => {
-    await GoalDAL.updateGoal(goalToUpdate);
-    setGoalPartial(goalToUpdate);
   };
 
   const renderDeleteWayDropdownItem = (
@@ -484,8 +461,13 @@ export const WayPage = (props: WayPageProps) => {
       <HorizontalContainer className={styles.wrap}>
 
         <GoalBlock
-          goal={goal}
-          updateGoal={updateGoal}
+          goalDescription={way.goalDescription}
+          metrics={way.metrics}
+          wayUuid={way.uuid}
+          updateWay={(updated) => updateWay({
+            wayToUpdate: {...updated},
+            setWay: setWayPartial,
+          })}
           isEditable={isOwner}
           wayPageSettings={wayPageSettings}
           updateWaySettings={updateWayPageSettings}

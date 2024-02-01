@@ -1,49 +1,49 @@
-import {z} from "zod";
+// Import {z} from "zod";
 
-export const GOAL_UUID_FIELD = "uuid";
+// export const GOAL_UUID_FIELD = "uuid";
 
-export const GoalDTOSchema = z.object({
+// export const GoalDTOSchema = z.object({
 
-  /**
-   * Goal's UUID
-   */
-  [GOAL_UUID_FIELD]: z.string(),
+//   /**
+//    * Goal's UUID
+//    */
+//   [GOAL_UUID_FIELD]: z.string(),
 
-  /**
-   * Student's UUID @User.uuid
-   */
-  studentUuid: z.string(),
+//   /**
+//    * Student's UUID @User.uuid
+//    */
+//   studentUuid: z.string(),
 
-  /**
-   * Description of goal
-   */
-  description: z.string(),
+//   /**
+//    * Description of goal
+//    */
+//   description: z.string(),
 
-  /**
-   * Estimation time for complete goal
-   */
-  estimationTime: z.number(),
+//   /**
+//    * Estimation time for complete goal
+//    */
+//   estimationTime: z.number(),
 
-  /**
-   * Stringified metrics objects {@link MetricDTO}
-   */
-  metricsStringified: z.array(z.string()),
+//   /**
+//    * Stringified metrics objects {@link MetricDTO}
+//    */
+//   metricsStringified: z.array(z.string()),
 
-}).strict();
+// }).strict();
 
-export const GoalsDTOSchema = z.array(GoalDTOSchema);
+// export const GoalsDTOSchema = z.array(GoalDTOSchema);
 
-/**
- * Goal DTO model
- */
-export type GoalDTO = z.infer<typeof GoalDTOSchema>;
+// /**
+//  * Goal DTO model
+//  */
+// export type GoalDTO = z.infer<typeof GoalDTOSchema>;
 
-/**
- * Partial GoalDTO schema
- */
-export const GoalPartialDTOSchema = GoalDTOSchema.partial().required({[GOAL_UUID_FIELD]: true});
+// /**
+//  * Partial GoalDTO schema
+//  */
+// export const GoalPartialDTOSchema = GoalDTOSchema.partial().required({[GOAL_UUID_FIELD]: true});
 
-/**
- * GoalPartialDTO model
- */
-export type GoalPartialDTO = z.infer<typeof GoalPartialDTOSchema>;
+// /**
+//  * GoalPartialDTO model
+//  */
+// export type GoalPartialDTO = z.infer<typeof GoalPartialDTOSchema>;

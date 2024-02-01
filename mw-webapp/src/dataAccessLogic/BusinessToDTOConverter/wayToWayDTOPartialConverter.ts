@@ -13,7 +13,6 @@ export const wayToWayDTOPartialConverter = (way: PartialWithUuid<Way>): PartialW
     name: way.name,
     dayReportUuids: way.dayReports ? way.dayReports.map((dayReport) => dayReport.uuid) : undefined,
     ownerUuid: way.owner ? way.owner.uuid : undefined,
-    goalUuid: way.goal ? way.goal.uuid : undefined,
     mentorUuids: way.mentors ? Array.from(way.mentors.keys()) : undefined,
     formerMentorUuids: way.formerMentors ? Array.from(way.formerMentors.keys()) : undefined,
     mentorRequestUuids: way.mentorRequests ? way.mentorRequests.map((mentorRequestUuid) => mentorRequestUuid.uuid) : undefined,
@@ -24,6 +23,9 @@ export const wayToWayDTOPartialConverter = (way: PartialWithUuid<Way>): PartialW
     wayTags: way.wayTags,
     jobTags: way.jobTags,
     copiedFromWayUuid: way.copiedFromWayUuid,
+    goalDescription: way.goalDescription,
+    metricsStringified: way.metrics ? way.metrics.map((metric) => JSON.stringify(metric)) : undefined,
+    estimationTime: way.estimationTime,
   };
 
   const preparedWayPartialDTO = deleteUndefinedFields(wayPartialDTO);

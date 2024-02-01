@@ -13,7 +13,6 @@ export const wayPreviewToWayDTOConverter = (wayPreview: WayPreview): WayDTO => {
     mentorUuids: wayPreview.mentors.map((item) => item.uuid),
     formerMentorUuids: wayPreview.formerMentorUuids,
     dayReportUuids: wayPreview.dayReportUuids,
-    goalUuid: wayPreview.goal.uuid,
     mentorRequestUuids: wayPreview.mentorRequests,
     isCompleted: wayPreview.isCompleted,
     lastUpdate: Timestamp.fromDate(wayPreview.lastUpdate),
@@ -22,6 +21,9 @@ export const wayPreviewToWayDTOConverter = (wayPreview: WayPreview): WayDTO => {
     wayTags: wayPreview.wayTags,
     jobTags: wayPreview.jobTags,
     copiedFromWayUuid: wayPreview.copiedFromWayUuid,
+    goalDescription: wayPreview.goalDescription,
+    estimationTime: wayPreview.estimationTime,
+    metricsStringified: wayPreview.metricsStringified,
   };
 
   return WayDTOSchema.parse(wayDTO);

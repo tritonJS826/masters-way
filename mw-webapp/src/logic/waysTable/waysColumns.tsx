@@ -128,9 +128,9 @@ export const waysColumns = [
           path={pages.way.getPath({uuid: row.original.uuid})}
           value={row.original.name}
         />
-        <Tooltip content={renderMarkdown(row.original.goal.description)}>
+        <Tooltip content={renderMarkdown(row.original.goalDescription)}>
           <div className={styles.shortCell}>
-            {renderMarkdown(row.original.goal.description)}
+            {renderMarkdown(row.original.goalDescription)}
           </div>
         </Tooltip>
       </div>

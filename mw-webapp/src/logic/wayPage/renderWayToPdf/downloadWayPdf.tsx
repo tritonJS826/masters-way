@@ -8,7 +8,7 @@ import {
   SMALL_CORRECTION_MILLISECONDS,
 } from "src/logic/wayPage/wayStatistics/WayStatistic";
 import {DayReport} from "src/model/businessModel/DayReport";
-import {Goal} from "src/model/businessModel/Goal";
+import {Metric} from "src/model/businessModel/Metric";
 import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {DateUtils} from "src/utils/DateUtils";
@@ -104,26 +104,26 @@ const getFormerMentors = (wayFormerMentors: Map<string, UserPreview>) => {
 /**
  * Render way's goal, estimation time and goalMetrics
  */
-const getGoal = (goal: Goal) => {
+const getGoal = (goalDescription: string, estimationTime: number, metrics: Metric[]) => {
   return [
     {
       text: "Goal:",
       bold: true,
       margin: [0, MARGIN_SMALL, 0, 0],
     },
-    goal.description,
+    goalDescription,
     {
       text: "Estimation time:",
       bold: true,
       margin: [0, MARGIN_SMALL, 0, 0],
     },
-    goal.estimationTime,
+    estimationTime,
     {
       text: "Goal metrics:",
       bold: true,
       margin: [0, MARGIN_SMALL, 0, 0],
     },
-    ...goal.metrics
+    ...metrics
       .map((metric) =>
         `${metric.isDone && metric.doneDate
           ? DateUtils.getShortISODateValue(metric.doneDate)
@@ -298,7 +298,7 @@ export const downloadWayPdf = (way: Way) => {
   const favoritesDefinition = getFavorites(way.favoriteForUserUuids.length);
   const mentorsDefinition = getMentors(way.mentors);
   const formerMentorsDefinition = getFormerMentors(way.formerMentors);
-  const goalDefinition = getGoal(way.goal);
+  const goalDefinition = getGoal(way.goalDescription, way.estimationTime, way.metrics);
   const statisticsDefinition = getStatistics(way.dayReports, way.createdAt);
   const dayReportsTitleDefinition = getTitle("Day Reports");
   const reportDefinitions = way.dayReports.reverse().flatMap(getReportsTemplate);

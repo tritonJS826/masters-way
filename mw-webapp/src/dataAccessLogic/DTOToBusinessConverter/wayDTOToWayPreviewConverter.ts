@@ -1,5 +1,4 @@
 import {DayReport} from "src/model/businessModel/DayReport";
-import {Goal} from "src/model/businessModel/Goal";
 import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {WayDTO} from "src/model/DTOModel/WayDTO";
@@ -34,11 +33,6 @@ interface WayProps {
   mentorRequests: UserPreview[];
 
   /**
-   * Way's goal
-   */
-  goal: Goal;
-
-  /**
    * Last day when way was updated in ms
    */
   lastUpdate: Date;
@@ -65,7 +59,6 @@ export const wayDTOToWayConverter = (wayDTO: WayDTO, wayProps: WayProps): Way =>
     name: wayDTO.name,
     dayReports: wayProps.dayReports,
     owner: wayProps.owner,
-    goal: wayProps.goal,
     mentors: wayProps.mentors,
     formerMentors: wayProps.formerMentors,
     mentorRequests: wayProps.mentorRequests,
@@ -74,5 +67,13 @@ export const wayDTOToWayConverter = (wayDTO: WayDTO, wayProps: WayProps): Way =>
     favoriteForUserUuids: wayDTO.favoriteForUserUuids,
     createdAt: wayProps.createdAt,
     copiedFromWayUuid: wayDTO.copiedFromWayUuid,
+    goalDescription: wayDTO.goalDescription,
+    estimationTime: wayDTO.estimationTime,
+    metrics: wayDTO.metricsStringified.map((metricStringified) => {
+      const metric = JSON.parse(metricStringified);
+      metric.doneDate = new Date(metric.doneDate) ?? null;
+
+      return metric;
+    }),
   });
 };
