@@ -1,0 +1,19 @@
+@import "src/styles/variables";
+
+.mentorRequestsContainer {
+  display: flex;
+  align-items: center;
+  gap: $gapMedium;
+}
+
+.mentorRequestsSection {
+  display: flex;
+  align-items: center;
+  gap: $gapMedium;
+}
+
+@media (max-width: $mediaWidthTabletBig) {
+  .mentorRequestsContainer {
+    flex-wrap: wrap;
+  }
+}
