@@ -69,10 +69,6 @@ interface MentorRequestsSectionProps {
  * Section with requests to become Way mentor
  */
 export const MentorRequestsSection = (props: MentorRequestsSectionProps) => {
-  // Const ss = {
-
-  // }
-  // console.log([...props.way.mentorRequests, ...props.way.mentorRequests])
   return (
     <>
       <Title
