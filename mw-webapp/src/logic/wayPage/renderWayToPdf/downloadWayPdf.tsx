@@ -102,28 +102,49 @@ const getFormerMentors = (wayFormerMentors: Map<string, UserPreview>) => {
 };
 
 /**
+ * Goal params
+ */
+interface GoalParams {
+
+  /**
+   * Goal description
+   */
+  goalDescription: string;
+
+  /**
+   * Estimation time
+   */
+  estimationTime: number;
+
+  /**
+   * Metrics
+   */
+  metrics: Metric[];
+}
+
+/**
  * Render way's goal, estimation time and goalMetrics
  */
-const getGoal = (goalDescription: string, estimationTime: number, metrics: Metric[]) => {
+const getGoal = (params: GoalParams) => {
   return [
     {
       text: "Goal:",
       bold: true,
       margin: [0, MARGIN_SMALL, 0, 0],
     },
-    goalDescription,
+    params.goalDescription,
     {
       text: "Estimation time:",
       bold: true,
       margin: [0, MARGIN_SMALL, 0, 0],
     },
-    estimationTime,
+    params.estimationTime,
     {
       text: "Goal metrics:",
       bold: true,
       margin: [0, MARGIN_SMALL, 0, 0],
     },
-    ...metrics
+    ...params.metrics
       .map((metric) =>
         `${metric.isDone && metric.doneDate
           ? DateUtils.getShortISODateValue(metric.doneDate)
@@ -298,7 +319,11 @@ export const downloadWayPdf = (way: Way) => {
   const favoritesDefinition = getFavorites(way.favoriteForUserUuids.length);
   const mentorsDefinition = getMentors(way.mentors);
   const formerMentorsDefinition = getFormerMentors(way.formerMentors);
-  const goalDefinition = getGoal(way.goalDescription, way.estimationTime, way.metrics);
+  const goalDefinition = getGoal({
+    goalDescription: way.goalDescription,
+    estimationTime: way.estimationTime,
+    metrics: way.metrics,
+  });
   const statisticsDefinition = getStatistics(way.dayReports, way.createdAt);
   const dayReportsTitleDefinition = getTitle("Day Reports");
   const reportDefinitions = way.dayReports.reverse().flatMap(getReportsTemplate);
