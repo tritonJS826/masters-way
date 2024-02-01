@@ -8,6 +8,12 @@ export const WAY_MENTOR_UUIDS_FIELD = "mentorUuids";
 export const WAY_CREATED_AT_FIELD = "createdAt";
 export const WAY_IS_COMPLETED_FIELD = "isCompleted";
 export const WAY_LAST_UPDATE_FIELD = "lastUpdate";
+export const WAY_TAGS_FIELD = "wayTags";
+export const WAY_JOB_TAGS_FIELD = "jobTags";
+export const WAY_COPIED_FROM_WAY_UUID_FIELD = "copiedFromWayUuid";
+export const WAY_GOAL_DESCRIPTION_FIELD = "goalDescription";
+export const WAY_ESTIMATION_TIME_FIELD = "estimationTime";
+export const WAY_METRICS_STRINGIFIED_FIELD = "metricsStringified";
 
 export const WayDTOSchema = z.object({
 
@@ -69,32 +75,32 @@ export const WayDTOSchema = z.object({
   /**
    * Way's tags
    */
-  wayTags: z.array(z.string()),
+  [WAY_TAGS_FIELD]: z.array(z.string()),
 
   /**
    * Tags that was used for jobDone
    */
-  jobTags: z.array(z.string()),
+  [WAY_JOB_TAGS_FIELD]: z.array(z.string()),
 
   /**
    * Way's uuid that was copied
    */
-  copiedFromWayUuid: z.string(),
+  [WAY_COPIED_FROM_WAY_UUID_FIELD]: z.string(),
 
   /**
    * Description of goal
    */
-  goalDescription: z.string(),
+  [WAY_GOAL_DESCRIPTION_FIELD]: z.string(),
 
   /**
    * Estimation time for complete goal
    */
-  estimationTime: z.number(),
+  [WAY_ESTIMATION_TIME_FIELD]: z.number(),
 
   /**
    * Stringified metrics objects {@link MetricDTO}
    */
-  metricsStringified: z.array(z.string()),
+  [WAY_METRICS_STRINGIFIED_FIELD]: z.array(z.string()),
 
 }).strict();
 
