@@ -15,7 +15,7 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
-import {WayDAL} from "src/dataAccessLogic/WayDAL";
+import {BaseWayData, WayDAL} from "src/dataAccessLogic/WayDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {useLoad} from "src/hooks/useLoad";
 import {updateUser, UpdateUserParams} from "src/logic/userPage/UserPage";
@@ -226,7 +226,7 @@ export const WayPage = (props: WayPageProps) => {
     <Confirm
       trigger={
         <DropdownMenuItem
-          value="Delete way"
+          value="Delete the way"
           onClick={() => {}}
         />
       }
@@ -283,9 +283,32 @@ export const WayPage = (props: WayPageProps) => {
           />
         ),
       };
-    },
+    });
 
-    );
+  /**
+   * Copy the way to owner
+   */
+  const repeatTheWay = async () => {
+    if (!user) {
+      throw new Error("User is not defined");
+    }
+
+    const baseWayData: BaseWayData = {
+      name: way.name,
+      copiedFromWayUuid: way.uuid,
+      estimationTime: way.estimationTime,
+      goalDescription: way.goalDescription,
+      jobTags: way.jobTags,
+      metricsStringified: way.metrics.map(
+        (metric) => JSON.stringify({...metric, isDone: false, doneDate: null}),
+      ),
+      wayTags: way.wayTags,
+    };
+    const newWay: Way = await WayDAL.createWay(user, baseWayData);
+
+    await navigate(pages.way.getPath({uuid: newWay.uuid}));
+    displayNotification({text: `Way ${way.name} copied`, type: "info"});
+  };
 
   return (
     <div className={styles.container}>
@@ -366,8 +389,18 @@ export const WayPage = (props: WayPageProps) => {
             )}
             dropdownMenuItems={[
               {
-                id: "Copy to clipboard",
-                value: "Copy to clipboard",
+                id: "Repeat the way",
+                value: "Repeat the way",
+
+                /**
+                 * Copy url to clipboard
+                 */
+                onClick: repeatTheWay,
+                isVisible: !!user,
+              },
+              {
+                id: "Copy url to clipboard",
+                value: "Copy url to clipboard",
 
                 /**
                  * Copy url to clipboard
@@ -375,7 +408,7 @@ export const WayPage = (props: WayPageProps) => {
                 onClick: async () => {
                   await navigator.clipboard.writeText(location.href);
                   displayNotification({
-                    text: "Url cpied",
+                    text: "Url copied",
                     type: "info",
                   });
                 },
@@ -391,7 +424,17 @@ export const WayPage = (props: WayPageProps) => {
               },
               ...renderAddToCustomCollectionDropdownItems,
               {
-                id: "Delete way",
+                id: "Go to original way",
+                value: "Go to original",
+                isVisible: !!way.copiedFromWayUuid,
+
+                /**
+                 * Go to original way (from which current way was copied)
+                 */
+                onClick: () => navigate(pages.way.getPath({uuid: way.copiedFromWayUuid})),
+              },
+              {
+                id: "Delete the way",
                 value: renderDeleteWayDropdownItem,
                 isVisible: isOwner,
               },
