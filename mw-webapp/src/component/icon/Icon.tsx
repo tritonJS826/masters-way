@@ -60,5 +60,9 @@ export const Icon = (props: IconProps) => {
     props.className,
   );
 
-  return IconDictionary[props.name]({...props, className});
+  return (
+    <a>
+      {IconDictionary[props.name]({...props, className})}
+    </a>
+  );
 };
