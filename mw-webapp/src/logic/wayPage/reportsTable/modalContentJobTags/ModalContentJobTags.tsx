@@ -7,6 +7,7 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {JobTag} from "src/logic/wayPage/jobTags/jobTag/JobTag";
 import {DEFAULT_TAG} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
+import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/logic/wayPage/reportsTable/modalContentJobTags/ModalContentJobTags.module.scss";
 
 /**
@@ -64,8 +65,17 @@ export const ModalContentJobTags = (props: JobDoneTagsProps) => {
     setJobTagsUpdated(updatedJobTags);
   };
 
+  /**
+   * Update cell value after OnKeyDown event
+   */
+  const handleEnter = (event: React.KeyboardEvent<HTMLElement>) => {
+    if (event.key === KeySymbols.ENTER) {
+      props.updateTags(uniqueJobTags);
+    }
+  };
+
   return (
-    <>
+    <div onKeyDown={handleEnter}>
       <div className={styles.jobTagsContainer}>
         {allTags.map((tag) => {
           return (
@@ -75,14 +85,16 @@ export const ModalContentJobTags = (props: JobDoneTagsProps) => {
             >
               <Tooltip
                 content={props.jobDoneTags.includes(tag) ? "Click to remove tag" : "Click to add tag"}
-                position={PositionTooltip.RIGHT}
+                position={PositionTooltip.BOTTOM}
               >
                 <Checkbox
                   isDefaultChecked={props.jobDoneTags.includes(tag)}
                   onChange={() => props.jobDoneTags.includes(tag) ? removeJobTagFromJobDone(tag) : addJobTagFromJobDone(tag)}
-                />
+                  className={styles.checkbox}
+                >
+                  <JobTag jobTag={tag} />
+                </Checkbox>
               </Tooltip>
-              <JobTag jobTag={tag} />
             </div>
           );
         })}
@@ -95,6 +107,6 @@ export const ModalContentJobTags = (props: JobDoneTagsProps) => {
           />
         </DialogClose>
       </HorizontalContainer>
-    </>
+    </div>
   );
 };

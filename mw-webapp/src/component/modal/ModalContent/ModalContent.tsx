@@ -6,6 +6,7 @@ import {
   Portal as DialogPortal,
 } from "@radix-ui/react-dialog";
 import {Cross2Icon} from "@radix-ui/react-icons";
+import {Button} from "src/component/button/Button";
 import styles from "src/component/modal/ModalContent/ModalContent.module.scss";
 
 /**
@@ -21,6 +22,12 @@ export const ModalContent = (props: PropsWithChildren) => {
           <button className={styles.closeButton}>
             <Cross2Icon />
           </button>
+        </DialogClose>
+        <DialogClose asChild>
+          <Button
+            value="Cancel"
+            onClick={() => { }}
+          />
         </DialogClose>
       </DialogContent>
     </DialogPortal>

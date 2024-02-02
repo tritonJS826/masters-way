@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {PropsWithChildren, useState} from "react";
 import clsx from "clsx";
 import styles from "src/component/checkbox/Сheckbox.module.scss";
 
@@ -33,7 +33,7 @@ interface CheckboxProps {
 /**
  * Checkbox component
  */
-export const Checkbox = (props: CheckboxProps) => {
+export const Checkbox = (props: PropsWithChildren<CheckboxProps>) => {
   const [isChecked, setIsChecked] = useState<boolean>(props.isDefaultChecked ?? false);
 
   /**
@@ -45,7 +45,7 @@ export const Checkbox = (props: CheckboxProps) => {
   };
 
   return (
-    <label>
+    <label className={styles.label}>
       <input
         className={clsx(props.className, styles.checkbox)}
         type="checkbox"
@@ -54,6 +54,7 @@ export const Checkbox = (props: CheckboxProps) => {
           props.isEditable !== false && handleCheckboxChange();
         }}
       />
+      {props.children}
     </label>
   );
 };

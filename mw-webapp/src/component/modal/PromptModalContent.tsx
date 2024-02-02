@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {Close as DialogClose} from "@radix-ui/react-dialog";
-import {Button} from "src/component/button/Button";
+import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Input} from "src/component/input/Input";
 import {KeySymbols} from "src/utils/KeySymbols";
@@ -26,6 +26,11 @@ interface PromptModalContentProps {
    * Callback triggered on ok
    */
   onOk: (inputValue: string) => Promise<void> | void;
+
+  /**
+   * Callback triggered on ok
+   */
+  // onKeyDown: (inputValue: string) => Promise<void> | void;
 }
 
 /**
@@ -40,7 +45,6 @@ export const PromptModalContent = (props: PromptModalContentProps) => {
   const handleEnter = (event: React.KeyboardEvent<HTMLElement>) => {
     if (event.key === KeySymbols.ENTER) {
       props.onOk(inputValue);
-      props.close();
     }
   };
 
@@ -48,21 +52,23 @@ export const PromptModalContent = (props: PromptModalContentProps) => {
     <div onKeyDown={handleEnter}>
       <Input
         type="text"
+        placeholder="tag"
         value={inputValue}
         autoFocus={true}
         onChange={setInputValue}
       />
       <HorizontalContainer className={styles.buttons}>
-        <DialogClose asChild>
+        {/* <DialogClose asChild>
           <Button
             value="Cancel"
             onClick={props.close}
           />
-        </DialogClose>
+        </DialogClose> */}
         <DialogClose asChild>
           <Button
             value="Create"
             onClick={() => props.onOk(inputValue)}
+            buttonType={ButtonType.PRIMARY}
           />
         </DialogClose>
       </HorizontalContainer>

@@ -1,6 +1,6 @@
 import {ReactElement, useState} from "react";
 import {Close as DialogClose} from "@radix-ui/react-dialog";
-import {Button} from "src/component/button/Button";
+import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Modal} from "src/component/modal/Modal";
 import styles from "src/component/confirm/Confirm.module.scss";
@@ -56,6 +56,7 @@ export const Confirm = (props: ConfirmProps) => {
             <Button
               value="Cancel"
               onClick={() => setIsOpen(false)}
+              buttonType={ButtonType.TERTIARY}
             />
           </DialogClose>
           <DialogClose asChild>
@@ -76,6 +77,7 @@ export const Confirm = (props: ConfirmProps) => {
       isOpen={isOpen}
       content={renderConfirmContent()}
       trigger={props.trigger}
+      onOk={props.onOk}
     />
   );
 };
