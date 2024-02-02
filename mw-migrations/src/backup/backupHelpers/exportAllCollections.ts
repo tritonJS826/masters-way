@@ -1,7 +1,6 @@
 import { logToFile } from "../../utils/logToFile.js";
 import { writeBackup } from "../../utils/writeBackup.js";
 import { exportDayReports } from "./dayReports.js";
-import { exportGoals } from "./goals.js";
 import { exportUsers } from "./users.js";
 import { exportWays } from "./ways.js";
 
@@ -23,20 +22,18 @@ export const exportFirebase = async () => {
     const backupStartTime = new Date();
 
     const dayReportsAmountPromise = exportDayReports({log, backupToFile: (data: string) => writeBackup(data, DAY_REPORTS_BACKUP_FILE) });
-    const goalsAmountPromise = exportGoals({log, backupToFile: (data: string) => writeBackup(data, GOALS_BACKUP_FILE) });
     const usersAmountPromise = exportUsers({log, backupToFile: (data: string) => writeBackup(data, USERS_BACKUP_FILE) });
     const waysAmountPromise = exportWays({log, backupToFile: (data: string) => writeBackup(data, WAYS_BACKUP_FILE) });
     
-    const [dayReportsAmount, goalsAmount, usersAmount, waysAmount] = await Promise.all([
+    const [dayReportsAmount, usersAmount, waysAmount] = await Promise.all([
       dayReportsAmountPromise,
-      goalsAmountPromise,
       usersAmountPromise,
       waysAmountPromise,
     ]);
     
     const backupEndTime = new Date();
     const fullBackupTime = backupEndTime.getTime() - backupStartTime.getTime();
-    const totalModelsBackup = dayReportsAmount + goalsAmount + usersAmount + waysAmount;
+    const totalModelsBackup = dayReportsAmount + usersAmount + waysAmount;
 
     log(`
     Start time: ${backupStartTime}
