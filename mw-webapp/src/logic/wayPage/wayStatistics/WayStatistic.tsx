@@ -39,7 +39,6 @@ export const MILLISECONDS_IN_DAY = 86_400_000;
  * but in application for 3 records we want to see 3 days
  */
 export const SMALL_CORRECTION_MILLISECONDS = 1;
-const CORRECTION_FOR_LAST_ELEMENT = 1;
 export const AMOUNT_DAYS_IN_WEEK = 7;
 export const AMOUNT_DAYS_IN_TWO_WEEK = 14;
 
@@ -85,11 +84,13 @@ export const WayStatistic = (props: WayStatisticProps) => {
     return null;
   }
 
-  const currentDate = new Date();
-  const allReports = props.dayReports;
+  const allDatesTimestamps = props.dayReports.map(report => report.createdAt.getTime());
+  const maximumDateTimestamp = Math.max(...allDatesTimestamps);
+  const minimumDateTimestamp = Math.min(...allDatesTimestamps);
 
-  const totalDaysOnAWay = Math.round((currentDate.getTime() -
-  allReports[allReports.length - CORRECTION_FOR_LAST_ELEMENT].createdAt.getTime()) / MILLISECONDS_IN_DAY);
+  const totalDaysOnAWay = Math.ceil(
+    (maximumDateTimestamp - minimumDateTimestamp + SMALL_CORRECTION_MILLISECONDS) / MILLISECONDS_IN_DAY,
+  );
 
   const totalRecordsAmount = props.dayReports.length;
 
