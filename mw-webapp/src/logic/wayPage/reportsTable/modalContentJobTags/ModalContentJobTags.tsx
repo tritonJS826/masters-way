@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {Close as DialogClose} from "@radix-ui/react-dialog";
-import {Button} from "src/component/button/Button";
+import {Button, ButtonType} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Сheckbox";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
@@ -35,6 +35,7 @@ interface JobDoneTagsProps {
    * Callback to update job done tags
    */
   updateTags: (newTags: string[]) => Promise<void>;
+
 }
 
 /**
@@ -102,8 +103,15 @@ export const ModalContentJobTags = (props: JobDoneTagsProps) => {
       <HorizontalContainer className={styles.buttons}>
         <DialogClose asChild>
           <Button
+            value="Cancel"
+            onClick={() => {}}
+          />
+        </DialogClose>
+        <DialogClose asChild>
+          <Button
             value="Save"
             onClick={() => props.updateTags(uniqueJobTags)}
+            buttonType={ButtonType.PRIMARY}
           />
         </DialogClose>
       </HorizontalContainer>

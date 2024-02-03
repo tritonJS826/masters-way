@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useRef, useState} from "react";
 import {Close as DialogClose} from "@radix-ui/react-dialog";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
@@ -27,10 +27,6 @@ interface PromptModalContentProps {
    */
   onOk: (inputValue: string) => Promise<void> | void;
 
-  /**
-   * Callback triggered on ok
-   */
-  // onKeyDown: (inputValue: string) => Promise<void> | void;
 }
 
 /**
@@ -39,39 +35,41 @@ interface PromptModalContentProps {
 export const PromptModalContent = (props: PromptModalContentProps) => {
   const [inputValue, setInputValue] = useState<string>(props.defaultValue ?? "");
 
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
   /**
    * Update cell value after OnKeyDown event
    */
   const handleEnter = (event: React.KeyboardEvent<HTMLElement>) => {
     if (event.key === KeySymbols.ENTER) {
-      props.onOk(inputValue);
+      buttonRef.current?.click();
     }
   };
 
   return (
-    <div onKeyDown={handleEnter}>
-      <Input
-        type="text"
-        placeholder="tag"
-        value={inputValue}
-        autoFocus={true}
-        onChange={setInputValue}
-      />
-      <HorizontalContainer className={styles.buttons}>
-        {/* <DialogClose asChild>
+    <DialogClose asChild>
+      <div onKeyDown={handleEnter}>
+        <Input
+          type="text"
+          placeholder="tag"
+          value={inputValue}
+          autoFocus={true}
+          onChange={setInputValue}
+        />
+        <HorizontalContainer className={styles.buttons}>
           <Button
             value="Cancel"
             onClick={props.close}
           />
-        </DialogClose> */}
-        <DialogClose asChild>
+
           <Button
+            ref={buttonRef}
             value="Create"
             onClick={() => props.onOk(inputValue)}
             buttonType={ButtonType.PRIMARY}
           />
-        </DialogClose>
-      </HorizontalContainer>
-    </div>
+        </HorizontalContainer>
+      </div>
+    </DialogClose>
   );
 };

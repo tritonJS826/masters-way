@@ -2,7 +2,6 @@ import {ReactElement, useState} from "react";
 import {Root as DialogRoot} from "@radix-ui/react-dialog";
 import {ModalContent} from "src/component/modal/ModalContent/ModalContent";
 import {ModalTrigger} from "src/component/modal/ModalTrigger/ModalTrigger";
-import {KeySymbols} from "src/utils/KeySymbols";
 
 /**
  * Modal props
@@ -25,16 +24,6 @@ interface ModalProps {
    */
   isOpen?: boolean;
 
-  /**
-   * Handle on ok click
-   */
-  onOk?: () => void;
-
-  /**
-   * Handle on ok click
-   */
-  onOk2?: (newJobTag: string) => Promise<void>;
-
 }
 
 /**
@@ -42,16 +31,6 @@ interface ModalProps {
  */
 export const Modal = (props: ModalProps) => {
   const [isOpen, setIsOpen] = useState(props.isOpen ?? false);
-
-  /**
-   * Update cell value after OnKeyDown event
-   */
-  const handleEnter = (event: React.KeyboardEvent<HTMLElement>) => {
-    if (event.key === KeySymbols.ENTER) {
-      props.onOk && props.onOk();
-      setIsOpen(false);
-    }
-  };
 
   return (
     <DialogRoot
@@ -61,11 +40,9 @@ export const Modal = (props: ModalProps) => {
       <ModalTrigger>
         {props.trigger}
       </ModalTrigger>
-      <div onKeyDown={handleEnter}>
-        <ModalContent>
-          {props.content}
-        </ModalContent>
-      </div>
+      <ModalContent>
+        {props.content}
+      </ModalContent>
     </DialogRoot>
   );
 };
