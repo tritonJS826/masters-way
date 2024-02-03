@@ -61,8 +61,6 @@ export const Icon = (props: IconProps) => {
   );
 
   return (
-    <button className={styles.iconWrapper}>
-      {IconDictionary[props.name]({...props, className})}
-    </button>
+    IconDictionary[props.name]({...props, className})
   );
 };

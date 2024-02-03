@@ -454,15 +454,19 @@ export const WayPage = (props: WayPageProps) => {
               onClick={() => updateWayPageSettings({isJobDoneTagsVisible: !wayPageSettings.isJobDoneTagsVisible})}
             >
               {wayPageSettings.isJobDoneTagsVisible ?
-                <Icon
-                  size={IconSize.MEDIUM}
-                  name="EyeOpenedIcon"
-                />
+                <button className={styles.iconWrapper}>
+                  <Icon
+                    size={IconSize.MEDIUM}
+                    name="EyeOpenedIcon"
+                  />
+                </button>
                 :
-                <Icon
-                  size={IconSize.MEDIUM}
-                  name="EyeSlashedIcon"
-                />
+                <button className={styles.iconWrapper}>
+                  <Icon
+                    size={IconSize.MEDIUM}
+                    name="EyeSlashedIcon"
+                  />
+                </button>
               }
             </div>
           </Tooltip>
@@ -543,15 +547,19 @@ export const WayPage = (props: WayPageProps) => {
                 onClick={() => updateWayPageSettings({isStatisticsVisible: !wayPageSettings.isStatisticsVisible})}
               >
                 {wayPageSettings.isStatisticsVisible ?
-                  <Icon
-                    size={IconSize.MEDIUM}
-                    name="EyeOpenedIcon"
-                  />
+                  <button className={styles.iconWrapper}>
+                    <Icon
+                      size={IconSize.MEDIUM}
+                      name="EyeOpenedIcon"
+                    />
+                  </button>
                   :
-                  <Icon
-                    size={IconSize.MEDIUM}
-                    name="EyeSlashedIcon"
-                  />
+                  <button className={styles.iconWrapper}>
+                    <Icon
+                      size={IconSize.MEDIUM}
+                      name="EyeSlashedIcon"
+                    />
+                  </button>
                 }
               </div>
             </Tooltip>
