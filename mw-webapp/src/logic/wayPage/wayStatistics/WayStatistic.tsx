@@ -39,7 +39,6 @@ export const MILLISECONDS_IN_DAY = 86_400_000;
  * but in application for 3 records we want to see 3 days
  */
 export const SMALL_CORRECTION_MILLISECONDS = 1;
-
 export const AMOUNT_DAYS_IN_WEEK = 7;
 export const AMOUNT_DAYS_IN_TWO_WEEK = 14;
 
@@ -57,9 +56,9 @@ const getTagStats = (jobsDone: JobDone[]) => {
       const AMOUNT_INCREMENT = 1;
       const PERCENTAGE_MULTIPLIER = 100;
 
-      const totalAmount = tagStatsMap.get(tag)?.totalAmount ?? 0 + AMOUNT_INCREMENT;
+      const totalAmount = (tagStatsMap.get(tag)?.totalAmount ?? 0) + AMOUNT_INCREMENT;
       const totalAmountPercentage = Math.round(totalAmount / jobsDone.length * PERCENTAGE_MULTIPLIER);
-      const totalTime = tagStatsMap.get(tag)?.totalTime ?? 0 + job.time;
+      const totalTime = (tagStatsMap.get(tag)?.totalTime ?? 0) + job.time;
       const totalTimePercentage = Math.round(totalTime / totalJobsTime * PERCENTAGE_MULTIPLIER);
 
       tagStatsMap.set(tag, {
@@ -92,6 +91,7 @@ export const WayStatistic = (props: WayStatisticProps) => {
   const totalDaysOnAWay = Math.ceil(
     (maximumDateTimestamp - minimumDateTimestamp + SMALL_CORRECTION_MILLISECONDS) / MILLISECONDS_IN_DAY,
   );
+
   const totalRecordsAmount = props.dayReports.length;
 
   const allJobs = props.dayReports.flatMap(report => report.jobsDone);
@@ -107,7 +107,7 @@ export const WayStatistic = (props: WayStatisticProps) => {
 
   const averageTimeForJob = Math.round(totalWayTime / allJobs.length);
 
-  const lastWeekDayReports = props.dayReports.filter((dayReport) => DateUtils.roundToDate(dayReport.createdAt) >= lastWeekDate);
+  const lastWeekDayReports = props.dayReports.filter((dayReport) => DateUtils.roundToDate(dayReport.createdAt) > lastWeekDate);
 
   const lastWeekJobs = lastWeekDayReports.flatMap(report => report.jobsDone);
 
@@ -120,7 +120,7 @@ export const WayStatistic = (props: WayStatisticProps) => {
   const lastCalendarWeekAverageJobTime = Math.round(lastCalendarWeekTotalTime / lastWeekDayReports.length);
 
   const lastTwoWeekDayReports = props.dayReports.filter((dayReport) =>
-    DateUtils.roundToDate(dayReport.createdAt) >= lastTwoWeekDate);
+    DateUtils.roundToDate(dayReport.createdAt) > lastTwoWeekDate);
 
   const lastTwoWeekJobs = lastTwoWeekDayReports.flatMap(report => report.jobsDone);
 
