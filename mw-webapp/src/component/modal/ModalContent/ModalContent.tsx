@@ -22,12 +22,6 @@ export const ModalContent = (props: PropsWithChildren) => {
             <Cross2Icon />
           </button>
         </DialogClose>
-        {/* <DialogClose asChild>
-          <Button
-            value="Cancel"
-            onClick={() => { }}
-          />
-        </DialogClose> */}
       </DialogContent>
     </DialogPortal>
   );

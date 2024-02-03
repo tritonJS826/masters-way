@@ -60,10 +60,6 @@ export interface ButtonProps {
    */
   isDisabled?: boolean;
 
-  // /**
-  //  * Sdf
-  //  */
-  // ref?: RefObject<HTMLButtonElement>;
 }
 
 /**
