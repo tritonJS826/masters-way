@@ -453,21 +453,20 @@ export const WayPage = (props: WayPageProps) => {
               className={styles.iconContainer}
               onClick={() => updateWayPageSettings({isJobDoneTagsVisible: !wayPageSettings.isJobDoneTagsVisible})}
             >
-              {wayPageSettings.isJobDoneTagsVisible ?
-                <button className={styles.iconWrapper}>
+              <button className={styles.iconWrapper}>
+                {wayPageSettings.isJobDoneTagsVisible ?
+
                   <Icon
                     size={IconSize.MEDIUM}
                     name="EyeOpenedIcon"
                   />
-                </button>
-                :
-                <button className={styles.iconWrapper}>
+                  :
                   <Icon
                     size={IconSize.MEDIUM}
                     name="EyeSlashedIcon"
                   />
-                </button>
-              }
+                }
+              </button>
             </div>
           </Tooltip>
         </HorizontalContainer>
@@ -546,21 +545,20 @@ export const WayPage = (props: WayPageProps) => {
                 className={styles.iconContainer}
                 onClick={() => updateWayPageSettings({isStatisticsVisible: !wayPageSettings.isStatisticsVisible})}
               >
-                {wayPageSettings.isStatisticsVisible ?
-                  <button className={styles.iconWrapper}>
+                <button className={styles.iconWrapper}>
+                  {wayPageSettings.isStatisticsVisible ?
+
                     <Icon
                       size={IconSize.MEDIUM}
                       name="EyeOpenedIcon"
                     />
-                  </button>
-                  :
-                  <button className={styles.iconWrapper}>
+                    :
                     <Icon
                       size={IconSize.MEDIUM}
                       name="EyeSlashedIcon"
                     />
-                  </button>
-                }
+                  }
+                </button>
               </div>
             </Tooltip>
           </HorizontalContainer>
