@@ -35,6 +35,7 @@ export const DEFAULT_TAG = "no tag";
 const DEFAULT_SUMMARY_TIME = 0;
 const columnHelper = createColumnHelper<DayReport>();
 const DIFFERENCE_INDEX_LIST_NUMBER = 1;
+const MAX_INPUT_TIME = 9999;
 
 /**
  * Convert index of element to list number
@@ -267,6 +268,7 @@ export const Columns = (props: ColumnsProps) => {
                           <EditableText
                             text={jobDone.time}
                             type="number"
+                            max={MAX_INPUT_TIME}
                             onChangeFinish={(text) => updateJobDoneTime(jobDone, text)}
                             className={styles.editableTime}
                             isEditable={isOwner}
@@ -451,6 +453,7 @@ export const Columns = (props: ColumnsProps) => {
                           <EditableText
                             text={plan.estimationTime}
                             type="number"
+                            max={MAX_INPUT_TIME}
                             onChangeFinish={(value) => updatePlanTime(plan, value)}
                             className={styles.editableTime}
                             isEditable={plan.ownerUuid === user?.uuid}

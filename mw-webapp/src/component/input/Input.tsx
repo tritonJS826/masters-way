@@ -59,6 +59,11 @@ interface InputProps {
   autoFocus?: boolean;
 
   /**
+   * Maximum value for input type "number"
+   */
+  max?: number;
+
+  /**
    * Tracks the value entered into the input
    */
   onChange: (value: string) => void;
@@ -74,16 +79,14 @@ export const Input = (props: InputProps) => {
    * Event handler for the input change event
    */
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    props.type === "number"
-      ? props.onChange(event.target.value.slice(0, MAX_AMOUNT_CHARACTERS))
-      : props.onChange(event.target.value);
+    props.onChange(props.type === "number" ? event.target.value.slice(0, MAX_AMOUNT_CHARACTERS) : event.target.value);
   };
 
   return (
     <input
       value={props.value}
       type={props.type ?? "text"}
-      max="9999"
+      max={props.max}
       placeholder={props.placeholder}
       className={clsx(styles.input, props.className)}
       inputMode={props.inputMode}

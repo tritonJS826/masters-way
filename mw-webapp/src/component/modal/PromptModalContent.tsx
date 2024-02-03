@@ -42,6 +42,10 @@ export const PromptModalContent = (props: PromptModalContentProps) => {
    */
   const handleEnter = (event: React.KeyboardEvent<HTMLElement>) => {
     if (event.key === KeySymbols.ENTER) {
+
+      /**
+       * Impossible to close Radix modal onEnter so we using useRef for links button with action
+       */
       buttonRef.current?.click();
     }
   };

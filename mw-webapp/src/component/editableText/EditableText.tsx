@@ -37,6 +37,11 @@ interface EditableTextProps<T> {
    */
   type?: HTMLInputTypeAttribute;
 
+  /**
+   * Maximum value for input type "number"
+   */
+  max?: number;
+
 }
 
 /**
@@ -78,6 +83,7 @@ export const EditableText = <T extends string | number>(props: EditableTextProps
   const renderInput = () => (
     <Input
       type={props.type ?? "text"}
+      max={props.max}
       value={text}
       autoFocus={true}
       onChange={setValue}
