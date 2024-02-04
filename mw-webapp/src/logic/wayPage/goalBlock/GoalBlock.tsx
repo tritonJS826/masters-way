@@ -95,17 +95,19 @@ export const GoalBlock = (props: GoalBlockProps) => {
               className={styles.iconContainer}
               onClick={() => props.updateWaySettings({isGoalMetricsVisible: !props.wayPageSettings.isGoalMetricsVisible})}
             >
-              {props.wayPageSettings.isGoalMetricsVisible ?
-                <Icon
-                  size={IconSize.MEDIUM}
-                  name="EyeOpenedIcon"
-                />
-                :
-                <Icon
-                  size={IconSize.MEDIUM}
-                  name="EyeSlashedIcon"
-                />
-              }
+              <button className={styles.iconWrapper}>
+                {props.wayPageSettings.isGoalMetricsVisible ?
+                  <Icon
+                    size={IconSize.MEDIUM}
+                    name="EyeOpenedIcon"
+                  />
+                  :
+                  <Icon
+                    size={IconSize.MEDIUM}
+                    name="EyeSlashedIcon"
+                  />
+                }
+              </button>
             </div>
           </Tooltip>
         </HorizontalContainer>

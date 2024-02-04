@@ -51,7 +51,7 @@ export const Header = () => {
 
   return (
     <div className={styles.header}>
-      <div
+      <a
         className={styles.logo}
         onClick={() => navigate(pages.allWays.getPath({}))}
       >
@@ -59,15 +59,17 @@ export const Header = () => {
           src={logo}
           alt={LOGO_TEXT}
         />
-      </div>
+      </a>
       <div className={styles.headerButtonsContainer}>
         {user &&
-        <Title
-          level={HeadingLevel.h4}
-          text={user.name}
-          className={styles.userName}
-          onClick={() => navigate(pages.user.getPath({uuid: user.uuid}))}
-        />
+        <a>
+          <Title
+            level={HeadingLevel.h4}
+            text={user.name}
+            className={styles.userName}
+            onClick={() => navigate(pages.user.getPath({uuid: user.uuid}))}
+          />
+        </a>
         }
         <div className={styles.buttons}>
           <Button

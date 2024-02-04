@@ -43,6 +43,12 @@ $iconContainerSize: 25px;
   cursor: pointer;
 }
 
+.iconWrapper {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
 .icon {
   display: block;
   min-width: $iconSizeSmall;
