@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import clsx from "clsx";
 import styles from "src/component/checkbox/Сheckbox.module.scss";
 
@@ -44,6 +44,10 @@ export const Checkbox = (props: CheckboxProps) => {
     props.onChange(!isChecked);
   };
 
+  useEffect(() => {
+    setIsChecked(props.isDefaultChecked ?? false);
+  }, [props.isDefaultChecked]);
+
   return (
     <label>
       <input
@@ -57,3 +61,4 @@ export const Checkbox = (props: CheckboxProps) => {
     </label>
   );
 };
+

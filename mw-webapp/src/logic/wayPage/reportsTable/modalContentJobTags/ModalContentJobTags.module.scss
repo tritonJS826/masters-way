@@ -12,10 +12,15 @@ $ModalJobTagMaxWidth: 150px;
   display: flex;
   width: $ModalJobTagMaxWidth;
   align-items: center;
+  cursor: pointer;
   gap: $gapMedium;
 }
 
 .buttons {
   margin-top: $marginMedium;
   gap: $gapMedium;
+}
+
+.checkbox {
+  align-self: center;
 }

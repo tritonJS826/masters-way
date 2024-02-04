@@ -4,6 +4,7 @@
   display: grid;
   width: $checkboxWidthMedium;
   height: $checkboxHeightMedium;
+  align-self: flex-start;
   border: 2px solid var(--primaryBorderColor);
   border-radius: $primaryBorderRadius;
   appearance: none;

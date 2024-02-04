@@ -1,20 +1,24 @@
 @import "src/styles/variables";
 
 $JobTagMaxWidth: 120px;
+$JobTagSmallFontSize: 0.8rem;
 $JobTagPadding: 1px 5px;
 $JobTagTransform: scale(0.8);
 
 .jobTag {
+  overflow: hidden;
   max-width: $JobTagMaxWidth;
   padding: $paddingSmall;
   border: 2px solid var(--primaryBorderColor);
   border-radius: $primaryBorderRadius;
+  text-overflow: ellipsis;
 }
 
 .small {
   overflow: hidden;
+  box-sizing: border-box;
   padding: $JobTagPadding;
+  font-size: $JobTagSmallFontSize;
   text-overflow: ellipsis;
-  transform: $JobTagTransform;
   white-space: nowrap;
 }

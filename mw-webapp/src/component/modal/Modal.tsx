@@ -44,6 +44,5 @@ export const Modal = (props: ModalProps) => {
         {props.content}
       </ModalContent>
     </DialogRoot>
-
   );
 };

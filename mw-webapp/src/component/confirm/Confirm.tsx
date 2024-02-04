@@ -1,8 +1,9 @@
-import {ReactElement, useState} from "react";
+import {ReactElement, useRef, useState} from "react";
 import {Close as DialogClose} from "@radix-ui/react-dialog";
-import {Button} from "src/component/button/Button";
+import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Modal} from "src/component/modal/Modal";
+import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/component/confirm/Confirm.module.scss";
 
 /**
@@ -44,12 +45,27 @@ interface ConfirmProps {
 export const Confirm = (props: ConfirmProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(props.isOpen ?? false);
 
+  const onOkRef = useRef<HTMLButtonElement>(null);
+
+  /**
+   * Update cell value after OnKeyDown event
+   */
+  const handleEnter = (event: React.KeyboardEvent<HTMLElement>) => {
+    if (event.key === KeySymbols.ENTER) {
+
+      /**
+       * Workaround to to close Radix modal onEnter
+       */
+      onOkRef.current?.click();
+    }
+  };
+
   /**
    * Confirm content
    */
   const renderConfirmContent = () => {
     return (
-      <>
+      <div onKeyDown={handleEnter}>
         {props.content}
         <HorizontalContainer className={styles.buttons}>
           <DialogClose asChild>
@@ -60,14 +76,14 @@ export const Confirm = (props: ConfirmProps) => {
           </DialogClose>
           <DialogClose asChild>
             <Button
+              ref={onOkRef}
               value={props.okText}
-              onClick={() => {
-                props.onOk();
-              }}
+              onClick={props.onOk}
+              buttonType={ButtonType.PRIMARY}
             />
           </DialogClose>
         </HorizontalContainer>
-      </>
+      </div>
     );
   };
 

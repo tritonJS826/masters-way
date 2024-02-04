@@ -54,6 +54,11 @@ interface InputProps {
   autoFocus?: boolean;
 
   /**
+   * Maximum value for input type "number"
+   */
+  max?: number;
+
+  /**
    * Tracks the value entered into the input
    */
   onChange: (value: string) => void;
@@ -76,6 +81,7 @@ export const Input = (props: InputProps) => {
     <input
       value={props.value}
       type={props.type ?? "text"}
+      max={props.max}
       placeholder={props.placeholder}
       className={clsx(styles.input, props.className)}
       inputMode={props.inputMode}

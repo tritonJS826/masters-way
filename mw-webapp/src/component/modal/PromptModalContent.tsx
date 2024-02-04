@@ -1,6 +1,6 @@
-import {useState} from "react";
+import {useRef, useState} from "react";
 import {Close as DialogClose} from "@radix-ui/react-dialog";
-import {Button} from "src/component/button/Button";
+import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Input} from "src/component/input/Input";
 import {KeySymbols} from "src/utils/KeySymbols";
@@ -26,6 +26,7 @@ interface PromptModalContentProps {
    * Callback triggered on ok
    */
   onOk: (inputValue: string) => Promise<void> | void;
+
 }
 
 /**
@@ -34,38 +35,45 @@ interface PromptModalContentProps {
 export const PromptModalContent = (props: PromptModalContentProps) => {
   const [inputValue, setInputValue] = useState<string>(props.defaultValue ?? "");
 
+  const onOkRef = useRef<HTMLButtonElement>(null);
+
   /**
    * Update cell value after OnKeyDown event
    */
   const handleEnter = (event: React.KeyboardEvent<HTMLElement>) => {
     if (event.key === KeySymbols.ENTER) {
-      props.onOk(inputValue);
-      props.close();
+
+      /**
+       * Workaround to to close Radix modal onEnter
+       */
+      onOkRef.current?.click();
     }
   };
 
   return (
-    <div onKeyDown={handleEnter}>
-      <Input
-        type="text"
-        value={inputValue}
-        autoFocus={true}
-        onChange={setInputValue}
-      />
-      <HorizontalContainer className={styles.buttons}>
-        <DialogClose asChild>
+    <DialogClose asChild>
+      <div onKeyDown={handleEnter}>
+        <Input
+          type="text"
+          placeholder="tag"
+          value={inputValue}
+          autoFocus={true}
+          onChange={setInputValue}
+        />
+        <HorizontalContainer className={styles.buttons}>
           <Button
             value="Cancel"
             onClick={props.close}
           />
-        </DialogClose>
-        <DialogClose asChild>
+
           <Button
+            ref={onOkRef}
             value="Create"
             onClick={() => props.onOk(inputValue)}
+            buttonType={ButtonType.PRIMARY}
           />
-        </DialogClose>
-      </HorizontalContainer>
-    </div>
+        </HorizontalContainer>
+      </div>
+    </DialogClose>
   );
 };

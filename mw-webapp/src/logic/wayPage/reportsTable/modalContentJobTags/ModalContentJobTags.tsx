@@ -1,12 +1,13 @@
 import {useState} from "react";
 import {Close as DialogClose} from "@radix-ui/react-dialog";
-import {Button} from "src/component/button/Button";
+import {Button, ButtonType} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Сheckbox";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {JobTag} from "src/logic/wayPage/jobTags/jobTag/JobTag";
 import {DEFAULT_TAG} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
+import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/logic/wayPage/reportsTable/modalContentJobTags/ModalContentJobTags.module.scss";
 
 const DEFAULT_AMOUNT_TAGS = 1;
@@ -36,6 +37,7 @@ interface JobDoneTagsProps {
    * Callback to update job done tags
    */
   updateTags: (newTags: string[]) => Promise<void>;
+
 }
 
 /**
@@ -75,25 +77,36 @@ export const ModalContentJobTags = (props: JobDoneTagsProps) => {
     setJobTagsUpdated(updatedJobTags);
   };
 
+  /**
+   * Update cell value after OnKeyDown event
+   */
+  const handleEnter = (event: React.KeyboardEvent<HTMLElement>) => {
+    if (event.key === KeySymbols.ENTER) {
+      props.updateTags(checkedJobTags);
+    }
+  };
+
   return (
-    <>
+    <div onKeyDown={handleEnter}>
       <div className={styles.jobTagsContainer}>
         {allTags.map((tag) => {
           return (
             <div
               key={tag}
               className={styles.jobTags}
+              onClick={() => jobTagsUpdated.includes(tag) ? removeJobTagFromJobDone(tag) : addJobTagFromJobDone(tag)}
             >
               <Tooltip
-                content={props.jobDoneTags.includes(tag) ? "Click to remove tag" : "Click to add tag"}
-                position={PositionTooltip.RIGHT}
+                content={jobTagsUpdated.includes(tag) ? "Click to remove tag" : "Click to add tag"}
+                position={PositionTooltip.BOTTOM}
               >
                 <Checkbox
-                  isDefaultChecked={props.jobDoneTags.includes(tag)}
-                  onChange={() => props.jobDoneTags.includes(tag) ? removeJobTagFromJobDone(tag) : addJobTagFromJobDone(tag)}
+                  isDefaultChecked={jobTagsUpdated.includes(tag)}
+                  onChange={() => {}}
+                  className={styles.checkbox}
                 />
+                <JobTag jobTag={tag} />
               </Tooltip>
-              <JobTag jobTag={tag} />
             </div>
           );
         })}
@@ -101,11 +114,18 @@ export const ModalContentJobTags = (props: JobDoneTagsProps) => {
       <HorizontalContainer className={styles.buttons}>
         <DialogClose asChild>
           <Button
+            value="Cancel"
+            onClick={() => {}}
+          />
+        </DialogClose>
+        <DialogClose asChild>
+          <Button
             value="Save"
             onClick={() => props.updateTags(checkedJobTags)}
+            buttonType={ButtonType.PRIMARY}
           />
         </DialogClose>
       </HorizontalContainer>
-    </>
+    </div>
   );
 };

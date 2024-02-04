@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {ForwardedRef, forwardRef, useState} from "react";
 import clsx from "clsx";
 import styles from "src/component/button/Button.module.scss";
 
@@ -59,12 +59,13 @@ export interface ButtonProps {
    * false by default
    */
   isDisabled?: boolean;
+
 }
 
 /**
  * Button component
  */
-export const Button = (props: ButtonProps) => {
+export const Button = forwardRef((props: ButtonProps, ref?: ForwardedRef<HTMLButtonElement>) => {
   const [isDisabled, setIssDisabled] = useState(props.isDisabled ?? false);
 
   /**
@@ -79,6 +80,7 @@ export const Button = (props: ButtonProps) => {
 
   return (
     <button
+      ref={ref}
       className={clsx(
         styles.button,
         styles[props.buttonType ?? ButtonType.SECONDARY],
@@ -92,4 +94,6 @@ export const Button = (props: ButtonProps) => {
       {props.value}
     </button>
   );
-};
+});
+
+Button.displayName = "Button";

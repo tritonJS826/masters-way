@@ -15,9 +15,8 @@ $iconContainerSize: 25px;
 .singularMetric {
   display: flex;
   max-width: $maxWidthBlock;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  margin-bottom: $gapSmall;
 }
 
 .mentors {
@@ -40,6 +39,12 @@ $iconContainerSize: 25px;
 .iconContainer {
   width: $iconContainerSize;
   height: $iconContainerSize;
+  cursor: pointer;
+}
+
+.iconWrapper {
+  border: none;
+  background: none;
   cursor: pointer;
 }
 

@@ -39,6 +39,12 @@ $goalSubSectionWidth: 45%;
   cursor: pointer;
 }
 
+.iconWrapper {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
 @media (max-width: $mediaWidthTabletBig) {
   .goalSection {
     width: 100%;

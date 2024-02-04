@@ -453,17 +453,20 @@ export const WayPage = (props: WayPageProps) => {
               className={styles.iconContainer}
               onClick={() => updateWayPageSettings({isJobDoneTagsVisible: !wayPageSettings.isJobDoneTagsVisible})}
             >
-              {wayPageSettings.isJobDoneTagsVisible ?
-                <Icon
-                  size={IconSize.MEDIUM}
-                  name="EyeOpenedIcon"
-                />
-                :
-                <Icon
-                  size={IconSize.MEDIUM}
-                  name="EyeSlashedIcon"
-                />
-              }
+              <button className={styles.iconWrapper}>
+                {wayPageSettings.isJobDoneTagsVisible ?
+
+                  <Icon
+                    size={IconSize.MEDIUM}
+                    name="EyeOpenedIcon"
+                  />
+                  :
+                  <Icon
+                    size={IconSize.MEDIUM}
+                    name="EyeSlashedIcon"
+                  />
+                }
+              </button>
             </div>
           </Tooltip>
         </HorizontalContainer>
@@ -542,17 +545,20 @@ export const WayPage = (props: WayPageProps) => {
                 className={styles.iconContainer}
                 onClick={() => updateWayPageSettings({isStatisticsVisible: !wayPageSettings.isStatisticsVisible})}
               >
-                {wayPageSettings.isStatisticsVisible ?
-                  <Icon
-                    size={IconSize.MEDIUM}
-                    name="EyeOpenedIcon"
-                  />
-                  :
-                  <Icon
-                    size={IconSize.MEDIUM}
-                    name="EyeSlashedIcon"
-                  />
-                }
+                <button className={styles.iconWrapper}>
+                  {wayPageSettings.isStatisticsVisible ?
+
+                    <Icon
+                      size={IconSize.MEDIUM}
+                      name="EyeOpenedIcon"
+                    />
+                    :
+                    <Icon
+                      size={IconSize.MEDIUM}
+                      name="EyeSlashedIcon"
+                    />
+                  }
+                </button>
               </div>
             </Tooltip>
           </HorizontalContainer>
