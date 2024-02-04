@@ -83,18 +83,18 @@ export const ModalContentJobTags = (props: JobDoneTagsProps) => {
             <div
               key={tag}
               className={styles.jobTags}
+              onClick={() => jobTagsUpdated.includes(tag) ? removeJobTagFromJobDone(tag) : addJobTagFromJobDone(tag)}
             >
               <Tooltip
-                content={props.jobDoneTags.includes(tag) ? "Click to remove tag" : "Click to add tag"}
+                content={jobTagsUpdated.includes(tag) ? "Click to remove tag" : "Click to add tag"}
                 position={PositionTooltip.BOTTOM}
               >
                 <Checkbox
-                  isDefaultChecked={props.jobDoneTags.includes(tag)}
-                  onChange={() => props.jobDoneTags.includes(tag) ? removeJobTagFromJobDone(tag) : addJobTagFromJobDone(tag)}
+                  isDefaultChecked={jobTagsUpdated.includes(tag)}
+                  onChange={() => {}}
                   className={styles.checkbox}
-                >
-                  <JobTag jobTag={tag} />
-                </Checkbox>
+                />
+                <JobTag jobTag={tag} />
               </Tooltip>
             </div>
           );

@@ -44,7 +44,7 @@ export const PromptModalContent = (props: PromptModalContentProps) => {
     if (event.key === KeySymbols.ENTER) {
 
       /**
-       * Impossible to close Radix modal onEnter so we using useRef for links button with action
+       * Workaround to to close Radix modal onEnter
        */
       buttonRef.current?.click();
     }

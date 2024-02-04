@@ -38,6 +38,15 @@ const DIFFERENCE_INDEX_LIST_NUMBER = 1;
 const MAX_INPUT_TIME = 9999;
 
 /**
+ * Get number till {@link MAX_INPUT_TIME}
+ */
+const getNumber = (number: number) => {
+  return number <= MAX_INPUT_TIME
+    ? number
+    : MAX_INPUT_TIME;
+};
+
+/**
  * Convert index of element to list number
  */
 const getListNumberByIndex = (index: number) => {
@@ -269,7 +278,8 @@ export const Columns = (props: ColumnsProps) => {
                             text={jobDone.time}
                             type="number"
                             max={MAX_INPUT_TIME}
-                            onChangeFinish={(text) => updateJobDoneTime(jobDone, text)}
+                            onChangeFinish={(number) =>
+                              updateJobDoneTime(jobDone, getNumber(number))}
                             className={styles.editableTime}
                             isEditable={isOwner}
                           />
@@ -454,7 +464,7 @@ export const Columns = (props: ColumnsProps) => {
                             text={plan.estimationTime}
                             type="number"
                             max={MAX_INPUT_TIME}
-                            onChangeFinish={(value) => updatePlanTime(plan, value)}
+                            onChangeFinish={(number) => updatePlanTime(plan, getNumber(number))}
                             className={styles.editableTime}
                             isEditable={plan.ownerUuid === user?.uuid}
                           />

@@ -1,12 +1,5 @@
 @import "src/styles/variables";
 
-.label {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  gap: $gapSmall;
-}
-
 .checkbox {
   display: grid;
   width: $checkboxWidthMedium;
@@ -16,6 +9,7 @@
   border-radius: $primaryBorderRadius;
   appearance: none;
   background-color: var(--primaryBackgroundColor);
+  cursor: pointer;
   place-content: center;
 
   &:checked {

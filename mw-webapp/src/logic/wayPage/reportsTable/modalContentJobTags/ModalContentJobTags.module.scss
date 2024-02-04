@@ -12,6 +12,7 @@ $ModalJobTagMaxWidth: 150px;
   display: flex;
   width: $ModalJobTagMaxWidth;
   align-items: center;
+  cursor: pointer;
   gap: $gapMedium;
 }
 

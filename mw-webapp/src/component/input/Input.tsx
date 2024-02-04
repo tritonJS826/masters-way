@@ -4,11 +4,6 @@ import {InputMode} from "src/component/input/InputMode";
 import styles from "src/component/input/Input.module.scss";
 
 /**
- * Max amount of characters in input with type "number"
- */
-const MAX_AMOUNT_CHARACTERS = 4;
-
-/**
  * Input's props
  */
 interface InputProps {
@@ -79,7 +74,7 @@ export const Input = (props: InputProps) => {
    * Event handler for the input change event
    */
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    props.onChange(props.type === "number" ? event.target.value.slice(0, MAX_AMOUNT_CHARACTERS) : event.target.value);
+    props.onChange(event.target.value);
   };
 
   return (
