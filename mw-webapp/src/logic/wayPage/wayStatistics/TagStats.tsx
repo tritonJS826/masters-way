@@ -21,23 +21,23 @@ export const TagStats = (props: TagStatsProps) => {
   return props.stats.map((tagStat) => (
     <Fragment key={tagStat.name}>
       <StatisticLine
-        description={`${tagStat.name} jobs finished:`}
-        value={`${tagStat.totalAmount} (${tagStat.totalAmountPercentage}%)`}
-        component={<JobTag
+        description={<JobTag
           key={tagStat.name}
           jobTag={tagStat.name}
           isSmall
         />}
+        value={`${tagStat.totalAmount} (${tagStat.totalAmountPercentage}%)`}
+
       />
       <StatisticLine
         key={tagStat.name}
-        description={`${tagStat.name} time:`}
-        value={`${tagStat.totalTime} (${tagStat.totalTimePercentage}%)`}
-        component={<JobTag
+        description={<JobTag
           key={tagStat.name}
           jobTag={tagStat.name}
           isSmall
         />}
+        value={`${tagStat.totalTime} (${tagStat.totalTimePercentage}%)`}
+
       />
     </Fragment>
   ));
