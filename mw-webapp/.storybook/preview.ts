@@ -1,4 +1,7 @@
 import type { Preview } from "@storybook/react";
+import { Theme, ThemeWorker } from './../src/utils/ThemeWorker';
+
+ThemeWorker.setTheme(Theme.LIGHT);
 
 const preview: Preview = {
   parameters: {
