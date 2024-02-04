@@ -4,7 +4,6 @@ export type PlanForNextPeriodDTOMigration = {
   estimationTime: number;
   ownerUuid: string;
   tags: string[];
-  timeUnit: string;
 }
 
 export type PlanForNextPeriodDTO = {

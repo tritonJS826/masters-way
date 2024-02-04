@@ -1,18 +1,17 @@
-import { doc, Timestamp, writeBatch } from "firebase/firestore";
-import { DayReportDTO } from "../DTOModel/DayReportDTO.js";
+import { doc, writeBatch } from "firebase/firestore";
+import { DayReportDTOMigration } from "../DTOModel/DayReportDTO.js";
 import { db } from "../firebase.js";
-import { CommentService } from "../service/CommentService.js";
-import { CurrentProblemService } from "../service/CurrentProblemService.js";
 import { DayReportService } from "../service/DayReportService.js";
-import { JobDoneService } from "../service/JobDoneService.js";
-import { PlanForNextPeriodService } from "../service/PlanForNextPeriodService.js";
 import { logToFile } from "../utils/logToFile.js";
+import { JobDoneDTOMigration } from "../DTOModel/JobDoneDTO.js";
+import { CurrentProblemDTOMigration } from "../DTOModel/CurrentProblemDTO.js";
+import { PlanForNextPeriodDTOMigration } from "../DTOModel/PlanForNextPeriodDTO.js";
 
-const FILE_TO_LOG = "dayReportMigration_add_jobsDone_Plans_Problems_Comments"
+const FILE_TO_LOG = "dayReportMigration_update_jobTags"
 const log = (textToLog: string) => logToFile(`${(new Date()).toISOString()}: ${textToLog}`, FILE_TO_LOG);
 
 /*
- * Add jobsDone, plans, problem, comments properties to all dayReports
+ * UpdateJobTags to all dayReports
  */
 const migrateDayReports = async () => {
   const dayReportsMigrationStartTime = new Date();
@@ -23,7 +22,7 @@ const migrateDayReports = async () => {
   log(`Got ${allDayReports.length} day reports`)
 
   log(`Getting all day reports to migrate`);
-  const dayReportsToMigrate: DayReportDTO[] = allDayReports;
+  const dayReportsToMigrate: DayReportDTOMigration[] = allDayReports;
   log(`Got ${dayReportsToMigrate.length} dayReports to migrate`);
 
   log(`start migrate dayReports one by one`)
@@ -35,27 +34,49 @@ const migrateDayReports = async () => {
       log(`started ${dayReport.uuid} migration`);
       
       const dayReportRef = doc(db, "dayReports", dayReport.uuid);
-      const jobsDonePromise = Promise.all(dayReport.jobDoneUuids.map(JobDoneService.getJobDoneDTO));
-      const plansPromise = Promise.all(dayReport.planForNextPeriodUuids.map((PlanForNextPeriodService.getPlanForNextPeriodDTO)));
-      const problemsPromise = Promise.all(dayReport.problemForCurrentPeriodUuids.map(CurrentProblemService.getProblemDTO));
-      const commentsPromise = Promise.all(dayReport.commentUuids.map(CommentService.getCommentDTO));
 
-      const [jobsDone, plans, problems, comments] = await Promise.all([jobsDonePromise, plansPromise, problemsPromise, commentsPromise]);
+      const jobsDone: JobDoneDTOMigration[] = dayReport.jobsDoneStringified.map((jobDone) => JSON.parse(jobDone));
+      const plans: PlanForNextPeriodDTOMigration[] = dayReport.plansStringified.map((plan) => JSON.parse(plan));
+      const problems: CurrentProblemDTOMigration[] = dayReport.problemsStringified.map((problem) => JSON.parse(problem));
 
-      batch.set(dayReportRef,
+      const jobsDoneUpdated = jobsDone.map((jobDone) => {
+        return {
+          ...jobDone,
+          tags: jobDone.tags.length === 0
+            ? ["no tag"]
+            : jobDone.tags.length === 1
+              ? jobDone.tags
+              : jobDone.tags.filter((tag) => tag !== "no tag")
+        }
+      })
+
+      const plansUpdated = plans.map((plan) => {
+        return {
+          ...plan,
+          tags: plan.tags.length === 0
+            ? ["no tag"]
+            : plan.tags.length === 1
+              ? plan.tags
+              : plan.tags.filter((tag) => tag !== "no tag")
+        }
+      })
+
+      const problemsUpdated = problems.map((problem) => {
+        return {
+          ...problem,
+          tags: problem.tags.length === 0
+            ? ["no tag"]
+            : problem.tags.length === 1
+              ? problem.tags
+              : problem.tags.filter((tag) => tag !== "no tag")
+        }
+      })
+
+      batch.update(dayReportRef,
         {
-          uuid: dayReport.uuid,
-          createdAt: dayReport.date,
-          jobsDoneStringified: jobsDone.map((jobDone) => JSON.stringify(jobDone)),
-          plansStringified: plans.map((plan) => JSON.stringify(plan)),
-          problemsStringified: problems.map((problem) => JSON.stringify(problem)),
-          commentsStringified: comments.map((comment) => JSON.stringify(comment)),
-          date: dayReport.date,
-          jobDoneUuids: dayReport.jobDoneUuids,
-          planForNextPeriodUuids: dayReport.planForNextPeriodUuids,
-          problemForCurrentPeriodUuids: dayReport.problemForCurrentPeriodUuids,
-          commentUuids: dayReport.commentUuids,
-          isDayOff: dayReport.isDayOff,
+          jobsDoneStringified: jobsDoneUpdated.map((jobDone) => JSON.stringify(jobDone)),
+          plansStringified: plansUpdated.map((plan) => JSON.stringify(plan)),
+          problemsStringified: problemsUpdated.map((problem) => JSON.stringify(problem)),
         })
 
       const dayReportMigrationEndTime = new Date();
@@ -77,7 +98,7 @@ const migrateDayReports = async () => {
     Migrations report:
 
     Migration goal:
-    Add to DayReport model "jobsDoneStringified" field, "plansStringified" fields,"problemsStringified" field, "commentsStringified" field that will include stringified info from collections JobsDone, PlansForNextPeriod, CurrentProblem, Comments
+    Update "tags" field inside "JobsDone", "Plans", "Problems" fields in DayReport collection
     
     Start time: ${dayReportsMigrationStartTime}
     End time: ${dayReportsMigrationEndTime}

@@ -10,6 +10,8 @@ import {DEFAULT_TAG} from "src/logic/wayPage/reportsTable/reportsColumns/Reports
 import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/logic/wayPage/reportsTable/modalContentJobTags/ModalContentJobTags.module.scss";
 
+const DEFAULT_AMOUNT_TAGS = 1;
+
 /**
  * JobDoneTagsProps
  */
@@ -44,9 +46,18 @@ interface JobDoneTagsProps {
 export const ModalContentJobTags = (props: JobDoneTagsProps) => {
   const [jobTagsUpdated, setJobTagsUpdated] = useState<string[]>(props.jobDoneTags);
 
-  const uniqueJobTags = Array.from(new Set(jobTagsUpdated));
+  const isJobTagsEmpty = jobTagsUpdated.length === 0;
+  const isJobTagsSingle = jobTagsUpdated.length === DEFAULT_AMOUNT_TAGS;
 
-  const allTags = Array.from(new Set(props.jobTags.concat(props.jobDoneTags).filter((tag) => tag !== DEFAULT_TAG)));
+  const filteredJobTags = isJobTagsSingle
+    ? jobTagsUpdated
+    : Array.from(new Set(jobTagsUpdated)).filter((tag) => tag !== "no tag");
+
+  const checkedJobTags = isJobTagsEmpty
+    ? jobTagsUpdated.concat("no tag")
+    : filteredJobTags;
+
+  const allTags = Array.from(new Set(props.jobTags.concat(checkedJobTags).filter((tag) => tag !== DEFAULT_TAG)));
 
   /**
    * Remove job tag from Job done
@@ -71,7 +82,7 @@ export const ModalContentJobTags = (props: JobDoneTagsProps) => {
    */
   const handleEnter = (event: React.KeyboardEvent<HTMLElement>) => {
     if (event.key === KeySymbols.ENTER) {
-      props.updateTags(uniqueJobTags);
+      props.updateTags(checkedJobTags);
     }
   };
 
@@ -110,7 +121,7 @@ export const ModalContentJobTags = (props: JobDoneTagsProps) => {
         <DialogClose asChild>
           <Button
             value="Save"
-            onClick={() => props.updateTags(uniqueJobTags)}
+            onClick={() => props.updateTags(checkedJobTags)}
             buttonType={ButtonType.PRIMARY}
           />
         </DialogClose>
