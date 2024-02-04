@@ -11,12 +11,13 @@ import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {useLoad} from "src/hooks/useLoad";
+import {usePersistanceState} from "src/hooks/usePersistanceState";
 import {BaseWaysTable, FILTER_STATUS_ALL_VALUE} from "src/logic/waysTable/BaseWaysTable";
 import {WayStatusType} from "src/logic/waysTable/wayStatus";
 import {Way} from "src/model/businessModel/Way";
 import {UserPreview, WaysCollection as WayCollection} from "src/model/businessModelPreview/UserPreview";
 import {pages} from "src/router/pages";
-import {localStorageWorker, UserPageSettings} from "src/utils/LocalStorageWorker";
+import {UserPageSettings} from "src/utils/LocalStorageWorker";
 import {PartialWithId, PartialWithUuid} from "src/utils/PartialWithUuid";
 import {v4 as uuidv4} from "uuid";
 import styles from "src/logic/userPage/UserPage.module.scss";
@@ -73,19 +74,15 @@ const DEFAULT_USER_PAGE_SETTINGS: UserPageSettings = {
 /**
  * Safe opened tab from localStorage
  */
-const getUserPageSavedSettings = (allCollections: WayCollection[]) => {
-  const settings = localStorageWorker.getItemByKey<UserPageSettings>("wayPage") ?? DEFAULT_USER_PAGE_SETTINGS;
-  const isTabExist = settings.openedTabId && allCollections.some(collection => collection.id === settings.openedTabId);
+const userPageSettingsValidator = (currentSettings: UserPageSettings, allCollections: WayCollection[]) => {
+  const isTabExist = currentSettings.openedTabId
+    && allCollections.some(collection => collection.id === currentSettings.openedTabId);
 
-  if (!isTabExist) {
-    settings.openedTabId = DEFAULT_USER_PAGE_SETTINGS.openedTabId;
+  if (!isTabExist || !currentSettings.filterStatus) {
+    return false;
   }
 
-  if (!settings.filterStatus) {
-    settings.filterStatus = FILTER_STATUS_ALL_VALUE;
-  }
-
-  return settings;
+  return true;
 };
 
 /**
@@ -114,31 +111,30 @@ const getAllWayCollections = (userPreview: UserPreview): WayCollection[] => [
  */
 export const UserPage = (props: UserPageProps) => {
   const [userPreview, setUserPreview] = useState<UserPreview>();
-  const [userPageSettings, setUserPageSettings] = useState<UserPageSettings>();
+  const [userPageSettings,, updateUserPageSettings] = usePersistanceState({
+    key: "userPage",
+    defaultValue: DEFAULT_USER_PAGE_SETTINGS,
 
-  /**
-   * Update way page settings
-   */
-  const updateUserPageSettings = (settingsToUpdate: Partial<UserPageSettings>) => {
-    if (!userPreview) {
-      throw new Error("UserPreview is not defined");
-    }
-    const previousWayPageSettings = getUserPageSavedSettings(getAllWayCollections(userPreview));
-    const updatedSettings = {...previousWayPageSettings, ...settingsToUpdate};
-    localStorageWorker.setItemByKey("wayPage", updatedSettings);
-    setUserPageSettings(updatedSettings);
-  };
+    /**
+     * Check is stored data valid
+     */
+    storedDataValidator: (
+      currentSettings: UserPageSettings,
+    ) => userPreview?.customWayCollections
+      ? userPageSettingsValidator(currentSettings, getAllWayCollections(userPreview))
+      : true,
+  });
 
   /**
    * Update userPreview state
    */
-  const setUserPreviewPartial = (previousUser: Partial<UserPreview>) => {
+  const setUserPreviewPartial = (updatedUser: Partial<UserPreview>) => {
     setUserPreview((prevUser?: UserPreview) => {
       if (!prevUser) {
         throw new Error("Previous user is undefined");
       }
 
-      return {...prevUser, ...previousUser};
+      return {...prevUser, ...updatedUser};
     });
   };
 
@@ -174,8 +170,6 @@ export const UserPage = (props: UserPageProps) => {
    */
   const onSuccess = (data: UserPreview) => {
     setUserPreview(data);
-    const loadedUserPageSettings = getUserPageSavedSettings(getAllWayCollections(data));
-    setUserPageSettings(loadedUserPageSettings);
   };
 
   useLoad(

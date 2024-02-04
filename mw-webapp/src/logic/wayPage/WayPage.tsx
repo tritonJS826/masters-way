@@ -18,6 +18,7 @@ import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {BaseWayData, WayDAL} from "src/dataAccessLogic/WayDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {useLoad} from "src/hooks/useLoad";
+import {usePersistanceState} from "src/hooks/usePersistanceState";
 import {updateUser, UpdateUserParams} from "src/logic/userPage/UserPage";
 import {GoalBlock} from "src/logic/wayPage/goalBlock/GoalBlock";
 import {JobTags} from "src/logic/wayPage/jobTags/JobTags";
@@ -30,7 +31,7 @@ import {DayReport} from "src/model/businessModel/DayReport";
 import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {pages} from "src/router/pages";
-import {localStorageWorker, WayPageSettings} from "src/utils/LocalStorageWorker";
+import {WayPageSettings} from "src/utils/LocalStorageWorker";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
 import styles from "src/logic/wayPage/WayPage.module.scss";
@@ -114,18 +115,15 @@ interface WayPageProps {
 }
 
 /**
- * Get way page settings from local storage
- */
-const getWayPageSavedSettings = () => localStorageWorker.getItemByKey<WayPageSettings>("wayPage") ?? DEFAULT_WAY_PAGE_SETTINGS;
-
-/**
  * Way page
  */
 export const WayPage = (props: WayPageProps) => {
   const navigate = useNavigate();
-  const [wayPageSettings, setWayPageSettings] = useState<WayPageSettings>(getWayPageSavedSettings());
+  const [wayPageSettings,, updateWayPageSettings] = usePersistanceState({
+    key: "wayPage",
+    defaultValue: DEFAULT_WAY_PAGE_SETTINGS,
+  });
   const {user, setUser} = useGlobalContext();
-
   const [way, setWay] = useState<Way>();
 
   /**
@@ -195,16 +193,6 @@ export const WayPage = (props: WayPageProps) => {
   const isEligibleToSendRequest = !!user && !isOwner && !isMentor && !isUserHasSentMentorRequest;
 
   const favoriteForUsersAmount = way.favoriteForUserUuids.length;
-
-  /**
-   * Update way page settings
-   */
-  const updateWayPageSettings = (settingsToUpdate: Partial<WayPageSettings>) => {
-    const previousWayPageSettings = getWayPageSavedSettings();
-    const updatedSettings = {...previousWayPageSettings, ...settingsToUpdate};
-    localStorageWorker.setItemByKey("wayPage", updatedSettings);
-    setWayPageSettings(updatedSettings);
-  };
 
   /**
    * Delete way
