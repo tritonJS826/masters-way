@@ -45,7 +45,7 @@ interface ConfirmProps {
 export const Confirm = (props: ConfirmProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(props.isOpen ?? false);
 
-  const buttonRef = useRef<HTMLButtonElement>(null);
+  const onOkRef = useRef<HTMLButtonElement>(null);
 
   /**
    * Update cell value after OnKeyDown event
@@ -56,7 +56,7 @@ export const Confirm = (props: ConfirmProps) => {
       /**
        * Workaround to to close Radix modal onEnter
        */
-      buttonRef.current?.click();
+      onOkRef.current?.click();
     }
   };
 
@@ -76,7 +76,7 @@ export const Confirm = (props: ConfirmProps) => {
           </DialogClose>
           <DialogClose asChild>
             <Button
-              ref={buttonRef}
+              ref={onOkRef}
               value={props.okText}
               onClick={props.onOk}
               buttonType={ButtonType.PRIMARY}

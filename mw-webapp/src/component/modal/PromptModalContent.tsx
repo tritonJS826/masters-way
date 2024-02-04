@@ -35,7 +35,7 @@ interface PromptModalContentProps {
 export const PromptModalContent = (props: PromptModalContentProps) => {
   const [inputValue, setInputValue] = useState<string>(props.defaultValue ?? "");
 
-  const buttonRef = useRef<HTMLButtonElement>(null);
+  const onOkRef = useRef<HTMLButtonElement>(null);
 
   /**
    * Update cell value after OnKeyDown event
@@ -46,7 +46,7 @@ export const PromptModalContent = (props: PromptModalContentProps) => {
       /**
        * Workaround to to close Radix modal onEnter
        */
-      buttonRef.current?.click();
+      onOkRef.current?.click();
     }
   };
 
@@ -67,7 +67,7 @@ export const PromptModalContent = (props: PromptModalContentProps) => {
           />
 
           <Button
-            ref={buttonRef}
+            ref={onOkRef}
             value="Create"
             onClick={() => props.onOk(inputValue)}
             buttonType={ButtonType.PRIMARY}

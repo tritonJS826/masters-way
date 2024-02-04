@@ -35,15 +35,15 @@ export const DEFAULT_TAG = "no tag";
 const DEFAULT_SUMMARY_TIME = 0;
 const columnHelper = createColumnHelper<DayReport>();
 const DIFFERENCE_INDEX_LIST_NUMBER = 1;
-const MAX_INPUT_TIME = 9999;
+const MAX_TIME = 9999;
 
 /**
- * Get number till {@link MAX_INPUT_TIME}
+ * Get time in minutes till {@link MAX_TIME}
  */
-const getNumber = (number: number) => {
-  return number <= MAX_INPUT_TIME
-    ? number
-    : MAX_INPUT_TIME;
+const getValidatedTime = (time: number) => {
+  return time <= MAX_TIME
+    ? time
+    : MAX_TIME;
 };
 
 /**
@@ -220,12 +220,12 @@ export const Columns = (props: ColumnsProps) => {
         /**
          * Update jobDoneTime
          */
-        const updateJobDoneTime = (jobDone: JobDone, text: number) => {
+        const updateJobDoneTime = (jobDone: JobDone, time: number) => {
           const updatedJobsDone = row.original.jobsDone.map((item) => {
             const itemToReturn = item.uuid === jobDone.uuid
               ? new JobDone({
                 ...jobDone,
-                time: text,
+                time,
               })
               : item;
 
@@ -277,9 +277,9 @@ export const Columns = (props: ColumnsProps) => {
                           <EditableText
                             text={jobDone.time}
                             type="number"
-                            max={MAX_INPUT_TIME}
-                            onChangeFinish={(number) =>
-                              updateJobDoneTime(jobDone, getNumber(number))}
+                            max={MAX_TIME}
+                            onChangeFinish={(time) =>
+                              updateJobDoneTime(jobDone, getValidatedTime(time))}
                             className={styles.editableTime}
                             isEditable={isOwner}
                           />
@@ -400,12 +400,12 @@ export const Columns = (props: ColumnsProps) => {
         /**
          * Update Plan time
          */
-        const updatePlanTime = (plan: Plan, text: number) => {
+        const updatePlanTime = (plan: Plan, estimationTime: number) => {
           const updatedPlans = row.original.plans.map((item) => {
             const itemToReturn = item.uuid === plan.uuid
               ? new Plan({
                 ...plan,
-                estimationTime: text,
+                estimationTime,
               })
               : item;
 
@@ -463,8 +463,8 @@ export const Columns = (props: ColumnsProps) => {
                           <EditableText
                             text={plan.estimationTime}
                             type="number"
-                            max={MAX_INPUT_TIME}
-                            onChangeFinish={(number) => updatePlanTime(plan, getNumber(number))}
+                            max={MAX_TIME}
+                            onChangeFinish={(estimationTime) => updatePlanTime(plan, getValidatedTime(estimationTime))}
                             className={styles.editableTime}
                             isEditable={plan.ownerUuid === user?.uuid}
                           />
