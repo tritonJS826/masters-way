@@ -66,7 +66,7 @@ export const localStorageWorker = new LocalStorageWorker();
  * Keys of {@link LocalStorageData} is a localStorage  items keys
  * Value of {@link LocalStorageData} is a localStorage items values
  */
-type LocalStorageData = {
+export type LocalStorageData = {
 
   /**
    * Supported themes
