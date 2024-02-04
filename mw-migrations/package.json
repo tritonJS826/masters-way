@@ -7,7 +7,7 @@
     "migrate-way-mentorRequestUuids": "ts-node ./src/migrations/waysMigration-add-mentorRequestUuids.ts",
     "migrate-comment": "ts-node ./src/migrations/commentsMigration.ts",
     "migrate-problem": "ts-node ./src/migrations/currentProblemsMigration.ts",
-    "migrate-dayReport": "ts-node ./src/migrations/dayReportsMigration-change-type-of-date.ts",
+    "migrate-dayReport": "ts-node ./src/migrations/dayReportsMigration.ts",
     "migrate-goal": "ts-node ./src/migrations/goalsMigration-delete-timeUnit.ts",
     "migrate-job": "ts-node ./src/migrations/jobsDoneMigration.ts",
     "migrate-plan": "ts-node ./src/migrations/plansForNextPeriodMigration.ts",

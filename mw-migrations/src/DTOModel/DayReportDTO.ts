@@ -6,11 +6,11 @@ import { CurrentProblemDTO } from "./CurrentProblemDTO.js";
 
 export type DayReportDTOMigration = {
   uuid: string;
-  date: Timestamp;
-  jobDoneUuids: string[];
-  planForNextPeriodUuids: string[];
-  problemForCurrentPeriodUuids: string[];
-  commentUuids: string[];
+  createdAt: Timestamp;
+  jobsDoneStringified: string[];
+  plansStringified: string[];
+  problemsStringified: string[];
+  commentsStringified: string[];
   isDayOff: boolean;
 }
 

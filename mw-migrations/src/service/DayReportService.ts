@@ -1,6 +1,6 @@
 import {collection, getDocs, deleteDoc, doc, setDoc} from "firebase/firestore";
 import {db} from "../firebase.js";
-import {DayReportBackup, DayReportDTO} from "../DTOModel/DayReportDTO.js";
+import {DayReportBackup, DayReportDTO, DayReportDTOMigration} from "../DTOModel/DayReportDTO.js";
 import { querySnapshotToDTOConverter } from "../converter/querySnapshotToDTOConverter.js";
 import { Timestamp } from "firebase/firestore";
 import { truncateToThreeChars } from "../utils/truncateToThreeChars.js";
@@ -15,10 +15,10 @@ export class DayReportService {
   /**
    * Get DayReportsDTO
    */
-  public static async getDayReportsDTO(): Promise<DayReportDTO[]> {
+  public static async getDayReportsDTO(): Promise<DayReportDTOMigration[]> {
     const dayReportsRef = collection(db, PATH_TO_DAY_REPORTS_COLLECTION);
     const dayReportsRaw = await getDocs(dayReportsRef);
-    const dayReportsDTO = querySnapshotToDTOConverter<DayReportDTO>(dayReportsRaw);
+    const dayReportsDTO = querySnapshotToDTOConverter<DayReportDTOMigration>(dayReportsRaw);
 
     return dayReportsDTO;
   }
