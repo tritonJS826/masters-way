@@ -1,4 +1,5 @@
 import {Fragment} from "react";
+import {JobTag} from "src/logic/wayPage/jobTags/jobTag/JobTag";
 import {JobTagStat} from "src/logic/wayPage/wayStatistics/JobTagStat";
 import {StatisticLine} from "src/logic/wayPage/wayStatistics/StatisticLine";
 
@@ -22,11 +23,21 @@ export const TagStats = (props: TagStatsProps) => {
       <StatisticLine
         description={`${tagStat.name} jobs finished:`}
         value={`${tagStat.totalAmount} (${tagStat.totalAmountPercentage}%)`}
+        component={<JobTag
+          key={tagStat.name}
+          jobTag={tagStat.name}
+          isSmall
+        />}
       />
       <StatisticLine
         key={tagStat.name}
         description={`${tagStat.name} time:`}
         value={`${tagStat.totalTime} (${tagStat.totalTimePercentage}%)`}
+        component={<JobTag
+          key={tagStat.name}
+          jobTag={tagStat.name}
+          isSmall
+        />}
       />
     </Fragment>
   ));

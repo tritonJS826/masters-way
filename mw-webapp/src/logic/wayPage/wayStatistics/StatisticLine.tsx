@@ -11,6 +11,11 @@ type StatisticLineProps = {
    * Line value (right part)
    */
   value: number | string;
+
+  /**
+   * Line component (right part)
+   */
+  component?: React.ReactNode;
 };
 
 /**
@@ -20,7 +25,7 @@ export const StatisticLine = (params: StatisticLineProps) => {
   return (
     <p className={styles.alignContent}>
       <span>
-        {params.description}
+        {params.component || params.description}
       </span>
       {params.value}
     </p>
