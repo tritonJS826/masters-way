@@ -19,9 +19,7 @@ export const ThemeSwitcher = () => {
       value={currentTheme}
       name="theme"
       options={themeOptions}
-      onChange={(value) => {
-        ThemeWorker.setTheme(value);
-      }}
+      onChange={ThemeWorker.setTheme}
     />
   );
 };
