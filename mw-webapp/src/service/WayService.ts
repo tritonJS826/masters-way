@@ -2,13 +2,16 @@ import {
   collection,
   deleteDoc,
   doc,
+  getCountFromServer,
   getDoc,
   getDocs,
+  limit,
   orderBy,
   query,
   QueryFieldFilterConstraint,
   QueryOrderByConstraint,
   setDoc,
+  startAfter,
   Timestamp,
   updateDoc,
   where,
@@ -35,6 +38,8 @@ import {logToConsole} from "src/utils/logToConsole";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 
 const PATH_TO_WAYS_COLLECTION = "ways";
+const WAYS_LIMIT = 5;
+const AMOUNT_DOCS_FOR_COUNT_READS = 1000;
 
 /**
  * WayDTO props without uuid
@@ -69,13 +74,46 @@ export class WayService {
    */
   public static async getWaysDTO(): Promise<WayDTO[]> {
     const waysRef = collection(db, PATH_TO_WAYS_COLLECTION);
-    const waysOrderedByName = query(waysRef, orderBy(WAY_CREATED_AT_FIELD, "desc"));
+    const waysOrderedByName = query(waysRef, orderBy(WAY_CREATED_AT_FIELD, "desc"), limit(WAYS_LIMIT));
     const waysRaw = await getDocs(waysOrderedByName);
     const waysDTO = querySnapshotToDTOConverter<WayDTO>(waysRaw);
 
     const validatedWaysDTO = WaysDTOSchema.parse(waysDTO);
 
     logToConsole(`WayService:getWaysDTO: ${validatedWaysDTO.length} ${RequestOperations.READ} operations`);
+
+    return validatedWaysDTO;
+  }
+
+  /**
+   * Get WaysDTO amount
+   */
+  public static async getWaysDTOAmount(): Promise<number> {
+    const waysRef = collection(db, PATH_TO_WAYS_COLLECTION);
+    const snapshot = await getCountFromServer(waysRef);
+    const waysAmount = snapshot.data().count;
+
+    const readsAmount = Math.ceil(waysAmount / AMOUNT_DOCS_FOR_COUNT_READS);
+
+    logToConsole(`WayService:getWaysDTOAmount: ${readsAmount} ${RequestOperations.READ} operations`);
+
+    return waysAmount;
+  }
+
+  /**
+   * Get WaysDTO
+   */
+  public static async getWaysDTOPart(date: Date): Promise<WayDTO[]> {
+    const timestamp = Timestamp.fromDate(date);
+
+    const waysRef = collection(db, PATH_TO_WAYS_COLLECTION);
+    const waysOrderedByName = query(waysRef, orderBy(WAY_CREATED_AT_FIELD, "desc"), limit(WAYS_LIMIT), startAfter(timestamp));
+    const waysRaw = await getDocs(waysOrderedByName);
+    const waysDTO = querySnapshotToDTOConverter<WayDTO>(waysRaw);
+
+    const validatedWaysDTO = WaysDTOSchema.parse(waysDTO);
+
+    logToConsole(`WayService:getWaysDTOPart: ${validatedWaysDTO.length} ${RequestOperations.READ} operations`);
 
     return validatedWaysDTO;
   }

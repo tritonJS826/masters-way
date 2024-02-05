@@ -2,10 +2,14 @@ import {
   collection,
   deleteDoc,
   doc,
+  getCountFromServer,
   getDoc,
   getDocs,
+  limit,
+  orderBy,
   query,
   setDoc,
+  startAfter,
   updateDoc,
   where,
   WriteBatch,
@@ -22,6 +26,8 @@ import {logToConsole} from "src/utils/logToConsole";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 
 export const PATH_TO_USERS_COLLECTION = "users";
+const USERS_LIMIT = 10;
+const AMOUNT_DOCS_FOR_COUNT_READS = 1000;
 
 /**
  * Provides methods to interact with the Users collection in Firestore.
@@ -32,12 +38,44 @@ export class UserService {
    * Get UsersDTO
    */
   public static async getUsersDTO(): Promise<UserDTO[]> {
-    const usersRaw = await getDocs(collection(db, PATH_TO_USERS_COLLECTION));
+    const usersRef = collection(db, PATH_TO_USERS_COLLECTION);
+    const usersRaw = await getDocs(query(usersRef, orderBy(USER_UUID_FIELD), limit(USERS_LIMIT)));
     const usersDTO = querySnapshotToDTOConverter<UserDTO>(usersRaw);
 
     const validatedUsersDTO = UsersDTOSchema.parse(usersDTO);
 
     logToConsole(`UserService:getUsersDTO: ${validatedUsersDTO.length} ${RequestOperations.READ} operations`);
+
+    return validatedUsersDTO;
+  }
+
+  /**
+   * Get UsersDTO amount
+   */
+  public static async getUsersDTOAmount(): Promise<number> {
+    const usersRef = collection(db, PATH_TO_USERS_COLLECTION);
+    const snapshot = await getCountFromServer(usersRef);
+    const usersAmount = snapshot.data().count;
+
+    const readsAmount = Math.ceil(usersAmount / AMOUNT_DOCS_FOR_COUNT_READS);
+
+    logToConsole(`UserService:getUsersDTOAmount: ${readsAmount} ${RequestOperations.READ} operations`);
+
+    return usersAmount;
+  }
+
+  /**
+   * Get UsersDTO
+   */
+  public static async getUsersDTOPart(uuid: string): Promise<UserDTO[]> {
+    const usersRef = collection(db, PATH_TO_USERS_COLLECTION);
+    const usersOrderedByName = query(usersRef, orderBy(USER_UUID_FIELD), limit(USERS_LIMIT), startAfter(uuid));
+    const usersRaw = await getDocs(usersOrderedByName);
+    const usersDTO = querySnapshotToDTOConverter<UserDTO>(usersRaw);
+
+    const validatedUsersDTO = UsersDTOSchema.parse(usersDTO);
+
+    logToConsole(`UserService:getUsersDTOPart: ${validatedUsersDTO.length} ${RequestOperations.READ} operations`);
 
     return validatedUsersDTO;
   }

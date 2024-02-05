@@ -13,10 +13,17 @@ import {arrayToHashMap} from "src/utils/arrayToHashMap";
 export class WayPreviewDAL {
 
   /**
+   * Get amount of all ways in collection
+   */
+  public static async getWaysPreviewAmount(): Promise<number> {
+    return await WayService.getWaysDTOAmount();
+  }
+
+  /**
    * Get all WayPreview
    */
-  public static async getWaysPreview(): Promise<WayPreview[]> {
-    const waysDTO = await WayService.getWaysDTO();
+  public static async getWaysPreview(date?: Date): Promise<WayPreview[]> {
+    const waysDTO = date ? await WayService.getWaysDTOPart(date) : await WayService.getWaysDTO();
 
     const allNeededUsersUuids = new Set(waysDTO.flatMap(wayDTO => [
       wayDTO.ownerUuid,
