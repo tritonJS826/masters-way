@@ -188,6 +188,7 @@ export const WayPage = (props: WayPageProps) => {
 
   const isOwner = !!user && user.uuid === way.owner.uuid;
   const isMentor = !!user && way.mentors.has(user.uuid);
+  const isUserOwnerOrMentor = isOwner || isMentor;
 
   const isUserHasSentMentorRequest = !!user && way.mentorRequests.some((request) => request.uuid === user.uuid);
   const isEligibleToSendRequest = !!user && !isOwner && !isMentor && !isUserHasSentMentorRequest;
@@ -311,7 +312,7 @@ export const WayPage = (props: WayPageProps) => {
             },
             setWay: setWayPartial,
           })}
-          isEditable={isOwner}
+          isEditable={isUserOwnerOrMentor}
           className={styles.titleH2}
         />
         <HorizontalContainer className={styles.buttons}>
@@ -461,7 +462,7 @@ export const WayPage = (props: WayPageProps) => {
         <JobTags
           isVisible={wayPageSettings.isJobDoneTagsVisible}
           jobTags={way.jobTags}
-          isEditable={isOwner}
+          isEditable={isUserOwnerOrMentor}
           updateTags={(tagsToUpdate: string[]) => updateWay({
             wayToUpdate: {
               uuid: way.uuid,
@@ -517,7 +518,7 @@ export const WayPage = (props: WayPageProps) => {
             wayToUpdate: {...updated},
             setWay: setWayPartial,
           })}
-          isEditable={isOwner}
+          isEditable={isUserOwnerOrMentor}
           wayPageSettings={wayPageSettings}
           updateWaySettings={updateWayPageSettings}
         />

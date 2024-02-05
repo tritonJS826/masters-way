@@ -60,9 +60,13 @@ export const GoalBlock = (props: GoalBlockProps) => {
    * Update goal
    */
   const updateGoalMetrics = async (metricsToUpdate: Metric[]) => {
+    const metricsStatus = metricsToUpdate.map((metric) => metric.isDone);
+    const isWayCompleted = !metricsStatus.includes(false);
+
     await props.updateWay({
       uuid: props.wayUuid,
       metrics: metricsToUpdate,
+      isCompleted: isWayCompleted,
     });
   };
 

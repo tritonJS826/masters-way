@@ -96,21 +96,22 @@ export const JobTags = (props: JobTagsProps) => {
         );
       })}
 
-      <Modal
-        isOpen={isJobDoneModalOpen}
-        content={
-          <PromptModalContent
-            close={() => setIsJobDoneModalOpen(false)}
-            onOk={createJobTag}
-          />
-        }
-        trigger={
-          <Button
-            value="Add tag"
-            onClick={() => setIsJobDoneModalOpen(true)}
-          />
-        }
-      />
+      {props.isEditable &&
+        <Modal
+          isOpen={isJobDoneModalOpen}
+          content={
+            <PromptModalContent
+              close={() => setIsJobDoneModalOpen(false)}
+              onOk={createJobTag}
+            />
+          }
+          trigger={
+            <Button
+              value="Add tag"
+              onClick={() => setIsJobDoneModalOpen(true)}
+            />
+          }
+        />}
     </div>
   );
 };

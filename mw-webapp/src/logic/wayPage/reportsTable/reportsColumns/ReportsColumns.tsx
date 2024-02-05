@@ -247,29 +247,29 @@ export const Columns = (props: ColumnsProps) => {
                     <HorizontalContainer className={clsx(styles.horizontalContainer, styles.listNumberAndName)}>
                       {getListNumberByIndex(index)}
                       <HorizontalContainer className={styles.icons}>
-                        <Modal
-                          trigger={
-                            <div className={styles.tagsBlockTrigger}>
-                              <JobDoneTags
-                                isEditable={isOwner}
+                        {isUserOwnerOrMentor ?
+                          <Modal
+                            trigger={
+                              <div className={styles.tagsBlockTrigger}>
+                                <JobDoneTags jobDoneTags={jobDone.tags} />
+                              </div>
+                            }
+                            content={
+                              <ModalContentJobTags
+                                jobTags={props.way.jobTags}
                                 jobDoneTags={jobDone.tags}
+                                isEditable={isUserOwnerOrMentor}
+                                updateTags={(tagsToUpdate: string[]) => updateReport({
+                                  ...row.original,
+                                  jobsDone: row.original.jobsDone?.map(previousJobDone => previousJobDone.uuid === jobDone.uuid
+                                    ? {...previousJobDone, tags: tagsToUpdate}
+                                    : previousJobDone),
+                                })}
                               />
-                            </div>
-                          }
-                          content={
-                            <ModalContentJobTags
-                              jobTags={props.way.jobTags}
-                              jobDoneTags={jobDone.tags}
-                              isEditable={isOwner}
-                              updateTags={(tagsToUpdate: string[]) => updateReport({
-                                ...row.original,
-                                jobsDone: row.original.jobsDone?.map(previousJobDone => previousJobDone.uuid === jobDone.uuid
-                                  ? {...previousJobDone, tags: tagsToUpdate}
-                                  : previousJobDone),
-                              })}
-                            />
-                          }
-                        />
+                            }
+                          />
+                          : <JobDoneTags jobDoneTags={jobDone.tags} />
+                        }
                         <Tooltip
                           position={PositionTooltip.RIGHT}
                           content={`Time${Symbols.NO_BREAK_SPACE}spent on job`}
@@ -281,10 +281,10 @@ export const Columns = (props: ColumnsProps) => {
                             onChangeFinish={(time) =>
                               updateJobDoneTime(jobDone, getValidatedTime(time))}
                             className={styles.editableTime}
-                            isEditable={isOwner}
+                            isEditable={isUserOwnerOrMentor}
                           />
                         </Tooltip>
-                        {isOwner &&
+                        {isUserOwnerOrMentor &&
                           <Tooltip
                             position={PositionTooltip.RIGHT}
                             content="Delete jobDone"
@@ -304,7 +304,7 @@ export const Columns = (props: ColumnsProps) => {
                     <EditableTextarea
                       text={jobDone.description}
                       onChangeFinish={(text) => updateJobDone(jobDone, text)}
-                      isEditable={isOwner}
+                      isEditable={isUserOwnerOrMentor}
                       className={styles.editableTextarea}
                     />
                   </VerticalContainer>
@@ -312,7 +312,7 @@ export const Columns = (props: ColumnsProps) => {
               ))}
             </ol>
             <div className={styles.summarySection}>
-              {isOwner &&
+              {isUserOwnerOrMentor &&
               <Tooltip
                 content="Add job"
                 position={PositionTooltip.RIGHT}
@@ -433,29 +433,29 @@ export const Columns = (props: ColumnsProps) => {
                         />
                       </HorizontalContainer>
                       <HorizontalContainer className={styles.icons}>
-                        <Modal
-                          trigger={
-                            <div className={styles.tagsBlockTrigger}>
-                              <JobDoneTags
-                                isEditable={isOwner}
+                        {isUserOwnerOrMentor ?
+                          <Modal
+                            trigger={
+                              <div className={styles.tagsBlockTrigger}>
+                                <JobDoneTags jobDoneTags={plan.tags} />
+                              </div>
+                            }
+                            content={
+                              <ModalContentJobTags
+                                jobTags={props.way.jobTags}
                                 jobDoneTags={plan.tags}
+                                isEditable={isUserOwnerOrMentor}
+                                updateTags={(tagsToUpdate: string[]) => updateReport({
+                                  ...row.original,
+                                  plans: row.original.plans?.map(previousPlan => previousPlan.uuid === plan.uuid
+                                    ? {...previousPlan, tags: tagsToUpdate}
+                                    : previousPlan),
+                                })}
                               />
-                            </div>
-                          }
-                          content={
-                            <ModalContentJobTags
-                              jobTags={props.way.jobTags}
-                              jobDoneTags={plan.tags}
-                              isEditable={isOwner}
-                              updateTags={(tagsToUpdate: string[]) => updateReport({
-                                ...row.original,
-                                plans: row.original.plans?.map(previousPlan => previousPlan.uuid === plan.uuid
-                                  ? {...previousPlan, tags: tagsToUpdate}
-                                  : previousPlan),
-                              })}
-                            />
-                          }
-                        />
+                            }
+                          />
+                          : <JobDoneTags jobDoneTags={plan.tags} />
+                        }
                         <Tooltip
                           position={PositionTooltip.RIGHT}
                           content={`Estimated${Symbols.NO_BREAK_SPACE}time for the plan`}
@@ -469,7 +469,7 @@ export const Columns = (props: ColumnsProps) => {
                             isEditable={plan.ownerUuid === user?.uuid}
                           />
                         </Tooltip>
-                        {isOwner &&
+                        {isUserOwnerOrMentor &&
                           <Tooltip
                             content={`Click${Symbols.NO_BREAK_SPACE}to${Symbols.NO_BREAK_SPACE}mark the plan as completed.
                               Coming soon`}
@@ -617,7 +617,7 @@ export const Columns = (props: ColumnsProps) => {
                         />
                       </HorizontalContainer>
                       <HorizontalContainer className={styles.icons}>
-                        {isOwner &&
+                        {isUserOwnerOrMentor &&
                           <Tooltip
                             position={PositionTooltip.RIGHT}
                             content={`Click${Symbols.NO_BREAK_SPACE}to${Symbols.NO_BREAK_SPACE}mark
