@@ -11,11 +11,6 @@ interface JobDoneTagsProps {
    */
   jobDoneTags: string[];
 
-  /**
-   * Is editable
-   * @default false
-   */
-  isEditable: boolean;
 }
 
 /**
