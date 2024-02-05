@@ -60,8 +60,7 @@ export const GoalBlock = (props: GoalBlockProps) => {
    * Update goal
    */
   const updateGoalMetrics = async (metricsToUpdate: Metric[]) => {
-    const metricsStatus = metricsToUpdate.map((metric) => metric.isDone);
-    const isWayCompleted = !metricsStatus.includes(false);
+    const isWayCompleted = metricsToUpdate.every((metric) => metric.isDone === true);
 
     await props.updateWay({
       uuid: props.wayUuid,
