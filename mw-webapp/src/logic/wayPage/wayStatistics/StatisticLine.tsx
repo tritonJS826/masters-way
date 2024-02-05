@@ -18,11 +18,11 @@ type StatisticLineProps = {
  */
 export const StatisticLine = (params: StatisticLineProps) => {
   return (
-    <p className={styles.alignContent}>
+    <div className={styles.alignContent}>
       <span>
         {params.description}
       </span>
       {params.value}
-    </p>
+    </div>
   );
 };
