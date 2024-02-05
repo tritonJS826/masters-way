@@ -30,7 +30,6 @@ export const TagStats = (props: TagStatsProps) => {
 
       />
       <StatisticLine
-        key={tagStat.name}
         description={<JobTag
           key={tagStat.name}
           jobTag={tagStat.name}
