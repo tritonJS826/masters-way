@@ -1,6 +1,7 @@
 import {useContext} from "react";
 import {Button} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {OptionType} from "src/component/select/option/Option";
 import {Select} from "src/component/select/Select";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
@@ -20,6 +21,16 @@ export const SettingsPage = () => {
   const currentTheme = ThemeWorker.getCurrentTheme();
   const currentLanguage = LanguageWorker.getCurrentLanguage();
 
+  const themeOptions: OptionType<Theme>[] = [
+    {id: "1", value: Theme.DARK, text: "dark"},
+    {id: "2", value: Theme.LIGHT, text: "light"},
+  ];
+
+  const leanguageOptions: OptionType<Language>[] = [
+    {id: "1", value: Language.ENGLISH, text: "en"},
+    {id: "2", value: Language.RUSSIAN, text: "ru"},
+  ];
+
   return (
     <>
       <Title
@@ -36,13 +47,9 @@ export const SettingsPage = () => {
               label="Theme: "
               value={currentTheme}
               name="theme"
-              options={[
-                {id: "1", value: Theme.DARK, text: "dark"},
-                {id: "2", value: Theme.LIGHT, text: "light"},
-              ]}
+              options={themeOptions}
               onChange={(value) => {
-              // TODO: improve select interface to avoid 'as' operator
-                ThemeWorker.setTheme(value as Theme);
+                ThemeWorker.setTheme(value);
               }}
             />
           </Tooltip>
@@ -56,13 +63,9 @@ export const SettingsPage = () => {
               label="Language: "
               value={currentLanguage}
               name="language"
-              options={[
-                {id: "1", value: Language.ENGLISH, text: "en"},
-                {id: "2", value: Language.RUSSIAN, text: "ru"},
-              ]}
+              options={leanguageOptions}
               onChange={(value) => {
-              // TODO: improve select interface to avoid 'as' operator
-                LanguageWorker.setLanguage(value as Language);
+                LanguageWorker.setLanguage(value);
               }}
             />
           </Tooltip>

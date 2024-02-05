@@ -1,7 +1,7 @@
 /**
  * Option type for a select component
  */
-export interface OptionType {
+export interface OptionType<T> {
 
   /**
    * Option`s id. Should be unique
@@ -11,7 +11,7 @@ export interface OptionType {
   /**
    * Option`s value
    */
-  value: string;
+  value: T;
 
   /**
    * Option`s visible text
@@ -22,12 +22,12 @@ export interface OptionType {
 /**
  * Option props
  */
-interface OptionProps {
+interface OptionProps<T> {
 
   /**
    * Option`s value
    */
-  value: string;
+  value: T;
 
   /**
    * Inner option text
@@ -38,7 +38,7 @@ interface OptionProps {
 /**
  * Element of Select
  */
-export const Option = (props: OptionProps) => {
+export const Option = <T extends string | number>(props: OptionProps<T>) => {
   return (
     <option value={props.value}>
       {props.text}

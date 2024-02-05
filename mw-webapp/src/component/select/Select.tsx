@@ -4,7 +4,7 @@ import styles from "src/component/select/Select.module.scss";
 /**
  * Select props
  */
-export interface SelectProps {
+export interface SelectProps<T> {
 
   /**
    * Label's text
@@ -14,7 +14,7 @@ export interface SelectProps {
   /**
    * Select`s value
    */
-  value: string;
+  value: T;
 
   /**
    * Select's name
@@ -24,18 +24,18 @@ export interface SelectProps {
   /**
    * Options list
    */
-  options: OptionType[];
+  options: OptionType<T>[];
 
   /**
    * Callback triggered onChange select value
    */
-  onChange: (value: string) => void;
+  onChange: (value: T) => void;
 }
 
 /**
  * Represents a control that provides a menu of options
  */
-export const Select = (props: SelectProps) => {
+export const Select = <T extends string | number>(props: SelectProps<T>) => {
   const renderSelectOptions = props.options.map((option) => (
     <Option
       key={option.id}
@@ -48,7 +48,8 @@ export const Select = (props: SelectProps) => {
    * Handle onChange event
    */
   const onChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    props.onChange(e.target.value);
+    const selectedValue = e.target.value as T;
+    props.onChange(selectedValue);
   };
 
   return (
