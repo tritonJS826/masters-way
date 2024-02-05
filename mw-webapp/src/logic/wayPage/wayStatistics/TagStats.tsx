@@ -22,7 +22,6 @@ export const TagStats = (props: TagStatsProps) => {
     <Fragment key={tagStat.name}>
       <StatisticLine
         description={<JobTag
-          key={tagStat.name}
           jobTag={tagStat.name}
           isSmall
         />}
@@ -31,7 +30,6 @@ export const TagStats = (props: TagStatsProps) => {
       />
       <StatisticLine
         description={<JobTag
-          key={tagStat.name}
           jobTag={tagStat.name}
           isSmall
         />}
