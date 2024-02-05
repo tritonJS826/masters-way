@@ -7,9 +7,9 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {globalContext} from "src/GlobalContext";
+import {ThemeSwitcher} from "src/logic/themeSwitcher/ThemeSwitcher";
 import {Language, LanguageWorker} from "src/utils/LanguageWorker";
 import {OSNotification} from "src/utils/notifications/OSNotification";
-import {Theme, ThemeWorker} from "src/utils/ThemeWorker";
 import styles from "src/logic/settingsPage/SettingsPage.module.scss";
 
 /**
@@ -18,13 +18,7 @@ import styles from "src/logic/settingsPage/SettingsPage.module.scss";
 export const SettingsPage = () => {
   const {notification} = useContext(globalContext);
 
-  const currentTheme = ThemeWorker.getCurrentTheme();
   const currentLanguage = LanguageWorker.getCurrentLanguage();
-
-  const themeOptions: OptionType<Theme>[] = [
-    {id: "1", value: Theme.DARK, text: "dark"},
-    {id: "2", value: Theme.LIGHT, text: "light"},
-  ];
 
   const leanguageOptions: OptionType<Language>[] = [
     {id: "1", value: Language.ENGLISH, text: "en"},
@@ -43,15 +37,7 @@ export const SettingsPage = () => {
             position={PositionTooltip.TOP}
             content="Coming soon"
           >
-            <Select
-              label="Theme: "
-              value={currentTheme}
-              name="theme"
-              options={themeOptions}
-              onChange={(value) => {
-                ThemeWorker.setTheme(value);
-              }}
-            />
+            <ThemeSwitcher />
           </Tooltip>
         </HorizontalContainer>
         <HorizontalContainer>
