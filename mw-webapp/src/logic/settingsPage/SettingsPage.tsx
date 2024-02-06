@@ -1,14 +1,15 @@
 import {useContext} from "react";
 import {Button} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {OptionType} from "src/component/select/option/Option";
 import {Select} from "src/component/select/Select";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {globalContext} from "src/GlobalContext";
+import {ThemeSwitcher} from "src/logic/themeSwitcher/ThemeSwitcher";
 import {Language, LanguageWorker} from "src/utils/LanguageWorker";
 import {OSNotification} from "src/utils/notifications/OSNotification";
-import {Theme, ThemeWorker} from "src/utils/ThemeWorker";
 import styles from "src/logic/settingsPage/SettingsPage.module.scss";
 
 /**
@@ -17,8 +18,12 @@ import styles from "src/logic/settingsPage/SettingsPage.module.scss";
 export const SettingsPage = () => {
   const {notification} = useContext(globalContext);
 
-  const currentTheme = ThemeWorker.getCurrentTheme();
   const currentLanguage = LanguageWorker.getCurrentLanguage();
+
+  const leanguageOptions: OptionType<Language>[] = [
+    {id: "1", value: Language.ENGLISH, text: "en"},
+    {id: "2", value: Language.RUSSIAN, text: "ru"},
+  ];
 
   return (
     <>
@@ -32,19 +37,7 @@ export const SettingsPage = () => {
             position={PositionTooltip.TOP}
             content="Coming soon"
           >
-            <Select
-              label="Theme: "
-              value={currentTheme}
-              name="theme"
-              options={[
-                {id: "1", value: Theme.DARK, text: "dark"},
-                {id: "2", value: Theme.LIGHT, text: "light"},
-              ]}
-              onChange={(value) => {
-              // TODO: improve select interface to avoid 'as' operator
-                ThemeWorker.setTheme(value as Theme);
-              }}
-            />
+            <ThemeSwitcher />
           </Tooltip>
         </HorizontalContainer>
         <HorizontalContainer>
@@ -56,13 +49,9 @@ export const SettingsPage = () => {
               label="Language: "
               value={currentLanguage}
               name="language"
-              options={[
-                {id: "1", value: Language.ENGLISH, text: "en"},
-                {id: "2", value: Language.RUSSIAN, text: "ru"},
-              ]}
+              options={leanguageOptions}
               onChange={(value) => {
-              // TODO: improve select interface to avoid 'as' operator
-                LanguageWorker.setLanguage(value as Language);
+                LanguageWorker.setLanguage(value);
               }}
             />
           </Tooltip>
