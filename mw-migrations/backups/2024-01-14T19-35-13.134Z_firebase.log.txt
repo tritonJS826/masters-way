@@ -1,0 +1,14 @@
+2024-01-14T19:35:21.940Z: All collections cleared$
+2024-01-14T19:35:34.347Z: 
+
+    Start read time: Sun Jan 14 2024 23:35:21 GMT+0400 (Georgia Standard Time)
+    End read time: Sun Jan 14 2024 23:35:21 GMT+0400 (Georgia Standard Time)
+    Total read time: 1705260921931
+
+    Start import time: Sun Jan 14 2024 23:35:21 GMT+0400 (Georgia Standard Time)
+    End import time: Sun Jan 14 2024 23:35:34 GMT+0400 (Georgia Standard Time)
+    Total import time: 12402 ms
+
+
+    Total Models written: 324
+  

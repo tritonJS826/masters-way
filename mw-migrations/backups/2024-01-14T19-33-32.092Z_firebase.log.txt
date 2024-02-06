@@ -1,0 +1,22 @@
+2024-01-14T19:33:32.227Z: Starting export DayReport collection$
+2024-01-14T19:33:32.233Z: Starting export Goals collection
+2024-01-14T19:33:32.233Z: Starting export Users collection
+2024-01-14T19:33:32.233Z: Starting export Ways collection
+2024-01-14T19:33:32.234Z: Starting export GoalMetrics collection
+2024-01-14T19:33:38.448Z: Got 188 dayReports
+2024-01-14T19:33:38.460Z: Export DayReport finished
+2024-01-14T19:33:38.464Z: Got 25 goals
+2024-01-14T19:33:38.465Z: Export GOALS finished
+2024-01-14T19:33:38.468Z: Got 25 users
+2024-01-14T19:33:38.469Z: Export Users finished
+2024-01-14T19:33:38.472Z: Got 25 ways
+2024-01-14T19:33:38.473Z: Export WAYS finished
+2024-01-14T19:33:38.479Z: Got 61 goalMetrics
+2024-01-14T19:33:38.480Z: Export GOALS finished
+2024-01-14T19:33:38.481Z: 
+    Start time: Sun Jan 14 2024 23:33:32 GMT+0400 (Georgia Standard Time)
+    End time: Sun Jan 14 2024 23:33:38 GMT+0400 (Georgia Standard Time)
+    Total time: 6255 ms
+
+    Total Models exported: 324
+  

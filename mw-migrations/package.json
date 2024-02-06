@@ -20,15 +20,15 @@
     "migrate-goal-goalMetrics": "ts-node ./src/migrations/goalsMigration-add-goalMetrics.ts",
     "migrate-goal-delete": "ts-node ./src/migrations/goalMigration-delete-goalMetrics.ts",
     "export-backup": "ts-node ./src/backup/export.ts",
-    "import-backup":  "ts-node ./src/backup/import.ts" 
+    "import-backup": "ts-node ./src/backup/import.ts"
   },
   "dependencies": {
-    "firebase": "10.7.0",
-    "typescript": "5.3.2"
+    "firebase": "10.7.0"
   },
   "devDependencies": {
     "@types/node": "20.10.2",
     "dotenv": "16.3.1",
-    "ts-node": "10.9.1"
+    "ts-node": "10.9.1",
+    "typescript": "5.3.2"
   }
 }
