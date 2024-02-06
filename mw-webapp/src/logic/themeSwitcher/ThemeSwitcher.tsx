@@ -1,25 +1,45 @@
-import {OptionType} from "src/component/select/option/Option";
-import {Select} from "src/component/select/Select";
+import {useState} from "react";
+import {Icon, IconSize} from "src/component/icon/Icon";
 import {Theme, ThemeWorker} from "src/utils/ThemeWorker";
+import styles from "src/logic/themeSwitcher/ThemeSwitche.module.scss";
 
 /**
  * ThemeSwitcher component
  */
 export const ThemeSwitcher = () => {
   const currentTheme = ThemeWorker.getCurrentTheme();
+  const [theme, setTheme] = useState<Theme>(currentTheme);
 
-  const themeOptions: OptionType<Theme>[] = [
-    {id: "1", value: Theme.DARK, text: "dark"},
-    {id: "2", value: Theme.LIGHT, text: "light"},
-  ];
+  /**
+   *Change theme
+   */
+  const onChangeTheme = () => {
+    setTheme((prevTheme) => {
+      const curTheme = prevTheme === Theme.DARK ? Theme.LIGHT : Theme.DARK;
+      ThemeWorker.setTheme(currentTheme);
+
+      return curTheme;
+    });
+  };
 
   return (
-    <Select
-      label="Theme: "
-      value={currentTheme}
-      name="theme"
-      options={themeOptions}
-      onChange={ThemeWorker.setTheme}
-    />
+    <button
+      className={styles.iconWrapper}
+      onClick={onChangeTheme}
+    >
+      {theme === Theme.DARK
+        ? (
+          <Icon
+            size={IconSize.MEDIUM}
+            name="MoonIcon"
+          />
+        )
+        : (
+          <Icon
+            size={IconSize.MEDIUM}
+            name="SunIcon"
+          />
+        )}
+    </button>
   );
 };

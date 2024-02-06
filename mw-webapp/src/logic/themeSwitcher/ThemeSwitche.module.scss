@@ -1,0 +1,12 @@
+@import "src/styles/variables";
+
+$iconContainerSize: 25px;
+
+.iconWrapper {
+  width: $iconContainerSize;
+  height: $iconContainerSize;
+  border: none;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
