@@ -22,8 +22,8 @@ export class WayPreviewDAL {
   /**
    * Get all WayPreview
    */
-  public static async getWaysPreview(date?: Date): Promise<WayPreview[]> {
-    const waysDTO = date ? await WayService.getWaysDTOPart(date) : await WayService.getWaysDTO();
+  public static async getWaysPreview(lastWayUuid?: string): Promise<WayPreview[]> {
+    const waysDTO = await WayService.getWaysDTO(lastWayUuid);
 
     const allNeededUsersUuids = new Set(waysDTO.flatMap(wayDTO => [
       wayDTO.ownerUuid,

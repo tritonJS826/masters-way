@@ -44,18 +44,6 @@ export type BaseWayData = Pick<WayDTOWithoutUuid,
 export class WayDAL {
 
   /**
-   * Get all WayPreview
-   */
-  public static async getWays(): Promise<Way[]> {
-    const waysDTO = await WayService.getWaysDTO();
-    const waysUuids = waysDTO.map((item) => item.uuid);
-
-    const waysPreview = await Promise.all(waysUuids.map(WayDAL.getWay));
-
-    return waysPreview;
-  }
-
-  /**
    * Get WayPreview
    */
   public static async getWay(uuid: string): Promise<Way> {

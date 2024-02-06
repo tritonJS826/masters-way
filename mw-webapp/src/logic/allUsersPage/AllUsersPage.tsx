@@ -9,9 +9,8 @@ import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {useLoad} from "src/hooks/useLoad";
 import {UsersTableBlock} from "src/logic/usersTable/UsersTableBlock";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
+import {getLastElementFromArray} from "src/utils/getLastElementFromArray";
 import styles from "src/logic/allUsersPage/AllUsersPage.module.scss";
-
-const ALL_USERS_LAST_INDEX = 9;
 
 /**
  * Users page
@@ -44,7 +43,9 @@ export const AllUsersPage = () => {
   const loadMoreUsers = async () => {
     const users = await UserPreviewDAL.getUsersPreview(lastUserUuid);
     allUsers && setAllUsers([...allUsers, ...users]);
-    setLastUserUuid(users[ALL_USERS_LAST_INDEX].uuid);
+
+    const lastUser = getLastElementFromArray(users);
+    lastUser && setLastUserUuid(lastUser.uuid);
   };
 
   /**
@@ -52,7 +53,8 @@ export const AllUsersPage = () => {
    */
   const onSuccess = (data: UserPreview[]) => {
     setAllUsers(data);
-    setLastUserUuid(data[ALL_USERS_LAST_INDEX].uuid);
+    const lastUser = getLastElementFromArray(data);
+    lastUser && setLastUserUuid(lastUser.uuid);
   };
 
   /**

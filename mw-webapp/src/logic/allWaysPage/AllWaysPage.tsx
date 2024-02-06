@@ -10,16 +10,15 @@ import {useLoad} from "src/hooks/useLoad";
 import {waysColumns} from "src/logic/waysTable/waysColumns";
 import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
+import {getLastElementFromArray} from "src/utils/getLastElementFromArray";
 import styles from "src/logic/allWaysPage/AllWaysPage.module.scss";
-
-const ALL_WAYS_LAST_INDEX = 4;
 
 /**
  * Ways page
  */
 export const AllWaysPage = () => {
   const [allWays, setAllWays] = useState<WayPreview[]>();
-  const [lastWayCreatedAt, setLastWayCreatedAt] = useState<Date>();
+  const [lastWayUuid, setLastWayUuid] = useState<string>();
   const [allWaysAmount, setAllWaysAmount] = useState<number>();
 
   /**
@@ -36,16 +35,18 @@ export const AllWaysPage = () => {
   const loadData = () => {
     getAllWaysAmount();
 
-    return WayPreviewDAL.getWaysPreview();
+    return WayPreviewDAL.getWaysPreview(lastWayUuid);
   };
 
   /**
    * Load more ways
    */
   const loadMoreWays = async () => {
-    const ways = await WayPreviewDAL.getWaysPreview(lastWayCreatedAt);
+    const ways = await WayPreviewDAL.getWaysPreview(lastWayUuid);
     allWays && setAllWays([...allWays, ...ways]);
-    setLastWayCreatedAt(ways[ALL_WAYS_LAST_INDEX].createdAt);
+
+    const lastWay = getLastElementFromArray(ways);
+    lastWay && setLastWayUuid(lastWay.uuid);
   };
 
   /**
@@ -60,7 +61,8 @@ export const AllWaysPage = () => {
    */
   const onSuccess = (data: WayPreview[]) => {
     setAllWays(data);
-    setLastWayCreatedAt(data[ALL_WAYS_LAST_INDEX].createdAt);
+    const lastWay = getLastElementFromArray(data);
+    lastWay && setLastWayUuid(lastWay.uuid);
   };
 
   useLoad(

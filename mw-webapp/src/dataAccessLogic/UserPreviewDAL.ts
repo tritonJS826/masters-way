@@ -20,8 +20,8 @@ export class UserPreviewDAL {
   /**
    * Get all UserPreview
    */
-  public static async getUsersPreview(uuid?: string): Promise<UserPreview[]> {
-    const usersDTO = uuid ? await UserService.getUsersDTOPart(uuid) : await UserService.getUsersDTO();
+  public static async getUsersPreview(lastUserUuid?: string): Promise<UserPreview[]> {
+    const usersDTO = await UserService.getUsersDTO(lastUserUuid);
 
     const usersPreview = usersDTO.map(UserDTOToUserPreviewConverter);
 

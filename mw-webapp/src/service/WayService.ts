@@ -31,15 +31,14 @@ import {
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
 import {querySnapshotsToDTOConverter} from "src/service/converter/querySnapshotsToDTOConverter";
 import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
-import {QUERY_LIMIT} from "src/service/firebaseVariables";
+import {AMOUNT_DOCS_FOR_COUNT_READS, QUERY_LIMIT} from "src/service/firebaseVariables";
 import {RequestOperations} from "src/service/RequestOperations";
 import {getChunksArray} from "src/utils/getChunkArray";
 import {logToConsole} from "src/utils/logToConsole";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 
 const PATH_TO_WAYS_COLLECTION = "ways";
-const WAYS_LIMIT = 5;
-const AMOUNT_DOCS_FOR_COUNT_READS = 1000;
+const PAGINATION_WAYS_AMOUNT = 10;
 
 /**
  * WayDTO props without uuid
@@ -70,22 +69,6 @@ export type GetWaysFilter = {
 export class WayService {
 
   /**
-   * Get WaysDTO
-   */
-  public static async getWaysDTO(): Promise<WayDTO[]> {
-    const waysRef = collection(db, PATH_TO_WAYS_COLLECTION);
-    const waysOrderedByName = query(waysRef, orderBy(WAY_CREATED_AT_FIELD, "desc"), limit(WAYS_LIMIT));
-    const waysRaw = await getDocs(waysOrderedByName);
-    const waysDTO = querySnapshotToDTOConverter<WayDTO>(waysRaw);
-
-    const validatedWaysDTO = WaysDTOSchema.parse(waysDTO);
-
-    logToConsole(`WayService:getWaysDTO: ${validatedWaysDTO.length} ${RequestOperations.READ} operations`);
-
-    return validatedWaysDTO;
-  }
-
-  /**
    * Get WaysDTO amount
    */
   public static async getWaysDTOAmount(): Promise<number> {
@@ -103,11 +86,19 @@ export class WayService {
   /**
    * Get WaysDTO
    */
-  public static async getWaysDTOPart(date: Date): Promise<WayDTO[]> {
-    const timestamp = Timestamp.fromDate(date);
-
+  public static async getWaysDTO(lastWayUuid?: string): Promise<WayDTO[]> {
     const waysRef = collection(db, PATH_TO_WAYS_COLLECTION);
-    const waysOrderedByName = query(waysRef, orderBy(WAY_CREATED_AT_FIELD, "desc"), limit(WAYS_LIMIT), startAfter(timestamp));
+
+    /**
+     * ExtraRequest
+     * TODO: need to find how to convert object to DocumentSnapshot<DocumentData, DocumentData>
+     */
+    const snapshot = lastWayUuid && await getDoc(doc(db, PATH_TO_WAYS_COLLECTION, lastWayUuid));
+    logToConsole(`WayService:getSnapshot: 1 ${RequestOperations.READ} operations`);
+
+    const waysOrderedByName = lastWayUuid
+      ? query(waysRef, orderBy(WAY_CREATED_AT_FIELD, "desc"), limit(PAGINATION_WAYS_AMOUNT), startAfter(snapshot))
+      : query(waysRef, orderBy(WAY_CREATED_AT_FIELD, "desc"), limit(PAGINATION_WAYS_AMOUNT));
     const waysRaw = await getDocs(waysOrderedByName);
     const waysDTO = querySnapshotToDTOConverter<WayDTO>(waysRaw);
 
