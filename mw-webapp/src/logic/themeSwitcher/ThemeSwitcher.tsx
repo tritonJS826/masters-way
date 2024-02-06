@@ -27,19 +27,10 @@ export const ThemeSwitcher = () => {
       className={styles.iconWrapper}
       onClick={onChangeTheme}
     >
-      {theme === Theme.DARK
-        ? (
-          <Icon
-            size={IconSize.MEDIUM}
-            name="MoonIcon"
-          />
-        )
-        : (
-          <Icon
-            size={IconSize.MEDIUM}
-            name="SunIcon"
-          />
-        )}
+      <Icon
+        size={IconSize.MEDIUM}
+        name={theme === Theme.DARK ? "MoonIcon" : "SunIcon"}
+      />
     </button>
   );
 };

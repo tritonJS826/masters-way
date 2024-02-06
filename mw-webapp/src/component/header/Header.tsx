@@ -4,7 +4,10 @@ import {Button, ButtonType} from "src/component/button/Button";
 import {Image} from "src/component/image/Image";
 import {NavigationLink, Sidebar} from "src/component/sidebar/Sidebar";
 import {HeadingLevel, Title} from "src/component/title/Title";
+import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
+import {Tooltip} from "src/component/tooltip/Tooltip";
 import {useGlobalContext} from "src/GlobalContext";
+import {ThemeSwitcher} from "src/logic/themeSwitcher/ThemeSwitcher";
 import {pages} from "src/router/pages";
 import {AuthService} from "src/service/AuthService";
 import styles from "src/component/header/Header.module.scss";
@@ -61,6 +64,12 @@ export const Header = () => {
         />
       </a>
       <div className={styles.headerButtonsContainer}>
+        <Tooltip
+          position={PositionTooltip.BOTTOM}
+          content="Theme"
+        >
+          <ThemeSwitcher />
+        </Tooltip>
         {user &&
         <a>
           <Title
@@ -71,6 +80,7 @@ export const Header = () => {
           />
         </a>
         }
+
         <div className={styles.buttons}>
           <Button
             onClick={user ? AuthService.logOut : AuthService.logIn}

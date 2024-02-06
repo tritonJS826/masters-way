@@ -1,12 +1,15 @@
 @import "src/styles/variables";
 
-$iconContainerSize: 25px;
+$iconContainerSize: 20px;
 
 .iconWrapper {
+  display: flex;
   width: $iconContainerSize;
   height: $iconContainerSize;
+  align-items: center;
+  justify-content: center;
   border: none;
-  border: none;
+  margin: 0 $marginSmall;
   background: none;
   cursor: pointer;
 }

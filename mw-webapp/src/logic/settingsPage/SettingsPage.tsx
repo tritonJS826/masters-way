@@ -7,7 +7,6 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {globalContext} from "src/GlobalContext";
-import {ThemeSwitcher} from "src/logic/themeSwitcher/ThemeSwitcher";
 import {Language, LanguageWorker} from "src/utils/LanguageWorker";
 import {OSNotification} from "src/utils/notifications/OSNotification";
 import styles from "src/logic/settingsPage/SettingsPage.module.scss";
@@ -32,14 +31,6 @@ export const SettingsPage = () => {
         text="Settings"
       />
       <div className={styles.settingsList}>
-        <HorizontalContainer>
-          <Tooltip
-            position={PositionTooltip.TOP}
-            content="Coming soon"
-          >
-            <ThemeSwitcher />
-          </Tooltip>
-        </HorizontalContainer>
         <HorizontalContainer>
           <Tooltip
             position={PositionTooltip.TOP}
