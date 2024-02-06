@@ -8,6 +8,9 @@ import {
   limit,
   orderBy,
   query,
+  QueryLimitConstraint,
+  QueryOrderByConstraint,
+  QueryStartAtConstraint,
   setDoc,
   startAfter,
   updateDoc,
@@ -67,9 +70,16 @@ export class UserService {
     const snapshot = lastUserUuid && await getDoc(doc(db, PATH_TO_USERS_COLLECTION, lastUserUuid));
     logToConsole(`WayService:getSnapshot: 1 ${RequestOperations.READ} operations`);
 
-    const usersOrderedByName = lastUserUuid
-      ? query(usersRef, orderBy(USER_CREATED_AT_FIELD), limit(PAGINATION_USERS_AMOUNT), startAfter(snapshot))
-      : query(usersRef, orderBy(USER_CREATED_AT_FIELD), limit(PAGINATION_USERS_AMOUNT));
+    const constraints: (QueryOrderByConstraint | QueryLimitConstraint | QueryStartAtConstraint)[] = [
+      orderBy(USER_CREATED_AT_FIELD, "desc"),
+      limit(PAGINATION_USERS_AMOUNT),
+    ];
+
+    if (snapshot) {
+      constraints.push(startAfter(snapshot));
+    }
+
+    const usersOrderedByName = query(usersRef, ...constraints);
     const usersRaw = await getDocs(usersOrderedByName);
     const usersDTO = querySnapshotToDTOConverter<UserDTO>(usersRaw);
 

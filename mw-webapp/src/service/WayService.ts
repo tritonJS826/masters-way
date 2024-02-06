@@ -9,7 +9,9 @@ import {
   orderBy,
   query,
   QueryFieldFilterConstraint,
+  QueryLimitConstraint,
   QueryOrderByConstraint,
+  QueryStartAtConstraint,
   setDoc,
   startAfter,
   Timestamp,
@@ -95,9 +97,16 @@ export class WayService {
     const snapshot = lastWayUuid && await getDoc(doc(db, PATH_TO_WAYS_COLLECTION, lastWayUuid));
     logToConsole(`WayService:getSnapshot: 1 ${RequestOperations.READ} operations`);
 
-    const waysOrderedByName = lastWayUuid
-      ? query(waysRef, orderBy(WAY_CREATED_AT_FIELD, "desc"), limit(PAGINATION_WAYS_AMOUNT), startAfter(snapshot))
-      : query(waysRef, orderBy(WAY_CREATED_AT_FIELD, "desc"), limit(PAGINATION_WAYS_AMOUNT));
+    const constraints: (QueryOrderByConstraint | QueryLimitConstraint | QueryStartAtConstraint)[] = [
+      orderBy(WAY_CREATED_AT_FIELD, "desc"),
+      limit(PAGINATION_WAYS_AMOUNT),
+    ];
+
+    if (snapshot) {
+      constraints.push(startAfter(snapshot));
+    }
+
+    const waysOrderedByName = query(waysRef, ...constraints);
     const waysRaw = await getDocs(waysOrderedByName);
     const waysDTO = querySnapshotToDTOConverter<WayDTO>(waysRaw);
 
