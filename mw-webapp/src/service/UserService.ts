@@ -63,7 +63,6 @@ export class UserService {
 
     /**
      * ExtraRequest
-     * TODO: need to find how to convert object to DocumentSnapshot<DocumentData, DocumentData>
      */
     const snapshot = lastUserUuid && await getDoc(doc(db, PATH_TO_USERS_COLLECTION, lastUserUuid));
     logToConsole(`WayService:getSnapshot: 1 ${RequestOperations.READ} operations`);
@@ -76,7 +75,7 @@ export class UserService {
 
     const validatedUsersDTO = UsersDTOSchema.parse(usersDTO);
 
-    logToConsole(`UserService:getUsersDTOPart: ${validatedUsersDTO.length} ${RequestOperations.READ} operations`);
+    logToConsole(`UserService:getUsersDTO: ${validatedUsersDTO.length} ${RequestOperations.READ} operations`);
 
     return validatedUsersDTO;
   }

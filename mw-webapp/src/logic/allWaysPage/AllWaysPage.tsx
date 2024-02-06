@@ -10,15 +10,15 @@ import {useLoad} from "src/hooks/useLoad";
 import {waysColumns} from "src/logic/waysTable/waysColumns";
 import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
-import {getLastElementFromArray} from "src/utils/getLastElementFromArray";
 import styles from "src/logic/allWaysPage/AllWaysPage.module.scss";
+
+const LAST_WAY = -1;
 
 /**
  * Ways page
  */
 export const AllWaysPage = () => {
   const [allWays, setAllWays] = useState<WayPreview[]>();
-  const [lastWayUuid, setLastWayUuid] = useState<string>();
   const [allWaysAmount, setAllWaysAmount] = useState<number>();
 
   /**
@@ -32,21 +32,17 @@ export const AllWaysPage = () => {
   /**
    * Callback that is called to fetch data
    */
-  const loadData = () => {
-    getAllWaysAmount();
-
-    return WayPreviewDAL.getWaysPreview(lastWayUuid);
-  };
+  const loadData = () => WayPreviewDAL.getWaysPreview();
 
   /**
    * Load more ways
    */
-  const loadMoreWays = async () => {
-    const ways = await WayPreviewDAL.getWaysPreview(lastWayUuid);
-    allWays && setAllWays([...allWays, ...ways]);
+  const loadMoreWays = async (loadedWays: WayPreview[]) => {
+    const lastWay = loadedWays.at(LAST_WAY);
+    const lastWayUuid = lastWay ? lastWay.uuid : undefined;
 
-    const lastWay = getLastElementFromArray(ways);
-    lastWay && setLastWayUuid(lastWay.uuid);
+    const ways = await WayPreviewDAL.getWaysPreview(lastWayUuid);
+    setAllWays([...loadedWays, ...ways]);
   };
 
   /**
@@ -61,8 +57,7 @@ export const AllWaysPage = () => {
    */
   const onSuccess = (data: WayPreview[]) => {
     setAllWays(data);
-    const lastWay = getLastElementFromArray(data);
-    lastWay && setLastWayUuid(lastWay.uuid);
+    getAllWaysAmount();
   };
 
   useLoad(
@@ -99,7 +94,7 @@ export const AllWaysPage = () => {
       </ScrollableBlock>
       <Button
         value="More ways"
-        onClick={() => loadMoreWays()}
+        onClick={() => loadMoreWays(allWays)}
         buttonType={ButtonType.PRIMARY}
         className={styles.button}
       />

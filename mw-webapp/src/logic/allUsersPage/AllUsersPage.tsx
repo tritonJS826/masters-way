@@ -9,15 +9,15 @@ import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {useLoad} from "src/hooks/useLoad";
 import {UsersTableBlock} from "src/logic/usersTable/UsersTableBlock";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
-import {getLastElementFromArray} from "src/utils/getLastElementFromArray";
 import styles from "src/logic/allUsersPage/AllUsersPage.module.scss";
+
+const LAST_USER = -1;
 
 /**
  * Users page
  */
 export const AllUsersPage = () => {
   const [allUsers, setAllUsers] = useState<UserPreview[]>();
-  const [lastUserUuid, setLastUserUuid] = useState<string>();
   const [allUsersAmount, setAllUsersAmount] = useState<number>();
 
   /**
@@ -31,21 +31,18 @@ export const AllUsersPage = () => {
   /**
    * Callback that is called to fetch data
    */
-  const loadData = () => {
-    getAllUsersAmount();
-
-    return UserPreviewDAL.getUsersPreview();
-  };
+  const loadData = () => UserPreviewDAL.getUsersPreview();
 
   /**
    * Load more ways
    */
-  const loadMoreUsers = async () => {
-    const users = await UserPreviewDAL.getUsersPreview(lastUserUuid);
-    allUsers && setAllUsers([...allUsers, ...users]);
+  const loadMoreUsers = async (loadedUsers: UserPreview[]) => {
+    const lastUser = loadedUsers.at(LAST_USER);
+    const lastUserUuid = lastUser ? lastUser.uuid : undefined;
 
-    const lastUser = getLastElementFromArray(users);
-    lastUser && setLastUserUuid(lastUser.uuid);
+    const users = await UserPreviewDAL.getUsersPreview(lastUserUuid);
+    setAllUsers([...loadedUsers, ...users]);
+
   };
 
   /**
@@ -53,8 +50,7 @@ export const AllUsersPage = () => {
    */
   const onSuccess = (data: UserPreview[]) => {
     setAllUsers(data);
-    const lastUser = getLastElementFromArray(data);
-    lastUser && setLastUserUuid(lastUser.uuid);
+    getAllUsersAmount();
   };
 
   /**
@@ -93,7 +89,7 @@ export const AllUsersPage = () => {
       </ScrollableBlock>
       <Button
         value="More ways"
-        onClick={() => loadMoreUsers()}
+        onClick={() => loadMoreUsers(allUsers)}
         buttonType={ButtonType.PRIMARY}
         className={styles.button}
       />

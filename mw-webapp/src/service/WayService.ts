@@ -91,7 +91,6 @@ export class WayService {
 
     /**
      * ExtraRequest
-     * TODO: need to find how to convert object to DocumentSnapshot<DocumentData, DocumentData>
      */
     const snapshot = lastWayUuid && await getDoc(doc(db, PATH_TO_WAYS_COLLECTION, lastWayUuid));
     logToConsole(`WayService:getSnapshot: 1 ${RequestOperations.READ} operations`);
@@ -104,7 +103,7 @@ export class WayService {
 
     const validatedWaysDTO = WaysDTOSchema.parse(waysDTO);
 
-    logToConsole(`WayService:getWaysDTOPart: ${validatedWaysDTO.length} ${RequestOperations.READ} operations`);
+    logToConsole(`WayService:getWaysDTO: ${validatedWaysDTO.length} ${RequestOperations.READ} operations`);
 
     return validatedWaysDTO;
   }
