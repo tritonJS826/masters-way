@@ -7,18 +7,18 @@ import styles from "src/logic/themeSwitcher/ThemeSwitche.module.scss";
  * ThemeSwitcher component
  */
 export const ThemeSwitcher = () => {
-  const currentTheme = ThemeWorker.getCurrentTheme();
-  const [theme, setTheme] = useState<Theme>(currentTheme);
+  const initialTheme = ThemeWorker.getCurrentTheme();
+  const [theme, setTheme] = useState<Theme>(initialTheme);
 
   /**
    *Change theme
    */
   const onChangeTheme = () => {
     setTheme((prevTheme) => {
-      const curTheme = prevTheme === Theme.DARK ? Theme.LIGHT : Theme.DARK;
+      const currentTheme = prevTheme === Theme.DARK ? Theme.LIGHT : Theme.DARK;
       ThemeWorker.setTheme(currentTheme);
 
-      return curTheme;
+      return currentTheme;
     });
   };
 
