@@ -79,6 +79,7 @@ export const Textarea = (props: TextareaProps) => {
       onChange={handleTextChange}
       rows={props.rows ?? DEFAULT_ROWS_AMOUNT}
       autoFocus={props.isAutofocus}
+      onKeyDown={props.onKeyPress}
       ref={textareaRef}
     />
   );
