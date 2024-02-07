@@ -11,11 +11,6 @@ interface useLoadProps<Data, Dependency> {
   loadData: () => Promise<Data>;
 
   /**
-   * Callback that is called to fetch data amount
-   */
-  loadAmount?: () => Promise<number>;
-
-  /**
    * Callback that is called to validate data
    */
   validateData?: (data: Data) => boolean;
@@ -23,7 +18,7 @@ interface useLoadProps<Data, Dependency> {
   /**
    * Callback that is called on fetch and validation success
    */
-  onSuccess: (data: Data, amount?: number) => void;
+  onSuccess: (data: Data) => void;
 
   /**
    * Callback this is called on fetch or validation error
@@ -41,14 +36,12 @@ interface useLoadProps<Data, Dependency> {
  */
 export const useLoad = <Data, Dependency>({
   loadData,
-  loadAmount,
   validateData = () => true,
   onSuccess,
   onError,
   dependency = [],
 }: useLoadProps<Data, Dependency>) => {
   const [data, setData] = useState<Data>();
-  const [amount, setAmount] = useState<number>();
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -60,14 +53,12 @@ export const useLoad = <Data, Dependency>({
       try {
         setIsLoading(true);
         const loadedData = await loadData();
-        const loadedAmount = loadAmount && await loadAmount();
         if (!validateData(loadedData)) {
           throw new Error("Data validation failed");
         }
 
         setData(loadedData);
-        setAmount(loadedAmount);
-        onSuccess(loadedData, loadedAmount);
+        onSuccess(loadedData);
       } catch (err) {
         if (err instanceof Error) {
           onError(err);
@@ -81,5 +72,5 @@ export const useLoad = <Data, Dependency>({
     fetchAndValidateData();
   }, dependency);
 
-  return {data, setData, amount, setAmount, isLoading};
+  return {data, setData, isLoading};
 };

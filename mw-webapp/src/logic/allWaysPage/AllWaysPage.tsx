@@ -7,12 +7,27 @@ import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
 import {useLoad} from "src/hooks/useLoad";
+import {LAST_INDEX} from "src/logic/mathConstants";
 import {waysColumns} from "src/logic/waysTable/waysColumns";
 import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import styles from "src/logic/allWaysPage/AllWaysPage.module.scss";
 
-const LAST_INDEX = -1;
+/**
+ * Fetched data params
+ */
+interface AllWaysPageFetchDataParams {
+
+  /**
+   * Fetched ways
+   */
+  ways: WayPreview[];
+
+  /**
+   * Amount of all ways
+   */
+  waysAmount: number;
+}
 
 /**
  * Ways page
@@ -24,19 +39,26 @@ export const AllWaysPage = () => {
   /**
    * Callback that is called to fetch data
    */
-  const loadData = () => WayPreviewDAL.getWaysPreview();
+  const loadData = async (): Promise<AllWaysPageFetchDataParams> => {
+    const waysPromise = WayPreviewDAL.getWaysPreview();
+    const waysAmountPromise = WayPreviewDAL.getWaysPreviewAmount();
 
-  /**
-   * Callback that is called to fetch data amount
-   */
-  const loadAmount = () => WayPreviewDAL.getWaysPreviewAmount();
+    const [
+      ways,
+      waysAmount,
+    ] = await Promise.all([
+      waysPromise,
+      waysAmountPromise,
+    ]);
+
+    return {ways, waysAmount};
+  };
 
   /**
    * Load more ways
    */
   const loadMoreWays = async (loadedWays: WayPreview[]) => {
-    const lastWay = loadedWays.at(LAST_INDEX);
-    const lastWayUuid = lastWay ? lastWay.uuid : undefined;
+    const lastWayUuid = loadedWays.at(LAST_INDEX)?.uuid;
 
     const ways = await WayPreviewDAL.getWaysPreview(lastWayUuid);
     setAllWays([...loadedWays, ...ways]);
@@ -46,25 +68,23 @@ export const AllWaysPage = () => {
    * Callback that is called on fetch or validation error
    */
   const onError = (error: Error) => {
+    // TODO #511: research how onError works in app
     displayNotification({text: error.message, type: "error"});
   };
 
   /**
    * Callback that is called on fetch and validation success
    */
-  const onSuccess = (data: WayPreview[], amount: number | undefined) => {
-    setAllWays(data);
-    setAllWaysAmount(amount);
+  const onSuccess = (data: AllWaysPageFetchDataParams) => {
+    setAllWays(data.ways);
+    setAllWaysAmount(data.waysAmount);
   };
 
-  useLoad(
-    {
-      loadData,
-      loadAmount,
-      onSuccess,
-      onError,
-    },
-  );
+  useLoad({
+    loadData,
+    onSuccess,
+    onError,
+  });
 
   if (!allWays) {
     return (

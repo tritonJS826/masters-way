@@ -92,7 +92,7 @@ export class WayService {
     const waysRef = collection(db, PATH_TO_WAYS_COLLECTION);
 
     /**
-     * ExtraRequest
+     * ExtraRequest that allow us to use startAfter method
      */
     const snapshot = lastWayUuid && await getDoc(doc(db, PATH_TO_WAYS_COLLECTION, lastWayUuid));
     logToConsole(`WayService:getSnapshot: 1 ${RequestOperations.READ} operations`);

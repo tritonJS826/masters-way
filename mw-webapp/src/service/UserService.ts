@@ -65,7 +65,7 @@ export class UserService {
     const usersRef = collection(db, PATH_TO_USERS_COLLECTION);
 
     /**
-     * ExtraRequest
+     * ExtraRequest that allow us to use startAfter method
      */
     const snapshot = lastUserUuid && await getDoc(doc(db, PATH_TO_USERS_COLLECTION, lastUserUuid));
     logToConsole(`WayService:getSnapshot: 1 ${RequestOperations.READ} operations`);
