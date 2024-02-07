@@ -94,24 +94,15 @@ export const GoalBlock = (props: GoalBlockProps) => {
             text="Metrics"
           />
           <Tooltip content={`Click to ${props.wayPageSettings.isGoalMetricsVisible ? "hide" : "open"} goal metrics block`}>
-            <div
+            <button
               className={styles.iconContainer}
               onClick={() => props.updateWaySettings({isGoalMetricsVisible: !props.wayPageSettings.isGoalMetricsVisible})}
             >
-              <button className={styles.iconWrapper}>
-                {props.wayPageSettings.isGoalMetricsVisible ?
-                  <Icon
-                    size={IconSize.MEDIUM}
-                    name="EyeOpenedIcon"
-                  />
-                  :
-                  <Icon
-                    size={IconSize.MEDIUM}
-                    name="EyeSlashedIcon"
-                  />
-                }
-              </button>
-            </div>
+              <Icon
+                size={IconSize.MEDIUM}
+                name={props.wayPageSettings.isGoalMetricsVisible ? "EyeOpenedIcon" : "EyeSlashedIcon"}
+              />
+            </button>
           </Tooltip>
         </HorizontalContainer>
         <GoalMetricsBlock

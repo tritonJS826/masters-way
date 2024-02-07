@@ -1,0 +1,14 @@
+@import "src/styles/variables";
+
+$iconContainerSize: 20px;
+
+.iconWrapper {
+  display: flex;
+  width: $iconContainerSize;
+  height: $iconContainerSize;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  cursor: pointer;
+}

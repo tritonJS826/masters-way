@@ -1,25 +1,50 @@
-import {OptionType} from "src/component/select/option/Option";
-import {Select} from "src/component/select/Select";
+import {useState} from "react";
+import {Icon, IconSize} from "src/component/icon/Icon";
+import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
+import {Tooltip} from "src/component/tooltip/Tooltip";
 import {Theme, ThemeWorker} from "src/utils/ThemeWorker";
+import styles from "src/logic/themeSwitcher/ThemeSwitcher.module.scss";
 
 /**
  * ThemeSwitcher component
  */
 export const ThemeSwitcher = () => {
-  const currentTheme = ThemeWorker.getCurrentTheme();
+  const initialTheme = ThemeWorker.getCurrentTheme();
+  const [theme, setTheme] = useState<Theme>(initialTheme);
 
-  const themeOptions: OptionType<Theme>[] = [
-    {id: "1", value: Theme.DARK, text: "dark"},
-    {id: "2", value: Theme.LIGHT, text: "light"},
-  ];
+  /**
+   * GetSwitchTheme
+   */
+  const getSwitchTheme = (switchTheme: Theme) => {
+    return switchTheme === Theme.DARK ? Theme.LIGHT : Theme.DARK;
+  };
+
+  /**
+   *Change theme
+   */
+  const onChangeTheme = () => {
+    setTheme((prevTheme) => {
+      const currentTheme = getSwitchTheme(prevTheme);
+      ThemeWorker.setTheme(currentTheme);
+
+      return currentTheme;
+    });
+  };
 
   return (
-    <Select
-      label="Theme: "
-      value={currentTheme}
-      name="theme"
-      options={themeOptions}
-      onChange={ThemeWorker.setTheme}
-    />
+    <Tooltip
+      position={PositionTooltip.BOTTOM}
+      content={`Switch to ${getSwitchTheme(theme)} theme`}
+    >
+      <button
+        className={styles.iconWrapper}
+        onClick={onChangeTheme}
+      >
+        <Icon
+          size={IconSize.MEDIUM}
+          name={theme === Theme.DARK ? "MoonIcon" : "SunIcon"}
+        />
+      </button>
+    </Tooltip>
   );
 };

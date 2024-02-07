@@ -442,20 +442,10 @@ export const WayPage = (props: WayPageProps) => {
               className={styles.iconContainer}
               onClick={() => updateWayPageSettings({isJobDoneTagsVisible: !wayPageSettings.isJobDoneTagsVisible})}
             >
-              <button className={styles.iconWrapper}>
-                {wayPageSettings.isJobDoneTagsVisible ?
-
-                  <Icon
-                    size={IconSize.MEDIUM}
-                    name="EyeOpenedIcon"
-                  />
-                  :
-                  <Icon
-                    size={IconSize.MEDIUM}
-                    name="EyeSlashedIcon"
-                  />
-                }
-              </button>
+              <Icon
+                size={IconSize.MEDIUM}
+                name={wayPageSettings.isJobDoneTagsVisible ? "EyeOpenedIcon" : "EyeSlashedIcon"}
+              />
             </div>
           </Tooltip>
         </HorizontalContainer>
@@ -530,25 +520,15 @@ export const WayPage = (props: WayPageProps) => {
               text="Statistics"
             />
             <Tooltip content={`Click to ${wayPageSettings.isStatisticsVisible ? "hide" : "open"} statistics block`}>
-              <div
+              <button
                 className={styles.iconContainer}
                 onClick={() => updateWayPageSettings({isStatisticsVisible: !wayPageSettings.isStatisticsVisible})}
               >
-                <button className={styles.iconWrapper}>
-                  {wayPageSettings.isStatisticsVisible ?
-
-                    <Icon
-                      size={IconSize.MEDIUM}
-                      name="EyeOpenedIcon"
-                    />
-                    :
-                    <Icon
-                      size={IconSize.MEDIUM}
-                      name="EyeSlashedIcon"
-                    />
-                  }
-                </button>
-              </div>
+                <Icon
+                  size={IconSize.MEDIUM}
+                  name={wayPageSettings.isStatisticsVisible ? "EyeOpenedIcon" : "EyeSlashedIcon"}
+                />
+              </button>
             </Tooltip>
           </HorizontalContainer>
           <WayStatistic

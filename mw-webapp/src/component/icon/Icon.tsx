@@ -1,6 +1,8 @@
 import clsx from "clsx";
 import {EyeOpenedIcon} from "src/assets/icons/EyeOpenedIcon";
 import {EyeSlashedIcon} from "src/assets/icons/EyeSlashedIcon";
+import {MoonIcon} from "src/assets/icons/MoonIcon";
+import {SunIcon} from "src/assets/icons/SunIcon";
 import styles from "src/component/icon/Icon.module.scss";
 
 /**
@@ -17,6 +19,16 @@ const IconDictionary = {
    * Eye slash icon
    */
   EyeSlashedIcon: (params: IconProps) => <EyeSlashedIcon {...params} />,
+
+  /**
+   * Sun icon
+   */
+  SunIcon: (params: IconProps) => <SunIcon {...params} />,
+
+  /**
+   * Moon icon
+   */
+  MoonIcon: (params: IconProps) => <MoonIcon {...params} />,
 };
 
 /**

@@ -3,6 +3,8 @@ import type {Preview} from "@storybook/react";
 import {ThemeSwitcher} from "../src/logic/themeSwitcher/ThemeSwitcher";
 import {ThemeWorker} from '../src/utils/ThemeWorker';
 
+import './preview.scss';
+
 ThemeWorker.loadTheme();
 
 const preview: Preview = {
@@ -20,7 +22,7 @@ const preview: Preview = {
       if (context.viewMode === "story") {
         return (
           <>
-            <div style={{ position: "absolute", top: "10px", right: "10px" }}>
+            <div style={{ position: "absolute", top: "15px", right: "15px" }}>
               <ThemeSwitcher />
             </div>
             <Story />
