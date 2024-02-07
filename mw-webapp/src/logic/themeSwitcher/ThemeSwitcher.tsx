@@ -1,7 +1,7 @@
 import {useState} from "react";
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Theme, ThemeWorker} from "src/utils/ThemeWorker";
-import styles from "src/logic/themeSwitcher/ThemeSwitche.module.scss";
+import styles from "src/logic/themeSwitcher/ThemeSwitcher.module.scss";
 
 /**
  * ThemeSwitcher component
