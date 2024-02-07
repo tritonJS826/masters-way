@@ -14,9 +14,9 @@ import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import styles from "src/logic/allWaysPage/AllWaysPage.module.scss";
 
 /**
- * Fetched data params
+ * Fetched data
  */
-interface AllWaysPageFetchDataParams {
+interface AllWaysFetchData {
 
   /**
    * Fetched ways
@@ -24,7 +24,7 @@ interface AllWaysPageFetchDataParams {
   ways: WayPreview[];
 
   /**
-   * Amount of all ways
+   * Amount of filtered ways
    */
   waysAmount: number;
 }
@@ -39,16 +39,13 @@ export const AllWaysPage = () => {
   /**
    * Callback that is called to fetch data
    */
-  const loadData = async (): Promise<AllWaysPageFetchDataParams> => {
-    const waysPromise = WayPreviewDAL.getWaysPreview();
-    const waysAmountPromise = WayPreviewDAL.getWaysPreviewAmount();
-
+  const loadData = async (): Promise<AllWaysFetchData> => {
     const [
       ways,
       waysAmount,
     ] = await Promise.all([
-      waysPromise,
-      waysAmountPromise,
+      WayPreviewDAL.getWaysPreview(),
+      WayPreviewDAL.getWaysPreviewAmount(),
     ]);
 
     return {ways, waysAmount};
@@ -68,14 +65,14 @@ export const AllWaysPage = () => {
    * Callback that is called on fetch or validation error
    */
   const onError = (error: Error) => {
-    // TODO #511: research how onError works in app
+    // TODO #511: research how onError works in app and update onError (we need to get error on firebase statistics)
     displayNotification({text: error.message, type: "error"});
   };
 
   /**
    * Callback that is called on fetch and validation success
    */
-  const onSuccess = (data: AllWaysPageFetchDataParams) => {
+  const onSuccess = (data: AllWaysFetchData) => {
     setAllWays(data.ways);
     setAllWaysAmount(data.waysAmount);
   };

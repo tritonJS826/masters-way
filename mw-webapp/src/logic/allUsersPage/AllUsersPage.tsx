@@ -13,9 +13,9 @@ import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import styles from "src/logic/allUsersPage/AllUsersPage.module.scss";
 
 /**
- * Fetched data params
+ * Fetched data
  */
-interface AllUsersPageFetchDataParams {
+interface AllUsersFetchData {
 
   /**
    * Fetched users
@@ -23,7 +23,7 @@ interface AllUsersPageFetchDataParams {
   users: UserPreview[];
 
   /**
-   * Amount of all users
+   * Amount of filtered users
    */
   usersAmount: number;
 }
@@ -38,16 +38,13 @@ export const AllUsersPage = () => {
   /**
    * Callback that is called to fetch data
    */
-  const loadData = async (): Promise<AllUsersPageFetchDataParams> => {
-    const usersPromise = UserPreviewDAL.getUsersPreview();
-    const usersAmountPromise = UserPreviewDAL.getUsersPreviewAmount();
-
+  const loadData = async (): Promise<AllUsersFetchData> => {
     const [
       users,
       usersAmount,
     ] = await Promise.all([
-      usersPromise,
-      usersAmountPromise,
+      UserPreviewDAL.getUsersPreview(),
+      UserPreviewDAL.getUsersPreviewAmount(),
     ]);
 
     return {users, usersAmount};
@@ -66,7 +63,7 @@ export const AllUsersPage = () => {
   /**
    * Callback that is called on fetch and validation success
    */
-  const onSuccess = (data: AllUsersPageFetchDataParams) => {
+  const onSuccess = (data: AllUsersFetchData) => {
     setAllUsers(data.users);
     setAllUsersAmount(data.usersAmount);
   };
@@ -75,7 +72,7 @@ export const AllUsersPage = () => {
    * Callback this is called on fetch or validation error
    */
   const onError = (error: Error) => {
-    // TODO #511: research how onError works in app
+    // TODO #511: research how onError works in app and update onError (we need to get error on firebase statistics)
     displayNotification({text: error.message, type: "error"});
   };
 
