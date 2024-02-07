@@ -12,7 +12,7 @@ import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import styles from "src/logic/allWaysPage/AllWaysPage.module.scss";
 
-const LAST_WAY = -1;
+const LAST_INDEX = -1;
 
 /**
  * Ways page
@@ -22,23 +22,20 @@ export const AllWaysPage = () => {
   const [allWaysAmount, setAllWaysAmount] = useState<number>();
 
   /**
-   * Get amount of all ways
-   */
-  const getAllWaysAmount = async () => {
-    const waysAmount = await WayPreviewDAL.getWaysPreviewAmount();
-    setAllWaysAmount(waysAmount);
-  };
-
-  /**
    * Callback that is called to fetch data
    */
   const loadData = () => WayPreviewDAL.getWaysPreview();
 
   /**
+   * Callback that is called to fetch data amount
+   */
+  const loadAmount = () => WayPreviewDAL.getWaysPreviewAmount();
+
+  /**
    * Load more ways
    */
   const loadMoreWays = async (loadedWays: WayPreview[]) => {
-    const lastWay = loadedWays.at(LAST_WAY);
+    const lastWay = loadedWays.at(LAST_INDEX);
     const lastWayUuid = lastWay ? lastWay.uuid : undefined;
 
     const ways = await WayPreviewDAL.getWaysPreview(lastWayUuid);
@@ -55,14 +52,15 @@ export const AllWaysPage = () => {
   /**
    * Callback that is called on fetch and validation success
    */
-  const onSuccess = (data: WayPreview[]) => {
+  const onSuccess = (data: WayPreview[], amount: number | undefined) => {
     setAllWays(data);
-    getAllWaysAmount();
+    setAllWaysAmount(amount);
   };
 
   useLoad(
     {
       loadData,
+      loadAmount,
       onSuccess,
       onError,
     },

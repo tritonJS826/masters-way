@@ -11,7 +11,7 @@ import {UsersTableBlock} from "src/logic/usersTable/UsersTableBlock";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import styles from "src/logic/allUsersPage/AllUsersPage.module.scss";
 
-const LAST_USER = -1;
+const LAST_INDEX = -1;
 
 /**
  * Users page
@@ -21,36 +21,32 @@ export const AllUsersPage = () => {
   const [allUsersAmount, setAllUsersAmount] = useState<number>();
 
   /**
-   * Get amount of all ways
-   */
-  const getAllUsersAmount = async () => {
-    const usersAmount = await UserPreviewDAL.getUsersPreviewAmount();
-    setAllUsersAmount(usersAmount);
-  };
-
-  /**
    * Callback that is called to fetch data
    */
   const loadData = () => UserPreviewDAL.getUsersPreview();
 
   /**
+   * Callback that is called to fetch data amount
+   */
+  const loadAmount = () => UserPreviewDAL.getUsersPreviewAmount();
+
+  /**
    * Load more ways
    */
   const loadMoreUsers = async (loadedUsers: UserPreview[]) => {
-    const lastUser = loadedUsers.at(LAST_USER);
+    const lastUser = loadedUsers.at(LAST_INDEX);
     const lastUserUuid = lastUser ? lastUser.uuid : undefined;
 
     const users = await UserPreviewDAL.getUsersPreview(lastUserUuid);
     setAllUsers([...loadedUsers, ...users]);
-
   };
 
   /**
    * Callback that is called on fetch and validation success
    */
-  const onSuccess = (data: UserPreview[]) => {
+  const onSuccess = (data: UserPreview[], amount: number | undefined) => {
     setAllUsers(data);
-    getAllUsersAmount();
+    setAllUsersAmount(amount);
   };
 
   /**
@@ -62,6 +58,7 @@ export const AllUsersPage = () => {
 
   useLoad({
     loadData,
+    loadAmount,
     onSuccess,
     onError,
   });

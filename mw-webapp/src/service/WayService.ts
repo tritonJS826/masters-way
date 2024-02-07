@@ -97,14 +97,17 @@ export class WayService {
     const snapshot = lastWayUuid && await getDoc(doc(db, PATH_TO_WAYS_COLLECTION, lastWayUuid));
     logToConsole(`WayService:getSnapshot: 1 ${RequestOperations.READ} operations`);
 
-    const constraints: (QueryOrderByConstraint | QueryLimitConstraint | QueryStartAtConstraint)[] = [
+    const limitConstraints = [
       orderBy(WAY_CREATED_AT_FIELD, "desc"),
       limit(PAGINATION_WAYS_AMOUNT),
     ];
 
-    if (snapshot) {
-      constraints.push(startAfter(snapshot));
-    }
+    const startAfterConstraints = snapshot ? [startAfter(snapshot)] : [];
+
+    const constraints: (QueryOrderByConstraint | QueryLimitConstraint | QueryStartAtConstraint)[] = [
+      ...limitConstraints,
+      ...startAfterConstraints,
+    ];
 
     const waysOrderedByName = query(waysRef, ...constraints);
     const waysRaw = await getDocs(waysOrderedByName);
