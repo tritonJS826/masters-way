@@ -87,6 +87,11 @@ export type LocalStorageData = {
    * User page data
    */
   userPage: UserPageSettings;
+
+  /**
+   * All ways page data
+   */
+  allWaysPage: AllWaysPageSettings;
 }
 
 /**
@@ -124,3 +129,10 @@ export type UserPageSettings = {
   filterStatus: WayStatusType | typeof FILTER_STATUS_ALL_VALUE;
 }
 
+export type AllWaysPageSettings = {
+
+  /**
+   * Settled filter by statuses
+   */
+  filterStatus: WayStatusType | typeof FILTER_STATUS_ALL_VALUE;
+}

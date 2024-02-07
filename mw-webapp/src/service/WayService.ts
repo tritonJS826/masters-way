@@ -73,9 +73,32 @@ export class WayService {
   /**
    * Get WaysDTO amount
    */
-  public static async getWaysDTOAmount(): Promise<number> {
+  public static async getWaysDTOAmount(filter?: GetWaysFilter): Promise<number> {
     const waysRef = collection(db, PATH_TO_WAYS_COLLECTION);
-    const snapshot = await getCountFromServer(waysRef);
+
+    const isCompletedConstraints = filter?.isCompleted ? [where(WAY_IS_COMPLETED_FIELD, "==", true)] : [];
+    const currentDate = new Date();
+    const abandonedDate = currentDate.getTime() - ABANDONED_AFTER_MS;
+    const isInProgressConstraints = filter?.isInProgress
+      ? [
+        where(WAY_IS_COMPLETED_FIELD, "==", false),
+        where(WAY_LAST_UPDATE_FIELD, ">", Timestamp.fromMillis(abandonedDate)),
+      ]
+      : [];
+    const isAbandonedConstraints = filter?.isAbandoned
+      ? [
+        where(WAY_IS_COMPLETED_FIELD, "==", false),
+        where(WAY_LAST_UPDATE_FIELD, "<", Timestamp.fromMillis(abandonedDate)),
+      ]
+      : [];
+
+    const constraints: QueryFieldFilterConstraint[] = [
+      ...isCompletedConstraints,
+      ...isInProgressConstraints,
+      ...isAbandonedConstraints,
+    ];
+
+    const snapshot = await getCountFromServer(query(waysRef, ...constraints));
     const waysAmount = snapshot.data().count;
 
     const readsAmount = Math.ceil(waysAmount / AMOUNT_DOCS_FOR_COUNT_READS);
@@ -88,8 +111,26 @@ export class WayService {
   /**
    * Get WaysDTO
    */
-  public static async getWaysDTO(lastWayUuid?: string): Promise<WayDTO[]> {
+  public static async getWaysDTO(lastWayUuid?: string, filter?: GetWaysFilter): Promise<WayDTO[]> {
     const waysRef = collection(db, PATH_TO_WAYS_COLLECTION);
+
+    const isCompletedConstraints = filter?.isCompleted ? [where(WAY_IS_COMPLETED_FIELD, "==", true)] : [];
+    const currentDate = new Date();
+    const abandonedDate = currentDate.getTime() - ABANDONED_AFTER_MS;
+    const isInProgressConstraints = filter?.isInProgress
+      ? [
+        where(WAY_IS_COMPLETED_FIELD, "==", false),
+        orderBy(WAY_LAST_UPDATE_FIELD, "asc"),
+        where(WAY_LAST_UPDATE_FIELD, ">", Timestamp.fromMillis(abandonedDate)),
+      ]
+      : [];
+    const isAbandonedConstraints = filter?.isAbandoned
+      ? [
+        where(WAY_IS_COMPLETED_FIELD, "==", false),
+        orderBy(WAY_LAST_UPDATE_FIELD, "asc"),
+        where(WAY_LAST_UPDATE_FIELD, "<", Timestamp.fromMillis(abandonedDate)),
+      ]
+      : [];
 
     /**
      * ExtraRequest that allow us to use startAfter method
@@ -104,7 +145,10 @@ export class WayService {
 
     const startAfterConstraints = snapshot ? [startAfter(snapshot)] : [];
 
-    const constraints: (QueryOrderByConstraint | QueryLimitConstraint | QueryStartAtConstraint)[] = [
+    const constraints: (QueryFieldFilterConstraint | QueryOrderByConstraint | QueryLimitConstraint | QueryStartAtConstraint)[] = [
+      ...isCompletedConstraints,
+      ...isInProgressConstraints,
+      ...isAbandonedConstraints,
       ...limitConstraints,
       ...startAfterConstraints,
     ];

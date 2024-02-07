@@ -15,15 +15,15 @@ export class WayPreviewDAL {
   /**
    * Get amount of all ways in collection
    */
-  public static async getWaysPreviewAmount(): Promise<number> {
-    return await WayService.getWaysDTOAmount();
+  public static async getWaysPreviewAmount(filter?: GetWaysFilter): Promise<number> {
+    return await WayService.getWaysDTOAmount(filter);
   }
 
   /**
    * Get all WayPreview
    */
-  public static async getWaysPreview(lastWayUuid?: string): Promise<WayPreview[]> {
-    const waysDTO = await WayService.getWaysDTO(lastWayUuid);
+  public static async getWaysPreview(filter?: GetWaysFilter, lastWayUuid?: string): Promise<WayPreview[]> {
+    const waysDTO = await WayService.getWaysDTO(lastWayUuid, filter);
 
     const allNeededUsersUuids = new Set(waysDTO.flatMap(wayDTO => [
       wayDTO.ownerUuid,
