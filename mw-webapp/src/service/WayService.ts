@@ -2,13 +2,18 @@ import {
   collection,
   deleteDoc,
   doc,
+  getCountFromServer,
   getDoc,
   getDocs,
+  limit,
   orderBy,
   query,
   QueryFieldFilterConstraint,
+  QueryLimitConstraint,
   QueryOrderByConstraint,
+  QueryStartAtConstraint,
   setDoc,
+  startAfter,
   Timestamp,
   updateDoc,
   where,
@@ -28,13 +33,14 @@ import {
 import {documentSnapshotToDTOConverter} from "src/service/converter/documentSnapshotToDTOConverter";
 import {querySnapshotsToDTOConverter} from "src/service/converter/querySnapshotsToDTOConverter";
 import {querySnapshotToDTOConverter} from "src/service/converter/querySnapshotToDTOConverter";
-import {QUERY_LIMIT} from "src/service/firebaseVariables";
+import {AMOUNT_DOCS_FOR_COUNT_READS, QUERY_LIMIT} from "src/service/firebaseVariables";
 import {RequestOperations} from "src/service/RequestOperations";
 import {getChunksArray} from "src/utils/getChunkArray";
 import {logToConsole} from "src/utils/logToConsole";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 
 const PATH_TO_WAYS_COLLECTION = "ways";
+const PAGINATION_WAYS_AMOUNT = 10;
 
 /**
  * WayDTO props without uuid
@@ -65,11 +71,45 @@ export type GetWaysFilter = {
 export class WayService {
 
   /**
+   * Get WaysDTO amount
+   */
+  public static async getWaysDTOAmount(): Promise<number> {
+    const waysRef = collection(db, PATH_TO_WAYS_COLLECTION);
+    const snapshot = await getCountFromServer(waysRef);
+    const waysAmount = snapshot.data().count;
+
+    const readsAmount = Math.ceil(waysAmount / AMOUNT_DOCS_FOR_COUNT_READS);
+
+    logToConsole(`WayService:getWaysDTOAmount: ${readsAmount} ${RequestOperations.READ} operations`);
+
+    return waysAmount;
+  }
+
+  /**
    * Get WaysDTO
    */
-  public static async getWaysDTO(): Promise<WayDTO[]> {
+  public static async getWaysDTO(lastWayUuid?: string): Promise<WayDTO[]> {
     const waysRef = collection(db, PATH_TO_WAYS_COLLECTION);
-    const waysOrderedByName = query(waysRef, orderBy(WAY_CREATED_AT_FIELD, "desc"));
+
+    /**
+     * ExtraRequest that allow us to use startAfter method
+     */
+    const snapshot = lastWayUuid && await getDoc(doc(db, PATH_TO_WAYS_COLLECTION, lastWayUuid));
+    logToConsole(`WayService:getSnapshot: 1 ${RequestOperations.READ} operations`);
+
+    const limitConstraints = [
+      orderBy(WAY_CREATED_AT_FIELD, "desc"),
+      limit(PAGINATION_WAYS_AMOUNT),
+    ];
+
+    const startAfterConstraints = snapshot ? [startAfter(snapshot)] : [];
+
+    const constraints: (QueryOrderByConstraint | QueryLimitConstraint | QueryStartAtConstraint)[] = [
+      ...limitConstraints,
+      ...startAfterConstraints,
+    ];
+
+    const waysOrderedByName = query(waysRef, ...constraints);
     const waysRaw = await getDocs(waysOrderedByName);
     const waysDTO = querySnapshotToDTOConverter<WayDTO>(waysRaw);
 

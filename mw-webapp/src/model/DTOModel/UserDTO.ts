@@ -2,6 +2,7 @@ import {timestampType} from "fireschema";
 import {z} from "zod";
 
 export const USER_UUID_FIELD = "uuid";
+export const USER_CREATED_AT_FIELD = "createdAt";
 
 export const UserDTOSchema = z.object({
 
@@ -43,7 +44,7 @@ export const UserDTOSchema = z.object({
   /**
    * Date when user was created
    */
-  createdAt: timestampType(),
+  [USER_CREATED_AT_FIELD]: timestampType(),
 
   /**
    * Stringified custom way collections

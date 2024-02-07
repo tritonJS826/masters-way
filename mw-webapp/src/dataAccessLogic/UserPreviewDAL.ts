@@ -11,10 +11,17 @@ import {PartialWithUuid} from "src/utils/PartialWithUuid";
 export class UserPreviewDAL {
 
   /**
+   * Get amount of all users in collection
+   */
+  public static async getUsersPreviewAmount(): Promise<number> {
+    return await UserService.getUsersDTOAmount();
+  }
+
+  /**
    * Get all UserPreview
    */
-  public static async getUsersPreview(): Promise<UserPreview[]> {
-    const usersDTO = await UserService.getUsersDTO();
+  public static async getUsersPreview(lastUserUuid?: string): Promise<UserPreview[]> {
+    const usersDTO = await UserService.getUsersDTO(lastUserUuid);
 
     const usersPreview = usersDTO.map(UserDTOToUserPreviewConverter);
 
