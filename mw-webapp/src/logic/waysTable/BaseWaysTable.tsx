@@ -11,13 +11,13 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
 import {useLoad} from "src/hooks/useLoad";
+import {getWaysFilter} from "src/logic/waysTable/wayFilter";
 import {waysColumns} from "src/logic/waysTable/waysColumns";
 import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {WayStatus, WayStatusType} from "src/logic/waysTable/wayStatus";
 import {WaysCollection} from "src/model/businessModelPreview/UserPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
-import {GetWaysFilter} from "src/service/WayService";
 import {ArrayUtils} from "src/utils/ArrayUtils";
 import styles from "src/logic/waysTable/BaseWaysTable.module.scss";
 
@@ -66,13 +66,7 @@ const loadWays = async (
   wayUuids: string[],
   filterStatus: WayStatusType | typeof FILTER_STATUS_ALL_VALUE,
 ): Promise<WayPreview[]> => {
-  const filter: GetWaysFilter | undefined = filterStatus !== FILTER_STATUS_ALL_VALUE
-    ? {
-      isAbandoned: filterStatus === WayStatus.Abandoned,
-      isCompleted: filterStatus === WayStatus.Completed,
-      isInProgress: filterStatus === WayStatus.InProgress,
-    }
-    : undefined;
+  const filter = getWaysFilter(filterStatus);
   const waysPreview = await WayPreviewDAL.getWaysPreviewByUuids(Array.from(wayUuids), filter);
 
   return waysPreview;

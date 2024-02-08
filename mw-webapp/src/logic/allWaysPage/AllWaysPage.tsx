@@ -4,14 +4,29 @@ import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalC
 import {Loader} from "src/component/loader/Loader";
 import {displayNotification} from "src/component/notification/displayNotification";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
+import {Select} from "src/component/select/Select";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
 import {useLoad} from "src/hooks/useLoad";
+import {usePersistanceState} from "src/hooks/usePersistanceState";
 import {LAST_INDEX} from "src/logic/mathConstants";
+import {FILTER_STATUS_ALL_VALUE} from "src/logic/waysTable/BaseWaysTable";
+import {getWaysFilter} from "src/logic/waysTable/wayFilter";
 import {waysColumns} from "src/logic/waysTable/waysColumns";
 import {WaysTable} from "src/logic/waysTable/WaysTable";
+import {WayStatus} from "src/logic/waysTable/wayStatus";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
+import {AllWaysPageSettings} from "src/utils/LocalStorageWorker";
 import styles from "src/logic/allWaysPage/AllWaysPage.module.scss";
+
+const DEFAULT_ALL_WAYS_PAGE_SETTINGS: AllWaysPageSettings = {filterStatus: FILTER_STATUS_ALL_VALUE};
+
+/**
+ * Safe opened tab from localStorage
+ */
+const allWaysPageSettingsValidator = (currentSettings: AllWaysPageSettings) => {
+  return !!currentSettings.filterStatus;
+};
 
 /**
  * Fetched data
@@ -36,6 +51,20 @@ export const AllWaysPage = () => {
   const [allWays, setAllWays] = useState<WayPreview[]>();
   const [allWaysAmount, setAllWaysAmount] = useState<number>();
 
+  const [allWaysPageSettings, updateAllWaysPageSettings] = usePersistanceState({
+    key: "allWaysPage",
+    defaultValue: DEFAULT_ALL_WAYS_PAGE_SETTINGS,
+
+    /**
+     * Check is stored data valid
+     */
+    storedDataValidator: (
+      currentSettings: AllWaysPageSettings,
+    ) => allWaysPageSettingsValidator(currentSettings),
+  });
+
+  const filter = getWaysFilter(allWaysPageSettings.filterStatus);
+
   /**
    * Callback that is called to fetch data
    */
@@ -44,8 +73,8 @@ export const AllWaysPage = () => {
       ways,
       waysAmount,
     ] = await Promise.all([
-      WayPreviewDAL.getWaysPreview(),
-      WayPreviewDAL.getWaysPreviewAmount(),
+      WayPreviewDAL.getWaysPreview({filter}),
+      WayPreviewDAL.getWaysPreviewAmount(filter),
     ]);
 
     return {ways, waysAmount};
@@ -57,7 +86,7 @@ export const AllWaysPage = () => {
   const loadMoreWays = async (loadedWays: WayPreview[]) => {
     const lastWayUuid = loadedWays.at(LAST_INDEX)?.uuid;
 
-    const ways = await WayPreviewDAL.getWaysPreview(lastWayUuid);
+    const ways = await WayPreviewDAL.getWaysPreview({filter, lastWayUuid});
     setAllWays([...loadedWays, ...ways]);
   };
 
@@ -81,6 +110,7 @@ export const AllWaysPage = () => {
     loadData,
     onSuccess,
     onError,
+    dependency: [allWaysPageSettings.filterStatus],
   });
 
   if (!allWays) {
@@ -91,6 +121,18 @@ export const AllWaysPage = () => {
 
   return (
     <>
+      <Select
+        label="Show only: "
+        value={allWaysPageSettings.filterStatus}
+        name="filterStatus"
+        options={[
+          {id: "1", value: FILTER_STATUS_ALL_VALUE, text: "All"},
+          {id: "2", value: WayStatus.Completed, text: "Completed"},
+          {id: "3", value: WayStatus.Abandoned, text: "Abandoned"},
+          {id: "4", value: WayStatus.InProgress, text: "InProgress"},
+        ]}
+        onChange={(value) => updateAllWaysPageSettings({filterStatus: value})}
+      />
       <HorizontalContainer className={styles.titleContainer}>
         <Title
           level={HeadingLevel.h2}

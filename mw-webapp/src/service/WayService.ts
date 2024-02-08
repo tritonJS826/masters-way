@@ -2,6 +2,8 @@ import {
   collection,
   deleteDoc,
   doc,
+  DocumentData,
+  DocumentSnapshot,
   getCountFromServer,
   getDoc,
   getDocs,
@@ -22,7 +24,6 @@ import {
 import {db} from "src/firebase";
 import {ABANDONED_AFTER_MS} from "src/logic/waysTable/wayStatus";
 import {
-  WAY_CREATED_AT_FIELD,
   WAY_IS_COMPLETED_FIELD,
   WAY_LAST_UPDATE_FIELD,
   WAY_UUID_FIELD, WayDTO,
@@ -41,6 +42,8 @@ import {PartialWithUuid} from "src/utils/PartialWithUuid";
 
 const PATH_TO_WAYS_COLLECTION = "ways";
 const PAGINATION_WAYS_AMOUNT = 10;
+
+type Constraints = QueryFieldFilterConstraint | QueryOrderByConstraint | QueryLimitConstraint | QueryStartAtConstraint;
 
 /**
  * WayDTO props without uuid
@@ -66,6 +69,81 @@ export type GetWaysFilter = {
 }
 
 /**
+ * Pagination and filter params
+ */
+export interface GetWaysParams {
+
+  /**
+   * Last fetched way uuid
+   */
+  lastWayUuid?: string;
+
+  /**
+   * Filter
+   */
+  filter?: GetWaysFilter;
+}
+
+/**
+ * Constraints params
+ */
+interface ConstraintsParams {
+
+  /**
+   * Snapshot of the last document that was fetched
+   */
+  snapshot?: "" | DocumentSnapshot<DocumentData, DocumentData>;
+
+  /**
+   * Filter
+   */
+  filter?: GetWaysFilter;
+
+  /**
+   * Amount of pagination elements
+   */
+  limit?: number;
+}
+
+/**
+ * Get constraints to fetch ways
+ */
+const getConstraints = (params: ConstraintsParams) => {
+  const completedConstraints = params.filter?.isCompleted ? [where(WAY_IS_COMPLETED_FIELD, "==", true)] : [];
+  const currentDate = new Date();
+  const abandonedDate = currentDate.getTime() - ABANDONED_AFTER_MS;
+  const inProgressConstraints = params.filter?.isInProgress
+    ? [
+      where(WAY_IS_COMPLETED_FIELD, "==", false),
+      where(WAY_LAST_UPDATE_FIELD, ">", Timestamp.fromMillis(abandonedDate)),
+    ]
+    : [];
+  const abandonedConstraints = params.filter?.isAbandoned
+    ? [
+      where(WAY_IS_COMPLETED_FIELD, "==", false),
+      where(WAY_LAST_UPDATE_FIELD, "<", Timestamp.fromMillis(abandonedDate)),
+    ]
+    : [];
+
+  const limitConstraints = params.limit
+    ? [limit(PAGINATION_WAYS_AMOUNT)]
+    : [];
+
+  const startAfterConstraints = params.snapshot ? [startAfter(params.snapshot)] : [];
+
+  const constraints: Constraints[] = [
+    ...completedConstraints,
+    ...inProgressConstraints,
+    ...abandonedConstraints,
+    orderBy(WAY_LAST_UPDATE_FIELD, "desc"),
+    ...limitConstraints,
+    ...startAfterConstraints,
+  ];
+
+  return constraints;
+};
+
+/**
  * Provides methods to interact with the Ways collection in Firestore.
  */
 export class WayService {
@@ -73,9 +151,12 @@ export class WayService {
   /**
    * Get WaysDTO amount
    */
-  public static async getWaysDTOAmount(): Promise<number> {
+  public static async getWaysDTOAmount(filter?: GetWaysFilter): Promise<number> {
     const waysRef = collection(db, PATH_TO_WAYS_COLLECTION);
-    const snapshot = await getCountFromServer(waysRef);
+
+    const currentConstraints = getConstraints({filter});
+
+    const snapshot = await getCountFromServer(query(waysRef, ...currentConstraints));
     const waysAmount = snapshot.data().count;
 
     const readsAmount = Math.ceil(waysAmount / AMOUNT_DOCS_FOR_COUNT_READS);
@@ -88,28 +169,18 @@ export class WayService {
   /**
    * Get WaysDTO
    */
-  public static async getWaysDTO(lastWayUuid?: string): Promise<WayDTO[]> {
+  public static async getWaysDTO(params: GetWaysParams): Promise<WayDTO[]> {
     const waysRef = collection(db, PATH_TO_WAYS_COLLECTION);
 
     /**
      * ExtraRequest that allow us to use startAfter method
      */
-    const snapshot = lastWayUuid && await getDoc(doc(db, PATH_TO_WAYS_COLLECTION, lastWayUuid));
+    const snapshot = params.lastWayUuid && await getDoc(doc(db, PATH_TO_WAYS_COLLECTION, params.lastWayUuid));
     logToConsole(`WayService:getSnapshot: 1 ${RequestOperations.READ} operations`);
 
-    const limitConstraints = [
-      orderBy(WAY_CREATED_AT_FIELD, "desc"),
-      limit(PAGINATION_WAYS_AMOUNT),
-    ];
+    const currentConstraints = getConstraints({filter: params.filter, snapshot, limit: PAGINATION_WAYS_AMOUNT});
 
-    const startAfterConstraints = snapshot ? [startAfter(snapshot)] : [];
-
-    const constraints: (QueryOrderByConstraint | QueryLimitConstraint | QueryStartAtConstraint)[] = [
-      ...limitConstraints,
-      ...startAfterConstraints,
-    ];
-
-    const waysOrderedByName = query(waysRef, ...constraints);
+    const waysOrderedByName = query(waysRef, ...currentConstraints);
     const waysRaw = await getDocs(waysOrderedByName);
     const waysDTO = querySnapshotToDTOConverter<WayDTO>(waysRaw);
 
@@ -127,37 +198,13 @@ export class WayService {
     const waysRef = collection(db, PATH_TO_WAYS_COLLECTION);
     const chunksWaysDTO = getChunksArray(wayUuids, QUERY_LIMIT);
 
-    const isCompletedConstraints = filter?.isCompleted ? [where(WAY_IS_COMPLETED_FIELD, "==", true)] : [];
-
-    const currentDate = new Date();
-    const abandonedDate = currentDate.getTime() - ABANDONED_AFTER_MS;
-    const isInProgressConstraints = filter?.isInProgress
-      ? [
-        where(WAY_IS_COMPLETED_FIELD, "==", false),
-        orderBy(WAY_LAST_UPDATE_FIELD, "asc"),
-        where(WAY_LAST_UPDATE_FIELD, ">", Timestamp.fromMillis(abandonedDate)),
-      ]
-      : [];
-    const isAbandonedConstraints = filter?.isAbandoned
-      ? [
-        where(WAY_IS_COMPLETED_FIELD, "==", false),
-        orderBy(WAY_LAST_UPDATE_FIELD, "asc"),
-        where(WAY_LAST_UPDATE_FIELD, "<", Timestamp.fromMillis(abandonedDate)),
-      ]
-      : [];
-
-    const constraints: (QueryOrderByConstraint | QueryFieldFilterConstraint)[] = [
-      ...isCompletedConstraints,
-      ...isInProgressConstraints,
-      ...isAbandonedConstraints,
-      orderBy(WAY_CREATED_AT_FIELD, "desc"),
-    ];
+    const currentConstraints = getConstraints({filter});
 
     const waysDTOQueries = chunksWaysDTO.map((chunk) => {
       return query(
         waysRef,
         where(WAY_UUID_FIELD, "in", chunk),
-        ...constraints,
+        ...currentConstraints,
       );
     });
 
