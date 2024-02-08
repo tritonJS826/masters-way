@@ -64,12 +64,11 @@ export const Header = () => {
       <div className={styles.headerButtonsContainer}>
         <ThemeSwitcher />
         {user &&
-        <a>
+        <a onClick={() => navigate(pages.user.getPath({uuid: user.uuid}))}>
           <Title
             level={HeadingLevel.h4}
             text={user.name}
             className={styles.userName}
-            onClick={() => navigate(pages.user.getPath({uuid: user.uuid}))}
           />
         </a>
         }
