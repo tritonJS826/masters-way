@@ -1,4 +1,4 @@
-import {HTMLInputTypeAttribute} from "react";
+import {HTMLInputTypeAttribute, MutableRefObject, useRef} from "react";
 import clsx from "clsx";
 import {InputMode} from "src/component/input/InputMode";
 import styles from "src/component/input/Input.module.scss";
@@ -69,16 +69,19 @@ interface InputProps {
  * Input component
  */
 export const Input = (props: InputProps) => {
+  const refInput = useRef() as MutableRefObject<HTMLInputElement>;
 
   /**
    * Event handler for the input change event
    */
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     props.onChange(event.target.value);
+    refInput.current.value = "";
   };
 
   return (
     <input
+      ref={refInput}
       value={props.value}
       type={props.type ?? "text"}
       max={props.max}
