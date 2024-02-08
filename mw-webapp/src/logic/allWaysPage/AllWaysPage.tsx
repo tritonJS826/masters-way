@@ -11,11 +11,11 @@ import {useLoad} from "src/hooks/useLoad";
 import {usePersistanceState} from "src/hooks/usePersistanceState";
 import {LAST_INDEX} from "src/logic/mathConstants";
 import {FILTER_STATUS_ALL_VALUE} from "src/logic/waysTable/BaseWaysTable";
+import {getWaysFilter} from "src/logic/waysTable/wayFilter";
 import {waysColumns} from "src/logic/waysTable/waysColumns";
 import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {WayStatus} from "src/logic/waysTable/wayStatus";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
-import {GetWaysFilter} from "src/service/WayService";
 import {AllWaysPageSettings} from "src/utils/LocalStorageWorker";
 import styles from "src/logic/allWaysPage/AllWaysPage.module.scss";
 
@@ -25,11 +25,7 @@ const DEFAULT_ALL_WAYS_PAGE_SETTINGS: AllWaysPageSettings = {filterStatus: FILTE
  * Safe opened tab from localStorage
  */
 const allWaysPageSettingsValidator = (currentSettings: AllWaysPageSettings) => {
-  if (!currentSettings.filterStatus) {
-    return false;
-  }
-
-  return true;
+  return !!currentSettings.filterStatus;
 };
 
 /**
@@ -67,13 +63,7 @@ export const AllWaysPage = () => {
     ) => allWaysPageSettingsValidator(currentSettings),
   });
 
-  const filter: GetWaysFilter | undefined = allWaysPageSettings.filterStatus !== FILTER_STATUS_ALL_VALUE
-    ? {
-      isAbandoned: allWaysPageSettings.filterStatus === WayStatus.Abandoned,
-      isCompleted: allWaysPageSettings.filterStatus === WayStatus.Completed,
-      isInProgress: allWaysPageSettings.filterStatus === WayStatus.InProgress,
-    }
-    : undefined;
+  const filter = getWaysFilter(allWaysPageSettings.filterStatus);
 
   /**
    * Callback that is called to fetch data
@@ -83,7 +73,7 @@ export const AllWaysPage = () => {
       ways,
       waysAmount,
     ] = await Promise.all([
-      WayPreviewDAL.getWaysPreview(filter),
+      WayPreviewDAL.getWaysPreview({filter}),
       WayPreviewDAL.getWaysPreviewAmount(filter),
     ]);
 
@@ -96,7 +86,7 @@ export const AllWaysPage = () => {
   const loadMoreWays = async (loadedWays: WayPreview[]) => {
     const lastWayUuid = loadedWays.at(LAST_INDEX)?.uuid;
 
-    const ways = await WayPreviewDAL.getWaysPreview(filter, lastWayUuid);
+    const ways = await WayPreviewDAL.getWaysPreview({filter, lastWayUuid});
     setAllWays([...loadedWays, ...ways]);
   };
 
