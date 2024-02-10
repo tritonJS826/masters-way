@@ -2,6 +2,7 @@ import {HTMLInputTypeAttribute, useState} from "react";
 import clsx from "clsx";
 import {renderSpan} from "src/component/editableText/renderSpan";
 import {Input} from "src/component/input/Input";
+import {FormatterUtils} from "src/utils/FormatterUtils";
 import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/component/editableText/EditableText.module.scss";
 
@@ -72,7 +73,7 @@ export const EditableText = <T extends string | number>(props: EditableTextProps
    * Check type of coming value and convert it to Number if need to use input with type "number"
    */
   const setValue = (value: string) => {
-    const number = Number(value) ?? 0;
+    const number = FormatterUtils.defaultFormatter(value);
     const updatedValue = props.type === "number" ? number : value;
     setText(updatedValue as T);
   };
