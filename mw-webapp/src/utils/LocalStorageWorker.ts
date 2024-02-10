@@ -92,6 +92,11 @@ export type LocalStorageData = {
    * All ways page data
    */
   allWaysPage: AllWaysPageSettings;
+
+  /**
+   * All users page data
+   */
+  allUsersPage: AllUsersPageSettings;
 }
 
 /**
@@ -135,4 +140,12 @@ export type AllWaysPageSettings = {
    * Settled filter by statuses
    */
   filterStatus: WayStatusType | typeof FILTER_STATUS_ALL_VALUE;
+}
+
+export type AllUsersPageSettings = {
+
+  /**
+   * Settled filter by email
+   */
+  filterEmail: string;
 }

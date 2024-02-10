@@ -2,12 +2,15 @@ import {
   collection,
   deleteDoc,
   doc,
+  DocumentData,
+  DocumentSnapshot,
   getCountFromServer,
   getDoc,
   getDocs,
   limit,
   orderBy,
   query,
+  QueryFieldFilterConstraint,
   QueryLimitConstraint,
   QueryOrderByConstraint,
   QueryStartAtConstraint,
@@ -19,7 +22,7 @@ import {
 } from "firebase/firestore";
 import {db} from "src/firebase";
 import {
-  USER_CREATED_AT_FIELD,
+  USER_EMAIL_FIELD,
   USER_UUID_FIELD,
   UserDTO,
   UserDTOSchema,
@@ -38,6 +41,72 @@ import {PartialWithUuid} from "src/utils/PartialWithUuid";
 export const PATH_TO_USERS_COLLECTION = "users";
 const PAGINATION_USERS_AMOUNT = 10;
 
+type Constraints = QueryFieldFilterConstraint | QueryOrderByConstraint | QueryLimitConstraint | QueryStartAtConstraint;
+
+/**
+ * Pagination and filter params
+ */
+export interface GetUsersParams {
+
+  /**
+   * Last fetched way uuid
+   */
+  lastUserUuid?: string;
+
+  /**
+   * FilterEmail
+   */
+  filterEmail?: string;
+}
+
+/**
+ * Constraints params
+ */
+interface ConstraintsParams {
+
+  /**
+   * Snapshot of the last document that was fetched
+   */
+  snapshot?: "" | DocumentSnapshot<DocumentData, DocumentData>;
+
+  /**
+   * Filter
+   */
+  filterEmail?: string;
+
+  /**
+   * Amount of pagination elements
+   */
+  limit?: number;
+}
+
+/**
+ * Get constraints to fetch ways
+ */
+const getConstraints = (params: ConstraintsParams) => {
+  const emailConstraints = params.filterEmail
+    ? [
+      orderBy(USER_EMAIL_FIELD),
+      where(USER_EMAIL_FIELD, ">=", params.filterEmail),
+      where(USER_EMAIL_FIELD, "<", params.filterEmail + "\uf8ff"),
+    ]
+    : [];
+
+  const limitConstraints = params.limit
+    ? [limit(PAGINATION_USERS_AMOUNT)]
+    : [];
+
+  const startAfterConstraints = params.snapshot ? [startAfter(params.snapshot)] : [];
+
+  const constraints: Constraints[] = [
+    ...emailConstraints,
+    ...limitConstraints,
+    ...startAfterConstraints,
+  ];
+
+  return constraints;
+};
+
 /**
  * Provides methods to interact with the Users collection in Firestore.
  */
@@ -46,9 +115,12 @@ export class UserService {
   /**
    * Get UsersDTO amount
    */
-  public static async getUsersDTOAmount(): Promise<number> {
+  public static async getUsersDTOAmount(filterEmail?: string): Promise<number> {
     const usersRef = collection(db, PATH_TO_USERS_COLLECTION);
-    const snapshot = await getCountFromServer(usersRef);
+
+    const currentConstraints = getConstraints({filterEmail});
+
+    const snapshot = await getCountFromServer(query(usersRef, ...currentConstraints));
     const usersAmount = snapshot.data().count;
 
     const readsAmount = Math.ceil(usersAmount / AMOUNT_DOCS_FOR_COUNT_READS);
@@ -61,27 +133,18 @@ export class UserService {
   /**
    * Get UsersDTO
    */
-  public static async getUsersDTO(lastUserUuid?: string): Promise<UserDTO[]> {
+  public static async getUsersDTO(params: GetUsersParams): Promise<UserDTO[]> {
     const usersRef = collection(db, PATH_TO_USERS_COLLECTION);
 
     /**
      * ExtraRequest that allow us to use startAfter method
      */
-    const snapshot = lastUserUuid && await getDoc(doc(db, PATH_TO_USERS_COLLECTION, lastUserUuid));
+    const snapshot = params.lastUserUuid && await getDoc(doc(db, PATH_TO_USERS_COLLECTION, params.lastUserUuid));
     logToConsole(`WayService:getSnapshot: 1 ${RequestOperations.READ} operations`);
 
-    const limitConstraints = [
-      orderBy(USER_CREATED_AT_FIELD, "desc"),
-      limit(PAGINATION_USERS_AMOUNT),
-    ];
+    const currentConstraints = getConstraints({filterEmail: params.filterEmail, snapshot, limit: PAGINATION_USERS_AMOUNT});
 
-    const startAfterConstraints = snapshot ? [startAfter(snapshot)] : [];
-
-    const constraints: (QueryOrderByConstraint | QueryLimitConstraint | QueryStartAtConstraint)[] = [
-      ...limitConstraints,
-      ...startAfterConstraints,
-    ];
-    const usersOrderedByName = query(usersRef, ...constraints);
+    const usersOrderedByName = query(usersRef, ...currentConstraints);
     const usersRaw = await getDocs(usersOrderedByName);
     const usersDTO = querySnapshotToDTOConverter<UserDTO>(usersRaw);
 

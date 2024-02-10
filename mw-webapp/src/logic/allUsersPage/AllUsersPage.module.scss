@@ -7,3 +7,10 @@
 .titleContainer {
   justify-content: space-between;
 }
+
+.searchFilter {
+  display: flex;
+  max-width: 600px;
+  margin-top: $marginMedium;
+  gap: $gapMedium;
+}

@@ -2,6 +2,8 @@ import {timestampType} from "fireschema";
 import {z} from "zod";
 
 export const USER_UUID_FIELD = "uuid";
+export const USER_NAME_FIELD = "name";
+export const USER_EMAIL_FIELD = "email";
 export const USER_CREATED_AT_FIELD = "createdAt";
 
 export const UserDTOSchema = z.object({
@@ -14,12 +16,12 @@ export const UserDTOSchema = z.object({
   /**
    * User's name
    */
-  name: z.string(),
+  [USER_NAME_FIELD]: z.string(),
 
   /**
    * User's e-mail
    */
-  email: z.string(),
+  [USER_EMAIL_FIELD]: z.string(),
 
   /**
    * User's description
