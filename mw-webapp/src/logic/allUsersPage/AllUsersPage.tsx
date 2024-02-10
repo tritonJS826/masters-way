@@ -115,21 +115,6 @@ export const AllUsersPage = () => {
     );
   }
 
-  // Const onOkRef = useRef<HTMLButtonElement>(null);
-
-  // /**
-  //  * Update cell value after OnKeyDown event
-  //  */
-  // const handleEnter = (event: React.KeyboardEvent<HTMLElement>) => {
-  //   if (event.key === KeySymbols.ENTER) {
-
-  //     /**
-  //      * Workaround to to close Radix modal onEnter
-  //      */
-  //     onOkRef.current?.click();
-  //   }
-  // };
-
   return (
     <>
       <div
