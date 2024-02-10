@@ -8,22 +8,10 @@ import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {useLoad} from "src/hooks/useLoad";
-import {usePersistanceState} from "src/hooks/usePersistanceState";
 import {LAST_INDEX} from "src/logic/mathConstants";
 import {UsersTableBlock} from "src/logic/usersTable/UsersTableBlock";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
-import {AllUsersPageSettings} from "src/utils/LocalStorageWorker";
 import styles from "src/logic/allUsersPage/AllUsersPage.module.scss";
-
-const FILTER_EMAIL_EMPTY_STRING = "";
-const DEFAULT_ALL_USERS_PAGE_SETTINGS: AllUsersPageSettings = {filterEmail: FILTER_EMAIL_EMPTY_STRING};
-
-/**
- * Safe opened tab from localStorage
- */
-const allUsersPageSettingsValidator = (currentSettings: AllUsersPageSettings) => {
-  return !!currentSettings.filterEmail;
-};
 
 /**
  * Fetched data
@@ -47,19 +35,7 @@ interface AllUsersFetchData {
 export const AllUsersPage = () => {
   const [allUsers, setAllUsers] = useState<UserPreview[]>();
   const [allUsersAmount, setAllUsersAmount] = useState<number>();
-  const [filterEmail, setFilterEmail] = useState<string>(DEFAULT_ALL_USERS_PAGE_SETTINGS.filterEmail);
-
-  const [allUsersPageSettings, updateAllUsersPageSettings] = usePersistanceState({
-    key: "allUsersPage",
-    defaultValue: DEFAULT_ALL_USERS_PAGE_SETTINGS,
-
-    /**
-     * Check is stored data valid
-     */
-    storedDataValidator: (
-      currentSettings: AllUsersPageSettings,
-    ) => allUsersPageSettingsValidator(currentSettings),
-  });
+  const [email, setEmail] = useState<string>("");
 
   /**
    * Callback that is called to fetch data
@@ -69,8 +45,8 @@ export const AllUsersPage = () => {
       users,
       usersAmount,
     ] = await Promise.all([
-      UserPreviewDAL.getUsersPreview({filterEmail}),
-      UserPreviewDAL.getUsersPreviewAmount(filterEmail),
+      UserPreviewDAL.getUsersPreview({email}),
+      UserPreviewDAL.getUsersPreviewAmount({email}),
     ]);
 
     return {users, usersAmount};
@@ -82,7 +58,7 @@ export const AllUsersPage = () => {
   const loadMoreUsers = async (loadedUsers: UserPreview[]) => {
     const lastUserUuid = loadedUsers.at(LAST_INDEX)?.uuid;
 
-    const users = await UserPreviewDAL.getUsersPreview({filterEmail, lastUserUuid});
+    const users = await UserPreviewDAL.getUsersPreview({email, lastUserUuid});
     setAllUsers([...loadedUsers, ...users]);
   };
 
@@ -106,7 +82,7 @@ export const AllUsersPage = () => {
     loadData,
     onSuccess,
     onError,
-    dependency: [allUsersPageSettings.filterEmail],
+    dependency: [email],
   });
 
   if (!allUsers) {
@@ -117,20 +93,12 @@ export const AllUsersPage = () => {
 
   return (
     <>
-      <div
-        onKeyDown={() => updateAllUsersPageSettings({filterEmail})}
+      <Input
+        value={email}
+        onChange={(value) => setEmail(value)}
+        placeholder="Search by first letters in email"
         className={styles.searchFilter}
-      >
-        <Input
-          value={filterEmail}
-          onChange={(value) => setFilterEmail(value)}
-          placeholder="Search by first letters in email"
-        />
-        <Button
-          value="Search"
-          onClick={() => updateAllUsersPageSettings({filterEmail})}
-        />
-      </div>
+      />
       <HorizontalContainer className={styles.titleContainer}>
         <Title
           level={HeadingLevel.h2}

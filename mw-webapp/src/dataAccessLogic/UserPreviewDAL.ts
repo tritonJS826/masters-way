@@ -13,8 +13,8 @@ export class UserPreviewDAL {
   /**
    * Get amount of all users in collection
    */
-  public static async getUsersPreviewAmount(filterEmail?: string): Promise<number> {
-    return await UserService.getUsersDTOAmount(filterEmail);
+  public static async getUsersPreviewAmount(filter: GetUsersParams): Promise<number> {
+    return await UserService.getUsersDTOAmount(filter);
   }
 
   /**

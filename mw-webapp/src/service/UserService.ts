@@ -56,7 +56,7 @@ export interface GetUsersParams {
   /**
    * FilterEmail
    */
-  filterEmail?: string;
+  email?: string;
 }
 
 /**
@@ -72,7 +72,7 @@ interface ConstraintsParams {
   /**
    * Filter
    */
-  filterEmail?: string;
+  email?: string;
 
   /**
    * Amount of pagination elements
@@ -84,11 +84,11 @@ interface ConstraintsParams {
  * Get constraints to fetch ways
  */
 const getConstraints = (params: ConstraintsParams) => {
-  const emailConstraints = params.filterEmail
+  const emailConstraints = params.email
     ? [
       orderBy(USER_EMAIL_FIELD),
-      where(USER_EMAIL_FIELD, ">=", params.filterEmail),
-      where(USER_EMAIL_FIELD, "<", params.filterEmail + "\uf8ff"),
+      where(USER_EMAIL_FIELD, ">=", params.email),
+      where(USER_EMAIL_FIELD, "<", params.email + "\uf8ff"),
     ]
     : [];
 
@@ -115,10 +115,10 @@ export class UserService {
   /**
    * Get UsersDTO amount
    */
-  public static async getUsersDTOAmount(filterEmail?: string): Promise<number> {
+  public static async getUsersDTOAmount(filter: GetUsersParams): Promise<number> {
     const usersRef = collection(db, PATH_TO_USERS_COLLECTION);
 
-    const currentConstraints = getConstraints({filterEmail});
+    const currentConstraints = getConstraints(filter);
 
     const snapshot = await getCountFromServer(query(usersRef, ...currentConstraints));
     const usersAmount = snapshot.data().count;
@@ -142,7 +142,7 @@ export class UserService {
     const snapshot = params.lastUserUuid && await getDoc(doc(db, PATH_TO_USERS_COLLECTION, params.lastUserUuid));
     logToConsole(`WayService:getSnapshot: 1 ${RequestOperations.READ} operations`);
 
-    const currentConstraints = getConstraints({filterEmail: params.filterEmail, snapshot, limit: PAGINATION_USERS_AMOUNT});
+    const currentConstraints = getConstraints({email: params.email, snapshot, limit: PAGINATION_USERS_AMOUNT});
 
     const usersOrderedByName = query(usersRef, ...currentConstraints);
     const usersRaw = await getDocs(usersOrderedByName);
