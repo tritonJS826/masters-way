@@ -1,11 +1,15 @@
 import {useState} from "react";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {Icon, IconSize} from "src/component/icon/Icon";
 import {Loader} from "src/component/loader/Loader";
 import {displayNotification} from "src/component/notification/displayNotification";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {Select} from "src/component/select/Select";
 import {HeadingLevel, Title} from "src/component/title/Title";
+import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
+import {Tooltip} from "src/component/tooltip/Tooltip";
+import {WayCard} from "src/component/wayCard/WayCard";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
 import {useLoad} from "src/hooks/useLoad";
 import {usePersistanceState} from "src/hooks/usePersistanceState";
@@ -16,10 +20,13 @@ import {waysColumns} from "src/logic/waysTable/waysColumns";
 import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {WayStatus} from "src/logic/waysTable/wayStatus";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
-import {AllWaysPageSettings} from "src/utils/LocalStorageWorker";
+import {AllWaysPageSettings, WayView} from "src/utils/LocalStorageWorker";
 import styles from "src/logic/allWaysPage/AllWaysPage.module.scss";
 
-const DEFAULT_ALL_WAYS_PAGE_SETTINGS: AllWaysPageSettings = {filterStatus: FILTER_STATUS_ALL_VALUE};
+const DEFAULT_ALL_WAYS_PAGE_SETTINGS: AllWaysPageSettings = {
+  filterStatus: FILTER_STATUS_ALL_VALUE,
+  view: WayView.Card,
+};
 
 /**
  * Safe opened tab from localStorage
@@ -110,7 +117,7 @@ export const AllWaysPage = () => {
     loadData,
     onSuccess,
     onError,
-    dependency: [allWaysPageSettings.filterStatus],
+    dependency: [allWaysPageSettings.filterStatus, allWaysPageSettings.view],
   });
 
   if (!allWays) {
@@ -131,8 +138,28 @@ export const AllWaysPage = () => {
           {id: "3", value: WayStatus.Abandoned, text: "Abandoned"},
           {id: "4", value: WayStatus.InProgress, text: "InProgress"},
         ]}
-        onChange={(value) => updateAllWaysPageSettings({filterStatus: value})}
+        onChange={(value) => updateAllWaysPageSettings({filterStatus: value, view: allWaysPageSettings.view})}
       />
+
+      <Tooltip
+        position={PositionTooltip.BOTTOM}
+        content={`Switch to ${allWaysPageSettings.view === WayView.Card ? WayView.Table : WayView.Card} view`}
+      >
+        <button
+          className={styles.iconView}
+          onClick={() =>
+            updateAllWaysPageSettings({
+              filterStatus: allWaysPageSettings.filterStatus,
+              view: allWaysPageSettings.view === WayView.Card ? WayView.Table : WayView.Card,
+            })}
+        >
+          <Icon
+            size={IconSize.MEDIUM}
+            name={allWaysPageSettings.view === WayView.Card ? "GridViewIcon" : "TableViewIcon"}
+          />
+        </button>
+      </Tooltip>
+
       <HorizontalContainer className={styles.titleContainer}>
         <Title
           level={HeadingLevel.h2}
@@ -143,12 +170,27 @@ export const AllWaysPage = () => {
           text={`Total found: ${allWaysAmount}`}
         />
       </HorizontalContainer>
-      <ScrollableBlock>
-        <WaysTable
-          data={allWays}
-          columns={waysColumns}
-        />
-      </ScrollableBlock>
+      {allWaysPageSettings.view === WayView.Table ?
+        <ScrollableBlock>
+          <WaysTable
+            data={allWays}
+            columns={waysColumns}
+          />
+        </ScrollableBlock>
+        :
+        <HorizontalContainer className={styles.wayCards}>
+          {allWays.map((way) => {
+            return (
+              <WayCard
+                key={way.uuid}
+                wayPreview={way}
+              />
+            );
+          })
+          }
+        </HorizontalContainer>
+
+      }
       <Button
         value="More ways"
         onClick={() => loadMoreWays(allWays)}

@@ -1,9 +1,22 @@
 @import "src/styles/variables";
 
+$wayCardMinWidth: 340px;
+
 .button {
   margin-bottom: $marginMedium;
 }
 
 .titleContainer {
   justify-content: space-between;
+}
+
+.wayCards {
+  display: grid;
+  gap: $gapMedium;
+  grid-template-columns: repeat(auto-fill, minmax($wayCardMinWidth, 1fr));
+}
+
+.iconView {
+  border: none;
+  background-color: transparent;
 }

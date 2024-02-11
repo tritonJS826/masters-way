@@ -1,17 +1,19 @@
 @import "src/styles/variables";
 
-$wayCardWidth: 340px;
 $wayCardMainInfoPadding: 20px 24px;
 $wayCardAdditionalInfoPadding: 12px 24px 20px;
 $wayCardFontSize: 14px;
+$wayCardMainHeight: 147px;
+$wayCardAdditionalHeight: 105px;
 
 .wayCardContainer {
-  width: $wayCardWidth;
+  height: 254px;
   border-radius: $secondaryBorderRadius;
-  background-color: var(--fifthBackgroundColor);
+  cursor: pointer;
 }
 
 .mainInfo {
+  height: $wayCardMainHeight;
   padding: $wayCardMainInfoPadding;
   border-radius: $secondaryBorderRadius $secondaryBorderRadius 0 0;
   background-color: var(--fourthBackgroundColor);
@@ -49,9 +51,10 @@ $wayCardFontSize: 14px;
 }
 
 .additionalInfo {
+  height: $wayCardAdditionalHeight;
   padding: $wayCardAdditionalInfoPadding;
-  border: 2px solid var(--fourthBackgroundColor);
   border-radius: 0 0 $secondaryBorderRadius $secondaryBorderRadius;
+  background-color: var(--fifthBackgroundColor);
   color: var(--secondaryTextColor);
   font-size: $wayCardFontSize;
   gap: $gapMedium;

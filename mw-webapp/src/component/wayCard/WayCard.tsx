@@ -1,3 +1,4 @@
+import {useNavigate} from "react-router-dom";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
@@ -5,6 +6,7 @@ import {ProgressBar} from "src/component/progressBar/ProgressBar";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {WayTag} from "src/component/wayCard/wayTag/WayTag";
+import {getFirstName} from "src/logic/waysTable/waysColumns";
 import {Metric} from "src/model/businessModel/Metric";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
@@ -27,6 +29,7 @@ interface WayCardProps {
  * WayCard component
  */
 export const WayCard = (props: WayCardProps) => {
+  const navigate = useNavigate();
 
   /**
    * Render way tags
@@ -58,7 +61,7 @@ export const WayCard = (props: WayCardProps) => {
           <Link
             key={mentor.name}
             path={pages.user.getPath({uuid: mentor.uuid})}
-            value={mentor.name}
+            value={getFirstName(mentor.name)}
             className={styles.mentorLink}
           />
         ))
@@ -76,50 +79,52 @@ export const WayCard = (props: WayCardProps) => {
   const doneMetricsAmount = metricsParsed.filter((metric) => !!metric.isDone).length;
 
   return (
-    <VerticalContainer className={styles.wayCardContainer}>
-      <VerticalContainer className={styles.mainInfo}>
-        <HorizontalContainer className={styles.nameLikes}>
-          <Title
-            text={props.wayPreview.name}
-            level={HeadingLevel.h3}
-            className={styles.title}
-          />
-          <HorizontalContainer className={styles.likes}>
-            <Icon
-              size={IconSize.SMALL}
-              name={"StarIcon"}
-              className={styles.icon}
+    <a onClick={() => navigate(pages.way.getPath({uuid: props.wayPreview.uuid}))}>
+      <VerticalContainer className={styles.wayCardContainer}>
+        <VerticalContainer className={styles.mainInfo}>
+          <HorizontalContainer className={styles.nameLikes}>
+            <Title
+              text={props.wayPreview.name}
+              level={HeadingLevel.h3}
+              className={styles.title}
             />
-            {props.wayPreview.favoriteForUserUuids.length}
+            <HorizontalContainer className={styles.likes}>
+              <Icon
+                size={IconSize.SMALL}
+                name={"StarIcon"}
+                className={styles.icon}
+              />
+              {props.wayPreview.favoriteForUserUuids.length}
+            </HorizontalContainer>
           </HorizontalContainer>
-        </HorizontalContainer>
-        {renderWayTags(props.wayPreview.wayTags)}
-        <p className={styles.wayGoal}>
-          {props.wayPreview.goalDescription}
-        </p>
-        <HorizontalContainer className={styles.ownerInfo}>
-          <Link
-            key={props.wayPreview.owner.name}
-            path={pages.user.getPath({uuid: props.wayPreview.owner.uuid})}
-            value={props.wayPreview.owner.name}
-            className={styles.ownerLink}
-          />
-          <p>
-            {props.wayPreview.owner.email}
+          {renderWayTags(props.wayPreview.wayTags)}
+          <p className={styles.wayGoal}>
+            {props.wayPreview.goalDescription}
           </p>
-        </HorizontalContainer>
+          <HorizontalContainer className={styles.ownerInfo}>
+            <Link
+              key={props.wayPreview.owner.name}
+              path={pages.user.getPath({uuid: props.wayPreview.owner.uuid})}
+              value={getFirstName(props.wayPreview.owner.name)}
+              className={styles.ownerLink}
+            />
+            <p>
+              {props.wayPreview.owner.email}
+            </p>
+          </HorizontalContainer>
+        </VerticalContainer>
+        <VerticalContainer className={styles.additionalInfo}>
+          <p>
+            {`Created at ${DateUtils.getShortISODateValue(props.wayPreview.createdAt)}`}
+          </p>
+          {renderMentors(props.wayPreview.mentors)}
+          <ProgressBar
+            value={doneMetricsAmount}
+            max={props.wayPreview.metricsStringified.length}
+          />
+        </VerticalContainer>
       </VerticalContainer>
-      <VerticalContainer className={styles.additionalInfo}>
-        <p>
-          {`Created at ${DateUtils.getShortISODateValue(props.wayPreview.createdAt)}`}
-        </p>
-        {renderMentors(props.wayPreview.mentors)}
-        <ProgressBar
-          value={doneMetricsAmount}
-          max={props.wayPreview.metricsStringified.length}
-        />
-      </VerticalContainer>
-    </VerticalContainer>
+    </a>
   );
 };
 
