@@ -2,6 +2,7 @@ import clsx from "clsx";
 import {EyeOpenedIcon} from "src/assets/icons/EyeOpenedIcon";
 import {EyeSlashedIcon} from "src/assets/icons/EyeSlashedIcon";
 import {MoonIcon} from "src/assets/icons/MoonIcon";
+import {StarIcon} from "src/assets/icons/StarIcon";
 import {SunIcon} from "src/assets/icons/SunIcon";
 import styles from "src/component/icon/Icon.module.scss";
 
@@ -29,6 +30,11 @@ const IconDictionary = {
    * Moon icon
    */
   MoonIcon: (params: IconProps) => <MoonIcon {...params} />,
+
+  /**
+   * Star icon
+   */
+  StarIcon: (params: IconProps) => <StarIcon {...params} />,
 };
 
 /**

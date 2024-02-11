@@ -21,6 +21,14 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     [Theme.DARK]: "rgb(186, 24, 27)",
     [Theme.LIGHT]: "rgb(186, 24, 27)",
   },
+  fourthBackgroundColor: {
+    [Theme.DARK]: "rgb(64,64,64)",
+    [Theme.LIGHT]: "rgb(64,64,64)",
+  },
+  fifthBackgroundColor: {
+    [Theme.DARK]: "rgb(252, 252, 252)",
+    [Theme.LIGHT]: "rgb(252, 252, 252)",
+  },
   primaryTextColor: {
     [Theme.DARK]: "rgb(200, 194, 194)",
     [Theme.LIGHT]: "rgb(11, 9, 10)",

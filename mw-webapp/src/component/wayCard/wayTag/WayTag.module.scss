@@ -1,0 +1,10 @@
+@import "src/styles/variables";
+
+.wayTag {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 1000px;
+  margin-right: $marginMedium;
+  background-color: var(--secondaryBackgroundColor);
+  color: var(--fourthBackgroundColor);
+}

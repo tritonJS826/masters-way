@@ -1,0 +1,89 @@
+@import "src/styles/variables";
+
+$wayCardWidth: 340px;
+$wayCardMainInfoPadding: 20px 24px;
+$wayCardAdditionalInfoPadding: 12px 24px 20px;
+$wayCardFontSize: 14px;
+
+.wayCardContainer {
+  width: $wayCardWidth;
+  border-radius: $secondaryBorderRadius;
+  background-color: var(--fifthBackgroundColor);
+}
+
+.mainInfo {
+  padding: $wayCardMainInfoPadding;
+  border-radius: $secondaryBorderRadius $secondaryBorderRadius 0 0;
+  background-color: var(--fourthBackgroundColor);
+  gap: $gapMedium;
+}
+
+.title {
+  overflow: hidden;
+  color: var(--fourthTextColor);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.wayGoal {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  color: var(--fourthTextColor);
+  font-weight: bold;
+  -webkit-line-clamp: 2;
+  text-overflow: ellipsis;
+  white-space: initial;
+}
+
+.ownerInfo {
+  align-items: center;
+  color: var(--fourthTextColor);
+  font-size: $wayCardFontSize;
+  gap: $gapMedium;
+}
+
+.ownerLink {
+  color: var(--fourthTextColor);
+  font-size: $wayCardFontSize;
+}
+
+.additionalInfo {
+  padding: $wayCardAdditionalInfoPadding;
+  border: 2px solid var(--fourthBackgroundColor);
+  border-radius: 0 0 $secondaryBorderRadius $secondaryBorderRadius;
+  color: var(--secondaryTextColor);
+  font-size: $wayCardFontSize;
+  gap: $gapMedium;
+}
+
+.wayTags {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.nameLikes {
+  align-items: center;
+  justify-content: space-between;
+  gap: $gapMedium;
+}
+
+.likes {
+  align-items: center;
+  gap: $gapSmall;
+}
+
+.mentors {
+  overflow: hidden;
+  font-size: $wayCardFontSize;
+  gap: $gapMedium;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mentorLink {
+  color: var(--secondaryTextColor);
+  font-size: $wayCardFontSize;
+}
