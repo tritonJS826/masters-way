@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {Input} from "src/component/input/Input";
 import {Loader} from "src/component/loader/Loader";
 import {displayNotification} from "src/component/notification/displayNotification";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
@@ -34,6 +35,7 @@ interface AllUsersFetchData {
 export const AllUsersPage = () => {
   const [allUsers, setAllUsers] = useState<UserPreview[]>();
   const [allUsersAmount, setAllUsersAmount] = useState<number>();
+  const [email, setEmail] = useState<string>("");
 
   /**
    * Callback that is called to fetch data
@@ -43,8 +45,8 @@ export const AllUsersPage = () => {
       users,
       usersAmount,
     ] = await Promise.all([
-      UserPreviewDAL.getUsersPreview(),
-      UserPreviewDAL.getUsersPreviewAmount(),
+      UserPreviewDAL.getUsersPreview({email}),
+      UserPreviewDAL.getUsersPreviewAmount({email}),
     ]);
 
     return {users, usersAmount};
@@ -56,7 +58,7 @@ export const AllUsersPage = () => {
   const loadMoreUsers = async (loadedUsers: UserPreview[]) => {
     const lastUserUuid = loadedUsers.at(LAST_INDEX)?.uuid;
 
-    const users = await UserPreviewDAL.getUsersPreview(lastUserUuid);
+    const users = await UserPreviewDAL.getUsersPreview({email, lastUserUuid});
     setAllUsers([...loadedUsers, ...users]);
   };
 
@@ -80,6 +82,7 @@ export const AllUsersPage = () => {
     loadData,
     onSuccess,
     onError,
+    dependency: [email],
   });
 
   if (!allUsers) {
@@ -90,6 +93,12 @@ export const AllUsersPage = () => {
 
   return (
     <>
+      <Input
+        value={email}
+        onChange={(value) => setEmail(value)}
+        placeholder="Search by first letters in email"
+        className={styles.searchFilter}
+      />
       <HorizontalContainer className={styles.titleContainer}>
         <Title
           level={HeadingLevel.h2}
@@ -104,7 +113,7 @@ export const AllUsersPage = () => {
         <UsersTableBlock users={allUsers} />
       </ScrollableBlock>
       <Button
-        value="More ways"
+        value="More"
         onClick={() => loadMoreUsers(allUsers)}
         buttonType={ButtonType.PRIMARY}
         className={styles.button}

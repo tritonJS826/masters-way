@@ -7,3 +7,8 @@
 .titleContainer {
   justify-content: space-between;
 }
+
+.searchFilter {
+  max-width: $maxWidthBlock;
+  margin-top: $marginMedium;
+}

@@ -2,7 +2,7 @@ import {userToUserDTOPartialConverter}
   from "src/dataAccessLogic/BusinessToDTOConverter/userPreviewToUserPreviewDTOPartialConverter";
 import {UserDTOToUserPreviewConverter} from "src/dataAccessLogic/DTOToPreviewConverter/userDTOToUserPreviewConverter";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
-import {UserService} from "src/service/UserService";
+import {GetUsersParams, UserService} from "src/service/UserService";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 
 /**
@@ -13,15 +13,15 @@ export class UserPreviewDAL {
   /**
    * Get amount of all users in collection
    */
-  public static async getUsersPreviewAmount(): Promise<number> {
-    return await UserService.getUsersDTOAmount();
+  public static async getUsersPreviewAmount(filter: GetUsersParams): Promise<number> {
+    return await UserService.getUsersDTOAmount(filter);
   }
 
   /**
    * Get all UserPreview
    */
-  public static async getUsersPreview(lastUserUuid?: string): Promise<UserPreview[]> {
-    const usersDTO = await UserService.getUsersDTO(lastUserUuid);
+  public static async getUsersPreview(params: GetUsersParams): Promise<UserPreview[]> {
+    const usersDTO = await UserService.getUsersDTO(params);
 
     const usersPreview = usersDTO.map(UserDTOToUserPreviewConverter);
 
