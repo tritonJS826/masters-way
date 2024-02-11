@@ -1,0 +1,13 @@
+@import "src/styles/variables";
+
+$WayTagPadding: 4px 10px;
+$WayTagBorderRadius: 1000px;
+
+.wayTag {
+  display: inline-block;
+  padding: $WayTagPadding;
+  border-radius: $WayTagBorderRadius;
+  margin-right: $marginMedium;
+  background-color: var(--secondaryBackgroundColor);
+  color: var(--fourthBackgroundColor);
+}

@@ -130,11 +130,24 @@ export type UserPageSettings = {
   filterStatus: WayStatusType | typeof FILTER_STATUS_ALL_VALUE;
 }
 
+/**
+ * Available way views
+ */
+export enum WayView {
+  Card = "Card",
+  Table = "Table",
+}
+
 export type AllWaysPageSettings = {
 
   /**
    * Settled filter by statuses
    */
   filterStatus: WayStatusType | typeof FILTER_STATUS_ALL_VALUE;
+
+  /**
+   * Settled view
+   */
+  view: WayView;
 }
 
