@@ -14,9 +14,11 @@ th .wrapper {
   display: none;
   padding: $paddingMedium;
   border-radius: $primaryBorderRadius;
+  animation: tooltipAppear 1s ease forwards;
   background-color: var(--secondaryBackgroundColor);
   color: var(--secondaryTextColor);
   cursor: pointer;
+  opacity: 0;
 }
 
 .target {
@@ -46,4 +48,16 @@ th .wrapper {
 
 .topLeft {
   transform: translateY(calc(-100% - $marginBig)) translateX(-50%);
+}
+
+@keyframes tooltipAppear {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
