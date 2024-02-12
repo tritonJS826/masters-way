@@ -10,4 +10,6 @@
 
 .searchFilter {
   max-width: $maxWidthBlock;
+  padding: $paddingSmall;
+  border: 2px solid var(--secondaryBorderColor);
 }

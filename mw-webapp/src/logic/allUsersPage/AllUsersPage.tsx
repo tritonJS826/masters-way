@@ -37,6 +37,8 @@ export const AllUsersPage = () => {
   const [allUsersAmount, setAllUsersAmount] = useState<number>();
   const [email, setEmail] = useState<string>("");
 
+  const isMoreUsersExist = !!allUsers && !!allUsersAmount && allUsers.length < allUsersAmount;
+
   /**
    * Callback that is called to fetch data
    */
@@ -112,12 +114,14 @@ export const AllUsersPage = () => {
       <ScrollableBlock>
         <UsersTableBlock users={allUsers} />
       </ScrollableBlock>
-      <Button
-        value="More"
-        onClick={() => loadMoreUsers(allUsers)}
-        buttonType={ButtonType.PRIMARY}
-        className={styles.button}
-      />
+      {isMoreUsersExist &&
+        <Button
+          value="More"
+          onClick={() => loadMoreUsers(allUsers)}
+          buttonType={ButtonType.PRIMARY}
+          className={styles.button}
+        />
+      }
     </>
   );
 };

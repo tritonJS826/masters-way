@@ -59,6 +59,8 @@ export const AllWaysPage = () => {
   const [allWays, setAllWays] = useState<WayPreview[]>();
   const [allWaysAmount, setAllWaysAmount] = useState<number>();
 
+  const isMoreWaysExist = allWays && allWaysAmount && allWays.length < allWaysAmount;
+
   const [allWaysPageSettings, updateAllWaysPageSettings] = usePersistanceState({
     key: "allWaysPage",
     defaultValue: DEFAULT_ALL_WAYS_PAGE_SETTINGS,
@@ -215,12 +217,14 @@ export const AllWaysPage = () => {
           }
         </HorizontalContainer>
       }
-      <Button
-        value="More"
-        onClick={() => loadMoreWays(allWays)}
-        buttonType={ButtonType.PRIMARY}
-        className={styles.button}
-      />
+      {isMoreWaysExist &&
+        <Button
+          value="More"
+          onClick={() => loadMoreWays(allWays)}
+          buttonType={ButtonType.PRIMARY}
+          className={styles.button}
+        />
+      }
     </>
   );
 };
