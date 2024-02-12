@@ -1,8 +1,8 @@
-import {ChangeEvent, KeyboardEventHandler, useState} from "react";
+import {ChangeEvent, KeyboardEventHandler, useEffect, useRef, useState} from "react";
 import clsx from "clsx";
 import styles from "src/component/textarea/Textarea.module.scss";
 
-const DEFAULT_ROWS_AMOUNT = 5;
+const DEFAULT_ROWS_AMOUNT = 1;
 
 /**
  * Textarea props
@@ -51,6 +51,7 @@ interface TextareaProps {
  */
 export const Textarea = (props: TextareaProps) => {
   const [value, setValue] = useState<string>(props.defaultValue || "");
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   /**
    * Handle textarea event
@@ -62,15 +63,24 @@ export const Textarea = (props: TextareaProps) => {
     setValue(event.target.value);
   };
 
+  useEffect(() => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.style.height = "auto";
+      textarea.style.height = `${textarea.scrollHeight}px`;
+    }
+  }, [value]);
+
   return (
     <textarea
       className={clsx(styles.textarea, props.className)}
       placeholder={props.placeholder}
       value={value}
       onChange={handleTextChange}
-      rows={props.rows ?? DEFAULT_ROWS_AMOUNT}
+      rows={DEFAULT_ROWS_AMOUNT}
       autoFocus={props.isAutofocus}
       onKeyDown={props.onKeyPress}
+      ref={textareaRef}
     />
   );
 };

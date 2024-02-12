@@ -1,11 +1,15 @@
 @import "src/styles/variables";
 
+// Need to get rid of fidderence between unknown padding in textarea and rendered span
+$paddingBottomSpan: 4.5px;
+
 .completed {
   color: green;
 }
 
 .notCompleted {
   width: 100%;
+  padding-bottom: $paddingBottomSpan;
   color: var(--primaryTextColor);
 }
 
