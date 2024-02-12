@@ -247,13 +247,6 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
           }
         </HorizontalContainer>
       }
-      {/* {
-
-        <WaysTable
-          data={ways}
-          columns={waysColumns}
-        />
-      } */}
 
       {props.updateCollection && getIsNoFilters() && (
         <>
