@@ -2,7 +2,7 @@ import {ChangeEvent, KeyboardEventHandler, useEffect, useRef, useState} from "re
 import clsx from "clsx";
 import styles from "src/component/textarea/Textarea.module.scss";
 
-const DEFAULT_ROWS_AMOUNT = 5;
+const DEFAULT_ROWS_AMOUNT = 1;
 
 /**
  * Textarea props
@@ -77,7 +77,7 @@ export const Textarea = (props: TextareaProps) => {
       placeholder={props.placeholder}
       value={value}
       onChange={handleTextChange}
-      rows={props.rows ?? DEFAULT_ROWS_AMOUNT}
+      rows={DEFAULT_ROWS_AMOUNT}
       autoFocus={props.isAutofocus}
       onKeyDown={props.onKeyPress}
       ref={textareaRef}
