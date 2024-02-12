@@ -1,14 +1,19 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
+import clsx from "clsx";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Confirm} from "src/component/confirm/Confirm";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {Icon, IconSize} from "src/component/icon/Icon";
 import {Loader} from "src/component/loader/Loader";
 import {Modal} from "src/component/modal/Modal";
 import {PromptModalContent} from "src/component/modal/PromptModalContent";
 import {Select} from "src/component/select/Select";
 import {HeadingLevel, Title} from "src/component/title/Title";
+import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
+import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {WayCard} from "src/component/wayCard/WayCard";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
 import {useLoad} from "src/hooks/useLoad";
 import {getWaysFilter} from "src/logic/waysTable/wayFilter";
@@ -19,6 +24,7 @@ import {WaysCollection} from "src/model/businessModelPreview/UserPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
 import {ArrayUtils} from "src/utils/ArrayUtils";
+import {WayView} from "src/utils/LocalStorageWorker";
 import styles from "src/logic/waysTable/BaseWaysTable.module.scss";
 
 /**
@@ -45,6 +51,16 @@ interface BaseWaysTableProps {
    * Callback to change filter status
    */
   setFilterStatus: (status: WayStatusType | typeof FILTER_STATUS_ALL_VALUE) => void;
+
+  /**
+   * Way's view
+   */
+  view: WayView;
+
+  /**
+   * Callback to change view
+   */
+  setView: (view: WayView) => void;
 
   /**
    * Delete current collection
@@ -175,15 +191,69 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
           onChange={(value) => props.setFilterStatus(value as WayStatusType)}
         />
 
+        <HorizontalContainer className={styles.iconsView}>
+          <Tooltip
+            position={PositionTooltip.BOTTOM}
+            content={`Switch to ${WayView.Card} view`}
+          >
+            <button
+              className={styles.iconView}
+              onClick={() => props.setView(WayView.Card)}
+            >
+              <Icon
+                size={IconSize.MEDIUM}
+                name={"GridViewIcon"}
+                className={clsx(props.view === WayView.Card && styles.activeView)}
+              />
+            </button>
+          </Tooltip>
+          <Tooltip
+            position={PositionTooltip.BOTTOM}
+            content={`Switch to ${WayView.Table} view`}
+          >
+            <button
+              className={styles.iconView}
+              onClick={() => props.setView(WayView.Table)}
+            >
+              <Icon
+                size={IconSize.MEDIUM}
+                name={"TableViewIcon"}
+                className={clsx(props.view === WayView.Table && styles.activeView)}
+              />
+            </button>
+          </Tooltip>
+        </HorizontalContainer>
       </HorizontalContainer>
+
       <Title
         text={`${props.title} (${ways.length})`}
         level={HeadingLevel.h2}
       />
-      <WaysTable
-        data={ways}
-        columns={waysColumns}
-      />
+      {props.view === WayView.Table ?
+        <WaysTable
+          data={ways}
+          columns={waysColumns}
+        />
+        :
+        <HorizontalContainer className={styles.wayCards}>
+          {ways.map((way) => {
+            return (
+              <WayCard
+                key={way.uuid}
+                wayPreview={way}
+              />
+            );
+          })
+          }
+        </HorizontalContainer>
+      }
+      {/* {
+
+        <WaysTable
+          data={ways}
+          columns={waysColumns}
+        />
+      } */}
 
       {props.updateCollection && getIsNoFilters() && (
         <>

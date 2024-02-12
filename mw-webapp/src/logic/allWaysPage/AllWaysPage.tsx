@@ -1,4 +1,5 @@
 import {useState} from "react";
+import clsx from "clsx";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
@@ -117,7 +118,7 @@ export const AllWaysPage = () => {
     loadData,
     onSuccess,
     onError,
-    dependency: [allWaysPageSettings.filterStatus, allWaysPageSettings.view],
+    dependency: [allWaysPageSettings.filterStatus],
   });
 
   if (!allWays) {
@@ -128,37 +129,61 @@ export const AllWaysPage = () => {
 
   return (
     <>
-      <Select
-        label="Show only: "
-        value={allWaysPageSettings.filterStatus}
-        name="filterStatus"
-        options={[
-          {id: "1", value: FILTER_STATUS_ALL_VALUE, text: "All"},
-          {id: "2", value: WayStatus.Completed, text: "Completed"},
-          {id: "3", value: WayStatus.Abandoned, text: "Abandoned"},
-          {id: "4", value: WayStatus.InProgress, text: "InProgress"},
-        ]}
-        onChange={(value) => updateAllWaysPageSettings({filterStatus: value, view: allWaysPageSettings.view})}
-      />
+      <HorizontalContainer className={styles.filterView}>
+        <Select
+          label="Show only: "
+          value={allWaysPageSettings.filterStatus}
+          name="filterStatus"
+          options={[
+            {id: "1", value: FILTER_STATUS_ALL_VALUE, text: "All"},
+            {id: "2", value: WayStatus.Completed, text: "Completed"},
+            {id: "3", value: WayStatus.Abandoned, text: "Abandoned"},
+            {id: "4", value: WayStatus.InProgress, text: "InProgress"},
+          ]}
+          onChange={(value) => updateAllWaysPageSettings({filterStatus: value, view: allWaysPageSettings.view})}
+        />
 
-      <Tooltip
-        position={PositionTooltip.BOTTOM}
-        content={`Switch to ${allWaysPageSettings.view === WayView.Card ? WayView.Table : WayView.Card} view`}
-      >
-        <button
-          className={styles.iconView}
-          onClick={() =>
-            updateAllWaysPageSettings({
-              filterStatus: allWaysPageSettings.filterStatus,
-              view: allWaysPageSettings.view === WayView.Card ? WayView.Table : WayView.Card,
-            })}
-        >
-          <Icon
-            size={IconSize.MEDIUM}
-            name={allWaysPageSettings.view === WayView.Card ? "GridViewIcon" : "TableViewIcon"}
-          />
-        </button>
-      </Tooltip>
+        <HorizontalContainer className={styles.iconsView}>
+          <Tooltip
+            position={PositionTooltip.BOTTOM}
+            content={`Switch to ${WayView.Card} view`}
+          >
+            <button
+              className={styles.iconView}
+              onClick={() =>
+                updateAllWaysPageSettings({
+                  filterStatus: allWaysPageSettings.filterStatus,
+                  view: WayView.Card,
+                })}
+            >
+              <Icon
+                size={IconSize.MEDIUM}
+                name={"GridViewIcon"}
+                className={clsx(allWaysPageSettings.view === WayView.Card && styles.activeView)}
+              />
+            </button>
+          </Tooltip>
+          <Tooltip
+            position={PositionTooltip.BOTTOM}
+            content={`Switch to ${WayView.Table} view`}
+          >
+            <button
+              className={styles.iconView}
+              onClick={() =>
+                updateAllWaysPageSettings({
+                  filterStatus: allWaysPageSettings.filterStatus,
+                  view: WayView.Table,
+                })}
+            >
+              <Icon
+                size={IconSize.MEDIUM}
+                name={"TableViewIcon"}
+                className={clsx(allWaysPageSettings.view === WayView.Table && styles.activeView)}
+              />
+            </button>
+          </Tooltip>
+        </HorizontalContainer>
+      </HorizontalContainer>
 
       <HorizontalContainer className={styles.titleContainer}>
         <Title
@@ -189,10 +214,9 @@ export const AllWaysPage = () => {
           })
           }
         </HorizontalContainer>
-
       }
       <Button
-        value="More ways"
+        value="More"
         onClick={() => loadMoreWays(allWays)}
         buttonType={ButtonType.PRIMARY}
         className={styles.button}

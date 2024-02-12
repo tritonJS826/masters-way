@@ -4,6 +4,8 @@ import {Icon, IconSize} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
 import {ProgressBar} from "src/component/progressBar/ProgressBar";
 import {HeadingLevel, Title} from "src/component/title/Title";
+import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
+import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {WayTag} from "src/component/wayCard/wayTag/WayTag";
 import {getFirstName} from "src/logic/waysTable/waysColumns";
@@ -58,12 +60,17 @@ export const WayCard = (props: WayCardProps) => {
           Mentors:
         </p>
         {mentors.map((mentor) => (
-          <Link
+          <Tooltip
             key={mentor.name}
-            path={pages.user.getPath({uuid: mentor.uuid})}
-            value={getFirstName(mentor.name)}
-            className={styles.mentorLink}
-          />
+            position={PositionTooltip.BOTTOM}
+            content={mentor.name}
+          >
+            <Link
+              path={pages.user.getPath({uuid: mentor.uuid})}
+              value={getFirstName(mentor.name)}
+              className={styles.mentorLink}
+            />
+          </Tooltip>
         ))
         }
       </HorizontalContainer>
@@ -83,11 +90,16 @@ export const WayCard = (props: WayCardProps) => {
       <VerticalContainer className={styles.wayCardContainer}>
         <VerticalContainer className={styles.mainInfo}>
           <HorizontalContainer className={styles.nameLikes}>
-            <Title
-              text={props.wayPreview.name}
-              level={HeadingLevel.h3}
-              className={styles.title}
-            />
+            <Tooltip
+              position={PositionTooltip.BOTTOM}
+              content={props.wayPreview.name}
+            >
+              <Title
+                text={props.wayPreview.name}
+                level={HeadingLevel.h3}
+                className={styles.title}
+              />
+            </Tooltip>
             <HorizontalContainer className={styles.likes}>
               <Icon
                 size={IconSize.SMALL}
@@ -98,25 +110,40 @@ export const WayCard = (props: WayCardProps) => {
             </HorizontalContainer>
           </HorizontalContainer>
           {renderWayTags(props.wayPreview.wayTags)}
-          <p className={styles.wayGoal}>
-            {props.wayPreview.goalDescription}
-          </p>
+          <Tooltip
+            position={PositionTooltip.BOTTOM}
+            content={props.wayPreview.goalDescription}
+          >
+            <p className={styles.wayGoal}>
+              {props.wayPreview.goalDescription}
+            </p>
+          </Tooltip>
           <HorizontalContainer className={styles.ownerInfo}>
-            <Link
-              key={props.wayPreview.owner.name}
-              path={pages.user.getPath({uuid: props.wayPreview.owner.uuid})}
-              value={getFirstName(props.wayPreview.owner.name)}
-              className={styles.ownerLink}
-            />
+            <Tooltip
+              position={PositionTooltip.BOTTOM}
+              content={props.wayPreview.owner.name}
+            >
+              <Link
+                key={props.wayPreview.owner.name}
+                path={pages.user.getPath({uuid: props.wayPreview.owner.uuid})}
+                value={getFirstName(props.wayPreview.owner.name)}
+                className={styles.ownerLink}
+              />
+            </Tooltip>
             <p>
               {props.wayPreview.owner.email}
             </p>
           </HorizontalContainer>
         </VerticalContainer>
         <VerticalContainer className={styles.additionalInfo}>
-          <p>
-            {`Created at ${DateUtils.getShortISODateValue(props.wayPreview.createdAt)}`}
-          </p>
+          <HorizontalContainer className={styles.dates}>
+            <p>
+              {`Created at ${DateUtils.getShortISODateValue(props.wayPreview.createdAt)}`}
+            </p>
+            <p>
+              {`Last update at ${DateUtils.getShortISODateValue(props.wayPreview.lastUpdate)}`}
+            </p>
+          </HorizontalContainer>
           {renderMentors(props.wayPreview.mentors)}
           <ProgressBar
             value={doneMetricsAmount}

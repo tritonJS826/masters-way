@@ -128,6 +128,11 @@ export type UserPageSettings = {
    * Settled filter by statuses
    */
   filterStatus: WayStatusType | typeof FILTER_STATUS_ALL_VALUE;
+
+  /**
+   * Settled view
+   */
+  view: WayView;
 }
 
 /**

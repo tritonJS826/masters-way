@@ -53,7 +53,7 @@ export const AllUsersPage = () => {
   };
 
   /**
-   * Load more ways
+   * Load more users
    */
   const loadMoreUsers = async (loadedUsers: UserPreview[]) => {
     const lastUserUuid = loadedUsers.at(LAST_INDEX)?.uuid;
