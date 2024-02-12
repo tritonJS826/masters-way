@@ -270,6 +270,8 @@ export const UserPage = (props: UserPageProps) => {
     updateUserPageSettings({openedTabId: wayCollectionToUpdate.id});
   };
 
+  const isCollectionExist = userPreview.customWayCollections.find(x => x.id === userPageSettings.openedTabId);
+
   return (
     <VerticalContainer>
       <HorizontalContainer className={styles.container}>
@@ -348,7 +350,9 @@ export const UserPage = (props: UserPageProps) => {
 
       {/* Render table only for appropriate collection */}
       {getAllWayCollections(userPreview)
-        .filter(collection => collection.id === userPageSettings.openedTabId)
+        .filter(collection => isCollectionExist
+          ? collection.id === userPageSettings.openedTabId
+          : collection.id === DefaultCollections.OWN)
         .map(collection => {
           const isCustomCollection = userPreview.customWayCollections.some((col) => col.id === collection.id);
 
