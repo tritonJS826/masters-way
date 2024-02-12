@@ -68,6 +68,8 @@ export const Textarea = (props: TextareaProps) => {
     if (textarea) {
       textarea.style.height = "auto";
       textarea.style.height = `${textarea.scrollHeight}px`;
+      const endPosition = textarea.value.length;
+      textarea.setSelectionRange(endPosition, endPosition);
     }
   }, [value]);
 

@@ -33,12 +33,14 @@ interface DayReportsTableProps {
 export const DayReportsTable = (props: DayReportsTableProps) => {
   const {user} = useGlobalContext();
   const isOwner = user?.uuid === props.way.owner.uuid;
+  const isMentor = !!user && props.way.mentors.has(user.uuid);
+  const isUserOwnerOrMentor = isOwner || isMentor;
   const isEmptyWay = props.way.dayReports.length === 0;
   const currentDate = DateUtils.getShortISODateValue(new Date());
   const lastReportDate = !isEmptyWay && DateUtils.getShortISODateValue(props.way.dayReports[0].createdAt);
   const isReportForTodayAlreadyCreated = lastReportDate === currentDate;
   const isReportForTodayIsNotCreated = isEmptyWay || !isReportForTodayAlreadyCreated;
-  const isPossibleCreateDayReport = isOwner && isReportForTodayIsNotCreated;
+  const isPossibleCreateDayReport = isUserOwnerOrMentor && isReportForTodayIsNotCreated;
 
   /**
    * Create day report
