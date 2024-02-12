@@ -26,3 +26,13 @@ $wayCardMinWidth: 340px;
   gap: $gapMedium;
   grid-template-columns: repeat(auto-fill, minmax($wayCardMinWidth, 1fr));
 }
+
+.filterView {
+  width: 100%;
+  justify-content: space-between;
+  gap: $gapMedium;
+}
+
+.iconsView {
+  gap: $gapMedium;
+}

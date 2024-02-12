@@ -178,50 +178,52 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
             }
           />
         )}
-        <Select
-          label="Show only: "
-          value={props.filterStatus}
-          name="filterStatus"
-          options={[
-            {id: "1", value: FILTER_STATUS_ALL_VALUE, text: "All"},
-            {id: "2", value: WayStatus.Completed, text: "Completed"},
-            {id: "3", value: WayStatus.Abandoned, text: "Abandoned"},
-            {id: "4", value: WayStatus.InProgress, text: "InProgress"},
-          ]}
-          onChange={(value) => props.setFilterStatus(value as WayStatusType)}
-        />
+        <HorizontalContainer className={styles.filterView}>
+          <Select
+            label="Show only: "
+            value={props.filterStatus}
+            name="filterStatus"
+            options={[
+              {id: "1", value: FILTER_STATUS_ALL_VALUE, text: "All"},
+              {id: "2", value: WayStatus.Completed, text: "Completed"},
+              {id: "3", value: WayStatus.Abandoned, text: "Abandoned"},
+              {id: "4", value: WayStatus.InProgress, text: "InProgress"},
+            ]}
+            onChange={(value) => props.setFilterStatus(value as WayStatusType)}
+          />
 
-        <HorizontalContainer className={styles.iconsView}>
-          <Tooltip
-            position={PositionTooltip.BOTTOM}
-            content={`Switch to ${WayView.Card} view`}
-          >
-            <button
-              className={styles.iconView}
-              onClick={() => props.setView(WayView.Card)}
+          <HorizontalContainer className={styles.iconsView}>
+            <Tooltip
+              position={PositionTooltip.BOTTOM}
+              content={`Switch to ${WayView.Card} view`}
             >
-              <Icon
-                size={IconSize.MEDIUM}
-                name={"GridViewIcon"}
-                className={clsx(props.view === WayView.Card && styles.activeView)}
-              />
-            </button>
-          </Tooltip>
-          <Tooltip
-            position={PositionTooltip.BOTTOM}
-            content={`Switch to ${WayView.Table} view`}
-          >
-            <button
-              className={styles.iconView}
-              onClick={() => props.setView(WayView.Table)}
+              <button
+                className={styles.iconView}
+                onClick={() => props.setView(WayView.Card)}
+              >
+                <Icon
+                  size={IconSize.MEDIUM}
+                  name={"GridViewIcon"}
+                  className={clsx(props.view === WayView.Card && styles.activeView)}
+                />
+              </button>
+            </Tooltip>
+            <Tooltip
+              position={PositionTooltip.BOTTOM}
+              content={`Switch to ${WayView.Table} view`}
             >
-              <Icon
-                size={IconSize.MEDIUM}
-                name={"TableViewIcon"}
-                className={clsx(props.view === WayView.Table && styles.activeView)}
-              />
-            </button>
-          </Tooltip>
+              <button
+                className={styles.iconView}
+                onClick={() => props.setView(WayView.Table)}
+              >
+                <Icon
+                  size={IconSize.MEDIUM}
+                  name={"TableViewIcon"}
+                  className={clsx(props.view === WayView.Table && styles.activeView)}
+                />
+              </button>
+            </Tooltip>
+          </HorizontalContainer>
         </HorizontalContainer>
       </HorizontalContainer>
 
