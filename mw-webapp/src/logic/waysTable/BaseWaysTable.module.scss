@@ -1,5 +1,7 @@
 @import "src/styles/variables";
 
+$wayCardMinWidth: 340px;
+
 .loaderWrapper {
   margin-top: $gapBig;
 }
@@ -8,4 +10,19 @@
   align-content: center;
   margin-top: $gapMedium;
   gap: $gapMedium;
+}
+
+.iconView {
+  border: none;
+  background-color: transparent;
+}
+
+.activeView {
+  scale: 1.2;
+}
+
+.wayCards {
+  display: grid;
+  gap: $gapMedium;
+  grid-template-columns: repeat(auto-fill, minmax($wayCardMinWidth, 1fr));
 }

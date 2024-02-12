@@ -17,7 +17,7 @@ import {WayStatusType} from "src/logic/waysTable/wayStatus";
 import {Way} from "src/model/businessModel/Way";
 import {UserPreview, WaysCollection as WayCollection} from "src/model/businessModelPreview/UserPreview";
 import {pages} from "src/router/pages";
-import {UserPageSettings} from "src/utils/LocalStorageWorker";
+import {UserPageSettings, WayView} from "src/utils/LocalStorageWorker";
 import {PartialWithId, PartialWithUuid} from "src/utils/PartialWithUuid";
 import {v4 as uuidv4} from "uuid";
 import styles from "src/logic/userPage/UserPage.module.scss";
@@ -69,6 +69,7 @@ enum DefaultCollections {
 const DEFAULT_USER_PAGE_SETTINGS: UserPageSettings = {
   openedTabId: DefaultCollections.OWN,
   filterStatus: FILTER_STATUS_ALL_VALUE,
+  view: WayView.Card,
 };
 
 /**
@@ -365,6 +366,8 @@ export const UserPage = (props: UserPageProps) => {
                 setFilterStatus={(
                   filterStatus: WayStatusType | typeof FILTER_STATUS_ALL_VALUE,
                 ) => updateUserPageSettings({filterStatus})}
+                view={userPageSettings.view}
+                setView={(view: WayView) => updateUserPageSettings({view})}
               />
             </ScrollableBlock>
           );

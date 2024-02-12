@@ -49,6 +49,10 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     [Theme.DARK]: "rgb(200, 194, 194)",
     [Theme.LIGHT]: "rgb(252, 252, 252)",
   },
+  sixTextColor: {
+    [Theme.DARK]: "rgb(11, 9, 10)",
+    [Theme.LIGHT]: "rgb(11, 9, 10)",
+  },
   primaryBorderColor: {
     [Theme.DARK]: "rgb(73, 69, 69)",
     [Theme.LIGHT]: "rgb(200, 194, 194)",
