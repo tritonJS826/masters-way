@@ -147,7 +147,7 @@ export const AllWaysPage = () => {
 
         <HorizontalContainer className={styles.iconsView}>
           <Tooltip
-            position={PositionTooltip.BOTTOM}
+            position={PositionTooltip.LEFT}
             content={`Switch to ${WayView.Card} view`}
           >
             <button
@@ -166,7 +166,7 @@ export const AllWaysPage = () => {
             </button>
           </Tooltip>
           <Tooltip
-            position={PositionTooltip.BOTTOM}
+            position={PositionTooltip.LEFT}
             content={`Switch to ${WayView.Table} view`}
           >
             <button

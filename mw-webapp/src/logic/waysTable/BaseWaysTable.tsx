@@ -194,7 +194,7 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
 
           <HorizontalContainer className={styles.iconsView}>
             <Tooltip
-              position={PositionTooltip.BOTTOM}
+              position={PositionTooltip.LEFT}
               content={`Switch to ${WayView.Card} view`}
             >
               <button
@@ -209,7 +209,7 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
               </button>
             </Tooltip>
             <Tooltip
-              position={PositionTooltip.BOTTOM}
+              position={PositionTooltip.LEFT}
               content={`Switch to ${WayView.Table} view`}
             >
               <button

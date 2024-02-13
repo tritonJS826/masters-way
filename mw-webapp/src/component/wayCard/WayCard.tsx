@@ -1,7 +1,6 @@
 import {useNavigate} from "react-router-dom";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
-import {Link} from "src/component/link/Link";
 import {ProgressBar} from "src/component/progressBar/ProgressBar";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
@@ -65,11 +64,9 @@ export const WayCard = (props: WayCardProps) => {
             position={PositionTooltip.BOTTOM}
             content={mentor.name}
           >
-            <Link
-              path={pages.user.getPath({uuid: mentor.uuid})}
-              value={getFirstName(mentor.name)}
-              className={styles.mentorLink}
-            />
+            <p className={styles.mentorLink}>
+              {getFirstName(mentor.name)}
+            </p>
           </Tooltip>
         ))
         }
@@ -101,12 +98,28 @@ export const WayCard = (props: WayCardProps) => {
               />
             </Tooltip>
             <HorizontalContainer className={styles.likes}>
-              <Icon
-                size={IconSize.SMALL}
-                name={"StarIcon"}
-                className={styles.icon}
-              />
-              {props.wayPreview.favoriteForUserUuids.length}
+              <Tooltip
+                position={PositionTooltip.BOTTOM}
+                content="Reports"
+              >
+                <Icon
+                  size={IconSize.SMALL}
+                  name={"FileIcon"}
+                  className={styles.icon}
+                />
+                {props.wayPreview.dayReportUuids.length}
+              </Tooltip>
+              <Tooltip
+                position={PositionTooltip.BOTTOM}
+                content="Likes"
+              >
+                <Icon
+                  size={IconSize.SMALL}
+                  name={"StarIcon"}
+                  className={styles.icon}
+                />
+                {props.wayPreview.favoriteForUserUuids.length}
+              </Tooltip>
             </HorizontalContainer>
           </HorizontalContainer>
           {renderWayTags(props.wayPreview.wayTags)}
@@ -123,12 +136,9 @@ export const WayCard = (props: WayCardProps) => {
               position={PositionTooltip.BOTTOM}
               content={props.wayPreview.owner.name}
             >
-              <Link
-                key={props.wayPreview.owner.name}
-                path={pages.user.getPath({uuid: props.wayPreview.owner.uuid})}
-                value={getFirstName(props.wayPreview.owner.name)}
-                className={styles.ownerLink}
-              />
+              <p className={styles.ownerLink}>
+                {getFirstName(props.wayPreview.owner.name)}
+              </p>
             </Tooltip>
             <p>
               {props.wayPreview.owner.email}
