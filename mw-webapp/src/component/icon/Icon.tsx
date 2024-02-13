@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import {EyeOpenedIcon} from "src/assets/icons/EyeOpenedIcon";
 import {EyeSlashedIcon} from "src/assets/icons/EyeSlashedIcon";
+import {FileIcon} from "src/assets/icons/FileIcon";
 import {GridViewIcon} from "src/assets/icons/GridViewIcon";
 import {MoonIcon} from "src/assets/icons/MoonIcon";
 import {StarIcon} from "src/assets/icons/StarIcon";
@@ -39,14 +40,19 @@ const IconDictionary = {
   StarIcon: (params: IconProps) => <StarIcon {...params} />,
 
   /**
-   * Star icon
+   * GridView icon
    */
   GridViewIcon: (params: IconProps) => <GridViewIcon {...params} />,
 
   /**
-   * Star icon
+   * TableView icon
    */
   TableViewIcon: (params: IconProps) => <TableViewIcon {...params} />,
+
+  /**
+   * File icon
+   */
+  FileIcon: (params: IconProps) => <FileIcon {...params} />,
 };
 
 /**
