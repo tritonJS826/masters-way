@@ -63,6 +63,16 @@ interface InputProps {
    */
   onChange: (value: string) => void;
 
+  /**
+   * Formatting value entered into the input
+   */
+  formatter?: (stateValue: string | number) => string | number;
+
+  /**
+   * Parsing formated value
+   */
+  parser?: (rawValue: string) => string;
+
 }
 
 /**
@@ -74,12 +84,13 @@ export const Input = (props: InputProps) => {
    * Event handler for the input change event
    */
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    props.onChange(event.target.value);
+    const parsedValue = props.parser ? props.parser(event.target.value) : event.target.value;
+    props.onChange(parsedValue);
   };
 
   return (
     <input
-      value={props.value}
+      value={props.formatter ? props.formatter(props.value) : props.value}
       type={props.type ?? "text"}
       max={props.max}
       placeholder={props.placeholder}

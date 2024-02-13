@@ -1,15 +1,15 @@
-const FIRST_CHAR = 1;
+const FIRST_INDEX = 1;
 
 /**
  * Formatter utils
  */
-export class FormatterUtils {
+export class FormatterInputValue {
 
   /**
    * Checking for zero and formatting the value
    */
-  public static defaultFormatter(value: string) {
-    return value.startsWith("0") ? value.slice(FIRST_CHAR) : Number(value);
+  public static defaultFormatter(value: string| number) {
+    return typeof value === "string" && value.startsWith("0") ? value.slice(FIRST_INDEX) : Number(value);
   }
 
 }
