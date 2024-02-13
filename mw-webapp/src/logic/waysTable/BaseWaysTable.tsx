@@ -24,7 +24,7 @@ import {WaysCollection} from "src/model/businessModelPreview/UserPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
 import {ArrayUtils} from "src/utils/ArrayUtils";
-import {WayView} from "src/utils/LocalStorageWorker";
+import {View} from "src/utils/LocalStorageWorker";
 import styles from "src/logic/waysTable/BaseWaysTable.module.scss";
 
 /**
@@ -55,12 +55,12 @@ interface BaseWaysTableProps {
   /**
    * Way's view
    */
-  view: WayView;
+  view: View;
 
   /**
    * Callback to change view
    */
-  setView: (view: WayView) => void;
+  setView: (view: View) => void;
 
   /**
    * Delete current collection
@@ -195,31 +195,31 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
           <HorizontalContainer className={styles.iconsView}>
             <Tooltip
               position={PositionTooltip.LEFT}
-              content={`Switch to ${WayView.Card} view`}
+              content={`Switch to ${View.Card} view`}
             >
               <button
                 className={styles.iconView}
-                onClick={() => props.setView(WayView.Card)}
+                onClick={() => props.setView(View.Card)}
               >
                 <Icon
                   size={IconSize.MEDIUM}
                   name={"GridViewIcon"}
-                  className={clsx(props.view === WayView.Card && styles.activeView)}
+                  className={clsx(props.view === View.Card && styles.activeView)}
                 />
               </button>
             </Tooltip>
             <Tooltip
               position={PositionTooltip.LEFT}
-              content={`Switch to ${WayView.Table} view`}
+              content={`Switch to ${View.Table} view`}
             >
               <button
                 className={styles.iconView}
-                onClick={() => props.setView(WayView.Table)}
+                onClick={() => props.setView(View.Table)}
               >
                 <Icon
                   size={IconSize.MEDIUM}
                   name={"TableViewIcon"}
-                  className={clsx(props.view === WayView.Table && styles.activeView)}
+                  className={clsx(props.view === View.Table && styles.activeView)}
                 />
               </button>
             </Tooltip>
@@ -231,7 +231,7 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
         text={`${props.title} (${ways.length})`}
         level={HeadingLevel.h2}
       />
-      {props.view === WayView.Table ?
+      {props.view === View.Table ?
         <WaysTable
           data={ways}
           columns={waysColumns}

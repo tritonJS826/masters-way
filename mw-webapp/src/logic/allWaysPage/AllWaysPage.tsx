@@ -21,12 +21,12 @@ import {waysColumns} from "src/logic/waysTable/waysColumns";
 import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {WayStatus} from "src/logic/waysTable/wayStatus";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
-import {AllWaysPageSettings, WayView} from "src/utils/LocalStorageWorker";
+import {AllWaysPageSettings, View} from "src/utils/LocalStorageWorker";
 import styles from "src/logic/allWaysPage/AllWaysPage.module.scss";
 
 const DEFAULT_ALL_WAYS_PAGE_SETTINGS: AllWaysPageSettings = {
   filterStatus: FILTER_STATUS_ALL_VALUE,
-  view: WayView.Card,
+  view: View.Card,
 };
 
 /**
@@ -148,39 +148,39 @@ export const AllWaysPage = () => {
         <HorizontalContainer className={styles.iconsView}>
           <Tooltip
             position={PositionTooltip.LEFT}
-            content={`Switch to ${WayView.Card} view`}
+            content={`Switch to ${View.Card} view`}
           >
             <button
               className={styles.iconView}
               onClick={() =>
                 updateAllWaysPageSettings({
                   filterStatus: allWaysPageSettings.filterStatus,
-                  view: WayView.Card,
+                  view: View.Card,
                 })}
             >
               <Icon
                 size={IconSize.MEDIUM}
                 name={"GridViewIcon"}
-                className={clsx(allWaysPageSettings.view === WayView.Card && styles.activeView)}
+                className={clsx(allWaysPageSettings.view === View.Card && styles.activeView)}
               />
             </button>
           </Tooltip>
           <Tooltip
             position={PositionTooltip.LEFT}
-            content={`Switch to ${WayView.Table} view`}
+            content={`Switch to ${View.Table} view`}
           >
             <button
               className={styles.iconView}
               onClick={() =>
                 updateAllWaysPageSettings({
                   filterStatus: allWaysPageSettings.filterStatus,
-                  view: WayView.Table,
+                  view: View.Table,
                 })}
             >
               <Icon
                 size={IconSize.MEDIUM}
                 name={"TableViewIcon"}
-                className={clsx(allWaysPageSettings.view === WayView.Table && styles.activeView)}
+                className={clsx(allWaysPageSettings.view === View.Table && styles.activeView)}
               />
             </button>
           </Tooltip>
@@ -197,7 +197,7 @@ export const AllWaysPage = () => {
           text={`Total found: ${allWaysAmount}`}
         />
       </HorizontalContainer>
-      {allWaysPageSettings.view === WayView.Table ?
+      {allWaysPageSettings.view === View.Table ?
         <ScrollableBlock>
           <WaysTable
             data={allWays}

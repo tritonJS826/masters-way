@@ -93,6 +93,19 @@ export type LocalStorageData = {
    */
   allWaysPage: AllWaysPageSettings;
 
+  /**
+   * All users page data
+   */
+  allUsersPage: AllUsersPageSettings;
+
+}
+
+/**
+ * Available way views
+ */
+export enum View {
+  Card = "Card",
+  Table = "Table",
 }
 
 /**
@@ -132,15 +145,7 @@ export type UserPageSettings = {
   /**
    * Settled view
    */
-  view: WayView;
-}
-
-/**
- * Available way views
- */
-export enum WayView {
-  Card = "Card",
-  Table = "Table",
+  view: View;
 }
 
 export type AllWaysPageSettings = {
@@ -153,6 +158,13 @@ export type AllWaysPageSettings = {
   /**
    * Settled view
    */
-  view: WayView;
+  view: View;
 }
 
+export type AllUsersPageSettings = {
+
+  /**
+   * Settled view
+   */
+  view: View;
+}

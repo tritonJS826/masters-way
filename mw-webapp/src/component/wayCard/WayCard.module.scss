@@ -7,7 +7,6 @@ $wayCardMainHeight: 147px;
 $wayCardAdditionalHeight: 105px;
 
 .wayCardContainer {
-  height: 254px;
   border-radius: $secondaryBorderRadius;
   cursor: pointer;
 }
@@ -43,6 +42,7 @@ $wayCardAdditionalHeight: 105px;
 
 .ownerInfo {
   align-items: center;
+  margin-top: auto;
   color: var(--fourthTextColor);
   font-size: $wayCardFontSize;
   gap: $gapMedium;

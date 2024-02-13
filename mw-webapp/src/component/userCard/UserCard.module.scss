@@ -1,0 +1,80 @@
+@import "src/styles/variables";
+
+$userCardMainInfoPadding: 20px 24px;
+$userCardAdditionalInfoPadding: 12px 24px 20px;
+$userCardFontSize: 14px;
+$userCardMainHeight: 147px;
+$userCardAdditionalHeight: 105px;
+
+.userCardContainer {
+  border-radius: $secondaryBorderRadius;
+  cursor: pointer;
+}
+
+.mainInfo {
+  height: $userCardMainHeight;
+  padding: $userCardMainInfoPadding;
+  border-radius: $secondaryBorderRadius $secondaryBorderRadius 0 0;
+  background-color: var(--fourthBackgroundColor);
+  gap: $gapMedium;
+}
+
+.title {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  color: var(--fourthTextColor);
+  -webkit-line-clamp: 1;
+  text-overflow: ellipsis;
+  white-space: initial;
+}
+
+.likes {
+  align-items: center;
+  color: var(--fourthTextColor);
+  gap: $gapSmall;
+}
+
+.icon {
+  margin-right: $marginSmall;
+  stroke: var(--fourthTextColor);
+}
+
+.nameLikes {
+  align-items: center;
+  justify-content: space-between;
+  gap: $gapMedium;
+}
+
+.description {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  color: var(--fourthTextColor);
+  font-weight: bold;
+  -webkit-line-clamp: 2;
+  text-overflow: ellipsis;
+  white-space: initial;
+}
+
+.mail {
+  display: -webkit-box;
+  overflow: hidden;
+  margin-top: auto;
+  -webkit-box-orient: vertical;
+  color: var(--fourthTextColor);
+  font-size: $userCardFontSize;
+  font-weight: bold;
+  -webkit-line-clamp: 1;
+  text-overflow: ellipsis;
+  white-space: initial;
+}
+
+.additionalInfo {
+  padding: $userCardAdditionalInfoPadding;
+  border-radius: 0 0 $secondaryBorderRadius $secondaryBorderRadius;
+  background-color: var(--fifthBackgroundColor);
+  color: var(--sixTextColor);
+  font-size: $userCardFontSize;
+  gap: $gapMedium;
+}
