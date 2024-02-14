@@ -118,6 +118,7 @@ interface WayPageProps {
  * Way page
  */
 export const WayPage = (props: WayPageProps) => {
+  // Throw new Error("waypage error");
   const navigate = useNavigate();
   const [wayPageSettings,, updateWayPageSettings] = usePersistanceState({
     key: "wayPage",
@@ -159,7 +160,6 @@ export const WayPage = (props: WayPageProps) => {
    * Callback that is called on fetch or validation error
    */
   const onError = () => {
-    navigate(pages.page404.getPath({}));
   };
 
   /**
@@ -169,7 +169,7 @@ export const WayPage = (props: WayPageProps) => {
     setWay(data);
   };
 
-  useLoad(
+  const {errorName} = useLoad(
     {
       loadData,
       onSuccess,
@@ -177,6 +177,10 @@ export const WayPage = (props: WayPageProps) => {
       dependency: [props.uuid],
     },
   );
+
+  if (errorName) {
+    throw new Error(`WAY NOT FOUND. ${errorName}`);
+  }
 
   if (!way) {
     return (

@@ -1,4 +1,10 @@
-import {Route, Routes} from "react-router-dom";
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  Routes,
+} from "react-router-dom";
+import {App} from "src/App";
 import {pages} from "src/router/pages";
 import {WithValidatedParams} from "src/router/PageUrlValidator/ValidatedParams";
 
@@ -43,3 +49,43 @@ export const Router = () => {
     </Routes>
   );
 };
+
+export const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route
+      path={pages.home.getPath({})}
+      element={<App />}
+    >
+      <Route
+        path={pages.allWays.getPath({})}
+        element={<WithValidatedParams paramsSchema={pages.allWays} />}
+      />
+      <Route
+        path={pages.user.getPath({uuid: ":uuid"})}
+        element={<WithValidatedParams paramsSchema={pages.user} />}
+        errorElement={pages.page404.getPageComponent({})}
+      />
+      <Route
+        path={pages.way.getPath({uuid: ":uuid"})}
+        element={<WithValidatedParams paramsSchema={pages.way} />}
+        errorElement={pages.page404.getPageComponent({})}
+      />
+      <Route
+        path={pages.allUsers.getPath({})}
+        element={<WithValidatedParams paramsSchema={pages.allUsers} />}
+      />
+      <Route
+        path={pages.settings.getPath({})}
+        element={<WithValidatedParams paramsSchema={pages.settings} />}
+      />
+      <Route
+        path={pages.aboutProject.getPath({})}
+        element={<WithValidatedParams paramsSchema={pages.aboutProject} />}
+      />
+      <Route
+        path={pages.page404.getPath({})}
+        element={<WithValidatedParams paramsSchema={pages.page404} />}
+      />
+    </Route>,
+  ),
+);

@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {Outlet, useNavigate} from "react-router-dom";
 import {Header} from "src/component/header/Header";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {FirebaseAnalytics} from "src/FirebaseAnalytics";
@@ -10,7 +10,6 @@ import {
 import {useErrorHandler} from "src/hooks/useErrorHandler";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {pages} from "src/router/pages";
-import {Router} from "src/router/Router";
 import {AuthService} from "src/service/AuthService";
 import {ThemeWorker} from "src/utils/ThemeWorker";
 
@@ -75,7 +74,7 @@ export const App = () => {
     }}
     >
       <Header />
-      <Router />
+      <Outlet />
       <FirebaseAnalytics />
     </globalContext.Provider>
   );

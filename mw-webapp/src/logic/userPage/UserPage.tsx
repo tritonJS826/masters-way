@@ -163,7 +163,6 @@ export const UserPage = (props: UserPageProps) => {
    * Callback that is called on fetch or validation error
    */
   const onError = () => {
-    navigate(pages.page404.getPath({}));
   };
 
   /**
@@ -173,7 +172,7 @@ export const UserPage = (props: UserPageProps) => {
     setUserPreview(data);
   };
 
-  useLoad(
+  const {errorName} = useLoad(
     {
       loadData,
       validateData,
@@ -182,6 +181,10 @@ export const UserPage = (props: UserPageProps) => {
       dependency: [props.uuid],
     },
   );
+
+  if (errorName) {
+    throw new Error(`USER NOT FOUND. ${errorName}`);
+  }
 
   if (!userPreview || !userPageSettings) {
     return (
