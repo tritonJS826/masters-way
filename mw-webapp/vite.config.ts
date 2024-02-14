@@ -17,7 +17,7 @@ export default defineConfig(() => {
         // Exclude "virtual" to fix bug with vite-plugin-eslint and Storybook
         // https://github.com/storybookjs/builder-vite/issues/535#issuecomment-1507352550
         {
-          exclude: ["/virtual:/**"], 
+          exclude: ["/virtual:/**", "/sb-preview/**"], 
           failOnError: false},
       ),
       viteTsconfigPaths(),
