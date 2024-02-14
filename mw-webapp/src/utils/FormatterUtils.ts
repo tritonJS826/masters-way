@@ -8,8 +8,8 @@ export class FormatterInputValue {
   /**
    * Checking for zero and formatting the value
    */
-  public static defaultFormatter(value: string| number) {
-    return typeof value === "string" && value.startsWith("0") ? value.slice(FIRST_INDEX) : Number(value);
+  public static defaultFormatter(value: string | number) {
+    return typeof value === "string" && value.startsWith("0") ? value.slice(FIRST_INDEX) : value;
   }
 
 }
