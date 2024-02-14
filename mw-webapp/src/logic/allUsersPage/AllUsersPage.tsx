@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import clsx from "clsx";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
@@ -18,6 +18,7 @@ import {LAST_INDEX} from "src/logic/mathConstants";
 import {UsersTableBlock} from "src/logic/usersTable/UsersTableBlock";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {AllUsersPageSettings, View} from "src/utils/LocalStorageWorker";
+import {useDebounce} from "use-debounce";
 import styles from "src/logic/allUsersPage/AllUsersPage.module.scss";
 
 const DEBOUNCED_DELAY_MILLISECONDS = 1000;
@@ -46,15 +47,7 @@ export const AllUsersPage = () => {
   const [allUsers, setAllUsers] = useState<UserPreview[]>();
   const [allUsersAmount, setAllUsersAmount] = useState<number>();
   const [email, setEmail] = useState<string>("");
-  const [debouncedEmail, setDebouncedEmail] = useState<string>("");
-
-  useEffect(() => {
-    const delayInputEmail = setTimeout(() => {
-      setDebouncedEmail(email);
-    }, DEBOUNCED_DELAY_MILLISECONDS);
-
-    return () => clearTimeout(delayInputEmail);
-  }, [email]);
+  const [debouncedEmail] = useDebounce(email, DEBOUNCED_DELAY_MILLISECONDS);
 
   const [allUsersPageSettings, updateAllUsersPageSettings] = usePersistanceState({
     key: "allUsersPage",
