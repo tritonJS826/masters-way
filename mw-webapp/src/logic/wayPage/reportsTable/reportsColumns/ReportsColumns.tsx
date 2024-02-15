@@ -4,7 +4,7 @@ import {clsx} from "clsx";
 import {Button} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Сheckbox";
 import {Confirm} from "src/component/confirm/Confirm";
-import {EditableText} from "src/component/editableText/EditableText";
+import {EditableValue} from "src/component/editableText/EditableText";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
@@ -274,12 +274,12 @@ export const Columns = (props: ColumnsProps) => {
                           position={PositionTooltip.RIGHT}
                           content={`Time${Symbols.NO_BREAK_SPACE}spent on job`}
                         >
-                          <EditableText
-                            text={jobDone.time}
+                          <EditableValue
+                            value={jobDone.time}
                             type="number"
                             max={MAX_TIME}
                             onChangeFinish={(time) =>
-                              updateJobDoneTime(jobDone, getValidatedTime(time))}
+                              updateJobDoneTime(jobDone, getValidatedTime(Number(time)))}
                             className={styles.editableTime}
                             isEditable={isUserOwnerOrMentor}
                           />
@@ -460,11 +460,11 @@ export const Columns = (props: ColumnsProps) => {
                           position={PositionTooltip.RIGHT}
                           content={`Estimated${Symbols.NO_BREAK_SPACE}time for the plan`}
                         >
-                          <EditableText
-                            text={plan.estimationTime}
+                          <EditableValue
+                            value={plan.estimationTime}
                             type="number"
                             max={MAX_TIME}
-                            onChangeFinish={(estimationTime) => updatePlanTime(plan, getValidatedTime(estimationTime))}
+                            onChangeFinish={(estimationTime) => updatePlanTime(plan, getValidatedTime(Number(estimationTime)))}
                             className={styles.editableTime}
                             isEditable={plan.ownerUuid === user?.uuid}
                           />

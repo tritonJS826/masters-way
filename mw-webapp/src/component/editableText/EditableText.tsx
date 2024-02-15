@@ -1,8 +1,8 @@
-import {HTMLInputTypeAttribute, useEffect, useState} from "react";
+import {HTMLInputTypeAttribute, useState} from "react";
 import clsx from "clsx";
 import {renderSpan} from "src/component/editableText/renderSpan";
+import {FormatterInputValue} from "src/component/input/formatters";
 import {Input} from "src/component/input/Input";
-import {FormatterInputValue} from "src/utils/FormatterUtils";
 import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/component/editableText/EditableText.module.scss";
 
@@ -12,9 +12,9 @@ import styles from "src/component/editableText/EditableText.module.scss";
 interface EditableTextProps<T> {
 
   /**
-   * Cell item's text
+   * Cell item's value
    */
-  text: T;
+  value: T;
 
   /**
    * Function that update element on Enter click or unfocused
@@ -48,15 +48,15 @@ interface EditableTextProps<T> {
 /**
  * Render Input or span depend on client actions
  */
-export const EditableText = <T extends string | number>(props: EditableTextProps<T>) => {
+export const EditableValue = <T extends string | number>(props: EditableTextProps<T>) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [text, setText] = useState<T>(props.text);
+  const [value, setValue] = useState(props.value);
 
   /**
    * HandleChangeFinish
    */
   const handleChangeFinish = () => {
-    props.onChangeFinish(text);
+    props.onChangeFinish(value);
     setIsEditing(false);
   };
 
@@ -70,24 +70,10 @@ export const EditableText = <T extends string | number>(props: EditableTextProps
   };
 
   /**
-   * Check type of coming value and convert it to Number if need to use input with type "number"
+   * Update value
    */
-  const setValue = (value: string) => {
-    const checkedValue = value || 0;
-    setText(checkedValue as T);
-  };
-
-  /**
-   * Formatting value entered into the input
-   */
-  const formatterValue = (value: string|number) => {
-    const formattedValue = FormatterInputValue.defaultFormatter(value);
-    const updatedValue = props.type === "number" ? formattedValue : value;
-    useEffect(() => {
-      setText(updatedValue as T);
-    }, [ updatedValue]);
-
-    return updatedValue;
+  const updateValue = (updatedValue: string | number) => {
+    setValue(updatedValue as T);
   };
 
   /**
@@ -95,12 +81,12 @@ export const EditableText = <T extends string | number>(props: EditableTextProps
    */
   const renderInput = () => (
     <Input
-      formatter={formatterValue}
+      formatter={FormatterInputValue.withNoFirstZero}
       type={props.type ?? "text"}
       max={props.max}
-      value={text}
+      value={value}
       autoFocus={true}
-      onChange={setValue}
+      onChange={updateValue}
     />
   );
 
@@ -115,7 +101,7 @@ export const EditableText = <T extends string | number>(props: EditableTextProps
     >
       {isEditing
         ? renderInput()
-        : renderSpan(text)
+        : renderSpan(value)
       }
     </div>
   );
