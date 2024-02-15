@@ -1,5 +1,7 @@
 import {isRouteErrorResponse, useRouteError} from "react-router-dom";
+import {Header} from "src/component/header/Header";
 import {HeadingLevel, Title} from "src/component/title/Title";
+import {InitializationApp} from "src/logic/initializationApp/InitializationApp";
 import styles from "src/logic/page404/Page404.module.scss";
 
 const ERROR_404 = "404 NOT FOUND";
@@ -9,31 +11,33 @@ const ERROR_404 = "404 NOT FOUND";
  */
 export const Page404 = () => {
   const error = useRouteError();
-
   if (isRouteErrorResponse(error)) {
     return (
       <>
-        <div className={styles.errorPageContainer}>
-          <p>
-            {error.status}
-          </p>
-          <p>
-            {error.statusText}
-          </p>
-        </div>
+        <InitializationApp>
+          <Header />
+          <Title
+            level={HeadingLevel.h2}
+            className={styles.errorPageContainer}
+            text={`${error.status} ${error.statusText}`}
+          />
+        </InitializationApp>
       </>
     );
   }
 
   if (error instanceof Error) {
     return (
-      <div className={styles.errorPageContainer}>
+      <>
         <Title
           level={HeadingLevel.h2}
           className={styles.errorPageContainer}
-          text={error.message ?? ERROR_404}
+          text={error.name}
         />
-      </div>
+        <p>
+          {error.message}
+        </p>
+      </>
     );
   }
 

@@ -159,7 +159,8 @@ export const WayPage = (props: WayPageProps) => {
   /**
    * Callback that is called on fetch or validation error
    */
-  const onError = () => {
+  const onError = (error: Error) => {
+    throw (error);
   };
 
   /**
@@ -169,7 +170,7 @@ export const WayPage = (props: WayPageProps) => {
     setWay(data);
   };
 
-  const {errorName} = useLoad(
+  useLoad(
     {
       loadData,
       onSuccess,
@@ -177,10 +178,6 @@ export const WayPage = (props: WayPageProps) => {
       dependency: [props.uuid],
     },
   );
-
-  if (errorName) {
-    throw new Error(`WAY NOT FOUND. ${errorName}`);
-  }
 
   if (!way) {
     return (

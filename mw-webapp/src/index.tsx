@@ -1,9 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import {RouterProvider} from "react-router-dom";
 import "src/firebase";
+import {App} from "src/App";
 import {reportWebVitals} from "src/reportWebVitals";
-import {router} from "src/router/Router";
 import "src/index.scss";
 
 const root = ReactDOM.createRoot(
@@ -12,7 +11,7 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <App />
   </React.StrictMode>,
 );
 

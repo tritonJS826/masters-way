@@ -8,6 +8,13 @@ const DEFAULT_SET_USER = () => {
   throw Error("The user context is not initialized properly");
 };
 
+/**
+ * Default setIsInitialization
+ */
+const DEFAULT_SET_INITIALIZATION = () => {
+  throw Error("The app is not initialization");
+};
+
 export const DEFAULT_NOTIFICATION_SETTINGS: Notification = {
   isEnabled: true,
   // TODO: make it way-specific
@@ -17,6 +24,8 @@ export const DEFAULT_NOTIFICATION_SETTINGS: Notification = {
 const DEFAULT_GLOBAL_CONTEXT = {
   user: null,
   setUser: DEFAULT_SET_USER,
+  isInitialization: true,
+  setIsInitialization: DEFAULT_SET_INITIALIZATION,
   notification: DEFAULT_NOTIFICATION_SETTINGS,
 };
 
@@ -44,6 +53,16 @@ export type GlobalContext = {
    * Update user
    */
   setUser: (user: UserPreview | null) => void;
+
+  /**
+   * isInitialization
+   */
+  isInitialization: boolean;
+
+  /**
+   * setIsInitialization
+   */
+  setIsInitialization: (isInitialization: boolean) => void;
 
   /**
    * Notification related settings
