@@ -18,8 +18,10 @@ import {LAST_INDEX} from "src/logic/mathConstants";
 import {UsersTableBlock} from "src/logic/usersTable/UsersTableBlock";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {AllUsersPageSettings, View} from "src/utils/LocalStorageWorker";
+import {useDebounce} from "use-debounce";
 import styles from "src/logic/allUsersPage/AllUsersPage.module.scss";
 
+const DEBOUNCE_DELAY_MILLISECONDS = 1000;
 const DEFAULT_ALL_USERS_PAGE_SETTINGS: AllUsersPageSettings = {view: View.Card};
 
 /**
@@ -45,6 +47,7 @@ export const AllUsersPage = () => {
   const [allUsers, setAllUsers] = useState<UserPreview[]>();
   const [allUsersAmount, setAllUsersAmount] = useState<number>();
   const [email, setEmail] = useState<string>("");
+  const [debouncedEmail ] = useDebounce(email, DEBOUNCE_DELAY_MILLISECONDS);
 
   const [allUsersPageSettings, updateAllUsersPageSettings] = usePersistanceState({
     key: "allUsersPage",
@@ -98,7 +101,7 @@ export const AllUsersPage = () => {
     loadData,
     onSuccess,
     onError,
-    dependency: [email],
+    dependency: [debouncedEmail],
   });
 
   if (!allUsers) {

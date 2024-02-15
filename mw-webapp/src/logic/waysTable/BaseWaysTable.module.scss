@@ -19,7 +19,8 @@ $wayCardMinWidth: 340px;
 }
 
 .activeView {
-  scale: 1.2;
+  transform: scale(1.2);
+  transform-origin: right;
 }
 
 .wayCards {

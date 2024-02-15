@@ -14,10 +14,11 @@ export default defineConfig(() => {
     plugins: [
       react(),
       eslint(
-        // Exclude "virtual" to fix bug with vite-plugin-eslint and Storybook
+        // Exclude "virtual" and "sb-preview" to fix bug with vite-plugin-eslint and Storybook
         // https://github.com/storybookjs/builder-vite/issues/535#issuecomment-1507352550
+        // https://github.com/vitejs/vite/issues/15374
         {
-          exclude: ["/virtual:/**"], 
+          exclude: ["/virtual:/**", "/sb-preview/**"], 
           failOnError: false},
       ),
       viteTsconfigPaths(),
