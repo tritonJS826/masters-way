@@ -77,11 +77,20 @@ export const EditableValue = <T extends string | number>(props: EditableTextProp
   };
 
   /**
+   * Get formatted value
+   */
+  const getFormattedValue = (incomingValue: string | number) => {
+    return typeof incomingValue === "number"
+      ? FormatterInputValue.withNoFirstZero(incomingValue)
+      : FormatterInputValue.defaultStringFormatter(incomingValue);
+  };
+
+  /**
    * Render input
    */
   const renderInput = () => (
     <Input
-      formatter={FormatterInputValue.withNoFirstZero}
+      formatter={getFormattedValue}
       type={props.type ?? "text"}
       max={props.max}
       value={value}

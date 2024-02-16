@@ -6,7 +6,7 @@ export class FormatterInputValue {
   /**
    * Delete first zero from input number
    */
-  public static withNoFirstZero(value: string | number) {
+  public static withNoFirstZero(value: number) {
     const SECOND_INDEX = 1;
     const valueStringified = value.toString();
 
