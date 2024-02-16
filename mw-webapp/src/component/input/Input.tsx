@@ -94,6 +94,7 @@ export const Input = <T extends string | number>(props: InputProps<T>) => {
           : ParserInputValue.defaultNumberParser(event.target.value);
         break;
       }
+      case "string":
       default: {
         parsedValue = props.parser
           ? props.parser(event.target.value)
