@@ -1,17 +1,18 @@
 import {HTMLInputTypeAttribute} from "react";
 import clsx from "clsx";
 import {InputMode} from "src/component/input/InputMode";
+import {ParserInputValue} from "src/component/input/parsers";
 import styles from "src/component/input/Input.module.scss";
 
 /**
  * Input's props
  */
-interface InputProps {
+interface InputProps<T extends string | number> {
 
   /**
    * Input's value
    */
-  value: string | number;
+  value: T;
 
   /**
    * Input's type (what type of value is expected)
@@ -61,25 +62,52 @@ interface InputProps {
   /**
    * Tracks the value entered into the input
    */
-  onChange: (value: string) => void;
+  onChange: (value: T) => void;
+
+  /**
+   * Formatting value
+   */
+  formatter?: (value: T) => T;
+
+  /**
+   * Parsing formatted value
+   */
+  parser?: (value: string) => T;
 
 }
 
 /**
  * Input component
  */
-export const Input = (props: InputProps) => {
+export const Input = <T extends string | number>(props: InputProps<T>) => {
 
   /**
    * Event handler for the input change event
    */
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    props.onChange(event.target.value);
+    let parsedValue: T;
+
+    switch (props.type) {
+      case "number": {
+        parsedValue = props.parser
+          ? props.parser(event.target.value)
+          : ParserInputValue.defaultNumberParser(event.target.value);
+        break;
+      }
+      case "string":
+      default: {
+        parsedValue = props.parser
+          ? props.parser(event.target.value)
+          : ParserInputValue.defaultTextParser(event.target.value);
+        break;
+      }
+    }
+    props.onChange(parsedValue);
   };
 
   return (
     <input
-      value={props.value}
+      value={props.formatter ? props.formatter(props.value) : props.value}
       type={props.type ?? "text"}
       max={props.max}
       placeholder={props.placeholder}

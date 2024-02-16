@@ -28,7 +28,7 @@ export const UserCard = (props: UserCardProps) => {
   const navigate = useNavigate();
 
   return (
-    <a onClick={() => navigate(pages.way.getPath({uuid: props.userPreview.uuid}))}>
+    <a onClick={() => navigate(pages.user.getPath({uuid: props.userPreview.uuid}))}>
       <VerticalContainer className={styles.userCardContainer}>
         <VerticalContainer className={styles.mainInfo}>
           <HorizontalContainer className={styles.nameLikes}>

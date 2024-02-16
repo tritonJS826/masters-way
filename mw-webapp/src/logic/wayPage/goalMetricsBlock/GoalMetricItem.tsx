@@ -1,7 +1,7 @@
 import {TrashIcon} from "@radix-ui/react-icons";
 import {Checkbox} from "src/component/checkbox/Сheckbox";
 import {Confirm} from "src/component/confirm/Confirm";
-import {EditableText} from "src/component/editableText/EditableText";
+import {EditableValue} from "src/component/editableText/EditableText";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {Metric} from "src/model/businessModel/Metric";
@@ -58,8 +58,8 @@ export const GoalMetricItem = (props: SingleGoalMetricProps) => {
           onChange={(isDone) => props.updateMetric({...props.metric, isDone, doneDate: new Date()})}
         />
         <Tooltip content={tooltipContent}>
-          <EditableText
-            text={props.metric.description ?? ""}
+          <EditableValue
+            value={props.metric.description ?? ""}
             onChangeFinish={(description) => props.updateMetric({...props.metric, description})}
             isEditable={props.isEditable}
           />

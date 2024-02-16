@@ -65,7 +65,7 @@ $wayCardAdditionalHeight: 105px;
 
 .wayTags {
   display: -webkit-box;
-  overflow: hidden;
+  align-items: center;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
 }
