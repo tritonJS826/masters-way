@@ -30,6 +30,7 @@ import {WayStatistic} from "src/logic/wayPage/wayStatistics/WayStatistic";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
+import {JobTag} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
 import {WayPageSettings} from "src/utils/LocalStorageWorker";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
@@ -287,11 +288,11 @@ export const WayPage = (props: WayPageProps) => {
       copiedFromWayUuid: way.uuid,
       estimationTime: way.estimationTime,
       goalDescription: way.goalDescription,
-      jobTags: way.jobTags,
+      jobTagsStringified: way.jobTags.map((jobTag) => JSON.stringify(jobTag)),
       metricsStringified: way.metrics.map(
         (metric) => JSON.stringify({...metric, isDone: false, doneDate: null}),
       ),
-      wayTags: way.wayTags,
+      wayTagsStringified: way.wayTags.map((wayTag) => JSON.stringify(wayTag)),
     };
     const newWay: Way = await WayDAL.createWay(user, baseWayData);
 
@@ -453,7 +454,7 @@ export const WayPage = (props: WayPageProps) => {
           isVisible={wayPageSettings.isJobDoneTagsVisible}
           jobTags={way.jobTags}
           isEditable={isUserOwnerOrMentor}
-          updateTags={(tagsToUpdate: string[]) => updateWay({
+          updateTags={(tagsToUpdate: JobTag[]) => updateWay({
             wayToUpdate: {
               uuid: way.uuid,
               jobTags: tagsToUpdate,

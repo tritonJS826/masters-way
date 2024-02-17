@@ -1,3 +1,5 @@
+import {JobTag} from "src/model/businessModelPreview/WayPreview";
+
 /**
  * Plan props
  */
@@ -26,7 +28,7 @@ interface PlanProps {
   /**
    * Plan's tags
    */
-  tags: string[];
+  tags: JobTag[];
 }
 
 /**
@@ -57,7 +59,7 @@ export class Plan {
   /**
    * Plan's tags
    */
-  public tags: string[];
+  public tags: JobTag[];
 
   constructor(planData: PlanProps) {
     this.uuid = planData.uuid;

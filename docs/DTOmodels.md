@@ -18,25 +18,26 @@ wayRequestUuids: string[] @WayUuid
 WayDTO #collection
 uuid: string
 name: string
-dayReportUuids: string[] @DayReport.uuid[]
-ownerUuid: string @User.uuid
-isCompleted: boolean
+goalDescription: string
+createdAt: timestamp
 lastUpdate: timestamp
+estimationTime: number
+ownerUuid: string @User.uuid
+copiedFromWayUuid: string
+dayReportUuids: string[] @DayReport.uuid[]
+status: string | null,
 favoriteForUserUuids: string[] @User.uuid[]
 mentorUuids: string[] @User.uuid[]
 formerMentorUuids: string[] @User.uuid
 mentorRequestUuids: string[] @User.uuid
-createdAt: timestamp
-wayTags: string[]
-jobDoneTags: string[]
-copiedFromWayUuid: string
-goalDescription: string
 metricsStringified: string[] stringified@Metric
-estimationTime: number
+wayTagsStringified: string[] stringified@WayTag
+jobTagsStringified: string[] stringified@JobTag
 
 DayReportDTO #collection
 uuid: string
 createdAt: timestamp
+updatedAt: timestamp
 jobsDoneStringified: string[] stringified@JobDone
 plansStringified: string[] stringified@PlanForNextPeriod
 problemsStringified: string[] stringified@CurrentProblem
@@ -80,3 +81,17 @@ WaysCollectionDTO
 id: string
 name: string
 wayUuids: string[]
+
+UserTagDTO
+uuid: string
+name: string
+
+WayTagDTO
+uuid: string
+name: string
+
+JobTagDTO
+uuid: string
+name: string
+description: string
+color: string

@@ -1,3 +1,5 @@
+import {JobTag} from "src/model/businessModelPreview/WayPreview";
+
 /**
  * Problem for current period model
  */
@@ -26,7 +28,7 @@ export class Problem {
   /**
    * CurrentProblem's tags
    */
-  public tags: string[];
+  public tags: JobTag[];
 
   constructor(problemData: Problem) {
     this.uuid = problemData.uuid;

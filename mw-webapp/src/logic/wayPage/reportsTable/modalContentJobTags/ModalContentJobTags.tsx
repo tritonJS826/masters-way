@@ -7,6 +7,7 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {JobTag} from "src/logic/wayPage/jobTags/jobTag/JobTag";
 import {DEFAULT_TAG} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
+import {JobTag as JobTagData} from "src/model/businessModelPreview/WayPreview";
 import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/logic/wayPage/reportsTable/modalContentJobTags/ModalContentJobTags.module.scss";
 
@@ -20,12 +21,12 @@ interface JobDoneTagsProps {
   /**
    * Job done tags
    */
-  jobDoneTags: string[];
+  jobDoneTags: JobTagData[];
 
   /**
    * All Job done tags in way
    */
-  jobTags: string[];
+  jobTags: JobTagData[];
 
   /**
    * Is editable
@@ -36,7 +37,7 @@ interface JobDoneTagsProps {
   /**
    * Callback to update job done tags
    */
-  updateTags: (newTags: string[]) => Promise<void>;
+  updateTags: (newTags: JobTagData[]) => Promise<void>;
 
 }
 
@@ -44,17 +45,17 @@ interface JobDoneTagsProps {
  * Modal content job tags
  */
 export const ModalContentJobTags = (props: JobDoneTagsProps) => {
-  const [jobTagsUpdated, setJobTagsUpdated] = useState<string[]>(props.jobDoneTags);
+  const [jobTagsUpdated, setJobTagsUpdated] = useState<JobTagData[]>(props.jobDoneTags);
 
   const isJobTagsEmpty = jobTagsUpdated.length === 0;
   const isJobTagsSingle = jobTagsUpdated.length === DEFAULT_AMOUNT_TAGS;
 
   const filteredJobTags = isJobTagsSingle
     ? jobTagsUpdated
-    : Array.from(new Set(jobTagsUpdated)).filter((tag) => tag !== "no tag");
+    : Array.from(new Set(jobTagsUpdated)).filter((tag) => tag.name !== "no tag");
 
   const checkedJobTags = isJobTagsEmpty
-    ? jobTagsUpdated.concat("no tag")
+    ? jobTagsUpdated.concat(DEFAULT_TAG)
     : filteredJobTags;
 
   const allTags = Array.from(new Set(props.jobTags.concat(checkedJobTags).filter((tag) => tag !== DEFAULT_TAG)));
@@ -63,7 +64,7 @@ export const ModalContentJobTags = (props: JobDoneTagsProps) => {
    * Remove job tag from Job done
    */
   const removeJobTagFromJobDone = (jobTagToRemove: string) => {
-    const updatedJobTags = jobTagsUpdated.filter((jobTag) => jobTag !== jobTagToRemove);
+    const updatedJobTags = jobTagsUpdated.filter((jobTag) => jobTag.uuid !== jobTagToRemove);
 
     setJobTagsUpdated(updatedJobTags);
   };
@@ -71,7 +72,7 @@ export const ModalContentJobTags = (props: JobDoneTagsProps) => {
   /**
    * Add job tag to Job done
    */
-  const addJobTagFromJobDone = (jobTagToAdd: string) => {
+  const addJobTagFromJobDone = (jobTagToAdd: JobTagData) => {
     const updatedJobTags = jobTagsUpdated.concat(jobTagToAdd);
 
     setJobTagsUpdated(updatedJobTags);
@@ -92,9 +93,9 @@ export const ModalContentJobTags = (props: JobDoneTagsProps) => {
         {allTags.map((tag) => {
           return (
             <div
-              key={tag}
+              key={tag.uuid}
               className={styles.jobTags}
-              onClick={() => jobTagsUpdated.includes(tag) ? removeJobTagFromJobDone(tag) : addJobTagFromJobDone(tag)}
+              onClick={() => jobTagsUpdated.includes(tag) ? removeJobTagFromJobDone(tag.uuid) : addJobTagFromJobDone(tag)}
             >
               <Tooltip
                 content={jobTagsUpdated.includes(tag) ? "Click to remove tag" : "Click to add tag"}

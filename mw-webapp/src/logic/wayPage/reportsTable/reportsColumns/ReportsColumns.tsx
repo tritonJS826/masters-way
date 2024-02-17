@@ -24,14 +24,21 @@ import {Plan} from "src/model/businessModel/Plan";
 import {Problem} from "src/model/businessModel/Problem";
 import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
+import {JobTag} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
 import {DateUtils} from "src/utils/DateUtils";
+import {getColorByString} from "src/utils/getColorByString";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
 import {v4 as uuidv4} from "uuid";
 import styles from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns.module.scss";
 
-export const DEFAULT_TAG = "no tag";
+export const DEFAULT_TAG = {
+  uuid: uuidv4(),
+  name: "no tag",
+  description: "Default tag",
+  color: getColorByString("no tag"),
+};
 const DEFAULT_SUMMARY_TIME = 0;
 const columnHelper = createColumnHelper<DayReport>();
 const DIFFERENCE_INDEX_LIST_NUMBER = 1;
@@ -259,7 +266,7 @@ export const Columns = (props: ColumnsProps) => {
                                 jobTags={props.way.jobTags}
                                 jobDoneTags={jobDone.tags}
                                 isEditable={isUserOwnerOrMentor}
-                                updateTags={(tagsToUpdate: string[]) => updateReport({
+                                updateTags={(tagsToUpdate: JobTag[]) => updateReport({
                                   ...row.original,
                                   jobsDone: row.original.jobsDone?.map(previousJobDone => previousJobDone.uuid === jobDone.uuid
                                     ? {...previousJobDone, tags: tagsToUpdate}
@@ -445,7 +452,7 @@ export const Columns = (props: ColumnsProps) => {
                                 jobTags={props.way.jobTags}
                                 jobDoneTags={plan.tags}
                                 isEditable={isUserOwnerOrMentor}
-                                updateTags={(tagsToUpdate: string[]) => updateReport({
+                                updateTags={(tagsToUpdate: JobTag[]) => updateReport({
                                   ...row.original,
                                   plans: row.original.plans?.map(previousPlan => previousPlan.uuid === plan.uuid
                                     ? {...previousPlan, tags: tagsToUpdate}

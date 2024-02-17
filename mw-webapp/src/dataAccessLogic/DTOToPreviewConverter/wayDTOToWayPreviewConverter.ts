@@ -1,6 +1,6 @@
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
-import {WayDTO} from "src/model/DTOModel/WayDTO";
+import {WAY_JOB_TAGS_FIELD, WAY_TAGS_FIELD, WayDTO} from "src/model/DTOModel/WayDTO";
 
 /**
  * WayPreview props
@@ -30,5 +30,7 @@ export const wayDTOToWayPreviewConverter = (wayDTO: WayDTO, wayProps: WayPreview
     mentorRequests: wayDTO.mentorRequestUuids,
     lastUpdate: wayDTO.lastUpdate.toDate(),
     createdAt: wayDTO.createdAt.toDate(),
+    wayTags: wayDTO[WAY_TAGS_FIELD].map((wayTag) => JSON.parse(wayTag)),
+    jobTags: wayDTO[WAY_JOB_TAGS_FIELD].map((jobTag) => JSON.parse(jobTag)),
   });
 };

@@ -6,10 +6,10 @@ export const WAY_NAME_FIELD = "name";
 export const WAY_OWNER_UUID_FIELD = "ownerUuid";
 export const WAY_MENTOR_UUIDS_FIELD = "mentorUuids";
 export const WAY_CREATED_AT_FIELD = "createdAt";
-export const WAY_IS_COMPLETED_FIELD = "isCompleted";
+export const WAY_STATUS_FIELD = "status";
 export const WAY_LAST_UPDATE_FIELD = "lastUpdate";
-export const WAY_TAGS_FIELD = "wayTags";
-export const WAY_JOB_TAGS_FIELD = "jobTags";
+export const WAY_TAGS_FIELD = "wayTagsStringified";
+export const WAY_JOB_TAGS_FIELD = "jobTagsStringified";
 export const WAY_COPIED_FROM_WAY_UUID_FIELD = "copiedFromWayUuid";
 export const WAY_GOAL_DESCRIPTION_FIELD = "goalDescription";
 export const WAY_ESTIMATION_TIME_FIELD = "estimationTime";
@@ -55,7 +55,7 @@ export const WayDTOSchema = z.object({
   /**
    * Return true if way is completed and false if not completed
    */
-  [WAY_IS_COMPLETED_FIELD]: z.boolean(),
+  [WAY_STATUS_FIELD]: z.string().nullable(),
 
   /**
    * Last time whe way was updated in ms (timestamp)

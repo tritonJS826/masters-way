@@ -3,7 +3,13 @@ export type JobDoneDTOMigration = {
   description: string;
   time: number;
   tags: string[];
-  timeUnit: string;
+}
+
+export type JobTagDTOMigration = {
+  uuid: string;
+  name: string;
+  description: string;
+  color: string;
 }
 
 export type JobDoneDTO = {

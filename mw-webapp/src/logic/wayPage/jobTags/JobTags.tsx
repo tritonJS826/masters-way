@@ -7,6 +7,9 @@ import {PromptModalContent} from "src/component/modal/PromptModalContent";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {JobTag} from "src/logic/wayPage/jobTags/jobTag/JobTag";
+import {JobTag as JobTagData} from "src/model/businessModelPreview/WayPreview";
+import {getColorByString} from "src/utils/getColorByString";
+import {v4 as uuidv4} from "uuid";
 import styles from "src/logic/wayPage/jobTags/JobTags.module.scss";
 
 /**
@@ -23,7 +26,7 @@ interface JobTagsProps {
   /**
    * Job tags
    */
-  jobTags: string[];
+  jobTags: JobTagData[];
 
   /**
    * Is editable
@@ -34,7 +37,7 @@ interface JobTagsProps {
   /**
    * Callback to update job tags
    */
-  updateTags: (newTags: string[]) => Promise<void>;
+  updateTags: (newTags: JobTagData[]) => Promise<void>;
 }
 
 /**
@@ -51,7 +54,7 @@ export const JobTags = (props: JobTagsProps) => {
    * Remove job tag from Way
    */
   const removeJobTagFromWay = (jobTagToRemove: string) => {
-    const updatedJobTags = props.jobTags.filter((jobTag) => jobTag !== jobTagToRemove);
+    const updatedJobTags = props.jobTags.filter((jobTag) => jobTag.uuid !== jobTagToRemove);
 
     props.updateTags(updatedJobTags);
   };
@@ -60,7 +63,13 @@ export const JobTags = (props: JobTagsProps) => {
    * Create job tag
    */
   const createJobTag = async (newJobTag: string) => {
-    const updatedJobTags = props.jobTags.concat(newJobTag);
+    const randomColor = getColorByString(newJobTag);
+    const updatedJobTags = props.jobTags.concat({
+      uuid: uuidv4(),
+      name: newJobTag,
+      description: "",
+      color: randomColor,
+    });
 
     await props.updateTags(updatedJobTags);
 
@@ -72,7 +81,7 @@ export const JobTags = (props: JobTagsProps) => {
       {props.jobTags.map((jobTag) => {
         return (
           <div
-            key={jobTag}
+            key={jobTag.uuid}
             className={styles.jobTags}
           >
             <JobTag jobTag={jobTag} />
@@ -87,7 +96,7 @@ export const JobTags = (props: JobTagsProps) => {
                   content={<p>
                     {`Are you sure you want to remove "${jobTag}" from job tags"?`}
                   </p>}
-                  onOk={() => removeJobTagFromWay(jobTag)}
+                  onOk={() => removeJobTagFromWay(jobTag.uuid)}
                   okText="Delete"
                 />
               </Tooltip>

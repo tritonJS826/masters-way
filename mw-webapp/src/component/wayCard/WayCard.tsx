@@ -10,7 +10,7 @@ import {WayTag} from "src/component/wayCard/wayTag/WayTag";
 import {getFirstName} from "src/logic/waysTable/waysColumns";
 import {Metric} from "src/model/businessModel/Metric";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
-import {WayPreview} from "src/model/businessModelPreview/WayPreview";
+import {WayPreview, WayTag as WayTagData} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
 import {DateUtils} from "src/utils/DateUtils";
 import styles from "src/component/wayCard/WayCard.module.scss";
@@ -35,13 +35,13 @@ export const WayCard = (props: WayCardProps) => {
   /**
    * Render way tags
    */
-  const renderWayTags = (wayTags: string[]) => {
+  const renderWayTags = (wayTags: WayTagData[]) => {
     return (
       <HorizontalContainer className={styles.wayTags}>
         {wayTags.map((wayTag) => (
           <WayTag
-            key={wayTag}
-            tagName={wayTag}
+            key={wayTag.uuid}
+            tagName={wayTag.name}
           />
         ))
         }

@@ -4,6 +4,7 @@ import {z} from "zod";
 
 export const DAY_REPORT_UUID_FIELD = "uuid";
 export const DAY_REPORT_CREATED_AT_FIELD = "createdAt";
+export const DAY_REPORT_UPDATED_AT_FIELD = "updatedAt";
 
 export const DayReportDTOSchema = z.object({
 
@@ -16,6 +17,11 @@ export const DayReportDTOSchema = z.object({
    * Report's created date
    */
   [DAY_REPORT_CREATED_AT_FIELD]: timestampType(),
+
+  /**
+   * Report's updated date
+   */
+  [DAY_REPORT_UPDATED_AT_FIELD]: timestampType(),
 
   /**
    * Stringified jobsDone objects

@@ -1,4 +1,5 @@
 import {UserNotSaturatedWay} from "src/model/businessModelPreview/UserNotSaturatedWay";
+import {JobTag, WayTag} from "src/model/businessModelPreview/WayPreview";
 
 /**
  * Way not saturated user model
@@ -41,9 +42,10 @@ export class WayNotSaturatedUser {
   public mentorRequests: string[];
 
   /**
-   * Return true if way is completed and false if not completed
+   * Way's status "Completed" or "Template"
+   * @default null
    */
-  public isCompleted: boolean;
+  public status: string | null;
 
   /**
    * Last day when way was updated
@@ -61,14 +63,14 @@ export class WayNotSaturatedUser {
   public createdAt: Date;
 
   /**
-   * Way's tags
+   * Way's tags {@link WayTag}
    */
-  public wayTags: string[];
+  public wayTags: WayTag[];
 
   /**
-   * Tags that was used for jobDone
+   * Tags that was used for jobDone {@link JobTag}
    */
-  public jobTags: string[];
+  public jobTags: JobTag[];
 
   /**
    * Way's uuid that was copied
@@ -97,7 +99,7 @@ export class WayNotSaturatedUser {
     this.owner = wayData.owner;
     this.mentors = wayData.mentors;
     this.mentorRequests = wayData.mentorRequests;
-    this.isCompleted = wayData.isCompleted;
+    this.status = wayData.status;
     this.lastUpdate = wayData.lastUpdate;
     this.favoriteForUserUuids = wayData.favoriteForUserUuids;
     this.createdAt = wayData.createdAt;

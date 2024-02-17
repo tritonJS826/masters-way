@@ -5,6 +5,7 @@ import {StatisticLine} from "src/logic/wayPage/wayStatistics/StatisticLine";
 import {TagStats} from "src/logic/wayPage/wayStatistics/TagStats";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
+import {JobTag} from "src/model/businessModelPreview/WayPreview";
 import {DateUtils} from "src/utils/DateUtils";
 import styles from "src/logic/wayPage/wayStatistics/WayStatistic.module.scss";
 
@@ -52,21 +53,21 @@ const getTagStats = (jobsDone: JobDone[]) => {
   const tagStatsMap = new Map<string, JobTagStat>();
   const totalJobsTime = jobsDone.reduce((accum, jobDone) => accum + jobDone.time, 0);
   jobsDone.forEach((job: JobDone) => {
-    job.tags.forEach((tag: string) => {
+    job.tags.forEach((tag: JobTag) => {
       const AMOUNT_INCREMENT = 1;
       const PERCENTAGE_MULTIPLIER = 100;
 
-      const totalAmount = (tagStatsMap.get(tag)?.totalAmount ?? 0) + AMOUNT_INCREMENT;
+      const totalAmount = (tagStatsMap.get(tag.uuid)?.totalAmount ?? 0) + AMOUNT_INCREMENT;
       const totalAmountPercentage = Math.round(totalAmount / jobsDone.length * PERCENTAGE_MULTIPLIER);
-      const totalTime = (tagStatsMap.get(tag)?.totalTime ?? 0) + job.time;
+      const totalTime = (tagStatsMap.get(tag.uuid)?.totalTime ?? 0) + job.time;
       const totalTimePercentage = Math.round(totalTime / totalJobsTime * PERCENTAGE_MULTIPLIER);
 
-      tagStatsMap.set(tag, {
+      tagStatsMap.set(tag.uuid, {
         totalAmount,
         totalAmountPercentage,
         totalTime,
         totalTimePercentage,
-        name: tag,
+        tagData: tag,
       });
     });
   });

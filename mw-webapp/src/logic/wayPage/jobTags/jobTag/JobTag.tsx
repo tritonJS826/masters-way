@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import {getColorByString} from "src/utils/getColorByString";
+import {JobTag as JobTagData} from "src/model/businessModelPreview/WayPreview";
 import styles from "src/logic/wayPage/jobTags/jobTag/JobTag.module.scss";
 
 /**
@@ -10,7 +10,7 @@ interface JobTagProps {
   /**
    * Job tag
    */
-  jobTag: string;
+  jobTag: JobTagData;
 
   /**
    * Is small
@@ -24,14 +24,12 @@ interface JobTagProps {
  * Job tag component
  */
 export const JobTag = (props: JobTagProps) => {
-  const randomColor = getColorByString(props.jobTag);
-
   return (
     <div
-      style={{color: randomColor, borderColor: randomColor}}
+      style={{color: props.jobTag.color, borderColor: props.jobTag.color}}
       className={clsx(styles.jobTag, props.isSmall && styles.small)}
     >
-      {props.jobTag}
+      {props.jobTag.name}
     </div>
   );
 };

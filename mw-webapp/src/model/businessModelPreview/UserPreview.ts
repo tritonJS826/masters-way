@@ -29,7 +29,7 @@ export type UserTag = {
   /**
    * User tag uuid
    */
-  id: string;
+  uuid: string;
 
   /**
    * User tag name

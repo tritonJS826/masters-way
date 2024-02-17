@@ -1,3 +1,5 @@
+import {JobTag} from "src/model/businessModelPreview/WayPreview";
+
 /**
  * JobDone props
  */
@@ -21,7 +23,7 @@ interface JobDoneProps {
   /**
    * CurrentProblem's tags
    */
-  tags: string[];
+  tags: JobTag[];
 }
 
 /**
@@ -47,7 +49,7 @@ export class JobDone {
   /**
    * JobDone's tags
    */
-  public tags: string[];
+  public tags: JobTag[];
 
   constructor(jobDoneData: JobDoneProps) {
     this.uuid = jobDoneData.uuid;
