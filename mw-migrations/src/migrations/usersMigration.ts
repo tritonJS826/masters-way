@@ -1,15 +1,13 @@
-import { doc, Timestamp, writeBatch } from "firebase/firestore";
-import { WayDTO } from "../DTOModel/WayDTO.js";
+import { doc, writeBatch } from "firebase/firestore";
 import { db } from "../firebase.js";
-import { WayService } from "../service/WayService.js";
 import { logToFile } from "../utils/logToFile.js";
 import { UserService } from "../service/UserService.js";
 
-const FILE_TO_LOG = "wayMigration_add_favoriteForUserUuids_add_favoriteUserUuids"
+const FILE_TO_LOG = "userMigration_add_tagsStringified_imageUrl_isMentor_wayRequestUuids"
 const log = (textToLog: string) => logToFile(`${(new Date()).toISOString()}: ${textToLog}`, FILE_TO_LOG);
 
 /*
- * Add favoriteForUserUuids and favoriteUserUuids properties to all users
+ * Add "tagsStringified","imageUrl","isMentor", "wayRequestUuids" properties to all users
  */
 const migrateUsers = async () => {
   const usersMigrationStartTime = new Date();
@@ -33,8 +31,10 @@ const migrateUsers = async () => {
       
       const userRef = doc(db, "users", user.uuid);
       batch.update(userRef, {
-        favoriteForUserUuids: [],
-        favoriteUserUuids: [],
+        tagsStringified: [],
+        imageUrl: "",
+        isMentor: false,
+        wayRequestUuids: [],
       });
 
       const userMigrationEndTime = new Date();
@@ -56,7 +56,7 @@ const migrateUsers = async () => {
     Migrations report:
 
     Migration goal:
-    Add "favoriteForUserUuids" and "favoriteUserUuids" fields to the User documents
+    Add "tagsStringified","imageUrl","isMentor", "wayRequestUuids" fields to the User documents
     
     Start time: ${usersMigrationStartTime}
     End time: ${usersMigrationEndTime}

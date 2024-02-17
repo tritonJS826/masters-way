@@ -26,6 +26,10 @@ const defaultUser: UserPreview = {
   favoriteWays: ["1", "2"],
   mentoringWays: [],
   ownWays: ["1"],
+  imageUrl: "",
+  isMentor: true,
+  tags: [],
+  wayRequests: [],
 };
 
 export const Default: Story = {

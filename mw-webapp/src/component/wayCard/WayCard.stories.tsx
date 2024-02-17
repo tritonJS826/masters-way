@@ -27,6 +27,10 @@ const defaultWayOwner: UserPreview = {
   favoriteWays: [],
   mentoringWays: [],
   ownWays: ["1"],
+  tags: [],
+  imageUrl: "",
+  isMentor: false,
+  wayRequests: [],
 };
 
 const defaultWayPreview: WayPreview = {
@@ -57,6 +61,10 @@ const defaultWayPreview: WayPreview = {
       favoriteWays: [],
       mentoringWays: [],
       ownWays: ["1"],
+      tags: [],
+      imageUrl: "",
+      isMentor: false,
+      wayRequests: [],
     },
     {
       uuid: "user3",
@@ -70,6 +78,10 @@ const defaultWayPreview: WayPreview = {
       favoriteWays: [],
       mentoringWays: [],
       ownWays: ["1"],
+      tags: [],
+      imageUrl: "",
+      isMentor: false,
+      wayRequests: [],
     },
   ],
   metricsStringified: [

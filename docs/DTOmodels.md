@@ -2,14 +2,18 @@ UserDTO #collection
 uuid: string
 name: string
 email: string
+description: string
+createdAt: timestamp
 ownWayUuids: string[] @Way.uuid
 favoriteWayUuids: string[] @Way.uuid
 mentoringWayUuids: string[] @Way.uuid
-description: string
-createdAt: timestamp
 customWayCollectionsStringified: string[] stringified@WaysCollection
 favoriteForUserUuids: string[] @User.uuid
 favoriteUserUuids: string[] @User.uuid
+tagsStringified: string[] stringified@UserTag
+imageUrl: string
+isMentor: boolean
+wayRequestUuids: string[] @WayUuid
 
 WayDTO #collection
 uuid: string

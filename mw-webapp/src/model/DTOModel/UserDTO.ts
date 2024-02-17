@@ -63,6 +63,26 @@ export const UserDTOSchema = z.object({
    */
   favoriteUserUuids: z.array(z.string()),
 
+  /**
+   * Stringified user's tags
+   */
+  tagsStringified: z.array(z.string()),
+
+  /**
+   * User's image path
+   */
+  imageUrl: z.string(),
+
+  /**
+   * Is user mentor or not
+   */
+  isMentor: z.boolean(),
+
+  /**
+   * Way's uuids requested user become a mentor @Way.uuid
+   */
+  wayRequestUuids: z.array(z.string()),
+
 }).strict();
 
 export const UsersDTOSchema = z.array(UserDTOSchema);
