@@ -1,17 +1,18 @@
 import {userToUserDTOPartialConverter}
   from "src/dataAccessLogic/BusinessToDTOConverter/userPreviewToUserPreviewDTOPartialConverter";
+import {UserDTOToUserNotSaturatedWayConverter}
+  from "src/dataAccessLogic/DTOToPreviewConverter/userDTOToUserNotSaturatedWayConverter";
 import {UserDTOToUserPreviewConverter} from "src/dataAccessLogic/DTOToPreviewConverter/userDTOToUserPreviewConverter";
+import {wayDTOToWayNotSaturatedUserConverter}
+  from "src/dataAccessLogic/DTOToPreviewConverter/wayDTOToWayNotSaturatedUserConverter";
 import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {UserNotSaturatedWay} from "src/model/businessModelPreview/UserNotSaturatedWay";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {WayNotSaturatedUser} from "src/model/businessModelPreview/WayNotSaturatedUser";
-import {USER_CREATED_AT_FIELD} from "src/model/DTOModel/UserDTO";
 import {
-  WAY_CREATED_AT_FIELD,
-  WAY_LAST_UPDATE_FIELD,
-  WAY_MENTOR_UUIDS_FIELD,
   WAY_OWNER_UUID_FIELD,
   WAY_UUID_FIELD,
+  WayDTO,
 } from "src/model/DTOModel/WayDTO";
 import {GetUsersParams, UserService} from "src/service/UserService";
 import {WayService} from "src/service/WayService";
@@ -37,7 +38,6 @@ export class UserPreviewDAL {
     const usersDTO = await UserService.getUsersDTO(params);
 
     const allNeededWaysRequestsUuids = new Set(usersDTO.flatMap(userDTO => [...userDTO.wayRequestUuids]));
-    // Const allNeededWaysRequestsPreview = await WayPreviewDAL.getWaysPreviewByUuids(Array.from(allNeededWaysRequestsUuids));
 
     const allNeededWaysRequestsPreviewDTO = await WayService.getWaysDTOByUuids(Array.from(allNeededWaysRequestsUuids));
     const wayRequestsHashmap = arrayToHashMap({keyField: WAY_UUID_FIELD, list: allNeededWaysRequestsPreviewDTO});
@@ -46,29 +46,13 @@ export class UserPreviewDAL {
 
     const usersPreviewPromise = usersDTO.map(async (userDTO) => {
       const wayRequestsDTO = userDTO.wayRequestUuids.map((item) => wayRequestsSafeHashmap.getValue(item));
-      const wayRequestsPromise = wayRequestsDTO.map(async (item) => {
-        const ownerDTO = await UserService.getUserDTO(item[WAY_OWNER_UUID_FIELD]);
-        const owner: UserNotSaturatedWay = new UserNotSaturatedWay({
-          ...ownerDTO,
-          ownWays: ownerDTO.ownWayUuids,
-          favoriteWays: ownerDTO.favoriteWayUuids,
-          mentoringWays: ownerDTO.mentoringWayUuids,
-          tags: ownerDTO.tagsStringified.map((tag) => JSON.parse(tag)),
-          wayRequests: ownerDTO.wayRequestUuids,
-          createdAt: ownerDTO[USER_CREATED_AT_FIELD].toDate(),
-          customWayCollections: ownerDTO.customWayCollectionsStringified.map((customWay) => JSON.parse(customWay)),
-        });
+      const wayRequestsPromise = wayRequestsDTO.map(async (wayRequest) => {
+        const ownerDTO = await UserService.getUserDTO(wayRequest[WAY_OWNER_UUID_FIELD]);
+        const owner: UserNotSaturatedWay = UserDTOToUserNotSaturatedWayConverter(ownerDTO);
 
-        const convertedItem: WayNotSaturatedUser = {
-          ...item,
-          owner,
-          mentors: item[WAY_MENTOR_UUIDS_FIELD],
-          mentorRequests: item.mentorRequestUuids,
-          createdAt: item[WAY_CREATED_AT_FIELD].toDate(),
-          lastUpdate: item[WAY_LAST_UPDATE_FIELD].toDate(),
-        };
+        const wayRequestNotSaturatedUser: WayNotSaturatedUser = wayDTOToWayNotSaturatedUserConverter(wayRequest, owner);
 
-        return convertedItem;
+        return wayRequestNotSaturatedUser;
       });
 
       const wayRequests = await Promise.all(wayRequestsPromise);
@@ -88,7 +72,6 @@ export class UserPreviewDAL {
     const usersDTO = userUuids.length ? await UserService.getUsersDTOByUuids(userUuids) : [];
 
     const allNeededWaysRequestsUuids = new Set(usersDTO.flatMap(userDTO => [...userDTO.wayRequestUuids]));
-    // Const allNeededWaysRequestsPreview = await WayPreviewDAL.getWaysPreviewByUuids(Array.from(allNeededWaysRequestsUuids));
 
     const allNeededWaysRequestsPreviewDTO = await WayService.getWaysDTOByUuids(Array.from(allNeededWaysRequestsUuids));
     const wayRequestsHashmap = arrayToHashMap({keyField: WAY_UUID_FIELD, list: allNeededWaysRequestsPreviewDTO});
@@ -97,29 +80,13 @@ export class UserPreviewDAL {
 
     const usersPreviewPromise = usersDTO.map(async (userDTO) => {
       const wayRequestsDTO = userDTO.wayRequestUuids.map((item) => wayRequestsSafeHashmap.getValue(item));
-      const wayRequestsPromise = wayRequestsDTO.map(async (item) => {
-        const ownerDTO = await UserService.getUserDTO(item[WAY_OWNER_UUID_FIELD]);
-        const owner: UserNotSaturatedWay = new UserNotSaturatedWay({
-          ...ownerDTO,
-          ownWays: ownerDTO.ownWayUuids,
-          favoriteWays: ownerDTO.favoriteWayUuids,
-          mentoringWays: ownerDTO.mentoringWayUuids,
-          tags: ownerDTO.tagsStringified.map((tag) => JSON.parse(tag)),
-          wayRequests: ownerDTO.wayRequestUuids,
-          createdAt: ownerDTO[USER_CREATED_AT_FIELD].toDate(),
-          customWayCollections: ownerDTO.customWayCollectionsStringified.map((customWay) => JSON.parse(customWay)),
-        });
+      const wayRequestsPromise = wayRequestsDTO.map(async (wayRequest) => {
+        const ownerDTO = await UserService.getUserDTO(wayRequest[WAY_OWNER_UUID_FIELD]);
+        const owner: UserNotSaturatedWay = UserDTOToUserNotSaturatedWayConverter(ownerDTO);
 
-        const convertedItem: WayNotSaturatedUser = {
-          ...item,
-          owner,
-          mentors: item[WAY_MENTOR_UUIDS_FIELD],
-          mentorRequests: item.mentorRequestUuids,
-          createdAt: item[WAY_CREATED_AT_FIELD].toDate(),
-          lastUpdate: item[WAY_LAST_UPDATE_FIELD].toDate(),
-        };
+        const wayRequestNotSaturatedUser: WayNotSaturatedUser = wayDTOToWayNotSaturatedUserConverter(wayRequest, owner);
 
-        return convertedItem;
+        return wayRequestNotSaturatedUser;
       });
 
       const wayRequests = await Promise.all(wayRequestsPromise);
@@ -138,33 +105,16 @@ export class UserPreviewDAL {
   public static async getUserPreview(uuid: string): Promise<UserPreview> {
     const userDTO = await UserService.getUserDTO(uuid);
 
-    // Const waysRequestsPreview = await WayPreviewDAL.getWaysPreviewByUuids(userDTO.wayRequestUuids);
-
     const waysRequestsPreview = await WayService.getWaysDTOByUuids(userDTO.wayRequestUuids);
 
-    const wayRequestsPromise = waysRequestsPreview.map(async (item) => {
-      const ownerDTO = await UserService.getUserDTO(item[WAY_OWNER_UUID_FIELD]);
-      const owner: UserNotSaturatedWay = new UserNotSaturatedWay({
-        ...ownerDTO,
-        ownWays: ownerDTO.ownWayUuids,
-        favoriteWays: ownerDTO.favoriteWayUuids,
-        mentoringWays: ownerDTO.mentoringWayUuids,
-        tags: ownerDTO.tagsStringified.map((tag) => JSON.parse(tag)),
-        wayRequests: ownerDTO.wayRequestUuids,
-        createdAt: ownerDTO[USER_CREATED_AT_FIELD].toDate(),
-        customWayCollections: ownerDTO.customWayCollectionsStringified.map((customWay) => JSON.parse(customWay)),
-      });
+    const wayRequestsPromise = waysRequestsPreview.map(async (wayRequest: WayDTO) => {
+      const ownerDTO = await UserService.getUserDTO(wayRequest[WAY_OWNER_UUID_FIELD]);
 
-      const convertedItem: WayNotSaturatedUser = {
-        ...item,
-        owner,
-        mentors: item[WAY_MENTOR_UUIDS_FIELD],
-        mentorRequests: item.mentorRequestUuids,
-        createdAt: item[WAY_CREATED_AT_FIELD].toDate(),
-        lastUpdate: item[WAY_LAST_UPDATE_FIELD].toDate(),
-      };
+      const owner: UserNotSaturatedWay = UserDTOToUserNotSaturatedWayConverter(ownerDTO);
 
-      return convertedItem;
+      const wayRequestNotSaturatedUser: WayNotSaturatedUser = wayDTOToWayNotSaturatedUserConverter(wayRequest, owner);
+
+      return wayRequestNotSaturatedUser;
     });
 
     const wayRequests = await Promise.all(wayRequestsPromise);
