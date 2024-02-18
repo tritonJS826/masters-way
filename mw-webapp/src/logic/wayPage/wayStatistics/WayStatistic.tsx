@@ -67,7 +67,7 @@ const getTagStats = (jobsDone: JobDone[]) => {
         totalAmountPercentage,
         totalTime,
         totalTimePercentage,
-        tagData: tag,
+        jobTag: tag,
       });
     });
   });

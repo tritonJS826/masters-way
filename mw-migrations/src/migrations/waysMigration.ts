@@ -50,6 +50,20 @@ const migrateWays = async () => {
         return `{\"uuid\":\"${jobTagUuid}\",\"name\":\"${jobTag}\",\"description\":\"\",\"color\":\"${color}\"}`;
       });
 
+      const metricsStringified = way.metricsStringified.map((item) => {
+        const metric = JSON.parse(item);
+
+        const updatedMetric = {
+          ...metric,
+          createdAt: new Date().getTime(),
+          updatedAt: new Date().getTime(),
+          metricEstimation: 0,
+        }
+
+        const updatedMetricStringified = JSON.stringify(updatedMetric);
+        return updatedMetricStringified;
+      })
+
       batch.update(wayRef, {
         status: status,
         isCompleted: deleteField(),
@@ -57,6 +71,7 @@ const migrateWays = async () => {
         wayTags: deleteField(),
         jobTagsStringified,
         jobTags: deleteField(),
+        metricsStringified,
       });
 
       const wayMigrationEndTime = new Date();

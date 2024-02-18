@@ -30,6 +30,20 @@ const migrateUsers = async () => {
       log(`started ${user.uuid} migration`);
       
       const userRef = doc(db, "users", user.uuid);
+
+      const wayCollections = user.customWayCollectionsStringified.map((item) => JSON.parse(item));
+
+      const updatedWayCollections = wayCollections.map((item) => {
+        return {
+          uuid: item.id,
+          createdAt: new Date().getTime(),
+          updatedAt: new Date().getTime(),
+          name: item.name,
+          wayUuids: item.wayUuids,
+        }
+      })
+
+
       batch.update(userRef, {
         tagsStringified: [],
         imageUrl: "",

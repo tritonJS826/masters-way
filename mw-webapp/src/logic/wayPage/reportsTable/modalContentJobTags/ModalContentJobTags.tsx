@@ -58,7 +58,11 @@ export const ModalContentJobTags = (props: JobDoneTagsProps) => {
     ? jobTagsUpdated.concat(DEFAULT_TAG)
     : filteredJobTags;
 
-  const allTags = Array.from(new Set(props.jobTags.concat(checkedJobTags).filter((tag) => tag !== DEFAULT_TAG)));
+  const allTagsMap = new Map(props.jobTags.concat(checkedJobTags).map((tag) => [tag.uuid, tag]));
+
+  const allTagsUnique = Array.from(allTagsMap, ([, value]) => value);
+
+  const allTags = allTagsUnique.filter((tag) => tag !== DEFAULT_TAG);
 
   /**
    * Remove job tag from Job done

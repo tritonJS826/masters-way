@@ -28,5 +28,5 @@ export type JobTagStat = {
   /**
    * Tag data
    */
-  tagData: JobTag;
+  jobTag: JobTag;
 };
