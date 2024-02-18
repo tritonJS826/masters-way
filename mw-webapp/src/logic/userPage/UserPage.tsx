@@ -162,8 +162,8 @@ export const UserPage = (props: UserPageProps) => {
   /**
    * Callback that is called on fetch or validation error
    */
-  const onError = () => {
-    navigate(pages.page404.getPath({}));
+  const onError = (error: Error) => {
+    throw (error);
   };
 
   /**

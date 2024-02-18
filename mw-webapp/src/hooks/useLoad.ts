@@ -43,6 +43,7 @@ export const useLoad = <Data, Dependency>({
 }: useLoadProps<Data, Dependency>) => {
   const [data, setData] = useState<Data>();
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<Error>();
 
   useEffect(() => {
 
@@ -60,17 +61,19 @@ export const useLoad = <Data, Dependency>({
         setData(loadedData);
         onSuccess(loadedData);
       } catch (err) {
-        if (err instanceof Error) {
-          onError(err);
-          throw err;
-        }
+        setError(err as Error);
       } finally {
         setIsLoading(false);
       }
     }
 
     fetchAndValidateData();
+
   }, dependency);
+
+  if (error) {
+    onError(error);
+  }
 
   return {data, setData, isLoading};
 };
