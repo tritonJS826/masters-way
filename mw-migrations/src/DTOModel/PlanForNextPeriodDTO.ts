@@ -6,6 +6,13 @@ export type PlanForNextPeriodDTOMigration = {
   tags: string[];
 }
 
+export type PlanTagDTOMigration = {
+  uuid: string;
+  name: string;
+  description: string;
+  color: string;
+}
+
 export type PlanForNextPeriodDTO = {
   estimationTime: number;
   job: string;

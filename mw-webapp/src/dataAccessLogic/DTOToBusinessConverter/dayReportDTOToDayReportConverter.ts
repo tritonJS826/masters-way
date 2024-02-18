@@ -1,5 +1,5 @@
 import {DayReport} from "src/model/businessModel/DayReport";
-import {DayReportDTO} from "src/model/DTOModel/DayReportDTO";
+import {DAY_REPORT_UPDATED_AT_FIELD, DayReportDTO} from "src/model/DTOModel/DayReportDTO";
 
 /**
  * Convert {@link DayReportDTO} to {@link DayReport}
@@ -13,6 +13,7 @@ export const dayReportDTOToDayReportConverter = (dayReportDTO: DayReportDTO): Da
     plans: dayReportDTO.plansStringified.map((planStringified) => JSON.parse(planStringified)),
     problems: dayReportDTO.problemsStringified.map((problemStringified) => JSON.parse(problemStringified)),
     comments: dayReportDTO.commentsStringified.map((commentStringified) => JSON.parse(commentStringified)),
+    updatedAt: dayReportDTO[DAY_REPORT_UPDATED_AT_FIELD].toDate(),
   });
 };
 

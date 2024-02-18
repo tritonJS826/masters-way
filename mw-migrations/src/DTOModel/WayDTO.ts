@@ -1,3 +1,10 @@
+export type JobTag = {
+  uuid: string;
+  name: string;
+  description: string;
+  color: string;
+}
+
 export type WayDTOMigration = {
   uuid: string;
   name: string;
@@ -13,7 +20,10 @@ export type WayDTOMigration = {
   currentMentorUuids: string[];
   wayTags: string[];
   jobTags: string[];
+  // jobTagsStringified: JobTag[];
+  jobTagsStringified: string[];
   monthReportUuids: string[];
+  metricsStringified: string[];
 }
 
 export type WayDTO = {

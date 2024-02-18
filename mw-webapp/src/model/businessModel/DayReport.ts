@@ -14,9 +14,14 @@ export class DayReport {
   public uuid: string;
 
   /**
-   * Report's date
+   * Report's created date
    */
   public createdAt: Date;
+
+  /**
+   * Report's updated date
+   */
+  public updatedAt: Date;
 
   /**
    * Job done per day
@@ -46,6 +51,7 @@ export class DayReport {
   constructor(dayReportData: DayReport) {
     this.uuid = dayReportData.uuid;
     this.createdAt = dayReportData.createdAt;
+    this.updatedAt = dayReportData.updatedAt;
     this.jobsDone = dayReportData.jobsDone;
     this.plans = dayReportData.plans;
     this.problems = dayReportData.problems;

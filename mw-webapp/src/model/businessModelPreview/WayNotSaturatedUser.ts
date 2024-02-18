@@ -1,12 +1,10 @@
-import {DayReport} from "src/model/businessModel/DayReport";
-import {Metric} from "src/model/businessModel/Metric";
-import {UserPreview} from "src/model/businessModelPreview/UserPreview";
+import {UserNotSaturatedWay} from "src/model/businessModelPreview/UserNotSaturatedWay";
 import {JobTag, WayTag} from "src/model/businessModelPreview/WayPreview";
 
 /**
- * Way model
+ * Way not saturated user model
  */
-export class Way {
+export class WayNotSaturatedUser {
 
   /**
    * Way's UUID
@@ -19,33 +17,29 @@ export class Way {
   public name: string;
 
   /**
-   * Day reports
+   * Day reports uuids @DayReport.uuid
    */
-  public dayReports: DayReport[];
+  public dayReportUuids: string[];
 
   /**
    * Way's owner
    */
-  public owner: UserPreview;
+  public owner: UserNotSaturatedWay;
 
   /**
    * Mentors of this way
-   * @key @User.uuid
-   * @value @UserPreview
    */
-  public mentors: Map<string, UserPreview>;
+  public mentors: string[];
 
   /**
-   * Former mentors of this way
-   * @key @User.uuid
-   * @value @UserPreview
+   * Former mentor's UUIDs @User.uuid
    */
-  public formerMentors: Map<string, UserPreview>;
+  public formerMentorUuids: string[];
 
   /**
    * Users who sent request to become Way's mentor
    */
-  public mentorRequests: UserPreview[];
+  public mentorRequests: string[];
 
   /**
    * Way's status "Completed" or "Template"
@@ -96,12 +90,12 @@ export class Way {
   /**
    * Stringified metrics objects {@link MetricDTO}
    */
-  public metrics: Metric[];
+  public metricsStringified: string[];
 
-  constructor(wayData: Way) {
+  constructor(wayData: WayNotSaturatedUser) {
     this.uuid = wayData.uuid;
     this.name = wayData.name;
-    this.dayReports = wayData.dayReports;
+    this.dayReportUuids = wayData.dayReportUuids;
     this.owner = wayData.owner;
     this.mentors = wayData.mentors;
     this.mentorRequests = wayData.mentorRequests;
@@ -111,11 +105,11 @@ export class Way {
     this.createdAt = wayData.createdAt;
     this.wayTags = wayData.wayTags;
     this.jobTags = wayData.jobTags;
-    this.formerMentors = wayData.formerMentors;
+    this.formerMentorUuids = wayData.formerMentorUuids;
     this.copiedFromWayUuid = wayData.copiedFromWayUuid;
     this.goalDescription = wayData.goalDescription;
     this.estimationTime = wayData.estimationTime;
-    this.metrics = wayData.metrics;
+    this.metricsStringified = wayData.metricsStringified;
   }
 
 }

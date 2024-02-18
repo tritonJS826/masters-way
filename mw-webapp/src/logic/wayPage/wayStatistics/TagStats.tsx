@@ -19,11 +19,11 @@ interface TagStatsProps {
  */
 export const TagStats = (props: TagStatsProps) => {
   return props.stats.map((tagStat) => (
-    <Fragment key={tagStat.name}>
+    <Fragment key={tagStat.jobTag.uuid}>
       <StatisticLine
         description={
           <JobTag
-            jobTag={tagStat.name}
+            jobTag={tagStat.jobTag}
             isSmall
           />
         }
@@ -33,7 +33,7 @@ export const TagStats = (props: TagStatsProps) => {
       <StatisticLine
         description={
           <JobTag
-            jobTag={tagStat.name}
+            jobTag={tagStat.jobTag}
             isSmall
           />
         }

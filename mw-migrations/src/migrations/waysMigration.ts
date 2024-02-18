@@ -1,15 +1,17 @@
 import { deleteField, doc, Timestamp, writeBatch } from "firebase/firestore";
-import { WayDTO } from "../DTOModel/WayDTO.js";
+import { WayDTO, WayDTOMigration } from "../DTOModel/WayDTO.js";
 import { db } from "../firebase.js";
 import { WayService } from "../service/WayService.js";
 import { logToFile } from "../utils/logToFile.js";
 import { GoalService } from "../service/GoalService.js";
+import {v4 as uuidv4} from "uuid";
+import { getColorByString } from "../utils/getColorByString.js";
 
-const FILE_TO_LOG = "wayMigration_add_goalDescription_metricsStringified_estimationTime"
+const FILE_TO_LOG = "wayMigration_add_status"
 const log = (textToLog: string) => logToFile(`${(new Date()).toISOString()}: ${textToLog}`, FILE_TO_LOG);
 
 /*
- * Add goalDescription, metricsStringified, estimationTime properties and delete goalUuid to all ways
+ * Add status property and delete isCompleted to all ways
  */
 const migrateWays = async () => {
   const waysMigrationStartTime = new Date();
@@ -24,7 +26,7 @@ const migrateWays = async () => {
   log(`Got ${allWays.length} goals`)
 
   log(`Getting all ways to migrate`);
-  const waysToMigrate: WayDTO[] = allWays;
+  const waysToMigrate: WayDTOMigration[] = allWays;
   log(`Got ${waysToMigrate.length} ways to migrate`);
 
   log(`start migrate ways one by one`)
@@ -33,21 +35,43 @@ const migrateWays = async () => {
   for (const way of waysToMigrate) {
     const wayMigrationStartTime = new Date();
 
-    const goal = allGoals.find((item) => item.uuid === way.goalUuid);
-    if (!goal) {
-      console.log(`Goal with uuid ${way.goalUuid} is not exist`);
-      throw new Error("Error");
-    }
-
     try {
       log(`started ${way.uuid} migration`);
       
       const wayRef = doc(db, "ways", way.uuid);
+      const status = way.isCompleted ? "Completed" : null;
+      const wayTagsStringified = way.wayTags.map((wayTag) => {
+        const wayTagUuid = uuidv4();
+        return `{\"uuid\":\"${wayTagUuid}\",\"name\":\"${wayTag}\"}`;
+      })
+      const jobTagsStringified = way.jobTags.map((jobTag) => {
+        const jobTagUuid = uuidv4();
+        const color = getColorByString(jobTag);
+        return `{\"uuid\":\"${jobTagUuid}\",\"name\":\"${jobTag}\",\"description\":\"\",\"color\":\"${color}\"}`;
+      });
+
+      const metricsStringified = way.metricsStringified.map((item) => {
+        const metric = JSON.parse(item);
+
+        const updatedMetric = {
+          ...metric,
+          createdAt: new Date().getTime(),
+          updatedAt: new Date().getTime(),
+          metricEstimation: 0,
+        }
+
+        const updatedMetricStringified = JSON.stringify(updatedMetric);
+        return updatedMetricStringified;
+      })
+
       batch.update(wayRef, {
-        goalDescription: goal.description,
-        metricsStringified: goal.metricsStringified,
-        estimationTime: 0,
-        goalUuid: deleteField(),
+        status: status,
+        isCompleted: deleteField(),
+        wayTagsStringified,
+        wayTags: deleteField(),
+        jobTagsStringified,
+        jobTags: deleteField(),
+        metricsStringified,
       });
 
       const wayMigrationEndTime = new Date();
@@ -69,7 +93,7 @@ const migrateWays = async () => {
     Migrations report:
 
     Migration goal:
-    Add "goalDescription", "metricsStringified", "estimationTime" properties and delete "goalUuid" to all Ways
+    Add "status" property and delete "isCompleted" to all Ways
     
     Start time: ${waysMigrationStartTime}
     End time: ${waysMigrationEndTime}

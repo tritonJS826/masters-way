@@ -9,6 +9,7 @@ export const dayReportToDayReportDTOConverter = (dayReport: DayReport): DayRepor
   const dayReportDTO: DayReportDTO = {
     uuid: dayReport.uuid,
     createdAt: Timestamp.fromDate(dayReport.createdAt),
+    updatedAt: Timestamp.fromDate(dayReport.updatedAt),
     jobsDoneStringified: dayReport.jobsDone.map((jobDone) => JSON.stringify(jobDone)),
     plansStringified: dayReport.plans.map((plan) => JSON.stringify(plan)),
     problemsStringified: dayReport.problems.map((problem) => JSON.stringify(problem)),

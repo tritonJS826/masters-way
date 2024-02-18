@@ -1,7 +1,8 @@
+import {JobTag} from "src/model/businessModelPreview/WayPreview";
+
 /**
  * Specific tag related stats
  */
-
 export type JobTagStat = {
 
   /**
@@ -25,7 +26,7 @@ export type JobTagStat = {
   totalTimePercentage: number;
 
   /**
-   * Tag name
+   * Tag data
    */
-  name: string;
+  jobTag: JobTag;
 };

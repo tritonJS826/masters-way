@@ -24,8 +24,8 @@ import {
 import {db} from "src/firebase";
 import {ABANDONED_AFTER_MS} from "src/logic/waysTable/wayStatus";
 import {
-  WAY_IS_COMPLETED_FIELD,
   WAY_LAST_UPDATE_FIELD,
+  WAY_STATUS_FIELD,
   WAY_UUID_FIELD, WayDTO,
   WayDTOSchema,
   WayPartialDTOSchema,
@@ -109,18 +109,18 @@ interface ConstraintsParams {
  * Get constraints to fetch ways
  */
 const getConstraints = (params: ConstraintsParams) => {
-  const completedConstraints = params.filter?.isCompleted ? [where(WAY_IS_COMPLETED_FIELD, "==", true)] : [];
+  const completedConstraints = params.filter?.isCompleted ? [where(WAY_STATUS_FIELD, "==", "completed")] : [];
   const currentDate = new Date();
   const abandonedDate = currentDate.getTime() - ABANDONED_AFTER_MS;
   const inProgressConstraints = params.filter?.isInProgress
     ? [
-      where(WAY_IS_COMPLETED_FIELD, "==", false),
+      where(WAY_STATUS_FIELD, "==", null),
       where(WAY_LAST_UPDATE_FIELD, ">", Timestamp.fromMillis(abandonedDate)),
     ]
     : [];
   const abandonedConstraints = params.filter?.isAbandoned
     ? [
-      where(WAY_IS_COMPLETED_FIELD, "==", false),
+      where(WAY_STATUS_FIELD, "==", null),
       where(WAY_LAST_UPDATE_FIELD, "<", Timestamp.fromMillis(abandonedDate)),
     ]
     : [];

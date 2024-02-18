@@ -65,7 +65,7 @@ export const GoalBlock = (props: GoalBlockProps) => {
     await props.updateWay({
       uuid: props.wayUuid,
       metrics: metricsToUpdate,
-      isCompleted: isWayCompleted,
+      status: isWayCompleted ? "Completed" : null,
     });
   };
 

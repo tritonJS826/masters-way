@@ -21,6 +21,8 @@ export type UserDTOMigration = {
   description: string;
   createdAt: Timestamp;
   customWayCollectionsStringified: string[];
+  favoriteForUserUuids: string[];
+  favoriteUserUuids: string[];
 }
 
 export type UserDTO = {

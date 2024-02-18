@@ -1,7 +1,7 @@
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
-import {WayDTO} from "src/model/DTOModel/WayDTO";
+import {WAY_JOB_TAGS_FIELD, WAY_STATUS_FIELD, WAY_TAGS_FIELD, WayDTO} from "src/model/DTOModel/WayDTO";
 
 /**
  * Way props
@@ -62,13 +62,15 @@ export const wayDTOToWayConverter = (wayDTO: WayDTO, wayProps: WayProps): Way =>
     mentors: wayProps.mentors,
     formerMentors: wayProps.formerMentors,
     mentorRequests: wayProps.mentorRequests,
-    isCompleted: wayDTO.isCompleted,
+    status: wayDTO[WAY_STATUS_FIELD],
     lastUpdate: wayProps.lastUpdate,
     favoriteForUserUuids: wayDTO.favoriteForUserUuids,
     createdAt: wayProps.createdAt,
     copiedFromWayUuid: wayDTO.copiedFromWayUuid,
     goalDescription: wayDTO.goalDescription,
     estimationTime: wayDTO.estimationTime,
+    wayTags: wayDTO[WAY_TAGS_FIELD].map((wayTag) => JSON.parse(wayTag)),
+    jobTags: wayDTO[WAY_JOB_TAGS_FIELD].map((jobTag) => JSON.parse(jobTag)),
     metrics: wayDTO.metricsStringified.map((metricStringified) => {
       const metric = JSON.parse(metricStringified);
       metric.doneDate = new Date(metric.doneDate) ?? null;

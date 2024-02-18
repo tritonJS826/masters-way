@@ -1,7 +1,7 @@
 export type CommentDTOMigration = {
   uuid: string;
   description: string;
-  commentatorUuid: string;
+  isDone: boolean;
   ownerUuid: string;
 }
 

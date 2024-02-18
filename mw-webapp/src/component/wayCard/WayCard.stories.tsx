@@ -27,12 +27,29 @@ const defaultWayOwner: UserPreview = {
   favoriteWays: [],
   mentoringWays: [],
   ownWays: ["1"],
+  tags: [],
+  imageUrl: "",
+  isMentor: false,
+  wayRequests: [],
 };
 
 const defaultWayPreview: WayPreview = {
   uuid: "1",
   name: "Way's name Way's name Way's name Way's name Way's name",
-  wayTags: ["IT", "Development", "Web", "IT", "Development", "Web"],
+  wayTags: [
+    {
+      uuid: "1",
+      name: "IT",
+    },
+    {
+      uuid: "2",
+      name: "Development",
+    },
+    {
+      uuid: "3",
+      name: "Web",
+    },
+  ],
   copiedFromWayUuid: "",
   createdAt: new Date("2024-02-11"),
   dayReportUuids: [],
@@ -40,8 +57,27 @@ const defaultWayPreview: WayPreview = {
   favoriteForUserUuids: ["1", "2", "3"],
   formerMentorUuids: [],
   goalDescription: "It's my own goal, and I'm very happy. It's my own goal, and I'm very happy, I'm very happy, I'm very happy",
-  isCompleted: false,
-  jobTags: ["Coding", "Reding", "Pair Programming"],
+  status: null,
+  jobTags: [
+    {
+      uuid: "1",
+      name: "Coding",
+      description: "It's coding)",
+      color: "green",
+    },
+    {
+      uuid: "2",
+      name: "Reading",
+      description: "It's reading",
+      color: "orange",
+    },
+    {
+      uuid: "3",
+      name: "Pair Programming",
+      description: "It's programming in a team",
+      color: "blue",
+    },
+  ],
   lastUpdate: new Date("2024-02-11"),
   mentorRequests: [],
   mentors: [
@@ -57,6 +93,10 @@ const defaultWayPreview: WayPreview = {
       favoriteWays: [],
       mentoringWays: [],
       ownWays: ["1"],
+      tags: [],
+      imageUrl: "",
+      isMentor: false,
+      wayRequests: [],
     },
     {
       uuid: "user3",
@@ -70,6 +110,10 @@ const defaultWayPreview: WayPreview = {
       favoriteWays: [],
       mentoringWays: [],
       ownWays: ["1"],
+      tags: [],
+      imageUrl: "",
+      isMentor: false,
+      wayRequests: [],
     },
   ],
   metricsStringified: [

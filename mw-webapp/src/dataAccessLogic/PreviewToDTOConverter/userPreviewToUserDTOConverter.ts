@@ -18,6 +18,10 @@ export const userPreviewToUserDTOConverter = (userPreview: UserPreview): UserDTO
     customWayCollectionsStringified: userPreview.customWayCollections.map((collection) => JSON.stringify(collection)),
     favoriteForUserUuids: userPreview.favoriteForUserUuids,
     favoriteUserUuids: userPreview.favoriteUserUuids,
+    imageUrl: userPreview.imageUrl,
+    isMentor: userPreview.isMentor,
+    tagsStringified: userPreview.tags.map((tag) => JSON.stringify(tag)),
+    wayRequestUuids: userPreview.wayRequests.map((wayRequest) => wayRequest.uuid),
   };
 
   return UserDTOSchema.parse(userDTO);

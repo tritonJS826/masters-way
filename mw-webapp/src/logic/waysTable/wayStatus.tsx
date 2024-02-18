@@ -19,7 +19,7 @@ type getWayStatusParams = {
   /**
    * Is way marked as completed
    */
-  isCompleted: boolean;
+  status: string | null;
 
   /**
    * Last update of the way
@@ -34,7 +34,7 @@ export const ABANDONED_AFTER_MS = 1209600000;
  * Get way status
  */
 export const getWayStatus = (params: getWayStatusParams): WayStatusType => {
-  if (params.isCompleted) {
+  if (params.status === "completed") {
     return WayStatus.Completed;
   } else {
     const currentDate = new Date();

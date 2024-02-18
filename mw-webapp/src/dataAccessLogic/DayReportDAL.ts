@@ -41,6 +41,7 @@ export class DayReportDAL {
   public static async createDayReport(wayUuid: string, dayReportUuids: string[]): Promise<DayReport> {
     const DEFAULT_DAY_REPORT: DayReportDTOWithoutUuid = {
       createdAt: Timestamp.fromDate(new Date()),
+      updatedAt: Timestamp.fromDate(new Date()),
       jobsDoneStringified: [],
       plansStringified: [],
       problemsStringified: [],

@@ -22,6 +22,10 @@ export const userToUserDTOPartialConverter = (user: PartialWithUuid<UserPreview>
       : undefined,
     favoriteForUserUuids: user.favoriteForUserUuids,
     favoriteUserUuids: user.favoriteUserUuids,
+    tagsStringified: user.tags ? user.tags.map((tag) => JSON.stringify(tag)) : undefined,
+    imageUrl: user.imageUrl,
+    isMentor: user.isMentor,
+    wayRequestUuids: user.wayRequests ? user.wayRequests.map((wayRequest) => wayRequest.uuid) : undefined,
   };
 
   const preparedUserPartialDTO = deleteUndefinedFields(userPartialDTO);

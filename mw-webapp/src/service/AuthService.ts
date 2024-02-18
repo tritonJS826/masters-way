@@ -83,6 +83,10 @@ export class AuthService {
             customWayCollectionsStringified: [],
             favoriteForUserUuids: [],
             favoriteUserUuids: [],
+            tagsStringified: [],
+            imageUrl: "",
+            isMentor: false,
+            wayRequestUuids: [],
           },
         );
       }

@@ -75,7 +75,7 @@ export const waysColumns = [
       </span>
     ),
   }),
-  columnHelper.accessor("isCompleted", {
+  columnHelper.accessor("status", {
 
     /**
      * Header
@@ -90,11 +90,11 @@ export const waysColumns = [
     ),
 
     /**
-     * Cell with isCompleted value
+     * Cell with status value
      */
     cell: ({row}) => {
       const wayStatus = getWayStatus({
-        isCompleted: row.original.isCompleted,
+        status: row.original.status,
         lastUpdate: row.original.lastUpdate,
       });
 

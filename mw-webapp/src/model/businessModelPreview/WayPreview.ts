@@ -1,6 +1,48 @@
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 
 /**
+ * Way tag data
+ */
+export type WayTag = {
+
+  /**
+   * Way tag uuid
+   */
+  uuid: string;
+
+  /**
+   * Way tag name
+   */
+  name: string;
+};
+
+/**
+ * Job tag data
+ */
+export type JobTag = {
+
+  /**
+   * Way tag uuid
+   */
+  uuid: string;
+
+  /**
+   * Way tag name
+   */
+  name: string;
+
+  /**
+   * Way tag description
+   */
+  description: string;
+
+  /**
+   * Way tag color
+   */
+  color: string;
+};
+
+/**
  * Way preview model
  */
 export class WayPreview {
@@ -41,9 +83,10 @@ export class WayPreview {
   public mentorRequests: string[];
 
   /**
-   * Return true if way is completed and false if not completed
+   * Way's status "Completed" or "Template"
+   * @default null
    */
-  public isCompleted: boolean;
+  public status: string | null;
 
   /**
    * Last day when way was updated
@@ -61,14 +104,14 @@ export class WayPreview {
   public createdAt: Date;
 
   /**
-   * Way's tags
+   * Way's tags {@link WayTag}
    */
-  public wayTags: string[];
+  public wayTags: WayTag[];
 
   /**
-   * Tags that was used for jobDone
+   * Tags that was used for jobDone {@link JobTag}
    */
-  public jobTags: string[];
+  public jobTags: JobTag[];
 
   /**
    * Way's uuid that was copied
@@ -97,7 +140,7 @@ export class WayPreview {
     this.owner = wayData.owner;
     this.mentors = wayData.mentors;
     this.mentorRequests = wayData.mentorRequests;
-    this.isCompleted = wayData.isCompleted;
+    this.status = wayData.status;
     this.lastUpdate = wayData.lastUpdate;
     this.favoriteForUserUuids = wayData.favoriteForUserUuids;
     this.createdAt = wayData.createdAt;

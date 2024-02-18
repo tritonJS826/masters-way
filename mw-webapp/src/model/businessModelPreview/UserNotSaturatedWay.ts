@@ -1,5 +1,3 @@
-import {WayNotSaturatedUser} from "src/model/businessModelPreview/WayNotSaturatedUser";
-
 /**
  * Specific way collection data
  */
@@ -29,7 +27,7 @@ export type UserTag = {
   /**
    * User tag uuid
    */
-  uuid: string;
+  id: string;
 
   /**
    * User tag name
@@ -40,7 +38,7 @@ export type UserTag = {
 /**
  * User preview model
  */
-export class UserPreview {
+export class UserNotSaturatedWay {
 
   /**
    * User's UUID
@@ -78,14 +76,14 @@ export class UserPreview {
   public mentoringWays: string[];
 
   /**
-   * Date when user was created
-   */
-  public createdAt: Date;
-
-  /**
    * Custom way collections {@link WaysCollection}
    */
   public customWayCollections: WaysCollection[];
+
+  /**
+   * Date when user was created
+   */
+  public createdAt: Date;
 
   /**
    * User's uuids for whom this user are favorite
@@ -113,11 +111,11 @@ export class UserPreview {
   public isMentor: boolean;
 
   /**
-   * Way's that requested user become a mentor {@link WayNotSaturatedUser}
+   * Way's preview requested user become a mentor {@link WayPreview}
    */
-  public wayRequests: WayNotSaturatedUser[];
+  public wayRequests: string[];
 
-  constructor(userData: UserPreview) {
+  constructor(userData: UserNotSaturatedWay) {
     this.uuid = userData.uuid;
     this.name = userData.name;
     this.email = userData.email;
