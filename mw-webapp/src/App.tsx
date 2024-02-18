@@ -12,14 +12,14 @@ import {router} from "src/router/Router";
  */
 export const App = () => {
   const [user, setUser] = useState<UserPreview | null>(null);
-  const [isInitialization, setIsInitialization] = useState(true);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   return (
     <globalContext.Provider value={{
       user,
       setUser,
-      isInitialization,
-      setIsInitialization,
+      isInitialized,
+      setIsInitialized,
       // TODO: load from local storage
       notification: DEFAULT_NOTIFICATION_SETTINGS,
     }}
