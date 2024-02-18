@@ -11,8 +11,8 @@ const DEFAULT_SET_USER = () => {
 /**
  * Default setIsInitialization
  */
-const DEFAULT_SET_INITIALIZATION = () => {
-  throw Error("The app is not initialization");
+const DEFAULT_SET_INITIALIZED = () => {
+  throw Error("This is stub function for the initialization. This function should not be called");
 };
 
 export const DEFAULT_NOTIFICATION_SETTINGS: Notification = {
@@ -24,8 +24,8 @@ export const DEFAULT_NOTIFICATION_SETTINGS: Notification = {
 const DEFAULT_GLOBAL_CONTEXT = {
   user: null,
   setUser: DEFAULT_SET_USER,
-  isInitialization: true,
-  setIsInitialization: DEFAULT_SET_INITIALIZATION,
+  isInitialized: false,
+  setIsInitialized: DEFAULT_SET_INITIALIZED,
   notification: DEFAULT_NOTIFICATION_SETTINGS,
 };
 
@@ -55,14 +55,14 @@ export type GlobalContext = {
   setUser: (user: UserPreview | null) => void;
 
   /**
-   * isInitialization
+   * IsInitialization
    */
-  isInitialization: boolean;
+  isInitialized: boolean;
 
   /**
-   * setIsInitialization
+   * SetIsInitialization
    */
-  setIsInitialization: (isInitialization: boolean) => void;
+  setIsInitialized: (isInitialized: boolean) => void;
 
   /**
    * Notification related settings
@@ -77,3 +77,4 @@ export const globalContext: React.Context<GlobalContext> = createContext<GlobalC
  * Use UserContext
  */
 export const useGlobalContext = () => useContext(globalContext);
+

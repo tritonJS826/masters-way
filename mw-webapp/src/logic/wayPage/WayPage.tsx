@@ -118,7 +118,6 @@ interface WayPageProps {
  * Way page
  */
 export const WayPage = (props: WayPageProps) => {
-  // Throw new Error("waypage error");
   const navigate = useNavigate();
   const [wayPageSettings,, updateWayPageSettings] = usePersistanceState({
     key: "wayPage",
