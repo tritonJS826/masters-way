@@ -34,6 +34,10 @@ export type DayReportBackup = {
     seconds: number,
     nanoseconds: number,
   }
+  updatedAt: {
+    seconds: number,
+    nanoseconds: number,
+  }
   /**
    * @deprecated
    */
