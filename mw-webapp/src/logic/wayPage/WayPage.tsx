@@ -160,7 +160,7 @@ export const WayPage = (props: WayPageProps) => {
    * Callback that is called on fetch or validation error
    */
   const onError = (error: Error) => {
-    throw (error);
+    throw error;
   };
 
   /**

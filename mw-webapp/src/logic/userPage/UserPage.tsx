@@ -67,7 +67,6 @@ enum DefaultCollections {
 }
 
 const DEFAULT_USER_PAGE_SETTINGS: UserPageSettings = {
-  openedTabId: DefaultCollections.OWN,
   filterStatus: FILTER_STATUS_ALL_VALUE,
   view: View.Card,
 };
@@ -75,15 +74,11 @@ const DEFAULT_USER_PAGE_SETTINGS: UserPageSettings = {
 /**
  * Safe opened tab from localStorage
  */
-const userPageSettingsValidator = (currentSettings: UserPageSettings, allCollections: WayCollection[]) => {
-  const isTabExist = currentSettings.openedTabId
-    && allCollections.some(collection => collection.id === currentSettings.openedTabId);
+const userPageSettingsValidator = (openedTabId: string, allCollections: WayCollection[]) => {
+  const isTabExist = openedTabId
+    && allCollections.some(collection => collection.id === openedTabId);
 
-  if (!isTabExist || !currentSettings.filterStatus) {
-    return false;
-  }
-
-  return true;
+  return !!isTabExist;
 };
 
 /**
@@ -112,18 +107,22 @@ const getAllWayCollections = (userPreview: UserPreview): WayCollection[] => [
  */
 export const UserPage = (props: UserPageProps) => {
   const [userPreview, setUserPreview] = useState<UserPreview>();
-  const [userPageSettings,, updateUserPageSettings] = usePersistanceState({
-    key: "userPage",
-    defaultValue: DEFAULT_USER_PAGE_SETTINGS,
+  const [openedTabId, setOpenedTabId] = usePersistanceState({
+    key: "userPage.openedTabId",
+    defaultValue: DefaultCollections.OWN,
 
     /**
      * Check is stored data valid
      */
     storedDataValidator: (
-      currentSettings: UserPageSettings,
+      currentValue: string,
     ) => userPreview?.customWayCollections
-      ? userPageSettingsValidator(currentSettings, getAllWayCollections(userPreview))
+      ? userPageSettingsValidator(currentValue, getAllWayCollections(userPreview))
       : true,
+  });
+  const [userPageSettings,, updateUserPageSettings] = usePersistanceState({
+    key: "userPage",
+    defaultValue: DEFAULT_USER_PAGE_SETTINGS,
   });
 
   /**
@@ -220,7 +219,7 @@ export const UserPage = (props: UserPageProps) => {
     setUserPreviewPartial({customWayCollections: updatedCustomWayCollections});
     setUser({...user, customWayCollections: updatedCustomWayCollections});
 
-    updateUserPageSettings({openedTabId: newWayCollectionId});
+    setOpenedTabId(newWayCollectionId);
   };
 
   /**
@@ -240,7 +239,7 @@ export const UserPage = (props: UserPageProps) => {
     setUserPreviewPartial({customWayCollections: updatedCustomWayCollections});
     setUser({...user, customWayCollections: updatedCustomWayCollections});
 
-    updateUserPageSettings({openedTabId: DEFAULT_USER_PAGE_SETTINGS.openedTabId});
+    setOpenedTabId(DefaultCollections.OWN);
   };
 
   /**
@@ -267,7 +266,7 @@ export const UserPage = (props: UserPageProps) => {
     setUserPreviewPartial({customWayCollections: updatedCustomWayCollections});
     setUser({...user, customWayCollections: updatedCustomWayCollections});
 
-    updateUserPageSettings({openedTabId: wayCollectionToUpdate.id});
+    setOpenedTabId(wayCollectionToUpdate.id);
   };
 
   return (
@@ -319,9 +318,9 @@ export const UserPage = (props: UserPageProps) => {
             <Button
               key={collection.id}
               value={`${collection.name} (${collection.wayUuids.length})`}
-              onClick={() => updateUserPageSettings({openedTabId: collection.id})}
+              onClick={() => setOpenedTabId(collection.id)}
               className={styles.collectionButton}
-              buttonType={collection.id === userPageSettings.openedTabId ? ButtonType.PRIMARY : ButtonType.SECONDARY}
+              buttonType={collection.id === openedTabId ? ButtonType.PRIMARY : ButtonType.SECONDARY}
             />
           ))}
 
@@ -348,7 +347,7 @@ export const UserPage = (props: UserPageProps) => {
 
       {/* Render table only for appropriate collection */}
       {getAllWayCollections(userPreview)
-        .filter(collection => collection.id === userPageSettings.openedTabId)
+        .filter(collection => collection.id === openedTabId)
         .map(collection => {
           const isCustomCollection = userPreview.customWayCollections.some((col) => col.id === collection.id);
 
