@@ -39,13 +39,19 @@ export class DayReportService {
    */
   public static async importDayReport(dayReport: DayReportBackup): Promise<DayReportBackup> {
     const createdAtNanoseconds = truncateToThreeChars(dayReport.createdAt.nanoseconds);
+    const updatedAtNanoseconds = dayReport.updatedAt ? truncateToThreeChars(dayReport.updatedAt.nanoseconds) : truncateToThreeChars(0);
+    const updatedAtSeconds = dayReport.updatedAt ? dayReport.updatedAt.seconds : truncateToThreeChars(0);
+
 
     const createdAtTimestamp = Number(`${dayReport.createdAt.seconds}${createdAtNanoseconds}`);
     const createdAt = new Date(createdAtTimestamp);
+    const updatedAtTimestamp = Number(`${updatedAtSeconds}${updatedAtNanoseconds}`);
+    const updatedAt = new Date(updatedAtTimestamp);
     
     const dayReportToImport = {
       ...dayReport,
       createdAt: Timestamp.fromDate(createdAt),
+      updatedAt: Timestamp.fromDate(updatedAt),
     };
 
     await setDoc(doc(db, PATH_TO_DAY_REPORTS_COLLECTION, dayReport.uuid), dayReportToImport);
