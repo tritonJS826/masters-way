@@ -1,4 +1,4 @@
-import {useState} from "react";
+
 import {TrashIcon} from "@radix-ui/react-icons";
 import {Checkbox} from "src/component/checkbox/Сheckbox";
 import {Confirm} from "src/component/confirm/Confirm";
@@ -44,24 +44,12 @@ export const GoalMetricItem = (props: SingleGoalMetricProps) => {
   const tooltipContent = props.metric.isDone && props.metric.doneDate
     ? `Done date ${DateUtils.getShortISODateValue(props.metric.doneDate)}`
     : "Not finished yet...";
-  const [isJobDone, setIsJobDone] = useState<boolean>(props.metric.isDone);
 
   /**
-   * Set metric done
+   * Ghhgtt
    */
-  const checkedMetric = () => {
-    const isDone = true;
-    props.updateMetric({...props.metric, isDone, doneDate: new Date()});
-    setIsJobDone(true);
-  };
-
-  /**
-   * Set metric not done
-   */
-  const uncheckedMetric = () => {
-    const isDone = false;
-    props.updateMetric({...props.metric, isDone, doneDate: new Date()});
-    setIsJobDone(false);
+  const onOk = () => {
+    props.updateMetric({...props.metric, isDone: !props.metric.isDone, doneDate: new Date()});
   };
 
   return (
@@ -70,30 +58,30 @@ export const GoalMetricItem = (props: SingleGoalMetricProps) => {
       className={styles.singularMetric}
     >
       <HorizontalContainer className={styles.horizontalContainer}>
-        {!isJobDone && <Checkbox
-          isEditable={props.isEditable}
-          isDefaultChecked={props.metric.isDone}
-          className={styles.checkbox}
-          // TODO #487: check logic about update doneDate. What if I accidentally clicked checkbox few times
-          onChange={checkedMetric}
-        />}
-        {isJobDone &&
-        <Confirm
-          content={<p>
-            {"Are you sure "}
-          </p>}
-          onOk={uncheckedMetric}
-          okText="Confirm"
-          trigger={
-            <Checkbox
-              isEditable={props.isEditable}
-              isDefaultChecked={props.metric.isDone}
-              className={styles.checkbox}
-              // TODO #487: check logic about update doneDate. What if I accidentally clicked checkbox few times
-              onChange={checkedMetric}
-            />
-          }
-        />}
+        {!props.metric.isDone ?
+          <Checkbox
+            isEditable={props.isEditable}
+            isDefaultChecked={props.metric.isDone}
+            className={styles.checkbox}
+            // TODO #487: check logic about update doneDate. What if I accidentally clicked checkbox few times
+            onChange={(isDone) => props.updateMetric({...props.metric, isDone, doneDate: new Date()})}
+          /> :
+          <Confirm
+            content={<p>
+              {"Are you sure "}
+            </p>}
+            onOk={onOk}
+            okText="Confirm"
+            trigger={
+              <Checkbox
+                isEditable={false}
+                isDefaultChecked={props.metric.isDone}
+                className={styles.checkbox}
+                // TODO #487: check logic about update doneDate. What if I accidentally clicked checkbox few times
+                onChange={(isDone) => props.updateMetric({...props.metric, isDone, doneDate: new Date()})}
+              />
+            }
+          />}
         <Tooltip content={tooltipContent}>
           <EditableValue
             value={props.metric.description ?? ""}
