@@ -20,7 +20,7 @@
     "migrate-goal-goalMetrics": "ts-node ./src/migrations/goalsMigration-add-goalMetrics.ts",
     "migrate-goal-delete": "ts-node ./src/migrations/goalMigration-delete-goalMetrics.ts",
     "export-backup": "ts-node ./src/backup/export.ts",
-    "import-backup": "node --loader ts-node/esm ./src/backup/import.ts" 
+    "import-backup": "ts-node ./src/backup/import.ts"
   },
   "dependencies": {
     "firebase": "10.7.0",

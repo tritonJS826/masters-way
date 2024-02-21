@@ -46,7 +46,7 @@ export const GoalMetricItem = (props: SingleGoalMetricProps) => {
     : "Not finished yet...";
 
   /**
-   * Ghhgtt
+   * Set metric not completed
    */
   const onOk = () => {
     props.updateMetric({...props.metric, isDone: !props.metric.isDone, doneDate: new Date()});
@@ -63,12 +63,11 @@ export const GoalMetricItem = (props: SingleGoalMetricProps) => {
             isEditable={props.isEditable}
             isDefaultChecked={props.metric.isDone}
             className={styles.checkbox}
-            // TODO #487: check logic about update doneDate. What if I accidentally clicked checkbox few times
             onChange={(isDone) => props.updateMetric({...props.metric, isDone, doneDate: new Date()})}
           /> :
           <Confirm
             content={<p>
-              {"Are you sure "}
+              {`Are you sure that you want set metric ${props.metric.description} not completed`}
             </p>}
             onOk={onOk}
             okText="Confirm"
@@ -77,7 +76,6 @@ export const GoalMetricItem = (props: SingleGoalMetricProps) => {
                 isEditable={false}
                 isDefaultChecked={props.metric.isDone}
                 className={styles.checkbox}
-                // TODO #487: check logic about update doneDate. What if I accidentally clicked checkbox few times
                 onChange={(isDone) => props.updateMetric({...props.metric, isDone, doneDate: new Date()})}
               />
             }
