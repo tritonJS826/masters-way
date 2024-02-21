@@ -106,6 +106,7 @@ export const AllWaysPage = () => {
   const onError = (error: Error) => {
     // TODO #511: research how onError works in app and update onError (we need to get error on firebase statistics)
     displayNotification({text: error.message, type: "error"});
+    throw error;
   };
 
   /**

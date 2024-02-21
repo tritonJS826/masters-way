@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {LocalStorageData, localStorageWorker, WayPageSettings} from "src/utils/LocalStorageWorker";
 
 type usePersistanceStateParams<T extends keyof LocalStorageData> = {
@@ -60,6 +60,10 @@ export const usePersistanceState = <
     setValue(newValue);
     localStorageWorker.setItemByKey(params.key, newValue);
   };
+
+  useEffect(() => {
+    setValue(validatedStoredValue);
+  }, [params.storedDataValidator]);
 
   /**
    * Update persistent value partially

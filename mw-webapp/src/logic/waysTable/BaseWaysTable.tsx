@@ -1,5 +1,4 @@
 import {useState} from "react";
-import {useNavigate} from "react-router-dom";
 import clsx from "clsx";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Confirm} from "src/component/confirm/Confirm";
@@ -22,7 +21,6 @@ import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {WayStatus, WayStatusType} from "src/logic/waysTable/wayStatus";
 import {WaysCollection} from "src/model/businessModelPreview/UserPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
-import {pages} from "src/router/pages";
 import {ArrayUtils} from "src/utils/ArrayUtils";
 import {View} from "src/utils/LocalStorageWorker";
 import styles from "src/logic/waysTable/BaseWaysTable.module.scss";
@@ -101,8 +99,6 @@ const validateData = (data: WayPreview[]) => {
 export const BaseWaysTable = (props: BaseWaysTableProps) => {
   const [ways, setWays] = useState<WayPreview[]>();
 
-  const navigate = useNavigate();
-
   useLoad(
     {
 
@@ -116,7 +112,9 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
       /**
        * Error handler (in case of invalid data)
        */
-      onError: () => navigate(pages.page404.getPath({})),
+      onError: (error: Error) => {
+        throw error;
+      },
       dependency: [props.filterStatus],
     },
   );
