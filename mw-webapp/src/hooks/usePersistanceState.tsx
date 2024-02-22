@@ -63,7 +63,7 @@ export const usePersistanceState = <
 
   useEffect(() => {
     setValue(validatedStoredValue);
-  }, [params.storedDataValidator]);
+  }, []);
 
   /**
    * Update persistent value partially
