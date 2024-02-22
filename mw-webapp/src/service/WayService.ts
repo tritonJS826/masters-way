@@ -109,7 +109,7 @@ interface ConstraintsParams {
  * Get constraints to fetch ways
  */
 const getConstraints = (params: ConstraintsParams) => {
-  const completedConstraints = params.filter?.isCompleted ? [where(WAY_STATUS_FIELD, "==", "completed")] : [];
+  const completedConstraints = params.filter?.isCompleted ? [where(WAY_STATUS_FIELD, "==", "Completed")] : [];
   const currentDate = new Date();
   const abandonedDate = currentDate.getTime() - ABANDONED_AFTER_MS;
   const inProgressConstraints = params.filter?.isInProgress

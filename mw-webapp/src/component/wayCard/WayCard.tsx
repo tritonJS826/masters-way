@@ -1,6 +1,6 @@
-import {useNavigate} from "react-router-dom";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
+import {Link} from "src/component/link/Link";
 import {ProgressBar} from "src/component/progressBar/ProgressBar";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
@@ -30,7 +30,6 @@ interface WayCardProps {
  * WayCard component
  */
 export const WayCard = (props: WayCardProps) => {
-  const navigate = useNavigate();
 
   /**
    * Render way tags
@@ -83,7 +82,11 @@ export const WayCard = (props: WayCardProps) => {
   const doneMetricsAmount = metricsParsed.filter((metric) => !!metric.isDone).length;
 
   return (
-    <a onClick={() => navigate(pages.way.getPath({uuid: props.wayPreview.uuid}))}>
+    <Link
+      path={pages.way.getPath({uuid: props.wayPreview.uuid})}
+      className={styles.cardLink}
+    >
+      {/* <a onClick={() => navigate(pages.way.getPath({uuid: props.wayPreview.uuid}))}> */}
       <VerticalContainer className={styles.wayCardContainer}>
         <VerticalContainer className={styles.mainInfo}>
           <HorizontalContainer className={styles.nameLikes}>
@@ -161,7 +164,8 @@ export const WayCard = (props: WayCardProps) => {
           />
         </VerticalContainer>
       </VerticalContainer>
-    </a>
+      {/* </a> */}
+    </Link>
   );
 };
 

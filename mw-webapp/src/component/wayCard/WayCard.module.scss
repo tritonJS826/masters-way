@@ -5,6 +5,7 @@ $wayCardAdditionalInfoPadding: 12px 24px 20px;
 $wayCardFontSize: 14px;
 $wayCardMainHeight: 147px;
 $wayCardAdditionalHeight: 105px;
+$cardLinkFontSize: 16px;
 
 .wayCardContainer {
   border-radius: $secondaryBorderRadius;
@@ -102,4 +103,9 @@ $wayCardAdditionalHeight: 105px;
 
 .dates {
   justify-content: space-between;
+}
+
+.cardLink {
+  font-size: $cardLinkFontSize;
+  text-decoration: none;
 }

@@ -1,7 +1,7 @@
-import {useNavigate} from "react-router-dom";
 import logo from "src/assets/mastersWayLogo.svg";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Image} from "src/component/image/Image";
+import {Link} from "src/component/link/Link";
 import {NavigationLink, Sidebar} from "src/component/sidebar/Sidebar";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {useGlobalContext} from "src/GlobalContext";
@@ -19,7 +19,6 @@ const LOGO_TEXT = "master's way";
  */
 export const Header = () => {
   const {user} = useGlobalContext();
-  const navigate = useNavigate();
 
   const menuItems: (NavigationLink)[] = [
     {
@@ -52,25 +51,22 @@ export const Header = () => {
 
   return (
     <div className={styles.header}>
-      <a
-        className={styles.logo}
-        onClick={() => navigate(pages.allWays.getPath({}))}
-      >
+      <Link path={pages.allWays.getPath({})}>
         <Image
           src={logo}
           alt={LOGO_TEXT}
         />
-      </a>
+      </Link>
       <div className={styles.headerButtonsContainer}>
         <ThemeSwitcher />
         {user &&
-        <a onClick={() => navigate(pages.user.getPath({uuid: user.uuid}))}>
+        <Link path={pages.user.getPath({uuid: user.uuid})}>
           <Title
             level={HeadingLevel.h4}
             text={user.name}
             className={styles.userName}
           />
-        </a>
+        </Link>
         }
 
         <div className={styles.buttons}>

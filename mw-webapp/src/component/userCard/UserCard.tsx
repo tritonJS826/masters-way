@@ -1,6 +1,6 @@
-import {useNavigate} from "react-router-dom";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
+import {Link} from "src/component/link/Link";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
@@ -25,10 +25,11 @@ interface UserCardProps {
  * UserCard component
  */
 export const UserCard = (props: UserCardProps) => {
-  const navigate = useNavigate();
-
   return (
-    <a onClick={() => navigate(pages.user.getPath({uuid: props.userPreview.uuid}))}>
+    <Link
+      path={pages.user.getPath({uuid: props.userPreview.uuid})}
+      className={styles.cardLink}
+    >
       <VerticalContainer className={styles.userCardContainer}>
         <VerticalContainer className={styles.mainInfo}>
           <HorizontalContainer className={styles.nameLikes}>
@@ -79,7 +80,7 @@ export const UserCard = (props: UserCardProps) => {
           </p>
         </VerticalContainer>
       </VerticalContainer>
-    </a>
+    </Link>
   );
 };
 
