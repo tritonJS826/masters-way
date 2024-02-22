@@ -86,7 +86,6 @@ export const WayCard = (props: WayCardProps) => {
       path={pages.way.getPath({uuid: props.wayPreview.uuid})}
       className={styles.cardLink}
     >
-      {/* <a onClick={() => navigate(pages.way.getPath({uuid: props.wayPreview.uuid}))}> */}
       <VerticalContainer className={styles.wayCardContainer}>
         <VerticalContainer className={styles.mainInfo}>
           <HorizontalContainer className={styles.nameLikes}>
@@ -164,7 +163,6 @@ export const WayCard = (props: WayCardProps) => {
           />
         </VerticalContainer>
       </VerticalContainer>
-      {/* </a> */}
     </Link>
   );
 };
