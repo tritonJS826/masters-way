@@ -98,6 +98,12 @@ export class Way {
    */
   public metrics: Metric[];
 
+  /**
+   * Is way private
+   * @default false
+   */
+  public isPrivate: boolean;
+
   constructor(wayData: Way) {
     this.uuid = wayData.uuid;
     this.name = wayData.name;
@@ -116,6 +122,7 @@ export class Way {
     this.goalDescription = wayData.goalDescription;
     this.estimationTime = wayData.estimationTime;
     this.metrics = wayData.metrics;
+    this.isPrivate = wayData.isPrivate;
   }
 
 }

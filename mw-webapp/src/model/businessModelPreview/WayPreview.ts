@@ -133,6 +133,12 @@ export class WayPreview {
    */
   public metricsStringified: string[];
 
+  /**
+   * Is way private
+   * @default false
+   */
+  public isPrivate: boolean;
+
   constructor(wayData: WayPreview) {
     this.uuid = wayData.uuid;
     this.name = wayData.name;
@@ -151,6 +157,7 @@ export class WayPreview {
     this.goalDescription = wayData.goalDescription;
     this.estimationTime = wayData.estimationTime;
     this.metricsStringified = wayData.metricsStringified;
+    this.isPrivate = wayData.isPrivate;
   }
 
 }

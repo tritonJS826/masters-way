@@ -27,18 +27,11 @@ import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {JobTag} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
 import {DateUtils} from "src/utils/DateUtils";
-import {getColorByString} from "src/utils/getColorByString";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
 import {v4 as uuidv4} from "uuid";
 import styles from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns.module.scss";
 
-export const DEFAULT_TAG = {
-  uuid: uuidv4(),
-  name: "no tag",
-  description: "Default tag",
-  color: getColorByString("no tag"),
-};
 const DEFAULT_SUMMARY_TIME = 0;
 const columnHelper = createColumnHelper<DayReport>();
 const DIFFERENCE_INDEX_LIST_NUMBER = 1;
@@ -181,6 +174,10 @@ export const Columns = (props: ColumnsProps) => {
        * Cell with JobsDone items
        */
       cell: ({row}) => {
+        const defaultTag = props.way.jobTags.find((jobTag) => jobTag.name === "no tag");
+        if (!defaultTag) {
+          throw new Error("Default tag is not exist");
+        }
 
         /**
          * Create jobDone
@@ -190,7 +187,7 @@ export const Columns = (props: ColumnsProps) => {
             description: "",
             time: 0,
             uuid: uuidv4(),
-            tags: [DEFAULT_TAG],
+            tags: [defaultTag],
           });
           const jobsDone = [...row.original.jobsDone, jobDone];
 
@@ -365,11 +362,16 @@ export const Columns = (props: ColumnsProps) => {
          * Create Plan
          */
         const createPlan = (userUuid: string) => {
+          const defaultTag = props.way.jobTags.find((jobTag) => jobTag.name === "no tag");
+          if (!defaultTag) {
+            throw new Error("Default tag is not exist");
+          }
+
           const plan: Plan = new Plan({
             job: "",
             ownerUuid: userUuid,
             uuid: uuidv4(),
-            tags: [DEFAULT_TAG],
+            tags: [defaultTag],
             estimationTime: 0,
           });
           const plans = [...row.original.plans, plan];

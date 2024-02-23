@@ -26,7 +26,16 @@ import {DayReportService} from "src/service/DayReportService";
 import {UserService} from "src/service/UserService";
 import {WayDTOWithoutUuid, WayService} from "src/service/WayService";
 import {arrayToHashMap} from "src/utils/arrayToHashMap";
+import {getColorByString} from "src/utils/getColorByString";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
+import {v4 as uuidv4} from "uuid";
+
+const DEFAULT_TAG = {
+  uuid: uuidv4(),
+  name: "no tag",
+  description: "Default tag",
+  color: getColorByString("no tag"),
+};
 
 export type BaseWayData = Pick<WayDTOWithoutUuid,
   typeof WAY_NAME_FIELD
@@ -118,11 +127,12 @@ export class WayDAL {
       createdAt: Timestamp.fromDate(new Date()),
       favoriteForUserUuids: [],
       wayTagsStringified: [],
-      jobTagsStringified: [],
+      jobTagsStringified: [JSON.stringify(DEFAULT_TAG)],
       copiedFromWayUuid: "",
       goalDescription: "",
       estimationTime: 0,
       metricsStringified: [],
+      isPrivate: false,
       ...baseWayData,
     };
     const wayDTO = WayService.createWayDTOWithBatch(DEFAULT_WAY, batch);

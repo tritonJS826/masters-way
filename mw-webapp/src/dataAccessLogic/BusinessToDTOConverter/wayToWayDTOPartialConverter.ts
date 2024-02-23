@@ -26,6 +26,7 @@ export const wayToWayDTOPartialConverter = (way: PartialWithUuid<Way>): PartialW
     goalDescription: way.goalDescription,
     metricsStringified: way.metrics ? way.metrics.map((metric) => JSON.stringify(metric)) : undefined,
     estimationTime: way.estimationTime,
+    isPrivate: way.isPrivate,
   };
 
   const preparedWayPartialDTO = deleteUndefinedFields(wayPartialDTO);

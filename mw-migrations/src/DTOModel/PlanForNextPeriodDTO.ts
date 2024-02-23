@@ -1,9 +1,11 @@
+import { JobTag } from "./JobDoneDTO.js";
+
 export type PlanForNextPeriodDTOMigration = {
   uuid: string;
   job: string;
   estimationTime: number;
   ownerUuid: string;
-  tags: string[];
+  tags: JobTag[];
 }
 
 export type PlanTagDTOMigration = {

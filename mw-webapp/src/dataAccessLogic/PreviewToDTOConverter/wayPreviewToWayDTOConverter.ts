@@ -24,6 +24,7 @@ export const wayPreviewToWayDTOConverter = (wayPreview: WayPreview): WayDTO => {
     goalDescription: wayPreview.goalDescription,
     estimationTime: wayPreview.estimationTime,
     metricsStringified: wayPreview.metricsStringified,
+    isPrivate: wayPreview.isPrivate,
   };
 
   return WayDTOSchema.parse(wayDTO);

@@ -19,8 +19,6 @@ export type WayDTOMigration = {
   createdAt: number;
   currentMentorUuids: string[];
   wayTags: string[];
-  jobTags: string[];
-  // jobTagsStringified: JobTag[];
   jobTagsStringified: string[];
   monthReportUuids: string[];
   metricsStringified: string[];

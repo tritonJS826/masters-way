@@ -49,6 +49,7 @@ export const JobTags = (props: JobTagsProps) => {
   }
 
   const [isJobDoneModalOpen, setIsJobDoneModalOpen] = useState<boolean>(false);
+  const allJobTags = props.jobTags.filter((tag) => tag.name !== "no tag");
 
   /**
    * Remove job tag from Way
@@ -78,7 +79,7 @@ export const JobTags = (props: JobTagsProps) => {
 
   return (
     <div className={styles.jobTags}>
-      {props.jobTags.map((jobTag) => {
+      {allJobTags.map((jobTag) => {
         return (
           <div
             key={jobTag.uuid}
