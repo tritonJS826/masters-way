@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {LocalStorageData, localStorageWorker, WayPageSettings} from "src/utils/LocalStorageWorker";
 
 type usePersistanceStateParams<T extends keyof LocalStorageData> = {
@@ -21,6 +22,11 @@ type usePersistanceStateParams<T extends keyof LocalStorageData> = {
    * (helpful when trying to work with deprecated data)
    */
   storedDataValidator?: (param: LocalStorageData[T]) => boolean;
+
+  /**
+   * Dependencies.
+   */
+  dependencies?: [UserPreview];
 };
 
 /**
@@ -63,7 +69,7 @@ export const usePersistanceState = <
 
   useEffect(() => {
     setValue(validatedStoredValue);
-  }, []);
+  }, params.dependencies || []);
 
   /**
    * Update persistent value partially

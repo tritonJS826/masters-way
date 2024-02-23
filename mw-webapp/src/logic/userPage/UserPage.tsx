@@ -119,6 +119,7 @@ export const UserPage = (props: UserPageProps) => {
     ) => userPreview?.customWayCollections
       ? userPageSettingsValidator(currentValue, getAllWayCollections(userPreview))
       : true,
+    dependencies: [userPreview as UserPreview],
   });
   const [userPageSettings,, updateUserPageSettings] = usePersistanceState({
     key: "userPage",
