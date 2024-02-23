@@ -138,12 +138,13 @@ type Way struct {
 	Uuid              uuid.UUID     `json:"uuid"`
 	Name              string        `json:"name"`
 	GoalDescription   string        `json:"goal_description"`
-	UpdatedAt        time.Time     `json:"last_update"`
+	UpdatedAt         time.Time     `json:"updated_at"`
 	CreatedAt         time.Time     `json:"created_at"`
 	EstimationTime    int32         `json:"estimation_time"`
 	OwnerUuid         uuid.UUID     `json:"owner_uuid"`
 	CopiedFromWayUuid uuid.NullUUID `json:"copied_from_way_uuid"`
 	Status            string        `json:"status"`
+	IsPrivate         bool          `json:"is_private"`
 }
 
 type WayCollection struct {

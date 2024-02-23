@@ -9,16 +9,16 @@ import (
 type CreateMetricPayload struct {
 	Description      string    `json:"description"`
 	IsDone           bool      `json:"isDone"`
-	MetricEstimation int64     `json:"estimationTime"`
-	DoneDate         int64     `json:"doneDate"`
+	MetricEstimation int32     `json:"estimationTime"`
+	DoneDate         int32     `json:"doneDate"`
 	WayUuid          uuid.UUID `json:"wayUuid"`
 }
 
 type UpdateMetricPayload struct {
 	Description      string `json:"description"`
 	IsDone           bool   `json:"isDone"`
-	DoneDate         int64  `json:"doneDate"`
-	MetricEstimation int64  `json:"estimationTime"`
+	DoneDate         int32  `json:"doneDate"`
+	MetricEstimation int32  `json:"estimationTime"`
 }
 
 type MetricResponse struct {
@@ -26,6 +26,6 @@ type MetricResponse struct {
 	UpdatedAt        time.Time `json:"updatedAt"`
 	Description      string    `json:"description"`
 	IsDone           bool      `json:"isDone"`
-	DoneDate         int64     `json:"doneDate"`
-	MetricEstimation int64     `json:"estimationTime"`
+	DoneDate         int32     `json:"doneDate"`
+	MetricEstimation int32     `json:"estimationTime"`
 }

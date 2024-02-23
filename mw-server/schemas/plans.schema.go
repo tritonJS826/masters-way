@@ -6,7 +6,7 @@ import (
 
 type CreatePlanPayload struct {
 	Job            string    `json:"job"`
-	EstimationTime int64     `json:"estimationTime"`
+	EstimationTime int32     `json:"estimationTime"`
 	IsDone         bool      `json:"isDone"`
 	OwnerUuid      uuid.UUID `json:"ownerUuid"`
 	DayReportUuid  uuid.UUID `json:"dayReportUuid"`
@@ -14,13 +14,13 @@ type CreatePlanPayload struct {
 
 type UpdatePlanPayload struct {
 	Job            string `json:"job"`
-	EstimationTime int64  `json:"estimationTime"`
+	EstimationTime int32  `json:"estimationTime"`
 	IsDone         bool   `json:"isDone"`
 }
 
 type PlanPlainResponse struct {
 	Job            string            `json:"job"`
-	EstimationTime int64             `json:"estimationTime"`
+	EstimationTime int32             `json:"estimationTime"`
 	Owner          UserPlainResponse `json:"owner"`
 	IsDone         bool              `json:"isDone"`
 }

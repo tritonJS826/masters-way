@@ -24,49 +24,55 @@ export interface SchemasWayPlainResponse {
      * @type {string}
      * @memberof SchemasWayPlainResponse
      */
-    copiedFromWayUuid?: string;
+    copiedFromWayUuid: string | null;
     /**
      * 
      * @type {string}
      * @memberof SchemasWayPlainResponse
      */
-    createdAt?: string;
+    createdAt: string;
     /**
      * 
      * @type {number}
      * @memberof SchemasWayPlainResponse
      */
-    estimationTime?: number;
+    estimationTime: number;
     /**
      * 
      * @type {string}
      * @memberof SchemasWayPlainResponse
      */
-    goalDescription?: string;
+    goalDescription: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof SchemasWayPlainResponse
+     */
+    isPrivate: boolean;
     /**
      * 
      * @type {string}
      * @memberof SchemasWayPlainResponse
      */
-    lastUpdate?: string;
+    name: string;
     /**
      * 
      * @type {string}
      * @memberof SchemasWayPlainResponse
      */
-    name?: string;
+    ownerUuid: string;
     /**
      * 
      * @type {string}
      * @memberof SchemasWayPlainResponse
      */
-    ownerUuid?: string;
+    status: string;
     /**
      * 
      * @type {string}
      * @memberof SchemasWayPlainResponse
      */
-    status?: string;
+    updatedAt: string;
 }
 
 /**
@@ -76,6 +82,15 @@ export function instanceOfSchemasWayPlainResponse(
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "copiedFromWayUuid" in value;
+    isInstance = isInstance && "createdAt" in value;
+    isInstance = isInstance && "estimationTime" in value;
+    isInstance = isInstance && "goalDescription" in value;
+    isInstance = isInstance && "isPrivate" in value;
+    isInstance = isInstance && "name" in value;
+    isInstance = isInstance && "ownerUuid" in value;
+    isInstance = isInstance && "status" in value;
+    isInstance = isInstance && "updatedAt" in value;
 
     return isInstance;
 }
@@ -93,14 +108,15 @@ export function SchemasWayPlainResponseFromJSONTyped(
     }
     return {
         
-        'copiedFromWayUuid': !exists(json, 'copied_from_way_uuid') ? undefined : json['copied_from_way_uuid'],
-        'createdAt': !exists(json, 'createdAt') ? undefined : json['createdAt'],
-        'estimationTime': !exists(json, 'estimationTime') ? undefined : json['estimationTime'],
-        'goalDescription': !exists(json, 'goalDescription') ? undefined : json['goalDescription'],
-        'lastUpdate': !exists(json, 'lastUpdate') ? undefined : json['lastUpdate'],
-        'name': !exists(json, 'name') ? undefined : json['name'],
-        'ownerUuid': !exists(json, 'ownerUuid') ? undefined : json['ownerUuid'],
-        'status': !exists(json, 'status') ? undefined : json['status'],
+        'copiedFromWayUuid': json['copiedFromWayUuid'],
+        'createdAt': json['createdAt'],
+        'estimationTime': json['estimationTime'],
+        'goalDescription': json['goalDescription'],
+        'isPrivate': json['isPrivate'],
+        'name': json['name'],
+        'ownerUuid': json['ownerUuid'],
+        'status': json['status'],
+        'updatedAt': json['updatedAt'],
     };
 }
 
@@ -114,14 +130,15 @@ export function SchemasWayPlainResponseToJSON(value?: SchemasWayPlainResponse | 
     }
     return {
         
-        'copied_from_way_uuid': value.copiedFromWayUuid,
+        'copiedFromWayUuid': value.copiedFromWayUuid,
         'createdAt': value.createdAt,
         'estimationTime': value.estimationTime,
         'goalDescription': value.goalDescription,
-        'lastUpdate': value.lastUpdate,
+        'isPrivate': value.isPrivate,
         'name': value.name,
         'ownerUuid': value.ownerUuid,
         'status': value.status,
+        'updatedAt': value.updatedAt,
     };
 }
 

@@ -55,97 +55,103 @@ export interface SchemasWayPopulatedResponse {
      * @type {string}
      * @memberof SchemasWayPopulatedResponse
      */
-    copiedFromWayUuid?: string;
+    copiedFromWayUuid: string | null;
     /**
      * 
      * @type {string}
      * @memberof SchemasWayPopulatedResponse
      */
-    createdAt?: string;
+    createdAt: string;
     /**
      * 
      * @type {Array<SchemasDayReportPlainResponse>}
      * @memberof SchemasWayPopulatedResponse
      */
-    dayReports?: Array<SchemasDayReportPlainResponse>;
+    dayReports: Array<SchemasDayReportPlainResponse>;
     /**
      * 
      * @type {number}
      * @memberof SchemasWayPopulatedResponse
      */
-    estimationTime?: number;
+    estimationTime: number;
     /**
      * 
      * @type {Array<string>}
      * @memberof SchemasWayPopulatedResponse
      */
-    favoriteForUsers?: Array<string>;
+    favoriteForUsers: Array<string>;
     /**
      * 
      * @type {Array<SchemasUserPlainResponse>}
      * @memberof SchemasWayPopulatedResponse
      */
-    formerMentors?: Array<SchemasUserPlainResponse>;
+    formerMentors: Array<SchemasUserPlainResponse>;
     /**
      * 
      * @type {string}
      * @memberof SchemasWayPopulatedResponse
      */
-    goalDescription?: string;
+    goalDescription: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof SchemasWayPopulatedResponse
+     */
+    isPrivate: boolean;
     /**
      * 
      * @type {Array<SchemasJobTagResponse>}
      * @memberof SchemasWayPopulatedResponse
      */
-    jobTags?: Array<SchemasJobTagResponse>;
-    /**
-     * 
-     * @type {string}
-     * @memberof SchemasWayPopulatedResponse
-     */
-    lastUpdate?: string;
+    jobTags: Array<SchemasJobTagResponse>;
     /**
      * 
      * @type {Array<SchemasUserPlainResponse>}
      * @memberof SchemasWayPopulatedResponse
      */
-    mentorRequests?: Array<SchemasUserPlainResponse>;
+    mentorRequests: Array<SchemasUserPlainResponse>;
     /**
      * 
      * @type {Array<SchemasUserPlainResponse>}
      * @memberof SchemasWayPopulatedResponse
      */
-    mentors?: Array<SchemasUserPlainResponse>;
+    mentors: Array<SchemasUserPlainResponse>;
     /**
      * 
      * @type {Array<SchemasMetricResponse>}
      * @memberof SchemasWayPopulatedResponse
      */
-    metrics?: Array<SchemasMetricResponse>;
+    metrics: Array<SchemasMetricResponse>;
     /**
      * 
      * @type {string}
      * @memberof SchemasWayPopulatedResponse
      */
-    name?: string;
+    name: string;
     /**
      * 
      * @type {SchemasUserPlainResponse}
      * @memberof SchemasWayPopulatedResponse
      */
-    owner?: SchemasUserPlainResponse;
+    owner: SchemasUserPlainResponse;
     /**
      * 
      * @type {string}
      * @memberof SchemasWayPopulatedResponse
      */
-    status?: string;
+    status: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemasWayPopulatedResponse
+     */
+    updatedAt: string;
     /**
      * 
      * @type {Array<SchemasWayTagResponse>}
      * @memberof SchemasWayPopulatedResponse
      */
-    wayTags?: Array<SchemasWayTagResponse>;
+    wayTags: Array<SchemasWayTagResponse>;
 }
 
 /**
@@ -155,6 +161,23 @@ export function instanceOfSchemasWayPopulatedResponse(
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "copiedFromWayUuid" in value;
+    isInstance = isInstance && "createdAt" in value;
+    isInstance = isInstance && "dayReports" in value;
+    isInstance = isInstance && "estimationTime" in value;
+    isInstance = isInstance && "favoriteForUsers" in value;
+    isInstance = isInstance && "formerMentors" in value;
+    isInstance = isInstance && "goalDescription" in value;
+    isInstance = isInstance && "isPrivate" in value;
+    isInstance = isInstance && "jobTags" in value;
+    isInstance = isInstance && "mentorRequests" in value;
+    isInstance = isInstance && "mentors" in value;
+    isInstance = isInstance && "metrics" in value;
+    isInstance = isInstance && "name" in value;
+    isInstance = isInstance && "owner" in value;
+    isInstance = isInstance && "status" in value;
+    isInstance = isInstance && "updatedAt" in value;
+    isInstance = isInstance && "wayTags" in value;
 
     return isInstance;
 }
@@ -172,22 +195,23 @@ export function SchemasWayPopulatedResponseFromJSONTyped(
     }
     return {
         
-        'copiedFromWayUuid': !exists(json, 'copiedFromWayUuid') ? undefined : json['copiedFromWayUuid'],
-        'createdAt': !exists(json, 'createdAt') ? undefined : json['createdAt'],
-        'dayReports': !exists(json, 'dayReports') ? undefined : ((json['dayReports'] as Array<any>).map(SchemasDayReportPlainResponseFromJSON)),
-        'estimationTime': !exists(json, 'estimationTime') ? undefined : json['estimationTime'],
-        'favoriteForUsers': !exists(json, 'favoriteForUsers') ? undefined : json['favoriteForUsers'],
-        'formerMentors': !exists(json, 'formerMentors') ? undefined : ((json['formerMentors'] as Array<any>).map(SchemasUserPlainResponseFromJSON)),
-        'goalDescription': !exists(json, 'goalDescription') ? undefined : json['goalDescription'],
-        'jobTags': !exists(json, 'jobTags') ? undefined : ((json['jobTags'] as Array<any>).map(SchemasJobTagResponseFromJSON)),
-        'lastUpdate': !exists(json, 'lastUpdate') ? undefined : json['lastUpdate'],
-        'mentorRequests': !exists(json, 'mentorRequests') ? undefined : ((json['mentorRequests'] as Array<any>).map(SchemasUserPlainResponseFromJSON)),
-        'mentors': !exists(json, 'mentors') ? undefined : ((json['mentors'] as Array<any>).map(SchemasUserPlainResponseFromJSON)),
-        'metrics': !exists(json, 'metrics') ? undefined : ((json['metrics'] as Array<any>).map(SchemasMetricResponseFromJSON)),
-        'name': !exists(json, 'name') ? undefined : json['name'],
-        'owner': !exists(json, 'owner') ? undefined : SchemasUserPlainResponseFromJSON(json['owner']),
-        'status': !exists(json, 'status') ? undefined : json['status'],
-        'wayTags': !exists(json, 'wayTags') ? undefined : ((json['wayTags'] as Array<any>).map(SchemasWayTagResponseFromJSON)),
+        'copiedFromWayUuid': json['copiedFromWayUuid'],
+        'createdAt': json['createdAt'],
+        'dayReports': ((json['dayReports'] as Array<any>).map(SchemasDayReportPlainResponseFromJSON)),
+        'estimationTime': json['estimationTime'],
+        'favoriteForUsers': json['favoriteForUsers'],
+        'formerMentors': ((json['formerMentors'] as Array<any>).map(SchemasUserPlainResponseFromJSON)),
+        'goalDescription': json['goalDescription'],
+        'isPrivate': json['isPrivate'],
+        'jobTags': ((json['jobTags'] as Array<any>).map(SchemasJobTagResponseFromJSON)),
+        'mentorRequests': ((json['mentorRequests'] as Array<any>).map(SchemasUserPlainResponseFromJSON)),
+        'mentors': ((json['mentors'] as Array<any>).map(SchemasUserPlainResponseFromJSON)),
+        'metrics': ((json['metrics'] as Array<any>).map(SchemasMetricResponseFromJSON)),
+        'name': json['name'],
+        'owner': SchemasUserPlainResponseFromJSON(json['owner']),
+        'status': json['status'],
+        'updatedAt': json['updatedAt'],
+        'wayTags': ((json['wayTags'] as Array<any>).map(SchemasWayTagResponseFromJSON)),
     };
 }
 
@@ -203,20 +227,21 @@ export function SchemasWayPopulatedResponseToJSON(value?: SchemasWayPopulatedRes
         
         'copiedFromWayUuid': value.copiedFromWayUuid,
         'createdAt': value.createdAt,
-        'dayReports': value.dayReports === undefined ? undefined : ((value.dayReports as Array<any>).map(SchemasDayReportPlainResponseToJSON)),
+        'dayReports': ((value.dayReports as Array<any>).map(SchemasDayReportPlainResponseToJSON)),
         'estimationTime': value.estimationTime,
         'favoriteForUsers': value.favoriteForUsers,
-        'formerMentors': value.formerMentors === undefined ? undefined : ((value.formerMentors as Array<any>).map(SchemasUserPlainResponseToJSON)),
+        'formerMentors': ((value.formerMentors as Array<any>).map(SchemasUserPlainResponseToJSON)),
         'goalDescription': value.goalDescription,
-        'jobTags': value.jobTags === undefined ? undefined : ((value.jobTags as Array<any>).map(SchemasJobTagResponseToJSON)),
-        'lastUpdate': value.lastUpdate,
-        'mentorRequests': value.mentorRequests === undefined ? undefined : ((value.mentorRequests as Array<any>).map(SchemasUserPlainResponseToJSON)),
-        'mentors': value.mentors === undefined ? undefined : ((value.mentors as Array<any>).map(SchemasUserPlainResponseToJSON)),
-        'metrics': value.metrics === undefined ? undefined : ((value.metrics as Array<any>).map(SchemasMetricResponseToJSON)),
+        'isPrivate': value.isPrivate,
+        'jobTags': ((value.jobTags as Array<any>).map(SchemasJobTagResponseToJSON)),
+        'mentorRequests': ((value.mentorRequests as Array<any>).map(SchemasUserPlainResponseToJSON)),
+        'mentors': ((value.mentors as Array<any>).map(SchemasUserPlainResponseToJSON)),
+        'metrics': ((value.metrics as Array<any>).map(SchemasMetricResponseToJSON)),
         'name': value.name,
         'owner': SchemasUserPlainResponseToJSON(value.owner),
         'status': value.status,
-        'wayTags': value.wayTags === undefined ? undefined : ((value.wayTags as Array<any>).map(SchemasWayTagResponseToJSON)),
+        'updatedAt': value.updatedAt,
+        'wayTags': ((value.wayTags as Array<any>).map(SchemasWayTagResponseToJSON)),
     };
 }
 

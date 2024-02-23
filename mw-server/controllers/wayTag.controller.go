@@ -100,12 +100,10 @@ func (cc *WayTagController) UpdateWayTag(ctx *gin.Context) {
 // @Param wayId path string true "way ID"
 // @Success 200 {array} schemas.WayTagResponse
 // @Router /wayTags/{wayId} [get]
-// TODO RENAME TO GetWayTagsByWayId
-func (cc *WayTagController) GetWayTagByWayId(ctx *gin.Context) {
-	// wayTagId := ctx.Param("wayTagId")
+func (cc *WayTagController) GetWayTagsByWayId(ctx *gin.Context) {
 	wayId := ctx.Param("wayId")
 
-	wayTag, err := cc.db.GetListWayTagsByWayId(ctx, uuid.MustParse(wayId))
+	wayTags, err := cc.db.GetListWayTagsByWayId(ctx, uuid.MustParse(wayId))
 	if err != nil {
 		if err == sql.ErrNoRows {
 			ctx.JSON(http.StatusNotFound, gin.H{"status": "failed", "message": "Failed to retrieve wayTag with this ID"})
@@ -115,7 +113,7 @@ func (cc *WayTagController) GetWayTagByWayId(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "Successfully retrived id", "wayTag": wayTag})
+	ctx.JSON(http.StatusOK, gin.H{"status": "Successfully retrived id", "wayTags": wayTags})
 }
 
 // Deleting wayTag handlers

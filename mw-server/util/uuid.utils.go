@@ -2,15 +2,6 @@ package util
 
 import "github.com/google/uuid"
 
-func ToUuids(stringList []string) []uuid.UUID {
-	uuidList := make([]uuid.UUID, len(stringList))
-	for i := range stringList {
-		uuidList[i] = uuid.MustParse(stringList[i])
-	}
-
-	return uuidList
-}
-
 func ToNullUuid(someString string) uuid.NullUUID {
 	_, err := uuid.Parse(someString)
 
@@ -23,4 +14,12 @@ func ToNullUuid(someString string) uuid.NullUUID {
 	}
 
 	return nullUuid
+}
+
+func MarshalNullUuid(nullUuid uuid.NullUUID) interface{} {
+	if nullUuid.Valid {
+		return nullUuid.UUID
+	} else {
+		return nil
+	}
 }

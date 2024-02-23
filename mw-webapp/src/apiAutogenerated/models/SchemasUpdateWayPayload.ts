@@ -20,7 +20,7 @@ import { exists, mapValues } from '../runtime';
  */
 export interface SchemasUpdateWayPayload {
     /**
-     * TODO estimationTime's type int 32?
+     * 
      * @type {number}
      * @memberof SchemasUpdateWayPayload
      */
@@ -31,6 +31,12 @@ export interface SchemasUpdateWayPayload {
      * @memberof SchemasUpdateWayPayload
      */
     goalDescription?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof SchemasUpdateWayPayload
+     */
+    isPrivate?: boolean;
     /**
      * 
      * @type {string}
@@ -71,6 +77,7 @@ export function SchemasUpdateWayPayloadFromJSONTyped(
         
         'estimationTime': !exists(json, 'estimationTime') ? undefined : json['estimationTime'],
         'goalDescription': !exists(json, 'goalDescription') ? undefined : json['goalDescription'],
+        'isPrivate': !exists(json, 'isPrivate') ? undefined : json['isPrivate'],
         'name': !exists(json, 'name') ? undefined : json['name'],
         'status': !exists(json, 'status') ? undefined : json['status'],
     };
@@ -88,6 +95,7 @@ export function SchemasUpdateWayPayloadToJSON(value?: SchemasUpdateWayPayload | 
         
         'estimationTime': value.estimationTime,
         'goalDescription': value.goalDescription,
+        'isPrivate': value.isPrivate,
         'name': value.name,
         'status': value.status,
     };

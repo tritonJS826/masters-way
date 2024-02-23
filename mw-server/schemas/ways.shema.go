@@ -7,53 +7,51 @@ import (
 )
 
 type CreateWay struct {
-	Name            string `json:"name"`
-	GoalDescription string `json:"goalDescription"`
-	//TODO estimationTime's type int 32?
-	EstimationTime    int64     `json:"estimationTime"`
-	CopiedFromWayUuid string    `json:"copiedFromWayUuid"`
-	Status            string    `json:"status"`
-	OwnerUuid         uuid.UUID `json:"ownerUuid"`
+	Name              string    `json:"name" validate:"required"`
+	GoalDescription   string    `json:"goalDescription" validate:"required"`
+	EstimationTime    int32     `json:"estimationTime" validate:"required"`
+	CopiedFromWayUuid string    `json:"copiedFromWayUuid" validate:"required"`
+	Status            string    `json:"status" validate:"required"`
+	IsPrivate         bool      `json:"isPrivate" validate:"required"`
+	OwnerUuid         uuid.UUID `json:"ownerUuid" validate:"required"`
 }
 
 type UpdateWayPayload struct {
 	Name            string `json:"name"`
 	GoalDescription string `json:"goalDescription"`
-	//TODO estimationTime's type int 32?
-	EstimationTime int64  `json:"estimationTime"`
-	Status         string `json:"status"`
+	EstimationTime  int32  `json:"estimationTime"`
+	IsPrivate       bool   `json:"isPrivate"`
+	Status          string `json:"status"`
 }
 
 type WayPlainResponse struct {
-	Name              string    `json:"name"`
-	GoalDescription   string    `json:"goalDescription"`
-	UpdatedAt         time.Time `json:"updatedAt"`
-	CreatedAt         time.Time `json:"createdAt"`
-	EstimationTime    int32     `json:"estimationTime"`
-	Status            string    `json:"status"`
-	OwnerUuid         uuid.UUID `json:"ownerUuid"`
-	CopiedFromWayUuid *string   `json:"copiedFromWayUuid"`
-	IsPrivate         bool      `json:"isPrivate"`
+	Name              string    `json:"name" validate:"required"`
+	GoalDescription   string    `json:"goalDescription" validate:"required"`
+	UpdatedAt         time.Time `json:"updatedAt" validate:"required"`
+	CreatedAt         time.Time `json:"createdAt" validate:"required"`
+	EstimationTime    int32     `json:"estimationTime" validate:"required"`
+	Status            string    `json:"status" validate:"required"`
+	OwnerUuid         uuid.UUID `json:"ownerUuid" validate:"required"`
+	CopiedFromWayUuid string    `json:"copiedFromWayUuid" validate:"required" extensions:"x-nullable"`
+	IsPrivate         bool      `json:"isPrivate" validate:"required"`
 }
 
 type WayPopulatedResponse struct {
-	Name                 string                   `json:"name"`
-	GoalDescription      string                   `json:"goalDescription"`
-	UpdatedAt            time.Time                `json:"updatedAt"`
-	CreatedAt            time.Time                `json:"createdAt"`
-	EstimationTime       int32                    `json:"estimationTime"`
-	Status               string                   `json:"status"`
-	IsPrivate            bool                     `json:"isPrivate"`
-	Owner                UserPlainResponse        `json:"owner"`
-	CopiedFromWayUuid    *string                  `json:"copiedFromWayUuid"`
-	DayReports           []DayReportPlainResponse `json:"dayReports"`
-	Mentors              []UserPlainResponse      `json:"mentors"`
-	FormerMentors        []UserPlainResponse      `json:"formerMentors"`
-	MentorRequests       []UserPlainResponse      `json:"mentorRequests"`
-	FavoriteForUserUuids []string                 `json:"favoriteForUsers"`
-	WayTags              []WayTagResponse         `json:"wayTags"`
-	JobTags              []JobTagResponse         `json:"jobTags"`
-	Metrics              []MetricResponse         `json:"metrics"`
+	Name                 string                   `json:"name" validate:"required"`
+	GoalDescription      string                   `json:"goalDescription" validate:"required"`
+	UpdatedAt            time.Time                `json:"updatedAt" validate:"required"`
+	CreatedAt            time.Time                `json:"createdAt" validate:"required"`
+	EstimationTime       int32                    `json:"estimationTime" validate:"required"`
+	Status               string                   `json:"status" validate:"required"`
+	IsPrivate            bool                     `json:"isPrivate" validate:"required"`
+	Owner                UserPlainResponse        `json:"owner" validate:"required"`
+	DayReports           []DayReportPlainResponse `json:"dayReports" validate:"required"`
+	Mentors              []UserPlainResponse      `json:"mentors" validate:"required"`
+	FormerMentors        []UserPlainResponse      `json:"formerMentors" validate:"required"`
+	MentorRequests       []UserPlainResponse      `json:"mentorRequests" validate:"required"`
+	FavoriteForUserUuids []string                 `json:"favoriteForUsers" validate:"required"`
+	WayTags              []WayTagResponse         `json:"wayTags" validate:"required"`
+	JobTags              []JobTagResponse         `json:"jobTags" validate:"required"`
+	Metrics              []MetricResponse         `json:"metrics" validate:"required"`
+	CopiedFromWayUuid    string                   `json:"copiedFromWayUuid" validate:"required" extensions:"x-nullable"`
 }
-
-//TODO: add to UpdateWayPayload properties updatedAt?

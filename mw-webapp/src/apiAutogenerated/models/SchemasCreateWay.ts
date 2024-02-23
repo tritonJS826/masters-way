@@ -24,37 +24,43 @@ export interface SchemasCreateWay {
      * @type {string}
      * @memberof SchemasCreateWay
      */
-    copiedFromWayUuid?: string;
+    copiedFromWayUuid: string;
     /**
-     * TODO estimationTime's type int 32?
+     * 
      * @type {number}
      * @memberof SchemasCreateWay
      */
-    estimationTime?: number;
+    estimationTime: number;
     /**
      * 
      * @type {string}
      * @memberof SchemasCreateWay
      */
-    goalDescription?: string;
+    goalDescription: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof SchemasCreateWay
+     */
+    isPrivate: boolean;
     /**
      * 
      * @type {string}
      * @memberof SchemasCreateWay
      */
-    name?: string;
+    name: string;
     /**
      * 
      * @type {string}
      * @memberof SchemasCreateWay
      */
-    ownerUuid?: string;
+    ownerUuid: string;
     /**
      * 
      * @type {string}
      * @memberof SchemasCreateWay
      */
-    status?: string;
+    status: string;
 }
 
 /**
@@ -64,6 +70,13 @@ export function instanceOfSchemasCreateWay(
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "copiedFromWayUuid" in value;
+    isInstance = isInstance && "estimationTime" in value;
+    isInstance = isInstance && "goalDescription" in value;
+    isInstance = isInstance && "isPrivate" in value;
+    isInstance = isInstance && "name" in value;
+    isInstance = isInstance && "ownerUuid" in value;
+    isInstance = isInstance && "status" in value;
 
     return isInstance;
 }
@@ -81,12 +94,13 @@ export function SchemasCreateWayFromJSONTyped(
     }
     return {
         
-        'copiedFromWayUuid': !exists(json, 'copiedFromWayUuid') ? undefined : json['copiedFromWayUuid'],
-        'estimationTime': !exists(json, 'estimationTime') ? undefined : json['estimationTime'],
-        'goalDescription': !exists(json, 'goalDescription') ? undefined : json['goalDescription'],
-        'name': !exists(json, 'name') ? undefined : json['name'],
-        'ownerUuid': !exists(json, 'ownerUuid') ? undefined : json['ownerUuid'],
-        'status': !exists(json, 'status') ? undefined : json['status'],
+        'copiedFromWayUuid': json['copiedFromWayUuid'],
+        'estimationTime': json['estimationTime'],
+        'goalDescription': json['goalDescription'],
+        'isPrivate': json['isPrivate'],
+        'name': json['name'],
+        'ownerUuid': json['ownerUuid'],
+        'status': json['status'],
     };
 }
 
@@ -103,6 +117,7 @@ export function SchemasCreateWayToJSON(value?: SchemasCreateWay | null): any {
         'copiedFromWayUuid': value.copiedFromWayUuid,
         'estimationTime': value.estimationTime,
         'goalDescription': value.goalDescription,
+        'isPrivate': value.isPrivate,
         'name': value.name,
         'ownerUuid': value.ownerUuid,
         'status': value.status,
