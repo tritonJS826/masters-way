@@ -23,6 +23,7 @@ func NewFromUserMentoringRequestController(db *db.Queries, ctx context.Context) 
 // Create fromUserMentoringRequest handler
 // @Summary Create a new fromUserMentoringRequest
 // @Description
+// @Tags fromUserMentoringRequest
 // @ID create-fromUserMentoringRequest
 // @Accept  json
 // @Produce  json
@@ -49,12 +50,13 @@ func (cc *FromUserMentoringRequestController) CreateFromUserMentoringRequest(ctx
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully created fromUserMentoringRequest", "fromUserMentoringRequest": fromUserMentoringRequest})
+	ctx.JSON(http.StatusOK, fromUserMentoringRequest)
 }
 
 // Deleting fromUserMentoringRequest handlers
 // @Summary Delete fromUserMentoringRequest by UUID
 // @Description
+// @Tags fromUserMentoringRequest
 // @ID delete-fromUserMentoringRequest
 // @Accept  json
 // @Produce  json

@@ -7,8 +7,8 @@ import (
 )
 
 type CreateDayReportPayload struct {
-	WayUuid  uuid.UUID `json:"wayUuid"`
-	IsDayOff bool      `json:"isDayOff"`
+	WayUuid  uuid.UUID `json:"wayUuid" validate:"required"`
+	IsDayOff bool      `json:"isDayOff" validate:"required"`
 }
 
 type UpdateDayReportPayload struct {
@@ -16,11 +16,11 @@ type UpdateDayReportPayload struct {
 }
 
 type DayReportPlainResponse struct {
-	CreatedAt time.Time              `json:"createdAt"`
-	UpdatedAt time.Time              `json:"updatedAt"`
-	IsDayOff  bool                   `json:"isDayOff"`
-	JobsDone  []JobDonePlainResponse `json:"jobsDone"`
-	Plans     []PlanPlainResponse    `json:"plans"`
-	Problems  []ProblemPlainResponse `json:"problems"`
-	Comments  []CommentPlainResponse `json:"comments"`
+	CreatedAt time.Time              `json:"createdAt" validate:"required"`
+	UpdatedAt time.Time              `json:"updatedAt" validate:"required"`
+	IsDayOff  bool                   `json:"isDayOff" validate:"required"`
+	JobsDone  []JobDonePlainResponse `json:"jobsDone" validate:"required"`
+	Plans     []PlanPlainResponse    `json:"plans" validate:"required"`
+	Problems  []ProblemPlainResponse `json:"problems" validate:"required"`
+	Comments  []CommentPlainResponse `json:"comments" validate:"required"`
 }

@@ -25,6 +25,7 @@ func NewMetricController(db *db.Queries, ctx context.Context) *MetricController 
 // Create Metric  handler
 // @Summary Create a new metric
 // @Description
+// @Tags metric
 // @ID create-metric
 // @Accept  json
 // @Produce  json
@@ -56,12 +57,13 @@ func (cc *MetricController) CreateMetric(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully created metric", "metric": metric})
+	ctx.JSON(http.StatusOK, metric)
 }
 
 // Update Metric handler
 // @Summary Update metric by UUID
 // @Description
+// @Tags metric
 // @ID update-metric
 // @Accept  json
 // @Produce  json
@@ -88,7 +90,7 @@ func (cc *MetricController) UpdateMetric(ctx *gin.Context) {
 		MetricEstimation: sql.NullInt32{Int32: int32(payload.MetricEstimation), Valid: payload.MetricEstimation != 0},
 	}
 
-	Metric, err := cc.db.UpdateMetric(ctx, *args)
+	metric, err := cc.db.UpdateMetric(ctx, *args)
 
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -99,12 +101,13 @@ func (cc *MetricController) UpdateMetric(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully updated Metric", "Metric": Metric})
+	ctx.JSON(http.StatusOK, metric)
 }
 
 // Get jobs done by day report uuid handler
 // @Summary Get metrics by way UUID
 // @Description
+// @Tags metric
 // @ID get-metrics-by-Way-uuid
 // @Accept  json
 // @Produce  json
@@ -124,12 +127,13 @@ func (cc *MetricController) GetMetricsByWayId(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "Successfully retrieved id", "metrics": metrics})
+	ctx.JSON(http.StatusOK, metrics)
 }
 
 // Deleting Metric handlers
 // @Summary Delete metric by UUID
 // @Description
+// @Tags metric
 // @ID delete-metric
 // @Accept  json
 // @Produce  json

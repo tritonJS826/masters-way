@@ -24,6 +24,7 @@ func NewJobTagController(db *db.Queries, ctx context.Context) *JobTagController 
 // Create wayTag  handler
 // @Summary Create a new jobTag
 // @Description
+// @Tags jobTag
 // @ID create-jobTag
 // @Accept  json
 // @Produce  json
@@ -52,12 +53,13 @@ func (cc *JobTagController) CreateJobTag(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully created jobTag", "jobTag": jobTag})
+	ctx.JSON(http.StatusOK, jobTag)
 }
 
 // Update jobTag handler
 // @Summary Update jobTag by UUID
 // @Description
+// @Tags jobTag
 // @ID update-jobTag
 // @Accept  json
 // @Produce  json
@@ -92,12 +94,13 @@ func (cc *JobTagController) UpdateJobTag(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully updated jobTag", "jobTag": jobTag})
+	ctx.JSON(http.StatusOK, jobTag)
 }
 
 // Get a single handler
 // @Summary Get jobTags by user UUID
 // @Description
+// @Tags jobTag
 // @ID get-jobTags-by-Way-uuid
 // @Accept  json
 // @Produce  json
@@ -117,12 +120,13 @@ func (cc *JobTagController) GetJobTagsByWayId(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "Successfully retrieved id", "jobTag": jobTag})
+	ctx.JSON(http.StatusOK, jobTag)
 }
 
 // Deleting wayTag handlers
 // @Summary Delete jobTag by UUID
 // @Description
+// @Tags jobTag
 // @ID delete-jobTag
 // @Accept  json
 // @Produce  json

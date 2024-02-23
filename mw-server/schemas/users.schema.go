@@ -7,44 +7,44 @@ import (
 )
 
 type CreateUserPayload struct {
-	Name        string `json:"name"`
-	Email       string `json:"email"`
-	Description string `json:"description"`
-	ImageUrl    string `json:"imageUrl"`
-	IsMentor    bool   `json:"isMentor"`
+	Name        string `json:"name" validate:"required"`
+	Email       string `json:"email" validate:"required"`
+	Description string `json:"description" validate:"required"`
+	ImageUrl    string `json:"imageUrl" validate:"required" extensions:"x-nullable"`
+	IsMentor    bool   `json:"isMentor" validate:"required"`
 }
 
 type UserPlainResponse struct {
-	Uuid        uuid.UUID `json:"uuid"`
-	Name        string    `json:"name"`
-	Email       string    `json:"email"`
-	Description string    `json:"description"`
-	CreatedAt   time.Time `json:"createdAt"`
-	ImageUrl    string    `json:"imageUrl"`
-	IsMentor    bool      `json:"isMentor"`
+	Uuid        uuid.UUID `json:"uuid" validate:"required"`
+	Name        string    `json:"name" validate:"required"`
+	Email       string    `json:"email" validate:"required"`
+	Description string    `json:"description" validate:"required"`
+	CreatedAt   time.Time `json:"createdAt" validate:"required"`
+	ImageUrl    string    `json:"imageUrl" validate:"required" extensions:"x-nullable"`
+	IsMentor    bool      `json:"isMentor" validate:"required"`
 }
 type UpdateUserPayload struct {
 	Name        string `json:"name"`
 	Email       string `json:"email"`
 	Description string `json:"description"`
-	ImageUrl    string `json:"imageUrl"`
+	ImageUrl    string `json:"imageUrl" extensions:"x-nullable"`
 	IsMentor    bool   `json:"isMentor"`
 }
 
 type UserPopulatedResponse struct {
-	Uuid             uuid.UUID
-	Name             string
-	Email            string
-	Description      string
-	CreatedAt        time.Time
-	ImageUrl         string
-	IsMentor         bool
-	OwnWays          []WayPlainResponse
-	FavoriteWays     []WayPlainResponse
-	MentoringWays    []WayPlainResponse
-	WayCollections   []WayCollectionPopulatedResponse
-	FavoriteForUsers []string
-	FavoriteUsers    []UserPlainResponse
-	Tags             []UserTagResponse
-	WayRequests      []WayPlainResponse
+	Uuid             uuid.UUID                        `json:"uuid" validate:"required"`
+	Name             string                           `json:"name" validate:"required"`
+	Email            string                           `json:"email" validate:"required"`
+	Description      string                           `json:"description" validate:"required"`
+	CreatedAt        time.Time                        `json:"createdAt" validate:"required"`
+	ImageUrl         string                           `json:"imageUrl" validate:"required" extensions:"x-nullable"`
+	IsMentor         bool                             `json:"isMentor" validate:"required"`
+	OwnWays          []WayPlainResponse               `json:"ownWays" validate:"required"`
+	FavoriteWays     []WayPlainResponse               `json:"favoriteWays" validate:"required"`
+	MentoringWays    []WayPlainResponse               `json:"mentoringWays" validate:"required"`
+	WayCollections   []WayCollectionPopulatedResponse `json:"wayCollections" validate:"required"`
+	FavoriteForUsers []string                         `json:"favoriteForUsers" validate:"required"`
+	FavoriteUsers    []UserPlainResponse              `json:"favoriteUsers" validate:"required"`
+	Tags             []UserTagResponse                `json:"tags" validate:"required"`
+	WayRequests      []WayPlainResponse               `json:"wayRequests" validate:"required"`
 }

@@ -22,6 +22,7 @@ func NewFormerMentorWayController(db *db.Queries, ctx context.Context) *FormerMe
 // Create formerMentorWay handler
 // @Summary Create a new formerMentorWay
 // @Description
+// @Tags formerMentorWay
 // @ID create-formerMentorWay
 // @Accept  json
 // @Produce  json
@@ -48,5 +49,5 @@ func (cc *FormerMentorWayController) CreateFormerMentorWay(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully created formerMentorWay", "formerMentorWay": formerMentorWay})
+	ctx.JSON(http.StatusOK, formerMentorWay)
 }

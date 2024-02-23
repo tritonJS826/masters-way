@@ -5,6 +5,6 @@ import (
 )
 
 type CreateFavoriteUserPayload struct {
-	DonorUserUuid    uuid.UUID `json:"donorUserUuid"`
-	AcceptorUserUuid uuid.UUID `json:"acceptorUserUuid"`
+	DonorUserUuid    uuid.UUID `json:"donorUserUuid" validate:"required"`
+	AcceptorUserUuid uuid.UUID `json:"acceptorUserUuid" validate:"required"`
 }

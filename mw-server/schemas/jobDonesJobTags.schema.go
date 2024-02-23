@@ -5,6 +5,6 @@ import (
 )
 
 type CreateJobDoneJobTagPayload struct {
-	JobDoneUuid uuid.UUID `json:"jobDoneUuid"`
-	JobTagUuid  uuid.UUID `json:"jobTagUuid"`
+	JobDoneUuid uuid.UUID `json:"jobDoneUuid" validate:"required"`
+	JobTagUuid  uuid.UUID `json:"jobTagUuid" validate:"required"`
 }

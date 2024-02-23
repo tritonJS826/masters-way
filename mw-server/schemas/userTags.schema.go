@@ -5,8 +5,8 @@ import (
 )
 
 type CreateUserTagPayload struct {
-	Name      string    `json:"name"`
-	OwnerUuid uuid.UUID `json:"ownerUuid"`
+	Name      string    `json:"name" validate:"required"`
+	OwnerUuid uuid.UUID `json:"ownerUuid" validate:"required"`
 }
 
 type UpdateUserTagPayload struct {
@@ -14,6 +14,6 @@ type UpdateUserTagPayload struct {
 }
 
 type UserTagResponse struct {
-	Uuid string `json:"uuid"`
-	Name string `json:"name"`
+	Uuid string `json:"uuid" validate:"required"`
+	Name string `json:"name" validate:"required"`
 }

@@ -23,6 +23,7 @@ func NewPlanJobTagController(db *db.Queries, ctx context.Context) *PlanJobTagCon
 // Create planJobTag  handler
 // @Summary Create a new planJobTag
 // @Description
+// @Tags planJobTag
 // @ID create-planJobTag
 // @Accept  json
 // @Produce  json
@@ -49,12 +50,13 @@ func (cc *PlanJobTagController) CreatePlanJobTag(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully created planJobTag", "planJobTag": planJobTag})
+	ctx.JSON(http.StatusOK, planJobTag)
 }
 
 // Deleting PlanJobTag handlers
 // @Summary Delete planJobTag by UUID
 // @Description
+// @Tags planJobTag
 // @ID delete-planJobTag
 // @Accept  json
 // @Produce  json

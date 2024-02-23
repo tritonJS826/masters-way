@@ -25,6 +25,7 @@ func NewCommentController(db *db.Queries, ctx context.Context) *CommentControlle
 // Create Comment  handler
 // @Summary Create a new comment
 // @Description
+// @Tags comment
 // @ID create-comment
 // @Accept  json
 // @Produce  json
@@ -55,12 +56,13 @@ func (cc *CommentController) CreateComment(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully created Comment", "comment": comment})
+	ctx.JSON(http.StatusOK, comment)
 }
 
 // Update comment handler
 // @Summary Update comment by UUID
 // @Description
+// @Tags comment
 // @ID update-comment
 // @Accept  json
 // @Produce  json
@@ -95,12 +97,13 @@ func (cc *CommentController) UpdateComment(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully updated Comment", "Comment": comment})
+	ctx.JSON(http.StatusOK, comment)
 }
 
 // Get a single handler
 // @Summary Get comments by dayReport UUID
 // @Description
+// @Tags comment
 // @ID get-comments-by-DayReport-uuid
 // @Accept  json
 // @Produce  json
@@ -120,12 +123,13 @@ func (cc *CommentController) GetCommentsByDayReportId(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "Successfully retrieved id", "comment": comment})
+	ctx.JSON(http.StatusOK, comment)
 }
 
 // Deleting Comment handlers
 // @Summary Delete comment by UUID
 // @Description
+// @Tags comment
 // @ID delete-comment
 // @Accept  json
 // @Produce  json

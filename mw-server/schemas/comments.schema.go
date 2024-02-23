@@ -5,9 +5,9 @@ import (
 )
 
 type CreateCommentPayload struct {
-	Description   string    `json:"description"`
-	DayReportUuid uuid.UUID `json:"dayReportUuid"`
-	OwnerUuid     uuid.UUID `json:"ownerUuid"`
+	Description   string    `json:"description" validate:"required"`
+	DayReportUuid uuid.UUID `json:"dayReportUuid" validate:"required"`
+	OwnerUuid     uuid.UUID `json:"ownerUuid" validate:"required"`
 }
 
 type UpdateCommentPayload struct {
@@ -15,6 +15,6 @@ type UpdateCommentPayload struct {
 }
 
 type CommentPlainResponse struct {
-	Description string            `json:"description"`
-	Owner       UserPlainResponse `json:"owner"`
+	Description string            `json:"description" validate:"required"`
+	Owner       UserPlainResponse `json:"owner" validate:"required"`
 }

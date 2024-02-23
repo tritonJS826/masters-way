@@ -23,6 +23,7 @@ func NewFavoriteUserWayController(db *db.Queries, ctx context.Context) *Favorite
 // Create favoriteUserWay handler
 // @Summary Create a new favoriteUserWay
 // @Description
+// @Tags favoriteUserWay
 // @ID create-favoriteUserWay
 // @Accept  json
 // @Produce  json
@@ -49,12 +50,13 @@ func (cc *FavoriteUserWayController) CreateFavoriteUserWay(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully created favoriteUserWay", "favoriteUserWay": favoriteUserWay})
+	ctx.JSON(http.StatusOK, favoriteUserWay)
 }
 
 // Deleting favoriteUserWay handlers
 // @Summary Delete favoriteUserWay by UUID
 // @Description
+// @Tags favoriteUserWay
 // @ID delete-favoriteUserWay
 // @Accept  json
 // @Produce  json
@@ -77,6 +79,6 @@ func (cc *FavoriteUserWayController) DeleteFavoriteUserWayById(ctx *gin.Context)
 		return
 	}
 
-	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfuly deleted"})
+	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})
 
 }

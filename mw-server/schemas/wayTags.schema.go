@@ -5,8 +5,8 @@ import (
 )
 
 type CreateWayTagPayload struct {
-	Name    string    `json:"name"`
-	WayUuid uuid.UUID `json:"wayUuid"`
+	Name    string    `json:"name" validate:"required"`
+	WayUuid uuid.UUID `json:"wayUuid" validate:"required"`
 }
 
 type UpdateWayTagPayload struct {
@@ -14,10 +14,11 @@ type UpdateWayTagPayload struct {
 }
 
 type UpdateWayTagResponse struct {
-	Name string `json:"name"`
+	Uuid string `json:"uuid" validate:"required"`
+	Name string `json:"name" validate:"required"`
 }
 
 type WayTagResponse struct {
-	Uuid string `json:"uuid"`
-	Name string `json:"name"`
+	Uuid string `json:"uuid" validate:"required"`
+	Name string `json:"name" validate:"required"`
 }

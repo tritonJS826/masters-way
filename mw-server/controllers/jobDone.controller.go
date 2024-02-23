@@ -25,6 +25,7 @@ func NewJobDoneController(db *db.Queries, ctx context.Context) *JobDoneControlle
 // Create JobDone  handler
 // @Summary Create a new jobDone
 // @Description
+// @Tags jobDone
 // @ID create-jobDone
 // @Accept  json
 // @Produce  json
@@ -56,12 +57,13 @@ func (cc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully created JobDone", "jobDone": jobDone})
+	ctx.JSON(http.StatusOK, jobDone)
 }
 
 // Update JobDone handler
 // @Summary Update jobDone by UUID
 // @Description
+// @Tags jobDone
 // @ID update-jobDone
 // @Accept  json
 // @Produce  json
@@ -97,12 +99,13 @@ func (cc *JobDoneController) UpdateJobDone(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully updated jobDone", "jobDone": jobDone})
+	ctx.JSON(http.StatusOK, jobDone)
 }
 
 // Get jobs done by day report uuid handler
 // @Summary Get jobDones by dayReport UUID
 // @Description
+// @Tags jobDone
 // @ID get-jobDones-by-DayReport-uuid
 // @Accept  json
 // @Produce  json
@@ -122,12 +125,13 @@ func (cc *JobDoneController) GetJobDonesByDayReportId(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "Successfully retrieved id", "jobDone": jobDone})
+	ctx.JSON(http.StatusOK, jobDone)
 }
 
 // Deleting jobDone handlers
 // @Summary Delete jobDone by UUID
 // @Description
+// @Tags jobDone
 // @ID delete-jobDone
 // @Accept  json
 // @Produce  json

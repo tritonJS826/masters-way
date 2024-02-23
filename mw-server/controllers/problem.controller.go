@@ -25,6 +25,7 @@ func NewProblemController(db *db.Queries, ctx context.Context) *ProblemControlle
 // Create Problem  handler
 // @Summary Create a new problem
 // @Description
+// @Tags problem
 // @ID create-problem
 // @Accept  json
 // @Produce  json
@@ -56,12 +57,13 @@ func (cc *ProblemController) CreateProblem(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully created problem", "problem": problem})
+	ctx.JSON(http.StatusOK, problem)
 }
 
 // Update Problem handler
 // @Summary Update problem by UUID
 // @Description
+// @Tags problem
 // @ID update-problem
 // @Accept  json
 // @Produce  json
@@ -97,12 +99,13 @@ func (cc *ProblemController) UpdateProblem(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully updated problem", "problem": problem})
+	ctx.JSON(http.StatusOK, problem)
 }
 
 // Get problems by day report uuid handler
 // @Summary Get problems by dayReport UUID
 // @Description
+// @Tags problem
 // @ID get-problems-by-DayReport-uuid
 // @Accept  json
 // @Produce  json
@@ -122,12 +125,13 @@ func (cc *ProblemController) GetProblemsByDayReportId(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "Successfully retrieved id", "problems": problems})
+	ctx.JSON(http.StatusOK, problems)
 }
 
 // Deleting Problem handlers
 // @Summary Delete problem by UUID
 // @Description
+// @Tags problem
 // @ID delete-problem
 // @Accept  json
 // @Produce  json

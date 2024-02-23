@@ -24,6 +24,7 @@ func NewUserTagController(db *db.Queries, ctx context.Context) *UserTagControlle
 // Create userTag  handler
 // @Summary Create a new userTag
 // @Description
+// @Tags userTag
 // @ID create-userTag
 // @Accept  json
 // @Produce  json
@@ -50,12 +51,13 @@ func (cc *UserTagController) CreateUserTag(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully created userTag", "userTag": userTag})
+	ctx.JSON(http.StatusOK, userTag)
 }
 
 // Update userTag handler
 // @Summary Update userTag by UUID
 // @Description
+// @Tags userTag
 // @ID update-userTag
 // @Accept  json
 // @Produce  json
@@ -88,12 +90,13 @@ func (cc *UserTagController) UpdateUserTag(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully updated userTag", "userTag": userTag})
+	ctx.JSON(http.StatusOK, userTag)
 }
 
 // Get a all users tags by owner id handler
 // @Summary Get userTags by user UUID
 // @Description
+// @Tags userTag
 // @ID get-userTags-by-User-uuid
 // @Accept  json
 // @Produce  json
@@ -113,12 +116,13 @@ func (cc *UserTagController) GetUserTagsByUserId(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "Successfully retrieved id", "userTag": userTag})
+	ctx.JSON(http.StatusOK, userTag)
 }
 
 // Deleting userTag handlers
 // @Summary Delete userTag by UUID
 // @Description
+// @Tags userTag
 // @ID delete-userTag
 // @Accept  json
 // @Produce  json

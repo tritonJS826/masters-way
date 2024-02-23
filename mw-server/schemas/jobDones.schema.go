@@ -5,10 +5,10 @@ import (
 )
 
 type CreateJobDonePayload struct {
-	Description   string    `json:"description"`
-	Time          int32     `json:"time"`
-	DayReportUuid uuid.UUID `json:"dayReportUuid"`
-	OwnerUuid     uuid.UUID `json:"ownerUuid"`
+	Description   string    `json:"description" validate:"required"`
+	Time          int32     `json:"time" validate:"required"`
+	DayReportUuid uuid.UUID `json:"dayReportUuid" validate:"required"`
+	OwnerUuid     uuid.UUID `json:"ownerUuid" validate:"required"`
 }
 
 type UpdateJobDone struct {
@@ -17,7 +17,7 @@ type UpdateJobDone struct {
 }
 
 type JobDonePlainResponse struct {
-	Description string            `json:"description"`
-	Time        int32             `json:"time"`
-	Owner       UserPlainResponse `json:"owner"`
+	Description string            `json:"description" validate:"required"`
+	Time        int32             `json:"time" validate:"required"`
+	Owner       UserPlainResponse `json:"owner" validate:"required"`
 }
