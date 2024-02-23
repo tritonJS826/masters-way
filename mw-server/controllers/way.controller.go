@@ -49,7 +49,7 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 		OwnerUuid:         payload.OwnerUuid,
 		Status:            payload.Status,
 		CopiedFromWayUuid: util.ToNullUuid(payload.CopiedFromWayUuid),
-		LastUpdate:        now,
+		UpdatedAt:         now,
 		CreatedAt:         now,
 	}
 
@@ -94,7 +94,7 @@ func (cc *WayController) UpdateWay(ctx *gin.Context) {
 		GoalDescription: sql.NullString{String: payload.GoalDescription, Valid: payload.GoalDescription != ""},
 		EstimationTime:  sql.NullInt32{Int32: int32(payload.EstimationTime), Valid: payload.EstimationTime != 0},
 		Status:          sql.NullString{String: payload.Status, Valid: payload.Status != ""},
-		LastUpdate:      sql.NullTime{Time: now, Valid: true},
+		UpdatedAt:       sql.NullTime{Time: now, Valid: true},
 	}
 
 	way, err := cc.db.UpdateWay(ctx, *args)
@@ -131,7 +131,7 @@ type getWayByIdResponse struct {
 	Uuid              uuid.UUID
 	Name              string
 	GoalDescription   string
-	LastUpdate        time.Time
+	UpdatedAt         time.Time
 	CreatedAt         time.Time
 	EstimationTime    int32
 	OwnerUuid         uuid.UUID
@@ -199,12 +199,11 @@ func (cc *WayController) GetWayById(ctx *gin.Context) {
 		}
 	}
 
-	//TODO rename LastUpdate to UpdatedAt
 	response := getWayByIdResponse{
 		Uuid:              way.Uuid,
 		Name:              way.Name,
 		GoalDescription:   way.GoalDescription,
-		LastUpdate:        way.LastUpdate,
+		UpdatedAt:         way.UpdatedAt,
 		CreatedAt:         way.CreatedAt,
 		EstimationTime:    way.EstimationTime,
 		OwnerUuid:         way.OwnerUuid,

@@ -138,7 +138,7 @@ type Way struct {
 	Uuid              uuid.UUID     `json:"uuid"`
 	Name              string        `json:"name"`
 	GoalDescription   string        `json:"goal_description"`
-	LastUpdate        time.Time     `json:"last_update"`
+	UpdatedAt        time.Time     `json:"last_update"`
 	CreatedAt         time.Time     `json:"created_at"`
 	EstimationTime    int32         `json:"estimation_time"`
 	OwnerUuid         uuid.UUID     `json:"owner_uuid"`
