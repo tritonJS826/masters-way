@@ -27,21 +27,23 @@ type UpdateWayPayload struct {
 type WayPlainResponse struct {
 	Name              string    `json:"name"`
 	GoalDescription   string    `json:"goalDescription"`
-	UpdatedAt         time.Time `json:"lastUpdate"`
+	UpdatedAt         time.Time `json:"updatedAt"`
 	CreatedAt         time.Time `json:"createdAt"`
 	EstimationTime    int32     `json:"estimationTime"`
 	Status            string    `json:"status"`
 	OwnerUuid         uuid.UUID `json:"ownerUuid"`
-	CopiedFromWayUuid *string   `json:"copied_from_way_uuid"`
+	CopiedFromWayUuid *string   `json:"copiedFromWayUuid"`
+	IsPrivate         bool      `json:"isPrivate"`
 }
 
 type WayPopulatedResponse struct {
 	Name                 string                   `json:"name"`
 	GoalDescription      string                   `json:"goalDescription"`
-	UpdatedAt            time.Time                `json:"lastUpdate"`
+	UpdatedAt            time.Time                `json:"updatedAt"`
 	CreatedAt            time.Time                `json:"createdAt"`
 	EstimationTime       int32                    `json:"estimationTime"`
 	Status               string                   `json:"status"`
+	IsPrivate            bool                     `json:"isPrivate"`
 	Owner                UserPlainResponse        `json:"owner"`
 	CopiedFromWayUuid    *string                  `json:"copiedFromWayUuid"`
 	DayReports           []DayReportPlainResponse `json:"dayReports"`

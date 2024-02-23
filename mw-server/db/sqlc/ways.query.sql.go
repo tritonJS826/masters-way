@@ -31,7 +31,7 @@ INSERT INTO ways(
 type CreateWayParams struct {
 	Name              string        `json:"name"`
 	GoalDescription   string        `json:"goal_description"`
-	LastUpdate        time.Time     `json:"last_update"`
+	UpdatedAt        time.Time     `json:"last_update"`
 	CreatedAt         time.Time     `json:"created_at"`
 	EstimationTime    int32         `json:"estimation_time"`
 	CopiedFromWayUuid uuid.NullUUID `json:"copied_from_way_uuid"`
@@ -43,7 +43,7 @@ func (q *Queries) CreateWay(ctx context.Context, arg CreateWayParams) (Way, erro
 	row := q.queryRow(ctx, q.createWayStmt, createWay,
 		arg.Name,
 		arg.GoalDescription,
-		arg.LastUpdate,
+		arg.UpdatedAt,
 		arg.CreatedAt,
 		arg.EstimationTime,
 		arg.CopiedFromWayUuid,
@@ -55,7 +55,7 @@ func (q *Queries) CreateWay(ctx context.Context, arg CreateWayParams) (Way, erro
 		&i.Uuid,
 		&i.Name,
 		&i.GoalDescription,
-		&i.LastUpdate,
+		&i.UpdatedAt,
 		&i.CreatedAt,
 		&i.EstimationTime,
 		&i.OwnerUuid,
@@ -88,7 +88,7 @@ func (q *Queries) GetWayById(ctx context.Context, argUuid uuid.UUID) (Way, error
 		&i.Uuid,
 		&i.Name,
 		&i.GoalDescription,
-		&i.LastUpdate,
+		&i.UpdatedAt,
 		&i.CreatedAt,
 		&i.EstimationTime,
 		&i.OwnerUuid,
@@ -124,7 +124,7 @@ func (q *Queries) ListWays(ctx context.Context, arg ListWaysParams) ([]Way, erro
 			&i.Uuid,
 			&i.Name,
 			&i.GoalDescription,
-			&i.LastUpdate,
+			&i.UpdatedAt,
 			&i.CreatedAt,
 			&i.EstimationTime,
 			&i.OwnerUuid,
@@ -160,7 +160,7 @@ RETURNING uuid, name, goal_description, last_update, created_at, estimation_time
 type UpdateWayParams struct {
 	Name            sql.NullString `json:"name"`
 	GoalDescription sql.NullString `json:"goal_description"`
-	LastUpdate      sql.NullTime   `json:"last_update"`
+	UpdatedAt      sql.NullTime   `json:"last_update"`
 	EstimationTime  sql.NullInt32  `json:"estimation_time"`
 	Status          sql.NullString `json:"status"`
 	Uuid            uuid.UUID      `json:"uuid"`
@@ -170,7 +170,7 @@ func (q *Queries) UpdateWay(ctx context.Context, arg UpdateWayParams) (Way, erro
 	row := q.queryRow(ctx, q.updateWayStmt, updateWay,
 		arg.Name,
 		arg.GoalDescription,
-		arg.LastUpdate,
+		arg.UpdatedAt,
 		arg.EstimationTime,
 		arg.Status,
 		arg.Uuid,
@@ -180,7 +180,7 @@ func (q *Queries) UpdateWay(ctx context.Context, arg UpdateWayParams) (Way, erro
 		&i.Uuid,
 		&i.Name,
 		&i.GoalDescription,
-		&i.LastUpdate,
+		&i.UpdatedAt,
 		&i.CreatedAt,
 		&i.EstimationTime,
 		&i.OwnerUuid,

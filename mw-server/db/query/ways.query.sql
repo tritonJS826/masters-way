@@ -2,14 +2,15 @@
 INSERT INTO ways(
     name,
     goal_description,
-    last_update,
+    updated_at,
     created_at,
     estimation_time,
     copied_from_way_uuid,
+    is_private,
     status,
     owner_uuid
 ) VALUES (
-    $1, $2, $3, $4, $5, $6, $7, $8
+    $1, $2, $3, $4, $5, $6, $7, $8, $9
 ) RETURNING *;
 
 
@@ -31,8 +32,9 @@ UPDATE ways
 SET
 name = coalesce(sqlc.narg('name'), name),
 goal_description = coalesce(sqlc.narg('goal_description'), goal_description),
-last_update = coalesce(sqlc.narg('last_update'), last_update),
+updated_at = coalesce(sqlc.narg('updated_at'), updated_at),
 estimation_time = coalesce(sqlc.narg('estimation_time'), estimation_time),
+is_private = coalesce(sqlc.narg('is_private'), is_private),
 status = coalesce(sqlc.narg('status'), status)
 
 WHERE uuid = sqlc.arg('uuid')
