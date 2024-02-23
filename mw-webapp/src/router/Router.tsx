@@ -22,17 +22,17 @@ export const router = createBrowserRouter(
         path={pages.allWays.getPath({})}
         element={<WithValidatedParams paramsSchema={pages.allWays} />}
         errorElement={pages.page404.getPageComponent({})}
-        />
+      />
       <Route
         path={pages.user.getPath({uuid: ":uuid"})}
         element={<WithValidatedParams paramsSchema={pages.user} />}
         errorElement={pages.page404.getPageComponent({})}
-        />
+      />
       <Route
         path={pages.way.getPath({uuid: ":uuid"})}
         element={<WithValidatedParams paramsSchema={pages.way} />}
         errorElement={pages.page404.getPageComponent({})}
-        />
+      />
       <Route
         path={pages.allUsers.getPath({})}
         element={<WithValidatedParams paramsSchema={pages.allUsers} />}

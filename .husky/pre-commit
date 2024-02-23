@@ -3,4 +3,11 @@
 
 cd mw-webapp
 pnpm lint-staged
-pnpm dlx concurrently "pnpm type-check" "pnpm cypress-run" "pnpm test" "pnpm build-storybook" "pnpm build"
+
+pnpm dlx concurrently \
+    "pnpm type-check" \
+    "pnpm cypress-run" \
+    "pnpm test" \
+    "pnpm build-storybook" \
+    "pnpm build" \
+    "cd ../mw-server && go build main.go"
