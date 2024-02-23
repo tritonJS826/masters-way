@@ -102,6 +102,12 @@ export const WayDTOSchema = z.object({
    */
   [WAY_METRICS_STRINGIFIED_FIELD]: z.array(z.string()),
 
+  /**
+   * Way is private
+   * @default false
+   */
+  isPrivate: z.boolean(),
+
 }).strict();
 
 export const WaysDTOSchema = z.array(WayDTOSchema);

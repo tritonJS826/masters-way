@@ -6,7 +6,6 @@ import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalC
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {JobTag} from "src/logic/wayPage/jobTags/jobTag/JobTag";
-import {DEFAULT_TAG} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
 import {JobTag as JobTagData} from "src/model/businessModelPreview/WayPreview";
 import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/logic/wayPage/reportsTable/modalContentJobTags/ModalContentJobTags.module.scss";
@@ -46,6 +45,11 @@ interface JobDoneTagsProps {
  */
 export const ModalContentJobTags = (props: JobDoneTagsProps) => {
   const [jobTagsUpdated, setJobTagsUpdated] = useState<JobTagData[]>(props.jobDoneTags);
+  const defaultTag = props.jobTags.find((tag) => tag.name === "no tag");
+
+  if (!defaultTag) {
+    throw new Error("Default tag is not exist");
+  }
 
   const isJobTagsEmpty = jobTagsUpdated.length === 0;
   const isJobTagsSingle = jobTagsUpdated.length === DEFAULT_AMOUNT_TAGS;
@@ -55,14 +59,14 @@ export const ModalContentJobTags = (props: JobDoneTagsProps) => {
     : Array.from(new Set(jobTagsUpdated)).filter((tag) => tag.name !== "no tag");
 
   const checkedJobTags = isJobTagsEmpty
-    ? jobTagsUpdated.concat(DEFAULT_TAG)
+    ? jobTagsUpdated.concat(defaultTag)
     : filteredJobTags;
 
   const allTagsMap = new Map(props.jobTags.concat(checkedJobTags).map((tag) => [tag.uuid, tag]));
 
   const allTagsUnique = Array.from(allTagsMap, ([, value]) => value);
 
-  const allTags = allTagsUnique.filter((tag) => tag !== DEFAULT_TAG);
+  const allTags = allTagsUnique.filter((tag) => tag.name !== defaultTag.name);
 
   /**
    * Remove job tag from Job done

@@ -36,6 +36,7 @@ const defaultWayOwner: UserPreview = {
 const defaultWayPreview: WayPreview = {
   uuid: "1",
   name: "Way's name Way's name Way's name Way's name Way's name",
+  isPrivate: false,
   wayTags: [
     {
       uuid: "1",

@@ -24,6 +24,7 @@ export const wayToWayDTOConverter = (way: Way): WayDTO => {
     goalDescription: way.goalDescription,
     metricsStringified: way.metrics.map((metric) => JSON.stringify(metric)),
     estimationTime: way.estimationTime,
+    isPrivate: way.isPrivate,
   };
 
   const validatedWayDTO = WayDTOSchema.parse(wayDTO);
