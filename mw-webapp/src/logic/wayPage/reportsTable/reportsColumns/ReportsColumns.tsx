@@ -434,10 +434,9 @@ export const Columns = (props: ColumnsProps) => {
                     <HorizontalContainer className={styles.horizontalContainer}>
                       <HorizontalContainer className={styles.listNumberAndName}>
                         {getListNumberByIndex(index)}
-                        <Link
-                          value={getName(props.way, plan.ownerUuid)}
-                          path={pages.user.getPath({uuid: plan.ownerUuid})}
-                        />
+                        <Link path={pages.user.getPath({uuid: plan.ownerUuid})}>
+                          {getName(props.way, plan.ownerUuid)}
+                        </Link>
                       </HorizontalContainer>
                       <HorizontalContainer className={styles.icons}>
                         {isUserOwnerOrMentor ?
@@ -618,10 +617,9 @@ export const Columns = (props: ColumnsProps) => {
                     <HorizontalContainer className={styles.horizontalContainer}>
                       <HorizontalContainer className={styles.listNumberAndName}>
                         {getListNumberByIndex(index)}
-                        <Link
-                          value={getName(props.way, problem.ownerUuid)}
-                          path={pages.user.getPath({uuid: problem.ownerUuid})}
-                        />
+                        <Link path={pages.user.getPath({uuid: problem.ownerUuid})}>
+                          {getName(props.way, problem.ownerUuid)}
+                        </Link>
                       </HorizontalContainer>
                       <HorizontalContainer className={styles.icons}>
                         {isUserOwnerOrMentor &&
@@ -754,10 +752,9 @@ export const Columns = (props: ColumnsProps) => {
                   <HorizontalContainer className={styles.horizontalContainer}>
                     <HorizontalContainer className={styles.listNumberAndName}>
                       {getListNumberByIndex(index)}
-                      <Link
-                        value={getName(props.way, comment.ownerUuid)}
-                        path={pages.user.getPath({uuid: comment.ownerUuid})}
-                      />
+                      <Link path={pages.user.getPath({uuid: comment.ownerUuid})}>
+                        {getName(props.way, comment.ownerUuid)}
+                      </Link>
                     </HorizontalContainer>
                     {comment.ownerUuid === user?.uuid &&
                       <Tooltip

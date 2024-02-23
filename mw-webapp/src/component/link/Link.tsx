@@ -9,11 +9,6 @@ import styles from "src/component/link/Link.module.scss";
 interface LinkProps {
 
   /**
-   * Link value (text)
-   */
-  value?: string;
-
-  /**
    * Go to path page on link
    */
   path: string;
@@ -33,7 +28,6 @@ export const Link = (props: PropsWithChildren<LinkProps>) => {
       className={clsx(styles.link, props.className)}
       to={props.path}
     >
-      {props.value}
       {props.children}
     </LinkFromRouter>
   );
