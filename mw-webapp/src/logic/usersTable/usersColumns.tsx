@@ -18,10 +18,9 @@ export const usersColumns = [
      * Cell with clickable username that leads to user page
      */
     cell: ({row}) => (
-      <Link
-        path={pages.user.getPath({uuid: row.original.uuid})}
-        value={row.original.name}
-      />
+      <Link path={pages.user.getPath({uuid: row.original.uuid})}>
+        {row.original.name}
+      </Link>
     ),
   }),
   columnHelper.accessor("email", {

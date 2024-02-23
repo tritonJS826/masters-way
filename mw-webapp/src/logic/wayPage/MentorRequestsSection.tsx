@@ -81,10 +81,9 @@ export const MentorRequestsSection = (props: MentorRequestsSectionProps) => {
             key={userPreview.uuid}
             className={styles.mentorRequestsItem}
           >
-            <Link
-              value={userPreview.name}
-              path={pages.user.getPath({uuid: userPreview.uuid})}
-            />
+            <Link path={pages.user.getPath({uuid: userPreview.uuid})}>
+              {userPreview.name}
+            </Link>
             <Button
               value='Accept'
               onClick={() =>

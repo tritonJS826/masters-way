@@ -5,6 +5,7 @@ $userCardAdditionalInfoPadding: 12px 24px 20px;
 $userCardFontSize: 14px;
 $userCardMainHeight: 147px;
 $userCardAdditionalHeight: 105px;
+$cardLinkFontSize: 16px;
 
 .userCardContainer {
   border-radius: $secondaryBorderRadius;
@@ -77,4 +78,9 @@ $userCardAdditionalHeight: 105px;
   color: var(--sixTextColor);
   font-size: $userCardFontSize;
   gap: $gapMedium;
+}
+
+.cardLink {
+  font-size: $cardLinkFontSize;
+  text-decoration: none;
 }

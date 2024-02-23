@@ -124,10 +124,9 @@ export const waysColumns = [
      */
     cell: ({row}) => (
       <div>
-        <Link
-          path={pages.way.getPath({uuid: row.original.uuid})}
-          value={row.original.name}
-        />
+        <Link path={pages.way.getPath({uuid: row.original.uuid})}>
+          {row.original.name}
+        </Link>
         <Tooltip content={renderMarkdown(row.original.goalDescription)}>
           <div className={styles.shortCell}>
             {renderMarkdown(row.original.goalDescription)}
@@ -157,10 +156,9 @@ export const waysColumns = [
     cell: ({row}) => {
       return (
         <VerticalContainer>
-          <Link
-            path={pages.user.getPath({uuid: row.original.owner.uuid})}
-            value={row.original.owner.name}
-          />
+          <Link path={pages.user.getPath({uuid: row.original.owner.uuid})}>
+            {row.original.owner.name}
+          </Link>
           {row.original.owner.email}
         </VerticalContainer>
       );
@@ -192,10 +190,9 @@ export const waysColumns = [
               content={mentor.name}
               position={PositionTooltip.LEFT}
             >
-              <Link
-                path={pages.user.getPath({uuid: mentor.uuid})}
-                value={getFirstName(mentor.name)}
-              />
+              <Link path={pages.user.getPath({uuid: mentor.uuid})}>
+                {getFirstName(mentor.name)}
+              </Link>
             </Tooltip>
           ))}
         </VerticalContainer>

@@ -78,8 +78,9 @@ export const MentorsSection = (props: MentorsSectionProps) => {
             <Link
               key={mentor.uuid}
               path={pages.user.getPath({uuid: mentor.uuid})}
-              value={mentor.name}
-            />
+            >
+              {mentor.name}
+            </Link>
             {(props.isOwner || user?.uuid === mentor.uuid) && (
               <Tooltip
                 content="Delete from mentors"

@@ -469,10 +469,11 @@ export const WayPage = (props: WayPageProps) => {
           text="Way's owner:"
         />
         <Link
-          value={way.owner.name}
           path={pages.user.getPath({uuid: way.owner.uuid})}
           className={styles.mentors}
-        />
+        >
+          {way.owner.name}
+        </Link>
       </HorizontalContainer>
       {!!way.mentors.size &&
       <MentorsSection

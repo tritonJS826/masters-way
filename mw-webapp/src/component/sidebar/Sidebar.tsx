@@ -52,9 +52,10 @@ const renderNavigationLinks = (navigationLinks: (NavigationLink)[]) => {
       <Link
         key={item.value}
         path={item.path}
-        value={item.value}
         className={styles.menuItem}
-      />
+      >
+        {item.value}
+      </Link>
     )
   ));
 };
