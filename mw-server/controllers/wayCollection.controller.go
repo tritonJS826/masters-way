@@ -25,6 +25,7 @@ func NewWayCollectionController(db *db.Queries, ctx context.Context) *WayCollect
 // Create wayCollectionRoute handler
 // @Summary Create a new wayCollection
 // @Description
+// @Tags wayCollection
 // @ID create-wayCollection
 // @Accept  json
 // @Produce  json
@@ -54,12 +55,13 @@ func (cc *WayCollectionController) CreateWayCollection(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully created way collection", "wayCollection": wayCollection})
+	ctx.JSON(http.StatusOK, wayCollection)
 }
 
 // Update wayCollectionRoute handler
 // @Summary Update wayCollection by UUID
 // @Description
+// @Tags wayCollection
 // @ID update-wayCollection
 // @Accept  json
 // @Produce  json
@@ -94,12 +96,13 @@ func (cc *WayCollectionController) UpdateWayCollection(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully updated way collection", "wayCollection": wayCollection})
+	ctx.JSON(http.StatusOK, wayCollection)
 }
 
 // Get a single handler
 // @Summary Get wayCollections by user UUID
 // @Description
+// @Tags wayCollection
 // @ID get-wayCollections-by-User-uuid
 // @Accept  json
 // @Produce  json
@@ -119,12 +122,13 @@ func (cc *WayCollectionController) GetWayCollectionsByUserId(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "Successfully retrived id", "wayCollections": wayCollections})
+	ctx.JSON(http.StatusOK, wayCollections)
 }
 
 // Deleting way handlers
 // @Summary Delete wayCollection by UUID
 // @Description
+// @Tags wayCollection
 // @ID delete-wayCollection
 // @Accept  json
 // @Produce  json

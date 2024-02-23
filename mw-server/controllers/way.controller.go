@@ -73,7 +73,7 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 		IsPrivate:         way.IsPrivate,
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"way": response})
+	ctx.JSON(http.StatusOK, response)
 }
 
 // Update way handler
@@ -129,7 +129,7 @@ func (cc *WayController) UpdateWay(ctx *gin.Context) {
 		IsPrivate:         way.IsPrivate,
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"way": response})
+	ctx.JSON(http.StatusOK, response)
 }
 
 type dayReportDeep struct {
@@ -234,7 +234,7 @@ func (cc *WayController) GetWayById(ctx *gin.Context) {
 		Metrics:           metrics,
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"way": response})
+	ctx.JSON(http.StatusOK, response)
 }
 
 // Retrieve all records handlers

@@ -5,6 +5,6 @@ import (
 )
 
 type CreateFavoriteUserWayPayload struct {
-	WayUuid  uuid.UUID `json:"wayUuid"`
-	UserUuid uuid.UUID `json:"userUuid"`
+	WayUuid  uuid.UUID `json:"wayUuid" validate:"required"`
+	UserUuid uuid.UUID `json:"userUuid" validate:"required"`
 }

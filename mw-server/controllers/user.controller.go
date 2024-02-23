@@ -9,6 +9,7 @@ import (
 
 	db "mwserver/db/sqlc"
 	"mwserver/schemas"
+	"mwserver/util"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -25,6 +26,7 @@ func NewUserController(db *db.Queries, ctx context.Context) *UserController {
 
 // @Summary Create a new user
 // @Description Email should be unique
+// @Tags user
 // @ID create-user
 // @Accept  json
 // @Produce  json
@@ -43,7 +45,7 @@ func (cc *UserController) CreateUser(ctx *gin.Context) {
 	args := &db.CreateUserParams{
 		Name:        payload.Name,
 		Email:       payload.Email,
-		Description: sql.NullString{String: payload.Description, Valid: payload.Description != ""},
+		Description: payload.Description,
 		CreatedAt:   now,
 		ImageUrl:    sql.NullString{String: payload.ImageUrl, Valid: payload.ImageUrl != ""},
 		IsMentor:    payload.IsMentor,
@@ -60,17 +62,18 @@ func (cc *UserController) CreateUser(ctx *gin.Context) {
 		Uuid:        user.Uuid,
 		Name:        user.Name,
 		Email:       user.Email,
-		Description: user.Description.String,
+		Description: user.Description,
 		CreatedAt:   user.CreatedAt,
-		ImageUrl:    user.ImageUrl.String,
+		ImageUrl:    util.MarshalNullString(user.ImageUrl).(string),
 		IsMentor:    user.IsMentor,
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"user": response})
+	ctx.JSON(http.StatusOK, response)
 }
 
 // @Summary Update user by UUID
 // @Description
+// @Tags user
 // @ID update-user
 // @Accept  json
 // @Produce  json
@@ -121,22 +124,27 @@ func (cc *UserController) UpdateUser(ctx *gin.Context) {
 		Uuid:        user.Uuid,
 		Name:        user.Name,
 		Email:       user.Email,
-		Description: user.Description.String,
+		Description: user.Description,
 		CreatedAt:   user.CreatedAt,
-		ImageUrl:    user.ImageUrl.String,
+		ImageUrl:    util.MarshalNullString(user.ImageUrl).(string),
 		IsMentor:    user.IsMentor,
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"user": response})
+	ctx.JSON(http.StatusOK, response)
+}
+
+type GetUserByIdResponseType struct {
+	user schemas.UserPopulatedResponse
 }
 
 // @Summary Get user by UUID
 // @Description
+// @Tags user
 // @ID get-user-by-uuid
 // @Accept  json
 // @Produce  json
 // @Param userId path string true "user ID"
-// @Success 200 {object} schemas.UserPopulatedResponse
+// @Success 200 {object} GetUserByIdResponseType
 // @Router /users/{userId} [get]
 func (cc *UserController) GetUserById(ctx *gin.Context) {
 	userId := ctx.Param("userId")
@@ -152,15 +160,41 @@ func (cc *UserController) GetUserById(ctx *gin.Context) {
 	}
 
 	// TODO: replace user with schemas.UserPopulatedResponse in response
-	// response := schemas.UserPopulatedResponse{
+	ownWays := []schemas.WayPlainResponse{}
+	favoriteWays := []schemas.WayPlainResponse{}
+	mentoringWays := []schemas.WayPlainResponse{}
+	wayRequests := []schemas.WayPlainResponse{}
+	wayCollections := []schemas.WayCollectionPopulatedResponse{}
+	favoriteForUsersUuid := []string{}
+	favoriteUsers := []schemas.UserPlainResponse{}
+	tags := []schemas.UserTagResponse{}
 
-	// }
+	response := GetUserByIdResponseType{
+		user: schemas.UserPopulatedResponse{
+			Uuid:             user.Uuid,
+			Name:             user.Name,
+			Email:            user.Email,
+			Description:      user.Description,
+			CreatedAt:        user.CreatedAt,
+			ImageUrl:         util.MarshalNullString(user.ImageUrl).(string),
+			IsMentor:         user.IsMentor,
+			OwnWays:          ownWays,
+			FavoriteWays:     favoriteWays,
+			MentoringWays:    mentoringWays,
+			WayCollections:   wayCollections,
+			FavoriteForUsers: favoriteForUsersUuid,
+			FavoriteUsers:    favoriteUsers,
+			Tags:             tags,
+			WayRequests:      wayRequests,
+		},
+	}
 
-	ctx.JSON(http.StatusOK, gin.H{"user": user})
+	ctx.JSON(http.StatusOK, response)
 }
 
 // @Summary Get all users
 // @Description Get users with pagination
+// @Tags user
 // @ID get-all-users
 // @Accept  json
 // @Produce  json
@@ -189,23 +223,24 @@ func (cc *UserController) GetAllUsers(ctx *gin.Context) {
 		users = []db.User{}
 	}
 
-	responseUsers := make([]schemas.UserPlainResponse, len(users))
+	response := make([]schemas.UserPlainResponse, len(users))
 	for i, user := range users {
-		responseUsers[i] = schemas.UserPlainResponse{
+		response[i] = schemas.UserPlainResponse{
 			Uuid:        user.Uuid,
 			Name:        user.Name,
-			Description: user.Description.String,
+			Description: user.Description,
 			CreatedAt:   user.CreatedAt,
-			ImageUrl:    user.ImageUrl.String,
+			ImageUrl:    util.MarshalNullString(user.ImageUrl).(string),
 			IsMentor:    user.IsMentor,
 		}
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"users": responseUsers})
+	ctx.JSON(http.StatusOK, response)
 }
 
 // @Summary Delete user by UUID
 // @Description
+// @Tags user
 // @ID delete-user
 // @Accept  json
 // @Produce  json
@@ -221,6 +256,6 @@ func (cc *UserController) DeleteUserById(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusNoContent, gin.H{})
+	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})
 
 }

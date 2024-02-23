@@ -25,6 +25,7 @@ func NewDayReportController(db *db.Queries, ctx context.Context) *DayReportContr
 // Create day report  handler
 // @Summary Create a new dayReport
 // @Description
+// @Tags dayReport
 // @ID create-dayReport
 // @Accept  json
 // @Produce  json
@@ -54,12 +55,13 @@ func (cc *DayReportController) CreateDayReport(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully created day report", "dayReport": dayReport})
+	ctx.JSON(http.StatusOK, dayReport)
 }
 
 // Update day report handler
 // @Summary Update dayReport by UUID
 // @Description
+// @Tags dayReport
 // @ID update-dayReport
 // @Accept  json
 // @Produce  json
@@ -95,12 +97,13 @@ func (cc *DayReportController) UpdateDayReport(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully updated day report", "dayReport": dayReport})
+	ctx.JSON(http.StatusOK, dayReport)
 }
 
 // Retrieve all records handlers
 // @Summary Get all dayReports by Way UUID
 // @Description
+// @Tags dayReport
 // @ID get-dayReports-by-Way-uuid
 // @Accept  json
 // @Produce  json
@@ -121,5 +124,5 @@ func (cc *DayReportController) GetAllDayReports(ctx *gin.Context) {
 		dayReports = []db.DayReport{}
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "Successfully retrieved all day  reports", "size": len(dayReports), "dayReports": dayReports})
+	ctx.JSON(http.StatusOK, dayReports)
 }

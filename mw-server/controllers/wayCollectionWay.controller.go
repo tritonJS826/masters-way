@@ -23,6 +23,7 @@ func NewWayCollectionWayController(db *db.Queries, ctx context.Context) *WayColl
 // Create wayCollectionWayRoute  handler
 // @Summary Create a new wayCollectionWay
 // @Description
+// @Tags wayCollectionWay
 // @ID create-wayCollectionWay
 // @Accept  json
 // @Produce  json
@@ -49,12 +50,13 @@ func (cc *WayCollectionWayController) CreateWayCollectionWay(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully created way collection way", "wayCollectionWay": wayCollectionWay})
+	ctx.JSON(http.StatusOK, wayCollectionWay)
 }
 
 // Deleting way handlers
 // @Summary Delete wayCollectionWay by UUID
 // @Description
+// @Tags wayCollectionWay
 // @ID delete-wayCollectionWay
 // @Accept  json
 // @Produce  json

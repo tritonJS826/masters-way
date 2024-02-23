@@ -23,6 +23,7 @@ func NewProblemJobTagController(db *db.Queries, ctx context.Context) *ProblemJob
 // Create problemJobTag  handler
 // @Summary Create a new problemJobTag
 // @Description
+// @Tags problemJobTag
 // @ID create-problemJobTag
 // @Accept  json
 // @Produce  json
@@ -49,12 +50,13 @@ func (cc *ProblemJobTagController) CreateProblemJobTag(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully created problemJobTag", "problemJobTag": problemJobTag})
+	ctx.JSON(http.StatusOK, problemJobTag)
 }
 
 // Deleting problemJobTag handlers
 // @Summary Delete problemJobTag by UUID
 // @Description
+// @Tags problemJobTag
 // @ID delete-problemJobTag
 // @Accept  json
 // @Produce  json

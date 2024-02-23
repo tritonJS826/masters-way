@@ -24,6 +24,7 @@ func NewWayTagController(db *db.Queries, ctx context.Context) *WayTagController 
 // Create wayTagRoute handler
 // @Summary Create a new wayTag
 // @Description
+// @Tags wayTag
 // @ID create-wayTag
 // @Accept  json
 // @Produce  json
@@ -50,12 +51,13 @@ func (cc *WayTagController) CreateWayTag(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully created wayTag", "wayTag": wayTag})
+	ctx.JSON(http.StatusOK, wayTag)
 }
 
 // Update wayTagRoute handler
 // @Summary Update wayTag by UUID
 // @Description
+// @Tags wayTag
 // @ID update-wayTag
 // @Accept  json
 // @Produce  json
@@ -88,12 +90,13 @@ func (cc *WayTagController) UpdateWayTag(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully updated wayTag", "wayTag": wayTag})
+	ctx.JSON(http.StatusOK, wayTag)
 }
 
 // Get a single handler
 // @Summary Get wayTags by way UUID
 // @Description
+// @Tags wayTag
 // @ID get-wayTags-by-Way-uuid
 // @Accept  json
 // @Produce  json
@@ -113,12 +116,13 @@ func (cc *WayTagController) GetWayTagsByWayId(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "Successfully retrived id", "wayTags": wayTags})
+	ctx.JSON(http.StatusOK, wayTags)
 }
 
 // Deleting wayTag handlers
 // @Summary Delete wayTag by UUID
 // @Description
+// @Tags wayTag
 // @ID delete-wayTag
 // @Accept  json
 // @Produce  json

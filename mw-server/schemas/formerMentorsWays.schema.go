@@ -5,6 +5,6 @@ import (
 )
 
 type CreateFormerMentorWayPayload struct {
-	WayUuid          uuid.UUID `json:"wayUuid"`
-	FormerMentorUuid uuid.UUID `json:"formerMentorUuid"`
+	WayUuid          uuid.UUID `json:"wayUuid" validate:"required"`
+	FormerMentorUuid uuid.UUID `json:"formerMentorUuid" validate:"required"`
 }

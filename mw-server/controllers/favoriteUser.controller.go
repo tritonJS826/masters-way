@@ -23,6 +23,7 @@ func NewFavoriteUserController(db *db.Queries, ctx context.Context) *FavoriteUse
 // Create favoriteUser handler
 // @Summary Create a new favorite user
 // @Description
+// @Tags favoriteUser
 // @ID create-favoriteUser
 // @Accept  json
 // @Produce  json
@@ -49,12 +50,13 @@ func (cc *FavoriteUserController) CreateFavoriteUser(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully created FavoriteUser", "favoriteUser": favoriteUser})
+	ctx.JSON(http.StatusOK, favoriteUser)
 }
 
 // Deleting favorite user handlers
 // @Summary Delete favoriteUser by UUID
 // @Description
+// @Tags favoriteUser
 // @ID delete-favoriteUser
 // @Accept  json
 // @Produce  json
@@ -77,6 +79,6 @@ func (cc *FavoriteUserController) DeleteFavoriteUserById(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfuly deleted"})
+	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})
 
 }

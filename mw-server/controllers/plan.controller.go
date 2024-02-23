@@ -25,6 +25,7 @@ func NewPlanController(db *db.Queries, ctx context.Context) *PlanController {
 // Create Plan handler
 // @Summary Create a new plan
 // @Description
+// @Tags plan
 // @ID create-plan
 // @Accept  json
 // @Produce  json
@@ -57,12 +58,13 @@ func (cc *PlanController) CreatePlan(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully created plan", "plan": plan})
+	ctx.JSON(http.StatusOK, plan)
 }
 
 // Update Plan handler
 // @Summary Update plan by UUID
 // @Description
+// @Tags plan
 // @ID update-plan
 // @Accept  json
 // @Produce  json
@@ -88,7 +90,7 @@ func (cc *PlanController) UpdatePlan(ctx *gin.Context) {
 		IsDone:         sql.NullBool{Bool: payload.IsDone, Valid: true},
 	}
 
-	Plan, err := cc.db.UpdatePlan(ctx, *args)
+	plan, err := cc.db.UpdatePlan(ctx, *args)
 
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -99,12 +101,13 @@ func (cc *PlanController) UpdatePlan(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully updated Plan", "Plan": Plan})
+	ctx.JSON(http.StatusOK, plan)
 }
 
 // Get plans by day report uuid handler
 // @Summary Get plans by dayReport UUID
 // @Description
+// @Tags plan
 // @ID get-plans-by-DayReport-uuid
 // @Accept  json
 // @Produce  json
@@ -124,12 +127,13 @@ func (cc *PlanController) GetPlansByDayReportId(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "Successfully retrieved id", "plans": plans})
+	ctx.JSON(http.StatusOK, plans)
 }
 
 // Deleting Plan handlers
 // @Summary Delete plan by UUID
 // @Description
+// @Tags plan
 // @ID delete-plan
 // @Accept  json
 // @Produce  json

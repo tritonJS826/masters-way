@@ -23,6 +23,7 @@ func NewJobDoneJobTagController(db *db.Queries, ctx context.Context) *JobDoneJob
 // Create jobDoneJobTag handler
 // @Summary Create a new jobDoneJobTag
 // @Description
+// @Tags jobDoneJobTag
 // @ID create-jobDoneJobTag
 // @Accept  json
 // @Produce  json
@@ -49,12 +50,13 @@ func (cc *JobDoneJobTagController) CreateJobDoneJobTag(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully created jobDoneJobTag", "jobDoneJobTag": jobDoneJobTag})
+	ctx.JSON(http.StatusOK, jobDoneJobTag)
 }
 
 // Deleting JobDoneJobTag handlers
 // @Summary Delete jobDoneJobTag by UUID
 // @Description
+// @Tags jobDoneJobTag
 // @ID delete-jobDoneJobTag
 // @Accept  json
 // @Produce  json

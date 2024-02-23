@@ -2,7 +2,7 @@ CREATE TABLE users(
     "uuid" UUID NOT NULL DEFAULT (uuid_generate_v4()),
     "name" VARCHAR NOT NULL,
     "email" VARCHAR NOT NULL,
-    "description" VARCHAR,
+    "description" VARCHAR NOT NULL,
     "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, 
     "image_url" VARCHAR,
     "is_mentor" BOOLEAN NOT NULL,
