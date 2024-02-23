@@ -27,6 +27,7 @@ func NewWayController(db *db.Queries, ctx context.Context) *WayController {
 // Create way  handler
 // @Summary Create a new way
 // @Description
+// @Tags way
 // @ID create-way
 // @Accept  json
 // @Produce  json
@@ -37,7 +38,7 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 	var payload *schemas.CreateWay
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -45,7 +46,7 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 	args := &db.CreateWayParams{
 		Name:              payload.Name,
 		GoalDescription:   payload.GoalDescription,
-		EstimationTime:    int32(payload.EstimationTime),
+		EstimationTime:    payload.EstimationTime,
 		OwnerUuid:         payload.OwnerUuid,
 		Status:            payload.Status,
 		CopiedFromWayUuid: util.ToNullUuid(payload.CopiedFromWayUuid),
@@ -56,21 +57,29 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 	way, err := cc.db.CreateWay(ctx, *args)
 
 	if err != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving way", "error": err.Error()})
+		ctx.JSON(http.StatusBadGateway, gin.H{"error": err.Error()})
 		return
 	}
 
-	// TODO: replace way with schemas.WayPlainResponse in response
-	// response := schemas.WayPlainResponse{
+	response := schemas.WayPlainResponse{
+		Name:              way.Name,
+		GoalDescription:   way.GoalDescription,
+		UpdatedAt:         way.UpdatedAt,
+		CreatedAt:         way.CreatedAt,
+		EstimationTime:    way.EstimationTime,
+		Status:            way.Status,
+		OwnerUuid:         way.OwnerUuid,
+		CopiedFromWayUuid: util.MarshalNullUuid(way.CopiedFromWayUuid).(string),
+		IsPrivate:         way.IsPrivate,
+	}
 
-	// }
-
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully created way", "way": way})
+	ctx.JSON(http.StatusOK, gin.H{"way": response})
 }
 
 // Update way handler
 // @Summary Update way by UUID
 // @Description
+// @Tags way
 // @ID update-way
 // @Accept  json
 // @Produce  json
@@ -83,7 +92,7 @@ func (cc *WayController) UpdateWay(ctx *gin.Context) {
 	wayId := ctx.Param("wayId")
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -92,7 +101,7 @@ func (cc *WayController) UpdateWay(ctx *gin.Context) {
 		Uuid:            uuid.MustParse(wayId),
 		Name:            sql.NullString{String: payload.Name, Valid: payload.Name != ""},
 		GoalDescription: sql.NullString{String: payload.GoalDescription, Valid: payload.GoalDescription != ""},
-		EstimationTime:  sql.NullInt32{Int32: int32(payload.EstimationTime), Valid: payload.EstimationTime != 0},
+		EstimationTime:  sql.NullInt32{Int32: payload.EstimationTime, Valid: payload.EstimationTime != 0},
 		Status:          sql.NullString{String: payload.Status, Valid: payload.Status != ""},
 		UpdatedAt:       sql.NullTime{Time: now, Valid: true},
 	}
@@ -101,19 +110,26 @@ func (cc *WayController) UpdateWay(ctx *gin.Context) {
 
 	if err != nil {
 		if err == sql.ErrNoRows {
-			ctx.JSON(http.StatusNotFound, gin.H{"status": "failed", "message": "Failed to retrieve way with this ID"})
+			ctx.JSON(http.StatusNotFound, gin.H{"error": "Failed to retrieve way with this ID"})
 			return
 		}
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving way", "error": err.Error()})
+		ctx.JSON(http.StatusBadGateway, gin.H{"error": err.Error()})
 		return
 	}
 
-	// TODO: replace way with schemas.WayPlainResponse in response
-	// response := schemas.WayPlainResponse{
+	response := schemas.WayPlainResponse{
+		Name:              way.Name,
+		GoalDescription:   way.GoalDescription,
+		UpdatedAt:         way.UpdatedAt,
+		CreatedAt:         way.CreatedAt,
+		EstimationTime:    way.EstimationTime,
+		Status:            way.Status,
+		OwnerUuid:         way.OwnerUuid,
+		CopiedFromWayUuid: util.MarshalNullUuid(way.CopiedFromWayUuid).(string),
+		IsPrivate:         way.IsPrivate,
+	}
 
-	// }
-
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully updated way", "way": way})
+	ctx.JSON(http.StatusOK, gin.H{"way": response})
 }
 
 type dayReportDeep struct {
@@ -137,6 +153,7 @@ type getWayByIdResponse struct {
 	OwnerUuid         uuid.UUID
 	CopiedFromWayUuid uuid.NullUUID
 	Status            string
+	IsPrivate         bool
 	JobTags           []db.JobTag
 	WayTag            []db.WayTag
 	DayReports        []dayReportDeep
@@ -146,6 +163,7 @@ type getWayByIdResponse struct {
 // Get a single handler
 // @Summary Get way by UUID
 // @Description
+// @Tags way
 // @ID get-way-by-uuid
 // @Accept  json
 // @Produce  json
@@ -170,10 +188,10 @@ func (cc *WayController) GetWayById(ctx *gin.Context) {
 	// toUserMentoringRequestUuids :=
 	if err != nil {
 		if err == sql.ErrNoRows {
-			ctx.JSON(http.StatusNotFound, gin.H{"status": "failed", "message": "Failed to retrieve way with this ID"})
+			ctx.JSON(http.StatusNotFound, gin.H{"error": "Failed to retrieve way with this ID"})
 			return
 		}
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving way", "error": err.Error()})
+		ctx.JSON(http.StatusBadGateway, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -209,18 +227,20 @@ func (cc *WayController) GetWayById(ctx *gin.Context) {
 		OwnerUuid:         way.OwnerUuid,
 		CopiedFromWayUuid: way.CopiedFromWayUuid,
 		Status:            way.Status,
+		IsPrivate:         way.IsPrivate,
 		JobTags:           jobTags,
 		WayTag:            wayTags,
 		DayReports:        dayReportsWithMainData,
 		Metrics:           metrics,
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "Successfully retrived id", "way": response})
+	ctx.JSON(http.StatusOK, gin.H{"way": response})
 }
 
 // Retrieve all records handlers
 // @Summary Get all ways
 // @Description Get ways with pagination
+// @Tags way
 // @ID get-all-ways
 // @Accept  json
 // @Produce  json
@@ -241,7 +261,7 @@ func (cc *WayController) GetAllWays(ctx *gin.Context) {
 
 	ways, err := cc.db.ListWays(ctx, *args)
 	if err != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed to retrieve ways", "error": err.Error()})
+		ctx.JSON(http.StatusBadGateway, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -249,14 +269,28 @@ func (cc *WayController) GetAllWays(ctx *gin.Context) {
 		ways = []db.Way{}
 	}
 
-	//TODO add responseWays instead of ways
+	response := []schemas.WayPlainResponse{}
+	for i, way := range ways {
+		response[i] = schemas.WayPlainResponse{
+			Name:              way.Name,
+			GoalDescription:   way.GoalDescription,
+			UpdatedAt:         way.UpdatedAt,
+			CreatedAt:         way.CreatedAt,
+			EstimationTime:    way.EstimationTime,
+			Status:            way.Status,
+			OwnerUuid:         way.OwnerUuid,
+			CopiedFromWayUuid: util.MarshalNullUuid(way.CopiedFromWayUuid).(string),
+			IsPrivate:         way.IsPrivate,
+		}
+	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "Successfully retrieved all ways", "size": len(ways), "ways": ways})
+	ctx.JSON(http.StatusOK, gin.H{"size": len(ways), "ways": ways})
 }
 
 // Deleting way handlers
 // @Summary Delete way by UUID
 // @Description
+// @Tags way
 // @ID delete-way
 // @Accept  json
 // @Produce  json

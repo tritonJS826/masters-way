@@ -17,24 +17,26 @@ const createWay = `-- name: CreateWay :one
 INSERT INTO ways(
     name,
     goal_description,
-    last_update,
+    updated_at,
     created_at,
     estimation_time,
     copied_from_way_uuid,
+    is_private,
     status,
     owner_uuid
 ) VALUES (
-    $1, $2, $3, $4, $5, $6, $7, $8
-) RETURNING uuid, name, goal_description, last_update, created_at, estimation_time, owner_uuid, copied_from_way_uuid, status
+    $1, $2, $3, $4, $5, $6, $7, $8, $9
+) RETURNING uuid, name, goal_description, updated_at, created_at, estimation_time, owner_uuid, copied_from_way_uuid, status, is_private
 `
 
 type CreateWayParams struct {
 	Name              string        `json:"name"`
 	GoalDescription   string        `json:"goal_description"`
-	UpdatedAt        time.Time     `json:"last_update"`
+	UpdatedAt         time.Time     `json:"updated_at"`
 	CreatedAt         time.Time     `json:"created_at"`
 	EstimationTime    int32         `json:"estimation_time"`
 	CopiedFromWayUuid uuid.NullUUID `json:"copied_from_way_uuid"`
+	IsPrivate         bool          `json:"is_private"`
 	Status            string        `json:"status"`
 	OwnerUuid         uuid.UUID     `json:"owner_uuid"`
 }
@@ -47,6 +49,7 @@ func (q *Queries) CreateWay(ctx context.Context, arg CreateWayParams) (Way, erro
 		arg.CreatedAt,
 		arg.EstimationTime,
 		arg.CopiedFromWayUuid,
+		arg.IsPrivate,
 		arg.Status,
 		arg.OwnerUuid,
 	)
@@ -61,6 +64,7 @@ func (q *Queries) CreateWay(ctx context.Context, arg CreateWayParams) (Way, erro
 		&i.OwnerUuid,
 		&i.CopiedFromWayUuid,
 		&i.Status,
+		&i.IsPrivate,
 	)
 	return i, err
 }
@@ -76,7 +80,7 @@ func (q *Queries) DeleteWay(ctx context.Context, argUuid uuid.UUID) error {
 }
 
 const getWayById = `-- name: GetWayById :one
-SELECT uuid, name, goal_description, last_update, created_at, estimation_time, owner_uuid, copied_from_way_uuid, status FROM ways
+SELECT uuid, name, goal_description, updated_at, created_at, estimation_time, owner_uuid, copied_from_way_uuid, status, is_private FROM ways
 WHERE uuid = $1
 LIMIT 1
 `
@@ -94,12 +98,13 @@ func (q *Queries) GetWayById(ctx context.Context, argUuid uuid.UUID) (Way, error
 		&i.OwnerUuid,
 		&i.CopiedFromWayUuid,
 		&i.Status,
+		&i.IsPrivate,
 	)
 	return i, err
 }
 
 const listWays = `-- name: ListWays :many
-SELECT uuid, name, goal_description, last_update, created_at, estimation_time, owner_uuid, copied_from_way_uuid, status FROM ways
+SELECT uuid, name, goal_description, updated_at, created_at, estimation_time, owner_uuid, copied_from_way_uuid, status, is_private FROM ways
 ORDER BY created_at
 LIMIT $1
 OFFSET $2
@@ -130,6 +135,7 @@ func (q *Queries) ListWays(ctx context.Context, arg ListWaysParams) ([]Way, erro
 			&i.OwnerUuid,
 			&i.CopiedFromWayUuid,
 			&i.Status,
+			&i.IsPrivate,
 		); err != nil {
 			return nil, err
 		}
@@ -149,19 +155,21 @@ UPDATE ways
 SET
 name = coalesce($1, name),
 goal_description = coalesce($2, goal_description),
-last_update = coalesce($3, last_update),
+updated_at = coalesce($3, updated_at),
 estimation_time = coalesce($4, estimation_time),
-status = coalesce($5, status)
+is_private = coalesce($5, is_private),
+status = coalesce($6, status)
 
-WHERE uuid = $6
-RETURNING uuid, name, goal_description, last_update, created_at, estimation_time, owner_uuid, copied_from_way_uuid, status
+WHERE uuid = $7
+RETURNING uuid, name, goal_description, updated_at, created_at, estimation_time, owner_uuid, copied_from_way_uuid, status, is_private
 `
 
 type UpdateWayParams struct {
 	Name            sql.NullString `json:"name"`
 	GoalDescription sql.NullString `json:"goal_description"`
-	UpdatedAt      sql.NullTime   `json:"last_update"`
+	UpdatedAt       sql.NullTime   `json:"updated_at"`
 	EstimationTime  sql.NullInt32  `json:"estimation_time"`
+	IsPrivate       sql.NullBool   `json:"is_private"`
 	Status          sql.NullString `json:"status"`
 	Uuid            uuid.UUID      `json:"uuid"`
 }
@@ -172,6 +180,7 @@ func (q *Queries) UpdateWay(ctx context.Context, arg UpdateWayParams) (Way, erro
 		arg.GoalDescription,
 		arg.UpdatedAt,
 		arg.EstimationTime,
+		arg.IsPrivate,
 		arg.Status,
 		arg.Uuid,
 	)
@@ -186,6 +195,7 @@ func (q *Queries) UpdateWay(ctx context.Context, arg UpdateWayParams) (Way, erro
 		&i.OwnerUuid,
 		&i.CopiedFromWayUuid,
 		&i.Status,
+		&i.IsPrivate,
 	)
 	return i, err
 }
