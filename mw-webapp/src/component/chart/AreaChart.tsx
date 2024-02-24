@@ -19,7 +19,6 @@ ChartJS.register(
   Title,
   Tooltip,
   Filler,
-  // Legend,
 );
 
 const options = {
