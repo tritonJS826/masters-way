@@ -40,6 +40,10 @@ RETURNING *;
 DELETE FROM users
 WHERE uuid = $1;
 
+-- name GetMentorRequestsByWayId :many
+
+
+
 
 
 

@@ -11,7 +11,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func TestCreateUser2(t *testing.T) {
+func TestCreateUser(t *testing.T) {
 	t.Parallel()
 	randomString := time.Now().String()
 	inputData := schemas.CreateUserPayload{

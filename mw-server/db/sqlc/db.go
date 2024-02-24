@@ -51,6 +51,9 @@ func Prepare(ctx context.Context, db DBTX) (*Queries, error) {
 	if q.createJobTagStmt, err = db.PrepareContext(ctx, createJobTag); err != nil {
 		return nil, fmt.Errorf("error preparing query CreateJobTag: %w", err)
 	}
+	if q.createMentorUserWayStmt, err = db.PrepareContext(ctx, createMentorUserWay); err != nil {
+		return nil, fmt.Errorf("error preparing query CreateMentorUserWay: %w", err)
+	}
 	if q.createMetricStmt, err = db.PrepareContext(ctx, createMetric); err != nil {
 		return nil, fmt.Errorf("error preparing query CreateMetric: %w", err)
 	}
@@ -108,6 +111,9 @@ func Prepare(ctx context.Context, db DBTX) (*Queries, error) {
 	if q.deleteJobTagByStmt, err = db.PrepareContext(ctx, deleteJobTagBy); err != nil {
 		return nil, fmt.Errorf("error preparing query DeleteJobTagBy: %w", err)
 	}
+	if q.deleteMentorUserWayByIdsStmt, err = db.PrepareContext(ctx, deleteMentorUserWayByIds); err != nil {
+		return nil, fmt.Errorf("error preparing query DeleteMentorUserWayByIds: %w", err)
+	}
 	if q.deleteMetricStmt, err = db.PrepareContext(ctx, deleteMetric); err != nil {
 		return nil, fmt.Errorf("error preparing query DeleteMetric: %w", err)
 	}
@@ -144,14 +150,23 @@ func Prepare(ctx context.Context, db DBTX) (*Queries, error) {
 	if q.deleteWayTagStmt, err = db.PrepareContext(ctx, deleteWayTag); err != nil {
 		return nil, fmt.Errorf("error preparing query DeleteWayTag: %w", err)
 	}
+	if q.getFavoriteForUserUuidsByWayIdStmt, err = db.PrepareContext(ctx, getFavoriteForUserUuidsByWayId); err != nil {
+		return nil, fmt.Errorf("error preparing query GetFavoriteForUserUuidsByWayId: %w", err)
+	}
 	if q.getFavoriteUserByDonorUserIdStmt, err = db.PrepareContext(ctx, getFavoriteUserByDonorUserId); err != nil {
 		return nil, fmt.Errorf("error preparing query GetFavoriteUserByDonorUserId: %w", err)
 	}
 	if q.getFavoriteUserUuidsByAcceptorUserIdStmt, err = db.PrepareContext(ctx, getFavoriteUserUuidsByAcceptorUserId); err != nil {
 		return nil, fmt.Errorf("error preparing query GetFavoriteUserUuidsByAcceptorUserId: %w", err)
 	}
+	if q.getFormerMentorUsersByWayIdStmt, err = db.PrepareContext(ctx, getFormerMentorUsersByWayId); err != nil {
+		return nil, fmt.Errorf("error preparing query GetFormerMentorUsersByWayId: %w", err)
+	}
 	if q.getFromUserMentoringRequestWaysByUserIdStmt, err = db.PrepareContext(ctx, getFromUserMentoringRequestWaysByUserId); err != nil {
 		return nil, fmt.Errorf("error preparing query GetFromUserMentoringRequestWaysByUserId: %w", err)
+	}
+	if q.getFromUserMentoringRequestWaysByWayIdStmt, err = db.PrepareContext(ctx, getFromUserMentoringRequestWaysByWayId); err != nil {
+		return nil, fmt.Errorf("error preparing query GetFromUserMentoringRequestWaysByWayId: %w", err)
 	}
 	if q.getJobDonesJoinJobTagsStmt, err = db.PrepareContext(ctx, getJobDonesJoinJobTags); err != nil {
 		return nil, fmt.Errorf("error preparing query GetJobDonesJoinJobTags: %w", err)
@@ -186,11 +201,17 @@ func Prepare(ctx context.Context, db DBTX) (*Queries, error) {
 	if q.getListWayTagsByWayIdStmt, err = db.PrepareContext(ctx, getListWayTagsByWayId); err != nil {
 		return nil, fmt.Errorf("error preparing query GetListWayTagsByWayId: %w", err)
 	}
+	if q.getMentorUsersByWayIdStmt, err = db.PrepareContext(ctx, getMentorUsersByWayId); err != nil {
+		return nil, fmt.Errorf("error preparing query GetMentorUsersByWayId: %w", err)
+	}
 	if q.getPlansJoinJobTagsStmt, err = db.PrepareContext(ctx, getPlansJoinJobTags); err != nil {
 		return nil, fmt.Errorf("error preparing query GetPlansJoinJobTags: %w", err)
 	}
 	if q.getProblemsJoinJobTagsStmt, err = db.PrepareContext(ctx, getProblemsJoinJobTags); err != nil {
 		return nil, fmt.Errorf("error preparing query GetProblemsJoinJobTags: %w", err)
+	}
+	if q.getToMentorUserRequestsByWayIdStmt, err = db.PrepareContext(ctx, getToMentorUserRequestsByWayId); err != nil {
+		return nil, fmt.Errorf("error preparing query GetToMentorUserRequestsByWayId: %w", err)
 	}
 	if q.getUserByIdStmt, err = db.PrepareContext(ctx, getUserById); err != nil {
 		return nil, fmt.Errorf("error preparing query GetUserById: %w", err)
@@ -293,6 +314,11 @@ func (q *Queries) Close() error {
 			err = fmt.Errorf("error closing createJobTagStmt: %w", cerr)
 		}
 	}
+	if q.createMentorUserWayStmt != nil {
+		if cerr := q.createMentorUserWayStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing createMentorUserWayStmt: %w", cerr)
+		}
+	}
 	if q.createMetricStmt != nil {
 		if cerr := q.createMetricStmt.Close(); cerr != nil {
 			err = fmt.Errorf("error closing createMetricStmt: %w", cerr)
@@ -388,6 +414,11 @@ func (q *Queries) Close() error {
 			err = fmt.Errorf("error closing deleteJobTagByStmt: %w", cerr)
 		}
 	}
+	if q.deleteMentorUserWayByIdsStmt != nil {
+		if cerr := q.deleteMentorUserWayByIdsStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing deleteMentorUserWayByIdsStmt: %w", cerr)
+		}
+	}
 	if q.deleteMetricStmt != nil {
 		if cerr := q.deleteMetricStmt.Close(); cerr != nil {
 			err = fmt.Errorf("error closing deleteMetricStmt: %w", cerr)
@@ -448,6 +479,11 @@ func (q *Queries) Close() error {
 			err = fmt.Errorf("error closing deleteWayTagStmt: %w", cerr)
 		}
 	}
+	if q.getFavoriteForUserUuidsByWayIdStmt != nil {
+		if cerr := q.getFavoriteForUserUuidsByWayIdStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing getFavoriteForUserUuidsByWayIdStmt: %w", cerr)
+		}
+	}
 	if q.getFavoriteUserByDonorUserIdStmt != nil {
 		if cerr := q.getFavoriteUserByDonorUserIdStmt.Close(); cerr != nil {
 			err = fmt.Errorf("error closing getFavoriteUserByDonorUserIdStmt: %w", cerr)
@@ -458,9 +494,19 @@ func (q *Queries) Close() error {
 			err = fmt.Errorf("error closing getFavoriteUserUuidsByAcceptorUserIdStmt: %w", cerr)
 		}
 	}
+	if q.getFormerMentorUsersByWayIdStmt != nil {
+		if cerr := q.getFormerMentorUsersByWayIdStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing getFormerMentorUsersByWayIdStmt: %w", cerr)
+		}
+	}
 	if q.getFromUserMentoringRequestWaysByUserIdStmt != nil {
 		if cerr := q.getFromUserMentoringRequestWaysByUserIdStmt.Close(); cerr != nil {
 			err = fmt.Errorf("error closing getFromUserMentoringRequestWaysByUserIdStmt: %w", cerr)
+		}
+	}
+	if q.getFromUserMentoringRequestWaysByWayIdStmt != nil {
+		if cerr := q.getFromUserMentoringRequestWaysByWayIdStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing getFromUserMentoringRequestWaysByWayIdStmt: %w", cerr)
 		}
 	}
 	if q.getJobDonesJoinJobTagsStmt != nil {
@@ -518,6 +564,11 @@ func (q *Queries) Close() error {
 			err = fmt.Errorf("error closing getListWayTagsByWayIdStmt: %w", cerr)
 		}
 	}
+	if q.getMentorUsersByWayIdStmt != nil {
+		if cerr := q.getMentorUsersByWayIdStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing getMentorUsersByWayIdStmt: %w", cerr)
+		}
+	}
 	if q.getPlansJoinJobTagsStmt != nil {
 		if cerr := q.getPlansJoinJobTagsStmt.Close(); cerr != nil {
 			err = fmt.Errorf("error closing getPlansJoinJobTagsStmt: %w", cerr)
@@ -526,6 +577,11 @@ func (q *Queries) Close() error {
 	if q.getProblemsJoinJobTagsStmt != nil {
 		if cerr := q.getProblemsJoinJobTagsStmt.Close(); cerr != nil {
 			err = fmt.Errorf("error closing getProblemsJoinJobTagsStmt: %w", cerr)
+		}
+	}
+	if q.getToMentorUserRequestsByWayIdStmt != nil {
+		if cerr := q.getToMentorUserRequestsByWayIdStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing getToMentorUserRequestsByWayIdStmt: %w", cerr)
 		}
 	}
 	if q.getUserByIdStmt != nil {
@@ -661,6 +717,7 @@ type Queries struct {
 	createJobDoneStmt                           *sql.Stmt
 	createJobDonesJobTagStmt                    *sql.Stmt
 	createJobTagStmt                            *sql.Stmt
+	createMentorUserWayStmt                     *sql.Stmt
 	createMetricStmt                            *sql.Stmt
 	createPlanStmt                              *sql.Stmt
 	createPlansJobTagStmt                       *sql.Stmt
@@ -680,6 +737,7 @@ type Queries struct {
 	deleteJobDoneStmt                           *sql.Stmt
 	deleteJobDonesJobTagByJobDoneIdStmt         *sql.Stmt
 	deleteJobTagByStmt                          *sql.Stmt
+	deleteMentorUserWayByIdsStmt                *sql.Stmt
 	deleteMetricStmt                            *sql.Stmt
 	deletePlanStmt                              *sql.Stmt
 	deletePlansJobTagByIdsStmt                  *sql.Stmt
@@ -692,9 +750,12 @@ type Queries struct {
 	deleteWayCollectionStmt                     *sql.Stmt
 	deleteWayCollectionsWaysByIdsStmt           *sql.Stmt
 	deleteWayTagStmt                            *sql.Stmt
+	getFavoriteForUserUuidsByWayIdStmt          *sql.Stmt
 	getFavoriteUserByDonorUserIdStmt            *sql.Stmt
 	getFavoriteUserUuidsByAcceptorUserIdStmt    *sql.Stmt
+	getFormerMentorUsersByWayIdStmt             *sql.Stmt
 	getFromUserMentoringRequestWaysByUserIdStmt *sql.Stmt
+	getFromUserMentoringRequestWaysByWayIdStmt  *sql.Stmt
 	getJobDonesJoinJobTagsStmt                  *sql.Stmt
 	getListCommentsByDayReportIdStmt            *sql.Stmt
 	getListDayReportsByWayUuidStmt              *sql.Stmt
@@ -706,8 +767,10 @@ type Queries struct {
 	getListUserTagsByUserIdStmt                 *sql.Stmt
 	getListWayCollectionsByUserIdStmt           *sql.Stmt
 	getListWayTagsByWayIdStmt                   *sql.Stmt
+	getMentorUsersByWayIdStmt                   *sql.Stmt
 	getPlansJoinJobTagsStmt                     *sql.Stmt
 	getProblemsJoinJobTagsStmt                  *sql.Stmt
+	getToMentorUserRequestsByWayIdStmt          *sql.Stmt
 	getUserByIdStmt                             *sql.Stmt
 	getWayByIdStmt                              *sql.Stmt
 	getWayCollectionJoinWayByUserIdStmt         *sql.Stmt
@@ -740,6 +803,7 @@ func (q *Queries) WithTx(tx *sql.Tx) *Queries {
 		createJobDoneStmt:                           q.createJobDoneStmt,
 		createJobDonesJobTagStmt:                    q.createJobDonesJobTagStmt,
 		createJobTagStmt:                            q.createJobTagStmt,
+		createMentorUserWayStmt:                     q.createMentorUserWayStmt,
 		createMetricStmt:                            q.createMetricStmt,
 		createPlanStmt:                              q.createPlanStmt,
 		createPlansJobTagStmt:                       q.createPlansJobTagStmt,
@@ -759,6 +823,7 @@ func (q *Queries) WithTx(tx *sql.Tx) *Queries {
 		deleteJobDoneStmt:                           q.deleteJobDoneStmt,
 		deleteJobDonesJobTagByJobDoneIdStmt:         q.deleteJobDonesJobTagByJobDoneIdStmt,
 		deleteJobTagByStmt:                          q.deleteJobTagByStmt,
+		deleteMentorUserWayByIdsStmt:                q.deleteMentorUserWayByIdsStmt,
 		deleteMetricStmt:                            q.deleteMetricStmt,
 		deletePlanStmt:                              q.deletePlanStmt,
 		deletePlansJobTagByIdsStmt:                  q.deletePlansJobTagByIdsStmt,
@@ -771,9 +836,12 @@ func (q *Queries) WithTx(tx *sql.Tx) *Queries {
 		deleteWayCollectionStmt:                     q.deleteWayCollectionStmt,
 		deleteWayCollectionsWaysByIdsStmt:           q.deleteWayCollectionsWaysByIdsStmt,
 		deleteWayTagStmt:                            q.deleteWayTagStmt,
+		getFavoriteForUserUuidsByWayIdStmt:          q.getFavoriteForUserUuidsByWayIdStmt,
 		getFavoriteUserByDonorUserIdStmt:            q.getFavoriteUserByDonorUserIdStmt,
 		getFavoriteUserUuidsByAcceptorUserIdStmt:    q.getFavoriteUserUuidsByAcceptorUserIdStmt,
+		getFormerMentorUsersByWayIdStmt:             q.getFormerMentorUsersByWayIdStmt,
 		getFromUserMentoringRequestWaysByUserIdStmt: q.getFromUserMentoringRequestWaysByUserIdStmt,
+		getFromUserMentoringRequestWaysByWayIdStmt:  q.getFromUserMentoringRequestWaysByWayIdStmt,
 		getJobDonesJoinJobTagsStmt:                  q.getJobDonesJoinJobTagsStmt,
 		getListCommentsByDayReportIdStmt:            q.getListCommentsByDayReportIdStmt,
 		getListDayReportsByWayUuidStmt:              q.getListDayReportsByWayUuidStmt,
@@ -785,8 +853,10 @@ func (q *Queries) WithTx(tx *sql.Tx) *Queries {
 		getListUserTagsByUserIdStmt:                 q.getListUserTagsByUserIdStmt,
 		getListWayCollectionsByUserIdStmt:           q.getListWayCollectionsByUserIdStmt,
 		getListWayTagsByWayIdStmt:                   q.getListWayTagsByWayIdStmt,
+		getMentorUsersByWayIdStmt:                   q.getMentorUsersByWayIdStmt,
 		getPlansJoinJobTagsStmt:                     q.getPlansJoinJobTagsStmt,
 		getProblemsJoinJobTagsStmt:                  q.getProblemsJoinJobTagsStmt,
+		getToMentorUserRequestsByWayIdStmt:          q.getToMentorUserRequestsByWayIdStmt,
 		getUserByIdStmt:                             q.getUserByIdStmt,
 		getWayByIdStmt:                              q.getWayByIdStmt,
 		getWayCollectionJoinWayByUserIdStmt:         q.getWayCollectionJoinWayByUserIdStmt,

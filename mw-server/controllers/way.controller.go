@@ -146,11 +146,20 @@ func (cc *WayController) UpdateWay(ctx *gin.Context) {
 // @Success 200 {object} schemas.WayPopulatedResponse
 // @Router /ways/{wayId} [get]
 func (cc *WayController) GetWayById(ctx *gin.Context) {
-	wayId := ctx.Param("wayId")
-	wayUuid := uuid.MustParse(wayId)
+	wayUuidRaw := ctx.Param("wayId")
+	wayUuid := uuid.MustParse(wayUuidRaw)
 
 	// first step (could be parallelized):
 	way, err := cc.db.GetWayById(ctx, wayUuid)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			ctx.JSON(http.StatusNotFound, gin.H{"error": "Failed to retrieve way with this ID"})
+			return
+		}
+		ctx.JSON(http.StatusBadGateway, gin.H{"error": err.Error()})
+		return
+	}
+
 	jobTagsRaw, _ := cc.db.GetListJobTagsByWayUuid(ctx, wayUuid)
 	jobTags := lo.Map(jobTagsRaw, func(dbJobTag db.JobTag, i int) schemas.JobTagResponse {
 		return schemas.JobTagResponse{
@@ -161,12 +170,49 @@ func (cc *WayController) GetWayById(ctx *gin.Context) {
 		}
 	})
 	dayReportsRaw, _ := cc.db.GetListDayReportsByWayUuid(ctx, wayUuid)
-	// fromUserMentoringRequestUuids, _ := cc.db.
-	// toUserMentoringRequestUuids, err :=
-	// formerMentorUuids, err := cc.db.former
-	// favoritesAmount, err := cc.db.fav
-	// fromUserMentoringRequests :=
-	// toUserMentoringRequestUuids :=
+	favoriteForUserUuidsRaw, _ := cc.db.GetFavoriteForUserUuidsByWayId(ctx, wayUuid)
+	favoriteForUserUuids := lo.Map(favoriteForUserUuidsRaw, func(uuid uuid.UUID, i int) string {
+		return uuid.String()
+	})
+	fromUserMentoringRequestsRaw, _ := cc.db.GetFromUserMentoringRequestWaysByWayId(ctx, wayUuid)
+	fromUserMentoringRequests := lo.Map(fromUserMentoringRequestsRaw, func(fromUser db.User, i int) schemas.UserPlainResponse {
+		return schemas.UserPlainResponse{
+			Uuid:        fromUser.Uuid.String(),
+			Name:        fromUser.Name,
+			Email:       fromUser.Email,
+			Description: fromUser.Description,
+			CreatedAt:   fromUser.CreatedAt.String(),
+			ImageUrl:    util.MarshalNullString(fromUser.ImageUrl).(string),
+			IsMentor:    fromUser.IsMentor,
+		}
+	})
+
+	formerMentorsRaw, _ := cc.db.GetFormerMentorUsersByWayId(ctx, wayUuid)
+	formerMentors := lo.Map(formerMentorsRaw, func(dbFormerMentor db.User, i int) schemas.UserPlainResponse {
+		return schemas.UserPlainResponse{
+			Uuid:        dbFormerMentor.Uuid.String(),
+			Name:        dbFormerMentor.Name,
+			Email:       dbFormerMentor.Email,
+			Description: dbFormerMentor.Description,
+			CreatedAt:   dbFormerMentor.CreatedAt.String(),
+			ImageUrl:    util.MarshalNullString(dbFormerMentor.ImageUrl).(string),
+			IsMentor:    dbFormerMentor.IsMentor,
+		}
+	})
+
+	mentorsRaw, _ := cc.db.GetMentorUsersByWayId(ctx, wayUuid)
+	mentors := lo.Map(mentorsRaw, func(dbMentor db.User, i int) schemas.UserPlainResponse {
+		return schemas.UserPlainResponse{
+			Uuid:        dbMentor.Uuid.String(),
+			Name:        dbMentor.Name,
+			Email:       dbMentor.Email,
+			Description: dbMentor.Description,
+			CreatedAt:   dbMentor.CreatedAt.String(),
+			ImageUrl:    util.MarshalNullString(dbMentor.ImageUrl).(string),
+			IsMentor:    dbMentor.IsMentor,
+		}
+	})
+
 	metricsRaw, _ := cc.db.GetListMetricsByWayUuid(ctx, wayUuid)
 	metrics := lo.Map(metricsRaw, func(dbMetric db.Metric, i int) schemas.MetricResponse {
 		return schemas.MetricResponse{
@@ -185,14 +231,6 @@ func (cc *WayController) GetWayById(ctx *gin.Context) {
 			Name: dbWayTag.Name,
 		}
 	})
-	if err != nil {
-		if err == sql.ErrNoRows {
-			ctx.JSON(http.StatusNotFound, gin.H{"error": "Failed to retrieve way with this ID"})
-			return
-		}
-		ctx.JSON(http.StatusBadGateway, gin.H{"error": err.Error()})
-		return
-	}
 
 	// second step (could be parallelized) populations:
 	dayReports := make([]schemas.DayReportPopulatedResponse, len(dayReportsRaw))
@@ -233,15 +271,15 @@ func (cc *WayController) GetWayById(ctx *gin.Context) {
 			ImageUrl:    util.MarshalNullString(way.OwnerImageUrl).(string),
 			IsMentor:    way.OwnerIsMentor,
 		},
-		DayReports: dayReports,
-		// Mentors: ,
-		// FormerMentors: ,
-		// MentorRequests: ,
-		// FavoriteForUserUuids: ,
-		WayTags: wayTags,
-		JobTags: jobTags,
-		Metrics: metrics,
-		// CopiedFromWayUuid: ,
+		DayReports:             dayReports,
+		Mentors:                mentors,
+		FormerMentors:          formerMentors,
+		FromUserMentorRequests: fromUserMentoringRequests,
+		FavoriteForUserUuids:   favoriteForUserUuids,
+		WayTags:                wayTags,
+		JobTags:                jobTags,
+		Metrics:                metrics,
+		CopiedFromWayUuid:      way.CopiedFromWayUuid.UUID.String(),
 	}
 
 	ctx.JSON(http.StatusOK, response)
