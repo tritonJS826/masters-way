@@ -1,14 +1,10 @@
 package schemas
 
-import (
-	"github.com/google/uuid"
-)
-
 type CreateProblemPayload struct {
-	Description   string    `json:"description" validate:"required"`
-	IsDone        bool      `json:"isDone" validate:"required"`
-	OwnerUuid     uuid.UUID `json:"ownerUuid" validate:"required"`
-	DayReportUuid uuid.UUID `json:"dayReportUuid" validate:"required"`
+	Description   string `json:"description" validate:"required"`
+	IsDone        bool   `json:"isDone" validate:"required"`
+	OwnerUuid     string `json:"ownerUuid" validate:"required"`
+	DayReportUuid string `json:"dayReportUuid" validate:"required"`
 }
 
 type UpdateProblemPayload struct {
@@ -16,8 +12,14 @@ type UpdateProblemPayload struct {
 	IsDone      bool   `json:"isDone"`
 }
 
-type ProblemPlainResponse struct {
-	Description string            `json:"description" validate:"required"`
-	Owner       UserPlainResponse `json:"owner" validate:"required"`
-	IsDone      bool              `json:"isDone" validate:"required"`
+type ProblemPopulatedResponse struct {
+	Uuid          string           `json:"uuid" validate:"required"`
+	CreatedAt     string           `json:"createdAt" validate:"required"`
+	UpdatedAt     string           `json:"updatedAt" validate:"required"`
+	Description   string           `json:"description" validate:"required"`
+	IsDone        bool             `json:"isDone" validate:"required"`
+	OwnerUuid     string           `json:"ownerUuid" validate:"required"`
+	OwnerName     string           `json:"ownerName" validate:"required"`
+	DayReportUuid string           `json:"dayReportUuid" validate:"required"`
+	Tags          []JobTagResponse `json:"tags" validate:"required"`
 }

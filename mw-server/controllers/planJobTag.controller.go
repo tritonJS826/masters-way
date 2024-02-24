@@ -39,8 +39,8 @@ func (cc *PlanJobTagController) CreatePlanJobTag(ctx *gin.Context) {
 	}
 
 	args := &db.CreatePlansJobTagParams{
-		PlanUuid:   payload.PlanUuid,
-		JobTagUuid: payload.JobTagUuid,
+		PlanUuid:   uuid.MustParse(payload.PlanUuid),
+		JobTagUuid: uuid.MustParse(payload.JobTagUuid),
 	}
 
 	planJobTag, err := cc.db.CreatePlansJobTag(ctx, *args)

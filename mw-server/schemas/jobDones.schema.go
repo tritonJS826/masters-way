@@ -1,14 +1,14 @@
 package schemas
 
 import (
-	"github.com/google/uuid"
+	db "mwserver/db/sqlc"
 )
 
 type CreateJobDonePayload struct {
-	Description   string    `json:"description" validate:"required"`
-	Time          int32     `json:"time" validate:"required"`
-	DayReportUuid uuid.UUID `json:"dayReportUuid" validate:"required"`
-	OwnerUuid     uuid.UUID `json:"ownerUuid" validate:"required"`
+	Description   string `json:"description" validate:"required"`
+	Time          int32  `json:"time" validate:"required"`
+	DayReportUuid string `json:"dayReportUuid" validate:"required"`
+	OwnerUuid     string `json:"ownerUuid" validate:"required"`
 }
 
 type UpdateJobDone struct {
@@ -16,8 +16,14 @@ type UpdateJobDone struct {
 	Time        int32  `json:"time"`
 }
 
-type JobDonePlainResponse struct {
-	Description string            `json:"description" validate:"required"`
-	Time        int32             `json:"time" validate:"required"`
-	Owner       UserPlainResponse `json:"owner" validate:"required"`
+type JobDonePopulatedResponse struct {
+	Uuid          string      `json:"uuid" validate:"required"`
+	CreatedAt     string      `json:"createdAt" validate:"required"`
+	UpdatedAt     string      `json:"updatedAt" validate:"required"`
+	Description   string      `json:"description" validate:"required"`
+	Time          int32       `json:"time" validate:"required"`
+	OwnerUuid     string      `json:"name" validate:"required"`
+	OwnerName     string      `json:"ownerName" validate:"required"`
+	DayReportUuid string      `json:"dayReportUuid" validate:"required"`
+	Tags          []db.JobTag `json:"tags" validate:"required"`
 }

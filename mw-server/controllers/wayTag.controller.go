@@ -41,7 +41,7 @@ func (cc *WayTagController) CreateWayTag(ctx *gin.Context) {
 
 	args := &db.CreateWayTagParams{
 		Name:    payload.Name,
-		WayUuid: payload.WayUuid,
+		WayUuid: uuid.MustParse(payload.WayUuid),
 	}
 
 	wayTag, err := cc.db.CreateWayTag(ctx, *args)

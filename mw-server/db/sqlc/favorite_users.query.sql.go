@@ -46,3 +46,77 @@ func (q *Queries) DeleteFavoriteUserByIds(ctx context.Context, arg DeleteFavorit
 	_, err := q.exec(ctx, q.deleteFavoriteUserByIdsStmt, deleteFavoriteUserByIds, arg.DonorUserUuid, arg.AcceptorUserUuid)
 	return err
 }
+
+const getFavoriteUserByDonorUserId = `-- name: GetFavoriteUserByDonorUserId :many
+SELECT 
+    users.uuid,
+    users.name,
+    users.email,
+    users.description,
+    users.created_at,
+    users.image_url,
+    users.is_mentor
+FROM favorite_users
+JOIN users 
+    ON favorite_users.donor_user_uuid = $1 
+    AND favorite_users.acceptor_user_uuid = users.uuid
+`
+
+func (q *Queries) GetFavoriteUserByDonorUserId(ctx context.Context, donorUserUuid uuid.UUID) ([]User, error) {
+	rows, err := q.query(ctx, q.getFavoriteUserByDonorUserIdStmt, getFavoriteUserByDonorUserId, donorUserUuid)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []User{}
+	for rows.Next() {
+		var i User
+		if err := rows.Scan(
+			&i.Uuid,
+			&i.Name,
+			&i.Email,
+			&i.Description,
+			&i.CreatedAt,
+			&i.ImageUrl,
+			&i.IsMentor,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getFavoriteUserUuidsByAcceptorUserId = `-- name: GetFavoriteUserUuidsByAcceptorUserId :many
+SELECT favorite_users.donor_user_uuid FROM favorite_users
+WHERE favorite_users.acceptor_user_uuid = $1
+`
+
+func (q *Queries) GetFavoriteUserUuidsByAcceptorUserId(ctx context.Context, acceptorUserUuid uuid.UUID) ([]uuid.UUID, error) {
+	rows, err := q.query(ctx, q.getFavoriteUserUuidsByAcceptorUserIdStmt, getFavoriteUserUuidsByAcceptorUserId, acceptorUserUuid)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []uuid.UUID{}
+	for rows.Next() {
+		var donor_user_uuid uuid.UUID
+		if err := rows.Scan(&donor_user_uuid); err != nil {
+			return nil, err
+		}
+		items = append(items, donor_user_uuid)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}

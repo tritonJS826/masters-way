@@ -1,12 +1,8 @@
 package schemas
 
-import (
-	"github.com/google/uuid"
-)
-
 type CreateWayTagPayload struct {
-	Name    string    `json:"name" validate:"required"`
-	WayUuid uuid.UUID `json:"wayUuid" validate:"required"`
+	Name    string `json:"name" validate:"required"`
+	WayUuid string `json:"wayUuid" validate:"required"`
 }
 
 type UpdateWayTagPayload struct {

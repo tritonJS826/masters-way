@@ -144,6 +144,15 @@ func Prepare(ctx context.Context, db DBTX) (*Queries, error) {
 	if q.deleteWayTagStmt, err = db.PrepareContext(ctx, deleteWayTag); err != nil {
 		return nil, fmt.Errorf("error preparing query DeleteWayTag: %w", err)
 	}
+	if q.getFavoriteUserByDonorUserIdStmt, err = db.PrepareContext(ctx, getFavoriteUserByDonorUserId); err != nil {
+		return nil, fmt.Errorf("error preparing query GetFavoriteUserByDonorUserId: %w", err)
+	}
+	if q.getFavoriteUserUuidsByAcceptorUserIdStmt, err = db.PrepareContext(ctx, getFavoriteUserUuidsByAcceptorUserId); err != nil {
+		return nil, fmt.Errorf("error preparing query GetFavoriteUserUuidsByAcceptorUserId: %w", err)
+	}
+	if q.getFromUserMentoringRequestWaysByUserIdStmt, err = db.PrepareContext(ctx, getFromUserMentoringRequestWaysByUserId); err != nil {
+		return nil, fmt.Errorf("error preparing query GetFromUserMentoringRequestWaysByUserId: %w", err)
+	}
 	if q.getJobDonesJoinJobTagsStmt, err = db.PrepareContext(ctx, getJobDonesJoinJobTags); err != nil {
 		return nil, fmt.Errorf("error preparing query GetJobDonesJoinJobTags: %w", err)
 	}
@@ -188,6 +197,9 @@ func Prepare(ctx context.Context, db DBTX) (*Queries, error) {
 	}
 	if q.getWayByIdStmt, err = db.PrepareContext(ctx, getWayById); err != nil {
 		return nil, fmt.Errorf("error preparing query GetWayById: %w", err)
+	}
+	if q.getWayCollectionJoinWayByUserIdStmt, err = db.PrepareContext(ctx, getWayCollectionJoinWayByUserId); err != nil {
+		return nil, fmt.Errorf("error preparing query GetWayCollectionJoinWayByUserId: %w", err)
 	}
 	if q.listUsersStmt, err = db.PrepareContext(ctx, listUsers); err != nil {
 		return nil, fmt.Errorf("error preparing query ListUsers: %w", err)
@@ -436,6 +448,21 @@ func (q *Queries) Close() error {
 			err = fmt.Errorf("error closing deleteWayTagStmt: %w", cerr)
 		}
 	}
+	if q.getFavoriteUserByDonorUserIdStmt != nil {
+		if cerr := q.getFavoriteUserByDonorUserIdStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing getFavoriteUserByDonorUserIdStmt: %w", cerr)
+		}
+	}
+	if q.getFavoriteUserUuidsByAcceptorUserIdStmt != nil {
+		if cerr := q.getFavoriteUserUuidsByAcceptorUserIdStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing getFavoriteUserUuidsByAcceptorUserIdStmt: %w", cerr)
+		}
+	}
+	if q.getFromUserMentoringRequestWaysByUserIdStmt != nil {
+		if cerr := q.getFromUserMentoringRequestWaysByUserIdStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing getFromUserMentoringRequestWaysByUserIdStmt: %w", cerr)
+		}
+	}
 	if q.getJobDonesJoinJobTagsStmt != nil {
 		if cerr := q.getJobDonesJoinJobTagsStmt.Close(); cerr != nil {
 			err = fmt.Errorf("error closing getJobDonesJoinJobTagsStmt: %w", cerr)
@@ -509,6 +536,11 @@ func (q *Queries) Close() error {
 	if q.getWayByIdStmt != nil {
 		if cerr := q.getWayByIdStmt.Close(); cerr != nil {
 			err = fmt.Errorf("error closing getWayByIdStmt: %w", cerr)
+		}
+	}
+	if q.getWayCollectionJoinWayByUserIdStmt != nil {
+		if cerr := q.getWayCollectionJoinWayByUserIdStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing getWayCollectionJoinWayByUserIdStmt: %w", cerr)
 		}
 	}
 	if q.listUsersStmt != nil {
@@ -618,151 +650,159 @@ func (q *Queries) queryRow(ctx context.Context, stmt *sql.Stmt, query string, ar
 }
 
 type Queries struct {
-	db                                      DBTX
-	tx                                      *sql.Tx
-	createCommentStmt                       *sql.Stmt
-	createDayReportStmt                     *sql.Stmt
-	createFavoriteUserStmt                  *sql.Stmt
-	createFavoriteUserWayStmt               *sql.Stmt
-	createFormerMentorsWayStmt              *sql.Stmt
-	createFromUserMentoringRequestStmt      *sql.Stmt
-	createJobDoneStmt                       *sql.Stmt
-	createJobDonesJobTagStmt                *sql.Stmt
-	createJobTagStmt                        *sql.Stmt
-	createMetricStmt                        *sql.Stmt
-	createPlanStmt                          *sql.Stmt
-	createPlansJobTagStmt                   *sql.Stmt
-	createProblemStmt                       *sql.Stmt
-	createProblemsJobTagStmt                *sql.Stmt
-	createToUserMentoringRequestStmt        *sql.Stmt
-	createUserStmt                          *sql.Stmt
-	createUserTagStmt                       *sql.Stmt
-	createWayStmt                           *sql.Stmt
-	createWayCollectionStmt                 *sql.Stmt
-	createWayCollectionsWaysStmt            *sql.Stmt
-	createWayTagStmt                        *sql.Stmt
-	deleteCommentStmt                       *sql.Stmt
-	deleteFavoriteUserByIdsStmt             *sql.Stmt
-	deleteFavoriteUserWayByIdsStmt          *sql.Stmt
-	deleteFromUserMentoringRequestByIdsStmt *sql.Stmt
-	deleteJobDoneStmt                       *sql.Stmt
-	deleteJobDonesJobTagByJobDoneIdStmt     *sql.Stmt
-	deleteJobTagByStmt                      *sql.Stmt
-	deleteMetricStmt                        *sql.Stmt
-	deletePlanStmt                          *sql.Stmt
-	deletePlansJobTagByIdsStmt              *sql.Stmt
-	deleteProblemStmt                       *sql.Stmt
-	deleteProblemsJobTagByIdsStmt           *sql.Stmt
-	deleteToUserMentoringRequestByIdsStmt   *sql.Stmt
-	deleteUserStmt                          *sql.Stmt
-	deleteUserTagStmt                       *sql.Stmt
-	deleteWayStmt                           *sql.Stmt
-	deleteWayCollectionStmt                 *sql.Stmt
-	deleteWayCollectionsWaysByIdsStmt       *sql.Stmt
-	deleteWayTagStmt                        *sql.Stmt
-	getJobDonesJoinJobTagsStmt              *sql.Stmt
-	getListCommentsByDayReportIdStmt        *sql.Stmt
-	getListDayReportsByWayUuidStmt          *sql.Stmt
-	getListJobTagsByWayUuidStmt             *sql.Stmt
-	getListJobsDoneByDayReportIdStmt        *sql.Stmt
-	getListMetricsByWayUuidStmt             *sql.Stmt
-	getListPlansByDayReportIdStmt           *sql.Stmt
-	getListProblemsByDayReportIdStmt        *sql.Stmt
-	getListUserTagsByUserIdStmt             *sql.Stmt
-	getListWayCollectionsByUserIdStmt       *sql.Stmt
-	getListWayTagsByWayIdStmt               *sql.Stmt
-	getPlansJoinJobTagsStmt                 *sql.Stmt
-	getProblemsJoinJobTagsStmt              *sql.Stmt
-	getUserByIdStmt                         *sql.Stmt
-	getWayByIdStmt                          *sql.Stmt
-	listUsersStmt                           *sql.Stmt
-	listWaysStmt                            *sql.Stmt
-	updateCommentStmt                       *sql.Stmt
-	updateDayReportStmt                     *sql.Stmt
-	updateJobDoneStmt                       *sql.Stmt
-	updateJobTagStmt                        *sql.Stmt
-	updateMetricStmt                        *sql.Stmt
-	updatePlanStmt                          *sql.Stmt
-	updateProblemStmt                       *sql.Stmt
-	updateUserStmt                          *sql.Stmt
-	updateUserTagStmt                       *sql.Stmt
-	updateWayStmt                           *sql.Stmt
-	updateWayCollectionStmt                 *sql.Stmt
-	updateWayTagStmt                        *sql.Stmt
+	db                                          DBTX
+	tx                                          *sql.Tx
+	createCommentStmt                           *sql.Stmt
+	createDayReportStmt                         *sql.Stmt
+	createFavoriteUserStmt                      *sql.Stmt
+	createFavoriteUserWayStmt                   *sql.Stmt
+	createFormerMentorsWayStmt                  *sql.Stmt
+	createFromUserMentoringRequestStmt          *sql.Stmt
+	createJobDoneStmt                           *sql.Stmt
+	createJobDonesJobTagStmt                    *sql.Stmt
+	createJobTagStmt                            *sql.Stmt
+	createMetricStmt                            *sql.Stmt
+	createPlanStmt                              *sql.Stmt
+	createPlansJobTagStmt                       *sql.Stmt
+	createProblemStmt                           *sql.Stmt
+	createProblemsJobTagStmt                    *sql.Stmt
+	createToUserMentoringRequestStmt            *sql.Stmt
+	createUserStmt                              *sql.Stmt
+	createUserTagStmt                           *sql.Stmt
+	createWayStmt                               *sql.Stmt
+	createWayCollectionStmt                     *sql.Stmt
+	createWayCollectionsWaysStmt                *sql.Stmt
+	createWayTagStmt                            *sql.Stmt
+	deleteCommentStmt                           *sql.Stmt
+	deleteFavoriteUserByIdsStmt                 *sql.Stmt
+	deleteFavoriteUserWayByIdsStmt              *sql.Stmt
+	deleteFromUserMentoringRequestByIdsStmt     *sql.Stmt
+	deleteJobDoneStmt                           *sql.Stmt
+	deleteJobDonesJobTagByJobDoneIdStmt         *sql.Stmt
+	deleteJobTagByStmt                          *sql.Stmt
+	deleteMetricStmt                            *sql.Stmt
+	deletePlanStmt                              *sql.Stmt
+	deletePlansJobTagByIdsStmt                  *sql.Stmt
+	deleteProblemStmt                           *sql.Stmt
+	deleteProblemsJobTagByIdsStmt               *sql.Stmt
+	deleteToUserMentoringRequestByIdsStmt       *sql.Stmt
+	deleteUserStmt                              *sql.Stmt
+	deleteUserTagStmt                           *sql.Stmt
+	deleteWayStmt                               *sql.Stmt
+	deleteWayCollectionStmt                     *sql.Stmt
+	deleteWayCollectionsWaysByIdsStmt           *sql.Stmt
+	deleteWayTagStmt                            *sql.Stmt
+	getFavoriteUserByDonorUserIdStmt            *sql.Stmt
+	getFavoriteUserUuidsByAcceptorUserIdStmt    *sql.Stmt
+	getFromUserMentoringRequestWaysByUserIdStmt *sql.Stmt
+	getJobDonesJoinJobTagsStmt                  *sql.Stmt
+	getListCommentsByDayReportIdStmt            *sql.Stmt
+	getListDayReportsByWayUuidStmt              *sql.Stmt
+	getListJobTagsByWayUuidStmt                 *sql.Stmt
+	getListJobsDoneByDayReportIdStmt            *sql.Stmt
+	getListMetricsByWayUuidStmt                 *sql.Stmt
+	getListPlansByDayReportIdStmt               *sql.Stmt
+	getListProblemsByDayReportIdStmt            *sql.Stmt
+	getListUserTagsByUserIdStmt                 *sql.Stmt
+	getListWayCollectionsByUserIdStmt           *sql.Stmt
+	getListWayTagsByWayIdStmt                   *sql.Stmt
+	getPlansJoinJobTagsStmt                     *sql.Stmt
+	getProblemsJoinJobTagsStmt                  *sql.Stmt
+	getUserByIdStmt                             *sql.Stmt
+	getWayByIdStmt                              *sql.Stmt
+	getWayCollectionJoinWayByUserIdStmt         *sql.Stmt
+	listUsersStmt                               *sql.Stmt
+	listWaysStmt                                *sql.Stmt
+	updateCommentStmt                           *sql.Stmt
+	updateDayReportStmt                         *sql.Stmt
+	updateJobDoneStmt                           *sql.Stmt
+	updateJobTagStmt                            *sql.Stmt
+	updateMetricStmt                            *sql.Stmt
+	updatePlanStmt                              *sql.Stmt
+	updateProblemStmt                           *sql.Stmt
+	updateUserStmt                              *sql.Stmt
+	updateUserTagStmt                           *sql.Stmt
+	updateWayStmt                               *sql.Stmt
+	updateWayCollectionStmt                     *sql.Stmt
+	updateWayTagStmt                            *sql.Stmt
 }
 
 func (q *Queries) WithTx(tx *sql.Tx) *Queries {
 	return &Queries{
-		db:                                      tx,
-		tx:                                      tx,
-		createCommentStmt:                       q.createCommentStmt,
-		createDayReportStmt:                     q.createDayReportStmt,
-		createFavoriteUserStmt:                  q.createFavoriteUserStmt,
-		createFavoriteUserWayStmt:               q.createFavoriteUserWayStmt,
-		createFormerMentorsWayStmt:              q.createFormerMentorsWayStmt,
-		createFromUserMentoringRequestStmt:      q.createFromUserMentoringRequestStmt,
-		createJobDoneStmt:                       q.createJobDoneStmt,
-		createJobDonesJobTagStmt:                q.createJobDonesJobTagStmt,
-		createJobTagStmt:                        q.createJobTagStmt,
-		createMetricStmt:                        q.createMetricStmt,
-		createPlanStmt:                          q.createPlanStmt,
-		createPlansJobTagStmt:                   q.createPlansJobTagStmt,
-		createProblemStmt:                       q.createProblemStmt,
-		createProblemsJobTagStmt:                q.createProblemsJobTagStmt,
-		createToUserMentoringRequestStmt:        q.createToUserMentoringRequestStmt,
-		createUserStmt:                          q.createUserStmt,
-		createUserTagStmt:                       q.createUserTagStmt,
-		createWayStmt:                           q.createWayStmt,
-		createWayCollectionStmt:                 q.createWayCollectionStmt,
-		createWayCollectionsWaysStmt:            q.createWayCollectionsWaysStmt,
-		createWayTagStmt:                        q.createWayTagStmt,
-		deleteCommentStmt:                       q.deleteCommentStmt,
-		deleteFavoriteUserByIdsStmt:             q.deleteFavoriteUserByIdsStmt,
-		deleteFavoriteUserWayByIdsStmt:          q.deleteFavoriteUserWayByIdsStmt,
-		deleteFromUserMentoringRequestByIdsStmt: q.deleteFromUserMentoringRequestByIdsStmt,
-		deleteJobDoneStmt:                       q.deleteJobDoneStmt,
-		deleteJobDonesJobTagByJobDoneIdStmt:     q.deleteJobDonesJobTagByJobDoneIdStmt,
-		deleteJobTagByStmt:                      q.deleteJobTagByStmt,
-		deleteMetricStmt:                        q.deleteMetricStmt,
-		deletePlanStmt:                          q.deletePlanStmt,
-		deletePlansJobTagByIdsStmt:              q.deletePlansJobTagByIdsStmt,
-		deleteProblemStmt:                       q.deleteProblemStmt,
-		deleteProblemsJobTagByIdsStmt:           q.deleteProblemsJobTagByIdsStmt,
-		deleteToUserMentoringRequestByIdsStmt:   q.deleteToUserMentoringRequestByIdsStmt,
-		deleteUserStmt:                          q.deleteUserStmt,
-		deleteUserTagStmt:                       q.deleteUserTagStmt,
-		deleteWayStmt:                           q.deleteWayStmt,
-		deleteWayCollectionStmt:                 q.deleteWayCollectionStmt,
-		deleteWayCollectionsWaysByIdsStmt:       q.deleteWayCollectionsWaysByIdsStmt,
-		deleteWayTagStmt:                        q.deleteWayTagStmt,
-		getJobDonesJoinJobTagsStmt:              q.getJobDonesJoinJobTagsStmt,
-		getListCommentsByDayReportIdStmt:        q.getListCommentsByDayReportIdStmt,
-		getListDayReportsByWayUuidStmt:          q.getListDayReportsByWayUuidStmt,
-		getListJobTagsByWayUuidStmt:             q.getListJobTagsByWayUuidStmt,
-		getListJobsDoneByDayReportIdStmt:        q.getListJobsDoneByDayReportIdStmt,
-		getListMetricsByWayUuidStmt:             q.getListMetricsByWayUuidStmt,
-		getListPlansByDayReportIdStmt:           q.getListPlansByDayReportIdStmt,
-		getListProblemsByDayReportIdStmt:        q.getListProblemsByDayReportIdStmt,
-		getListUserTagsByUserIdStmt:             q.getListUserTagsByUserIdStmt,
-		getListWayCollectionsByUserIdStmt:       q.getListWayCollectionsByUserIdStmt,
-		getListWayTagsByWayIdStmt:               q.getListWayTagsByWayIdStmt,
-		getPlansJoinJobTagsStmt:                 q.getPlansJoinJobTagsStmt,
-		getProblemsJoinJobTagsStmt:              q.getProblemsJoinJobTagsStmt,
-		getUserByIdStmt:                         q.getUserByIdStmt,
-		getWayByIdStmt:                          q.getWayByIdStmt,
-		listUsersStmt:                           q.listUsersStmt,
-		listWaysStmt:                            q.listWaysStmt,
-		updateCommentStmt:                       q.updateCommentStmt,
-		updateDayReportStmt:                     q.updateDayReportStmt,
-		updateJobDoneStmt:                       q.updateJobDoneStmt,
-		updateJobTagStmt:                        q.updateJobTagStmt,
-		updateMetricStmt:                        q.updateMetricStmt,
-		updatePlanStmt:                          q.updatePlanStmt,
-		updateProblemStmt:                       q.updateProblemStmt,
-		updateUserStmt:                          q.updateUserStmt,
-		updateUserTagStmt:                       q.updateUserTagStmt,
-		updateWayStmt:                           q.updateWayStmt,
-		updateWayCollectionStmt:                 q.updateWayCollectionStmt,
-		updateWayTagStmt:                        q.updateWayTagStmt,
+		db:                                          tx,
+		tx:                                          tx,
+		createCommentStmt:                           q.createCommentStmt,
+		createDayReportStmt:                         q.createDayReportStmt,
+		createFavoriteUserStmt:                      q.createFavoriteUserStmt,
+		createFavoriteUserWayStmt:                   q.createFavoriteUserWayStmt,
+		createFormerMentorsWayStmt:                  q.createFormerMentorsWayStmt,
+		createFromUserMentoringRequestStmt:          q.createFromUserMentoringRequestStmt,
+		createJobDoneStmt:                           q.createJobDoneStmt,
+		createJobDonesJobTagStmt:                    q.createJobDonesJobTagStmt,
+		createJobTagStmt:                            q.createJobTagStmt,
+		createMetricStmt:                            q.createMetricStmt,
+		createPlanStmt:                              q.createPlanStmt,
+		createPlansJobTagStmt:                       q.createPlansJobTagStmt,
+		createProblemStmt:                           q.createProblemStmt,
+		createProblemsJobTagStmt:                    q.createProblemsJobTagStmt,
+		createToUserMentoringRequestStmt:            q.createToUserMentoringRequestStmt,
+		createUserStmt:                              q.createUserStmt,
+		createUserTagStmt:                           q.createUserTagStmt,
+		createWayStmt:                               q.createWayStmt,
+		createWayCollectionStmt:                     q.createWayCollectionStmt,
+		createWayCollectionsWaysStmt:                q.createWayCollectionsWaysStmt,
+		createWayTagStmt:                            q.createWayTagStmt,
+		deleteCommentStmt:                           q.deleteCommentStmt,
+		deleteFavoriteUserByIdsStmt:                 q.deleteFavoriteUserByIdsStmt,
+		deleteFavoriteUserWayByIdsStmt:              q.deleteFavoriteUserWayByIdsStmt,
+		deleteFromUserMentoringRequestByIdsStmt:     q.deleteFromUserMentoringRequestByIdsStmt,
+		deleteJobDoneStmt:                           q.deleteJobDoneStmt,
+		deleteJobDonesJobTagByJobDoneIdStmt:         q.deleteJobDonesJobTagByJobDoneIdStmt,
+		deleteJobTagByStmt:                          q.deleteJobTagByStmt,
+		deleteMetricStmt:                            q.deleteMetricStmt,
+		deletePlanStmt:                              q.deletePlanStmt,
+		deletePlansJobTagByIdsStmt:                  q.deletePlansJobTagByIdsStmt,
+		deleteProblemStmt:                           q.deleteProblemStmt,
+		deleteProblemsJobTagByIdsStmt:               q.deleteProblemsJobTagByIdsStmt,
+		deleteToUserMentoringRequestByIdsStmt:       q.deleteToUserMentoringRequestByIdsStmt,
+		deleteUserStmt:                              q.deleteUserStmt,
+		deleteUserTagStmt:                           q.deleteUserTagStmt,
+		deleteWayStmt:                               q.deleteWayStmt,
+		deleteWayCollectionStmt:                     q.deleteWayCollectionStmt,
+		deleteWayCollectionsWaysByIdsStmt:           q.deleteWayCollectionsWaysByIdsStmt,
+		deleteWayTagStmt:                            q.deleteWayTagStmt,
+		getFavoriteUserByDonorUserIdStmt:            q.getFavoriteUserByDonorUserIdStmt,
+		getFavoriteUserUuidsByAcceptorUserIdStmt:    q.getFavoriteUserUuidsByAcceptorUserIdStmt,
+		getFromUserMentoringRequestWaysByUserIdStmt: q.getFromUserMentoringRequestWaysByUserIdStmt,
+		getJobDonesJoinJobTagsStmt:                  q.getJobDonesJoinJobTagsStmt,
+		getListCommentsByDayReportIdStmt:            q.getListCommentsByDayReportIdStmt,
+		getListDayReportsByWayUuidStmt:              q.getListDayReportsByWayUuidStmt,
+		getListJobTagsByWayUuidStmt:                 q.getListJobTagsByWayUuidStmt,
+		getListJobsDoneByDayReportIdStmt:            q.getListJobsDoneByDayReportIdStmt,
+		getListMetricsByWayUuidStmt:                 q.getListMetricsByWayUuidStmt,
+		getListPlansByDayReportIdStmt:               q.getListPlansByDayReportIdStmt,
+		getListProblemsByDayReportIdStmt:            q.getListProblemsByDayReportIdStmt,
+		getListUserTagsByUserIdStmt:                 q.getListUserTagsByUserIdStmt,
+		getListWayCollectionsByUserIdStmt:           q.getListWayCollectionsByUserIdStmt,
+		getListWayTagsByWayIdStmt:                   q.getListWayTagsByWayIdStmt,
+		getPlansJoinJobTagsStmt:                     q.getPlansJoinJobTagsStmt,
+		getProblemsJoinJobTagsStmt:                  q.getProblemsJoinJobTagsStmt,
+		getUserByIdStmt:                             q.getUserByIdStmt,
+		getWayByIdStmt:                              q.getWayByIdStmt,
+		getWayCollectionJoinWayByUserIdStmt:         q.getWayCollectionJoinWayByUserIdStmt,
+		listUsersStmt:                               q.listUsersStmt,
+		listWaysStmt:                                q.listWaysStmt,
+		updateCommentStmt:                           q.updateCommentStmt,
+		updateDayReportStmt:                         q.updateDayReportStmt,
+		updateJobDoneStmt:                           q.updateJobDoneStmt,
+		updateJobTagStmt:                            q.updateJobTagStmt,
+		updateMetricStmt:                            q.updateMetricStmt,
+		updatePlanStmt:                              q.updatePlanStmt,
+		updateProblemStmt:                           q.updateProblemStmt,
+		updateUserStmt:                              q.updateUserStmt,
+		updateUserTagStmt:                           q.updateUserTagStmt,
+		updateWayStmt:                               q.updateWayStmt,
+		updateWayCollectionStmt:                     q.updateWayCollectionStmt,
+		updateWayTagStmt:                            q.updateWayTagStmt,
 	}
 }

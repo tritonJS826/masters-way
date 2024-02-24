@@ -27,12 +27,12 @@ INSERT INTO metrics(
 `
 
 type CreateMetricParams struct {
-	UpdatedAt        time.Time     `json:"updated_at"`
-	Description      string        `json:"description"`
-	IsDone           bool          `json:"is_done"`
-	DoneDate         sql.NullInt32 `json:"done_date"`
-	MetricEstimation int32         `json:"metric_estimation"`
-	WayUuid          uuid.UUID     `json:"way_uuid"`
+	UpdatedAt        time.Time    `json:"updated_at"`
+	Description      string       `json:"description"`
+	IsDone           bool         `json:"is_done"`
+	DoneDate         sql.NullTime `json:"done_date"`
+	MetricEstimation int32        `json:"metric_estimation"`
+	WayUuid          uuid.UUID    `json:"way_uuid"`
 }
 
 func (q *Queries) CreateMetric(ctx context.Context, arg CreateMetricParams) (Metric, error) {
@@ -122,7 +122,7 @@ type UpdateMetricParams struct {
 	UpdatedAt        sql.NullTime   `json:"updated_at"`
 	Description      sql.NullString `json:"description"`
 	IsDone           sql.NullBool   `json:"is_done"`
-	DoneDate         sql.NullInt32  `json:"doneDate"`
+	DoneDate         sql.NullTime   `json:"doneDate"`
 	MetricEstimation sql.NullInt32  `json:"metric_estimation"`
 	Uuid             uuid.UUID      `json:"uuid"`
 }

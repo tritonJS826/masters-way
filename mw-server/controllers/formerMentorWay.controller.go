@@ -8,6 +8,7 @@ import (
 	"mwserver/schemas"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 type FormerMentorWayController struct {
@@ -38,8 +39,8 @@ func (cc *FormerMentorWayController) CreateFormerMentorWay(ctx *gin.Context) {
 	}
 
 	args := &db.CreateFormerMentorsWayParams{
-		FormerMentorUuid: payload.FormerMentorUuid,
-		WayUuid:          payload.WayUuid,
+		FormerMentorUuid: uuid.MustParse(payload.FormerMentorUuid),
+		WayUuid:          uuid.MustParse(payload.WayUuid),
 	}
 
 	formerMentorWay, err := cc.db.CreateFormerMentorsWay(ctx, *args)

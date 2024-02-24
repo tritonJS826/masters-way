@@ -39,8 +39,8 @@ func (cc *WayCollectionWayController) CreateWayCollectionWay(ctx *gin.Context) {
 	}
 
 	args := &db.CreateWayCollectionsWaysParams{
-		WayCollectionsUuid: payload.WayCollectionsUuid,
-		WayUuid:            payload.WayUuid,
+		WayCollectionsUuid: uuid.MustParse(payload.WayCollectionsUuid),
+		WayUuid:            uuid.MustParse(payload.WayUuid),
 	}
 
 	wayCollectionWay, err := cc.db.CreateWayCollectionsWays(ctx, *args)

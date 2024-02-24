@@ -46,3 +46,55 @@ func (q *Queries) DeleteFromUserMentoringRequestByIds(ctx context.Context, arg D
 	_, err := q.exec(ctx, q.deleteFromUserMentoringRequestByIdsStmt, deleteFromUserMentoringRequestByIds, arg.UserUuid, arg.WayUuid)
 	return err
 }
+
+const getFromUserMentoringRequestWaysByUserId = `-- name: GetFromUserMentoringRequestWaysByUserId :many
+SELECT 
+    ways.uuid,
+    ways.name,
+    ways.goal_description,
+    ways.updated_at,
+    ways.created_at,
+    ways.estimation_time,
+    ways.owner_uuid,
+    ways.copied_from_way_uuid,
+    ways.status,
+    ways.is_private
+FROM from_user_mentoring_requests
+JOIN ways 
+    ON $1 = from_user_mentoring_requests.user_uuid 
+    AND from_user_mentoring_requests.way_uuid = ways.uuid
+`
+
+func (q *Queries) GetFromUserMentoringRequestWaysByUserId(ctx context.Context, userUuid uuid.UUID) ([]Way, error) {
+	rows, err := q.query(ctx, q.getFromUserMentoringRequestWaysByUserIdStmt, getFromUserMentoringRequestWaysByUserId, userUuid)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []Way{}
+	for rows.Next() {
+		var i Way
+		if err := rows.Scan(
+			&i.Uuid,
+			&i.Name,
+			&i.GoalDescription,
+			&i.UpdatedAt,
+			&i.CreatedAt,
+			&i.EstimationTime,
+			&i.OwnerUuid,
+			&i.CopiedFromWayUuid,
+			&i.Status,
+			&i.IsPrivate,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}

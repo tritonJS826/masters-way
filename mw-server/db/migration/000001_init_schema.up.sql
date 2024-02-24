@@ -75,7 +75,7 @@ CREATE TABLE "metrics"(
     "updated_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "description" VARCHAR NOT NULL,
     "is_done" BOOLEAN NOT NULL,
-    "done_date" INTEGER,
+    "done_date" TIMESTAMP,
     "metric_estimation" INTEGER NOT NULL,
     "way_uuid" UUID NOT NULL REFERENCES ways("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT "metrics_pkey" PRIMARY KEY("uuid")

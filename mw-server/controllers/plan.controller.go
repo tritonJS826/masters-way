@@ -44,9 +44,9 @@ func (cc *PlanController) CreatePlan(ctx *gin.Context) {
 	args := &db.CreatePlanParams{
 		Job:            payload.Job,
 		EstimationTime: int32(payload.EstimationTime),
-		OwnerUuid:      payload.OwnerUuid,
+		OwnerUuid:      uuid.MustParse(payload.OwnerUuid),
 		IsDone:         payload.IsDone,
-		DayReportUuid:  payload.DayReportUuid,
+		DayReportUuid:  uuid.MustParse(payload.DayReportUuid),
 		CreatedAt:      now,
 		UpdatedAt:      now,
 	}

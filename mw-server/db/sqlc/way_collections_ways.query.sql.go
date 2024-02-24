@@ -7,6 +7,7 @@ package db
 
 import (
 	"context"
+	"time"
 
 	"github.com/google/uuid"
 )
@@ -45,4 +46,81 @@ type DeleteWayCollectionsWaysByIdsParams struct {
 func (q *Queries) DeleteWayCollectionsWaysByIds(ctx context.Context, arg DeleteWayCollectionsWaysByIdsParams) error {
 	_, err := q.exec(ctx, q.deleteWayCollectionsWaysByIdsStmt, deleteWayCollectionsWaysByIds, arg.WayCollectionsUuid, arg.WayUuid)
 	return err
+}
+
+const getWayCollectionJoinWayByUserId = `-- name: GetWayCollectionJoinWayByUserId :many
+SELECT 
+    way_collections.uuid AS collection_uuid,
+    way_collections.created_at AS collection_created_at,
+    way_collections.updated_at AS collection_updated_at,
+    way_collections.name AS collection_name,
+    ways.uuid AS way_uuid,
+    ways.name AS way_name,
+    ways.goal_description as way_description,
+    ways.updated_at as way_updated_at,
+    ways.created_at as way_created_at,
+    ways.estimation_time as way_estimation_time,
+    ways.owner_uuid as way_owner_uuid,
+    ways.copied_from_way_uuid as way_copied_from_way_uuid,
+    ways.status as way_status,
+    ways.is_private as way_is_private
+FROM users
+JOIN way_collections ON $1 = way_collections.owner_uuid
+JOIN way_collections_ways ON way_collections.uuid = way_collections_ways.way_collections_uuid
+JOIN ways ON way_collections_ways.way_uuid = ways.uuid
+`
+
+type GetWayCollectionJoinWayByUserIdRow struct {
+	CollectionUuid       uuid.UUID     `json:"collection_uuid"`
+	CollectionCreatedAt  time.Time     `json:"collection_created_at"`
+	CollectionUpdatedAt  time.Time     `json:"collection_updated_at"`
+	CollectionName       string        `json:"collection_name"`
+	WayUuid              uuid.UUID     `json:"way_uuid"`
+	WayName              string        `json:"way_name"`
+	WayDescription       string        `json:"way_description"`
+	WayUpdatedAt         time.Time     `json:"way_updated_at"`
+	WayCreatedAt         time.Time     `json:"way_created_at"`
+	WayEstimationTime    int32         `json:"way_estimation_time"`
+	WayOwnerUuid         uuid.UUID     `json:"way_owner_uuid"`
+	WayCopiedFromWayUuid uuid.NullUUID `json:"way_copied_from_way_uuid"`
+	WayStatus            string        `json:"way_status"`
+	WayIsPrivate         bool          `json:"way_is_private"`
+}
+
+func (q *Queries) GetWayCollectionJoinWayByUserId(ctx context.Context, ownerUuid uuid.UUID) ([]GetWayCollectionJoinWayByUserIdRow, error) {
+	rows, err := q.query(ctx, q.getWayCollectionJoinWayByUserIdStmt, getWayCollectionJoinWayByUserId, ownerUuid)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []GetWayCollectionJoinWayByUserIdRow{}
+	for rows.Next() {
+		var i GetWayCollectionJoinWayByUserIdRow
+		if err := rows.Scan(
+			&i.CollectionUuid,
+			&i.CollectionCreatedAt,
+			&i.CollectionUpdatedAt,
+			&i.CollectionName,
+			&i.WayUuid,
+			&i.WayName,
+			&i.WayDescription,
+			&i.WayUpdatedAt,
+			&i.WayCreatedAt,
+			&i.WayEstimationTime,
+			&i.WayOwnerUuid,
+			&i.WayCopiedFromWayUuid,
+			&i.WayStatus,
+			&i.WayIsPrivate,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }

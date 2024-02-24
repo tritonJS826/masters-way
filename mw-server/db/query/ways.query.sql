@@ -15,8 +15,26 @@ INSERT INTO ways(
 
 
 -- name: GetWayById :one
-SELECT * FROM ways
-WHERE uuid = $1
+SELECT 
+    ways.uuid,
+    ways.name,
+    ways.goal_description,
+    ways.updated_at,
+    ways.created_at,
+    ways.estimation_time,
+    ways.copied_from_way_uuid,
+    ways.status,
+    ways.is_private,
+    users.uuid AS owner_uuid,
+    users.name AS owner_name,
+    users.email AS owner_email,
+    users.description AS owner_description,
+    users.created_at AS owner_created_at,
+    users.image_url AS owner_image_url,
+    users.is_mentor AS owner_is_mentor
+FROM ways
+JOIN users ON users.uuid = ways.owner_uuid
+WHERE ways.uuid = $1
 LIMIT 1;
 
 

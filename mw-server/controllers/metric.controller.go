@@ -8,6 +8,7 @@ import (
 
 	db "mwserver/db/sqlc"
 	"mwserver/schemas"
+	"mwserver/util"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -41,12 +42,14 @@ func (cc *MetricController) CreateMetric(ctx *gin.Context) {
 	}
 
 	now := time.Now()
+
+	parsedTime, err := time.Parse(util.DEFAULT_STRING_LAYOUT, payload.DoneDate)
 	args := &db.CreateMetricParams{
 		Description:      payload.Description,
 		IsDone:           payload.IsDone,
-		DoneDate:         sql.NullInt32{Int32: int32(payload.DoneDate), Valid: payload.DoneDate != 0},
+		DoneDate:         sql.NullTime{Time: parsedTime, Valid: err != nil},
 		MetricEstimation: int32(payload.MetricEstimation),
-		WayUuid:          payload.WayUuid,
+		WayUuid:          uuid.MustParse(payload.WayUuid),
 		UpdatedAt:        now,
 	}
 
@@ -81,12 +84,13 @@ func (cc *MetricController) UpdateMetric(ctx *gin.Context) {
 	}
 
 	now := time.Now()
+	parsedTime, err := time.Parse(util.DEFAULT_STRING_LAYOUT, payload.DoneDate)
 	args := &db.UpdateMetricParams{
 		Uuid:             uuid.MustParse(metricId),
 		UpdatedAt:        sql.NullTime{Time: now, Valid: true},
 		Description:      sql.NullString{String: payload.Description, Valid: payload.Description != ""},
 		IsDone:           sql.NullBool{Bool: payload.IsDone, Valid: true},
-		DoneDate:         sql.NullInt32{Int32: int32(payload.DoneDate), Valid: payload.DoneDate != 0},
+		DoneDate:         sql.NullTime{Time: parsedTime, Valid: err != nil},
 		MetricEstimation: sql.NullInt32{Int32: int32(payload.MetricEstimation), Valid: payload.MetricEstimation != 0},
 	}
 

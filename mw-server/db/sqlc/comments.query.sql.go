@@ -70,7 +70,12 @@ SELECT
     comments.updated_at,
     comments.description,
     users.name AS owner_name,
-    users.uuid AS owner_uuid
+    users.uuid AS owner_uuid, 
+    users.email AS owner_email,
+    users.description AS owner_description,
+    users.created_at AS owner_created_at,
+    users.image_url AS owner_image_url,
+    users.is_mentor AS owner_is_mentor
 FROM comments
 JOIN users ON comments.owner_uuid = users.uuid
 WHERE day_report_uuid = $1
@@ -78,12 +83,17 @@ ORDER BY comments.created_at
 `
 
 type GetListCommentsByDayReportIdRow struct {
-	Uuid        uuid.UUID `json:"uuid"`
-	CreatedAt   time.Time `json:"created_at"`
-	UpdatedAt   time.Time `json:"updated_at"`
-	Description string    `json:"description"`
-	OwnerName   string    `json:"owner_name"`
-	OwnerUuid   uuid.UUID `json:"owner_uuid"`
+	Uuid             uuid.UUID      `json:"uuid"`
+	CreatedAt        time.Time      `json:"created_at"`
+	UpdatedAt        time.Time      `json:"updated_at"`
+	Description      string         `json:"description"`
+	OwnerName        string         `json:"owner_name"`
+	OwnerUuid        uuid.UUID      `json:"owner_uuid"`
+	OwnerEmail       string         `json:"owner_email"`
+	OwnerDescription string         `json:"owner_description"`
+	OwnerCreatedAt   time.Time      `json:"owner_created_at"`
+	OwnerImageUrl    sql.NullString `json:"owner_image_url"`
+	OwnerIsMentor    bool           `json:"owner_is_mentor"`
 }
 
 func (q *Queries) GetListCommentsByDayReportId(ctx context.Context, dayReportUuid uuid.UUID) ([]GetListCommentsByDayReportIdRow, error) {
@@ -102,6 +112,11 @@ func (q *Queries) GetListCommentsByDayReportId(ctx context.Context, dayReportUui
 			&i.Description,
 			&i.OwnerName,
 			&i.OwnerUuid,
+			&i.OwnerEmail,
+			&i.OwnerDescription,
+			&i.OwnerCreatedAt,
+			&i.OwnerImageUrl,
+			&i.OwnerIsMentor,
 		); err != nil {
 			return nil, err
 		}

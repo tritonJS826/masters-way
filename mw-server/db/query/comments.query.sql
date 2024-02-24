@@ -17,7 +17,12 @@ SELECT
     comments.updated_at,
     comments.description,
     users.name AS owner_name,
-    users.uuid AS owner_uuid
+    users.uuid AS owner_uuid, 
+    users.email AS owner_email,
+    users.description AS owner_description,
+    users.created_at AS owner_created_at,
+    users.image_url AS owner_image_url,
+    users.is_mentor AS owner_is_mentor
 FROM comments
 JOIN users ON comments.owner_uuid = users.uuid
 WHERE day_report_uuid = $1

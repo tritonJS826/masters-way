@@ -39,8 +39,8 @@ func (cc *ProblemJobTagController) CreateProblemJobTag(ctx *gin.Context) {
 	}
 
 	args := &db.CreateProblemsJobTagParams{
-		ProblemUuid: payload.ProblemUuid,
-		JobTagUuid:  payload.JobTagUuid,
+		ProblemUuid: uuid.MustParse(payload.ProblemUuid),
+		JobTagUuid:  uuid.MustParse(payload.JobTagUuid),
 	}
 
 	problemJobTag, err := cc.db.CreateProblemsJobTag(ctx, *args)
