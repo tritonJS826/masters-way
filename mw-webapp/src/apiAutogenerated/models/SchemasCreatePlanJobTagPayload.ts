@@ -24,13 +24,13 @@ export interface SchemasCreatePlanJobTagPayload {
      * @type {string}
      * @memberof SchemasCreatePlanJobTagPayload
      */
-    jobTagUuid?: string;
+    jobTagUuid: string;
     /**
      * 
      * @type {string}
      * @memberof SchemasCreatePlanJobTagPayload
      */
-    planUuid?: string;
+    planUuid: string;
 }
 
 /**
@@ -40,6 +40,8 @@ export function instanceOfSchemasCreatePlanJobTagPayload(
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "jobTagUuid" in value;
+    isInstance = isInstance && "planUuid" in value;
 
     return isInstance;
 }
@@ -57,8 +59,8 @@ export function SchemasCreatePlanJobTagPayloadFromJSONTyped(
     }
     return {
         
-        'jobTagUuid': !exists(json, 'jobTagUuid') ? undefined : json['jobTagUuid'],
-        'planUuid': !exists(json, 'planUuid') ? undefined : json['planUuid'],
+        'jobTagUuid': json['jobTagUuid'],
+        'planUuid': json['planUuid'],
     };
 }
 

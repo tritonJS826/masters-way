@@ -31,19 +31,19 @@ export interface SchemasProblemPlainResponse {
      * @type {string}
      * @memberof SchemasProblemPlainResponse
      */
-    description?: string;
+    description: string;
     /**
      * 
      * @type {boolean}
      * @memberof SchemasProblemPlainResponse
      */
-    isDone?: boolean;
+    isDone: boolean;
     /**
      * 
      * @type {SchemasUserPlainResponse}
      * @memberof SchemasProblemPlainResponse
      */
-    owner?: SchemasUserPlainResponse;
+    owner: SchemasUserPlainResponse;
 }
 
 /**
@@ -53,6 +53,9 @@ export function instanceOfSchemasProblemPlainResponse(
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "description" in value;
+    isInstance = isInstance && "isDone" in value;
+    isInstance = isInstance && "owner" in value;
 
     return isInstance;
 }
@@ -70,9 +73,9 @@ export function SchemasProblemPlainResponseFromJSONTyped(
     }
     return {
         
-        'description': !exists(json, 'description') ? undefined : json['description'],
-        'isDone': !exists(json, 'isDone') ? undefined : json['isDone'],
-        'owner': !exists(json, 'owner') ? undefined : SchemasUserPlainResponseFromJSON(json['owner']),
+        'description': json['description'],
+        'isDone': json['isDone'],
+        'owner': SchemasUserPlainResponseFromJSON(json['owner']),
     };
 }
 

@@ -24,13 +24,13 @@ export interface SchemasCreateDayReportPayload {
      * @type {boolean}
      * @memberof SchemasCreateDayReportPayload
      */
-    isDayOff?: boolean;
+    isDayOff: boolean;
     /**
      * 
      * @type {string}
      * @memberof SchemasCreateDayReportPayload
      */
-    wayUuid?: string;
+    wayUuid: string;
 }
 
 /**
@@ -40,6 +40,8 @@ export function instanceOfSchemasCreateDayReportPayload(
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "isDayOff" in value;
+    isInstance = isInstance && "wayUuid" in value;
 
     return isInstance;
 }
@@ -57,8 +59,8 @@ export function SchemasCreateDayReportPayloadFromJSONTyped(
     }
     return {
         
-        'isDayOff': !exists(json, 'isDayOff') ? undefined : json['isDayOff'],
-        'wayUuid': !exists(json, 'wayUuid') ? undefined : json['wayUuid'],
+        'isDayOff': json['isDayOff'],
+        'wayUuid': json['wayUuid'],
     };
 }
 

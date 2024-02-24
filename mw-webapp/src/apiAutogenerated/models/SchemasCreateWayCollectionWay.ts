@@ -24,13 +24,13 @@ export interface SchemasCreateWayCollectionWay {
      * @type {string}
      * @memberof SchemasCreateWayCollectionWay
      */
-    wayCollectionsUuid?: string;
+    wayCollectionsUuid: string;
     /**
      * 
      * @type {string}
      * @memberof SchemasCreateWayCollectionWay
      */
-    wayUuid?: string;
+    wayUuid: string;
 }
 
 /**
@@ -40,6 +40,8 @@ export function instanceOfSchemasCreateWayCollectionWay(
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "wayCollectionsUuid" in value;
+    isInstance = isInstance && "wayUuid" in value;
 
     return isInstance;
 }
@@ -57,8 +59,8 @@ export function SchemasCreateWayCollectionWayFromJSONTyped(
     }
     return {
         
-        'wayCollectionsUuid': !exists(json, 'wayCollectionsUuid') ? undefined : json['wayCollectionsUuid'],
-        'wayUuid': !exists(json, 'wayUuid') ? undefined : json['wayUuid'],
+        'wayCollectionsUuid': json['wayCollectionsUuid'],
+        'wayUuid': json['wayUuid'],
     };
 }
 

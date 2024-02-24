@@ -24,13 +24,13 @@ export interface SchemasCreateFromUserMentoringRequestPayload {
      * @type {string}
      * @memberof SchemasCreateFromUserMentoringRequestPayload
      */
-    userUuid?: string;
+    userUuid: string;
     /**
      * 
      * @type {string}
      * @memberof SchemasCreateFromUserMentoringRequestPayload
      */
-    wayUuid?: string;
+    wayUuid: string;
 }
 
 /**
@@ -40,6 +40,8 @@ export function instanceOfSchemasCreateFromUserMentoringRequestPayload(
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "userUuid" in value;
+    isInstance = isInstance && "wayUuid" in value;
 
     return isInstance;
 }
@@ -57,8 +59,8 @@ export function SchemasCreateFromUserMentoringRequestPayloadFromJSONTyped(
     }
     return {
         
-        'userUuid': !exists(json, 'userUuid') ? undefined : json['userUuid'],
-        'wayUuid': !exists(json, 'wayUuid') ? undefined : json['wayUuid'],
+        'userUuid': json['userUuid'],
+        'wayUuid': json['wayUuid'],
     };
 }
 

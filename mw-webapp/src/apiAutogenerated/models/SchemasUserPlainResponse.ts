@@ -24,43 +24,43 @@ export interface SchemasUserPlainResponse {
      * @type {string}
      * @memberof SchemasUserPlainResponse
      */
-    createdAt?: string;
+    createdAt: string;
     /**
      * 
      * @type {string}
      * @memberof SchemasUserPlainResponse
      */
-    description?: string;
+    description: string;
     /**
      * 
      * @type {string}
      * @memberof SchemasUserPlainResponse
      */
-    email?: string;
+    email: string;
     /**
      * 
      * @type {string}
      * @memberof SchemasUserPlainResponse
      */
-    imageUrl?: string;
+    imageUrl: string | null;
     /**
      * 
      * @type {boolean}
      * @memberof SchemasUserPlainResponse
      */
-    isMentor?: boolean;
+    isMentor: boolean;
     /**
      * 
      * @type {string}
      * @memberof SchemasUserPlainResponse
      */
-    name?: string;
+    name: string;
     /**
      * 
      * @type {string}
      * @memberof SchemasUserPlainResponse
      */
-    uuid?: string;
+    uuid: string;
 }
 
 /**
@@ -70,6 +70,13 @@ export function instanceOfSchemasUserPlainResponse(
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "createdAt" in value;
+    isInstance = isInstance && "description" in value;
+    isInstance = isInstance && "email" in value;
+    isInstance = isInstance && "imageUrl" in value;
+    isInstance = isInstance && "isMentor" in value;
+    isInstance = isInstance && "name" in value;
+    isInstance = isInstance && "uuid" in value;
 
     return isInstance;
 }
@@ -87,13 +94,13 @@ export function SchemasUserPlainResponseFromJSONTyped(
     }
     return {
         
-        'createdAt': !exists(json, 'createdAt') ? undefined : json['createdAt'],
-        'description': !exists(json, 'description') ? undefined : json['description'],
-        'email': !exists(json, 'email') ? undefined : json['email'],
-        'imageUrl': !exists(json, 'imageUrl') ? undefined : json['imageUrl'],
-        'isMentor': !exists(json, 'isMentor') ? undefined : json['isMentor'],
-        'name': !exists(json, 'name') ? undefined : json['name'],
-        'uuid': !exists(json, 'uuid') ? undefined : json['uuid'],
+        'createdAt': json['createdAt'],
+        'description': json['description'],
+        'email': json['email'],
+        'imageUrl': json['imageUrl'],
+        'isMentor': json['isMentor'],
+        'name': json['name'],
+        'uuid': json['uuid'],
     };
 }
 

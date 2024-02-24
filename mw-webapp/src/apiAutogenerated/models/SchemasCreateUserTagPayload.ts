@@ -24,13 +24,13 @@ export interface SchemasCreateUserTagPayload {
      * @type {string}
      * @memberof SchemasCreateUserTagPayload
      */
-    name?: string;
+    name: string;
     /**
      * 
      * @type {string}
      * @memberof SchemasCreateUserTagPayload
      */
-    ownerUuid?: string;
+    ownerUuid: string;
 }
 
 /**
@@ -40,6 +40,8 @@ export function instanceOfSchemasCreateUserTagPayload(
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "name" in value;
+    isInstance = isInstance && "ownerUuid" in value;
 
     return isInstance;
 }
@@ -57,8 +59,8 @@ export function SchemasCreateUserTagPayloadFromJSONTyped(
     }
     return {
         
-        'name': !exists(json, 'name') ? undefined : json['name'],
-        'ownerUuid': !exists(json, 'ownerUuid') ? undefined : json['ownerUuid'],
+        'name': json['name'],
+        'ownerUuid': json['ownerUuid'],
     };
 }
 

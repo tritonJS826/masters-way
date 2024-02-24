@@ -24,13 +24,13 @@ export interface SchemasCreateJobDoneJobTagPayload {
      * @type {string}
      * @memberof SchemasCreateJobDoneJobTagPayload
      */
-    jobDoneUuid?: string;
+    jobDoneUuid: string;
     /**
      * 
      * @type {string}
      * @memberof SchemasCreateJobDoneJobTagPayload
      */
-    jobTagUuid?: string;
+    jobTagUuid: string;
 }
 
 /**
@@ -40,6 +40,8 @@ export function instanceOfSchemasCreateJobDoneJobTagPayload(
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "jobDoneUuid" in value;
+    isInstance = isInstance && "jobTagUuid" in value;
 
     return isInstance;
 }
@@ -57,8 +59,8 @@ export function SchemasCreateJobDoneJobTagPayloadFromJSONTyped(
     }
     return {
         
-        'jobDoneUuid': !exists(json, 'jobDoneUuid') ? undefined : json['jobDoneUuid'],
-        'jobTagUuid': !exists(json, 'jobTagUuid') ? undefined : json['jobTagUuid'],
+        'jobDoneUuid': json['jobDoneUuid'],
+        'jobTagUuid': json['jobTagUuid'],
     };
 }
 

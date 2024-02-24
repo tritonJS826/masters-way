@@ -31,13 +31,13 @@ export interface SchemasCommentPlainResponse {
      * @type {string}
      * @memberof SchemasCommentPlainResponse
      */
-    description?: string;
+    description: string;
     /**
      * 
      * @type {SchemasUserPlainResponse}
      * @memberof SchemasCommentPlainResponse
      */
-    owner?: SchemasUserPlainResponse;
+    owner: SchemasUserPlainResponse;
 }
 
 /**
@@ -47,6 +47,8 @@ export function instanceOfSchemasCommentPlainResponse(
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "description" in value;
+    isInstance = isInstance && "owner" in value;
 
     return isInstance;
 }
@@ -64,8 +66,8 @@ export function SchemasCommentPlainResponseFromJSONTyped(
     }
     return {
         
-        'description': !exists(json, 'description') ? undefined : json['description'],
-        'owner': !exists(json, 'owner') ? undefined : SchemasUserPlainResponseFromJSON(json['owner']),
+        'description': json['description'],
+        'owner': SchemasUserPlainResponseFromJSON(json['owner']),
     };
 }
 

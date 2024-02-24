@@ -24,13 +24,13 @@ export interface SchemasCreateFavoriteUserWayPayload {
      * @type {string}
      * @memberof SchemasCreateFavoriteUserWayPayload
      */
-    userUuid?: string;
+    userUuid: string;
     /**
      * 
      * @type {string}
      * @memberof SchemasCreateFavoriteUserWayPayload
      */
-    wayUuid?: string;
+    wayUuid: string;
 }
 
 /**
@@ -40,6 +40,8 @@ export function instanceOfSchemasCreateFavoriteUserWayPayload(
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "userUuid" in value;
+    isInstance = isInstance && "wayUuid" in value;
 
     return isInstance;
 }
@@ -57,8 +59,8 @@ export function SchemasCreateFavoriteUserWayPayloadFromJSONTyped(
     }
     return {
         
-        'userUuid': !exists(json, 'userUuid') ? undefined : json['userUuid'],
-        'wayUuid': !exists(json, 'wayUuid') ? undefined : json['wayUuid'],
+        'userUuid': json['userUuid'],
+        'wayUuid': json['wayUuid'],
     };
 }
 

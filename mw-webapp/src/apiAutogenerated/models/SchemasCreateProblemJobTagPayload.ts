@@ -24,13 +24,13 @@ export interface SchemasCreateProblemJobTagPayload {
      * @type {string}
      * @memberof SchemasCreateProblemJobTagPayload
      */
-    jobTagUuid?: string;
+    jobTagUuid: string;
     /**
      * 
      * @type {string}
      * @memberof SchemasCreateProblemJobTagPayload
      */
-    problemUuid?: string;
+    problemUuid: string;
 }
 
 /**
@@ -40,6 +40,8 @@ export function instanceOfSchemasCreateProblemJobTagPayload(
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "jobTagUuid" in value;
+    isInstance = isInstance && "problemUuid" in value;
 
     return isInstance;
 }
@@ -57,8 +59,8 @@ export function SchemasCreateProblemJobTagPayloadFromJSONTyped(
     }
     return {
         
-        'jobTagUuid': !exists(json, 'jobTagUuid') ? undefined : json['jobTagUuid'],
-        'problemUuid': !exists(json, 'problemUuid') ? undefined : json['problemUuid'],
+        'jobTagUuid': json['jobTagUuid'],
+        'problemUuid': json['problemUuid'],
     };
 }
 
