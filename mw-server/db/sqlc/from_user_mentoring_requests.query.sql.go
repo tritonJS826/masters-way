@@ -98,3 +98,44 @@ func (q *Queries) GetFromUserMentoringRequestWaysByUserId(ctx context.Context, u
 	}
 	return items, nil
 }
+
+const getFromUserMentoringRequestWaysByWayId = `-- name: GetFromUserMentoringRequestWaysByWayId :many
+SELECT 
+    users.uuid, users.name, users.email, users.description, users.created_at, users.image_url, users.is_mentor
+FROM from_user_mentoring_requests
+JOIN users
+    ON $1 = from_user_mentoring_requests.way_uuid 
+    AND from_user_mentoring_requests.user_uuid = users.uuid
+WHERE ways.uuid = $1
+`
+
+func (q *Queries) GetFromUserMentoringRequestWaysByWayId(ctx context.Context, wayUuid uuid.UUID) ([]User, error) {
+	rows, err := q.query(ctx, q.getFromUserMentoringRequestWaysByWayIdStmt, getFromUserMentoringRequestWaysByWayId, wayUuid)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []User{}
+	for rows.Next() {
+		var i User
+		if err := rows.Scan(
+			&i.Uuid,
+			&i.Name,
+			&i.Email,
+			&i.Description,
+			&i.CreatedAt,
+			&i.ImageUrl,
+			&i.IsMentor,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}

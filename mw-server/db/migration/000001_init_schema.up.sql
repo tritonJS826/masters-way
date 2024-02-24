@@ -40,6 +40,12 @@ CREATE TABLE former_mentors_ways(
     CONSTRAINT former_mentors_ways_pkey PRIMARY KEY (former_mentor_uuid, way_uuid)
 );
 
+CREATE TABLE mentor_users_ways(
+    "user_uuid" UUID NOT NULL REFERENCES users("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
+    "way_uuid" UUID NOT NULL REFERENCES ways("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT mentor_users_ways_pkey PRIMARY KEY (user_uuid, way_uuid)
+);
+
 CREATE TABLE favorite_users_ways(
     "user_uuid" UUID NOT NULL REFERENCES users("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
     "way_uuid" UUID NOT NULL REFERENCES ways("uuid") ON UPDATE CASCADE ON DELETE CASCADE,

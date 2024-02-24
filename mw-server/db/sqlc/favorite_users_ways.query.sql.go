@@ -46,3 +46,33 @@ func (q *Queries) DeleteFavoriteUserWayByIds(ctx context.Context, arg DeleteFavo
 	_, err := q.exec(ctx, q.deleteFavoriteUserWayByIdsStmt, deleteFavoriteUserWayByIds, arg.UserUuid, arg.WayUuid)
 	return err
 }
+
+const getFavoriteForUserUuidsByWayId = `-- name: GetFavoriteForUserUuidsByWayId :many
+SELECT users.uuid from ways
+JOIN favorite_users_ways ON favorite_users_ways.way_uuid = ways.uuid
+JOIN users ON users.uuid = favorite_users_ways.user_uuid
+WHERE way_uuid = $1
+`
+
+func (q *Queries) GetFavoriteForUserUuidsByWayId(ctx context.Context, wayUuid uuid.UUID) ([]uuid.UUID, error) {
+	rows, err := q.query(ctx, q.getFavoriteForUserUuidsByWayIdStmt, getFavoriteForUserUuidsByWayId, wayUuid)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []uuid.UUID{}
+	for rows.Next() {
+		var uuid uuid.UUID
+		if err := rows.Scan(&uuid); err != nil {
+			return nil, err
+		}
+		items = append(items, uuid)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}

@@ -46,3 +46,33 @@ func (q *Queries) DeleteToUserMentoringRequestByIds(ctx context.Context, arg Del
 	_, err := q.exec(ctx, q.deleteToUserMentoringRequestByIdsStmt, deleteToUserMentoringRequestByIds, arg.UserUuid, arg.WayUuid)
 	return err
 }
+
+const getToMentorUserRequestsByWayId = `-- name: GetToMentorUserRequestsByWayId :many
+SELECT users.uuid from ways
+JOIN to_user_mentoring_requests ON to_user_mentoring_requests.way_uuid = ways.uuid
+JOIN users ON users.uuid = to_user_mentoring_requests.user_uuid
+WHERE way_uuid = $1
+`
+
+func (q *Queries) GetToMentorUserRequestsByWayId(ctx context.Context, wayUuid uuid.UUID) ([]uuid.UUID, error) {
+	rows, err := q.query(ctx, q.getToMentorUserRequestsByWayIdStmt, getToMentorUserRequestsByWayId, wayUuid)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []uuid.UUID{}
+	for rows.Next() {
+		var uuid uuid.UUID
+		if err := rows.Scan(&uuid); err != nil {
+			return nil, err
+		}
+		items = append(items, uuid)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}

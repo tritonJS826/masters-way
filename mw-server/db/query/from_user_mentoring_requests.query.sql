@@ -27,3 +27,12 @@ FROM from_user_mentoring_requests
 JOIN ways 
     ON $1 = from_user_mentoring_requests.user_uuid 
     AND from_user_mentoring_requests.way_uuid = ways.uuid;
+
+-- name: GetFromUserMentoringRequestWaysByWayId :many
+SELECT 
+    users.*
+FROM from_user_mentoring_requests
+JOIN users
+    ON $1 = from_user_mentoring_requests.way_uuid 
+    AND from_user_mentoring_requests.user_uuid = users.uuid
+WHERE ways.uuid = $1;

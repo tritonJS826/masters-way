@@ -71,6 +71,11 @@ type JobTag struct {
 	WayUuid     uuid.UUID `json:"way_uuid"`
 }
 
+type MentorUsersWay struct {
+	UserUuid uuid.UUID `json:"user_uuid"`
+	WayUuid  uuid.UUID `json:"way_uuid"`
+}
+
 type Metric struct {
 	Uuid             uuid.UUID    `json:"uuid"`
 	CreatedAt        time.Time    `json:"created_at"`
