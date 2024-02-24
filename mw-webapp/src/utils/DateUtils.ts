@@ -19,8 +19,8 @@ export class DateUtils {
   /**
    * Date that was {@link amount} days ago
    */
-  public static getLastDate(amount: number): Date {
-    const currentDate = new Date();
+  public static getLastDate(amount: number, date?: Date): Date {
+    const currentDate = date ?? new Date();
     const dateInPast = new Date(currentDate.getTime() - (amount * DAY_MILLISECONDS));
 
     return new Date(dateInPast.toDateString());
@@ -31,6 +31,27 @@ export class DateUtils {
    */
   public static roundToDate(date: Date): Date {
     return new Date (date.toDateString());
+  }
+
+  /**
+   * Get dates between two dates
+   */
+  public static getDatesBetween(startDate: Date, endDate: Date): Date[] {
+    const timeDifferenceInMilliseconds = Math.abs(endDate.getTime() - startDate.getTime());
+    const daysAmountInRange = Math.ceil(timeDifferenceInMilliseconds / DAY_MILLISECONDS);
+    const datesList = new Array(daysAmountInRange)
+      .fill(null)
+      .map((item, i) => {
+
+        /**
+         * TODO #573: Correction need because method getShortISODateValue return time in GMT format but we need UTC format
+         */
+        const correction = DAY_MILLISECONDS;
+
+        return new Date(startDate.getTime() + (i * DAY_MILLISECONDS) + correction);
+      });
+
+    return datesList;
   }
 
 }
