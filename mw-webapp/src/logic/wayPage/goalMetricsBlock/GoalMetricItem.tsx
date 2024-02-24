@@ -58,16 +58,10 @@ export const GoalMetricItem = (props: SingleGoalMetricProps) => {
       className={styles.singularMetric}
     >
       <HorizontalContainer className={styles.horizontalContainer}>
-        {!props.metric.isDone ?
-          <Checkbox
-            isEditable={props.isEditable}
-            isDefaultChecked={props.metric.isDone}
-            className={styles.checkbox}
-            onChange={(isDone) => props.updateMetric({...props.metric, isDone, doneDate: new Date()})}
-          /> :
+        {props.metric.isDone && props.isEditable ?
           <Confirm
             content={<p>
-              {`Are you sure that you want set metric ${props.metric.description} not completed`}
+              {`Are you sure that you want set metric ${props.metric.description} as not completed`}
             </p>}
             onOk={onOk}
             okText="Confirm"
@@ -76,9 +70,15 @@ export const GoalMetricItem = (props: SingleGoalMetricProps) => {
                 isEditable={false}
                 isDefaultChecked={props.metric.isDone}
                 className={styles.checkbox}
-                onChange={(isDone) => props.updateMetric({...props.metric, isDone, doneDate: new Date()})}
+                onChange={(isDone) => isDone}
               />
             }
+          /> :
+          <Checkbox
+            isEditable={props.isEditable}
+            isDefaultChecked={props.metric.isDone}
+            className={styles.checkbox}
+            onChange={(isDone) => props.updateMetric({...props.metric, isDone, doneDate: new Date()})}
           />}
         <Tooltip content={tooltipContent}>
           <EditableValue
