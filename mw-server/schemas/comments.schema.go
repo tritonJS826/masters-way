@@ -1,20 +1,21 @@
 package schemas
 
-import (
-	"github.com/google/uuid"
-)
+import "time"
 
 type CreateCommentPayload struct {
-	Description   string    `json:"description" validate:"required"`
-	DayReportUuid uuid.UUID `json:"dayReportUuid" validate:"required"`
-	OwnerUuid     uuid.UUID `json:"ownerUuid" validate:"required"`
+	Description   string `json:"description" validate:"required"`
+	DayReportUuid string `json:"dayReportUuid" validate:"required"`
+	OwnerUuid     string `json:"ownerUuid" validate:"required"`
 }
 
 type UpdateCommentPayload struct {
 	Description string `json:"description"`
 }
 
-type CommentPlainResponse struct {
+type CommentPopulatedResponse struct {
+	Uuid        string            `json:"uuid" validate:"required"`
 	Description string            `json:"description" validate:"required"`
 	Owner       UserPlainResponse `json:"owner" validate:"required"`
+	CreatedAt   time.Time         `json:"createdAt" validate:"required"`
+	UpdatedAt   time.Time         `json:"updatedAt" validate:"required"`
 }

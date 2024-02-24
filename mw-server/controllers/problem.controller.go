@@ -46,8 +46,8 @@ func (cc *ProblemController) CreateProblem(ctx *gin.Context) {
 		UpdatedAt:     now,
 		Description:   payload.Description,
 		IsDone:        payload.IsDone,
-		OwnerUuid:     payload.OwnerUuid,
-		DayReportUuid: payload.DayReportUuid,
+		OwnerUuid:     uuid.MustParse(payload.OwnerUuid),
+		DayReportUuid: uuid.MustParse(payload.DayReportUuid),
 	}
 
 	problem, err := cc.db.CreateProblem(ctx, *args)

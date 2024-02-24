@@ -1,11 +1,5 @@
 package schemas
 
-import (
-	"time"
-
-	"github.com/google/uuid"
-)
-
 type CreateUserPayload struct {
 	Name        string `json:"name" validate:"required"`
 	Email       string `json:"email" validate:"required"`
@@ -15,13 +9,13 @@ type CreateUserPayload struct {
 }
 
 type UserPlainResponse struct {
-	Uuid        uuid.UUID `json:"uuid" validate:"required"`
-	Name        string    `json:"name" validate:"required"`
-	Email       string    `json:"email" validate:"required"`
-	Description string    `json:"description" validate:"required"`
-	CreatedAt   time.Time `json:"createdAt" validate:"required"`
-	ImageUrl    string    `json:"imageUrl" validate:"required" extensions:"x-nullable"`
-	IsMentor    bool      `json:"isMentor" validate:"required"`
+	Uuid        string `json:"uuid" validate:"required"`
+	Name        string `json:"name" validate:"required"`
+	Email       string `json:"email" validate:"required"`
+	Description string `json:"description" validate:"required"`
+	CreatedAt   string `json:"createdAt" validate:"required"`
+	ImageUrl    string `json:"imageUrl" validate:"required" extensions:"x-nullable"`
+	IsMentor    bool   `json:"isMentor" validate:"required"`
 }
 type UpdateUserPayload struct {
 	Name        string `json:"name"`
@@ -32,16 +26,13 @@ type UpdateUserPayload struct {
 }
 
 type UserPopulatedResponse struct {
-	Uuid             uuid.UUID                        `json:"uuid" validate:"required"`
+	Uuid             string                           `json:"uuid" validate:"required"`
 	Name             string                           `json:"name" validate:"required"`
 	Email            string                           `json:"email" validate:"required"`
 	Description      string                           `json:"description" validate:"required"`
-	CreatedAt        time.Time                        `json:"createdAt" validate:"required"`
+	CreatedAt        string                           `json:"createdAt" validate:"required"`
 	ImageUrl         string                           `json:"imageUrl" validate:"required" extensions:"x-nullable"`
 	IsMentor         bool                             `json:"isMentor" validate:"required"`
-	OwnWays          []WayPlainResponse               `json:"ownWays" validate:"required"`
-	FavoriteWays     []WayPlainResponse               `json:"favoriteWays" validate:"required"`
-	MentoringWays    []WayPlainResponse               `json:"mentoringWays" validate:"required"`
 	WayCollections   []WayCollectionPopulatedResponse `json:"wayCollections" validate:"required"`
 	FavoriteForUsers []string                         `json:"favoriteForUsers" validate:"required"`
 	FavoriteUsers    []UserPlainResponse              `json:"favoriteUsers" validate:"required"`

@@ -39,8 +39,8 @@ func (cc *ToUserMentoringRequestController) CreateToUserMentoringRequest(ctx *gi
 	}
 
 	args := &db.CreateToUserMentoringRequestParams{
-		UserUuid: payload.UserUuid,
-		WayUuid:  payload.WayUuid,
+		UserUuid: uuid.MustParse(payload.UserUuid),
+		WayUuid:  uuid.MustParse(payload.WayUuid),
 	}
 
 	ToUserMentoringRequest, err := cc.db.CreateToUserMentoringRequest(ctx, *args)

@@ -72,14 +72,14 @@ type JobTag struct {
 }
 
 type Metric struct {
-	Uuid             uuid.UUID     `json:"uuid"`
-	CreatedAt        time.Time     `json:"created_at"`
-	UpdatedAt        time.Time     `json:"updated_at"`
-	Description      string        `json:"description"`
-	IsDone           bool          `json:"is_done"`
-	DoneDate         sql.NullInt32 `json:"done_date"`
-	MetricEstimation int32         `json:"metric_estimation"`
-	WayUuid          uuid.UUID     `json:"way_uuid"`
+	Uuid             uuid.UUID    `json:"uuid"`
+	CreatedAt        time.Time    `json:"created_at"`
+	UpdatedAt        time.Time    `json:"updated_at"`
+	Description      string       `json:"description"`
+	IsDone           bool         `json:"is_done"`
+	DoneDate         sql.NullTime `json:"done_date"`
+	MetricEstimation int32        `json:"metric_estimation"`
+	WayUuid          uuid.UUID    `json:"way_uuid"`
 }
 
 type Plan struct {

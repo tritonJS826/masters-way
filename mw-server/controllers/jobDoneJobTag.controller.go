@@ -39,8 +39,8 @@ func (cc *JobDoneJobTagController) CreateJobDoneJobTag(ctx *gin.Context) {
 	}
 
 	args := &db.CreateJobDonesJobTagParams{
-		JobDoneUuid: payload.JobDoneUuid,
-		JobTagUuid:  payload.JobTagUuid,
+		JobDoneUuid: uuid.MustParse(payload.JobDoneUuid),
+		JobTagUuid:  uuid.MustParse(payload.JobTagUuid),
 	}
 
 	jobDoneJobTag, err := cc.db.CreateJobDonesJobTag(ctx, *args)

@@ -43,8 +43,8 @@ func (cc *CommentController) CreateComment(ctx *gin.Context) {
 	now := time.Now()
 	args := &db.CreateCommentParams{
 		Description:   payload.Description,
-		OwnerUuid:     payload.OwnerUuid,
-		DayReportUuid: payload.DayReportUuid,
+		OwnerUuid:     uuid.MustParse(payload.OwnerUuid),
+		DayReportUuid: uuid.MustParse(payload.DayReportUuid),
 		UpdatedAt:     now,
 		CreatedAt:     now,
 	}

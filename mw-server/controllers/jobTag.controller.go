@@ -41,7 +41,7 @@ func (cc *JobTagController) CreateJobTag(ctx *gin.Context) {
 
 	args := &db.CreateJobTagParams{
 		Name:        payload.Name,
-		WayUuid:     payload.WayUuid,
+		WayUuid:     uuid.MustParse(payload.WayUuid),
 		Description: payload.Description,
 		Color:       payload.Color,
 	}

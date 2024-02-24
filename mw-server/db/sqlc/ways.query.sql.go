@@ -80,14 +80,51 @@ func (q *Queries) DeleteWay(ctx context.Context, argUuid uuid.UUID) error {
 }
 
 const getWayById = `-- name: GetWayById :one
-SELECT uuid, name, goal_description, updated_at, created_at, estimation_time, owner_uuid, copied_from_way_uuid, status, is_private FROM ways
-WHERE uuid = $1
+SELECT 
+    ways.uuid,
+    ways.name,
+    ways.goal_description,
+    ways.updated_at,
+    ways.created_at,
+    ways.estimation_time,
+    ways.copied_from_way_uuid,
+    ways.status,
+    ways.is_private,
+    users.uuid AS owner_uuid,
+    users.name AS owner_name,
+    users.email AS owner_email,
+    users.description AS owner_description,
+    users.created_at AS owner_created_at,
+    users.image_url AS owner_image_url,
+    users.is_mentor AS owner_is_mentor
+FROM ways
+JOIN users ON users.uuid = ways.owner_uuid
+WHERE ways.uuid = $1
 LIMIT 1
 `
 
-func (q *Queries) GetWayById(ctx context.Context, argUuid uuid.UUID) (Way, error) {
+type GetWayByIdRow struct {
+	Uuid              uuid.UUID      `json:"uuid"`
+	Name              string         `json:"name"`
+	GoalDescription   string         `json:"goal_description"`
+	UpdatedAt         time.Time      `json:"updated_at"`
+	CreatedAt         time.Time      `json:"created_at"`
+	EstimationTime    int32          `json:"estimation_time"`
+	CopiedFromWayUuid uuid.NullUUID  `json:"copied_from_way_uuid"`
+	Status            string         `json:"status"`
+	IsPrivate         bool           `json:"is_private"`
+	OwnerUuid         uuid.UUID      `json:"owner_uuid"`
+	OwnerName         string         `json:"owner_name"`
+	OwnerEmail        string         `json:"owner_email"`
+	OwnerDescription  string         `json:"owner_description"`
+	OwnerCreatedAt    time.Time      `json:"owner_created_at"`
+	OwnerImageUrl     sql.NullString `json:"owner_image_url"`
+	OwnerIsMentor     bool           `json:"owner_is_mentor"`
+}
+
+func (q *Queries) GetWayById(ctx context.Context, argUuid uuid.UUID) (GetWayByIdRow, error) {
 	row := q.queryRow(ctx, q.getWayByIdStmt, getWayById, argUuid)
-	var i Way
+	var i GetWayByIdRow
 	err := row.Scan(
 		&i.Uuid,
 		&i.Name,
@@ -95,10 +132,16 @@ func (q *Queries) GetWayById(ctx context.Context, argUuid uuid.UUID) (Way, error
 		&i.UpdatedAt,
 		&i.CreatedAt,
 		&i.EstimationTime,
-		&i.OwnerUuid,
 		&i.CopiedFromWayUuid,
 		&i.Status,
 		&i.IsPrivate,
+		&i.OwnerUuid,
+		&i.OwnerName,
+		&i.OwnerEmail,
+		&i.OwnerDescription,
+		&i.OwnerCreatedAt,
+		&i.OwnerImageUrl,
+		&i.OwnerIsMentor,
 	)
 	return i, err
 }

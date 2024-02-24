@@ -1,12 +1,8 @@
 package schemas
 
-import (
-	"github.com/google/uuid"
-)
-
 type CreateUserTagPayload struct {
-	Name      string    `json:"name" validate:"required"`
-	OwnerUuid uuid.UUID `json:"ownerUuid" validate:"required"`
+	Name      string `json:"name" validate:"required"`
+	OwnerUuid string `json:"ownerUuid" validate:"required"`
 }
 
 type UpdateUserTagPayload struct {

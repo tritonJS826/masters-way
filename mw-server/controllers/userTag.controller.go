@@ -41,7 +41,7 @@ func (cc *UserTagController) CreateUserTag(ctx *gin.Context) {
 
 	args := &db.CreateUserTagParams{
 		Name:      payload.Name,
-		OwnerUuid: payload.OwnerUuid,
+		OwnerUuid: uuid.MustParse(payload.OwnerUuid),
 	}
 
 	userTag, err := cc.db.CreateUserTag(ctx, *args)

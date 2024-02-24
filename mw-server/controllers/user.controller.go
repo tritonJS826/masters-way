@@ -13,6 +13,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+
+	"github.com/samber/lo"
 )
 
 type UserController struct {
@@ -59,11 +61,11 @@ func (cc *UserController) CreateUser(ctx *gin.Context) {
 	}
 
 	response := schemas.UserPlainResponse{
-		Uuid:        user.Uuid,
+		Uuid:        user.Uuid.String(),
 		Name:        user.Name,
 		Email:       user.Email,
 		Description: user.Description,
-		CreatedAt:   user.CreatedAt,
+		CreatedAt:   user.CreatedAt.String(),
 		ImageUrl:    util.MarshalNullString(user.ImageUrl).(string),
 		IsMentor:    user.IsMentor,
 	}
@@ -133,10 +135,6 @@ func (cc *UserController) UpdateUser(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, response)
 }
 
-type GetUserByIdResponseType struct {
-	user schemas.UserPopulatedResponse
-}
-
 // @Summary Get user by UUID
 // @Description
 // @Tags user
@@ -159,34 +157,89 @@ func (cc *UserController) GetUserById(ctx *gin.Context) {
 		return
 	}
 
-	// TODO: replace user with schemas.UserPopulatedResponse in response
-	ownWays := []schemas.WayPlainResponse{}
-	favoriteWays := []schemas.WayPlainResponse{}
-	mentoringWays := []schemas.WayPlainResponse{}
-	wayRequests := []schemas.WayPlainResponse{}
-	wayCollections := []schemas.WayCollectionPopulatedResponse{}
-	favoriteForUsersUuid := []string{}
-	favoriteUsers := []schemas.UserPlainResponse{}
-	tags := []schemas.UserTagResponse{}
+	ownWaysRaw, _ := cc.db.GetWayCollectionJoinWayByUserId(ctx, user.Uuid)
+	wayCollectionsMap := make(map[string]schemas.WayCollectionPopulatedResponse)
+	for _, collectionJoinWay := range ownWaysRaw {
+		way := schemas.WayPlainResponse{
+			Uuid:              collectionJoinWay.WayUuid.String(),
+			Name:              collectionJoinWay.WayName,
+			GoalDescription:   collectionJoinWay.WayDescription,
+			UpdatedAt:         collectionJoinWay.WayUpdatedAt.String(),
+			CreatedAt:         collectionJoinWay.WayCreatedAt.String(),
+			EstimationTime:    collectionJoinWay.WayEstimationTime,
+			Status:            collectionJoinWay.WayStatus,
+			OwnerUuid:         collectionJoinWay.WayOwnerUuid.String(),
+			CopiedFromWayUuid: util.MarshalNullUuid(collectionJoinWay.WayCopiedFromWayUuid).(string),
+			IsPrivate:         collectionJoinWay.WayIsPrivate,
+		}
 
-	response := GetUserByIdResponseType{
-		user: schemas.UserPopulatedResponse{
-			Uuid:             user.Uuid,
-			Name:             user.Name,
-			Email:            user.Email,
-			Description:      user.Description,
-			CreatedAt:        user.CreatedAt,
-			ImageUrl:         util.MarshalNullString(user.ImageUrl).(string),
-			IsMentor:         user.IsMentor,
-			OwnWays:          ownWays,
-			FavoriteWays:     favoriteWays,
-			MentoringWays:    mentoringWays,
-			WayCollections:   wayCollections,
-			FavoriteForUsers: favoriteForUsersUuid,
-			FavoriteUsers:    favoriteUsers,
-			Tags:             tags,
-			WayRequests:      wayRequests,
-		},
+		wayCollectionsMap[collectionJoinWay.CollectionUuid.String()] = schemas.WayCollectionPopulatedResponse{
+			Uuid:      collectionJoinWay.CollectionUuid.String(),
+			Name:      collectionJoinWay.CollectionName,
+			CreatedAt: collectionJoinWay.CollectionCreatedAt.String(),
+			UpdatedAt: collectionJoinWay.CollectionUpdatedAt.String(),
+			OwnerUuid: user.Uuid.String(),
+			Ways:      append(wayCollectionsMap[collectionJoinWay.CollectionUuid.String()].Ways, way),
+		}
+
+	}
+
+	wayCollections := util.MapToSlice(wayCollectionsMap)
+	tagsRaw, _ := cc.db.GetListUserTagsByUserId(ctx, user.Uuid)
+	tags := lo.Map(tagsRaw, func(dbUserTag db.UserTag, i int) schemas.UserTagResponse {
+		return schemas.UserTagResponse{
+			Name: dbUserTag.Name,
+			Uuid: dbUserTag.Uuid.String(),
+		}
+	})
+
+	wayRequestsRaw, _ := cc.db.GetFromUserMentoringRequestWaysByUserId(ctx, user.Uuid)
+	wayRequests := lo.Map(wayRequestsRaw, func(dbWay db.Way, i int) schemas.WayPlainResponse {
+		return schemas.WayPlainResponse{
+			Uuid:              dbWay.Uuid.String(),
+			Name:              dbWay.Name,
+			GoalDescription:   dbWay.GoalDescription,
+			UpdatedAt:         dbWay.UpdatedAt.String(),
+			CreatedAt:         dbWay.CreatedAt.String(),
+			EstimationTime:    dbWay.EstimationTime,
+			Status:            dbWay.Status,
+			OwnerUuid:         dbWay.OwnerUuid.String(),
+			CopiedFromWayUuid: util.MarshalNullUuid(dbWay.CopiedFromWayUuid).(string),
+			IsPrivate:         dbWay.IsPrivate,
+		}
+	})
+
+	favoriteForUsersUuidRaw, _ := cc.db.GetFavoriteUserUuidsByAcceptorUserId(ctx, user.Uuid)
+	favoriteForUsersUuid := lo.Map(favoriteForUsersUuidRaw, func(uuid uuid.UUID, i int) string {
+		return uuid.String()
+	})
+
+	favoriteUsersRaw, _ := cc.db.GetFavoriteUserByDonorUserId(ctx, user.Uuid)
+	favoriteUsers := lo.Map(favoriteUsersRaw, func(dbUser db.User, i int) schemas.UserPlainResponse {
+		return schemas.UserPlainResponse{
+			Uuid:        user.Uuid.String(),
+			Name:        user.Name,
+			Email:       user.Email,
+			Description: user.Description,
+			CreatedAt:   user.CreatedAt.String(),
+			ImageUrl:    util.MarshalNullString(user.ImageUrl).(string),
+			IsMentor:    user.IsMentor,
+		}
+	})
+
+	response := schemas.UserPopulatedResponse{
+		Uuid:             user.Uuid.String(),
+		Name:             user.Name,
+		Email:            user.Email,
+		Description:      user.Description,
+		CreatedAt:        user.CreatedAt.String(),
+		ImageUrl:         util.MarshalNullString(user.ImageUrl).(string),
+		IsMentor:         user.IsMentor,
+		WayCollections:   wayCollections,
+		FavoriteForUsers: favoriteForUsersUuid,
+		FavoriteUsers:    favoriteUsers,
+		Tags:             tags,
+		WayRequests:      wayRequests,
 	}
 
 	ctx.JSON(http.StatusOK, response)
@@ -226,10 +279,10 @@ func (cc *UserController) GetAllUsers(ctx *gin.Context) {
 	response := make([]schemas.UserPlainResponse, len(users))
 	for i, user := range users {
 		response[i] = schemas.UserPlainResponse{
-			Uuid:        user.Uuid,
+			Uuid:        user.Uuid.String(),
 			Name:        user.Name,
 			Description: user.Description,
-			CreatedAt:   user.CreatedAt,
+			CreatedAt:   user.CreatedAt.String(),
 			ImageUrl:    util.MarshalNullString(user.ImageUrl).(string),
 			IsMentor:    user.IsMentor,
 		}

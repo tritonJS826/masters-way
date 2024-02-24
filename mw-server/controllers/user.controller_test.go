@@ -32,7 +32,7 @@ func TestCreateUser2(t *testing.T) {
 	response := &responseType{}
 	MakeRequest(t, "POST", url, bytes.NewBuffer(jsonValue), response)
 
-	uuid.MustParse(response.User.Uuid.String())
+	uuid.MustParse(response.User.Uuid)
 	assert.Equal(t, response.User.Name, inputData.Name)
 	assert.Equal(t, response.User.Email, inputData.Email)
 	assert.Equal(t, response.User.Description, inputData.Description)
