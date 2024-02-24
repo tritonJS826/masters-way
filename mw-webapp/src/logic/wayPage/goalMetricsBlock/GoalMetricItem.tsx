@@ -1,4 +1,3 @@
-
 import {TrashIcon} from "@radix-ui/react-icons";
 import {Checkbox} from "src/component/checkbox/Сheckbox";
 import {Confirm} from "src/component/confirm/Confirm";
