@@ -44,19 +44,41 @@ export const GoalMetricItem = (props: SingleGoalMetricProps) => {
     ? `Done date ${DateUtils.getShortISODateValue(props.metric.doneDate)}`
     : "Not finished yet...";
 
+  /**
+   * Set metric not completed
+   */
+  const onOk = () => {
+    props.updateMetric({...props.metric, isDone: false, doneDate: new Date()});
+  };
+
   return (
     <div
       key={props.metric.uuid}
       className={styles.singularMetric}
     >
       <HorizontalContainer className={styles.horizontalContainer}>
-        <Checkbox
-          isEditable={props.isEditable}
-          isDefaultChecked={props.metric.isDone}
-          className={styles.checkbox}
-          // TODO #487: check logic about update doneDate. What if I accidentally clicked checkbox few times
-          onChange={(isDone) => props.updateMetric({...props.metric, isDone, doneDate: new Date()})}
-        />
+        {props.metric.isDone && props.isEditable ?
+          <Confirm
+            content={<p>
+              {`Are you sure that you want set metric ${props.metric.description} as not completed`}
+            </p>}
+            onOk={onOk}
+            okText="Confirm"
+            trigger={
+              <Checkbox
+                isEditable={false}
+                isDefaultChecked={props.metric.isDone}
+                className={styles.checkbox}
+                onChange={(isDone) => isDone}
+              />
+            }
+          /> :
+          <Checkbox
+            isEditable={props.isEditable}
+            isDefaultChecked={props.metric.isDone}
+            className={styles.checkbox}
+            onChange={(isDone) => props.updateMetric({...props.metric, isDone, doneDate: new Date()})}
+          />}
         <Tooltip content={tooltipContent}>
           <EditableValue
             value={props.metric.description ?? ""}
