@@ -10,4 +10,4 @@ pnpm dlx concurrently \
     "pnpm test" \
     "pnpm build-storybook" \
     "pnpm build" \
-    "cd ../mw-server && go build main.go"
+    # "cd ../mw-server && go build main.go"

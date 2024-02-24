@@ -1,5 +1,4 @@
 import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
-import {getDataCy} from "src/utils/cyTesting/getDataCy";
 
 describe("Accordion component", () => {
   const FIRST_TRIGGER = "trigger1";
@@ -33,57 +32,57 @@ describe("Accordion component", () => {
   it("should render the accordion and all options", () => {
     mountAccordion(accordionTypes.single);
 
-    cy.get(getDataCy(FIRST_CONTENT)).should("exist");
-    cy.get(getDataCy(SECOND_CONTENT)).should("exist");
-    cy.get(getDataCy(FIRST_TRIGGER)).should("exist");
-    cy.get(getDataCy(SECOND_TRIGGER)).should("exist");
+    cy.getByData(FIRST_CONTENT).should("exist");
+    cy.getByData(SECOND_CONTENT).should("exist");
+    cy.getByData(FIRST_TRIGGER).should("exist");
+    cy.getByData(SECOND_TRIGGER).should("exist");
   });
 
   it("should accordion option be closed (text hidden)", () => {
     mountAccordion(accordionTypes.single);
 
-    cy.get(getDataCy(FIRST_CONTENT)).should("be.not.visible");
+    cy.getByData(FIRST_CONTENT).should("be.not.visible");
   });
 
   it("should accordion option be opened when click trigger", () => {
     mountAccordion(accordionTypes.single);
 
-    cy.get(getDataCy(FIRST_TRIGGER)).click();
+    cy.getByData(FIRST_TRIGGER).click();
 
-    cy.get(getDataCy(FIRST_CONTENT)).should("be.visible");
+    cy.getByData(FIRST_CONTENT).should("be.visible");
   });
 
   it("should all options could be opened and closed one by one", () => {
     mountAccordion(accordionTypes.single);
 
-    cy.get(getDataCy(FIRST_TRIGGER)).click();
-    cy.get(getDataCy(SECOND_TRIGGER)).click();
+    cy.getByData(FIRST_TRIGGER).click();
+    cy.getByData(SECOND_TRIGGER).click();
 
-    cy.get(getDataCy(FIRST_CONTENT)).should("be.not.visible");
-    cy.get(getDataCy(SECOND_CONTENT)).should("be.visible");
+    cy.getByData(FIRST_CONTENT).should("be.not.visible");
+    cy.getByData(SECOND_CONTENT).should("be.visible");
   });
 
   it("should all options be opened and closed in multiple mode", () => {
     mountAccordion(accordionTypes.multiple);
 
-    cy.get(getDataCy(FIRST_TRIGGER)).click();
-    cy.get(getDataCy(SECOND_TRIGGER)).click();
+    cy.getByData(FIRST_TRIGGER).click();
+    cy.getByData(SECOND_TRIGGER).click();
 
-    cy.get(getDataCy(FIRST_CONTENT)).should("be.visible");
-    cy.get(getDataCy(SECOND_CONTENT)).should("be.visible");
+    cy.getByData(FIRST_CONTENT).should("be.visible");
+    cy.getByData(SECOND_CONTENT).should("be.visible");
   });
 
   it("should only one option be opened in not multiple mode", () => {
     mountAccordion(accordionTypes.single);
 
-    cy.get(getDataCy(FIRST_TRIGGER)).click();
+    cy.getByData(FIRST_TRIGGER).click();
 
-    cy.get(getDataCy(FIRST_CONTENT)).should("be.visible");
-    cy.get(getDataCy(SECOND_CONTENT)).should("be.not.visible");
+    cy.getByData(FIRST_CONTENT).should("be.visible");
+    cy.getByData(SECOND_CONTENT).should("be.not.visible");
 
-    cy.get(getDataCy(SECOND_TRIGGER)).click();
+    cy.getByData(SECOND_TRIGGER).click();
 
-    cy.get(getDataCy(FIRST_CONTENT)).should("be.not.visible");
-    cy.get(getDataCy(SECOND_CONTENT)).should("be.visible");
+    cy.getByData(FIRST_CONTENT).should("be.not.visible");
+    cy.getByData(SECOND_CONTENT).should("be.visible");
   });
 });
