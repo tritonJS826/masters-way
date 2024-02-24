@@ -1,8 +1,7 @@
 import {useEffect, useState} from "react";
-import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {LocalStorageData, localStorageWorker, WayPageSettings} from "src/utils/LocalStorageWorker";
 
-type usePersistanceStateParams<T extends keyof LocalStorageData> = {
+type usePersistanceStateParams<T extends keyof LocalStorageData, D> = {
 
   /**
    * Persistent value
@@ -26,15 +25,16 @@ type usePersistanceStateParams<T extends keyof LocalStorageData> = {
   /**
    * Dependencies.
    */
-  dependencies?: [UserPreview];
+  dependencies?: D[];
 };
 
 /**
  * Hook allows to have persistent state (persistent between sessions)
  */
 export const usePersistanceState = <
-  T extends keyof LocalStorageData
->(params: usePersistanceStateParams<T>): [
+  T extends keyof LocalStorageData,
+  D
+>(params: usePersistanceStateParams<T, D>): [
 
   /**
    * Persistent value
@@ -69,7 +69,7 @@ export const usePersistanceState = <
 
   useEffect(() => {
     setValue(validatedStoredValue);
-  }, params.dependencies || []);
+  }, params.dependencies ?? []);
 
   /**
    * Update persistent value partially

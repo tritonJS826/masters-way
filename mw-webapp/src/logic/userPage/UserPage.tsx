@@ -58,6 +58,11 @@ interface UserPageProps {
 }
 
 /**
+ * Dependencies Params
+ */
+type dependenciesParams = UserPreview;
+
+/**
  * Default ways collections
  */
 enum DefaultCollections {
@@ -107,7 +112,7 @@ const getAllWayCollections = (userPreview: UserPreview): WayCollection[] => [
  */
 export const UserPage = (props: UserPageProps) => {
   const [userPreview, setUserPreview] = useState<UserPreview>();
-  const [openedTabId, setOpenedTabId] = usePersistanceState({
+  const [openedTabId, setOpenedTabId] = usePersistanceState<"userPage.openedTabId", dependenciesParams>({
     key: "userPage.openedTabId",
     defaultValue: DefaultCollections.OWN,
 
