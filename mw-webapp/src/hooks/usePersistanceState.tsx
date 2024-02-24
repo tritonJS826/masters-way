@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {LocalStorageData, localStorageWorker, WayPageSettings} from "src/utils/LocalStorageWorker";
 
-type usePersistanceStateParams<T extends keyof LocalStorageData, D> = {
+type usePersistanceStateParams<T extends keyof LocalStorageData> = {
 
   /**
    * Persistent value
@@ -23,18 +23,17 @@ type usePersistanceStateParams<T extends keyof LocalStorageData, D> = {
   storedDataValidator?: (param: LocalStorageData[T]) => boolean;
 
   /**
-   * Dependencies.
+   * Dependencies
    */
-  dependencies?: D[];
+  dependencies?: unknown[];
 };
 
 /**
  * Hook allows to have persistent state (persistent between sessions)
  */
 export const usePersistanceState = <
-  T extends keyof LocalStorageData,
-  D
->(params: usePersistanceStateParams<T, D>): [
+  T extends keyof LocalStorageData
+>(params: usePersistanceStateParams<T>): [
 
   /**
    * Persistent value

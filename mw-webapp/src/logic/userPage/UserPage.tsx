@@ -58,11 +58,6 @@ interface UserPageProps {
 }
 
 /**
- * Dependencies Params
- */
-type dependenciesParams = UserPreview;
-
-/**
  * Default ways collections
  */
 enum DefaultCollections {
@@ -112,7 +107,7 @@ const getAllWayCollections = (userPreview: UserPreview): WayCollection[] => [
  */
 export const UserPage = (props: UserPageProps) => {
   const [userPreview, setUserPreview] = useState<UserPreview>();
-  const [openedTabId, setOpenedTabId] = usePersistanceState<"userPage.openedTabId", dependenciesParams>({
+  const [openedTabId, setOpenedTabId] = usePersistanceState({
     key: "userPage.openedTabId",
     defaultValue: DefaultCollections.OWN,
 
@@ -124,7 +119,7 @@ export const UserPage = (props: UserPageProps) => {
     ) => userPreview?.customWayCollections
       ? userPageSettingsValidator(currentValue, getAllWayCollections(userPreview))
       : true,
-    dependencies: [userPreview as UserPreview],
+    dependencies: [userPreview],
   });
   const [userPageSettings,, updateUserPageSettings] = usePersistanceState({
     key: "userPage",
