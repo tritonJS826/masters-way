@@ -48,7 +48,7 @@ export const GoalMetricItem = (props: SingleGoalMetricProps) => {
    * Set metric not completed
    */
   const onOk = () => {
-    props.updateMetric({...props.metric, isDone: !props.metric.isDone, doneDate: new Date()});
+    props.updateMetric({...props.metric, isDone: false, doneDate: new Date()});
   };
 
   return (
