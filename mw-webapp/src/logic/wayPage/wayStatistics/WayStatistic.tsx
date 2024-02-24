@@ -1,3 +1,4 @@
+import {AreaChart} from "src/component/chart/AreaChart";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {JobTagStat} from "src/logic/wayPage/wayStatistics/JobTagStat";
@@ -41,10 +42,10 @@ export const MILLISECONDS_IN_DAY = 86_400_000;
  */
 export const SMALL_CORRECTION_MILLISECONDS = 1;
 export const AMOUNT_DAYS_IN_WEEK = 7;
-export const AMOUNT_DAYS_IN_TWO_WEEK = 14;
+export const AMOUNT_DAYS_IN_MONTH = 30;
 
 export const lastWeekDate = DateUtils.getLastDate(AMOUNT_DAYS_IN_WEEK);
-export const lastTwoWeekDate = DateUtils.getLastDate(AMOUNT_DAYS_IN_TWO_WEEK);
+export const lastMonthDate = DateUtils.getLastDate(AMOUNT_DAYS_IN_MONTH);
 
 /**
  * Get tag related statistics for some jobs
@@ -85,6 +86,15 @@ export const WayStatistic = (props: WayStatisticProps) => {
     return null;
   }
 
+  const dayReportsReversed = [...props.dayReports].reverse();
+  const startDate = dayReportsReversed[0].createdAt;
+  const lastDate = props.dayReports[0].createdAt;
+  const datesWithJobTotalTime: Map<string, number> = new Map(props.dayReports.map((report) => {
+    const jobDoneTotal = report.jobsDone.reduce((totalTime, jobDone) => totalTime + jobDone.time, 0);
+
+    return [DateUtils.getShortISODateValue(report.createdAt), jobDoneTotal];
+  }));
+
   const allDatesTimestamps = props.dayReports.map(report => report.createdAt.getTime());
   const maximumDateTimestamp = Math.max(...allDatesTimestamps);
   const minimumDateTimestamp = Math.min(...allDatesTimestamps);
@@ -120,22 +130,22 @@ export const WayStatistic = (props: WayStatisticProps) => {
 
   const lastCalendarWeekAverageJobTime = Math.round(lastCalendarWeekTotalTime / lastWeekDayReports.length);
 
-  const lastTwoWeekDayReports = props.dayReports.filter((dayReport) =>
-    DateUtils.roundToDate(dayReport.createdAt) > lastTwoWeekDate);
+  const lastMonthDayReports = props.dayReports.filter((dayReport) =>
+    DateUtils.roundToDate(dayReport.createdAt) > lastMonthDate);
 
-  const lastTwoWeekJobs = lastTwoWeekDayReports.flatMap(report => report.jobsDone);
+  const lastMonthJobs = lastMonthDayReports.flatMap(report => report.jobsDone);
 
-  const lastCalendarTwoWeekTotalTime = lastTwoWeekJobs.reduce((totalTime, jobDone) => totalTime + jobDone.time, 0);
+  const lastCalendarMonthTotalTime = lastMonthJobs.reduce((totalTime, jobDone) => totalTime + jobDone.time, 0);
 
-  const amountDaysLastTwoWeek = props.wayCreatedAt > lastTwoWeekDate ? lastTwoWeekDayReports.length : AMOUNT_DAYS_IN_TWO_WEEK;
+  const amountDaysLastMonth = props.wayCreatedAt > lastMonthDate ? lastMonthDayReports.length : AMOUNT_DAYS_IN_MONTH;
 
-  const lastCalendarTwoWeekAverageWorkingTime = Math.round(lastCalendarTwoWeekTotalTime / amountDaysLastTwoWeek);
+  const lastCalendarMonthAverageWorkingTime = Math.round(lastCalendarMonthTotalTime / amountDaysLastMonth);
 
-  const lastCalendarTwoWeekAverageJobTime = Math.round(lastCalendarTwoWeekTotalTime / lastTwoWeekDayReports.length);
+  const lastCalendarMonthAverageJobTime = Math.round(lastCalendarMonthTotalTime / lastMonthDayReports.length);
 
   const allTagStats = getTagStats(allJobs);
   const lastWeekTagStats = getTagStats(lastWeekJobs);
-  const lastTwoWeekTagStats = getTagStats(lastTwoWeekJobs);
+  const lastMonthTagStats = getTagStats(lastMonthJobs);
 
   return (
     <div className={styles.wrapper}>
@@ -176,6 +186,12 @@ export const WayStatistic = (props: WayStatisticProps) => {
 
       <TagStats stats={allTagStats} />
 
+      <AreaChart
+        datesWithJobTotalTime={datesWithJobTotalTime}
+        startDate={startDate}
+        lastDate={lastDate}
+      />
+
       <Title
         level={HeadingLevel.h4}
         text="Last week"
@@ -195,24 +211,37 @@ export const WayStatistic = (props: WayStatisticProps) => {
       />
       <TagStats stats={lastWeekTagStats} />
 
+      <AreaChart
+        datesWithJobTotalTime={datesWithJobTotalTime}
+        startDate={lastWeekDate}
+        lastDate={lastDate}
+      />
+
       <Title
         level={HeadingLevel.h4}
-        text="Last two weeks statistics"
+        text="Last month (30 days) statistics"
         className={styles.title}
       />
       <StatisticLine
         description="Total time:"
-        value={lastCalendarTwoWeekTotalTime}
+        value={lastCalendarMonthTotalTime}
       />
       <StatisticLine
         description="Average time per calendar day:"
-        value={lastCalendarTwoWeekAverageWorkingTime}
+        value={lastCalendarMonthAverageWorkingTime}
       />
       <StatisticLine
         description="Average time per worked day:"
-        value={lastCalendarTwoWeekAverageJobTime}
+        value={lastCalendarMonthAverageJobTime}
       />
-      <TagStats stats={lastTwoWeekTagStats} />
+
+      <TagStats stats={lastMonthTagStats} />
+
+      <AreaChart
+        datesWithJobTotalTime={datesWithJobTotalTime}
+        startDate={lastMonthDate}
+        lastDate={lastDate}
+      />
     </div>
   );
 };

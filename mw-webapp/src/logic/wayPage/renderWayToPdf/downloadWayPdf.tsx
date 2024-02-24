@@ -1,8 +1,8 @@
 import pdfMake from "pdfmake";
 import {
-  AMOUNT_DAYS_IN_TWO_WEEK,
+  AMOUNT_DAYS_IN_MONTH,
   AMOUNT_DAYS_IN_WEEK,
-  lastTwoWeekDate,
+  lastMonthDate,
   lastWeekDate,
   MILLISECONDS_IN_DAY,
   SMALL_CORRECTION_MILLISECONDS,
@@ -192,14 +192,14 @@ const getStatistics = (dayReports: DayReport[], wayCreatedAt: Date) => {
   const lastCalendarWeekAverageJobTime = Math.round(lastCalendarWeekTotalTime / lastWeekDayReports.length);
 
   const lastTwoWeekDayReports = dayReports.filter((dayReport) => {
-    return dayReport.createdAt > lastTwoWeekDate;
+    return dayReport.createdAt > lastMonthDate;
   });
 
   const lastTwoWeekJobsAmount = lastTwoWeekDayReports.flatMap(report => report.jobsDone);
 
   const lastCalendarTwoWeekTotalTime = lastTwoWeekJobsAmount.reduce((totalTime, jobDone) => totalTime + jobDone.time, 0);
 
-  const amountDaysLastTwoWeek = wayCreatedAt > lastTwoWeekDate ? lastTwoWeekDayReports.length : AMOUNT_DAYS_IN_TWO_WEEK;
+  const amountDaysLastTwoWeek = wayCreatedAt > lastMonthDate ? lastTwoWeekDayReports.length : AMOUNT_DAYS_IN_MONTH;
 
   const lastCalendarTwoWeekAverageWorkingTime =
     Math.round(lastCalendarTwoWeekTotalTime / amountDaysLastTwoWeek);

@@ -1,6 +1,7 @@
 const START_OF_ISO_SUBSTRING_RANGE = 0;
 const END_OF_ISO_SUBSTRING_RANGE = 10;
 const DAY_MILLISECONDS = 86400000;
+const ITERABLE_STEP = 1;
 
 /**
  * Formatted date
@@ -31,6 +32,22 @@ export class DateUtils {
    */
   public static roundToDate(date: Date): Date {
     return new Date (date.toDateString());
+  }
+
+  /**
+   * Get dates between two dates
+   */
+  public static getDatesBetween(startDate: Date, endDate: Date): Date[] {
+    const dates = [];
+
+    const currentDate = new Date(startDate.getTime());
+
+    while (currentDate <= endDate) {
+      dates.push(new Date(currentDate.getTime()));
+      currentDate.setDate(currentDate.getDate() + ITERABLE_STEP);
+    }
+
+    return dates;
   }
 
 }
