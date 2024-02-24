@@ -24,31 +24,31 @@ export interface SchemasCreateUserPayload {
      * @type {string}
      * @memberof SchemasCreateUserPayload
      */
-    description?: string;
+    description: string;
     /**
      * 
      * @type {string}
      * @memberof SchemasCreateUserPayload
      */
-    email?: string;
+    email: string;
     /**
      * 
      * @type {string}
      * @memberof SchemasCreateUserPayload
      */
-    imageUrl?: string;
+    imageUrl: string | null;
     /**
      * 
      * @type {boolean}
      * @memberof SchemasCreateUserPayload
      */
-    isMentor?: boolean;
+    isMentor: boolean;
     /**
      * 
      * @type {string}
      * @memberof SchemasCreateUserPayload
      */
-    name?: string;
+    name: string;
 }
 
 /**
@@ -58,6 +58,11 @@ export function instanceOfSchemasCreateUserPayload(
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "description" in value;
+    isInstance = isInstance && "email" in value;
+    isInstance = isInstance && "imageUrl" in value;
+    isInstance = isInstance && "isMentor" in value;
+    isInstance = isInstance && "name" in value;
 
     return isInstance;
 }
@@ -75,11 +80,11 @@ export function SchemasCreateUserPayloadFromJSONTyped(
     }
     return {
         
-        'description': !exists(json, 'description') ? undefined : json['description'],
-        'email': !exists(json, 'email') ? undefined : json['email'],
-        'imageUrl': !exists(json, 'imageUrl') ? undefined : json['imageUrl'],
-        'isMentor': !exists(json, 'isMentor') ? undefined : json['isMentor'],
-        'name': !exists(json, 'name') ? undefined : json['name'],
+        'description': json['description'],
+        'email': json['email'],
+        'imageUrl': json['imageUrl'],
+        'isMentor': json['isMentor'],
+        'name': json['name'],
     };
 }
 

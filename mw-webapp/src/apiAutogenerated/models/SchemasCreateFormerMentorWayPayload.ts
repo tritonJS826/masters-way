@@ -24,13 +24,13 @@ export interface SchemasCreateFormerMentorWayPayload {
      * @type {string}
      * @memberof SchemasCreateFormerMentorWayPayload
      */
-    formerMentorUuid?: string;
+    formerMentorUuid: string;
     /**
      * 
      * @type {string}
      * @memberof SchemasCreateFormerMentorWayPayload
      */
-    wayUuid?: string;
+    wayUuid: string;
 }
 
 /**
@@ -40,6 +40,8 @@ export function instanceOfSchemasCreateFormerMentorWayPayload(
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "formerMentorUuid" in value;
+    isInstance = isInstance && "wayUuid" in value;
 
     return isInstance;
 }
@@ -57,8 +59,8 @@ export function SchemasCreateFormerMentorWayPayloadFromJSONTyped(
     }
     return {
         
-        'formerMentorUuid': !exists(json, 'formerMentorUuid') ? undefined : json['formerMentorUuid'],
-        'wayUuid': !exists(json, 'wayUuid') ? undefined : json['wayUuid'],
+        'formerMentorUuid': json['formerMentorUuid'],
+        'wayUuid': json['wayUuid'],
     };
 }
 

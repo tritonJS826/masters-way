@@ -24,13 +24,13 @@ export interface SchemasCreateFavoriteUserPayload {
      * @type {string}
      * @memberof SchemasCreateFavoriteUserPayload
      */
-    acceptorUserUuid?: string;
+    acceptorUserUuid: string;
     /**
      * 
      * @type {string}
      * @memberof SchemasCreateFavoriteUserPayload
      */
-    donorUserUuid?: string;
+    donorUserUuid: string;
 }
 
 /**
@@ -40,6 +40,8 @@ export function instanceOfSchemasCreateFavoriteUserPayload(
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "acceptorUserUuid" in value;
+    isInstance = isInstance && "donorUserUuid" in value;
 
     return isInstance;
 }
@@ -57,8 +59,8 @@ export function SchemasCreateFavoriteUserPayloadFromJSONTyped(
     }
     return {
         
-        'acceptorUserUuid': !exists(json, 'acceptorUserUuid') ? undefined : json['acceptorUserUuid'],
-        'donorUserUuid': !exists(json, 'donorUserUuid') ? undefined : json['donorUserUuid'],
+        'acceptorUserUuid': json['acceptorUserUuid'],
+        'donorUserUuid': json['donorUserUuid'],
     };
 }
 

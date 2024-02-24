@@ -31,25 +31,25 @@ export interface SchemasPlanPlainResponse {
      * @type {number}
      * @memberof SchemasPlanPlainResponse
      */
-    estimationTime?: number;
+    estimationTime: number;
     /**
      * 
      * @type {boolean}
      * @memberof SchemasPlanPlainResponse
      */
-    isDone?: boolean;
+    isDone: boolean;
     /**
      * 
      * @type {string}
      * @memberof SchemasPlanPlainResponse
      */
-    job?: string;
+    job: string;
     /**
      * 
      * @type {SchemasUserPlainResponse}
      * @memberof SchemasPlanPlainResponse
      */
-    owner?: SchemasUserPlainResponse;
+    owner: SchemasUserPlainResponse;
 }
 
 /**
@@ -59,6 +59,10 @@ export function instanceOfSchemasPlanPlainResponse(
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "estimationTime" in value;
+    isInstance = isInstance && "isDone" in value;
+    isInstance = isInstance && "job" in value;
+    isInstance = isInstance && "owner" in value;
 
     return isInstance;
 }
@@ -76,10 +80,10 @@ export function SchemasPlanPlainResponseFromJSONTyped(
     }
     return {
         
-        'estimationTime': !exists(json, 'estimationTime') ? undefined : json['estimationTime'],
-        'isDone': !exists(json, 'isDone') ? undefined : json['isDone'],
-        'job': !exists(json, 'job') ? undefined : json['job'],
-        'owner': !exists(json, 'owner') ? undefined : SchemasUserPlainResponseFromJSON(json['owner']),
+        'estimationTime': json['estimationTime'],
+        'isDone': json['isDone'],
+        'job': json['job'],
+        'owner': SchemasUserPlainResponseFromJSON(json['owner']),
     };
 }
 

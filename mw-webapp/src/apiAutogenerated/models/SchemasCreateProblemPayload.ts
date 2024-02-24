@@ -24,25 +24,25 @@ export interface SchemasCreateProblemPayload {
      * @type {string}
      * @memberof SchemasCreateProblemPayload
      */
-    dayReportUuid?: string;
+    dayReportUuid: string;
     /**
      * 
      * @type {string}
      * @memberof SchemasCreateProblemPayload
      */
-    description?: string;
+    description: string;
     /**
      * 
      * @type {boolean}
      * @memberof SchemasCreateProblemPayload
      */
-    isDone?: boolean;
+    isDone: boolean;
     /**
      * 
      * @type {string}
      * @memberof SchemasCreateProblemPayload
      */
-    ownerUuid?: string;
+    ownerUuid: string;
 }
 
 /**
@@ -52,6 +52,10 @@ export function instanceOfSchemasCreateProblemPayload(
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "dayReportUuid" in value;
+    isInstance = isInstance && "description" in value;
+    isInstance = isInstance && "isDone" in value;
+    isInstance = isInstance && "ownerUuid" in value;
 
     return isInstance;
 }
@@ -69,10 +73,10 @@ export function SchemasCreateProblemPayloadFromJSONTyped(
     }
     return {
         
-        'dayReportUuid': !exists(json, 'dayReportUuid') ? undefined : json['dayReportUuid'],
-        'description': !exists(json, 'description') ? undefined : json['description'],
-        'isDone': !exists(json, 'isDone') ? undefined : json['isDone'],
-        'ownerUuid': !exists(json, 'ownerUuid') ? undefined : json['ownerUuid'],
+        'dayReportUuid': json['dayReportUuid'],
+        'description': json['description'],
+        'isDone': json['isDone'],
+        'ownerUuid': json['ownerUuid'],
     };
 }
 

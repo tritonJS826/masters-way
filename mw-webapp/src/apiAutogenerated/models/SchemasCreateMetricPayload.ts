@@ -24,31 +24,31 @@ export interface SchemasCreateMetricPayload {
      * @type {string}
      * @memberof SchemasCreateMetricPayload
      */
-    description?: string;
+    description: string;
     /**
      * 
      * @type {number}
      * @memberof SchemasCreateMetricPayload
      */
-    doneDate?: number;
+    doneDate: number;
     /**
      * 
      * @type {number}
      * @memberof SchemasCreateMetricPayload
      */
-    estimationTime?: number;
+    estimationTime: number;
     /**
      * 
      * @type {boolean}
      * @memberof SchemasCreateMetricPayload
      */
-    isDone?: boolean;
+    isDone: boolean;
     /**
      * 
      * @type {string}
      * @memberof SchemasCreateMetricPayload
      */
-    wayUuid?: string;
+    wayUuid: string;
 }
 
 /**
@@ -58,6 +58,11 @@ export function instanceOfSchemasCreateMetricPayload(
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "description" in value;
+    isInstance = isInstance && "doneDate" in value;
+    isInstance = isInstance && "estimationTime" in value;
+    isInstance = isInstance && "isDone" in value;
+    isInstance = isInstance && "wayUuid" in value;
 
     return isInstance;
 }
@@ -75,11 +80,11 @@ export function SchemasCreateMetricPayloadFromJSONTyped(
     }
     return {
         
-        'description': !exists(json, 'description') ? undefined : json['description'],
-        'doneDate': !exists(json, 'doneDate') ? undefined : json['doneDate'],
-        'estimationTime': !exists(json, 'estimationTime') ? undefined : json['estimationTime'],
-        'isDone': !exists(json, 'isDone') ? undefined : json['isDone'],
-        'wayUuid': !exists(json, 'wayUuid') ? undefined : json['wayUuid'],
+        'description': json['description'],
+        'doneDate': json['doneDate'],
+        'estimationTime': json['estimationTime'],
+        'isDone': json['isDone'],
+        'wayUuid': json['wayUuid'],
     };
 }
 

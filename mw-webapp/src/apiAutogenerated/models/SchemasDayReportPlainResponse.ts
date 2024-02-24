@@ -49,43 +49,43 @@ export interface SchemasDayReportPlainResponse {
      * @type {Array<SchemasCommentPlainResponse>}
      * @memberof SchemasDayReportPlainResponse
      */
-    comments?: Array<SchemasCommentPlainResponse>;
+    comments: Array<SchemasCommentPlainResponse>;
     /**
      * 
      * @type {string}
      * @memberof SchemasDayReportPlainResponse
      */
-    createdAt?: string;
+    createdAt: string;
     /**
      * 
      * @type {boolean}
      * @memberof SchemasDayReportPlainResponse
      */
-    isDayOff?: boolean;
+    isDayOff: boolean;
     /**
      * 
      * @type {Array<SchemasJobDonePlainResponse>}
      * @memberof SchemasDayReportPlainResponse
      */
-    jobsDone?: Array<SchemasJobDonePlainResponse>;
+    jobsDone: Array<SchemasJobDonePlainResponse>;
     /**
      * 
      * @type {Array<SchemasPlanPlainResponse>}
      * @memberof SchemasDayReportPlainResponse
      */
-    plans?: Array<SchemasPlanPlainResponse>;
+    plans: Array<SchemasPlanPlainResponse>;
     /**
      * 
      * @type {Array<SchemasProblemPlainResponse>}
      * @memberof SchemasDayReportPlainResponse
      */
-    problems?: Array<SchemasProblemPlainResponse>;
+    problems: Array<SchemasProblemPlainResponse>;
     /**
      * 
      * @type {string}
      * @memberof SchemasDayReportPlainResponse
      */
-    updatedAt?: string;
+    updatedAt: string;
 }
 
 /**
@@ -95,6 +95,13 @@ export function instanceOfSchemasDayReportPlainResponse(
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "comments" in value;
+    isInstance = isInstance && "createdAt" in value;
+    isInstance = isInstance && "isDayOff" in value;
+    isInstance = isInstance && "jobsDone" in value;
+    isInstance = isInstance && "plans" in value;
+    isInstance = isInstance && "problems" in value;
+    isInstance = isInstance && "updatedAt" in value;
 
     return isInstance;
 }
@@ -112,13 +119,13 @@ export function SchemasDayReportPlainResponseFromJSONTyped(
     }
     return {
         
-        'comments': !exists(json, 'comments') ? undefined : ((json['comments'] as Array<any>).map(SchemasCommentPlainResponseFromJSON)),
-        'createdAt': !exists(json, 'createdAt') ? undefined : json['createdAt'],
-        'isDayOff': !exists(json, 'isDayOff') ? undefined : json['isDayOff'],
-        'jobsDone': !exists(json, 'jobsDone') ? undefined : ((json['jobsDone'] as Array<any>).map(SchemasJobDonePlainResponseFromJSON)),
-        'plans': !exists(json, 'plans') ? undefined : ((json['plans'] as Array<any>).map(SchemasPlanPlainResponseFromJSON)),
-        'problems': !exists(json, 'problems') ? undefined : ((json['problems'] as Array<any>).map(SchemasProblemPlainResponseFromJSON)),
-        'updatedAt': !exists(json, 'updatedAt') ? undefined : json['updatedAt'],
+        'comments': ((json['comments'] as Array<any>).map(SchemasCommentPlainResponseFromJSON)),
+        'createdAt': json['createdAt'],
+        'isDayOff': json['isDayOff'],
+        'jobsDone': ((json['jobsDone'] as Array<any>).map(SchemasJobDonePlainResponseFromJSON)),
+        'plans': ((json['plans'] as Array<any>).map(SchemasPlanPlainResponseFromJSON)),
+        'problems': ((json['problems'] as Array<any>).map(SchemasProblemPlainResponseFromJSON)),
+        'updatedAt': json['updatedAt'],
     };
 }
 
@@ -132,12 +139,12 @@ export function SchemasDayReportPlainResponseToJSON(value?: SchemasDayReportPlai
     }
     return {
         
-        'comments': value.comments === undefined ? undefined : ((value.comments as Array<any>).map(SchemasCommentPlainResponseToJSON)),
+        'comments': ((value.comments as Array<any>).map(SchemasCommentPlainResponseToJSON)),
         'createdAt': value.createdAt,
         'isDayOff': value.isDayOff,
-        'jobsDone': value.jobsDone === undefined ? undefined : ((value.jobsDone as Array<any>).map(SchemasJobDonePlainResponseToJSON)),
-        'plans': value.plans === undefined ? undefined : ((value.plans as Array<any>).map(SchemasPlanPlainResponseToJSON)),
-        'problems': value.problems === undefined ? undefined : ((value.problems as Array<any>).map(SchemasProblemPlainResponseToJSON)),
+        'jobsDone': ((value.jobsDone as Array<any>).map(SchemasJobDonePlainResponseToJSON)),
+        'plans': ((value.plans as Array<any>).map(SchemasPlanPlainResponseToJSON)),
+        'problems': ((value.problems as Array<any>).map(SchemasProblemPlainResponseToJSON)),
         'updatedAt': value.updatedAt,
     };
 }

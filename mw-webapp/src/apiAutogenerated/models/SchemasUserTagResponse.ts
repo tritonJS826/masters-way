@@ -24,13 +24,13 @@ export interface SchemasUserTagResponse {
      * @type {string}
      * @memberof SchemasUserTagResponse
      */
-    name?: string;
+    name: string;
     /**
      * 
      * @type {string}
      * @memberof SchemasUserTagResponse
      */
-    uuid?: string;
+    uuid: string;
 }
 
 /**
@@ -40,6 +40,8 @@ export function instanceOfSchemasUserTagResponse(
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "name" in value;
+    isInstance = isInstance && "uuid" in value;
 
     return isInstance;
 }
@@ -57,8 +59,8 @@ export function SchemasUserTagResponseFromJSONTyped(
     }
     return {
         
-        'name': !exists(json, 'name') ? undefined : json['name'],
-        'uuid': !exists(json, 'uuid') ? undefined : json['uuid'],
+        'name': json['name'],
+        'uuid': json['uuid'],
     };
 }
 

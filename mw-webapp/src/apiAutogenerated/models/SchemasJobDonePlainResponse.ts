@@ -31,19 +31,19 @@ export interface SchemasJobDonePlainResponse {
      * @type {string}
      * @memberof SchemasJobDonePlainResponse
      */
-    description?: string;
+    description: string;
     /**
      * 
      * @type {SchemasUserPlainResponse}
      * @memberof SchemasJobDonePlainResponse
      */
-    owner?: SchemasUserPlainResponse;
+    owner: SchemasUserPlainResponse;
     /**
      * 
      * @type {number}
      * @memberof SchemasJobDonePlainResponse
      */
-    time?: number;
+    time: number;
 }
 
 /**
@@ -53,6 +53,9 @@ export function instanceOfSchemasJobDonePlainResponse(
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "description" in value;
+    isInstance = isInstance && "owner" in value;
+    isInstance = isInstance && "time" in value;
 
     return isInstance;
 }
@@ -70,9 +73,9 @@ export function SchemasJobDonePlainResponseFromJSONTyped(
     }
     return {
         
-        'description': !exists(json, 'description') ? undefined : json['description'],
-        'owner': !exists(json, 'owner') ? undefined : SchemasUserPlainResponseFromJSON(json['owner']),
-        'time': !exists(json, 'time') ? undefined : json['time'],
+        'description': json['description'],
+        'owner': SchemasUserPlainResponseFromJSON(json['owner']),
+        'time': json['time'],
     };
 }
 

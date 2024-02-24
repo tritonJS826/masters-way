@@ -24,25 +24,25 @@ export interface SchemasCreateJobTagPayload {
      * @type {string}
      * @memberof SchemasCreateJobTagPayload
      */
-    color?: string;
+    color: string;
     /**
      * 
      * @type {string}
      * @memberof SchemasCreateJobTagPayload
      */
-    description?: string;
+    description: string;
     /**
      * 
      * @type {string}
      * @memberof SchemasCreateJobTagPayload
      */
-    name?: string;
+    name: string;
     /**
      * 
      * @type {string}
      * @memberof SchemasCreateJobTagPayload
      */
-    wayUuid?: string;
+    wayUuid: string;
 }
 
 /**
@@ -52,6 +52,10 @@ export function instanceOfSchemasCreateJobTagPayload(
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "color" in value;
+    isInstance = isInstance && "description" in value;
+    isInstance = isInstance && "name" in value;
+    isInstance = isInstance && "wayUuid" in value;
 
     return isInstance;
 }
@@ -69,10 +73,10 @@ export function SchemasCreateJobTagPayloadFromJSONTyped(
     }
     return {
         
-        'color': !exists(json, 'color') ? undefined : json['color'],
-        'description': !exists(json, 'description') ? undefined : json['description'],
-        'name': !exists(json, 'name') ? undefined : json['name'],
-        'wayUuid': !exists(json, 'wayUuid') ? undefined : json['wayUuid'],
+        'color': json['color'],
+        'description': json['description'],
+        'name': json['name'],
+        'wayUuid': json['wayUuid'],
     };
 }
 

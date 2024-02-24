@@ -24,13 +24,13 @@ export interface SchemasCreateWayTagPayload {
      * @type {string}
      * @memberof SchemasCreateWayTagPayload
      */
-    name?: string;
+    name: string;
     /**
      * 
      * @type {string}
      * @memberof SchemasCreateWayTagPayload
      */
-    wayUuid?: string;
+    wayUuid: string;
 }
 
 /**
@@ -40,6 +40,8 @@ export function instanceOfSchemasCreateWayTagPayload(
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "name" in value;
+    isInstance = isInstance && "wayUuid" in value;
 
     return isInstance;
 }
@@ -57,8 +59,8 @@ export function SchemasCreateWayTagPayloadFromJSONTyped(
     }
     return {
         
-        'name': !exists(json, 'name') ? undefined : json['name'],
-        'wayUuid': !exists(json, 'wayUuid') ? undefined : json['wayUuid'],
+        'name': json['name'],
+        'wayUuid': json['wayUuid'],
     };
 }
 

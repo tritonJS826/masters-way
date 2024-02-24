@@ -24,19 +24,19 @@ export interface SchemasCreateCommentPayload {
      * @type {string}
      * @memberof SchemasCreateCommentPayload
      */
-    dayReportUuid?: string;
+    dayReportUuid: string;
     /**
      * 
      * @type {string}
      * @memberof SchemasCreateCommentPayload
      */
-    description?: string;
+    description: string;
     /**
      * 
      * @type {string}
      * @memberof SchemasCreateCommentPayload
      */
-    ownerUuid?: string;
+    ownerUuid: string;
 }
 
 /**
@@ -46,6 +46,9 @@ export function instanceOfSchemasCreateCommentPayload(
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "dayReportUuid" in value;
+    isInstance = isInstance && "description" in value;
+    isInstance = isInstance && "ownerUuid" in value;
 
     return isInstance;
 }
@@ -63,9 +66,9 @@ export function SchemasCreateCommentPayloadFromJSONTyped(
     }
     return {
         
-        'dayReportUuid': !exists(json, 'dayReportUuid') ? undefined : json['dayReportUuid'],
-        'description': !exists(json, 'description') ? undefined : json['description'],
-        'ownerUuid': !exists(json, 'ownerUuid') ? undefined : json['ownerUuid'],
+        'dayReportUuid': json['dayReportUuid'],
+        'description': json['description'],
+        'ownerUuid': json['ownerUuid'],
     };
 }
 

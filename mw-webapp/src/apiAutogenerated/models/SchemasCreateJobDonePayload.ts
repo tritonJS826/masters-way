@@ -24,25 +24,25 @@ export interface SchemasCreateJobDonePayload {
      * @type {string}
      * @memberof SchemasCreateJobDonePayload
      */
-    dayReportUuid?: string;
+    dayReportUuid: string;
     /**
      * 
      * @type {string}
      * @memberof SchemasCreateJobDonePayload
      */
-    description?: string;
+    description: string;
     /**
      * 
      * @type {string}
      * @memberof SchemasCreateJobDonePayload
      */
-    ownerUuid?: string;
+    ownerUuid: string;
     /**
      * 
      * @type {number}
      * @memberof SchemasCreateJobDonePayload
      */
-    time?: number;
+    time: number;
 }
 
 /**
@@ -52,6 +52,10 @@ export function instanceOfSchemasCreateJobDonePayload(
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "dayReportUuid" in value;
+    isInstance = isInstance && "description" in value;
+    isInstance = isInstance && "ownerUuid" in value;
+    isInstance = isInstance && "time" in value;
 
     return isInstance;
 }
@@ -69,10 +73,10 @@ export function SchemasCreateJobDonePayloadFromJSONTyped(
     }
     return {
         
-        'dayReportUuid': !exists(json, 'dayReportUuid') ? undefined : json['dayReportUuid'],
-        'description': !exists(json, 'description') ? undefined : json['description'],
-        'ownerUuid': !exists(json, 'ownerUuid') ? undefined : json['ownerUuid'],
-        'time': !exists(json, 'time') ? undefined : json['time'],
+        'dayReportUuid': json['dayReportUuid'],
+        'description': json['description'],
+        'ownerUuid': json['ownerUuid'],
+        'time': json['time'],
     };
 }
 

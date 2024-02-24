@@ -24,25 +24,25 @@ export interface SchemasJobTagResponse {
      * @type {string}
      * @memberof SchemasJobTagResponse
      */
-    color?: string;
+    color: string;
     /**
      * 
      * @type {string}
      * @memberof SchemasJobTagResponse
      */
-    description?: string;
+    description: string;
     /**
      * 
      * @type {string}
      * @memberof SchemasJobTagResponse
      */
-    name?: string;
+    name: string;
     /**
      * 
      * @type {string}
      * @memberof SchemasJobTagResponse
      */
-    uuid?: string;
+    uuid: string;
 }
 
 /**
@@ -52,6 +52,10 @@ export function instanceOfSchemasJobTagResponse(
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "color" in value;
+    isInstance = isInstance && "description" in value;
+    isInstance = isInstance && "name" in value;
+    isInstance = isInstance && "uuid" in value;
 
     return isInstance;
 }
@@ -69,10 +73,10 @@ export function SchemasJobTagResponseFromJSONTyped(
     }
     return {
         
-        'color': !exists(json, 'color') ? undefined : json['color'],
-        'description': !exists(json, 'description') ? undefined : json['description'],
-        'name': !exists(json, 'name') ? undefined : json['name'],
-        'uuid': !exists(json, 'uuid') ? undefined : json['uuid'],
+        'color': json['color'],
+        'description': json['description'],
+        'name': json['name'],
+        'uuid': json['uuid'],
     };
 }
 
