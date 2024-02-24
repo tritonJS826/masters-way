@@ -89,10 +89,14 @@ export const WayStatistic = (props: WayStatisticProps) => {
   const dayReportsReversed = [...props.dayReports].reverse();
   const startDate = dayReportsReversed[0].createdAt;
   const lastDate = props.dayReports[0].createdAt;
+  const startDateLastWeek = props.wayCreatedAt <= lastWeekDate
+    ? DateUtils.getLastDate(AMOUNT_DAYS_IN_WEEK, lastDate)
+    : props.wayCreatedAt;
+  const startDateLastMonth = props.wayCreatedAt <= lastMonthDate ? lastMonthDate : props.wayCreatedAt;
   const datesWithJobTotalTime: Map<string, number> = new Map(props.dayReports.map((report) => {
-    const jobDoneTotal = report.jobsDone.reduce((totalTime, jobDone) => totalTime + jobDone.time, 0);
+    const jobDoneTotalTime = report.jobsDone.reduce((totalTime, jobDone) => totalTime + jobDone.time, 0);
 
-    return [DateUtils.getShortISODateValue(report.createdAt), jobDoneTotal];
+    return [DateUtils.getShortISODateValue(report.createdAt), jobDoneTotalTime];
   }));
 
   const allDatesTimestamps = props.dayReports.map(report => report.createdAt.getTime());
@@ -213,7 +217,7 @@ export const WayStatistic = (props: WayStatisticProps) => {
 
       <AreaChart
         datesWithJobTotalTime={datesWithJobTotalTime}
-        startDate={lastWeekDate}
+        startDate={startDateLastWeek}
         lastDate={lastDate}
       />
 
@@ -239,7 +243,7 @@ export const WayStatistic = (props: WayStatisticProps) => {
 
       <AreaChart
         datesWithJobTotalTime={datesWithJobTotalTime}
-        startDate={lastMonthDate}
+        startDate={startDateLastMonth}
         lastDate={lastDate}
       />
     </div>

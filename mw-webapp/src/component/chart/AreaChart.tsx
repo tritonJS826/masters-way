@@ -3,7 +3,6 @@ import {
   CategoryScale,
   Chart as ChartJS,
   Filler,
-  Legend,
   LinearScale,
   LineElement,
   PointElement,
@@ -20,12 +19,18 @@ ChartJS.register(
   Title,
   Tooltip,
   Filler,
-  Legend,
+  // Legend,
 );
 
 const options = {
   responsive: true,
-  plugins: {},
+  plugins: {
+    title: {
+      display: true,
+      text: "Time spent by day (minutes/date)",
+    },
+  },
+  scales: {y: {min: 0}},
 };
 
 /**
@@ -57,7 +62,7 @@ interface AreaChartProps {
  */
 export const AreaChart = (props: AreaChartProps) => {
   const dateList = DateUtils.getDatesBetween(props.startDate, props.lastDate);
-  const labels = dateList.map((item) => DateUtils.getShortISODateValue(item));
+  const labels = dateList.map(DateUtils.getShortISODateValue);
 
   const dateWithJobTotalTime: Map<string, number> = new Map(labels.map((date) => {
     const jobDoneTotal = props.datesWithJobTotalTime.get(date) ?? 0;

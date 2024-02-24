@@ -1,7 +1,6 @@
 const START_OF_ISO_SUBSTRING_RANGE = 0;
 const END_OF_ISO_SUBSTRING_RANGE = 10;
 const DAY_MILLISECONDS = 86400000;
-const ITERABLE_STEP = 1;
 
 /**
  * Formatted date
@@ -20,8 +19,8 @@ export class DateUtils {
   /**
    * Date that was {@link amount} days ago
    */
-  public static getLastDate(amount: number): Date {
-    const currentDate = new Date();
+  public static getLastDate(amount: number, date?: Date): Date {
+    const currentDate = date ?? new Date();
     const dateInPast = new Date(currentDate.getTime() - (amount * DAY_MILLISECONDS));
 
     return new Date(dateInPast.toDateString());
@@ -38,16 +37,21 @@ export class DateUtils {
    * Get dates between two dates
    */
   public static getDatesBetween(startDate: Date, endDate: Date): Date[] {
-    const dates = [];
+    const timeDifferenceInMilliseconds = Math.abs(endDate.getTime() - startDate.getTime());
+    const daysAmountInRange = Math.ceil(timeDifferenceInMilliseconds / DAY_MILLISECONDS);
+    const datesList = new Array(daysAmountInRange)
+      .fill(null)
+      .map((item, i) => {
 
-    const currentDate = new Date(startDate.getTime());
+        /**
+         * TODO #573: Correction need because method getShortISODateValue return time in GMT format but we need UTC format
+         */
+        const correction = DAY_MILLISECONDS;
 
-    while (currentDate <= endDate) {
-      dates.push(new Date(currentDate.getTime()));
-      currentDate.setDate(currentDate.getDate() + ITERABLE_STEP);
-    }
+        return new Date(startDate.getTime() + (i * DAY_MILLISECONDS) + correction);
+      });
 
-    return dates;
+    return datesList;
   }
 
 }
