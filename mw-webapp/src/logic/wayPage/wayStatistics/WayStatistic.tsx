@@ -233,7 +233,7 @@ export const WayStatistic = (props: WayStatisticProps) => {
       <PieChart
         startDate={startDateLastWeek}
         lastDate={lastDate}
-        tagStats={allTagStats}
+        tagStats={lastWeekTagStats}
       />
 
       <Title
@@ -265,7 +265,7 @@ export const WayStatistic = (props: WayStatisticProps) => {
       <PieChart
         startDate={startDateLastMonth}
         lastDate={lastDate}
-        tagStats={allTagStats}
+        tagStats={lastMonthTagStats}
       />
     </div>
   );
