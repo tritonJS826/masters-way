@@ -7,9 +7,9 @@ export const DEFAULT_PLACEHOLDER = "*Empty markdown! Double click on me!*";
  * Render span with text
  */
 const renderSpanWithValue = (value: string | number, isDone?: boolean) => (
-  <p className={isDone ? styles.completed : styles.notCompleted}>
+  <div className={isDone ? styles.completed : styles.notCompleted}>
     {renderMarkdown(value.toString())}
-  </p>
+  </div>
 );
 
 /**

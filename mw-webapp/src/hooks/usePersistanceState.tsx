@@ -21,6 +21,11 @@ type usePersistanceStateParams<T extends keyof LocalStorageData> = {
    * (helpful when trying to work with deprecated data)
    */
   storedDataValidator?: (param: LocalStorageData[T]) => boolean;
+
+  /**
+   * Dependencies
+   */
+  dependencies?: unknown[];
 };
 
 /**
@@ -63,7 +68,7 @@ export const usePersistanceState = <
 
   useEffect(() => {
     setValue(validatedStoredValue);
-  }, [params.storedDataValidator]);
+  }, params.dependencies ?? []);
 
   /**
    * Update persistent value partially
