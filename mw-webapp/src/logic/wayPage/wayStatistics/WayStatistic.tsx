@@ -1,4 +1,5 @@
 import {AreaChart} from "src/component/chart/AreaChart";
+import {PieChart} from "src/component/chart/PieChart";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {JobTagStat} from "src/logic/wayPage/wayStatistics/JobTagStat";
@@ -89,10 +90,12 @@ export const WayStatistic = (props: WayStatisticProps) => {
   const dayReportsReversed = [...props.dayReports].reverse();
   const startDate = dayReportsReversed[0].createdAt;
   const lastDate = props.dayReports[0].createdAt;
-  const startDateLastWeek = props.wayCreatedAt <= lastWeekDate
+  const startDateLastWeek = props.wayCreatedAt <= DateUtils.getLastDate(AMOUNT_DAYS_IN_WEEK, lastDate)
     ? DateUtils.getLastDate(AMOUNT_DAYS_IN_WEEK, lastDate)
-    : props.wayCreatedAt;
-  const startDateLastMonth = props.wayCreatedAt <= lastMonthDate ? lastMonthDate : props.wayCreatedAt;
+    : startDate;
+  const startDateLastMonth = props.wayCreatedAt <= DateUtils.getLastDate(AMOUNT_DAYS_IN_WEEK, lastMonthDate)
+    ? DateUtils.getLastDate(AMOUNT_DAYS_IN_WEEK, lastMonthDate)
+    : startDate;
   const datesWithJobTotalTime: Map<string, number> = new Map(props.dayReports.map((report) => {
     const jobDoneTotalTime = report.jobsDone.reduce((totalTime, jobDone) => totalTime + jobDone.time, 0);
 
@@ -196,6 +199,12 @@ export const WayStatistic = (props: WayStatisticProps) => {
         lastDate={lastDate}
       />
 
+      <PieChart
+        startDate={startDate}
+        lastDate={lastDate}
+        tagStats={allTagStats}
+      />
+
       <Title
         level={HeadingLevel.h4}
         text="Last week"
@@ -219,6 +228,12 @@ export const WayStatistic = (props: WayStatisticProps) => {
         datesWithJobTotalTime={datesWithJobTotalTime}
         startDate={startDateLastWeek}
         lastDate={lastDate}
+      />
+
+      <PieChart
+        startDate={startDateLastWeek}
+        lastDate={lastDate}
+        tagStats={lastWeekTagStats}
       />
 
       <Title
@@ -245,6 +260,12 @@ export const WayStatistic = (props: WayStatisticProps) => {
         datesWithJobTotalTime={datesWithJobTotalTime}
         startDate={startDateLastMonth}
         lastDate={lastDate}
+      />
+
+      <PieChart
+        startDate={startDateLastMonth}
+        lastDate={lastDate}
+        tagStats={lastMonthTagStats}
       />
     </div>
   );

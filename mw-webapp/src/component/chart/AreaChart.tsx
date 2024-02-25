@@ -57,7 +57,7 @@ interface AreaChartProps {
 }
 
 /**
- * Chart component
+ * Area chart component
  */
 export const AreaChart = (props: AreaChartProps) => {
   const dateList = DateUtils.getDatesBetween(props.startDate, props.lastDate);
