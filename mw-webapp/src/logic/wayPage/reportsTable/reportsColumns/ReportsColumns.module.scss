@@ -35,10 +35,6 @@ $listLeftMargin: 20px;
   list-style-type: none;
 }
 
-.list:last-child {
-  margin-bottom: $gapBig;
-}
-
 .comment {
   list-style: none;
 }
@@ -97,9 +93,9 @@ $listLeftMargin: 20px;
 }
 
 .summarySection {
-  position: absolute;
-  bottom: $gapMedium;
   width: calc(100% - 2 * $gapMedium);
+  margin-top: $gapMedium;
+  margin-bottom: $gapMedium;
 }
 
 .icons {

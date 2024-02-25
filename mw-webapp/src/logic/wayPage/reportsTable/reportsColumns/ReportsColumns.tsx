@@ -745,47 +745,53 @@ export const Columns = (props: ColumnsProps) => {
 
         return (
           <VerticalContainer className={styles.list}>
-            {row.original.comments
-              .map((comment, index) => (
-                <VerticalContainer
-                  key={comment.uuid}
-                  className={styles.verticalContainer}
-                >
-                  <HorizontalContainer className={styles.horizontalContainer}>
-                    <HorizontalContainer className={styles.listNumberAndName}>
-                      {getListNumberByIndex(index)}
-                      <Link path={pages.user.getPath({uuid: comment.ownerUuid})}>
-                        {getName(props.way, comment.ownerUuid)}
-                      </Link>
-                    </HorizontalContainer>
-                    {comment.ownerUuid === user?.uuid &&
-                      <Tooltip
-                        content="Delete comment"
-                        position={PositionTooltip.LEFT}
-                      >
-                        <Confirm
-                          trigger={<TrashIcon className={styles.icon} />}
-                          content={<p>
-                            {`Are you sure you want to delete the comment "${comment.description}"?`}
-                          </p>}
-                          onOk={() => deleteComment(comment.uuid)}
-                          okText="Delete"
+            <ol className={styles.numberedList}>
+              {row.original.comments
+                .map((comment, index) => (
+                  <li
+                    key={comment.uuid}
+                    className={styles.numberedListItem}
+                  >
+                    <VerticalContainer
+                      key={comment.uuid}
+                      className={styles.verticalContainer}
+                    >
+                      <HorizontalContainer className={styles.horizontalContainer}>
+                        <HorizontalContainer className={styles.listNumberAndName}>
+                          {getListNumberByIndex(index)}
+                          <Link path={pages.user.getPath({uuid: comment.ownerUuid})}>
+                            {getName(props.way, comment.ownerUuid)}
+                          </Link>
+                        </HorizontalContainer>
+                        {comment.ownerUuid === user?.uuid &&
+                        <Tooltip
+                          content="Delete comment"
+                          position={PositionTooltip.LEFT}
+                        >
+                          <Confirm
+                            trigger={<TrashIcon className={styles.icon} />}
+                            content={<p>
+                              {`Are you sure you want to delete the comment "${comment.description}"?`}
+                            </p>}
+                            onOk={() => deleteComment(comment.uuid)}
+                            okText="Delete"
+                          />
+                        </Tooltip>
+                        }
+                      </HorizontalContainer>
+                      <HorizontalContainer>
+                        <EditableTextarea
+                          text={comment.description}
+                          onChangeFinish={(text) => updateComment(comment, text)}
+                          isEditable={comment.ownerUuid === user?.uuid}
+                          className={styles.editableTextarea}
                         />
-                      </Tooltip>
-                    }
-                  </HorizontalContainer>
-                  <HorizontalContainer>
-                    <EditableTextarea
-                      text={comment.description}
-                      onChangeFinish={(text) => updateComment(comment, text)}
-                      isEditable={comment.ownerUuid === user?.uuid}
-                      className={styles.editableTextarea}
-                    />
-                  </HorizontalContainer>
-                </VerticalContainer>
-              ),
-              )}
-
+                      </HorizontalContainer>
+                    </VerticalContainer>
+                  </li>
+                ),
+                )}
+            </ol>
             <div className={styles.summarySection}>
               {isUserOwnerOrMentor &&
               <Tooltip
