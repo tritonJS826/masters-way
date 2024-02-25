@@ -88,8 +88,8 @@ export const WayStatistic = (props: WayStatisticProps) => {
   }
 
   const dayReportsReversed = [...props.dayReports].reverse();
-  const startDate = dayReportsReversed[0].createdAt;
-  const lastDate = props.dayReports[0].createdAt;
+  const startDate = dayReportsReversed[0] ? dayReportsReversed[0].createdAt : props.wayCreatedAt;
+  const lastDate = props.dayReports[0] ? props.dayReports[0].createdAt : props.wayCreatedAt;
   const startDateLastWeek = props.wayCreatedAt <= DateUtils.getLastDate(AMOUNT_DAYS_IN_WEEK, lastDate)
     ? DateUtils.getLastDate(AMOUNT_DAYS_IN_WEEK, lastDate)
     : startDate;
@@ -193,17 +193,20 @@ export const WayStatistic = (props: WayStatisticProps) => {
 
       <TagStats stats={allTagStats} />
 
-      <AreaChart
-        datesWithJobTotalTime={datesWithJobTotalTime}
-        startDate={startDate}
-        lastDate={lastDate}
-      />
-
-      <PieChart
-        startDate={startDate}
-        lastDate={lastDate}
-        tagStats={allTagStats}
-      />
+      {!!props.dayReports.length &&
+        <>
+          <AreaChart
+            datesWithJobTotalTime={datesWithJobTotalTime}
+            startDate={startDate}
+            lastDate={lastDate}
+          />
+          <PieChart
+            startDate={startDate}
+            lastDate={lastDate}
+            tagStats={allTagStats}
+          />
+        </>
+      }
 
       <Title
         level={HeadingLevel.h4}
@@ -224,17 +227,20 @@ export const WayStatistic = (props: WayStatisticProps) => {
       />
       <TagStats stats={lastWeekTagStats} />
 
-      <AreaChart
-        datesWithJobTotalTime={datesWithJobTotalTime}
-        startDate={startDateLastWeek}
-        lastDate={lastDate}
-      />
-
-      <PieChart
-        startDate={startDateLastWeek}
-        lastDate={lastDate}
-        tagStats={lastWeekTagStats}
-      />
+      {!!props.dayReports.length &&
+        <>
+          <AreaChart
+            datesWithJobTotalTime={datesWithJobTotalTime}
+            startDate={startDateLastWeek}
+            lastDate={lastDate}
+          />
+          <PieChart
+            startDate={startDateLastWeek}
+            lastDate={lastDate}
+            tagStats={lastWeekTagStats}
+          />
+        </>
+      }
 
       <Title
         level={HeadingLevel.h4}
@@ -256,17 +262,20 @@ export const WayStatistic = (props: WayStatisticProps) => {
 
       <TagStats stats={lastMonthTagStats} />
 
-      <AreaChart
-        datesWithJobTotalTime={datesWithJobTotalTime}
-        startDate={startDateLastMonth}
-        lastDate={lastDate}
-      />
-
-      <PieChart
-        startDate={startDateLastMonth}
-        lastDate={lastDate}
-        tagStats={lastMonthTagStats}
-      />
+      {!!props.dayReports.length &&
+        <>
+          <AreaChart
+            datesWithJobTotalTime={datesWithJobTotalTime}
+            startDate={startDateLastMonth}
+            lastDate={lastDate}
+          />
+          <PieChart
+            startDate={startDateLastMonth}
+            lastDate={lastDate}
+            tagStats={lastMonthTagStats}
+          />
+        </>
+      }
     </div>
   );
 };

@@ -49,7 +49,7 @@ export const PieChart = (props: PieChartProps) => {
     labels,
     datasets: [
       {
-        label: "Total time",
+        label: "Time",
         data: jobTagsTotalTime,
         backgroundColor: jobTagsBackgroundColors,
       },
