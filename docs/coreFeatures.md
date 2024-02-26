@@ -62,7 +62,7 @@
 ## UserPage (default for logged in)
 - [ ] add visual notifications when favorite or mentoring ways changed (or just show last update)
 - [ ] add push notifications when favorite or mentoring ways changed
-- [ ] add ability to archive the way (add filter hide archived)
+- [x] add ability to group ways by collections
 - [ ] create/delete composite way - readonly
 
 ## WayPage
@@ -86,21 +86,21 @@
   * repeatable jobDone - sport;
   * with no repeatable jobDone - programming, science, art, engineering, language, onboarding;
   * mixed type - music
-- [ ] show progress (and compare percentage of completed tasks, worked time, time period)
+- [x] show progress (and compare percentage of completed tasks, worked time, time period)
 - [ ] Add tags for way
 - [ ] complete plan feature icon (copy to jobDone for today)
-- [ ] Possibility to add tags for each JobDone, plan
+- [x] Possibility to add tags for each JobDone, plan
 - [ ] export way data to csv
-- [ ] export way to pdf
+- [x] export way to pdf
 - [ ] add to way statistics settings checkboxes for all available way statistic and allow user to adjust what to show
 - [ ] Optimization: load only last 30 DayReports (lazy loading) 
 - [ ] share result (with LinkedIn - way completed)
 
 ## AllWaysPage (default for not logged in)
 - [ ] AllWaysPage: search/filter panel
-- [ ] AllWaysPage: Add status for Way (finished, inProgress, abandoned) (colored?)
-- [ ] AllWaysPage: add pagination (think about it)
-- [ ] AllWaysPage: request optimization, save users into hashmap and load each user once
+- [x] AllWaysPage: Add status for Way (finished, inProgress, abandoned) (colored?)
+- [x] AllWaysPage: add pagination (think about it)
+- [x] AllWaysPage: request optimization, save users into hashmap and load each user once
 - [x] AllWaysPage: add property Way.lastUpdate for Way (must auto update when click on button add dayReport)
 - [ ] AllWaysPage: cell goal should contain short description (max 2 line) but by clicking modal window should be opened with full description and metrics(think about statistic info that could be shown)
 

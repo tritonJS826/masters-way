@@ -153,6 +153,7 @@ storybook-static/
 
 # cypress
 /*/cypress/screenshots
+/*/cypress/downloads
 
 # backups
 /backups
