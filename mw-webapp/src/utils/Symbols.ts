@@ -28,9 +28,4 @@ export enum Symbols {
    */
   STAR = "\u2605",
 
-  /**
-   * Plus Sign
-   */
-  PLUS = "➕",
-
 }

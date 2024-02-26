@@ -115,7 +115,7 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
       onError: (error: Error) => {
         throw error;
       },
-      dependency: [props.filterStatus],
+      dependency: [props.filterStatus, props.wayUuids],
     },
   );
 
