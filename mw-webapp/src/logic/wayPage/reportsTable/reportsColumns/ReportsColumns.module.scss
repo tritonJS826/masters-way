@@ -17,13 +17,10 @@ $listLeftMargin: 20px;
 }
 
 .flatButton {
-  width: 20px;
-  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 0;
-  color: transparent;
-  line-height: 20px;
-  text-align: center;
-  text-shadow: 0 0 0 var(--primaryTextColor);
 }
 
 .summaryText {

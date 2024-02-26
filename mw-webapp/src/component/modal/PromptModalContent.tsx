@@ -51,29 +51,31 @@ export const PromptModalContent = (props: PromptModalContentProps) => {
   };
 
   return (
-    <DialogClose asChild>
-      <div onKeyDown={handleEnter}>
-        <Input
-          type="text"
-          placeholder="tag"
-          value={inputValue}
-          autoFocus={true}
-          onChange={setInputValue}
-        />
-        <HorizontalContainer className={styles.buttons}>
+    <div onKeyDown={handleEnter}>
+      <Input
+        type="text"
+        placeholder="tag"
+        value={inputValue}
+        autoFocus={true}
+        onChange={setInputValue}
+      />
+      <HorizontalContainer className={styles.buttons}>
+        <DialogClose asChild>
           <Button
             value="Cancel"
             onClick={props.close}
           />
+        </DialogClose>
 
+        <DialogClose asChild>
           <Button
             ref={onOkRef}
             value="Create"
             onClick={() => props.onOk(inputValue)}
             buttonType={ButtonType.PRIMARY}
           />
-        </HorizontalContainer>
-      </div>
-    </DialogClose>
+        </DialogClose>
+      </HorizontalContainer>
+    </div>
   );
 };

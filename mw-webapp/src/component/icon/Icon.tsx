@@ -4,6 +4,7 @@ import {EyeSlashedIcon} from "src/assets/icons/EyeSlashedIcon";
 import {FileIcon} from "src/assets/icons/FileIcon";
 import {GridViewIcon} from "src/assets/icons/GridViewIcon";
 import {MoonIcon} from "src/assets/icons/MoonIcon";
+import {PlusIcon} from "src/assets/icons/PlusIcon";
 import {StarIcon} from "src/assets/icons/StarIcon";
 import {SunIcon} from "src/assets/icons/SunIcon";
 import {TableViewIcon} from "src/assets/icons/TableViewIcon";
@@ -53,6 +54,11 @@ const IconDictionary = {
    * File icon
    */
   FileIcon: (params: IconProps) => <FileIcon {...params} />,
+
+  /**
+   * Plus icon
+   */
+  PlusIcon: (params: IconProps) => <PlusIcon {...params} />,
 };
 
 /**

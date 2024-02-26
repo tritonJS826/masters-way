@@ -29,9 +29,9 @@ export enum ButtonType {
 export interface ButtonProps {
 
   /**
-   * Button's value (text)
+   * Button's value (content)
    */
-  value: string;
+  value: string | JSX.Element;
 
   /**
    * Callback triggered on button click

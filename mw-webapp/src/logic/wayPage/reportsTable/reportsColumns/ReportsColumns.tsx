@@ -7,6 +7,7 @@ import {Confirm} from "src/component/confirm/Confirm";
 import {EditableValue} from "src/component/editableText/EditableText";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {Icon, IconSize} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
 import {Modal} from "src/component/modal/Modal";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
@@ -322,7 +323,12 @@ export const Columns = (props: ColumnsProps) => {
                 position={PositionTooltip.RIGHT}
               >
                 <Button
-                  value={Symbols.PLUS}
+                  value={
+                    <Icon
+                      size={IconSize.SMALL}
+                      name="PlusIcon"
+                    />
+                  }
                   onClick={createJobDone}
                   className={styles.flatButton}
                 />
@@ -526,7 +532,12 @@ export const Columns = (props: ColumnsProps) => {
                   position={PositionTooltip.RIGHT}
                 >
                   <Button
-                    value={Symbols.PLUS}
+                    value={
+                      <Icon
+                        size={IconSize.SMALL}
+                        name="PlusIcon"
+                      />
+                    }
                     onClick={() => createPlan(user.uuid)}
                     className={styles.flatButton}
                   />
@@ -670,7 +681,12 @@ export const Columns = (props: ColumnsProps) => {
                 position={PositionTooltip.RIGHT}
               >
                 <Button
-                  value={Symbols.PLUS}
+                  value={
+                    <Icon
+                      size={IconSize.SMALL}
+                      name="PlusIcon"
+                    />
+                  }
                   onClick={() => createProblem(user.uuid)}
                   className={styles.flatButton}
                 />
@@ -793,7 +809,12 @@ export const Columns = (props: ColumnsProps) => {
                 content="Add comment"
               >
                 <Button
-                  value={Symbols.PLUS}
+                  value={
+                    <Icon
+                      size={IconSize.SMALL}
+                      name="PlusIcon"
+                    />
+                  }
                   onClick={() => createComment(user.uuid)}
                   className={styles.flatButton}
                 />
