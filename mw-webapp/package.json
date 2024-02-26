@@ -19,8 +19,10 @@
     "prepare": "cd .. && husky install",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "cypress-open": "cypress open",
-    "cypress-run": "cypress run --component"
+    "cypress:component:open": "cypress open --component",
+    "cypress:component:run": "cypress run --component",
+    "cypress:e2e:open": "cypress open",
+    "cypress:e2e:run": "cypress run"
   },
   "engines": {
     "node": "20.11.0",
