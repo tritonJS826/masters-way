@@ -15,7 +15,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "types": ["vite/client", "cypress"],
+    "types": ["vite/client", "cypress", "cypress-real-events"],
     "baseUrl": "./",
     "paths": {
       "src/*": ["./src/*"]

@@ -23,6 +23,11 @@ interface TooltipProps {
    * default: {@link PositionTooltip.TOP}
    */
   position?: PositionTooltip;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCy?: string;
 }
 
 /**
@@ -40,7 +45,10 @@ export const Tooltip = (props: PropsWithChildren<TooltipProps>) => {
       <div className={styles.target}>
         {props.children}
       </div>
-      <div className={contentClassNames}>
+      <div
+        data-cy={props.dataCy}
+        className={contentClassNames}
+      >
         {props.content}
       </div>
     </div>
