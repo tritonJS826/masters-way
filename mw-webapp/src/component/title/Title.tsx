@@ -53,6 +53,11 @@ interface TitleProps {
    * Looks like it used only for logo. If logo does not use Title anymore, we can remove it
    */
   onClick?: () => void;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCy?: string;
 }
 
 /**
@@ -94,6 +99,7 @@ export const Title = (props: TitleProps) => {
       onBlur={handleChangeFinish}
       onKeyDown={handleEnter}
       className={clsx(styles.editableText, props.className)}
+      data-cy={props.dataCy}
     >
       {isEditing
         ? (
