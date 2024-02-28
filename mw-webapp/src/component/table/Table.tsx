@@ -44,6 +44,12 @@ interface TableProps<T> {
    * @default is none
    */
   classNameTd?: string;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCy?: string;
+
 }
 
 /**
@@ -53,7 +59,10 @@ export const Table = <T extends UuidProps, > (props: TableProps<TableData<T>>) =
   const data = props.data;
 
   return (
-    <table className={styles.table}>
+    <table
+      className={styles.table}
+      data-cy={props.dataCy}
+    >
       <thead className={styles.thead}>
         {data.headerGroup.map((headerGroup) => (
           <tr

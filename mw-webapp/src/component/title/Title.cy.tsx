@@ -1,5 +1,4 @@
 import "cypress-real-events/support";
-import "cypress-real-events";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {getDataCy} from "src/utils/cyTesting/getDataCy";
 
@@ -8,7 +7,7 @@ const TITLE_CY = "title";
 const TITLE_LEVEL = HeadingLevel.h1;
 const IS_EDITABLE = true;
 
-describe("Tooltip component", () => {
+describe("Title component", () => {
 
   /**
    * Beginning of the test for the Title component.
