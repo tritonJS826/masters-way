@@ -248,71 +248,69 @@ export const Columns = (props: ColumnsProps) => {
                   key={jobDone.uuid}
                   className={styles.numberedListItem}
                 >
-                  <VerticalContainer className={styles.verticalContainer}>
-                    <HorizontalContainer className={clsx(styles.horizontalContainer, styles.listNumberAndName)}>
-                      {getListNumberByIndex(index)}
-                      <HorizontalContainer className={styles.icons}>
-                        {isUserOwnerOrMentor ?
-                          <Modal
-                            trigger={
-                              <div className={styles.tagsBlockTrigger}>
-                                <JobDoneTags jobDoneTags={jobDone.tags} />
-                              </div>
-                            }
-                            content={
-                              <ModalContentJobTags
-                                jobTags={props.way.jobTags}
-                                jobDoneTags={jobDone.tags}
-                                isEditable={isUserOwnerOrMentor}
-                                updateTags={(tagsToUpdate: JobTag[]) => updateReport({
-                                  ...row.original,
-                                  jobsDone: row.original.jobsDone?.map(previousJobDone => previousJobDone.uuid === jobDone.uuid
-                                    ? {...previousJobDone, tags: tagsToUpdate}
-                                    : previousJobDone),
-                                })}
-                              />
-                            }
-                          />
-                          : <JobDoneTags jobDoneTags={jobDone.tags} />
-                        }
-                        <Tooltip
-                          position={PositionTooltip.RIGHT}
-                          content={`Time${Symbols.NO_BREAK_SPACE}spent on job`}
-                        >
-                          <EditableValue
-                            value={jobDone.time}
-                            type="number"
-                            max={MAX_TIME}
-                            onChangeFinish={(time) =>
-                              updateJobDoneTime(jobDone, getValidatedTime(Number(time)))}
-                            className={styles.editableTime}
-                            isEditable={isUserOwnerOrMentor}
-                          />
-                        </Tooltip>
-                        {isUserOwnerOrMentor &&
-                          <Tooltip
-                            position={PositionTooltip.RIGHT}
-                            content="Delete jobDone"
-                          >
-                            <Confirm
-                              trigger={<TrashIcon className={styles.icon} />}
-                              content={<p>
-                                {`Are you sure you want to delete the jobDone "${jobDone.description}"?`}
-                              </p>}
-                              onOk={() => deleteJobDone(jobDone.uuid)}
-                              okText="Delete"
+                  <HorizontalContainer className={clsx(styles.horizontalContainer, styles.listNumberAndName)}>
+                    {getListNumberByIndex(index)}
+                    <HorizontalContainer className={styles.icons}>
+                      {isUserOwnerOrMentor ?
+                        <Modal
+                          trigger={
+                            <div className={styles.tagsBlockTrigger}>
+                              <JobDoneTags jobDoneTags={jobDone.tags} />
+                            </div>
+                          }
+                          content={
+                            <ModalContentJobTags
+                              jobTags={props.way.jobTags}
+                              jobDoneTags={jobDone.tags}
+                              isEditable={isUserOwnerOrMentor}
+                              updateTags={(tagsToUpdate: JobTag[]) => updateReport({
+                                ...row.original,
+                                jobsDone: row.original.jobsDone?.map(previousJobDone => previousJobDone.uuid === jobDone.uuid
+                                  ? {...previousJobDone, tags: tagsToUpdate}
+                                  : previousJobDone),
+                              })}
                             />
-                          </Tooltip>
-                        }
-                      </HorizontalContainer>
+                          }
+                        />
+                        : <JobDoneTags jobDoneTags={jobDone.tags} />
+                      }
+                      <Tooltip
+                        position={PositionTooltip.RIGHT}
+                        content={`Time${Symbols.NO_BREAK_SPACE}spent on job`}
+                      >
+                        <EditableValue
+                          value={jobDone.time}
+                          type="number"
+                          max={MAX_TIME}
+                          onChangeFinish={(time) =>
+                            updateJobDoneTime(jobDone, getValidatedTime(Number(time)))}
+                          className={styles.editableTime}
+                          isEditable={isUserOwnerOrMentor}
+                        />
+                      </Tooltip>
+                      {isUserOwnerOrMentor &&
+                      <Tooltip
+                        position={PositionTooltip.RIGHT}
+                        content="Delete jobDone"
+                      >
+                        <Confirm
+                          trigger={<TrashIcon className={styles.icon} />}
+                          content={<p>
+                            {`Are you sure you want to delete the jobDone "${jobDone.description}"?`}
+                          </p>}
+                          onOk={() => deleteJobDone(jobDone.uuid)}
+                          okText="Delete"
+                        />
+                      </Tooltip>
+                      }
                     </HorizontalContainer>
-                    <EditableTextarea
-                      text={jobDone.description}
-                      onChangeFinish={(text) => updateJobDone(jobDone, text)}
-                      isEditable={isUserOwnerOrMentor}
-                      className={styles.editableTextarea}
-                    />
-                  </VerticalContainer>
+                  </HorizontalContainer>
+                  <EditableTextarea
+                    text={jobDone.description}
+                    onChangeFinish={(text) => updateJobDone(jobDone, text)}
+                    isEditable={isUserOwnerOrMentor}
+                    className={styles.editableTextarea}
+                  />
                 </li>
               ))}
             </ol>
@@ -438,89 +436,87 @@ export const Columns = (props: ColumnsProps) => {
                   key={plan.uuid}
                   className={styles.numberedListItem}
                 >
-                  <VerticalContainer className={styles.verticalContainer}>
-                    <HorizontalContainer className={styles.horizontalContainer}>
-                      <HorizontalContainer className={styles.listNumberAndName}>
-                        {getListNumberByIndex(index)}
-                        <Link path={pages.user.getPath({uuid: plan.ownerUuid})}>
-                          {getName(props.way, plan.ownerUuid)}
-                        </Link>
-                      </HorizontalContainer>
-                      <HorizontalContainer className={styles.icons}>
-                        {isUserOwnerOrMentor ?
-                          <Modal
-                            trigger={
-                              <div className={styles.tagsBlockTrigger}>
-                                <JobDoneTags jobDoneTags={plan.tags} />
-                              </div>
-                            }
-                            content={
-                              <ModalContentJobTags
-                                jobTags={props.way.jobTags}
-                                jobDoneTags={plan.tags}
-                                isEditable={isUserOwnerOrMentor}
-                                updateTags={(tagsToUpdate: JobTag[]) => updateReport({
-                                  ...row.original,
-                                  plans: row.original.plans?.map(previousPlan => previousPlan.uuid === plan.uuid
-                                    ? {...previousPlan, tags: tagsToUpdate}
-                                    : previousPlan),
-                                })}
-                              />
-                            }
-                          />
-                          : <JobDoneTags jobDoneTags={plan.tags} />
-                        }
-                        <Tooltip
-                          position={PositionTooltip.RIGHT}
-                          content={`Estimated${Symbols.NO_BREAK_SPACE}time for the plan`}
-                        >
-                          <EditableValue
-                            value={plan.estimationTime}
-                            type="number"
-                            max={MAX_TIME}
-                            onChangeFinish={(estimationTime) => updatePlanTime(plan, getValidatedTime(Number(estimationTime)))}
-                            className={styles.editableTime}
-                            isEditable={plan.ownerUuid === user?.uuid}
-                          />
-                        </Tooltip>
-                        {isUserOwnerOrMentor &&
-                          <Tooltip
-                            content={`Click${Symbols.NO_BREAK_SPACE}to${Symbols.NO_BREAK_SPACE}mark the plan as completed.
+                  <HorizontalContainer className={styles.horizontalContainer}>
+                    <HorizontalContainer className={styles.listNumberAndName}>
+                      {getListNumberByIndex(index)}
+                      <Link path={pages.user.getPath({uuid: plan.ownerUuid})}>
+                        {getName(props.way, plan.ownerUuid)}
+                      </Link>
+                    </HorizontalContainer>
+                    <HorizontalContainer className={styles.icons}>
+                      {isUserOwnerOrMentor ?
+                        <Modal
+                          trigger={
+                            <div className={styles.tagsBlockTrigger}>
+                              <JobDoneTags jobDoneTags={plan.tags} />
+                            </div>
+                          }
+                          content={
+                            <ModalContentJobTags
+                              jobTags={props.way.jobTags}
+                              jobDoneTags={plan.tags}
+                              isEditable={isUserOwnerOrMentor}
+                              updateTags={(tagsToUpdate: JobTag[]) => updateReport({
+                                ...row.original,
+                                plans: row.original.plans?.map(previousPlan => previousPlan.uuid === plan.uuid
+                                  ? {...previousPlan, tags: tagsToUpdate}
+                                  : previousPlan),
+                              })}
+                            />
+                          }
+                        />
+                        : <JobDoneTags jobDoneTags={plan.tags} />
+                      }
+                      <Tooltip
+                        position={PositionTooltip.RIGHT}
+                        content={`Estimated${Symbols.NO_BREAK_SPACE}time for the plan`}
+                      >
+                        <EditableValue
+                          value={plan.estimationTime}
+                          type="number"
+                          max={MAX_TIME}
+                          onChangeFinish={(estimationTime) => updatePlanTime(plan, getValidatedTime(Number(estimationTime)))}
+                          className={styles.editableTime}
+                          isEditable={plan.ownerUuid === user?.uuid}
+                        />
+                      </Tooltip>
+                      {isUserOwnerOrMentor &&
+                      <Tooltip
+                        content={`Click${Symbols.NO_BREAK_SPACE}to${Symbols.NO_BREAK_SPACE}mark the plan as completed.
                               Coming soon`}
-                            position={PositionTooltip.RIGHT}
-                          >
-                            <Checkbox
-                              onChange={() => {}}
-                              className={styles.checkbox}
-                            />
-                          </Tooltip>
-                        }
-                        {plan.ownerUuid === user?.uuid &&
-                          <Tooltip
-                            content="Delete plan"
-                            position={PositionTooltip.RIGHT}
-                          >
-                            <Confirm
-                              trigger={<TrashIcon className={styles.icon} />}
-                              content={<p>
-                                {`Are you sure you want to delete the plan "${plan.job}"?`}
-                              </p>}
-                              onOk={() => deletePlan(plan.uuid)}
-                              okText="Delete"
-                            />
-                          </Tooltip>
-                        }
-                      </HorizontalContainer>
+                        position={PositionTooltip.RIGHT}
+                      >
+                        <Checkbox
+                          onChange={() => {}}
+                          className={styles.checkbox}
+                        />
+                      </Tooltip>
+                      }
+                      {plan.ownerUuid === user?.uuid &&
+                      <Tooltip
+                        content="Delete plan"
+                        position={PositionTooltip.RIGHT}
+                      >
+                        <Confirm
+                          trigger={<TrashIcon className={styles.icon} />}
+                          content={<p>
+                            {`Are you sure you want to delete the plan "${plan.job}"?`}
+                          </p>}
+                          onOk={() => deletePlan(plan.uuid)}
+                          okText="Delete"
+                        />
+                      </Tooltip>
+                      }
                     </HorizontalContainer>
-                    <HorizontalContainer>
-                      <EditableTextarea
-                        text={plan.job}
-                        onChangeFinish={(text) => updatePlan(plan, text)}
-                        isEditable={plan.ownerUuid === user?.uuid}
-                        className={styles.editableTextarea}
-                      />
-                    </HorizontalContainer>
-                  </VerticalContainer>
+                  </HorizontalContainer>
+                  <HorizontalContainer>
+                    <EditableTextarea
+                      text={plan.job}
+                      onChangeFinish={(text) => updatePlan(plan, text)}
+                      isEditable={plan.ownerUuid === user?.uuid}
+                      className={styles.editableTextarea}
+                    />
+                  </HorizontalContainer>
                 </li>
               ))}
             </ol>
@@ -626,51 +622,49 @@ export const Columns = (props: ColumnsProps) => {
                   key={problem.uuid}
                   className={styles.numberedListItem}
                 >
-                  <VerticalContainer className={styles.verticalContainer}>
-                    <HorizontalContainer className={styles.horizontalContainer}>
-                      <HorizontalContainer className={styles.listNumberAndName}>
-                        {getListNumberByIndex(index)}
-                        <Link path={pages.user.getPath({uuid: problem.ownerUuid})}>
-                          {getName(props.way, problem.ownerUuid)}
-                        </Link>
-                      </HorizontalContainer>
-                      <HorizontalContainer className={styles.icons}>
-                        {isUserOwnerOrMentor &&
-                          <Tooltip
-                            position={PositionTooltip.RIGHT}
-                            content={`Click${Symbols.NO_BREAK_SPACE}to${Symbols.NO_BREAK_SPACE}mark
-                            the problem as completed. Coming soon`}
-                          >
-                            <Checkbox
-                              onChange={() => {}}
-                              className={styles.checkbox}
-                            />
-                          </Tooltip>
-                        }
-                        {problem.ownerUuid === user?.uuid &&
-                          <Tooltip
-                            content="Delete problem"
-                            position={PositionTooltip.RIGHT}
-                          >
-                            <Confirm
-                              trigger={<TrashIcon className={styles.icon} />}
-                              content={<p>
-                                {`Are you sure you want to delete the problem "${problem.description}"?`}
-                              </p>}
-                              onOk={() => deleteProblem(problem.uuid)}
-                              okText="Delete"
-                            />
-                          </Tooltip>
-                        }
-                      </HorizontalContainer>
+                  <HorizontalContainer className={styles.horizontalContainer}>
+                    <HorizontalContainer className={styles.listNumberAndName}>
+                      {getListNumberByIndex(index)}
+                      <Link path={pages.user.getPath({uuid: problem.ownerUuid})}>
+                        {getName(props.way, problem.ownerUuid)}
+                      </Link>
                     </HorizontalContainer>
-                    <EditableTextarea
-                      text={problem.description}
-                      onChangeFinish={(text) => updateProblem(problem, text)}
-                      isEditable={problem.ownerUuid === user?.uuid}
-                      className={styles.editableTextarea}
-                    />
-                  </VerticalContainer>
+                    <HorizontalContainer className={styles.icons}>
+                      {isUserOwnerOrMentor &&
+                      <Tooltip
+                        position={PositionTooltip.RIGHT}
+                        content={`Click${Symbols.NO_BREAK_SPACE}to${Symbols.NO_BREAK_SPACE}mark
+                            the problem as completed. Coming soon`}
+                      >
+                        <Checkbox
+                          onChange={() => {}}
+                          className={styles.checkbox}
+                        />
+                      </Tooltip>
+                      }
+                      {problem.ownerUuid === user?.uuid &&
+                      <Tooltip
+                        content="Delete problem"
+                        position={PositionTooltip.RIGHT}
+                      >
+                        <Confirm
+                          trigger={<TrashIcon className={styles.icon} />}
+                          content={<p>
+                            {`Are you sure you want to delete the problem "${problem.description}"?`}
+                          </p>}
+                          onOk={() => deleteProblem(problem.uuid)}
+                          okText="Delete"
+                        />
+                      </Tooltip>
+                      }
+                    </HorizontalContainer>
+                  </HorizontalContainer>
+                  <EditableTextarea
+                    text={problem.description}
+                    onChangeFinish={(text) => updateProblem(problem, text)}
+                    isEditable={problem.ownerUuid === user?.uuid}
+                    className={styles.editableTextarea}
+                  />
                 </li>
               ))}
             </ol>
@@ -761,47 +755,48 @@ export const Columns = (props: ColumnsProps) => {
 
         return (
           <VerticalContainer className={styles.list}>
-            {row.original.comments
-              .map((comment, index) => (
-                <VerticalContainer
-                  key={comment.uuid}
-                  className={styles.verticalContainer}
-                >
-                  <HorizontalContainer className={styles.horizontalContainer}>
-                    <HorizontalContainer className={styles.listNumberAndName}>
-                      {getListNumberByIndex(index)}
-                      <Link path={pages.user.getPath({uuid: comment.ownerUuid})}>
-                        {getName(props.way, comment.ownerUuid)}
-                      </Link>
+            <ol className={styles.numberedList}>
+              {row.original.comments
+                .map((comment, index) => (
+                  <li
+                    key={comment.uuid}
+                    className={styles.numberedListItem}
+                  >
+                    <HorizontalContainer className={styles.horizontalContainer}>
+                      <HorizontalContainer className={styles.listNumberAndName}>
+                        {getListNumberByIndex(index)}
+                        <Link path={pages.user.getPath({uuid: comment.ownerUuid})}>
+                          {getName(props.way, comment.ownerUuid)}
+                        </Link>
+                      </HorizontalContainer>
+                      {comment.ownerUuid === user?.uuid &&
+                        <Tooltip
+                          content="Delete comment"
+                          position={PositionTooltip.LEFT}
+                        >
+                          <Confirm
+                            trigger={<TrashIcon className={styles.icon} />}
+                            content={<p>
+                              {`Are you sure you want to delete the comment "${comment.description}"?`}
+                            </p>}
+                            onOk={() => deleteComment(comment.uuid)}
+                            okText="Delete"
+                          />
+                        </Tooltip>
+                      }
                     </HorizontalContainer>
-                    {comment.ownerUuid === user?.uuid &&
-                      <Tooltip
-                        content="Delete comment"
-                        position={PositionTooltip.LEFT}
-                      >
-                        <Confirm
-                          trigger={<TrashIcon className={styles.icon} />}
-                          content={<p>
-                            {`Are you sure you want to delete the comment "${comment.description}"?`}
-                          </p>}
-                          onOk={() => deleteComment(comment.uuid)}
-                          okText="Delete"
-                        />
-                      </Tooltip>
-                    }
-                  </HorizontalContainer>
-                  <HorizontalContainer>
-                    <EditableTextarea
-                      text={comment.description}
-                      onChangeFinish={(text) => updateComment(comment, text)}
-                      isEditable={comment.ownerUuid === user?.uuid}
-                      className={styles.editableTextarea}
-                    />
-                  </HorizontalContainer>
-                </VerticalContainer>
-              ),
-              )}
-
+                    <HorizontalContainer>
+                      <EditableTextarea
+                        text={comment.description}
+                        onChangeFinish={(text) => updateComment(comment, text)}
+                        isEditable={comment.ownerUuid === user?.uuid}
+                        className={styles.editableTextarea}
+                      />
+                    </HorizontalContainer>
+                  </li>
+                ),
+                )}
+            </ol>
             <div className={styles.summarySection}>
               {isUserOwnerOrMentor &&
               <Tooltip
