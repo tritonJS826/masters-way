@@ -17,6 +17,12 @@ interface SidebarContentProps extends PropsWithChildren {
    * Callback triggered on SidebarContent click
    */
   onClick: () => void;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCyContent?: string;
+
 }
 
 /**
@@ -35,18 +41,20 @@ export const SidebarContent = (props: SidebarContentProps) => {
 
   return (
     <DialogPortal>
-      <DialogOverlay className={styles.dialogOverlay} />
-      <DialogContent
-        className={styles.dialogContent}
-        onClick={onClickHandler}
-      >
-        {props.children}
-        <DialogClose asChild>
-          <button className={styles.closeButton}>
-            <Cross2Icon />
-          </button>
-        </DialogClose>
-      </DialogContent>
+      <div data-cy={props.dataCyContent}>
+        <DialogOverlay className={styles.dialogOverlay} />
+        <DialogContent
+          className={styles.dialogContent}
+          onClick={onClickHandler}
+        >
+          {props.children}
+          <DialogClose asChild>
+            <button className={styles.closeButton}>
+              <Cross2Icon />
+            </button>
+          </DialogClose>
+        </DialogContent>
+      </div>
     </DialogPortal>
   );
 };
