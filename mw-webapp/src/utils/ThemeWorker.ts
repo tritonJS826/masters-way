@@ -97,9 +97,13 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     [Theme.DARK]: "rgb(102, 7, 8)",
     [Theme.LIGHT]: "transparent",
   },
+  tertiaryBorderColor: {
+    [Theme.DARK]: "rgb(11, 9, 10)",
+    [Theme.LIGHT]: "rgb(102, 7, 8)",
+  },
   border: {
-    [Theme.DARK]: "1px var(--primaryBackgroundColor) solid",
-    [Theme.LIGHT]: "1px var(--secondaryBorderColor) solid",
+    [Theme.DARK]: "1px var(--tertiaryBorderColor) solid",
+    [Theme.LIGHT]: "1px var(--tertiaryBorderColor) solid",
   },
 };
 
