@@ -25,12 +25,12 @@ const SIDEBAR_LINKS: NavigationLink[] = [
   },
 ];
 
+const SIDEBAR_CLOSE_BUTTON = "[class*=\"closeButton\"]";
+const SIDEBAR_OVERLAY = "[class*=\"dialogOverlay\"]";
+
 describe("Sidebar component", () => {
 
-  /**
-   * Beginning of the test for the Sidebar component.
-   */
-  const mountSidebar = () => {
+  beforeEach(() => {
     cy.mount(
       <BrowserRouter>
         <Sidebar
@@ -41,38 +41,38 @@ describe("Sidebar component", () => {
       </BrowserRouter>
       ,
     );
-  };
-
-  it("should render sidebar trigger", () => {
-    mountSidebar();
-    cy.get(getDataCy(SIDEBAR_CY.dataCyTrigger)).should("exist");
   });
 
-  it("should not render sidebar content by default", () => {
-    mountSidebar();
-    cy.get(getDataCy(SIDEBAR_CY.dataCyContent)).should("not.exist");
+  it("should render sidebar trigger and should not render sidebar content by default", () => {
+    cy.get(getDataCy(SIDEBAR_CY.dataCyTrigger))
+      .should("exist");
+    cy.get(getDataCy(SIDEBAR_CY.dataCyContent))
+      .should("not.exist");
   });
 
   it("should sidebar be opened when click trigger", () => {
-    mountSidebar();
-    cy.get(getDataCy(SIDEBAR_CY.dataCyTrigger)).click();
-    cy.get(getDataCy(SIDEBAR_CY.dataCyContent)).should("exist");
+    cy.get(getDataCy(SIDEBAR_CY.dataCyTrigger))
+      .click();
+    cy.get(getDataCy(SIDEBAR_CY.dataCyContent))
+      .should("exist");
   });
 
   it("should sidebar be closed when click cross", () => {
-    mountSidebar();
-    cy.get(getDataCy(SIDEBAR_CY.dataCyTrigger)).click();
-    cy.get(getDataCy(SIDEBAR_CY.dataCyContent)).should("exist");
-    cy.get(getDataCy(SIDEBAR_CY.dataCyContent)).children().last().children("button").click();
-    cy.get(getDataCy(SIDEBAR_CY.dataCyContent)).should("not.exist");
+    cy.get(getDataCy(SIDEBAR_CY.dataCyTrigger))
+      .click();
+    cy.get(getDataCy(SIDEBAR_CY.dataCyContent))
+      .find(SIDEBAR_CLOSE_BUTTON).click();
+    cy.get(getDataCy(SIDEBAR_CY.dataCyContent))
+      .should("not.exist");
   });
 
   it("should sidebar be closed when click background", () => {
-    mountSidebar();
-    cy.get(getDataCy(SIDEBAR_CY.dataCyTrigger)).click();
-    cy.get(getDataCy(SIDEBAR_CY.dataCyContent)).should("exist");
-    cy.get("[class*=\"dialogOverlay\"]").click({force: true});
-    cy.get(getDataCy(SIDEBAR_CY.dataCyContent)).should("not.exist");
+    cy.get(getDataCy(SIDEBAR_CY.dataCyTrigger))
+      .click();
+    cy.get(SIDEBAR_OVERLAY)
+      .click({force: true});
+    cy.get(getDataCy(SIDEBAR_CY.dataCyContent))
+      .should("not.exist");
   });
 
 });
