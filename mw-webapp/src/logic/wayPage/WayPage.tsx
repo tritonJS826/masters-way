@@ -297,7 +297,7 @@ export const WayPage = (props: WayPageProps) => {
     const newWay: Way = await WayDAL.createWay(user, baseWayData);
 
     await navigate(pages.way.getPath({uuid: newWay.uuid}));
-    displayNotification({text: `Way ${way.name} copied`, type: "info", duration: 20000});
+    displayNotification({text: `Way ${way.name} copied`, type: "info"});
   };
 
   return (
