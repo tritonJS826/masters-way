@@ -40,7 +40,7 @@ describe("Notification component", () => {
     cy.get(NOTIFICATION)
       .should("exist");
     cy.get(NOTIFICATION)
-      .should("not.exist");
+      .should("not.exist", {timeout: NOTIFICATION_DURATION});
   });
 
   it("should notification hide by clicking on close button", () => {
@@ -61,7 +61,6 @@ describe("Notification component", () => {
       .should("contain.text", NOTIFICATION_TEXT);
     cy.get(NOTIFICATION)
       .find(NOTIFICATION_CLOSE_BUTTON)
-      .should("exist")
       .click();
   });
 
