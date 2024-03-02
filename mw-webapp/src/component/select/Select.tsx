@@ -30,6 +30,11 @@ export interface SelectProps<T> {
    * Callback triggered onChange select value
    */
   onChange: (value: T) => void;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCy?: string;
 }
 
 /**
@@ -60,6 +65,7 @@ export const Select = <T extends string | number>(props: SelectProps<T>) => {
         onChange={onChangeHandler}
         className={styles.select}
         defaultValue={props.value}
+        data-cy={props.dataCy}
       >
         {renderSelectOptions}
       </select>
