@@ -30,6 +30,28 @@ export interface NavigationLink {
 /**
  * Data attributes for cypress testing
  */
+export interface CyContent {
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCyOverlay?: string;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCyClose?: string;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCyContent?: string;
+
+}
+
+/**
+ * Data attributes for cypress testing
+ */
 interface Cy {
 
   /**
@@ -40,7 +62,7 @@ interface Cy {
   /**
    * Data attribute for cypress testing
    */
-  dataCyContent?: string;
+  dataCyContent?: CyContent;
 
 }
 
