@@ -45,7 +45,7 @@ describe("Notification component", () => {
       .should("not.exist", {timeout: NOTIFICATION_DURATION});
   });
 
-  it("should ршву notification by clicking on close button", () => {
+  it("should open notification by clicking on close button", () => {
     cy.get(getDataCy(NOTIFICATION_TRIGGER_CY))
       .click();
     cy.get(NOTIFICATION)
