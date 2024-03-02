@@ -2,7 +2,9 @@ import {Button} from "src/component/button/Button";
 import {displayNotification} from "src/component/notification/displayNotification";
 import {getDataCy} from "src/utils/cyTesting/getDataCy";
 
-// We using className for get notification because we can't add dataCy to element created by toastify
+/*
+ * We using className for get notification because we can't add dataCy to element created by toastify
+ */
 const NOTIFICATION = ".toastify";
 const NOTIFICATION_CLOSE_BUTTON = ".toast-close";
 const NOTIFICATION_DURATION = 1000;
