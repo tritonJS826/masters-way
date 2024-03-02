@@ -275,7 +275,7 @@ export const Columns = (props: ColumnsProps) => {
                         : <JobDoneTags jobDoneTags={jobDone.tags} />
                       }
                       <Tooltip
-                        position={PositionTooltip.RIGHT}
+                        position={PositionTooltip.BOTTOM}
                         content={`Time${Symbols.NO_BREAK_SPACE}spent on job`}
                       >
                         <EditableValue
@@ -290,7 +290,7 @@ export const Columns = (props: ColumnsProps) => {
                       </Tooltip>
                       {isUserOwnerOrMentor &&
                       <Tooltip
-                        position={PositionTooltip.RIGHT}
+                        position={PositionTooltip.BOTTOM}
                         content="Delete jobDone"
                       >
                         <Confirm
@@ -468,7 +468,7 @@ export const Columns = (props: ColumnsProps) => {
                         : <JobDoneTags jobDoneTags={plan.tags} />
                       }
                       <Tooltip
-                        position={PositionTooltip.RIGHT}
+                        position={PositionTooltip.BOTTOM}
                         content={`Estimated${Symbols.NO_BREAK_SPACE}time for the plan`}
                       >
                         <EditableValue
@@ -495,7 +495,7 @@ export const Columns = (props: ColumnsProps) => {
                       {plan.ownerUuid === user?.uuid &&
                       <Tooltip
                         content="Delete plan"
-                        position={PositionTooltip.RIGHT}
+                        position={PositionTooltip.BOTTOM}
                       >
                         <Confirm
                           trigger={<TrashIcon className={styles.icon} />}
@@ -645,7 +645,7 @@ export const Columns = (props: ColumnsProps) => {
                       {problem.ownerUuid === user?.uuid &&
                       <Tooltip
                         content="Delete problem"
-                        position={PositionTooltip.RIGHT}
+                        position={PositionTooltip.BOTTOM}
                       >
                         <Confirm
                           trigger={<TrashIcon className={styles.icon} />}

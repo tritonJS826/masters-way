@@ -8,6 +8,7 @@
 
 .toastify {
   position: fixed;
+  //TODO: add z-index const
   z-index: 2147483647;
   display: inline-block;
   max-width: calc(50% - 20px);

@@ -30,6 +30,45 @@ export interface NavigationLink {
 }
 
 /**
+ * Data attributes for cypress testing
+ */
+export interface CyContent {
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCyOverlay?: string;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCyClose?: string;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCyContent?: string;
+
+}
+
+/**
+ * Data attributes for cypress testing
+ */
+interface Cy {
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCyTrigger?: string;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCyContent?: CyContent;
+
+}
+
+/**
  * Sidebar props
  */
 interface SidebarProps {
@@ -43,6 +82,12 @@ interface SidebarProps {
    * List of available links from menu
    */
   linkList: NavigationLink[];
+
+  /**
+   * Data attributes for cypress testing
+   */
+  cy?: Cy;
+
 }
 
 /**
@@ -80,11 +125,16 @@ export const Sidebar = (props: SidebarProps) => {
       open={open}
       onOpenChange={setOpen}
     >
-      <SidebarTrigger>
-        {props.trigger}
+      <SidebarTrigger data-cy={props.cy?.dataCyTrigger}>
+        <div data-cy={props.cy?.dataCyTrigger}>
+          {props.trigger}
+        </div>
       </SidebarTrigger>
 
-      <SidebarContent onClick={() => setOpen(false)}>
+      <SidebarContent
+        dataCyContent={props.cy?.dataCyContent}
+        onClick={() => setOpen(false)}
+      >
         <div className={styles.navSidebarContent}>
           {renderNavigationLinks(props.linkList)}
         </div>
