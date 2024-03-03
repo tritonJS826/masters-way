@@ -31,10 +31,17 @@ $wayCardMinWidth: 340px;
 
 .filterView {
   width: 100%;
+  align-items: center;
   justify-content: space-between;
   gap: $gapMedium;
+
+  @include regularContainer;
 }
 
 .iconsView {
   gap: $gapMedium;
+}
+
+.waysContent {
+  @include regularContainer;
 }

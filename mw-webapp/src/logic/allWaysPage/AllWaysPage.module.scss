@@ -14,9 +14,7 @@ $wayCardMinWidth: 340px;
 
 .waysContent {
   width: 100%;
-  padding: 10px;
-  border-radius: 20px;
-  background-color: var(--tertiaryBackgroundColor);
+  @include regularContainer;
 }
 
 .wayCards {
@@ -39,9 +37,7 @@ $wayCardMinWidth: 340px;
   width: 100%;
   align-items: center;
   justify-content: space-between;
-  padding: 10px;
-  border-radius: 20px;
-  background-color: var(--tertiaryBackgroundColor);
+  @include regularContainer;
   gap: $gapMedium;
 }
 

@@ -229,24 +229,26 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
         text={`${props.title} (${ways.length})`}
         level={HeadingLevel.h2}
       />
-      {props.view === View.Table ?
-        <WaysTable
-          data={ways}
-          columns={waysColumns}
-        />
-        :
-        <HorizontalContainer className={styles.wayCards}>
-          {ways.map((way) => {
-            return (
-              <WayCard
-                key={way.uuid}
-                wayPreview={way}
-              />
-            );
-          })
-          }
-        </HorizontalContainer>
-      }
+      <div className={styles.waysContent}>
+        {props.view === View.Table ?
+          <WaysTable
+            data={ways}
+            columns={waysColumns}
+          />
+          :
+          <HorizontalContainer className={styles.wayCards}>
+            {ways.map((way) => {
+              return (
+                <WayCard
+                  key={way.uuid}
+                  wayPreview={way}
+                />
+              );
+            })
+            }
+          </HorizontalContainer>
+        }
+      </div>
 
       {props.updateCollection && getIsNoFilters() && (
         <>

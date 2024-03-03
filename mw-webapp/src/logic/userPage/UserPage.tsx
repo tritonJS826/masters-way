@@ -271,35 +271,37 @@ export const UserPage = (props: UserPageProps) => {
   };
 
   return (
-    <VerticalContainer>
+    <VerticalContainer className={styles.pageLayout}>
       <HorizontalContainer className={styles.container}>
         <VerticalContainer className={styles.descriptionSection}>
-          <Title
-            level={HeadingLevel.h2}
-            text={userPreview.name}
-            onChangeFinish={(name) => updateUser({
-              userToUpdate: {
-                uuid: userPreview.uuid,
-                name,
-              },
-              setUser: setUserPreviewPartial,
-            })}
-            isEditable={isPageOwner}
-            className={styles.titleH2}
-          />
-          <Title
-            level={HeadingLevel.h3}
-            text={userPreview.email}
-            onChangeFinish={(email) => updateUser({
-              userToUpdate: {
-                uuid: userPreview.uuid,
-                email,
-              },
-              setUser: setUserPreviewPartial,
-            })}
-            isEditable={isPageOwner}
-            className={styles.titleH3}
-          />
+          <VerticalContainer className={styles.nameEmailSection}>
+            <Title
+              level={HeadingLevel.h2}
+              text={userPreview.name}
+              onChangeFinish={(name) => updateUser({
+                userToUpdate: {
+                  uuid: userPreview.uuid,
+                  name,
+                },
+                setUser: setUserPreviewPartial,
+              })}
+              isEditable={isPageOwner}
+              className={styles.ownerName}
+            />
+            <Title
+              level={HeadingLevel.h3}
+              text={userPreview.email}
+              onChangeFinish={(email) => updateUser({
+                userToUpdate: {
+                  uuid: userPreview.uuid,
+                  email,
+                },
+                setUser: setUserPreviewPartial,
+              })}
+              isEditable={isPageOwner}
+              className={styles.ownerEmail}
+            />
+          </VerticalContainer>
           <EditableTextarea
             text={userPreview.description}
             onChangeFinish={(description) => updateUser({
@@ -310,7 +312,7 @@ export const UserPage = (props: UserPageProps) => {
               setUser: setUserPreviewPartial,
             })}
             isEditable={isPageOwner}
-            className={styles.editableTextarea}
+            className={styles.userDescription}
           />
         </VerticalContainer>
 
@@ -342,7 +344,7 @@ export const UserPage = (props: UserPageProps) => {
         value="Create new way"
         onClick={() => createWay(user)}
         buttonType={ButtonType.PRIMARY}
-        className={styles.button}
+        className={styles.createNewWayButton}
       />
       }
 

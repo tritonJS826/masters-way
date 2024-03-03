@@ -314,7 +314,7 @@ export const WayPage = (props: WayPageProps) => {
             setWay: setWayPartial,
           })}
           isEditable={isUserOwnerOrMentor}
-          className={styles.titleH2}
+          className={styles.wayName}
         />
         <HorizontalContainer className={styles.buttons}>
           <Tooltip

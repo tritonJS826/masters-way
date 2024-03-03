@@ -1,5 +1,9 @@
 @import "src/styles/variables";
 
+.pageLayout {
+  gap: $gapMedium;
+}
+
 .container {
   flex-wrap: wrap;
   gap: $gapBig;
@@ -8,13 +12,15 @@
 .descriptionSection {
   min-width: $mediaWidthMobileSmall;
   max-width: $mediaWidthMobileBig;
+  gap: $gapMedium;
 }
 
 .tabsSection {
+  flex-grow: 1;
   flex-wrap: wrap;
-  margin-top: $gapBig;
-  margin-bottom: $gapBig;
   gap: $gapBig;
+
+  @include regularContainer;
 }
 
 .row {
@@ -22,8 +28,8 @@
   align-items: baseline;
 }
 
-.editableTextarea {
-  margin-bottom: $marginMedium;
+.userDescription {
+  @include regularContainer;
 
   textarea {
     width: $minWidthBlock;
@@ -31,24 +37,26 @@
   }
 }
 
-.titleH2 {
+.nameEmailSection {
+  @include regularContainer;
+}
+
+.ownerName {
   input {
     width: $minWidthBlock;
     height: $heightH2;
-    margin-top: $marginMedium;
-    margin-bottom: $marginMedium;
   }
 }
 
-.titleH3 {
+.ownerEmail {
   input {
     width: $minWidthBlock;
     height: $heightH3;
   }
 }
 
-.button {
-  align-self: start;
+.createNewWayButton {
+  // align-self: start;
 }
 
 .collectionButton {
