@@ -10,13 +10,17 @@ $cardLinkFontSize: 16px;
 .wayCardContainer {
   border-radius: $secondaryBorderRadius;
   cursor: pointer;
+  &:hover {
+    transform: scale(1.02);
+    transition: 0.3s;
+  }
 }
 
 .mainInfo {
   height: $wayCardMainHeight;
   padding: $wayCardMainInfoPadding;
   border-radius: $secondaryBorderRadius $secondaryBorderRadius 0 0;
-  background-color: var(--fourthBackgroundColor);
+  background-color: var(--secondaryBackgroundColor);
   gap: $gapMedium;
 }
 
@@ -24,7 +28,7 @@ $cardLinkFontSize: 16px;
   display: -webkit-box;
   overflow: hidden;
   -webkit-box-orient: vertical;
-  color: var(--fourthTextColor);
+  color: var(--secondaryTextColor);
   -webkit-line-clamp: 1;
   text-overflow: ellipsis;
   white-space: initial;
@@ -34,7 +38,7 @@ $cardLinkFontSize: 16px;
   display: -webkit-box;
   overflow: hidden;
   -webkit-box-orient: vertical;
-  color: var(--fourthTextColor);
+  color: var(--secondaryTextColor);
   font-weight: bold;
   -webkit-line-clamp: 2;
   text-overflow: ellipsis;
@@ -44,13 +48,13 @@ $cardLinkFontSize: 16px;
 .ownerInfo {
   align-items: center;
   margin-top: auto;
-  color: var(--fourthTextColor);
+  color: var(--secondaryTextColor);
   font-size: $wayCardFontSize;
   gap: $gapMedium;
 }
 
 .ownerLink {
-  color: var(--fourthTextColor);
+  color: var(--secondaryTextColor);
   font-size: $wayCardFontSize;
 }
 
@@ -58,8 +62,8 @@ $cardLinkFontSize: 16px;
   height: $wayCardAdditionalHeight;
   padding: $wayCardAdditionalInfoPadding;
   border-radius: 0 0 $secondaryBorderRadius $secondaryBorderRadius;
-  background-color: var(--fifthBackgroundColor);
-  color: var(--sixTextColor);
+  background-color: var(--primaryBackgroundColor);
+  color: var(--primaryTextColor);
   font-size: $wayCardFontSize;
   gap: $gapMedium;
 }
@@ -79,13 +83,13 @@ $cardLinkFontSize: 16px;
 
 .likes {
   align-items: center;
-  color: var(--fourthTextColor);
+  color: var(--secondaryTextColor);
   gap: $gapSmall;
 }
 
 .icon {
   margin-right: $marginSmall;
-  stroke: var(--fourthTextColor);
+  stroke: var(--secondaryTextColor);
 }
 
 .mentors {
@@ -97,7 +101,7 @@ $cardLinkFontSize: 16px;
 }
 
 .mentorLink {
-  color: var(--secondaryTextColor);
+  color: var(--primaryTextColor);
   font-size: $wayCardFontSize;
 }
 

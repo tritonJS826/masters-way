@@ -9,60 +9,40 @@ export enum Theme {
 }
 
 const themedVariables: Record<string, Record<Theme, string>> = {
+
+  // Body color
   primaryBackgroundColor: {
-    [Theme.DARK]: "rgb(11, 9, 10)",
-    [Theme.LIGHT]: "rgb(245, 243, 244)",
+    [Theme.DARK]: "rgb(39,36,36)",
+    [Theme.LIGHT]: "rgb(233, 234, 242)",
   },
+  // Contrast to body
   secondaryBackgroundColor: {
-    [Theme.DARK]: "rgb(177, 167, 166)",
-    [Theme.LIGHT]: "rgb(38, 41, 44)",
+    [Theme.DARK]: "rgb(241,243,242)",
+    [Theme.LIGHT]: "rgb(46,48,62)",
   },
+  // Similar to body (highgligh blocks)
   tertiaryBackgroundColor: {
-    [Theme.DARK]: "rgb(186, 24, 27)",
-    [Theme.LIGHT]: "rgb(186, 24, 27)",
-  },
-  fourthBackgroundColor: {
-    [Theme.DARK]: "rgb(64,64,64)",
-    [Theme.LIGHT]: "rgb(64,64,64)",
-  },
-  fifthBackgroundColor: {
-    [Theme.DARK]: "rgb(252, 252, 252)",
-    [Theme.LIGHT]: "rgb(252, 252, 252)",
+    [Theme.DARK]: "rgb(88,90,86)",
+    [Theme.LIGHT]: "rgba(211, 214, 229, 0.8)",
   },
   primaryTextColor: {
-    [Theme.DARK]: "rgb(200, 194, 194)",
+    [Theme.DARK]: "rgb(250, 250, 250)",
     [Theme.LIGHT]: "rgb(11, 9, 10)",
   },
   secondaryTextColor: {
     [Theme.DARK]: "rgb(11, 9, 10)",
     [Theme.LIGHT]: "rgb(252, 252, 252)",
   },
-  tertiaryTextColor: {
-    [Theme.DARK]: "rgb(236, 165, 100)",
-    [Theme.LIGHT]: "rgb(102, 7, 8)",
-  },
-  fourthTextColor: {
-    [Theme.DARK]: "rgb(252, 252, 252)",
-    [Theme.LIGHT]: "rgb(252, 252, 252)",
-  },
-  fifthTextColor: {
-    [Theme.DARK]: "rgb(200, 194, 194)",
-    [Theme.LIGHT]: "rgb(252, 252, 252)",
-  },
-  sixTextColor: {
-    [Theme.DARK]: "rgb(11, 9, 10)",
-    [Theme.LIGHT]: "rgb(11, 9, 10)",
-  },
   primaryBorderColor: {
-    [Theme.DARK]: "rgb(73, 69, 69)",
-    [Theme.LIGHT]: "rgb(200, 194, 194)",
+    [Theme.DARK]: "rgb(200, 194, 194)",
+    [Theme.LIGHT]: "rgb(73, 69, 69)",
   },
   secondaryBorderColor: {
     [Theme.DARK]: "rgb(73, 69, 69)",
     [Theme.LIGHT]: "rgb(102, 7, 8)",
   },
   primaryIconColor: {
-    [Theme.DARK]: "rgb(200, 194, 194)",
+    [Theme.DARK]: "rgb(250, 250, 250)",
     [Theme.LIGHT]: "rgb(11, 9, 10)",
   },
   primaryShadowColor: {
@@ -70,40 +50,40 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     [Theme.LIGHT]: "rgb(225, 222, 222)",
   },
   hoverColor: {
-    [Theme.DARK]: "rgb(229, 56, 59)",
-    [Theme.LIGHT]: "rgb(229, 56, 59)",
+    [Theme.DARK]: "rgb(152, 210, 235)",
+    [Theme.LIGHT]: "rgb(84,103,143)",
   },
   secondaryHoverColor: {
-    [Theme.DARK]: "rgb(229, 56, 59)",
+    [Theme.DARK]: "rgb(84,103,143)",
     [Theme.LIGHT]: "rgb(225, 222, 222)",
+  },
+  activeColor: {
+    [Theme.DARK]: "rgb(129,163,167)",
+    [Theme.LIGHT]: "rgb(84,103,143)",
+  },
+  linkColor: {
+    [Theme.DARK]: "rgb(152, 210, 235)",
+    [Theme.LIGHT]: "rgb(8, 65, 185)",
   },
   hoverColorLink: {
     [Theme.DARK]: "rgb(38, 41, 44)",
     [Theme.LIGHT]: "rgb(225, 222, 222)",
   },
-  activeColor: {
-    [Theme.DARK]: "rgb(164, 22, 26)",
-    [Theme.LIGHT]: "rgb(164, 22, 26)",
-  },
-  secondaryActiveColor: {
-    [Theme.DARK]: "rgb(164, 22, 26)",
-    [Theme.LIGHT]: "rgb(164, 22, 26)",
-  },
   activeColorLink: {
     [Theme.DARK]: "rgb(22, 26, 29)",
     [Theme.LIGHT]: "rgb(200, 194, 194)",
   },
-  buttonColor: {
+  primaryActiveButtonColor: {
+    [Theme.DARK]: "rgb(108,107,116)",
+    [Theme.LIGHT]: "rgb(200, 194, 194)",
+  },
+  secondaryBackgroundButtonColor: {
     [Theme.DARK]: "rgb(102, 7, 8)",
     [Theme.LIGHT]: "transparent",
   },
-  tertiaryBorderColor: {
-    [Theme.DARK]: "rgb(11, 9, 10)",
-    [Theme.LIGHT]: "rgb(102, 7, 8)",
-  },
-  border: {
-    [Theme.DARK]: "1px var(--tertiaryBorderColor) solid",
-    [Theme.LIGHT]: "1px var(--tertiaryBorderColor) solid",
+  primaryBackgroundButtonColor: {
+    [Theme.DARK]: "rgb(129,163,167)",
+    [Theme.LIGHT]: "rgb(33,38,36)",
   },
 };
 

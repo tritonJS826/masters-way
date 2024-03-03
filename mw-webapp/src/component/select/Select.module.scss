@@ -2,3 +2,9 @@
   display: inline-block;
   cursor: pointer;
 }
+
+.selectContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}

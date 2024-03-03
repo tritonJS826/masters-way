@@ -7,6 +7,11 @@
   font-family: $primaryFontFamily;
   font-size: $primaryFontSize;
   transition-duration: $primaryTransitionDuration;
+}
+
+.primary {
+  background-color: var(--primaryBackgroundButtonColor);
+  color: var(--secondaryTextColor);
 
   &:hover {
     background-color: var(--hoverColor);
@@ -14,22 +19,21 @@
   }
 
   &:active {
-    background-color: var(--activeColor);
+    background-color: var(--primaryActiveButtonColor);
   }
 }
 
-.primary {
-  background-color: var(--tertiaryBackgroundColor);
-  color: var(--fourthTextColor);
-}
-
 .secondary {
-  border: var(--border);
-  background-color: var(--buttonColor);
+  border: 1px var(--secondaryBorderColor) solid;
+  background-color: var(--secondaryBackgroundButtonColor);
   color: var(--primaryTextColor);
 
   &:hover {
     background-color: var(--secondaryHoverColor);
+  }
+
+  &:active {
+    background-color: var(--primaryActiveButtonColor);
   }
 }
 
@@ -38,7 +42,7 @@
   color: var(--primaryTextColor);
 
   &:hover {
-    background-color: var(--hoverColorLink);
+    background-color: var(--primaryActiveButtonColor);
     cursor: pointer;
   }
 

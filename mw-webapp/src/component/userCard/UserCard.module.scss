@@ -16,7 +16,7 @@ $cardLinkFontSize: 16px;
   height: $userCardMainHeight;
   padding: $userCardMainInfoPadding;
   border-radius: $secondaryBorderRadius $secondaryBorderRadius 0 0;
-  background-color: var(--fourthBackgroundColor);
+  background-color: var(--secondaryBackgroundColor);
   gap: $gapMedium;
 }
 
@@ -24,7 +24,7 @@ $cardLinkFontSize: 16px;
   display: -webkit-box;
   overflow: hidden;
   -webkit-box-orient: vertical;
-  color: var(--fourthTextColor);
+  color: var(--secondaryTextColor);
   -webkit-line-clamp: 1;
   text-overflow: ellipsis;
   white-space: initial;
@@ -32,13 +32,13 @@ $cardLinkFontSize: 16px;
 
 .likes {
   align-items: center;
-  color: var(--fourthTextColor);
+  color: var(--secondaryTextColor);
   gap: $gapSmall;
 }
 
 .icon {
   margin-right: $marginSmall;
-  stroke: var(--fourthTextColor);
+  stroke: var(--secondaryTextColor);
 }
 
 .nameLikes {
@@ -51,7 +51,7 @@ $cardLinkFontSize: 16px;
   display: -webkit-box;
   overflow: hidden;
   -webkit-box-orient: vertical;
-  color: var(--fourthTextColor);
+  color: var(--secondaryTextColor);
   font-weight: bold;
   -webkit-line-clamp: 2;
   text-overflow: ellipsis;
@@ -63,7 +63,7 @@ $cardLinkFontSize: 16px;
   overflow: hidden;
   margin-top: auto;
   -webkit-box-orient: vertical;
-  color: var(--fourthTextColor);
+  color: var(--secondaryTextColor);
   font-size: $userCardFontSize;
   font-weight: bold;
   -webkit-line-clamp: 1;
@@ -74,8 +74,8 @@ $cardLinkFontSize: 16px;
 .additionalInfo {
   padding: $userCardAdditionalInfoPadding;
   border-radius: 0 0 $secondaryBorderRadius $secondaryBorderRadius;
-  background-color: var(--fifthBackgroundColor);
-  color: var(--sixTextColor);
+  background-color: var(--tertiaryBackgroundColor);
+  color: var(--primaryTextColor);
   font-size: $userCardFontSize;
   gap: $gapMedium;
 }

@@ -198,34 +198,37 @@ export const AllWaysPage = () => {
           text={`Total found: ${allWaysAmount}`}
         />
       </HorizontalContainer>
-      {allWaysPageSettings.view === View.Table ?
-        <ScrollableBlock>
-          <WaysTable
-            data={allWays}
-            columns={waysColumns}
+
+      <div className={styles.waysContent}>
+        {allWaysPageSettings.view === View.Table ?
+          <ScrollableBlock>
+            <WaysTable
+              data={allWays}
+              columns={waysColumns}
+            />
+          </ScrollableBlock>
+          :
+          <HorizontalContainer className={styles.wayCards}>
+            {allWays.map((way) => {
+              return (
+                <WayCard
+                  key={way.uuid}
+                  wayPreview={way}
+                />
+              );
+            })
+            }
+          </HorizontalContainer>
+        }
+        {isMoreWaysExist &&
+          <Button
+            value="Load more"
+            onClick={() => loadMoreWays(allWays)}
+            buttonType={ButtonType.PRIMARY}
+            className={styles.loadMoreButton}
           />
-        </ScrollableBlock>
-        :
-        <HorizontalContainer className={styles.wayCards}>
-          {allWays.map((way) => {
-            return (
-              <WayCard
-                key={way.uuid}
-                wayPreview={way}
-              />
-            );
-          })
-          }
-        </HorizontalContainer>
-      }
-      {isMoreWaysExist &&
-        <Button
-          value="More"
-          onClick={() => loadMoreWays(allWays)}
-          buttonType={ButtonType.PRIMARY}
-          className={styles.button}
-        />
-      }
+        }
+      </div>
     </>
   );
 };

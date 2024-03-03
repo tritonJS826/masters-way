@@ -2,12 +2,21 @@
 
 $wayCardMinWidth: 340px;
 
-.button {
+.loadMoreButton {
+  display: block;
   margin-top: $marginMedium;
+  margin-left: auto;
 }
 
 .titleContainer {
   justify-content: space-between;
+}
+
+.waysContent {
+  width: 100%;
+  padding: 10px;
+  border-radius: 20px;
+  background-color: var(--tertiaryBackgroundColor);
 }
 
 .wayCards {
@@ -28,7 +37,11 @@ $wayCardMinWidth: 340px;
 
 .filterView {
   width: 100%;
+  align-items: center;
   justify-content: space-between;
+  padding: 10px;
+  border-radius: 20px;
+  background-color: var(--tertiaryBackgroundColor);
   gap: $gapMedium;
 }
 

@@ -12,8 +12,13 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {value: 50, getValueLabel: getDefaultLongValueLabel},
+  args: {
+    value: 50,
+    getValueLabel: getDefaultLongValueLabel,
+  },
   render: (args) => (
-    <ProgressBar {...args} />
+    <div style={{width: 500}}>
+      <ProgressBar {...args} />
+    </div>
   ),
 };

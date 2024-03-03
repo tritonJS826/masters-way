@@ -59,6 +59,7 @@ export const Header = () => {
       </Link>
       <div className={styles.headerButtonsContainer}>
         <ThemeSwitcher />
+
         {user &&
         <Link path={pages.user.getPath({uuid: user.uuid})}>
           <Title
@@ -69,23 +70,21 @@ export const Header = () => {
         </Link>
         }
 
-        <div className={styles.buttons}>
-          <Button
-            onClick={user ? AuthService.logOut : AuthService.logIn}
-            value={user ? BUTTON_LOG_OUT_VALUE : BUTTON_LOG_IN_VALUE}
-            buttonType={ButtonType.TERTIARY}
-          />
-          <Sidebar
-            trigger={
-              <Button
-                value="Menu"
-                onClick={() => { }}
-                buttonType={ButtonType.TERTIARY}
-              />
-            }
-            linkList={menuItems}
-          />
-        </div>
+        <Button
+          onClick={user ? AuthService.logOut : AuthService.logIn}
+          value={user ? BUTTON_LOG_OUT_VALUE : BUTTON_LOG_IN_VALUE}
+          buttonType={ButtonType.TERTIARY}
+        />
+        <Sidebar
+          trigger={
+            <Button
+              value="Menu"
+              onClick={() => { }}
+              buttonType={ButtonType.TERTIARY}
+            />
+          }
+          linkList={menuItems}
+        />
       </div>
     </div>
   );
