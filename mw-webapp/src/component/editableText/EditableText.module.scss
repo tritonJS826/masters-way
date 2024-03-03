@@ -6,8 +6,8 @@ $editableTextMinWidth: 40px;
 .editableText {
   overflow: hidden;
   width: $editableTextWidth;
-
-  input {
-    min-width: $editableTextMinWidth;
+  input[type="number"]::-webkit-inner-spin-button {
+    margin: 0;
+    -webkit-appearance: none;
   }
 }
