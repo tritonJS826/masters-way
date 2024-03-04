@@ -48,10 +48,6 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     [Theme.DARK]: "rgb(152, 210, 235)",
     [Theme.LIGHT]: "rgb(84,103,143)",
   },
-  secondaryHoverColor: {
-    [Theme.DARK]: "rgb(84,103,143)",
-    [Theme.LIGHT]: "rgb(225, 222, 222)",
-  },
   activeColor: {
     [Theme.DARK]: "rgb(129,163,167)",
     [Theme.LIGHT]: "rgb(84,103,143)",

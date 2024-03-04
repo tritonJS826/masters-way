@@ -45,6 +45,10 @@ $iconContainerSize: 25px;
   gap: $gapMedium;
 }
 
+.applyAsMentorButton {
+  margin-top: auto;
+}
+
 .wayActionMenu {
   left: -95px;
   width: 200px;
@@ -101,6 +105,16 @@ $iconContainerSize: 25px;
 }
 
 .gap {
+  gap: $gapMedium;
+}
+
+.dayReportActions {
+  @include regularContainer;
+  justify-content: space-between;
+  gap: $gapMedium;
+}
+
+.reportActions {
   gap: $gapMedium;
 }
 

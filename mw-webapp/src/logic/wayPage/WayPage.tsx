@@ -8,12 +8,14 @@ import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalC
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
 import {Loader} from "src/component/loader/Loader";
+import {Modal} from "src/component/modal/Modal";
 import {displayNotification} from "src/component/notification/displayNotification";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {BaseWayData, WayDAL} from "src/dataAccessLogic/WayDAL";
 import {useGlobalContext} from "src/GlobalContext";
@@ -34,6 +36,7 @@ import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {JobTag} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
+import {DateUtils} from "src/utils/DateUtils";
 import {WayPageSettings} from "src/utils/LocalStorageWorker";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
@@ -318,6 +321,23 @@ export const WayPage = (props: WayPageProps) => {
     });
   };
 
+  const isEmptyWay = way.dayReports.length === 0;
+  const currentDate = DateUtils.getShortISODateValue(new Date());
+  const lastReportDate = !isEmptyWay && DateUtils.getShortISODateValue(way.dayReports[0].createdAt);
+  const isReportForTodayAlreadyCreated = lastReportDate === currentDate;
+  const isReportForTodayIsNotCreated = isEmptyWay || !isReportForTodayAlreadyCreated;
+  const isPossibleCreateDayReport = isUserOwnerOrMentor && isReportForTodayIsNotCreated;
+
+  /**
+   * Create day report
+   */
+  const createDayReport = async (wayUuid: string, dayReportsData: DayReport[]) => {
+    const dayReportUuids = dayReportsData.map((report) => report.uuid);
+    const newDayReport = await DayReportDAL.createDayReport(wayUuid, dayReportUuids);
+    const dayReportsList = [newDayReport, ...dayReportsData];
+    setDayReports(dayReportsList);
+  };
+
   return (
     <VerticalContainer className={styles.container}>
       <HorizontalContainer className={styles.wayDashboard}>
@@ -531,6 +551,7 @@ export const WayPage = (props: WayPageProps) => {
           )}
           {isEligibleToSendRequest && (
             <Button
+              className={styles.applyAsMentorButton}
               value="Apply as Mentor"
               onClick={() => updateWay({
                 wayToUpdate: {
@@ -573,7 +594,53 @@ export const WayPage = (props: WayPageProps) => {
 
       </HorizontalContainer>
 
-      <div className={styles.jobDoneTagsWrapper}>
+      <HorizontalContainer className={styles.dayReportActions}>
+        <HorizontalContainer className={styles.reportActions}>
+          {isPossibleCreateDayReport &&
+          <Button
+            value="Create new day report"
+            onClick={() => createDayReport(way.uuid, way.dayReports)}
+            buttonType={ButtonType.PRIMARY}
+          />
+          }
+          <Modal
+            trigger={
+              <Button
+                value="Adjust job tags"
+                buttonType={ButtonType.SECONDARY}
+                onClick={() => {}}
+              />
+            }
+            content={
+              <div className={styles.jobDoneTagsWrapper}>
+                <Title
+                  level={HeadingLevel.h3}
+                  text="Job done tags:"
+                />
+                <JobTags
+                  isVisible={wayPageSettings.isJobDoneTagsVisible}
+                  jobTags={way.jobTags}
+                  isEditable={isUserOwnerOrMentor}
+                  updateTags={(tagsToUpdate: JobTag[]) => updateWay({
+                    wayToUpdate: {
+                      uuid: way.uuid,
+                      jobTags: tagsToUpdate,
+                    },
+                    setWay: setWayPartial,
+                  })}
+                />
+              </div>
+            }
+          />
+        </HorizontalContainer>
+      </HorizontalContainer>
+
+      <Title
+        level={HeadingLevel.h2}
+        text={`Reports (${way.dayReports.length})`}
+      />
+
+      {/* <div className={styles.jobDoneTagsWrapper}>
         <HorizontalContainer className={styles.horizontalContainer}>
           <Title
             level={HeadingLevel.h3}
@@ -603,7 +670,7 @@ export const WayPage = (props: WayPageProps) => {
             setWay: setWayPartial,
           })}
         />
-      </div>
+      </div> */}
 
       <div className={styles.dayReportsContent}>
         <ScrollableBlock>

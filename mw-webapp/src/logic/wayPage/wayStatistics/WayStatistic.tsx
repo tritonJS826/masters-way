@@ -63,7 +63,9 @@ const getTagStats = (jobsDone: JobDone[]) => {
       const totalAmount = (tagStatsMap.get(tag.uuid)?.totalAmount ?? 0) + AMOUNT_INCREMENT;
       const totalAmountPercentage = Math.round(totalAmount / jobsDone.length * PERCENTAGE_MULTIPLIER);
       const totalTime = (tagStatsMap.get(tag.uuid)?.totalTime ?? 0) + job.time;
-      const totalTimePercentage = Math.round(totalTime / totalJobsTime * PERCENTAGE_MULTIPLIER);
+      const totalTimePercentage = totalJobsTime === 0
+        ? 0
+        : Math.round(totalTime / totalJobsTime * PERCENTAGE_MULTIPLIER);
 
       tagStatsMap.set(tag.uuid, {
         totalAmount,
@@ -202,7 +204,7 @@ export const WayStatistic = (props: WayStatisticProps) => {
 
         <TagStats stats={allTagStats} />
 
-        {!!props.dayReports.length &&
+        {!!totalWayTime &&
         <div className={styles.statisticsCharts}>
           <AreaChart
             datesWithJobTotalTime={datesWithJobTotalTime}
@@ -237,7 +239,7 @@ export const WayStatistic = (props: WayStatisticProps) => {
         />
         <TagStats stats={lastWeekTagStats} />
 
-        {!!props.dayReports.length &&
+        {!!totalWayTime &&
         <div className={styles.statisticsCharts}>
           <AreaChart
             datesWithJobTotalTime={datesWithJobTotalTime}
@@ -273,7 +275,7 @@ export const WayStatistic = (props: WayStatisticProps) => {
 
         <TagStats stats={lastMonthTagStats} />
 
-        {!!props.dayReports.length &&
+        {!!totalWayTime &&
         <div className={styles.statisticsCharts}>
           <AreaChart
             datesWithJobTotalTime={datesWithJobTotalTime}

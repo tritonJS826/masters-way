@@ -1,3 +1,4 @@
+import {useMemo} from "react";
 import {Line} from "react-chartjs-2";
 import {
   CategoryScale,
@@ -9,6 +10,7 @@ import {
   Title,
   Tooltip,
 } from "chart.js";
+import {useGlobalContext} from "src/GlobalContext";
 import {DateUtils} from "src/utils/DateUtils";
 
 ChartJS.register(
@@ -21,15 +23,38 @@ ChartJS.register(
   Filler,
 );
 
-const options = {
-  responsive: true,
-  plugins: {
-    title: {
-      display: true,
-      text: "Time spent by day (minutes/date)",
+/**
+ * Get options
+ */
+const getOptions = () => {
+  const primaryChartColor = getComputedStyle(document.body).getPropertyValue("--primaryTextColor");
+  const gridColor = primaryChartColor.replace("rgb", "rgba").replace(")", ", 0.2)");
+
+  const options = {
+    responsive: true,
+    plugins: {
+      title: {
+        display: true,
+        text: "Time spent by day (minutes/date)",
+        color: primaryChartColor,
+      },
     },
-  },
-  scales: {y: {min: 0}},
+    color: primaryChartColor,
+    scales: {
+      y: {
+        min: 0,
+        ticks: {color: primaryChartColor},
+        grid: {color: gridColor},
+      },
+      x: {
+        min: 0,
+        ticks: {color: primaryChartColor},
+        grid: {color: gridColor},
+      },
+    },
+  };
+
+  return options;
 };
 
 /**
@@ -60,6 +85,7 @@ interface AreaChartProps {
  * Area chart component
  */
 export const AreaChart = (props: AreaChartProps) => {
+  const {theme} = useGlobalContext();
   const dateList = DateUtils.getDatesBetween(props.startDate, props.lastDate);
   const labels = dateList.map(DateUtils.getShortISODateValue);
 
@@ -85,9 +111,15 @@ export const AreaChart = (props: AreaChartProps) => {
     ],
   };
 
+  /**
+   * Now it works even without Memo because of global context.
+   * After migration to some state manager this line will help us to avoid bugs
+   */
+  const optionsMemoized = useMemo(() => getOptions(), [theme]);
+
   return (
     <Line
-      options={options}
+      options={optionsMemoized}
       data={data}
     />
   );
