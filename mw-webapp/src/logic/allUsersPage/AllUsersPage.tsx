@@ -184,12 +184,17 @@ export const AllUsersPage = () => {
         </HorizontalContainer>
       }
       {isMoreUsersExist &&
+      <Tooltip
+        position={PositionTooltip.TOP_DOUBLE}
+        content={"More users"}
+      >
         <Button
           value="More"
           onClick={() => loadMoreUsers(allUsers)}
           buttonType={ButtonType.PRIMARY}
           className={styles.button}
         />
+      </Tooltip>
       }
     </>
   );

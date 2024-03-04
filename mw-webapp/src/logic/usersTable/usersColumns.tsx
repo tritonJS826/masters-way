@@ -1,10 +1,18 @@
 import {createColumnHelper} from "@tanstack/react-table";
 import {Link} from "src/component/link/Link";
+import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
+import {Tooltip} from "src/component/tooltip/Tooltip";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {pages} from "src/router/pages";
 import styles from "src/logic/usersTable/UserColumns.module.scss";
 
 const columnHelper = createColumnHelper<UserPreview>();
+
+export const USERS_NAME = "User's name";
+export const USERS_EMAIL = "User's email";
+export const OWN_WAYS = "User's own Ways";
+export const FAVORITE_WAYS = "User's favorite Ways";
+export const MENTORING_WAYS = "User's mentoring Ways";
 
 /**
  * Table columns
@@ -12,31 +20,57 @@ const columnHelper = createColumnHelper<UserPreview>();
  */
 export const usersColumns = [
   columnHelper.accessor("name", {
-    header: "Name",
+
+    /**
+     * Header
+     */
+    header: () => (<Tooltip content={USERS_NAME}>
+      Name
+    </Tooltip>),
 
     /**
      * Cell with clickable username that leads to user page
      */
     cell: ({row}) => (
       <Link path={pages.user.getPath({uuid: row.original.uuid})}>
-        {row.original.name}
+        <Tooltip
+          position={PositionTooltip.TOP}
+          content={row.original.name}
+        >
+          {row.original.name}
+        </Tooltip>
       </Link>
     ),
   }),
   columnHelper.accessor("email", {
-    header: "Email",
+
+    /**
+     * Header
+     */
+    header: () => (<Tooltip content={USERS_EMAIL}>
+      Email
+    </Tooltip>),
 
     /**
      * Cell user email
      */
     cell: ({row}) => (
-      <span>
+      <Tooltip
+        position={PositionTooltip.TOP}
+        content={row.original.email}
+      >
         {row.original.email}
-      </span>
+      </Tooltip>
     ),
   }),
   columnHelper.accessor("ownWays", {
-    header: "Own Ways",
+
+    /**
+     * Header
+     */
+    header: () => (<Tooltip content={OWN_WAYS}>
+      Own Ways
+    </Tooltip>),
 
     /**
      * Cell with user's own ways
@@ -48,7 +82,13 @@ export const usersColumns = [
     ),
   }),
   columnHelper.accessor("favoriteWays", {
-    header: "Favorite Ways",
+
+    /**
+     * Header
+     */
+    header: () => (<Tooltip content={FAVORITE_WAYS}>
+      Favorite Ways
+    </Tooltip>),
 
     /**
      * Cell with user's favorite ways
@@ -57,11 +97,16 @@ export const usersColumns = [
       <div className={styles.number}>
         {row.original.favoriteWays.length.toString()}
       </div>
-
     ),
   }),
   columnHelper.accessor("mentoringWays", {
-    header: "Mentoring Ways",
+
+    /**
+     * Header
+     */
+    header: () => (<Tooltip content={MENTORING_WAYS}>
+      Mentoring Ways
+    </Tooltip>),
 
     /**
      * Cell with user's mentoring ways

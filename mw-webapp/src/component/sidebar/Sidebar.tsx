@@ -3,6 +3,8 @@ import {Root as DialogRoot} from "@radix-ui/react-dialog";
 import {Link} from "src/component/link/Link";
 import {SidebarContent} from "src/component/sidebar/SidebarContent/SidebarContent";
 import {SidebarTrigger} from "src/component/sidebar/SidebarTrigger/SidebarTrigger";
+import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
+import {Tooltip} from "src/component/tooltip/Tooltip";
 import styles from "src/component/sidebar/Sidebar.module.scss";
 
 /**
@@ -46,18 +48,25 @@ interface SidebarProps {
 /**
  * Renders navigation links based on the provided navigationLinks array.
  */
-const renderNavigationLinks = (navigationLinks: (NavigationLink)[]) => {
-  return navigationLinks.map((item) => (
-    !item.isHidden && (
-      <Link
-        key={item.value}
-        path={item.path}
-        className={styles.menuItem}
-      >
-        {item.value}
-      </Link>
-    )
-  ));
+const renderNavigationLinks = (navigationLinks: NavigationLink[]) => {
+  return navigationLinks.map(
+    (item) =>
+      !item.isHidden && (
+
+        <Link
+          key={item.value}
+          path={item.path}
+          className={styles.menuItem}
+        >
+          <Tooltip
+            content={item.value}
+            position={PositionTooltip.TOP_RIGHT}
+          >
+            {item.value}
+          </Tooltip>
+        </Link>
+      ),
+  );
 };
 
 /**

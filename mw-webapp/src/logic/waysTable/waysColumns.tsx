@@ -33,14 +33,16 @@ export const waysColumns = [
     /**
      * Header
      */
-    header: () => (<>
-      <Tooltip
-        position={PositionTooltip.TOP}
-        content="Date, when way was created"
-      >
-        Created at
-      </Tooltip>
-    </>),
+    header: () => (
+      <>
+        <Tooltip
+          position={PositionTooltip.TOP}
+          content="Date, when way was created"
+        >
+          Created at
+        </Tooltip>
+      </>
+    ),
 
     /**
      * Cell with date of created way
@@ -56,15 +58,17 @@ export const waysColumns = [
     /**
      * Header
      */
-    header: () => (<>
-      <Tooltip
-        position={PositionTooltip.TOP}
-        content="Date when the last Day Report was created"
-        className={styles.tooltipFixed}
-      >
-        Last update
-      </Tooltip>
-    </>),
+    header: () => (
+      <>
+        <Tooltip
+          position={PositionTooltip.TOP}
+          content="Date when the last Day Report was created"
+          className={styles.tooltipFixed}
+        >
+          Last update
+        </Tooltip>
+      </>
+    ),
 
     /**
      * Cell with date of last updated way
@@ -125,9 +129,17 @@ export const waysColumns = [
     cell: ({row}) => (
       <div>
         <Link path={pages.way.getPath({uuid: row.original.uuid})}>
-          {row.original.name}
+          <Tooltip
+            position={PositionTooltip.TOP}
+            content={row.original.name}
+          >
+            {row.original.name}
+          </Tooltip>
         </Link>
-        <Tooltip content={renderMarkdown(row.original.goalDescription)}>
+        <Tooltip
+          position={PositionTooltip.TOP_DOUBLE}
+          content={renderMarkdown(row.original.goalDescription)}
+        >
           <div className={styles.shortCell}>
             {renderMarkdown(row.original.goalDescription)}
           </div>
@@ -140,14 +152,15 @@ export const waysColumns = [
     /**
      * Header
      */
-    header: () => (<>
-      <Tooltip
-        position={PositionTooltip.TOP}
-        content="Owner's name and email"
-      >
-        {WAYS_OWNER}
-      </Tooltip>
-    </>
+    header: () => (
+      <>
+        <Tooltip
+          position={PositionTooltip.TOP}
+          content="Owner's name and email"
+        >
+          {WAYS_OWNER}
+        </Tooltip>
+      </>
     ),
 
     /**
@@ -157,7 +170,9 @@ export const waysColumns = [
       return (
         <VerticalContainer>
           <Link path={pages.user.getPath({uuid: row.original.owner.uuid})}>
-            {row.original.owner.name}
+            <Tooltip content={row.original.owner.name}>
+              {row.original.owner.name}
+            </Tooltip>
           </Link>
           {row.original.owner.email}
         </VerticalContainer>
@@ -212,7 +227,8 @@ export const waysColumns = [
         >
           Reports
         </Tooltip>
-      </>),
+      </>
+    ),
 
     /**
      * Cell with amount of favorite for user uuids
@@ -236,7 +252,8 @@ export const waysColumns = [
         >
           {Symbols.STAR}
         </Tooltip>
-      </>),
+      </>
+    ),
 
     /**
      * Cell with amount of favorite for user uuids

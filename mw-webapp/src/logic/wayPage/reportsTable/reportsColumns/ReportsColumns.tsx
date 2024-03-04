@@ -276,7 +276,7 @@ export const Columns = (props: ColumnsProps) => {
                           : <JobDoneTags jobDoneTags={jobDone.tags} />
                         }
                         <Tooltip
-                          position={PositionTooltip.RIGHT}
+                          position={PositionTooltip.RIGHT_DOUBLE}
                           content={`Time${Symbols.NO_BREAK_SPACE}spent on job`}
                         >
                           <EditableValue
@@ -471,7 +471,7 @@ export const Columns = (props: ColumnsProps) => {
                           : <JobDoneTags jobDoneTags={plan.tags} />
                         }
                         <Tooltip
-                          position={PositionTooltip.RIGHT}
+                          position={PositionTooltip.RIGHT_DOUBLE}
                           content={`Estimated${Symbols.NO_BREAK_SPACE}time for the plan`}
                         >
                           <EditableValue

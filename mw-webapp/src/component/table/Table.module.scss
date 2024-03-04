@@ -31,6 +31,10 @@ $cell-max-width: 600px;
   vertical-align: top;
   word-wrap: break-word;
 
+  &:nth-child(1) {
+    white-space: nowrap;
+  }
+
   pre {
     overflow: auto;
   }

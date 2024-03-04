@@ -39,6 +39,9 @@ export const UsersTable = (props: UsersTableProps) => {
   const tableContent = {headerGroup, rowModel};
 
   return (
-    <Table data={tableContent} />
+    <Table
+      data={tableContent}
+      classNameTd={"thFirst"}
+    />
   );
 };
