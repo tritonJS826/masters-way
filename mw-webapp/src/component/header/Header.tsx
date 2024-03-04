@@ -4,6 +4,8 @@ import {Image} from "src/component/image/Image";
 import {Link} from "src/component/link/Link";
 import {NavigationLink, Sidebar} from "src/component/sidebar/Sidebar";
 import {HeadingLevel, Title} from "src/component/title/Title";
+import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
+import {Tooltip} from "src/component/tooltip/Tooltip";
 import {useGlobalContext} from "src/GlobalContext";
 import {ThemeSwitcher} from "src/logic/themeSwitcher/ThemeSwitcher";
 import {pages} from "src/router/pages";
@@ -12,7 +14,7 @@ import styles from "src/component/header/Header.module.scss";
 
 const BUTTON_LOG_IN_VALUE = "Login";
 const BUTTON_LOG_OUT_VALUE = "Logout";
-const LOGO_TEXT = "master's way";
+const LOGO_TEXT = "Master's way";
 
 /**
  * Header component
@@ -52,39 +54,61 @@ export const Header = () => {
   return (
     <div className={styles.header}>
       <Link path={pages.allWays.getPath({})}>
-        <Image
-          src={logo}
-          alt={LOGO_TEXT}
-        />
+        <Tooltip
+          content={LOGO_TEXT}
+          position={PositionTooltip.BOTTOM}
+        >
+          <Image
+            src={logo}
+            alt={LOGO_TEXT}
+          />
+        </Tooltip>
       </Link>
       <div className={styles.headerButtonsContainer}>
         <ThemeSwitcher />
+        {user && (
+          <Link path={pages.user.getPath({uuid: user.uuid})}>
+            <Tooltip
+              content={user.name}
+              position={PositionTooltip.BOTTOM}
+            >
+              <Title
+                level={HeadingLevel.h4}
+                text={user.name}
+                className={styles.userName}
+              />
+            </Tooltip>
+          </Link>
+        )}
 
-        {user &&
-        <Link path={pages.user.getPath({uuid: user.uuid})}>
-          <Title
-            level={HeadingLevel.h4}
-            text={user.name}
-            className={styles.userName}
-          />
-        </Link>
-        }
-
-        <Button
-          onClick={user ? AuthService.logOut : AuthService.logIn}
-          value={user ? BUTTON_LOG_OUT_VALUE : BUTTON_LOG_IN_VALUE}
-          buttonType={ButtonType.TERTIARY}
-        />
-        <Sidebar
-          trigger={
+        <div className={styles.buttons}>
+          <Tooltip
+            content={user ? BUTTON_LOG_OUT_VALUE : BUTTON_LOG_IN_VALUE}
+            position={PositionTooltip.BOTTOM}
+          >
             <Button
-              value="Menu"
-              onClick={() => { }}
+              onClick={user ? AuthService.logOut : AuthService.logIn}
+              value={user ? BUTTON_LOG_OUT_VALUE : BUTTON_LOG_IN_VALUE}
               buttonType={ButtonType.TERTIARY}
             />
-          }
-          linkList={menuItems}
-        />
+          </Tooltip>
+
+          <Tooltip
+            content={"Menu"}
+            position={PositionTooltip.BOTTOM}
+          >
+            <Sidebar
+              trigger={
+                <Button
+                  value="Menu"
+                  onClick={() => {}}
+                  buttonType={ButtonType.TERTIARY}
+                />
+              }
+              linkList={menuItems}
+            />
+          </Tooltip>
+        </div>
       </div>
     </div>
   );
