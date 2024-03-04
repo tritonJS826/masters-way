@@ -2,18 +2,26 @@
 
 $userCardMinWidth: 340px;
 
-.button {
-  margin-top: $marginMedium;
+.allUsersContainer {
+  gap: $gapMedium;
+}
+
+.filterView {
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  @include regularContainer;
+  gap: $gapMedium;
 }
 
 .titleContainer {
   justify-content: space-between;
 }
 
-.searchFilter {
+.emailFilter {
   max-width: $maxWidthBlock;
   padding: $paddingSmall;
-  border: 2px solid var(--secondaryBorderColor);
+  border: 2px solid var(--primaryBorderColor);
 }
 
 .userCards {
@@ -22,18 +30,28 @@ $userCardMinWidth: 340px;
   grid-template-columns: repeat(auto-fill, minmax($userCardMinWidth, 1fr));
 }
 
-.filterView {
-  width: 100%;
-  justify-content: space-between;
-  gap: $gapMedium;
-}
-
 .iconView {
   border: none;
   background-color: transparent;
   cursor: pointer;
 }
 
+.iconsView {
+  display: flex;
+  gap: $gapMedium;
+}
+
 .activeView {
   scale: 1.2;
+}
+
+.usersContent {
+  width: 100%;
+  @include regularContainer;
+}
+
+.loadMoreButton {
+  display: block;
+  margin-top: $marginMedium;
+  margin-left: auto;
 }

@@ -1,7 +1,6 @@
 @import "src/styles/variables";
 
 $tooltipMarginLeft: 25px;
-$tooltipMarginLeftBig: 35px;
 
 // TODO: don't use th inside tooltip
 th .wrapper {
@@ -14,11 +13,12 @@ th .wrapper {
   z-index: $tooltipZIndex;
   display: none;
   padding: $paddingMedium;
+  border: 1px solid var(--primaryBorderColor);
   border-radius: $primaryBorderRadius;
   animation: tooltipAppear 1s ease forwards;
-  background-color: var(--secondaryBackgroundColor);
-  color: var(--secondaryTextColor);
-  // cursor: pointer;
+  background-color: var(--tertiaryBackgroundColor);
+  color: var(--primaryTextColor);
+  cursor: pointer;
   opacity: 0;
 }
 
@@ -35,17 +35,12 @@ th .wrapper {
   transform: translateY(calc(-100% - $marginBig));
 }
 
-.topDouble {
-  transform: translateY(calc(-140% - $marginBig));
-}
-
 .right {
-  transform: translateY(-70%) translateX($tooltipMarginLeft);
+  transform: translateY(-100%) translateX($tooltipMarginLeft);
 }
 
 // Don't delete empty style because it's one of default tooltip position className and can be change in the future
 .bottom {
-  transform: translateY(calc(70% - $marginBig));
 }
 
 .left {
@@ -53,15 +48,7 @@ th .wrapper {
 }
 
 .topLeft {
-  transform: translateY(calc(-100% - $marginBig)) translateX(-30%);
-}
-
-.topRight {
-  transform: translateY(calc(-100% - $marginBig)) translateX(60%);
-}
-
-.rightDouble {
-  transform: translateY(-70%) translateX($tooltipMarginLeftBig);
+  transform: translateY(calc(-100% - $marginBig)) translateX(-50%);
 }
 
 @keyframes tooltipAppear {

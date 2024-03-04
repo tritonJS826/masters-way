@@ -55,7 +55,7 @@ export const WayCard = (props: WayCardProps) => {
     return (
       <HorizontalContainer className={styles.mentors}>
         <p>
-          Mentors:
+          {mentors.length ? "Mentors:" : "No mentors yet"}
         </p>
         {mentors.map((mentor) => (
           <Tooltip

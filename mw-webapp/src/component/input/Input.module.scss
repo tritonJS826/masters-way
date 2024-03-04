@@ -2,11 +2,16 @@
 
 .input {
   width: 100%;
-  padding: 0;
   border: none;
   background: transparent;
   color: var(--primaryTextColor);
   font: inherit;
-  opacity: 0.7;
+  // TODO: get rid of opacity in every input
+  opacity: 0.8;
   outline: none;
+
+  &::placeholder {
+    color: var(--primaryTextColor);
+    opacity: 1;
+  }
 }

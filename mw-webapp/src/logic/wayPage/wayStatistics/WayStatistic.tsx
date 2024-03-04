@@ -2,6 +2,7 @@ import {AreaChart} from "src/component/chart/AreaChart";
 import {PieChart} from "src/component/chart/PieChart";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {Tooltip} from "src/component/tooltip/Tooltip";
+import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {JobTagStat} from "src/logic/wayPage/wayStatistics/JobTagStat";
 import {StatisticLine} from "src/logic/wayPage/wayStatistics/StatisticLine";
 import {TagStats} from "src/logic/wayPage/wayStatistics/TagStats";
@@ -62,7 +63,9 @@ const getTagStats = (jobsDone: JobDone[]) => {
       const totalAmount = (tagStatsMap.get(tag.uuid)?.totalAmount ?? 0) + AMOUNT_INCREMENT;
       const totalAmountPercentage = Math.round(totalAmount / jobsDone.length * PERCENTAGE_MULTIPLIER);
       const totalTime = (tagStatsMap.get(tag.uuid)?.totalTime ?? 0) + job.time;
-      const totalTimePercentage = Math.round(totalTime / totalJobsTime * PERCENTAGE_MULTIPLIER);
+      const totalTimePercentage = totalJobsTime === 0
+        ? 0
+        : Math.round(totalTime / totalJobsTime * PERCENTAGE_MULTIPLIER);
 
       tagStatsMap.set(tag.uuid, {
         totalAmount,
@@ -163,45 +166,46 @@ export const WayStatistic = (props: WayStatisticProps) => {
 
   return (
     <div className={styles.wrapper}>
-      <Title
-        level={HeadingLevel.h4}
-        text="Total"
-      />
-      <StatisticLine
-        description="Days from start:"
-        value={totalDaysOnAWay}
-      />
-      <StatisticLine
-        description="Total records:"
-        value={totalRecordsAmount}
-      />
-      <StatisticLine
-        description="Total time:"
-        value={totalWayTime}
-      />
-      <StatisticLine
-        description="Average time per calendar day:"
-        value={averageWorkingTimeInDay}
-      />
-      <StatisticLine
-        description="Average working time in working day:"
-        value={averageWorkingTimeInRecords}
-      />
-      <StatisticLine
-        description="Total finished jobs:"
-        value={allJobs.length}
-      />
-      <Tooltip content="Shows level of task decomposition">
-        <StatisticLine
-          description="Average job time:"
-          value={averageTimeForJob}
+      <VerticalContainer>
+        <Title
+          level={HeadingLevel.h4}
+          text="Total"
         />
-      </Tooltip>
+        <StatisticLine
+          description="Days from start:"
+          value={totalDaysOnAWay}
+        />
+        <StatisticLine
+          description="Total records:"
+          value={totalRecordsAmount}
+        />
+        <StatisticLine
+          description="Total time:"
+          value={totalWayTime}
+        />
+        <StatisticLine
+          description="Average time per calendar day:"
+          value={averageWorkingTimeInDay}
+        />
+        <StatisticLine
+          description="Average working time in working day:"
+          value={averageWorkingTimeInRecords}
+        />
+        <StatisticLine
+          description="Total finished jobs:"
+          value={allJobs.length}
+        />
+        <Tooltip content="Shows level of task decomposition">
+          <StatisticLine
+            description="Average job time:"
+            value={averageTimeForJob}
+          />
+        </Tooltip>
 
-      <TagStats stats={allTagStats} />
+        <TagStats stats={allTagStats} />
 
-      {!!props.dayReports.length &&
-        <>
+        {!!totalWayTime &&
+        <div className={styles.statisticsCharts}>
           <AreaChart
             datesWithJobTotalTime={datesWithJobTotalTime}
             startDate={startDate}
@@ -212,30 +216,31 @@ export const WayStatistic = (props: WayStatisticProps) => {
             lastDate={lastDate}
             tagStats={allTagStats}
           />
-        </>
-      }
+        </div>
+        }
+      </VerticalContainer>
 
-      <Title
-        level={HeadingLevel.h4}
-        text="Last week"
-        className={styles.title}
-      />
-      <StatisticLine
-        description="Total time:"
-        value={lastCalendarWeekTotalTime}
-      />
-      <StatisticLine
-        description="Average time per calendar day:"
-        value={lastCalendarWeekAverageWorkingTime}
-      />
-      <StatisticLine
-        description="Average time per worked day:"
-        value={lastCalendarWeekAverageJobTime}
-      />
-      <TagStats stats={lastWeekTagStats} />
+      <VerticalContainer>
+        <Title
+          level={HeadingLevel.h4}
+          text="Last week"
+        />
+        <StatisticLine
+          description="Total time:"
+          value={lastCalendarWeekTotalTime}
+        />
+        <StatisticLine
+          description="Average time per calendar day:"
+          value={lastCalendarWeekAverageWorkingTime}
+        />
+        <StatisticLine
+          description="Average time per worked day:"
+          value={lastCalendarWeekAverageJobTime}
+        />
+        <TagStats stats={lastWeekTagStats} />
 
-      {!!props.dayReports.length &&
-        <>
+        {!!totalWayTime &&
+        <div className={styles.statisticsCharts}>
           <AreaChart
             datesWithJobTotalTime={datesWithJobTotalTime}
             startDate={startDateLastWeek}
@@ -246,31 +251,32 @@ export const WayStatistic = (props: WayStatisticProps) => {
             lastDate={lastDate}
             tagStats={lastWeekTagStats}
           />
-        </>
-      }
+        </div>
+        }
+      </VerticalContainer>
 
-      <Title
-        level={HeadingLevel.h4}
-        text="Last month (30 days) statistics"
-        className={styles.title}
-      />
-      <StatisticLine
-        description="Total time:"
-        value={lastCalendarMonthTotalTime}
-      />
-      <StatisticLine
-        description="Average time per calendar day:"
-        value={lastCalendarMonthAverageWorkingTime}
-      />
-      <StatisticLine
-        description="Average time per worked day:"
-        value={lastCalendarMonthAverageJobTime}
-      />
+      <VerticalContainer>
+        <Title
+          level={HeadingLevel.h4}
+          text="Last month (30 days) statistics"
+        />
+        <StatisticLine
+          description="Total time:"
+          value={lastCalendarMonthTotalTime}
+        />
+        <StatisticLine
+          description="Average time per calendar day:"
+          value={lastCalendarMonthAverageWorkingTime}
+        />
+        <StatisticLine
+          description="Average time per worked day:"
+          value={lastCalendarMonthAverageJobTime}
+        />
 
-      <TagStats stats={lastMonthTagStats} />
+        <TagStats stats={lastMonthTagStats} />
 
-      {!!props.dayReports.length &&
-        <>
+        {!!totalWayTime &&
+        <div className={styles.statisticsCharts}>
           <AreaChart
             datesWithJobTotalTime={datesWithJobTotalTime}
             startDate={startDateLastMonth}
@@ -281,8 +287,9 @@ export const WayStatistic = (props: WayStatisticProps) => {
             lastDate={lastDate}
             tagStats={lastMonthTagStats}
           />
-        </>
-      }
+        </div>
+        }
+      </VerticalContainer>
     </div>
   );
 };

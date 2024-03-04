@@ -1,8 +1,11 @@
 @import "src/styles/variables";
 
 .wrapper {
-  display: flex;
-  flex-direction: column;
+  @include regularContainer;
+  display: grid;
+  width: 100%;
+  gap: $gapMedium;
+  grid-template-columns: repeat(auto-fit, minmax($minWidthBlock, 1fr));
 }
 
 .alignContent {
@@ -12,6 +15,6 @@
   border-bottom: 1px dotted var(--primaryBorderColor);
 }
 
-.title {
-  margin-top: $marginSmall;
+.statisticsCharts {
+  margin-top: auto;
 }

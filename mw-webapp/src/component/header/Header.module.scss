@@ -19,11 +19,7 @@ $userNameFontSize: 16px;
   width: auto;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
-}
-
-.buttons {
-  display: flex;
+  gap: $gapMedium;
 }
 
 .logo {

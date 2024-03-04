@@ -1,9 +1,12 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Button, ButtonType} from "src/component/button/Button";
+import {Confirm} from "src/component/confirm/Confirm";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Loader} from "src/component/loader/Loader";
+import {Modal} from "src/component/modal/Modal";
+import {PromptModalContent} from "src/component/modal/PromptModalContent";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
@@ -106,6 +109,8 @@ const getAllWayCollections = (userPreview: UserPreview): WayCollection[] => [
  * User page
  */
 export const UserPage = (props: UserPageProps) => {
+  const [isRenameCollectionModalOpen, setIsRenameCollectionModalOpen] = useState(false);
+
   const [userPreview, setUserPreview] = useState<UserPreview>();
   const [openedTabId, setOpenedTabId] = usePersistanceState({
     key: "userPage.openedTabId",
@@ -270,48 +275,72 @@ export const UserPage = (props: UserPageProps) => {
     setOpenedTabId(wayCollectionToUpdate.id);
   };
 
+  const isCustomCollection = userPreview.customWayCollections.some((col) => col.id === openedTabId);
+  const currentCollection = getAllWayCollections(userPreview).find((col) => col.id === openedTabId);
+  if (!currentCollection) {
+    throw Error(`Collection with id ${openedTabId} is not exist`);
+  }
+
   return (
-    <VerticalContainer>
+    <VerticalContainer className={styles.pageLayout}>
       <HorizontalContainer className={styles.container}>
         <VerticalContainer className={styles.descriptionSection}>
-          <Title
-            level={HeadingLevel.h2}
-            text={userPreview.name}
-            onChangeFinish={(name) => updateUser({
-              userToUpdate: {
-                uuid: userPreview.uuid,
-                name,
-              },
-              setUser: setUserPreviewPartial,
-            })}
-            isEditable={isPageOwner}
-            className={styles.titleH2}
+          <VerticalContainer className={styles.nameEmailSection}>
+            <Title
+              level={HeadingLevel.h2}
+              text={userPreview.name}
+              onChangeFinish={(name) => updateUser({
+                userToUpdate: {
+                  uuid: userPreview.uuid,
+                  name,
+                },
+                setUser: setUserPreviewPartial,
+              })}
+              isEditable={isPageOwner}
+              className={styles.ownerName}
+            />
+            <Title
+              level={HeadingLevel.h3}
+              text={userPreview.email}
+              onChangeFinish={(email) => updateUser({
+                userToUpdate: {
+                  uuid: userPreview.uuid,
+                  email,
+                },
+                setUser: setUserPreviewPartial,
+              })}
+              isEditable={isPageOwner}
+              className={styles.ownerEmail}
+            />
+          </VerticalContainer>
+
+          <VerticalContainer className={styles.userDescriptionSection}>
+            <Title
+              level={HeadingLevel.h3}
+              text="About"
+            />
+            <EditableTextarea
+              text={userPreview.description}
+              onChangeFinish={(description) => updateUser({
+                userToUpdate: {
+                  uuid: userPreview.uuid,
+                  description,
+                },
+                setUser: setUserPreviewPartial,
+              })}
+              isEditable={isPageOwner}
+              className={styles.userDescription}
+            />
+          </VerticalContainer>
+
+          {isPageOwner &&
+          <Button
+            value="Create new way"
+            onClick={() => createWay(user)}
+            buttonType={ButtonType.PRIMARY}
+            className={styles.createNewWayButton}
           />
-          <Title
-            level={HeadingLevel.h3}
-            text={userPreview.email}
-            onChangeFinish={(email) => updateUser({
-              userToUpdate: {
-                uuid: userPreview.uuid,
-                email,
-              },
-              setUser: setUserPreviewPartial,
-            })}
-            isEditable={isPageOwner}
-            className={styles.titleH3}
-          />
-          <EditableTextarea
-            text={userPreview.description}
-            onChangeFinish={(description) => updateUser({
-              userToUpdate: {
-                uuid: userPreview.uuid,
-                description,
-              },
-              setUser: setUserPreviewPartial,
-            })}
-            isEditable={isPageOwner}
-            className={styles.editableTextarea}
-          />
+          }
         </VerticalContainer>
 
         <HorizontalContainer className={styles.tabsSection}>
@@ -337,23 +366,52 @@ export const UserPage = (props: UserPageProps) => {
         </HorizontalContainer>
       </HorizontalContainer>
 
-      {isPageOwner &&
-      <Button
-        value="Create new way"
-        onClick={() => createWay(user)}
-        buttonType={ButtonType.PRIMARY}
-        className={styles.button}
-      />
-      }
+      {isCustomCollection && (
+        <HorizontalContainer className={styles.temporalBlock}>
+          <Confirm
+            trigger={
+              <Button
+                value="Delete current collection"
+                onClick={() => {}}
+                buttonType={ButtonType.SECONDARY}
+                className={styles.button}
+              />
+            }
+            content={<p>
+              {`Are you sure you want to delete collection "${currentCollection.name}" ?`}
+            </p>}
+            onOk={() => deleteCustomWayCollections(currentCollection.id)}
+            okText="Ok"
+          />
+          <Modal
+            isOpen={isRenameCollectionModalOpen}
+            content={
+              <PromptModalContent
+                defaultValue={currentCollection.name}
+                close={() => setIsRenameCollectionModalOpen(false)}
+                onOk={(name: string) => updateCustomWayCollection({id: openedTabId, name})}
+              />
+            }
+            trigger={
+              <Button
+                value="Rename collection"
+                onClick={() => setIsRenameCollectionModalOpen(true)}
+              />
+            }
+          />
+        </HorizontalContainer>
+      )}
 
       {/* Render table only for appropriate collection */}
       {getAllWayCollections(userPreview)
         .filter(collection => collection.id === openedTabId)
         .map(collection => {
-          const isCustomCollection = userPreview.customWayCollections.some((col) => col.id === collection.id);
 
           return (
-            <ScrollableBlock key={collection.id}>
+            <ScrollableBlock
+              key={collection.id}
+              className={styles.waysContent}
+            >
               <BaseWaysTable
                 title={collection.name}
                 wayUuids={collection.wayUuids}
@@ -361,7 +419,6 @@ export const UserPage = (props: UserPageProps) => {
                   ? (wayCollection: Partial<WayCollection>) => updateCustomWayCollection({id: collection.id, ...wayCollection})
                   : undefined
                 }
-                deleteCollection={isCustomCollection ? () => deleteCustomWayCollections(collection.id) : undefined}
                 filterStatus={userPageSettings.filterStatus}
                 setFilterStatus={(
                   filterStatus: WayStatusType | typeof FILTER_STATUS_ALL_VALUE,

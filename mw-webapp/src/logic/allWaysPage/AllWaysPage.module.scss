@@ -2,12 +2,23 @@
 
 $wayCardMinWidth: 340px;
 
-.button {
+.allWaysContainer {
+  gap: $gapMedium;
+}
+
+.loadMoreButton {
+  display: block;
   margin-top: $marginMedium;
+  margin-left: auto;
 }
 
 .titleContainer {
   justify-content: space-between;
+}
+
+.waysContent {
+  width: 100%;
+  @include regularContainer;
 }
 
 .wayCards {
@@ -28,7 +39,9 @@ $wayCardMinWidth: 340px;
 
 .filterView {
   width: 100%;
+  align-items: center;
   justify-content: space-between;
+  @include regularContainer;
   gap: $gapMedium;
 }
 

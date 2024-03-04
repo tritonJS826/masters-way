@@ -38,16 +38,20 @@ export interface SelectProps<T> {
 }
 
 /**
+ * Render list of options for select component
+ */
+const renderSelectOptions = <T extends string | number>(options: OptionType<T>[]) => options.map((option) => (
+  <Option
+    key={option.id}
+    value={option.value}
+    text={option.text}
+  />
+));
+
+/**
  * Represents a control that provides a menu of options
  */
 export const Select = <T extends string | number>(props: SelectProps<T>) => {
-  const renderSelectOptions = props.options.map((option) => (
-    <Option
-      key={option.id}
-      value={option.value}
-      text={option.text}
-    />
-  ));
 
   /**
    * Handle onChange event
@@ -58,7 +62,7 @@ export const Select = <T extends string | number>(props: SelectProps<T>) => {
   };
 
   return (
-    <label>
+    <label className={styles.selectContainer}>
       {props.label}
       <select
         name={props.name}
@@ -67,7 +71,7 @@ export const Select = <T extends string | number>(props: SelectProps<T>) => {
         defaultValue={props.value}
         data-cy={props.dataCy}
       >
-        {renderSelectOptions}
+        {renderSelectOptions(props.options)}
       </select>
     </label>
   );
