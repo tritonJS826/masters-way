@@ -275,7 +275,7 @@ export const Columns = (props: ColumnsProps) => {
                         : <JobDoneTags jobDoneTags={jobDone.tags} />
                       }
                       <Tooltip
-                        position={PositionTooltip.BOTTOM}
+                        position={PositionTooltip.RIGHT_DOUBLE}
                         content={`Time${Symbols.NO_BREAK_SPACE}spent on job`}
                       >
                         <EditableValue
@@ -290,7 +290,7 @@ export const Columns = (props: ColumnsProps) => {
                       </Tooltip>
                       {isUserOwnerOrMentor &&
                       <Tooltip
-                        position={PositionTooltip.BOTTOM}
+                        position={PositionTooltip.RIGHT}
                         content="Delete jobDone"
                       >
                         <Confirm
@@ -318,7 +318,7 @@ export const Columns = (props: ColumnsProps) => {
               {isUserOwnerOrMentor &&
               <Tooltip
                 content="Add job"
-                position={PositionTooltip.RIGHT}
+                position={PositionTooltip.TOP}
               >
                 <Button
                   value={
@@ -468,7 +468,7 @@ export const Columns = (props: ColumnsProps) => {
                         : <JobDoneTags jobDoneTags={plan.tags} />
                       }
                       <Tooltip
-                        position={PositionTooltip.BOTTOM}
+                        position={PositionTooltip.RIGHT_DOUBLE}
                         content={`Estimated${Symbols.NO_BREAK_SPACE}time for the plan`}
                       >
                         <EditableValue
@@ -495,7 +495,7 @@ export const Columns = (props: ColumnsProps) => {
                       {plan.ownerUuid === user?.uuid &&
                       <Tooltip
                         content="Delete plan"
-                        position={PositionTooltip.BOTTOM}
+                        position={PositionTooltip.RIGHT}
                       >
                         <Confirm
                           trigger={<TrashIcon className={styles.icon} />}
@@ -525,7 +525,7 @@ export const Columns = (props: ColumnsProps) => {
                 {isUserOwnerOrMentor &&
                 <Tooltip
                   content="Add plan"
-                  position={PositionTooltip.RIGHT}
+                  position={PositionTooltip.TOP}
                 >
                   <Button
                     value={
@@ -645,7 +645,7 @@ export const Columns = (props: ColumnsProps) => {
                       {problem.ownerUuid === user?.uuid &&
                       <Tooltip
                         content="Delete problem"
-                        position={PositionTooltip.BOTTOM}
+                        position={PositionTooltip.RIGHT}
                       >
                         <Confirm
                           trigger={<TrashIcon className={styles.icon} />}
@@ -672,7 +672,7 @@ export const Columns = (props: ColumnsProps) => {
               {isUserOwnerOrMentor &&
               <Tooltip
                 content="Add problem"
-                position={PositionTooltip.RIGHT}
+                position={PositionTooltip.TOP}
               >
                 <Button
                   value={

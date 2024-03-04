@@ -50,8 +50,11 @@ $userCardMinWidth: 340px;
   @include regularContainer;
 }
 
+.buttonContainer {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .loadMoreButton {
-  display: block;
   margin-top: $marginMedium;
-  margin-left: auto;
 }

@@ -48,3 +48,12 @@ $wayCardMinWidth: 340px;
 .iconsView {
   gap: $gapMedium;
 }
+
+.buttonContainer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.loadMoreButton {
+  margin-top: $marginMedium;
+}

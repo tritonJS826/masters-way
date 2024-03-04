@@ -221,12 +221,19 @@ export const AllWaysPage = () => {
           </HorizontalContainer>
         }
         {isMoreWaysExist &&
-          <Button
-            value="Load more"
-            onClick={() => loadMoreWays(allWays)}
-            buttonType={ButtonType.PRIMARY}
-            className={styles.loadMoreButton}
-          />
+          <div className={styles.buttonContainer}>
+            <Tooltip
+              position={PositionTooltip.LEFT}
+              content={"Load more ways"}
+            >
+              <Button
+                value="Load more"
+                onClick={() => loadMoreWays(allWays)}
+                buttonType={ButtonType.PRIMARY}
+                className={styles.loadMoreButton}
+              />
+            </Tooltip>
+          </div>
         }
       </div>
     </VerticalContainer>
