@@ -223,41 +223,6 @@ export const WayStatistic = (props: WayStatisticProps) => {
       <VerticalContainer>
         <Title
           level={HeadingLevel.h4}
-          text="Last week"
-        />
-        <StatisticLine
-          description="Total time:"
-          value={lastCalendarWeekTotalTime}
-        />
-        <StatisticLine
-          description="Average time per calendar day:"
-          value={lastCalendarWeekAverageWorkingTime}
-        />
-        <StatisticLine
-          description="Average time per worked day:"
-          value={lastCalendarWeekAverageJobTime}
-        />
-        <TagStats stats={lastWeekTagStats} />
-
-        {!!totalWayTime &&
-        <div className={styles.statisticsCharts}>
-          <AreaChart
-            datesWithJobTotalTime={datesWithJobTotalTime}
-            startDate={startDateLastWeek}
-            lastDate={lastDate}
-          />
-          <PieChart
-            startDate={startDateLastWeek}
-            lastDate={lastDate}
-            tagStats={lastWeekTagStats}
-          />
-        </div>
-        }
-      </VerticalContainer>
-
-      <VerticalContainer>
-        <Title
-          level={HeadingLevel.h4}
           text="Last month (30 days) statistics"
         />
         <StatisticLine
@@ -286,6 +251,41 @@ export const WayStatistic = (props: WayStatisticProps) => {
             startDate={startDateLastMonth}
             lastDate={lastDate}
             tagStats={lastMonthTagStats}
+          />
+        </div>
+        }
+      </VerticalContainer>
+
+      <VerticalContainer>
+        <Title
+          level={HeadingLevel.h4}
+          text="Last week"
+        />
+        <StatisticLine
+          description="Total time:"
+          value={lastCalendarWeekTotalTime}
+        />
+        <StatisticLine
+          description="Average time per calendar day:"
+          value={lastCalendarWeekAverageWorkingTime}
+        />
+        <StatisticLine
+          description="Average time per worked day:"
+          value={lastCalendarWeekAverageJobTime}
+        />
+        <TagStats stats={lastWeekTagStats} />
+
+        {!!totalWayTime &&
+        <div className={styles.statisticsCharts}>
+          <AreaChart
+            datesWithJobTotalTime={datesWithJobTotalTime}
+            startDate={startDateLastWeek}
+            lastDate={lastDate}
+          />
+          <PieChart
+            startDate={startDateLastWeek}
+            lastDate={lastDate}
+            tagStats={lastWeekTagStats}
           />
         </div>
         }
