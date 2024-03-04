@@ -5,13 +5,17 @@ $iconContainerSize: 25px;
 .container {
   width: 100%;
   margin: 0 auto;
+  gap: $gapMedium;
 }
 
 .wayInfo {
   @include regularContainer;
   min-width: $minWidthBlock;
-  max-width: $maxWidthBlock;
   gap: $gapMedium;
+}
+
+.dayReportsContent {
+  @include regularContainer;
 }
 
 .wayTitleBlock {
@@ -31,6 +35,13 @@ $iconContainerSize: 25px;
 
 .metricsBlock {
   @include regularContainer;
+  min-width: $minWidthBlock;
+  gap: $gapMedium;
+}
+
+.peopleBlock {
+  @include regularContainer;
+  min-width: $minWidthBlock;
   gap: $gapMedium;
 }
 
@@ -41,7 +52,6 @@ $iconContainerSize: 25px;
 
 .singularMetric {
   display: flex;
-  max-width: $maxWidthBlock;
   align-items: flex-start;
   justify-content: space-between;
 }
@@ -50,17 +60,12 @@ $iconContainerSize: 25px;
   display: flex;
 }
 
-.wrap {
-  width: 100%;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: $gapMedium;
+.statisticsBlock {
+  display: flex;
 }
 
 .statistics {
-  display: flex;
-  min-width: $minWidthBlock;
-  max-width: $maxWidthBlock;
+  width: 100%;
 }
 
 .iconContainer {
@@ -80,13 +85,12 @@ $iconContainerSize: 25px;
 }
 
 .wayDashboard {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+  display: grid;
+  gap: $gapMedium;
+  grid-template-columns: repeat(auto-fit, minmax($minWidthBlock, 1fr));
 }
 
 .wayDashBoardLeft {
-  flex-wrap: wrap;
   gap: $gapMedium;
 }
 

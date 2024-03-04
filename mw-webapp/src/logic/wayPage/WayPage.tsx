@@ -319,197 +319,260 @@ export const WayPage = (props: WayPageProps) => {
   };
 
   return (
-    <div className={styles.container}>
+    <VerticalContainer className={styles.container}>
       <HorizontalContainer className={styles.wayDashboard}>
-        <HorizontalContainer className={styles.wayDashBoardLeft}>
-          <VerticalContainer className={styles.wayInfo}>
-            <HorizontalContainer className={styles.wayTitleBlock}>
-              <Title
-                level={HeadingLevel.h2}
-                text={way.name}
-                onChangeFinish={(name) => updateWay({
-                  wayToUpdate: {
-                    uuid: way.uuid,
-                    name,
-                  },
-                  setWay: setWayPartial,
-                })}
-                isEditable={isUserOwnerOrMentor}
-                className={styles.wayName}
-              />
-
-              <HorizontalContainer className={styles.buttons}>
-                <Tooltip
-                  content={`${isWayInFavorites ? "Delete from" : "Add to"} favorites`}
-                  position={PositionTooltip.LEFT}
-                >
-                  <Button
-                    value={`${isWayInFavorites
-                      ? Symbols.STAR
-                      : Symbols.OUTLINED_STAR
-                    }${Symbols.NO_BREAK_SPACE}${favoriteForUsersAmount}`}
-                    onClick={() => {
-                      if (!user) {
-                        return;
-                      }
-
-                      if (isWayInFavorites) {
-                        updateWayAndUser({
-                          wayToUpdate: {
-                            uuid: way.uuid,
-                            favoriteForUserUuids: way.favoriteForUserUuids
-                              .filter((favoriteForUser) => favoriteForUser !== user.uuid),
-                          },
-                          userToUpdate: {
-                            uuid: user.uuid,
-                            favoriteWays: user.favoriteWays.filter((favoriteWay) => favoriteWay !== way.uuid),
-                          },
-                          setWay: setWayPartial,
-                          setUser: setUserPreviewPartial,
-                        });
-                      } else {
-                        updateWayAndUser({
-                          wayToUpdate: {
-                            uuid: way.uuid,
-                            favoriteForUserUuids: way.favoriteForUserUuids.concat(user.uuid),
-                          },
-                          userToUpdate: {
-                            uuid: user.uuid,
-                            favoriteWays: user.favoriteWays.concat(way.uuid),
-                          },
-                          setWay: setWayPartial,
-                          setUser: setUserPreviewPartial,
-                        });
-                      }
-
-                      displayNotification({
-                        text: `Way ${isWayInFavorites ? "removed from" : "added to" } favorites`,
-                        type: "info",
-                      });
-                    }}
-                    buttonType={ButtonType.TERTIARY}
-                  />
-                </Tooltip>
-                <Dropdown
-                  className={styles.wayActionMenu}
-                  trigger={(
-                    <Button
-                      value="Way actions"
-                      buttonType={ButtonType.SECONDARY}
-                      onClick={() => {}}
-                    />
-                  )}
-                  dropdownMenuItems={[
-                    {
-                      id: "Repeat the way",
-                      value: "Repeat the way",
-
-                      /**
-                       * Copy url to clipboard
-                       */
-                      onClick: repeatTheWay,
-                      isVisible: !!user,
-                    },
-                    {
-                      id: "Copy url to clipboard",
-                      value: "Copy url to clipboard",
-
-                      /**
-                       * Copy url to clipboard
-                       */
-                      onClick: async () => {
-                        await navigator.clipboard.writeText(location.href);
-                        displayNotification({
-                          text: "Url copied",
-                          type: "info",
-                        });
-                      },
-                    },
-                    {
-                      id: "Download as pdf",
-                      value: "Download as pdf",
-
-                      /**
-                       * Download way as pdf
-                       */
-                      onClick: () => downloadWayPdf(way),
-                    },
-                    ...renderAddToCustomCollectionDropdownItems,
-                    {
-                      id: "Go to original way",
-                      value: "Go to original",
-                      isVisible: !!way.copiedFromWayUuid,
-
-                      /**
-                       * Go to original way (from which current way was copied)
-                       */
-                      onClick: () => navigate(pages.way.getPath({uuid: way.copiedFromWayUuid})),
-                    },
-                    {
-                      id: "Delete the way",
-                      value: renderDeleteWayDropdownItem,
-                      isVisible: isOwner,
-                    },
-                  ]}
-                />
-              </HorizontalContainer>
-            </HorizontalContainer>
-
-            <HorizontalContainer className={styles.wayTagsContainer}>
-              No-tags
-              <Tooltip content="Edit way tags. Coming soon :)">
-                <Button
-                  value={
-                    <Icon
-                      size={IconSize.SMALL}
-                      name="PlusIcon"
-                    />
-                  }
-                  onClick={() => {}}
-                  className={styles.flatButton}
-                />
-              </Tooltip>
-            </HorizontalContainer>
-
-            <GoalBlock
-              goalDescription={way.goalDescription}
-              wayUuid={way.uuid}
-              updateWay={(updated) => updateWay({
-                wayToUpdate: {...updated},
+        <VerticalContainer className={styles.wayInfo}>
+          <HorizontalContainer className={styles.wayTitleBlock}>
+            <Title
+              level={HeadingLevel.h2}
+              text={way.name}
+              onChangeFinish={(name) => updateWay({
+                wayToUpdate: {
+                  uuid: way.uuid,
+                  name,
+                },
                 setWay: setWayPartial,
               })}
               isEditable={isUserOwnerOrMentor}
+              className={styles.wayName}
             />
-          </VerticalContainer>
 
-          <VerticalContainer className={styles.metricsBlock}>
-            <HorizontalContainer className={styles.horizontalContainer}>
-              <Title
-                level={HeadingLevel.h3}
-                text="Metrics"
-              />
-              <Tooltip content={`Click to ${wayPageSettings.isGoalMetricsVisible ? "hide" : "open"} goal metrics block`}>
-                <button
-                  className={styles.iconContainer}
-                  onClick={() => updateWayPageSettings({isGoalMetricsVisible: !wayPageSettings.isGoalMetricsVisible})}
-                >
-                  <Icon
-                    size={IconSize.MEDIUM}
-                    name={wayPageSettings.isGoalMetricsVisible ? "EyeOpenedIcon" : "EyeSlashedIcon"}
-                  />
-                </button>
+            <HorizontalContainer className={styles.buttons}>
+              <Tooltip
+                content={`${isWayInFavorites ? "Delete from" : "Add to"} favorites`}
+                position={PositionTooltip.LEFT}
+              >
+                <Button
+                  value={`${isWayInFavorites
+                    ? Symbols.STAR
+                    : Symbols.OUTLINED_STAR
+                  }${Symbols.NO_BREAK_SPACE}${favoriteForUsersAmount}`}
+                  onClick={() => {
+                    if (!user) {
+                      return;
+                    }
+
+                    if (isWayInFavorites) {
+                      updateWayAndUser({
+                        wayToUpdate: {
+                          uuid: way.uuid,
+                          favoriteForUserUuids: way.favoriteForUserUuids
+                            .filter((favoriteForUser) => favoriteForUser !== user.uuid),
+                        },
+                        userToUpdate: {
+                          uuid: user.uuid,
+                          favoriteWays: user.favoriteWays.filter((favoriteWay) => favoriteWay !== way.uuid),
+                        },
+                        setWay: setWayPartial,
+                        setUser: setUserPreviewPartial,
+                      });
+                    } else {
+                      updateWayAndUser({
+                        wayToUpdate: {
+                          uuid: way.uuid,
+                          favoriteForUserUuids: way.favoriteForUserUuids.concat(user.uuid),
+                        },
+                        userToUpdate: {
+                          uuid: user.uuid,
+                          favoriteWays: user.favoriteWays.concat(way.uuid),
+                        },
+                        setWay: setWayPartial,
+                        setUser: setUserPreviewPartial,
+                      });
+                    }
+
+                    displayNotification({
+                      text: `Way ${isWayInFavorites ? "removed from" : "added to" } favorites`,
+                      type: "info",
+                    });
+                  }}
+                  buttonType={ButtonType.TERTIARY}
+                />
               </Tooltip>
+              <Dropdown
+                className={styles.wayActionMenu}
+                trigger={(
+                  <Button
+                    value="Way actions"
+                    buttonType={ButtonType.SECONDARY}
+                    onClick={() => {}}
+                  />
+                )}
+                dropdownMenuItems={[
+                  {
+                    id: "Repeat the way",
+                    value: "Repeat the way",
+
+                    /**
+                     * Copy url to clipboard
+                     */
+                    onClick: repeatTheWay,
+                    isVisible: !!user,
+                  },
+                  {
+                    id: "Copy url to clipboard",
+                    value: "Copy url to clipboard",
+
+                    /**
+                     * Copy url to clipboard
+                     */
+                    onClick: async () => {
+                      await navigator.clipboard.writeText(location.href);
+                      displayNotification({
+                        text: "Url copied",
+                        type: "info",
+                      });
+                    },
+                  },
+                  {
+                    id: "Download as pdf",
+                    value: "Download as pdf",
+
+                    /**
+                     * Download way as pdf
+                     */
+                    onClick: () => downloadWayPdf(way),
+                  },
+                  ...renderAddToCustomCollectionDropdownItems,
+                  {
+                    id: "Go to original way",
+                    value: "Go to original",
+                    isVisible: !!way.copiedFromWayUuid,
+
+                    /**
+                     * Go to original way (from which current way was copied)
+                     */
+                    onClick: () => navigate(pages.way.getPath({uuid: way.copiedFromWayUuid})),
+                  },
+                  {
+                    id: "Delete the way",
+                    value: renderDeleteWayDropdownItem,
+                    isVisible: isOwner,
+                  },
+                ]}
+              />
             </HorizontalContainer>
-            <GoalMetricsBlock
-              isVisible={wayPageSettings.isGoalMetricsVisible}
-              goalMetrics={way.metrics}
-              updateGoalMetrics={updateGoalMetrics}
-              isEditable={isUserOwnerOrMentor}
+          </HorizontalContainer>
+
+          <HorizontalContainer className={styles.wayTagsContainer}>
+            No-tags
+            <Tooltip content="Edit way tags. Coming soon :)">
+              <Button
+                value={
+                  <Icon
+                    size={IconSize.SMALL}
+                    name="PlusIcon"
+                  />
+                }
+                onClick={() => {}}
+                className={styles.flatButton}
+              />
+            </Tooltip>
+          </HorizontalContainer>
+
+          <GoalBlock
+            goalDescription={way.goalDescription}
+            wayUuid={way.uuid}
+            updateWay={(updated) => updateWay({
+              wayToUpdate: {...updated},
+              setWay: setWayPartial,
+            })}
+            isEditable={isUserOwnerOrMentor}
+          />
+        </VerticalContainer>
+
+        <VerticalContainer className={styles.metricsBlock}>
+          <HorizontalContainer className={styles.horizontalContainer}>
+            <Title
+              level={HeadingLevel.h3}
+              text="Metrics"
             />
-          </VerticalContainer>
-        </HorizontalContainer>
+            <Tooltip content={`Click to ${wayPageSettings.isGoalMetricsVisible ? "hide" : "open"} goal metrics block`}>
+              <button
+                className={styles.iconContainer}
+                onClick={() => updateWayPageSettings({isGoalMetricsVisible: !wayPageSettings.isGoalMetricsVisible})}
+              >
+                <Icon
+                  size={IconSize.MEDIUM}
+                  name={wayPageSettings.isGoalMetricsVisible ? "EyeOpenedIcon" : "EyeSlashedIcon"}
+                />
+              </button>
+            </Tooltip>
+          </HorizontalContainer>
+          <GoalMetricsBlock
+            isVisible={wayPageSettings.isGoalMetricsVisible}
+            goalMetrics={way.metrics}
+            updateGoalMetrics={updateGoalMetrics}
+            isEditable={isUserOwnerOrMentor}
+          />
+        </VerticalContainer>
+        <VerticalContainer className={styles.peopleBlock}>
+          <Title
+            level={HeadingLevel.h3}
+            text="Way's owner:"
+          />
+          <Link
+            path={pages.user.getPath({uuid: way.owner.uuid})}
+            className={styles.mentors}
+          >
+            {way.owner.name}
+          </Link>
+          {!!way.mentors.size &&
+            <MentorsSection
+              way={way}
+              setWay={setWayPartial}
+              isOwner={isOwner}
+            />}
+          {isOwner && !!way.mentorRequests.length && (
+            <MentorRequestsSection
+              way={way}
+              setWay={setWay}
+            />
+          )}
+          {isEligibleToSendRequest && (
+            <Button
+              value="Apply as Mentor"
+              onClick={() => updateWay({
+                wayToUpdate: {
+                  uuid: way.uuid,
+                  mentorRequests: way.mentorRequests.concat(user),
+                },
+                setWay: setWayPartial,
+              })}
+            />
+          )}
+        </VerticalContainer>
 
       </HorizontalContainer>
+
+      <HorizontalContainer className={styles.statisticsBlock}>
+        <VerticalContainer className={styles.statistics}>
+          <HorizontalContainer className={styles.horizontalContainer}>
+            <Title
+              level={HeadingLevel.h3}
+              text="Statistics"
+            />
+            <Tooltip content={`Click to ${wayPageSettings.isStatisticsVisible ? "hide" : "open"} statistics block`}>
+              <button
+                className={styles.iconContainer}
+                onClick={() => updateWayPageSettings({isStatisticsVisible: !wayPageSettings.isStatisticsVisible})}
+              >
+                <Icon
+                  size={IconSize.MEDIUM}
+                  name={wayPageSettings.isStatisticsVisible ? "EyeOpenedIcon" : "EyeSlashedIcon"}
+                />
+              </button>
+            </Tooltip>
+          </HorizontalContainer>
+          <WayStatistic
+            dayReports={way.dayReports}
+            wayCreatedAt={way.createdAt}
+            isVisible={wayPageSettings.isStatisticsVisible}
+          />
+        </VerticalContainer>
+
+      </HorizontalContainer>
+
       <div className={styles.jobDoneTagsWrapper}>
         <HorizontalContainer className={styles.horizontalContainer}>
           <Title
@@ -541,78 +604,15 @@ export const WayPage = (props: WayPageProps) => {
           })}
         />
       </div>
-      <HorizontalContainer className={styles.gap}>
-        <Title
-          level={HeadingLevel.h3}
-          text="Way's owner:"
-        />
-        <Link
-          path={pages.user.getPath({uuid: way.owner.uuid})}
-          className={styles.mentors}
-        >
-          {way.owner.name}
-        </Link>
-      </HorizontalContainer>
-      {!!way.mentors.size &&
-      <MentorsSection
-        way={way}
-        setWay={setWayPartial}
-        isOwner={isOwner}
-      />}
-      {isOwner && !!way.mentorRequests.length && (
-        <MentorRequestsSection
-          way={way}
-          setWay={setWay}
-        />
-      )}
-      {isEligibleToSendRequest && (
-        <Button
-          value="Apply as Mentor"
-          onClick={() => updateWay({
-            wayToUpdate: {
-              uuid: way.uuid,
-              mentorRequests: way.mentorRequests.concat(user),
-            },
-            setWay: setWayPartial,
-          })
-          }
-        />)}
 
-      <HorizontalContainer className={styles.wrap}>
-
-        <VerticalContainer className={styles.statistics}>
-          <HorizontalContainer className={styles.horizontalContainer}>
-            <Title
-              level={HeadingLevel.h3}
-              text="Statistics"
-            />
-            <Tooltip content={`Click to ${wayPageSettings.isStatisticsVisible ? "hide" : "open"} statistics block`}>
-              <button
-                className={styles.iconContainer}
-                onClick={() => updateWayPageSettings({isStatisticsVisible: !wayPageSettings.isStatisticsVisible})}
-              >
-                <Icon
-                  size={IconSize.MEDIUM}
-                  name={wayPageSettings.isStatisticsVisible ? "EyeOpenedIcon" : "EyeSlashedIcon"}
-                />
-              </button>
-            </Tooltip>
-          </HorizontalContainer>
-          <WayStatistic
-            dayReports={way.dayReports}
-            wayCreatedAt={way.createdAt}
-            isVisible={wayPageSettings.isStatisticsVisible}
+      <div className={styles.dayReportsContent}>
+        <ScrollableBlock>
+          <DayReportsTable
+            way={way}
+            setDayReports={setDayReports}
           />
-        </VerticalContainer>
-
-      </HorizontalContainer>
-
-      <ScrollableBlock>
-        <DayReportsTable
-          way={way}
-          setDayReports={setDayReports}
-        />
-      </ScrollableBlock>
-    </div>
+        </ScrollableBlock>
+      </div>
+    </VerticalContainer>
   );
 };
