@@ -5,8 +5,6 @@ import {Confirm} from "src/component/confirm/Confirm";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Loader} from "src/component/loader/Loader";
-import {Modal} from "src/component/modal/Modal";
-import {PromptModalContent} from "src/component/modal/PromptModalContent";
 import {Select} from "src/component/select/Select";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
@@ -59,11 +57,6 @@ interface BaseWaysTableProps {
    * Callback to change view
    */
   setView: (view: View) => void;
-
-  /**
-   * Delete current collection
-   */
-  deleteCollection?: () => Promise<void>;
 
   /**
    * Rename collection
@@ -119,8 +112,6 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
     },
   );
 
-  const [isRenameCollectionModalOpen, setIsRenameCollectionModalOpen] = useState(false);
-
   if (!ways) {
     return (
       <VerticalContainer className={styles.loaderWrapper}>
@@ -137,45 +128,6 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
   return (
     <>
       <HorizontalContainer className={styles.wayCollectionActions}>
-        {props.deleteCollection && (
-          <Confirm
-            trigger={
-              <Button
-                value="Delete current collection"
-                onClick={() => {}}
-                buttonType={ButtonType.SECONDARY}
-                className={styles.button}
-              />
-            }
-            content={<p>
-              {`Are you sure you want to delete collection "${props.title}" ?`}
-            </p>}
-            onOk={props.deleteCollection}
-            okText="Ok"
-          />
-        )}
-        {props.updateCollection && (
-          <Modal
-            isOpen={isRenameCollectionModalOpen}
-            content={
-              <PromptModalContent
-                defaultValue={props.title}
-                close={() => setIsRenameCollectionModalOpen(false)}
-                onOk={(name: string) => {
-                  if (props.updateCollection) {
-                    return props.updateCollection({name});
-                  }
-                }}
-              />
-            }
-            trigger={
-              <Button
-                value="Rename collection"
-                onClick={() => setIsRenameCollectionModalOpen(true)}
-              />
-            }
-          />
-        )}
         <HorizontalContainer className={styles.filterView}>
           <Select
             label="Show only: "

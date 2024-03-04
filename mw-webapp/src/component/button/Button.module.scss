@@ -24,12 +24,13 @@
 }
 
 .secondary {
-  border: 1px var(--secondaryBorderColor) solid;
+  border: 1px var(--primaryBorderColor) solid;
   background-color: var(--secondaryBackgroundButtonColor);
   color: var(--primaryTextColor);
 
   &:hover {
-    background-color: var(--secondaryHoverColor);
+    background-color: var(--hoverColor);
+    color: var(--secondaryTextColor);
   }
 
   &:active {

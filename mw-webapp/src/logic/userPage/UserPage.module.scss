@@ -6,7 +6,7 @@
 
 .container {
   flex-wrap: wrap;
-  gap: $gapBig;
+  gap: $gapMedium;
 }
 
 .descriptionSection {
@@ -28,9 +28,11 @@
   align-items: baseline;
 }
 
-.userDescription {
+.userDescriptionSection {
   @include regularContainer;
+}
 
+.userDescription {
   textarea {
     width: $minWidthBlock;
     padding: $paddingSmall;
@@ -63,4 +65,9 @@
   width: 100px;
   height: 70px;
   margin-bottom: auto;
+}
+
+.temporalBlock {
+  gap: $gapMedium;
+  @include regularContainer;
 }

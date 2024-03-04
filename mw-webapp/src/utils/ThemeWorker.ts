@@ -9,7 +9,6 @@ export enum Theme {
 }
 
 const themedVariables: Record<string, Record<Theme, string>> = {
-
   // Body color
   primaryBackgroundColor: {
     [Theme.DARK]: "rgb(39,36,36)",
@@ -65,10 +64,6 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     [Theme.DARK]: "rgb(152, 210, 235)",
     [Theme.LIGHT]: "rgb(8, 65, 185)",
   },
-  hoverColorLink: {
-    [Theme.DARK]: "rgb(38, 41, 44)",
-    [Theme.LIGHT]: "rgb(225, 222, 222)",
-  },
   activeColorLink: {
     [Theme.DARK]: "rgb(22, 26, 29)",
     [Theme.LIGHT]: "rgb(200, 194, 194)",
@@ -77,13 +72,13 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     [Theme.DARK]: "rgb(108,107,116)",
     [Theme.LIGHT]: "rgb(200, 194, 194)",
   },
-  secondaryBackgroundButtonColor: {
-    [Theme.DARK]: "rgb(102, 7, 8)",
-    [Theme.LIGHT]: "transparent",
-  },
   primaryBackgroundButtonColor: {
     [Theme.DARK]: "rgb(129,163,167)",
     [Theme.LIGHT]: "rgb(33,38,36)",
+  },
+  secondaryBackgroundButtonColor: {
+    [Theme.DARK]: "transparent",
+    [Theme.LIGHT]: "transparent",
   },
 };
 
