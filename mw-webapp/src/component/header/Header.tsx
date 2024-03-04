@@ -54,61 +54,60 @@ export const Header = () => {
   return (
     <div className={styles.header}>
       <Link path={pages.allWays.getPath({})}>
-        <Tooltip
+      <Tooltip
           content={LOGO_TEXT}
           position={PositionTooltip.BOTTOM}
         >
-          <Image
-            src={logo}
-            alt={LOGO_TEXT}
-          />
+        <Image
+          src={logo}
+          alt={LOGO_TEXT}
+        />
         </Tooltip>
       </Link>
       <div className={styles.headerButtonsContainer}>
         <ThemeSwitcher />
-        {user && (
-          <Link path={pages.user.getPath({uuid: user.uuid})}>
-            <Tooltip
+
+        {user &&
+        <Link path={pages.user.getPath({uuid: user.uuid})}>
+          <Tooltip
               content={user.name}
               position={PositionTooltip.BOTTOM}
             >
-              <Title
-                level={HeadingLevel.h4}
-                text={user.name}
-                className={styles.userName}
-              />
-            </Tooltip>
-          </Link>
-        )}
+          <Title
+            level={HeadingLevel.h4}
+            text={user.name}
+            className={styles.userName}
+          />
+          </Tooltip>
+        </Link>
+        }
 
-        <div className={styles.buttons}>
-          <Tooltip
+<Tooltip
             content={user ? BUTTON_LOG_OUT_VALUE : BUTTON_LOG_IN_VALUE}
             position={PositionTooltip.BOTTOM}
           >
-            <Button
-              onClick={user ? AuthService.logOut : AuthService.logIn}
-              value={user ? BUTTON_LOG_OUT_VALUE : BUTTON_LOG_IN_VALUE}
-              buttonType={ButtonType.TERTIARY}
-            />
-          </Tooltip>
-
-          <Tooltip
+        <Button
+          onClick={user ? AuthService.logOut : AuthService.logIn}
+          value={user ? BUTTON_LOG_OUT_VALUE : BUTTON_LOG_IN_VALUE}
+          buttonType={ButtonType.TERTIARY}
+        />
+        </Tooltip>
+        
+        <Tooltip
             content={"Menu"}
             position={PositionTooltip.BOTTOM}
           >
-            <Sidebar
-              trigger={
-                <Button
-                  value="Menu"
-                  onClick={() => {}}
-                  buttonType={ButtonType.TERTIARY}
-                />
-              }
-              linkList={menuItems}
+        <Sidebar
+          trigger={
+            <Button
+              value="Menu"
+              onClick={() => { }}
+              buttonType={ButtonType.TERTIARY}
             />
-          </Tooltip>
-        </div>
+          }
+          linkList={menuItems}
+        />
+        </Tooltip>
       </div>
     </div>
   );
