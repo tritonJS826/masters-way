@@ -42,26 +42,25 @@ export const SidebarContent = (props: SidebarContentProps) => {
 
   return (
     <DialogPortal>
-      <div data-cy={props.dataCyContent?.dataCyContent}>
-        <DialogOverlay
-          data-cy={props.dataCyContent?.dataCyOverlay}
-          className={styles.dialogOverlay}
-        />
-        <DialogContent
-          className={styles.dialogContent}
-          onClick={onClickHandler}
-        >
-          {props.children}
-          <DialogClose asChild>
-            <button
-              data-cy={props.dataCyContent?.dataCyClose}
-              className={styles.closeButton}
-            >
-              <Cross2Icon />
-            </button>
-          </DialogClose>
-        </DialogContent>
-      </div>
+      <DialogOverlay
+        data-cy={props.dataCyContent?.dataCyOverlay}
+        className={styles.dialogOverlay}
+      />
+      <DialogContent
+        data-cy={props.dataCyContent?.dataCyContent}
+        className={styles.dialogContent}
+        onClick={onClickHandler}
+      >
+        {props.children}
+        <DialogClose asChild>
+          <button
+            data-cy={props.dataCyContent?.dataCyClose}
+            className={styles.closeButton}
+          >
+            <Cross2Icon />
+          </button>
+        </DialogClose>
+      </DialogContent>
     </DialogPortal>
   );
 };

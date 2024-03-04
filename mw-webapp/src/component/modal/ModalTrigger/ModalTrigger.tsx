@@ -2,14 +2,30 @@ import {ForwardedRef, forwardRef, PropsWithChildren} from "react";
 import {Trigger as DialogTrigger} from "@radix-ui/react-dialog";
 
 /**
+ * ModalTrigger props
+ */
+interface ModalTriggerProps {
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCyTrigger?: string;
+
+}
+
+/**
  * This component is used to wrap elements that act as triggers to open a modal when clicked.
  */
-export const ModalTrigger = forwardRef((props: PropsWithChildren, ref: ForwardedRef<HTMLDivElement>) => {
+export const ModalTrigger = forwardRef((props: PropsWithChildren<ModalTriggerProps>, ref: ForwardedRef<HTMLDivElement>) => {
   return (
-    <DialogTrigger asChild>
+    <DialogTrigger
+      data-cy={props.dataCyTrigger}
+      asChild
+    >
       <div
         ref={ref}
         role="button"
+        data-cy={props.dataCyTrigger}
       >
         {props.children}
       </div>
