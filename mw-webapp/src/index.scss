@@ -11,3 +11,8 @@ body {
   background-color: var(--primaryBackgroundColor);
   color: var(--primaryTextColor);
 }
+
+#root {
+  max-width: 2000px;
+  margin: 0 auto;
+}

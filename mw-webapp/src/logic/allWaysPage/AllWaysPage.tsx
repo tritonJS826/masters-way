@@ -10,6 +10,7 @@ import {Select} from "src/component/select/Select";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
+import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {WayCard} from "src/component/wayCard/WayCard";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
 import {useLoad} from "src/hooks/useLoad";
@@ -131,7 +132,7 @@ export const AllWaysPage = () => {
   }
 
   return (
-    <>
+    <VerticalContainer className={styles.allWaysContainer}>
       <HorizontalContainer className={styles.filterView}>
         <Select
           label="Show only: "
@@ -198,34 +199,37 @@ export const AllWaysPage = () => {
           text={`Total found: ${allWaysAmount}`}
         />
       </HorizontalContainer>
-      {allWaysPageSettings.view === View.Table ?
-        <ScrollableBlock>
-          <WaysTable
-            data={allWays}
-            columns={waysColumns}
+
+      <div className={styles.waysContent}>
+        {allWaysPageSettings.view === View.Table ?
+          <ScrollableBlock>
+            <WaysTable
+              data={allWays}
+              columns={waysColumns}
+            />
+          </ScrollableBlock>
+          :
+          <HorizontalContainer className={styles.wayCards}>
+            {allWays.map((way) => {
+              return (
+                <WayCard
+                  key={way.uuid}
+                  wayPreview={way}
+                />
+              );
+            })
+            }
+          </HorizontalContainer>
+        }
+        {isMoreWaysExist &&
+          <Button
+            value="Load more"
+            onClick={() => loadMoreWays(allWays)}
+            buttonType={ButtonType.PRIMARY}
+            className={styles.loadMoreButton}
           />
-        </ScrollableBlock>
-        :
-        <HorizontalContainer className={styles.wayCards}>
-          {allWays.map((way) => {
-            return (
-              <WayCard
-                key={way.uuid}
-                wayPreview={way}
-              />
-            );
-          })
-          }
-        </HorizontalContainer>
-      }
-      {isMoreWaysExist &&
-        <Button
-          value="More"
-          onClick={() => loadMoreWays(allWays)}
-          buttonType={ButtonType.PRIMARY}
-          className={styles.button}
-        />
-      }
-    </>
+        }
+      </div>
+    </VerticalContainer>
   );
 };

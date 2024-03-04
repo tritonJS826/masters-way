@@ -5,6 +5,48 @@ $iconContainerSize: 25px;
 .container {
   width: 100%;
   margin: 0 auto;
+  gap: $gapMedium;
+}
+
+.wayInfo {
+  @include regularContainer;
+  min-width: $minWidthBlock;
+  gap: $gapMedium;
+}
+
+.dayReportsContent {
+  @include regularContainer;
+}
+
+.wayTitleBlock {
+  align-items: start;
+  justify-content: space-between;
+}
+
+.wayTagsContainer {
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $gapMedium;
+}
+
+.flatButton {
+  @include flatButton;
+}
+
+.metricsBlock {
+  @include regularContainer;
+  min-width: $minWidthBlock;
+  gap: $gapMedium;
+}
+
+.peopleBlock {
+  @include regularContainer;
+  min-width: $minWidthBlock;
+  gap: $gapMedium;
+}
+
+.applyAsMentorButton {
+  margin-top: auto;
 }
 
 .wayActionMenu {
@@ -14,7 +56,6 @@ $iconContainerSize: 25px;
 
 .singularMetric {
   display: flex;
-  max-width: $maxWidthBlock;
   align-items: flex-start;
   justify-content: space-between;
 }
@@ -23,17 +64,12 @@ $iconContainerSize: 25px;
   display: flex;
 }
 
-.wrap {
-  width: 100%;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: $gapMedium;
+.statisticsBlock {
+  display: flex;
 }
 
 .statistics {
-  display: flex;
-  min-width: $minWidthBlock;
-  max-width: $maxWidthBlock;
+  width: 100%;
 }
 
 .iconContainer {
@@ -52,10 +88,14 @@ $iconContainerSize: 25px;
   cursor: pointer;
 }
 
-.alignItems {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+.wayDashboard {
+  display: grid;
+  gap: $gapMedium;
+  grid-template-columns: repeat(auto-fit, minmax($minWidthBlock, 1fr));
+}
+
+.wayDashBoardLeft {
+  gap: $gapMedium;
 }
 
 .buttons {
@@ -68,6 +108,16 @@ $iconContainerSize: 25px;
   gap: $gapMedium;
 }
 
+.dayReportActions {
+  @include regularContainer;
+  justify-content: space-between;
+  gap: $gapMedium;
+}
+
+.reportActions {
+  gap: $gapMedium;
+}
+
 .accordion {
   margin-top: $marginMedium;
 }
@@ -76,7 +126,7 @@ $iconContainerSize: 25px;
   display: inline-block;
 }
 
-.titleH2 {
+.wayName {
   input {
     width: $minWidthBlock;
     height: $heightH2;

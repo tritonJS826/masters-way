@@ -55,9 +55,9 @@ export const ProgressBar = (props: ProgressBarProps) => {
         className={styles.progressIndicator}
         style={{transform: `translateX(-${MAX_PERCENTAGE - percentage}%)`}}
       />
-      <span>
+      <div className={styles.progressText}>
         {getValueLabel(props.value, max)}
-      </span>
+      </div>
     </Root>
   );
 };

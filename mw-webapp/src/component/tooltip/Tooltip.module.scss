@@ -13,10 +13,11 @@ th .wrapper {
   z-index: $tooltipZIndex;
   display: none;
   padding: $paddingMedium;
+  border: 1px solid var(--primaryBorderColor);
   border-radius: $primaryBorderRadius;
   animation: tooltipAppear 1s ease forwards;
-  background-color: var(--secondaryBackgroundColor);
-  color: var(--secondaryTextColor);
+  background-color: var(--tertiaryBackgroundColor);
+  color: var(--primaryTextColor);
   cursor: pointer;
   opacity: 0;
 }

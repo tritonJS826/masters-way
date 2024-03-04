@@ -1,12 +1,6 @@
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
-import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
-import {Icon, IconSize} from "src/component/icon/Icon";
 import {HeadingLevel, Title} from "src/component/title/Title";
-import {Tooltip} from "src/component/tooltip/Tooltip";
-import {GoalMetricsBlock} from "src/logic/wayPage/goalMetricsBlock/GoalMetricsBlock";
-import {Metric} from "src/model/businessModel/Metric";
 import {Way} from "src/model/businessModel/Way";
-import {WayPageSettings} from "src/utils/LocalStorageWorker";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import styles from "src/logic/wayPage/goalBlock/GoalBlock.module.scss";
 
@@ -21,12 +15,7 @@ interface GoalBlockProps {
   goalDescription: string;
 
   /**
-   * Way's metrics
-   */
-  metrics: Metric[];
-
-  /**
-   * Df
+   * Way uuid
    */
   wayUuid: string;
 
@@ -40,34 +29,12 @@ interface GoalBlockProps {
    */
   isEditable: boolean;
 
-  /**
-   * Way page settings
-   */
-  wayPageSettings: WayPageSettings;
-
-  /**
-   * Update way settings
-   */
-  updateWaySettings: (settingsToUpdate: Partial<WayPageSettings>) => void;
 }
 
 /**
  * Goal block
  */
 export const GoalBlock = (props: GoalBlockProps) => {
-
-  /**
-   * Update goal
-   */
-  const updateGoalMetrics = async (metricsToUpdate: Metric[]) => {
-    const isWayCompleted = metricsToUpdate.every((metric) => metric.isDone);
-
-    await props.updateWay({
-      uuid: props.wayUuid,
-      metrics: metricsToUpdate,
-      status: isWayCompleted ? "Completed" : null,
-    });
-  };
 
   return (
     <div className={styles.goalSection}>
@@ -85,31 +52,6 @@ export const GoalBlock = (props: GoalBlockProps) => {
           rows={10}
           isEditable={props.isEditable}
           className={styles.goalDescription}
-        />
-      </div>
-      <div className={styles.goalSubSection}>
-        <HorizontalContainer className={styles.horizontalContainer}>
-          <Title
-            level={HeadingLevel.h3}
-            text="Metrics"
-          />
-          <Tooltip content={`Click to ${props.wayPageSettings.isGoalMetricsVisible ? "hide" : "open"} goal metrics block`}>
-            <button
-              className={styles.iconContainer}
-              onClick={() => props.updateWaySettings({isGoalMetricsVisible: !props.wayPageSettings.isGoalMetricsVisible})}
-            >
-              <Icon
-                size={IconSize.MEDIUM}
-                name={props.wayPageSettings.isGoalMetricsVisible ? "EyeOpenedIcon" : "EyeSlashedIcon"}
-              />
-            </button>
-          </Tooltip>
-        </HorizontalContainer>
-        <GoalMetricsBlock
-          isVisible={props.wayPageSettings.isGoalMetricsVisible}
-          goalMetrics={props.metrics}
-          updateGoalMetrics={updateGoalMetrics}
-          isEditable={props.isEditable}
         />
       </div>
     </div>
