@@ -17,6 +17,11 @@ interface LinkProps {
    * Additional custom class name
    */
   className?: string;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCy?: string;
 }
 
 /**
@@ -27,6 +32,7 @@ export const Link = (props: PropsWithChildren<LinkProps>) => {
     <LinkFromRouter
       className={clsx(styles.link, props.className)}
       to={props.path}
+      data-cy={props.dataCy}
     >
       {props.children}
     </LinkFromRouter>
