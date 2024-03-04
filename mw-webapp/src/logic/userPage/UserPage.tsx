@@ -194,6 +194,13 @@ export const UserPage = (props: UserPageProps) => {
     );
   }
 
+  const isCustomCollection = userPreview.customWayCollections.some((col) => col.id === openedTabId);
+  const currentCollection = getAllWayCollections(userPreview).find((col) => col.id === openedTabId);
+
+  if (!currentCollection) {
+    setOpenedTabId(DefaultCollections.OWN);
+  }
+
   /**
    * Create way
    */
@@ -275,10 +282,13 @@ export const UserPage = (props: UserPageProps) => {
     setOpenedTabId(wayCollectionToUpdate.id);
   };
 
-  const isCustomCollection = userPreview.customWayCollections.some((col) => col.id === openedTabId);
-  const currentCollection = getAllWayCollections(userPreview).find((col) => col.id === openedTabId);
   if (!currentCollection) {
-    throw Error(`Collection with id ${openedTabId} is not exist`);
+    return (
+      <>
+        <Loader />
+        No collection
+      </>
+    );
   }
 
   return (
