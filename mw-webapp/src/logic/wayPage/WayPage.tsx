@@ -21,6 +21,7 @@ import {useLoad} from "src/hooks/useLoad";
 import {usePersistanceState} from "src/hooks/usePersistanceState";
 import {updateUser, UpdateUserParams} from "src/logic/userPage/UserPage";
 import {GoalBlock} from "src/logic/wayPage/goalBlock/GoalBlock";
+import {GoalMetricsBlock} from "src/logic/wayPage/goalMetricsBlock/GoalMetricsBlock";
 import {JobTags} from "src/logic/wayPage/jobTags/JobTags";
 import {MentorRequestsSection} from "src/logic/wayPage/MentorRequestsSection";
 import {MentorsSection} from "src/logic/wayPage/MentorsSection";
@@ -28,6 +29,7 @@ import {downloadWayPdf} from "src/logic/wayPage/renderWayToPdf/downloadWayPdf";
 import {DayReportsTable} from "src/logic/wayPage/reportsTable/dayReportsTable/DayReportsTable";
 import {WayStatistic} from "src/logic/wayPage/wayStatistics/WayStatistic";
 import {DayReport} from "src/model/businessModel/DayReport";
+import {Metric} from "src/model/businessModel/Metric";
 import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {JobTag} from "src/model/businessModelPreview/WayPreview";
@@ -300,137 +302,213 @@ export const WayPage = (props: WayPageProps) => {
     displayNotification({text: `Way ${way.name} copied`, type: "info"});
   };
 
+  /**
+   * Update goal
+   */
+  const updateGoalMetrics = async (metricsToUpdate: Metric[]) => {
+    const isWayCompleted = metricsToUpdate.every((metric) => metric.isDone);
+
+    await updateWay({
+      wayToUpdate: {
+        uuid: way.uuid,
+        metrics: metricsToUpdate,
+        status: isWayCompleted ? "Completed" : null,
+      },
+      setWay: setWayPartial,
+    });
+  };
+
   return (
     <div className={styles.container}>
-      <HorizontalContainer className={styles.alignItems}>
-        <Title
-          level={HeadingLevel.h2}
-          text={way.name}
-          onChangeFinish={(name) => updateWay({
-            wayToUpdate: {
-              uuid: way.uuid,
-              name,
-            },
-            setWay: setWayPartial,
-          })}
-          isEditable={isUserOwnerOrMentor}
-          className={styles.wayName}
-        />
-        <HorizontalContainer className={styles.buttons}>
-          <Tooltip
-            content={`${isWayInFavorites ? "Delete from" : "Add to"} favorites`}
-            position={PositionTooltip.LEFT}
-          >
-            <Button
-              value={`${isWayInFavorites
-                ? Symbols.STAR
-                : Symbols.OUTLINED_STAR
-              }${Symbols.NO_BREAK_SPACE}${favoriteForUsersAmount}`}
-              onClick={() => {
-                if (!user) {
-                  return;
-                }
-
-                if (isWayInFavorites) {
-                  updateWayAndUser({
-                    wayToUpdate: {
-                      uuid: way.uuid,
-                      favoriteForUserUuids: way.favoriteForUserUuids
-                        .filter((favoriteForUser) => favoriteForUser !== user.uuid),
-                    },
-                    userToUpdate: {
-                      uuid: user.uuid,
-                      favoriteWays: user.favoriteWays.filter((favoriteWay) => favoriteWay !== way.uuid),
-                    },
-                    setWay: setWayPartial,
-                    setUser: setUserPreviewPartial,
-                  });
-                } else {
-                  updateWayAndUser({
-                    wayToUpdate: {
-                      uuid: way.uuid,
-                      favoriteForUserUuids: way.favoriteForUserUuids.concat(user.uuid),
-                    },
-                    userToUpdate: {
-                      uuid: user.uuid,
-                      favoriteWays: user.favoriteWays.concat(way.uuid),
-                    },
-                    setWay: setWayPartial,
-                    setUser: setUserPreviewPartial,
-                  });
-                }
-
-                displayNotification({
-                  text: `Way ${isWayInFavorites ? "removed from" : "added to" } favorites`,
-                  type: "info",
-                });
-              }}
-              buttonType={ButtonType.TERTIARY}
-            />
-          </Tooltip>
-          <Dropdown
-            className={styles.wayActionMenu}
-            trigger={(
-              <Button
-                value="Way actions"
-                buttonType={ButtonType.SECONDARY}
-                onClick={() => {}}
+      <HorizontalContainer className={styles.wayDashboard}>
+        <HorizontalContainer className={styles.wayDashBoardLeft}>
+          <VerticalContainer className={styles.wayInfo}>
+            <HorizontalContainer className={styles.wayTitleBlock}>
+              <Title
+                level={HeadingLevel.h2}
+                text={way.name}
+                onChangeFinish={(name) => updateWay({
+                  wayToUpdate: {
+                    uuid: way.uuid,
+                    name,
+                  },
+                  setWay: setWayPartial,
+                })}
+                isEditable={isUserOwnerOrMentor}
+                className={styles.wayName}
               />
-            )}
-            dropdownMenuItems={[
-              {
-                id: "Repeat the way",
-                value: "Repeat the way",
 
-                /**
-                 * Copy url to clipboard
-                 */
-                onClick: repeatTheWay,
-                isVisible: !!user,
-              },
-              {
-                id: "Copy url to clipboard",
-                value: "Copy url to clipboard",
+              <HorizontalContainer className={styles.buttons}>
+                <Tooltip
+                  content={`${isWayInFavorites ? "Delete from" : "Add to"} favorites`}
+                  position={PositionTooltip.LEFT}
+                >
+                  <Button
+                    value={`${isWayInFavorites
+                      ? Symbols.STAR
+                      : Symbols.OUTLINED_STAR
+                    }${Symbols.NO_BREAK_SPACE}${favoriteForUsersAmount}`}
+                    onClick={() => {
+                      if (!user) {
+                        return;
+                      }
 
-                /**
-                 * Copy url to clipboard
-                 */
-                onClick: async () => {
-                  await navigator.clipboard.writeText(location.href);
-                  displayNotification({
-                    text: "Url copied",
-                    type: "info",
-                  });
-                },
-              },
-              {
-                id: "Download as pdf",
-                value: "Download as pdf",
+                      if (isWayInFavorites) {
+                        updateWayAndUser({
+                          wayToUpdate: {
+                            uuid: way.uuid,
+                            favoriteForUserUuids: way.favoriteForUserUuids
+                              .filter((favoriteForUser) => favoriteForUser !== user.uuid),
+                          },
+                          userToUpdate: {
+                            uuid: user.uuid,
+                            favoriteWays: user.favoriteWays.filter((favoriteWay) => favoriteWay !== way.uuid),
+                          },
+                          setWay: setWayPartial,
+                          setUser: setUserPreviewPartial,
+                        });
+                      } else {
+                        updateWayAndUser({
+                          wayToUpdate: {
+                            uuid: way.uuid,
+                            favoriteForUserUuids: way.favoriteForUserUuids.concat(user.uuid),
+                          },
+                          userToUpdate: {
+                            uuid: user.uuid,
+                            favoriteWays: user.favoriteWays.concat(way.uuid),
+                          },
+                          setWay: setWayPartial,
+                          setUser: setUserPreviewPartial,
+                        });
+                      }
 
-                /**
-                 * Download way as pdf
-                 */
-                onClick: () => downloadWayPdf(way),
-              },
-              ...renderAddToCustomCollectionDropdownItems,
-              {
-                id: "Go to original way",
-                value: "Go to original",
-                isVisible: !!way.copiedFromWayUuid,
+                      displayNotification({
+                        text: `Way ${isWayInFavorites ? "removed from" : "added to" } favorites`,
+                        type: "info",
+                      });
+                    }}
+                    buttonType={ButtonType.TERTIARY}
+                  />
+                </Tooltip>
+                <Dropdown
+                  className={styles.wayActionMenu}
+                  trigger={(
+                    <Button
+                      value="Way actions"
+                      buttonType={ButtonType.SECONDARY}
+                      onClick={() => {}}
+                    />
+                  )}
+                  dropdownMenuItems={[
+                    {
+                      id: "Repeat the way",
+                      value: "Repeat the way",
 
-                /**
-                 * Go to original way (from which current way was copied)
-                 */
-                onClick: () => navigate(pages.way.getPath({uuid: way.copiedFromWayUuid})),
-              },
-              {
-                id: "Delete the way",
-                value: renderDeleteWayDropdownItem,
-                isVisible: isOwner,
-              },
-            ]}
-          />
+                      /**
+                       * Copy url to clipboard
+                       */
+                      onClick: repeatTheWay,
+                      isVisible: !!user,
+                    },
+                    {
+                      id: "Copy url to clipboard",
+                      value: "Copy url to clipboard",
+
+                      /**
+                       * Copy url to clipboard
+                       */
+                      onClick: async () => {
+                        await navigator.clipboard.writeText(location.href);
+                        displayNotification({
+                          text: "Url copied",
+                          type: "info",
+                        });
+                      },
+                    },
+                    {
+                      id: "Download as pdf",
+                      value: "Download as pdf",
+
+                      /**
+                       * Download way as pdf
+                       */
+                      onClick: () => downloadWayPdf(way),
+                    },
+                    ...renderAddToCustomCollectionDropdownItems,
+                    {
+                      id: "Go to original way",
+                      value: "Go to original",
+                      isVisible: !!way.copiedFromWayUuid,
+
+                      /**
+                       * Go to original way (from which current way was copied)
+                       */
+                      onClick: () => navigate(pages.way.getPath({uuid: way.copiedFromWayUuid})),
+                    },
+                    {
+                      id: "Delete the way",
+                      value: renderDeleteWayDropdownItem,
+                      isVisible: isOwner,
+                    },
+                  ]}
+                />
+              </HorizontalContainer>
+            </HorizontalContainer>
+
+            <HorizontalContainer className={styles.wayTagsContainer}>
+              No-tags
+              <Tooltip content="Edit way tags. Coming soon :)">
+                <Button
+                  value={
+                    <Icon
+                      size={IconSize.SMALL}
+                      name="PlusIcon"
+                    />
+                  }
+                  onClick={() => {}}
+                  className={styles.flatButton}
+                />
+              </Tooltip>
+            </HorizontalContainer>
+
+            <GoalBlock
+              goalDescription={way.goalDescription}
+              wayUuid={way.uuid}
+              updateWay={(updated) => updateWay({
+                wayToUpdate: {...updated},
+                setWay: setWayPartial,
+              })}
+              isEditable={isUserOwnerOrMentor}
+            />
+          </VerticalContainer>
+
+          <VerticalContainer className={styles.metricsBlock}>
+            <HorizontalContainer className={styles.horizontalContainer}>
+              <Title
+                level={HeadingLevel.h3}
+                text="Metrics"
+              />
+              <Tooltip content={`Click to ${wayPageSettings.isGoalMetricsVisible ? "hide" : "open"} goal metrics block`}>
+                <button
+                  className={styles.iconContainer}
+                  onClick={() => updateWayPageSettings({isGoalMetricsVisible: !wayPageSettings.isGoalMetricsVisible})}
+                >
+                  <Icon
+                    size={IconSize.MEDIUM}
+                    name={wayPageSettings.isGoalMetricsVisible ? "EyeOpenedIcon" : "EyeSlashedIcon"}
+                  />
+                </button>
+              </Tooltip>
+            </HorizontalContainer>
+            <GoalMetricsBlock
+              isVisible={wayPageSettings.isGoalMetricsVisible}
+              goalMetrics={way.metrics}
+              updateGoalMetrics={updateGoalMetrics}
+              isEditable={isUserOwnerOrMentor}
+            />
+          </VerticalContainer>
         </HorizontalContainer>
+
       </HorizontalContainer>
       <div className={styles.jobDoneTagsWrapper}>
         <HorizontalContainer className={styles.horizontalContainer}>
@@ -501,19 +579,6 @@ export const WayPage = (props: WayPageProps) => {
         />)}
 
       <HorizontalContainer className={styles.wrap}>
-
-        <GoalBlock
-          goalDescription={way.goalDescription}
-          metrics={way.metrics}
-          wayUuid={way.uuid}
-          updateWay={(updated) => updateWay({
-            wayToUpdate: {...updated},
-            setWay: setWayPartial,
-          })}
-          isEditable={isUserOwnerOrMentor}
-          wayPageSettings={wayPageSettings}
-          updateWaySettings={updateWayPageSettings}
-        />
 
         <VerticalContainer className={styles.statistics}>
           <HorizontalContainer className={styles.horizontalContainer}>

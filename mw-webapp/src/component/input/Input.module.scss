@@ -2,8 +2,10 @@
 
 .input {
   width: 100%;
+  border: none;
   background: transparent;
   color: var(--primaryTextColor);
+  font: inherit;
   // TODO: get rid of opacity in every input
   opacity: 0.8;
   outline: none;

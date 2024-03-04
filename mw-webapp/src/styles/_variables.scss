@@ -71,3 +71,10 @@ $disableOpacity: 0.7;
     transition: 0.3s;
   }
 }
+
+@mixin flatButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}

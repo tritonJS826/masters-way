@@ -7,6 +7,33 @@ $iconContainerSize: 25px;
   margin: 0 auto;
 }
 
+.wayInfo {
+  @include regularContainer;
+  min-width: $minWidthBlock;
+  max-width: $maxWidthBlock;
+  gap: $gapMedium;
+}
+
+.wayTitleBlock {
+  align-items: start;
+  justify-content: space-between;
+}
+
+.wayTagsContainer {
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $gapMedium;
+}
+
+.flatButton {
+  @include flatButton;
+}
+
+.metricsBlock {
+  @include regularContainer;
+  gap: $gapMedium;
+}
+
 .wayActionMenu {
   left: -95px;
   width: 200px;
@@ -52,10 +79,15 @@ $iconContainerSize: 25px;
   cursor: pointer;
 }
 
-.alignItems {
+.wayDashboard {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+}
+
+.wayDashBoardLeft {
+  flex-wrap: wrap;
+  gap: $gapMedium;
 }
 
 .buttons {
