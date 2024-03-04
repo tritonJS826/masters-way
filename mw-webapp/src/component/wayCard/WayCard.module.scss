@@ -10,10 +10,7 @@ $cardLinkFontSize: 16px;
 .wayCardContainer {
   border-radius: $secondaryBorderRadius;
   cursor: pointer;
-  &:hover {
-    transform: scale(1.02);
-    transition: 0.3s;
-  }
+  @include scaleOnHover;
 }
 
 .mainInfo {

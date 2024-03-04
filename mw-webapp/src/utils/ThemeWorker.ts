@@ -36,10 +36,6 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     [Theme.DARK]: "rgb(200, 194, 194)",
     [Theme.LIGHT]: "rgb(73, 69, 69)",
   },
-  secondaryBorderColor: {
-    [Theme.DARK]: "rgb(73, 69, 69)",
-    [Theme.LIGHT]: "rgb(102, 7, 8)",
-  },
   primaryIconColor: {
     [Theme.DARK]: "rgb(250, 250, 250)",
     [Theme.LIGHT]: "rgb(11, 9, 10)",

@@ -10,6 +10,7 @@ $cardLinkFontSize: 16px;
 .userCardContainer {
   border-radius: $secondaryBorderRadius;
   cursor: pointer;
+  @include scaleOnHover;
 }
 
 .mainInfo {
@@ -74,7 +75,7 @@ $cardLinkFontSize: 16px;
 .additionalInfo {
   padding: $userCardAdditionalInfoPadding;
   border-radius: 0 0 $secondaryBorderRadius $secondaryBorderRadius;
-  background-color: var(--tertiaryBackgroundColor);
+  background-color: var(--primaryBackgroundColor);
   color: var(--primaryTextColor);
   font-size: $userCardFontSize;
   gap: $gapMedium;

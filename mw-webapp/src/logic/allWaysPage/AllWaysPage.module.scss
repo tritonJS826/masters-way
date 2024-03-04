@@ -2,6 +2,10 @@
 
 $wayCardMinWidth: 340px;
 
+.allWaysContainer {
+  gap: $gapMedium;
+}
+
 .loadMoreButton {
   display: block;
   margin-top: $marginMedium;

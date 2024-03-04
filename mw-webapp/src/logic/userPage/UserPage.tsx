@@ -408,7 +408,10 @@ export const UserPage = (props: UserPageProps) => {
         .map(collection => {
 
           return (
-            <ScrollableBlock key={collection.id}>
+            <ScrollableBlock
+              key={collection.id}
+              className={styles.waysContent}
+            >
               <BaseWaysTable
                 title={collection.name}
                 wayUuids={collection.wayUuids}

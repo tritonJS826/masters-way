@@ -67,6 +67,10 @@
   margin-bottom: auto;
 }
 
+.waysContent {
+  gap: $gapMedium;
+}
+
 .temporalBlock {
   gap: $gapMedium;
   @include regularContainer;

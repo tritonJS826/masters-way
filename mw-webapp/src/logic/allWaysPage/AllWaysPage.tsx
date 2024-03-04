@@ -10,6 +10,7 @@ import {Select} from "src/component/select/Select";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
+import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {WayCard} from "src/component/wayCard/WayCard";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
 import {useLoad} from "src/hooks/useLoad";
@@ -131,7 +132,7 @@ export const AllWaysPage = () => {
   }
 
   return (
-    <>
+    <VerticalContainer className={styles.allWaysContainer}>
       <HorizontalContainer className={styles.filterView}>
         <Select
           label="Show only: "
@@ -229,6 +230,6 @@ export const AllWaysPage = () => {
           />
         }
       </div>
-    </>
+    </VerticalContainer>
   );
 };

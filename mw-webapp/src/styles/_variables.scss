@@ -64,3 +64,10 @@ $disableOpacity: 0.7;
   border-radius: 20px;
   background-color: var(--tertiaryBackgroundColor);
 }
+
+@mixin scaleOnHover {
+  &:hover {
+    transform: scale(1.02);
+    transition: 0.3s;
+  }
+}

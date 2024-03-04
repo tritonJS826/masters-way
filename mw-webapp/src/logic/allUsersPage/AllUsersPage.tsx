@@ -11,6 +11,7 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {UserCard} from "src/component/userCard/UserCard";
+import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {useLoad} from "src/hooks/useLoad";
 import {usePersistanceState} from "src/hooks/usePersistanceState";
@@ -112,13 +113,13 @@ export const AllUsersPage = () => {
   }
 
   return (
-    <>
+    <VerticalContainer className={styles.allUsersContainer}>
       <HorizontalContainer className={styles.filterView}>
         <Input
           value={email}
           onChange={(value) => setEmail(value)}
           placeholder="Search by first letters in email"
-          className={styles.searchFilter}
+          className={styles.emailFilter}
         />
         <HorizontalContainer className={styles.iconsView}>
           <Tooltip
@@ -166,31 +167,35 @@ export const AllUsersPage = () => {
           text={`Total found: ${allUsersAmount}`}
         />
       </HorizontalContainer>
-      {allUsersPageSettings.view === View.Table ?
-        <ScrollableBlock>
-          <UsersTableBlock users={allUsers} />
-        </ScrollableBlock>
-        :
-        <HorizontalContainer className={styles.userCards}>
-          {allUsers.map((user) => {
-            return (
-              <UserCard
-                key={user.uuid}
-                userPreview={user}
-              />
-            );
-          })
-          }
-        </HorizontalContainer>
-      }
-      {isMoreUsersExist &&
+
+      <div className={styles.usersContent}>
+        {allUsersPageSettings.view === View.Table ?
+          <ScrollableBlock>
+            <UsersTableBlock users={allUsers} />
+          </ScrollableBlock>
+          :
+          <HorizontalContainer className={styles.userCards}>
+            {allUsers.map((user) => {
+              return (
+                <UserCard
+                  key={user.uuid}
+                  userPreview={user}
+                />
+              );
+            })
+            }
+          </HorizontalContainer>
+        }
+        {isMoreUsersExist &&
         <Button
-          value="More"
+          value="Load more"
           onClick={() => loadMoreUsers(allUsers)}
           buttonType={ButtonType.PRIMARY}
-          className={styles.button}
+          className={styles.loadMoreButton}
         />
-      }
-    </>
+        }
+
+      </div>
+    </VerticalContainer>
   );
 };
