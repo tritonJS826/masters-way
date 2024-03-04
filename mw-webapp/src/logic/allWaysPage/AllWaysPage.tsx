@@ -199,7 +199,6 @@ export const AllWaysPage = () => {
           text={`Total found: ${allWaysAmount}`}
         />
       </HorizontalContainer>
-
       <div className={styles.waysContent}>
         {allWaysPageSettings.view === View.Table ?
           <ScrollableBlock>
