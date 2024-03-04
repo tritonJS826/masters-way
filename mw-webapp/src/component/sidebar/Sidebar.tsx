@@ -116,10 +116,8 @@ export const Sidebar = (props: SidebarProps) => {
       open={open}
       onOpenChange={setOpen}
     >
-      <SidebarTrigger data-cy={props.cy?.dataCyTrigger}>
-        <div data-cy={props.cy?.dataCyTrigger}>
-          {props.trigger}
-        </div>
+      <SidebarTrigger dataCyTrigger={props.cy?.dataCyTrigger}>
+        {props.trigger}
       </SidebarTrigger>
 
       <SidebarContent
