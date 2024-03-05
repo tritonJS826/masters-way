@@ -7,7 +7,9 @@ const MAX_PERCENTAGE = 100;
  * Function to get default label for progress
  */
 export const getDefaultLongValueLabel = (value: number, max: number) => (
-  `${value} out of ${max} (${Math.round(value / max * MAX_PERCENTAGE)}%)`
+  max
+    ? `${value} out of ${max} (${Math.round(value / max * MAX_PERCENTAGE)}%)`
+    : `${value} out of ${max}`
 );
 
 /**

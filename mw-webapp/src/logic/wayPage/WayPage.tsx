@@ -594,83 +594,53 @@ export const WayPage = (props: WayPageProps) => {
 
       </HorizontalContainer>
 
-      <HorizontalContainer className={styles.dayReportActions}>
-        <HorizontalContainer className={styles.reportActions}>
-          {isPossibleCreateDayReport &&
-          <Button
-            value="Create new day report"
-            onClick={() => createDayReport(way.uuid, way.dayReports)}
-            buttonType={ButtonType.PRIMARY}
-          />
-          }
-          <Modal
-            trigger={
+      {isPossibleCreateDayReport &&
+        <HorizontalContainer className={styles.dayReportActions}>
+          <HorizontalContainer className={styles.reportActions}>
+            {isPossibleCreateDayReport &&
               <Button
-                value="Adjust job tags"
-                buttonType={ButtonType.SECONDARY}
-                onClick={() => {}}
+                value="Create new day report"
+                onClick={() => createDayReport(way.uuid, way.dayReports)}
+                buttonType={ButtonType.PRIMARY}
               />
             }
-            content={
-              <div className={styles.jobDoneTagsWrapper}>
-                <Title
-                  level={HeadingLevel.h3}
-                  text="Job done tags:"
+            <Modal
+              trigger={
+                <Button
+                  value="Adjust job tags"
+                  buttonType={ButtonType.SECONDARY}
+                  onClick={() => { }}
                 />
-                <JobTags
-                  isVisible={wayPageSettings.isJobDoneTagsVisible}
-                  jobTags={way.jobTags}
-                  isEditable={isUserOwnerOrMentor}
-                  updateTags={(tagsToUpdate: JobTag[]) => updateWay({
-                    wayToUpdate: {
-                      uuid: way.uuid,
-                      jobTags: tagsToUpdate,
-                    },
-                    setWay: setWayPartial,
-                  })}
-                />
-              </div>
-            }
-          />
+              }
+              content={
+                <div className={styles.jobDoneTagsWrapper}>
+                  <Title
+                    level={HeadingLevel.h3}
+                    text="Job done tags:"
+                  />
+                  <JobTags
+                    isVisible={wayPageSettings.isJobDoneTagsVisible}
+                    jobTags={way.jobTags}
+                    isEditable={isUserOwnerOrMentor}
+                    updateTags={(tagsToUpdate: JobTag[]) => updateWay({
+                      wayToUpdate: {
+                        uuid: way.uuid,
+                        jobTags: tagsToUpdate,
+                      },
+                      setWay: setWayPartial,
+                    })}
+                  />
+                </div>
+              }
+            />
+          </HorizontalContainer>
         </HorizontalContainer>
-      </HorizontalContainer>
+      }
 
       <Title
         level={HeadingLevel.h2}
         text={`Reports (${way.dayReports.length})`}
       />
-
-      {/* <div className={styles.jobDoneTagsWrapper}>
-        <HorizontalContainer className={styles.horizontalContainer}>
-          <Title
-            level={HeadingLevel.h3}
-            text="Job done tags:"
-          />
-          <Tooltip content={`Click to ${wayPageSettings.isJobDoneTagsVisible ? "hide" : "open"} jobDone tags block`}>
-            <div
-              className={styles.iconContainer}
-              onClick={() => updateWayPageSettings({isJobDoneTagsVisible: !wayPageSettings.isJobDoneTagsVisible})}
-            >
-              <Icon
-                size={IconSize.MEDIUM}
-                name={wayPageSettings.isJobDoneTagsVisible ? "EyeOpenedIcon" : "EyeSlashedIcon"}
-              />
-            </div>
-          </Tooltip>
-        </HorizontalContainer>
-        <JobTags
-          isVisible={wayPageSettings.isJobDoneTagsVisible}
-          jobTags={way.jobTags}
-          isEditable={isUserOwnerOrMentor}
-          updateTags={(tagsToUpdate: JobTag[]) => updateWay({
-            wayToUpdate: {
-              uuid: way.uuid,
-              jobTags: tagsToUpdate,
-            },
-            setWay: setWayPartial,
-          })}
-        />
-      </div> */}
 
       <div className={styles.dayReportsContent}>
         <ScrollableBlock>

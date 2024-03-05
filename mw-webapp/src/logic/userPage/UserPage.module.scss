@@ -5,22 +5,27 @@
 }
 
 .container {
-  flex-wrap: wrap;
   gap: $gapMedium;
+  grid-template-columns: minmax($minWidthBlock, 1fr) minmax($minWidthBlock, 3fr);
+
+  @media (max-width: $mediaWidthMobileBig) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .descriptionSection {
-  min-width: $mediaWidthMobileSmall;
-  max-width: $mediaWidthMobileBig;
+  min-width: $minWidthBlock;
   gap: $gapMedium;
 }
 
-.tabsSection {
-  flex-grow: 1;
-  flex-wrap: wrap;
-  gap: $gapBig;
-
+.tabsSectionContainer {
   @include regularContainer;
+}
+
+.tabsSection {
+  display: grid;
+  gap: $gapMedium;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
 }
 
 .row {
@@ -29,6 +34,7 @@
 }
 
 .userDescriptionSection {
+  flex-grow: 1;
   @include regularContainer;
 }
 
@@ -45,14 +51,17 @@
 
 .ownerName {
   input {
-    width: $minWidthBlock;
     height: $heightH2;
   }
 }
 
 .ownerEmail {
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  text-overflow: ellipsis;
+  white-space: initial;
   input {
-    width: $minWidthBlock;
     height: $heightH3;
   }
 }

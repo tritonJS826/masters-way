@@ -16,7 +16,7 @@ export const Page404 = () => {
       <InitializedApp>
         <Header />
         <Title
-          level={HeadingLevel.h2}
+          level={HeadingLevel.h1}
           className={styles.errorPageContainer}
           text={`${error.status} ${error.statusText}`}
         />
@@ -28,7 +28,7 @@ export const Page404 = () => {
     return (
       <>
         <Title
-          level={HeadingLevel.h2}
+          level={HeadingLevel.h1}
           className={styles.errorPageContainer}
           text={error.name}
         />
@@ -41,7 +41,7 @@ export const Page404 = () => {
 
   return (
     <Title
-      level={HeadingLevel.h2}
+      level={HeadingLevel.h1}
       className={styles.errorPageContainer}
       text={ERROR_404}
     />

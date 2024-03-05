@@ -7,6 +7,15 @@ $iconContainerSize: 25px;
   flex-wrap: nowrap;
   justify-content: space-between;
   gap: $gapMedium;
+
+  @media (max-width: $mediaWidthTabletBig) {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: $mediaWidthMobileBig) {
+    justify-content: center;
+  }
 }
 
 .goalDescription {
@@ -20,6 +29,11 @@ $iconContainerSize: 25px;
 
 .goalSubSection {
   max-width: $maxWidthBlock;
+
+  @media (max-width: $mediaWidthTabletBig) {
+    min-width: $minWidthBlock;
+    max-width: $maxWidthBlock;
+  }
 }
 
 .horizontalContainer {
@@ -33,22 +47,4 @@ $iconContainerSize: 25px;
   border: none;
   background: none;
   cursor: pointer;
-}
-
-@media (max-width: $mediaWidthTabletBig) {
-  .goalSection {
-    width: 100%;
-    flex-wrap: wrap;
-  }
-
-  .goalSubSection {
-    min-width: $minWidthBlock;
-    max-width: $maxWidthBlock;
-  }
-}
-
-@media (max-width: $mediaWidthMobileBig) {
-  .goalSection {
-    justify-content: center;
-  }
 }

@@ -1,11 +1,9 @@
 @import "src/styles/variables";
 
-$userCardMainInfoPadding: 20px 24px;
-$userCardAdditionalInfoPadding: 12px 24px 20px;
-$userCardFontSize: 14px;
+$userCardMainInfoPadding: $paddingBig $paddingBig;
+$userCardAdditionalInfoPadding: $paddingMedium $paddingBig $paddingBig;
 $userCardMainHeight: 147px;
 $userCardAdditionalHeight: 105px;
-$cardLinkFontSize: 16px;
 
 .userCardContainer {
   border-radius: $secondaryBorderRadius;
@@ -53,7 +51,7 @@ $cardLinkFontSize: 16px;
   overflow: hidden;
   -webkit-box-orient: vertical;
   color: var(--secondaryTextColor);
-  font-weight: bold;
+  font-size: $fontSizeMedium;
   -webkit-line-clamp: 2;
   text-overflow: ellipsis;
   white-space: initial;
@@ -65,7 +63,7 @@ $cardLinkFontSize: 16px;
   margin-top: auto;
   -webkit-box-orient: vertical;
   color: var(--secondaryTextColor);
-  font-size: $userCardFontSize;
+  font-size: $fontSizeMedium;
   font-weight: bold;
   -webkit-line-clamp: 1;
   text-overflow: ellipsis;
@@ -77,11 +75,11 @@ $cardLinkFontSize: 16px;
   border-radius: 0 0 $secondaryBorderRadius $secondaryBorderRadius;
   background-color: var(--primaryBackgroundColor);
   color: var(--primaryTextColor);
-  font-size: $userCardFontSize;
+  font-size: $fontSizeMedium;
   gap: $gapMedium;
 }
 
 .cardLink {
-  font-size: $cardLinkFontSize;
+  font-size: $fontSizeBig;
   text-decoration: none;
 }

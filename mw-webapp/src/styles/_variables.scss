@@ -2,8 +2,9 @@
 $primaryFontFamily: Inter;
 
 // Font size
-$primaryFontSize: 12px;
-$fontSizeLarge: 48px;
+$fontSizeBig: 16px;
+$fontSizeMedium: 14px;
+$fontSizeSmall: 12px;
 
 // Borders
 $primaryBorderRadius: 6px;
@@ -22,13 +23,14 @@ $progressIndicatorZIndex: -1;
 
 // Margins, paddings, gaps
 $marginBig: 20px;
-$paddingMedium: 10px;
 $marginMedium: 10px;
-$gapMedium: 10px;
-$gapSmall: 5px;
 $marginSmall: 5px;
+$paddingBig: 20px;
+$paddingMedium: 10px;
 $paddingSmall: 5px;
 $gapBig: 30px;
+$gapMedium: 10px;
+$gapSmall: 5px;
 
 // Widths and heights
 $iconSizeSmall: 15px;

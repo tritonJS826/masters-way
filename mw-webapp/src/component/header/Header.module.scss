@@ -20,6 +20,10 @@ $userNameFontSize: 16px;
   align-items: center;
   justify-content: space-between;
   gap: $gapMedium;
+
+  @media (max-width: $mediaWidthMobileBig) {
+    width: 100%;
+  }
 }
 
 .logo {
@@ -29,10 +33,4 @@ $userNameFontSize: 16px;
 .userName {
   cursor: pointer;
   font-size: $userNameFontSize;
-}
-
-@media (max-width: $mediaWidthMobileBig) {
-  .headerButtonsContainer {
-    width: 100%;
-  }
 }

@@ -1,8 +1,7 @@
 @import "src/styles/variables";
 
-$wayCardMainInfoPadding: 20px 24px;
-$wayCardAdditionalInfoPadding: 12px 24px 20px;
-$wayCardFontSize: 14px;
+$wayCardMainInfoPadding: $paddingBig $paddingBig;
+$wayCardAdditionalInfoPadding: $paddingMedium $paddingBig $paddingBig;
 $wayCardMainHeight: 147px;
 $wayCardAdditionalHeight: 105px;
 $cardLinkFontSize: 16px;
@@ -36,7 +35,7 @@ $cardLinkFontSize: 16px;
   overflow: hidden;
   -webkit-box-orient: vertical;
   color: var(--secondaryTextColor);
-  font-weight: bold;
+  font-size: $fontSizeMedium;
   -webkit-line-clamp: 2;
   text-overflow: ellipsis;
   white-space: initial;
@@ -46,13 +45,13 @@ $cardLinkFontSize: 16px;
   align-items: center;
   margin-top: auto;
   color: var(--secondaryTextColor);
-  font-size: $wayCardFontSize;
+  font-size: $fontSizeSmall;
   gap: $gapMedium;
 }
 
 .ownerLink {
   color: var(--secondaryTextColor);
-  font-size: $wayCardFontSize;
+  font-size: $fontSizeSmall;
 }
 
 .additionalInfo {
@@ -61,7 +60,7 @@ $cardLinkFontSize: 16px;
   border-radius: 0 0 $secondaryBorderRadius $secondaryBorderRadius;
   background-color: var(--primaryBackgroundColor);
   color: var(--primaryTextColor);
-  font-size: $wayCardFontSize;
+  font-size: $fontSizeMedium;
   gap: $gapMedium;
 }
 
@@ -91,7 +90,7 @@ $cardLinkFontSize: 16px;
 
 .mentors {
   overflow: hidden;
-  font-size: $wayCardFontSize;
+  font-size: $fontSizeMedium;
   gap: $gapMedium;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -99,7 +98,7 @@ $cardLinkFontSize: 16px;
 
 .mentorLink {
   color: var(--primaryTextColor);
-  font-size: $wayCardFontSize;
+  font-size: $fontSizeMedium;
 }
 
 .dates {

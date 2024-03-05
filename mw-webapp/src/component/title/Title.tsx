@@ -31,6 +31,11 @@ interface TitleProps {
   /**
    * Additional custom class name for the component
    */
+  classNameHeading?: string;
+
+  /**
+   * Additional custom class name for the component wrapper
+   */
   className?: string;
 
   /**
@@ -114,7 +119,7 @@ export const Title = (props: TitleProps) => {
           <Heading
             onClick={props.onClick}
             as={props.level}
-            className={clsx(props.className)}
+            className={clsx(props.classNameHeading)}
           >
             {text === "" ? DEFAULT_PLACEHOLDER : text}
           </Heading>

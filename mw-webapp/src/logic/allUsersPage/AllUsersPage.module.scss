@@ -1,7 +1,5 @@
 @import "src/styles/variables";
 
-$userCardMinWidth: 340px;
-
 .allUsersContainer {
   gap: $gapMedium;
 }
@@ -27,7 +25,7 @@ $userCardMinWidth: 340px;
 .userCards {
   display: grid;
   gap: $gapMedium;
-  grid-template-columns: repeat(auto-fill, minmax($userCardMinWidth, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax($minWidthBlock, 1fr));
 }
 
 .iconView {
