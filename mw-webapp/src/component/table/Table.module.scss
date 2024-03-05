@@ -17,11 +17,6 @@ $cell-max-width: 600px;
   background: var(--primaryBackgroundColor);
   background-clip: padding-box;
   font-weight: bold;
-
-  // make createdAt fill minimum width
-  &:nth-child(1) {
-    width: 0;
-  }
 }
 
 .table td {

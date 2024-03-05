@@ -127,7 +127,10 @@ export const getWaysColumns = (language: Language) => [
         <Link path={pages.way.getPath({uuid: row.original.uuid})}>
           {row.original.name}
         </Link>
-        <Tooltip content={renderMarkdown(row.original.goalDescription)}>
+        <Tooltip
+          content={renderMarkdown(row.original.goalDescription)}
+          position={PositionTooltip.BOTTOM}
+        >
           <div className={styles.shortCell}>
             {renderMarkdown(row.original.goalDescription)}
           </div>
