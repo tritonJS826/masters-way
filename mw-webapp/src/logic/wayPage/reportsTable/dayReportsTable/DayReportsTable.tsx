@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Button, ButtonType} from "src/component/button/Button";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {Columns} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
@@ -32,6 +32,9 @@ interface DayReportsTableProps {
 export const DayReportsTable = (props: DayReportsTableProps) => {
   const VISIBLE_REPORTS_CHUNK = 7;
   const [visibleReports, setVisibleReports] = useState(props.way.dayReports.slice(0, VISIBLE_REPORTS_CHUNK));
+  useEffect(() => {
+    setVisibleReports(props.way.dayReports.slice(0, visibleReports.length));
+  }, [props.way.dayReports]);
 
   /**
    * Show more reports for user
