@@ -1,9 +1,11 @@
-import {createColumnHelper} from "@tanstack/react-table";
-import {Link} from "src/component/link/Link";
-import {UserPreview} from "src/model/businessModelPreview/UserPreview";
-import {pages} from "src/router/pages";
-import {LanguageService} from "src/service/LangauageService";
-import {Language} from "src/utils/LanguageWorker";
+import { createColumnHelper } from "@tanstack/react-table";
+import { Link } from "src/component/link/Link";
+import { PositionTooltip } from "src/component/tooltip/PositionTooltip";
+import { Tooltip } from "src/component/tooltip/Tooltip";
+import { UserPreview } from "src/model/businessModelPreview/UserPreview";
+import { pages } from "src/router/pages";
+import { LanguageService } from "src/service/LangauageService";
+import { Language } from "src/utils/LanguageWorker";
 import styles from "src/logic/usersTable/UserColumns.module.scss";
 
 const columnHelper = createColumnHelper<UserPreview>();
@@ -14,61 +16,119 @@ const columnHelper = createColumnHelper<UserPreview>();
  */
 export const getUsersColumns = (language: Language) => [
   columnHelper.accessor("name", {
-    header: LanguageService.allUsers.usersTable.column.name[language],
+    /**
+     * Header
+     */
+    header: () => (
+      <Tooltip
+        content={
+          LanguageService.allUsers.usersTable.columnTooltip.name[language]
+        }
+      >
+        {LanguageService.allUsers.usersTable.column.name[language]}
+      </Tooltip>
+    ),
 
     /**
      * Cell with clickable username that leads to user page
      */
-    cell: ({row}) => (
-      <Link path={pages.user.getPath({uuid: row.original.uuid})}>
-        {row.original.name}
+    cell: ({ row }) => (
+      <Link path={pages.user.getPath({ uuid: row.original.uuid })}>
+        <Tooltip position={PositionTooltip.TOP} content={row.original.name}>
+          {row.original.name}
+        </Tooltip>
       </Link>
     ),
   }),
   columnHelper.accessor("email", {
-    header: LanguageService.allUsers.usersTable.column.email[language],
+    /**
+     * Header
+     */
+    header: () => (
+      <Tooltip
+        content={LanguageService.allUsers.usersTable.columnTooltip.email[language]}
+      >
+        {LanguageService.allUsers.usersTable.column.email[language]}
+      </Tooltip>
+    ),
 
     /**
      * Cell user email
      */
-    cell: ({row}) => (
-      <span>
+    cell: ({ row }) => (
+      <Tooltip position={PositionTooltip.TOP} content={row.original.email}>
         {row.original.email}
-      </span>
+      </Tooltip>
     ),
   }),
   columnHelper.accessor("ownWays", {
-    header: LanguageService.allUsers.usersTable.column.ownWays[language],
+    /**
+     * Header
+     */
+    header: () => (
+      <Tooltip
+        content={
+          LanguageService.allUsers.usersTable.columnTooltip.ownWays[language]
+        }
+      >
+        {LanguageService.allUsers.usersTable.column.ownWays[language]}
+      </Tooltip>
+    ),
 
     /**
      * Cell with user's own ways
      */
-    cell: ({row}) => (
+    cell: ({ row }) => (
       <div className={styles.number}>
         {row.original.ownWays.length.toString()}
       </div>
     ),
   }),
   columnHelper.accessor("favoriteWays", {
-    header: LanguageService.allUsers.usersTable.column.favoriteWays[language],
+    /**
+     * Header
+     */
+    header: () => (
+      <Tooltip
+        content={
+          LanguageService.allUsers.usersTable.columnTooltip.favoriteWays[
+            language
+          ]
+        }
+      >
+        {LanguageService.allUsers.usersTable.column.favoriteWays[language]}
+      </Tooltip>
+    ),
 
     /**
      * Cell with user's favorite ways
      */
-    cell: ({row}) => (
+    cell: ({ row }) => (
       <div className={styles.number}>
         {row.original.favoriteWays.length.toString()}
       </div>
-
     ),
   }),
   columnHelper.accessor("mentoringWays", {
-    header: LanguageService.allUsers.usersTable.column.mentoringWays[language],
+    /**
+     * Header
+     */
+    header: () => (
+      <Tooltip
+        content={
+          LanguageService.allUsers.usersTable.columnTooltip.mentoringWays[
+            language
+          ]
+        }
+      >
+        {LanguageService.allUsers.usersTable.column.mentoringWays[language]}
+      </Tooltip>
+    ),
 
     /**
      * Cell with user's mentoring ways
      */
-    cell: ({row}) => (
+    cell: ({ row }) => (
       <div className={styles.number}>
         {row.original.mentoringWays.length.toString()}
       </div>

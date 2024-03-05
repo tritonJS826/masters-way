@@ -22,6 +22,28 @@
             "ru": "Всего",
             "en": "Total found"
         },
+        "columnTooltip": { 
+            "name": {
+                "ru": "Имя пользователя",
+                "en": "User's name"
+            },
+            "email": {
+                "ru": "Контакт поильзователя",
+                "en": "User's email"
+            },
+            "ownWays": {
+                "ru": "Количество путей для которых пользователь является владельцем",
+                "en": "Amount of ways for which the user is the owner"
+            },
+            "favoriteWays": {
+                "ru": "Количество любимых путей",
+                "en": "Amount of favorite ways"
+            },
+            "mentoringWays": {
+                "ru": "Количество путей для которых пользователь является ментором",
+                "en": "Amount of ways for which the user is the mentor"
+            }
+        },
         "column": {
             "name": {
                 "ru": "Пользователи",
