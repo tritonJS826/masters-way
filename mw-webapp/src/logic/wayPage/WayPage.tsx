@@ -10,7 +10,6 @@ import {Link} from "src/component/link/Link";
 import {Loader} from "src/component/loader/Loader";
 import {Modal} from "src/component/modal/Modal";
 import {displayNotification} from "src/component/notification/displayNotification";
-import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
@@ -642,14 +641,12 @@ export const WayPage = (props: WayPageProps) => {
         text={`Reports (${way.dayReports.length})`}
       />
 
-      <div className={styles.dayReportsContent}>
-        <ScrollableBlock>
-          <DayReportsTable
-            way={way}
-            setDayReports={setDayReports}
-          />
-        </ScrollableBlock>
-      </div>
+      <VerticalContainer className={styles.dayReportsContent}>
+        <DayReportsTable
+          way={way}
+          setDayReports={setDayReports}
+        />
+      </VerticalContainer>
     </VerticalContainer>
   );
 };
