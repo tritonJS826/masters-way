@@ -96,7 +96,7 @@ export const EditableValue = <T extends string | number>(props: EditableTextProp
       value={value}
       autoFocus={true}
       onChange={updateValue}
-      style={{width: String(value).length + "ch"}}
+      className={styles.inputEditableText}
     />
   );
 

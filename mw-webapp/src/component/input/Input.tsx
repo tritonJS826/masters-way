@@ -73,13 +73,6 @@ interface InputProps<T extends string | number> {
    * Parsing formatted value
    */
   parser?: (value: string) => T;
-
-  /**
-   * Style for input
-   */
-  style?: {
-    [key: string]: string;
-  };
 }
 
 /**
@@ -123,7 +116,6 @@ export const Input = <T extends string | number>(props: InputProps<T>) => {
       required={!!props.required}
       autoFocus={!!props.autoFocus}
       onChange={onChange}
-      style={props.style}
     />
   );
 };

@@ -36,7 +36,7 @@ import styles from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns
 const DEFAULT_SUMMARY_TIME = 0;
 const columnHelper = createColumnHelper<DayReport>();
 const DIFFERENCE_INDEX_LIST_NUMBER = 1;
-const MAX_TIME = 1440;
+const MAX_TIME = 9999;
 
 /**
  * Get time in minutes till {@link MAX_TIME}
