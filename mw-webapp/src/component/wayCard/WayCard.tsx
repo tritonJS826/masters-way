@@ -136,24 +136,21 @@ export const WayCard = (props: WayCardProps) => {
           <HorizontalContainer className={styles.ownerInfo}>
             <Tooltip
               position={PositionTooltip.BOTTOM}
-              content={props.wayPreview.owner.name}
+              content={props.wayPreview.owner.email}
             >
               <p className={styles.ownerLink}>
-                {getFirstName(props.wayPreview.owner.name)}
+                {props.wayPreview.owner.name}
               </p>
             </Tooltip>
-            <p>
-              {props.wayPreview.owner.email}
-            </p>
           </HorizontalContainer>
         </VerticalContainer>
         <VerticalContainer className={styles.additionalInfo}>
           <HorizontalContainer className={styles.dates}>
             <p>
-              {`Created at ${DateUtils.getShortISODateValue(props.wayPreview.createdAt)}`}
+              {`Created: ${DateUtils.getShortISODateValue(props.wayPreview.createdAt)}`}
             </p>
             <p>
-              {`Last update at ${DateUtils.getShortISODateValue(props.wayPreview.lastUpdate)}`}
+              {`Updated: ${DateUtils.getShortISODateValue(props.wayPreview.lastUpdate)}`}
             </p>
           </HorizontalContainer>
           {renderMentors(props.wayPreview.mentors)}

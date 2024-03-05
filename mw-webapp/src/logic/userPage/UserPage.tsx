@@ -4,6 +4,7 @@ import {Button, ButtonType} from "src/component/button/Button";
 import {Confirm} from "src/component/confirm/Confirm";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
 import {Loader} from "src/component/loader/Loader";
 import {Modal} from "src/component/modal/Modal";
 import {PromptModalContent} from "src/component/modal/PromptModalContent";
@@ -293,7 +294,7 @@ export const UserPage = (props: UserPageProps) => {
 
   return (
     <VerticalContainer className={styles.pageLayout}>
-      <HorizontalContainer className={styles.container}>
+      <HorizontalGridContainer className={styles.container}>
         <VerticalContainer className={styles.descriptionSection}>
           <VerticalContainer className={styles.nameEmailSection}>
             <Title
@@ -320,7 +321,7 @@ export const UserPage = (props: UserPageProps) => {
                 setUser: setUserPreviewPartial,
               })}
               isEditable={isPageOwner}
-              className={styles.ownerEmail}
+              classNameHeading={styles.ownerEmail}
             />
           </VerticalContainer>
 
@@ -344,37 +345,39 @@ export const UserPage = (props: UserPageProps) => {
           </VerticalContainer>
 
           {isPageOwner &&
-          <Button
-            value="Create new way"
-            onClick={() => createWay(user)}
-            buttonType={ButtonType.PRIMARY}
-            className={styles.createNewWayButton}
-          />
+            <Button
+              value="Create new way"
+              onClick={() => createWay(user)}
+              buttonType={ButtonType.PRIMARY}
+              className={styles.createNewWayButton}
+            />
           }
         </VerticalContainer>
 
-        <HorizontalContainer className={styles.tabsSection}>
-          {getAllWayCollections(userPreview).map(collection => (
-            <Button
-              key={collection.id}
-              value={`${collection.name} (${collection.wayUuids.length})`}
-              onClick={() => setOpenedTabId(collection.id)}
-              className={styles.collectionButton}
-              buttonType={collection.id === openedTabId ? ButtonType.PRIMARY : ButtonType.SECONDARY}
-            />
-          ))}
+        <div className={styles.tabsSectionContainer}>
+          <HorizontalContainer className={styles.tabsSection}>
+            {getAllWayCollections(userPreview).map(collection => (
+              <Button
+                key={collection.id}
+                value={`${collection.name} (${collection.wayUuids.length})`}
+                onClick={() => setOpenedTabId(collection.id)}
+                className={styles.collectionButton}
+                buttonType={collection.id === openedTabId ? ButtonType.PRIMARY : ButtonType.SECONDARY}
+              />
+            ))}
 
-          {isPageOwner && (
-            <Button
-              value="Add collection"
-              onClick={createCustomWayCollection}
-              className={styles.collectionButton}
-              buttonType={ButtonType.SECONDARY}
-            />
-          )}
+            {isPageOwner && (
+              <Button
+                value="Add collection"
+                onClick={createCustomWayCollection}
+                className={styles.collectionButton}
+                buttonType={ButtonType.SECONDARY}
+              />
+            )}
 
-        </HorizontalContainer>
-      </HorizontalContainer>
+          </HorizontalContainer>
+        </div>
+      </HorizontalGridContainer>
 
       {isCustomCollection && (
         <HorizontalContainer className={styles.temporalBlock}>

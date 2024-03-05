@@ -157,8 +157,8 @@ $iconContainerSize: 25px;
   max-width: $maxWidthBlock;
 }
 
-@media (max-width: $mediaWidthMobileBig) {
-  .wrap {
+.wrap {
+  @media (max-width: $mediaWidthMobileBig) {
     justify-content: center;
   }
 }

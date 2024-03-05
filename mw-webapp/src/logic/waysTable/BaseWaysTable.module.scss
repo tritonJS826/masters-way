@@ -1,7 +1,5 @@
 @import "src/styles/variables";
 
-$wayCardMinWidth: 340px;
-
 .loaderWrapper {
   margin-top: $gapBig;
 }
@@ -25,7 +23,7 @@ $wayCardMinWidth: 340px;
 .wayCards {
   display: grid;
   gap: $gapMedium;
-  grid-template-columns: repeat(auto-fill, minmax($wayCardMinWidth, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax($minWidthBlock, 1fr));
 }
 
 .filterView {
