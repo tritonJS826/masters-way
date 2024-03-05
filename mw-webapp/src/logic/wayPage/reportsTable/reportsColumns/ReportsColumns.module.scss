@@ -4,7 +4,8 @@ $editableTimeWidth: 40px;
 $listLeftMargin: 20px;
 
 .editableTime {
-  min-width: 32px;
+  min-width: 46px;
+  max-width: 46px;
   cursor: pointer;
   text-align: right;
 }
