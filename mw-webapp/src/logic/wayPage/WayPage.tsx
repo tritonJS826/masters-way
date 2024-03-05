@@ -593,7 +593,7 @@ export const WayPage = (props: WayPageProps) => {
 
       </HorizontalContainer>
 
-      {isPossibleCreateDayReport &&
+      {isUserOwnerOrMentor &&
         <HorizontalContainer className={styles.dayReportActions}>
           <HorizontalContainer className={styles.reportActions}>
             {isPossibleCreateDayReport &&
