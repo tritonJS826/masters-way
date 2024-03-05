@@ -8,7 +8,6 @@ import {HorizontalGridContainer} from "src/component/horizontalGridContainer/Hor
 import {Loader} from "src/component/loader/Loader";
 import {Modal} from "src/component/modal/Modal";
 import {PromptModalContent} from "src/component/modal/PromptModalContent";
-import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
@@ -421,25 +420,21 @@ export const UserPage = (props: UserPageProps) => {
         .map(collection => {
 
           return (
-            <ScrollableBlock
+            <BaseWaysTable
               key={collection.id}
-              className={styles.waysContent}
-            >
-              <BaseWaysTable
-                title={collection.name}
-                wayUuids={collection.wayUuids}
-                updateCollection={isCustomCollection
-                  ? (wayCollection: Partial<WayCollection>) => updateCustomWayCollection({id: collection.id, ...wayCollection})
-                  : undefined
-                }
-                filterStatus={userPageSettings.filterStatus}
-                setFilterStatus={(
-                  filterStatus: WayStatusType | typeof FILTER_STATUS_ALL_VALUE,
-                ) => updateUserPageSettings({filterStatus})}
-                view={userPageSettings.view}
-                setView={(view: View) => updateUserPageSettings({view})}
-              />
-            </ScrollableBlock>
+              title={collection.name}
+              wayUuids={collection.wayUuids}
+              updateCollection={isCustomCollection
+                ? (wayCollection: Partial<WayCollection>) => updateCustomWayCollection({id: collection.id, ...wayCollection})
+                : undefined
+              }
+              filterStatus={userPageSettings.filterStatus}
+              setFilterStatus={(
+                filterStatus: WayStatusType | typeof FILTER_STATUS_ALL_VALUE,
+              ) => updateUserPageSettings({filterStatus})}
+              view={userPageSettings.view}
+              setView={(view: View) => updateUserPageSettings({view})}
+            />
           );
         })}
 

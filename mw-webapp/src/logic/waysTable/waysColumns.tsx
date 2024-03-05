@@ -191,7 +191,7 @@ export const waysColumns = [
               position={PositionTooltip.LEFT}
             >
               <Link path={pages.user.getPath({uuid: mentor.uuid})}>
-                {getFirstName(mentor.name)}
+                {mentor.name}
               </Link>
             </Tooltip>
           ))}

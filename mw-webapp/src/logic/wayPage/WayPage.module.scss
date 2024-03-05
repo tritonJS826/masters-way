@@ -16,6 +16,7 @@ $iconContainerSize: 25px;
 
 .dayReportsContent {
   @include regularContainer;
+  gap: $gapMedium;
 }
 
 .wayTitleBlock {

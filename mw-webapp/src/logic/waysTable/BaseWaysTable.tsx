@@ -5,6 +5,7 @@ import {Confirm} from "src/component/confirm/Confirm";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Loader} from "src/component/loader/Loader";
+import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {Select} from "src/component/select/Select";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
@@ -181,12 +182,16 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
         text={`${props.title} (${ways.length})`}
         level={HeadingLevel.h2}
       />
-      <div className={styles.waysContent}>
+
+      <VerticalContainer className={styles.waysContent}>
+
         {props.view === View.Table ?
-          <WaysTable
-            data={ways}
-            columns={waysColumns}
-          />
+          <ScrollableBlock>
+            <WaysTable
+              data={ways}
+              columns={waysColumns}
+            />
+          </ScrollableBlock>
           :
           <HorizontalContainer className={styles.wayCards}>
             {ways.map((way) => {
@@ -200,39 +205,40 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
             }
           </HorizontalContainer>
         }
-      </div>
 
-      {props.updateCollection && getIsNoFilters() && (
-        <>
-          {ArrayUtils.getDifference(
-            props.wayUuids,
-            ways.map(way => way.uuid),
-          ).map((notExistentWayUuid) => (
-            <>
-              <Confirm
-                trigger={
+        {props.updateCollection && getIsNoFilters() && (
+          <>
+            {ArrayUtils.getDifference(
+              props.wayUuids,
+              ways.map(way => way.uuid),
+            ).map((notExistentWayUuid) => (
+              <>
+                <Confirm
+                  trigger={
                   // TODO: #480 make normal element for suggestions
-                  <Button
-                    value={`Way with uuid "${notExistentWayUuid}" is was removed or hidden. Remove it from the collection?`}
-                    onClick={() => {}}
-                    buttonType={ButtonType.SECONDARY}
-                    className={styles.button}
-                  />
-                }
-                content={<p>
-                  {`Are you sure you want the way "${notExistentWayUuid}" from the collection?`}
-                </p>}
-                onOk={() => {
-                  if (props.updateCollection) {
-                    props.updateCollection({wayUuids: props.wayUuids.filter(uuid => uuid !== notExistentWayUuid)});
+                    <Button
+                      value={`Way with uuid "${notExistentWayUuid}" is was removed or hidden. Remove it from the collection?`}
+                      onClick={() => {}}
+                      buttonType={ButtonType.SECONDARY}
+                      className={styles.button}
+                    />
                   }
-                }}
-                okText="Ok"
-              />
-            </>
-          ))}
-        </>
-      )}
+                  content={<p>
+                    {`Are you sure you want the way "${notExistentWayUuid}" from the collection?`}
+                  </p>}
+                  onOk={() => {
+                    if (props.updateCollection) {
+                      props.updateCollection({wayUuids: props.wayUuids.filter(uuid => uuid !== notExistentWayUuid)});
+                    }
+                  }}
+                  okText="Ok"
+                />
+              </>
+            ))}
+          </>
+        )}
+
+      </VerticalContainer>
     </>
   );
 };
