@@ -54,12 +54,6 @@ const DEFAULT_WAY_PAGE_SETTINGS: WayPageSettings = {
    * @default true
    */
   isStatisticsVisible: true,
-
-  /**
-   * Default job done block is opened
-   * @default true
-   */
-  isJobDoneTagsVisible: true,
 };
 
 /**
@@ -618,7 +612,6 @@ export const WayPage = (props: WayPageProps) => {
                     text="Job done tags:"
                   />
                   <JobTags
-                    isVisible={wayPageSettings.isJobDoneTagsVisible}
                     jobTags={way.jobTags}
                     isEditable={isUserOwnerOrMentor}
                     updateTags={(tagsToUpdate: JobTag[]) => updateWay({
