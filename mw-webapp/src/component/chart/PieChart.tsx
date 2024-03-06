@@ -3,6 +3,7 @@ import {Pie} from "react-chartjs-2";
 import {ArcElement, Chart as ChartJS, Legend, Tooltip} from "chart.js";
 import {useGlobalContext} from "src/GlobalContext";
 import {JobTagStat} from "src/logic/wayPage/wayStatistics/JobTagStat";
+import styles from "src/component/chart/PieChart.module.scss";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -13,10 +14,16 @@ const getOptions = () => {
   const primaryChartColor = getComputedStyle(document.body).getPropertyValue("--primaryTextColor");
 
   const options = {
+    layout: {padding: {top: 10}},
     responsive: true,
     color: primaryChartColor,
     plugins: {
+      legend: {
+        position: "left" as const,
+        labels: {textAlign: "left" as const},
+      },
       title: {
+        padding: 20,
         display: true,
         text: "Job done tags used",
         color: primaryChartColor,
@@ -79,6 +86,7 @@ export const PieChart = (props: PieChartProps) => {
 
   return (
     <Pie
+      className={styles.pieChart}
       options={optionsMemoized}
       data={data}
     />

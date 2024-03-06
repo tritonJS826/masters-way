@@ -1,3 +1,14 @@
+@import "src/styles/variables";
+
+.titleContainer {
+  justify-content: space-between;
+}
+
+.dayReportsContent {
+  @include regularContainer;
+  gap: $gapMedium;
+}
+
 .loadMoreButton {
   display: block;
   margin-left: auto;

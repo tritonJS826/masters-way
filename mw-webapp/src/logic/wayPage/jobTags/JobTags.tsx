@@ -18,12 +18,6 @@ import styles from "src/logic/wayPage/jobTags/JobTags.module.scss";
 interface JobTagsProps {
 
   /**
-   * Is visible
-   * @default true
-   */
-  isVisible: boolean;
-
-  /**
    * Job tags
    */
   jobTags: JobTagData[];
@@ -44,10 +38,6 @@ interface JobTagsProps {
  * Job tags
  */
 export const JobTags = (props: JobTagsProps) => {
-  if (!props.isVisible) {
-    return null;
-  }
-
   const [isJobDoneModalOpen, setIsJobDoneModalOpen] = useState<boolean>(false);
   const allJobTags = props.jobTags.filter((tag) => tag.name !== "no tag");
 

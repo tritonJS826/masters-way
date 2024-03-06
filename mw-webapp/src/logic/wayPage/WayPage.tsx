@@ -54,12 +54,6 @@ const DEFAULT_WAY_PAGE_SETTINGS: WayPageSettings = {
    * @default true
    */
   isStatisticsVisible: true,
-
-  /**
-   * Default job done block is opened
-   * @default true
-   */
-  isJobDoneTagsVisible: true,
 };
 
 /**
@@ -618,7 +612,6 @@ export const WayPage = (props: WayPageProps) => {
                     text="Job done tags:"
                   />
                   <JobTags
-                    isVisible={wayPageSettings.isJobDoneTagsVisible}
                     jobTags={way.jobTags}
                     isEditable={isUserOwnerOrMentor}
                     updateTags={(tagsToUpdate: JobTag[]) => updateWay({
@@ -636,17 +629,11 @@ export const WayPage = (props: WayPageProps) => {
         </HorizontalContainer>
       }
 
-      <Title
-        level={HeadingLevel.h2}
-        text={`Reports (${way.dayReports.length})`}
+      <DayReportsTable
+        way={way}
+        setDayReports={setDayReports}
       />
 
-      <VerticalContainer className={styles.dayReportsContent}>
-        <DayReportsTable
-          way={way}
-          setDayReports={setDayReports}
-        />
-      </VerticalContainer>
     </VerticalContainer>
   );
 };

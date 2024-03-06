@@ -1,6 +1,9 @@
 import {useEffect, useState} from "react";
 import {Button, ButtonType} from "src/component/button/Button";
+import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
+import {HeadingLevel, Title} from "src/component/title/Title";
+import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {Columns} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
 import {ReportsTable} from "src/logic/wayPage/reportsTable/ReportsTable";
 import {DayReport} from "src/model/businessModel/DayReport";
@@ -33,7 +36,10 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
   const VISIBLE_REPORTS_CHUNK = 7;
   const [visibleReports, setVisibleReports] = useState(props.way.dayReports.slice(0, VISIBLE_REPORTS_CHUNK));
   useEffect(() => {
-    setVisibleReports(props.way.dayReports.slice(0, visibleReports.length));
+    const updatedVisibleReports = props.way.dayReports.length <= VISIBLE_REPORTS_CHUNK
+      ? props.way.dayReports.length
+      : visibleReports.length;
+    setVisibleReports(props.way.dayReports.slice(0, updatedVisibleReports));
   }, [props.way.dayReports]);
 
   /**
@@ -47,20 +53,32 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
 
   return (
     <>
-      <ScrollableBlock>
-        <ReportsTable
-          data={visibleReports}
-          columns={Columns({setDayReports: props.setDayReports, way: props.way})}
+      <HorizontalContainer className={styles.titleContainer}>
+        <Title
+          level={HeadingLevel.h2}
+          text={`Reports (${Math.min(props.way.dayReports.length, visibleReports.length)})`}
         />
-      </ScrollableBlock>
-      {isShowMoreReportsButtonVisible &&
-      <Button
-        onClick={showMoreReports}
-        value="Load more"
-        buttonType={ButtonType.PRIMARY}
-        className={styles.loadMoreButton}
-      />
-      }
+        <Title
+          level={HeadingLevel.h2}
+          text={`Total: ${props.way.dayReports.length}`}
+        />
+      </HorizontalContainer>
+      <VerticalContainer className={styles.dayReportsContent}>
+        <ScrollableBlock>
+          <ReportsTable
+            data={visibleReports}
+            columns={Columns({setDayReports: props.setDayReports, way: props.way})}
+          />
+        </ScrollableBlock>
+        {isShowMoreReportsButtonVisible &&
+        <Button
+          onClick={showMoreReports}
+          value="Load more"
+          buttonType={ButtonType.PRIMARY}
+          className={styles.loadMoreButton}
+        />
+        }
+      </VerticalContainer>
     </>
   );
 };
