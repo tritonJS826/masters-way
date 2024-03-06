@@ -629,17 +629,11 @@ export const WayPage = (props: WayPageProps) => {
         </HorizontalContainer>
       }
 
-      <Title
-        level={HeadingLevel.h2}
-        text={`Reports (${way.dayReports.length})`}
+      <DayReportsTable
+        way={way}
+        setDayReports={setDayReports}
       />
 
-      <VerticalContainer className={styles.dayReportsContent}>
-        <DayReportsTable
-          way={way}
-          setDayReports={setDayReports}
-        />
-      </VerticalContainer>
     </VerticalContainer>
   );
 };

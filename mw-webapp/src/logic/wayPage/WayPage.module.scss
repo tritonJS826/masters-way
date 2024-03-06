@@ -14,11 +14,6 @@ $iconContainerSize: 25px;
   gap: $gapMedium;
 }
 
-.dayReportsContent {
-  @include regularContainer;
-  gap: $gapMedium;
-}
-
 .wayTitleBlock {
   align-items: start;
   justify-content: space-between;

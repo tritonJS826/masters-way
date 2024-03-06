@@ -1,4 +1,6 @@
+$maxHeightChart: 280px;
+
 .pieChart {
-  max-height: 300px;
+  max-height: $maxHeightChart;
   padding-top: 0;
 }
