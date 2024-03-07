@@ -1,0 +1,89 @@
+@import "src/styles/variables";
+
+.list {
+  display: flex;
+  width: 100%;
+  min-width: 80px;
+  height: 100%;
+}
+
+.numberedList {
+  flex: 1 0 auto;
+  list-style-type: none;
+}
+
+.numberedListItem {
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px dotted var(--primaryBorderColor);
+}
+
+.horizontalContainer {
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.listNumberAndName {
+  align-items: baseline;
+}
+
+.icons {
+  display: flex;
+  align-items: center;
+  margin-left: $marginSmall;
+  gap: $marginBig;
+}
+
+.tagsBlockTrigger {
+  cursor: pointer;
+}
+
+.editableTime {
+  min-width: 46px;
+  max-width: 46px;
+  cursor: pointer;
+  text-align: right;
+}
+
+.checkbox {
+  width: $checkboxWidthSmall;
+  height: $checkboxHeightSmall;
+}
+
+.icon {
+  display: flex;
+  min-width: $iconSizeSmall;
+  min-height: $iconSizeSmall;
+  align-items: center;
+}
+
+.icon:hover {
+  cursor: pointer;
+}
+
+.editableTextarea {
+  flex-grow: 1;
+
+  textarea {
+    width: 100%;
+  }
+}
+
+.summarySection {
+  display: flex;
+  width: 100%;
+  align-items: end;
+  justify-content: space-between;
+  margin-top: $marginMedium;
+  font-weight: bold;
+}
+
+.flatButton {
+  @include flatButton;
+}
+
+.summaryText {
+  text-wrap: nowrap;
+}

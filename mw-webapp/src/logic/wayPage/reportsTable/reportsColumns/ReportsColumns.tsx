@@ -1,48 +1,32 @@
-import {Close as DialogClose} from "@radix-ui/react-dialog";
-import {TrashIcon} from "@radix-ui/react-icons";
 import {createColumnHelper} from "@tanstack/react-table";
-import {clsx} from "clsx";
-import {Button} from "src/component/button/Button";
-import {Checkbox} from "src/component/checkbox/Сheckbox";
-import {Confirm} from "src/component/confirm/Confirm";
-import {EditableValue} from "src/component/editableText/EditableText";
-import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
-import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
-import {Icon, IconSize} from "src/component/icon/Icon";
-import {Link} from "src/component/link/Link";
-import {Modal} from "src/component/modal/Modal";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
-import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {useGlobalContext} from "src/GlobalContext";
-import {JobDoneTags} from "src/logic/wayPage/reportsTable/jobDoneTags/JobDoneTags";
-import {ModalContentJobTags} from "src/logic/wayPage/reportsTable/modalContentJobTags/ModalContentJobTags";
+import {ReportsTableCommentsCell}
+  from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableCommentsCell/ReportsTableCommentsCell";
+import {ReportsTableDateCell} from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableDateCell/ReportsTableDateCell";
+import {ReportsTableJobsDoneCell}
+  from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableJobsDoneCell/ReportsTableJobsDoneCell";
+import {ReportsTablePlansCell} from "src/logic/wayPage/reportsTable/reportsColumns/reportsTablePlansCell/ReportsTablePlansCell";
+import {ReportsTableProblemsCell}
+  from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableProblemsCell/ReportsTableProblemsCell";
 import {getFirstName} from "src/logic/waysTable/waysColumns";
-import {Comment} from "src/model/businessModel/Comment";
 import {DayReport} from "src/model/businessModel/DayReport";
-import {JobDone} from "src/model/businessModel/JobDone";
-import {Plan} from "src/model/businessModel/Plan";
-import {Problem} from "src/model/businessModel/Problem";
 import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
-import {JobTag} from "src/model/businessModelPreview/WayPreview";
-import {pages} from "src/router/pages";
-import {DateUtils} from "src/utils/DateUtils";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
-import {v4 as uuidv4} from "uuid";
-import styles from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns.module.scss";
 
-const DEFAULT_SUMMARY_TIME = 0;
+export const DEFAULT_SUMMARY_TIME = 0;
+export const MAX_TIME = 9999;
 const columnHelper = createColumnHelper<DayReport>();
 const DIFFERENCE_INDEX_LIST_NUMBER = 1;
-const MAX_TIME = 9999;
 
 /**
  * Get time in minutes till {@link MAX_TIME}
  */
-const getValidatedTime = (time: number) => {
+export const getValidatedTime = (time: number) => {
   return time <= MAX_TIME
     ? time
     : MAX_TIME;
@@ -51,7 +35,7 @@ const getValidatedTime = (time: number) => {
 /**
  * Convert index of element to list number
  */
-const getListNumberByIndex = (index: number) => {
+export const getListNumberByIndex = (index: number) => {
   const listNumber = `${index + DIFFERENCE_INDEX_LIST_NUMBER}.${Symbols.NO_BREAK_SPACE}`;
 
   return listNumber;
@@ -73,7 +57,7 @@ const getUsersInWay = (way: Way) => {
 /**
  * Get user name
  */
-const getName = (way: Way, userUuid: string) => {
+export const getName = (way: Way, userUuid: string) => {
   const usersInWay = getUsersInWay(way);
   const user = usersInWay.get(userUuid);
 
@@ -159,13 +143,7 @@ export const Columns = (props: ColumnsProps) => {
       /**
        * Cell  with date value
        */
-      cell: ({row}) => {
-        return (
-          <VerticalContainer className={styles.dateCell}>
-            {DateUtils.getShortISODateValue(row.original.createdAt)}
-          </VerticalContainer>
-        );
-      },
+      cell: ({row}) => <ReportsTableDateCell date={row.original.createdAt} />,
     }),
     columnHelper.accessor("jobsDone", {
 
@@ -184,174 +162,14 @@ export const Columns = (props: ColumnsProps) => {
       /**
        * Cell with JobsDone items
        */
-      cell: ({row}) => {
-        const defaultTag = props.way.jobTags.find((jobTag) => jobTag.name === "no tag");
-        if (!defaultTag) {
-          throw new Error("Default tag is not exist");
-        }
-
-        /**
-         * Create jobDone
-         */
-        const createJobDone = () => {
-          const jobDone: JobDone = new JobDone({
-            description: "",
-            time: 0,
-            uuid: uuidv4(),
-            tags: [defaultTag],
-          });
-          const jobsDone = [...row.original.jobsDone, jobDone];
-
-          updateReport({uuid: row.original.uuid, jobsDone});
-        };
-
-        /**
-         * Delete jobDone
-         */
-        const deleteJobDone = (jobDoneUuid: string) => {
-          const jobsDone = row.original.jobsDone.filter((jobDone) => jobDone.uuid !== jobDoneUuid);
-
-          updateReport({uuid: row.original.uuid, jobsDone});
-        };
-
-        /**
-         * Update jobDone
-         */
-        const updateJobDone = (jobDone: JobDone, text: string) => {
-          const updatedJobsDone = row.original.jobsDone.map((item) => {
-            const itemToReturn = item.uuid === jobDone.uuid
-              ? new JobDone({
-                ...jobDone,
-                description: text,
-              })
-              : item;
-
-            return itemToReturn;
-          });
-
-          updateReport({uuid: row.original.uuid, jobsDone: updatedJobsDone});
-        };
-
-        /**
-         * Update jobDoneTime
-         */
-        const updateJobDoneTime = (jobDone: JobDone, time: number) => {
-          const updatedJobsDone = row.original.jobsDone.map((item) => {
-            const itemToReturn = item.uuid === jobDone.uuid
-              ? new JobDone({
-                ...jobDone,
-                time,
-              })
-              : item;
-
-            return itemToReturn;
-          });
-
-          updateReport({uuid: row.original.uuid, jobsDone: updatedJobsDone});
-        };
-
-        return (
-          <VerticalContainer className={styles.list}>
-            <ol className={styles.numberedList}>
-              {row.original.jobsDone.map((jobDone, index) => (
-                <li
-                  key={jobDone.uuid}
-                  className={styles.numberedListItem}
-                >
-                  <HorizontalContainer className={clsx(styles.horizontalContainer, styles.listNumberAndName)}>
-                    {getListNumberByIndex(index)}
-                    <HorizontalContainer className={styles.icons}>
-                      {isUserOwnerOrMentor ?
-                        <Modal
-                          trigger={
-                            <div className={styles.tagsBlockTrigger}>
-                              <JobDoneTags jobDoneTags={jobDone.tags} />
-                            </div>
-                          }
-                          content={
-                            <ModalContentJobTags
-                              jobTags={props.way.jobTags}
-                              jobDoneTags={jobDone.tags}
-                              isEditable={isUserOwnerOrMentor}
-                              updateTags={(tagsToUpdate: JobTag[]) => updateReport({
-                                ...row.original,
-                                jobsDone: row.original.jobsDone?.map(previousJobDone => previousJobDone.uuid === jobDone.uuid
-                                  ? {...previousJobDone, tags: tagsToUpdate}
-                                  : previousJobDone),
-                              })}
-                            />
-                          }
-                        />
-                        : <JobDoneTags jobDoneTags={jobDone.tags} />
-                      }
-                      <Tooltip
-                        position={PositionTooltip.BOTTOM}
-                        content={`Time${Symbols.NO_BREAK_SPACE}spent on job`}
-                      >
-                        <EditableValue
-                          value={jobDone.time}
-                          type="number"
-                          max={MAX_TIME}
-                          onChangeFinish={(time) =>
-                            updateJobDoneTime(jobDone, getValidatedTime(Number(time)))}
-                          className={styles.editableTime}
-                          isEditable={isUserOwnerOrMentor}
-                        />
-                      </Tooltip>
-                      {isUserOwnerOrMentor &&
-                      <Tooltip
-                        position={PositionTooltip.BOTTOM}
-                        content="Delete jobDone"
-                      >
-                        <Confirm
-                          trigger={<TrashIcon className={styles.icon} />}
-                          content={<p>
-                            {`Are you sure you want to delete the jobDone "${jobDone.description}"?`}
-                          </p>}
-                          onOk={() => deleteJobDone(jobDone.uuid)}
-                          okText="Delete"
-                        />
-                      </Tooltip>
-                      }
-                    </HorizontalContainer>
-                  </HorizontalContainer>
-                  <EditableTextarea
-                    text={jobDone.description}
-                    onChangeFinish={(text) => updateJobDone(jobDone, text)}
-                    isEditable={isUserOwnerOrMentor}
-                    className={styles.editableTextarea}
-                  />
-                </li>
-              ))}
-            </ol>
-            <div className={styles.summarySection}>
-              {isUserOwnerOrMentor &&
-              <Tooltip
-                content="Add job"
-                position={PositionTooltip.RIGHT}
-              >
-                <Button
-                  value={
-                    <Icon
-                      size={IconSize.SMALL}
-                      name="PlusIcon"
-                    />
-                  }
-                  onClick={createJobDone}
-                  className={styles.flatButton}
-                />
-              </Tooltip>
-              }
-              <div className={styles.summaryText}>
-                {"Total: "}
-                {row.original.jobsDone
-                  .reduce((summaryTime, jobDone) => jobDone.time + summaryTime, DEFAULT_SUMMARY_TIME)
-                }
-              </div>
-            </div>
-          </VerticalContainer>
-        );
-      },
+      cell: ({row}) => (
+        <ReportsTableJobsDoneCell
+          dayReport={row.original}
+          isEditable={isUserOwnerOrMentor}
+          jobTags={props.way.jobTags}
+          updateDayReport={updateReport}
+        />
+      ),
     }),
     columnHelper.accessor("plans", {
 
@@ -370,287 +188,17 @@ export const Columns = (props: ColumnsProps) => {
       /**
        * Cell with Plan items
        */
-      cell: ({row}) => {
-
-        /**
-         * Create Plan
-         */
-        const createPlan = (userUuid: string) => {
-          const defaultTag = props.way.jobTags.find((jobTag) => jobTag.name === "no tag");
-          if (!defaultTag) {
-            throw new Error("Default tag is not exist");
-          }
-
-          const plan: Plan = new Plan({
-            job: "",
-            ownerUuid: userUuid,
-            uuid: uuidv4(),
-            tags: [defaultTag],
-            estimationTime: 0,
-            isDone: false,
-            createdAt: new Date().getTime(),
-            updatedAt: new Date().getTime(),
-          });
-          const plans = [...row.original.plans, plan];
-
-          updateReport({uuid: row.original.uuid, plans});
-        };
-
-        /**
-         * Delete plan
-         */
-        const deletePlan = (planUuid: string) => {
-          const plans = row.original.plans.filter((plan) => plan.uuid !== planUuid);
-
-          updateReport({uuid: row.original.uuid, plans});
-        };
-
-        /**
-         * Copy plan to job done on current date
-         * TODO: add check date
-         */
-        const copyToJobDone = async (plan: Plan, report: DayReport) => {
-          const jobDone: JobDone = new JobDone({
-            description: plan.job,
-            time: plan.estimationTime,
-            uuid: uuidv4(),
-            tags: plan.tags,
-          });
-
-          const jobsDone = [...report.jobsDone, jobDone];
-
-          await updateReport({uuid: report.uuid, jobsDone});
-        };
-
-        /**
-         * Update plan status
-         */
-        const updatePlan = async (planToUpdate: Plan) => {
-          const plans = [
-            ...row.original.plans.map((plan) => {
-              return plan.uuid === planToUpdate.uuid
-                ? planToUpdate
-                : plan;
-            }),
-          ];
-
-          await updateReport({uuid: row.original.uuid, plans});
-        };
-
-        /**
-         * Toggle plan done
-         */
-        const copyPlanToJobInCurrentDayReport = async (plan: Plan) => {
-          const currentDate = DateUtils.getShortISODateValue(new Date);
-          const isCurrentDayReportExist =
-            DateUtils.getShortISODateValue(props.way.dayReports[0].createdAt) === currentDate;
-
-          const currentDayReport = !isCurrentDayReportExist
-            ? await props.createDayReport(props.way.uuid, props.way.dayReports)
-            : props.way.dayReports[0];
-
-          await copyToJobDone(plan, currentDayReport);
-        };
-
-        return (
-          <VerticalContainer className={styles.list}>
-            <ol className={styles.numberedList}>
-              {row.original.plans.map((plan, index) => (
-                <li
-                  key={plan.uuid}
-                  className={styles.numberedListItem}
-                >
-                  <HorizontalContainer className={styles.horizontalContainer}>
-                    <HorizontalContainer className={styles.listNumberAndName}>
-                      {getListNumberByIndex(index)}
-                      <Link path={pages.user.getPath({uuid: plan.ownerUuid})}>
-                        {getName(props.way, plan.ownerUuid)}
-                      </Link>
-                    </HorizontalContainer>
-                    <HorizontalContainer className={styles.icons}>
-                      {isUserOwnerOrMentor ?
-                        <Modal
-                          trigger={
-                            <div className={styles.tagsBlockTrigger}>
-                              <JobDoneTags jobDoneTags={plan.tags} />
-                            </div>
-                          }
-                          content={
-                            <ModalContentJobTags
-                              jobTags={props.way.jobTags}
-                              jobDoneTags={plan.tags}
-                              isEditable={isUserOwnerOrMentor}
-                              updateTags={(tagsToUpdate: JobTag[]) => updateReport({
-                                ...row.original,
-                                plans: row.original.plans?.map(previousPlan => previousPlan.uuid === plan.uuid
-                                  ? {...previousPlan, tags: tagsToUpdate}
-                                  : previousPlan),
-                              })}
-                            />
-                          }
-                        />
-                        : <JobDoneTags jobDoneTags={plan.tags} />
-                      }
-                      <Tooltip
-                        position={PositionTooltip.BOTTOM}
-                        content={`Estimated${Symbols.NO_BREAK_SPACE}time for the plan`}
-                      >
-                        <EditableValue
-                          value={plan.estimationTime}
-                          type="number"
-                          max={MAX_TIME}
-                          onChangeFinish={(estimationTime) => {
-                            const updatedPlan = new Plan({
-                              ...plan,
-                              estimationTime: getValidatedTime(Number(estimationTime)),
-                            });
-                            updatePlan(updatedPlan);
-                          }}
-                          className={styles.editableTime}
-                          isEditable={plan.ownerUuid === user?.uuid}
-                        />
-                      </Tooltip>
-                      {isUserOwnerOrMentor &&
-                      <Tooltip
-                        content={`Click${Symbols.NO_BREAK_SPACE}to${Symbols.NO_BREAK_SPACE}mark the plan as completed.
-                              Coming soon`}
-                        position={PositionTooltip.RIGHT}
-                      >
-                        <Modal
-                          trigger={
-                            <Checkbox
-                              isEditable={!plan.isDone}
-                              isDefaultChecked={plan.isDone}
-                              onChange={() => {}}
-                              className={styles.checkbox}
-                            />
-                          }
-                          content={plan.isDone
-                            ? (
-                              <div>
-                                {`Are you sure you want to mark the plan "${plan.job}" as unfulfilled?`}
-                                <DialogClose asChild>
-                                  <Button
-                                    value="Cancel"
-                                    onClick={() => {}}
-                                  />
-                                </DialogClose>
-                                <DialogClose asChild>
-                                  <Button
-                                    value="Ok"
-                                    onClick={() => {
-                                      const toggledPlan: Plan = new Plan({
-                                        ...plan,
-                                        isDone: !plan.isDone,
-                                      });
-                                      updatePlan(toggledPlan);
-                                    }}
-                                  />
-                                </DialogClose>
-
-                              </div>
-                            )
-                            : (
-                              <div>
-                                {`Are you sure you want to copy the plan "${plan.job}" to jobs done?`}
-                                <DialogClose asChild>
-                                  <Button
-                                    value="Cancel"
-                                    onClick={() => {
-                                      const toggledPlan: Plan = new Plan({
-                                        ...plan,
-                                        isDone: !plan.isDone,
-                                      });
-                                      updatePlan(toggledPlan);
-                                    }}
-
-                                  />
-                                </DialogClose>
-                                <DialogClose asChild>
-                                  <Button
-                                    value="Copy to jobs done"
-                                    onClick={() => {
-                                      const toggledPlan: Plan = new Plan({
-                                        ...plan,
-                                        isDone: !plan.isDone,
-                                      });
-                                      updatePlan(toggledPlan);
-                                      copyPlanToJobInCurrentDayReport(toggledPlan);
-                                    }}
-                                  />
-                                </DialogClose>
-                              </div>
-
-                            )
-                          }
-                        />
-
-                      </Tooltip>
-                      }
-                      {plan.ownerUuid === user?.uuid &&
-                      <Tooltip
-                        content="Delete plan"
-                        position={PositionTooltip.BOTTOM}
-                      >
-                        <Confirm
-                          trigger={<TrashIcon className={styles.icon} />}
-                          content={<p>
-                            {`Are you sure you want to delete the plan "${plan.job}"?`}
-                          </p>}
-                          onOk={() => deletePlan(plan.uuid)}
-                          okText="Delete"
-                        />
-                      </Tooltip>
-                      }
-                    </HorizontalContainer>
-                  </HorizontalContainer>
-                  <HorizontalContainer>
-                    <EditableTextarea
-                      text={plan.job}
-                      onChangeFinish={(text) => {
-                        const updatedPlan = new Plan({
-                          ...plan,
-                          job: text,
-                        });
-                        updatePlan(updatedPlan);
-                      }}
-                      isEditable={plan.ownerUuid === user?.uuid}
-                      className={styles.editableTextarea}
-                    />
-                  </HorizontalContainer>
-                </li>
-              ))}
-            </ol>
-            <div className={styles.summarySection}>
-              <div className={styles.wrap}>
-                {isUserOwnerOrMentor &&
-                <Tooltip
-                  content="Add plan"
-                  position={PositionTooltip.RIGHT}
-                >
-                  <Button
-                    value={
-                      <Icon
-                        size={IconSize.SMALL}
-                        name="PlusIcon"
-                      />
-                    }
-                    onClick={() => createPlan(user.uuid)}
-                    className={styles.flatButton}
-                  />
-                </Tooltip>
-                }
-              </div>
-              <div className={styles.summaryText}>
-                {"Total: "}
-                {row.original.plans
-                  .reduce((summaryTime, plan) => plan.estimationTime + summaryTime, DEFAULT_SUMMARY_TIME)
-                }
-              </div>
-            </div>
-          </VerticalContainer>
-        );
-      },
+      cell: ({row}) => (
+        <ReportsTablePlansCell
+          dayReport={row.original}
+          isEditable={isUserOwnerOrMentor}
+          jobTags={props.way.jobTags}
+          updateDayReport={updateReport}
+          way={props.way}
+          createDayReport={props.createDayReport}
+          user={user}
+        />
+      ),
     }),
     columnHelper.accessor("problems", {
 
@@ -669,128 +217,15 @@ export const Columns = (props: ColumnsProps) => {
       /**
        * Cell with Problems items
        */
-      cell: ({row}) => {
-
-        /**
-         * Create Problem
-         */
-        const createProblem = (userUuid: string) => {
-          const problem: Problem = new Problem({
-            description: "",
-            ownerUuid: userUuid,
-            isDone: false,
-            uuid: uuidv4(),
-            tags: [],
-          });
-          const problems = [...row.original.problems, problem];
-
-          updateReport({uuid: row.original.uuid, problems});
-        };
-
-        /**
-         * Delete Problem
-         */
-        const deleteProblem = (problemUuid: string) => {
-          updateReport({
-            uuid: row.original.uuid,
-            problems: row.original.problems.filter((problem) => problem.uuid !== problemUuid),
-          });
-        };
-
-        /**
-         * Update Problem
-         */
-        const updateProblem = (problem: Problem, text: string) => {
-          const updatedProblems = row.original.problems.map((item) => {
-            const itemToReturn = item.uuid === problem.uuid
-              ? new Problem({
-                ...problem,
-                description: text,
-              })
-              : item;
-
-            return itemToReturn;
-          });
-
-          updateReport({uuid: row.original.uuid, problems: updatedProblems});
-        };
-
-        return (
-          <VerticalContainer className={styles.list}>
-            <ol className={styles.numberedList}>
-              {row.original.problems.map((problem, index) => (
-                <li
-                  key={problem.uuid}
-                  className={styles.numberedListItem}
-                >
-                  <HorizontalContainer className={styles.horizontalContainer}>
-                    <HorizontalContainer className={styles.listNumberAndName}>
-                      {getListNumberByIndex(index)}
-                      <Link path={pages.user.getPath({uuid: problem.ownerUuid})}>
-                        {getName(props.way, problem.ownerUuid)}
-                      </Link>
-                    </HorizontalContainer>
-                    <HorizontalContainer className={styles.icons}>
-                      {isUserOwnerOrMentor &&
-                      <Tooltip
-                        position={PositionTooltip.RIGHT}
-                        content={`Click${Symbols.NO_BREAK_SPACE}to${Symbols.NO_BREAK_SPACE}mark
-                            the problem as completed. Coming soon`}
-                      >
-                        <Checkbox
-                          onChange={() => {}}
-                          className={styles.checkbox}
-                        />
-                      </Tooltip>
-                      }
-                      {problem.ownerUuid === user?.uuid &&
-                      <Tooltip
-                        content="Delete problem"
-                        position={PositionTooltip.BOTTOM}
-                      >
-                        <Confirm
-                          trigger={<TrashIcon className={styles.icon} />}
-                          content={<p>
-                            {`Are you sure you want to delete the problem "${problem.description}"?`}
-                          </p>}
-                          onOk={() => deleteProblem(problem.uuid)}
-                          okText="Delete"
-                        />
-                      </Tooltip>
-                      }
-                    </HorizontalContainer>
-                  </HorizontalContainer>
-                  <EditableTextarea
-                    text={problem.description}
-                    onChangeFinish={(text) => updateProblem(problem, text)}
-                    isEditable={problem.ownerUuid === user?.uuid}
-                    className={styles.editableTextarea}
-                  />
-                </li>
-              ))}
-            </ol>
-            <div className={styles.summarySection}>
-              {isUserOwnerOrMentor &&
-              <Tooltip
-                content="Add problem"
-                position={PositionTooltip.RIGHT}
-              >
-                <Button
-                  value={
-                    <Icon
-                      size={IconSize.SMALL}
-                      name="PlusIcon"
-                    />
-                  }
-                  onClick={() => createProblem(user.uuid)}
-                  className={styles.flatButton}
-                />
-              </Tooltip>
-              }
-            </div>
-          </VerticalContainer>
-        );
-      },
+      cell: ({row}) => (
+        <ReportsTableProblemsCell
+          dayReport={row.original}
+          isEditable={isUserOwnerOrMentor}
+          updateDayReport={updateReport}
+          way={props.way}
+          user={user}
+        />
+      ),
     }),
     columnHelper.accessor("comments", {
 
@@ -809,117 +244,15 @@ export const Columns = (props: ColumnsProps) => {
       /**
        * Cell with Comments items
        */
-      cell: ({row}) => {
-
-        /**
-         * Create Comment
-         */
-        const createComment = (commentatorUuid: string) => {
-          const comment: Comment = new Comment({
-            description: "",
-            ownerUuid: commentatorUuid,
-            isDone: false,
-            uuid: uuidv4(),
-          });
-          const comments = [...row.original.comments, comment];
-
-          updateReport({uuid: row.original.uuid, comments});
-        };
-
-        /**
-         * Delete Comment
-         */
-        const deleteComment = (commentUuid: string) => {
-          updateReport({
-            uuid: row.original.uuid,
-            comments: row.original.comments.filter((comment) => comment.uuid !== commentUuid),
-          });
-        };
-
-        /**
-         * Update Comment
-         */
-        const updateComment = (comment: Comment, text: string) => {
-          const updatedComments = row.original.comments.map((item) => {
-            const itemToReturn = item.uuid === comment.uuid
-              ? new Comment({
-                ...comment,
-                description: text,
-              })
-              : item;
-
-            return itemToReturn;
-          });
-
-          updateReport({uuid: row.original.uuid, comments: updatedComments});
-        };
-
-        return (
-          <VerticalContainer className={styles.list}>
-            <ol className={styles.numberedList}>
-              {row.original.comments
-                .map((comment, index) => (
-                  <li
-                    key={comment.uuid}
-                    className={styles.numberedListItem}
-                  >
-                    <HorizontalContainer className={styles.horizontalContainer}>
-                      <HorizontalContainer className={styles.listNumberAndName}>
-                        {getListNumberByIndex(index)}
-                        <Link path={pages.user.getPath({uuid: comment.ownerUuid})}>
-                          {getName(props.way, comment.ownerUuid)}
-                        </Link>
-                      </HorizontalContainer>
-                      {comment.ownerUuid === user?.uuid &&
-                        <Tooltip
-                          content="Delete comment"
-                          position={PositionTooltip.LEFT}
-                        >
-                          <Confirm
-                            trigger={<TrashIcon className={styles.icon} />}
-                            content={<p>
-                              {`Are you sure you want to delete the comment "${comment.description}"?`}
-                            </p>}
-                            onOk={() => deleteComment(comment.uuid)}
-                            okText="Delete"
-                          />
-                        </Tooltip>
-                      }
-                    </HorizontalContainer>
-                    <HorizontalContainer>
-                      <EditableTextarea
-                        text={comment.description}
-                        onChangeFinish={(text) => updateComment(comment, text)}
-                        isEditable={comment.ownerUuid === user?.uuid}
-                        className={styles.editableTextarea}
-                      />
-                    </HorizontalContainer>
-                  </li>
-                ),
-                )}
-            </ol>
-            <div className={styles.summarySection}>
-              {isUserOwnerOrMentor &&
-              <Tooltip
-                position={PositionTooltip.LEFT}
-                content="Add comment"
-              >
-                <Button
-                  value={
-                    <Icon
-                      size={IconSize.SMALL}
-                      name="PlusIcon"
-                    />
-                  }
-                  onClick={() => createComment(user.uuid)}
-                  className={styles.flatButton}
-                />
-              </Tooltip>
-              }
-            </div>
-          </VerticalContainer>
-        );
-      },
+      cell: ({row}) => (
+        <ReportsTableCommentsCell
+          dayReport={row.original}
+          isEditable={isUserOwnerOrMentor}
+          updateDayReport={updateReport}
+          way={props.way}
+          user={user}
+        />
+      ),
     }),
   ];
 
