@@ -1,0 +1,52 @@
+{
+    "filterBlock": {
+        "emailPlaceholder": {
+            "ru": "Искать по певым буквам из email",
+            "en": "Search by first letters in email"
+        },
+        "cardViewTooltip": {
+            "ru": "Отображение карточками",
+            "en": "Switch to card view"
+        },
+        "tableViewTooltip": {
+            "ru": "Отображение таблицей",
+            "en": "Switch to table view"
+        }
+    },
+    "usersTable": {
+        "leftTitle": {
+            "ru": "Пользователи",
+            "en": "Users"
+        },
+        "rightTitle": {
+            "ru": "Всего",
+            "en": "Total found"
+        },
+        "column": {
+            "name": {
+                "ru": "Пользователи",
+                "en": "Users"
+            },
+            "email": {
+                "ru": "Контакт",
+                "en": "Contact"
+            },
+            "ownWays": {
+                "ru": "Собственные пути",
+                "en": "Own ways"
+            },
+            "favoriteWays": {
+                "ru": "Любимые пути",
+                "en": "Favorite ways"
+            },
+            "mentoringWays": {
+                "ru": "Ментор",
+                "en": "Mentoring ways"
+            }
+        },
+        "loadMoreButton": {
+            "ru": "Показать еще",
+            "en": "Load more"
+        }
+    }
+}

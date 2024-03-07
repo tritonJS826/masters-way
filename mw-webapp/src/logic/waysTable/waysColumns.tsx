@@ -6,15 +6,14 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {getWayStatus} from "src/logic/waysTable/wayStatus";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
+import {LanguageService} from "src/service/LangauageService";
 import {DateUtils} from "src/utils/DateUtils";
+import {Language} from "src/utils/LanguageWorker";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import {Symbols} from "src/utils/Symbols";
 import styles from "src/logic/waysTable/columns.module.scss";
 
 export const columnHelper = createColumnHelper<WayPreview>();
-
-export const WAYS_OWNER = "Way's owner";
-export const WAY_MENTORS = "Mentors";
 
 /**
  * Get first name from username
@@ -27,7 +26,7 @@ export const getFirstName = (userName: string) => {
  * Table columns
  * Don't get rid of any https://github.com/TanStack/table/issues/4382
  */
-export const waysColumns = [
+export const getWaysColumns = (language: Language) => [
   columnHelper.accessor("createdAt", {
 
     /**
@@ -36,9 +35,9 @@ export const waysColumns = [
     header: () => (<>
       <Tooltip
         position={PositionTooltip.TOP}
-        content="Date, when way was created"
+        content={LanguageService.allWays.waysTable.columnTooltip.createdAt[language]}
       >
-        Created at
+        {LanguageService.allWays.waysTable.columns.createdAt[language]}
       </Tooltip>
     </>),
 
@@ -59,10 +58,10 @@ export const waysColumns = [
     header: () => (<>
       <Tooltip
         position={PositionTooltip.TOP}
-        content="Date when the last Day Report was created"
+        content={LanguageService.allWays.waysTable.columnTooltip.lastUpdate[language]}
         className={styles.tooltipFixed}
       >
-        Last update
+        {LanguageService.allWays.waysTable.columns.lastUpdate[language]}
       </Tooltip>
     </>),
 
@@ -83,9 +82,9 @@ export const waysColumns = [
     header: () => (
       <Tooltip
         position={PositionTooltip.TOP}
-        content="The path is abandoned if it is not completed, but has not been edited in the last 14 days"
+        content={LanguageService.allWays.waysTable.columnTooltip.status[language]}
       >
-        Status
+        {LanguageService.allWays.waysTable.columns.status[language]}
       </Tooltip>
     ),
 
@@ -96,6 +95,7 @@ export const waysColumns = [
       const wayStatus = getWayStatus({
         status: row.original.status,
         lastUpdate: row.original.lastUpdate,
+        language,
       });
 
       return (
@@ -113,9 +113,9 @@ export const waysColumns = [
     header: () => (
       <Tooltip
         position={PositionTooltip.TOP}
-        content="Way's name and goal"
+        content={LanguageService.allWays.waysTable.columnTooltip.way[language]}
       >
-        Way
+        {LanguageService.allWays.waysTable.columns.way[language]}
       </Tooltip>
     ),
 
@@ -143,9 +143,9 @@ export const waysColumns = [
     header: () => (<>
       <Tooltip
         position={PositionTooltip.TOP}
-        content="Owner's name and email"
+        content={LanguageService.allWays.waysTable.columnTooltip.owner[language]}
       >
-        {WAYS_OWNER}
+        {LanguageService.allWays.waysTable.columns.owner[language]}
       </Tooltip>
     </>
     ),
@@ -172,9 +172,9 @@ export const waysColumns = [
     header: () => (
       <Tooltip
         position={PositionTooltip.TOP}
-        content="Links to way's mentors"
+        content={LanguageService.allWays.waysTable.columnTooltip.mentor[language]}
       >
-        {WAY_MENTORS}
+        {LanguageService.allWays.waysTable.columns.mentor[language]}
       </Tooltip>
     ),
 
@@ -208,9 +208,9 @@ export const waysColumns = [
       <>
         <Tooltip
           position={PositionTooltip.TOP_LEFT}
-          content="Amount of reports in the way"
+          content={LanguageService.allWays.waysTable.columnTooltip.reports[language]}
         >
-          Reports
+          {LanguageService.allWays.waysTable.columns.reports[language]}
         </Tooltip>
       </>),
 
@@ -232,7 +232,7 @@ export const waysColumns = [
       <>
         <Tooltip
           position={PositionTooltip.TOP_LEFT}
-          content="Amount of favorites"
+          content={LanguageService.allWays.waysTable.columnTooltip.favorites[language]}
         >
           {Symbols.STAR}
         </Tooltip>

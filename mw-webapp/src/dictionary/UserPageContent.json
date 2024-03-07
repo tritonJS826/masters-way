@@ -1,0 +1,62 @@
+{
+    "personalInfo": { 
+        "about": {
+            "ru": "О себе",
+            "en": "About"
+        },
+        "createNewWayButton": {
+                "ru": "Создать новый путь",
+                "en": "Create new way button"
+        }
+    },
+    "collections": {
+        "ownWays": {
+            "ru": "Свои пути",
+            "en": "Own ways"
+        },
+        "mentoringWays": {
+            "ru": "Пути учеников",
+            "en": "Mentoring ways"
+        },
+        "favoriteWays": {
+            "ru": "Любимые пути",
+            "en": "Favorite ways"
+        },
+        "addCollection": {
+            "ru": "Добавить коллекцию",
+            "en": "Add collection"
+        }
+    },
+    "filterBlock": {
+        "type": {
+            "ru": "Статус:",
+            "en": "Status: "
+        },
+        "typeOptions": {
+            "all": {
+                "ru": "Все",
+                "en": "all"
+            },
+            "completed": {
+                "ru": "Завершен",
+                "en": "Completed"
+            },
+            "inProgress": {
+                "ru": "Выполняется",
+                "en": "In progress"
+            },
+            "abandoned": {
+                "ru": "Заброшен",
+                "en": "Abandoned"
+            }
+        },
+        "cardViewTooltip": {
+            "ru": "Отображение карточками",
+            "en": "Switch to card view"
+        },
+        "tableViewTooltip": {
+            "ru": "Отображение таблицей",
+            "en": "Switch to table view"
+        }
+    }
+}

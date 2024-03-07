@@ -1,0 +1,26 @@
+{
+    "title": {
+        "ru": "Настройки",
+        "en": "Язык"
+    },
+    "language": {
+        "ru": "Язык интерфейса",
+        "en": "Language"
+    },
+    "showHint": {
+        "ru": "Показывать подсказки при загрузке приложения",
+        "en": "Show hint on load app"
+    },
+    "subscripbtion": {
+        "ru": "Получать важные уведомления",
+        "en": "Receive important notifications"
+    },
+    "notification": {
+        "ru": "Включить напоминания в 21:00",
+        "en": "Enable notifications at 21:00"
+    },
+    "testNotification": {
+        "ru": "Протестировать уведомление",
+        "en": "Test notification"
+    }
+}

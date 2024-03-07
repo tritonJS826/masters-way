@@ -20,7 +20,7 @@ const SelectTest = () => {
     <Select
       dataCy={SELECT_CY}
       label="Select label"
-      value={value}
+      defaultValue={value}
       name="selectName"
       options={SELECT_OPTIONS}
       onChange={setValue}

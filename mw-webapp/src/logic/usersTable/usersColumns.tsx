@@ -2,6 +2,8 @@ import {createColumnHelper} from "@tanstack/react-table";
 import {Link} from "src/component/link/Link";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {pages} from "src/router/pages";
+import {LanguageService} from "src/service/LangauageService";
+import {Language} from "src/utils/LanguageWorker";
 import styles from "src/logic/usersTable/UserColumns.module.scss";
 
 const columnHelper = createColumnHelper<UserPreview>();
@@ -10,9 +12,9 @@ const columnHelper = createColumnHelper<UserPreview>();
  * Table columns
  * Don't get rid of any https://github.com/TanStack/table/issues/4382
  */
-export const usersColumns = [
+export const getUsersColumns = (language: Language) => [
   columnHelper.accessor("name", {
-    header: "Name",
+    header: LanguageService.allUsers.usersTable.column.name[language],
 
     /**
      * Cell with clickable username that leads to user page
@@ -24,7 +26,7 @@ export const usersColumns = [
     ),
   }),
   columnHelper.accessor("email", {
-    header: "Email",
+    header: LanguageService.allUsers.usersTable.column.email[language],
 
     /**
      * Cell user email
@@ -36,7 +38,7 @@ export const usersColumns = [
     ),
   }),
   columnHelper.accessor("ownWays", {
-    header: "Own Ways",
+    header: LanguageService.allUsers.usersTable.column.ownWays[language],
 
     /**
      * Cell with user's own ways
@@ -48,7 +50,7 @@ export const usersColumns = [
     ),
   }),
   columnHelper.accessor("favoriteWays", {
-    header: "Favorite Ways",
+    header: LanguageService.allUsers.usersTable.column.favoriteWays[language],
 
     /**
      * Cell with user's favorite ways
@@ -61,7 +63,7 @@ export const usersColumns = [
     ),
   }),
   columnHelper.accessor("mentoringWays", {
-    header: "Mentoring Ways",
+    header: LanguageService.allUsers.usersTable.column.mentoringWays[language],
 
     /**
      * Cell with user's mentoring ways

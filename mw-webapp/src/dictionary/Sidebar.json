@@ -1,0 +1,22 @@
+{
+    "allWays": {
+        "ru": "Все пути",
+        "en": "All ways"
+    },
+    "allUsers": {
+        "ru": "Пользователи",
+        "en": "All users"
+    },
+    "myWays": {
+        "ru": "Личный кабинет",
+        "en": "Personal area"
+    },
+    "settings": {
+        "ru": "Настройки",
+        "en": "Settings"
+    },
+    "about": {
+        "ru": "О нашем проекте",
+        "en": "About our project"
+    }
+}

@@ -1,0 +1,25 @@
+{
+    "themeTooltip": {
+        "dark": {
+            "ru": "Переключиться на темную тему",
+            "en": "Switch to dark theme"
+        },
+        "light": {
+            "ru": "Переключиться на светлую тему",
+            "en": "Switch to light theme"
+
+        }
+    },
+    "logoutButton": {
+        "ru": "Выйти",
+        "en": "Logout"    
+    },
+    "loginButton": {
+        "ru": "Войти",
+        "en": "Login"    
+    },
+    "menu": {
+        "ru": "Меню",
+        "en": "Menu"    
+    }
+}
