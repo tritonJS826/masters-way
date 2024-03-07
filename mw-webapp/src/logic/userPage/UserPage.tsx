@@ -400,6 +400,7 @@ export const UserPage = (props: UserPageProps) => {
             content={
               <PromptModalContent
                 defaultValue={currentCollection.name}
+                placeholder="Collection name"
                 close={() => setIsRenameCollectionModalOpen(false)}
                 onOk={(name: string) => updateCustomWayCollection({id: openedTabId, name})}
               />

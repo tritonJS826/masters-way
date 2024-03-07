@@ -1,3 +1,4 @@
+import {Close as DialogClose} from "@radix-ui/react-dialog";
 import {TrashIcon} from "@radix-ui/react-icons";
 import {createColumnHelper} from "@tanstack/react-table";
 import {clsx} from "clsx";
@@ -93,12 +94,17 @@ interface ColumnsProps {
   /**
    * Callback that change dayReports
    */
-  setDayReports: (dayReports: DayReport[]) => void;
+  setDayReports: (dayReports: DayReport[] | ((prevDayReports: DayReport[]) => DayReport[])) => void;
 
   /**
    * Way
    */
   way: Way;
+
+  /**
+   * Create new day report
+   */
+  createDayReport: (wayUuid: string, dayReportUuids: DayReport[]) => Promise<DayReport>;
 }
 
 /**
@@ -116,19 +122,23 @@ export const Columns = (props: ColumnsProps) => {
    * Update DayReport
    */
   const updateReport = async (report: PartialWithUuid<DayReport>) => {
-    const reportToUpdate = props.way.dayReports.find(dayReport => dayReport.uuid === report.uuid);
-    if (!reportToUpdate) {
-      throw new Error(`Report with uuid ${report.uuid} is undefined`);
-    }
+    props.setDayReports((prevDayReports: DayReport[]) => {
+      const reportToUpdate = prevDayReports.find(dayReport => dayReport.uuid === report.uuid);
+      if (!reportToUpdate) {
+        throw new Error(`Report with uuid ${report.uuid} is undefined`);
+      }
 
-    const updatedReport = new DayReport({...reportToUpdate, ...report});
-    const updatedDayReports = props.way.dayReports.map(dayReport => dayReport.uuid === report.uuid
-      ? updatedReport
-      : dayReport,
-    );
+      const updatedReport = new DayReport({...reportToUpdate, ...report});
+      const updatedDayReports = prevDayReports.map(dayReport => dayReport.uuid === report.uuid
+        ? updatedReport
+        : dayReport,
+      );
 
-    props.setDayReports(updatedDayReports);
-    await DayReportDAL.updateDayReport(updatedReport);
+      // TODO await
+      DayReportDAL.updateDayReport(updatedReport);
+
+      return updatedDayReports;
+    });
   };
 
   const columns = [
@@ -377,6 +387,9 @@ export const Columns = (props: ColumnsProps) => {
             uuid: uuidv4(),
             tags: [defaultTag],
             estimationTime: 0,
+            isDone: false,
+            createdAt: new Date().getTime(),
+            updatedAt: new Date().getTime(),
           });
           const plans = [...row.original.plans, plan];
 
@@ -393,39 +406,50 @@ export const Columns = (props: ColumnsProps) => {
         };
 
         /**
-         * Update Plan
+         * Copy plan to job done on current date
+         * TODO: add check date
          */
-        const updatePlan = (plan: Plan, text: string) => {
-          const updatedPlans = row.original.plans.map((item) => {
-            const itemToReturn = item.uuid === plan.uuid
-              ? new Plan({
-                ...plan,
-                job: text,
-              })
-              : item;
-
-            return itemToReturn;
+        const copyToJobDone = async (plan: Plan, report: DayReport) => {
+          const jobDone: JobDone = new JobDone({
+            description: plan.job,
+            time: plan.estimationTime,
+            uuid: uuidv4(),
+            tags: plan.tags,
           });
 
-          updateReport({uuid: row.original.uuid, plans: updatedPlans});
+          const jobsDone = [...report.jobsDone, jobDone];
+
+          await updateReport({uuid: report.uuid, jobsDone});
         };
 
         /**
-         * Update Plan time
+         * Update plan status
          */
-        const updatePlanTime = (plan: Plan, estimationTime: number) => {
-          const updatedPlans = row.original.plans.map((item) => {
-            const itemToReturn = item.uuid === plan.uuid
-              ? new Plan({
-                ...plan,
-                estimationTime,
-              })
-              : item;
+        const updatePlan = async (planToUpdate: Plan) => {
+          const plans = [
+            ...row.original.plans.map((plan) => {
+              return plan.uuid === planToUpdate.uuid
+                ? planToUpdate
+                : plan;
+            }),
+          ];
 
-            return itemToReturn;
-          });
+          await updateReport({uuid: row.original.uuid, plans});
+        };
 
-          updateReport({uuid: row.original.uuid, plans: updatedPlans});
+        /**
+         * Toggle plan done
+         */
+        const copyPlanToJobInCurrentDayReport = async (plan: Plan) => {
+          const currentDate = DateUtils.getShortISODateValue(new Date);
+          const isCurrentDayReportExist =
+            DateUtils.getShortISODateValue(props.way.dayReports[0].createdAt) === currentDate;
+
+          const currentDayReport = !isCurrentDayReportExist
+            ? await props.createDayReport(props.way.uuid, props.way.dayReports)
+            : props.way.dayReports[0];
+
+          await copyToJobDone(plan, currentDayReport);
         };
 
         return (
@@ -475,7 +499,13 @@ export const Columns = (props: ColumnsProps) => {
                           value={plan.estimationTime}
                           type="number"
                           max={MAX_TIME}
-                          onChangeFinish={(estimationTime) => updatePlanTime(plan, getValidatedTime(Number(estimationTime)))}
+                          onChangeFinish={(estimationTime) => {
+                            const updatedPlan = new Plan({
+                              ...plan,
+                              estimationTime: getValidatedTime(Number(estimationTime)),
+                            });
+                            updatePlan(updatedPlan);
+                          }}
                           className={styles.editableTime}
                           isEditable={plan.ownerUuid === user?.uuid}
                         />
@@ -486,10 +516,75 @@ export const Columns = (props: ColumnsProps) => {
                               Coming soon`}
                         position={PositionTooltip.RIGHT}
                       >
-                        <Checkbox
-                          onChange={() => {}}
-                          className={styles.checkbox}
+                        <Modal
+                          trigger={
+                            <Checkbox
+                              isEditable={!plan.isDone}
+                              isDefaultChecked={plan.isDone}
+                              onChange={() => {}}
+                              className={styles.checkbox}
+                            />
+                          }
+                          content={plan.isDone
+                            ? (
+                              <div>
+                                {`Are you sure you want to mark the plan "${plan.job}" as unfulfilled?`}
+                                <DialogClose asChild>
+                                  <Button
+                                    value="Cancel"
+                                    onClick={() => {}}
+                                  />
+                                </DialogClose>
+                                <DialogClose asChild>
+                                  <Button
+                                    value="Ok"
+                                    onClick={() => {
+                                      const toggledPlan: Plan = new Plan({
+                                        ...plan,
+                                        isDone: !plan.isDone,
+                                      });
+                                      updatePlan(toggledPlan);
+                                    }}
+                                  />
+                                </DialogClose>
+
+                              </div>
+                            )
+                            : (
+                              <div>
+                                {`Are you sure you want to copy the plan "${plan.job}" to jobs done?`}
+                                <DialogClose asChild>
+                                  <Button
+                                    value="Cancel"
+                                    onClick={() => {
+                                      const toggledPlan: Plan = new Plan({
+                                        ...plan,
+                                        isDone: !plan.isDone,
+                                      });
+                                      updatePlan(toggledPlan);
+                                    }}
+
+                                  />
+                                </DialogClose>
+                                <DialogClose asChild>
+                                  <Button
+                                    value="Copy to jobs done"
+                                    onClick={() => {
+                                      const toggledPlan: Plan = new Plan({
+                                        ...plan,
+                                        isDone: !plan.isDone,
+                                      });
+                                      updatePlan(toggledPlan);
+                                      copyPlanToJobInCurrentDayReport(toggledPlan);
+                                    }}
+                                  />
+                                </DialogClose>
+                              </div>
+
+                            )
+                          }
                         />
+
                       </Tooltip>
                       }
                       {plan.ownerUuid === user?.uuid &&
@@ -512,7 +607,13 @@ export const Columns = (props: ColumnsProps) => {
                   <HorizontalContainer>
                     <EditableTextarea
                       text={plan.job}
-                      onChangeFinish={(text) => updatePlan(plan, text)}
+                      onChangeFinish={(text) => {
+                        const updatedPlan = new Plan({
+                          ...plan,
+                          job: text,
+                        });
+                        updatePlan(updatedPlan);
+                      }}
                       isEditable={plan.ownerUuid === user?.uuid}
                       className={styles.editableTextarea}
                     />

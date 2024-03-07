@@ -205,9 +205,24 @@ export const WayPage = (props: WayPageProps) => {
   /**
    * Update day reports
    */
-  const setDayReports = (dayReports: DayReport[]) => {
-    const updatedWay = {...way, dayReports};
-    setWay(updatedWay);
+  const setDayReports = (dayReports: DayReport[] | ((prevDayReports: DayReport[]) => DayReport[])): void => {
+    // TODO if statement exist because of pretend to set state functions
+    if (typeof dayReports === "function") {
+      setWay((prevWay) => {
+        if (!prevWay) {
+          return prevWay;
+        }
+        const updatedWay = new Way({
+          ...prevWay,
+          dayReports: dayReports(prevWay.dayReports),
+        });
+
+        return updatedWay;
+      });
+    } else {
+      const updatedWay = new Way({...way, dayReports});
+      setWay(updatedWay);
+    }
   };
 
   const renderDeleteWayDropdownItem = (
@@ -324,11 +339,12 @@ export const WayPage = (props: WayPageProps) => {
   /**
    * Create day report
    */
-  const createDayReport = async (wayUuid: string, dayReportsData: DayReport[]) => {
-    const dayReportUuids = dayReportsData.map((report) => report.uuid);
+  const createDayReport = async (wayUuid: string, dayReports: DayReport[]): Promise<DayReport> => {
+    const dayReportUuids = dayReports.map((report) => report.uuid);
     const newDayReport = await DayReportDAL.createDayReport(wayUuid, dayReportUuids);
-    const dayReportsList = [newDayReport, ...dayReportsData];
-    setDayReports(dayReportsList);
+    setDayReports((prevDayReportsList) => [newDayReport, ...prevDayReportsList]);
+
+    return newDayReport;
   };
 
   return (
@@ -593,7 +609,9 @@ export const WayPage = (props: WayPageProps) => {
             {isPossibleCreateDayReport &&
               <Button
                 value="Create new day report"
-                onClick={() => createDayReport(way.uuid, way.dayReports)}
+                onClick={() => {
+                  createDayReport(way.uuid, way.dayReports);
+                }}
                 buttonType={ButtonType.PRIMARY}
               />
             }
@@ -632,6 +650,7 @@ export const WayPage = (props: WayPageProps) => {
       <DayReportsTable
         way={way}
         setDayReports={setDayReports}
+        createDayReport={createDayReport}
       />
 
     </VerticalContainer>

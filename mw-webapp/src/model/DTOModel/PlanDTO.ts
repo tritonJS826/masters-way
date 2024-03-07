@@ -27,6 +27,21 @@ export const PlanDTOSchema = z.object({
    */
   tags: z.array(z.string()),
 
+  /**
+   * Is plan was done
+   */
+  isDone: z.boolean(),
+
+  /**
+   * Date when plan was created in milliseconds
+   */
+  createdAt: z.number(),
+
+  /**
+   * Date when plan was updated in milliseconds
+   */
+  updatedAt: z.number(),
+
 }).strict();
 
 export const PlansDTOSchema = z.array(PlanDTOSchema);
