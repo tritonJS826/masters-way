@@ -1,0 +1,15 @@
+@import "src/styles/variables";
+
+.inputPlan {
+  flex-wrap: wrap;
+  gap: $gapMedium;
+}
+
+.input {
+  border: 1px solid var(--primaryBorderColor);
+}
+
+.buttons {
+  margin-top: $marginMedium;
+  gap: $gapMedium;
+}

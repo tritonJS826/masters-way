@@ -1,4 +1,3 @@
-import {Close as DialogClose} from "@radix-ui/react-dialog";
 import {TrashIcon} from "@radix-ui/react-icons";
 import {Button} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Сheckbox";
@@ -16,6 +15,8 @@ import {JobDoneTags} from "src/logic/wayPage/reportsTable/jobDoneTags/JobDoneTag
 import {ModalContentJobTags} from "src/logic/wayPage/reportsTable/modalContentJobTags/ModalContentJobTags";
 import {DEFAULT_SUMMARY_TIME, getListNumberByIndex, getName, getValidatedTime, MAX_TIME}
   from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
+import {CopyPlanToJobDoneModalContent} from "src/logic/wayPage/reportsTable/reportsColumns/reportsTablePlansCell/\
+copyPlanToJobDoneModalContent/CopyPlanToJobDoneModalContent";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {Plan} from "src/model/businessModel/Plan";
@@ -37,7 +38,7 @@ interface ReportsTablePlansCellProps {
   /**
    * All jobDone tags in the way
    */
-  jobTags: JobTag[]; // Way.jobsDone
+  jobTags: JobTag[];
 
   /**
    * Day report's uuid for update
@@ -232,63 +233,12 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
                         className={styles.checkbox}
                       />
                     }
-                    content={plan.isDone
-                      ? (
-                        <div>
-                          {`Are you sure you want to mark the plan "${plan.job}" as unfulfilled?`}
-                          <DialogClose asChild>
-                            <Button
-                              value="Cancel"
-                              onClick={() => {}}
-                            />
-                          </DialogClose>
-                          <DialogClose asChild>
-                            <Button
-                              value="Ok"
-                              onClick={() => {
-                                const toggledPlan: Plan = new Plan({
-                                  ...plan,
-                                  isDone: !plan.isDone,
-                                });
-                                updatePlan(toggledPlan);
-                              }}
-                            />
-                          </DialogClose>
-
-                        </div>
-                      )
-                      : (
-                        <div>
-                          {`Are you sure you want to copy the plan "${plan.job}" to jobs done?`}
-                          <DialogClose asChild>
-                            <Button
-                              value="Cancel"
-                              onClick={() => {
-                                const toggledPlan: Plan = new Plan({
-                                  ...plan,
-                                  isDone: !plan.isDone,
-                                });
-                                updatePlan(toggledPlan);
-                              }}
-
-                            />
-                          </DialogClose>
-                          <DialogClose asChild>
-                            <Button
-                              value="Copy to jobs done"
-                              onClick={() => {
-                                const toggledPlan: Plan = new Plan({
-                                  ...plan,
-                                  isDone: !plan.isDone,
-                                });
-                                updatePlan(toggledPlan);
-                                copyPlanToJobInCurrentDayReport(toggledPlan);
-                              }}
-                            />
-                          </DialogClose>
-                        </div>
-
-                      )
+                    content={
+                      <CopyPlanToJobDoneModalContent
+                        copyPlanToJobInCurrentDayReport={copyPlanToJobInCurrentDayReport}
+                        plan={plan}
+                        updatePlan={updatePlan}
+                      />
                     }
                   />
 
