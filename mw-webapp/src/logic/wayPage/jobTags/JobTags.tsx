@@ -101,6 +101,7 @@ export const JobTags = (props: JobTagsProps) => {
           isOpen={isJobDoneModalOpen}
           content={
             <PromptModalContent
+              placeholder="Job tag"
               close={() => setIsJobDoneModalOpen(false)}
               onOk={createJobTag}
             />

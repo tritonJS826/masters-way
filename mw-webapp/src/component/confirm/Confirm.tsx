@@ -37,6 +37,11 @@ interface ConfirmProps {
    */
   okText: string;
 
+  /**
+   * Handle on cancel click
+   */
+  onCancel?: () => void;
+
 }
 
 /**
@@ -61,6 +66,14 @@ export const Confirm = (props: ConfirmProps) => {
   };
 
   /**
+   * ACtion triggered on cancel click
+   */
+  const onCancelClick = () => {
+    props.onCancel && props.onCancel();
+    setIsOpen(false);
+  };
+
+  /**
    * Confirm content
    */
   const renderConfirmContent = () => {
@@ -71,7 +84,7 @@ export const Confirm = (props: ConfirmProps) => {
           <DialogClose asChild>
             <Button
               value="Cancel"
-              onClick={() => setIsOpen(false)}
+              onClick={onCancelClick}
             />
           </DialogClose>
           <DialogClose asChild>
