@@ -7,6 +7,15 @@ import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/component/editableText/EditableText.module.scss";
 
 /**
+ * Get formatted value
+ */
+export const getFormattedValue = (incomingValue: string | number) => {
+  return typeof incomingValue === "number"
+    ? FormatterInputValue.withNoFirstZero(incomingValue)
+    : FormatterInputValue.defaultStringFormatter(incomingValue);
+};
+
+/**
  * Cell item props
  */
 interface EditableTextProps<T> {
@@ -74,15 +83,6 @@ export const EditableValue = <T extends string | number>(props: EditableTextProp
    */
   const updateValue = (updatedValue: string | number) => {
     setValue(updatedValue as T);
-  };
-
-  /**
-   * Get formatted value
-   */
-  const getFormattedValue = (incomingValue: string | number) => {
-    return typeof incomingValue === "number"
-      ? FormatterInputValue.withNoFirstZero(incomingValue)
-      : FormatterInputValue.defaultStringFormatter(incomingValue);
   };
 
   /**

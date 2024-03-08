@@ -1,9 +1,10 @@
 import {useRef, useState} from "react";
 import {Close as DialogClose} from "@radix-ui/react-dialog";
 import {Button} from "src/component/button/Button";
-import {EditableValue} from "src/component/editableText/EditableText";
-import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
+import {getFormattedValue} from "src/component/editableText/EditableText";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {Input} from "src/component/input/Input";
+import {Textarea} from "src/component/textarea/Textarea";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {getValidatedTime, MAX_TIME} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
 import {Plan} from "src/model/businessModel/Plan";
@@ -59,7 +60,10 @@ export const CopyPlanToJobDoneModalContent = (props: CopyPlanToJobDoneModalConte
   return (
     props.plan.isDone
       ? (
-        <div onKeyDown={handleEnter}>
+        <div
+          onKeyDown={handleEnter}
+          className={styles.copyPlanToJobModalContainer}
+        >
           {`Are you sure you want to mark the plan "${props.plan.job}" as unfulfilled?`}
           <HorizontalContainer className={styles.buttons}>
             <DialogClose asChild>
@@ -85,27 +89,32 @@ export const CopyPlanToJobDoneModalContent = (props: CopyPlanToJobDoneModalConte
         </div>
       )
       : (
-        <div onKeyDown={handleEnter}>
+        <div
+          onKeyDown={handleEnter}
+          className={styles.copyPlanToJobModalContainer}
+        >
           {"Are you sure you want to copy the plan to jobs done?"}
           <VerticalContainer className={styles.inputPlan}>
-            <label>
+            <label className={styles.label}>
               {`Description:${Symbols.NO_BREAK_SPACE}`}
             </label>
-            <EditableTextarea
-              text={inputPlanJob}
-              onChangeFinish={setInputPlanJob}
+            <Textarea
+              isAutofocus={true}
+              defaultValue={inputPlanJob}
+              onChange={setInputPlanJob}
               className={styles.input}
             />
           </VerticalContainer>
           <VerticalContainer className={styles.inputPlan}>
-            <label>
+            <label className={styles.label}>
               {`Estimation time:${Symbols.NO_BREAK_SPACE}`}
             </label>
-            <EditableValue
+            <Input
+              formatter={getFormattedValue}
               value={inputPlanTime}
               type="number"
               max={MAX_TIME}
-              onChangeFinish={(time) => setInputPLanTime(getValidatedTime(time))}
+              onChange={(time) => setInputPLanTime(getValidatedTime(Number(time)))}
               className={styles.input}
             />
           </VerticalContainer>

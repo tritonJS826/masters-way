@@ -5,11 +5,23 @@
   gap: $gapMedium;
 }
 
+.label {
+  font-weight: bold;
+}
+
 .input {
+  padding: $paddingSmall;
   border: 1px solid var(--primaryBorderColor);
+  border-radius: $primaryBorderRadius;
 }
 
 .buttons {
   margin-top: $marginMedium;
+  gap: $gapMedium;
+}
+
+.copyPlanToJobModalContainer {
+  display: flex;
+  flex-direction: column;
   gap: $gapMedium;
 }
