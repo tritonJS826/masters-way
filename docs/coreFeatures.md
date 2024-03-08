@@ -60,15 +60,53 @@
 # Core features (round 2)
 
 ## UserPage (default for logged in)
-- [ ] add visual notifications when favorite or mentoring ways changed (or just show last update)
-- [ ] add push notifications when favorite or mentoring ways changed
+- [ ] add system notifications (reminder to fill the way) 
 - [x] add ability to group ways by collections
 - [ ] create/delete composite way - readonly
 
 ## WayPage
+- [x] show progress (and compare percentage of completed tasks, worked time, time period)
+- [ ] Add description which goals should be (SMART) (info block)
+- [ ] Add tags for way
+- [ ] complete plan feature icon (copy to jobDone for today)
+- [x] Possibility to add tags for each JobDone, plan
+- [x] export way to pdf
+- [ ] add to way statistics settings checkboxes for all available way statistic and allow user to adjust what to show
+
+## AllWaysPage (default for not logged in)
+- [ ] AllWaysPage: search/filter panel
+- [x] AllWaysPage: Add status for Way (finished, inProgress, abandoned) (colored?)
+- [x] AllWaysPage: add pagination (think about it)
+- [x] AllWaysPage: request optimization, save users into hashmap and load each user once
+- [x] AllWaysPage: add property Way.lastUpdate for Way (must auto update when click on button add dayReport)
+
+
+## AllUsersPage
+- [ ] AllUsersPage: search/filter panel
+
+## AboutProjectPage
+- [ ] Add basic design
+
+## Additional feature
+- [x] put jobDone, problems etc into report to reduce firebase reads
+- [x] add settings page (language, modal with hints)
+- [x] Investigation with coming soon tooltip (component)
+- [ ] multi language interface
+- [ ] sent feedback (add lambda to netlify)
+- [ ] public/private ways
+- [ ] Achievements (reports amount, no missing days etc.)
+- [ ] migration on own db (postgres)
+
+
+# Next round
+- [ ] attach files, images, videos to records
+- [ ] Make AnalyticalReport (statistic)
+- [ ] Analytics page
+- [ ] Add a page with a tree of ways (chain of goals) for visualization
+- [ ] add content page (to save all the hints there)
 - [ ] WayPage: realtime chat with mentor
 - [ ] WayPage: AI analyze reports in a way
-- [ ] Add type of user (way specific data) (describe the sense optional) :
+- [ ] Article Add type of user (way specific data) (describe the sense optional) :
   * newbie - directive
   * frustrated novice
   * insecure professional
@@ -80,46 +118,10 @@
     * planForNextPeriodUuids: string[] @PlanForNextPeriod.uuid[],
     * problemForCurrentPeriodUuids: string[] @CurrentProblem.uuid[],
     * commentUuids: string[] @MentorComment.uuid[]
-- [ ] Add description which jobs should be (CUS - complete, unique, specific)
-- [ ] Add description which goals should be (SMART)
+- [ ] Article Add description which jobs should be (CUS - complete, unique, specific)
 - [ ] Add types of Way:
   * repeatable jobDone - sport;
   * with no repeatable jobDone - programming, science, art, engineering, language, onboarding;
   * mixed type - music
-- [x] show progress (and compare percentage of completed tasks, worked time, time period)
-- [ ] Add tags for way
-- [ ] complete plan feature icon (copy to jobDone for today)
-- [x] Possibility to add tags for each JobDone, plan
 - [ ] export way data to csv
-- [x] export way to pdf
-- [ ] add to way statistics settings checkboxes for all available way statistic and allow user to adjust what to show
-- [ ] Optimization: load only last 30 DayReports (lazy loading) 
 - [ ] share result (with LinkedIn - way completed)
-
-## AllWaysPage (default for not logged in)
-- [ ] AllWaysPage: search/filter panel
-- [x] AllWaysPage: Add status for Way (finished, inProgress, abandoned) (colored?)
-- [x] AllWaysPage: add pagination (think about it)
-- [x] AllWaysPage: request optimization, save users into hashmap and load each user once
-- [x] AllWaysPage: add property Way.lastUpdate for Way (must auto update when click on button add dayReport)
-- [ ] AllWaysPage: cell goal should contain short description (max 2 line) but by clicking modal window should be opened with full description and metrics(think about statistic info that could be shown)
-
-## AllUsersPage
-- [ ] AllUsersPage: search/filter panel
-
-## AboutProjectPage
-
-## Additional feature
-- [x] put jobDone, problems etc into report to reduce firebase reads
-- [ ] multi language interface 
-- [ ] sent feedback (add lambda to netlify)
-- [ ] attach files, images, videos to records
-- [ ] public/private ways
-- [ ] public/private users
-- [ ] Make AnalyticalReport (statistic)
-- [ ] Analytics page
-- [ ] Achievements
-- [ ] Investigation with coming soon tooltip (component)
-- [ ] Add a page with a tree of ways (chain of goals) for visualization
-- [x] add settings page (language, modal with hints)
-- [ ] add content page (to save all the hints there)

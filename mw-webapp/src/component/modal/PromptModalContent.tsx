@@ -27,6 +27,11 @@ interface PromptModalContentProps {
    */
   onOk: (inputValue: string) => Promise<void> | void;
 
+  /**
+   * Placeholder in the input
+   */
+  placeholder: string;
+
 }
 
 /**
@@ -54,7 +59,7 @@ export const PromptModalContent = (props: PromptModalContentProps) => {
     <div onKeyDown={handleEnter}>
       <Input
         type="text"
-        placeholder="tag"
+        placeholder={props.placeholder}
         value={inputValue}
         autoFocus={true}
         onChange={setInputValue}

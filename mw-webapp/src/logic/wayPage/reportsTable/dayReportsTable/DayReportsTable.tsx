@@ -23,7 +23,12 @@ interface DayReportsTableProps {
   /**
    * Set day reports
    */
-  setDayReports: (dayReportsList: DayReport[]) => void;
+  setDayReports: (dayReports: DayReport[] | ((prevDayReports: DayReport[]) => DayReport[])) => void;
+
+  /**
+   * Create new day report
+   */
+  createDayReport: (wayUuid: string, dayReportUuids: DayReport[]) => Promise<DayReport>;
 }
 
 /**
@@ -67,7 +72,11 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
         <ScrollableBlock>
           <ReportsTable
             data={visibleReports}
-            columns={Columns({setDayReports: props.setDayReports, way: props.way})}
+            columns={Columns({
+              setDayReports: props.setDayReports,
+              way: props.way,
+              createDayReport: props.createDayReport,
+            })}
           />
         </ScrollableBlock>
         {isShowMoreReportsButtonVisible &&

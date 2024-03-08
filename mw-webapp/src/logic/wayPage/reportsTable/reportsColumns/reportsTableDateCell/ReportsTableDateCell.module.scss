@@ -1,0 +1,9 @@
+@import "src/styles/variables";
+
+.dateCell {
+  display: block;
+  min-width: $minWidthDate;
+  hyphens: none;
+  text-align: center;
+  white-space: nowrap;
+}
