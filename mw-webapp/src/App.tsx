@@ -6,6 +6,7 @@ import {
 } from "src/GlobalContext";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {router} from "src/router/Router";
+import {Language, LanguageWorker} from "src/utils/LanguageWorker";
 import {Theme, ThemeWorker} from "src/utils/ThemeWorker";
 
 /**
@@ -15,6 +16,7 @@ export const App = () => {
   const [user, setUser] = useState<UserPreview | null>(null);
   const [isInitialized, setIsInitialized] = useState(false);
   const [theme, setThemeState] = useState(ThemeWorker.getCurrentTheme());
+  const [language, setLanguageState] = useState(LanguageWorker.getCurrentLanguage());
 
   /**
    * Set theme in context and local storage
@@ -22,6 +24,14 @@ export const App = () => {
   const setTheme = (updatedTheme: Theme) => {
     setThemeState(updatedTheme);
     ThemeWorker.setTheme(updatedTheme);
+  };
+
+  /**
+   * Set language in context and local storage
+   */
+  const setLanguage = (updatedLanguage: Language) => {
+    setLanguageState(updatedLanguage);
+    LanguageWorker.setLanguage(updatedLanguage);
   };
 
   return (
@@ -34,6 +44,8 @@ export const App = () => {
       notification: DEFAULT_NOTIFICATION_SETTINGS,
       theme,
       setTheme,
+      language,
+      setLanguage,
     }}
     >
       <RouterProvider router={router} />

@@ -6,8 +6,10 @@ import {Modal} from "src/component/modal/Modal";
 import {PromptModalContent} from "src/component/modal/PromptModalContent";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
+import {useGlobalContext} from "src/GlobalContext";
 import {JobTag} from "src/logic/wayPage/jobTags/jobTag/JobTag";
 import {JobTag as JobTagData} from "src/model/businessModelPreview/WayPreview";
+import {LanguageService} from "src/service/LangauageService";
 import {getColorByString} from "src/utils/getColorByString";
 import {v4 as uuidv4} from "uuid";
 import styles from "src/logic/wayPage/jobTags/JobTags.module.scss";
@@ -38,6 +40,7 @@ interface JobTagsProps {
  * Job tags
  */
 export const JobTags = (props: JobTagsProps) => {
+  const {language} = useGlobalContext();
   const [isJobDoneModalOpen, setIsJobDoneModalOpen] = useState<boolean>(false);
   const allJobTags = props.jobTags.filter((tag) => tag.name !== "no tag");
 
@@ -78,17 +81,17 @@ export const JobTags = (props: JobTagsProps) => {
             <JobTag jobTag={jobTag} />
             {props.isEditable && (
               <Tooltip
-                content="Delete from job tags"
+                content={LanguageService.way.filterBlock.deleteFromJobTags[language]}
                 position={PositionTooltip.RIGHT}
               >
                 <Confirm
                   trigger={
                     <TrashIcon className={styles.icon} />}
                   content={<p>
-                    {`Are you sure you want to remove "${jobTag}" from job tags"?`}
+                    {LanguageService.way.filterBlock.deleteJobTagQuestion[language].replace("$jobTag", `"${jobTag.name}"`)}
                   </p>}
                   onOk={() => removeJobTagFromWay(jobTag.uuid)}
-                  okText="Delete"
+                  okText={LanguageService.way.filterBlock.deleteButton[language]}
                 />
               </Tooltip>
             )}
@@ -101,14 +104,14 @@ export const JobTags = (props: JobTagsProps) => {
           isOpen={isJobDoneModalOpen}
           content={
             <PromptModalContent
-              placeholder="Job tag"
+              placeholder={LanguageService.way.filterBlock.jobTagPlaceholder[language]}
               close={() => setIsJobDoneModalOpen(false)}
               onOk={createJobTag}
             />
           }
           trigger={
             <Button
-              value="Add tag"
+              value={LanguageService.way.filterBlock.addTagButton[language]}
               onClick={() => setIsJobDoneModalOpen(true)}
             />
           }

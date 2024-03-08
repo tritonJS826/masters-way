@@ -1,7 +1,15 @@
 {
-  "projectDescriotion": {
+  "mainTitle": {
+    "ru": "О нашем проеке",
+    "en": "About our project"
+  },
+  "projectDescription": {
     "ru": "**Сейчас приложение находится в стадии прототипа, будьте аккуратны, пользовательские данные могут быть повреждены или утеряны в результате разработки, после создания стабильного продукта мы убурем эту запись**\n\nОсновная цель нашего приложения - помочь любому кто хочет достигнуть своей цели! Мы постараемся что бы ваш путь был максимально короток, направлен и прозрачен для ваших  менторов. Мы попробуем сфокусироваться на:\n\n * процессе асинхронного обучения\n\n * ретроспективном анализе пройденного пути (оценке эффективности достижения цели)\n\n * на предоставлении быстрого и дешевого (в плане времени) фидбеке от ментора\n\n Так же вы можете использовать возможность повтора реального существующего пути пройденного реальным человеком (а не просто по рассказам самих учителей и не по рассказам по памяти от учеников)",
     "en": "**Now the app is in prototype stage, please be careful, user data may be corrupted or lost due to development, once we have a stable product we will remove this entry**\n\n Our main goal is to help anyone who wants to achieve their goal! We try to make your path as short, direct and transparent as possible for your mentors. We will try to focus on:\n\n * the whole asynchronous learning process.\n\n * retrospective analysis of the path you have traveled (evaluation of the effectiveness of achieving the goal).\n\n * providing quick and cheap (in terms of time) feedback from the mentor\n\nYou can also use the possibility of replicating a real existing path traveled by a real person (not from teachers' stories and not from students' memory)."
+  },
+  "accordionTitle": {
+    "ru": "Часто задаваемые вопросы",
+    "en": "FAQ"
   },
   "accordion": [
     {

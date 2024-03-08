@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useContext, useState} from "react";
 import clsx from "clsx";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Confirm} from "src/component/confirm/Confirm";
@@ -13,13 +13,15 @@ import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {WayCard} from "src/component/wayCard/WayCard";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
+import {globalContext} from "src/GlobalContext";
 import {useLoad} from "src/hooks/useLoad";
 import {getWaysFilter} from "src/logic/waysTable/wayFilter";
-import {waysColumns} from "src/logic/waysTable/waysColumns";
+import {getWaysColumns} from "src/logic/waysTable/waysColumns";
 import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {WayStatus, WayStatusType} from "src/logic/waysTable/wayStatus";
 import {WaysCollection} from "src/model/businessModelPreview/UserPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
+import {LanguageService} from "src/service/LangauageService";
 import {ArrayUtils} from "src/utils/ArrayUtils";
 import {View} from "src/utils/LocalStorageWorker";
 import styles from "src/logic/waysTable/BaseWaysTable.module.scss";
@@ -92,6 +94,7 @@ const validateData = (data: WayPreview[]) => {
  */
 export const BaseWaysTable = (props: BaseWaysTableProps) => {
   const [ways, setWays] = useState<WayPreview[]>();
+  const {language} = useContext(globalContext);
 
   useLoad(
     {
@@ -131,14 +134,14 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
       <HorizontalContainer className={styles.wayCollectionActions}>
         <HorizontalContainer className={styles.filterView}>
           <Select
-            label="Show only: "
-            value={props.filterStatus}
+            label={`${LanguageService.user.filterBlock.type[language]}:`}
+            defaultValue={props.filterStatus}
             name="filterStatus"
             options={[
-              {id: "1", value: FILTER_STATUS_ALL_VALUE, text: "All"},
-              {id: "2", value: WayStatus.Completed, text: "Completed"},
-              {id: "3", value: WayStatus.Abandoned, text: "Abandoned"},
-              {id: "4", value: WayStatus.InProgress, text: "InProgress"},
+              {id: "1", value: FILTER_STATUS_ALL_VALUE, text: LanguageService.user.filterBlock.typeOptions.all[language]},
+              {id: "2", value: WayStatus.completed, text: LanguageService.user.filterBlock.typeOptions.completed[language]},
+              {id: "3", value: WayStatus.abandoned, text: LanguageService.user.filterBlock.typeOptions.abandoned[language]},
+              {id: "4", value: WayStatus.inProgress, text: LanguageService.user.filterBlock.typeOptions.inProgress[language]},
             ]}
             onChange={(value) => props.setFilterStatus(value as WayStatusType)}
           />
@@ -146,7 +149,7 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
           <HorizontalContainer className={styles.iconsView}>
             <Tooltip
               position={PositionTooltip.LEFT}
-              content={`Switch to ${View.Card} view`}
+              content={LanguageService.user.filterBlock.cardViewTooltip[language]}
             >
               <button
                 className={styles.iconView}
@@ -161,7 +164,7 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
             </Tooltip>
             <Tooltip
               position={PositionTooltip.LEFT}
-              content={`Switch to ${View.Table} view`}
+              content={LanguageService.user.filterBlock.tableViewTooltip[language]}
             >
               <button
                 className={styles.iconView}
@@ -189,7 +192,7 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
           <ScrollableBlock>
             <WaysTable
               data={ways}
-              columns={waysColumns}
+              columns={getWaysColumns(language)}
             />
           </ScrollableBlock>
           :

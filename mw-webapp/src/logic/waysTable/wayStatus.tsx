@@ -1,12 +1,14 @@
+import {LanguageService} from "src/service/LangauageService";
+import {Language} from "src/utils/LanguageWorker";
 import {Symbols} from "src/utils/Symbols";
 
 /**
  * Available way statuses
  */
 export const WayStatus = {
-  Completed: "Completed",
-  InProgress: `In${Symbols.NO_BREAK_SPACE}progress`,
-  Abandoned: "Abandoned",
+  completed: "Completed",
+  inProgress: `In${Symbols.NO_BREAK_SPACE}progress`,
+  abandoned: "Abandoned",
 } as const;
 
 export type WayStatusType = typeof WayStatus[keyof typeof WayStatus];
@@ -25,6 +27,11 @@ type getWayStatusParams = {
    * Last update of the way
    */
   lastUpdate: Date;
+
+  /**
+   * Language
+   */
+  language: Language;
 }
 
 // 14 days
@@ -33,15 +40,15 @@ export const ABANDONED_AFTER_MS = 1209600000;
 /**
  * Get way status
  */
-export const getWayStatus = (params: getWayStatusParams): WayStatusType => {
+export const getWayStatus = (params: getWayStatusParams): string => {
   if (params.status === "Completed") {
-    return WayStatus.Completed;
+    return LanguageService.allWays.filterBlock.typeOptions.completed[params.language];
   } else {
     const currentDate = new Date();
     const isLastUpdateRecently = currentDate.getTime() - params.lastUpdate.getTime() < ABANDONED_AFTER_MS;
 
     return isLastUpdateRecently
-      ? WayStatus.InProgress
-      : WayStatus.Abandoned;
+      ? LanguageService.allWays.filterBlock.typeOptions.inProgress[params.language]
+      : LanguageService.allWays.filterBlock.typeOptions.abandoned[params.language];
   }
 };

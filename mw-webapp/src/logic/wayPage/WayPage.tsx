@@ -35,7 +35,9 @@ import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {JobTag} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
+import {LanguageService} from "src/service/LangauageService";
 import {DateUtils} from "src/utils/DateUtils";
+// Import {Language} from "src/utils/LanguageWorker";
 import {WayPageSettings} from "src/utils/LocalStorageWorker";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
@@ -122,7 +124,7 @@ export const WayPage = (props: WayPageProps) => {
     key: "wayPage",
     defaultValue: DEFAULT_WAY_PAGE_SETTINGS,
   });
-  const {user, setUser} = useGlobalContext();
+  const {user, setUser, language} = useGlobalContext();
   const [way, setWay] = useState<Way>();
 
   /**
@@ -229,7 +231,7 @@ export const WayPage = (props: WayPageProps) => {
     <Confirm
       trigger={
         <DropdownMenuItem
-          value="Delete the way"
+          value={LanguageService.way.wayActions.deleteTheWay[language]}
           onClick={() => {}}
         />
       }
@@ -368,7 +370,9 @@ export const WayPage = (props: WayPageProps) => {
 
             <HorizontalContainer className={styles.buttons}>
               <Tooltip
-                content={`${isWayInFavorites ? "Delete from" : "Add to"} favorites`}
+                content={isWayInFavorites
+                  ? LanguageService.way.wayInfo.deleteFromFavoritesTooltip[language]
+                  : LanguageService.way.wayInfo.addToFavoritesTooltip[language]}
                 position={PositionTooltip.LEFT}
               >
                 <Button
@@ -411,7 +415,9 @@ export const WayPage = (props: WayPageProps) => {
                     }
 
                     displayNotification({
-                      text: `Way ${isWayInFavorites ? "removed from" : "added to" } favorites`,
+                      text: isWayInFavorites
+                        ? LanguageService.way.notifications.wayRemovedFromFavorites[language]
+                        : LanguageService.way.notifications.wayAddedToFavorites[language],
                       type: "info",
                     });
                   }}
@@ -422,7 +428,7 @@ export const WayPage = (props: WayPageProps) => {
                 className={styles.wayActionMenu}
                 trigger={(
                   <Button
-                    value="Way actions"
+                    value={LanguageService.way.wayInfo.wayActionsButton[language]}
                     buttonType={ButtonType.SECONDARY}
                     onClick={() => {}}
                   />
@@ -430,7 +436,7 @@ export const WayPage = (props: WayPageProps) => {
                 dropdownMenuItems={[
                   {
                     id: "Repeat the way",
-                    value: "Repeat the way",
+                    value: LanguageService.way.wayActions.repeatTheWay[language],
 
                     /**
                      * Copy url to clipboard
@@ -440,7 +446,7 @@ export const WayPage = (props: WayPageProps) => {
                   },
                   {
                     id: "Copy url to clipboard",
-                    value: "Copy url to clipboard",
+                    value: LanguageService.way.wayActions.copyUrlToClipboard[language],
 
                     /**
                      * Copy url to clipboard
@@ -448,14 +454,14 @@ export const WayPage = (props: WayPageProps) => {
                     onClick: async () => {
                       await navigator.clipboard.writeText(location.href);
                       displayNotification({
-                        text: "Url copied",
+                        text: LanguageService.way.notifications.urlCopied[language],
                         type: "info",
                       });
                     },
                   },
                   {
                     id: "Download as pdf",
-                    value: "Download as pdf",
+                    value: LanguageService.way.wayActions.downloadAsPdf[language],
 
                     /**
                      * Download way as pdf
@@ -465,7 +471,7 @@ export const WayPage = (props: WayPageProps) => {
                   ...renderAddToCustomCollectionDropdownItems,
                   {
                     id: "Go to original way",
-                    value: "Go to original",
+                    value: LanguageService.way.wayActions.goToOriginal[language],
                     isVisible: !!way.copiedFromWayUuid,
 
                     /**
@@ -484,7 +490,7 @@ export const WayPage = (props: WayPageProps) => {
           </HorizontalContainer>
 
           <HorizontalContainer className={styles.wayTagsContainer}>
-            No-tags
+            {LanguageService.way.wayInfo.noTags[language]}
             <Tooltip content="Edit way tags. Coming soon :)">
               <Button
                 value={
@@ -514,9 +520,13 @@ export const WayPage = (props: WayPageProps) => {
           <HorizontalContainer className={styles.horizontalContainer}>
             <Title
               level={HeadingLevel.h3}
-              text="Metrics"
+              text={LanguageService.way.metricsBlock.metrics[language]}
             />
-            <Tooltip content={`Click to ${wayPageSettings.isGoalMetricsVisible ? "hide" : "open"} goal metrics block`}>
+            <Tooltip content={wayPageSettings.isGoalMetricsVisible
+              ? LanguageService.way.metricsBlock.clickToHideMetrics[language]
+              : LanguageService.way.metricsBlock.clickToShowMetrics[language]
+            }
+            >
               <button
                 className={styles.iconContainer}
                 onClick={() => updateWayPageSettings({isGoalMetricsVisible: !wayPageSettings.isGoalMetricsVisible})}
@@ -538,7 +548,7 @@ export const WayPage = (props: WayPageProps) => {
         <VerticalContainer className={styles.peopleBlock}>
           <Title
             level={HeadingLevel.h3}
-            text="Way's owner:"
+            text={LanguageService.way.peopleBlock.waysOwner[language]}
           />
           <Link
             path={pages.user.getPath({uuid: way.owner.uuid})}
@@ -561,7 +571,7 @@ export const WayPage = (props: WayPageProps) => {
           {isEligibleToSendRequest && (
             <Button
               className={styles.applyAsMentorButton}
-              value="Apply as Mentor"
+              value={LanguageService.way.peopleBlock.applyAsMentor[language]}
               onClick={() => updateWay({
                 wayToUpdate: {
                   uuid: way.uuid,
@@ -580,9 +590,13 @@ export const WayPage = (props: WayPageProps) => {
           <HorizontalContainer className={styles.horizontalContainer}>
             <Title
               level={HeadingLevel.h3}
-              text="Statistics"
+              text={LanguageService.way.statisticsBlock.statistics[language]}
             />
-            <Tooltip content={`Click to ${wayPageSettings.isStatisticsVisible ? "hide" : "open"} statistics block`}>
+            <Tooltip content={wayPageSettings.isStatisticsVisible
+              ? LanguageService.way.statisticsBlock.clickToHideStatistics[language]
+              : LanguageService.way.statisticsBlock.clickToShowStatistics[language]
+            }
+            >
               <button
                 className={styles.iconContainer}
                 onClick={() => updateWayPageSettings({isStatisticsVisible: !wayPageSettings.isStatisticsVisible})}
@@ -608,7 +622,7 @@ export const WayPage = (props: WayPageProps) => {
           <HorizontalContainer className={styles.reportActions}>
             {isPossibleCreateDayReport &&
               <Button
-                value="Create new day report"
+                value={LanguageService.way.filterBlock.createNewDayReport[language]}
                 onClick={() => {
                   createDayReport(way.uuid, way.dayReports);
                 }}
@@ -618,7 +632,7 @@ export const WayPage = (props: WayPageProps) => {
             <Modal
               trigger={
                 <Button
-                  value="Adjust job tags"
+                  value={LanguageService.way.filterBlock.adjustJobTags[language]}
                   buttonType={ButtonType.SECONDARY}
                   onClick={() => { }}
                 />
@@ -627,7 +641,7 @@ export const WayPage = (props: WayPageProps) => {
                 <div className={styles.jobDoneTagsWrapper}>
                   <Title
                     level={HeadingLevel.h3}
-                    text="Job done tags:"
+                    text={LanguageService.way.filterBlock.jobDoneTagsModalTitle[language]}
                   />
                   <JobTags
                     jobTags={way.jobTags}

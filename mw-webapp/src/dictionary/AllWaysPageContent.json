@@ -1,0 +1,112 @@
+{
+    "filterBlock": {
+        "type": {
+            "ru": "Статус",
+            "en": "Status "
+        },
+        "typeOptions": {
+            "all": {
+                "ru": "Все",
+                "en": "all"
+            },
+            "completed": {
+                "ru": "Завершен",
+                "en": "Completed"
+            },
+            "inProgress": {
+                "ru": "Выполняется",
+                "en": "In progress"
+            },
+            "abandoned": {
+                "ru": "Заброшен",
+                "en": "Abandoned"
+            }
+        },
+        "cardViewTooltip": {
+            "ru": "Отображение карточками",
+            "en": "Switch to card view"
+        },
+        "tableViewTooltip": {
+            "ru": "Отображение таблицей",
+            "en": "Switch to table view"
+        }
+    },
+    "waysTable": {
+        "leftTitle": {
+            "ru": "Пути",
+            "en": "Ways"
+        },
+        "rightTitle": {
+            "ru": "Всего",
+            "en": "Total found"
+        },
+        "columns": {
+            "createdAt": {
+                "ru": "Создан",
+                "en": "Created at"
+            },
+            "lastUpdate": {
+                "ru": "Обновлен",
+                "en": "Last update"
+            },
+            "status": {
+                "ru": "Статус",
+                "en": "Status"
+            },
+            "way": {
+                "ru": "Описание",
+                "en": "Description"
+            },
+            "owner": {
+                "ru": "Владелец",
+                "en": "Owner"
+            },
+            "mentor": {
+                "ru": "Ментор",
+                "en": "Mentor"
+            },
+            "reports": {
+                "ru": "Отчеты",
+                "en": "Reports"
+            }
+        },
+        "columnTooltip": {
+            "createdAt": {
+                "ru": "Дата создания пути",
+                "en": "Date, when way was created"
+            },
+            "lastUpdate": {
+                "ru": "Дата создания последнего отчета",
+                "en": "Date when the last report was created"
+            },
+            "status": {
+                "ru": "Путь считается заброшенным если он не заверншен, но отчеты не заводились более 14 дней",
+                "en": "The path is abandoned if it is not completed, but has not been edited in the last 14 days"
+            },
+            "way": {
+                "ru": "Описание пути",
+                "en": "Ways description"
+            },
+            "owner": {
+                "ru": "Имя и контакт владельца",
+                "en": "Owner's name and contact"
+            },
+            "mentor": {
+                "ru": "Текущие менторы пути",
+                "en": "Current way's mentors"
+            },
+            "reports": {
+                "ru": "Количество отчетов в пути",
+                "en": "Amount of reports in the way"
+            },
+            "favorites": {
+                "ru": "Понравилось пользователям",
+                "en": "Likes count"
+            }
+        },
+        "loadMoreButton": {
+            "ru": "Показать еще",
+            "en": "Load more"
+        }
+    }
+}

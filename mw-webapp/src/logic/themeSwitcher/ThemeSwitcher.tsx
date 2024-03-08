@@ -2,21 +2,34 @@ import {Icon, IconSize} from "src/component/icon/Icon";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {useGlobalContext} from "src/GlobalContext";
+import {LanguageService} from "src/service/LangauageService";
+import {Language} from "src/utils/LanguageWorker";
 import {Theme} from "src/utils/ThemeWorker";
 import styles from "src/logic/themeSwitcher/ThemeSwitcher.module.scss";
+
+/**
+ * Calculate next switch theme
+ */
+const getNextSwitchTheme = (theme: Theme) => {
+  return theme === Theme.DARK ? Theme.LIGHT : Theme.DARK;
+};
+
+/**
+ * Get description for the them
+ */
+const getDescriptionForTheme = (theme: Theme, language: Language): string =>
+  LanguageService.header.themeTooltip[getNextSwitchTheme(theme)][language];
+
+/**
+ * Get icon for theme
+ */
+const getIconForNextTheme = (theme: Theme) => theme === Theme.DARK ? "SunIcon" : "MoonIcon";
 
 /**
  * ThemeSwitcher component
  */
 export const ThemeSwitcher = () => {
-  const {theme, setTheme} = useGlobalContext();
-
-  /**
-   * GetSwitchTheme
-   */
-  const getNextSwitchTheme = (switchTheme: Theme) => {
-    return switchTheme === Theme.DARK ? Theme.LIGHT : Theme.DARK;
-  };
+  const {theme, setTheme, language} = useGlobalContext();
 
   /**
    *Change theme
@@ -29,7 +42,7 @@ export const ThemeSwitcher = () => {
   return (
     <Tooltip
       position={PositionTooltip.BOTTOM}
-      content={`Switch to ${getNextSwitchTheme(theme)} theme`}
+      content={getDescriptionForTheme(theme, language)}
     >
       <button
         className={styles.iconWrapper}
@@ -37,7 +50,7 @@ export const ThemeSwitcher = () => {
       >
         <Icon
           size={IconSize.MEDIUM}
-          name={theme === Theme.DARK ? "MoonIcon" : "SunIcon"}
+          name={getIconForNextTheme(theme)}
         />
       </button>
     </Tooltip>

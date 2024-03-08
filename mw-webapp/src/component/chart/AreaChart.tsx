@@ -11,6 +11,7 @@ import {
   Tooltip,
 } from "chart.js";
 import {useGlobalContext} from "src/GlobalContext";
+import {LanguageService} from "src/service/LangauageService";
 import {DateUtils} from "src/utils/DateUtils";
 
 ChartJS.register(
@@ -26,7 +27,7 @@ ChartJS.register(
 /**
  * Get options
  */
-const getOptions = () => {
+const getOptions = (title: string) => {
   const primaryChartColor = getComputedStyle(document.body).getPropertyValue("--primaryTextColor");
   const gridColor = primaryChartColor.replace("rgb", "rgba").replace(")", ", 0.2)");
 
@@ -35,7 +36,7 @@ const getOptions = () => {
     plugins: {
       title: {
         display: true,
-        text: "Time spent by day (minutes/date)",
+        text: title,
         color: primaryChartColor,
       },
     },
@@ -85,7 +86,7 @@ interface AreaChartProps {
  * Area chart component
  */
 export const AreaChart = (props: AreaChartProps) => {
-  const {theme} = useGlobalContext();
+  const {theme, language} = useGlobalContext();
   const dateList = DateUtils.getDatesBetween(props.startDate, props.lastDate);
   const labels = dateList.map(DateUtils.getShortISODateValue);
 
@@ -103,7 +104,7 @@ export const AreaChart = (props: AreaChartProps) => {
       {
         fill: true,
         lineTension: 0.4,
-        label: "Total time",
+        label: LanguageService.way.statisticsBlock.totalTimeLabel[language],
         data: dataJob,
         borderColor: "rgb(53, 162, 235)",
         backgroundColor: "rgba(53, 162, 235, 0.5)",
@@ -115,7 +116,7 @@ export const AreaChart = (props: AreaChartProps) => {
    * Now it works even without Memo because of global context.
    * After migration to some state manager this line will help us to avoid bugs
    */
-  const optionsMemoized = useMemo(() => getOptions(), [theme]);
+  const optionsMemoized = useMemo(() => getOptions(LanguageService.way.statisticsBlock.timeSpentByDay[language]), [theme]);
 
   return (
     <Line

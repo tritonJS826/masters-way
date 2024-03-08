@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useContext, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Confirm} from "src/component/confirm/Confirm";
@@ -12,7 +12,7 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
-import {useGlobalContext} from "src/GlobalContext";
+import {globalContext, useGlobalContext} from "src/GlobalContext";
 import {useLoad} from "src/hooks/useLoad";
 import {usePersistanceState} from "src/hooks/usePersistanceState";
 import {BaseWaysTable, FILTER_STATUS_ALL_VALUE} from "src/logic/waysTable/BaseWaysTable";
@@ -20,6 +20,8 @@ import {WayStatusType} from "src/logic/waysTable/wayStatus";
 import {Way} from "src/model/businessModel/Way";
 import {UserPreview, WaysCollection as WayCollection} from "src/model/businessModelPreview/UserPreview";
 import {pages} from "src/router/pages";
+import {LanguageService} from "src/service/LangauageService";
+import {Language} from "src/utils/LanguageWorker";
 import {UserPageSettings, View} from "src/utils/LocalStorageWorker";
 import {PartialWithId, PartialWithUuid} from "src/utils/PartialWithUuid";
 import {v4 as uuidv4} from "uuid";
@@ -87,19 +89,19 @@ const userPageSettingsValidator = (openedTabId: string, allCollections: WayColle
 /**
  * Get all way collections
  */
-const getAllWayCollections = (userPreview: UserPreview): WayCollection[] => [
+const getAllWayCollections = (userPreview: UserPreview, language: Language): WayCollection[] => [
   {
     id: DefaultCollections.OWN,
-    name: "Own ways",
+    name: LanguageService.user.collections.ownWays[language],
     wayUuids: userPreview.ownWays ?? [],
   }, {
     id: DefaultCollections.MENTORING,
-    name: "Mentoring ways",
+    name: LanguageService.user.collections.mentoringWays[language],
     wayUuids: userPreview.mentoringWays ?? [],
   },
   {
     id: DefaultCollections.FAVORITE,
-    name: "Favorite ways",
+    name: LanguageService.user.collections.favoriteWays[language],
     wayUuids: userPreview.favoriteWays ?? [],
   },
   ...(userPreview.customWayCollections ?? []),
@@ -109,6 +111,7 @@ const getAllWayCollections = (userPreview: UserPreview): WayCollection[] => [
  * User page
  */
 export const UserPage = (props: UserPageProps) => {
+  const {language} = useContext(globalContext);
   const [isRenameCollectionModalOpen, setIsRenameCollectionModalOpen] = useState(false);
 
   const [userPreview, setUserPreview] = useState<UserPreview>();
@@ -122,7 +125,7 @@ export const UserPage = (props: UserPageProps) => {
     storedDataValidator: (
       currentValue: string,
     ) => userPreview?.customWayCollections
-      ? userPageSettingsValidator(currentValue, getAllWayCollections(userPreview))
+      ? userPageSettingsValidator(currentValue, getAllWayCollections(userPreview, language))
       : true,
     dependencies: [userPreview],
   });
@@ -195,7 +198,7 @@ export const UserPage = (props: UserPageProps) => {
   }
 
   const isCustomCollection = userPreview.customWayCollections.some((col) => col.id === openedTabId);
-  const currentCollection = getAllWayCollections(userPreview).find((col) => col.id === openedTabId);
+  const currentCollection = getAllWayCollections(userPreview, language).find((col) => col.id === openedTabId);
 
   if (!currentCollection) {
     setOpenedTabId(DefaultCollections.OWN);
@@ -327,7 +330,7 @@ export const UserPage = (props: UserPageProps) => {
           <VerticalContainer className={styles.userDescriptionSection}>
             <Title
               level={HeadingLevel.h3}
-              text="About"
+              text={LanguageService.user.personalInfo.about[language]}
             />
             <EditableTextarea
               text={userPreview.description}
@@ -345,7 +348,7 @@ export const UserPage = (props: UserPageProps) => {
 
           {isPageOwner &&
             <Button
-              value="Create new way"
+              value={LanguageService.user.personalInfo.createNewWayButton[language]}
               onClick={() => createWay(user)}
               buttonType={ButtonType.PRIMARY}
               className={styles.createNewWayButton}
@@ -355,7 +358,7 @@ export const UserPage = (props: UserPageProps) => {
 
         <div className={styles.tabsSectionContainer}>
           <HorizontalContainer className={styles.tabsSection}>
-            {getAllWayCollections(userPreview).map(collection => (
+            {getAllWayCollections(userPreview, language).map(collection => (
               <Button
                 key={collection.id}
                 value={`${collection.name} (${collection.wayUuids.length})`}
@@ -367,7 +370,7 @@ export const UserPage = (props: UserPageProps) => {
 
             {isPageOwner && (
               <Button
-                value="Add collection"
+                value={LanguageService.user.collections.addCollection[language]}
                 onClick={createCustomWayCollection}
                 className={styles.collectionButton}
                 buttonType={ButtonType.SECONDARY}
@@ -416,7 +419,7 @@ export const UserPage = (props: UserPageProps) => {
       )}
 
       {/* Render table only for appropriate collection */}
-      {getAllWayCollections(userPreview)
+      {getAllWayCollections(userPreview, language)
         .filter(collection => collection.id === openedTabId)
         .map(collection => {
 

@@ -4,10 +4,12 @@ import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalC
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {useGlobalContext} from "src/GlobalContext";
 import {Columns} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
 import {ReportsTable} from "src/logic/wayPage/reportsTable/ReportsTable";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Way} from "src/model/businessModel/Way";
+import {LanguageService} from "src/service/LangauageService";
 import styles from "src/logic/wayPage/reportsTable/dayReportsTable/DayReportsTable.module.scss";
 
 /**
@@ -38,6 +40,7 @@ interface DayReportsTableProps {
  * move load logic to the parent component and share data with other components
  */
 export const DayReportsTable = (props: DayReportsTableProps) => {
+  const {language} = useGlobalContext();
   const VISIBLE_REPORTS_CHUNK = 7;
   const [visibleReports, setVisibleReports] = useState(props.way.dayReports.slice(0, VISIBLE_REPORTS_CHUNK));
   useEffect(() => {
@@ -61,11 +64,12 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
       <HorizontalContainer className={styles.titleContainer}>
         <Title
           level={HeadingLevel.h2}
-          text={`Reports (${Math.min(props.way.dayReports.length, visibleReports.length)})`}
+          text={`${LanguageService.way.reportsTable.title[language]} 
+          (${Math.min(props.way.dayReports.length, visibleReports.length)})`}
         />
         <Title
           level={HeadingLevel.h2}
-          text={`Total: ${props.way.dayReports.length}`}
+          text={`${LanguageService.way.reportsTable.total[language]} ${props.way.dayReports.length}`}
         />
       </HorizontalContainer>
       <VerticalContainer className={styles.dayReportsContent}>
@@ -82,7 +86,7 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
         {isShowMoreReportsButtonVisible &&
         <Button
           onClick={showMoreReports}
-          value="Load more"
+          value={LanguageService.way.reportsTable.loadMoreButton[language]}
           buttonType={ButtonType.PRIMARY}
           className={styles.loadMoreButton}
         />

@@ -9,12 +9,17 @@ export interface SelectProps<T> {
   /**
    * Label's text
    */
-  label: string;
+  label?: string;
 
   /**
-   * Select`s value
+   * Select`s default value (does not depend on external state)
    */
-  value: T;
+  defaultValue?: T;
+
+  /**
+   * Select's value
+   */
+  value?: T;
 
   /**
    * Select's name
@@ -68,7 +73,8 @@ export const Select = <T extends string | number>(props: SelectProps<T>) => {
         name={props.name}
         onChange={onChangeHandler}
         className={styles.select}
-        defaultValue={props.value}
+        defaultValue={props.defaultValue}
+        value={props.value}
         data-cy={props.dataCy}
       >
         {renderSelectOptions(props.options)}

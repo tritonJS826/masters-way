@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useContext, useState} from "react";
 import clsx from "clsx";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
@@ -13,11 +13,13 @@ import {Tooltip} from "src/component/tooltip/Tooltip";
 import {UserCard} from "src/component/userCard/UserCard";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
+import {globalContext} from "src/GlobalContext";
 import {useLoad} from "src/hooks/useLoad";
 import {usePersistanceState} from "src/hooks/usePersistanceState";
 import {LAST_INDEX} from "src/logic/mathConstants";
 import {UsersTableBlock} from "src/logic/usersTable/UsersTableBlock";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
+import {LanguageService} from "src/service/LangauageService";
 import {AllUsersPageSettings, View} from "src/utils/LocalStorageWorker";
 import {useDebounce} from "use-debounce";
 import styles from "src/logic/allUsersPage/AllUsersPage.module.scss";
@@ -49,6 +51,7 @@ export const AllUsersPage = () => {
   const [allUsersAmount, setAllUsersAmount] = useState<number>();
   const [email, setEmail] = useState<string>("");
   const [debouncedEmail ] = useDebounce(email, DEBOUNCE_DELAY_MILLISECONDS);
+  const {language} = useContext(globalContext);
 
   const [allUsersPageSettings, updateAllUsersPageSettings] = usePersistanceState({
     key: "allUsersPage",
@@ -118,13 +121,13 @@ export const AllUsersPage = () => {
         <Input
           value={email}
           onChange={(value) => setEmail(value)}
-          placeholder="Search by first letters in email"
+          placeholder={LanguageService.allUsers.filterBlock.emailPlaceholder[language]}
           className={styles.emailFilter}
         />
         <HorizontalContainer className={styles.iconsView}>
           <Tooltip
             position={PositionTooltip.LEFT}
-            content={`Switch to ${View.Card} view`}
+            content={LanguageService.allUsers.filterBlock.cardViewTooltip[language]}
           >
             <button
               className={styles.iconView}
@@ -140,7 +143,7 @@ export const AllUsersPage = () => {
           </Tooltip>
           <Tooltip
             position={PositionTooltip.LEFT}
-            content={`Switch to ${View.Table} view`}
+            content={LanguageService.allUsers.filterBlock.tableViewTooltip[language]}
           >
             <button
               className={styles.iconView}
@@ -160,11 +163,11 @@ export const AllUsersPage = () => {
       <HorizontalContainer className={styles.titleContainer}>
         <Title
           level={HeadingLevel.h2}
-          text={`Users (${allUsers.length})`}
+          text={`${LanguageService.allUsers.usersTable.leftTitle[language]} (${allUsers.length})`}
         />
         <Title
           level={HeadingLevel.h2}
-          text={`Total found: ${allUsersAmount}`}
+          text={`${LanguageService.allUsers.usersTable.rightTitle[language]}: ${allUsersAmount}`}
         />
       </HorizontalContainer>
 
@@ -188,7 +191,7 @@ export const AllUsersPage = () => {
         }
         {isMoreUsersExist &&
         <Button
-          value="Load more"
+          value={LanguageService.allUsers.usersTable.loadMoreButton[language]}
           onClick={() => loadMoreUsers(allUsers)}
           buttonType={ButtonType.PRIMARY}
           className={styles.loadMoreButton}

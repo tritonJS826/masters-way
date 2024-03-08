@@ -8,8 +8,8 @@ import {GetWaysFilter} from "src/service/WayService";
 export const getWaysFilter = (filterStatus: WayStatusType | typeof FILTER_STATUS_ALL_VALUE): GetWaysFilter | undefined =>
   filterStatus !== FILTER_STATUS_ALL_VALUE
     ? {
-      isAbandoned: filterStatus === WayStatus.Abandoned,
-      isCompleted: filterStatus === WayStatus.Completed,
-      isInProgress: filterStatus === WayStatus.InProgress,
+      isAbandoned: filterStatus === WayStatus.abandoned,
+      isCompleted: filterStatus === WayStatus.completed,
+      isInProgress: filterStatus === WayStatus.inProgress,
     }
     : undefined;
