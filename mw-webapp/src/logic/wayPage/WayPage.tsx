@@ -186,6 +186,15 @@ export const WayPage = (props: WayPageProps) => {
     );
   }
 
+  if (way.isPrivate) {
+    return (
+      <Title
+        text="This way is private"
+        level={HeadingLevel.h1}
+      />
+    );
+  }
+
   const isWayInFavorites = user && user.favoriteWays.includes(way.uuid);
 
   const isOwner = !!user && user.uuid === way.owner.uuid;
@@ -437,6 +446,7 @@ export const WayPage = (props: WayPageProps) => {
                 dropdownMenuItems={[
                   {
                     id: "Make the way private/public",
+                    isVisible: isUserOwnerOrMentor,
                     value: way.isPrivate
                       ? LanguageService.way.peopleBlock.makePublicButton[language]
                       : LanguageService.way.peopleBlock.makePrivateButton[language],
