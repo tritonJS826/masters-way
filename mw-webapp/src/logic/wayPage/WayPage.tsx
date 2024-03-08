@@ -11,6 +11,7 @@ import {Link} from "src/component/link/Link";
 import {Loader} from "src/component/loader/Loader";
 import {Modal} from "src/component/modal/Modal";
 import {displayNotification} from "src/component/notification/displayNotification";
+import {ErrorComponent} from "src/component/privateRecourse/PrivateRecourse";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
@@ -186,15 +187,6 @@ export const WayPage = (props: WayPageProps) => {
     );
   }
 
-  if (way.isPrivate) {
-    return (
-      <Title
-        text="This way is private"
-        level={HeadingLevel.h1}
-      />
-    );
-  }
-
   const isWayInFavorites = user && user.favoriteWays.includes(way.uuid);
 
   const isOwner = !!user && user.uuid === way.owner.uuid;
@@ -205,6 +197,15 @@ export const WayPage = (props: WayPageProps) => {
   const isEligibleToSendRequest = !!user && !isOwner && !isMentor && !isUserHasSentMentorRequest;
 
   const favoriteForUsersAmount = way.favoriteForUserUuids.length;
+
+  if (!isUserOwnerOrMentor && way.isPrivate) {
+    return (
+      <ErrorComponent
+        text={LanguageService.way.privateInfo.title[language]}
+        description={LanguageService.way.privateInfo.description[language]}
+      />
+    );
+  }
 
   /**
    * Delete way
@@ -446,7 +447,7 @@ export const WayPage = (props: WayPageProps) => {
                 dropdownMenuItems={[
                   {
                     id: "Make the way private/public",
-                    isVisible: isUserOwnerOrMentor,
+                    isVisible: isOwner,
                     value: way.isPrivate
                       ? LanguageService.way.peopleBlock.makePublicButton[language]
                       : LanguageService.way.peopleBlock.makePrivateButton[language],

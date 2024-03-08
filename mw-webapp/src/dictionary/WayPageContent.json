@@ -313,5 +313,15 @@
     "ru": "Показать еще",
     "en": "Load more"
   }
+  },
+  "privateInfo": {
+    "title": {
+      "ru": "Путь недоступен",
+      "en": "Way not available"
+    },
+    "description": {
+      "ru": "Этот путь приватный, он доступен только владельцу и ментору",
+      "en": "This way is private, it is available only to the owner and mentor"
+    }
   }
 }

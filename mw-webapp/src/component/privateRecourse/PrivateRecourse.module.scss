@@ -1,0 +1,13 @@
+@import "src/styles/variables";
+
+.container {
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  margin-top: $marginMedium;
+}
+
+.description {
+  max-width: $maxWidthBlock;
+  margin: 0 auto;
+}
