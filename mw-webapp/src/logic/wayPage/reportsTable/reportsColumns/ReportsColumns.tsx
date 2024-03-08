@@ -15,6 +15,7 @@ import {getFirstName} from "src/logic/waysTable/waysColumns";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
+import {LanguageService} from "src/service/LangauageService";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
 
@@ -96,7 +97,7 @@ interface ColumnsProps {
  * Don't get rid of any https://github.com/TanStack/table/issues/4382
  */
 export const Columns = (props: ColumnsProps) => {
-  const {user} = useGlobalContext();
+  const {user, language} = useGlobalContext();
   const ownerUuid = props.way.owner.uuid;
   const isOwner = user?.uuid === ownerUuid;
   const isMentor = !!user && !!user.uuid && props.way.mentors.has(user.uuid);
@@ -134,9 +135,9 @@ export const Columns = (props: ColumnsProps) => {
       header: () => (
         <Tooltip
           position={PositionTooltip.TOP}
-          content="Date, when day report was created"
+          content={LanguageService.way.reportsTable.columnTooltip.date[language]}
         >
-          Date
+          {LanguageService.way.reportsTable.column.date[language]}
         </Tooltip>
       ),
 
@@ -153,9 +154,9 @@ export const Columns = (props: ColumnsProps) => {
       header: () => (
         <Tooltip
           position={PositionTooltip.TOP}
-          content="The most specific and decomposed jobs related to this way (in minutes)"
+          content={LanguageService.way.reportsTable.columnTooltip.jobsDone[language]}
         >
-          Jobs done
+          {LanguageService.way.reportsTable.column.jobsDone[language]}
         </Tooltip>
       ),
 
@@ -179,9 +180,9 @@ export const Columns = (props: ColumnsProps) => {
       header: () => (
         <Tooltip
           position={PositionTooltip.TOP}
-          content="Plans related to this way (in minutes)"
+          content={LanguageService.way.reportsTable.columnTooltip.plans[language]}
         >
-          Plans
+          {LanguageService.way.reportsTable.column.plans[language]}
         </Tooltip>
       ),
 
@@ -208,9 +209,9 @@ export const Columns = (props: ColumnsProps) => {
       header: () => (
         <Tooltip
           position={PositionTooltip.TOP}
-          content="Problems you encountered while completing the task"
+          content={LanguageService.way.reportsTable.columnTooltip.problems[language]}
         >
-          Problems
+          {LanguageService.way.reportsTable.column.problems[language]}
         </Tooltip>
       ),
 
@@ -235,9 +236,9 @@ export const Columns = (props: ColumnsProps) => {
       header: () => (
         <Tooltip
           position={PositionTooltip.TOP_LEFT}
-          content="Explanations from the mentor and any information related to completing this path"
+          content={LanguageService.way.reportsTable.columnTooltip.comments[language]}
         >
-          Comments
+          {LanguageService.way.reportsTable.column.comments[language]}
         </Tooltip>
       ),
 

@@ -1,8 +1,10 @@
 import {Fragment} from "react";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {useGlobalContext} from "src/GlobalContext";
 import {JobTag} from "src/logic/wayPage/jobTags/jobTag/JobTag";
 import {JobTagStat} from "src/logic/wayPage/wayStatistics/JobTagStat";
 import {StatisticLine} from "src/logic/wayPage/wayStatistics/StatisticLine";
+import {LanguageService} from "src/service/LangauageService";
 import {Symbols} from "src/utils/Symbols";
 
 /**
@@ -20,6 +22,8 @@ interface TagStatsProps {
  * Render stats related to job tags
  */
 export const TagStats = (props: TagStatsProps) => {
+  const {language} = useGlobalContext();
+
   return props.stats.map((tagStat) => (
     <Fragment key={tagStat.jobTag.uuid}>
       <StatisticLine
@@ -31,7 +35,7 @@ export const TagStats = (props: TagStatsProps) => {
             />
             <span>
               {Symbols.NO_BREAK_SPACE}
-              jobs amount:
+              {LanguageService.way.statisticsBlock.jobsAmount[language]}
             </span>
           </HorizontalContainer>
         }
@@ -47,7 +51,7 @@ export const TagStats = (props: TagStatsProps) => {
             />
             <span>
               {Symbols.NO_BREAK_SPACE}
-              time (minutes):
+              {LanguageService.way.statisticsBlock.timeMinutes[language]}
             </span>
           </HorizontalContainer>
         }

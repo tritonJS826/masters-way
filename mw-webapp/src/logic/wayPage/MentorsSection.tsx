@@ -11,6 +11,7 @@ import {useGlobalContext} from "src/GlobalContext";
 import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {pages} from "src/router/pages";
+import {LanguageService} from "src/service/LangauageService";
 import {v4 as uuidv4} from "uuid";
 import styles from "src/logic/wayPage/MentorsSection.module.scss";
 
@@ -64,13 +65,13 @@ interface MentorsSectionProps {
  */
 export const MentorsSection = (props: MentorsSectionProps) => {
   const mentors = Array.from(props.way.mentors.values());
-  const {user} = useGlobalContext();
+  const {user, language} = useGlobalContext();
 
   return (
     <>
       <Title
         level={HeadingLevel.h3}
-        text="Mentors of this way:"
+        text={LanguageService.way.peopleBlock.mentors[language]}
       />
       {mentors.map((mentor) => (
         <div key={uuidv4().concat(mentor.uuid)}>
@@ -83,17 +84,17 @@ export const MentorsSection = (props: MentorsSectionProps) => {
             </Link>
             {(props.isOwner || user?.uuid === mentor.uuid) && (
               <Tooltip
-                content="Delete from mentors"
+                content={LanguageService.way.peopleBlock.deleteFromMentors[language]}
                 position={PositionTooltip.RIGHT}
               >
                 <Confirm
                   trigger={
                     <TrashIcon className={styles.icon} />}
                   content={<p>
-                    {`Are you sure you want to remove "${mentor.name}" from mentors"?`}
+                    {LanguageService.way.peopleBlock.deleteMentorModalContent[language].replace("$mentor", `"${mentor.name}"`)}
                   </p>}
                   onOk={() => removeMentorFromWay(props.way, props.setWay, mentor)}
-                  okText="Delete"
+                  okText={LanguageService.way.peopleBlock.deleteButton[language]}
                 />
               </Tooltip>
             )}

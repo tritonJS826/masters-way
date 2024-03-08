@@ -3,12 +3,14 @@ import {PieChart} from "src/component/chart/PieChart";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {useGlobalContext} from "src/GlobalContext";
 import {JobTagStat} from "src/logic/wayPage/wayStatistics/JobTagStat";
 import {StatisticLine} from "src/logic/wayPage/wayStatistics/StatisticLine";
 import {TagStats} from "src/logic/wayPage/wayStatistics/TagStats";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {JobTag} from "src/model/businessModelPreview/WayPreview";
+import {LanguageService} from "src/service/LangauageService";
 import {DateUtils} from "src/utils/DateUtils";
 import styles from "src/logic/wayPage/wayStatistics/WayStatistic.module.scss";
 
@@ -86,6 +88,7 @@ const getTagStats = (jobsDone: JobDone[]) => {
  * Render table of reports
  */
 export const WayStatistic = (props: WayStatisticProps) => {
+  const {language} = useGlobalContext();
   if (!props.isVisible) {
     return null;
   }
@@ -169,35 +172,35 @@ export const WayStatistic = (props: WayStatisticProps) => {
       <VerticalContainer>
         <Title
           level={HeadingLevel.h4}
-          text="Total"
+          text={LanguageService.way.statisticsBlock.total[language]}
         />
         <StatisticLine
-          description="Days from start:"
+          description={LanguageService.way.statisticsBlock.daysFromStart[language]}
           value={totalDaysOnAWay}
         />
         <StatisticLine
-          description="Total records:"
+          description={LanguageService.way.statisticsBlock.totalRecords[language]}
           value={totalRecordsAmount}
         />
         <StatisticLine
-          description="Total time:"
+          description={LanguageService.way.statisticsBlock.totalTime[language]}
           value={totalWayTime}
         />
         <StatisticLine
-          description="Average time per calendar day:"
+          description={LanguageService.way.statisticsBlock.averageTimePerCalendarDay[language]}
           value={averageWorkingTimeInDay}
         />
         <StatisticLine
-          description="Average working time in working day:"
+          description={LanguageService.way.statisticsBlock.averageWorkingTimePerWorkingDay[language]}
           value={averageWorkingTimeInRecords}
         />
         <StatisticLine
-          description="Total finished jobs:"
+          description={LanguageService.way.statisticsBlock.totalFinishedJobs[language]}
           value={allJobs.length}
         />
-        <Tooltip content="Shows level of task decomposition">
+        <Tooltip content={LanguageService.way.statisticsBlock.showsLevelOfTaskDecomposition[language]}>
           <StatisticLine
-            description="Average job time:"
+            description={LanguageService.way.statisticsBlock.averageJobTime[language]}
             value={averageTimeForJob}
           />
         </Tooltip>
@@ -223,18 +226,18 @@ export const WayStatistic = (props: WayStatisticProps) => {
       <VerticalContainer>
         <Title
           level={HeadingLevel.h4}
-          text="Last month (30 days) statistics"
+          text={LanguageService.way.statisticsBlock.lastMonth[language]}
         />
         <StatisticLine
-          description="Total time:"
+          description={LanguageService.way.statisticsBlock.totalTime[language]}
           value={lastCalendarMonthTotalTime}
         />
         <StatisticLine
-          description="Average time per calendar day:"
+          description={LanguageService.way.statisticsBlock.averageTimePerCalendarDay[language]}
           value={lastCalendarMonthAverageWorkingTime}
         />
         <StatisticLine
-          description="Average time per worked day:"
+          description={LanguageService.way.statisticsBlock.averageWorkingTimePerWorkingDay[language]}
           value={lastCalendarMonthAverageJobTime}
         />
 
@@ -259,18 +262,18 @@ export const WayStatistic = (props: WayStatisticProps) => {
       <VerticalContainer>
         <Title
           level={HeadingLevel.h4}
-          text="Last week"
+          text={LanguageService.way.statisticsBlock.lastWeek[language]}
         />
         <StatisticLine
-          description="Total time:"
+          description={LanguageService.way.statisticsBlock.totalTime[language]}
           value={lastCalendarWeekTotalTime}
         />
         <StatisticLine
-          description="Average time per calendar day:"
+          description={LanguageService.way.statisticsBlock.averageTimePerCalendarDay[language]}
           value={lastCalendarWeekAverageWorkingTime}
         />
         <StatisticLine
-          description="Average time per worked day:"
+          description={LanguageService.way.statisticsBlock.averageWorkingTimePerWorkingDay[language]}
           value={lastCalendarWeekAverageJobTime}
         />
         <TagStats stats={lastWeekTagStats} />
