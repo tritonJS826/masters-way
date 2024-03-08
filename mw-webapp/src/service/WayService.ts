@@ -24,6 +24,7 @@ import {
 import {db} from "src/firebase";
 import {ABANDONED_AFTER_MS} from "src/logic/waysTable/wayStatus";
 import {
+  WAY_IS_PRIVATE_FIELD,
   WAY_LAST_UPDATE_FIELD,
   WAY_STATUS_FIELD,
   WAY_UUID_FIELD, WayDTO,
@@ -105,6 +106,8 @@ interface ConstraintsParams {
   limit?: number;
 }
 
+const noPrivateWaysConstraint = where(WAY_IS_PRIVATE_FIELD, "==", false);
+
 /**
  * Get constraints to fetch ways
  */
@@ -156,7 +159,7 @@ export class WayService {
 
     const currentConstraints = getConstraints({filter});
 
-    const snapshot = await getCountFromServer(query(waysRef, ...currentConstraints));
+    const snapshot = await getCountFromServer(query(waysRef, noPrivateWaysConstraint, ...currentConstraints));
     const waysAmount = snapshot.data().count;
 
     const readsAmount = Math.ceil(waysAmount / AMOUNT_DOCS_FOR_COUNT_READS);
@@ -180,7 +183,7 @@ export class WayService {
 
     const currentConstraints = getConstraints({filter: params.filter, snapshot, limit: PAGINATION_WAYS_AMOUNT});
 
-    const waysOrderedByName = query(waysRef, ...currentConstraints);
+    const waysOrderedByName = query(waysRef, noPrivateWaysConstraint, ...currentConstraints);
     const waysRaw = await getDocs(waysOrderedByName);
     const waysDTO = querySnapshotToDTOConverter<WayDTO>(waysRaw);
 

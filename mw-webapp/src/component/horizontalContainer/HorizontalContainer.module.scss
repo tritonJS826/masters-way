@@ -1,3 +1,6 @@
+@import "src/styles/variables";
+
 .horizontalContainer {
   display: flex;
+  gap: $gapMedium;
 }

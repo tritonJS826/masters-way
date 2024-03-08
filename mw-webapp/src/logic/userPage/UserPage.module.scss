@@ -66,9 +66,6 @@
   }
 }
 
-.createNewWayButton {
-}
-
 .collectionButton {
   width: 100px;
   height: 70px;
@@ -76,6 +73,5 @@
 }
 
 .temporalBlock {
-  gap: $gapMedium;
   @include regularContainer;
 }

@@ -1,10 +1,11 @@
 import logo from "src/assets/mastersWayLogo.svg";
 import {Button, ButtonType} from "src/component/button/Button";
+import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Image} from "src/component/image/Image";
 import {Link} from "src/component/link/Link";
 import {OptionType} from "src/component/select/option/Option";
 import {Select} from "src/component/select/Select";
-import {NavigationLink, Sidebar} from "src/component/sidebar/Sidebar";
+import {MenuItemLink, Sidebar} from "src/component/sidebar/Sidebar";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {useGlobalContext} from "src/GlobalContext";
 import {ThemeSwitcher} from "src/logic/themeSwitcher/ThemeSwitcher";
@@ -27,7 +28,7 @@ export const languageOptions: OptionType<Language>[] = [
 export const Header = () => {
   const {user, language, setLanguage} = useGlobalContext();
 
-  const menuItems: (NavigationLink)[] = [
+  const menuItems: (MenuItemLink)[] = [
     {
       path: pages.allWays.getPath({}),
       value: LanguageService.sidebar.allWays[language],
@@ -65,42 +66,56 @@ export const Header = () => {
         />
       </Link>
       <div className={styles.headerButtonsContainer}>
-        <ThemeSwitcher />
 
-        <Select
-          value={language}
-          name="language"
-          options={languageOptions}
-          onChange={setLanguage}
-        />
+        <HorizontalContainer>
+          <ThemeSwitcher />
 
-        {user &&
-        <Link path={pages.user.getPath({uuid: user.uuid})}>
-          <Title
-            level={HeadingLevel.h4}
-            text={user.name}
-            className={styles.userName}
+          <Select
+            value={language}
+            name="language"
+            options={languageOptions}
+            onChange={setLanguage}
           />
-        </Link>
-        }
 
-        <Button
-          onClick={user ? AuthService.logOut : AuthService.logIn}
-          value={user
-            ? LanguageService.header.logoutButton[language]
-            : LanguageService.header.loginButton[language]}
-          buttonType={ButtonType.TERTIARY}
-        />
-        <Sidebar
-          trigger={
-            <Button
-              value={LanguageService.header.menu[language]}
-              onClick={() => { }}
-              buttonType={ButtonType.TERTIARY}
-            />
-          }
-          linkList={menuItems}
-        />
+        </HorizontalContainer>
+
+        <HorizontalContainer className={styles.rightBlock}>
+          {user ?
+            (<Link path={pages.user.getPath({uuid: user.uuid})}>
+              <Title
+                level={HeadingLevel.h4}
+                text={user.name}
+                className={styles.userName}
+              />
+            </Link>)
+            : (
+              <Button
+                onClick={AuthService.logIn}
+                value={LanguageService.header.loginButton[language]}
+                buttonType={ButtonType.PRIMARY}
+              />
+            )}
+          <Sidebar
+            trigger={
+              <Button
+                value={LanguageService.header.menu[language]}
+                onClick={() => { }}
+                buttonType={ButtonType.TERTIARY}
+              />
+            }
+            linkList={menuItems}
+            bottomChildren={<>
+              {user &&
+              <Button
+                onClick={AuthService.logOut}
+                value={LanguageService.header.logoutButton[language]}
+                buttonType={ButtonType.SECONDARY}
+              />
+              }
+            </>}
+          />
+
+        </HorizontalContainer>
       </div>
     </div>
   );

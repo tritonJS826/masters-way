@@ -1,7 +1,6 @@
-import {useContext} from "react";
 import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
 import {HeadingLevel, Title} from "src/component/title/Title";
-import {globalContext} from "src/GlobalContext";
+import {useGlobalContext} from "src/GlobalContext";
 import {LanguageService as LangService} from "src/service/LangauageService";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import styles from "src/logic/aboutProjectPage/AboutProjectPage.module.scss";
@@ -10,7 +9,7 @@ import styles from "src/logic/aboutProjectPage/AboutProjectPage.module.scss";
  * About project page
  */
 export const AboutProjectPage = () => {
-  const {language} = useContext(globalContext);
+  const {language} = useGlobalContext();
 
   const accordionItems = LangService.aboutProject.accordion.map((data) => ({
     trigger: {child: data.header[language]},

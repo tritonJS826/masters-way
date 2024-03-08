@@ -1,4 +1,4 @@
-import {useContext, useState} from "react";
+import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Confirm} from "src/component/confirm/Confirm";
@@ -12,7 +12,7 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
-import {globalContext, useGlobalContext} from "src/GlobalContext";
+import {useGlobalContext} from "src/GlobalContext";
 import {useLoad} from "src/hooks/useLoad";
 import {usePersistanceState} from "src/hooks/usePersistanceState";
 import {BaseWaysTable, FILTER_STATUS_ALL_VALUE} from "src/logic/waysTable/BaseWaysTable";
@@ -111,7 +111,7 @@ const getAllWayCollections = (userPreview: UserPreview, language: Language): Way
  * User page
  */
 export const UserPage = (props: UserPageProps) => {
-  const {language} = useContext(globalContext);
+  const {language} = useGlobalContext();
   const [isRenameCollectionModalOpen, setIsRenameCollectionModalOpen] = useState(false);
 
   const [userPreview, setUserPreview] = useState<UserPreview>();
@@ -351,7 +351,6 @@ export const UserPage = (props: UserPageProps) => {
               value={LanguageService.user.personalInfo.createNewWayButton[language]}
               onClick={() => createWay(user)}
               buttonType={ButtonType.PRIMARY}
-              className={styles.createNewWayButton}
             />
           }
         </VerticalContainer>

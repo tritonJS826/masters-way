@@ -5,6 +5,7 @@ import {Confirm} from "src/component/confirm/Confirm";
 import {Dropdown} from "src/component/dropdown/Dropdown";
 import {DropdownMenuItem, DropdownMenuItemType} from "src/component/dropdown/dropdownMenuItem/DropdownMenuItem";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
 import {Loader} from "src/component/loader/Loader";
@@ -351,7 +352,7 @@ export const WayPage = (props: WayPageProps) => {
 
   return (
     <VerticalContainer className={styles.container}>
-      <HorizontalContainer className={styles.wayDashboard}>
+      <HorizontalGridContainer className={styles.wayDashboard}>
         <VerticalContainer className={styles.wayInfo}>
           <HorizontalContainer className={styles.wayTitleBlock}>
             <Title
@@ -434,6 +435,23 @@ export const WayPage = (props: WayPageProps) => {
                   />
                 )}
                 dropdownMenuItems={[
+                  {
+                    id: "Make the way private/public",
+                    value: way.isPrivate
+                      ? LanguageService.way.peopleBlock.makePublicButton[language]
+                      : LanguageService.way.peopleBlock.makePrivateButton[language],
+
+                    /**
+                     * Toggle way privacy
+                     */
+                    onClick: () => updateWay({
+                      wayToUpdate: {
+                        uuid: way.uuid,
+                        isPrivate: !way.isPrivate,
+                      },
+                      setWay: setWayPartial,
+                    }),
+                  },
                   {
                     id: "Repeat the way",
                     value: LanguageService.way.wayActions.repeatTheWay[language],
@@ -546,16 +564,36 @@ export const WayPage = (props: WayPageProps) => {
           />
         </VerticalContainer>
         <VerticalContainer className={styles.peopleBlock}>
-          <Title
-            level={HeadingLevel.h3}
-            text={LanguageService.way.peopleBlock.waysOwner[language]}
-          />
-          <Link
-            path={pages.user.getPath({uuid: way.owner.uuid})}
-            className={styles.mentors}
-          >
-            {way.owner.name}
-          </Link>
+          <HorizontalContainer className={styles.privacyBlock}>
+            <Tooltip content={way.isPrivate
+              ? LanguageService.way.peopleBlock.wayPrivacy.privateTooltip[language]
+              : LanguageService.way.peopleBlock.wayPrivacy.publicTooltip[language]
+            }
+            >
+              <Title
+                level={HeadingLevel.h3}
+                text={LanguageService.way.peopleBlock.wayPrivacy.title[language]}
+              />
+              {Symbols.NO_BREAK_SPACE}
+              {way.isPrivate
+                ? LanguageService.way.peopleBlock.wayPrivacy.private[language]
+                : LanguageService.way.peopleBlock.wayPrivacy.public[language]
+              }
+            </Tooltip>
+          </HorizontalContainer>
+
+          <HorizontalContainer>
+            <Title
+              level={HeadingLevel.h3}
+              text={LanguageService.way.peopleBlock.waysOwner[language]}
+            />
+            <Link
+              path={pages.user.getPath({uuid: way.owner.uuid})}
+              className={styles.mentors}
+            >
+              {way.owner.name}
+            </Link>
+          </HorizontalContainer>
           {!!way.mentors.size &&
             <MentorsSection
               way={way}
@@ -583,9 +621,9 @@ export const WayPage = (props: WayPageProps) => {
           )}
         </VerticalContainer>
 
-      </HorizontalContainer>
+      </HorizontalGridContainer>
 
-      <HorizontalContainer className={styles.statisticsBlock}>
+      <HorizontalContainer>
         <VerticalContainer className={styles.statistics}>
           <HorizontalContainer className={styles.horizontalContainer}>
             <Title
@@ -619,7 +657,7 @@ export const WayPage = (props: WayPageProps) => {
 
       {isUserOwnerOrMentor &&
         <HorizontalContainer className={styles.dayReportActions}>
-          <HorizontalContainer className={styles.reportActions}>
+          <HorizontalContainer>
             {isPossibleCreateDayReport &&
               <Button
                 value={LanguageService.way.filterBlock.createNewDayReport[language]}

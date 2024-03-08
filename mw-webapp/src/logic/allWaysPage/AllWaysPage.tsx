@@ -1,7 +1,8 @@
-import {useContext, useState} from "react";
+import {useState} from "react";
 import clsx from "clsx";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Loader} from "src/component/loader/Loader";
 import {displayNotification} from "src/component/notification/displayNotification";
@@ -13,7 +14,7 @@ import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {WayCard} from "src/component/wayCard/WayCard";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
-import {globalContext} from "src/GlobalContext";
+import {useGlobalContext} from "src/GlobalContext";
 import {useLoad} from "src/hooks/useLoad";
 import {usePersistanceState} from "src/hooks/usePersistanceState";
 import {LAST_INDEX} from "src/logic/mathConstants";
@@ -59,7 +60,7 @@ interface AllWaysFetchData {
  * Ways page
  */
 export const AllWaysPage = () => {
-  const {language} = useContext(globalContext);
+  const {language} = useGlobalContext();
   const [allWays, setAllWays] = useState<WayPreview[]>();
   const [allWaysAmount, setAllWaysAmount] = useState<number>();
 
@@ -150,7 +151,7 @@ export const AllWaysPage = () => {
           onChange={(value) => updateAllWaysPageSettings({filterStatus: value, view: allWaysPageSettings.view})}
         />
 
-        <HorizontalContainer className={styles.iconsView}>
+        <HorizontalContainer>
           <Tooltip
             position={PositionTooltip.LEFT}
             content={LanguageService.allWays.filterBlock.cardViewTooltip[language]}
@@ -212,7 +213,7 @@ export const AllWaysPage = () => {
             />
           </ScrollableBlock>
           :
-          <HorizontalContainer className={styles.wayCards}>
+          <HorizontalGridContainer className={styles.wayCards}>
             {allWays.map((way) => {
               return (
                 <WayCard
@@ -222,7 +223,7 @@ export const AllWaysPage = () => {
               );
             })
             }
-          </HorizontalContainer>
+          </HorizontalGridContainer>
         }
         {isMoreWaysExist &&
           <Button

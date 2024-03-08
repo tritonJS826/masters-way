@@ -1,8 +1,9 @@
-import {useContext, useState} from "react";
+import {useState} from "react";
 import clsx from "clsx";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Confirm} from "src/component/confirm/Confirm";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Loader} from "src/component/loader/Loader";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
@@ -13,7 +14,7 @@ import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {WayCard} from "src/component/wayCard/WayCard";
 import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
-import {globalContext} from "src/GlobalContext";
+import {useGlobalContext} from "src/GlobalContext";
 import {useLoad} from "src/hooks/useLoad";
 import {getWaysFilter} from "src/logic/waysTable/wayFilter";
 import {getWaysColumns} from "src/logic/waysTable/waysColumns";
@@ -90,11 +91,31 @@ const validateData = (data: WayPreview[]) => {
 };
 
 /**
+ * TODO: #
+ * It is workaround shoud be implemented on the backend
+ */
+export const isWayVisible = (userUuid: string|undefined, way: WayPreview) => {
+  if (!userUuid) {
+    return !way.isPrivate;
+  }
+
+  const isOwner = userUuid === way.owner.uuid;
+  const isMentor = way.mentors.map((mentor) => mentor.uuid).includes(userUuid);
+
+  return way.isPrivate ? (isOwner || isMentor) : true;
+};
+
+/**
  * Render table of favorite ways preview
  */
 export const BaseWaysTable = (props: BaseWaysTableProps) => {
+  const {user, language} = useGlobalContext();
   const [ways, setWays] = useState<WayPreview[]>();
-  const {language} = useContext(globalContext);
+
+  /**
+   * Filter ways by privacy
+   */
+  const getVisibleWays = (allWays: WayPreview[]) => allWays.filter((way) => isWayVisible(user?.uuid, way));
 
   useLoad(
     {
@@ -146,7 +167,7 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
             onChange={(value) => props.setFilterStatus(value as WayStatusType)}
           />
 
-          <HorizontalContainer className={styles.iconsView}>
+          <HorizontalContainer>
             <Tooltip
               position={PositionTooltip.LEFT}
               content={LanguageService.user.filterBlock.cardViewTooltip[language]}
@@ -182,7 +203,7 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
       </HorizontalContainer>
 
       <Title
-        text={`${props.title} (${ways.length})`}
+        text={`${props.title} (${getVisibleWays(ways).length})`}
         level={HeadingLevel.h2}
       />
 
@@ -191,13 +212,13 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
         {props.view === View.Table ?
           <ScrollableBlock>
             <WaysTable
-              data={ways}
+              data={getVisibleWays(ways)}
               columns={getWaysColumns(language)}
             />
           </ScrollableBlock>
           :
-          <HorizontalContainer className={styles.wayCards}>
-            {ways.map((way) => {
+          <HorizontalGridContainer className={styles.wayCards}>
+            {getVisibleWays(ways).map((way) => {
               return (
                 <WayCard
                   key={way.uuid}
@@ -206,19 +227,19 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
               );
             })
             }
-          </HorizontalContainer>
+          </HorizontalGridContainer>
         }
 
         {props.updateCollection && getIsNoFilters() && (
           <>
             {ArrayUtils.getDifference(
               props.wayUuids,
-              ways.map(way => way.uuid),
+              getVisibleWays(ways).map(way => way.uuid),
             ).map((notExistentWayUuid) => (
               <>
                 <Confirm
                   trigger={
-                  // TODO: #480 make normal element for suggestions
+                    // TODO: #480 make normal element for suggestions
                     <Button
                       value={`Way with uuid "${notExistentWayUuid}" is was removed or hidden. Remove it from the collection?`}
                       onClick={() => {}}

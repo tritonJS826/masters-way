@@ -14,6 +14,7 @@ export const WAY_COPIED_FROM_WAY_UUID_FIELD = "copiedFromWayUuid";
 export const WAY_GOAL_DESCRIPTION_FIELD = "goalDescription";
 export const WAY_ESTIMATION_TIME_FIELD = "estimationTime";
 export const WAY_METRICS_STRINGIFIED_FIELD = "metricsStringified";
+export const WAY_IS_PRIVATE_FIELD = "isPrivate";
 
 export const WayDTOSchema = z.object({
 
@@ -106,7 +107,7 @@ export const WayDTOSchema = z.object({
    * Way is private
    * @default false
    */
-  isPrivate: z.boolean(),
+  [WAY_IS_PRIVATE_FIELD]: z.boolean(),
 
 }).strict();
 

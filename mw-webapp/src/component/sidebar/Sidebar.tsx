@@ -8,7 +8,7 @@ import styles from "src/component/sidebar/Sidebar.module.scss";
 /**
  * Navigation link props.
  */
-export interface NavigationLink {
+export interface MenuItemLink {
 
   /**
    * Navigation link path.
@@ -79,7 +79,12 @@ interface SidebarProps {
   /**
    * List of available links from menu
    */
-  linkList: NavigationLink[];
+  linkList: MenuItemLink[];
+
+  /**
+   * Bottom element
+   */
+  bottomChildren: React.ReactNode;
 
   /**
    * Data attributes for cypress testing
@@ -91,7 +96,7 @@ interface SidebarProps {
 /**
  * Renders navigation links based on the provided navigationLinks array.
  */
-const renderNavigationLinks = (navigationLinks: (NavigationLink)[]) => {
+const renderNavigationLinks = (navigationLinks: (MenuItemLink)[]) => {
   return navigationLinks.map((item) => (
     !item.isHidden && (
       <Link
@@ -123,10 +128,13 @@ export const Sidebar = (props: SidebarProps) => {
       <SidebarContent
         dataCyContent={props.cy?.dataCyContent}
         onClick={() => setOpen(false)}
+        className={styles.sidebarContent}
       >
         <div className={styles.navSidebarContent}>
           {renderNavigationLinks(props.linkList)}
         </div>
+
+        {props.bottomChildren}
       </SidebarContent>
     </DialogRoot>
   );
