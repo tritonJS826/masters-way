@@ -68,21 +68,18 @@ export const MentorsSection = (props: MentorsSectionProps) => {
   const {user, language} = useGlobalContext();
 
   return (
-    <>
+    <div>
       <Title
         level={HeadingLevel.h3}
         text={LanguageService.way.peopleBlock.mentors[language]}
       />
       {mentors.map((mentor) => (
-        <div key={uuidv4().concat(mentor.uuid)}>
-          <HorizontalContainer className={styles.alignTrashIcon}>
-            <Link
-              key={mentor.uuid}
-              path={pages.user.getPath({uuid: mentor.uuid})}
-            >
-              {mentor.name}
-            </Link>
-            {(props.isOwner || user?.uuid === mentor.uuid) && (
+        <HorizontalContainer
+          className={styles.alignTrashIcon}
+          key={uuidv4().concat(mentor.uuid)}
+        >
+          {(props.isOwner || user?.uuid === mentor.uuid)
+            ? (
               <Tooltip
                 content={LanguageService.way.peopleBlock.deleteFromMentors[language]}
                 position={PositionTooltip.RIGHT}
@@ -97,10 +94,18 @@ export const MentorsSection = (props: MentorsSectionProps) => {
                   okText={LanguageService.way.peopleBlock.deleteButton[language]}
                 />
               </Tooltip>
+            )
+            : (
+              <div className={styles.icon} />
             )}
-          </HorizontalContainer>
-        </div>
+          <Link
+            key={mentor.uuid}
+            path={pages.user.getPath({uuid: mentor.uuid})}
+          >
+            {mentor.name}
+          </Link>
+        </HorizontalContainer>
       ))}
-    </>
+    </div>
   );
 };

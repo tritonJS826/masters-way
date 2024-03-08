@@ -1,4 +1,3 @@
-import {useContext} from "react";
 import {Button} from "src/component/button/Button";
 import {languageOptions} from "src/component/header/Header";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
@@ -6,7 +5,7 @@ import {Select} from "src/component/select/Select";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
-import {globalContext} from "src/GlobalContext";
+import {useGlobalContext} from "src/GlobalContext";
 import {LanguageService} from "src/service/LangauageService";
 import {OSNotification} from "src/utils/notifications/OSNotification";
 import styles from "src/logic/settingsPage/SettingsPage.module.scss";
@@ -15,9 +14,7 @@ import styles from "src/logic/settingsPage/SettingsPage.module.scss";
  * Settings page
  */
 export const SettingsPage = () => {
-  const {notification} = useContext(globalContext);
-
-  const {language, setLanguage} = useContext(globalContext);
+  const {notification, language, setLanguage} = useGlobalContext();
 
   return (
     <>

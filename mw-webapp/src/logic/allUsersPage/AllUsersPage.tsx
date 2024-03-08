@@ -1,7 +1,8 @@
-import {useContext, useState} from "react";
+import {useState} from "react";
 import clsx from "clsx";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Input} from "src/component/input/Input";
 import {Loader} from "src/component/loader/Loader";
@@ -13,7 +14,7 @@ import {Tooltip} from "src/component/tooltip/Tooltip";
 import {UserCard} from "src/component/userCard/UserCard";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
-import {globalContext} from "src/GlobalContext";
+import {useGlobalContext} from "src/GlobalContext";
 import {useLoad} from "src/hooks/useLoad";
 import {usePersistanceState} from "src/hooks/usePersistanceState";
 import {LAST_INDEX} from "src/logic/mathConstants";
@@ -51,7 +52,7 @@ export const AllUsersPage = () => {
   const [allUsersAmount, setAllUsersAmount] = useState<number>();
   const [email, setEmail] = useState<string>("");
   const [debouncedEmail ] = useDebounce(email, DEBOUNCE_DELAY_MILLISECONDS);
-  const {language} = useContext(globalContext);
+  const {language} = useGlobalContext();
 
   const [allUsersPageSettings, updateAllUsersPageSettings] = usePersistanceState({
     key: "allUsersPage",
@@ -124,7 +125,7 @@ export const AllUsersPage = () => {
           placeholder={LanguageService.allUsers.filterBlock.emailPlaceholder[language]}
           className={styles.emailFilter}
         />
-        <HorizontalContainer className={styles.iconsView}>
+        <HorizontalContainer>
           <Tooltip
             position={PositionTooltip.LEFT}
             content={LanguageService.allUsers.filterBlock.cardViewTooltip[language]}
@@ -177,7 +178,7 @@ export const AllUsersPage = () => {
             <UsersTableBlock users={allUsers} />
           </ScrollableBlock>
           :
-          <HorizontalContainer className={styles.userCards}>
+          <HorizontalGridContainer className={styles.userCards}>
             {allUsers.map((user) => {
               return (
                 <UserCard
@@ -187,7 +188,7 @@ export const AllUsersPage = () => {
               );
             })
             }
-          </HorizontalContainer>
+          </HorizontalGridContainer>
         }
         {isMoreUsersExist &&
         <Button

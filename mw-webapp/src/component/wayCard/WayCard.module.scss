@@ -46,7 +46,6 @@ $cardLinkFontSize: 16px;
   margin-top: auto;
   color: var(--secondaryTextColor);
   font-size: $fontSizeSmall;
-  gap: $gapMedium;
 }
 
 .ownerLink {
@@ -74,7 +73,6 @@ $cardLinkFontSize: 16px;
 .nameLikes {
   align-items: center;
   justify-content: space-between;
-  gap: $gapMedium;
 }
 
 .likes {
@@ -91,7 +89,6 @@ $cardLinkFontSize: 16px;
 .mentors {
   overflow: hidden;
   font-size: $fontSizeMedium;
-  gap: $gapMedium;
   text-overflow: ellipsis;
   white-space: nowrap;
 }

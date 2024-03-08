@@ -27,7 +27,7 @@
       "en": "Repeat the way"
     },
     "copyUrlToClipboard": {
-      "ru": "Скопировать url в буфер обмена",
+      "ru": "Скопировать url пути",
       "en": "Copy url to clipboard"
     },
     "downloadAsPdf": {
@@ -84,8 +84,39 @@
     }
   },
   "peopleBlock": {
+    "wayPrivacy": {
+      "title": {
+        "ru": "Статус приватности:",
+        "en": "Privacy status:"
+      },
+      "private": {
+        "ru": "Приватный",
+        "en": "Private"
+      },
+      "public": {
+        "ru": "Публичный",
+        "en": "Public"
+      },
+      "privateTooltip": {
+        "ru": "Сейчас путь не виден никому, кроме владельца и текущих менторов. Стутас можно изменить в доступных действиях для пути.",
+        "en": "Now the way is not visible to anyone except the owners and mentors. Status could be changed in way actions."
+      },
+      "publicTooltip": {
+        "ru": "Сейчас путь виден всем. Стутас можно изменить в доступных действиях для пути.",
+        "en": "Now the way is visible for everyone. Status could be changed in way actions."
+      }
+    },
+    
+    "makePrivateButton": {
+      "ru": "Сделать путь приватным",
+      "en": "Make the way private"
+    },
+    "makePublicButton": {
+      "ru": "Сделать путь публичным",
+      "en": "Make the way public"
+    },
     "waysOwner": {
-      "ru": "Владелец пути",
+      "ru": "Владелец пути:",
       "en": "Way's owner:"
     },
     "mentors": {
@@ -282,5 +313,15 @@
     "ru": "Показать еще",
     "en": "Load more"
   }
+  },
+  "privateInfo": {
+    "title": {
+      "ru": "Путь недоступен",
+      "en": "Way not available"
+    },
+    "description": {
+      "ru": "Этот путь приватный, он доступен только владельцу и ментору",
+      "en": "This way is private, it is available only to the owner and mentor"
+    }
   }
 }

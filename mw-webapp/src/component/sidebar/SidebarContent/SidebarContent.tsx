@@ -6,6 +6,7 @@ import {
   Portal as DialogPortal,
 } from "@radix-ui/react-dialog";
 import {Cross2Icon} from "@radix-ui/react-icons";
+import clsx from "clsx";
 import {CyContent} from "src/component/sidebar/Sidebar";
 import styles from "src/component/sidebar/SidebarContent/SidebarContent.module.scss";
 
@@ -23,6 +24,11 @@ interface SidebarContentProps extends PropsWithChildren {
    * Data attribute for cypress testing
    */
   dataCyContent?: CyContent;
+
+  /**
+   * Class name
+   */
+  className: string;
 
 }
 
@@ -48,7 +54,7 @@ export const SidebarContent = (props: SidebarContentProps) => {
       />
       <DialogContent
         data-cy={props.dataCyContent?.dataCyContent}
-        className={styles.dialogContent}
+        className={clsx(styles.dialogContent, props.className)}
         onClick={onClickHandler}
       >
         {props.children}

@@ -1,6 +1,6 @@
 import {BrowserRouter} from "react-router-dom";
-import {Button} from "src/component/button/Button";
-import {NavigationLink, Sidebar} from "src/component/sidebar/Sidebar";
+import {Button, ButtonType} from "src/component/button/Button";
+import {MenuItemLink, Sidebar} from "src/component/sidebar/Sidebar";
 import {getDataCy} from "src/utils/cyTesting/getDataCy";
 
 const SIDEBAR_CY = {
@@ -18,7 +18,7 @@ const SIDEBAR_TRIGGER = (
     onClick={() => { }}
   />);
 
-const SIDEBAR_LINKS: NavigationLink[] = [
+const SIDEBAR_LINKS: MenuItemLink[] = [
   {
     path: "/",
     value: "Home",
@@ -38,6 +38,13 @@ describe("Sidebar component", () => {
           cy={SIDEBAR_CY}
           trigger={SIDEBAR_TRIGGER}
           linkList={SIDEBAR_LINKS}
+          bottomChildren={<>
+            <Button
+              onClick={() => {}}
+              value="Bottom button"
+              buttonType={ButtonType.SECONDARY}
+            />
+          </>}
         />
       </BrowserRouter>
       ,

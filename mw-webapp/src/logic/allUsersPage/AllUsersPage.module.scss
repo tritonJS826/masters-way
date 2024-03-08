@@ -9,7 +9,6 @@
   align-items: center;
   justify-content: space-between;
   @include regularContainer;
-  gap: $gapMedium;
 }
 
 .titleContainer {
@@ -23,7 +22,6 @@
 }
 
 .userCards {
-  display: grid;
   gap: $gapMedium;
   grid-template-columns: repeat(auto-fill, minmax($mediumWidthBlock, 1fr));
 
@@ -36,11 +34,6 @@
   border: none;
   background-color: transparent;
   cursor: pointer;
-}
-
-.iconsView {
-  display: flex;
-  gap: $gapMedium;
 }
 
 .activeView {

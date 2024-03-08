@@ -22,7 +22,6 @@ $iconContainerSize: 25px;
 .wayTagsContainer {
   flex-wrap: wrap;
   align-items: center;
-  gap: $gapMedium;
 }
 
 .flatButton {
@@ -56,11 +55,11 @@ $iconContainerSize: 25px;
   justify-content: space-between;
 }
 
-.mentors {
-  display: flex;
+.privacyBlock {
+  align-items: baseline;
 }
 
-.statisticsBlock {
+.mentors {
   display: flex;
 }
 
@@ -85,7 +84,6 @@ $iconContainerSize: 25px;
 }
 
 .wayDashboard {
-  display: grid;
   gap: $gapMedium;
   grid-template-columns: repeat(auto-fit, minmax($minWidthBlock, 1fr));
 }
@@ -95,9 +93,7 @@ $iconContainerSize: 25px;
 }
 
 .buttons {
-  display: flex;
   align-items: center;
-  gap: $gapMedium;
 }
 
 .gap {
@@ -107,11 +103,6 @@ $iconContainerSize: 25px;
 .dayReportActions {
   @include regularContainer;
   justify-content: space-between;
-  gap: $gapMedium;
-}
-
-.reportActions {
-  gap: $gapMedium;
 }
 
 .accordion {
