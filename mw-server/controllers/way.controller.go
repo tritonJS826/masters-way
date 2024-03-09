@@ -176,39 +176,42 @@ func (cc *WayController) GetWayById(ctx *gin.Context) {
 	})
 	fromUserMentoringRequestsRaw, _ := cc.db.GetFromUserMentoringRequestWaysByWayId(ctx, wayUuid)
 	fromUserMentoringRequests := lo.Map(fromUserMentoringRequestsRaw, func(fromUser db.User, i int) schemas.UserPlainResponse {
+		imageUrl, _ := util.MarshalNullString(fromUser.ImageUrl)
 		return schemas.UserPlainResponse{
 			Uuid:        fromUser.Uuid.String(),
 			Name:        fromUser.Name,
 			Email:       fromUser.Email,
 			Description: fromUser.Description,
 			CreatedAt:   fromUser.CreatedAt.String(),
-			ImageUrl:    util.MarshalNullString(fromUser.ImageUrl).(string),
+			ImageUrl:    string(imageUrl),
 			IsMentor:    fromUser.IsMentor,
 		}
 	})
 
 	formerMentorsRaw, _ := cc.db.GetFormerMentorUsersByWayId(ctx, wayUuid)
 	formerMentors := lo.Map(formerMentorsRaw, func(dbFormerMentor db.User, i int) schemas.UserPlainResponse {
+		imageUrl, _ := util.MarshalNullString(dbFormerMentor.ImageUrl)
 		return schemas.UserPlainResponse{
 			Uuid:        dbFormerMentor.Uuid.String(),
 			Name:        dbFormerMentor.Name,
 			Email:       dbFormerMentor.Email,
 			Description: dbFormerMentor.Description,
 			CreatedAt:   dbFormerMentor.CreatedAt.String(),
-			ImageUrl:    util.MarshalNullString(dbFormerMentor.ImageUrl).(string),
+			ImageUrl:    string(imageUrl),
 			IsMentor:    dbFormerMentor.IsMentor,
 		}
 	})
 
 	mentorsRaw, _ := cc.db.GetMentorUsersByWayId(ctx, wayUuid)
 	mentors := lo.Map(mentorsRaw, func(dbMentor db.User, i int) schemas.UserPlainResponse {
+		imageUrl, _ := util.MarshalNullString(dbMentor.ImageUrl)
 		return schemas.UserPlainResponse{
 			Uuid:        dbMentor.Uuid.String(),
 			Name:        dbMentor.Name,
 			Email:       dbMentor.Email,
 			Description: dbMentor.Description,
 			CreatedAt:   dbMentor.CreatedAt.String(),
-			ImageUrl:    util.MarshalNullString(dbMentor.ImageUrl).(string),
+			ImageUrl:    string(imageUrl),
 			IsMentor:    dbMentor.IsMentor,
 		}
 	})
@@ -253,6 +256,8 @@ func (cc *WayController) GetWayById(ctx *gin.Context) {
 		}
 	}
 
+	userImageUrl, _ := util.MarshalNullString(way.OwnerImageUrl)
+
 	response := schemas.WayPopulatedResponse{
 		Uuid:            way.Uuid.String(),
 		Name:            way.Name,
@@ -268,7 +273,7 @@ func (cc *WayController) GetWayById(ctx *gin.Context) {
 			Email:       way.OwnerEmail,
 			Description: way.OwnerDescription,
 			CreatedAt:   way.OwnerCreatedAt.String(),
-			ImageUrl:    util.MarshalNullString(way.OwnerImageUrl).(string),
+			ImageUrl:    string(userImageUrl),
 			IsMentor:    way.OwnerIsMentor,
 		},
 		DayReports:             dayReports,
@@ -466,6 +471,7 @@ func (cc *WayController) getDeepCommentsByDayReportUuids(ctx *gin.Context, dayRe
 
 	commentsRaw, _ := cc.db.GetListCommentsByDayReportId(ctx, dayReportUuid)
 	comments := lo.Map(commentsRaw, func(commentRaw db.GetListCommentsByDayReportIdRow, i int) schemas.CommentPopulatedResponse {
+		userImageUrl, _ := util.MarshalNullString(commentRaw.OwnerImageUrl)
 		return schemas.CommentPopulatedResponse{
 			Uuid:        commentRaw.Uuid.String(),
 			Description: commentRaw.Description,
@@ -475,7 +481,7 @@ func (cc *WayController) getDeepCommentsByDayReportUuids(ctx *gin.Context, dayRe
 				Email:       commentRaw.OwnerEmail,
 				Description: commentRaw.OwnerDescription,
 				CreatedAt:   commentRaw.OwnerCreatedAt.String(),
-				ImageUrl:    util.MarshalNullString(commentRaw.OwnerImageUrl).(string),
+				ImageUrl:    string(userImageUrl),
 				IsMentor:    commentRaw.OwnerIsMentor,
 			},
 		}
