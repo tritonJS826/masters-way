@@ -2,6 +2,7 @@ package util
 
 import (
 	"database/sql"
+	"encoding/json"
 
 	"github.com/google/uuid"
 )
@@ -28,11 +29,11 @@ func MarshalNullUuid(nullUuid uuid.NullUUID) interface{} {
 	}
 }
 
-func MarshalNullString(nullString sql.NullString) interface{} {
+func MarshalNullString(nullString sql.NullString) ([]byte, error) {
 	if nullString.Valid {
-		return nullString.String
+		return json.Marshal(nullString.String)
 	} else {
-		return nil
+		return []byte("null"), nil
 	}
 }
 

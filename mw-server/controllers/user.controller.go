@@ -60,13 +60,14 @@ func (cc *UserController) CreateUser(ctx *gin.Context) {
 		return
 	}
 
+	imageUrl, _ := util.MarshalNullString(user.ImageUrl)
 	response := schemas.UserPlainResponse{
 		Uuid:        user.Uuid.String(),
 		Name:        user.Name,
 		Email:       user.Email,
 		Description: user.Description,
 		CreatedAt:   user.CreatedAt.String(),
-		ImageUrl:    util.MarshalNullString(user.ImageUrl).(string),
+		ImageUrl:    string(imageUrl),
 		IsMentor:    user.IsMentor,
 	}
 
@@ -122,13 +123,14 @@ func (cc *UserController) UpdateUser(ctx *gin.Context) {
 		IsMentor    bool
 	}
 
+	imageUrl, _ := util.MarshalNullString(user.ImageUrl)
 	response := responseType{
 		Uuid:        user.Uuid,
 		Name:        user.Name,
 		Email:       user.Email,
 		Description: user.Description,
 		CreatedAt:   user.CreatedAt,
-		ImageUrl:    util.MarshalNullString(user.ImageUrl).(string),
+		ImageUrl:    string(imageUrl),
 		IsMentor:    user.IsMentor,
 	}
 
@@ -216,24 +218,26 @@ func (cc *UserController) GetUserById(ctx *gin.Context) {
 
 	favoriteUsersRaw, _ := cc.db.GetFavoriteUserByDonorUserId(ctx, user.Uuid)
 	favoriteUsers := lo.Map(favoriteUsersRaw, func(dbUser db.User, i int) schemas.UserPlainResponse {
+		imageUrl, _ := util.MarshalNullString(user.ImageUrl)
 		return schemas.UserPlainResponse{
 			Uuid:        user.Uuid.String(),
 			Name:        user.Name,
 			Email:       user.Email,
 			Description: user.Description,
 			CreatedAt:   user.CreatedAt.String(),
-			ImageUrl:    util.MarshalNullString(user.ImageUrl).(string),
+			ImageUrl:    string(imageUrl),
 			IsMentor:    user.IsMentor,
 		}
 	})
 
+	imageUrl, _ := util.MarshalNullString(user.ImageUrl)
 	response := schemas.UserPopulatedResponse{
 		Uuid:             user.Uuid.String(),
 		Name:             user.Name,
 		Email:            user.Email,
 		Description:      user.Description,
 		CreatedAt:        user.CreatedAt.String(),
-		ImageUrl:         util.MarshalNullString(user.ImageUrl).(string),
+		ImageUrl:         string(imageUrl),
 		IsMentor:         user.IsMentor,
 		WayCollections:   wayCollections,
 		FavoriteForUsers: favoriteForUsersUuid,
@@ -278,12 +282,13 @@ func (cc *UserController) GetAllUsers(ctx *gin.Context) {
 
 	response := make([]schemas.UserPlainResponse, len(users))
 	for i, user := range users {
+		imageUrl, _ := util.MarshalNullString(user.ImageUrl)
 		response[i] = schemas.UserPlainResponse{
 			Uuid:        user.Uuid.String(),
 			Name:        user.Name,
 			Description: user.Description,
 			CreatedAt:   user.CreatedAt.String(),
-			ImageUrl:    util.MarshalNullString(user.ImageUrl).(string),
+			ImageUrl:    string(imageUrl),
 			IsMentor:    user.IsMentor,
 		}
 	}
