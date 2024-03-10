@@ -42,6 +42,7 @@ interface AllUsersFetchData {
    * Amount of filtered users
    */
   usersAmount: number;
+
 }
 
 /**
