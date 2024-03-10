@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import {Helmet} from "react-helmet";
 import "src/firebase";
 import {App} from "src/App";
 import {reportWebVitals} from "src/reportWebVitals";
@@ -12,13 +11,7 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <Helmet>
-      <meta
-        name="google-site-verification"
-        content="RKvLzkc0vHN3vpxlKloq-vBeazvg2g75amizZPFrtPA"
-      />
-      <App />
-    </Helmet>
+    <App />
   </React.StrictMode>,
 );
 
