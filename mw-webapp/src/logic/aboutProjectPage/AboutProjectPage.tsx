@@ -1,7 +1,10 @@
+// Import {useEffect, useState} from "react";
 import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
 import {HeadingLevel, Title} from "src/component/title/Title";
+// Import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {LanguageService as LangService} from "src/service/LangauageService";
+// Import {UserServiceU} from "src/serviceUpdated/UserService";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import styles from "src/logic/aboutProjectPage/AboutProjectPage.module.scss";
 
@@ -10,6 +13,23 @@ import styles from "src/logic/aboutProjectPage/AboutProjectPage.module.scss";
  */
 export const AboutProjectPage = () => {
   const {language} = useGlobalContext();
+
+  // Const [x, setX] = useState();
+
+  // /**
+  //  * Sdf
+  //  */
+  // const loadX = async () => {
+  //   const data = await UserServiceU.getAllUsers();
+  //   setX(data);
+  // };
+
+  // useEffect(() => {
+  //   loadX();
+  // }, []);
+
+  // // eslint-disable-next-line no-console
+  // console.log(x);
 
   const accordionItems = LangService.aboutProject.accordion.map((data) => ({
     trigger: {child: data.header[language]},

@@ -16,6 +16,7 @@ import {
 } from "src/model/DTOModel/WayDTO";
 import {GetUsersParams, UserService} from "src/service/UserService";
 import {WayService} from "src/service/WayService";
+import {UserServiceU} from "src/serviceUpdated/UserService";
 import {arrayToHashMap} from "src/utils/arrayToHashMap";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 
@@ -29,6 +30,18 @@ export class UserPreviewDAL {
    */
   public static async getUsersPreviewAmount(filter: GetUsersParams): Promise<number> {
     return await UserService.getUsersDTOAmount(filter);
+  }
+
+  /**
+   * GEt all users
+   */
+  public static async getUsersFromBackend() {
+    const users = await UserServiceU.getAllUsers();
+
+    // Console.log("11");
+    // console.log(users);
+
+    return users;
   }
 
   /**
