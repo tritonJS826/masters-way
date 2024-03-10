@@ -17,8 +17,8 @@ root.render(
         name="google-site-verification"
         content="RKvLzkc0vHN3vpxlKloq-vBeazvg2g75amizZPFrtPA"
       />
+      <App />
     </Helmet>
-    <App />
   </React.StrictMode>,
 );
 
