@@ -19,6 +19,7 @@ th .wrapper {
   background-color: var(--tertiaryBackgroundColor);
   color: var(--primaryTextColor);
   cursor: pointer;
+  opacity: 0;
 }
 
 .target {
@@ -52,7 +53,6 @@ th .wrapper {
 
 .bottomRight {
   transform: translateY(0) translateX(50%);
-  // transform: translateY(calc(0% - $marginBig)) translateX(50%);
 }
 
 .topLeft {
