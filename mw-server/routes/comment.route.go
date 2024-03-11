@@ -16,7 +16,7 @@ func NewRouteComment(commentController controllers.CommentController) CommentRou
 
 func (cr *CommentRoutes) CommentRoute(rg *gin.RouterGroup) {
 	router := rg.Group("comments")
-	router.POST("/", cr.commentController.CreateComment)
+	router.POST("", cr.commentController.CreateComment)
 	router.GET("/:dayReportId", cr.commentController.GetCommentsByDayReportId)
 	router.PATCH("/:commentId", cr.commentController.UpdateComment)
 	router.DELETE("/:commentId", cr.commentController.DeleteCommentById)

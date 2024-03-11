@@ -16,7 +16,7 @@ func NewRouteUserTag(userTagController controllers.UserTagController) UserTagRou
 
 func (cr *UserTagRoutes) UserTagRoute(rg *gin.RouterGroup) {
 	router := rg.Group("userTags")
-	router.POST("/", cr.userTagController.CreateUserTag)
+	router.POST("", cr.userTagController.CreateUserTag)
 	router.PATCH("/:userTagId", cr.userTagController.UpdateUserTag)
 	router.GET("/:userId", cr.userTagController.GetUserTagsByUserId)
 	router.DELETE("/:wayTagId", cr.userTagController.DeleteUserTagById)

@@ -16,5 +16,5 @@ func NewRouteFormerMentorWay(formerMentorWayController controllers.FormerMentorW
 
 func (cr *FormerMentorWayRoutes) FormerMentorWayRoute(rg *gin.RouterGroup) {
 	router := rg.Group("formerMentorWayWays")
-	router.POST("/", cr.formerMentorWayController.CreateFormerMentorWay)
+	router.POST("", cr.formerMentorWayController.CreateFormerMentorWay)
 }

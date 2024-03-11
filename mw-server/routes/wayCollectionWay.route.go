@@ -16,6 +16,6 @@ func NewRouteWayCollectionWay(wayCollectionWayController controllers.WayCollecti
 
 func (cr *WayCollectionWayRoutes) WayCollectionWayRoute(rg *gin.RouterGroup) {
 	router := rg.Group("wayCollectionWays")
-	router.POST("/", cr.wayCollectionWayController.CreateWayCollectionWay)
+	router.POST("", cr.wayCollectionWayController.CreateWayCollectionWay)
 	router.DELETE("/:wayId/:wayCollectionId", cr.wayCollectionWayController.DeleteWayCollectionWayById)
 }
