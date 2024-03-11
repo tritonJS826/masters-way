@@ -19,6 +19,11 @@ interface CheckboxProps {
   isDefaultChecked?: boolean;
 
   /**
+   * Data attribute for cypress testing
+   */
+  dataCy?: string;
+
+  /**
    * A callback function to be called when the checkbox's state changes.
    */
   onChange: (value: boolean) => void;
@@ -57,6 +62,7 @@ export const Checkbox = (props: CheckboxProps) => {
         onChange={() => {
           props.isEditable !== false && handleCheckboxChange();
         }}
+        data-cy={props.dataCy}
       />
     </label>
   );
