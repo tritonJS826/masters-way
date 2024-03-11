@@ -11,8 +11,9 @@ export class UserServiceU {
    */
   public static async getAllUsers(): Promise<SchemasUserPlainResponse[]> {
     // Return response.json(); // Parse only if content type is JSON
+    // console.log("1");
     const allUsers = await userService.getAllUsers();
-    // Console.log(allUsers, "!");
+    // Console.log("2", allUsers);
 
     return allUsers;
   }
