@@ -23,9 +23,20 @@ export const languageOptions: OptionType<Language>[] = [
 ];
 
 /**
+ * Checkbox props
+ */
+interface HeaderProps {
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCy?: string;
+}
+
+/**
  * Header component
  */
-export const Header = () => {
+export const Header = (props: HeaderProps) => {
   const {user, language, setLanguage} = useGlobalContext();
 
   const menuItems: (MenuItemLink)[] = [
@@ -60,7 +71,7 @@ export const Header = () => {
   return (
     <div
       className={styles.header}
-      data-cy="header"
+      data-cy={props.dataCy}
     >
       <Link path={pages.allWays.getPath({})}>
         <Image
