@@ -144,7 +144,7 @@ func (cc *UserController) UpdateUser(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param userId path string true "user ID"
-// @Success 200 {object} GetUserByIdResponseType
+// @Success 200 {object} schemas.UserPopulatedResponse
 // @Router /users/{userId} [get]
 func (cc *UserController) GetUserById(ctx *gin.Context) {
 	userId := ctx.Param("userId")

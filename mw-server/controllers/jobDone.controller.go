@@ -30,7 +30,7 @@ func NewJobDoneController(db *db.Queries, ctx context.Context) *JobDoneControlle
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateJobDonePayload true "query params"
-// @Success 200 {object} schemas.JobDonePlainResponse
+// @Success 200 {object} schemas.JobDonePopulatedResponse
 // @Router /jobDones [post]
 func (cc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 	var payload *schemas.CreateJobDonePayload
@@ -69,7 +69,7 @@ func (cc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 // @Produce  json
 // @Param request body schemas.UpdateJobDone true "query params"
 // @Param jobDoneId path string true "jobDone UUID"
-// @Success 200 {object} schemas.JobDonePlainResponse
+// @Success 200 {object} schemas.JobDonePopulatedResponse
 // @Router /jobDones/{jobDoneId} [patch]
 func (cc *JobDoneController) UpdateJobDone(ctx *gin.Context) {
 	var payload *schemas.UpdateJobDone
@@ -110,7 +110,7 @@ func (cc *JobDoneController) UpdateJobDone(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param dayReportId path string true "dayReport UUID"
-// @Success 200 {array} schemas.JobDonePlainResponse
+// @Success 200 {array} schemas.JobDonePopulatedResponse
 // @Router /jobDones/{dayReportId} [get]
 func (cc *JobDoneController) GetJobDonesByDayReportId(ctx *gin.Context) {
 	dayReportId := ctx.Param("dayReportId")

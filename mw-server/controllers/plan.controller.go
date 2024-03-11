@@ -30,7 +30,7 @@ func NewPlanController(db *db.Queries, ctx context.Context) *PlanController {
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreatePlanPayload true "query params"
-// @Success 200 {object} schemas.PlanPlainResponse
+// @Success 200 {object} schemas.PlanPopulatedResponse
 // @Router /plans [post]
 func (cc *PlanController) CreatePlan(ctx *gin.Context) {
 	var payload *schemas.CreatePlanPayload
@@ -70,7 +70,7 @@ func (cc *PlanController) CreatePlan(ctx *gin.Context) {
 // @Produce  json
 // @Param request body schemas.UpdatePlanPayload true "query params"
 // @Param planId path string true "plan UUID"
-// @Success 200 {object} schemas.PlanPlainResponse
+// @Success 200 {object} schemas.PlanPopulatedResponse
 // @Router /plans/{planId} [patch]
 func (cc *PlanController) UpdatePlan(ctx *gin.Context) {
 	var payload *schemas.UpdatePlanPayload
@@ -112,7 +112,7 @@ func (cc *PlanController) UpdatePlan(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param dayReportId path string true "dayReport UUID"
-// @Success 200 {array} schemas.PlanPlainResponse
+// @Success 200 {array} schemas.PlanPopulatedResponse
 // @Router /plans/{dayReportId} [get]
 func (cc *PlanController) GetPlansByDayReportId(ctx *gin.Context) {
 	dayReportId := ctx.Param("dayReportId")
