@@ -58,7 +58,10 @@ export const Header = () => {
   ];
 
   return (
-    <div className={styles.header}>
+    <div
+      className={styles.header}
+      data-cy="header"
+    >
       <Link path={pages.allWays.getPath({})}>
         <Image
           src={logo}
