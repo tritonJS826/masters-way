@@ -16,7 +16,7 @@ func NewRouteDayReport(dayReportController controllers.DayReportController) DayR
 
 func (cr *DayReportRoutes) DayReportRoute(rg *gin.RouterGroup) {
 	router := rg.Group("dayReports")
-	router.POST("/", cr.dayReportController.CreateDayReport)
+	router.POST("", cr.dayReportController.CreateDayReport)
 	router.GET("/:wayId", cr.dayReportController.GetAllDayReports)
 	router.PATCH("/:dayReportId", cr.dayReportController.UpdateDayReport)
 }

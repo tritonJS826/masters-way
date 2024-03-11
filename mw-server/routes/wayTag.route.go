@@ -16,7 +16,7 @@ func NewRouteWayTag(wayTagController controllers.WayTagController) WayTagRoutes 
 
 func (cr *WayTagRoutes) WayTagRoute(rg *gin.RouterGroup) {
 	router := rg.Group("wayTags")
-	router.POST("/", cr.wayTagController.CreateWayTag)
+	router.POST("", cr.wayTagController.CreateWayTag)
 	router.PATCH("/:wayTagId", cr.wayTagController.UpdateWayTag)
 	router.GET("/:wayId", cr.wayTagController.GetWayTagsByWayId)
 	router.DELETE("/:wayTagId", cr.wayTagController.DeleteWayTagById)

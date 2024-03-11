@@ -16,6 +16,6 @@ func NewRouteFromUserMentoringRequest(fromUserMentoringRequestController control
 
 func (cr *FromUserMentoringRequestRoutes) FromUserMentoringRequestRoute(rg *gin.RouterGroup) {
 	router := rg.Group("fromUserMentoringRequests")
-	router.POST("/", cr.fromUserMentoringRequestController.CreateFromUserMentoringRequest)
+	router.POST("", cr.fromUserMentoringRequestController.CreateFromUserMentoringRequest)
 	router.DELETE("/:userUuid/:wayUuid", cr.fromUserMentoringRequestController.DeleteFromUserMentoringRequestById)
 }

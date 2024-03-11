@@ -16,6 +16,6 @@ func NewRoutePlanJobTag(planJobTagController controllers.PlanJobTagController) P
 
 func (cr *PlanJobTagRoutes) PlanJobTagRoute(rg *gin.RouterGroup) {
 	router := rg.Group("planJobTags")
-	router.POST("/", cr.planJobTagController.CreatePlanJobTag)
+	router.POST("", cr.planJobTagController.CreatePlanJobTag)
 	router.DELETE("/:jobTagId/:planId", cr.planJobTagController.DeletePlanJobTagById)
 }

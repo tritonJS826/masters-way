@@ -16,11 +16,11 @@ export class CommentService {
    * Get comments by DayReport Uuid
    */
   public async getCommentsByDayReportUuid(
-    dayReportUuid: GetCommentsByDayReportUuidRequest,
+    requestParameters: GetCommentsByDayReportUuidRequest,
   ): Promise<SchemasCommentPlainResponse[]> {
-    const allCommentsInDayReport = await commentService.getCommentsByDayReportUuid(dayReportUuid);
+    const comments = await commentService.getCommentsByDayReportUuid(requestParameters);
 
-    return allCommentsInDayReport;
+    return comments;
   }
 
   /**
