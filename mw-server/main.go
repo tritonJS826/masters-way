@@ -15,6 +15,7 @@ import (
 
 	_ "mwserver/docs"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -108,6 +109,19 @@ func init() {
 
 	fmt.Println("PostgreSql connected successfully...")
 
+	server = gin.Default()
+
+	// Apply CORS middleware with custom options
+	server.Use(cors.New(cors.Config{
+		// AllowOrigins: []string{"http://localhost:5173/"},
+		AllowOrigins:     []string{"*"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		// 	// MaxAge:           12 * time.Hour,
+	}))
+
 	WayController = *controllers.NewWayController(db, ctx)
 	WayRoutes = routes.NewRouteWay(WayController)
 
@@ -170,8 +184,6 @@ func init() {
 
 	WayTagController = *controllers.NewWayTagController(db, ctx)
 	WayTagRoutes = routes.NewRouteWayTag(WayTagController)
-
-	server = gin.Default()
 
 	server.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
