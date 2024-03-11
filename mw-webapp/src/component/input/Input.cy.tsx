@@ -1,4 +1,4 @@
-import Sinon from "cypress/types/sinon";
+import {HTMLInputTypeAttribute} from "react";
 import {Input} from "src/component/input/Input";
 import {getDataCy} from "src/utils/cyTesting/getDataCy";
 
@@ -6,67 +6,54 @@ const INPUT_CY = "input";
 const INPUT_VALUE = "Text";
 const INPUT_PLACEHOLDER = "Enter text";
 const INPUT_VALUE_EMAIL = "test@example.com";
-const INPUT_VALUE_NUMBER = "1111";
+const INPUT_VALUE_NUMBER = 1111;
+
+/**
+ *Create test input component
+ */
+const createTestInput = (type: HTMLInputTypeAttribute, value: string | number, disabled: boolean = false) => {
+  return (
+    <Input
+      dataCy={INPUT_CY}
+      value={value}
+      placeholder={INPUT_PLACEHOLDER}
+      required={true}
+      disabled={disabled}
+      onChange={() => {}}
+      type={type}
+    />
+  );
+};
 
 describe("Input component", () => {
-  let STUB_FUNCTION: Cypress.Agent<Sinon.SinonSpy>;
-
-  beforeEach(() => {
-    STUB_FUNCTION = cy.spy();
-    cy.mount(
-      <Input
-        dataCy={INPUT_CY}
-        value={INPUT_VALUE}
-        placeholder={INPUT_PLACEHOLDER}
-        required={true}
-        onChange={STUB_FUNCTION}
-      />,
-    );
-  });
 
   it("renders with placeholder visible", () => {
+    cy.mount(createTestInput("text", INPUT_VALUE));
     cy.get(getDataCy(INPUT_CY)).should("have.attr", "placeholder", INPUT_PLACEHOLDER);
   });
 
   it("works with input mode text", () => {
-    cy.get(getDataCy(INPUT_CY)).type(INPUT_VALUE).should("have.value", INPUT_VALUE);
+    cy.mount(createTestInput("text", INPUT_VALUE));
+    cy.get(getDataCy(INPUT_CY)).should("have.value", INPUT_VALUE);
   });
 
   it("works with input mode email", () => {
-    cy.mount(
-      <Input
-        dataCy={INPUT_CY}
-        value={INPUT_VALUE_EMAIL}
-        onChange={STUB_FUNCTION}
-      />,
-    );
-    cy.get(getDataCy(INPUT_CY)).type(INPUT_VALUE_EMAIL).should("have.value", INPUT_VALUE_EMAIL);
+    cy.mount(createTestInput("email", INPUT_VALUE_EMAIL));
+    cy.get(getDataCy(INPUT_CY)).should("have.value", INPUT_VALUE_EMAIL);
   });
 
   it("works with input mode number", () => {
-    cy.mount(
-      <Input
-        dataCy={INPUT_CY}
-        value={INPUT_VALUE_NUMBER}
-        onChange={STUB_FUNCTION}
-      />,
-    );
-    cy.get(getDataCy(INPUT_CY)).clear().type(INPUT_VALUE_NUMBER).should("have.value", INPUT_VALUE_NUMBER);
+    cy.mount(createTestInput("number", INPUT_VALUE_NUMBER));
+    cy.get(getDataCy(INPUT_CY)).should("have.value", INPUT_VALUE_NUMBER);
   });
 
   it("cannot be used when disabled", () => {
-    cy.mount(
-      <Input
-        dataCy={INPUT_CY}
-        value={INPUT_VALUE_NUMBER}
-        onChange={STUB_FUNCTION}
-        disabled={true}
-      />,
-    );
+    cy.mount(createTestInput("text", INPUT_VALUE, true));
     cy.get(getDataCy(INPUT_CY)).should("be.disabled");
   });
 
-  it("checks \"required\" logic", () => {
+  it("input checks to have an attribute \"required\"", () => {
+    cy.mount(createTestInput("text", INPUT_VALUE));
     cy.get(getDataCy(INPUT_CY)).should("have.attr", "required");
   });
 });

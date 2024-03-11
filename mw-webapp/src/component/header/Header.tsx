@@ -15,7 +15,7 @@ import {LanguageService} from "src/service/LangauageService";
 import {Language} from "src/utils/LanguageWorker";
 import styles from "src/component/header/Header.module.scss";
 
-const LOGO_TEXT = "Master's way";
+export const LOGO_TEXT = "Master's way";
 
 export const languageOptions: OptionType<Language>[] = [
   {id: "1", value: Language.ENGLISH, text: "en"},
