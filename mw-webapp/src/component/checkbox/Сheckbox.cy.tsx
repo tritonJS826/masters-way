@@ -7,9 +7,9 @@ const CHECKBOX_CY = "checkbox";
 let STUB_FUNCTION: Cypress.Agent<Sinon.SinonSpy>;
 
 /**
- *Create test input component
+ *Create test checkbox component
  */
-const createTestInput = (isDefaultChecked?: boolean) => {
+const createTestCheckbox = (isDefaultChecked?: boolean) => {
   return (
     <Checkbox
       onChange={STUB_FUNCTION}
@@ -21,18 +21,18 @@ const createTestInput = (isDefaultChecked?: boolean) => {
 
 describe("Checkbox component", () => {
   it("should not be checked by default if isDefaultChecked is false", () => {
-    cy.mount(createTestInput(false));
+    cy.mount(createTestCheckbox(false));
     cy.get(getDataCy(CHECKBOX_CY)).should("not.be.checked");
   });
 
   it("should  bexchecked if isDefaultChecked is true", () => {
-    cy.mount(createTestInput(true));
+    cy.mount(createTestCheckbox(true));
     cy.get(getDataCy(CHECKBOX_CY)).should("be.checked");
   });
 
   it("onChange callback shout triggered when checkbox is clicked", () => {
     STUB_FUNCTION = cy.spy();
-    cy.mount(createTestInput());
+    cy.mount(createTestCheckbox());
     cy.get(getDataCy(CHECKBOX_CY)).click();
     cy.wrap(STUB_FUNCTION).should("have.been.calledWith", true);
     cy.get(getDataCy(CHECKBOX_CY)).click();
