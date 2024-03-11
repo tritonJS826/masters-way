@@ -30,7 +30,7 @@ func NewProblemController(db *db.Queries, ctx context.Context) *ProblemControlle
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateProblemPayload true "query params"
-// @Success 200 {object} schemas.ProblemPlainResponse
+// @Success 200 {object} schemas.ProblemPopulatedResponse
 // @Router /problems [post]
 func (cc *ProblemController) CreateProblem(ctx *gin.Context) {
 	var payload *schemas.CreateProblemPayload
@@ -69,7 +69,7 @@ func (cc *ProblemController) CreateProblem(ctx *gin.Context) {
 // @Produce  json
 // @Param request body schemas.UpdateProblemPayload true "query params"
 // @Param problemId path string true "problem ID"
-// @Success 200 {object} schemas.ProblemPlainResponse
+// @Success 200 {object} schemas.ProblemPopulatedResponse
 // @Router /problems/{problemId} [patch]
 func (cc *ProblemController) UpdateProblem(ctx *gin.Context) {
 	var payload *schemas.UpdateProblemPayload
@@ -110,7 +110,7 @@ func (cc *ProblemController) UpdateProblem(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param dayReportId path string true "dayReport ID"
-// @Success 200 {array} schemas.ProblemPlainResponse
+// @Success 200 {array} schemas.ProblemPopulatedResponse
 // @Router /problems/{dayReportId} [get]
 func (cc *ProblemController) GetProblemsByDayReportId(ctx *gin.Context) {
 	dayReportId := ctx.Param("dayReportId")

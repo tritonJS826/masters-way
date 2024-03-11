@@ -30,7 +30,7 @@ func NewDayReportController(db *db.Queries, ctx context.Context) *DayReportContr
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateDayReportPayload true "query params"
-// @Success 200 {object} schemas.DayReportPlainResponse
+// @Success 200 {object} schemas.DayReportPopulatedResponse
 // @Router /dayReports [post]
 func (cc *DayReportController) CreateDayReport(ctx *gin.Context) {
 	var payload *schemas.CreateDayReportPayload
@@ -67,7 +67,7 @@ func (cc *DayReportController) CreateDayReport(ctx *gin.Context) {
 // @Produce  json
 // @Param request body schemas.UpdateDayReportPayload true "query params"
 // @Param dayReportId path string true "dayReport ID"
-// @Success 200 {object} schemas.DayReportPlainResponse
+// @Success 200 {object} schemas.DayReportPopulatedResponse
 // @Router /dayReports/{dayReportId} [patch]
 func (cc *DayReportController) UpdateDayReport(ctx *gin.Context) {
 	var payload *schemas.UpdateDayReportPayload
@@ -108,7 +108,7 @@ func (cc *DayReportController) UpdateDayReport(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param wayId path string true "way ID"
-// @Success 200 {array} schemas.DayReportPlainResponse
+// @Success 200 {array} schemas.DayReportPopulatedResponse
 // @Router /dayReports/{wayId} [get]
 func (cc *DayReportController) GetAllDayReports(ctx *gin.Context) {
 	wayId := ctx.Param("wayId")
