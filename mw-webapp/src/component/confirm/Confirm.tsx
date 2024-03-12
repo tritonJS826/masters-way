@@ -2,7 +2,7 @@ import {ReactElement, useRef, useState} from "react";
 import {Close as DialogClose} from "@radix-ui/react-dialog";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
-import {Modal} from "src/component/modal/Modal";
+import {Cy, Modal} from "src/component/modal/Modal";
 import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/component/confirm/Confirm.module.scss";
 
@@ -42,6 +42,10 @@ interface ConfirmProps {
    */
   onCancel?: () => void;
 
+  /**
+   * Data attributes for cypress testing
+   */
+  cy?: Cy;
 }
 
 /**
@@ -102,6 +106,7 @@ export const Confirm = (props: ConfirmProps) => {
 
   return (
     <Modal
+      cy={props.cy}
       isOpen={isOpen}
       content={renderConfirmContent()}
       trigger={props.trigger}

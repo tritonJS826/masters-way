@@ -28,7 +28,7 @@ export interface CyContent {
 /**
  * Data attributes for cypress testing
  */
-interface Cy {
+export interface Cy {
 
   /**
    * Data attribute for cypress testing
