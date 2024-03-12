@@ -10,6 +10,7 @@ export const SunIcon = (props: IconProps) => {
       viewBox="0 0 24 24"
       fill="none"
       className={props.className}
+      data-cy={props.dataCy}
     >
       <path
         fillRule="evenodd"
