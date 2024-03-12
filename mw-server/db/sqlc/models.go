@@ -134,9 +134,13 @@ type User struct {
 }
 
 type UserTag struct {
-	Uuid      uuid.UUID `json:"uuid"`
-	OwnerUuid uuid.UUID `json:"owner_uuid"`
-	Name      string    `json:"name"`
+	Uuid uuid.UUID `json:"uuid"`
+	Name string    `json:"name"`
+}
+
+type UsersUserTag struct {
+	UserUuid    uuid.UUID `json:"user_uuid"`
+	UserTagUuid uuid.UUID `json:"user_tag_uuid"`
 }
 
 type Way struct {
@@ -166,7 +170,11 @@ type WayCollectionsWay struct {
 }
 
 type WayTag struct {
-	Uuid    uuid.UUID `json:"uuid"`
-	Name    string    `json:"name"`
-	WayUuid uuid.UUID `json:"way_uuid"`
+	Uuid uuid.UUID `json:"uuid"`
+	Name string    `json:"name"`
+}
+
+type WaysWayTag struct {
+	WayUuid    uuid.UUID `json:"way_uuid"`
+	WayTagUuid uuid.UUID `json:"way_tag_uuid"`
 }

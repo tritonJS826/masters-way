@@ -7,45 +7,32 @@ package db
 
 import (
 	"context"
-	"database/sql"
 
 	"github.com/google/uuid"
 )
 
 const createWayTag = `-- name: CreateWayTag :one
 INSERT INTO way_tags(
-    name,
-    way_uuid
+    name
 ) VALUES (
-    $1, $2
-) RETURNING uuid, name, way_uuid
+    $1
+) RETURNING uuid, name
 `
 
-type CreateWayTagParams struct {
-	Name    string    `json:"name"`
-	WayUuid uuid.UUID `json:"way_uuid"`
-}
-
-func (q *Queries) CreateWayTag(ctx context.Context, arg CreateWayTagParams) (WayTag, error) {
-	row := q.queryRow(ctx, q.createWayTagStmt, createWayTag, arg.Name, arg.WayUuid)
+func (q *Queries) CreateWayTag(ctx context.Context, name string) (WayTag, error) {
+	row := q.queryRow(ctx, q.createWayTagStmt, createWayTag, name)
 	var i WayTag
-	err := row.Scan(&i.Uuid, &i.Name, &i.WayUuid)
+	err := row.Scan(&i.Uuid, &i.Name)
 	return i, err
 }
 
-const deleteWayTag = `-- name: DeleteWayTag :exec
-DELETE FROM way_tags
-WHERE uuid = $1
-`
-
-func (q *Queries) DeleteWayTag(ctx context.Context, argUuid uuid.UUID) error {
-	_, err := q.exec(ctx, q.deleteWayTagStmt, deleteWayTag, argUuid)
-	return err
-}
-
 const getListWayTagsByWayId = `-- name: GetListWayTagsByWayId :many
-SELECT uuid, name, way_uuid FROM way_tags
-WHERE way_tags.way_uuid = $1
+SELECT 
+    way_tags.uuid AS uuid,
+    way_tags.name AS name
+FROM way_tags
+JOIN ways_way_tags ON ways_way_tags.way_tag_uuid = way_tags.uuid  
+WHERE ways_way_tags.way_uuid = $1
 ORDER BY uuid
 `
 
@@ -58,7 +45,7 @@ func (q *Queries) GetListWayTagsByWayId(ctx context.Context, wayUuid uuid.UUID) 
 	items := []WayTag{}
 	for rows.Next() {
 		var i WayTag
-		if err := rows.Scan(&i.Uuid, &i.Name, &i.WayUuid); err != nil {
+		if err := rows.Scan(&i.Uuid, &i.Name); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
@@ -72,23 +59,14 @@ func (q *Queries) GetListWayTagsByWayId(ctx context.Context, wayUuid uuid.UUID) 
 	return items, nil
 }
 
-const updateWayTag = `-- name: UpdateWayTag :one
-UPDATE way_tags
-SET
-name = coalesce($1, name)
-
-WHERE uuid = $2
-RETURNING uuid, name, way_uuid
+const getWayTagByName = `-- name: GetWayTagByName :one
+SELECT uuid, name FROM way_tags
+WHERE way_tags.name = $1
 `
 
-type UpdateWayTagParams struct {
-	Name sql.NullString `json:"name"`
-	Uuid uuid.UUID      `json:"uuid"`
-}
-
-func (q *Queries) UpdateWayTag(ctx context.Context, arg UpdateWayTagParams) (WayTag, error) {
-	row := q.queryRow(ctx, q.updateWayTagStmt, updateWayTag, arg.Name, arg.Uuid)
+func (q *Queries) GetWayTagByName(ctx context.Context, name string) (WayTag, error) {
+	row := q.queryRow(ctx, q.getWayTagByNameStmt, getWayTagByName, name)
 	var i WayTag
-	err := row.Scan(&i.Uuid, &i.Name, &i.WayUuid)
+	err := row.Scan(&i.Uuid, &i.Name)
 	return i, err
 }

@@ -48,13 +48,13 @@ func (q *Queries) CreateJobTag(ctx context.Context, arg CreateJobTagParams) (Job
 	return i, err
 }
 
-const deleteJobTagBy = `-- name: DeleteJobTagBy :exec
+const deleteJobTagById = `-- name: DeleteJobTagById :exec
 DELETE FROM job_tags
 WHERE uuid = $1
 `
 
-func (q *Queries) DeleteJobTagBy(ctx context.Context, argUuid uuid.UUID) error {
-	_, err := q.exec(ctx, q.deleteJobTagByStmt, deleteJobTagBy, argUuid)
+func (q *Queries) DeleteJobTagById(ctx context.Context, argUuid uuid.UUID) error {
+	_, err := q.exec(ctx, q.deleteJobTagByIdStmt, deleteJobTagById, argUuid)
 	return err
 }
 

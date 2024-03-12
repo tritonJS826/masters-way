@@ -18,6 +18,8 @@ import type {
   SchemasCreateUserPayload,
   SchemasUpdateUserPayload,
   SchemasUserPlainResponse,
+  SchemasUserPlainResponseWithInfo,
+  SchemasUserPopulatedResponse,
 } from '../models/index';
 import {
     SchemasCreateUserPayloadFromJSON,
@@ -26,6 +28,10 @@ import {
     SchemasUpdateUserPayloadToJSON,
     SchemasUserPlainResponseFromJSON,
     SchemasUserPlainResponseToJSON,
+    SchemasUserPlainResponseWithInfoFromJSON,
+    SchemasUserPlainResponseWithInfoToJSON,
+    SchemasUserPopulatedResponseFromJSON,
+    SchemasUserPopulatedResponseToJSON,
 } from '../models/index';
 
 export interface CreateUserRequest {
@@ -118,7 +124,7 @@ export class UserApi extends runtime.BaseAPI {
      * Get users with pagination
      * Get all users
      */
-    async getAllUsersRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<SchemasUserPlainResponse>>> {
+    async getAllUsersRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<SchemasUserPlainResponseWithInfo>>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -130,14 +136,14 @@ export class UserApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(SchemasUserPlainResponseFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(SchemasUserPlainResponseWithInfoFromJSON));
     }
 
     /**
      * Get users with pagination
      * Get all users
      */
-    async getAllUsers(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<SchemasUserPlainResponse>> {
+    async getAllUsers(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<SchemasUserPlainResponseWithInfo>> {
         const response = await this.getAllUsersRaw(initOverrides);
         return await response.value();
     }
@@ -145,7 +151,7 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * Get user by UUID
      */
-    async getUserByUuidRaw(requestParameters: GetUserByUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<object>> {
+    async getUserByUuidRaw(requestParameters: GetUserByUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasUserPopulatedResponse>> {
         if (requestParameters.userId === null || requestParameters.userId === undefined) {
             throw new runtime.RequiredError('userId','Required parameter requestParameters.userId was null or undefined when calling getUserByUuid.');
         }
@@ -161,13 +167,13 @@ export class UserApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse<any>(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasUserPopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Get user by UUID
      */
-    async getUserByUuid(requestParameters: GetUserByUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<object> {
+    async getUserByUuid(requestParameters: GetUserByUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasUserPopulatedResponse> {
         const response = await this.getUserByUuidRaw(requestParameters, initOverrides);
         return await response.value();
     }

@@ -8,6 +8,14 @@ type CreateUserPayload struct {
 	IsMentor    bool   `json:"isMentor" validate:"required"`
 }
 
+type UpdateUserPayload struct {
+	Name        string `json:"name"`
+	Email       string `json:"email"`
+	Description string `json:"description"`
+	ImageUrl    string `json:"imageUrl" extensions:"x-nullable"`
+	IsMentor    bool   `json:"isMentor"`
+}
+
 type UserPlainResponse struct {
 	Uuid        string `json:"uuid" validate:"required"`
 	Name        string `json:"name" validate:"required"`
@@ -17,12 +25,19 @@ type UserPlainResponse struct {
 	ImageUrl    string `json:"imageUrl" validate:"required" extensions:"x-nullable"`
 	IsMentor    bool   `json:"isMentor" validate:"required"`
 }
-type UpdateUserPayload struct {
-	Name        string `json:"name"`
-	Email       string `json:"email"`
-	Description string `json:"description"`
-	ImageUrl    string `json:"imageUrl" extensions:"x-nullable"`
-	IsMentor    bool   `json:"isMentor"`
+
+type UserPlainResponseWithInfo struct {
+	Uuid             string            `json:"uuid" validate:"required"`
+	Name             string            `json:"name" validate:"required"`
+	Email            string            `json:"email" validate:"required"`
+	Description      string            `json:"description" validate:"required"`
+	CreatedAt        string            `json:"createdAt" validate:"required"`
+	ImageUrl         string            `json:"imageUrl" validate:"required" extensions:"x-nullable"`
+	IsMentor         bool              `json:"isMentor" validate:"required"`
+	FavoriteForUsers int32             `json:"favoriteForUsers" validate:"required"`
+	MentoringWays    int32             `json:"mentoringWays" validate:"required"`
+	OwnWays          int32             `json:"ownWays" validate:"required"`
+	Tags             []UserTagResponse `json:"tags" validate:"required"`
 }
 
 type UserPopulatedResponse struct {

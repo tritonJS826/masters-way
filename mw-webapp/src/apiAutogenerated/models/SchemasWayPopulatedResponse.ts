@@ -13,12 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { SchemasDayReportPlainResponse } from './SchemasDayReportPlainResponse';
+import type { SchemasDayReportPopulatedResponse } from './SchemasDayReportPopulatedResponse';
 import {
-    SchemasDayReportPlainResponseFromJSON,
-    SchemasDayReportPlainResponseFromJSONTyped,
-    SchemasDayReportPlainResponseToJSON,
-} from './SchemasDayReportPlainResponse';
+    SchemasDayReportPopulatedResponseFromJSON,
+    SchemasDayReportPopulatedResponseFromJSONTyped,
+    SchemasDayReportPopulatedResponseToJSON,
+} from './SchemasDayReportPopulatedResponse';
 import type { SchemasJobTagResponse } from './SchemasJobTagResponse';
 import {
     SchemasJobTagResponseFromJSON,
@@ -64,10 +64,10 @@ export interface SchemasWayPopulatedResponse {
     createdAt: string;
     /**
      * 
-     * @type {Array<SchemasDayReportPlainResponse>}
+     * @type {Array<SchemasDayReportPopulatedResponse>}
      * @memberof SchemasWayPopulatedResponse
      */
-    dayReports: Array<SchemasDayReportPlainResponse>;
+    dayReports: Array<SchemasDayReportPopulatedResponse>;
     /**
      * 
      * @type {number}
@@ -148,6 +148,12 @@ export interface SchemasWayPopulatedResponse {
     updatedAt: string;
     /**
      * 
+     * @type {string}
+     * @memberof SchemasWayPopulatedResponse
+     */
+    uuid: string;
+    /**
+     * 
      * @type {Array<SchemasWayTagResponse>}
      * @memberof SchemasWayPopulatedResponse
      */
@@ -177,6 +183,7 @@ export function instanceOfSchemasWayPopulatedResponse(
     isInstance = isInstance && "owner" in value;
     isInstance = isInstance && "status" in value;
     isInstance = isInstance && "updatedAt" in value;
+    isInstance = isInstance && "uuid" in value;
     isInstance = isInstance && "wayTags" in value;
 
     return isInstance;
@@ -197,7 +204,7 @@ export function SchemasWayPopulatedResponseFromJSONTyped(
         
         'copiedFromWayUuid': json['copiedFromWayUuid'],
         'createdAt': json['createdAt'],
-        'dayReports': ((json['dayReports'] as Array<any>).map(SchemasDayReportPlainResponseFromJSON)),
+        'dayReports': ((json['dayReports'] as Array<any>).map(SchemasDayReportPopulatedResponseFromJSON)),
         'estimationTime': json['estimationTime'],
         'favoriteForUsers': json['favoriteForUsers'],
         'formerMentors': ((json['formerMentors'] as Array<any>).map(SchemasUserPlainResponseFromJSON)),
@@ -211,6 +218,7 @@ export function SchemasWayPopulatedResponseFromJSONTyped(
         'owner': SchemasUserPlainResponseFromJSON(json['owner']),
         'status': json['status'],
         'updatedAt': json['updatedAt'],
+        'uuid': json['uuid'],
         'wayTags': ((json['wayTags'] as Array<any>).map(SchemasWayTagResponseFromJSON)),
     };
 }
@@ -227,7 +235,7 @@ export function SchemasWayPopulatedResponseToJSON(value?: SchemasWayPopulatedRes
         
         'copiedFromWayUuid': value.copiedFromWayUuid,
         'createdAt': value.createdAt,
-        'dayReports': ((value.dayReports as Array<any>).map(SchemasDayReportPlainResponseToJSON)),
+        'dayReports': ((value.dayReports as Array<any>).map(SchemasDayReportPopulatedResponseToJSON)),
         'estimationTime': value.estimationTime,
         'favoriteForUsers': value.favoriteForUsers,
         'formerMentors': ((value.formerMentors as Array<any>).map(SchemasUserPlainResponseToJSON)),
@@ -241,6 +249,7 @@ export function SchemasWayPopulatedResponseToJSON(value?: SchemasWayPopulatedRes
         'owner': SchemasUserPlainResponseToJSON(value.owner),
         'status': value.status,
         'updatedAt': value.updatedAt,
+        'uuid': value.uuid,
         'wayTags': ((value.wayTags as Array<any>).map(SchemasWayTagResponseToJSON)),
     };
 }

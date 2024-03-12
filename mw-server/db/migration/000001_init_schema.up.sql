@@ -23,13 +23,11 @@ CREATE TABLE ways(
     "updated_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "estimation_time" INTEGER NOT NULL,
-    "owner_uuid" UUID NOT NULL,
-    "copied_from_way_uuid" UUID,
+    "owner_uuid" UUID NOT NULL REFERENCES users("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
+    "copied_from_way_uuid" UUID REFERENCES ways("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
     "status" VARCHAR NOT NULL,
     "is_private" BOOLEAN NOT NULL,
-    CONSTRAINT "ways_pkey" PRIMARY KEY("uuid"),
-    CONSTRAINT "owner_uuid_fkey" FOREIGN KEY ("owner_uuid") REFERENCES "users" ("uuid"),
-    CONSTRAINT "copied_from_way_uuid_fkey" FOREIGN KEY ("copied_from_way_uuid") REFERENCES "ways" ("uuid")
+    CONSTRAINT "ways_pkey" PRIMARY KEY("uuid")
 );
 CREATE UNIQUE INDEX "way_name_key" ON "ways"("name");
 CREATE UNIQUE INDEX "way_created_at_key" ON "ways"("created_at");
@@ -67,12 +65,11 @@ CREATE TABLE from_user_mentoring_requests(
 
 CREATE TABLE "day_reports"(
     "uuid" UUID NOT NULL DEFAULT (uuid_generate_v4()),
-    "way_uuid" UUID NOT NULL,
+    "way_uuid" UUID NOT NULL REFERENCES ways("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
     "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "is_day_off" BOOLEAN NOT NULL,
-    CONSTRAINT "day_reports_pkey" PRIMARY KEY("uuid"),
-    CONSTRAINT "day_reports_way_uuid_fkey" FOREIGN KEY ("way_uuid") REFERENCES "ways" ("uuid")
+    CONSTRAINT "day_reports_pkey" PRIMARY KEY("uuid")
 );
 
 CREATE TABLE "metrics"(
@@ -103,11 +100,10 @@ CREATE TABLE "plans"(
     "updated_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "job" VARCHAR NOT NULL,
     "estimation_time" INTEGER NOT NULL,
-    "owner_uuid" UUID NOT NULL,
+    "owner_uuid" UUID NOT NULL REFERENCES users("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
     "is_done" BOOLEAN NOT NULL,
     "day_report_uuid" UUID NOT NULL REFERENCES day_reports("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
-    CONSTRAINT "plans_pkey" PRIMARY KEY("uuid"),
-    CONSTRAINT "plans_owner_uuid_fkey" FOREIGN KEY ("owner_uuid") REFERENCES "users" ("uuid")
+    CONSTRAINT "plans_pkey" PRIMARY KEY("uuid")
 );
 
 CREATE TABLE "plans_job_tags"(
@@ -122,11 +118,9 @@ CREATE TABLE "job_dones"(
     "updated_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "description" VARCHAR NOT NULL,
     "time" INTEGER NOT NULL,
-    "owner_uuid" UUID NOT NULL,
+    "owner_uuid" UUID NOT NULL REFERENCES users("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
     "day_report_uuid" UUID NOT NULL REFERENCES day_reports("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
-    CONSTRAINT "job_dones_pkey" PRIMARY KEY("uuid"),
-    CONSTRAINT "owner_uuid_fkey" FOREIGN KEY ("owner_uuid") REFERENCES "users" ("uuid")
-
+    CONSTRAINT "job_dones_pkey" PRIMARY KEY("uuid")
 );
 
 CREATE TABLE "job_dones_job_tags"(
@@ -141,12 +135,9 @@ CREATE TABLE "problems"(
     "updated_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "description" VARCHAR NOT NULL,
     "is_done" BOOLEAN NOT NULL,
-    "owner_uuid" UUID NOT NULL,
+    "owner_uuid" UUID NOT NULL REFERENCES users("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
     "day_report_uuid" UUID NOT NULL REFERENCES day_reports("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
-    CONSTRAINT "problems_pkey" PRIMARY KEY("uuid"),
-    CONSTRAINT "problems_owner_uuid_fkey" FOREIGN KEY ("owner_uuid") REFERENCES "users" ("uuid")
-    -- CONSTRAINT "problems_day_report_uuid_fkey" FOREIGN KEY ("day_report_uuid") REFERENCES "day_reports" ("uuid")
-
+    CONSTRAINT "problems_pkey" PRIMARY KEY("uuid")
 );
 
 CREATE TABLE "problems_job_tags"(
@@ -160,20 +151,18 @@ CREATE TABLE "comments"(
     "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "description" VARCHAR NOT NULL,
-    "owner_uuid" UUID NOT NULL,
+    "owner_uuid" UUID NOT NULL REFERENCES users("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
     "day_report_uuid" UUID NOT NULL REFERENCES day_reports("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
-    CONSTRAINT "comments_pkey" PRIMARY KEY("uuid"),
-    CONSTRAINT "comments_owner_uuid_fkey" FOREIGN KEY ("owner_uuid") REFERENCES "users" ("uuid")
+    CONSTRAINT "comments_pkey" PRIMARY KEY("uuid")
 );
 
 CREATE TABLE "way_collections"(
     "uuid" UUID NOT NULL DEFAULT (uuid_generate_v4()),
-    "owner_uuid" UUID NOT NULL,
+    "owner_uuid" UUID NOT NULL REFERENCES users("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
     "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "name" VARCHAR NOT NULL,
-    CONSTRAINT "way_collections_pkey" PRIMARY KEY("uuid"),
-    CONSTRAINT "way_collections_owner_uuid_fkey" FOREIGN KEY ("owner_uuid") REFERENCES "users" ("uuid")
+    CONSTRAINT "way_collections_pkey" PRIMARY KEY("uuid")
 );
 
 CREATE TABLE "way_collections_ways"(
@@ -185,17 +174,23 @@ CREATE TABLE "way_collections_ways"(
 CREATE TABLE "way_tags"(
     "uuid" UUID NOT NULL DEFAULT (uuid_generate_v4()),
     "name" VARCHAR NOT NULL,
-    "way_uuid" UUID NOT NULL REFERENCES ways("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT "way_tags_pkey" PRIMARY KEY("uuid")
 );
 CREATE UNIQUE INDEX "way_tag_name_key" ON "way_tags"("name");
 
+CREATE TABLE "ways_way_tags"(
+    "way_uuid" UUID NOT NULL REFERENCES ways("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
+    "way_tag_uuid" UUID NOT NULL REFERENCES way_tags("uuid") ON UPDATE CASCADE ON DELETE CASCADE
+);
+
 CREATE TABLE "user_tags"(
     "uuid" UUID NOT NULL DEFAULT (uuid_generate_v4()),
-    "owner_uuid" UUID NOT NULL,
     "name" VARCHAR NOT NULL,
-    CONSTRAINT "user_tags_pkey" PRIMARY KEY("uuid"),
-    CONSTRAINT "user_tags_owner_uuid_fkey" FOREIGN KEY ("owner_uuid") REFERENCES "users" ("uuid")
-
+    CONSTRAINT "user_tags_pkey" PRIMARY KEY("uuid")
 );
 CREATE UNIQUE INDEX "user_tag_name_key" ON "user_tags"("name");
+
+CREATE TABLE "users_user_tags"(
+    "user_uuid" UUID NOT NULL REFERENCES users("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
+    "user_tag_uuid" UUID NOT NULL REFERENCES user_tags("uuid") ON UPDATE CASCADE ON DELETE CASCADE
+);

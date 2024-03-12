@@ -16,14 +16,14 @@
 import * as runtime from '../runtime';
 import type {
   SchemasCreateProblemPayload,
-  SchemasProblemPlainResponse,
+  SchemasProblemPopulatedResponse,
   SchemasUpdateProblemPayload,
 } from '../models/index';
 import {
     SchemasCreateProblemPayloadFromJSON,
     SchemasCreateProblemPayloadToJSON,
-    SchemasProblemPlainResponseFromJSON,
-    SchemasProblemPlainResponseToJSON,
+    SchemasProblemPopulatedResponseFromJSON,
+    SchemasProblemPopulatedResponseToJSON,
     SchemasUpdateProblemPayloadFromJSON,
     SchemasUpdateProblemPayloadToJSON,
 } from '../models/index';
@@ -53,7 +53,7 @@ export class ProblemApi extends runtime.BaseAPI {
     /**
      * Create a new problem
      */
-    async createProblemRaw(requestParameters: CreateProblemRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasProblemPlainResponse>> {
+    async createProblemRaw(requestParameters: CreateProblemRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasProblemPopulatedResponse>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createProblem.');
         }
@@ -72,13 +72,13 @@ export class ProblemApi extends runtime.BaseAPI {
             body: SchemasCreateProblemPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasProblemPlainResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasProblemPopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Create a new problem
      */
-    async createProblem(requestParameters: CreateProblemRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasProblemPlainResponse> {
+    async createProblem(requestParameters: CreateProblemRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasProblemPopulatedResponse> {
         const response = await this.createProblemRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -115,7 +115,7 @@ export class ProblemApi extends runtime.BaseAPI {
     /**
      * Get problems by dayReport UUID
      */
-    async getProblemsByDayReportUuidRaw(requestParameters: GetProblemsByDayReportUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<SchemasProblemPlainResponse>>> {
+    async getProblemsByDayReportUuidRaw(requestParameters: GetProblemsByDayReportUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<SchemasProblemPopulatedResponse>>> {
         if (requestParameters.dayReportId === null || requestParameters.dayReportId === undefined) {
             throw new runtime.RequiredError('dayReportId','Required parameter requestParameters.dayReportId was null or undefined when calling getProblemsByDayReportUuid.');
         }
@@ -131,13 +131,13 @@ export class ProblemApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(SchemasProblemPlainResponseFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(SchemasProblemPopulatedResponseFromJSON));
     }
 
     /**
      * Get problems by dayReport UUID
      */
-    async getProblemsByDayReportUuid(requestParameters: GetProblemsByDayReportUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<SchemasProblemPlainResponse>> {
+    async getProblemsByDayReportUuid(requestParameters: GetProblemsByDayReportUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<SchemasProblemPopulatedResponse>> {
         const response = await this.getProblemsByDayReportUuidRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -145,7 +145,7 @@ export class ProblemApi extends runtime.BaseAPI {
     /**
      * Update problem by UUID
      */
-    async updateProblemRaw(requestParameters: UpdateProblemRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasProblemPlainResponse>> {
+    async updateProblemRaw(requestParameters: UpdateProblemRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasProblemPopulatedResponse>> {
         if (requestParameters.problemId === null || requestParameters.problemId === undefined) {
             throw new runtime.RequiredError('problemId','Required parameter requestParameters.problemId was null or undefined when calling updateProblem.');
         }
@@ -168,13 +168,13 @@ export class ProblemApi extends runtime.BaseAPI {
             body: SchemasUpdateProblemPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasProblemPlainResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasProblemPopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Update problem by UUID
      */
-    async updateProblem(requestParameters: UpdateProblemRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasProblemPlainResponse> {
+    async updateProblem(requestParameters: UpdateProblemRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasProblemPopulatedResponse> {
         const response = await this.updateProblemRaw(requestParameters, initOverrides);
         return await response.value();
     }
