@@ -58,7 +58,7 @@ export const Header = () => {
   ];
 
   return (
-    <div className={styles.header}>
+    <header className={styles.header}>
       <Link path={pages.allWays.getPath({})}>
         <Image
           src={logo}
@@ -117,6 +117,6 @@ export const Header = () => {
 
         </HorizontalContainer>
       </div>
-    </div>
+    </header>
   );
 };
