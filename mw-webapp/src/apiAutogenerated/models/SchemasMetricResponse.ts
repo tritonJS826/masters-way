@@ -33,10 +33,10 @@ export interface SchemasMetricResponse {
     description: string;
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof SchemasMetricResponse
      */
-    doneDate: number;
+    doneDate: string | null;
     /**
      * 
      * @type {number}

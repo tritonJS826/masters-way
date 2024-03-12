@@ -73,6 +73,12 @@ export interface SchemasWayPlainResponse {
      * @memberof SchemasWayPlainResponse
      */
     updatedAt: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemasWayPlainResponse
+     */
+    uuid: string;
 }
 
 /**
@@ -91,6 +97,7 @@ export function instanceOfSchemasWayPlainResponse(
     isInstance = isInstance && "ownerUuid" in value;
     isInstance = isInstance && "status" in value;
     isInstance = isInstance && "updatedAt" in value;
+    isInstance = isInstance && "uuid" in value;
 
     return isInstance;
 }
@@ -117,6 +124,7 @@ export function SchemasWayPlainResponseFromJSONTyped(
         'ownerUuid': json['ownerUuid'],
         'status': json['status'],
         'updatedAt': json['updatedAt'],
+        'uuid': json['uuid'],
     };
 }
 
@@ -139,6 +147,7 @@ export function SchemasWayPlainResponseToJSON(value?: SchemasWayPlainResponse | 
         'ownerUuid': value.ownerUuid,
         'status': value.status,
         'updatedAt': value.updatedAt,
+        'uuid': value.uuid,
     };
 }
 

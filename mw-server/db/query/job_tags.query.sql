@@ -23,6 +23,6 @@ WHERE uuid = sqlc.arg('uuid')
 RETURNING *;
 
 
--- name: DeleteJobTagBy :exec
+-- name: DeleteJobTagById :exec
 DELETE FROM job_tags
 WHERE uuid = $1;

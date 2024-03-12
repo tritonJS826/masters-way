@@ -258,7 +258,7 @@ func (cc *UserController) GetUserById(ctx *gin.Context) {
 // @ID get-all-users
 // @Accept  json
 // @Produce  json
-// @Success 200 {array} schemas.UserPlainResponse
+// @Success 200 {array} schemas.UserPlainResponseWithInfo
 // @Router /users [get]
 func (cc *UserController) GetAllUsers(ctx *gin.Context) {
 	var page = ctx.DefaultQuery("page", "1")
@@ -279,20 +279,29 @@ func (cc *UserController) GetAllUsers(ctx *gin.Context) {
 		return
 	}
 
-	if users == nil {
-		users = []db.User{}
-	}
-
-	response := make([]schemas.UserPlainResponse, len(users))
+	response := make([]schemas.UserPlainResponseWithInfo, len(users))
 	for i, user := range users {
+
+		userTags := lo.Map(user.TagUuids, func(tagUuid string, i int) schemas.UserTagResponse {
+			return schemas.UserTagResponse{
+				Uuid: tagUuid,
+				Name: user.TagNames[i],
+			}
+		})
+
 		imageUrl, _ := util.MarshalNullString(user.ImageUrl)
-		response[i] = schemas.UserPlainResponse{
-			Uuid:        user.Uuid.String(),
-			Name:        user.Name,
-			Description: user.Description,
-			CreatedAt:   user.CreatedAt.String(),
-			ImageUrl:    string(imageUrl),
-			IsMentor:    user.IsMentor,
+		response[i] = schemas.UserPlainResponseWithInfo{
+			Uuid:             user.Uuid.String(),
+			Name:             user.Name,
+			Description:      user.Description,
+			CreatedAt:        user.CreatedAt.String(),
+			ImageUrl:         string(imageUrl),
+			IsMentor:         user.IsMentor,
+			Email:            user.Email,
+			FavoriteForUsers: int32(user.FavoriteForUsersAmount),
+			MentoringWays:    int32(user.MentoringWaysAmount),
+			OwnWays:          int32(user.OwnWaysAmount),
+			Tags:             userTags,
 		}
 	}
 

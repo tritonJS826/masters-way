@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/lib/pq"
 )
 
 const createUser = `-- name: CreateUser :one
@@ -89,7 +90,33 @@ func (q *Queries) GetUserById(ctx context.Context, argUuid uuid.UUID) (User, err
 }
 
 const listUsers = `-- name: ListUsers :many
-SELECT uuid, name, email, description, created_at, image_url, is_mentor FROM users
+SELECT 
+    users.uuid,
+    users.name,
+    users.email,
+    users.description,
+    users.created_at,
+    users.image_url,
+    users.is_mentor,
+    (SELECT COUNT(*) FROM ways WHERE ways.owner_uuid = users.uuid) AS own_ways_amount,
+    (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.user_uuid = users.uuid) AS favorite_ways,
+    (SELECT COUNT(*) FROM mentor_users_ways WHERE mentor_users_ways.user_uuid = users.uuid) AS mentoring_ways_amount,
+    (SELECT COUNT(*) FROM favorite_users WHERE favorite_users.acceptor_user_uuid = users.uuid) AS favorite_for_users_amount,
+    -- get user tag uuids
+    ARRAY(
+        SELECT user_tags.uuid 
+        FROM user_tags 
+        INNER JOIN users_user_tags ON user_tags.uuid = users_user_tags.user_tag_uuid
+        WHERE users_user_tags.owner_uuid = users.uuid
+    )::VARCHAR[] AS tag_uuids,
+    -- get user tag names
+    ARRAY(
+        SELECT user_tags.name 
+        FROM user_tags 
+        INNER JOIN users_user_tags ON user_tags.uuid = users_user_tags.user_tag_uuid
+        WHERE users_user_tags.owner_uuid = users.uuid
+    )::VARCHAR[] AS tag_names
+FROM users
 ORDER BY created_at
 LIMIT $1
 OFFSET $2
@@ -100,16 +127,32 @@ type ListUsersParams struct {
 	Offset int32 `json:"offset"`
 }
 
+type ListUsersRow struct {
+	Uuid                   uuid.UUID      `json:"uuid"`
+	Name                   string         `json:"name"`
+	Email                  string         `json:"email"`
+	Description            string         `json:"description"`
+	CreatedAt              time.Time      `json:"created_at"`
+	ImageUrl               sql.NullString `json:"image_url"`
+	IsMentor               bool           `json:"is_mentor"`
+	OwnWaysAmount          int64          `json:"own_ways_amount"`
+	FavoriteWays           int64          `json:"favorite_ways"`
+	MentoringWaysAmount    int64          `json:"mentoring_ways_amount"`
+	FavoriteForUsersAmount int64          `json:"favorite_for_users_amount"`
+	TagUuids               []string       `json:"tag_uuids"`
+	TagNames               []string       `json:"tag_names"`
+}
+
 // TODO: add filter and sorters
-func (q *Queries) ListUsers(ctx context.Context, arg ListUsersParams) ([]User, error) {
+func (q *Queries) ListUsers(ctx context.Context, arg ListUsersParams) ([]ListUsersRow, error) {
 	rows, err := q.query(ctx, q.listUsersStmt, listUsers, arg.Limit, arg.Offset)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	items := []User{}
+	items := []ListUsersRow{}
 	for rows.Next() {
-		var i User
+		var i ListUsersRow
 		if err := rows.Scan(
 			&i.Uuid,
 			&i.Name,
@@ -118,6 +161,12 @@ func (q *Queries) ListUsers(ctx context.Context, arg ListUsersParams) ([]User, e
 			&i.CreatedAt,
 			&i.ImageUrl,
 			&i.IsMentor,
+			&i.OwnWaysAmount,
+			&i.FavoriteWays,
+			&i.MentoringWaysAmount,
+			&i.FavoriteForUsersAmount,
+			pq.Array(&i.TagUuids),
+			pq.Array(&i.TagNames),
 		); err != nil {
 			return nil, err
 		}
