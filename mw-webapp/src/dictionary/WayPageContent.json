@@ -8,7 +8,7 @@
       "ru": "Нет тэгов",
       "en": "No tags"
     },
-    "wayActionsButton": {
+    "wayActionsTooltip": {
       "ru": "Доступные действия",
       "en": "Way actions"
     },
@@ -267,7 +267,7 @@
     },
     "column": {
       "date": {
-        "ru": "Пользователи",
+        "ru": "Дата",
         "en": "Date"
       },
       "jobsDone": {

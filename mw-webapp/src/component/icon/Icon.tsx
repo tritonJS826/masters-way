@@ -4,6 +4,7 @@ import {EyeSlashedIcon} from "src/assets/icons/EyeSlashedIcon";
 import {FileIcon} from "src/assets/icons/FileIcon";
 import {GridViewIcon} from "src/assets/icons/GridViewIcon";
 import {MoonIcon} from "src/assets/icons/MoonIcon";
+import {MoreVertical} from "src/assets/icons/MoreVertical";
 import {PlusIcon} from "src/assets/icons/PlusIcon";
 import {StarIcon} from "src/assets/icons/StarIcon";
 import {SunIcon} from "src/assets/icons/SunIcon";
@@ -59,6 +60,11 @@ const IconDictionary = {
    * Plus icon
    */
   PlusIcon: (params: IconProps) => <PlusIcon {...params} />,
+
+  /**
+   * MoreVertical icon
+   */
+  MoreVertical: (params: IconProps) => <MoreVertical {...params} />,
 };
 
 /**
