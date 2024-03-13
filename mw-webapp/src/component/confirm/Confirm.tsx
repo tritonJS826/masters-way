@@ -7,6 +7,22 @@ import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/component/confirm/Confirm.module.scss";
 
 /**
+ * Data attributes for cypress testing
+ */
+interface cyDataConfirm extends Cy {
+
+  /**
+   * Data attribute for cypress testing
+   */
+  btnCancel?: string;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  btnOk?: string;
+}
+
+/**
  * Confirm props
  */
 interface ConfirmProps {
@@ -45,7 +61,7 @@ interface ConfirmProps {
   /**
    * Data attributes for cypress testing
    */
-  cy?: Cy;
+  cy?: cyDataConfirm;
 }
 
 /**
@@ -89,6 +105,7 @@ export const Confirm = (props: ConfirmProps) => {
             <Button
               value="Cancel"
               onClick={onCancelClick}
+              dataCy={props.cy?.btnCancel}
             />
           </DialogClose>
           <DialogClose asChild>
@@ -97,6 +114,7 @@ export const Confirm = (props: ConfirmProps) => {
               value={props.okText}
               onClick={props.onOk}
               buttonType={ButtonType.PRIMARY}
+              dataCy={props.cy?.btnOk}
             />
           </DialogClose>
         </HorizontalContainer>

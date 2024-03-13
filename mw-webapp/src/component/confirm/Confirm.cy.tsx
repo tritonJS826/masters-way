@@ -10,6 +10,8 @@ const CONFIRM_CY = {
     dataCyContent: "content",
     dataCyOK: "confirm",
   },
+  btnCancel: "cancel",
+  btnOk: "confirm",
 };
 
 describe("Confirm component", () => {
@@ -20,7 +22,7 @@ describe("Confirm component", () => {
         cy={CONFIRM_CY}
         trigger={
           <Button
-            value="trigger"
+            value="Confirm trigger"
             onClick={() => {}}
           />
         }
@@ -47,6 +49,26 @@ describe("Confirm component", () => {
     cy.get(getDataCy(CONFIRM_CY.dataCyContent.dataCyContent))
       .should("exist");
     cy.get(getDataCy(CONFIRM_CY.dataCyContent.dataCyClose))
+      .click();
+    cy.get(getDataCy(CONFIRM_CY.dataCyContent.dataCyContent))
+      .should("not.exist");
+  });
+  it("should open on trigger click and close by clicking on cancel button", () => {
+    cy.get(getDataCy(CONFIRM_CY.dataCyTrigger))
+      .click();
+    cy.get(getDataCy(CONFIRM_CY.dataCyContent.dataCyContent))
+      .should("exist");
+    cy.get(getDataCy(CONFIRM_CY.btnCancel))
+      .click();
+    cy.get(getDataCy(CONFIRM_CY.dataCyContent.dataCyContent))
+      .should("not.exist");
+  });
+  it("should open on trigger click and close by clicking on ok button", () => {
+    cy.get(getDataCy(CONFIRM_CY.dataCyTrigger))
+      .click();
+    cy.get(getDataCy(CONFIRM_CY.dataCyContent.dataCyContent))
+      .should("exist");
+    cy.get(getDataCy(CONFIRM_CY.btnOk))
       .click();
     cy.get(getDataCy(CONFIRM_CY.dataCyContent.dataCyContent))
       .should("not.exist");
