@@ -19,6 +19,11 @@ $iconContainerSize: 25px;
   justify-content: space-between;
 }
 
+.wayActionsIcon {
+  height: 38px;
+  padding: $paddingSmall;
+}
+
 .wayTagsContainer {
   flex-wrap: wrap;
   align-items: center;
