@@ -387,6 +387,7 @@ export const WayPage = (props: WayPageProps) => {
                 position={PositionTooltip.LEFT}
               >
                 <Button
+                  className={styles.wayActionsIcon}
                   value={`${isWayInFavorites
                     ? Symbols.STAR
                     : Symbols.OUTLINED_STAR
@@ -443,6 +444,7 @@ export const WayPage = (props: WayPageProps) => {
                     position={PositionTooltip.LEFT}
                   >
                     <Button
+                      className={styles.wayActionsIcon}
                       buttonType={ButtonType.TERTIARY}
                       onClick={() => updateWayPageSettings({isGoalMetricsVisible: !wayPageSettings.isGoalMetricsVisible})}
                       value={<>
