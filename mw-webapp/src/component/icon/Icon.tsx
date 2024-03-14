@@ -13,7 +13,7 @@ import styles from "src/component/icon/Icon.module.scss";
 /**
  * Icon dictionary
  */
-const IconDictionary = {
+export const IconDictionary = {
 
   /**
    * Eye opened icon
@@ -62,6 +62,17 @@ const IconDictionary = {
 };
 
 /**
+ * Function to generate a class for the Icon component.
+ * @param {IconProps} props - Object with icon parameters.
+ * @returns {string} - String with the generated class.
+ */
+export const createClassName = (props: IconProps): string => clsx(
+  styles.icon,
+  styles[props.size],
+  props.className,
+);
+
+/**
  * Icon size
  */
 export enum IconSize {
@@ -89,6 +100,11 @@ export interface IconProps {
    * Custom className
    */
   className?: string;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCy?: string;
 
 }
 
