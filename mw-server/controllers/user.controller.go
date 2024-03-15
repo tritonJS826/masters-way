@@ -162,6 +162,8 @@ func (cc *UserController) GetUserById(ctx *gin.Context) {
 	ownWaysRaw, _ := cc.db.GetWayCollectionJoinWayByUserId(ctx, user.Uuid)
 	wayCollectionsMap := make(map[string]schemas.WayCollectionPopulatedResponse)
 	for _, collectionJoinWay := range ownWaysRaw {
+
+		copiedFromWayUuid, _ := util.MarshalNullUuid(collectionJoinWay.WayCopiedFromWayUuid)
 		way := schemas.WayPlainResponse{
 			Uuid:              collectionJoinWay.WayUuid.String(),
 			Name:              collectionJoinWay.WayName,
@@ -171,7 +173,7 @@ func (cc *UserController) GetUserById(ctx *gin.Context) {
 			EstimationTime:    collectionJoinWay.WayEstimationTime,
 			Status:            collectionJoinWay.WayStatus,
 			OwnerUuid:         collectionJoinWay.WayOwnerUuid.String(),
-			CopiedFromWayUuid: util.MarshalNullUuid(collectionJoinWay.WayCopiedFromWayUuid).(string),
+			CopiedFromWayUuid: string(copiedFromWayUuid),
 			IsPrivate:         collectionJoinWay.WayIsPrivate,
 		}
 
@@ -197,6 +199,7 @@ func (cc *UserController) GetUserById(ctx *gin.Context) {
 
 	wayRequestsRaw, _ := cc.db.GetFromUserMentoringRequestWaysByUserId(ctx, user.Uuid)
 	wayRequests := lo.Map(wayRequestsRaw, func(dbWay db.Way, i int) schemas.WayPlainResponse {
+		copiedFromWayUuid, _ := util.MarshalNullUuid(dbWay.CopiedFromWayUuid)
 		return schemas.WayPlainResponse{
 			Uuid:              dbWay.Uuid.String(),
 			Name:              dbWay.Name,
@@ -206,7 +209,7 @@ func (cc *UserController) GetUserById(ctx *gin.Context) {
 			EstimationTime:    dbWay.EstimationTime,
 			Status:            dbWay.Status,
 			OwnerUuid:         dbWay.OwnerUuid.String(),
-			CopiedFromWayUuid: util.MarshalNullUuid(dbWay.CopiedFromWayUuid).(string),
+			CopiedFromWayUuid: string(copiedFromWayUuid),
 			IsPrivate:         dbWay.IsPrivate,
 		}
 	})

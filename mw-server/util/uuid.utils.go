@@ -21,11 +21,11 @@ func ToNullUuid(someString string) uuid.NullUUID {
 	return nullUuid
 }
 
-func MarshalNullUuid(nullUuid uuid.NullUUID) interface{} {
+func MarshalNullUuid(nullUuid uuid.NullUUID) ([]byte, error) {
 	if nullUuid.Valid {
-		return nullUuid.UUID
+		return json.Marshal(nullUuid.UUID)
 	} else {
-		return nil
+		return []byte("null"), nil
 	}
 }
 
