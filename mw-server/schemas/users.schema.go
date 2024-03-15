@@ -35,6 +35,7 @@ type UserPlainResponseWithInfo struct {
 	ImageUrl         string            `json:"imageUrl" validate:"required" extensions:"x-nullable"`
 	IsMentor         bool              `json:"isMentor" validate:"required"`
 	FavoriteForUsers int32             `json:"favoriteForUsers" validate:"required"`
+	FavoriteWays     int32             `json:"favoriteWays" validate:"required"`
 	MentoringWays    int32             `json:"mentoringWays" validate:"required"`
 	OwnWays          int32             `json:"ownWays" validate:"required"`
 	Tags             []UserTagResponse `json:"tags" validate:"required"`

@@ -7,6 +7,7 @@ package db
 
 import (
 	"context"
+	"time"
 
 	"github.com/google/uuid"
 )
@@ -58,22 +59,39 @@ SELECT
     ways.owner_uuid,
     ways.copied_from_way_uuid,
     ways.status,
-    ways.is_private
+    ways.is_private,
+    (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
+    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount
 FROM from_user_mentoring_requests
 JOIN ways 
     ON $1 = from_user_mentoring_requests.user_uuid 
     AND from_user_mentoring_requests.way_uuid = ways.uuid
 `
 
-func (q *Queries) GetFromUserMentoringRequestWaysByUserId(ctx context.Context, userUuid uuid.UUID) ([]Way, error) {
+type GetFromUserMentoringRequestWaysByUserIdRow struct {
+	Uuid                uuid.UUID     `json:"uuid"`
+	Name                string        `json:"name"`
+	GoalDescription     string        `json:"goal_description"`
+	UpdatedAt           time.Time     `json:"updated_at"`
+	CreatedAt           time.Time     `json:"created_at"`
+	EstimationTime      int32         `json:"estimation_time"`
+	OwnerUuid           uuid.UUID     `json:"owner_uuid"`
+	CopiedFromWayUuid   uuid.NullUUID `json:"copied_from_way_uuid"`
+	Status              string        `json:"status"`
+	IsPrivate           bool          `json:"is_private"`
+	WayFavoriteForUsers int64         `json:"way_favorite_for_users"`
+	WayDayReportsAmount int64         `json:"way_day_reports_amount"`
+}
+
+func (q *Queries) GetFromUserMentoringRequestWaysByUserId(ctx context.Context, userUuid uuid.UUID) ([]GetFromUserMentoringRequestWaysByUserIdRow, error) {
 	rows, err := q.query(ctx, q.getFromUserMentoringRequestWaysByUserIdStmt, getFromUserMentoringRequestWaysByUserId, userUuid)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	items := []Way{}
+	items := []GetFromUserMentoringRequestWaysByUserIdRow{}
 	for rows.Next() {
-		var i Way
+		var i GetFromUserMentoringRequestWaysByUserIdRow
 		if err := rows.Scan(
 			&i.Uuid,
 			&i.Name,
@@ -85,6 +103,8 @@ func (q *Queries) GetFromUserMentoringRequestWaysByUserId(ctx context.Context, u
 			&i.CopiedFromWayUuid,
 			&i.Status,
 			&i.IsPrivate,
+			&i.WayFavoriteForUsers,
+			&i.WayDayReportsAmount,
 		); err != nil {
 			return nil, err
 		}

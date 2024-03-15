@@ -74,6 +74,9 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 		OwnerUuid:         way.OwnerUuid.String(),
 		CopiedFromWayUuid: string(copiedFromWayUuid),
 		IsPrivate:         way.IsPrivate,
+		FavoriteForUsers:  0,
+		DayReportsAmount:  0,
+		Mentors:           make([]schemas.UserPlainResponse, 0),
 	}
 
 	ctx.JSON(http.StatusOK, response)
@@ -121,6 +124,20 @@ func (cc *WayController) UpdateWay(ctx *gin.Context) {
 	}
 
 	copiedFromWayUuid, _ := util.MarshalNullUuid(way.CopiedFromWayUuid)
+	mentorsRaw, _ := cc.db.GetMentorUsersByWayId(ctx, way.Uuid)
+	mentors := lo.Map(mentorsRaw, func(dbMentor db.User, i int) schemas.UserPlainResponse {
+		imageUrl, _ := util.MarshalNullString(dbMentor.ImageUrl)
+		return schemas.UserPlainResponse{
+			Uuid:        dbMentor.Uuid.String(),
+			Name:        dbMentor.Name,
+			Email:       dbMentor.Email,
+			Description: dbMentor.Description,
+			CreatedAt:   dbMentor.CreatedAt.String(),
+			ImageUrl:    string(imageUrl),
+			IsMentor:    dbMentor.IsMentor,
+		}
+	})
+
 	response := schemas.WayPlainResponse{
 		Uuid:              way.Uuid.String(),
 		Name:              way.Name,
@@ -132,6 +149,9 @@ func (cc *WayController) UpdateWay(ctx *gin.Context) {
 		OwnerUuid:         way.OwnerUuid.String(),
 		CopiedFromWayUuid: string(copiedFromWayUuid),
 		IsPrivate:         way.IsPrivate,
+		FavoriteForUsers:  int32(way.WayFavoriteForUsers),
+		DayReportsAmount:  int32(way.WayDayReportsAmount),
+		Mentors:           mentors,
 	}
 
 	ctx.JSON(http.StatusOK, response)
@@ -172,10 +192,7 @@ func (cc *WayController) GetWayById(ctx *gin.Context) {
 		}
 	})
 	dayReportsRaw, _ := cc.db.GetListDayReportsByWayUuid(ctx, wayUuid)
-	favoriteForUserUuidsRaw, _ := cc.db.GetFavoriteForUserUuidsByWayId(ctx, wayUuid)
-	favoriteForUserUuids := lo.Map(favoriteForUserUuidsRaw, func(uuid uuid.UUID, i int) string {
-		return uuid.String()
-	})
+	favoriteForUserAmount, _ := cc.db.GetFavoriteForUserUuidsByWayId(ctx, wayUuid)
 	fromUserMentoringRequestsRaw, _ := cc.db.GetFromUserMentoringRequestWaysByWayId(ctx, wayUuid)
 	fromUserMentoringRequests := lo.Map(fromUserMentoringRequestsRaw, func(fromUser db.User, i int) schemas.UserPlainResponse {
 		imageUrl, _ := util.MarshalNullString(fromUser.ImageUrl)
@@ -282,7 +299,7 @@ func (cc *WayController) GetWayById(ctx *gin.Context) {
 		Mentors:                mentors,
 		FormerMentors:          formerMentors,
 		FromUserMentorRequests: fromUserMentoringRequests,
-		FavoriteForUserUuids:   favoriteForUserUuids,
+		FavoriteForUserUuids:   int32(favoriteForUserAmount),
 		WayTags:                wayTags,
 		JobTags:                jobTags,
 		Metrics:                metrics,
@@ -322,8 +339,24 @@ func (cc *WayController) GetAllWays(ctx *gin.Context) {
 
 	response := make([]schemas.WayPlainResponse, len(ways))
 	for i, way := range ways {
+
 		copiedFromWayUuid, _ := util.MarshalNullUuid(way.CopiedFromWayUuid)
+		mentorsRaw, _ := cc.db.GetMentorUsersByWayId(ctx, way.Uuid)
+		mentors := lo.Map(mentorsRaw, func(dbMentor db.User, i int) schemas.UserPlainResponse {
+			imageUrl, _ := util.MarshalNullString(dbMentor.ImageUrl)
+			return schemas.UserPlainResponse{
+				Uuid:        dbMentor.Uuid.String(),
+				Name:        dbMentor.Name,
+				Email:       dbMentor.Email,
+				Description: dbMentor.Description,
+				CreatedAt:   dbMentor.CreatedAt.String(),
+				ImageUrl:    string(imageUrl),
+				IsMentor:    dbMentor.IsMentor,
+			}
+		})
+
 		response[i] = schemas.WayPlainResponse{
+			Uuid:              way.Uuid.String(),
 			Name:              way.Name,
 			GoalDescription:   way.GoalDescription,
 			UpdatedAt:         way.UpdatedAt.String(),
@@ -333,6 +366,9 @@ func (cc *WayController) GetAllWays(ctx *gin.Context) {
 			OwnerUuid:         way.OwnerUuid.String(),
 			CopiedFromWayUuid: string(copiedFromWayUuid),
 			IsPrivate:         way.IsPrivate,
+			FavoriteForUsers:  int32(way.WayFavoriteForUsers),
+			DayReportsAmount:  int32(way.WayDayReportsAmount),
+			Mentors:           mentors,
 		}
 	}
 

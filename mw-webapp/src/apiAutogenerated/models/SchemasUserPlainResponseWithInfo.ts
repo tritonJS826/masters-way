@@ -52,6 +52,12 @@ export interface SchemasUserPlainResponseWithInfo {
     favoriteForUsers: number;
     /**
      * 
+     * @type {number}
+     * @memberof SchemasUserPlainResponseWithInfo
+     */
+    favoriteWays: number;
+    /**
+     * 
      * @type {string}
      * @memberof SchemasUserPlainResponseWithInfo
      */
@@ -105,6 +111,7 @@ export function instanceOfSchemasUserPlainResponseWithInfo(
     isInstance = isInstance && "description" in value;
     isInstance = isInstance && "email" in value;
     isInstance = isInstance && "favoriteForUsers" in value;
+    isInstance = isInstance && "favoriteWays" in value;
     isInstance = isInstance && "imageUrl" in value;
     isInstance = isInstance && "isMentor" in value;
     isInstance = isInstance && "mentoringWays" in value;
@@ -133,6 +140,7 @@ export function SchemasUserPlainResponseWithInfoFromJSONTyped(
         'description': json['description'],
         'email': json['email'],
         'favoriteForUsers': json['favoriteForUsers'],
+        'favoriteWays': json['favoriteWays'],
         'imageUrl': json['imageUrl'],
         'isMentor': json['isMentor'],
         'mentoringWays': json['mentoringWays'],
@@ -157,6 +165,7 @@ export function SchemasUserPlainResponseWithInfoToJSON(value?: SchemasUserPlainR
         'description': value.description,
         'email': value.email,
         'favoriteForUsers': value.favoriteForUsers,
+        'favoriteWays': value.favoriteWays,
         'imageUrl': value.imageUrl,
         'isMentor': value.isMentor,
         'mentoringWays': value.mentoringWays,

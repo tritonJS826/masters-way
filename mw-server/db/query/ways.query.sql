@@ -40,7 +40,11 @@ LIMIT 1;
 
 -- TODO: add filter and sorters
 -- name: ListWays :many
-SELECT * FROM ways
+SELECT 
+    *,
+    (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
+    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount
+FROM ways
 ORDER BY created_at
 LIMIT $1
 OFFSET $2;
@@ -55,8 +59,10 @@ estimation_time = coalesce(sqlc.narg('estimation_time'), estimation_time),
 is_private = coalesce(sqlc.narg('is_private'), is_private),
 status = coalesce(sqlc.narg('status'), status)
 
-WHERE uuid = sqlc.arg('uuid')
-RETURNING *;
+WHERE ways.uuid = sqlc.arg('uuid')
+RETURNING *, 
+    (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = sqlc.arg('uuid')) AS way_favorite_for_users,
+    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = sqlc.arg('uuid')) AS way_day_reports_amount;
 
 -- name: DeleteWay :exec
 DELETE FROM ways

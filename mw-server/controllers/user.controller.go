@@ -164,6 +164,19 @@ func (cc *UserController) GetUserById(ctx *gin.Context) {
 	for _, collectionJoinWay := range ownWaysRaw {
 
 		copiedFromWayUuid, _ := util.MarshalNullUuid(collectionJoinWay.WayCopiedFromWayUuid)
+		dbMentors, _ := cc.db.GetMentorUsersByWayId(ctx, collectionJoinWay.WayUuid)
+		mentors := lo.Map(dbMentors, func(dbMentor db.User, i int) schemas.UserPlainResponse {
+			imageUrl, _ := util.MarshalNullString(dbMentor.ImageUrl)
+			return schemas.UserPlainResponse{
+				Uuid:        dbMentor.Uuid.String(),
+				Name:        dbMentor.Name,
+				Email:       dbMentor.Email,
+				Description: dbMentor.Description,
+				CreatedAt:   dbMentor.CreatedAt.String(),
+				ImageUrl:    string(imageUrl),
+				IsMentor:    dbMentor.IsMentor,
+			}
+		})
 		way := schemas.WayPlainResponse{
 			Uuid:              collectionJoinWay.WayUuid.String(),
 			Name:              collectionJoinWay.WayName,
@@ -175,6 +188,9 @@ func (cc *UserController) GetUserById(ctx *gin.Context) {
 			OwnerUuid:         collectionJoinWay.WayOwnerUuid.String(),
 			CopiedFromWayUuid: string(copiedFromWayUuid),
 			IsPrivate:         collectionJoinWay.WayIsPrivate,
+			FavoriteForUsers:  int32(collectionJoinWay.WayFavoriteForUsers),
+			DayReportsAmount:  int32(collectionJoinWay.WayDayReportsAmount),
+			Mentors:           mentors,
 		}
 
 		wayCollectionsMap[collectionJoinWay.CollectionUuid.String()] = schemas.WayCollectionPopulatedResponse{
@@ -198,8 +214,21 @@ func (cc *UserController) GetUserById(ctx *gin.Context) {
 	})
 
 	wayRequestsRaw, _ := cc.db.GetFromUserMentoringRequestWaysByUserId(ctx, user.Uuid)
-	wayRequests := lo.Map(wayRequestsRaw, func(dbWay db.Way, i int) schemas.WayPlainResponse {
+	wayRequests := lo.Map(wayRequestsRaw, func(dbWay db.GetFromUserMentoringRequestWaysByUserIdRow, i int) schemas.WayPlainResponse {
 		copiedFromWayUuid, _ := util.MarshalNullUuid(dbWay.CopiedFromWayUuid)
+		dbMentors, _ := cc.db.GetMentorUsersByWayId(ctx, dbWay.Uuid)
+		mentors := lo.Map(dbMentors, func(dbMentor db.User, i int) schemas.UserPlainResponse {
+			imageUrl, _ := util.MarshalNullString(dbMentor.ImageUrl)
+			return schemas.UserPlainResponse{
+				Uuid:        dbMentor.Uuid.String(),
+				Name:        dbMentor.Name,
+				Email:       dbMentor.Email,
+				Description: dbMentor.Description,
+				CreatedAt:   dbMentor.CreatedAt.String(),
+				ImageUrl:    string(imageUrl),
+				IsMentor:    dbMentor.IsMentor,
+			}
+		})
 		return schemas.WayPlainResponse{
 			Uuid:              dbWay.Uuid.String(),
 			Name:              dbWay.Name,
@@ -211,6 +240,9 @@ func (cc *UserController) GetUserById(ctx *gin.Context) {
 			OwnerUuid:         dbWay.OwnerUuid.String(),
 			CopiedFromWayUuid: string(copiedFromWayUuid),
 			IsPrivate:         dbWay.IsPrivate,
+			FavoriteForUsers:  int32(dbWay.WayFavoriteForUsers),
+			DayReportsAmount:  int32(dbWay.WayDayReportsAmount),
+			Mentors:           mentors,
 		}
 	})
 
@@ -299,6 +331,7 @@ func (cc *UserController) GetAllUsers(ctx *gin.Context) {
 			IsMentor:         user.IsMentor,
 			Email:            user.Email,
 			FavoriteForUsers: int32(user.FavoriteForUsersAmount),
+			FavoriteWays:     int32(user.FavoriteWays),
 			MentoringWays:    int32(user.MentoringWaysAmount),
 			OwnWays:          int32(user.OwnWaysAmount),
 			Tags:             userTags,
