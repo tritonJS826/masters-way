@@ -15,7 +15,7 @@ import {LanguageService} from "src/service/LangauageService";
 import {Language} from "src/utils/LanguageWorker";
 import styles from "src/component/header/Header.module.scss";
 
-const LOGO_TEXT = "Master's way";
+export const LOGO_TEXT = "Master's way";
 
 export const languageOptions: OptionType<Language>[] = [
   {id: "1", value: Language.ENGLISH, text: "en"},
@@ -23,9 +23,20 @@ export const languageOptions: OptionType<Language>[] = [
 ];
 
 /**
+ * Checkbox props
+ */
+interface HeaderProps {
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCy?: string;
+}
+
+/**
  * Header component
  */
-export const Header = () => {
+export const Header = (props: HeaderProps) => {
   const {user, language, setLanguage} = useGlobalContext();
 
   const menuItems: (MenuItemLink)[] = [
@@ -58,7 +69,10 @@ export const Header = () => {
   ];
 
   return (
-    <header className={styles.header}>
+    <header
+      className={styles.header}
+      data-cy={props.dataCy}
+    >
       <Link path={pages.allWays.getPath({})}>
         <Image
           src={logo}

@@ -74,6 +74,10 @@ interface InputProps<T extends string | number> {
    */
   parser?: (value: string) => T;
 
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCy?: string;
 }
 
 /**
@@ -117,6 +121,7 @@ export const Input = <T extends string | number>(props: InputProps<T>) => {
       required={!!props.required}
       autoFocus={!!props.autoFocus}
       onChange={onChange}
+      data-cy={props.dataCy}
     />
   );
 };
