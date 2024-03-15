@@ -15,8 +15,13 @@ $iconContainerSize: 25px;
 }
 
 .wayTitleBlock {
-  align-items: start;
+  align-items: baseline;
   justify-content: space-between;
+}
+
+.wayActionsIcon {
+  height: 38px;
+  padding: $paddingSmall;
 }
 
 .wayTagsContainer {
@@ -45,7 +50,7 @@ $iconContainerSize: 25px;
 }
 
 .wayActionMenu {
-  left: -95px;
+  left: -150px;
   width: 200px;
 }
 
@@ -92,8 +97,8 @@ $iconContainerSize: 25px;
   gap: $gapMedium;
 }
 
-.buttons {
-  align-items: center;
+.wayActionButtons {
+  align-items: start;
 }
 
 .gap {

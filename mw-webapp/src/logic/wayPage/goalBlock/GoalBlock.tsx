@@ -1,4 +1,5 @@
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
+import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {useGlobalContext} from "src/GlobalContext";
 import {Way} from "src/model/businessModel/Way";
@@ -40,23 +41,21 @@ export const GoalBlock = (props: GoalBlockProps) => {
   const {language} = useGlobalContext();
 
   return (
-    <div className={styles.goalSection}>
-      <div className={styles.goalSubSection}>
-        <Title
-          level={HeadingLevel.h3}
-          text={LanguageService.way.wayInfo.goal[language]}
-        />
-        <EditableTextarea
-          text={props.goalDescription}
-          onChangeFinish={async (goalDescription) => await props.updateWay({
-            uuid: props.wayUuid,
-            goalDescription,
-          })}
-          rows={10}
-          isEditable={props.isEditable}
-          className={styles.goalDescription}
-        />
-      </div>
-    </div>
+    <HorizontalContainer className={styles.goalSection}>
+      <Title
+        level={HeadingLevel.h3}
+        text={LanguageService.way.wayInfo.goal[language]}
+      />
+      <EditableTextarea
+        text={props.goalDescription}
+        onChangeFinish={async (goalDescription) => await props.updateWay({
+          uuid: props.wayUuid,
+          goalDescription,
+        })}
+        rows={10}
+        isEditable={props.isEditable}
+        className={styles.goalDescription}
+      />
+    </HorizontalContainer>
   );
 };

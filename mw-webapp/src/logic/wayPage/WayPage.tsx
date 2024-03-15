@@ -379,7 +379,7 @@ export const WayPage = (props: WayPageProps) => {
               className={styles.wayName}
             />
 
-            <HorizontalContainer className={styles.buttons}>
+            <HorizontalContainer className={styles.wayActionButtons}>
               <Tooltip
                 content={isWayInFavorites
                   ? LanguageService.way.wayInfo.deleteFromFavoritesTooltip[language]
@@ -387,6 +387,7 @@ export const WayPage = (props: WayPageProps) => {
                 position={PositionTooltip.LEFT}
               >
                 <Button
+                  className={styles.wayActionsIcon}
                   value={`${isWayInFavorites
                     ? Symbols.STAR
                     : Symbols.OUTLINED_STAR
@@ -438,11 +439,22 @@ export const WayPage = (props: WayPageProps) => {
               <Dropdown
                 className={styles.wayActionMenu}
                 trigger={(
-                  <Button
-                    value={LanguageService.way.wayInfo.wayActionsButton[language]}
-                    buttonType={ButtonType.SECONDARY}
-                    onClick={() => {}}
-                  />
+                  <Tooltip
+                    content={LanguageService.way.wayInfo.wayActionsTooltip[language]}
+                    position={PositionTooltip.LEFT}
+                  >
+                    <Button
+                      className={styles.wayActionsIcon}
+                      buttonType={ButtonType.TERTIARY}
+                      onClick={() => updateWayPageSettings({isGoalMetricsVisible: !wayPageSettings.isGoalMetricsVisible})}
+                      value={<>
+                        <Icon
+                          size={IconSize.MEDIUM}
+                          name={"MoreVertical"}
+                        />
+                      </>}
+                    />
+                  </Tooltip>
                 )}
                 dropdownMenuItems={[
                   {

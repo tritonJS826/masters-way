@@ -69,7 +69,7 @@ export const Header = (props: HeaderProps) => {
   ];
 
   return (
-    <div
+    <header
       className={styles.header}
       data-cy={props.dataCy}
     >
@@ -131,6 +131,6 @@ export const Header = (props: HeaderProps) => {
 
         </HorizontalContainer>
       </div>
-    </div>
+    </header>
   );
 };
