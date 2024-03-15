@@ -147,7 +147,11 @@ func (q *Queries) GetWayById(ctx context.Context, argUuid uuid.UUID) (GetWayById
 }
 
 const listWays = `-- name: ListWays :many
-SELECT uuid, name, goal_description, updated_at, created_at, estimation_time, owner_uuid, copied_from_way_uuid, status, is_private FROM ways
+SELECT 
+    uuid, name, goal_description, updated_at, created_at, estimation_time, owner_uuid, copied_from_way_uuid, status, is_private,
+    (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
+    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount
+FROM ways
 ORDER BY created_at
 LIMIT $1
 OFFSET $2
@@ -158,16 +162,31 @@ type ListWaysParams struct {
 	Offset int32 `json:"offset"`
 }
 
+type ListWaysRow struct {
+	Uuid                uuid.UUID     `json:"uuid"`
+	Name                string        `json:"name"`
+	GoalDescription     string        `json:"goal_description"`
+	UpdatedAt           time.Time     `json:"updated_at"`
+	CreatedAt           time.Time     `json:"created_at"`
+	EstimationTime      int32         `json:"estimation_time"`
+	OwnerUuid           uuid.UUID     `json:"owner_uuid"`
+	CopiedFromWayUuid   uuid.NullUUID `json:"copied_from_way_uuid"`
+	Status              string        `json:"status"`
+	IsPrivate           bool          `json:"is_private"`
+	WayFavoriteForUsers int64         `json:"way_favorite_for_users"`
+	WayDayReportsAmount int64         `json:"way_day_reports_amount"`
+}
+
 // TODO: add filter and sorters
-func (q *Queries) ListWays(ctx context.Context, arg ListWaysParams) ([]Way, error) {
+func (q *Queries) ListWays(ctx context.Context, arg ListWaysParams) ([]ListWaysRow, error) {
 	rows, err := q.query(ctx, q.listWaysStmt, listWays, arg.Limit, arg.Offset)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	items := []Way{}
+	items := []ListWaysRow{}
 	for rows.Next() {
-		var i Way
+		var i ListWaysRow
 		if err := rows.Scan(
 			&i.Uuid,
 			&i.Name,
@@ -179,6 +198,8 @@ func (q *Queries) ListWays(ctx context.Context, arg ListWaysParams) ([]Way, erro
 			&i.CopiedFromWayUuid,
 			&i.Status,
 			&i.IsPrivate,
+			&i.WayFavoriteForUsers,
+			&i.WayDayReportsAmount,
 		); err != nil {
 			return nil, err
 		}
@@ -203,8 +224,10 @@ estimation_time = coalesce($4, estimation_time),
 is_private = coalesce($5, is_private),
 status = coalesce($6, status)
 
-WHERE uuid = $7
-RETURNING uuid, name, goal_description, updated_at, created_at, estimation_time, owner_uuid, copied_from_way_uuid, status, is_private
+WHERE ways.uuid = $7
+RETURNING uuid, name, goal_description, updated_at, created_at, estimation_time, owner_uuid, copied_from_way_uuid, status, is_private, 
+    (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = $7) AS way_favorite_for_users,
+    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = $7) AS way_day_reports_amount
 `
 
 type UpdateWayParams struct {
@@ -217,7 +240,22 @@ type UpdateWayParams struct {
 	Uuid            uuid.UUID      `json:"uuid"`
 }
 
-func (q *Queries) UpdateWay(ctx context.Context, arg UpdateWayParams) (Way, error) {
+type UpdateWayRow struct {
+	Uuid                uuid.UUID     `json:"uuid"`
+	Name                string        `json:"name"`
+	GoalDescription     string        `json:"goal_description"`
+	UpdatedAt           time.Time     `json:"updated_at"`
+	CreatedAt           time.Time     `json:"created_at"`
+	EstimationTime      int32         `json:"estimation_time"`
+	OwnerUuid           uuid.UUID     `json:"owner_uuid"`
+	CopiedFromWayUuid   uuid.NullUUID `json:"copied_from_way_uuid"`
+	Status              string        `json:"status"`
+	IsPrivate           bool          `json:"is_private"`
+	WayFavoriteForUsers int64         `json:"way_favorite_for_users"`
+	WayDayReportsAmount int64         `json:"way_day_reports_amount"`
+}
+
+func (q *Queries) UpdateWay(ctx context.Context, arg UpdateWayParams) (UpdateWayRow, error) {
 	row := q.queryRow(ctx, q.updateWayStmt, updateWay,
 		arg.Name,
 		arg.GoalDescription,
@@ -227,7 +265,7 @@ func (q *Queries) UpdateWay(ctx context.Context, arg UpdateWayParams) (Way, erro
 		arg.Status,
 		arg.Uuid,
 	)
-	var i Way
+	var i UpdateWayRow
 	err := row.Scan(
 		&i.Uuid,
 		&i.Name,
@@ -239,6 +277,8 @@ func (q *Queries) UpdateWay(ctx context.Context, arg UpdateWayParams) (Way, erro
 		&i.CopiedFromWayUuid,
 		&i.Status,
 		&i.IsPrivate,
+		&i.WayFavoriteForUsers,
+		&i.WayDayReportsAmount,
 	)
 	return i, err
 }

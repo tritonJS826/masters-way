@@ -13,6 +13,13 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { SchemasUserPlainResponse } from './SchemasUserPlainResponse';
+import {
+    SchemasUserPlainResponseFromJSON,
+    SchemasUserPlainResponseFromJSONTyped,
+    SchemasUserPlainResponseToJSON,
+} from './SchemasUserPlainResponse';
+
 /**
  * 
  * @export
@@ -36,7 +43,19 @@ export interface SchemasWayPlainResponse {
      * @type {number}
      * @memberof SchemasWayPlainResponse
      */
+    dayReportsAmount: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof SchemasWayPlainResponse
+     */
     estimationTime: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof SchemasWayPlainResponse
+     */
+    favoriteForUsers: number;
     /**
      * 
      * @type {string}
@@ -49,6 +68,12 @@ export interface SchemasWayPlainResponse {
      * @memberof SchemasWayPlainResponse
      */
     isPrivate: boolean;
+    /**
+     * 
+     * @type {Array<SchemasUserPlainResponse>}
+     * @memberof SchemasWayPlainResponse
+     */
+    mentors: Array<SchemasUserPlainResponse>;
     /**
      * 
      * @type {string}
@@ -90,9 +115,12 @@ export function instanceOfSchemasWayPlainResponse(
     let isInstance = true;
     isInstance = isInstance && "copiedFromWayUuid" in value;
     isInstance = isInstance && "createdAt" in value;
+    isInstance = isInstance && "dayReportsAmount" in value;
     isInstance = isInstance && "estimationTime" in value;
+    isInstance = isInstance && "favoriteForUsers" in value;
     isInstance = isInstance && "goalDescription" in value;
     isInstance = isInstance && "isPrivate" in value;
+    isInstance = isInstance && "mentors" in value;
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "ownerUuid" in value;
     isInstance = isInstance && "status" in value;
@@ -117,9 +145,12 @@ export function SchemasWayPlainResponseFromJSONTyped(
         
         'copiedFromWayUuid': json['copiedFromWayUuid'],
         'createdAt': json['createdAt'],
+        'dayReportsAmount': json['dayReportsAmount'],
         'estimationTime': json['estimationTime'],
+        'favoriteForUsers': json['favoriteForUsers'],
         'goalDescription': json['goalDescription'],
         'isPrivate': json['isPrivate'],
+        'mentors': ((json['mentors'] as Array<any>).map(SchemasUserPlainResponseFromJSON)),
         'name': json['name'],
         'ownerUuid': json['ownerUuid'],
         'status': json['status'],
@@ -140,9 +171,12 @@ export function SchemasWayPlainResponseToJSON(value?: SchemasWayPlainResponse | 
         
         'copiedFromWayUuid': value.copiedFromWayUuid,
         'createdAt': value.createdAt,
+        'dayReportsAmount': value.dayReportsAmount,
         'estimationTime': value.estimationTime,
+        'favoriteForUsers': value.favoriteForUsers,
         'goalDescription': value.goalDescription,
         'isPrivate': value.isPrivate,
+        'mentors': ((value.mentors as Array<any>).map(SchemasUserPlainResponseToJSON)),
         'name': value.name,
         'ownerUuid': value.ownerUuid,
         'status': value.status,

@@ -76,10 +76,10 @@ export interface SchemasWayPopulatedResponse {
     estimationTime: number;
     /**
      * 
-     * @type {Array<string>}
+     * @type {number}
      * @memberof SchemasWayPopulatedResponse
      */
-    favoriteForUsers: Array<string>;
+    favoriteForUsers: number;
     /**
      * 
      * @type {Array<SchemasUserPlainResponse>}
