@@ -62,6 +62,7 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 		return
 	}
 
+	copiedFromWayUuid, _ := util.MarshalNullUuid(way.CopiedFromWayUuid)
 	response := schemas.WayPlainResponse{
 		Name:              way.Name,
 		Uuid:              way.Uuid.String(),
@@ -71,7 +72,7 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 		EstimationTime:    way.EstimationTime,
 		Status:            way.Status,
 		OwnerUuid:         way.OwnerUuid.String(),
-		CopiedFromWayUuid: util.MarshalNullUuid(way.CopiedFromWayUuid).(string),
+		CopiedFromWayUuid: string(copiedFromWayUuid),
 		IsPrivate:         way.IsPrivate,
 	}
 
@@ -119,6 +120,7 @@ func (cc *WayController) UpdateWay(ctx *gin.Context) {
 		return
 	}
 
+	copiedFromWayUuid, _ := util.MarshalNullUuid(way.CopiedFromWayUuid)
 	response := schemas.WayPlainResponse{
 		Uuid:              way.Uuid.String(),
 		Name:              way.Name,
@@ -128,7 +130,7 @@ func (cc *WayController) UpdateWay(ctx *gin.Context) {
 		EstimationTime:    way.EstimationTime,
 		Status:            way.Status,
 		OwnerUuid:         way.OwnerUuid.String(),
-		CopiedFromWayUuid: util.MarshalNullUuid(way.CopiedFromWayUuid).(string),
+		CopiedFromWayUuid: string(copiedFromWayUuid),
 		IsPrivate:         way.IsPrivate,
 	}
 
@@ -318,12 +320,9 @@ func (cc *WayController) GetAllWays(ctx *gin.Context) {
 		return
 	}
 
-	if ways == nil {
-		ways = []db.Way{}
-	}
-
-	response := []schemas.WayPlainResponse{}
+	response := make([]schemas.WayPlainResponse, len(ways))
 	for i, way := range ways {
+		copiedFromWayUuid, _ := util.MarshalNullUuid(way.CopiedFromWayUuid)
 		response[i] = schemas.WayPlainResponse{
 			Name:              way.Name,
 			GoalDescription:   way.GoalDescription,
@@ -332,12 +331,12 @@ func (cc *WayController) GetAllWays(ctx *gin.Context) {
 			EstimationTime:    way.EstimationTime,
 			Status:            way.Status,
 			OwnerUuid:         way.OwnerUuid.String(),
-			CopiedFromWayUuid: util.MarshalNullUuid(way.CopiedFromWayUuid).(string),
+			CopiedFromWayUuid: string(copiedFromWayUuid),
 			IsPrivate:         way.IsPrivate,
 		}
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"size": len(ways), "ways": ways})
+	ctx.JSON(http.StatusOK, gin.H{"size": len(response), "ways": response})
 }
 
 // Deleting way handlers
