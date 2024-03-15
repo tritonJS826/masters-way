@@ -20,6 +20,7 @@ export const LOGO_TEXT = "Master's way";
 export const languageOptions: OptionType<Language>[] = [
   {id: "1", value: Language.ENGLISH, text: "en"},
   {id: "2", value: Language.RUSSIAN, text: "ru"},
+  {id: "3", value: Language.UKRAINIAN, text: "ua"},
 ];
 
 /**

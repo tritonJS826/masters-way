@@ -1,62 +1,75 @@
 {
-    "personalInfo": { 
-        "about": {
-            "ru": "О себе",
-            "en": "About"
-        },
-        "createNewWayButton": {
-                "ru": "Создать новый путь",
-                "en": "Create new way"
-        }
+  "personalInfo": {
+    "about": {
+      "ru": "О себе",
+      "en": "About",
+      "ua": "Про себе"
     },
-    "collections": {
-        "ownWays": {
-            "ru": "Свои пути",
-            "en": "Own ways"
-        },
-        "mentoringWays": {
-            "ru": "Пути учеников",
-            "en": "Mentoring ways"
-        },
-        "favoriteWays": {
-            "ru": "Любимые пути",
-            "en": "Favorite ways"
-        },
-        "addCollection": {
-            "ru": "Добавить коллекцию",
-            "en": "Add collection"
-        }
-    },
-    "filterBlock": {
-        "type": {
-            "ru": "Статус:",
-            "en": "Status: "
-        },
-        "typeOptions": {
-            "all": {
-                "ru": "Все",
-                "en": "all"
-            },
-            "completed": {
-                "ru": "Завершен",
-                "en": "Completed"
-            },
-            "inProgress": {
-                "ru": "Выполняется",
-                "en": "In progress"
-            },
-            "abandoned": {
-                "ru": "Заброшен",
-                "en": "Abandoned"
-            }
-        },
-        "cardViewTooltip": {
-            "ru": "Отображение карточками",
-            "en": "Switch to card view"
-        },
-        "tableViewTooltip": {
-            "ru": "Отображение таблицей",
-            "en": "Switch to table view"
-        }
+    "createNewWayButton": {
+      "ru": "Создать новый путь",
+      "en": "Create new way",
+      "ua": "Створити новий шлях"
     }
+  },
+  "collections": {
+    "ownWays": {
+      "ru": "Свои пути",
+      "en": "Own ways",
+      "ua": "Власні шляхи"
+    },
+    "mentoringWays": {
+      "ru": "Пути учеников",
+      "en": "Mentoring ways",
+      "ua": "Шляхи учнів"
+    },
+    "favoriteWays": {
+      "ru": "Любимые пути",
+      "en": "Favorite ways",
+      "ua": "Улюблені шляхи"
+    },
+    "addCollection": {
+      "ru": "Добавить коллекцию",
+      "en": "Add collection",
+      "ua": "Додати колекцію"
+    }
+  },
+  "filterBlock": {
+    "type": {
+      "ru": "Статус:",
+      "en": "Status: ",
+      "ua": "Статус: "
+    },
+    "typeOptions": {
+      "all": {
+        "ru": "Все",
+        "en": "all",
+        "ua": "Усі"
+      },
+      "completed": {
+        "ru": "Завершен",
+        "en": "Completed",
+        "ua": "Завершено"
+      },
+      "inProgress": {
+        "ru": "Выполняется",
+        "en": "In progress",
+        "ua": "Виконується"
+      },
+      "abandoned": {
+        "ru": "Заброшен",
+        "en": "Abandoned",
+        "ua": "Покинутий"
+      }
+    },
+    "cardViewTooltip": {
+      "ru": "Отображение карточками",
+      "en": "Switch to card view",
+      "ua": "Відображення картками"
+    },
+    "tableViewTooltip": {
+      "ru": "Отображение таблицей",
+      "en": "Switch to table view",
+      "ua": "Відображення таблицею"
+    }
+  }
 }

@@ -1,25 +1,29 @@
 {
-    "themeTooltip": {
-        "dark": {
-            "ru": "Переключиться на темную тему",
-            "en": "Switch to dark theme"
-        },
-        "light": {
-            "ru": "Переключиться на светлую тему",
-            "en": "Switch to light theme"
-
-        }
+  "themeTooltip": {
+    "dark": {
+      "ru": "Переключиться на темную тему",
+      "en": "Switch to dark theme",
+      "ua": "Перейти на темну тему"
     },
-    "logoutButton": {
-        "ru": "Выйти",
-        "en": "Logout"    
-    },
-    "loginButton": {
-        "ru": "Войти",
-        "en": "Login"    
-    },
-    "menu": {
-        "ru": "Меню",
-        "en": "Menu"    
+    "light": {
+      "ru": "Переключиться на светлую тему",
+      "en": "Switch to light theme",
+      "ua": "Перейти на світлу тему"
     }
+  },
+  "logoutButton": {
+    "ru": "Выйти",
+    "en": "Logout",
+    "ua": "Вийти"
+  },
+  "loginButton": {
+    "ru": "Войти",
+    "en": "Login",
+    "ua": "Увійти"
+  },
+  "menu": {
+    "ru": "Меню",
+    "en": "Menu",
+    "ua": "Меню"
+  }
 }

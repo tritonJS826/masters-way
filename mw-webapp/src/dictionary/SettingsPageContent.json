@@ -1,26 +1,32 @@
 {
-    "title": {
-        "ru": "Настройки",
-        "en": "Язык"
-    },
-    "language": {
-        "ru": "Язык интерфейса",
-        "en": "Language"
-    },
-    "showHint": {
-        "ru": "Показывать подсказки при загрузке приложения",
-        "en": "Show hint on load app"
-    },
-    "subscripbtion": {
-        "ru": "Получать важные уведомления",
-        "en": "Receive important notifications"
-    },
-    "notification": {
-        "ru": "Включить напоминания в 21:00",
-        "en": "Enable notifications at 21:00"
-    },
-    "testNotification": {
-        "ru": "Протестировать уведомление",
-        "en": "Test notification"
-    }
+  "title": {
+    "ru": "Настройки",
+    "en": "Язык",
+    "ua": "Налаштування"
+  },
+  "language": {
+    "ru": "Язык интерфейса",
+    "en": "Language",
+    "ua": "Мова інтерфейсу"
+  },
+  "showHint": {
+    "ru": "Показывать подсказки при загрузке приложения",
+    "en": "Show hint on load app",
+    "ua": "Показувати підказки при завантаженні додатка"
+  },
+  "subscripbtion": {
+    "ru": "Получать важные уведомления",
+    "en": "Receive important notifications",
+    "ua": "Отримувати важливі сповіщення"
+  },
+  "notification": {
+    "ru": "Включить напоминания в 21:00",
+    "en": "Enable notifications at 21:00",
+    "ua": "Увімкнути нагадування о 21:00"
+  },
+  "testNotification": {
+    "ru": "Протестировать уведомление",
+    "en": "Test notification",
+    "ua": "Тестувати повідомлення"
+  }
 }
