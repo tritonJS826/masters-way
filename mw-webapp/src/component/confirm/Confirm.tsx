@@ -2,9 +2,30 @@ import {ReactElement, useRef, useState} from "react";
 import {Close as DialogClose} from "@radix-ui/react-dialog";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
-import {Modal} from "src/component/modal/Modal";
+import {Cy, Modal} from "src/component/modal/Modal";
 import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/component/confirm/Confirm.module.scss";
+
+/**
+ * Data attributes for cypress testing
+ */
+interface CyDataConfirm extends Cy {
+
+  /**
+   * Data attribute for cypress testing
+   */
+  onCancel?: string;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  onOk?: string;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  onEnter?: string;
+}
 
 /**
  * Confirm props
@@ -42,6 +63,10 @@ interface ConfirmProps {
    */
   onCancel?: () => void;
 
+  /**
+   * Data attributes for cypress testing
+   */
+  cy?: CyDataConfirm;
 }
 
 /**
@@ -78,13 +103,17 @@ export const Confirm = (props: ConfirmProps) => {
    */
   const renderConfirmContent = () => {
     return (
-      <div onKeyDown={handleEnter}>
+      <div
+        onKeyDown={handleEnter}
+        data-cy={props.cy?.onEnter}
+      >
         {props.content}
         <HorizontalContainer className={styles.buttons}>
           <DialogClose asChild>
             <Button
               value="Cancel"
               onClick={onCancelClick}
+              dataCy={props.cy?.onCancel}
             />
           </DialogClose>
           <DialogClose asChild>
@@ -93,6 +122,7 @@ export const Confirm = (props: ConfirmProps) => {
               value={props.okText}
               onClick={props.onOk}
               buttonType={ButtonType.PRIMARY}
+              dataCy={props.cy?.onOk}
             />
           </DialogClose>
         </HorizontalContainer>
@@ -102,6 +132,7 @@ export const Confirm = (props: ConfirmProps) => {
 
   return (
     <Modal
+      cy={props.cy}
       isOpen={isOpen}
       content={renderConfirmContent()}
       trigger={props.trigger}
