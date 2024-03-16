@@ -9,17 +9,22 @@ import styles from "src/component/confirm/Confirm.module.scss";
 /**
  * Data attributes for cypress testing
  */
-interface cyDataConfirm extends Cy {
+interface CyDataConfirm extends Cy {
 
   /**
    * Data attribute for cypress testing
    */
-  btnCancel?: string;
+  onCancel?: string;
 
   /**
    * Data attribute for cypress testing
    */
-  btnOk?: string;
+  onOk?: string;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  onEnter?: string;
 }
 
 /**
@@ -61,7 +66,7 @@ interface ConfirmProps {
   /**
    * Data attributes for cypress testing
    */
-  cy?: cyDataConfirm;
+  cy?: CyDataConfirm;
 }
 
 /**
@@ -98,14 +103,17 @@ export const Confirm = (props: ConfirmProps) => {
    */
   const renderConfirmContent = () => {
     return (
-      <div onKeyDown={handleEnter}>
+      <div
+        onKeyDown={handleEnter}
+        data-cy={props.cy?.onEnter}
+      >
         {props.content}
         <HorizontalContainer className={styles.buttons}>
           <DialogClose asChild>
             <Button
               value="Cancel"
               onClick={onCancelClick}
-              dataCy={props.cy?.btnCancel}
+              dataCy={props.cy?.onCancel}
             />
           </DialogClose>
           <DialogClose asChild>
@@ -114,7 +122,7 @@ export const Confirm = (props: ConfirmProps) => {
               value={props.okText}
               onClick={props.onOk}
               buttonType={ButtonType.PRIMARY}
-              dataCy={props.cy?.btnOk}
+              dataCy={props.cy?.onOk}
             />
           </DialogClose>
         </HorizontalContainer>

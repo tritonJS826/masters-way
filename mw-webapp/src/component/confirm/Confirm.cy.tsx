@@ -10,8 +10,9 @@ const CONFIRM_CY = {
     dataCyContent: "content",
     dataCyOK: "confirm",
   },
-  btnCancel: "cancel",
-  btnOk: "confirm",
+  onCancel: "cancel",
+  onOk: "confirm",
+  onEnter: "enter",
 };
 
 describe("Confirm component", () => {
@@ -33,8 +34,7 @@ describe("Confirm component", () => {
         }
         onOk={() => {}}
         okText="Test confirm"
-      />
-      ,
+      />,
     );
   });
 
@@ -53,23 +53,32 @@ describe("Confirm component", () => {
     cy.get(getDataCy(CONFIRM_CY.dataCyContent.dataCyContent))
       .should("not.exist");
   });
-  it("should open on trigger click and close by clicking on cancel button", () => {
+  it("should open on trigger click and close by clicking onCancel button", () => {
     cy.get(getDataCy(CONFIRM_CY.dataCyTrigger))
       .click();
     cy.get(getDataCy(CONFIRM_CY.dataCyContent.dataCyContent))
       .should("exist");
-    cy.get(getDataCy(CONFIRM_CY.btnCancel))
+    cy.get(getDataCy(CONFIRM_CY.onCancel))
       .click();
     cy.get(getDataCy(CONFIRM_CY.dataCyContent.dataCyContent))
       .should("not.exist");
   });
-  it("should open on trigger click and close by clicking on ok button", () => {
+  it("should open on trigger click and close by clicking onOk button", () => {
     cy.get(getDataCy(CONFIRM_CY.dataCyTrigger))
       .click();
     cy.get(getDataCy(CONFIRM_CY.dataCyContent.dataCyContent))
       .should("exist");
-    cy.get(getDataCy(CONFIRM_CY.btnOk))
+    cy.get(getDataCy(CONFIRM_CY.onOk))
       .click();
+    cy.get(getDataCy(CONFIRM_CY.dataCyContent.dataCyContent))
+      .should("not.exist");
+  });
+
+  it("should open on trigger click and close by keydown enter", () => {
+    cy.get(getDataCy(CONFIRM_CY.dataCyTrigger))
+      .click();
+    cy.get(getDataCy(CONFIRM_CY.onEnter))
+      .should("exist").trigger("keydown", {key: "Enter"});
     cy.get(getDataCy(CONFIRM_CY.dataCyContent.dataCyContent))
       .should("not.exist");
   });
@@ -79,8 +88,6 @@ describe("Confirm component", () => {
       .click();
     cy.get(getDataCy(CONFIRM_CY.dataCyContent.dataCyContent))
       .should("exist");
-    cy.get(getDataCy(CONFIRM_CY.dataCyContent.dataCyClose))
-      .click();
   });
 
   it("should close by clicking on background", () => {
