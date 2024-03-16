@@ -1,74 +1,90 @@
 {
-    "filterBlock": {
-        "emailPlaceholder": {
-            "ru": "Искать по певым буквам из email",
-            "en": "Search by first letters in email"
-        },
-        "cardViewTooltip": {
-            "ru": "Отображение карточками",
-            "en": "Switch to card view"
-        },
-        "tableViewTooltip": {
-            "ru": "Отображение таблицей",
-            "en": "Switch to table view"
-        }
+  "filterBlock": {
+    "emailPlaceholder": {
+      "ru": "Искать по первым буквам из email",
+      "en": "Search by first letters in email",
+      "ua": "Пошук за першими літерами в email"
     },
-    "usersTable": {
-        "leftTitle": {
-            "ru": "Пользователи",
-            "en": "Users"
-        },
-        "rightTitle": {
-            "ru": "Всего",
-            "en": "Total found"
-        },
-        "columnTooltip": { 
-            "name": {
-                "ru": "Имя пользователя",
-                "en": "User's name"
-            },
-            "email": {
-                "ru": "Контакт поильзователя",
-                "en": "User's email"
-            },
-            "ownWays": {
-                "ru": "Количество путей для которых пользователь является владельцем",
-                "en": "Amount of ways for which the user is the owner"
-            },
-            "favoriteWays": {
-                "ru": "Количество любимых путей",
-                "en": "Amount of favorite ways"
-            },
-            "mentoringWays": {
-                "ru": "Количество путей для которых пользователь является ментором",
-                "en": "Amount of ways for which the user is the mentor"
-            }
-        },
-        "column": {
-            "name": {
-                "ru": "Пользователи",
-                "en": "Users"
-            },
-            "email": {
-                "ru": "Контакт",
-                "en": "Contact"
-            },
-            "ownWays": {
-                "ru": "Собственные пути",
-                "en": "Own ways"
-            },
-            "favoriteWays": {
-                "ru": "Любимые пути",
-                "en": "Favorite ways"
-            },
-            "mentoringWays": {
-                "ru": "Ментор",
-                "en": "Mentoring ways"
-            }
-        },
-        "loadMoreButton": {
-            "ru": "Показать еще",
-            "en": "Load more"
-        }
+    "cardViewTooltip": {
+      "ru": "Отображение карточками",
+      "en": "Switch to card view",
+      "ua": "Відображення картками"
+    },
+    "tableViewTooltip": {
+      "ru": "Отображение таблицей",
+      "en": "Switch to table view",
+      "ua": "Відображення таблицею"
     }
+  },
+  "usersTable": {
+    "leftTitle": {
+      "ru": "Пользователи",
+      "en": "Users",
+      "ua": "Користувачі"
+    },
+    "rightTitle": {
+      "ru": "Всего",
+      "en": "Total found",
+      "ua": "Всього"
+    },
+    "columnTooltip": {
+      "name": {
+        "ru": "Имя пользователя",
+        "en": "User's name",
+        "ua": "Ім'я користувача"
+      },
+      "email": {
+        "ru": "Контакт поильзователя",
+        "en": "User's email",
+        "ua": "Email користувача"
+      },
+      "ownWays": {
+        "ru": "Количество путей для которых пользователь является владельцем",
+        "en": "Amount of ways for which the user is the owner",
+        "ua": "Кількість шляхів, для яких користувач є власником"
+      },
+      "favoriteWays": {
+        "ru": "Количество любимых путей",
+        "en": "Amount of favorite ways",
+        "ua": "Кількість улюблених шляхів"
+      },
+      "mentoringWays": {
+        "ru": "Количество путей для которых пользователь является ментором",
+        "en": "Amount of ways for which the user is the mentor",
+        "ua": "Кількість шляхів, для яких користувач є ментором"
+      }
+    },
+    "column": {
+      "name": {
+        "ru": "Пользователи",
+        "en": "Users",
+        "ua": "Користувачі"
+      },
+      "email": {
+        "ru": "Контакт",
+        "en": "Contact",
+        "ua": "Контакт"
+      },
+      "ownWays": {
+        "ru": "Собственные пути",
+        "en": "Own ways",
+        "ua": "Власні шляхи"
+      },
+      "favoriteWays": {
+        "ru": "Любимые пути",
+        "en": "Favorite ways",
+        "ua": "Улюблені шляхи"
+      },
+      "mentoringWays": {
+        "ru": "Ментор",
+        "en": "Mentoring ways",
+        "ua": "Ментор"
+      }
+    },
+    "loadMoreButton": {
+      "ru": "Показать еще",
+      "en": "Load more",
+      "ua": "Показати ще"
+    }
+  }
 }
