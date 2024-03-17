@@ -16,6 +16,7 @@
 import * as runtime from '../runtime';
 import type {
   SchemasCreateWay,
+  SchemasGetAllWaysResponse,
   SchemasUpdateWayPayload,
   SchemasWayPlainResponse,
   SchemasWayPopulatedResponse,
@@ -23,6 +24,8 @@ import type {
 import {
     SchemasCreateWayFromJSON,
     SchemasCreateWayToJSON,
+    SchemasGetAllWaysResponseFromJSON,
+    SchemasGetAllWaysResponseToJSON,
     SchemasUpdateWayPayloadFromJSON,
     SchemasUpdateWayPayloadToJSON,
     SchemasWayPlainResponseFromJSON,
@@ -119,7 +122,7 @@ export class WayApi extends runtime.BaseAPI {
      * Get ways with pagination
      * Get all ways
      */
-    async getAllWaysRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<SchemasWayPlainResponse>>> {
+    async getAllWaysRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasGetAllWaysResponse>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -131,14 +134,14 @@ export class WayApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(SchemasWayPlainResponseFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasGetAllWaysResponseFromJSON(jsonValue));
     }
 
     /**
      * Get ways with pagination
      * Get all ways
      */
-    async getAllWays(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<SchemasWayPlainResponse>> {
+    async getAllWays(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasGetAllWaysResponse> {
         const response = await this.getAllWaysRaw(initOverrides);
         return await response.value();
     }

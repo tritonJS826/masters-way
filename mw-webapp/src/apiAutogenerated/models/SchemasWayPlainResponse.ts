@@ -19,6 +19,12 @@ import {
     SchemasUserPlainResponseFromJSONTyped,
     SchemasUserPlainResponseToJSON,
 } from './SchemasUserPlainResponse';
+import type { SchemasWayTagResponse } from './SchemasWayTagResponse';
+import {
+    SchemasWayTagResponseFromJSON,
+    SchemasWayTagResponseFromJSONTyped,
+    SchemasWayTagResponseToJSON,
+} from './SchemasWayTagResponse';
 
 /**
  * 
@@ -82,10 +88,10 @@ export interface SchemasWayPlainResponse {
     name: string;
     /**
      * 
-     * @type {string}
+     * @type {SchemasUserPlainResponse}
      * @memberof SchemasWayPlainResponse
      */
-    ownerUuid: string;
+    owner: SchemasUserPlainResponse;
     /**
      * 
      * @type {string}
@@ -104,6 +110,12 @@ export interface SchemasWayPlainResponse {
      * @memberof SchemasWayPlainResponse
      */
     uuid: string;
+    /**
+     * 
+     * @type {Array<SchemasWayTagResponse>}
+     * @memberof SchemasWayPlainResponse
+     */
+    wayTags: Array<SchemasWayTagResponse>;
 }
 
 /**
@@ -122,10 +134,11 @@ export function instanceOfSchemasWayPlainResponse(
     isInstance = isInstance && "isPrivate" in value;
     isInstance = isInstance && "mentors" in value;
     isInstance = isInstance && "name" in value;
-    isInstance = isInstance && "ownerUuid" in value;
+    isInstance = isInstance && "owner" in value;
     isInstance = isInstance && "status" in value;
     isInstance = isInstance && "updatedAt" in value;
     isInstance = isInstance && "uuid" in value;
+    isInstance = isInstance && "wayTags" in value;
 
     return isInstance;
 }
@@ -152,10 +165,11 @@ export function SchemasWayPlainResponseFromJSONTyped(
         'isPrivate': json['isPrivate'],
         'mentors': ((json['mentors'] as Array<any>).map(SchemasUserPlainResponseFromJSON)),
         'name': json['name'],
-        'ownerUuid': json['ownerUuid'],
+        'owner': SchemasUserPlainResponseFromJSON(json['owner']),
         'status': json['status'],
         'updatedAt': json['updatedAt'],
         'uuid': json['uuid'],
+        'wayTags': ((json['wayTags'] as Array<any>).map(SchemasWayTagResponseFromJSON)),
     };
 }
 
@@ -178,10 +192,11 @@ export function SchemasWayPlainResponseToJSON(value?: SchemasWayPlainResponse | 
         'isPrivate': value.isPrivate,
         'mentors': ((value.mentors as Array<any>).map(SchemasUserPlainResponseToJSON)),
         'name': value.name,
-        'ownerUuid': value.ownerUuid,
+        'owner': SchemasUserPlainResponseToJSON(value.owner),
         'status': value.status,
         'updatedAt': value.updatedAt,
         'uuid': value.uuid,
+        'wayTags': ((value.wayTags as Array<any>).map(SchemasWayTagResponseToJSON)),
     };
 }
 
