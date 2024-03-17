@@ -49,6 +49,9 @@ ORDER BY created_at
 LIMIT $1
 OFFSET $2;
 
+-- name: CountWays :one
+SELECT COUNT(*) FROM ways;
+
 -- name: UpdateWay :one
 UPDATE ways
 SET

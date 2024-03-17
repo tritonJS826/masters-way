@@ -5,9 +5,10 @@ INSERT INTO users(
     description,
     created_at,
     image_url,
-    is_mentor
+    is_mentor,
+    firebase_id
 ) VALUES (
-    $1, $2, $3, $4, $5, $6
+    $1, $2, $3, $4, $5, $6, $7
 ) RETURNING *;
 
 
@@ -16,6 +17,10 @@ SELECT * FROM users
 WHERE uuid = $1
 LIMIT 1;
 
+-- name: GetUserByFirebaseId :one
+SELECT * FROM users
+WHERE firebase_id = $1
+LIMIT 1;
 
 -- TODO: add filter and sorters
 -- name: ListUsers :many
@@ -44,11 +49,15 @@ SELECT
         FROM user_tags 
         INNER JOIN users_user_tags ON user_tags.uuid = users_user_tags.user_tag_uuid
         WHERE users_user_tags.owner_uuid = users.uuid
-    )::VARCHAR[] AS tag_names
+    )::VARCHAR[] AS tag_names,
+    (SELECT COUNT(*) FROM users) AS users_size
 FROM users
 ORDER BY created_at
 LIMIT $1
 OFFSET $2;
+
+-- name: CountUsers :one
+SELECT COUNT(*) FROM users;
 
 -- name: UpdateUser :one
 UPDATE users

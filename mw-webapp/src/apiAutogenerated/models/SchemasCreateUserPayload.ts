@@ -36,6 +36,12 @@ export interface SchemasCreateUserPayload {
      * @type {string}
      * @memberof SchemasCreateUserPayload
      */
+    firebaseId: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemasCreateUserPayload
+     */
     imageUrl: string | null;
     /**
      * 
@@ -60,6 +66,7 @@ export function instanceOfSchemasCreateUserPayload(
     let isInstance = true;
     isInstance = isInstance && "description" in value;
     isInstance = isInstance && "email" in value;
+    isInstance = isInstance && "firebaseId" in value;
     isInstance = isInstance && "imageUrl" in value;
     isInstance = isInstance && "isMentor" in value;
     isInstance = isInstance && "name" in value;
@@ -82,6 +89,7 @@ export function SchemasCreateUserPayloadFromJSONTyped(
         
         'description': json['description'],
         'email': json['email'],
+        'firebaseId': json['firebaseId'],
         'imageUrl': json['imageUrl'],
         'isMentor': json['isMentor'],
         'name': json['name'],
@@ -100,6 +108,7 @@ export function SchemasCreateUserPayloadToJSON(value?: SchemasCreateUserPayload 
         
         'description': value.description,
         'email': value.email,
+        'firebaseId': value.firebaseId,
         'imageUrl': value.imageUrl,
         'isMentor': value.isMentor,
         'name': value.name,

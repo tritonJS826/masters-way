@@ -13,6 +13,17 @@ import (
 	"github.com/google/uuid"
 )
 
+const countWays = `-- name: CountWays :one
+SELECT COUNT(*) FROM ways
+`
+
+func (q *Queries) CountWays(ctx context.Context) (int64, error) {
+	row := q.queryRow(ctx, q.countWaysStmt, countWays)
+	var count int64
+	err := row.Scan(&count)
+	return count, err
+}
+
 const createWay = `-- name: CreateWay :one
 INSERT INTO ways(
     name,

@@ -38,6 +38,10 @@ export interface CreateUserRequest {
     request: SchemasCreateUserPayload;
 }
 
+export interface CreateUserIfRequiredRequest {
+    request: SchemasCreateUserPayload;
+}
+
 export interface DeleteUserRequest {
     userId: string;
 }
@@ -88,6 +92,41 @@ export class UserApi extends runtime.BaseAPI {
      */
     async createUser(requestParameters: CreateUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasUserPlainResponse> {
         const response = await this.createUserRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Temporal method. Shod be removed after improving auth logic. Email should be unique
+     * Create a new user or return already existent user if user with this firebase id already exist
+     */
+    async createUserIfRequiredRaw(requestParameters: CreateUserIfRequiredRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasUserPlainResponse>> {
+        if (requestParameters.request === null || requestParameters.request === undefined) {
+            throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createUserIfRequired.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/users/getOrCreateByFirebaseId`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: SchemasCreateUserPayloadToJSON(requestParameters.request),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasUserPlainResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Temporal method. Shod be removed after improving auth logic. Email should be unique
+     * Create a new user or return already existent user if user with this firebase id already exist
+     */
+    async createUserIfRequired(requestParameters: CreateUserIfRequiredRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasUserPlainResponse> {
+        const response = await this.createUserIfRequiredRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

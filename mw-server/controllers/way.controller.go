@@ -421,7 +421,9 @@ func (cc *WayController) GetAllWays(ctx *gin.Context) {
 		}
 	})
 
-	ctx.JSON(http.StatusOK, gin.H{"size": len(response), "ways": response})
+	waysSize, _ := cc.db.CountWays(ctx)
+
+	ctx.JSON(http.StatusOK, gin.H{"size": waysSize, "ways": response})
 }
 
 // Deleting way handlers
