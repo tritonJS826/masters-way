@@ -2,6 +2,7 @@ import {
   CreateWayRequest,
   DeleteWayRequest,
   GetWayByUuidRequest,
+  SchemasGetAllWaysResponse,
   SchemasWayPlainResponse,
   SchemasWayPopulatedResponse,
   UpdateWayRequest,
@@ -16,7 +17,7 @@ export class WayService {
   /**
    * Get all ways
    */
-  public static async getAllWays(): Promise<SchemasWayPlainResponse[]> {
+  public static async getAllWays(): Promise<SchemasGetAllWaysResponse> {
     const allWays = await wayService.getAllWays();
 
     return allWays;

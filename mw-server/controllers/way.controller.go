@@ -14,6 +14,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"github.com/samber/lo"
+	lop "github.com/samber/lo/parallel"
 )
 
 type WayController struct {
@@ -62,7 +63,25 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 		return
 	}
 
+	dbWayTags, _ := cc.db.GetListWayTagsByWayId(ctx, way.Uuid)
+	wayTags := lo.Map(dbWayTags, func(dbWayTag db.WayTag, i int) schemas.WayTagResponse {
+		return schemas.WayTagResponse{
+			Uuid: dbWayTag.Uuid.String(),
+			Name: dbWayTag.Name,
+		}
+	})
 	copiedFromWayUuid, _ := util.MarshalNullUuid(way.CopiedFromWayUuid)
+	dbOwner, _ := cc.db.GetUserById(ctx, way.Uuid)
+	imageUrl, _ := util.MarshalNullString(dbOwner.ImageUrl)
+	owner := schemas.UserPlainResponse{
+		Uuid:        dbOwner.Uuid.String(),
+		Name:        dbOwner.Name,
+		Email:       dbOwner.Email,
+		Description: dbOwner.Description,
+		CreatedAt:   dbOwner.CreatedAt.String(),
+		ImageUrl:    string(imageUrl),
+		IsMentor:    dbOwner.IsMentor,
+	}
 	response := schemas.WayPlainResponse{
 		Name:              way.Name,
 		Uuid:              way.Uuid.String(),
@@ -71,12 +90,13 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 		CreatedAt:         way.CreatedAt.String(),
 		EstimationTime:    way.EstimationTime,
 		Status:            way.Status,
-		OwnerUuid:         way.OwnerUuid.String(),
+		Owner:             owner,
 		CopiedFromWayUuid: string(copiedFromWayUuid),
 		IsPrivate:         way.IsPrivate,
 		FavoriteForUsers:  0,
 		DayReportsAmount:  0,
 		Mentors:           make([]schemas.UserPlainResponse, 0),
+		WayTags:           wayTags,
 	}
 
 	ctx.JSON(http.StatusOK, response)
@@ -138,6 +158,17 @@ func (cc *WayController) UpdateWay(ctx *gin.Context) {
 		}
 	})
 
+	dbOwner, _ := cc.db.GetUserById(ctx, way.Uuid)
+	imageUrl, _ := util.MarshalNullString(dbOwner.ImageUrl)
+	owner := schemas.UserPlainResponse{
+		Uuid:        dbOwner.Uuid.String(),
+		Name:        dbOwner.Name,
+		Email:       dbOwner.Email,
+		Description: dbOwner.Description,
+		CreatedAt:   dbOwner.CreatedAt.String(),
+		ImageUrl:    string(imageUrl),
+		IsMentor:    dbOwner.IsMentor,
+	}
 	response := schemas.WayPlainResponse{
 		Uuid:              way.Uuid.String(),
 		Name:              way.Name,
@@ -146,7 +177,7 @@ func (cc *WayController) UpdateWay(ctx *gin.Context) {
 		CreatedAt:         way.CreatedAt.String(),
 		EstimationTime:    way.EstimationTime,
 		Status:            way.Status,
-		OwnerUuid:         way.OwnerUuid.String(),
+		Owner:             owner,
 		CopiedFromWayUuid: string(copiedFromWayUuid),
 		IsPrivate:         way.IsPrivate,
 		FavoriteForUsers:  int32(way.WayFavoriteForUsers),
@@ -316,7 +347,7 @@ func (cc *WayController) GetWayById(ctx *gin.Context) {
 // @ID get-all-ways
 // @Accept  json
 // @Produce  json
-// @Success 200 {array} schemas.WayPlainResponse
+// @Success 200 {object} schemas.GetAllWaysResponse
 // @Router /ways [get]
 func (cc *WayController) GetAllWays(ctx *gin.Context) {
 	var page = ctx.DefaultQuery("page", "1")
@@ -338,8 +369,14 @@ func (cc *WayController) GetAllWays(ctx *gin.Context) {
 	}
 
 	response := make([]schemas.WayPlainResponse, len(ways))
-	for i, way := range ways {
-
+	lop.ForEach(ways, func(way db.ListWaysRow, i int) {
+		dbWayTags, _ := cc.db.GetListWayTagsByWayId(ctx, way.Uuid)
+		wayTags := lo.Map(dbWayTags, func(dbWayTag db.WayTag, i int) schemas.WayTagResponse {
+			return schemas.WayTagResponse{
+				Uuid: dbWayTag.Uuid.String(),
+				Name: dbWayTag.Name,
+			}
+		})
 		copiedFromWayUuid, _ := util.MarshalNullUuid(way.CopiedFromWayUuid)
 		mentorsRaw, _ := cc.db.GetMentorUsersByWayId(ctx, way.Uuid)
 		mentors := lo.Map(mentorsRaw, func(dbMentor db.User, i int) schemas.UserPlainResponse {
@@ -355,6 +392,17 @@ func (cc *WayController) GetAllWays(ctx *gin.Context) {
 			}
 		})
 
+		dbOwner, _ := cc.db.GetUserById(ctx, way.Uuid)
+		imageUrl, _ := util.MarshalNullString(dbOwner.ImageUrl)
+		owner := schemas.UserPlainResponse{
+			Uuid:        dbOwner.Uuid.String(),
+			Name:        dbOwner.Name,
+			Email:       dbOwner.Email,
+			Description: dbOwner.Description,
+			CreatedAt:   dbOwner.CreatedAt.String(),
+			ImageUrl:    string(imageUrl),
+			IsMentor:    dbOwner.IsMentor,
+		}
 		response[i] = schemas.WayPlainResponse{
 			Uuid:              way.Uuid.String(),
 			Name:              way.Name,
@@ -363,14 +411,15 @@ func (cc *WayController) GetAllWays(ctx *gin.Context) {
 			CreatedAt:         way.CreatedAt.String(),
 			EstimationTime:    way.EstimationTime,
 			Status:            way.Status,
-			OwnerUuid:         way.OwnerUuid.String(),
+			Owner:             owner,
 			CopiedFromWayUuid: string(copiedFromWayUuid),
 			IsPrivate:         way.IsPrivate,
 			FavoriteForUsers:  int32(way.WayFavoriteForUsers),
 			DayReportsAmount:  int32(way.WayDayReportsAmount),
 			Mentors:           mentors,
+			WayTags:           wayTags,
 		}
-	}
+	})
 
 	ctx.JSON(http.StatusOK, gin.H{"size": len(response), "ways": response})
 }
