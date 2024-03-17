@@ -14,6 +14,17 @@ import (
 	"github.com/lib/pq"
 )
 
+const countUsers = `-- name: CountUsers :one
+SELECT COUNT(*) FROM users
+`
+
+func (q *Queries) CountUsers(ctx context.Context) (int64, error) {
+	row := q.queryRow(ctx, q.countUsersStmt, countUsers)
+	var count int64
+	err := row.Scan(&count)
+	return count, err
+}
+
 const createUser = `-- name: CreateUser :one
 INSERT INTO users(
     name,
@@ -21,10 +32,11 @@ INSERT INTO users(
     description,
     created_at,
     image_url,
-    is_mentor
+    is_mentor,
+    firebase_id
 ) VALUES (
-    $1, $2, $3, $4, $5, $6
-) RETURNING uuid, name, email, description, created_at, image_url, is_mentor
+    $1, $2, $3, $4, $5, $6, $7
+) RETURNING uuid, name, email, description, created_at, image_url, is_mentor, firebase_id
 `
 
 type CreateUserParams struct {
@@ -34,6 +46,7 @@ type CreateUserParams struct {
 	CreatedAt   time.Time      `json:"created_at"`
 	ImageUrl    sql.NullString `json:"image_url"`
 	IsMentor    bool           `json:"is_mentor"`
+	FirebaseID  string         `json:"firebase_id"`
 }
 
 func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, error) {
@@ -44,6 +57,7 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, e
 		arg.CreatedAt,
 		arg.ImageUrl,
 		arg.IsMentor,
+		arg.FirebaseID,
 	)
 	var i User
 	err := row.Scan(
@@ -54,6 +68,7 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, e
 		&i.CreatedAt,
 		&i.ImageUrl,
 		&i.IsMentor,
+		&i.FirebaseID,
 	)
 	return i, err
 }
@@ -68,8 +83,30 @@ func (q *Queries) DeleteUser(ctx context.Context, argUuid uuid.UUID) error {
 	return err
 }
 
+const getUserByFirebaseId = `-- name: GetUserByFirebaseId :one
+SELECT uuid, name, email, description, created_at, image_url, is_mentor, firebase_id FROM users
+WHERE firebase_id = $1
+LIMIT 1
+`
+
+func (q *Queries) GetUserByFirebaseId(ctx context.Context, firebaseID string) (User, error) {
+	row := q.queryRow(ctx, q.getUserByFirebaseIdStmt, getUserByFirebaseId, firebaseID)
+	var i User
+	err := row.Scan(
+		&i.Uuid,
+		&i.Name,
+		&i.Email,
+		&i.Description,
+		&i.CreatedAt,
+		&i.ImageUrl,
+		&i.IsMentor,
+		&i.FirebaseID,
+	)
+	return i, err
+}
+
 const getUserById = `-- name: GetUserById :one
-SELECT uuid, name, email, description, created_at, image_url, is_mentor FROM users
+SELECT uuid, name, email, description, created_at, image_url, is_mentor, firebase_id FROM users
 WHERE uuid = $1
 LIMIT 1
 `
@@ -85,6 +122,7 @@ func (q *Queries) GetUserById(ctx context.Context, argUuid uuid.UUID) (User, err
 		&i.CreatedAt,
 		&i.ImageUrl,
 		&i.IsMentor,
+		&i.FirebaseID,
 	)
 	return i, err
 }
@@ -115,7 +153,8 @@ SELECT
         FROM user_tags 
         INNER JOIN users_user_tags ON user_tags.uuid = users_user_tags.user_tag_uuid
         WHERE users_user_tags.owner_uuid = users.uuid
-    )::VARCHAR[] AS tag_names
+    )::VARCHAR[] AS tag_names,
+    (SELECT COUNT(*) FROM users) AS users_size
 FROM users
 ORDER BY created_at
 LIMIT $1
@@ -141,6 +180,7 @@ type ListUsersRow struct {
 	FavoriteForUsersAmount int64          `json:"favorite_for_users_amount"`
 	TagUuids               []string       `json:"tag_uuids"`
 	TagNames               []string       `json:"tag_names"`
+	UsersSize              int64          `json:"users_size"`
 }
 
 // TODO: add filter and sorters
@@ -167,6 +207,7 @@ func (q *Queries) ListUsers(ctx context.Context, arg ListUsersParams) ([]ListUse
 			&i.FavoriteForUsersAmount,
 			pq.Array(&i.TagUuids),
 			pq.Array(&i.TagNames),
+			&i.UsersSize,
 		); err != nil {
 			return nil, err
 		}
@@ -191,7 +232,7 @@ image_url = coalesce($4, image_url),
 is_mentor = coalesce($5, is_mentor)
 
 WHERE uuid = $6
-RETURNING uuid, name, email, description, created_at, image_url, is_mentor
+RETURNING uuid, name, email, description, created_at, image_url, is_mentor, firebase_id
 `
 
 type UpdateUserParams struct {
@@ -221,6 +262,7 @@ func (q *Queries) UpdateUser(ctx context.Context, arg UpdateUserParams) (User, e
 		&i.CreatedAt,
 		&i.ImageUrl,
 		&i.IsMentor,
+		&i.FirebaseID,
 	)
 	return i, err
 }

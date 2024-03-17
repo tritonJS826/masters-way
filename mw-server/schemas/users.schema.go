@@ -6,6 +6,7 @@ type CreateUserPayload struct {
 	Description string `json:"description" validate:"required"`
 	ImageUrl    string `json:"imageUrl" validate:"required" extensions:"x-nullable"`
 	IsMentor    bool   `json:"isMentor" validate:"required"`
+	FirebaseId  string `json:"firebaseId" validate:"required"`
 }
 
 type UpdateUserPayload struct {

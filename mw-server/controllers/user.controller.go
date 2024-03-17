@@ -9,6 +9,7 @@ import (
 
 	db "mwserver/db/sqlc"
 	"mwserver/schemas"
+	"mwserver/services"
 	"mwserver/util"
 
 	"github.com/gin-gonic/gin"
@@ -52,27 +53,54 @@ func (cc *UserController) CreateUser(ctx *gin.Context) {
 		CreatedAt:   now,
 		ImageUrl:    sql.NullString{String: payload.ImageUrl, Valid: payload.ImageUrl != ""},
 		IsMentor:    payload.IsMentor,
+		FirebaseID:  payload.FirebaseId,
 	}
 
-	user, err := cc.db.CreateUser(ctx, *args)
-
+	response, err := services.CreateUser(cc.db, ctx, args)
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"error": err.Error()})
 		return
 	}
 
-	imageUrl, _ := util.MarshalNullString(user.ImageUrl)
-	response := schemas.UserPlainResponse{
-		Uuid:        user.Uuid.String(),
-		Name:        user.Name,
-		Email:       user.Email,
-		Description: user.Description,
-		CreatedAt:   user.CreatedAt.String(),
-		ImageUrl:    string(imageUrl),
-		IsMentor:    user.IsMentor,
+	ctx.JSON(http.StatusOK, response)
+}
+
+// @Summary Create a new user or return already existent user if user with this firebase id already exist
+// @Description Temporal method. Shod be removed after improving auth logic. Email should be unique
+// @Tags user
+// @ID create-user-if-required
+// @Accept  json
+// @Produce  json
+// @Param request body schemas.CreateUserPayload true "query params"
+// @Success 200 {object} schemas.UserPlainResponse
+// @Router /users/getOrCreateByFirebaseId [post]
+func (cc *UserController) GetOrCreateUserByFirebaseId(ctx *gin.Context) {
+	var payload *schemas.CreateUserPayload
+
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 
-	ctx.JSON(http.StatusOK, response)
+	now := time.Now()
+	args := &db.CreateUserParams{
+		Name:        payload.Name,
+		Email:       payload.Email,
+		Description: payload.Description,
+		CreatedAt:   now,
+		ImageUrl:    sql.NullString{String: payload.ImageUrl, Valid: payload.ImageUrl != ""},
+		IsMentor:    payload.IsMentor,
+		FirebaseID:  payload.FirebaseId,
+	}
+
+	user, err := cc.db.GetUserByFirebaseId(ctx, payload.FirebaseId)
+	if err != nil {
+		ctx.JSON(http.StatusOK, user)
+	} else {
+		response, _ := services.CreateUser(cc.db, ctx, args)
+		ctx.JSON(http.StatusOK, response)
+	}
+
 }
 
 // @Summary Update user by UUID
@@ -290,7 +318,7 @@ func (cc *UserController) GetUserById(ctx *gin.Context) {
 	})
 
 	favoriteUsersRaw, _ := cc.db.GetFavoriteUserByDonorUserId(ctx, user.Uuid)
-	favoriteUsers := lo.Map(favoriteUsersRaw, func(dbUser db.User, i int) schemas.UserPlainResponse {
+	favoriteUsers := lo.Map(favoriteUsersRaw, func(dbUser db.GetFavoriteUserByDonorUserIdRow, i int) schemas.UserPlainResponse {
 		imageUrl, _ := util.MarshalNullString(user.ImageUrl)
 		return schemas.UserPlainResponse{
 			Uuid:        user.Uuid.String(),
@@ -376,7 +404,9 @@ func (cc *UserController) GetAllUsers(ctx *gin.Context) {
 		}
 	}
 
-	ctx.JSON(http.StatusOK, response)
+	usersSize, _ := cc.db.CountUsers(ctx)
+
+	ctx.JSON(http.StatusOK, gin.H{"size": usersSize, "users": response})
 }
 
 // @Summary Delete user by UUID

@@ -131,6 +131,7 @@ type User struct {
 	CreatedAt   time.Time      `json:"created_at"`
 	ImageUrl    sql.NullString `json:"image_url"`
 	IsMentor    bool           `json:"is_mentor"`
+	FirebaseID  string         `json:"firebase_id"`
 }
 
 type UserTag struct {

@@ -49,7 +49,7 @@ func (q *Queries) DeleteMentorUserWayByIds(ctx context.Context, arg DeleteMentor
 
 const getMentorUsersByWayId = `-- name: GetMentorUsersByWayId :many
 SELECT 
-    users.uuid, users.name, users.email, users.description, users.created_at, users.image_url, users.is_mentor
+    users.uuid, users.name, users.email, users.description, users.created_at, users.image_url, users.is_mentor, users.firebase_id
 FROM ways
 JOIN mentor_users_ways ON mentor_users_ways.way_uuid = ways.uuid
 JOIN users ON users.uuid = mentor_users_ways.user_uuid
@@ -73,6 +73,7 @@ func (q *Queries) GetMentorUsersByWayId(ctx context.Context, wayUuid uuid.UUID) 
 			&i.CreatedAt,
 			&i.ImageUrl,
 			&i.IsMentor,
+			&i.FirebaseID,
 		); err != nil {
 			return nil, err
 		}

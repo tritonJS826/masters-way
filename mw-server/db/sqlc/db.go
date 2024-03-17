@@ -24,6 +24,12 @@ func New(db DBTX) *Queries {
 func Prepare(ctx context.Context, db DBTX) (*Queries, error) {
 	q := Queries{db: db}
 	var err error
+	if q.countUsersStmt, err = db.PrepareContext(ctx, countUsers); err != nil {
+		return nil, fmt.Errorf("error preparing query CountUsers: %w", err)
+	}
+	if q.countWaysStmt, err = db.PrepareContext(ctx, countWays); err != nil {
+		return nil, fmt.Errorf("error preparing query CountWays: %w", err)
+	}
 	if q.createCommentStmt, err = db.PrepareContext(ctx, createComment); err != nil {
 		return nil, fmt.Errorf("error preparing query CreateComment: %w", err)
 	}
@@ -219,6 +225,9 @@ func Prepare(ctx context.Context, db DBTX) (*Queries, error) {
 	if q.getToMentorUserRequestsByWayIdStmt, err = db.PrepareContext(ctx, getToMentorUserRequestsByWayId); err != nil {
 		return nil, fmt.Errorf("error preparing query GetToMentorUserRequestsByWayId: %w", err)
 	}
+	if q.getUserByFirebaseIdStmt, err = db.PrepareContext(ctx, getUserByFirebaseId); err != nil {
+		return nil, fmt.Errorf("error preparing query GetUserByFirebaseId: %w", err)
+	}
 	if q.getUserByIdStmt, err = db.PrepareContext(ctx, getUserById); err != nil {
 		return nil, fmt.Errorf("error preparing query GetUserById: %w", err)
 	}
@@ -275,6 +284,16 @@ func Prepare(ctx context.Context, db DBTX) (*Queries, error) {
 
 func (q *Queries) Close() error {
 	var err error
+	if q.countUsersStmt != nil {
+		if cerr := q.countUsersStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing countUsersStmt: %w", cerr)
+		}
+	}
+	if q.countWaysStmt != nil {
+		if cerr := q.countWaysStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing countWaysStmt: %w", cerr)
+		}
+	}
 	if q.createCommentStmt != nil {
 		if cerr := q.createCommentStmt.Close(); cerr != nil {
 			err = fmt.Errorf("error closing createCommentStmt: %w", cerr)
@@ -600,6 +619,11 @@ func (q *Queries) Close() error {
 			err = fmt.Errorf("error closing getToMentorUserRequestsByWayIdStmt: %w", cerr)
 		}
 	}
+	if q.getUserByFirebaseIdStmt != nil {
+		if cerr := q.getUserByFirebaseIdStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing getUserByFirebaseIdStmt: %w", cerr)
+		}
+	}
 	if q.getUserByIdStmt != nil {
 		if cerr := q.getUserByIdStmt.Close(); cerr != nil {
 			err = fmt.Errorf("error closing getUserByIdStmt: %w", cerr)
@@ -724,6 +748,8 @@ func (q *Queries) queryRow(ctx context.Context, stmt *sql.Stmt, query string, ar
 type Queries struct {
 	db                                          DBTX
 	tx                                          *sql.Tx
+	countUsersStmt                              *sql.Stmt
+	countWaysStmt                               *sql.Stmt
 	createCommentStmt                           *sql.Stmt
 	createDayReportStmt                         *sql.Stmt
 	createFavoriteUserStmt                      *sql.Stmt
@@ -789,6 +815,7 @@ type Queries struct {
 	getPlansJoinJobTagsStmt                     *sql.Stmt
 	getProblemsJoinJobTagsStmt                  *sql.Stmt
 	getToMentorUserRequestsByWayIdStmt          *sql.Stmt
+	getUserByFirebaseIdStmt                     *sql.Stmt
 	getUserByIdStmt                             *sql.Stmt
 	getUserTagByNameStmt                        *sql.Stmt
 	getWayByIdStmt                              *sql.Stmt
@@ -812,6 +839,8 @@ func (q *Queries) WithTx(tx *sql.Tx) *Queries {
 	return &Queries{
 		db:                                          tx,
 		tx:                                          tx,
+		countUsersStmt:                              q.countUsersStmt,
+		countWaysStmt:                               q.countWaysStmt,
 		createCommentStmt:                           q.createCommentStmt,
 		createDayReportStmt:                         q.createDayReportStmt,
 		createFavoriteUserStmt:                      q.createFavoriteUserStmt,
@@ -877,6 +906,7 @@ func (q *Queries) WithTx(tx *sql.Tx) *Queries {
 		getPlansJoinJobTagsStmt:                     q.getPlansJoinJobTagsStmt,
 		getProblemsJoinJobTagsStmt:                  q.getProblemsJoinJobTagsStmt,
 		getToMentorUserRequestsByWayIdStmt:          q.getToMentorUserRequestsByWayIdStmt,
+		getUserByFirebaseIdStmt:                     q.getUserByFirebaseIdStmt,
 		getUserByIdStmt:                             q.getUserByIdStmt,
 		getUserTagByNameStmt:                        q.getUserTagByNameStmt,
 		getWayByIdStmt:                              q.getWayByIdStmt,
