@@ -7,6 +7,7 @@ export enum Language {
   ENGLISH = "en",
   RUSSIAN = "ru",
   UKRAINIAN = "ua",
+  GEORGIAN = "ge"
 }
 
 /**
