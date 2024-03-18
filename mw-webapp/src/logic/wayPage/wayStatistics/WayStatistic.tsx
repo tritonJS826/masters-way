@@ -1,3 +1,5 @@
+//TODO: fix it
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {AreaChart} from "src/component/chart/AreaChart";
 import {PieChart} from "src/component/chart/PieChart";
 import {HeadingLevel, Title} from "src/component/title/Title";
@@ -62,14 +64,14 @@ const getTagStats = (jobsDone: JobDone[]) => {
       const AMOUNT_INCREMENT = 1;
       const PERCENTAGE_MULTIPLIER = 100;
 
-      const totalAmount = (tagStatsMap.get(tag.uuid)?.totalAmount ?? 0) + AMOUNT_INCREMENT;
+      const totalAmount = (tagStatsMap.get(tag.uuid!)?.totalAmount ?? 0) + AMOUNT_INCREMENT;
       const totalAmountPercentage = Math.round(totalAmount / jobsDone.length * PERCENTAGE_MULTIPLIER);
-      const totalTime = (tagStatsMap.get(tag.uuid)?.totalTime ?? 0) + job.time;
+      const totalTime = (tagStatsMap.get(tag.uuid!)?.totalTime ?? 0) + job.time;
       const totalTimePercentage = totalJobsTime === 0
         ? 0
         : Math.round(totalTime / totalJobsTime * PERCENTAGE_MULTIPLIER);
 
-      tagStatsMap.set(tag.uuid, {
+      tagStatsMap.set(tag.uuid!, {
         totalAmount,
         totalAmountPercentage,
         totalTime,

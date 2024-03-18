@@ -1,5 +1,5 @@
 import {createContext, useContext} from "react";
-import {UserPreview} from "src/model/businessModelPreview/UserPreview";
+import {User} from "src/model/businessModel/User";
 import {DEFAULT_LANGUAGE, Language} from "src/utils/LanguageWorker";
 import {DEFAULT_THEME, Theme} from "src/utils/ThemeWorker";
 
@@ -67,12 +67,12 @@ export type GlobalContext = {
   /**
    * If user is not logged - null, if logged - UserPreview always
    */
-  user: UserPreview | null;
+  user: User | null;
 
   /**
    * Update user
    */
-  setUser: (user: UserPreview | null) => void;
+  setUser: (user: User | null) => void;
 
   /**
    * IsInitialization

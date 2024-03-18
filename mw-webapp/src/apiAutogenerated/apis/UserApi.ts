@@ -16,20 +16,20 @@
 import * as runtime from '../runtime';
 import type {
   SchemasCreateUserPayload,
+  SchemasGetAllUsersResponse,
   SchemasUpdateUserPayload,
   SchemasUserPlainResponse,
-  SchemasUserPlainResponseWithInfo,
   SchemasUserPopulatedResponse,
 } from '../models/index';
 import {
     SchemasCreateUserPayloadFromJSON,
     SchemasCreateUserPayloadToJSON,
+    SchemasGetAllUsersResponseFromJSON,
+    SchemasGetAllUsersResponseToJSON,
     SchemasUpdateUserPayloadFromJSON,
     SchemasUpdateUserPayloadToJSON,
     SchemasUserPlainResponseFromJSON,
     SchemasUserPlainResponseToJSON,
-    SchemasUserPlainResponseWithInfoFromJSON,
-    SchemasUserPlainResponseWithInfoToJSON,
     SchemasUserPopulatedResponseFromJSON,
     SchemasUserPopulatedResponseToJSON,
 } from '../models/index';
@@ -163,7 +163,7 @@ export class UserApi extends runtime.BaseAPI {
      * Get users with pagination
      * Get all users
      */
-    async getAllUsersRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<SchemasUserPlainResponseWithInfo>>> {
+    async getAllUsersRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasGetAllUsersResponse>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -175,14 +175,14 @@ export class UserApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(SchemasUserPlainResponseWithInfoFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasGetAllUsersResponseFromJSON(jsonValue));
     }
 
     /**
      * Get users with pagination
      * Get all users
      */
-    async getAllUsers(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<SchemasUserPlainResponseWithInfo>> {
+    async getAllUsers(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasGetAllUsersResponse> {
         const response = await this.getAllUsersRaw(initOverrides);
         return await response.value();
     }

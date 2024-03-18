@@ -45,6 +45,7 @@ models/SchemasCreateWayCollectionPayload.ts
 models/SchemasCreateWayCollectionWay.ts
 models/SchemasCreateWayTagPayload.ts
 models/SchemasDayReportPopulatedResponse.ts
+models/SchemasGetAllUsersResponse.ts
 models/SchemasGetAllWaysResponse.ts
 models/SchemasJobDonePopulatedResponse.ts
 models/SchemasJobTagResponse.ts

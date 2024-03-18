@@ -13,10 +13,10 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {WayCard} from "src/component/wayCard/WayCard";
-import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
+// Import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {useLoad} from "src/hooks/useLoad";
-import {getWaysFilter} from "src/logic/waysTable/wayFilter";
+// Import {getWaysFilter} from "src/logic/waysTable/wayFilter";
 import {getWaysColumns} from "src/logic/waysTable/waysColumns";
 import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {WayStatus, WayStatusType} from "src/logic/waysTable/wayStatus";
@@ -74,11 +74,13 @@ export const FILTER_STATUS_ALL_VALUE = "all";
  * Callback that is called to fetch data
  */
 const loadWays = async (
-  wayUuids: string[],
-  filterStatus: WayStatusType | typeof FILTER_STATUS_ALL_VALUE,
+  //TODO: fix it
+  // wayUuids: string[],
+  // filterStatus: WayStatusType | typeof FILTER_STATUS_ALL_VALUE,
 ): Promise<WayPreview[]> => {
-  const filter = getWaysFilter(filterStatus);
-  const waysPreview = await WayPreviewDAL.getWaysPreviewByUuids(Array.from(wayUuids), filter);
+  // Const filter = getWaysFilter(filterStatus);
+  // const waysPreview = await WayPreviewDAL.getWaysPreviewByUuids(Array.from(wayUuids), filter);
+  const waysPreview: WayPreview[] = [];
 
   return waysPreview;
 };
@@ -123,7 +125,8 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
       /**
        * Load ways
        */
-      loadData: () => loadWays(props.wayUuids, props.filterStatus),
+      // loadData: () => loadWays(props.wayUuids, props.filterStatus),
+      loadData: () => loadWays(),
       validateData,
       onSuccess: setWays,
 

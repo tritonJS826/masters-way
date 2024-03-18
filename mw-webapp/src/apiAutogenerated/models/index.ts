@@ -24,6 +24,7 @@ export * from './SchemasCreateWayCollectionPayload';
 export * from './SchemasCreateWayCollectionWay';
 export * from './SchemasCreateWayTagPayload';
 export * from './SchemasDayReportPopulatedResponse';
+export * from './SchemasGetAllUsersResponse';
 export * from './SchemasGetAllWaysResponse';
 export * from './SchemasJobDonePopulatedResponse';
 export * from './SchemasJobTagResponse';

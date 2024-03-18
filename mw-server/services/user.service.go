@@ -2,6 +2,7 @@ package services
 
 import (
 	"context"
+	"fmt"
 	db "mwserver/db/sqlc"
 	"mwserver/schemas"
 	"mwserver/util"
@@ -9,6 +10,7 @@ import (
 
 func CreateUser(db *db.Queries, ctx context.Context, args *db.CreateUserParams) (schemas.UserPlainResponse, error) {
 	user, err := db.CreateUser(ctx, *args)
+	fmt.Println(err)
 
 	imageUrl, _ := util.MarshalNullString(user.ImageUrl)
 	response := schemas.UserPlainResponse{

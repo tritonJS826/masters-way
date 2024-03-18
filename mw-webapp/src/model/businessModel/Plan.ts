@@ -38,12 +38,12 @@ interface PlanProps {
   /**
    * Date when plan was updated in milliseconds
    */
-  updatedAt: number;
+  updatedAt: Date;
 
   /**
    * Date when plan was created in milliseconds
    */
-  createdAt: number;
+  createdAt: Date;
 }
 
 /**
@@ -84,12 +84,12 @@ export class Plan {
   /**
    * Date when plan was updated in milliseconds
    */
-  public updatedAt: number;
+  public updatedAt: Date;
 
   /**
    * Date when plan was created in milliseconds
    */
-  public createdAt: number;
+  public createdAt: Date;
 
   constructor(planData: PlanProps) {
     this.uuid = planData.uuid;

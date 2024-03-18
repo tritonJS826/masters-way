@@ -2,13 +2,13 @@ import {createColumnHelper} from "@tanstack/react-table";
 import {Link} from "src/component/link/Link";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
-import {UserPreview} from "src/model/businessModelPreview/UserPreview";
+import {UserNotSaturatedWay} from "src/model/businessModelPreview/UserNotSaturatedWay";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LangauageService";
 import {Language} from "src/utils/LanguageWorker";
 import styles from "src/logic/usersTable/UserColumns.module.scss";
 
-const columnHelper = createColumnHelper<UserPreview>();
+const columnHelper = createColumnHelper<UserNotSaturatedWay>();
 
 /**
  * Table columns
@@ -85,7 +85,7 @@ export const getUsersColumns = (language: Language) => [
      */
     cell: ({row}) => (
       <div className={styles.number}>
-        {row.original.ownWays.length.toString()}
+        {row.original.ownWays.toString()}
       </div>
     ),
   }),
@@ -110,7 +110,7 @@ export const getUsersColumns = (language: Language) => [
      */
     cell: ({row}) => (
       <div className={styles.number}>
-        {row.original.favoriteWays.length.toString()}
+        {row.original.favoriteWays.toString()}
       </div>
     ),
   }),
@@ -135,7 +135,7 @@ export const getUsersColumns = (language: Language) => [
      */
     cell: ({row}) => (
       <div className={styles.number}>
-        {row.original.mentoringWays.length.toString()}
+        {row.original.mentoringWays.toString()}
       </div>
     ),
   }),

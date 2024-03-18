@@ -41,14 +41,14 @@ SELECT
         SELECT user_tags.uuid 
         FROM user_tags 
         INNER JOIN users_user_tags ON user_tags.uuid = users_user_tags.user_tag_uuid
-        WHERE users_user_tags.owner_uuid = users.uuid
+        WHERE users_user_tags.user_uuid = users.uuid
     )::VARCHAR[] AS tag_uuids,
     -- get user tag names
     ARRAY(
         SELECT user_tags.name 
         FROM user_tags 
         INNER JOIN users_user_tags ON user_tags.uuid = users_user_tags.user_tag_uuid
-        WHERE users_user_tags.owner_uuid = users.uuid
+        WHERE users_user_tags.user_uuid = users.uuid
     )::VARCHAR[] AS tag_names,
     (SELECT COUNT(*) FROM users) AS users_size
 FROM users
