@@ -13,13 +13,15 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {UserCard} from "src/component/userCard/UserCard";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
+import {UserDAL} from "src/DAL/UserDAL";
+// Import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {useLoad} from "src/hooks/useLoad";
 import {usePersistanceState} from "src/hooks/usePersistanceState";
-import {LAST_INDEX} from "src/logic/mathConstants";
+// Import {LAST_INDEX} from "src/logic/mathConstants";
 import {UsersTableBlock} from "src/logic/usersTable/UsersTableBlock";
-import {UserPreview} from "src/model/businessModelPreview/UserPreview";
+import {UserNotSaturatedWay} from "src/model/businessModelPreview/UserNotSaturatedWay";
+// Import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {LanguageService} from "src/service/LangauageService";
 import {AllUsersPageSettings, View} from "src/utils/LocalStorageWorker";
 import {useDebounce} from "use-debounce";
@@ -36,7 +38,7 @@ interface AllUsersFetchData {
   /**
    * Fetched users
    */
-  users: UserPreview[];
+  users: UserNotSaturatedWay[];
 
   /**
    * Amount of filtered users
@@ -49,7 +51,7 @@ interface AllUsersFetchData {
  * Users page
  */
 export const AllUsersPage = () => {
-  const [allUsers, setAllUsers] = useState<UserPreview[]>();
+  const [allUsers, setAllUsers] = useState<UserNotSaturatedWay[]>();
   const [allUsersAmount, setAllUsersAmount] = useState<number>();
   const [email, setEmail] = useState<string>("");
   const [debouncedEmail ] = useDebounce(email, DEBOUNCE_DELAY_MILLISECONDS);
@@ -68,24 +70,25 @@ export const AllUsersPage = () => {
   const loadData = async (): Promise<AllUsersFetchData> => {
     const [
       users,
-      usersAmount,
+      // UsersAmount,
     ] = await Promise.all([
-      UserPreviewDAL.getUsersPreview({email}),
-      UserPreviewDAL.getUsersPreviewAmount({email}),
+      UserDAL.getUsers(),
+      // UserPreviewDAL.getUsersPreview({email}),
+      // UserPreviewDAL.getUsersPreviewAmount({email}),
     ]);
 
-    return {users, usersAmount};
+    return {users, usersAmount: 0};
   };
 
   /**
    * Load more users
    */
-  const loadMoreUsers = async (loadedUsers: UserPreview[]) => {
-    const lastUserUuid = loadedUsers.at(LAST_INDEX)?.uuid;
+  // const loadMoreUsers = async (loadedUsers: UserNotSaturatedWay[]) => {
+  //   // Const lastUserUuid = loadedUsers.at(LAST_INDEX)?.uuid;
 
-    const users = await UserPreviewDAL.getUsersPreview({email, lastUserUuid});
-    setAllUsers([...loadedUsers, ...users]);
-  };
+  //   // Const users = await UserPreviewDAL.getUsersPreview({email, lastUserUuid});
+  //   // setAllUsers([...loadedUsers, ...users]);
+  // };
 
   /**
    * Callback that is called on fetch and validation success
@@ -194,7 +197,8 @@ export const AllUsersPage = () => {
         {isMoreUsersExist &&
         <Button
           value={LanguageService.allUsers.usersTable.loadMoreButton[language]}
-          onClick={() => loadMoreUsers(allUsers)}
+          // OnClick={() => loadMoreUsers(allUsers)}
+          onClick={() => {}}
           buttonType={ButtonType.PRIMARY}
           className={styles.loadMoreButton}
         />

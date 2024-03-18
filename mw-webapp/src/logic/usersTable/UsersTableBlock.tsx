@@ -1,7 +1,7 @@
 import {useGlobalContext} from "src/GlobalContext";
 import {getUsersColumns} from "src/logic/usersTable/usersColumns";
 import {UsersTable} from "src/logic/usersTable/UsersTable";
-import {UserPreview} from "src/model/businessModelPreview/UserPreview";
+import {UserNotSaturatedWay} from "src/model/businessModelPreview/UserNotSaturatedWay";
 
 /**
  * Users table props
@@ -11,7 +11,7 @@ interface UsersTableProps {
   /**
    * Users
    */
-  users: UserPreview[];
+  users: UserNotSaturatedWay[];
 }
 
 /**

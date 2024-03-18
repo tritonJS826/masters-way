@@ -5,7 +5,7 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {UserPreview} from "src/model/businessModelPreview/UserPreview";
+import {UserNotSaturatedWay} from "src/model/businessModelPreview/UserNotSaturatedWay";
 import {pages} from "src/router/pages";
 import {DateUtils} from "src/utils/DateUtils";
 import styles from "src/component/userCard/UserCard.module.scss";
@@ -18,7 +18,7 @@ interface UserCardProps {
   /**
    * User preview
    */
-  userPreview: UserPreview;
+  userPreview: UserNotSaturatedWay;
 
   /**
    * Data attribute for cypress testing
@@ -80,9 +80,9 @@ export const UserCard = (props: UserCardProps) => {
             {`Created at ${DateUtils.getShortISODateValue(props.userPreview.createdAt)}`}
           </p>
           <p>
-            {`${props.userPreview.ownWays.length} own ways / 
-          ${props.userPreview.favoriteWays.length} favorite ways /
-          ${props.userPreview.mentoringWays.length} mentoring ways`}
+            {`${props.userPreview.ownWays} own ways / 
+          ${props.userPreview.favoriteWays} favorite ways /
+          ${props.userPreview.mentoringWays} mentoring ways`}
           </p>
         </VerticalContainer>
       </VerticalContainer>

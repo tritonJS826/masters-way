@@ -90,7 +90,8 @@ export const JobTags = (props: JobTagsProps) => {
                   content={<p>
                     {LanguageService.way.filterBlock.deleteJobTagQuestion[language].replace("$jobTag", `"${jobTag.name}"`)}
                   </p>}
-                  onOk={() => removeJobTagFromWay(jobTag.uuid)}
+                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                  onOk={() => removeJobTagFromWay(jobTag.uuid!)}
                   okText={LanguageService.way.filterBlock.deleteButton[language]}
                 />
               </Tooltip>

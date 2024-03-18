@@ -1,3 +1,5 @@
+import {WayNotSaturatedUser} from "src/model/businessModelPreview/WayNotSaturatedUser";
+
 /**
  * Specific way collection data
  */
@@ -38,7 +40,7 @@ export type UserTag = {
 /**
  * User preview model
  */
-export class UserNotSaturatedWay {
+export class User {
 
   /**
    * User's UUID
@@ -61,24 +63,29 @@ export class UserNotSaturatedWay {
   public description: string;
 
   /**
-   * The own ways amount
+   * Own ways @Way.uuid
    */
-  public ownWays: number;
+  public ownWays: string[];
 
   /**
-   * The favorite ways amount
+   * The favorite ways @Way.uuid
    */
-  public favoriteWays: number;
+  public favoriteWays: string[];
 
   /**
-   * The mentoring ways amount
+   * Ways for mentoring @Way.uuid
    */
-  public mentoringWays: number;
+  public mentoringWays: string[];
 
   /**
    * Date when user was created
    */
   public createdAt: Date;
+
+  /**
+   * Custom way collections {@link WaysCollection}
+   */
+  public customWayCollections: WaysCollection[];
 
   /**
    * User's uuids for whom this user are favorite
@@ -105,7 +112,12 @@ export class UserNotSaturatedWay {
    */
   public isMentor: boolean;
 
-  constructor(userData: UserNotSaturatedWay) {
+  /**
+   * Way's that requested user become a mentor {@link WayNotSaturatedUser}
+   */
+  public wayRequests: WayNotSaturatedUser[];
+
+  constructor(userData: User) {
     this.uuid = userData.uuid;
     this.name = userData.name;
     this.email = userData.email;
@@ -114,11 +126,13 @@ export class UserNotSaturatedWay {
     this.favoriteWays = userData.favoriteWays;
     this.mentoringWays = userData.mentoringWays;
     this.createdAt = userData.createdAt;
+    this.customWayCollections = userData.customWayCollections;
     this.favoriteForUserUuids = userData.favoriteForUserUuids;
     this.favoriteUserUuids = userData.favoriteUserUuids;
     this.tags = userData.tags;
     this.imageUrl = userData.imageUrl;
     this.isMentor = userData.isMentor;
+    this.wayRequests = userData.wayRequests;
   }
 
 }

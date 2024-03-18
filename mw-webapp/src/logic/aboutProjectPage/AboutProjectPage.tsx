@@ -64,7 +64,7 @@ export const AboutProjectPage = () => {
   // const updateX = async () => {
   //   const user = await UserServiceU.updateUser({
   //     userId: "e65d2d3f-c594-4181-a9da-e083c003c0c2",
-  //     request: {name: "It's updated user name!"},
+  //     request: {name: "New name!"},
   //   });
 
   //   console.log("updated user", user);

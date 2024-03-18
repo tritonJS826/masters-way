@@ -1,6 +1,6 @@
 import {PropsWithChildren, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
-import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
+import {UserDAL} from "src/DAL/UserDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {useErrorHandler} from "src/hooks/useErrorHandler";
 import {pages} from "src/router/pages";
@@ -34,7 +34,7 @@ export const InitializedApp = (props: PropsWithChildren) => {
    * OnLog in
    */
   const onLogIn = async (userUid: string) => {
-    const currentUserPreview = await UserPreviewDAL.getUserPreview(userUid);
+    const currentUserPreview = await UserDAL.getUserByUuid(userUid);
     setUser(currentUserPreview);
     const defaultPagePath = getDefaultPagePath(userUid);
 

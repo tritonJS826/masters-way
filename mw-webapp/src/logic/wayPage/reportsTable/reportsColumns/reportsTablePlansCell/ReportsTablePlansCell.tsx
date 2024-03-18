@@ -96,8 +96,8 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
       tags: [defaultTag],
       estimationTime: 0,
       isDone: false,
-      createdAt: new Date().getTime(),
-      updatedAt: new Date().getTime(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
     });
     const plans = [...props.dayReport.plans, plan];
 

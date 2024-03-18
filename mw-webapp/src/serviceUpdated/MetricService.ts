@@ -24,7 +24,7 @@ export class MetricService {
   /**
    * Get metrics by Way UUID
    */
-  public static async GetMetrics(requestParameters: GetMetricsByWayUuidRequest): Promise<SchemasMetricResponse[]> {
+  public static async getMetrics(requestParameters: GetMetricsByWayUuidRequest): Promise<SchemasMetricResponse[]> {
     const jobsDone = await metricService.getMetricsByWayUuid(requestParameters);
 
     return jobsDone;

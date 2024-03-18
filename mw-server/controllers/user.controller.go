@@ -95,10 +95,10 @@ func (cc *UserController) GetOrCreateUserByFirebaseId(ctx *gin.Context) {
 
 	user, err := cc.db.GetUserByFirebaseId(ctx, payload.FirebaseId)
 	if err != nil {
-		ctx.JSON(http.StatusOK, user)
-	} else {
 		response, _ := services.CreateUser(cc.db, ctx, args)
 		ctx.JSON(http.StatusOK, response)
+	} else {
+		ctx.JSON(http.StatusOK, user)
 	}
 
 }
@@ -356,7 +356,7 @@ func (cc *UserController) GetUserById(ctx *gin.Context) {
 // @ID get-all-users
 // @Accept  json
 // @Produce  json
-// @Success 200 {array} schemas.UserPlainResponseWithInfo
+// @Success 200 {object} schemas.GetAllUsersResponse
 // @Router /users [get]
 func (cc *UserController) GetAllUsers(ctx *gin.Context) {
 	var page = ctx.DefaultQuery("page", "1")
@@ -406,7 +406,7 @@ func (cc *UserController) GetAllUsers(ctx *gin.Context) {
 
 	usersSize, _ := cc.db.CountUsers(ctx)
 
-	ctx.JSON(http.StatusOK, gin.H{"size": usersSize, "users": response})
+	ctx.JSON(http.StatusOK, schemas.GetAllUsersResponse{Size: usersSize, Users: response})
 }
 
 // @Summary Delete user by UUID

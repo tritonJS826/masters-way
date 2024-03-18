@@ -14,7 +14,9 @@ export class DayReportService {
   /**
    * Get DayReport by Way UUID
    */
-  public async getDayReports(requestParameters: GetDayReportsByWayUuidRequest): Promise<SchemasDayReportPopulatedResponse[]> {
+  public static async getDayReports(
+    requestParameters: GetDayReportsByWayUuidRequest,
+  ): Promise<SchemasDayReportPopulatedResponse[]> {
     const dayReports = await dayReportService.getDayReportsByWayUuid(requestParameters);
 
     return dayReports;
@@ -23,7 +25,7 @@ export class DayReportService {
   /**
    * Create day report
    */
-  public async createDayReport(requestParameters: CreateDayReportRequest): Promise<SchemasDayReportPopulatedResponse> {
+  public static async createDayReport(requestParameters: CreateDayReportRequest): Promise<SchemasDayReportPopulatedResponse> {
     const dayReport = await dayReportService.createDayReport(requestParameters);
 
     return dayReport;
@@ -32,7 +34,7 @@ export class DayReportService {
   /**
    * Update day report
    */
-  public async updateDayReport(requestParameters: UpdateDayReportRequest): Promise<SchemasDayReportPopulatedResponse> {
+  public static async updateDayReport(requestParameters: UpdateDayReportRequest): Promise<SchemasDayReportPopulatedResponse> {
     const updatedDayReport = await dayReportService.updateDayReport(requestParameters);
 
     return updatedDayReport;

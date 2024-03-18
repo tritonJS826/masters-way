@@ -53,10 +53,10 @@ interface ReportsTableJobsDoneCellProps {
  * Cell with jobs done in reports table
  */
 export const ReportsTableJobsDoneCell = (props: ReportsTableJobsDoneCellProps) => {
-  const defaultTag = props.jobTags.find((jobTag) => jobTag.name === "no tag");
-  if (!defaultTag) {
-    throw new Error("Default tag is not exist");
-  }
+  // Const defaultTag = props.jobTags.find((jobTag) => jobTag.name === "no tag");
+  // if (!defaultTag) {
+  //   // Throw new Error("Default tag is not exist");
+  // }
 
   /**
    * Create jobDone
@@ -66,7 +66,14 @@ export const ReportsTableJobsDoneCell = (props: ReportsTableJobsDoneCellProps) =
       description: "",
       time: 0,
       uuid: uuidv4(),
-      tags: [defaultTag],
+      tags: [
+        {
+          uuid: "",
+          name: "no tag",
+          description: "",
+          color: "",
+        },
+      ],
     });
     const jobsDone = [...props.dayReport.jobsDone, jobDone];
 
