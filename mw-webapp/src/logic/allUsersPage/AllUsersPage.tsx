@@ -13,7 +13,7 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {UserCard} from "src/component/userCard/UserCard";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {UserDAL} from "src/DAL/UserDAL";
+import {UserDAL} from "src/dataAccessLogic/UserDAL";
 // Import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {useLoad} from "src/hooks/useLoad";
@@ -68,16 +68,9 @@ export const AllUsersPage = () => {
    * Callback that is called to fetch data
    */
   const loadData = async (): Promise<AllUsersFetchData> => {
-    const [
-      users,
-      // UsersAmount,
-    ] = await Promise.all([
-      UserDAL.getUsers(),
-      // UserPreviewDAL.getUsersPreview({email}),
-      // UserPreviewDAL.getUsersPreviewAmount({email}),
-    ]);
+    const users = await UserDAL.getUsers();
 
-    return {users, usersAmount: 0};
+    return {users: users.usersPreview, usersAmount: users.size};
   };
 
   /**

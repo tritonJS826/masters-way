@@ -17,8 +17,8 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {DayReportDAL} from "src/DAL/DayReportDAL";
-import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
+import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
+import {UserDAL} from "src/dataAccessLogic/UserDAL";
 import {BaseWayData, WayDAL} from "src/dataAccessLogic/WayDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {useLoad} from "src/hooks/useLoad";
@@ -279,7 +279,7 @@ export const WayPage = (props: WayPageProps) => {
       });
 
     setUser({...user, customWayCollections: updatedCustomWayCollections});
-    await UserPreviewDAL.updateUserPreview({uuid: user.uuid, customWayCollections: updatedCustomWayCollections});
+    await UserDAL.updateUser({uuid: user.uuid, customWayCollections: updatedCustomWayCollections});
     displayNotification({
       text: "Collection updated",
       type: "info",
@@ -315,11 +315,12 @@ export const WayPage = (props: WayPageProps) => {
       copiedFromWayUuid: way.uuid,
       estimationTime: way.estimationTime,
       goalDescription: way.goalDescription,
-      jobTagsStringified: way.jobTags.map((jobTag) => JSON.stringify(jobTag)),
-      metricsStringified: way.metrics.map(
-        (metric) => JSON.stringify({...metric, isDone: false, doneDate: null}),
-      ),
-      wayTagsStringified: way.wayTags.map((wayTag) => JSON.stringify(wayTag)),
+      jobTags: way.jobTags,
+      metrics: way.metrics.map(
+        (metric) => {
+          return {...metric, isDone: false, doneDate: null};
+        }),
+      wayTags: way.wayTags,
     };
     const newWay: SchemasWayPlainResponse = await WayDAL.createWay(user, baseWayData);
 
@@ -337,7 +338,7 @@ export const WayPage = (props: WayPageProps) => {
       wayToUpdate: {
         uuid: way.uuid,
         metrics: metricsToUpdate,
-        status: isWayCompleted ? "Completed" : null,
+        status: isWayCompleted ? "Completed" : "",
       },
       setWay: setWayPartial,
     });

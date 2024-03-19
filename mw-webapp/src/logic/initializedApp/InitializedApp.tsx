@@ -1,6 +1,6 @@
 import {PropsWithChildren, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
-import {UserDAL} from "src/DAL/UserDAL";
+import {UserDAL} from "src/dataAccessLogic/UserDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {useErrorHandler} from "src/hooks/useErrorHandler";
 import {pages} from "src/router/pages";

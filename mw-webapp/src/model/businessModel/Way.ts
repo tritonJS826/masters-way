@@ -56,9 +56,8 @@ export class Way {
 
   /**
    * Way's status "Completed" or "Template"
-   * @default null
    */
-  public status: string | null;
+  public status: string;
 
   /**
    * Last day when way was updated

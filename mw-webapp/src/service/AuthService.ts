@@ -1,6 +1,6 @@
 import {onAuthStateChanged, signInWithPopup, signOut} from "firebase/auth";
 import {auth, provider} from "src/firebase";
-import {UserServiceU} from "src/serviceUpdated/UserService";
+import {UserServiceU} from "src/service/UserService";
 
 const DEFAULT_USER_NAME = "Noname";
 
