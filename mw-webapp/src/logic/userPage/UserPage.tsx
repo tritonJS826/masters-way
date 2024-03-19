@@ -11,8 +11,7 @@ import {Modal} from "src/component/modal/Modal";
 import {PromptModalContent} from "src/component/modal/PromptModalContent";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {UserDAL} from "src/DAL/UserDAL";
-import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
+import {UserDAL} from "src/dataAccessLogic/UserDAL";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {useLoad} from "src/hooks/useLoad";
@@ -51,7 +50,7 @@ export interface UpdateUserParams {
  */
 export const updateUser = async (params: UpdateUserParams) => {
   params.setUser(params.userToUpdate);
-  await UserPreviewDAL.updateUserPreview(params.userToUpdate);
+  await UserDAL.updateUser(params.userToUpdate);
 };
 
 /**
@@ -230,7 +229,7 @@ export const UserPage = (props: UserPageProps) => {
 
     const updatedCustomWayCollections = user.customWayCollections.concat(newWayCollection);
 
-    await UserPreviewDAL.updateUserPreview({
+    await UserDAL.updateUser({
       uuid: user.uuid,
       customWayCollections: updatedCustomWayCollections,
     });
@@ -250,7 +249,7 @@ export const UserPage = (props: UserPageProps) => {
     const updatedCustomWayCollections = user.customWayCollections
       .filter(collection => collection.id !== collectionId);
 
-    await UserPreviewDAL.updateUserPreview({
+    await UserDAL.updateUser({
       uuid: user.uuid,
       customWayCollections: updatedCustomWayCollections,
     });
@@ -277,7 +276,7 @@ export const UserPage = (props: UserPageProps) => {
         }
       });
 
-    await UserPreviewDAL.updateUserPreview({
+    await UserDAL.updateUser({
       uuid: user.uuid,
       customWayCollections: updatedCustomWayCollections,
     });

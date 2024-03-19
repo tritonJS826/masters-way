@@ -13,6 +13,7 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {WayCard} from "src/component/wayCard/WayCard";
+import {WayDAL} from "src/dataAccessLogic/WayDAL";
 // Import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {useLoad} from "src/hooks/useLoad";
@@ -73,14 +74,14 @@ export const FILTER_STATUS_ALL_VALUE = "all";
 /**
  * Callback that is called to fetch data
  */
-const loadWays = async (
-  //TODO: fix it
-  // wayUuids: string[],
-  // filterStatus: WayStatusType | typeof FILTER_STATUS_ALL_VALUE,
-): Promise<WayPreview[]> => {
+const loadWays = async () => {
+//TODO: fix it
+// wayUuids: string[],
+// filterStatus: WayStatusType | typeof FILTER_STATUS_ALL_VALUE,
+// ): Promise<WayPreview[]>
   // Const filter = getWaysFilter(filterStatus);
   // const waysPreview = await WayPreviewDAL.getWaysPreviewByUuids(Array.from(wayUuids), filter);
-  const waysPreview: WayPreview[] = [];
+  const waysPreview: WayPreview[] = (await WayDAL.getWays()).waysPreview;
 
   return waysPreview;
 };
