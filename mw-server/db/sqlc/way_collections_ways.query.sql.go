@@ -14,37 +14,37 @@ import (
 
 const createWayCollectionsWays = `-- name: CreateWayCollectionsWays :one
 INSERT INTO way_collections_ways(
-    way_collections_uuid,
+    way_collection_uuid,
     way_uuid
 ) VALUES (
     $1, $2
-) RETURNING way_collections_uuid, way_uuid
+) RETURNING way_collection_uuid, way_uuid
 `
 
 type CreateWayCollectionsWaysParams struct {
-	WayCollectionsUuid uuid.UUID `json:"way_collections_uuid"`
-	WayUuid            uuid.UUID `json:"way_uuid"`
+	WayCollectionUuid uuid.UUID `json:"way_collection_uuid"`
+	WayUuid           uuid.UUID `json:"way_uuid"`
 }
 
 func (q *Queries) CreateWayCollectionsWays(ctx context.Context, arg CreateWayCollectionsWaysParams) (WayCollectionsWay, error) {
-	row := q.queryRow(ctx, q.createWayCollectionsWaysStmt, createWayCollectionsWays, arg.WayCollectionsUuid, arg.WayUuid)
+	row := q.queryRow(ctx, q.createWayCollectionsWaysStmt, createWayCollectionsWays, arg.WayCollectionUuid, arg.WayUuid)
 	var i WayCollectionsWay
-	err := row.Scan(&i.WayCollectionsUuid, &i.WayUuid)
+	err := row.Scan(&i.WayCollectionUuid, &i.WayUuid)
 	return i, err
 }
 
 const deleteWayCollectionsWaysByIds = `-- name: DeleteWayCollectionsWaysByIds :exec
 DELETE FROM way_collections_ways
-WHERE way_collections_uuid = $1 AND way_uuid = $2
+WHERE way_collection_uuid = $1 AND way_uuid = $2
 `
 
 type DeleteWayCollectionsWaysByIdsParams struct {
-	WayCollectionsUuid uuid.UUID `json:"way_collections_uuid"`
-	WayUuid            uuid.UUID `json:"way_uuid"`
+	WayCollectionUuid uuid.UUID `json:"way_collection_uuid"`
+	WayUuid           uuid.UUID `json:"way_uuid"`
 }
 
 func (q *Queries) DeleteWayCollectionsWaysByIds(ctx context.Context, arg DeleteWayCollectionsWaysByIdsParams) error {
-	_, err := q.exec(ctx, q.deleteWayCollectionsWaysByIdsStmt, deleteWayCollectionsWaysByIds, arg.WayCollectionsUuid, arg.WayUuid)
+	_, err := q.exec(ctx, q.deleteWayCollectionsWaysByIdsStmt, deleteWayCollectionsWaysByIds, arg.WayCollectionUuid, arg.WayUuid)
 	return err
 }
 
@@ -62,13 +62,13 @@ SELECT
     ways.estimation_time AS way_estimation_time,
     ways.owner_uuid AS way_owner_uuid,
     ways.copied_from_way_uuid AS way_copied_from_way_uuid,
-    ways.status AS way_status,
+    ways.is_completed AS is_completed,
     ways.is_private AS way_is_private,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
     (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount
 FROM users
 JOIN way_collections ON $1 = way_collections.owner_uuid
-JOIN way_collections_ways ON way_collections.uuid = way_collections_ways.way_collections_uuid
+JOIN way_collections_ways ON way_collections.uuid = way_collections_ways.way_collection_uuid
 JOIN ways ON way_collections_ways.way_uuid = ways.uuid
 `
 
@@ -85,7 +85,7 @@ type GetWayCollectionJoinWayByUserIdRow struct {
 	WayEstimationTime    int32         `json:"way_estimation_time"`
 	WayOwnerUuid         uuid.UUID     `json:"way_owner_uuid"`
 	WayCopiedFromWayUuid uuid.NullUUID `json:"way_copied_from_way_uuid"`
-	WayStatus            string        `json:"way_status"`
+	IsCompleted          bool          `json:"is_completed"`
 	WayIsPrivate         bool          `json:"way_is_private"`
 	WayFavoriteForUsers  int64         `json:"way_favorite_for_users"`
 	WayDayReportsAmount  int64         `json:"way_day_reports_amount"`
@@ -113,7 +113,7 @@ func (q *Queries) GetWayCollectionJoinWayByUserId(ctx context.Context, ownerUuid
 			&i.WayEstimationTime,
 			&i.WayOwnerUuid,
 			&i.WayCopiedFromWayUuid,
-			&i.WayStatus,
+			&i.IsCompleted,
 			&i.WayIsPrivate,
 			&i.WayFavoriteForUsers,
 			&i.WayDayReportsAmount,

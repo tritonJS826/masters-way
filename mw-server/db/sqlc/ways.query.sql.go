@@ -33,11 +33,11 @@ INSERT INTO ways(
     estimation_time,
     copied_from_way_uuid,
     is_private,
-    status,
+    is_completed,
     owner_uuid
 ) VALUES (
     $1, $2, $3, $4, $5, $6, $7, $8, $9
-) RETURNING uuid, name, goal_description, updated_at, created_at, estimation_time, owner_uuid, copied_from_way_uuid, status, is_private
+) RETURNING uuid, name, goal_description, updated_at, created_at, estimation_time, owner_uuid, copied_from_way_uuid, is_completed, is_private
 `
 
 type CreateWayParams struct {
@@ -48,7 +48,7 @@ type CreateWayParams struct {
 	EstimationTime    int32         `json:"estimation_time"`
 	CopiedFromWayUuid uuid.NullUUID `json:"copied_from_way_uuid"`
 	IsPrivate         bool          `json:"is_private"`
-	Status            string        `json:"status"`
+	IsCompleted       bool          `json:"is_completed"`
 	OwnerUuid         uuid.UUID     `json:"owner_uuid"`
 }
 
@@ -61,7 +61,7 @@ func (q *Queries) CreateWay(ctx context.Context, arg CreateWayParams) (Way, erro
 		arg.EstimationTime,
 		arg.CopiedFromWayUuid,
 		arg.IsPrivate,
-		arg.Status,
+		arg.IsCompleted,
 		arg.OwnerUuid,
 	)
 	var i Way
@@ -74,7 +74,7 @@ func (q *Queries) CreateWay(ctx context.Context, arg CreateWayParams) (Way, erro
 		&i.EstimationTime,
 		&i.OwnerUuid,
 		&i.CopiedFromWayUuid,
-		&i.Status,
+		&i.IsCompleted,
 		&i.IsPrivate,
 	)
 	return i, err
@@ -99,7 +99,7 @@ SELECT
     ways.created_at,
     ways.estimation_time,
     ways.copied_from_way_uuid,
-    ways.status,
+    ways.is_completed,
     ways.is_private,
     users.uuid AS owner_uuid,
     users.name AS owner_name,
@@ -122,7 +122,7 @@ type GetWayByIdRow struct {
 	CreatedAt         time.Time      `json:"created_at"`
 	EstimationTime    int32          `json:"estimation_time"`
 	CopiedFromWayUuid uuid.NullUUID  `json:"copied_from_way_uuid"`
-	Status            string         `json:"status"`
+	IsCompleted       bool           `json:"is_completed"`
 	IsPrivate         bool           `json:"is_private"`
 	OwnerUuid         uuid.UUID      `json:"owner_uuid"`
 	OwnerName         string         `json:"owner_name"`
@@ -144,7 +144,7 @@ func (q *Queries) GetWayById(ctx context.Context, argUuid uuid.UUID) (GetWayById
 		&i.CreatedAt,
 		&i.EstimationTime,
 		&i.CopiedFromWayUuid,
-		&i.Status,
+		&i.IsCompleted,
 		&i.IsPrivate,
 		&i.OwnerUuid,
 		&i.OwnerName,
@@ -159,7 +159,7 @@ func (q *Queries) GetWayById(ctx context.Context, argUuid uuid.UUID) (GetWayById
 
 const listWays = `-- name: ListWays :many
 SELECT 
-    uuid, name, goal_description, updated_at, created_at, estimation_time, owner_uuid, copied_from_way_uuid, status, is_private,
+    uuid, name, goal_description, updated_at, created_at, estimation_time, owner_uuid, copied_from_way_uuid, is_completed, is_private,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
     (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount
 FROM ways
@@ -182,7 +182,7 @@ type ListWaysRow struct {
 	EstimationTime      int32         `json:"estimation_time"`
 	OwnerUuid           uuid.UUID     `json:"owner_uuid"`
 	CopiedFromWayUuid   uuid.NullUUID `json:"copied_from_way_uuid"`
-	Status              string        `json:"status"`
+	IsCompleted         bool          `json:"is_completed"`
 	IsPrivate           bool          `json:"is_private"`
 	WayFavoriteForUsers int64         `json:"way_favorite_for_users"`
 	WayDayReportsAmount int64         `json:"way_day_reports_amount"`
@@ -207,7 +207,7 @@ func (q *Queries) ListWays(ctx context.Context, arg ListWaysParams) ([]ListWaysR
 			&i.EstimationTime,
 			&i.OwnerUuid,
 			&i.CopiedFromWayUuid,
-			&i.Status,
+			&i.IsCompleted,
 			&i.IsPrivate,
 			&i.WayFavoriteForUsers,
 			&i.WayDayReportsAmount,
@@ -233,10 +233,10 @@ goal_description = coalesce($2, goal_description),
 updated_at = coalesce($3, updated_at),
 estimation_time = coalesce($4, estimation_time),
 is_private = coalesce($5, is_private),
-status = coalesce($6, status)
+is_completed = coalesce($6, is_completed)
 
 WHERE ways.uuid = $7
-RETURNING uuid, name, goal_description, updated_at, created_at, estimation_time, owner_uuid, copied_from_way_uuid, status, is_private, 
+RETURNING uuid, name, goal_description, updated_at, created_at, estimation_time, owner_uuid, copied_from_way_uuid, is_completed, is_private, 
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = $7) AS way_favorite_for_users,
     (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = $7) AS way_day_reports_amount
 `
@@ -247,7 +247,7 @@ type UpdateWayParams struct {
 	UpdatedAt       sql.NullTime   `json:"updated_at"`
 	EstimationTime  sql.NullInt32  `json:"estimation_time"`
 	IsPrivate       sql.NullBool   `json:"is_private"`
-	Status          sql.NullString `json:"status"`
+	IsCompleted     sql.NullBool   `json:"is_completed"`
 	Uuid            uuid.UUID      `json:"uuid"`
 }
 
@@ -260,7 +260,7 @@ type UpdateWayRow struct {
 	EstimationTime      int32         `json:"estimation_time"`
 	OwnerUuid           uuid.UUID     `json:"owner_uuid"`
 	CopiedFromWayUuid   uuid.NullUUID `json:"copied_from_way_uuid"`
-	Status              string        `json:"status"`
+	IsCompleted         bool          `json:"is_completed"`
 	IsPrivate           bool          `json:"is_private"`
 	WayFavoriteForUsers int64         `json:"way_favorite_for_users"`
 	WayDayReportsAmount int64         `json:"way_day_reports_amount"`
@@ -273,7 +273,7 @@ func (q *Queries) UpdateWay(ctx context.Context, arg UpdateWayParams) (UpdateWay
 		arg.UpdatedAt,
 		arg.EstimationTime,
 		arg.IsPrivate,
-		arg.Status,
+		arg.IsCompleted,
 		arg.Uuid,
 	)
 	var i UpdateWayRow
@@ -286,7 +286,7 @@ func (q *Queries) UpdateWay(ctx context.Context, arg UpdateWayParams) (UpdateWay
 		&i.EstimationTime,
 		&i.OwnerUuid,
 		&i.CopiedFromWayUuid,
-		&i.Status,
+		&i.IsCompleted,
 		&i.IsPrivate,
 		&i.WayFavoriteForUsers,
 		&i.WayDayReportsAmount,

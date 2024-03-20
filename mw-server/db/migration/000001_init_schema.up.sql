@@ -25,13 +25,12 @@ CREATE TABLE ways(
     "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "estimation_time" INTEGER NOT NULL,
     "owner_uuid" UUID NOT NULL REFERENCES users("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
-    "copied_from_way_uuid" UUID REFERENCES ways("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
-    "status" VARCHAR NOT NULL,
+    "copied_from_way_uuid" UUID REFERENCES ways("uuid") ON UPDATE CASCADE,
+    "is_completed" BOOLEAN NOT NULL, 
     "is_private" BOOLEAN NOT NULL,
     CONSTRAINT "ways_pkey" PRIMARY KEY("uuid")
 );
-CREATE UNIQUE INDEX "way_name_key" ON "ways"("name");
-CREATE UNIQUE INDEX "way_created_at_key" ON "ways"("created_at");
+CREATE UNIQUE INDEX "way_uuid_key" ON "ways"("uuid");
 
 CREATE TABLE former_mentors_ways(
     "former_mentor_uuid" UUID NOT NULL REFERENCES users("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
@@ -93,7 +92,6 @@ CREATE TABLE "job_tags"(
     "way_uuid" UUID NOT NULL REFERENCES ways("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT "job_tags_pkey" PRIMARY KEY("uuid")
 );
-CREATE UNIQUE INDEX "job_tag_name_key" ON "job_tags"("name");
 
 CREATE TABLE "plans"(
     "uuid" UUID NOT NULL DEFAULT (uuid_generate_v4()),
@@ -157,19 +155,22 @@ CREATE TABLE "comments"(
     CONSTRAINT "comments_pkey" PRIMARY KEY("uuid")
 );
 
+CREATE TYPE way_collection_type AS ENUM ('own', 'favorite', 'mentoring', 'custom');
+
 CREATE TABLE "way_collections"(
     "uuid" UUID NOT NULL DEFAULT (uuid_generate_v4()),
     "owner_uuid" UUID NOT NULL REFERENCES users("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
     "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "name" VARCHAR NOT NULL,
+    "type" way_collection_type NOT NULL,
     CONSTRAINT "way_collections_pkey" PRIMARY KEY("uuid")
 );
 
 CREATE TABLE "way_collections_ways"(
-    "way_collections_uuid" UUID NOT NULL REFERENCES way_collections("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
+    "way_collection_uuid" UUID NOT NULL REFERENCES way_collections("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
     "way_uuid" UUID NOT NULL REFERENCES ways("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
-    CONSTRAINT "way_collections_ways_pkey" PRIMARY KEY (way_collections_uuid, way_uuid)
+    CONSTRAINT "way_collections_ways_pkey" PRIMARY KEY (way_collection_uuid, way_uuid)
 );
 
 CREATE TABLE "way_tags"(

@@ -1,8 +1,16 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
+specifiers:
+  '@types/node': 20.10.2
+  '@types/pg': ^8.11.2
+  '@types/uuid': ^9.0.8
+  crypto: ^1.0.1
+  dotenv: 16.3.1
+  firebase: 10.7.0
+  pg: ^8.11.3
+  ts-node: 10.9.1
+  typescript: 5.3.2
+  uuid: ^9.0.1
 
 dependencies:
   firebase:
@@ -19,21 +27,12 @@ dependencies:
     version: 9.0.1
 
 devDependencies:
-  '@types/node':
-    specifier: 20.10.2
-    version: 20.10.2
-  '@types/pg':
-    specifier: ^8.11.2
-    version: 8.11.2
-  '@types/uuid':
-    specifier: ^9.0.8
-    version: 9.0.8
-  dotenv:
-    specifier: 16.3.1
-    version: 16.3.1
-  ts-node:
-    specifier: 10.9.1
-    version: 10.9.1(@types/node@20.10.2)(typescript@5.3.2)
+  '@types/node': 20.10.2
+  '@types/pg': 8.11.2
+  '@types/uuid': 9.0.8
+  crypto: 1.0.1
+  dotenv: 16.3.1
+  ts-node: 10.9.1_lhw3zvecfcig6fwb27v2ic2dvm
 
 packages:
 
@@ -664,7 +663,12 @@ packages:
     resolution: {integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==}
     dev: true
 
-  /diff@4.0.2:
+  /crypto/1.0.1:
+    resolution: {integrity: sha512-VxBKmeNcqQdiUQUW2Tzq0t377b54N2bMtXO/qiLa+6eRRmmC4qT3D4OnTGoT/U6O9aklQ/jTwbOtRMTTY8G0Ig==}
+    deprecated: This package is no longer supported. It's now a built-in Node module. If you've depended on crypto, you should switch to the one that's built-in.
+    dev: true
+
+  /diff/4.0.2:
     resolution: {integrity: sha512-58lmxKSA4BNyLz+HHMUzlOEpg09FV+ev6ZMe3vJihgdxzgcwZ8VoEEPmALCZG9LmqfVoNMMKpttIYTVG6uDY7A==}
     engines: {node: '>=0.3.1'}
     dev: true

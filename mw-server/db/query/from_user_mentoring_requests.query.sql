@@ -21,7 +21,7 @@ SELECT
     ways.estimation_time,
     ways.owner_uuid,
     ways.copied_from_way_uuid,
-    ways.status,
+    ways.is_completed,
     ways.is_private,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
     (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount
