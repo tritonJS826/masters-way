@@ -1,6 +1,6 @@
 -- name: CreateWayCollectionsWays :one
 INSERT INTO way_collections_ways(
-    way_collections_uuid,
+    way_collection_uuid,
     way_uuid
 ) VALUES (
     $1, $2
@@ -8,7 +8,7 @@ INSERT INTO way_collections_ways(
 
 -- name: DeleteWayCollectionsWaysByIds :exec
 DELETE FROM way_collections_ways
-WHERE way_collections_uuid = $1 AND way_uuid = $2;
+WHERE way_collection_uuid = $1 AND way_uuid = $2;
 
 -- name: GetWayCollectionJoinWayByUserId :many
 SELECT 
@@ -24,11 +24,11 @@ SELECT
     ways.estimation_time AS way_estimation_time,
     ways.owner_uuid AS way_owner_uuid,
     ways.copied_from_way_uuid AS way_copied_from_way_uuid,
-    ways.status AS way_status,
+    ways.is_completed AS is_completed,
     ways.is_private AS way_is_private,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
     (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount
 FROM users
 JOIN way_collections ON $1 = way_collections.owner_uuid
-JOIN way_collections_ways ON way_collections.uuid = way_collections_ways.way_collections_uuid
+JOIN way_collections_ways ON way_collections.uuid = way_collections_ways.way_collection_uuid
 JOIN ways ON way_collections_ways.way_uuid = ways.uuid;

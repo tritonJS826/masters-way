@@ -21,7 +21,7 @@ INSERT INTO way_collections(
     name
 ) VALUES (
     $1, $2, $3, $4
-) RETURNING uuid, owner_uuid, created_at, updated_at, name
+) RETURNING uuid, owner_uuid, created_at, updated_at, name, type
 `
 
 type CreateWayCollectionParams struct {
@@ -45,6 +45,7 @@ func (q *Queries) CreateWayCollection(ctx context.Context, arg CreateWayCollecti
 		&i.CreatedAt,
 		&i.UpdatedAt,
 		&i.Name,
+		&i.Type,
 	)
 	return i, err
 }
@@ -60,7 +61,7 @@ func (q *Queries) DeleteWayCollection(ctx context.Context, argUuid uuid.UUID) er
 }
 
 const getListWayCollectionsByUserId = `-- name: GetListWayCollectionsByUserId :many
-SELECT uuid, owner_uuid, created_at, updated_at, name FROM way_collections
+SELECT uuid, owner_uuid, created_at, updated_at, name, type FROM way_collections
 WHERE way_collections.owner_uuid = $1
 ORDER BY created_at
 `
@@ -80,6 +81,7 @@ func (q *Queries) GetListWayCollectionsByUserId(ctx context.Context, ownerUuid u
 			&i.CreatedAt,
 			&i.UpdatedAt,
 			&i.Name,
+			&i.Type,
 		); err != nil {
 			return nil, err
 		}
@@ -100,7 +102,7 @@ SET
 name = coalesce($1, name),
 updated_at = coalesce($2, updated_at)
 WHERE uuid = $3
-RETURNING uuid, owner_uuid, created_at, updated_at, name
+RETURNING uuid, owner_uuid, created_at, updated_at, name, type
 `
 
 type UpdateWayCollectionParams struct {
@@ -118,6 +120,7 @@ func (q *Queries) UpdateWayCollection(ctx context.Context, arg UpdateWayCollecti
 		&i.CreatedAt,
 		&i.UpdatedAt,
 		&i.Name,
+		&i.Type,
 	)
 	return i, err
 }

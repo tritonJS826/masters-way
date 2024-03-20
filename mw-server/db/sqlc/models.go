@@ -6,10 +6,56 @@ package db
 
 import (
 	"database/sql"
+	"database/sql/driver"
+	"fmt"
 	"time"
 
 	"github.com/google/uuid"
 )
+
+type WayCollectionType string
+
+const (
+	WayCollectionTypeOwn       WayCollectionType = "own"
+	WayCollectionTypeFavorite  WayCollectionType = "favorite"
+	WayCollectionTypeMentoring WayCollectionType = "mentoring"
+	WayCollectionTypeCustom    WayCollectionType = "custom"
+)
+
+func (e *WayCollectionType) Scan(src interface{}) error {
+	switch s := src.(type) {
+	case []byte:
+		*e = WayCollectionType(s)
+	case string:
+		*e = WayCollectionType(s)
+	default:
+		return fmt.Errorf("unsupported scan type for WayCollectionType: %T", src)
+	}
+	return nil
+}
+
+type NullWayCollectionType struct {
+	WayCollectionType WayCollectionType `json:"way_collection_type"`
+	Valid             bool              `json:"valid"` // Valid is true if WayCollectionType is not NULL
+}
+
+// Scan implements the Scanner interface.
+func (ns *NullWayCollectionType) Scan(value interface{}) error {
+	if value == nil {
+		ns.WayCollectionType, ns.Valid = "", false
+		return nil
+	}
+	ns.Valid = true
+	return ns.WayCollectionType.Scan(value)
+}
+
+// Value implements the driver Valuer interface.
+func (ns NullWayCollectionType) Value() (driver.Value, error) {
+	if !ns.Valid {
+		return nil, nil
+	}
+	return string(ns.WayCollectionType), nil
+}
 
 type Comment struct {
 	Uuid          uuid.UUID `json:"uuid"`
@@ -153,21 +199,22 @@ type Way struct {
 	EstimationTime    int32         `json:"estimation_time"`
 	OwnerUuid         uuid.UUID     `json:"owner_uuid"`
 	CopiedFromWayUuid uuid.NullUUID `json:"copied_from_way_uuid"`
-	Status            string        `json:"status"`
+	IsCompleted       bool          `json:"is_completed"`
 	IsPrivate         bool          `json:"is_private"`
 }
 
 type WayCollection struct {
-	Uuid      uuid.UUID `json:"uuid"`
-	OwnerUuid uuid.UUID `json:"owner_uuid"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
-	Name      string    `json:"name"`
+	Uuid      uuid.UUID         `json:"uuid"`
+	OwnerUuid uuid.UUID         `json:"owner_uuid"`
+	CreatedAt time.Time         `json:"created_at"`
+	UpdatedAt time.Time         `json:"updated_at"`
+	Name      string            `json:"name"`
+	Type      WayCollectionType `json:"type"`
 }
 
 type WayCollectionsWay struct {
-	WayCollectionsUuid uuid.UUID `json:"way_collections_uuid"`
-	WayUuid            uuid.UUID `json:"way_uuid"`
+	WayCollectionUuid uuid.UUID `json:"way_collection_uuid"`
+	WayUuid           uuid.UUID `json:"way_uuid"`
 }
 
 type WayTag struct {

@@ -9,7 +9,7 @@ type CreateWay struct {
 	GoalDescription   string    `json:"goalDescription" validate:"required"`
 	EstimationTime    int32     `json:"estimationTime" validate:"required"`
 	CopiedFromWayUuid string    `json:"copiedFromWayUuid" validate:"required"`
-	Status            string    `json:"status" validate:"required"`
+	IsCompleted       bool      `json:"isCompleted" validate:"required"`
 	IsPrivate         bool      `json:"isPrivate" validate:"required"`
 	OwnerUuid         uuid.UUID `json:"ownerUuid" validate:"required"`
 }
@@ -19,7 +19,7 @@ type UpdateWayPayload struct {
 	GoalDescription string `json:"goalDescription"`
 	EstimationTime  int32  `json:"estimationTime"`
 	IsPrivate       bool   `json:"isPrivate"`
-	Status          string `json:"status"`
+	IsCompleted     bool   `json:"isCompleted"`
 }
 
 type WayPlainResponse struct {
@@ -29,7 +29,7 @@ type WayPlainResponse struct {
 	UpdatedAt         string              `json:"updatedAt" validate:"required"`
 	CreatedAt         string              `json:"createdAt" validate:"required"`
 	EstimationTime    int32               `json:"estimationTime" validate:"required"`
-	Status            string              `json:"status" validate:"required"`
+	IsCompleted       bool                `json:"isCompleted" validate:"required"`
 	Owner             UserPlainResponse   `json:"owner" validate:"required"`
 	CopiedFromWayUuid string              `json:"copiedFromWayUuid" validate:"required" extensions:"x-nullable"`
 	IsPrivate         bool                `json:"isPrivate" validate:"required"`
@@ -46,7 +46,7 @@ type WayPopulatedResponse struct {
 	UpdatedAt              string                       `json:"updatedAt" validate:"required"`
 	CreatedAt              string                       `json:"createdAt" validate:"required"`
 	EstimationTime         int32                        `json:"estimationTime" validate:"required"`
-	Status                 string                       `json:"status" validate:"required"`
+	IsCompleted            bool                         `json:"isCompleted" validate:"required"`
 	IsPrivate              bool                         `json:"isPrivate" validate:"required"`
 	Owner                  UserPlainResponse            `json:"owner" validate:"required"`
 	DayReports             []DayReportPopulatedResponse `json:"dayReports" validate:"required"`

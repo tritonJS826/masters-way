@@ -58,7 +58,7 @@ SELECT
     ways.estimation_time,
     ways.owner_uuid,
     ways.copied_from_way_uuid,
-    ways.status,
+    ways.is_completed,
     ways.is_private,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
     (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount
@@ -77,7 +77,7 @@ type GetFromUserMentoringRequestWaysByUserIdRow struct {
 	EstimationTime      int32         `json:"estimation_time"`
 	OwnerUuid           uuid.UUID     `json:"owner_uuid"`
 	CopiedFromWayUuid   uuid.NullUUID `json:"copied_from_way_uuid"`
-	Status              string        `json:"status"`
+	IsCompleted         bool          `json:"is_completed"`
 	IsPrivate           bool          `json:"is_private"`
 	WayFavoriteForUsers int64         `json:"way_favorite_for_users"`
 	WayDayReportsAmount int64         `json:"way_day_reports_amount"`
@@ -101,7 +101,7 @@ func (q *Queries) GetFromUserMentoringRequestWaysByUserId(ctx context.Context, u
 			&i.EstimationTime,
 			&i.OwnerUuid,
 			&i.CopiedFromWayUuid,
-			&i.Status,
+			&i.IsCompleted,
 			&i.IsPrivate,
 			&i.WayFavoriteForUsers,
 			&i.WayDayReportsAmount,

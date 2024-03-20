@@ -7,7 +7,7 @@ INSERT INTO ways(
     estimation_time,
     copied_from_way_uuid,
     is_private,
-    status,
+    is_completed,
     owner_uuid
 ) VALUES (
     $1, $2, $3, $4, $5, $6, $7, $8, $9
@@ -23,7 +23,7 @@ SELECT
     ways.created_at,
     ways.estimation_time,
     ways.copied_from_way_uuid,
-    ways.status,
+    ways.is_completed,
     ways.is_private,
     users.uuid AS owner_uuid,
     users.name AS owner_name,
@@ -60,7 +60,7 @@ goal_description = coalesce(sqlc.narg('goal_description'), goal_description),
 updated_at = coalesce(sqlc.narg('updated_at'), updated_at),
 estimation_time = coalesce(sqlc.narg('estimation_time'), estimation_time),
 is_private = coalesce(sqlc.narg('is_private'), is_private),
-status = coalesce(sqlc.narg('status'), status)
+is_completed = coalesce(sqlc.narg('is_completed'), is_completed)
 
 WHERE ways.uuid = sqlc.arg('uuid')
 RETURNING *, 
