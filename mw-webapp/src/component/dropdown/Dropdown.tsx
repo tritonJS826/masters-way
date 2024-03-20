@@ -11,6 +11,23 @@ import {
 import styles from "src/component/dropdown/Dropdown.module.scss";
 
 /**
+ * Data attributes for cypress testing
+ */
+interface Cy {
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCyOverlay?: string;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCyContent?: string;
+
+}
+
+/**
  * Dropdown props
  */
 export interface DropdownProps {
@@ -29,6 +46,11 @@ export interface DropdownProps {
    * Custom class name
    */
   className?: string;
+
+  /**
+   * Data attributes for cypress testing
+   */
+  cy?: Cy;
 }
 
 /**
@@ -53,6 +75,7 @@ export const Dropdown = (props: DropdownProps) => {
             key={item.id}
             value={item.value}
             onClick={item.onClick ?? (() => {})}
+            dataCyContent={props.cy?.dataCyContent}
           />
         );
 
@@ -63,7 +86,10 @@ export const Dropdown = (props: DropdownProps) => {
   });
 
   return (
-    <div className={styles.dropdown}>
+    <div
+      className={styles.dropdown}
+      data-cy={props.cy?.dataCyOverlay}
+    >
       <DropdownRoot
         open={isOpenMenu}
         onOpenChange={setIsOpenMenu}

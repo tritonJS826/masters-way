@@ -42,6 +42,11 @@ interface DropdownMenuItemProps {
    * Callback triggered onClick
    */
   onClick: () => void;
+
+  /**
+   * Data attributes for cypress testing
+   */
+  dataCyContent?: string;
 }
 
 /**
@@ -53,6 +58,7 @@ export const DropdownMenuItem = (props: DropdownMenuItemProps) => {
       key={props.value}
       className={styles.dropdownMenuItem}
       onClick={props.onClick ?? (() => {})}
+      data-cy={props.dataCyContent}
     >
       {props.value}
     </li>
