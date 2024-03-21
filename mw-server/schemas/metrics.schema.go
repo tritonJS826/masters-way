@@ -16,6 +16,7 @@ type UpdateMetricPayload struct {
 }
 
 type MetricResponse struct {
+	Uuid             string `json:"uuid" validate:"required"`
 	CreatedAt        string `json:"createdAt" validate:"required"`
 	UpdatedAt        string `json:"updatedAt" validate:"required"`
 	Description      string `json:"description" validate:"required"`

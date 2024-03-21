@@ -30,8 +30,8 @@ INSERT INTO plans(
 type CreatePlanParams struct {
 	CreatedAt      time.Time `json:"created_at"`
 	UpdatedAt      time.Time `json:"updated_at"`
-	Job            string    `json:"job"`
-	EstimationTime int32     `json:"estimation_time"`
+	Description            string    `json:"description"`
+	Time int32     `json:"time"`
 	OwnerUuid      uuid.UUID `json:"owner_uuid"`
 	IsDone         bool      `json:"is_done"`
 	DayReportUuid  uuid.UUID `json:"day_report_uuid"`
@@ -41,8 +41,8 @@ func (q *Queries) CreatePlan(ctx context.Context, arg CreatePlanParams) (Plan, e
 	row := q.queryRow(ctx, q.createPlanStmt, createPlan,
 		arg.CreatedAt,
 		arg.UpdatedAt,
-		arg.Job,
-		arg.EstimationTime,
+		arg.Description,
+		arg.Time,
 		arg.OwnerUuid,
 		arg.IsDone,
 		arg.DayReportUuid,

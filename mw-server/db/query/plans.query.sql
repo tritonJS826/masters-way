@@ -2,8 +2,8 @@
 INSERT INTO plans(
     created_at,
     updated_at,
-    job,
-    estimation_time,
+    description,
+    time,
     owner_uuid,
     is_done,
     day_report_uuid
@@ -20,8 +20,8 @@ ORDER BY created_at;
 UPDATE plans
 SET
 updated_at = coalesce(sqlc.narg('updated_at'), updated_at),
-job = coalesce(sqlc.narg('job'), job),
-estimation_time = coalesce(sqlc.narg('estimation_time'), estimation_time),
+description = coalesce(sqlc.narg('description'), description),
+time = coalesce(sqlc.narg('time'), time),
 is_done = coalesce(sqlc.narg('is_done'), is_done)
 WHERE uuid = sqlc.arg('uuid')
 RETURNING *;
