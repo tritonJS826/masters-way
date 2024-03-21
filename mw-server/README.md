@@ -17,7 +17,7 @@ make golang packages visible in cli (or add this line to .bashrc in the home dir
 
 1. run postgres container
 ```
-    docker-compose up
+    docker-compose -f postgres.docker-compose.yaml up
 ```
 2. adjust database
 ```
