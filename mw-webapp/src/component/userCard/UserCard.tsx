@@ -19,6 +19,11 @@ interface UserCardProps {
    * User preview
    */
   userPreview: UserPreview;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCy?: string;
 }
 
 /**
@@ -29,6 +34,7 @@ export const UserCard = (props: UserCardProps) => {
     <Link
       path={pages.user.getPath({uuid: props.userPreview.uuid})}
       className={styles.cardLink}
+      dataCy={props.dataCy}
     >
       <VerticalContainer className={styles.userCardContainer}>
         <VerticalContainer className={styles.mainInfo}>
