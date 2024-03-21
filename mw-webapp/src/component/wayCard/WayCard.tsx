@@ -24,6 +24,11 @@ interface WayCardProps {
    * Way preview
    */
   wayPreview: WayPreview;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCy?: string;
 }
 
 /**
@@ -85,6 +90,7 @@ export const WayCard = (props: WayCardProps) => {
     <Link
       path={pages.way.getPath({uuid: props.wayPreview.uuid})}
       className={styles.cardLink}
+      dataCy={props.dataCy}
     >
       <VerticalContainer className={styles.wayCardContainer}>
         <VerticalContainer className={styles.mainInfo}>
