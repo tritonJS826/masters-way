@@ -90,40 +90,22 @@ describe("WayCard component", () => {
     cy.get(getDataCy(WAY_CARD_CY)).should("exist");
   });
 
-  it("should display the correct goal description", () => {
+  it("should display the correct content elements", () => {
     cy.get(getDataCy(WAY_CARD_CY)).contains(WAY_PREVIEW_DATA.goalDescription);
-  });
-
-  it("should display the correct way name", () => {
     cy.get(getDataCy(WAY_CARD_CY)).contains(WAY_PREVIEW_DATA.name);
-  });
-
-  it("should display the correct number of reports", () => {
-    cy.get(getDataCy(WAY_CARD_CY)).contains(
-      `${WAY_PREVIEW_DATA.dayReportUuids.length}`,
-    );
-  });
-
-  it("should display the correct number of likes", () => {
-    cy.get(getDataCy(WAY_CARD_CY)).contains(
-      `${WAY_PREVIEW_DATA.favoriteForUserUuids.length}`,
-    );
-  });
-
-  it("should display mentors correctly", () => {
+    cy.get(getDataCy(WAY_CARD_CY)).contains(WAY_PREVIEW_DATA.owner.name);
     WAY_PREVIEW_DATA.mentors.forEach((mentor) => {
       cy.get(getDataCy(WAY_CARD_CY)).contains(mentor.name);
     });
-  });
-
-  it("should display the correct creation date", () => {
+    cy.get(getDataCy(WAY_CARD_CY)).contains(
+      `${WAY_PREVIEW_DATA.dayReportUuids.length}`,
+    );
+    cy.get(getDataCy(WAY_CARD_CY)).contains(
+      `${WAY_PREVIEW_DATA.favoriteForUserUuids.length}`,
+    );
     const creationDate = DateUtils.getShortISODateValue(
       WAY_PREVIEW_DATA.createdAt,
     );
     cy.get(getDataCy(WAY_CARD_CY)).contains(`Created: ${creationDate}`);
-  });
-
-  it("should display the correct owner name", () => {
-    cy.get(getDataCy(WAY_CARD_CY)).contains(WAY_PREVIEW_DATA.owner.name);
   });
 });

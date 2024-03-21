@@ -50,43 +50,24 @@ describe("UserCard component", () => {
     cy.get(getDataCy(USER_CARD_CY)).should("exist");
   });
 
-  it("should display the correct username", () => {
+  it("should display the correctcontent elements", () => {
     cy.get(getDataCy(USER_CARD_CY)).contains(USER_PREVIEW_DATA.name);
-  });
-
-  it("should display the correct user name", () => {
     cy.get(getDataCy(USER_CARD_CY)).contains(USER_PREVIEW_DATA.email);
-  });
-
-  it("should display the correct creation date", () => {
+    cy.get(getDataCy(USER_CARD_CY)).contains(
+      `${USER_PREVIEW_DATA.ownWays.length} own ways`,
+    );
+    cy.get(getDataCy(USER_CARD_CY)).contains(
+      `${USER_PREVIEW_DATA.favoriteWays.length} favorite ways`,
+    );
+    cy.get(getDataCy(USER_CARD_CY)).contains(
+      `${USER_PREVIEW_DATA.mentoringWays.length} mentoring ways`,
+    );
+    cy.get(getDataCy(USER_CARD_CY)).contains(
+      `${USER_PREVIEW_DATA.favoriteForUserUuids.length}`,
+    );
     const creationDate = DateUtils.getShortISODateValue(
       USER_PREVIEW_DATA.createdAt,
     );
     cy.get(getDataCy(USER_CARD_CY)).contains(`Created at ${creationDate}`);
   });
-
-  it("should display the correct number of own ways", () => {
-    cy.get(getDataCy(USER_CARD_CY)).contains(
-      `${USER_PREVIEW_DATA.ownWays.length} own ways`,
-    );
-  });
-
-  it("should display the correct number of favorite ways", () => {
-    cy.get(getDataCy(USER_CARD_CY)).contains(
-      `${USER_PREVIEW_DATA.favoriteWays.length} favorite ways`,
-    );
-  });
-
-  it("should display the correct number of mentorings", () => {
-    cy.get(getDataCy(USER_CARD_CY)).contains(
-      `${USER_PREVIEW_DATA.mentoringWays.length} mentoring ways`,
-    );
-  });
-
-  it("should display the correct number of likes", () => {
-    cy.get(getDataCy(USER_CARD_CY)).contains(
-      `${USER_PREVIEW_DATA.favoriteForUserUuids.length}`,
-    );
-  });
-
 });
