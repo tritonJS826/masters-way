@@ -42,13 +42,13 @@ func (cc *PlanController) CreatePlan(ctx *gin.Context) {
 
 	now := time.Now()
 	args := &db.CreatePlanParams{
-		Job:            payload.Job,
-		EstimationTime: int32(payload.EstimationTime),
-		OwnerUuid:      uuid.MustParse(payload.OwnerUuid),
-		IsDone:         payload.IsDone,
-		DayReportUuid:  uuid.MustParse(payload.DayReportUuid),
-		CreatedAt:      now,
-		UpdatedAt:      now,
+		Description:   payload.Description,
+		Time:          int32(payload.Time),
+		OwnerUuid:     uuid.MustParse(payload.OwnerUuid),
+		IsDone:        payload.IsDone,
+		DayReportUuid: uuid.MustParse(payload.DayReportUuid),
+		CreatedAt:     now,
+		UpdatedAt:     now,
 	}
 
 	plan, err := cc.db.CreatePlan(ctx, *args)
@@ -85,8 +85,8 @@ func (cc *PlanController) UpdatePlan(ctx *gin.Context) {
 	args := &db.UpdatePlanParams{
 		Uuid:           uuid.MustParse(PlanId),
 		UpdatedAt:      sql.NullTime{Time: now, Valid: true},
-		Job:            sql.NullString{String: payload.Job, Valid: payload.Job != ""},
-		EstimationTime: sql.NullInt32{Int32: int32(payload.EstimationTime), Valid: payload.EstimationTime != 0},
+		Job:            sql.NullString{String: payload.Description, Valid: payload.Description != ""},
+		EstimationTime: sql.NullInt32{Int32: int32(payload.Time), Valid: payload.Time != 0},
 		IsDone:         sql.NullBool{Bool: payload.IsDone, Valid: true},
 	}
 

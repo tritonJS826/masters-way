@@ -100,6 +100,14 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 		WayTags:           wayTags,
 	}
 
+	// add "no tags" tag to way
+	wayTag, _ := cc.db.CreateWayTag(ctx, payload.Name)
+	createWayTagArgs := &db.CreateWaysWayTagParams{
+		WayTagUuid: wayTag.Uuid,
+		WayUuid:    way.Uuid,
+	}
+	cc.db.CreateWaysWayTag(ctx, *createWayTagArgs)
+
 	ctx.JSON(http.StatusOK, response)
 }
 
@@ -271,6 +279,7 @@ func (cc *WayController) GetWayById(ctx *gin.Context) {
 	metricsRaw, _ := cc.db.GetListMetricsByWayUuid(ctx, wayUuid)
 	metrics := lo.Map(metricsRaw, func(dbMetric db.Metric, i int) schemas.MetricResponse {
 		return schemas.MetricResponse{
+			Uuid:             dbMetric.Uuid.String(),
 			CreatedAt:        dbMetric.CreatedAt.String(),
 			UpdatedAt:        dbMetric.UpdatedAt.String(),
 			Description:      dbMetric.Description,
@@ -457,12 +466,11 @@ func (cc *WayController) getDeepJobDonesByDayReportUuids(ctx *gin.Context, dayRe
 	jobDonesDeepMap := make(map[uuid.UUID]schemas.JobDonePopulatedResponse)
 	for _, data := range jobDonsJobTags {
 		jobDoneDeep := jobDonesDeepMap[data.Uuid]
-		updatedTags := append(jobDoneDeep.Tags, db.JobTag{
-			Uuid:        data.JobTagUuid,
+		updatedTags := append(jobDoneDeep.Tags, schemas.JobTagResponse{
+			Uuid:        data.JobTagUuid.String(),
 			Name:        data.Name,
 			Description: data.Description_2,
 			Color:       data.Color,
-			WayUuid:     data.WayUuid,
 		})
 		jobDoneOwner, _ := cc.db.GetUserById(ctx, data.OwnerUuid)
 		jobDonesDeepMap[data.Uuid] = schemas.JobDonePopulatedResponse{
@@ -500,16 +508,16 @@ func (cc *WayController) getDeepPlanByDayReportUuids(ctx *gin.Context, dayReport
 		})
 		planOwner, _ := cc.db.GetUserById(ctx, data.OwnerUuid)
 		planDeepMap[data.Uuid] = schemas.PlanPopulatedResponse{
-			Uuid:           data.Uuid.String(),
-			CreatedAt:      data.CreatedAt.String(),
-			UpdatedAt:      data.UpdatedAt.String(),
-			Job:            data.Job,
-			EstimationTime: data.EstimationTime,
-			OwnerUuid:      data.OwnerUuid.String(),
-			OwnerName:      planOwner.Name,
-			IsDone:         data.IsDone,
-			DayReportUuid:  data.DayReportUuid.String(),
-			Tags:           updatedTags,
+			Uuid:          data.Uuid.String(),
+			CreatedAt:     data.CreatedAt.String(),
+			UpdatedAt:     data.UpdatedAt.String(),
+			Description:   data.Job,
+			Time:          data.EstimationTime,
+			OwnerUuid:     data.OwnerUuid.String(),
+			OwnerName:     planOwner.Name,
+			IsDone:        data.IsDone,
+			DayReportUuid: data.DayReportUuid.String(),
+			Tags:          updatedTags,
 		}
 	}
 
