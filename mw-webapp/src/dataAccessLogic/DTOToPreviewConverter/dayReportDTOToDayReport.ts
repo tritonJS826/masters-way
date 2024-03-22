@@ -15,6 +15,8 @@ export const DayReportDTOToDayReport = (dayReportDTO: SchemasDayReportPopulatedR
       ...plan,
       updatedAt: planUpdatedAt,
       createdAt: planCreatedAt,
+      estimationTime: plan.time,
+      job: plan.description,
     });
   });
 

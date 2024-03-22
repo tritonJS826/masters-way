@@ -28,7 +28,7 @@ export interface GetUsersParams {
 /**
  * Provides methods to interact with the Users
  */
-export class UserServiceU {
+export class UserService {
 
   /**
    * Get all users

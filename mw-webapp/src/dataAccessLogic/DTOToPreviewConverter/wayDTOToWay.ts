@@ -13,6 +13,7 @@ export const wayDTOToWay = (wayDTO: SchemasWayPopulatedResponse): Way => {
   return new Way({
     ...wayDTO,
     metrics: [],
+    status: "In progress",
     favoriteForUserUuids: [],
     mentors: arrayToHashMap({keyField: "uuid", list: wayDTO.mentors}),
     formerMentors: arrayToHashMap({keyField: "uuid", list: wayDTO.formerMentors}),
@@ -38,6 +39,8 @@ export const wayDTOToWay = (wayDTO: SchemasWayPopulatedResponse): Way => {
           ...plan,
           updatedAt: planUpdatedAt,
           createdAt: planCreatedAt,
+          estimationTime: plan.time,
+          job: plan.description,
         });
       });
 

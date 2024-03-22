@@ -97,6 +97,12 @@ export interface SchemasWayPopulatedResponse {
      * @type {boolean}
      * @memberof SchemasWayPopulatedResponse
      */
+    isCompleted: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof SchemasWayPopulatedResponse
+     */
     isPrivate: boolean;
     /**
      * 
@@ -139,12 +145,6 @@ export interface SchemasWayPopulatedResponse {
      * @type {string}
      * @memberof SchemasWayPopulatedResponse
      */
-    status: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof SchemasWayPopulatedResponse
-     */
     updatedAt: string;
     /**
      * 
@@ -174,6 +174,7 @@ export function instanceOfSchemasWayPopulatedResponse(
     isInstance = isInstance && "favoriteForUsers" in value;
     isInstance = isInstance && "formerMentors" in value;
     isInstance = isInstance && "goalDescription" in value;
+    isInstance = isInstance && "isCompleted" in value;
     isInstance = isInstance && "isPrivate" in value;
     isInstance = isInstance && "jobTags" in value;
     isInstance = isInstance && "mentorRequests" in value;
@@ -181,7 +182,6 @@ export function instanceOfSchemasWayPopulatedResponse(
     isInstance = isInstance && "metrics" in value;
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "owner" in value;
-    isInstance = isInstance && "status" in value;
     isInstance = isInstance && "updatedAt" in value;
     isInstance = isInstance && "uuid" in value;
     isInstance = isInstance && "wayTags" in value;
@@ -209,6 +209,7 @@ export function SchemasWayPopulatedResponseFromJSONTyped(
         'favoriteForUsers': json['favoriteForUsers'],
         'formerMentors': ((json['formerMentors'] as Array<any>).map(SchemasUserPlainResponseFromJSON)),
         'goalDescription': json['goalDescription'],
+        'isCompleted': json['isCompleted'],
         'isPrivate': json['isPrivate'],
         'jobTags': ((json['jobTags'] as Array<any>).map(SchemasJobTagResponseFromJSON)),
         'mentorRequests': ((json['mentorRequests'] as Array<any>).map(SchemasUserPlainResponseFromJSON)),
@@ -216,7 +217,6 @@ export function SchemasWayPopulatedResponseFromJSONTyped(
         'metrics': ((json['metrics'] as Array<any>).map(SchemasMetricResponseFromJSON)),
         'name': json['name'],
         'owner': SchemasUserPlainResponseFromJSON(json['owner']),
-        'status': json['status'],
         'updatedAt': json['updatedAt'],
         'uuid': json['uuid'],
         'wayTags': ((json['wayTags'] as Array<any>).map(SchemasWayTagResponseFromJSON)),
@@ -240,6 +240,7 @@ export function SchemasWayPopulatedResponseToJSON(value?: SchemasWayPopulatedRes
         'favoriteForUsers': value.favoriteForUsers,
         'formerMentors': ((value.formerMentors as Array<any>).map(SchemasUserPlainResponseToJSON)),
         'goalDescription': value.goalDescription,
+        'isCompleted': value.isCompleted,
         'isPrivate': value.isPrivate,
         'jobTags': ((value.jobTags as Array<any>).map(SchemasJobTagResponseToJSON)),
         'mentorRequests': ((value.mentorRequests as Array<any>).map(SchemasUserPlainResponseToJSON)),
@@ -247,7 +248,6 @@ export function SchemasWayPopulatedResponseToJSON(value?: SchemasWayPopulatedRes
         'metrics': ((value.metrics as Array<any>).map(SchemasMetricResponseToJSON)),
         'name': value.name,
         'owner': SchemasUserPlainResponseToJSON(value.owner),
-        'status': value.status,
         'updatedAt': value.updatedAt,
         'uuid': value.uuid,
         'wayTags': ((value.wayTags as Array<any>).map(SchemasWayTagResponseToJSON)),

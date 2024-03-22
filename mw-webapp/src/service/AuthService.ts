@@ -1,6 +1,6 @@
 import {onAuthStateChanged, signInWithPopup, signOut} from "firebase/auth";
 import {auth, provider} from "src/firebase";
-import {UserServiceU} from "src/service/UserService";
+import {UserService} from "src/service/UserService";
 
 const DEFAULT_USER_NAME = "Noname";
 
@@ -66,7 +66,7 @@ export class AuthService {
       }
 
       // Create new user on after google login
-      const user = await UserServiceU.createUser({
+      const user = await UserService.createUser({
         request: {
           firebaseId: currentUser.uid,
           email: currentUser.email,

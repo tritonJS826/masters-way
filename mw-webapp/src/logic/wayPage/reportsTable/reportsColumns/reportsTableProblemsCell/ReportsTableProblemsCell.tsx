@@ -12,8 +12,8 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {getListNumberByIndex, getName} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Problem} from "src/model/businessModel/Problem";
+import {User} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
-import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {pages} from "src/router/pages";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
@@ -38,7 +38,7 @@ interface ReportsTableProblemsCellProps {
   /**
    * Logged in user
    */
-  user: UserPreview | null;
+  user: User | null;
 
   /**
    * If true user can edit job done, if false - not

@@ -8,6 +8,7 @@ export const wayDTOToWayPreview = (wayDTO: SchemasWayPlainResponse, metrics: Sch
   return new WayPreview({
     ...wayDTO,
     metrics,
+    status: "In progress",
     createdAt: new Date(wayDTO.createdAt),
     lastUpdate: new Date(wayDTO.updatedAt),
   });

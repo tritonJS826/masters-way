@@ -10,7 +10,7 @@ export const UserDTOToUserConverter = (userDTO: SchemasUserPopulatedResponse): U
     ownWays: [],
     favoriteWays: [],
     mentoringWays: [],
-    customWayCollections: [],
+    wayCollections: [],
     createdAt: new Date(userDTO.createdAt),
     favoriteForUserUuids: [],
     favoriteUserUuids: [],
