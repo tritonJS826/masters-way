@@ -20,8 +20,8 @@ copyPlanToJobDoneModalContent/CopyPlanToJobDoneModalContent";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {Plan} from "src/model/businessModel/Plan";
+import {User} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
-import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {JobTag} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
 import {DateUtils} from "src/utils/DateUtils";
@@ -58,7 +58,7 @@ interface ReportsTablePlansCellProps {
   /**
    * Logged in user
    */
-  user: UserPreview | null;
+  user: User | null;
 
   /**
    * Callback for update dayReport

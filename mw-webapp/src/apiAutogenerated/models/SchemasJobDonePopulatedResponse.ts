@@ -13,12 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { DbJobTag } from './DbJobTag';
+import type { SchemasJobTagResponse } from './SchemasJobTagResponse';
 import {
-    DbJobTagFromJSON,
-    DbJobTagFromJSONTyped,
-    DbJobTagToJSON,
-} from './DbJobTag';
+    SchemasJobTagResponseFromJSON,
+    SchemasJobTagResponseFromJSONTyped,
+    SchemasJobTagResponseToJSON,
+} from './SchemasJobTagResponse';
 
 /**
  * 
@@ -58,10 +58,10 @@ export interface SchemasJobDonePopulatedResponse {
     ownerName: string;
     /**
      * 
-     * @type {Array<DbJobTag>}
+     * @type {Array<SchemasJobTagResponse>}
      * @memberof SchemasJobDonePopulatedResponse
      */
-    tags: Array<DbJobTag>;
+    tags: Array<SchemasJobTagResponse>;
     /**
      * 
      * @type {number}
@@ -120,7 +120,7 @@ export function SchemasJobDonePopulatedResponseFromJSONTyped(
         'description': json['description'],
         'name': json['name'],
         'ownerName': json['ownerName'],
-        'tags': ((json['tags'] as Array<any>).map(DbJobTagFromJSON)),
+        'tags': ((json['tags'] as Array<any>).map(SchemasJobTagResponseFromJSON)),
         'time': json['time'],
         'updatedAt': json['updatedAt'],
         'uuid': json['uuid'],
@@ -142,7 +142,7 @@ export function SchemasJobDonePopulatedResponseToJSON(value?: SchemasJobDonePopu
         'description': value.description,
         'name': value.name,
         'ownerName': value.ownerName,
-        'tags': ((value.tags as Array<any>).map(DbJobTagToJSON)),
+        'tags': ((value.tags as Array<any>).map(SchemasJobTagResponseToJSON)),
         'time': value.time,
         'updatedAt': value.updatedAt,
         'uuid': value.uuid,

@@ -40,22 +40,16 @@ export interface SchemasPlanPopulatedResponse {
     dayReportUuid: string;
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof SchemasPlanPopulatedResponse
      */
-    estimationTime: number;
+    description: string;
     /**
      * 
      * @type {boolean}
      * @memberof SchemasPlanPopulatedResponse
      */
     isDone: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof SchemasPlanPopulatedResponse
-     */
-    job: string;
     /**
      * 
      * @type {string}
@@ -74,6 +68,12 @@ export interface SchemasPlanPopulatedResponse {
      * @memberof SchemasPlanPopulatedResponse
      */
     tags: Array<SchemasJobTagResponse>;
+    /**
+     * 
+     * @type {number}
+     * @memberof SchemasPlanPopulatedResponse
+     */
+    time: number;
     /**
      * 
      * @type {string}
@@ -97,12 +97,12 @@ export function instanceOfSchemasPlanPopulatedResponse(
     let isInstance = true;
     isInstance = isInstance && "createdAt" in value;
     isInstance = isInstance && "dayReportUuid" in value;
-    isInstance = isInstance && "estimationTime" in value;
+    isInstance = isInstance && "description" in value;
     isInstance = isInstance && "isDone" in value;
-    isInstance = isInstance && "job" in value;
     isInstance = isInstance && "ownerName" in value;
     isInstance = isInstance && "ownerUuid" in value;
     isInstance = isInstance && "tags" in value;
+    isInstance = isInstance && "time" in value;
     isInstance = isInstance && "updatedAt" in value;
     isInstance = isInstance && "uuid" in value;
 
@@ -124,12 +124,12 @@ export function SchemasPlanPopulatedResponseFromJSONTyped(
         
         'createdAt': json['createdAt'],
         'dayReportUuid': json['dayReportUuid'],
-        'estimationTime': json['estimationTime'],
+        'description': json['description'],
         'isDone': json['isDone'],
-        'job': json['job'],
         'ownerName': json['ownerName'],
         'ownerUuid': json['ownerUuid'],
         'tags': ((json['tags'] as Array<any>).map(SchemasJobTagResponseFromJSON)),
+        'time': json['time'],
         'updatedAt': json['updatedAt'],
         'uuid': json['uuid'],
     };
@@ -147,12 +147,12 @@ export function SchemasPlanPopulatedResponseToJSON(value?: SchemasPlanPopulatedR
         
         'createdAt': value.createdAt,
         'dayReportUuid': value.dayReportUuid,
-        'estimationTime': value.estimationTime,
+        'description': value.description,
         'isDone': value.isDone,
-        'job': value.job,
         'ownerName': value.ownerName,
         'ownerUuid': value.ownerUuid,
         'tags': ((value.tags as Array<any>).map(SchemasJobTagResponseToJSON)),
+        'time': value.time,
         'updatedAt': value.updatedAt,
         'uuid': value.uuid,
     };

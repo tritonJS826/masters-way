@@ -1,6 +1,5 @@
 // @ts-nocheck
 /* eslint-disable */
-export * from './DbJobTag';
 export * from './SchemasCommentPopulatedResponse';
 export * from './SchemasCreateCommentPayload';
 export * from './SchemasCreateDayReportPayload';

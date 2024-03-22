@@ -5,7 +5,7 @@ import {UserDTOToUserNotSaturatedWayConverter}
   from "src/dataAccessLogic/DTOToPreviewConverter/userDTOToUserNotSaturatedWayConverter";
 import {User} from "src/model/businessModel/User";
 import {UserNotSaturatedWay} from "src/model/businessModelPreview/UserNotSaturatedWay";
-import {UserServiceU} from "src/service/UserService";
+import {UserService} from "src/service/UserService";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 
 /**
@@ -33,7 +33,7 @@ export class UserDAL {
    * Get all Users
    */
   public static async getUsers(): Promise<AllUsersParams> {
-    const usersDTO = await UserServiceU.getAllUsers();
+    const usersDTO = await UserService.getAllUsers();
 
     const usersPreview = usersDTO.users.map(UserDTOToUserNotSaturatedWayConverter);
 
@@ -49,14 +49,14 @@ export class UserDAL {
    * Create user
    */
   public static async createUser(requestParameters: CreateUserRequest): Promise<void> {
-    await UserServiceU.createUser(requestParameters);
+    await UserService.createUser(requestParameters);
   }
 
   /**
    * Get user by UUID
    */
   public static async getUserByUuid(userUuid: string): Promise<User> {
-    const userDTO = await UserServiceU.getUserByUuid({userId: userUuid});
+    const userDTO = await UserService.getUserByUuid({userId: userUuid});
     const user = UserDTOToUserConverter(userDTO);
 
     return user;
@@ -68,7 +68,7 @@ export class UserDAL {
   public static async updateUser(user: PartialWithUuid<User>) {
     const userDTOPartial = userToUserDTOPartial(user);
 
-    await UserServiceU.updateUser({
+    await UserService.updateUser({
       userId: user.uuid,
       request: userDTOPartial,
     });
@@ -78,7 +78,7 @@ export class UserDAL {
    * Delete user
    */
   public static async deleteUser(userUuid: string): Promise<void> {
-    await UserServiceU.deleteUser({userId: userUuid});
+    await UserService.deleteUser({userId: userUuid});
   }
 
 }

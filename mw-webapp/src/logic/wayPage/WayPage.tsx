@@ -18,12 +18,12 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
+import {FavoriteUserWayDAL} from "src/dataAccessLogic/FavoriteUserWayDAL";
 import {UserDAL} from "src/dataAccessLogic/UserDAL";
 import {BaseWayData, WayDAL} from "src/dataAccessLogic/WayDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {useLoad} from "src/hooks/useLoad";
 import {usePersistanceState} from "src/hooks/usePersistanceState";
-import {updateUser, UpdateUserParams} from "src/logic/userPage/UserPage";
 import {GoalBlock} from "src/logic/wayPage/goalBlock/GoalBlock";
 import {GoalMetricsBlock} from "src/logic/wayPage/goalMetricsBlock/GoalMetricsBlock";
 import {JobTags} from "src/logic/wayPage/jobTags/JobTags";
@@ -35,12 +35,10 @@ import {WayStatistic} from "src/logic/wayPage/wayStatistics/WayStatistic";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Metric} from "src/model/businessModel/Metric";
 import {Way} from "src/model/businessModel/Way";
-import {UserPreview} from "src/model/businessModelPreview/UserPreview";
-import {JobTag} from "src/model/businessModelPreview/WayPreview";
+import {JobTag, WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LangauageService";
 import {DateUtils} from "src/utils/DateUtils";
-// Import {Language} from "src/utils/LanguageWorker";
 import {WayPageSettings} from "src/utils/LocalStorageWorker";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
@@ -78,33 +76,18 @@ interface UpdateWayParams {
 }
 
 /**
- * Update way Way
+ * Update Way
  */
 const updateWay = async (params: UpdateWayParams) => {
   params.setWay(params.wayToUpdate);
-  // Await WayDAL.updateWay(params.wayToUpdate);
+  await WayDAL.updateWay(params.wayToUpdate);
 };
-
-/**
- * Update Way and User params
- */
-type UpdateWayAndUserParams = UpdateWayParams & UpdateUserParams;
 
 /**
  * Add way uuid to UserPreview favoriteWays and add user uuid to Way favoriteForUserUuids
  */
-export const updateWayAndUser = async (params: UpdateWayAndUserParams) => {
-  const updateWayPromise = updateWay({
-    wayToUpdate: params.wayToUpdate,
-    setWay: params.setWay,
-  });
-
-  const updateUserPromise = updateUser({
-    userToUpdate: params.userToUpdate,
-    setUser: params.setUser,
-  });
-
-  await Promise.all([updateWayPromise, updateUserPromise]);
+export const updateFavoriteUserWay = async (userUuid: string, wayUuid: string) => {
+  await FavoriteUserWayDAL.deleteFavoriteUserWay(userUuid, wayUuid);
 };
 
 /**
@@ -144,17 +127,6 @@ export const WayPage = (props: WayPageProps) => {
   };
 
   /**
-   * Update userPreview state
-   */
-  const setUserPreviewPartial = (previousUser: Partial<UserPreview>) => {
-    if (!user) {
-      throw new Error("Previous user is undefined");
-    }
-    const updatedUser: UserPreview = {...user, ...previousUser};
-    setUser(updatedUser);
-  };
-
-  /**
    * Callback that is called to fetch data
    */
   const loadData = () => WayDAL.getWay(props.uuid);
@@ -188,7 +160,7 @@ export const WayPage = (props: WayPageProps) => {
     );
   }
 
-  const isWayInFavorites = user && user.favoriteWays.includes(way.uuid);
+  const isWayInFavorites = user && !!user.favoriteWays.find((favoriteWay) => favoriteWay.uuid === way.uuid);
 
   const isOwner = !!user && user.uuid === way.owner.uuid;
   const isMentor = !!user && way.mentors.has(user.uuid);
@@ -212,7 +184,7 @@ export const WayPage = (props: WayPageProps) => {
    * Delete way
    */
   const deleteWay = async () => {
-    // IsOwner && await WayDAL.deleteWay(way);
+    isOwner && await WayDAL.deleteWay(way.uuid);
     user && navigate(pages.user.getPath({uuid: user.uuid}));
   };
 
@@ -262,15 +234,16 @@ export const WayPage = (props: WayPageProps) => {
       throw new Error("User is not exist");
     }
 
-    const updatedCustomWayCollections = user?.customWayCollections
+    const updatedCustomWayCollections = user?.wayCollections
       .map((userCollection) => {
-        const isCollectionToUpdate = userCollection.id === collectionUuid;
+        const isCollectionToUpdate = userCollection.uuid === collectionUuid;
         if (isCollectionToUpdate) {
-          const isWayExistInCollection = userCollection.wayUuids.some(wayUuid => wayUuid === props.uuid);
+          const isWayExistInCollection = userCollection.ways.some(collectionWay => collectionWay.uuid === way.uuid);
 
           const updatedWayUuids = isWayExistInCollection
-            ? userCollection.wayUuids.filter(wayUuid => wayUuid !== props.uuid)
-            : userCollection.wayUuids.concat(props.uuid);
+            ? userCollection.ways.filter(wayPreview => wayPreview.uuid !== way.uuid)
+            //TODO: delete "as"
+            : userCollection.ways.concat(way as unknown as WayPreview);
 
           return {...userCollection, wayUuids: updatedWayUuids};
         } else {
@@ -278,25 +251,25 @@ export const WayPage = (props: WayPageProps) => {
         }
       });
 
-    setUser({...user, customWayCollections: updatedCustomWayCollections});
-    await UserDAL.updateUser({uuid: user.uuid, customWayCollections: updatedCustomWayCollections});
+    setUser({...user, wayCollections: updatedCustomWayCollections});
+    await UserDAL.updateUser({uuid: user.uuid, wayCollections: updatedCustomWayCollections});
     displayNotification({
       text: "Collection updated",
       type: "info",
     });
   };
 
-  const renderAddToCustomCollectionDropdownItems: DropdownMenuItemType[] = (user?.customWayCollections ?? [])
+  const renderAddToCustomCollectionDropdownItems: DropdownMenuItemType[] = (user?.wayCollections ?? [])
     .map((userCollection) => {
-      const isWayInUserCollection = userCollection.wayUuids.some((wayUuid: string) => wayUuid === props.uuid);
+      const isWayInUserCollection = userCollection.ways.some((wayPreview: WayPreview) => wayPreview.uuid === props.uuid);
 
       return {
-        id: userCollection.id,
+        id: userCollection.uuid,
         value: (
           <DropdownMenuItem
-            key={userCollection.id}
+            key={userCollection.uuid}
             value={`${isWayInUserCollection ? "Remove from" : "Add to"} ${userCollection.name}`}
-            onClick={() => toggleWayInWayCollectionByUuid(userCollection.id)}
+            onClick={() => toggleWayInWayCollectionByUuid(userCollection.uuid)}
           />
         ),
       };
@@ -399,32 +372,9 @@ export const WayPage = (props: WayPageProps) => {
                     }
 
                     if (isWayInFavorites) {
-                      updateWayAndUser({
-                        wayToUpdate: {
-                          uuid: way.uuid,
-                          favoriteForUserUuids: way.favoriteForUserUuids
-                            .filter((favoriteForUser) => favoriteForUser !== user.uuid),
-                        },
-                        userToUpdate: {
-                          uuid: user.uuid,
-                          favoriteWays: user.favoriteWays.filter((favoriteWay) => favoriteWay !== way.uuid),
-                        },
-                        setWay: setWayPartial,
-                        setUser: setUserPreviewPartial,
-                      });
+                      async() => await FavoriteUserWayDAL.deleteFavoriteUserWay(user.uuid, way.uuid);
                     } else {
-                      updateWayAndUser({
-                        wayToUpdate: {
-                          uuid: way.uuid,
-                          favoriteForUserUuids: way.favoriteForUserUuids.concat(user.uuid),
-                        },
-                        userToUpdate: {
-                          uuid: user.uuid,
-                          favoriteWays: user.favoriteWays.concat(way.uuid),
-                        },
-                        setWay: setWayPartial,
-                        setUser: setUserPreviewPartial,
-                      });
+                      async() => await FavoriteUserWayDAL.createFavoriteUserWay(user.uuid, way.uuid);
                     }
 
                     displayNotification({

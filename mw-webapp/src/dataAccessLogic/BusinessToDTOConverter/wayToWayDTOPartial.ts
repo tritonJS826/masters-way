@@ -9,7 +9,6 @@ import {PartialWithUuid} from "src/utils/PartialWithUuid";
 export const wayToWayDTOPartial = (way: PartialWithUuid<Way>): SchemasUpdateWayPayload => {
   const wayPartialDTO: SchemasUpdateWayPayload = {
     name: way.name,
-    status: way.status,
     goalDescription: way.goalDescription,
     estimationTime: way.estimationTime,
     isPrivate: way.isPrivate,

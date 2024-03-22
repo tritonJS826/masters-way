@@ -164,7 +164,7 @@ export class WayDAL {
         isPrivate: false,
         name: `Way of ${user.name}`,
         ownerUuid: `${user.uuid}`,
-        status: "",
+        isCompleted: false,
       },
     });
 

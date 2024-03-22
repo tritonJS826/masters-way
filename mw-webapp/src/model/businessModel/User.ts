@@ -1,24 +1,40 @@
 import {WayNotSaturatedUser} from "src/model/businessModelPreview/WayNotSaturatedUser";
+import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 
 /**
  * Specific way collection data
  */
-export type WaysCollection = {
+export type WayCollection = {
+
+  // /**
+  //  * Date in ISO format
+  //  */
+  // createdAt: string;
 
   /**
-   * Collection uuid
-   */
-  id: string;
-
-  /**
-   * Collection name
+   * Way collection name
    */
   name: string;
 
   /**
-   * Ways uuid
+   * Way collection's owner
    */
-  wayUuids: string[];
+  // ownerUuid: string;
+
+  // /**
+  //  * Date in ISO format
+  //  */
+  // updatedAt: string;
+
+  /**
+   * Way collection's UUID
+   */
+  uuid: string;
+
+  /**
+   * Ways preview that exist inside way collection
+   */
+  ways: WayPreview[];
 };
 
 /**
@@ -65,17 +81,17 @@ export class User {
   /**
    * Own ways @Way.uuid
    */
-  public ownWays: string[];
+  public ownWays: WayPreview[];
 
   /**
    * The favorite ways @Way.uuid
    */
-  public favoriteWays: string[];
+  public favoriteWays: WayPreview[];
 
   /**
    * Ways for mentoring @Way.uuid
    */
-  public mentoringWays: string[];
+  public mentoringWays: WayPreview[];
 
   /**
    * Date when user was created
@@ -83,9 +99,9 @@ export class User {
   public createdAt: Date;
 
   /**
-   * Custom way collections {@link WaysCollection}
+   * Custom way collections {@link WayCollection}
    */
-  public customWayCollections: WaysCollection[];
+  public wayCollections: WayCollection[];
 
   /**
    * User's uuids for whom this user are favorite
@@ -126,7 +142,7 @@ export class User {
     this.favoriteWays = userData.favoriteWays;
     this.mentoringWays = userData.mentoringWays;
     this.createdAt = userData.createdAt;
-    this.customWayCollections = userData.customWayCollections;
+    this.wayCollections = userData.wayCollections;
     this.favoriteForUserUuids = userData.favoriteForUserUuids;
     this.favoriteUserUuids = userData.favoriteUserUuids;
     this.tags = userData.tags;

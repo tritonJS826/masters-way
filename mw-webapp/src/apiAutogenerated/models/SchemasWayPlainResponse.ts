@@ -73,6 +73,12 @@ export interface SchemasWayPlainResponse {
      * @type {boolean}
      * @memberof SchemasWayPlainResponse
      */
+    isCompleted: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof SchemasWayPlainResponse
+     */
     isPrivate: boolean;
     /**
      * 
@@ -92,12 +98,6 @@ export interface SchemasWayPlainResponse {
      * @memberof SchemasWayPlainResponse
      */
     owner: SchemasUserPlainResponse;
-    /**
-     * 
-     * @type {string}
-     * @memberof SchemasWayPlainResponse
-     */
-    status: string;
     /**
      * 
      * @type {string}
@@ -131,11 +131,11 @@ export function instanceOfSchemasWayPlainResponse(
     isInstance = isInstance && "estimationTime" in value;
     isInstance = isInstance && "favoriteForUsers" in value;
     isInstance = isInstance && "goalDescription" in value;
+    isInstance = isInstance && "isCompleted" in value;
     isInstance = isInstance && "isPrivate" in value;
     isInstance = isInstance && "mentors" in value;
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "owner" in value;
-    isInstance = isInstance && "status" in value;
     isInstance = isInstance && "updatedAt" in value;
     isInstance = isInstance && "uuid" in value;
     isInstance = isInstance && "wayTags" in value;
@@ -162,11 +162,11 @@ export function SchemasWayPlainResponseFromJSONTyped(
         'estimationTime': json['estimationTime'],
         'favoriteForUsers': json['favoriteForUsers'],
         'goalDescription': json['goalDescription'],
+        'isCompleted': json['isCompleted'],
         'isPrivate': json['isPrivate'],
         'mentors': ((json['mentors'] as Array<any>).map(SchemasUserPlainResponseFromJSON)),
         'name': json['name'],
         'owner': SchemasUserPlainResponseFromJSON(json['owner']),
-        'status': json['status'],
         'updatedAt': json['updatedAt'],
         'uuid': json['uuid'],
         'wayTags': ((json['wayTags'] as Array<any>).map(SchemasWayTagResponseFromJSON)),
@@ -189,11 +189,11 @@ export function SchemasWayPlainResponseToJSON(value?: SchemasWayPlainResponse | 
         'estimationTime': value.estimationTime,
         'favoriteForUsers': value.favoriteForUsers,
         'goalDescription': value.goalDescription,
+        'isCompleted': value.isCompleted,
         'isPrivate': value.isPrivate,
         'mentors': ((value.mentors as Array<any>).map(SchemasUserPlainResponseToJSON)),
         'name': value.name,
         'owner': SchemasUserPlainResponseToJSON(value.owner),
-        'status': value.status,
         'updatedAt': value.updatedAt,
         'uuid': value.uuid,
         'wayTags': ((value.wayTags as Array<any>).map(SchemasWayTagResponseToJSON)),
