@@ -20,6 +20,11 @@ interface ImageProps {
    * Additional custom class name for the component
    */
   className?: string;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCy?: string;
 }
 
 /**
@@ -33,6 +38,7 @@ export const Image = (props: ImageProps) => {
       src={props.src}
       alt={props.alt}
       className={className}
+      data-cy={props.dataCy}
     />
   );
 };
