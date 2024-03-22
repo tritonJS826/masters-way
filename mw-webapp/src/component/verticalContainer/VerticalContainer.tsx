@@ -11,6 +11,11 @@ interface VerticalContainerProps {
    * Additional custom class name
    */
   className?: string;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCy?: string;
 }
 
 /**
@@ -18,7 +23,10 @@ interface VerticalContainerProps {
  */
 export const VerticalContainer = (props: PropsWithChildren<VerticalContainerProps>) => {
   return (
-    <div className={clsx(styles.verticalContainer, props.className)}>
+    <div
+      className={clsx(styles.verticalContainer, props.className)}
+      data-cy={props.dataCy}
+    >
       {props.children}
     </div>
   );
