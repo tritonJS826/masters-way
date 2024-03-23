@@ -18,7 +18,10 @@ export class WayCollectionService {
   public static async createWayCollection(
     requestParameters: CreateWayCollectionRequest,
   ): Promise<SchemasWayCollectionPlainResponse> {
+    // Console.log("11111");
     const wayCollection = await wayCollectionService.createWayCollection(requestParameters);
+
+    // Console.log(wayCollection);
 
     return wayCollection;
   }

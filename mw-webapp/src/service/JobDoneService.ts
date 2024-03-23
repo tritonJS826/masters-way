@@ -16,7 +16,12 @@ export class JobDoneService {
    * Create jobDone
    */
   public static async createJobDone(requestParameters: CreateJobDoneRequest): Promise<SchemasJobDonePopulatedResponse> {
+
+    // Console.log("no");
+
     const jobDone = await jobDoneService.createJobDone(requestParameters);
+
+    // Console.log(jobDone);
 
     return jobDone;
   }

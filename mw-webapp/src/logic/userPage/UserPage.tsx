@@ -22,7 +22,7 @@ import {WayStatusType} from "src/logic/waysTable/wayStatus";
 import {User, WayCollection} from "src/model/businessModel/User";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LangauageService";
-import {Language} from "src/utils/LanguageWorker";
+// Import {Language} from "src/utils/LanguageWorker";
 import {UserPageSettings, View} from "src/utils/LocalStorageWorker";
 import {PartialWithId, PartialWithUuid} from "src/utils/PartialWithUuid";
 import styles from "src/logic/userPage/UserPage.module.scss";
@@ -87,27 +87,6 @@ const userPageSettingsValidator = (openedTabId: string, allCollections: WayColle
 };
 
 /**
- * Get all way collections
- */
-const getAllWayCollections = (userPreview: User, language: Language): WayCollection[] => [
-  {
-    uuid: DefaultCollections.OWN,
-    name: LanguageService.user.collections.ownWays[language],
-    ways: userPreview.ownWays ?? [],
-  }, {
-    uuid: DefaultCollections.MENTORING,
-    name: LanguageService.user.collections.mentoringWays[language],
-    ways: userPreview.mentoringWays ?? [],
-  },
-  {
-    uuid: DefaultCollections.FAVORITE,
-    name: LanguageService.user.collections.favoriteWays[language],
-    ways: userPreview.favoriteWays ?? [],
-  },
-  ...(userPreview.wayCollections ?? []),
-];
-
-/**
  * User page
  */
 export const UserPage = (props: UserPageProps) => {
@@ -125,7 +104,7 @@ export const UserPage = (props: UserPageProps) => {
     storedDataValidator: (
       currentValue: string,
     ) => userPreview?.wayCollections
-      ? userPageSettingsValidator(currentValue, getAllWayCollections(userPreview, language))
+      ? userPageSettingsValidator(currentValue, userPreview.wayCollections)
       : true,
     dependencies: [userPreview],
   });
@@ -196,7 +175,7 @@ export const UserPage = (props: UserPageProps) => {
   }
 
   const isCustomCollection = userPreview.wayCollections.some((col) => col.uuid === openedTabId);
-  const currentCollection = getAllWayCollections(userPreview, language).find((col) => col.uuid === openedTabId);
+  const currentCollection = userPreview.wayCollections.find((col) => col.uuid === openedTabId);
 
   if (!currentCollection) {
     setOpenedTabId(DefaultCollections.OWN);
@@ -217,14 +196,10 @@ export const UserPage = (props: UserPageProps) => {
     if (!user) {
       throw new Error("User is not defined");
     }
-    const newWayCollection = await WayCollectionDAL.createWayCollection(user.uuid);
+    const newWayCollection = await WayCollectionDAL.createWayCollection(userPreview.uuid);
 
     const updatedCustomWayCollections = user.wayCollections.concat(newWayCollection);
 
-    await UserDAL.updateUser({
-      uuid: user.uuid,
-      wayCollections: updatedCustomWayCollections,
-    });
     setUserPreviewPartial({wayCollections: updatedCustomWayCollections});
     setUser({...user, wayCollections: updatedCustomWayCollections});
 
@@ -241,10 +216,7 @@ export const UserPage = (props: UserPageProps) => {
     const updatedCustomWayCollections = user.wayCollections
       .filter(collection => collection.uuid !== collectionId);
 
-    await UserDAL.updateUser({
-      uuid: user.uuid,
-      wayCollections: updatedCustomWayCollections,
-    });
+    await WayCollectionDAL.deleteWayCollection(collectionId);
     setUserPreviewPartial({wayCollections: updatedCustomWayCollections});
     setUser({...user, wayCollections: updatedCustomWayCollections});
 
@@ -252,7 +224,7 @@ export const UserPage = (props: UserPageProps) => {
   };
 
   /**
-   * Update custom way collection
+   * Update custom way collectionsetUserPreview
    */
   const updateCustomWayCollection = async (wayCollectionToUpdate: PartialWithId<WayCollection>) => {
     if (!user) {
@@ -268,10 +240,7 @@ export const UserPage = (props: UserPageProps) => {
         }
       });
 
-    await UserDAL.updateUser({
-      uuid: user.uuid,
-      wayCollections: updatedCustomWayCollections,
-    });
+    await WayCollectionDAL.updateWayCollection(wayCollectionToUpdate.id, userPreview.uuid, wayCollectionToUpdate.name ?? "");
     setUserPreviewPartial({wayCollections: updatedCustomWayCollections});
     setUser({...user, wayCollections: updatedCustomWayCollections});
 
@@ -350,7 +319,7 @@ export const UserPage = (props: UserPageProps) => {
 
         <div className={styles.tabsSectionContainer}>
           <HorizontalContainer className={styles.tabsSection}>
-            {getAllWayCollections(userPreview, language).map(collection => (
+            {userPreview.wayCollections.map(collection => (
               <Button
                 key={collection.uuid}
                 value={`${collection.name} (${collection.ways.length})`}
@@ -411,7 +380,7 @@ export const UserPage = (props: UserPageProps) => {
       )}
 
       {/* Render table only for appropriate collection */}
-      {getAllWayCollections(userPreview, language)
+      {userPreview.wayCollections
         .filter(collection => collection.uuid === openedTabId)
         .map(collection => {
 

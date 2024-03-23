@@ -24,22 +24,22 @@ export type JobTag = {
   /**
    * Way tag uuid
    */
-  uuid?: string;
+  uuid: string;
 
   /**
    * Way tag name
    */
-  name?: string;
+  name: string;
 
   /**
    * Way tag description
    */
-  description?: string;
+  description: string;
 
   /**
    * Way tag color
    */
-  color?: string;
+  color: string;
 };
 
 /**

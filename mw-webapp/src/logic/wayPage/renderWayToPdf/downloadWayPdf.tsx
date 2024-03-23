@@ -319,7 +319,7 @@ export const downloadWayPdf = (way: Way) => {
   const headerDefinition = getHeader(way.name);
   const ownerDefinition = getOwner(way.owner.name);
   const datesDefinition = getDates(way.createdAt, way.lastUpdate);
-  const favoritesDefinition = getFavorites(way.favoriteForUserUuids.length);
+  const favoritesDefinition = getFavorites(way.favoriteForUsersAmount);
   const mentorsDefinition = getMentors(way.mentors);
   const formerMentorsDefinition = getFormerMentors();
   const goalDefinition = getGoal({
