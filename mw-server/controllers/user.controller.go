@@ -16,7 +16,6 @@ import (
 	"github.com/google/uuid"
 
 	"github.com/samber/lo"
-	lop "github.com/samber/lo/parallel"
 )
 
 type UserController struct {
@@ -94,11 +93,21 @@ func (cc *UserController) GetOrCreateUserByFirebaseId(ctx *gin.Context) {
 	}
 
 	user, err := cc.db.GetUserByFirebaseId(ctx, payload.FirebaseId)
-	if err != nil {
-		response, _ := services.CreateUser(cc.db, ctx, args)
+	if err == nil {
+		imageUrl, _ := util.MarshalNullString(user.ImageUrl)
+		response := schemas.UserPlainResponse{
+			Uuid:        user.Uuid.String(),
+			Name:        user.Name,
+			Email:       user.Email,
+			Description: user.Description,
+			CreatedAt:   user.CreatedAt.String(),
+			ImageUrl:    string(imageUrl),
+			IsMentor:    user.IsMentor,
+		}
 		ctx.JSON(http.StatusOK, response)
 	} else {
-		ctx.JSON(http.StatusOK, user)
+		response, _ := services.CreateUser(cc.db, ctx, args)
+		ctx.JSON(http.StatusOK, response)
 	}
 
 }
@@ -190,7 +199,7 @@ func (cc *UserController) GetUserById(ctx *gin.Context) {
 
 	ownWaysRaw, _ := cc.db.GetWayCollectionJoinWayByUserId(ctx, user.Uuid)
 	wayCollectionsMap := make(map[string]schemas.WayCollectionPopulatedResponse)
-	lop.ForEach(ownWaysRaw, func(collectionJoinWay db.GetWayCollectionJoinWayByUserIdRow, i int) {
+	lo.ForEach(ownWaysRaw, func(collectionJoinWay db.GetWayCollectionJoinWayByUserIdRow, i int) {
 		copiedFromWayUuid, _ := util.MarshalNullUuid(collectionJoinWay.WayCopiedFromWayUuid)
 		dbWayTags, _ := cc.db.GetListWayTagsByWayId(ctx, collectionJoinWay.WayUuid)
 		wayTags := lo.Map(dbWayTags, func(dbWayTag db.WayTag, i int) schemas.WayTagResponse {
