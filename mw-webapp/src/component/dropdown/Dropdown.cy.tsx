@@ -6,7 +6,10 @@ const DROPDOWN_CY = {
   dataCyTrigger: "trigger",
   dataCyOverlay: "overlay",
   dataCyContent: "content",
+  dataCyContentList: "list",
 };
+
+const DROPDOWN_LENGHTH = 2;
 
 describe("Dropdown component", () => {
 
@@ -63,5 +66,27 @@ describe("Dropdown component", () => {
       .click();
     cy.get(getDataCy(DROPDOWN_CY.dataCyContent))
       .should("exist");
+  });
+
+  it("should length and that each option render right value", () => {
+    cy.get(getDataCy(DROPDOWN_CY.dataCyTrigger))
+      .click();
+    cy.get(getDataCy(DROPDOWN_CY.dataCyContentList)).each(($ele) => {
+      if ($ele.text() === "tes#1") {
+        cy.wrap($ele).click();
+      }
+    });
+    cy.get(getDataCy(DROPDOWN_CY.dataCyContentList)).each(($ele) => {
+      if ($ele.text() === "tes#2") {
+        cy.wrap($ele).click();
+      }
+    });
+    cy.get(getDataCy(DROPDOWN_CY.dataCyContentList)).find("li").should("have.length", DROPDOWN_LENGHTH);
+  });
+
+  it("should select right option after click on value", () => {
+    cy.get(getDataCy(DROPDOWN_CY.dataCyTrigger)).click();
+    cy.contains(getDataCy(DROPDOWN_CY.dataCyContentList), "tes#1").click();
+    cy.contains(getDataCy(DROPDOWN_CY.dataCyContentList), "tes#2").click();
   });
 });

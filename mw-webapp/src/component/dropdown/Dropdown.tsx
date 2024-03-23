@@ -25,6 +25,11 @@ interface Cy {
    */
   dataCyContent?: string;
 
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCyContentList: string;
+
 }
 
 /**
@@ -98,7 +103,10 @@ export const Dropdown = (props: DropdownProps) => {
           {props.trigger}
         </div>
 
-        <DropdownContent className={clsx(styles.dropdownContent, props.className)}>
+        <DropdownContent
+          className={clsx(styles.dropdownContent, props.className)}
+          data-cy={props.cy?.dataCyContentList}
+        >
           <ul className={styles.menu}>
             {renderDropdownMenuItems}
           </ul>
