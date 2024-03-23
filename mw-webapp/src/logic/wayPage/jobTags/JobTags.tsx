@@ -6,12 +6,12 @@ import {Modal} from "src/component/modal/Modal";
 import {PromptModalContent} from "src/component/modal/PromptModalContent";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
+import {JobTagDAL} from "src/dataAccessLogic/JobTagDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {JobTag} from "src/logic/wayPage/jobTags/jobTag/JobTag";
 import {JobTag as JobTagData} from "src/model/businessModelPreview/WayPreview";
 import {LanguageService} from "src/service/LangauageService";
 import {getColorByString} from "src/utils/getColorByString";
-import {v4 as uuidv4} from "uuid";
 import styles from "src/logic/wayPage/jobTags/JobTags.module.scss";
 
 /**
@@ -34,6 +34,11 @@ interface JobTagsProps {
    * Callback to update job tags
    */
   updateTags: (newTags: JobTagData[]) => Promise<void>;
+
+  /**
+   * Way's uuid
+   */
+  wayUuid: string;
 }
 
 /**
@@ -47,9 +52,10 @@ export const JobTags = (props: JobTagsProps) => {
   /**
    * Remove job tag from Way
    */
-  const removeJobTagFromWay = (jobTagToRemove: string) => {
-    const updatedJobTags = props.jobTags.filter((jobTag) => jobTag.uuid !== jobTagToRemove);
+  const removeJobTagFromWay = async (jobTagToRemoveUuid: string) => {
+    const updatedJobTags = props.jobTags.filter((jobTag) => jobTag.uuid !== jobTagToRemoveUuid);
 
+    await JobTagDAL.deleteJobTag(jobTagToRemoveUuid);
     props.updateTags(updatedJobTags);
   };
 
@@ -58,12 +64,8 @@ export const JobTags = (props: JobTagsProps) => {
    */
   const createJobTag = async (newJobTag: string) => {
     const randomColor = getColorByString(newJobTag);
-    const updatedJobTags = props.jobTags.concat({
-      uuid: uuidv4(),
-      name: newJobTag,
-      description: "",
-      color: randomColor,
-    });
+    const jobTag = await JobTagDAL.createJobTag(props.wayUuid, newJobTag, randomColor);
+    const updatedJobTags = props.jobTags.concat(jobTag);
 
     await props.updateTags(updatedJobTags);
 
@@ -90,8 +92,7 @@ export const JobTags = (props: JobTagsProps) => {
                   content={<p>
                     {LanguageService.way.filterBlock.deleteJobTagQuestion[language].replace("$jobTag", `"${jobTag.name}"`)}
                   </p>}
-                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                  onOk={() => removeJobTagFromWay(jobTag.uuid!)}
+                  onOk={() => removeJobTagFromWay(jobTag.uuid)}
                   okText={LanguageService.way.filterBlock.deleteButton[language]}
                 />
               </Tooltip>

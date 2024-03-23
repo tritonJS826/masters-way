@@ -18,6 +18,7 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
+import {MentorRequestDAL} from "src/dataAccessLogic/DTOToPreviewConverter/MentorRequestDAL";
 import {FavoriteUserWayDAL} from "src/dataAccessLogic/FavoriteUserWayDAL";
 import {UserDAL} from "src/dataAccessLogic/UserDAL";
 import {BaseWayData, WayDAL} from "src/dataAccessLogic/WayDAL";
@@ -160,7 +161,9 @@ export const WayPage = (props: WayPageProps) => {
     );
   }
 
-  const isWayInFavorites = user && !!user.favoriteWays.find((favoriteWay) => favoriteWay.uuid === way.uuid);
+  const favoriteWays = user?.wayCollections.find((wayCollection) => wayCollection.name === "favorite");
+
+  const isWayInFavorites = user && !!favoriteWays?.ways.find((favoriteWay) => favoriteWay.uuid === way.uuid);
 
   const isOwner = !!user && user.uuid === way.owner.uuid;
   const isMentor = !!user && way.mentors.has(user.uuid);
@@ -168,8 +171,6 @@ export const WayPage = (props: WayPageProps) => {
 
   const isUserHasSentMentorRequest = !!user && way.mentorRequests.some((request) => request.uuid === user.uuid);
   const isEligibleToSendRequest = !!user && !isOwner && !isMentor && !isUserHasSentMentorRequest;
-
-  const favoriteForUsersAmount = way.favoriteForUserUuids.length;
 
   if (!isUserOwnerOrMentor && way.isPrivate) {
     return (
@@ -297,7 +298,7 @@ export const WayPage = (props: WayPageProps) => {
     };
     const newWay: SchemasWayPlainResponse = await WayDAL.createWay(user, baseWayData);
 
-    await navigate(pages.way.getPath({uuid: newWay.uuid}));
+    navigate(pages.way.getPath({uuid: newWay.uuid}));
     displayNotification({text: `Way ${way.name} copied`, type: "info"});
   };
 
@@ -306,15 +307,13 @@ export const WayPage = (props: WayPageProps) => {
    */
   const updateGoalMetrics = async (metricsToUpdate: Metric[]) => {
     const isWayCompleted = metricsToUpdate.every((metric) => metric.isDone);
+    const wayToUpdate = {
+      uuid: way.uuid,
+      metrics: metricsToUpdate,
+      status: isWayCompleted ? "Completed" : "",
+    };
 
-    await updateWay({
-      wayToUpdate: {
-        uuid: way.uuid,
-        metrics: metricsToUpdate,
-        status: isWayCompleted ? "Completed" : "",
-      },
-      setWay: setWayPartial,
-    });
+    setWayPartial(wayToUpdate);
   };
 
   const isEmptyWay = way.dayReports.length === 0;
@@ -365,7 +364,7 @@ export const WayPage = (props: WayPageProps) => {
                   value={`${isWayInFavorites
                     ? Symbols.STAR
                     : Symbols.OUTLINED_STAR
-                  }${Symbols.NO_BREAK_SPACE}${favoriteForUsersAmount}`}
+                  }${Symbols.NO_BREAK_SPACE}${way.favoriteForUsersAmount}`}
                   onClick={() => {
                     if (!user) {
                       return;
@@ -536,6 +535,7 @@ export const WayPage = (props: WayPageProps) => {
             </Tooltip>
           </HorizontalContainer>
           <GoalMetricsBlock
+            wayUuid={way.uuid}
             isVisible={wayPageSettings.isGoalMetricsVisible}
             goalMetrics={way.metrics}
             updateGoalMetrics={updateGoalMetrics}
@@ -589,13 +589,25 @@ export const WayPage = (props: WayPageProps) => {
             <Button
               className={styles.applyAsMentorButton}
               value={LanguageService.way.peopleBlock.applyAsMentor[language]}
-              onClick={() => updateWay({
-                wayToUpdate: {
-                  uuid: way.uuid,
-                  // MentorRequests: way.mentorRequests.concat(user),
-                },
-                setWay: setWayPartial,
-              })}
+              onClick={async () => {
+                const userForMentorRequest = {
+                  createdAt: user.createdAt.toISOString(),
+                  description: user.description,
+                  email: user.email,
+                  imageUrl: user.imageUrl,
+                  isMentor: user.isMentor,
+                  name: user.name,
+                  uuid: user.uuid,
+                };
+                updateWay({
+                  wayToUpdate: {
+                    uuid: way.uuid,
+                    mentorRequests: way.mentorRequests.concat(userForMentorRequest),
+                  },
+                  setWay: setWayPartial,
+                });
+                await MentorRequestDAL.createMentorRequest(user.uuid, way.uuid);
+              }}
             />
           )}
         </VerticalContainer>
@@ -661,6 +673,7 @@ export const WayPage = (props: WayPageProps) => {
                     text={LanguageService.way.filterBlock.jobDoneTagsModalTitle[language]}
                   />
                   <JobTags
+                    wayUuid={way.uuid}
                     jobTags={way.jobTags}
                     isEditable={isUserOwnerOrMentor}
                     updateTags={(tagsToUpdate: JobTag[]) => updateWay({

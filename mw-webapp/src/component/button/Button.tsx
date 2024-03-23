@@ -74,7 +74,8 @@ export const Button = forwardRef((props: ButtonProps, ref?: ForwardedRef<HTMLBut
    */
   const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     setIssDisabled(true);
-    await Promise.resolve(props.onClick(event));
+    props.onClick(event);
+    // Await Promise.resolve(props.onClick(event));
     setIssDisabled(false);
   };
 

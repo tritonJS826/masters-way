@@ -10,6 +10,8 @@ import {Modal} from "src/component/modal/Modal";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
+import {useGlobalContext} from "src/GlobalContext";
 import {JobDoneTags} from "src/logic/wayPage/reportsTable/jobDoneTags/JobDoneTags";
 import {ModalContentJobTags} from "src/logic/wayPage/reportsTable/modalContentJobTags/ModalContentJobTags";
 import {DEFAULT_SUMMARY_TIME, getListNumberByIndex, getValidatedTime, MAX_TIME}
@@ -19,7 +21,6 @@ import {JobDone} from "src/model/businessModel/JobDone";
 import {JobTag} from "src/model/businessModelPreview/WayPreview";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
-import {v4 as uuidv4} from "uuid";
 import styles from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableJobsDoneCell/ReportsTableJobsDoneCell.module.scss";
 
 /**
@@ -53,28 +54,19 @@ interface ReportsTableJobsDoneCellProps {
  * Cell with jobs done in reports table
  */
 export const ReportsTableJobsDoneCell = (props: ReportsTableJobsDoneCellProps) => {
-  // Const defaultTag = props.jobTags.find((jobTag) => jobTag.name === "no tag");
-  // if (!defaultTag) {
-  //   // Throw new Error("Default tag is not exist");
-  // }
+  const {user} = useGlobalContext();
+  const defaultTag = props.jobTags.find((jobTag) => jobTag.name === "no tag");
+  if (!defaultTag) {
+    throw new Error("Default tag is not exist");
+  }
 
   /**
    * Create jobDone
    */
-  const createJobDone = () => {
-    const jobDone: JobDone = new JobDone({
-      description: "",
-      time: 0,
-      uuid: uuidv4(),
-      tags: [
-        {
-          uuid: "",
-          name: "no tag",
-          description: "",
-          color: "",
-        },
-      ],
-    });
+  const createJobDone = async () => {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const jobDone = await JobDoneDAL.createJobDone(user!.uuid, props.dayReport.uuid);
+    // Console.log(jobDone);
     const jobsDone = [...props.dayReport.jobsDone, jobDone];
 
     props.updateDayReport({uuid: props.dayReport.uuid, jobsDone});

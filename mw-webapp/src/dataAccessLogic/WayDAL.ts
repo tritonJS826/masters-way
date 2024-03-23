@@ -11,6 +11,7 @@ import {Way} from "src/model/businessModel/Way";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 // Import {USER_UUID_FIELD} from "src/model/DTOModel/UserDTO";
 import {MetricService} from "src/service/MetricService";
+import {WayCollectionWayService} from "src/service/wayCollectionWaySevice";
 import {GetWaysFilter, GetWaysParams, WayService} from "src/service/WayService";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 // Import {arrayToHashMap} from "src/utils/arrayToHashMap";
@@ -165,6 +166,19 @@ export class WayDAL {
         name: `Way of ${user.name}`,
         ownerUuid: `${user.uuid}`,
         isCompleted: false,
+      },
+    });
+
+    const ownWayCollectionUuid = user.wayCollections.find((wayCollection) => wayCollection.name === "own");
+
+    if (!ownWayCollectionUuid) {
+      throw new Error("\"Own ways\" collection is not exist");
+    }
+
+    await WayCollectionWayService.createWayCollectionWay({
+      request: {
+        wayCollectionUuid: ownWayCollectionUuid.uuid,
+        wayUuid: way.uuid,
       },
     });
 

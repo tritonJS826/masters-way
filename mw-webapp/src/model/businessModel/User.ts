@@ -6,10 +6,10 @@ import {WayPreview} from "src/model/businessModelPreview/WayPreview";
  */
 export type WayCollection = {
 
-  // /**
-  //  * Date in ISO format
-  //  */
-  // createdAt: string;
+  /**
+   * Date in ISO format
+   */
+  createdAt: Date;
 
   /**
    * Way collection name
@@ -19,12 +19,12 @@ export type WayCollection = {
   /**
    * Way collection's owner
    */
-  // ownerUuid: string;
+  ownerUuid: string;
 
-  // /**
-  //  * Date in ISO format
-  //  */
-  // updatedAt: string;
+  /**
+   * Date in ISO format
+   */
+  updatedAt: Date;
 
   /**
    * Way collection's UUID
@@ -81,17 +81,17 @@ export class User {
   /**
    * Own ways @Way.uuid
    */
-  public ownWays: WayPreview[];
+  // public ownWays: WayPreview[];
 
-  /**
-   * The favorite ways @Way.uuid
-   */
-  public favoriteWays: WayPreview[];
+  // /**
+  //  * The favorite ways @Way.uuid
+  //  */
+  // public favoriteWays: WayPreview[];
 
-  /**
-   * Ways for mentoring @Way.uuid
-   */
-  public mentoringWays: WayPreview[];
+  // /**
+  //  * Ways for mentoring @Way.uuid
+  //  */
+  // public mentoringWays: WayPreview[];
 
   /**
    * Date when user was created
@@ -138,9 +138,9 @@ export class User {
     this.name = userData.name;
     this.email = userData.email;
     this.description = userData.description;
-    this.ownWays = userData.ownWays;
-    this.favoriteWays = userData.favoriteWays;
-    this.mentoringWays = userData.mentoringWays;
+    // This.ownWays = userData.ownWays;
+    // this.favoriteWays = userData.favoriteWays;
+    // this.mentoringWays = userData.mentoringWays;
     this.createdAt = userData.createdAt;
     this.wayCollections = userData.wayCollections;
     this.favoriteForUserUuids = userData.favoriteForUserUuids;
