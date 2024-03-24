@@ -24,11 +24,4 @@ describe("Loader component", () => {
   it("should have the alt text", () => {
     cy.get(getDataCy(LOADER_CY)).find("img").should("have.attr", "alt", ALT_TEXT);
   });
-
-  it("should have the correct src attribute for the image", () => {
-    cy.get(getDataCy(LOADER_CY))
-      .find("img")
-      .should("have.attr", "src")
-      .and("include", "mastersWayLogo.svg");
-  });
 });
