@@ -79,7 +79,7 @@ export class PlanApi extends runtime.BaseAPI {
      * Create a new plan
      */
     async createPlan(requestParameters: CreatePlanRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasPlanPopulatedResponse> {
-        const response = await this.createPlanRaw(requestParameters, initOverrides);
+      const response = await this.createPlanRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

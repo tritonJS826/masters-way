@@ -8,7 +8,9 @@ import {Link} from "src/component/link/Link";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {getListNumberByIndex, getName} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
+import {CommentDAL} from "src/dataAccessLogic/CommentDAL";
+import {getListNumberByIndex} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
+import {getFirstName} from "src/logic/waysTable/waysColumns";
 import {Comment} from "src/model/businessModel/Comment";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {User} from "src/model/businessModel/User";
@@ -57,23 +59,13 @@ export const ReportsTableCommentsCell = (props: ReportsTableCommentsCellProps) =
   /**
    * Create Comment
    */
-  const createComment = (commentatorUuid?: string) => {
+  const createComment = async (commentatorUuid?: string) => {
     if (!commentatorUuid) {
       throw new Error("User uuid is not exist");
     }
 
-    // Const owner: SchemasUserPlainResponse;
-
-    // const comment: Comment = new Comment({
-    //   description: "",
-    //   owner,
-    //   // UserUuid: commentatorUuid,
-    //   // isDone: false,
-    //   uuid: uuidv4(),
-    // });
-    // const comments = [...props.dayReport.comments, comment];
-
-    const comments = props.dayReport.comments;
+    const comment = await CommentDAL.createComment(commentatorUuid, props.dayReport.uuid);
+    const comments = [...props.dayReport.comments, comment];
 
     props.updateDayReport({uuid: props.dayReport.uuid, comments});
   };
@@ -81,17 +73,18 @@ export const ReportsTableCommentsCell = (props: ReportsTableCommentsCellProps) =
   /**
    * Delete Comment
    */
-  const deleteComment = (commentUuid: string) => {
+  const deleteComment = async (commentUuid: string) => {
     props.updateDayReport({
       uuid: props.dayReport.uuid,
       comments: props.dayReport.comments.filter((comment) => comment.uuid !== commentUuid),
     });
+    await CommentDAL.deleteComment(commentUuid);
   };
 
   /**
    * Update Comment
    */
-  const updateComment = (comment: Comment, text: string) => {
+  const updateComment = async (comment: Comment, text: string) => {
     const updatedComments = props.dayReport.comments.map((item) => {
       const itemToReturn = item.uuid === comment.uuid
         ? new Comment({
@@ -102,6 +95,12 @@ export const ReportsTableCommentsCell = (props: ReportsTableCommentsCellProps) =
 
       return itemToReturn;
     });
+
+    const commentToUpdate = {
+      uuid: comment.uuid,
+      description: text,
+    };
+    await CommentDAL.updateComment(commentToUpdate);
 
     props.updateDayReport({uuid: props.dayReport.uuid, comments: updatedComments});
   };
@@ -119,7 +118,7 @@ export const ReportsTableCommentsCell = (props: ReportsTableCommentsCellProps) =
                 <HorizontalContainer className={styles.listNumberAndName}>
                   {getListNumberByIndex(index)}
                   <Link path={pages.user.getPath({uuid: comment.owner.uuid})}>
-                    {getName(props.way, comment.owner.uuid)}
+                    {getFirstName(comment.owner.name)}
                   </Link>
                 </HorizontalContainer>
                 {comment.owner.uuid === props.user?.uuid &&
