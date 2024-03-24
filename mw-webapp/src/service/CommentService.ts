@@ -15,7 +15,7 @@ export class CommentService {
   /**
    * Get comments by DayReport Uuid
    */
-  public async getCommentsByDayReportUuid(
+  public static async getCommentsByDayReportUuid(
     requestParameters: GetCommentsByDayReportUuidRequest,
   ): Promise<SchemasCommentPopulatedResponse[]> {
     const comments = await commentService.getCommentsByDayReportUuid(requestParameters);
@@ -26,7 +26,7 @@ export class CommentService {
   /**
    * Create comment
    */
-  public async createComment(requestParameters: CreateCommentRequest): Promise<SchemasCommentPopulatedResponse> {
+  public static async createComment(requestParameters: CreateCommentRequest): Promise<SchemasCommentPopulatedResponse> {
     const comment = await commentService.createComment(requestParameters);
 
     return comment;
@@ -35,7 +35,7 @@ export class CommentService {
   /**
    * Update comment by UUID
    */
-  public async updateComment(requestParameters: UpdateCommentRequest): Promise<SchemasCommentPopulatedResponse> {
+  public static async updateComment(requestParameters: UpdateCommentRequest): Promise<SchemasCommentPopulatedResponse> {
     const updatedComment = await commentService.updateComment(requestParameters);
 
     return updatedComment;
@@ -44,7 +44,7 @@ export class CommentService {
   /**
    * Delete comment by UUID
    */
-  public async deleteComment(requestParameters: DeleteCommentRequest): Promise<void> {
+  public static async deleteComment(requestParameters: DeleteCommentRequest): Promise<void> {
     await commentService.deleteComment(requestParameters);
   }
 

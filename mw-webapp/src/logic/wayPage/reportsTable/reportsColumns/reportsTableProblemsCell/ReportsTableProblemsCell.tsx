@@ -9,6 +9,7 @@ import {Link} from "src/component/link/Link";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {ProblemDAL} from "src/dataAccessLogic/ProblemDAL";
 import {getListNumberByIndex, getName} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Problem} from "src/model/businessModel/Problem";
@@ -17,7 +18,6 @@ import {Way} from "src/model/businessModel/Way";
 import {pages} from "src/router/pages";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
-import {v4 as uuidv4} from "uuid";
 import styles from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableProblemsCell/ReportsTableProblemsCell.module.scss";
 
 /**
@@ -60,18 +60,13 @@ export const ReportsTableProblemsCell = (props: ReportsTableProblemsCellProps) =
   /**
    * Create Problem
    */
-  const createProblem = (userUuid?: string) => {
+  const createProblem = async (userUuid?: string) => {
     if (!userUuid) {
       throw new Error("User uuid is not exist");
     }
 
-    const problem: Problem = new Problem({
-      description: "",
-      ownerUuid: userUuid,
-      isDone: false,
-      uuid: uuidv4(),
-      tags: [],
-    });
+    const problem = await ProblemDAL.createProblem(userUuid, props.dayReport.uuid);
+
     const problems = [...props.dayReport.problems, problem];
 
     props.updateDayReport({uuid: props.dayReport.uuid, problems});
@@ -80,17 +75,19 @@ export const ReportsTableProblemsCell = (props: ReportsTableProblemsCellProps) =
   /**
    * Delete Problem
    */
-  const deleteProblem = (problemUuid: string) => {
+  const deleteProblem = async (problemUuid: string) => {
     props.updateDayReport({
       uuid: props.dayReport.uuid,
       problems: props.dayReport.problems.filter((problem) => problem.uuid !== problemUuid),
     });
+
+    await ProblemDAL.deleteProblem(problemUuid);
   };
 
   /**
    * Update Problem
    */
-  const updateProblem = (problem: Problem, text: string) => {
+  const updateProblem = async (problem: Problem, text: string) => {
     const updatedProblems = props.dayReport.problems.map((item) => {
       const itemToReturn = item.uuid === problem.uuid
         ? new Problem({
@@ -102,7 +99,13 @@ export const ReportsTableProblemsCell = (props: ReportsTableProblemsCellProps) =
       return itemToReturn;
     });
 
+    const problemToUpdate = {
+      uuid: problem.uuid,
+      description: text,
+    };
+
     props.updateDayReport({uuid: props.dayReport.uuid, problems: updatedProblems});
+    await ProblemDAL.updateProblem(problemToUpdate);
   };
 
   return (

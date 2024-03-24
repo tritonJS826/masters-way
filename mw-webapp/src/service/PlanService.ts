@@ -10,7 +10,7 @@ import {planService} from "src/service/services";
 /**
  * Provides methods to interact with the plans
  */
-export class ProblemService {
+export class PlanService {
 
   /**
    * Create plan
