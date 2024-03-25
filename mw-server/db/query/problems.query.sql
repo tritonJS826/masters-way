@@ -8,7 +8,15 @@ INSERT INTO problems(
     day_report_uuid
 ) VALUES (
     $1, $2, $3, $4, $5, $6
-) RETURNING *;
+) RETURNING *,
+    (SELECT name FROM users WHERE uuid = $5) AS owner_name,
+    -- get tag uuids
+    ARRAY(
+        SELECT problems_job_tags.job_tag_uuid 
+        FROM problems_job_tags 
+        WHERE problems.uuid = problems_job_tags.problem_uuid
+    )::VARCHAR[] AS tag_uuids;
+
 
 -- name: GetListProblemsByDayReportId :many
 SELECT * FROM problems

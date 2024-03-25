@@ -11,6 +11,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/samber/lo"
 )
 
 type ProblemController struct {
@@ -57,7 +58,29 @@ func (cc *ProblemController) CreateProblem(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, problem)
+	tags := lo.Map(problem.TagUuids, func(tagUuidStringified string, i int) schemas.JobTagResponse {
+		tagUuid := uuid.MustParse(tagUuidStringified)
+		tag, _ := cc.db.GetJobTagByUuid(ctx, tagUuid)
+		return schemas.JobTagResponse{
+			Uuid:        tag.Uuid.String(),
+			Name:        tag.Name,
+			Description: tag.Description,
+			Color:       tag.Color,
+		}
+	})
+	response := schemas.ProblemPopulatedResponse{
+		Uuid:          problem.Uuid.String(),
+		CreatedAt:     problem.CreatedAt.String(),
+		UpdatedAt:     problem.UpdatedAt.String(),
+		Description:   problem.Description,
+		IsDone:        problem.IsDone,
+		OwnerUuid:     problem.OwnerUuid.String(),
+		DayReportUuid: problem.DayReportUuid.String(),
+		OwnerName:     problem.OwnerName,
+		Tags:          tags,
+	}
+
+	ctx.JSON(http.StatusOK, response)
 }
 
 // Update Problem handler

@@ -83,11 +83,11 @@ func (cc *PlanController) UpdatePlan(ctx *gin.Context) {
 
 	now := time.Now()
 	args := &db.UpdatePlanParams{
-		Uuid:           uuid.MustParse(PlanId),
-		UpdatedAt:      sql.NullTime{Time: now, Valid: true},
-		Job:            sql.NullString{String: payload.Description, Valid: payload.Description != ""},
-		EstimationTime: sql.NullInt32{Int32: int32(payload.Time), Valid: payload.Time != 0},
-		IsDone:         sql.NullBool{Bool: payload.IsDone, Valid: true},
+		Uuid:        uuid.MustParse(PlanId),
+		UpdatedAt:   sql.NullTime{Time: now, Valid: true},
+		Description: sql.NullString{String: payload.Description, Valid: payload.Description != ""},
+		Time:        sql.NullInt32{Int32: int32(payload.Time), Valid: payload.Time != 0},
+		IsDone:      sql.NullBool{Bool: payload.IsDone, Valid: true},
 	}
 
 	plan, err := cc.db.UpdatePlan(ctx, *args)

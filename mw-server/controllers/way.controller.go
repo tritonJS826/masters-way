@@ -58,6 +58,13 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 	}
 
 	way, err := cc.db.CreateWay(ctx, *args)
+	createDefaultJobTagParams := db.CreateJobTagParams{
+		Name:        "no tags",
+		Description: "Default Label: Assigned when no other labels apply.",
+		Color:       "rgb(255, 0, 0)",
+		WayUuid:     way.Uuid,
+	}
+	cc.db.CreateJobTag(ctx, createDefaultJobTagParams)
 
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"error": err.Error()})
@@ -414,6 +421,19 @@ func (cc *WayController) GetAllWays(ctx *gin.Context) {
 			ImageUrl:    string(imageUrl),
 			IsMentor:    dbOwner.IsMentor,
 		}
+		dbMetrics, _ := cc.db.GetListMetricsByWayUuid(ctx, way.Uuid)
+		metrics := lo.Map(dbMetrics, func(dbMetric db.Metric, i int) schemas.MetricResponse {
+
+			return schemas.MetricResponse{
+				Uuid:             dbMetric.Uuid.String(),
+				CreatedAt:        dbMetric.CreatedAt.String(),
+				UpdatedAt:        dbMetric.UpdatedAt.String(),
+				Description:      dbMetric.Description,
+				IsDone:           dbMetric.IsDone,
+				DoneDate:         dbMetric.DoneDate.Time.String(),
+				MetricEstimation: dbMetric.MetricEstimation,
+			}
+		})
 		response[i] = schemas.WayPlainResponse{
 			Uuid:              way.Uuid.String(),
 			Name:              way.Name,
@@ -429,6 +449,7 @@ func (cc *WayController) GetAllWays(ctx *gin.Context) {
 			DayReportsAmount:  int32(way.WayDayReportsAmount),
 			Mentors:           mentors,
 			WayTags:           wayTags,
+			Metrics:           metrics,
 		}
 	})
 
@@ -511,8 +532,8 @@ func (cc *WayController) getDeepPlanByDayReportUuids(ctx *gin.Context, dayReport
 			Uuid:          data.Uuid.String(),
 			CreatedAt:     data.CreatedAt.String(),
 			UpdatedAt:     data.UpdatedAt.String(),
-			Description:   data.Job,
-			Time:          data.EstimationTime,
+			Description:   data.Description,
+			Time:          data.Time,
 			OwnerUuid:     data.OwnerUuid.String(),
 			OwnerName:     planOwner.Name,
 			IsDone:        data.IsDone,

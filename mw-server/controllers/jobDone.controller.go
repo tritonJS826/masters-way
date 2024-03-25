@@ -11,6 +11,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/samber/lo"
 )
 
 type JobDoneController struct {
@@ -57,7 +58,29 @@ func (cc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, jobDone)
+	tags := lo.Map(jobDone.TagUuids, func(tagUuidStringified string, i int) schemas.JobTagResponse {
+		tagUuid := uuid.MustParse(tagUuidStringified)
+		tag, _ := cc.db.GetJobTagByUuid(ctx, tagUuid)
+		return schemas.JobTagResponse{
+			Uuid:        tag.Uuid.String(),
+			Name:        tag.Name,
+			Description: tag.Description,
+			Color:       tag.Color,
+		}
+	})
+	response := schemas.JobDonePopulatedResponse{
+		Uuid:          jobDone.Uuid.String(),
+		CreatedAt:     jobDone.CreatedAt.String(),
+		UpdatedAt:     jobDone.UpdatedAt.String(),
+		Description:   jobDone.Description,
+		Time:          jobDone.Time,
+		OwnerUuid:     jobDone.OwnerUuid.String(),
+		OwnerName:     jobDone.OwnerName,
+		DayReportUuid: jobDone.DayReportUuid.String(),
+		Tags:          tags,
+	}
+
+	ctx.JSON(http.StatusOK, response)
 }
 
 // Update JobDone handler

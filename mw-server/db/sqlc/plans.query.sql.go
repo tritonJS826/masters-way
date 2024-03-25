@@ -17,24 +17,24 @@ const createPlan = `-- name: CreatePlan :one
 INSERT INTO plans(
     created_at,
     updated_at,
-    job,
-    estimation_time,
+    description,
+    time,
     owner_uuid,
     is_done,
     day_report_uuid
 ) VALUES (
     $1, $2, $3, $4, $5, $6, $7
-) RETURNING uuid, created_at, updated_at, job, estimation_time, owner_uuid, is_done, day_report_uuid
+) RETURNING uuid, created_at, updated_at, description, time, owner_uuid, is_done, day_report_uuid
 `
 
 type CreatePlanParams struct {
-	CreatedAt      time.Time `json:"created_at"`
-	UpdatedAt      time.Time `json:"updated_at"`
-	Description            string    `json:"description"`
-	Time int32     `json:"time"`
-	OwnerUuid      uuid.UUID `json:"owner_uuid"`
-	IsDone         bool      `json:"is_done"`
-	DayReportUuid  uuid.UUID `json:"day_report_uuid"`
+	CreatedAt     time.Time `json:"created_at"`
+	UpdatedAt     time.Time `json:"updated_at"`
+	Description   string    `json:"description"`
+	Time          int32     `json:"time"`
+	OwnerUuid     uuid.UUID `json:"owner_uuid"`
+	IsDone        bool      `json:"is_done"`
+	DayReportUuid uuid.UUID `json:"day_report_uuid"`
 }
 
 func (q *Queries) CreatePlan(ctx context.Context, arg CreatePlanParams) (Plan, error) {
@@ -52,8 +52,8 @@ func (q *Queries) CreatePlan(ctx context.Context, arg CreatePlanParams) (Plan, e
 		&i.Uuid,
 		&i.CreatedAt,
 		&i.UpdatedAt,
-		&i.Job,
-		&i.EstimationTime,
+		&i.Description,
+		&i.Time,
 		&i.OwnerUuid,
 		&i.IsDone,
 		&i.DayReportUuid,
@@ -72,7 +72,7 @@ func (q *Queries) DeletePlan(ctx context.Context, argUuid uuid.UUID) error {
 }
 
 const getListPlansByDayReportId = `-- name: GetListPlansByDayReportId :many
-SELECT uuid, created_at, updated_at, job, estimation_time, owner_uuid, is_done, day_report_uuid FROM plans
+SELECT uuid, created_at, updated_at, description, time, owner_uuid, is_done, day_report_uuid FROM plans
 WHERE plans.day_report_uuid = $1
 ORDER BY created_at
 `
@@ -90,8 +90,8 @@ func (q *Queries) GetListPlansByDayReportId(ctx context.Context, dayReportUuid u
 			&i.Uuid,
 			&i.CreatedAt,
 			&i.UpdatedAt,
-			&i.Job,
-			&i.EstimationTime,
+			&i.Description,
+			&i.Time,
 			&i.OwnerUuid,
 			&i.IsDone,
 			&i.DayReportUuid,
@@ -113,26 +113,26 @@ const updatePlan = `-- name: UpdatePlan :one
 UPDATE plans
 SET
 updated_at = coalesce($1, updated_at),
-job = coalesce($2, job),
-estimation_time = coalesce($3, estimation_time),
+description = coalesce($2, description),
+time = coalesce($3, time),
 is_done = coalesce($4, is_done)
 WHERE uuid = $5
-RETURNING uuid, created_at, updated_at, job, estimation_time, owner_uuid, is_done, day_report_uuid
+RETURNING uuid, created_at, updated_at, description, time, owner_uuid, is_done, day_report_uuid
 `
 
 type UpdatePlanParams struct {
-	UpdatedAt      sql.NullTime   `json:"updated_at"`
-	Job            sql.NullString `json:"job"`
-	EstimationTime sql.NullInt32  `json:"estimation_time"`
-	IsDone         sql.NullBool   `json:"is_done"`
-	Uuid           uuid.UUID      `json:"uuid"`
+	UpdatedAt   sql.NullTime   `json:"updated_at"`
+	Description sql.NullString `json:"description"`
+	Time        sql.NullInt32  `json:"time"`
+	IsDone      sql.NullBool   `json:"is_done"`
+	Uuid        uuid.UUID      `json:"uuid"`
 }
 
 func (q *Queries) UpdatePlan(ctx context.Context, arg UpdatePlanParams) (Plan, error) {
 	row := q.queryRow(ctx, q.updatePlanStmt, updatePlan,
 		arg.UpdatedAt,
-		arg.Job,
-		arg.EstimationTime,
+		arg.Description,
+		arg.Time,
 		arg.IsDone,
 		arg.Uuid,
 	)
@@ -141,8 +141,8 @@ func (q *Queries) UpdatePlan(ctx context.Context, arg UpdatePlanParams) (Plan, e
 		&i.Uuid,
 		&i.CreatedAt,
 		&i.UpdatedAt,
-		&i.Job,
-		&i.EstimationTime,
+		&i.Description,
+		&i.Time,
 		&i.OwnerUuid,
 		&i.IsDone,
 		&i.DayReportUuid,
