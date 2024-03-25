@@ -58,6 +58,24 @@ func (q *Queries) DeleteJobTagById(ctx context.Context, argUuid uuid.UUID) error
 	return err
 }
 
+const getJobTagByUuid = `-- name: GetJobTagByUuid :one
+SELECT uuid, name, description, color, way_uuid FROM job_tags
+WHERE job_tags.uuid = $1
+`
+
+func (q *Queries) GetJobTagByUuid(ctx context.Context, argUuid uuid.UUID) (JobTag, error) {
+	row := q.queryRow(ctx, q.getJobTagByUuidStmt, getJobTagByUuid, argUuid)
+	var i JobTag
+	err := row.Scan(
+		&i.Uuid,
+		&i.Name,
+		&i.Description,
+		&i.Color,
+		&i.WayUuid,
+	)
+	return i, err
+}
+
 const getListJobTagsByWayUuid = `-- name: GetListJobTagsByWayUuid :many
 SELECT uuid, name, description, color, way_uuid FROM job_tags
 WHERE way_uuid = $1

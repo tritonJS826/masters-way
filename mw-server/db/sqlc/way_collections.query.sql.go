@@ -18,17 +18,19 @@ INSERT INTO way_collections(
     owner_uuid,
     created_at,
     updated_at,
-    name
+    name,
+    type
 ) VALUES (
-    $1, $2, $3, $4
+    $1, $2, $3, $4, $5
 ) RETURNING uuid, owner_uuid, created_at, updated_at, name, type
 `
 
 type CreateWayCollectionParams struct {
-	OwnerUuid uuid.UUID `json:"owner_uuid"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
-	Name      string    `json:"name"`
+	OwnerUuid uuid.UUID         `json:"owner_uuid"`
+	CreatedAt time.Time         `json:"created_at"`
+	UpdatedAt time.Time         `json:"updated_at"`
+	Name      string            `json:"name"`
+	Type      WayCollectionType `json:"type"`
 }
 
 func (q *Queries) CreateWayCollection(ctx context.Context, arg CreateWayCollectionParams) (WayCollection, error) {
@@ -37,6 +39,7 @@ func (q *Queries) CreateWayCollection(ctx context.Context, arg CreateWayCollecti
 		arg.CreatedAt,
 		arg.UpdatedAt,
 		arg.Name,
+		arg.Type,
 	)
 	var i WayCollection
 	err := row.Scan(

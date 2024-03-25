@@ -37,6 +37,7 @@ type WayPlainResponse struct {
 	DayReportsAmount  int32               `json:"dayReportsAmount" validate:"required"`
 	Mentors           []UserPlainResponse `json:"mentors" validate:"required"`
 	WayTags           []WayTagResponse    `json:"wayTags" validate:"required"`
+	Metrics           []MetricResponse    `json:"metrics" validate:"required"`
 }
 
 type WayPopulatedResponse struct {

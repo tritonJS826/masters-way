@@ -30,7 +30,7 @@ func NewWayCollectionController(db *db.Queries, ctx context.Context) *WayCollect
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateWayCollectionPayload true "query params"
-// @Success 200 {object} schemas.WayCollectionPlainResponse
+// @Success 200 {object} schemas.WayCollectionPopulatedResponse
 // @Router /wayCollections [post]
 func (cc *WayCollectionController) CreateWayCollection(ctx *gin.Context) {
 	var payload *schemas.CreateWayCollectionPayload
@@ -46,6 +46,7 @@ func (cc *WayCollectionController) CreateWayCollection(ctx *gin.Context) {
 		OwnerUuid: uuid.MustParse(payload.OwnerUuid),
 		CreatedAt: now,
 		UpdatedAt: now,
+		Type:      "custom",
 	}
 
 	wayCollection, err := cc.db.CreateWayCollection(ctx, *args)
@@ -55,7 +56,16 @@ func (cc *WayCollectionController) CreateWayCollection(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, wayCollection)
+	response := schemas.WayCollectionPopulatedResponse{
+		Uuid:      wayCollection.Uuid.String(),
+		Name:      wayCollection.Name,
+		Ways:      []schemas.WayPlainResponse{},
+		CreatedAt: wayCollection.CreatedAt.String(),
+		UpdatedAt: wayCollection.UpdatedAt.String(),
+		OwnerUuid: wayCollection.OwnerUuid.String(),
+	}
+
+	ctx.JSON(http.StatusOK, response)
 }
 
 // Update wayCollectionRoute handler

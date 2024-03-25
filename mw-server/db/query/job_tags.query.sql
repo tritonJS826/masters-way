@@ -13,6 +13,10 @@ SELECT * FROM job_tags
 WHERE way_uuid = $1
 ORDER BY uuid;
 
+-- name: GetJobTagByUuid :one
+SELECT * FROM job_tags
+WHERE job_tags.uuid = $1;
+
 -- name: UpdateJobTag :one
 UPDATE job_tags
 SET

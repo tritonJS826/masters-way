@@ -134,14 +134,14 @@ type Metric struct {
 }
 
 type Plan struct {
-	Uuid           uuid.UUID `json:"uuid"`
-	CreatedAt      time.Time `json:"created_at"`
-	UpdatedAt      time.Time `json:"updated_at"`
-	Job            string    `json:"job"`
-	EstimationTime int32     `json:"estimation_time"`
-	OwnerUuid      uuid.UUID `json:"owner_uuid"`
-	IsDone         bool      `json:"is_done"`
-	DayReportUuid  uuid.UUID `json:"day_report_uuid"`
+	Uuid          uuid.UUID `json:"uuid"`
+	CreatedAt     time.Time `json:"created_at"`
+	UpdatedAt     time.Time `json:"updated_at"`
+	Description   string    `json:"description"`
+	Time          int32     `json:"time"`
+	OwnerUuid     uuid.UUID `json:"owner_uuid"`
+	IsDone        bool      `json:"is_done"`
+	DayReportUuid uuid.UUID `json:"day_report_uuid"`
 }
 
 type PlansJobTag struct {
