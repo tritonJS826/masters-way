@@ -27,7 +27,7 @@ describe("Dropdown component", () => {
         dropdownMenuItems={[
           {
             id: "#1",
-            value: "tes#1",
+            value: "test#1",
 
             /**
              * Click action
@@ -36,7 +36,7 @@ describe("Dropdown component", () => {
           },
           {
             id: "#2",
-            value: "tes#2",
+            value: "test#2",
 
             /**
              * Click action
@@ -68,25 +68,15 @@ describe("Dropdown component", () => {
       .should("exist");
   });
 
-  it("should length and that each option render right value", () => {
+  it("should length dropdown", () => {
     cy.get(getDataCy(DROPDOWN_CY.dataCyTrigger))
       .click();
-    cy.get(getDataCy(DROPDOWN_CY.dataCyContentList)).each(($ele) => {
-      if ($ele.text() === "tes#1") {
-        cy.wrap($ele).click();
-      }
-    });
-    cy.get(getDataCy(DROPDOWN_CY.dataCyContentList)).each(($ele) => {
-      if ($ele.text() === "tes#2") {
-        cy.wrap($ele).click();
-      }
-    });
     cy.get(getDataCy(DROPDOWN_CY.dataCyContentList)).find("li").should("have.length", DROPDOWN_LENGHTH);
   });
 
   it("should select right option after click on value", () => {
     cy.get(getDataCy(DROPDOWN_CY.dataCyTrigger)).click();
-    cy.contains(getDataCy(DROPDOWN_CY.dataCyContentList), "tes#1").click();
-    cy.contains(getDataCy(DROPDOWN_CY.dataCyContentList), "tes#2").click();
+    cy.contains(getDataCy(DROPDOWN_CY.dataCyContentList), "test#1").click();
+    cy.contains(getDataCy(DROPDOWN_CY.dataCyContentList), "test#2").click();
   });
 });
