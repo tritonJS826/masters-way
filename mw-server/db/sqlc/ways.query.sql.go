@@ -160,6 +160,8 @@ func (q *Queries) GetWayById(ctx context.Context, argUuid uuid.UUID) (GetWayById
 const listWays = `-- name: ListWays :many
 SELECT 
     uuid, name, goal_description, updated_at, created_at, estimation_time, owner_uuid, copied_from_way_uuid, is_completed, is_private,
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,    
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
     (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount
 FROM ways
@@ -184,6 +186,8 @@ type ListWaysRow struct {
 	CopiedFromWayUuid   uuid.NullUUID `json:"copied_from_way_uuid"`
 	IsCompleted         bool          `json:"is_completed"`
 	IsPrivate           bool          `json:"is_private"`
+	WayMetricsTotal     int64         `json:"way_metrics_total"`
+	WayMetricsDone      int64         `json:"way_metrics_done"`
 	WayFavoriteForUsers int64         `json:"way_favorite_for_users"`
 	WayDayReportsAmount int64         `json:"way_day_reports_amount"`
 }
@@ -209,6 +213,8 @@ func (q *Queries) ListWays(ctx context.Context, arg ListWaysParams) ([]ListWaysR
 			&i.CopiedFromWayUuid,
 			&i.IsCompleted,
 			&i.IsPrivate,
+			&i.WayMetricsTotal,
+			&i.WayMetricsDone,
 			&i.WayFavoriteForUsers,
 			&i.WayDayReportsAmount,
 		); err != nil {
@@ -236,7 +242,9 @@ is_private = coalesce($5, is_private),
 is_completed = coalesce($6, is_completed)
 
 WHERE ways.uuid = $7
-RETURNING uuid, name, goal_description, updated_at, created_at, estimation_time, owner_uuid, copied_from_way_uuid, is_completed, is_private, 
+RETURNING uuid, name, goal_description, updated_at, created_at, estimation_time, owner_uuid, copied_from_way_uuid, is_completed, is_private,
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = $7) AS way_metrics_total,    
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = $7 AND metrics.is_done = true) AS way_metrics_done,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = $7) AS way_favorite_for_users,
     (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = $7) AS way_day_reports_amount
 `
@@ -262,6 +270,8 @@ type UpdateWayRow struct {
 	CopiedFromWayUuid   uuid.NullUUID `json:"copied_from_way_uuid"`
 	IsCompleted         bool          `json:"is_completed"`
 	IsPrivate           bool          `json:"is_private"`
+	WayMetricsTotal     int64         `json:"way_metrics_total"`
+	WayMetricsDone      int64         `json:"way_metrics_done"`
 	WayFavoriteForUsers int64         `json:"way_favorite_for_users"`
 	WayDayReportsAmount int64         `json:"way_day_reports_amount"`
 }
@@ -288,6 +298,8 @@ func (q *Queries) UpdateWay(ctx context.Context, arg UpdateWayParams) (UpdateWay
 		&i.CopiedFromWayUuid,
 		&i.IsCompleted,
 		&i.IsPrivate,
+		&i.WayMetricsTotal,
+		&i.WayMetricsDone,
 		&i.WayFavoriteForUsers,
 		&i.WayDayReportsAmount,
 	)
