@@ -53,7 +53,14 @@ func (cc *JobTagController) CreateJobTag(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, jobTag)
+	response := schemas.JobTagResponse{
+		Uuid:        jobTag.Uuid.String(),
+		Name:        jobTag.Name,
+		Description: jobTag.Description,
+		Color:       jobTag.Color,
+	}
+
+	ctx.JSON(http.StatusOK, response)
 }
 
 // Update jobTag handler
