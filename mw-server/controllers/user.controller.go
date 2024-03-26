@@ -251,13 +251,21 @@ func (cc *UserController) GetUserById(ctx *gin.Context) {
 			MetricsTotal:      int32(collectionJoinWay.WayMetricsTotal),
 		}
 
+		// avoid way duplicates
+		waysMap := lo.SliceToMap(wayCollectionsMap[collectionJoinWay.CollectionUuid.String()].Ways, func(wayRaw schemas.WayPlainResponse) (string, schemas.WayPlainResponse) {
+			return wayRaw.Uuid, wayRaw
+		})
+		waysMap[way.Uuid] = way
+		ways := lo.MapToSlice(waysMap, func(key string, value schemas.WayPlainResponse) schemas.WayPlainResponse {
+			return value
+		})
 		wayCollectionsMap[collectionJoinWay.CollectionUuid.String()] = schemas.WayCollectionPopulatedResponse{
 			Uuid:      collectionJoinWay.CollectionUuid.String(),
 			Name:      collectionJoinWay.CollectionName,
 			CreatedAt: collectionJoinWay.CollectionCreatedAt.String(),
 			UpdatedAt: collectionJoinWay.CollectionUpdatedAt.String(),
 			OwnerUuid: user.Uuid.String(),
-			Ways:      append(wayCollectionsMap[collectionJoinWay.CollectionUuid.String()].Ways, way),
+			Ways:      ways,
 			Type:      string(collectionJoinWay.CollectionType),
 		}
 

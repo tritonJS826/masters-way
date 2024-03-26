@@ -74,7 +74,16 @@ make golang packages visible in cli (or add this line to .bashrc in the home dir
 
 
 
-to migrate down
+* migrate down
 ```
     migrate -path db/migration -database "postgresql://root:secret@localhost:5432/mastersway_db?sslmode=disable" -verbose down
 ```
+
+* to remove all dangling (not associated with containers) and all volumes
+```
+docker system prune -a && docker system prune --volumes
+```
+
+* to stop and remove all containers
+```
+docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q) 
