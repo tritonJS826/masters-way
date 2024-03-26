@@ -105,6 +105,8 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 		DayReportsAmount:  0,
 		Mentors:           make([]schemas.UserPlainResponse, 0),
 		WayTags:           wayTags,
+		MetricsDone:       0,
+		MetricsTotal:      0,
 	}
 
 	// add "no tags" tag to way
@@ -200,6 +202,8 @@ func (cc *WayController) UpdateWay(ctx *gin.Context) {
 		FavoriteForUsers:  int32(way.WayFavoriteForUsers),
 		DayReportsAmount:  int32(way.WayDayReportsAmount),
 		Mentors:           mentors,
+		MetricsDone:       int32(way.WayMetricsDone),
+		MetricsTotal:      int32(way.WayMetricsTotal),
 	}
 
 	ctx.JSON(http.StatusOK, response)
@@ -421,19 +425,19 @@ func (cc *WayController) GetAllWays(ctx *gin.Context) {
 			ImageUrl:    string(imageUrl),
 			IsMentor:    dbOwner.IsMentor,
 		}
-		dbMetrics, _ := cc.db.GetListMetricsByWayUuid(ctx, way.Uuid)
-		metrics := lo.Map(dbMetrics, func(dbMetric db.Metric, i int) schemas.MetricResponse {
+		// dbMetrics, _ := cc.db.GetListMetricsByWayUuid(ctx, way.Uuid)
+		// metrics := lo.Map(dbMetrics, func(dbMetric db.Metric, i int) schemas.MetricResponse {
 
-			return schemas.MetricResponse{
-				Uuid:             dbMetric.Uuid.String(),
-				CreatedAt:        dbMetric.CreatedAt.String(),
-				UpdatedAt:        dbMetric.UpdatedAt.String(),
-				Description:      dbMetric.Description,
-				IsDone:           dbMetric.IsDone,
-				DoneDate:         dbMetric.DoneDate.Time.String(),
-				MetricEstimation: dbMetric.MetricEstimation,
-			}
-		})
+		// 	return schemas.MetricResponse{
+		// 		Uuid:             dbMetric.Uuid.String(),
+		// 		CreatedAt:        dbMetric.CreatedAt.String(),
+		// 		UpdatedAt:        dbMetric.UpdatedAt.String(),
+		// 		Description:      dbMetric.Description,
+		// 		IsDone:           dbMetric.IsDone,
+		// 		DoneDate:         dbMetric.DoneDate.Time.String(),
+		// 		MetricEstimation: dbMetric.MetricEstimation,
+		// 	}
+		// })
 		response[i] = schemas.WayPlainResponse{
 			Uuid:              way.Uuid.String(),
 			Name:              way.Name,
@@ -449,7 +453,8 @@ func (cc *WayController) GetAllWays(ctx *gin.Context) {
 			DayReportsAmount:  int32(way.WayDayReportsAmount),
 			Mentors:           mentors,
 			WayTags:           wayTags,
-			Metrics:           metrics,
+			MetricsDone:       int32(way.WayMetricsDone),
+			MetricsTotal:      int32(way.WayMetricsTotal),
 		}
 	})
 

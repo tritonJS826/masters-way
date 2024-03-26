@@ -247,6 +247,8 @@ func (cc *UserController) GetUserById(ctx *gin.Context) {
 			DayReportsAmount:  int32(collectionJoinWay.WayDayReportsAmount),
 			Mentors:           mentors,
 			WayTags:           wayTags,
+			MetricsDone:       int32(collectionJoinWay.WayMetricsDone),
+			MetricsTotal:      int32(collectionJoinWay.WayMetricsTotal),
 		}
 
 		wayCollectionsMap[collectionJoinWay.CollectionUuid.String()] = schemas.WayCollectionPopulatedResponse{
@@ -319,6 +321,8 @@ func (cc *UserController) GetUserById(ctx *gin.Context) {
 			DayReportsAmount:  int32(dbWay.WayDayReportsAmount),
 			Mentors:           mentors,
 			WayTags:           wayTags,
+			MetricsDone:       int32(dbWay.WayMetricsDone),
+			MetricsTotal:      int32(dbWay.WayMetricsTotal),
 		}
 	})
 
