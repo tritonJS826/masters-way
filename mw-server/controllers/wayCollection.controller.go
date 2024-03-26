@@ -63,6 +63,7 @@ func (cc *WayCollectionController) CreateWayCollection(ctx *gin.Context) {
 		CreatedAt: wayCollection.CreatedAt.String(),
 		UpdatedAt: wayCollection.UpdatedAt.String(),
 		OwnerUuid: wayCollection.OwnerUuid.String(),
+		Type:      string(wayCollection.Type),
 	}
 
 	ctx.JSON(http.StatusOK, response)
