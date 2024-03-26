@@ -54,6 +54,7 @@ SELECT
     way_collections.created_at AS collection_created_at,
     way_collections.updated_at AS collection_updated_at,
     way_collections.name AS collection_name,
+    way_collections.type AS collection_type,
     ways.uuid AS way_uuid,
     ways.name AS way_name,
     ways.goal_description AS way_description,
@@ -73,22 +74,23 @@ JOIN ways ON way_collections_ways.way_uuid = ways.uuid
 `
 
 type GetWayCollectionJoinWayByUserIdRow struct {
-	CollectionUuid       uuid.UUID     `json:"collection_uuid"`
-	CollectionCreatedAt  time.Time     `json:"collection_created_at"`
-	CollectionUpdatedAt  time.Time     `json:"collection_updated_at"`
-	CollectionName       string        `json:"collection_name"`
-	WayUuid              uuid.UUID     `json:"way_uuid"`
-	WayName              string        `json:"way_name"`
-	WayDescription       string        `json:"way_description"`
-	WayUpdatedAt         time.Time     `json:"way_updated_at"`
-	WayCreatedAt         time.Time     `json:"way_created_at"`
-	WayEstimationTime    int32         `json:"way_estimation_time"`
-	WayOwnerUuid         uuid.UUID     `json:"way_owner_uuid"`
-	WayCopiedFromWayUuid uuid.NullUUID `json:"way_copied_from_way_uuid"`
-	IsCompleted          bool          `json:"is_completed"`
-	WayIsPrivate         bool          `json:"way_is_private"`
-	WayFavoriteForUsers  int64         `json:"way_favorite_for_users"`
-	WayDayReportsAmount  int64         `json:"way_day_reports_amount"`
+	CollectionUuid       uuid.UUID         `json:"collection_uuid"`
+	CollectionCreatedAt  time.Time         `json:"collection_created_at"`
+	CollectionUpdatedAt  time.Time         `json:"collection_updated_at"`
+	CollectionName       string            `json:"collection_name"`
+	CollectionType       WayCollectionType `json:"collection_type"`
+	WayUuid              uuid.UUID         `json:"way_uuid"`
+	WayName              string            `json:"way_name"`
+	WayDescription       string            `json:"way_description"`
+	WayUpdatedAt         time.Time         `json:"way_updated_at"`
+	WayCreatedAt         time.Time         `json:"way_created_at"`
+	WayEstimationTime    int32             `json:"way_estimation_time"`
+	WayOwnerUuid         uuid.UUID         `json:"way_owner_uuid"`
+	WayCopiedFromWayUuid uuid.NullUUID     `json:"way_copied_from_way_uuid"`
+	IsCompleted          bool              `json:"is_completed"`
+	WayIsPrivate         bool              `json:"way_is_private"`
+	WayFavoriteForUsers  int64             `json:"way_favorite_for_users"`
+	WayDayReportsAmount  int64             `json:"way_day_reports_amount"`
 }
 
 func (q *Queries) GetWayCollectionJoinWayByUserId(ctx context.Context, ownerUuid uuid.UUID) ([]GetWayCollectionJoinWayByUserIdRow, error) {
@@ -105,6 +107,7 @@ func (q *Queries) GetWayCollectionJoinWayByUserId(ctx context.Context, ownerUuid
 			&i.CollectionCreatedAt,
 			&i.CollectionUpdatedAt,
 			&i.CollectionName,
+			&i.CollectionType,
 			&i.WayUuid,
 			&i.WayName,
 			&i.WayDescription,

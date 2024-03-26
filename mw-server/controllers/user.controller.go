@@ -256,6 +256,7 @@ func (cc *UserController) GetUserById(ctx *gin.Context) {
 			UpdatedAt: collectionJoinWay.CollectionUpdatedAt.String(),
 			OwnerUuid: user.Uuid.String(),
 			Ways:      append(wayCollectionsMap[collectionJoinWay.CollectionUuid.String()].Ways, way),
+			Type:      string(collectionJoinWay.CollectionType),
 		}
 
 	})
