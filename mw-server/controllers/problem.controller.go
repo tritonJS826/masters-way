@@ -75,8 +75,8 @@ func (cc *ProblemController) CreateProblem(ctx *gin.Context) {
 		Description:   problem.Description,
 		IsDone:        problem.IsDone,
 		OwnerUuid:     problem.OwnerUuid.String(),
-		DayReportUuid: problem.DayReportUuid.String(),
 		OwnerName:     problem.OwnerName,
+		DayReportUuid: problem.DayReportUuid.String(),
 		Tags:          tags,
 	}
 

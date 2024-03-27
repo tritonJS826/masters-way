@@ -17,7 +17,7 @@ func NewRouteWay(wayController controllers.WayController) WayRoutes {
 func (cr *WayRoutes) WayRoute(rg *gin.RouterGroup) {
 	router := rg.Group("ways")
 	router.POST("", cr.wayController.CreateWay)
-	router.GET("", cr.wayController.GetAllWays)
+	router.GET("/", cr.wayController.GetAllWays)
 	router.PATCH("/:wayId", cr.wayController.UpdateWay)
 	router.GET("/:wayId", cr.wayController.GetWayById)
 	router.DELETE("/:wayId", cr.wayController.DeleteWayById)

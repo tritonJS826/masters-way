@@ -10,6 +10,7 @@ import (
 	"database/sql"
 
 	"github.com/google/uuid"
+	"github.com/lib/pq"
 )
 
 const createJobTag = `-- name: CreateJobTag :one
@@ -84,6 +85,41 @@ ORDER BY uuid
 
 func (q *Queries) GetListJobTagsByWayUuid(ctx context.Context, wayUuid uuid.UUID) ([]JobTag, error) {
 	rows, err := q.query(ctx, q.getListJobTagsByWayUuidStmt, getListJobTagsByWayUuid, wayUuid)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []JobTag{}
+	for rows.Next() {
+		var i JobTag
+		if err := rows.Scan(
+			&i.Uuid,
+			&i.Name,
+			&i.Description,
+			&i.Color,
+			&i.WayUuid,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getListJobTagsByWayUuids = `-- name: GetListJobTagsByWayUuids :many
+SELECT uuid, name, description, color, way_uuid FROM job_tags
+WHERE way_uuid = ANY($1::UUID[])
+ORDER BY uuid
+`
+
+func (q *Queries) GetListJobTagsByWayUuids(ctx context.Context, dollar_1 []uuid.UUID) ([]JobTag, error) {
+	rows, err := q.query(ctx, q.getListJobTagsByWayUuidsStmt, getListJobTagsByWayUuids, pq.Array(dollar_1))
 	if err != nil {
 		return nil, err
 	}

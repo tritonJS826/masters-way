@@ -13,12 +13,21 @@ import (
 	"github.com/google/uuid"
 )
 
-const countWays = `-- name: CountWays :one
+const countWaysByType = `-- name: CountWaysByType :one
 SELECT COUNT(*) FROM ways
+WHERE ($1 = 'inProgress' AND ways.is_completed = false)
+    OR ($1 = 'completed' AND ways.is_completed = true)
+    OR ($1 = 'abandoned' AND ways.is_completed = false AND ways.updated_at < $2::timestamp - interval '14 days') 
+    OR ($1 = 'all')
 `
 
-func (q *Queries) CountWays(ctx context.Context) (int64, error) {
-	row := q.queryRow(ctx, q.countWaysStmt, countWays)
+type CountWaysByTypeParams struct {
+	Column1 interface{} `json:"column_1"`
+	Column2 time.Time   `json:"column_2"`
+}
+
+func (q *Queries) CountWaysByType(ctx context.Context, arg CountWaysByTypeParams) (int64, error) {
+	row := q.queryRow(ctx, q.countWaysByTypeStmt, countWaysByType, arg.Column1, arg.Column2)
 	var count int64
 	err := row.Scan(&count)
 	return count, err
@@ -158,6 +167,7 @@ func (q *Queries) GetWayById(ctx context.Context, argUuid uuid.UUID) (GetWayById
 }
 
 const listWays = `-- name: ListWays :many
+
 SELECT 
     uuid, name, goal_description, updated_at, created_at, estimation_time, owner_uuid, copied_from_way_uuid, is_completed, is_private,
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,    
@@ -165,14 +175,20 @@ SELECT
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
     (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount
 FROM ways
+WHERE ($3 = 'inProgress' AND ways.is_completed = false)
+    OR ($3 = 'completed' AND ways.is_completed = true)
+    OR ($3 = 'abandoned' AND ways.is_completed = false AND ways.updated_at < $4::timestamp - interval '14 days') 
+    OR ($3 = 'all')
 ORDER BY created_at
 LIMIT $1
 OFFSET $2
 `
 
 type ListWaysParams struct {
-	Limit  int32 `json:"limit"`
-	Offset int32 `json:"offset"`
+	Limit   int32       `json:"limit"`
+	Offset  int32       `json:"offset"`
+	Column3 interface{} `json:"column_3"`
+	Column4 time.Time   `json:"column_4"`
 }
 
 type ListWaysRow struct {
@@ -192,9 +208,15 @@ type ListWaysRow struct {
 	WayDayReportsAmount int64         `json:"way_day_reports_amount"`
 }
 
+// AND ($2 IS NULL OR age = $2)
 // TODO: add filter and sorters
 func (q *Queries) ListWays(ctx context.Context, arg ListWaysParams) ([]ListWaysRow, error) {
-	rows, err := q.query(ctx, q.listWaysStmt, listWays, arg.Limit, arg.Offset)
+	rows, err := q.query(ctx, q.listWaysStmt, listWays,
+		arg.Limit,
+		arg.Offset,
+		arg.Column3,
+		arg.Column4,
+	)
 	if err != nil {
 		return nil, err
 	}

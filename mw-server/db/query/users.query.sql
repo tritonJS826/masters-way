@@ -17,6 +17,11 @@ SELECT * FROM users
 WHERE uuid = $1
 LIMIT 1;
 
+-- name: GetUserByIds :many
+SELECT * FROM users
+WHERE uuid = ANY($1::UUID[])
+LIMIT 1;
+
 -- name: GetUserByFirebaseId :one
 SELECT * FROM users
 WHERE firebase_id = $1
@@ -52,12 +57,16 @@ SELECT
     )::VARCHAR[] AS tag_names,
     (SELECT COUNT(*) FROM users) AS users_size
 FROM users
+WHERE (users.email LIKE '%' || $3 || '%' OR $3 = '')
+    AND (users.name LIKE '%' || $4 || '%' OR $4 = '')
 ORDER BY created_at
 LIMIT $1
 OFFSET $2;
 
 -- name: CountUsers :one
-SELECT COUNT(*) FROM users;
+SELECT COUNT(*) FROM users
+WHERE ((users.email LIKE '%' || $1 || '%') OR ($1 = ''))
+    AND ((users.name LIKE '%' || $2 || '%') OR ($2 = ''));
 
 -- name: UpdateUser :one
 UPDATE users

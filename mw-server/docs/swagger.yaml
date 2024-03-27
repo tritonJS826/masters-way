@@ -2197,6 +2197,19 @@ paths:
       - application/json
       description: Get ways with pagination
       operationId: get-all-ways
+      parameters:
+      - description: Page number for pagination
+        in: query
+        name: page
+        type: integer
+      - description: Number of items per page
+        in: query
+        name: limit
+        type: integer
+      - description: 'Ways type: all | completed | inProgress | abandoned'
+        in: query
+        name: status
+        type: string
       produces:
       - application/json
       responses:

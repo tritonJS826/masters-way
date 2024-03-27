@@ -378,22 +378,36 @@ func (cc *UserController) GetUserById(ctx *gin.Context) {
 // @ID get-all-users
 // @Accept  json
 // @Produce  json
+// @Param page query integer false "Page number for pagination"
+// @Param limit query integer false "Number of items per page"
+// @Param email query string false "Part of user email for filters"
+// @Param name query string false "Part of user name for filters"
 // @Success 200 {object} schemas.GetAllUsersResponse
 // @Router /users [get]
 func (cc *UserController) GetAllUsers(ctx *gin.Context) {
-	var page = ctx.DefaultQuery("page", "1")
-	var limit = ctx.DefaultQuery("limit", "10")
+	page := ctx.DefaultQuery("page", "1")
+	limit := ctx.DefaultQuery("limit", "10")
+	email := ctx.DefaultQuery("email", "")
+	name := ctx.DefaultQuery("name", "")
 
 	reqPageID, _ := strconv.Atoi(page)
 	reqLimit, _ := strconv.Atoi(limit)
 	offset := (reqPageID - 1) * reqLimit
 
-	args := &db.ListUsersParams{
-		Limit:  int32(reqLimit),
-		Offset: int32(offset),
+	countUsersArgs := &db.CountUsersParams{
+		Column1: sql.NullString{String: email, Valid: true},
+		Column2: sql.NullString{String: name, Valid: true},
+	}
+	usersSize, _ := cc.db.CountUsers(ctx, *countUsersArgs)
+
+	listUsersArgs := &db.ListUsersParams{
+		Limit:   int32(reqLimit),
+		Offset:  int32(offset),
+		Column3: sql.NullString{String: email, Valid: true},
+		Column4: sql.NullString{String: name, Valid: true},
 	}
 
-	users, err := cc.db.ListUsers(ctx, *args)
+	users, err := cc.db.ListUsers(ctx, *listUsersArgs)
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"error": err.Error()})
 		return
@@ -425,8 +439,6 @@ func (cc *UserController) GetAllUsers(ctx *gin.Context) {
 			Tags:             userTags,
 		}
 	}
-
-	usersSize, _ := cc.db.CountUsers(ctx)
 
 	ctx.JSON(http.StatusOK, schemas.GetAllUsersResponse{Size: usersSize, Users: response})
 }

@@ -52,13 +52,25 @@ func (cc *PlanController) CreatePlan(ctx *gin.Context) {
 	}
 
 	plan, err := cc.db.CreatePlan(ctx, *args)
-
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving Plan", "error": err.Error()})
 		return
 	}
 
-	ctx.JSON(http.StatusOK, plan)
+	response := schemas.PlanPopulatedResponse{
+		Uuid:          plan.Uuid.String(),
+		CreatedAt:     plan.CreatedAt.String(),
+		UpdatedAt:     plan.UpdatedAt.String(),
+		Description:   plan.Description,
+		Time:          plan.Time,
+		OwnerUuid:     plan.OwnerUuid.String(),
+		OwnerName:     plan.OwnerName,
+		IsDone:        plan.IsDone,
+		DayReportUuid: plan.DayReportUuid.String(),
+		Tags:          make([]schemas.JobTagResponse, 0),
+	}
+
+	ctx.JSON(http.StatusOK, response)
 }
 
 // Update Plan handler

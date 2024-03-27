@@ -7,8 +7,11 @@ package db
 
 import (
 	"context"
+	"database/sql"
+	"time"
 
 	"github.com/google/uuid"
+	"github.com/lib/pq"
 )
 
 const createMentorUserWay = `-- name: CreateMentorUserWay :one
@@ -74,6 +77,61 @@ func (q *Queries) GetMentorUsersByWayId(ctx context.Context, wayUuid uuid.UUID) 
 			&i.ImageUrl,
 			&i.IsMentor,
 			&i.FirebaseID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getMentorUsersByWayIds = `-- name: GetMentorUsersByWayIds :many
+SELECT 
+    users.uuid, users.name, users.email, users.description, users.created_at, users.image_url, users.is_mentor, users.firebase_id,
+    ways.uuid AS way_uuid
+FROM ways
+JOIN mentor_users_ways ON mentor_users_ways.way_uuid = ways.uuid
+JOIN users ON users.uuid = mentor_users_ways.user_uuid
+WHERE way_uuid = ANY($1::UUID[])
+`
+
+type GetMentorUsersByWayIdsRow struct {
+	Uuid        uuid.UUID      `json:"uuid"`
+	Name        string         `json:"name"`
+	Email       string         `json:"email"`
+	Description string         `json:"description"`
+	CreatedAt   time.Time      `json:"created_at"`
+	ImageUrl    sql.NullString `json:"image_url"`
+	IsMentor    bool           `json:"is_mentor"`
+	FirebaseID  string         `json:"firebase_id"`
+	WayUuid     uuid.UUID      `json:"way_uuid"`
+}
+
+func (q *Queries) GetMentorUsersByWayIds(ctx context.Context, dollar_1 []uuid.UUID) ([]GetMentorUsersByWayIdsRow, error) {
+	rows, err := q.query(ctx, q.getMentorUsersByWayIdsStmt, getMentorUsersByWayIds, pq.Array(dollar_1))
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []GetMentorUsersByWayIdsRow{}
+	for rows.Next() {
+		var i GetMentorUsersByWayIdsRow
+		if err := rows.Scan(
+			&i.Uuid,
+			&i.Name,
+			&i.Email,
+			&i.Description,
+			&i.CreatedAt,
+			&i.ImageUrl,
+			&i.IsMentor,
+			&i.FirebaseID,
+			&i.WayUuid,
 		); err != nil {
 			return nil, err
 		}

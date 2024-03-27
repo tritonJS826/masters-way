@@ -9,6 +9,7 @@ import (
 	"context"
 
 	"github.com/google/uuid"
+	"github.com/lib/pq"
 )
 
 const createWayTag = `-- name: CreateWayTag :one
@@ -33,7 +34,7 @@ SELECT
 FROM way_tags
 JOIN ways_way_tags ON ways_way_tags.way_tag_uuid = way_tags.uuid  
 WHERE ways_way_tags.way_uuid = $1
-ORDER BY uuid
+ORDER BY name
 `
 
 func (q *Queries) GetListWayTagsByWayId(ctx context.Context, wayUuid uuid.UUID) ([]WayTag, error) {
@@ -46,6 +47,46 @@ func (q *Queries) GetListWayTagsByWayId(ctx context.Context, wayUuid uuid.UUID) 
 	for rows.Next() {
 		var i WayTag
 		if err := rows.Scan(&i.Uuid, &i.Name); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getListWayTagsByWayIds = `-- name: GetListWayTagsByWayIds :many
+SELECT 
+    way_tags.uuid AS uuid,
+    way_tags.name AS name,
+    ways_way_tags.way_uuid
+FROM way_tags
+JOIN ways_way_tags ON ways_way_tags.way_tag_uuid = way_tags.uuid  
+WHERE ways_way_tags.way_uuid = ANY($1::UUID[])
+ORDER BY name
+`
+
+type GetListWayTagsByWayIdsRow struct {
+	Uuid    uuid.UUID `json:"uuid"`
+	Name    string    `json:"name"`
+	WayUuid uuid.UUID `json:"way_uuid"`
+}
+
+func (q *Queries) GetListWayTagsByWayIds(ctx context.Context, dollar_1 []uuid.UUID) ([]GetListWayTagsByWayIdsRow, error) {
+	rows, err := q.query(ctx, q.getListWayTagsByWayIdsStmt, getListWayTagsByWayIds, pq.Array(dollar_1))
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []GetListWayTagsByWayIdsRow{}
+	for rows.Next() {
+		var i GetListWayTagsByWayIdsRow
+		if err := rows.Scan(&i.Uuid, &i.Name, &i.WayUuid); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
