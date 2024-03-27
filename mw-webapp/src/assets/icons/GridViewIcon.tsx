@@ -10,6 +10,7 @@ export const GridViewIcon = (props: IconProps) => {
       viewBox="0 0 24 24"
       fill="none"
       className={props.className}
+      data-cy={props.dataCy}
     >
       <rect
         x="3"

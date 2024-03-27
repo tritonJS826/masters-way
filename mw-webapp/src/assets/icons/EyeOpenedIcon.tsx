@@ -10,6 +10,7 @@ export const EyeOpenedIcon = (props: IconProps) => {
       viewBox="0 0 24 24"
       fill="none"
       className={props.className}
+      data-cy={props.dataCy}
     >
       <path
         d="M15.0007 12C15.0007 13.6569 13.6576 15 12.0007 15C10.3439 15 9.00073 13.6569 9.00073
