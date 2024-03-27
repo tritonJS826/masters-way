@@ -14,7 +14,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"github.com/samber/lo"
-	lop "github.com/samber/lo/parallel"
 )
 
 type WayController struct {
@@ -64,22 +63,35 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 		Color:       "rgb(255, 0, 0)",
 		WayUuid:     way.Uuid,
 	}
-	cc.db.CreateJobTag(ctx, createDefaultJobTagParams)
+	dbJobTag, _ := cc.db.CreateJobTag(ctx, createDefaultJobTagParams)
+	jobTag := schemas.JobTagResponse{
+		Uuid:        dbJobTag.Uuid.String(),
+		Name:        dbJobTag.Name,
+		Description: dbJobTag.Description,
+		Color:       dbJobTag.Color,
+	}
+	defaultJobTags := []schemas.JobTagResponse{
+		jobTag,
+	}
 
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"error": err.Error()})
 		return
 	}
 
-	dbWayTags, _ := cc.db.GetListWayTagsByWayId(ctx, way.Uuid)
-	wayTags := lo.Map(dbWayTags, func(dbWayTag db.WayTag, i int) schemas.WayTagResponse {
-		return schemas.WayTagResponse{
-			Uuid: dbWayTag.Uuid.String(),
-			Name: dbWayTag.Name,
-		}
-	})
+	dbWayTags, err := cc.db.GetListWayTagsByWayId(ctx, way.Uuid)
+	wayTags := make([]schemas.WayTagResponse, 0)
+	if err != nil {
+		wayTags = lo.Map(dbWayTags, func(dbWayTag db.WayTag, i int) schemas.WayTagResponse {
+			return schemas.WayTagResponse{
+				Uuid: dbWayTag.Uuid.String(),
+				Name: dbWayTag.Name,
+			}
+		})
+	}
+
 	copiedFromWayUuid, _ := util.MarshalNullUuid(way.CopiedFromWayUuid)
-	dbOwner, _ := cc.db.GetUserById(ctx, way.Uuid)
+	dbOwner, _ := cc.db.GetUserById(ctx, payload.OwnerUuid)
 	imageUrl, _ := util.MarshalNullString(dbOwner.ImageUrl)
 	owner := schemas.UserPlainResponse{
 		Uuid:        dbOwner.Uuid.String(),
@@ -107,15 +119,8 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 		WayTags:           wayTags,
 		MetricsDone:       0,
 		MetricsTotal:      0,
+		JobTags:           defaultJobTags,
 	}
-
-	// add "no tags" tag to way
-	wayTag, _ := cc.db.CreateWayTag(ctx, payload.Name)
-	createWayTagArgs := &db.CreateWaysWayTagParams{
-		WayTagUuid: wayTag.Uuid,
-		WayUuid:    way.Uuid,
-	}
-	cc.db.CreateWaysWayTag(ctx, *createWayTagArgs)
 
 	ctx.JSON(http.StatusOK, response)
 }
@@ -223,7 +228,6 @@ func (cc *WayController) GetWayById(ctx *gin.Context) {
 	wayUuidRaw := ctx.Param("wayId")
 	wayUuid := uuid.MustParse(wayUuidRaw)
 
-	// first step (could be parallelized):
 	way, err := cc.db.GetWayById(ctx, wayUuid)
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -369,52 +373,76 @@ func (cc *WayController) GetWayById(ctx *gin.Context) {
 // @ID get-all-ways
 // @Accept  json
 // @Produce  json
+// @Param page query integer false "Page number for pagination"
+// @Param limit query integer false "Number of items per page"
+// @Param status query string false "Ways type: all | completed | inProgress | abandoned"
 // @Success 200 {object} schemas.GetAllWaysResponse
 // @Router /ways [get]
 func (cc *WayController) GetAllWays(ctx *gin.Context) {
-	var page = ctx.DefaultQuery("page", "1")
-	var limit = ctx.DefaultQuery("limit", "10")
+	page := ctx.DefaultQuery("page", "1")
+	limit := ctx.DefaultQuery("limit", "10")
+	// status = "inProgress" | "completed" | "all" | "abandoned"
+	status := ctx.DefaultQuery("status", "all")
 
 	reqPageID, _ := strconv.Atoi(page)
 	reqLimit, _ := strconv.Atoi(limit)
 	offset := (reqPageID - 1) * reqLimit
+	currentDate := time.Now()
 
-	args := &db.ListWaysParams{
-		Limit:  int32(reqLimit),
-		Offset: int32(offset),
+	waySizeArgs := &db.CountWaysByTypeParams{
+		Column1: status,
+		Column2: currentDate,
+	}
+	waysSize, _ := cc.db.CountWaysByType(ctx, *waySizeArgs)
+
+	listWaysArgs := &db.ListWaysParams{
+		Limit:   int32(reqLimit),
+		Offset:  int32(offset),
+		Column3: status,
+		Column4: currentDate,
 	}
 
-	ways, err := cc.db.ListWays(ctx, *args)
+	ways, err := cc.db.ListWays(ctx, *listWaysArgs)
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"error": err.Error()})
 		return
 	}
 
-	response := make([]schemas.WayPlainResponse, len(ways))
-	lop.ForEach(ways, func(way db.ListWaysRow, i int) {
-		dbWayTags, _ := cc.db.GetListWayTagsByWayId(ctx, way.Uuid)
-		wayTags := lo.Map(dbWayTags, func(dbWayTag db.WayTag, i int) schemas.WayTagResponse {
-			return schemas.WayTagResponse{
-				Uuid: dbWayTag.Uuid.String(),
-				Name: dbWayTag.Name,
-			}
-		})
-		copiedFromWayUuid, _ := util.MarshalNullUuid(way.CopiedFromWayUuid)
-		mentorsRaw, _ := cc.db.GetMentorUsersByWayId(ctx, way.Uuid)
-		mentors := lo.Map(mentorsRaw, func(dbMentor db.User, i int) schemas.UserPlainResponse {
-			imageUrl, _ := util.MarshalNullString(dbMentor.ImageUrl)
-			return schemas.UserPlainResponse{
-				Uuid:        dbMentor.Uuid.String(),
-				Name:        dbMentor.Name,
-				Email:       dbMentor.Email,
-				Description: dbMentor.Description,
-				CreatedAt:   dbMentor.CreatedAt.String(),
-				ImageUrl:    string(imageUrl),
-				IsMentor:    dbMentor.IsMentor,
-			}
-		})
+	wayUuids := lo.Map(ways, func(way db.ListWaysRow, i int) uuid.UUID {
+		return way.Uuid
+	})
+	wayOwnerUuids := lo.Map(ways, func(way db.ListWaysRow, i int) uuid.UUID {
+		return way.OwnerUuid
+	})
 
-		dbOwner, _ := cc.db.GetUserById(ctx, way.Uuid)
+	dbWayTags, _ := cc.db.GetListWayTagsByWayIds(ctx, wayUuids)
+	wayTagsMap := make(map[uuid.UUID][]schemas.WayTagResponse)
+	lo.ForEach(dbWayTags, func(dbWayTag db.GetListWayTagsByWayIdsRow, i int) {
+		wayTag := schemas.WayTagResponse{
+			Uuid: dbWayTag.Uuid.String(),
+			Name: dbWayTag.Name,
+		}
+		wayTagsMap[dbWayTag.WayUuid] = append(wayTagsMap[dbWayTag.Uuid], wayTag)
+	})
+
+	dbMentors, _ := cc.db.GetMentorUsersByWayIds(ctx, wayUuids)
+	mentorsMap := make(map[uuid.UUID][]schemas.UserPlainResponse)
+	lo.ForEach(dbMentors, func(dbMentor db.GetMentorUsersByWayIdsRow, i int) {
+		imageUrl, _ := util.MarshalNullString(dbMentor.ImageUrl)
+		mentor := schemas.UserPlainResponse{
+			Uuid:        dbMentor.Uuid.String(),
+			Name:        dbMentor.Name,
+			Email:       dbMentor.Email,
+			Description: dbMentor.Description,
+			CreatedAt:   dbMentor.CreatedAt.String(),
+			ImageUrl:    string(imageUrl),
+			IsMentor:    dbMentor.IsMentor,
+		}
+		mentorsMap[dbMentor.WayUuid] = append(mentorsMap[dbMentor.WayUuid], mentor)
+	})
+
+	dbOwners, _ := cc.db.GetUserByIds(ctx, wayOwnerUuids)
+	ownersMap := lo.SliceToMap(dbOwners, func(dbOwner db.User) (string, schemas.UserPlainResponse) {
 		imageUrl, _ := util.MarshalNullString(dbOwner.ImageUrl)
 		owner := schemas.UserPlainResponse{
 			Uuid:        dbOwner.Uuid.String(),
@@ -425,20 +453,35 @@ func (cc *WayController) GetAllWays(ctx *gin.Context) {
 			ImageUrl:    string(imageUrl),
 			IsMentor:    dbOwner.IsMentor,
 		}
-		// dbMetrics, _ := cc.db.GetListMetricsByWayUuid(ctx, way.Uuid)
-		// metrics := lo.Map(dbMetrics, func(dbMetric db.Metric, i int) schemas.MetricResponse {
 
-		// 	return schemas.MetricResponse{
-		// 		Uuid:             dbMetric.Uuid.String(),
-		// 		CreatedAt:        dbMetric.CreatedAt.String(),
-		// 		UpdatedAt:        dbMetric.UpdatedAt.String(),
-		// 		Description:      dbMetric.Description,
-		// 		IsDone:           dbMetric.IsDone,
-		// 		DoneDate:         dbMetric.DoneDate.Time.String(),
-		// 		MetricEstimation: dbMetric.MetricEstimation,
-		// 	}
-		// })
-		response[i] = schemas.WayPlainResponse{
+		return owner.Uuid, owner
+	})
+
+	dbJobTags, _ := cc.db.GetListJobTagsByWayUuids(ctx, wayUuids)
+	jobTagsMap := make(map[uuid.UUID][]schemas.JobTagResponse)
+	lo.ForEach(dbJobTags, func(dbJobTag db.JobTag, i int) {
+		jobTag := schemas.JobTagResponse{
+			Uuid:        dbJobTag.Uuid.String(),
+			Name:        dbJobTag.Name,
+			Description: dbJobTag.Description,
+			Color:       dbJobTag.Color,
+		}
+		jobTagsMap[dbJobTag.WayUuid] = append(jobTagsMap[dbJobTag.WayUuid], jobTag)
+	})
+
+	response := lo.Map(ways, func(way db.ListWaysRow, i int) schemas.WayPlainResponse {
+		copiedFromWayUuid, _ := util.MarshalNullUuid(way.CopiedFromWayUuid)
+
+		if wayTagsMap[way.Uuid] == nil {
+			wayTagsMap[way.Uuid] = make([]schemas.WayTagResponse, 0)
+		}
+		if mentorsMap[way.Uuid] == nil {
+			mentorsMap[way.Uuid] = make([]schemas.UserPlainResponse, 0)
+		}
+		if jobTagsMap[way.Uuid] == nil {
+			jobTagsMap[way.Uuid] = make([]schemas.JobTagResponse, 0)
+		}
+		wayResponse := schemas.WayPlainResponse{
 			Uuid:              way.Uuid.String(),
 			Name:              way.Name,
 			GoalDescription:   way.GoalDescription,
@@ -446,19 +489,20 @@ func (cc *WayController) GetAllWays(ctx *gin.Context) {
 			CreatedAt:         way.CreatedAt.String(),
 			EstimationTime:    way.EstimationTime,
 			IsCompleted:       way.IsCompleted,
-			Owner:             owner,
+			Owner:             ownersMap[way.OwnerUuid.String()],
 			CopiedFromWayUuid: string(copiedFromWayUuid),
 			IsPrivate:         way.IsPrivate,
 			FavoriteForUsers:  int32(way.WayFavoriteForUsers),
 			DayReportsAmount:  int32(way.WayDayReportsAmount),
-			Mentors:           mentors,
-			WayTags:           wayTags,
+			Mentors:           mentorsMap[way.Uuid],
+			WayTags:           wayTagsMap[way.Uuid],
 			MetricsDone:       int32(way.WayMetricsDone),
 			MetricsTotal:      int32(way.WayMetricsTotal),
+			JobTags:           jobTagsMap[way.Uuid],
 		}
-	})
 
-	waysSize, _ := cc.db.CountWays(ctx)
+		return wayResponse
+	})
 
 	ctx.JSON(http.StatusOK, gin.H{"size": waysSize, "ways": response})
 }

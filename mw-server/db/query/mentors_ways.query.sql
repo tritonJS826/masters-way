@@ -17,3 +17,12 @@ FROM ways
 JOIN mentor_users_ways ON mentor_users_ways.way_uuid = ways.uuid
 JOIN users ON users.uuid = mentor_users_ways.user_uuid
 WHERE way_uuid = $1;
+
+-- name: GetMentorUsersByWayIds :many
+SELECT 
+    users.*,
+    ways.uuid AS way_uuid
+FROM ways
+JOIN mentor_users_ways ON mentor_users_ways.way_uuid = ways.uuid
+JOIN users ON users.uuid = mentor_users_ways.user_uuid
+WHERE way_uuid = ANY($1::UUID[]);

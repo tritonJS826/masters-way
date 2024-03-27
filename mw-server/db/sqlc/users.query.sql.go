@@ -16,10 +16,17 @@ import (
 
 const countUsers = `-- name: CountUsers :one
 SELECT COUNT(*) FROM users
+WHERE ((users.email LIKE '%' || $1 || '%') OR ($1 = ''))
+    AND ((users.name LIKE '%' || $2 || '%') OR ($2 = ''))
 `
 
-func (q *Queries) CountUsers(ctx context.Context) (int64, error) {
-	row := q.queryRow(ctx, q.countUsersStmt, countUsers)
+type CountUsersParams struct {
+	Column1 sql.NullString `json:"column_1"`
+	Column2 sql.NullString `json:"column_2"`
+}
+
+func (q *Queries) CountUsers(ctx context.Context, arg CountUsersParams) (int64, error) {
+	row := q.queryRow(ctx, q.countUsersStmt, countUsers, arg.Column1, arg.Column2)
 	var count int64
 	err := row.Scan(&count)
 	return count, err
@@ -127,6 +134,44 @@ func (q *Queries) GetUserById(ctx context.Context, argUuid uuid.UUID) (User, err
 	return i, err
 }
 
+const getUserByIds = `-- name: GetUserByIds :many
+SELECT uuid, name, email, description, created_at, image_url, is_mentor, firebase_id FROM users
+WHERE uuid = ANY($1::UUID[])
+LIMIT 1
+`
+
+func (q *Queries) GetUserByIds(ctx context.Context, dollar_1 []uuid.UUID) ([]User, error) {
+	rows, err := q.query(ctx, q.getUserByIdsStmt, getUserByIds, pq.Array(dollar_1))
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []User{}
+	for rows.Next() {
+		var i User
+		if err := rows.Scan(
+			&i.Uuid,
+			&i.Name,
+			&i.Email,
+			&i.Description,
+			&i.CreatedAt,
+			&i.ImageUrl,
+			&i.IsMentor,
+			&i.FirebaseID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const listUsers = `-- name: ListUsers :many
 SELECT 
     users.uuid,
@@ -156,14 +201,18 @@ SELECT
     )::VARCHAR[] AS tag_names,
     (SELECT COUNT(*) FROM users) AS users_size
 FROM users
+WHERE (users.email LIKE '%' || $3 || '%' OR $3 = '')
+    AND (users.name LIKE '%' || $4 || '%' OR $4 = '')
 ORDER BY created_at
 LIMIT $1
 OFFSET $2
 `
 
 type ListUsersParams struct {
-	Limit  int32 `json:"limit"`
-	Offset int32 `json:"offset"`
+	Limit   int32          `json:"limit"`
+	Offset  int32          `json:"offset"`
+	Column3 sql.NullString `json:"column_3"`
+	Column4 sql.NullString `json:"column_4"`
 }
 
 type ListUsersRow struct {
@@ -185,7 +234,12 @@ type ListUsersRow struct {
 
 // TODO: add filter and sorters
 func (q *Queries) ListUsers(ctx context.Context, arg ListUsersParams) ([]ListUsersRow, error) {
-	rows, err := q.query(ctx, q.listUsersStmt, listUsers, arg.Limit, arg.Offset)
+	rows, err := q.query(ctx, q.listUsersStmt, listUsers,
+		arg.Limit,
+		arg.Offset,
+		arg.Column3,
+		arg.Column4,
+	)
 	if err != nil {
 		return nil, err
 	}

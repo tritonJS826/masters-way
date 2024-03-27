@@ -16,4 +16,14 @@ SELECT
 FROM way_tags
 JOIN ways_way_tags ON ways_way_tags.way_tag_uuid = way_tags.uuid  
 WHERE ways_way_tags.way_uuid = $1
-ORDER BY uuid;
+ORDER BY name;
+
+-- name: GetListWayTagsByWayIds :many
+SELECT 
+    way_tags.uuid AS uuid,
+    way_tags.name AS name,
+    ways_way_tags.way_uuid
+FROM way_tags
+JOIN ways_way_tags ON ways_way_tags.way_tag_uuid = way_tags.uuid  
+WHERE ways_way_tags.way_uuid = ANY($1::UUID[])
+ORDER BY name;

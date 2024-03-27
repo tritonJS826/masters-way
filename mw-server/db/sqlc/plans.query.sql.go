@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/lib/pq"
 )
 
 const createPlan = `-- name: CreatePlan :one
@@ -24,7 +25,14 @@ INSERT INTO plans(
     day_report_uuid
 ) VALUES (
     $1, $2, $3, $4, $5, $6, $7
-) RETURNING uuid, created_at, updated_at, description, time, owner_uuid, is_done, day_report_uuid
+) RETURNING uuid, created_at, updated_at, description, time, owner_uuid, is_done, day_report_uuid,
+    (SELECT name FROM users WHERE uuid = $5) AS owner_name,
+    -- get tag uuids
+    ARRAY(
+        SELECT plans_job_tags.job_tag_uuid 
+        FROM plans_job_tags 
+        WHERE plans.uuid = plans_job_tags.plan_uuid
+    )::VARCHAR[] AS tag_uuids
 `
 
 type CreatePlanParams struct {
@@ -37,7 +45,20 @@ type CreatePlanParams struct {
 	DayReportUuid uuid.UUID `json:"day_report_uuid"`
 }
 
-func (q *Queries) CreatePlan(ctx context.Context, arg CreatePlanParams) (Plan, error) {
+type CreatePlanRow struct {
+	Uuid          uuid.UUID `json:"uuid"`
+	CreatedAt     time.Time `json:"created_at"`
+	UpdatedAt     time.Time `json:"updated_at"`
+	Description   string    `json:"description"`
+	Time          int32     `json:"time"`
+	OwnerUuid     uuid.UUID `json:"owner_uuid"`
+	IsDone        bool      `json:"is_done"`
+	DayReportUuid uuid.UUID `json:"day_report_uuid"`
+	OwnerName     string    `json:"owner_name"`
+	TagUuids      []string  `json:"tag_uuids"`
+}
+
+func (q *Queries) CreatePlan(ctx context.Context, arg CreatePlanParams) (CreatePlanRow, error) {
 	row := q.queryRow(ctx, q.createPlanStmt, createPlan,
 		arg.CreatedAt,
 		arg.UpdatedAt,
@@ -47,7 +68,7 @@ func (q *Queries) CreatePlan(ctx context.Context, arg CreatePlanParams) (Plan, e
 		arg.IsDone,
 		arg.DayReportUuid,
 	)
-	var i Plan
+	var i CreatePlanRow
 	err := row.Scan(
 		&i.Uuid,
 		&i.CreatedAt,
@@ -57,6 +78,8 @@ func (q *Queries) CreatePlan(ctx context.Context, arg CreatePlanParams) (Plan, e
 		&i.OwnerUuid,
 		&i.IsDone,
 		&i.DayReportUuid,
+		&i.OwnerName,
+		pq.Array(&i.TagUuids),
 	)
 	return i, err
 }

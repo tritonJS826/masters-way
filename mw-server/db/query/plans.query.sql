@@ -9,7 +9,14 @@ INSERT INTO plans(
     day_report_uuid
 ) VALUES (
     $1, $2, $3, $4, $5, $6, $7
-) RETURNING *;
+) RETURNING *,
+    (SELECT name FROM users WHERE uuid = $5) AS owner_name,
+    -- get tag uuids
+    ARRAY(
+        SELECT plans_job_tags.job_tag_uuid 
+        FROM plans_job_tags 
+        WHERE plans.uuid = plans_job_tags.plan_uuid
+    )::VARCHAR[] AS tag_uuids;;
 
 -- name: GetListPlansByDayReportId :many
 SELECT * FROM plans
