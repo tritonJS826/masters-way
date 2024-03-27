@@ -23,8 +23,6 @@ export class PlanDAL {
 
     const plan = new Plan({
       ...planDTO,
-      job: planDTO.description,
-      estimationTime: planDTO.time,
       updatedAt: new Date(planDTO.updatedAt),
       createdAt: new Date(planDTO.createdAt),
     });
@@ -43,8 +41,6 @@ export class PlanDAL {
 
     const updatedPlan = new Plan({
       ...updatedPlanDTO,
-      job: updatedPlanDTO.description,
-      estimationTime: updatedPlanDTO.time,
       updatedAt: new Date(updatedPlanDTO.updatedAt),
       createdAt: new Date(updatedPlanDTO.createdAt),
     });

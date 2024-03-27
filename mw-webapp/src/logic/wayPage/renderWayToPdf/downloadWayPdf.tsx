@@ -292,7 +292,7 @@ const getReportsTemplate = (dayReport: DayReport) => {
       bold: true,
       margin: [0, MARGIN_SMALL, 0, 0],
     },
-    ...dayReport.plans.map(plan => plan.job),
+    ...dayReport.plans.map(plan => plan.description),
     {
       text: "Problems:",
       bold: true,

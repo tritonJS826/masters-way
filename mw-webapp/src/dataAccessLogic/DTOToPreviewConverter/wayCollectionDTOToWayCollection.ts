@@ -13,6 +13,8 @@ export const WayCollectionDTOToWayCollection = (wayCollectionDTO: SchemasWayColl
     createdAt: new Date(),
     ownerUuid: "",
     updatedAt: new Date(),
+    //TODO: check incoming type
+    type: "",
   };
 
   return wayCollection;

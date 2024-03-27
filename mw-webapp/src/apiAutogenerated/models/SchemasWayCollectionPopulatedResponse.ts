@@ -49,6 +49,12 @@ export interface SchemasWayCollectionPopulatedResponse {
      * @type {string}
      * @memberof SchemasWayCollectionPopulatedResponse
      */
+    type: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemasWayCollectionPopulatedResponse
+     */
     updatedAt: string;
     /**
      * 
@@ -74,6 +80,7 @@ export function instanceOfSchemasWayCollectionPopulatedResponse(
     isInstance = isInstance && "createdAt" in value;
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "ownerUuid" in value;
+    isInstance = isInstance && "type" in value;
     isInstance = isInstance && "updatedAt" in value;
     isInstance = isInstance && "uuid" in value;
     isInstance = isInstance && "ways" in value;
@@ -97,6 +104,7 @@ export function SchemasWayCollectionPopulatedResponseFromJSONTyped(
         'createdAt': json['createdAt'],
         'name': json['name'],
         'ownerUuid': json['ownerUuid'],
+        'type': json['type'],
         'updatedAt': json['updatedAt'],
         'uuid': json['uuid'],
         'ways': ((json['ways'] as Array<any>).map(SchemasWayPlainResponseFromJSON)),
@@ -116,6 +124,7 @@ export function SchemasWayCollectionPopulatedResponseToJSON(value?: SchemasWayCo
         'createdAt': value.createdAt,
         'name': value.name,
         'ownerUuid': value.ownerUuid,
+        'type': value.type,
         'updatedAt': value.updatedAt,
         'uuid': value.uuid,
         'ways': ((value.ways as Array<any>).map(SchemasWayPlainResponseToJSON)),

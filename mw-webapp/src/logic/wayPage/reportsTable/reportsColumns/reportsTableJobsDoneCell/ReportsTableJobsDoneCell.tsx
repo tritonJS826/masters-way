@@ -11,13 +11,13 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
-import {useGlobalContext} from "src/GlobalContext";
 import {JobDoneTags} from "src/logic/wayPage/reportsTable/jobDoneTags/JobDoneTags";
 import {ModalContentJobTags} from "src/logic/wayPage/reportsTable/modalContentJobTags/ModalContentJobTags";
 import {DEFAULT_SUMMARY_TIME, getListNumberByIndex, getValidatedTime, MAX_TIME}
   from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
+import {User} from "src/model/businessModel/User";
 import {JobTag} from "src/model/businessModelPreview/WayPreview";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
@@ -48,13 +48,17 @@ interface ReportsTableJobsDoneCellProps {
    */
   updateDayReport: (report: PartialWithUuid<DayReport>) => Promise<void>;
 
+  /**
+   * Logged in user
+   */
+  user: User | null;
+
 }
 
 /**
  * Cell with jobs done in reports table
  */
 export const ReportsTableJobsDoneCell = (props: ReportsTableJobsDoneCellProps) => {
-  const {user} = useGlobalContext();
   const defaultTag = props.jobTags.find((jobTag) => jobTag.name === "no tag");
   if (!defaultTag) {
     throw new Error("Default tag is not exist");
@@ -63,10 +67,11 @@ export const ReportsTableJobsDoneCell = (props: ReportsTableJobsDoneCellProps) =
   /**
    * Create jobDone
    */
-  const createJobDone = async () => {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const jobDone = await JobDoneDAL.createJobDone(user!.uuid, props.dayReport.uuid);
-    // Console.log(jobDone);
+  const createJobDone = async (userUuid?: string) => {
+    if (!userUuid) {
+      throw new Error("User uuid is not exist");
+    }
+    const jobDone = await JobDoneDAL.createJobDone(userUuid, props.dayReport.uuid);
     const jobsDone = [...props.dayReport.jobsDone, jobDone];
 
     props.updateDayReport({uuid: props.dayReport.uuid, jobsDone});
@@ -204,7 +209,7 @@ export const ReportsTableJobsDoneCell = (props: ReportsTableJobsDoneCellProps) =
                 name="PlusIcon"
               />
             }
-            onClick={createJobDone}
+            onClick={() => createJobDone(props.user?.uuid)}
             className={styles.flatButton}
           />
         </Tooltip>

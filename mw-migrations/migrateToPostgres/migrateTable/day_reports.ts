@@ -19,7 +19,10 @@ export const dayReports = (client: Client) => {
             convertFirebaseUuidToPgUuid(report.uuid),
             wayId,
             firebaseDateToPgDate(report.createdAt),
-            firebaseDateToPgDate(report.updatedAt),
+          firebaseDateToPgDate(report.updatedAt ?? {
+            seconds: 0,
+            nanoseconds: 0
+            }),
             report.isDayOff
         ];
 

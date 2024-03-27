@@ -19,7 +19,7 @@ export const UserDTOToUserConverter = (userDTO: SchemasUserPopulatedResponse): U
             status: "",
             createdAt: new Date(way.createdAt),
             lastUpdate: new Date(),
-            metrics: [],
+            mentors: [],
           });
 
           return wayPreview;

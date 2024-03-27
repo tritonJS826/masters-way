@@ -39,7 +39,8 @@ const WAY_PREVIEW_DATA: WayPreview = {
   goalDescription: "Test goal description",
   estimationTime: 10,
   isPrivate: false,
-  metrics: [],
+  metricsDone: 3,
+  metricsTotal: 5,
   dayReportsAmount: 2,
   favoriteForUsers: 4,
 };

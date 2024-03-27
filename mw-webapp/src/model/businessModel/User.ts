@@ -35,6 +35,11 @@ export type WayCollection = {
    * Ways preview that exist inside way collection
    */
   ways: WayPreview[];
+
+  /**
+   * Way collection type
+   */
+  type: string;
 };
 
 /**
