@@ -3234,7 +3234,8 @@ const docTemplate = `{
                 "isCompleted",
                 "isPrivate",
                 "mentors",
-                "metrics",
+                "metricsDone",
+                "metricsTotal",
                 "name",
                 "owner",
                 "updatedAt",
@@ -3273,11 +3274,11 @@ const docTemplate = `{
                         "$ref": "#/definitions/schemas.UserPlainResponse"
                     }
                 },
-                "metrics": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/schemas.MetricResponse"
-                    }
+                "metricsDone": {
+                    "type": "integer"
+                },
+                "metricsTotal": {
+                    "type": "integer"
                 },
                 "name": {
                     "type": "string"

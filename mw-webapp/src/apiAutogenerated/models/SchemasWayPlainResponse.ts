@@ -88,6 +88,18 @@ export interface SchemasWayPlainResponse {
     mentors: Array<SchemasUserPlainResponse>;
     /**
      * 
+     * @type {number}
+     * @memberof SchemasWayPlainResponse
+     */
+    metricsDone: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof SchemasWayPlainResponse
+     */
+    metricsTotal: number;
+    /**
+     * 
      * @type {string}
      * @memberof SchemasWayPlainResponse
      */
@@ -134,6 +146,8 @@ export function instanceOfSchemasWayPlainResponse(
     isInstance = isInstance && "isCompleted" in value;
     isInstance = isInstance && "isPrivate" in value;
     isInstance = isInstance && "mentors" in value;
+    isInstance = isInstance && "metricsDone" in value;
+    isInstance = isInstance && "metricsTotal" in value;
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "owner" in value;
     isInstance = isInstance && "updatedAt" in value;
@@ -165,6 +179,8 @@ export function SchemasWayPlainResponseFromJSONTyped(
         'isCompleted': json['isCompleted'],
         'isPrivate': json['isPrivate'],
         'mentors': ((json['mentors'] as Array<any>).map(SchemasUserPlainResponseFromJSON)),
+        'metricsDone': json['metricsDone'],
+        'metricsTotal': json['metricsTotal'],
         'name': json['name'],
         'owner': SchemasUserPlainResponseFromJSON(json['owner']),
         'updatedAt': json['updatedAt'],
@@ -192,6 +208,8 @@ export function SchemasWayPlainResponseToJSON(value?: SchemasWayPlainResponse | 
         'isCompleted': value.isCompleted,
         'isPrivate': value.isPrivate,
         'mentors': ((value.mentors as Array<any>).map(SchemasUserPlainResponseToJSON)),
+        'metricsDone': value.metricsDone,
+        'metricsTotal': value.metricsTotal,
         'name': value.name,
         'owner': SchemasUserPlainResponseToJSON(value.owner),
         'updatedAt': value.updatedAt,

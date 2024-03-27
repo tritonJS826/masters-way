@@ -22,7 +22,6 @@ import {WayStatusType} from "src/logic/waysTable/wayStatus";
 import {User, WayCollection} from "src/model/businessModel/User";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LangauageService";
-// Import {Language} from "src/utils/LanguageWorker";
 import {UserPageSettings, View} from "src/utils/LocalStorageWorker";
 import {PartialWithId, PartialWithUuid} from "src/utils/PartialWithUuid";
 import styles from "src/logic/userPage/UserPage.module.scss";
@@ -66,9 +65,9 @@ interface UserPageProps {
  * Default ways collections
  */
 enum DefaultCollections {
-  OWN = "OWN",
-  MENTORING = "MENTORING",
-  FAVORITE = "FAVORITE",
+  OWN = "own",
+  MENTORING = "mentoring",
+  FAVORITE = "favorite",
 }
 
 const DEFAULT_USER_PAGE_SETTINGS: UserPageSettings = {
@@ -174,11 +173,16 @@ export const UserPage = (props: UserPageProps) => {
     );
   }
 
-  const isCustomCollection = userPreview.wayCollections.some((col) => col.uuid === openedTabId);
+  // //TODO: think how to use uuid instead of name. Need fix logic about render default collections
+  const isCustomCollection = userPreview.wayCollections.some((col) => col.type === "custom");
   const currentCollection = userPreview.wayCollections.find((col) => col.uuid === openedTabId);
+  const defaultCollection = userPreview.wayCollections.find((col) => col.type === "own");
 
+  if (!defaultCollection) {
+    throw new Error("Default collection is not exist");
+  }
   if (!currentCollection) {
-    setOpenedTabId(DefaultCollections.OWN);
+    setOpenedTabId(defaultCollection.uuid);
   }
 
   /**
@@ -196,7 +200,7 @@ export const UserPage = (props: UserPageProps) => {
     if (!user) {
       throw new Error("User is not defined");
     }
-    const newWayCollection = await WayCollectionDAL.createWayCollection(userPreview.uuid);
+    const newWayCollection = await WayCollectionDAL.createWayCollection(user.uuid);
 
     const updatedCustomWayCollections = user.wayCollections.concat(newWayCollection);
 

@@ -12,14 +12,16 @@ export class JobDoneDAL {
    * Create jobDone
    */
   public static async createJobDone(ownerUuid: string, dayReportUuid: string, plan?: Plan): Promise<JobDone> {
-    const jobDone = await JobDoneService.createJobDone({
+    const jobDoneDTO = await JobDoneService.createJobDone({
       request: {
         dayReportUuid,
-        description: plan?.job ?? "",
+        description: plan?.description ?? "",
         ownerUuid,
-        time: plan?.estimationTime ?? 0,
+        time: plan?.time ?? 0,
       },
     });
+
+    const jobDone = new JobDone({...jobDoneDTO});
 
     return jobDone;
   }

@@ -10,7 +10,8 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {ProblemDAL} from "src/dataAccessLogic/ProblemDAL";
-import {getListNumberByIndex, getName} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
+import {getListNumberByIndex} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
+import {getFirstName} from "src/logic/waysTable/waysColumns";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Problem} from "src/model/businessModel/Problem";
 import {User} from "src/model/businessModel/User";
@@ -120,7 +121,7 @@ export const ReportsTableProblemsCell = (props: ReportsTableProblemsCellProps) =
               <HorizontalContainer className={styles.listNumberAndName}>
                 {getListNumberByIndex(index)}
                 <Link path={pages.user.getPath({uuid: problem.ownerUuid})}>
-                  {getName(props.way, problem.ownerUuid)}
+                  {getFirstName(problem.ownerName)}
                 </Link>
               </HorizontalContainer>
               <HorizontalContainer className={styles.icons}>

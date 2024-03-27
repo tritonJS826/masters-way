@@ -10,8 +10,6 @@ import {User} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 // Import {USER_UUID_FIELD} from "src/model/DTOModel/UserDTO";
-import {MetricService} from "src/service/MetricService";
-import {WayCollectionWayService} from "src/service/wayCollectionWaySevice";
 import {GetWaysFilter, GetWaysParams, WayService} from "src/service/WayService";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 // Import {arrayToHashMap} from "src/utils/arrayToHashMap";
@@ -75,13 +73,15 @@ export class WayDAL {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public static async getWays(params?: GetWaysParams, filter?: GetWaysFilter): Promise<AllWaysParams> {
     const waysDTO = await WayService.getAllWays();
-    const waysPreview = await Promise.all(waysDTO.ways.map(async (wayDTO) => {
-      const metrics = await MetricService.getMetrics({wayId: wayDTO.uuid});
+    // Const waysPreview = await Promise.all(waysDTO.ways.map(async (wayDTO) => {
+    //   const metrics = await MetricService.getMetrics({wayId: wayDTO.uuid});
 
-      const wayPreview = wayDTOToWayPreview(wayDTO, metrics);
+    //   const wayPreview = wayDTOToWayPreview(wayDTO, metrics);
 
-      return wayPreview;
-    }));
+    //   return wayPreview;
+    // }));
+
+    const waysPreview = waysDTO.ways.map(wayDTOToWayPreview);
 
     const ways = {
       size: waysDTO.size,
@@ -159,9 +159,9 @@ export class WayDAL {
   public static async createWay(user: User, baseWayData?: BaseWayData): Promise<SchemasWayPlainResponse> {
     const way = await WayService.createWay({
       request: {
-        copiedFromWayUuid: "",
-        estimationTime: 0,
-        goalDescription: "",
+        copiedFromWayUuid: baseWayData?.copiedFromWayUuid ?? "",
+        estimationTime: baseWayData?.estimationTime ?? 0,
+        goalDescription: baseWayData?.goalDescription ?? "",
         isPrivate: false,
         name: `Way of ${user.name}`,
         ownerUuid: `${user.uuid}`,
@@ -169,18 +169,18 @@ export class WayDAL {
       },
     });
 
-    const ownWayCollectionUuid = user.wayCollections.find((wayCollection) => wayCollection.name === "own");
+    // Const ownWayCollectionUuid = user.wayCollections.find((wayCollection) => wayCollection.name === "own");
 
-    if (!ownWayCollectionUuid) {
-      throw new Error("\"Own ways\" collection is not exist");
-    }
+    // if (!ownWayCollectionUuid) {
+    //   throw new Error("\"Own ways\" collection is not exist");
+    // }
 
-    await WayCollectionWayService.createWayCollectionWay({
-      request: {
-        wayCollectionUuid: ownWayCollectionUuid.uuid,
-        wayUuid: way.uuid,
-      },
-    });
+    // await WayCollectionWayService.createWayCollectionWay({
+    //   request: {
+    //     wayCollectionUuid: ownWayCollectionUuid.uuid,
+    //     wayUuid: way.uuid,
+    //   },
+    // });
 
     return way;
   }

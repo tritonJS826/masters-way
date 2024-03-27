@@ -77,14 +77,6 @@ export const WayCard = (props: WayCardProps) => {
     );
   };
 
-  // Const metricsParsed = props.wayPreview.metricsStringified.map((metric) => {
-  //   const metricParsed: Metric = JSON.parse(metric);
-
-  //   return metricParsed;
-  // });
-
-  const doneMetricsAmount = props.wayPreview.metrics.filter((metric) => !!metric.isDone).length;
-
   return (
     <Link
       path={pages.way.getPath({uuid: props.wayPreview.uuid})}
@@ -160,8 +152,8 @@ export const WayCard = (props: WayCardProps) => {
           </HorizontalContainer>
           {renderMentors(props.wayPreview.mentors)}
           <ProgressBar
-            value={doneMetricsAmount}
-            max={props.wayPreview.metrics.length}
+            value={props.wayPreview.metricsDone}
+            max={props.wayPreview.metricsTotal}
           />
         </VerticalContainer>
       </VerticalContainer>

@@ -71,7 +71,8 @@ const defaultWayPreview: WayPreview = {
       isMentor: false,
     },
   ],
-  metrics: [],
+  metricsDone: 3,
+  metricsTotal: 5,
   owner: defaultWayOwner,
 };
 

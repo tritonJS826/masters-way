@@ -15,10 +15,11 @@ import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
 import {PlanDAL} from "src/dataAccessLogic/PlanDAL";
 import {JobDoneTags} from "src/logic/wayPage/reportsTable/jobDoneTags/JobDoneTags";
 import {ModalContentJobTags} from "src/logic/wayPage/reportsTable/modalContentJobTags/ModalContentJobTags";
-import {DEFAULT_SUMMARY_TIME, getListNumberByIndex, getName, getValidatedTime, MAX_TIME}
+import {DEFAULT_SUMMARY_TIME, getListNumberByIndex, getValidatedTime, MAX_TIME}
   from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
 import {CopyPlanToJobDoneModalContent} from "src/logic/wayPage/reportsTable/reportsColumns/reportsTablePlansCell/\
 copyPlanToJobDoneModalContent/CopyPlanToJobDoneModalContent";
+import {getFirstName} from "src/logic/waysTable/waysColumns";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Plan} from "src/model/businessModel/Plan";
 import {User} from "src/model/businessModel/User";
@@ -168,7 +169,7 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
               <HorizontalContainer className={styles.listNumberAndName}>
                 {getListNumberByIndex(index)}
                 <Link path={pages.user.getPath({uuid: plan.ownerUuid})}>
-                  {getName(props.way, plan.ownerUuid)}
+                  {getFirstName(plan.ownerName)}
                 </Link>
               </HorizontalContainer>
               <HorizontalContainer className={styles.icons}>
@@ -200,13 +201,13 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
                   content={`Estimated${Symbols.NO_BREAK_SPACE}time for the plan`}
                 >
                   <EditableValue
-                    value={plan.estimationTime}
+                    value={plan.time}
                     type="number"
                     max={MAX_TIME}
                     onChangeFinish={(estimationTime) => {
                       const updatedPlan = new Plan({
                         ...plan,
-                        estimationTime: getValidatedTime(Number(estimationTime)),
+                        time: getValidatedTime(Number(estimationTime)),
                       });
                       updatePlan(updatedPlan);
                     }}
@@ -249,7 +250,7 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
                   <Confirm
                     trigger={<TrashIcon className={styles.icon} />}
                     content={<p>
-                      {`Are you sure you want to delete the plan "${plan.job}"?`}
+                      {`Are you sure you want to delete the plan "${plan.description}"?`}
                     </p>}
                     onOk={() => deletePlan(plan.uuid)}
                     okText="Delete"
@@ -260,11 +261,11 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
             </HorizontalContainer>
             <HorizontalContainer>
               <EditableTextarea
-                text={plan.job}
+                text={plan.description}
                 onChangeFinish={(text) => {
                   const updatedPlan = new Plan({
                     ...plan,
-                    job: text,
+                    description: text,
                   });
                   updatePlan(updatedPlan);
                 }}
@@ -298,7 +299,7 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
         <div className={styles.summaryText}>
           {"Total: "}
           {props.dayReport.plans
-            .reduce((summaryTime, plan) => plan.estimationTime + summaryTime, DEFAULT_SUMMARY_TIME)
+            .reduce((summaryTime, plan) => plan.time + summaryTime, DEFAULT_SUMMARY_TIME)
           }
         </div>
       </div>

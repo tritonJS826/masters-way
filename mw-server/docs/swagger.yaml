@@ -775,10 +775,10 @@ definitions:
         items:
           $ref: '#/definitions/schemas.UserPlainResponse'
         type: array
-      metrics:
-        items:
-          $ref: '#/definitions/schemas.MetricResponse'
-        type: array
+      metricsDone:
+        type: integer
+      metricsTotal:
+        type: integer
       name:
         type: string
       owner:
@@ -801,7 +801,8 @@ definitions:
     - isCompleted
     - isPrivate
     - mentors
-    - metrics
+    - metricsDone
+    - metricsTotal
     - name
     - owner
     - updatedAt

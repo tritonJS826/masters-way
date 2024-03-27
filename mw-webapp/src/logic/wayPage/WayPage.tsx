@@ -371,8 +371,24 @@ export const WayPage = (props: WayPageProps) => {
                     }
 
                     if (isWayInFavorites) {
-                      async() => await FavoriteUserWayDAL.deleteFavoriteUserWay(user.uuid, way.uuid);
+                      async () => {
+                        updateWay({
+                          wayToUpdate: {
+                            uuid: way.uuid,
+                            favoriteForUsersAmount: way.favoriteForUsersAmount--,
+                          },
+                          setWay: setWayPartial,
+                        });
+                        await FavoriteUserWayDAL.deleteFavoriteUserWay(user.uuid, way.uuid);
+                      };
                     } else {
+                      updateWay({
+                        wayToUpdate: {
+                          uuid: way.uuid,
+                          favoriteForUsersAmount: way.favoriteForUsersAmount++,
+                        },
+                        setWay: setWayPartial,
+                      });
                       async() => await FavoriteUserWayDAL.createFavoriteUserWay(user.uuid, way.uuid);
                     }
 

@@ -3,6 +3,7 @@ import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {Metric} from "src/model/businessModel/Metric";
 import {Plan} from "src/model/businessModel/Plan";
+import {Problem} from "src/model/businessModel/Problem";
 import {Way} from "src/model/businessModel/Way";
 import {JobTag} from "src/model/businessModelPreview/WayPreview";
 import {arrayToHashMap} from "src/utils/arrayToHashMap";
@@ -45,8 +46,16 @@ export const wayDTOToWay = (wayDTO: SchemasWayPopulatedResponse): Way => {
           ...plan,
           updatedAt: planUpdatedAt,
           createdAt: planCreatedAt,
-          estimationTime: plan.time,
-          job: plan.description,
+          time: plan.time,
+          description: plan.description,
+        });
+      });
+
+      const problems = dayReport.problems.map((problem) => {
+        return new Problem({
+          ...problem,
+          createdAt: new Date(problem.createdAt),
+          updatedAt: new Date(problem.updatedAt),
         });
       });
 
@@ -56,6 +65,7 @@ export const wayDTOToWay = (wayDTO: SchemasWayPopulatedResponse): Way => {
         updatedAt,
         jobsDone,
         plans,
+        problems,
       });
 
       return report;

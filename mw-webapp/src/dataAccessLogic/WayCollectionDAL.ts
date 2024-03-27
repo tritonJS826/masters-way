@@ -25,6 +25,7 @@ export class WayCollectionDAL {
       updatedAt: new Date(),
       ownerUuid,
       ways: [],
+      type: "custom",
     };
 
     return wayCollection;
@@ -46,6 +47,7 @@ export class WayCollectionDAL {
       updatedAt: new Date(),
       uuid: updatedWayCollectionDTO.uuid,
       ways: [],
+      type: "",
     };
 
     return updatedWayCollection;
