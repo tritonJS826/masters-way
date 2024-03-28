@@ -70,9 +70,10 @@ SELECT
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
     (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount
 FROM users
-JOIN way_collections ON $1 = way_collections.owner_uuid
+JOIN way_collections ON users.uuid = way_collections.owner_uuid
 JOIN way_collections_ways ON way_collections.uuid = way_collections_ways.way_collection_uuid
 JOIN ways ON way_collections_ways.way_uuid = ways.uuid
+WHERE way_collections.owner_uuid = $1
 `
 
 type GetWayCollectionJoinWayByUserIdRow struct {
@@ -126,6 +127,40 @@ func (q *Queries) GetWayCollectionJoinWayByUserId(ctx context.Context, ownerUuid
 			&i.WayMetricsDone,
 			&i.WayFavoriteForUsers,
 			&i.WayDayReportsAmount,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getWayCollectionsByUserId = `-- name: GetWayCollectionsByUserId :many
+SELECT uuid, owner_uuid, created_at, updated_at, name, type FROM way_collections WHERE way_collections.owner_uuid = $1
+`
+
+func (q *Queries) GetWayCollectionsByUserId(ctx context.Context, ownerUuid uuid.UUID) ([]WayCollection, error) {
+	rows, err := q.query(ctx, q.getWayCollectionsByUserIdStmt, getWayCollectionsByUserId, ownerUuid)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []WayCollection{}
+	for rows.Next() {
+		var i WayCollection
+		if err := rows.Scan(
+			&i.Uuid,
+			&i.OwnerUuid,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.Name,
+			&i.Type,
 		); err != nil {
 			return nil, err
 		}

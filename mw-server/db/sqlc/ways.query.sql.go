@@ -166,8 +166,83 @@ func (q *Queries) GetWayById(ctx context.Context, argUuid uuid.UUID) (GetWayById
 	return i, err
 }
 
-const listWays = `-- name: ListWays :many
+const getWaysByCollectionId = `-- name: GetWaysByCollectionId :many
+SELECT 
+    ways.uuid,
+    ways.name,
+    ways.owner_uuid, 
+    ways.goal_description,
+    ways.updated_at,
+    ways.created_at,
+    ways.estimation_time,
+    ways.copied_from_way_uuid,
+    ways.is_completed,
+    ways.is_private,
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,    
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
+    (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
+    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount
+FROM ways
+JOIN way_collections_ways ON way_collections_ways.way_uuid = ways.uuid
+WHERE way_collections_ways.way_collection_uuid = $1
+`
 
+type GetWaysByCollectionIdRow struct {
+	Uuid                uuid.UUID     `json:"uuid"`
+	Name                string        `json:"name"`
+	OwnerUuid           uuid.UUID     `json:"owner_uuid"`
+	GoalDescription     string        `json:"goal_description"`
+	UpdatedAt           time.Time     `json:"updated_at"`
+	CreatedAt           time.Time     `json:"created_at"`
+	EstimationTime      int32         `json:"estimation_time"`
+	CopiedFromWayUuid   uuid.NullUUID `json:"copied_from_way_uuid"`
+	IsCompleted         bool          `json:"is_completed"`
+	IsPrivate           bool          `json:"is_private"`
+	WayMetricsTotal     int64         `json:"way_metrics_total"`
+	WayMetricsDone      int64         `json:"way_metrics_done"`
+	WayFavoriteForUsers int64         `json:"way_favorite_for_users"`
+	WayDayReportsAmount int64         `json:"way_day_reports_amount"`
+}
+
+func (q *Queries) GetWaysByCollectionId(ctx context.Context, wayCollectionUuid uuid.UUID) ([]GetWaysByCollectionIdRow, error) {
+	rows, err := q.query(ctx, q.getWaysByCollectionIdStmt, getWaysByCollectionId, wayCollectionUuid)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []GetWaysByCollectionIdRow{}
+	for rows.Next() {
+		var i GetWaysByCollectionIdRow
+		if err := rows.Scan(
+			&i.Uuid,
+			&i.Name,
+			&i.OwnerUuid,
+			&i.GoalDescription,
+			&i.UpdatedAt,
+			&i.CreatedAt,
+			&i.EstimationTime,
+			&i.CopiedFromWayUuid,
+			&i.IsCompleted,
+			&i.IsPrivate,
+			&i.WayMetricsTotal,
+			&i.WayMetricsDone,
+			&i.WayFavoriteForUsers,
+			&i.WayDayReportsAmount,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const listWays = `-- name: ListWays :many
 SELECT 
     uuid, name, goal_description, updated_at, created_at, estimation_time, owner_uuid, copied_from_way_uuid, is_completed, is_private,
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,    
@@ -208,8 +283,6 @@ type ListWaysRow struct {
 	WayDayReportsAmount int64         `json:"way_day_reports_amount"`
 }
 
-// AND ($2 IS NULL OR age = $2)
-// TODO: add filter and sorters
 func (q *Queries) ListWays(ctx context.Context, arg ListWaysParams) ([]ListWaysRow, error) {
 	rows, err := q.query(ctx, q.listWaysStmt, listWays,
 		arg.Limit,

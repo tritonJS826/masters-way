@@ -21,7 +21,7 @@ export const wayDTOToWay = (wayDTO: SchemasWayPopulatedResponse): Way => {
       });
     }),
     status: "In progress",
-    favoriteForUsersAmount: wayDTO.favoriteForUsers,
+    favoriteForUsersAmount: wayDTO.favoriteForUsersAmount,
     mentors: arrayToHashMap({keyField: "uuid", list: wayDTO.mentors}),
     formerMentors: arrayToHashMap({keyField: "uuid", list: wayDTO.formerMentors}),
     dayReports: wayDTO.dayReports.map((dayReport) => {
