@@ -16,6 +16,9 @@ WHERE job_dones.uuid IN (
     WHERE job_dones.day_report_uuid = $1
 );
 
+-- name: GetJobDonesByDayReportUuids :many
+SELECT * FROM job_dones WHERE job_dones.day_report_uuid = ANY($1::UUID[]);
+
 -- name: DeleteJobDonesJobTagByJobDoneId :exec
 DELETE FROM job_dones_job_tags
 WHERE job_done_uuid = $1 

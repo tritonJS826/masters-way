@@ -48,14 +48,25 @@ func (cc *DayReportController) CreateDayReport(ctx *gin.Context) {
 		IsDayOff:  payload.IsDayOff,
 	}
 
-	dayReport, err := cc.db.CreateDayReport(ctx, *args)
+	dbDayReport, err := cc.db.CreateDayReport(ctx, *args)
 
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving day report", "error": err.Error()})
 		return
 	}
 
-	ctx.JSON(http.StatusOK, dayReport)
+	response := schemas.DayReportPopulatedResponse{
+		Uuid:      dbDayReport.Uuid.String(),
+		CreatedAt: dbDayReport.CreatedAt,
+		UpdatedAt: dbDayReport.UpdatedAt,
+		IsDayOff:  dbDayReport.IsDayOff,
+		JobsDone:  make([]schemas.JobDonePopulatedResponse, 0),
+		Plans:     make([]schemas.PlanPopulatedResponse, 0),
+		Problems:  make([]schemas.ProblemPopulatedResponse, 0),
+		Comments:  make([]schemas.CommentPopulatedResponse, 0),
+	}
+
+	ctx.JSON(http.StatusOK, response)
 }
 
 // Update day report handler
