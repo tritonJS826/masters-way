@@ -21,6 +21,11 @@ interface ScrollableBlockProps {
    * Additional custom class name
    */
   className?: string;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCy?: string;
 }
 
 /**
@@ -33,6 +38,7 @@ export const ScrollableBlock = (props: PropsWithChildren<ScrollableBlockProps>) 
       <div
         style={{width: props.width, height: props.height}}
         className={clsx(styles.scrollableBlock, props.className)}
+        data-cy={props.dataCy}
       >
         {props.children}
       </div>

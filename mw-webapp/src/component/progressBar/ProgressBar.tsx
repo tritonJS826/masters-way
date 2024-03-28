@@ -36,6 +36,11 @@ interface ProgressBarProps {
    */
   max?: number;
 
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCy?: string;
+
 }
 
 /**
@@ -52,6 +57,7 @@ export const ProgressBar = (props: ProgressBarProps) => {
       value={props.value}
       getValueLabel={getValueLabel}
       max={max}
+      data-cy={props.dataCy}
     >
       <Indicator
         className={styles.progressIndicator}
