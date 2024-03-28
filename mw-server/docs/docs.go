@@ -1497,6 +1497,32 @@ const docTemplate = `{
                 ],
                 "summary": "Get all users",
                 "operationId": "get-all-users",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Page number for pagination",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Number of items per page",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Part of user email for filters",
+                        "name": "email",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Part of user name for filters",
+                        "name": "name",
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -3327,7 +3353,7 @@ const docTemplate = `{
                 "createdAt",
                 "dayReports",
                 "estimationTime",
-                "favoriteForUsers",
+                "favoriteForUsersAmount",
                 "formerMentors",
                 "goalDescription",
                 "isCompleted",
@@ -3359,7 +3385,7 @@ const docTemplate = `{
                 "estimationTime": {
                     "type": "integer"
                 },
-                "favoriteForUsers": {
+                "favoriteForUsersAmount": {
                     "type": "integer"
                 },
                 "formerMentors": {

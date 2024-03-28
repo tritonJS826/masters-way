@@ -102,24 +102,26 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 		ImageUrl:    string(imageUrl),
 		IsMentor:    dbOwner.IsMentor,
 	}
-	response := schemas.WayPlainResponse{
-		Name:              way.Name,
-		Uuid:              way.Uuid.String(),
-		GoalDescription:   way.GoalDescription,
-		UpdatedAt:         way.UpdatedAt.String(),
-		CreatedAt:         way.CreatedAt.String(),
-		EstimationTime:    way.EstimationTime,
-		IsCompleted:       way.IsCompleted,
-		Owner:             owner,
-		CopiedFromWayUuid: string(copiedFromWayUuid),
-		IsPrivate:         way.IsPrivate,
-		FavoriteForUsers:  0,
-		DayReportsAmount:  0,
-		Mentors:           make([]schemas.UserPlainResponse, 0),
-		WayTags:           wayTags,
-		MetricsDone:       0,
-		MetricsTotal:      0,
-		JobTags:           defaultJobTags,
+
+	response := schemas.WayPopulatedResponse{
+		Name:                   way.Name,
+		Uuid:                   way.Uuid.String(),
+		GoalDescription:        way.GoalDescription,
+		UpdatedAt:              way.UpdatedAt.String(),
+		CreatedAt:              way.CreatedAt.String(),
+		EstimationTime:         way.EstimationTime,
+		IsCompleted:            way.IsCompleted,
+		Owner:                  owner,
+		CopiedFromWayUuid:      string(copiedFromWayUuid),
+		IsPrivate:              way.IsPrivate,
+		Mentors:                make([]schemas.UserPlainResponse, 0),
+		WayTags:                wayTags,
+		JobTags:                defaultJobTags,
+		DayReports:             make([]schemas.DayReportPopulatedResponse, 0),
+		FormerMentors:          make([]schemas.UserPlainResponse, 0),
+		FromUserMentorRequests: make([]schemas.UserPlainResponse, 0),
+		FavoriteForUsersAmount: 0,
+		Metrics:                make([]schemas.MetricResponse, 0),
 	}
 
 	ctx.JSON(http.StatusOK, response)
@@ -356,7 +358,7 @@ func (cc *WayController) GetWayById(ctx *gin.Context) {
 		Mentors:                mentors,
 		FormerMentors:          formerMentors,
 		FromUserMentorRequests: fromUserMentoringRequests,
-		FavoriteForUserUuids:   int32(favoriteForUserAmount),
+		FavoriteForUsersAmount: int32(favoriteForUserAmount),
 		WayTags:                wayTags,
 		JobTags:                jobTags,
 		Metrics:                metrics,
@@ -457,18 +459,6 @@ func (cc *WayController) GetAllWays(ctx *gin.Context) {
 		return owner.Uuid, owner
 	})
 
-	dbJobTags, _ := cc.db.GetListJobTagsByWayUuids(ctx, wayUuids)
-	jobTagsMap := make(map[uuid.UUID][]schemas.JobTagResponse)
-	lo.ForEach(dbJobTags, func(dbJobTag db.JobTag, i int) {
-		jobTag := schemas.JobTagResponse{
-			Uuid:        dbJobTag.Uuid.String(),
-			Name:        dbJobTag.Name,
-			Description: dbJobTag.Description,
-			Color:       dbJobTag.Color,
-		}
-		jobTagsMap[dbJobTag.WayUuid] = append(jobTagsMap[dbJobTag.WayUuid], jobTag)
-	})
-
 	response := lo.Map(ways, func(way db.ListWaysRow, i int) schemas.WayPlainResponse {
 		copiedFromWayUuid, _ := util.MarshalNullUuid(way.CopiedFromWayUuid)
 
@@ -477,9 +467,6 @@ func (cc *WayController) GetAllWays(ctx *gin.Context) {
 		}
 		if mentorsMap[way.Uuid] == nil {
 			mentorsMap[way.Uuid] = make([]schemas.UserPlainResponse, 0)
-		}
-		if jobTagsMap[way.Uuid] == nil {
-			jobTagsMap[way.Uuid] = make([]schemas.JobTagResponse, 0)
 		}
 		wayResponse := schemas.WayPlainResponse{
 			Uuid:              way.Uuid.String(),
@@ -498,13 +485,12 @@ func (cc *WayController) GetAllWays(ctx *gin.Context) {
 			WayTags:           wayTagsMap[way.Uuid],
 			MetricsDone:       int32(way.WayMetricsDone),
 			MetricsTotal:      int32(way.WayMetricsTotal),
-			JobTags:           jobTagsMap[way.Uuid],
 		}
 
 		return wayResponse
 	})
 
-	ctx.JSON(http.StatusOK, gin.H{"size": waysSize, "ways": response})
+	ctx.JSON(http.StatusOK, schemas.GetAllWaysResponse{Size: int32(waysSize), Ways: response})
 }
 
 // Deleting way handlers
