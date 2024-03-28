@@ -106,7 +106,16 @@ func (cc *UserController) GetOrCreateUserByFirebaseId(ctx *gin.Context) {
 		}
 		ctx.JSON(http.StatusOK, response)
 	} else {
-		response, _ := services.CreateUser(cc.db, ctx, args)
+		dbUser, _ := services.CreateUser(cc.db, ctx, args)
+		response := schemas.UserPlainResponse{
+			Uuid:        dbUser.Uuid,
+			Name:        dbUser.Name,
+			Email:       dbUser.Email,
+			Description: dbUser.Description,
+			CreatedAt:   dbUser.CreatedAt,
+			ImageUrl:    dbUser.ImageUrl,
+			IsMentor:    dbUser.IsMentor,
+		}
 		ctx.JSON(http.StatusOK, response)
 	}
 
@@ -151,23 +160,13 @@ func (cc *UserController) UpdateUser(ctx *gin.Context) {
 		return
 	}
 
-	type responseType struct {
-		Uuid        uuid.UUID
-		Name        string
-		Email       string
-		Description string
-		CreatedAt   time.Time
-		ImageUrl    string
-		IsMentor    bool
-	}
-
 	imageUrl, _ := util.MarshalNullString(user.ImageUrl)
-	response := responseType{
-		Uuid:        user.Uuid,
+	response := schemas.UserPlainResponse{
+		Uuid:        user.Uuid.String(),
 		Name:        user.Name,
 		Email:       user.Email,
 		Description: user.Description,
-		CreatedAt:   user.CreatedAt,
+		CreatedAt:   user.CreatedAt.String(),
 		ImageUrl:    string(imageUrl),
 		IsMentor:    user.IsMentor,
 	}

@@ -39,7 +39,7 @@ type WayPlainResponse struct {
 	WayTags           []WayTagResponse    `json:"wayTags" validate:"required"`
 	MetricsDone       int32               `json:"metricsDone" validate:"required"`
 	MetricsTotal      int32               `json:"metricsTotal" validate:"required"`
-	JobTags           []JobTagResponse    `json:"jobTags" validate:"required"`
+	// JobTags           []JobTagResponse    `json:"jobTags" validate:"required"`
 }
 
 type WayPopulatedResponse struct {
@@ -56,7 +56,7 @@ type WayPopulatedResponse struct {
 	Mentors                []UserPlainResponse          `json:"mentors" validate:"required"`
 	FormerMentors          []UserPlainResponse          `json:"formerMentors" validate:"required"`
 	FromUserMentorRequests []UserPlainResponse          `json:"mentorRequests" validate:"required"`
-	FavoriteForUserUuids   int32                        `json:"favoriteForUsers" validate:"required"`
+	FavoriteForUsersAmount int32                        `json:"favoriteForUsersAmount" validate:"required"`
 	WayTags                []WayTagResponse             `json:"wayTags" validate:"required"`
 	JobTags                []JobTagResponse             `json:"jobTags" validate:"required"`
 	Metrics                []MetricResponse             `json:"metrics" validate:"required"`

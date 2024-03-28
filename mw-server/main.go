@@ -119,7 +119,6 @@ func init() {
 		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
-		// 	// MaxAge:           12 * time.Hour,
 	}))
 
 	WayController = *controllers.NewWayController(db, ctx)

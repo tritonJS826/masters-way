@@ -822,7 +822,7 @@ definitions:
         type: array
       estimationTime:
         type: integer
-      favoriteForUsers:
+      favoriteForUsersAmount:
         type: integer
       formerMentors:
         items:
@@ -867,7 +867,7 @@ definitions:
     - createdAt
     - dayReports
     - estimationTime
-    - favoriteForUsers
+    - favoriteForUsersAmount
     - formerMentors
     - goalDescription
     - isCompleted
@@ -1867,6 +1867,23 @@ paths:
       - application/json
       description: Get users with pagination
       operationId: get-all-users
+      parameters:
+      - description: Page number for pagination
+        in: query
+        name: page
+        type: integer
+      - description: Number of items per page
+        in: query
+        name: limit
+        type: integer
+      - description: Part of user email for filters
+        in: query
+        name: email
+        type: string
+      - description: Part of user name for filters
+        in: query
+        name: name
+        type: string
       produces:
       - application/json
       responses:
