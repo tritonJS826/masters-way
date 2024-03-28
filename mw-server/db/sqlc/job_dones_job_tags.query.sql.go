@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/lib/pq"
 )
 
 const createJobDonesJobTag = `-- name: CreateJobDonesJobTag :one
@@ -47,6 +48,41 @@ type DeleteJobDonesJobTagByJobDoneIdParams struct {
 func (q *Queries) DeleteJobDonesJobTagByJobDoneId(ctx context.Context, arg DeleteJobDonesJobTagByJobDoneIdParams) error {
 	_, err := q.exec(ctx, q.deleteJobDonesJobTagByJobDoneIdStmt, deleteJobDonesJobTagByJobDoneId, arg.JobDoneUuid, arg.JobTagUuid)
 	return err
+}
+
+const getJobDonesByDayReportUuids = `-- name: GetJobDonesByDayReportUuids :many
+SELECT uuid, created_at, updated_at, description, time, owner_uuid, day_report_uuid FROM job_dones WHERE job_dones.day_report_uuid = ANY($1::UUID[])
+`
+
+func (q *Queries) GetJobDonesByDayReportUuids(ctx context.Context, dollar_1 []uuid.UUID) ([]JobDone, error) {
+	rows, err := q.query(ctx, q.getJobDonesByDayReportUuidsStmt, getJobDonesByDayReportUuids, pq.Array(dollar_1))
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []JobDone{}
+	for rows.Next() {
+		var i JobDone
+		if err := rows.Scan(
+			&i.Uuid,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.Description,
+			&i.Time,
+			&i.OwnerUuid,
+			&i.DayReportUuid,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }
 
 const getJobDonesJoinJobTags = `-- name: GetJobDonesJoinJobTags :many

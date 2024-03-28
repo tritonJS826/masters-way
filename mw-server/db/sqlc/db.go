@@ -180,6 +180,9 @@ func Prepare(ctx context.Context, db DBTX) (*Queries, error) {
 	if q.getFromUserMentoringRequestWaysByWayIdStmt, err = db.PrepareContext(ctx, getFromUserMentoringRequestWaysByWayId); err != nil {
 		return nil, fmt.Errorf("error preparing query GetFromUserMentoringRequestWaysByWayId: %w", err)
 	}
+	if q.getJobDonesByDayReportUuidsStmt, err = db.PrepareContext(ctx, getJobDonesByDayReportUuids); err != nil {
+		return nil, fmt.Errorf("error preparing query GetJobDonesByDayReportUuids: %w", err)
+	}
 	if q.getJobDonesJoinJobTagsStmt, err = db.PrepareContext(ctx, getJobDonesJoinJobTags); err != nil {
 		return nil, fmt.Errorf("error preparing query GetJobDonesJoinJobTags: %w", err)
 	}
@@ -565,6 +568,11 @@ func (q *Queries) Close() error {
 			err = fmt.Errorf("error closing getFromUserMentoringRequestWaysByWayIdStmt: %w", cerr)
 		}
 	}
+	if q.getJobDonesByDayReportUuidsStmt != nil {
+		if cerr := q.getJobDonesByDayReportUuidsStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing getJobDonesByDayReportUuidsStmt: %w", cerr)
+		}
+	}
 	if q.getJobDonesJoinJobTagsStmt != nil {
 		if cerr := q.getJobDonesJoinJobTagsStmt.Close(); cerr != nil {
 			err = fmt.Errorf("error closing getJobDonesJoinJobTagsStmt: %w", cerr)
@@ -856,6 +864,7 @@ type Queries struct {
 	getFormerMentorUsersByWayIdStmt             *sql.Stmt
 	getFromUserMentoringRequestWaysByUserIdStmt *sql.Stmt
 	getFromUserMentoringRequestWaysByWayIdStmt  *sql.Stmt
+	getJobDonesByDayReportUuidsStmt             *sql.Stmt
 	getJobDonesJoinJobTagsStmt                  *sql.Stmt
 	getJobTagByUuidStmt                         *sql.Stmt
 	getListCommentsByDayReportIdStmt            *sql.Stmt
@@ -954,6 +963,7 @@ func (q *Queries) WithTx(tx *sql.Tx) *Queries {
 		getFormerMentorUsersByWayIdStmt:             q.getFormerMentorUsersByWayIdStmt,
 		getFromUserMentoringRequestWaysByUserIdStmt: q.getFromUserMentoringRequestWaysByUserIdStmt,
 		getFromUserMentoringRequestWaysByWayIdStmt:  q.getFromUserMentoringRequestWaysByWayIdStmt,
+		getJobDonesByDayReportUuidsStmt:             q.getJobDonesByDayReportUuidsStmt,
 		getJobDonesJoinJobTagsStmt:                  q.getJobDonesJoinJobTagsStmt,
 		getJobTagByUuidStmt:                         q.getJobTagByUuidStmt,
 		getListCommentsByDayReportIdStmt:            q.getListCommentsByDayReportIdStmt,

@@ -313,11 +313,36 @@ func (cc *WayController) GetWayById(ctx *gin.Context) {
 		}
 	})
 
+	dayReportUuids := lo.Map(dayReportsRaw, func(dbDayReport db.DayReport, i int) uuid.UUID {
+		return dbDayReport.Uuid
+	})
+	dbJobDones, _ := cc.db.GetJobDonesByDayReportUuids(ctx, dayReportUuids)
+
+	jobDonesMap := make(map[string][]schemas.JobDonePopulatedResponse)
+	jobDonsJobTags, _ := cc.db.GetJobDonesJoinJobTags(ctx, dayReportUuid)
+	lo.ForEach(dbJobDones, func(dbJobDone db.JobDone, i int) {
+		jobDoneOwner, _ := cc.db.GetUserById(ctx, dbJobDone.OwnerUuid)
+		jobDonesMap[dbJobDone.DayReportUuid.String()] = append(
+			jobDonesMap[dbJobDone.DayReportUuid.String()],
+			schemas.JobDonePopulatedResponse{
+				Uuid:          dbJobDone.Uuid.String(),
+				CreatedAt:     dbJobDone.CreatedAt.String(),
+				UpdatedAt:     dbJobDone.UpdatedAt.String(),
+				Description:   dbJobDone.Description,
+				Time:          dbJobDone.Time,
+				OwnerUuid:     dbJobDone.OwnerUuid.String(),
+				OwnerName:     jobDoneOwner.Name,
+				DayReportUuid: dbJobDone.DayReportUuid.String(),
+				Tags:          jobTags,
+			},
+		)
+	})
+
 	// second step (could be parallelized) populations:
 	dayReports := make([]schemas.DayReportPopulatedResponse, len(dayReportsRaw))
 	for i, dayReport := range dayReportsRaw {
 
-		jobDonesWithTags := cc.getDeepJobDonesByDayReportUuids(ctx, dayReport.Uuid)
+		// jobDonesWithTags := cc.getDeepJobDonesByDayReportUuids(ctx, dayReport.Uuid)
 		plansWithTags := cc.getDeepPlanByDayReportUuids(ctx, dayReport.Uuid)
 		problemsWithTags := cc.getDeepProblemsByDayReportUuids(ctx, dayReport.Uuid)
 		commentsWithTags := cc.getDeepCommentsByDayReportUuids(ctx, dayReport.Uuid)
@@ -327,7 +352,7 @@ func (cc *WayController) GetWayById(ctx *gin.Context) {
 			CreatedAt: dayReport.CreatedAt,
 			UpdatedAt: dayReport.UpdatedAt,
 			IsDayOff:  dayReport.IsDayOff,
-			JobsDone:  jobDonesWithTags,
+			JobsDone:  jobDonesMap[dayReport.Uuid.String()],
 			Plans:     plansWithTags,
 			Problems:  problemsWithTags,
 			Comments:  commentsWithTags,
@@ -521,8 +546,7 @@ func (cc *WayController) getDeepJobDonesByDayReportUuids(ctx *gin.Context, dayRe
 	jobDonsJobTags, _ := cc.db.GetJobDonesJoinJobTags(ctx, dayReportUuid)
 	jobDonesDeepMap := make(map[uuid.UUID]schemas.JobDonePopulatedResponse)
 	for _, data := range jobDonsJobTags {
-		jobDoneDeep := jobDonesDeepMap[data.Uuid]
-		updatedTags := append(jobDoneDeep.Tags, schemas.JobTagResponse{
+		updatedTags := append(jobDonesDeepMap[data.Uuid].Tags, schemas.JobTagResponse{
 			Uuid:        data.JobTagUuid.String(),
 			Name:        data.Name,
 			Description: data.Description_2,
