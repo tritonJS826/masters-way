@@ -196,81 +196,75 @@ func (cc *UserController) GetUserById(ctx *gin.Context) {
 		return
 	}
 
-	ownWaysRaw, _ := cc.db.GetWayCollectionJoinWayByUserId(ctx, user.Uuid)
-	wayCollectionsMap := make(map[string]schemas.WayCollectionPopulatedResponse)
-	lo.ForEach(ownWaysRaw, func(collectionJoinWay db.GetWayCollectionJoinWayByUserIdRow, i int) {
-		copiedFromWayUuid, _ := util.MarshalNullUuid(collectionJoinWay.WayCopiedFromWayUuid)
-		dbWayTags, _ := cc.db.GetListWayTagsByWayId(ctx, collectionJoinWay.WayUuid)
-		wayTags := lo.Map(dbWayTags, func(dbWayTag db.WayTag, i int) schemas.WayTagResponse {
-			return schemas.WayTagResponse{
-				Uuid: dbWayTag.Uuid.String(),
-				Name: dbWayTag.Name,
-			}
-		})
-		dbMentors, _ := cc.db.GetMentorUsersByWayId(ctx, collectionJoinWay.WayUuid)
-		mentors := lo.Map(dbMentors, func(dbMentor db.User, i int) schemas.UserPlainResponse {
-			imageUrl, _ := util.MarshalNullString(dbMentor.ImageUrl)
-			return schemas.UserPlainResponse{
-				Uuid:        dbMentor.Uuid.String(),
-				Name:        dbMentor.Name,
-				Email:       dbMentor.Email,
-				Description: dbMentor.Description,
-				CreatedAt:   dbMentor.CreatedAt.String(),
+	dbWayCollections, _ := cc.db.GetWayCollectionsByUserId(ctx, user.Uuid)
+	wayCollections := lo.Map(dbWayCollections, func(collection db.WayCollection, i int) schemas.WayCollectionPopulatedResponse {
+		dbWays, _ := cc.db.GetWaysByCollectionId(ctx, collection.Uuid)
+		ways := lo.Map(dbWays, func(dbWay db.GetWaysByCollectionIdRow, i int) schemas.WayPlainResponse {
+			dbOwner, _ := cc.db.GetUserById(ctx, dbWay.OwnerUuid)
+			imageUrl, _ := util.MarshalNullString(dbOwner.ImageUrl)
+			owner := schemas.UserPlainResponse{
+				Uuid:        dbWay.OwnerUuid.String(),
+				Name:        dbOwner.Name,
+				Email:       dbOwner.Email,
+				Description: dbOwner.Description,
+				CreatedAt:   dbOwner.CreatedAt.String(),
 				ImageUrl:    string(imageUrl),
-				IsMentor:    dbMentor.IsMentor,
+				IsMentor:    dbOwner.IsMentor,
+			}
+
+			dbMentors, _ := cc.db.GetMentorUsersByWayId(ctx, dbWay.Uuid)
+			mentors := lo.Map(dbMentors, func(dbMentor db.User, i int) schemas.UserPlainResponse {
+				imageUrl, _ := util.MarshalNullString(dbMentor.ImageUrl)
+				return schemas.UserPlainResponse{
+					Uuid:        dbMentor.Uuid.String(),
+					Name:        dbMentor.Name,
+					Email:       dbMentor.Email,
+					Description: dbMentor.Description,
+					CreatedAt:   dbMentor.CreatedAt.String(),
+					ImageUrl:    string(imageUrl),
+					IsMentor:    dbMentor.IsMentor,
+				}
+			})
+
+			dbWayTags, _ := cc.db.GetListWayTagsByWayId(ctx, dbWay.Uuid)
+			wayTags := lo.Map(dbWayTags, func(dbWayTag db.WayTag, i int) schemas.WayTagResponse {
+				return schemas.WayTagResponse{
+					Uuid: dbWayTag.Uuid.String(),
+					Name: dbWayTag.Name,
+				}
+			})
+
+			return schemas.WayPlainResponse{
+				Uuid:              dbWay.Uuid.String(),
+				Name:              dbWay.Name,
+				GoalDescription:   dbWay.GoalDescription,
+				UpdatedAt:         dbWay.CreatedAt.String(),
+				CreatedAt:         dbWay.UpdatedAt.String(),
+				EstimationTime:    dbWay.EstimationTime,
+				IsCompleted:       dbWay.IsCompleted,
+				Owner:             owner,
+				CopiedFromWayUuid: dbWay.CopiedFromWayUuid.UUID.String(),
+				IsPrivate:         dbWay.IsPrivate,
+				FavoriteForUsers:  int32(dbWay.WayFavoriteForUsers),
+				DayReportsAmount:  int32(dbWay.WayDayReportsAmount),
+				Mentors:           mentors,
+				WayTags:           wayTags,
+				MetricsDone:       int32(dbWay.WayMetricsDone),
+				MetricsTotal:      int32(dbWay.WayMetricsTotal),
 			}
 		})
-		dbOwner, _ := cc.db.GetUserById(ctx, collectionJoinWay.WayOwnerUuid)
-		imageUrl, _ := util.MarshalNullString(dbOwner.ImageUrl)
-		owner := schemas.UserPlainResponse{
-			Uuid:        collectionJoinWay.WayOwnerUuid.String(),
-			Name:        dbOwner.Name,
-			Email:       dbOwner.Email,
-			Description: dbOwner.Description,
-			CreatedAt:   dbOwner.CreatedAt.String(),
-			ImageUrl:    string(imageUrl),
-			IsMentor:    dbOwner.IsMentor,
-		}
-		way := schemas.WayPlainResponse{
-			Uuid:              collectionJoinWay.WayUuid.String(),
-			Name:              collectionJoinWay.WayName,
-			GoalDescription:   collectionJoinWay.WayDescription,
-			UpdatedAt:         collectionJoinWay.WayUpdatedAt.String(),
-			CreatedAt:         collectionJoinWay.WayCreatedAt.String(),
-			EstimationTime:    collectionJoinWay.WayEstimationTime,
-			IsCompleted:       collectionJoinWay.IsCompleted,
-			Owner:             owner,
-			CopiedFromWayUuid: string(copiedFromWayUuid),
-			IsPrivate:         collectionJoinWay.WayIsPrivate,
-			FavoriteForUsers:  int32(collectionJoinWay.WayFavoriteForUsers),
-			DayReportsAmount:  int32(collectionJoinWay.WayDayReportsAmount),
-			Mentors:           mentors,
-			WayTags:           wayTags,
-			MetricsDone:       int32(collectionJoinWay.WayMetricsDone),
-			MetricsTotal:      int32(collectionJoinWay.WayMetricsTotal),
-		}
-
-		// avoid way duplicates
-		waysMap := lo.SliceToMap(wayCollectionsMap[collectionJoinWay.CollectionUuid.String()].Ways, func(wayRaw schemas.WayPlainResponse) (string, schemas.WayPlainResponse) {
-			return wayRaw.Uuid, wayRaw
-		})
-		waysMap[way.Uuid] = way
-		ways := lo.MapToSlice(waysMap, func(key string, value schemas.WayPlainResponse) schemas.WayPlainResponse {
-			return value
-		})
-		wayCollectionsMap[collectionJoinWay.CollectionUuid.String()] = schemas.WayCollectionPopulatedResponse{
-			Uuid:      collectionJoinWay.CollectionUuid.String(),
-			Name:      collectionJoinWay.CollectionName,
-			CreatedAt: collectionJoinWay.CollectionCreatedAt.String(),
-			UpdatedAt: collectionJoinWay.CollectionUpdatedAt.String(),
-			OwnerUuid: user.Uuid.String(),
+		wayCollection := schemas.WayCollectionPopulatedResponse{
+			Uuid:      collection.Uuid.String(),
+			Name:      collection.Name,
 			Ways:      ways,
-			Type:      string(collectionJoinWay.CollectionType),
+			CreatedAt: collection.CreatedAt.String(),
+			UpdatedAt: collection.UpdatedAt.String(),
+			OwnerUuid: collection.OwnerUuid.String(),
+			Type:      string(collection.Type),
 		}
-
+		return wayCollection
 	})
 
-	wayCollections := util.MapToSlice(wayCollectionsMap)
 	tagsRaw, _ := cc.db.GetListUserTagsByUserId(ctx, user.Uuid)
 	tags := lo.Map(tagsRaw, func(dbUserTag db.UserTag, i int) schemas.UserTagResponse {
 		return schemas.UserTagResponse{

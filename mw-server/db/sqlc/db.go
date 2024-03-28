@@ -255,8 +255,14 @@ func Prepare(ctx context.Context, db DBTX) (*Queries, error) {
 	if q.getWayCollectionJoinWayByUserIdStmt, err = db.PrepareContext(ctx, getWayCollectionJoinWayByUserId); err != nil {
 		return nil, fmt.Errorf("error preparing query GetWayCollectionJoinWayByUserId: %w", err)
 	}
+	if q.getWayCollectionsByUserIdStmt, err = db.PrepareContext(ctx, getWayCollectionsByUserId); err != nil {
+		return nil, fmt.Errorf("error preparing query GetWayCollectionsByUserId: %w", err)
+	}
 	if q.getWayTagByNameStmt, err = db.PrepareContext(ctx, getWayTagByName); err != nil {
 		return nil, fmt.Errorf("error preparing query GetWayTagByName: %w", err)
+	}
+	if q.getWaysByCollectionIdStmt, err = db.PrepareContext(ctx, getWaysByCollectionId); err != nil {
+		return nil, fmt.Errorf("error preparing query GetWaysByCollectionId: %w", err)
 	}
 	if q.listUsersStmt, err = db.PrepareContext(ctx, listUsers); err != nil {
 		return nil, fmt.Errorf("error preparing query ListUsers: %w", err)
@@ -684,9 +690,19 @@ func (q *Queries) Close() error {
 			err = fmt.Errorf("error closing getWayCollectionJoinWayByUserIdStmt: %w", cerr)
 		}
 	}
+	if q.getWayCollectionsByUserIdStmt != nil {
+		if cerr := q.getWayCollectionsByUserIdStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing getWayCollectionsByUserIdStmt: %w", cerr)
+		}
+	}
 	if q.getWayTagByNameStmt != nil {
 		if cerr := q.getWayTagByNameStmt.Close(); cerr != nil {
 			err = fmt.Errorf("error closing getWayTagByNameStmt: %w", cerr)
+		}
+	}
+	if q.getWaysByCollectionIdStmt != nil {
+		if cerr := q.getWaysByCollectionIdStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing getWaysByCollectionIdStmt: %w", cerr)
 		}
 	}
 	if q.listUsersStmt != nil {
@@ -865,7 +881,9 @@ type Queries struct {
 	getUserTagByNameStmt                        *sql.Stmt
 	getWayByIdStmt                              *sql.Stmt
 	getWayCollectionJoinWayByUserIdStmt         *sql.Stmt
+	getWayCollectionsByUserIdStmt               *sql.Stmt
 	getWayTagByNameStmt                         *sql.Stmt
+	getWaysByCollectionIdStmt                   *sql.Stmt
 	listUsersStmt                               *sql.Stmt
 	listWaysStmt                                *sql.Stmt
 	updateCommentStmt                           *sql.Stmt
@@ -961,7 +979,9 @@ func (q *Queries) WithTx(tx *sql.Tx) *Queries {
 		getUserTagByNameStmt:                        q.getUserTagByNameStmt,
 		getWayByIdStmt:                              q.getWayByIdStmt,
 		getWayCollectionJoinWayByUserIdStmt:         q.getWayCollectionJoinWayByUserIdStmt,
+		getWayCollectionsByUserIdStmt:               q.getWayCollectionsByUserIdStmt,
 		getWayTagByNameStmt:                         q.getWayTagByNameStmt,
+		getWaysByCollectionIdStmt:                   q.getWaysByCollectionIdStmt,
 		listUsersStmt:                               q.listUsersStmt,
 		listWaysStmt:                                q.listWaysStmt,
 		updateCommentStmt:                           q.updateCommentStmt,

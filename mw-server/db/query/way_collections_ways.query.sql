@@ -10,6 +10,9 @@ INSERT INTO way_collections_ways(
 DELETE FROM way_collections_ways
 WHERE way_collection_uuid = $1 AND way_uuid = $2;
 
+-- name: GetWayCollectionsByUserId :many
+SELECT * FROM way_collections WHERE way_collections.owner_uuid = $1;
+
 -- name: GetWayCollectionJoinWayByUserId :many
 SELECT 
     way_collections.uuid AS collection_uuid,
@@ -32,6 +35,7 @@ SELECT
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
     (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount
 FROM users
-JOIN way_collections ON $1 = way_collections.owner_uuid
+JOIN way_collections ON users.uuid = way_collections.owner_uuid
 JOIN way_collections_ways ON way_collections.uuid = way_collections_ways.way_collection_uuid
-JOIN ways ON way_collections_ways.way_uuid = ways.uuid;
+JOIN ways ON way_collections_ways.way_uuid = ways.uuid
+WHERE way_collections.owner_uuid = $1;

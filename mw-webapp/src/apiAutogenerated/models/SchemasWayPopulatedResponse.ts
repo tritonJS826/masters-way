@@ -79,7 +79,7 @@ export interface SchemasWayPopulatedResponse {
      * @type {number}
      * @memberof SchemasWayPopulatedResponse
      */
-    favoriteForUsers: number;
+    favoriteForUsersAmount: number;
     /**
      * 
      * @type {Array<SchemasUserPlainResponse>}
@@ -171,7 +171,7 @@ export function instanceOfSchemasWayPopulatedResponse(
     isInstance = isInstance && "createdAt" in value;
     isInstance = isInstance && "dayReports" in value;
     isInstance = isInstance && "estimationTime" in value;
-    isInstance = isInstance && "favoriteForUsers" in value;
+    isInstance = isInstance && "favoriteForUsersAmount" in value;
     isInstance = isInstance && "formerMentors" in value;
     isInstance = isInstance && "goalDescription" in value;
     isInstance = isInstance && "isCompleted" in value;
@@ -206,7 +206,7 @@ export function SchemasWayPopulatedResponseFromJSONTyped(
         'createdAt': json['createdAt'],
         'dayReports': ((json['dayReports'] as Array<any>).map(SchemasDayReportPopulatedResponseFromJSON)),
         'estimationTime': json['estimationTime'],
-        'favoriteForUsers': json['favoriteForUsers'],
+        'favoriteForUsersAmount': json['favoriteForUsersAmount'],
         'formerMentors': ((json['formerMentors'] as Array<any>).map(SchemasUserPlainResponseFromJSON)),
         'goalDescription': json['goalDescription'],
         'isCompleted': json['isCompleted'],
@@ -237,7 +237,7 @@ export function SchemasWayPopulatedResponseToJSON(value?: SchemasWayPopulatedRes
         'createdAt': value.createdAt,
         'dayReports': ((value.dayReports as Array<any>).map(SchemasDayReportPopulatedResponseToJSON)),
         'estimationTime': value.estimationTime,
-        'favoriteForUsers': value.favoriteForUsers,
+        'favoriteForUsersAmount': value.favoriteForUsersAmount,
         'formerMentors': ((value.formerMentors as Array<any>).map(SchemasUserPlainResponseToJSON)),
         'goalDescription': value.goalDescription,
         'isCompleted': value.isCompleted,
