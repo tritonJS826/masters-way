@@ -28,9 +28,9 @@ INSERT INTO job_dones(
     (SELECT name FROM users WHERE uuid = $5) AS owner_name,
     -- get tag uuids
     ARRAY(
-        SELECT problems_job_tags.job_tag_uuid 
-        FROM problems_job_tags 
-        WHERE problems.uuid = problems_job_tags.problem_uuid
+        SELECT job_dones_job_tags.job_tag_uuid 
+        FROM job_dones_job_tags 
+        WHERE job_dones.uuid = job_dones_job_tags.job_done_uuid
     )::VARCHAR[] AS tag_uuids
 `
 
