@@ -49,91 +49,73 @@ export interface SchemasUserPopulatedResponse {
      * @type {string}
      * @memberof SchemasUserPopulatedResponse
      */
-    createdAt?: string;
+    createdAt: string;
     /**
      * 
      * @type {string}
      * @memberof SchemasUserPopulatedResponse
      */
-    description?: string;
+    description: string;
     /**
      * 
      * @type {string}
      * @memberof SchemasUserPopulatedResponse
      */
-    email?: string;
+    email: string;
     /**
      * 
      * @type {Array<string>}
      * @memberof SchemasUserPopulatedResponse
      */
-    favoriteForUsers?: Array<string>;
+    favoriteForUsers: Array<string>;
     /**
      * 
      * @type {Array<SchemasUserPlainResponse>}
      * @memberof SchemasUserPopulatedResponse
      */
-    favoriteUsers?: Array<SchemasUserPlainResponse>;
-    /**
-     * 
-     * @type {Array<SchemasWayPlainResponse>}
-     * @memberof SchemasUserPopulatedResponse
-     */
-    favoriteWays?: Array<SchemasWayPlainResponse>;
+    favoriteUsers: Array<SchemasUserPlainResponse>;
     /**
      * 
      * @type {string}
      * @memberof SchemasUserPopulatedResponse
      */
-    imageUrl?: string;
+    imageUrl: string | null;
     /**
      * 
      * @type {boolean}
      * @memberof SchemasUserPopulatedResponse
      */
-    isMentor?: boolean;
-    /**
-     * 
-     * @type {Array<SchemasWayPlainResponse>}
-     * @memberof SchemasUserPopulatedResponse
-     */
-    mentoringWays?: Array<SchemasWayPlainResponse>;
+    isMentor: boolean;
     /**
      * 
      * @type {string}
      * @memberof SchemasUserPopulatedResponse
      */
-    name?: string;
-    /**
-     * 
-     * @type {Array<SchemasWayPlainResponse>}
-     * @memberof SchemasUserPopulatedResponse
-     */
-    ownWays?: Array<SchemasWayPlainResponse>;
+    name: string;
     /**
      * 
      * @type {Array<SchemasUserTagResponse>}
      * @memberof SchemasUserPopulatedResponse
      */
-    tags?: Array<SchemasUserTagResponse>;
+    tags: Array<SchemasUserTagResponse>;
     /**
      * 
      * @type {string}
      * @memberof SchemasUserPopulatedResponse
      */
-    uuid?: string;
+    uuid: string;
     /**
      * 
      * @type {Array<SchemasWayCollectionPopulatedResponse>}
      * @memberof SchemasUserPopulatedResponse
      */
-    wayCollections?: Array<SchemasWayCollectionPopulatedResponse>;
+    wayCollections: Array<SchemasWayCollectionPopulatedResponse>;
     /**
      * 
      * @type {Array<SchemasWayPlainResponse>}
      * @memberof SchemasUserPopulatedResponse
      */
-    wayRequests?: Array<SchemasWayPlainResponse>;
+    wayRequests: Array<SchemasWayPlainResponse>;
 }
 
 /**
@@ -143,6 +125,18 @@ export function instanceOfSchemasUserPopulatedResponse(
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "createdAt" in value;
+    isInstance = isInstance && "description" in value;
+    isInstance = isInstance && "email" in value;
+    isInstance = isInstance && "favoriteForUsers" in value;
+    isInstance = isInstance && "favoriteUsers" in value;
+    isInstance = isInstance && "imageUrl" in value;
+    isInstance = isInstance && "isMentor" in value;
+    isInstance = isInstance && "name" in value;
+    isInstance = isInstance && "tags" in value;
+    isInstance = isInstance && "uuid" in value;
+    isInstance = isInstance && "wayCollections" in value;
+    isInstance = isInstance && "wayRequests" in value;
 
     return isInstance;
 }
@@ -160,21 +154,18 @@ export function SchemasUserPopulatedResponseFromJSONTyped(
     }
     return {
         
-        'createdAt': !exists(json, 'createdAt') ? undefined : json['createdAt'],
-        'description': !exists(json, 'description') ? undefined : json['description'],
-        'email': !exists(json, 'email') ? undefined : json['email'],
-        'favoriteForUsers': !exists(json, 'favoriteForUsers') ? undefined : json['favoriteForUsers'],
-        'favoriteUsers': !exists(json, 'favoriteUsers') ? undefined : ((json['favoriteUsers'] as Array<any>).map(SchemasUserPlainResponseFromJSON)),
-        'favoriteWays': !exists(json, 'favoriteWays') ? undefined : ((json['favoriteWays'] as Array<any>).map(SchemasWayPlainResponseFromJSON)),
-        'imageUrl': !exists(json, 'imageUrl') ? undefined : json['imageUrl'],
-        'isMentor': !exists(json, 'isMentor') ? undefined : json['isMentor'],
-        'mentoringWays': !exists(json, 'mentoringWays') ? undefined : ((json['mentoringWays'] as Array<any>).map(SchemasWayPlainResponseFromJSON)),
-        'name': !exists(json, 'name') ? undefined : json['name'],
-        'ownWays': !exists(json, 'ownWays') ? undefined : ((json['ownWays'] as Array<any>).map(SchemasWayPlainResponseFromJSON)),
-        'tags': !exists(json, 'tags') ? undefined : ((json['tags'] as Array<any>).map(SchemasUserTagResponseFromJSON)),
-        'uuid': !exists(json, 'uuid') ? undefined : json['uuid'],
-        'wayCollections': !exists(json, 'wayCollections') ? undefined : ((json['wayCollections'] as Array<any>).map(SchemasWayCollectionPopulatedResponseFromJSON)),
-        'wayRequests': !exists(json, 'wayRequests') ? undefined : ((json['wayRequests'] as Array<any>).map(SchemasWayPlainResponseFromJSON)),
+        'createdAt': json['createdAt'],
+        'description': json['description'],
+        'email': json['email'],
+        'favoriteForUsers': json['favoriteForUsers'],
+        'favoriteUsers': ((json['favoriteUsers'] as Array<any>).map(SchemasUserPlainResponseFromJSON)),
+        'imageUrl': json['imageUrl'],
+        'isMentor': json['isMentor'],
+        'name': json['name'],
+        'tags': ((json['tags'] as Array<any>).map(SchemasUserTagResponseFromJSON)),
+        'uuid': json['uuid'],
+        'wayCollections': ((json['wayCollections'] as Array<any>).map(SchemasWayCollectionPopulatedResponseFromJSON)),
+        'wayRequests': ((json['wayRequests'] as Array<any>).map(SchemasWayPlainResponseFromJSON)),
     };
 }
 
@@ -192,17 +183,14 @@ export function SchemasUserPopulatedResponseToJSON(value?: SchemasUserPopulatedR
         'description': value.description,
         'email': value.email,
         'favoriteForUsers': value.favoriteForUsers,
-        'favoriteUsers': value.favoriteUsers === undefined ? undefined : ((value.favoriteUsers as Array<any>).map(SchemasUserPlainResponseToJSON)),
-        'favoriteWays': value.favoriteWays === undefined ? undefined : ((value.favoriteWays as Array<any>).map(SchemasWayPlainResponseToJSON)),
+        'favoriteUsers': ((value.favoriteUsers as Array<any>).map(SchemasUserPlainResponseToJSON)),
         'imageUrl': value.imageUrl,
         'isMentor': value.isMentor,
-        'mentoringWays': value.mentoringWays === undefined ? undefined : ((value.mentoringWays as Array<any>).map(SchemasWayPlainResponseToJSON)),
         'name': value.name,
-        'ownWays': value.ownWays === undefined ? undefined : ((value.ownWays as Array<any>).map(SchemasWayPlainResponseToJSON)),
-        'tags': value.tags === undefined ? undefined : ((value.tags as Array<any>).map(SchemasUserTagResponseToJSON)),
+        'tags': ((value.tags as Array<any>).map(SchemasUserTagResponseToJSON)),
         'uuid': value.uuid,
-        'wayCollections': value.wayCollections === undefined ? undefined : ((value.wayCollections as Array<any>).map(SchemasWayCollectionPopulatedResponseToJSON)),
-        'wayRequests': value.wayRequests === undefined ? undefined : ((value.wayRequests as Array<any>).map(SchemasWayPlainResponseToJSON)),
+        'wayCollections': ((value.wayCollections as Array<any>).map(SchemasWayCollectionPopulatedResponseToJSON)),
+        'wayRequests': ((value.wayRequests as Array<any>).map(SchemasWayPlainResponseToJSON)),
     };
 }
 

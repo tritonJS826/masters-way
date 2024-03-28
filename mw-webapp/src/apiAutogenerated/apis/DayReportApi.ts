@@ -16,14 +16,14 @@
 import * as runtime from '../runtime';
 import type {
   SchemasCreateDayReportPayload,
-  SchemasDayReportPlainResponse,
+  SchemasDayReportPopulatedResponse,
   SchemasUpdateDayReportPayload,
 } from '../models/index';
 import {
     SchemasCreateDayReportPayloadFromJSON,
     SchemasCreateDayReportPayloadToJSON,
-    SchemasDayReportPlainResponseFromJSON,
-    SchemasDayReportPlainResponseToJSON,
+    SchemasDayReportPopulatedResponseFromJSON,
+    SchemasDayReportPopulatedResponseToJSON,
     SchemasUpdateDayReportPayloadFromJSON,
     SchemasUpdateDayReportPayloadToJSON,
 } from '../models/index';
@@ -49,7 +49,7 @@ export class DayReportApi extends runtime.BaseAPI {
     /**
      * Create a new dayReport
      */
-    async createDayReportRaw(requestParameters: CreateDayReportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasDayReportPlainResponse>> {
+    async createDayReportRaw(requestParameters: CreateDayReportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasDayReportPopulatedResponse>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createDayReport.');
         }
@@ -68,13 +68,13 @@ export class DayReportApi extends runtime.BaseAPI {
             body: SchemasCreateDayReportPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasDayReportPlainResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasDayReportPopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Create a new dayReport
      */
-    async createDayReport(requestParameters: CreateDayReportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasDayReportPlainResponse> {
+    async createDayReport(requestParameters: CreateDayReportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasDayReportPopulatedResponse> {
         const response = await this.createDayReportRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -82,7 +82,7 @@ export class DayReportApi extends runtime.BaseAPI {
     /**
      * Get all dayReports by Way UUID
      */
-    async getDayReportsByWayUuidRaw(requestParameters: GetDayReportsByWayUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<SchemasDayReportPlainResponse>>> {
+    async getDayReportsByWayUuidRaw(requestParameters: GetDayReportsByWayUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<SchemasDayReportPopulatedResponse>>> {
         if (requestParameters.wayId === null || requestParameters.wayId === undefined) {
             throw new runtime.RequiredError('wayId','Required parameter requestParameters.wayId was null or undefined when calling getDayReportsByWayUuid.');
         }
@@ -98,13 +98,13 @@ export class DayReportApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(SchemasDayReportPlainResponseFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(SchemasDayReportPopulatedResponseFromJSON));
     }
 
     /**
      * Get all dayReports by Way UUID
      */
-    async getDayReportsByWayUuid(requestParameters: GetDayReportsByWayUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<SchemasDayReportPlainResponse>> {
+    async getDayReportsByWayUuid(requestParameters: GetDayReportsByWayUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<SchemasDayReportPopulatedResponse>> {
         const response = await this.getDayReportsByWayUuidRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -112,7 +112,7 @@ export class DayReportApi extends runtime.BaseAPI {
     /**
      * Update dayReport by UUID
      */
-    async updateDayReportRaw(requestParameters: UpdateDayReportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasDayReportPlainResponse>> {
+    async updateDayReportRaw(requestParameters: UpdateDayReportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasDayReportPopulatedResponse>> {
         if (requestParameters.dayReportId === null || requestParameters.dayReportId === undefined) {
             throw new runtime.RequiredError('dayReportId','Required parameter requestParameters.dayReportId was null or undefined when calling updateDayReport.');
         }
@@ -135,13 +135,13 @@ export class DayReportApi extends runtime.BaseAPI {
             body: SchemasUpdateDayReportPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasDayReportPlainResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasDayReportPopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Update dayReport by UUID
      */
-    async updateDayReport(requestParameters: UpdateDayReportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasDayReportPlainResponse> {
+    async updateDayReport(requestParameters: UpdateDayReportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasDayReportPopulatedResponse> {
         const response = await this.updateDayReportRaw(requestParameters, initOverrides);
         return await response.value();
     }

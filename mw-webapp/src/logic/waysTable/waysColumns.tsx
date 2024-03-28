@@ -202,7 +202,7 @@ export const getWaysColumns = (language: Language) => [
       );
     },
   }),
-  columnHelper.accessor("dayReportUuids", {
+  columnHelper.accessor("dayReportsAmount", {
 
     /**
      * Header
@@ -222,11 +222,11 @@ export const getWaysColumns = (language: Language) => [
      */
     cell: ({row}) => (
       <div className={styles.number}>
-        {row.original.dayReportUuids.length.toString()}
+        {row.original.dayReportsAmount}
       </div>
     ),
   }),
-  columnHelper.accessor("favoriteForUserUuids", {
+  columnHelper.accessor("favoriteForUsers", {
 
     /**
      * Header
@@ -246,7 +246,7 @@ export const getWaysColumns = (language: Language) => [
      */
     cell: ({row}) => (
       <div className={styles.number}>
-        {row.original.favoriteForUserUuids.length.toString()}
+        {row.original.favoriteForUsers}
       </div>
     ),
   }),

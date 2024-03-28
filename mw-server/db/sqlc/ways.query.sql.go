@@ -13,6 +13,26 @@ import (
 	"github.com/google/uuid"
 )
 
+const countWaysByType = `-- name: CountWaysByType :one
+SELECT COUNT(*) FROM ways
+WHERE ($1 = 'inProgress' AND ways.is_completed = false)
+    OR ($1 = 'completed' AND ways.is_completed = true)
+    OR ($1 = 'abandoned' AND ways.is_completed = false AND ways.updated_at < $2::timestamp - interval '14 days') 
+    OR ($1 = 'all')
+`
+
+type CountWaysByTypeParams struct {
+	Column1 interface{} `json:"column_1"`
+	Column2 time.Time   `json:"column_2"`
+}
+
+func (q *Queries) CountWaysByType(ctx context.Context, arg CountWaysByTypeParams) (int64, error) {
+	row := q.queryRow(ctx, q.countWaysByTypeStmt, countWaysByType, arg.Column1, arg.Column2)
+	var count int64
+	err := row.Scan(&count)
+	return count, err
+}
+
 const createWay = `-- name: CreateWay :one
 INSERT INTO ways(
     name,
@@ -22,11 +42,11 @@ INSERT INTO ways(
     estimation_time,
     copied_from_way_uuid,
     is_private,
-    status,
+    is_completed,
     owner_uuid
 ) VALUES (
     $1, $2, $3, $4, $5, $6, $7, $8, $9
-) RETURNING uuid, name, goal_description, updated_at, created_at, estimation_time, owner_uuid, copied_from_way_uuid, status, is_private
+) RETURNING uuid, name, goal_description, updated_at, created_at, estimation_time, owner_uuid, copied_from_way_uuid, is_completed, is_private
 `
 
 type CreateWayParams struct {
@@ -37,7 +57,7 @@ type CreateWayParams struct {
 	EstimationTime    int32         `json:"estimation_time"`
 	CopiedFromWayUuid uuid.NullUUID `json:"copied_from_way_uuid"`
 	IsPrivate         bool          `json:"is_private"`
-	Status            string        `json:"status"`
+	IsCompleted       bool          `json:"is_completed"`
 	OwnerUuid         uuid.UUID     `json:"owner_uuid"`
 }
 
@@ -50,7 +70,7 @@ func (q *Queries) CreateWay(ctx context.Context, arg CreateWayParams) (Way, erro
 		arg.EstimationTime,
 		arg.CopiedFromWayUuid,
 		arg.IsPrivate,
-		arg.Status,
+		arg.IsCompleted,
 		arg.OwnerUuid,
 	)
 	var i Way
@@ -63,7 +83,7 @@ func (q *Queries) CreateWay(ctx context.Context, arg CreateWayParams) (Way, erro
 		&i.EstimationTime,
 		&i.OwnerUuid,
 		&i.CopiedFromWayUuid,
-		&i.Status,
+		&i.IsCompleted,
 		&i.IsPrivate,
 	)
 	return i, err
@@ -88,7 +108,7 @@ SELECT
     ways.created_at,
     ways.estimation_time,
     ways.copied_from_way_uuid,
-    ways.status,
+    ways.is_completed,
     ways.is_private,
     users.uuid AS owner_uuid,
     users.name AS owner_name,
@@ -111,7 +131,7 @@ type GetWayByIdRow struct {
 	CreatedAt         time.Time      `json:"created_at"`
 	EstimationTime    int32          `json:"estimation_time"`
 	CopiedFromWayUuid uuid.NullUUID  `json:"copied_from_way_uuid"`
-	Status            string         `json:"status"`
+	IsCompleted       bool           `json:"is_completed"`
 	IsPrivate         bool           `json:"is_private"`
 	OwnerUuid         uuid.UUID      `json:"owner_uuid"`
 	OwnerName         string         `json:"owner_name"`
@@ -133,7 +153,7 @@ func (q *Queries) GetWayById(ctx context.Context, argUuid uuid.UUID) (GetWayById
 		&i.CreatedAt,
 		&i.EstimationTime,
 		&i.CopiedFromWayUuid,
-		&i.Status,
+		&i.IsCompleted,
 		&i.IsPrivate,
 		&i.OwnerUuid,
 		&i.OwnerName,
@@ -146,28 +166,137 @@ func (q *Queries) GetWayById(ctx context.Context, argUuid uuid.UUID) (GetWayById
 	return i, err
 }
 
+const getWaysByCollectionId = `-- name: GetWaysByCollectionId :many
+SELECT 
+    ways.uuid,
+    ways.name,
+    ways.owner_uuid, 
+    ways.goal_description,
+    ways.updated_at,
+    ways.created_at,
+    ways.estimation_time,
+    ways.copied_from_way_uuid,
+    ways.is_completed,
+    ways.is_private,
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,    
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
+    (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
+    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount
+FROM ways
+JOIN way_collections_ways ON way_collections_ways.way_uuid = ways.uuid
+WHERE way_collections_ways.way_collection_uuid = $1
+`
+
+type GetWaysByCollectionIdRow struct {
+	Uuid                uuid.UUID     `json:"uuid"`
+	Name                string        `json:"name"`
+	OwnerUuid           uuid.UUID     `json:"owner_uuid"`
+	GoalDescription     string        `json:"goal_description"`
+	UpdatedAt           time.Time     `json:"updated_at"`
+	CreatedAt           time.Time     `json:"created_at"`
+	EstimationTime      int32         `json:"estimation_time"`
+	CopiedFromWayUuid   uuid.NullUUID `json:"copied_from_way_uuid"`
+	IsCompleted         bool          `json:"is_completed"`
+	IsPrivate           bool          `json:"is_private"`
+	WayMetricsTotal     int64         `json:"way_metrics_total"`
+	WayMetricsDone      int64         `json:"way_metrics_done"`
+	WayFavoriteForUsers int64         `json:"way_favorite_for_users"`
+	WayDayReportsAmount int64         `json:"way_day_reports_amount"`
+}
+
+func (q *Queries) GetWaysByCollectionId(ctx context.Context, wayCollectionUuid uuid.UUID) ([]GetWaysByCollectionIdRow, error) {
+	rows, err := q.query(ctx, q.getWaysByCollectionIdStmt, getWaysByCollectionId, wayCollectionUuid)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []GetWaysByCollectionIdRow{}
+	for rows.Next() {
+		var i GetWaysByCollectionIdRow
+		if err := rows.Scan(
+			&i.Uuid,
+			&i.Name,
+			&i.OwnerUuid,
+			&i.GoalDescription,
+			&i.UpdatedAt,
+			&i.CreatedAt,
+			&i.EstimationTime,
+			&i.CopiedFromWayUuid,
+			&i.IsCompleted,
+			&i.IsPrivate,
+			&i.WayMetricsTotal,
+			&i.WayMetricsDone,
+			&i.WayFavoriteForUsers,
+			&i.WayDayReportsAmount,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const listWays = `-- name: ListWays :many
-SELECT uuid, name, goal_description, updated_at, created_at, estimation_time, owner_uuid, copied_from_way_uuid, status, is_private FROM ways
+SELECT 
+    uuid, name, goal_description, updated_at, created_at, estimation_time, owner_uuid, copied_from_way_uuid, is_completed, is_private,
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,    
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
+    (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
+    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount
+FROM ways
+WHERE ($3 = 'inProgress' AND ways.is_completed = false)
+    OR ($3 = 'completed' AND ways.is_completed = true)
+    OR ($3 = 'abandoned' AND ways.is_completed = false AND ways.updated_at < $4::timestamp - interval '14 days') 
+    OR ($3 = 'all')
 ORDER BY created_at
 LIMIT $1
 OFFSET $2
 `
 
 type ListWaysParams struct {
-	Limit  int32 `json:"limit"`
-	Offset int32 `json:"offset"`
+	Limit   int32       `json:"limit"`
+	Offset  int32       `json:"offset"`
+	Column3 interface{} `json:"column_3"`
+	Column4 time.Time   `json:"column_4"`
 }
 
-// TODO: add filter and sorters
-func (q *Queries) ListWays(ctx context.Context, arg ListWaysParams) ([]Way, error) {
-	rows, err := q.query(ctx, q.listWaysStmt, listWays, arg.Limit, arg.Offset)
+type ListWaysRow struct {
+	Uuid                uuid.UUID     `json:"uuid"`
+	Name                string        `json:"name"`
+	GoalDescription     string        `json:"goal_description"`
+	UpdatedAt           time.Time     `json:"updated_at"`
+	CreatedAt           time.Time     `json:"created_at"`
+	EstimationTime      int32         `json:"estimation_time"`
+	OwnerUuid           uuid.UUID     `json:"owner_uuid"`
+	CopiedFromWayUuid   uuid.NullUUID `json:"copied_from_way_uuid"`
+	IsCompleted         bool          `json:"is_completed"`
+	IsPrivate           bool          `json:"is_private"`
+	WayMetricsTotal     int64         `json:"way_metrics_total"`
+	WayMetricsDone      int64         `json:"way_metrics_done"`
+	WayFavoriteForUsers int64         `json:"way_favorite_for_users"`
+	WayDayReportsAmount int64         `json:"way_day_reports_amount"`
+}
+
+func (q *Queries) ListWays(ctx context.Context, arg ListWaysParams) ([]ListWaysRow, error) {
+	rows, err := q.query(ctx, q.listWaysStmt, listWays,
+		arg.Limit,
+		arg.Offset,
+		arg.Column3,
+		arg.Column4,
+	)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	items := []Way{}
+	items := []ListWaysRow{}
 	for rows.Next() {
-		var i Way
+		var i ListWaysRow
 		if err := rows.Scan(
 			&i.Uuid,
 			&i.Name,
@@ -177,8 +306,12 @@ func (q *Queries) ListWays(ctx context.Context, arg ListWaysParams) ([]Way, erro
 			&i.EstimationTime,
 			&i.OwnerUuid,
 			&i.CopiedFromWayUuid,
-			&i.Status,
+			&i.IsCompleted,
 			&i.IsPrivate,
+			&i.WayMetricsTotal,
+			&i.WayMetricsDone,
+			&i.WayFavoriteForUsers,
+			&i.WayDayReportsAmount,
 		); err != nil {
 			return nil, err
 		}
@@ -201,10 +334,14 @@ goal_description = coalesce($2, goal_description),
 updated_at = coalesce($3, updated_at),
 estimation_time = coalesce($4, estimation_time),
 is_private = coalesce($5, is_private),
-status = coalesce($6, status)
+is_completed = coalesce($6, is_completed)
 
-WHERE uuid = $7
-RETURNING uuid, name, goal_description, updated_at, created_at, estimation_time, owner_uuid, copied_from_way_uuid, status, is_private
+WHERE ways.uuid = $7
+RETURNING uuid, name, goal_description, updated_at, created_at, estimation_time, owner_uuid, copied_from_way_uuid, is_completed, is_private,
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = $7) AS way_metrics_total,    
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = $7 AND metrics.is_done = true) AS way_metrics_done,
+    (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = $7) AS way_favorite_for_users,
+    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = $7) AS way_day_reports_amount
 `
 
 type UpdateWayParams struct {
@@ -213,21 +350,38 @@ type UpdateWayParams struct {
 	UpdatedAt       sql.NullTime   `json:"updated_at"`
 	EstimationTime  sql.NullInt32  `json:"estimation_time"`
 	IsPrivate       sql.NullBool   `json:"is_private"`
-	Status          sql.NullString `json:"status"`
+	IsCompleted     sql.NullBool   `json:"is_completed"`
 	Uuid            uuid.UUID      `json:"uuid"`
 }
 
-func (q *Queries) UpdateWay(ctx context.Context, arg UpdateWayParams) (Way, error) {
+type UpdateWayRow struct {
+	Uuid                uuid.UUID     `json:"uuid"`
+	Name                string        `json:"name"`
+	GoalDescription     string        `json:"goal_description"`
+	UpdatedAt           time.Time     `json:"updated_at"`
+	CreatedAt           time.Time     `json:"created_at"`
+	EstimationTime      int32         `json:"estimation_time"`
+	OwnerUuid           uuid.UUID     `json:"owner_uuid"`
+	CopiedFromWayUuid   uuid.NullUUID `json:"copied_from_way_uuid"`
+	IsCompleted         bool          `json:"is_completed"`
+	IsPrivate           bool          `json:"is_private"`
+	WayMetricsTotal     int64         `json:"way_metrics_total"`
+	WayMetricsDone      int64         `json:"way_metrics_done"`
+	WayFavoriteForUsers int64         `json:"way_favorite_for_users"`
+	WayDayReportsAmount int64         `json:"way_day_reports_amount"`
+}
+
+func (q *Queries) UpdateWay(ctx context.Context, arg UpdateWayParams) (UpdateWayRow, error) {
 	row := q.queryRow(ctx, q.updateWayStmt, updateWay,
 		arg.Name,
 		arg.GoalDescription,
 		arg.UpdatedAt,
 		arg.EstimationTime,
 		arg.IsPrivate,
-		arg.Status,
+		arg.IsCompleted,
 		arg.Uuid,
 	)
-	var i Way
+	var i UpdateWayRow
 	err := row.Scan(
 		&i.Uuid,
 		&i.Name,
@@ -237,8 +391,12 @@ func (q *Queries) UpdateWay(ctx context.Context, arg UpdateWayParams) (Way, erro
 		&i.EstimationTime,
 		&i.OwnerUuid,
 		&i.CopiedFromWayUuid,
-		&i.Status,
+		&i.IsCompleted,
 		&i.IsPrivate,
+		&i.WayMetricsTotal,
+		&i.WayMetricsDone,
+		&i.WayFavoriteForUsers,
+		&i.WayDayReportsAmount,
 	)
 	return i, err
 }

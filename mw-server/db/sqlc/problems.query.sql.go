@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/lib/pq"
 )
 
 const createProblem = `-- name: CreateProblem :one
@@ -23,7 +24,14 @@ INSERT INTO problems(
     day_report_uuid
 ) VALUES (
     $1, $2, $3, $4, $5, $6
-) RETURNING uuid, created_at, updated_at, description, is_done, owner_uuid, day_report_uuid
+) RETURNING uuid, created_at, updated_at, description, is_done, owner_uuid, day_report_uuid,
+    (SELECT name FROM users WHERE uuid = $5) AS owner_name,
+    -- get tag uuids
+    ARRAY(
+        SELECT problems_job_tags.job_tag_uuid 
+        FROM problems_job_tags 
+        WHERE problems.uuid = problems_job_tags.problem_uuid
+    )::VARCHAR[] AS tag_uuids
 `
 
 type CreateProblemParams struct {
@@ -35,7 +43,19 @@ type CreateProblemParams struct {
 	DayReportUuid uuid.UUID `json:"day_report_uuid"`
 }
 
-func (q *Queries) CreateProblem(ctx context.Context, arg CreateProblemParams) (Problem, error) {
+type CreateProblemRow struct {
+	Uuid          uuid.UUID `json:"uuid"`
+	CreatedAt     time.Time `json:"created_at"`
+	UpdatedAt     time.Time `json:"updated_at"`
+	Description   string    `json:"description"`
+	IsDone        bool      `json:"is_done"`
+	OwnerUuid     uuid.UUID `json:"owner_uuid"`
+	DayReportUuid uuid.UUID `json:"day_report_uuid"`
+	OwnerName     string    `json:"owner_name"`
+	TagUuids      []string  `json:"tag_uuids"`
+}
+
+func (q *Queries) CreateProblem(ctx context.Context, arg CreateProblemParams) (CreateProblemRow, error) {
 	row := q.queryRow(ctx, q.createProblemStmt, createProblem,
 		arg.CreatedAt,
 		arg.UpdatedAt,
@@ -44,7 +64,7 @@ func (q *Queries) CreateProblem(ctx context.Context, arg CreateProblemParams) (P
 		arg.OwnerUuid,
 		arg.DayReportUuid,
 	)
-	var i Problem
+	var i CreateProblemRow
 	err := row.Scan(
 		&i.Uuid,
 		&i.CreatedAt,
@@ -53,6 +73,8 @@ func (q *Queries) CreateProblem(ctx context.Context, arg CreateProblemParams) (P
 		&i.IsDone,
 		&i.OwnerUuid,
 		&i.DayReportUuid,
+		&i.OwnerName,
+		pq.Array(&i.TagUuids),
 	)
 	return i, err
 }

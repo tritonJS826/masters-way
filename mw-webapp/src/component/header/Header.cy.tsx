@@ -31,6 +31,7 @@ const HeaderTest = () => {
     wayRequests: [],
     imageUrl: "",
     isMentor: false,
+    wayCollections: [],
   };
 
   return (

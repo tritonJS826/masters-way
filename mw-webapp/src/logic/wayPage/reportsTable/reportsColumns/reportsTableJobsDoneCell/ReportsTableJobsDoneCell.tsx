@@ -10,16 +10,17 @@ import {Modal} from "src/component/modal/Modal";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
 import {JobDoneTags} from "src/logic/wayPage/reportsTable/jobDoneTags/JobDoneTags";
 import {ModalContentJobTags} from "src/logic/wayPage/reportsTable/modalContentJobTags/ModalContentJobTags";
 import {DEFAULT_SUMMARY_TIME, getListNumberByIndex, getValidatedTime, MAX_TIME}
   from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
+import {User} from "src/model/businessModel/User";
 import {JobTag} from "src/model/businessModelPreview/WayPreview";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
-import {v4 as uuidv4} from "uuid";
 import styles from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableJobsDoneCell/ReportsTableJobsDoneCell.module.scss";
 
 /**
@@ -47,6 +48,11 @@ interface ReportsTableJobsDoneCellProps {
    */
   updateDayReport: (report: PartialWithUuid<DayReport>) => Promise<void>;
 
+  /**
+   * Logged in user
+   */
+  user: User | null;
+
 }
 
 /**
@@ -61,13 +67,11 @@ export const ReportsTableJobsDoneCell = (props: ReportsTableJobsDoneCellProps) =
   /**
    * Create jobDone
    */
-  const createJobDone = () => {
-    const jobDone: JobDone = new JobDone({
-      description: "",
-      time: 0,
-      uuid: uuidv4(),
-      tags: [defaultTag],
-    });
+  const createJobDone = async (userUuid?: string) => {
+    if (!userUuid) {
+      throw new Error("User uuid is not exist");
+    }
+    const jobDone = await JobDoneDAL.createJobDone(userUuid, props.dayReport.uuid);
     const jobsDone = [...props.dayReport.jobsDone, jobDone];
 
     props.updateDayReport({uuid: props.dayReport.uuid, jobsDone});
@@ -205,7 +209,7 @@ export const ReportsTableJobsDoneCell = (props: ReportsTableJobsDoneCellProps) =
                 name="PlusIcon"
               />
             }
-            onClick={createJobDone}
+            onClick={() => createJobDone(props.user?.uuid)}
             className={styles.flatButton}
           />
         </Tooltip>

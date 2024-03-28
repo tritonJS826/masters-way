@@ -16,6 +16,7 @@ type WayCollectionPopulatedResponse struct {
 	CreatedAt string             `json:"createdAt" validate:"required"`
 	UpdatedAt string             `json:"updatedAt" validate:"required"`
 	OwnerUuid string             `json:"ownerUuid" validate:"required"`
+	Type      string             `json:"type" validate:"required"`
 }
 
 type WayCollectionPlainResponse struct {

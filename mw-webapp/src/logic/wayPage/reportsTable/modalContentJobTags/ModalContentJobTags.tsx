@@ -103,7 +103,8 @@ export const ModalContentJobTags = (props: JobDoneTagsProps) => {
             <div
               key={tag.uuid}
               className={styles.jobTags}
-              onClick={() => jobTagsUpdated.includes(tag) ? removeJobTagFromJobDone(tag.uuid) : addJobTagFromJobDone(tag)}
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              onClick={() => jobTagsUpdated.includes(tag) ? removeJobTagFromJobDone(tag.uuid!) : addJobTagFromJobDone(tag)}
             >
               <Tooltip
                 content={jobTagsUpdated.includes(tag) ? "Click to remove tag" : "Click to add tag"}

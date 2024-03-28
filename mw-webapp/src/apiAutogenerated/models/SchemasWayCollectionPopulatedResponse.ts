@@ -31,37 +31,43 @@ export interface SchemasWayCollectionPopulatedResponse {
      * @type {string}
      * @memberof SchemasWayCollectionPopulatedResponse
      */
-    createdAt?: string;
+    createdAt: string;
     /**
      * 
      * @type {string}
      * @memberof SchemasWayCollectionPopulatedResponse
      */
-    name?: string;
+    name: string;
     /**
      * 
      * @type {string}
      * @memberof SchemasWayCollectionPopulatedResponse
      */
-    ownerUuid?: string;
+    ownerUuid: string;
     /**
      * 
      * @type {string}
      * @memberof SchemasWayCollectionPopulatedResponse
      */
-    updatedAt?: string;
+    type: string;
     /**
      * 
      * @type {string}
      * @memberof SchemasWayCollectionPopulatedResponse
      */
-    uuid?: string;
+    updatedAt: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemasWayCollectionPopulatedResponse
+     */
+    uuid: string;
     /**
      * 
      * @type {Array<SchemasWayPlainResponse>}
      * @memberof SchemasWayCollectionPopulatedResponse
      */
-    ways?: Array<SchemasWayPlainResponse>;
+    ways: Array<SchemasWayPlainResponse>;
 }
 
 /**
@@ -71,6 +77,13 @@ export function instanceOfSchemasWayCollectionPopulatedResponse(
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "createdAt" in value;
+    isInstance = isInstance && "name" in value;
+    isInstance = isInstance && "ownerUuid" in value;
+    isInstance = isInstance && "type" in value;
+    isInstance = isInstance && "updatedAt" in value;
+    isInstance = isInstance && "uuid" in value;
+    isInstance = isInstance && "ways" in value;
 
     return isInstance;
 }
@@ -88,12 +101,13 @@ export function SchemasWayCollectionPopulatedResponseFromJSONTyped(
     }
     return {
         
-        'createdAt': !exists(json, 'createdAt') ? undefined : json['createdAt'],
-        'name': !exists(json, 'name') ? undefined : json['name'],
-        'ownerUuid': !exists(json, 'ownerUuid') ? undefined : json['ownerUuid'],
-        'updatedAt': !exists(json, 'updatedAt') ? undefined : json['updatedAt'],
-        'uuid': !exists(json, 'uuid') ? undefined : json['uuid'],
-        'ways': !exists(json, 'ways') ? undefined : ((json['ways'] as Array<any>).map(SchemasWayPlainResponseFromJSON)),
+        'createdAt': json['createdAt'],
+        'name': json['name'],
+        'ownerUuid': json['ownerUuid'],
+        'type': json['type'],
+        'updatedAt': json['updatedAt'],
+        'uuid': json['uuid'],
+        'ways': ((json['ways'] as Array<any>).map(SchemasWayPlainResponseFromJSON)),
     };
 }
 
@@ -110,9 +124,10 @@ export function SchemasWayCollectionPopulatedResponseToJSON(value?: SchemasWayCo
         'createdAt': value.createdAt,
         'name': value.name,
         'ownerUuid': value.ownerUuid,
+        'type': value.type,
         'updatedAt': value.updatedAt,
         'uuid': value.uuid,
-        'ways': value.ways === undefined ? undefined : ((value.ways as Array<any>).map(SchemasWayPlainResponseToJSON)),
+        'ways': ((value.ways as Array<any>).map(SchemasWayPlainResponseToJSON)),
     };
 }
 

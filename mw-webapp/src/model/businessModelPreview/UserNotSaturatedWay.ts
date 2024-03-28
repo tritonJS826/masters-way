@@ -27,7 +27,7 @@ export type UserTag = {
   /**
    * User tag uuid
    */
-  id: string;
+  uuid: string;
 
   /**
    * User tag name
@@ -61,24 +61,19 @@ export class UserNotSaturatedWay {
   public description: string;
 
   /**
-   * Own ways @Way.uuid
+   * The own ways amount
    */
-  public ownWays: string[];
+  public ownWays: number;
 
   /**
-   * The favorite ways @Way.uuid
+   * The favorite ways amount
    */
-  public favoriteWays: string[];
+  public favoriteWays: number;
 
   /**
-   * Ways for mentoring @Way.uuid
+   * The mentoring ways amount
    */
-  public mentoringWays: string[];
-
-  /**
-   * Custom way collections {@link WaysCollection}
-   */
-  public customWayCollections: WaysCollection[];
+  public mentoringWays: number;
 
   /**
    * Date when user was created
@@ -110,11 +105,6 @@ export class UserNotSaturatedWay {
    */
   public isMentor: boolean;
 
-  /**
-   * Way's preview requested user become a mentor {@link WayPreview}
-   */
-  public wayRequests: string[];
-
   constructor(userData: UserNotSaturatedWay) {
     this.uuid = userData.uuid;
     this.name = userData.name;
@@ -124,13 +114,11 @@ export class UserNotSaturatedWay {
     this.favoriteWays = userData.favoriteWays;
     this.mentoringWays = userData.mentoringWays;
     this.createdAt = userData.createdAt;
-    this.customWayCollections = userData.customWayCollections;
     this.favoriteForUserUuids = userData.favoriteForUserUuids;
     this.favoriteUserUuids = userData.favoriteUserUuids;
     this.tags = userData.tags;
     this.imageUrl = userData.imageUrl;
     this.isMentor = userData.isMentor;
-    this.wayRequests = userData.wayRequests;
   }
 
 }

@@ -30,7 +30,7 @@ func NewCommentController(db *db.Queries, ctx context.Context) *CommentControlle
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateCommentPayload true "query params"
-// @Success 200 {object} schemas.CommentPlainResponse
+// @Success 200 {object} schemas.CommentPopulatedResponse
 // @Router /comments [post]
 func (cc *CommentController) CreateComment(ctx *gin.Context) {
 	var payload *schemas.CreateCommentPayload
@@ -68,7 +68,7 @@ func (cc *CommentController) CreateComment(ctx *gin.Context) {
 // @Produce  json
 // @Param request body schemas.UpdateCommentPayload true "query params"
 // @Param commentId path string true "comment ID"
-// @Success 200 {object} schemas.CommentPlainResponse
+// @Success 200 {object} schemas.CommentPopulatedResponse
 // @Router /comments/{commentId} [patch]
 func (cc *CommentController) UpdateComment(ctx *gin.Context) {
 	var payload *schemas.UpdateCommentPayload
@@ -108,7 +108,7 @@ func (cc *CommentController) UpdateComment(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param dayReportId path string true "dayReport ID"
-// @Success 200 {array} schemas.CommentPlainResponse
+// @Success 200 {array} schemas.CommentPopulatedResponse
 // @Router /comments/{dayReportId} [get]
 func (cc *CommentController) GetCommentsByDayReportId(ctx *gin.Context) {
 	dayReportId := ctx.Param("dayReportId")

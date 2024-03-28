@@ -47,32 +47,15 @@ func (q *Queries) DeleteFavoriteUserWayByIds(ctx context.Context, arg DeleteFavo
 	return err
 }
 
-const getFavoriteForUserUuidsByWayId = `-- name: GetFavoriteForUserUuidsByWayId :many
-SELECT users.uuid from ways
-JOIN favorite_users_ways ON favorite_users_ways.way_uuid = ways.uuid
-JOIN users ON users.uuid = favorite_users_ways.user_uuid
-WHERE way_uuid = $1
+const getFavoriteForUserUuidsByWayId = `-- name: GetFavoriteForUserUuidsByWayId :one
+SELECT COUNT(*) 
+FROM favorite_users_ways 
+WHERE favorite_users_ways.way_uuid = $1
 `
 
-func (q *Queries) GetFavoriteForUserUuidsByWayId(ctx context.Context, wayUuid uuid.UUID) ([]uuid.UUID, error) {
-	rows, err := q.query(ctx, q.getFavoriteForUserUuidsByWayIdStmt, getFavoriteForUserUuidsByWayId, wayUuid)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	items := []uuid.UUID{}
-	for rows.Next() {
-		var uuid uuid.UUID
-		if err := rows.Scan(&uuid); err != nil {
-			return nil, err
-		}
-		items = append(items, uuid)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
+func (q *Queries) GetFavoriteForUserUuidsByWayId(ctx context.Context, wayUuid uuid.UUID) (int64, error) {
+	row := q.queryRow(ctx, q.getFavoriteForUserUuidsByWayIdStmt, getFavoriteForUserUuidsByWayId, wayUuid)
+	var count int64
+	err := row.Scan(&count)
+	return count, err
 }

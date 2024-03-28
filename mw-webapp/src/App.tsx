@@ -4,7 +4,7 @@ import {
   DEFAULT_NOTIFICATION_SETTINGS,
   globalContext,
 } from "src/GlobalContext";
-import {UserPreview} from "src/model/businessModelPreview/UserPreview";
+import {User} from "src/model/businessModel/User";
 import {router} from "src/router/Router";
 import {Language, LanguageWorker} from "src/utils/LanguageWorker";
 import {Theme, ThemeWorker} from "src/utils/ThemeWorker";
@@ -13,7 +13,7 @@ import {Theme, ThemeWorker} from "src/utils/ThemeWorker";
  * App
  */
 export const App = () => {
-  const [user, setUser] = useState<UserPreview | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [isInitialized, setIsInitialized] = useState(false);
   const [theme, setThemeState] = useState(ThemeWorker.getCurrentTheme());
   const [language, setLanguageState] = useState(LanguageWorker.getCurrentLanguage());

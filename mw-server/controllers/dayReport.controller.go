@@ -30,7 +30,7 @@ func NewDayReportController(db *db.Queries, ctx context.Context) *DayReportContr
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateDayReportPayload true "query params"
-// @Success 200 {object} schemas.DayReportPlainResponse
+// @Success 200 {object} schemas.DayReportPopulatedResponse
 // @Router /dayReports [post]
 func (cc *DayReportController) CreateDayReport(ctx *gin.Context) {
 	var payload *schemas.CreateDayReportPayload
@@ -48,14 +48,25 @@ func (cc *DayReportController) CreateDayReport(ctx *gin.Context) {
 		IsDayOff:  payload.IsDayOff,
 	}
 
-	dayReport, err := cc.db.CreateDayReport(ctx, *args)
+	dbDayReport, err := cc.db.CreateDayReport(ctx, *args)
 
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving day report", "error": err.Error()})
 		return
 	}
 
-	ctx.JSON(http.StatusOK, dayReport)
+	response := schemas.DayReportPopulatedResponse{
+		Uuid:      dbDayReport.Uuid.String(),
+		CreatedAt: dbDayReport.CreatedAt,
+		UpdatedAt: dbDayReport.UpdatedAt,
+		IsDayOff:  dbDayReport.IsDayOff,
+		JobsDone:  make([]schemas.JobDonePopulatedResponse, 0),
+		Plans:     make([]schemas.PlanPopulatedResponse, 0),
+		Problems:  make([]schemas.ProblemPopulatedResponse, 0),
+		Comments:  make([]schemas.CommentPopulatedResponse, 0),
+	}
+
+	ctx.JSON(http.StatusOK, response)
 }
 
 // Update day report handler
@@ -67,7 +78,7 @@ func (cc *DayReportController) CreateDayReport(ctx *gin.Context) {
 // @Produce  json
 // @Param request body schemas.UpdateDayReportPayload true "query params"
 // @Param dayReportId path string true "dayReport ID"
-// @Success 200 {object} schemas.DayReportPlainResponse
+// @Success 200 {object} schemas.DayReportPopulatedResponse
 // @Router /dayReports/{dayReportId} [patch]
 func (cc *DayReportController) UpdateDayReport(ctx *gin.Context) {
 	var payload *schemas.UpdateDayReportPayload
@@ -108,7 +119,7 @@ func (cc *DayReportController) UpdateDayReport(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param wayId path string true "way ID"
-// @Success 200 {array} schemas.DayReportPlainResponse
+// @Success 200 {array} schemas.DayReportPopulatedResponse
 // @Router /dayReports/{wayId} [get]
 func (cc *DayReportController) GetAllDayReports(ctx *gin.Context) {
 	wayId := ctx.Param("wayId")

@@ -6,6 +6,15 @@ type CreateUserPayload struct {
 	Description string `json:"description" validate:"required"`
 	ImageUrl    string `json:"imageUrl" validate:"required" extensions:"x-nullable"`
 	IsMentor    bool   `json:"isMentor" validate:"required"`
+	FirebaseId  string `json:"firebaseId" validate:"required"`
+}
+
+type UpdateUserPayload struct {
+	Name        string `json:"name"`
+	Email       string `json:"email"`
+	Description string `json:"description"`
+	ImageUrl    string `json:"imageUrl" extensions:"x-nullable"`
+	IsMentor    bool   `json:"isMentor"`
 }
 
 type UserPlainResponse struct {
@@ -17,12 +26,20 @@ type UserPlainResponse struct {
 	ImageUrl    string `json:"imageUrl" validate:"required" extensions:"x-nullable"`
 	IsMentor    bool   `json:"isMentor" validate:"required"`
 }
-type UpdateUserPayload struct {
-	Name        string `json:"name"`
-	Email       string `json:"email"`
-	Description string `json:"description"`
-	ImageUrl    string `json:"imageUrl" extensions:"x-nullable"`
-	IsMentor    bool   `json:"isMentor"`
+
+type UserPlainResponseWithInfo struct {
+	Uuid             string            `json:"uuid" validate:"required"`
+	Name             string            `json:"name" validate:"required"`
+	Email            string            `json:"email" validate:"required"`
+	Description      string            `json:"description" validate:"required"`
+	CreatedAt        string            `json:"createdAt" validate:"required"`
+	ImageUrl         string            `json:"imageUrl" validate:"required" extensions:"x-nullable"`
+	IsMentor         bool              `json:"isMentor" validate:"required"`
+	FavoriteForUsers int32             `json:"favoriteForUsers" validate:"required"`
+	FavoriteWays     int32             `json:"favoriteWays" validate:"required"`
+	MentoringWays    int32             `json:"mentoringWays" validate:"required"`
+	OwnWays          int32             `json:"ownWays" validate:"required"`
+	Tags             []UserTagResponse `json:"tags" validate:"required"`
 }
 
 type UserPopulatedResponse struct {
@@ -38,4 +55,9 @@ type UserPopulatedResponse struct {
 	FavoriteUsers    []UserPlainResponse              `json:"favoriteUsers" validate:"required"`
 	Tags             []UserTagResponse                `json:"tags" validate:"required"`
 	WayRequests      []WayPlainResponse               `json:"wayRequests" validate:"required"`
+}
+
+type GetAllUsersResponse struct {
+	Size  int64                       `json:"size" validate:"required"`
+	Users []UserPlainResponseWithInfo `json:"users" validate:"required"`
 }

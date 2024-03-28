@@ -3,9 +3,10 @@ INSERT INTO way_collections(
     owner_uuid,
     created_at,
     updated_at,
-    name
+    name,
+    type
 ) VALUES (
-    $1, $2, $3, $4
+    $1, $2, $3, $4, $5
 ) RETURNING *;
 
 

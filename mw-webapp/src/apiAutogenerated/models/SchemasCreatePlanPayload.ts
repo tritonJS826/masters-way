@@ -27,10 +27,10 @@ export interface SchemasCreatePlanPayload {
     dayReportUuid: string;
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof SchemasCreatePlanPayload
      */
-    estimationTime: number;
+    description: string;
     /**
      * 
      * @type {boolean}
@@ -42,13 +42,13 @@ export interface SchemasCreatePlanPayload {
      * @type {string}
      * @memberof SchemasCreatePlanPayload
      */
-    job: string;
+    ownerUuid: string;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof SchemasCreatePlanPayload
      */
-    ownerUuid: string;
+    time: number;
 }
 
 /**
@@ -59,10 +59,10 @@ export function instanceOfSchemasCreatePlanPayload(
 ): boolean {
     let isInstance = true;
     isInstance = isInstance && "dayReportUuid" in value;
-    isInstance = isInstance && "estimationTime" in value;
+    isInstance = isInstance && "description" in value;
     isInstance = isInstance && "isDone" in value;
-    isInstance = isInstance && "job" in value;
     isInstance = isInstance && "ownerUuid" in value;
+    isInstance = isInstance && "time" in value;
 
     return isInstance;
 }
@@ -81,10 +81,10 @@ export function SchemasCreatePlanPayloadFromJSONTyped(
     return {
         
         'dayReportUuid': json['dayReportUuid'],
-        'estimationTime': json['estimationTime'],
+        'description': json['description'],
         'isDone': json['isDone'],
-        'job': json['job'],
         'ownerUuid': json['ownerUuid'],
+        'time': json['time'],
     };
 }
 
@@ -99,10 +99,10 @@ export function SchemasCreatePlanPayloadToJSON(value?: SchemasCreatePlanPayload 
     return {
         
         'dayReportUuid': value.dayReportUuid,
-        'estimationTime': value.estimationTime,
+        'description': value.description,
         'isDone': value.isDone,
-        'job': value.job,
         'ownerUuid': value.ownerUuid,
+        'time': value.time,
     };
 }
 

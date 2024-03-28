@@ -53,7 +53,14 @@ func (cc *JobTagController) CreateJobTag(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, jobTag)
+	response := schemas.JobTagResponse{
+		Uuid:        jobTag.Uuid.String(),
+		Name:        jobTag.Name,
+		Description: jobTag.Description,
+		Color:       jobTag.Color,
+	}
+
+	ctx.JSON(http.StatusOK, response)
 }
 
 // Update jobTag handler
@@ -136,7 +143,7 @@ func (cc *JobTagController) GetJobTagsByWayId(ctx *gin.Context) {
 func (cc *JobTagController) DeleteJobTagById(ctx *gin.Context) {
 	jobTagId := ctx.Param("jobTagId")
 
-	err := cc.db.DeleteWayTag(ctx, uuid.MustParse(jobTagId))
+	err := cc.db.DeleteJobTagById(ctx, uuid.MustParse(jobTagId))
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"status": "failed", "error": err.Error()})
 		return

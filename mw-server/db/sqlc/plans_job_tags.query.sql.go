@@ -49,7 +49,7 @@ func (q *Queries) DeletePlansJobTagByIds(ctx context.Context, arg DeletePlansJob
 }
 
 const getPlansJoinJobTags = `-- name: GetPlansJoinJobTags :many
-SELECT plans.uuid, created_at, updated_at, job, estimation_time, owner_uuid, is_done, day_report_uuid, plan_uuid, job_tag_uuid, job_tags.uuid, name, description, color, way_uuid FROM plans
+SELECT plans.uuid, created_at, updated_at, plans.description, time, owner_uuid, is_done, day_report_uuid, plan_uuid, job_tag_uuid, job_tags.uuid, name, job_tags.description, color, way_uuid FROM plans
 JOIN plans_job_tags ON plans.uuid = plans_job_tags.plan_uuid
 JOIN job_tags ON plans_job_tags.job_tag_uuid = job_tags.uuid
 WHERE plans.uuid IN (
@@ -60,21 +60,21 @@ WHERE plans.uuid IN (
 `
 
 type GetPlansJoinJobTagsRow struct {
-	Uuid           uuid.UUID `json:"uuid"`
-	CreatedAt      time.Time `json:"created_at"`
-	UpdatedAt      time.Time `json:"updated_at"`
-	Job            string    `json:"job"`
-	EstimationTime int32     `json:"estimation_time"`
-	OwnerUuid      uuid.UUID `json:"owner_uuid"`
-	IsDone         bool      `json:"is_done"`
-	DayReportUuid  uuid.UUID `json:"day_report_uuid"`
-	PlanUuid       uuid.UUID `json:"plan_uuid"`
-	JobTagUuid     uuid.UUID `json:"job_tag_uuid"`
-	Uuid_2         uuid.UUID `json:"uuid_2"`
-	Name           string    `json:"name"`
-	Description    string    `json:"description"`
-	Color          string    `json:"color"`
-	WayUuid        uuid.UUID `json:"way_uuid"`
+	Uuid          uuid.UUID `json:"uuid"`
+	CreatedAt     time.Time `json:"created_at"`
+	UpdatedAt     time.Time `json:"updated_at"`
+	Description   string    `json:"description"`
+	Time          int32     `json:"time"`
+	OwnerUuid     uuid.UUID `json:"owner_uuid"`
+	IsDone        bool      `json:"is_done"`
+	DayReportUuid uuid.UUID `json:"day_report_uuid"`
+	PlanUuid      uuid.UUID `json:"plan_uuid"`
+	JobTagUuid    uuid.UUID `json:"job_tag_uuid"`
+	Uuid_2        uuid.UUID `json:"uuid_2"`
+	Name          string    `json:"name"`
+	Description_2 string    `json:"description_2"`
+	Color         string    `json:"color"`
+	WayUuid       uuid.UUID `json:"way_uuid"`
 }
 
 func (q *Queries) GetPlansJoinJobTags(ctx context.Context, dayReportUuid uuid.UUID) ([]GetPlansJoinJobTagsRow, error) {
@@ -90,8 +90,8 @@ func (q *Queries) GetPlansJoinJobTags(ctx context.Context, dayReportUuid uuid.UU
 			&i.Uuid,
 			&i.CreatedAt,
 			&i.UpdatedAt,
-			&i.Job,
-			&i.EstimationTime,
+			&i.Description,
+			&i.Time,
 			&i.OwnerUuid,
 			&i.IsDone,
 			&i.DayReportUuid,
@@ -99,7 +99,7 @@ func (q *Queries) GetPlansJoinJobTags(ctx context.Context, dayReportUuid uuid.UU
 			&i.JobTagUuid,
 			&i.Uuid_2,
 			&i.Name,
-			&i.Description,
+			&i.Description_2,
 			&i.Color,
 			&i.WayUuid,
 		); err != nil {

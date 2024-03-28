@@ -13,7 +13,7 @@ interface PlanProps {
   /**
    * Job that should be done in next period
    */
-  job: string;
+  description: string;
 
   /**
    * User's uuid @User.uuid
@@ -23,7 +23,7 @@ interface PlanProps {
   /**
    * Number of time units (in minutes)
    */
-  estimationTime: number;
+  time: number;
 
   /**
    * Plan's tags
@@ -38,12 +38,23 @@ interface PlanProps {
   /**
    * Date when plan was updated in milliseconds
    */
-  updatedAt: number;
+  updatedAt: Date;
 
   /**
    * Date when plan was created in milliseconds
    */
-  createdAt: number;
+  createdAt: Date;
+
+  /**
+   * Day report uuid
+   */
+  dayReportUuid: string;
+
+  /**
+   * Owner name
+   */
+  ownerName: string;
+
 }
 
 /**
@@ -59,7 +70,7 @@ export class Plan {
   /**
    * Job that should be done in next period
    */
-  public job: string;
+  public description: string;
 
   /**
    * User's uuid @User.uuid
@@ -69,7 +80,7 @@ export class Plan {
   /**
    * How long the job will take time
    */
-  public estimationTime: number;
+  public time: number;
 
   /**
    * Plan's tags
@@ -84,22 +95,28 @@ export class Plan {
   /**
    * Date when plan was updated in milliseconds
    */
-  public updatedAt: number;
+  public updatedAt: Date;
 
   /**
    * Date when plan was created in milliseconds
    */
-  public createdAt: number;
+  public createdAt: Date;
+
+  public dayReportUuid: string;
+
+  public ownerName: string;
 
   constructor(planData: PlanProps) {
     this.uuid = planData.uuid;
-    this.job = planData.job;
+    this.description = planData.description;
     this.ownerUuid = planData.ownerUuid;
-    this.estimationTime = planData.estimationTime;
+    this.time = planData.time;
     this.tags = planData.tags;
     this.isDone = planData.isDone;
     this.updatedAt = planData.updatedAt;
     this.createdAt = planData.createdAt;
+    this.dayReportUuid = planData.dayReportUuid;
+    this.ownerName = planData.ownerName;
   }
 
 }

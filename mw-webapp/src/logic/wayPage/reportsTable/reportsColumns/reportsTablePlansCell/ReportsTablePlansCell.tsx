@@ -11,23 +11,24 @@ import {Modal} from "src/component/modal/Modal";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
+import {PlanDAL} from "src/dataAccessLogic/PlanDAL";
 import {JobDoneTags} from "src/logic/wayPage/reportsTable/jobDoneTags/JobDoneTags";
 import {ModalContentJobTags} from "src/logic/wayPage/reportsTable/modalContentJobTags/ModalContentJobTags";
-import {DEFAULT_SUMMARY_TIME, getListNumberByIndex, getName, getValidatedTime, MAX_TIME}
+import {DEFAULT_SUMMARY_TIME, getListNumberByIndex, getValidatedTime, MAX_TIME}
   from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
 import {CopyPlanToJobDoneModalContent} from "src/logic/wayPage/reportsTable/reportsColumns/reportsTablePlansCell/\
 copyPlanToJobDoneModalContent/CopyPlanToJobDoneModalContent";
+import {getFirstName} from "src/logic/waysTable/waysColumns";
 import {DayReport} from "src/model/businessModel/DayReport";
-import {JobDone} from "src/model/businessModel/JobDone";
 import {Plan} from "src/model/businessModel/Plan";
+import {User} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
-import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {JobTag} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
 import {DateUtils} from "src/utils/DateUtils";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
-import {v4 as uuidv4} from "uuid";
 import styles from "src/logic/wayPage/reportsTable/reportsColumns/reportsTablePlansCell/ReportsTablePlansCell.module.scss";
 
 /**
@@ -58,7 +59,7 @@ interface ReportsTablePlansCellProps {
   /**
    * Logged in user
    */
-  user: UserPreview | null;
+  user: User | null;
 
   /**
    * Callback for update dayReport
@@ -79,7 +80,7 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
   /**
    * Create Plan
    */
-  const createPlan = (userUuid?: string) => {
+  const createPlan = async (userUuid?: string) => {
     const defaultTag = props.jobTags.find((jobTag) => jobTag.name === "no tag");
     if (!defaultTag) {
       throw new Error("Default tag is not exist");
@@ -89,16 +90,7 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
       throw new Error("User uuid is not exist");
     }
 
-    const plan: Plan = new Plan({
-      job: "",
-      ownerUuid: userUuid,
-      uuid: uuidv4(),
-      tags: [defaultTag],
-      estimationTime: 0,
-      isDone: false,
-      createdAt: new Date().getTime(),
-      updatedAt: new Date().getTime(),
-    });
+    const plan = await PlanDAL.createPlan(userUuid, props.dayReport.uuid);
     const plans = [...props.dayReport.plans, plan];
 
     props.updateDayReport({uuid: props.dayReport.uuid, plans});
@@ -107,23 +99,28 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
   /**
    * Delete plan
    */
-  const deletePlan = (planUuid: string) => {
+  const deletePlan = async (planUuid: string) => {
     const plans = props.dayReport.plans.filter((plan) => plan.uuid !== planUuid);
 
     props.updateDayReport({uuid: props.dayReport.uuid, plans});
+    await PlanDAL.deletePlan(planUuid);
   };
 
   /**
    * Copy plan to job done on current date
    * TODO: add check date
    */
-  const copyToJobDone = async (plan: Plan, report: DayReport) => {
-    const jobDone: JobDone = new JobDone({
-      description: plan.job,
-      time: plan.estimationTime,
-      uuid: uuidv4(),
-      tags: plan.tags,
-    });
+  const copyToJobDone = async (plan: Plan, report: DayReport, ownerUuid?: string) => {
+    if (!ownerUuid) {
+      throw new Error("User is not exist and create plan is impossible");
+    }
+    // Const jobDone: JobDone = new JobDone({
+    //   description: plan.job,
+    //   time: plan.estimationTime,
+    //   uuid: uuidv4(),
+    //   tags: plan.tags,
+    // });
+    const jobDone = await JobDoneDAL.createJobDone(ownerUuid, report.uuid, plan);
 
     const jobsDone = [...report.jobsDone, jobDone];
 
@@ -148,7 +145,7 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
   /**
    * Toggle plan done
    */
-  const copyPlanToJobInCurrentDayReport = async (plan: Plan) => {
+  const copyPlanToJobInCurrentDayReport = async (plan: Plan, ownerUuid: string) => {
     const currentDate = DateUtils.getShortISODateValue(new Date);
     const isCurrentDayReportExist =
                 DateUtils.getShortISODateValue(props.way.dayReports[0].createdAt) === currentDate;
@@ -157,7 +154,7 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
       ? await props.createDayReport(props.way.uuid, props.way.dayReports)
       : props.way.dayReports[0];
 
-    await copyToJobDone(plan, currentDayReport);
+    await copyToJobDone(plan, currentDayReport, ownerUuid);
   };
 
   return (
@@ -172,7 +169,7 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
               <HorizontalContainer className={styles.listNumberAndName}>
                 {getListNumberByIndex(index)}
                 <Link path={pages.user.getPath({uuid: plan.ownerUuid})}>
-                  {getName(props.way, plan.ownerUuid)}
+                  {getFirstName(plan.ownerName)}
                 </Link>
               </HorizontalContainer>
               <HorizontalContainer className={styles.icons}>
@@ -204,13 +201,13 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
                   content={`Estimated${Symbols.NO_BREAK_SPACE}time for the plan`}
                 >
                   <EditableValue
-                    value={plan.estimationTime}
+                    value={plan.time}
                     type="number"
                     max={MAX_TIME}
                     onChangeFinish={(estimationTime) => {
                       const updatedPlan = new Plan({
                         ...plan,
-                        estimationTime: getValidatedTime(Number(estimationTime)),
+                        time: getValidatedTime(Number(estimationTime)),
                       });
                       updatePlan(updatedPlan);
                     }}
@@ -235,7 +232,8 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
                     }
                     content={
                       <CopyPlanToJobDoneModalContent
-                        copyPlanToJobInCurrentDayReport={copyPlanToJobInCurrentDayReport}
+                        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                        copyPlanToJobInCurrentDayReport={() => copyPlanToJobInCurrentDayReport(plan, props.user!.uuid)}
                         plan={plan}
                         updatePlan={updatePlan}
                       />
@@ -252,7 +250,7 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
                   <Confirm
                     trigger={<TrashIcon className={styles.icon} />}
                     content={<p>
-                      {`Are you sure you want to delete the plan "${plan.job}"?`}
+                      {`Are you sure you want to delete the plan "${plan.description}"?`}
                     </p>}
                     onOk={() => deletePlan(plan.uuid)}
                     okText="Delete"
@@ -263,11 +261,11 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
             </HorizontalContainer>
             <HorizontalContainer>
               <EditableTextarea
-                text={plan.job}
+                text={plan.description}
                 onChangeFinish={(text) => {
                   const updatedPlan = new Plan({
                     ...plan,
-                    job: text,
+                    description: text,
                   });
                   updatePlan(updatedPlan);
                 }}
@@ -301,7 +299,7 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
         <div className={styles.summaryText}>
           {"Total: "}
           {props.dayReport.plans
-            .reduce((summaryTime, plan) => plan.estimationTime + summaryTime, DEFAULT_SUMMARY_TIME)
+            .reduce((summaryTime, plan) => plan.time + summaryTime, DEFAULT_SUMMARY_TIME)
           }
         </div>
       </div>

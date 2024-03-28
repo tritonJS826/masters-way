@@ -21,10 +21,10 @@ import { exists, mapValues } from '../runtime';
 export interface SchemasUpdatePlanPayload {
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof SchemasUpdatePlanPayload
      */
-    estimationTime?: number;
+    description?: string;
     /**
      * 
      * @type {boolean}
@@ -33,10 +33,10 @@ export interface SchemasUpdatePlanPayload {
     isDone?: boolean;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof SchemasUpdatePlanPayload
      */
-    job?: string;
+    time?: number;
 }
 
 /**
@@ -63,9 +63,9 @@ export function SchemasUpdatePlanPayloadFromJSONTyped(
     }
     return {
         
-        'estimationTime': !exists(json, 'estimationTime') ? undefined : json['estimationTime'],
+        'description': !exists(json, 'description') ? undefined : json['description'],
         'isDone': !exists(json, 'isDone') ? undefined : json['isDone'],
-        'job': !exists(json, 'job') ? undefined : json['job'],
+        'time': !exists(json, 'time') ? undefined : json['time'],
     };
 }
 
@@ -79,9 +79,9 @@ export function SchemasUpdatePlanPayloadToJSON(value?: SchemasUpdatePlanPayload 
     }
     return {
         
-        'estimationTime': value.estimationTime,
+        'description': value.description,
         'isDone': value.isDone,
-        'job': value.job,
+        'time': value.time,
     };
 }
 

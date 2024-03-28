@@ -1,6 +1,6 @@
 import {ColumnDef, getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import {Table} from "src/component/table/Table";
-import {UserPreview} from "src/model/businessModelPreview/UserPreview";
+import {UserNotSaturatedWay} from "src/model/businessModelPreview/UserNotSaturatedWay";
 
 /**
  * Users table props
@@ -10,14 +10,14 @@ interface UsersTableProps {
   /**
    * Users table data
    */
-  data: UserPreview[];
+  data: UserNotSaturatedWay[];
 
   /**
    * Determines which columns will be in the table, the values in the cells and what types of data can be rendered in cells
    * Don't get rid of any https://github.com/TanStack/table/issues/4382
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  columns: ColumnDef<UserPreview, any>[];
+  columns: ColumnDef<UserNotSaturatedWay, any>[];
 }
 
 /**

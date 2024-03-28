@@ -9,6 +9,7 @@ import (
 
 	db "mwserver/db/sqlc"
 	"mwserver/schemas"
+	"mwserver/services"
 	"mwserver/util"
 
 	"github.com/gin-gonic/gin"
@@ -51,27 +52,73 @@ func (cc *UserController) CreateUser(ctx *gin.Context) {
 		CreatedAt:   now,
 		ImageUrl:    sql.NullString{String: payload.ImageUrl, Valid: payload.ImageUrl != ""},
 		IsMentor:    payload.IsMentor,
+		FirebaseID:  payload.FirebaseId,
 	}
 
-	user, err := cc.db.CreateUser(ctx, *args)
-
+	response, err := services.CreateUser(cc.db, ctx, args)
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"error": err.Error()})
 		return
 	}
 
-	imageUrl, _ := util.MarshalNullString(user.ImageUrl)
-	response := schemas.UserPlainResponse{
-		Uuid:        user.Uuid.String(),
-		Name:        user.Name,
-		Email:       user.Email,
-		Description: user.Description,
-		CreatedAt:   user.CreatedAt.String(),
-		ImageUrl:    string(imageUrl),
-		IsMentor:    user.IsMentor,
+	ctx.JSON(http.StatusOK, response)
+}
+
+// @Summary Create a new user or return already existent user if user with this firebase id already exist
+// @Description Temporal method. Shod be removed after improving auth logic. Email should be unique
+// @Tags user
+// @ID create-user-if-required
+// @Accept  json
+// @Produce  json
+// @Param request body schemas.CreateUserPayload true "query params"
+// @Success 200 {object} schemas.UserPlainResponse
+// @Router /users/getOrCreateByFirebaseId [post]
+func (cc *UserController) GetOrCreateUserByFirebaseId(ctx *gin.Context) {
+	var payload *schemas.CreateUserPayload
+
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 
-	ctx.JSON(http.StatusOK, response)
+	now := time.Now()
+	args := &db.CreateUserParams{
+		Name:        payload.Name,
+		Email:       payload.Email,
+		Description: payload.Description,
+		CreatedAt:   now,
+		ImageUrl:    sql.NullString{String: payload.ImageUrl, Valid: payload.ImageUrl != ""},
+		IsMentor:    payload.IsMentor,
+		FirebaseID:  payload.FirebaseId,
+	}
+
+	user, err := cc.db.GetUserByFirebaseId(ctx, payload.FirebaseId)
+	if err == nil {
+		imageUrl, _ := util.MarshalNullString(user.ImageUrl)
+		response := schemas.UserPlainResponse{
+			Uuid:        user.Uuid.String(),
+			Name:        user.Name,
+			Email:       user.Email,
+			Description: user.Description,
+			CreatedAt:   user.CreatedAt.String(),
+			ImageUrl:    string(imageUrl),
+			IsMentor:    user.IsMentor,
+		}
+		ctx.JSON(http.StatusOK, response)
+	} else {
+		dbUser, _ := services.CreateUser(cc.db, ctx, args)
+		response := schemas.UserPlainResponse{
+			Uuid:        dbUser.Uuid,
+			Name:        dbUser.Name,
+			Email:       dbUser.Email,
+			Description: dbUser.Description,
+			CreatedAt:   dbUser.CreatedAt,
+			ImageUrl:    dbUser.ImageUrl,
+			IsMentor:    dbUser.IsMentor,
+		}
+		ctx.JSON(http.StatusOK, response)
+	}
+
 }
 
 // @Summary Update user by UUID
@@ -113,23 +160,13 @@ func (cc *UserController) UpdateUser(ctx *gin.Context) {
 		return
 	}
 
-	type responseType struct {
-		Uuid        uuid.UUID
-		Name        string
-		Email       string
-		Description string
-		CreatedAt   time.Time
-		ImageUrl    string
-		IsMentor    bool
-	}
-
 	imageUrl, _ := util.MarshalNullString(user.ImageUrl)
-	response := responseType{
-		Uuid:        user.Uuid,
+	response := schemas.UserPlainResponse{
+		Uuid:        user.Uuid.String(),
 		Name:        user.Name,
 		Email:       user.Email,
 		Description: user.Description,
-		CreatedAt:   user.CreatedAt,
+		CreatedAt:   user.CreatedAt.String(),
 		ImageUrl:    string(imageUrl),
 		IsMentor:    user.IsMentor,
 	}
@@ -144,7 +181,7 @@ func (cc *UserController) UpdateUser(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param userId path string true "user ID"
-// @Success 200 {object} GetUserByIdResponseType
+// @Success 200 {object} schemas.UserPopulatedResponse
 // @Router /users/{userId} [get]
 func (cc *UserController) GetUserById(ctx *gin.Context) {
 	userId := ctx.Param("userId")
@@ -159,36 +196,75 @@ func (cc *UserController) GetUserById(ctx *gin.Context) {
 		return
 	}
 
-	ownWaysRaw, _ := cc.db.GetWayCollectionJoinWayByUserId(ctx, user.Uuid)
-	wayCollectionsMap := make(map[string]schemas.WayCollectionPopulatedResponse)
-	for _, collectionJoinWay := range ownWaysRaw {
+	dbWayCollections, _ := cc.db.GetWayCollectionsByUserId(ctx, user.Uuid)
+	wayCollections := lo.Map(dbWayCollections, func(collection db.WayCollection, i int) schemas.WayCollectionPopulatedResponse {
+		dbWays, _ := cc.db.GetWaysByCollectionId(ctx, collection.Uuid)
+		ways := lo.Map(dbWays, func(dbWay db.GetWaysByCollectionIdRow, i int) schemas.WayPlainResponse {
+			dbOwner, _ := cc.db.GetUserById(ctx, dbWay.OwnerUuid)
+			imageUrl, _ := util.MarshalNullString(dbOwner.ImageUrl)
+			owner := schemas.UserPlainResponse{
+				Uuid:        dbWay.OwnerUuid.String(),
+				Name:        dbOwner.Name,
+				Email:       dbOwner.Email,
+				Description: dbOwner.Description,
+				CreatedAt:   dbOwner.CreatedAt.String(),
+				ImageUrl:    string(imageUrl),
+				IsMentor:    dbOwner.IsMentor,
+			}
 
-		copiedFromWayUuid, _ := util.MarshalNullUuid(collectionJoinWay.WayCopiedFromWayUuid)
-		way := schemas.WayPlainResponse{
-			Uuid:              collectionJoinWay.WayUuid.String(),
-			Name:              collectionJoinWay.WayName,
-			GoalDescription:   collectionJoinWay.WayDescription,
-			UpdatedAt:         collectionJoinWay.WayUpdatedAt.String(),
-			CreatedAt:         collectionJoinWay.WayCreatedAt.String(),
-			EstimationTime:    collectionJoinWay.WayEstimationTime,
-			Status:            collectionJoinWay.WayStatus,
-			OwnerUuid:         collectionJoinWay.WayOwnerUuid.String(),
-			CopiedFromWayUuid: string(copiedFromWayUuid),
-			IsPrivate:         collectionJoinWay.WayIsPrivate,
+			dbMentors, _ := cc.db.GetMentorUsersByWayId(ctx, dbWay.Uuid)
+			mentors := lo.Map(dbMentors, func(dbMentor db.User, i int) schemas.UserPlainResponse {
+				imageUrl, _ := util.MarshalNullString(dbMentor.ImageUrl)
+				return schemas.UserPlainResponse{
+					Uuid:        dbMentor.Uuid.String(),
+					Name:        dbMentor.Name,
+					Email:       dbMentor.Email,
+					Description: dbMentor.Description,
+					CreatedAt:   dbMentor.CreatedAt.String(),
+					ImageUrl:    string(imageUrl),
+					IsMentor:    dbMentor.IsMentor,
+				}
+			})
+
+			dbWayTags, _ := cc.db.GetListWayTagsByWayId(ctx, dbWay.Uuid)
+			wayTags := lo.Map(dbWayTags, func(dbWayTag db.WayTag, i int) schemas.WayTagResponse {
+				return schemas.WayTagResponse{
+					Uuid: dbWayTag.Uuid.String(),
+					Name: dbWayTag.Name,
+				}
+			})
+
+			return schemas.WayPlainResponse{
+				Uuid:              dbWay.Uuid.String(),
+				Name:              dbWay.Name,
+				GoalDescription:   dbWay.GoalDescription,
+				UpdatedAt:         dbWay.CreatedAt.String(),
+				CreatedAt:         dbWay.UpdatedAt.String(),
+				EstimationTime:    dbWay.EstimationTime,
+				IsCompleted:       dbWay.IsCompleted,
+				Owner:             owner,
+				CopiedFromWayUuid: dbWay.CopiedFromWayUuid.UUID.String(),
+				IsPrivate:         dbWay.IsPrivate,
+				FavoriteForUsers:  int32(dbWay.WayFavoriteForUsers),
+				DayReportsAmount:  int32(dbWay.WayDayReportsAmount),
+				Mentors:           mentors,
+				WayTags:           wayTags,
+				MetricsDone:       int32(dbWay.WayMetricsDone),
+				MetricsTotal:      int32(dbWay.WayMetricsTotal),
+			}
+		})
+		wayCollection := schemas.WayCollectionPopulatedResponse{
+			Uuid:      collection.Uuid.String(),
+			Name:      collection.Name,
+			Ways:      ways,
+			CreatedAt: collection.CreatedAt.String(),
+			UpdatedAt: collection.UpdatedAt.String(),
+			OwnerUuid: collection.OwnerUuid.String(),
+			Type:      string(collection.Type),
 		}
+		return wayCollection
+	})
 
-		wayCollectionsMap[collectionJoinWay.CollectionUuid.String()] = schemas.WayCollectionPopulatedResponse{
-			Uuid:      collectionJoinWay.CollectionUuid.String(),
-			Name:      collectionJoinWay.CollectionName,
-			CreatedAt: collectionJoinWay.CollectionCreatedAt.String(),
-			UpdatedAt: collectionJoinWay.CollectionUpdatedAt.String(),
-			OwnerUuid: user.Uuid.String(),
-			Ways:      append(wayCollectionsMap[collectionJoinWay.CollectionUuid.String()].Ways, way),
-		}
-
-	}
-
-	wayCollections := util.MapToSlice(wayCollectionsMap)
 	tagsRaw, _ := cc.db.GetListUserTagsByUserId(ctx, user.Uuid)
 	tags := lo.Map(tagsRaw, func(dbUserTag db.UserTag, i int) schemas.UserTagResponse {
 		return schemas.UserTagResponse{
@@ -198,8 +274,39 @@ func (cc *UserController) GetUserById(ctx *gin.Context) {
 	})
 
 	wayRequestsRaw, _ := cc.db.GetFromUserMentoringRequestWaysByUserId(ctx, user.Uuid)
-	wayRequests := lo.Map(wayRequestsRaw, func(dbWay db.Way, i int) schemas.WayPlainResponse {
+	wayRequests := lo.Map(wayRequestsRaw, func(dbWay db.GetFromUserMentoringRequestWaysByUserIdRow, i int) schemas.WayPlainResponse {
 		copiedFromWayUuid, _ := util.MarshalNullUuid(dbWay.CopiedFromWayUuid)
+		dbWayTags, _ := cc.db.GetListWayTagsByWayId(ctx, dbWay.Uuid)
+		wayTags := lo.Map(dbWayTags, func(dbWayTag db.WayTag, i int) schemas.WayTagResponse {
+			return schemas.WayTagResponse{
+				Uuid: dbWayTag.Uuid.String(),
+				Name: dbWayTag.Name,
+			}
+		})
+		dbMentors, _ := cc.db.GetMentorUsersByWayId(ctx, dbWay.Uuid)
+		mentors := lo.Map(dbMentors, func(dbMentor db.User, i int) schemas.UserPlainResponse {
+			imageUrl, _ := util.MarshalNullString(dbMentor.ImageUrl)
+			return schemas.UserPlainResponse{
+				Uuid:        dbMentor.Uuid.String(),
+				Name:        dbMentor.Name,
+				Email:       dbMentor.Email,
+				Description: dbMentor.Description,
+				CreatedAt:   dbMentor.CreatedAt.String(),
+				ImageUrl:    string(imageUrl),
+				IsMentor:    dbMentor.IsMentor,
+			}
+		})
+		dbOwner, _ := cc.db.GetUserById(ctx, dbWay.Uuid)
+		imageUrl, _ := util.MarshalNullString(dbOwner.ImageUrl)
+		owner := schemas.UserPlainResponse{
+			Uuid:        dbOwner.Uuid.String(),
+			Name:        dbOwner.Name,
+			Email:       dbOwner.Email,
+			Description: dbOwner.Description,
+			CreatedAt:   dbOwner.CreatedAt.String(),
+			ImageUrl:    string(imageUrl),
+			IsMentor:    dbOwner.IsMentor,
+		}
 		return schemas.WayPlainResponse{
 			Uuid:              dbWay.Uuid.String(),
 			Name:              dbWay.Name,
@@ -207,10 +314,16 @@ func (cc *UserController) GetUserById(ctx *gin.Context) {
 			UpdatedAt:         dbWay.UpdatedAt.String(),
 			CreatedAt:         dbWay.CreatedAt.String(),
 			EstimationTime:    dbWay.EstimationTime,
-			Status:            dbWay.Status,
-			OwnerUuid:         dbWay.OwnerUuid.String(),
+			IsCompleted:       dbWay.IsCompleted,
+			Owner:             owner,
 			CopiedFromWayUuid: string(copiedFromWayUuid),
 			IsPrivate:         dbWay.IsPrivate,
+			FavoriteForUsers:  int32(dbWay.WayFavoriteForUsers),
+			DayReportsAmount:  int32(dbWay.WayDayReportsAmount),
+			Mentors:           mentors,
+			WayTags:           wayTags,
+			MetricsDone:       int32(dbWay.WayMetricsDone),
+			MetricsTotal:      int32(dbWay.WayMetricsTotal),
 		}
 	})
 
@@ -220,7 +333,7 @@ func (cc *UserController) GetUserById(ctx *gin.Context) {
 	})
 
 	favoriteUsersRaw, _ := cc.db.GetFavoriteUserByDonorUserId(ctx, user.Uuid)
-	favoriteUsers := lo.Map(favoriteUsersRaw, func(dbUser db.User, i int) schemas.UserPlainResponse {
+	favoriteUsers := lo.Map(favoriteUsersRaw, func(dbUser db.GetFavoriteUserByDonorUserIdRow, i int) schemas.UserPlainResponse {
 		imageUrl, _ := util.MarshalNullString(user.ImageUrl)
 		return schemas.UserPlainResponse{
 			Uuid:        user.Uuid.String(),
@@ -258,45 +371,69 @@ func (cc *UserController) GetUserById(ctx *gin.Context) {
 // @ID get-all-users
 // @Accept  json
 // @Produce  json
-// @Success 200 {array} schemas.UserPlainResponse
+// @Param page query integer false "Page number for pagination"
+// @Param limit query integer false "Number of items per page"
+// @Param email query string false "Part of user email for filters"
+// @Param name query string false "Part of user name for filters"
+// @Success 200 {object} schemas.GetAllUsersResponse
 // @Router /users [get]
 func (cc *UserController) GetAllUsers(ctx *gin.Context) {
-	var page = ctx.DefaultQuery("page", "1")
-	var limit = ctx.DefaultQuery("limit", "10")
+	page := ctx.DefaultQuery("page", "1")
+	limit := ctx.DefaultQuery("limit", "10")
+	email := ctx.DefaultQuery("email", "")
+	name := ctx.DefaultQuery("name", "")
 
 	reqPageID, _ := strconv.Atoi(page)
 	reqLimit, _ := strconv.Atoi(limit)
 	offset := (reqPageID - 1) * reqLimit
 
-	args := &db.ListUsersParams{
-		Limit:  int32(reqLimit),
-		Offset: int32(offset),
+	countUsersArgs := &db.CountUsersParams{
+		Column1: sql.NullString{String: email, Valid: true},
+		Column2: sql.NullString{String: name, Valid: true},
+	}
+	usersSize, _ := cc.db.CountUsers(ctx, *countUsersArgs)
+
+	listUsersArgs := &db.ListUsersParams{
+		Limit:   int32(reqLimit),
+		Offset:  int32(offset),
+		Column3: sql.NullString{String: email, Valid: true},
+		Column4: sql.NullString{String: name, Valid: true},
 	}
 
-	users, err := cc.db.ListUsers(ctx, *args)
+	users, err := cc.db.ListUsers(ctx, *listUsersArgs)
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"error": err.Error()})
 		return
 	}
 
-	if users == nil {
-		users = []db.User{}
-	}
-
-	response := make([]schemas.UserPlainResponse, len(users))
+	response := make([]schemas.UserPlainResponseWithInfo, len(users))
 	for i, user := range users {
+
+		userTags := lo.Map(user.TagUuids, func(tagUuid string, i int) schemas.UserTagResponse {
+			return schemas.UserTagResponse{
+				Uuid: tagUuid,
+				Name: user.TagNames[i],
+			}
+		})
+
 		imageUrl, _ := util.MarshalNullString(user.ImageUrl)
-		response[i] = schemas.UserPlainResponse{
-			Uuid:        user.Uuid.String(),
-			Name:        user.Name,
-			Description: user.Description,
-			CreatedAt:   user.CreatedAt.String(),
-			ImageUrl:    string(imageUrl),
-			IsMentor:    user.IsMentor,
+		response[i] = schemas.UserPlainResponseWithInfo{
+			Uuid:             user.Uuid.String(),
+			Name:             user.Name,
+			Description:      user.Description,
+			CreatedAt:        user.CreatedAt.String(),
+			ImageUrl:         string(imageUrl),
+			IsMentor:         user.IsMentor,
+			Email:            user.Email,
+			FavoriteForUsers: int32(user.FavoriteForUsersAmount),
+			FavoriteWays:     int32(user.FavoriteWays),
+			MentoringWays:    int32(user.MentoringWaysAmount),
+			OwnWays:          int32(user.OwnWaysAmount),
+			Tags:             userTags,
 		}
 	}
 
-	ctx.JSON(http.StatusOK, response)
+	ctx.JSON(http.StatusOK, schemas.GetAllUsersResponse{Size: usersSize, Users: response})
 }
 
 // @Summary Delete user by UUID

@@ -1,19 +1,28 @@
 import { Client } from "pg";
 import usersJSON from "../../backups/users.bkp.json" assert { type: "json" };
-import {firebaseDateToPgDate} from "../utils.js";
+import {convertFirebaseUuidToPgUuid, firebaseDateToPgDate} from "../utils.js";
 
-// examples
-const query = 'INSERT INTO users(name, email, description, created_at, image_url, is_mentor) VALUES ($1, $2, $3, $4, $5, $6)';
+const query = 'INSERT INTO users(uuid, name, email, description, created_at, image_url, is_mentor, firebase_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)';
 
-export const users = async (client: Client) => {
+export const users = (client: Client) => {
     usersJSON.forEach((user) => {
+        const values = [
+          convertFirebaseUuidToPgUuid(user.uuid),
+          user.name,
+          user.email,
+          user.description,
+          firebaseDateToPgDate(user.createdAt),
+          user.imageUrl,
+          user.isMentor,
+          user.uuid
+        ];
 
-        const values = [user.name, user.email, user.description, firebaseDateToPgDate(user.createdAt), user.imageUrl, user.isMentor];
-        client.query(query, values, (err: any, result: any) => {values
+        client.query(query, values, (err: any, result: any) => {
+          // values
             if (err) {
               console.error('Error executing query', err);
             } else {
-              console.log('Query result:', result.rows);
+              console.log('Query result users:', result.rows);
             }
           });
     });

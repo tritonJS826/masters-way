@@ -3,7 +3,7 @@ import {WayNotSaturatedUser} from "src/model/businessModelPreview/WayNotSaturate
 /**
  * Specific way collection data
  */
-export type WaysCollection = {
+export type WayCollection = {
 
   /**
    * Collection uuid
@@ -83,9 +83,9 @@ export class UserPreview {
   public createdAt: Date;
 
   /**
-   * Custom way collections {@link WaysCollection}
+   * Custom way collections {@link WayCollection}
    */
-  public customWayCollections: WaysCollection[];
+  public customWayCollections: WayCollection[];
 
   /**
    * User's uuids for whom this user are favorite

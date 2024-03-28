@@ -13,7 +13,7 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {WayCard} from "src/component/wayCard/WayCard";
-import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
+import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {useLoad} from "src/hooks/useLoad";
 import {usePersistanceState} from "src/hooks/usePersistanceState";
@@ -84,15 +84,9 @@ export const AllWaysPage = () => {
    * Callback that is called to fetch data
    */
   const loadData = async (): Promise<AllWaysFetchData> => {
-    const [
-      ways,
-      waysAmount,
-    ] = await Promise.all([
-      WayPreviewDAL.getWaysPreview({filter}),
-      WayPreviewDAL.getWaysPreviewAmount(filter),
-    ]);
+    const ways = await WayDAL.getWays({filter});
 
-    return {ways, waysAmount};
+    return {ways: ways.waysPreview, waysAmount: ways.size};
   };
 
   /**
@@ -101,8 +95,8 @@ export const AllWaysPage = () => {
   const loadMoreWays = async (loadedWays: WayPreview[]) => {
     const lastWayUuid = loadedWays.at(LAST_INDEX)?.uuid;
 
-    const ways = await WayPreviewDAL.getWaysPreview({filter, lastWayUuid});
-    setAllWays([...loadedWays, ...ways]);
+    const ways = await WayDAL.getWays({filter, lastWayUuid});
+    setAllWays([...loadedWays, ...ways.waysPreview]);
   };
 
   /**

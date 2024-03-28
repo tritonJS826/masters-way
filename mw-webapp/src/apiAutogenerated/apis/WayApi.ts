@@ -16,6 +16,7 @@
 import * as runtime from '../runtime';
 import type {
   SchemasCreateWay,
+  SchemasGetAllWaysResponse,
   SchemasUpdateWayPayload,
   SchemasWayPlainResponse,
   SchemasWayPopulatedResponse,
@@ -23,6 +24,8 @@ import type {
 import {
     SchemasCreateWayFromJSON,
     SchemasCreateWayToJSON,
+    SchemasGetAllWaysResponseFromJSON,
+    SchemasGetAllWaysResponseToJSON,
     SchemasUpdateWayPayloadFromJSON,
     SchemasUpdateWayPayloadToJSON,
     SchemasWayPlainResponseFromJSON,
@@ -37,6 +40,12 @@ export interface CreateWayRequest {
 
 export interface DeleteWayRequest {
     wayId: string;
+}
+
+export interface GetAllWaysRequest {
+    page?: number;
+    limit?: number;
+    status?: string;
 }
 
 export interface GetWayByUuidRequest {
@@ -119,8 +128,20 @@ export class WayApi extends runtime.BaseAPI {
      * Get ways with pagination
      * Get all ways
      */
-    async getAllWaysRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<SchemasWayPlainResponse>>> {
+    async getAllWaysRaw(requestParameters: GetAllWaysRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasGetAllWaysResponse>> {
         const queryParameters: any = {};
+
+        if (requestParameters.page !== undefined) {
+            queryParameters['page'] = requestParameters.page;
+        }
+
+        if (requestParameters.limit !== undefined) {
+            queryParameters['limit'] = requestParameters.limit;
+        }
+
+        if (requestParameters.status !== undefined) {
+            queryParameters['status'] = requestParameters.status;
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -131,15 +152,15 @@ export class WayApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(SchemasWayPlainResponseFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasGetAllWaysResponseFromJSON(jsonValue));
     }
 
     /**
      * Get ways with pagination
      * Get all ways
      */
-    async getAllWays(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<SchemasWayPlainResponse>> {
-        const response = await this.getAllWaysRaw(initOverrides);
+    async getAllWays(requestParameters: GetAllWaysRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasGetAllWaysResponse> {
+        const response = await this.getAllWaysRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

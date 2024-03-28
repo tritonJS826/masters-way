@@ -16,7 +16,7 @@ func NewRouteJobDone(jobDoneController controllers.JobDoneController) JobDoneRou
 
 func (cr *JobDoneRoutes) JobDoneRoute(rg *gin.RouterGroup) {
 	router := rg.Group("jobDones")
-	router.POST("/", cr.jobDoneController.CreateJobDone)
+	router.POST("", cr.jobDoneController.CreateJobDone)
 	router.GET("/:dayReportId", cr.jobDoneController.GetJobDonesByDayReportId)
 	router.PATCH("/:jobDoneId", cr.jobDoneController.UpdateJobDone)
 	router.DELETE("/:jobDoneId", cr.jobDoneController.DeleteJobDoneById)

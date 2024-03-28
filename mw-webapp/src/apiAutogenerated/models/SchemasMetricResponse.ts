@@ -33,10 +33,10 @@ export interface SchemasMetricResponse {
     description: string;
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof SchemasMetricResponse
      */
-    doneDate: number;
+    doneDate: string | null;
     /**
      * 
      * @type {number}
@@ -55,6 +55,12 @@ export interface SchemasMetricResponse {
      * @memberof SchemasMetricResponse
      */
     updatedAt: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemasMetricResponse
+     */
+    uuid: string;
 }
 
 /**
@@ -70,6 +76,7 @@ export function instanceOfSchemasMetricResponse(
     isInstance = isInstance && "estimationTime" in value;
     isInstance = isInstance && "isDone" in value;
     isInstance = isInstance && "updatedAt" in value;
+    isInstance = isInstance && "uuid" in value;
 
     return isInstance;
 }
@@ -93,6 +100,7 @@ export function SchemasMetricResponseFromJSONTyped(
         'estimationTime': json['estimationTime'],
         'isDone': json['isDone'],
         'updatedAt': json['updatedAt'],
+        'uuid': json['uuid'],
     };
 }
 
@@ -112,6 +120,7 @@ export function SchemasMetricResponseToJSON(value?: SchemasMetricResponse | null
         'estimationTime': value.estimationTime,
         'isDone': value.isDone,
         'updatedAt': value.updatedAt,
+        'uuid': value.uuid,
     };
 }
 

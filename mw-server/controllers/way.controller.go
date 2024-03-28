@@ -49,31 +49,79 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 		GoalDescription:   payload.GoalDescription,
 		EstimationTime:    payload.EstimationTime,
 		OwnerUuid:         payload.OwnerUuid,
-		Status:            payload.Status,
+		IsCompleted:       payload.IsCompleted,
+		IsPrivate:         false,
 		CopiedFromWayUuid: util.ToNullUuid(payload.CopiedFromWayUuid),
 		UpdatedAt:         now,
 		CreatedAt:         now,
 	}
 
 	way, err := cc.db.CreateWay(ctx, *args)
+	createDefaultJobTagParams := db.CreateJobTagParams{
+		Name:        "no tags",
+		Description: "Default Label: Assigned when no other labels apply.",
+		Color:       "rgb(255, 0, 0)",
+		WayUuid:     way.Uuid,
+	}
+	dbJobTag, _ := cc.db.CreateJobTag(ctx, createDefaultJobTagParams)
+	jobTag := schemas.JobTagResponse{
+		Uuid:        dbJobTag.Uuid.String(),
+		Name:        dbJobTag.Name,
+		Description: dbJobTag.Description,
+		Color:       dbJobTag.Color,
+	}
+	defaultJobTags := []schemas.JobTagResponse{
+		jobTag,
+	}
 
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"error": err.Error()})
 		return
 	}
 
+	dbWayTags, err := cc.db.GetListWayTagsByWayId(ctx, way.Uuid)
+	wayTags := make([]schemas.WayTagResponse, 0)
+	if err != nil {
+		wayTags = lo.Map(dbWayTags, func(dbWayTag db.WayTag, i int) schemas.WayTagResponse {
+			return schemas.WayTagResponse{
+				Uuid: dbWayTag.Uuid.String(),
+				Name: dbWayTag.Name,
+			}
+		})
+	}
+
 	copiedFromWayUuid, _ := util.MarshalNullUuid(way.CopiedFromWayUuid)
-	response := schemas.WayPlainResponse{
-		Name:              way.Name,
-		Uuid:              way.Uuid.String(),
-		GoalDescription:   way.GoalDescription,
-		UpdatedAt:         way.UpdatedAt.String(),
-		CreatedAt:         way.CreatedAt.String(),
-		EstimationTime:    way.EstimationTime,
-		Status:            way.Status,
-		OwnerUuid:         way.OwnerUuid.String(),
-		CopiedFromWayUuid: string(copiedFromWayUuid),
-		IsPrivate:         way.IsPrivate,
+	dbOwner, _ := cc.db.GetUserById(ctx, payload.OwnerUuid)
+	imageUrl, _ := util.MarshalNullString(dbOwner.ImageUrl)
+	owner := schemas.UserPlainResponse{
+		Uuid:        dbOwner.Uuid.String(),
+		Name:        dbOwner.Name,
+		Email:       dbOwner.Email,
+		Description: dbOwner.Description,
+		CreatedAt:   dbOwner.CreatedAt.String(),
+		ImageUrl:    string(imageUrl),
+		IsMentor:    dbOwner.IsMentor,
+	}
+
+	response := schemas.WayPopulatedResponse{
+		Name:                   way.Name,
+		Uuid:                   way.Uuid.String(),
+		GoalDescription:        way.GoalDescription,
+		UpdatedAt:              way.UpdatedAt.String(),
+		CreatedAt:              way.CreatedAt.String(),
+		EstimationTime:         way.EstimationTime,
+		IsCompleted:            way.IsCompleted,
+		Owner:                  owner,
+		CopiedFromWayUuid:      string(copiedFromWayUuid),
+		IsPrivate:              way.IsPrivate,
+		Mentors:                make([]schemas.UserPlainResponse, 0),
+		WayTags:                wayTags,
+		JobTags:                defaultJobTags,
+		DayReports:             make([]schemas.DayReportPopulatedResponse, 0),
+		FormerMentors:          make([]schemas.UserPlainResponse, 0),
+		FromUserMentorRequests: make([]schemas.UserPlainResponse, 0),
+		FavoriteForUsersAmount: 0,
+		Metrics:                make([]schemas.MetricResponse, 0),
 	}
 
 	ctx.JSON(http.StatusOK, response)
@@ -105,7 +153,8 @@ func (cc *WayController) UpdateWay(ctx *gin.Context) {
 		Name:            sql.NullString{String: payload.Name, Valid: payload.Name != ""},
 		GoalDescription: sql.NullString{String: payload.GoalDescription, Valid: payload.GoalDescription != ""},
 		EstimationTime:  sql.NullInt32{Int32: payload.EstimationTime, Valid: payload.EstimationTime != 0},
-		Status:          sql.NullString{String: payload.Status, Valid: payload.Status != ""},
+		IsCompleted:     sql.NullBool{Bool: payload.IsCompleted, Valid: true},
+		IsPrivate:       sql.NullBool{Bool: payload.IsPrivate, Valid: true},
 		UpdatedAt:       sql.NullTime{Time: now, Valid: true},
 	}
 
@@ -121,6 +170,31 @@ func (cc *WayController) UpdateWay(ctx *gin.Context) {
 	}
 
 	copiedFromWayUuid, _ := util.MarshalNullUuid(way.CopiedFromWayUuid)
+	mentorsRaw, _ := cc.db.GetMentorUsersByWayId(ctx, way.Uuid)
+	mentors := lo.Map(mentorsRaw, func(dbMentor db.User, i int) schemas.UserPlainResponse {
+		imageUrl, _ := util.MarshalNullString(dbMentor.ImageUrl)
+		return schemas.UserPlainResponse{
+			Uuid:        dbMentor.Uuid.String(),
+			Name:        dbMentor.Name,
+			Email:       dbMentor.Email,
+			Description: dbMentor.Description,
+			CreatedAt:   dbMentor.CreatedAt.String(),
+			ImageUrl:    string(imageUrl),
+			IsMentor:    dbMentor.IsMentor,
+		}
+	})
+
+	dbOwner, _ := cc.db.GetUserById(ctx, way.Uuid)
+	imageUrl, _ := util.MarshalNullString(dbOwner.ImageUrl)
+	owner := schemas.UserPlainResponse{
+		Uuid:        dbOwner.Uuid.String(),
+		Name:        dbOwner.Name,
+		Email:       dbOwner.Email,
+		Description: dbOwner.Description,
+		CreatedAt:   dbOwner.CreatedAt.String(),
+		ImageUrl:    string(imageUrl),
+		IsMentor:    dbOwner.IsMentor,
+	}
 	response := schemas.WayPlainResponse{
 		Uuid:              way.Uuid.String(),
 		Name:              way.Name,
@@ -128,10 +202,15 @@ func (cc *WayController) UpdateWay(ctx *gin.Context) {
 		UpdatedAt:         way.UpdatedAt.String(),
 		CreatedAt:         way.CreatedAt.String(),
 		EstimationTime:    way.EstimationTime,
-		Status:            way.Status,
-		OwnerUuid:         way.OwnerUuid.String(),
+		IsCompleted:       way.IsCompleted,
+		Owner:             owner,
 		CopiedFromWayUuid: string(copiedFromWayUuid),
 		IsPrivate:         way.IsPrivate,
+		FavoriteForUsers:  int32(way.WayFavoriteForUsers),
+		DayReportsAmount:  int32(way.WayDayReportsAmount),
+		Mentors:           mentors,
+		MetricsDone:       int32(way.WayMetricsDone),
+		MetricsTotal:      int32(way.WayMetricsTotal),
 	}
 
 	ctx.JSON(http.StatusOK, response)
@@ -151,7 +230,6 @@ func (cc *WayController) GetWayById(ctx *gin.Context) {
 	wayUuidRaw := ctx.Param("wayId")
 	wayUuid := uuid.MustParse(wayUuidRaw)
 
-	// first step (could be parallelized):
 	way, err := cc.db.GetWayById(ctx, wayUuid)
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -172,10 +250,7 @@ func (cc *WayController) GetWayById(ctx *gin.Context) {
 		}
 	})
 	dayReportsRaw, _ := cc.db.GetListDayReportsByWayUuid(ctx, wayUuid)
-	favoriteForUserUuidsRaw, _ := cc.db.GetFavoriteForUserUuidsByWayId(ctx, wayUuid)
-	favoriteForUserUuids := lo.Map(favoriteForUserUuidsRaw, func(uuid uuid.UUID, i int) string {
-		return uuid.String()
-	})
+	favoriteForUserAmount, _ := cc.db.GetFavoriteForUserUuidsByWayId(ctx, wayUuid)
 	fromUserMentoringRequestsRaw, _ := cc.db.GetFromUserMentoringRequestWaysByWayId(ctx, wayUuid)
 	fromUserMentoringRequests := lo.Map(fromUserMentoringRequestsRaw, func(fromUser db.User, i int) schemas.UserPlainResponse {
 		imageUrl, _ := util.MarshalNullString(fromUser.ImageUrl)
@@ -221,6 +296,7 @@ func (cc *WayController) GetWayById(ctx *gin.Context) {
 	metricsRaw, _ := cc.db.GetListMetricsByWayUuid(ctx, wayUuid)
 	metrics := lo.Map(metricsRaw, func(dbMetric db.Metric, i int) schemas.MetricResponse {
 		return schemas.MetricResponse{
+			Uuid:             dbMetric.Uuid.String(),
 			CreatedAt:        dbMetric.CreatedAt.String(),
 			UpdatedAt:        dbMetric.UpdatedAt.String(),
 			Description:      dbMetric.Description,
@@ -237,11 +313,36 @@ func (cc *WayController) GetWayById(ctx *gin.Context) {
 		}
 	})
 
+	dayReportUuids := lo.Map(dayReportsRaw, func(dbDayReport db.DayReport, i int) uuid.UUID {
+		return dbDayReport.Uuid
+	})
+	dbJobDones, _ := cc.db.GetJobDonesByDayReportUuids(ctx, dayReportUuids)
+
+	jobDonesMap := make(map[string][]schemas.JobDonePopulatedResponse)
+	jobDonsJobTags, _ := cc.db.GetJobDonesJoinJobTags(ctx, dayReportUuid)
+	lo.ForEach(dbJobDones, func(dbJobDone db.JobDone, i int) {
+		jobDoneOwner, _ := cc.db.GetUserById(ctx, dbJobDone.OwnerUuid)
+		jobDonesMap[dbJobDone.DayReportUuid.String()] = append(
+			jobDonesMap[dbJobDone.DayReportUuid.String()],
+			schemas.JobDonePopulatedResponse{
+				Uuid:          dbJobDone.Uuid.String(),
+				CreatedAt:     dbJobDone.CreatedAt.String(),
+				UpdatedAt:     dbJobDone.UpdatedAt.String(),
+				Description:   dbJobDone.Description,
+				Time:          dbJobDone.Time,
+				OwnerUuid:     dbJobDone.OwnerUuid.String(),
+				OwnerName:     jobDoneOwner.Name,
+				DayReportUuid: dbJobDone.DayReportUuid.String(),
+				Tags:          jobTags,
+			},
+		)
+	})
+
 	// second step (could be parallelized) populations:
 	dayReports := make([]schemas.DayReportPopulatedResponse, len(dayReportsRaw))
 	for i, dayReport := range dayReportsRaw {
 
-		jobDonesWithTags := cc.getDeepJobDonesByDayReportUuids(ctx, dayReport.Uuid)
+		// jobDonesWithTags := cc.getDeepJobDonesByDayReportUuids(ctx, dayReport.Uuid)
 		plansWithTags := cc.getDeepPlanByDayReportUuids(ctx, dayReport.Uuid)
 		problemsWithTags := cc.getDeepProblemsByDayReportUuids(ctx, dayReport.Uuid)
 		commentsWithTags := cc.getDeepCommentsByDayReportUuids(ctx, dayReport.Uuid)
@@ -251,7 +352,7 @@ func (cc *WayController) GetWayById(ctx *gin.Context) {
 			CreatedAt: dayReport.CreatedAt,
 			UpdatedAt: dayReport.UpdatedAt,
 			IsDayOff:  dayReport.IsDayOff,
-			JobsDone:  jobDonesWithTags,
+			JobsDone:  jobDonesMap[dayReport.Uuid.String()],
 			Plans:     plansWithTags,
 			Problems:  problemsWithTags,
 			Comments:  commentsWithTags,
@@ -267,7 +368,7 @@ func (cc *WayController) GetWayById(ctx *gin.Context) {
 		UpdatedAt:       way.UpdatedAt.String(),
 		CreatedAt:       way.CreatedAt.String(),
 		EstimationTime:  way.EstimationTime,
-		Status:          way.Status,
+		IsCompleted:     way.IsCompleted,
 		IsPrivate:       way.IsPrivate,
 		Owner: schemas.UserPlainResponse{
 			Uuid:        way.OwnerUuid.String(),
@@ -282,7 +383,7 @@ func (cc *WayController) GetWayById(ctx *gin.Context) {
 		Mentors:                mentors,
 		FormerMentors:          formerMentors,
 		FromUserMentorRequests: fromUserMentoringRequests,
-		FavoriteForUserUuids:   favoriteForUserUuids,
+		FavoriteForUsersAmount: int32(favoriteForUserAmount),
 		WayTags:                wayTags,
 		JobTags:                jobTags,
 		Metrics:                metrics,
@@ -299,44 +400,122 @@ func (cc *WayController) GetWayById(ctx *gin.Context) {
 // @ID get-all-ways
 // @Accept  json
 // @Produce  json
-// @Success 200 {array} schemas.WayPlainResponse
+// @Param page query integer false "Page number for pagination"
+// @Param limit query integer false "Number of items per page"
+// @Param status query string false "Ways type: all | completed | inProgress | abandoned"
+// @Success 200 {object} schemas.GetAllWaysResponse
 // @Router /ways [get]
 func (cc *WayController) GetAllWays(ctx *gin.Context) {
-	var page = ctx.DefaultQuery("page", "1")
-	var limit = ctx.DefaultQuery("limit", "10")
+	page := ctx.DefaultQuery("page", "1")
+	limit := ctx.DefaultQuery("limit", "10")
+	// status = "inProgress" | "completed" | "all" | "abandoned"
+	status := ctx.DefaultQuery("status", "all")
 
 	reqPageID, _ := strconv.Atoi(page)
 	reqLimit, _ := strconv.Atoi(limit)
 	offset := (reqPageID - 1) * reqLimit
+	currentDate := time.Now()
 
-	args := &db.ListWaysParams{
-		Limit:  int32(reqLimit),
-		Offset: int32(offset),
+	waySizeArgs := &db.CountWaysByTypeParams{
+		Column1: status,
+		Column2: currentDate,
+	}
+	waysSize, _ := cc.db.CountWaysByType(ctx, *waySizeArgs)
+
+	listWaysArgs := &db.ListWaysParams{
+		Limit:   int32(reqLimit),
+		Offset:  int32(offset),
+		Column3: status,
+		Column4: currentDate,
 	}
 
-	ways, err := cc.db.ListWays(ctx, *args)
+	ways, err := cc.db.ListWays(ctx, *listWaysArgs)
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"error": err.Error()})
 		return
 	}
 
-	response := make([]schemas.WayPlainResponse, len(ways))
-	for i, way := range ways {
+	wayUuids := lo.Map(ways, func(way db.ListWaysRow, i int) uuid.UUID {
+		return way.Uuid
+	})
+	wayOwnerUuids := lo.Map(ways, func(way db.ListWaysRow, i int) uuid.UUID {
+		return way.OwnerUuid
+	})
+
+	dbWayTags, _ := cc.db.GetListWayTagsByWayIds(ctx, wayUuids)
+	wayTagsMap := make(map[uuid.UUID][]schemas.WayTagResponse)
+	lo.ForEach(dbWayTags, func(dbWayTag db.GetListWayTagsByWayIdsRow, i int) {
+		wayTag := schemas.WayTagResponse{
+			Uuid: dbWayTag.Uuid.String(),
+			Name: dbWayTag.Name,
+		}
+		wayTagsMap[dbWayTag.WayUuid] = append(wayTagsMap[dbWayTag.Uuid], wayTag)
+	})
+
+	dbMentors, _ := cc.db.GetMentorUsersByWayIds(ctx, wayUuids)
+	mentorsMap := make(map[uuid.UUID][]schemas.UserPlainResponse)
+	lo.ForEach(dbMentors, func(dbMentor db.GetMentorUsersByWayIdsRow, i int) {
+		imageUrl, _ := util.MarshalNullString(dbMentor.ImageUrl)
+		mentor := schemas.UserPlainResponse{
+			Uuid:        dbMentor.Uuid.String(),
+			Name:        dbMentor.Name,
+			Email:       dbMentor.Email,
+			Description: dbMentor.Description,
+			CreatedAt:   dbMentor.CreatedAt.String(),
+			ImageUrl:    string(imageUrl),
+			IsMentor:    dbMentor.IsMentor,
+		}
+		mentorsMap[dbMentor.WayUuid] = append(mentorsMap[dbMentor.WayUuid], mentor)
+	})
+
+	dbOwners, _ := cc.db.GetUserByIds(ctx, wayOwnerUuids)
+	ownersMap := lo.SliceToMap(dbOwners, func(dbOwner db.User) (string, schemas.UserPlainResponse) {
+		imageUrl, _ := util.MarshalNullString(dbOwner.ImageUrl)
+		owner := schemas.UserPlainResponse{
+			Uuid:        dbOwner.Uuid.String(),
+			Name:        dbOwner.Name,
+			Email:       dbOwner.Email,
+			Description: dbOwner.Description,
+			CreatedAt:   dbOwner.CreatedAt.String(),
+			ImageUrl:    string(imageUrl),
+			IsMentor:    dbOwner.IsMentor,
+		}
+
+		return owner.Uuid, owner
+	})
+
+	response := lo.Map(ways, func(way db.ListWaysRow, i int) schemas.WayPlainResponse {
 		copiedFromWayUuid, _ := util.MarshalNullUuid(way.CopiedFromWayUuid)
-		response[i] = schemas.WayPlainResponse{
+
+		if wayTagsMap[way.Uuid] == nil {
+			wayTagsMap[way.Uuid] = make([]schemas.WayTagResponse, 0)
+		}
+		if mentorsMap[way.Uuid] == nil {
+			mentorsMap[way.Uuid] = make([]schemas.UserPlainResponse, 0)
+		}
+		wayResponse := schemas.WayPlainResponse{
+			Uuid:              way.Uuid.String(),
 			Name:              way.Name,
 			GoalDescription:   way.GoalDescription,
 			UpdatedAt:         way.UpdatedAt.String(),
 			CreatedAt:         way.CreatedAt.String(),
 			EstimationTime:    way.EstimationTime,
-			Status:            way.Status,
-			OwnerUuid:         way.OwnerUuid.String(),
+			IsCompleted:       way.IsCompleted,
+			Owner:             ownersMap[way.OwnerUuid.String()],
 			CopiedFromWayUuid: string(copiedFromWayUuid),
 			IsPrivate:         way.IsPrivate,
+			FavoriteForUsers:  int32(way.WayFavoriteForUsers),
+			DayReportsAmount:  int32(way.WayDayReportsAmount),
+			Mentors:           mentorsMap[way.Uuid],
+			WayTags:           wayTagsMap[way.Uuid],
+			MetricsDone:       int32(way.WayMetricsDone),
+			MetricsTotal:      int32(way.WayMetricsTotal),
 		}
-	}
 
-	ctx.JSON(http.StatusOK, gin.H{"size": len(response), "ways": response})
+		return wayResponse
+	})
+
+	ctx.JSON(http.StatusOK, schemas.GetAllWaysResponse{Size: int32(waysSize), Ways: response})
 }
 
 // Deleting way handlers
@@ -367,13 +546,11 @@ func (cc *WayController) getDeepJobDonesByDayReportUuids(ctx *gin.Context, dayRe
 	jobDonsJobTags, _ := cc.db.GetJobDonesJoinJobTags(ctx, dayReportUuid)
 	jobDonesDeepMap := make(map[uuid.UUID]schemas.JobDonePopulatedResponse)
 	for _, data := range jobDonsJobTags {
-		jobDoneDeep := jobDonesDeepMap[data.Uuid]
-		updatedTags := append(jobDoneDeep.Tags, db.JobTag{
-			Uuid:        data.JobTagUuid,
+		updatedTags := append(jobDonesDeepMap[data.Uuid].Tags, schemas.JobTagResponse{
+			Uuid:        data.JobTagUuid.String(),
 			Name:        data.Name,
 			Description: data.Description_2,
 			Color:       data.Color,
-			WayUuid:     data.WayUuid,
 		})
 		jobDoneOwner, _ := cc.db.GetUserById(ctx, data.OwnerUuid)
 		jobDonesDeepMap[data.Uuid] = schemas.JobDonePopulatedResponse{
@@ -411,16 +588,16 @@ func (cc *WayController) getDeepPlanByDayReportUuids(ctx *gin.Context, dayReport
 		})
 		planOwner, _ := cc.db.GetUserById(ctx, data.OwnerUuid)
 		planDeepMap[data.Uuid] = schemas.PlanPopulatedResponse{
-			Uuid:           data.Uuid.String(),
-			CreatedAt:      data.CreatedAt.String(),
-			UpdatedAt:      data.UpdatedAt.String(),
-			Job:            data.Job,
-			EstimationTime: data.EstimationTime,
-			OwnerUuid:      data.OwnerUuid.String(),
-			OwnerName:      planOwner.Name,
-			IsDone:         data.IsDone,
-			DayReportUuid:  data.DayReportUuid.String(),
-			Tags:           updatedTags,
+			Uuid:          data.Uuid.String(),
+			CreatedAt:     data.CreatedAt.String(),
+			UpdatedAt:     data.UpdatedAt.String(),
+			Description:   data.Description,
+			Time:          data.Time,
+			OwnerUuid:     data.OwnerUuid.String(),
+			OwnerName:     planOwner.Name,
+			IsDone:        data.IsDone,
+			DayReportUuid: data.DayReportUuid.String(),
+			Tags:          updatedTags,
 		}
 	}
 

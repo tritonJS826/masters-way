@@ -39,8 +39,8 @@ interface CopyPlanToJobDoneModalContentProps {
  * Copy plan to jobDone modal content
  */
 export const CopyPlanToJobDoneModalContent = (props: CopyPlanToJobDoneModalContentProps) => {
-  const [inputPlanJob, setInputPlanJob] = useState<string>(props.plan.job);
-  const [inputPlanTime, setInputPLanTime] = useState<number>(props.plan.estimationTime);
+  const [inputPlanJob, setInputPlanJob] = useState<string>(props.plan.description);
+  const [inputPlanTime, setInputPLanTime] = useState<number>(props.plan.time);
 
   const onOkRef = useRef<HTMLButtonElement>(null);
 
@@ -64,7 +64,7 @@ export const CopyPlanToJobDoneModalContent = (props: CopyPlanToJobDoneModalConte
           onKeyDown={handleEnter}
           className={styles.copyPlanToJobModalContainer}
         >
-          {`Are you sure you want to mark the plan "${props.plan.job}" as unfulfilled?`}
+          {`Are you sure you want to mark the plan "${props.plan.description}" as unfulfilled?`}
           <HorizontalContainer className={styles.buttons}>
             <DialogClose asChild>
               <Button
@@ -144,8 +144,8 @@ export const CopyPlanToJobDoneModalContent = (props: CopyPlanToJobDoneModalConte
                   const planForJob: Plan = new Plan({
                     ...props.plan,
                     isDone: !props.plan.isDone,
-                    job: inputPlanJob,
-                    estimationTime: inputPlanTime,
+                    description: inputPlanJob,
+                    time: inputPlanTime,
                   });
 
                   props.updatePlan(toggledPlan);
