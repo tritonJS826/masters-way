@@ -1,6 +1,7 @@
 import {
   CreateUserRequest,
   DeleteUserRequest,
+  GetAllUsersRequest,
   GetUserByUuidRequest,
   SchemasGetAllUsersResponse,
   SchemasUserPlainResponse,
@@ -15,14 +16,20 @@ import {userService} from "src/service/services";
 export interface GetUsersParams {
 
   /**
-   * Last fetched way uuid
+   * Page
    */
-  lastUserUuid?: string;
+  page?: number;
 
   /**
-   * FilterEmail
+   * Limit
    */
-  email?: string;
+  limit?: number;
+
+  /**
+   * Status
+   */
+  status?: string;
+
 }
 
 /**
@@ -33,8 +40,8 @@ export class UserService {
   /**
    * Get all users
    */
-  public static async getAllUsers(): Promise<SchemasGetAllUsersResponse> {
-    const allUsers = await userService.getAllUsers();
+  public static async getAllUsers(requestParameters: GetAllUsersRequest = {}): Promise<SchemasGetAllUsersResponse> {
+    const allUsers = await userService.getAllUsers(requestParameters);
 
     return allUsers;
   }

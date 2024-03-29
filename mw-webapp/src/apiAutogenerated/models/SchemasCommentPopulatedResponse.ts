@@ -37,6 +37,12 @@ export interface SchemasCommentPopulatedResponse {
      * @type {string}
      * @memberof SchemasCommentPopulatedResponse
      */
+    dayReportUuid: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemasCommentPopulatedResponse
+     */
     description: string;
     /**
      * 
@@ -66,6 +72,7 @@ export function instanceOfSchemasCommentPopulatedResponse(
 ): boolean {
     let isInstance = true;
     isInstance = isInstance && "createdAt" in value;
+    isInstance = isInstance && "dayReportUuid" in value;
     isInstance = isInstance && "description" in value;
     isInstance = isInstance && "owner" in value;
     isInstance = isInstance && "updatedAt" in value;
@@ -88,6 +95,7 @@ export function SchemasCommentPopulatedResponseFromJSONTyped(
     return {
         
         'createdAt': json['createdAt'],
+        'dayReportUuid': json['dayReportUuid'],
         'description': json['description'],
         'owner': SchemasUserPlainResponseFromJSON(json['owner']),
         'updatedAt': json['updatedAt'],
@@ -106,6 +114,7 @@ export function SchemasCommentPopulatedResponseToJSON(value?: SchemasCommentPopu
     return {
         
         'createdAt': value.createdAt,
+        'dayReportUuid': value.dayReportUuid,
         'description': value.description,
         'owner': SchemasUserPlainResponseToJSON(value.owner),
         'updatedAt': value.updatedAt,

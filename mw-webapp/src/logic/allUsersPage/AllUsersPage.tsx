@@ -27,6 +27,7 @@ import {AllUsersPageSettings, View} from "src/utils/LocalStorageWorker";
 import {useDebounce} from "use-debounce";
 import styles from "src/logic/allUsersPage/AllUsersPage.module.scss";
 
+const DEFAULT_PAGE_PAGINATION_VALUE = 1;
 const DEBOUNCE_DELAY_MILLISECONDS = 1000;
 const DEFAULT_ALL_USERS_PAGE_SETTINGS: AllUsersPageSettings = {view: View.Card};
 
@@ -54,6 +55,7 @@ export const AllUsersPage = () => {
   const [allUsers, setAllUsers] = useState<UserNotSaturatedWay[]>();
   const [allUsersAmount, setAllUsersAmount] = useState<number>();
   const [email, setEmail] = useState<string>("");
+  const [pagePagination, setPagePagination] = useState<number>(DEFAULT_PAGE_PAGINATION_VALUE);
   const [debouncedEmail ] = useDebounce(email, DEBOUNCE_DELAY_MILLISECONDS);
   const {language} = useGlobalContext();
 
@@ -68,7 +70,9 @@ export const AllUsersPage = () => {
    * Callback that is called to fetch data
    */
   const loadData = async (): Promise<AllUsersFetchData> => {
-    const users = await UserDAL.getUsers();
+    const users = await UserDAL.getUsers({page: pagePagination});
+    const nextPage = pagePagination + DEFAULT_PAGE_PAGINATION_VALUE;
+    setPagePagination(nextPage);
 
     return {users: users.usersPreview, usersAmount: users.size};
   };
@@ -76,12 +80,12 @@ export const AllUsersPage = () => {
   /**
    * Load more users
    */
-  // const loadMoreUsers = async (loadedUsers: UserNotSaturatedWay[]) => {
-  //   // Const lastUserUuid = loadedUsers.at(LAST_INDEX)?.uuid;
-
-  //   // Const users = await UserPreviewDAL.getUsersPreview({email, lastUserUuid});
-  //   // setAllUsers([...loadedUsers, ...users]);
-  // };
+  const loadMoreUsers = async (loadedUsers: UserNotSaturatedWay[]) => {
+    const nextPage = pagePagination + DEFAULT_PAGE_PAGINATION_VALUE;
+    setPagePagination(nextPage);
+    const users = await UserDAL.getUsers({page: pagePagination});
+    setAllUsers([...loadedUsers, ...users.usersPreview]);
+  };
 
   /**
    * Callback that is called on fetch and validation success
@@ -190,8 +194,7 @@ export const AllUsersPage = () => {
         {isMoreUsersExist &&
         <Button
           value={LanguageService.allUsers.usersTable.loadMoreButton[language]}
-          // OnClick={() => loadMoreUsers(allUsers)}
-          onClick={() => {}}
+          onClick={() => loadMoreUsers(allUsers)}
           buttonType={ButtonType.PRIMARY}
           className={styles.loadMoreButton}
         />

@@ -27,7 +27,11 @@ export const DayReportDTOToDayReport = (dayReportDTO: SchemasDayReportPopulatedR
   });
 
   const comments = dayReportDTO.comments.map((commentDTO) => {
-    return new Comment({...commentDTO});
+    return new Comment({
+      ...commentDTO,
+      createdAt: new Date(commentDTO.createdAt),
+      updatedAt: new Date(commentDTO.updatedAt),
+    });
   });
 
   return new DayReport({

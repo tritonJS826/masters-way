@@ -45,7 +45,7 @@ interface JobDoneTagsProps {
  */
 export const ModalContentJobTags = (props: JobDoneTagsProps) => {
   const [jobTagsUpdated, setJobTagsUpdated] = useState<JobTagData[]>(props.jobDoneTags);
-  const defaultTag = props.jobTags.find((tag) => tag.name === "no tag");
+  const defaultTag = props.jobTags.find((tag) => tag.name === "no tags");
 
   if (!defaultTag) {
     throw new Error("Default tag is not exist");

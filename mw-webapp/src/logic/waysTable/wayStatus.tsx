@@ -1,14 +1,14 @@
 import {LanguageService} from "src/service/LangauageService";
 import {Language} from "src/utils/LanguageWorker";
-import {Symbols} from "src/utils/Symbols";
+// Import {Symbols} from "src/utils/Symbols";
 
 /**
  * Available way statuses
  */
 export const WayStatus = {
-  completed: "Completed",
-  inProgress: `In${Symbols.NO_BREAK_SPACE}progress`,
-  abandoned: "Abandoned",
+  completed: "completed",
+  inProgress: "inProgress",
+  abandoned: "abandoned",
 } as const;
 
 export type WayStatusType = typeof WayStatus[keyof typeof WayStatus];

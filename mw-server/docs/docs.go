@@ -117,41 +117,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/comments/{dayReportId}": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "comment"
-                ],
-                "summary": "Get comments by dayReport UUID",
-                "operationId": "get-comments-by-DayReport-uuid",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "dayReport ID",
-                        "name": "dayReportId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/schemas.CommentPopulatedResponse"
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/dayReports": {
             "post": {
                 "consumes": [
@@ -2187,6 +2152,7 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "createdAt",
+                "dayReportUuid",
                 "description",
                 "owner",
                 "updatedAt",
@@ -2194,6 +2160,9 @@ const docTemplate = `{
             ],
             "properties": {
                 "createdAt": {
+                    "type": "string"
+                },
+                "dayReportUuid": {
                     "type": "string"
                 },
                 "description": {

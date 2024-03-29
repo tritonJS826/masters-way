@@ -71,9 +71,19 @@ export const FILTER_STATUS_ALL_VALUE = "all";
 /**
  * Callback that is called to fetch data
  */
-const loadWays = async (ways: WayPreview[]): Promise<WayPreview[]> => {
+const loadWays = async (
+  ways: WayPreview[],
+  filterStatus: WayStatusType | typeof FILTER_STATUS_ALL_VALUE,
+): Promise<WayPreview[]> => {
+  const waysPreview: WayPreview[] = filterStatus === "completed"
+    ? ways.filter((way) => way.status === "Completed")
+    : filterStatus === "inProgress"
+      ? ways.filter((way) => way.status === "In Progress")
+      : filterStatus === "abandoned"
+        ? ways.filter((way) => way.status === "Abandoned")
+        : ways;
 
-  return ways;
+  return waysPreview;
 };
 
 /**
@@ -116,7 +126,7 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
       /**
        * Load ways
        */
-      loadData: () => loadWays(props.ways),
+      loadData: () => loadWays(props.ways, props.filterStatus),
       validateData,
       onSuccess: setWays,
 
