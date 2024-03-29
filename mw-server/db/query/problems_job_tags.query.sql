@@ -6,14 +6,19 @@ INSERT INTO problems_job_tags(
     $1, $2
 ) RETURNING *;
 
--- name: GetProblemsJoinJobTags :many
-SELECT * FROM problems
-JOIN problems_job_tags ON problems.uuid = problems_job_tags.problem_uuid
-JOIN job_tags ON problems_job_tags.problem_uuid = job_tags.uuid
+-- name: GetProblemsByDayReportUuids :many
+SELECT 
+    *,
+    ARRAY(
+        SELECT job_dones_job_tags.job_tag_uuid 
+        FROM job_dones_job_tags 
+        WHERE job_dones.uuid = job_dones_job_tags.job_done_uuid
+    )::VARCHAR[] AS tag_uuids
+FROM problems
 WHERE problems.uuid IN (
     -- problems uuids for day report 
     SELECT problems.uuid FROM problems 
-    WHERE problems.day_report_uuid = $1
+    WHERE problems.day_report_uuid = ANY($1::UUID[])
 );
 
 -- name: DeleteProblemsJobTagByIds :exec

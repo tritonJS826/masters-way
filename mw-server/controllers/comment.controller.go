@@ -100,32 +100,6 @@ func (cc *CommentController) UpdateComment(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, comment)
 }
 
-// Get a single handler
-// @Summary Get comments by dayReport UUID
-// @Description
-// @Tags comment
-// @ID get-comments-by-DayReport-uuid
-// @Accept  json
-// @Produce  json
-// @Param dayReportId path string true "dayReport ID"
-// @Success 200 {array} schemas.CommentPopulatedResponse
-// @Router /comments/{dayReportId} [get]
-func (cc *CommentController) GetCommentsByDayReportId(ctx *gin.Context) {
-	dayReportId := ctx.Param("dayReportId")
-
-	comment, err := cc.db.GetListCommentsByDayReportId(ctx, uuid.MustParse(dayReportId))
-	if err != nil {
-		if err == sql.ErrNoRows {
-			ctx.JSON(http.StatusNotFound, gin.H{"status": "failed", "message": "Failed to retrieve Comment with this ID"})
-			return
-		}
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving Comment", "error": err.Error()})
-		return
-	}
-
-	ctx.JSON(http.StatusOK, comment)
-}
-
 // Deleting Comment handlers
 // @Summary Delete comment by UUID
 // @Description
