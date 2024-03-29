@@ -11,6 +11,11 @@ interface HorizontalContainerProps {
    * Additional custom class name
    */
   className?: string;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCy?: string;
 }
 
 /**
@@ -18,7 +23,10 @@ interface HorizontalContainerProps {
  */
 export const HorizontalContainer = (props: PropsWithChildren<HorizontalContainerProps>) => {
   return (
-    <div className={clsx(styles.horizontalContainer, props.className)}>
+    <div
+      className={clsx(styles.horizontalContainer, props.className)}
+      data-cy={props.dataCy}
+    >
       {props.children}
     </div>
   );
