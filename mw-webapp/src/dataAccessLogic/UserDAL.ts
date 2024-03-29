@@ -5,7 +5,7 @@ import {UserDTOToUserNotSaturatedWayConverter}
   from "src/dataAccessLogic/DTOToPreviewConverter/userDTOToUserNotSaturatedWayConverter";
 import {User} from "src/model/businessModel/User";
 import {UserNotSaturatedWay} from "src/model/businessModelPreview/UserNotSaturatedWay";
-import {UserService} from "src/service/UserService";
+import {GetUsersParams, UserService} from "src/service/UserService";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 
 /**
@@ -32,8 +32,8 @@ export class UserDAL {
   /**
    * Get all Users
    */
-  public static async getUsers(): Promise<AllUsersParams> {
-    const usersDTO = await UserService.getAllUsers();
+  public static async getUsers(params?: GetUsersParams): Promise<AllUsersParams> {
+    const usersDTO = await UserService.getAllUsers(params);
 
     const usersPreview = usersDTO.users.map(UserDTOToUserNotSaturatedWayConverter);
 

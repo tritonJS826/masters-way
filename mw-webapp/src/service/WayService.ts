@@ -1,6 +1,7 @@
 import {
   CreateWayRequest,
   DeleteWayRequest,
+  GetAllWaysRequest,
   GetWayByUuidRequest,
   SchemasGetAllWaysResponse,
   SchemasWayPlainResponse,
@@ -39,14 +40,20 @@ export type GetWaysFilter = {
 export interface GetWaysParams {
 
   /**
-   * Last fetched way uuid
+   * Page
    */
-  lastWayUuid?: string;
+  page?: number;
 
   /**
-   * Filter
+   * Limit
    */
-  filter?: GetWaysFilter;
+  limit?: number;
+
+  /**
+   * Status
+   */
+  status?: string;
+
 }
 
 /**
@@ -57,8 +64,8 @@ export class WayService {
   /**
    * Get all ways
    */
-  public static async getAllWays(): Promise<SchemasGetAllWaysResponse> {
-    const allWays = await wayService.getAllWays();
+  public static async getAllWays(requestParameters: GetAllWaysRequest = {}): Promise<SchemasGetAllWaysResponse> {
+    const allWays = await wayService.getAllWays(requestParameters);
 
     return allWays;
   }

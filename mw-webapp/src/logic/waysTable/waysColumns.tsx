@@ -101,6 +101,7 @@ export const getWaysColumns = (language: Language) => [
       return (
         <div className={styles.status}>
           {wayStatus}
+          {/* {console.log(row.original.status)} */}
         </div>
       );
     },

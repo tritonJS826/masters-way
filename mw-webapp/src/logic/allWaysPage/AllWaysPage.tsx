@@ -17,9 +17,7 @@ import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {useLoad} from "src/hooks/useLoad";
 import {usePersistanceState} from "src/hooks/usePersistanceState";
-import {LAST_INDEX} from "src/logic/mathConstants";
 import {FILTER_STATUS_ALL_VALUE} from "src/logic/waysTable/BaseWaysTable";
-import {getWaysFilter} from "src/logic/waysTable/wayFilter";
 import {getWaysColumns} from "src/logic/waysTable/waysColumns";
 import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {WayStatus} from "src/logic/waysTable/wayStatus";
@@ -28,6 +26,7 @@ import {LanguageService} from "src/service/LangauageService";
 import {AllWaysPageSettings, View} from "src/utils/LocalStorageWorker";
 import styles from "src/logic/allWaysPage/AllWaysPage.module.scss";
 
+const DEFAULT_PAGE_PAGINATION_VALUE = 1;
 const DEFAULT_ALL_WAYS_PAGE_SETTINGS: AllWaysPageSettings = {
   filterStatus: FILTER_STATUS_ALL_VALUE,
   view: View.Card,
@@ -63,6 +62,7 @@ export const AllWaysPage = () => {
   const {language} = useGlobalContext();
   const [allWays, setAllWays] = useState<WayPreview[]>();
   const [allWaysAmount, setAllWaysAmount] = useState<number>();
+  const [pagePagination, setPagePagination] = useState<number>(DEFAULT_PAGE_PAGINATION_VALUE);
 
   const isMoreWaysExist = allWays && allWaysAmount && allWays.length < allWaysAmount;
 
@@ -78,13 +78,13 @@ export const AllWaysPage = () => {
     ) => allWaysPageSettingsValidator(currentSettings),
   });
 
-  const filter = getWaysFilter(allWaysPageSettings.filterStatus);
-
   /**
    * Callback that is called to fetch data
    */
   const loadData = async (): Promise<AllWaysFetchData> => {
-    const ways = await WayDAL.getWays({filter});
+    const ways = await WayDAL.getWays({page: pagePagination, status: allWaysPageSettings.filterStatus});
+    const nextPage = pagePagination + DEFAULT_PAGE_PAGINATION_VALUE;
+    setPagePagination(nextPage);
 
     return {ways: ways.waysPreview, waysAmount: ways.size};
   };
@@ -93,9 +93,10 @@ export const AllWaysPage = () => {
    * Load more ways
    */
   const loadMoreWays = async (loadedWays: WayPreview[]) => {
-    const lastWayUuid = loadedWays.at(LAST_INDEX)?.uuid;
+    const nextPage = pagePagination + DEFAULT_PAGE_PAGINATION_VALUE;
+    setPagePagination(nextPage);
 
-    const ways = await WayDAL.getWays({filter, lastWayUuid});
+    const ways = await WayDAL.getWays({page: pagePagination, status: allWaysPageSettings.filterStatus});
     setAllWays([...loadedWays, ...ways.waysPreview]);
   };
 
@@ -142,7 +143,10 @@ export const AllWaysPage = () => {
             {id: "3", value: WayStatus.abandoned, text: LanguageService.allWays.filterBlock.typeOptions.abandoned[language]},
             {id: "4", value: WayStatus.inProgress, text: LanguageService.allWays.filterBlock.typeOptions.inProgress[language]},
           ]}
-          onChange={(value) => updateAllWaysPageSettings({filterStatus: value, view: allWaysPageSettings.view})}
+          onChange={(value) => {
+            updateAllWaysPageSettings({filterStatus: value, view: allWaysPageSettings.view});
+            setPagePagination(DEFAULT_PAGE_PAGINATION_VALUE);
+          }}
         />
 
         <HorizontalContainer>

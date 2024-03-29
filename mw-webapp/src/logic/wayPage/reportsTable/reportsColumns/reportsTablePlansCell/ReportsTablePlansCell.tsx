@@ -81,7 +81,7 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
    * Create Plan
    */
   const createPlan = async (userUuid?: string) => {
-    const defaultTag = props.jobTags.find((jobTag) => jobTag.name === "no tag");
+    const defaultTag = props.jobTags.find((jobTag) => jobTag.name === "no tags");
     if (!defaultTag) {
       throw new Error("Default tag is not exist");
     }

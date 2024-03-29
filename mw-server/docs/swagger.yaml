@@ -4,6 +4,8 @@ definitions:
     properties:
       createdAt:
         type: string
+      dayReportUuid:
+        type: string
       description:
         type: string
       owner:
@@ -14,6 +16,7 @@ definitions:
         type: string
     required:
     - createdAt
+    - dayReportUuid
     - description
     - owner
     - updatedAt
@@ -962,29 +965,6 @@ paths:
           schema:
             $ref: '#/definitions/schemas.CommentPopulatedResponse'
       summary: Update comment by UUID
-      tags:
-      - comment
-  /comments/{dayReportId}:
-    get:
-      consumes:
-      - application/json
-      operationId: get-comments-by-DayReport-uuid
-      parameters:
-      - description: dayReport ID
-        in: path
-        name: dayReportId
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/schemas.CommentPopulatedResponse'
-            type: array
-      summary: Get comments by dayReport UUID
       tags:
       - comment
   /dayReports:

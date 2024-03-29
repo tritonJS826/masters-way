@@ -59,7 +59,7 @@ interface ReportsTableJobsDoneCellProps {
  * Cell with jobs done in reports table
  */
 export const ReportsTableJobsDoneCell = (props: ReportsTableJobsDoneCellProps) => {
-  const defaultTag = props.jobTags.find((jobTag) => jobTag.name === "no tag");
+  const defaultTag = props.jobTags.find((jobTag) => jobTag.name === "no tags");
   if (!defaultTag) {
     throw new Error("Default tag is not exist");
   }

@@ -21,6 +21,7 @@ import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {MentorRequestDAL} from "src/dataAccessLogic/DTOToPreviewConverter/MentorRequestDAL";
 import {FavoriteUserWayDAL} from "src/dataAccessLogic/FavoriteUserWayDAL";
 import {UserDAL} from "src/dataAccessLogic/UserDAL";
+import {WayCollectionWayDAL} from "src/dataAccessLogic/WayCollectionWayDAL";
 import {BaseWayData, WayDAL} from "src/dataAccessLogic/WayDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {useLoad} from "src/hooks/useLoad";
@@ -45,6 +46,7 @@ import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
 import styles from "src/logic/wayPage/WayPage.module.scss";
 
+const LIKE_VALUE = 1;
 const DEFAULT_WAY_PAGE_SETTINGS: WayPageSettings = {
 
   /**
@@ -228,6 +230,15 @@ export const WayPage = (props: WayPageProps) => {
     />);
 
   /**
+   * Toggle way in way collection
+   */
+  const toggleWayInWay = async (isWayExistInCollection: boolean, wayCollectionUuid: string, wayUuid: string) => {
+    isWayExistInCollection
+      ? await WayCollectionWayDAL.deleteWayCollectionWay(wayCollectionUuid, wayUuid)
+      : await WayCollectionWayDAL.createWayCollectionWay(wayCollectionUuid, wayUuid);
+  };
+
+  /**
    * Add or remove way from custom collection depends on custom collections.
    */
   const toggleWayInWayCollectionByUuid = async (collectionUuid: string) => {
@@ -241,6 +252,8 @@ export const WayPage = (props: WayPageProps) => {
         if (isCollectionToUpdate) {
           const isWayExistInCollection = userCollection.ways.some(collectionWay => collectionWay.uuid === way.uuid);
 
+          toggleWayInWay(isWayExistInCollection, way.uuid, collectionUuid);
+
           const updatedWayUuids = isWayExistInCollection
             ? userCollection.ways.filter(wayPreview => wayPreview.uuid !== way.uuid)
             //TODO: delete "as"
@@ -250,6 +263,7 @@ export const WayPage = (props: WayPageProps) => {
         } else {
           return userCollection;
         }
+
       });
 
     setUser({...user, wayCollections: updatedCustomWayCollections});
@@ -310,7 +324,7 @@ export const WayPage = (props: WayPageProps) => {
     const wayToUpdate = {
       uuid: way.uuid,
       metrics: metricsToUpdate,
-      status: isWayCompleted ? "Completed" : "",
+      status: isWayCompleted ? "completed" : "",
     };
 
     setWayPartial(wayToUpdate);
@@ -372,24 +386,34 @@ export const WayPage = (props: WayPageProps) => {
 
                     if (isWayInFavorites) {
                       async () => {
+                        const favoriteAmount = way.favoriteForUsersAmount - LIKE_VALUE;
+                        setUser(user);
                         updateWay({
                           wayToUpdate: {
                             uuid: way.uuid,
-                            favoriteForUsersAmount: way.favoriteForUsersAmount--,
+                            favoriteForUsersAmount: favoriteAmount,
                           },
                           setWay: setWayPartial,
                         });
                         await FavoriteUserWayDAL.deleteFavoriteUserWay(user.uuid, way.uuid);
+                        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                        await WayCollectionWayDAL.deleteWayCollectionWay(favoriteWays!.uuid, way.uuid);
                       };
                     } else {
+                      const favoriteAmount = way.favoriteForUsersAmount + LIKE_VALUE;
+                      setUser(user);
                       updateWay({
                         wayToUpdate: {
                           uuid: way.uuid,
-                          favoriteForUsersAmount: way.favoriteForUsersAmount++,
+                          favoriteForUsersAmount: favoriteAmount,
                         },
                         setWay: setWayPartial,
                       });
-                      async() => await FavoriteUserWayDAL.createFavoriteUserWay(user.uuid, way.uuid);
+                      async () => {
+                        await FavoriteUserWayDAL.createFavoriteUserWay(user.uuid, way.uuid);
+                        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                        await WayCollectionWayDAL.createWayCollectionWay(favoriteWays!.uuid, way.uuid);
+                      };
                     }
 
                     displayNotification({

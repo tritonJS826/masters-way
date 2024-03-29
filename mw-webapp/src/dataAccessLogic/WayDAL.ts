@@ -10,7 +10,7 @@ import {User} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 // Import {USER_UUID_FIELD} from "src/model/DTOModel/UserDTO";
-import {GetWaysFilter, GetWaysParams, WayService} from "src/service/WayService";
+import {GetWaysParams, WayService} from "src/service/WayService";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 // Import {arrayToHashMap} from "src/utils/arrayToHashMap";
 // Import {getColorByString} from "src/utils/getColorByString";
@@ -71,8 +71,8 @@ export class WayDAL {
    * Get all WayPreview
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public static async getWays(params?: GetWaysParams, filter?: GetWaysFilter): Promise<AllWaysParams> {
-    const waysDTO = await WayService.getAllWays();
+  public static async getWays(params?: GetWaysParams): Promise<AllWaysParams> {
+    const waysDTO = await WayService.getAllWays(params);
     // Const waysPreview = await Promise.all(waysDTO.ways.map(async (wayDTO) => {
     //   const metrics = await MetricService.getMetrics({wayId: wayDTO.uuid});
 

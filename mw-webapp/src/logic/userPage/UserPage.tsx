@@ -13,6 +13,7 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {UserDAL} from "src/dataAccessLogic/UserDAL";
 import {WayCollectionDAL} from "src/dataAccessLogic/WayCollectionDAL";
+import {WayCollectionWayDAL} from "src/dataAccessLogic/WayCollectionWayDAL";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {useLoad} from "src/hooks/useLoad";
@@ -190,6 +191,7 @@ export const UserPage = (props: UserPageProps) => {
    */
   const createWay = async (owner: User) => {
     const newWay: SchemasWayPlainResponse = await WayDAL.createWay(owner);
+    await WayCollectionWayDAL.createWayCollectionWay(defaultCollection.uuid, newWay.uuid);
     navigate(pages.way.getPath({uuid: newWay.uuid}));
   };
 
