@@ -7,7 +7,9 @@ INSERT INTO comments(
     day_report_uuid
 ) VALUES (
     $1, $2, $3, $4, $5
-) RETURNING *;
+) RETURNING 
+    *,
+    (SELECT name FROM users WHERE uuid = $5) AS owner_name;
 
 
 -- name: GetListCommentsByDayReportUuids :many

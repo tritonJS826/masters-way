@@ -57,22 +57,6 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 	}
 
 	way, err := cc.db.CreateWay(ctx, *args)
-	createDefaultJobTagParams := db.CreateJobTagParams{
-		Name:        "no tags",
-		Description: "Default Label: Assigned when no other labels apply.",
-		Color:       "rgb(255, 0, 0)",
-		WayUuid:     way.Uuid,
-	}
-	dbJobTag, _ := cc.db.CreateJobTag(ctx, createDefaultJobTagParams)
-	jobTag := schemas.JobTagResponse{
-		Uuid:        dbJobTag.Uuid.String(),
-		Name:        dbJobTag.Name,
-		Description: dbJobTag.Description,
-		Color:       dbJobTag.Color,
-	}
-	defaultJobTags := []schemas.JobTagResponse{
-		jobTag,
-	}
 
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"error": err.Error()})
@@ -116,7 +100,7 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 		IsPrivate:              way.IsPrivate,
 		Mentors:                make([]schemas.UserPlainResponse, 0),
 		WayTags:                wayTags,
-		JobTags:                defaultJobTags,
+		JobTags:                []schemas.JobTagResponse{},
 		DayReports:             make([]schemas.DayReportPopulatedResponse, 0),
 		FormerMentors:          make([]schemas.UserPlainResponse, 0),
 		FromUserMentorRequests: make([]schemas.UserPlainResponse, 0),

@@ -56,7 +56,17 @@ func (cc *CommentController) CreateComment(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, comment)
+	response := schemas.CommentPopulatedResponse{
+		Uuid:          comment.Uuid.String(),
+		Description:   comment.Description,
+		OwnerUuid:     comment.OwnerUuid.String(),
+		OwnerName:     comment.OwnerName,
+		CreatedAt:     comment.CreatedAt.String(),
+		UpdatedAt:     comment.UpdatedAt.String(),
+		DayReportUuid: comment.DayReportUuid.String(),
+	}
+
+	ctx.JSON(http.StatusOK, response)
 }
 
 // Update comment handler

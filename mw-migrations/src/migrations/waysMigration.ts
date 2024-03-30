@@ -35,20 +35,7 @@ const migrateWays = async () => {
       
       const wayRef = doc(db, "ways", way.uuid);
 
-      const jobTagsParsed = way.jobTagsStringified.map((jobTag) => JSON.parse(jobTag));
-
-      const noTag = {
-        uuid: uuidv4(),
-        name: "no tag",
-        description: "Default tag",
-        color: getColorByString("no tag"),
-      }
-      const updatedJobTags = jobTagsParsed.concat(noTag);
-
-      const jobTagsStringified = updatedJobTags.map((tag) => JSON.stringify(tag));
-
       batch.update(wayRef, {
-        jobTagsStringified,
         isPrivate: false,
       });
 

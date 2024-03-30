@@ -17,21 +17,21 @@ export const jobTags = (client: Client) => {
         const jobTags = way.jobTagsStringified.map(j => JSON.parse(j));
 
         if (jobTags.length === 0) {
-            const values = [
-                v4(),
-                "no tags",
-                "Default Label: Assigned when no other labels apply.",
-                "rgb(255, 0, 0)",
-                convertFirebaseUuidToPgUuid(way.uuid),
-            ];
+            // const values = [
+            //     v4(),
+            //     "no tags",
+            //     "Default Label: Assigned when no other labels apply.",
+            //     "rgb(255, 0, 0)",
+            //     convertFirebaseUuidToPgUuid(way.uuid),
+            // ];
     
-            client.query(query, values, (err: any, result: any) => {
-                if (err) {
-                    console.error('Error executing query', err);
-                } else {
-                    console.log('Query result jobTags:', result.rows);
-                }
-                });
+            // client.query(query, values, (err: any, result: any) => {
+            //     if (err) {
+            //         console.error('Error executing query', err);
+            //     } else {
+            //         console.log('Query result jobTags:', result.rows);
+            //     }
+            //     });
         } else {
             jobTags.forEach(j => {
                 const values = [
