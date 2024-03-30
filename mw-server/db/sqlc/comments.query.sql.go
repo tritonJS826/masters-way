@@ -23,7 +23,9 @@ INSERT INTO comments(
     day_report_uuid
 ) VALUES (
     $1, $2, $3, $4, $5
-) RETURNING uuid, created_at, updated_at, description, owner_uuid, day_report_uuid
+) RETURNING 
+    uuid, created_at, updated_at, description, owner_uuid, day_report_uuid,
+    (SELECT name FROM users WHERE uuid = $5) AS owner_name
 `
 
 type CreateCommentParams struct {
@@ -34,7 +36,17 @@ type CreateCommentParams struct {
 	DayReportUuid uuid.UUID `json:"day_report_uuid"`
 }
 
-func (q *Queries) CreateComment(ctx context.Context, arg CreateCommentParams) (Comment, error) {
+type CreateCommentRow struct {
+	Uuid          uuid.UUID `json:"uuid"`
+	CreatedAt     time.Time `json:"created_at"`
+	UpdatedAt     time.Time `json:"updated_at"`
+	Description   string    `json:"description"`
+	OwnerUuid     uuid.UUID `json:"owner_uuid"`
+	DayReportUuid uuid.UUID `json:"day_report_uuid"`
+	OwnerName     string    `json:"owner_name"`
+}
+
+func (q *Queries) CreateComment(ctx context.Context, arg CreateCommentParams) (CreateCommentRow, error) {
 	row := q.queryRow(ctx, q.createCommentStmt, createComment,
 		arg.CreatedAt,
 		arg.UpdatedAt,
@@ -42,7 +54,7 @@ func (q *Queries) CreateComment(ctx context.Context, arg CreateCommentParams) (C
 		arg.OwnerUuid,
 		arg.DayReportUuid,
 	)
-	var i Comment
+	var i CreateCommentRow
 	err := row.Scan(
 		&i.Uuid,
 		&i.CreatedAt,
@@ -50,6 +62,7 @@ func (q *Queries) CreateComment(ctx context.Context, arg CreateCommentParams) (C
 		&i.Description,
 		&i.OwnerUuid,
 		&i.DayReportUuid,
+		&i.OwnerName,
 	)
 	return i, err
 }
