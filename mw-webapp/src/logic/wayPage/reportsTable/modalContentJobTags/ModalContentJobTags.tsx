@@ -10,7 +10,7 @@ import {JobTag as JobTagData} from "src/model/businessModelPreview/WayPreview";
 import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/logic/wayPage/reportsTable/modalContentJobTags/ModalContentJobTags.module.scss";
 
-const DEFAULT_AMOUNT_TAGS = 1;
+// Const DEFAULT_AMOUNT_TAGS = 1;
 
 /**
  * JobDoneTagsProps
@@ -45,28 +45,22 @@ interface JobDoneTagsProps {
  */
 export const ModalContentJobTags = (props: JobDoneTagsProps) => {
   const [jobTagsUpdated, setJobTagsUpdated] = useState<JobTagData[]>(props.jobDoneTags);
-  const defaultTag = props.jobTags.find((tag) => tag.name === "no tags");
+  // Const defaultTag = props.jobTags.find((tag) => tag.name === "no tags");
 
-  if (!defaultTag) {
-    throw new Error("Default tag is not exist");
-  }
+  // const isJobTagsEmpty = jobTagsUpdated.length === 0;
+  // Const isJobTagsSingle = jobTagsUpdated.length === DEFAULT_AMOUNT_TAGS;
 
-  const isJobTagsEmpty = jobTagsUpdated.length === 0;
-  const isJobTagsSingle = jobTagsUpdated.length === DEFAULT_AMOUNT_TAGS;
+  const filteredJobTags = Array.from(new Set(jobTagsUpdated));
 
-  const filteredJobTags = isJobTagsSingle
-    ? jobTagsUpdated
-    : Array.from(new Set(jobTagsUpdated)).filter((tag) => tag.name !== "no tag");
+  // Const checkedJobTags = isJobTagsEmpty
+  //   ? jobTagsUpdated.concat(defaultTag)
+  //   : filteredJobTags;
 
-  const checkedJobTags = isJobTagsEmpty
-    ? jobTagsUpdated.concat(defaultTag)
-    : filteredJobTags;
-
-  const allTagsMap = new Map(props.jobTags.concat(checkedJobTags).map((tag) => [tag.uuid, tag]));
+  const allTagsMap = new Map(props.jobTags.concat(filteredJobTags).map((tag) => [tag.uuid, tag]));
 
   const allTagsUnique = Array.from(allTagsMap, ([, value]) => value);
 
-  const allTags = allTagsUnique.filter((tag) => tag.name !== defaultTag.name);
+  // Const allTags = allTagsUnique.filter((tag) => tag.name !== defaultTag.name);
 
   /**
    * Remove job tag from Job done
@@ -91,14 +85,19 @@ export const ModalContentJobTags = (props: JobDoneTagsProps) => {
    */
   const handleEnter = (event: React.KeyboardEvent<HTMLElement>) => {
     if (event.key === KeySymbols.ENTER) {
-      props.updateTags(checkedJobTags);
+      props.updateTags(filteredJobTags);
     }
   };
 
   return (
     <div onKeyDown={handleEnter}>
       <div className={styles.jobTagsContainer}>
-        {allTags.map((tag) => {
+        {/* {isJobTagsEmpty &&
+          <div>
+            No tags!
+          </div>
+        } */}
+        {allTagsUnique.map((tag) => {
           return (
             <div
               key={tag.uuid}
@@ -112,14 +111,16 @@ export const ModalContentJobTags = (props: JobDoneTagsProps) => {
               >
                 <Checkbox
                   isDefaultChecked={jobTagsUpdated.includes(tag)}
-                  onChange={() => {}}
+                  onChange={() => { }}
                   className={styles.checkbox}
                 />
                 <JobTag jobTag={tag} />
               </Tooltip>
             </div>
           );
-        })}
+        })
+
+        }
       </div>
       <HorizontalContainer className={styles.buttons}>
         <DialogClose asChild>
@@ -131,7 +132,7 @@ export const ModalContentJobTags = (props: JobDoneTagsProps) => {
         <DialogClose asChild>
           <Button
             value="Save"
-            onClick={() => props.updateTags(checkedJobTags)}
+            onClick={() => props.updateTags(filteredJobTags)}
             buttonType={ButtonType.PRIMARY}
           />
         </DialogClose>

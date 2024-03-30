@@ -59,10 +59,11 @@ interface ReportsTableJobsDoneCellProps {
  * Cell with jobs done in reports table
  */
 export const ReportsTableJobsDoneCell = (props: ReportsTableJobsDoneCellProps) => {
-  const defaultTag = props.jobTags.find((jobTag) => jobTag.name === "no tags");
-  if (!defaultTag) {
-    throw new Error("Default tag is not exist");
-  }
+  // Const defaultTag = props.jobTags.find((jobTag) => jobTag.name === "no tags");
+  // if (!defaultTag) {
+  //   throw new Error("Default tag is not exist");
+  // }
+  const isJobTagsEmpty = props.jobTags.length === 0;
 
   /**
    * Create jobDone
@@ -133,9 +134,20 @@ export const ReportsTableJobsDoneCell = (props: ReportsTableJobsDoneCellProps) =
             <HorizontalContainer className={clsx(styles.horizontalContainer, styles.listNumberAndName)}>
               {getListNumberByIndex(index)}
               <HorizontalContainer className={styles.icons}>
+                {isJobTagsEmpty &&
+                  <div>
+                    No tags
+                  </div>
+                }
                 {props.isEditable ?
                   <Modal
-                    trigger={
+                    trigger={jobDone.tags.length === 0 ?
+                      <Button
+                        value="Add tag"
+                        onClick={() => { }}
+                        className={styles.addTagButton}
+                      />
+                      :
                       <div className={styles.tagsBlockTrigger}>
                         <JobDoneTags jobDoneTags={jobDone.tags} />
                       </div>

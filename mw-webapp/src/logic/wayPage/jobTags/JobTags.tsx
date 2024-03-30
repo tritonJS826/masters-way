@@ -47,7 +47,8 @@ interface JobTagsProps {
 export const JobTags = (props: JobTagsProps) => {
   const {language} = useGlobalContext();
   const [isJobDoneModalOpen, setIsJobDoneModalOpen] = useState<boolean>(false);
-  const allJobTags = props.jobTags.filter((tag) => tag.name !== "no tag");
+  // Const allJobTags = props.jobTags.filter((tag) => tag.name !== "no tag");
+  const isJobTagsEmpty = props.jobTags.length === 0;
 
   /**
    * Remove job tag from Way
@@ -74,7 +75,12 @@ export const JobTags = (props: JobTagsProps) => {
 
   return (
     <div className={styles.jobTags}>
-      {allJobTags.map((jobTag) => {
+      {isJobTagsEmpty &&
+        <div className={styles.jobTags}>
+          No tags
+        </div>
+      }
+      {props.jobTags.map((jobTag) => {
         return (
           <div
             key={jobTag.uuid}
@@ -99,7 +105,8 @@ export const JobTags = (props: JobTagsProps) => {
             )}
           </div>
         );
-      })}
+      })
+      }
 
       {props.isEditable &&
         <Modal

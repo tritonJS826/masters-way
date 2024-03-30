@@ -77,14 +77,16 @@ interface ReportsTablePlansCellProps {
  */
 export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
 
+  const isJobTagsEmpty = props.jobTags.length === 0;
+
   /**
    * Create Plan
    */
   const createPlan = async (userUuid?: string) => {
-    const defaultTag = props.jobTags.find((jobTag) => jobTag.name === "no tags");
-    if (!defaultTag) {
-      throw new Error("Default tag is not exist");
-    }
+    // Const defaultTag = props.jobTags.find((jobTag) => jobTag.name === "no tags");
+    // if (!defaultTag) {
+    //   throw new Error("Default tag is not exist");
+    // }
 
     if (!userUuid) {
       throw new Error("User uuid is not exist");
@@ -114,12 +116,6 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
     if (!ownerUuid) {
       throw new Error("User is not exist and create plan is impossible");
     }
-    // Const jobDone: JobDone = new JobDone({
-    //   description: plan.job,
-    //   time: plan.estimationTime,
-    //   uuid: uuidv4(),
-    //   tags: plan.tags,
-    // });
     const jobDone = await JobDoneDAL.createJobDone(ownerUuid, report.uuid, plan);
 
     const jobsDone = [...report.jobsDone, jobDone];
@@ -175,7 +171,11 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
               <HorizontalContainer className={styles.icons}>
                 {props.isEditable ?
                   <Modal
-                    trigger={
+                    trigger={isJobTagsEmpty ?
+                      <div className={styles.tagsBlockTrigger}>
+                        Add tag
+                      </div>
+                      :
                       <div className={styles.tagsBlockTrigger}>
                         <JobDoneTags jobDoneTags={plan.tags} />
                       </div>
