@@ -405,7 +405,8 @@ func (cc *WayController) GetWayById(ctx *gin.Context) {
 				CreatedAt:     comment.CreatedAt.String(),
 				UpdatedAt:     comment.UpdatedAt.String(),
 				Description:   comment.Description,
-				Owner:         commentOwner,
+				OwnerUuid:     commentOwner.Uuid,
+				OwnerName:     commentOwner.Name,
 				DayReportUuid: comment.DayReportUuid.String(),
 			},
 		)
