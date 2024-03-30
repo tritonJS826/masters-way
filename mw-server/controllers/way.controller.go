@@ -3,6 +3,7 @@ package controllers
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"net/http"
 	"strconv"
 	"time"
@@ -179,6 +180,13 @@ func (cc *WayController) UpdateWay(ctx *gin.Context) {
 		ImageUrl:    string(imageUrl),
 		IsMentor:    dbOwner.IsMentor,
 	}
+	dbTags, _ := cc.db.GetListWayTagsByWayId(ctx, way.Uuid)
+	wayTags := lo.Map(dbTags, func(dbTag db.WayTag, i int) schemas.WayTagResponse {
+		return schemas.WayTagResponse{
+			Uuid: dbTag.Uuid.String(),
+			Name: dbTag.Name,
+		}
+	})
 	response := schemas.WayPlainResponse{
 		Uuid:              way.Uuid.String(),
 		Name:              way.Name,
@@ -195,6 +203,7 @@ func (cc *WayController) UpdateWay(ctx *gin.Context) {
 		Mentors:           mentors,
 		MetricsDone:       int32(way.WayMetricsDone),
 		MetricsTotal:      int32(way.WayMetricsTotal),
+		WayTags:           wayTags,
 	}
 
 	ctx.JSON(http.StatusOK, response)
@@ -347,7 +356,7 @@ func (cc *WayController) GetWayById(ctx *gin.Context) {
 		)
 	})
 
-	dbPlans, _ := cc.db.GetPlansByDayReportUuids(ctx, dayReportUuids)
+	dbPlans, err := cc.db.GetPlansByDayReportUuids(ctx, dayReportUuids)
 	plansMap := make(map[string][]schemas.PlanPopulatedResponse)
 	lo.ForEach(dbPlans, func(plan db.GetPlansByDayReportUuidsRow, i int) {
 		planOwner := allWayRelatedUsersMap[plan.OwnerUuid.String()]
@@ -372,6 +381,7 @@ func (cc *WayController) GetWayById(ctx *gin.Context) {
 	})
 
 	dbProblems, _ := cc.db.GetProblemsByDayReportUuids(ctx, dayReportUuids)
+	fmt.Println(dbProblems, err)
 	problemsMap := make(map[string][]schemas.ProblemPopulatedResponse)
 	lo.ForEach(dbProblems, func(problem db.GetProblemsByDayReportUuidsRow, i int) {
 		problemOwner := allWayRelatedUsersMap[problem.OwnerUuid.String()]

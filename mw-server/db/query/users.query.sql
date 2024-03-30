@@ -19,8 +19,7 @@ LIMIT 1;
 
 -- name: GetUserByIds :many
 SELECT * FROM users
-WHERE uuid = ANY($1::UUID[])
-LIMIT 1;
+WHERE uuid = ANY($1::UUID[]);
 
 -- name: GetUserByFirebaseId :one
 SELECT * FROM users
