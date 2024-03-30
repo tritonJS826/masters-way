@@ -13,13 +13,6 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { SchemasUserPlainResponse } from './SchemasUserPlainResponse';
-import {
-    SchemasUserPlainResponseFromJSON,
-    SchemasUserPlainResponseFromJSONTyped,
-    SchemasUserPlainResponseToJSON,
-} from './SchemasUserPlainResponse';
-
 /**
  * 
  * @export
@@ -46,10 +39,16 @@ export interface SchemasCommentPopulatedResponse {
     description: string;
     /**
      * 
-     * @type {SchemasUserPlainResponse}
+     * @type {string}
      * @memberof SchemasCommentPopulatedResponse
      */
-    owner: SchemasUserPlainResponse;
+    ownerName: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemasCommentPopulatedResponse
+     */
+    ownerUuid: string;
     /**
      * 
      * @type {string}
@@ -74,7 +73,8 @@ export function instanceOfSchemasCommentPopulatedResponse(
     isInstance = isInstance && "createdAt" in value;
     isInstance = isInstance && "dayReportUuid" in value;
     isInstance = isInstance && "description" in value;
-    isInstance = isInstance && "owner" in value;
+    isInstance = isInstance && "ownerName" in value;
+    isInstance = isInstance && "ownerUuid" in value;
     isInstance = isInstance && "updatedAt" in value;
     isInstance = isInstance && "uuid" in value;
 
@@ -97,7 +97,8 @@ export function SchemasCommentPopulatedResponseFromJSONTyped(
         'createdAt': json['createdAt'],
         'dayReportUuid': json['dayReportUuid'],
         'description': json['description'],
-        'owner': SchemasUserPlainResponseFromJSON(json['owner']),
+        'ownerName': json['ownerName'],
+        'ownerUuid': json['ownerUuid'],
         'updatedAt': json['updatedAt'],
         'uuid': json['uuid'],
     };
@@ -116,7 +117,8 @@ export function SchemasCommentPopulatedResponseToJSON(value?: SchemasCommentPopu
         'createdAt': value.createdAt,
         'dayReportUuid': value.dayReportUuid,
         'description': value.description,
-        'owner': SchemasUserPlainResponseToJSON(value.owner),
+        'ownerName': value.ownerName,
+        'ownerUuid': value.ownerUuid,
         'updatedAt': value.updatedAt,
         'uuid': value.uuid,
     };

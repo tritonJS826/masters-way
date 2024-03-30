@@ -117,11 +117,11 @@ export const ReportsTableCommentsCell = (props: ReportsTableCommentsCellProps) =
               <HorizontalContainer className={styles.horizontalContainer}>
                 <HorizontalContainer className={styles.listNumberAndName}>
                   {getListNumberByIndex(index)}
-                  <Link path={pages.user.getPath({uuid: comment.owner.uuid})}>
-                    {getFirstName(comment.owner.name)}
+                  <Link path={pages.user.getPath({uuid: comment.ownerUuid})}>
+                    {getFirstName(comment.ownerName)}
                   </Link>
                 </HorizontalContainer>
-                {comment.owner.uuid === props.user?.uuid &&
+                {comment.ownerUuid === props.user?.uuid &&
                 <Tooltip
                   content="Delete comment"
                   position={PositionTooltip.LEFT}
@@ -141,7 +141,7 @@ export const ReportsTableCommentsCell = (props: ReportsTableCommentsCellProps) =
                 <EditableTextarea
                   text={comment.description}
                   onChangeFinish={(text) => updateComment(comment, text)}
-                  isEditable={comment.owner.uuid === props.user?.uuid}
+                  isEditable={comment.ownerUuid === props.user?.uuid}
                   className={styles.editableTextarea}
                 />
               </HorizontalContainer>

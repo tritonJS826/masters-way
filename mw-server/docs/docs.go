@@ -2154,7 +2154,8 @@ const docTemplate = `{
                 "createdAt",
                 "dayReportUuid",
                 "description",
-                "owner",
+                "ownerName",
+                "ownerUuid",
                 "updatedAt",
                 "uuid"
             ],
@@ -2168,8 +2169,11 @@ const docTemplate = `{
                 "description": {
                     "type": "string"
                 },
-                "owner": {
-                    "$ref": "#/definitions/schemas.UserPlainResponse"
+                "ownerName": {
+                    "type": "string"
+                },
+                "ownerUuid": {
+                    "type": "string"
                 },
                 "updatedAt": {
                     "type": "string"

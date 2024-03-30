@@ -1,5 +1,3 @@
-import {UserPreviewShort} from "src/model/businessModelPreview/UserPreviewShort";
-
 /**
  * User's comments model
  */
@@ -10,10 +8,20 @@ export class Comment {
    */
   public uuid: string;
 
+  // /**
+  //  * Commentator's uuid
+  //  */
+  // public owner: UserPreviewShort;
+
+  /**
+   * Commentator's name
+   */
+  public ownerName: string;
+
   /**
    * Commentator's uuid
    */
-  public owner: UserPreviewShort;
+  public ownerUuid: string;
 
   /**
    * Comment's text
@@ -37,7 +45,8 @@ export class Comment {
 
   constructor(commentData: Comment) {
     this.uuid = commentData.uuid;
-    this.owner = commentData.owner;
+    this.ownerName = commentData.ownerName;
+    this.ownerUuid = commentData.ownerUuid;
     this.description = commentData.description;
     this.createdAt = commentData.createdAt;
     this.updatedAt = commentData.updatedAt;

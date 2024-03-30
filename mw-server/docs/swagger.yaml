@@ -8,8 +8,10 @@ definitions:
         type: string
       description:
         type: string
-      owner:
-        $ref: '#/definitions/schemas.UserPlainResponse'
+      ownerName:
+        type: string
+      ownerUuid:
+        type: string
       updatedAt:
         type: string
       uuid:
@@ -18,7 +20,8 @@ definitions:
     - createdAt
     - dayReportUuid
     - description
-    - owner
+    - ownerName
+    - ownerUuid
     - updatedAt
     - uuid
     type: object

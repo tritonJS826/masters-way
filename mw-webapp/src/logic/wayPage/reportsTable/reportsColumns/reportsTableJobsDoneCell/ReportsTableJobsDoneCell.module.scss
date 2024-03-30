@@ -81,3 +81,13 @@
 .summaryText {
   text-wrap: nowrap;
 }
+
+.addTagButton {
+  padding: 0;
+  border: none;
+  &:hover {
+    background-color: transparent;
+    color: var(--primaryTextColor);
+    cursor: pointer;
+  }
+}

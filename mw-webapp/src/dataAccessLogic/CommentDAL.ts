@@ -1,5 +1,4 @@
 import {Comment} from "src/model/businessModel/Comment";
-import {UserPreviewShort} from "src/model/businessModelPreview/UserPreviewShort";
 import {CommentService} from "src/service/CommentService";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 
@@ -20,14 +19,11 @@ export class CommentDAL {
       },
     });
 
-    const owner = new UserPreviewShort({...commentDTO.owner});
-
     const comment = new Comment({
       ...commentDTO,
       createdAt: new Date(commentDTO.createdAt),
       updatedAt: new Date(commentDTO.updatedAt),
       dayReportUuid: commentDTO.dayReportUuid,
-      owner,
     });
 
     return comment;
