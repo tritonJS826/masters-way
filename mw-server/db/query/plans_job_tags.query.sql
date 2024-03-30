@@ -10,16 +10,11 @@ INSERT INTO plans_job_tags(
 SELECT 
     *,
     ARRAY(
-        SELECT job_dones_job_tags.job_tag_uuid 
-        FROM job_dones_job_tags 
-        WHERE job_dones.uuid = job_dones_job_tags.job_done_uuid
+        SELECT plans_job_tags.job_tag_uuid 
+        FROM plans_job_tags 
+        WHERE plans.uuid = plans_job_tags.job_tag_uuid
     )::VARCHAR[] AS tag_uuids
-FROM plans
-WHERE plans.uuid IN (
-    -- plans uuids for day report 
-    SELECT plans.uuid FROM plans 
-    WHERE plans.day_report_uuid = ANY($1::UUID[])
-);
+FROM plans WHERE plans.day_report_uuid = ANY($1::UUID[]);
 
 -- name: DeletePlansJobTagByIds :exec
 DELETE FROM plans_job_tags

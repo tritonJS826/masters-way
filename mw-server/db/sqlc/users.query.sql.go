@@ -137,7 +137,6 @@ func (q *Queries) GetUserById(ctx context.Context, argUuid uuid.UUID) (User, err
 const getUserByIds = `-- name: GetUserByIds :many
 SELECT uuid, name, email, description, created_at, image_url, is_mentor, firebase_id FROM users
 WHERE uuid = ANY($1::UUID[])
-LIMIT 1
 `
 
 func (q *Queries) GetUserByIds(ctx context.Context, dollar_1 []uuid.UUID) ([]User, error) {

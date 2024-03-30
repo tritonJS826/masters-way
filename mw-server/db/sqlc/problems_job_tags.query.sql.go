@@ -53,16 +53,12 @@ const getProblemsByDayReportUuids = `-- name: GetProblemsByDayReportUuids :many
 SELECT 
     uuid, created_at, updated_at, description, is_done, owner_uuid, day_report_uuid,
     ARRAY(
-        SELECT job_dones_job_tags.job_tag_uuid 
-        FROM job_dones_job_tags 
-        WHERE job_dones.uuid = job_dones_job_tags.job_done_uuid
+        SELECT problems_job_tags.job_tag_uuid 
+        FROM problems_job_tags 
+        WHERE problems.uuid = problems_job_tags.job_tag_uuid
     )::VARCHAR[] AS tag_uuids
 FROM problems
-WHERE problems.uuid IN (
-    -- problems uuids for day report 
-    SELECT problems.uuid FROM problems 
-    WHERE problems.day_report_uuid = ANY($1::UUID[])
-)
+WHERE problems.day_report_uuid = ANY($1::UUID[])
 `
 
 type GetProblemsByDayReportUuidsRow struct {
