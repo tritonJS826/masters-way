@@ -16,6 +16,27 @@ export const getFormattedValue = (incomingValue: string | number) => {
 };
 
 /**
+ * Data attributes for cypress testing
+ */
+interface CyEditableText {
+
+  /**
+   * Data attributes for cypress testing
+   */
+  trigger: string;
+
+  /**
+   * Data attributes for cypress testing
+   */
+  placeholder: string;
+
+  /**
+   * Data attributes for cypress testing
+   */
+  inputCy: string;
+}
+
+/**
  * Cell item props
  */
 interface EditableTextProps<T> {
@@ -51,6 +72,11 @@ interface EditableTextProps<T> {
    * Maximum value for input type "number"
    */
   max?: number;
+
+  /**
+   * Data attributes for cypress testing
+   */
+  cy?: CyEditableText;
 
 }
 
@@ -90,6 +116,8 @@ export const EditableValue = <T extends string | number>(props: EditableTextProp
    */
   const renderInput = () => (
     <Input
+      dataCy={props.cy?.inputCy}
+      placeholder={props.cy?.placeholder ?? ""}
       formatter={getFormattedValue}
       type={props.type ?? "text"}
       max={props.max}
@@ -107,6 +135,7 @@ export const EditableValue = <T extends string | number>(props: EditableTextProp
       onBlur={handleChangeFinish}
       onKeyDown={handleEnter}
       className={clsx(styles.editableText, props.className)}
+      data-cy={props.cy?.trigger}
     >
       {isEditing
         ? renderInput()
