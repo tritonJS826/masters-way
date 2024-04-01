@@ -20,7 +20,6 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {MentorRequestDAL} from "src/dataAccessLogic/DTOToPreviewConverter/MentorRequestDAL";
 import {FavoriteUserWayDAL} from "src/dataAccessLogic/FavoriteUserWayDAL";
-import {UserDAL} from "src/dataAccessLogic/UserDAL";
 import {WayCollectionWayDAL} from "src/dataAccessLogic/WayCollectionWayDAL";
 import {BaseWayData, WayDAL} from "src/dataAccessLogic/WayDAL";
 import {useGlobalContext} from "src/GlobalContext";
@@ -36,6 +35,7 @@ import {DayReportsTable} from "src/logic/wayPage/reportsTable/dayReportsTable/Da
 import {WayStatistic} from "src/logic/wayPage/wayStatistics/WayStatistic";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Metric} from "src/model/businessModel/Metric";
+import {User, WayCollection} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
 import {JobTag, WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
@@ -87,13 +87,6 @@ const updateWay = async (params: UpdateWayParams) => {
 };
 
 /**
- * Add way uuid to UserPreview favoriteWays and add user uuid to Way favoriteForUserUuids
- */
-export const updateFavoriteUserWay = async (userUuid: string, wayUuid: string) => {
-  await FavoriteUserWayDAL.deleteFavoriteUserWay(userUuid, wayUuid);
-};
-
-/**
  * PageProps
  */
 interface WayPageProps {
@@ -115,6 +108,7 @@ export const WayPage = (props: WayPageProps) => {
   });
   const {user, setUser, language} = useGlobalContext();
   const [way, setWay] = useState<Way>();
+  // Const [wayCollections, setWayCollections] = useState(user?.wayCollections);
 
   /**
    * Update way state
@@ -164,8 +158,7 @@ export const WayPage = (props: WayPageProps) => {
   }
 
   const favoriteWays = user?.wayCollections.find((wayCollection) => wayCollection.name === "favorite");
-
-  const isWayInFavorites = user && !!favoriteWays?.ways.find((favoriteWay) => favoriteWay.uuid === way.uuid);
+  const isWayInFavorites = !!favoriteWays?.ways.find((favoriteWay) => favoriteWay.uuid === way.uuid) ?? false;
 
   const isOwner = !!user && user.uuid === way.owner.uuid;
   const isMentor = !!user && way.mentors.has(user.uuid);
@@ -267,14 +260,14 @@ export const WayPage = (props: WayPageProps) => {
       });
 
     setUser({...user, wayCollections: updatedCustomWayCollections});
-    await UserDAL.updateUser({uuid: user.uuid, wayCollections: updatedCustomWayCollections});
     displayNotification({
       text: "Collection updated",
       type: "info",
     });
   };
 
-  const renderAddToCustomCollectionDropdownItems: DropdownMenuItemType[] = (user?.wayCollections ?? [])
+  const renderAddToCustomCollectionDropdownItems: DropdownMenuItemType[] = (user?.wayCollections
+    .filter((wayCollection) => wayCollection.type === "custom") ?? [])
     .map((userCollection) => {
       const isWayInUserCollection = userCollection.ways.some((wayPreview: WayPreview) => wayPreview.uuid === props.uuid);
 
@@ -385,22 +378,61 @@ export const WayPage = (props: WayPageProps) => {
                     }
 
                     if (isWayInFavorites) {
-                      async () => {
-                        const favoriteAmount = way.favoriteForUsersAmount - LIKE_VALUE;
-                        setUser(user);
-                        updateWay({
-                          wayToUpdate: {
-                            uuid: way.uuid,
-                            favoriteForUsersAmount: favoriteAmount,
-                          },
-                          setWay: setWayPartial,
-                        });
-                        await FavoriteUserWayDAL.deleteFavoriteUserWay(user.uuid, way.uuid);
-                        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                        await WayCollectionWayDAL.deleteWayCollectionWay(favoriteWays!.uuid, way.uuid);
-                      };
+                      FavoriteUserWayDAL.deleteFavoriteUserWay(user.uuid, way.uuid);
+                      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                      WayCollectionWayDAL.deleteWayCollectionWay(favoriteWays!.uuid, way.uuid);
+
+                      const favoriteAmount = way.favoriteForUsersAmount - LIKE_VALUE;
+                      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                      const updatedWayCollections = user.wayCollections!.map((wayCollection) => {
+                        const updatedWayCollection: WayCollection = {
+                          ...wayCollection,
+                          ways: wayCollection.ways.filter((favoriteWay) => favoriteWay.uuid !== way.uuid),
+                        };
+                        wayCollection.name === "favorite"
+                          ? updatedWayCollection
+                          : wayCollection;
+
+                        return updatedWayCollection;
+                      });
+                      const updatedUser = new User({
+                        ...user,
+                        wayCollections: updatedWayCollections,
+                      });
+                      // SetWayCollections(updatedWayCollections);
+                      setUser(updatedUser);
+                      updateWay({
+                        wayToUpdate: {
+                          uuid: way.uuid,
+                          favoriteForUsersAmount: favoriteAmount,
+                        },
+                        setWay: setWayPartial,
+                      });
                     } else {
+                      FavoriteUserWayDAL.createFavoriteUserWay(user.uuid, way.uuid);
+                      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                      WayCollectionWayDAL.createWayCollectionWay(favoriteWays!.uuid, way.uuid);
                       const favoriteAmount = way.favoriteForUsersAmount + LIKE_VALUE;
+
+                      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                      const updatedWayCollections = user.wayCollections!.map((wayCollection) => {
+                        const updatedWayCollection: WayCollection = {
+                          ...wayCollection,
+                          ways: wayCollection.ways.concat(way as unknown as WayPreview),
+                        };
+                        wayCollection.name === "favorite"
+                          ? wayCollection
+                          : updatedWayCollection;
+
+                        return updatedWayCollection;
+                      });
+                      // SetWayCollections(updatedWayCollections);
+                      const updatedUser = new User({
+                        ...user,
+                        wayCollections: updatedWayCollections,
+                      });
+                      setUser(updatedUser);
+
                       setUser(user);
                       updateWay({
                         wayToUpdate: {
@@ -409,11 +441,6 @@ export const WayPage = (props: WayPageProps) => {
                         },
                         setWay: setWayPartial,
                       });
-                      async () => {
-                        await FavoriteUserWayDAL.createFavoriteUserWay(user.uuid, way.uuid);
-                        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                        await WayCollectionWayDAL.createWayCollectionWay(favoriteWays!.uuid, way.uuid);
-                      };
                     }
 
                     displayNotification({

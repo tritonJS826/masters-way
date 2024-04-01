@@ -38,6 +38,16 @@ interface JobDoneTagsProps {
    */
   updateTags: (newTags: JobTagData[]) => Promise<void>;
 
+  /**
+   * Delete job tag
+   */
+  deleteJobTag?: (jobTagToRemove: string) => Promise<void>;
+
+  /**
+   * Add job tag
+   */
+  addJobTag?: (jobTagToAdd: string) => Promise<void>;
+
 }
 
 /**
@@ -45,29 +55,19 @@ interface JobDoneTagsProps {
  */
 export const ModalContentJobTags = (props: JobDoneTagsProps) => {
   const [jobTagsUpdated, setJobTagsUpdated] = useState<JobTagData[]>(props.jobDoneTags);
-  // Const defaultTag = props.jobTags.find((tag) => tag.name === "no tags");
-
-  // const isJobTagsEmpty = jobTagsUpdated.length === 0;
-  // Const isJobTagsSingle = jobTagsUpdated.length === DEFAULT_AMOUNT_TAGS;
 
   const filteredJobTags = Array.from(new Set(jobTagsUpdated));
-
-  // Const checkedJobTags = isJobTagsEmpty
-  //   ? jobTagsUpdated.concat(defaultTag)
-  //   : filteredJobTags;
 
   const allTagsMap = new Map(props.jobTags.concat(filteredJobTags).map((tag) => [tag.uuid, tag]));
 
   const allTagsUnique = Array.from(allTagsMap, ([, value]) => value);
-
-  // Const allTags = allTagsUnique.filter((tag) => tag.name !== defaultTag.name);
 
   /**
    * Remove job tag from Job done
    */
   const removeJobTagFromJobDone = (jobTagToRemove: string) => {
     const updatedJobTags = jobTagsUpdated.filter((jobTag) => jobTag.uuid !== jobTagToRemove);
-
+    props.deleteJobTag?.(jobTagToRemove);
     setJobTagsUpdated(updatedJobTags);
   };
 
@@ -76,7 +76,7 @@ export const ModalContentJobTags = (props: JobDoneTagsProps) => {
    */
   const addJobTagFromJobDone = (jobTagToAdd: JobTagData) => {
     const updatedJobTags = jobTagsUpdated.concat(jobTagToAdd);
-
+    props.addJobTag?.(jobTagToAdd.uuid);
     setJobTagsUpdated(updatedJobTags);
   };
 
@@ -92,11 +92,6 @@ export const ModalContentJobTags = (props: JobDoneTagsProps) => {
   return (
     <div onKeyDown={handleEnter}>
       <div className={styles.jobTagsContainer}>
-        {/* {isJobTagsEmpty &&
-          <div>
-            No tags!
-          </div>
-        } */}
         {allTagsUnique.map((tag) => {
           return (
             <div

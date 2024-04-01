@@ -66,7 +66,7 @@ export const ReportsTableCommentsCell = (props: ReportsTableCommentsCellProps) =
 
     const comment = await CommentDAL.createComment(commentatorUuid, props.dayReport.uuid);
     const comments = [...props.dayReport.comments, comment];
-
+    // Console.log(comment);
     props.updateDayReport({uuid: props.dayReport.uuid, comments});
   };
 
