@@ -26,6 +26,7 @@ import {User} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
 import {JobTag} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
+import {PlanJobTagService} from "src/service/PlanJobTagService";
 import {DateUtils} from "src/utils/DateUtils";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
@@ -77,17 +78,10 @@ interface ReportsTablePlansCellProps {
  */
 export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
 
-  const isJobTagsEmpty = props.jobTags.length === 0;
-
   /**
    * Create Plan
    */
   const createPlan = async (userUuid?: string) => {
-    // Const defaultTag = props.jobTags.find((jobTag) => jobTag.name === "no tags");
-    // if (!defaultTag) {
-    //   throw new Error("Default tag is not exist");
-    // }
-
     if (!userUuid) {
       throw new Error("User uuid is not exist");
     }
@@ -124,19 +118,35 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
   };
 
   /**
-   * Update plan status
+   * Update plan
    */
-  const updatePlan = async (planToUpdate: Plan) => {
+  const updatePlan = async (planToUpdate: PartialWithUuid<Plan>) => {
+    const updatedPlan = await PlanDAL.updatePlan(planToUpdate);
     const plans = [
       ...props.dayReport.plans.map((plan) => {
         return plan.uuid === planToUpdate.uuid
-          ? planToUpdate
+          ? updatedPlan
           : plan;
       }),
     ];
 
     await props.updateDayReport({uuid: props.dayReport.uuid, plans});
   };
+
+  /**
+  //  * Update plan tags
+  //  */
+  // const updatePlanTags = async (planToUpdate: PartialWithUuid<Plan>) => {
+  //   const plans = [
+  //     ...props.dayReport.plans.map((plan) => {
+  //       return plan.uuid === planToUpdate.uuid
+  //         ? updatedPlan
+  //         : plan;
+  //     }),
+  //   ];
+
+  //   await props.updateDayReport({uuid: props.dayReport.uuid, plans});
+  // };
 
   /**
    * Toggle plan done
@@ -171,7 +181,7 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
               <HorizontalContainer className={styles.icons}>
                 {props.isEditable ?
                   <Modal
-                    trigger={isJobTagsEmpty ?
+                    trigger={plan.tags.length === 0 ?
                       <div className={styles.tagsBlockTrigger}>
                         Add tag
                       </div>
@@ -185,11 +195,19 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
                         jobTags={props.jobTags}
                         jobDoneTags={plan.tags}
                         isEditable={props.isEditable}
-                        updateTags={(tagsToUpdate: JobTag[]) => props.updateDayReport({
-                          ...props.dayReport,
-                          plans: props.dayReport.plans?.map(previousPlan => previousPlan.uuid === plan.uuid
-                            ? {...previousPlan, tags: tagsToUpdate}
-                            : previousPlan),
+                        addJobTag={async (jobTagUuid) => await PlanJobTagService.createPlanJobTag({
+                          request: {
+                            jobTagUuid,
+                            planUuid: plan.uuid,
+                          },
+                        })}
+                        deleteJobTag={async (jobTagUuid: string) => await PlanJobTagService.deletePlanJobTag({
+                          jobTagId: jobTagUuid,
+                          planId: plan.uuid,
+                        })}
+                        updateTags={(tagsToUpdate: JobTag[]) => updatePlan({
+                          uuid: plan.uuid,
+                          tags: tagsToUpdate,
                         })}
                       />
                     }
@@ -204,13 +222,10 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
                     value={plan.time}
                     type="number"
                     max={MAX_TIME}
-                    onChangeFinish={(estimationTime) => {
-                      const updatedPlan = new Plan({
-                        ...plan,
-                        time: getValidatedTime(Number(estimationTime)),
-                      });
-                      updatePlan(updatedPlan);
-                    }}
+                    onChangeFinish={(time) => updatePlan({
+                      uuid: plan.uuid,
+                      time: getValidatedTime(Number(time)),
+                    })}
                     className={styles.editableTime}
                     isEditable={plan.ownerUuid === props.user?.uuid}
                   />
@@ -262,13 +277,10 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
             <HorizontalContainer>
               <EditableTextarea
                 text={plan.description}
-                onChangeFinish={(text) => {
-                  const updatedPlan = new Plan({
-                    ...plan,
-                    description: text,
-                  });
-                  updatePlan(updatedPlan);
-                }}
+                onChangeFinish={(description) => updatePlan({
+                  uuid: plan.uuid,
+                  description,
+                })}
                 isEditable={plan.ownerUuid === props.user?.uuid}
                 className={styles.editableTextarea}
               />
