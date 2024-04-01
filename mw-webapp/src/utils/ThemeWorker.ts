@@ -47,17 +47,17 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     // [Theme.LIGHT]: "rgb(11, 9, 10)",
   },
   secondaryTextColor: {
-    [Theme.DARK]: "#1F173D",
+    [Theme.DARK]: "#F4F3FF",
     [Theme.LIGHT]: "#FFFFFF",
     // [Theme.DARK]: "rgb(11, 9, 10)",
     // [Theme.LIGHT]: "rgb(252, 252, 252)",
   },
   tertiaryTextColor: {
-    [Theme.DARK]: "#783DEA",
-    [Theme.LIGHT]: "#783DEA",
+    [Theme.DARK]: "#F4F3FF",
+    [Theme.LIGHT]: "#1F173D",
   },
   primaryBorderColor: {
-    [Theme.DARK]: "#784DEA",
+    [Theme.DARK]: "#FFFFFF",
     [Theme.LIGHT]: "#784DEA",
     // [Theme.DARK]: "rgb(200, 194, 194)",
     // [Theme.LIGHT]: "rgb(73, 69, 69)",
