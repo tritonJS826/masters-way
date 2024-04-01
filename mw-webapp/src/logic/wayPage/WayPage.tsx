@@ -419,7 +419,7 @@ export const WayPage = (props: WayPageProps) => {
                           createdAt: way.createdAt,
                           dayReportsAmount: way.dayReports.length,
                           estimationTime: way.estimationTime,
-                          favoriteForUsers: way.favoriteForUsersAmount, //
+                          favoriteForUsers: way.favoriteForUsersAmount,
                           goalDescription: way.goalDescription,
                           isPrivate: way.isPrivate,
                           lastUpdate: way.lastUpdate,
