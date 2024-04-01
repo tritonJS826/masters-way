@@ -11,7 +11,8 @@
 
 .primary {
   background-color: var(--primaryBackgroundButtonColor);
-  color: var(--secondaryTextColor);
+  // color: var(--secondaryTextColor);
+  color: var(--authButtonTextColor);
 
   &:hover {
     background-color: var(--hoverColor);
@@ -26,7 +27,7 @@
 .secondary {
   border: 1px var(--primaryBorderColor) solid;
   background-color: var(--secondaryBackgroundButtonColor);
-  color: var(--primaryTextColor);
+  color: var(--tertiaryTextColor);
 
   &:hover {
     background-color: var(--hoverColor);
