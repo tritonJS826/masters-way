@@ -108,7 +108,6 @@ export const WayPage = (props: WayPageProps) => {
   });
   const {user, setUser, language} = useGlobalContext();
   const [way, setWay] = useState<Way>();
-  // Const [wayCollections, setWayCollections] = useState(user?.wayCollections);
 
   /**
    * Update way state
@@ -245,12 +244,31 @@ export const WayPage = (props: WayPageProps) => {
         if (isCollectionToUpdate) {
           const isWayExistInCollection = userCollection.ways.some(collectionWay => collectionWay.uuid === way.uuid);
 
-          toggleWayInWay(isWayExistInCollection, way.uuid, collectionUuid);
+          toggleWayInWay(isWayExistInCollection, collectionUuid, way.uuid);
+          const mentors = Array.from(way.mentors).map(([, value]) => value);
+          // TODO: converter required
+          const updatedWay = new WayPreview({
+            copiedFromWayUuid: way.copiedFromWayUuid,
+            createdAt: way.createdAt,
+            dayReportsAmount: way.dayReports.length,
+            estimationTime: way.estimationTime,
+            favoriteForUsers: way.favoriteForUsersAmount,
+            goalDescription: way.goalDescription,
+            isPrivate: way.isPrivate,
+            lastUpdate: way.lastUpdate,
+            mentors,
+            metricsDone: way.metrics.filter((metric) => metric.isDone).length,
+            metricsTotal: way.metrics.length,
+            name: way.name,
+            owner: way.owner,
+            status: way.status,
+            uuid: way.uuid,
+            wayTags: way.wayTags,
+          });
 
           const updatedWayUuids = isWayExistInCollection
             ? userCollection.ways.filter(wayPreview => wayPreview.uuid !== way.uuid)
-            //TODO: delete "as"
-            : userCollection.ways.concat(way as unknown as WayPreview);
+            : userCollection.ways.concat(updatedWay);
 
           return {...userCollection, wayUuids: updatedWayUuids};
         } else {
