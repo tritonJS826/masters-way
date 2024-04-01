@@ -157,8 +157,8 @@ export const WayPage = (props: WayPageProps) => {
     );
   }
 
-  const favoriteWays = user?.wayCollections.find((wayCollection) => wayCollection.name === "favorite");
-  const isWayInFavorites = !!favoriteWays?.ways.find((favoriteWay) => favoriteWay.uuid === way.uuid) ?? false;
+  const favoriteWaysCollection = user?.wayCollections.find((wayCollection) => wayCollection.name === "favorite");
+  const isWayInFavorites = !!favoriteWaysCollection?.ways.find((favoriteWay) => favoriteWay.uuid === way.uuid);
 
   const isOwner = !!user && user.uuid === way.owner.uuid;
   const isMentor = !!user && way.mentors.has(user.uuid);
@@ -379,17 +379,18 @@ export const WayPage = (props: WayPageProps) => {
 
                     if (isWayInFavorites) {
                       FavoriteUserWayDAL.deleteFavoriteUserWay(user.uuid, way.uuid);
-                      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                      WayCollectionWayDAL.deleteWayCollectionWay(favoriteWays!.uuid, way.uuid);
+                      if (!favoriteWaysCollection) {
+                        throw new Error("favoriteWaysCollection is undefined");
+                      }
+                      WayCollectionWayDAL.deleteWayCollectionWay(favoriteWaysCollection.uuid, way.uuid);
 
                       const favoriteAmount = way.favoriteForUsersAmount - LIKE_VALUE;
-                      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                      const updatedWayCollections = user.wayCollections!.map((wayCollection) => {
+                      const updatedWayCollections = user.wayCollections.map((wayCollection) => {
                         const updatedWayCollection: WayCollection = {
                           ...wayCollection,
                           ways: wayCollection.ways.filter((favoriteWay) => favoriteWay.uuid !== way.uuid),
                         };
-                        wayCollection.name === "favorite"
+                        wayCollection.type === "favorite"
                           ? updatedWayCollection
                           : wayCollection;
 
@@ -399,48 +400,54 @@ export const WayPage = (props: WayPageProps) => {
                         ...user,
                         wayCollections: updatedWayCollections,
                       });
-                      // SetWayCollections(updatedWayCollections);
                       setUser(updatedUser);
-                      updateWay({
-                        wayToUpdate: {
-                          uuid: way.uuid,
-                          favoriteForUsersAmount: favoriteAmount,
-                        },
-                        setWay: setWayPartial,
-                      });
+                      setWayPartial({favoriteForUsersAmount: favoriteAmount});
                     } else {
                       FavoriteUserWayDAL.createFavoriteUserWay(user.uuid, way.uuid);
-                      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                      WayCollectionWayDAL.createWayCollectionWay(favoriteWays!.uuid, way.uuid);
+                      if (!favoriteWaysCollection) {
+                        throw new Error("favoriteWaysCollection is undefined");
+                      }
+                      WayCollectionWayDAL.createWayCollectionWay(favoriteWaysCollection.uuid, way.uuid);
                       const favoriteAmount = way.favoriteForUsersAmount + LIKE_VALUE;
 
-                      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                      const updatedWayCollections = user.wayCollections!.map((wayCollection) => {
+                      const updatedWayCollections = user.wayCollections.map((wayCollection) => {
+                        const INCREMENT = 1;
+                        const mentors = Array.from(way.mentors).map(([, value]) => value);
+                        // TODO: converter required
+                        const updatedWay = new WayPreview({
+                          copiedFromWayUuid: way.copiedFromWayUuid,
+                          createdAt: way.createdAt,
+                          dayReportsAmount: way.dayReports.length,
+                          estimationTime: way.estimationTime,
+                          favoriteForUsers: way.favoriteForUsersAmount, //
+                          goalDescription: way.goalDescription,
+                          isPrivate: way.isPrivate,
+                          lastUpdate: way.lastUpdate,
+                          mentors,
+                          metricsDone: way.metrics.reduce((acc, metric) => metric.isDone ? acc + INCREMENT : acc, 0),
+                          metricsTotal: way.metrics.length,
+                          name: way.name,
+                          owner: way.owner,
+                          status: way.status,
+                          uuid: way.uuid,
+                          wayTags: way.wayTags,
+                        });
                         const updatedWayCollection: WayCollection = {
                           ...wayCollection,
-                          ways: wayCollection.ways.concat(way as unknown as WayPreview),
+                          ways: wayCollection.ways.concat(updatedWay),
                         };
-                        wayCollection.name === "favorite"
+                        wayCollection.type === "favorite"
                           ? wayCollection
                           : updatedWayCollection;
 
                         return updatedWayCollection;
                       });
-                      // SetWayCollections(updatedWayCollections);
                       const updatedUser = new User({
                         ...user,
                         wayCollections: updatedWayCollections,
                       });
                       setUser(updatedUser);
-
-                      setUser(user);
-                      updateWay({
-                        wayToUpdate: {
-                          uuid: way.uuid,
-                          favoriteForUsersAmount: favoriteAmount,
-                        },
-                        setWay: setWayPartial,
-                      });
+                      setWayPartial({favoriteForUsersAmount: favoriteAmount});
                     }
 
                     displayNotification({
