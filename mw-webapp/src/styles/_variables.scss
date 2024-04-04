@@ -65,7 +65,7 @@ $disableOpacity: 0.7;
 @mixin regularContainer {
   padding: 10px;
   border-radius: 20px;
-  background-color: var(--tertiaryBackgroundColor);
+  background-color: var(--secondaryBackgroundColor);
 }
 
 @mixin scaleOnHover {

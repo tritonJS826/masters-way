@@ -227,7 +227,7 @@ export const AllWaysPage = () => {
           <Button
             value={LanguageService.allWays.waysTable.loadMoreButton[language]}
             onClick={() => loadMoreWays(allWays)}
-            buttonType={ButtonType.PRIMARY}
+            buttonType={ButtonType.SECONDARY}
             className={styles.loadMoreButton}
           />
         }

@@ -195,7 +195,7 @@ export const AllUsersPage = () => {
         <Button
           value={LanguageService.allUsers.usersTable.loadMoreButton[language]}
           onClick={() => loadMoreUsers(allUsers)}
-          buttonType={ButtonType.PRIMARY}
+          buttonType={ButtonType.SECONDARY}
           className={styles.loadMoreButton}
         />
         }
