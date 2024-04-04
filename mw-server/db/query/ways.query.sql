@@ -66,7 +66,7 @@ SELECT
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
     (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount
 FROM ways
-WHERE ($3 = 'inProgress' AND ways.is_completed = false)
+WHERE ($3 = 'inProgress' AND ways.is_completed = false AND ways.updated_at > $4::timestamp - interval '14 days')
     OR ($3 = 'completed' AND ways.is_completed = true)
     OR ($3 = 'abandoned' AND ways.is_completed = false AND ways.updated_at < $4::timestamp - interval '14 days') 
     OR ($3 = 'all')
