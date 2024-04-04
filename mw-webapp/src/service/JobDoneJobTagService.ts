@@ -9,8 +9,8 @@ export class JobDoneJobTagService {
   /**
    * Create jobDone job tag
    */
-  public static async createJobDoneJobTag(requestParameters: CreateJobDoneJobTagRequest): Promise<void> {
-    await jobDoneJobTagService.createJobDoneJobTag(requestParameters);
+  public static async createJobDoneJobTag(requestParameters: CreateJobDoneJobTagRequest) {
+    return await jobDoneJobTagService.createJobDoneJobTag(requestParameters);
   }
 
   /**

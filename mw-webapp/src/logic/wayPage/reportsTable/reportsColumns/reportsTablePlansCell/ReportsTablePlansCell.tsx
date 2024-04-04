@@ -13,6 +13,7 @@ import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
 import {PlanDAL} from "src/dataAccessLogic/PlanDAL";
+import {PlanJobTagDAL} from "src/dataAccessLogic/PlanJobTagDAL";
 import {JobDoneTags} from "src/logic/wayPage/reportsTable/jobDoneTags/JobDoneTags";
 import {ModalContentJobTags} from "src/logic/wayPage/reportsTable/modalContentJobTags/ModalContentJobTags";
 import {DEFAULT_SUMMARY_TIME, getListNumberByIndex, getValidatedTime, MAX_TIME}
@@ -26,7 +27,6 @@ import {User} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
 import {JobTag} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
-import {PlanJobTagService} from "src/service/PlanJobTagService";
 import {DateUtils} from "src/utils/DateUtils";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
@@ -134,19 +134,76 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
   };
 
   /**
-  //  * Update plan tags
-  //  */
-  // const updatePlanTags = async (planToUpdate: PartialWithUuid<Plan>) => {
-  //   const plans = [
-  //     ...props.dayReport.plans.map((plan) => {
-  //       return plan.uuid === planToUpdate.uuid
-  //         ? updatedPlan
-  //         : plan;
-  //     }),
-  //   ];
+   * Update labels in plan
+   */
+  const updateLabelsInPlan = async (params: {
 
-  //   await props.updateDayReport({uuid: props.dayReport.uuid, plans});
-  // };
+    /**
+     * Plan uuid
+     */
+    planUuid: string;
+
+    /**
+     * New updated list of tags
+     */
+    updatedTags: JobTag[];
+  }) => {
+
+    const oldPlan = props.dayReport.plans.find(plan => params.planUuid === plan.uuid);
+    if (!oldPlan) {
+      throw new Error(`No such plan with ${params.planUuid} uuid`);
+    }
+    const oldLabels = oldPlan.tags.map(label => label.uuid);
+    const labelUuidsToAdd: string[] = params.updatedTags
+      .map(label => label.uuid)
+      .filter(labelUuid => !oldLabels.includes(labelUuid));
+    const labelUuidsToDelete: string[] = oldLabels
+      .filter(
+        labelUuid => !params.updatedTags.map(label => label.uuid).includes(labelUuid),
+      );
+
+    const addPromises = labelUuidsToAdd.map(labelUuid => PlanJobTagDAL.createPlanJobTag({
+      planUuid: params.planUuid,
+      jobTagUuid: labelUuid,
+    }));
+    const deletePromises = labelUuidsToDelete.map(labelUuid => PlanJobTagDAL.deletePlanJobTag({
+      planUuid: params.planUuid,
+      jobTagUuid: labelUuid,
+    }));
+
+    Promise.all([
+      ...addPromises,
+      ...deletePromises,
+    ]);
+
+    const updatedPlans = props.dayReport.plans.map((plan) => {
+      const isUpdatedPlan = plan.uuid === params.planUuid;
+      if (isUpdatedPlan) {
+        const newLabels = labelUuidsToAdd.map(labelUuidToAdd => {
+          const newLabel = props.jobTags.find(tag => tag.uuid === labelUuidToAdd);
+          if (!newLabel) {
+            throw new Error(`Label with uuid ${labelUuidToAdd} is not defined`);
+          }
+
+          return newLabel;
+        });
+        const updatedTags = plan.tags
+          .filter(oldLabel => !labelUuidsToDelete.includes(oldLabel.uuid))
+          .concat(newLabels);
+
+        const updatedPlan = new Plan({
+          ...oldPlan,
+          tags: updatedTags,
+        });
+
+        return updatedPlan;
+      } else {
+        return plan;
+      }
+    });
+
+    props.updateDayReport({uuid: props.dayReport.uuid, plans: updatedPlans});
+  };
 
   /**
    * Toggle plan done
@@ -195,19 +252,9 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
                         jobTags={props.jobTags}
                         jobDoneTags={plan.tags}
                         isEditable={props.isEditable}
-                        addJobTag={async (jobTagUuid) => await PlanJobTagService.createPlanJobTag({
-                          request: {
-                            jobTagUuid,
-                            planUuid: plan.uuid,
-                          },
-                        })}
-                        deleteJobTag={async (jobTagUuid: string) => await PlanJobTagService.deletePlanJobTag({
-                          jobTagId: jobTagUuid,
-                          planId: plan.uuid,
-                        })}
-                        updateTags={(tagsToUpdate: JobTag[]) => updatePlan({
-                          uuid: plan.uuid,
-                          tags: tagsToUpdate,
+                        updateTags={(tagsToUpdate: JobTag[]) => updateLabelsInPlan({
+                          planUuid: plan.uuid,
+                          updatedTags: tagsToUpdate,
                         })}
                       />
                     }

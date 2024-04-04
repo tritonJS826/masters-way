@@ -3,7 +3,6 @@ package controllers
 import (
 	"context"
 	"database/sql"
-	"fmt"
 	"net/http"
 	"strconv"
 	"time"
@@ -381,7 +380,7 @@ func (cc *WayController) GetWayById(ctx *gin.Context) {
 	})
 
 	dbProblems, _ := cc.db.GetProblemsByDayReportUuids(ctx, dayReportUuids)
-	fmt.Println(dbProblems, err)
+
 	problemsMap := make(map[string][]schemas.ProblemPopulatedResponse)
 	lo.ForEach(dbProblems, func(problem db.GetProblemsByDayReportUuidsRow, i int) {
 		problemOwner := allWayRelatedUsersMap[problem.OwnerUuid.String()]

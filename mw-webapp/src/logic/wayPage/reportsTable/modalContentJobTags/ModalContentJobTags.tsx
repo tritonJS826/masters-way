@@ -38,16 +38,6 @@ interface JobDoneTagsProps {
    */
   updateTags: (newTags: JobTagData[]) => Promise<void>;
 
-  /**
-   * Delete job tag
-   */
-  deleteJobTag?: (jobTagToRemove: string) => Promise<void>;
-
-  /**
-   * Add job tag
-   */
-  addJobTag?: (jobTagToAdd: string) => Promise<void>;
-
 }
 
 /**
@@ -67,7 +57,6 @@ export const ModalContentJobTags = (props: JobDoneTagsProps) => {
    */
   const removeJobTagFromJobDone = (jobTagToRemove: string) => {
     const updatedJobTags = jobTagsUpdated.filter((jobTag) => jobTag.uuid !== jobTagToRemove);
-    props.deleteJobTag?.(jobTagToRemove);
     setJobTagsUpdated(updatedJobTags);
   };
 
@@ -76,7 +65,6 @@ export const ModalContentJobTags = (props: JobDoneTagsProps) => {
    */
   const addJobTagFromJobDone = (jobTagToAdd: JobTagData) => {
     const updatedJobTags = jobTagsUpdated.concat(jobTagToAdd);
-    props.addJobTag?.(jobTagToAdd.uuid);
     setJobTagsUpdated(updatedJobTags);
   };
 

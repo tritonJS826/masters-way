@@ -11,6 +11,7 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
+import {JobDoneJobTagDAL} from "src/dataAccessLogic/JobDoneJobTagDAL";
 import {JobDoneTags} from "src/logic/wayPage/reportsTable/jobDoneTags/JobDoneTags";
 import {ModalContentJobTags} from "src/logic/wayPage/reportsTable/modalContentJobTags/ModalContentJobTags";
 import {DEFAULT_SUMMARY_TIME, getListNumberByIndex, getValidatedTime, MAX_TIME}
@@ -84,10 +85,83 @@ export const ReportsTableJobsDoneCell = (props: ReportsTableJobsDoneCellProps) =
   };
 
   /**
+   * Update labels in job done
+   */
+  const updateLabelsInJobDone = async (params: {
+
+    /**
+     * Job done uuid
+     */
+    jobDoneUuid: string;
+
+    /**
+     * New updated list of tags
+     */
+    updatedTags: JobTag[];
+  }) => {
+
+    const oldJob = props.dayReport.jobsDone.find(job => params.jobDoneUuid === job.uuid);
+    if (!oldJob) {
+      throw new Error(`No such job with ${params.jobDoneUuid} uuid`);
+    }
+    const oldLabels = oldJob.tags.map(label => label.uuid);
+    const labelUuidsToAdd: string[] = params.updatedTags
+      .map(label => label.uuid)
+      .filter(labelUuid => !oldLabels.includes(labelUuid));
+    const labelUuidsToDelete: string[] = oldLabels
+      .filter(
+        labelUuid => !params.updatedTags.map(label => label.uuid).includes(labelUuid),
+      );
+
+    const addPromises = labelUuidsToAdd.map(labelUuid => JobDoneJobTagDAL.createJobDoneJobTag({
+      jobDoneUuid: params.jobDoneUuid,
+      jobTagUuid: labelUuid,
+    }));
+    const deletePromises = labelUuidsToDelete.map(labelUuid => JobDoneJobTagDAL.deleteJobDoneJobTag({
+      jobDoneUuid: params.jobDoneUuid,
+      jobTagUuid: labelUuid,
+    }));
+
+    Promise.all([
+      ...addPromises,
+      ...deletePromises,
+    ]);
+
+    const updatedJobs = props.dayReport.jobsDone.map((job) => {
+      const isUpdatedJob = job.uuid === params.jobDoneUuid;
+      if (isUpdatedJob) {
+        const newLabels = labelUuidsToAdd.map(labelUuidToAdd => {
+          const newLabel = props.jobTags.find(tag => tag.uuid === labelUuidToAdd);
+          if (!newLabel) {
+            throw new Error(`Label with uuid ${labelUuidToAdd} is not defined`);
+          }
+
+          return newLabel;
+        });
+        const updatedTags = job.tags
+          .filter(oldLabel => !labelUuidsToDelete.includes(oldLabel.uuid))
+          .concat(newLabels);
+
+        const updatedJobDone = new JobDone({
+          ...oldJob,
+          tags: updatedTags,
+        });
+
+        return updatedJobDone;
+      } else {
+        return job;
+      }
+    });
+
+    props.updateDayReport({uuid: props.dayReport.uuid, jobsDone: updatedJobs});
+
+  };
+
+  /**
    * Update jobDone
    */
   const updateJobDone = async (jobDoneToUpdate: PartialWithUuid<JobDone>) => {
-    const updatedJobDone = await JobDoneDAL.updateJobDone(jobDoneToUpdate);
+    const updatedJobDone = await JobDoneDAL.updateJobDone(jobDoneToUpdate); //!HERE
     const updatedJobsDone = props.dayReport.jobsDone.map((item) => {
       const itemToReturn = item.uuid === jobDoneToUpdate.uuid
         ? updatedJobDone
@@ -126,9 +200,9 @@ export const ReportsTableJobsDoneCell = (props: ReportsTableJobsDoneCellProps) =
                         jobTags={props.jobTags}
                         jobDoneTags={jobDone.tags}
                         isEditable={props.isEditable}
-                        updateTags={(tagsToUpdate: JobTag[]) => updateJobDone({
-                          uuid: jobDone.uuid,
-                          tags: tagsToUpdate,
+                        updateTags={(tagsToUpdate: JobTag[]) => updateLabelsInJobDone({
+                          jobDoneUuid: jobDone.uuid,
+                          updatedTags: tagsToUpdate,
                         })}
                       />
                     }
