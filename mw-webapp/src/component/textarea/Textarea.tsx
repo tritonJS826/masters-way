@@ -44,6 +44,11 @@ interface TextareaProps {
    * Handle key press
    */
   onKeyPress?: KeyboardEventHandler<HTMLTextAreaElement>;
+
+  /**
+   * Data attributes for cypress testing
+   */
+  cy?: string;
 }
 
 /**
@@ -81,6 +86,7 @@ export const Textarea = (props: TextareaProps) => {
 
   return (
     <textarea
+      data-cy={props.cy}
       className={clsx(styles.textarea, props.className)}
       placeholder={props.placeholder}
       value={value}
