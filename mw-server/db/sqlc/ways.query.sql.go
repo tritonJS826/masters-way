@@ -254,7 +254,7 @@ WHERE ($3 = 'inProgress' AND ways.is_completed = false)
     OR ($3 = 'completed' AND ways.is_completed = true)
     OR ($3 = 'abandoned' AND ways.is_completed = false AND ways.updated_at < $4::timestamp - interval '14 days') 
     OR ($3 = 'all')
-ORDER BY created_at
+ORDER BY created_at DESC
 LIMIT $1
 OFFSET $2
 `

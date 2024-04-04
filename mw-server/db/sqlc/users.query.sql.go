@@ -202,7 +202,7 @@ SELECT
 FROM users
 WHERE (users.email LIKE '%' || $3 || '%' OR $3 = '')
     AND (users.name LIKE '%' || $4 || '%' OR $4 = '')
-ORDER BY created_at
+ORDER BY created_at DESC
 LIMIT $1
 OFFSET $2
 `

@@ -11,7 +11,7 @@ INSERT INTO day_reports(
 -- name: GetListDayReportsByWayUuid :many
 SELECT * FROM day_reports
 WHERE day_reports.way_uuid = $1
-ORDER BY day_reports.created_at;
+ORDER BY day_reports.created_at DESC;
 
 -- name: UpdateDayReport :one
 UPDATE day_reports

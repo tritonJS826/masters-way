@@ -52,7 +52,7 @@ func (q *Queries) CreateDayReport(ctx context.Context, arg CreateDayReportParams
 const getListDayReportsByWayUuid = `-- name: GetListDayReportsByWayUuid :many
 SELECT uuid, way_uuid, created_at, updated_at, is_day_off FROM day_reports
 WHERE day_reports.way_uuid = $1
-ORDER BY day_reports.created_at
+ORDER BY day_reports.created_at DESC
 `
 
 func (q *Queries) GetListDayReportsByWayUuid(ctx context.Context, wayUuid uuid.UUID) ([]DayReport, error) {
