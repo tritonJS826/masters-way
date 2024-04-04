@@ -30,8 +30,15 @@ SET
 updated_at = coalesce(sqlc.narg('updated_at'), updated_at),
 description = coalesce(sqlc.narg('description'), description),
 is_done = coalesce(sqlc.narg('is_done'), is_done)
-WHERE uuid = sqlc.arg('uuid')
-RETURNING *;
+WHERE problems.uuid = sqlc.arg('uuid')
+RETURNING *,
+    (SELECT name FROM users WHERE problems.owner_uuid = users.uuid) AS owner_name,
+    -- get tag uuids
+    ARRAY(
+        SELECT problems_job_tags.job_tag_uuid 
+        FROM problems_job_tags 
+        WHERE problems.uuid = problems_job_tags.problem_uuid
+    )::VARCHAR[] AS tag_uuids;
 
 -- name: DeleteProblem :exec
 DELETE FROM problems

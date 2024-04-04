@@ -132,8 +132,15 @@ SET
 updated_at = coalesce($1, updated_at),
 description = coalesce($2, description),
 is_done = coalesce($3, is_done)
-WHERE uuid = $4
-RETURNING uuid, created_at, updated_at, description, is_done, owner_uuid, day_report_uuid
+WHERE problems.uuid = $4
+RETURNING uuid, created_at, updated_at, description, is_done, owner_uuid, day_report_uuid,
+    (SELECT name FROM users WHERE problems.owner_uuid = users.uuid) AS owner_name,
+    -- get tag uuids
+    ARRAY(
+        SELECT problems_job_tags.job_tag_uuid 
+        FROM problems_job_tags 
+        WHERE problems.uuid = problems_job_tags.problem_uuid
+    )::VARCHAR[] AS tag_uuids
 `
 
 type UpdateProblemParams struct {
@@ -143,14 +150,26 @@ type UpdateProblemParams struct {
 	Uuid        uuid.UUID      `json:"uuid"`
 }
 
-func (q *Queries) UpdateProblem(ctx context.Context, arg UpdateProblemParams) (Problem, error) {
+type UpdateProblemRow struct {
+	Uuid          uuid.UUID `json:"uuid"`
+	CreatedAt     time.Time `json:"created_at"`
+	UpdatedAt     time.Time `json:"updated_at"`
+	Description   string    `json:"description"`
+	IsDone        bool      `json:"is_done"`
+	OwnerUuid     uuid.UUID `json:"owner_uuid"`
+	DayReportUuid uuid.UUID `json:"day_report_uuid"`
+	OwnerName     string    `json:"owner_name"`
+	TagUuids      []string  `json:"tag_uuids"`
+}
+
+func (q *Queries) UpdateProblem(ctx context.Context, arg UpdateProblemParams) (UpdateProblemRow, error) {
 	row := q.queryRow(ctx, q.updateProblemStmt, updateProblem,
 		arg.UpdatedAt,
 		arg.Description,
 		arg.IsDone,
 		arg.Uuid,
 	)
-	var i Problem
+	var i UpdateProblemRow
 	err := row.Scan(
 		&i.Uuid,
 		&i.CreatedAt,
@@ -159,6 +178,8 @@ func (q *Queries) UpdateProblem(ctx context.Context, arg UpdateProblemParams) (P
 		&i.IsDone,
 		&i.OwnerUuid,
 		&i.DayReportUuid,
+		&i.OwnerName,
+		pq.Array(&i.TagUuids),
 	)
 	return i, err
 }

@@ -13,6 +13,11 @@ SELECT * FROM job_tags
 WHERE way_uuid = $1
 ORDER BY uuid;
 
+-- name: GetListLabelsByLabelUuids :many
+SELECT * from job_tags
+WHERE job_tags.uuid = ANY($1::UUID[])
+ORDER BY uuid; 
+
 -- name: GetListJobTagsByWayUuids :many
 SELECT * FROM job_tags
 WHERE way_uuid = ANY($1::UUID[])

@@ -139,8 +139,15 @@ updated_at = coalesce($1, updated_at),
 description = coalesce($2, description),
 time = coalesce($3, time),
 is_done = coalesce($4, is_done)
-WHERE uuid = $5
-RETURNING uuid, created_at, updated_at, description, time, owner_uuid, is_done, day_report_uuid
+WHERE plans.uuid = $5
+RETURNING uuid, created_at, updated_at, description, time, owner_uuid, is_done, day_report_uuid,
+    (SELECT name FROM users WHERE plans.owner_uuid = users.uuid) AS owner_name,
+    -- get tag uuids
+    ARRAY(
+        SELECT plans_job_tags.job_tag_uuid 
+        FROM plans_job_tags 
+        WHERE plans.uuid = plans_job_tags.plan_uuid
+    )::VARCHAR[] AS tag_uuids
 `
 
 type UpdatePlanParams struct {
@@ -151,7 +158,20 @@ type UpdatePlanParams struct {
 	Uuid        uuid.UUID      `json:"uuid"`
 }
 
-func (q *Queries) UpdatePlan(ctx context.Context, arg UpdatePlanParams) (Plan, error) {
+type UpdatePlanRow struct {
+	Uuid          uuid.UUID `json:"uuid"`
+	CreatedAt     time.Time `json:"created_at"`
+	UpdatedAt     time.Time `json:"updated_at"`
+	Description   string    `json:"description"`
+	Time          int32     `json:"time"`
+	OwnerUuid     uuid.UUID `json:"owner_uuid"`
+	IsDone        bool      `json:"is_done"`
+	DayReportUuid uuid.UUID `json:"day_report_uuid"`
+	OwnerName     string    `json:"owner_name"`
+	TagUuids      []string  `json:"tag_uuids"`
+}
+
+func (q *Queries) UpdatePlan(ctx context.Context, arg UpdatePlanParams) (UpdatePlanRow, error) {
 	row := q.queryRow(ctx, q.updatePlanStmt, updatePlan,
 		arg.UpdatedAt,
 		arg.Description,
@@ -159,7 +179,7 @@ func (q *Queries) UpdatePlan(ctx context.Context, arg UpdatePlanParams) (Plan, e
 		arg.IsDone,
 		arg.Uuid,
 	)
-	var i Plan
+	var i UpdatePlanRow
 	err := row.Scan(
 		&i.Uuid,
 		&i.CreatedAt,
@@ -169,6 +189,8 @@ func (q *Queries) UpdatePlan(ctx context.Context, arg UpdatePlanParams) (Plan, e
 		&i.OwnerUuid,
 		&i.IsDone,
 		&i.DayReportUuid,
+		&i.OwnerName,
+		pq.Array(&i.TagUuids),
 	)
 	return i, err
 }

@@ -147,6 +147,41 @@ func (q *Queries) GetListJobTagsByWayUuids(ctx context.Context, dollar_1 []uuid.
 	return items, nil
 }
 
+const getListLabelsByLabelUuids = `-- name: GetListLabelsByLabelUuids :many
+SELECT uuid, name, description, color, way_uuid from job_tags
+WHERE job_tags.uuid = ANY($1::UUID[])
+ORDER BY uuid
+`
+
+func (q *Queries) GetListLabelsByLabelUuids(ctx context.Context, dollar_1 []uuid.UUID) ([]JobTag, error) {
+	rows, err := q.query(ctx, q.getListLabelsByLabelUuidsStmt, getListLabelsByLabelUuids, pq.Array(dollar_1))
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []JobTag{}
+	for rows.Next() {
+		var i JobTag
+		if err := rows.Scan(
+			&i.Uuid,
+			&i.Name,
+			&i.Description,
+			&i.Color,
+			&i.WayUuid,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const updateJobTag = `-- name: UpdateJobTag :one
 UPDATE job_tags
 SET

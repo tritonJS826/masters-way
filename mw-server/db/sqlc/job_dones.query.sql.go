@@ -132,8 +132,15 @@ SET
 updated_at = coalesce($1, updated_at),
 description = coalesce($2, description),
 time = coalesce($3, time)
-WHERE uuid = $4
-RETURNING uuid, created_at, updated_at, description, time, owner_uuid, day_report_uuid
+WHERE job_dones.uuid = $4
+RETURNING uuid, created_at, updated_at, description, time, owner_uuid, day_report_uuid,
+    (SELECT name FROM users WHERE job_dones.owner_uuid = users.uuid) AS owner_name,
+    -- get tag uuids
+    ARRAY(
+        SELECT job_dones_job_tags.job_tag_uuid 
+        FROM job_dones_job_tags 
+        WHERE job_dones.uuid = job_dones_job_tags.job_done_uuid
+    )::VARCHAR[] AS tag_uuids
 `
 
 type UpdateJobDoneParams struct {
@@ -143,14 +150,26 @@ type UpdateJobDoneParams struct {
 	Uuid        uuid.UUID      `json:"uuid"`
 }
 
-func (q *Queries) UpdateJobDone(ctx context.Context, arg UpdateJobDoneParams) (JobDone, error) {
+type UpdateJobDoneRow struct {
+	Uuid          uuid.UUID `json:"uuid"`
+	CreatedAt     time.Time `json:"created_at"`
+	UpdatedAt     time.Time `json:"updated_at"`
+	Description   string    `json:"description"`
+	Time          int32     `json:"time"`
+	OwnerUuid     uuid.UUID `json:"owner_uuid"`
+	DayReportUuid uuid.UUID `json:"day_report_uuid"`
+	OwnerName     string    `json:"owner_name"`
+	TagUuids      []string  `json:"tag_uuids"`
+}
+
+func (q *Queries) UpdateJobDone(ctx context.Context, arg UpdateJobDoneParams) (UpdateJobDoneRow, error) {
 	row := q.queryRow(ctx, q.updateJobDoneStmt, updateJobDone,
 		arg.UpdatedAt,
 		arg.Description,
 		arg.Time,
 		arg.Uuid,
 	)
-	var i JobDone
+	var i UpdateJobDoneRow
 	err := row.Scan(
 		&i.Uuid,
 		&i.CreatedAt,
@@ -159,6 +178,8 @@ func (q *Queries) UpdateJobDone(ctx context.Context, arg UpdateJobDoneParams) (J
 		&i.Time,
 		&i.OwnerUuid,
 		&i.DayReportUuid,
+		&i.OwnerName,
+		pq.Array(&i.TagUuids),
 	)
 	return i, err
 }

@@ -11,6 +11,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/samber/lo"
 )
 
 type PlanController struct {
@@ -86,7 +87,7 @@ func (cc *PlanController) CreatePlan(ctx *gin.Context) {
 // @Router /plans/{planId} [patch]
 func (cc *PlanController) UpdatePlan(ctx *gin.Context) {
 	var payload *schemas.UpdatePlanPayload
-	PlanId := ctx.Param("PlanId")
+	PlanId := ctx.Param("planId")
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
@@ -112,8 +113,33 @@ func (cc *PlanController) UpdatePlan(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving Plan", "error": err.Error()})
 		return
 	}
+	tagUuids := lo.Map(plan.TagUuids, func(stringifiedUuid string, i int) uuid.UUID {
+		return uuid.MustParse(stringifiedUuid)
+	})
 
-	ctx.JSON(http.StatusOK, plan)
+	dbTags, _ := cc.db.GetListLabelsByLabelUuids(ctx, tagUuids)
+	tags := lo.Map(dbTags, func(dbTag db.JobTag, i int) schemas.JobTagResponse {
+		return schemas.JobTagResponse{
+			Uuid:        dbTag.Uuid.String(),
+			Name:        dbTag.Name,
+			Description: dbTag.Description,
+			Color:       dbTag.Color,
+		}
+	})
+	response := schemas.PlanPopulatedResponse{
+		Uuid:          plan.Uuid.String(),
+		CreatedAt:     plan.CreatedAt.String(),
+		UpdatedAt:     plan.UpdatedAt.String(),
+		Description:   plan.Description,
+		Time:          plan.Time,
+		OwnerUuid:     plan.OwnerUuid.String(),
+		OwnerName:     plan.OwnerName,
+		IsDone:        plan.IsDone,
+		DayReportUuid: plan.DayReportUuid.String(),
+		Tags:          tags,
+	}
+
+	ctx.JSON(http.StatusOK, response)
 }
 
 // Get plans by day report uuid handler

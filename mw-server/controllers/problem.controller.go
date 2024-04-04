@@ -122,7 +122,31 @@ func (cc *ProblemController) UpdateProblem(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, problem)
+	tagUuids := lo.Map(problem.TagUuids, func(stringifiedUuid string, i int) uuid.UUID {
+		return uuid.MustParse(stringifiedUuid)
+	})
+	dbTags, _ := cc.db.GetListLabelsByLabelUuids(ctx, tagUuids)
+	tags := lo.Map(dbTags, func(dbTag db.JobTag, i int) schemas.JobTagResponse {
+		return schemas.JobTagResponse{
+			Uuid:        dbTag.Uuid.String(),
+			Name:        dbTag.Name,
+			Description: dbTag.Description,
+			Color:       dbTag.Color,
+		}
+	})
+	response := schemas.ProblemPopulatedResponse{
+		Uuid:          problem.Uuid.String(),
+		CreatedAt:     problem.CreatedAt.String(),
+		UpdatedAt:     problem.UpdatedAt.String(),
+		Description:   problem.Description,
+		IsDone:        problem.IsDone,
+		OwnerUuid:     problem.OwnerUuid.String(),
+		OwnerName:     problem.OwnerName,
+		DayReportUuid: problem.DayReportUuid.String(),
+		Tags:          tags,
+	}
+
+	ctx.JSON(http.StatusOK, response)
 }
 
 // Get problems by day report uuid handler

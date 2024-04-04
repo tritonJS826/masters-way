@@ -122,7 +122,31 @@ func (cc *JobDoneController) UpdateJobDone(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, jobDone)
+	tagUuids := lo.Map(jobDone.TagUuids, func(stringifiedUuid string, i int) uuid.UUID {
+		return uuid.MustParse(stringifiedUuid)
+	})
+	dbTags, _ := cc.db.GetListLabelsByLabelUuids(ctx, tagUuids)
+	tags := lo.Map(dbTags, func(dbTag db.JobTag, i int) schemas.JobTagResponse {
+		return schemas.JobTagResponse{
+			Uuid:        dbTag.Uuid.String(),
+			Name:        dbTag.Name,
+			Description: dbTag.Description,
+			Color:       dbTag.Color,
+		}
+	})
+	response := schemas.JobDonePopulatedResponse{
+		Uuid:          jobDone.Uuid.String(),
+		CreatedAt:     jobDone.CreatedAt.String(),
+		UpdatedAt:     jobDone.UpdatedAt.String(),
+		Description:   jobDone.Description,
+		Time:          jobDone.Time,
+		OwnerUuid:     jobDone.OwnerUuid.String(),
+		OwnerName:     jobDone.OwnerName,
+		DayReportUuid: jobDone.DayReportUuid.String(),
+		Tags:          tags,
+	}
+
+	ctx.JSON(http.StatusOK, response)
 }
 
 // Get jobs done by day report uuid handler
