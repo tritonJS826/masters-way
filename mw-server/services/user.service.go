@@ -2,15 +2,36 @@ package services
 
 import (
 	"context"
-	"fmt"
-	db "mwserver/db/sqlc"
+	dbb "mwserver/db/sqlc"
 	"mwserver/schemas"
 	"mwserver/util"
 )
 
-func CreateUser(db *db.Queries, ctx context.Context, args *db.CreateUserParams) (schemas.UserPlainResponse, error) {
+func CreateUser(db *dbb.Queries, ctx context.Context, args *dbb.CreateUserParams) (schemas.UserPlainResponse, error) {
 	user, err := db.CreateUser(ctx, *args)
-	fmt.Println(err)
+
+	createWayCollectionParamsOwn := dbb.CreateWayCollectionParams{
+		OwnerUuid: user.Uuid,
+		CreatedAt: user.CreatedAt,
+		Name:      "own",
+		Type:      dbb.WayCollectionTypeOwn,
+	}
+	createWayCollectionParamsFavorite := dbb.CreateWayCollectionParams{
+		OwnerUuid: user.Uuid,
+		CreatedAt: user.CreatedAt,
+		Name:      "favorite",
+		Type:      dbb.WayCollectionTypeFavorite,
+	}
+	createWayCollectionParamsMentoring := dbb.CreateWayCollectionParams{
+		OwnerUuid: user.Uuid,
+		CreatedAt: user.CreatedAt,
+		Name:      "mentoring",
+		Type:      dbb.WayCollectionTypeMentoring,
+	}
+
+	db.CreateWayCollection(ctx, createWayCollectionParamsOwn)
+	db.CreateWayCollection(ctx, createWayCollectionParamsFavorite)
+	db.CreateWayCollection(ctx, createWayCollectionParamsMentoring)
 
 	imageUrl, _ := util.MarshalNullString(user.ImageUrl)
 	response := schemas.UserPlainResponse{
