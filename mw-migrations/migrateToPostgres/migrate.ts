@@ -40,40 +40,40 @@ async function startMigration() {
         .catch((err: any) => console.error('Error connecting to PostgreSQL database', err));
         // .then(() => {users(client)})
         
-    user_tags();
-    users_user_tags();
-    ways_way_tags();
-    way_tags();
-    favorite_users();
-    to_user_mentoring_requests();
-    former_mentors_ways
-    users(client);
-    await delay(2_000)
-    ways(client);
-    await delay(2_000)
+    // user_tags();
+    // users_user_tags();
+    // ways_way_tags();
+    // way_tags();
+    // favorite_users();
+    // to_user_mentoring_requests();
+    // former_mentors_ways
+    // users(client);
+    // await delay(2_000)
+    // ways(client);
+    // await delay(2_000)
     metrics(client)
-    await delay(2_000)
-    dayReports(client)
-    await delay(2_000)
-    jobTags(client)
-    await delay(2_000)
-    await wayCollections(client) // + way_collections_ways
-    await delay(2_000)
-    from_user_mentoring_request(client)
-    await delay(2_000)
-    favorite_users_ways(client)
-    await delay(2_000)
-    former_mentors_ways(client)
-    await delay(2_000)
-    mentor_users_ways(client)
-    await delay(2_000)
-    comments(client)
-    await delay(2_000)
-    problems(client) // with problems_job_tags
-    await delay(2_000)
-    job_dones(client) // with job_dones_job_tags
-    await delay(2_000)
-    plans(client) // with plans_job_tags
+    // await delay(2_000)
+    // dayReports(client)
+    // await delay(2_000)
+    // jobTags(client)
+    // await delay(2_000)
+    // await wayCollections(client) // + way_collections_ways
+    // await delay(2_000)
+    // from_user_mentoring_request(client)
+    // await delay(2_000)
+    // favorite_users_ways(client)
+    // await delay(2_000)
+    // former_mentors_ways(client)
+    // await delay(2_000)
+    // mentor_users_ways(client)
+    // await delay(2_000)
+    // comments(client)
+    // await delay(2_000)
+    // problems(client) // with problems_job_tags
+    // await delay(2_000)
+    // job_dones(client) // with job_dones_job_tags
+    // await delay(2_000)
+    // plans(client) // with plans_job_tags
 
     // await client.end()
     // .then(() => console.log('Connection to PostgreSQL closed'))

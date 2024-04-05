@@ -7,22 +7,26 @@ export const metrics = (client: Client) => {
     const metricsAmount = waysJSON.flatMap(way => way.metricsStringified).length
 
     waysJSON.forEach((way) => {
-        const metrics = way.metricsStringified.map((metricRaw: string) => JSON.parse(metricRaw))
-        metrics.forEach((metric) => {
+      const metrics = way.metricsStringified.map((metricRaw: string) => JSON.parse(metricRaw))
+      metrics.forEach((metric) => {
+        console.log(metric.doneDate);
+        const metricDoneDate = !metric.isDone
+          ? null 
+          : timestampToPgDate(metric.doneDate);
             const values = [
-                metric.uuid    ,
-                timestampToPgDate(metric.created_at),
-                timestampToPgDate(metric.updated_at),
-                metric.description,
-                metric.isDone,
-                timestampToPgDate(metric.doneDate),
-                metric.metricEstimation ?? 0,
-                convertFirebaseUuidToPgUuid(way.uuid)
+              metric.uuid,
+              metric.created_at ? timestampToPgDate(metric.created_at) : firebaseDateToPgDate(way.createdAt),
+              metric.updated_at ? timestampToPgDate(metric.updated_at): firebaseDateToPgDate(way.createdAt),
+              metric.description,
+              metric.isDone,
+              metricDoneDate,
+              metric.metricEstimation ?? 0,
+              convertFirebaseUuidToPgUuid(way.uuid)
             ];
 
             client.query(query, values, (err: any, result: any) => {
                 // values
-                if (err) {
+              if (err) {
                     console.error('Error executing query', err);
                 } else {
                     console.log('Query result metrics:', result.rows);
