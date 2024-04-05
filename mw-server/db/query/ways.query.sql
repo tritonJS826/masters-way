@@ -66,20 +66,25 @@ SELECT
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
     (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount
 FROM ways
-WHERE ($3 = 'inProgress' AND ways.is_completed = false AND ways.updated_at > $4::timestamp - interval '14 days')
+WHERE ways.is_private = false AND 
+    (
+        ($3 = 'inProgress' AND ways.is_completed = false AND ways.updated_at > $4::timestamp - interval '14 days')
     OR ($3 = 'completed' AND ways.is_completed = true)
     OR ($3 = 'abandoned' AND ways.is_completed = false AND ways.updated_at < $4::timestamp - interval '14 days') 
     OR ($3 = 'all')
+    )
 ORDER BY created_at DESC
 LIMIT $1
 OFFSET $2;
 
 -- name: CountWaysByType :one
 SELECT COUNT(*) FROM ways
-WHERE ($1 = 'inProgress' AND ways.is_completed = false AND ways.updated_at > $2::timestamp - interval '14 days')
+WHERE ways.is_private = false AND (
+    ($1 = 'inProgress' AND ways.is_completed = false AND ways.updated_at > $2::timestamp - interval '14 days')
     OR ($1 = 'completed' AND ways.is_completed = true)
     OR ($1 = 'abandoned' AND ways.is_completed = false AND ways.updated_at < $2::timestamp - interval '14 days') 
-    OR ($1 = 'all');
+    OR ($1 = 'all')
+);
 
 -- name: UpdateWay :one
 UPDATE ways
