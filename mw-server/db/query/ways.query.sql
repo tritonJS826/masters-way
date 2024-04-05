@@ -76,7 +76,7 @@ OFFSET $2;
 
 -- name: CountWaysByType :one
 SELECT COUNT(*) FROM ways
-WHERE ($1 = 'inProgress' AND ways.is_completed = false)
+WHERE ($1 = 'inProgress' AND ways.is_completed = false AND ways.updated_at > $2::timestamp - interval '14 days')
     OR ($1 = 'completed' AND ways.is_completed = true)
     OR ($1 = 'abandoned' AND ways.is_completed = false AND ways.updated_at < $2::timestamp - interval '14 days') 
     OR ($1 = 'all');
