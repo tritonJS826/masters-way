@@ -116,6 +116,8 @@ export const JobTags = (props: JobTagsProps) => {
               placeholder={LanguageService.way.filterBlock.jobTagPlaceholder[language]}
               close={() => setIsJobDoneModalOpen(false)}
               onOk={createJobTag}
+              okButtonValue={LanguageService.modals.promptModal.okButton[language]}
+              cancelButtonValue={LanguageService.modals.promptModal.cancelButton[language]}
             />
           }
           trigger={

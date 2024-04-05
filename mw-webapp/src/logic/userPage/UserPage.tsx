@@ -373,6 +373,8 @@ export const UserPage = (props: UserPageProps) => {
                 placeholder="Collection name"
                 close={() => setIsRenameCollectionModalOpen(false)}
                 onOk={(name: string) => updateCustomWayCollection({id: openedTabId, name})}
+                okButtonValue={LanguageService.modals.promptModal.okButton[language]}
+                cancelButtonValue={LanguageService.modals.promptModal.cancelButton[language]}
               />
             }
             trigger={

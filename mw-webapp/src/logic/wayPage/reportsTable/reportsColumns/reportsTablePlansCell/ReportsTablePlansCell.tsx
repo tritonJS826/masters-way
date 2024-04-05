@@ -16,7 +16,7 @@ import {PlanDAL} from "src/dataAccessLogic/PlanDAL";
 import {PlanJobTagDAL} from "src/dataAccessLogic/PlanJobTagDAL";
 import {JobDoneTags} from "src/logic/wayPage/reportsTable/jobDoneTags/JobDoneTags";
 import {ModalContentJobTags} from "src/logic/wayPage/reportsTable/modalContentJobTags/ModalContentJobTags";
-import {DEFAULT_SUMMARY_TIME, getListNumberByIndex, getValidatedTime, MAX_TIME}
+import {DEFAULT_SUMMARY_TIME, getListNumberByIndex, getValidatedTime, MAX_TIME, MIN_TIME}
   from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
 import {CopyPlanToJobDoneModalContent} from "src/logic/wayPage/reportsTable/reportsColumns/reportsTablePlansCell/\
 copyPlanToJobDoneModalContent/CopyPlanToJobDoneModalContent";
@@ -269,6 +269,7 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
                     value={plan.time}
                     type="number"
                     max={MAX_TIME}
+                    min={MIN_TIME}
                     onChangeFinish={(time) => updatePlan({
                       uuid: plan.uuid,
                       time: getValidatedTime(Number(time)),
@@ -279,8 +280,7 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
                 </Tooltip>
                 {props.isEditable &&
                 <Tooltip
-                  content={`Click${Symbols.NO_BREAK_SPACE}to${Symbols.NO_BREAK_SPACE}mark the plan as completed.
-                                  Coming soon`}
+                  content="Click to mark plan as completed."
                   position={PositionTooltip.RIGHT}
                 >
                   <Modal

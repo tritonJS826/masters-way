@@ -32,6 +32,16 @@ interface PromptModalContentProps {
    */
   placeholder: string;
 
+  /**
+   * Ok button value
+   */
+  okButtonValue: string;
+
+  /**
+   * Cancel button value
+   */
+  cancelButtonValue: string;
+
 }
 
 /**
@@ -67,7 +77,7 @@ export const PromptModalContent = (props: PromptModalContentProps) => {
       <HorizontalContainer className={styles.buttons}>
         <DialogClose asChild>
           <Button
-            value="Cancel"
+            value={props.cancelButtonValue}
             onClick={props.close}
           />
         </DialogClose>
@@ -75,7 +85,7 @@ export const PromptModalContent = (props: PromptModalContentProps) => {
         <DialogClose asChild>
           <Button
             ref={onOkRef}
-            value="Create"
+            value={props.okButtonValue}
             onClick={() => props.onOk(inputValue)}
             buttonType={ButtonType.PRIMARY}
           />

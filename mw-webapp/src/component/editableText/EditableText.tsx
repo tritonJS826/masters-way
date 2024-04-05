@@ -74,6 +74,11 @@ interface EditableTextProps<T> {
   max?: number;
 
   /**
+   * Minimum value for input type "number"
+   */
+  min?: number;
+
+  /**
    * Data attributes for cypress testing
    */
   cy?: CyEditableText;
@@ -121,6 +126,7 @@ export const EditableValue = <T extends string | number>(props: EditableTextProp
       formatter={getFormattedValue}
       type={props.type ?? "text"}
       max={props.max}
+      min={props.min}
       value={value}
       autoFocus={true}
       onChange={updateValue}

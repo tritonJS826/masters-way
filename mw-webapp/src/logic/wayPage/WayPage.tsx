@@ -488,7 +488,7 @@ export const WayPage = (props: WayPageProps) => {
                     <Button
                       className={styles.wayActionsIcon}
                       buttonType={ButtonType.TERTIARY}
-                      onClick={() => updateWayPageSettings({isGoalMetricsVisible: !wayPageSettings.isGoalMetricsVisible})}
+                      onClick={() => {}}
                       value={<>
                         <Icon
                           size={IconSize.MEDIUM}

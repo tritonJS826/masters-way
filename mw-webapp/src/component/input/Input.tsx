@@ -60,6 +60,11 @@ interface InputProps<T extends string | number> {
   max?: number;
 
   /**
+   * Minimum value for input type "number"
+   */
+  min?: number;
+
+  /**
    * Tracks the value entered into the input
    */
   onChange: (value: T) => void;
@@ -114,6 +119,7 @@ export const Input = <T extends string | number>(props: InputProps<T>) => {
       value={props.formatter ? props.formatter(props.value) : props.value}
       type={props.type ?? "text"}
       max={props.max}
+      min={props.min}
       placeholder={props.placeholder}
       className={clsx(styles.input, props.className)}
       inputMode={props.inputMode}

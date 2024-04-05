@@ -7,8 +7,8 @@ import {OptionType} from "src/component/select/option/Option";
 import {Select} from "src/component/select/Select";
 import {MenuItemLink, Sidebar} from "src/component/sidebar/Sidebar";
 import {HeadingLevel, Title} from "src/component/title/Title";
-import {useGlobalContext} from "src/GlobalContext";
 import {ThemeSwitcher} from "src/logic/themeSwitcher/ThemeSwitcher";
+import {User} from "src/model/businessModel/User";
 import {pages} from "src/router/pages";
 import {AuthService} from "src/service/AuthService";
 import {LanguageService} from "src/service/LangauageService";
@@ -33,40 +33,54 @@ interface HeaderProps {
    * Data attribute for cypress testing
    */
   dataCy?: string;
+
+  /**
+   * Current user
+   */
+  user: User | null;
+
+  /**
+   * Current language
+   */
+  language: Language;
+
+  /**
+   * Callback to set language
+   */
+  setLanguage: (language: Language) => void;
 }
 
 /**
  * Header component
  */
 export const Header = (props: HeaderProps) => {
-  const {user, language, setLanguage} = useGlobalContext();
 
   const menuItems: (MenuItemLink)[] = [
     {
       path: pages.allWays.getPath({}),
-      value: LanguageService.sidebar.allWays[language],
+      value: LanguageService.sidebar.allWays[props.language],
     },
     {
       path: pages.allUsers.getPath({}),
-      value: LanguageService.sidebar.allUsers[language],
+      value: LanguageService.sidebar.allUsers[props.language],
     },
     {
-      path: user
-        ? pages.user.getPath({uuid: user.uuid})
+      path: props.user
+        ? pages.user.getPath({uuid: props.user.uuid})
         : pages.page404.getPath({}),
-      value: LanguageService.sidebar.myWays[language],
-      isHidden: !user,
+      value: LanguageService.sidebar.myWays[props.language],
+      isHidden: !props.user,
     },
     {
-      path: user
+      path: props.user
         ? pages.settings.getPath({})
         : pages.page404.getPath({}),
-      value: LanguageService.sidebar.settings[language],
-      isHidden: !user,
+      value: LanguageService.sidebar.settings[props.language],
+      isHidden: !props.user,
     },
     {
       path: pages.aboutProject.getPath({}),
-      value: LanguageService.sidebar.about[language],
+      value: LanguageService.sidebar.about[props.language],
     },
   ];
 
@@ -87,44 +101,44 @@ export const Header = (props: HeaderProps) => {
           <ThemeSwitcher />
 
           <Select
-            value={language}
+            value={props.language}
             name="language"
             options={languageOptions}
-            onChange={setLanguage}
+            onChange={props.setLanguage}
           />
 
         </HorizontalContainer>
 
         <HorizontalContainer className={styles.rightBlock}>
-          {user ?
-            (<Link path={pages.user.getPath({uuid: user.uuid})}>
+          {props.user ?
+            (<Link path={pages.user.getPath({uuid: props.user.uuid})}>
               <Title
                 level={HeadingLevel.h4}
-                text={user.name}
+                text={props.user.name}
                 className={styles.userName}
               />
             </Link>)
             : (
               <Button
                 onClick={AuthService.logIn}
-                value={LanguageService.header.loginButton[language]}
+                value={LanguageService.header.loginButton[props.language]}
                 buttonType={ButtonType.PRIMARY}
               />
             )}
           <Sidebar
             trigger={
               <Button
-                value={LanguageService.header.menu[language]}
+                value={LanguageService.header.menu[props.language]}
                 onClick={() => { }}
                 buttonType={ButtonType.TERTIARY}
               />
             }
             linkList={menuItems}
             bottomChildren={<>
-              {user &&
+              {props.user &&
               <Button
                 onClick={AuthService.logOut}
-                value={LanguageService.header.logoutButton[language]}
+                value={LanguageService.header.logoutButton[props.language]}
                 buttonType={ButtonType.SECONDARY}
               />
               }

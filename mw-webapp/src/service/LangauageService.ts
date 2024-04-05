@@ -2,6 +2,7 @@ import aboutProjectPageContent from "src/dictionary/AboutProjectPageContent.json
 import allUsersPageContent from "src/dictionary/AllUsersPageContent.json";
 import allWaysPageContent from "src/dictionary/AllWaysPageContent.json";
 import headerContent from "src/dictionary/Header.json";
+import modals from "src/dictionary/Modals.json";
 import settings from "src/dictionary/SettingsPageContent.json";
 import sidebar from "src/dictionary/Sidebar.json";
 import userPageContent from "src/dictionary/UserPageContent.json";
@@ -66,6 +67,13 @@ export class LanguageService {
    */
   public static get settings() {
     return settings;
+  }
+
+  /**
+   * Modals content
+   */
+  public static get modals() {
+    return modals;
   }
 
 }

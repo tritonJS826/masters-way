@@ -14,7 +14,7 @@ import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
 import {JobDoneJobTagDAL} from "src/dataAccessLogic/JobDoneJobTagDAL";
 import {JobDoneTags} from "src/logic/wayPage/reportsTable/jobDoneTags/JobDoneTags";
 import {ModalContentJobTags} from "src/logic/wayPage/reportsTable/modalContentJobTags/ModalContentJobTags";
-import {DEFAULT_SUMMARY_TIME, getListNumberByIndex, getValidatedTime, MAX_TIME}
+import {DEFAULT_SUMMARY_TIME, getListNumberByIndex, getValidatedTime, MAX_TIME, MIN_TIME}
   from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
@@ -217,6 +217,7 @@ export const ReportsTableJobsDoneCell = (props: ReportsTableJobsDoneCellProps) =
                     value={jobDone.time}
                     type="number"
                     max={MAX_TIME}
+                    min={MIN_TIME}
                     onChangeFinish={(time) =>
                       updateJobDone({
                         uuid: jobDone.uuid,
