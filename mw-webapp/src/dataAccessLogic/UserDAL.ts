@@ -32,7 +32,7 @@ export class UserDAL {
   /**
    * Get all Users
    */
-  public static async getUsers(params?: GetUsersParams): Promise<AllUsersParams> {
+  public static async getUsers(params: GetUsersParams): Promise<AllUsersParams> {
     const usersDTO = await UserService.getAllUsers(params);
 
     const usersPreview = usersDTO.users.map(UserDTOToUserNotSaturatedWayConverter);

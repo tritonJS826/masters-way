@@ -14,20 +14,18 @@ import {Tooltip} from "src/component/tooltip/Tooltip";
 import {UserCard} from "src/component/userCard/UserCard";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {UserDAL} from "src/dataAccessLogic/UserDAL";
-// Import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {useLoad} from "src/hooks/useLoad";
 import {usePersistanceState} from "src/hooks/usePersistanceState";
-// Import {LAST_INDEX} from "src/logic/mathConstants";
 import {UsersTableBlock} from "src/logic/usersTable/UsersTableBlock";
 import {UserNotSaturatedWay} from "src/model/businessModelPreview/UserNotSaturatedWay";
-// Import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {LanguageService} from "src/service/LangauageService";
 import {AllUsersPageSettings, View} from "src/utils/LocalStorageWorker";
 import {useDebounce} from "use-debounce";
 import styles from "src/logic/allUsersPage/AllUsersPage.module.scss";
 
 const DEFAULT_PAGE_PAGINATION_VALUE = 1;
+const DEFAULT_USER_LIMIT = 10;
 const DEBOUNCE_DELAY_MILLISECONDS = 1000;
 const DEFAULT_ALL_USERS_PAGE_SETTINGS: AllUsersPageSettings = {view: View.Card};
 
@@ -55,8 +53,11 @@ export const AllUsersPage = () => {
   const [allUsers, setAllUsers] = useState<UserNotSaturatedWay[]>();
   const [allUsersAmount, setAllUsersAmount] = useState<number>();
   const [email, setEmail] = useState<string>("");
+  const [name, setName] = useState<string>("");
   const [pagePagination, setPagePagination] = useState<number>(DEFAULT_PAGE_PAGINATION_VALUE);
-  const [debouncedEmail ] = useDebounce(email, DEBOUNCE_DELAY_MILLISECONDS);
+  const [debouncedEmail] = useDebounce(email, DEBOUNCE_DELAY_MILLISECONDS);
+  const [debouncedName] = useDebounce(name, DEBOUNCE_DELAY_MILLISECONDS);
+
   const {language} = useGlobalContext();
 
   const [allUsersPageSettings, updateAllUsersPageSettings] = usePersistanceState({
@@ -70,7 +71,12 @@ export const AllUsersPage = () => {
    * Callback that is called to fetch data
    */
   const loadData = async (): Promise<AllUsersFetchData> => {
-    const users = await UserDAL.getUsers({page: pagePagination});
+    const users = await UserDAL.getUsers({
+      page: DEFAULT_PAGE_PAGINATION_VALUE,
+      limit: DEFAULT_USER_LIMIT,
+      email,
+      name,
+    });
     const nextPage = pagePagination + DEFAULT_PAGE_PAGINATION_VALUE;
     setPagePagination(nextPage);
 
@@ -108,7 +114,7 @@ export const AllUsersPage = () => {
     loadData,
     onSuccess,
     onError,
-    dependency: [debouncedEmail],
+    dependency: [debouncedEmail, debouncedName],
   });
 
   if (!allUsers) {
@@ -120,12 +126,20 @@ export const AllUsersPage = () => {
   return (
     <VerticalContainer className={styles.allUsersContainer}>
       <HorizontalContainer className={styles.filterView}>
-        <Input
-          value={email}
-          onChange={(value) => setEmail(value)}
-          placeholder={LanguageService.allUsers.filterBlock.emailPlaceholder[language]}
-          className={styles.emailFilter}
-        />
+        <HorizontalContainer>
+          <Input
+            value={email}
+            onChange={setEmail}
+            placeholder={LanguageService.allUsers.filterBlock.emailPlaceholder[language]}
+            className={styles.inputFilter}
+          />
+          <Input
+            value={name}
+            onChange={setName}
+            placeholder={LanguageService.allUsers.filterBlock.namePlaceholder[language]}
+            className={styles.inputFilter}
+          />
+        </HorizontalContainer>
         <HorizontalContainer>
           <Tooltip
             position={PositionTooltip.LEFT}

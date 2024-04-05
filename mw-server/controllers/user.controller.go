@@ -396,8 +396,8 @@ func (cc *UserController) GetAllUsers(ctx *gin.Context) {
 	listUsersArgs := &db.ListUsersParams{
 		Limit:   int32(reqLimit),
 		Offset:  int32(offset),
-		Column3: sql.NullString{String: email, Valid: true},
-		Column4: sql.NullString{String: name, Valid: true},
+		Lower:   email,
+		Lower_2: name,
 	}
 
 	users, err := cc.db.ListUsers(ctx, *listUsersArgs)

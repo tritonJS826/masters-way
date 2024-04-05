@@ -1,10 +1,16 @@
 {
   "filterBlock": {
     "emailPlaceholder": {
-      "ru": "Искать по первым буквам из email",
-      "en": "Search by first letters in email",
-      "ua": "Пошук за першими літерами в email",
-      "ka": "ძებნა ელ. ფოსტის პირველ ასოებით"
+      "ru": "Искать по email",
+      "en": "Search by email",
+      "ua": "Пошук в email",
+      "ka": "ძებნა email-ის მიხედვით"
+    },
+    "namePlaceholder": {
+      "ru": "Искать по имени",
+      "en": "Search by name",
+      "ua": "Пошук в name",
+      "ka": "ძებნა სახელის მიხედვით"
     },
     "cardViewTooltip": {
       "ru": "Отображение карточками",

@@ -200,18 +200,18 @@ SELECT
     )::VARCHAR[] AS tag_names,
     (SELECT COUNT(*) FROM users) AS users_size
 FROM users
-WHERE (users.email LIKE '%' || $3 || '%' OR $3 = '')
-    AND (users.name LIKE '%' || $4 || '%' OR $4 = '')
+WHERE (LOWER(users.email) LIKE '%' || LOWER($3) || '%' OR $3 = '')
+    AND (LOWER(users.name) LIKE '%' || LOWER($4) || '%' OR $4 = '')
 ORDER BY created_at DESC
 LIMIT $1
 OFFSET $2
 `
 
 type ListUsersParams struct {
-	Limit   int32          `json:"limit"`
-	Offset  int32          `json:"offset"`
-	Column3 sql.NullString `json:"column_3"`
-	Column4 sql.NullString `json:"column_4"`
+	Limit   int32  `json:"limit"`
+	Offset  int32  `json:"offset"`
+	Lower   string `json:"lower"`
+	Lower_2 string `json:"lower_2"`
 }
 
 type ListUsersRow struct {
@@ -236,8 +236,8 @@ func (q *Queries) ListUsers(ctx context.Context, arg ListUsersParams) ([]ListUse
 	rows, err := q.query(ctx, q.listUsersStmt, listUsers,
 		arg.Limit,
 		arg.Offset,
-		arg.Column3,
-		arg.Column4,
+		arg.Lower,
+		arg.Lower_2,
 	)
 	if err != nil {
 		return nil, err

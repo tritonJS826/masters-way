@@ -26,9 +26,14 @@ export interface GetUsersParams {
   limit?: number;
 
   /**
-   * Status
+   * Partial user email
    */
-  status?: string;
+  email?: string;
+
+  /**
+   * Partial user name
+   */
+  name?: string;
 
 }
 
@@ -40,7 +45,7 @@ export class UserService {
   /**
    * Get all users
    */
-  public static async getAllUsers(requestParameters: GetAllUsersRequest = {}): Promise<SchemasGetAllUsersResponse> {
+  public static async getAllUsers(requestParameters: GetAllUsersRequest): Promise<SchemasGetAllUsersResponse> {
     const allUsers = await userService.getAllUsers(requestParameters);
 
     return allUsers;
