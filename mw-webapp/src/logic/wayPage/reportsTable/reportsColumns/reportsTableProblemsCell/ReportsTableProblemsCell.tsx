@@ -88,25 +88,17 @@ export const ReportsTableProblemsCell = (props: ReportsTableProblemsCellProps) =
   /**
    * Update Problem
    */
-  const updateProblem = async (problem: Problem, text: string) => {
-    const updatedProblems = props.dayReport.problems.map((item) => {
-      const itemToReturn = item.uuid === problem.uuid
-        ? new Problem({
-          ...problem,
-          description: text,
-        })
-        : item;
+  const updateProblem = async (problemToUpdate: PartialWithUuid<Problem>) => {
+    const updatedProblem = await ProblemDAL.updateProblem(problemToUpdate);
+    const problems = [
+      ...props.dayReport.problems.map((problem) => {
+        return problem.uuid === problemToUpdate.uuid
+          ? updatedProblem
+          : problem;
+      }),
+    ];
 
-      return itemToReturn;
-    });
-
-    const problemToUpdate = {
-      uuid: problem.uuid,
-      description: text,
-    };
-
-    props.updateDayReport({uuid: props.dayReport.uuid, problems: updatedProblems});
-    await ProblemDAL.updateProblem(problemToUpdate);
+    await props.updateDayReport({uuid: props.dayReport.uuid, problems});
   };
 
   return (
@@ -132,7 +124,11 @@ export const ReportsTableProblemsCell = (props: ReportsTableProblemsCellProps) =
                               the problem as completed. Coming soon`}
                 >
                   <Checkbox
-                    onChange={() => {}}
+                    isDefaultChecked={problem.isDone}
+                    onChange={() => updateProblem({
+                      uuid: problem.uuid,
+                      isDone: !problem.isDone,
+                    })}
                     className={styles.checkbox}
                   />
                 </Tooltip>
@@ -156,7 +152,10 @@ export const ReportsTableProblemsCell = (props: ReportsTableProblemsCellProps) =
             </HorizontalContainer>
             <EditableTextarea
               text={problem.description}
-              onChangeFinish={(text) => updateProblem(problem, text)}
+              onChangeFinish={(description) => updateProblem({
+                uuid: problem.uuid,
+                description,
+              })}
               isEditable={problem.ownerUuid === props.user?.uuid}
               className={styles.editableTextarea}
             />
