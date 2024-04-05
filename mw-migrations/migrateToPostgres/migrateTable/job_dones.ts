@@ -1,5 +1,6 @@
 import { Client } from "pg";
 import reportsJSON from "../../backups/dayReports.bkp.json" assert { type: "json" };
+import waysJSON from "../../backups/ways.bkp.json" assert {type: "json"};
 import {convertFirebaseUuidToPgUuid, timestampToPgDate} from "../utils.js";
 import { getTagUuidByNameAndReportId } from "./problems.js";
 
@@ -10,8 +11,13 @@ export const job_dones = (client: Client) => {
     const dayReportsAmount = reportsJSON.flatMap(report => report.jobsDoneStringified).length;
     reportsJSON.forEach((report) => {
         report.jobsDoneStringified.map(j => JSON.parse(j)).forEach(async (job) => {
-
-            if (!job.ownerUuid) return; 
+          let jobOwnerUuid;
+          if (!job.ownerUuid) {
+            const way = waysJSON.find(way => (way.dayReportUuids as string[]).includes(report.uuid));
+            console.log(way);
+            if (!way) return;
+            jobOwnerUuid = way.ownerUuid;
+            }; 
             const defaultDate = 1708286257098;
             const values = [
               job.uuid.length === 20 ? convertFirebaseUuidToPgUuid(job.uuid) : job.uuid,
@@ -19,7 +25,7 @@ export const job_dones = (client: Client) => {
               timestampToPgDate(defaultDate),
               job.description,
               job.time,
-              convertFirebaseUuidToPgUuid(job.ownerUuid),
+              job.ownerUuid ? convertFirebaseUuidToPgUuid(job.ownerUuid) :  convertFirebaseUuidToPgUuid(jobOwnerUuid!),
               convertFirebaseUuidToPgUuid(report.uuid),
             ];
             client.query(query, values, (err: any, result: any) => {

@@ -73,7 +73,7 @@ async function startMigration() {
     await delay(2_000)
     job_dones(client) // with job_dones_job_tags
     await delay(2_000)
-    plans(client) // with job_dones_job_tags
+    plans(client) // with plans_job_tags
 
     // await client.end()
     // .then(() => console.log('Connection to PostgreSQL closed'))
