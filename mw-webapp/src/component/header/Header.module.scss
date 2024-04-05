@@ -38,3 +38,11 @@ $userNameFontSize: 16px;
   cursor: pointer;
   font-size: $userNameFontSize;
 }
+
+.sidebarItem {
+  align-items: center;
+}
+
+.bottomContainer {
+  gap: $gapMedium;
+}

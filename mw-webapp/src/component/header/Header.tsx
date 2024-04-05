@@ -1,18 +1,22 @@
 import logo from "src/assets/mastersWayLogo.svg";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {Icon, IconSize} from "src/component/icon/Icon";
 import {Image} from "src/component/image/Image";
 import {Link} from "src/component/link/Link";
 import {OptionType} from "src/component/select/option/Option";
 import {Select} from "src/component/select/Select";
 import {MenuItemLink, Sidebar} from "src/component/sidebar/Sidebar";
 import {HeadingLevel, Title} from "src/component/title/Title";
-import {ThemeSwitcher} from "src/logic/themeSwitcher/ThemeSwitcher";
+import {Toggle} from "src/component/toggle/Toggle";
+import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {getNextSwitchTheme, ThemeSwitcher} from "src/logic/themeSwitcher/ThemeSwitcher";
 import {User} from "src/model/businessModel/User";
 import {pages} from "src/router/pages";
 import {AuthService} from "src/service/AuthService";
 import {LanguageService} from "src/service/LangauageService";
 import {Language} from "src/utils/LanguageWorker";
+import {DEFAULT_THEME, Theme} from "src/utils/ThemeWorker";
 import styles from "src/component/header/Header.module.scss";
 
 export const LOGO_TEXT = "Master's way";
@@ -48,6 +52,16 @@ interface HeaderProps {
    * Callback to set language
    */
   setLanguage: (language: Language) => void;
+
+  /**
+   * Current theme
+   */
+  currentTheme: Theme;
+
+  /**
+   * Callback to set theme
+   */
+  setTheme: (theme: Theme) => void;
 }
 
 /**
@@ -134,15 +148,28 @@ export const Header = (props: HeaderProps) => {
               />
             }
             linkList={menuItems}
-            bottomChildren={<>
-              {props.user &&
-              <Button
-                onClick={AuthService.logOut}
-                value={LanguageService.header.logoutButton[props.language]}
-                buttonType={ButtonType.SECONDARY}
-              />
-              }
-            </>}
+            bottomChildren={
+              <VerticalContainer className={styles.bottomContainer}>
+                <HorizontalContainer className={styles.sidebarItem}>
+                  <Icon
+                    size={IconSize.MEDIUM}
+                    name="MoonIcon"
+                  />
+                  Night mode
+                  <Toggle
+                    onChange={() => props.setTheme(getNextSwitchTheme(props.currentTheme))}
+                    isDefaultChecked={DEFAULT_THEME === props.currentTheme}
+                  />
+                </HorizontalContainer>
+                {props.user &&
+                <Button
+                  onClick={AuthService.logOut}
+                  value={LanguageService.header.logoutButton[props.language]}
+                  buttonType={ButtonType.SECONDARY}
+                />
+                }
+              </VerticalContainer>
+            }
           />
 
         </HorizontalContainer>

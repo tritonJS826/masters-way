@@ -10,7 +10,7 @@ import styles from "src/logic/themeSwitcher/ThemeSwitcher.module.scss";
 /**
  * Calculate next switch theme
  */
-const getNextSwitchTheme = (theme: Theme) => {
+export const getNextSwitchTheme = (theme: Theme) => {
   return theme === Theme.DARK ? Theme.LIGHT : Theme.DARK;
 };
 

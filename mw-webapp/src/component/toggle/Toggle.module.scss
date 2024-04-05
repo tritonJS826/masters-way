@@ -1,0 +1,58 @@
+@import "src/styles/variables";
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 51px;
+  height: 31px;
+}
+
+.toggle {
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+
+.slider {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: 34px;
+  background-color: #ccc;
+  cursor: pointer;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  bottom: 2px;
+  left: 2px;
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  background-color: white;
+  content: "";
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.toggle:checked + .slider {
+  background-color: var(--primaryBackgroundButtonColor);
+}
+
+.toggle:focus + .slider {
+  box-shadow: 0 0 1px var(--primaryBackgroundButtonColor);
+}
+
+.toggle:checked + .slider:before {
+  -webkit-transform: translateX(20px);
+  -ms-transform: translateX(20px);
+  transform: translateX(20px);
+}
+
+.disabled {
+  opacity: 0.5;
+}

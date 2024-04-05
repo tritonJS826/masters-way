@@ -8,7 +8,7 @@ import {InitializedApp} from "src/logic/initializedApp/InitializedApp";
  * Layout
  */
 export const Layout = () => {
-  const {user, language, setLanguage} = useGlobalContext();
+  const {user, language, setLanguage, theme, setTheme} = useGlobalContext();
 
   return (
     <InitializedApp>
@@ -16,6 +16,8 @@ export const Layout = () => {
         language={language}
         setLanguage={setLanguage}
         user={user}
+        currentTheme={theme}
+        setTheme={setTheme}
       />
       <Outlet />
       <FirebaseAnalytics />

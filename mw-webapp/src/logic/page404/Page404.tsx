@@ -10,7 +10,7 @@ const ERROR_404 = "404 NOT FOUND";
  * Page 404 will be displayed if app's address is not correct
  */
 export const Page404 = () => {
-  const {user, language, setLanguage} = useGlobalContext();
+  const {user, language, setLanguage, theme, setTheme} = useGlobalContext();
 
   const error = useRouteError();
   if (isRouteErrorResponse(error)) {
@@ -20,6 +20,8 @@ export const Page404 = () => {
           language={language}
           setLanguage={setLanguage}
           user={user}
+          currentTheme={theme}
+          setTheme={setTheme}
         />
         <ErrorComponent
           text={`${error.status} ${error.statusText}`}
