@@ -1,5 +1,5 @@
 import type {StoryObj} from "@storybook/react";
-import {getDefaultLongValueLabel, ProgressBar} from "src/component/progressBar/ProgressBar";
+import {getDefaultRightValueLabel, ProgressBar} from "src/component/progressBar/ProgressBar";
 
 const meta = {
   title: "ProgressBar",
@@ -14,7 +14,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     value: 50,
-    getValueLabel: getDefaultLongValueLabel,
+    getRightValueLabel: getDefaultRightValueLabel,
   },
   render: (args) => (
     <div style={{width: 500}}>

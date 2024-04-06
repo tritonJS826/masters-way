@@ -1,9 +1,13 @@
 @import "src/styles/variables";
 
-$progressBarContainerHeight: 20px;
+$progressBarContainerHeight: 4px;
 $progressBarBorderRadius: 20px;
 
 .progressContainer {
+  gap: $gapSmall;
+}
+
+.progressRoot {
   position: relative;
   overflow: hidden;
   width: 100%;
@@ -26,6 +30,7 @@ $progressBarBorderRadius: 20px;
   transition: transform 660ms cubic-bezier(0.65, 0, 0.35, 1);
 }
 
-.progressText {
-  padding: 2px;
+.description {
+  justify-content: space-between;
+  color: var(--primaryTextColor);
 }
