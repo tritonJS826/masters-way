@@ -68,6 +68,8 @@ $cardLinkFontSize: 16px;
 
 .wayTags {
   display: -webkit-box;
+  overflow: hidden;
+  flex-wrap: nowrap;
   align-items: center;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;

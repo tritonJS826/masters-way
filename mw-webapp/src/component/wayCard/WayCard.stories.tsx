@@ -42,6 +42,34 @@ const defaultWayPreview: WayPreview = {
       uuid: "3",
       name: "Web",
     },
+    {
+      uuid: "4",
+      name: "Web",
+    },
+    {
+      uuid: "5",
+      name: "Web",
+    },
+    {
+      uuid: "6",
+      name: "Web",
+    },
+    {
+      uuid: "7",
+      name: "IT",
+    },
+    {
+      uuid: "8",
+      name: "Development",
+    },
+    {
+      uuid: "9",
+      name: "Web",
+    },
+    {
+      uuid: "10",
+      name: "Web",
+    },
   ],
   copiedFromWayUuid: "",
   createdAt: new Date("2024-02-11"),
