@@ -18,7 +18,8 @@
 .inputFilter {
   max-width: $maxWidthBlock;
   padding: $paddingSmall;
-  border: 2px solid var(--primaryBorderColor);
+  border: 1px solid var(--primaryBorderColor);
+  border-radius: $secondaryBorderRadius;
 }
 
 .userCards {
