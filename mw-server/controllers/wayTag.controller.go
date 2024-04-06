@@ -81,5 +81,4 @@ func (cc *WayTagController) DeleteWayTagFromWayByTagId(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfuly deleted"})
-
 }

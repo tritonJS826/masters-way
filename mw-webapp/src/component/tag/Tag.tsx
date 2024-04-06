@@ -1,4 +1,21 @@
+import clsx from "clsx";
 import styles from "src/component/tag/Tag.module.scss";
+
+/**
+ * Data attributes for cypress testing
+ */
+interface Cy {
+
+  /**
+   * Cross button to remove tag
+   */
+  dataCyCross: string;
+
+  /**
+   * Tag itself
+   */
+  dataCyTag: string;
+}
 
 /**
  * Way card tag props
@@ -13,7 +30,17 @@ interface TagProps {
   /**
    * Data attribute for cypress testing
    */
-  dataCy?: string;
+  cy?: Cy;
+
+  /**
+   * If true - tag could be removed by clicking on cross
+   */
+  isDeletable?: boolean;
+
+  /**
+   * Callback triggered on remove button
+   */
+  onDelete?: (name: string) => void;
 }
 
 /**
@@ -21,12 +48,24 @@ interface TagProps {
  */
 export const Tag = (props: TagProps) => {
   return (
-    <span
-      className={styles.tag}
-      data-cy={props.dataCy}
-    >
-      {props.tagName}
-    </span>
+    <button className={styles.tagContainer}>
+      <span
+        className={clsx(styles.cross, !props.isDeletable && styles.hiddenCross)}
+        onClick={() => {
+          props.isDeletable && props?.onDelete && props.onDelete(props.tagName);
+        }}
+        data-cy={props.cy?.dataCyCross}
+      >
+        X
+      </span>
+
+      <span
+        className={styles.tag}
+        data-cy={props.cy?.dataCyTag}
+      >
+        {props.tagName}
+      </span>
+    </button>
   );
 };
 

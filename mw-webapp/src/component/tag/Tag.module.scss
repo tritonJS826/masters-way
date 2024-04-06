@@ -3,6 +3,29 @@
 $WayTagPadding: 10px;
 $WayTagBorderRadius: 1000px;
 
+.tagContainer {
+  position: relative;
+  display: inline-block;
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-decoration: underline;
+
+  .cross {
+    visibility: hidden;
+  }
+
+  &:hover .cross {
+    visibility: visible;
+  }
+
+  &:focus .cross {
+    visibility: visible;
+  }
+}
+
 .tag {
   display: inline-block;
   overflow: hidden;
@@ -16,4 +39,22 @@ $WayTagBorderRadius: 1000px;
   font-size: 16px;
   text-overflow: ellipsis;
   text-wrap: nowrap;
+}
+
+.cross {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--primaryBorderColor);
+  border-radius: 100%;
+  background-color: var(--secondaryBackgroundColor);
+  cursor: pointer;
+  text-align: center;
+}
+
+.hiddenCross {
+  display: none;
 }

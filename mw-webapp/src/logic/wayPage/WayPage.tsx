@@ -11,6 +11,7 @@ import {Icon, IconSize} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
 import {Loader} from "src/component/loader/Loader";
 import {Modal} from "src/component/modal/Modal";
+import {PromptModalContent} from "src/component/modal/PromptModalContent";
 import {displayNotification} from "src/component/notification/displayNotification";
 import {ErrorComponent} from "src/component/privateRecourse/PrivateRecourse";
 import {Tag} from "src/component/tag/Tag";
@@ -39,7 +40,7 @@ import {DayReport} from "src/model/businessModel/DayReport";
 import {Metric} from "src/model/businessModel/Metric";
 import {User, WayCollection} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
-import {JobTag, WayPreview} from "src/model/businessModelPreview/WayPreview";
+import {JobTag, WayPreview, WayTag} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LangauageService";
 import {DateUtils} from "src/utils/DateUtils";
@@ -110,6 +111,7 @@ export const WayPage = (props: WayPageProps) => {
   });
   const {user, setUser, language} = useGlobalContext();
   const [way, setWay] = useState<Way>();
+  const [isAddWayTagModalOpen, setIsAddWayTagModalOpen] = useState(false);
 
   /**
    * Update way state
@@ -584,23 +586,51 @@ export const WayPage = (props: WayPageProps) => {
               <Tag
                 tagName={tag.name}
                 key={tag.uuid}
+                isDeletable={isOwner}
+                onDelete={() => {
+                  WayTagDAL.deleteWayTag({wayTagId: tag.uuid, wayId: way.uuid});
+                  const updatedWayTags = way.wayTags.filter(oldTag => oldTag.uuid !== tag.uuid);
+                  const updatedWay = new Way({...way, wayTags: updatedWayTags});
+                  setWay(updatedWay);
+                }}
               />
             ))}
             {!way.wayTags.length && LanguageService.way.wayInfo.noTags[language]}
-            <Tooltip content="Edit way tags. Coming soon :)">
-              <Button
-                icon={
-                  <Icon
-                    size={IconSize.SMALL}
-                    name="PlusIcon"
+            {isOwner && (
+              <Modal
+                isOpen={isAddWayTagModalOpen}
+                trigger={
+                  <Tooltip content="Add new way tag">
+                    <Button
+                      icon={
+                        <Icon
+                          size={IconSize.SMALL}
+                          name="PlusIcon"
+                        />
+                      }
+                      onClick={() => {}}
+                      buttonType={ButtonType.ICON_BUTTON}
+                    />
+                  </Tooltip>
+                }
+                content={
+                  <PromptModalContent
+                    defaultValue=""
+                    placeholder="Add new way tag"
+                    close={() => setIsAddWayTagModalOpen(false)}
+                    onOk={async (tagName: string) => {
+                      const newTagRaw = await WayTagDAL.addWayTagToWay({name: tagName, wayUuid: way.uuid});
+                      const newTag: WayTag = {name: newTagRaw.name, uuid: newTagRaw.uuid};
+                      const updatedWayTags = [...way.wayTags, newTag];
+                      const updatedWay = new Way({...way, wayTags: updatedWayTags});
+                      setWay(updatedWay);
+                    }}
+                    okButtonValue={LanguageService.modals.promptModal.okButton[language]}
+                    cancelButtonValue={LanguageService.modals.promptModal.cancelButton[language]}
                   />
                 }
-                onClick={() => {
-                  WayTagDAL.addWayTagToWay({name: "test tag", wayUuid: way.uuid});
-                }}
-                buttonType={ButtonType.ICON_BUTTON}
               />
-            </Tooltip>
+            )}
           </HorizontalContainer>
 
           <GoalBlock
