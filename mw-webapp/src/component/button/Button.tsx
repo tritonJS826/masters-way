@@ -13,14 +13,19 @@ export enum ButtonType {
   PRIMARY = "primary",
 
   /**
-   * Common repetitive button type 1
+   * Secondary button
    */
   SECONDARY = "secondary",
 
   /**
-   * Rare unique button type 2
+   * Button with low height and the ability to place an icon
    */
-  TERTIARY = "tertiary",
+  COMPACT = "tertiary",
+
+  /**
+   * Button that looks like an icon
+   */
+  ICON_BUTTON = "iconButton"
 }
 
 /**

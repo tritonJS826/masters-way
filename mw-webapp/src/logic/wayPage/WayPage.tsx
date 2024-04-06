@@ -475,7 +475,7 @@ export const WayPage = (props: WayPageProps) => {
                       type: "info",
                     });
                   }}
-                  buttonType={ButtonType.TERTIARY}
+                  buttonType={ButtonType.SECONDARY}
                 />
               </Tooltip>
               <Dropdown
@@ -487,7 +487,7 @@ export const WayPage = (props: WayPageProps) => {
                   >
                     <Button
                       className={styles.wayActionsIcon}
-                      buttonType={ButtonType.TERTIARY}
+                      buttonType={ButtonType.SECONDARY}
                       onClick={() => {}}
                       value={<>
                         <Icon

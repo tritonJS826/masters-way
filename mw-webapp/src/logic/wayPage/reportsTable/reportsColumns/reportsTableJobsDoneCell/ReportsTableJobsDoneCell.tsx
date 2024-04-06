@@ -1,6 +1,6 @@
 import {TrashIcon} from "@radix-ui/react-icons";
 import {clsx} from "clsx";
-import {Button} from "src/component/button/Button";
+import {Button, ButtonType} from "src/component/button/Button";
 import {Confirm} from "src/component/confirm/Confirm";
 import {EditableValue} from "src/component/editableText/EditableText";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
@@ -271,6 +271,7 @@ export const ReportsTableJobsDoneCell = (props: ReportsTableJobsDoneCellProps) =
             }
             onClick={() => createJobDone(props.user?.uuid)}
             className={styles.flatButton}
+            buttonType={ButtonType.ICON_BUTTON}
           />
         </Tooltip>
         }

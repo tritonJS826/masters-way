@@ -53,11 +53,17 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     // [Theme.LIGHT]: "rgb(252, 252, 252)",
   },
   tertiaryTextColor: {
-    [Theme.DARK]: "#F4F3FF",
+    [Theme.DARK]: "#784DEA",
     [Theme.LIGHT]: "#1F173D",
   },
   primaryBorderColor: {
     [Theme.DARK]: "#FFFFFF",
+    [Theme.LIGHT]: "#784DEA",
+    // [Theme.DARK]: "rgb(200, 194, 194)",
+    // [Theme.LIGHT]: "rgb(73, 69, 69)",
+  },
+  secondaryBorderColor: {
+    [Theme.DARK]: "#F4F3FF",
     [Theme.LIGHT]: "#784DEA",
     // [Theme.DARK]: "rgb(200, 194, 194)",
     // [Theme.LIGHT]: "rgb(73, 69, 69)",
@@ -109,6 +115,18 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     // [Theme.DARK]: "rgb(108,107,116)",
     // [Theme.LIGHT]: "rgb(200, 194, 194)",
   },
+  secondaryActiveButtonColor: {
+    [Theme.DARK]: "#1F173D",
+    [Theme.LIGHT]: "transparent",
+    // [Theme.DARK]: "rgb(108,107,116)",
+    // [Theme.LIGHT]: "rgb(200, 194, 194)",
+  },
+  primaryHoverButtonColor: {
+    [Theme.DARK]: "#603EBB",
+    [Theme.LIGHT]: "#603EBB",
+    // [Theme.DARK]: "rgb(152, 210, 235)",
+    // [Theme.LIGHT]: "rgb(84,103,143)",
+  },
   secondaryHoverButtonColor: {
     [Theme.DARK]: "#1F173D",
     [Theme.LIGHT]: "#F2EFF9",
@@ -129,9 +147,25 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     [Theme.DARK]: "transparent",
     [Theme.LIGHT]: "transparent",
   },
-  authButtonTextColor: {
+  tertiaryBackgroundButtonColor: {
+    [Theme.DARK]: "#3D3462",
+    [Theme.LIGHT]: "#FCFBFE",
+  },
+  primaryTextButtonColor: {
     [Theme.DARK]: "#F4F3FF",
     [Theme.LIGHT]: "#F4F3FF",
+  },
+  secondaryTextButtonColor: {
+    [Theme.DARK]: "#F4F3FF",
+    [Theme.LIGHT]: "#784DEA",
+  },
+  tertiaryTextButtonColor: {
+    [Theme.DARK]: "#1F173D",
+    [Theme.LIGHT]: "#784DEA",
+  },
+  quaternaryTextButtonColor: {
+    [Theme.DARK]: "#F4F3FF",
+    [Theme.LIGHT]: "#1F173D",
   },
 };
 

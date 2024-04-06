@@ -136,7 +136,7 @@ export const Header = (props: HeaderProps) => {
               <Button
                 onClick={AuthService.logIn}
                 value={LanguageService.header.loginButton[props.language]}
-                buttonType={ButtonType.PRIMARY}
+                buttonType={ButtonType.SECONDARY}
               />
             )}
           <Sidebar
@@ -144,7 +144,7 @@ export const Header = (props: HeaderProps) => {
               <Button
                 value={LanguageService.header.menu[props.language]}
                 onClick={() => { }}
-                buttonType={ButtonType.TERTIARY}
+                buttonType={ButtonType.SECONDARY}
               />
             }
             linkList={menuItems}
