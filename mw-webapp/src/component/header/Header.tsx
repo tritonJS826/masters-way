@@ -146,10 +146,10 @@ export const Header = (props: HeaderProps) => {
             )}
           <Sidebar
             trigger={
-              <Button
-                value={LanguageService.header.menu[props.language]}
-                onClick={() => { }}
-                buttonType={ButtonType.SECONDARY}
+              <Icon
+                size={IconSize.SMALL}
+                name="BurgerMenu"
+                className={styles.burgerMenu}
               />
             }
             linkList={menuItems}

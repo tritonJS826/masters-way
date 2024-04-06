@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import {BurgerMenu} from "src/assets/icons/BurgerMenu";
 import {EyeOpenedIcon} from "src/assets/icons/EyeOpenedIcon";
 import {EyeSlashedIcon} from "src/assets/icons/EyeSlashedIcon";
 import {FileIcon} from "src/assets/icons/FileIcon";
@@ -65,6 +66,11 @@ const IconDictionary = {
    * MoreVertical icon
    */
   MoreVertical: (params: IconProps) => <MoreVertical {...params} />,
+
+  /**
+   * Burger menu icon
+   */
+  BurgerMenu: (params: IconProps) => <BurgerMenu {...params} />,
 };
 
 /**

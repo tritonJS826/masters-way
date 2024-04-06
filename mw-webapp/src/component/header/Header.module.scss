@@ -43,6 +43,12 @@ $userNameFontSize: 16px;
   font-size: $userNameFontSize;
 }
 
+.burgerMenu {
+  width: 24px;
+  height: 24px;
+  fill: var(--primaryTextColor);
+}
+
 .sidebarItem {
   align-items: center;
 }
