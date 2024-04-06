@@ -1,5 +1,5 @@
 import {TrashIcon} from "@radix-ui/react-icons";
-import {Button} from "src/component/button/Button";
+import {Button, ButtonType} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Сheckbox";
 import {Confirm} from "src/component/confirm/Confirm";
 import {EditableValue} from "src/component/editableText/EditableText";
@@ -350,7 +350,7 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
                 />
               }
               onClick={() => createPlan(props.user?.uuid)}
-              className={styles.flatButton}
+              buttonType={ButtonType.ICON_BUTTON}
             />
           </Tooltip>
           }

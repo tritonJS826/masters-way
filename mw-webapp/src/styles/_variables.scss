@@ -9,7 +9,7 @@ $fontSizeSmall: 12px;
 // Borders
 $primaryBorderRadius: 10px;
 $secondaryBorderRadius: 8px;
-$tertiaryBorderRadius: 1000px;
+$tertiaryBorderRadius: 50%;
 
 //Transitions
 $primaryTransitionDuration: 300ms;
@@ -74,11 +74,4 @@ $disableOpacity: 0.7;
     transform: scale(1.02);
     transition: 0.3s;
   }
-}
-
-@mixin flatButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
 }

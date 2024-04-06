@@ -588,7 +588,7 @@ export const WayPage = (props: WayPageProps) => {
                   />
                 }
                 onClick={() => {}}
-                className={styles.flatButton}
+                buttonType={ButtonType.ICON_BUTTON}
               />
             </Tooltip>
           </HorizontalContainer>

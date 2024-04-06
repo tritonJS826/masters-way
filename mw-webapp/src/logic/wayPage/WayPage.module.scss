@@ -29,10 +29,6 @@ $iconContainerSize: 25px;
   align-items: center;
 }
 
-.flatButton {
-  @include flatButton;
-}
-
 .metricsBlock {
   @include regularContainer;
   min-width: $minWidthBlock;

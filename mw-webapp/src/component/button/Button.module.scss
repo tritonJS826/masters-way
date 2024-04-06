@@ -55,6 +55,11 @@
 }
 
 .iconButton {
+  display: flex;
+  width: 24px;
+  height: 24px;
+  align-items: center;
+  justify-content: center;
   padding: 0;
   border: 1px var(--secondaryBorderColor) solid;
   border-radius: $tertiaryBorderRadius;

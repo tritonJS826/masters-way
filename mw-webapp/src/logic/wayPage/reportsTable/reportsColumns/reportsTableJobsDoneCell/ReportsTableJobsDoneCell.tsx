@@ -270,7 +270,6 @@ export const ReportsTableJobsDoneCell = (props: ReportsTableJobsDoneCellProps) =
               />
             }
             onClick={() => createJobDone(props.user?.uuid)}
-            className={styles.flatButton}
             buttonType={ButtonType.ICON_BUTTON}
           />
         </Tooltip>

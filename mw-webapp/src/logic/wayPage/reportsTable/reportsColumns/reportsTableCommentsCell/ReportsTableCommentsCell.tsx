@@ -1,5 +1,5 @@
 import {TrashIcon} from "@radix-ui/react-icons";
-import {Button} from "src/component/button/Button";
+import {Button, ButtonType} from "src/component/button/Button";
 import {Confirm} from "src/component/confirm/Confirm";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
@@ -163,7 +163,7 @@ export const ReportsTableCommentsCell = (props: ReportsTableCommentsCellProps) =
               />
             }
             onClick={() => createComment(props.user?.uuid)}
-            className={styles.flatButton}
+            buttonType={ButtonType.ICON_BUTTON}
           />
         </Tooltip>
         }

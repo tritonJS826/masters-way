@@ -1,5 +1,5 @@
 import {TrashIcon} from "@radix-ui/react-icons";
-import {Button} from "src/component/button/Button";
+import {Button, ButtonType} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Сheckbox";
 import {Confirm} from "src/component/confirm/Confirm";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
@@ -176,7 +176,7 @@ export const ReportsTableProblemsCell = (props: ReportsTableProblemsCellProps) =
               />
             }
             onClick={() => createProblem(props.user?.uuid)}
-            className={styles.flatButton}
+            buttonType={ButtonType.ICON_BUTTON}
           />
         </Tooltip>
         }
