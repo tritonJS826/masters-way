@@ -7,7 +7,7 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {WayTag} from "src/component/wayCard/wayTag/WayTag";
+import {WayСardTag} from "src/component/wayCard/wayTag/WayTag";
 import {getFirstName} from "src/logic/waysTable/waysColumns";
 import {WayPreview, WayTag as WayTagData} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
@@ -42,7 +42,7 @@ export const WayCard = (props: WayCardProps) => {
     return (
       <HorizontalContainer className={styles.wayTags}>
         {wayTags.map((wayTag) => (
-          <WayTag
+          <WayСardTag
             key={wayTag.uuid}
             tagName={wayTag.name}
           />

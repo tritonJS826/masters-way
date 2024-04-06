@@ -1,9 +1,9 @@
 import styles from "src/component/wayCard/wayTag/WayTag.module.scss";
 
 /**
- * Way tag props
+ * Way card tag props
  */
-interface WayTagProps {
+interface WayCardTagProps {
 
   /**
    * Way's tag name
@@ -12,9 +12,9 @@ interface WayTagProps {
 }
 
 /**
- * Way tag component
+ * WayCard tag component
  */
-export const WayTag = (props: WayTagProps) => {
+export const WayСardTag = (props: WayCardTagProps) => {
   return (
     <span className={styles.wayTag}>
       {props.tagName}

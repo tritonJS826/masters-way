@@ -1,0 +1,19 @@
+@import "src/styles/variables";
+
+$WayTagPadding: 10px;
+$WayTagBorderRadius: 1000px;
+
+.tag {
+  display: inline-block;
+  overflow: hidden;
+  max-width: $minWidthBlock;
+  height: 40px;
+  padding: $WayTagPadding;
+  border: 1px solid var(--primaryBorderColor);
+  border-radius: $WayTagBorderRadius;
+  background-color: var(--secondaryBackgroundColor);
+  color: var(--primaryTextColor);
+  font-size: 16px;
+  text-overflow: ellipsis;
+  text-wrap: nowrap;
+}

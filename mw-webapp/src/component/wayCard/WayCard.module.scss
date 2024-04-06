@@ -67,11 +67,13 @@ $cardLinkFontSize: 16px;
 }
 
 .wayTags {
-  display: -webkit-box;
+  display: flex;
   overflow: hidden;
   flex-wrap: nowrap;
   align-items: center;
+  // display: -webkit-box;
   -webkit-box-orient: vertical;
+  gap: $gapMedium;
   -webkit-line-clamp: 1;
 }
 
