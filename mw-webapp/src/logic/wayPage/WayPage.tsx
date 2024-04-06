@@ -489,12 +489,12 @@ export const WayPage = (props: WayPageProps) => {
                       className={styles.wayActionsIcon}
                       buttonType={ButtonType.SECONDARY}
                       onClick={() => {}}
-                      value={<>
+                      icon={
                         <Icon
                           size={IconSize.MEDIUM}
                           name={"MoreVertical"}
                         />
-                      </>}
+                      }
                     />
                   </Tooltip>
                 )}
@@ -581,7 +581,7 @@ export const WayPage = (props: WayPageProps) => {
             {LanguageService.way.wayInfo.noTags[language]}
             <Tooltip content="Edit way tags. Coming soon :)">
               <Button
-                value={
+                icon={
                   <Icon
                     size={IconSize.SMALL}
                     name="PlusIcon"

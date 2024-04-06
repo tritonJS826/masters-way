@@ -20,7 +20,7 @@ export enum ButtonType {
   /**
    * Button with low height and the ability to place an icon
    */
-  COMPACT = "tertiary",
+  COMPACT = "compact",
 
   /**
    * Button that looks like an icon
@@ -34,9 +34,14 @@ export enum ButtonType {
 export interface ButtonProps {
 
   /**
-   * Button's value (content)
+   * Button's value
    */
-  value: string | JSX.Element;
+  value?: string | JSX.Element;
+
+  /**
+   * Button's icon
+   */
+  icon?: JSX.Element;
 
   /**
    * Callback triggered on button click
@@ -79,8 +84,7 @@ export const Button = forwardRef((props: ButtonProps, ref?: ForwardedRef<HTMLBut
    */
   const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     setIssDisabled(true);
-    props.onClick(event);
-    // Await Promise.resolve(props.onClick(event));
+    await Promise.resolve(props.onClick(event));
     setIssDisabled(false);
   };
 
@@ -98,6 +102,7 @@ export const Button = forwardRef((props: ButtonProps, ref?: ForwardedRef<HTMLBut
       disabled={isDisabled}
     >
       {props.value}
+      {props.icon}
     </button>
   );
 });

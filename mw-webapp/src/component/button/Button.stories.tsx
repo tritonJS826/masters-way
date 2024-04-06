@@ -1,5 +1,6 @@
 import type {StoryObj} from "@storybook/react";
-import {Button} from "src/component/button/Button";
+import {Button, ButtonType} from "src/component/button/Button";
+import {Icon, IconSize} from "src/component/icon/Icon";
 
 const meta = {
   title: "Button",
@@ -19,9 +20,42 @@ export const Default: Story = {
   },
 };
 
-export const Submit: Story = {
+export const PrimaryButton: Story = {
   args: {
-    value: "Submit",
-    onClick: () => {},
+    value: "Primary button",
+    onClick: () => { },
+    buttonType: ButtonType.PRIMARY,
+  },
+};
+export const SecondaryButton: Story = {
+  args: {
+    value: "Secondary button",
+    onClick: () => { },
+    buttonType: ButtonType.SECONDARY,
+  },
+};
+
+export const CompactButton: Story = {
+  args: {
+    value: "Compact button",
+    icon:
+  <Icon
+    size={IconSize.SMALL}
+    name="PlusIcon"
+  />,
+    onClick: () => { },
+    buttonType: ButtonType.COMPACT,
+  },
+};
+
+export const IconButton: Story = {
+  args: {
+    icon:
+  <Icon
+    size={IconSize.SMALL}
+    name="PlusIcon"
+  />,
+    onClick: () => { },
+    buttonType: ButtonType.ICON_BUTTON,
   },
 };

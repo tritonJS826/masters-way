@@ -68,6 +68,12 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     // [Theme.DARK]: "rgb(200, 194, 194)",
     // [Theme.LIGHT]: "rgb(73, 69, 69)",
   },
+  tertiaryBorderColor: {
+    [Theme.DARK]: "#784DEA",
+    [Theme.LIGHT]: "#784DEA",
+    // [Theme.DARK]: "rgb(200, 194, 194)",
+    // [Theme.LIGHT]: "rgb(73, 69, 69)",
+  },
   primaryIconColor: {
     [Theme.DARK]: "#FAFAFA",
     [Theme.LIGHT]: "#0B090A",
@@ -160,7 +166,7 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     [Theme.LIGHT]: "#784DEA",
   },
   tertiaryTextButtonColor: {
-    [Theme.DARK]: "#1F173D",
+    [Theme.DARK]: "#784DEA",
     [Theme.LIGHT]: "#784DEA",
   },
   quaternaryTextButtonColor: {
