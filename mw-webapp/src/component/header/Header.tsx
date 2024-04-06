@@ -1,4 +1,5 @@
 import logo from "src/assets/mastersWayLogo.svg";
+import logoLight from "src/assets/mastersWayLogoLight.svg";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
@@ -103,10 +104,14 @@ export const Header = (props: HeaderProps) => {
       className={styles.header}
       data-cy={props.dataCy}
     >
-      <Link path={pages.allWays.getPath({})}>
+      <Link
+        className={styles.logo}
+        path={pages.allWays.getPath({})}
+      >
         <Image
-          src={logo}
+          src={props.currentTheme === Theme.DARK ? logoLight : logo}
           alt={LOGO_TEXT}
+          className={styles.logo}
         />
       </Link>
       <div className={styles.headerButtonsContainer}>
