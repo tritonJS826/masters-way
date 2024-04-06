@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import clsx from "clsx";
-import styles from "src/component/checkbox/Сheckbox.module.scss";
+import styles from "src/component/checkbox/Checkbox.module.scss";
 
 /**
  * Checkbox props
@@ -30,9 +30,9 @@ interface CheckboxProps {
 
   /**
    * If false - checkbox is disabled, if true - checkbox is not disabled
-   * @default true
+   * @default false
    */
-  isEditable?: boolean;
+  isDisabled?: boolean;
 }
 
 /**
@@ -56,11 +56,11 @@ export const Checkbox = (props: CheckboxProps) => {
   return (
     <label>
       <input
-        className={clsx(props.className, styles.checkbox)}
+        className={clsx(props.className, styles.checkbox, props.isDisabled && styles.disabled)}
         type="checkbox"
         checked={isChecked}
         onChange={() => {
-          props.isEditable !== false && handleCheckboxChange();
+          !props.isDisabled && handleCheckboxChange();
         }}
         data-cy={props.dataCy}
       />

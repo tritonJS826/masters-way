@@ -56,6 +56,10 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     [Theme.DARK]: "#784DEA",
     [Theme.LIGHT]: "#1F173D",
   },
+  inactiveTextColor: {
+    [Theme.DARK]: "#A8A1DD",
+    [Theme.LIGHT]: "#8B85A1",
+  },
   primaryBorderColor: {
     [Theme.DARK]: "#FFFFFF",
     [Theme.LIGHT]: "#784DEA",

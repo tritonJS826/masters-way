@@ -1,5 +1,5 @@
 import {TrashIcon} from "@radix-ui/react-icons";
-import {Checkbox} from "src/component/checkbox/Сheckbox";
+import {Checkbox} from "src/component/checkbox/Checkbox";
 import {Confirm} from "src/component/confirm/Confirm";
 import {EditableValue} from "src/component/editableText/EditableText";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
@@ -57,28 +57,32 @@ export const GoalMetricItem = (props: SingleGoalMetricProps) => {
       className={styles.singularMetric}
     >
       <HorizontalContainer className={styles.horizontalContainer}>
-        {props.metric.isDone && props.isEditable ?
-          <Confirm
-            content={<p>
-              {`Are you sure that you want set metric ${props.metric.description} as not completed`}
-            </p>}
-            onOk={onOk}
-            okText="Confirm"
-            trigger={
-              <Checkbox
-                isEditable={false}
-                isDefaultChecked={props.metric.isDone}
-                className={styles.checkbox}
-                onChange={(isDone) => isDone}
-              />
-            }
-          /> :
-          <Checkbox
-            isEditable={props.isEditable}
-            isDefaultChecked={props.metric.isDone}
-            className={styles.checkbox}
-            onChange={(isDone) => props.updateMetric({...props.metric, isDone, doneDate: new Date()})}
-          />}
+        {props.metric.isDone && props.isEditable
+          ? (
+            <Confirm
+              content={<p>
+                {`Are you sure that you want set metric ${props.metric.description} as not completed`}
+              </p>}
+              onOk={onOk}
+              okText="Confirm"
+              trigger={
+                <Checkbox
+                  isDefaultChecked={props.metric.isDone}
+                  className={styles.checkbox}
+                  onChange={(isDone) => isDone}
+                />
+              }
+            />
+          )
+          : (
+            <Checkbox
+              isDisabled={!props.isEditable}
+              isDefaultChecked={props.metric.isDone}
+              className={styles.checkbox}
+              onChange={(isDone) => props.updateMetric({...props.metric, isDone, doneDate: new Date()})}
+            />
+          )
+        }
         <Tooltip content={tooltipContent}>
           <EditableValue
             value={props.metric.description ?? ""}

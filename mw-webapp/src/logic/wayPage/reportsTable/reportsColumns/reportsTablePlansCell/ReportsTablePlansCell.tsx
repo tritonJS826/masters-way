@@ -1,6 +1,6 @@
 import {TrashIcon} from "@radix-ui/react-icons";
 import {Button, ButtonType} from "src/component/button/Button";
-import {Checkbox} from "src/component/checkbox/Сheckbox";
+import {Checkbox} from "src/component/checkbox/Checkbox";
 import {Confirm} from "src/component/confirm/Confirm";
 import {EditableValue} from "src/component/editableText/EditableText";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
@@ -240,7 +240,7 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
                   <Modal
                     trigger={plan.tags.length === 0 ?
                       <div className={styles.tagsBlockTrigger}>
-                        Add tag
+                        {`Add${Symbols.NO_BREAK_SPACE}tag`}
                       </div>
                       :
                       <div className={styles.tagsBlockTrigger}>
@@ -286,7 +286,6 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
                   <Modal
                     trigger={
                       <Checkbox
-                        isEditable={!plan.isDone}
                         isDefaultChecked={plan.isDone}
                         onChange={() => {}}
                         className={styles.checkbox}
@@ -294,6 +293,7 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
                     }
                     content={
                       <CopyPlanToJobDoneModalContent
+                        // TODO: get rid of work around
                         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                         copyPlanToJobInCurrentDayReport={() => copyPlanToJobInCurrentDayReport(plan, props.user!.uuid)}
                         plan={plan}

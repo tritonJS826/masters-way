@@ -5,15 +5,16 @@
   width: $checkboxWidthMedium;
   height: $checkboxHeightMedium;
   align-self: flex-start;
-  border: 2px solid var(--primaryBorderColor);
-  border-radius: $primaryBorderRadius;
+  border: 2px solid var(--inactiveTextColor);
+  border-radius: $almostRoundBorderRadius;
   appearance: none;
-  background-color: var(--primaryBackgroundColor);
+  background-color: transparent;
   cursor: pointer;
   place-content: center;
 
   &:checked {
-    background-color: var(--primaryBorderColor);
+    border: none;
+    background-color: var(--tertiaryBackgroundColor);
   }
 }
 
@@ -31,4 +32,8 @@
 
 .checkbox:checked::after {
   transform: scale(1);
+}
+
+.disabled {
+  background-color: var(--inactiveTextColor);
 }

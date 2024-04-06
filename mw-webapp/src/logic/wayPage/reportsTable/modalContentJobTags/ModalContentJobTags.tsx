@@ -1,7 +1,7 @@
 import {useState} from "react";
 import {Close as DialogClose} from "@radix-ui/react-dialog";
 import {Button, ButtonType} from "src/component/button/Button";
-import {Checkbox} from "src/component/checkbox/Сheckbox";
+import {Checkbox} from "src/component/checkbox/Checkbox";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";

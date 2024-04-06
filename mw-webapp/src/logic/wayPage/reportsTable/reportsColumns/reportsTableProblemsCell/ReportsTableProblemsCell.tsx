@@ -1,6 +1,6 @@
 import {TrashIcon} from "@radix-ui/react-icons";
 import {Button, ButtonType} from "src/component/button/Button";
-import {Checkbox} from "src/component/checkbox/Сheckbox";
+import {Checkbox} from "src/component/checkbox/Checkbox";
 import {Confirm} from "src/component/confirm/Confirm";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";

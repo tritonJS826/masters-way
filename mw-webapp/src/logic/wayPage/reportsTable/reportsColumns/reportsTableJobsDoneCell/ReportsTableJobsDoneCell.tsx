@@ -188,7 +188,7 @@ export const ReportsTableJobsDoneCell = (props: ReportsTableJobsDoneCellProps) =
                   <Modal
                     trigger={jobDone.tags.length === 0 ?
                       <div className={styles.tagsBlockTrigger}>
-                        Add tag
+                        {`Add${Symbols.NO_BREAK_SPACE}tag`}
                       </div>
                       :
                       <div className={styles.tagsBlockTrigger}>
