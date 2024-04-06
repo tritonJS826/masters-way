@@ -6,12 +6,16 @@ import {Confirm} from "src/component/confirm/Confirm";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
+import {Icon, IconSize} from "src/component/icon/Icon";
 import {Loader} from "src/component/loader/Loader";
 import {Modal} from "src/component/modal/Modal";
 import {PromptModalContent} from "src/component/modal/PromptModalContent";
+import {Tag} from "src/component/tag/Tag";
 import {HeadingLevel, Title} from "src/component/title/Title";
+import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {UserDAL} from "src/dataAccessLogic/UserDAL";
+import {UserTagDAL} from "src/dataAccessLogic/UserTagDAL";
 import {WayCollectionDAL} from "src/dataAccessLogic/WayCollectionDAL";
 import {WayCollectionWayDAL} from "src/dataAccessLogic/WayCollectionWayDAL";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
@@ -21,6 +25,7 @@ import {usePersistanceState} from "src/hooks/usePersistanceState";
 import {BaseWaysTable, FILTER_STATUS_ALL_VALUE} from "src/logic/waysTable/BaseWaysTable";
 import {WayStatusType} from "src/logic/waysTable/wayStatus";
 import {User, WayCollection} from "src/model/businessModel/User";
+import {UserTag} from "src/model/businessModelPreview/UserNotSaturatedWay";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LangauageService";
 import {UserPageSettings, View} from "src/utils/LocalStorageWorker";
@@ -92,6 +97,7 @@ const userPageSettingsValidator = (openedTabId: string, allCollections: WayColle
 export const UserPage = (props: UserPageProps) => {
   const {user, setUser, language} = useGlobalContext();
   const [isRenameCollectionModalOpen, setIsRenameCollectionModalOpen] = useState(false);
+  const [isAddUserTagModalOpen, setIsAddUserTagModalOpen] = useState(false);
 
   const [userPreview, setUserPreview] = useState<User>();
   const [openedTabId, setOpenedTabId] = usePersistanceState({
@@ -293,6 +299,58 @@ export const UserPage = (props: UserPageProps) => {
               isEditable={isPageOwner}
               classNameHeading={styles.ownerEmail}
             />
+
+            <HorizontalContainer className={styles.userTagsContainer}>
+              {user?.tags.map(tag => (
+                <Tag
+                  tagName={tag.name}
+                  key={tag.uuid}
+                  isDeletable={isPageOwner}
+                  onDelete={() => {
+                    UserTagDAL.deleteUserTag({userTagId: tag.uuid, userId: user.uuid});
+                    const updatedUserTags = user.tags.filter(oldTag => oldTag.uuid !== tag.uuid);
+                    const updatedUser = new User({...user, tags: updatedUserTags});
+                    setUser(updatedUser);
+                  }}
+                />
+              ))}
+              {!user?.tags.length && LanguageService.way.wayInfo.noTags[language]}
+              {isPageOwner && (
+                <Modal
+                  isOpen={isAddUserTagModalOpen}
+                  trigger={
+                    <Tooltip content="Add new user skill">
+                      <Button
+                        icon={
+                          <Icon
+                            size={IconSize.SMALL}
+                            name="PlusIcon"
+                          />
+                        }
+                        onClick={() => {}}
+                        buttonType={ButtonType.ICON_BUTTON}
+                      />
+                    </Tooltip>
+                  }
+                  content={
+                    <PromptModalContent
+                      defaultValue=""
+                      placeholder="New skill"
+                      close={() => setIsAddUserTagModalOpen(false)}
+                      onOk={async (tagName: string) => {
+                        const newTagRaw = await UserTagDAL.createUserTag({name: tagName, ownerUuid: user.uuid});
+                        const newTag: UserTag = {name: newTagRaw.name, uuid: newTagRaw.uuid};
+                        const updatedUserTags = [...user.tags, newTag];
+                        const updatedUser = new User({...user, tags: updatedUserTags});
+                        setUser(updatedUser);
+                      }}
+                      okButtonValue={LanguageService.modals.promptModal.okButton[language]}
+                      cancelButtonValue={LanguageService.modals.promptModal.cancelButton[language]}
+                    />
+                  }
+                />
+              )}
+            </HorizontalContainer>
           </VerticalContainer>
 
           <VerticalContainer className={styles.userDescriptionSection}>

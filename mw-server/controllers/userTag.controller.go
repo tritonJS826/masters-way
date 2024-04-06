@@ -29,7 +29,7 @@ func NewUserTagController(db *db.Queries, ctx context.Context) *UserTagControlle
 // @Produce  json
 // @Param request body schemas.CreateUserTagPayload true "query params"
 // @Success 200 {object} schemas.UserTagResponse
-// @Router /usersTags [post]
+// @Router /userTags [post]
 func (cc *UserTagController) AddUserTagByName(ctx *gin.Context) {
 	var payload *schemas.CreateUserTagPayload
 
@@ -40,7 +40,7 @@ func (cc *UserTagController) AddUserTagByName(ctx *gin.Context) {
 
 	userTag, err := cc.db.GetUserTagByName(ctx, payload.Name)
 
-	if err == nil {
+	if err != nil {
 		newUserTag, _ := cc.db.CreateUserTag(ctx, payload.Name)
 		userTag = newUserTag
 	}
@@ -49,14 +49,14 @@ func (cc *UserTagController) AddUserTagByName(ctx *gin.Context) {
 		UserTagUuid: userTag.Uuid,
 		UserUuid:    uuid.MustParse(payload.OwnerUuid),
 	}
-	_, err = cc.db.CreateUsersUserTag(ctx, *args)
+	cc.db.CreateUsersUserTag(ctx, *args)
 
-	if err != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving userTag", "error": err.Error()})
-		return
+	response := schemas.UserTagResponse{
+		Uuid: userTag.Uuid.String(),
+		Name: userTag.Name,
 	}
 
-	ctx.JSON(http.StatusOK, userTag)
+	ctx.JSON(http.StatusOK, response)
 }
 
 // Deleting userTag handlers

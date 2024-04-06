@@ -18,6 +18,11 @@
   gap: $gapMedium;
 }
 
+.userTagsContainer {
+  flex-wrap: wrap;
+  align-items: center;
+}
+
 .tabsSectionContainer {
   @include regularContainer;
 }

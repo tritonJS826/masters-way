@@ -1820,6 +1820,28 @@ paths:
       summary: Delete toUserMentoringReques by UUID
       tags:
       - toUserMentoringRequest
+  /userTags:
+    post:
+      consumes:
+      - application/json
+      operationId: create-userTag
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.CreateUserTagPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.UserTagResponse'
+      summary: Create a new userTag
+      tags:
+      - userTag
   /userTags/{userTagId}/{userId}:
     delete:
       consumes:
@@ -1989,28 +2011,6 @@ paths:
         firebase id already exist
       tags:
       - user
-  /usersTags:
-    post:
-      consumes:
-      - application/json
-      operationId: create-userTag
-      parameters:
-      - description: query params
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/schemas.CreateUserTagPayload'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/schemas.UserTagResponse'
-      summary: Create a new userTag
-      tags:
-      - userTag
   /wayCollectionWays:
     post:
       consumes:

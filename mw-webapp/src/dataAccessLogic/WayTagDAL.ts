@@ -5,7 +5,7 @@ import {
 import {WayTagService} from "src/service/wayTagService";
 
 /**
- * Paramgs for{@link WayTagDAL.addWayTagToWay}
+ * Params for{@link WayTagDAL.addWayTagToWay}
  */
 interface addWTagToWayParams {
 

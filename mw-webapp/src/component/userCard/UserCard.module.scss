@@ -69,6 +69,17 @@ $userCardAdditionalHeight: 105px;
   white-space: initial;
 }
 
+.userTags {
+  display: flex;
+  overflow: hidden;
+  flex-wrap: nowrap;
+  align-items: center;
+  // display: -webkit-box;
+  -webkit-box-orient: vertical;
+  gap: $gapMedium;
+  -webkit-line-clamp: 1;
+}
+
 .additionalInfo {
   padding: $userCardAdditionalInfoPadding;
   border-radius: 0 0 $secondaryBorderRadius $secondaryBorderRadius;

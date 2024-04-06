@@ -51,7 +51,12 @@ func (cc *WayTagController) AddWayTagToWay(ctx *gin.Context) {
 	}
 	cc.db.CreateWaysWayTag(ctx, *args)
 
-	ctx.JSON(http.StatusOK, wayTag)
+	response := schemas.WayTagResponse{
+		Uuid: wayTag.Uuid.String(),
+		Name: wayTag.Name,
+	}
+
+	ctx.JSON(http.StatusOK, response)
 }
 
 // Deleting wayTag handlers

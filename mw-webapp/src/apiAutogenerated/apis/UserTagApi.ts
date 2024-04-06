@@ -54,7 +54,7 @@ export class UserTagApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/usersTags`,
+            path: `/userTags`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,

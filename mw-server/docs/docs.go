@@ -1412,6 +1412,40 @@ const docTemplate = `{
                 }
             }
         },
+        "/userTags": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "userTag"
+                ],
+                "summary": "Create a new userTag",
+                "operationId": "create-userTag",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CreateUserTagPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.UserTagResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/userTags/{userTagId}/{userId}": {
             "delete": {
                 "consumes": [
@@ -1659,40 +1693,6 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/schemas.UserPlainResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/usersTags": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "userTag"
-                ],
-                "summary": "Create a new userTag",
-                "operationId": "create-userTag",
-                "parameters": [
-                    {
-                        "description": "query params",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/schemas.CreateUserTagPayload"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/schemas.UserTagResponse"
                         }
                     }
                 }

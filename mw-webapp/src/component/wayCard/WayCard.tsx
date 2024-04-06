@@ -9,7 +9,8 @@ import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {WayСardTag} from "src/component/wayCard/wayTag/WayTag";
 import {getFirstName} from "src/logic/waysTable/waysColumns";
-import {WayPreview, WayTag as WayTagData} from "src/model/businessModelPreview/WayPreview";
+import {WayPreview} from "src/model/businessModelPreview/WayPreview";
+import {WayTag} from "src/model/businessModelPreview/WayTag";
 import {pages} from "src/router/pages";
 import {DateUtils} from "src/utils/DateUtils";
 import styles from "src/component/wayCard/WayCard.module.scss";
@@ -38,7 +39,7 @@ export const WayCard = (props: WayCardProps) => {
   /**
    * Render way tags
    */
-  const renderWayTags = (wayTags: WayTagData[]) => {
+  const renderWayTags = (wayTags: WayTag[]) => {
     return (
       <HorizontalContainer className={styles.wayTags}>
         {wayTags.map((wayTag) => (
