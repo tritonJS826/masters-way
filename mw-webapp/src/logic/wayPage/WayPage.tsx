@@ -13,6 +13,7 @@ import {Loader} from "src/component/loader/Loader";
 import {Modal} from "src/component/modal/Modal";
 import {displayNotification} from "src/component/notification/displayNotification";
 import {ErrorComponent} from "src/component/privateRecourse/PrivateRecourse";
+import {Tag} from "src/component/tag/Tag";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
@@ -22,6 +23,7 @@ import {MentorRequestDAL} from "src/dataAccessLogic/DTOToPreviewConverter/Mentor
 import {FavoriteUserWayDAL} from "src/dataAccessLogic/FavoriteUserWayDAL";
 import {WayCollectionWayDAL} from "src/dataAccessLogic/WayCollectionWayDAL";
 import {BaseWayData, WayDAL} from "src/dataAccessLogic/WayDAL";
+import {WayTagDAL} from "src/dataAccessLogic/WayTagDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {useLoad} from "src/hooks/useLoad";
 import {usePersistanceState} from "src/hooks/usePersistanceState";
@@ -578,7 +580,13 @@ export const WayPage = (props: WayPageProps) => {
           </HorizontalContainer>
 
           <HorizontalContainer className={styles.wayTagsContainer}>
-            {LanguageService.way.wayInfo.noTags[language]}
+            {way.wayTags.map(tag => (
+              <Tag
+                tagName={tag.name}
+                key={tag.uuid}
+              />
+            ))}
+            {!way.wayTags.length && LanguageService.way.wayInfo.noTags[language]}
             <Tooltip content="Edit way tags. Coming soon :)">
               <Button
                 icon={
@@ -587,7 +595,9 @@ export const WayPage = (props: WayPageProps) => {
                     name="PlusIcon"
                   />
                 }
-                onClick={() => {}}
+                onClick={() => {
+                  WayTagDAL.addWayTagToWay({name: "test tag", wayUuid: way.uuid});
+                }}
                 buttonType={ButtonType.ICON_BUTTON}
               />
             </Tooltip>

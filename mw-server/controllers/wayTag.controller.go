@@ -40,7 +40,7 @@ func (cc *WayTagController) AddWayTagToWay(ctx *gin.Context) {
 
 	wayTag, err := cc.db.GetWayTagByName(ctx, payload.Name)
 
-	if err == nil {
+	if err != nil {
 		newWayTag, _ := cc.db.CreateWayTag(ctx, payload.Name)
 		wayTag = newWayTag
 	}
@@ -50,11 +50,6 @@ func (cc *WayTagController) AddWayTagToWay(ctx *gin.Context) {
 		WayUuid:    uuid.MustParse(payload.WayUuid),
 	}
 	cc.db.CreateWaysWayTag(ctx, *args)
-
-	if err != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving wayTag", "error": err.Error()})
-		return
-	}
 
 	ctx.JSON(http.StatusOK, wayTag)
 }
