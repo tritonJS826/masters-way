@@ -2,12 +2,19 @@ import {useState} from "react";
 import {Select} from "src/component/select/Select";
 import {getDataCy} from "src/utils/cyTesting/getDataCy";
 
-const SELECT_CY = "select";
+const SELECT_CY = {
+  dataCyTrigger: "trigger",
+  dataCyOverlay: "overlay",
+  dataCyContent: "content",
+  dataCyContentList: "list",
+  dataCyValue: "value",
+};
+
 const FIRST_OPTION_INDEX = 0;
 const SECOND_OPTION_INDEX = 1;
 const SELECT_OPTIONS = [
-  {id: "1", value: "value 1", text: "Select text 1"},
-  {id: "2", value: "value 2", text: "Select text 2"},
+  {id: "1", value: "value 1", text: "Select text 1", dataCyValue: "value1"},
+  {id: "2", value: "value 2", text: "Select text 2", dataCyValue: "value2"},
 ];
 
 /**
@@ -18,7 +25,7 @@ const SelectTest = () => {
 
   return (
     <Select
-      dataCy={SELECT_CY}
+      cy={SELECT_CY}
       label="Select label"
       defaultValue={value}
       name="selectName"
@@ -37,28 +44,21 @@ describe("Select component", () => {
     );
   });
 
-  it("should render select and all options", () => {
-    cy.get(getDataCy(SELECT_CY))
-      .should("exist")
-      .find("option")
-      .should("have.length", SELECT_OPTIONS.length);
+  it("should render select trigger and don't render select content by default", () => {
+    cy.get(getDataCy(SELECT_CY.dataCyTrigger)).should("exist");
+    cy.get(getDataCy(SELECT_CY.dataCyContentList)).should("not.exist");
   });
 
-  it("should selected value be visible", () => {
-    cy.get(getDataCy(SELECT_CY))
-      .find("option:selected")
-      .should("be.visible");
+  it("should show selectList by clicking on select trigger", () => {
+    cy.get(getDataCy(SELECT_CY.dataCyTrigger)).click();
+    cy.get(getDataCy(SELECT_CY.dataCyContentList)).should("exist");
   });
 
-  it("should trigger onClick if some option selected", () => {
-    cy.get(getDataCy(SELECT_CY))
-      .find("option:selected")
-      .should("contain.text", SELECT_OPTIONS[FIRST_OPTION_INDEX].text);
-    cy.get(getDataCy(SELECT_CY))
-      .select(SELECT_OPTIONS[SECOND_OPTION_INDEX].value)
-      .trigger("change")
-      .find("option:selected")
-      .should("contain.text", SELECT_OPTIONS[SECOND_OPTION_INDEX].text);
+  it("should trigger onClick if some selectItem selected", () => {
+    cy.get(getDataCy(SELECT_CY.dataCyValue)).contains(SELECT_OPTIONS[FIRST_OPTION_INDEX].text);
+    cy.get(getDataCy(SELECT_CY.dataCyTrigger)).click();
+    cy.get(getDataCy(SELECT_CY.dataCyContentList)).click();
+    cy.get(getDataCy(SELECT_CY.dataCyValue)).contains(SELECT_OPTIONS[SECOND_OPTION_INDEX].text);
   });
 
 });

@@ -27,12 +27,13 @@ describe("Checkbox component", () => {
     cy.get(getDataCy(CHECKBOX_CY)).should("not.be.checked");
   });
 
-  it("should  bexchecked if isDefaultChecked is true", () => {
+  it("should  be checked if isDefaultChecked is true", () => {
     cy.mount(createTestCheckbox(true));
     cy.get(getDataCy(CHECKBOX_CY)).should("be.checked");
   });
 
-  it("onChange callback shout triggered when checkbox is clicked", () => {
+  it("onChange callback should triggered when checkbox is clicked", () => {
+    STUB_FUNCTION = cy.spy();
     cy.mount(createTestCheckbox());
     cy.get(getDataCy(CHECKBOX_CY)).click();
     cy.wrap(STUB_FUNCTION).should("have.been.calledWith", true);

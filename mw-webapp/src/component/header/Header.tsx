@@ -5,8 +5,7 @@ import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalC
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Image} from "src/component/image/Image";
 import {Link} from "src/component/link/Link";
-import {OptionType} from "src/component/select/option/Option";
-import {Select} from "src/component/select/Select";
+import {Select, SelectItemType} from "src/component/select/Select";
 import {MenuItemLink, Sidebar} from "src/component/sidebar/Sidebar";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {Toggle} from "src/component/toggle/Toggle";
@@ -22,11 +21,11 @@ import styles from "src/component/header/Header.module.scss";
 
 export const LOGO_TEXT = "Master's way";
 
-export const languageOptions: OptionType<Language>[] = [
-  {id: "1", value: Language.ENGLISH, text: "en"},
-  {id: "2", value: Language.RUSSIAN, text: "ru"},
-  {id: "3", value: Language.UKRAINIAN, text: "ua"},
-  {id: "4", value: Language.GEORGIAN, text: "ka"},
+export const languageOptions: SelectItemType<Language>[] = [
+  {id: "1", value: Language.ENGLISH, text: "EN"},
+  {id: "2", value: Language.RUSSIAN, text: "RU"},
+  {id: "3", value: Language.UKRAINIAN, text: "UA"},
+  {id: "4", value: Language.GEORGIAN, text: "KA"},
 ];
 
 /**
