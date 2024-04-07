@@ -30,7 +30,7 @@ import {useLoad} from "src/hooks/useLoad";
 import {usePersistanceState} from "src/hooks/usePersistanceState";
 import {GoalBlock} from "src/logic/wayPage/goalBlock/GoalBlock";
 import {GoalMetricsBlock} from "src/logic/wayPage/goalMetricsBlock/GoalMetricsBlock";
-import {JobTags} from "src/logic/wayPage/jobTags/JobTags";
+import {AdjustLabelsBlock} from "src/logic/wayPage/labels/AdjustLabelsModalContent";
 import {MentorRequestsSection} from "src/logic/wayPage/MentorRequestsSection";
 import {MentorsSection} from "src/logic/wayPage/MentorsSection";
 import {downloadWayPdf} from "src/logic/wayPage/renderWayToPdf/downloadWayPdf";
@@ -801,11 +801,7 @@ export const WayPage = (props: WayPageProps) => {
               }
               content={
                 <div className={styles.jobDoneTagsWrapper}>
-                  <Title
-                    level={HeadingLevel.h3}
-                    text={LanguageService.way.filterBlock.jobDoneTagsModalTitle[language]}
-                  />
-                  <JobTags
+                  <AdjustLabelsBlock
                     wayUuid={way.uuid}
                     jobTags={way.jobTags}
                     isEditable={isUserOwnerOrMentor}

@@ -5,7 +5,7 @@ import {Checkbox} from "src/component/checkbox/Checkbox";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
-import {JobTag} from "src/logic/wayPage/jobTags/jobTag/JobTag";
+import {Label} from "src/logic/wayPage/labels/label/Label";
 import {JobTag as JobTagData} from "src/model/businessModelPreview/WayPreview";
 import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/logic/wayPage/reportsTable/modalContentJobTags/ModalContentJobTags.module.scss";
@@ -97,7 +97,7 @@ export const ModalContentJobTags = (props: JobDoneTagsProps) => {
                   onChange={() => { }}
                   className={styles.checkbox}
                 />
-                <JobTag jobTag={tag} />
+                <Label label={tag} />
               </Tooltip>
             </div>
           );

@@ -4,7 +4,7 @@ import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Input} from "src/component/input/Input";
 import {KeySymbols} from "src/utils/KeySymbols";
-import styles from "src/logic/wayPage/jobTags/newJobTagModalContent/NewJobTagModalContent.module.scss";
+import styles from "src/component/modal/PromptModalContent.module.scss";
 
 /**
  * PromptModalContent props

@@ -88,7 +88,7 @@ interface EditableTextProps<T> {
 /**
  * Render Input or span depend on client actions
  */
-export const EditableValue = <T extends string | number>(props: EditableTextProps<T>) => {
+export const EditableText = <T extends string | number>(props: EditableTextProps<T>) => {
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState(props.value);
 

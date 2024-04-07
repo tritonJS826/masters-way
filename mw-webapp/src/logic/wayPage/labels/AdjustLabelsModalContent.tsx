@@ -1,18 +1,16 @@
 import {useState} from "react";
-import {TrashIcon} from "@radix-ui/react-icons";
 import {Button} from "src/component/button/Button";
-import {Confirm} from "src/component/confirm/Confirm";
 import {Modal} from "src/component/modal/Modal";
 import {PromptModalContent} from "src/component/modal/PromptModalContent";
-import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
-import {Tooltip} from "src/component/tooltip/Tooltip";
-import {JobTagDAL} from "src/dataAccessLogic/JobTagDAL";
+import {HeadingLevel, Title} from "src/component/title/Title";
+import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {LabelDAL} from "src/dataAccessLogic/LabelDAL";
 import {useGlobalContext} from "src/GlobalContext";
-import {JobTag} from "src/logic/wayPage/jobTags/jobTag/JobTag";
-import {JobTag as JobTagData} from "src/model/businessModelPreview/WayPreview";
+import {LabelLine} from "src/logic/wayPage/labels/LabelLine";
+import {JobTag, JobTag as JobTagData} from "src/model/businessModelPreview/WayPreview";
 import {LanguageService} from "src/service/LangauageService";
 import {getColorByString} from "src/utils/getColorByString";
-import styles from "src/logic/wayPage/jobTags/JobTags.module.scss";
+import styles from "src/logic/wayPage/labels/AdjustLabelsModalContent.module.scss";
 
 /**
  * Job tags props
@@ -44,11 +42,9 @@ interface JobTagsProps {
 /**
  * Job tags
  */
-export const JobTags = (props: JobTagsProps) => {
+export const AdjustLabelsBlock = (props: JobTagsProps) => {
   const {language} = useGlobalContext();
   const [isJobDoneModalOpen, setIsJobDoneModalOpen] = useState<boolean>(false);
-  // Const allJobTags = props.jobTags.filter((tag) => tag.name !== "no tag");
-  const isJobTagsEmpty = props.jobTags.length === 0;
 
   /**
    * Remove job tag from Way
@@ -56,8 +52,25 @@ export const JobTags = (props: JobTagsProps) => {
   const removeJobTagFromWay = async (jobTagToRemoveUuid: string) => {
     const updatedJobTags = props.jobTags.filter((jobTag) => jobTag.uuid !== jobTagToRemoveUuid);
 
-    await JobTagDAL.deleteJobTag(jobTagToRemoveUuid);
+    await LabelDAL.deleteLabel(jobTagToRemoveUuid);
     props.updateTags(updatedJobTags);
+  };
+
+  /**
+   * Update label in the way
+   */
+  const updateLabelInWay = async (label: JobTag) => {
+    const updatedJobTags = props.jobTags.map(oldLabel => {
+      if (label.uuid === oldLabel.uuid) {
+        return label;
+      } else {
+        return oldLabel;
+      }
+    });
+
+    await LabelDAL.updateLabel(label);
+    props.updateTags(updatedJobTags);
+
   };
 
   /**
@@ -65,7 +78,7 @@ export const JobTags = (props: JobTagsProps) => {
    */
   const createJobTag = async (newJobTag: string) => {
     const randomColor = getColorByString(newJobTag);
-    const jobTag = await JobTagDAL.createJobTag(props.wayUuid, newJobTag, randomColor);
+    const jobTag = await LabelDAL.createLabel(props.wayUuid, newJobTag, randomColor);
     const updatedJobTags = props.jobTags.concat(jobTag);
 
     await props.updateTags(updatedJobTags);
@@ -74,36 +87,20 @@ export const JobTags = (props: JobTagsProps) => {
   };
 
   return (
-    <div className={styles.jobTags}>
-      {isJobTagsEmpty &&
-        <div className={styles.jobTags}>
-          No tags
-        </div>
-      }
-      {props.jobTags.map((jobTag) => {
+    <VerticalContainer className={styles.adjustLabelsContent}>
+      <Title
+        level={HeadingLevel.h3}
+        text={LanguageService.way.filterBlock.jobDoneTagsModalTitle[language]}
+      />
+      {props.jobTags.map((label) => {
         return (
-          <div
-            key={jobTag.uuid}
-            className={styles.jobTags}
-          >
-            <JobTag jobTag={jobTag} />
-            {props.isEditable && (
-              <Tooltip
-                content={LanguageService.way.filterBlock.deleteFromJobTags[language]}
-                position={PositionTooltip.RIGHT}
-              >
-                <Confirm
-                  trigger={
-                    <TrashIcon className={styles.icon} />}
-                  content={<p>
-                    {LanguageService.way.filterBlock.deleteJobTagQuestion[language].replace("$jobTag", `"${jobTag.name}"`)}
-                  </p>}
-                  onOk={() => removeJobTagFromWay(jobTag.uuid)}
-                  okText={LanguageService.way.filterBlock.deleteButton[language]}
-                />
-              </Tooltip>
-            )}
-          </div>
+          <LabelLine
+            onUpdateLabel={updateLabelInWay}
+            onRemoveLabel={removeJobTagFromWay}
+            key={label.uuid}
+            label={label}
+            isEditable={props.isEditable}
+          />
         );
       })
       }
@@ -127,6 +124,6 @@ export const JobTags = (props: JobTagsProps) => {
             />
           }
         />}
-    </div>
+    </VerticalContainer>
   );
 };

@@ -1,7 +1,7 @@
 import {Fragment} from "react";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {useGlobalContext} from "src/GlobalContext";
-import {JobTag} from "src/logic/wayPage/jobTags/jobTag/JobTag";
+import {Label} from "src/logic/wayPage/labels/label/Label";
 import {JobTagStat} from "src/logic/wayPage/wayStatistics/JobTagStat";
 import {StatisticLine} from "src/logic/wayPage/wayStatistics/StatisticLine";
 import {LanguageService} from "src/service/LangauageService";
@@ -29,8 +29,8 @@ export const TagStats = (props: TagStatsProps) => {
       <StatisticLine
         description={
           <HorizontalContainer>
-            <JobTag
-              jobTag={tagStat.jobTag}
+            <Label
+              label={tagStat.jobTag}
               isSmall
             />
             <span>
@@ -45,8 +45,8 @@ export const TagStats = (props: TagStatsProps) => {
       <StatisticLine
         description={
           <HorizontalContainer>
-            <JobTag
-              jobTag={tagStat.jobTag}
+            <Label
+              label={tagStat.jobTag}
               isSmall
             />
             <span>

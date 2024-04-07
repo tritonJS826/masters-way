@@ -2,7 +2,7 @@ import {TrashIcon} from "@radix-ui/react-icons";
 import {clsx} from "clsx";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Confirm} from "src/component/confirm/Confirm";
-import {EditableValue} from "src/component/editableText/EditableText";
+import {EditableText} from "src/component/editableText/EditableText";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
@@ -213,7 +213,7 @@ export const ReportsTableJobsDoneCell = (props: ReportsTableJobsDoneCellProps) =
                   position={PositionTooltip.BOTTOM}
                   content={`Time${Symbols.NO_BREAK_SPACE}spent on job`}
                 >
-                  <EditableValue
+                  <EditableText
                     value={jobDone.time}
                     type="number"
                     max={MAX_TIME}
