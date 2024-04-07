@@ -13,8 +13,8 @@ const SELECT_CY = {
 const FIRST_OPTION_INDEX = 0;
 const SECOND_OPTION_INDEX = 1;
 const SELECT_OPTIONS = [
-  {id: "1", value: "value 1", text: "Select text 1", dataCyValue: "value1"},
-  {id: "2", value: "value 2", text: "Select text 2", dataCyValue: "value2"},
+  {id: "1", value: "value 1", text: "Select text 1"},
+  {id: "2", value: "value 2", text: "Select text 2"},
 ];
 
 /**
