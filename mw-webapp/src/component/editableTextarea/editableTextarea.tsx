@@ -6,6 +6,22 @@ import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/component/editableTextarea/editableTextarea.module.scss";
 
 /**
+ * Data attributes for cypress testing
+ */
+interface CyEditableTextarea {
+
+  /**
+   * Data attributes for cypress testing
+   */
+  textArea: string;
+
+  /**
+   * Data attributes for cypress testing
+   */
+  trigger: string;
+}
+
+/**
  * Cell item props
  */
 interface EditableTextareaProps {
@@ -41,6 +57,11 @@ interface EditableTextareaProps {
    * @default true
    */
   isEditable?: boolean;
+
+  /**
+   * Data attributes for cypress testing
+   */
+  cy?: CyEditableTextarea;
 }
 
 /**
@@ -76,6 +97,7 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
    */
   const renderTextarea = () => (
     <Textarea
+      cy={props.cy?.textArea}
       defaultValue={text}
       onChange={setText}
       placeholder={props.placeholder ?? ""}
@@ -93,6 +115,7 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
       onBlur={handleChangeFinish}
       onKeyDown={handleCtrlEnter}
       className={clsx(styles.editableTextarea, props.className)}
+      data-cy={props.cy?.trigger}
     >
       {isEditing ? renderTextarea() : renderSpan(text)}
     </div>
