@@ -1,4 +1,4 @@
-import {useState} from "react";
+import Sinon from "cypress/types/sinon";
 import {Select} from "src/component/select/Select";
 import {getDataCy} from "src/utils/cyTesting/getDataCy";
 
@@ -18,28 +18,38 @@ const SELECT_OPTIONS = [
 ];
 
 /**
+ * SelectTest props
+ */
+interface SelectTestProps {
+
+  /**
+   * SelectTest onChange
+   */
+  onChange: (value: string) => void;
+}
+
+/**
  * Select for test
  */
-const SelectTest = () => {
-  const [value, setValue] = useState(SELECT_OPTIONS[FIRST_OPTION_INDEX].value);
-
+const SelectTest = (props: SelectTestProps) => {
   return (
     <Select
       cy={SELECT_CY}
       label="Select label"
-      defaultValue={value}
+      defaultValue={SELECT_OPTIONS[FIRST_OPTION_INDEX].value}
       name="selectName"
       options={SELECT_OPTIONS}
-      onChange={setValue}
+      onChange={props.onChange}
     />
   );
 };
 
 describe("Select component", () => {
-
+  let STUB_FUNCTION: Cypress.Agent<Sinon.SinonSpy>;
   beforeEach(() => {
+    STUB_FUNCTION = cy.spy();
     cy.mount(
-      <SelectTest />
+      <SelectTest onChange={STUB_FUNCTION} />
       ,
     );
   });
@@ -54,11 +64,17 @@ describe("Select component", () => {
     cy.get(getDataCy(SELECT_CY.dataCyContentList)).should("exist");
   });
 
-  it("should trigger onClick if some selectItem selected", () => {
+  it("should change value inside trigger if some selectItem selected", () => {
     cy.get(getDataCy(SELECT_CY.dataCyValue)).contains(SELECT_OPTIONS[FIRST_OPTION_INDEX].text);
     cy.get(getDataCy(SELECT_CY.dataCyTrigger)).click();
     cy.get(getDataCy(SELECT_CY.dataCyContentList)).click();
     cy.get(getDataCy(SELECT_CY.dataCyValue)).contains(SELECT_OPTIONS[SECOND_OPTION_INDEX].text);
+  });
+
+  it("should trigger onClick if some selectItem selected", () => {
+    cy.get(getDataCy(SELECT_CY.dataCyTrigger)).click();
+    cy.get(getDataCy(SELECT_CY.dataCyContentList)).click();
+    cy.wrap(STUB_FUNCTION).should("have.been.called");
   });
 
 });
