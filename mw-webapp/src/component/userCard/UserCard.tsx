@@ -1,3 +1,4 @@
+import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
@@ -58,6 +59,11 @@ export const UserCard = (props: UserCardProps) => {
       <VerticalContainer className={styles.userCardContainer}>
         <VerticalContainer className={styles.mainInfo}>
           <HorizontalContainer className={styles.nameLikes}>
+            <Avatar
+              alt={props.userPreview.name}
+              src={props.userPreview.imageUrl}
+              size={AvatarSize.MEDIUM}
+            />
             <Tooltip
               position={PositionTooltip.BOTTOM}
               content={props.userPreview.name}

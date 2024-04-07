@@ -1,9 +1,9 @@
 @import "src/styles/variables";
 
-$wayCardMainInfoPadding: $paddingBig $paddingBig;
+$wayCardMainInfoPadding: $paddingBig $paddingBig $paddingMedium;
 $wayCardAdditionalInfoPadding: $paddingMedium $paddingBig $paddingBig;
-$wayCardMainHeight: 147px;
-$wayCardAdditionalHeight: 105px;
+$wayCardMainHeight: 150px;
+$wayCardAdditionalHeight: 155px;
 $cardLinkFontSize: 16px;
 
 .wayCardContainer {
@@ -39,16 +39,9 @@ $cardLinkFontSize: 16px;
   -webkit-box-orient: vertical;
   color: var(--secondaryTextColor);
   font-size: $fontSizeMedium;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 4;
   text-overflow: ellipsis;
   white-space: initial;
-}
-
-.ownerInfo {
-  align-items: center;
-  margin-top: auto;
-  color: var(--secondaryTextColor);
-  font-size: $fontSizeSmall;
 }
 
 .ownerLink {
@@ -61,7 +54,7 @@ $cardLinkFontSize: 16px;
   padding: $wayCardAdditionalInfoPadding;
   border-radius: 0 0 $secondaryBorderRadius $secondaryBorderRadius;
   background-color: var(--primaryBackgroundColor);
-  color: var(--tertiaryTextColor);
+  color: var(--primaryTextColor);
   font-size: $fontSizeMedium;
   gap: $gapMedium;
 }
@@ -93,8 +86,14 @@ $cardLinkFontSize: 16px;
   stroke: var(--secondaryTextColor);
 }
 
+.people {
+  align-items: center;
+  gap: $gapMedium;
+}
+
 .mentors {
   overflow: hidden;
+  align-items: center;
   font-size: $fontSizeMedium;
   text-overflow: ellipsis;
   white-space: nowrap;

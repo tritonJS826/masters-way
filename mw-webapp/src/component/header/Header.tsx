@@ -1,5 +1,6 @@
 import logo from "src/assets/mastersWayLogo.svg";
 import logoLight from "src/assets/mastersWayLogoLight.svg";
+import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
@@ -7,8 +8,9 @@ import {Image} from "src/component/image/Image";
 import {Link} from "src/component/link/Link";
 import {Select, SelectItemType} from "src/component/select/Select";
 import {MenuItemLink, Sidebar} from "src/component/sidebar/Sidebar";
-import {HeadingLevel, Title} from "src/component/title/Title";
 import {Toggle} from "src/component/toggle/Toggle";
+import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
+import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {getNextSwitchTheme, ThemeSwitcher} from "src/logic/themeSwitcher/ThemeSwitcher";
 import {User} from "src/model/businessModel/User";
@@ -115,27 +117,34 @@ export const Header = (props: HeaderProps) => {
       </Link>
       <div className={styles.headerButtonsContainer}>
 
-        <HorizontalContainer>
-          <ThemeSwitcher />
+        <ThemeSwitcher />
 
-          <Select
-            value={props.language}
-            name="language"
-            options={languageOptions}
-            onChange={props.setLanguage}
-          />
-
-        </HorizontalContainer>
+        <Select
+          value={props.language}
+          name="language"
+          options={languageOptions}
+          onChange={props.setLanguage}
+        />
 
         <HorizontalContainer className={styles.rightBlock}>
           {props.user ?
-            (<Link path={pages.user.getPath({uuid: props.user.uuid})}>
-              <Title
-                level={HeadingLevel.h4}
-                text={props.user.name}
-                className={styles.userName}
-              />
-            </Link>)
+            (
+              <Link
+                path={pages.user.getPath({uuid: props.user.uuid})}
+                className={styles.userAvatar}
+              >
+                <Tooltip
+                  key={props.user.name}
+                  position={PositionTooltip.BOTTOM_LEFT}
+                  content={props.user.name}
+                >
+                  <Avatar
+                    alt={props.user.name}
+                    src={props.user.imageUrl}
+                    size={AvatarSize.MEDIUM}
+                  />
+                </Tooltip>
+              </Link>)
             : (
               <Button
                 onClick={AuthService.logIn}

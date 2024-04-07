@@ -3,8 +3,6 @@
 .AvatarRoot {
   display: inline-flex;
   overflow: hidden;
-  width: 45px;
-  height: 45px;
   align-items: center;
   justify-content: center;
   border-radius: 100%;
@@ -26,8 +24,24 @@
   align-items: center;
   justify-content: center;
   background-color: var(--secondaryBackgroundColor);
-  color: var(--violet-11);
-  font-size: 16px;
-  font-weight: 500;
+  color: var(--primaryTextColor);
   line-height: 1;
+}
+
+.small {
+  width: 25px;
+  height: 25px;
+  font-size: 14px;
+}
+
+.medium {
+  width: 35px;
+  height: 35px;
+  font-size: 16px;
+}
+
+.big {
+  width: 65px;
+  height: 65px;
+  font-size: 18px;
 }

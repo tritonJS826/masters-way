@@ -25,6 +25,8 @@ const defaultWayOwner: SchemasUserPlainResponse = {
   isMentor: false,
 };
 
+const REPEAT_TEN = 10;
+
 const defaultWayPreview: WayPreview = {
   uuid: "1",
   name: "Way's name Way's name Way's name Way's name Way's name",
@@ -50,33 +52,13 @@ const defaultWayPreview: WayPreview = {
       uuid: "5",
       name: "Web",
     },
-    {
-      uuid: "6",
-      name: "Web",
-    },
-    {
-      uuid: "7",
-      name: "IT",
-    },
-    {
-      uuid: "8",
-      name: "Development",
-    },
-    {
-      uuid: "9",
-      name: "Web",
-    },
-    {
-      uuid: "10",
-      name: "Web",
-    },
   ],
   copiedFromWayUuid: "",
   createdAt: new Date("2024-02-11"),
   dayReportsAmount: 4,
   estimationTime: 0,
   favoriteForUsers: 5,
-  goalDescription: "It's my own goal, and I'm very happy. It's my own goal, and I'm very happy, I'm very happy, I'm very happy",
+  goalDescription: "It's my own goal, and I'm very happy".repeat(REPEAT_TEN),
   status: null,
   lastUpdate: new Date("2024-02-11"),
   mentors: [
@@ -91,7 +73,7 @@ const defaultWayPreview: WayPreview = {
     },
     {
       uuid: "user3",
-      name: "Ekaterina",
+      name: "Ekaterina Ver",
       email: "email@gmail.com",
       description: "developerMentor",
       createdAt: new Date().toISOString(),

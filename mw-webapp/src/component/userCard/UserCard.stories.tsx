@@ -25,7 +25,7 @@ const defaultUser: UserNotSaturatedWay = {
   favoriteWays: 2,
   mentoringWays: 3,
   ownWays: 1,
-  imageUrl: "",
+  imageUrl: "src/assets/storybook-images/kittens.jpg",
   isMentor: true,
   tags: [],
 };

@@ -3,6 +3,15 @@ import clsx from "clsx";
 import styles from "src/component/avatar/Avatar.module.scss";
 
 /**
+ * Avatar's size (width)
+ */
+export enum AvatarSize {
+  SMALL = "small",
+  MEDIUM = "medium",
+  BIG = "big",
+}
+
+/**
  * Props for the Avatar component
  */
 interface AvatarProps {
@@ -21,6 +30,11 @@ interface AvatarProps {
    * Additional custom class name for the component
    */
   className?: string;
+
+  /**
+   * Avatar width
+   */
+  size?: AvatarSize;
 
   /**
    * Data attribute for cypress testing
@@ -57,7 +71,9 @@ export const Avatar = (props: AvatarProps) => {
 
   return (
     <AvatarRadix.Root
-      className={clsx(styles.AvatarRoot, props.className)}
+      className={clsx(styles.AvatarRoot,
+        styles[props.size ?? AvatarSize.SMALL],
+        props.className)}
       data-cy={props.dataCy}
     >
       <AvatarRadix.Image

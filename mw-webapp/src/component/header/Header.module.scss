@@ -23,10 +23,11 @@ $userNameFontSize: 16px;
   width: auto;
   align-items: center;
   justify-content: space-between;
-  gap: $gapMedium;
+  gap: $gapBig;
 
-  @media (max-width: $mediaWidthMobileBig) {
-    width: 100%;
+  @media (max-width: $mediaWidthMobileMedium) {
+    // width: 100%;
+    gap: $gapMedium;
   }
 }
 
@@ -36,11 +37,11 @@ $userNameFontSize: 16px;
 
 .rightBlock {
   align-items: center;
+  gap: $gapBig;
 }
 
-.userName {
-  cursor: pointer;
-  font-size: $userNameFontSize;
+.userAvatar {
+  text-decoration: none;
 }
 
 .burgerMenu {

@@ -75,7 +75,6 @@ describe("WayCard component", () => {
   it("should display the correct content elements", () => {
     cy.get(getDataCy(WAY_CARD_CY)).contains(WAY_PREVIEW_DATA.goalDescription);
     cy.get(getDataCy(WAY_CARD_CY)).contains(WAY_PREVIEW_DATA.name);
-    cy.get(getDataCy(WAY_CARD_CY)).contains(WAY_PREVIEW_DATA.owner.name);
     WAY_PREVIEW_DATA.mentors.forEach((mentor) => {
       cy.get(getDataCy(WAY_CARD_CY)).contains(mentor.name);
     });
