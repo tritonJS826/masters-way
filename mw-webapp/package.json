@@ -20,7 +20,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "cypress:component:open": "cypress open --component",
-    "cypress:component:run": "cypress run --component",
+    "cypress:component:run": "cypress run --component --spec ./src/component/all.cy.tsx",
     "cypress:e2e:open": "cypress open",
     "cypress:e2e:run": "cypress run"
   },
@@ -117,7 +117,7 @@
     "@typescript-eslint/parser": "7.0.1",
     "@vitejs/plugin-react": "4.2.1",
     "@yarnaimo/eslint-config": "0.4.4",
-    "cypress": "^13.6.4",
+    "cypress": "^13.7.2",
     "envalid": "8.0.0",
     "eslint": "8.56.0",
     "eslint-plugin-jsdoc": "48.1.0",
