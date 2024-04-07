@@ -26,7 +26,6 @@
   line-height: 1;
 
   & span {
-    margin-right: $marginSmall;
     color: var(--primaryTextColor);
   }
 }
@@ -40,6 +39,7 @@
 }
 
 .SelectIcon {
+  margin-left: $marginSmall;
   color: Var(--violet-11);
 }
 
@@ -47,7 +47,7 @@
   overflow: hidden;
   width: var(--radix-select-trigger-width);
   max-height: var(--radix-select-content-available-height);
-  padding: 0 10px;
+  padding: 0 10px 0 3px;
   border-radius: 6px;
   border-radius: $primaryBorderRadius;
   background-color: var(--primaryBackgroundColor);
@@ -66,6 +66,7 @@
   display: flex;
   height: 25px;
   align-items: center;
+  padding-left: 15px;
   border-radius: 3px;
   color: var(--primaryTextColor);
   cursor: pointer;
@@ -98,6 +99,8 @@
 }
 
 .SelectItemIndicator {
+  position: absolute;
+  left: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;

@@ -60,7 +60,7 @@ interface GetValueForTriggerSelectParams<T> {
  * Get Value for triggerSelect
  */
 function getValueForTriggerSelect<T>(params: GetValueForTriggerSelectParams<T>) {
-  const value = `${getTextByValue(params.options, params.value)} ${Symbols.NO_BREAK_SPACE}`;
+  const value = `${getTextByValue(params.options, params.value)}`;
 
   return value;
 }
@@ -169,6 +169,7 @@ export const Select = <T extends string>(props: SelectProps<T>) => {
         >
           <span>
             {props.label}
+            {Symbols.NO_BREAK_SPACE}
           </span>
           <SelectComponent.Value
             data-cy={props.cy?.dataCyValue}
