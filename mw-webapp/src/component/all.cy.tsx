@@ -27,4 +27,9 @@ import "/src/component/button/Button.cy.tsx";
 import "/src/component/wayCard/WayCard.cy.tsx";
 import "/src/component/editableTextarea/EditableTextarea.cy.tsx";
 import "/src/component/textarea/Textarea.cy.tsx";
+import "/src/component/avatar/Avatar.cy.tsx";
 
+/**
+ * Count all cy.tsx files to check all specs imported here
+ * find . -name "*.cy.tsx" | wc
+ */
