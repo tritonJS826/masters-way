@@ -25,3 +25,6 @@ import "/src/component/progressBar/ProgressBar.cy.tsx";
 import "/src/component/title/Title.cy.tsx";
 import "/src/component/button/Button.cy.tsx";
 import "/src/component/wayCard/WayCard.cy.tsx";
+import "/src/component/editableTextarea/EditableTextarea.cy.tsx";
+import "/src/component/textarea/Textarea.cy.tsx";
+
