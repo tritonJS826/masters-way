@@ -74,30 +74,68 @@ export const Header = (props: HeaderProps) => {
   const menuItems: (MenuItemLink)[] = [
     {
       path: pages.allWays.getPath({}),
+      value: "",
+      icon: (
+        <Image
+          src={logoLight}
+          alt={LOGO_TEXT}
+          className={styles.logoSidebar}
+        />),
+    },
+    {
+      path: pages.home.getPath({}),
+      value: LanguageService.sidebar.home[props.language],
+      icon: (
+        <Icon
+          size={IconSize.MEDIUM}
+          name="HomeIcon"
+          className={styles.linkIcon}
+        />),
+    },
+    {
+      path: pages.allUsers.getPath({}),
       value: LanguageService.sidebar.allWays[props.language],
+      icon: (
+        <Icon
+          size={IconSize.MEDIUM}
+          name="WayIcon"
+          className={styles.linkIcon}
+        />),
     },
     {
       path: pages.allUsers.getPath({}),
       value: LanguageService.sidebar.allUsers[props.language],
+      icon: (
+        <Icon
+          size={IconSize.MEDIUM}
+          name="UsersIcon"
+          className={styles.linkIcon}
+        />),
     },
     {
-      path: props.user
-        ? pages.user.getPath({uuid: props.user.uuid})
-        : pages.page404.getPath({}),
-      value: LanguageService.sidebar.myWays[props.language],
-      isHidden: !props.user,
+      path: pages.aboutProject.getPath({}),
+      value: LanguageService.sidebar.about[props.language],
+      icon: (
+        <Icon
+          size={IconSize.MEDIUM}
+          name="BookIcon"
+          className={styles.linkIcon}
+        />),
     },
     {
       path: props.user
         ? pages.settings.getPath({})
         : pages.page404.getPath({}),
       value: LanguageService.sidebar.settings[props.language],
+      icon: (
+        <Icon
+          size={IconSize.MEDIUM}
+          name="SettingsIcon"
+          className={styles.linkIcon}
+        />),
       isHidden: !props.user,
     },
-    {
-      path: pages.aboutProject.getPath({}),
-      value: LanguageService.sidebar.about[props.language],
-    },
+
   ];
 
   return (
@@ -156,7 +194,7 @@ export const Header = (props: HeaderProps) => {
             trigger={
               <Icon
                 size={IconSize.SMALL}
-                name="BurgerMenu"
+                name="BurgerMenuIcon"
                 className={styles.burgerMenu}
               />
             }
@@ -164,16 +202,60 @@ export const Header = (props: HeaderProps) => {
             bottomChildren={
               <VerticalContainer className={styles.bottomContainer}>
                 <HorizontalContainer className={styles.sidebarItem}>
-                  <Icon
-                    size={IconSize.MEDIUM}
-                    name="MoonIcon"
+                  <HorizontalContainer className={styles.iconWithText}>
+                    <Icon
+                      size={IconSize.MEDIUM}
+                      name="GlobeIcon"
+                      className={styles.sidebarIcon}
+                    />
+                    Language
+                  </HorizontalContainer>
+                  <Select
+                    value={props.language}
+                    name="language"
+                    options={languageOptions}
+                    onChange={props.setLanguage}
                   />
-                  Night mode
+                </HorizontalContainer>
+                <HorizontalContainer className={styles.sidebarItem}>
+                  <HorizontalContainer className={styles.iconWithText}>
+                    <Icon
+                      size={IconSize.MEDIUM}
+                      name="MoonIcon"
+                      className={styles.sidebarIcon}
+                    />
+                    Night mode
+                  </HorizontalContainer>
                   <Toggle
                     onChange={() => props.setTheme(getNextSwitchTheme(props.currentTheme))}
                     isDefaultChecked={DEFAULT_THEME === props.currentTheme}
                   />
                 </HorizontalContainer>
+                <VerticalContainer className={styles.socialMedia}>
+                  Social Media
+                  <HorizontalContainer className={styles.socialMediaIcons}>
+                    <Link
+                      className={styles.logo}
+                      path="https://linkedin.com/company/masters-way-project"
+                    >
+                      <Icon
+                        size={IconSize.MEDIUM}
+                        name="LinkedinIcon"
+                        className={styles.socialMediaIcon}
+                      />
+                    </Link>
+                    <Link
+                      className={styles.logo}
+                      path="https://www.youtube.com/watch?v=DiNNQol15ds&list=PL7eqEW04iXMV2tu_JYAIwerepUTZJjciM&index=2"
+                    >
+                      <Icon
+                        size={IconSize.MEDIUM}
+                        name="YoutubeIcon"
+                        className={styles.socialMediaIcon}
+                      />
+                    </Link>
+                  </HorizontalContainer>
+                </VerticalContainer>
                 {props.user &&
                 <Button
                   onClick={AuthService.logOut}

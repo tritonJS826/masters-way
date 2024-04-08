@@ -1,18 +1,25 @@
 @import "src/styles/variables";
 
-[role="dialog"] {
-  border-right: 1px solid var(--primaryBorderColor);
-}
+$paddingSidebar: 30px 40px;
 
 .navSidebarContent {
   display: flex;
   flex-direction: column;
-  background: var(--primaryBackgroundColor);
+  color: var(--secondaryTextColor);
 }
 
 .menuItem {
-  padding: 10px;
-  color: var(--primaryTextColor);
+  align-items: center;
+  gap: $gapMedium;
+}
+
+.menuItemLink {
+  display: flex;
+  align-items: center;
+  padding: 10px 10px 10px 0;
+  color: var(--secondaryTextColor);
+  gap: $gapMedium;
+  text-decoration: none;
   transition-duration: $elementHoverTransition;
   &:hover {
     background-color: var(--primaryShadowColor);
@@ -21,6 +28,9 @@
 
 .sidebarContent {
   display: flex;
+  width: $sidebarWidth;
   flex-direction: column;
   justify-content: space-between;
+  padding: $paddingSidebar;
+  background-color: var(--quaternaryBackgroundColor);
 }

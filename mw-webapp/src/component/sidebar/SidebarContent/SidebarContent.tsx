@@ -7,6 +7,7 @@ import {
 } from "@radix-ui/react-dialog";
 import {Cross2Icon} from "@radix-ui/react-icons";
 import clsx from "clsx";
+import {Button, ButtonType} from "src/component/button/Button";
 import {CyContent} from "src/component/sidebar/Sidebar";
 import styles from "src/component/sidebar/SidebarContent/SidebarContent.module.scss";
 
@@ -59,12 +60,13 @@ export const SidebarContent = (props: SidebarContentProps) => {
       >
         {props.children}
         <DialogClose asChild>
-          <button
+          <Button
             data-cy={props.dataCyContent?.dataCyClose}
             className={styles.closeButton}
-          >
-            <Cross2Icon />
-          </button>
+            buttonType={ButtonType.ICON_BUTTON}
+            icon={<Cross2Icon />}
+            onClick={() => {}}
+          />
         </DialogClose>
       </DialogContent>
     </DialogPortal>

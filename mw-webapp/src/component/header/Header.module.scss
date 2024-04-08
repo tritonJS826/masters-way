@@ -18,6 +18,10 @@ $userNameFontSize: 16px;
   height: 40px;
 }
 
+.logoSidebar {
+  height: 55px;
+}
+
 .headerButtonsContainer {
   display: flex;
   width: auto;
@@ -54,8 +58,37 @@ $userNameFontSize: 16px;
 
 .sidebarItem {
   align-items: center;
+  justify-content: space-between;
+  color: var(--secondaryTextColor);
+  fill: var(--secondaryTextColor);
+}
+
+.sidebarIcon {
+  stroke: var(--secondaryTextColor);
+}
+
+.iconWithText {
+  align-items: center;
+  gap: $gapMedium;
 }
 
 .bottomContainer {
+  gap: $gapBig;
+}
+
+.socialMedia {
+  color: var(--secondaryTextColor);
   gap: $gapMedium;
+}
+
+.socialMediaIcon {
+  border: 2px solid var(--secondaryTextColor);
+  border-radius: $tertiaryBorderRadius;
+  background-color: var(--secondaryTextColor);
+  fill: var(--quaternaryBackgroundColor);
+  stroke: none;
+}
+
+.linkIcon {
+  stroke: var(--secondaryTextColor);
 }
