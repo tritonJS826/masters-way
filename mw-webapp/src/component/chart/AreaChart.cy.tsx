@@ -4,8 +4,8 @@ import {getDataCy} from "src/utils/cyTesting/getDataCy";
 const AREA_CHART_CY = "AreaChart";
 
 const FIRST_TIME = 20;
-const SECOND_TIME = 20;
-const THIRD_TIME = 20;
+const SECOND_TIME = 40;
+const THIRD_TIME = 60;
 
 const DATA: Map<string, number> = new Map([
   ["2024-01-01", FIRST_TIME],

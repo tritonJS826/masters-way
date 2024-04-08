@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import type {Preview} from "@storybook/react";
 import {ThemeSwitcher} from "../src/logic/themeSwitcher/ThemeSwitcher";
 
@@ -7,7 +7,6 @@ import {
   DEFAULT_NOTIFICATION_SETTINGS,
   globalContext,
 } from "../src/GlobalContext";
-import {User} from "../src/model/businessModel/User";
 import {Language, LanguageWorker} from "../src/utils/LanguageWorker";
 import {Theme, ThemeWorker} from "../src/utils/ThemeWorker";
 
@@ -17,6 +16,10 @@ import './preview.scss';
 export const ThemeComponent = () => {
   const [theme, setThemeState] = useState(ThemeWorker.getCurrentTheme());
   const [language, setLanguageState] = useState(LanguageWorker.getCurrentLanguage());
+
+  useEffect(() => { 
+    ThemeWorker.loadTheme();
+  },[]);
 
   /**
    * Set theme in context and local storage
@@ -53,7 +56,7 @@ export const ThemeComponent = () => {
   );
 };
 
-ThemeWorker.loadTheme();
+
 
 const preview: Preview = {
   parameters: {

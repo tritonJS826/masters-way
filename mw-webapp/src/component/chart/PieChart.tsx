@@ -12,9 +12,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
  * Get options
  */
 const getOptions = (title: string) => {
-  const primaryChartColor = getComputedStyle(document.body).getPropertyValue(
-    "--primaryTextColor",
-  );
+  const primaryChartColor = getComputedStyle(document.body).getPropertyValue("--primaryTextColor");
 
   const options = {
     layout: {padding: {top: 10}},
@@ -35,6 +33,7 @@ const getOptions = (title: string) => {
   };
 
   return options;
+
 };
 
 /**
@@ -57,10 +56,6 @@ interface PieChartProps {
    */
   tagStats: JobTagStat[];
 
-  /**
-   * Data attribute for cypress testing
-   */
-  dataCy?: string;
 }
 
 /**
@@ -88,18 +83,13 @@ export const PieChart = (props: PieChartProps) => {
    * Now it works even without Memo because of global context.
    * After migration to some state manager this line will help us to avoid bugs
    */
-  const optionsMemoized = useMemo(
-    () =>
-      getOptions(LanguageService.way.statisticsBlock.jobDoneTagsUsed[language]),
-    [theme],
-  );
+  const optionsMemoized = useMemo(() => getOptions(LanguageService.way.statisticsBlock.jobDoneTagsUsed[language]), [theme]);
 
   return (
     <Pie
       className={styles.pieChart}
       options={optionsMemoized}
       data={data}
-      data-cy={props.dataCy}
     />
   );
 };
