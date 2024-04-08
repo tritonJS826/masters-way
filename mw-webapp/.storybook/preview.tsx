@@ -71,7 +71,6 @@ const preview: Preview = {
   decorators: [
     (Story, context) => {
       if (context.viewMode === "story") {
-        console.log('ss')
         return (
           <>
             <div style={{ position: "absolute", top: "20px", left: "20px" }}>
