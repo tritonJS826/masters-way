@@ -59,21 +59,23 @@ export const UserCard = (props: UserCardProps) => {
       <VerticalContainer className={styles.userCardContainer}>
         <VerticalContainer className={styles.mainInfo}>
           <HorizontalContainer className={styles.nameLikes}>
-            <Avatar
-              alt={props.userPreview.name}
-              src={props.userPreview.imageUrl}
-              size={AvatarSize.MEDIUM}
-            />
-            <Tooltip
-              position={PositionTooltip.BOTTOM}
-              content={props.userPreview.name}
-            >
-              <Title
-                text={props.userPreview.name}
-                level={HeadingLevel.h3}
-                className={styles.title}
+            <HorizontalContainer>
+              <Avatar
+                alt={props.userPreview.name}
+                src={props.userPreview.imageUrl}
+                size={AvatarSize.BIG}
               />
-            </Tooltip>
+              <VerticalContainer className={styles.nameGroup}>
+                <Title
+                  text={props.userPreview.name}
+                  level={HeadingLevel.h3}
+                  className={styles.title}
+                />
+                <p className={styles.mail}>
+                  {props.userPreview.email}
+                </p>
+              </VerticalContainer>
+            </HorizontalContainer>
             <HorizontalContainer className={styles.likes}>
               <Tooltip
                 position={PositionTooltip.BOTTOM}
@@ -96,9 +98,6 @@ export const UserCard = (props: UserCardProps) => {
               {props.userPreview.description}
             </p>
           </Tooltip>
-          <p className={styles.mail}>
-            {props.userPreview.email}
-          </p>
           {renderUserTags(props.userPreview.tags)}
         </VerticalContainer>
 

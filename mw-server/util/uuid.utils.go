@@ -29,11 +29,13 @@ func MarshalNullUuid(nullUuid uuid.NullUUID) ([]byte, error) {
 	}
 }
 
-func MarshalNullString(nullString sql.NullString) ([]byte, error) {
+func MarshalNullString(nullString sql.NullString) string {
 	if nullString.Valid {
-		return json.Marshal(nullString.String)
+		return string(nullString.String)
 	} else {
-		return []byte("null"), nil
+		strRaw, _ := json.Marshal(nil)
+
+		return string(strRaw)
 	}
 }
 

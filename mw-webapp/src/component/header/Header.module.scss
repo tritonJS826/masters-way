@@ -19,7 +19,7 @@ $userNameFontSize: 16px;
 }
 
 .logoSidebar {
-  height: 55px;
+  height: 40px;
 }
 
 .headerButtonsContainer {
@@ -30,7 +30,6 @@ $userNameFontSize: 16px;
   gap: $gapBig;
 
   @media (max-width: $mediaWidthMobileMedium) {
-    // width: 100%;
     gap: $gapMedium;
   }
 }

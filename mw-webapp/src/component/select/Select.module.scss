@@ -30,10 +30,6 @@
   }
 }
 
-.SelectTrigger:hover {
-  background-color: var(--secondaryBackgroundButtonColor);
-}
-
 .SelectTrigger[data-placeholder] {
   color: var(--primaryBackgroundButtonColor);
 }
@@ -44,6 +40,7 @@
 }
 
 .SelectContent {
+  z-index: $dropdownZIndex;
   overflow: hidden;
   width: var(--radix-select-trigger-width);
   max-height: var(--radix-select-content-available-height);

@@ -41,8 +41,13 @@ $userCardAdditionalHeight: 105px;
 }
 
 .nameLikes {
-  align-items: center;
+  align-items: start;
   justify-content: space-between;
+}
+
+.nameGroup {
+  gap: $gapSmall;
+  justify-items: start;
 }
 
 .description {
@@ -59,7 +64,6 @@ $userCardAdditionalHeight: 105px;
 .mail {
   display: -webkit-box;
   overflow: hidden;
-  margin-top: auto;
   -webkit-box-orient: vertical;
   color: var(--secondaryTextColor);
   font-size: $fontSizeMedium;

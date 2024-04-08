@@ -1,5 +1,6 @@
 import {ChevronDownIcon} from "@radix-ui/react-icons";
 import * as SelectComponent from "@radix-ui/react-select";
+import clsx from "clsx";
 import {SelectItem} from "src/component/select/selectItem/SelectItem";
 import {Symbols} from "src/utils/Symbols";
 import styles from "src/component/select/Select.module.scss";
@@ -136,6 +137,11 @@ export interface SelectProps<T> {
    * Data attributes for cypress testing
    */
   cy?: Cy;
+
+  /**
+   * Custom class name
+   */
+  className?: string;
 }
 
 /**
@@ -156,7 +162,7 @@ const renderSelectOptions = <T extends string>(options: SelectItemType<T>[]) => 
 export const Select = <T extends string>(props: SelectProps<T>) => {
   return (
     <div
-      className={styles.select}
+      className={clsx(styles.select, props.className)}
       data-cy={props.cy?.dataCyOverlay}
     >
       <SelectComponent.Root
