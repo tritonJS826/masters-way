@@ -1,9 +1,57 @@
 import React from "react";
 import type {Preview} from "@storybook/react";
 import {ThemeSwitcher} from "../src/logic/themeSwitcher/ThemeSwitcher";
-import {ThemeWorker} from '../src/utils/ThemeWorker';
+
+import {useState} from "react";
+import {
+  DEFAULT_NOTIFICATION_SETTINGS,
+  globalContext,
+} from "../src/GlobalContext";
+import {User} from "../src/model/businessModel/User";
+import {Language, LanguageWorker} from "../src/utils/LanguageWorker";
+import {Theme, ThemeWorker} from "../src/utils/ThemeWorker";
 
 import './preview.scss';
+
+
+export const ThemeComponent = () => {
+  const [theme, setThemeState] = useState(ThemeWorker.getCurrentTheme());
+  const [language, setLanguageState] = useState(LanguageWorker.getCurrentLanguage());
+
+  /**
+   * Set theme in context and local storage
+   */
+  const setTheme = (updatedTheme: Theme) => {
+    setThemeState(updatedTheme);
+    ThemeWorker.setTheme(updatedTheme);
+  };
+
+  /**
+   * Set language in context and local storage
+   */
+  const setLanguage = (updatedLanguage: Language) => {
+    setLanguageState(updatedLanguage);
+    LanguageWorker.setLanguage(updatedLanguage);
+  };
+
+  return (
+    <globalContext.Provider value={{
+      user: 'user',
+      setUser: () => {},
+      isInitialized: true,
+      setIsInitialized: () => {},
+      // TODO: load from local storage
+      notification: DEFAULT_NOTIFICATION_SETTINGS,
+      theme,
+      setTheme,
+      language,
+      setLanguage,
+    }}
+    >
+      <ThemeSwitcher />
+    </globalContext.Provider>
+  );
+};
 
 ThemeWorker.loadTheme();
 
@@ -20,10 +68,11 @@ const preview: Preview = {
   decorators: [
     (Story, context) => {
       if (context.viewMode === "story") {
+        console.log('ss')
         return (
           <>
-            <div style={{ position: "absolute", top: "15px", right: "15px" }}>
-              <ThemeSwitcher />
+            <div style={{ position: "absolute", top: "20px", left: "20px" }}>
+            <ThemeComponent />
             </div>
             <Story />
           </>
