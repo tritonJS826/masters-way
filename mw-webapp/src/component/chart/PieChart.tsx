@@ -1,17 +1,49 @@
-import {useMemo} from "react";
 import {Pie} from "react-chartjs-2";
 import {ArcElement, Chart as ChartJS, Legend, Tooltip} from "chart.js";
+import {ItemStat} from "src/component/chart/ItemStat";
 import {useGlobalContext} from "src/GlobalContext";
-import {JobTagStat} from "src/logic/wayPage/wayStatistics/JobTagStat";
 import {LanguageService} from "src/service/LangauageService";
 import styles from "src/component/chart/PieChart.module.scss";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 /**
- * Get options
+ * Chart props
  */
-const getOptions = (title: string) => {
+interface PieChartProps {
+
+  /**
+   * Label inside section description
+   */
+  label: string;
+
+  /**
+   * All items data
+   */
+  itemStat: ItemStat[];
+
+}
+
+/**
+ * Pie chart component (Similar radar chart)
+ */
+export const PieChart = (props: PieChartProps) => {
+  const {language} = useGlobalContext();
+  const labels = props.itemStat.map((i) => i.name);
+  const jobTagsBackgroundColors = props.itemStat.map((i) => i.color);
+  const itemValues = props.itemStat.map((i) => i.value);
+
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: props.label,
+        data: itemValues,
+        backgroundColor: jobTagsBackgroundColors,
+      },
+    ],
+  };
+
   const primaryChartColor = getComputedStyle(document.body).getPropertyValue("--primaryTextColor");
 
   const options = {
@@ -26,69 +58,16 @@ const getOptions = (title: string) => {
       title: {
         padding: 20,
         display: true,
-        text: title,
+        text: LanguageService.way.statisticsBlock.jobDoneTagsUsed[language],
         color: primaryChartColor,
       },
     },
   };
 
-  return options;
-
-};
-
-/**
- * Chart props
- */
-interface PieChartProps {
-
-  /**
-   * Start date
-   */
-  startDate: Date;
-
-  /**
-   * Last date
-   */
-  lastDate: Date;
-
-  /**
-   * All tag statistics
-   */
-  tagStats: JobTagStat[];
-
-}
-
-/**
- * Pie chart component
- */
-export const PieChart = (props: PieChartProps) => {
-  const {theme, language} = useGlobalContext();
-  const labels = props.tagStats.map((tag) => tag.jobTag.name);
-
-  const jobTagsBackgroundColors = props.tagStats.map((tag) => tag.jobTag.color);
-  const jobTagsTotalTime = props.tagStats.map((tag) => tag.totalTime);
-
-  const data = {
-    labels,
-    datasets: [
-      {
-        label: "Time",
-        data: jobTagsTotalTime,
-        backgroundColor: jobTagsBackgroundColors,
-      },
-    ],
-  };
-
-  /**
-   * Now it works even without Memo because of global context.
-   * After migration to some state manager this line will help us to avoid bugs
-   */
-  const optionsMemoized = useMemo(() => getOptions(LanguageService.way.statisticsBlock.jobDoneTagsUsed[language]), [theme]);
-
   return (
     <Pie
       className={styles.pieChart}
-      options={optionsMemoized}
+      options={options}
       data={data}
     />
   );

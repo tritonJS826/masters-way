@@ -101,7 +101,7 @@ describe("Confirm component", () => {
       .should("not.exist");
   });
 
-  it.only("should not close by clicking on content", () => {
+  it("should not close by clicking on content", () => {
     cy.get(getDataCy(CONFIRM_CY.dataCyTrigger))
       .click();
     cy.get(getDataCy(CONFIRM_CY.dataCyContent.dataCyContent))

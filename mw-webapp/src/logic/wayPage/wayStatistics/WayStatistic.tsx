@@ -1,7 +1,7 @@
 //TODO: fix it
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {AreaChart} from "src/component/chart/AreaChart";
-import {PieChart} from "src/component/chart/PieChart";
+import {BarChart} from "src/component/chart/blockChart/BarChart";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
@@ -216,10 +216,13 @@ export const WayStatistic = (props: WayStatisticProps) => {
             startDate={startDate}
             lastDate={lastDate}
           />
-          <PieChart
-            startDate={startDate}
-            lastDate={lastDate}
-            tagStats={allTagStats}
+          <BarChart
+            itemStats={allTagStats.map(tagStat => ({
+              name: tagStat.jobTag.name,
+              value: tagStat.totalTime,
+              color: tagStat.jobTag.color,
+            }))}
+            label="Total time"
           />
         </div>
         }
@@ -252,10 +255,14 @@ export const WayStatistic = (props: WayStatisticProps) => {
             startDate={startDateLastMonth}
             lastDate={lastDate}
           />
-          <PieChart
-            startDate={startDateLastMonth}
-            lastDate={lastDate}
-            tagStats={lastMonthTagStats}
+          <BarChart
+            itemStats={lastMonthTagStats.map(tagStat => ({
+              name: tagStat.jobTag.name,
+              value: tagStat.totalTime,
+              color: tagStat.jobTag.color,
+            }))}
+            label="Total time"
+
           />
         </div>
         }
@@ -287,10 +294,14 @@ export const WayStatistic = (props: WayStatisticProps) => {
             startDate={startDateLastWeek}
             lastDate={lastDate}
           />
-          <PieChart
-            startDate={startDateLastWeek}
-            lastDate={lastDate}
-            tagStats={lastWeekTagStats}
+          <BarChart
+            itemStats={lastWeekTagStats.map(tagStat => ({
+              name: tagStat.jobTag.name,
+              value: tagStat.totalTime,
+              color: tagStat.jobTag.color,
+            }))}
+            label="Total time"
+
           />
         </div>
         }

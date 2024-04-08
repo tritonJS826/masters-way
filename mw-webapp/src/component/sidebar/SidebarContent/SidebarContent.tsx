@@ -61,7 +61,7 @@ export const SidebarContent = (props: SidebarContentProps) => {
         {props.children}
         <DialogClose asChild>
           <Button
-            data-cy={props.dataCyContent?.dataCyClose}
+            dataCy={props.dataCyContent?.dataCyClose}
             className={styles.closeButton}
             buttonType={ButtonType.ICON_BUTTON}
             icon={<Cross2Icon />}
