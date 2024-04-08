@@ -29,7 +29,6 @@ import "/src/component/editableTextarea/EditableTextarea.cy.tsx";
 import "/src/component/textarea/Textarea.cy.tsx";
 import "/src/component/avatar/Avatar.cy.tsx";
 import "/src/component/chart/AreaChart.cy.tsx";
-import "/src/component/chart/PieChart.cy.tsx";
 
 /**
  * Count all cy.tsx files to check all specs imported here
