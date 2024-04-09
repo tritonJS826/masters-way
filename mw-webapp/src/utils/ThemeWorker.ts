@@ -8,6 +8,7 @@ export enum Theme {
   LIGHT = "light"
 }
 
+// To add opacity use converter https://www.rapidtables.com/convert/number
 const themedVariables: Record<string, Record<Theme, string>> = {
   // Body color
   primaryBackgroundColor: {
@@ -90,8 +91,9 @@ const themedVariables: Record<string, Record<Theme, string>> = {
   },
 
   primaryShadowColor: {
-    [Theme.DARK]: "#rgb(22, 26, 29)",
-    [Theme.LIGHT]: "#rgb(225, 222, 222)",
+    // 3E is opacity 0.25
+    [Theme.DARK]: "#FCFBFE30",
+    [Theme.LIGHT]: "#1F173D30",
   },
   // PrimaryHoverButtonColor
   hoverColor: {

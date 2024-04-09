@@ -19,6 +19,11 @@ export const router = createBrowserRouter(
       errorElement={pages.page404.getPageComponent({})}
     >
       <Route
+        path={pages.home.getPath({})}
+        element={<WithValidatedParams paramsSchema={pages.home} />}
+        errorElement={pages.page404.getPageComponent({})}
+      />
+      <Route
         path={pages.allWays.getPath({})}
         element={<WithValidatedParams paramsSchema={pages.allWays} />}
         errorElement={pages.page404.getPageComponent({})}

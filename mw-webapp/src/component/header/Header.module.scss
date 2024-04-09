@@ -8,9 +8,7 @@ $userNameFontSize: 16px;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: $paddingMedium;
-  border-bottom: 1px solid var(--primaryBorderColor);
-  margin-bottom: $marginMedium;
+  padding: $paddingMedium;
   background-color: var(--primaryBackgroundColor);
 }
 

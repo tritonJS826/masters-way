@@ -27,7 +27,7 @@ export const InitializedApp = (props: PropsWithChildren) => {
   const getDefaultPagePath = (userUid: string | null) => {
     return userUid
       ? pages.user.getPath({uuid: userUid})
-      : pages.allWays.getPath({});
+      : pages.home.getPath({});
   };
 
   /**

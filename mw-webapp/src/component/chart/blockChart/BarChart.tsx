@@ -1,18 +1,14 @@
-import React from "react";
 import {Bar} from "react-chartjs-2";
 import {
   BarElement,
   CategoryScale,
   Chart as ChartJS,
-  // ChartOptions,
   Legend,
   LinearScale,
   Title,
   Tooltip,
 } from "chart.js";
 import {ItemStat} from "src/component/chart/ItemStat";
-// Import {useGlobalContext} from "src/GlobalContext";
-// import {LanguageService} from "src/service/LangauageService";
 import styles from "src/component/chart/blockChart/BarChart.module.scss";
 
 ChartJS.register(
@@ -45,8 +41,6 @@ interface BarChartProps {
  * Pie chart component (Similar radar chart)
  */
 export const BarChart = (props: BarChartProps) => {
-  // Const {language} = useGlobalContext();
-
   const dataSet = props.itemStats.map((itemStat) => {
     return {
       label: itemStat.name,
@@ -61,12 +55,11 @@ export const BarChart = (props: BarChartProps) => {
     datasets: dataSet,
   };
 
-  // Const primaryChartColor = getComputedStyle(document.body).getPropertyValue("--primaryTextColor");
-  // ChartOptions
   const options = {
     indexAxis: "y" as const,
     scales: {
       x: {
+        barPercentage: 1,
         stacked: true,
         display: false,
       },
@@ -75,7 +68,6 @@ export const BarChart = (props: BarChartProps) => {
         display: false,
       },
     },
-    // Responsive: true,
     plugins: {
       legend: {
         position: "left" as const,
@@ -85,8 +77,6 @@ export const BarChart = (props: BarChartProps) => {
         padding: 1,
         display: true,
         text: "",
-        // Text: LanguageService.way.statisticsBlock.jobDoneTagsUsed[language],
-        // color: primaryChartColor,
       },
     },
   };

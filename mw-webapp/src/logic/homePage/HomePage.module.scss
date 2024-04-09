@@ -1,0 +1,40 @@
+@import "src/styles/variables";
+
+.homeContainer {
+  height: 100%;
+  min-height: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: $paddingMedium;
+  background-image: radial-gradient(
+    circle at right,
+    var(--primaryBackgroundColor),
+    var(--tertiaryBackgroundColor)
+  );
+  gap: $gapBig;
+}
+
+.title {
+  max-width: 874px;
+  margin: 0 auto;
+  color: var(--primaryTextColor);
+  font-weight: bold;
+  text-align: center;
+}
+
+.titleDescription {
+  text-align: center;
+}
+
+.goals {
+  width: 100%;
+  max-width: 1320px;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin-top: $marginBig;
+  gap: $gapBig;
+}
+
+.getStartedButton {
+  margin: $marginMedium auto 0;
+}
