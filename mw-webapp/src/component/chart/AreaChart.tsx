@@ -91,6 +91,11 @@ interface AreaChartProps {
    */
   datesWithJobTotalTime: Map<string, number>;
 
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCy?: string;
+
 }
 
 /**
@@ -133,6 +138,7 @@ export const AreaChart = (props: AreaChartProps) => {
     <Line
       options={optionsMemoized}
       data={data}
+      data-cy={props.dataCy}
     />
   );
 };
