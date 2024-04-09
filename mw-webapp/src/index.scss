@@ -7,15 +7,13 @@
 }
 
 body {
-  // margin: $marginMedium;
   background-color: var(--primaryBackgroundColor);
-  // max-width: 1640px;
-  // margin: $marginMedium auto;
   background-color: var(--primaryBackgroundColor);
   color: var(--primaryTextColor);
 }
 
 #root {
   max-width: $maxWidthFullScreen;
+  padding: $paddingMedium;
   margin: 0 auto;
 }

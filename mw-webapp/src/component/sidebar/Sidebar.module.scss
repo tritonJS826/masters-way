@@ -1,6 +1,6 @@
 @import "src/styles/variables";
 
-$paddingSidebar: 30px 40px;
+$paddingSidebar: $paddingBig 40px;
 
 .navSidebarContent {
   display: flex;
