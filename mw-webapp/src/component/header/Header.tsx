@@ -93,7 +93,7 @@ export const Header = (props: HeaderProps) => {
         />),
     },
     {
-      path: pages.allUsers.getPath({}),
+      path: pages.allWays.getPath({}),
       value: LanguageService.sidebar.allWays[props.language],
       icon: (
         <Icon

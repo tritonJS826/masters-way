@@ -88,4 +88,4 @@ make golang packages visible in cli (or add this line to .bashrc in the home dir
 ```pg_dump -h localhost -Fc -U root mastersway_db > mastersway_db_backup.dump```
 
 * restore postgres dump locally (pgdump required)
-```pg_restore -h localhost -p 5432 -d mastersway_db -U root mastersway_db_backup.dump```
+```dropdb mastersway_db && createdb development_db_name&& pg_restore -h localhost -p 5432 -d mastersway_db -U root mastersway_db_backup.dump```
