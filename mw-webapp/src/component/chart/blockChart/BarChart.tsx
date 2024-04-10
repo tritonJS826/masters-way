@@ -59,7 +59,6 @@ export const BarChart = (props: BarChartProps) => {
     indexAxis: "y" as const,
     scales: {
       x: {
-        barPercentage: 1,
         stacked: true,
         display: false,
       },

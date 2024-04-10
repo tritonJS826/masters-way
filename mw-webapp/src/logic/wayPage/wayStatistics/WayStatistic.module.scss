@@ -1,11 +1,20 @@
 @import "src/styles/variables";
 
+$statisticBlockPadding: 24px;
+
 .wrapper {
   @include regularContainer;
   display: grid;
   width: 100%;
   gap: $gapMedium;
   grid-template-columns: repeat(auto-fit, minmax($minWidthBlock, 1fr));
+}
+
+.statisticBlock {
+  padding: $paddingMedium;
+  border-radius: $primaryBorderRadius;
+  background-color: var(--primaryBackgroundColor);
+  gap: $gapExtraMedium;
 }
 
 .alignContent {

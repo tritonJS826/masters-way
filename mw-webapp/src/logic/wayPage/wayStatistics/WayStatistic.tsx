@@ -1,13 +1,22 @@
 //TODO: fix it
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+// import {
+//   StatisticItem,
+//   StatisticItemType,
+// } from "./statisticBlock/statisticItem/StatisticItem";
 import {AreaChart} from "src/component/chart/AreaChart";
 import {BarChart} from "src/component/chart/blockChart/BarChart";
 import {HeadingLevel, Title} from "src/component/title/Title";
-import {Tooltip} from "src/component/tooltip/Tooltip";
+// Import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {useGlobalContext} from "src/GlobalContext";
 import {JobTagStat} from "src/logic/wayPage/wayStatistics/JobTagStat";
-import {StatisticLine} from "src/logic/wayPage/wayStatistics/StatisticLine";
+import {
+  StatisticBlock,
+  StatisticBlockType,
+} from "src/logic/wayPage/wayStatistics/statisticBlock/StatisticBlock";
+import {StatisticItem} from "src/logic/wayPage/wayStatistics/statisticBlock/statisticItem/StatisticItem";
+// Import {StatisticLine} from "src/logic/wayPage/wayStatistics/StatisticLine";
 import {TagStats} from "src/logic/wayPage/wayStatistics/TagStats";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
@@ -114,10 +123,10 @@ export const WayStatistic = (props: WayStatisticProps) => {
   const maximumDateTimestamp = Math.max(...allDatesTimestamps);
   const minimumDateTimestamp = Math.min(...allDatesTimestamps);
 
-  const totalDaysOnAWay = allDatesTimestamps.length
+  const totalDaysOnWay = allDatesTimestamps.length
     ? Math.ceil((maximumDateTimestamp - minimumDateTimestamp + SMALL_CORRECTION_MILLISECONDS) / MILLISECONDS_IN_DAY)
     : 0
-  ;
+    ;
 
   const totalRecordsAmount = props.dayReports.length;
 
@@ -130,7 +139,7 @@ export const WayStatistic = (props: WayStatisticProps) => {
 
   const averageWorkingTimeInRecords = totalWayTime ? Math.round(totalWayTime / totalRecordsAmount) : 0;
 
-  const averageWorkingTimeInDay = totalWayTime ? Math.round(totalWayTime / totalDaysOnAWay) : 0;
+  const averageWorkingTimeInDay = totalWayTime ? Math.round(totalWayTime / totalDaysOnWay) : 0;
 
   const averageTimeForJob = totalWayTime ? Math.round(totalWayTime / allJobs.length) : 0;
 
@@ -169,43 +178,105 @@ export const WayStatistic = (props: WayStatisticProps) => {
   const lastWeekTagStats = getTagStats(lastWeekJobs);
   const lastMonthTagStats = getTagStats(lastMonthJobs);
 
+  const totalDaysOnWayStatisticItem: StatisticItem = {
+    text: LanguageService.way.statisticsBlock.daysFromStart[language],
+    value: totalDaysOnWay,
+  };
+
+  const totalRecordsAmountStatisticItem: StatisticItem = {
+    text: LanguageService.way.statisticsBlock.totalRecords[language],
+    value: totalRecordsAmount,
+  };
+  const totalWayTimeStatisticItem: StatisticItem = {
+    text: LanguageService.way.statisticsBlock.totalTime[language],
+    value: totalWayTime,
+  };
+  const averageWorkingTimeInDayStatisticItem: StatisticItem = {
+    text: LanguageService.way.statisticsBlock.averageTimePerCalendarDay[language],
+    value: averageWorkingTimeInDay,
+  };
+  const averageWorkingTimeInRecordsStatisticItem: StatisticItem = {
+    text: LanguageService.way.statisticsBlock.averageWorkingTimePerWorkingDay[language],
+    value: averageWorkingTimeInRecords,
+  };
+  const allJobsStatisticItem: StatisticItem = {
+    text: LanguageService.way.statisticsBlock.totalFinishedJobs[language],
+    value: allJobs.length,
+  };
+
+  const averageTimeForJobStatisticItem: StatisticItem = {
+    text: LanguageService.way.statisticsBlock.averageJobTime[language],
+    value: averageTimeForJob,
+  };
+
+  const totalStatisticItemsPrimary = [
+    allJobsStatisticItem,
+    totalRecordsAmountStatisticItem,
+    totalWayTimeStatisticItem,
+  ];
+
+  const totalStatisticItemsSecondary = [
+    totalDaysOnWayStatisticItem,
+    averageWorkingTimeInDayStatisticItem,
+    averageWorkingTimeInRecordsStatisticItem,
+    averageTimeForJobStatisticItem,
+  ];
+
+  const lastCalendarMonthTotalTimeStatisticItem: StatisticItem = {
+    text: LanguageService.way.statisticsBlock.totalTime[language],
+    value: lastCalendarMonthTotalTime,
+  };
+  const lastCalendarMonthAverageWorkingTimeStatisticItem: StatisticItem = {
+    text: LanguageService.way.statisticsBlock.averageTimePerCalendarDay[language],
+    value: lastCalendarMonthAverageWorkingTime,
+  };
+
+  const lastCalendarMonthAverageJobTimeStatisticItem: StatisticItem = {
+    text: LanguageService.way.statisticsBlock.averageWorkingTimePerWorkingDay[language],
+    value: lastCalendarMonthAverageJobTime,
+  };
+
+  const statisticItemsLastMonth = [
+    lastCalendarMonthTotalTimeStatisticItem,
+    lastCalendarMonthAverageWorkingTimeStatisticItem,
+    lastCalendarMonthAverageJobTimeStatisticItem,
+  ];
+
+  const lastCalendarWeekTotalTimeStatisticItem: StatisticItem = {
+    text: LanguageService.way.statisticsBlock.totalTime[language],
+    value: lastCalendarWeekTotalTime,
+  };
+  const lastCalendarWeekAverageWorkingTimeStatisticItem: StatisticItem = {
+    text: LanguageService.way.statisticsBlock.averageTimePerCalendarDay[language],
+    value: lastCalendarWeekAverageWorkingTime,
+  };
+
+  const lastCalendarWeekAverageJobTimeStatisticItem: StatisticItem = {
+    text: LanguageService.way.statisticsBlock.averageWorkingTimePerWorkingDay[language],
+    value: lastCalendarWeekAverageJobTime,
+  };
+
+  const statisticItemsLastWeek = [
+    lastCalendarWeekTotalTimeStatisticItem,
+    lastCalendarWeekAverageWorkingTimeStatisticItem,
+    lastCalendarWeekAverageJobTimeStatisticItem,
+  ];
+
   return (
     <div className={styles.wrapper}>
-      <VerticalContainer>
+      <VerticalContainer className={styles.statisticBlock}>
         <Title
           level={HeadingLevel.h4}
           text={LanguageService.way.statisticsBlock.total[language]}
         />
-        <StatisticLine
-          description={LanguageService.way.statisticsBlock.daysFromStart[language]}
-          value={totalDaysOnAWay}
+        <StatisticBlock
+          statisticItems={totalStatisticItemsPrimary}
+          type={StatisticBlockType.PRIMARY}
         />
-        <StatisticLine
-          description={LanguageService.way.statisticsBlock.totalRecords[language]}
-          value={totalRecordsAmount}
+        <StatisticBlock
+          statisticItems={totalStatisticItemsSecondary}
+          type={StatisticBlockType.SECONDARY}
         />
-        <StatisticLine
-          description={LanguageService.way.statisticsBlock.totalTime[language]}
-          value={totalWayTime}
-        />
-        <StatisticLine
-          description={LanguageService.way.statisticsBlock.averageTimePerCalendarDay[language]}
-          value={averageWorkingTimeInDay}
-        />
-        <StatisticLine
-          description={LanguageService.way.statisticsBlock.averageWorkingTimePerWorkingDay[language]}
-          value={averageWorkingTimeInRecords}
-        />
-        <StatisticLine
-          description={LanguageService.way.statisticsBlock.totalFinishedJobs[language]}
-          value={allJobs.length}
-        />
-        <Tooltip content={LanguageService.way.statisticsBlock.showsLevelOfTaskDecomposition[language]}>
-          <StatisticLine
-            description={LanguageService.way.statisticsBlock.averageJobTime[language]}
-            value={averageTimeForJob}
-          />
-        </Tooltip>
 
         <TagStats stats={allTagStats} />
 
@@ -228,22 +299,14 @@ export const WayStatistic = (props: WayStatisticProps) => {
         }
       </VerticalContainer>
 
-      <VerticalContainer>
+      <VerticalContainer className={styles.statisticBlock}>
         <Title
           level={HeadingLevel.h4}
           text={LanguageService.way.statisticsBlock.lastMonth[language]}
         />
-        <StatisticLine
-          description={LanguageService.way.statisticsBlock.totalTime[language]}
-          value={lastCalendarMonthTotalTime}
-        />
-        <StatisticLine
-          description={LanguageService.way.statisticsBlock.averageTimePerCalendarDay[language]}
-          value={lastCalendarMonthAverageWorkingTime}
-        />
-        <StatisticLine
-          description={LanguageService.way.statisticsBlock.averageWorkingTimePerWorkingDay[language]}
-          value={lastCalendarMonthAverageJobTime}
+        <StatisticBlock
+          statisticItems={statisticItemsLastMonth}
+          type={StatisticBlockType.SECONDARY}
         />
 
         <TagStats stats={lastMonthTagStats} />
@@ -268,23 +331,16 @@ export const WayStatistic = (props: WayStatisticProps) => {
         }
       </VerticalContainer>
 
-      <VerticalContainer>
+      <VerticalContainer className={styles.statisticBlock}>
         <Title
           level={HeadingLevel.h4}
           text={LanguageService.way.statisticsBlock.lastWeek[language]}
         />
-        <StatisticLine
-          description={LanguageService.way.statisticsBlock.totalTime[language]}
-          value={lastCalendarWeekTotalTime}
+        <StatisticBlock
+          statisticItems={statisticItemsLastWeek}
+          type={StatisticBlockType.SECONDARY}
         />
-        <StatisticLine
-          description={LanguageService.way.statisticsBlock.averageTimePerCalendarDay[language]}
-          value={lastCalendarWeekAverageWorkingTime}
-        />
-        <StatisticLine
-          description={LanguageService.way.statisticsBlock.averageWorkingTimePerWorkingDay[language]}
-          value={lastCalendarWeekAverageJobTime}
-        />
+
         <TagStats stats={lastWeekTagStats} />
 
         {!!totalWayTime &&
