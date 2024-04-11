@@ -52,6 +52,12 @@ import {
 export interface SchemasWayPopulatedResponse {
     /**
      * 
+     * @type {Array<SchemasWayPopulatedResponse>}
+     * @memberof SchemasWayPopulatedResponse
+     */
+    children: Array<SchemasWayPopulatedResponse>;
+    /**
+     * 
      * @type {string}
      * @memberof SchemasWayPopulatedResponse
      */
@@ -167,6 +173,7 @@ export function instanceOfSchemasWayPopulatedResponse(
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "children" in value;
     isInstance = isInstance && "copiedFromWayUuid" in value;
     isInstance = isInstance && "createdAt" in value;
     isInstance = isInstance && "dayReports" in value;
@@ -202,6 +209,7 @@ export function SchemasWayPopulatedResponseFromJSONTyped(
     }
     return {
         
+        'children': ((json['children'] as Array<any>).map(SchemasWayPopulatedResponseFromJSON)),
         'copiedFromWayUuid': json['copiedFromWayUuid'],
         'createdAt': json['createdAt'],
         'dayReports': ((json['dayReports'] as Array<any>).map(SchemasDayReportPopulatedResponseFromJSON)),
@@ -233,6 +241,7 @@ export function SchemasWayPopulatedResponseToJSON(value?: SchemasWayPopulatedRes
     }
     return {
         
+        'children': ((value.children as Array<any>).map(SchemasWayPopulatedResponseToJSON)),
         'copiedFromWayUuid': value.copiedFromWayUuid,
         'createdAt': value.createdAt,
         'dayReports': ((value.dayReports as Array<any>).map(SchemasDayReportPopulatedResponseToJSON)),

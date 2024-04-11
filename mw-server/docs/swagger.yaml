@@ -817,6 +817,10 @@ definitions:
     type: object
   schemas.WayPopulatedResponse:
     properties:
+      children:
+        items:
+          $ref: '#/definitions/schemas.WayPopulatedResponse'
+        type: array
       copiedFromWayUuid:
         type: string
         x-nullable: true
@@ -869,6 +873,7 @@ definitions:
           $ref: '#/definitions/schemas.WayTagResponse'
         type: array
     required:
+    - children
     - copiedFromWayUuid
     - createdAt
     - dayReports

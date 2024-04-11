@@ -3322,6 +3322,7 @@ const docTemplate = `{
         "schemas.WayPopulatedResponse": {
             "type": "object",
             "required": [
+                "children",
                 "copiedFromWayUuid",
                 "createdAt",
                 "dayReports",
@@ -3342,6 +3343,12 @@ const docTemplate = `{
                 "wayTags"
             ],
             "properties": {
+                "children": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.WayPopulatedResponse"
+                    }
+                },
                 "copiedFromWayUuid": {
                     "type": "string",
                     "x-nullable": true

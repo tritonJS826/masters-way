@@ -63,10 +63,7 @@ make golang packages visible in cli (or add this line to .bashrc in the home dir
 ```go run main.go```
 
 
-
-
-
-
+### Useful commands
 
 * migrate down
 ```migrate -path db/migration -database "postgresql://root:secret@localhost:5432/mastersway_db?sslmode=disable" -verbose down```
@@ -88,4 +85,4 @@ make golang packages visible in cli (or add this line to .bashrc in the home dir
 ```pg_dump -h localhost -Fc -U root mastersway_db > mastersway_db_backup.dump```
 
 * restore postgres dump locally (pgdump required)
-```dropdb mastersway_db && createdb mastersway_db && pg_restore -h localhost -p 5432 -d mastersway_db -U root mastersway_db_backup.dump```
+```dropdb mastersway_db -h localhost -p 5432 -U root && createdb mastersway_db -h localhost -p 5432 -U root && pg_restore -h localhost -p 5432 -d mastersway_db -U root mastersway_db_backup.dump```

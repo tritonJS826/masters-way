@@ -66,6 +66,11 @@ type Comment struct {
 	DayReportUuid uuid.UUID `json:"day_report_uuid"`
 }
 
+type CompositeWay struct {
+	ChildUuid  uuid.UUID `json:"child_uuid"`
+	ParentUuid uuid.UUID `json:"parent_uuid"`
+}
+
 type DayReport struct {
 	Uuid      uuid.UUID `json:"uuid"`
 	WayUuid   uuid.UUID `json:"way_uuid"`

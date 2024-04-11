@@ -60,6 +60,7 @@ type WayPopulatedResponse struct {
 	JobTags                []JobTagResponse             `json:"jobTags" validate:"required"`
 	Metrics                []MetricResponse             `json:"metrics" validate:"required"`
 	CopiedFromWayUuid      string                       `json:"copiedFromWayUuid" validate:"required" extensions:"x-nullable"`
+	Children               []WayPopulatedResponse       `json:"children" validate:"required"`
 }
 
 type GetAllWaysResponse struct {

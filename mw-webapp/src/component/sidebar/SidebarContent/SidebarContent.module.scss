@@ -4,7 +4,6 @@ $sidebar-animation-time: 350ms;
 $sidebar-padding: 25px;
 $sidebar-width: 300px;
 $sidebar-button-size: 20px;
-$closeButtonTop: 30px;
 $closeButtonRight: 35px;
 
 .dialogOverlay {
@@ -38,7 +37,6 @@ $closeButtonRight: 35px;
 
 .closeButton {
   position: absolute;
-  top: $closeButtonTop;
   right: $closeButtonRight;
   display: inline-flex;
   width: $sidebar-button-size;

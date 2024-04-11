@@ -26,11 +26,16 @@ CREATE TABLE ways(
     "estimation_time" INTEGER NOT NULL,
     "owner_uuid" UUID NOT NULL REFERENCES users("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
     "copied_from_way_uuid" UUID REFERENCES ways("uuid") ON UPDATE CASCADE,
-    "is_completed" BOOLEAN NOT NULL, 
+    "is_completed" BOOLEAN NOT NULL,
     "is_private" BOOLEAN NOT NULL,
     CONSTRAINT "ways_pkey" PRIMARY KEY("uuid")
 );
 CREATE UNIQUE INDEX "way_uuid_key" ON "ways"("uuid");
+
+CREATE TABLE composite_ways(
+    "child_uuid" UUID NOT NULL REFERENCES ways("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
+    "parent_uuid" UUID NOT NULL REFERENCES ways("uuid") ON UPDATE CASCADE ON DELETE CASCADE
+);
 
 CREATE TABLE former_mentors_ways(
     "former_mentor_uuid" UUID NOT NULL REFERENCES users("uuid") ON UPDATE CASCADE ON DELETE CASCADE,

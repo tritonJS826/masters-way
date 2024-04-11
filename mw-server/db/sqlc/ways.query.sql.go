@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/lib/pq"
 )
 
 const countWaysByType = `-- name: CountWaysByType :one
@@ -112,6 +113,11 @@ SELECT
     ways.copied_from_way_uuid,
     ways.is_completed,
     ways.is_private,
+    (ARRAY(
+        SELECT composite_ways.child_uuid 
+        FROM composite_ways 
+        WHERE composite_ways.parent_uuid = ways.uuid
+    )::VARCHAR[]) AS children_uuids,
     users.uuid AS owner_uuid,
     users.name AS owner_name,
     users.email AS owner_email,
@@ -135,6 +141,7 @@ type GetWayByIdRow struct {
 	CopiedFromWayUuid uuid.NullUUID  `json:"copied_from_way_uuid"`
 	IsCompleted       bool           `json:"is_completed"`
 	IsPrivate         bool           `json:"is_private"`
+	ChildrenUuids     []string       `json:"children_uuids"`
 	OwnerUuid         uuid.UUID      `json:"owner_uuid"`
 	OwnerName         string         `json:"owner_name"`
 	OwnerEmail        string         `json:"owner_email"`
@@ -157,6 +164,7 @@ func (q *Queries) GetWayById(ctx context.Context, argUuid uuid.UUID) (GetWayById
 		&i.CopiedFromWayUuid,
 		&i.IsCompleted,
 		&i.IsPrivate,
+		pq.Array(&i.ChildrenUuids),
 		&i.OwnerUuid,
 		&i.OwnerName,
 		&i.OwnerEmail,
