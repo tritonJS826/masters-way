@@ -10,6 +10,7 @@ export const StarIcon = (props: IconProps) => {
       viewBox="0 0 24 24"
       fill="none"
       className={props.className}
+      data-cy={props.dataCy}
     >
       <path
         d="M11.2691 4.41115C11.5006 3.89177 11.6164 3.63208 11.7776 3.55211C11.9176 3.48263 12.082

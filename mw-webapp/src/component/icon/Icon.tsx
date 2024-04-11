@@ -14,7 +14,7 @@ import styles from "src/component/icon/Icon.module.scss";
 /**
  * Icon dictionary
  */
-const IconDictionary = {
+export const IconDictionary = {
 
   /**
    * Eye opened icon
@@ -95,6 +95,11 @@ export interface IconProps {
    * Custom className
    */
   className?: string;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCy?: string;
 
 }
 
