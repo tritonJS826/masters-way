@@ -31,7 +31,7 @@ func MarshalNullUuid(nullUuid uuid.NullUUID) ([]byte, error) {
 
 func MarshalNullString(nullString sql.NullString) string {
 	if nullString.Valid {
-		return string(nullString.String)
+		return nullString.String
 	} else {
 		strRaw, _ := json.Marshal(nil)
 
@@ -39,11 +39,13 @@ func MarshalNullString(nullString sql.NullString) string {
 	}
 }
 
-func MarshalNullTime(nullTime sql.NullTime) interface{} {
+func MarshalNullTime(nullTime sql.NullTime) string {
 	if nullTime.Valid {
 		return nullTime.Time.String()
 	} else {
-		return nil
+		strRaw, _ := json.Marshal(nil)
+
+		return string(strRaw)
 	}
 }
 

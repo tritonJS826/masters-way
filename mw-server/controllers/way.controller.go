@@ -307,7 +307,7 @@ func (cc *WayController) GetWayById(ctx *gin.Context) {
 			UpdatedAt:        dbMetric.UpdatedAt.String(),
 			Description:      dbMetric.Description,
 			IsDone:           dbMetric.IsDone,
-			DoneDate:         util.MarshalNullTime(dbMetric.DoneDate).(string),
+			DoneDate:         util.MarshalNullTime(dbMetric.DoneDate),
 			MetricEstimation: dbMetric.MetricEstimation,
 		}
 	})

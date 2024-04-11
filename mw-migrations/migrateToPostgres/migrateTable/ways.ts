@@ -19,22 +19,21 @@ export const ways = (client: Client) => {
           convertFirebaseUuidToPgUuid(way.ownerUuid),
         ];
         client.query(query, values, (err: any, result: any) => {
-          // values
-            if (err) {
+          if (err) {
               console.error('!!', convertFirebaseUuidToPgUuid(way.copiedFromWayUuid))
               console.error('Error executing query', err);
               client.query(query, [
-              convertFirebaseUuidToPgUuid(way.uuid),
-              way.name,
-              way.goalDescription,
-              firebaseDateToPgDate(way.lastUpdate),
-              firebaseDateToPgDate(way.createdAt),
-              way.estimationTime,
-              null,
-              way.isPrivate,
-              way.status === "Completed",
-              convertFirebaseUuidToPgUuid(way.ownerUuid),
-              ])
+                convertFirebaseUuidToPgUuid(way.uuid),
+                way.name,
+                way.goalDescription,
+                firebaseDateToPgDate(way.lastUpdate),
+                firebaseDateToPgDate(way.createdAt),
+                way.estimationTime,
+                null,
+                way.isPrivate,
+                way.status === "Completed",
+                convertFirebaseUuidToPgUuid(way.ownerUuid),
+              ], (err) => console.log(`NO OWNER: ${way.name}${way.uuid}`))
             } else {
               console.log('Query result ways:', result.rows);
             }
