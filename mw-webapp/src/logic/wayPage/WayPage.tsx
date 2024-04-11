@@ -35,6 +35,7 @@ import {MentorRequestsSection} from "src/logic/wayPage/MentorRequestsSection";
 import {MentorsSection} from "src/logic/wayPage/MentorsSection";
 import {downloadWayPdf} from "src/logic/wayPage/renderWayToPdf/downloadWayPdf";
 import {DayReportsTable} from "src/logic/wayPage/reportsTable/dayReportsTable/DayReportsTable";
+import {WayActiveStatistic} from "src/logic/wayPage/wayStatistics/WayActiveStatistic";
 import {WayStatistic} from "src/logic/wayPage/wayStatistics/WayStatistic";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Metric} from "src/model/businessModel/Metric";
@@ -366,388 +367,389 @@ export const WayPage = (props: WayPageProps) => {
   return (
     <VerticalContainer className={styles.container}>
       <HorizontalGridContainer className={styles.wayDashboard}>
-        <VerticalContainer className={styles.wayInfo}>
-          <HorizontalContainer className={styles.wayTitleBlock}>
-            <Title
-              level={HeadingLevel.h2}
-              text={way.name}
-              onChangeFinish={(name) => updateWay({
-                wayToUpdate: {
-                  uuid: way.uuid,
-                  name,
-                },
+        <VerticalContainer className={styles.wayDashBoardLeft}>
+          <VerticalContainer className={styles.wayInfo}>
+            <HorizontalContainer className={styles.wayTitleBlock}>
+              <Title
+                level={HeadingLevel.h2}
+                text={way.name}
+                onChangeFinish={(name) => updateWay({
+                  wayToUpdate: {
+                    uuid: way.uuid,
+                    name,
+                  },
+                  setWay: setWayPartial,
+                })}
+                isEditable={isUserOwnerOrMentor}
+                className={styles.wayName}
+              />
+
+              <HorizontalContainer className={styles.wayActionButtons}>
+                <Tooltip
+                  content={isWayInFavorites
+                    ? LanguageService.way.wayInfo.deleteFromFavoritesTooltip[language]
+                    : LanguageService.way.wayInfo.addToFavoritesTooltip[language]}
+                  position={PositionTooltip.LEFT}
+                >
+                  <Button
+                    className={styles.wayActionsIcon}
+                    value={`${isWayInFavorites
+                      ? Symbols.STAR
+                      : Symbols.OUTLINED_STAR
+                    }${Symbols.NO_BREAK_SPACE}${way.favoriteForUsersAmount}`}
+                    onClick={() => {
+                      if (!user) {
+                        return;
+                      }
+
+                      if (isWayInFavorites) {
+                        FavoriteUserWayDAL.deleteFavoriteUserWay(user.uuid, way.uuid);
+                        if (!favoriteWaysCollection) {
+                          throw new Error("favoriteWaysCollection is undefined");
+                        }
+                        WayCollectionWayDAL.deleteWayCollectionWay(favoriteWaysCollection.uuid, way.uuid);
+
+                        const favoriteAmount = way.favoriteForUsersAmount - LIKE_VALUE;
+                        const updatedWayCollections = user.wayCollections.map((wayCollection) => {
+                          const updatedWayCollection: WayCollection = {
+                            ...wayCollection,
+                            ways: wayCollection.ways.filter((favoriteWay) => favoriteWay.uuid !== way.uuid),
+                          };
+                          wayCollection.type === "favorite"
+                            ? updatedWayCollection
+                            : wayCollection;
+
+                          return updatedWayCollection;
+                        });
+                        const updatedUser = new User({
+                          ...user,
+                          wayCollections: updatedWayCollections,
+                        });
+                        setUser(updatedUser);
+                        setWayPartial({favoriteForUsersAmount: favoriteAmount});
+                      } else {
+                        FavoriteUserWayDAL.createFavoriteUserWay(user.uuid, way.uuid);
+                        if (!favoriteWaysCollection) {
+                          throw new Error("favoriteWaysCollection is undefined");
+                        }
+                        WayCollectionWayDAL.createWayCollectionWay(favoriteWaysCollection.uuid, way.uuid);
+                        const favoriteAmount = way.favoriteForUsersAmount + LIKE_VALUE;
+
+                        const updatedWayCollections = user.wayCollections.map((wayCollection) => {
+                          const INCREMENT = 1;
+                          const mentors = Array.from(way.mentors).map(([, value]) => value);
+                          // TODO: converter required
+                          const updatedWay = new WayPreview({
+                            copiedFromWayUuid: way.copiedFromWayUuid,
+                            createdAt: way.createdAt,
+                            dayReportsAmount: way.dayReports.length,
+                            estimationTime: way.estimationTime,
+                            favoriteForUsers: way.favoriteForUsersAmount,
+                            goalDescription: way.goalDescription,
+                            isPrivate: way.isPrivate,
+                            lastUpdate: way.lastUpdate,
+                            mentors,
+                            metricsDone: way.metrics.reduce((acc, metric) => metric.isDone ? acc + INCREMENT : acc, 0),
+                            metricsTotal: way.metrics.length,
+                            name: way.name,
+                            owner: way.owner,
+                            status: way.status,
+                            uuid: way.uuid,
+                            wayTags: way.wayTags,
+                          });
+                          const updatedWayCollection: WayCollection = {
+                            ...wayCollection,
+                            ways: wayCollection.ways.concat(updatedWay),
+                          };
+                          wayCollection.type === "favorite"
+                            ? wayCollection
+                            : updatedWayCollection;
+
+                          return updatedWayCollection;
+                        });
+                        const updatedUser = new User({
+                          ...user,
+                          wayCollections: updatedWayCollections,
+                        });
+                        setUser(updatedUser);
+                        setWayPartial({favoriteForUsersAmount: favoriteAmount});
+                      }
+
+                      displayNotification({
+                        text: isWayInFavorites
+                          ? LanguageService.way.notifications.wayRemovedFromFavorites[language]
+                          : LanguageService.way.notifications.wayAddedToFavorites[language],
+                        type: "info",
+                      });
+                    }}
+                    buttonType={ButtonType.SECONDARY}
+                  />
+                </Tooltip>
+                <Dropdown
+                  className={styles.wayActionMenu}
+                  trigger={(
+                    <Tooltip
+                      content={LanguageService.way.wayInfo.wayActionsTooltip[language]}
+                      position={PositionTooltip.LEFT}
+                    >
+                      <Button
+                        className={styles.wayActionsIcon}
+                        buttonType={ButtonType.SECONDARY}
+                        onClick={() => {}}
+                        icon={
+                          <Icon
+                            size={IconSize.MEDIUM}
+                            name={"MoreVertical"}
+                          />
+                        }
+                      />
+                    </Tooltip>
+                  )}
+                  dropdownMenuItems={[
+                    {
+                      id: "Make the way private/public",
+                      isVisible: isOwner,
+                      value: way.isPrivate
+                        ? LanguageService.way.peopleBlock.makePublicButton[language]
+                        : LanguageService.way.peopleBlock.makePrivateButton[language],
+
+                      /**
+                       * Toggle way privacy
+                       */
+                      onClick: () => updateWay({
+                        wayToUpdate: {
+                          uuid: way.uuid,
+                          isPrivate: !way.isPrivate,
+                        },
+                        setWay: setWayPartial,
+                      }),
+                    },
+                    {
+                      id: "Repeat the way",
+                      value: LanguageService.way.wayActions.repeatTheWay[language],
+
+                      /**
+                       * Copy url to clipboard
+                       */
+                      onClick: repeatTheWay,
+                      isVisible: !!user,
+                    },
+                    {
+                      id: "Copy url to clipboard",
+                      value: LanguageService.way.wayActions.copyUrlToClipboard[language],
+
+                      /**
+                       * Copy url to clipboard
+                       */
+                      onClick: async () => {
+                        await navigator.clipboard.writeText(location.href);
+                        displayNotification({
+                          text: LanguageService.way.notifications.urlCopied[language],
+                          type: "info",
+                        });
+                      },
+                    },
+                    {
+                      id: "Download as pdf",
+                      value: LanguageService.way.wayActions.downloadAsPdf[language],
+
+                      /**
+                       * Download way as pdf
+                       */
+                      onClick: () => downloadWayPdf(way),
+                    },
+                    ...renderAddToCustomCollectionDropdownItems,
+                    {
+                      id: "Go to original way",
+                      value: LanguageService.way.wayActions.goToOriginal[language],
+                      isVisible: !!way.copiedFromWayUuid,
+
+                      /**
+                       * Go to original way (from which current way was copied)
+                       */
+                      onClick: () => {
+                        if (!way.copiedFromWayUuid) {
+                          throw new Error("This way is original, not copied");
+                        }
+                        navigate(pages.way.getPath({uuid: way.copiedFromWayUuid}));
+                      },
+                    },
+                    {
+                      id: "Delete the way",
+                      value: renderDeleteWayDropdownItem,
+                      isVisible: isOwner,
+                    },
+                  ]}
+                />
+              </HorizontalContainer>
+            </HorizontalContainer>
+
+            <HorizontalContainer className={styles.wayTagsContainer}>
+              {way.wayTags.map(tag => (
+                <Tag
+                  tagName={tag.name}
+                  key={tag.uuid}
+                  isDeletable={isOwner}
+                  onDelete={() => {
+                    WayTagDAL.deleteWayTag({wayTagId: tag.uuid, wayId: way.uuid});
+                    const updatedWayTags = way.wayTags.filter(oldTag => oldTag.uuid !== tag.uuid);
+                    const updatedWay = new Way({...way, wayTags: updatedWayTags});
+                    setWay(updatedWay);
+                  }}
+                />
+              ))}
+              {!way.wayTags.length && LanguageService.way.wayInfo.noTags[language]}
+              {isOwner && (
+                <Modal
+                  isOpen={isAddWayTagModalOpen}
+                  trigger={
+                    <Tooltip content="Add new way tag">
+                      <Button
+                        icon={
+                          <Icon
+                            size={IconSize.SMALL}
+                            name="PlusIcon"
+                          />
+                        }
+                        onClick={() => {}}
+                        buttonType={ButtonType.ICON_BUTTON}
+                      />
+                    </Tooltip>
+                  }
+                  content={
+                    <PromptModalContent
+                      defaultValue=""
+                      placeholder="Add new way tag"
+                      close={() => setIsAddWayTagModalOpen(false)}
+                      onOk={async (tagName: string) => {
+                        const newTagRaw = await WayTagDAL.addWayTagToWay({name: tagName, wayUuid: way.uuid});
+                        const newTag: WayTag = {name: newTagRaw.name, uuid: newTagRaw.uuid};
+                        const updatedWayTags = [...way.wayTags, newTag];
+                        const updatedWay = new Way({...way, wayTags: updatedWayTags});
+                        setWay(updatedWay);
+                      }}
+                      okButtonValue={LanguageService.modals.promptModal.okButton[language]}
+                      cancelButtonValue={LanguageService.modals.promptModal.cancelButton[language]}
+                    />
+                  }
+                />
+              )}
+            </HorizontalContainer>
+
+            <GoalBlock
+              goalDescription={way.goalDescription}
+              wayUuid={way.uuid}
+              updateWay={(updated) => updateWay({
+                wayToUpdate: {...updated},
                 setWay: setWayPartial,
               })}
               isEditable={isUserOwnerOrMentor}
-              className={styles.wayName}
             />
 
-            <HorizontalContainer className={styles.wayActionButtons}>
-              <Tooltip
-                content={isWayInFavorites
-                  ? LanguageService.way.wayInfo.deleteFromFavoritesTooltip[language]
-                  : LanguageService.way.wayInfo.addToFavoritesTooltip[language]}
-                position={PositionTooltip.LEFT}
-              >
-                <Button
-                  className={styles.wayActionsIcon}
-                  value={`${isWayInFavorites
-                    ? Symbols.STAR
-                    : Symbols.OUTLINED_STAR
-                  }${Symbols.NO_BREAK_SPACE}${way.favoriteForUsersAmount}`}
-                  onClick={() => {
-                    if (!user) {
-                      return;
-                    }
-
-                    if (isWayInFavorites) {
-                      FavoriteUserWayDAL.deleteFavoriteUserWay(user.uuid, way.uuid);
-                      if (!favoriteWaysCollection) {
-                        throw new Error("favoriteWaysCollection is undefined");
-                      }
-                      WayCollectionWayDAL.deleteWayCollectionWay(favoriteWaysCollection.uuid, way.uuid);
-
-                      const favoriteAmount = way.favoriteForUsersAmount - LIKE_VALUE;
-                      const updatedWayCollections = user.wayCollections.map((wayCollection) => {
-                        const updatedWayCollection: WayCollection = {
-                          ...wayCollection,
-                          ways: wayCollection.ways.filter((favoriteWay) => favoriteWay.uuid !== way.uuid),
-                        };
-                        wayCollection.type === "favorite"
-                          ? updatedWayCollection
-                          : wayCollection;
-
-                        return updatedWayCollection;
-                      });
-                      const updatedUser = new User({
-                        ...user,
-                        wayCollections: updatedWayCollections,
-                      });
-                      setUser(updatedUser);
-                      setWayPartial({favoriteForUsersAmount: favoriteAmount});
-                    } else {
-                      FavoriteUserWayDAL.createFavoriteUserWay(user.uuid, way.uuid);
-                      if (!favoriteWaysCollection) {
-                        throw new Error("favoriteWaysCollection is undefined");
-                      }
-                      WayCollectionWayDAL.createWayCollectionWay(favoriteWaysCollection.uuid, way.uuid);
-                      const favoriteAmount = way.favoriteForUsersAmount + LIKE_VALUE;
-
-                      const updatedWayCollections = user.wayCollections.map((wayCollection) => {
-                        const INCREMENT = 1;
-                        const mentors = Array.from(way.mentors).map(([, value]) => value);
-                        // TODO: converter required
-                        const updatedWay = new WayPreview({
-                          copiedFromWayUuid: way.copiedFromWayUuid,
-                          createdAt: way.createdAt,
-                          dayReportsAmount: way.dayReports.length,
-                          estimationTime: way.estimationTime,
-                          favoriteForUsers: way.favoriteForUsersAmount,
-                          goalDescription: way.goalDescription,
-                          isPrivate: way.isPrivate,
-                          lastUpdate: way.lastUpdate,
-                          mentors,
-                          metricsDone: way.metrics.reduce((acc, metric) => metric.isDone ? acc + INCREMENT : acc, 0),
-                          metricsTotal: way.metrics.length,
-                          name: way.name,
-                          owner: way.owner,
-                          status: way.status,
-                          uuid: way.uuid,
-                          wayTags: way.wayTags,
-                        });
-                        const updatedWayCollection: WayCollection = {
-                          ...wayCollection,
-                          ways: wayCollection.ways.concat(updatedWay),
-                        };
-                        wayCollection.type === "favorite"
-                          ? wayCollection
-                          : updatedWayCollection;
-
-                        return updatedWayCollection;
-                      });
-                      const updatedUser = new User({
-                        ...user,
-                        wayCollections: updatedWayCollections,
-                      });
-                      setUser(updatedUser);
-                      setWayPartial({favoriteForUsersAmount: favoriteAmount});
-                    }
-
-                    displayNotification({
-                      text: isWayInFavorites
-                        ? LanguageService.way.notifications.wayRemovedFromFavorites[language]
-                        : LanguageService.way.notifications.wayAddedToFavorites[language],
-                      type: "info",
-                    });
-                  }}
-                  buttonType={ButtonType.SECONDARY}
-                />
-              </Tooltip>
-              <Dropdown
-                className={styles.wayActionMenu}
-                trigger={(
-                  <Tooltip
-                    content={LanguageService.way.wayInfo.wayActionsTooltip[language]}
-                    position={PositionTooltip.LEFT}
-                  >
-                    <Button
-                      className={styles.wayActionsIcon}
-                      buttonType={ButtonType.SECONDARY}
-                      onClick={() => {}}
-                      icon={
-                        <Icon
-                          size={IconSize.MEDIUM}
-                          name={"MoreVertical"}
-                        />
-                      }
-                    />
-                  </Tooltip>
-                )}
-                dropdownMenuItems={[
-                  {
-                    id: "Make the way private/public",
-                    isVisible: isOwner,
-                    value: way.isPrivate
-                      ? LanguageService.way.peopleBlock.makePublicButton[language]
-                      : LanguageService.way.peopleBlock.makePrivateButton[language],
-
-                    /**
-                     * Toggle way privacy
-                     */
-                    onClick: () => updateWay({
-                      wayToUpdate: {
-                        uuid: way.uuid,
-                        isPrivate: !way.isPrivate,
-                      },
-                      setWay: setWayPartial,
-                    }),
-                  },
-                  {
-                    id: "Repeat the way",
-                    value: LanguageService.way.wayActions.repeatTheWay[language],
-
-                    /**
-                     * Copy url to clipboard
-                     */
-                    onClick: repeatTheWay,
-                    isVisible: !!user,
-                  },
-                  {
-                    id: "Copy url to clipboard",
-                    value: LanguageService.way.wayActions.copyUrlToClipboard[language],
-
-                    /**
-                     * Copy url to clipboard
-                     */
-                    onClick: async () => {
-                      await navigator.clipboard.writeText(location.href);
-                      displayNotification({
-                        text: LanguageService.way.notifications.urlCopied[language],
-                        type: "info",
-                      });
-                    },
-                  },
-                  {
-                    id: "Download as pdf",
-                    value: LanguageService.way.wayActions.downloadAsPdf[language],
-
-                    /**
-                     * Download way as pdf
-                     */
-                    onClick: () => downloadWayPdf(way),
-                  },
-                  ...renderAddToCustomCollectionDropdownItems,
-                  {
-                    id: "Go to original way",
-                    value: LanguageService.way.wayActions.goToOriginal[language],
-                    isVisible: !!way.copiedFromWayUuid,
-
-                    /**
-                     * Go to original way (from which current way was copied)
-                     */
-                    onClick: () => {
-                      if (!way.copiedFromWayUuid) {
-                        throw new Error("This way is original, not copied");
-                      }
-                      navigate(pages.way.getPath({uuid: way.copiedFromWayUuid}));
-                    },
-                  },
-                  {
-                    id: "Delete the way",
-                    value: renderDeleteWayDropdownItem,
-                    isVisible: isOwner,
-                  },
-                ]}
-              />
-            </HorizontalContainer>
-          </HorizontalContainer>
-
-          <HorizontalContainer className={styles.wayTagsContainer}>
-            {way.wayTags.map(tag => (
-              <Tag
-                tagName={tag.name}
-                key={tag.uuid}
-                isDeletable={isOwner}
-                onDelete={() => {
-                  WayTagDAL.deleteWayTag({wayTagId: tag.uuid, wayId: way.uuid});
-                  const updatedWayTags = way.wayTags.filter(oldTag => oldTag.uuid !== tag.uuid);
-                  const updatedWay = new Way({...way, wayTags: updatedWayTags});
-                  setWay(updatedWay);
-                }}
-              />
-            ))}
-            {!way.wayTags.length && LanguageService.way.wayInfo.noTags[language]}
-            {isOwner && (
-              <Modal
-                isOpen={isAddWayTagModalOpen}
-                trigger={
-                  <Tooltip content="Add new way tag">
-                    <Button
-                      icon={
-                        <Icon
-                          size={IconSize.SMALL}
-                          name="PlusIcon"
-                        />
-                      }
-                      onClick={() => {}}
-                      buttonType={ButtonType.ICON_BUTTON}
-                    />
-                  </Tooltip>
-                }
-                content={
-                  <PromptModalContent
-                    defaultValue=""
-                    placeholder="Add new way tag"
-                    close={() => setIsAddWayTagModalOpen(false)}
-                    onOk={async (tagName: string) => {
-                      const newTagRaw = await WayTagDAL.addWayTagToWay({name: tagName, wayUuid: way.uuid});
-                      const newTag: WayTag = {name: newTagRaw.name, uuid: newTagRaw.uuid};
-                      const updatedWayTags = [...way.wayTags, newTag];
-                      const updatedWay = new Way({...way, wayTags: updatedWayTags});
-                      setWay(updatedWay);
-                    }}
-                    okButtonValue={LanguageService.modals.promptModal.okButton[language]}
-                    cancelButtonValue={LanguageService.modals.promptModal.cancelButton[language]}
-                  />
-                }
-              />
-            )}
-          </HorizontalContainer>
-
-          <GoalBlock
-            goalDescription={way.goalDescription}
-            wayUuid={way.uuid}
-            updateWay={(updated) => updateWay({
-              wayToUpdate: {...updated},
-              setWay: setWayPartial,
-            })}
-            isEditable={isUserOwnerOrMentor}
-          />
-        </VerticalContainer>
-
-        <VerticalContainer className={styles.metricsBlock}>
-          <HorizontalContainer className={styles.horizontalContainer}>
-            <Title
-              level={HeadingLevel.h3}
-              text={LanguageService.way.metricsBlock.metrics[language]}
-            />
-            <Tooltip content={wayPageSettings.isGoalMetricsVisible
-              ? LanguageService.way.metricsBlock.clickToHideMetrics[language]
-              : LanguageService.way.metricsBlock.clickToShowMetrics[language]
-            }
-            >
-              <button
-                className={styles.iconContainer}
-                onClick={() => updateWayPageSettings({isGoalMetricsVisible: !wayPageSettings.isGoalMetricsVisible})}
-              >
-                <Icon
-                  size={IconSize.MEDIUM}
-                  name={wayPageSettings.isGoalMetricsVisible ? "EyeOpenedIcon" : "EyeSlashedIcon"}
-                />
-              </button>
-            </Tooltip>
-          </HorizontalContainer>
-          <GoalMetricsBlock
-            wayUuid={way.uuid}
-            isVisible={wayPageSettings.isGoalMetricsVisible}
-            goalMetrics={way.metrics}
-            updateGoalMetrics={updateGoalMetrics}
-            isEditable={isUserOwnerOrMentor}
-          />
-        </VerticalContainer>
-        <VerticalContainer className={styles.peopleBlock}>
-          <HorizontalContainer className={styles.privacyBlock}>
-            <Tooltip content={way.isPrivate
-              ? LanguageService.way.peopleBlock.wayPrivacy.privateTooltip[language]
-              : LanguageService.way.peopleBlock.wayPrivacy.publicTooltip[language]
-            }
-            >
+          </VerticalContainer>
+          <VerticalContainer className={styles.metricsBlock}>
+            <HorizontalContainer className={styles.horizontalContainer}>
               <Title
                 level={HeadingLevel.h3}
-                text={LanguageService.way.peopleBlock.wayPrivacy.title[language]}
+                text={LanguageService.way.metricsBlock.metrics[language]}
               />
-              {Symbols.NO_BREAK_SPACE}
-              {way.isPrivate
-                ? LanguageService.way.peopleBlock.wayPrivacy.private[language]
-                : LanguageService.way.peopleBlock.wayPrivacy.public[language]
+              <Tooltip content={wayPageSettings.isGoalMetricsVisible
+                ? LanguageService.way.metricsBlock.clickToHideMetrics[language]
+                : LanguageService.way.metricsBlock.clickToShowMetrics[language]
               }
-            </Tooltip>
-          </HorizontalContainer>
-
-          <HorizontalContainer>
-            <Title
-              level={HeadingLevel.h3}
-              text={LanguageService.way.peopleBlock.waysOwner[language]}
+              >
+                <button
+                  className={styles.iconContainer}
+                  onClick={() => updateWayPageSettings({isGoalMetricsVisible: !wayPageSettings.isGoalMetricsVisible})}
+                >
+                  <Icon
+                    size={IconSize.MEDIUM}
+                    name={wayPageSettings.isGoalMetricsVisible ? "EyeOpenedIcon" : "EyeSlashedIcon"}
+                  />
+                </button>
+              </Tooltip>
+            </HorizontalContainer>
+            <GoalMetricsBlock
+              wayUuid={way.uuid}
+              isVisible={wayPageSettings.isGoalMetricsVisible}
+              goalMetrics={way.metrics}
+              updateGoalMetrics={updateGoalMetrics}
+              isEditable={isUserOwnerOrMentor}
             />
-            <Link
-              path={pages.user.getPath({uuid: way.owner.uuid})}
-              className={styles.mentors}
-            >
-              {way.owner.name}
-            </Link>
-          </HorizontalContainer>
-          {!!way.mentors.size &&
+          </VerticalContainer>
+
+          <VerticalContainer className={styles.peopleBlock}>
+            <HorizontalContainer className={styles.privacyBlock}>
+              <Tooltip content={way.isPrivate
+                ? LanguageService.way.peopleBlock.wayPrivacy.privateTooltip[language]
+                : LanguageService.way.peopleBlock.wayPrivacy.publicTooltip[language]
+              }
+              >
+                <Title
+                  level={HeadingLevel.h3}
+                  text={LanguageService.way.peopleBlock.wayPrivacy.title[language]}
+                />
+                {Symbols.NO_BREAK_SPACE}
+                {way.isPrivate
+                  ? LanguageService.way.peopleBlock.wayPrivacy.private[language]
+                  : LanguageService.way.peopleBlock.wayPrivacy.public[language]
+                }
+              </Tooltip>
+            </HorizontalContainer>
+
+            <HorizontalContainer>
+              <Title
+                level={HeadingLevel.h3}
+                text={LanguageService.way.peopleBlock.waysOwner[language]}
+              />
+              <Link
+                path={pages.user.getPath({uuid: way.owner.uuid})}
+                className={styles.mentors}
+              >
+                {way.owner.name}
+              </Link>
+            </HorizontalContainer>
+            {!!way.mentors.size &&
             <MentorsSection
               way={way}
               setWay={setWayPartial}
               isOwner={isOwner}
             />}
-          {isOwner && !!way.mentorRequests.length && (
-            <MentorRequestsSection
-              way={way}
-              setWay={setWay}
-            />
-          )}
-          {isEligibleToSendRequest && (
-            <Button
-              className={styles.applyAsMentorButton}
-              value={LanguageService.way.peopleBlock.applyAsMentor[language]}
-              onClick={async () => {
-                const userForMentorRequest = {
-                  createdAt: user.createdAt.toISOString(),
-                  description: user.description,
-                  email: user.email,
-                  imageUrl: user.imageUrl,
-                  isMentor: user.isMentor,
-                  name: user.name,
-                  uuid: user.uuid,
-                };
-                updateWay({
-                  wayToUpdate: {
-                    uuid: way.uuid,
-                    mentorRequests: way.mentorRequests.concat(userForMentorRequest),
-                  },
-                  setWay: setWayPartial,
-                });
-                await MentorRequestDAL.createMentorRequest(user.uuid, way.uuid);
-              }}
-            />
-          )}
+            {isOwner && !!way.mentorRequests.length && (
+              <MentorRequestsSection
+                way={way}
+                setWay={setWay}
+              />
+            )}
+            {isEligibleToSendRequest && (
+              <Button
+                className={styles.applyAsMentorButton}
+                value={LanguageService.way.peopleBlock.applyAsMentor[language]}
+                onClick={async () => {
+                  const userForMentorRequest = {
+                    createdAt: user.createdAt.toISOString(),
+                    description: user.description,
+                    email: user.email,
+                    imageUrl: user.imageUrl,
+                    isMentor: user.isMentor,
+                    name: user.name,
+                    uuid: user.uuid,
+                  };
+                  updateWay({
+                    wayToUpdate: {
+                      uuid: way.uuid,
+                      mentorRequests: way.mentorRequests.concat(userForMentorRequest),
+                    },
+                    setWay: setWayPartial,
+                  });
+                  await MentorRequestDAL.createMentorRequest(user.uuid, way.uuid);
+                }}
+              />
+            )}
+          </VerticalContainer>
+
         </VerticalContainer>
 
-      </HorizontalGridContainer>
-
-      <HorizontalContainer>
         <VerticalContainer className={styles.statistics}>
           <HorizontalContainer className={styles.horizontalContainer}>
             <Title
@@ -769,15 +771,39 @@ export const WayPage = (props: WayPageProps) => {
                 />
               </button>
             </Tooltip>
+            <Modal
+              trigger={
+                <Tooltip content="Show all statistics">
+                  <Button
+                    icon={
+                      <Icon
+                        size={IconSize.SMALL}
+                        name="PlusIcon"
+                      />
+                    }
+                    onClick={() => {}}
+                    buttonType={ButtonType.ICON_BUTTON}
+                  />
+                </Tooltip>
+              }
+              className={styles.statisticsModal}
+              content={
+                <WayStatistic
+                  dayReports={way.dayReports}
+                  wayCreatedAt={way.createdAt}
+                  isVisible={wayPageSettings.isStatisticsVisible}
+                />
+              }
+            />
           </HorizontalContainer>
-          <WayStatistic
+          <WayActiveStatistic
             dayReports={way.dayReports}
             wayCreatedAt={way.createdAt}
             isVisible={wayPageSettings.isStatisticsVisible}
           />
         </VerticalContainer>
 
-      </HorizontalContainer>
+      </HorizontalGridContainer>
 
       {isUserOwnerOrMentor &&
         <HorizontalContainer className={styles.dayReportActions}>

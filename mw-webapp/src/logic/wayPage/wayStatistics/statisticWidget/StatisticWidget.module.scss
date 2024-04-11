@@ -1,0 +1,13 @@
+@import "src/styles/variables";
+
+.statisticBlock {
+  padding: $paddingMedium;
+  border-radius: $primaryBorderRadius;
+  background-color: var(--primaryBackgroundColor);
+  gap: $gapSmall;
+}
+
+.titleCheckbox {
+  width: 100%;
+  justify-content: space-between;
+}

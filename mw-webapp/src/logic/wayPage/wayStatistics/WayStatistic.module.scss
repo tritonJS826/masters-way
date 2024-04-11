@@ -1,27 +1,15 @@
 @import "src/styles/variables";
 
-$statisticBlockPadding: 24px;
-
 .wrapper {
   @include regularContainer;
   display: grid;
   width: 100%;
   gap: $gapMedium;
-  grid-template-columns: repeat(auto-fit, minmax($minWidthBlock, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax($mediumWidthBlock, 1fr));
 }
 
-.statisticBlock {
-  padding: $paddingMedium;
-  border-radius: $primaryBorderRadius;
-  background-color: var(--primaryBackgroundColor);
-  gap: $gapExtraMedium;
-}
-
-.alignContent {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  border-bottom: 1px dotted var(--primaryBorderColor);
+.statisticContainer {
+  gap: $gapMedium;
 }
 
 .statisticsCharts {

@@ -84,7 +84,7 @@ const getTagStats = (jobsDone: JobDone[]) => {
 /**
  * Render table of reports
  */
-export const WayStatistic = (props: WayStatisticProps) => {
+export const WayActiveStatistic = (props: WayStatisticProps) => {
   const {language} = useGlobalContext();
   if (!props.isVisible) {
     return null;
@@ -96,9 +96,7 @@ export const WayStatistic = (props: WayStatisticProps) => {
   const startDateLastWeek = props.wayCreatedAt <= DateUtils.getLastDate(AMOUNT_DAYS_IN_WEEK, lastDate)
     ? DateUtils.getLastDate(AMOUNT_DAYS_IN_WEEK, lastDate)
     : startDate;
-  const startDateLastMonth = props.wayCreatedAt <= DateUtils.getLastDate(AMOUNT_DAYS_IN_WEEK, lastMonthDate)
-    ? DateUtils.getLastDate(AMOUNT_DAYS_IN_WEEK, lastMonthDate)
-    : startDate;
+
   const datesWithJobTotalTime: Map<string, number> = new Map(props.dayReports.map((report) => {
     const jobDoneTotalTime = report.jobsDone.reduce((totalTime, jobDone) => totalTime + jobDone.time, 0);
 
@@ -143,26 +141,8 @@ export const WayStatistic = (props: WayStatisticProps) => {
     ? Math.round(lastCalendarWeekTotalTime / lastWeekDayReports.length)
     : 0;
 
-  const lastMonthDayReports = props.dayReports.filter((dayReport) =>
-    DateUtils.roundToDate(dayReport.createdAt) > lastMonthDate);
-
-  const lastMonthJobs = lastMonthDayReports.flatMap(report => report.jobsDone);
-
-  const lastCalendarMonthTotalTime = lastMonthJobs.reduce((totalTime, jobDone) => totalTime + jobDone.time, 0);
-
-  const amountDaysLastMonth = props.wayCreatedAt > lastMonthDate ? lastMonthDayReports.length : AMOUNT_DAYS_IN_MONTH;
-
-  const lastCalendarMonthAverageWorkingTime = lastCalendarMonthTotalTime
-    ? Math.round(lastCalendarMonthTotalTime / amountDaysLastMonth)
-    : 0;
-
-  const lastCalendarMonthAverageJobTime = lastCalendarMonthTotalTime
-    ? Math.round(lastCalendarMonthTotalTime / lastMonthDayReports.length)
-    : 0;
-
   const allTagStats = getTagStats(allJobs);
   const lastWeekTagStats = getTagStats(lastWeekJobs);
-  const lastMonthTagStats = getTagStats(lastMonthJobs);
 
   const totalDaysOnWayStatisticItem: StatisticItem = {
     text: LanguageService.way.statisticsBlock.daysFromStart[language],
@@ -208,26 +188,6 @@ export const WayStatistic = (props: WayStatisticProps) => {
     averageTimeForJobStatisticItem,
   ];
 
-  const lastCalendarMonthTotalTimeStatisticItem: StatisticItem = {
-    text: LanguageService.way.statisticsBlock.totalTime[language],
-    value: lastCalendarMonthTotalTime,
-  };
-  const lastCalendarMonthAverageWorkingTimeStatisticItem: StatisticItem = {
-    text: LanguageService.way.statisticsBlock.averageTimePerCalendarDay[language],
-    value: lastCalendarMonthAverageWorkingTime,
-  };
-
-  const lastCalendarMonthAverageJobTimeStatisticItem: StatisticItem = {
-    text: LanguageService.way.statisticsBlock.averageWorkingTimePerWorkingDay[language],
-    value: lastCalendarMonthAverageJobTime,
-  };
-
-  const statisticItemsLastMonth = [
-    lastCalendarMonthTotalTimeStatisticItem,
-    lastCalendarMonthAverageWorkingTimeStatisticItem,
-    lastCalendarMonthAverageJobTimeStatisticItem,
-  ];
-
   const lastCalendarWeekTotalTimeStatisticItem: StatisticItem = {
     text: LanguageService.way.statisticsBlock.totalTime[language],
     value: lastCalendarWeekTotalTime,
@@ -250,6 +210,7 @@ export const WayStatistic = (props: WayStatisticProps) => {
 
   return (
     <div className={styles.wrapper}>
+
       <StatisticPeriod
         title={LanguageService.way.statisticsBlock.total[language]}
         allTagStats={allTagStats}
@@ -258,17 +219,6 @@ export const WayStatistic = (props: WayStatisticProps) => {
         startDate={startDate}
         totalStatisticItemsPrimary={totalStatisticItemsPrimary}
         totalStatisticItemsSecondary={totalStatisticItemsSecondary}
-        totalWayTime={totalWayTime}
-      />
-
-      <StatisticPeriod
-        title={LanguageService.way.statisticsBlock.lastMonth[language]}
-        allTagStats={lastMonthTagStats}
-        datesWithJobTotalTime={datesWithJobTotalTime}
-        lastDate={lastDate}
-        startDate={startDateLastMonth}
-        // TotalStatisticItemsPrimary={totalStatisticItemsPrimary}
-        totalStatisticItemsSecondary={statisticItemsLastMonth}
         totalWayTime={totalWayTime}
       />
 

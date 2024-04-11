@@ -6,6 +6,7 @@ import {
   Portal as DialogPortal,
 } from "@radix-ui/react-dialog";
 import {Cross2Icon} from "@radix-ui/react-icons";
+import clsx from "clsx";
 import {CyContent} from "src/component/modal/Modal";
 import styles from "src/component/modal/ModalContent/ModalContent.module.scss";
 
@@ -18,6 +19,11 @@ interface ModalContentProps {
    * Data attribute for cypress testing
    */
   dataCyContent?: CyContent;
+
+  /**
+   * ModalContent className
+   */
+  className?: string;
 
 }
 
@@ -33,7 +39,7 @@ export const ModalContent = (props: PropsWithChildren<ModalContentProps>) => {
       />
       <DialogContent
         data-cy={props.dataCyContent?.dataCyContent}
-        className={styles.dialogContent}
+        className={clsx(styles.dialogContent, props.className)}
       >
         {props.children}
         <DialogClose

@@ -64,6 +64,11 @@ interface ModalProps {
   isOpen?: boolean;
 
   /**
+   * ModalContent className
+   */
+  className?: string;
+
+  /**
    * Data attributes for cypress testing
    */
   cy?: Cy;
@@ -84,7 +89,10 @@ export const Modal = (props: ModalProps) => {
       <ModalTrigger dataCyTrigger={props.cy?.dataCyTrigger}>
         {props.trigger}
       </ModalTrigger>
-      <ModalContent dataCyContent={props.cy?.dataCyContent}>
+      <ModalContent
+        dataCyContent={props.cy?.dataCyContent}
+        className={props.className}
+      >
         {props.content}
       </ModalContent>
     </DialogRoot>

@@ -16,8 +16,9 @@ $secondaryStatisticItemPadding: 16px;
   color: var(--primaryTextColor);
   text-align: left;
 
-  @media (max-width: 1440px) {
+  @media (max-width: $mediaWidthDesktopSmall) {
     flex-direction: column;
+    justify-content: start;
   }
 }
 
@@ -48,8 +49,9 @@ $secondaryStatisticItemPadding: 16px;
 .primary .statisticText {
   max-width: 50px;
 
-  @media (max-width: 1440px) {
+  @media (max-width: $mediaWidthDesktopSmall) {
     max-width: 105px;
+    text-align: center;
   }
 }
 

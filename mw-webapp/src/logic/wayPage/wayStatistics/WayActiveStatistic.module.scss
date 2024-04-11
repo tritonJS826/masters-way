@@ -1,0 +1,6 @@
+@import "src/styles/variables";
+
+.wrapper {
+  @include regularContainer;
+  width: 100%;
+}

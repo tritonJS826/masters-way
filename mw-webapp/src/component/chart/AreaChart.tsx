@@ -139,6 +139,7 @@ export const AreaChart = (props: AreaChartProps) => {
       options={optionsMemoized}
       data={data}
       data-cy={props.dataCy}
+      style={{maxHeight: "250px"}}
     />
   );
 };

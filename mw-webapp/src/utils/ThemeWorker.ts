@@ -79,6 +79,10 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     // [Theme.DARK]: "rgb(200, 194, 194)",
     // [Theme.LIGHT]: "rgb(73, 69, 69)",
   },
+  primaryBorderSeparator: {
+    [Theme.DARK]: "#FFFFFF3E",
+    [Theme.LIGHT]: "#784DEA3E",
+  },
   primaryIconColor: {
     [Theme.DARK]: "#FAFAFA",
     [Theme.LIGHT]: "#0B090A",
