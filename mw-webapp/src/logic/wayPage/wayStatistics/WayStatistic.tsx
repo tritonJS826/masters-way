@@ -259,6 +259,7 @@ export const WayStatistic = (props: WayStatisticProps) => {
         totalStatisticItemsPrimary={totalStatisticItemsPrimary}
         totalStatisticItemsSecondary={totalStatisticItemsSecondary}
         totalWayTime={totalWayTime}
+        isCheckboxShown={true}
       />
 
       <StatisticPeriod
@@ -270,6 +271,7 @@ export const WayStatistic = (props: WayStatisticProps) => {
         // TotalStatisticItemsPrimary={totalStatisticItemsPrimary}
         totalStatisticItemsSecondary={statisticItemsLastMonth}
         totalWayTime={totalWayTime}
+        isCheckboxShown={true}
       />
 
       <StatisticPeriod
@@ -281,6 +283,7 @@ export const WayStatistic = (props: WayStatisticProps) => {
         // TotalStatisticItemsPrimary={totalStatisticItemsPrimary}
         totalStatisticItemsSecondary={statisticItemsLastWeek}
         totalWayTime={totalWayTime}
+        isCheckboxShown={true}
       />
 
     </div>

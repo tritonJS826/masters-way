@@ -9,7 +9,7 @@ import {JobDone} from "src/model/businessModel/JobDone";
 import {JobTag} from "src/model/businessModelPreview/WayPreview";
 import {LanguageService} from "src/service/LangauageService";
 import {DateUtils} from "src/utils/DateUtils";
-import styles from "src/logic/wayPage/wayStatistics/WayStatistic.module.scss";
+import styles from "src/logic/wayPage/wayStatistics/WayActiveStatistic.module.scss";
 
 /**
  * Reports table props
@@ -220,6 +220,7 @@ export const WayActiveStatistic = (props: WayStatisticProps) => {
         totalStatisticItemsPrimary={totalStatisticItemsPrimary}
         totalStatisticItemsSecondary={totalStatisticItemsSecondary}
         totalWayTime={totalWayTime}
+        isCheckboxShown={false}
       />
 
       <StatisticPeriod
@@ -231,6 +232,7 @@ export const WayActiveStatistic = (props: WayStatisticProps) => {
         // TotalStatisticItemsPrimary={totalStatisticItemsPrimary}
         totalStatisticItemsSecondary={statisticItemsLastWeek}
         totalWayTime={totalWayTime}
+        isCheckboxShown={false}
       />
 
     </div>

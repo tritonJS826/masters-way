@@ -54,6 +54,11 @@ interface StatisticPeriodProps {
    */
   allTagStats: JobTagStat[];
 
+  /**
+   * If isEditable then checkbox near is shown
+   */
+  isCheckboxShown: boolean;
+
 }
 
 /**
@@ -69,7 +74,7 @@ export const StatisticPeriod = (props: StatisticPeriodProps) => {
       {!!props.totalWayTime &&
       <StatisticWidget
         title="Metrics"
-        isEditable={true}
+        isEditable={props.isCheckboxShown}
       >
         <AreaChart
           datesWithJobTotalTime={props.datesWithJobTotalTime}
@@ -80,7 +85,7 @@ export const StatisticPeriod = (props: StatisticPeriodProps) => {
       }
       <StatisticWidget
         title="Overall information"
-        isEditable={true}
+        isEditable={props.isCheckboxShown}
       >
         {props.totalStatisticItemsPrimary &&
         <StatisticBlock
@@ -99,7 +104,7 @@ export const StatisticPeriod = (props: StatisticPeriodProps) => {
       {props.allTagStats.length !== 0 &&
       <StatisticWidget
         title="Labels statistic"
-        isEditable={true}
+        isEditable={props.isCheckboxShown}
       >
         {!!props.totalWayTime &&
         <BarChart

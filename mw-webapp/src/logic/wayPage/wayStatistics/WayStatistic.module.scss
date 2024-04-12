@@ -7,11 +7,3 @@
   gap: $gapMedium;
   grid-template-columns: repeat(auto-fit, minmax($mediumWidthBlock, 1fr));
 }
-
-.statisticContainer {
-  gap: $gapMedium;
-}
-
-.statisticsCharts {
-  margin-top: auto;
-}

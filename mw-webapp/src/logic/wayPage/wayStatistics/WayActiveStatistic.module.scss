@@ -1,6 +1,8 @@
 @import "src/styles/variables";
 
 .wrapper {
-  @include regularContainer;
+  display: grid;
   width: 100%;
+  gap: $gapMedium;
+  grid-template-columns: repeat(auto-fit, minmax($mediumWidthBlock, 1fr));
 }
