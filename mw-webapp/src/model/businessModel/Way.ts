@@ -104,6 +104,11 @@ export class Way {
    */
   public isPrivate: boolean;
 
+  /**
+   * If Way has children then this way is Composite
+   */
+  public children: Way[];
+
   constructor(wayData: Way) {
     this.uuid = wayData.uuid;
     this.name = wayData.name;
@@ -123,6 +128,7 @@ export class Way {
     this.estimationTime = wayData.estimationTime;
     this.metrics = wayData.metrics;
     this.isPrivate = wayData.isPrivate;
+    this.children = wayData.children;
   }
 
 }

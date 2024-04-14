@@ -45,6 +45,7 @@ import {JobTag, WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {WayTag} from "src/model/businessModelPreview/WayTag";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LangauageService";
+import {createCompositeWay} from "src/utils/createCompositeWay";
 import {DateUtils} from "src/utils/DateUtils";
 import {WayPageSettings} from "src/utils/LocalStorageWorker";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
@@ -161,6 +162,8 @@ export const WayPage = (props: WayPageProps) => {
       <Loader />
     );
   }
+
+  const cWay = createCompositeWay(way);
 
   const favoriteWaysCollection = user?.wayCollections.find((wayCollection) => wayCollection.name === "favorite");
   const isWayInFavorites = !!favoriteWaysCollection?.ways.find((favoriteWay) => favoriteWay.uuid === way.uuid);
@@ -346,6 +349,8 @@ export const WayPage = (props: WayPageProps) => {
 
     setWayPartial(wayToUpdate);
   };
+
+  const isWayComposite = way.children.length !== 0;
 
   const isEmptyWay = way.dayReports.length === 0;
   const currentDate = DateUtils.getShortISODateValue(new Date());
@@ -697,6 +702,19 @@ export const WayPage = (props: WayPageProps) => {
               </Tooltip>
             </HorizontalContainer>
 
+            <HorizontalContainer className={styles.compositeBlock}>
+              <Title
+                level={HeadingLevel.h3}
+                text={LanguageService.way.peopleBlock.wayComposite.title[language]}
+              />
+              <div>
+                {isWayComposite
+                  ? LanguageService.way.peopleBlock.wayComposite.text[language]
+                  : LanguageService.way.peopleBlock.wayComposite.description[language]
+                }
+              </div>
+            </HorizontalContainer>
+
             <HorizontalContainer>
               <Title
                 level={HeadingLevel.h3}
@@ -847,7 +865,7 @@ export const WayPage = (props: WayPageProps) => {
       }
 
       <DayReportsTable
-        way={way}
+        way={cWay}
         setDayReports={setDayReports}
         createDayReport={createDayReport}
       />
