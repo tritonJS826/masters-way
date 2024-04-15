@@ -127,32 +127,32 @@ export const AllUsersPage = () => {
     <VerticalContainer className={styles.allUsersContainer}>
       <HorizontalContainer className={styles.filterView}>
         <HorizontalContainer>
-          <div className={styles.inputWrapper}>
-            <Icon
-              size={IconSize.SMALL}
-              name="SearchIcon"
-              className={styles.inputIcon}
-            />
-            <Input
-              value={email}
-              onChange={setEmail}
-              placeholder={LanguageService.allUsers.filterBlock.emailPlaceholder[language]}
-              className={styles.inputFilter}
-            />
-          </div>
-          <div className={styles.inputWrapper}>
-            <Icon
-              size={IconSize.SMALL}
-              name="SearchIcon"
-              className={styles.inputIcon}
-            />
-            <Input
-              value={name}
-              onChange={setName}
-              placeholder={LanguageService.allUsers.filterBlock.namePlaceholder[language]}
-              className={styles.inputFilter}
-            />
-          </div>
+          <Input
+            value={email}
+            onChange={setEmail}
+            placeholder={LanguageService.allUsers.filterBlock.emailPlaceholder[language]}
+            className={styles.inputFilter}
+            componentIcon={
+              <Icon
+                size={IconSize.SMALL}
+                name="SearchIcon"
+                className={styles.inputIcon}
+              />
+            }
+          />
+          <Input
+            value={name}
+            onChange={setName}
+            placeholder={LanguageService.allUsers.filterBlock.namePlaceholder[language]}
+            className={styles.inputFilter}
+            componentIcon={
+              <Icon
+                size={IconSize.SMALL}
+                name="SearchIcon"
+                className={styles.inputIcon}
+              />
+            }
+          />
         </HorizontalContainer>
         <HorizontalContainer>
           <Tooltip

@@ -1,4 +1,4 @@
-import {HTMLInputTypeAttribute} from "react";
+import {HTMLInputTypeAttribute, ReactElement} from "react";
 import clsx from "clsx";
 import {InputMode} from "src/component/input/InputMode";
 import {ParserInputValue} from "src/component/input/parsers";
@@ -83,6 +83,11 @@ interface InputProps<T extends string | number> {
    * Data attribute for cypress testing
    */
   dataCy?: string;
+
+  /**
+   * Add componentIcon
+   */
+  componentIcon?: ReactElement<HTMLElement>;
 }
 
 /**
@@ -115,19 +120,22 @@ export const Input = <T extends string | number>(props: InputProps<T>) => {
   };
 
   return (
-    <input
-      value={props.formatter ? props.formatter(props.value) : props.value}
-      type={props.type ?? "text"}
-      max={props.max}
-      min={props.min}
-      placeholder={props.placeholder}
-      className={clsx(styles.input, props.className)}
-      inputMode={props.inputMode}
-      disabled={!!props.disabled}
-      required={!!props.required}
-      autoFocus={!!props.autoFocus}
-      onChange={onChange}
-      data-cy={props.dataCy}
-    />
+    <div className={styles.inputWrapper}>
+      {props.componentIcon}
+      <input
+        value={props.formatter ? props.formatter(props.value) : props.value}
+        type={props.type ?? "text"}
+        max={props.max}
+        min={props.min}
+        placeholder={props.placeholder}
+        className={clsx(styles.input, props.className)}
+        inputMode={props.inputMode}
+        disabled={!!props.disabled}
+        required={!!props.required}
+        autoFocus={!!props.autoFocus}
+        onChange={onChange}
+        data-cy={props.dataCy}
+      />
+    </div>
   );
 };

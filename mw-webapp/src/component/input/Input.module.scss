@@ -1,5 +1,10 @@
 @import "src/styles/variables";
 
+.inputWrapper {
+  position: relative;
+  width: 100%;
+}
+
 .input {
   width: 100%;
   border: none;
