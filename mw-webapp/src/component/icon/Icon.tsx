@@ -25,7 +25,7 @@ import styles from "src/component/icon/Icon.module.scss";
 /**
  * Icon dictionary
  */
-const IconDictionary = {
+export const IconDictionary = {
 
   /**
    * Eye opened icon

@@ -1,8 +1,25 @@
-import {HTMLInputTypeAttribute, ReactElement} from "react";
+import {HTMLInputTypeAttribute} from "react";
 import clsx from "clsx";
+import {Icon, IconDictionary, IconSize} from "src/component/icon/Icon";
 import {InputMode} from "src/component/input/InputMode";
 import {ParserInputValue} from "src/component/input/parsers";
 import styles from "src/component/input/Input.module.scss";
+
+/**
+ * InputIcon
+ */
+interface InputIcon {
+
+  /**
+   * InputIcon name
+   */
+  name: keyof typeof IconDictionary;
+
+  /**
+   * InputIcon size
+   */
+  size: IconSize;
+}
 
 /**
  * Input's props
@@ -85,9 +102,9 @@ interface InputProps<T extends string | number> {
   dataCy?: string;
 
   /**
-   * Add componentIcon
+   * TypeInputIcon
    */
-  componentIcon?: ReactElement<HTMLElement>;
+  typeInputIcon?: InputIcon;
 }
 
 /**
@@ -121,14 +138,20 @@ export const Input = <T extends string | number>(props: InputProps<T>) => {
 
   return (
     <div className={styles.inputWrapper}>
-      {props.componentIcon}
+      {props.typeInputIcon && (
+        <Icon
+          size={props.typeInputIcon.size}
+          name={props.typeInputIcon.name}
+          className={styles.inputIcon}
+        />
+      )}
       <input
         value={props.formatter ? props.formatter(props.value) : props.value}
         type={props.type ?? "text"}
         max={props.max}
         min={props.min}
         placeholder={props.placeholder}
-        className={clsx(styles.input, props.className)}
+        className={clsx(styles.input, props.className, props.typeInputIcon && styles.inputFilter)}
         inputMode={props.inputMode}
         disabled={!!props.disabled}
         required={!!props.required}

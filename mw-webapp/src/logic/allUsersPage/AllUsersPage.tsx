@@ -132,12 +132,11 @@ export const AllUsersPage = () => {
             onChange={setEmail}
             placeholder={LanguageService.allUsers.filterBlock.emailPlaceholder[language]}
             className={styles.inputFilter}
-            componentIcon={
-              <Icon
-                size={IconSize.SMALL}
-                name="SearchIcon"
-                className={styles.inputIcon}
-              />
+            typeInputIcon={
+              {
+                name: "SearchIcon",
+                size: IconSize.SMALL,
+              }
             }
           />
           <Input
@@ -145,12 +144,11 @@ export const AllUsersPage = () => {
             onChange={setName}
             placeholder={LanguageService.allUsers.filterBlock.namePlaceholder[language]}
             className={styles.inputFilter}
-            componentIcon={
-              <Icon
-                size={IconSize.SMALL}
-                name="SearchIcon"
-                className={styles.inputIcon}
-              />
+            typeInputIcon={
+              {
+                name: "SearchIcon",
+                size: IconSize.SMALL,
+              }
             }
           />
         </HorizontalContainer>
