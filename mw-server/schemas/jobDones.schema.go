@@ -18,7 +18,7 @@ type JobDonePopulatedResponse struct {
 	UpdatedAt     string           `json:"updatedAt" validate:"required"`
 	Description   string           `json:"description" validate:"required"`
 	Time          int32            `json:"time" validate:"required"`
-	OwnerUuid     string           `json:"name" validate:"required"`
+	OwnerUuid     string           `json:"ownerUuid" validate:"required"`
 	OwnerName     string           `json:"ownerName" validate:"required"`
 	DayReportUuid string           `json:"dayReportUuid" validate:"required"`
 	Tags          []JobTagResponse `json:"tags" validate:"required"`

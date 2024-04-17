@@ -33,14 +33,13 @@ func CreateUser(db *dbb.Queries, ctx context.Context, args *dbb.CreateUserParams
 	db.CreateWayCollection(ctx, createWayCollectionParamsFavorite)
 	db.CreateWayCollection(ctx, createWayCollectionParamsMentoring)
 
-	imageUrl := util.MarshalNullString(user.ImageUrl)
 	response := schemas.UserPlainResponse{
 		Uuid:        user.Uuid.String(),
 		Name:        user.Name,
 		Email:       user.Email,
 		Description: user.Description,
 		CreatedAt:   user.CreatedAt.String(),
-		ImageUrl:    imageUrl,
+		ImageUrl:    util.MarshalNullString(user.ImageUrl),
 		IsMentor:    user.IsMentor,
 	}
 

@@ -24,14 +24,13 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 		return schemas.WayPopulatedResponse{}, err
 	}
 
-	userImageUrl := util.MarshalNullString(way.OwnerImageUrl)
 	wayOwner := schemas.UserPlainResponse{
 		Uuid:        way.OwnerUuid.String(),
 		Name:        way.OwnerName,
 		Email:       way.OwnerEmail,
 		Description: way.OwnerDescription,
 		CreatedAt:   way.OwnerCreatedAt.String(),
-		ImageUrl:    userImageUrl,
+		ImageUrl:    util.MarshalNullString(way.OwnerImageUrl),
 		IsMentor:    way.OwnerIsMentor,
 	}
 
@@ -51,42 +50,39 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 	favoriteForUserAmount, _ := db.GetFavoriteForUserUuidsByWayId(ctx, params.WayUuid)
 	fromUserMentoringRequestsRaw, _ := db.GetFromUserMentoringRequestWaysByWayId(ctx, params.WayUuid)
 	fromUserMentoringRequests := lo.Map(fromUserMentoringRequestsRaw, func(fromUser dbb.User, i int) schemas.UserPlainResponse {
-		imageUrl := util.MarshalNullString(fromUser.ImageUrl)
 		return schemas.UserPlainResponse{
 			Uuid:        fromUser.Uuid.String(),
 			Name:        fromUser.Name,
 			Email:       fromUser.Email,
 			Description: fromUser.Description,
 			CreatedAt:   fromUser.CreatedAt.String(),
-			ImageUrl:    imageUrl,
+			ImageUrl:    util.MarshalNullString(fromUser.ImageUrl),
 			IsMentor:    fromUser.IsMentor,
 		}
 	})
 
 	formerMentorsRaw, _ := db.GetFormerMentorUsersByWayId(ctx, params.WayUuid)
 	formerMentors := lo.Map(formerMentorsRaw, func(dbFormerMentor dbb.User, i int) schemas.UserPlainResponse {
-		imageUrl := util.MarshalNullString(dbFormerMentor.ImageUrl)
 		return schemas.UserPlainResponse{
 			Uuid:        dbFormerMentor.Uuid.String(),
 			Name:        dbFormerMentor.Name,
 			Email:       dbFormerMentor.Email,
 			Description: dbFormerMentor.Description,
 			CreatedAt:   dbFormerMentor.CreatedAt.String(),
-			ImageUrl:    imageUrl,
+			ImageUrl:    util.MarshalNullString(dbFormerMentor.ImageUrl),
 			IsMentor:    dbFormerMentor.IsMentor,
 		}
 	})
 
 	mentorsRaw, _ := db.GetMentorUsersByWayId(ctx, params.WayUuid)
 	mentors := lo.Map(mentorsRaw, func(dbMentor dbb.User, i int) schemas.UserPlainResponse {
-		imageUrl := util.MarshalNullString(dbMentor.ImageUrl)
 		return schemas.UserPlainResponse{
 			Uuid:        dbMentor.Uuid.String(),
 			Name:        dbMentor.Name,
 			Email:       dbMentor.Email,
 			Description: dbMentor.Description,
 			CreatedAt:   dbMentor.CreatedAt.String(),
-			ImageUrl:    imageUrl,
+			ImageUrl:    util.MarshalNullString(dbMentor.ImageUrl),
 			IsMentor:    dbMentor.IsMentor,
 		}
 	})

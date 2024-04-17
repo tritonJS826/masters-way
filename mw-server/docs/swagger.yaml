@@ -370,9 +370,9 @@ definitions:
         type: string
       description:
         type: string
-      name:
-        type: string
       ownerName:
+        type: string
+      ownerUuid:
         type: string
       tags:
         items:
@@ -388,8 +388,8 @@ definitions:
     - createdAt
     - dayReportUuid
     - description
-    - name
     - ownerName
+    - ownerUuid
     - tags
     - time
     - updatedAt

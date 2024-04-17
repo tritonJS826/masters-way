@@ -2680,8 +2680,8 @@ const docTemplate = `{
                 "createdAt",
                 "dayReportUuid",
                 "description",
-                "name",
                 "ownerName",
+                "ownerUuid",
                 "tags",
                 "time",
                 "updatedAt",
@@ -2697,10 +2697,10 @@ const docTemplate = `{
                 "description": {
                     "type": "string"
                 },
-                "name": {
+                "ownerName": {
                     "type": "string"
                 },
-                "ownerName": {
+                "ownerUuid": {
                     "type": "string"
                 },
                 "tags": {
