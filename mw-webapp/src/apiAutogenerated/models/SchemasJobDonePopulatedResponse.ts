@@ -49,13 +49,13 @@ export interface SchemasJobDonePopulatedResponse {
      * @type {string}
      * @memberof SchemasJobDonePopulatedResponse
      */
-    name: string;
+    ownerName: string;
     /**
      * 
      * @type {string}
      * @memberof SchemasJobDonePopulatedResponse
      */
-    ownerName: string;
+    ownerUuid: string;
     /**
      * 
      * @type {Array<SchemasJobTagResponse>}
@@ -92,8 +92,8 @@ export function instanceOfSchemasJobDonePopulatedResponse(
     isInstance = isInstance && "createdAt" in value;
     isInstance = isInstance && "dayReportUuid" in value;
     isInstance = isInstance && "description" in value;
-    isInstance = isInstance && "name" in value;
     isInstance = isInstance && "ownerName" in value;
+    isInstance = isInstance && "ownerUuid" in value;
     isInstance = isInstance && "tags" in value;
     isInstance = isInstance && "time" in value;
     isInstance = isInstance && "updatedAt" in value;
@@ -118,8 +118,8 @@ export function SchemasJobDonePopulatedResponseFromJSONTyped(
         'createdAt': json['createdAt'],
         'dayReportUuid': json['dayReportUuid'],
         'description': json['description'],
-        'name': json['name'],
         'ownerName': json['ownerName'],
+        'ownerUuid': json['ownerUuid'],
         'tags': ((json['tags'] as Array<any>).map(SchemasJobTagResponseFromJSON)),
         'time': json['time'],
         'updatedAt': json['updatedAt'],
@@ -140,8 +140,8 @@ export function SchemasJobDonePopulatedResponseToJSON(value?: SchemasJobDonePopu
         'createdAt': value.createdAt,
         'dayReportUuid': value.dayReportUuid,
         'description': value.description,
-        'name': value.name,
         'ownerName': value.ownerName,
+        'ownerUuid': value.ownerUuid,
         'tags': ((value.tags as Array<any>).map(SchemasJobTagResponseToJSON)),
         'time': value.time,
         'updatedAt': value.updatedAt,

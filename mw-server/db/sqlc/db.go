@@ -24,6 +24,9 @@ func New(db DBTX) *Queries {
 func Prepare(ctx context.Context, db DBTX) (*Queries, error) {
 	q := Queries{db: db}
 	var err error
+	if q.addWayToCompositeWayStmt, err = db.PrepareContext(ctx, addWayToCompositeWay); err != nil {
+		return nil, fmt.Errorf("error preparing query AddWayToCompositeWay: %w", err)
+	}
 	if q.countUsersStmt, err = db.PrepareContext(ctx, countUsers); err != nil {
 		return nil, fmt.Errorf("error preparing query CountUsers: %w", err)
 	}
@@ -158,6 +161,9 @@ func Prepare(ctx context.Context, db DBTX) (*Queries, error) {
 	}
 	if q.deleteWayCollectionsWaysByIdsStmt, err = db.PrepareContext(ctx, deleteWayCollectionsWaysByIds); err != nil {
 		return nil, fmt.Errorf("error preparing query DeleteWayCollectionsWaysByIds: %w", err)
+	}
+	if q.deleteWayFromCompositeWayStmt, err = db.PrepareContext(ctx, deleteWayFromCompositeWay); err != nil {
+		return nil, fmt.Errorf("error preparing query DeleteWayFromCompositeWay: %w", err)
 	}
 	if q.deleteWayTagFromWayStmt, err = db.PrepareContext(ctx, deleteWayTagFromWay); err != nil {
 		return nil, fmt.Errorf("error preparing query DeleteWayTagFromWay: %w", err)
@@ -308,6 +314,11 @@ func Prepare(ctx context.Context, db DBTX) (*Queries, error) {
 
 func (q *Queries) Close() error {
 	var err error
+	if q.addWayToCompositeWayStmt != nil {
+		if cerr := q.addWayToCompositeWayStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing addWayToCompositeWayStmt: %w", cerr)
+		}
+	}
 	if q.countUsersStmt != nil {
 		if cerr := q.countUsersStmt.Close(); cerr != nil {
 			err = fmt.Errorf("error closing countUsersStmt: %w", cerr)
@@ -531,6 +542,11 @@ func (q *Queries) Close() error {
 	if q.deleteWayCollectionsWaysByIdsStmt != nil {
 		if cerr := q.deleteWayCollectionsWaysByIdsStmt.Close(); cerr != nil {
 			err = fmt.Errorf("error closing deleteWayCollectionsWaysByIdsStmt: %w", cerr)
+		}
+	}
+	if q.deleteWayFromCompositeWayStmt != nil {
+		if cerr := q.deleteWayFromCompositeWayStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing deleteWayFromCompositeWayStmt: %w", cerr)
 		}
 	}
 	if q.deleteWayTagFromWayStmt != nil {
@@ -812,6 +828,7 @@ func (q *Queries) queryRow(ctx context.Context, stmt *sql.Stmt, query string, ar
 type Queries struct {
 	db                                          DBTX
 	tx                                          *sql.Tx
+	addWayToCompositeWayStmt                    *sql.Stmt
 	countUsersStmt                              *sql.Stmt
 	countWaysByTypeStmt                         *sql.Stmt
 	createCommentStmt                           *sql.Stmt
@@ -857,6 +874,7 @@ type Queries struct {
 	deleteWayStmt                               *sql.Stmt
 	deleteWayCollectionStmt                     *sql.Stmt
 	deleteWayCollectionsWaysByIdsStmt           *sql.Stmt
+	deleteWayFromCompositeWayStmt               *sql.Stmt
 	deleteWayTagFromWayStmt                     *sql.Stmt
 	getFavoriteForUserUuidsByWayIdStmt          *sql.Stmt
 	getFavoriteUserByDonorUserIdStmt            *sql.Stmt
@@ -911,6 +929,7 @@ func (q *Queries) WithTx(tx *sql.Tx) *Queries {
 	return &Queries{
 		db:                                          tx,
 		tx:                                          tx,
+		addWayToCompositeWayStmt:                    q.addWayToCompositeWayStmt,
 		countUsersStmt:                              q.countUsersStmt,
 		countWaysByTypeStmt:                         q.countWaysByTypeStmt,
 		createCommentStmt:                           q.createCommentStmt,
@@ -956,6 +975,7 @@ func (q *Queries) WithTx(tx *sql.Tx) *Queries {
 		deleteWayStmt:                               q.deleteWayStmt,
 		deleteWayCollectionStmt:                     q.deleteWayCollectionStmt,
 		deleteWayCollectionsWaysByIdsStmt:           q.deleteWayCollectionsWaysByIdsStmt,
+		deleteWayFromCompositeWayStmt:               q.deleteWayFromCompositeWayStmt,
 		deleteWayTagFromWayStmt:                     q.deleteWayTagFromWayStmt,
 		getFavoriteForUserUuidsByWayIdStmt:          q.getFavoriteForUserUuidsByWayIdStmt,
 		getFavoriteUserByDonorUserIdStmt:            q.getFavoriteUserByDonorUserIdStmt,

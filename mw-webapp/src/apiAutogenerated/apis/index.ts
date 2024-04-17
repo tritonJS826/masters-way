@@ -1,6 +1,7 @@
 // @ts-nocheck
 /* eslint-disable */
 export * from './CommentApi';
+export * from './CompositeWayApi';
 export * from './DayReportApi';
 export * from './FavoriteUserApi';
 export * from './FavoriteUserWayApi';

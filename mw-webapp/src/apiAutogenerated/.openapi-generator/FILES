@@ -1,4 +1,5 @@
 apis/CommentApi.ts
+apis/CompositeWayApi.ts
 apis/DayReportApi.ts
 apis/FavoriteUserApi.ts
 apis/FavoriteUserWayApi.ts
@@ -21,7 +22,9 @@ apis/WayCollectionWayApi.ts
 apis/WayTagApi.ts
 apis/index.ts
 index.ts
+models/SchemasAddWayToCompositeWayPayload.ts
 models/SchemasCommentPopulatedResponse.ts
+models/SchemasCompositeWayRelation.ts
 models/SchemasCreateCommentPayload.ts
 models/SchemasCreateDayReportPayload.ts
 models/SchemasCreateFavoriteUserPayload.ts

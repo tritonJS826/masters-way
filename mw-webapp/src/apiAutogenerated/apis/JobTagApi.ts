@@ -36,10 +36,6 @@ export interface DeleteJobTagRequest {
     jobTagId: string;
 }
 
-export interface GetJobTagsByWayUuidRequest {
-    wayId: string;
-}
-
 export interface UpdateJobTagRequest {
     jobTagId: string;
     request: SchemasUpdateJobTagPayload;
@@ -110,36 +106,6 @@ export class JobTagApi extends runtime.BaseAPI {
      */
     async deleteJobTag(requestParameters: DeleteJobTagRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.deleteJobTagRaw(requestParameters, initOverrides);
-    }
-
-    /**
-     * Get jobTags by user UUID
-     */
-    async getJobTagsByWayUuidRaw(requestParameters: GetJobTagsByWayUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<SchemasJobTagResponse>>> {
-        if (requestParameters.wayId === null || requestParameters.wayId === undefined) {
-            throw new runtime.RequiredError('wayId','Required parameter requestParameters.wayId was null or undefined when calling getJobTagsByWayUuid.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/jobTags/{wayId}`.replace(`{${"wayId"}}`, encodeURIComponent(String(requestParameters.wayId))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(SchemasJobTagResponseFromJSON));
-    }
-
-    /**
-     * Get jobTags by user UUID
-     */
-    async getJobTagsByWayUuid(requestParameters: GetJobTagsByWayUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<SchemasJobTagResponse>> {
-        const response = await this.getJobTagsByWayUuidRaw(requestParameters, initOverrides);
-        return await response.value();
     }
 
     /**

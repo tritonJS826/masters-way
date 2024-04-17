@@ -1,6 +1,8 @@
 // @ts-nocheck
 /* eslint-disable */
+export * from './SchemasAddWayToCompositeWayPayload';
 export * from './SchemasCommentPopulatedResponse';
+export * from './SchemasCompositeWayRelation';
 export * from './SchemasCreateCommentPayload';
 export * from './SchemasCreateDayReportPayload';
 export * from './SchemasCreateFavoriteUserPayload';

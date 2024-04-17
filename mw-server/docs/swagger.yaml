@@ -1,5 +1,15 @@
 basePath: /api
 definitions:
+  schemas.AddWayToCompositeWayPayload:
+    properties:
+      childWayUuid:
+        type: string
+      parentWayUuid:
+        type: string
+    required:
+    - childWayUuid
+    - parentWayUuid
+    type: object
   schemas.CommentPopulatedResponse:
     properties:
       createdAt:
@@ -24,6 +34,16 @@ definitions:
     - ownerUuid
     - updatedAt
     - uuid
+    type: object
+  schemas.CompositeWayRelation:
+    properties:
+      childWayUuid:
+        type: string
+      parentWayUuid:
+        type: string
+    required:
+    - childWayUuid
+    - parentWayUuid
     type: object
   schemas.CreateCommentPayload:
     properties:
@@ -975,6 +995,52 @@ paths:
       summary: Update comment by UUID
       tags:
       - comment
+  /compositeWay:
+    post:
+      consumes:
+      - application/json
+      operationId: create-compositeWay
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.AddWayToCompositeWayPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.CompositeWayRelation'
+      summary: Add a way to composite way
+      tags:
+      - compositeWay
+  /compositeWay/{parentWayId}/{childWayId}:
+    delete:
+      consumes:
+      - application/json
+      operationId: delete-compositeWay relation
+      parameters:
+      - description: parentWay ID
+        in: path
+        name: parentWayId
+        required: true
+        type: string
+      - description: childWay ID
+        in: path
+        name: childWayId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Delete composite way relation
+      tags:
+      - compositeWay
   /dayReports:
     post:
       consumes:
@@ -1398,29 +1464,6 @@ paths:
           schema:
             $ref: '#/definitions/schemas.JobTagResponse'
       summary: Update jobTag by UUID
-      tags:
-      - jobTag
-  /jobTags/{wayId}:
-    get:
-      consumes:
-      - application/json
-      operationId: get-jobTags-by-Way-uuid
-      parameters:
-      - description: way UUID
-        in: path
-        name: wayId
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/schemas.JobTagResponse'
-            type: array
-      summary: Get jobTags by user UUID
       tags:
       - jobTag
   /metrics:

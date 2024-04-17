@@ -117,6 +117,76 @@ const docTemplate = `{
                 }
             }
         },
+        "/compositeWay": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "compositeWay"
+                ],
+                "summary": "Add a way to composite way",
+                "operationId": "create-compositeWay",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.AddWayToCompositeWayPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CompositeWayRelation"
+                        }
+                    }
+                }
+            }
+        },
+        "/compositeWay/{parentWayId}/{childWayId}": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "compositeWay"
+                ],
+                "summary": "Delete composite way relation",
+                "operationId": "delete-compositeWay relation",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "parentWay ID",
+                        "name": "parentWayId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "childWay ID",
+                        "name": "childWayId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
         "/dayReports": {
             "post": {
                 "consumes": [
@@ -760,41 +830,6 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/schemas.JobTagResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/jobTags/{wayId}": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "jobTag"
-                ],
-                "summary": "Get jobTags by user UUID",
-                "operationId": "get-jobTags-by-Way-uuid",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "way UUID",
-                        "name": "wayId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/schemas.JobTagResponse"
-                            }
                         }
                     }
                 }
@@ -2148,6 +2183,21 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "schemas.AddWayToCompositeWayPayload": {
+            "type": "object",
+            "required": [
+                "childWayUuid",
+                "parentWayUuid"
+            ],
+            "properties": {
+                "childWayUuid": {
+                    "type": "string"
+                },
+                "parentWayUuid": {
+                    "type": "string"
+                }
+            }
+        },
         "schemas.CommentPopulatedResponse": {
             "type": "object",
             "required": [
@@ -2179,6 +2229,21 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.CompositeWayRelation": {
+            "type": "object",
+            "required": [
+                "childWayUuid",
+                "parentWayUuid"
+            ],
+            "properties": {
+                "childWayUuid": {
+                    "type": "string"
+                },
+                "parentWayUuid": {
                     "type": "string"
                 }
             }
