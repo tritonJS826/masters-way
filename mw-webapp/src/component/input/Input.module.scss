@@ -29,8 +29,7 @@ $paddingLarge: 25px;
   left: $leftPosition;
   top: 50%;
   transform: translateY(-50%);
-  fill: var(--inactiveTextColor);
-  stroke: none;
+  stroke: var(--inactiveTextColor);
 }
 
 .inputFilter {
