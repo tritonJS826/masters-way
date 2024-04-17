@@ -237,5 +237,9 @@ func main() {
 		ctx.JSON(http.StatusNotFound, gin.H{"status": "failed", "message": fmt.Sprintf("The specified route %s not found", ctx.Request.URL)})
 	})
 
-	log.Fatal(server.Run(":" + config.ServerAddress))
+	if config.EnvType == "prod" {
+		log.Fatal(server.RunTLS(":"+config.ServerAddress, "./server.crt", "./server.key"))
+	} else {
+		log.Fatal(server.Run(":" + config.ServerAddress))
+	}
 }
