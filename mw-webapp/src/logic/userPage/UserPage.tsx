@@ -411,14 +411,14 @@ export const UserPage = (props: UserPageProps) => {
           <Confirm
             trigger={
               <Button
-                value="Delete current collection"
+                value={LanguageService.user.collections.deleteCollection[language]}
                 onClick={() => {}}
                 buttonType={ButtonType.SECONDARY}
                 className={styles.button}
               />
             }
             content={<p>
-              {`Are you sure you want to delete collection "${currentCollection.name}" ?`}
+              {`${LanguageService.user.collections.deleteCollectionModalQuestion[language]} "${currentCollection.name}" ?`}
             </p>}
             onOk={() => deleteCustomWayCollections(currentCollection.uuid)}
             okText="Ok"
@@ -437,7 +437,7 @@ export const UserPage = (props: UserPageProps) => {
             }
             trigger={
               <Button
-                value="Rename collection"
+                value={LanguageService.user.collections.renameCollection[language]}
                 onClick={() => setIsRenameCollectionModalOpen(true)}
               />
             }

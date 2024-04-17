@@ -91,8 +91,6 @@ export const wayDTOToWay = (wayDTO: SchemasWayPopulatedResponse): Way => {
     }),
     createdAt: new Date(wayDTO.createdAt),
     lastUpdate: new Date(wayDTO.updatedAt),
-    children: wayDTO.children.map((child) => {
-      return wayDTOToWay(child);
-    }),
+    children: wayDTO.children.map(wayDTOToWay),
   });
 };

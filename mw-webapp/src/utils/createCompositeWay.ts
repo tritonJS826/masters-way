@@ -6,32 +6,30 @@ import {DateUtils} from "src/utils/DateUtils";
  * Create composite way from array of ways
  */
 export const createCompositeWay = (way: Way): Way => {
-  const allDayReports = way.children.flatMap((wayChild) => wayChild.dayReports);
-  const dayReportsSorted = allDayReports.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+  const allDayReports = way.children.flatMap((wayChild) => wayChild.dayReports).concat(way.dayReports);
 
   const dayReportsHashMap = new Map();
 
-  dayReportsSorted.forEach((dayReportSorted) => {
+  allDayReports.forEach((oldDayReport) => {
 
-    const dayReport = dayReportsHashMap.get(DateUtils.getShortISODateValue(dayReportSorted.createdAt));
+    const dayReport = dayReportsHashMap.get(DateUtils.getShortISODateValue(oldDayReport.createdAt));
 
-    if (dayReport) {
-      const updatedDayReport = new DayReport({
+    const updatedDayReport = dayReport
+      ? new DayReport({
         ...dayReport,
-        jobsDone: [...dayReport.jobsDone, ...dayReportSorted.jobsDone],
-        plans: [...dayReport.plans, ...dayReportSorted.plans],
-        problems: [...dayReport.problems, ...dayReportSorted.problems],
-        comments: [...dayReport.comments, ...dayReportSorted.comments],
-      });
-      dayReportsHashMap.set(DateUtils.getShortISODateValue(dayReportSorted.createdAt), updatedDayReport);
-    } else {
-      dayReportsHashMap.set(DateUtils.getShortISODateValue(dayReportSorted.createdAt), dayReportSorted);
-    }
+        jobsDone: [...dayReport.jobsDone, ...oldDayReport.jobsDone],
+        plans: [...dayReport.plans, ...oldDayReport.plans],
+        problems: [...dayReport.problems, ...oldDayReport.problems],
+        comments: [...dayReport.comments, ...oldDayReport.comments],
+      })
+      : oldDayReport;
+
+    dayReportsHashMap.set(DateUtils.getShortISODateValue(oldDayReport.createdAt), updatedDayReport);
   });
 
   const dayReportsComposite = Array.from(dayReportsHashMap.values());
 
-  const jobTagsComposite = way.children.flatMap((wayChild) => wayChild.jobTags);
+  const jobTagsComposite = way.children.flatMap((wayChild) => wayChild.jobTags).concat(way.jobTags);
 
   const compositeWay = new Way({
     ...way,

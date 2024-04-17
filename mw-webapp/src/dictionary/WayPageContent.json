@@ -231,6 +231,24 @@
       "ua": "Статистика",
       "ka": "სტატისტიკა"
     },
+    "areaChartBlockTitle": {
+      "ru": "Метрики",
+      "en": "Metrics",
+      "ua": "Метрики",
+      "ka": "მეტრიკა"
+    },
+    "overallInformationTitle": {
+      "ru": "Общая информация",
+      "en": "Overall information",
+      "ua": "Загальна інформація",
+      "ka": "საერთო ინფორმაცია"
+    },
+    "labelsStatisticTitle": {
+      "ru": "Статистика меток",
+      "en": "Labels statistic",
+      "ua": "Статистика міток",
+      "ka": "ეტიკეტების სტატისტიკა"
+    },
     "clickToHideStatistics": {
       "ru": "Нажми, чтобы скрыть блок статистики",
       "en": "Click to hide statistics block",

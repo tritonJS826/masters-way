@@ -869,7 +869,7 @@ export const WayPage = (props: WayPageProps) => {
             />
           </HorizontalContainer>
           <WayActiveStatistic
-            dayReports={way.dayReports}
+            dayReports={compositeWay.dayReports}
             wayCreatedAt={way.createdAt}
             isVisible={wayPageSettings.isStatisticsVisible}
           />
@@ -919,7 +919,7 @@ export const WayPage = (props: WayPageProps) => {
       }
 
       <DayReportsTable
-        way={isWayComposite ? compositeWay : way}
+        way={compositeWay}
         setDayReports={setDayReports}
         createDayReport={createDayReport}
       />

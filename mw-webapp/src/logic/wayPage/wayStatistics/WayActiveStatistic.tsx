@@ -127,7 +127,8 @@ export const WayActiveStatistic = (props: WayStatisticProps) => {
 
   const averageTimeForJob = totalWayTime ? Math.round(totalWayTime / allJobs.length) : 0;
 
-  const lastWeekDayReports = props.dayReports.filter((dayReport) => DateUtils.roundToDate(dayReport.createdAt) > lastWeekDate);
+  const lastWeekDayReports = props.dayReports
+    .filter((dayReport) => DateUtils.roundToDate(dayReport.createdAt) > startDateLastWeek);
 
   const lastWeekJobs = lastWeekDayReports.flatMap(report => report.jobsDone);
 
@@ -137,7 +138,7 @@ export const WayActiveStatistic = (props: WayStatisticProps) => {
 
   const averageTimeForJobLastWeek = lastWeekTime ? Math.round(lastWeekTime / lastWeekJobs.length) : 0;
 
-  const amountDaysLastWeek = props.wayCreatedAt > lastWeekDate ? lastWeekDayReports.length : AMOUNT_DAYS_IN_WEEK;
+  const amountDaysLastWeek = props.wayCreatedAt > startDateLastWeek ? lastWeekDayReports.length : AMOUNT_DAYS_IN_WEEK;
 
   const lastCalendarWeekAverageWorkingTime = amountDaysLastWeek ? Math.round(lastCalendarWeekTotalTime / amountDaysLastWeek) : 0;
 
@@ -181,7 +182,6 @@ export const WayActiveStatistic = (props: WayStatisticProps) => {
   ];
 
   const totalStatisticItemsSecondary = [
-    // TotalDaysOnWayStatisticItem,
     averageWorkingTimeInDayStatisticItem,
     averageWorkingTimeInRecordsStatisticItem,
     averageTimeForJobStatisticItem,
