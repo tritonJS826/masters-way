@@ -249,10 +249,6 @@ export const WayStatistic = (props: WayStatisticProps) => {
     allJobsStatisticItemLastMonth,
   ];
 
-  // Const lastCalendarWeekTotalTimeStatisticItem: StatisticItem = {
-  //   text: LanguageService.way.statisticsBlock.totalTime[language],
-  //   value: lastCalendarWeekTotalTime,
-  // };
   const lastCalendarWeekAverageWorkingTimeStatisticItem: StatisticItem = {
     text: LanguageService.way.statisticsBlock.averageTimePerCalendarDay[language],
     value: lastCalendarWeekAverageWorkingTime,

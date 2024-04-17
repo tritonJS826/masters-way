@@ -185,7 +185,6 @@ export const ReportsTableJobsDoneCell = (props: ReportsTableJobsDoneCellProps) =
             className={styles.numberedListItem}
           >
             <HorizontalContainer className={clsx(styles.horizontalContainer, styles.listNumberAndName)}>
-              {/* {getListNumberByIndex(index)} */}
               <HorizontalContainer className={styles.listNumberAndName}>
                 {getListNumberByIndex(index)}
                 <Link path={pages.user.getPath({uuid: jobDone.ownerUuid})}>

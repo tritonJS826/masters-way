@@ -148,11 +148,6 @@ export const WayActiveStatistic = (props: WayStatisticProps) => {
   const allTagStats = getTagStats(allJobs);
   const lastWeekTagStats = getTagStats(lastWeekJobs);
 
-  // Const totalDaysOnWayStatisticItem: StatisticItem = {
-  //   text: LanguageService.way.statisticsBlock.daysFromStart[language],
-  //   value: totalDaysOnWay,
-  // };
-
   const totalRecordsAmountStatisticItem: StatisticItem = {
     text: LanguageService.way.statisticsBlock.totalRecords[language],
     value: totalRecordsAmount,

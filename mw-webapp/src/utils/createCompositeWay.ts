@@ -5,8 +5,8 @@ import {DateUtils} from "src/utils/DateUtils";
 /**
  * Create composite way from array of ways
  */
-export const createCompositeWay = (compositeWay: Way): Way => {
-  const allDayReports = compositeWay.children.flatMap((way) => way.dayReports);
+export const createCompositeWay = (way: Way): Way => {
+  const allDayReports = way.children.flatMap((wayChild) => wayChild.dayReports);
   const dayReportsSorted = allDayReports.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 
   const dayReportsHashMap = new Map();
@@ -31,14 +31,14 @@ export const createCompositeWay = (compositeWay: Way): Way => {
 
   const dayReportsComposite = Array.from(dayReportsHashMap.values());
 
-  const jobTagsComposite = compositeWay.children.flatMap((way) => way.jobTags);
+  const jobTagsComposite = way.children.flatMap((wayChild) => wayChild.jobTags);
 
-  const x = new Way({
-    ...compositeWay,
+  const compositeWay = new Way({
+    ...way,
     dayReports: dayReportsComposite,
     jobTags: jobTagsComposite,
   });
 
-  return x;
+  return compositeWay;
 
 };
