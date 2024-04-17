@@ -6,6 +6,7 @@ import {EditableText} from "src/component/editableText/EditableText";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
+import {Link} from "src/component/link/Link";
 import {Modal} from "src/component/modal/Modal";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
@@ -16,10 +17,12 @@ import {JobDoneTags} from "src/logic/wayPage/reportsTable/jobDoneTags/JobDoneTag
 import {ModalContentJobTags} from "src/logic/wayPage/reportsTable/modalContentJobTags/ModalContentJobTags";
 import {DEFAULT_SUMMARY_TIME, getListNumberByIndex, getValidatedTime, MAX_TIME, MIN_TIME}
   from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
+import {getFirstName} from "src/logic/waysTable/waysColumns";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {User} from "src/model/businessModel/User";
 import {JobTag} from "src/model/businessModelPreview/WayPreview";
+import {pages} from "src/router/pages";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
 import styles from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableJobsDoneCell/ReportsTableJobsDoneCell.module.scss";
@@ -182,7 +185,13 @@ export const ReportsTableJobsDoneCell = (props: ReportsTableJobsDoneCellProps) =
             className={styles.numberedListItem}
           >
             <HorizontalContainer className={clsx(styles.horizontalContainer, styles.listNumberAndName)}>
-              {getListNumberByIndex(index)}
+              {/* {getListNumberByIndex(index)} */}
+              <HorizontalContainer className={styles.listNumberAndName}>
+                {getListNumberByIndex(index)}
+                <Link path={pages.user.getPath({uuid: jobDone.ownerUuid})}>
+                  {getFirstName(jobDone.ownerName)}
+                </Link>
+              </HorizontalContainer>
               <HorizontalContainer className={styles.icons}>
                 {props.isEditable ?
                   <Modal

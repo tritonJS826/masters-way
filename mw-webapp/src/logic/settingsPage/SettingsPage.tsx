@@ -5,6 +5,7 @@ import {Select} from "src/component/select/Select";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
+import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {useGlobalContext} from "src/GlobalContext";
 import {LanguageService} from "src/service/LangauageService";
 import {OSNotification} from "src/utils/notifications/OSNotification";
@@ -17,7 +18,7 @@ export const SettingsPage = () => {
   const {notification, language, setLanguage} = useGlobalContext();
 
   return (
-    <>
+    <VerticalContainer className={styles.container}>
       <Title
         level={HeadingLevel.h2}
         text={LanguageService.settings.title[language]}
@@ -70,6 +71,6 @@ export const SettingsPage = () => {
           </Tooltip>
         </HorizontalContainer>
       </div>
-    </>
+    </VerticalContainer>
   );
 };

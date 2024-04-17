@@ -6,49 +6,37 @@ import {DateUtils} from "src/utils/DateUtils";
  * Create composite way from array of ways
  */
 export const createCompositeWay = (compositeWay: Way): Way => {
-  // FlatMap or reduce
+  const allDayReports = compositeWay.children.flatMap((way) => way.dayReports);
+  const dayReportsSorted = allDayReports.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 
-  const dayReportsComposite = compositeWay.children.flatMap((way) => way.dayReports);
-  const dayReportsSorted = dayReportsComposite.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+  const dayReportsHashMap = new Map();
 
-  const combinedDayReports: DayReport[] = [];
+  dayReportsSorted.forEach((dayReportSorted) => {
 
-  dayReportsSorted.forEach(dayReport => {
-    const date = DateUtils.getShortISODateValue(dayReport.createdAt);
+    const dayReport = dayReportsHashMap.get(DateUtils.getShortISODateValue(dayReportSorted.createdAt));
 
-    const combinedDayReportsIncludeDayReport = combinedDayReports
-      .find(combinedObject => DateUtils.getShortISODateValue(combinedObject.createdAt) === date);
-
-    if (!combinedDayReportsIncludeDayReport) {
-      combinedDayReports.push(dayReport);
-      // Console.log("1");
+    if (dayReport) {
+      const updatedDayReport = new DayReport({
+        ...dayReport,
+        jobsDone: [...dayReport.jobsDone, ...dayReportSorted.jobsDone],
+        plans: [...dayReport.plans, ...dayReportSorted.plans],
+        problems: [...dayReport.problems, ...dayReportSorted.problems],
+        comments: [...dayReport.comments, ...dayReportSorted.comments],
+      });
+      dayReportsHashMap.set(DateUtils.getShortISODateValue(dayReportSorted.createdAt), updatedDayReport);
     } else {
-      // Console.log("2");
-
-      combinedDayReportsIncludeDayReport.jobsDone.push(dayReport.jobsDone[0]);
-      // CombinedDayReportsIncludeDayReport.jobsDone.concat(dayReport.jobsDone);
-      // combinedDayReportsIncludeDayReport.jobsDone.concat(...dayReport.jobsDone);
-
-      // console.log(combinedDayReportsIncludeDayReport.jobsDone);
-
-      // CombinedDayReportsIncludeDayReport.comments = combinedDayReportsIncludeDayReport.comments.concat(dayReport.comments);
-      // combinedDayReportsIncludeDayReport.jobsDone = [...combinedDayReportsIncludeDayReport.jobsDone, ...dayReport.jobsDone];
-      // CombinedDayReportsIncludeDayReport.problems = combinedDayReportsIncludeDayReport.problems.concat(dayReport.problems);
-      // combinedDayReportsIncludeDayReport.plans = combinedDayReportsIncludeDayReport.plans.concat(dayReport.plans);
+      dayReportsHashMap.set(DateUtils.getShortISODateValue(dayReportSorted.createdAt), dayReportSorted);
     }
-
   });
+
+  const dayReportsComposite = Array.from(dayReportsHashMap.values());
 
   const jobTagsComposite = compositeWay.children.flatMap((way) => way.jobTags);
 
-  // Console.log(dayReportsSorted, combinedDayReports, jobTagsComposite);
-
   const x = new Way({
     ...compositeWay,
-    dayReports: combinedDayReports,
+    dayReports: dayReportsComposite,
     jobTags: jobTagsComposite,
-    // Children: [],
-
   });
 
   return x;

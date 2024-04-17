@@ -1,5 +1,9 @@
 @import "src/styles/variables";
 
+.container {
+  padding: 0 $paddingMedium;
+}
+
 .settingsList {
   display: inline-flex;
   flex-direction: column;
