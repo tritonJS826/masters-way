@@ -15,22 +15,6 @@ export enum InputType {
 }
 
 /**
- * InputIcon
- */
-interface InputIcon {
-
-  /**
-   * InputIcon name
-   */
-  name: keyof typeof IconDictionary;
-
-  /**
-   * InputIcon size
-   */
-  size: IconSize;
-}
-
-/**
  * Input's props
  */
 interface InputProps<T extends string | number> {
@@ -113,7 +97,7 @@ interface InputProps<T extends string | number> {
   /**
    * TypeInputIcon
    */
-  typeInputIcon?: InputIcon;
+  typeInputIcon?: keyof typeof IconDictionary;
 
   /**
    * TypeInputIcon
@@ -157,8 +141,8 @@ export const Input = <T extends string | number>(props: InputProps<T>) => {
     <div className={styles.inputWrapper}>
       {props.typeInputIcon && (
         <Icon
-          size={props.typeInputIcon.size}
-          name={props.typeInputIcon.name}
+          size={IconSize.SMALL}
+          name={props.typeInputIcon}
           className={styles.inputIcon}
         />
       )}

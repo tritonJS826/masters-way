@@ -132,12 +132,7 @@ export const AllUsersPage = () => {
             onChange={setEmail}
             placeholder={LanguageService.allUsers.filterBlock.emailPlaceholder[language]}
             className={styles.inputFilter}
-            typeInputIcon={
-              {
-                name: "SearchIcon",
-                size: IconSize.SMALL,
-              }
-            }
+            typeInputIcon={"SearchIcon"}
             typeInput={InputType.Border}
           />
           <Input
@@ -145,12 +140,7 @@ export const AllUsersPage = () => {
             onChange={setName}
             placeholder={LanguageService.allUsers.filterBlock.namePlaceholder[language]}
             className={styles.inputFilter}
-            typeInputIcon={
-              {
-                name: "SearchIcon",
-                size: IconSize.SMALL,
-              }
-            }
+            typeInputIcon={"SearchIcon"}
             typeInput={InputType.Border}
           />
         </HorizontalContainer>
