@@ -2,11 +2,13 @@ import {AreaChart} from "src/component/chart/AreaChart";
 import {BarChart} from "src/component/chart/blockChart/BarChart";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {useGlobalContext} from "src/GlobalContext";
 import {JobTagStat} from "src/logic/wayPage/wayStatistics/JobTagStat";
 import {StatisticBlock, StatisticBlockType} from "src/logic/wayPage/wayStatistics/statisticBlock/StatisticBlock";
 import {StatisticItem} from "src/logic/wayPage/wayStatistics/statisticBlock/statisticItem/StatisticItem";
 import {StatisticLabels} from "src/logic/wayPage/wayStatistics/statisticLabels/StatisticLabels";
 import {StatisticWidget} from "src/logic/wayPage/wayStatistics/statisticWidget/StatisticWidget";
+import {LanguageService} from "src/service/LangauageService";
 import styles from "src/logic/wayPage/wayStatistics/StatisticPeriod.module.scss";
 
 /**
@@ -65,6 +67,8 @@ interface StatisticPeriodProps {
  * Statistic block for period
  */
 export const StatisticPeriod = (props: StatisticPeriodProps) => {
+  const {language} = useGlobalContext();
+
   return (
     <VerticalContainer className={styles.statisticContainer}>
       <Title
@@ -73,7 +77,7 @@ export const StatisticPeriod = (props: StatisticPeriodProps) => {
       />
       {!!props.totalWayTime &&
       <StatisticWidget
-        title="Metrics"
+        title={LanguageService.way.statisticsBlock.areaChartBlockTitle[language]}
         isEditable={props.isCheckboxShown}
       >
         <AreaChart
@@ -84,7 +88,7 @@ export const StatisticPeriod = (props: StatisticPeriodProps) => {
       </StatisticWidget>
       }
       <StatisticWidget
-        title="Overall information"
+        title={LanguageService.way.statisticsBlock.overallInformationTitle[language]}
         isEditable={props.isCheckboxShown}
       >
         {props.totalStatisticItemsPrimary &&
@@ -103,7 +107,7 @@ export const StatisticPeriod = (props: StatisticPeriodProps) => {
 
       {props.allTagStats.length !== 0 &&
       <StatisticWidget
-        title="Labels statistic"
+        title={LanguageService.way.statisticsBlock.labelsStatisticTitle[language]}
         isEditable={props.isCheckboxShown}
       >
         {!!props.totalWayTime &&

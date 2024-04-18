@@ -37,6 +37,24 @@
       "en": "Add collection",
       "ua": "Додати колекцію",
       "ka": "კოლექციის დამატება"
+    },
+    "renameCollection": {
+      "ru": "Переименовать коллекцию",
+      "en": "Rename collection",
+      "ua": "Перейменувати колекцію",
+      "ka": "კოლექციის გადარქმევა"
+    },
+    "deleteCollection": {
+      "ru": "Удалить коллекцию",
+      "en": "Delete collection",
+      "ua": "Видалити колекцію",
+      "ka": "კოლექციის წაშლა"
+    },
+    "deleteCollectionModalQuestion": {
+      "ru": "Вы уверены, что хотите удалить коллекцию?",
+      "en": "Are you sure you want to delete collection",
+      "ua": "Ви впевнені, що хочете видалити колекцію?",
+      "ka": "დარწმუნებული ხართ, რომ გსურთ კოლექციის წაშლა"
     }
   },
   "filterBlock": {

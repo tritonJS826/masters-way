@@ -86,6 +86,22 @@
   }
 }
 
+.iconButtonWithoutBorder {
+  background-color: var(--secondaryBackgroundButtonColor);
+  // color: var(--secondaryTextButtonColor);
+
+  &:hover {
+    background-color: var(--secondaryHoverButtonColor);
+    color: var(--secondaryTextButtonColor);
+  }
+
+  &:active {
+    border: 1px var(--tertiaryBorderColor) solid;
+    background-color: var(--secondaryActiveButtonColor);
+    color: var(--tertiaryTextButtonColor);
+  }
+}
+
 .tertiary {
   background-color: transparent;
   color: var(--primaryTextColor);

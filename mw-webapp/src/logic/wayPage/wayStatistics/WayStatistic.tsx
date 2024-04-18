@@ -96,8 +96,8 @@ export const WayStatistic = (props: WayStatisticProps) => {
   const startDateLastWeek = props.wayCreatedAt <= DateUtils.getLastDate(AMOUNT_DAYS_IN_WEEK, lastDate)
     ? DateUtils.getLastDate(AMOUNT_DAYS_IN_WEEK, lastDate)
     : startDate;
-  const startDateLastMonth = props.wayCreatedAt <= DateUtils.getLastDate(AMOUNT_DAYS_IN_WEEK, lastMonthDate)
-    ? DateUtils.getLastDate(AMOUNT_DAYS_IN_WEEK, lastMonthDate)
+  const startDateLastMonth = props.wayCreatedAt <= DateUtils.getLastDate(AMOUNT_DAYS_IN_MONTH, lastMonthDate)
+    ? DateUtils.getLastDate(AMOUNT_DAYS_IN_MONTH, lastMonthDate)
     : startDate;
   const datesWithJobTotalTime: Map<string, number> = new Map(props.dayReports.map((report) => {
     const jobDoneTotalTime = report.jobsDone.reduce((totalTime, jobDone) => totalTime + jobDone.time, 0);
@@ -129,13 +129,14 @@ export const WayStatistic = (props: WayStatisticProps) => {
 
   const averageTimeForJob = totalWayTime ? Math.round(totalWayTime / allJobs.length) : 0;
 
-  const lastWeekDayReports = props.dayReports.filter((dayReport) => DateUtils.roundToDate(dayReport.createdAt) > lastWeekDate);
+  const lastWeekDayReports = props.dayReports
+    .filter((dayReport) => DateUtils.roundToDate(dayReport.createdAt) > startDateLastWeek);
 
   const lastWeekJobs = lastWeekDayReports.flatMap(report => report.jobsDone);
 
   const lastCalendarWeekTotalTime = lastWeekJobs.reduce((totalTime, jobDone) => totalTime + jobDone.time, 0);
 
-  const amountDaysLastWeek = props.wayCreatedAt > lastWeekDate ? lastWeekDayReports.length : AMOUNT_DAYS_IN_WEEK;
+  const amountDaysLastWeek = props.wayCreatedAt > startDateLastWeek ? lastWeekDayReports.length : AMOUNT_DAYS_IN_WEEK;
 
   const lastCalendarWeekAverageWorkingTime = amountDaysLastWeek ? Math.round(lastCalendarWeekTotalTime / amountDaysLastWeek) : 0;
 
@@ -143,14 +144,19 @@ export const WayStatistic = (props: WayStatisticProps) => {
     ? Math.round(lastCalendarWeekTotalTime / lastWeekDayReports.length)
     : 0;
 
+  const lastWeekTime = lastWeekJobs.reduce((totalTime, jobDone) => totalTime + jobDone.time, 0);
+  const averageTimeForJobLastWeek = lastWeekTime ? Math.round(lastWeekTime / lastWeekJobs.length) : 0;
+
   const lastMonthDayReports = props.dayReports.filter((dayReport) =>
-    DateUtils.roundToDate(dayReport.createdAt) > lastMonthDate);
+    DateUtils.roundToDate(dayReport.createdAt) > startDateLastMonth);
 
   const lastMonthJobs = lastMonthDayReports.flatMap(report => report.jobsDone);
 
+  const lastMonthTime = lastMonthJobs.reduce((totalTime, jobDone) => totalTime + jobDone.time, 0);
+
   const lastCalendarMonthTotalTime = lastMonthJobs.reduce((totalTime, jobDone) => totalTime + jobDone.time, 0);
 
-  const amountDaysLastMonth = props.wayCreatedAt > lastMonthDate ? lastMonthDayReports.length : AMOUNT_DAYS_IN_MONTH;
+  const amountDaysLastMonth = props.wayCreatedAt > startDateLastMonth ? lastMonthDayReports.length : AMOUNT_DAYS_IN_MONTH;
 
   const lastCalendarMonthAverageWorkingTime = lastCalendarMonthTotalTime
     ? Math.round(lastCalendarMonthTotalTime / amountDaysLastMonth)
@@ -163,11 +169,6 @@ export const WayStatistic = (props: WayStatisticProps) => {
   const allTagStats = getTagStats(allJobs);
   const lastWeekTagStats = getTagStats(lastWeekJobs);
   const lastMonthTagStats = getTagStats(lastMonthJobs);
-
-  const totalDaysOnWayStatisticItem: StatisticItem = {
-    text: LanguageService.way.statisticsBlock.daysFromStart[language],
-    value: totalDaysOnWay,
-  };
 
   const totalRecordsAmountStatisticItem: StatisticItem = {
     text: LanguageService.way.statisticsBlock.totalRecords[language],
@@ -196,13 +197,12 @@ export const WayStatistic = (props: WayStatisticProps) => {
   };
 
   const totalStatisticItemsPrimary = [
-    allJobsStatisticItem,
-    totalRecordsAmountStatisticItem,
     totalWayTimeStatisticItem,
+    totalRecordsAmountStatisticItem,
+    allJobsStatisticItem,
   ];
 
   const totalStatisticItemsSecondary = [
-    totalDaysOnWayStatisticItem,
     averageWorkingTimeInDayStatisticItem,
     averageWorkingTimeInRecordsStatisticItem,
     averageTimeForJobStatisticItem,
@@ -228,10 +228,27 @@ export const WayStatistic = (props: WayStatisticProps) => {
     lastCalendarMonthAverageJobTimeStatisticItem,
   ];
 
-  const lastCalendarWeekTotalTimeStatisticItem: StatisticItem = {
+  const totalWayTimeStatisticItemLastMonth: StatisticItem = {
     text: LanguageService.way.statisticsBlock.totalTime[language],
-    value: lastCalendarWeekTotalTime,
+    value: lastMonthTime,
   };
+
+  const totalRecordsAmountStatisticItemLastMonth: StatisticItem = {
+    text: LanguageService.way.statisticsBlock.totalRecords[language],
+    value: lastMonthDayReports.length,
+  };
+
+  const allJobsStatisticItemLastMonth: StatisticItem = {
+    text: LanguageService.way.statisticsBlock.totalFinishedJobs[language],
+    value: lastMonthJobs.length,
+  };
+
+  const totalStatisticItemsLastMonthPrimary = [
+    totalWayTimeStatisticItemLastMonth,
+    totalRecordsAmountStatisticItemLastMonth,
+    allJobsStatisticItemLastMonth,
+  ];
+
   const lastCalendarWeekAverageWorkingTimeStatisticItem: StatisticItem = {
     text: LanguageService.way.statisticsBlock.averageTimePerCalendarDay[language],
     value: lastCalendarWeekAverageWorkingTime,
@@ -242,10 +259,36 @@ export const WayStatistic = (props: WayStatisticProps) => {
     value: lastCalendarWeekAverageJobTime,
   };
 
+  const totalWayTimeStatisticItemLastWeek: StatisticItem = {
+    text: LanguageService.way.statisticsBlock.totalTime[language],
+    value: lastWeekTime,
+  };
+
+  const totalRecordsAmountStatisticItemLastWeek: StatisticItem = {
+    text: LanguageService.way.statisticsBlock.totalRecords[language],
+    value: lastWeekDayReports.length,
+  };
+
+  const allJobsStatisticItemLastWeek: StatisticItem = {
+    text: LanguageService.way.statisticsBlock.totalFinishedJobs[language],
+    value: lastWeekJobs.length,
+  };
+
+  const averageTimeForJobStatisticItemLastWeek: StatisticItem = {
+    text: LanguageService.way.statisticsBlock.averageJobTime[language],
+    value: averageTimeForJobLastWeek,
+  };
+
+  const statisticItemsLastWeekPrimary = [
+    totalWayTimeStatisticItemLastWeek,
+    totalRecordsAmountStatisticItemLastWeek,
+    allJobsStatisticItemLastWeek,
+  ];
+
   const statisticItemsLastWeek = [
-    lastCalendarWeekTotalTimeStatisticItem,
     lastCalendarWeekAverageWorkingTimeStatisticItem,
     lastCalendarWeekAverageJobTimeStatisticItem,
+    averageTimeForJobStatisticItemLastWeek,
   ];
 
   return (
@@ -268,7 +311,7 @@ export const WayStatistic = (props: WayStatisticProps) => {
         datesWithJobTotalTime={datesWithJobTotalTime}
         lastDate={lastDate}
         startDate={startDateLastMonth}
-        // TotalStatisticItemsPrimary={totalStatisticItemsPrimary}
+        totalStatisticItemsPrimary={totalStatisticItemsLastMonthPrimary}
         totalStatisticItemsSecondary={statisticItemsLastMonth}
         totalWayTime={totalWayTime}
         isCheckboxShown={true}
@@ -280,7 +323,7 @@ export const WayStatistic = (props: WayStatisticProps) => {
         datesWithJobTotalTime={datesWithJobTotalTime}
         lastDate={lastDate}
         startDate={startDateLastWeek}
-        // TotalStatisticItemsPrimary={totalStatisticItemsPrimary}
+        totalStatisticItemsPrimary={statisticItemsLastWeekPrimary}
         totalStatisticItemsSecondary={statisticItemsLastWeek}
         totalWayTime={totalWayTime}
         isCheckboxShown={true}

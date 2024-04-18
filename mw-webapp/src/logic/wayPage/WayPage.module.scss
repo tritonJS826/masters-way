@@ -57,8 +57,18 @@ $iconContainerSize: 25px;
   justify-content: space-between;
 }
 
-.privacyBlock {
+.privacyBlock,
+.compositeBlock {
   align-items: baseline;
+}
+
+.participantWay {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
 }
 
 .mentors {
@@ -113,6 +123,10 @@ $iconContainerSize: 25px;
 
 .gap {
   gap: $gapMedium;
+}
+
+.reportsAmount {
+  align-items: center;
 }
 
 .dayReportActions {

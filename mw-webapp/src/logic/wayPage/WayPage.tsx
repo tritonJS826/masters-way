@@ -36,7 +36,7 @@ import {MentorsSection} from "src/logic/wayPage/MentorsSection";
 import {downloadWayPdf} from "src/logic/wayPage/renderWayToPdf/downloadWayPdf";
 import {DayReportsTable} from "src/logic/wayPage/reportsTable/dayReportsTable/DayReportsTable";
 import {WayActiveStatistic} from "src/logic/wayPage/wayStatistics/WayActiveStatistic";
-import {WayStatistic} from "src/logic/wayPage/wayStatistics/WayStatistic";
+import {MILLISECONDS_IN_DAY, SMALL_CORRECTION_MILLISECONDS, WayStatistic} from "src/logic/wayPage/wayStatistics/WayStatistic";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Metric} from "src/model/businessModel/Metric";
 import {User, WayCollection} from "src/model/businessModel/User";
@@ -45,6 +45,7 @@ import {JobTag, WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {WayTag} from "src/model/businessModelPreview/WayTag";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LangauageService";
+import {createCompositeWay} from "src/utils/createCompositeWay";
 import {DateUtils} from "src/utils/DateUtils";
 import {WayPageSettings} from "src/utils/LocalStorageWorker";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
@@ -161,6 +162,8 @@ export const WayPage = (props: WayPageProps) => {
       <Loader />
     );
   }
+
+  const compositeWay = createCompositeWay(way);
 
   const favoriteWaysCollection = user?.wayCollections.find((wayCollection) => wayCollection.name === "favorite");
   const isWayInFavorites = !!favoriteWaysCollection?.ways.find((favoriteWay) => favoriteWay.uuid === way.uuid);
@@ -347,6 +350,8 @@ export const WayPage = (props: WayPageProps) => {
     setWayPartial(wayToUpdate);
   };
 
+  const isWayComposite = way.children.length !== 0;
+
   const isEmptyWay = way.dayReports.length === 0;
   const currentDate = DateUtils.getShortISODateValue(new Date());
   const lastReportDate = !isEmptyWay && DateUtils.getShortISODateValue(way.dayReports[0].createdAt);
@@ -363,6 +368,17 @@ export const WayPage = (props: WayPageProps) => {
 
     return newDayReport;
   };
+
+  const allDatesTimestamps = way.dayReports.map(report => report.createdAt.getTime());
+  const maximumDateTimestamp = Math.max(...allDatesTimestamps);
+  const minimumDateTimestamp = Math.min(...allDatesTimestamps);
+
+  const totalDaysOnWay = allDatesTimestamps.length
+    ? Math.ceil((maximumDateTimestamp - minimumDateTimestamp + SMALL_CORRECTION_MILLISECONDS) / MILLISECONDS_IN_DAY)
+    : 0
+  ;
+
+  const compositeWayParticipant = way.children.map((child) => child.owner);
 
   return (
     <VerticalContainer className={styles.container}>
@@ -482,7 +498,7 @@ export const WayPage = (props: WayPageProps) => {
                         type: "info",
                       });
                     }}
-                    buttonType={ButtonType.SECONDARY}
+                    buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
                   />
                 </Tooltip>
                 <Dropdown
@@ -494,7 +510,7 @@ export const WayPage = (props: WayPageProps) => {
                     >
                       <Button
                         className={styles.wayActionsIcon}
-                        buttonType={ButtonType.SECONDARY}
+                        buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
                         onClick={() => {}}
                         icon={
                           <Icon
@@ -583,6 +599,11 @@ export const WayPage = (props: WayPageProps) => {
                 />
               </HorizontalContainer>
             </HorizontalContainer>
+
+            <Title
+              level={HeadingLevel.h5}
+              text={`${totalDaysOnWay} days from start`}
+            />
 
             <HorizontalContainer className={styles.wayTagsContainer}>
               {way.wayTags.map(tag => (
@@ -697,6 +718,57 @@ export const WayPage = (props: WayPageProps) => {
               </Tooltip>
             </HorizontalContainer>
 
+            <HorizontalContainer className={styles.compositeBlock}>
+              <Title
+                level={HeadingLevel.h3}
+                text={LanguageService.way.peopleBlock.wayComposite.title[language]}
+              />
+              <div>
+                {isWayComposite
+                  ? LanguageService.way.peopleBlock.wayComposite.text[language]
+                  : LanguageService.way.peopleBlock.wayComposite.description[language]
+                }
+              </div>
+            </HorizontalContainer>
+            <HorizontalContainer>
+              <Title
+                level={HeadingLevel.h3}
+                text="Participants:"
+              />
+              {compositeWayParticipant.length !== 0 &&
+                compositeWayParticipant.map((participant) => {
+                  return (
+                    <Link
+                      path={pages.user.getPath({uuid: participant.uuid})}
+                      key={participant.uuid}
+                    >
+                      {participant.name}
+                    </Link>
+                  );
+                })
+              }
+            </HorizontalContainer>
+
+            <HorizontalContainer className={styles.participantWay}>
+              <Title
+                level={HeadingLevel.h3}
+                text="Participants ways:"
+              />
+              {way.children.length !== 0 &&
+                way.children.map((wayParticipant) => {
+                  return (
+                    <Link
+                      path={pages.way.getPath({uuid: wayParticipant.uuid})}
+                      className={styles.participantWay}
+                      key={wayParticipant.uuid}
+                    >
+                      {wayParticipant.name}
+                    </Link>
+                  );
+                })
+              }
+            </HorizontalContainer>
+
             <HorizontalContainer>
               <Title
                 level={HeadingLevel.h3}
@@ -797,7 +869,7 @@ export const WayPage = (props: WayPageProps) => {
             />
           </HorizontalContainer>
           <WayActiveStatistic
-            dayReports={way.dayReports}
+            dayReports={compositeWay.dayReports}
             wayCreatedAt={way.createdAt}
             isVisible={wayPageSettings.isStatisticsVisible}
           />
@@ -847,7 +919,7 @@ export const WayPage = (props: WayPageProps) => {
       }
 
       <DayReportsTable
-        way={way}
+        way={compositeWay}
         setDayReports={setDayReports}
         createDayReport={createDayReport}
       />

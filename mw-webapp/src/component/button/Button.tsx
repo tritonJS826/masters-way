@@ -25,7 +25,12 @@ export enum ButtonType {
   /**
    * Button that looks like an icon
    */
-  ICON_BUTTON = "iconButton"
+  ICON_BUTTON = "iconButton",
+
+  /**
+   * Button that looks like an icon
+   */
+  ICON_BUTTON_WITHOUT_BORDER = "iconButtonWithoutBorder"
 }
 
 /**

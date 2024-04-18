@@ -73,6 +73,16 @@ export const Header = (props: HeaderProps) => {
 
   const menuItems: (MenuItemLink)[] = [
     {
+      path: pages.home.getPath({}),
+      value: LanguageService.sidebar.home[props.language],
+      icon: (
+        <Icon
+          size={IconSize.MEDIUM}
+          name="HomeIcon"
+          className={styles.linkIcon}
+        />),
+    },
+    {
       path: pages.allWays.getPath({}),
       value: "",
       icon: (

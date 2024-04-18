@@ -1,4 +1,3 @@
-import {HomeIcon} from "@radix-ui/react-icons";
 import clsx from "clsx";
 import {BookIcon} from "src/assets/icons/BookIcon";
 import {BurgerMenu} from "src/assets/icons/BurgerMenu";
@@ -8,6 +7,7 @@ import {FileIcon} from "src/assets/icons/FileIcon";
 import {GithubIcon} from "src/assets/icons/GithubIcon";
 import {GlobeIcon} from "src/assets/icons/GlobeIcon";
 import {GridViewIcon} from "src/assets/icons/GridViewIcon";
+import {HomeIcon} from "src/assets/icons/HomeIcon";
 import {LinkedinIcon} from "src/assets/icons/LinkedinIcon";
 import {MoonIcon} from "src/assets/icons/MoonIcon";
 import {MoreVertical} from "src/assets/icons/MoreVertical";
