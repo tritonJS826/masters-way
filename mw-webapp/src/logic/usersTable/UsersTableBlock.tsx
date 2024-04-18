@@ -21,11 +21,9 @@ export const UsersTableBlock = (props: UsersTableProps) => {
   const {language} = useGlobalContext();
 
   return (
-    <>
-      <UsersTable
-        data={props.users}
-        columns={getUsersColumns(language)}
-      />
-    </>
+    <UsersTable
+      data={props.users}
+      columns={getUsersColumns(language)}
+    />
   );
 };

@@ -7,7 +7,6 @@ import {UserNotSaturatedWay} from "src/model/businessModelPreview/UserNotSaturat
 export const UserDTOToUserNotSaturatedWayConverter = (userDTO: SchemasUserPlainResponseWithInfo): UserNotSaturatedWay => {
   return new UserNotSaturatedWay({
     ...userDTO,
-    favoriteWays: 0,
     createdAt: new Date(userDTO.createdAt),
     favoriteForUserUuids: [],
     favoriteUserUuids: [],

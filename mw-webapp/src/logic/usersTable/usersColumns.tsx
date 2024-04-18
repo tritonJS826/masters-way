@@ -119,7 +119,7 @@ export const getUsersColumns = (language: Language) => [
      */
     cell: ({row}) => (
       <div className={styles.number}>
-        {row.original.favoriteWays.toString()}
+        {row.original.favoriteWays}
       </div>
     ),
   }),
