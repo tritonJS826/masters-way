@@ -3,7 +3,7 @@ import {Close as DialogClose} from "@radix-ui/react-dialog";
 import {Button} from "src/component/button/Button";
 import {getFormattedValue} from "src/component/editableText/EditableText";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
-import {Input} from "src/component/input/Input";
+import {Input, InputType} from "src/component/input/Input";
 import {Textarea} from "src/component/textarea/Textarea";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {getValidatedTime, MAX_TIME} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
@@ -115,7 +115,7 @@ export const CopyPlanToJobDoneModalContent = (props: CopyPlanToJobDoneModalConte
               type="number"
               max={MAX_TIME}
               onChange={(time) => setInputPLanTime(getValidatedTime(Number(time)))}
-              className={styles.input}
+              typeInput={InputType.Border}
             />
           </VerticalContainer>
           <HorizontalContainer className={styles.buttons}>

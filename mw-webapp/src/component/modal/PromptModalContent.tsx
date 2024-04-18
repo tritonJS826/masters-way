@@ -2,7 +2,7 @@ import {useRef, useState} from "react";
 import {Close as DialogClose} from "@radix-ui/react-dialog";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
-import {Input} from "src/component/input/Input";
+import {Input, InputType} from "src/component/input/Input";
 import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/component/modal/PromptModalContent.module.scss";
 
@@ -73,6 +73,7 @@ export const PromptModalContent = (props: PromptModalContentProps) => {
         value={inputValue}
         autoFocus={true}
         onChange={setInputValue}
+        typeInput={InputType.Line}
       />
       <HorizontalContainer className={styles.buttons}>
         <DialogClose asChild>

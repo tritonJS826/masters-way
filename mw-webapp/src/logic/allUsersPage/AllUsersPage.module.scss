@@ -16,13 +16,6 @@
   justify-content: space-between;
 }
 
-.inputFilter {
-  max-width: $maxWidthBlock;
-  padding: $paddingSmall;
-  border: 1px solid var(--primaryBorderColor);
-  border-radius: $secondaryBorderRadius;
-}
-
 .userCards {
   gap: $gapMedium;
   grid-template-columns: repeat(auto-fill, minmax($mediumWidthBlock, 1fr));

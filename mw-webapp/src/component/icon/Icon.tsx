@@ -12,6 +12,7 @@ import {LinkedinIcon} from "src/assets/icons/LinkedinIcon";
 import {MoonIcon} from "src/assets/icons/MoonIcon";
 import {MoreVertical} from "src/assets/icons/MoreVertical";
 import {PlusIcon} from "src/assets/icons/PlusIcon";
+import {SearchIcon} from "src/assets/icons/SearchIcon";
 import {SettingsIcon} from "src/assets/icons/SettingsIcon";
 import {StarIcon} from "src/assets/icons/StarIcon";
 import {SunIcon} from "src/assets/icons/SunIcon";
@@ -24,7 +25,7 @@ import styles from "src/component/icon/Icon.module.scss";
 /**
  * Icon dictionary
  */
-const IconDictionary = {
+export const IconDictionary = {
 
   /**
    * Eye opened icon
@@ -125,6 +126,11 @@ const IconDictionary = {
    * Youtube icon
    */
   SettingsIcon: (params: IconProps) => <SettingsIcon {...params} />,
+
+  /**
+   * Search icon
+   */
+  SearchIcon: (params: IconProps) => <SearchIcon {...params} />,
 };
 
 /**
