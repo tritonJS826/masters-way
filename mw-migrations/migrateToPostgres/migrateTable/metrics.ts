@@ -12,7 +12,7 @@ export const metrics = (client: Client) => {
         console.log(metric.doneDate);
         const metricDoneDate = !metric.isDone
           ? null 
-          : timestampToPgDate(metric.doneDate);
+          : timestampToPgDate(new Date(metric.doneDate).getTime());
             const values = [
               metric.uuid,
               metric.created_at ? timestampToPgDate(metric.created_at) : firebaseDateToPgDate(way.createdAt),

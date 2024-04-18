@@ -1,5 +1,8 @@
 import {createColumnHelper} from "@tanstack/react-table";
+import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
+import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
+import {ProgressBar} from "src/component/progressBar/ProgressBar";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
@@ -101,7 +104,10 @@ export const getWaysColumns = (language: Language) => [
       return (
         <div className={styles.status}>
           {wayStatus}
-          {/* {console.log(row.original.status)} */}
+          <ProgressBar
+            value={row.original.metricsDone}
+            max={row.original.metricsTotal}
+          />
         </div>
       );
     },
@@ -159,12 +165,19 @@ export const getWaysColumns = (language: Language) => [
      */
     cell: ({row}) => {
       return (
-        <VerticalContainer>
-          <Link path={pages.user.getPath({uuid: row.original.owner.uuid})}>
-            {row.original.owner.name}
-          </Link>
-          {row.original.owner.email}
-        </VerticalContainer>
+        <HorizontalContainer className={styles.userBlock}>
+          <Avatar
+            alt={row.original.owner.name}
+            src={row.original.owner.imageUrl}
+            size={AvatarSize.MEDIUM}
+          />
+          <VerticalContainer>
+            <Link path={pages.user.getPath({uuid: row.original.owner.uuid})}>
+              {row.original.owner.name}
+            </Link>
+            {row.original.owner.email}
+          </VerticalContainer>
+        </HorizontalContainer>
       );
     },
   }),
@@ -189,15 +202,24 @@ export const getWaysColumns = (language: Language) => [
       return (
         <VerticalContainer>
           {row.original.mentors.map((mentor) => (
-            <Tooltip
+            <HorizontalContainer
               key={mentor.uuid}
-              content={mentor.name}
-              position={PositionTooltip.LEFT}
+              className={styles.userBlock}
             >
-              <Link path={pages.user.getPath({uuid: mentor.uuid})}>
-                {mentor.name}
-              </Link>
-            </Tooltip>
+              <Avatar
+                alt={mentor.name}
+                src={mentor.imageUrl}
+                size={AvatarSize.MEDIUM}
+              />
+              <Tooltip
+                content={mentor.name}
+                position={PositionTooltip.LEFT}
+              >
+                <Link path={pages.user.getPath({uuid: mentor.uuid})}>
+                  {mentor.name}
+                </Link>
+              </Tooltip>
+            </HorizontalContainer>
           ))}
         </VerticalContainer>
       );
