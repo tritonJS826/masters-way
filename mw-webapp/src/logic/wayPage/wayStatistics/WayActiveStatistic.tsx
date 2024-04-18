@@ -93,7 +93,7 @@ export const WayActiveStatistic = (props: WayStatisticProps) => {
   const dayReportsReversed = [...props.dayReports].reverse();
   const startDate = dayReportsReversed[0] ? dayReportsReversed[0].createdAt : props.wayCreatedAt;
   const lastDate = props.dayReports[0] ? props.dayReports[0].createdAt : props.wayCreatedAt;
-  const startDateLastWeek = props.wayCreatedAt >= DateUtils.getLastDate(AMOUNT_DAYS_IN_WEEK, lastDate)
+  const startDateLastWeek = startDate <= DateUtils.getLastDate(AMOUNT_DAYS_IN_WEEK, lastDate)
     ? DateUtils.getLastDate(AMOUNT_DAYS_IN_WEEK, lastDate)
     : startDate;
 
