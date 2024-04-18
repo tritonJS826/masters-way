@@ -4,7 +4,7 @@ import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
-import {Input} from "src/component/input/Input";
+import {Input, InputType} from "src/component/input/Input";
 import {Loader} from "src/component/loader/Loader";
 import {displayNotification} from "src/component/notification/displayNotification";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
@@ -138,6 +138,7 @@ export const AllUsersPage = () => {
                 size: IconSize.SMALL,
               }
             }
+            typeInput={InputType.Border}
           />
           <Input
             value={name}
@@ -150,6 +151,7 @@ export const AllUsersPage = () => {
                 size: IconSize.SMALL,
               }
             }
+            typeInput={InputType.Border}
           />
         </HorizontalContainer>
         <HorizontalContainer>

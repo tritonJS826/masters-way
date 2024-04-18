@@ -6,6 +6,15 @@ import {ParserInputValue} from "src/component/input/parsers";
 import styles from "src/component/input/Input.module.scss";
 
 /**
+ *InputType
+ */
+export enum InputType {
+  Editable = "editable",
+  Line = "line",
+  Border = "border",
+}
+
+/**
  * InputIcon
  */
 interface InputIcon {
@@ -105,6 +114,12 @@ interface InputProps<T extends string | number> {
    * TypeInputIcon
    */
   typeInputIcon?: InputIcon;
+
+  /**
+   * TypeInputIcon
+   * @default 'editable'
+   */
+  typeInput?: InputType;
 }
 
 /**
@@ -136,6 +151,8 @@ export const Input = <T extends string | number>(props: InputProps<T>) => {
     props.onChange(parsedValue);
   };
 
+  const inputTypeStyles = props.typeInput ? styles[props.typeInput] : styles[InputType.Editable];
+
   return (
     <div className={styles.inputWrapper}>
       {props.typeInputIcon && (
@@ -151,7 +168,7 @@ export const Input = <T extends string | number>(props: InputProps<T>) => {
         max={props.max}
         min={props.min}
         placeholder={props.placeholder}
-        className={clsx(styles.input, props.className, props.typeInputIcon && styles.inputFilter)}
+        className={clsx(styles.input, props.className, props.typeInputIcon && styles.inputFilterIcon, inputTypeStyles)}
         inputMode={props.inputMode}
         disabled={!!props.disabled}
         required={!!props.required}
