@@ -1,15 +1,14 @@
-// depends on used icon
-$loaderIconHeight: 20px;
-// depends on used icon
-$loaderIconWidth: 187px;
+$loaderIconHeight: 100px;
 
 .loaderWrapper {
   position: absolute;
-  top: calc(50% - $loaderIconHeight / 2);
-  left: calc(50% - $loaderIconWidth / 2);
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 
 .loader {
+  width: auto;
   height: $loaderIconHeight;
-  margin: auto;
 }

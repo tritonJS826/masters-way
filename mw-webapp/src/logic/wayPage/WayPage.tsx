@@ -861,8 +861,8 @@ export const WayPage = (props: WayPageProps) => {
               className={styles.statisticsModal}
               content={
                 <WayStatistic
-                  dayReports={way.dayReports}
-                  wayCreatedAt={way.createdAt}
+                  dayReports={compositeWay.dayReports}
+                  wayCreatedAt={compositeWay.createdAt}
                   isVisible={wayPageSettings.isStatisticsVisible}
                 />
               }
@@ -870,7 +870,7 @@ export const WayPage = (props: WayPageProps) => {
           </HorizontalContainer>
           <WayActiveStatistic
             dayReports={compositeWay.dayReports}
-            wayCreatedAt={way.createdAt}
+            wayCreatedAt={compositeWay.createdAt}
             isVisible={wayPageSettings.isStatisticsVisible}
           />
         </VerticalContainer>
