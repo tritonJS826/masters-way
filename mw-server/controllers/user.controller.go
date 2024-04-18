@@ -380,8 +380,8 @@ func (cc *UserController) GetAllUsers(ctx *gin.Context) {
 	offset := (reqPageID - 1) * reqLimit
 
 	countUsersArgs := &db.CountUsersParams{
-		Column1: sql.NullString{String: email, Valid: true},
-		Column2: sql.NullString{String: name, Valid: true},
+		Lower:   email,
+		Lower_2: name,
 	}
 	usersSize, _ := cc.db.CountUsers(ctx, *countUsersArgs)
 

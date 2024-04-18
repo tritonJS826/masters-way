@@ -16,17 +16,17 @@ import (
 
 const countUsers = `-- name: CountUsers :one
 SELECT COUNT(*) FROM users
-WHERE ((users.email LIKE '%' || $1 || '%') OR ($1 = ''))
-    AND ((users.name LIKE '%' || $2 || '%') OR ($2 = ''))
+WHERE ((LOWER(users.email) LIKE '%' || LOWER($1) || '%') OR ($1 = ''))
+    AND ((LOWER(users.name) LIKE '%' || LOWER($2) || '%') OR ($2 = ''))
 `
 
 type CountUsersParams struct {
-	Column1 sql.NullString `json:"column_1"`
-	Column2 sql.NullString `json:"column_2"`
+	Lower   string `json:"lower"`
+	Lower_2 string `json:"lower_2"`
 }
 
 func (q *Queries) CountUsers(ctx context.Context, arg CountUsersParams) (int64, error) {
-	row := q.queryRow(ctx, q.countUsersStmt, countUsers, arg.Column1, arg.Column2)
+	row := q.queryRow(ctx, q.countUsersStmt, countUsers, arg.Lower, arg.Lower_2)
 	var count int64
 	err := row.Scan(&count)
 	return count, err

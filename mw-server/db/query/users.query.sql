@@ -64,8 +64,8 @@ OFFSET $2;
 
 -- name: CountUsers :one
 SELECT COUNT(*) FROM users
-WHERE ((users.email LIKE '%' || $1 || '%') OR ($1 = ''))
-    AND ((users.name LIKE '%' || $2 || '%') OR ($2 = ''));
+WHERE ((LOWER(users.email) LIKE '%' || LOWER($1) || '%') OR ($1 = ''))
+    AND ((LOWER(users.name) LIKE '%' || LOWER($2) || '%') OR ($2 = ''));
 
 -- name: UpdateUser :one
 UPDATE users
