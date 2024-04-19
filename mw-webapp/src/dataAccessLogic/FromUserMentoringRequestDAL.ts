@@ -1,14 +1,14 @@
 import {FromUserMentoringRequestService} from "src/service/FromUserMentoringRequestService";
 
 /**
- * Provides methods to interact with the mentorRequests
+ * Provides methods to interact with the FromUserMentoringRequest
  */
-export class MentorRequestDAL {
+export class FromUserMentoringRequestDAL {
 
   /**
-   * Create mentorRequest
+   * Add mentorRequest to the way
    */
-  public static async createMentorRequest(userUuid: string, wayUuid: string): Promise<void> {
+  public static async addMentorRequest(userUuid: string, wayUuid: string): Promise<void> {
     await FromUserMentoringRequestService.createFromUserMentoringRequest({
       request: {
         userUuid,
@@ -18,7 +18,7 @@ export class MentorRequestDAL {
   }
 
   /**
-   * Delete mentorRequest
+   * Delete mentorRequest from the way
    */
   public static async deleteMentorRequest(userUuid: string, wayUuid: string): Promise<void> {
     await FromUserMentoringRequestService.deleteFromUserMentoringRequest({

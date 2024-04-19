@@ -10,6 +10,7 @@ export * from './FromUserMentoringRequestApi';
 export * from './JobDoneApi';
 export * from './JobDoneJobTagApi';
 export * from './JobTagApi';
+export * from './MentorUserWayApi';
 export * from './MetricApi';
 export * from './PlanApi';
 export * from './PlanJobTagApi';

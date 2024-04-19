@@ -41,6 +41,7 @@ import {DayReport} from "src/model/businessModel/DayReport";
 import {Metric} from "src/model/businessModel/Metric";
 import {User, WayCollection} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
+import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {JobTag, WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {WayTag} from "src/model/businessModelPreview/WayTag";
 import {pages} from "src/router/pages";
@@ -788,25 +789,35 @@ export const WayPage = (props: WayPageProps) => {
               isOwner={isOwner}
             />}
             {isOwner && !!way.mentorRequests.length && (
-              <MentorRequestsSection
-                way={way}
-                setWay={setWay}
+              <Modal
+                isOpen={true}
+                trigger={<></>}
+                content={
+                  <MentorRequestsSection
+                    way={way}
+                    setWay={setWay}
+                  />}
               />
+
             )}
+            {isUserHasSentMentorRequest &&
+              <Title
+                level={HeadingLevel.h3}
+                text={LanguageService.way.peopleBlock.mentorPendingRequest[language]}
+              />
+            }
             {isEligibleToSendRequest && (
               <Button
                 className={styles.applyAsMentorButton}
                 value={LanguageService.way.peopleBlock.applyAsMentor[language]}
                 onClick={async () => {
-                  const userForMentorRequest = {
-                    createdAt: user.createdAt.toISOString(),
-                    description: user.description,
-                    email: user.email,
-                    imageUrl: user.imageUrl,
-                    isMentor: user.isMentor,
-                    name: user.name,
-                    uuid: user.uuid,
-                  };
+                  const userForMentorRequest = new UserPreview({
+                    ...user,
+                    favoriteWays: [],
+                    mentoringWays: [],
+                    ownWays: [],
+                    customWayCollections: [],
+                  });
                   updateWay({
                     wayToUpdate: {
                       uuid: way.uuid,

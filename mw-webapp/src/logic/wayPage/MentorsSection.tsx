@@ -5,11 +5,10 @@ import {Link} from "src/component/link/Link";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
-// Import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
-// Import {WayDAL} from "src/dataAccessLogic/WayDAL";
+import {MentorUserWayDAL} from "src/dataAccessLogic/MentorUserWayDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {Way} from "src/model/businessModel/Way";
-// Import {UserPreview} from "src/model/businessModelPreview/UserPreview";
+import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LangauageService";
 import {v4 as uuidv4} from "uuid";
@@ -18,26 +17,20 @@ import styles from "src/logic/wayPage/MentorsSection.module.scss";
 /**
  * Remove mentor from Way
  */
-// const removeMentorFromWay = (
-//   way: Way,
-//   setWay: (newWay: Way) => void,
-//   userPreview: UserPreview,
-// ) => {
-//   const mentoringWays = userPreview.mentoringWays.filter((item) => item !== way.uuid);
-//   const newUserPreview = new UserPreview({...userPreview, mentoringWays});
+const removeMentorFromWay = async (
+  way: Way,
+  setWay: (newWay: Way) => void,
+  userPreview: UserPreview,
+) => {
+  way.mentors.delete(userPreview.uuid);
+  const mentors = way.mentors;
+  const formerMentors = way.formerMentors.set(userPreview.uuid, userPreview);
 
-//   UserPreviewDAL.updateUserPreview(newUserPreview);
+  const newWay = new Way({...way, mentors, formerMentors});
 
-//   way.mentors.delete(userPreview.uuid);
-// Const mentors = way.mentors;
-// const formerMentors = way.formerMentors.set(userPreview.uuid, userPreview);
-
-// const newWay = new Way({...way, mentors, formerMentors});
-
-// WayDAL.updateWay(newWay);
-
-// setWay(newWay);
-// };
+  setWay(newWay);
+  await MentorUserWayDAL.deleteMentor(userPreview.uuid, way.uuid);
+};
 
 /**
  * Mentor Section Props
@@ -90,10 +83,7 @@ export const MentorsSection = (props: MentorsSectionProps) => {
                   content={<p>
                     {LanguageService.way.peopleBlock.deleteMentorModalContent[language].replace("$mentor", `"${mentor.name}"`)}
                   </p>}
-                  onOk={() => {
-                    // RemoveMentorFromWay(props.way, props.setWay, mentor)
-                  }
-                  }
+                  onOk={() => removeMentorFromWay(props.way, props.setWay, mentor)}
                   okText={LanguageService.way.peopleBlock.deleteButton[language]}
                 />
               </Tooltip>
