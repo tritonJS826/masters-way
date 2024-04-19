@@ -59,6 +59,58 @@ export type UserTag = {
 };
 
 /**
+ * Main short user information
+ */
+export class UserPlain {
+
+  /**
+   * User's UUID
+   */
+  public uuid: string;
+
+  /**
+   * Date when user was created
+   */
+  public createdAt: Date;
+
+  /**
+   * User's description
+   */
+  public description: string;
+
+  /**
+   * User's e-mail
+   */
+  public email: string;
+
+  /**
+   * User's image path
+   */
+  public imageUrl: string | null;
+
+  /**
+   * Is user mentor or not
+   */
+  public isMentor: boolean;
+
+  /**
+   * User's name
+   */
+  public name: string;
+
+  constructor(user: UserPlain) {
+    this.uuid = user.uuid;
+    this.createdAt = user.createdAt;
+    this.description = user.description;
+    this.email = user.email;
+    this.imageUrl = user.imageUrl;
+    this.isMentor = user.isMentor;
+    this.name = user.name;
+  }
+
+}
+
+/**
  * User preview model
  */
 export class User {
@@ -84,21 +136,6 @@ export class User {
   public description: string;
 
   /**
-   * Own ways @Way.uuid
-   */
-  // public ownWays: WayPreview[];
-
-  // /**
-  //  * The favorite ways @Way.uuid
-  //  */
-  // public favoriteWays: WayPreview[];
-
-  // /**
-  //  * Ways for mentoring @Way.uuid
-  //  */
-  // public mentoringWays: WayPreview[];
-
-  /**
    * Date when user was created
    */
   public createdAt: Date;
@@ -116,7 +153,7 @@ export class User {
   /**
    * Uuids of users who you liked
    */
-  public favoriteUserUuids: string[];
+  public favoriteUsers: UserPlain[];
 
   /**
    * User's tags {@link UserTag}
@@ -143,13 +180,10 @@ export class User {
     this.name = userData.name;
     this.email = userData.email;
     this.description = userData.description;
-    // This.ownWays = userData.ownWays;
-    // this.favoriteWays = userData.favoriteWays;
-    // this.mentoringWays = userData.mentoringWays;
     this.createdAt = userData.createdAt;
     this.wayCollections = userData.wayCollections;
     this.favoriteForUserUuids = userData.favoriteForUserUuids;
-    this.favoriteUserUuids = userData.favoriteUserUuids;
+    this.favoriteUsers = userData.favoriteUsers;
     this.tags = userData.tags;
     this.imageUrl = userData.imageUrl;
     this.isMentor = userData.isMentor;

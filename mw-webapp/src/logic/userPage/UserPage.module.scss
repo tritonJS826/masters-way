@@ -55,6 +55,10 @@
   @include regularContainer;
 }
 
+.nameSection {
+  justify-content: space-between;
+}
+
 .ownerName {
   input {
     height: $heightH2;

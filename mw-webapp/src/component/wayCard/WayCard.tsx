@@ -8,7 +8,7 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {WayСardTag} from "src/component/wayCard/wayTag/WayTag";
-import {UserPreview} from "src/model/businessModelPreview/UserPreview";
+import {UserPlain} from "src/model/businessModel/User";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {WayTag} from "src/model/businessModelPreview/WayTag";
 import {pages} from "src/router/pages";
@@ -56,7 +56,7 @@ export const WayCard = (props: WayCardProps) => {
   /**
    * Render mentors
    */
-  const renderMentors = (mentors: UserPreview[]) => {
+  const renderMentors = (mentors: UserPlain[]) => {
     return (
       <HorizontalContainer className={styles.mentors}>
         <p>

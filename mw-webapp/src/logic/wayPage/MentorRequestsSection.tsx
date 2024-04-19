@@ -4,8 +4,8 @@ import {Link} from "src/component/link/Link";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {FromUserMentoringRequestDAL} from "src/dataAccessLogic/FromUserMentoringRequestDAL";
 import {MentorUserWayDAL} from "src/dataAccessLogic/MentorUserWayDAL";
+import {UserPlain} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
-import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {pages} from "src/router/pages";
 import styles from "src/logic/wayPage/MentorRequestsSection.module.scss";
 
@@ -15,7 +15,7 @@ import styles from "src/logic/wayPage/MentorRequestsSection.module.scss";
 const addMentorToWay = async (
   way: Way,
   setWay: (newWay: Way) => void,
-  userPreview: UserPreview,
+  userPreview: UserPlain,
 ) => {
   const mentors = way.mentors.set(userPreview.uuid, userPreview);
   const mentorRequests = way.mentorRequests.filter((item) => item !== userPreview);
@@ -34,7 +34,7 @@ const addMentorToWay = async (
 const removeUserFromMentorRequests = async (
   way: Way,
   setWay: (newWay: Way) => void,
-  userPreview: UserPreview,
+  userPreview: UserPlain,
 ) => {
 
   const mentorRequests = way.mentorRequests.filter((item) => item !== userPreview);

@@ -1,16 +1,13 @@
+import {User} from "src/model/businessModel/User";
 
-export const testUserPreview = {
+export const testUserPreview: User = {
   uuid: "8l9tZl6gINP7j6BIT3p0yN9zZnH2",
   name: "Test Testerovich",
   email: "test.tester@gmail.com",
   description: "",
-  ownWays: [],
-  favoriteWays: [],
-  mentoringWays: [],
   createdAt: new Date(),
-  customWayCollections: [],
   favoriteForUserUuids: [],
-  favoriteUserUuids: [],
+  favoriteUsers: [],
   tags: [],
   wayRequests: [],
   imageUrl: "",

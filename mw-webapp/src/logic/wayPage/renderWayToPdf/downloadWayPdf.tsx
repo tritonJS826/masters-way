@@ -9,8 +9,8 @@ import {
 } from "src/logic/wayPage/wayStatistics/WayStatistic";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Metric} from "src/model/businessModel/Metric";
+import {UserPlain} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
-import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {DateUtils} from "src/utils/DateUtils";
 
 const MARGIN_SMALL = 5;
@@ -72,7 +72,7 @@ const getFavorites = (favoriteAmount: number) => {
 /**
  * Render mentor's names
  */
-const getMentors = (wayMentors: Map<string, UserPreview>) => {
+const getMentors = (wayMentors: Map<string, UserPlain>) => {
   const mentorsArray = Array.from(wayMentors.values());
 
   return [

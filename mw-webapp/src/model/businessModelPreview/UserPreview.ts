@@ -63,21 +63,6 @@ export class UserPreview {
   public description: string;
 
   /**
-   * Own ways @Way.uuid
-   */
-  public ownWays: string[];
-
-  /**
-   * The favorite ways @Way.uuid
-   */
-  public favoriteWays: string[];
-
-  /**
-   * Ways for mentoring @Way.uuid
-   */
-  public mentoringWays: string[];
-
-  /**
    * Date when user was created
    */
   public createdAt: Date;
@@ -122,9 +107,6 @@ export class UserPreview {
     this.name = userData.name;
     this.email = userData.email;
     this.description = userData.description;
-    this.ownWays = userData.ownWays;
-    this.favoriteWays = userData.favoriteWays;
-    this.mentoringWays = userData.mentoringWays;
     this.createdAt = userData.createdAt;
     this.customWayCollections = userData.customWayCollections;
     this.favoriteForUserUuids = userData.favoriteForUserUuids;

@@ -28,9 +28,6 @@ const MENTOR_PREVIEW_DATA: UserPreview = {
   customWayCollections: [],
   favoriteForUserUuids: [],
   favoriteUserUuids: [],
-  favoriteWays: [],
-  mentoringWays: [],
-  ownWays: [],
   tags: [],
   wayRequests: [],
 };

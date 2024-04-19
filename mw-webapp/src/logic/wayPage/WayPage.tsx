@@ -39,9 +39,8 @@ import {WayActiveStatistic} from "src/logic/wayPage/wayStatistics/WayActiveStati
 import {MILLISECONDS_IN_DAY, SMALL_CORRECTION_MILLISECONDS, WayStatistic} from "src/logic/wayPage/wayStatistics/WayStatistic";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Metric} from "src/model/businessModel/Metric";
-import {User, WayCollection} from "src/model/businessModel/User";
+import {User, UserPlain, WayCollection} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
-import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {JobTag, WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {WayTag} from "src/model/businessModelPreview/WayTag";
 import {pages} from "src/router/pages";
@@ -811,13 +810,7 @@ export const WayPage = (props: WayPageProps) => {
                 className={styles.applyAsMentorButton}
                 value={LanguageService.way.peopleBlock.applyAsMentor[language]}
                 onClick={async () => {
-                  const userForMentorRequest = new UserPreview({
-                    ...user,
-                    favoriteWays: [],
-                    mentoringWays: [],
-                    ownWays: [],
-                    customWayCollections: [],
-                  });
+                  const userForMentorRequest = new UserPlain({...user});
                   updateWay({
                     wayToUpdate: {
                       uuid: way.uuid,

@@ -7,8 +7,8 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {MentorUserWayDAL} from "src/dataAccessLogic/MentorUserWayDAL";
 import {useGlobalContext} from "src/GlobalContext";
+import {UserPlain} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
-import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LangauageService";
 import {v4 as uuidv4} from "uuid";
@@ -20,7 +20,7 @@ import styles from "src/logic/wayPage/MentorsSection.module.scss";
 const removeMentorFromWay = async (
   way: Way,
   setWay: (newWay: Way) => void,
-  userPreview: UserPreview,
+  userPreview: UserPlain,
 ) => {
   way.mentors.delete(userPreview.uuid);
   const mentors = way.mentors;

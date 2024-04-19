@@ -10,10 +10,13 @@ import {Icon, IconSize} from "src/component/icon/Icon";
 import {Loader} from "src/component/loader/Loader";
 import {Modal} from "src/component/modal/Modal";
 import {PromptModalContent} from "src/component/modal/PromptModalContent";
+import {displayNotification} from "src/component/notification/displayNotification";
 import {Tag} from "src/component/tag/Tag";
 import {HeadingLevel, Title} from "src/component/title/Title";
+import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {FavoriteUserDAL} from "src/dataAccessLogic/FavoriteUserDAL";
 import {UserDAL} from "src/dataAccessLogic/UserDAL";
 import {UserTagDAL} from "src/dataAccessLogic/UserTagDAL";
 import {WayCollectionDAL} from "src/dataAccessLogic/WayCollectionDAL";
@@ -30,6 +33,7 @@ import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LangauageService";
 import {UserPageSettings, View} from "src/utils/LocalStorageWorker";
 import {PartialWithId, PartialWithUuid} from "src/utils/PartialWithUuid";
+import {Symbols} from "src/utils/Symbols";
 import styles from "src/logic/userPage/UserPage.module.scss";
 
 /**
@@ -92,6 +96,14 @@ const userPageSettingsValidator = (openedTabId: string, allCollections: WayColle
 };
 
 /**
+ * Check is user in favorites
+ */
+const getIsUserInFavorites = (
+  user: User | null,
+  pageOwner: User,
+) => (user?.favoriteUsers ?? []).map(plainUser => plainUser.uuid).includes(pageOwner.uuid);
+
+/**
  * User page
  */
 export const UserPage = (props: UserPageProps) => {
@@ -99,7 +111,7 @@ export const UserPage = (props: UserPageProps) => {
   const [isRenameCollectionModalOpen, setIsRenameCollectionModalOpen] = useState(false);
   const [isAddUserTagModalOpen, setIsAddUserTagModalOpen] = useState(false);
 
-  const [userPreview, setUserPreview] = useState<User>();
+  const [userPageOwner, setUserPageOwner] = useState<User>();
   const [openedTabId, setOpenedTabId] = usePersistanceState({
     key: "userPage.openedTabId",
     defaultValue: DefaultCollections.OWN,
@@ -109,10 +121,10 @@ export const UserPage = (props: UserPageProps) => {
      */
     storedDataValidator: (
       currentValue: string,
-    ) => userPreview?.wayCollections
-      ? userPageSettingsValidator(currentValue, userPreview.wayCollections)
+    ) => userPageOwner?.wayCollections
+      ? userPageSettingsValidator(currentValue, userPageOwner.wayCollections)
       : true,
-    dependencies: [userPreview],
+    dependencies: [userPageOwner],
   });
   const [userPageSettings,, updateUserPageSettings] = usePersistanceState({
     key: "userPage",
@@ -123,7 +135,7 @@ export const UserPage = (props: UserPageProps) => {
    * Update userPreview state
    */
   const setUserPreviewPartial = (updatedUser: Partial<User>) => {
-    setUserPreview((prevUser?: User) => {
+    setUserPageOwner((prevUser?: User) => {
       if (!prevUser) {
         throw new Error("Previous user is undefined");
       }
@@ -133,7 +145,7 @@ export const UserPage = (props: UserPageProps) => {
   };
 
   const navigate = useNavigate();
-  const isPageOwner = !!user && !!userPreview && user.uuid === userPreview.uuid;
+  const isPageOwner = !!user && !!userPageOwner && user.uuid === userPageOwner.uuid;
 
   /**
    * Callback that is called to fetch data
@@ -162,7 +174,7 @@ export const UserPage = (props: UserPageProps) => {
    * Callback that is called on fetch and validation success
    */
   const onSuccess = (data: User) => {
-    setUserPreview(data);
+    setUserPageOwner(data);
   };
 
   useLoad({
@@ -174,16 +186,16 @@ export const UserPage = (props: UserPageProps) => {
   },
   );
 
-  if (!userPreview || !userPageSettings) {
+  if (!userPageOwner || !userPageSettings) {
     return (
       <Loader />
     );
   }
 
   // //TODO: think how to use uuid instead of name. Need fix logic about render default collections
-  const isCustomCollection = userPreview.wayCollections.some((col) => col.type === "custom");
-  const currentCollection = userPreview.wayCollections.find((col) => col.uuid === openedTabId);
-  const defaultCollection = userPreview.wayCollections.find((col) => col.type === "own");
+  const isCustomCollection = userPageOwner.wayCollections.some((col) => col.type === "custom");
+  const currentCollection = userPageOwner.wayCollections.find((col) => col.uuid === openedTabId);
+  const defaultCollection = userPageOwner.wayCollections.find((col) => col.type === "own");
 
   if (!defaultCollection) {
     throw new Error("Default collection is not exist");
@@ -252,7 +264,7 @@ export const UserPage = (props: UserPageProps) => {
         }
       });
 
-    await WayCollectionDAL.updateWayCollection(wayCollectionToUpdate.id, userPreview.uuid, wayCollectionToUpdate.name ?? "");
+    await WayCollectionDAL.updateWayCollection(wayCollectionToUpdate.id, userPageOwner.uuid, wayCollectionToUpdate.name ?? "");
     setUserPreviewPartial({wayCollections: updatedCustomWayCollections});
     setUser({...user, wayCollections: updatedCustomWayCollections});
 
@@ -273,25 +285,93 @@ export const UserPage = (props: UserPageProps) => {
       <HorizontalGridContainer className={styles.container}>
         <VerticalContainer className={styles.descriptionSection}>
           <VerticalContainer className={styles.nameEmailSection}>
-            <Title
-              level={HeadingLevel.h2}
-              text={userPreview.name}
-              onChangeFinish={(name) => updateUser({
-                userToUpdate: {
-                  uuid: userPreview.uuid,
-                  name,
-                },
-                setUser: setUserPreviewPartial,
-              })}
-              isEditable={isPageOwner}
-              className={styles.ownerName}
-            />
+            <HorizontalContainer className={styles.nameSection}>
+              <Title
+                level={HeadingLevel.h2}
+                text={userPageOwner.name}
+                onChangeFinish={(name) => updateUser({
+                  userToUpdate: {
+                    uuid: userPageOwner.uuid,
+                    name,
+                  },
+                  setUser: setUserPreviewPartial,
+                })}
+                isEditable={isPageOwner}
+                className={styles.ownerName}
+              />
+              <Tooltip
+                content={getIsUserInFavorites(user, userPageOwner)
+                  ? LanguageService.user.personalInfo.deleteFromFavoritesTooltip[language]
+                  : LanguageService.user.personalInfo.addToFavoritesTooltip[language]}
+                position={PositionTooltip.LEFT}
+              >
+                <Button
+                  value={`${getIsUserInFavorites(user, userPageOwner)
+                    ? Symbols.STAR
+                    : Symbols.OUTLINED_STAR
+                  }${Symbols.NO_BREAK_SPACE}${userPageOwner.favoriteForUserUuids.length}`}
+                  onClick={() => {
+                    if (!user) {
+                      return;
+                    }
+
+                    if (getIsUserInFavorites(user, userPageOwner)) {
+                      FavoriteUserDAL.deleteFavoriteUser({
+                        donorUserUuid: user.uuid,
+                        acceptorUserUuid: userPageOwner.uuid,
+                      });
+                      const updatedUser = new User({
+                        ...user,
+                        favoriteUsers: user.favoriteUsers.filter(
+                          favoriteUser => favoriteUser.uuid !== userPageOwner.uuid,
+                        ),
+                      });
+                      setUser(updatedUser);
+                      const updatedPageOwner = new User({
+                        ...userPageOwner,
+                        favoriteForUserUuids: userPageOwner.favoriteForUserUuids.filter(
+                          favoriteUserUuid => favoriteUserUuid !== user.uuid,
+                        ),
+                      });
+                      setUserPageOwner(updatedPageOwner);
+
+                    } else {
+                      FavoriteUserDAL.createFavoriteUser({
+                        donorUserUuid: user.uuid,
+                        acceptorUserUuid: userPageOwner.uuid,
+                      });
+
+                      const updatedUser = new User({
+                        ...user,
+                        favoriteUsers: [...user.favoriteUsers, userPageOwner],
+                      });
+                      setUser(updatedUser);
+                      const updatedPageOwner = new User({
+                        ...userPageOwner,
+                        favoriteForUserUuids: [...userPageOwner.favoriteForUserUuids, user.uuid],
+                      });
+                      setUserPageOwner(updatedPageOwner);
+
+                    }
+
+                    displayNotification({
+                      text: getIsUserInFavorites(user, userPageOwner)
+                        ? LanguageService.user.notifications.userRemovedFromFavorites[language]
+                        : LanguageService.user.notifications.userAddedToFavorites[language],
+                      type: "info",
+                    });
+                  }}
+                  buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
+                />
+              </Tooltip>
+
+            </HorizontalContainer>
             <Title
               level={HeadingLevel.h3}
-              text={userPreview.email}
+              text={userPageOwner.email}
               onChangeFinish={(email) => updateUser({
                 userToUpdate: {
-                  uuid: userPreview.uuid,
+                  uuid: userPageOwner.uuid,
                   email,
                 },
                 setUser: setUserPreviewPartial,
@@ -359,10 +439,10 @@ export const UserPage = (props: UserPageProps) => {
               text={LanguageService.user.personalInfo.about[language]}
             />
             <EditableTextarea
-              text={userPreview.description}
+              text={userPageOwner.description}
               onChangeFinish={(description) => updateUser({
                 userToUpdate: {
-                  uuid: userPreview.uuid,
+                  uuid: userPageOwner.uuid,
                   description,
                 },
                 setUser: setUserPreviewPartial,
@@ -383,7 +463,7 @@ export const UserPage = (props: UserPageProps) => {
 
         <div className={styles.tabsSectionContainer}>
           <HorizontalContainer className={styles.tabsSection}>
-            {userPreview.wayCollections.map(collection => (
+            {userPageOwner.wayCollections.map(collection => (
               <Button
                 key={collection.uuid}
                 value={`${collection.name} (${collection.ways.length})`}
@@ -446,7 +526,7 @@ export const UserPage = (props: UserPageProps) => {
       )}
 
       {/* Render table only for appropriate collection */}
-      {userPreview.wayCollections
+      {userPageOwner.wayCollections
         .filter(collection => collection.uuid === openedTabId)
         .map(collection => {
 

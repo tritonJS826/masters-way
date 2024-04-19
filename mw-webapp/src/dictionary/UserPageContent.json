@@ -6,11 +6,37 @@
       "ua": "Про себе",
       "ka": "ჩემ შესახებ"
     },
+    "deleteFromFavoritesTooltip": {
+      "ru": "Удалить из избранных",
+      "en": "Delete from favorites",
+      "ua": "Видалити з вибраного",
+      "ka": "რჩეულებიდან წაშლა"
+    },
+    "addToFavoritesTooltip": {
+      "ru": "Добавить в избранные",
+      "en": "Add to favorites",
+      "ua": "Додати до обраних",
+      "ka": "რჩეულებში დამატება"
+    },
     "createNewWayButton": {
       "ru": "Создать новый путь",
       "en": "Create new way",
       "ua": "Створити новий шлях",
       "ka": "ახალი გზის შექმნა"
+    }
+  },
+  "notifications": {
+    "userRemovedFromFavorites": {
+      "ru": "Пользователь удален из избранных",
+      "en": "User removed from favorites",
+      "ua": "Користувач видалено з обраних",
+      "ka": "მომხმარებელს ამოღებულებიდან წაშლილია"
+    },
+    "userAddedToFavorites": {
+      "ru": "Пользователь добавлен в избранные",
+      "en": "User added to favorites",
+      "ua": "Користувач додано до обраних",
+      "ka": "მომხმარებელი შეიტანება სასარგებლოებში"
     }
   },
   "collections": {

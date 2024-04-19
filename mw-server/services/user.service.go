@@ -187,13 +187,13 @@ func GetPopulatedUserById(db *dbb.Queries, ctx context.Context, userUuid uuid.UU
 	favoriteUsersRaw, _ := db.GetFavoriteUserByDonorUserId(ctx, user.Uuid)
 	favoriteUsers := lo.Map(favoriteUsersRaw, func(dbUser dbb.GetFavoriteUserByDonorUserIdRow, i int) schemas.UserPlainResponse {
 		return schemas.UserPlainResponse{
-			Uuid:        user.Uuid.String(),
-			Name:        user.Name,
-			Email:       user.Email,
-			Description: user.Description,
-			CreatedAt:   user.CreatedAt.String(),
-			ImageUrl:    util.MarshalNullString(user.ImageUrl),
-			IsMentor:    user.IsMentor,
+			Uuid:        dbUser.Uuid.String(),
+			Name:        dbUser.Name,
+			Email:       dbUser.Email,
+			Description: dbUser.Description,
+			CreatedAt:   dbUser.CreatedAt.String(),
+			ImageUrl:    util.MarshalNullString(dbUser.ImageUrl),
+			IsMentor:    dbUser.IsMentor,
 		}
 	})
 
