@@ -8,7 +8,6 @@ export const UserDTOToUserNotSaturatedWayConverter = (userDTO: SchemasUserPlainR
   return new UserNotSaturatedWay({
     ...userDTO,
     createdAt: new Date(userDTO.createdAt),
-    favoriteForUserUuids: [],
     favoriteUserUuids: [],
     imageUrl: userDTO.imageUrl ?? "",
   });

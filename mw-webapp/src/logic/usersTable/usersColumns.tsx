@@ -8,6 +8,7 @@ import {UserNotSaturatedWay} from "src/model/businessModelPreview/UserNotSaturat
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LangauageService";
 import {Language} from "src/utils/LanguageWorker";
+import {Symbols} from "src/utils/Symbols";
 import styles from "src/logic/usersTable/UserColumns.module.scss";
 
 const columnHelper = createColumnHelper<UserNotSaturatedWay>();
@@ -145,6 +146,30 @@ export const getUsersColumns = (language: Language) => [
     cell: ({row}) => (
       <div className={styles.number}>
         {row.original.mentoringWays.toString()}
+      </div>
+    ),
+  }),
+  columnHelper.accessor("favoriteForUsers", {
+
+    /**
+     * Header
+     */
+    header: () => (
+      <>
+        <Tooltip
+          position={PositionTooltip.TOP_LEFT}
+          content={LanguageService.allUsers.usersTable.columnTooltip.favorites[language]}
+        >
+          {Symbols.STAR}
+        </Tooltip>
+      </>),
+
+    /**
+     * Cell with amount of favorite for user uuids
+     */
+    cell: ({row}) => (
+      <div className={styles.number}>
+        {row.original.favoriteForUsers}
       </div>
     ),
   }),

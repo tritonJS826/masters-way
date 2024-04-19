@@ -83,7 +83,7 @@ export class UserNotSaturatedWay {
   /**
    * User's uuids for whom this user are favorite
    */
-  public favoriteForUserUuids: string[];
+  // public favoriteForUserUuids: string[];
 
   /**
    * Uuids of users who you liked
@@ -105,6 +105,11 @@ export class UserNotSaturatedWay {
    */
   public isMentor: boolean;
 
+  /**
+   * Amount of like for current user
+   */
+  public favoriteForUsers: number;
+
   constructor(userData: UserNotSaturatedWay) {
     this.uuid = userData.uuid;
     this.name = userData.name;
@@ -114,8 +119,8 @@ export class UserNotSaturatedWay {
     this.favoriteWays = userData.favoriteWays;
     this.mentoringWays = userData.mentoringWays;
     this.createdAt = userData.createdAt;
-    this.favoriteForUserUuids = userData.favoriteForUserUuids;
     this.favoriteUserUuids = userData.favoriteUserUuids;
+    this.favoriteForUsers = userData.favoriteForUsers;
     this.tags = userData.tags;
     this.imageUrl = userData.imageUrl;
     this.isMentor = userData.isMentor;

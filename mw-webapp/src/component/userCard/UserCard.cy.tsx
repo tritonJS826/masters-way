@@ -11,8 +11,8 @@ const USER_PREVIEW_DATA: UserNotSaturatedWay = {
   email: "test.tester@gmail.com",
   description: "",
   createdAt: new Date(),
-  favoriteForUserUuids: ["1", "2", "3"],
   favoriteUserUuids: [],
+  favoriteForUsers: 2,
   tags: [],
   imageUrl: "",
   isMentor: false,
@@ -61,7 +61,7 @@ describe("UserCard component", () => {
       `${USER_PREVIEW_DATA.mentoringWays} mentoring ways`,
     );
     cy.get(getDataCy(USER_CARD_CY)).contains(
-      `${USER_PREVIEW_DATA.favoriteForUserUuids.length}`,
+      `${USER_PREVIEW_DATA.favoriteForUsers}`,
     );
     const creationDate = DateUtils.getShortISODateValue(
       USER_PREVIEW_DATA.createdAt,

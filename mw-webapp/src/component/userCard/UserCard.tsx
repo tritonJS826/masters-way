@@ -86,7 +86,7 @@ export const UserCard = (props: UserCardProps) => {
                   name={"StarIcon"}
                   className={styles.icon}
                 />
-                {props.userPreview.favoriteForUserUuids.length}
+                {props.userPreview.favoriteForUsers}
               </Tooltip>
             </HorizontalContainer>
           </HorizontalContainer>
