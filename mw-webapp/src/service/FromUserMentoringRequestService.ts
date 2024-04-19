@@ -2,21 +2,21 @@ import {CreateFromUserMentoringRequestRequest, DeleteFromUserMentoringRequestReq
 import {fromUserMentoringRequest} from "src/service/services";
 
 /**
- * Provides methods to interact with the fromUserMentoringRequest
+ * Provides methods to interact with the FromUserMentoringRequest
  */
-export class FavoriteUserWayService {
+export class FromUserMentoringRequestService {
 
   /**
    * Create from user mentoring request
    */
-  public static async createFavoriteUserWay(requestParameters: CreateFromUserMentoringRequestRequest): Promise<void> {
+  public static async createFromUserMentoringRequest(requestParameters: CreateFromUserMentoringRequestRequest): Promise<void> {
     await fromUserMentoringRequest.createFromUserMentoringRequest(requestParameters);
   }
 
   /**
    * Delete from user mentoring request
    */
-  public static async deleteFavoriteUserWay(requestParameters: DeleteFromUserMentoringRequestRequest): Promise<void> {
+  public static async deleteFromUserMentoringRequest(requestParameters: DeleteFromUserMentoringRequestRequest): Promise<void> {
     await fromUserMentoringRequest.deleteFromUserMentoringRequest(requestParameters);
   }
 

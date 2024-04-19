@@ -8,6 +8,7 @@ apis/FromUserMentoringRequestApi.ts
 apis/JobDoneApi.ts
 apis/JobDoneJobTagApi.ts
 apis/JobTagApi.ts
+apis/MentorUserWayApi.ts
 apis/MetricApi.ts
 apis/PlanApi.ts
 apis/PlanJobTagApi.ts
@@ -34,6 +35,7 @@ models/SchemasCreateFromUserMentoringRequestPayload.ts
 models/SchemasCreateJobDoneJobTagPayload.ts
 models/SchemasCreateJobDonePayload.ts
 models/SchemasCreateJobTagPayload.ts
+models/SchemasCreateMentorUserWayPayload.ts
 models/SchemasCreateMetricPayload.ts
 models/SchemasCreatePlanJobTagPayload.ts
 models/SchemasCreatePlanPayload.ts
@@ -47,6 +49,7 @@ models/SchemasCreateWayCollectionPayload.ts
 models/SchemasCreateWayCollectionWay.ts
 models/SchemasCreateWayTagPayload.ts
 models/SchemasDayReportPopulatedResponse.ts
+models/SchemasDeleteMentorUserWayPayload.ts
 models/SchemasGetAllUsersResponse.ts
 models/SchemasGetAllWaysResponse.ts
 models/SchemasJobDonePopulatedResponse.ts

@@ -9,6 +9,7 @@ import {
   JobDoneApi,
   JobDoneJobTagApi,
   JobTagApi,
+  MentorUserWayApi,
   MetricApi,
   PlanApi,
   PlanJobTagApi,
@@ -46,3 +47,4 @@ export const metricService = new MetricApi(configuration);
 export const favoriteUserWayService = new FavoriteUserWayApi(configuration);
 export const formerMentorWayService = new FormerMentorWayApi(configuration);
 export const fromUserMentoringRequest = new FromUserMentoringRequestApi(configuration);
+export const mentorUserWay = new MentorUserWayApi(configuration);

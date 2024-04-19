@@ -7,6 +7,7 @@ import {Metric} from "src/model/businessModel/Metric";
 import {Plan} from "src/model/businessModel/Plan";
 import {Problem} from "src/model/businessModel/Problem";
 import {Way} from "src/model/businessModel/Way";
+import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {JobTag} from "src/model/businessModelPreview/WayPreview";
 import {arrayToHashMap} from "src/utils/arrayToHashMap";
 import {Language} from "src/utils/LanguageWorker";
@@ -22,6 +23,34 @@ export const wayDTOToWay = (wayDTO: SchemasWayPopulatedResponse): Way => {
     language: Language.ENGLISH,
   });
 
+  const mentors = wayDTO.mentors.map((mentor) => new UserPreview({
+    ...mentor,
+    customWayCollections: [],
+    favoriteForUserUuids: [],
+    favoriteWays: [],
+    mentoringWays: [],
+    ownWays: [],
+    favoriteUserUuids: [],
+    tags: [],
+    wayRequests: [],
+    createdAt: new Date(mentor.createdAt),
+    imageUrl: mentor.imageUrl ?? "",
+  }));
+
+  const formerMentors = wayDTO.formerMentors.map((formerMentor) => new UserPreview({
+    ...formerMentor,
+    customWayCollections: [],
+    favoriteForUserUuids: [],
+    favoriteWays: [],
+    mentoringWays: [],
+    ownWays: [],
+    favoriteUserUuids: [],
+    tags: [],
+    wayRequests: [],
+    createdAt: new Date(formerMentor.createdAt),
+    imageUrl: formerMentor.imageUrl ?? "",
+  }));
+
   return new Way({
     ...wayDTO,
     metrics: wayDTO.metrics.map((metric) => {
@@ -32,8 +61,21 @@ export const wayDTOToWay = (wayDTO: SchemasWayPopulatedResponse): Way => {
     }),
     status,
     favoriteForUsersAmount: wayDTO.favoriteForUsersAmount,
-    mentors: arrayToHashMap({keyField: "uuid", list: wayDTO.mentors}),
-    formerMentors: arrayToHashMap({keyField: "uuid", list: wayDTO.formerMentors}),
+    mentorRequests: wayDTO.mentorRequests.map((mentorRequest) => new UserPreview({
+      ...mentorRequest,
+      customWayCollections: [],
+      favoriteForUserUuids: [],
+      favoriteWays: [],
+      mentoringWays: [],
+      ownWays: [],
+      favoriteUserUuids: [],
+      tags: [],
+      wayRequests: [],
+      createdAt: new Date(mentorRequest.createdAt),
+      imageUrl: mentorRequest.imageUrl ?? "",
+    })),
+    mentors: arrayToHashMap({keyField: "uuid", list: mentors}),
+    formerMentors: arrayToHashMap({keyField: "uuid", list: formerMentors}),
     dayReports: wayDTO.dayReports.map((dayReport) => {
       const createdAt = new Date(dayReport.createdAt);
       const updatedAt = new Date(dayReport.updatedAt);
