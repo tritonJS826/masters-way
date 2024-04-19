@@ -93,6 +93,9 @@ var (
 
 	CompositeWayController controllers.CompositeWayController
 	CompositeWayRoutes     routes.CompositeWayRoutes
+
+	MentorUserWayController controllers.MentorUserWayController
+	MentorUserWayRoutes     routes.MentorUserWayRoutes
 )
 
 func init() {
@@ -190,6 +193,9 @@ func init() {
 	CompositeWayController = *controllers.NewCompositeWayController(db, ctx)
 	CompositeWayRoutes = routes.NewRouteCompositeWay(CompositeWayController)
 
+	MentorUserWayController = *controllers.NewMentorUserWayController(db, ctx)
+	MentorUserWayRoutes = routes.NewRouteMentorUserWay(MentorUserWayController)
+
 	server.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 }
@@ -232,6 +238,7 @@ func main() {
 	WayCollectionWayRoutes.WayCollectionWayRoute(router)
 	WayTagRoutes.WayTagRoute(router)
 	CompositeWayRoutes.CompositeWayRoute(router)
+	MentorUserWayRoutes.MentorUserWayRoute(router)
 
 	server.NoRoute(func(ctx *gin.Context) {
 		ctx.JSON(http.StatusNotFound, gin.H{"status": "failed", "message": fmt.Sprintf("The specified route %s not found", ctx.Request.URL)})

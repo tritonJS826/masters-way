@@ -12,6 +12,33 @@ import (
 	"github.com/google/uuid"
 )
 
+const addWayToMentoringCollection = `-- name: AddWayToMentoringCollection :exec
+WITH way_collection_uuid_query AS (
+    SELECT uuid
+    FROM way_collections
+    WHERE owner_uuid = $1
+    AND type = 'mentoring'
+    LIMIT 1
+)
+INSERT INTO way_collections_ways (
+    way_collection_uuid,
+    way_uuid
+)
+SELECT uuid, $2
+FROM way_collection_uuid_query
+RETURNING way_collection_uuid, way_uuid
+`
+
+type AddWayToMentoringCollectionParams struct {
+	OwnerUuid uuid.UUID `json:"owner_uuid"`
+	WayUuid   uuid.UUID `json:"way_uuid"`
+}
+
+func (q *Queries) AddWayToMentoringCollection(ctx context.Context, arg AddWayToMentoringCollectionParams) error {
+	_, err := q.exec(ctx, q.addWayToMentoringCollectionStmt, addWayToMentoringCollection, arg.OwnerUuid, arg.WayUuid)
+	return err
+}
+
 const createWayCollectionsWays = `-- name: CreateWayCollectionsWays :one
 INSERT INTO way_collections_ways(
     way_collection_uuid,
@@ -173,4 +200,26 @@ func (q *Queries) GetWayCollectionsByUserId(ctx context.Context, ownerUuid uuid.
 		return nil, err
 	}
 	return items, nil
+}
+
+const removeWayFromMentoringCollection = `-- name: RemoveWayFromMentoringCollection :exec
+DELETE FROM way_collections_ways
+WHERE way_collection_uuid IN (
+    SELECT uuid
+    FROM way_collections
+    WHERE owner_uuid = $1
+    AND type = 'mentoring'
+    LIMIT 1
+)
+AND way_uuid = $2
+`
+
+type RemoveWayFromMentoringCollectionParams struct {
+	OwnerUuid uuid.UUID `json:"owner_uuid"`
+	WayUuid   uuid.UUID `json:"way_uuid"`
+}
+
+func (q *Queries) RemoveWayFromMentoringCollection(ctx context.Context, arg RemoveWayFromMentoringCollectionParams) error {
+	_, err := q.exec(ctx, q.removeWayFromMentoringCollectionStmt, removeWayFromMentoringCollection, arg.OwnerUuid, arg.WayUuid)
+	return err
 }

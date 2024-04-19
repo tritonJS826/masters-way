@@ -835,6 +835,67 @@ const docTemplate = `{
                 }
             }
         },
+        "/mentorUserWays": {
+            "post": {
+                "description": "Make user mentor and also added to appropriate mentoring collection",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "mentorUserWay"
+                ],
+                "summary": "Create a new mentorUserWay",
+                "operationId": "create-mentorUserWay",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CreateMentorUserWayPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "mentorUserWay"
+                ],
+                "summary": "Delete mentorUserWay by UUID",
+                "operationId": "delete-mentorUserWay",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.DeleteMentorUserWayPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
         "/metrics": {
             "post": {
                 "consumes": [
@@ -2403,6 +2464,21 @@ const docTemplate = `{
                 }
             }
         },
+        "schemas.CreateMentorUserWayPayload": {
+            "type": "object",
+            "required": [
+                "userUuid",
+                "wayUuid"
+            ],
+            "properties": {
+                "userUuid": {
+                    "type": "string"
+                },
+                "wayUuid": {
+                    "type": "string"
+                }
+            }
+        },
         "schemas.CreateMetricPayload": {
             "type": "object",
             "required": [
@@ -2699,6 +2775,21 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.DeleteMentorUserWayPayload": {
+            "type": "object",
+            "required": [
+                "userUuid",
+                "wayUuid"
+            ],
+            "properties": {
+                "userUuid": {
+                    "type": "string"
+                },
+                "wayUuid": {
                     "type": "string"
                 }
             }

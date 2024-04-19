@@ -150,6 +150,16 @@ definitions:
     - name
     - wayUuid
     type: object
+  schemas.CreateMentorUserWayPayload:
+    properties:
+      userUuid:
+        type: string
+      wayUuid:
+        type: string
+    required:
+    - userUuid
+    - wayUuid
+    type: object
   schemas.CreateMetricPayload:
     properties:
       description:
@@ -357,6 +367,16 @@ definitions:
     - problems
     - updatedAt
     - uuid
+    type: object
+  schemas.DeleteMentorUserWayPayload:
+    properties:
+      userUuid:
+        type: string
+      wayUuid:
+        type: string
+    required:
+    - userUuid
+    - wayUuid
     type: object
   schemas.GetAllUsersResponse:
     properties:
@@ -1466,6 +1486,46 @@ paths:
       summary: Update jobTag by UUID
       tags:
       - jobTag
+  /mentorUserWays:
+    delete:
+      consumes:
+      - application/json
+      operationId: delete-mentorUserWay
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.DeleteMentorUserWayPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Delete mentorUserWay by UUID
+      tags:
+      - mentorUserWay
+    post:
+      consumes:
+      - application/json
+      description: Make user mentor and also added to appropriate mentoring collection
+      operationId: create-mentorUserWay
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.CreateMentorUserWayPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Create a new mentorUserWay
+      tags:
+      - mentorUserWay
   /metrics:
     post:
       consumes:
