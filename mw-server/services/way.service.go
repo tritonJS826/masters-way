@@ -270,7 +270,7 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 		WayTags:                wayTags,
 		JobTags:                jobTags,
 		Metrics:                metrics,
-		CopiedFromWayUuid:      way.CopiedFromWayUuid.UUID.String(),
+		CopiedFromWayUuid:      util.MarshalNullUuid(way.CopiedFromWayUuid),
 		Children:               children,
 	}
 

@@ -16,11 +16,11 @@ type UpdateMetricPayload struct {
 }
 
 type MetricResponse struct {
-	Uuid             string `json:"uuid" validate:"required"`
-	CreatedAt        string `json:"createdAt" validate:"required"`
-	UpdatedAt        string `json:"updatedAt" validate:"required"`
-	Description      string `json:"description" validate:"required"`
-	IsDone           bool   `json:"isDone" validate:"required"`
-	DoneDate         string `json:"doneDate" validate:"required" extensions:"x-nullable"`
-	MetricEstimation int32  `json:"estimationTime" validate:"required"`
+	Uuid             string  `json:"uuid" validate:"required"`
+	CreatedAt        string  `json:"createdAt" validate:"required"`
+	UpdatedAt        string  `json:"updatedAt" validate:"required"`
+	Description      string  `json:"description" validate:"required"`
+	IsDone           bool    `json:"isDone" validate:"required"`
+	DoneDate         *string `json:"doneDate" validate:"required" extensions:"x-nullable"`
+	MetricEstimation int32   `json:"estimationTime" validate:"required"`
 }

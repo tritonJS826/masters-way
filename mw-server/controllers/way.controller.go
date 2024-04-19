@@ -75,7 +75,7 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 		})
 	}
 
-	copiedFromWayUuid, _ := util.MarshalNullUuid(way.CopiedFromWayUuid)
+	copiedFromWayUuid := util.MarshalNullUuid(way.CopiedFromWayUuid)
 	dbOwner, _ := cc.db.GetUserById(ctx, payload.OwnerUuid)
 	owner := schemas.UserPlainResponse{
 		Uuid:        dbOwner.Uuid.String(),
@@ -96,7 +96,7 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 		EstimationTime:         way.EstimationTime,
 		IsCompleted:            way.IsCompleted,
 		Owner:                  owner,
-		CopiedFromWayUuid:      string(copiedFromWayUuid),
+		CopiedFromWayUuid:      copiedFromWayUuid,
 		IsPrivate:              way.IsPrivate,
 		Mentors:                make([]schemas.UserPlainResponse, 0),
 		WayTags:                wayTags,
@@ -153,7 +153,7 @@ func (cc *WayController) UpdateWay(ctx *gin.Context) {
 		return
 	}
 
-	copiedFromWayUuid, _ := util.MarshalNullUuid(way.CopiedFromWayUuid)
+	copiedFromWayUuid := util.MarshalNullUuid(way.CopiedFromWayUuid)
 	mentorsRaw, _ := cc.db.GetMentorUsersByWayId(ctx, way.Uuid)
 	mentors := lo.Map(mentorsRaw, func(dbMentor db.User, i int) schemas.UserPlainResponse {
 		return schemas.UserPlainResponse{
@@ -193,7 +193,7 @@ func (cc *WayController) UpdateWay(ctx *gin.Context) {
 		EstimationTime:    way.EstimationTime,
 		IsCompleted:       way.IsCompleted,
 		Owner:             owner,
-		CopiedFromWayUuid: string(copiedFromWayUuid),
+		CopiedFromWayUuid: copiedFromWayUuid,
 		IsPrivate:         way.IsPrivate,
 		FavoriteForUsers:  int32(way.WayFavoriteForUsers),
 		DayReportsAmount:  int32(way.WayDayReportsAmount),
@@ -325,7 +325,7 @@ func (cc *WayController) GetAllWays(ctx *gin.Context) {
 	})
 
 	response := lo.Map(ways, func(way db.ListWaysRow, i int) schemas.WayPlainResponse {
-		copiedFromWayUuid, _ := util.MarshalNullUuid(way.CopiedFromWayUuid)
+		copiedFromWayUuid := util.MarshalNullUuid(way.CopiedFromWayUuid)
 
 		if wayTagsMap[way.Uuid] == nil {
 			wayTagsMap[way.Uuid] = make([]schemas.WayTagResponse, 0)
@@ -342,7 +342,7 @@ func (cc *WayController) GetAllWays(ctx *gin.Context) {
 			EstimationTime:    way.EstimationTime,
 			IsCompleted:       way.IsCompleted,
 			Owner:             ownersMap[way.OwnerUuid.String()],
-			CopiedFromWayUuid: string(copiedFromWayUuid),
+			CopiedFromWayUuid: copiedFromWayUuid,
 			IsPrivate:         way.IsPrivate,
 			FavoriteForUsers:  int32(way.WayFavoriteForUsers),
 			DayReportsAmount:  int32(way.WayDayReportsAmount),

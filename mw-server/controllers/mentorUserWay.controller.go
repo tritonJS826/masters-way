@@ -39,6 +39,12 @@ func (cc *MentorUserWayController) AddMentorUserWay(ctx *gin.Context) {
 		return
 	}
 
+	args0 := &db.DeleteFormerMentorWayIfExistParams{
+		FormerMentorUuid: uuid.MustParse(payload.UserUuid),
+		WayUuid:          uuid.MustParse(payload.WayUuid),
+	}
+	err0 := cc.db.DeleteFormerMentorWayIfExist(ctx, *args0)
+
 	args := db.CreateMentorUserWayParams{
 		WayUuid:  uuid.MustParse(payload.WayUuid),
 		UserUuid: uuid.MustParse(payload.UserUuid),
@@ -53,7 +59,13 @@ func (cc *MentorUserWayController) AddMentorUserWay(ctx *gin.Context) {
 	err2 := cc.db.AddWayToMentoringCollection(ctx, args2)
 	util.HandleErrorGin(ctx, err2)
 
-	if err == nil && err2 == nil {
+	args4 := &db.DeleteFromUserMentoringRequestParams{
+		UserUuid: uuid.MustParse(payload.UserUuid),
+		WayUuid:  uuid.MustParse(payload.WayUuid),
+	}
+	err4 := cc.db.DeleteFromUserMentoringRequest(ctx, *args4)
+
+	if err0 == nil && err == nil && err2 == nil && err4 == nil {
 		ctx.JSON(http.StatusOK, gin.H{"status": "successfully added"})
 	}
 }
@@ -89,6 +101,17 @@ func (cc *MentorUserWayController) DeleteMentorUserWay(ctx *gin.Context) {
 	}
 	err2 := cc.db.RemoveWayFromMentoringCollection(ctx, args2)
 	util.HandleErrorGin(ctx, err2)
+
+	args3 := &db.CreateFormerMentorsWayParams{
+		FormerMentorUuid: uuid.MustParse(payload.UserUuid),
+		WayUuid:          uuid.MustParse(payload.WayUuid),
+	}
+	_, err3 := cc.db.CreateFormerMentorsWay(ctx, *args3)
+
+	if err3 != nil {
+		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving FormerMentorWay", "error": err.Error()})
+		return
+	}
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})
 

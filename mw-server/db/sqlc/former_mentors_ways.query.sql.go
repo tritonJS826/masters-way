@@ -32,6 +32,28 @@ func (q *Queries) CreateFormerMentorsWay(ctx context.Context, arg CreateFormerMe
 	return i, err
 }
 
+const deleteFormerMentorWayIfExist = `-- name: DeleteFormerMentorWayIfExist :exec
+DELETE FROM former_mentors_ways
+WHERE former_mentors_ways.former_mentor_uuid = $1 
+AND former_mentors_ways.way_uuid = $2
+AND EXISTS (
+    SELECT 1 FROM former_mentors_ways
+    WHERE former_mentor_uuid = $1 
+    AND way_uuid = $2
+    LIMIT 1
+)
+`
+
+type DeleteFormerMentorWayIfExistParams struct {
+	FormerMentorUuid uuid.UUID `json:"former_mentor_uuid"`
+	WayUuid          uuid.UUID `json:"way_uuid"`
+}
+
+func (q *Queries) DeleteFormerMentorWayIfExist(ctx context.Context, arg DeleteFormerMentorWayIfExistParams) error {
+	_, err := q.exec(ctx, q.deleteFormerMentorWayIfExistStmt, deleteFormerMentorWayIfExist, arg.FormerMentorUuid, arg.WayUuid)
+	return err
+}
+
 const getFormerMentorUsersByWayId = `-- name: GetFormerMentorUsersByWayId :many
 SELECT users.uuid, users.name, users.email, users.description, users.created_at, users.image_url, users.is_mentor, users.firebase_id from ways
 JOIN former_mentors_ways ON former_mentors_ways.way_uuid = ways.uuid

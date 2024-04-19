@@ -31,7 +31,7 @@ type WayPlainResponse struct {
 	EstimationTime    int32               `json:"estimationTime" validate:"required"`
 	IsCompleted       bool                `json:"isCompleted" validate:"required"`
 	Owner             UserPlainResponse   `json:"owner" validate:"required"`
-	CopiedFromWayUuid string              `json:"copiedFromWayUuid" validate:"required" extensions:"x-nullable"`
+	CopiedFromWayUuid *string             `json:"copiedFromWayUuid" validate:"required" extensions:"x-nullable"`
 	IsPrivate         bool                `json:"isPrivate" validate:"required"`
 	FavoriteForUsers  int32               `json:"favoriteForUsers" validate:"required"`
 	DayReportsAmount  int32               `json:"dayReportsAmount" validate:"required"`
@@ -59,7 +59,7 @@ type WayPopulatedResponse struct {
 	WayTags                []WayTagResponse             `json:"wayTags" validate:"required"`
 	JobTags                []JobTagResponse             `json:"jobTags" validate:"required"`
 	Metrics                []MetricResponse             `json:"metrics" validate:"required"`
-	CopiedFromWayUuid      string                       `json:"copiedFromWayUuid" validate:"required" extensions:"x-nullable"`
+	CopiedFromWayUuid      *string                      `json:"copiedFromWayUuid" validate:"required" extensions:"x-nullable"`
 	Children               []WayPopulatedResponse       `json:"children" validate:"required"`
 }
 

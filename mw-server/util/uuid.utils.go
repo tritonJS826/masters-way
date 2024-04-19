@@ -2,50 +2,48 @@ package util
 
 import (
 	"database/sql"
-	"encoding/json"
 
 	"github.com/google/uuid"
 )
 
 func ToNullUuid(someString string) uuid.NullUUID {
-	_, err := uuid.Parse(someString)
+	parsedUuid, err := uuid.Parse(someString)
 
-	var nullUuid uuid.NullUUID
-	if err != nil {
-		nullUuid.Valid = false
-	} else {
+	nullUuid := uuid.NullUUID{
+		UUID:  parsedUuid,
+		Valid: false,
+	}
+	if err == nil {
 		nullUuid.Valid = true
-		nullUuid.UUID = uuid.MustParse(someString)
 	}
 
 	return nullUuid
 }
 
-func MarshalNullUuid(nullUuid uuid.NullUUID) ([]byte, error) {
+func MarshalNullUuid(nullUuid uuid.NullUUID) *string {
 	if nullUuid.Valid {
-		return json.Marshal(nullUuid.UUID)
+		str := nullUuid.UUID.String()
+		return &str
 	} else {
-		return []byte("null"), nil
+		return nil
 	}
 }
 
-func MarshalNullString(nullString sql.NullString) string {
+func MarshalNullString(nullString sql.NullString) *string {
 	if nullString.Valid {
-		return nullString.String
+		str := nullString.String
+		return &str
 	} else {
-		strRaw, _ := json.Marshal(nil)
-
-		return string(strRaw)
+		return nil
 	}
 }
 
-func MarshalNullTime(nullTime sql.NullTime) string {
+func MarshalNullTime(nullTime sql.NullTime) *string {
 	if nullTime.Valid {
-		return nullTime.Time.String()
+		str := nullTime.Time.String()
+		return &str
 	} else {
-		strRaw, _ := json.Marshal(nil)
-
-		return string(strRaw)
+		return nil
 	}
 }
 

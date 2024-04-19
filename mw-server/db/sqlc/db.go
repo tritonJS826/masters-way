@@ -117,8 +117,11 @@ func Prepare(ctx context.Context, db DBTX) (*Queries, error) {
 	if q.deleteFavoriteUserWayByIdsStmt, err = db.PrepareContext(ctx, deleteFavoriteUserWayByIds); err != nil {
 		return nil, fmt.Errorf("error preparing query DeleteFavoriteUserWayByIds: %w", err)
 	}
-	if q.deleteFromUserMentoringRequestByIdsStmt, err = db.PrepareContext(ctx, deleteFromUserMentoringRequestByIds); err != nil {
-		return nil, fmt.Errorf("error preparing query DeleteFromUserMentoringRequestByIds: %w", err)
+	if q.deleteFormerMentorWayIfExistStmt, err = db.PrepareContext(ctx, deleteFormerMentorWayIfExist); err != nil {
+		return nil, fmt.Errorf("error preparing query DeleteFormerMentorWayIfExist: %w", err)
+	}
+	if q.deleteFromUserMentoringRequestStmt, err = db.PrepareContext(ctx, deleteFromUserMentoringRequest); err != nil {
+		return nil, fmt.Errorf("error preparing query DeleteFromUserMentoringRequest: %w", err)
 	}
 	if q.deleteJobDoneStmt, err = db.PrepareContext(ctx, deleteJobDone); err != nil {
 		return nil, fmt.Errorf("error preparing query DeleteJobDone: %w", err)
@@ -475,9 +478,14 @@ func (q *Queries) Close() error {
 			err = fmt.Errorf("error closing deleteFavoriteUserWayByIdsStmt: %w", cerr)
 		}
 	}
-	if q.deleteFromUserMentoringRequestByIdsStmt != nil {
-		if cerr := q.deleteFromUserMentoringRequestByIdsStmt.Close(); cerr != nil {
-			err = fmt.Errorf("error closing deleteFromUserMentoringRequestByIdsStmt: %w", cerr)
+	if q.deleteFormerMentorWayIfExistStmt != nil {
+		if cerr := q.deleteFormerMentorWayIfExistStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing deleteFormerMentorWayIfExistStmt: %w", cerr)
+		}
+	}
+	if q.deleteFromUserMentoringRequestStmt != nil {
+		if cerr := q.deleteFromUserMentoringRequestStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing deleteFromUserMentoringRequestStmt: %w", cerr)
 		}
 	}
 	if q.deleteJobDoneStmt != nil {
@@ -875,7 +883,8 @@ type Queries struct {
 	deleteCommentStmt                           *sql.Stmt
 	deleteFavoriteUserByIdsStmt                 *sql.Stmt
 	deleteFavoriteUserWayByIdsStmt              *sql.Stmt
-	deleteFromUserMentoringRequestByIdsStmt     *sql.Stmt
+	deleteFormerMentorWayIfExistStmt            *sql.Stmt
+	deleteFromUserMentoringRequestStmt          *sql.Stmt
 	deleteJobDoneStmt                           *sql.Stmt
 	deleteJobDonesJobTagByJobDoneIdStmt         *sql.Stmt
 	deleteJobTagByIdStmt                        *sql.Stmt
@@ -978,7 +987,8 @@ func (q *Queries) WithTx(tx *sql.Tx) *Queries {
 		deleteCommentStmt:                           q.deleteCommentStmt,
 		deleteFavoriteUserByIdsStmt:                 q.deleteFavoriteUserByIdsStmt,
 		deleteFavoriteUserWayByIdsStmt:              q.deleteFavoriteUserWayByIdsStmt,
-		deleteFromUserMentoringRequestByIdsStmt:     q.deleteFromUserMentoringRequestByIdsStmt,
+		deleteFormerMentorWayIfExistStmt:            q.deleteFormerMentorWayIfExistStmt,
+		deleteFromUserMentoringRequestStmt:          q.deleteFromUserMentoringRequestStmt,
 		deleteJobDoneStmt:                           q.deleteJobDoneStmt,
 		deleteJobDonesJobTagByJobDoneIdStmt:         q.deleteJobDonesJobTagByJobDoneIdStmt,
 		deleteJobTagByIdStmt:                        q.deleteJobTagByIdStmt,

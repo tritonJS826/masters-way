@@ -18,13 +18,13 @@ type UpdateUserPayload struct {
 }
 
 type UserPlainResponse struct {
-	Uuid        string `json:"uuid" validate:"required"`
-	Name        string `json:"name" validate:"required"`
-	Email       string `json:"email" validate:"required"`
-	Description string `json:"description" validate:"required"`
-	CreatedAt   string `json:"createdAt" validate:"required"`
-	ImageUrl    string `json:"imageUrl" validate:"required" extensions:"x-nullable"`
-	IsMentor    bool   `json:"isMentor" validate:"required"`
+	Uuid        string  `json:"uuid" validate:"required"`
+	Name        string  `json:"name" validate:"required"`
+	Email       string  `json:"email" validate:"required"`
+	Description string  `json:"description" validate:"required"`
+	CreatedAt   string  `json:"createdAt" validate:"required"`
+	ImageUrl    *string `json:"imageUrl" validate:"required" extensions:"x-nullable"`
+	IsMentor    bool    `json:"isMentor" validate:"required"`
 }
 
 type UserPlainResponseWithInfo struct {
@@ -33,7 +33,7 @@ type UserPlainResponseWithInfo struct {
 	Email            string            `json:"email" validate:"required"`
 	Description      string            `json:"description" validate:"required"`
 	CreatedAt        string            `json:"createdAt" validate:"required"`
-	ImageUrl         string            `json:"imageUrl" validate:"required" extensions:"x-nullable"`
+	ImageUrl         *string           `json:"imageUrl" validate:"required" extensions:"x-nullable"`
 	IsMentor         bool              `json:"isMentor" validate:"required"`
 	FavoriteForUsers int32             `json:"favoriteForUsers" validate:"required"`
 	FavoriteWays     int32             `json:"favoriteWays" validate:"required"`
@@ -48,7 +48,7 @@ type UserPopulatedResponse struct {
 	Email            string                           `json:"email" validate:"required"`
 	Description      string                           `json:"description" validate:"required"`
 	CreatedAt        string                           `json:"createdAt" validate:"required"`
-	ImageUrl         string                           `json:"imageUrl" validate:"required" extensions:"x-nullable"`
+	ImageUrl         *string                          `json:"imageUrl" validate:"required" extensions:"x-nullable"`
 	IsMentor         bool                             `json:"isMentor" validate:"required"`
 	WayCollections   []WayCollectionPopulatedResponse `json:"wayCollections" validate:"required"`
 	FavoriteForUsers []string                         `json:"favoriteForUsers" validate:"required"`

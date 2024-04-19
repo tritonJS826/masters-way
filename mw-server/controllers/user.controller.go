@@ -239,7 +239,7 @@ func (cc *UserController) GetUserById(ctx *gin.Context) {
 				EstimationTime:    dbWay.EstimationTime,
 				IsCompleted:       dbWay.IsCompleted,
 				Owner:             owner,
-				CopiedFromWayUuid: dbWay.CopiedFromWayUuid.UUID.String(),
+				CopiedFromWayUuid: util.MarshalNullUuid(dbWay.CopiedFromWayUuid),
 				IsPrivate:         dbWay.IsPrivate,
 				FavoriteForUsers:  int32(dbWay.WayFavoriteForUsers),
 				DayReportsAmount:  int32(dbWay.WayDayReportsAmount),
@@ -271,7 +271,7 @@ func (cc *UserController) GetUserById(ctx *gin.Context) {
 
 	wayRequestsRaw, _ := cc.db.GetFromUserMentoringRequestWaysByUserId(ctx, user.Uuid)
 	wayRequests := lo.Map(wayRequestsRaw, func(dbWay db.GetFromUserMentoringRequestWaysByUserIdRow, i int) schemas.WayPlainResponse {
-		copiedFromWayUuid, _ := util.MarshalNullUuid(dbWay.CopiedFromWayUuid)
+		copiedFromWayUuid := util.MarshalNullUuid(dbWay.CopiedFromWayUuid)
 		dbWayTags, _ := cc.db.GetListWayTagsByWayId(ctx, dbWay.Uuid)
 		wayTags := lo.Map(dbWayTags, func(dbWayTag db.WayTag, i int) schemas.WayTagResponse {
 			return schemas.WayTagResponse{
@@ -310,7 +310,7 @@ func (cc *UserController) GetUserById(ctx *gin.Context) {
 			EstimationTime:    dbWay.EstimationTime,
 			IsCompleted:       dbWay.IsCompleted,
 			Owner:             owner,
-			CopiedFromWayUuid: string(copiedFromWayUuid),
+			CopiedFromWayUuid: copiedFromWayUuid,
 			IsPrivate:         dbWay.IsPrivate,
 			FavoriteForUsers:  int32(dbWay.WayFavoriteForUsers),
 			DayReportsAmount:  int32(dbWay.WayDayReportsAmount),

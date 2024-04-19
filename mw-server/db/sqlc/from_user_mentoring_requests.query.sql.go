@@ -33,18 +33,18 @@ func (q *Queries) CreateFromUserMentoringRequest(ctx context.Context, arg Create
 	return i, err
 }
 
-const deleteFromUserMentoringRequestByIds = `-- name: DeleteFromUserMentoringRequestByIds :exec
+const deleteFromUserMentoringRequest = `-- name: DeleteFromUserMentoringRequest :exec
 DELETE FROM from_user_mentoring_requests
 WHERE user_uuid = $1 AND way_uuid = $2
 `
 
-type DeleteFromUserMentoringRequestByIdsParams struct {
+type DeleteFromUserMentoringRequestParams struct {
 	UserUuid uuid.UUID `json:"user_uuid"`
 	WayUuid  uuid.UUID `json:"way_uuid"`
 }
 
-func (q *Queries) DeleteFromUserMentoringRequestByIds(ctx context.Context, arg DeleteFromUserMentoringRequestByIdsParams) error {
-	_, err := q.exec(ctx, q.deleteFromUserMentoringRequestByIdsStmt, deleteFromUserMentoringRequestByIds, arg.UserUuid, arg.WayUuid)
+func (q *Queries) DeleteFromUserMentoringRequest(ctx context.Context, arg DeleteFromUserMentoringRequestParams) error {
+	_, err := q.exec(ctx, q.deleteFromUserMentoringRequestStmt, deleteFromUserMentoringRequest, arg.UserUuid, arg.WayUuid)
 	return err
 }
 
