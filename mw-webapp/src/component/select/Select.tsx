@@ -167,7 +167,7 @@ export const Select = <T extends string>(props: SelectProps<T>) => {
     >
       <SelectComponent.Root
         onValueChange={props.onChange}
-        defaultValue={props.value}
+        value={props.value}
       >
         <SelectComponent.Trigger
           className={styles.SelectTrigger}
