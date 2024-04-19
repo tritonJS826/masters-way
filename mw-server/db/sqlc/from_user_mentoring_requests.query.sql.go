@@ -129,10 +129,8 @@ const getFromUserMentoringRequestWaysByWayId = `-- name: GetFromUserMentoringReq
 SELECT 
     users.uuid, users.name, users.email, users.description, users.created_at, users.image_url, users.is_mentor, users.firebase_id
 FROM from_user_mentoring_requests
-JOIN users
-    ON $1 = from_user_mentoring_requests.way_uuid 
-    AND from_user_mentoring_requests.user_uuid = users.uuid
-WHERE ways.uuid = $1
+JOIN users ON from_user_mentoring_requests.user_uuid = users.uuid
+WHERE from_user_mentoring_requests.way_uuid = $1
 `
 
 func (q *Queries) GetFromUserMentoringRequestWaysByWayId(ctx context.Context, wayUuid uuid.UUID) ([]User, error) {

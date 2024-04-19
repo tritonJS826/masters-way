@@ -16,6 +16,6 @@ func NewRouteMentorUserWay(mentorUserWayController controllers.MentorUserWayCont
 
 func (cr *MentorUserWayRoutes) MentorUserWayRoute(rg *gin.RouterGroup) {
 	router := rg.Group("mentorUserWays")
-	router.POST("", cr.mentorUserWayController.AddMentorUserWayByName)
-	router.DELETE("", cr.mentorUserWayController.DeleteMentorUserWayByFromUserByTag)
+	router.POST("", cr.mentorUserWayController.AddMentorUserWay)
+	router.DELETE("", cr.mentorUserWayController.DeleteMentorUserWay)
 }

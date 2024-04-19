@@ -31,7 +31,7 @@ func NewMentorUserWayController(db *db.Queries, ctx context.Context) *MentorUser
 // @Param request body schemas.CreateMentorUserWayPayload true "query params"
 // @Success 200
 // @Router /mentorUserWays [post]
-func (cc *MentorUserWayController) AddMentorUserWayByName(ctx *gin.Context) {
+func (cc *MentorUserWayController) AddMentorUserWay(ctx *gin.Context) {
 	var payload *schemas.CreateMentorUserWayPayload
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
@@ -68,7 +68,7 @@ func (cc *MentorUserWayController) AddMentorUserWayByName(ctx *gin.Context) {
 // @Param request body schemas.DeleteMentorUserWayPayload true "query params"
 // @Success 200
 // @Router /mentorUserWays [delete]
-func (cc *MentorUserWayController) DeleteMentorUserWayByFromUserByTag(ctx *gin.Context) {
+func (cc *MentorUserWayController) DeleteMentorUserWay(ctx *gin.Context) {
 	var payload *schemas.DeleteMentorUserWayPayload
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {

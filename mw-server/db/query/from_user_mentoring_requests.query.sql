@@ -36,7 +36,5 @@ JOIN ways
 SELECT 
     users.*
 FROM from_user_mentoring_requests
-JOIN users
-    ON $1 = from_user_mentoring_requests.way_uuid 
-    AND from_user_mentoring_requests.user_uuid = users.uuid
-WHERE ways.uuid = $1;
+JOIN users ON from_user_mentoring_requests.user_uuid = users.uuid
+WHERE from_user_mentoring_requests.way_uuid = $1;
