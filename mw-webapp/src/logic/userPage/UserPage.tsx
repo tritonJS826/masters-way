@@ -534,7 +534,7 @@ export const UserPage = (props: UserPageProps) => {
             <BaseWaysTable
               key={collection.uuid}
               title={collection.name}
-              ways={currentCollection.ways}
+              ways={collection.ways}
               updateCollection={isCustomCollection
                 ? (wayCollection: Partial<WayCollection>) => updateCustomWayCollection({id: collection.uuid, ...wayCollection})
                 : undefined

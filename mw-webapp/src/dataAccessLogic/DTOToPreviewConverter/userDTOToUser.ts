@@ -27,7 +27,15 @@ export const UserDTOToUserConverter = (userDTO: SchemasUserPopulatedResponse): U
             status,
             createdAt: new Date(way.createdAt),
             lastUpdate: new Date(way.updatedAt),
-            mentors: [],
+            mentors: way.mentors.map(rawUser => new UserPlain({
+              createdAt: new Date(rawUser.createdAt),
+              description: rawUser.description,
+              email: rawUser.email,
+              imageUrl: rawUser.imageUrl,
+              isMentor: rawUser.isMentor,
+              name: rawUser.name,
+              uuid: rawUser.uuid,
+            })),
           });
 
           return wayPreview;
@@ -48,6 +56,7 @@ export const UserDTOToUserConverter = (userDTO: SchemasUserPopulatedResponse): U
     })),
     favoriteForUserUuids: userDTO.favoriteForUsers,
     imageUrl: userDTO.imageUrl ?? "",
+    // Why do we need so huge model here WayNotSaturatedUser? we should just provide basic information in modal
     wayRequests: [],
   });
 };

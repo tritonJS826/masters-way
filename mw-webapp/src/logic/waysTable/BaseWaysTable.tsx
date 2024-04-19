@@ -1,4 +1,3 @@
-import {useState} from "react";
 import clsx from "clsx";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Confirm} from "src/component/confirm/Confirm";
@@ -14,7 +13,6 @@ import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {WayCard} from "src/component/wayCard/WayCard";
 import {useGlobalContext} from "src/GlobalContext";
-import {useLoad} from "src/hooks/useLoad";
 import {getWaysColumns} from "src/logic/waysTable/waysColumns";
 import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {WayStatus, WayStatusType} from "src/logic/waysTable/wayStatus";
@@ -69,31 +67,6 @@ interface BaseWaysTableProps {
 export const FILTER_STATUS_ALL_VALUE = "all";
 
 /**
- * Callback that is called to fetch data
- */
-const loadWays = async (
-  ways: WayPreview[],
-  filterStatus: WayStatusType | typeof FILTER_STATUS_ALL_VALUE,
-): Promise<WayPreview[]> => {
-  const waysPreview: WayPreview[] = filterStatus === "completed"
-    ? ways.filter((way) => way.status === "Completed")
-    : filterStatus === "inProgress"
-      ? ways.filter((way) => way.status === "In Progress")
-      : filterStatus === "abandoned"
-        ? ways.filter((way) => way.status === "Abandoned")
-        : ways;
-
-  return waysPreview;
-};
-
-/**
- * Callback that is called to validate data
- */
-const validateData = (data: WayPreview[]) => {
-  return !!data;
-};
-
-/**
  * TODO: #
  * It is workaround shoud be implemented on the backend
  */
@@ -113,34 +86,13 @@ export const isWayVisible = (userUuid: string|undefined, way: WayPreview) => {
  */
 export const BaseWaysTable = (props: BaseWaysTableProps) => {
   const {user, language} = useGlobalContext();
-  const [ways, setWays] = useState<WayPreview[]>();
 
   /**
    * Filter ways by privacy
    */
   const getVisibleWays = (allWays: WayPreview[]) => allWays.filter((way) => isWayVisible(user?.uuid, way));
 
-  useLoad(
-    {
-
-      /**
-       * Load ways
-       */
-      loadData: () => loadWays(props.ways, props.filterStatus),
-      validateData,
-      onSuccess: setWays,
-
-      /**
-       * Error handler (in case of invalid data)
-       */
-      onError: (error: Error) => {
-        throw error;
-      },
-      dependency: [props.filterStatus, props.ways],
-    },
-  );
-
-  if (!ways) {
+  if (!props.ways) {
     return (
       <VerticalContainer className={styles.loaderWrapper}>
         <Loader />
@@ -206,7 +158,7 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
       </HorizontalContainer>
 
       <Title
-        text={`${props.title} (${getVisibleWays(ways).length})`}
+        text={`${props.title} (${getVisibleWays(props.ways).length})`}
         level={HeadingLevel.h2}
       />
 
@@ -215,13 +167,13 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
         {props.view === View.Table ?
           <ScrollableBlock>
             <WaysTable
-              data={getVisibleWays(ways)}
+              data={getVisibleWays(props.ways)}
               columns={getWaysColumns(language)}
             />
           </ScrollableBlock>
           :
           <HorizontalGridContainer className={styles.wayCards}>
-            {getVisibleWays(ways).map((way) => {
+            {getVisibleWays(props.ways).map((way) => {
               return (
                 <WayCard
                   key={way.uuid}
@@ -237,7 +189,7 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
           <>
             {ArrayUtils.getDifference(
               props.ways.map(way => way.uuid),
-              getVisibleWays(ways).map(way => way.uuid),
+              getVisibleWays(props.ways).map(way => way.uuid),
             ).map((notExistentWayUuid) => (
               <>
                 <Confirm
