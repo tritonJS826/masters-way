@@ -144,10 +144,15 @@ export const WayCard = (props: WayCardProps) => {
           </HorizontalContainer>
           <HorizontalContainer className={styles.people}>
             Owner:
-            <Avatar
-              alt={props.wayPreview.owner.name}
-              src={props.wayPreview.owner.imageUrl}
-            />
+            <Tooltip
+              position={PositionTooltip.BOTTOM}
+              content={props.wayPreview.owner.name}
+            >
+              <Avatar
+                alt={props.wayPreview.owner.name}
+                src={props.wayPreview.owner.imageUrl}
+              />
+            </Tooltip>
             {renderMentors(props.wayPreview.mentors)}
           </HorizontalContainer>
           <ProgressBar

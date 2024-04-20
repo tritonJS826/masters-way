@@ -106,7 +106,7 @@ export class UserApi extends runtime.BaseAPI {
      * Temporal method. Shod be removed after improving auth logic. Email should be unique
      * Create a new user or return already existent user if user with this firebase id already exist
      */
-    async createUserIfRequiredRaw(requestParameters: CreateUserIfRequiredRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasUserPlainResponse>> {
+    async createUserIfRequiredRaw(requestParameters: CreateUserIfRequiredRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasUserPopulatedResponse>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createUserIfRequired.');
         }
@@ -125,14 +125,14 @@ export class UserApi extends runtime.BaseAPI {
             body: SchemasCreateUserPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasUserPlainResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasUserPopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Temporal method. Shod be removed after improving auth logic. Email should be unique
      * Create a new user or return already existent user if user with this firebase id already exist
      */
-    async createUserIfRequired(requestParameters: CreateUserIfRequiredRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasUserPlainResponse> {
+    async createUserIfRequired(requestParameters: CreateUserIfRequiredRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasUserPopulatedResponse> {
         const response = await this.createUserIfRequiredRaw(requestParameters, initOverrides);
         return await response.value();
     }

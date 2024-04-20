@@ -1690,7 +1690,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.UserPlainResponse"
+                            "$ref": "#/definitions/schemas.UserPopulatedResponse"
                         }
                     }
                 }

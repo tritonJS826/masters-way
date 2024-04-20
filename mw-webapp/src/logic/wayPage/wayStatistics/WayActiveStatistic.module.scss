@@ -4,5 +4,5 @@
   display: grid;
   width: 100%;
   gap: $gapMedium;
-  grid-template-columns: repeat(auto-fit, minmax($mediumWidthBlock, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax($minWidthBlock, 1fr));
 }
