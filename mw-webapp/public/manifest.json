@@ -3,21 +3,37 @@
   "name": "Your Map to Success",
   "icons": [
     {
-      "src": "https://drive.google.com/uc?export=download&id=19pRR5a_VDsi197TumXIhZe_wpjQAsr26",
-      "sizes": "64x64 32x32 24x24 16x16",
+      "src": "favicon.ico",
+      "sizes": "256x256",
       "type": "image/x-icon"
     },
     {
-      "src": "https://drive.google.com/file/d/1am7DSSQIxse2Htl39d_F5pgdadgg8x6v/view?usp=drive_link",
+      "src": "logo192x192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "https://drive.google.com/uc?export=download&id=1mQ3pKCg0zgPNNIVPGt9JgoWpwCnf3aiJ",
+      "src": "logo512x512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
+  "screenshots" : [
+    {
+      "src": "logo512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Logo of Master's Way App"
+    },
+    {
+      "src": "logo512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "label": "Logo of Master's Way App"
+    }
+  ],
+  "id": "app.netlify.mastersway-dev",
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#282828",
