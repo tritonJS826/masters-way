@@ -2,4 +2,8 @@
 
 .statisticContainer {
   gap: $gapMedium;
+
+  @media (max-width: $mediaWidthMobileSmall) {
+    width: $minWidthBlock;
+  }
 }

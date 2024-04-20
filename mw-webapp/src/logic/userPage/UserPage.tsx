@@ -192,9 +192,8 @@ export const UserPage = (props: UserPageProps) => {
     );
   }
 
-  // //TODO: think how to use uuid instead of name. Need fix logic about render default collections
-  const isCustomCollection = userPageOwner.wayCollections.some((col) => col.type === "custom");
   const currentCollection = userPageOwner.wayCollections.find((col) => col.uuid === openedTabId);
+  const isCustomCollection = currentCollection && currentCollection.type === "custom";
   const defaultCollection = userPageOwner.wayCollections.find((col) => col.type === "own");
 
   if (!defaultCollection) {
@@ -486,7 +485,7 @@ export const UserPage = (props: UserPageProps) => {
         </div>
       </HorizontalGridContainer>
 
-      {isCustomCollection && (
+      {isCustomCollection && isPageOwner && (
         <HorizontalContainer className={styles.temporalBlock}>
           <Confirm
             trigger={

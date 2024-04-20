@@ -208,7 +208,7 @@ export const Header = (props: HeaderProps) => {
                       name="GlobeIcon"
                       className={styles.sidebarIcon}
                     />
-                    Language
+                    {LanguageService.sidebar.language[props.language]}
                   </HorizontalContainer>
                   <Select
                     value={props.language}
@@ -224,7 +224,7 @@ export const Header = (props: HeaderProps) => {
                       name="MoonIcon"
                       className={styles.sidebarIcon}
                     />
-                    Night mode
+                    {LanguageService.sidebar.nightMode[props.language]}
                   </HorizontalContainer>
                   <Toggle
                     onChange={() => props.setTheme(getNextSwitchTheme(props.currentTheme))}
@@ -232,7 +232,7 @@ export const Header = (props: HeaderProps) => {
                   />
                 </HorizontalContainer>
                 <VerticalContainer className={styles.socialMedia}>
-                  Social Media
+                  {LanguageService.sidebar.socialMedia[props.language]}
                   <HorizontalContainer className={styles.socialMediaIcons}>
                     <Link
                       className={styles.logo}

@@ -2114,7 +2114,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.UserPlainResponse'
+            $ref: '#/definitions/schemas.UserPopulatedResponse'
       summary: Create a new user or return already existent user if user with this
         firebase id already exist
       tags:
