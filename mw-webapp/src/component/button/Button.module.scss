@@ -88,11 +88,10 @@
 
 .iconButtonWithoutBorder {
   background-color: var(--secondaryBackgroundButtonColor);
-  color: var(--primaryTextButtonColor);
+  color: var(--primaryTextColor);
 
   &:hover {
     background-color: var(--secondaryHoverButtonColor);
-    color: var(--secondaryTextButtonColor);
   }
 
   &:active {
