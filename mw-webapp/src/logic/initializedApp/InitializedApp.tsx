@@ -1,8 +1,8 @@
 import {PropsWithChildren, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
-import {UserDAL} from "src/dataAccessLogic/UserDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {useErrorHandler} from "src/hooks/useErrorHandler";
+import {User} from "src/model/businessModel/User";
 import {pages} from "src/router/pages";
 import {AuthService} from "src/service/AuthService";
 import {ThemeWorker} from "src/utils/ThemeWorker";
@@ -33,10 +33,9 @@ export const InitializedApp = (props: PropsWithChildren) => {
   /**
    * OnLog in
    */
-  const onLogIn = async (userUid: string) => {
-    const currentUserPreview = await UserDAL.getUserByUuid(userUid);
-    setUser(currentUserPreview);
-    const defaultPagePath = getDefaultPagePath(userUid);
+  const onLogIn = async (user: User) => {
+    setUser(user);
+    const defaultPagePath = getDefaultPagePath(user.uuid);
 
     if (getIsHomePage()) {
       navigate(defaultPagePath);

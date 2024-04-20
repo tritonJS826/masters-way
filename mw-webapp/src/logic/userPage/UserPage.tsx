@@ -151,7 +151,9 @@ export const UserPage = (props: UserPageProps) => {
    * Callback that is called to fetch data
    */
   const loadData = async (): Promise<User> => {
-    const fetchedUser = await UserDAL.getUserByUuid(props.uuid);
+    const fetchedUser = user?.uuid === props.uuid
+      ? user
+      : await UserDAL.getUserByUuid(props.uuid);
 
     return fetchedUser;
   };

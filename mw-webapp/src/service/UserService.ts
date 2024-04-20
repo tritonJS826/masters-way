@@ -54,7 +54,7 @@ export class UserService {
   /**
    * Create user
    */
-  public static async createUser(requestParameters: CreateUserRequest): Promise<SchemasUserPlainResponse> {
+  public static async createUser(requestParameters: CreateUserRequest): Promise<SchemasUserPopulatedResponse> {
     const user = await userService.createUserIfRequired(requestParameters);
 
     return user;

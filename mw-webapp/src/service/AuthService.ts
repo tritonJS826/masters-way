@@ -1,5 +1,7 @@
 import {onAuthStateChanged, signInWithPopup, signOut} from "firebase/auth";
+import {UserDTOToUserConverter} from "src/dataAccessLogic/DTOToPreviewConverter/userDTOToUser";
 import {auth, provider} from "src/firebase";
+import {User} from "src/model/businessModel/User";
 import {UserService} from "src/service/UserService";
 
 const DEFAULT_USER_NAME = "Noname";
@@ -12,7 +14,7 @@ interface ListenAuthStateChangeParams {
   /**
    * OnLogIn handler
    */
-  onLogIn: (userUid: string) => void;
+  onLogIn: (user: User) => void;
 
   /**
    * OnLogOut handler
@@ -66,7 +68,7 @@ export class AuthService {
       }
 
       // Create new user on after google login
-      const user = await UserService.createUser({
+      const userDTO = await UserService.createUser({
         request: {
           firebaseId: currentUser.uid,
           email: currentUser.email,
@@ -76,7 +78,9 @@ export class AuthService {
           isMentor: false,
         },
       });
-      params.onLogIn(user.uuid);
+
+      const user = UserDTOToUserConverter(userDTO);
+      params.onLogIn(user);
 
     });
   }
