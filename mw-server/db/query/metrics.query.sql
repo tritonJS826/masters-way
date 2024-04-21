@@ -21,7 +21,7 @@ SET
 updated_at = coalesce(sqlc.narg('updated_at'), updated_at),
 description = coalesce(sqlc.narg('description'), description),
 is_done = coalesce(sqlc.narg('is_done'), is_done),
-done_date = coalesce(sqlc.narg('doneDate'), done_date),
+done_date = CASE WHEN sqlc.narg('doneDate.Valid') THEN CAST(sqlc.narg('doneDate') AS timestamp) ELSE NULL END,
 metric_estimation = coalesce(sqlc.narg('metric_estimation'), metric_estimation)
 WHERE uuid = sqlc.arg('uuid')
 RETURNING *;
