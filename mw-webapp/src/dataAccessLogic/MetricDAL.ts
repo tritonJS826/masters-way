@@ -24,19 +24,11 @@ export class MetricDAL {
     const metric = new Metric({
       ...metricDTO,
       doneDate: metricDTO.doneDate ? new Date(metricDTO.doneDate) : null,
+      createdAt: new Date(metricDTO.createdAt),
     });
 
     return metric;
   }
-
-  // /**
-  //  * Get metrics by Way UUID
-  //  */
-  // public static async getMetrics(requestParameters: GetMetricsByWayUuidRequest): Promise<SchemasMetricResponse[]> {
-  //   const jobsDone = await metricService.getMetricsByWayUuid(requestParameters);
-
-  //   return jobsDone;
-  // }
 
   /**
    * Update metric
@@ -46,13 +38,14 @@ export class MetricDAL {
       metricId: metric.uuid,
       request: {
         ...metric,
-        doneDate: metric.doneDate?.toISOString() ?? "",
+        doneDate: metric.doneDate ? metric.doneDate.toISOString() : null,
       },
     });
 
     const updatedMetric = new Metric({
       ...updatedMetricDTO,
       doneDate: updatedMetricDTO.doneDate ? new Date(updatedMetricDTO.doneDate) : null,
+      createdAt: new Date(updatedMetricDTO.createdAt),
     });
 
     return updatedMetric;
