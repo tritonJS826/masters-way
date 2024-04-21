@@ -730,25 +730,28 @@ export const WayPage = (props: WayPageProps) => {
                 }
               </div>
             </HorizontalContainer>
-            <HorizontalContainer>
-              <Title
-                level={HeadingLevel.h3}
-                text="Participants:"
-              />
-              {compositeWayParticipant.length !== 0 &&
-                compositeWayParticipant.map((participant) => {
-                  return (
-                    <Link
-                      path={pages.user.getPath({uuid: participant.uuid})}
-                      key={participant.uuid}
-                    >
-                      {participant.name}
-                    </Link>
-                  );
-                })
-              }
-            </HorizontalContainer>
 
+            {way.children.length !== 0 &&
+              <HorizontalContainer>
+                <Title
+                  level={HeadingLevel.h3}
+                  text="Participants:"
+                />
+                {compositeWayParticipant.length !== 0 &&
+                  compositeWayParticipant.map((participant) => {
+                    return (
+                      <Link
+                        path={pages.user.getPath({uuid: participant.uuid})}
+                        key={participant.uuid}
+                      >
+                        {participant.name}
+                      </Link>
+                    );
+                  })
+                }
+              </HorizontalContainer>
+            }
+            {way.children.length !== 0 &&
             <HorizontalContainer className={styles.participantWay}>
               <Title
                 level={HeadingLevel.h3}
@@ -768,6 +771,7 @@ export const WayPage = (props: WayPageProps) => {
                 })
               }
             </HorizontalContainer>
+            }
 
             <HorizontalContainer>
               <Title

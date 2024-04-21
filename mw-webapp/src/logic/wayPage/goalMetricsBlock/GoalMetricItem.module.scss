@@ -1,0 +1,35 @@
+@import "src/styles/variables";
+
+.singularMetric {
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: $gapSmall;
+}
+
+.metricDescriptionAndCheckbox {
+  width: 100%;
+  align-items: flex-start;
+  gap: $gapSmall;
+}
+
+.checkbox {
+  min-width: $checkboxWidthLarge;
+  min-height: $checkboxHeightLarge;
+}
+
+.checkbox::after {
+  width: $checkmarkWidthLarge;
+  height: $checkmarkHeightLarge;
+  box-shadow: inset $checkmarkWidthLarge $checkmarkHeightLarge
+    var(--primaryTextColor);
+}
+
+.editableTextarea {
+  flex-grow: 1;
+
+  textarea {
+    width: 100%;
+  }
+}

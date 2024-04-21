@@ -47,7 +47,7 @@ interface GoalMetricStatisticsBlockProps {
  */
 export const GoalMetricsBlock = (props: GoalMetricStatisticsBlockProps) => {
   const {language} = useGlobalContext();
-  // Const [metrics, setMetrics] = useState(props.goalMetrics);
+  const sortedMetrics = props.goalMetrics.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
 
   /**
    * Add metric
@@ -131,7 +131,7 @@ export const GoalMetricsBlock = (props: GoalMetricStatisticsBlockProps) => {
     <>
       {props.isVisible &&
         <>
-          {renderGoalMetrics(props.goalMetrics)}
+          {renderGoalMetrics(sortedMetrics)}
           {renderButtonAddMetrics()}
         </>
       }

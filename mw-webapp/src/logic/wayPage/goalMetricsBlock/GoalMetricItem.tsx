@@ -1,12 +1,12 @@
 import {TrashIcon} from "@radix-ui/react-icons";
 import {Checkbox} from "src/component/checkbox/Checkbox";
 import {Confirm} from "src/component/confirm/Confirm";
-import {EditableText} from "src/component/editableText/EditableText";
+import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {Metric} from "src/model/businessModel/Metric";
 import {DateUtils} from "src/utils/DateUtils";
-import styles from "src/logic/wayPage/WayPage.module.scss";
+import styles from "src/logic/wayPage/goalMetricsBlock/GoalMetricItem.module.scss";
 
 /**
  * Single Goal Metric Props
@@ -48,7 +48,7 @@ export const GoalMetricItem = (props: SingleGoalMetricProps) => {
    * Set metric not completed
    */
   const onOk = () => {
-    props.updateMetric({...props.metric, isDone: false, doneDate: new Date()});
+    props.updateMetric({...props.metric, isDone: false, doneDate: null});
   };
 
   return (
@@ -56,7 +56,7 @@ export const GoalMetricItem = (props: SingleGoalMetricProps) => {
       key={props.metric.uuid}
       className={styles.singularMetric}
     >
-      <HorizontalContainer className={styles.horizontalContainer}>
+      <HorizontalContainer className={styles.metricDescriptionAndCheckbox}>
         {props.metric.isDone && props.isEditable
           ? (
             <Confirm
@@ -67,9 +67,10 @@ export const GoalMetricItem = (props: SingleGoalMetricProps) => {
               okText="Confirm"
               trigger={
                 <Checkbox
+                  isDisabled={true}
                   isDefaultChecked={props.metric.isDone}
                   className={styles.checkbox}
-                  onChange={(isDone) => isDone}
+                  onChange={((isDone) => isDone)}
                 />
               }
             />
@@ -83,11 +84,15 @@ export const GoalMetricItem = (props: SingleGoalMetricProps) => {
             />
           )
         }
-        <Tooltip content={tooltipContent}>
-          <EditableText
-            value={props.metric.description ?? ""}
+        <Tooltip
+          content={tooltipContent}
+          className={styles.tooltip}
+        >
+          <EditableTextarea
+            text={props.metric.description ?? ""}
             onChangeFinish={(description) => props.updateMetric({...props.metric, description})}
             isEditable={props.isEditable}
+            className={styles.editableTextarea}
           />
         </Tooltip>
       </HorizontalContainer>
@@ -95,7 +100,7 @@ export const GoalMetricItem = (props: SingleGoalMetricProps) => {
         <Tooltip content="Delete goal metric">
           <Confirm
             trigger={
-              <TrashIcon className={styles.icon} />}
+              <TrashIcon />}
             content={<p>
               {`Are you sure that you want to delete goal metric "${props.metric.description}"?`}
             </p>}
