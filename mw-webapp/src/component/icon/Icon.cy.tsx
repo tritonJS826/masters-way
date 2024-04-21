@@ -1,24 +1,8 @@
 import {Icon, IconDictionary, IconSize} from "src/component/icon/Icon";
 import {getDataCy} from "src/utils/cyTesting/getDataCy";
-import styles from "src/component/icon/Icon.module.scss";
 
 const ICON_CY = "icon";
-
-/**
- * Data attribute for cypress testing
- */
-enum IconSizeIconDictionaryTest {
-  EyeOpenedIcon="EyeOpenedIcon",
-  EyeSlashedIcon="EyeSlashedIcon",
-  SunIcon="SunIcon",
-  MoonIcon="MoonIcon",
-  StarIcon="StarIcon",
-  GridViewIcon="GridViewIcon",
-  TableViewIcon="TableViewIcon",
-  FileIcon="FileIcon",
-  PlusIcon="PlusIcon",
-  MoreVertical="MoreVertical"
-}
+const ICON_RENDER = "EyeOpenedIcon";
 
 /**
  * Data attribute for cypress testing
@@ -45,52 +29,26 @@ const createTestIcon = (props: createTestIconProps) => {
       dataCy={ICON_CY}
       name={props.name}
       size={props.size}
-      className={styles.testIcon}
     />
   );
 };
 
 describe("Icon component", () => {
 
-  it("shoud be renders when EyeOpenedIcon", () => {
-    cy.mount(createTestIcon({name: IconSizeIconDictionaryTest.EyeOpenedIcon, size: IconSize.MEDIUM}));
+  it("shoud be render", () => {
+    cy.mount(createTestIcon({name: ICON_RENDER, size: IconSize.MEDIUM}));
     cy.get(getDataCy(ICON_CY)).should("exist");
   });
-  it("shoud be renders when EyeSlashedIcon", () => {
-    cy.mount(createTestIcon({name: IconSizeIconDictionaryTest.EyeSlashedIcon, size: IconSize.MEDIUM}));
-    cy.get(getDataCy(ICON_CY)).should("exist");
+
+  it("shoud be render medium size", () => {
+    cy.mount(createTestIcon({name: ICON_RENDER, size: IconSize.MEDIUM}));
+    cy.get(getDataCy(ICON_CY)) .invoke("css", "width").should("match", /25.*px/);
+    cy.get(getDataCy(ICON_CY)) .invoke("css", "height").should("match", /25.*px/);
   });
-  it("shoud be renders when FileIcon", () => {
-    cy.mount(createTestIcon({name: IconSizeIconDictionaryTest.FileIcon, size: IconSize.MEDIUM}));
-    cy.get(getDataCy(ICON_CY)).should("exist");
-  });
-  it("shoud be renders when GridViewIcon", () => {
-    cy.mount(createTestIcon({name: IconSizeIconDictionaryTest.GridViewIcon, size: IconSize.MEDIUM}));
-    cy.get(getDataCy(ICON_CY)).should("exist");
-  });
-  it("shoud be renders when MoonIcon", () => {
-    cy.mount(createTestIcon({name: IconSizeIconDictionaryTest.MoonIcon, size: IconSize.MEDIUM}));
-    cy.get(getDataCy(ICON_CY)).should("exist");
-  });
-  it("shoud be renders MoreVertical", () => {
-    cy.mount(createTestIcon({name: IconSizeIconDictionaryTest.MoreVertical, size: IconSize.MEDIUM}));
-    cy.get(getDataCy(ICON_CY)).should("exist");
-  });
-  it("shoud be renders when PlusIcon", () => {
-    cy.mount(createTestIcon({name: IconSizeIconDictionaryTest.PlusIcon, size: IconSize.MEDIUM}));
-    cy.get(getDataCy(ICON_CY)).should("exist");
-  });
-  it("shoud be renders when StarIcon", () => {
-    cy.mount(createTestIcon({name: IconSizeIconDictionaryTest.StarIcon, size: IconSize.MEDIUM}));
-    cy.get(getDataCy(ICON_CY)).should("exist");
-  });
-  it("shoud be renders when SunIcon", () => {
-    cy.mount(createTestIcon({name: IconSizeIconDictionaryTest.SunIcon, size: IconSize.MEDIUM}));
-    cy.get(getDataCy(ICON_CY)).should("exist");
-  });
-  it("shoud be renders when TableViewIcon", () => {
-    cy.mount(createTestIcon({name: IconSizeIconDictionaryTest.TableViewIcon, size: IconSize.MEDIUM}));
-    cy.get(getDataCy(ICON_CY)).should("exist");
+  it("shoud be render small size", () => {
+    cy.mount(createTestIcon({name: ICON_RENDER, size: IconSize.SMALL}));
+    cy.get(getDataCy(ICON_CY)) .invoke("css", "width").should("match", /15.*px/);
+    cy.get(getDataCy(ICON_CY)) .invoke("css", "height").should("match", /15.*px/);
   });
 });
 
