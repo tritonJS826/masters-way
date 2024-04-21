@@ -1,4 +1,4 @@
-import {WayCollectionWayService} from "src/service/wayCollectionWaySevice";
+import {WayCollectionWayService} from "src/service/WayCollectionWaySevice";
 
 /**
  * Provides methods to interact with the WayCollectionWay model

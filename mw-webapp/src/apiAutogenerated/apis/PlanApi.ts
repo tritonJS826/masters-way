@@ -36,10 +36,6 @@ export interface DeletePlanRequest {
     planId: string;
 }
 
-export interface GetPlansByDayReportUuidRequest {
-    dayReportId: string;
-}
-
 export interface UpdatePlanRequest {
     planId: string;
     request: SchemasUpdatePlanPayload;
@@ -110,36 +106,6 @@ export class PlanApi extends runtime.BaseAPI {
      */
     async deletePlan(requestParameters: DeletePlanRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.deletePlanRaw(requestParameters, initOverrides);
-    }
-
-    /**
-     * Get plans by dayReport UUID
-     */
-    async getPlansByDayReportUuidRaw(requestParameters: GetPlansByDayReportUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<SchemasPlanPopulatedResponse>>> {
-        if (requestParameters.dayReportId === null || requestParameters.dayReportId === undefined) {
-            throw new runtime.RequiredError('dayReportId','Required parameter requestParameters.dayReportId was null or undefined when calling getPlansByDayReportUuid.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/plans/{dayReportId}`.replace(`{${"dayReportId"}}`, encodeURIComponent(String(requestParameters.dayReportId))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(SchemasPlanPopulatedResponseFromJSON));
-    }
-
-    /**
-     * Get plans by dayReport UUID
-     */
-    async getPlansByDayReportUuid(requestParameters: GetPlansByDayReportUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<SchemasPlanPopulatedResponse>> {
-        const response = await this.getPlansByDayReportUuidRaw(requestParameters, initOverrides);
-        return await response.value();
     }
 
     /**

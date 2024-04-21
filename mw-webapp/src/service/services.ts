@@ -4,7 +4,6 @@ import {
   DayReportApi,
   FavoriteUserApi,
   FavoriteUserWayApi,
-  FormerMentorWayApi,
   FromUserMentoringRequestApi,
   JobDoneApi,
   JobDoneJobTagApi,
@@ -45,6 +44,5 @@ export const commentService = new CommentApi(configuration);
 export const dayReportService = new DayReportApi(configuration);
 export const metricService = new MetricApi(configuration);
 export const favoriteUserWayService = new FavoriteUserWayApi(configuration);
-export const formerMentorWayService = new FormerMentorWayApi(configuration);
 export const fromUserMentoringRequest = new FromUserMentoringRequestApi(configuration);
 export const mentorUserWay = new MentorUserWayApi(configuration);

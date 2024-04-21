@@ -36,10 +36,6 @@ export interface DeleteMetricRequest {
     metricId: string;
 }
 
-export interface GetMetricsByWayUuidRequest {
-    wayId: string;
-}
-
 export interface UpdateMetricRequest {
     metricId: string;
     request: SchemasUpdateMetricPayload;
@@ -110,36 +106,6 @@ export class MetricApi extends runtime.BaseAPI {
      */
     async deleteMetric(requestParameters: DeleteMetricRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.deleteMetricRaw(requestParameters, initOverrides);
-    }
-
-    /**
-     * Get metrics by way UUID
-     */
-    async getMetricsByWayUuidRaw(requestParameters: GetMetricsByWayUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<SchemasMetricResponse>>> {
-        if (requestParameters.wayId === null || requestParameters.wayId === undefined) {
-            throw new runtime.RequiredError('wayId','Required parameter requestParameters.wayId was null or undefined when calling getMetricsByWayUuid.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/metrics/{wayId}`.replace(`{${"wayId"}}`, encodeURIComponent(String(requestParameters.wayId))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(SchemasMetricResponseFromJSON));
-    }
-
-    /**
-     * Get metrics by way UUID
-     */
-    async getMetricsByWayUuid(requestParameters: GetMetricsByWayUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<SchemasMetricResponse>> {
-        const response = await this.getMetricsByWayUuidRaw(requestParameters, initOverrides);
-        return await response.value();
     }
 
     /**

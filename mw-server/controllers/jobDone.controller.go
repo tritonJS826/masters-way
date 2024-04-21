@@ -149,32 +149,6 @@ func (cc *JobDoneController) UpdateJobDone(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, response)
 }
 
-// Get jobs done by day report uuid handler
-// @Summary Get jobDones by dayReport UUID
-// @Description
-// @Tags jobDone
-// @ID get-jobDones-by-DayReport-uuid
-// @Accept  json
-// @Produce  json
-// @Param dayReportId path string true "dayReport UUID"
-// @Success 200 {array} schemas.JobDonePopulatedResponse
-// @Router /jobDones/{dayReportId} [get]
-func (cc *JobDoneController) GetJobDonesByDayReportId(ctx *gin.Context) {
-	dayReportId := ctx.Param("dayReportId")
-
-	jobDone, err := cc.db.GetListJobsDoneByDayReportId(ctx, uuid.MustParse(dayReportId))
-	if err != nil {
-		if err == sql.ErrNoRows {
-			ctx.JSON(http.StatusNotFound, gin.H{"status": "failed", "message": "Failed to retrieve JobDone with this ID"})
-			return
-		}
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving JobDone", "error": err.Error()})
-		return
-	}
-
-	ctx.JSON(http.StatusOK, jobDone)
-}
-
 // Deleting jobDone handlers
 // @Summary Delete jobDone by UUID
 // @Description

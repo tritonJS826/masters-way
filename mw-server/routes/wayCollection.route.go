@@ -18,6 +18,5 @@ func (cr *WayCollectionRoutes) WayCollectionRoute(rg *gin.RouterGroup) {
 	router := rg.Group("wayCollections")
 	router.POST("", cr.wayCollectionController.CreateWayCollection)
 	router.PATCH("/:wayCollectionId", cr.wayCollectionController.UpdateWayCollection)
-	router.GET("/:userId", cr.wayCollectionController.GetWayCollectionsByUserId)
 	router.DELETE("/:wayCollectionId", cr.wayCollectionController.DeleteWayCollectionById)
 }

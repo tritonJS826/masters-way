@@ -90,7 +90,7 @@ func (cc *MetricController) UpdateMetric(ctx *gin.Context) {
 		UpdatedAt:        sql.NullTime{Time: now, Valid: true},
 		Description:      sql.NullString{String: payload.Description, Valid: payload.Description != ""},
 		IsDone:           sql.NullBool{Bool: payload.IsDone, Valid: true},
-		DoneDate:         sql.NullTime{Time: parsedTime, Valid: err != nil},
+		DoneDate:         sql.NullTime{Time: parsedTime, Valid: err == nil},
 		MetricEstimation: sql.NullInt32{Int32: int32(payload.MetricEstimation), Valid: payload.MetricEstimation != 0},
 	}
 
@@ -105,33 +105,17 @@ func (cc *MetricController) UpdateMetric(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, metric)
-}
-
-// Get jobs done by day report uuid handler
-// @Summary Get metrics by way UUID
-// @Description
-// @Tags metric
-// @ID get-metrics-by-Way-uuid
-// @Accept  json
-// @Produce  json
-// @Param wayId path string true "way UUID"
-// @Success 200 {array} schemas.MetricResponse
-// @Router /metrics/{wayId} [get]
-func (cc *MetricController) GetMetricsByWayId(ctx *gin.Context) {
-	wayId := ctx.Param("wayId")
-
-	metrics, err := cc.db.GetListMetricsByWayUuid(ctx, uuid.MustParse(wayId))
-	if err != nil {
-		if err == sql.ErrNoRows {
-			ctx.JSON(http.StatusNotFound, gin.H{"status": "failed", "message": "Failed to retrieve Metric with this ID"})
-			return
-		}
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving Metric", "error": err.Error()})
-		return
+	response := schemas.MetricResponse{
+		Uuid:             metric.Uuid.String(),
+		CreatedAt:        metric.CreatedAt.String(),
+		UpdatedAt:        metric.UpdatedAt.String(),
+		Description:      metric.Description,
+		IsDone:           metric.IsDone,
+		DoneDate:         util.MarshalNullTime(metric.DoneDate),
+		MetricEstimation: metric.MetricEstimation,
 	}
 
-	ctx.JSON(http.StatusOK, metrics)
+	ctx.JSON(http.StatusOK, response)
 }
 
 // Deleting Metric handlers

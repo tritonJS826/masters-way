@@ -1,7 +1,6 @@
 import {
   CreateWayCollectionRequest,
   DeleteWayCollectionRequest,
-  GetWayCollectionsByUserUuidRequest,
   SchemasWayCollectionPlainResponse,
   SchemasWayCollectionPopulatedResponse,
   UpdateWayCollectionRequest,
@@ -22,17 +21,6 @@ export class WayCollectionService {
     const wayCollection = await wayCollectionService.createWayCollection(requestParameters);
 
     return wayCollection;
-  }
-
-  /**
-   * Get way collections by user UUID
-   */
-  public static async getWayCollections(
-    requestParameters: GetWayCollectionsByUserUuidRequest,
-  ): Promise<SchemasWayCollectionPlainResponse[]> {
-    const wayCollections = await wayCollectionService.getWayCollectionsByUserUuid(requestParameters);
-
-    return wayCollections;
   }
 
   /**

@@ -142,32 +142,6 @@ func (cc *PlanController) UpdatePlan(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, response)
 }
 
-// Get plans by day report uuid handler
-// @Summary Get plans by dayReport UUID
-// @Description
-// @Tags plan
-// @ID get-plans-by-DayReport-uuid
-// @Accept  json
-// @Produce  json
-// @Param dayReportId path string true "dayReport UUID"
-// @Success 200 {array} schemas.PlanPopulatedResponse
-// @Router /plans/{dayReportId} [get]
-func (cc *PlanController) GetPlansByDayReportId(ctx *gin.Context) {
-	dayReportId := ctx.Param("dayReportId")
-
-	plans, err := cc.db.GetListPlansByDayReportId(ctx, uuid.MustParse(dayReportId))
-	if err != nil {
-		if err == sql.ErrNoRows {
-			ctx.JSON(http.StatusNotFound, gin.H{"status": "failed", "message": "Failed to retrieve Plan with this ID"})
-			return
-		}
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving Plan", "error": err.Error()})
-		return
-	}
-
-	ctx.JSON(http.StatusOK, plans)
-}
-
 // Deleting Plan handlers
 // @Summary Delete plan by UUID
 // @Description

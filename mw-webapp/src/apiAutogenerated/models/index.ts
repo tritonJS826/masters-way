@@ -7,7 +7,6 @@ export * from './SchemasCreateCommentPayload';
 export * from './SchemasCreateDayReportPayload';
 export * from './SchemasCreateFavoriteUserPayload';
 export * from './SchemasCreateFavoriteUserWayPayload';
-export * from './SchemasCreateFormerMentorWayPayload';
 export * from './SchemasCreateFromUserMentoringRequestPayload';
 export * from './SchemasCreateJobDoneJobTagPayload';
 export * from './SchemasCreateJobDonePayload';

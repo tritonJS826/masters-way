@@ -36,10 +36,6 @@ export interface DeleteProblemRequest {
     problemId: string;
 }
 
-export interface GetProblemsByDayReportUuidRequest {
-    dayReportId: string;
-}
-
 export interface UpdateProblemRequest {
     problemId: string;
     request: SchemasUpdateProblemPayload;
@@ -110,36 +106,6 @@ export class ProblemApi extends runtime.BaseAPI {
      */
     async deleteProblem(requestParameters: DeleteProblemRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.deleteProblemRaw(requestParameters, initOverrides);
-    }
-
-    /**
-     * Get problems by dayReport UUID
-     */
-    async getProblemsByDayReportUuidRaw(requestParameters: GetProblemsByDayReportUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<SchemasProblemPopulatedResponse>>> {
-        if (requestParameters.dayReportId === null || requestParameters.dayReportId === undefined) {
-            throw new runtime.RequiredError('dayReportId','Required parameter requestParameters.dayReportId was null or undefined when calling getProblemsByDayReportUuid.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/problems/{dayReportId}`.replace(`{${"dayReportId"}}`, encodeURIComponent(String(requestParameters.dayReportId))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(SchemasProblemPopulatedResponseFromJSON));
-    }
-
-    /**
-     * Get problems by dayReport UUID
-     */
-    async getProblemsByDayReportUuid(requestParameters: GetProblemsByDayReportUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<SchemasProblemPopulatedResponse>> {
-        const response = await this.getProblemsByDayReportUuidRaw(requestParameters, initOverrides);
-        return await response.value();
     }
 
     /**

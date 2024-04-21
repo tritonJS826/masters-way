@@ -3,7 +3,6 @@ apis/CompositeWayApi.ts
 apis/DayReportApi.ts
 apis/FavoriteUserApi.ts
 apis/FavoriteUserWayApi.ts
-apis/FormerMentorWayApi.ts
 apis/FromUserMentoringRequestApi.ts
 apis/JobDoneApi.ts
 apis/JobDoneJobTagApi.ts
@@ -30,7 +29,6 @@ models/SchemasCreateCommentPayload.ts
 models/SchemasCreateDayReportPayload.ts
 models/SchemasCreateFavoriteUserPayload.ts
 models/SchemasCreateFavoriteUserWayPayload.ts
-models/SchemasCreateFormerMentorWayPayload.ts
 models/SchemasCreateFromUserMentoringRequestPayload.ts
 models/SchemasCreateJobDoneJobTagPayload.ts
 models/SchemasCreateJobDonePayload.ts

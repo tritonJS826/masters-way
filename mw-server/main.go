@@ -49,9 +49,6 @@ var (
 	FavoriteUserWayController controllers.FavoriteUserWayController
 	FavoriteUserWayRoutes     routes.FavoriteUserWayRoutes
 
-	FormerMentorWayController controllers.FormerMentorWayController
-	FormerMentorWayRoutes     routes.FormerMentorWayRoutes
-
 	FromUserMentoringRequestController controllers.FromUserMentoringRequestController
 	FromUserMentoringRequestRoutes     routes.FromUserMentoringRequestRoutes
 
@@ -148,9 +145,6 @@ func init() {
 	FavoriteUserWayController = *controllers.NewFavoriteUserWayController(db, ctx)
 	FavoriteUserWayRoutes = routes.NewRouteFavoriteUserWay(FavoriteUserWayController)
 
-	FormerMentorWayController = *controllers.NewFormerMentorWayController(db, ctx)
-	FormerMentorWayRoutes = routes.NewRouteFormerMentorWay(FormerMentorWayController)
-
 	FromUserMentoringRequestController = *controllers.NewFromUserMentoringRequestController(db, ctx)
 	FromUserMentoringRequestRoutes = routes.NewRouteFromUserMentoringRequest(FromUserMentoringRequestController)
 
@@ -223,7 +217,6 @@ func main() {
 	CommentRoutes.CommentRoute(router)
 	FavoriteUserRoutes.FavoriteUserRoute(router)
 	FavoriteUserWayRoutes.FavoriteUserWayRoute(router)
-	FormerMentorWayRoutes.FormerMentorWayRoute(router)
 	FromUserMentoringRequestRoutes.FromUserMentoringRequestRoute(router)
 	JobDoneRoutes.JobDoneRoute(router)
 	JobDoneJobTagRoutes.JobDoneJobTagRoute(router)

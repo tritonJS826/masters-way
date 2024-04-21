@@ -39,10 +39,6 @@ export interface DeleteWayCollectionRequest {
     wayCollectionId: string;
 }
 
-export interface GetWayCollectionsByUserUuidRequest {
-    userId: string;
-}
-
 export interface UpdateWayCollectionRequest {
     wayCollectionId: string;
     request: SchemasUpdateWayCollectionPayload;
@@ -113,36 +109,6 @@ export class WayCollectionApi extends runtime.BaseAPI {
      */
     async deleteWayCollection(requestParameters: DeleteWayCollectionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.deleteWayCollectionRaw(requestParameters, initOverrides);
-    }
-
-    /**
-     * Get wayCollections by user UUID
-     */
-    async getWayCollectionsByUserUuidRaw(requestParameters: GetWayCollectionsByUserUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<SchemasWayCollectionPlainResponse>>> {
-        if (requestParameters.userId === null || requestParameters.userId === undefined) {
-            throw new runtime.RequiredError('userId','Required parameter requestParameters.userId was null or undefined when calling getWayCollectionsByUserUuid.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/wayCollections/{userId}`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(SchemasWayCollectionPlainResponseFromJSON));
-    }
-
-    /**
-     * Get wayCollections by user UUID
-     */
-    async getWayCollectionsByUserUuid(requestParameters: GetWayCollectionsByUserUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<SchemasWayCollectionPlainResponse>> {
-        const response = await this.getWayCollectionsByUserUuidRaw(requestParameters, initOverrides);
-        return await response.value();
     }
 
     /**

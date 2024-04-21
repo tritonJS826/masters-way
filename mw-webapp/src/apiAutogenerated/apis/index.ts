@@ -5,7 +5,6 @@ export * from './CompositeWayApi';
 export * from './DayReportApi';
 export * from './FavoriteUserApi';
 export * from './FavoriteUserWayApi';
-export * from './FormerMentorWayApi';
 export * from './FromUserMentoringRequestApi';
 export * from './JobDoneApi';
 export * from './JobDoneJobTagApi';

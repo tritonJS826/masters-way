@@ -110,32 +110,6 @@ func (cc *WayCollectionController) UpdateWayCollection(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, wayCollection)
 }
 
-// Get a single handler
-// @Summary Get wayCollections by user UUID
-// @Description
-// @Tags wayCollection
-// @ID get-wayCollections-by-User-uuid
-// @Accept  json
-// @Produce  json
-// @Param userId path string true "user ID"
-// @Success 200 {array} schemas.WayCollectionPlainResponse
-// @Router /wayCollections/{userId} [get]
-func (cc *WayCollectionController) GetWayCollectionsByUserId(ctx *gin.Context) {
-	userId := ctx.Param("userId")
-
-	wayCollections, err := cc.db.GetListWayCollectionsByUserId(ctx, uuid.MustParse(userId))
-	if err != nil {
-		if err == sql.ErrNoRows {
-			ctx.JSON(http.StatusNotFound, gin.H{"status": "failed", "message": "Failed to retrieve way  collections with this ID"})
-			return
-		}
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving way collections", "error": err.Error()})
-		return
-	}
-
-	ctx.JSON(http.StatusOK, wayCollections)
-}
-
 // Deleting way handlers
 // @Summary Delete wayCollection by UUID
 // @Description

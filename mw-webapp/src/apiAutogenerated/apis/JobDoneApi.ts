@@ -36,10 +36,6 @@ export interface DeleteJobDoneRequest {
     jobDoneId: string;
 }
 
-export interface GetJobDonesByDayReportUuidRequest {
-    dayReportId: string;
-}
-
 export interface UpdateJobDoneRequest {
     jobDoneId: string;
     request: SchemasUpdateJobDone;
@@ -110,36 +106,6 @@ export class JobDoneApi extends runtime.BaseAPI {
      */
     async deleteJobDone(requestParameters: DeleteJobDoneRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.deleteJobDoneRaw(requestParameters, initOverrides);
-    }
-
-    /**
-     * Get jobDones by dayReport UUID
-     */
-    async getJobDonesByDayReportUuidRaw(requestParameters: GetJobDonesByDayReportUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<SchemasJobDonePopulatedResponse>>> {
-        if (requestParameters.dayReportId === null || requestParameters.dayReportId === undefined) {
-            throw new runtime.RequiredError('dayReportId','Required parameter requestParameters.dayReportId was null or undefined when calling getJobDonesByDayReportUuid.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/jobDones/{dayReportId}`.replace(`{${"dayReportId"}}`, encodeURIComponent(String(requestParameters.dayReportId))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(SchemasJobDonePopulatedResponseFromJSON));
-    }
-
-    /**
-     * Get jobDones by dayReport UUID
-     */
-    async getJobDonesByDayReportUuid(requestParameters: GetJobDonesByDayReportUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<SchemasJobDonePopulatedResponse>> {
-        const response = await this.getJobDonesByDayReportUuidRaw(requestParameters, initOverrides);
-        return await response.value();
     }
 
     /**

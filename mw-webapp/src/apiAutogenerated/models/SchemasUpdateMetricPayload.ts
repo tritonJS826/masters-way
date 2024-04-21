@@ -30,7 +30,7 @@ export interface SchemasUpdateMetricPayload {
      * @type {string}
      * @memberof SchemasUpdateMetricPayload
      */
-    doneDate?: string;
+    doneDate?: string | null;
     /**
      * 
      * @type {number}

@@ -88,16 +88,6 @@ definitions:
     - userUuid
     - wayUuid
     type: object
-  schemas.CreateFormerMentorWayPayload:
-    properties:
-      formerMentorUuid:
-        type: string
-      wayUuid:
-        type: string
-    required:
-    - formerMentorUuid
-    - wayUuid
-    type: object
   schemas.CreateFromUserMentoringRequestPayload:
     properties:
       userUuid:
@@ -578,6 +568,7 @@ definitions:
         type: string
       doneDate:
         type: string
+        x-nullable: true
       estimationTime:
         type: integer
       isDone:
@@ -1221,26 +1212,6 @@ paths:
       summary: Delete favoriteUser by UUID
       tags:
       - favoriteUser
-  /formerMentorWayWays:
-    post:
-      consumes:
-      - application/json
-      operationId: create-formerMentorWay
-      parameters:
-      - description: query params
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/schemas.CreateFormerMentorWayPayload'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-      summary: Create a new formerMentorWay
-      tags:
-      - formerMentorWay
   /fromUserMentoringRequests:
     post:
       consumes:
@@ -1349,29 +1320,6 @@ paths:
           schema:
             $ref: '#/definitions/schemas.JobDonePopulatedResponse'
       summary: Create a new jobDone
-      tags:
-      - jobDone
-  /jobDones/{dayReportId}:
-    get:
-      consumes:
-      - application/json
-      operationId: get-jobDones-by-DayReport-uuid
-      parameters:
-      - description: dayReport UUID
-        in: path
-        name: dayReportId
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/schemas.JobDonePopulatedResponse'
-            type: array
-      summary: Get jobDones by dayReport UUID
       tags:
       - jobDone
   /jobDones/{jobDoneId}:
@@ -1593,29 +1541,6 @@ paths:
       summary: Update metric by UUID
       tags:
       - metric
-  /metrics/{wayId}:
-    get:
-      consumes:
-      - application/json
-      operationId: get-metrics-by-Way-uuid
-      parameters:
-      - description: way UUID
-        in: path
-        name: wayId
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/schemas.MetricResponse'
-            type: array
-      summary: Get metrics by way UUID
-      tags:
-      - metric
   /planJobTags:
     post:
       consumes:
@@ -1680,29 +1605,6 @@ paths:
           schema:
             $ref: '#/definitions/schemas.PlanPopulatedResponse'
       summary: Create a new plan
-      tags:
-      - plan
-  /plans/{dayReportId}:
-    get:
-      consumes:
-      - application/json
-      operationId: get-plans-by-DayReport-uuid
-      parameters:
-      - description: dayReport UUID
-        in: path
-        name: dayReportId
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/schemas.PlanPopulatedResponse'
-            type: array
-      summary: Get plans by dayReport UUID
       tags:
       - plan
   /plans/{planId}:
@@ -1814,29 +1716,6 @@ paths:
           schema:
             $ref: '#/definitions/schemas.ProblemPopulatedResponse'
       summary: Create a new problem
-      tags:
-      - problem
-  /problems/{dayReportId}:
-    get:
-      consumes:
-      - application/json
-      operationId: get-problems-by-DayReport-uuid
-      parameters:
-      - description: dayReport ID
-        in: path
-        name: dayReportId
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/schemas.ProblemPopulatedResponse'
-            type: array
-      summary: Get problems by dayReport UUID
       tags:
       - problem
   /problems/{problemId}:
@@ -2183,29 +2062,6 @@ paths:
           schema:
             $ref: '#/definitions/schemas.WayCollectionPopulatedResponse'
       summary: Create a new wayCollection
-      tags:
-      - wayCollection
-  /wayCollections/{userId}:
-    get:
-      consumes:
-      - application/json
-      operationId: get-wayCollections-by-User-uuid
-      parameters:
-      - description: user ID
-        in: path
-        name: userId
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/schemas.WayCollectionPlainResponse'
-            type: array
-      summary: Get wayCollections by user UUID
       tags:
       - wayCollection
   /wayCollections/{wayCollectionId}:

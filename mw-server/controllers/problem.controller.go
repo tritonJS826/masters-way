@@ -149,32 +149,6 @@ func (cc *ProblemController) UpdateProblem(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, response)
 }
 
-// Get problems by day report uuid handler
-// @Summary Get problems by dayReport UUID
-// @Description
-// @Tags problem
-// @ID get-problems-by-DayReport-uuid
-// @Accept  json
-// @Produce  json
-// @Param dayReportId path string true "dayReport ID"
-// @Success 200 {array} schemas.ProblemPopulatedResponse
-// @Router /problems/{dayReportId} [get]
-func (cc *ProblemController) GetProblemsByDayReportId(ctx *gin.Context) {
-	dayReportId := ctx.Param("dayReportId")
-
-	problems, err := cc.db.GetListProblemsByDayReportId(ctx, uuid.MustParse(dayReportId))
-	if err != nil {
-		if err == sql.ErrNoRows {
-			ctx.JSON(http.StatusNotFound, gin.H{"status": "failed", "message": "Failed to retrieve Problem with this ID"})
-			return
-		}
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving Problem", "error": err.Error()})
-		return
-	}
-
-	ctx.JSON(http.StatusOK, problems)
-}
-
 // Deleting Problem handlers
 // @Summary Delete problem by UUID
 // @Description

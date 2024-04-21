@@ -11,7 +11,7 @@ type CreateMetricPayload struct {
 type UpdateMetricPayload struct {
 	Description      string `json:"description"`
 	IsDone           bool   `json:"isDone"`
-	DoneDate         string `json:"doneDate"`
+	DoneDate         string `json:"doneDate" extensions:"x-nullable"`
 	MetricEstimation int32  `json:"estimationTime"`
 }
 

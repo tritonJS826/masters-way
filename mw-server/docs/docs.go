@@ -431,37 +431,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/formerMentorWayWays": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "formerMentorWay"
-                ],
-                "summary": "Create a new formerMentorWay",
-                "operationId": "create-formerMentorWay",
-                "parameters": [
-                    {
-                        "description": "query params",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/schemas.CreateFormerMentorWayPayload"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                }
-            }
-        },
         "/fromUserMentoringRequests": {
             "post": {
                 "consumes": [
@@ -625,41 +594,6 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/schemas.JobDonePopulatedResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/jobDones/{dayReportId}": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "jobDone"
-                ],
-                "summary": "Get jobDones by dayReport UUID",
-                "operationId": "get-jobDones-by-DayReport-uuid",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "dayReport UUID",
-                        "name": "dayReportId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/schemas.JobDonePopulatedResponse"
-                            }
                         }
                     }
                 }
@@ -998,41 +932,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/metrics/{wayId}": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "metric"
-                ],
-                "summary": "Get metrics by way UUID",
-                "operationId": "get-metrics-by-Way-uuid",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "way UUID",
-                        "name": "wayId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/schemas.MetricResponse"
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/planJobTags": {
             "post": {
                 "consumes": [
@@ -1129,41 +1028,6 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/schemas.PlanPopulatedResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/plans/{dayReportId}": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "plan"
-                ],
-                "summary": "Get plans by dayReport UUID",
-                "operationId": "get-plans-by-DayReport-uuid",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "dayReport UUID",
-                        "name": "dayReportId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/schemas.PlanPopulatedResponse"
-                            }
                         }
                     }
                 }
@@ -1333,41 +1197,6 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/schemas.ProblemPopulatedResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/problems/{dayReportId}": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "problem"
-                ],
-                "summary": "Get problems by dayReport UUID",
-                "operationId": "get-problems-by-DayReport-uuid",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "dayReport ID",
-                        "name": "dayReportId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/schemas.ProblemPopulatedResponse"
-                            }
                         }
                     }
                 }
@@ -1895,41 +1724,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/wayCollections/{userId}": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "wayCollection"
-                ],
-                "summary": "Get wayCollections by user UUID",
-                "operationId": "get-wayCollections-by-User-uuid",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "user ID",
-                        "name": "userId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/schemas.WayCollectionPlainResponse"
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/wayCollections/{wayCollectionId}": {
             "delete": {
                 "consumes": [
@@ -2366,21 +2160,6 @@ const docTemplate = `{
             ],
             "properties": {
                 "userUuid": {
-                    "type": "string"
-                },
-                "wayUuid": {
-                    "type": "string"
-                }
-            }
-        },
-        "schemas.CreateFormerMentorWayPayload": {
-            "type": "object",
-            "required": [
-                "formerMentorUuid",
-                "wayUuid"
-            ],
-            "properties": {
-                "formerMentorUuid": {
                     "type": "string"
                 },
                 "wayUuid": {
@@ -3079,7 +2858,8 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "doneDate": {
-                    "type": "string"
+                    "type": "string",
+                    "x-nullable": true
                 },
                 "estimationTime": {
                     "type": "integer"
