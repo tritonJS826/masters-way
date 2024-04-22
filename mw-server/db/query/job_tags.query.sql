@@ -13,6 +13,20 @@ SELECT * FROM job_tags
 WHERE way_uuid = $1
 ORDER BY uuid;
 
+-- name: GetListLabelsByLabelUuids :many
+SELECT * from job_tags
+WHERE job_tags.uuid = ANY($1::UUID[])
+ORDER BY uuid; 
+
+-- name: GetListJobTagsByWayUuids :many
+SELECT * FROM job_tags
+WHERE way_uuid = ANY($1::UUID[])
+ORDER BY uuid;
+
+-- name: GetJobTagByUuid :one
+SELECT * FROM job_tags
+WHERE job_tags.uuid = $1;
+
 -- name: UpdateJobTag :one
 UPDATE job_tags
 SET
@@ -23,6 +37,6 @@ WHERE uuid = sqlc.arg('uuid')
 RETURNING *;
 
 
--- name: DeleteJobTagBy :exec
+-- name: DeleteJobTagById :exec
 DELETE FROM job_tags
 WHERE uuid = $1;

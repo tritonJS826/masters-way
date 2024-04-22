@@ -7,8 +7,10 @@ $fontSizeMedium: 14px;
 $fontSizeSmall: 12px;
 
 // Borders
-$primaryBorderRadius: 6px;
-$secondaryBorderRadius: 12px;
+$primaryBorderRadius: 10px;
+$secondaryBorderRadius: 8px;
+$almostRoundBorderRadius: 2px;
+$tertiaryBorderRadius: 50%;
 
 //Transitions
 $primaryTransitionDuration: 300ms;
@@ -17,8 +19,8 @@ $elementHoverTransition: 500ms;
 
 // z-index
 $sidebarZIndex: 100;
-$tooltipZIndex: 100;
-$dropdownZIndex: 100;
+$tooltipZIndex: 110;
+$dropdownZIndex: 110;
 $progressIndicatorZIndex: -1;
 
 // Margins, paddings, gaps
@@ -28,8 +30,9 @@ $marginSmall: 5px;
 $paddingBig: 20px;
 $paddingMedium: 10px;
 $paddingSmall: 5px;
-$gapBig: 30px;
-$gapMedium: 10px;
+$gapBig: 20px;
+$gapExtraMedium: 16px;
+$gapMedium: 8px;
 $gapSmall: 5px;
 
 // Widths and heights
@@ -37,6 +40,7 @@ $iconSizeSmall: 15px;
 $iconSizeMedium: 25px;
 $minWidthBlock: 280px;
 $mediumWidthBlock: 350px;
+$maxWidthFullScreen: 1920px;
 $maxWidthBlock: 600px;
 $minHeightBlock: 360px;
 $minWidthDate: 80px;
@@ -52,12 +56,17 @@ $checkmarkWidthMedium: 10px;
 $checkmarkHeightMedium: 10px;
 $checkmarkWidthLarge: 16px;
 $checkmarkHeightLarge: 16px;
+$sidebarWidth: 320px;
 
 // MediaQuery widths
 $mediaWidthMobileSmall: 320px;
+$mediaWidthMobileMedium: 400px;
 $mediaWidthMobileBig: 600px;
 $mediaWidthTablet: 768px;
 $mediaWidthTabletBig: 1100px;
+$mediaWidthDesktopBig: 1920px;
+$mediaWidthDesktopMedium: 1536px;
+$mediaWidthDesktopSmall: 1280px;
 
 // opacity
 $disableOpacity: 0.7;
@@ -65,7 +74,7 @@ $disableOpacity: 0.7;
 @mixin regularContainer {
   padding: 10px;
   border-radius: 20px;
-  background-color: var(--tertiaryBackgroundColor);
+  background-color: var(--secondaryBackgroundColor);
 }
 
 @mixin scaleOnHover {
@@ -73,11 +82,4 @@ $disableOpacity: 0.7;
     transform: scale(1.02);
     transition: 0.3s;
   }
-}
-
-@mixin flatButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
 }

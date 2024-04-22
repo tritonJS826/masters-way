@@ -1,52 +1,48 @@
+import {DialogClose} from "@radix-ui/react-dialog";
 import {Button} from "src/component/button/Button";
 import {Link} from "src/component/link/Link";
 import {HeadingLevel, Title} from "src/component/title/Title";
-import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
-import {WayDAL} from "src/dataAccessLogic/WayDAL";
+import {FromUserMentoringRequestDAL} from "src/dataAccessLogic/FromUserMentoringRequestDAL";
+import {MentorUserWayDAL} from "src/dataAccessLogic/MentorUserWayDAL";
+import {UserPlain} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
-import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {pages} from "src/router/pages";
 import styles from "src/logic/wayPage/MentorRequestsSection.module.scss";
 
 /**
  * Add mentor to Way
  */
-const addMentorToWay = (
+const addMentorToWay = async (
   way: Way,
   setWay: (newWay: Way) => void,
-  userPreview: UserPreview,
+  userPreview: UserPlain,
 ) => {
-  const mentoringWays = userPreview.mentoringWays.concat(way.uuid);
-  const newUserPreview = new UserPreview({...userPreview, mentoringWays});
-
-  UserPreviewDAL.updateUserPreview(newUserPreview);
-
-  const mentors = way.mentors.set(newUserPreview.uuid, newUserPreview);
+  const mentors = way.mentors.set(userPreview.uuid, userPreview);
   const mentorRequests = way.mentorRequests.filter((item) => item !== userPreview);
   const formerMentors = new Map(Array.from(way.formerMentors)
     .filter(([formerMentorUuid]) => formerMentorUuid !== userPreview.uuid));
 
   const newWay = new Way({...way, mentors, mentorRequests, formerMentors});
 
-  WayDAL.updateWay(newWay);
-
   setWay(newWay);
+  await MentorUserWayDAL.addMentor(userPreview.uuid, way.uuid);
 };
 
 /**
  * Remove user from Way's mentor requests
  */
-const removeUserFromMentorRequests = (
+const removeUserFromMentorRequests = async (
   way: Way,
   setWay: (newWay: Way) => void,
-  userPreview: UserPreview) => {
+  userPreview: UserPlain,
+) => {
 
   const mentorRequests = way.mentorRequests.filter((item) => item !== userPreview);
 
   const newWay = new Way({...way, mentorRequests});
 
-  WayDAL.updateWay(newWay);
   setWay(newWay);
+  await FromUserMentoringRequestDAL.deleteMentorRequest(userPreview.uuid, way.uuid);
 };
 
 /**
@@ -73,7 +69,7 @@ export const MentorRequestsSection = (props: MentorRequestsSectionProps) => {
     <>
       <Title
         level={HeadingLevel.h3}
-        text="Mentors of this way:"
+        text="Mentors requests of this way:"
       />
       <div className={styles.mentorRequestsSection}>
         {props.way.mentorRequests.map((userPreview) => (
@@ -84,18 +80,24 @@ export const MentorRequestsSection = (props: MentorRequestsSectionProps) => {
             <Link path={pages.user.getPath({uuid: userPreview.uuid})}>
               {userPreview.name}
             </Link>
-            <Button
-              value='Accept'
-              onClick={() =>
-                addMentorToWay(props.way, props.setWay, userPreview)
-              }
-            />
-            <Button
-              value='Decline'
-              onClick={() =>
-                removeUserFromMentorRequests(props.way, props.setWay, userPreview)
-              }
-            />
+            <DialogClose asChild>
+              <Button
+                value='Accept'
+                onClick={() => {
+                  addMentorToWay(props.way, props.setWay, userPreview);
+                }
+                }
+              />
+            </DialogClose>
+            <DialogClose asChild>
+              <Button
+                value='Decline'
+                onClick={() => {
+                  removeUserFromMentorRequests(props.way, props.setWay, userPreview);
+                }
+                }
+              />
+            </DialogClose>
           </div>
         ))}
       </div>

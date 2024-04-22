@@ -13,6 +13,19 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { SchemasUserPlainResponse } from './SchemasUserPlainResponse';
+import {
+    SchemasUserPlainResponseFromJSON,
+    SchemasUserPlainResponseFromJSONTyped,
+    SchemasUserPlainResponseToJSON,
+} from './SchemasUserPlainResponse';
+import type { SchemasWayTagResponse } from './SchemasWayTagResponse';
+import {
+    SchemasWayTagResponseFromJSON,
+    SchemasWayTagResponseFromJSONTyped,
+    SchemasWayTagResponseToJSON,
+} from './SchemasWayTagResponse';
+
 /**
  * 
  * @export
@@ -36,7 +49,19 @@ export interface SchemasWayPlainResponse {
      * @type {number}
      * @memberof SchemasWayPlainResponse
      */
+    dayReportsAmount: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof SchemasWayPlainResponse
+     */
     estimationTime: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof SchemasWayPlainResponse
+     */
+    favoriteForUsers: number;
     /**
      * 
      * @type {string}
@@ -48,7 +73,31 @@ export interface SchemasWayPlainResponse {
      * @type {boolean}
      * @memberof SchemasWayPlainResponse
      */
+    isCompleted: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof SchemasWayPlainResponse
+     */
     isPrivate: boolean;
+    /**
+     * 
+     * @type {Array<SchemasUserPlainResponse>}
+     * @memberof SchemasWayPlainResponse
+     */
+    mentors: Array<SchemasUserPlainResponse>;
+    /**
+     * 
+     * @type {number}
+     * @memberof SchemasWayPlainResponse
+     */
+    metricsDone: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof SchemasWayPlainResponse
+     */
+    metricsTotal: number;
     /**
      * 
      * @type {string}
@@ -57,22 +106,28 @@ export interface SchemasWayPlainResponse {
     name: string;
     /**
      * 
-     * @type {string}
+     * @type {SchemasUserPlainResponse}
      * @memberof SchemasWayPlainResponse
      */
-    ownerUuid: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof SchemasWayPlainResponse
-     */
-    status: string;
+    owner: SchemasUserPlainResponse;
     /**
      * 
      * @type {string}
      * @memberof SchemasWayPlainResponse
      */
     updatedAt: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemasWayPlainResponse
+     */
+    uuid: string;
+    /**
+     * 
+     * @type {Array<SchemasWayTagResponse>}
+     * @memberof SchemasWayPlainResponse
+     */
+    wayTags: Array<SchemasWayTagResponse>;
 }
 
 /**
@@ -84,13 +139,20 @@ export function instanceOfSchemasWayPlainResponse(
     let isInstance = true;
     isInstance = isInstance && "copiedFromWayUuid" in value;
     isInstance = isInstance && "createdAt" in value;
+    isInstance = isInstance && "dayReportsAmount" in value;
     isInstance = isInstance && "estimationTime" in value;
+    isInstance = isInstance && "favoriteForUsers" in value;
     isInstance = isInstance && "goalDescription" in value;
+    isInstance = isInstance && "isCompleted" in value;
     isInstance = isInstance && "isPrivate" in value;
+    isInstance = isInstance && "mentors" in value;
+    isInstance = isInstance && "metricsDone" in value;
+    isInstance = isInstance && "metricsTotal" in value;
     isInstance = isInstance && "name" in value;
-    isInstance = isInstance && "ownerUuid" in value;
-    isInstance = isInstance && "status" in value;
+    isInstance = isInstance && "owner" in value;
     isInstance = isInstance && "updatedAt" in value;
+    isInstance = isInstance && "uuid" in value;
+    isInstance = isInstance && "wayTags" in value;
 
     return isInstance;
 }
@@ -110,13 +172,20 @@ export function SchemasWayPlainResponseFromJSONTyped(
         
         'copiedFromWayUuid': json['copiedFromWayUuid'],
         'createdAt': json['createdAt'],
+        'dayReportsAmount': json['dayReportsAmount'],
         'estimationTime': json['estimationTime'],
+        'favoriteForUsers': json['favoriteForUsers'],
         'goalDescription': json['goalDescription'],
+        'isCompleted': json['isCompleted'],
         'isPrivate': json['isPrivate'],
+        'mentors': ((json['mentors'] as Array<any>).map(SchemasUserPlainResponseFromJSON)),
+        'metricsDone': json['metricsDone'],
+        'metricsTotal': json['metricsTotal'],
         'name': json['name'],
-        'ownerUuid': json['ownerUuid'],
-        'status': json['status'],
+        'owner': SchemasUserPlainResponseFromJSON(json['owner']),
         'updatedAt': json['updatedAt'],
+        'uuid': json['uuid'],
+        'wayTags': ((json['wayTags'] as Array<any>).map(SchemasWayTagResponseFromJSON)),
     };
 }
 
@@ -132,13 +201,20 @@ export function SchemasWayPlainResponseToJSON(value?: SchemasWayPlainResponse | 
         
         'copiedFromWayUuid': value.copiedFromWayUuid,
         'createdAt': value.createdAt,
+        'dayReportsAmount': value.dayReportsAmount,
         'estimationTime': value.estimationTime,
+        'favoriteForUsers': value.favoriteForUsers,
         'goalDescription': value.goalDescription,
+        'isCompleted': value.isCompleted,
         'isPrivate': value.isPrivate,
+        'mentors': ((value.mentors as Array<any>).map(SchemasUserPlainResponseToJSON)),
+        'metricsDone': value.metricsDone,
+        'metricsTotal': value.metricsTotal,
         'name': value.name,
-        'ownerUuid': value.ownerUuid,
-        'status': value.status,
+        'owner': SchemasUserPlainResponseToJSON(value.owner),
         'updatedAt': value.updatedAt,
+        'uuid': value.uuid,
+        'wayTags': ((value.wayTags as Array<any>).map(SchemasWayTagResponseToJSON)),
     };
 }
 

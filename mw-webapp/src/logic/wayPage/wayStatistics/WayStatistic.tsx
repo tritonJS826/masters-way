@@ -1,12 +1,9 @@
-import {AreaChart} from "src/component/chart/AreaChart";
-import {PieChart} from "src/component/chart/PieChart";
-import {HeadingLevel, Title} from "src/component/title/Title";
-import {Tooltip} from "src/component/tooltip/Tooltip";
-import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+//TODO: fix it
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {useGlobalContext} from "src/GlobalContext";
 import {JobTagStat} from "src/logic/wayPage/wayStatistics/JobTagStat";
-import {StatisticLine} from "src/logic/wayPage/wayStatistics/StatisticLine";
-import {TagStats} from "src/logic/wayPage/wayStatistics/TagStats";
+import {StatisticItem} from "src/logic/wayPage/wayStatistics/statisticBlock/statisticItem/StatisticItem";
+import {StatisticPeriod} from "src/logic/wayPage/wayStatistics/StatisticPeriod";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {JobTag} from "src/model/businessModelPreview/WayPreview";
@@ -62,14 +59,14 @@ const getTagStats = (jobsDone: JobDone[]) => {
       const AMOUNT_INCREMENT = 1;
       const PERCENTAGE_MULTIPLIER = 100;
 
-      const totalAmount = (tagStatsMap.get(tag.uuid)?.totalAmount ?? 0) + AMOUNT_INCREMENT;
+      const totalAmount = (tagStatsMap.get(tag.uuid!)?.totalAmount ?? 0) + AMOUNT_INCREMENT;
       const totalAmountPercentage = Math.round(totalAmount / jobsDone.length * PERCENTAGE_MULTIPLIER);
-      const totalTime = (tagStatsMap.get(tag.uuid)?.totalTime ?? 0) + job.time;
+      const totalTime = (tagStatsMap.get(tag.uuid!)?.totalTime ?? 0) + job.time;
       const totalTimePercentage = totalJobsTime === 0
         ? 0
         : Math.round(totalTime / totalJobsTime * PERCENTAGE_MULTIPLIER);
 
-      tagStatsMap.set(tag.uuid, {
+      tagStatsMap.set(tag.uuid!, {
         totalAmount,
         totalAmountPercentage,
         totalTime,
@@ -96,11 +93,11 @@ export const WayStatistic = (props: WayStatisticProps) => {
   const dayReportsReversed = [...props.dayReports].reverse();
   const startDate = dayReportsReversed[0] ? dayReportsReversed[0].createdAt : props.wayCreatedAt;
   const lastDate = props.dayReports[0] ? props.dayReports[0].createdAt : props.wayCreatedAt;
-  const startDateLastWeek = props.wayCreatedAt <= DateUtils.getLastDate(AMOUNT_DAYS_IN_WEEK, lastDate)
+  const startDateLastWeek = startDate <= DateUtils.getLastDate(AMOUNT_DAYS_IN_WEEK, lastDate)
     ? DateUtils.getLastDate(AMOUNT_DAYS_IN_WEEK, lastDate)
     : startDate;
-  const startDateLastMonth = props.wayCreatedAt <= DateUtils.getLastDate(AMOUNT_DAYS_IN_WEEK, lastMonthDate)
-    ? DateUtils.getLastDate(AMOUNT_DAYS_IN_WEEK, lastMonthDate)
+  const startDateLastMonth = startDate <= DateUtils.getLastDate(AMOUNT_DAYS_IN_MONTH, lastMonthDate)
+    ? DateUtils.getLastDate(AMOUNT_DAYS_IN_MONTH, lastMonthDate)
     : startDate;
   const datesWithJobTotalTime: Map<string, number> = new Map(props.dayReports.map((report) => {
     const jobDoneTotalTime = report.jobsDone.reduce((totalTime, jobDone) => totalTime + jobDone.time, 0);
@@ -112,10 +109,10 @@ export const WayStatistic = (props: WayStatisticProps) => {
   const maximumDateTimestamp = Math.max(...allDatesTimestamps);
   const minimumDateTimestamp = Math.min(...allDatesTimestamps);
 
-  const totalDaysOnAWay = allDatesTimestamps.length
+  const totalDaysOnWay = allDatesTimestamps.length
     ? Math.ceil((maximumDateTimestamp - minimumDateTimestamp + SMALL_CORRECTION_MILLISECONDS) / MILLISECONDS_IN_DAY)
     : 0
-  ;
+    ;
 
   const totalRecordsAmount = props.dayReports.length;
 
@@ -128,17 +125,18 @@ export const WayStatistic = (props: WayStatisticProps) => {
 
   const averageWorkingTimeInRecords = totalWayTime ? Math.round(totalWayTime / totalRecordsAmount) : 0;
 
-  const averageWorkingTimeInDay = totalWayTime ? Math.round(totalWayTime / totalDaysOnAWay) : 0;
+  const averageWorkingTimeInDay = totalWayTime ? Math.round(totalWayTime / totalDaysOnWay) : 0;
 
   const averageTimeForJob = totalWayTime ? Math.round(totalWayTime / allJobs.length) : 0;
 
-  const lastWeekDayReports = props.dayReports.filter((dayReport) => DateUtils.roundToDate(dayReport.createdAt) > lastWeekDate);
+  const lastWeekDayReports = props.dayReports
+    .filter((dayReport) => DateUtils.roundToDate(dayReport.createdAt) > startDateLastWeek);
 
   const lastWeekJobs = lastWeekDayReports.flatMap(report => report.jobsDone);
 
   const lastCalendarWeekTotalTime = lastWeekJobs.reduce((totalTime, jobDone) => totalTime + jobDone.time, 0);
 
-  const amountDaysLastWeek = props.wayCreatedAt > lastWeekDate ? lastWeekDayReports.length : AMOUNT_DAYS_IN_WEEK;
+  const amountDaysLastWeek = props.wayCreatedAt > startDateLastWeek ? lastWeekDayReports.length : AMOUNT_DAYS_IN_WEEK;
 
   const lastCalendarWeekAverageWorkingTime = amountDaysLastWeek ? Math.round(lastCalendarWeekTotalTime / amountDaysLastWeek) : 0;
 
@@ -146,14 +144,19 @@ export const WayStatistic = (props: WayStatisticProps) => {
     ? Math.round(lastCalendarWeekTotalTime / lastWeekDayReports.length)
     : 0;
 
+  const lastWeekTime = lastWeekJobs.reduce((totalTime, jobDone) => totalTime + jobDone.time, 0);
+  const averageTimeForJobLastWeek = lastWeekTime ? Math.round(lastWeekTime / lastWeekJobs.length) : 0;
+
   const lastMonthDayReports = props.dayReports.filter((dayReport) =>
-    DateUtils.roundToDate(dayReport.createdAt) > lastMonthDate);
+    DateUtils.roundToDate(dayReport.createdAt) > startDateLastMonth);
 
   const lastMonthJobs = lastMonthDayReports.flatMap(report => report.jobsDone);
 
+  const lastMonthTime = lastMonthJobs.reduce((totalTime, jobDone) => totalTime + jobDone.time, 0);
+
   const lastCalendarMonthTotalTime = lastMonthJobs.reduce((totalTime, jobDone) => totalTime + jobDone.time, 0);
 
-  const amountDaysLastMonth = props.wayCreatedAt > lastMonthDate ? lastMonthDayReports.length : AMOUNT_DAYS_IN_MONTH;
+  const amountDaysLastMonth = props.wayCreatedAt > startDateLastMonth ? lastMonthDayReports.length : AMOUNT_DAYS_IN_MONTH;
 
   const lastCalendarMonthAverageWorkingTime = lastCalendarMonthTotalTime
     ? Math.round(lastCalendarMonthTotalTime / amountDaysLastMonth)
@@ -167,132 +170,165 @@ export const WayStatistic = (props: WayStatisticProps) => {
   const lastWeekTagStats = getTagStats(lastWeekJobs);
   const lastMonthTagStats = getTagStats(lastMonthJobs);
 
+  const totalRecordsAmountStatisticItem: StatisticItem = {
+    text: LanguageService.way.statisticsBlock.totalRecords[language],
+    value: totalRecordsAmount,
+  };
+  const totalWayTimeStatisticItem: StatisticItem = {
+    text: LanguageService.way.statisticsBlock.totalTime[language],
+    value: totalWayTime,
+  };
+  const averageWorkingTimeInDayStatisticItem: StatisticItem = {
+    text: LanguageService.way.statisticsBlock.averageTimePerCalendarDay[language],
+    value: averageWorkingTimeInDay,
+  };
+  const averageWorkingTimeInRecordsStatisticItem: StatisticItem = {
+    text: LanguageService.way.statisticsBlock.averageWorkingTimePerWorkingDay[language],
+    value: averageWorkingTimeInRecords,
+  };
+  const allJobsStatisticItem: StatisticItem = {
+    text: LanguageService.way.statisticsBlock.totalFinishedJobs[language],
+    value: allJobs.length,
+  };
+
+  const averageTimeForJobStatisticItem: StatisticItem = {
+    text: LanguageService.way.statisticsBlock.averageJobTime[language],
+    value: averageTimeForJob,
+  };
+
+  const totalStatisticItemsPrimary = [
+    totalWayTimeStatisticItem,
+    totalRecordsAmountStatisticItem,
+    allJobsStatisticItem,
+  ];
+
+  const totalStatisticItemsSecondary = [
+    averageWorkingTimeInDayStatisticItem,
+    averageWorkingTimeInRecordsStatisticItem,
+    averageTimeForJobStatisticItem,
+  ];
+
+  const lastCalendarMonthTotalTimeStatisticItem: StatisticItem = {
+    text: LanguageService.way.statisticsBlock.totalTime[language],
+    value: lastCalendarMonthTotalTime,
+  };
+  const lastCalendarMonthAverageWorkingTimeStatisticItem: StatisticItem = {
+    text: LanguageService.way.statisticsBlock.averageTimePerCalendarDay[language],
+    value: lastCalendarMonthAverageWorkingTime,
+  };
+
+  const lastCalendarMonthAverageJobTimeStatisticItem: StatisticItem = {
+    text: LanguageService.way.statisticsBlock.averageWorkingTimePerWorkingDay[language],
+    value: lastCalendarMonthAverageJobTime,
+  };
+
+  const statisticItemsLastMonth = [
+    lastCalendarMonthTotalTimeStatisticItem,
+    lastCalendarMonthAverageWorkingTimeStatisticItem,
+    lastCalendarMonthAverageJobTimeStatisticItem,
+  ];
+
+  const totalWayTimeStatisticItemLastMonth: StatisticItem = {
+    text: LanguageService.way.statisticsBlock.totalTime[language],
+    value: lastMonthTime,
+  };
+
+  const totalRecordsAmountStatisticItemLastMonth: StatisticItem = {
+    text: LanguageService.way.statisticsBlock.totalRecords[language],
+    value: lastMonthDayReports.length,
+  };
+
+  const allJobsStatisticItemLastMonth: StatisticItem = {
+    text: LanguageService.way.statisticsBlock.totalFinishedJobs[language],
+    value: lastMonthJobs.length,
+  };
+
+  const totalStatisticItemsLastMonthPrimary = [
+    totalWayTimeStatisticItemLastMonth,
+    totalRecordsAmountStatisticItemLastMonth,
+    allJobsStatisticItemLastMonth,
+  ];
+
+  const lastCalendarWeekAverageWorkingTimeStatisticItem: StatisticItem = {
+    text: LanguageService.way.statisticsBlock.averageTimePerCalendarDay[language],
+    value: lastCalendarWeekAverageWorkingTime,
+  };
+
+  const lastCalendarWeekAverageJobTimeStatisticItem: StatisticItem = {
+    text: LanguageService.way.statisticsBlock.averageWorkingTimePerWorkingDay[language],
+    value: lastCalendarWeekAverageJobTime,
+  };
+
+  const totalWayTimeStatisticItemLastWeek: StatisticItem = {
+    text: LanguageService.way.statisticsBlock.totalTime[language],
+    value: lastWeekTime,
+  };
+
+  const totalRecordsAmountStatisticItemLastWeek: StatisticItem = {
+    text: LanguageService.way.statisticsBlock.totalRecords[language],
+    value: lastWeekDayReports.length,
+  };
+
+  const allJobsStatisticItemLastWeek: StatisticItem = {
+    text: LanguageService.way.statisticsBlock.totalFinishedJobs[language],
+    value: lastWeekJobs.length,
+  };
+
+  const averageTimeForJobStatisticItemLastWeek: StatisticItem = {
+    text: LanguageService.way.statisticsBlock.averageJobTime[language],
+    value: averageTimeForJobLastWeek,
+  };
+
+  const statisticItemsLastWeekPrimary = [
+    totalWayTimeStatisticItemLastWeek,
+    totalRecordsAmountStatisticItemLastWeek,
+    allJobsStatisticItemLastWeek,
+  ];
+
+  const statisticItemsLastWeek = [
+    lastCalendarWeekAverageWorkingTimeStatisticItem,
+    lastCalendarWeekAverageJobTimeStatisticItem,
+    averageTimeForJobStatisticItemLastWeek,
+  ];
+
   return (
     <div className={styles.wrapper}>
-      <VerticalContainer>
-        <Title
-          level={HeadingLevel.h4}
-          text={LanguageService.way.statisticsBlock.total[language]}
-        />
-        <StatisticLine
-          description={LanguageService.way.statisticsBlock.daysFromStart[language]}
-          value={totalDaysOnAWay}
-        />
-        <StatisticLine
-          description={LanguageService.way.statisticsBlock.totalRecords[language]}
-          value={totalRecordsAmount}
-        />
-        <StatisticLine
-          description={LanguageService.way.statisticsBlock.totalTime[language]}
-          value={totalWayTime}
-        />
-        <StatisticLine
-          description={LanguageService.way.statisticsBlock.averageTimePerCalendarDay[language]}
-          value={averageWorkingTimeInDay}
-        />
-        <StatisticLine
-          description={LanguageService.way.statisticsBlock.averageWorkingTimePerWorkingDay[language]}
-          value={averageWorkingTimeInRecords}
-        />
-        <StatisticLine
-          description={LanguageService.way.statisticsBlock.totalFinishedJobs[language]}
-          value={allJobs.length}
-        />
-        <Tooltip content={LanguageService.way.statisticsBlock.showsLevelOfTaskDecomposition[language]}>
-          <StatisticLine
-            description={LanguageService.way.statisticsBlock.averageJobTime[language]}
-            value={averageTimeForJob}
-          />
-        </Tooltip>
+      <StatisticPeriod
+        title={LanguageService.way.statisticsBlock.total[language]}
+        allTagStats={allTagStats}
+        datesWithJobTotalTime={datesWithJobTotalTime}
+        lastDate={lastDate}
+        startDate={startDate}
+        totalStatisticItemsPrimary={totalStatisticItemsPrimary}
+        totalStatisticItemsSecondary={totalStatisticItemsSecondary}
+        totalWayTime={totalWayTime}
+        isCheckboxShown={true}
+      />
 
-        <TagStats stats={allTagStats} />
+      <StatisticPeriod
+        title={LanguageService.way.statisticsBlock.lastMonth[language]}
+        allTagStats={lastMonthTagStats}
+        datesWithJobTotalTime={datesWithJobTotalTime}
+        lastDate={lastDate}
+        startDate={startDateLastMonth}
+        totalStatisticItemsPrimary={totalStatisticItemsLastMonthPrimary}
+        totalStatisticItemsSecondary={statisticItemsLastMonth}
+        totalWayTime={totalWayTime}
+        isCheckboxShown={true}
+      />
 
-        {!!totalWayTime &&
-        <div className={styles.statisticsCharts}>
-          <AreaChart
-            datesWithJobTotalTime={datesWithJobTotalTime}
-            startDate={startDate}
-            lastDate={lastDate}
-          />
-          <PieChart
-            startDate={startDate}
-            lastDate={lastDate}
-            tagStats={allTagStats}
-          />
-        </div>
-        }
-      </VerticalContainer>
+      <StatisticPeriod
+        title={LanguageService.way.statisticsBlock.lastWeek[language]}
+        allTagStats={lastWeekTagStats}
+        datesWithJobTotalTime={datesWithJobTotalTime}
+        lastDate={lastDate}
+        startDate={startDateLastWeek}
+        totalStatisticItemsPrimary={statisticItemsLastWeekPrimary}
+        totalStatisticItemsSecondary={statisticItemsLastWeek}
+        totalWayTime={totalWayTime}
+        isCheckboxShown={true}
+      />
 
-      <VerticalContainer>
-        <Title
-          level={HeadingLevel.h4}
-          text={LanguageService.way.statisticsBlock.lastMonth[language]}
-        />
-        <StatisticLine
-          description={LanguageService.way.statisticsBlock.totalTime[language]}
-          value={lastCalendarMonthTotalTime}
-        />
-        <StatisticLine
-          description={LanguageService.way.statisticsBlock.averageTimePerCalendarDay[language]}
-          value={lastCalendarMonthAverageWorkingTime}
-        />
-        <StatisticLine
-          description={LanguageService.way.statisticsBlock.averageWorkingTimePerWorkingDay[language]}
-          value={lastCalendarMonthAverageJobTime}
-        />
-
-        <TagStats stats={lastMonthTagStats} />
-
-        {!!totalWayTime &&
-        <div className={styles.statisticsCharts}>
-          <AreaChart
-            datesWithJobTotalTime={datesWithJobTotalTime}
-            startDate={startDateLastMonth}
-            lastDate={lastDate}
-          />
-          <PieChart
-            startDate={startDateLastMonth}
-            lastDate={lastDate}
-            tagStats={lastMonthTagStats}
-          />
-        </div>
-        }
-      </VerticalContainer>
-
-      <VerticalContainer>
-        <Title
-          level={HeadingLevel.h4}
-          text={LanguageService.way.statisticsBlock.lastWeek[language]}
-        />
-        <StatisticLine
-          description={LanguageService.way.statisticsBlock.totalTime[language]}
-          value={lastCalendarWeekTotalTime}
-        />
-        <StatisticLine
-          description={LanguageService.way.statisticsBlock.averageTimePerCalendarDay[language]}
-          value={lastCalendarWeekAverageWorkingTime}
-        />
-        <StatisticLine
-          description={LanguageService.way.statisticsBlock.averageWorkingTimePerWorkingDay[language]}
-          value={lastCalendarWeekAverageJobTime}
-        />
-        <TagStats stats={lastWeekTagStats} />
-
-        {!!totalWayTime &&
-        <div className={styles.statisticsCharts}>
-          <AreaChart
-            datesWithJobTotalTime={datesWithJobTotalTime}
-            startDate={startDateLastWeek}
-            lastDate={lastDate}
-          />
-          <PieChart
-            startDate={startDateLastWeek}
-            lastDate={lastDate}
-            tagStats={lastWeekTagStats}
-          />
-        </div>
-        }
-      </VerticalContainer>
     </div>
   );
 };

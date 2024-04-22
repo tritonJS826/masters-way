@@ -4,6 +4,7 @@ $iconContainerSize: 25px;
 
 .container {
   width: 100%;
+  padding: 0 $paddingMedium;
   margin: 0 auto;
   gap: $gapMedium;
 }
@@ -27,10 +28,6 @@ $iconContainerSize: 25px;
 .wayTagsContainer {
   flex-wrap: wrap;
   align-items: center;
-}
-
-.flatButton {
-  @include flatButton;
 }
 
 .metricsBlock {
@@ -60,8 +57,18 @@ $iconContainerSize: 25px;
   justify-content: space-between;
 }
 
-.privacyBlock {
+.privacyBlock,
+.compositeBlock {
   align-items: baseline;
+}
+
+.participantWay {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
 }
 
 .mentors {
@@ -69,7 +76,12 @@ $iconContainerSize: 25px;
 }
 
 .statistics {
+  @include regularContainer;
   width: 100%;
+}
+
+.statisticsModal {
+  width: 95%;
 }
 
 .iconContainer {
@@ -90,7 +102,15 @@ $iconContainerSize: 25px;
 
 .wayDashboard {
   gap: $gapMedium;
-  grid-template-columns: repeat(auto-fit, minmax($minWidthBlock, 1fr));
+  // grid-template-columns: repeat(auto-fit, minmax($minWidthBlock, 1fr));
+  grid-template-columns: minmax($mediumWidthBlock, 2fr) minmax(
+      $mediumWidthBlock,
+      3fr
+    );
+
+  @media (max-width: $mediaWidthTablet) {
+    grid-template-columns: minmax($minWidthBlock, 1fr);
+  }
 }
 
 .wayDashBoardLeft {
@@ -103,6 +123,10 @@ $iconContainerSize: 25px;
 
 .gap {
   gap: $gapMedium;
+}
+
+.reportsAmount {
+  align-items: center;
 }
 
 .dayReportActions {

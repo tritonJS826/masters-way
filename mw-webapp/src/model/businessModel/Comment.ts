@@ -8,6 +8,16 @@ export class Comment {
    */
   public uuid: string;
 
+  // /**
+  //  * Commentator's uuid
+  //  */
+  // public owner: UserPreviewShort;
+
+  /**
+   * Commentator's name
+   */
+  public ownerName: string;
+
   /**
    * Commentator's uuid
    */
@@ -19,15 +29,28 @@ export class Comment {
   public description: string;
 
   /**
-   * True if comment was done and false if not
+   * Comment's created at date
    */
-  public isDone: boolean;
+  public createdAt: Date;
+
+  /**
+   * Comment's created at date
+   */
+  public updatedAt: Date;
+
+  /**
+   * Comment's dayReport UUID
+   */
+  public dayReportUuid: string;
 
   constructor(commentData: Comment) {
     this.uuid = commentData.uuid;
+    this.ownerName = commentData.ownerName;
     this.ownerUuid = commentData.ownerUuid;
     this.description = commentData.description;
-    this.isDone = commentData.isDone;
+    this.createdAt = commentData.createdAt;
+    this.updatedAt = commentData.updatedAt;
+    this.dayReportUuid = commentData.dayReportUuid;
   }
 
 }

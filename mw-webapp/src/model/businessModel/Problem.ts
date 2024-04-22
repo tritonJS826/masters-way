@@ -30,12 +30,36 @@ export class Problem {
    */
   public tags: JobTag[];
 
+  /**
+   * Created at
+   */
+  public createdAt: Date;
+
+  /**
+   * Day report uuid
+   */
+  public dayReportUuid: string;
+
+  /**
+   * Owner name
+   */
+  public ownerName: string;
+
+  /**
+   * Updated at
+   */
+  public updatedAt: Date;
+
   constructor(problemData: Problem) {
     this.uuid = problemData.uuid;
     this.description = problemData.description;
     this.isDone = problemData.isDone;
     this.ownerUuid = problemData.ownerUuid;
     this.tags = problemData.tags;
+    this.createdAt = problemData.createdAt;
+    this.dayReportUuid = problemData.dayReportUuid;
+    this.ownerName = problemData.ownerName;
+    this.updatedAt = problemData.updatedAt;
   }
 
 }

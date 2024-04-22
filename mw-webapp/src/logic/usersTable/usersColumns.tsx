@@ -1,14 +1,17 @@
 import {createColumnHelper} from "@tanstack/react-table";
+import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
+import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
-import {UserPreview} from "src/model/businessModelPreview/UserPreview";
+import {UserNotSaturatedWay} from "src/model/businessModelPreview/UserNotSaturatedWay";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LangauageService";
 import {Language} from "src/utils/LanguageWorker";
+import {Symbols} from "src/utils/Symbols";
 import styles from "src/logic/usersTable/UserColumns.module.scss";
 
-const columnHelper = createColumnHelper<UserPreview>();
+const columnHelper = createColumnHelper<UserNotSaturatedWay>();
 
 /**
  * Table columns
@@ -33,14 +36,21 @@ export const getUsersColumns = (language: Language) => [
      * Cell with clickable username that leads to user page
      */
     cell: ({row}) => (
-      <Link path={pages.user.getPath({uuid: row.original.uuid})}>
-        <Tooltip
-          position={PositionTooltip.TOP}
-          content={row.original.name}
-        >
-          {row.original.name}
-        </Tooltip>
-      </Link>
+      <HorizontalContainer className={styles.userBlock}>
+        <Avatar
+          alt={row.original.name}
+          src={row.original.imageUrl}
+          size={AvatarSize.SMALL}
+        />
+        <Link path={pages.user.getPath({uuid: row.original.uuid})}>
+          <Tooltip
+            position={PositionTooltip.TOP}
+            content={row.original.name}
+          >
+            {row.original.name}
+          </Tooltip>
+        </Link>
+      </HorizontalContainer>
     ),
   }),
   columnHelper.accessor("email", {
@@ -85,7 +95,7 @@ export const getUsersColumns = (language: Language) => [
      */
     cell: ({row}) => (
       <div className={styles.number}>
-        {row.original.ownWays.length.toString()}
+        {row.original.ownWays.toString()}
       </div>
     ),
   }),
@@ -110,7 +120,7 @@ export const getUsersColumns = (language: Language) => [
      */
     cell: ({row}) => (
       <div className={styles.number}>
-        {row.original.favoriteWays.length.toString()}
+        {row.original.favoriteWays}
       </div>
     ),
   }),
@@ -135,7 +145,31 @@ export const getUsersColumns = (language: Language) => [
      */
     cell: ({row}) => (
       <div className={styles.number}>
-        {row.original.mentoringWays.length.toString()}
+        {row.original.mentoringWays.toString()}
+      </div>
+    ),
+  }),
+  columnHelper.accessor("favoriteForUsers", {
+
+    /**
+     * Header
+     */
+    header: () => (
+      <>
+        <Tooltip
+          position={PositionTooltip.TOP_LEFT}
+          content={LanguageService.allUsers.usersTable.columnTooltip.favorites[language]}
+        >
+          {Symbols.STAR}
+        </Tooltip>
+      </>),
+
+    /**
+     * Cell with amount of favorite for user uuids
+     */
+    cell: ({row}) => (
+      <div className={styles.number}>
+        {row.original.favoriteForUsers}
       </div>
     ),
   }),

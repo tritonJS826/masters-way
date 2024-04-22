@@ -1,10 +1,8 @@
 
 import {BrowserRouter} from "react-router-dom";
 import {Header, LOGO_TEXT} from "src/component/header/Header";
-import {
-  DEFAULT_NOTIFICATION_SETTINGS,
-  globalContext,
-} from "src/GlobalContext";
+import {testUserPreview} from "src/component/header/testUserPreview";
+import {getNextSwitchTheme} from "src/logic/themeSwitcher/ThemeSwitcher";
 import {getDataCy} from "src/utils/cyTesting/getDataCy";
 import {LanguageWorker} from "src/utils/LanguageWorker";
 import {ThemeWorker} from "src/utils/ThemeWorker";
@@ -15,62 +13,22 @@ const HEADER_CY = "header";
  *Header test component
  */
 const HeaderTest = () => {
-  const userPreview = {
-    uuid: "8l9tZl6gINP7j6BIT3p0yN9zZnH2",
-    name: "Test Tester",
-    email: "test.tester@gmail.com",
-    description: "",
-    ownWays: [],
-    favoriteWays: [],
-    mentoringWays: [],
-    createdAt: new Date(),
-    customWayCollections: [],
-    favoriteForUserUuids: [],
-    favoriteUserUuids: [],
-    tags: [],
-    wayRequests: [],
-    imageUrl: "",
-    isMentor: false,
-  };
 
   return (
-    <globalContext.Provider value={{
-      user: userPreview,
-
-      /**
-       *SetUser
-       */
-      setUser: () => {},
-      isInitialized: true,
-
-      /**
-       *SetIsInitialized
-       */
-      setIsInitialized: () => {},
-      notification: DEFAULT_NOTIFICATION_SETTINGS,
-      theme: ThemeWorker.getCurrentTheme(),
-
-      /**
-       *SetTheme
-       */
-      setTheme: () => {},
-      language: LanguageWorker.getCurrentLanguage(),
-
-      /**
-       *SetLanguage
-       */
-      setLanguage: () => {},
-    }}
-    >
-      <BrowserRouter>
-        <Header dataCy={HEADER_CY} />
-      </BrowserRouter>
-    </globalContext.Provider>
+    <BrowserRouter>
+      <Header
+        dataCy={HEADER_CY}
+        user={testUserPreview}
+        setLanguage={() => {}}
+        language={LanguageWorker.getCurrentLanguage()}
+        currentTheme={ThemeWorker.getCurrentTheme()}
+        setTheme={() => ThemeWorker.setTheme(getNextSwitchTheme(ThemeWorker.getCurrentTheme()))}
+      />
+    </BrowserRouter>
   );
 };
 
 describe("Header component", () => {
-
   beforeEach(() => {
     cy.mount(
       <HeaderTest />,

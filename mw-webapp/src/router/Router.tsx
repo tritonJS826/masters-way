@@ -3,7 +3,7 @@ import {
   createRoutesFromElements,
   Route,
 } from "react-router-dom";
-import {Layout} from "src/component/layout/Layout";
+import {Layout} from "src/logic/Layout";
 import {pages} from "src/router/pages";
 import {WithValidatedParams} from "src/router/PageUrlValidator/ValidatedParams";
 
@@ -18,6 +18,11 @@ export const router = createBrowserRouter(
       element={<Layout />}
       errorElement={pages.page404.getPageComponent({})}
     >
+      <Route
+        path={pages.home.getPath({})}
+        element={<WithValidatedParams paramsSchema={pages.home} />}
+        errorElement={pages.page404.getPageComponent({})}
+      />
       <Route
         path={pages.allWays.getPath({})}
         element={<WithValidatedParams paramsSchema={pages.allWays} />}

@@ -1,0 +1,39 @@
+@import "src/styles/variables";
+
+.checkbox {
+  display: grid;
+  width: $checkboxWidthMedium;
+  height: $checkboxHeightMedium;
+  align-self: flex-start;
+  border: 2px solid var(--inactiveTextColor);
+  border-radius: $almostRoundBorderRadius;
+  appearance: none;
+  background-color: transparent;
+  cursor: pointer;
+  place-content: center;
+
+  &:checked {
+    border: none;
+    background-color: var(--tertiaryBackgroundColor);
+  }
+}
+
+.checkbox::after {
+  width: $checkmarkWidthMedium;
+  height: $checkmarkHeightMedium;
+  // Use of box-shadow instead of background-color will enable the state of the checkbox to be visible when printed
+  box-shadow: inset $checkmarkWidthMedium $checkmarkHeightMedium
+    var(--primaryTextColor);
+  clip-path: polygon(45% 64%, 84% 14%, 100% 28%, 47% 100%, 0 49%, 15% 32%);
+  content: "";
+  transform: scale(0);
+  transition: $secondaryTransitionDuration transform ease-in-out;
+}
+
+.checkbox:checked::after {
+  transform: scale(1);
+}
+
+.disabled {
+  background-color: var(--inactiveTextColor);
+}

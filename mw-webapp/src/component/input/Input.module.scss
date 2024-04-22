@@ -1,5 +1,21 @@
 @import "src/styles/variables";
 
+$leftPosition: 5px;
+$paddingLarge: 25px;
+
+.inputWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.inputIcon {
+  position: absolute;
+  left: $leftPosition;
+  top: 50%;
+  transform: translateY(-50%);
+  stroke: var(--inactiveTextColor);
+}
+
 .input {
   width: 100%;
   border: none;
@@ -14,4 +30,28 @@
     color: var(--primaryTextColor);
     opacity: 1;
   }
+}
+
+.line {
+  padding: $paddingSmall;
+  border-bottom: 1px solid var(--primaryBorderColor);
+}
+
+.border {
+  padding: $paddingSmall;
+  border: 1px solid var(--inactiveTextColor);
+  border-radius: $secondaryBorderRadius;
+
+  &:focus {
+    border: 1px solid var(--primaryBorderColor);
+
+    &::placeholder {
+      transition: opacity 0.2s ease-in-out;
+      opacity: 0;
+    }
+  }
+}
+
+.inputFilterIcon {
+  padding-left: $paddingLarge;
 }

@@ -3,7 +3,7 @@ import {Close as DialogClose} from "@radix-ui/react-dialog";
 import {Button} from "src/component/button/Button";
 import {getFormattedValue} from "src/component/editableText/EditableText";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
-import {Input} from "src/component/input/Input";
+import {Input, InputType} from "src/component/input/Input";
 import {Textarea} from "src/component/textarea/Textarea";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {getValidatedTime, MAX_TIME} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
@@ -39,8 +39,8 @@ interface CopyPlanToJobDoneModalContentProps {
  * Copy plan to jobDone modal content
  */
 export const CopyPlanToJobDoneModalContent = (props: CopyPlanToJobDoneModalContentProps) => {
-  const [inputPlanJob, setInputPlanJob] = useState<string>(props.plan.job);
-  const [inputPlanTime, setInputPLanTime] = useState<number>(props.plan.estimationTime);
+  const [inputPlanJob, setInputPlanJob] = useState<string>(props.plan.description);
+  const [inputPlanTime, setInputPLanTime] = useState<number>(props.plan.time);
 
   const onOkRef = useRef<HTMLButtonElement>(null);
 
@@ -64,7 +64,7 @@ export const CopyPlanToJobDoneModalContent = (props: CopyPlanToJobDoneModalConte
           onKeyDown={handleEnter}
           className={styles.copyPlanToJobModalContainer}
         >
-          {`Are you sure you want to mark the plan "${props.plan.job}" as unfulfilled?`}
+          {`Are you sure you want to mark the plan "${props.plan.description}" as unfulfilled?`}
           <HorizontalContainer className={styles.buttons}>
             <DialogClose asChild>
               <Button
@@ -115,7 +115,7 @@ export const CopyPlanToJobDoneModalContent = (props: CopyPlanToJobDoneModalConte
               type="number"
               max={MAX_TIME}
               onChange={(time) => setInputPLanTime(getValidatedTime(Number(time)))}
-              className={styles.input}
+              typeInput={InputType.Border}
             />
           </VerticalContainer>
           <HorizontalContainer className={styles.buttons}>
@@ -144,8 +144,8 @@ export const CopyPlanToJobDoneModalContent = (props: CopyPlanToJobDoneModalConte
                   const planForJob: Plan = new Plan({
                     ...props.plan,
                     isDone: !props.plan.isDone,
-                    job: inputPlanJob,
-                    estimationTime: inputPlanTime,
+                    description: inputPlanJob,
+                    time: inputPlanTime,
                   });
 
                   props.updatePlan(toggledPlan);

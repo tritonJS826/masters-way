@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"context"
-	"database/sql"
 	"net/http"
 
 	db "mwserver/db/sqlc"
@@ -31,7 +30,7 @@ func NewWayTagController(db *db.Queries, ctx context.Context) *WayTagController 
 // @Param request body schemas.CreateWayTagPayload true "query params"
 // @Success 200 {object} schemas.WayTagResponse
 // @Router /wayTags [post]
-func (cc *WayTagController) CreateWayTag(ctx *gin.Context) {
+func (cc *WayTagController) AddWayTagToWay(ctx *gin.Context) {
 	var payload *schemas.CreateWayTagPayload
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
@@ -39,84 +38,25 @@ func (cc *WayTagController) CreateWayTag(ctx *gin.Context) {
 		return
 	}
 
-	args := &db.CreateWayTagParams{
-		Name:    payload.Name,
-		WayUuid: uuid.MustParse(payload.WayUuid),
-	}
-
-	wayTag, err := cc.db.CreateWayTag(ctx, *args)
+	wayTag, err := cc.db.GetWayTagByName(ctx, payload.Name)
 
 	if err != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving wayTag", "error": err.Error()})
-		return
+		newWayTag, _ := cc.db.CreateWayTag(ctx, payload.Name)
+		wayTag = newWayTag
 	}
 
-	ctx.JSON(http.StatusOK, wayTag)
-}
+	args := &db.CreateWaysWayTagParams{
+		WayTagUuid: wayTag.Uuid,
+		WayUuid:    uuid.MustParse(payload.WayUuid),
+	}
+	cc.db.CreateWaysWayTag(ctx, *args)
 
-// Update wayTagRoute handler
-// @Summary Update wayTag by UUID
-// @Description
-// @Tags wayTag
-// @ID update-wayTag
-// @Accept  json
-// @Produce  json
-// @Param request body schemas.UpdateWayTagPayload true "query params"
-// @Param wayTagId path string true "wayTag ID"
-// @Success 200 {object} schemas.WayTagResponse
-// @Router /wayTags/{wayTagId} [patch]
-func (cc *WayTagController) UpdateWayTag(ctx *gin.Context) {
-	var payload *schemas.UpdateWayTagPayload
-	wayTagId := ctx.Param("wayTagId")
-
-	if err := ctx.ShouldBindJSON(&payload); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
-		return
+	response := schemas.WayTagResponse{
+		Uuid: wayTag.Uuid.String(),
+		Name: wayTag.Name,
 	}
 
-	args := &db.UpdateWayTagParams{
-		Uuid: uuid.MustParse(wayTagId),
-		Name: sql.NullString{String: payload.Name, Valid: payload.Name != ""},
-	}
-
-	wayTag, err := cc.db.UpdateWayTag(ctx, *args)
-
-	if err != nil {
-		if err == sql.ErrNoRows {
-			ctx.JSON(http.StatusNotFound, gin.H{"status": "failed", "message": "Failed to retrieve wayTag with this ID"})
-			return
-		}
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving wayTag", "error": err.Error()})
-		return
-	}
-
-	ctx.JSON(http.StatusOK, wayTag)
-}
-
-// Get a single handler
-// @Summary Get wayTags by way UUID
-// @Description
-// @Tags wayTag
-// @ID get-wayTags-by-Way-uuid
-// @Accept  json
-// @Produce  json
-// @Param wayId path string true "way ID"
-// @Success 200 {array} schemas.WayTagResponse
-// @Router /wayTags/{wayId} [get]
-func (cc *WayTagController) GetWayTagsByWayId(ctx *gin.Context) {
-	wayId := ctx.Param("wayId")
-
-	wayTags, err := cc.db.GetListWayTagsByWayId(ctx, uuid.MustParse(wayId))
-	if err != nil {
-		if err == sql.ErrNoRows {
-			ctx.JSON(http.StatusNotFound, gin.H{"status": "failed", "message": "Failed to retrieve wayTag with this ID"})
-			return
-		}
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving wayTag", "error": err.Error()})
-		return
-	}
-
-	ctx.JSON(http.StatusOK, wayTags)
+	ctx.JSON(http.StatusOK, response)
 }
 
 // Deleting wayTag handlers
@@ -127,17 +67,23 @@ func (cc *WayTagController) GetWayTagsByWayId(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param wayTagId path string true "wayTag ID"
+// @Param wayId path string true "way ID"
 // @Success 200
-// @Router /wayTags/{wayTagId} [delete]
-func (cc *WayTagController) DeleteWayTagById(ctx *gin.Context) {
+// @Router /wayTags/{wayTagId}/{wayId} [delete]
+func (cc *WayTagController) DeleteWayTagFromWayByTagId(ctx *gin.Context) {
 	wayTagId := ctx.Param("wayTagId")
+	wayId := ctx.Param("wayId")
 
-	err := cc.db.DeleteWayTag(ctx, uuid.MustParse(wayTagId))
+	args := db.DeleteWayTagFromWayParams{
+		WayUuid:    uuid.MustParse(wayId),
+		WayTagUuid: uuid.MustParse(wayTagId),
+	}
+
+	err := cc.db.DeleteWayTagFromWay(ctx, args)
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"status": "failed", "error": err.Error()})
 		return
 	}
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfuly deleted"})
-
 }

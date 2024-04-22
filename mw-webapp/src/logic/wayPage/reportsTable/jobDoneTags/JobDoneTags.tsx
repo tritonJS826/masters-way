@@ -1,4 +1,4 @@
-import {JobTag} from "src/logic/wayPage/jobTags/jobTag/JobTag";
+import {Label} from "src/logic/wayPage/labels/label/Label";
 import {JobTag as JobTagData} from "src/model/businessModelPreview/WayPreview";
 import styles from "src/logic/wayPage/reportsTable/jobDoneTags/JobDoneTags.module.scss";
 
@@ -22,9 +22,9 @@ export const JobDoneTags = (props: JobDoneTagsProps) => {
     <div className={styles.jobTags}>
       {props.jobDoneTags.map((jobDoneTag) => {
         return (
-          <JobTag
+          <Label
             key={jobDoneTag.uuid}
-            jobTag={jobDoneTag}
+            label={jobDoneTag}
             isSmall
           />
         );

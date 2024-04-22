@@ -16,8 +16,7 @@ func NewRoutePlan(planController controllers.PlanController) PlanRoutes {
 
 func (cr *PlanRoutes) PlanRoute(rg *gin.RouterGroup) {
 	router := rg.Group("plans")
-	router.POST("/", cr.planController.CreatePlan)
-	router.GET("/:dayReportId", cr.planController.GetPlansByDayReportId)
+	router.POST("", cr.planController.CreatePlan)
 	router.PATCH("/:planId", cr.planController.UpdatePlan)
 	router.DELETE("/:planId", cr.planController.DeletePlanById)
 }

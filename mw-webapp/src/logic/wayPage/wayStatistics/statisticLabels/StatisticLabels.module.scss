@@ -1,0 +1,19 @@
+@import "src/styles/variables";
+
+.statisticLabelsBlock {
+  gap: $gapMedium;
+}
+
+.titleLine {
+  gap: $gapMedium;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.statisticLabelsTitle {
+  padding-bottom: $paddingSmall;
+  text-align: right;
+
+  &:first-child {
+    text-align: left;
+  }
+}

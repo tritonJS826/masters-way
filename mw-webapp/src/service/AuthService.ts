@@ -1,7 +1,8 @@
 import {onAuthStateChanged, signInWithPopup, signOut} from "firebase/auth";
-import {doc, getDoc, Timestamp} from "firebase/firestore";
-import {auth, db, provider} from "src/firebase";
-import {PATH_TO_USERS_COLLECTION, UserService} from "src/service/UserService";
+import {UserDTOToUserConverter} from "src/dataAccessLogic/DTOToPreviewConverter/userDTOToUser";
+import {auth, provider} from "src/firebase";
+import {User} from "src/model/businessModel/User";
+import {UserService} from "src/service/UserService";
 
 const DEFAULT_USER_NAME = "Noname";
 
@@ -13,7 +14,7 @@ interface ListenAuthStateChangeParams {
   /**
    * OnLogIn handler
    */
-  onLogIn: (userUid: string) => void;
+  onLogIn: (user: User) => void;
 
   /**
    * OnLogOut handler
@@ -62,36 +63,24 @@ export class AuthService {
         return;
       }
 
-      const userDocRef = doc(db, PATH_TO_USERS_COLLECTION, currentUser.uid);
-      const userDocSnapshot = await getDoc(userDocRef);
-
-      if (!userDocSnapshot.exists()) {
-        if (!currentUser.email) {
-          throw Error (`Current user ${currentUser} with uuid ${currentUser.uid} doesn't have an email`);
-        }
-        // Create new user on firebase Users collection after google login
-        UserService.createUserDTO(
-          {
-            uuid: currentUser.uid,
-            email: currentUser.email,
-            name: currentUser.displayName ?? DEFAULT_USER_NAME,
-            description: "",
-            ownWayUuids: [],
-            favoriteWayUuids: [],
-            mentoringWayUuids: [],
-            createdAt: Timestamp.fromDate(new Date()),
-            customWayCollectionsStringified: [],
-            favoriteForUserUuids: [],
-            favoriteUserUuids: [],
-            tagsStringified: [],
-            imageUrl: "",
-            isMentor: false,
-            wayRequestUuids: [],
-          },
-        );
+      if (!currentUser.email) {
+        throw Error (`Current user ${currentUser} with uuid ${currentUser.uid} doesn't have an email`);
       }
 
-      params.onLogIn(currentUser.uid);
+      // Create new user on after google login
+      const userDTO = await UserService.createUser({
+        request: {
+          firebaseId: currentUser.uid,
+          email: currentUser.email,
+          name: currentUser.displayName ?? DEFAULT_USER_NAME,
+          description: "",
+          imageUrl: "",
+          isMentor: false,
+        },
+      });
+
+      const user = UserDTOToUserConverter(userDTO);
+      params.onLogIn(user);
 
     });
   }

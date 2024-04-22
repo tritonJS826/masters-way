@@ -1,26 +1,24 @@
 import {BrowserRouter} from "react-router-dom";
 import {UserCard} from "src/component/userCard/UserCard";
-import {UserPreview} from "src/model/businessModelPreview/UserPreview";
+import {UserNotSaturatedWay} from "src/model/businessModelPreview/UserNotSaturatedWay";
 import {pages} from "src/router/pages";
 import {getDataCy} from "src/utils/cyTesting/getDataCy";
 import {DateUtils} from "src/utils/DateUtils";
 
-const USER_PREVIEW_DATA: UserPreview = {
+const USER_PREVIEW_DATA: UserNotSaturatedWay = {
   uuid: "8l9tZl6gINP7j6BIT3p0yN9zZnH2",
   name: "Test Tester",
   email: "test.tester@gmail.com",
   description: "",
-  ownWays: ["1"],
-  favoriteWays: ["1", "2", "3"],
-  mentoringWays: ["1", "2"],
   createdAt: new Date(),
-  customWayCollections: [],
-  favoriteForUserUuids: ["1", "2", "3"],
   favoriteUserUuids: [],
+  favoriteForUsers: 2,
   tags: [],
-  wayRequests: [],
   imageUrl: "",
   isMentor: false,
+  favoriteWays: 4,
+  mentoringWays: 7,
+  ownWays: 12,
 };
 
 const USER_CARD_CY = "user-card";
@@ -54,16 +52,16 @@ describe("UserCard component", () => {
     cy.get(getDataCy(USER_CARD_CY)).contains(USER_PREVIEW_DATA.name);
     cy.get(getDataCy(USER_CARD_CY)).contains(USER_PREVIEW_DATA.email);
     cy.get(getDataCy(USER_CARD_CY)).contains(
-      `${USER_PREVIEW_DATA.ownWays.length} own ways`,
+      `${USER_PREVIEW_DATA.ownWays} own ways`,
     );
     cy.get(getDataCy(USER_CARD_CY)).contains(
-      `${USER_PREVIEW_DATA.favoriteWays.length} favorite ways`,
+      `${USER_PREVIEW_DATA.favoriteWays} favorite ways`,
     );
     cy.get(getDataCy(USER_CARD_CY)).contains(
-      `${USER_PREVIEW_DATA.mentoringWays.length} mentoring ways`,
+      `${USER_PREVIEW_DATA.mentoringWays} mentoring ways`,
     );
     cy.get(getDataCy(USER_CARD_CY)).contains(
-      `${USER_PREVIEW_DATA.favoriteForUserUuids.length}`,
+      `${USER_PREVIEW_DATA.favoriteForUsers}`,
     );
     const creationDate = DateUtils.getShortISODateValue(
       USER_PREVIEW_DATA.createdAt,

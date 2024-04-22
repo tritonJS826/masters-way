@@ -15,6 +15,8 @@ const CONFIRM_CY = {
   onEnter: "enter",
 };
 
+const CONFIRM_CONTENT = "Confirm content";
+
 describe("Confirm component", () => {
 
   beforeEach(() => {
@@ -29,7 +31,7 @@ describe("Confirm component", () => {
         }
         content={
           <div>
-            Confirm content
+            {CONFIRM_CONTENT}
           </div>
         }
         onOk={() => {}}
@@ -103,7 +105,9 @@ describe("Confirm component", () => {
     cy.get(getDataCy(CONFIRM_CY.dataCyTrigger))
       .click();
     cy.get(getDataCy(CONFIRM_CY.dataCyContent.dataCyContent))
-      .click().should("exist");
+      .contains(CONFIRM_CONTENT)
+      .click()
+      .should("exist");
     cy.get(getDataCy(CONFIRM_CY.dataCyContent.dataCyClose))
       .click();
   });

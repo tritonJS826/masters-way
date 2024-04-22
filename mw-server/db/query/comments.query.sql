@@ -7,25 +7,17 @@ INSERT INTO comments(
     day_report_uuid
 ) VALUES (
     $1, $2, $3, $4, $5
-) RETURNING *;
+) RETURNING 
+    *,
+    (SELECT name FROM users WHERE uuid = $4) AS owner_name;
 
 
--- name: GetListCommentsByDayReportId :many
+-- name: GetListCommentsByDayReportUuids :many
 SELECT
-    comments.uuid,
-    comments.created_at,
-    comments.updated_at,
-    comments.description,
-    users.name AS owner_name,
-    users.uuid AS owner_uuid, 
-    users.email AS owner_email,
-    users.description AS owner_description,
-    users.created_at AS owner_created_at,
-    users.image_url AS owner_image_url,
-    users.is_mentor AS owner_is_mentor
+    comments.*
 FROM comments
 JOIN users ON comments.owner_uuid = users.uuid
-WHERE day_report_uuid = $1
+WHERE day_report_uuid = ANY($1::UUID[])
 ORDER BY comments.created_at;
 
 -- name: UpdateComment :one

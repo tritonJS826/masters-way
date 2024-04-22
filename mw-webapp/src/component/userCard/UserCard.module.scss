@@ -15,7 +15,7 @@ $userCardAdditionalHeight: 105px;
   height: $userCardMainHeight;
   padding: $userCardMainInfoPadding;
   border-radius: $secondaryBorderRadius $secondaryBorderRadius 0 0;
-  background-color: var(--secondaryBackgroundColor);
+  background-color: var(--tertiaryBackgroundColor);
   gap: $gapMedium;
 }
 
@@ -41,8 +41,13 @@ $userCardAdditionalHeight: 105px;
 }
 
 .nameLikes {
-  align-items: center;
+  align-items: start;
   justify-content: space-between;
+}
+
+.nameGroup {
+  gap: $gapSmall;
+  justify-items: start;
 }
 
 .description {
@@ -59,7 +64,6 @@ $userCardAdditionalHeight: 105px;
 .mail {
   display: -webkit-box;
   overflow: hidden;
-  margin-top: auto;
   -webkit-box-orient: vertical;
   color: var(--secondaryTextColor);
   font-size: $fontSizeMedium;
@@ -67,6 +71,17 @@ $userCardAdditionalHeight: 105px;
   -webkit-line-clamp: 1;
   text-overflow: ellipsis;
   white-space: initial;
+}
+
+.userTags {
+  display: flex;
+  overflow: hidden;
+  flex-wrap: nowrap;
+  align-items: center;
+  // display: -webkit-box;
+  -webkit-box-orient: vertical;
+  gap: $gapMedium;
+  -webkit-line-clamp: 1;
 }
 
 .additionalInfo {

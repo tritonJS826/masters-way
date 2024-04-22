@@ -11,6 +11,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/samber/lo"
 )
 
 type PlanController struct {
@@ -30,7 +31,7 @@ func NewPlanController(db *db.Queries, ctx context.Context) *PlanController {
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreatePlanPayload true "query params"
-// @Success 200 {object} schemas.PlanPlainResponse
+// @Success 200 {object} schemas.PlanPopulatedResponse
 // @Router /plans [post]
 func (cc *PlanController) CreatePlan(ctx *gin.Context) {
 	var payload *schemas.CreatePlanPayload
@@ -42,23 +43,35 @@ func (cc *PlanController) CreatePlan(ctx *gin.Context) {
 
 	now := time.Now()
 	args := &db.CreatePlanParams{
-		Job:            payload.Job,
-		EstimationTime: int32(payload.EstimationTime),
-		OwnerUuid:      uuid.MustParse(payload.OwnerUuid),
-		IsDone:         payload.IsDone,
-		DayReportUuid:  uuid.MustParse(payload.DayReportUuid),
-		CreatedAt:      now,
-		UpdatedAt:      now,
+		Description:   payload.Description,
+		Time:          int32(payload.Time),
+		OwnerUuid:     uuid.MustParse(payload.OwnerUuid),
+		IsDone:        payload.IsDone,
+		DayReportUuid: uuid.MustParse(payload.DayReportUuid),
+		CreatedAt:     now,
+		UpdatedAt:     now,
 	}
 
 	plan, err := cc.db.CreatePlan(ctx, *args)
-
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving Plan", "error": err.Error()})
 		return
 	}
 
-	ctx.JSON(http.StatusOK, plan)
+	response := schemas.PlanPopulatedResponse{
+		Uuid:          plan.Uuid.String(),
+		CreatedAt:     plan.CreatedAt.String(),
+		UpdatedAt:     plan.UpdatedAt.String(),
+		Description:   plan.Description,
+		Time:          plan.Time,
+		OwnerUuid:     plan.OwnerUuid.String(),
+		OwnerName:     plan.OwnerName,
+		IsDone:        plan.IsDone,
+		DayReportUuid: plan.DayReportUuid.String(),
+		Tags:          make([]schemas.JobTagResponse, 0),
+	}
+
+	ctx.JSON(http.StatusOK, response)
 }
 
 // Update Plan handler
@@ -70,11 +83,11 @@ func (cc *PlanController) CreatePlan(ctx *gin.Context) {
 // @Produce  json
 // @Param request body schemas.UpdatePlanPayload true "query params"
 // @Param planId path string true "plan UUID"
-// @Success 200 {object} schemas.PlanPlainResponse
+// @Success 200 {object} schemas.PlanPopulatedResponse
 // @Router /plans/{planId} [patch]
 func (cc *PlanController) UpdatePlan(ctx *gin.Context) {
 	var payload *schemas.UpdatePlanPayload
-	PlanId := ctx.Param("PlanId")
+	PlanId := ctx.Param("planId")
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
@@ -83,11 +96,11 @@ func (cc *PlanController) UpdatePlan(ctx *gin.Context) {
 
 	now := time.Now()
 	args := &db.UpdatePlanParams{
-		Uuid:           uuid.MustParse(PlanId),
-		UpdatedAt:      sql.NullTime{Time: now, Valid: true},
-		Job:            sql.NullString{String: payload.Job, Valid: payload.Job != ""},
-		EstimationTime: sql.NullInt32{Int32: int32(payload.EstimationTime), Valid: payload.EstimationTime != 0},
-		IsDone:         sql.NullBool{Bool: payload.IsDone, Valid: true},
+		Uuid:        uuid.MustParse(PlanId),
+		UpdatedAt:   sql.NullTime{Time: now, Valid: true},
+		Description: sql.NullString{String: payload.Description, Valid: payload.Description != ""},
+		Time:        sql.NullInt32{Int32: int32(payload.Time), Valid: payload.Time != 0},
+		IsDone:      sql.NullBool{Bool: payload.IsDone, Valid: true},
 	}
 
 	plan, err := cc.db.UpdatePlan(ctx, *args)
@@ -100,34 +113,33 @@ func (cc *PlanController) UpdatePlan(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving Plan", "error": err.Error()})
 		return
 	}
+	tagUuids := lo.Map(plan.TagUuids, func(stringifiedUuid string, i int) uuid.UUID {
+		return uuid.MustParse(stringifiedUuid)
+	})
 
-	ctx.JSON(http.StatusOK, plan)
-}
-
-// Get plans by day report uuid handler
-// @Summary Get plans by dayReport UUID
-// @Description
-// @Tags plan
-// @ID get-plans-by-DayReport-uuid
-// @Accept  json
-// @Produce  json
-// @Param dayReportId path string true "dayReport UUID"
-// @Success 200 {array} schemas.PlanPlainResponse
-// @Router /plans/{dayReportId} [get]
-func (cc *PlanController) GetPlansByDayReportId(ctx *gin.Context) {
-	dayReportId := ctx.Param("dayReportId")
-
-	plans, err := cc.db.GetListPlansByDayReportId(ctx, uuid.MustParse(dayReportId))
-	if err != nil {
-		if err == sql.ErrNoRows {
-			ctx.JSON(http.StatusNotFound, gin.H{"status": "failed", "message": "Failed to retrieve Plan with this ID"})
-			return
+	dbTags, _ := cc.db.GetListLabelsByLabelUuids(ctx, tagUuids)
+	tags := lo.Map(dbTags, func(dbTag db.JobTag, i int) schemas.JobTagResponse {
+		return schemas.JobTagResponse{
+			Uuid:        dbTag.Uuid.String(),
+			Name:        dbTag.Name,
+			Description: dbTag.Description,
+			Color:       dbTag.Color,
 		}
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving Plan", "error": err.Error()})
-		return
+	})
+	response := schemas.PlanPopulatedResponse{
+		Uuid:          plan.Uuid.String(),
+		CreatedAt:     plan.CreatedAt.String(),
+		UpdatedAt:     plan.UpdatedAt.String(),
+		Description:   plan.Description,
+		Time:          plan.Time,
+		OwnerUuid:     plan.OwnerUuid.String(),
+		OwnerName:     plan.OwnerName,
+		IsDone:        plan.IsDone,
+		DayReportUuid: plan.DayReportUuid.String(),
+		Tags:          tags,
 	}
 
-	ctx.JSON(http.StatusOK, plans)
+	ctx.JSON(http.StatusOK, response)
 }
 
 // Deleting Plan handlers

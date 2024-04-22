@@ -16,14 +16,14 @@
 import * as runtime from '../runtime';
 import type {
   SchemasCreatePlanPayload,
-  SchemasPlanPlainResponse,
+  SchemasPlanPopulatedResponse,
   SchemasUpdatePlanPayload,
 } from '../models/index';
 import {
     SchemasCreatePlanPayloadFromJSON,
     SchemasCreatePlanPayloadToJSON,
-    SchemasPlanPlainResponseFromJSON,
-    SchemasPlanPlainResponseToJSON,
+    SchemasPlanPopulatedResponseFromJSON,
+    SchemasPlanPopulatedResponseToJSON,
     SchemasUpdatePlanPayloadFromJSON,
     SchemasUpdatePlanPayloadToJSON,
 } from '../models/index';
@@ -34,10 +34,6 @@ export interface CreatePlanRequest {
 
 export interface DeletePlanRequest {
     planId: string;
-}
-
-export interface GetPlansByDayReportUuidRequest {
-    dayReportId: string;
 }
 
 export interface UpdatePlanRequest {
@@ -53,7 +49,7 @@ export class PlanApi extends runtime.BaseAPI {
     /**
      * Create a new plan
      */
-    async createPlanRaw(requestParameters: CreatePlanRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasPlanPlainResponse>> {
+    async createPlanRaw(requestParameters: CreatePlanRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasPlanPopulatedResponse>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createPlan.');
         }
@@ -72,13 +68,13 @@ export class PlanApi extends runtime.BaseAPI {
             body: SchemasCreatePlanPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasPlanPlainResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasPlanPopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Create a new plan
      */
-    async createPlan(requestParameters: CreatePlanRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasPlanPlainResponse> {
+    async createPlan(requestParameters: CreatePlanRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasPlanPopulatedResponse> {
         const response = await this.createPlanRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -113,39 +109,9 @@ export class PlanApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get plans by dayReport UUID
-     */
-    async getPlansByDayReportUuidRaw(requestParameters: GetPlansByDayReportUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<SchemasPlanPlainResponse>>> {
-        if (requestParameters.dayReportId === null || requestParameters.dayReportId === undefined) {
-            throw new runtime.RequiredError('dayReportId','Required parameter requestParameters.dayReportId was null or undefined when calling getPlansByDayReportUuid.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/plans/{dayReportId}`.replace(`{${"dayReportId"}}`, encodeURIComponent(String(requestParameters.dayReportId))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(SchemasPlanPlainResponseFromJSON));
-    }
-
-    /**
-     * Get plans by dayReport UUID
-     */
-    async getPlansByDayReportUuid(requestParameters: GetPlansByDayReportUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<SchemasPlanPlainResponse>> {
-        const response = await this.getPlansByDayReportUuidRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
      * Update plan by UUID
      */
-    async updatePlanRaw(requestParameters: UpdatePlanRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasPlanPlainResponse>> {
+    async updatePlanRaw(requestParameters: UpdatePlanRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasPlanPopulatedResponse>> {
         if (requestParameters.planId === null || requestParameters.planId === undefined) {
             throw new runtime.RequiredError('planId','Required parameter requestParameters.planId was null or undefined when calling updatePlan.');
         }
@@ -168,13 +134,13 @@ export class PlanApi extends runtime.BaseAPI {
             body: SchemasUpdatePlanPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasPlanPlainResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasPlanPopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Update plan by UUID
      */
-    async updatePlan(requestParameters: UpdatePlanRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasPlanPlainResponse> {
+    async updatePlan(requestParameters: UpdatePlanRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasPlanPopulatedResponse> {
         const response = await this.updatePlanRaw(requestParameters, initOverrides);
         return await response.value();
     }

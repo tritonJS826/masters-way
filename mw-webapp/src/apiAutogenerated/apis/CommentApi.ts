@@ -15,13 +15,13 @@
 
 import * as runtime from '../runtime';
 import type {
-  SchemasCommentPlainResponse,
+  SchemasCommentPopulatedResponse,
   SchemasCreateCommentPayload,
   SchemasUpdateCommentPayload,
 } from '../models/index';
 import {
-    SchemasCommentPlainResponseFromJSON,
-    SchemasCommentPlainResponseToJSON,
+    SchemasCommentPopulatedResponseFromJSON,
+    SchemasCommentPopulatedResponseToJSON,
     SchemasCreateCommentPayloadFromJSON,
     SchemasCreateCommentPayloadToJSON,
     SchemasUpdateCommentPayloadFromJSON,
@@ -34,10 +34,6 @@ export interface CreateCommentRequest {
 
 export interface DeleteCommentRequest {
     commentId: string;
-}
-
-export interface GetCommentsByDayReportUuidRequest {
-    dayReportId: string;
 }
 
 export interface UpdateCommentRequest {
@@ -53,7 +49,7 @@ export class CommentApi extends runtime.BaseAPI {
     /**
      * Create a new comment
      */
-    async createCommentRaw(requestParameters: CreateCommentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasCommentPlainResponse>> {
+    async createCommentRaw(requestParameters: CreateCommentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasCommentPopulatedResponse>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createComment.');
         }
@@ -72,13 +68,13 @@ export class CommentApi extends runtime.BaseAPI {
             body: SchemasCreateCommentPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasCommentPlainResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasCommentPopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Create a new comment
      */
-    async createComment(requestParameters: CreateCommentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasCommentPlainResponse> {
+    async createComment(requestParameters: CreateCommentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasCommentPopulatedResponse> {
         const response = await this.createCommentRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -113,39 +109,9 @@ export class CommentApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get comments by dayReport UUID
-     */
-    async getCommentsByDayReportUuidRaw(requestParameters: GetCommentsByDayReportUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<SchemasCommentPlainResponse>>> {
-        if (requestParameters.dayReportId === null || requestParameters.dayReportId === undefined) {
-            throw new runtime.RequiredError('dayReportId','Required parameter requestParameters.dayReportId was null or undefined when calling getCommentsByDayReportUuid.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/comments/{dayReportId}`.replace(`{${"dayReportId"}}`, encodeURIComponent(String(requestParameters.dayReportId))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(SchemasCommentPlainResponseFromJSON));
-    }
-
-    /**
-     * Get comments by dayReport UUID
-     */
-    async getCommentsByDayReportUuid(requestParameters: GetCommentsByDayReportUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<SchemasCommentPlainResponse>> {
-        const response = await this.getCommentsByDayReportUuidRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
      * Update comment by UUID
      */
-    async updateCommentRaw(requestParameters: UpdateCommentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasCommentPlainResponse>> {
+    async updateCommentRaw(requestParameters: UpdateCommentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasCommentPopulatedResponse>> {
         if (requestParameters.commentId === null || requestParameters.commentId === undefined) {
             throw new runtime.RequiredError('commentId','Required parameter requestParameters.commentId was null or undefined when calling updateComment.');
         }
@@ -168,13 +134,13 @@ export class CommentApi extends runtime.BaseAPI {
             body: SchemasUpdateCommentPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasCommentPlainResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasCommentPopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Update comment by UUID
      */
-    async updateComment(requestParameters: UpdateCommentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasCommentPlainResponse> {
+    async updateComment(requestParameters: UpdateCommentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasCommentPopulatedResponse> {
         const response = await this.updateCommentRaw(requestParameters, initOverrides);
         return await response.value();
     }

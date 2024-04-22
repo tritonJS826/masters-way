@@ -1,13 +1,16 @@
 @import "src/styles/variables";
 
-$wayCardMainInfoPadding: $paddingBig $paddingBig;
+$wayCardMainInfoPadding: $paddingBig $paddingBig $paddingMedium;
 $wayCardAdditionalInfoPadding: $paddingMedium $paddingBig $paddingBig;
-$wayCardMainHeight: 147px;
-$wayCardAdditionalHeight: 105px;
+$wayCardMainHeight: 150px;
+$wayCardAdditionalHeight: 120px;
 $cardLinkFontSize: 16px;
 
 .wayCardContainer {
   border-radius: $secondaryBorderRadius;
+  -webkit-box-shadow: 0px 10px 10px 1px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: 0px 10px 10px 1px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 10px 10px 1px rgba(0, 0, 0, 0.25);
   cursor: pointer;
   @include scaleOnHover;
 }
@@ -16,7 +19,7 @@ $cardLinkFontSize: 16px;
   height: $wayCardMainHeight;
   padding: $wayCardMainInfoPadding;
   border-radius: $secondaryBorderRadius $secondaryBorderRadius 0 0;
-  background-color: var(--secondaryBackgroundColor);
+  background-color: var(--tertiaryBackgroundColor);
   gap: $gapMedium;
 }
 
@@ -36,16 +39,9 @@ $cardLinkFontSize: 16px;
   -webkit-box-orient: vertical;
   color: var(--secondaryTextColor);
   font-size: $fontSizeMedium;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 4;
   text-overflow: ellipsis;
   white-space: initial;
-}
-
-.ownerInfo {
-  align-items: center;
-  margin-top: auto;
-  color: var(--secondaryTextColor);
-  font-size: $fontSizeSmall;
 }
 
 .ownerLink {
@@ -64,9 +60,13 @@ $cardLinkFontSize: 16px;
 }
 
 .wayTags {
-  display: -webkit-box;
+  display: flex;
+  overflow: hidden;
+  flex-wrap: nowrap;
   align-items: center;
+  // display: -webkit-box;
   -webkit-box-orient: vertical;
+  gap: $gapMedium;
   -webkit-line-clamp: 1;
 }
 
@@ -86,15 +86,21 @@ $cardLinkFontSize: 16px;
   stroke: var(--secondaryTextColor);
 }
 
+.people {
+  align-items: center;
+  gap: $gapMedium;
+}
+
 .mentors {
   overflow: hidden;
+  align-items: center;
   font-size: $fontSizeMedium;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .mentorLink {
-  color: var(--primaryTextColor);
+  color: var(--tertiaryTextColor);
   font-size: $fontSizeMedium;
 }
 

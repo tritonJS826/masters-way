@@ -1,4 +1,3 @@
-import {useState} from "react";
 import clsx from "clsx";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Confirm} from "src/component/confirm/Confirm";
@@ -13,14 +12,11 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {WayCard} from "src/component/wayCard/WayCard";
-import {WayPreviewDAL} from "src/dataAccessLogic/WayPreviewDAL";
 import {useGlobalContext} from "src/GlobalContext";
-import {useLoad} from "src/hooks/useLoad";
-import {getWaysFilter} from "src/logic/waysTable/wayFilter";
 import {getWaysColumns} from "src/logic/waysTable/waysColumns";
 import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {WayStatus, WayStatusType} from "src/logic/waysTable/wayStatus";
-import {WaysCollection} from "src/model/businessModelPreview/UserPreview";
+import {WayCollection} from "src/model/businessModelPreview/UserPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {LanguageService} from "src/service/LangauageService";
 import {ArrayUtils} from "src/utils/ArrayUtils";
@@ -35,7 +31,7 @@ interface BaseWaysTableProps {
   /**
    * User's favorite ways preview
    */
-  wayUuids: string[];
+  ways: WayPreview[];
 
   /**
    * Table title
@@ -65,30 +61,10 @@ interface BaseWaysTableProps {
   /**
    * Rename collection
    */
-  updateCollection?: (wayCollectionPartial: Partial<WaysCollection>) => Promise<void>;
+  updateCollection?: (wayCollectionPartial: Partial<WayCollection>) => Promise<void>;
 }
 
 export const FILTER_STATUS_ALL_VALUE = "all";
-
-/**
- * Callback that is called to fetch data
- */
-const loadWays = async (
-  wayUuids: string[],
-  filterStatus: WayStatusType | typeof FILTER_STATUS_ALL_VALUE,
-): Promise<WayPreview[]> => {
-  const filter = getWaysFilter(filterStatus);
-  const waysPreview = await WayPreviewDAL.getWaysPreviewByUuids(Array.from(wayUuids), filter);
-
-  return waysPreview;
-};
-
-/**
- * Callback that is called to validate data
- */
-const validateData = (data: WayPreview[]) => {
-  return !!data;
-};
 
 /**
  * TODO: #
@@ -110,34 +86,13 @@ export const isWayVisible = (userUuid: string|undefined, way: WayPreview) => {
  */
 export const BaseWaysTable = (props: BaseWaysTableProps) => {
   const {user, language} = useGlobalContext();
-  const [ways, setWays] = useState<WayPreview[]>();
 
   /**
    * Filter ways by privacy
    */
   const getVisibleWays = (allWays: WayPreview[]) => allWays.filter((way) => isWayVisible(user?.uuid, way));
 
-  useLoad(
-    {
-
-      /**
-       * Load ways
-       */
-      loadData: () => loadWays(props.wayUuids, props.filterStatus),
-      validateData,
-      onSuccess: setWays,
-
-      /**
-       * Error handler (in case of invalid data)
-       */
-      onError: (error: Error) => {
-        throw error;
-      },
-      dependency: [props.filterStatus, props.wayUuids],
-    },
-  );
-
-  if (!ways) {
+  if (!props.ways) {
     return (
       <VerticalContainer className={styles.loaderWrapper}>
         <Loader />
@@ -203,7 +158,7 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
       </HorizontalContainer>
 
       <Title
-        text={`${props.title} (${getVisibleWays(ways).length})`}
+        text={`${props.title} (${getVisibleWays(props.ways).length})`}
         level={HeadingLevel.h2}
       />
 
@@ -212,13 +167,13 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
         {props.view === View.Table ?
           <ScrollableBlock>
             <WaysTable
-              data={getVisibleWays(ways)}
+              data={getVisibleWays(props.ways)}
               columns={getWaysColumns(language)}
             />
           </ScrollableBlock>
           :
           <HorizontalGridContainer className={styles.wayCards}>
-            {getVisibleWays(ways).map((way) => {
+            {getVisibleWays(props.ways).map((way) => {
               return (
                 <WayCard
                   key={way.uuid}
@@ -233,8 +188,8 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
         {props.updateCollection && getIsNoFilters() && (
           <>
             {ArrayUtils.getDifference(
-              props.wayUuids,
-              getVisibleWays(ways).map(way => way.uuid),
+              props.ways.map(way => way.uuid),
+              getVisibleWays(props.ways).map(way => way.uuid),
             ).map((notExistentWayUuid) => (
               <>
                 <Confirm
@@ -252,7 +207,8 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
                   </p>}
                   onOk={() => {
                     if (props.updateCollection) {
-                      props.updateCollection({wayUuids: props.wayUuids.filter(uuid => uuid !== notExistentWayUuid)});
+                      props.updateCollection(
+                        {wayUuids: props.ways.map(way => way.uuid).filter(uuid => uuid !== notExistentWayUuid)});
                     }
                   }}
                   okText="Ok"

@@ -11,6 +11,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/samber/lo"
 )
 
 type ProblemController struct {
@@ -30,7 +31,7 @@ func NewProblemController(db *db.Queries, ctx context.Context) *ProblemControlle
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateProblemPayload true "query params"
-// @Success 200 {object} schemas.ProblemPlainResponse
+// @Success 200 {object} schemas.ProblemPopulatedResponse
 // @Router /problems [post]
 func (cc *ProblemController) CreateProblem(ctx *gin.Context) {
 	var payload *schemas.CreateProblemPayload
@@ -57,7 +58,29 @@ func (cc *ProblemController) CreateProblem(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, problem)
+	tags := lo.Map(problem.TagUuids, func(tagUuidStringified string, i int) schemas.JobTagResponse {
+		tagUuid := uuid.MustParse(tagUuidStringified)
+		tag, _ := cc.db.GetJobTagByUuid(ctx, tagUuid)
+		return schemas.JobTagResponse{
+			Uuid:        tag.Uuid.String(),
+			Name:        tag.Name,
+			Description: tag.Description,
+			Color:       tag.Color,
+		}
+	})
+	response := schemas.ProblemPopulatedResponse{
+		Uuid:          problem.Uuid.String(),
+		CreatedAt:     problem.CreatedAt.String(),
+		UpdatedAt:     problem.UpdatedAt.String(),
+		Description:   problem.Description,
+		IsDone:        problem.IsDone,
+		OwnerUuid:     problem.OwnerUuid.String(),
+		OwnerName:     problem.OwnerName,
+		DayReportUuid: problem.DayReportUuid.String(),
+		Tags:          tags,
+	}
+
+	ctx.JSON(http.StatusOK, response)
 }
 
 // Update Problem handler
@@ -69,7 +92,7 @@ func (cc *ProblemController) CreateProblem(ctx *gin.Context) {
 // @Produce  json
 // @Param request body schemas.UpdateProblemPayload true "query params"
 // @Param problemId path string true "problem ID"
-// @Success 200 {object} schemas.ProblemPlainResponse
+// @Success 200 {object} schemas.ProblemPopulatedResponse
 // @Router /problems/{problemId} [patch]
 func (cc *ProblemController) UpdateProblem(ctx *gin.Context) {
 	var payload *schemas.UpdateProblemPayload
@@ -99,33 +122,31 @@ func (cc *ProblemController) UpdateProblem(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, problem)
-}
-
-// Get problems by day report uuid handler
-// @Summary Get problems by dayReport UUID
-// @Description
-// @Tags problem
-// @ID get-problems-by-DayReport-uuid
-// @Accept  json
-// @Produce  json
-// @Param dayReportId path string true "dayReport ID"
-// @Success 200 {array} schemas.ProblemPlainResponse
-// @Router /problems/{dayReportId} [get]
-func (cc *ProblemController) GetProblemsByDayReportId(ctx *gin.Context) {
-	dayReportId := ctx.Param("dayReportId")
-
-	problems, err := cc.db.GetListProblemsByDayReportId(ctx, uuid.MustParse(dayReportId))
-	if err != nil {
-		if err == sql.ErrNoRows {
-			ctx.JSON(http.StatusNotFound, gin.H{"status": "failed", "message": "Failed to retrieve Problem with this ID"})
-			return
+	tagUuids := lo.Map(problem.TagUuids, func(stringifiedUuid string, i int) uuid.UUID {
+		return uuid.MustParse(stringifiedUuid)
+	})
+	dbTags, _ := cc.db.GetListLabelsByLabelUuids(ctx, tagUuids)
+	tags := lo.Map(dbTags, func(dbTag db.JobTag, i int) schemas.JobTagResponse {
+		return schemas.JobTagResponse{
+			Uuid:        dbTag.Uuid.String(),
+			Name:        dbTag.Name,
+			Description: dbTag.Description,
+			Color:       dbTag.Color,
 		}
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving Problem", "error": err.Error()})
-		return
+	})
+	response := schemas.ProblemPopulatedResponse{
+		Uuid:          problem.Uuid.String(),
+		CreatedAt:     problem.CreatedAt.String(),
+		UpdatedAt:     problem.UpdatedAt.String(),
+		Description:   problem.Description,
+		IsDone:        problem.IsDone,
+		OwnerUuid:     problem.OwnerUuid.String(),
+		OwnerName:     problem.OwnerName,
+		DayReportUuid: problem.DayReportUuid.String(),
+		Tags:          tags,
 	}
 
-	ctx.JSON(http.StatusOK, problems)
+	ctx.JSON(http.StatusOK, response)
 }
 
 // Deleting Problem handlers

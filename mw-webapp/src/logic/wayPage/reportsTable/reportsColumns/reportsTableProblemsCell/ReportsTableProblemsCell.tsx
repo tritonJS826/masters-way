@@ -1,6 +1,6 @@
 import {TrashIcon} from "@radix-ui/react-icons";
-import {Button} from "src/component/button/Button";
-import {Checkbox} from "src/component/checkbox/Сheckbox";
+import {Button, ButtonType} from "src/component/button/Button";
+import {Checkbox} from "src/component/checkbox/Checkbox";
 import {Confirm} from "src/component/confirm/Confirm";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
@@ -9,15 +9,16 @@ import {Link} from "src/component/link/Link";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {getListNumberByIndex, getName} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
+import {ProblemDAL} from "src/dataAccessLogic/ProblemDAL";
+import {getListNumberByIndex} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
+import {getFirstName} from "src/logic/waysTable/waysColumns";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Problem} from "src/model/businessModel/Problem";
+import {User} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
-import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {pages} from "src/router/pages";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
-import {v4 as uuidv4} from "uuid";
 import styles from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableProblemsCell/ReportsTableProblemsCell.module.scss";
 
 /**
@@ -38,7 +39,7 @@ interface ReportsTableProblemsCellProps {
   /**
    * Logged in user
    */
-  user: UserPreview | null;
+  user: User | null;
 
   /**
    * If true user can edit job done, if false - not
@@ -60,18 +61,13 @@ export const ReportsTableProblemsCell = (props: ReportsTableProblemsCellProps) =
   /**
    * Create Problem
    */
-  const createProblem = (userUuid?: string) => {
+  const createProblem = async (userUuid?: string) => {
     if (!userUuid) {
       throw new Error("User uuid is not exist");
     }
 
-    const problem: Problem = new Problem({
-      description: "",
-      ownerUuid: userUuid,
-      isDone: false,
-      uuid: uuidv4(),
-      tags: [],
-    });
+    const problem = await ProblemDAL.createProblem(userUuid, props.dayReport.uuid);
+
     const problems = [...props.dayReport.problems, problem];
 
     props.updateDayReport({uuid: props.dayReport.uuid, problems});
@@ -80,29 +76,29 @@ export const ReportsTableProblemsCell = (props: ReportsTableProblemsCellProps) =
   /**
    * Delete Problem
    */
-  const deleteProblem = (problemUuid: string) => {
+  const deleteProblem = async (problemUuid: string) => {
     props.updateDayReport({
       uuid: props.dayReport.uuid,
       problems: props.dayReport.problems.filter((problem) => problem.uuid !== problemUuid),
     });
+
+    await ProblemDAL.deleteProblem(problemUuid);
   };
 
   /**
    * Update Problem
    */
-  const updateProblem = (problem: Problem, text: string) => {
-    const updatedProblems = props.dayReport.problems.map((item) => {
-      const itemToReturn = item.uuid === problem.uuid
-        ? new Problem({
-          ...problem,
-          description: text,
-        })
-        : item;
+  const updateProblem = async (problemToUpdate: PartialWithUuid<Problem>) => {
+    const updatedProblem = await ProblemDAL.updateProblem(problemToUpdate);
+    const problems = [
+      ...props.dayReport.problems.map((problem) => {
+        return problem.uuid === problemToUpdate.uuid
+          ? updatedProblem
+          : problem;
+      }),
+    ];
 
-      return itemToReturn;
-    });
-
-    props.updateDayReport({uuid: props.dayReport.uuid, problems: updatedProblems});
+    await props.updateDayReport({uuid: props.dayReport.uuid, problems});
   };
 
   return (
@@ -117,7 +113,7 @@ export const ReportsTableProblemsCell = (props: ReportsTableProblemsCellProps) =
               <HorizontalContainer className={styles.listNumberAndName}>
                 {getListNumberByIndex(index)}
                 <Link path={pages.user.getPath({uuid: problem.ownerUuid})}>
-                  {getName(props.way, problem.ownerUuid)}
+                  {getFirstName(problem.ownerName)}
                 </Link>
               </HorizontalContainer>
               <HorizontalContainer className={styles.icons}>
@@ -128,7 +124,11 @@ export const ReportsTableProblemsCell = (props: ReportsTableProblemsCellProps) =
                               the problem as completed. Coming soon`}
                 >
                   <Checkbox
-                    onChange={() => {}}
+                    isDefaultChecked={problem.isDone}
+                    onChange={() => updateProblem({
+                      uuid: problem.uuid,
+                      isDone: !problem.isDone,
+                    })}
                     className={styles.checkbox}
                   />
                 </Tooltip>
@@ -152,7 +152,10 @@ export const ReportsTableProblemsCell = (props: ReportsTableProblemsCellProps) =
             </HorizontalContainer>
             <EditableTextarea
               text={problem.description}
-              onChangeFinish={(text) => updateProblem(problem, text)}
+              onChangeFinish={(description) => updateProblem({
+                uuid: problem.uuid,
+                description,
+              })}
               isEditable={problem.ownerUuid === props.user?.uuid}
               className={styles.editableTextarea}
             />
@@ -173,7 +176,7 @@ export const ReportsTableProblemsCell = (props: ReportsTableProblemsCellProps) =
               />
             }
             onClick={() => createProblem(props.user?.uuid)}
-            className={styles.flatButton}
+            buttonType={ButtonType.ICON_BUTTON}
           />
         </Tooltip>
         }

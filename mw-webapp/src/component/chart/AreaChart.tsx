@@ -29,7 +29,18 @@ ChartJS.register(
  */
 const getOptions = (title: string) => {
   const primaryChartColor = getComputedStyle(document.body).getPropertyValue("--primaryTextColor");
-  const gridColor = primaryChartColor.replace("rgb", "rgba").replace(")", ", 0.2)");
+  const hexColor = primaryChartColor.replace(/^#?/, "");
+
+  const rgbColor = [0, 0, 0];
+  for (let i = 0; i < hexColor.length; i++) {
+    // eslint-disable-next-line no-magic-numbers
+    rgbColor[i] = parseInt(hexColor[i] + (hexColor.length === 3 ? hexColor[i] : ""), 16);
+  }
+
+  // eslint-disable-next-line no-magic-numbers
+  const primaryChartColorRGB = `rgb(${rgbColor[0]}, ${rgbColor[1]}, ${rgbColor[2]})`;
+
+  const gridColor = primaryChartColorRGB.replace("rgb", "rgba").replace(")", ", 0.2)");
 
   const options = {
     responsive: true,
@@ -80,6 +91,11 @@ interface AreaChartProps {
    */
   datesWithJobTotalTime: Map<string, number>;
 
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCy?: string;
+
 }
 
 /**
@@ -122,6 +138,8 @@ export const AreaChart = (props: AreaChartProps) => {
     <Line
       options={optionsMemoized}
       data={data}
+      data-cy={props.dataCy}
+      style={{maxHeight: "250px"}}
     />
   );
 };

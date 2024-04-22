@@ -53,7 +53,14 @@ func (cc *JobTagController) CreateJobTag(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, jobTag)
+	response := schemas.JobTagResponse{
+		Uuid:        jobTag.Uuid.String(),
+		Name:        jobTag.Name,
+		Description: jobTag.Description,
+		Color:       jobTag.Color,
+	}
+
+	ctx.JSON(http.StatusOK, response)
 }
 
 // Update jobTag handler
@@ -97,32 +104,6 @@ func (cc *JobTagController) UpdateJobTag(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, jobTag)
 }
 
-// Get a single handler
-// @Summary Get jobTags by user UUID
-// @Description
-// @Tags jobTag
-// @ID get-jobTags-by-Way-uuid
-// @Accept  json
-// @Produce  json
-// @Param wayId path string true "way UUID"
-// @Success 200 {array} schemas.JobTagResponse
-// @Router /jobTags/{wayId} [get]
-func (cc *JobTagController) GetJobTagsByWayId(ctx *gin.Context) {
-	wayId := ctx.Param("wayId")
-
-	jobTag, err := cc.db.GetListJobTagsByWayUuid(ctx, uuid.MustParse(wayId))
-	if err != nil {
-		if err == sql.ErrNoRows {
-			ctx.JSON(http.StatusNotFound, gin.H{"status": "failed", "message": "Failed to retrieve jobTag with this ID"})
-			return
-		}
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving jobTag", "error": err.Error()})
-		return
-	}
-
-	ctx.JSON(http.StatusOK, jobTag)
-}
-
 // Deleting wayTag handlers
 // @Summary Delete jobTag by UUID
 // @Description
@@ -136,7 +117,7 @@ func (cc *JobTagController) GetJobTagsByWayId(ctx *gin.Context) {
 func (cc *JobTagController) DeleteJobTagById(ctx *gin.Context) {
 	jobTagId := ctx.Param("jobTagId")
 
-	err := cc.db.DeleteWayTag(ctx, uuid.MustParse(jobTagId))
+	err := cc.db.DeleteJobTagById(ctx, uuid.MustParse(jobTagId))
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"status": "failed", "error": err.Error()})
 		return

@@ -1,4 +1,4 @@
-import {EditableValue} from "src/component/editableText/EditableText";
+import {EditableText} from "src/component/editableText/EditableText";
 import {getDataCy} from "src/utils/cyTesting/getDataCy";
 
 /**
@@ -44,7 +44,7 @@ const COORDINATES_BODY = 50;
  */
 const createTestEditableText = (props: CyDataEditableText) => {
   return (
-    <EditableValue
+    <EditableText
       cy={EDITABLETEXT_CY}
       value={props.value}
       onChangeFinish={() => {}}

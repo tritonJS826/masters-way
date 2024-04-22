@@ -1,6 +1,7 @@
 @import "src/styles/variables";
 
 .pageLayout {
+  padding: 0 $paddingMedium;
   gap: $gapMedium;
 }
 
@@ -16,6 +17,11 @@
 .descriptionSection {
   min-width: $minWidthBlock;
   gap: $gapMedium;
+}
+
+.userTagsContainer {
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 .tabsSectionContainer {
@@ -47,6 +53,10 @@
 
 .nameEmailSection {
   @include regularContainer;
+}
+
+.nameSection {
+  justify-content: space-between;
 }
 
 .ownerName {

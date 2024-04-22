@@ -21,6 +21,16 @@ interface JobDoneProps {
   time: number;
 
   /**
+   * Owner's name
+   */
+  ownerName: string;
+
+  /**
+   * Owner's uuid
+   */
+  ownerUuid: string;
+
+  /**
    * CurrentProblem's tags
    */
   tags: JobTag[];
@@ -47,6 +57,16 @@ export class JobDone {
   public time: number;
 
   /**
+   * Owner's name
+   */
+  public ownerName: string;
+
+  /**
+   * Owner's uuid
+   */
+  public ownerUuid: string;
+
+  /**
    * JobDone's tags
    */
   public tags: JobTag[];
@@ -56,6 +76,8 @@ export class JobDone {
     this.description = jobDoneData.description;
     this.time = jobDoneData.time;
     this.tags = jobDoneData.tags;
+    this.ownerName = jobDoneData.ownerName;
+    this.ownerUuid = jobDoneData.ownerUuid;
   }
 
 }

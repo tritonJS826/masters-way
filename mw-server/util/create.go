@@ -9,6 +9,7 @@ type Config struct {
 	PostgresPassword string `mapstructure:"POSTGRES_PASSWORD"`
 	PostgresDb       string `mapstructure:"POSTGRES_DB"`
 	ServerAddress    string `mapstructure:"SERVER_ADDRESS"`
+	EnvType          string `mapstructure:"ENV_TYPE"`
 }
 
 func LoadConfig(path string) (config Config, err error) {

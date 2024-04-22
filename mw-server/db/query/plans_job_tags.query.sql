@@ -6,15 +6,15 @@ INSERT INTO plans_job_tags(
     $1, $2
 ) RETURNING *;
 
--- name: GetPlansJoinJobTags :many
-SELECT * FROM plans
-JOIN plans_job_tags ON plans.uuid = plans_job_tags.plan_uuid
-JOIN job_tags ON plans_job_tags.job_tag_uuid = job_tags.uuid
-WHERE plans.uuid IN (
-    -- plans uuids for day report 
-    SELECT plans.uuid FROM plans 
-    WHERE plans.day_report_uuid = $1
-);
+-- name: GetPlansByDayReportUuids :many
+SELECT 
+    *,
+    ARRAY(
+        SELECT plans_job_tags.job_tag_uuid 
+        FROM plans_job_tags 
+        WHERE plans.uuid = plans_job_tags.job_tag_uuid
+    )::VARCHAR[] AS tag_uuids
+FROM plans WHERE plans.day_report_uuid = ANY($1::UUID[]);
 
 -- name: DeletePlansJobTagByIds :exec
 DELETE FROM plans_job_tags

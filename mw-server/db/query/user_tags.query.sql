@@ -1,24 +1,19 @@
 -- name: CreateUserTag :one
 INSERT INTO user_tags(
-    name,
-    owner_uuid
+    name
 ) VALUES (
-    $1, $2
+    $1
 ) RETURNING *;
 
--- name: GetListUserTagsByUserId :many
+-- name: GetUserTagByName :one
 SELECT * FROM user_tags
-WHERE user_tags.owner_uuid = $1
-ORDER BY uuid;
+WHERE user_tags.name = $1;
 
-
--- name: UpdateUserTag :one
-UPDATE user_tags
-SET
-name = coalesce(sqlc.narg('name'), name)
-WHERE uuid = sqlc.arg('uuid')
-RETURNING *;
-
--- name: DeleteUserTag :exec
-DELETE FROM user_tags
-WHERE uuid = $1;
+-- name: GetListUserTagsByUserId :many
+SELECT 
+    user_tags.uuid AS uuid, 
+    user_tags.name AS name
+FROM user_tags
+JOIN users_user_tags ON users_user_tags.user_tag_uuid = user_tags.uuid
+WHERE users_user_tags.user_uuid = $1
+ORDER BY user_tags.name;

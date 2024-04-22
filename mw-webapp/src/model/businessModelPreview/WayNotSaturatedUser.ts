@@ -1,5 +1,6 @@
 import {UserNotSaturatedWay} from "src/model/businessModelPreview/UserNotSaturatedWay";
-import {JobTag, WayTag} from "src/model/businessModelPreview/WayPreview";
+import {JobTag} from "src/model/businessModelPreview/WayPreview";
+import {WayTag} from "src/model/businessModelPreview/WayTag";
 
 /**
  * Way not saturated user model

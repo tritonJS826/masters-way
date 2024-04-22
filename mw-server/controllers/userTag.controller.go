@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"context"
-	"database/sql"
 	"net/http"
 
 	db "mwserver/db/sqlc"
@@ -30,8 +29,8 @@ func NewUserTagController(db *db.Queries, ctx context.Context) *UserTagControlle
 // @Produce  json
 // @Param request body schemas.CreateUserTagPayload true "query params"
 // @Success 200 {object} schemas.UserTagResponse
-// @Router /usersTags [post]
-func (cc *UserTagController) CreateUserTag(ctx *gin.Context) {
+// @Router /userTags [post]
+func (cc *UserTagController) AddUserTagByName(ctx *gin.Context) {
 	var payload *schemas.CreateUserTagPayload
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
@@ -39,84 +38,25 @@ func (cc *UserTagController) CreateUserTag(ctx *gin.Context) {
 		return
 	}
 
-	args := &db.CreateUserTagParams{
-		Name:      payload.Name,
-		OwnerUuid: uuid.MustParse(payload.OwnerUuid),
-	}
-
-	userTag, err := cc.db.CreateUserTag(ctx, *args)
+	userTag, err := cc.db.GetUserTagByName(ctx, payload.Name)
 
 	if err != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving userTag", "error": err.Error()})
-		return
+		newUserTag, _ := cc.db.CreateUserTag(ctx, payload.Name)
+		userTag = newUserTag
 	}
 
-	ctx.JSON(http.StatusOK, userTag)
-}
+	args := &db.CreateUsersUserTagParams{
+		UserTagUuid: userTag.Uuid,
+		UserUuid:    uuid.MustParse(payload.OwnerUuid),
+	}
+	cc.db.CreateUsersUserTag(ctx, *args)
 
-// Update userTag handler
-// @Summary Update userTag by UUID
-// @Description
-// @Tags userTag
-// @ID update-userTag
-// @Accept  json
-// @Produce  json
-// @Param request body schemas.UpdateUserTagPayload true "query params"
-// @Param userTagId path string true "userTag ID"
-// @Success 200 {object} schemas.UserTagResponse
-// @Router /userTags/{userTagId} [patch]
-func (cc *UserTagController) UpdateUserTag(ctx *gin.Context) {
-	var payload *schemas.UpdateUserTagPayload
-	userTagId := ctx.Param("userTagId")
-
-	if err := ctx.ShouldBindJSON(&payload); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
-		return
+	response := schemas.UserTagResponse{
+		Uuid: userTag.Uuid.String(),
+		Name: userTag.Name,
 	}
 
-	args := &db.UpdateUserTagParams{
-		Uuid: uuid.MustParse(userTagId),
-		Name: sql.NullString{String: payload.Name, Valid: payload.Name != ""},
-	}
-
-	userTag, err := cc.db.UpdateUserTag(ctx, *args)
-
-	if err != nil {
-		if err == sql.ErrNoRows {
-			ctx.JSON(http.StatusNotFound, gin.H{"status": "failed", "message": "Failed to retrieve userTag with this ID"})
-			return
-		}
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving userTag", "error": err.Error()})
-		return
-	}
-
-	ctx.JSON(http.StatusOK, userTag)
-}
-
-// Get a all users tags by owner id handler
-// @Summary Get userTags by user UUID
-// @Description
-// @Tags userTag
-// @ID get-userTags-by-User-uuid
-// @Accept  json
-// @Produce  json
-// @Param userId path string true "user ID"
-// @Success 200 {array} schemas.UserTagResponse
-// @Router /userTags/{userId} [get]
-func (cc *UserTagController) GetUserTagsByUserId(ctx *gin.Context) {
-	userId := ctx.Param("userId")
-
-	userTag, err := cc.db.GetListUserTagsByUserId(ctx, uuid.MustParse(userId))
-	if err != nil {
-		if err == sql.ErrNoRows {
-			ctx.JSON(http.StatusNotFound, gin.H{"status": "failed", "message": "Failed to retrieve userTag with this ID"})
-			return
-		}
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving userTag", "error": err.Error()})
-		return
-	}
-
-	ctx.JSON(http.StatusOK, userTag)
+	ctx.JSON(http.StatusOK, response)
 }
 
 // Deleting userTag handlers
@@ -127,12 +67,19 @@ func (cc *UserTagController) GetUserTagsByUserId(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param userTagId path string true "userTag ID"
+// @Param userId path string true "user ID"
 // @Success 200
-// @Router /userTags/{userTagId} [delete]
-func (cc *UserTagController) DeleteUserTagById(ctx *gin.Context) {
+// @Router /userTags/{userTagId}/{userId} [delete]
+func (cc *UserTagController) DeleteUserTagByFromUserByTag(ctx *gin.Context) {
 	userTagId := ctx.Param("userTagId")
+	userId := ctx.Param("userId")
 
-	err := cc.db.DeleteUserTag(ctx, uuid.MustParse(userTagId))
+	args := db.DeleteUserTagFromUserParams{
+		UserUuid:    uuid.MustParse(userId),
+		UserTagUuid: uuid.MustParse(userTagId),
+	}
+
+	err := cc.db.DeleteUserTagFromUser(ctx, args)
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"status": "failed", "error": err.Error()})
 		return

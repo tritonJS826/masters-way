@@ -1,0 +1,26 @@
+@import "src/styles/variables";
+
+.goalItem {
+  display: flex;
+  width: 250px;
+  height: 250px;
+  align-items: center;
+  justify-content: center;
+  padding: $paddingMedium;
+  border-radius: $tertiaryBorderRadius;
+  background-color: var(--tertiaryBackgroundColor);
+  -webkit-box-shadow: 0px 8px 10px 1px var(--primaryShadowColor);
+  -moz-box-shadow: 0px 8px 10px 1px var(--primaryShadowColor);
+  box-shadow: 0px 8px 10px 1px var(--primaryShadowColor);
+  gap: $gapMedium;
+}
+
+.goalTitle {
+  color: var(--secondaryTextColor);
+  text-align: center;
+}
+
+.goalDescription {
+  color: var(--secondaryTextColor);
+  text-align: center;
+}

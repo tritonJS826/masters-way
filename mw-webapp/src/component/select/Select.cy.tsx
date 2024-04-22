@@ -1,8 +1,15 @@
-import {useState} from "react";
+import Sinon from "cypress/types/sinon";
 import {Select} from "src/component/select/Select";
 import {getDataCy} from "src/utils/cyTesting/getDataCy";
 
-const SELECT_CY = "select";
+const SELECT_CY = {
+  dataCyTrigger: "trigger",
+  dataCyOverlay: "overlay",
+  dataCyContent: "content",
+  dataCyContentList: "list",
+  dataCyValue: "value",
+};
+
 const FIRST_OPTION_INDEX = 0;
 const SECOND_OPTION_INDEX = 1;
 const SELECT_OPTIONS = [
@@ -11,54 +18,63 @@ const SELECT_OPTIONS = [
 ];
 
 /**
+ * SelectTest props
+ */
+interface SelectTestProps {
+
+  /**
+   * SelectTest onChange
+   */
+  onChange: (value: string) => void;
+}
+
+/**
  * Select for test
  */
-const SelectTest = () => {
-  const [value, setValue] = useState(SELECT_OPTIONS[FIRST_OPTION_INDEX].value);
-
+const SelectTest = (props: SelectTestProps) => {
   return (
     <Select
-      dataCy={SELECT_CY}
+      cy={SELECT_CY}
       label="Select label"
-      defaultValue={value}
+      defaultValue={SELECT_OPTIONS[FIRST_OPTION_INDEX].value}
       name="selectName"
       options={SELECT_OPTIONS}
-      onChange={setValue}
+      onChange={props.onChange}
     />
   );
 };
 
 describe("Select component", () => {
-
+  let STUB_FUNCTION: Cypress.Agent<Sinon.SinonSpy>;
   beforeEach(() => {
+    STUB_FUNCTION = cy.spy();
     cy.mount(
-      <SelectTest />
+      <SelectTest onChange={STUB_FUNCTION} />
       ,
     );
   });
 
-  it("should render select and all options", () => {
-    cy.get(getDataCy(SELECT_CY))
-      .should("exist")
-      .find("option")
-      .should("have.length", SELECT_OPTIONS.length);
+  it("should render select trigger and don't render select content by default", () => {
+    cy.get(getDataCy(SELECT_CY.dataCyTrigger)).should("exist");
+    cy.get(getDataCy(SELECT_CY.dataCyContentList)).should("not.exist");
   });
 
-  it("should selected value be visible", () => {
-    cy.get(getDataCy(SELECT_CY))
-      .find("option:selected")
-      .should("be.visible");
+  it("should show selectList by clicking on select trigger", () => {
+    cy.get(getDataCy(SELECT_CY.dataCyTrigger)).click();
+    cy.get(getDataCy(SELECT_CY.dataCyContentList)).should("exist");
   });
 
-  it("should trigger onClick if some option selected", () => {
-    cy.get(getDataCy(SELECT_CY))
-      .find("option:selected")
-      .should("contain.text", SELECT_OPTIONS[FIRST_OPTION_INDEX].text);
-    cy.get(getDataCy(SELECT_CY))
-      .select(SELECT_OPTIONS[SECOND_OPTION_INDEX].value)
-      .trigger("change")
-      .find("option:selected")
-      .should("contain.text", SELECT_OPTIONS[SECOND_OPTION_INDEX].text);
+  it("should change value inside trigger if some selectItem selected", () => {
+    cy.get(getDataCy(SELECT_CY.dataCyValue)).contains(SELECT_OPTIONS[FIRST_OPTION_INDEX].text);
+    cy.get(getDataCy(SELECT_CY.dataCyTrigger)).click();
+    cy.get(getDataCy(SELECT_CY.dataCyContentList)).click();
+    cy.get(getDataCy(SELECT_CY.dataCyValue)).contains(SELECT_OPTIONS[SECOND_OPTION_INDEX].text);
+  });
+
+  it("should trigger onClick if some selectItem selected", () => {
+    cy.get(getDataCy(SELECT_CY.dataCyTrigger)).click();
+    cy.get(getDataCy(SELECT_CY.dataCyContentList)).click();
+    cy.wrap(STUB_FUNCTION).should("have.been.called");
   });
 
 });

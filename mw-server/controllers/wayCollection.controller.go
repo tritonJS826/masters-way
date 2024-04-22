@@ -30,7 +30,7 @@ func NewWayCollectionController(db *db.Queries, ctx context.Context) *WayCollect
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateWayCollectionPayload true "query params"
-// @Success 200 {object} schemas.WayCollectionPlainResponse
+// @Success 200 {object} schemas.WayCollectionPopulatedResponse
 // @Router /wayCollections [post]
 func (cc *WayCollectionController) CreateWayCollection(ctx *gin.Context) {
 	var payload *schemas.CreateWayCollectionPayload
@@ -46,6 +46,7 @@ func (cc *WayCollectionController) CreateWayCollection(ctx *gin.Context) {
 		OwnerUuid: uuid.MustParse(payload.OwnerUuid),
 		CreatedAt: now,
 		UpdatedAt: now,
+		Type:      "custom",
 	}
 
 	wayCollection, err := cc.db.CreateWayCollection(ctx, *args)
@@ -55,7 +56,17 @@ func (cc *WayCollectionController) CreateWayCollection(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, wayCollection)
+	response := schemas.WayCollectionPopulatedResponse{
+		Uuid:      wayCollection.Uuid.String(),
+		Name:      wayCollection.Name,
+		Ways:      []schemas.WayPlainResponse{},
+		CreatedAt: wayCollection.CreatedAt.String(),
+		UpdatedAt: wayCollection.UpdatedAt.String(),
+		OwnerUuid: wayCollection.OwnerUuid.String(),
+		Type:      string(wayCollection.Type),
+	}
+
+	ctx.JSON(http.StatusOK, response)
 }
 
 // Update wayCollectionRoute handler
@@ -97,32 +108,6 @@ func (cc *WayCollectionController) UpdateWayCollection(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, wayCollection)
-}
-
-// Get a single handler
-// @Summary Get wayCollections by user UUID
-// @Description
-// @Tags wayCollection
-// @ID get-wayCollections-by-User-uuid
-// @Accept  json
-// @Produce  json
-// @Param userId path string true "user ID"
-// @Success 200 {array} schemas.WayCollectionPlainResponse
-// @Router /wayCollections/{userId} [get]
-func (cc *WayCollectionController) GetWayCollectionsByUserId(ctx *gin.Context) {
-	userId := ctx.Param("userId")
-
-	wayCollections, err := cc.db.GetListWayCollectionsByUserId(ctx, uuid.MustParse(userId))
-	if err != nil {
-		if err == sql.ErrNoRows {
-			ctx.JSON(http.StatusNotFound, gin.H{"status": "failed", "message": "Failed to retrieve way  collections with this ID"})
-			return
-		}
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving way collections", "error": err.Error()})
-		return
-	}
-
-	ctx.JSON(http.StatusOK, wayCollections)
 }
 
 // Deleting way handlers

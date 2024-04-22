@@ -1,20 +1,31 @@
 import clsx from "clsx";
+import {BookIcon} from "src/assets/icons/BookIcon";
+import {BurgerMenu} from "src/assets/icons/BurgerMenu";
 import {EyeOpenedIcon} from "src/assets/icons/EyeOpenedIcon";
 import {EyeSlashedIcon} from "src/assets/icons/EyeSlashedIcon";
 import {FileIcon} from "src/assets/icons/FileIcon";
+import {GithubIcon} from "src/assets/icons/GithubIcon";
+import {GlobeIcon} from "src/assets/icons/GlobeIcon";
 import {GridViewIcon} from "src/assets/icons/GridViewIcon";
+import {HomeIcon} from "src/assets/icons/HomeIcon";
+import {LinkedinIcon} from "src/assets/icons/LinkedinIcon";
 import {MoonIcon} from "src/assets/icons/MoonIcon";
 import {MoreVertical} from "src/assets/icons/MoreVertical";
 import {PlusIcon} from "src/assets/icons/PlusIcon";
+import {SearchIcon} from "src/assets/icons/SearchIcon";
+import {SettingsIcon} from "src/assets/icons/SettingsIcon";
 import {StarIcon} from "src/assets/icons/StarIcon";
 import {SunIcon} from "src/assets/icons/SunIcon";
 import {TableViewIcon} from "src/assets/icons/TableViewIcon";
+import {UsersIcon} from "src/assets/icons/UsersIcon";
+import {WayIcon} from "src/assets/icons/WayIcon";
+import {YoutubeIcon} from "src/assets/icons/YoutubeIcon";
 import styles from "src/component/icon/Icon.module.scss";
 
 /**
  * Icon dictionary
  */
-const IconDictionary = {
+export const IconDictionary = {
 
   /**
    * Eye opened icon
@@ -65,6 +76,61 @@ const IconDictionary = {
    * MoreVertical icon
    */
   MoreVertical: (params: IconProps) => <MoreVertical {...params} />,
+
+  /**
+   * Burger menu icon
+   */
+  BurgerMenuIcon: (params: IconProps) => <BurgerMenu {...params} />,
+
+  /**
+   * Globe icon
+   */
+  GlobeIcon: (params: IconProps) => <GlobeIcon {...params} />,
+
+  /**
+   * Globe icon
+   */
+  GithubIcon: (params: IconProps) => <GithubIcon {...params} />,
+
+  /**
+   * Globe icon
+   */
+  LinkedinIcon: (params: IconProps) => <LinkedinIcon {...params} />,
+
+  /**
+   * Youtube icon
+   */
+  YoutubeIcon: (params: IconProps) => <YoutubeIcon {...params} />,
+
+  /**
+   * Youtube icon
+   */
+  HomeIcon: (params: IconProps) => <HomeIcon {...params} />,
+
+  /**
+   * Youtube icon
+   */
+  UsersIcon: (params: IconProps) => <UsersIcon {...params} />,
+
+  /**
+   * Youtube icon
+   */
+  WayIcon: (params: IconProps) => <WayIcon {...params} />,
+
+  /**
+   * Youtube icon
+   */
+  BookIcon: (params: IconProps) => <BookIcon {...params} />,
+
+  /**
+   * Youtube icon
+   */
+  SettingsIcon: (params: IconProps) => <SettingsIcon {...params} />,
+
+  /**
+   * Search icon
+   */
+  SearchIcon: (params: IconProps) => <SearchIcon {...params} />,
 };
 
 /**

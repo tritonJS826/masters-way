@@ -1,3 +1,4 @@
+import {Avatar} from "src/component/avatar/Avatar";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
@@ -6,11 +7,10 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {WayTag} from "src/component/wayCard/wayTag/WayTag";
-import {getFirstName} from "src/logic/waysTable/waysColumns";
-import {Metric} from "src/model/businessModel/Metric";
-import {UserPreview} from "src/model/businessModelPreview/UserPreview";
-import {WayPreview, WayTag as WayTagData} from "src/model/businessModelPreview/WayPreview";
+import {WayСardTag} from "src/component/wayCard/wayTag/WayTag";
+import {UserPlain} from "src/model/businessModel/User";
+import {WayPreview} from "src/model/businessModelPreview/WayPreview";
+import {WayTag} from "src/model/businessModelPreview/WayTag";
 import {pages} from "src/router/pages";
 import {DateUtils} from "src/utils/DateUtils";
 import styles from "src/component/wayCard/WayCard.module.scss";
@@ -39,11 +39,11 @@ export const WayCard = (props: WayCardProps) => {
   /**
    * Render way tags
    */
-  const renderWayTags = (wayTags: WayTagData[]) => {
+  const renderWayTags = (wayTags: WayTag[]) => {
     return (
       <HorizontalContainer className={styles.wayTags}>
         {wayTags.map((wayTag) => (
-          <WayTag
+          <WayСardTag
             key={wayTag.uuid}
             tagName={wayTag.name}
           />
@@ -56,7 +56,7 @@ export const WayCard = (props: WayCardProps) => {
   /**
    * Render mentors
    */
-  const renderMentors = (mentors: UserPreview[]) => {
+  const renderMentors = (mentors: UserPlain[]) => {
     return (
       <HorizontalContainer className={styles.mentors}>
         <p>
@@ -68,23 +68,16 @@ export const WayCard = (props: WayCardProps) => {
             position={PositionTooltip.BOTTOM}
             content={mentor.name}
           >
-            <p className={styles.mentorLink}>
-              {getFirstName(mentor.name)}
-            </p>
+            <Avatar
+              alt={mentor.name}
+              src={mentor.imageUrl}
+            />
           </Tooltip>
         ))
         }
       </HorizontalContainer>
     );
   };
-
-  const metricsParsed = props.wayPreview.metricsStringified.map((metric) => {
-    const metricParsed: Metric = JSON.parse(metric);
-
-    return metricParsed;
-  });
-
-  const doneMetricsAmount = metricsParsed.filter((metric) => !!metric.isDone).length;
 
   return (
     <Link
@@ -115,7 +108,7 @@ export const WayCard = (props: WayCardProps) => {
                   name={"FileIcon"}
                   className={styles.icon}
                 />
-                {props.wayPreview.dayReportUuids.length}
+                {props.wayPreview.dayReportsAmount}
               </Tooltip>
               <Tooltip
                 position={PositionTooltip.BOTTOM}
@@ -126,11 +119,10 @@ export const WayCard = (props: WayCardProps) => {
                   name={"StarIcon"}
                   className={styles.icon}
                 />
-                {props.wayPreview.favoriteForUserUuids.length}
+                {props.wayPreview.favoriteForUsers}
               </Tooltip>
             </HorizontalContainer>
           </HorizontalContainer>
-          {renderWayTags(props.wayPreview.wayTags)}
           <Tooltip
             position={PositionTooltip.BOTTOM}
             content={props.wayPreview.goalDescription}
@@ -139,16 +131,7 @@ export const WayCard = (props: WayCardProps) => {
               {props.wayPreview.goalDescription}
             </p>
           </Tooltip>
-          <HorizontalContainer className={styles.ownerInfo}>
-            <Tooltip
-              position={PositionTooltip.BOTTOM}
-              content={props.wayPreview.owner.email}
-            >
-              <p className={styles.ownerLink}>
-                {props.wayPreview.owner.name}
-              </p>
-            </Tooltip>
-          </HorizontalContainer>
+          {renderWayTags(props.wayPreview.wayTags)}
         </VerticalContainer>
         <VerticalContainer className={styles.additionalInfo}>
           <HorizontalContainer className={styles.dates}>
@@ -159,10 +142,22 @@ export const WayCard = (props: WayCardProps) => {
               {`Updated: ${DateUtils.getShortISODateValue(props.wayPreview.lastUpdate)}`}
             </p>
           </HorizontalContainer>
-          {renderMentors(props.wayPreview.mentors)}
+          <HorizontalContainer className={styles.people}>
+            Owner:
+            <Tooltip
+              position={PositionTooltip.BOTTOM}
+              content={props.wayPreview.owner.name}
+            >
+              <Avatar
+                alt={props.wayPreview.owner.name}
+                src={props.wayPreview.owner.imageUrl}
+              />
+            </Tooltip>
+            {renderMentors(props.wayPreview.mentors)}
+          </HorizontalContainer>
           <ProgressBar
-            value={doneMetricsAmount}
-            max={props.wayPreview.metricsStringified.length}
+            value={props.wayPreview.metricsDone}
+            max={props.wayPreview.metricsTotal}
           />
         </VerticalContainer>
       </VerticalContainer>

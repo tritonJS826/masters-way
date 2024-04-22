@@ -7,7 +7,7 @@ INSERT INTO ways(
     estimation_time,
     copied_from_way_uuid,
     is_private,
-    status,
+    is_completed,
     owner_uuid
 ) VALUES (
     $1, $2, $3, $4, $5, $6, $7, $8, $9
@@ -23,8 +23,13 @@ SELECT
     ways.created_at,
     ways.estimation_time,
     ways.copied_from_way_uuid,
-    ways.status,
+    ways.is_completed,
     ways.is_private,
+    (ARRAY(
+        SELECT composite_ways.child_uuid 
+        FROM composite_ways 
+        WHERE composite_ways.parent_uuid = ways.uuid
+    )::VARCHAR[]) AS children_uuids,
     users.uuid AS owner_uuid,
     users.name AS owner_name,
     users.email AS owner_email,
@@ -37,13 +42,54 @@ JOIN users ON users.uuid = ways.owner_uuid
 WHERE ways.uuid = $1
 LIMIT 1;
 
+-- name: GetWaysByCollectionId :many
+SELECT 
+    ways.uuid,
+    ways.name,
+    ways.owner_uuid, 
+    ways.goal_description,
+    ways.updated_at,
+    ways.created_at,
+    ways.estimation_time,
+    ways.copied_from_way_uuid,
+    ways.is_completed,
+    ways.is_private,
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,    
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
+    (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
+    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount
+FROM ways
+JOIN way_collections_ways ON way_collections_ways.way_uuid = ways.uuid
+WHERE way_collections_ways.way_collection_uuid = $1;
 
--- TODO: add filter and sorters
+
 -- name: ListWays :many
-SELECT * FROM ways
-ORDER BY created_at
+SELECT 
+    *,
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,    
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
+    (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
+    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount
+FROM ways
+WHERE ways.is_private = false AND 
+    (
+        ($3 = 'inProgress' AND ways.is_completed = false AND ways.updated_at > $4::timestamp - interval '14 days')
+    OR ($3 = 'completed' AND ways.is_completed = true)
+    OR ($3 = 'abandoned' AND ways.is_completed = false AND ways.updated_at < $4::timestamp - interval '14 days') 
+    OR ($3 = 'all')
+    )
+ORDER BY created_at DESC
 LIMIT $1
 OFFSET $2;
+
+-- name: CountWaysByType :one
+SELECT COUNT(*) FROM ways
+WHERE ways.is_private = false AND (
+    ($1 = 'inProgress' AND ways.is_completed = false AND ways.updated_at > $2::timestamp - interval '14 days')
+    OR ($1 = 'completed' AND ways.is_completed = true)
+    OR ($1 = 'abandoned' AND ways.is_completed = false AND ways.updated_at < $2::timestamp - interval '14 days') 
+    OR ($1 = 'all')
+);
 
 -- name: UpdateWay :one
 UPDATE ways
@@ -53,10 +99,14 @@ goal_description = coalesce(sqlc.narg('goal_description'), goal_description),
 updated_at = coalesce(sqlc.narg('updated_at'), updated_at),
 estimation_time = coalesce(sqlc.narg('estimation_time'), estimation_time),
 is_private = coalesce(sqlc.narg('is_private'), is_private),
-status = coalesce(sqlc.narg('status'), status)
+is_completed = coalesce(sqlc.narg('is_completed'), is_completed)
 
-WHERE uuid = sqlc.arg('uuid')
-RETURNING *;
+WHERE ways.uuid = sqlc.arg('uuid')
+RETURNING *,
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = sqlc.arg('uuid')) AS way_metrics_total,    
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = sqlc.arg('uuid') AND metrics.is_done = true) AS way_metrics_done,
+    (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = sqlc.arg('uuid')) AS way_favorite_for_users,
+    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = sqlc.arg('uuid')) AS way_day_reports_amount;
 
 -- name: DeleteWay :exec
 DELETE FROM ways

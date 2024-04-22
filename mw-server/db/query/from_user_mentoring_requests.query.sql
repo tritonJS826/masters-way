@@ -6,7 +6,7 @@ INSERT INTO from_user_mentoring_requests(
     $1, $2
 ) RETURNING *;
 
--- name: DeleteFromUserMentoringRequestByIds :exec
+-- name: DeleteFromUserMentoringRequest :exec
 DELETE FROM from_user_mentoring_requests
 WHERE user_uuid = $1 AND way_uuid = $2;
 
@@ -21,8 +21,12 @@ SELECT
     ways.estimation_time,
     ways.owner_uuid,
     ways.copied_from_way_uuid,
-    ways.status,
-    ways.is_private
+    ways.is_completed,
+    ways.is_private,
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,    
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
+    (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
+    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount
 FROM from_user_mentoring_requests
 JOIN ways 
     ON $1 = from_user_mentoring_requests.user_uuid 
@@ -32,7 +36,5 @@ JOIN ways
 SELECT 
     users.*
 FROM from_user_mentoring_requests
-JOIN users
-    ON $1 = from_user_mentoring_requests.way_uuid 
-    AND from_user_mentoring_requests.user_uuid = users.uuid
-WHERE ways.uuid = $1;
+JOIN users ON from_user_mentoring_requests.user_uuid = users.uuid
+WHERE from_user_mentoring_requests.way_uuid = $1;

@@ -36,6 +36,12 @@ export interface SchemasUpdateWayPayload {
      * @type {boolean}
      * @memberof SchemasUpdateWayPayload
      */
+    isCompleted?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof SchemasUpdateWayPayload
+     */
     isPrivate?: boolean;
     /**
      * 
@@ -43,12 +49,6 @@ export interface SchemasUpdateWayPayload {
      * @memberof SchemasUpdateWayPayload
      */
     name?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof SchemasUpdateWayPayload
-     */
-    status?: string;
 }
 
 /**
@@ -77,9 +77,9 @@ export function SchemasUpdateWayPayloadFromJSONTyped(
         
         'estimationTime': !exists(json, 'estimationTime') ? undefined : json['estimationTime'],
         'goalDescription': !exists(json, 'goalDescription') ? undefined : json['goalDescription'],
+        'isCompleted': !exists(json, 'isCompleted') ? undefined : json['isCompleted'],
         'isPrivate': !exists(json, 'isPrivate') ? undefined : json['isPrivate'],
         'name': !exists(json, 'name') ? undefined : json['name'],
-        'status': !exists(json, 'status') ? undefined : json['status'],
     };
 }
 
@@ -95,9 +95,9 @@ export function SchemasUpdateWayPayloadToJSON(value?: SchemasUpdateWayPayload | 
         
         'estimationTime': value.estimationTime,
         'goalDescription': value.goalDescription,
+        'isCompleted': value.isCompleted,
         'isPrivate': value.isPrivate,
         'name': value.name,
-        'status': value.status,
     };
 }
 

@@ -1,20 +1,25 @@
 @import "src/styles/variables";
 
 .button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 13px 17px;
   border: none;
   border-radius: $primaryBorderRadius;
+  cursor: pointer;
   font-family: $primaryFontFamily;
   font-size: $fontSizeSmall;
+  gap: $gapMedium;
   transition-duration: $primaryTransitionDuration;
 }
 
 .primary {
   background-color: var(--primaryBackgroundButtonColor);
-  color: var(--secondaryTextColor);
+  color: var(--primaryTextButtonColor);
 
   &:hover {
-    background-color: var(--hoverColor);
+    background-color: var(--primaryHoverButtonColor);
     cursor: pointer;
   }
 
@@ -24,17 +29,75 @@
 }
 
 .secondary {
-  border: 1px var(--primaryBorderColor) solid;
+  border: 1px var(--secondaryBorderColor) solid;
+  background-color: var(--secondaryBackgroundButtonColor);
+  color: var(--secondaryTextButtonColor);
+
+  &:hover {
+    background-color: var(--secondaryHoverButtonColor);
+    color: var(--secondaryTextButtonColor);
+  }
+
+  &:active {
+    border: 1px var(--tertiaryBorderColor) solid;
+    background-color: var(--secondaryActiveButtonColor);
+    color: var(--tertiaryTextButtonColor);
+  }
+}
+
+.compact {
+  padding: 4px 8px;
+  border-radius: $secondaryBorderRadius;
+  background-color: var(--tertiaryBackgroundButtonColor);
+  color: var(--secondaryTextButtonColor);
+  stroke: var(--secondaryTextButtonColor);
+
+  &:hover {
+    background-color: var(--secondaryHoverButtonColor);
+  }
+
+  &:active {
+    background-color: var(--tertiaryBackgroundButtonColor);
+  }
+}
+
+.iconButton {
+  display: flex;
+  width: 24px;
+  height: 24px;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px var(--secondaryBorderColor) solid;
+  border-radius: $tertiaryBorderRadius;
+  background-color: var(--secondaryBackgroundButtonColor);
+  color: var(--secondaryTextButtonColor);
+
+  & svg {
+    stroke: var(--secondaryTextButtonColor);
+  }
+
+  &:hover {
+    background-color: var(--primaryBackgroundButtonColor);
+
+    & svg {
+      stroke: var(--quaternaryTextButtonColor);
+    }
+  }
+}
+
+.iconButtonWithoutBorder {
   background-color: var(--secondaryBackgroundButtonColor);
   color: var(--primaryTextColor);
 
   &:hover {
-    background-color: var(--hoverColor);
-    color: var(--secondaryTextColor);
+    background-color: var(--secondaryHoverButtonColor);
   }
 
   &:active {
-    background-color: var(--primaryActiveButtonColor);
+    border: 1px var(--tertiaryBorderColor) solid;
+    background-color: var(--secondaryActiveButtonColor);
+    color: var(--tertiaryTextButtonColor);
   }
 }
 

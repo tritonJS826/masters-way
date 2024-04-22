@@ -1,25 +1,30 @@
 import {TrashIcon} from "@radix-ui/react-icons";
 import {clsx} from "clsx";
-import {Button} from "src/component/button/Button";
+import {Button, ButtonType} from "src/component/button/Button";
 import {Confirm} from "src/component/confirm/Confirm";
-import {EditableValue} from "src/component/editableText/EditableText";
+import {EditableText} from "src/component/editableText/EditableText";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
+import {Link} from "src/component/link/Link";
 import {Modal} from "src/component/modal/Modal";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
+import {JobDoneJobTagDAL} from "src/dataAccessLogic/JobDoneJobTagDAL";
 import {JobDoneTags} from "src/logic/wayPage/reportsTable/jobDoneTags/JobDoneTags";
 import {ModalContentJobTags} from "src/logic/wayPage/reportsTable/modalContentJobTags/ModalContentJobTags";
-import {DEFAULT_SUMMARY_TIME, getListNumberByIndex, getValidatedTime, MAX_TIME}
+import {DEFAULT_SUMMARY_TIME, getListNumberByIndex, getValidatedTime, MAX_TIME, MIN_TIME}
   from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
+import {getFirstName} from "src/logic/waysTable/waysColumns";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
+import {User} from "src/model/businessModel/User";
 import {JobTag} from "src/model/businessModelPreview/WayPreview";
+import {pages} from "src/router/pages";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
-import {v4 as uuidv4} from "uuid";
 import styles from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableJobsDoneCell/ReportsTableJobsDoneCell.module.scss";
 
 /**
@@ -47,27 +52,26 @@ interface ReportsTableJobsDoneCellProps {
    */
   updateDayReport: (report: PartialWithUuid<DayReport>) => Promise<void>;
 
+  /**
+   * Logged in user
+   */
+  user: User | null;
+
 }
 
 /**
  * Cell with jobs done in reports table
  */
 export const ReportsTableJobsDoneCell = (props: ReportsTableJobsDoneCellProps) => {
-  const defaultTag = props.jobTags.find((jobTag) => jobTag.name === "no tag");
-  if (!defaultTag) {
-    throw new Error("Default tag is not exist");
-  }
 
   /**
    * Create jobDone
    */
-  const createJobDone = () => {
-    const jobDone: JobDone = new JobDone({
-      description: "",
-      time: 0,
-      uuid: uuidv4(),
-      tags: [defaultTag],
-    });
+  const createJobDone = async (userUuid?: string) => {
+    if (!userUuid) {
+      throw new Error("User uuid is not exist");
+    }
+    const jobDone = await JobDoneDAL.createJobDone(userUuid, props.dayReport.uuid);
     const jobsDone = [...props.dayReport.jobsDone, jobDone];
 
     props.updateDayReport({uuid: props.dayReport.uuid, jobsDone});
@@ -76,40 +80,94 @@ export const ReportsTableJobsDoneCell = (props: ReportsTableJobsDoneCellProps) =
   /**
    * Delete jobDone
    */
-  const deleteJobDone = (jobDoneUuid: string) => {
+  const deleteJobDone = async (jobDoneUuid: string) => {
     const jobsDone = props.dayReport.jobsDone.filter((jobDone) => jobDone.uuid !== jobDoneUuid);
 
     props.updateDayReport({uuid: props.dayReport.uuid, jobsDone});
+    await JobDoneDAL.deleteJobDone(jobDoneUuid);
+  };
+
+  /**
+   * Update labels in job done
+   */
+  const updateLabelsInJobDone = async (params: {
+
+    /**
+     * Job done uuid
+     */
+    jobDoneUuid: string;
+
+    /**
+     * New updated list of tags
+     */
+    updatedTags: JobTag[];
+  }) => {
+
+    const oldJob = props.dayReport.jobsDone.find(job => params.jobDoneUuid === job.uuid);
+    if (!oldJob) {
+      throw new Error(`No such job with ${params.jobDoneUuid} uuid`);
+    }
+    const oldLabels = oldJob.tags.map(label => label.uuid);
+    const labelUuidsToAdd: string[] = params.updatedTags
+      .map(label => label.uuid)
+      .filter(labelUuid => !oldLabels.includes(labelUuid));
+    const labelUuidsToDelete: string[] = oldLabels
+      .filter(
+        labelUuid => !params.updatedTags.map(label => label.uuid).includes(labelUuid),
+      );
+
+    const addPromises = labelUuidsToAdd.map(labelUuid => JobDoneJobTagDAL.createJobDoneJobTag({
+      jobDoneUuid: params.jobDoneUuid,
+      jobTagUuid: labelUuid,
+    }));
+    const deletePromises = labelUuidsToDelete.map(labelUuid => JobDoneJobTagDAL.deleteJobDoneJobTag({
+      jobDoneUuid: params.jobDoneUuid,
+      jobTagUuid: labelUuid,
+    }));
+
+    Promise.all([
+      ...addPromises,
+      ...deletePromises,
+    ]);
+
+    const updatedJobs = props.dayReport.jobsDone.map((job) => {
+      const isUpdatedJob = job.uuid === params.jobDoneUuid;
+      if (isUpdatedJob) {
+        const newLabels = labelUuidsToAdd.map(labelUuidToAdd => {
+          const newLabel = props.jobTags.find(tag => tag.uuid === labelUuidToAdd);
+          if (!newLabel) {
+            throw new Error(`Label with uuid ${labelUuidToAdd} is not defined`);
+          }
+
+          return newLabel;
+        });
+        const updatedTags = job.tags
+          .filter(oldLabel => !labelUuidsToDelete.includes(oldLabel.uuid))
+          .concat(newLabels);
+
+        const updatedJobDone = new JobDone({
+          ...oldJob,
+          tags: updatedTags,
+        });
+
+        return updatedJobDone;
+      } else {
+        return job;
+      }
+    });
+
+    props.updateDayReport({uuid: props.dayReport.uuid, jobsDone: updatedJobs});
+
   };
 
   /**
    * Update jobDone
    */
-  const updateJobDone = (jobDone: JobDone, text: string) => {
+  const updateJobDone = async (jobDoneToUpdate: PartialWithUuid<JobDone>) => {
+    const updatedJobDone = await JobDoneDAL.updateJobDone(jobDoneToUpdate); //!HERE
     const updatedJobsDone = props.dayReport.jobsDone.map((item) => {
-      const itemToReturn = item.uuid === jobDone.uuid
-        ? new JobDone({
-          ...jobDone,
-          description: text,
-        })
-        : item;
-
-      return itemToReturn;
-    });
-
-    props.updateDayReport({uuid: props.dayReport.uuid, jobsDone: updatedJobsDone});
-  };
-
-  /**
-   * Update jobDoneTime
-   */
-  const updateJobDoneTime = (jobDone: JobDone, time: number) => {
-    const updatedJobsDone = props.dayReport.jobsDone.map((item) => {
-      const itemToReturn = item.uuid === jobDone.uuid
-        ? new JobDone({
-          ...jobDone,
-          time,
-        })
+      const itemToReturn = item.uuid === jobDoneToUpdate.uuid
+        ? updatedJobDone
         : item;
 
       return itemToReturn;
@@ -127,11 +185,20 @@ export const ReportsTableJobsDoneCell = (props: ReportsTableJobsDoneCellProps) =
             className={styles.numberedListItem}
           >
             <HorizontalContainer className={clsx(styles.horizontalContainer, styles.listNumberAndName)}>
-              {getListNumberByIndex(index)}
+              <HorizontalContainer className={styles.listNumberAndName}>
+                {getListNumberByIndex(index)}
+                <Link path={pages.user.getPath({uuid: jobDone.ownerUuid})}>
+                  {getFirstName(jobDone.ownerName)}
+                </Link>
+              </HorizontalContainer>
               <HorizontalContainer className={styles.icons}>
                 {props.isEditable ?
                   <Modal
-                    trigger={
+                    trigger={jobDone.tags.length === 0 ?
+                      <div className={styles.tagsBlockTrigger}>
+                        {`Add${Symbols.NO_BREAK_SPACE}tag`}
+                      </div>
+                      :
                       <div className={styles.tagsBlockTrigger}>
                         <JobDoneTags jobDoneTags={jobDone.tags} />
                       </div>
@@ -141,11 +208,9 @@ export const ReportsTableJobsDoneCell = (props: ReportsTableJobsDoneCellProps) =
                         jobTags={props.jobTags}
                         jobDoneTags={jobDone.tags}
                         isEditable={props.isEditable}
-                        updateTags={(tagsToUpdate: JobTag[]) => props.updateDayReport({
-                          ...props.dayReport,
-                          jobsDone: props.dayReport.jobsDone?.map(previousJobDone => previousJobDone.uuid === jobDone.uuid
-                            ? {...previousJobDone, tags: tagsToUpdate}
-                            : previousJobDone),
+                        updateTags={(tagsToUpdate: JobTag[]) => updateLabelsInJobDone({
+                          jobDoneUuid: jobDone.uuid,
+                          updatedTags: tagsToUpdate,
                         })}
                       />
                     }
@@ -156,12 +221,16 @@ export const ReportsTableJobsDoneCell = (props: ReportsTableJobsDoneCellProps) =
                   position={PositionTooltip.BOTTOM}
                   content={`Time${Symbols.NO_BREAK_SPACE}spent on job`}
                 >
-                  <EditableValue
+                  <EditableText
                     value={jobDone.time}
                     type="number"
                     max={MAX_TIME}
+                    min={MIN_TIME}
                     onChangeFinish={(time) =>
-                      updateJobDoneTime(jobDone, getValidatedTime(Number(time)))}
+                      updateJobDone({
+                        uuid: jobDone.uuid,
+                        time: getValidatedTime(Number(time)),
+                      })}
                     className={styles.editableTime}
                     isEditable={props.isEditable}
                   />
@@ -185,7 +254,10 @@ export const ReportsTableJobsDoneCell = (props: ReportsTableJobsDoneCellProps) =
             </HorizontalContainer>
             <EditableTextarea
               text={jobDone.description}
-              onChangeFinish={(text) => updateJobDone(jobDone, text)}
+              onChangeFinish={(description) => updateJobDone({
+                uuid: jobDone.uuid,
+                description,
+              })}
               isEditable={props.isEditable}
               className={styles.editableTextarea}
             />
@@ -205,8 +277,8 @@ export const ReportsTableJobsDoneCell = (props: ReportsTableJobsDoneCellProps) =
                 name="PlusIcon"
               />
             }
-            onClick={createJobDone}
-            className={styles.flatButton}
+            onClick={() => createJobDone(props.user?.uuid)}
+            buttonType={ButtonType.ICON_BUTTON}
           />
         </Tooltip>
         }

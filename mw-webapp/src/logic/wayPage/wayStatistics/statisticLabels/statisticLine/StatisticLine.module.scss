@@ -1,0 +1,27 @@
+@import "src/styles/variables";
+
+.statisticLine {
+  border-bottom: 1px dotted var(--primaryBorderSeparator);
+  gap: $gapMedium;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.labelColorName {
+  align-items: center;
+  gap: $gapMedium;
+}
+
+.labelColor {
+  width: 10px;
+  height: 10px;
+  border-radius: $tertiaryBorderRadius;
+}
+
+.amountTime {
+  justify-content: right;
+}
+
+.percentageBLock {
+  width: 50px;
+  text-align: left;
+}

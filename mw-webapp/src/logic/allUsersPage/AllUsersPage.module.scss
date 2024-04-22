@@ -1,6 +1,7 @@
 @import "src/styles/variables";
 
 .allUsersContainer {
+  padding: 0 $paddingMedium;
   gap: $gapMedium;
 }
 
@@ -13,12 +14,6 @@
 
 .titleContainer {
   justify-content: space-between;
-}
-
-.emailFilter {
-  max-width: $maxWidthBlock;
-  padding: $paddingSmall;
-  border: 2px solid var(--primaryBorderColor);
 }
 
 .userCards {

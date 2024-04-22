@@ -1,5 +1,5 @@
 import {TrashIcon} from "@radix-ui/react-icons";
-import {Button} from "src/component/button/Button";
+import {Button, ButtonType} from "src/component/button/Button";
 import {Confirm} from "src/component/confirm/Confirm";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
@@ -8,14 +8,15 @@ import {Link} from "src/component/link/Link";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {getListNumberByIndex, getName} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
+import {CommentDAL} from "src/dataAccessLogic/CommentDAL";
+import {getListNumberByIndex} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
+import {getFirstName} from "src/logic/waysTable/waysColumns";
 import {Comment} from "src/model/businessModel/Comment";
 import {DayReport} from "src/model/businessModel/DayReport";
+import {User} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
-import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {pages} from "src/router/pages";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
-import {v4 as uuidv4} from "uuid";
 import styles from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableCommentsCell/ReportsTableCommentsCell.module.scss";
 
 /**
@@ -36,7 +37,7 @@ interface ReportsTableCommentsCellProps {
   /**
    * Logged in user
    */
-  user: UserPreview | null;
+  user: User | null;
 
   /**
    * If true user can edit job done, if false - not
@@ -58,36 +59,32 @@ export const ReportsTableCommentsCell = (props: ReportsTableCommentsCellProps) =
   /**
    * Create Comment
    */
-  const createComment = (commentatorUuid?: string) => {
+  const createComment = async (commentatorUuid?: string) => {
     if (!commentatorUuid) {
       throw new Error("User uuid is not exist");
     }
 
-    const comment: Comment = new Comment({
-      description: "",
-      ownerUuid: commentatorUuid,
-      isDone: false,
-      uuid: uuidv4(),
-    });
+    const comment = await CommentDAL.createComment(commentatorUuid, props.dayReport.uuid);
     const comments = [...props.dayReport.comments, comment];
-
+    // Console.log(comment);
     props.updateDayReport({uuid: props.dayReport.uuid, comments});
   };
 
   /**
    * Delete Comment
    */
-  const deleteComment = (commentUuid: string) => {
+  const deleteComment = async (commentUuid: string) => {
     props.updateDayReport({
       uuid: props.dayReport.uuid,
       comments: props.dayReport.comments.filter((comment) => comment.uuid !== commentUuid),
     });
+    await CommentDAL.deleteComment(commentUuid);
   };
 
   /**
    * Update Comment
    */
-  const updateComment = (comment: Comment, text: string) => {
+  const updateComment = async (comment: Comment, text: string) => {
     const updatedComments = props.dayReport.comments.map((item) => {
       const itemToReturn = item.uuid === comment.uuid
         ? new Comment({
@@ -98,6 +95,12 @@ export const ReportsTableCommentsCell = (props: ReportsTableCommentsCellProps) =
 
       return itemToReturn;
     });
+
+    const commentToUpdate = {
+      uuid: comment.uuid,
+      description: text,
+    };
+    await CommentDAL.updateComment(commentToUpdate);
 
     props.updateDayReport({uuid: props.dayReport.uuid, comments: updatedComments});
   };
@@ -115,7 +118,7 @@ export const ReportsTableCommentsCell = (props: ReportsTableCommentsCellProps) =
                 <HorizontalContainer className={styles.listNumberAndName}>
                   {getListNumberByIndex(index)}
                   <Link path={pages.user.getPath({uuid: comment.ownerUuid})}>
-                    {getName(props.way, comment.ownerUuid)}
+                    {getFirstName(comment.ownerName)}
                   </Link>
                 </HorizontalContainer>
                 {comment.ownerUuid === props.user?.uuid &&
@@ -160,7 +163,7 @@ export const ReportsTableCommentsCell = (props: ReportsTableCommentsCellProps) =
               />
             }
             onClick={() => createComment(props.user?.uuid)}
-            className={styles.flatButton}
+            buttonType={ButtonType.ICON_BUTTON}
           />
         </Tooltip>
         }

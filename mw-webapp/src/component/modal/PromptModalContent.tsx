@@ -2,9 +2,9 @@ import {useRef, useState} from "react";
 import {Close as DialogClose} from "@radix-ui/react-dialog";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
-import {Input} from "src/component/input/Input";
+import {Input, InputType} from "src/component/input/Input";
 import {KeySymbols} from "src/utils/KeySymbols";
-import styles from "src/logic/wayPage/jobTags/newJobTagModalContent/NewJobTagModalContent.module.scss";
+import styles from "src/component/modal/PromptModalContent.module.scss";
 
 /**
  * PromptModalContent props
@@ -31,6 +31,16 @@ interface PromptModalContentProps {
    * Placeholder in the input
    */
   placeholder: string;
+
+  /**
+   * Ok button value
+   */
+  okButtonValue: string;
+
+  /**
+   * Cancel button value
+   */
+  cancelButtonValue: string;
 
 }
 
@@ -63,11 +73,12 @@ export const PromptModalContent = (props: PromptModalContentProps) => {
         value={inputValue}
         autoFocus={true}
         onChange={setInputValue}
+        typeInput={InputType.Line}
       />
       <HorizontalContainer className={styles.buttons}>
         <DialogClose asChild>
           <Button
-            value="Cancel"
+            value={props.cancelButtonValue}
             onClick={props.close}
           />
         </DialogClose>
@@ -75,7 +86,7 @@ export const PromptModalContent = (props: PromptModalContentProps) => {
         <DialogClose asChild>
           <Button
             ref={onOkRef}
-            value="Create"
+            value={props.okButtonValue}
             onClick={() => props.onOk(inputValue)}
             buttonType={ButtonType.PRIMARY}
           />

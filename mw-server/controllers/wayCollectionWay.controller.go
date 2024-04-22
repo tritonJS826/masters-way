@@ -39,8 +39,8 @@ func (cc *WayCollectionWayController) CreateWayCollectionWay(ctx *gin.Context) {
 	}
 
 	args := &db.CreateWayCollectionsWaysParams{
-		WayCollectionsUuid: uuid.MustParse(payload.WayCollectionsUuid),
-		WayUuid:            uuid.MustParse(payload.WayUuid),
+		WayCollectionUuid: uuid.MustParse(payload.WayCollectionUuid),
+		WayUuid:           uuid.MustParse(payload.WayUuid),
 	}
 
 	wayCollectionWay, err := cc.db.CreateWayCollectionsWays(ctx, *args)
@@ -69,8 +69,8 @@ func (cc *WayCollectionWayController) DeleteWayCollectionWayById(ctx *gin.Contex
 	wayId := ctx.Param("wayId")
 
 	deleteArgs := db.DeleteWayCollectionsWaysByIdsParams{
-		WayCollectionsUuid: uuid.MustParse(wayCollectionId),
-		WayUuid:            uuid.MustParse(wayId),
+		WayCollectionUuid: uuid.MustParse(wayCollectionId),
+		WayUuid:           uuid.MustParse(wayId),
 	}
 
 	err := cc.db.DeleteWayCollectionsWaysByIds(ctx, deleteArgs)

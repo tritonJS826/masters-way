@@ -11,6 +11,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/samber/lo"
 )
 
 type JobDoneController struct {
@@ -30,7 +31,7 @@ func NewJobDoneController(db *db.Queries, ctx context.Context) *JobDoneControlle
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateJobDonePayload true "query params"
-// @Success 200 {object} schemas.JobDonePlainResponse
+// @Success 200 {object} schemas.JobDonePopulatedResponse
 // @Router /jobDones [post]
 func (cc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 	var payload *schemas.CreateJobDonePayload
@@ -57,7 +58,29 @@ func (cc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, jobDone)
+	tags := lo.Map(jobDone.TagUuids, func(tagUuidStringified string, i int) schemas.JobTagResponse {
+		tagUuid := uuid.MustParse(tagUuidStringified)
+		tag, _ := cc.db.GetJobTagByUuid(ctx, tagUuid)
+		return schemas.JobTagResponse{
+			Uuid:        tag.Uuid.String(),
+			Name:        tag.Name,
+			Description: tag.Description,
+			Color:       tag.Color,
+		}
+	})
+	response := schemas.JobDonePopulatedResponse{
+		Uuid:          jobDone.Uuid.String(),
+		CreatedAt:     jobDone.CreatedAt.String(),
+		UpdatedAt:     jobDone.UpdatedAt.String(),
+		Description:   jobDone.Description,
+		Time:          jobDone.Time,
+		OwnerUuid:     jobDone.OwnerUuid.String(),
+		OwnerName:     jobDone.OwnerName,
+		DayReportUuid: jobDone.DayReportUuid.String(),
+		Tags:          tags,
+	}
+
+	ctx.JSON(http.StatusOK, response)
 }
 
 // Update JobDone handler
@@ -69,7 +92,7 @@ func (cc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 // @Produce  json
 // @Param request body schemas.UpdateJobDone true "query params"
 // @Param jobDoneId path string true "jobDone UUID"
-// @Success 200 {object} schemas.JobDonePlainResponse
+// @Success 200 {object} schemas.JobDonePopulatedResponse
 // @Router /jobDones/{jobDoneId} [patch]
 func (cc *JobDoneController) UpdateJobDone(ctx *gin.Context) {
 	var payload *schemas.UpdateJobDone
@@ -99,33 +122,31 @@ func (cc *JobDoneController) UpdateJobDone(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, jobDone)
-}
-
-// Get jobs done by day report uuid handler
-// @Summary Get jobDones by dayReport UUID
-// @Description
-// @Tags jobDone
-// @ID get-jobDones-by-DayReport-uuid
-// @Accept  json
-// @Produce  json
-// @Param dayReportId path string true "dayReport UUID"
-// @Success 200 {array} schemas.JobDonePlainResponse
-// @Router /jobDones/{dayReportId} [get]
-func (cc *JobDoneController) GetJobDonesByDayReportId(ctx *gin.Context) {
-	dayReportId := ctx.Param("dayReportId")
-
-	jobDone, err := cc.db.GetListJobsDoneByDayReportId(ctx, uuid.MustParse(dayReportId))
-	if err != nil {
-		if err == sql.ErrNoRows {
-			ctx.JSON(http.StatusNotFound, gin.H{"status": "failed", "message": "Failed to retrieve JobDone with this ID"})
-			return
+	tagUuids := lo.Map(jobDone.TagUuids, func(stringifiedUuid string, i int) uuid.UUID {
+		return uuid.MustParse(stringifiedUuid)
+	})
+	dbTags, _ := cc.db.GetListLabelsByLabelUuids(ctx, tagUuids)
+	tags := lo.Map(dbTags, func(dbTag db.JobTag, i int) schemas.JobTagResponse {
+		return schemas.JobTagResponse{
+			Uuid:        dbTag.Uuid.String(),
+			Name:        dbTag.Name,
+			Description: dbTag.Description,
+			Color:       dbTag.Color,
 		}
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving JobDone", "error": err.Error()})
-		return
+	})
+	response := schemas.JobDonePopulatedResponse{
+		Uuid:          jobDone.Uuid.String(),
+		CreatedAt:     jobDone.CreatedAt.String(),
+		UpdatedAt:     jobDone.UpdatedAt.String(),
+		Description:   jobDone.Description,
+		Time:          jobDone.Time,
+		OwnerUuid:     jobDone.OwnerUuid.String(),
+		OwnerName:     jobDone.OwnerName,
+		DayReportUuid: jobDone.DayReportUuid.String(),
+		Tags:          tags,
 	}
 
-	ctx.JSON(http.StatusOK, jobDone)
+	ctx.JSON(http.StatusOK, response)
 }
 
 // Deleting jobDone handlers

@@ -46,28 +46,16 @@ const migrateDayReports = async () => {
       const way = allWays.find((way) => way.dayReportUuids.includes(dayReport.uuid));
 
       if (way) {
-        const jobTagsParsed = way.jobTagsStringified.map((tag) => JSON.parse(tag));
-        const noTag = jobTagsParsed.find((tag: JobTag) => tag.name === "no tag");
+        // const jobTagsParsed = way.jobTagsStringified.map((tag) => JSON.parse(tag));
 
       const jobsDone = dayReport.jobsDoneStringified.map((jobDoneStringified) => {
         const jobDoneParsed: JobDoneDTOMigration = JSON.parse(jobDoneStringified);
 
-        const jobTags = jobDoneParsed.tags.map((jobTag) => {
-          if (jobTag.name === "no tag") {
-            return {
-              ...jobTag,
-              uuid: noTag.uuid,
-            };
-          } else {
-            return jobTag;
-          }
-        });
-
-        const jobTagsWithoutNull = jobTags.filter(item => item);
+        const jobTags = jobDoneParsed.tags.filter((jobTag) => jobTag.name !== "no tag");
 
         const jobDone = {
           ...jobDoneParsed,
-          tags: jobTagsWithoutNull,
+          tags: jobTags,
         }
 
         return jobDone;
@@ -76,16 +64,7 @@ const migrateDayReports = async () => {
       const plans = dayReport.plansStringified.map((planStringified) => {
         const planParsed: PlanForNextPeriodDTOMigration = JSON.parse(planStringified);
 
-        const plansTags = planParsed.tags.map((planTag) => {
-          if (planTag.name === "no tag") {
-            return {
-              ...planTag,
-              uuid: noTag.uuid,
-            };
-          }  else {
-            return planTag;
-          }
-        });
+        const plansTags = planParsed.tags.filter((planTag) => planTag.name !== "no tag");
 
         const planTagsWithoutNull = plansTags.filter(item => item);
 

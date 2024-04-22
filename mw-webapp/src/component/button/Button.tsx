@@ -13,14 +13,24 @@ export enum ButtonType {
   PRIMARY = "primary",
 
   /**
-   * Common repetitive button type 1
+   * Secondary button
    */
   SECONDARY = "secondary",
 
   /**
-   * Rare unique button type 2
+   * Button with low height and the ability to place an icon
    */
-  TERTIARY = "tertiary",
+  COMPACT = "compact",
+
+  /**
+   * Button that looks like an icon
+   */
+  ICON_BUTTON = "iconButton",
+
+  /**
+   * Button that looks like an icon
+   */
+  ICON_BUTTON_WITHOUT_BORDER = "iconButtonWithoutBorder"
 }
 
 /**
@@ -29,9 +39,14 @@ export enum ButtonType {
 export interface ButtonProps {
 
   /**
-   * Button's value (content)
+   * Button's value
    */
-  value: string | JSX.Element;
+  value?: string | JSX.Element;
+
+  /**
+   * Button's icon
+   */
+  icon?: JSX.Element;
 
   /**
    * Callback triggered on button click
@@ -92,6 +107,7 @@ export const Button = forwardRef((props: ButtonProps, ref?: ForwardedRef<HTMLBut
       disabled={isDisabled}
     >
       {props.value}
+      {props.icon}
     </button>
   );
 });

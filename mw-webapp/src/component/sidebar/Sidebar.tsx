@@ -1,5 +1,6 @@
 import {ReactElement, useState} from "react";
 import {Root as DialogRoot} from "@radix-ui/react-dialog";
+import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
 import {SidebarContent} from "src/component/sidebar/SidebarContent/SidebarContent";
 import {SidebarTrigger} from "src/component/sidebar/SidebarTrigger/SidebarTrigger";
@@ -19,6 +20,11 @@ export interface MenuItemLink {
    * Navigation link value.
    */
   value: string;
+
+  /**
+   * Link icon
+   */
+  icon?: JSX.Element;
 
   /**
    * Is link visible
@@ -99,13 +105,18 @@ interface SidebarProps {
 const renderNavigationLinks = (navigationLinks: (MenuItemLink)[]) => {
   return navigationLinks.map((item) => (
     !item.isHidden && (
-      <Link
+      <HorizontalContainer
         key={item.value}
-        path={item.path}
         className={styles.menuItem}
       >
-        {item.value}
-      </Link>
+        <Link
+          path={item.path}
+          className={styles.menuItemLink}
+        >
+          {item.icon}
+          {item.value}
+        </Link>
+      </HorizontalContainer>
     )
   ));
 };

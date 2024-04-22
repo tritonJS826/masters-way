@@ -1,25 +1,29 @@
 -- name: CreateWayTag :one
 INSERT INTO way_tags(
-    name,
-    way_uuid
+    name
 ) VALUES (
-    $1, $2
+    $1
 ) RETURNING *;
 
--- name: GetListWayTagsByWayId :many
+-- name: GetWayTagByName :one
 SELECT * FROM way_tags
-WHERE way_tags.way_uuid = $1
-ORDER BY uuid;
+WHERE way_tags.name = $1;
 
+-- name: GetListWayTagsByWayId :many
+SELECT 
+    way_tags.uuid AS uuid,
+    way_tags.name AS name
+FROM way_tags
+JOIN ways_way_tags ON ways_way_tags.way_tag_uuid = way_tags.uuid  
+WHERE ways_way_tags.way_uuid = $1
+ORDER BY name;
 
--- name: UpdateWayTag :one
-UPDATE way_tags
-SET
-name = coalesce(sqlc.narg('name'), name)
-
-WHERE uuid = sqlc.arg('uuid')
-RETURNING *;
-
--- name: DeleteWayTag :exec
-DELETE FROM way_tags
-WHERE uuid = $1;
+-- name: GetListWayTagsByWayIds :many
+SELECT 
+    way_tags.uuid AS uuid,
+    way_tags.name AS name,
+    ways_way_tags.way_uuid
+FROM way_tags
+JOIN ways_way_tags ON ways_way_tags.way_tag_uuid = way_tags.uuid  
+WHERE ways_way_tags.way_uuid = ANY($1::UUID[])
+ORDER BY name;

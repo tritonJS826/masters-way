@@ -1,11 +1,11 @@
 import {Button} from "src/component/button/Button";
 import {ProgressBar} from "src/component/progressBar/ProgressBar";
+import {MetricDAL} from "src/dataAccessLogic/MetricDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {GoalMetricItem} from "src/logic/wayPage/goalMetricsBlock/GoalMetricItem";
 import {Metric} from "src/model/businessModel/Metric";
 import {LanguageService} from "src/service/LangauageService";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
-import {v4 as uuidv4} from "uuid";
 import styles from "src/logic/wayPage/goalMetricsBlock/GoalMetricsBlock.module.scss";
 
 /**
@@ -35,6 +35,11 @@ interface GoalMetricStatisticsBlockProps {
    */
   isEditable: boolean;
 
+  /**
+   * Way's uuid
+   */
+  wayUuid: string;
+
 }
 
 /**
@@ -42,17 +47,13 @@ interface GoalMetricStatisticsBlockProps {
  */
 export const GoalMetricsBlock = (props: GoalMetricStatisticsBlockProps) => {
   const {language} = useGlobalContext();
+  // Const [metrics, setMetrics] = useState(props.goalMetrics);
 
   /**
    * Add metric
    */
   const addMetric = async () => {
-    const newMetric = new Metric({
-      uuid: uuidv4(),
-      description: "",
-      isDone: false,
-      doneDate: null,
-    });
+    const newMetric = await MetricDAL.createMetric(props.wayUuid);
 
     const updatedGoalMetrics = props.goalMetrics.concat(newMetric);
     await props.updateGoalMetrics(updatedGoalMetrics);
@@ -81,6 +82,7 @@ export const GoalMetricsBlock = (props: GoalMetricStatisticsBlockProps) => {
   const deleteMetric = async (metricUuid: string) => {
     const updatedMetrics = props.goalMetrics.filter((metric) => metric.uuid !== metricUuid);
     await props.updateGoalMetrics(updatedMetrics);
+    await MetricDAL.deleteMetric(metricUuid);
   };
 
   /**
@@ -94,6 +96,7 @@ export const GoalMetricsBlock = (props: GoalMetricStatisticsBlockProps) => {
     });
 
     await props.updateGoalMetrics(updatedMetrics);
+    await MetricDAL.updateMetric(metricToUpdate);
   };
 
   /**

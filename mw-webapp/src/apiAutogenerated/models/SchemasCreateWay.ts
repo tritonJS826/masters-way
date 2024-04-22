@@ -42,6 +42,12 @@ export interface SchemasCreateWay {
      * @type {boolean}
      * @memberof SchemasCreateWay
      */
+    isCompleted: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof SchemasCreateWay
+     */
     isPrivate: boolean;
     /**
      * 
@@ -55,12 +61,6 @@ export interface SchemasCreateWay {
      * @memberof SchemasCreateWay
      */
     ownerUuid: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof SchemasCreateWay
-     */
-    status: string;
 }
 
 /**
@@ -73,10 +73,10 @@ export function instanceOfSchemasCreateWay(
     isInstance = isInstance && "copiedFromWayUuid" in value;
     isInstance = isInstance && "estimationTime" in value;
     isInstance = isInstance && "goalDescription" in value;
+    isInstance = isInstance && "isCompleted" in value;
     isInstance = isInstance && "isPrivate" in value;
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "ownerUuid" in value;
-    isInstance = isInstance && "status" in value;
 
     return isInstance;
 }
@@ -97,10 +97,10 @@ export function SchemasCreateWayFromJSONTyped(
         'copiedFromWayUuid': json['copiedFromWayUuid'],
         'estimationTime': json['estimationTime'],
         'goalDescription': json['goalDescription'],
+        'isCompleted': json['isCompleted'],
         'isPrivate': json['isPrivate'],
         'name': json['name'],
         'ownerUuid': json['ownerUuid'],
-        'status': json['status'],
     };
 }
 
@@ -117,10 +117,10 @@ export function SchemasCreateWayToJSON(value?: SchemasCreateWay | null): any {
         'copiedFromWayUuid': value.copiedFromWayUuid,
         'estimationTime': value.estimationTime,
         'goalDescription': value.goalDescription,
+        'isCompleted': value.isCompleted,
         'isPrivate': value.isPrivate,
         'name': value.name,
         'ownerUuid': value.ownerUuid,
-        'status': value.status,
     };
 }
 

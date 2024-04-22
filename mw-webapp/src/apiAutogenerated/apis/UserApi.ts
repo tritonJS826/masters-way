@@ -16,24 +16,41 @@
 import * as runtime from '../runtime';
 import type {
   SchemasCreateUserPayload,
+  SchemasGetAllUsersResponse,
   SchemasUpdateUserPayload,
   SchemasUserPlainResponse,
+  SchemasUserPopulatedResponse,
 } from '../models/index';
 import {
     SchemasCreateUserPayloadFromJSON,
     SchemasCreateUserPayloadToJSON,
+    SchemasGetAllUsersResponseFromJSON,
+    SchemasGetAllUsersResponseToJSON,
     SchemasUpdateUserPayloadFromJSON,
     SchemasUpdateUserPayloadToJSON,
     SchemasUserPlainResponseFromJSON,
     SchemasUserPlainResponseToJSON,
+    SchemasUserPopulatedResponseFromJSON,
+    SchemasUserPopulatedResponseToJSON,
 } from '../models/index';
 
 export interface CreateUserRequest {
     request: SchemasCreateUserPayload;
 }
 
+export interface CreateUserIfRequiredRequest {
+    request: SchemasCreateUserPayload;
+}
+
 export interface DeleteUserRequest {
     userId: string;
+}
+
+export interface GetAllUsersRequest {
+    page?: number;
+    limit?: number;
+    email?: string;
+    name?: string;
 }
 
 export interface GetUserByUuidRequest {
@@ -86,6 +103,41 @@ export class UserApi extends runtime.BaseAPI {
     }
 
     /**
+     * Temporal method. Shod be removed after improving auth logic. Email should be unique
+     * Create a new user or return already existent user if user with this firebase id already exist
+     */
+    async createUserIfRequiredRaw(requestParameters: CreateUserIfRequiredRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasUserPopulatedResponse>> {
+        if (requestParameters.request === null || requestParameters.request === undefined) {
+            throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createUserIfRequired.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/users/getOrCreateByFirebaseId`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: SchemasCreateUserPayloadToJSON(requestParameters.request),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasUserPopulatedResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Temporal method. Shod be removed after improving auth logic. Email should be unique
+     * Create a new user or return already existent user if user with this firebase id already exist
+     */
+    async createUserIfRequired(requestParameters: CreateUserIfRequiredRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasUserPopulatedResponse> {
+        const response = await this.createUserIfRequiredRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Delete user by UUID
      */
     async deleteUserRaw(requestParameters: DeleteUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
@@ -118,8 +170,24 @@ export class UserApi extends runtime.BaseAPI {
      * Get users with pagination
      * Get all users
      */
-    async getAllUsersRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<SchemasUserPlainResponse>>> {
+    async getAllUsersRaw(requestParameters: GetAllUsersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasGetAllUsersResponse>> {
         const queryParameters: any = {};
+
+        if (requestParameters.page !== undefined) {
+            queryParameters['page'] = requestParameters.page;
+        }
+
+        if (requestParameters.limit !== undefined) {
+            queryParameters['limit'] = requestParameters.limit;
+        }
+
+        if (requestParameters.email !== undefined) {
+            queryParameters['email'] = requestParameters.email;
+        }
+
+        if (requestParameters.name !== undefined) {
+            queryParameters['name'] = requestParameters.name;
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -130,22 +198,22 @@ export class UserApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(SchemasUserPlainResponseFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasGetAllUsersResponseFromJSON(jsonValue));
     }
 
     /**
      * Get users with pagination
      * Get all users
      */
-    async getAllUsers(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<SchemasUserPlainResponse>> {
-        const response = await this.getAllUsersRaw(initOverrides);
+    async getAllUsers(requestParameters: GetAllUsersRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasGetAllUsersResponse> {
+        const response = await this.getAllUsersRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Get user by UUID
      */
-    async getUserByUuidRaw(requestParameters: GetUserByUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<object>> {
+    async getUserByUuidRaw(requestParameters: GetUserByUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasUserPopulatedResponse>> {
         if (requestParameters.userId === null || requestParameters.userId === undefined) {
             throw new runtime.RequiredError('userId','Required parameter requestParameters.userId was null or undefined when calling getUserByUuid.');
         }
@@ -161,13 +229,13 @@ export class UserApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse<any>(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasUserPopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Get user by UUID
      */
-    async getUserByUuid(requestParameters: GetUserByUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<object> {
+    async getUserByUuid(requestParameters: GetUserByUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasUserPopulatedResponse> {
         const response = await this.getUserByUuidRaw(requestParameters, initOverrides);
         return await response.value();
     }

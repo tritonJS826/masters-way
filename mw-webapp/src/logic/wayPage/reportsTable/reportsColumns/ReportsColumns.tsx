@@ -1,7 +1,6 @@
 import {createColumnHelper} from "@tanstack/react-table";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
-import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {ReportsTableCommentsCell}
   from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableCommentsCell/ReportsTableCommentsCell";
@@ -11,16 +10,15 @@ import {ReportsTableJobsDoneCell}
 import {ReportsTablePlansCell} from "src/logic/wayPage/reportsTable/reportsColumns/reportsTablePlansCell/ReportsTablePlansCell";
 import {ReportsTableProblemsCell}
   from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableProblemsCell/ReportsTableProblemsCell";
-import {getFirstName} from "src/logic/waysTable/waysColumns";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Way} from "src/model/businessModel/Way";
-import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {LanguageService} from "src/service/LangauageService";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
 
 export const DEFAULT_SUMMARY_TIME = 0;
 export const MAX_TIME = 9999;
+export const MIN_TIME = 0;
 const columnHelper = createColumnHelper<DayReport>();
 const DIFFERENCE_INDEX_LIST_NUMBER = 1;
 
@@ -40,35 +38,6 @@ export const getListNumberByIndex = (index: number) => {
   const listNumber = `${index + DIFFERENCE_INDEX_LIST_NUMBER}.${Symbols.NO_BREAK_SPACE}`;
 
   return listNumber;
-};
-
-/**
- * Get all users involved in the {@link way}
- */
-const getUsersInWay = (way: Way) => {
-  const usersInWay: Map<string, UserPreview> = new Map([
-    ...way.mentors.entries(),
-    ...way.formerMentors.entries(),
-    [way.owner.uuid, way.owner],
-  ]);
-
-  return usersInWay;
-};
-
-/**
- * Get user name
- */
-export const getName = (way: Way, userUuid: string) => {
-  const usersInWay = getUsersInWay(way);
-  const user = usersInWay.get(userUuid);
-
-  if (!user) {
-    throw Error(`User with uuid ${userUuid} is not defined`);
-  }
-
-  const firstName = getFirstName(user.name);
-
-  return firstName;
 };
 
 /**
@@ -120,7 +89,7 @@ export const Columns = (props: ColumnsProps) => {
       );
 
       // TODO await
-      DayReportDAL.updateDayReport(updatedReport);
+      // DayReportDAL.updateDayReport(updatedReport);
 
       return updatedDayReports;
     });
@@ -165,6 +134,7 @@ export const Columns = (props: ColumnsProps) => {
        */
       cell: ({row}) => (
         <ReportsTableJobsDoneCell
+          user={user}
           dayReport={row.original}
           isEditable={isUserOwnerOrMentor}
           jobTags={props.way.jobTags}

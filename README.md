@@ -54,3 +54,10 @@ ___
 ### Check locally that production build is ok
 
 ```pnpm run serve```
+
+### Run all modules locally
+
+```docker-compose -f local.docker-compose.yml up```
+
+### Clean up all docker images  and volumes
+```docker system prune -a && docker system prune --volumes```

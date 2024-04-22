@@ -16,14 +16,14 @@
 import * as runtime from '../runtime';
 import type {
   SchemasCreateJobDonePayload,
-  SchemasJobDonePlainResponse,
+  SchemasJobDonePopulatedResponse,
   SchemasUpdateJobDone,
 } from '../models/index';
 import {
     SchemasCreateJobDonePayloadFromJSON,
     SchemasCreateJobDonePayloadToJSON,
-    SchemasJobDonePlainResponseFromJSON,
-    SchemasJobDonePlainResponseToJSON,
+    SchemasJobDonePopulatedResponseFromJSON,
+    SchemasJobDonePopulatedResponseToJSON,
     SchemasUpdateJobDoneFromJSON,
     SchemasUpdateJobDoneToJSON,
 } from '../models/index';
@@ -34,10 +34,6 @@ export interface CreateJobDoneRequest {
 
 export interface DeleteJobDoneRequest {
     jobDoneId: string;
-}
-
-export interface GetJobDonesByDayReportUuidRequest {
-    dayReportId: string;
 }
 
 export interface UpdateJobDoneRequest {
@@ -53,7 +49,7 @@ export class JobDoneApi extends runtime.BaseAPI {
     /**
      * Create a new jobDone
      */
-    async createJobDoneRaw(requestParameters: CreateJobDoneRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasJobDonePlainResponse>> {
+    async createJobDoneRaw(requestParameters: CreateJobDoneRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasJobDonePopulatedResponse>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createJobDone.');
         }
@@ -72,13 +68,13 @@ export class JobDoneApi extends runtime.BaseAPI {
             body: SchemasCreateJobDonePayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasJobDonePlainResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasJobDonePopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Create a new jobDone
      */
-    async createJobDone(requestParameters: CreateJobDoneRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasJobDonePlainResponse> {
+    async createJobDone(requestParameters: CreateJobDoneRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasJobDonePopulatedResponse> {
         const response = await this.createJobDoneRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -113,39 +109,9 @@ export class JobDoneApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get jobDones by dayReport UUID
-     */
-    async getJobDonesByDayReportUuidRaw(requestParameters: GetJobDonesByDayReportUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<SchemasJobDonePlainResponse>>> {
-        if (requestParameters.dayReportId === null || requestParameters.dayReportId === undefined) {
-            throw new runtime.RequiredError('dayReportId','Required parameter requestParameters.dayReportId was null or undefined when calling getJobDonesByDayReportUuid.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/jobDones/{dayReportId}`.replace(`{${"dayReportId"}}`, encodeURIComponent(String(requestParameters.dayReportId))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(SchemasJobDonePlainResponseFromJSON));
-    }
-
-    /**
-     * Get jobDones by dayReport UUID
-     */
-    async getJobDonesByDayReportUuid(requestParameters: GetJobDonesByDayReportUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<SchemasJobDonePlainResponse>> {
-        const response = await this.getJobDonesByDayReportUuidRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
      * Update jobDone by UUID
      */
-    async updateJobDoneRaw(requestParameters: UpdateJobDoneRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasJobDonePlainResponse>> {
+    async updateJobDoneRaw(requestParameters: UpdateJobDoneRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasJobDonePopulatedResponse>> {
         if (requestParameters.jobDoneId === null || requestParameters.jobDoneId === undefined) {
             throw new runtime.RequiredError('jobDoneId','Required parameter requestParameters.jobDoneId was null or undefined when calling updateJobDone.');
         }
@@ -168,13 +134,13 @@ export class JobDoneApi extends runtime.BaseAPI {
             body: SchemasUpdateJobDoneToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasJobDonePlainResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasJobDonePopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Update jobDone by UUID
      */
-    async updateJobDone(requestParameters: UpdateJobDoneRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasJobDonePlainResponse> {
+    async updateJobDone(requestParameters: UpdateJobDoneRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasJobDonePopulatedResponse> {
         const response = await this.updateJobDoneRaw(requestParameters, initOverrides);
         return await response.value();
     }

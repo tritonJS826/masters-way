@@ -30,7 +30,7 @@ func NewCommentController(db *db.Queries, ctx context.Context) *CommentControlle
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateCommentPayload true "query params"
-// @Success 200 {object} schemas.CommentPlainResponse
+// @Success 200 {object} schemas.CommentPopulatedResponse
 // @Router /comments [post]
 func (cc *CommentController) CreateComment(ctx *gin.Context) {
 	var payload *schemas.CreateCommentPayload
@@ -56,7 +56,17 @@ func (cc *CommentController) CreateComment(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, comment)
+	response := schemas.CommentPopulatedResponse{
+		Uuid:          comment.Uuid.String(),
+		Description:   comment.Description,
+		OwnerUuid:     comment.OwnerUuid.String(),
+		OwnerName:     comment.OwnerName,
+		CreatedAt:     comment.CreatedAt.String(),
+		UpdatedAt:     comment.UpdatedAt.String(),
+		DayReportUuid: comment.DayReportUuid.String(),
+	}
+
+	ctx.JSON(http.StatusOK, response)
 }
 
 // Update comment handler
@@ -68,7 +78,7 @@ func (cc *CommentController) CreateComment(ctx *gin.Context) {
 // @Produce  json
 // @Param request body schemas.UpdateCommentPayload true "query params"
 // @Param commentId path string true "comment ID"
-// @Success 200 {object} schemas.CommentPlainResponse
+// @Success 200 {object} schemas.CommentPopulatedResponse
 // @Router /comments/{commentId} [patch]
 func (cc *CommentController) UpdateComment(ctx *gin.Context) {
 	var payload *schemas.UpdateCommentPayload
@@ -94,32 +104,6 @@ func (cc *CommentController) UpdateComment(ctx *gin.Context) {
 			return
 		}
 		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving comment", "error": err.Error()})
-		return
-	}
-
-	ctx.JSON(http.StatusOK, comment)
-}
-
-// Get a single handler
-// @Summary Get comments by dayReport UUID
-// @Description
-// @Tags comment
-// @ID get-comments-by-DayReport-uuid
-// @Accept  json
-// @Produce  json
-// @Param dayReportId path string true "dayReport ID"
-// @Success 200 {array} schemas.CommentPlainResponse
-// @Router /comments/{dayReportId} [get]
-func (cc *CommentController) GetCommentsByDayReportId(ctx *gin.Context) {
-	dayReportId := ctx.Param("dayReportId")
-
-	comment, err := cc.db.GetListCommentsByDayReportId(ctx, uuid.MustParse(dayReportId))
-	if err != nil {
-		if err == sql.ErrNoRows {
-			ctx.JSON(http.StatusNotFound, gin.H{"status": "failed", "message": "Failed to retrieve Comment with this ID"})
-			return
-		}
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving Comment", "error": err.Error()})
 		return
 	}
 

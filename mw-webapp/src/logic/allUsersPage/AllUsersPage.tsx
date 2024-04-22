@@ -4,7 +4,7 @@ import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
-import {Input} from "src/component/input/Input";
+import {Input, InputType} from "src/component/input/Input";
 import {Loader} from "src/component/loader/Loader";
 import {displayNotification} from "src/component/notification/displayNotification";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
@@ -13,18 +13,19 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {UserCard} from "src/component/userCard/UserCard";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {UserPreviewDAL} from "src/dataAccessLogic/UserPreviewDAL";
+import {UserDAL} from "src/dataAccessLogic/UserDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {useLoad} from "src/hooks/useLoad";
 import {usePersistanceState} from "src/hooks/usePersistanceState";
-import {LAST_INDEX} from "src/logic/mathConstants";
 import {UsersTableBlock} from "src/logic/usersTable/UsersTableBlock";
-import {UserPreview} from "src/model/businessModelPreview/UserPreview";
+import {UserNotSaturatedWay} from "src/model/businessModelPreview/UserNotSaturatedWay";
 import {LanguageService} from "src/service/LangauageService";
 import {AllUsersPageSettings, View} from "src/utils/LocalStorageWorker";
 import {useDebounce} from "use-debounce";
 import styles from "src/logic/allUsersPage/AllUsersPage.module.scss";
 
+const DEFAULT_PAGE_PAGINATION_VALUE = 1;
+const DEFAULT_USER_LIMIT = 10;
 const DEBOUNCE_DELAY_MILLISECONDS = 1000;
 const DEFAULT_ALL_USERS_PAGE_SETTINGS: AllUsersPageSettings = {view: View.Card};
 
@@ -36,22 +37,27 @@ interface AllUsersFetchData {
   /**
    * Fetched users
    */
-  users: UserPreview[];
+  users: UserNotSaturatedWay[];
 
   /**
    * Amount of filtered users
    */
   usersAmount: number;
+
 }
 
 /**
  * Users page
  */
 export const AllUsersPage = () => {
-  const [allUsers, setAllUsers] = useState<UserPreview[]>();
+  const [allUsers, setAllUsers] = useState<UserNotSaturatedWay[]>();
   const [allUsersAmount, setAllUsersAmount] = useState<number>();
   const [email, setEmail] = useState<string>("");
-  const [debouncedEmail ] = useDebounce(email, DEBOUNCE_DELAY_MILLISECONDS);
+  const [name, setName] = useState<string>("");
+  const [pagePagination, setPagePagination] = useState<number>(DEFAULT_PAGE_PAGINATION_VALUE);
+  const [debouncedEmail] = useDebounce(email, DEBOUNCE_DELAY_MILLISECONDS);
+  const [debouncedName] = useDebounce(name, DEBOUNCE_DELAY_MILLISECONDS);
+
   const {language} = useGlobalContext();
 
   const [allUsersPageSettings, updateAllUsersPageSettings] = usePersistanceState({
@@ -65,25 +71,26 @@ export const AllUsersPage = () => {
    * Callback that is called to fetch data
    */
   const loadData = async (): Promise<AllUsersFetchData> => {
-    const [
-      users,
-      usersAmount,
-    ] = await Promise.all([
-      UserPreviewDAL.getUsersPreview({email}),
-      UserPreviewDAL.getUsersPreviewAmount({email}),
-    ]);
+    const users = await UserDAL.getUsers({
+      page: DEFAULT_PAGE_PAGINATION_VALUE,
+      limit: DEFAULT_USER_LIMIT,
+      email,
+      name,
+    });
+    const nextPage = pagePagination + DEFAULT_PAGE_PAGINATION_VALUE;
+    setPagePagination(nextPage);
 
-    return {users, usersAmount};
+    return {users: users.usersPreview, usersAmount: users.size};
   };
 
   /**
    * Load more users
    */
-  const loadMoreUsers = async (loadedUsers: UserPreview[]) => {
-    const lastUserUuid = loadedUsers.at(LAST_INDEX)?.uuid;
-
-    const users = await UserPreviewDAL.getUsersPreview({email, lastUserUuid});
-    setAllUsers([...loadedUsers, ...users]);
+  const loadMoreUsers = async (loadedUsers: UserNotSaturatedWay[]) => {
+    const nextPage = pagePagination + DEFAULT_PAGE_PAGINATION_VALUE;
+    setPagePagination(nextPage);
+    const users = await UserDAL.getUsers({page: pagePagination});
+    setAllUsers([...loadedUsers, ...users.usersPreview]);
   };
 
   /**
@@ -107,7 +114,7 @@ export const AllUsersPage = () => {
     loadData,
     onSuccess,
     onError,
-    dependency: [debouncedEmail],
+    dependency: [debouncedEmail, debouncedName],
   });
 
   if (!allUsers) {
@@ -119,12 +126,24 @@ export const AllUsersPage = () => {
   return (
     <VerticalContainer className={styles.allUsersContainer}>
       <HorizontalContainer className={styles.filterView}>
-        <Input
-          value={email}
-          onChange={(value) => setEmail(value)}
-          placeholder={LanguageService.allUsers.filterBlock.emailPlaceholder[language]}
-          className={styles.emailFilter}
-        />
+        <HorizontalContainer>
+          <Input
+            value={email}
+            onChange={setEmail}
+            placeholder={LanguageService.allUsers.filterBlock.emailPlaceholder[language]}
+            className={styles.inputFilter}
+            typeInputIcon={"SearchIcon"}
+            typeInput={InputType.Border}
+          />
+          <Input
+            value={name}
+            onChange={setName}
+            placeholder={LanguageService.allUsers.filterBlock.namePlaceholder[language]}
+            className={styles.inputFilter}
+            typeInputIcon={"SearchIcon"}
+            typeInput={InputType.Border}
+          />
+        </HorizontalContainer>
         <HorizontalContainer>
           <Tooltip
             position={PositionTooltip.LEFT}
@@ -194,7 +213,7 @@ export const AllUsersPage = () => {
         <Button
           value={LanguageService.allUsers.usersTable.loadMoreButton[language]}
           onClick={() => loadMoreUsers(allUsers)}
-          buttonType={ButtonType.PRIMARY}
+          buttonType={ButtonType.SECONDARY}
           className={styles.loadMoreButton}
         />
         }

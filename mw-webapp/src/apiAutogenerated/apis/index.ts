@@ -1,14 +1,15 @@
 // @ts-nocheck
 /* eslint-disable */
 export * from './CommentApi';
+export * from './CompositeWayApi';
 export * from './DayReportApi';
 export * from './FavoriteUserApi';
 export * from './FavoriteUserWayApi';
-export * from './FormerMentorWayApi';
 export * from './FromUserMentoringRequestApi';
 export * from './JobDoneApi';
 export * from './JobDoneJobTagApi';
 export * from './JobTagApi';
+export * from './MentorUserWayApi';
 export * from './MetricApi';
 export * from './PlanApi';
 export * from './PlanJobTagApi';

@@ -5,7 +5,6 @@ const TEXTAREA_CY = "textarea";
 const TEXTAREA_VALUE = "text";
 const TEXTAREA_PLACEHOLDER = "Enter text";
 const TYPE_VALUE = "value";
-const DEFAULT_ROWS_AMOUNT = 1;
 
 describe("Textarea component", () => {
   beforeEach(() => {
@@ -15,9 +14,6 @@ describe("Textarea component", () => {
         defaultValue={TEXTAREA_VALUE}
         onChange={() => {}}
         placeholder={TEXTAREA_PLACEHOLDER}
-        rows={DEFAULT_ROWS_AMOUNT}
-        isAutofocus
-        onKeyPress={() => {}}
       />,
     );
   });

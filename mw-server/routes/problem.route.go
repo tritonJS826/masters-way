@@ -16,8 +16,7 @@ func NewRouteProblem(problemController controllers.ProblemController) ProblemRou
 
 func (cr *ProblemRoutes) ProblemRoute(rg *gin.RouterGroup) {
 	router := rg.Group("problems")
-	router.POST("/", cr.problemController.CreateProblem)
-	router.GET("/:dayReportId", cr.problemController.GetProblemsByDayReportId)
+	router.POST("", cr.problemController.CreateProblem)
 	router.PATCH("/:problemId", cr.problemController.UpdateProblem)
 	router.DELETE("/:problemId", cr.problemController.DeleteProblemById)
 }

@@ -68,12 +68,12 @@ func (cc *FromUserMentoringRequestController) DeleteFromUserMentoringRequestById
 	userUuid := ctx.Param("userUuid")
 	wayUuid := ctx.Param("wayUuid")
 
-	args := db.DeleteFromUserMentoringRequestByIdsParams{
+	args := db.DeleteFromUserMentoringRequestParams{
 		UserUuid: uuid.MustParse(userUuid),
 		WayUuid:  uuid.MustParse(wayUuid),
 	}
 
-	err := cc.db.DeleteFromUserMentoringRequestByIds(ctx, args)
+	err := cc.db.DeleteFromUserMentoringRequest(ctx, args)
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"status": "failed", "error": err.Error()})
 		return

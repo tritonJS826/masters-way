@@ -1,0 +1,13 @@
+@import "src/styles/variables";
+
+.statistics {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: $gapMedium;
+}
+
+.titleCheckbox {
+  width: 100%;
+  justify-content: space-between;
+}

@@ -1,8 +1,18 @@
 import {HTMLInputTypeAttribute} from "react";
 import clsx from "clsx";
+import {Icon, IconDictionary, IconSize} from "src/component/icon/Icon";
 import {InputMode} from "src/component/input/InputMode";
 import {ParserInputValue} from "src/component/input/parsers";
 import styles from "src/component/input/Input.module.scss";
+
+/**
+ *InputType
+ */
+export enum InputType {
+  Editable = "editable",
+  Line = "line",
+  Border = "border",
+}
 
 /**
  * Input's props
@@ -60,6 +70,11 @@ interface InputProps<T extends string | number> {
   max?: number;
 
   /**
+   * Minimum value for input type "number"
+   */
+  min?: number;
+
+  /**
    * Tracks the value entered into the input
    */
   onChange: (value: T) => void;
@@ -78,6 +93,17 @@ interface InputProps<T extends string | number> {
    * Data attribute for cypress testing
    */
   dataCy?: string;
+
+  /**
+   * TypeInputIcon
+   */
+  typeInputIcon?: keyof typeof IconDictionary;
+
+  /**
+   * TypeInputIcon
+   * @default 'editable'
+   */
+  typeInput?: InputType;
 }
 
 /**
@@ -109,19 +135,31 @@ export const Input = <T extends string | number>(props: InputProps<T>) => {
     props.onChange(parsedValue);
   };
 
+  const inputTypeStyles = props.typeInput ? styles[props.typeInput] : styles[InputType.Editable];
+
   return (
-    <input
-      value={props.formatter ? props.formatter(props.value) : props.value}
-      type={props.type ?? "text"}
-      max={props.max}
-      placeholder={props.placeholder}
-      className={clsx(styles.input, props.className)}
-      inputMode={props.inputMode}
-      disabled={!!props.disabled}
-      required={!!props.required}
-      autoFocus={!!props.autoFocus}
-      onChange={onChange}
-      data-cy={props.dataCy}
-    />
+    <div className={styles.inputWrapper}>
+      {props.typeInputIcon && (
+        <Icon
+          size={IconSize.SMALL}
+          name={props.typeInputIcon}
+          className={styles.inputIcon}
+        />
+      )}
+      <input
+        value={props.formatter ? props.formatter(props.value) : props.value}
+        type={props.type ?? "text"}
+        max={props.max}
+        min={props.min}
+        placeholder={props.placeholder}
+        className={clsx(styles.input, props.className, props.typeInputIcon && styles.inputFilterIcon, inputTypeStyles)}
+        inputMode={props.inputMode}
+        disabled={!!props.disabled}
+        required={!!props.required}
+        autoFocus={!!props.autoFocus}
+        onChange={onChange}
+        data-cy={props.dataCy}
+      />
+    </div>
   );
 };

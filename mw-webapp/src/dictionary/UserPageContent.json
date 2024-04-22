@@ -6,11 +6,37 @@
       "ua": "Про себе",
       "ka": "ჩემ შესახებ"
     },
+    "deleteFromFavoritesTooltip": {
+      "ru": "Удалить из избранных",
+      "en": "Delete from favorites",
+      "ua": "Видалити з вибраного",
+      "ka": "რჩეულებიდან წაშლა"
+    },
+    "addToFavoritesTooltip": {
+      "ru": "Добавить в избранные",
+      "en": "Add to favorites",
+      "ua": "Додати до обраних",
+      "ka": "რჩეულებში დამატება"
+    },
     "createNewWayButton": {
       "ru": "Создать новый путь",
       "en": "Create new way",
       "ua": "Створити новий шлях",
       "ka": "ახალი გზის შექმნა"
+    }
+  },
+  "notifications": {
+    "userRemovedFromFavorites": {
+      "ru": "Пользователь удален из избранных",
+      "en": "User removed from favorites",
+      "ua": "Користувач видалено з обраних",
+      "ka": "მომხმარებელს ამოღებულებიდან წაშლილია"
+    },
+    "userAddedToFavorites": {
+      "ru": "Пользователь добавлен в избранные",
+      "en": "User added to favorites",
+      "ua": "Користувач додано до обраних",
+      "ka": "მომხმარებელი შეიტანება სასარგებლოებში"
     }
   },
   "collections": {
@@ -37,19 +63,37 @@
       "en": "Add collection",
       "ua": "Додати колекцію",
       "ka": "კოლექციის დამატება"
+    },
+    "renameCollection": {
+      "ru": "Переименовать коллекцию",
+      "en": "Rename collection",
+      "ua": "Перейменувати колекцію",
+      "ka": "კოლექციის გადარქმევა"
+    },
+    "deleteCollection": {
+      "ru": "Удалить коллекцию",
+      "en": "Delete collection",
+      "ua": "Видалити колекцію",
+      "ka": "კოლექციის წაშლა"
+    },
+    "deleteCollectionModalQuestion": {
+      "ru": "Вы уверены, что хотите удалить коллекцию?",
+      "en": "Are you sure you want to delete collection",
+      "ua": "Ви впевнені, що хочете видалити колекцію?",
+      "ka": "დარწმუნებული ხართ, რომ გსურთ კოლექციის წაშლა"
     }
   },
   "filterBlock": {
     "type": {
-      "ru": "Статус: ",
-      "en": "Status: ",
-      "ua": "Статус: ",
-      "ka": "სტატუსი: "
+      "ru": "Статус",
+      "en": "Status",
+      "ua": "Статус",
+      "ka": "სტატუსი"
     },
     "typeOptions": {
       "all": {
         "ru": "Все",
-        "en": "all",
+        "en": "All",
         "ua": "Усі",
         "ka": "ყველა"
       },

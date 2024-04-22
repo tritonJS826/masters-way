@@ -8,10 +8,16 @@ $userNameFontSize: 16px;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: $paddingMedium;
-  border-bottom: 1px solid var(--primaryBorderColor);
-  margin-bottom: $marginMedium;
+  padding: $paddingMedium;
   background-color: var(--primaryBackgroundColor);
+}
+
+.logo {
+  height: 40px;
+}
+
+.logoSidebar {
+  height: 40px;
 }
 
 .headerButtonsContainer {
@@ -19,10 +25,10 @@ $userNameFontSize: 16px;
   width: auto;
   align-items: center;
   justify-content: space-between;
-  gap: $gapMedium;
+  gap: $gapBig;
 
-  @media (max-width: $mediaWidthMobileBig) {
-    width: 100%;
+  @media (max-width: $mediaWidthMobileMedium) {
+    gap: $gapMedium;
   }
 }
 
@@ -32,9 +38,54 @@ $userNameFontSize: 16px;
 
 .rightBlock {
   align-items: center;
+  gap: $gapBig;
 }
 
-.userName {
+.userAvatar {
+  text-decoration: none;
+}
+
+.burgerMenu {
+  width: 24px;
+  height: 24px;
+  margin-top: 2px;
   cursor: pointer;
-  font-size: $userNameFontSize;
+  fill: var(--primaryTextColor);
+}
+
+.sidebarItem {
+  align-items: center;
+  justify-content: space-between;
+  color: var(--secondaryTextColor);
+  fill: var(--secondaryTextColor);
+}
+
+.sidebarIcon {
+  stroke: var(--secondaryTextColor);
+}
+
+.iconWithText {
+  align-items: center;
+  gap: $gapMedium;
+}
+
+.bottomContainer {
+  gap: $gapBig;
+}
+
+.socialMedia {
+  color: var(--secondaryTextColor);
+  gap: $gapMedium;
+}
+
+.socialMediaIcon {
+  border: 2px solid var(--secondaryTextColor);
+  border-radius: $tertiaryBorderRadius;
+  background-color: var(--secondaryTextColor);
+  fill: var(--quaternaryBackgroundColor);
+  stroke: none;
+}
+
+.linkIcon {
+  stroke: var(--secondaryTextColor);
 }

@@ -1,5 +1,102 @@
-import {Option, OptionType} from "src/component/select/option/Option";
+import {ChevronDownIcon} from "@radix-ui/react-icons";
+import * as SelectComponent from "@radix-ui/react-select";
+import clsx from "clsx";
+import {SelectItem} from "src/component/select/selectItem/SelectItem";
+import {Symbols} from "src/utils/Symbols";
 import styles from "src/component/select/Select.module.scss";
+
+/**
+ * Option type for a select component
+ */
+export interface SelectItemType<T> {
+
+  /**
+   * Option`s id. Should be unique
+   */
+  id: string;
+
+  /**
+   * Option`s value
+   */
+  value: T;
+
+  /**
+   * Option`s visible text
+   */
+  text: string;
+}
+
+/**
+ * Get text from option's enum
+ */
+function getTextByValue<T>(options: SelectItemType<T>[], value: T) {
+  const option = options.find(o => o.value === value);
+
+  return option?.text ?? "";
+}
+
+/**
+ * TriggerSelect params
+ */
+interface GetValueForTriggerSelectParams<T> {
+
+  /**
+   * TriggerSelect's options
+   */
+  options: SelectItemType<T>[];
+
+  /**
+   * TriggerSelect's value
+   */
+  value: T;
+
+  /**
+   * TriggerSelect's label
+   */
+  label?: string;
+
+}
+
+/**
+ * Get Value for triggerSelect
+ */
+function getValueForTriggerSelect<T>(params: GetValueForTriggerSelectParams<T>) {
+  const value = `${getTextByValue(params.options, params.value)}`;
+
+  return value;
+}
+
+/**
+ * Data attributes for cypress testing
+ */
+interface Cy {
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCyOverlay?: string;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCyTrigger?: string;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCyContent?: string;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCyContentList: string;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCyValue: string;
+
+}
 
 /**
  * Select props
@@ -29,7 +126,7 @@ export interface SelectProps<T> {
   /**
    * Options list
    */
-  options: OptionType<T>[];
+  options: SelectItemType<T>[];
 
   /**
    * Callback triggered onChange select value
@@ -37,48 +134,80 @@ export interface SelectProps<T> {
   onChange: (value: T) => void;
 
   /**
-   * Data attribute for cypress testing
+   * Data attributes for cypress testing
    */
-  dataCy?: string;
+  cy?: Cy;
+
+  /**
+   * Custom class name
+   */
+  className?: string;
 }
 
 /**
  * Render list of options for select component
  */
-const renderSelectOptions = <T extends string | number>(options: OptionType<T>[]) => options.map((option) => (
-  <Option
+const renderSelectOptions = <T extends string>(options: SelectItemType<T>[]) => options.map((option) => (
+  <SelectItem
     key={option.id}
     value={option.value}
-    text={option.text}
-  />
+  >
+    {option.text}
+  </SelectItem>
 ));
 
 /**
  * Represents a control that provides a menu of options
  */
-export const Select = <T extends string | number>(props: SelectProps<T>) => {
-
-  /**
-   * Handle onChange event
-   */
-  const onChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedValue = e.target.value as T;
-    props.onChange(selectedValue);
-  };
-
+export const Select = <T extends string>(props: SelectProps<T>) => {
   return (
-    <label className={styles.selectContainer}>
-      {props.label}
-      <select
-        name={props.name}
-        onChange={onChangeHandler}
-        className={styles.select}
-        defaultValue={props.defaultValue}
+    <div
+      className={clsx(styles.select, props.className)}
+      data-cy={props.cy?.dataCyOverlay}
+    >
+      <SelectComponent.Root
+        onValueChange={props.onChange}
         value={props.value}
-        data-cy={props.dataCy}
       >
-        {renderSelectOptions(props.options)}
-      </select>
-    </label>
+        <SelectComponent.Trigger
+          className={styles.SelectTrigger}
+          data-cy={props.cy?.dataCyTrigger}
+        >
+          <span>
+            {props.label}
+            {Symbols.NO_BREAK_SPACE}
+          </span>
+          <SelectComponent.Value
+            data-cy={props.cy?.dataCyValue}
+            placeholder={getValueForTriggerSelect({
+              label: props.label,
+              value: props.defaultValue,
+              options: props.options,
+            })}
+          />
+          <SelectComponent.Icon className={styles.SelectIcon}>
+            <ChevronDownIcon />
+          </SelectComponent.Icon>
+        </SelectComponent.Trigger>
+        <SelectComponent.Portal>
+          <SelectComponent.Content
+            className={styles.SelectContent}
+            position="popper"
+            sideOffset={8}
+            data-cy={props.cy?.dataCyContentList}
+          >
+            <SelectComponent.Viewport className={styles.SelectViewport}>
+              <SelectComponent.Group>
+                {renderSelectOptions(props.options)}
+              </SelectComponent.Group>
+
+            </SelectComponent.Viewport>
+            <SelectComponent.ScrollDownButton className={styles.SelectScrollButton}>
+              <ChevronDownIcon />
+            </SelectComponent.ScrollDownButton>
+          </SelectComponent.Content>
+        </SelectComponent.Portal>
+      </SelectComponent.Root>
+    </div>
   );
 };

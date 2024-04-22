@@ -9,8 +9,8 @@ import {
 } from "src/logic/wayPage/wayStatistics/WayStatistic";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Metric} from "src/model/businessModel/Metric";
+import {UserPlain} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
-import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {DateUtils} from "src/utils/DateUtils";
 
 const MARGIN_SMALL = 5;
@@ -72,7 +72,7 @@ const getFavorites = (favoriteAmount: number) => {
 /**
  * Render mentor's names
  */
-const getMentors = (wayMentors: Map<string, UserPreview>) => {
+const getMentors = (wayMentors: Map<string, UserPlain>) => {
   const mentorsArray = Array.from(wayMentors.values());
 
   return [
@@ -88,8 +88,9 @@ const getMentors = (wayMentors: Map<string, UserPreview>) => {
 /**
  * Render formerMentor's names
  */
-const getFormerMentors = (wayFormerMentors: Map<string, UserPreview>) => {
-  const formerMentorsArray = Array.from(wayFormerMentors.values());
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const getFormerMentors = () => {
+  // Const formerMentorsArray = Array.from(wayFormerMentors.values());
 
   return [
     {
@@ -97,7 +98,8 @@ const getFormerMentors = (wayFormerMentors: Map<string, UserPreview>) => {
       bold: true,
       margin: [0, MARGIN_SMALL, 0, 0],
     },
-    ...formerMentorsArray.map(wayFormerMentor => wayFormerMentor.name),
+    //TODO: fix it
+    // ...formerMentorsArray.map(wayFormerMentor => wayFormerMentor.name),
   ];
 };
 
@@ -289,7 +291,7 @@ const getReportsTemplate = (dayReport: DayReport) => {
       bold: true,
       margin: [0, MARGIN_SMALL, 0, 0],
     },
-    ...dayReport.plans.map(plan => plan.job),
+    ...dayReport.plans.map(plan => plan.description),
     {
       text: "Problems:",
       bold: true,
@@ -316,9 +318,9 @@ export const downloadWayPdf = (way: Way) => {
   const headerDefinition = getHeader(way.name);
   const ownerDefinition = getOwner(way.owner.name);
   const datesDefinition = getDates(way.createdAt, way.lastUpdate);
-  const favoritesDefinition = getFavorites(way.favoriteForUserUuids.length);
+  const favoritesDefinition = getFavorites(way.favoriteForUsersAmount);
   const mentorsDefinition = getMentors(way.mentors);
-  const formerMentorsDefinition = getFormerMentors(way.formerMentors);
+  const formerMentorsDefinition = getFormerMentors();
   const goalDefinition = getGoal({
     goalDescription: way.goalDescription,
     estimationTime: way.estimationTime,

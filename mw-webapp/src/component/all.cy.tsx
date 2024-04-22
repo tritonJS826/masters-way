@@ -1,0 +1,36 @@
+import "/src/component/toggle/Toggle.cy.tsx";
+import "/src/component/userCard/UserCard.cy.tsx";
+import "/src/component/link/Link.cy.tsx";
+import "/src/component/loader/Loader.cy.tsx";
+import "/src/component/accordion/Accordion.cy.tsx";
+import "/src/component/image/Image.cy.tsx";
+import "/src/component/horizontalGridContainer/HorizontalGridContainer.cy.tsx";
+import "/src/component/input/Input.cy.tsx";
+import "/src/component/checkbox/Checkbox.cy.tsx";
+import "/src/component/dropdown/Dropdown.cy.tsx";
+import "/src/component/table/Table.cy.tsx";
+import "/src/component/sidebar/Sidebar.cy.tsx";
+import "/src/component/notification/Notification.cy.tsx";
+import "/src/component/scrollableBlock/ScrollableBlock.cy.tsx";
+import "/src/component/header/Header.cy.tsx";
+import "/src/component/editableText/EditableText.cy.tsx";
+import "/src/component/select/Select.cy.tsx";
+import "/src/component/confirm/Confirm.cy.tsx";
+import "/src/component/verticalContainer/VerticalContainer.cy.tsx";
+import "/src/component/horizontalContainer/HorizontalContainer.cy.tsx";
+import "/src/component/tag/Tag.cy.tsx";
+import "/src/component/modal/Modal.cy.tsx";
+import "/src/component/tooltip/Tooltip.cy.tsx";
+import "/src/component/progressBar/ProgressBar.cy.tsx";
+import "/src/component/title/Title.cy.tsx";
+import "/src/component/button/Button.cy.tsx";
+import "/src/component/wayCard/WayCard.cy.tsx";
+import "/src/component/editableTextarea/EditableTextarea.cy.tsx";
+import "/src/component/textarea/Textarea.cy.tsx";
+import "/src/component/avatar/Avatar.cy.tsx";
+import "/src/component/chart/AreaChart.cy.tsx";
+
+/**
+ * Count all cy.tsx files to check all specs imported here
+ * find . -name "*.cy.tsx" | wc
+ */

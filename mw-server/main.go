@@ -15,6 +15,7 @@ import (
 
 	_ "mwserver/docs"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -47,9 +48,6 @@ var (
 
 	FavoriteUserWayController controllers.FavoriteUserWayController
 	FavoriteUserWayRoutes     routes.FavoriteUserWayRoutes
-
-	FormerMentorWayController controllers.FormerMentorWayController
-	FormerMentorWayRoutes     routes.FormerMentorWayRoutes
 
 	FromUserMentoringRequestController controllers.FromUserMentoringRequestController
 	FromUserMentoringRequestRoutes     routes.FromUserMentoringRequestRoutes
@@ -89,6 +87,12 @@ var (
 
 	WayTagController controllers.WayTagController
 	WayTagRoutes     routes.WayTagRoutes
+
+	CompositeWayController controllers.CompositeWayController
+	CompositeWayRoutes     routes.CompositeWayRoutes
+
+	MentorUserWayController controllers.MentorUserWayController
+	MentorUserWayRoutes     routes.MentorUserWayRoutes
 )
 
 func init() {
@@ -107,6 +111,18 @@ func init() {
 	db = dbCon.New(conn)
 
 	fmt.Println("PostgreSql connected successfully...")
+
+	server = gin.Default()
+
+	// Apply CORS middleware with custom options
+	server.Use(cors.New(cors.Config{
+		// AllowOrigins: []string{"http://localhost:5173/"},
+		AllowOrigins:     []string{"*"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+	}))
 
 	WayController = *controllers.NewWayController(db, ctx)
 	WayRoutes = routes.NewRouteWay(WayController)
@@ -128,9 +144,6 @@ func init() {
 
 	FavoriteUserWayController = *controllers.NewFavoriteUserWayController(db, ctx)
 	FavoriteUserWayRoutes = routes.NewRouteFavoriteUserWay(FavoriteUserWayController)
-
-	FormerMentorWayController = *controllers.NewFormerMentorWayController(db, ctx)
-	FormerMentorWayRoutes = routes.NewRouteFormerMentorWay(FormerMentorWayController)
 
 	FromUserMentoringRequestController = *controllers.NewFromUserMentoringRequestController(db, ctx)
 	FromUserMentoringRequestRoutes = routes.NewRouteFromUserMentoringRequest(FromUserMentoringRequestController)
@@ -171,7 +184,11 @@ func init() {
 	WayTagController = *controllers.NewWayTagController(db, ctx)
 	WayTagRoutes = routes.NewRouteWayTag(WayTagController)
 
-	server = gin.Default()
+	CompositeWayController = *controllers.NewCompositeWayController(db, ctx)
+	CompositeWayRoutes = routes.NewRouteCompositeWay(CompositeWayController)
+
+	MentorUserWayController = *controllers.NewMentorUserWayController(db, ctx)
+	MentorUserWayRoutes = routes.NewRouteMentorUserWay(MentorUserWayController)
 
 	server.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
@@ -200,7 +217,6 @@ func main() {
 	CommentRoutes.CommentRoute(router)
 	FavoriteUserRoutes.FavoriteUserRoute(router)
 	FavoriteUserWayRoutes.FavoriteUserWayRoute(router)
-	FormerMentorWayRoutes.FormerMentorWayRoute(router)
 	FromUserMentoringRequestRoutes.FromUserMentoringRequestRoute(router)
 	JobDoneRoutes.JobDoneRoute(router)
 	JobDoneJobTagRoutes.JobDoneJobTagRoute(router)
@@ -214,10 +230,16 @@ func main() {
 	UserTagRoutes.UserTagRoute(router)
 	WayCollectionWayRoutes.WayCollectionWayRoute(router)
 	WayTagRoutes.WayTagRoute(router)
+	CompositeWayRoutes.CompositeWayRoute(router)
+	MentorUserWayRoutes.MentorUserWayRoute(router)
 
 	server.NoRoute(func(ctx *gin.Context) {
 		ctx.JSON(http.StatusNotFound, gin.H{"status": "failed", "message": fmt.Sprintf("The specified route %s not found", ctx.Request.URL)})
 	})
 
-	log.Fatal(server.Run(":" + config.ServerAddress))
+	if config.EnvType == "prod" {
+		log.Fatal(server.RunTLS(":"+config.ServerAddress, "./server.crt", "./server.key"))
+	} else {
+		log.Fatal(server.Run(":" + config.ServerAddress))
+	}
 }

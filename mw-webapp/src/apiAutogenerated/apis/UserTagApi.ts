@@ -16,14 +16,11 @@
 import * as runtime from '../runtime';
 import type {
   SchemasCreateUserTagPayload,
-  SchemasUpdateUserTagPayload,
   SchemasUserTagResponse,
 } from '../models/index';
 import {
     SchemasCreateUserTagPayloadFromJSON,
     SchemasCreateUserTagPayloadToJSON,
-    SchemasUpdateUserTagPayloadFromJSON,
-    SchemasUpdateUserTagPayloadToJSON,
     SchemasUserTagResponseFromJSON,
     SchemasUserTagResponseToJSON,
 } from '../models/index';
@@ -34,15 +31,7 @@ export interface CreateUserTagRequest {
 
 export interface DeleteUserTagRequest {
     userTagId: string;
-}
-
-export interface GetUserTagsByUserUuidRequest {
     userId: string;
-}
-
-export interface UpdateUserTagRequest {
-    userTagId: string;
-    request: SchemasUpdateUserTagPayload;
 }
 
 /**
@@ -65,7 +54,7 @@ export class UserTagApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/usersTags`,
+            path: `/userTags`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -91,12 +80,16 @@ export class UserTagApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('userTagId','Required parameter requestParameters.userTagId was null or undefined when calling deleteUserTag.');
         }
 
+        if (requestParameters.userId === null || requestParameters.userId === undefined) {
+            throw new runtime.RequiredError('userId','Required parameter requestParameters.userId was null or undefined when calling deleteUserTag.');
+        }
+
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/userTags/{userTagId}`.replace(`{${"userTagId"}}`, encodeURIComponent(String(requestParameters.userTagId))),
+            path: `/userTags/{userTagId}/{userId}`.replace(`{${"userTagId"}}`, encodeURIComponent(String(requestParameters.userTagId))).replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
@@ -110,73 +103,6 @@ export class UserTagApi extends runtime.BaseAPI {
      */
     async deleteUserTag(requestParameters: DeleteUserTagRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.deleteUserTagRaw(requestParameters, initOverrides);
-    }
-
-    /**
-     * Get userTags by user UUID
-     */
-    async getUserTagsByUserUuidRaw(requestParameters: GetUserTagsByUserUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<SchemasUserTagResponse>>> {
-        if (requestParameters.userId === null || requestParameters.userId === undefined) {
-            throw new runtime.RequiredError('userId','Required parameter requestParameters.userId was null or undefined when calling getUserTagsByUserUuid.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/userTags/{userId}`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(SchemasUserTagResponseFromJSON));
-    }
-
-    /**
-     * Get userTags by user UUID
-     */
-    async getUserTagsByUserUuid(requestParameters: GetUserTagsByUserUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<SchemasUserTagResponse>> {
-        const response = await this.getUserTagsByUserUuidRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Update userTag by UUID
-     */
-    async updateUserTagRaw(requestParameters: UpdateUserTagRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasUserTagResponse>> {
-        if (requestParameters.userTagId === null || requestParameters.userTagId === undefined) {
-            throw new runtime.RequiredError('userTagId','Required parameter requestParameters.userTagId was null or undefined when calling updateUserTag.');
-        }
-
-        if (requestParameters.request === null || requestParameters.request === undefined) {
-            throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling updateUserTag.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        const response = await this.request({
-            path: `/userTags/{userTagId}`.replace(`{${"userTagId"}}`, encodeURIComponent(String(requestParameters.userTagId))),
-            method: 'PATCH',
-            headers: headerParameters,
-            query: queryParameters,
-            body: SchemasUpdateUserTagPayloadToJSON(requestParameters.request),
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasUserTagResponseFromJSON(jsonValue));
-    }
-
-    /**
-     * Update userTag by UUID
-     */
-    async updateUserTag(requestParameters: UpdateUserTagRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasUserTagResponse> {
-        const response = await this.updateUserTagRaw(requestParameters, initOverrides);
-        return await response.value();
     }
 
 }
