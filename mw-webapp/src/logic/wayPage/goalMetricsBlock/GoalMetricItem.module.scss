@@ -25,11 +25,3 @@
   box-shadow: inset $checkmarkWidthLarge $checkmarkHeightLarge
     var(--primaryTextColor);
 }
-
-.editableTextarea {
-  flex-grow: 1;
-
-  textarea {
-    width: 100%;
-  }
-}

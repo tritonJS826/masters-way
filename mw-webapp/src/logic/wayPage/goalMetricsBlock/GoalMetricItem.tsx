@@ -70,7 +70,7 @@ export const GoalMetricItem = (props: SingleGoalMetricProps) => {
                   isDisabled={true}
                   isDefaultChecked={props.metric.isDone}
                   className={styles.checkbox}
-                  onChange={((isDone) => isDone)}
+                  onChange={(isDone) => isDone}
                 />
               }
             />
@@ -92,7 +92,6 @@ export const GoalMetricItem = (props: SingleGoalMetricProps) => {
             text={props.metric.description ?? ""}
             onChangeFinish={(description) => props.updateMetric({...props.metric, description})}
             isEditable={props.isEditable}
-            className={styles.editableTextarea}
           />
         </Tooltip>
       </HorizontalContainer>
