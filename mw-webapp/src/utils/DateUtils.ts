@@ -3,6 +3,17 @@ const END_OF_ISO_SUBSTRING_RANGE = 10;
 const DAY_MILLISECONDS = 86400000;
 
 /**
+ * Type for sortDates generic
+ */
+export type DatedObject = {
+
+  /**
+   * Property with Date type
+   */
+  [key: string]: Date;
+}
+
+/**
  * Formatted date
  */
 export class DateUtils {
@@ -52,6 +63,13 @@ export class DateUtils {
       });
 
     return datesList;
+  }
+
+  /**
+   * Dates ascendant sorter
+   */
+  public static datesASCSorter(a: Date, b: Date) {
+    return a.getTime() - b.getTime();
   }
 
 }
