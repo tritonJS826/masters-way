@@ -1,5 +1,7 @@
 @import "src/styles/variables";
 
+$maxWidth: 960px;
+
 .pageWrapper {
   display: flex;
   flex-direction: column;
@@ -7,12 +9,62 @@
   padding: 0 $gapMedium;
   margin-top: $marginMedium;
 }
+.pageContainer {
+  padding: $paddingMedium;
+  border-radius: $marginBig;
+  background-color: var(--secondaryBackgroundColor);
+}
 
-.projectDescription {
-  max-width: 600px;
+.title {
+  color: var(--primaryTextColor);
+  text-align: center;
+}
+
+.aboutBlock {
+  max-width: $maxWidth;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  color: var(--secondaryTextColor);
+  background-color: var(primarysBackgroundColor);
+  margin-bottom: $marginBig;
+}
+
+.aboutDescription {
+  display: flex;
+  align-items: center;
+  margin-top:$marginMedium;
+  background-color: var(--primaryBackgroundColor);
+}
+
+.aboutTextBlock {
+  flex: 1 1 67%;
+  padding: $paddingMedium;
+  display: flex;
+  flex-direction: column;
+  gap: $gapBig;
+  line-height: 1.3;
+  color: var(--primaryTextColor);
+  background-color: var(--primaryBackgroundColor);
+}
+
+.logoAbout {
+  flex: 1 1 33%;
+  padding: $paddingMedium;
+  background-color: var(--primaryBackgroundColor);
+  @media (max-width: 850px) {
+    display: none;
+  }
 }
 
 .accordion {
   width: 100%;
-  max-width: 600px;
+  max-width: $maxWidth;
+  background-color: var(--primaryBackgroundColor);
+  box-shadow: none;
+}
+
+.accordionSection {
+  gap: $gapBig;
 }

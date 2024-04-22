@@ -1,42 +1,81 @@
-import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
-import {HeadingLevel, Title} from "src/component/title/Title";
-import {useGlobalContext} from "src/GlobalContext";
-import {LanguageService as LangService} from "src/service/LangauageService";
-import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
+import { Accordion, accordionTypes } from "src/component/accordion/Accordion";
+import { HeadingLevel, Title } from "src/component/title/Title";
+import { useGlobalContext } from "src/GlobalContext";
+import { LanguageService as LangService } from "src/service/LangauageService";
+import { renderMarkdown } from "src/utils/markdown/renderMarkdown";
 import styles from "src/logic/aboutProjectPage/AboutProjectPage.module.scss";
+import { VerticalContainer } from "src/component/verticalContainer/VerticalContainer";
+import { Image } from "src/component/image/Image";
+import { Theme } from "src/utils/ThemeWorker";
+import logo from "src/assets/mastersWayLogo.svg";
+import logoLight from "src/assets/mastersWayLogoLight.svg";
+import logoVetical from "src/assets/vertical.svg";
+import logoVeticalBlack from "src/assets/vertical-black.svg";
+import aboutImage from "src/assets/about.jpg";
+import { LOGO_TEXT } from "src/component/header/Header";
 
 /**
  * About project page
  */
 export const AboutProjectPage = () => {
-  const {language} = useGlobalContext();
+  const { language, theme } = useGlobalContext();
 
   const accordionItems = LangService.aboutProject.accordion.map((data) => ({
-    trigger: {child: data.header[language]},
-    content: {child: renderMarkdown(data.description[language])},
+    trigger: { child: data.header[language] },
+    content: { child: renderMarkdown(data.description[language]) },
   }));
 
   return (
     <div className={styles.pageWrapper}>
-      <Title
-        level={HeadingLevel.h2}
-        text={LangService.aboutProject.mainTitle[language]}
-      />
+      <div className={styles.pageContainer}>
+        <div className={styles.aboutBlock}>
+          <Title
+            level={HeadingLevel.h2}
+            text={LangService.aboutProject.mainTitle[language]}
+            className={styles.title}
+          />
+          <Title
+            level={HeadingLevel.h3}
+            text={LangService.aboutProject.mainSubTitle[language]}
+            className={styles.title}
+          />
+          <div className={styles.aboutDescription}>
+            <div className={styles.aboutTextBlock}>
+              <div>
+                {LangService.aboutProject.descriptionSubTitle[language]}
+              </div>
+              <Title
+                level={HeadingLevel.h3}
+                text={LangService.aboutProject.descriptionTitle[language]}
+              />
+              <div>
+                {renderMarkdown(
+                  LangService.aboutProject.descriptionList[language]
+                )}
+              </div>
+            </div>
+            <Image
+              src={theme === Theme.DARK ? logoLight : logo}
+              alt={LOGO_TEXT}
+              className={styles.logoAbout}
+            />
+          </div>
+        </div>
 
-      <div className={styles.projectDescription}>
-        {renderMarkdown(LangService.aboutProject.projectDescription[language])}
+        <VerticalContainer className={styles.accordionSection}>
+          <Title
+            level={HeadingLevel.h2}
+            text={LangService.aboutProject.accordionTitle[language]}
+            className={styles.title}
+          />
+
+          <Accordion
+            items={accordionItems}
+            type={accordionTypes.multiple}
+            className={styles.accordion}
+          />
+        </VerticalContainer>
       </div>
-
-      <Title
-        level={HeadingLevel.h2}
-        text={LangService.aboutProject.accordionTitle[language]}
-      />
-
-      <Accordion
-        items={accordionItems}
-        type={accordionTypes.multiple}
-        className={styles.accordion}
-      />
     </div>
   );
 };

@@ -16,3 +16,15 @@ body {
   max-width: $maxWidthFullScreen;
   margin: 0 auto;
 }
+
+._accordionItem_1oiug_1 {
+  border-bottom: 1px solid var(--secondaryBackgroundColor);
+}
+
+._accordionContent_gd14l_1 {
+  background-color: var(--secondaryBackgroundColor);
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
