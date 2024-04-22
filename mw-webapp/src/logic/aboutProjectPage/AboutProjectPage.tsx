@@ -1,28 +1,25 @@
-import { Accordion, accordionTypes } from "src/component/accordion/Accordion";
-import { HeadingLevel, Title } from "src/component/title/Title";
-import { useGlobalContext } from "src/GlobalContext";
-import { LanguageService as LangService } from "src/service/LangauageService";
-import { renderMarkdown } from "src/utils/markdown/renderMarkdown";
-import styles from "src/logic/aboutProjectPage/AboutProjectPage.module.scss";
-import { VerticalContainer } from "src/component/verticalContainer/VerticalContainer";
-import { Image } from "src/component/image/Image";
-import { Theme } from "src/utils/ThemeWorker";
 import logo from "src/assets/mastersWayLogo.svg";
 import logoLight from "src/assets/mastersWayLogoLight.svg";
-import logoVetical from "src/assets/vertical.svg";
-import logoVeticalBlack from "src/assets/vertical-black.svg";
-import aboutImage from "src/assets/about.jpg";
-import { LOGO_TEXT } from "src/component/header/Header";
+import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
+import {LOGO_TEXT} from "src/component/header/Header";
+import {Image} from "src/component/image/Image";
+import {HeadingLevel, Title} from "src/component/title/Title";
+import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {useGlobalContext} from "src/GlobalContext";
+import {LanguageService as LangService} from "src/service/LangauageService";
+import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
+import {Theme} from "src/utils/ThemeWorker";
+import styles from "src/logic/aboutProjectPage/AboutProjectPage.module.scss";
 
 /**
  * About project page
  */
 export const AboutProjectPage = () => {
-  const { language, theme } = useGlobalContext();
+  const {language, theme} = useGlobalContext();
 
   const accordionItems = LangService.aboutProject.accordion.map((data) => ({
-    trigger: { child: data.header[language] },
-    content: { child: renderMarkdown(data.description[language]) },
+    trigger: {child: data.header[language]},
+    content: {child: renderMarkdown(data.description[language])},
   }));
 
   return (
@@ -50,7 +47,7 @@ export const AboutProjectPage = () => {
               />
               <div>
                 {renderMarkdown(
-                  LangService.aboutProject.descriptionList[language]
+                  LangService.aboutProject.descriptionList[language],
                 )}
               </div>
             </div>
