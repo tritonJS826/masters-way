@@ -23,11 +23,17 @@ export class Metric {
    */
   public doneDate: Date | null;
 
+  /**
+   * Date when metric was created
+   */
+  public createdAt: Date;
+
   constructor(goalMetricData: Metric) {
     this.uuid = goalMetricData.uuid;
     this.description = goalMetricData.description;
     this.isDone = goalMetricData.isDone;
     this.doneDate = goalMetricData.doneDate;
+    this.createdAt = goalMetricData.createdAt;
   }
 
 }

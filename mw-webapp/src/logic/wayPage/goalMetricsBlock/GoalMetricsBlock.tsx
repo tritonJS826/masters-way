@@ -5,6 +5,7 @@ import {useGlobalContext} from "src/GlobalContext";
 import {GoalMetricItem} from "src/logic/wayPage/goalMetricsBlock/GoalMetricItem";
 import {Metric} from "src/model/businessModel/Metric";
 import {LanguageService} from "src/service/LangauageService";
+import {DateUtils} from "src/utils/DateUtils";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import styles from "src/logic/wayPage/goalMetricsBlock/GoalMetricsBlock.module.scss";
 
@@ -47,7 +48,7 @@ interface GoalMetricStatisticsBlockProps {
  */
 export const GoalMetricsBlock = (props: GoalMetricStatisticsBlockProps) => {
   const {language} = useGlobalContext();
-  // Const [metrics, setMetrics] = useState(props.goalMetrics);
+  const sortedMetrics = props.goalMetrics.sort((a, b) => DateUtils.datesASCSorter(a.createdAt, b.createdAt));
 
   /**
    * Add metric
@@ -131,7 +132,7 @@ export const GoalMetricsBlock = (props: GoalMetricStatisticsBlockProps) => {
     <>
       {props.isVisible &&
         <>
-          {renderGoalMetrics(props.goalMetrics)}
+          {renderGoalMetrics(sortedMetrics)}
           {renderButtonAddMetrics()}
         </>
       }

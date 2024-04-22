@@ -51,12 +51,6 @@ $iconContainerSize: 25px;
   width: 200px;
 }
 
-.singularMetric {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-}
-
 .privacyBlock,
 .compositeBlock {
   align-items: baseline;
@@ -154,18 +148,6 @@ $iconContainerSize: 25px;
 .horizontalContainer {
   align-items: flex-start;
   gap: $gapSmall;
-}
-
-.checkbox {
-  min-width: $checkboxWidthLarge;
-  min-height: $checkboxHeightLarge;
-}
-
-.checkbox::after {
-  width: $checkmarkWidthLarge;
-  height: $checkmarkHeightLarge;
-  box-shadow: inset $checkmarkWidthLarge $checkmarkHeightLarge
-    var(--primaryTextColor);
 }
 
 .jobDoneTagsWrapper {
