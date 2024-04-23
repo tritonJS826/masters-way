@@ -9,27 +9,27 @@ import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import styles from "src/logic/aboutProjectPage/AboutProjectPage.module.scss";
 
 /**
- *
+ *TeamMemberType
  */
 interface TeamMemberType {
 
   /**
-   *
+   * Id member
    */
   id: number;
 
   /**
-   *
+   * Name member
    */
   name: string;
 
   /**
-   *
+   * Profession member
    */
   profession: string;
 
   /**
-   *
+   * Image Url
    */
   imageUrl: string;
 }
