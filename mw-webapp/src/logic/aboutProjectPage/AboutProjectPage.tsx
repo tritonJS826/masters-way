@@ -116,7 +116,7 @@ export const AboutProjectPage = () => {
       <div className={styles.ourTeamBlock}>
         <Title
           level={HeadingLevel.h2}
-          text={LangService.aboutProject.mainTitle[language]}
+          text={LangService.aboutProject.AboutTeamTitle[language]}
         />
 
         <div className={styles.ourTeamMembers}>
