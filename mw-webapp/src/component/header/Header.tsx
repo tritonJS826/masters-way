@@ -1,4 +1,3 @@
-import logo from "src/assets/mastersWayLogo.svg";
 import logoLight from "src/assets/mastersWayLogoLight.svg";
 import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
 import {Button, ButtonType} from "src/component/button/Button";
@@ -6,6 +5,7 @@ import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalC
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Image} from "src/component/image/Image";
 import {Link} from "src/component/link/Link";
+import {Logotype} from "src/component/logotype/Logotype";
 import {Select, SelectItemType} from "src/component/select/Select";
 import {MenuItemLink, Sidebar} from "src/component/sidebar/Sidebar";
 import {Toggle} from "src/component/toggle/Toggle";
@@ -147,11 +147,7 @@ export const Header = (props: HeaderProps) => {
         className={styles.logo}
         path={pages.allWays.getPath({})}
       >
-        <Image
-          src={props.currentTheme === Theme.DARK ? logoLight : logo}
-          alt={LOGO_TEXT}
-          className={styles.logo}
-        />
+        <Logotype className={styles.logo} />
       </Link>
       <div className={styles.headerButtonsContainer}>
 

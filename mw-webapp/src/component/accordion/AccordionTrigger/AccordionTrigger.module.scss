@@ -16,16 +16,22 @@
   flex: 1;
   align-items: center;
   justify-content: space-between;
-  padding: 1% 4%;
   border: none;
   background-color: transparent;
+  padding: 2%;
   color: var(--primaryTextColor);
   font-size: 15px;
   line-height: 1;
   text-align: left;
+  font-size: $fontSizeBig;
+
 
   &:hover {
     background-color: rgba(0, 0, 0, 5%);
+  }
+
+  &[data-state="open"] {
+    background-color: var(--hoverBackgroundColor);
   }
 
   &[data-state="open"] > .accordionChevron {
