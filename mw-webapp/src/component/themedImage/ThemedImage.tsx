@@ -1,7 +1,15 @@
-import clsx from "clsx";
 import {Image} from "src/component/image/Image";
 import {Theme} from "src/utils/ThemeWorker";
-import styles from "src/component/verticalContainer/VerticalContainer.module.scss";
+
+/**
+ * Get map of Theme to image source
+ */
+export const getMapThemeSources = (imageDark: string, imageLight: string): Map<Theme, string> => {
+  return new Map([
+    [Theme.DARK, imageDark],
+    [Theme.LIGHT, imageLight],
+  ]);
+};
 
 /**
  * ThemedImage props
@@ -43,7 +51,7 @@ export const ThemedImage = (props: ThemedImageProps) => {
       <Image
         src={imageSrc}
         alt={props.name}
-        className={clsx(styles.themedImage, props.className)}
+        className={props.className}
       />
     )
   );

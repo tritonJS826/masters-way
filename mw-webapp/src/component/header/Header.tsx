@@ -8,7 +8,7 @@ import {Image} from "src/component/image/Image";
 import {Link} from "src/component/link/Link";
 import {Select, SelectItemType} from "src/component/select/Select";
 import {MenuItemLink, Sidebar} from "src/component/sidebar/Sidebar";
-import {ThemedImage} from "src/component/themedImage/ThemedImage";
+import {getMapThemeSources, ThemedImage} from "src/component/themedImage/ThemedImage";
 import {Toggle} from "src/component/toggle/Toggle";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
@@ -71,11 +71,6 @@ interface HeaderProps {
  * Header component
  */
 export const Header = (props: HeaderProps) => {
-
-  const sourcesThemeIcons = new Map([
-    [Theme.DARK, logo],
-    [Theme.LIGHT, logoLight],
-  ]);
 
   const menuItems: (MenuItemLink)[] = [
     {
@@ -155,7 +150,7 @@ export const Header = (props: HeaderProps) => {
       >
         <ThemedImage
           className={styles.logoAbout}
-          sources={sourcesThemeIcons}
+          sources={getMapThemeSources(logo, logoLight)}
           theme={props.currentTheme}
           name={LOGO_TEXT}
         />

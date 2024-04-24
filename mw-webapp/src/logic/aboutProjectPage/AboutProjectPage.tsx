@@ -1,14 +1,13 @@
 import logoLight from "src/assets/mastersWayLogoLight.svg";
 import logoPurple from "src/assets/mastersWayLogoPurple.svg";
 import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
-import {ThemedImage} from "src/component/themedImage/ThemedImage";
+import {getMapThemeSources, ThemedImage} from "src/component/themedImage/ThemedImage";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {useGlobalContext} from "src/GlobalContext";
 import {TeamMember, teamMembers} from "src/logic/aboutProjectPage/TeamMember/TeamMember";
 import {LanguageService as LangService} from "src/service/LangauageService";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
-import {Theme} from "src/utils/ThemeWorker";
 import styles from "src/logic/aboutProjectPage/AboutProjectPage.module.scss";
 
 /**
@@ -21,11 +20,6 @@ export const AboutProjectPage = () => {
     trigger: {child: data.header[language]},
     content: {child: renderMarkdown(data.description[language])},
   }));
-
-  const sourcesThemeIcons = new Map([
-    [Theme.DARK, logoPurple],
-    [Theme.LIGHT, logoLight],
-  ]);
 
   return (
     <VerticalContainer className={styles.pageWrapper}>
@@ -57,7 +51,7 @@ export const AboutProjectPage = () => {
           </VerticalContainer>
           <ThemedImage
             className={styles.logoAbout}
-            sources={sourcesThemeIcons}
+            sources={getMapThemeSources(logoPurple, logoLight)}
             theme={theme}
             name="Master's way"
           />
