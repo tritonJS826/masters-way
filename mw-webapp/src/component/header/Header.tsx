@@ -1,3 +1,4 @@
+import logo from "src/assets/mastersWayLogo.svg";
 import logoLight from "src/assets/mastersWayLogoLight.svg";
 import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
 import {Button, ButtonType} from "src/component/button/Button";
@@ -5,14 +6,17 @@ import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalC
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Image} from "src/component/image/Image";
 import {Link} from "src/component/link/Link";
-import {Logotype} from "src/component/logotype/Logotype";
 import {Select, SelectItemType} from "src/component/select/Select";
 import {MenuItemLink, Sidebar} from "src/component/sidebar/Sidebar";
+import {ThemedImage} from "src/component/themedImage/ThemedImage";
 import {Toggle} from "src/component/toggle/Toggle";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {getNextSwitchTheme, ThemeSwitcher} from "src/logic/themeSwitcher/ThemeSwitcher";
+import {
+  getNextSwitchTheme,
+  ThemeSwitcher,
+} from "src/logic/themeSwitcher/ThemeSwitcher";
 import {User} from "src/model/businessModel/User";
 import {pages} from "src/router/pages";
 import {AuthService} from "src/service/AuthService";
@@ -71,7 +75,12 @@ interface HeaderProps {
  */
 export const Header = (props: HeaderProps) => {
 
-  const menuItems: (MenuItemLink)[] = [
+  const sourcesThemeIcons = new Map([
+    [Theme.DARK, logo],
+    [Theme.LIGHT, logoLight],
+  ]);
+
+  const menuItems: MenuItemLink[] = [
     {
       path: pages.allWays.getPath({}),
       value: "",
@@ -80,7 +89,8 @@ export const Header = (props: HeaderProps) => {
           src={logoLight}
           alt={LOGO_TEXT}
           className={styles.logoSidebar}
-        />),
+        />
+      ),
     },
     {
       path: pages.home.getPath({}),
@@ -90,7 +100,8 @@ export const Header = (props: HeaderProps) => {
           size={IconSize.MEDIUM}
           name="HomeIcon"
           className={styles.linkIcon}
-        />),
+        />
+      ),
     },
     {
       path: pages.allWays.getPath({}),
@@ -100,7 +111,8 @@ export const Header = (props: HeaderProps) => {
           size={IconSize.MEDIUM}
           name="WayIcon"
           className={styles.linkIcon}
-        />),
+        />
+      ),
     },
     {
       path: pages.allUsers.getPath({}),
@@ -110,7 +122,8 @@ export const Header = (props: HeaderProps) => {
           size={IconSize.MEDIUM}
           name="UsersIcon"
           className={styles.linkIcon}
-        />),
+        />
+      ),
     },
     {
       path: pages.aboutProject.getPath({}),
@@ -120,22 +133,21 @@ export const Header = (props: HeaderProps) => {
           size={IconSize.MEDIUM}
           name="BookIcon"
           className={styles.linkIcon}
-        />),
+        />
+      ),
     },
     {
-      path: props.user
-        ? pages.settings.getPath({})
-        : pages.page404.getPath({}),
+      path: props.user ? pages.settings.getPath({}) : pages.page404.getPath({}),
       value: LanguageService.sidebar.settings[props.language],
       icon: (
         <Icon
           size={IconSize.MEDIUM}
           name="SettingsIcon"
           className={styles.linkIcon}
-        />),
+        />
+      ),
       isHidden: !props.user,
     },
-
   ];
 
   return (
@@ -147,10 +159,14 @@ export const Header = (props: HeaderProps) => {
         className={styles.logo}
         path={pages.allWays.getPath({})}
       >
-        <Logotype className={styles.logo} />
+        <ThemedImage
+          className={styles.logoAbout}
+          sources={sourcesThemeIcons}
+          theme={props.currentTheme}
+          name="Master's way"
+        />
       </Link>
       <div className={styles.headerButtonsContainer}>
-
         <ThemeSwitcher />
 
         <Select
@@ -161,8 +177,8 @@ export const Header = (props: HeaderProps) => {
         />
 
         <HorizontalContainer className={styles.rightBlock}>
-          {props.user ?
-            (
+          {props.user
+            ? (
               <Link
                 path={pages.user.getPath({uuid: props.user.uuid})}
                 className={styles.userAvatar}
@@ -178,7 +194,8 @@ export const Header = (props: HeaderProps) => {
                     size={AvatarSize.MEDIUM}
                   />
                 </Tooltip>
-              </Link>)
+              </Link>
+            )
             : (
               <Button
                 onClick={AuthService.logIn}
@@ -223,7 +240,9 @@ export const Header = (props: HeaderProps) => {
                     {LanguageService.sidebar.nightMode[props.language]}
                   </HorizontalContainer>
                   <Toggle
-                    onChange={() => props.setTheme(getNextSwitchTheme(props.currentTheme))}
+                    onChange={() =>
+                      props.setTheme(getNextSwitchTheme(props.currentTheme))
+                    }
                     isDefaultChecked={DEFAULT_THEME === props.currentTheme}
                   />
                 </HorizontalContainer>
@@ -252,17 +271,16 @@ export const Header = (props: HeaderProps) => {
                     </Link>
                   </HorizontalContainer>
                 </VerticalContainer>
-                {props.user &&
-                <Button
-                  onClick={AuthService.logOut}
-                  value={LanguageService.header.logoutButton[props.language]}
-                  buttonType={ButtonType.SECONDARY}
-                />
-                }
+                {props.user && (
+                  <Button
+                    onClick={AuthService.logOut}
+                    value={LanguageService.header.logoutButton[props.language]}
+                    buttonType={ButtonType.SECONDARY}
+                  />
+                )}
               </VerticalContainer>
             }
           />
-
         </HorizontalContainer>
       </div>
     </header>

@@ -1,10 +1,9 @@
 @import "src/styles/variables";
 
-$maxWidth: 1200px;
+$maxWidth: 1370px;
+$gapLarge: 36px;
 
 .pageWrapper {
-  display: flex;
-  flex-direction: column;
   align-items: center;
   padding: 0 $gapMedium;
   margin-top: $marginMedium;
@@ -24,12 +23,9 @@ $maxWidth: 1200px;
 
 .aboutBlock {
   max-width: $maxWidth;
-  display: flex;
-  flex-direction: column;
   align-items: center;
   gap: $gapSmall;
-  margin-top: $marginBig;
-
+  padding-top: $paddingBig;
   color: var(--secondaryTextColor);
   background-color: var(primarysBackgroundColor);
 }
@@ -44,8 +40,6 @@ $maxWidth: 1200px;
 .aboutTextBlock {
   flex: 1 1 70%;
   padding: $paddingMedium;
-  display: flex;
-  flex-direction: column;
   gap: $gapBig;
   line-height: 1.5;
   color: var(--primaryTextColor);
@@ -66,8 +60,6 @@ $maxWidth: 1200px;
   background-color: var(--tertiaryBackgroundColor);
   width: 100%;
   padding: $paddingBig;
-  display: flex;
-  flex-direction: column;
   gap: $gapLarge;
   text-align: center;
 }
@@ -89,17 +81,7 @@ $maxWidth: 1200px;
   }
 }
 
-.ourTeamMember {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: $gapMedium;
-}
 
-.avatar {
-  margin-bottom: $marginMedium;
-}
 
 .accordion {
   background-color: var(--primaryBackgroundColor);

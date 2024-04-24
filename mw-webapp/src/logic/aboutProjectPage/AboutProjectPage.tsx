@@ -1,86 +1,35 @@
+import logoLight from "src/assets/mastersWayLogoLight.svg";
+import logoPurple from "src/assets/mastersWayLogoPurple.svg";
 import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
-import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
-import {Logotype} from "src/component/logotype/Logotype";
+import {ThemedImage} from "src/component/themedImage/ThemedImage";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {useGlobalContext} from "src/GlobalContext";
+import {TeamMember, teamMembers} from "src/logic/aboutProjectPage/TeamMember/TeamMember";
 import {LanguageService as LangService} from "src/service/LangauageService";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
+import {Theme} from "src/utils/ThemeWorker";
 import styles from "src/logic/aboutProjectPage/AboutProjectPage.module.scss";
-
-/**
- *TeamMemberType
- */
-interface TeamMemberType {
-
-  /**
-   * Id member
-   */
-  id: number;
-
-  /**
-   * Name member
-   */
-  name: string;
-
-  /**
-   * Profession member
-   */
-  profession: string;
-
-  /**
-   * Image Url
-   */
-  imageUrl: string;
-}
-
-const teamMembers: TeamMemberType[] = [
-  {
-    id: 1,
-    name: "Viktar Veratsennikau",
-    profession: "Founder",
-    imageUrl: "",
-  },
-  {
-    id: 2,
-    name: "Ekaterina Veretennikova",
-    profession: "Team Leader",
-    imageUrl: "",
-  },
-  {
-    id: 3,
-    name: "Sergei Aslanov",
-    profession: "developer",
-    imageUrl: "",
-  },
-  {
-    id: 4,
-    name: "Marat Assimbayev",
-    profession: "developer",
-    imageUrl: "",
-  },
-  {
-    id: 5,
-    name: "Alexandr Chorniy",
-    profession: "developer",
-    imageUrl: "",
-  },
-];
 
 /**
  * About project page
  */
 export const AboutProjectPage = () => {
-  const {language} = useGlobalContext();
+  const {language, theme} = useGlobalContext();
 
   const accordionItems = LangService.aboutProject.accordion.map((data) => ({
     trigger: {child: data.header[language]},
     content: {child: renderMarkdown(data.description[language])},
   }));
 
+  const sourcesThemeIcons = new Map([
+    [Theme.DARK, logoPurple],
+    [Theme.LIGHT, logoLight],
+  ]);
+
   return (
-    <div className={styles.pageWrapper}>
-      <div className={styles.aboutBlock}>
+    <VerticalContainer className={styles.pageWrapper}>
+      <VerticalContainer className={styles.aboutBlock}>
         <Title
           level={HeadingLevel.h2}
           text={LangService.aboutProject.mainTitle[language]}
@@ -92,7 +41,7 @@ export const AboutProjectPage = () => {
           className={styles.subtitle}
         />
         <div className={styles.aboutDescription}>
-          <div className={styles.aboutTextBlock}>
+          <VerticalContainer className={styles.aboutTextBlock}>
             <div>
               {LangService.aboutProject.descriptionSubTitle[language]}
             </div>
@@ -105,44 +54,31 @@ export const AboutProjectPage = () => {
                 LangService.aboutProject.descriptionList[language],
               )}
             </div>
-          </div>
-          <Logotype
+          </VerticalContainer>
+          <ThemedImage
             className={styles.logoAbout}
-            isColorSecondary
+            sources={sourcesThemeIcons}
+            theme={theme}
+            name="Master's way"
           />
         </div>
-      </div>
+      </VerticalContainer>
 
-      <div className={styles.ourTeamBlock}>
+      <VerticalContainer className={styles.ourTeamBlock}>
         <Title
           level={HeadingLevel.h2}
           text={LangService.aboutProject.AboutTeamTitle[language]}
         />
 
         <div className={styles.ourTeamMembers}>
-          {teamMembers.map((member) => {
-            return (
-              <div
-                key={member.id}
-                className={styles.ourTeamMember}
-              >
-                <Avatar
-                  alt={member.name}
-                  src={member.imageUrl}
-                  size={AvatarSize.LARGE}
-                  className={styles.avatar}
-                />
-                <div>
-                  {member.name}
-                </div>
-                <div>
-                  {member.profession}
-                </div>
-              </div>
-            );
-          })}
+          {teamMembers.map((member) => (
+            <TeamMember
+              key={member.id}
+              member={member}
+            />
+          ))}
         </div>
-      </div>
+      </VerticalContainer>
 
       <VerticalContainer className={styles.accordionSection}>
         <Title
@@ -157,6 +93,6 @@ export const AboutProjectPage = () => {
           className={styles.accordion}
         />
       </VerticalContainer>
-    </div>
+    </VerticalContainer>
   );
 };
