@@ -1,6 +1,7 @@
 import logoLight from "src/assets/mastersWayLogoLight.svg";
 import logoPurple from "src/assets/mastersWayLogoPurple.svg";
 import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
+import {LOGO_TEXT} from "src/component/header/Header";
 import {getMapThemeSources, ThemedImage} from "src/component/themedImage/ThemedImage";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
@@ -53,7 +54,7 @@ export const AboutProjectPage = () => {
             className={styles.logoAbout}
             sources={getMapThemeSources(logoPurple, logoLight)}
             theme={theme}
-            name="Master's way"
+            name={LOGO_TEXT}
           />
         </div>
       </VerticalContainer>

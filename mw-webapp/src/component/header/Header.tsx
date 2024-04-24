@@ -149,7 +149,7 @@ export const Header = (props: HeaderProps) => {
         path={pages.allWays.getPath({})}
       >
         <ThemedImage
-          className={styles.logoAbout}
+          className={styles.logo}
           sources={getMapThemeSources(logo, logoLight)}
           theme={props.currentTheme}
           name={LOGO_TEXT}
