@@ -18,7 +18,7 @@
   justify-content: space-between;
   border: none;
   background-color: transparent;
-  padding: 1% 4%;;
+  padding: $paddingBig;
   color: var(--primaryTextColor);
   font-size: 15px;
   line-height: 1;
@@ -31,7 +31,7 @@
   }
 
   &[data-state="open"] {
-    background-color: var(--hoverBackgroundColor);
+    background-color: var(--activeBackgroundColor);
   }
 
   &[data-state="open"] > .accordionChevron {

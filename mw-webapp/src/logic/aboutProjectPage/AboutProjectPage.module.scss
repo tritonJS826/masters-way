@@ -1,8 +1,5 @@
 @import "src/styles/variables";
 
-$maxWidth: 1370px;
-$gapLarge: 36px;
-
 .pageWrapper {
   align-items: center;
   padding: 0 $gapMedium;
@@ -25,7 +22,6 @@ $gapLarge: 36px;
   max-width: $maxWidth;
   align-items: center;
   gap: $gapSmall;
-  padding-top: $paddingBig;
   color: var(--secondaryTextColor);
   background-color: var(primarysBackgroundColor);
 }
@@ -41,7 +37,6 @@ $gapLarge: 36px;
   flex: 1 1 70%;
   padding: $paddingMedium;
   gap: $gapBig;
-  line-height: 1.5;
   color: var(--primaryTextColor);
   background-color: var(--primaryBackgroundColor);
 }
@@ -92,5 +87,4 @@ $gapLarge: 36px;
   gap: $gapBig;
   max-width: $maxWidth;
   width: 100%;
-  line-height: 1.3;
 }
