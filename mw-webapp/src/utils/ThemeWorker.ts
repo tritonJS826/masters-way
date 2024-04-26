@@ -100,7 +100,7 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     [Theme.LIGHT]: "#1F173D30",
   },
   // PrimaryHoverButtonColor
-  hactiveHoverColor: {
+  hoverColor: {
     [Theme.DARK]: "#603EBB",
     [Theme.LIGHT]: "#603EBB",
     // [Theme.DARK]: "rgb(152, 210, 235)",
