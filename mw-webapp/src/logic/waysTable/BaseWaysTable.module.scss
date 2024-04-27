@@ -39,3 +39,7 @@
 .waysContent {
   @include regularContainer;
 }
+
+.title {
+  text-transform: capitalize;
+}

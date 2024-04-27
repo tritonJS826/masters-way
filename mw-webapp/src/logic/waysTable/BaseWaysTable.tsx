@@ -160,6 +160,7 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
       <Title
         text={`${props.title} (${getVisibleWays(props.ways).length})`}
         level={HeadingLevel.h2}
+        className={styles.title}
       />
 
       <VerticalContainer className={styles.waysContent}>
