@@ -1,6 +1,5 @@
 import {LanguageService} from "src/service/LangauageService";
 import {Language} from "src/utils/LanguageWorker";
-// Import {Symbols} from "src/utils/Symbols";
 
 /**
  * Available way statuses

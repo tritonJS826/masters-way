@@ -59,7 +59,7 @@ const defaultWayPreview: WayPreview = {
   estimationTime: 0,
   favoriteForUsers: 5,
   goalDescription: "It's my own goal, and I'm very happy".repeat(REPEAT_TEN),
-  status: null,
+  status: "In progress",
   lastUpdate: new Date("2024-02-11"),
   mentors: [
     {

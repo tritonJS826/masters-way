@@ -400,7 +400,7 @@ export const UserPage = (props: UserPageProps) => {
                 <Modal
                   isOpen={isAddUserTagModalOpen}
                   trigger={
-                    <Tooltip content="Add new user skill">
+                    <Tooltip content={LanguageService.user.personalInfo.addSkills[language]}>
                       <Button
                         icon={
                           <Icon
@@ -502,7 +502,8 @@ export const UserPage = (props: UserPageProps) => {
               {`${LanguageService.user.collections.deleteCollectionModalQuestion[language]} "${currentCollection.name}" ?`}
             </p>}
             onOk={() => deleteCustomWayCollections(currentCollection.uuid)}
-            okText="Ok"
+            okText={LanguageService.user.collections.okButton[language]}
+            cancelText={LanguageService.user.collections.cancelButton[language]}
           />
           <Modal
             isOpen={isRenameCollectionModalOpen}

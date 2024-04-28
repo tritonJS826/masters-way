@@ -65,6 +65,7 @@ export const GoalMetricItem = (props: SingleGoalMetricProps) => {
               </p>}
               onOk={onOk}
               okText="Confirm"
+              cancelText="Cancel"
               trigger={
                 <Checkbox
                   isDisabled={true}
@@ -105,6 +106,7 @@ export const GoalMetricItem = (props: SingleGoalMetricProps) => {
             </p>}
             onOk={() => props.deleteMetric(props.metric.uuid)}
             okText="Delete"
+            cancelText="Cancel"
           />
         </Tooltip>
       )

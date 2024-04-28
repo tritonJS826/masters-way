@@ -37,7 +37,7 @@ const WAY_PREVIEW_DATA: WayPreview = {
   name: "Test Way",
   owner: USER_PREVIEW_DATA,
   mentors: [MENTOR_PREVIEW_DATA],
-  status: null,
+  status: "In progress",
   lastUpdate: new Date(),
   createdAt: new Date(),
   wayTags: [],

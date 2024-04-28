@@ -5,10 +5,12 @@ import {Link} from "src/component/link/Link";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
-import {UserСardTag} from "src/component/userCard/userTag/UserTag";
+import {Skill} from "src/component/userCard/skill/Skill";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {useGlobalContext} from "src/GlobalContext";
 import {UserNotSaturatedWay, UserTag} from "src/model/businessModelPreview/UserNotSaturatedWay";
 import {pages} from "src/router/pages";
+import {LanguageService} from "src/service/LangauageService";
 import {DateUtils} from "src/utils/DateUtils";
 import styles from "src/component/userCard/UserCard.module.scss";
 
@@ -32,17 +34,18 @@ interface UserCardProps {
  * UserCard component
  */
 export const UserCard = (props: UserCardProps) => {
+  const {language} = useGlobalContext();
 
   /**
    * Render way tags
    */
-  const renderUserTags = (wayTags: UserTag[]) => {
+  const renderUserTags = (skills: UserTag[]) => {
     return (
       <HorizontalContainer className={styles.userTags}>
-        {wayTags.map((wayTag) => (
-          <UserСardTag
-            key={wayTag.uuid}
-            tagName={wayTag.name}
+        {skills.map((skill) => (
+          <Skill
+            key={skill.uuid}
+            skillName={skill.name}
           />
         ))
         }
@@ -79,7 +82,7 @@ export const UserCard = (props: UserCardProps) => {
             <HorizontalContainer className={styles.likes}>
               <Tooltip
                 position={PositionTooltip.BOTTOM}
-                content="Likes"
+                content={LanguageService.allUsers.userCard.likes[language]}
               >
                 <Icon
                   size={IconSize.SMALL}
@@ -103,12 +106,13 @@ export const UserCard = (props: UserCardProps) => {
 
         <VerticalContainer className={styles.additionalInfo}>
           <p>
-            {`Created at ${DateUtils.getShortISODateValue(props.userPreview.createdAt)}`}
+            {`${LanguageService.allUsers.userCard.createdAt[language]}
+            ${DateUtils.getShortISODateValue(props.userPreview.createdAt)}`}
           </p>
           <p>
-            {`${props.userPreview.ownWays} own ways / 
-          ${props.userPreview.favoriteWays} favorite ways /
-          ${props.userPreview.mentoringWays} mentoring ways`}
+            {`${props.userPreview.ownWays} ${LanguageService.allUsers.userCard.ownWays[language]} / 
+          ${props.userPreview.favoriteWays} ${LanguageService.allUsers.userCard.favoriteWays[language]} /
+          ${props.userPreview.mentoringWays} ${LanguageService.allUsers.userCard.mentoringWays[language]}`}
           </p>
         </VerticalContainer>
       </VerticalContainer>

@@ -36,6 +36,7 @@ describe("Confirm component", () => {
         }
         onOk={() => {}}
         okText="Test confirm"
+        cancelText="Cancel"
       />,
     );
   });

@@ -59,10 +59,9 @@ export class WayPreview {
   public mentors: UserPlain[];
 
   /**
-   * Way's status "Completed" or "Template"
-   * @default null
+   * Way's status "Completed", "In progress", "Abandoned"
    */
-  public status: string | null;
+  public status: string;
 
   /**
    * Last day when way was updated

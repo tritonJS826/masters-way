@@ -10,6 +10,7 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {ProblemDAL} from "src/dataAccessLogic/ProblemDAL";
+import {useGlobalContext} from "src/GlobalContext";
 import {getListNumberByIndex} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
 import {getFirstName} from "src/logic/waysTable/waysColumns";
 import {DayReport} from "src/model/businessModel/DayReport";
@@ -17,8 +18,8 @@ import {Problem} from "src/model/businessModel/Problem";
 import {User} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
 import {pages} from "src/router/pages";
+import {LanguageService} from "src/service/LangauageService";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
-import {Symbols} from "src/utils/Symbols";
 import styles from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableProblemsCell/ReportsTableProblemsCell.module.scss";
 
 /**
@@ -57,6 +58,7 @@ interface ReportsTableProblemsCellProps {
  * Cell with problems in reports table
  */
 export const ReportsTableProblemsCell = (props: ReportsTableProblemsCellProps) => {
+  const {language} = useGlobalContext();
 
   /**
    * Create Problem
@@ -120,8 +122,7 @@ export const ReportsTableProblemsCell = (props: ReportsTableProblemsCellProps) =
                 {props.isEditable &&
                 <Tooltip
                   position={PositionTooltip.RIGHT}
-                  content={`Click${Symbols.NO_BREAK_SPACE}to${Symbols.NO_BREAK_SPACE}mark
-                              the problem as completed. Coming soon`}
+                  content={LanguageService.way.reportsTable.columnTooltip.problemCheckbox[language]}
                 >
                   <Checkbox
                     isDefaultChecked={problem.isDone}
@@ -135,16 +136,18 @@ export const ReportsTableProblemsCell = (props: ReportsTableProblemsCellProps) =
                 }
                 {problem.ownerUuid === props.user?.uuid &&
                 <Tooltip
-                  content="Delete problem"
+                  content={LanguageService.way.reportsTable.columnTooltip.deleteProblem[language]}
                   position={PositionTooltip.BOTTOM}
                 >
                   <Confirm
                     trigger={<TrashIcon className={styles.icon} />}
                     content={<p>
-                      {`Are you sure you want to delete the problem "${problem.description}"?`}
+                      {`${LanguageService.way.reportsTable.modalWindow.deleteProblemQuestion[language]} 
+                      "${problem.description}"?`}
                     </p>}
                     onOk={() => deleteProblem(problem.uuid)}
-                    okText="Delete"
+                    okText={LanguageService.way.reportsTable.modalWindow.deleteButton[language]}
+                    cancelText={LanguageService.way.reportsTable.modalWindow.cancelButton[language]}
                   />
                 </Tooltip>
                 }
@@ -165,7 +168,7 @@ export const ReportsTableProblemsCell = (props: ReportsTableProblemsCellProps) =
       <div className={styles.summarySection}>
         {props.isEditable &&
         <Tooltip
-          content="Add problem"
+          content={LanguageService.way.reportsTable.columnTooltip.addProblem[language]}
           position={PositionTooltip.RIGHT}
         >
           <Button

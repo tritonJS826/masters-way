@@ -92,6 +92,14 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
    */
   const getVisibleWays = (allWays: WayPreview[]) => allWays.filter((way) => isWayVisible(user?.uuid, way));
 
+  /**
+   * Filter ways according status
+   */
+  const getFilteredWays = (allWays: WayPreview[]) => props.filterStatus === FILTER_STATUS_ALL_VALUE
+    ? allWays
+    : allWays.filter((way) => way.status
+      .toLowerCase().replace(/(\s\w)/g, word => word.toUpperCase()).replace(/\s/g, "") === props.filterStatus);
+
   if (!props.ways) {
     return (
       <VerticalContainer className={styles.loaderWrapper}>
@@ -158,7 +166,7 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
       </HorizontalContainer>
 
       <Title
-        text={`${props.title} (${getVisibleWays(props.ways).length})`}
+        text={`${props.title} (${getFilteredWays(props.ways).length})`}
         level={HeadingLevel.h2}
       />
 
@@ -167,13 +175,13 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
         {props.view === View.Table ?
           <ScrollableBlock>
             <WaysTable
-              data={getVisibleWays(props.ways)}
+              data={getFilteredWays(props.ways)}
               columns={getWaysColumns(language)}
             />
           </ScrollableBlock>
           :
           <HorizontalGridContainer className={styles.wayCards}>
-            {getVisibleWays(props.ways).map((way) => {
+            {getFilteredWays(props.ways).map((way) => {
               return (
                 <WayCard
                   key={way.uuid}
@@ -212,6 +220,7 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
                     }
                   }}
                   okText="Ok"
+                  cancelText="Cancel"
                 />
               </>
             ))}

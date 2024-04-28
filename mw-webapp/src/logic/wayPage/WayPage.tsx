@@ -228,6 +228,7 @@ export const WayPage = (props: WayPageProps) => {
       </p>}
       onOk={deleteWay}
       okText="Delete"
+      cancelText="Cancel"
     />);
 
   /**

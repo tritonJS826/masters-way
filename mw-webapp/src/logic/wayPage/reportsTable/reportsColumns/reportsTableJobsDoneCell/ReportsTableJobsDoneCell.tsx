@@ -13,6 +13,7 @@ import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
 import {JobDoneJobTagDAL} from "src/dataAccessLogic/JobDoneJobTagDAL";
+import {useGlobalContext} from "src/GlobalContext";
 import {JobDoneTags} from "src/logic/wayPage/reportsTable/jobDoneTags/JobDoneTags";
 import {ModalContentJobTags} from "src/logic/wayPage/reportsTable/modalContentJobTags/ModalContentJobTags";
 import {DEFAULT_SUMMARY_TIME, getListNumberByIndex, getValidatedTime, MAX_TIME, MIN_TIME}
@@ -23,6 +24,7 @@ import {JobDone} from "src/model/businessModel/JobDone";
 import {User} from "src/model/businessModel/User";
 import {JobTag} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
+import {LanguageService} from "src/service/LangauageService";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
 import styles from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableJobsDoneCell/ReportsTableJobsDoneCell.module.scss";
@@ -63,6 +65,7 @@ interface ReportsTableJobsDoneCellProps {
  * Cell with jobs done in reports table
  */
 export const ReportsTableJobsDoneCell = (props: ReportsTableJobsDoneCellProps) => {
+  const {language} = useGlobalContext();
 
   /**
    * Create jobDone
@@ -219,7 +222,7 @@ export const ReportsTableJobsDoneCell = (props: ReportsTableJobsDoneCellProps) =
                 }
                 <Tooltip
                   position={PositionTooltip.BOTTOM}
-                  content={`Time${Symbols.NO_BREAK_SPACE}spent on job`}
+                  content={LanguageService.way.reportsTable.columnTooltip.jobTime[language]}
                 >
                   <EditableText
                     value={jobDone.time}
@@ -238,15 +241,16 @@ export const ReportsTableJobsDoneCell = (props: ReportsTableJobsDoneCellProps) =
                 {props.isEditable &&
                 <Tooltip
                   position={PositionTooltip.BOTTOM}
-                  content="Delete jobDone"
+                  content={LanguageService.way.reportsTable.columnTooltip.deleteJob[language]}
                 >
                   <Confirm
                     trigger={<TrashIcon className={styles.icon} />}
                     content={<p>
-                      {`Are you sure you want to delete the jobDone "${jobDone.description}"?`}
+                      {`${LanguageService.way.reportsTable.modalWindow.deleteJobQuestion[language]} "${jobDone.description}"?`}
                     </p>}
                     onOk={() => deleteJobDone(jobDone.uuid)}
-                    okText="Delete"
+                    okText={LanguageService.way.reportsTable.modalWindow.deleteButton[language]}
+                    cancelText={LanguageService.way.reportsTable.modalWindow.cancelButton[language]}
                   />
                 </Tooltip>
                 }
@@ -267,7 +271,7 @@ export const ReportsTableJobsDoneCell = (props: ReportsTableJobsDoneCellProps) =
       <div className={styles.summarySection}>
         {props.isEditable &&
         <Tooltip
-          content="Add job"
+          content={LanguageService.way.reportsTable.columnTooltip.addJob[language]}
           position={PositionTooltip.RIGHT}
         >
           <Button
@@ -283,7 +287,7 @@ export const ReportsTableJobsDoneCell = (props: ReportsTableJobsDoneCellProps) =
         </Tooltip>
         }
         <div className={styles.summaryText}>
-          {"Total: "}
+          {`${LanguageService.way.reportsTable.total[language]}${Symbols.NO_BREAK_SPACE}`}
           {props.dayReport.jobsDone
             .reduce((summaryTime, jobDone) => jobDone.time + summaryTime, DEFAULT_SUMMARY_TIME)
           }

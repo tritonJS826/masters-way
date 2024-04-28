@@ -9,6 +9,7 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {CommentDAL} from "src/dataAccessLogic/CommentDAL";
+import {useGlobalContext} from "src/GlobalContext";
 import {getListNumberByIndex} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
 import {getFirstName} from "src/logic/waysTable/waysColumns";
 import {Comment} from "src/model/businessModel/Comment";
@@ -16,6 +17,7 @@ import {DayReport} from "src/model/businessModel/DayReport";
 import {User} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
 import {pages} from "src/router/pages";
+import {LanguageService} from "src/service/LangauageService";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import styles from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableCommentsCell/ReportsTableCommentsCell.module.scss";
 
@@ -55,6 +57,7 @@ interface ReportsTableCommentsCellProps {
  * Cell with comments in reports table
  */
 export const ReportsTableCommentsCell = (props: ReportsTableCommentsCellProps) => {
+  const {language} = useGlobalContext();
 
   /**
    * Create Comment
@@ -66,7 +69,6 @@ export const ReportsTableCommentsCell = (props: ReportsTableCommentsCellProps) =
 
     const comment = await CommentDAL.createComment(commentatorUuid, props.dayReport.uuid);
     const comments = [...props.dayReport.comments, comment];
-    // Console.log(comment);
     props.updateDayReport({uuid: props.dayReport.uuid, comments});
   };
 
@@ -123,16 +125,18 @@ export const ReportsTableCommentsCell = (props: ReportsTableCommentsCellProps) =
                 </HorizontalContainer>
                 {comment.ownerUuid === props.user?.uuid &&
                 <Tooltip
-                  content="Delete comment"
+                  content={LanguageService.way.reportsTable.columnTooltip.deleteComment[language]}
                   position={PositionTooltip.LEFT}
                 >
                   <Confirm
                     trigger={<TrashIcon className={styles.icon} />}
                     content={<p>
-                      {`Are you sure you want to delete the comment "${comment.description}"?`}
+                      {`${LanguageService.way.reportsTable.modalWindow.deleteCommentQuestion[language]}
+                      "${comment.description}"?`}
                     </p>}
                     onOk={() => deleteComment(comment.uuid)}
-                    okText="Delete"
+                    okText={LanguageService.way.reportsTable.modalWindow.deleteButton[language]}
+                    cancelText={LanguageService.way.reportsTable.modalWindow.cancelButton[language]}
                   />
                 </Tooltip>
                 }
@@ -153,7 +157,7 @@ export const ReportsTableCommentsCell = (props: ReportsTableCommentsCellProps) =
         {props.isEditable &&
         <Tooltip
           position={PositionTooltip.LEFT}
-          content="Add comment"
+          content={LanguageService.way.reportsTable.columnTooltip.addComment[language]}
         >
           <Button
             value={

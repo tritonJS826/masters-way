@@ -36,7 +36,7 @@ export const SettingsPage = () => {
         <HorizontalContainer>
           <Tooltip
             position={PositionTooltip.TOP}
-            content="Coming soon"
+            content={LanguageService.settings.comingSoon[language]}
           >
             <Select
               label={LanguageService.settings.showHint[language]}
@@ -54,7 +54,7 @@ export const SettingsPage = () => {
         <HorizontalContainer>
           <Tooltip
             position={PositionTooltip.TOP}
-            content="Coming soon"
+            content={LanguageService.settings.comingSoon[language]}
           >
             {LanguageService.settings.notification[language]}
             :
