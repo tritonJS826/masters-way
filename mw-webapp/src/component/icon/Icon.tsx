@@ -162,6 +162,11 @@ export interface IconProps {
    */
   className?: string;
 
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCy?: string;
+
 }
 
 /**

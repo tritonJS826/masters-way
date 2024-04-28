@@ -10,6 +10,7 @@ export const MoreVertical = (props: IconProps) => {
       viewBox="0 0 24 24"
       fill="none"
       className={props.className}
+      data-cy={props.dataCy}
     >
       <circle
         cx="12"
