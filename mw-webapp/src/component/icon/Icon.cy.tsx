@@ -43,7 +43,7 @@ describe("Icon component", () => {
 
   it("should be render medium size", () => {
     cy.mount(createTestIcon({name: ICON, size: IconSize.MEDIUM}));
-    cy.get(getDataCy(ICON_CY)).invoke("css", "width").should("match", /25.*px/).should("match", /25.*px/);
+    cy.get(getDataCy(ICON_CY)).invoke("css", "width").should("match", /25.*px/);
     cy.get(getDataCy(ICON_CY)).should("have.class", styles[IconSize.MEDIUM]);
   });
   it("should be render small size", () => {
