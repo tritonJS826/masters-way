@@ -48,7 +48,7 @@ describe("Icon component", () => {
   });
   it("should be render small size", () => {
     cy.mount(createTestIcon({name: ICON, size: IconSize.SMALL}));
-    cy.get(getDataCy(ICON_CY)).invoke("css", "width").should("match", /15.*px/).should("match", /15.*px/);
+    cy.get(getDataCy(ICON_CY)).invoke("css", "width").should("match", /15.*px/);
     cy.get(getDataCy(ICON_CY)).should("have.class", styles[IconSize.SMALL]);
   });
 });
