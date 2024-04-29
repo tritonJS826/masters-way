@@ -10,7 +10,6 @@ import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
 import {JobTag} from "src/model/businessModelPreview/WayPreview";
 import {arrayToHashMap} from "src/utils/arrayToHashMap";
-import {Language} from "src/utils/LanguageWorker";
 
 /**
  * Convert {@link SchemasWayPopulatedResponse} to {@link Way}
@@ -19,8 +18,6 @@ export const wayDTOToWay = (wayDTO: SchemasWayPopulatedResponse): Way => {
   const status = getWayStatus({
     status: wayDTO.isCompleted ? "Completed" : null,
     lastUpdate: new Date(wayDTO.updatedAt),
-    // TODO: need to fix it, it not always english
-    language: Language.ENGLISH,
   });
 
   const mentors = wayDTO.mentors.map((mentor) => new UserPreview({

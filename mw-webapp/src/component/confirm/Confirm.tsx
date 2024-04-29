@@ -59,6 +59,11 @@ interface ConfirmProps {
   okText: string;
 
   /**
+   * Text for button that handle onCancel click
+   */
+  cancelText: string;
+
+  /**
    * Handle on cancel click
    */
   onCancel?: () => void;
@@ -111,7 +116,7 @@ export const Confirm = (props: ConfirmProps) => {
         <HorizontalContainer className={styles.buttons}>
           <DialogClose asChild>
             <Button
-              value="Cancel"
+              value={props.cancelText}
               onClick={onCancelClick}
               dataCy={props.cy?.onCancel}
             />

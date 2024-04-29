@@ -14,6 +14,7 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
 import {PlanDAL} from "src/dataAccessLogic/PlanDAL";
 import {PlanJobTagDAL} from "src/dataAccessLogic/PlanJobTagDAL";
+import {useGlobalContext} from "src/GlobalContext";
 import {JobDoneTags} from "src/logic/wayPage/reportsTable/jobDoneTags/JobDoneTags";
 import {ModalContentJobTags} from "src/logic/wayPage/reportsTable/modalContentJobTags/ModalContentJobTags";
 import {DEFAULT_SUMMARY_TIME, getListNumberByIndex, getValidatedTime, MAX_TIME, MIN_TIME}
@@ -27,6 +28,7 @@ import {User} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
 import {JobTag} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
+import {LanguageService} from "src/service/LangauageService";
 import {DateUtils} from "src/utils/DateUtils";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
@@ -77,6 +79,7 @@ interface ReportsTablePlansCellProps {
  * Cell with plans in reports table
  */
 export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
+  const {language} = useGlobalContext();
 
   /**
    * Create Plan
@@ -263,7 +266,7 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
                 }
                 <Tooltip
                   position={PositionTooltip.BOTTOM}
-                  content={`Estimated${Symbols.NO_BREAK_SPACE}time for the plan`}
+                  content={LanguageService.way.reportsTable.columnTooltip.planTime[language]}
                 >
                   <EditableText
                     value={plan.time}
@@ -280,7 +283,7 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
                 </Tooltip>
                 {props.isEditable &&
                 <Tooltip
-                  content="Click to mark plan as completed."
+                  content={LanguageService.way.reportsTable.columnTooltip.planCheckbox[language]}
                   position={PositionTooltip.RIGHT}
                 >
                   <Modal
@@ -306,16 +309,17 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
                 }
                 {plan.ownerUuid === props.user?.uuid &&
                 <Tooltip
-                  content="Delete plan"
+                  content={LanguageService.way.reportsTable.columnTooltip.deletePlan[language]}
                   position={PositionTooltip.BOTTOM}
                 >
                   <Confirm
                     trigger={<TrashIcon className={styles.icon} />}
                     content={<p>
-                      {`Are you sure you want to delete the plan "${plan.description}"?`}
+                      {`${LanguageService.way.reportsTable.modalWindow.deletePlanQuestion[language]} "${plan.description}"?`}
                     </p>}
                     onOk={() => deletePlan(plan.uuid)}
-                    okText="Delete"
+                    okText={LanguageService.modals.confirmModal.deleteButton[language]}
+                    cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
                   />
                 </Tooltip>
                 }
@@ -339,7 +343,7 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
         <div>
           {props.isEditable &&
           <Tooltip
-            content="Add plan"
+            content={LanguageService.way.reportsTable.columnTooltip.addPlan[language]}
             position={PositionTooltip.RIGHT}
           >
             <Button
@@ -356,7 +360,7 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
           }
         </div>
         <div className={styles.summaryText}>
-          {"Total: "}
+          {`${LanguageService.way.reportsTable.total[language]}${Symbols.NO_BREAK_SPACE}`}
           {props.dayReport.plans
             .reduce((summaryTime, plan) => plan.time + summaryTime, DEFAULT_SUMMARY_TIME)
           }

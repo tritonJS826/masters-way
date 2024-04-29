@@ -8,10 +8,12 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {WayСardTag} from "src/component/wayCard/wayTag/WayTag";
+import {useGlobalContext} from "src/GlobalContext";
 import {UserPlain} from "src/model/businessModel/User";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {WayTag} from "src/model/businessModelPreview/WayTag";
 import {pages} from "src/router/pages";
+import {LanguageService} from "src/service/LangauageService";
 import {DateUtils} from "src/utils/DateUtils";
 import styles from "src/component/wayCard/WayCard.module.scss";
 
@@ -35,6 +37,7 @@ interface WayCardProps {
  * WayCard component
  */
 export const WayCard = (props: WayCardProps) => {
+  const {language} = useGlobalContext();
 
   /**
    * Render way tags
@@ -60,7 +63,9 @@ export const WayCard = (props: WayCardProps) => {
     return (
       <HorizontalContainer className={styles.mentors}>
         <p>
-          {mentors.length ? "Mentors:" : "No mentors yet"}
+          {mentors.length
+            ? `${LanguageService.allWays.wayCard.mentor[language]}`
+            : `${LanguageService.allWays.wayCard.noMentors[language]}`}
         </p>
         {mentors.map((mentor) => (
           <Tooltip
@@ -101,7 +106,7 @@ export const WayCard = (props: WayCardProps) => {
             <HorizontalContainer className={styles.likes}>
               <Tooltip
                 position={PositionTooltip.BOTTOM}
-                content="Reports"
+                content={LanguageService.allWays.wayCard.reports[language]}
               >
                 <Icon
                   size={IconSize.SMALL}
@@ -112,7 +117,7 @@ export const WayCard = (props: WayCardProps) => {
               </Tooltip>
               <Tooltip
                 position={PositionTooltip.BOTTOM}
-                content="Likes"
+                content={LanguageService.allWays.wayCard.likes[language]}
               >
                 <Icon
                   size={IconSize.SMALL}
@@ -136,14 +141,16 @@ export const WayCard = (props: WayCardProps) => {
         <VerticalContainer className={styles.additionalInfo}>
           <HorizontalContainer className={styles.dates}>
             <p>
-              {`Created: ${DateUtils.getShortISODateValue(props.wayPreview.createdAt)}`}
+              {`${LanguageService.allWays.wayCard.createdAt[language]} 
+              ${DateUtils.getShortISODateValue(props.wayPreview.createdAt)}`}
             </p>
             <p>
-              {`Updated: ${DateUtils.getShortISODateValue(props.wayPreview.lastUpdate)}`}
+              {`${LanguageService.allWays.wayCard.updatedAt[language]} 
+              ${DateUtils.getShortISODateValue(props.wayPreview.lastUpdate)}`}
             </p>
           </HorizontalContainer>
           <HorizontalContainer className={styles.people}>
-            Owner:
+            {LanguageService.allWays.wayCard.owner[language]}
             <Tooltip
               position={PositionTooltip.BOTTOM}
               content={props.wayPreview.owner.name}

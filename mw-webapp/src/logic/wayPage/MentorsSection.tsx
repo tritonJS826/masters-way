@@ -84,7 +84,8 @@ export const MentorsSection = (props: MentorsSectionProps) => {
                     {LanguageService.way.peopleBlock.deleteMentorModalContent[language].replace("$mentor", `"${mentor.name}"`)}
                   </p>}
                   onOk={() => removeMentorFromWay(props.way, props.setWay, mentor)}
-                  okText={LanguageService.way.peopleBlock.deleteButton[language]}
+                  okText={LanguageService.modals.confirmModal.deleteButton[language]}
+                  cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
                 />
               </Tooltip>
             )

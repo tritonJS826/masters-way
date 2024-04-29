@@ -34,6 +34,7 @@ const Template: StoryFn<typeof Confirm> = (args) => {
       isOpen={isOpen}
       onOk={() => {}}
       okText="Ok"
+      cancelText="Cancel"
     />
   );
 };

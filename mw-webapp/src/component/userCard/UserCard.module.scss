@@ -3,7 +3,7 @@
 $userCardMainInfoPadding: $paddingBig $paddingBig;
 $userCardAdditionalInfoPadding: $paddingMedium $paddingBig $paddingBig;
 $userCardMainHeight: 147px;
-$userCardAdditionalHeight: 105px;
+$userCardAdditionalHeight: 90px;
 
 .userCardContainer {
   border-radius: $secondaryBorderRadius;
@@ -85,6 +85,7 @@ $userCardAdditionalHeight: 105px;
 }
 
 .additionalInfo {
+  height: $userCardAdditionalHeight;
   padding: $userCardAdditionalInfoPadding;
   border-radius: 0 0 $secondaryBorderRadius $secondaryBorderRadius;
   background-color: var(--primaryBackgroundColor);

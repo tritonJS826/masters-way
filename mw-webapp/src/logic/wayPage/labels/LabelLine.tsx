@@ -87,7 +87,8 @@ export const LabelLine = (props: LabelLineProps) => {
               {LanguageService.way.filterBlock.deleteJobTagQuestion[language].replace("$jobTag", `"${props.label.name}"`)}
             </p>}
             onOk={() => props.onRemoveLabel(props.label.uuid)}
-            okText={LanguageService.way.filterBlock.deleteButton[language]}
+            okText={LanguageService.modals.confirmModal.deleteButton[language]}
+            cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
           />
         </Tooltip>
       )}
