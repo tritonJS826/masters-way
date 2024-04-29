@@ -502,8 +502,8 @@ export const UserPage = (props: UserPageProps) => {
               {`${LanguageService.user.collections.deleteCollectionModalQuestion[language]} "${currentCollection.name}" ?`}
             </p>}
             onOk={() => deleteCustomWayCollections(currentCollection.uuid)}
-            okText={LanguageService.user.collections.okButton[language]}
-            cancelText={LanguageService.user.collections.cancelButton[language]}
+            okText={LanguageService.modals.confirmModal.deleteButton[language]}
+            cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
           />
           <Modal
             isOpen={isRenameCollectionModalOpen}

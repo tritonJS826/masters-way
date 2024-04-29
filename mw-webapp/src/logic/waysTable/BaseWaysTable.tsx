@@ -262,8 +262,8 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
                         {wayUuids: props.ways.map(way => way.uuid).filter(uuid => uuid !== notExistentWayUuid)});
                     }
                   }}
-                  okText="Ok"
-                  cancelText="Cancel"
+                  okText={LanguageService.modals.confirmModal.okButton[language]}
+                  cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
                 />
               </>
             ))}

@@ -241,12 +241,6 @@
       "ua": "Видалити з наставників",
       "ka": "წაშალეთ მენტორებიდან"
     },
-    "deleteButton": {
-      "ru": "Удалить",
-      "en": "Delete",
-      "ua": "Видалити",
-      "ka": "წაშალეთ"
-    },
     "deleteMentorModalContent": {
       "ru": "Вы уверены, что хотите удалить $mentor из менторов?",
       "en": "Are you sure you want to remove $mentor from mentors?",
@@ -437,12 +431,6 @@
       "ua": "Видалити з тегів робіт",
       "ka": "წაშალეთ სამუშაოს ტეგებიდან"
     },
-    "deleteButton": {
-      "ru": "Удалить",
-      "en": "Delete",
-      "ua": "Видалити",
-      "ka": "წაშლა"
-    },
     "deleteJobTagQuestion": {
       "ru": "Вы уверены, что хотите удалить $jobTag из тэгов?",
       "en": "Are you sure you want to remove $jobTag from job tags?",
@@ -620,18 +608,6 @@
       "ka": "მეტის ჩვენება"
     },
     "modalWindow": {
-      "deleteButton": {
-        "ru": "Удалить",
-        "en": "Delete",
-        "ua": "Видалити",
-        "ka": "წაშლა"
-      },
-      "cancelButton": {
-        "ru": "Отмена",
-        "en": "Cancel",
-        "ua": "Скасувати",
-        "ka": "გაუქმება"
-      },
       "deleteJobQuestion": {
         "ru": "Вы уверены, что хотите удалить выполненное задание",
         "en": "Are you sure you want to delete the job done",

@@ -228,8 +228,8 @@ export const WayPage = (props: WayPageProps) => {
         {`Are you sure you want to delete the way "${way.name}"?`}
       </p>}
       onOk={deleteWay}
-      okText={LanguageService.common.deleteButton[language]}
-      cancelText={LanguageService.common.cancelButton[language]}
+      okText={LanguageService.modals.confirmModal.deleteButton[language]}
+      cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
     />);
 
   /**

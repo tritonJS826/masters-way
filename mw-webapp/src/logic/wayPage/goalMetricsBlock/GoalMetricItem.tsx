@@ -68,8 +68,8 @@ export const GoalMetricItem = (props: SingleGoalMetricProps) => {
                 ${LanguageService.way.metricsBlock.uncheckGoalMetricQuestionPartTwo[language]}`}
               </p>}
               onOk={onOk}
-              okText={LanguageService.common.confirmButton[language]}
-              cancelText={LanguageService.common.cancelButton[language]}
+              okText={LanguageService.modals.confirmModal.confirmButton[language]}
+              cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
               trigger={
                 <Checkbox
                   isDisabled={true}
@@ -109,8 +109,8 @@ export const GoalMetricItem = (props: SingleGoalMetricProps) => {
               {`${LanguageService.way.metricsBlock.deleteGoalMetricQuestion[language]} "${props.metric.description}"?`}
             </p>}
             onOk={() => props.deleteMetric(props.metric.uuid)}
-            okText={LanguageService.common.deleteButton[language]}
-            cancelText={LanguageService.common.cancelButton[language]}
+            okText={LanguageService.modals.confirmModal.deleteButton[language]}
+            cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
           />
         </Tooltip>
       )

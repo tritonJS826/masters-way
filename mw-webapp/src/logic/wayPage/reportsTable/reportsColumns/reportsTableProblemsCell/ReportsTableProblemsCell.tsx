@@ -146,8 +146,8 @@ export const ReportsTableProblemsCell = (props: ReportsTableProblemsCellProps) =
                       "${problem.description}"?`}
                     </p>}
                     onOk={() => deleteProblem(problem.uuid)}
-                    okText={LanguageService.way.reportsTable.modalWindow.deleteButton[language]}
-                    cancelText={LanguageService.way.reportsTable.modalWindow.cancelButton[language]}
+                    okText={LanguageService.modals.confirmModal.deleteButton[language]}
+                    cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
                   />
                 </Tooltip>
                 }

@@ -318,8 +318,8 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
                       {`${LanguageService.way.reportsTable.modalWindow.deletePlanQuestion[language]} "${plan.description}"?`}
                     </p>}
                     onOk={() => deletePlan(plan.uuid)}
-                    okText={LanguageService.way.reportsTable.modalWindow.deleteButton[language]}
-                    cancelText={LanguageService.way.reportsTable.modalWindow.cancelButton[language]}
+                    okText={LanguageService.modals.confirmModal.deleteButton[language]}
+                    cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
                   />
                 </Tooltip>
                 }

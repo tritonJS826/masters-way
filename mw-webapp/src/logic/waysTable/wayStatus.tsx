@@ -68,18 +68,5 @@ export const getWayStatus = (params: WayStatus): WayStatusType => {
  * Get formatted way status doe UI layer
  */
 export const wayStatusConverter = (params: WayStatusUIParams): string => {
-  switch (params.status) {
-    case "completed": {
-      return LanguageService.allWays.filterBlock.typeOptions.completed[params.language];
-      break;
-    }
-    case "inProgress": {
-      return LanguageService.allWays.filterBlock.typeOptions.inProgress[params.language];
-      break;
-    }
-    case "abandoned": {
-      return LanguageService.allWays.filterBlock.typeOptions.abandoned[params.language];
-      break;
-    }
-  }
+  return LanguageService.allWays.filterBlock.typeOptions[params.status][params.language];
 };
