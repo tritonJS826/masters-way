@@ -6,8 +6,10 @@ import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalC
 import {Input, InputType} from "src/component/input/Input";
 import {Textarea} from "src/component/textarea/Textarea";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {useGlobalContext} from "src/GlobalContext";
 import {getValidatedTime, MAX_TIME} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
 import {Plan} from "src/model/businessModel/Plan";
+import {LanguageService} from "src/service/LangauageService";
 import {KeySymbols} from "src/utils/KeySymbols";
 import {Symbols} from "src/utils/Symbols";
 import styles from "src/logic/wayPage/reportsTable/reportsColumns/\
@@ -39,6 +41,7 @@ interface CopyPlanToJobDoneModalContentProps {
  * Copy plan to jobDone modal content
  */
 export const CopyPlanToJobDoneModalContent = (props: CopyPlanToJobDoneModalContentProps) => {
+  const {language} = useGlobalContext();
   const [inputPlanJob, setInputPlanJob] = useState<string>(props.plan.description);
   const [inputPlanTime, setInputPLanTime] = useState<number>(props.plan.time);
 
@@ -64,18 +67,19 @@ export const CopyPlanToJobDoneModalContent = (props: CopyPlanToJobDoneModalConte
           onKeyDown={handleEnter}
           className={styles.copyPlanToJobModalContainer}
         >
-          {`Are you sure you want to mark the plan "${props.plan.description}" as unfulfilled?`}
+          {`${LanguageService.way.reportsTable.columnTooltip.planCheckboxUncheckPartOne[language]}
+          "${props.plan.description}" ${LanguageService.way.reportsTable.columnTooltip.planCheckboxUncheckPartTwo[language]}?`}
           <HorizontalContainer className={styles.buttons}>
             <DialogClose asChild>
               <Button
-                value="Cancel"
+                value={LanguageService.modals.confirmModal.cancelButton[language]}
                 onClick={() => { }}
               />
             </DialogClose>
             <DialogClose asChild>
               <Button
                 ref={onOkRef}
-                value="Ok"
+                value={LanguageService.modals.confirmModal.okButton[language]}
                 onClick={() => {
                   const toggledPlan: Plan = new Plan({
                     ...props.plan,
@@ -93,10 +97,10 @@ export const CopyPlanToJobDoneModalContent = (props: CopyPlanToJobDoneModalConte
           onKeyDown={handleEnter}
           className={styles.copyPlanToJobModalContainer}
         >
-          {"Are you sure you want to copy the plan to jobs done?"}
+          {LanguageService.way.reportsTable.modalWindow.copyPlanToJobDoneQuestion[language]}
           <VerticalContainer className={styles.inputPlan}>
             <label className={styles.label}>
-              {`Description:${Symbols.NO_BREAK_SPACE}`}
+              {`${LanguageService.way.reportsTable.modalWindow.descriptionTitle[language]}${Symbols.NO_BREAK_SPACE}`}
             </label>
             <Textarea
               isAutofocus={true}
@@ -107,7 +111,7 @@ export const CopyPlanToJobDoneModalContent = (props: CopyPlanToJobDoneModalConte
           </VerticalContainer>
           <VerticalContainer className={styles.inputPlan}>
             <label className={styles.label}>
-              {`Estimation time:${Symbols.NO_BREAK_SPACE}`}
+              {`${LanguageService.way.reportsTable.modalWindow.timeTitle[language]}${Symbols.NO_BREAK_SPACE}`}
             </label>
             <Input
               formatter={getFormattedValue}
@@ -121,7 +125,7 @@ export const CopyPlanToJobDoneModalContent = (props: CopyPlanToJobDoneModalConte
           <HorizontalContainer className={styles.buttons}>
             <DialogClose asChild>
               <Button
-                value="Cancel"
+                value={LanguageService.modals.confirmModal.cancelButton[language]}
                 onClick={() => {
                   const toggledPlan: Plan = new Plan({
                     ...props.plan,
@@ -135,7 +139,7 @@ export const CopyPlanToJobDoneModalContent = (props: CopyPlanToJobDoneModalConte
             <DialogClose asChild>
               <Button
                 ref={onOkRef}
-                value="Copy to jobs done"
+                value={LanguageService.way.reportsTable.modalWindow.copyToJobsDoneButton[language]}
                 onClick={() => {
                   const toggledPlan: Plan = new Plan({
                     ...props.plan,
