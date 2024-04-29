@@ -243,7 +243,7 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
                   <Modal
                     trigger={plan.tags.length === 0 ?
                       <div className={styles.tagsBlockTrigger}>
-                        {`Add${Symbols.NO_BREAK_SPACE}tag`}
+                        {LanguageService.way.reportsTable.columnTooltip.addTag[language]}
                       </div>
                       :
                       <div className={styles.tagsBlockTrigger}>

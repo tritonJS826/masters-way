@@ -609,7 +609,7 @@ export const WayPage = (props: WayPageProps) => {
 
             <Title
               level={HeadingLevel.h5}
-              text={`${totalDaysOnWay} days from start`}
+              text={`${totalDaysOnWay} ${LanguageService.way.wayInfo.daysFromStart[language]}`}
             />
 
             <HorizontalContainer className={styles.wayTagsContainer}>
@@ -631,7 +631,7 @@ export const WayPage = (props: WayPageProps) => {
                 <Modal
                   isOpen={isAddWayTagModalOpen}
                   trigger={
-                    <Tooltip content="Add new way tag">
+                    <Tooltip content={LanguageService.way.wayInfo.addWayTagButton[language]}>
                       <Button
                         icon={
                           <Icon
@@ -647,7 +647,7 @@ export const WayPage = (props: WayPageProps) => {
                   content={
                     <PromptModalContent
                       defaultValue=""
-                      placeholder="Add new way tag"
+                      placeholder={LanguageService.way.wayInfo.addWayTagButton[language]}
                       close={() => setIsAddWayTagModalOpen(false)}
                       onOk={async (tagName: string) => {
                         const newTagRaw = await WayTagDAL.addWayTagToWay({name: tagName, wayUuid: way.uuid});
@@ -860,7 +860,7 @@ export const WayPage = (props: WayPageProps) => {
             </Tooltip>
             <Modal
               trigger={
-                <Tooltip content="Show all statistics">
+                <Tooltip content={LanguageService.way.statisticsBlock.allStatisticTooltip[language]}>
                   <Button
                     icon={
                       <Icon
