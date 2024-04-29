@@ -13,9 +13,25 @@ export const WayStatus = {
 export type WayStatusType = typeof WayStatus[keyof typeof WayStatus];
 
 /**
- * {@link getWayStatus} parameters
+ * {@link WayStatusUI} parameters
  */
-type getWayStatusParams = {
+type WayStatusUIParams = {
+
+  /**
+   * Is way marked as completed
+   */
+  status: WayStatusType;
+
+  /**
+   * Language
+   */
+  language: Language;
+}
+
+/**
+ * Way status
+ */
+interface WayStatus {
 
   /**
    * Is way marked as completed
@@ -27,10 +43,6 @@ type getWayStatusParams = {
    */
   lastUpdate: Date;
 
-  /**
-   * Language
-   */
-  language: Language;
 }
 
 // 14 days
@@ -39,15 +51,35 @@ export const ABANDONED_AFTER_MS = 1209600000;
 /**
  * Get way status
  */
-export const getWayStatus = (params: getWayStatusParams): string => {
+export const getWayStatus = (params: WayStatus): WayStatusType => {
   if (params.status === "Completed") {
-    return LanguageService.allWays.filterBlock.typeOptions.completed[params.language];
+    return WayStatus.completed;
   } else {
     const currentDate = new Date();
     const isLastUpdateRecently = currentDate.getTime() - params.lastUpdate.getTime() < ABANDONED_AFTER_MS;
 
     return isLastUpdateRecently
-      ? LanguageService.allWays.filterBlock.typeOptions.inProgress[params.language]
-      : LanguageService.allWays.filterBlock.typeOptions.abandoned[params.language];
+      ? WayStatus.inProgress
+      : WayStatus.abandoned;
+  }
+};
+
+/**
+ * Get formatted way status doe UI layer
+ */
+export const wayStatusConverter = (params: WayStatusUIParams): string => {
+  switch (params.status) {
+    case "completed": {
+      return LanguageService.allWays.filterBlock.typeOptions.completed[params.language];
+      break;
+    }
+    case "inProgress": {
+      return LanguageService.allWays.filterBlock.typeOptions.inProgress[params.language];
+      break;
+    }
+    case "abandoned": {
+      return LanguageService.allWays.filterBlock.typeOptions.abandoned[params.language];
+      break;
+    }
   }
 };

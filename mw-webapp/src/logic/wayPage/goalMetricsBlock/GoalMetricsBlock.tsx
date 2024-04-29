@@ -68,7 +68,7 @@ export const GoalMetricsBlock = (props: GoalMetricStatisticsBlockProps) => {
       <>
         {props.isEditable && (
           <Button
-            value={LanguageService.way.metricsBlock.AddNewGoalMetricButton[language]}
+            value={LanguageService.way.metricsBlock.addNewGoalMetricButton[language]}
             onClick={addMetric}
           />
         )

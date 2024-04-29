@@ -6,7 +6,7 @@ import {ProgressBar} from "src/component/progressBar/ProgressBar";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {getWayStatus} from "src/logic/waysTable/wayStatus";
+import {wayStatusConverter} from "src/logic/waysTable/wayStatus";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LangauageService";
@@ -95,9 +95,8 @@ export const getWaysColumns = (language: Language) => [
      * Cell with status value
      */
     cell: ({row}) => {
-      const wayStatus = getWayStatus({
+      const wayStatus = wayStatusConverter({
         status: row.original.status,
-        lastUpdate: row.original.lastUpdate,
         language,
       });
 

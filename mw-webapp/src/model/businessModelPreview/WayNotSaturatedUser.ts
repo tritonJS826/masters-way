@@ -1,3 +1,4 @@
+import {WayStatusType} from "src/logic/waysTable/wayStatus";
 import {UserNotSaturatedWay} from "src/model/businessModelPreview/UserNotSaturatedWay";
 import {JobTag} from "src/model/businessModelPreview/WayPreview";
 import {WayTag} from "src/model/businessModelPreview/WayTag";
@@ -43,10 +44,9 @@ export class WayNotSaturatedUser {
   public mentorRequests: string[];
 
   /**
-   * Way's status "Completed" or "Template"
-   * @default null
+   * Way's status "Completed", "In progress", "Abandoned"
    */
-  public status: string | null;
+  public status: WayStatusType;
 
   /**
    * Last day when way was updated

@@ -88,7 +88,7 @@ export const LabelLine = (props: LabelLineProps) => {
             </p>}
             onOk={() => props.onRemoveLabel(props.label.uuid)}
             okText={LanguageService.way.filterBlock.deleteButton[language]}
-            cancelText="Cancel"
+            cancelText={LanguageService.common.cancelButton[language]}
           />
         </Tooltip>
       )}

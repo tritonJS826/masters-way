@@ -102,11 +102,47 @@
       "ua": "Метрики",
       "ka": "საზომები"
     },
-    "AddNewGoalMetricButton": {
+    "doneDate": {
+      "ru": "Дата завершения",
+      "en": "Done date",
+      "ua": "Готова дата",
+      "ka": "დასრულდა თარიღი"
+    },
+    "notFinished": {
+      "ru": "Еще не закончена...",
+      "en": "Not finished yet...",
+      "ua": "Ще не закінчено...",
+      "ka": "Ჯერ არ დამთავრებულა..."
+    },
+    "addNewGoalMetricButton": {
       "ru": "Добавить новую метрику",
       "en": "Add new goal metric",
       "ua": "Додати нову метрику",
       "ka": "დაამატეთ ახალი მიზნის საზომი"
+    },
+    "deleteGoalMetricQuestion": {
+      "ru": "Вы уверены, что хотите удалить целевой показатель",
+      "en": "Are you sure that you want to delete goal metric",
+      "ua": "Ви впевнені, що хочете видалити метрику цілі",
+      "ka": "დარწმუნებული ხართ, რომ გსურთ მიზნების მეტრიკის წაშლა"
+    },
+    "deleteGoalMetricTooltip": {
+      "ru": "Удалить целевой показатель",
+      "en": "Delete goal metric",
+      "ua": "Видалити метрику цілі",
+      "ka": "მიზნის მეტრიკის წაშლა"
+    },
+    "uncheckGoalMetricQuestionPartOne": {
+      "ru": "Вы уверены, что хотите установить показатель",
+      "en": "Are you sure that you want set metric",
+      "ua": "Ви впевнені, що хочете встановити метрику",
+      "ka": "დარწმუნებული ხართ, რომ გსურთ მეტრიკის დაყენება"
+    },
+    "uncheckGoalMetricQuestionPartTwo": {
+      "ru": "как не завершенный",
+      "en": "as not completed",
+      "ua": "як не завершений",
+      "ka": "როგორც დაუსრულებელი"
     },
     "clickToHideMetrics": {
       "ru": "Нажми, чтобы скрыть блок с метриками",

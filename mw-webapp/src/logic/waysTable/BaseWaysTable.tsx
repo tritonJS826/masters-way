@@ -90,15 +90,49 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
   /**
    * Filter ways by privacy
    */
-  const getVisibleWays = (allWays: WayPreview[]) => allWays.filter((way) => isWayVisible(user?.uuid, way));
+  const getVisibleWays = (
+    allWays: WayPreview[],
+    userUuid: string | undefined,
+  ) => allWays.filter((way) => isWayVisible(userUuid, way));
+
+  /**
+   * Filter params
+   */
+  interface FiltersParams {
+
+    /**
+     * Ways fo filtering
+     */
+    allWays: WayPreview[];
+
+    /**
+     * Filter status value
+     */
+    filterStatus: WayStatusType | typeof FILTER_STATUS_ALL_VALUE;
+  }
 
   /**
    * Filter ways according status
    */
-  const getFilteredWays = (allWays: WayPreview[]) => props.filterStatus === FILTER_STATUS_ALL_VALUE
-    ? allWays
-    : allWays.filter((way) => way.status
-      .toLowerCase().replace(/(\s\w)/g, word => word.toUpperCase()).replace(/\s/g, "") === props.filterStatus);
+  const getFilteredWaysByStatus = (
+    allWays: WayPreview[],
+    filterStatus: WayStatusType | typeof FILTER_STATUS_ALL_VALUE,
+  ) => {
+
+    return filterStatus === FILTER_STATUS_ALL_VALUE
+      ? allWays
+      : allWays.filter((way) => way.status === filterStatus);
+  };
+
+  /**
+   * Filter ways by all filters and visibility
+   */
+  const getFilteredVisibleWays = (params: FiltersParams) => {
+    const visibleWays = getVisibleWays(params.allWays, user?.uuid);
+    const filteredByStatusWays = getFilteredWaysByStatus(visibleWays, params.filterStatus);
+
+    return filteredByStatusWays;
+  };
 
   if (!props.ways) {
     return (
@@ -166,7 +200,10 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
       </HorizontalContainer>
 
       <Title
-        text={`${props.title} (${getFilteredWays(props.ways).length})`}
+        text={`${props.title} (${getFilteredVisibleWays({
+          allWays: props.ways,
+          filterStatus: props.filterStatus,
+        }).length})`}
         level={HeadingLevel.h2}
       />
 
@@ -175,13 +212,19 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
         {props.view === View.Table ?
           <ScrollableBlock>
             <WaysTable
-              data={getFilteredWays(props.ways)}
+              data={getFilteredVisibleWays({
+                allWays: props.ways,
+                filterStatus: props.filterStatus,
+              })}
               columns={getWaysColumns(language)}
             />
           </ScrollableBlock>
           :
           <HorizontalGridContainer className={styles.wayCards}>
-            {getFilteredWays(props.ways).map((way) => {
+            {getFilteredVisibleWays({
+              allWays: props.ways,
+              filterStatus: props.filterStatus,
+            }).map((way) => {
               return (
                 <WayCard
                   key={way.uuid}
@@ -197,7 +240,7 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
           <>
             {ArrayUtils.getDifference(
               props.ways.map(way => way.uuid),
-              getVisibleWays(props.ways).map(way => way.uuid),
+              getVisibleWays(props.ways, user?.uuid).map(way => way.uuid),
             ).map((notExistentWayUuid) => (
               <>
                 <Confirm

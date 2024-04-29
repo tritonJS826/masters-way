@@ -4,7 +4,9 @@ import {Confirm} from "src/component/confirm/Confirm";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Tooltip} from "src/component/tooltip/Tooltip";
+import {useGlobalContext} from "src/GlobalContext";
 import {Metric} from "src/model/businessModel/Metric";
+import {LanguageService} from "src/service/LangauageService";
 import {DateUtils} from "src/utils/DateUtils";
 import styles from "src/logic/wayPage/goalMetricsBlock/GoalMetricItem.module.scss";
 
@@ -40,9 +42,10 @@ interface SingleGoalMetricProps {
  * Goal metric
  */
 export const GoalMetricItem = (props: SingleGoalMetricProps) => {
+  const {language} = useGlobalContext();
   const tooltipContent = props.metric.isDone && props.metric.doneDate
-    ? `Done date ${DateUtils.getShortISODateValue(props.metric.doneDate)}`
-    : "Not finished yet...";
+    ? `${LanguageService.way.metricsBlock.doneDate[language]} ${DateUtils.getShortISODateValue(props.metric.doneDate)}`
+    : `${LanguageService.way.metricsBlock.notFinished[language]}`;
 
   /**
    * Set metric not completed
@@ -61,11 +64,12 @@ export const GoalMetricItem = (props: SingleGoalMetricProps) => {
           ? (
             <Confirm
               content={<p>
-                {`Are you sure that you want set metric ${props.metric.description} as not completed`}
+                {`${LanguageService.way.metricsBlock.uncheckGoalMetricQuestionPartOne[language]} ${props.metric.description}
+                ${LanguageService.way.metricsBlock.uncheckGoalMetricQuestionPartTwo[language]}`}
               </p>}
               onOk={onOk}
-              okText="Confirm"
-              cancelText="Cancel"
+              okText={LanguageService.common.confirmButton[language]}
+              cancelText={LanguageService.common.cancelButton[language]}
               trigger={
                 <Checkbox
                   isDisabled={true}
@@ -97,16 +101,16 @@ export const GoalMetricItem = (props: SingleGoalMetricProps) => {
         </Tooltip>
       </HorizontalContainer>
       {props.isEditable && (
-        <Tooltip content="Delete goal metric">
+        <Tooltip content={LanguageService.way.metricsBlock.deleteGoalMetricTooltip[language]}>
           <Confirm
             trigger={
               <TrashIcon />}
             content={<p>
-              {`Are you sure that you want to delete goal metric "${props.metric.description}"?`}
+              {`${LanguageService.way.metricsBlock.deleteGoalMetricQuestion[language]} "${props.metric.description}"?`}
             </p>}
             onOk={() => props.deleteMetric(props.metric.uuid)}
-            okText="Delete"
-            cancelText="Cancel"
+            okText={LanguageService.common.deleteButton[language]}
+            cancelText={LanguageService.common.cancelButton[language]}
           />
         </Tooltip>
       )

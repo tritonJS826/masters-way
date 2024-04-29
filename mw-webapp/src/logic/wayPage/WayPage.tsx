@@ -37,6 +37,7 @@ import {downloadWayPdf} from "src/logic/wayPage/renderWayToPdf/downloadWayPdf";
 import {DayReportsTable} from "src/logic/wayPage/reportsTable/dayReportsTable/DayReportsTable";
 import {WayActiveStatistic} from "src/logic/wayPage/wayStatistics/WayActiveStatistic";
 import {MILLISECONDS_IN_DAY, SMALL_CORRECTION_MILLISECONDS, WayStatistic} from "src/logic/wayPage/wayStatistics/WayStatistic";
+import {getWayStatus, WayStatus} from "src/logic/waysTable/wayStatus";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Metric} from "src/model/businessModel/Metric";
 import {User, UserPlain, WayCollection} from "src/model/businessModel/User";
@@ -227,8 +228,8 @@ export const WayPage = (props: WayPageProps) => {
         {`Are you sure you want to delete the way "${way.name}"?`}
       </p>}
       onOk={deleteWay}
-      okText="Delete"
-      cancelText="Cancel"
+      okText={LanguageService.common.deleteButton[language]}
+      cancelText={LanguageService.common.cancelButton[language]}
     />);
 
   /**
@@ -345,7 +346,12 @@ export const WayPage = (props: WayPageProps) => {
     const wayToUpdate = {
       uuid: way.uuid,
       metrics: metricsToUpdate,
-      status: isWayCompleted ? "completed" : "",
+      status: isWayCompleted
+        ? WayStatus.completed
+        : getWayStatus({
+          status: isWayCompleted ? WayStatus.completed : null,
+          lastUpdate: way.lastUpdate,
+        }),
     };
 
     setWayPartial(wayToUpdate);
