@@ -150,7 +150,10 @@ export const Header = (props: HeaderProps) => {
       >
         <ThemedImage
           className={styles.logo}
-          sources={getMapThemeSources(logo, logoLight)}
+          sources={getMapThemeSources({
+            [Theme.DARK]: logoLight,
+            [Theme.LIGHT]: logo,
+          })}
           theme={props.currentTheme}
           name={LOGO_TEXT}
         />

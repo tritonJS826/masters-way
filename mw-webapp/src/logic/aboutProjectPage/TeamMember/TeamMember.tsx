@@ -1,4 +1,5 @@
 import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
+import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import styles from "src/logic/aboutProjectPage/TeamMember/TeamMember.module.scss";
 
 /**
@@ -19,46 +20,13 @@ export interface TeamMemberType {
   /**
    * Profession member
    */
-  profession: string;
+  description: string;
 
   /**
    * Image Url
    */
   imageUrl: string;
 }
-
-export const teamMembers: TeamMemberType[] = [
-  {
-    id: 1,
-    name: "Viktar Veratsennikau",
-    profession: "Founder",
-    imageUrl: "",
-  },
-  {
-    id: 2,
-    name: "Ekaterina Veretennikova",
-    profession: "Team Leader",
-    imageUrl: "",
-  },
-  {
-    id: 3,
-    name: "Sergei Aslanov",
-    profession: "developer",
-    imageUrl: "",
-  },
-  {
-    id: 4,
-    name: "Marat Assimbayev",
-    profession: "developer",
-    imageUrl: "",
-  },
-  {
-    id: 5,
-    name: "Alexandr Chorniy",
-    profession: "developer",
-    imageUrl: "",
-  },
-];
 
 /**
  * VerticalContainer props
@@ -81,7 +49,7 @@ interface TeamMemberProps {
  */
 export const TeamMember = (props: TeamMemberProps) => {
   return (
-    <div className={styles.ourTeamMember}>
+    <VerticalContainer className={styles.ourTeamMember}>
       <Avatar
         alt={props.member.name}
         src={props.member.imageUrl}
@@ -92,8 +60,8 @@ export const TeamMember = (props: TeamMemberProps) => {
         {props.member.name}
       </div>
       <div>
-        {props.member.profession}
+        {props.member.description}
       </div>
-    </div>
+    </VerticalContainer>
   );
 };

@@ -19,22 +19,23 @@
 }
 
 .aboutBlock {
-  max-width: $maxWidth;
-  align-items: center;
+  max-width: $maxWidthContainer;
   gap: $gapSmall;
   color: var(--secondaryTextColor);
   background-color: var(primarysBackgroundColor);
+  width: 100%;
 }
 
 .aboutDescription {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   margin-top: $marginBig;
   background-color: var(--primaryBackgroundColor);
 }
 
 .aboutTextBlock {
-  flex: 1 1 70%;
+  flex: 1 1 75%;
   padding: $paddingMedium;
   gap: $gapBig;
   color: var(--primaryTextColor);
@@ -42,10 +43,10 @@
 }
 
 .logoAbout {
-  flex: 1 1 30%;
+  flex: 1 1 25%;
   padding: $paddingMedium;
   background-color: var(--primaryBackgroundColor);
-  @media (max-width: 850px) {
+  @media (max-width: $mediaWidthTablet) {
     display: none;
   }
 }
@@ -60,23 +61,10 @@
 }
 
 .ourTeamMembers {
-  display: flex;
   justify-content: center;
   gap: $gapLarge;
   overflow-x: auto;
-  &::-webkit-scrollbar {
-    height: 8px;
-    background-color: var(--tertiaryBackgroundColor);
-    border-radius: 10px
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: var(--secondaryTextColor);
-    height: 8px;
-    border-radius: 10px;
-  }
 }
-
-
 
 .accordion {
   background-color: var(--primaryBackgroundColor);
@@ -85,6 +73,6 @@
 
 .accordionSection {
   gap: $gapBig;
-  max-width: $maxWidth;
+  max-width: $maxWidthContainer;
   width: 100%;
 }

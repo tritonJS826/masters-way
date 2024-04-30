@@ -31,7 +31,8 @@
   }
 
   &[data-state="open"] {
-    background-color: var(--activeBackgroundColor);
+    background-color: var(--activeColor);
+    color: var(--primaryTextColor);
   }
 
   &[data-state="open"] > .accordionChevron {

@@ -2,13 +2,16 @@ import logoLight from "src/assets/mastersWayLogoLight.svg";
 import logoPurple from "src/assets/mastersWayLogoPurple.svg";
 import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
 import {LOGO_TEXT} from "src/component/header/Header";
+import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {getMapThemeSources, ThemedImage} from "src/component/themedImage/ThemedImage";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {useGlobalContext} from "src/GlobalContext";
-import {TeamMember, teamMembers} from "src/logic/aboutProjectPage/TeamMember/TeamMember";
+import {TeamMember} from "src/logic/aboutProjectPage/TeamMember/TeamMember";
+import {teamMembers} from "src/logic/aboutProjectPage/TeamMember/teamMembers";
 import {LanguageService as LangService} from "src/service/LangauageService";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
+import {Theme} from "src/utils/ThemeWorker";
 import styles from "src/logic/aboutProjectPage/AboutProjectPage.module.scss";
 
 /**
@@ -35,7 +38,7 @@ export const AboutProjectPage = () => {
           text={LangService.aboutProject.mainSubTitle[language]}
           className={styles.subtitle}
         />
-        <div className={styles.aboutDescription}>
+        <HorizontalContainer className={styles.aboutDescription}>
           <VerticalContainer className={styles.aboutTextBlock}>
             <div>
               {LangService.aboutProject.descriptionSubTitle[language]}
@@ -52,11 +55,14 @@ export const AboutProjectPage = () => {
           </VerticalContainer>
           <ThemedImage
             className={styles.logoAbout}
-            sources={getMapThemeSources(logoPurple, logoLight)}
+            sources={getMapThemeSources({
+              [Theme.DARK]: logoLight,
+              [Theme.LIGHT]: logoPurple,
+            })}
             theme={theme}
             name={LOGO_TEXT}
           />
-        </div>
+        </HorizontalContainer>
       </VerticalContainer>
 
       <VerticalContainer className={styles.ourTeamBlock}>
@@ -65,14 +71,14 @@ export const AboutProjectPage = () => {
           text={LangService.aboutProject.AboutTeamTitle[language]}
         />
 
-        <div className={styles.ourTeamMembers}>
+        <HorizontalContainer className={styles.ourTeamMembers}>
           {teamMembers.map((member) => (
             <TeamMember
               key={member.id}
               member={member}
             />
           ))}
-        </div>
+        </HorizontalContainer>
       </VerticalContainer>
 
       <VerticalContainer className={styles.accordionSection}>

@@ -2,12 +2,28 @@ import {Image} from "src/component/image/Image";
 import {Theme} from "src/utils/ThemeWorker";
 
 /**
+ * ThemeSourcesMap
+ */
+interface ThemeSourcesMap {
+
+  /**
+   * Theme source
+   */
+  [Theme.DARK]: string;
+
+  /**
+   * Theme source
+   */
+  [Theme.LIGHT]: string;
+}
+
+/**
  * Get map of Theme to image source
  */
-export const getMapThemeSources = (imageDark: string, imageLight: string): Map<Theme, string> => {
+export const getMapThemeSources = (sources: ThemeSourcesMap): Map<Theme, string> => {
   return new Map([
-    [Theme.DARK, imageDark],
-    [Theme.LIGHT, imageLight],
+    [Theme.DARK, sources[Theme.DARK]],
+    [Theme.LIGHT, sources[Theme.LIGHT]],
   ]);
 };
 
@@ -41,18 +57,13 @@ interface ThemedImageProps {
  * ThemedImage
  */
 export const ThemedImage = (props: ThemedImageProps) => {
-  const imageSrc =
-    props.theme === Theme.DARK
-      ? props.sources.get(Theme.LIGHT)
-      : props.sources.get(Theme.DARK);
+  const imageSrc = props.sources.get(props.theme);
 
-  return (
-    imageSrc && (
-      <Image
-        src={imageSrc}
-        alt={props.name}
-        className={props.className}
-      />
-    )
+  return imageSrc && (
+    <Image
+      src={imageSrc}
+      alt={props.name}
+      className={props.className}
+    />
   );
 };

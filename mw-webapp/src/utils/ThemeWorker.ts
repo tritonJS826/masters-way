@@ -106,13 +106,6 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     // [Theme.DARK]: "rgb(152, 210, 235)",
     // [Theme.LIGHT]: "rgb(84,103,143)",
   },
-  activeBackgroundColor: {
-    [Theme.DARK]: "#4E427F",
-    [Theme.LIGHT]: "#D4D2DC",
-    // [Theme.LIGHT]: "#E6E3EC",
-    // [Theme.DARK]: "rgb(39,36,36)",
-    // [Theme.LIGHT]: "rgb(233, 234, 242)",
-  },
   // ProgressBar
   activeColor: {
     [Theme.DARK]: "#784DEA",
