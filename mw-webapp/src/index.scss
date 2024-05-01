@@ -8,8 +8,9 @@
 
 body {
   background-color: var(--primaryBackgroundColor);
-  background-color: var(--primaryBackgroundColor);
   color: var(--primaryTextColor);
+  font-family: $primaryFontFamily;
+  font-size: $fontSizeBig;
 }
 
 #root {

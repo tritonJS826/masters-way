@@ -1,5 +1,5 @@
 //Font family
-$primaryFontFamily: Inter;
+$primaryFontFamily: "Roboto", sans-serif;
 
 // Font size
 $fontSizeBig: 16px;
@@ -34,11 +34,13 @@ $gapBig: 20px;
 $gapExtraMedium: 16px;
 $gapMedium: 8px;
 $gapSmall: 5px;
+$gapLarge: 36px;
 
 // Widths and heights
 $iconSizeSmall: 15px;
 $iconSizeMedium: 25px;
 $minWidthBlock: 280px;
+$maxWidthContainer: 1560px;
 $mediumWidthBlock: 350px;
 $maxWidthFullScreen: 1920px;
 $maxWidthBlock: 600px;

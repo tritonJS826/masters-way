@@ -8,6 +8,7 @@ import {Image} from "src/component/image/Image";
 import {Link} from "src/component/link/Link";
 import {Select, SelectItemType} from "src/component/select/Select";
 import {MenuItemLink, Sidebar} from "src/component/sidebar/Sidebar";
+import {getMapThemeSources, ThemedImage} from "src/component/themedImage/ThemedImage";
 import {Toggle} from "src/component/toggle/Toggle";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
@@ -147,10 +148,14 @@ export const Header = (props: HeaderProps) => {
         className={styles.logo}
         path={pages.allWays.getPath({})}
       >
-        <Image
-          src={props.currentTheme === Theme.DARK ? logoLight : logo}
-          alt={LOGO_TEXT}
+        <ThemedImage
           className={styles.logo}
+          sources={getMapThemeSources({
+            [Theme.DARK]: logoLight,
+            [Theme.LIGHT]: logo,
+          })}
+          theme={props.currentTheme}
+          name={LOGO_TEXT}
         />
       </Link>
       <div className={styles.headerButtonsContainer}>
