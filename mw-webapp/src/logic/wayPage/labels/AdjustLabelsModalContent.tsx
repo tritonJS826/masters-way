@@ -123,8 +123,7 @@ export const AdjustLabelsBlock = (props: JobTagsProps) => {
               onClick={() => setIsJobDoneModalOpen(true)}
             />
           }
-        />
-      }
+        />}
     </VerticalContainer>
   );
 };
