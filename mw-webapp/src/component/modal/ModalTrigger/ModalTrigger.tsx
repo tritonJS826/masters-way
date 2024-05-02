@@ -1,5 +1,6 @@
 import {ForwardedRef, forwardRef, PropsWithChildren} from "react";
 import {Trigger as DialogTrigger} from "@radix-ui/react-dialog";
+import styles from "src/component/modal/ModalTrigger/ModalTrigger.module.scss";
 
 /**
  * ModalTrigger props
@@ -26,6 +27,7 @@ export const ModalTrigger = forwardRef((props: PropsWithChildren<ModalTriggerPro
         ref={ref}
         role="button"
         data-cy={props.dataCyTrigger}
+        className={styles.wrapperTrigger}
       >
         {props.children}
       </div>
