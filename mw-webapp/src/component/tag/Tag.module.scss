@@ -21,7 +21,7 @@ $WayTagBorderRadius: 1000px;
     visibility: visible;
   }
 
-  &:focus .cross {
+  &:focus-visible .cross {
     visibility: visible;
   }
 }
