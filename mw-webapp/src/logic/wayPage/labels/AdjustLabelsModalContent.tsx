@@ -106,24 +106,27 @@ export const AdjustLabelsBlock = (props: JobTagsProps) => {
       }
 
       {props.isEditable &&
-        <Modal
-          isOpen={isJobDoneModalOpen}
-          content={
-            <PromptModalContent
-              placeholder={LanguageService.way.filterBlock.jobTagPlaceholder[language]}
-              close={() => setIsJobDoneModalOpen(false)}
-              onOk={createJobTag}
-              okButtonValue={LanguageService.modals.promptModal.okButton[language]}
-              cancelButtonValue={LanguageService.modals.promptModal.cancelButton[language]}
-            />
-          }
-          trigger={
-            <Button
-              value={LanguageService.way.filterBlock.addTagButton[language]}
-              onClick={() => setIsJobDoneModalOpen(true)}
-            />
-          }
-        />}
+        <div className={styles.wrapperButton}>
+          <Modal
+            isOpen={isJobDoneModalOpen}
+            content={
+              <PromptModalContent
+                placeholder={LanguageService.way.filterBlock.jobTagPlaceholder[language]}
+                close={() => setIsJobDoneModalOpen(false)}
+                onOk={createJobTag}
+                okButtonValue={LanguageService.modals.promptModal.okButton[language]}
+                cancelButtonValue={LanguageService.modals.promptModal.cancelButton[language]}
+              />
+            }
+            trigger={
+              <Button
+                value={LanguageService.way.filterBlock.addTagButton[language]}
+                onClick={() => setIsJobDoneModalOpen(true)}
+              />
+            }
+          />
+        </div>
+      }
     </VerticalContainer>
   );
 };
