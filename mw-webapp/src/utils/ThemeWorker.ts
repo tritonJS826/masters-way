@@ -79,6 +79,10 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     // [Theme.DARK]: "rgb(200, 194, 194)",
     // [Theme.LIGHT]: "rgb(73, 69, 69)",
   },
+  homeBorderColor: {
+    [Theme.DARK]: "#F4F3FF",
+    [Theme.LIGHT]: "#F4F3FF",
+  },
   primaryBorderSeparator: {
     [Theme.DARK]: "#FFFFFF3E",
     [Theme.LIGHT]: "#784DEA3E",
@@ -137,6 +141,12 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     // [Theme.DARK]: "rgb(108,107,116)",
     // [Theme.LIGHT]: "rgb(200, 194, 194)",
   },
+  homeActiveButtonColor: {
+    [Theme.DARK]: "#F2EFF9",
+    [Theme.LIGHT]: "#F2EFF9",
+    // [Theme.DARK]: "rgb(108,107,116)",
+    // [Theme.LIGHT]: "rgb(200, 194, 194)",
+  },
   primaryHoverButtonColor: {
     [Theme.DARK]: "#603EBB",
     [Theme.LIGHT]: "#603EBB",
@@ -146,6 +156,12 @@ const themedVariables: Record<string, Record<Theme, string>> = {
   secondaryHoverButtonColor: {
     [Theme.DARK]: "#1F173D",
     [Theme.LIGHT]: "#F2EFF9",
+    // [Theme.DARK]: "rgb(108,107,116)",
+    // [Theme.LIGHT]: "rgb(200, 194, 194)",
+  },
+  homeHoverButtonColor: {
+    [Theme.DARK]: "#D4D2DC",
+    [Theme.LIGHT]: "#D4D2DC",
     // [Theme.DARK]: "rgb(108,107,116)",
     // [Theme.LIGHT]: "rgb(200, 194, 194)",
   },
@@ -166,6 +182,12 @@ const themedVariables: Record<string, Record<Theme, string>> = {
   tertiaryBackgroundButtonColor: {
     [Theme.DARK]: "#3D3462",
     [Theme.LIGHT]: "#FCFBFE",
+  },
+  homeBackgroundButtonColor: {
+    [Theme.DARK]: "#FCFBFE",
+    [Theme.LIGHT]: "#FCFBFE",
+    // [Theme.DARK]: "rgb(108,107,116)",
+    // [Theme.LIGHT]: "rgb(200, 194, 194)",
   },
   primaryTextButtonColor: {
     [Theme.DARK]: "#F4F3FF",

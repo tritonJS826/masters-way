@@ -2,25 +2,21 @@
 
 .goalItem {
   display: flex;
-  width: 250px;
-  height: 250px;
-  align-items: center;
-  justify-content: center;
-  padding: $paddingMedium;
-  border-radius: $tertiaryBorderRadius;
-  background-color: var(--tertiaryBackgroundColor);
-  -webkit-box-shadow: 0px 8px 10px 1px var(--primaryShadowColor);
-  -moz-box-shadow: 0px 8px 10px 1px var(--primaryShadowColor);
-  box-shadow: 0px 8px 10px 1px var(--primaryShadowColor);
+  width: 317px;
+  justify-content: left;
   gap: $gapMedium;
 }
 
 .goalTitle {
   color: var(--secondaryTextColor);
-  text-align: center;
+  text-align: left;
 }
 
 .goalDescription {
   color: var(--secondaryTextColor);
-  text-align: center;
+  text-align: left;
+}
+
+.icon {
+  stroke: var(--homeBorderColor);
 }

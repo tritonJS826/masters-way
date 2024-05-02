@@ -123,3 +123,22 @@
 .disabled {
   opacity: $disableOpacity;
 }
+
+.homeButton {
+  // Need for don't change height in different languages
+  width: 256px;
+  padding: 18px;
+  border: none;
+  border-radius: 20px;
+  background-color: var(--homeBackgroundButtonColor);
+  color: var(--tertiaryTextButtonColor);
+  font-size: 24px;
+
+  &:hover {
+    background-color: var(--homeHoverButtonColor);
+  }
+
+  &:active {
+    background-color: var(--homeActiveButtonColor);
+  }
+}
