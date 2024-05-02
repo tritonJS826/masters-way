@@ -123,3 +123,20 @@
 .disabled {
   opacity: $disableOpacity;
 }
+
+.superSpecialBeautifulButton {
+  padding: 18px 48px;
+  border: none;
+  border-radius: 20px;
+  background-color: var(--homeBackgroundButtonColor);
+  color: var(--tertiaryTextButtonColor);
+  font-size: 24px;
+
+  &:hover {
+    background-color: var(--homeHoverButtonColor);
+  }
+
+  &:active {
+    background-color: var(--homeActiveButtonColor);
+  }
+}

@@ -30,7 +30,13 @@ export enum ButtonType {
   /**
    * Button that looks like an icon
    */
-  ICON_BUTTON_WITHOUT_BORDER = "iconButtonWithoutBorder"
+  ICON_BUTTON_WITHOUT_BORDER = "iconButtonWithoutBorder",
+
+  /**
+   * Button that used for Home page
+   */
+  SUPER_SPECIAL_BEAUTIFUL_BUTTON = "superSpecialBeautifulButton"
+
 }
 
 /**

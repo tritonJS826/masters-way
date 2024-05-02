@@ -1,40 +1,140 @@
 @import "src/styles/variables";
 
-.homeContainer {
-  height: 100%;
-  min-height: 100%;
+// Height of header. Need for add background under the header
+$mainImageMarginTop: -61px;
+// Temporal bottom padding while partner's block is not exist
+$welcomeBlockPadding: 230px 0 420px;
+$homeBorderRadius: 20px;
+$homeGap: 40px;
+$homeGapBig: 96px;
+$homeMaxWidthTitle: 875px;
+$getStartedButtonMarginTop: 50px;
+$homePaddingSmallBlock: 25px;
+$homePaddingBlock: 80px;
+$homePaddingBigBlock: 128px;
+$homeMaxWidthImage: 605px;
+
+.welcomeBlock {
   align-items: center;
-  justify-content: center;
-  padding: $paddingMedium;
-  background-image: radial-gradient(
-    circle at right,
-    var(--primaryBackgroundColor),
-    var(--tertiaryBackgroundColor)
-  );
-  gap: $gapBig;
+  padding: $welcomeBlockPadding;
+  margin-top: $mainImageMarginTop;
+  background-image: url("https://lh3.google.com/u/0/d/11wbqfxD6TDVneqyj7xidGIW4QPRSpMBt=w1919-h1079-iv1");
+  background-repeat: no-repeat;
+  background-size: cover;
+  gap: $homeGap;
 }
 
 .title {
-  max-width: 874px;
+  max-width: $homeMaxWidthTitle;
   margin: 0 auto;
   color: var(--primaryTextColor);
+  color: var(--secondaryTextColor);
   font-weight: bold;
   text-align: center;
 }
 
 .titleDescription {
+  color: var(--secondaryTextColor);
   text-align: center;
 }
 
-.goals {
-  width: 100%;
-  max-width: 1320px;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  margin-top: $marginBig;
-  gap: $gapBig;
+.getStartedButton {
+  margin-top: $getStartedButtonMarginTop;
 }
 
-.getStartedButton {
-  margin: $marginMedium auto 0;
+.advantagesBlock {
+  align-items: center;
+  padding: $homePaddingBigBlock 0 0;
+  background-color: var(--tertiaryBackgroundColor);
+  gap: $homeGap;
+}
+
+.goals {
+  flex-wrap: wrap;
+  padding: $homePaddingSmallBlock $homePaddingBlock;
+  border: 1px solid var(--homeBorderColor);
+  border-radius: $homeBorderRadius;
+  gap: $homeGapBig;
+}
+
+.goalsTitle {
+  color: var(--secondaryTextColor);
+}
+
+.aboutProjectBlock {
+  align-items: center;
+  justify-content: center;
+  padding: $homePaddingBigBlock 0 0;
+  background-color: var(--tertiaryBackgroundColor);
+  gap: $homeGapBig;
+}
+
+.aboutProjectImage {
+  max-width: $homeMaxWidthImage;
+}
+
+.aboutProjectText {
+  gap: $gapMedium;
+}
+
+.aboutProjectDescription,
+.whatWeAreDescription {
+  max-width: $maxWidthBlock;
+  color: var(--secondaryTextColor);
+  font-size: 24px;
+  gap: $homeGap;
+  list-style-position: inside;
+}
+
+.aboutProjectGetStartedButton,
+.tryNowButton {
+  margin-right: auto;
+}
+
+.whatWeAreBlock {
+  align-items: center;
+  justify-content: center;
+  padding: $homePaddingBigBlock 0;
+  background-color: var(--tertiaryBackgroundColor);
+  gap: $homeGapBig;
+}
+
+.whatWeAreImage {
+  max-width: $homeMaxWidthImage;
+  background-image: radial-gradient(
+    var(--quaternaryBackgroundColor) 0,
+    var(--tertiaryBackgroundColor) 70%
+  );
+  transform: scale(-1, 1);
+}
+
+.whatWeAreList {
+  gap: $homeGap;
+}
+
+.whatWeAreItem {
+  align-items: center;
+
+  & .icon {
+    min-width: $iconSizeMedium;
+  }
+}
+
+.icon {
+  stroke: var(--homeBorderColor);
+}
+
+.whatWeAreButtons {
+  align-items: center;
+  margin-right: auto;
+  gap: $homeGap;
+}
+
+.whatWeAreDescription {
+  max-width: $maxWidthBlock;
+}
+
+.whatWeAreLink {
+  color: var(--secondaryTextColor);
+  font-size: 24px;
 }

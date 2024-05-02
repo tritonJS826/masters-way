@@ -6,7 +6,7 @@ export const teamMembers: TeamMemberType[] = [
     id: 1,
     name: "Viktar Veratsennikau",
     description: "Founder",
-    imageUrl: "https://lh3.googleusercontent.com/drive-viewer/AKGpihawXxK1rm9vcGMcu2iUZ5RtxoIPAwgOvNuAtoOGcZKfoJ6O7yAaUTZ8k5sDwTNOxg4Lgcwch_nqlroh9t5uV94bNzIHjyjSsw=s1600-v0",
+    imageUrl: "https://lh3.google.com/u/0/d/18oHI9KoiaYvd_UowHyqsJbDLLhmuxPxr=w1919-h1079-iv2",
   },
   {
     id: 2,
