@@ -35,7 +35,7 @@ export enum ButtonType {
   /**
    * Button that used for Home page
    */
-  HOME_BUTTON = "homeButton"
+  SUPER_SPECIAL_BEAUTIFUL_BUTTON = "superSpecialBeautifulButton"
 
 }
 

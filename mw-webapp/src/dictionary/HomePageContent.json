@@ -169,6 +169,18 @@
       "en": "What we are",
       "ua": "Що ми є",
       "ka": "რაც ჩვენ ვართ"
+    },
+    "readManifesto": {
+      "ru": "Читать манифест",
+      "en": "Read Manifesto",
+      "ua": "Прочитайте Маніфест",
+      "ka": "წაიკითხეთ მანიფესტი"
+    },
+    "manifestLink": {
+      "ru": "https://docs.google.com/document/d/1ATGjPqBGk4sE3teEV-us2ECyPMyV63riLA4Eae2lcpI/edit?usp=drive_link",
+      "en": "https://docs.google.com/document/d/1A6e_GkkxJyPNTajN1hUheZD8BDzl-G_Pkzwm1bDsHdQ/edit?usp=drive_link",
+      "ua": "https://docs.google.com/document/d/1A6e_GkkxJyPNTajN1hUheZD8BDzl-G_Pkzwm1bDsHdQ/edit?usp=drive_link",
+      "ka": "https://docs.google.com/document/d/1A6e_GkkxJyPNTajN1hUheZD8BDzl-G_Pkzwm1bDsHdQ/edit?usp=drive_link"
     }
   }
 }

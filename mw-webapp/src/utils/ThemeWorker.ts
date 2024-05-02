@@ -144,8 +144,6 @@ const themedVariables: Record<string, Record<Theme, string>> = {
   homeActiveButtonColor: {
     [Theme.DARK]: "#F2EFF9",
     [Theme.LIGHT]: "#F2EFF9",
-    // [Theme.DARK]: "rgb(108,107,116)",
-    // [Theme.LIGHT]: "rgb(200, 194, 194)",
   },
   primaryHoverButtonColor: {
     [Theme.DARK]: "#603EBB",
@@ -162,8 +160,6 @@ const themedVariables: Record<string, Record<Theme, string>> = {
   homeHoverButtonColor: {
     [Theme.DARK]: "#D4D2DC",
     [Theme.LIGHT]: "#D4D2DC",
-    // [Theme.DARK]: "rgb(108,107,116)",
-    // [Theme.LIGHT]: "rgb(200, 194, 194)",
   },
   primaryDisabledButtonColor: {
     [Theme.DARK]: "#56468F",
@@ -186,8 +182,6 @@ const themedVariables: Record<string, Record<Theme, string>> = {
   homeBackgroundButtonColor: {
     [Theme.DARK]: "#FCFBFE",
     [Theme.LIGHT]: "#FCFBFE",
-    // [Theme.DARK]: "rgb(108,107,116)",
-    // [Theme.LIGHT]: "rgb(200, 194, 194)",
   },
   primaryTextButtonColor: {
     [Theme.DARK]: "#F4F3FF",

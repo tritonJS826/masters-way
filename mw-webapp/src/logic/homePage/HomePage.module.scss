@@ -124,6 +124,17 @@ $homeMaxWidthImage: 605px;
   stroke: var(--homeBorderColor);
 }
 
+.whatWeAreButtons {
+  align-items: center;
+  margin-right: auto;
+  gap: $homeGap;
+}
+
 .whatWeAreDescription {
   max-width: $maxWidthBlock;
+}
+
+.whatWeAreLink {
+  color: var(--secondaryTextColor);
+  font-size: 24px;
 }

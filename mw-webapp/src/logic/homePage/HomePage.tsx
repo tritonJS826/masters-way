@@ -4,10 +4,12 @@ import {LOGO_TEXT} from "src/component/header/Header";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Image} from "src/component/image/Image";
+import {Link} from "src/component/link/Link";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {useGlobalContext} from "src/GlobalContext";
 import {GoalItem} from "src/logic/homePage/goalItem/GoalItem";
+import {AuthService} from "src/service/AuthService";
 import {LanguageService} from "src/service/LangauageService";
 import styles from "src/logic/homePage/HomePage.module.scss";
 
@@ -20,11 +22,6 @@ export const HomePage = () => {
   return (
     <>
       <VerticalContainer className={styles.welcomeBlock}>
-        {/* <Title
-          level={HeadingLevel.h2}
-          text={LanguageService.home.welcome[language]}
-          className={styles.welcomeTitle}
-        /> */}
         <Title
           level={HeadingLevel.h1}
           text={LanguageService.home.title[language]}
@@ -36,8 +33,8 @@ export const HomePage = () => {
           className={styles.titleDescription}
         />
         <Button
-          onClick={() => {}}
-          buttonType={ButtonType.HOME_BUTTON}
+          onClick={AuthService.logIn}
+          buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
           value={LanguageService.home.startForFreeButton[language]}
           className={styles.getStartedButton}
         />
@@ -102,8 +99,8 @@ export const HomePage = () => {
             </div>
           </VerticalContainer>
           <Button
-            onClick={() => {}}
-            buttonType={ButtonType.HOME_BUTTON}
+            onClick={AuthService.logIn}
+            buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
             value={LanguageService.home.startForFreeButton[language]}
             className={styles.aboutProjectGetStartedButton}
           />
@@ -151,12 +148,20 @@ export const HomePage = () => {
               {LanguageService.home.aboutAppBlock.reasonFour[language]}
             </HorizontalContainer>
           </VerticalContainer>
-          <Button
-            onClick={() => {}}
-            buttonType={ButtonType.HOME_BUTTON}
-            value={LanguageService.home.tryNowButton[language]}
-            className={styles.tryNowButton}
-          />
+          <HorizontalContainer className={styles.whatWeAreButtons}>
+            <Button
+              onClick={AuthService.logIn}
+              buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
+              value={LanguageService.home.tryNowButton[language]}
+              className={styles.tryNowButton}
+            />
+            <Link
+              path={LanguageService.home.whatWeAreBlock.manifestLink[language]}
+              className={styles.whatWeAreLink}
+            >
+              {LanguageService.home.whatWeAreBlock.readManifesto[language]}
+            </Link>
+          </HorizontalContainer>
         </VerticalContainer>
         <Image
           alt={LOGO_TEXT}
