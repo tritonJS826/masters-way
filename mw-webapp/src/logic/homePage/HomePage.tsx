@@ -111,11 +111,6 @@ export const HomePage = () => {
       </HorizontalContainer>
 
       <HorizontalContainer className={styles.whatWeAreBlock}>
-        <Image
-          alt={LOGO_TEXT}
-          src="https://lh3.google.com/u/0/d/1sm7CPUt8LTcx6ZAVIe799rFWa0v9KzST=w2183-h1079-iv1"
-          className={styles.whatWeAreImage}
-        />
         <VerticalContainer className={styles.whatWeAreDescription}>
           <Title
             level={HeadingLevel.h2}
@@ -163,6 +158,11 @@ export const HomePage = () => {
             className={styles.tryNowButton}
           />
         </VerticalContainer>
+        <Image
+          alt={LOGO_TEXT}
+          src="https://lh3.google.com/u/0/d/1sm7CPUt8LTcx6ZAVIe799rFWa0v9KzST=w2183-h1079-iv1"
+          className={styles.whatWeAreImage}
+        />
       </HorizontalContainer>
     </>
   );

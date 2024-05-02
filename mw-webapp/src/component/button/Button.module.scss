@@ -125,9 +125,7 @@
 }
 
 .homeButton {
-  // Need for don't change height in different languages
-  width: 256px;
-  padding: 18px;
+  padding: 18px 48px;
   border: none;
   border-radius: 20px;
   background-color: var(--homeBackgroundButtonColor);

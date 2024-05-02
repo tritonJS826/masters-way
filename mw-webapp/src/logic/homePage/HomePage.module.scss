@@ -5,16 +5,14 @@ $mainImageMarginTop: -61px;
 // Temporal bottom padding while partner's block is not exist
 $welcomeBlockPadding: 230px 0 420px;
 $homeBorderRadius: 20px;
-$homeGap: 30px;
-$homeGapBig: 90px;
+$homeGap: 40px;
+$homeGapBig: 96px;
 $homeMaxWidthTitle: 875px;
-$getStartedButtonMarginTop: 60px;
-$homePaddingBigBlock: 150px;
-$homePaddingBlock: 75px;
+$getStartedButtonMarginTop: 50px;
 $homePaddingSmallBlock: 25px;
-$homeMaxWidthAboutImage: 605px;
-$homeMaxWidthWhatWeAreImage: 805px;
-$homeMaxWidthWhatWeAreDescription: 400px;
+$homePaddingBlock: 80px;
+$homePaddingBigBlock: 128px;
+$homeMaxWidthImage: 605px;
 
 .welcomeBlock {
   align-items: center;
@@ -46,7 +44,7 @@ $homeMaxWidthWhatWeAreDescription: 400px;
 
 .advantagesBlock {
   align-items: center;
-  padding: $homePaddingBigBlock 0 $homePaddingBlock;
+  padding: $homePaddingBigBlock 0 0;
   background-color: var(--tertiaryBackgroundColor);
   gap: $homeGap;
 }
@@ -66,13 +64,13 @@ $homeMaxWidthWhatWeAreDescription: 400px;
 .aboutProjectBlock {
   align-items: center;
   justify-content: center;
-  padding: $homePaddingBlock 0;
+  padding: $homePaddingBigBlock 0 0;
   background-color: var(--tertiaryBackgroundColor);
   gap: $homeGapBig;
 }
 
 .aboutProjectImage {
-  max-width: $homeMaxWidthAboutImage;
+  max-width: $homeMaxWidthImage;
 }
 
 .aboutProjectText {
@@ -90,24 +88,24 @@ $homeMaxWidthWhatWeAreDescription: 400px;
 
 .aboutProjectGetStartedButton,
 .tryNowButton {
-  margin-top: $getStartedButtonMarginTop;
   margin-right: auto;
 }
 
 .whatWeAreBlock {
   align-items: center;
   justify-content: center;
-  padding: $homePaddingBlock 0;
+  padding: $homePaddingBigBlock 0;
   background-color: var(--tertiaryBackgroundColor);
   gap: $homeGapBig;
 }
 
 .whatWeAreImage {
-  max-width: $homeMaxWidthWhatWeAreImage;
+  max-width: $homeMaxWidthImage;
   background-image: radial-gradient(
     var(--quaternaryBackgroundColor) 0,
     var(--tertiaryBackgroundColor) 70%
   );
+  transform: scale(-1, 1);
 }
 
 .whatWeAreList {
@@ -127,5 +125,5 @@ $homeMaxWidthWhatWeAreDescription: 400px;
 }
 
 .whatWeAreDescription {
-  max-width: $homeMaxWidthWhatWeAreDescription;
+  max-width: $maxWidthBlock;
 }
