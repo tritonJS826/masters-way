@@ -37,7 +37,6 @@ $widthBlock: 1305px;
 
 .titleDescription {
   color: var(--secondaryTextColor);
-  font-size: 24px;
   text-align: center;
 }
 
@@ -56,24 +55,25 @@ $widthBlock: 1305px;
   width: 100%;
   max-width: $widthBlock;
   flex-wrap: wrap;
-  justify-content: center;
-  padding: $homePaddingSmallBlock $homePaddingBlock;
+  justify-content: space-evenly;
+  padding: $homePaddingSmallBlock $paddingMedium;
   border: 1px solid var(--homeBorderColor);
   border-radius: $homeBorderRadius;
-  gap: $homeGapBig;
-
-  @media (max-width: $mediaWidthMobileBig) {
-    padding: $homePaddingSmallBlock;
-  }
+  gap: $gapBig;
 }
 
 .goalsTitle {
   color: var(--secondaryTextColor);
-  font-size: 48px;
+
+  & h2 {
+    font-size: $fontSizeExtraLarge;
+  }
 }
 
 .goalsSubTitle {
-  font-size: 24px;
+  & h3 {
+    font-size: $fontSizeLarge;
+  }
 }
 
 .aboutProjectBlock {
@@ -107,11 +107,7 @@ $widthBlock: 1305px;
 }
 
 .aboutProjectGetStartedButton {
-  margin-right: auto;
-
-  @media (max-width: $mediaWidthMobileBig) {
-    margin-right: 0;
-  }
+  width: fit-content;
 }
 
 .whatWeAreBlock {
@@ -165,11 +161,3 @@ $widthBlock: 1305px;
   color: var(--secondaryTextColor);
   font-size: $fontSizeLarge;
 }
-
-// h2 {
-//   font-size: 48px;
-// }
-
-// h3 {
-//   font-size: 24px;
-// }

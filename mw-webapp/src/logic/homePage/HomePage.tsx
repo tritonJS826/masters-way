@@ -42,12 +42,10 @@ export const HomePage = () => {
         <Title
           level={HeadingLevel.h3}
           text={LanguageService.home.description[language]}
-          classNameHeading={styles.titleDescription}
+          className={styles.titleDescription}
         />
         <Button
-          onClick={() => {
-            user ? navigate(pages.user.getPath({uuid: user.uuid})) : AuthService.logIn();
-          }}
+          onClick={() => getStarted(navigate, user?.uuid)}
           buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
           value={LanguageService.home.startForFreeButton[language]}
           className={styles.getStartedButton}
@@ -58,7 +56,7 @@ export const HomePage = () => {
         <Title
           level={HeadingLevel.h2}
           text={LanguageService.home.advantages.goalsTitle[language]}
-          classNameHeading={styles.goalsTitle}
+          className={styles.goalsTitle}
         />
         <HorizontalContainer className={styles.goals}>
           <GoalItem
@@ -86,13 +84,13 @@ export const HomePage = () => {
           <Title
             level={HeadingLevel.h2}
             text={LanguageService.home.aboutAppBlock.title[language]}
-            classNameHeading={styles.goalsTitle}
+            className={styles.goalsTitle}
           />
           <VerticalContainer className={styles.aboutProjectText}>
             <Title
               level={HeadingLevel.h3}
               text={LanguageService.home.aboutAppBlock.subTitle[language]}
-              classNameHeading={styles.goalsSubTitle}
+              className={styles.goalsSubTitle}
             />
             <div className={styles.aboutProjectDescription}>
               {LanguageService.home.aboutAppBlock.description[language]}
@@ -113,9 +111,7 @@ export const HomePage = () => {
             </div>
           </VerticalContainer>
           <Button
-            onClick={() => {
-              user ? navigate(pages.user.getPath({uuid: user.uuid})) : AuthService.logIn();
-            }}
+            onClick={() => getStarted(navigate, user?.uuid)}
             buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
             value={LanguageService.home.startForFreeButton[language]}
             className={styles.aboutProjectGetStartedButton}
@@ -129,7 +125,7 @@ export const HomePage = () => {
           <Title
             level={HeadingLevel.h2}
             text={LanguageService.home.whatWeAreBlock.title[language]}
-            classNameHeading={styles.goalsTitle}
+            className={styles.goalsTitle}
           />
           <VerticalContainer className={styles.whatWeAreList}>
             <HorizontalContainer className={styles.whatWeAreItem}>
@@ -167,9 +163,7 @@ export const HomePage = () => {
           </VerticalContainer>
           <HorizontalContainer className={styles.whatWeAreButtons}>
             <Button
-              onClick={() => {
-                user ? navigate(pages.user.getPath({uuid: user.uuid})) : AuthService.logIn();
-              }}
+              onClick={() => getStarted(navigate, user?.uuid)}
               buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
               value={LanguageService.home.tryNowButton[language]}
               className={styles.tryNowButton}
