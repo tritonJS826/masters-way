@@ -10,10 +10,10 @@ $paddingLarge: 25px;
 
 .inputIcon {
   position: absolute;
-  left: $leftPosition;
   top: 50%;
-  transform: translateY(-50%);
+  left: $leftPosition;
   stroke: var(--inactiveTextColor);
+  transform: translateY(-50%);
 }
 
 .input {
@@ -46,8 +46,8 @@ $paddingLarge: 25px;
     border: 1px solid var(--primaryBorderColor);
 
     &::placeholder {
-      transition: opacity 0.2s ease-in-out;
       opacity: 0;
+      transition: opacity 0.2s ease-in-out;
     }
   }
 }

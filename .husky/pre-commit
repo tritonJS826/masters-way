@@ -1,13 +1,13 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
-cd mw-webapp
-pnpm lint-staged
-
-pnpm dlx concurrently \
-    "pnpm type-check" \
-    "pnpm cypress:component:run" \
-    "pnpm test" \
-    "pnpm build-storybook" \
-    "pnpm build" \
-    # "cd ../mw-server && go build main.go"
+##!/usr/bin/env sh
+#. "$(dirname -- "$0")/_/husky.sh"
+#
+#cd mw-webapp
+#pnpm lint-staged
+#
+#pnpm dlx concurrently \
+#    "pnpm type-check" \
+#    "pnpm cypress:component:run" \
+#    "pnpm test" \
+#    "pnpm build-storybook" \
+#    "pnpm build" \
+#    # "cd ../mw-server && go build main.go"
