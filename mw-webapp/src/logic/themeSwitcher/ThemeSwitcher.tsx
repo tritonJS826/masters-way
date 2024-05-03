@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
@@ -26,9 +27,20 @@ const getDescriptionForTheme = (theme: Theme, language: Language): string =>
 const getIconForNextTheme = (theme: Theme) => theme === Theme.DARK ? "SunIcon" : "MoonIcon";
 
 /**
+ * ThemeSwitcher props
+ */
+interface ThemeSwitcherProps {
+
+  /**
+   * Custom class name
+   */
+  className?: string;
+}
+
+/**
  * ThemeSwitcher component
  */
-export const ThemeSwitcher = () => {
+export const ThemeSwitcher = (props: ThemeSwitcherProps) => {
   const {theme, setTheme, language} = useGlobalContext();
 
   /**
@@ -45,7 +57,7 @@ export const ThemeSwitcher = () => {
       content={getDescriptionForTheme(theme, language)}
     >
       <button
-        className={styles.iconWrapper}
+        className={clsx(styles.iconWrapper, props.className)}
         onClick={onChangeTheme}
       >
         <Icon

@@ -160,7 +160,7 @@ export const Header = (props: HeaderProps) => {
       </Link>
       <div className={styles.headerButtonsContainer}>
 
-        <ThemeSwitcher />
+        <ThemeSwitcher className={styles.themeSwitcher} />
 
         <Select
           value={props.language}
