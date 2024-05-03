@@ -37,6 +37,7 @@ $widthBlock: 1305px;
 
 .titleDescription {
   color: var(--secondaryTextColor);
+  font-size: 24px;
   text-align: center;
 }
 
@@ -68,16 +69,11 @@ $widthBlock: 1305px;
 
 .goalsTitle {
   color: var(--secondaryTextColor);
-
-  & h2 {
-    font-size: $fontSizeExtraLarge;
-  }
+  font-size: 48px;
 }
 
 .goalsSubTitle {
-  & h3 {
-    font-size: $fontSizeLarge;
-  }
+  font-size: 24px;
 }
 
 .aboutProjectBlock {
@@ -169,3 +165,11 @@ $widthBlock: 1305px;
   color: var(--secondaryTextColor);
   font-size: $fontSizeLarge;
 }
+
+// h2 {
+//   font-size: 48px;
+// }
+
+// h3 {
+//   font-size: 24px;
+// }
