@@ -26,6 +26,7 @@ $homeMaxWidthImage: 605px;
 
 .title {
   max-width: $homeMaxWidthTitle;
+  padding: 0 $paddingMedium;
   margin: 0 auto;
   color: var(--primaryTextColor);
   color: var(--secondaryTextColor);
@@ -44,17 +45,22 @@ $homeMaxWidthImage: 605px;
 
 .advantagesBlock {
   align-items: center;
-  padding: $homePaddingBigBlock 0 0;
+  padding: $homePaddingBigBlock $paddingMedium 0;
   background-color: var(--tertiaryBackgroundColor);
   gap: $homeGap;
 }
 
 .goals {
   flex-wrap: wrap;
+  justify-content: center;
   padding: $homePaddingSmallBlock $homePaddingBlock;
   border: 1px solid var(--homeBorderColor);
   border-radius: $homeBorderRadius;
   gap: $homeGapBig;
+
+  @media (max-width: $mediaWidthMobileBig) {
+    padding: $homePaddingSmallBlock;
+  }
 }
 
 .goalsTitle {
@@ -62,9 +68,10 @@ $homeMaxWidthImage: 605px;
 }
 
 .aboutProjectBlock {
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  padding: $homePaddingBigBlock 0 0;
+  padding: $homePaddingBigBlock $paddingMedium 0;
   background-color: var(--tertiaryBackgroundColor);
   gap: $homeGapBig;
 }
@@ -84,17 +91,25 @@ $homeMaxWidthImage: 605px;
   font-size: 24px;
   gap: $homeGap;
   list-style-position: inside;
+
+  @media (max-width: $mediaWidthMobileBig) {
+    align-items: center;
+  }
 }
 
-.aboutProjectGetStartedButton,
-.tryNowButton {
+.aboutProjectGetStartedButton {
   margin-right: auto;
+
+  @media (max-width: $mediaWidthMobileBig) {
+    margin-right: 0;
+  }
 }
 
 .whatWeAreBlock {
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  padding: $homePaddingBigBlock 0;
+  padding: $homePaddingBigBlock $paddingMedium;
   background-color: var(--tertiaryBackgroundColor);
   gap: $homeGapBig;
 }
@@ -126,8 +141,11 @@ $homeMaxWidthImage: 605px;
 
 .whatWeAreButtons {
   align-items: center;
-  margin-right: auto;
   gap: $homeGap;
+
+  @media (max-width: $mediaWidthMobileBig) {
+    flex-direction: column;
+  }
 }
 
 .whatWeAreDescription {

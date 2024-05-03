@@ -2,7 +2,7 @@
 
 .goalItem {
   display: flex;
-  width: 317px;
+  max-width: 317px;
   justify-content: left;
   gap: $gapMedium;
 }

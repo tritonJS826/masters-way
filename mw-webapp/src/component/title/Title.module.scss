@@ -2,6 +2,10 @@
 
 h1 {
   font-size: 64px;
+
+  @media (max-width: $mediaWidthMobileBig) {
+    font-size: 40px;
+  }
 }
 
 h2 {
