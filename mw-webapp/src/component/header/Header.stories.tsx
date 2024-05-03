@@ -2,7 +2,7 @@ import {BrowserRouter} from "react-router-dom";
 import type {StoryObj} from "@storybook/react";
 import {Header} from "src/component/header/Header";
 import {testUserPreview} from "src/component/header/testUserPreview";
-import {getNextSwitchTheme} from "src/logic/themeSwitcher/ThemeSwitcher";
+import {getNextSwitchTheme} from "src/component/themeSwitcher/ThemeSwitcher";
 import {Language} from "src/utils/LanguageWorker";
 import {ThemeWorker} from "src/utils/ThemeWorker";
 

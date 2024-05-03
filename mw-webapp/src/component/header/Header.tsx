@@ -9,11 +9,11 @@ import {Link} from "src/component/link/Link";
 import {Select, SelectItemType} from "src/component/select/Select";
 import {MenuItemLink, Sidebar} from "src/component/sidebar/Sidebar";
 import {getMapThemeSources, ThemedImage} from "src/component/themedImage/ThemedImage";
+import {getNextSwitchTheme, ThemeSwitcher} from "src/component/themeSwitcher/ThemeSwitcher";
 import {Toggle} from "src/component/toggle/Toggle";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {getNextSwitchTheme, ThemeSwitcher} from "src/logic/themeSwitcher/ThemeSwitcher";
 import {User} from "src/model/businessModel/User";
 import {pages} from "src/router/pages";
 import {AuthService} from "src/service/AuthService";
@@ -160,7 +160,12 @@ export const Header = (props: HeaderProps) => {
       </Link>
       <div className={styles.headerButtonsContainer}>
 
-        <ThemeSwitcher className={styles.themeSwitcher} />
+        <ThemeSwitcher
+          language={props.language}
+          theme={props.currentTheme}
+          setTheme={props.setTheme}
+          className={styles.themeSwitcher}
+        />
 
         <Select
           value={props.language}
