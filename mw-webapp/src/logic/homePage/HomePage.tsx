@@ -1,3 +1,4 @@
+import {useNavigate} from "react-router-dom";
 import logoLight from "src/assets/mastersWayLogoLight.svg";
 import {Button, ButtonType} from "src/component/button/Button";
 import {LOGO_TEXT} from "src/component/header/Header";
@@ -9,6 +10,7 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {useGlobalContext} from "src/GlobalContext";
 import {GoalItem} from "src/logic/homePage/goalItem/GoalItem";
+import {pages} from "src/router/pages";
 import {AuthService} from "src/service/AuthService";
 import {LanguageService} from "src/service/LangauageService";
 import styles from "src/logic/homePage/HomePage.module.scss";
@@ -17,7 +19,8 @@ import styles from "src/logic/homePage/HomePage.module.scss";
  * Home page
  */
 export const HomePage = () => {
-  const {language} = useGlobalContext();
+  const {language, user} = useGlobalContext();
+  const navigate = useNavigate();
 
   return (
     <>
@@ -30,10 +33,12 @@ export const HomePage = () => {
         <Title
           level={HeadingLevel.h3}
           text={LanguageService.home.description[language]}
-          className={styles.titleDescription}
+          classNameHeading={styles.titleDescription}
         />
         <Button
-          onClick={AuthService.logIn}
+          onClick={() => {
+            user ? navigate(pages.user.getPath({uuid: user.uuid})) : AuthService.logIn();
+          }}
           buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
           value={LanguageService.home.startForFreeButton[language]}
           className={styles.getStartedButton}
@@ -44,7 +49,7 @@ export const HomePage = () => {
         <Title
           level={HeadingLevel.h2}
           text={LanguageService.home.advantages.goalsTitle[language]}
-          className={styles.goalsTitle}
+          classNameHeading={styles.goalsTitle}
         />
         <HorizontalContainer className={styles.goals}>
           <GoalItem
@@ -72,13 +77,13 @@ export const HomePage = () => {
           <Title
             level={HeadingLevel.h2}
             text={LanguageService.home.aboutAppBlock.title[language]}
-            className={styles.goalsTitle}
+            classNameHeading={styles.goalsTitle}
           />
           <VerticalContainer className={styles.aboutProjectText}>
             <Title
               level={HeadingLevel.h3}
               text={LanguageService.home.aboutAppBlock.subTitle[language]}
-              className={styles.goalsTitle}
+              classNameHeading={styles.goalsSubTitle}
             />
             <div className={styles.aboutProjectDescription}>
               {LanguageService.home.aboutAppBlock.description[language]}
@@ -99,7 +104,9 @@ export const HomePage = () => {
             </div>
           </VerticalContainer>
           <Button
-            onClick={AuthService.logIn}
+            onClick={() => {
+              user ? navigate(pages.user.getPath({uuid: user.uuid})) : AuthService.logIn();
+            }}
             buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
             value={LanguageService.home.startForFreeButton[language]}
             className={styles.aboutProjectGetStartedButton}
@@ -112,7 +119,7 @@ export const HomePage = () => {
           <Title
             level={HeadingLevel.h2}
             text={LanguageService.home.whatWeAreBlock.title[language]}
-            className={styles.goalsTitle}
+            classNameHeading={styles.goalsTitle}
           />
           <VerticalContainer className={styles.whatWeAreList}>
             <HorizontalContainer className={styles.whatWeAreItem}>
@@ -150,7 +157,9 @@ export const HomePage = () => {
           </VerticalContainer>
           <HorizontalContainer className={styles.whatWeAreButtons}>
             <Button
-              onClick={AuthService.logIn}
+              onClick={() => {
+                user ? navigate(pages.user.getPath({uuid: user.uuid})) : AuthService.logIn();
+              }}
               buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
               value={LanguageService.home.tryNowButton[language]}
               className={styles.tryNowButton}

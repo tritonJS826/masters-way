@@ -34,6 +34,7 @@ export const GoalItem = (props: GoalItemProps) => {
         level={HeadingLevel.h3}
         text={props.title}
         className={styles.goalTitle}
+        classNameHeading={styles.goalTitle}
       />
       <p className={styles.goalDescription}>
         {props.description}
