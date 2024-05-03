@@ -13,6 +13,7 @@ $homePaddingSmallBlock: 25px;
 $homePaddingBlock: 80px;
 $homePaddingBigBlock: 128px;
 $homeMaxWidthImage: 605px;
+$widthBlock: 1305px;
 
 .welcomeBlock {
   align-items: center;
@@ -26,6 +27,7 @@ $homeMaxWidthImage: 605px;
 
 .title {
   max-width: $homeMaxWidthTitle;
+  padding: 0 $paddingMedium;
   margin: 0 auto;
   color: var(--primaryTextColor);
   color: var(--secondaryTextColor);
@@ -44,27 +46,41 @@ $homeMaxWidthImage: 605px;
 
 .advantagesBlock {
   align-items: center;
-  padding: $homePaddingBigBlock 0 0;
+  padding: $homePaddingBigBlock $paddingMedium 0;
   background-color: var(--tertiaryBackgroundColor);
   gap: $homeGap;
 }
 
 .goals {
+  width: 100%;
+  max-width: $widthBlock;
   flex-wrap: wrap;
-  padding: $homePaddingSmallBlock $homePaddingBlock;
+  justify-content: space-evenly;
+  padding: $homePaddingSmallBlock $paddingMedium;
   border: 1px solid var(--homeBorderColor);
   border-radius: $homeBorderRadius;
-  gap: $homeGapBig;
+  gap: $gapBig;
 }
 
 .goalsTitle {
   color: var(--secondaryTextColor);
+
+  & h2 {
+    font-size: $fontSizeExtraLarge;
+  }
+}
+
+.goalsSubTitle {
+  & h3 {
+    font-size: $fontSizeLarge;
+  }
 }
 
 .aboutProjectBlock {
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  padding: $homePaddingBigBlock 0 0;
+  padding: $homePaddingBigBlock $paddingMedium 0;
   background-color: var(--tertiaryBackgroundColor);
   gap: $homeGapBig;
 }
@@ -81,20 +97,24 @@ $homeMaxWidthImage: 605px;
 .whatWeAreDescription {
   max-width: $maxWidthBlock;
   color: var(--secondaryTextColor);
-  font-size: 24px;
+  font-size: $fontSizeLarge;
   gap: $homeGap;
   list-style-position: inside;
+
+  @media (max-width: $mediaWidthMobileBig) {
+    align-items: center;
+  }
 }
 
-.aboutProjectGetStartedButton,
-.tryNowButton {
-  margin-right: auto;
+.aboutProjectGetStartedButton {
+  width: fit-content;
 }
 
 .whatWeAreBlock {
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  padding: $homePaddingBigBlock 0;
+  padding: $homePaddingBigBlock $paddingMedium;
   background-color: var(--tertiaryBackgroundColor);
   gap: $homeGapBig;
 }
@@ -126,8 +146,11 @@ $homeMaxWidthImage: 605px;
 
 .whatWeAreButtons {
   align-items: center;
-  margin-right: auto;
   gap: $homeGap;
+
+  @media (max-width: $mediaWidthMobileBig) {
+    flex-direction: column;
+  }
 }
 
 .whatWeAreDescription {
@@ -136,5 +159,5 @@ $homeMaxWidthImage: 605px;
 
 .whatWeAreLink {
   color: var(--secondaryTextColor);
-  font-size: 24px;
+  font-size: $fontSizeLarge;
 }

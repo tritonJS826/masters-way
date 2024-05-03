@@ -1,11 +1,11 @@
+import clsx from "clsx";
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
-import {useGlobalContext} from "src/GlobalContext";
 import {LanguageService} from "src/service/LangauageService";
 import {Language} from "src/utils/LanguageWorker";
 import {Theme} from "src/utils/ThemeWorker";
-import styles from "src/logic/themeSwitcher/ThemeSwitcher.module.scss";
+import styles from "src/component/themeSwitcher/ThemeSwitcher.module.scss";
 
 /**
  * Calculate next switch theme
@@ -26,31 +26,56 @@ const getDescriptionForTheme = (theme: Theme, language: Language): string =>
 const getIconForNextTheme = (theme: Theme) => theme === Theme.DARK ? "SunIcon" : "MoonIcon";
 
 /**
+ * ThemeSwitcher props
+ */
+interface ThemeSwitcherProps {
+
+  /**
+   * Custom class name
+   */
+  className?: string;
+
+  /**
+   * Theme value
+   */
+  theme: Theme;
+
+  /**
+   * Set theme
+   */
+  setTheme: (theme: Theme) => void;
+
+  /**
+   * Language value
+   */
+  language: Language;
+}
+
+/**
  * ThemeSwitcher component
  */
-export const ThemeSwitcher = () => {
-  const {theme, setTheme, language} = useGlobalContext();
+export const ThemeSwitcher = (props: ThemeSwitcherProps) => {
 
   /**
    *Change theme
    */
   const onChangeTheme = () => {
-    const updatedTheme = getNextSwitchTheme(theme);
-    setTheme(updatedTheme);
+    const updatedTheme = getNextSwitchTheme(props.theme);
+    props.setTheme(updatedTheme);
   };
 
   return (
     <Tooltip
       position={PositionTooltip.BOTTOM}
-      content={getDescriptionForTheme(theme, language)}
+      content={getDescriptionForTheme(props.theme, props.language)}
     >
       <button
-        className={styles.iconWrapper}
+        className={clsx(styles.iconWrapper, props.className)}
         onClick={onChangeTheme}
       >
         <Icon
           size={IconSize.MEDIUM}
-          name={getIconForNextTheme(theme)}
+          name={getIconForNextTheme(props.theme)}
         />
       </button>
     </Tooltip>

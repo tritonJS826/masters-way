@@ -2,12 +2,8 @@
 
 h1 {
   font-size: 64px;
-}
 
-h2 {
-  font-size: 48px;
-}
-
-h3 {
-  font-size: 24px;
+  @media (max-width: $mediaWidthMobileBig) {
+    font-size: 40px;
+  }
 }

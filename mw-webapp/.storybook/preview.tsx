@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import type {Preview} from "@storybook/react";
-import {ThemeSwitcher} from "../src/logic/themeSwitcher/ThemeSwitcher";
-
+import { ThemeSwitcher } from "../src/component/themeSwitcher/ThemeSwitcher";
 import {useState} from "react";
 import {
   DEFAULT_NOTIFICATION_SETTINGS,
@@ -51,7 +50,7 @@ export const ThemeComponent = () => {
       setLanguage,
     }}
     >
-      <ThemeSwitcher />
+      <ThemeSwitcher language={language} theme={theme} setTheme={setTheme} />
     </globalContext.Provider>
   );
 };
