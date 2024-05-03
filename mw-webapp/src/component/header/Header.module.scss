@@ -86,6 +86,7 @@ $userNameFontSize: 16px;
   stroke: var(--secondaryTextColor);
 }
 
+.themeSwitcher,
 .selectLanguage {
   @media (max-width: $mediaWidthMobileMedium) {
     display: none;

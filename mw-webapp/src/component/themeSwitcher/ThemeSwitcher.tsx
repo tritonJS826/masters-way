@@ -34,27 +34,13 @@ interface ThemeSwitcherProps {
    * Custom class name
    */
   className?: string;
-
-  /**
-   * Theme value
-   */
-  theme: Theme;
-
-  /**
-   * Set theme
-   */
-  setTheme: (theme: Theme) => void;
-
-  /**
-   * Language value
-   */
-  language: Language;
 }
 
 /**
  * ThemeSwitcher component
  */
 export const ThemeSwitcher = (props: ThemeSwitcherProps) => {
+  const {theme, setTheme, language} = useGlobalContext();
 
   /**
    *Change theme
