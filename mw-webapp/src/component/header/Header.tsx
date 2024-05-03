@@ -167,6 +167,7 @@ export const Header = (props: HeaderProps) => {
           name="language"
           options={languageOptions}
           onChange={props.setLanguage}
+          className={styles.selectLanguage}
         />
 
         <HorizontalContainer className={styles.rightBlock}>

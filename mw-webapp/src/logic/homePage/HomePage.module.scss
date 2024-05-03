@@ -13,6 +13,7 @@ $homePaddingSmallBlock: 25px;
 $homePaddingBlock: 80px;
 $homePaddingBigBlock: 128px;
 $homeMaxWidthImage: 605px;
+$widthBlock: 1305px;
 
 .welcomeBlock {
   align-items: center;
@@ -36,7 +37,6 @@ $homeMaxWidthImage: 605px;
 
 .titleDescription {
   color: var(--secondaryTextColor);
-  font-size: 24px;
   text-align: center;
 }
 
@@ -52,25 +52,28 @@ $homeMaxWidthImage: 605px;
 }
 
 .goals {
+  width: 100%;
+  max-width: $widthBlock;
   flex-wrap: wrap;
-  justify-content: center;
-  padding: $homePaddingSmallBlock $homePaddingBlock;
+  justify-content: space-evenly;
+  padding: $homePaddingSmallBlock $paddingMedium;
   border: 1px solid var(--homeBorderColor);
   border-radius: $homeBorderRadius;
-  gap: $homeGapBig;
-
-  @media (max-width: $mediaWidthMobileBig) {
-    padding: $homePaddingSmallBlock;
-  }
+  gap: $gapBig;
 }
 
 .goalsTitle {
   color: var(--secondaryTextColor);
-  font-size: 48px;
+
+  & h2 {
+    font-size: $fontSizeExtraLarge;
+  }
 }
 
 .goalsSubTitle {
-  font-size: 24px;
+  & h3 {
+    font-size: $fontSizeLarge;
+  }
 }
 
 .aboutProjectBlock {
@@ -94,7 +97,7 @@ $homeMaxWidthImage: 605px;
 .whatWeAreDescription {
   max-width: $maxWidthBlock;
   color: var(--secondaryTextColor);
-  font-size: 24px;
+  font-size: $fontSizeLarge;
   gap: $homeGap;
   list-style-position: inside;
 
@@ -104,11 +107,7 @@ $homeMaxWidthImage: 605px;
 }
 
 .aboutProjectGetStartedButton {
-  margin-right: auto;
-
-  @media (max-width: $mediaWidthMobileBig) {
-    margin-right: 0;
-  }
+  width: fit-content;
 }
 
 .whatWeAreBlock {
@@ -160,13 +159,5 @@ $homeMaxWidthImage: 605px;
 
 .whatWeAreLink {
   color: var(--secondaryTextColor);
-  font-size: 24px;
+  font-size: $fontSizeLarge;
 }
-
-// h2 {
-//   font-size: 48px;
-// }
-
-// h3 {
-//   font-size: 24px;
-// }

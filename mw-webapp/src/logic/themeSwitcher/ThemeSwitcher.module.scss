@@ -11,4 +11,8 @@ $iconContainerSize: 20px;
   border: none;
   background: none;
   cursor: pointer;
+
+  @media (max-width: $mediaWidthMobileMedium) {
+    display: none;
+  }
 }

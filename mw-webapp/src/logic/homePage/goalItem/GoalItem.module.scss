@@ -2,14 +2,14 @@
 
 .goalItem {
   display: flex;
-  max-width: 317px;
+  max-width: $mediumWidthBlock;
   justify-content: left;
   gap: $gapMedium;
 }
 
 .goalTitle {
   color: var(--secondaryTextColor);
-  font-size: 24px;
+  font-size: $fontSizeLarge;
   text-align: left;
 }
 

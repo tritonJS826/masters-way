@@ -26,10 +26,6 @@ $userNameFontSize: 16px;
   align-items: center;
   justify-content: space-between;
   gap: $gapBig;
-
-  @media (max-width: $mediaWidthMobileMedium) {
-    gap: $gapMedium;
-  }
 }
 
 .logo {
@@ -39,10 +35,6 @@ $userNameFontSize: 16px;
 .rightBlock {
   align-items: center;
   gap: $gapBig;
-
-  @media (max-width: $mediaWidthMobileMedium) {
-    gap: $gapMedium;
-  }
 }
 
 .userAvatar {
@@ -92,4 +84,10 @@ $userNameFontSize: 16px;
 
 .linkIcon {
   stroke: var(--secondaryTextColor);
+}
+
+.selectLanguage {
+  @media (max-width: $mediaWidthMobileMedium) {
+    display: none;
+  }
 }

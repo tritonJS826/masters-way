@@ -125,12 +125,13 @@
 }
 
 .superSpecialBeautifulButton {
-  padding: 18px 48px;
+  min-width: 216px;
+  padding: 18px $paddingBig;
   border: none;
   border-radius: 20px;
   background-color: var(--homeBackgroundButtonColor);
   color: var(--tertiaryTextButtonColor);
-  font-size: 24px;
+  font-size: $fontSizeLarge;
 
   &:hover {
     background-color: var(--homeHoverButtonColor);
@@ -138,9 +139,5 @@
 
   &:active {
     background-color: var(--homeActiveButtonColor);
-  }
-
-  @media (max-width: $mediaWidthMobileBig) {
-    padding: 18px 24px;
   }
 }
