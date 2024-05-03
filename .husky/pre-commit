@@ -6,8 +6,8 @@ pnpm lint-staged
 
 pnpm dlx concurrently \
     "pnpm type-check" \
+    "pnpm cypress:component:run" \
     "pnpm test" \
     "pnpm build-storybook" \
-#    "pnpm cypress:component:run" \
-    # "pnpm build" \
+    "pnpm build" \
     # "cd ../mw-server && go build main.go"
