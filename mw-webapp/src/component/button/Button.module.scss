@@ -140,4 +140,8 @@
   &:active {
     background-color: var(--homeActiveButtonColor);
   }
+
+  @media (max-width: $mediaWidthMobileBig) {
+    padding: 18px 24px;
+  }
 }

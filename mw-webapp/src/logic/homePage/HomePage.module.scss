@@ -55,11 +55,15 @@ $widthBlock: 1305px;
   width: 100%;
   max-width: $widthBlock;
   flex-wrap: wrap;
-  justify-content: space-evenly;
-  padding: $homePaddingSmallBlock $paddingMedium;
+  justify-content: center;
+  padding: $homePaddingSmallBlock $homePaddingBlock;
   border: 1px solid var(--homeBorderColor);
   border-radius: $homeBorderRadius;
-  gap: $gapBig;
+  gap: $homeGapBig;
+
+  @media (max-width: $mediaWidthMobileBig) {
+    padding: $homePaddingSmallBlock;
+  }
 }
 
 .goalsTitle {
@@ -107,7 +111,11 @@ $widthBlock: 1305px;
 }
 
 .aboutProjectGetStartedButton {
-  width: fit-content;
+  margin-right: auto;
+
+  @media (max-width: $mediaWidthMobileBig) {
+    margin-right: 0;
+  }
 }
 
 .whatWeAreBlock {
