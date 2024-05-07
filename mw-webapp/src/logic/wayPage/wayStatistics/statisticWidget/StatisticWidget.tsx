@@ -1,4 +1,5 @@
 import {PropsWithChildren} from "react";
+import clsx from "clsx";
 import {Checkbox} from "src/component/checkbox/Checkbox";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HeadingLevel, Title} from "src/component/title/Title";
@@ -29,7 +30,7 @@ interface StatisticLabelsProps {
 export const StatisticWidget = (props: PropsWithChildren<StatisticLabelsProps>) => {
   return (
     <VerticalContainer className={styles.statisticBlock}>
-      <HorizontalContainer className={styles.titleCheckbox}>
+      <HorizontalContainer className={clsx(styles.titleCheckbox, props.isEditable ? styles.titleCheckboxIndex : "")}>
         {props.title &&
         <Title
           level={HeadingLevel.h4}
