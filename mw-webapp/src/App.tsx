@@ -1,9 +1,6 @@
 import {useState} from "react";
 import {RouterProvider} from "react-router-dom";
-import {
-  DEFAULT_NOTIFICATION_SETTINGS,
-  globalContext,
-} from "src/GlobalContext";
+import {DEFAULT_NOTIFICATION_SETTINGS, globalContext} from "src/GlobalContext";
 import {User} from "src/model/businessModel/User";
 import {router} from "src/router/Router";
 import {Language, LanguageWorker} from "src/utils/LanguageWorker";

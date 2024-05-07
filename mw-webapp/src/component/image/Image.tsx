@@ -28,7 +28,7 @@ interface ImageProps {
   dataCy?: string;
 
   /**
-   * Should image open?
+   * Should image open
    */
   isShouldOpen?: boolean;
 }
@@ -40,27 +40,27 @@ export const Image = (props: ImageProps) => {
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const className = clsx(styles.image, props.className);
-
-  /**
-   * Function full screen image
-   */
-  const onClickHandler = (value: boolean) => {
-    setIsOpen(value);
-  };
+  const className = clsx(isOpen ? styles.imageFullScreen : styles.image, props.className);
 
   return (
     <div className={isOpen ? styles.imageWrapperFullScreen : ""}>
+      {isOpen && <button
+        className={styles.closeImageButton}
+        onClick={() => setIsOpen(false)}
+      >
+        CLOSE
+      </button>}
       <img
         tabIndex={0}
         src={props.src}
         alt={props.alt}
         className={className}
         data-cy={props.dataCy}
-        onClick={props.isShouldOpen ? () => onClickHandler(true) : undefined}
-        onBlur={() => onClickHandler(false)}
+        onClick={props.isShouldOpen ? () => setIsOpen(true) : undefined}
+        onBlur={() => setIsOpen(false)}
       />
     </div>
+
   );
 };
 
