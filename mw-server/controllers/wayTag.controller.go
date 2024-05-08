@@ -6,6 +6,7 @@ import (
 
 	db "mwserver/db/sqlc"
 	"mwserver/schemas"
+	"mwserver/util"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -49,7 +50,8 @@ func (cc *WayTagController) AddWayTagToWay(ctx *gin.Context) {
 		WayTagUuid: wayTag.Uuid,
 		WayUuid:    uuid.MustParse(payload.WayUuid),
 	}
-	cc.db.CreateWaysWayTag(ctx, *args)
+	_, err = cc.db.CreateWaysWayTag(ctx, *args)
+	util.HandleErrorGin(ctx, err)
 
 	response := schemas.WayTagResponse{
 		Uuid: wayTag.Uuid.String(),

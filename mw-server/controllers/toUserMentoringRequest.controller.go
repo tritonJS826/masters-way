@@ -6,6 +6,7 @@ import (
 
 	db "mwserver/db/sqlc"
 	"mwserver/schemas"
+	"mwserver/util"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -44,11 +45,7 @@ func (cc *ToUserMentoringRequestController) CreateToUserMentoringRequest(ctx *gi
 	}
 
 	ToUserMentoringRequest, err := cc.db.CreateToUserMentoringRequest(ctx, *args)
-
-	if err != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving toUserMentoringRequest", "error": err.Error()})
-		return
-	}
+	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, ToUserMentoringRequest)
 }
@@ -74,10 +71,7 @@ func (cc *ToUserMentoringRequestController) DeleteToUserMentoringRequestById(ctx
 	}
 
 	err := cc.db.DeleteToUserMentoringRequestByIds(ctx, args)
-	if err != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "failed", "error": err.Error()})
-		return
-	}
+	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})
 

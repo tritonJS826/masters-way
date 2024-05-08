@@ -58,11 +58,7 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 	}
 
 	way, err := cc.db.CreateWay(ctx, *args)
-
-	if err != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{"error": err.Error()})
-		return
-	}
+	util.HandleErrorGin(ctx, err)
 
 	dbWayTags, err := cc.db.GetListWayTagsByWayId(ctx, way.Uuid)
 	wayTags := make([]schemas.WayTagResponse, 0)
@@ -76,7 +72,8 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 	}
 
 	copiedFromWayUuid := util.MarshalNullUuid(way.CopiedFromWayUuid)
-	dbOwner, _ := cc.db.GetUserById(ctx, payload.OwnerUuid)
+	dbOwner, err := cc.db.GetUserById(ctx, payload.OwnerUuid)
+	util.HandleErrorGin(ctx, err)
 	owner := schemas.UserPlainResponse{
 		Uuid:        dbOwner.Uuid.String(),
 		Name:        dbOwner.Name,
@@ -143,18 +140,11 @@ func (cc *WayController) UpdateWay(ctx *gin.Context) {
 	}
 
 	way, err := cc.db.UpdateWay(ctx, *args)
-
-	if err != nil {
-		if err == sql.ErrNoRows {
-			ctx.JSON(http.StatusNotFound, gin.H{"error": "Failed to retrieve way with this ID"})
-			return
-		}
-		ctx.JSON(http.StatusBadGateway, gin.H{"error": err.Error()})
-		return
-	}
+	util.HandleErrorGin(ctx, err)
 
 	copiedFromWayUuid := util.MarshalNullUuid(way.CopiedFromWayUuid)
-	mentorsRaw, _ := cc.db.GetMentorUsersByWayId(ctx, way.Uuid)
+	mentorsRaw, err := cc.db.GetMentorUsersByWayId(ctx, way.Uuid)
+	util.HandleErrorGin(ctx, err)
 	mentors := lo.Map(mentorsRaw, func(dbMentor db.User, i int) schemas.UserPlainResponse {
 		return schemas.UserPlainResponse{
 			Uuid:        dbMentor.Uuid.String(),
@@ -167,7 +157,8 @@ func (cc *WayController) UpdateWay(ctx *gin.Context) {
 		}
 	})
 
-	dbOwner, _ := cc.db.GetUserById(ctx, way.Uuid)
+	dbOwner, err := cc.db.GetUserById(ctx, way.Uuid)
+	util.HandleErrorGin(ctx, err)
 	owner := schemas.UserPlainResponse{
 		Uuid:        dbOwner.Uuid.String(),
 		Name:        dbOwner.Name,
@@ -177,7 +168,8 @@ func (cc *WayController) UpdateWay(ctx *gin.Context) {
 		ImageUrl:    util.MarshalNullString(dbOwner.ImageUrl),
 		IsMentor:    dbOwner.IsMentor,
 	}
-	dbTags, _ := cc.db.GetListWayTagsByWayId(ctx, way.Uuid)
+	dbTags, err := cc.db.GetListWayTagsByWayId(ctx, way.Uuid)
+	util.HandleErrorGin(ctx, err)
 	wayTags := lo.Map(dbTags, func(dbTag db.WayTag, i int) schemas.WayTagResponse {
 		return schemas.WayTagResponse{
 			Uuid: dbTag.Uuid.String(),
@@ -225,12 +217,7 @@ func (cc *WayController) GetWayById(ctx *gin.Context) {
 		CurrentChildrenDepth: 1,
 	}
 	response, err := services.GetPopulatedWayById(cc.db, ctx, args)
-	if err != nil {
-		if err == sql.ErrNoRows {
-			ctx.JSON(http.StatusNotFound, gin.H{"error": "Failed to retrieve way with this ID"})
-		}
-		ctx.JSON(http.StatusBadGateway, gin.H{"error": err.Error()})
-	}
+	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)
 }
@@ -272,10 +259,7 @@ func (cc *WayController) GetAllWays(ctx *gin.Context) {
 	}
 
 	ways, err := cc.db.ListWays(ctx, *listWaysArgs)
-	if err != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{"error": err.Error()})
-		return
-	}
+	util.HandleErrorGin(ctx, err)
 
 	wayUuids := lo.Map(ways, func(way db.ListWaysRow, i int) uuid.UUID {
 		return way.Uuid
@@ -284,7 +268,8 @@ func (cc *WayController) GetAllWays(ctx *gin.Context) {
 		return way.OwnerUuid
 	})
 
-	dbWayTags, _ := cc.db.GetListWayTagsByWayIds(ctx, wayUuids)
+	dbWayTags, err := cc.db.GetListWayTagsByWayIds(ctx, wayUuids)
+	util.HandleErrorGin(ctx, err)
 	wayTagsMap := make(map[uuid.UUID][]schemas.WayTagResponse)
 	lo.ForEach(dbWayTags, func(dbWayTag db.GetListWayTagsByWayIdsRow, i int) {
 		wayTag := schemas.WayTagResponse{
@@ -294,7 +279,8 @@ func (cc *WayController) GetAllWays(ctx *gin.Context) {
 		wayTagsMap[dbWayTag.WayUuid] = append(wayTagsMap[dbWayTag.Uuid], wayTag)
 	})
 
-	dbMentors, _ := cc.db.GetMentorUsersByWayIds(ctx, wayUuids)
+	dbMentors, err := cc.db.GetMentorUsersByWayIds(ctx, wayUuids)
+	util.HandleErrorGin(ctx, err)
 	mentorsMap := make(map[uuid.UUID][]schemas.UserPlainResponse)
 	lo.ForEach(dbMentors, func(dbMentor db.GetMentorUsersByWayIdsRow, i int) {
 		mentor := schemas.UserPlainResponse{
@@ -309,7 +295,8 @@ func (cc *WayController) GetAllWays(ctx *gin.Context) {
 		mentorsMap[dbMentor.WayUuid] = append(mentorsMap[dbMentor.WayUuid], mentor)
 	})
 
-	dbOwners, _ := cc.db.GetUserByIds(ctx, wayOwnerUuids)
+	dbOwners, err := cc.db.GetUserByIds(ctx, wayOwnerUuids)
+	util.HandleErrorGin(ctx, err)
 	ownersMap := lo.SliceToMap(dbOwners, func(dbOwner db.User) (string, schemas.UserPlainResponse) {
 		owner := schemas.UserPlainResponse{
 			Uuid:        dbOwner.Uuid.String(),
@@ -372,10 +359,7 @@ func (cc *WayController) DeleteWayById(ctx *gin.Context) {
 	wayId := ctx.Param("wayId")
 
 	err := cc.db.DeleteWay(ctx, uuid.MustParse(wayId))
-	if err != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "failed", "error": err.Error()})
-		return
-	}
+	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfuly deleted"})
 

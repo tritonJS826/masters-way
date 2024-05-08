@@ -8,6 +8,7 @@ import (
 
 	db "mwserver/db/sqlc"
 	"mwserver/schemas"
+	"mwserver/util"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -50,11 +51,7 @@ func (cc *CommentController) CreateComment(ctx *gin.Context) {
 	}
 
 	comment, err := cc.db.CreateComment(ctx, *args)
-
-	if err != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving Comment", "error": err.Error()})
-		return
-	}
+	util.HandleErrorGin(ctx, err)
 
 	response := schemas.CommentPopulatedResponse{
 		Uuid:          comment.Uuid.String(),
@@ -97,15 +94,7 @@ func (cc *CommentController) UpdateComment(ctx *gin.Context) {
 	}
 
 	comment, err := cc.db.UpdateComment(ctx, *args)
-
-	if err != nil {
-		if err == sql.ErrNoRows {
-			ctx.JSON(http.StatusNotFound, gin.H{"status": "failed", "message": "Failed to retrieve Comment with this ID"})
-			return
-		}
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving comment", "error": err.Error()})
-		return
-	}
+	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, comment)
 }
@@ -124,10 +113,7 @@ func (cc *CommentController) DeleteCommentById(ctx *gin.Context) {
 	commentId := ctx.Param("commentId")
 
 	err := cc.db.DeleteComment(ctx, uuid.MustParse(commentId))
-	if err != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "failed", "error": err.Error()})
-		return
-	}
+	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})
 

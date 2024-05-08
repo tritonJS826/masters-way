@@ -54,11 +54,7 @@ func (cc *MetricController) CreateMetric(ctx *gin.Context) {
 	}
 
 	metric, err := cc.db.CreateMetric(ctx, *args)
-
-	if err != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving Metric", "error": err.Error()})
-		return
-	}
+	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, metric)
 }
@@ -85,6 +81,7 @@ func (cc *MetricController) UpdateMetric(ctx *gin.Context) {
 
 	now := time.Now()
 	parsedTime, err := time.Parse(util.DEFAULT_STRING_LAYOUT, payload.DoneDate)
+	util.HandleErrorGin(ctx, err)
 	args := &db.UpdateMetricParams{
 		Uuid:             uuid.MustParse(metricId),
 		UpdatedAt:        sql.NullTime{Time: now, Valid: true},
@@ -95,15 +92,7 @@ func (cc *MetricController) UpdateMetric(ctx *gin.Context) {
 	}
 
 	metric, err := cc.db.UpdateMetric(ctx, *args)
-
-	if err != nil {
-		if err == sql.ErrNoRows {
-			ctx.JSON(http.StatusNotFound, gin.H{"status": "failed", "message": "Failed to retrieve Metric with this ID"})
-			return
-		}
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving Metric", "error": err.Error()})
-		return
-	}
+	util.HandleErrorGin(ctx, err)
 
 	response := schemas.MetricResponse{
 		Uuid:             metric.Uuid.String(),
@@ -132,10 +121,7 @@ func (cc *MetricController) DeleteMetricById(ctx *gin.Context) {
 	metricId := ctx.Param("metricId")
 
 	err := cc.db.DeleteMetric(ctx, uuid.MustParse(metricId))
-	if err != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "failed", "error": err.Error()})
-		return
-	}
+	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})
 

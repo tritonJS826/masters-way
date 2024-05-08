@@ -8,6 +8,7 @@ import (
 
 	db "mwserver/db/sqlc"
 	"mwserver/schemas"
+	"mwserver/util"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -49,11 +50,15 @@ func (cc *DayReportController) CreateDayReport(ctx *gin.Context) {
 	}
 
 	dbDayReport, err := cc.db.CreateDayReport(ctx, *args)
+	util.HandleErrorGin(ctx, err)
 
-	if err != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving day report", "error": err.Error()})
-		return
+	updateWayArgs := &db.UpdateWayParams{
+		Uuid:      payload.WayUuid,
+		UpdatedAt: sql.NullTime{Time: now, Valid: true},
 	}
+
+	_, err = cc.db.UpdateWay(ctx, *updateWayArgs)
+	util.HandleErrorGin(ctx, err)
 
 	response := schemas.DayReportPopulatedResponse{
 		Uuid:      dbDayReport.Uuid.String(),
@@ -98,15 +103,7 @@ func (cc *DayReportController) UpdateDayReport(ctx *gin.Context) {
 	}
 
 	dayReport, err := cc.db.UpdateDayReport(ctx, *args)
-
-	if err != nil {
-		if err == sql.ErrNoRows {
-			ctx.JSON(http.StatusNotFound, gin.H{"status": "failed", "message": "Failed to retrieve day report with this ID"})
-			return
-		}
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving day report", "error": err.Error()})
-		return
-	}
+	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, dayReport)
 }
@@ -126,10 +123,7 @@ func (cc *DayReportController) GetAllDayReports(ctx *gin.Context) {
 	wayUuid := uuid.MustParse(wayId)
 
 	dayReports, err := cc.db.GetListDayReportsByWayUuid(ctx, wayUuid)
-	if err != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed to retrieve day reports", "error": err.Error()})
-		return
-	}
+	util.HandleErrorGin(ctx, err)
 
 	if dayReports == nil {
 		dayReports = []db.DayReport{}
