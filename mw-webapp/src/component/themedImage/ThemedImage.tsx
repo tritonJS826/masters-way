@@ -1,4 +1,5 @@
 import {Image} from "src/component/image/Image";
+// TODO: get rid of stores in the components
 import {Theme} from "src/globalStore/ThemeStore";
 
 /**
