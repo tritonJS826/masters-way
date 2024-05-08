@@ -143,7 +143,7 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 		)
 	})
 
-	dbPlans, err := db.GetPlansByDayReportUuids(ctx, dayReportUuids)
+	dbPlans, _ := db.GetPlansByDayReportUuids(ctx, dayReportUuids)
 	plansMap := make(map[string][]schemas.PlanPopulatedResponse)
 	lo.ForEach(dbPlans, func(plan dbb.GetPlansByDayReportUuidsRow, i int) {
 		planOwner := allWayRelatedUsersMap[plan.OwnerUuid.String()]

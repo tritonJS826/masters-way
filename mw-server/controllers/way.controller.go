@@ -157,7 +157,7 @@ func (cc *WayController) UpdateWay(ctx *gin.Context) {
 		}
 	})
 
-	dbOwner, err := cc.db.GetUserById(ctx, way.Uuid)
+	dbOwner, err := cc.db.GetUserById(ctx, way.OwnerUuid)
 	util.HandleErrorGin(ctx, err)
 	owner := schemas.UserPlainResponse{
 		Uuid:        dbOwner.Uuid.String(),
