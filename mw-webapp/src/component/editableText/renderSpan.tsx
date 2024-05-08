@@ -26,7 +26,7 @@ const renderEmptySpan = (placeholderSpanText?: string) => (
  * TODO: move to separate component, task #208
  */
 export const renderSpan = (value: string | number, isDone?: boolean, placeholderSpanText?: string) => (
-  (value === "")
+  (value.toString().trim() === "")
     ? renderEmptySpan(placeholderSpanText)
     : renderSpanWithValue(value, isDone)
 );
