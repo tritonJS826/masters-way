@@ -2,10 +2,8 @@
 import {BrowserRouter} from "react-router-dom";
 import {Header, LOGO_TEXT} from "src/component/header/Header";
 import {testUserPreview} from "src/component/header/testUserPreview";
-import {getNextSwitchTheme} from "src/component/themeSwitcher/ThemeSwitcher";
 import {getDataCy} from "src/utils/cyTesting/getDataCy";
 import {LanguageWorker} from "src/utils/LanguageWorker";
-import {ThemeWorker} from "src/utils/ThemeWorker";
 
 const HEADER_CY = "header";
 
@@ -21,8 +19,6 @@ const HeaderTest = () => {
         user={testUserPreview}
         setLanguage={() => {}}
         language={LanguageWorker.getCurrentLanguage()}
-        currentTheme={ThemeWorker.getCurrentTheme()}
-        setTheme={() => ThemeWorker.setTheme(getNextSwitchTheme(ThemeWorker.getCurrentTheme()))}
       />
     </BrowserRouter>
   );

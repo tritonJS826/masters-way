@@ -1,7 +1,6 @@
 import {createContext, useContext} from "react";
 import {User} from "src/model/businessModel/User";
 import {DEFAULT_LANGUAGE, Language} from "src/utils/LanguageWorker";
-import {DEFAULT_THEME, Theme} from "src/utils/ThemeWorker";
 
 /**
  * Default stub setUser's value
@@ -15,13 +14,6 @@ const DEFAULT_SET_USER = () => {
  */
 const DEFAULT_SET_INITIALIZED = () => {
   throw Error("This is stub function for the initialization. This function should not be called");
-};
-
-/**
- * Default stub efault setTheme's value
- */
-const DEFAULT_SET_THEME = () => {
-  throw Error("The theme context is not initialized properly");
 };
 
 /**
@@ -43,8 +35,6 @@ const DEFAULT_GLOBAL_CONTEXT = {
   isInitialized: false,
   setIsInitialized: DEFAULT_SET_INITIALIZED,
   notification: DEFAULT_NOTIFICATION_SETTINGS,
-  theme: DEFAULT_THEME,
-  setTheme: DEFAULT_SET_THEME,
   language: DEFAULT_LANGUAGE,
   setLanguage: DEFAULT_SET_LANGUAGE,
 };
@@ -88,16 +78,6 @@ export type GlobalContext = {
    * Notification related settings
    */
   notification: Notification;
-
-  /**
-   * Theme
-   */
-  theme: Theme;
-
-  /**
-   * Set theme
-   */
-  setTheme: (theme: Theme) => void;
 
   /**
    * Interface language

@@ -2,9 +2,7 @@ import {BrowserRouter} from "react-router-dom";
 import type {StoryObj} from "@storybook/react";
 import {Header} from "src/component/header/Header";
 import {testUserPreview} from "src/component/header/testUserPreview";
-import {getNextSwitchTheme} from "src/component/themeSwitcher/ThemeSwitcher";
 import {Language} from "src/utils/LanguageWorker";
-import {ThemeWorker} from "src/utils/ThemeWorker";
 
 const meta = {
   title: "Header",
@@ -22,9 +20,6 @@ export const Default: Story = {
     language: Language.ENGLISH,
     setLanguage: () => {},
     user: testUserPreview,
-    currentTheme: ThemeWorker.getCurrentTheme(),
-    setTheme: () => ThemeWorker.setTheme(getNextSwitchTheme(ThemeWorker.getCurrentTheme())),
-
   },
   render: (args) => (
     // Header must be wrapped by BrowserRouter otherwise there will be an error with Link component
@@ -34,8 +29,6 @@ export const Default: Story = {
           language={args.language}
           setLanguage={args.setLanguage}
           user={args.user}
-          currentTheme={ThemeWorker.getCurrentTheme()}
-          setTheme={() => ThemeWorker.setTheme(getNextSwitchTheme(ThemeWorker.getCurrentTheme()))}
         />
       </BrowserRouter>
     </div>

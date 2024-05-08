@@ -1,3 +1,4 @@
+import {makeAutoObservable} from "mobx";
 import {localStorageWorker} from "src/utils/LocalStorageWorker";
 
 /**
@@ -205,32 +206,48 @@ export const DEFAULT_THEME = Theme.DARK;
 
 /**
  * All theme-related methods
+ * Works with localStorage
  */
-export class ThemeWorker {
+export class ThemeStore {
+
+  /**
+   * Theme value
+   * @default DEFAULT_THEME
+   */
+  public theme: Theme = DEFAULT_THEME;
+
+  constructor() {
+    makeAutoObservable(this);
+    this.loadTheme();
+  }
 
   /**
    * Set theme
    */
-  public static setTheme(theme: Theme) {
+  public setTheme = (theme: Theme) => {
     Object.entries(themedVariables).forEach(([variableName, variableValue]) => {
       document.documentElement.style.setProperty(`--${variableName}`, variableValue[theme]);
     });
     localStorageWorker.setItemByKey("theme", theme);
-  }
+
+    this.theme = theme;
+  };
 
   /**
    * Load theme
    */
-  public static loadTheme() {
+  public loadTheme = () => {
     const theme = localStorageWorker.getItemByKey<Theme>("theme");
     this.setTheme(theme ?? DEFAULT_THEME);
-  }
+  };
 
   /**
    * Get current theme
    */
-  public static getCurrentTheme() {
+  public static getCurrentTheme = () => {
     return localStorageWorker.getItemByKey<Theme>("theme") ?? DEFAULT_THEME;
-  }
+  };
 
 }
+
+export const themeStore = new ThemeStore();

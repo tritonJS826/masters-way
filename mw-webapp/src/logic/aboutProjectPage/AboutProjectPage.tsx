@@ -7,18 +7,19 @@ import {getMapThemeSources, ThemedImage} from "src/component/themedImage/ThemedI
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {useGlobalContext} from "src/GlobalContext";
+import {Theme, themeStore} from "src/globalStore/ThemeStore";
 import {TeamMember} from "src/logic/aboutProjectPage/TeamMember/TeamMember";
 import {teamMembers} from "src/logic/aboutProjectPage/TeamMember/teamMembers";
 import {LanguageService as LangService} from "src/service/LangauageService";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
-import {Theme} from "src/utils/ThemeWorker";
 import styles from "src/logic/aboutProjectPage/AboutProjectPage.module.scss";
 
 /**
  * About project page
  */
 export const AboutProjectPage = () => {
-  const {language, theme} = useGlobalContext();
+  const {theme} = themeStore;
+  const {language} = useGlobalContext();
 
   const accordionItems = LangService.aboutProject.accordion.map((data) => ({
     trigger: {child: data.header[language]},

@@ -1,5 +1,5 @@
 import {Image} from "src/component/image/Image";
-import {Theme} from "src/utils/ThemeWorker";
+import {Theme} from "src/globalStore/ThemeStore";
 
 /**
  * ThemeSourcesMap

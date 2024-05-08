@@ -7,7 +7,6 @@ import {
 import {User} from "src/model/businessModel/User";
 import {router} from "src/router/Router";
 import {Language, LanguageWorker} from "src/utils/LanguageWorker";
-import {Theme, ThemeWorker} from "src/utils/ThemeWorker";
 
 /**
  * App
@@ -15,16 +14,7 @@ import {Theme, ThemeWorker} from "src/utils/ThemeWorker";
 export const App = () => {
   const [user, setUser] = useState<User | null>(null);
   const [isInitialized, setIsInitialized] = useState(false);
-  const [theme, setThemeState] = useState(ThemeWorker.getCurrentTheme());
   const [language, setLanguageState] = useState(LanguageWorker.getCurrentLanguage());
-
-  /**
-   * Set theme in context and local storage
-   */
-  const setTheme = (updatedTheme: Theme) => {
-    setThemeState(updatedTheme);
-    ThemeWorker.setTheme(updatedTheme);
-  };
 
   /**
    * Set language in context and local storage
@@ -42,8 +32,6 @@ export const App = () => {
       setIsInitialized,
       // TODO: load from local storage
       notification: DEFAULT_NOTIFICATION_SETTINGS,
-      theme,
-      setTheme,
       language,
       setLanguage,
     }}
