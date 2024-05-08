@@ -8,6 +8,7 @@ import (
 
 	db "mwserver/db/sqlc"
 	"mwserver/schemas"
+	"mwserver/util"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -52,11 +53,7 @@ func (cc *ProblemController) CreateProblem(ctx *gin.Context) {
 	}
 
 	problem, err := cc.db.CreateProblem(ctx, *args)
-
-	if err != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving Problem", "error": err.Error()})
-		return
-	}
+	util.HandleErrorGin(ctx, err)
 
 	tags := lo.Map(problem.TagUuids, func(tagUuidStringified string, i int) schemas.JobTagResponse {
 		tagUuid := uuid.MustParse(tagUuidStringified)
@@ -112,15 +109,7 @@ func (cc *ProblemController) UpdateProblem(ctx *gin.Context) {
 	}
 
 	problem, err := cc.db.UpdateProblem(ctx, *args)
-
-	if err != nil {
-		if err == sql.ErrNoRows {
-			ctx.JSON(http.StatusNotFound, gin.H{"status": "failed", "message": "Failed to retrieve Problem with this ID"})
-			return
-		}
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving Problem", "error": err.Error()})
-		return
-	}
+	util.HandleErrorGin(ctx, err)
 
 	tagUuids := lo.Map(problem.TagUuids, func(stringifiedUuid string, i int) uuid.UUID {
 		return uuid.MustParse(stringifiedUuid)
@@ -134,6 +123,7 @@ func (cc *ProblemController) UpdateProblem(ctx *gin.Context) {
 			Color:       dbTag.Color,
 		}
 	})
+
 	response := schemas.ProblemPopulatedResponse{
 		Uuid:          problem.Uuid.String(),
 		CreatedAt:     problem.CreatedAt.String(),
@@ -163,10 +153,7 @@ func (cc *ProblemController) DeleteProblemById(ctx *gin.Context) {
 	problemId := ctx.Param("problemId")
 
 	err := cc.db.DeleteProblem(ctx, uuid.MustParse(problemId))
-	if err != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "failed", "error": err.Error()})
-		return
-	}
+	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})
 

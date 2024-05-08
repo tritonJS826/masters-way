@@ -217,7 +217,8 @@ func (cc *UserController) GetAllUsers(ctx *gin.Context) {
 		Lower:   email,
 		Lower_2: name,
 	}
-	usersSize, _ := cc.db.CountUsers(ctx, *countUsersArgs)
+	usersSize, err := cc.db.CountUsers(ctx, *countUsersArgs)
+	util.HandleErrorGin(ctx, err)
 
 	listUsersArgs := &db.ListUsersParams{
 		Limit:   int32(reqLimit),
@@ -227,10 +228,7 @@ func (cc *UserController) GetAllUsers(ctx *gin.Context) {
 	}
 
 	users, err := cc.db.ListUsers(ctx, *listUsersArgs)
-	if err != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{"error": err.Error()})
-		return
-	}
+	util.HandleErrorGin(ctx, err)
 
 	response := make([]schemas.UserPlainResponseWithInfo, len(users))
 	for i, user := range users {
@@ -274,10 +272,7 @@ func (cc *UserController) DeleteUserById(ctx *gin.Context) {
 	userId := ctx.Param("userId")
 
 	err := cc.db.DeleteUser(ctx, uuid.MustParse(userId))
-	if err != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{"error": err.Error()})
-		return
-	}
+	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})
 

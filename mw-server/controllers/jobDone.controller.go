@@ -8,6 +8,7 @@ import (
 
 	db "mwserver/db/sqlc"
 	"mwserver/schemas"
+	"mwserver/util"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -163,10 +164,7 @@ func (cc *JobDoneController) DeleteJobDoneById(ctx *gin.Context) {
 	jobDoneId := ctx.Param("jobDoneId")
 
 	err := cc.db.DeleteJobDone(ctx, uuid.MustParse(jobDoneId))
-	if err != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "failed", "error": err.Error()})
-		return
-	}
+	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})
 

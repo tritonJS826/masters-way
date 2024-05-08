@@ -6,6 +6,7 @@ import (
 
 	db "mwserver/db/sqlc"
 	"mwserver/schemas"
+	"mwserver/util"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -41,7 +42,8 @@ func (cc *UserTagController) AddUserTagByName(ctx *gin.Context) {
 	userTag, err := cc.db.GetUserTagByName(ctx, payload.Name)
 
 	if err != nil {
-		newUserTag, _ := cc.db.CreateUserTag(ctx, payload.Name)
+		newUserTag, err := cc.db.CreateUserTag(ctx, payload.Name)
+		util.HandleErrorGin(ctx, err)
 		userTag = newUserTag
 	}
 
@@ -80,10 +82,7 @@ func (cc *UserTagController) DeleteUserTagByFromUserByTag(ctx *gin.Context) {
 	}
 
 	err := cc.db.DeleteUserTagFromUser(ctx, args)
-	if err != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "failed", "error": err.Error()})
-		return
-	}
+	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})
 

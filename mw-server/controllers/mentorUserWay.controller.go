@@ -107,11 +107,7 @@ func (cc *MentorUserWayController) DeleteMentorUserWay(ctx *gin.Context) {
 		WayUuid:          uuid.MustParse(payload.WayUuid),
 	}
 	_, err3 := cc.db.CreateFormerMentorsWay(ctx, *args3)
-
-	if err3 != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving FormerMentorWay", "error": err.Error()})
-		return
-	}
+	util.HandleErrorGin(ctx, err3)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})
 

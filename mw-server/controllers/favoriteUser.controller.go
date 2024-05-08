@@ -6,6 +6,7 @@ import (
 
 	db "mwserver/db/sqlc"
 	"mwserver/schemas"
+	"mwserver/util"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -44,11 +45,7 @@ func (cc *FavoriteUserController) CreateFavoriteUser(ctx *gin.Context) {
 	}
 
 	favoriteUser, err := cc.db.CreateFavoriteUser(ctx, *args)
-
-	if err != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving way", "error": err.Error()})
-		return
-	}
+	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, favoriteUser)
 }
@@ -74,10 +71,7 @@ func (cc *FavoriteUserController) DeleteFavoriteUserById(ctx *gin.Context) {
 	}
 
 	err := cc.db.DeleteFavoriteUserByIds(ctx, args)
-	if err != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "failed", "error": err.Error()})
-		return
-	}
+	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})
 

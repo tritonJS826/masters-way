@@ -8,6 +8,7 @@ import (
 
 	db "mwserver/db/sqlc"
 	"mwserver/schemas"
+	"mwserver/util"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -53,10 +54,7 @@ func (cc *PlanController) CreatePlan(ctx *gin.Context) {
 	}
 
 	plan, err := cc.db.CreatePlan(ctx, *args)
-	if err != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving Plan", "error": err.Error()})
-		return
-	}
+	util.HandleErrorGin(ctx, err)
 
 	response := schemas.PlanPopulatedResponse{
 		Uuid:          plan.Uuid.String(),
@@ -104,20 +102,14 @@ func (cc *PlanController) UpdatePlan(ctx *gin.Context) {
 	}
 
 	plan, err := cc.db.UpdatePlan(ctx, *args)
+	util.HandleErrorGin(ctx, err)
 
-	if err != nil {
-		if err == sql.ErrNoRows {
-			ctx.JSON(http.StatusNotFound, gin.H{"status": "failed", "message": "Failed to retrieve Plan with this ID"})
-			return
-		}
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving Plan", "error": err.Error()})
-		return
-	}
 	tagUuids := lo.Map(plan.TagUuids, func(stringifiedUuid string, i int) uuid.UUID {
 		return uuid.MustParse(stringifiedUuid)
 	})
 
-	dbTags, _ := cc.db.GetListLabelsByLabelUuids(ctx, tagUuids)
+	dbTags, err := cc.db.GetListLabelsByLabelUuids(ctx, tagUuids)
+	util.HandleErrorGin(ctx, err)
 	tags := lo.Map(dbTags, func(dbTag db.JobTag, i int) schemas.JobTagResponse {
 		return schemas.JobTagResponse{
 			Uuid:        dbTag.Uuid.String(),
@@ -126,6 +118,7 @@ func (cc *PlanController) UpdatePlan(ctx *gin.Context) {
 			Color:       dbTag.Color,
 		}
 	})
+
 	response := schemas.PlanPopulatedResponse{
 		Uuid:          plan.Uuid.String(),
 		CreatedAt:     plan.CreatedAt.String(),
@@ -156,10 +149,7 @@ func (cc *PlanController) DeletePlanById(ctx *gin.Context) {
 	planId := ctx.Param("planId")
 
 	err := cc.db.DeletePlan(ctx, uuid.MustParse(planId))
-	if err != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "failed", "error": err.Error()})
-		return
-	}
+	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})
 

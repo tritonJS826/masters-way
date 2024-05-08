@@ -6,6 +6,7 @@ import (
 
 	db "mwserver/db/sqlc"
 	"mwserver/schemas"
+	"mwserver/util"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -44,11 +45,7 @@ func (cc *WayCollectionWayController) CreateWayCollectionWay(ctx *gin.Context) {
 	}
 
 	wayCollectionWay, err := cc.db.CreateWayCollectionsWays(ctx, *args)
-
-	if err != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving way collection way", "error": err.Error()})
-		return
-	}
+	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, wayCollectionWay)
 }
@@ -74,10 +71,7 @@ func (cc *WayCollectionWayController) DeleteWayCollectionWayById(ctx *gin.Contex
 	}
 
 	err := cc.db.DeleteWayCollectionsWaysByIds(ctx, deleteArgs)
-	if err != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "failed", "error": err.Error()})
-		return
-	}
+	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfuly deleted"})
 
