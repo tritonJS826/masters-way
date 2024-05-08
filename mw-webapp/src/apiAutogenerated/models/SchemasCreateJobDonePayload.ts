@@ -33,6 +33,12 @@ export interface SchemasCreateJobDonePayload {
     description: string;
     /**
      * 
+     * @type {Array<string>}
+     * @memberof SchemasCreateJobDonePayload
+     */
+    jobTagUuids: Array<string>;
+    /**
+     * 
      * @type {string}
      * @memberof SchemasCreateJobDonePayload
      */
@@ -54,6 +60,7 @@ export function instanceOfSchemasCreateJobDonePayload(
     let isInstance = true;
     isInstance = isInstance && "dayReportUuid" in value;
     isInstance = isInstance && "description" in value;
+    isInstance = isInstance && "jobTagUuids" in value;
     isInstance = isInstance && "ownerUuid" in value;
     isInstance = isInstance && "time" in value;
 
@@ -75,6 +82,7 @@ export function SchemasCreateJobDonePayloadFromJSONTyped(
         
         'dayReportUuid': json['dayReportUuid'],
         'description': json['description'],
+        'jobTagUuids': json['jobTagUuids'],
         'ownerUuid': json['ownerUuid'],
         'time': json['time'],
     };
@@ -92,6 +100,7 @@ export function SchemasCreateJobDonePayloadToJSON(value?: SchemasCreateJobDonePa
         
         'dayReportUuid': value.dayReportUuid,
         'description': value.description,
+        'jobTagUuids': value.jobTagUuids,
         'ownerUuid': value.ownerUuid,
         'time': value.time,
     };

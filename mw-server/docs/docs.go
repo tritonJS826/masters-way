@@ -2202,6 +2202,7 @@ const docTemplate = `{
             "required": [
                 "dayReportUuid",
                 "description",
+                "jobTagUuids",
                 "ownerUuid",
                 "time"
             ],
@@ -2211,6 +2212,12 @@ const docTemplate = `{
                 },
                 "description": {
                     "type": "string"
+                },
+                "jobTagUuids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "ownerUuid": {
                     "type": "string"

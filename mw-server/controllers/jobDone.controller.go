@@ -53,17 +53,21 @@ func (cc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 	}
 
 	jobDone, err := cc.db.CreateJobDone(ctx, *args)
+	util.HandleErrorGin(ctx, err)
 
-	if err != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving JobDone", "error": err.Error()})
-		return
-	}
-
-	tags := lo.Map(jobDone.TagUuids, func(tagUuidStringified string, i int) schemas.JobTagResponse {
+	tags := lo.Map(payload.JobTagUuids, func(tagUuidStringified string, i int) schemas.JobTagResponse {
 		tagUuid := uuid.MustParse(tagUuidStringified)
-		tag, _ := cc.db.GetJobTagByUuid(ctx, tagUuid)
+		argsTag := &db.CreateJobDonesJobTagParams{
+			JobDoneUuid: jobDone.Uuid,
+			JobTagUuid:  tagUuid,
+		}
+		_, err := cc.db.CreateJobDonesJobTag(ctx, *argsTag)
+		util.HandleErrorGin(ctx, err)
+
+		tag, err := cc.db.GetJobTagByUuid(ctx, tagUuid)
+		util.HandleErrorGin(ctx, err)
 		return schemas.JobTagResponse{
-			Uuid:        tag.Uuid.String(),
+			Uuid:        tagUuid.String(),
 			Name:        tag.Name,
 			Description: tag.Description,
 			Color:       tag.Color,
@@ -113,15 +117,7 @@ func (cc *JobDoneController) UpdateJobDone(ctx *gin.Context) {
 	}
 
 	jobDone, err := cc.db.UpdateJobDone(ctx, *args)
-
-	if err != nil {
-		if err == sql.ErrNoRows {
-			ctx.JSON(http.StatusNotFound, gin.H{"status": "failed", "message": "Failed to retrieve JobDone with this ID"})
-			return
-		}
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving jobDone", "error": err.Error()})
-		return
-	}
+	util.HandleErrorGin(ctx, err)
 
 	tagUuids := lo.Map(jobDone.TagUuids, func(stringifiedUuid string, i int) uuid.UUID {
 		return uuid.MustParse(stringifiedUuid)
