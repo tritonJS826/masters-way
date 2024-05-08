@@ -76,6 +76,8 @@
     "cypress-real-events": "^1.12.0",
     "firebase": "10.8.0",
     "fireschema": "5.0.0-36",
+    "mobx": "^6.12.3",
+    "mobx-react-lite": "^4.0.7",
     "pdfmake": "^0.2.9",
     "react": "18.2.0",
     "react-chartjs-2": "^5.2.0",

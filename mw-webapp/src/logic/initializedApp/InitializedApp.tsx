@@ -5,7 +5,6 @@ import {useErrorHandler} from "src/hooks/useErrorHandler";
 import {User} from "src/model/businessModel/User";
 import {pages} from "src/router/pages";
 import {AuthService} from "src/service/AuthService";
-import {ThemeWorker} from "src/utils/ThemeWorker";
 
 /**
  * Check is current page is home page
@@ -16,7 +15,6 @@ const getIsHomePage = () => pages.home.getPath({}) === location.pathname;
  *InitializationApp
  */
 export const InitializedApp = (props: PropsWithChildren) => {
-  ThemeWorker.loadTheme();
   useErrorHandler();
   const {setUser, isInitialized, setIsInitialized} = useGlobalContext();
   const navigate = useNavigate();

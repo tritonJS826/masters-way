@@ -1,5 +1,6 @@
 import {Image} from "src/component/image/Image";
-import {Theme} from "src/utils/ThemeWorker";
+// TODO: get rid of stores in the components
+import {Theme} from "src/globalStore/ThemeStore";
 
 /**
  * ThemeSourcesMap

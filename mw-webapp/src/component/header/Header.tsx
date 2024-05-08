@@ -1,3 +1,4 @@
+import {observer} from "mobx-react-lite";
 import logo from "src/assets/mastersWayLogo.svg";
 import logoLight from "src/assets/mastersWayLogoLight.svg";
 import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
@@ -14,12 +15,12 @@ import {Toggle} from "src/component/toggle/Toggle";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {DEFAULT_THEME, Theme, themeStore} from "src/globalStore/ThemeStore";
 import {User} from "src/model/businessModel/User";
 import {pages} from "src/router/pages";
 import {AuthService} from "src/service/AuthService";
 import {LanguageService} from "src/service/LangauageService";
 import {Language} from "src/utils/LanguageWorker";
-import {DEFAULT_THEME, Theme} from "src/utils/ThemeWorker";
 import styles from "src/component/header/Header.module.scss";
 
 export const LOGO_TEXT = "Master's way";
@@ -56,21 +57,13 @@ interface HeaderProps {
    */
   setLanguage: (language: Language) => void;
 
-  /**
-   * Current theme
-   */
-  currentTheme: Theme;
-
-  /**
-   * Callback to set theme
-   */
-  setTheme: (theme: Theme) => void;
 }
 
 /**
  * Header component
  */
-export const Header = (props: HeaderProps) => {
+export const Header = observer((props: HeaderProps) => {
+  const {theme, setTheme} = themeStore;
 
   const menuItems: (MenuItemLink)[] = [
     {
@@ -154,7 +147,7 @@ export const Header = (props: HeaderProps) => {
             [Theme.DARK]: logoLight,
             [Theme.LIGHT]: logo,
           })}
-          theme={props.currentTheme}
+          theme={theme}
           name={LOGO_TEXT}
         />
       </Link>
@@ -162,8 +155,8 @@ export const Header = (props: HeaderProps) => {
 
         <ThemeSwitcher
           language={props.language}
-          theme={props.currentTheme}
-          setTheme={props.setTheme}
+          theme={theme}
+          setTheme={setTheme}
           className={styles.themeSwitcher}
         />
 
@@ -238,8 +231,8 @@ export const Header = (props: HeaderProps) => {
                     {LanguageService.sidebar.nightMode[props.language]}
                   </HorizontalContainer>
                   <Toggle
-                    onChange={() => props.setTheme(getNextSwitchTheme(props.currentTheme))}
-                    isDefaultChecked={DEFAULT_THEME === props.currentTheme}
+                    onChange={() => setTheme(getNextSwitchTheme(theme))}
+                    isDefaultChecked={DEFAULT_THEME === theme}
                   />
                 </HorizontalContainer>
                 <VerticalContainer className={styles.socialMedia}>
@@ -282,4 +275,4 @@ export const Header = (props: HeaderProps) => {
       </div>
     </header>
   );
-};
+});

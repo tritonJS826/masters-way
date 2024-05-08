@@ -11,6 +11,7 @@ import {
   Tooltip,
 } from "chart.js";
 import {useGlobalContext} from "src/GlobalContext";
+import {themeStore} from "src/globalStore/ThemeStore";
 import {LanguageService} from "src/service/LangauageService";
 import {DateUtils} from "src/utils/DateUtils";
 
@@ -102,7 +103,8 @@ interface AreaChartProps {
  * Area chart component
  */
 export const AreaChart = (props: AreaChartProps) => {
-  const {theme, language} = useGlobalContext();
+  const {theme} = themeStore;
+  const {language} = useGlobalContext();
   const dateList = DateUtils.getDatesBetween(props.startDate, props.lastDate);
   const labels = dateList.map(DateUtils.getShortISODateValue);
 
