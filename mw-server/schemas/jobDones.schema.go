@@ -1,10 +1,11 @@
 package schemas
 
 type CreateJobDonePayload struct {
-	Description   string `json:"description" validate:"required"`
-	Time          int32  `json:"time" validate:"required"`
-	DayReportUuid string `json:"dayReportUuid" validate:"required"`
-	OwnerUuid     string `json:"ownerUuid" validate:"required"`
+	Description   string   `json:"description" validate:"required"`
+	Time          int32    `json:"time" validate:"required"`
+	DayReportUuid string   `json:"dayReportUuid" validate:"required"`
+	OwnerUuid     string   `json:"ownerUuid" validate:"required"`
+	JobTagUuids   []string `json:"jobTagUuids" validate:"required"`
 }
 
 type UpdateJobDone struct {

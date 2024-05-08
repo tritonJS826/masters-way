@@ -2194,6 +2194,7 @@
             "required": [
                 "dayReportUuid",
                 "description",
+                "jobTagUuids",
                 "ownerUuid",
                 "time"
             ],
@@ -2203,6 +2204,12 @@
                 },
                 "description": {
                     "type": "string"
+                },
+                "jobTagUuids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "ownerUuid": {
                     "type": "string"

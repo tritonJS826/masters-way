@@ -114,6 +114,10 @@ definitions:
         type: string
       description:
         type: string
+      jobTagUuids:
+        items:
+          type: string
+        type: array
       ownerUuid:
         type: string
       time:
@@ -121,6 +125,7 @@ definitions:
     required:
     - dayReportUuid
     - description
+    - jobTagUuids
     - ownerUuid
     - time
     type: object
