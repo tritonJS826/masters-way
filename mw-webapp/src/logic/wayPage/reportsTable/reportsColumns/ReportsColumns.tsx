@@ -2,6 +2,7 @@ import {createColumnHelper} from "@tanstack/react-table";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {useGlobalContext} from "src/GlobalContext";
+import {languageStore} from "src/globalStore/LanguageStore";
 import {ReportsTableCommentsCell}
   from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableCommentsCell/ReportsTableCommentsCell";
 import {ReportsTableDateCell} from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableDateCell/ReportsTableDateCell";
@@ -12,10 +13,9 @@ import {ReportsTableProblemsCell}
   from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableProblemsCell/ReportsTableProblemsCell";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Way} from "src/model/businessModel/Way";
-import {LanguageService} from "src/service/LangauageService";
+import {LanguageService} from "src/service/LanguageService";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
-
 export const DEFAULT_SUMMARY_TIME = 0;
 export const MAX_TIME = 9999;
 export const MIN_TIME = 0;
@@ -66,7 +66,8 @@ interface ColumnsProps {
  * Don't get rid of any https://github.com/TanStack/table/issues/4382
  */
 export const Columns = (props: ColumnsProps) => {
-  const {user, language} = useGlobalContext();
+  const {user} = useGlobalContext();
+  const {language} = languageStore;
   const ownerUuid = props.way.owner.uuid;
   const isOwner = user?.uuid === ownerUuid;
   const isMentor = !!user && !!user.uuid && props.way.mentors.has(user.uuid);

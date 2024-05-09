@@ -2,9 +2,9 @@ import clsx from "clsx";
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
+import {Language} from "src/globalStore/LanguageStore";
 import {Theme} from "src/globalStore/ThemeStore";
-import {LanguageService} from "src/service/LangauageService";
-import {Language} from "src/utils/LanguageWorker";
+import {LanguageService} from "src/service/LanguageService";
 import styles from "src/component/themeSwitcher/ThemeSwitcher.module.scss";
 
 /**

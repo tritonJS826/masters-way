@@ -1,3 +1,4 @@
+import {observer} from "mobx-react-lite";
 import {Button} from "src/component/button/Button";
 import {languageOptions} from "src/component/header/Header";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
@@ -7,15 +8,17 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {useGlobalContext} from "src/GlobalContext";
-import {LanguageService} from "src/service/LangauageService";
+import {languageStore} from "src/globalStore/LanguageStore";
+import {LanguageService} from "src/service/LanguageService";
 import {OSNotification} from "src/utils/notifications/OSNotification";
 import styles from "src/logic/settingsPage/SettingsPage.module.scss";
 
 /**
  * Settings page
  */
-export const SettingsPage = () => {
-  const {notification, language, setLanguage} = useGlobalContext();
+export const SettingsPage = observer(() => {
+  const {notification} = useGlobalContext();
+  const {language, setLanguage} = languageStore;
 
   return (
     <VerticalContainer className={styles.container}>
@@ -73,4 +76,4 @@ export const SettingsPage = () => {
       </div>
     </VerticalContainer>
   );
-};
+});

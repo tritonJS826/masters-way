@@ -1,4 +1,5 @@
 import {TrashIcon} from "@radix-ui/react-icons";
+import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Checkbox";
 import {Confirm} from "src/component/confirm/Confirm";
@@ -10,7 +11,7 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {ProblemDAL} from "src/dataAccessLogic/ProblemDAL";
-import {useGlobalContext} from "src/GlobalContext";
+import {languageStore} from "src/globalStore/LanguageStore";
 import {getListNumberByIndex} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
 import {getFirstName} from "src/logic/waysTable/waysColumns";
 import {DayReport} from "src/model/businessModel/DayReport";
@@ -18,7 +19,7 @@ import {Problem} from "src/model/businessModel/Problem";
 import {User} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
 import {pages} from "src/router/pages";
-import {LanguageService} from "src/service/LangauageService";
+import {LanguageService} from "src/service/LanguageService";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import styles from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableProblemsCell/ReportsTableProblemsCell.module.scss";
 
@@ -57,8 +58,8 @@ interface ReportsTableProblemsCellProps {
 /**
  * Cell with problems in reports table
  */
-export const ReportsTableProblemsCell = (props: ReportsTableProblemsCellProps) => {
-  const {language} = useGlobalContext();
+export const ReportsTableProblemsCell = observer((props: ReportsTableProblemsCellProps) => {
+  const {language} = languageStore;
 
   /**
    * Create Problem
@@ -186,4 +187,4 @@ export const ReportsTableProblemsCell = (props: ReportsTableProblemsCellProps) =
       </div>
     </VerticalContainer>
   );
-};
+});

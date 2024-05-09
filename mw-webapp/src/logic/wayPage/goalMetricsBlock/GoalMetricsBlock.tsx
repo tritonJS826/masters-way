@@ -1,10 +1,11 @@
+import {observer} from "mobx-react-lite";
 import {Button} from "src/component/button/Button";
 import {ProgressBar} from "src/component/progressBar/ProgressBar";
 import {MetricDAL} from "src/dataAccessLogic/MetricDAL";
-import {useGlobalContext} from "src/GlobalContext";
+import {languageStore} from "src/globalStore/LanguageStore";
 import {GoalMetricItem} from "src/logic/wayPage/goalMetricsBlock/GoalMetricItem";
 import {Metric} from "src/model/businessModel/Metric";
-import {LanguageService} from "src/service/LangauageService";
+import {LanguageService} from "src/service/LanguageService";
 import {DateUtils} from "src/utils/DateUtils";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import styles from "src/logic/wayPage/goalMetricsBlock/GoalMetricsBlock.module.scss";
@@ -46,8 +47,8 @@ interface GoalMetricStatisticsBlockProps {
 /**
  * Goal metrics block
  */
-export const GoalMetricsBlock = (props: GoalMetricStatisticsBlockProps) => {
-  const {language} = useGlobalContext();
+export const GoalMetricsBlock = observer((props: GoalMetricStatisticsBlockProps) => {
+  const {language} = languageStore;
   const sortedMetrics = props.goalMetrics.sort((a, b) => DateUtils.datesASCSorter(a.createdAt, b.createdAt));
 
   /**
@@ -138,4 +139,4 @@ export const GoalMetricsBlock = (props: GoalMetricStatisticsBlockProps) => {
       }
     </>
   );
-};
+});

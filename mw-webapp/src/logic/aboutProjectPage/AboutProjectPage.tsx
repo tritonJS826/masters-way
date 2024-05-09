@@ -1,3 +1,4 @@
+import {observer} from "mobx-react-lite";
 import logoLight from "src/assets/mastersWayLogoLight.svg";
 import logoPurple from "src/assets/mastersWayLogoPurple.svg";
 import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
@@ -6,22 +7,22 @@ import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalC
 import {getMapThemeSources, ThemedImage} from "src/component/themedImage/ThemedImage";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {useGlobalContext} from "src/GlobalContext";
+import {languageStore} from "src/globalStore/LanguageStore";
 import {Theme, themeStore} from "src/globalStore/ThemeStore";
 import {TeamMember} from "src/logic/aboutProjectPage/TeamMember/TeamMember";
 import {teamMembers} from "src/logic/aboutProjectPage/TeamMember/teamMembers";
-import {LanguageService as LangService} from "src/service/LangauageService";
+import {LanguageService} from "src/service/LanguageService";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import styles from "src/logic/aboutProjectPage/AboutProjectPage.module.scss";
 
 /**
  * About project page
  */
-export const AboutProjectPage = () => {
+export const AboutProjectPage = observer(() => {
   const {theme} = themeStore;
-  const {language} = useGlobalContext();
+  const {language} = languageStore;
 
-  const accordionItems = LangService.aboutProject.accordion.map((data) => ({
+  const accordionItems = LanguageService.aboutProject.accordion.map((data) => ({
     trigger: {child: data.header[language]},
     content: {child: renderMarkdown(data.description[language])},
   }));
@@ -31,26 +32,26 @@ export const AboutProjectPage = () => {
       <VerticalContainer className={styles.aboutBlock}>
         <Title
           level={HeadingLevel.h2}
-          text={LangService.aboutProject.mainTitle[language]}
+          text={LanguageService.aboutProject.mainTitle[language]}
           className={styles.title}
         />
         <Title
           level={HeadingLevel.h3}
-          text={LangService.aboutProject.mainSubTitle[language]}
+          text={LanguageService.aboutProject.mainSubTitle[language]}
           className={styles.subtitle}
         />
         <HorizontalContainer className={styles.aboutDescription}>
           <VerticalContainer className={styles.aboutTextBlock}>
             <div>
-              {LangService.aboutProject.descriptionSubTitle[language]}
+              {LanguageService.aboutProject.descriptionSubTitle[language]}
             </div>
             <Title
               level={HeadingLevel.h3}
-              text={LangService.aboutProject.descriptionTitle[language]}
+              text={LanguageService.aboutProject.descriptionTitle[language]}
             />
             <div>
               {renderMarkdown(
-                LangService.aboutProject.descriptionList[language],
+                LanguageService.aboutProject.descriptionList[language],
               )}
             </div>
           </VerticalContainer>
@@ -69,7 +70,7 @@ export const AboutProjectPage = () => {
       <VerticalContainer className={styles.ourTeamBlock}>
         <Title
           level={HeadingLevel.h2}
-          text={LangService.aboutProject.AboutTeamTitle[language]}
+          text={LanguageService.aboutProject.AboutTeamTitle[language]}
         />
 
         <HorizontalContainer className={styles.ourTeamMembers}>
@@ -85,7 +86,7 @@ export const AboutProjectPage = () => {
       <VerticalContainer className={styles.accordionSection}>
         <Title
           level={HeadingLevel.h2}
-          text={LangService.aboutProject.accordionTitle[language]}
+          text={LanguageService.aboutProject.accordionTitle[language]}
           className={styles.title}
         />
 
@@ -97,4 +98,4 @@ export const AboutProjectPage = () => {
       </VerticalContainer>
     </VerticalContainer>
   );
-};
+});

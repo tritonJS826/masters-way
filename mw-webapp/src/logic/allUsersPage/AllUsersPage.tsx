@@ -1,5 +1,6 @@
 import {useState} from "react";
 import clsx from "clsx";
+import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
@@ -14,12 +15,12 @@ import {Tooltip} from "src/component/tooltip/Tooltip";
 import {UserCard} from "src/component/userCard/UserCard";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {UserDAL} from "src/dataAccessLogic/UserDAL";
-import {useGlobalContext} from "src/GlobalContext";
+import {languageStore} from "src/globalStore/LanguageStore";
 import {useLoad} from "src/hooks/useLoad";
 import {usePersistanceState} from "src/hooks/usePersistanceState";
 import {UsersTableBlock} from "src/logic/usersTable/UsersTableBlock";
 import {UserNotSaturatedWay} from "src/model/businessModelPreview/UserNotSaturatedWay";
-import {LanguageService} from "src/service/LangauageService";
+import {LanguageService} from "src/service/LanguageService";
 import {AllUsersPageSettings, View} from "src/utils/LocalStorageWorker";
 import {useDebounce} from "use-debounce";
 import styles from "src/logic/allUsersPage/AllUsersPage.module.scss";
@@ -49,7 +50,7 @@ interface AllUsersFetchData {
 /**
  * Users page
  */
-export const AllUsersPage = () => {
+export const AllUsersPage = observer(() => {
   const [allUsers, setAllUsers] = useState<UserNotSaturatedWay[]>();
   const [allUsersAmount, setAllUsersAmount] = useState<number>();
   const [email, setEmail] = useState<string>("");
@@ -58,7 +59,7 @@ export const AllUsersPage = () => {
   const [debouncedEmail] = useDebounce(email, DEBOUNCE_DELAY_MILLISECONDS);
   const [debouncedName] = useDebounce(name, DEBOUNCE_DELAY_MILLISECONDS);
 
-  const {language} = useGlobalContext();
+  const {language} = languageStore;
 
   const [allUsersPageSettings, updateAllUsersPageSettings] = usePersistanceState({
     key: "allUsersPage",
@@ -221,4 +222,4 @@ export const AllUsersPage = () => {
       </div>
     </VerticalContainer>
   );
-};
+});

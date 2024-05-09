@@ -6,7 +6,7 @@ import {
   DEFAULT_NOTIFICATION_SETTINGS,
   globalContext,
 } from "../src/GlobalContext";
-import {Language, LanguageWorker} from "../src/utils/LanguageWorker";
+import {Language, languageStore} from "../src/globalStore/LanguageStore";
 import {themeStore} from "../src/globalStore/ThemeStore";
 
 import './preview.scss';
@@ -14,15 +14,7 @@ import './preview.scss';
 
 export const ThemeComponent = () => {
   const {theme, setTheme} = themeStore;
-  const [language, setLanguageState] = useState(LanguageWorker.getCurrentLanguage());
-
-  /**
-   * Set language in context and local storage
-   */
-  const setLanguage = (updatedLanguage: Language) => {
-    setLanguageState(updatedLanguage);
-    LanguageWorker.setLanguage(updatedLanguage);
-  };
+  const {language} = languageStore;
 
   return (
     <globalContext.Provider value={{
@@ -32,8 +24,6 @@ export const ThemeComponent = () => {
       setIsInitialized: () => {},
       // TODO: load from local storage
       notification: DEFAULT_NOTIFICATION_SETTINGS,
-      language,
-      setLanguage,
     }}
     >
       <ThemeSwitcher language={language} theme={theme} setTheme={setTheme} />

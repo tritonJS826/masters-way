@@ -10,9 +10,10 @@ import {
   Title,
   Tooltip,
 } from "chart.js";
-import {useGlobalContext} from "src/GlobalContext";
+import {observer} from "mobx-react-lite";
+import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
-import {LanguageService} from "src/service/LangauageService";
+import {LanguageService} from "src/service/LanguageService";
 import {DateUtils} from "src/utils/DateUtils";
 
 ChartJS.register(
@@ -102,9 +103,9 @@ interface AreaChartProps {
 /**
  * Area chart component
  */
-export const AreaChart = (props: AreaChartProps) => {
+export const AreaChart = observer((props: AreaChartProps) => {
   const {theme} = themeStore;
-  const {language} = useGlobalContext();
+  const {language} = languageStore;
   const dateList = DateUtils.getDatesBetween(props.startDate, props.lastDate);
   const labels = dateList.map(DateUtils.getShortISODateValue);
 
@@ -144,4 +145,4 @@ export const AreaChart = (props: AreaChartProps) => {
       style={{maxHeight: "250px"}}
     />
   );
-};
+});

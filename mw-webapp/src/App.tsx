@@ -6,7 +6,6 @@ import {
 } from "src/GlobalContext";
 import {User} from "src/model/businessModel/User";
 import {router} from "src/router/Router";
-import {Language, LanguageWorker} from "src/utils/LanguageWorker";
 
 /**
  * App
@@ -14,15 +13,6 @@ import {Language, LanguageWorker} from "src/utils/LanguageWorker";
 export const App = () => {
   const [user, setUser] = useState<User | null>(null);
   const [isInitialized, setIsInitialized] = useState(false);
-  const [language, setLanguageState] = useState(LanguageWorker.getCurrentLanguage());
-
-  /**
-   * Set language in context and local storage
-   */
-  const setLanguage = (updatedLanguage: Language) => {
-    setLanguageState(updatedLanguage);
-    LanguageWorker.setLanguage(updatedLanguage);
-  };
 
   return (
     <globalContext.Provider value={{
@@ -32,8 +22,6 @@ export const App = () => {
       setIsInitialized,
       // TODO: load from local storage
       notification: DEFAULT_NOTIFICATION_SETTINGS,
-      language,
-      setLanguage,
     }}
     >
       <RouterProvider router={router} />

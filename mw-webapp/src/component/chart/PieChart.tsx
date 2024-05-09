@@ -1,10 +1,10 @@
 import {Pie} from "react-chartjs-2";
 import {ArcElement, Chart as ChartJS, Legend, Tooltip} from "chart.js";
+import {observer} from "mobx-react-lite";
 import {ItemStat} from "src/component/chart/ItemStat";
-import {useGlobalContext} from "src/GlobalContext";
-import {LanguageService} from "src/service/LangauageService";
+import {languageStore} from "src/globalStore/LanguageStore";
+import {LanguageService} from "src/service/LanguageService";
 import styles from "src/component/chart/PieChart.module.scss";
-
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 /**
@@ -27,8 +27,8 @@ interface PieChartProps {
 /**
  * Pie chart component (Similar radar chart)
  */
-export const PieChart = (props: PieChartProps) => {
-  const {language} = useGlobalContext();
+export const PieChart = observer((props: PieChartProps) => {
+  const {language} = languageStore;
   const labels = props.itemStat.map((i) => i.name);
   const jobTagsBackgroundColors = props.itemStat.map((i) => i.color);
   const itemValues = props.itemStat.map((i) => i.value);
@@ -71,4 +71,4 @@ export const PieChart = (props: PieChartProps) => {
       data={data}
     />
   );
-};
+});

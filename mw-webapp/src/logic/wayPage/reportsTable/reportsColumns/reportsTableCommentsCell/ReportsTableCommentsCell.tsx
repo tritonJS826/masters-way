@@ -1,4 +1,5 @@
 import {TrashIcon} from "@radix-ui/react-icons";
+import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Confirm} from "src/component/confirm/Confirm";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
@@ -9,7 +10,7 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {CommentDAL} from "src/dataAccessLogic/CommentDAL";
-import {useGlobalContext} from "src/GlobalContext";
+import {languageStore} from "src/globalStore/LanguageStore";
 import {getListNumberByIndex} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
 import {getFirstName} from "src/logic/waysTable/waysColumns";
 import {Comment} from "src/model/businessModel/Comment";
@@ -17,7 +18,7 @@ import {DayReport} from "src/model/businessModel/DayReport";
 import {User} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
 import {pages} from "src/router/pages";
-import {LanguageService} from "src/service/LangauageService";
+import {LanguageService} from "src/service/LanguageService";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import styles from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableCommentsCell/ReportsTableCommentsCell.module.scss";
 
@@ -56,8 +57,8 @@ interface ReportsTableCommentsCellProps {
 /**
  * Cell with comments in reports table
  */
-export const ReportsTableCommentsCell = (props: ReportsTableCommentsCellProps) => {
-  const {language} = useGlobalContext();
+export const ReportsTableCommentsCell = observer((props: ReportsTableCommentsCellProps) => {
+  const {language} = languageStore;
 
   /**
    * Create Comment
@@ -174,4 +175,4 @@ export const ReportsTableCommentsCell = (props: ReportsTableCommentsCellProps) =
       </div>
     </VerticalContainer>
   );
-};
+});

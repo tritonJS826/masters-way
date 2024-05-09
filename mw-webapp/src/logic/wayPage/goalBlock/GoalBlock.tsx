@@ -1,9 +1,10 @@
+import {observer} from "mobx-react-lite";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HeadingLevel, Title} from "src/component/title/Title";
-import {useGlobalContext} from "src/GlobalContext";
+import {languageStore} from "src/globalStore/LanguageStore";
 import {Way} from "src/model/businessModel/Way";
-import {LanguageService} from "src/service/LangauageService";
+import {LanguageService} from "src/service/LanguageService";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import styles from "src/logic/wayPage/goalBlock/GoalBlock.module.scss";
 
@@ -37,8 +38,8 @@ interface GoalBlockProps {
 /**
  * Goal block
  */
-export const GoalBlock = (props: GoalBlockProps) => {
-  const {language} = useGlobalContext();
+export const GoalBlock = observer((props: GoalBlockProps) => {
+  const {language} = languageStore;
 
   return (
     <HorizontalContainer className={styles.goalSection}>
@@ -58,4 +59,4 @@ export const GoalBlock = (props: GoalBlockProps) => {
       />
     </HorizontalContainer>
   );
-};
+});
