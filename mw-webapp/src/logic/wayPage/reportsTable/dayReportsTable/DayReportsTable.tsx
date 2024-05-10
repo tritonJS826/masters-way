@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
@@ -39,7 +40,7 @@ interface DayReportsTableProps {
  * TODO:  get rid statistics in this component,
  * move load logic to the parent component and share data with other components
  */
-export const DayReportsTable = (props: DayReportsTableProps) => {
+export const DayReportsTable = observer((props: DayReportsTableProps) => {
   const {language} = languageStore;
   const VISIBLE_REPORTS_CHUNK = 7;
   const [visibleReports, setVisibleReports] = useState(props.way.dayReports.slice(0, VISIBLE_REPORTS_CHUNK));
@@ -94,4 +95,4 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
       </VerticalContainer>
     </>
   );
-};
+});
