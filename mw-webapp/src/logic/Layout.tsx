@@ -8,15 +8,11 @@ import {InitializedApp} from "src/logic/initializedApp/InitializedApp";
  * Layout
  */
 export const Layout = () => {
-  const {user, language, setLanguage} = useGlobalContext();
+  const {user} = useGlobalContext();
 
   return (
     <InitializedApp>
-      <Header
-        language={language}
-        setLanguage={setLanguage}
-        user={user}
-      />
+      <Header user={user} />
       <Outlet />
       <FirebaseAnalytics />
     </InitializedApp>

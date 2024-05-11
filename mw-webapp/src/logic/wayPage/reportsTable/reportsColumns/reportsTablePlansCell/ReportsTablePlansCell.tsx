@@ -1,4 +1,5 @@
 import {TrashIcon} from "@radix-ui/react-icons";
+import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Checkbox";
 import {Confirm} from "src/component/confirm/Confirm";
@@ -14,7 +15,7 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
 import {PlanDAL} from "src/dataAccessLogic/PlanDAL";
 import {PlanJobTagDAL} from "src/dataAccessLogic/PlanJobTagDAL";
-import {useGlobalContext} from "src/GlobalContext";
+import {languageStore} from "src/globalStore/LanguageStore";
 import {JobDoneTags} from "src/logic/wayPage/reportsTable/jobDoneTags/JobDoneTags";
 import {ModalContentJobTags} from "src/logic/wayPage/reportsTable/modalContentJobTags/ModalContentJobTags";
 import {DEFAULT_SUMMARY_TIME, getListNumberByIndex, getValidatedTime, MAX_TIME, MIN_TIME}
@@ -28,7 +29,7 @@ import {User} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
 import {JobTag} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
-import {LanguageService} from "src/service/LangauageService";
+import {LanguageService} from "src/service/LanguageService";
 import {DateUtils} from "src/utils/DateUtils";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
@@ -78,8 +79,8 @@ interface ReportsTablePlansCellProps {
 /**
  * Cell with plans in reports table
  */
-export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
-  const {language} = useGlobalContext();
+export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps) => {
+  const {language} = languageStore;
 
   /**
    * Create Plan
@@ -368,4 +369,4 @@ export const ReportsTablePlansCell = (props: ReportsTablePlansCellProps) => {
       </div>
     </VerticalContainer>
   );
-};
+});

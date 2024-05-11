@@ -1,4 +1,5 @@
 import {TrashIcon} from "@radix-ui/react-icons";
+import {observer} from "mobx-react-lite";
 import {Confirm} from "src/component/confirm/Confirm";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
@@ -7,10 +8,11 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {MentorUserWayDAL} from "src/dataAccessLogic/MentorUserWayDAL";
 import {useGlobalContext} from "src/GlobalContext";
+import {languageStore} from "src/globalStore/LanguageStore";
 import {UserPlain} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
 import {pages} from "src/router/pages";
-import {LanguageService} from "src/service/LangauageService";
+import {LanguageService} from "src/service/LanguageService";
 import {v4 as uuidv4} from "uuid";
 import styles from "src/logic/wayPage/MentorsSection.module.scss";
 
@@ -56,9 +58,10 @@ interface MentorsSectionProps {
 /**
  * Section with all Way mentors
  */
-export const MentorsSection = (props: MentorsSectionProps) => {
+export const MentorsSection = observer((props: MentorsSectionProps) => {
   const mentors = Array.from(props.way.mentors.values());
-  const {user, language} = useGlobalContext();
+  const {user} = useGlobalContext();
+  const {language} = languageStore;
 
   return (
     <div>
@@ -102,4 +105,4 @@ export const MentorsSection = (props: MentorsSectionProps) => {
       ))}
     </div>
   );
-};
+});

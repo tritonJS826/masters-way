@@ -1,5 +1,6 @@
 import {TrashIcon} from "@radix-ui/react-icons";
 import {clsx} from "clsx";
+import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Confirm} from "src/component/confirm/Confirm";
 import {EditableText} from "src/component/editableText/EditableText";
@@ -13,7 +14,7 @@ import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
 import {JobDoneJobTagDAL} from "src/dataAccessLogic/JobDoneJobTagDAL";
-import {useGlobalContext} from "src/GlobalContext";
+import {languageStore} from "src/globalStore/LanguageStore";
 import {JobDoneTags} from "src/logic/wayPage/reportsTable/jobDoneTags/JobDoneTags";
 import {ModalContentJobTags} from "src/logic/wayPage/reportsTable/modalContentJobTags/ModalContentJobTags";
 import {DEFAULT_SUMMARY_TIME, getListNumberByIndex, getValidatedTime, MAX_TIME, MIN_TIME}
@@ -24,7 +25,7 @@ import {JobDone} from "src/model/businessModel/JobDone";
 import {User} from "src/model/businessModel/User";
 import {JobTag} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
-import {LanguageService} from "src/service/LangauageService";
+import {LanguageService} from "src/service/LanguageService";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
 import styles from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableJobsDoneCell/ReportsTableJobsDoneCell.module.scss";
@@ -64,8 +65,8 @@ interface ReportsTableJobsDoneCellProps {
 /**
  * Cell with jobs done in reports table
  */
-export const ReportsTableJobsDoneCell = (props: ReportsTableJobsDoneCellProps) => {
-  const {language} = useGlobalContext();
+export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCellProps) => {
+  const {language} = languageStore;
 
   /**
    * Create jobDone
@@ -295,4 +296,4 @@ export const ReportsTableJobsDoneCell = (props: ReportsTableJobsDoneCellProps) =
       </div>
     </VerticalContainer>
   );
-};
+});

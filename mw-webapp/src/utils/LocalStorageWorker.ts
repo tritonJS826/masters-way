@@ -1,7 +1,7 @@
+import {Language} from "src/globalStore/LanguageStore";
 import {Theme} from "src/globalStore/ThemeStore";
 import {FILTER_STATUS_ALL_VALUE} from "src/logic/waysTable/BaseWaysTable";
 import {WayStatusType} from "src/logic/waysTable/wayStatus";
-import {Language} from "src/utils/LanguageWorker";
 
 /**
  * Worker for accessing local storage

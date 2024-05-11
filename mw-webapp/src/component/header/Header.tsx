@@ -15,12 +15,12 @@ import {Toggle} from "src/component/toggle/Toggle";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {Language, languageStore} from "src/globalStore/LanguageStore";
 import {DEFAULT_THEME, Theme, themeStore} from "src/globalStore/ThemeStore";
 import {User} from "src/model/businessModel/User";
 import {pages} from "src/router/pages";
 import {AuthService} from "src/service/AuthService";
-import {LanguageService} from "src/service/LangauageService";
-import {Language} from "src/utils/LanguageWorker";
+import {LanguageService} from "src/service/LanguageService";
 import styles from "src/component/header/Header.module.scss";
 
 export const LOGO_TEXT = "Master's way";
@@ -47,16 +47,6 @@ interface HeaderProps {
    */
   user: User | null;
 
-  /**
-   * Current language
-   */
-  language: Language;
-
-  /**
-   * Callback to set language
-   */
-  setLanguage: (language: Language) => void;
-
 }
 
 /**
@@ -64,6 +54,7 @@ interface HeaderProps {
  */
 export const Header = observer((props: HeaderProps) => {
   const {theme, setTheme} = themeStore;
+  const {language, setLanguage} = languageStore;
 
   const menuItems: (MenuItemLink)[] = [
     {
@@ -78,7 +69,7 @@ export const Header = observer((props: HeaderProps) => {
     },
     {
       path: pages.home.getPath({}),
-      value: LanguageService.sidebar.home[props.language],
+      value: LanguageService.sidebar.home[language],
       icon: (
         <Icon
           size={IconSize.MEDIUM}
@@ -88,7 +79,7 @@ export const Header = observer((props: HeaderProps) => {
     },
     {
       path: pages.allWays.getPath({}),
-      value: LanguageService.sidebar.allWays[props.language],
+      value: LanguageService.sidebar.allWays[language],
       icon: (
         <Icon
           size={IconSize.MEDIUM}
@@ -98,7 +89,7 @@ export const Header = observer((props: HeaderProps) => {
     },
     {
       path: pages.allUsers.getPath({}),
-      value: LanguageService.sidebar.allUsers[props.language],
+      value: LanguageService.sidebar.allUsers[language],
       icon: (
         <Icon
           size={IconSize.MEDIUM}
@@ -108,7 +99,7 @@ export const Header = observer((props: HeaderProps) => {
     },
     {
       path: pages.aboutProject.getPath({}),
-      value: LanguageService.sidebar.about[props.language],
+      value: LanguageService.sidebar.about[language],
       icon: (
         <Icon
           size={IconSize.MEDIUM}
@@ -120,7 +111,7 @@ export const Header = observer((props: HeaderProps) => {
       path: props.user
         ? pages.settings.getPath({})
         : pages.page404.getPath({}),
-      value: LanguageService.sidebar.settings[props.language],
+      value: LanguageService.sidebar.settings[language],
       icon: (
         <Icon
           size={IconSize.MEDIUM}
@@ -154,17 +145,17 @@ export const Header = observer((props: HeaderProps) => {
       <div className={styles.headerButtonsContainer}>
 
         <ThemeSwitcher
-          language={props.language}
+          language={language}
           theme={theme}
           setTheme={setTheme}
           className={styles.themeSwitcher}
         />
 
         <Select
-          value={props.language}
+          value={language}
           name="language"
           options={languageOptions}
-          onChange={props.setLanguage}
+          onChange={setLanguage}
           className={styles.selectLanguage}
         />
 
@@ -190,7 +181,7 @@ export const Header = observer((props: HeaderProps) => {
             : (
               <Button
                 onClick={AuthService.logIn}
-                value={LanguageService.header.loginButton[props.language]}
+                value={LanguageService.header.loginButton[language]}
                 buttonType={ButtonType.PRIMARY}
               />
             )}
@@ -212,13 +203,13 @@ export const Header = observer((props: HeaderProps) => {
                       name="GlobeIcon"
                       className={styles.sidebarIcon}
                     />
-                    {LanguageService.sidebar.language[props.language]}
+                    {LanguageService.sidebar.language[language]}
                   </HorizontalContainer>
                   <Select
-                    value={props.language}
+                    value={language}
                     name="language"
                     options={languageOptions}
-                    onChange={props.setLanguage}
+                    onChange={setLanguage}
                   />
                 </HorizontalContainer>
                 <HorizontalContainer className={styles.sidebarItem}>
@@ -228,7 +219,7 @@ export const Header = observer((props: HeaderProps) => {
                       name="MoonIcon"
                       className={styles.sidebarIcon}
                     />
-                    {LanguageService.sidebar.nightMode[props.language]}
+                    {LanguageService.sidebar.nightMode[language]}
                   </HorizontalContainer>
                   <Toggle
                     onChange={() => setTheme(getNextSwitchTheme(theme))}
@@ -236,7 +227,7 @@ export const Header = observer((props: HeaderProps) => {
                   />
                 </HorizontalContainer>
                 <VerticalContainer className={styles.socialMedia}>
-                  {LanguageService.sidebar.socialMedia[props.language]}
+                  {LanguageService.sidebar.socialMedia[language]}
                   <HorizontalContainer className={styles.socialMediaIcons}>
                     <Link
                       className={styles.logo}
@@ -263,7 +254,7 @@ export const Header = observer((props: HeaderProps) => {
                 {props.user &&
                 <Button
                   onClick={AuthService.logOut}
-                  value={LanguageService.header.logoutButton[props.language]}
+                  value={LanguageService.header.logoutButton[language]}
                   buttonType={ButtonType.SECONDARY}
                 />
                 }

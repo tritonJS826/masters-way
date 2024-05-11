@@ -1,6 +1,5 @@
 import {createContext, useContext} from "react";
 import {User} from "src/model/businessModel/User";
-import {DEFAULT_LANGUAGE, Language} from "src/utils/LanguageWorker";
 
 /**
  * Default stub setUser's value
@@ -16,13 +15,6 @@ const DEFAULT_SET_INITIALIZED = () => {
   throw Error("This is stub function for the initialization. This function should not be called");
 };
 
-/**
- * Default stub set language
- */
-const DEFAULT_SET_LANGUAGE = () => {
-  throw Error("The language context is not initialized properly");
-};
-
 export const DEFAULT_NOTIFICATION_SETTINGS: Notification = {
   isEnabled: true,
   // TODO: make it way-specific
@@ -35,8 +27,6 @@ const DEFAULT_GLOBAL_CONTEXT = {
   isInitialized: false,
   setIsInitialized: DEFAULT_SET_INITIALIZED,
   notification: DEFAULT_NOTIFICATION_SETTINGS,
-  language: DEFAULT_LANGUAGE,
-  setLanguage: DEFAULT_SET_LANGUAGE,
 };
 
 export type Notification = {
@@ -78,16 +68,6 @@ export type GlobalContext = {
    * Notification related settings
    */
   notification: Notification;
-
-  /**
-   * Interface language
-   */
-  language: Language;
-
-  /**
-   * Set language
-   */
-  setLanguage: (language: Language) => void;
 
 }
 

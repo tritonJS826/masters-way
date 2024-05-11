@@ -1,4 +1,5 @@
 import {NavigateFunction, useNavigate} from "react-router-dom";
+import {observer} from "mobx-react-lite";
 import logoLight from "src/assets/mastersWayLogoLight.svg";
 import {Button, ButtonType} from "src/component/button/Button";
 import {LOGO_TEXT} from "src/component/header/Header";
@@ -9,10 +10,11 @@ import {Link} from "src/component/link/Link";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {useGlobalContext} from "src/GlobalContext";
+import {languageStore} from "src/globalStore/LanguageStore";
 import {GoalItem} from "src/logic/homePage/goalItem/GoalItem";
 import {pages} from "src/router/pages";
 import {AuthService} from "src/service/AuthService";
-import {LanguageService} from "src/service/LangauageService";
+import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/homePage/HomePage.module.scss";
 
 /**
@@ -27,8 +29,9 @@ const getStarted = (navigate: NavigateFunction, userUuid?: string) => {
 /**
  * Home page
  */
-export const HomePage = () => {
-  const {language, user} = useGlobalContext();
+export const HomePage = observer(() => {
+  const {user} = useGlobalContext();
+  const {language} = languageStore;
   const navigate = useNavigate();
 
   return (
@@ -186,4 +189,4 @@ export const HomePage = () => {
     </>
   );
 
-};
+});

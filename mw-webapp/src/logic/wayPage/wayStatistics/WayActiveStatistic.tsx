@@ -1,13 +1,14 @@
 //TODO: fix it
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import {useGlobalContext} from "src/GlobalContext";
+import {observer} from "mobx-react-lite";
+import {languageStore} from "src/globalStore/LanguageStore";
 import {JobTagStat} from "src/logic/wayPage/wayStatistics/JobTagStat";
 import {StatisticItem} from "src/logic/wayPage/wayStatistics/statisticBlock/statisticItem/StatisticItem";
 import {StatisticPeriod} from "src/logic/wayPage/wayStatistics/StatisticPeriod";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {JobTag} from "src/model/businessModelPreview/WayPreview";
-import {LanguageService} from "src/service/LangauageService";
+import {LanguageService} from "src/service/LanguageService";
 import {DateUtils} from "src/utils/DateUtils";
 import styles from "src/logic/wayPage/wayStatistics/WayActiveStatistic.module.scss";
 
@@ -84,8 +85,8 @@ const getTagStats = (jobsDone: JobDone[]) => {
 /**
  * Render table of reports
  */
-export const WayActiveStatistic = (props: WayStatisticProps) => {
-  const {language} = useGlobalContext();
+export const WayActiveStatistic = observer((props: WayStatisticProps) => {
+  const {language} = languageStore;
   if (!props.isVisible) {
     return null;
   }
@@ -258,4 +259,4 @@ export const WayActiveStatistic = (props: WayStatisticProps) => {
 
     </div>
   );
-};
+});

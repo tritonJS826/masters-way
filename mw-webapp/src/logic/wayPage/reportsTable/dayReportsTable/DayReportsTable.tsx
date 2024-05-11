@@ -1,15 +1,16 @@
 import {useEffect, useState} from "react";
+import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {useGlobalContext} from "src/GlobalContext";
+import {languageStore} from "src/globalStore/LanguageStore";
 import {Columns} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
 import {ReportsTable} from "src/logic/wayPage/reportsTable/ReportsTable";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Way} from "src/model/businessModel/Way";
-import {LanguageService} from "src/service/LangauageService";
+import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/wayPage/reportsTable/dayReportsTable/DayReportsTable.module.scss";
 
 /**
@@ -39,8 +40,8 @@ interface DayReportsTableProps {
  * TODO:  get rid statistics in this component,
  * move load logic to the parent component and share data with other components
  */
-export const DayReportsTable = (props: DayReportsTableProps) => {
-  const {language} = useGlobalContext();
+export const DayReportsTable = observer((props: DayReportsTableProps) => {
+  const {language} = languageStore;
   const VISIBLE_REPORTS_CHUNK = 7;
   const [visibleReports, setVisibleReports] = useState(props.way.dayReports.slice(0, VISIBLE_REPORTS_CHUNK));
   useEffect(() => {
@@ -94,4 +95,4 @@ export const DayReportsTable = (props: DayReportsTableProps) => {
       </VerticalContainer>
     </>
   );
-};
+});

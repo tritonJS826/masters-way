@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Confirm} from "src/component/confirm/Confirm";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
@@ -13,12 +14,13 @@ import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {WayCard} from "src/component/wayCard/WayCard";
 import {useGlobalContext} from "src/GlobalContext";
+import {languageStore} from "src/globalStore/LanguageStore";
 import {getWaysColumns} from "src/logic/waysTable/waysColumns";
 import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {WayStatus, WayStatusType} from "src/logic/waysTable/wayStatus";
 import {WayCollection} from "src/model/businessModelPreview/UserPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
-import {LanguageService} from "src/service/LangauageService";
+import {LanguageService} from "src/service/LanguageService";
 import {ArrayUtils} from "src/utils/ArrayUtils";
 import {View} from "src/utils/LocalStorageWorker";
 import styles from "src/logic/waysTable/BaseWaysTable.module.scss";
@@ -84,8 +86,9 @@ export const isWayVisible = (userUuid: string|undefined, way: WayPreview) => {
 /**
  * Render table of favorite ways preview
  */
-export const BaseWaysTable = (props: BaseWaysTableProps) => {
-  const {user, language} = useGlobalContext();
+export const BaseWaysTable = observer((props: BaseWaysTableProps) => {
+  const {user} = useGlobalContext();
+  const {language} = languageStore;
 
   /**
    * Filter ways by privacy
@@ -273,4 +276,4 @@ export const BaseWaysTable = (props: BaseWaysTableProps) => {
       </VerticalContainer>
     </>
   );
-};
+});

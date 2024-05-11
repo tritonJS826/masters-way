@@ -1,12 +1,13 @@
 import {TrashIcon} from "@radix-ui/react-icons";
+import {observer} from "mobx-react-lite";
 import {Checkbox} from "src/component/checkbox/Checkbox";
 import {Confirm} from "src/component/confirm/Confirm";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Tooltip} from "src/component/tooltip/Tooltip";
-import {useGlobalContext} from "src/GlobalContext";
+import {languageStore} from "src/globalStore/LanguageStore";
 import {Metric} from "src/model/businessModel/Metric";
-import {LanguageService} from "src/service/LangauageService";
+import {LanguageService} from "src/service/LanguageService";
 import {DateUtils} from "src/utils/DateUtils";
 import styles from "src/logic/wayPage/goalMetricsBlock/GoalMetricItem.module.scss";
 
@@ -41,8 +42,8 @@ interface SingleGoalMetricProps {
 /**
  * Goal metric
  */
-export const GoalMetricItem = (props: SingleGoalMetricProps) => {
-  const {language} = useGlobalContext();
+export const GoalMetricItem = observer((props: SingleGoalMetricProps) => {
+  const {language} = languageStore;
   const tooltipContent = props.metric.isDone && props.metric.doneDate
     ? `${LanguageService.way.metricsBlock.doneDate[language]} ${DateUtils.getShortISODateValue(props.metric.doneDate)}`
     : `${LanguageService.way.metricsBlock.notFinished[language]}`;
@@ -117,4 +118,4 @@ export const GoalMetricItem = (props: SingleGoalMetricProps) => {
       }
     </div>
   );
-};
+});

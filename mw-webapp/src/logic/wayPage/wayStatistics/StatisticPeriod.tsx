@@ -1,14 +1,15 @@
+import {observer} from "mobx-react-lite";
 import {AreaChart} from "src/component/chart/AreaChart";
 import {BarChart} from "src/component/chart/blockChart/BarChart";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {useGlobalContext} from "src/GlobalContext";
+import {languageStore} from "src/globalStore/LanguageStore";
 import {JobTagStat} from "src/logic/wayPage/wayStatistics/JobTagStat";
 import {StatisticBlock, StatisticBlockType} from "src/logic/wayPage/wayStatistics/statisticBlock/StatisticBlock";
 import {StatisticItem} from "src/logic/wayPage/wayStatistics/statisticBlock/statisticItem/StatisticItem";
 import {StatisticLabels} from "src/logic/wayPage/wayStatistics/statisticLabels/StatisticLabels";
 import {StatisticWidget} from "src/logic/wayPage/wayStatistics/statisticWidget/StatisticWidget";
-import {LanguageService} from "src/service/LangauageService";
+import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/wayPage/wayStatistics/StatisticPeriod.module.scss";
 
 /**
@@ -66,8 +67,8 @@ interface StatisticPeriodProps {
 /**
  * Statistic block for period
  */
-export const StatisticPeriod = (props: StatisticPeriodProps) => {
-  const {language} = useGlobalContext();
+export const StatisticPeriod = observer((props: StatisticPeriodProps) => {
+  const {language} = languageStore;
 
   return (
     <VerticalContainer className={styles.statisticContainer}>
@@ -126,4 +127,4 @@ export const StatisticPeriod = (props: StatisticPeriodProps) => {
 
     </VerticalContainer>
   );
-};
+});

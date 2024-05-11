@@ -208,7 +208,7 @@ export const DEFAULT_THEME = Theme.DARK;
  * All theme-related methods
  * Works with localStorage
  */
-export class ThemeStore {
+class ThemeStore {
 
   /**
    * Theme value

@@ -1,10 +1,11 @@
+import {observer} from "mobx-react-lite";
 import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {useGlobalContext} from "src/GlobalContext";
+import {languageStore} from "src/globalStore/LanguageStore";
 import {JobTagStat} from "src/logic/wayPage/wayStatistics/JobTagStat";
 import {StatisticLine} from "src/logic/wayPage/wayStatistics/statisticLabels/statisticLine/StatisticLine";
-import {LanguageService} from "src/service/LangauageService";
+import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/wayPage/wayStatistics/statisticLabels/StatisticLabels.module.scss";
 
 /**
@@ -21,8 +22,8 @@ interface TagStatsProps {
 /**
  * Render stats related to job tags
  */
-export const StatisticLabels = (props: TagStatsProps) => {
-  const {language} = useGlobalContext();
+export const StatisticLabels = observer((props: TagStatsProps) => {
+  const {language} = languageStore;
 
   return (
     <>
@@ -60,4 +61,4 @@ export const StatisticLabels = (props: TagStatsProps) => {
     </>
   );
 
-};
+});

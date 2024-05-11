@@ -1,15 +1,16 @@
 import {useRef, useState} from "react";
 import {Close as DialogClose} from "@radix-ui/react-dialog";
+import {observer} from "mobx-react-lite";
 import {Button} from "src/component/button/Button";
 import {getFormattedValue} from "src/component/editableText/EditableText";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Input, InputType} from "src/component/input/Input";
 import {Textarea} from "src/component/textarea/Textarea";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {useGlobalContext} from "src/GlobalContext";
+import {languageStore} from "src/globalStore/LanguageStore";
 import {getValidatedTime, MAX_TIME} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
 import {Plan} from "src/model/businessModel/Plan";
-import {LanguageService} from "src/service/LangauageService";
+import {LanguageService} from "src/service/LanguageService";
 import {KeySymbols} from "src/utils/KeySymbols";
 import {Symbols} from "src/utils/Symbols";
 import styles from "src/logic/wayPage/reportsTable/reportsColumns/\
@@ -40,8 +41,8 @@ interface CopyPlanToJobDoneModalContentProps {
 /**
  * Copy plan to jobDone modal content
  */
-export const CopyPlanToJobDoneModalContent = (props: CopyPlanToJobDoneModalContentProps) => {
-  const {language} = useGlobalContext();
+export const CopyPlanToJobDoneModalContent = observer((props: CopyPlanToJobDoneModalContentProps) => {
+  const {language} = languageStore;
   const [inputPlanJob, setInputPlanJob] = useState<string>(props.plan.description);
   const [inputPlanTime, setInputPLanTime] = useState<number>(props.plan.time);
 
@@ -163,4 +164,4 @@ export const CopyPlanToJobDoneModalContent = (props: CopyPlanToJobDoneModalConte
       )
 
   );
-};
+});

@@ -1,5 +1,5 @@
-import {LanguageService} from "src/service/LangauageService";
-import {Language} from "src/utils/LanguageWorker";
+import {Language} from "src/globalStore/LanguageStore";
+import {LanguageService} from "src/service/LanguageService";
 
 /**
  * Available way statuses

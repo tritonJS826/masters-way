@@ -1,3 +1,4 @@
+import {observer} from "mobx-react-lite";
 import {Avatar} from "src/component/avatar/Avatar";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
@@ -8,12 +9,12 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {WayСardTag} from "src/component/wayCard/wayTag/WayTag";
-import {useGlobalContext} from "src/GlobalContext";
+import {languageStore} from "src/globalStore/LanguageStore";
 import {UserPlain} from "src/model/businessModel/User";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {WayTag} from "src/model/businessModelPreview/WayTag";
 import {pages} from "src/router/pages";
-import {LanguageService} from "src/service/LangauageService";
+import {LanguageService} from "src/service/LanguageService";
 import {DateUtils} from "src/utils/DateUtils";
 import styles from "src/component/wayCard/WayCard.module.scss";
 
@@ -36,8 +37,8 @@ interface WayCardProps {
 /**
  * WayCard component
  */
-export const WayCard = (props: WayCardProps) => {
-  const {language} = useGlobalContext();
+export const WayCard = observer((props: WayCardProps) => {
+  const {language} = languageStore;
 
   /**
    * Render way tags
@@ -170,5 +171,5 @@ export const WayCard = (props: WayCardProps) => {
       </VerticalContainer>
     </Link>
   );
-};
+});
 

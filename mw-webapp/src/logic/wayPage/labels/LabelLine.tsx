@@ -1,13 +1,14 @@
 import {TrashIcon} from "@radix-ui/react-icons";
+import {observer} from "mobx-react-lite";
 import {Confirm} from "src/component/confirm/Confirm";
 import {EditableText} from "src/component/editableText/EditableText";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
-import {useGlobalContext} from "src/GlobalContext";
+import {languageStore} from "src/globalStore/LanguageStore";
 import {Label} from "src/logic/wayPage/labels/label/Label";
 import {JobTag} from "src/model/businessModelPreview/WayPreview";
-import {LanguageService} from "src/service/LangauageService";
+import {LanguageService} from "src/service/LanguageService";
 import {debounce} from "src/utils/debounce";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import styles from "src/logic/wayPage/labels/LabelLine.module.scss";
@@ -42,8 +43,8 @@ interface LabelLineProps {
 /**
  * Line to edit label
  */
-export const LabelLine = (props: LabelLineProps) => {
-  const {language} = useGlobalContext();
+export const LabelLine = observer((props: LabelLineProps) => {
+  const {language} = languageStore;
   const DEBOUNCE_DELAY_MILLISECONDS = 1000;
 
   /**
@@ -96,4 +97,4 @@ export const LabelLine = (props: LabelLineProps) => {
     </HorizontalContainer>
 
   );
-};
+});

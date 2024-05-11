@@ -1,3 +1,4 @@
+import {observer} from "mobx-react-lite";
 import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
@@ -7,10 +8,10 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {Skill} from "src/component/userCard/skill/Skill";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {useGlobalContext} from "src/GlobalContext";
+import {languageStore} from "src/globalStore/LanguageStore";
 import {UserNotSaturatedWay, UserTag} from "src/model/businessModelPreview/UserNotSaturatedWay";
 import {pages} from "src/router/pages";
-import {LanguageService} from "src/service/LangauageService";
+import {LanguageService} from "src/service/LanguageService";
 import {DateUtils} from "src/utils/DateUtils";
 import styles from "src/component/userCard/UserCard.module.scss";
 
@@ -33,8 +34,8 @@ interface UserCardProps {
 /**
  * UserCard component
  */
-export const UserCard = (props: UserCardProps) => {
-  const {language} = useGlobalContext();
+export const UserCard = observer((props: UserCardProps) => {
+  const {language} = languageStore;
 
   /**
    * Render way tags
@@ -118,5 +119,5 @@ export const UserCard = (props: UserCardProps) => {
       </VerticalContainer>
     </Link>
   );
-};
+});
 

@@ -4,10 +4,10 @@ import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalC
 import {Link} from "src/component/link/Link";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
+import {Language} from "src/globalStore/LanguageStore";
 import {UserNotSaturatedWay} from "src/model/businessModelPreview/UserNotSaturatedWay";
 import {pages} from "src/router/pages";
-import {LanguageService} from "src/service/LangauageService";
-import {Language} from "src/utils/LanguageWorker";
+import {LanguageService} from "src/service/LanguageService";
 import {Symbols} from "src/utils/Symbols";
 import styles from "src/logic/usersTable/UserColumns.module.scss";
 
