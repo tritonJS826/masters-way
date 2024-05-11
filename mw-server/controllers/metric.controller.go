@@ -3,6 +3,7 @@ package controllers
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"net/http"
 	"time"
 
@@ -80,18 +81,22 @@ func (cc *MetricController) UpdateMetric(ctx *gin.Context) {
 	}
 
 	now := time.Now()
-	parsedTime, err := time.Parse(util.DEFAULT_STRING_LAYOUT, payload.DoneDate)
-	util.HandleErrorGin(ctx, err)
+	var parsedDoneDate time.Time
+	var isDoneDateExistInPayload = payload.DoneDate != ""
+	parsedDoneDate, err := time.Parse(util.DEFAULT_STRING_LAYOUT, payload.DoneDate)
+
 	args := &db.UpdateMetricParams{
 		Uuid:             uuid.MustParse(metricId),
 		UpdatedAt:        sql.NullTime{Time: now, Valid: true},
 		Description:      sql.NullString{String: payload.Description, Valid: payload.Description != ""},
 		IsDone:           sql.NullBool{Bool: payload.IsDone, Valid: true},
-		DoneDate:         sql.NullTime{Time: parsedTime, Valid: err == nil},
+		DoneDate:         sql.NullTime{Time: parsedDoneDate, Valid: isDoneDateExistInPayload && err == nil},
 		MetricEstimation: sql.NullInt32{Int32: int32(payload.MetricEstimation), Valid: payload.MetricEstimation != 0},
 	}
 
+	fmt.Println(args.DoneDate)
 	metric, err := cc.db.UpdateMetric(ctx, *args)
+	fmt.Println(metric.DoneDate, err)
 	util.HandleErrorGin(ctx, err)
 
 	response := schemas.MetricResponse{
