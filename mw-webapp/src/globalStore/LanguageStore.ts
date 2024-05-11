@@ -49,13 +49,6 @@ class LanguageStore {
     this.setLanguage(language ?? DEFAULT_LANGUAGE);
   };
 
-  /**
-   * Get current language
-   */
-  public static getCurrentLanguage = () => {
-    return localStorageWorker.getItemByKey<Language>("language") ?? DEFAULT_LANGUAGE;
-  };
-
 }
 
 export const languageStore = new LanguageStore();

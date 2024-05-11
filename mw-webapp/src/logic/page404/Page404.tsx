@@ -1,7 +1,9 @@
 import {isRouteErrorResponse, useRouteError} from "react-router-dom";
 import {Header} from "src/component/header/Header";
 import {ErrorComponent} from "src/component/privateRecourse/PrivateRecourse";
-import {useGlobalContext} from "src/GlobalContext";
+import {languageStore} from "src/globalStore/LanguageStore";
+import {themeStore} from "src/globalStore/ThemeStore";
+import {userStore} from "src/globalStore/UserStore";
 import {InitializedApp} from "src/logic/initializedApp/InitializedApp";
 
 const ERROR_404 = "404 NOT FOUND";
@@ -10,13 +12,21 @@ const ERROR_404 = "404 NOT FOUND";
  * Page 404 will be displayed if app's address is not correct
  */
 export const Page404 = () => {
-  const {user} = useGlobalContext();
+  const {user} = userStore;
+  const {language, setLanguage} = languageStore;
+  const {theme, setTheme} = themeStore;
 
   const error = useRouteError();
   if (isRouteErrorResponse(error)) {
     return (
       <InitializedApp>
-        <Header user={user} />
+        <Header
+          user={user}
+          language={language}
+          setLanguage={setLanguage}
+          theme={theme}
+          setTheme={setTheme}
+        />
         <ErrorComponent
           text={`${error.status} ${error.statusText}`}
           description=""

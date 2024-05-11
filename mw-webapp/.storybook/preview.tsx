@@ -1,25 +1,22 @@
-import React, { useEffect } from "react";
+import React from "react";
 import type {Preview} from "@storybook/react";
 import { ThemeSwitcher } from "../src/component/themeSwitcher/ThemeSwitcher";
-import {useState} from "react";
 import {
   DEFAULT_NOTIFICATION_SETTINGS,
   globalContext,
 } from "../src/GlobalContext";
-import {Language, languageStore} from "../src/globalStore/LanguageStore";
-import {themeStore} from "../src/globalStore/ThemeStore";
+import {languageStore} from "../src/globalStore/LanguageStore";
+import { themeStore } from "../src/globalStore/ThemeStore";
 
 import './preview.scss';
 
 
 export const ThemeComponent = () => {
   const {theme, setTheme} = themeStore;
-  const {language} = languageStore;
+  const { language } = languageStore;
 
   return (
     <globalContext.Provider value={{
-      user: 'user',
-      setUser: () => {},
       isInitialized: true,
       setIsInitialized: () => {},
       // TODO: load from local storage

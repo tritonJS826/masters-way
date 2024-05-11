@@ -26,8 +26,8 @@ import {FavoriteUserWayDAL} from "src/dataAccessLogic/FavoriteUserWayDAL";
 import {WayCollectionWayDAL} from "src/dataAccessLogic/WayCollectionWayDAL";
 import {BaseWayData, WayDAL} from "src/dataAccessLogic/WayDAL";
 import {WayTagDAL} from "src/dataAccessLogic/WayTagDAL";
-import {useGlobalContext} from "src/GlobalContext";
 import {languageStore} from "src/globalStore/LanguageStore";
+import {userStore} from "src/globalStore/UserStore";
 import {useLoad} from "src/hooks/useLoad";
 import {usePersistanceState} from "src/hooks/usePersistanceState";
 import {GoalBlock} from "src/logic/wayPage/goalBlock/GoalBlock";
@@ -115,7 +115,7 @@ export const WayPage = observer((props: WayPageProps) => {
     key: "wayPage",
     defaultValue: DEFAULT_WAY_PAGE_SETTINGS,
   });
-  const {user, setUser} = useGlobalContext();
+  const {user, setUser} = userStore;
   const {language} = languageStore;
   const [way, setWay] = useState<Way>();
   const [isAddWayTagModalOpen, setIsAddWayTagModalOpen] = useState(false);
@@ -247,7 +247,7 @@ export const WayPage = observer((props: WayPageProps) => {
   /**
    * Add or remove way from custom collection depends on custom collections.
    */
-  const toggleWayInWayCollectionByUuid = async (collectionUuid: string) => {
+  const toggleWayInWayCollectionByUuid = (collectionUuid: string) => {
     if (!user) {
       throw new Error("User is not exist");
     }
@@ -280,11 +280,11 @@ export const WayPage = observer((props: WayPageProps) => {
             wayTags: way.wayTags,
           });
 
-          const updatedWayUuids = isWayExistInCollection
+          const updatedWays = isWayExistInCollection
             ? userCollection.ways.filter(wayPreview => wayPreview.uuid !== way.uuid)
             : userCollection.ways.concat(updatedWay);
 
-          return {...userCollection, wayUuids: updatedWayUuids};
+          return new WayCollection({...userCollection, ways: updatedWays});
         } else {
           return userCollection;
         }

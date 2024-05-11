@@ -1,12 +1,4 @@
 import {createContext, useContext} from "react";
-import {User} from "src/model/businessModel/User";
-
-/**
- * Default stub setUser's value
- */
-const DEFAULT_SET_USER = () => {
-  throw Error("The user context is not initialized properly");
-};
 
 /**
  * Default stub setIsInitialization
@@ -22,8 +14,6 @@ export const DEFAULT_NOTIFICATION_SETTINGS: Notification = {
 };
 
 const DEFAULT_GLOBAL_CONTEXT = {
-  user: null,
-  setUser: DEFAULT_SET_USER,
   isInitialized: false,
   setIsInitialized: DEFAULT_SET_INITIALIZED,
   notification: DEFAULT_NOTIFICATION_SETTINGS,
@@ -43,16 +33,6 @@ export type Notification = {
 }
 
 export type GlobalContext = {
-
-  /**
-   * If user is not logged - null, if logged - UserPreview always
-   */
-  user: User | null;
-
-  /**
-   * Update user
-   */
-  setUser: (user: User | null) => void;
 
   /**
    * IsInitialization

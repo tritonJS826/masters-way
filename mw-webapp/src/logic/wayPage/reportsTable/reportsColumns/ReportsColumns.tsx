@@ -1,8 +1,8 @@
 import {createColumnHelper} from "@tanstack/react-table";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
-import {useGlobalContext} from "src/GlobalContext";
 import {languageStore} from "src/globalStore/LanguageStore";
+import {userStore} from "src/globalStore/UserStore";
 import {ReportsTableCommentsCell}
   from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableCommentsCell/ReportsTableCommentsCell";
 import {ReportsTableDateCell} from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableDateCell/ReportsTableDateCell";
@@ -66,7 +66,7 @@ interface ColumnsProps {
  * Don't get rid of any https://github.com/TanStack/table/issues/4382
  */
 export const Columns = (props: ColumnsProps) => {
-  const {user} = useGlobalContext();
+  const {user} = userStore;
   const {language} = languageStore;
   const ownerUuid = props.way.owner.uuid;
   const isOwner = user?.uuid === ownerUuid;

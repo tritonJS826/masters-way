@@ -1,46 +1,59 @@
+import {makeAutoObservable} from "mobx";
 import {WayNotSaturatedUser} from "src/model/businessModelPreview/WayNotSaturatedUser";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 
 /**
  * Specific way collection data
  */
-export type WayCollection = {
+export class WayCollection {
 
   /**
    * Date in ISO format
    */
-  createdAt: Date;
+  public createdAt: Date;
 
   /**
    * Way collection name
    */
-  name: string;
+  public name: string;
 
   /**
    * Way collection's owner
    */
-  ownerUuid: string;
+  public ownerUuid: string;
 
   /**
    * Date in ISO format
    */
-  updatedAt: Date;
+  public updatedAt: Date;
 
   /**
    * Way collection's UUID
    */
-  uuid: string;
+  public uuid: string;
 
   /**
    * Ways preview that exist inside way collection
    */
-  ways: WayPreview[];
+  public ways: WayPreview[];
 
   /**
    * Way collection type
    */
-  type: string;
-};
+  public type: string;
+
+  constructor(wayCollection: WayCollection) {
+    makeAutoObservable(this);
+    this.createdAt = wayCollection.createdAt;
+    this.name = wayCollection.name;
+    this.ownerUuid = wayCollection.ownerUuid;
+    this.updatedAt = wayCollection.updatedAt;
+    this.uuid = wayCollection.uuid;
+    this.ways = wayCollection.ways;
+    this.type = wayCollection.type;
+  }
+
+}
 
 /**
  * User tag data
@@ -99,6 +112,7 @@ export class UserPlain {
   public name: string;
 
   constructor(user: UserPlain) {
+    makeAutoObservable(this);
     this.uuid = user.uuid;
     this.createdAt = user.createdAt;
     this.description = user.description;
@@ -176,6 +190,7 @@ export class User {
   public wayRequests: WayNotSaturatedUser[];
 
   constructor(userData: User) {
+    makeAutoObservable(this);
     this.uuid = userData.uuid;
     this.name = userData.name;
     this.email = userData.email;

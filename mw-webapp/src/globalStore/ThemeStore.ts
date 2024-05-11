@@ -241,13 +241,6 @@ class ThemeStore {
     this.setTheme(theme ?? DEFAULT_THEME);
   };
 
-  /**
-   * Get current theme
-   */
-  public static getCurrentTheme = () => {
-    return localStorageWorker.getItemByKey<Theme>("theme") ?? DEFAULT_THEME;
-  };
-
 }
 
 export const themeStore = new ThemeStore();
