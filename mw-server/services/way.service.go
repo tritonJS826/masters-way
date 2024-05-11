@@ -2,6 +2,7 @@ package services
 
 import (
 	"context"
+	"fmt"
 	dbb "mwserver/db/sqlc"
 	"mwserver/schemas"
 	"mwserver/util"
@@ -89,6 +90,9 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 
 	metricsRaw, _ := db.GetListMetricsByWayUuid(ctx, params.WayUuid)
 	metrics := lo.Map(metricsRaw, func(dbMetric dbb.Metric, i int) schemas.MetricResponse {
+		fmt.Println(dbMetric.CreatedAt)
+		fmt.Println(util.MarshalNullTime(dbMetric.DoneDate))
+
 		return schemas.MetricResponse{
 			Uuid:             dbMetric.Uuid.String(),
 			CreatedAt:        dbMetric.CreatedAt.String(),
@@ -99,6 +103,7 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 			MetricEstimation: dbMetric.MetricEstimation,
 		}
 	})
+
 	wayTagsRaw, _ := db.GetListWayTagsByWayId(ctx, params.WayUuid)
 	wayTags := lo.Map(wayTagsRaw, func(dbWayTag dbb.WayTag, i int) schemas.WayTagResponse {
 		return schemas.WayTagResponse{

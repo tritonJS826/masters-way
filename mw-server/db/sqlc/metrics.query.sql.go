@@ -71,7 +71,7 @@ func (q *Queries) DeleteMetric(ctx context.Context, argUuid uuid.UUID) error {
 const getListMetricsByWayUuid = `-- name: GetListMetricsByWayUuid :many
 SELECT uuid, created_at, updated_at, description, is_done, done_date, metric_estimation, way_uuid FROM metrics
 WHERE metrics.way_uuid = $1
-ORDER BY updated_at
+ORDER BY created_at
 `
 
 func (q *Queries) GetListMetricsByWayUuid(ctx context.Context, wayUuid uuid.UUID) ([]Metric, error) {
@@ -112,9 +112,9 @@ SET
 updated_at = coalesce($1, updated_at),
 description = coalesce($2, description),
 is_done = coalesce($3, is_done),
-done_date = CASE WHEN $4 THEN CAST($5 AS timestamp) ELSE NULL END,
-metric_estimation = coalesce($6, metric_estimation)
-WHERE uuid = $7
+done_date = coalesce($4, done_date), 
+metric_estimation = coalesce($5, metric_estimation)
+WHERE uuid = $6
 RETURNING uuid, created_at, updated_at, description, is_done, done_date, metric_estimation, way_uuid
 `
 
@@ -122,8 +122,7 @@ type UpdateMetricParams struct {
 	UpdatedAt        sql.NullTime   `json:"updated_at"`
 	Description      sql.NullString `json:"description"`
 	IsDone           sql.NullBool   `json:"is_done"`
-	DoneDateValid    sql.NullTime   `json:"doneDate.Valid"`
-	DoneDate         sql.NullTime   `json:"doneDate"`
+	DoneDate         sql.NullTime   `json:"done_date"`
 	MetricEstimation sql.NullInt32  `json:"metric_estimation"`
 	Uuid             uuid.UUID      `json:"uuid"`
 }
@@ -133,7 +132,6 @@ func (q *Queries) UpdateMetric(ctx context.Context, arg UpdateMetricParams) (Met
 		arg.UpdatedAt,
 		arg.Description,
 		arg.IsDone,
-		arg.DoneDateValid,
 		arg.DoneDate,
 		arg.MetricEstimation,
 		arg.Uuid,
