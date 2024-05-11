@@ -42,8 +42,8 @@ func (cc *UserTagController) AddUserTagByName(ctx *gin.Context) {
 	userTag, err := cc.db.GetUserTagByName(ctx, payload.Name)
 
 	if err != nil {
-		newUserTag, err := cc.db.CreateUserTag(ctx, payload.Name)
-		util.HandleErrorGin(ctx, err)
+		newUserTag, _ := cc.db.CreateUserTag(ctx, payload.Name)
+		// util.HandleErrorGin(ctx, err)
 		userTag = newUserTag
 	}
 
@@ -51,7 +51,8 @@ func (cc *UserTagController) AddUserTagByName(ctx *gin.Context) {
 		UserTagUuid: userTag.Uuid,
 		UserUuid:    uuid.MustParse(payload.OwnerUuid),
 	}
-	cc.db.CreateUsersUserTag(ctx, *args)
+	_, err = cc.db.CreateUsersUserTag(ctx, *args)
+	util.HandleErrorGin(ctx, err)
 
 	response := schemas.UserTagResponse{
 		Uuid: userTag.Uuid.String(),
