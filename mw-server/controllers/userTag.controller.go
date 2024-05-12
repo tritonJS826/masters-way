@@ -43,7 +43,6 @@ func (cc *UserTagController) AddUserTagByName(ctx *gin.Context) {
 
 	if err != nil {
 		newUserTag, _ := cc.db.CreateUserTag(ctx, payload.Name)
-		// util.HandleErrorGin(ctx, err)
 		userTag = newUserTag
 	}
 

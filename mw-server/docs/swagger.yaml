@@ -1914,24 +1914,6 @@ paths:
       tags:
       - user
   /users/{userId}:
-    delete:
-      consumes:
-      - application/json
-      operationId: delete-user
-      parameters:
-      - description: user ID
-        in: path
-        name: userId
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-      summary: Delete user by UUID
-      tags:
-      - user
     get:
       consumes:
       - application/json
