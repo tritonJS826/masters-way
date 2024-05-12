@@ -13,8 +13,8 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {WayCard} from "src/component/wayCard/WayCard";
-import {useGlobalContext} from "src/GlobalContext";
 import {languageStore} from "src/globalStore/LanguageStore";
+import {userStore} from "src/globalStore/UserStore";
 import {getWaysColumns} from "src/logic/waysTable/waysColumns";
 import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {WayStatus, WayStatusType} from "src/logic/waysTable/wayStatus";
@@ -70,7 +70,7 @@ export const FILTER_STATUS_ALL_VALUE = "all";
 
 /**
  * TODO: #
- * It is workaround shoud be implemented on the backend
+ * It is workaround should be implemented on the backend
  */
 export const isWayVisible = (userUuid: string|undefined, way: WayPreview) => {
   if (!userUuid) {
@@ -87,7 +87,7 @@ export const isWayVisible = (userUuid: string|undefined, way: WayPreview) => {
  * Render table of favorite ways preview
  */
 export const BaseWaysTable = observer((props: BaseWaysTableProps) => {
-  const {user} = useGlobalContext();
+  const {user} = userStore;
   const {language} = languageStore;
 
   /**

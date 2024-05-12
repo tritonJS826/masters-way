@@ -1,6 +1,7 @@
 import {PropsWithChildren, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 import {useGlobalContext} from "src/GlobalContext";
+import {userStore} from "src/globalStore/UserStore";
 import {useErrorHandler} from "src/hooks/useErrorHandler";
 import {User} from "src/model/businessModel/User";
 import {pages} from "src/router/pages";
@@ -16,7 +17,8 @@ const getIsHomePage = () => pages.home.getPath({}) === location.pathname;
  */
 export const InitializedApp = (props: PropsWithChildren) => {
   useErrorHandler();
-  const {setUser, isInitialized, setIsInitialized} = useGlobalContext();
+  const {setUser} = userStore;
+  const {isInitialized, setIsInitialized} = useGlobalContext();
   const navigate = useNavigate();
 
   /**

@@ -23,8 +23,8 @@ import {UserTagDAL} from "src/dataAccessLogic/UserTagDAL";
 import {WayCollectionDAL} from "src/dataAccessLogic/WayCollectionDAL";
 import {WayCollectionWayDAL} from "src/dataAccessLogic/WayCollectionWayDAL";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
-import {useGlobalContext} from "src/GlobalContext";
 import {languageStore} from "src/globalStore/LanguageStore";
+import {userStore} from "src/globalStore/UserStore";
 import {useLoad} from "src/hooks/useLoad";
 import {usePersistanceState} from "src/hooks/usePersistanceState";
 import {BaseWaysTable, FILTER_STATUS_ALL_VALUE} from "src/logic/waysTable/BaseWaysTable";
@@ -109,7 +109,7 @@ const getIsUserInFavorites = (
  * User page
  */
 export const UserPage = observer((props: UserPageProps) => {
-  const {user, setUser} = useGlobalContext();
+  const {user, setUser} = userStore;
   const {language} = languageStore;
   const [isRenameCollectionModalOpen, setIsRenameCollectionModalOpen] = useState(false);
   const [isAddUserTagModalOpen, setIsAddUserTagModalOpen] = useState(false);
@@ -298,7 +298,15 @@ export const UserPage = observer((props: UserPageProps) => {
                     uuid: userPageOwner.uuid,
                     name,
                   },
-                  setUser: setUserPreviewPartial,
+
+                  /**
+                   * Update user
+                   */
+                  setUser: (userToUpdate: PartialWithUuid<User>) => {
+                    const updatedUser = new User({...userPageOwner, ...userToUpdate});
+                    setUser(updatedUser);
+                    setUserPreviewPartial(userToUpdate);
+                  },
                 })}
                 isEditable={isPageOwner}
                 className={styles.ownerName}
@@ -378,7 +386,15 @@ export const UserPage = observer((props: UserPageProps) => {
                   uuid: userPageOwner.uuid,
                   email,
                 },
-                setUser: setUserPreviewPartial,
+
+                /**
+                 * Update user
+                 */
+                setUser: (userToUpdate: PartialWithUuid<User>) => {
+                  const updatedUser = new User({...userPageOwner, ...userToUpdate});
+                  setUser(updatedUser);
+                  setUserPreviewPartial(userToUpdate);
+                },
               })}
               isEditable={isPageOwner}
               classNameHeading={styles.ownerEmail}
@@ -449,7 +465,15 @@ export const UserPage = observer((props: UserPageProps) => {
                   uuid: userPageOwner.uuid,
                   description,
                 },
-                setUser: setUserPreviewPartial,
+
+                /**
+                 * Update user
+                 */
+                setUser: (userToUpdate: PartialWithUuid<User>) => {
+                  const updatedUser = new User({...userPageOwner, ...userToUpdate});
+                  setUser(updatedUser);
+                  setUserPreviewPartial(userToUpdate);
+                },
               })}
               isEditable={isPageOwner}
               className={styles.userDescription}

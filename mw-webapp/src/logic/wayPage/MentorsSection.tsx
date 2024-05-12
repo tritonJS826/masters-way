@@ -7,8 +7,8 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {MentorUserWayDAL} from "src/dataAccessLogic/MentorUserWayDAL";
-import {useGlobalContext} from "src/GlobalContext";
 import {languageStore} from "src/globalStore/LanguageStore";
+import {userStore} from "src/globalStore/UserStore";
 import {UserPlain} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
 import {pages} from "src/router/pages";
@@ -60,7 +60,7 @@ interface MentorsSectionProps {
  */
 export const MentorsSection = observer((props: MentorsSectionProps) => {
   const mentors = Array.from(props.way.mentors.values());
-  const {user} = useGlobalContext();
+  const {user} = userStore;
   const {language} = languageStore;
 
   return (

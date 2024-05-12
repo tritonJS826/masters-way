@@ -9,8 +9,8 @@ import {Image} from "src/component/image/Image";
 import {Link} from "src/component/link/Link";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {useGlobalContext} from "src/GlobalContext";
 import {languageStore} from "src/globalStore/LanguageStore";
+import {userStore} from "src/globalStore/UserStore";
 import {GoalItem} from "src/logic/homePage/goalItem/GoalItem";
 import {pages} from "src/router/pages";
 import {AuthService} from "src/service/AuthService";
@@ -30,7 +30,7 @@ const getStarted = (navigate: NavigateFunction, userUuid?: string) => {
  * Home page
  */
 export const HomePage = observer(() => {
-  const {user} = useGlobalContext();
+  const {user} = userStore;
   const {language} = languageStore;
   const navigate = useNavigate();
 

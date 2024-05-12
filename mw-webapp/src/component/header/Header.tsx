@@ -1,4 +1,3 @@
-import {observer} from "mobx-react-lite";
 import logo from "src/assets/mastersWayLogo.svg";
 import logoLight from "src/assets/mastersWayLogoLight.svg";
 import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
@@ -15,8 +14,8 @@ import {Toggle} from "src/component/toggle/Toggle";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {Language, languageStore} from "src/globalStore/LanguageStore";
-import {DEFAULT_THEME, Theme, themeStore} from "src/globalStore/ThemeStore";
+import {Language} from "src/globalStore/LanguageStore";
+import {DEFAULT_THEME, Theme} from "src/globalStore/ThemeStore";
 import {User} from "src/model/businessModel/User";
 import {pages} from "src/router/pages";
 import {AuthService} from "src/service/AuthService";
@@ -47,15 +46,32 @@ interface HeaderProps {
    */
   user: User | null;
 
+  /**
+   * Current language
+   */
+  language: Language;
+
+  /**
+   * Callback to set language
+   */
+  setLanguage: (language: Language) => void;
+
+  /**
+   * Current theme
+   */
+  theme: Theme;
+
+  /**
+   * Callback to set theme
+   */
+  setTheme: (theme: Theme) => void;
+
 }
 
 /**
  * Header component
  */
-export const Header = observer((props: HeaderProps) => {
-  const {theme, setTheme} = themeStore;
-  const {language, setLanguage} = languageStore;
-
+export const Header = (props: HeaderProps) => {
   const menuItems: (MenuItemLink)[] = [
     {
       path: pages.allWays.getPath({}),
@@ -69,7 +85,7 @@ export const Header = observer((props: HeaderProps) => {
     },
     {
       path: pages.home.getPath({}),
-      value: LanguageService.sidebar.home[language],
+      value: LanguageService.sidebar.home[props.language],
       icon: (
         <Icon
           size={IconSize.MEDIUM}
@@ -79,7 +95,7 @@ export const Header = observer((props: HeaderProps) => {
     },
     {
       path: pages.allWays.getPath({}),
-      value: LanguageService.sidebar.allWays[language],
+      value: LanguageService.sidebar.allWays[props.language],
       icon: (
         <Icon
           size={IconSize.MEDIUM}
@@ -89,7 +105,7 @@ export const Header = observer((props: HeaderProps) => {
     },
     {
       path: pages.allUsers.getPath({}),
-      value: LanguageService.sidebar.allUsers[language],
+      value: LanguageService.sidebar.allUsers[props.language],
       icon: (
         <Icon
           size={IconSize.MEDIUM}
@@ -99,7 +115,7 @@ export const Header = observer((props: HeaderProps) => {
     },
     {
       path: pages.aboutProject.getPath({}),
-      value: LanguageService.sidebar.about[language],
+      value: LanguageService.sidebar.about[props.language],
       icon: (
         <Icon
           size={IconSize.MEDIUM}
@@ -111,7 +127,7 @@ export const Header = observer((props: HeaderProps) => {
       path: props.user
         ? pages.settings.getPath({})
         : pages.page404.getPath({}),
-      value: LanguageService.sidebar.settings[language],
+      value: LanguageService.sidebar.settings[props.language],
       icon: (
         <Icon
           size={IconSize.MEDIUM}
@@ -138,24 +154,24 @@ export const Header = observer((props: HeaderProps) => {
             [Theme.DARK]: logoLight,
             [Theme.LIGHT]: logo,
           })}
-          theme={theme}
+          theme={props.theme}
           name={LOGO_TEXT}
         />
       </Link>
       <div className={styles.headerButtonsContainer}>
 
         <ThemeSwitcher
-          language={language}
-          theme={theme}
-          setTheme={setTheme}
+          language={props.language}
+          theme={props.theme}
+          setTheme={props.setTheme}
           className={styles.themeSwitcher}
         />
 
         <Select
-          value={language}
+          value={props.language}
           name="language"
           options={languageOptions}
-          onChange={setLanguage}
+          onChange={props.setLanguage}
           className={styles.selectLanguage}
         />
 
@@ -181,7 +197,7 @@ export const Header = observer((props: HeaderProps) => {
             : (
               <Button
                 onClick={AuthService.logIn}
-                value={LanguageService.header.loginButton[language]}
+                value={LanguageService.header.loginButton[props.language]}
                 buttonType={ButtonType.PRIMARY}
               />
             )}
@@ -203,13 +219,13 @@ export const Header = observer((props: HeaderProps) => {
                       name="GlobeIcon"
                       className={styles.sidebarIcon}
                     />
-                    {LanguageService.sidebar.language[language]}
+                    {LanguageService.sidebar.language[props.language]}
                   </HorizontalContainer>
                   <Select
-                    value={language}
+                    value={props.language}
                     name="language"
                     options={languageOptions}
-                    onChange={setLanguage}
+                    onChange={props.setLanguage}
                   />
                 </HorizontalContainer>
                 <HorizontalContainer className={styles.sidebarItem}>
@@ -219,15 +235,15 @@ export const Header = observer((props: HeaderProps) => {
                       name="MoonIcon"
                       className={styles.sidebarIcon}
                     />
-                    {LanguageService.sidebar.nightMode[language]}
+                    {LanguageService.sidebar.nightMode[props.language]}
                   </HorizontalContainer>
                   <Toggle
-                    onChange={() => setTheme(getNextSwitchTheme(theme))}
-                    isDefaultChecked={DEFAULT_THEME === theme}
+                    onChange={() => props.setTheme(getNextSwitchTheme(props.theme))}
+                    isDefaultChecked={DEFAULT_THEME === props.theme}
                   />
                 </HorizontalContainer>
                 <VerticalContainer className={styles.socialMedia}>
-                  {LanguageService.sidebar.socialMedia[language]}
+                  {LanguageService.sidebar.socialMedia[props.language]}
                   <HorizontalContainer className={styles.socialMediaIcons}>
                     <Link
                       className={styles.logo}
@@ -254,7 +270,7 @@ export const Header = observer((props: HeaderProps) => {
                 {props.user &&
                 <Button
                   onClick={AuthService.logOut}
-                  value={LanguageService.header.logoutButton[language]}
+                  value={LanguageService.header.logoutButton[props.language]}
                   buttonType={ButtonType.SECONDARY}
                 />
                 }
@@ -266,4 +282,4 @@ export const Header = observer((props: HeaderProps) => {
       </div>
     </header>
   );
-});
+};
