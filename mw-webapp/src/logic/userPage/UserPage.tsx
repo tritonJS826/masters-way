@@ -302,9 +302,10 @@ export const UserPage = observer((props: UserPageProps) => {
                   /**
                    * Update user
                    */
-                  setUser: (uuser: PartialWithUuid<User>) => {
-                    setUser({...userPageOwner, ...uuser});
-                    setUserPreviewPartial(uuser);
+                  setUser: (userToUpdate: PartialWithUuid<User>) => {
+                    const updatedUser = new User({...userPageOwner, ...userToUpdate});
+                    setUser(updatedUser);
+                    setUserPreviewPartial(userToUpdate);
                   },
                 })}
                 isEditable={isPageOwner}
@@ -389,9 +390,10 @@ export const UserPage = observer((props: UserPageProps) => {
                 /**
                  * Update user
                  */
-                setUser: (uuser: PartialWithUuid<User>) => {
-                  setUser({...userPageOwner, ...uuser});
-                  setUserPreviewPartial(uuser);
+                setUser: (userToUpdate: PartialWithUuid<User>) => {
+                  const updatedUser = new User({...userPageOwner, ...userToUpdate});
+                  setUser(updatedUser);
+                  setUserPreviewPartial(userToUpdate);
                 },
               })}
               isEditable={isPageOwner}
@@ -467,9 +469,10 @@ export const UserPage = observer((props: UserPageProps) => {
                 /**
                  * Update user
                  */
-                setUser: (uuser: PartialWithUuid<User>) => {
-                  setUser({...userPageOwner, ...uuser});
-                  setUserPreviewPartial(uuser);
+                setUser: (userToUpdate: PartialWithUuid<User>) => {
+                  const updatedUser = new User({...userPageOwner, ...userToUpdate});
+                  setUser(updatedUser);
+                  setUserPreviewPartial(userToUpdate);
                 },
               })}
               isEditable={isPageOwner}

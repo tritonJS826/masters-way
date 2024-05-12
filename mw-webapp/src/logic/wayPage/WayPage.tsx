@@ -284,7 +284,9 @@ export const WayPage = observer((props: WayPageProps) => {
             ? userCollection.ways.filter(wayPreview => wayPreview.uuid !== way.uuid)
             : userCollection.ways.concat(updatedWay);
 
-          return new WayCollection({...userCollection, ways: updatedWays});
+          const updatedWayCollection = new WayCollection({...userCollection, ways: updatedWays});
+
+          return updatedWayCollection;
         } else {
           return userCollection;
         }
