@@ -42,10 +42,6 @@ export interface CreateUserIfRequiredRequest {
     request: SchemasCreateUserPayload;
 }
 
-export interface DeleteUserRequest {
-    userId: string;
-}
-
 export interface GetAllUsersRequest {
     page?: number;
     limit?: number;
@@ -135,35 +131,6 @@ export class UserApi extends runtime.BaseAPI {
     async createUserIfRequired(requestParameters: CreateUserIfRequiredRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasUserPopulatedResponse> {
         const response = await this.createUserIfRequiredRaw(requestParameters, initOverrides);
         return await response.value();
-    }
-
-    /**
-     * Delete user by UUID
-     */
-    async deleteUserRaw(requestParameters: DeleteUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.userId === null || requestParameters.userId === undefined) {
-            throw new runtime.RequiredError('userId','Required parameter requestParameters.userId was null or undefined when calling deleteUser.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/users/{userId}`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),
-            method: 'DELETE',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     * Delete user by UUID
-     */
-    async deleteUser(requestParameters: DeleteUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.deleteUserRaw(requestParameters, initOverrides);
     }
 
     /**

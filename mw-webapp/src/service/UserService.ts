@@ -1,6 +1,5 @@
 import {
   CreateUserRequest,
-  DeleteUserRequest,
   GetAllUsersRequest,
   GetUserByUuidRequest,
   SchemasGetAllUsersResponse,
@@ -76,13 +75,6 @@ export class UserService {
     const updatedUser = await userService.updateUser(requestParameters);
 
     return updatedUser;
-  }
-
-  /**
-   * Delete user
-   */
-  public static async deleteUser(requestParameters: DeleteUserRequest): Promise<void> {
-    await userService.deleteUser(requestParameters);
   }
 
 }

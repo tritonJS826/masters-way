@@ -258,22 +258,3 @@ func (cc *UserController) GetAllUsers(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, schemas.GetAllUsersResponse{Size: usersSize, Users: response})
 }
-
-// @Summary Delete user by UUID
-// @Description
-// @Tags user
-// @ID delete-user
-// @Accept  json
-// @Produce  json
-// @Param userId path string true "user ID"
-// @Success 200
-// @Router /users/{userId} [delete]
-func (cc *UserController) DeleteUserById(ctx *gin.Context) {
-	userId := ctx.Param("userId")
-
-	err := cc.db.DeleteUser(ctx, uuid.MustParse(userId))
-	util.HandleErrorGin(ctx, err)
-
-	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})
-
-}

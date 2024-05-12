@@ -74,11 +74,4 @@ export class UserDAL {
     });
   }
 
-  /**
-   * Delete user
-   */
-  public static async deleteUser(userUuid: string): Promise<void> {
-    await UserService.deleteUser({userId: userUuid});
-  }
-
 }
