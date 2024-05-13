@@ -1,11 +1,7 @@
 @import "src/styles/variables";
 
 .ourTeamMember {
+  max-width: 120px;
   align-items: center;
-  justify-content: center;
   gap: $gapMedium;
-}
-
-.avatar {
-  margin-bottom: $marginMedium;
 }

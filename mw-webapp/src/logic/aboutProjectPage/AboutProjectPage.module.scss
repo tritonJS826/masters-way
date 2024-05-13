@@ -13,23 +13,23 @@
 }
 
 .subtitle {
+  margin-bottom: $marginSmall;
   color: var(--primaryTextColor);
   text-align: center;
-  margin-bottom: $marginSmall;
 }
 
 .aboutBlock {
-  max-width: $maxWidthContainer;
-  gap: $gapSmall;
-  color: var(--secondaryTextColor);
-  background-color: var(primarysBackgroundColor);
   width: 100%;
+  max-width: $maxWidthContainer;
+  background-color: var(primarysBackgroundColor);
+  color: var(--secondaryTextColor);
+  gap: $gapSmall;
 }
 
 .aboutDescription {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   margin-top: $marginBig;
   background-color: var(--primaryBackgroundColor);
 }
@@ -37,9 +37,9 @@
 .aboutTextBlock {
   flex: 1 1 75%;
   padding: $paddingMedium;
-  gap: $gapBig;
-  color: var(--primaryTextColor);
   background-color: var(--primaryBackgroundColor);
+  color: var(--primaryTextColor);
+  gap: $gapBig;
 }
 
 .logoAbout {
@@ -52,15 +52,16 @@
 }
 
 .ourTeamBlock {
-  color: var(--secondaryTextColor);
-  background-color: var(--tertiaryBackgroundColor);
   width: 100%;
-  padding: $paddingBig;
+  padding: $paddingBig $paddingSmall;
+  background-color: var(--tertiaryBackgroundColor);
+  color: var(--secondaryTextColor);
   gap: $gapLarge;
   text-align: center;
 }
 
 .ourTeamMembers {
+  flex-wrap: wrap;
   justify-content: center;
   gap: $gapLarge;
   overflow-x: auto;
@@ -72,7 +73,7 @@
 }
 
 .accordionSection {
-  gap: $gapBig;
-  max-width: $maxWidthContainer;
   width: 100%;
+  max-width: $maxWidthContainer;
+  gap: $gapBig;
 }
