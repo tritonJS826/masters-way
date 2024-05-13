@@ -2899,9 +2899,6 @@ const docTemplate = `{
                 "description": {
                     "type": "string"
                 },
-                "email": {
-                    "type": "string"
-                },
                 "imageUrl": {
                     "type": "string",
                     "x-nullable": true

@@ -11,7 +11,6 @@ type CreateUserPayload struct {
 
 type UpdateUserPayload struct {
 	Name        string `json:"name"`
-	Email       string `json:"email"`
 	Description string `json:"description"`
 	ImageUrl    string `json:"imageUrl" extensions:"x-nullable"`
 	IsMentor    bool   `json:"isMentor"`
