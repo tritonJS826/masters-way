@@ -12,7 +12,7 @@ export const teamMembers: TeamMemberType[] = [
     id: 2,
     name: "Ekaterina Veretennikova",
     description: "Team Leader",
-    imageUrl: "",
+    imageUrl: "https://lh3.google.com/u/0/d/1XTHKtc-5_TEK823s5wGVj9TYjvmvW4GW=w2000-h1826-iv2",
   },
   {
     id: 3,
