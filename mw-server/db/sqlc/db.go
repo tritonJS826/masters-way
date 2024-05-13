@@ -183,6 +183,9 @@ func Prepare(ctx context.Context, db DBTX) (*Queries, error) {
 	if q.getFavoriteUserUuidsByAcceptorUserIdStmt, err = db.PrepareContext(ctx, getFavoriteUserUuidsByAcceptorUserId); err != nil {
 		return nil, fmt.Errorf("error preparing query GetFavoriteUserUuidsByAcceptorUserId: %w", err)
 	}
+	if q.getFavoriteWaysByUserIdStmt, err = db.PrepareContext(ctx, getFavoriteWaysByUserId); err != nil {
+		return nil, fmt.Errorf("error preparing query GetFavoriteWaysByUserId: %w", err)
+	}
 	if q.getFormerMentorUsersByWayIdStmt, err = db.PrepareContext(ctx, getFormerMentorUsersByWayId); err != nil {
 		return nil, fmt.Errorf("error preparing query GetFormerMentorUsersByWayId: %w", err)
 	}
@@ -242,6 +245,12 @@ func Prepare(ctx context.Context, db DBTX) (*Queries, error) {
 	}
 	if q.getMentorUsersByWayIdsStmt, err = db.PrepareContext(ctx, getMentorUsersByWayIds); err != nil {
 		return nil, fmt.Errorf("error preparing query GetMentorUsersByWayIds: %w", err)
+	}
+	if q.getMentoringWaysByMentorIdStmt, err = db.PrepareContext(ctx, getMentoringWaysByMentorId); err != nil {
+		return nil, fmt.Errorf("error preparing query GetMentoringWaysByMentorId: %w", err)
+	}
+	if q.getOwnWaysByUserIdStmt, err = db.PrepareContext(ctx, getOwnWaysByUserId); err != nil {
+		return nil, fmt.Errorf("error preparing query GetOwnWaysByUserId: %w", err)
 	}
 	if q.getPlansByDayReportUuidsStmt, err = db.PrepareContext(ctx, getPlansByDayReportUuids); err != nil {
 		return nil, fmt.Errorf("error preparing query GetPlansByDayReportUuids: %w", err)
@@ -588,6 +597,11 @@ func (q *Queries) Close() error {
 			err = fmt.Errorf("error closing getFavoriteUserUuidsByAcceptorUserIdStmt: %w", cerr)
 		}
 	}
+	if q.getFavoriteWaysByUserIdStmt != nil {
+		if cerr := q.getFavoriteWaysByUserIdStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing getFavoriteWaysByUserIdStmt: %w", cerr)
+		}
+	}
 	if q.getFormerMentorUsersByWayIdStmt != nil {
 		if cerr := q.getFormerMentorUsersByWayIdStmt.Close(); cerr != nil {
 			err = fmt.Errorf("error closing getFormerMentorUsersByWayIdStmt: %w", cerr)
@@ -686,6 +700,16 @@ func (q *Queries) Close() error {
 	if q.getMentorUsersByWayIdsStmt != nil {
 		if cerr := q.getMentorUsersByWayIdsStmt.Close(); cerr != nil {
 			err = fmt.Errorf("error closing getMentorUsersByWayIdsStmt: %w", cerr)
+		}
+	}
+	if q.getMentoringWaysByMentorIdStmt != nil {
+		if cerr := q.getMentoringWaysByMentorIdStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing getMentoringWaysByMentorIdStmt: %w", cerr)
+		}
+	}
+	if q.getOwnWaysByUserIdStmt != nil {
+		if cerr := q.getOwnWaysByUserIdStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing getOwnWaysByUserIdStmt: %w", cerr)
 		}
 	}
 	if q.getPlansByDayReportUuidsStmt != nil {
@@ -905,6 +929,7 @@ type Queries struct {
 	getFavoriteForUserUuidsByWayIdStmt          *sql.Stmt
 	getFavoriteUserByDonorUserIdStmt            *sql.Stmt
 	getFavoriteUserUuidsByAcceptorUserIdStmt    *sql.Stmt
+	getFavoriteWaysByUserIdStmt                 *sql.Stmt
 	getFormerMentorUsersByWayIdStmt             *sql.Stmt
 	getFromUserMentoringRequestWaysByUserIdStmt *sql.Stmt
 	getFromUserMentoringRequestWaysByWayIdStmt  *sql.Stmt
@@ -925,6 +950,8 @@ type Queries struct {
 	getListWayTagsByWayIdsStmt                  *sql.Stmt
 	getMentorUsersByWayIdStmt                   *sql.Stmt
 	getMentorUsersByWayIdsStmt                  *sql.Stmt
+	getMentoringWaysByMentorIdStmt              *sql.Stmt
+	getOwnWaysByUserIdStmt                      *sql.Stmt
 	getPlansByDayReportUuidsStmt                *sql.Stmt
 	getProblemsByDayReportUuidsStmt             *sql.Stmt
 	getToMentorUserRequestsByWayIdStmt          *sql.Stmt
@@ -1009,6 +1036,7 @@ func (q *Queries) WithTx(tx *sql.Tx) *Queries {
 		getFavoriteForUserUuidsByWayIdStmt:          q.getFavoriteForUserUuidsByWayIdStmt,
 		getFavoriteUserByDonorUserIdStmt:            q.getFavoriteUserByDonorUserIdStmt,
 		getFavoriteUserUuidsByAcceptorUserIdStmt:    q.getFavoriteUserUuidsByAcceptorUserIdStmt,
+		getFavoriteWaysByUserIdStmt:                 q.getFavoriteWaysByUserIdStmt,
 		getFormerMentorUsersByWayIdStmt:             q.getFormerMentorUsersByWayIdStmt,
 		getFromUserMentoringRequestWaysByUserIdStmt: q.getFromUserMentoringRequestWaysByUserIdStmt,
 		getFromUserMentoringRequestWaysByWayIdStmt:  q.getFromUserMentoringRequestWaysByWayIdStmt,
@@ -1029,6 +1057,8 @@ func (q *Queries) WithTx(tx *sql.Tx) *Queries {
 		getListWayTagsByWayIdsStmt:                  q.getListWayTagsByWayIdsStmt,
 		getMentorUsersByWayIdStmt:                   q.getMentorUsersByWayIdStmt,
 		getMentorUsersByWayIdsStmt:                  q.getMentorUsersByWayIdsStmt,
+		getMentoringWaysByMentorIdStmt:              q.getMentoringWaysByMentorIdStmt,
+		getOwnWaysByUserIdStmt:                      q.getOwnWaysByUserIdStmt,
 		getPlansByDayReportUuidsStmt:                q.getPlansByDayReportUuidsStmt,
 		getProblemsByDayReportUuidsStmt:             q.getProblemsByDayReportUuidsStmt,
 		getToMentorUserRequestsByWayIdStmt:          q.getToMentorUserRequestsByWayIdStmt,

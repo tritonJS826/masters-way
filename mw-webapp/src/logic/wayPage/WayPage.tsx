@@ -169,7 +169,7 @@ export const WayPage = observer((props: WayPageProps) => {
 
   const compositeWay = createCompositeWay(way);
 
-  const favoriteWaysCollection = user?.wayCollections.find((wayCollection) => wayCollection.name === "favorite");
+  const favoriteWaysCollection = user?.wayCollections.find((wayCollection) => wayCollection.type === "favorite");
   const isWayInFavorites = !!favoriteWaysCollection?.ways.find((favoriteWay) => favoriteWay.uuid === way.uuid);
 
   const isOwner = !!user && user.uuid === way.owner.uuid;
@@ -435,7 +435,6 @@ export const WayPage = observer((props: WayPageProps) => {
                         if (!favoriteWaysCollection) {
                           throw new Error("favoriteWaysCollection is undefined");
                         }
-                        WayCollectionWayDAL.deleteWayCollectionWay(favoriteWaysCollection.uuid, way.uuid);
 
                         const favoriteAmount = way.favoriteForUsersAmount - LIKE_VALUE;
                         const updatedWayCollections = user.wayCollections.map((wayCollection) => {
@@ -460,7 +459,6 @@ export const WayPage = observer((props: WayPageProps) => {
                         if (!favoriteWaysCollection) {
                           throw new Error("favoriteWaysCollection is undefined");
                         }
-                        WayCollectionWayDAL.createWayCollectionWay(favoriteWaysCollection.uuid, way.uuid);
                         const favoriteAmount = way.favoriteForUsersAmount + LIKE_VALUE;
 
                         const updatedWayCollections = user.wayCollections.map((wayCollection) => {

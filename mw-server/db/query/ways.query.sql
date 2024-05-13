@@ -62,6 +62,66 @@ FROM ways
 JOIN way_collections_ways ON way_collections_ways.way_uuid = ways.uuid
 WHERE way_collections_ways.way_collection_uuid = $1;
 
+-- name: GetOwnWaysByUserId :many
+SELECT 
+    ways.uuid,
+    ways.name,
+    ways.owner_uuid, 
+    ways.goal_description,
+    ways.updated_at,
+    ways.created_at,
+    ways.estimation_time,
+    ways.copied_from_way_uuid,
+    ways.is_completed,
+    ways.is_private,
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,    
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
+    (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
+    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount
+FROM ways
+WHERE ways.owner_uuid = $1;
+
+
+-- name: GetMentoringWaysByMentorId :many
+SELECT
+    ways.uuid,
+    ways.name,
+    ways.owner_uuid, 
+    ways.goal_description,
+    ways.updated_at,
+    ways.created_at,
+    ways.estimation_time,
+    ways.copied_from_way_uuid,
+    ways.is_completed,
+    ways.is_private,
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,    
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
+    (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
+    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount
+FROM ways
+JOIN mentor_users_ways ON mentor_users_ways.way_uuid = ways.uuid
+WHERE mentor_users_ways.user_uuid = $1;
+
+-- name: GetFavoriteWaysByUserId :many
+SELECT
+    ways.uuid,
+    ways.name,
+    ways.owner_uuid, 
+    ways.goal_description,
+    ways.updated_at,
+    ways.created_at,
+    ways.estimation_time,
+    ways.copied_from_way_uuid,
+    ways.is_completed,
+    ways.is_private,
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,    
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
+    (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
+    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount
+FROM ways
+JOIN favorite_users_ways ON favorite_users_ways.way_uuid = ways.uuid
+WHERE favorite_users_ways.user_uuid = $1;
+
 
 -- name: ListWays :many
 SELECT 

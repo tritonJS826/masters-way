@@ -21,7 +21,6 @@ import {FavoriteUserDAL} from "src/dataAccessLogic/FavoriteUserDAL";
 import {UserDAL} from "src/dataAccessLogic/UserDAL";
 import {UserTagDAL} from "src/dataAccessLogic/UserTagDAL";
 import {WayCollectionDAL} from "src/dataAccessLogic/WayCollectionDAL";
-import {WayCollectionWayDAL} from "src/dataAccessLogic/WayCollectionWayDAL";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {userStore} from "src/globalStore/UserStore";
@@ -213,7 +212,6 @@ export const UserPage = observer((props: UserPageProps) => {
    */
   const createWay = async (owner: User) => {
     const newWay: SchemasWayPlainResponse = await WayDAL.createWay(owner);
-    await WayCollectionWayDAL.createWayCollectionWay(defaultCollection.uuid, newWay.uuid);
     navigate(pages.way.getPath({uuid: newWay.uuid}));
   };
 

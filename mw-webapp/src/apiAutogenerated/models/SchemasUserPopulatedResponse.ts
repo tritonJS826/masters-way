@@ -13,6 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { SchemasDefaultWayCollections } from './SchemasDefaultWayCollections';
+import {
+    SchemasDefaultWayCollectionsFromJSON,
+    SchemasDefaultWayCollectionsFromJSONTyped,
+    SchemasDefaultWayCollectionsToJSON,
+} from './SchemasDefaultWayCollections';
 import type { SchemasUserPlainResponse } from './SchemasUserPlainResponse';
 import {
     SchemasUserPlainResponseFromJSON,
@@ -50,6 +56,18 @@ export interface SchemasUserPopulatedResponse {
      * @memberof SchemasUserPopulatedResponse
      */
     createdAt: string;
+    /**
+     * 
+     * @type {Array<SchemasWayCollectionPopulatedResponse>}
+     * @memberof SchemasUserPopulatedResponse
+     */
+    customWayCollections: Array<SchemasWayCollectionPopulatedResponse>;
+    /**
+     * 
+     * @type {SchemasDefaultWayCollections}
+     * @memberof SchemasUserPopulatedResponse
+     */
+    defaultWayCollections: SchemasDefaultWayCollections;
     /**
      * 
      * @type {string}
@@ -106,12 +124,6 @@ export interface SchemasUserPopulatedResponse {
     uuid: string;
     /**
      * 
-     * @type {Array<SchemasWayCollectionPopulatedResponse>}
-     * @memberof SchemasUserPopulatedResponse
-     */
-    wayCollections: Array<SchemasWayCollectionPopulatedResponse>;
-    /**
-     * 
      * @type {Array<SchemasWayPlainResponse>}
      * @memberof SchemasUserPopulatedResponse
      */
@@ -126,6 +138,8 @@ export function instanceOfSchemasUserPopulatedResponse(
 ): boolean {
     let isInstance = true;
     isInstance = isInstance && "createdAt" in value;
+    isInstance = isInstance && "customWayCollections" in value;
+    isInstance = isInstance && "defaultWayCollections" in value;
     isInstance = isInstance && "description" in value;
     isInstance = isInstance && "email" in value;
     isInstance = isInstance && "favoriteForUsers" in value;
@@ -135,7 +149,6 @@ export function instanceOfSchemasUserPopulatedResponse(
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "tags" in value;
     isInstance = isInstance && "uuid" in value;
-    isInstance = isInstance && "wayCollections" in value;
     isInstance = isInstance && "wayRequests" in value;
 
     return isInstance;
@@ -155,6 +168,8 @@ export function SchemasUserPopulatedResponseFromJSONTyped(
     return {
         
         'createdAt': json['createdAt'],
+        'customWayCollections': ((json['customWayCollections'] as Array<any>).map(SchemasWayCollectionPopulatedResponseFromJSON)),
+        'defaultWayCollections': SchemasDefaultWayCollectionsFromJSON(json['defaultWayCollections']),
         'description': json['description'],
         'email': json['email'],
         'favoriteForUsers': json['favoriteForUsers'],
@@ -164,7 +179,6 @@ export function SchemasUserPopulatedResponseFromJSONTyped(
         'name': json['name'],
         'tags': ((json['tags'] as Array<any>).map(SchemasUserTagResponseFromJSON)),
         'uuid': json['uuid'],
-        'wayCollections': ((json['wayCollections'] as Array<any>).map(SchemasWayCollectionPopulatedResponseFromJSON)),
         'wayRequests': ((json['wayRequests'] as Array<any>).map(SchemasWayPlainResponseFromJSON)),
     };
 }
@@ -180,6 +194,8 @@ export function SchemasUserPopulatedResponseToJSON(value?: SchemasUserPopulatedR
     return {
         
         'createdAt': value.createdAt,
+        'customWayCollections': ((value.customWayCollections as Array<any>).map(SchemasWayCollectionPopulatedResponseToJSON)),
+        'defaultWayCollections': SchemasDefaultWayCollectionsToJSON(value.defaultWayCollections),
         'description': value.description,
         'email': value.email,
         'favoriteForUsers': value.favoriteForUsers,
@@ -189,7 +205,6 @@ export function SchemasUserPopulatedResponseToJSON(value?: SchemasUserPopulatedR
         'name': value.name,
         'tags': ((value.tags as Array<any>).map(SchemasUserTagResponseToJSON)),
         'uuid': value.uuid,
-        'wayCollections': ((value.wayCollections as Array<any>).map(SchemasWayCollectionPopulatedResponseToJSON)),
         'wayRequests': ((value.wayRequests as Array<any>).map(SchemasWayPlainResponseToJSON)),
     };
 }

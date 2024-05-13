@@ -2538,6 +2538,25 @@ const docTemplate = `{
                 }
             }
         },
+        "schemas.DefaultWayCollections": {
+            "type": "object",
+            "required": [
+                "favorite",
+                "mentoring",
+                "own"
+            ],
+            "properties": {
+                "favorite": {
+                    "$ref": "#/definitions/schemas.WayCollectionPopulatedResponse"
+                },
+                "mentoring": {
+                    "$ref": "#/definitions/schemas.WayCollectionPopulatedResponse"
+                },
+                "own": {
+                    "$ref": "#/definitions/schemas.WayCollectionPopulatedResponse"
+                }
+            }
+        },
         "schemas.DeleteMentorUserWayPayload": {
             "type": "object",
             "required": [
@@ -3022,6 +3041,8 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "createdAt",
+                "customWayCollections",
+                "defaultWayCollections",
                 "description",
                 "email",
                 "favoriteForUsers",
@@ -3031,12 +3052,20 @@ const docTemplate = `{
                 "name",
                 "tags",
                 "uuid",
-                "wayCollections",
                 "wayRequests"
             ],
             "properties": {
                 "createdAt": {
                     "type": "string"
+                },
+                "customWayCollections": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.WayCollectionPopulatedResponse"
+                    }
+                },
+                "defaultWayCollections": {
+                    "$ref": "#/definitions/schemas.DefaultWayCollections"
                 },
                 "description": {
                     "type": "string"
@@ -3074,12 +3103,6 @@ const docTemplate = `{
                 },
                 "uuid": {
                     "type": "string"
-                },
-                "wayCollections": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/schemas.WayCollectionPopulatedResponse"
-                    }
                 },
                 "wayRequests": {
                     "type": "array",
@@ -3141,6 +3164,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "type": {
+                    "description": "should be removed after separation custom collections and default pseudocollections",
                     "type": "string"
                 },
                 "updatedAt": {
