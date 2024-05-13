@@ -121,6 +121,7 @@ SELECT
 FROM ways
 JOIN favorite_users_ways ON favorite_users_ways.way_uuid = ways.uuid
 WHERE favorite_users_ways.user_uuid = $1
+ORDER BY ways.updated_at DESC
 `
 
 type GetFavoriteWaysByUserIdRow struct {
@@ -197,6 +198,7 @@ SELECT
 FROM ways
 JOIN mentor_users_ways ON mentor_users_ways.way_uuid = ways.uuid
 WHERE mentor_users_ways.user_uuid = $1
+ORDER BY ways.updated_at DESC
 `
 
 type GetMentoringWaysByMentorIdRow struct {
@@ -272,6 +274,7 @@ SELECT
     (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount
 FROM ways
 WHERE ways.owner_uuid = $1
+ORDER BY ways.updated_at DESC
 `
 
 type GetOwnWaysByUserIdRow struct {
@@ -422,6 +425,7 @@ SELECT
 FROM ways
 JOIN way_collections_ways ON way_collections_ways.way_uuid = ways.uuid
 WHERE way_collections_ways.way_collection_uuid = $1
+ORDER BY ways.updated_at DESC
 `
 
 type GetWaysByCollectionIdRow struct {
