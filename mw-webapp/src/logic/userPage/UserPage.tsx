@@ -424,22 +424,6 @@ export const UserPage = observer((props: UserPageProps) => {
             <Title
               level={HeadingLevel.h3}
               text={userPageOwner.email}
-              onChangeFinish={(email) => updateUser({
-                userToUpdate: {
-                  uuid: userPageOwner.uuid,
-                  email,
-                },
-
-                /**
-                 * Update user
-                 */
-                setUser: (userToUpdate: PartialWithUuid<User>) => {
-                  const updatedUser = new User({...userPageOwner, ...userToUpdate});
-                  setUser(updatedUser);
-                  setUserPreviewPartial(userToUpdate);
-                },
-              })}
-              isEditable={isPageOwner}
               classNameHeading={styles.ownerEmail}
             />
 

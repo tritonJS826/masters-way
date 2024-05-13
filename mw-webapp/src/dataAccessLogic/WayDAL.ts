@@ -1,6 +1,7 @@
 import {wayToWayDTOPartial} from "src/dataAccessLogic/BusinessToDTOConverter/wayToWayDTOPartial";
 import {wayDTOToWay} from "src/dataAccessLogic/DTOToPreviewConverter/wayDTOToWay";
 import {wayDTOToWayPreview} from "src/dataAccessLogic/DTOToPreviewConverter/wayDTOToWayPreview";
+import {wayPlainDTOToWayPreview} from "src/dataAccessLogic/DTOToPreviewConverter/wayPlainDTOToWayPreview";
 import {User} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
@@ -57,7 +58,7 @@ export class WayDAL {
   public static async getWays(params?: GetWaysParams): Promise<AllWaysParams> {
     const waysDTO = await WayService.getAllWays(params);
 
-    const waysPreview = waysDTO.ways.map(wayDTOToWayPreview);
+    const waysPreview = waysDTO.ways.map(wayPlainDTOToWayPreview);
 
     const ways = {
       size: waysDTO.size,

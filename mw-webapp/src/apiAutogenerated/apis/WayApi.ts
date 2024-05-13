@@ -65,7 +65,7 @@ export class WayApi extends runtime.BaseAPI {
     /**
      * Create a new way
      */
-    async createWayRaw(requestParameters: CreateWayRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasWayPlainResponse>> {
+    async createWayRaw(requestParameters: CreateWayRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasWayPopulatedResponse>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createWay.');
         }
@@ -84,13 +84,13 @@ export class WayApi extends runtime.BaseAPI {
             body: SchemasCreateWayToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasWayPlainResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasWayPopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Create a new way
      */
-    async createWay(requestParameters: CreateWayRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasWayPlainResponse> {
+    async createWay(requestParameters: CreateWayRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasWayPopulatedResponse> {
         const response = await this.createWayRaw(requestParameters, initOverrides);
         return await response.value();
     }
