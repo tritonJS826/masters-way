@@ -401,16 +401,17 @@ export const UserPage = observer((props: UserPageProps) => {
             />
 
             <HorizontalContainer className={styles.userTagsContainer}>
-              {user?.tags.map(tag => (
+              {userPageOwner?.tags.map(tag => (
                 <Tag
                   tagName={tag.name}
                   key={tag.uuid}
                   isDeletable={isPageOwner}
                   onDelete={() => {
-                    UserTagDAL.deleteUserTag({userTagId: tag.uuid, userId: user.uuid});
-                    const updatedUserTags = user.tags.filter(oldTag => oldTag.uuid !== tag.uuid);
-                    const updatedUser = new User({...user, tags: updatedUserTags});
-                    setUser(updatedUser);
+                    UserTagDAL.deleteUserTag({userTagId: tag.uuid, userId: userPageOwner.uuid});
+                    const updatedUserPageOwnerTags = userPageOwner.tags.filter(oldTag => oldTag.uuid !== tag.uuid);
+                    const updatedUserPageOwner = new User({...userPageOwner, tags: updatedUserPageOwnerTags});
+                    setUserPageOwner(updatedUserPageOwner);
+                    setUser(updatedUserPageOwner);
                   }}
                 />
               ))}
@@ -443,6 +444,7 @@ export const UserPage = observer((props: UserPageProps) => {
                         const updatedUserTags = [...user.tags, newTag];
                         const updatedUser = new User({...user, tags: updatedUserTags});
                         setUser(updatedUser);
+                        setUserPageOwner(updatedUser);
                       }}
                       okButtonValue={LanguageService.modals.promptModal.okButton[language]}
                       cancelButtonValue={LanguageService.modals.promptModal.cancelButton[language]}
