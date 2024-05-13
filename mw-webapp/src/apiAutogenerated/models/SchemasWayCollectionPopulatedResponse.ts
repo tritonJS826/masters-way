@@ -45,7 +45,7 @@ export interface SchemasWayCollectionPopulatedResponse {
      */
     ownerUuid: string;
     /**
-     * 
+     * should be removed after separation custom collections and default pseudocollections
      * @type {string}
      * @memberof SchemasWayCollectionPopulatedResponse
      */

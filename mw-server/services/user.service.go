@@ -5,6 +5,7 @@ import (
 	dbb "mwserver/db/sqlc"
 	"mwserver/schemas"
 	"mwserver/util"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/samber/lo"
@@ -49,64 +50,218 @@ func CreateUser(db *dbb.Queries, ctx context.Context, args *dbb.CreateUserParams
 	return response, err
 }
 
+type dbWay struct {
+	Uuid                uuid.UUID
+	Name                string
+	OwnerUuid           uuid.UUID
+	GoalDescription     string
+	UpdatedAt           time.Time
+	CreatedAt           time.Time
+	EstimationTime      int32
+	CopiedFromWayUuid   uuid.NullUUID
+	IsCompleted         bool
+	IsPrivate           bool
+	WayMetricsTotal     int64
+	WayMetricsDone      int64
+	WayFavoriteForUsers int64
+	WayDayReportsAmount int64
+}
+
+func convertDbWaysToPlainWays(db *dbb.Queries, ctx context.Context, dbWays []dbWay) []schemas.WayPlainResponse {
+	ways := lo.Map(dbWays, func(dbWay dbWay, i int) schemas.WayPlainResponse {
+		dbOwner, _ := db.GetUserById(ctx, dbWay.OwnerUuid)
+		owner := schemas.UserPlainResponse{
+			Uuid:        dbWay.OwnerUuid.String(),
+			Name:        dbOwner.Name,
+			Email:       dbOwner.Email,
+			Description: dbOwner.Description,
+			CreatedAt:   dbOwner.CreatedAt.String(),
+			ImageUrl:    util.MarshalNullString(dbOwner.ImageUrl),
+			IsMentor:    dbOwner.IsMentor,
+		}
+
+		dbMentors, _ := db.GetMentorUsersByWayId(ctx, dbWay.Uuid)
+		mentors := lo.Map(dbMentors, func(dbMentor dbb.User, i int) schemas.UserPlainResponse {
+			return schemas.UserPlainResponse{
+				Uuid:        dbMentor.Uuid.String(),
+				Name:        dbMentor.Name,
+				Email:       dbMentor.Email,
+				Description: dbMentor.Description,
+				CreatedAt:   dbMentor.CreatedAt.String(),
+				ImageUrl:    util.MarshalNullString(dbMentor.ImageUrl),
+				IsMentor:    dbMentor.IsMentor,
+			}
+		})
+
+		dbWayTags, _ := db.GetListWayTagsByWayId(ctx, dbWay.Uuid)
+		wayTags := lo.Map(dbWayTags, func(dbWayTag dbb.WayTag, i int) schemas.WayTagResponse {
+			return schemas.WayTagResponse{
+				Uuid: dbWayTag.Uuid.String(),
+				Name: dbWayTag.Name,
+			}
+		})
+
+		return schemas.WayPlainResponse{
+			Uuid:              dbWay.Uuid.String(),
+			Name:              dbWay.Name,
+			GoalDescription:   dbWay.GoalDescription,
+			UpdatedAt:         dbWay.UpdatedAt.String(),
+			CreatedAt:         dbWay.CreatedAt.String(),
+			EstimationTime:    dbWay.EstimationTime,
+			IsCompleted:       dbWay.IsCompleted,
+			Owner:             owner,
+			CopiedFromWayUuid: util.MarshalNullUuid(dbWay.CopiedFromWayUuid),
+			IsPrivate:         dbWay.IsPrivate,
+			FavoriteForUsers:  int32(dbWay.WayFavoriteForUsers),
+			DayReportsAmount:  int32(dbWay.WayDayReportsAmount),
+			Mentors:           mentors,
+			WayTags:           wayTags,
+			MetricsDone:       int32(dbWay.WayMetricsDone),
+			MetricsTotal:      int32(dbWay.WayMetricsTotal),
+		}
+	})
+
+	return ways
+}
+
+func dbCollectionWaysToDbWays(rawWay []dbb.GetWaysByCollectionIdRow) []dbWay {
+	return lo.Map(rawWay, func(dbWayRaw dbb.GetWaysByCollectionIdRow, i int) dbWay {
+		return dbWay{
+			Uuid:                dbWayRaw.Uuid,
+			Name:                dbWayRaw.Name,
+			OwnerUuid:           dbWayRaw.OwnerUuid,
+			GoalDescription:     dbWayRaw.GoalDescription,
+			UpdatedAt:           dbWayRaw.UpdatedAt,
+			CreatedAt:           dbWayRaw.CreatedAt,
+			EstimationTime:      dbWayRaw.EstimationTime,
+			CopiedFromWayUuid:   dbWayRaw.CopiedFromWayUuid,
+			IsCompleted:         dbWayRaw.IsCompleted,
+			IsPrivate:           dbWayRaw.IsPrivate,
+			WayMetricsTotal:     dbWayRaw.WayMetricsTotal,
+			WayMetricsDone:      dbWayRaw.WayMetricsDone,
+			WayFavoriteForUsers: dbWayRaw.WayFavoriteForUsers,
+			WayDayReportsAmount: dbWayRaw.WayDayReportsAmount,
+		}
+	})
+}
+
+func dbOwnWaysToDbWays(rawWay []dbb.GetOwnWaysByUserIdRow) []dbWay {
+	return lo.Map(rawWay, func(dbWayRaw dbb.GetOwnWaysByUserIdRow, i int) dbWay {
+		return dbWay{
+			Uuid:                dbWayRaw.Uuid,
+			Name:                dbWayRaw.Name,
+			OwnerUuid:           dbWayRaw.OwnerUuid,
+			GoalDescription:     dbWayRaw.GoalDescription,
+			UpdatedAt:           dbWayRaw.UpdatedAt,
+			CreatedAt:           dbWayRaw.CreatedAt,
+			EstimationTime:      dbWayRaw.EstimationTime,
+			CopiedFromWayUuid:   dbWayRaw.CopiedFromWayUuid,
+			IsCompleted:         dbWayRaw.IsCompleted,
+			IsPrivate:           dbWayRaw.IsPrivate,
+			WayMetricsTotal:     dbWayRaw.WayMetricsTotal,
+			WayMetricsDone:      dbWayRaw.WayMetricsDone,
+			WayFavoriteForUsers: dbWayRaw.WayFavoriteForUsers,
+			WayDayReportsAmount: dbWayRaw.WayDayReportsAmount,
+		}
+	})
+}
+
+func dbMentoringWaysToDbWays(rawWay []dbb.GetMentoringWaysByMentorIdRow) []dbWay {
+	return lo.Map(rawWay, func(dbWayRaw dbb.GetMentoringWaysByMentorIdRow, i int) dbWay {
+		return dbWay{
+			Uuid:                dbWayRaw.Uuid,
+			Name:                dbWayRaw.Name,
+			OwnerUuid:           dbWayRaw.OwnerUuid,
+			GoalDescription:     dbWayRaw.GoalDescription,
+			UpdatedAt:           dbWayRaw.UpdatedAt,
+			CreatedAt:           dbWayRaw.CreatedAt,
+			EstimationTime:      dbWayRaw.EstimationTime,
+			CopiedFromWayUuid:   dbWayRaw.CopiedFromWayUuid,
+			IsCompleted:         dbWayRaw.IsCompleted,
+			IsPrivate:           dbWayRaw.IsPrivate,
+			WayMetricsTotal:     dbWayRaw.WayMetricsTotal,
+			WayMetricsDone:      dbWayRaw.WayMetricsDone,
+			WayFavoriteForUsers: dbWayRaw.WayFavoriteForUsers,
+			WayDayReportsAmount: dbWayRaw.WayDayReportsAmount,
+		}
+	})
+}
+
+func dbFavoriteWaysToDbWays(rawWay []dbb.GetFavoriteWaysByUserIdRow) []dbWay {
+	return lo.Map(rawWay, func(dbWayRaw dbb.GetFavoriteWaysByUserIdRow, i int) dbWay {
+		return dbWay{
+			Uuid:                dbWayRaw.Uuid,
+			Name:                dbWayRaw.Name,
+			OwnerUuid:           dbWayRaw.OwnerUuid,
+			GoalDescription:     dbWayRaw.GoalDescription,
+			UpdatedAt:           dbWayRaw.UpdatedAt,
+			CreatedAt:           dbWayRaw.CreatedAt,
+			EstimationTime:      dbWayRaw.EstimationTime,
+			CopiedFromWayUuid:   dbWayRaw.CopiedFromWayUuid,
+			IsCompleted:         dbWayRaw.IsCompleted,
+			IsPrivate:           dbWayRaw.IsPrivate,
+			WayMetricsTotal:     dbWayRaw.WayMetricsTotal,
+			WayMetricsDone:      dbWayRaw.WayMetricsDone,
+			WayFavoriteForUsers: dbWayRaw.WayFavoriteForUsers,
+			WayDayReportsAmount: dbWayRaw.WayDayReportsAmount,
+		}
+	})
+}
+
 func GetPopulatedUserById(db *dbb.Queries, ctx context.Context, userUuid uuid.UUID) (schemas.UserPopulatedResponse, error) {
 	user, err := db.GetUserById(ctx, userUuid)
 
+	dbOwnWays, _ := db.GetOwnWaysByUserId(ctx, user.Uuid)
+	ownWays := convertDbWaysToPlainWays(db, ctx, dbOwnWaysToDbWays(dbOwnWays))
+	dbMentoringWays, _ := db.GetMentoringWaysByMentorId(ctx, user.Uuid)
+	mentoringWays := convertDbWaysToPlainWays(db, ctx, dbMentoringWaysToDbWays(dbMentoringWays))
+	dbFavoriteWays, _ := db.GetFavoriteWaysByUserId(ctx, user.Uuid)
+	favoriteWays := convertDbWaysToPlainWays(db, ctx, dbFavoriteWaysToDbWays(dbFavoriteWays))
+
+	defaultCollections := schemas.DefaultWayCollections{
+		Own: schemas.WayCollectionPopulatedResponse{
+			Uuid:      "00000000-0000-0000-0000-00000000001",
+			Name:      "Own",
+			Ways:      ownWays,
+			CreatedAt: user.CreatedAt.String(),
+			UpdatedAt: user.CreatedAt.String(),
+			OwnerUuid: user.Uuid.String(),
+			Type:      "own",
+		},
+		Mentoring: schemas.WayCollectionPopulatedResponse{
+			Uuid:      "00000000-0000-0000-0000-00000000002",
+			Name:      "Mentoring",
+			Ways:      mentoringWays,
+			CreatedAt: user.CreatedAt.String(),
+			UpdatedAt: user.CreatedAt.String(),
+			OwnerUuid: user.Uuid.String(),
+			Type:      "mentoring",
+		},
+		Favorite: schemas.WayCollectionPopulatedResponse{
+			Uuid:      "00000000-0000-0000-0000-00000000003",
+			Name:      "Favorite",
+			Ways:      favoriteWays,
+			CreatedAt: user.CreatedAt.String(),
+			UpdatedAt: user.CreatedAt.String(),
+			OwnerUuid: user.Uuid.String(),
+			Type:      "favorite",
+		},
+	}
+
 	dbWayCollections, _ := db.GetWayCollectionsByUserId(ctx, user.Uuid)
-	wayCollections := lo.Map(dbWayCollections, func(collection dbb.WayCollection, i int) schemas.WayCollectionPopulatedResponse {
-		dbWays, _ := db.GetWaysByCollectionId(ctx, collection.Uuid)
-		ways := lo.Map(dbWays, func(dbWay dbb.GetWaysByCollectionIdRow, i int) schemas.WayPlainResponse {
-			dbOwner, _ := db.GetUserById(ctx, dbWay.OwnerUuid)
-			owner := schemas.UserPlainResponse{
-				Uuid:        dbWay.OwnerUuid.String(),
-				Name:        dbOwner.Name,
-				Email:       dbOwner.Email,
-				Description: dbOwner.Description,
-				CreatedAt:   dbOwner.CreatedAt.String(),
-				ImageUrl:    util.MarshalNullString(dbOwner.ImageUrl),
-				IsMentor:    dbOwner.IsMentor,
-			}
+	// TODO: temporal workaround: own, mentoring and favorite collections is a pseudocollections - should be removed from collections table
+	// after removing this filter could be removed too
+	filteredDbWayCollections := lo.Filter(dbWayCollections, func(wayCollection dbb.WayCollection, i int) bool {
+		isPseudoCollection := wayCollection.Type != "own" && wayCollection.Type != "mentoring" && wayCollection.Type != "favorite"
 
-			dbMentors, _ := db.GetMentorUsersByWayId(ctx, dbWay.Uuid)
-			mentors := lo.Map(dbMentors, func(dbMentor dbb.User, i int) schemas.UserPlainResponse {
-				return schemas.UserPlainResponse{
-					Uuid:        dbMentor.Uuid.String(),
-					Name:        dbMentor.Name,
-					Email:       dbMentor.Email,
-					Description: dbMentor.Description,
-					CreatedAt:   dbMentor.CreatedAt.String(),
-					ImageUrl:    util.MarshalNullString(dbMentor.ImageUrl),
-					IsMentor:    dbMentor.IsMentor,
-				}
-			})
+		return isPseudoCollection
+	})
+	wayCollections := lo.Map(filteredDbWayCollections, func(collection dbb.WayCollection, i int) schemas.WayCollectionPopulatedResponse {
+		dbCollectionWays, _ := db.GetWaysByCollectionId(ctx, collection.Uuid)
+		dbCollectionWaysPrepared := dbCollectionWaysToDbWays(dbCollectionWays)
 
-			dbWayTags, _ := db.GetListWayTagsByWayId(ctx, dbWay.Uuid)
-			wayTags := lo.Map(dbWayTags, func(dbWayTag dbb.WayTag, i int) schemas.WayTagResponse {
-				return schemas.WayTagResponse{
-					Uuid: dbWayTag.Uuid.String(),
-					Name: dbWayTag.Name,
-				}
-			})
+		ways := convertDbWaysToPlainWays(db, ctx, dbCollectionWaysPrepared)
 
-			return schemas.WayPlainResponse{
-				Uuid:              dbWay.Uuid.String(),
-				Name:              dbWay.Name,
-				GoalDescription:   dbWay.GoalDescription,
-				UpdatedAt:         dbWay.UpdatedAt.String(),
-				CreatedAt:         dbWay.CreatedAt.String(),
-				EstimationTime:    dbWay.EstimationTime,
-				IsCompleted:       dbWay.IsCompleted,
-				Owner:             owner,
-				CopiedFromWayUuid: util.MarshalNullUuid(dbWay.CopiedFromWayUuid),
-				IsPrivate:         dbWay.IsPrivate,
-				FavoriteForUsers:  int32(dbWay.WayFavoriteForUsers),
-				DayReportsAmount:  int32(dbWay.WayDayReportsAmount),
-				Mentors:           mentors,
-				WayTags:           wayTags,
-				MetricsDone:       int32(dbWay.WayMetricsDone),
-				MetricsTotal:      int32(dbWay.WayMetricsTotal),
-			}
-		})
 		wayCollection := schemas.WayCollectionPopulatedResponse{
 			Uuid:      collection.Uuid.String(),
 			Name:      collection.Name,
@@ -198,18 +353,19 @@ func GetPopulatedUserById(db *dbb.Queries, ctx context.Context, userUuid uuid.UU
 	})
 
 	response := schemas.UserPopulatedResponse{
-		Uuid:             user.Uuid.String(),
-		Name:             user.Name,
-		Email:            user.Email,
-		Description:      user.Description,
-		CreatedAt:        user.CreatedAt.String(),
-		ImageUrl:         util.MarshalNullString(user.ImageUrl),
-		IsMentor:         user.IsMentor,
-		WayCollections:   wayCollections,
-		FavoriteForUsers: favoriteForUsersUuid,
-		FavoriteUsers:    favoriteUsers,
-		Tags:             tags,
-		WayRequests:      wayRequests,
+		Uuid:               user.Uuid.String(),
+		Name:               user.Name,
+		Email:              user.Email,
+		Description:        user.Description,
+		CreatedAt:          user.CreatedAt.String(),
+		ImageUrl:           util.MarshalNullString(user.ImageUrl),
+		IsMentor:           user.IsMentor,
+		WayCollections:     wayCollections,
+		DefaultCollections: defaultCollections,
+		FavoriteForUsers:   favoriteForUsersUuid,
+		FavoriteUsers:      favoriteUsers,
+		Tags:               tags,
+		WayRequests:        wayRequests,
 	}
 
 	return response, err

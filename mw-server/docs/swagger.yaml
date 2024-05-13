@@ -363,6 +363,19 @@ definitions:
     - updatedAt
     - uuid
     type: object
+  schemas.DefaultWayCollections:
+    properties:
+      favorite:
+        $ref: '#/definitions/schemas.WayCollectionPopulatedResponse'
+      mentoring:
+        $ref: '#/definitions/schemas.WayCollectionPopulatedResponse'
+      own:
+        $ref: '#/definitions/schemas.WayCollectionPopulatedResponse'
+    required:
+    - favorite
+    - mentoring
+    - own
+    type: object
   schemas.DeleteMentorUserWayPayload:
     properties:
       userUuid:
@@ -700,6 +713,12 @@ definitions:
     properties:
       createdAt:
         type: string
+      customWayCollections:
+        items:
+          $ref: '#/definitions/schemas.WayCollectionPopulatedResponse'
+        type: array
+      defaultWayCollections:
+        $ref: '#/definitions/schemas.DefaultWayCollections'
       description:
         type: string
       email:
@@ -725,16 +744,14 @@ definitions:
         type: array
       uuid:
         type: string
-      wayCollections:
-        items:
-          $ref: '#/definitions/schemas.WayCollectionPopulatedResponse'
-        type: array
       wayRequests:
         items:
           $ref: '#/definitions/schemas.WayPlainResponse'
         type: array
     required:
     - createdAt
+    - customWayCollections
+    - defaultWayCollections
     - description
     - email
     - favoriteForUsers
@@ -744,7 +761,6 @@ definitions:
     - name
     - tags
     - uuid
-    - wayCollections
     - wayRequests
     type: object
   schemas.UserTagResponse:
@@ -776,6 +792,8 @@ definitions:
       ownerUuid:
         type: string
       type:
+        description: should be removed after separation custom collections and default
+          pseudocollections
         type: string
       updatedAt:
         type: string

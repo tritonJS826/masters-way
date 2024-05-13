@@ -43,18 +43,19 @@ type UserPlainResponseWithInfo struct {
 }
 
 type UserPopulatedResponse struct {
-	Uuid             string                           `json:"uuid" validate:"required"`
-	Name             string                           `json:"name" validate:"required"`
-	Email            string                           `json:"email" validate:"required"`
-	Description      string                           `json:"description" validate:"required"`
-	CreatedAt        string                           `json:"createdAt" validate:"required"`
-	ImageUrl         *string                          `json:"imageUrl" validate:"required" extensions:"x-nullable"`
-	IsMentor         bool                             `json:"isMentor" validate:"required"`
-	WayCollections   []WayCollectionPopulatedResponse `json:"wayCollections" validate:"required"`
-	FavoriteForUsers []string                         `json:"favoriteForUsers" validate:"required"`
-	FavoriteUsers    []UserPlainResponse              `json:"favoriteUsers" validate:"required"`
-	Tags             []UserTagResponse                `json:"tags" validate:"required"`
-	WayRequests      []WayPlainResponse               `json:"wayRequests" validate:"required"`
+	Uuid               string                           `json:"uuid" validate:"required"`
+	Name               string                           `json:"name" validate:"required"`
+	Email              string                           `json:"email" validate:"required"`
+	Description        string                           `json:"description" validate:"required"`
+	CreatedAt          string                           `json:"createdAt" validate:"required"`
+	ImageUrl           *string                          `json:"imageUrl" validate:"required" extensions:"x-nullable"`
+	IsMentor           bool                             `json:"isMentor" validate:"required"`
+	WayCollections     []WayCollectionPopulatedResponse `json:"customWayCollections" validate:"required"`
+	DefaultCollections DefaultWayCollections            `json:"defaultWayCollections" validate:"required"`
+	FavoriteForUsers   []string                         `json:"favoriteForUsers" validate:"required"`
+	FavoriteUsers      []UserPlainResponse              `json:"favoriteUsers" validate:"required"`
+	Tags               []UserTagResponse                `json:"tags" validate:"required"`
+	WayRequests        []WayPlainResponse               `json:"wayRequests" validate:"required"`
 }
 
 type GetAllUsersResponse struct {

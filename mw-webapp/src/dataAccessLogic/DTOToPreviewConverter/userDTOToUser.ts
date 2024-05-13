@@ -7,9 +7,16 @@ import {WayPreview} from "src/model/businessModelPreview/WayPreview";
  * Convert {@link UserDTO} to {@link User}
  */
 export const UserDTOToUserConverter = (userDTO: SchemasUserPopulatedResponse): User => {
+  const allCollections = [
+    userDTO.defaultWayCollections.own,
+    userDTO.defaultWayCollections.mentoring,
+    userDTO.defaultWayCollections.favorite,
+    ...userDTO.customWayCollections,
+  ];
+
   return new User({
     ...userDTO,
-    wayCollections: userDTO.wayCollections.map((wayCollectionDTO) => {
+    wayCollections: allCollections.map((wayCollectionDTO) => {
       const wayCollection: WayCollection = {
         ...wayCollectionDTO,
         createdAt: new Date(wayCollectionDTO.createdAt),

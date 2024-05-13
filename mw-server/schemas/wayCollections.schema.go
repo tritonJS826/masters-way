@@ -16,7 +16,14 @@ type WayCollectionPopulatedResponse struct {
 	CreatedAt string             `json:"createdAt" validate:"required"`
 	UpdatedAt string             `json:"updatedAt" validate:"required"`
 	OwnerUuid string             `json:"ownerUuid" validate:"required"`
-	Type      string             `json:"type" validate:"required"`
+	// should be removed after separation custom collections and default pseudocollections
+	Type string `json:"type" validate:"required"`
+}
+
+type DefaultWayCollections struct {
+	Own       WayCollectionPopulatedResponse `json:"own" validate:"required"`
+	Favorite  WayCollectionPopulatedResponse `json:"favorite" validate:"required"`
+	Mentoring WayCollectionPopulatedResponse `json:"mentoring" validate:"required"`
 }
 
 type WayCollectionPlainResponse struct {

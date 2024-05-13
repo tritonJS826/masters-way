@@ -47,6 +47,7 @@ models/SchemasCreateWayCollectionPayload.ts
 models/SchemasCreateWayCollectionWay.ts
 models/SchemasCreateWayTagPayload.ts
 models/SchemasDayReportPopulatedResponse.ts
+models/SchemasDefaultWayCollections.ts
 models/SchemasDeleteMentorUserWayPayload.ts
 models/SchemasGetAllUsersResponse.ts
 models/SchemasGetAllWaysResponse.ts
