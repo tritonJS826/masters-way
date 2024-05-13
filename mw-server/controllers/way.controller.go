@@ -34,7 +34,7 @@ func NewWayController(db *db.Queries, ctx context.Context) *WayController {
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateWay true "query params"
-// @Success 200 {object} schemas.WayPlainResponse
+// @Success 200 {object} schemas.WayPopulatedResponse
 // @Router /ways [post]
 func (cc *WayController) CreateWay(ctx *gin.Context) {
 	var payload *schemas.CreateWay

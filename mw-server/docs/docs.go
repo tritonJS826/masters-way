@@ -1905,7 +1905,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.WayPlainResponse"
+                            "$ref": "#/definitions/schemas.WayPopulatedResponse"
                         }
                     }
                 }
