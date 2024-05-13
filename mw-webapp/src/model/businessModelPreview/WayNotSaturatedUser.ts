@@ -1,3 +1,4 @@
+import {makeAutoObservable} from "mobx";
 import {WayStatusType} from "src/logic/waysTable/wayStatus";
 import {UserNotSaturatedWay} from "src/model/businessModelPreview/UserNotSaturatedWay";
 import {JobTag} from "src/model/businessModelPreview/WayPreview";
@@ -94,6 +95,7 @@ export class WayNotSaturatedUser {
   public metricsStringified: string[];
 
   constructor(wayData: WayNotSaturatedUser) {
+    makeAutoObservable(this);
     this.uuid = wayData.uuid;
     this.name = wayData.name;
     this.dayReportUuids = wayData.dayReportUuids;

@@ -18,15 +18,14 @@ export class WayCollectionDAL {
       },
     });
 
-    const wayCollection: WayCollection = {
+    const wayCollection = new WayCollection({
       uuid: wayCollectionDTO.uuid,
       name: wayCollectionDTO.name,
       createdAt: new Date(),
       updatedAt: new Date(),
       ownerUuid,
       ways: [],
-      type: "custom",
-    };
+    });
 
     return wayCollection;
   }
@@ -40,15 +39,14 @@ export class WayCollectionDAL {
       request: {name},
     });
 
-    const updatedWayCollection: WayCollection = {
+    const updatedWayCollection = new WayCollection({
       createdAt: new Date(),
       name: updatedWayCollectionDTO.name,
       ownerUuid,
       updatedAt: new Date(),
       uuid: updatedWayCollectionDTO.uuid,
       ways: [],
-      type: "",
-    };
+    });
 
     return updatedWayCollection;
   }
