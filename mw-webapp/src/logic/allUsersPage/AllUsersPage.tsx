@@ -55,7 +55,7 @@ export const AllUsersPage = observer(() => {
   const [allUsersAmount, setAllUsersAmount] = useState<number>();
   const [email, setEmail] = useState<string>("");
   const [name, setName] = useState<string>("");
-  const [pagePagination, setPagePagination] = useState<number>(DEFAULT_PAGE_PAGINATION_VALUE);
+  const [currentPageNumber, setCurrentPageNumber] = useState<number>(DEFAULT_PAGE_PAGINATION_VALUE);
   const [debouncedEmail] = useDebounce(email, DEBOUNCE_DELAY_MILLISECONDS);
   const [debouncedName] = useDebounce(name, DEBOUNCE_DELAY_MILLISECONDS);
 
@@ -72,14 +72,13 @@ export const AllUsersPage = observer(() => {
    * Callback that is called to fetch data
    */
   const loadData = async (): Promise<AllUsersFetchData> => {
+    setCurrentPageNumber(DEFAULT_PAGE_PAGINATION_VALUE);
     const users = await UserDAL.getUsers({
       page: DEFAULT_PAGE_PAGINATION_VALUE,
       limit: DEFAULT_USER_LIMIT,
       email,
       name,
     });
-    const nextPage = pagePagination + DEFAULT_PAGE_PAGINATION_VALUE;
-    setPagePagination(nextPage);
 
     return {users: users.usersPreview, usersAmount: users.size};
   };
@@ -87,11 +86,17 @@ export const AllUsersPage = observer(() => {
   /**
    * Load more users
    */
-  const loadMoreUsers = async (loadedUsers: UserNotSaturatedWay[]) => {
-    const nextPage = pagePagination + DEFAULT_PAGE_PAGINATION_VALUE;
-    setPagePagination(nextPage);
-    const users = await UserDAL.getUsers({page: pagePagination});
-    setAllUsers([...loadedUsers, ...users.usersPreview]);
+  const loadMoreUsers = async () => {
+    const nextPage = currentPageNumber + DEFAULT_PAGE_PAGINATION_VALUE;
+    const users = await UserDAL.getUsers({
+      page: nextPage,
+      limit: DEFAULT_USER_LIMIT,
+      email,
+      name,
+    });
+
+    setAllUsers([...allUsers ?? [], ...users.usersPreview]);
+    setCurrentPageNumber(nextPage);
   };
 
   /**
@@ -100,6 +105,7 @@ export const AllUsersPage = observer(() => {
   const onSuccess = (data: AllUsersFetchData) => {
     setAllUsers(data.users);
     setAllUsersAmount(data.usersAmount);
+    setCurrentPageNumber(DEFAULT_PAGE_PAGINATION_VALUE);
   };
 
   /**
@@ -213,7 +219,7 @@ export const AllUsersPage = observer(() => {
         {isMoreUsersExist &&
         <Button
           value={LanguageService.allUsers.usersTable.loadMoreButton[language]}
-          onClick={() => loadMoreUsers(allUsers)}
+          onClick={loadMoreUsers}
           buttonType={ButtonType.SECONDARY}
           className={styles.loadMoreButton}
         />
