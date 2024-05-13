@@ -2206,7 +2206,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.WayPlainResponse'
+            $ref: '#/definitions/schemas.WayPopulatedResponse'
       summary: Create a new way
       tags:
       - way
