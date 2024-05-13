@@ -71,7 +71,6 @@ WHERE ((LOWER(users.email) LIKE '%' || LOWER($1) || '%') OR ($1 = ''))
 UPDATE users
 SET
 name = coalesce(sqlc.narg('name'), name),
-email = coalesce(sqlc.narg('email'), email),
 description = coalesce(sqlc.narg('description'), description),
 image_url = coalesce(sqlc.narg('image_url'), image_url),
 is_mentor = coalesce(sqlc.narg('is_mentor'), is_mentor)
