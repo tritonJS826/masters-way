@@ -190,7 +190,9 @@ func init() {
 	MentorUserWayController = *controllers.NewMentorUserWayController(db, ctx)
 	MentorUserWayRoutes = routes.NewRouteMentorUserWay(MentorUserWayController)
 
-	server.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	if config.EnvType != "prod" {
+		server.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	}
 
 }
 
