@@ -56,6 +56,7 @@ import {Symbols} from "src/utils/Symbols";
 import styles from "src/logic/wayPage/WayPage.module.scss";
 
 const LIKE_VALUE = 1;
+const INCREMENT = 1;
 const DEFAULT_WAY_PAGE_SETTINGS: WayPageSettings = {
 
   /**
@@ -362,6 +363,15 @@ export const WayPage = observer((props: WayPageProps) => {
         }),
     };
 
+    const allCollections = user && getAllCollections(user.defaultWayCollections, user.customWayCollections);
+    allCollections?.map((collection) => {
+      collection.updateWay({
+        uuid: way.uuid,
+        metricsDone: metricsToUpdate.filter((metricDone) => metricDone.isDone).length,
+        metricsTotal: metricsToUpdate.length,
+      });
+    });
+
     setWayPartial(wayToUpdate);
   };
 
@@ -380,6 +390,14 @@ export const WayPage = observer((props: WayPageProps) => {
   const createDayReport = async (wayUuid: string): Promise<DayReport> => {
     const newDayReport = await DayReportDAL.createDayReport(wayUuid);
     setDayReports((prevDayReportsList) => [newDayReport, ...prevDayReportsList]);
+
+    const allCollections = user && getAllCollections(user.defaultWayCollections, user.customWayCollections);
+    allCollections?.map((collection) => {
+      collection.updateWay({
+        uuid: way.uuid,
+        dayReportsAmount: way.dayReports.length + INCREMENT,
+      });
+    });
 
     return newDayReport;
   };
@@ -462,6 +480,14 @@ export const WayPage = observer((props: WayPageProps) => {
                             favorite: updatedFavoriteCollection,
                           }),
                         });
+
+                        const allCollections = user && getAllCollections(user.defaultWayCollections, user.customWayCollections);
+                        allCollections?.map((collection) => {
+                          collection.updateWay({
+                            uuid: way.uuid,
+                            favoriteForUsers: favoriteAmount,
+                          });
+                        });
                         setUser(updatedUser);
                         setWayPartial({favoriteForUsersAmount: favoriteAmount});
                       } else {
@@ -471,7 +497,6 @@ export const WayPage = observer((props: WayPageProps) => {
                         }
                         const favoriteAmount = way.favoriteForUsersAmount + LIKE_VALUE;
 
-                        const INCREMENT = 1;
                         const mentors = Array.from(way.mentors).map(([, value]) => value);
                         // TODO: converter required
                         const updatedWay = new WayPreview({
@@ -506,6 +531,15 @@ export const WayPage = observer((props: WayPageProps) => {
                             favorite: updatedFavoriteCollection,
                           }),
                         });
+
+                        const allCollections = user && getAllCollections(user.defaultWayCollections, user.customWayCollections);
+                        allCollections?.map((collection) => {
+                          collection.updateWay({
+                            uuid: way.uuid,
+                            favoriteForUsers: favoriteAmount,
+                          });
+                        });
+
                         setUser(updatedUser);
                         setWayPartial({favoriteForUsersAmount: favoriteAmount});
                       }

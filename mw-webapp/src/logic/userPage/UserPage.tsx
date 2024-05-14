@@ -29,6 +29,7 @@ import {BaseWaysTable, FILTER_STATUS_ALL_VALUE} from "src/logic/waysTable/BaseWa
 import {WayStatusType} from "src/logic/waysTable/wayStatus";
 import {DefaultWayCollections, User, WayCollection} from "src/model/businessModel/User";
 import {UserTag} from "src/model/businessModelPreview/UserNotSaturatedWay";
+import {UserPreviewShort} from "src/model/businessModelPreview/UserPreviewShort";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
@@ -346,9 +347,26 @@ export const UserPage = observer((props: UserPageProps) => {
                    * Update user
                    */
                   setUser: (userToUpdate: PartialWithUuid<User>) => {
-                    const updatedUser = new User({...userPageOwner, ...userToUpdate});
-                    setUser(updatedUser);
+                    const updatedUser = new User({
+                      ...userPageOwner,
+                      ...userToUpdate,
+                      defaultWayCollections: new DefaultWayCollections({
+                        ...userPageOwner.defaultWayCollections,
+                        own: new WayCollection({
+                          ...userPageOwner.defaultWayCollections.own,
+                          ways: userPageOwner.defaultWayCollections.own.ways.map((way) => {
+                            return new WayPreview({
+                              ...way,
+                              owner: new UserPreviewShort({...way.owner, ...userToUpdate}),
+                            });
+                          }),
+                        }),
+                      }),
+
+                    });
                     setUserPreviewPartial(userToUpdate);
+                    setUserPageOwner(updatedUser);
+                    setUser(updatedUser);
                   },
                 })}
                 isEditable={isPageOwner}
