@@ -26,6 +26,7 @@
 
 .tabsSectionContainer {
   @include regularContainer;
+  gap: $gapMedium;
 }
 
 .tabsSection {

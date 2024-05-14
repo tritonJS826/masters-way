@@ -1,4 +1,5 @@
 import {ColumnDef, getCoreRowModel, useReactTable} from "@tanstack/react-table";
+import {observer} from "mobx-react-lite";
 import {Table} from "src/component/table/Table";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 
@@ -23,7 +24,7 @@ interface WaysTableProps {
 /**
  * Render table of all ways preview
  */
-export const WaysTable = (props: WaysTableProps) => {
+export const WaysTable = observer((props: WaysTableProps) => {
   const data = props.data;
   const columns = props.columns;
 
@@ -41,4 +42,4 @@ export const WaysTable = (props: WaysTableProps) => {
   return (
     <Table data={tableContent} />
   );
-};
+});

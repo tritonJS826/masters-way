@@ -1,3 +1,5 @@
+import {makeAutoObservable} from "mobx";
+
 /**
  * User preview model
  */
@@ -34,6 +36,7 @@ export class UserPreviewShort {
   public isMentor: boolean;
 
   constructor(userData: UserPreviewShort) {
+    makeAutoObservable(this);
     this.uuid = userData.uuid;
     this.name = userData.name;
     this.email = userData.email;

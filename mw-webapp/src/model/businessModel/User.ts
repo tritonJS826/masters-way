@@ -1,6 +1,74 @@
 import {makeAutoObservable} from "mobx";
 import {WayNotSaturatedUser} from "src/model/businessModelPreview/WayNotSaturatedUser";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
+import {PartialWithUuid} from "src/utils/PartialWithUuid";
+
+/**
+ * WayCollection props
+ */
+interface WayCollectionProps {
+
+  /**
+   * Date in ISO format
+   */
+  createdAt: Date;
+
+  /**
+   * Way collection name
+   */
+  name: string;
+
+  /**
+   * Way collection's owner
+   */
+  ownerUuid: string;
+
+  /**
+   * Date in ISO format
+   */
+  updatedAt: Date;
+
+  /**
+   * Way collection's UUID
+   */
+  uuid: string;
+
+  /**
+   * Ways preview that exist inside way collection
+   */
+  ways: WayPreview[];
+
+}
+
+/**
+ * Default WayCollections
+ */
+export class DefaultWayCollections {
+
+  /**
+   * Own collection
+   */
+  public own: WayCollection;
+
+  /**
+   * Favorite collection
+   */
+  public favorite: WayCollection;
+
+  /**
+   * Mentoring collection
+   */
+  public mentoring: WayCollection;
+
+  constructor(wayCollections: DefaultWayCollections) {
+    makeAutoObservable(this);
+    this.own = wayCollections.own;
+    this.favorite = wayCollections.favorite;
+    this.mentoring = wayCollections.mentoring;
+
+  }
+
+}
 
 /**
  * Specific way collection data
@@ -37,12 +105,7 @@ export class WayCollection {
    */
   public ways: WayPreview[];
 
-  /**
-   * Way collection type
-   */
-  public type: string;
-
-  constructor(wayCollection: WayCollection) {
+  constructor(wayCollection: WayCollectionProps) {
     makeAutoObservable(this);
     this.createdAt = wayCollection.createdAt;
     this.name = wayCollection.name;
@@ -50,7 +113,32 @@ export class WayCollection {
     this.updatedAt = wayCollection.updatedAt;
     this.uuid = wayCollection.uuid;
     this.ways = wayCollection.ways;
-    this.type = wayCollection.type;
+  }
+
+  /**
+   * Add way to ways
+   */
+  public addWay(newWay: WayPreview) {
+    this.ways.push(newWay);
+  }
+
+  /**
+   * Delete way to ways
+   */
+  public deleteWay(wayUuid: string) {
+    const updatedWays = this.ways.filter((way) => way.uuid !== wayUuid);
+    this.ways = updatedWays;
+  }
+
+  /**
+   * Update way to ways
+   */
+  public updateWay(wayToUpdate: PartialWithUuid<WayPreview>) {
+    const updatedWays = this.ways.map((way) => way.uuid !== wayToUpdate.uuid
+      ? way
+      : new WayPreview({...way, ...wayToUpdate}),
+    );
+    this.ways = updatedWays;
   }
 
 }
@@ -157,7 +245,12 @@ export class User {
   /**
    * Custom way collections {@link WayCollection}
    */
-  public wayCollections: WayCollection[];
+  public customWayCollections: WayCollection[];
+
+  /**
+   * Default way collections {@link DefaultWayCollections}
+   */
+  public defaultWayCollections: DefaultWayCollections;
 
   /**
    * User's uuids for whom this user are favorite
@@ -196,7 +289,8 @@ export class User {
     this.email = userData.email;
     this.description = userData.description;
     this.createdAt = userData.createdAt;
-    this.wayCollections = userData.wayCollections;
+    this.customWayCollections = userData.customWayCollections;
+    this.defaultWayCollections = userData.defaultWayCollections;
     this.favoriteForUserUuids = userData.favoriteForUserUuids;
     this.favoriteUsers = userData.favoriteUsers;
     this.tags = userData.tags;

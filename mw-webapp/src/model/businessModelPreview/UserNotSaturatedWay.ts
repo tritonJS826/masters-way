@@ -1,23 +1,4 @@
-/**
- * Specific way collection data
- */
-export type WaysCollection = {
-
-  /**
-   * Collection uuid
-   */
-  id: string;
-
-  /**
-   * Collection name
-   */
-  name: string;
-
-  /**
-   * Ways uuid
-   */
-  wayUuids: string[];
-};
+import {makeAutoObservable} from "mobx";
 
 /**
  * User tag data
@@ -81,11 +62,6 @@ export class UserNotSaturatedWay {
   public createdAt: Date;
 
   /**
-   * User's uuids for whom this user are favorite
-   */
-  // public favoriteForUserUuids: string[];
-
-  /**
    * Uuids of users who you liked
    */
   public favoriteUserUuids: string[];
@@ -111,6 +87,7 @@ export class UserNotSaturatedWay {
   public favoriteForUsers: number;
 
   constructor(userData: UserNotSaturatedWay) {
+    makeAutoObservable(this);
     this.uuid = userData.uuid;
     this.name = userData.name;
     this.email = userData.email;
