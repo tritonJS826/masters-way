@@ -873,6 +873,7 @@ definitions:
         items:
           $ref: '#/definitions/schemas.WayPopulatedResponse'
         type: array
+        x-nullable: true
       copiedFromWayUuid:
         type: string
         x-nullable: true
