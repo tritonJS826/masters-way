@@ -12,6 +12,7 @@ export const wayPlainDTOToWayPreview = (wayDTO: SchemasWayPlainResponse): WayPre
     lastUpdate: new Date(wayDTO.updatedAt),
   });
 
+  // TODO: #856 Interface segregation: replace (mentor with stub fields) with shortMentor model
   const mentors = wayDTO.mentors.map((mentor) => new UserPreview({
     ...mentor,
     customWayCollections: [],
