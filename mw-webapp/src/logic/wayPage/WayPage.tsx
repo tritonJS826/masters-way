@@ -499,7 +499,7 @@ export const WayPage = observer((props: WayPageProps) => {
                         }
                         const favoriteAmount = way.favoriteForUsersAmount + LIKE_VALUE;
 
-                        const mentors = Array.from(way.mentors).map(([, value]) => value);
+                        const mentors = Array.from(way.mentors.values());
                         // TODO: converter required
                         const updatedWay = new WayPreview({
                           copiedFromWayUuid: way.copiedFromWayUuid,

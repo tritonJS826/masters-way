@@ -347,22 +347,27 @@ export const UserPage = observer((props: UserPageProps) => {
                    * Update user
                    */
                   setUser: (userToUpdate: PartialWithUuid<User>) => {
+                    const ownCollection = new WayCollection({
+                      ...userPageOwner.defaultWayCollections.own,
+                      ways: userPageOwner.defaultWayCollections.own.ways.map((way) => {
+                        const owner = new UserPreviewShort({...way.owner, ...userToUpdate});
+
+                        return new WayPreview({
+                          ...way,
+                          owner,
+                        });
+                      }),
+                    });
+
+                    const defaultWayCollections = new DefaultWayCollections({
+                      ...userPageOwner.defaultWayCollections,
+                      own: ownCollection,
+                    });
+
                     const updatedUser = new User({
                       ...userPageOwner,
                       ...userToUpdate,
-                      defaultWayCollections: new DefaultWayCollections({
-                        ...userPageOwner.defaultWayCollections,
-                        own: new WayCollection({
-                          ...userPageOwner.defaultWayCollections.own,
-                          ways: userPageOwner.defaultWayCollections.own.ways.map((way) => {
-                            return new WayPreview({
-                              ...way,
-                              owner: new UserPreviewShort({...way.owner, ...userToUpdate}),
-                            });
-                          }),
-                        }),
-                      }),
-
+                      defaultWayCollections,
                     });
                     setUserPreviewPartial(userToUpdate);
                     setUserPageOwner(updatedUser);
