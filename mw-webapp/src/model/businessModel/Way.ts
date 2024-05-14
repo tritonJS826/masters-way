@@ -109,7 +109,7 @@ export class Way {
   /**
    * If Way has children then this way is Composite
    */
-  public children: Way[];
+  public children: Way[] | null;
 
   constructor(wayData: Way) {
     this.uuid = wayData.uuid;

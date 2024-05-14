@@ -375,7 +375,7 @@ export const WayPage = observer((props: WayPageProps) => {
     setWayPartial(wayToUpdate);
   };
 
-  const isWayComposite = way.children.length !== 0;
+  const isWayComposite = !!way.children;
 
   const isEmptyWay = way.dayReports.length === 0;
   const currentDate = DateUtils.getShortISODateValue(new Date());
@@ -411,7 +411,9 @@ export const WayPage = observer((props: WayPageProps) => {
     : 0
   ;
 
-  const compositeWayParticipant = way.children.map((child) => child.owner);
+  const compositeWayParticipant = way.children
+    ? way.children.map((child) => child.owner)
+    : [];
 
   return (
     <VerticalContainer className={styles.container}>
@@ -784,7 +786,7 @@ export const WayPage = observer((props: WayPageProps) => {
               </div>
             </HorizontalContainer>
 
-            {way.children.length !== 0 &&
+            {isWayComposite &&
               <HorizontalContainer>
                 <Title
                   level={HeadingLevel.h3}
@@ -804,13 +806,13 @@ export const WayPage = observer((props: WayPageProps) => {
                 }
               </HorizontalContainer>
             }
-            {way.children.length !== 0 &&
+            {isWayComposite &&
             <HorizontalContainer className={styles.participantWay}>
               <Title
                 level={HeadingLevel.h3}
                 text="Participants ways:"
               />
-              {way.children.length !== 0 &&
+              {!!way.children &&
                 way.children.map((wayParticipant) => {
                   return (
                     <Link

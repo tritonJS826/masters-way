@@ -30,12 +30,6 @@ export interface SchemasUpdateUserPayload {
      * @type {string}
      * @memberof SchemasUpdateUserPayload
      */
-    email?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof SchemasUpdateUserPayload
-     */
     imageUrl?: string | null;
     /**
      * 
@@ -76,7 +70,6 @@ export function SchemasUpdateUserPayloadFromJSONTyped(
     return {
         
         'description': !exists(json, 'description') ? undefined : json['description'],
-        'email': !exists(json, 'email') ? undefined : json['email'],
         'imageUrl': !exists(json, 'imageUrl') ? undefined : json['imageUrl'],
         'isMentor': !exists(json, 'isMentor') ? undefined : json['isMentor'],
         'name': !exists(json, 'name') ? undefined : json['name'],
@@ -94,7 +87,6 @@ export function SchemasUpdateUserPayloadToJSON(value?: SchemasUpdateUserPayload 
     return {
         
         'description': value.description,
-        'email': value.email,
         'imageUrl': value.imageUrl,
         'isMentor': value.isMentor,
         'name': value.name,

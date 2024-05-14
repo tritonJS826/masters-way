@@ -10,7 +10,6 @@ export const userToUserDTOPartial = (user: PartialWithUuid<User>): SchemasUpdate
   const userPartialDTO: SchemasUpdateUserPayload = {
     name: user.name,
     description: user.description,
-    email: user.email,
     imageUrl: user.imageUrl,
     isMentor: user.isMentor,
   };
