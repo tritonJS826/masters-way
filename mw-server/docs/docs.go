@@ -3284,7 +3284,8 @@ const docTemplate = `{
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/schemas.WayPopulatedResponse"
-                    }
+                    },
+                    "x-nullable": true
                 },
                 "copiedFromWayUuid": {
                     "type": "string",
