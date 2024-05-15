@@ -26,4 +26,10 @@ export const teamMembers: TeamMemberType[] = [
     description: "Front-end dev",
     imageUrl: "https://lh3.google.com/u/0/d/1jpszNTWpzOnndozD2sQhgvmRWXo6ky6z=w1916-h910-iv1",
   },
+  {
+    id: 4,
+    name: "Mikhail Zhdanov",
+    description: "Product manager",
+    imageUrl: "https://lh3.google.com/u/0/d/1RTdNCoUVb7XVVIG8jRkIWa424-TyjzBp=w2000-h1884-iv1",
+  },
 ];
