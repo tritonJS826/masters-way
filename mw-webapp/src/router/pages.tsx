@@ -1,13 +1,5 @@
 /* eslint-disable jsdoc/require-jsdoc */
-import {ReactElement} from "react";
-import {AboutProjectPage} from "src/logic/aboutProjectPage/AboutProjectPage";
-import {AllUsersPage} from "src/logic/allUsersPage/AllUsersPage";
-import {AllWaysPage} from "src/logic/allWaysPage/AllWaysPage";
-import {HomePage} from "src/logic/homePage/HomePage";
-import {Page404} from "src/logic/page404/Page404";
-import {SettingsPage} from "src/logic/settingsPage/SettingsPage";
-import {UserPage} from "src/logic/userPage/UserPage";
-import {WayPage} from "src/logic/wayPage/WayPage";
+import React, {ReactElement} from "react";
 import {UrlParamsType} from "src/router/PageUrlValidator/UrlParamsType";
 
 export type ParamName = string;
@@ -41,48 +33,93 @@ const getPathForUserPage = (params: { uuid: string }): string => `/user/${params
  */
 const getPathForWayPage = (params: {uuid: string}): string => `/way/${params.uuid}`;
 
+const suspended = (lazyNode: React.ReactNode) => (<React.Suspense fallback={null}>
+  {lazyNode}
+</React.Suspense>);
+
+const HomePageLazy = React.lazy(() => import("src/logic/homePage/HomePage")
+  .then((module) => ({default: module.HomePage})));
+const HomePage = () => (<>
+  <HomePageLazy />
+</>);
+const AlLWaysPageLazy = React.lazy(() => import("src/logic/allWaysPage/AllWaysPage")
+  .then((module) => ({default: module.AllWaysPage})));
+const AllWaysPage = () => (<>
+  <AlLWaysPageLazy />
+</>);
+const UserPageLazy = React.lazy(() => import("src/logic/userPage/UserPage")
+  .then((module) => ({default: module.UserPage})));
+const UserPage = (params: {uuid: string}) => (<>
+  <UserPageLazy {...params} />
+</>);
+const WayPageLazy = React.lazy(() => import("src/logic/wayPage/WayPage")
+  .then((module) => ({default: module.WayPage})));
+const WayPage = (params: {uuid: string}) => (<>
+  <WayPageLazy {...params} />
+</>);
+const AllUsersPageLazy = React.lazy(() => import("src/logic/allUsersPage/AllUsersPage")
+  .then((module) => ({default: module.AllUsersPage})));
+const AllUsersPage = () => (<>
+  <AllUsersPageLazy />
+</>);
+const SettingsPageLazy = React.lazy(() => import("src/logic/settingsPage/SettingsPage")
+  .then((module) => ({default: module.SettingsPage})));
+const SettingsPage = () => (<>
+  <SettingsPageLazy />
+</>);
+const AboutProjectPageLazy = React.lazy(() => import("src/logic/aboutProjectPage/AboutProjectPage")
+  .then((module) => ({default: module.AboutProjectPage})));
+const AboutProjectPage = () => (<>
+  <AboutProjectPageLazy />
+</>);
+const Page404Lazy = React.lazy(() => import("src/logic/page404/Page404")
+  .then((module) => ({default: module.Page404})));
+const Page404 = () => (<>
+  <Page404Lazy />
+</>);
+
 /**
  * Pages meta data
  */
 export const pages = {
   home: {
     getPath: () => "/",
-    getPageComponent: () => <HomePage />,
+    getPageComponent: () => suspended(<HomePage />),
     urlParams: {},
   } as PageParams,
   allWays: {
     getPath: () => "/ways",
-    getPageComponent: () => <AllWaysPage />,
+    getPageComponent: () => suspended(<AllWaysPage />),
     urlParams: {},
   } as PageParams,
   user: {
     getPath: (params): string => getPathForUserPage({uuid: params.uuid}),
-    getPageComponent: (params) => <UserPage {...params} />,
+    getPageComponent: (params) => suspended(<UserPage {...params} />),
     urlParams: {uuid: UrlParamsType.UUID} as const,
   } as PageParams<{uuid: string}>,
   way: {
     getPath: (params): string => getPathForWayPage({uuid: params.uuid}),
-    getPageComponent: (params) => <WayPage {...params} />,
+    getPageComponent: (params) => suspended(<WayPage {...params} />),
     urlParams: {uuid: UrlParamsType.UUID} as const,
   } as PageParams<{uuid: string}>,
   allUsers: {
     getPath: () => "/users",
-    getPageComponent: () => <AllUsersPage />,
+    getPageComponent: () => suspended(<AllUsersPage />),
     urlParams: {},
   } as PageParams,
   settings: {
     getPath: () => "/settings",
-    getPageComponent: () => <SettingsPage />,
+    getPageComponent: () => suspended(<SettingsPage />),
     urlParams: {},
   } as PageParams,
   aboutProject: {
     getPath: () => "/aboutProject",
-    getPageComponent: () => <AboutProjectPage />,
+    getPageComponent: () => suspended(<AboutProjectPage />),
     urlParams: {},
   } as PageParams,
   page404: {
     getPath: () => "*",
-    getPageComponent: () => <Page404 />,
+    getPageComponent: () => suspended(<Page404 />),
     urlParams: {},
   } as PageParams,
 };
