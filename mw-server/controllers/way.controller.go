@@ -103,7 +103,7 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 		FromUserMentorRequests: make([]schemas.UserPlainResponse, 0),
 		FavoriteForUsersAmount: 0,
 		Metrics:                make([]schemas.MetricResponse, 0),
-		Children:               nil,
+		Children:               make([]schemas.WayPopulatedResponse, 0),
 	}
 
 	ctx.JSON(http.StatusOK, response)
