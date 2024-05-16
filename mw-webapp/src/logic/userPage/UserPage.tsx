@@ -465,7 +465,7 @@ export const UserPage = observer((props: UserPageProps) => {
                   }}
                 />
               ))}
-              {!user?.tags.length && LanguageService.way.wayInfo.noTags[language]}
+              {!userPageOwner?.tags.length && LanguageService.way.wayInfo.noTags[language]}
               {isPageOwner && (
                 <Modal
                   isOpen={isAddUserTagModalOpen}
