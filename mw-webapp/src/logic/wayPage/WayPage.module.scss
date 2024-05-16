@@ -4,6 +4,7 @@ $iconContainerSize: 25px;
 
 .container {
   width: 100%;
+  max-width: $maxWidthContainer;
   padding: 0 $paddingMedium;
   margin: 0 auto;
   gap: $gapMedium;
