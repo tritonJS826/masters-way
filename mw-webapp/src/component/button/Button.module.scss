@@ -4,17 +4,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 13px 17px;
+  padding: $paddingSmall $paddingSmall;
   border: none;
   border-radius: $primaryBorderRadius;
   cursor: pointer;
   font-family: $primaryFontFamily;
-  font-size: $fontSizeSmall;
+  font-size: $fontSizeBig;
   gap: $gapMedium;
   transition-duration: $primaryTransitionDuration;
 }
 
 .primary {
+  padding: $paddingMedium $paddingExtraLarge;
   background-color: var(--primaryBackgroundButtonColor);
   color: var(--primaryTextButtonColor);
 
@@ -29,6 +30,7 @@
 }
 
 .secondary {
+  padding: $paddingMedium $paddingExtraLarge;
   border: 1px var(--secondaryBorderColor) solid;
   background-color: var(--secondaryBackgroundButtonColor);
   color: var(--secondaryTextButtonColor);

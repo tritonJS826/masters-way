@@ -1,7 +1,9 @@
 @import "src/styles/variables";
 
 .allUsersContainer {
+  max-width: $maxWidthContainer;
   padding: 0 $paddingMedium;
+  margin: 0 auto;
   gap: $gapMedium;
 }
 

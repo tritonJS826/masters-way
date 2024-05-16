@@ -1,9 +1,10 @@
 @import "src/styles/variables";
 
 .pageWrapper {
+  max-width: $maxWidthContainer;
   align-items: center;
   padding: 0 $gapMedium;
-  margin-top: $marginMedium;
+  margin: $marginMedium auto;
   gap: $gapBig;
 }
 
