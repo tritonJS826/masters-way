@@ -5,15 +5,17 @@ $userNameFontSize: 16px;
 .header {
   display: flex;
   width: 100%;
+  max-width: $maxWidthContainer;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  padding: $paddingMedium;
+  padding: $paddingLarge $paddingMedium;
+  margin: 0 auto;
   background-color: var(--primaryBackgroundColor);
 }
 
 .logo {
-  height: 40px;
+  height: 55px;
 }
 
 .logoSidebar {
