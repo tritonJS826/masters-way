@@ -16,6 +16,7 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {WayCollectionCard} from "src/component/wayCollectionCard/WayCollectionCard";
 import {FavoriteUserDAL} from "src/dataAccessLogic/FavoriteUserDAL";
 import {UserDAL} from "src/dataAccessLogic/UserDAL";
 import {UserTagDAL} from "src/dataAccessLogic/UserTagDAL";
@@ -543,44 +544,40 @@ export const UserPage = observer((props: UserPageProps) => {
 
         <VerticalContainer className={styles.tabsSectionContainer}>
           <HorizontalContainer className={styles.tabsSection}>
-            <Button
-              key={userPageOwner.defaultWayCollections.own.uuid}
-              value={`${userPageOwner.defaultWayCollections.own.name} (${userPageOwner.defaultWayCollections.own.ways.length})`}
+
+            <WayCollectionCard
+              isActive={userPageOwner.defaultWayCollections.own.uuid === openedTabId}
+              collectionTitle={LanguageService.user.collections.own[language]}
+              collectionWaysAmount={userPageOwner.defaultWayCollections.own.ways.length}
               onClick={() => setOpenedTabId(userPageOwner.defaultWayCollections.own.uuid)}
-              className={styles.collectionButton}
-              buttonType={userPageOwner.defaultWayCollections.own.uuid === openedTabId
-                ? ButtonType.PRIMARY
-                : ButtonType.SECONDARY}
+              language={language}
             />
-            <Button
-              key={userPageOwner.defaultWayCollections.mentoring.uuid}
-              value={`${userPageOwner.defaultWayCollections.mentoring.name}
-                (${userPageOwner.defaultWayCollections.mentoring.ways.length})`}
+
+            <WayCollectionCard
+              isActive={userPageOwner.defaultWayCollections.mentoring.uuid === openedTabId}
+              collectionTitle={LanguageService.user.collections.mentoring[language]}
+              collectionWaysAmount={userPageOwner.defaultWayCollections.mentoring.ways.length}
               onClick={() => setOpenedTabId(userPageOwner.defaultWayCollections.mentoring.uuid)}
-              className={styles.collectionButton}
-              buttonType={userPageOwner.defaultWayCollections.mentoring.uuid === openedTabId
-                ? ButtonType.PRIMARY
-                : ButtonType.SECONDARY}
+              language={language}
             />
-            <Button
-              key={userPageOwner.defaultWayCollections.favorite.uuid}
-              value={`${userPageOwner.defaultWayCollections.favorite.name} 
-                (${userPageOwner.defaultWayCollections.favorite.ways.length})`}
+
+            <WayCollectionCard
+              isActive={userPageOwner.defaultWayCollections.favorite.uuid === openedTabId}
+              collectionTitle={LanguageService.user.collections.favorite[language]}
+              collectionWaysAmount={userPageOwner.defaultWayCollections.favorite.ways.length}
               onClick={() => setOpenedTabId(userPageOwner.defaultWayCollections.favorite.uuid)}
-              className={styles.collectionButton}
-              buttonType={userPageOwner.defaultWayCollections.favorite.uuid === openedTabId
-                ? ButtonType.PRIMARY
-                : ButtonType.SECONDARY}
+              language={language}
             />
           </HorizontalContainer>
           <HorizontalContainer className={styles.tabsSection}>
             {userPageOwner.customWayCollections.map(collection => (
-              <Button
+              <WayCollectionCard
                 key={collection.uuid}
-                value={`${collection.name} (${collection.ways.length})`}
+                isActive={collection.uuid === openedTabId}
+                collectionTitle={collection.name}
+                collectionWaysAmount={collection.ways.length}
                 onClick={() => setOpenedTabId(collection.uuid)}
-                className={styles.collectionButton}
-                buttonType={collection.uuid === openedTabId ? ButtonType.PRIMARY : ButtonType.SECONDARY}
+                language={language}
               />
             ))}
 
@@ -639,7 +636,13 @@ export const UserPage = observer((props: UserPageProps) => {
 
       <BaseWaysTable
         key={currentCollection.uuid}
-        title={currentCollection.name}
+        // This check need to translate default collections and don't translate custom collections
+        title={currentCollection.name.toLowerCase() in LanguageService.user.collections
+          ? LanguageService.user.collections[
+            currentCollection.name.toLowerCase() as keyof typeof LanguageService.user.collections
+          ][language]
+          : currentCollection.name
+        }
         ways={currentCollection.ways}
         updateCollection={isCustomCollection
           ? (wayCollection: Partial<WayCollection>) => updateCustomWayCollection({id: currentCollection.uuid, ...wayCollection})
