@@ -4,6 +4,7 @@ $wayCollectionCardMainHeight: 93px;
 $wayCollectionCardAdditionalHeight: 47px;
 
 .wayCollectionCardContainer {
+  width: 100%;
   border-radius: $secondaryBorderRadius;
   cursor: pointer;
   @include scaleOnHover;
@@ -15,7 +16,6 @@ $wayCollectionCardAdditionalHeight: 47px;
 }
 
 .mainInfo {
-  width: 135px;
   height: $wayCollectionCardMainHeight;
   padding: $paddingMedium;
   border-radius: $secondaryBorderRadius $secondaryBorderRadius 0 0;

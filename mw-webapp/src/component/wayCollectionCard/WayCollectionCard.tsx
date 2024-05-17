@@ -41,30 +41,25 @@ interface WayCollectionProps {
  */
 export const WayCollectionCard = (props: WayCollectionProps) => {
   return (
-    <HorizontalContainer
-      className={styles.wayCollectionCardContainer}
+    <Button
       dataCy={props.dataCy}
-    >
-      <Button
-        onClick={props.onClick}
-        className={styles.wayCollectionCardButton}
-        value={
-          <VerticalContainer>
-            <VerticalContainer className={clsx(styles.mainInfo, props.isActive && styles.active)}>
-              <Title
-                level={HeadingLevel.h3}
-                text={props.collectionTitle}
-                className={styles.title}
-              />
-            </VerticalContainer>
-            <HorizontalContainer className={styles.additionalInfo}>
-              {props.collectionWaysAmount}
-            </HorizontalContainer>
+      onClick={props.onClick}
+      className={styles.wayCollectionCardButton}
+      value={
+        <VerticalContainer className={styles.wayCollectionCardContainer}>
+          <VerticalContainer className={clsx(styles.mainInfo, props.isActive && styles.active)}>
+            <Title
+              level={HeadingLevel.h3}
+              text={props.collectionTitle}
+              className={styles.title}
+            />
           </VerticalContainer>
-        }
-      />
-    </HorizontalContainer>
-
+          <HorizontalContainer className={styles.additionalInfo}>
+            {props.collectionWaysAmount}
+          </HorizontalContainer>
+        </VerticalContainer>
+      }
+    />
   );
 };
 
