@@ -11,6 +11,7 @@ $selectPadding: 3px;
   padding: $selectPadding $paddingMedium;
   border-radius: $primaryBorderRadius;
   background-color: var(--tertiaryBackgroundButtonColor);
+  color: var(--primaryTextColor);
   font-size: $fontSizeMedium;
 }
 
