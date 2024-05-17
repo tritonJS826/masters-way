@@ -2,6 +2,7 @@ import {NavigateFunction, useNavigate} from "react-router-dom";
 import {observer} from "mobx-react-lite";
 import logoLight from "src/assets/mastersWayLogoLight.svg";
 import {Button, ButtonType} from "src/component/button/Button";
+import {Footer} from "src/component/footer/Footer";
 import {LOGO_TEXT} from "src/component/header/Header";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
@@ -186,6 +187,8 @@ export const HomePage = observer(() => {
         />
 
       </HorizontalContainer>
+
+      <Footer language={language} />
     </>
   );
 
