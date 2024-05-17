@@ -80,6 +80,10 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     // [Theme.DARK]: "rgb(200, 194, 194)",
     // [Theme.LIGHT]: "rgb(73, 69, 69)",
   },
+  quaternaryBorderColor: {
+    [Theme.DARK]: "none",
+    [Theme.LIGHT]: "#784DEA",
+  },
   homeBorderColor: {
     [Theme.DARK]: "#F4F3FF",
     [Theme.LIGHT]: "#F4F3FF",

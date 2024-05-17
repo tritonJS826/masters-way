@@ -71,7 +71,7 @@ export interface ButtonProps {
 
   /**
    * Type of button styles
-   * @default {@link ButtonType.Secondary}
+   * @default {@link ButtonType.SECONDARY}
    */
   buttonType?: ButtonType;
 
