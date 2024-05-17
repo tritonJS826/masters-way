@@ -3,6 +3,8 @@ import {Button} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {Language} from "src/globalStore/LanguageStore";
+import {LanguageService} from "src/service/LanguageService";
 import styles from "src/component/wayCollectionCard/WayCollectionCard.module.scss";
 
 /**
@@ -31,6 +33,11 @@ interface WayCollectionProps {
   onClick: () => void;
 
   /**
+   * Actual language
+   */
+  language: Language;
+
+  /**
    * Data attribute for cypress testing
    */
   dataCy?: string;
@@ -55,7 +62,7 @@ export const WayCollectionCard = (props: WayCollectionProps) => {
             />
           </VerticalContainer>
           <HorizontalContainer className={styles.additionalInfo}>
-            {props.collectionWaysAmount}
+            {`${LanguageService.user.collections.ways[props.language]} ${props.collectionWaysAmount}`}
           </HorizontalContainer>
         </VerticalContainer>
       }

@@ -547,23 +547,26 @@ export const UserPage = observer((props: UserPageProps) => {
 
             <WayCollectionCard
               isActive={userPageOwner.defaultWayCollections.own.uuid === openedTabId}
-              collectionTitle={userPageOwner.defaultWayCollections.own.name}
+              collectionTitle={LanguageService.user.collections.own[language]}
               collectionWaysAmount={userPageOwner.defaultWayCollections.own.ways.length}
               onClick={() => setOpenedTabId(userPageOwner.defaultWayCollections.own.uuid)}
+              language={language}
             />
 
             <WayCollectionCard
               isActive={userPageOwner.defaultWayCollections.mentoring.uuid === openedTabId}
-              collectionTitle={userPageOwner.defaultWayCollections.mentoring.name}
+              collectionTitle={LanguageService.user.collections.mentoring[language]}
               collectionWaysAmount={userPageOwner.defaultWayCollections.mentoring.ways.length}
               onClick={() => setOpenedTabId(userPageOwner.defaultWayCollections.mentoring.uuid)}
+              language={language}
             />
 
             <WayCollectionCard
               isActive={userPageOwner.defaultWayCollections.favorite.uuid === openedTabId}
-              collectionTitle={userPageOwner.defaultWayCollections.favorite.name}
+              collectionTitle={LanguageService.user.collections.favorite[language]}
               collectionWaysAmount={userPageOwner.defaultWayCollections.favorite.ways.length}
               onClick={() => setOpenedTabId(userPageOwner.defaultWayCollections.favorite.uuid)}
+              language={language}
             />
           </HorizontalContainer>
           <HorizontalContainer className={styles.tabsSection}>
@@ -574,6 +577,7 @@ export const UserPage = observer((props: UserPageProps) => {
                 collectionTitle={collection.name}
                 collectionWaysAmount={collection.ways.length}
                 onClick={() => setOpenedTabId(collection.uuid)}
+                language={language}
               />
             ))}
 
@@ -632,7 +636,13 @@ export const UserPage = observer((props: UserPageProps) => {
 
       <BaseWaysTable
         key={currentCollection.uuid}
-        title={currentCollection.name}
+        // This check need to translate default collections and don't translate custom collections
+        title={currentCollection.name.toLowerCase() in LanguageService.user.collections
+          ? LanguageService.user.collections[
+            currentCollection.name.toLowerCase() as keyof typeof LanguageService.user.collections
+          ][language]
+          : currentCollection.name
+        }
         ways={currentCollection.ways}
         updateCollection={isCustomCollection
           ? (wayCollection: Partial<WayCollection>) => updateCustomWayCollection({id: currentCollection.uuid, ...wayCollection})

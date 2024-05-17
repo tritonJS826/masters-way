@@ -1,4 +1,5 @@
 import {WayCollectionCard} from "src/component/wayCollectionCard/WayCollectionCard";
+import {Language} from "src/globalStore/LanguageStore";
 import {getDataCy} from "src/utils/cyTesting/getDataCy";
 
 const WAY_COLLECTION_CARD_CY = "wayCollectionCard";
@@ -14,6 +15,7 @@ describe("UserCard component", () => {
         collectionWaysAmount={waysAmount}
         onClick={() => {}}
         dataCy={WAY_COLLECTION_CARD_CY}
+        language={Language.ENGLISH}
       />,
     );
   });
