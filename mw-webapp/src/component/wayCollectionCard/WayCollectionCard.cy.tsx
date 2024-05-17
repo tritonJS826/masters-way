@@ -6,7 +6,7 @@ const WAY_COLLECTION_CARD_CY = "wayCollectionCard";
 const title = "WayCollectionCard Title";
 const waysAmount = 9;
 
-describe("UserCard component", () => {
+describe("WayCollectionCard component", () => {
   beforeEach(() => {
     cy.mount(
       <WayCollectionCard

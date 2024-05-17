@@ -1,0 +1,38 @@
+@import "src/styles/variables";
+
+$userNameFontSize: 16px;
+
+.footer {
+  max-width: $maxWidthFullScreen;
+  background-color: var(--quaternaryBackgroundColor);
+}
+
+.footerWrapper {
+  width: 100%;
+  max-width: $maxWidthContainer;
+  justify-content: space-between;
+  padding: $paddingLarge $paddingMedium;
+  margin: 0 auto;
+}
+
+.logo {
+  height: 55px;
+  cursor: pointer;
+}
+
+.socialMedia {
+  color: var(--secondaryTextColor);
+  gap: $gapMedium;
+}
+
+.socialMediaIcons {
+  align-items: center;
+}
+
+.socialMediaIcon {
+  border: 2px solid var(--secondaryTextColor);
+  border-radius: $tertiaryBorderRadius;
+  background-color: var(--secondaryTextColor);
+  fill: var(--quaternaryBackgroundColor);
+  stroke: none;
+}

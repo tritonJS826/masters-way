@@ -5,6 +5,12 @@
     "ua": "Ласкаво просимо",
     "ka": "მოგესალმებით"
   },
+  "socialMedia": {
+    "ru": "Социальные медиа",
+    "en": "Social media",
+    "ua": "Соціальні медіа",
+    "ka": "Სოციალური მედია"
+  },
   "title": {
     "ru": "Асинхронное обучение: путь к быстрым достижениям!",
     "en": "Accelerate your goals with an asynchronous learning app",
