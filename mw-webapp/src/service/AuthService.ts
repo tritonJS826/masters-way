@@ -74,7 +74,7 @@ export class AuthService {
           email: currentUser.email,
           name: currentUser.displayName ?? DEFAULT_USER_NAME,
           description: "",
-          imageUrl: "",
+          imageUrl: currentUser.photoURL,
           isMentor: false,
         },
       });
