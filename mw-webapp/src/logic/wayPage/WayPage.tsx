@@ -375,7 +375,7 @@ export const WayPage = observer((props: WayPageProps) => {
     setWayPartial(wayToUpdate);
   };
 
-  const isWayComposite = !!way.children;
+  const isWayComposite = way.children.length !== 0;
 
   const isEmptyWay = way.dayReports.length === 0;
   const currentDate = DateUtils.getShortISODateValue(new Date());
