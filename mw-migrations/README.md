@@ -1,1 +1,0 @@
-To run migration scripts you need to upgrade to node version 18.18.2

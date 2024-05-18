@@ -3,7 +3,6 @@ package controllers
 import (
 	"context"
 	"database/sql"
-	"fmt"
 	"net/http"
 	"time"
 
@@ -94,9 +93,7 @@ func (cc *MetricController) UpdateMetric(ctx *gin.Context) {
 		MetricEstimation: sql.NullInt32{Int32: int32(payload.MetricEstimation), Valid: payload.MetricEstimation != 0},
 	}
 
-	fmt.Println(args.DoneDate)
 	metric, err := cc.db.UpdateMetric(ctx, *args)
-	fmt.Println(metric.DoneDate, err)
 	util.HandleErrorGin(ctx, err)
 
 	response := schemas.MetricResponse{
