@@ -55,7 +55,7 @@ export interface SchemasWayPopulatedResponse {
      * @type {Array<SchemasWayPopulatedResponse>}
      * @memberof SchemasWayPopulatedResponse
      */
-    children: Array<SchemasWayPopulatedResponse> | null;
+    children: Array<SchemasWayPopulatedResponse>;
     /**
      * 
      * @type {string}
@@ -209,7 +209,7 @@ export function SchemasWayPopulatedResponseFromJSONTyped(
     }
     return {
         
-        'children': (json['children'] === null ? null : (json['children'] as Array<any>).map(SchemasWayPopulatedResponseFromJSON)),
+        'children': ((json['children'] as Array<any>).map(SchemasWayPopulatedResponseFromJSON)),
         'copiedFromWayUuid': json['copiedFromWayUuid'],
         'createdAt': json['createdAt'],
         'dayReports': ((json['dayReports'] as Array<any>).map(SchemasDayReportPopulatedResponseFromJSON)),
@@ -241,7 +241,7 @@ export function SchemasWayPopulatedResponseToJSON(value?: SchemasWayPopulatedRes
     }
     return {
         
-        'children': (value.children === null ? null : (value.children as Array<any>).map(SchemasWayPopulatedResponseToJSON)),
+        'children': ((value.children as Array<any>).map(SchemasWayPopulatedResponseToJSON)),
         'copiedFromWayUuid': value.copiedFromWayUuid,
         'createdAt': value.createdAt,
         'dayReports': ((value.dayReports as Array<any>).map(SchemasDayReportPopulatedResponseToJSON)),

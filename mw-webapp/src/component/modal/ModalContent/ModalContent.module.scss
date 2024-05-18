@@ -10,6 +10,7 @@ $modal-animation-time: 150ms;
 
 .dialogOverlay {
   position: fixed;
+  z-index: $modalZIndex;
   animation: overlayShow $modal-animation-time cubic-bezier(0.16, 1, 0.3, 1);
   background-color: $overlay-background;
   inset: 0;
@@ -17,6 +18,7 @@ $modal-animation-time: 150ms;
 
 .dialogContent {
   position: fixed;
+  z-index: $modalZIndex;
   top: 50%;
   left: 50%;
   overflow: auto;
@@ -28,7 +30,6 @@ $modal-animation-time: 150ms;
   animation: contentShow $modal-animation-time cubic-bezier(0.16, 1, 0.3, 1);
   background-color: var(--primaryBackgroundColor);
   transform: translate(-50%, -50%);
-
   &:focus {
     outline: none;
   }
