@@ -64,13 +64,11 @@
 }
 
 .iconButton {
+  box-sizing: content-box;
   display: flex;
-  width: 24px;
-  height: 24px;
   align-items: center;
   justify-content: center;
   padding: 0;
-  border: 1px var(--secondaryBorderColor) solid;
   border-radius: $tertiaryBorderRadius;
   background-color: var(--secondaryBackgroundButtonColor);
   color: var(--secondaryTextButtonColor);
@@ -83,7 +81,7 @@
     background-color: var(--primaryBackgroundButtonColor);
 
     & svg {
-      stroke: var(--quaternaryTextButtonColor);
+      stroke: var(--secondaryTextColor);
     }
   }
 }

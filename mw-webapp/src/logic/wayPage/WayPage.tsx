@@ -683,7 +683,7 @@ export const WayPage = observer((props: WayPageProps) => {
                       <Button
                         icon={
                           <Icon
-                            size={IconSize.SMALL}
+                            size={IconSize.MEDIUM}
                             name="PlusIcon"
                           />
                         }
@@ -912,7 +912,7 @@ export const WayPage = observer((props: WayPageProps) => {
                   <Button
                     icon={
                       <Icon
-                        size={IconSize.SMALL}
+                        size={IconSize.MEDIUM}
                         name="PlusIcon"
                       />
                     }

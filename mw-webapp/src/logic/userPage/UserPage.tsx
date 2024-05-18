@@ -475,7 +475,7 @@ export const UserPage = observer((props: UserPageProps) => {
                       <Button
                         icon={
                           <Icon
-                            size={IconSize.SMALL}
+                            size={IconSize.MEDIUM}
                             name="PlusIcon"
                           />
                         }

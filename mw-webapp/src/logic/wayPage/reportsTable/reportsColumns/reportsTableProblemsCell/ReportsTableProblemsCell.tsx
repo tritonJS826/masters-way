@@ -175,7 +175,7 @@ export const ReportsTableProblemsCell = observer((props: ReportsTableProblemsCel
           <Button
             value={
               <Icon
-                size={IconSize.SMALL}
+                size={IconSize.MEDIUM}
                 name="PlusIcon"
               />
             }

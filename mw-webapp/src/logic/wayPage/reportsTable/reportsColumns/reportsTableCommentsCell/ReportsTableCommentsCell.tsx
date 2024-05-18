@@ -163,7 +163,7 @@ export const ReportsTableCommentsCell = observer((props: ReportsTableCommentsCel
           <Button
             value={
               <Icon
-                size={IconSize.SMALL}
+                size={IconSize.MEDIUM}
                 name="PlusIcon"
               />
             }

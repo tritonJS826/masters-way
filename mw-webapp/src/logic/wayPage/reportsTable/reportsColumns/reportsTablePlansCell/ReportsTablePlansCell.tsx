@@ -350,7 +350,7 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
             <Button
               value={
                 <Icon
-                  size={IconSize.SMALL}
+                  size={IconSize.MEDIUM}
                   name="PlusIcon"
                 />
               }

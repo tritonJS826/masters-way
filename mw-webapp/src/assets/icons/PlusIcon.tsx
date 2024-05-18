@@ -12,25 +12,27 @@ export const PlusIcon = (props: IconProps) => {
       className={props.className}
       data-cy={props.dataCy}
     >
-      <line
+      <circle
+        cx="12"
+        cy="12"
+        r="11.6"
+      />
+      <path
+        d="M12 8V16"
         x1="12"
         y1="5"
         x2="12"
         y2="19"
-        strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
-      />
-      <line
-        x1="5"
-        y1="12"
-        x2="19"
-        y2="12"
         strokeWidth="2"
+      />
+      <path
+        d="M7.3335 12H16.6668"
         strokeLinecap="round"
         strokeLinejoin="round"
+        strokeWidth="2"
       />
-
     </svg>
   );
 };
