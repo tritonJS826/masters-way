@@ -17,6 +17,7 @@ import {SettingsIcon} from "src/assets/icons/SettingsIcon";
 import {StarIcon} from "src/assets/icons/StarIcon";
 import {SunIcon} from "src/assets/icons/SunIcon";
 import {TableViewIcon} from "src/assets/icons/TableViewIcon";
+import {UserIcon} from "src/assets/icons/UserIcon";
 import {UsersIcon} from "src/assets/icons/UsersIcon";
 import {WayIcon} from "src/assets/icons/WayIcon";
 import {YoutubeIcon} from "src/assets/icons/YoutubeIcon";
@@ -131,6 +132,11 @@ export const IconDictionary = {
    * Search icon
    */
   SearchIcon: (params: IconProps) => <SearchIcon {...params} />,
+
+  /**
+   * User icon
+   */
+  UserIcon: (params: IconProps) => <UserIcon {...params} />,
 };
 
 /**

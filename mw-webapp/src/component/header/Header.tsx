@@ -74,7 +74,7 @@ interface HeaderProps {
 export const Header = (props: HeaderProps) => {
   const menuItems: (MenuItemLink)[] = [
     {
-      path: pages.allWays.getPath({}),
+      path: pages.home.getPath({}),
       value: "",
       icon: (
         <Image
@@ -90,6 +90,17 @@ export const Header = (props: HeaderProps) => {
         <Icon
           size={IconSize.MEDIUM}
           name="HomeIcon"
+          className={styles.linkIcon}
+        />),
+    },
+    {
+      isHidden: !props.user,
+      path: pages.user.getPath({uuid: props.user?.uuid ?? ""}),
+      value: LanguageService.sidebar.myWays[props.language],
+      icon: (
+        <Icon
+          size={IconSize.MEDIUM}
+          name="UserIcon"
           className={styles.linkIcon}
         />),
     },
@@ -146,7 +157,7 @@ export const Header = (props: HeaderProps) => {
     >
       <Link
         className={styles.logo}
-        path={pages.allWays.getPath({})}
+        path={pages.home.getPath({})}
       >
         <ThemedImage
           className={styles.logo}
