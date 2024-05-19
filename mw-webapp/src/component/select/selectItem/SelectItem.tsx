@@ -48,7 +48,7 @@ export const SelectItem = forwardRef((
       disabled={props.isDisabled}
 
     >
-      <SelectComponent.ItemText>
+      <SelectComponent.ItemText className={styles.selectItemText}>
         {props.children}
       </SelectComponent.ItemText>
       <SelectComponent.ItemIndicator className={styles.SelectItemIndicator}>

@@ -47,22 +47,28 @@ $selectPadding: 3px;
 .SelectItem {
   position: relative;
   display: flex;
-  height: 25px;
+  display: -webkit-box;
+  overflow: hidden;
   align-items: center;
   padding-left: 15px;
   border-radius: 3px;
+  -webkit-box-orient: vertical;
   color: var(--primaryTextColor);
   cursor: pointer;
   font-size: $fontSizeMedium;
-  line-height: 1;
-  user-select: none;
+  -webkit-line-clamp: 1;
+  line-height: 1.7;
+  overflow-wrap: break-word;
+  text-overflow: ellipsis;
 }
 
 .SelectItem[data-disabled] {
+  overflow: hidden;
   color: var(--secondaryBackgroundButtonColor);
   pointer-events: none;
 }
 .SelectItem[data-highlighted] {
+  overflow: hidden;
   background-color: var(--tertiaryBackgroundColor);
   background-color: var(--tertiaryBackgroundButtonColor);
   color: var(--primaryBackgroundButtonColor);
@@ -97,4 +103,10 @@ $selectPadding: 3px;
   background-color: white;
   color: var(--primaryBackgroundButtonColor);
   cursor: default;
+}
+
+.selectItemText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
