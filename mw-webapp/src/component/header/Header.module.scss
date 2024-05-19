@@ -27,7 +27,7 @@ $userNameFontSize: 16px;
   width: auto;
   align-items: center;
   justify-content: space-between;
-  gap: $gapBig;
+  gap: $gapExtraMedium;
 }
 
 .logo {
@@ -36,7 +36,7 @@ $userNameFontSize: 16px;
 
 .rightBlock {
   align-items: center;
-  gap: $gapBig;
+  gap: $gapExtraMedium;
 }
 
 .userAvatar {
@@ -93,4 +93,51 @@ $userNameFontSize: 16px;
   @media (max-width: $mediaWidthMobileMedium) {
     display: none;
   }
+}
+
+.loginModal {
+  overflow: hidden;
+  width: 90%;
+  max-width: 914px;
+  padding: 0;
+  border: none;
+  gap: 0;
+}
+
+.loginContent {
+  gap: 0;
+}
+
+.loginImage {
+  width: 100%;
+  max-width: 457px;
+
+  @media (max-width: $mediaWidthTablet) {
+    display: none;
+  }
+}
+
+.loginContainer {
+  width: 100%;
+  flex-grow: 1;
+  justify-content: center;
+  padding: $paddingExtraLarge $paddingLarge;
+  gap: $gapLarge;
+}
+
+.loginTitle {
+  text-align: center;
+}
+
+.googleIcon {
+  width: 20px;
+  height: 20px;
+}
+
+.loginGoogleButton {
+  border-radius: $secondaryBorderRadius;
+}
+
+.googleButtonValue {
+  gap: $gapMedium;
 }

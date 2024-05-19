@@ -1,3 +1,4 @@
+import google from "src/assets/google.svg";
 import logo from "src/assets/mastersWayLogo.svg";
 import logoLight from "src/assets/mastersWayLogoLight.svg";
 import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
@@ -6,10 +7,12 @@ import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalC
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Image} from "src/component/image/Image";
 import {Link} from "src/component/link/Link";
+import {Modal} from "src/component/modal/Modal";
 import {Select, SelectItemType} from "src/component/select/Select";
 import {MenuItemLink, Sidebar} from "src/component/sidebar/Sidebar";
 import {getMapThemeSources, ThemedImage} from "src/component/themedImage/ThemedImage";
 import {getNextSwitchTheme, ThemeSwitcher} from "src/component/themeSwitcher/ThemeSwitcher";
+import {HeadingLevel, Title} from "src/component/title/Title";
 import {Toggle} from "src/component/toggle/Toggle";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
@@ -188,30 +191,65 @@ export const Header = (props: HeaderProps) => {
 
         <HorizontalContainer className={styles.rightBlock}>
           {props.user ?
-            (
-              <Link
-                path={pages.user.getPath({uuid: props.user.uuid})}
-                className={styles.userAvatar}
+            <Link
+              path={pages.user.getPath({uuid: props.user.uuid})}
+              className={styles.userAvatar}
+            >
+              <Tooltip
+                key={props.user.name}
+                position={PositionTooltip.BOTTOM_LEFT}
+                content={props.user.name}
               >
-                <Tooltip
-                  key={props.user.name}
-                  position={PositionTooltip.BOTTOM_LEFT}
-                  content={props.user.name}
-                >
-                  <Avatar
-                    alt={props.user.name}
-                    src={props.user.imageUrl}
-                    size={AvatarSize.MEDIUM}
+                <Avatar
+                  alt={props.user.name}
+                  src={props.user.imageUrl}
+                  size={AvatarSize.MEDIUM}
+                />
+              </Tooltip>
+            </Link>
+            :
+            <Modal
+              trigger={
+                <Button
+                  onClick={() => {}}
+                  value={LanguageService.header.loginButton[props.language]}
+                  buttonType={ButtonType.PRIMARY}
+                />
+              }
+              className={styles.loginModal}
+              content={
+                <HorizontalContainer className={styles.loginContent}>
+                  <Image
+                    alt="Login image"
+                    src="https://lh3.google.com/u/0/d/1AF0qlh-KmFAtFILD9wCPw91OrZVZs8sH=w1361-h606-iv1"
+                    className={styles.loginImage}
                   />
-                </Tooltip>
-              </Link>)
-            : (
-              <Button
-                onClick={AuthService.logIn}
-                value={LanguageService.header.loginButton[props.language]}
-                buttonType={ButtonType.PRIMARY}
-              />
-            )}
+                  <VerticalContainer className={styles.loginContainer}>
+                    <Title
+                      level={HeadingLevel.h2}
+                      text={LanguageService.home.welcome[props.language]}
+                      className={styles.loginTitle}
+                    />
+                    <Button
+                      onClick={AuthService.logIn}
+                      className={styles.loginGoogleButton}
+                      value={
+                        <HorizontalContainer className={styles.googleButtonValue}>
+                          <Image
+                            src={google}
+                            alt="Google icon"
+                            className={styles.googleIcon}
+                          />
+                          {LanguageService.modals.loginModal.signInWithGoogle[props.language]}
+                        </HorizontalContainer>
+                      }
+                    />
+                  </VerticalContainer>
+                </HorizontalContainer>
+              }
+            />
+
+          }
           <Sidebar
             trigger={
               <Icon
