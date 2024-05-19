@@ -242,6 +242,7 @@ export const UserPage = observer((props: UserPageProps) => {
   const currentCollection = allWayCollections.find((col) => col.uuid === openedTabId);
   const isCustomCollection = currentCollection && userPageOwner.customWayCollections.includes(currentCollection);
   const defaultCollection = userPageOwner.defaultWayCollections.own;
+  const newCollectionName = LanguageService.user.collections.newCollection[language];
 
   if (!defaultCollection) {
     throw new Error("Default collection is not exist");
@@ -269,7 +270,8 @@ export const UserPage = observer((props: UserPageProps) => {
     if (!user) {
       throw new Error("User is not defined");
     }
-    const newWayCollection = await WayCollectionDAL.createWayCollection(user.uuid);
+
+    const newWayCollection = await WayCollectionDAL.createWayCollection(user.uuid, newCollectionName);
 
     const updatedCustomWayCollections = user.customWayCollections.concat(newWayCollection);
 

@@ -10,10 +10,10 @@ export class WayCollectionDAL {
   /**
    * Create wayCollection
    */
-  public static async createWayCollection(ownerUuid: string): Promise<WayCollection> {
+  public static async createWayCollection(ownerUuid: string, collectionName: string): Promise<WayCollection> {
     const wayCollectionDTO: SchemasWayCollectionPlainResponse = await WayCollectionService.createWayCollection({
       request: {
-        name: "New collection",
+        name: collectionName,
         ownerUuid,
       },
     });

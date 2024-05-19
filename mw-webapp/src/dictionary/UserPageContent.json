@@ -46,6 +46,12 @@
     }
   },
   "collections": {
+    "newCollection": {
+      "ru": "Новая коллекция",
+      "en": "New collection",
+      "ua": "Нова колекція",
+      "ka": "Ახალი კოლექცია"
+    },
     "ways": {
       "ru": "Пути:",
       "en": "Ways:",
