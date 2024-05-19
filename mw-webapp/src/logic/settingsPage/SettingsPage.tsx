@@ -28,22 +28,25 @@ export const SettingsPage = observer(() => {
         placeholder=""
       />
       <div className={styles.settingsList}>
-        <HorizontalContainer>
+        <HorizontalContainer className={styles.line}>
+          {LanguageService.settings.language[language]}
           <Select
-            label={LanguageService.settings.language[language]}
+            label={""}
             value={language}
             name="language"
             options={languageOptions}
             onChange={setLanguage}
           />
         </HorizontalContainer>
-        <HorizontalContainer>
-          <Tooltip
-            position={PositionTooltip.TOP}
-            content={LanguageService.settings.comingSoon[language]}
-          >
+        <Tooltip
+          position={PositionTooltip.BOTTOM}
+          content={LanguageService.settings.comingSoon[language]}
+        >
+          <HorizontalContainer className={styles.line}>
+            {LanguageService.settings.showHint[language]}
+            :
             <Select
-              label={LanguageService.settings.showHint[language]}
+              label={""}
               defaultValue="true"
               name="isShowHintOnLoadApp"
               options={[
@@ -52,16 +55,16 @@ export const SettingsPage = observer(() => {
               ]}
               onChange={() => {}}
             />
-          </Tooltip>
-        </HorizontalContainer>
+          </HorizontalContainer>
+        </Tooltip>
 
-        <HorizontalContainer>
-          <Tooltip
-            position={PositionTooltip.TOP}
-            content={LanguageService.settings.comingSoon[language]}
-          >
+        <Tooltip
+          position={PositionTooltip.BOTTOM}
+          content={LanguageService.settings.comingSoon[language]}
+        >
+          <HorizontalContainer className={styles.line}>
             {LanguageService.settings.notification[language]}
-            :
+
             {" "}
             {notification.isEnabled}
             {" "}
@@ -72,8 +75,8 @@ export const SettingsPage = observer(() => {
                 OSNotification.addDeferredNotification("21:00");
               }}
             />
-          </Tooltip>
-        </HorizontalContainer>
+          </HorizontalContainer>
+        </Tooltip>
       </div>
     </VerticalContainer>
   );
