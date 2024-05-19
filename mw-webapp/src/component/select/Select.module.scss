@@ -96,9 +96,3 @@ $selectPadding: 3px;
   color: var(--primaryBackgroundButtonColor);
   cursor: default;
 }
-
-.selectItemText {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
