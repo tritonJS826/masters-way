@@ -98,6 +98,7 @@ export const GoalMetricItem = observer((props: SingleGoalMetricProps) => {
             text={props.metric.description ?? ""}
             onChangeFinish={(description) => props.updateMetric({...props.metric, description})}
             isEditable={props.isEditable}
+            placeholder={LanguageService.common.emptyMarkdown[language]}
           />
         </Tooltip>
       </HorizontalContainer>

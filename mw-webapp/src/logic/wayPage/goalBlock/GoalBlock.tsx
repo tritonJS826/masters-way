@@ -49,6 +49,7 @@ export const GoalBlock = observer((props: GoalBlockProps) => {
       <Title
         level={HeadingLevel.h3}
         text={LanguageService.way.wayInfo.goal[language]}
+        placeholder={LanguageService.common.emptyMarkdown[language]}
       />
       <EditableTextarea
         text={props.goalDescription}
@@ -70,6 +71,7 @@ export const GoalBlock = observer((props: GoalBlockProps) => {
         rows={10}
         isEditable={props.isEditable}
         className={styles.goalDescription}
+        placeholder={LanguageService.common.emptyMarkdown[language]}
       />
     </HorizontalContainer>
   );

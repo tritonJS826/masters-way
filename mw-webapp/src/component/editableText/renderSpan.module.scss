@@ -1,14 +1,5 @@
 @import "src/styles/variables";
 
-.completed {
-  color: green;
-}
-
-.notCompleted {
-  width: 100%;
-  color: var(--primaryTextColor);
-}
-
 .emptySpan {
   display: block;
   min-width: 50px;

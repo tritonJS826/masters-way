@@ -67,10 +67,12 @@ export const DayReportsTable = observer((props: DayReportsTableProps) => {
           level={HeadingLevel.h2}
           text={`${LanguageService.way.reportsTable.title[language]} 
           (${Math.min(props.way.dayReports.length, visibleReports.length)})`}
+          placeholder=""
         />
         <Title
           level={HeadingLevel.h2}
           text={`${LanguageService.way.reportsTable.total[language]} ${props.way.dayReports.length}`}
+          placeholder=""
         />
       </HorizontalContainer>
       <VerticalContainer className={styles.dayReportsContent}>

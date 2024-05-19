@@ -1,7 +1,6 @@
 import {useEffect, useState} from "react";
 import {Heading} from "@radix-ui/themes";
 import clsx from "clsx";
-import {DEFAULT_PLACEHOLDER} from "src/component/editableText/renderSpan";
 import {Input} from "src/component/input/Input";
 import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/component/title/Title.module.scss";
@@ -63,6 +62,11 @@ interface TitleProps {
    * Data attribute for cypress testing
    */
   dataCy?: string;
+
+  /**
+   * Showed if value is an empty string
+   */
+  placeholder: string;
 }
 
 /**
@@ -121,7 +125,7 @@ export const Title = (props: TitleProps) => {
             as={props.level}
             className={clsx(props.classNameHeading)}
           >
-            {text === "" ? DEFAULT_PLACEHOLDER : text}
+            {text === "" ? props.placeholder : text}
           </Heading>
         )
       }

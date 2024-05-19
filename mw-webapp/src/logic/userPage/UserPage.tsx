@@ -337,6 +337,7 @@ export const UserPage = observer((props: UserPageProps) => {
               <Title
                 level={HeadingLevel.h2}
                 text={userPageOwner.name}
+                placeholder={LanguageService.common.emptyMarkdown[language]}
                 onChangeFinish={(name) => updateUser({
                   userToUpdate: {
                     uuid: userPageOwner.uuid,
@@ -448,6 +449,7 @@ export const UserPage = observer((props: UserPageProps) => {
               level={HeadingLevel.h3}
               text={userPageOwner.email}
               classNameHeading={styles.ownerEmail}
+              placeholder=""
             />
 
             <HorizontalContainer className={styles.userTagsContainer}>
@@ -509,6 +511,7 @@ export const UserPage = observer((props: UserPageProps) => {
             <Title
               level={HeadingLevel.h3}
               text={LanguageService.user.personalInfo.about[language]}
+              placeholder=""
             />
             <EditableTextarea
               text={userPageOwner.description}
@@ -529,6 +532,7 @@ export const UserPage = observer((props: UserPageProps) => {
               })}
               isEditable={isPageOwner}
               className={styles.userDescription}
+              placeholder={LanguageService.common.emptyMarkdown[language]}
             />
           </VerticalContainer>
 

@@ -83,6 +83,11 @@ interface EditableTextProps<T> {
    */
   cy?: CyEditableText;
 
+  /**
+   * Placeholder
+   */
+  placeholder: string;
+
 }
 
 /**
@@ -145,7 +150,7 @@ export const EditableText = <T extends string | number>(props: EditableTextProps
     >
       {isEditing
         ? renderInput()
-        : renderSpan(value)
+        : renderSpan({value, placeholder: props.placeholder})
       }
     </div>
   );

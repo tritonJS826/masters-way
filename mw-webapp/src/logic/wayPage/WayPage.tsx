@@ -424,6 +424,7 @@ export const WayPage = observer((props: WayPageProps) => {
               <Title
                 level={HeadingLevel.h2}
                 text={way.name}
+                placeholder={LanguageService.common.emptyMarkdown[language]}
                 onChangeFinish={(name) => {
                   updateWay({
                     wayToUpdate: {
@@ -658,6 +659,7 @@ export const WayPage = observer((props: WayPageProps) => {
             <Title
               level={HeadingLevel.h5}
               text={`${totalDaysOnWay} ${LanguageService.way.wayInfo.daysFromStart[language]}`}
+              placeholder=""
             />
 
             <HorizontalContainer className={styles.wayTagsContainer}>
@@ -728,6 +730,7 @@ export const WayPage = observer((props: WayPageProps) => {
               <Title
                 level={HeadingLevel.h3}
                 text={LanguageService.way.metricsBlock.metrics[language]}
+                placeholder=""
               />
               <Tooltip content={wayPageSettings.isGoalMetricsVisible
                 ? LanguageService.way.metricsBlock.clickToHideMetrics[language]
@@ -764,6 +767,7 @@ export const WayPage = observer((props: WayPageProps) => {
                 <Title
                   level={HeadingLevel.h3}
                   text={LanguageService.way.peopleBlock.wayPrivacy.title[language]}
+                  placeholder=""
                 />
                 {Symbols.NO_BREAK_SPACE}
                 {way.isPrivate
@@ -777,6 +781,7 @@ export const WayPage = observer((props: WayPageProps) => {
               <Title
                 level={HeadingLevel.h3}
                 text={LanguageService.way.peopleBlock.wayComposite.title[language]}
+                placeholder=""
               />
               <div>
                 {isWayComposite
@@ -791,6 +796,7 @@ export const WayPage = observer((props: WayPageProps) => {
                 <Title
                   level={HeadingLevel.h3}
                   text="Participants:"
+                  placeholder=""
                 />
                 {compositeWayParticipant.length !== 0 &&
                   compositeWayParticipant.map((participant) => {
@@ -811,6 +817,7 @@ export const WayPage = observer((props: WayPageProps) => {
               <Title
                 level={HeadingLevel.h3}
                 text="Participants ways:"
+                placeholder=""
               />
               {!!way.children &&
                 way.children.map((wayParticipant) => {
@@ -832,6 +839,7 @@ export const WayPage = observer((props: WayPageProps) => {
               <Title
                 level={HeadingLevel.h3}
                 text={LanguageService.way.peopleBlock.waysOwner[language]}
+                placeholder=""
               />
               <Link
                 path={pages.user.getPath({uuid: way.owner.uuid})}
@@ -862,6 +870,7 @@ export const WayPage = observer((props: WayPageProps) => {
               <Title
                 level={HeadingLevel.h3}
                 text={LanguageService.way.peopleBlock.mentorPendingRequest[language]}
+                placeholder=""
               />
             }
             {isEligibleToSendRequest && (
@@ -890,6 +899,7 @@ export const WayPage = observer((props: WayPageProps) => {
             <Title
               level={HeadingLevel.h3}
               text={LanguageService.way.statisticsBlock.statistics[language]}
+              placeholder=""
             />
             <Tooltip content={wayPageSettings.isStatisticsVisible
               ? LanguageService.way.statisticsBlock.clickToHideStatistics[language]

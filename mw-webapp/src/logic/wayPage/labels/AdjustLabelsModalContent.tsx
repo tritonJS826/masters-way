@@ -92,6 +92,7 @@ export const AdjustLabelsBlock = observer((props: JobTagsProps) => {
       <Title
         level={HeadingLevel.h3}
         text={LanguageService.way.filterBlock.jobDoneTagsModalTitle[language]}
+        placeholder=""
       />
       {props.jobTags.map((label) => {
         return (

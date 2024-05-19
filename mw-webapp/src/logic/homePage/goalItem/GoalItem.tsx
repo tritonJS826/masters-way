@@ -35,6 +35,7 @@ export const GoalItem = (props: GoalItemProps) => {
         text={props.title}
         className={styles.goalTitle}
         classNameHeading={styles.goalTitle}
+        placeholder=""
       />
       <p className={styles.goalDescription}>
         {props.description}

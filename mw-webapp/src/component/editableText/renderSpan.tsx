@@ -1,13 +1,11 @@
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import styles from "src/component/editableText/renderSpan.module.scss";
 
-export const DEFAULT_PLACEHOLDER = "*Empty markdown! Double click on me!*";
-
 /**
  * Render span with text
  */
-const renderSpanWithValue = (value: string | number, isDone?: boolean) => (
-  <div className={isDone ? styles.completed : styles.notCompleted}>
+const renderSpanWithValue = (value: string | number) => (
+  <div>
     {renderMarkdown(value.toString())}
   </div>
 );
@@ -15,18 +13,34 @@ const renderSpanWithValue = (value: string | number, isDone?: boolean) => (
 /**
  * Render empty span
  */
-const renderEmptySpan = (placeholderSpanText?: string) => (
+const renderEmptySpan = (placeholderSpanText: string) => (
   <span className={styles.emptySpan}>
-    {placeholderSpanText ?? renderMarkdown(DEFAULT_PLACEHOLDER)}
+    {renderMarkdown(placeholderSpanText)}
   </span>
 );
+
+/**
+ * Params for {@link renderSpan}
+ */
+interface RenderSpanParams {
+
+  /**
+   * Displayed values
+   */
+  value: string | number;
+
+  /**
+   * Placeholder
+   */
+  placeholder: string;
+}
 
 /**
  * Render cell's span
  * TODO: move to separate component, task #208
  */
-export const renderSpan = (value: string | number, isDone?: boolean, placeholderSpanText?: string) => (
-  (value.toString().trim() === "")
-    ? renderEmptySpan(placeholderSpanText)
-    : renderSpanWithValue(value, isDone)
+export const renderSpan = (params: RenderSpanParams) => (
+  (params.value.toString().trim() === "")
+    ? renderEmptySpan(params.placeholder)
+    : renderSpanWithValue(params.value)
 );

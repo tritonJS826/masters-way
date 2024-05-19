@@ -41,11 +41,13 @@ export const HomePage = observer(() => {
           level={HeadingLevel.h1}
           text={LanguageService.home.title[language]}
           className={styles.title}
+          placeholder=""
         />
         <Title
           level={HeadingLevel.h3}
           text={LanguageService.home.description[language]}
           className={styles.titleDescription}
+          placeholder=""
         />
         <Button
           onClick={() => getStarted(navigate, user?.uuid)}
@@ -60,6 +62,7 @@ export const HomePage = observer(() => {
           level={HeadingLevel.h2}
           text={LanguageService.home.advantages.goalsTitle[language]}
           className={styles.goalsTitle}
+          placeholder=""
         />
         <HorizontalContainer className={styles.goals}>
           <GoalItem
@@ -88,12 +91,14 @@ export const HomePage = observer(() => {
             level={HeadingLevel.h2}
             text={LanguageService.home.aboutAppBlock.title[language]}
             className={styles.goalsTitle}
+            placeholder=""
           />
           <VerticalContainer className={styles.aboutProjectText}>
             <Title
               level={HeadingLevel.h3}
               text={LanguageService.home.aboutAppBlock.subTitle[language]}
               className={styles.goalsSubTitle}
+              placeholder=""
             />
             <div className={styles.aboutProjectDescription}>
               {LanguageService.home.aboutAppBlock.description[language]}
@@ -129,6 +134,7 @@ export const HomePage = observer(() => {
             level={HeadingLevel.h2}
             text={LanguageService.home.whatWeAreBlock.title[language]}
             className={styles.goalsTitle}
+            placeholder=""
           />
           <VerticalContainer className={styles.whatWeAreList}>
             <HorizontalContainer className={styles.whatWeAreItem}>

@@ -208,6 +208,7 @@ export const BaseWaysTable = observer((props: BaseWaysTableProps) => {
           filterStatus: props.filterStatus,
         }).length})`}
         level={HeadingLevel.h2}
+        placeholder=""
       />
 
       <VerticalContainer className={styles.waysContent}>

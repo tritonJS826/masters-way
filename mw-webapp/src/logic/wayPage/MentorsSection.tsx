@@ -68,6 +68,7 @@ export const MentorsSection = observer((props: MentorsSectionProps) => {
       <Title
         level={HeadingLevel.h3}
         text={LanguageService.way.peopleBlock.mentors[language]}
+        placeholder=""
       />
       {mentors.map((mentor) => (
         <HorizontalContainer

@@ -25,6 +25,7 @@ export const SettingsPage = observer(() => {
       <Title
         level={HeadingLevel.h2}
         text={LanguageService.settings.title[language]}
+        placeholder=""
       />
       <div className={styles.settingsList}>
         <HorizontalContainer>
