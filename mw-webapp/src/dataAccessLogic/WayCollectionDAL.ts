@@ -3,6 +3,43 @@ import {WayCollection} from "src/model/businessModel/User";
 import {WayCollectionService} from "src/service/WayCollectionService";
 
 /**
+ * Params for createWayCollection
+ */
+interface createWayCollectionParams {
+
+  /**
+   * Owner ID
+   */
+  ownerUuid: string;
+
+  /**
+   * Collection name
+   */
+  collectionName: string;
+}
+
+/**
+ * Params for updateWayCollection
+ */
+interface updateWayCollectionParams {
+
+  /**
+   * Owner ID
+   */
+  ownerUuid: string;
+
+  /**
+   * Collection ID
+   */
+  collectionUuid: string;
+
+  /**
+   * Collection name to update
+   */
+  collectionName: string;
+}
+
+/**
  * Provides methods to interact with the WayCollection model
  */
 export class WayCollectionDAL {
@@ -10,11 +47,11 @@ export class WayCollectionDAL {
   /**
    * Create wayCollection
    */
-  public static async createWayCollection(ownerUuid: string, collectionName: string): Promise<WayCollection> {
+  public static async createWayCollection(params: createWayCollectionParams): Promise<WayCollection> {
     const wayCollectionDTO: SchemasWayCollectionPlainResponse = await WayCollectionService.createWayCollection({
       request: {
-        name: collectionName,
-        ownerUuid,
+        name: params.collectionName,
+        ownerUuid: params.ownerUuid,
       },
     });
 
@@ -23,7 +60,7 @@ export class WayCollectionDAL {
       name: wayCollectionDTO.name,
       createdAt: new Date(),
       updatedAt: new Date(),
-      ownerUuid,
+      ownerUuid: params.ownerUuid,
       ways: [],
     });
 
@@ -33,16 +70,16 @@ export class WayCollectionDAL {
   /**
    * Update wayCollection
    */
-  public static async updateWayCollection(wayCollectionId: string, ownerUuid: string, name: string): Promise<WayCollection> {
+  public static async updateWayCollection(params: updateWayCollectionParams): Promise<WayCollection> {
     const updatedWayCollectionDTO = await WayCollectionService.updateWayCollection({
-      wayCollectionId,
-      request: {name},
+      wayCollectionId: params.collectionUuid,
+      request: {name: params.collectionName},
     });
 
     const updatedWayCollection = new WayCollection({
       createdAt: new Date(),
       name: updatedWayCollectionDTO.name,
-      ownerUuid,
+      ownerUuid: params.ownerUuid,
       updatedAt: new Date(),
       uuid: updatedWayCollectionDTO.uuid,
       ways: [],

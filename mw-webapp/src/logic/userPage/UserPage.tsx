@@ -271,7 +271,10 @@ export const UserPage = observer((props: UserPageProps) => {
       throw new Error("User is not defined");
     }
 
-    const newWayCollection = await WayCollectionDAL.createWayCollection(user.uuid, newCollectionName);
+    const newWayCollection = await WayCollectionDAL.createWayCollection({
+      ownerUuid: user.uuid,
+      collectionName: newCollectionName,
+    });
 
     const updatedCustomWayCollections = user.customWayCollections.concat(newWayCollection);
 
@@ -315,7 +318,11 @@ export const UserPage = observer((props: UserPageProps) => {
         }
       });
 
-    await WayCollectionDAL.updateWayCollection(wayCollectionToUpdate.id, userPageOwner.uuid, wayCollectionToUpdate.name ?? "");
+    await WayCollectionDAL.updateWayCollection({
+      ownerUuid: userPageOwner.uuid,
+      collectionUuid: wayCollectionToUpdate.id,
+      collectionName: wayCollectionToUpdate.name ?? "",
+    });
     setUserPreviewPartial({customWayCollections: updatedCustomWayCollections});
     setUser({...user, customWayCollections: updatedCustomWayCollections});
 
