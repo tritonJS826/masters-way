@@ -229,6 +229,7 @@ export const Header = (props: HeaderProps) => {
                       level={HeadingLevel.h2}
                       text={LanguageService.home.welcome[props.language]}
                       className={styles.loginTitle}
+                      placeholder=""
                     />
                     <VerticalContainer className={styles.loginButtons}>
                       <Button

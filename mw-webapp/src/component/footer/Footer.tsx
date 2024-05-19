@@ -53,6 +53,7 @@ export const Footer = (props: FooterProps) => {
           <Title
             level={HeadingLevel.h4}
             text={LanguageService.home.socialMedia[props.language]}
+            placeholder=""
           />
           <HorizontalContainer className={styles.socialMediaIcons}>
             <Link path="https://linkedin.com/company/masters-way-project">

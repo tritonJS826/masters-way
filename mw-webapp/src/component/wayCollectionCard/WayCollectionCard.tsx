@@ -59,6 +59,7 @@ export const WayCollectionCard = (props: WayCollectionProps) => {
               level={HeadingLevel.h3}
               text={props.collectionTitle}
               className={styles.title}
+              placeholder=""
             />
           </VerticalContainer>
           <HorizontalContainer className={styles.additionalInfo}>
