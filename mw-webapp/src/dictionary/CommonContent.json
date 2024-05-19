@@ -1,9 +1,8 @@
 {
-    "emptyMarkdown": {
-      "ru": "*Пустой markdown! Дважды кликните на меня!*",
-      "en": "*Empty markdown! Double click on me!*",
-      "ua": "*Порожній markdown! Двічі клацніть на мене!*",
-      "ka": "*ცარიელი markdown! ორჯერ დააკლიკეთ ჩემზე!*"
-    }
+  "emptyMarkdown": {
+    "ru": "*Пустой markdown! Дважды кликните на меня!*",
+    "en": "*Empty markdown! Double click on me!*",
+    "ua": "*Порожній markdown! Двічі клацніть на мене!*",
+    "ka": "*ცარიელი markdown! ორჯერ დააკლიკეთ ჩემზე!*"
+  }
 }
-  
