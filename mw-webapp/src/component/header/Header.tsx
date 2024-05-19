@@ -218,32 +218,34 @@ export const Header = (props: HeaderProps) => {
               }
               className={styles.loginModal}
               content={
-                <HorizontalContainer className={styles.loginContent}>
+                <HorizontalContainer className={styles.loginContainer}>
                   <Image
                     alt="Login image"
                     src="https://lh3.google.com/u/0/d/1AF0qlh-KmFAtFILD9wCPw91OrZVZs8sH=w1361-h606-iv1"
                     className={styles.loginImage}
                   />
-                  <VerticalContainer className={styles.loginContainer}>
+                  <VerticalContainer className={styles.loginContent}>
                     <Title
                       level={HeadingLevel.h2}
                       text={LanguageService.home.welcome[props.language]}
                       className={styles.loginTitle}
                     />
-                    <Button
-                      onClick={AuthService.logIn}
-                      className={styles.loginGoogleButton}
-                      value={
-                        <HorizontalContainer className={styles.googleButtonValue}>
-                          <Image
-                            src={google}
-                            alt="Google icon"
-                            className={styles.googleIcon}
-                          />
-                          {LanguageService.modals.loginModal.signInWithGoogle[props.language]}
-                        </HorizontalContainer>
-                      }
-                    />
+                    <VerticalContainer className={styles.loginButtons}>
+                      <Button
+                        onClick={AuthService.logIn}
+                        className={styles.loginGoogleButton}
+                        value={
+                          <HorizontalContainer className={styles.googleButtonValue}>
+                            <Image
+                              src={google}
+                              alt="Google icon"
+                              className={styles.googleIcon}
+                            />
+                            {LanguageService.modals.loginModal.signInWithGoogle[props.language]}
+                          </HorizontalContainer>
+                        }
+                      />
+                    </VerticalContainer>
                   </VerticalContainer>
                 </HorizontalContainer>
               }

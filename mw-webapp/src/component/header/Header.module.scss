@@ -104,7 +104,7 @@ $userNameFontSize: 16px;
   gap: 0;
 }
 
-.loginContent {
+.loginContainer {
   gap: 0;
 }
 
@@ -117,10 +117,9 @@ $userNameFontSize: 16px;
   }
 }
 
-.loginContainer {
+.loginContent {
   width: 100%;
   flex-grow: 1;
-  justify-content: center;
   padding: $paddingExtraLarge $paddingLarge;
   gap: $gapLarge;
 }
@@ -132,6 +131,11 @@ $userNameFontSize: 16px;
 .googleIcon {
   width: 20px;
   height: 20px;
+}
+
+.loginButtons {
+  flex-grow: 1;
+  justify-content: center;
 }
 
 .loginGoogleButton {
