@@ -1,6 +1,7 @@
 import aboutProjectPageContent from "src/dictionary/AboutProjectPageContent.json";
 import allUsersPageContent from "src/dictionary/AllUsersPageContent.json";
 import allWaysPageContent from "src/dictionary/AllWaysPageContent.json";
+import common from "src/dictionary/CommonContent.json";
 import headerContent from "src/dictionary/Header.json";
 import homePageContent from "src/dictionary/HomePageContent.json";
 import modals from "src/dictionary/Modals.json";
@@ -82,6 +83,13 @@ export class LanguageService {
    */
   public static get modals() {
     return modals;
+  }
+
+  /**
+   * Common content
+   */
+  public static get common() {
+    return common;
   }
 
 }

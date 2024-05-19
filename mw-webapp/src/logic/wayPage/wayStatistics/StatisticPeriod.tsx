@@ -75,6 +75,7 @@ export const StatisticPeriod = observer((props: StatisticPeriodProps) => {
       <Title
         level={HeadingLevel.h2}
         text={props.title}
+        placeholder=""
       />
       {!!props.totalWayTime &&
       <StatisticWidget

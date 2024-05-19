@@ -1,4 +1,5 @@
 import {EditableText} from "src/component/editableText/EditableText";
+import {LanguageService} from "src/service/LanguageService";
 import {getDataCy} from "src/utils/cyTesting/getDataCy";
 
 /**
@@ -50,6 +51,8 @@ const createTestEditableText = (props: CyDataEditableText) => {
       onChangeFinish={() => {}}
       isEditable={true}
       type={props.type ?? InputType.Text}
+      placeholder={LanguageService.common.emptyMarkdown["en"]}
+
     />
   );
 };

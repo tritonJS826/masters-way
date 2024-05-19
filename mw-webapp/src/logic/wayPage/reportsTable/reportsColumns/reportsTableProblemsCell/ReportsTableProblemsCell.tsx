@@ -162,6 +162,7 @@ export const ReportsTableProblemsCell = observer((props: ReportsTableProblemsCel
               })}
               isEditable={problem.ownerUuid === props.user?.uuid}
               className={styles.editableTextarea}
+              placeholder={LanguageService.common.emptyMarkdown[language]}
             />
           </li>
         ))}

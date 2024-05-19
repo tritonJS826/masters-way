@@ -70,6 +70,7 @@ export const MentorRequestsSection = (props: MentorRequestsSectionProps) => {
       <Title
         level={HeadingLevel.h3}
         text="Mentors requests of this way:"
+        placeholder=""
       />
       <div className={styles.mentorRequestsSection}>
         {props.way.mentorRequests.map((userPreview) => (

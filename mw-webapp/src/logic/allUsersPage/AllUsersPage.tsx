@@ -191,10 +191,12 @@ export const AllUsersPage = observer(() => {
         <Title
           level={HeadingLevel.h2}
           text={`${LanguageService.allUsers.usersTable.leftTitle[language]} (${allUsers.length})`}
+          placeholder=""
         />
         <Title
           level={HeadingLevel.h2}
           text={`${LanguageService.allUsers.usersTable.rightTitle[language]}: ${allUsersAmount}`}
+          placeholder=""
         />
       </HorizontalContainer>
 

@@ -148,6 +148,7 @@ export const ReportsTableCommentsCell = observer((props: ReportsTableCommentsCel
                   onChangeFinish={(text) => updateComment(comment, text)}
                   isEditable={comment.ownerUuid === props.user?.uuid}
                   className={styles.editableTextarea}
+                  placeholder={LanguageService.common.emptyMarkdown[language]}
                 />
               </HorizontalContainer>
             </li>

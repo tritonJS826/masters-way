@@ -44,7 +44,7 @@ interface EditableTextareaProps {
   /**
    * Textarea placeholder text
    */
-  placeholder?: string;
+  placeholder: string;
 
   /**
    * Textarea rows.
@@ -100,7 +100,7 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
       cy={props.cy?.textArea}
       defaultValue={text}
       onChange={setText}
-      placeholder={props.placeholder ?? ""}
+      placeholder={props.placeholder}
       rows={props.rows}
       isAutofocus
       onKeyPress={handleCtrlEnter}
@@ -117,7 +117,7 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
       className={clsx(styles.editableTextarea, props.className)}
       data-cy={props.cy?.trigger}
     >
-      {isEditing ? renderTextarea() : renderSpan(text)}
+      {isEditing ? renderTextarea() : renderSpan({value: text, placeholder: props.placeholder})}
     </div>
   );
 };

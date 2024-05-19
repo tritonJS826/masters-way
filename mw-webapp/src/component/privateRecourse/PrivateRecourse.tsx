@@ -27,6 +27,7 @@ export const ErrorComponent = (props: ErrorComponentProps) => {
       <Title
         text={props.text}
         level={HeadingLevel.h1}
+        placeholder={""}
       />
       <div className={styles.description}>
         {props.description}

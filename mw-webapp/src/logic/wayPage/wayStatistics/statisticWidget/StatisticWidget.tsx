@@ -34,6 +34,7 @@ export const StatisticWidget = (props: PropsWithChildren<StatisticLabelsProps>) 
         <Title
           level={HeadingLevel.h4}
           text={props.title}
+          placeholder=""
         />
         }
         {props.isEditable &&

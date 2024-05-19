@@ -196,10 +196,12 @@ export const AllWaysPage = observer(() => {
         <Title
           level={HeadingLevel.h2}
           text={`${LanguageService.allWays.waysTable.leftTitle[language]} (${allWays.length})`}
+          placeholder=""
         />
         <Title
           level={HeadingLevel.h2}
           text={`${LanguageService.allWays.waysTable.rightTitle[language]}: ${allWaysAmount}`}
+          placeholder=""
         />
       </HorizontalContainer>
 

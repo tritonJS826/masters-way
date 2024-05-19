@@ -201,7 +201,6 @@ func init() {
 // @BasePath  /api
 func main() {
 	config, err := util.LoadConfig(".")
-
 	if err != nil {
 		log.Fatalf("failed to load config: %v", err)
 	}

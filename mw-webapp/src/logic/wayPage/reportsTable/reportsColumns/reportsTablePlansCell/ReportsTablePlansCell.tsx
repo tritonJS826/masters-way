@@ -280,6 +280,7 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
                     })}
                     className={styles.editableTime}
                     isEditable={plan.ownerUuid === props.user?.uuid}
+                    placeholder={LanguageService.common.emptyMarkdown[language]}
                   />
                 </Tooltip>
                 {props.isEditable &&
@@ -335,6 +336,7 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
                 })}
                 isEditable={plan.ownerUuid === props.user?.uuid}
                 className={styles.editableTextarea}
+                placeholder={LanguageService.common.emptyMarkdown[language]}
               />
             </HorizontalContainer>
           </li>

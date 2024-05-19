@@ -24,6 +24,7 @@ describe("Title component", () => {
         dataCy={TITLE_CY}
         isEditable={IS_EDITABLE}
         onChangeFinish={STUB_FUNCTION}
+        placeholder=""
       />
       ,
     );

@@ -102,6 +102,7 @@ export const WayCard = observer((props: WayCardProps) => {
                 text={props.wayPreview.name}
                 level={HeadingLevel.h3}
                 className={styles.title}
+                placeholder={LanguageService.common.emptyMarkdown[language]}
               />
             </Tooltip>
             <HorizontalContainer className={styles.likes}>

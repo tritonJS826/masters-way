@@ -237,6 +237,7 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
                       })}
                     className={styles.editableTime}
                     isEditable={props.isEditable}
+                    placeholder={LanguageService.common.emptyMarkdown[language]}
                   />
                 </Tooltip>
                 {props.isEditable &&
@@ -265,6 +266,7 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
               })}
               isEditable={props.isEditable}
               className={styles.editableTextarea}
+              placeholder={LanguageService.common.emptyMarkdown[language]}
             />
           </li>
         ))}

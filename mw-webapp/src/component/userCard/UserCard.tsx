@@ -74,6 +74,7 @@ export const UserCard = observer((props: UserCardProps) => {
                   text={props.userPreview.name}
                   level={HeadingLevel.h3}
                   className={styles.title}
+                  placeholder=""
                 />
                 <p className={styles.mail}>
                   {props.userPreview.email}

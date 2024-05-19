@@ -34,11 +34,13 @@ export const AboutProjectPage = observer(() => {
           level={HeadingLevel.h2}
           text={LanguageService.aboutProject.mainTitle[language]}
           className={styles.title}
+          placeholder=""
         />
         <Title
           level={HeadingLevel.h3}
           text={LanguageService.aboutProject.mainSubTitle[language]}
           className={styles.subtitle}
+          placeholder=""
         />
         <HorizontalContainer className={styles.aboutDescription}>
           <VerticalContainer className={styles.aboutTextBlock}>
@@ -48,6 +50,7 @@ export const AboutProjectPage = observer(() => {
             <Title
               level={HeadingLevel.h3}
               text={LanguageService.aboutProject.descriptionTitle[language]}
+              placeholder=""
             />
             <div>
               {renderMarkdown(
@@ -71,6 +74,7 @@ export const AboutProjectPage = observer(() => {
         <Title
           level={HeadingLevel.h2}
           text={LanguageService.aboutProject.AboutTeamTitle[language]}
+          placeholder=""
         />
 
         <HorizontalContainer className={styles.ourTeamMembers}>
@@ -88,6 +92,7 @@ export const AboutProjectPage = observer(() => {
           level={HeadingLevel.h2}
           text={LanguageService.aboutProject.accordionTitle[language]}
           className={styles.title}
+          placeholder=""
         />
 
         <Accordion

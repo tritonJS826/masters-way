@@ -32,16 +32,19 @@ export const StatisticLabels = observer((props: TagStatsProps) => {
           level={HeadingLevel.h4}
           text={LanguageService.way.statisticsBlock.labelsName[language]}
           className={styles.statisticLabelsTitle}
+          placeholder=""
         />
         <Title
           level={HeadingLevel.h4}
           text={LanguageService.way.statisticsBlock.jobsAmount[language]}
           className={styles.statisticLabelsTitle}
+          placeholder=""
         />
         <Title
           level={HeadingLevel.h4}
           text={LanguageService.way.statisticsBlock.timeMinutes[language]}
           className={styles.statisticLabelsTitle}
+          placeholder=""
         />
       </HorizontalGridContainer>
 

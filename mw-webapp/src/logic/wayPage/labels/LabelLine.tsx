@@ -67,6 +67,7 @@ export const LabelLine = observer((props: LabelLineProps) => {
         onChangeFinish={(description) => updateLabelDebounced({...props.label, description})}
         isEditable={props.isEditable}
         className={styles.labelDescription}
+        placeholder={LanguageService.common.emptyMarkdown[language]}
       />
 
       {/* Move to color picker component */}
