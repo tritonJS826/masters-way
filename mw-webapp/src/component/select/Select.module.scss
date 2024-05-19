@@ -45,30 +45,22 @@ $selectPadding: 3px;
 }
 
 .SelectItem {
-  position: relative;
-  display: flex;
-  display: -webkit-box;
   overflow: hidden;
-  align-items: center;
+  height: 24px;
   padding-left: 15px;
   border-radius: 3px;
-  -webkit-box-orient: vertical;
   color: var(--primaryTextColor);
   cursor: pointer;
   font-size: $fontSizeMedium;
-  -webkit-line-clamp: 1;
-  line-height: 1.7;
-  overflow-wrap: break-word;
   text-overflow: ellipsis;
+  text-wrap: nowrap;
 }
 
 .SelectItem[data-disabled] {
-  overflow: hidden;
   color: var(--secondaryBackgroundButtonColor);
   pointer-events: none;
 }
 .SelectItem[data-highlighted] {
-  overflow: hidden;
   background-color: var(--tertiaryBackgroundColor);
   background-color: var(--tertiaryBackgroundButtonColor);
   color: var(--primaryBackgroundButtonColor);
