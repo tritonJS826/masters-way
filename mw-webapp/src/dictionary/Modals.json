@@ -1,42 +1,50 @@
 {
-    "promptModal": {
-        "okButton": {
-            "ru": "Принять",
-            "en": "Ok",
-            "ua": "Прийняти",
-            "ka": "მიღება"
-        },
-        "cancelButton": {
-            "ru": "Отменить",
-            "en": "Cancel",
-            "ua": "Скасувати",
-            "ka": "გაუქმება"
-        }
+  "loginModal": {
+    "signInWithGoogle": {
+      "ru": "Войти через Google",
+      "en": "Sign in with Google",
+      "ua": "Увійдіть за допомогою Google",
+      "ka": "შედით Google-ით"
+    }
+  },
+  "promptModal": {
+    "okButton": {
+      "ru": "Принять",
+      "en": "Ok",
+      "ua": "Прийняти",
+      "ka": "მიღება"
     },
-    "confirmModal": {
-      "cancelButton": {
-        "ru": "Отмена",
-        "en": "Cancel",
-        "ua": "Скасувати",
-        "ka": "გაუქმება"
-      },
-      "deleteButton": {
-        "ru": "Удалить",
-        "en": "Delete",
-        "ua": "Видалити",
-        "ka": "წაშალეთ"
-      },
-      "okButton": {
-        "ru": "Принять",
-        "en": "Ok",
-        "ua": "Прийняти",
-        "ka": "მიღება"
-      },
-      "confirmButton": {
-        "ru": "Подтвердить",
-        "en": "Confirm",
-        "ua": "Підтвердити",
-        "ka": "დაადასტურეთ"
-      }
+    "cancelButton": {
+      "ru": "Отменить",
+      "en": "Cancel",
+      "ua": "Скасувати",
+      "ka": "გაუქმება"
+    }
+  },
+  "confirmModal": {
+    "cancelButton": {
+      "ru": "Отмена",
+      "en": "Cancel",
+      "ua": "Скасувати",
+      "ka": "გაუქმება"
+    },
+    "deleteButton": {
+      "ru": "Удалить",
+      "en": "Delete",
+      "ua": "Видалити",
+      "ka": "წაშალეთ"
+    },
+    "okButton": {
+      "ru": "Принять",
+      "en": "Ok",
+      "ua": "Прийняти",
+      "ka": "მიღება"
+    },
+    "confirmButton": {
+      "ru": "Подтвердить",
+      "en": "Confirm",
+      "ua": "Підтвердити",
+      "ka": "დაადასტურეთ"
+    }
   }
 }
