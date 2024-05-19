@@ -37,6 +37,11 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     [Theme.DARK]: "#0B0322",
     [Theme.LIGHT]: "#0B0322",
   },
+  // ProgressBar
+  progressBarBackgroundColor: {
+    [Theme.DARK]: "#8F8F8F",
+    [Theme.LIGHT]: "#A8A1DD",
+  },
   // Input, select
   backgroundElementColor: {
     [Theme.DARK]: "#3D3462",
