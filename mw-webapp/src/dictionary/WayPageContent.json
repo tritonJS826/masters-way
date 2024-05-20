@@ -281,6 +281,18 @@
       "en": "Mentorship request has been sent. Please wait for a response",
       "ua": "Запит на наставництво надіслано. Будь ласка, зачекайте на відповідь",
       "ka": "მენტორობის მოთხოვნა გაიგზავნა. გთხოვთ დაელოდოთ პასუხს"
+    },
+    "participants": {
+      "ru": "Участники:",
+      "en": "Participats:",
+      "ua": "Учасники:",
+      "ka": "Მონაწილეები:"
+    },
+    "participantWays": {
+      "ru": "Пути участников:",
+      "en": "Participants' ways:",
+      "ua": "Шляхи учасників:",
+      "ka": "მონაწილეთა გზები:"
     }
   },
   "statisticsBlock": {

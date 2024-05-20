@@ -798,7 +798,7 @@ export const WayPage = observer((props: WayPageProps) => {
               <HorizontalContainer>
                 <Title
                   level={HeadingLevel.h3}
-                  text="Participants:"
+                  text={LanguageService.way.peopleBlock.participants[language]}
                   placeholder=""
                 />
                 {compositeWayParticipant.length !== 0 &&
@@ -819,7 +819,7 @@ export const WayPage = observer((props: WayPageProps) => {
             <HorizontalContainer className={styles.participantWay}>
               <Title
                 level={HeadingLevel.h3}
-                text="Participants ways:"
+                text={LanguageService.way.peopleBlock.participantWays[language]}
                 placeholder=""
               />
               {!!way.children &&
