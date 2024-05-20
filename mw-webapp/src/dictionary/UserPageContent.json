@@ -46,6 +46,18 @@
     }
   },
   "collections": {
+    "defaultCollections": {
+      "ru": "Базовые коллекции",
+      "en": "Basic collections",
+      "ua": "Базові колекції",
+      "ka": "ძირითადი კოლექციები"
+    },
+    "customCollections": {
+      "ru": "Пользовательские коллекции",
+      "en": "Custom collections",
+      "ua": "Індивідуальні колекції",
+      "ka": "მორგებული კოლექციები"
+    },
     "newCollection": {
       "ru": "Новая коллекция",
       "en": "New collection",

@@ -28,7 +28,7 @@
 
 .tabsSectionContainer {
   @include regularContainer;
-  gap: $gapMedium;
+  gap: $gapExtraLarge;
 }
 
 .tabsSection {
@@ -77,6 +77,10 @@
   input {
     height: $heightH3;
   }
+}
+
+.collectionGroup {
+  gap: $gapBig;
 }
 
 .collectionButton {
