@@ -1,14 +1,13 @@
 import {observer} from "mobx-react-lite";
 import logoLight from "src/assets/mastersWayLogoLight.svg";
-import logoPurple from "src/assets/mastersWayLogoPurple.svg";
 import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
+import {Footer} from "src/component/footer/Footer";
 import {LOGO_TEXT} from "src/component/header/Header";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
-import {getMapThemeSources, ThemedImage} from "src/component/themedImage/ThemedImage";
+import {Image} from "src/component/image/Image";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {languageStore} from "src/globalStore/LanguageStore";
-import {Theme, themeStore} from "src/globalStore/ThemeStore";
 import {TeamMember} from "src/logic/aboutProjectPage/TeamMember/TeamMember";
 import {teamMembers} from "src/logic/aboutProjectPage/TeamMember/teamMembers";
 import {LanguageService} from "src/service/LanguageService";
@@ -19,7 +18,6 @@ import styles from "src/logic/aboutProjectPage/AboutProjectPage.module.scss";
  * About project page
  */
 export const AboutProjectPage = observer(() => {
-  const {theme} = themeStore;
   const {language} = languageStore;
 
   const accordionItems = LanguageService.aboutProject.accordion.map((data) => ({
@@ -28,7 +26,7 @@ export const AboutProjectPage = observer(() => {
   }));
 
   return (
-    <VerticalContainer className={styles.pageWrapper}>
+    <>
       <VerticalContainer className={styles.aboutBlock}>
         <Title
           level={HeadingLevel.h2}
@@ -58,14 +56,10 @@ export const AboutProjectPage = observer(() => {
               )}
             </div>
           </VerticalContainer>
-          <ThemedImage
+          <Image
+            alt={LOGO_TEXT}
+            src={logoLight}
             className={styles.logoAbout}
-            sources={getMapThemeSources({
-              [Theme.DARK]: logoLight,
-              [Theme.LIGHT]: logoPurple,
-            })}
-            theme={theme}
-            name={LOGO_TEXT}
           />
         </HorizontalContainer>
       </VerticalContainer>
@@ -101,6 +95,8 @@ export const AboutProjectPage = observer(() => {
           className={styles.accordion}
         />
       </VerticalContainer>
-    </VerticalContainer>
+
+      <Footer language={language} />
+    </>
   );
 });
