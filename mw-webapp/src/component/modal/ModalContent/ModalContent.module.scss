@@ -25,10 +25,10 @@ $modal-animation-time: 150ms;
   max-width: 95vw;
   max-height: 90vh;
   padding: 20px 45px;
-  border: 2px solid var(--primaryBorderColor);
+  border: 2px solid var(--generalPrimaryColor);
   border-radius: $secondaryBorderRadius;
   animation: contentShow $modal-animation-time cubic-bezier(0.16, 1, 0.3, 1);
-  background-color: var(--primaryBackgroundColor);
+  background-color: var(--primaryBgColor);
   transform: translate(-50%, -50%);
   &:focus {
     outline: none;

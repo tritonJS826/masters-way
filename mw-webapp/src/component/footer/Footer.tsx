@@ -41,7 +41,7 @@ export const Footer = (props: FooterProps) => {
       <HorizontalContainer className={styles.footerWrapper}>
         <Link
           className={styles.logo}
-          path={pages.allWays.getPath({})}
+          path={pages.home.getPath({})}
         >
           <Image
             alt={LOGO_TEXT}

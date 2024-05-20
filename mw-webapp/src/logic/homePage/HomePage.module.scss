@@ -27,7 +27,6 @@ $widthBlock: 1305px;
   max-width: $homeMaxWidthTitle;
   padding: 0 $paddingMedium;
   margin: 0 auto;
-  color: var(--primaryTextColor);
   color: var(--secondaryTextColor);
   font-weight: bold;
   text-align: center;
@@ -45,7 +44,7 @@ $widthBlock: 1305px;
 .advantagesBlock {
   align-items: center;
   padding: $homePaddingBigBlock $paddingMedium 0;
-  background-color: var(--tertiaryBackgroundColor);
+  background-color: var(--generalPrimaryColor);
   gap: $homeGap;
 }
 
@@ -55,7 +54,7 @@ $widthBlock: 1305px;
   flex-wrap: wrap;
   justify-content: space-evenly;
   padding: $homePaddingSmallBlock $paddingMedium;
-  border: 1px solid var(--homeBorderColor);
+  border: 1px solid var(--secondaryStrokeColor);
   border-radius: $homeBorderRadius;
   gap: $gapBig;
 }
@@ -79,7 +78,7 @@ $widthBlock: 1305px;
   align-items: center;
   justify-content: center;
   padding: $homePaddingBigBlock $paddingMedium 0;
-  background-color: var(--tertiaryBackgroundColor);
+  background-color: var(--generalPrimaryColor);
   gap: $homeGapBig;
 }
 
@@ -113,15 +112,15 @@ $widthBlock: 1305px;
   align-items: center;
   justify-content: center;
   padding: $homePaddingBigBlock $paddingMedium;
-  background-color: var(--tertiaryBackgroundColor);
+  background-color: var(--generalPrimaryColor);
   gap: $homeGapBig;
 }
 
 .whatWeAreImage {
   max-width: $homeMaxWidthImage;
   background-image: radial-gradient(
-    var(--quaternaryBackgroundColor) 0,
-    var(--tertiaryBackgroundColor) 70%
+    var(--fifthBgColor) 0,
+    var(--generalPrimaryColor) 70%
   );
   transform: scale(-1, 1);
 }
@@ -139,7 +138,7 @@ $widthBlock: 1305px;
 }
 
 .icon {
-  stroke: var(--homeBorderColor);
+  stroke: var(--secondaryStrokeColor);
 }
 
 .whatWeAreButtons {

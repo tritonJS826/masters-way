@@ -4,13 +4,11 @@
 $aboutBlockPadding: 230px 0;
 
 .title {
-  color: var(--secondaryTextButtonColor);
   text-align: center;
 }
 
 .subtitle {
   margin-bottom: $marginSmall;
-  color: var(--primaryTextColor);
   text-align: center;
 }
 
@@ -21,6 +19,7 @@ $aboutBlockPadding: 230px 0;
   background-image: url("https://lh3.google.com/u/0/d/11wbqfxD6TDVneqyj7xidGIW4QPRSpMBt=w1919-h1079-iv1");
   background-repeat: no-repeat;
   background-size: cover;
+  color: var(--secondaryTextColor);
   gap: $gapSmall;
 }
 
@@ -35,7 +34,6 @@ $aboutBlockPadding: 230px 0;
 .aboutTextBlock {
   flex: 1 1 75%;
   padding: $paddingMedium;
-  color: var(--primaryTextColor);
   gap: $gapBig;
 }
 
@@ -50,7 +48,7 @@ $aboutBlockPadding: 230px 0;
 .ourTeamBlock {
   width: 100%;
   padding: $paddingBig $paddingSmall;
-  background-color: var(--secondaryBackgroundColor);
+  background-color: var(--secondaryBgColor);
   color: var(--primaryTextColor);
   gap: $gapLarge;
   text-align: center;
@@ -64,7 +62,7 @@ $aboutBlockPadding: 230px 0;
 
 .accordionSection {
   align-items: center;
-  background-color: var(--tertiaryBackgroundColor);
+  background-color: var(--generalPrimaryColor);
   gap: $gapBig;
 }
 

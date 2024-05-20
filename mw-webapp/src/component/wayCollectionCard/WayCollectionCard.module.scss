@@ -12,14 +12,14 @@ $wayCollectionCardAdditionalHeight: 47px;
 
 .wayCollectionCardButton {
   padding: 0;
-  border: 1px solid var(--quaternaryBorderColor);
+  border: 1px solid var(--primaryStrokeColor);
 }
 
 .mainInfo {
   height: $wayCollectionCardMainHeight;
   padding: $paddingMedium;
   border-radius: $secondaryBorderRadius $secondaryBorderRadius 0 0;
-  background-color: var(--tertiaryBackgroundColor);
+  background-color: var(--generalPrimaryColor);
   gap: $gapMedium;
   text-align: left;
 
@@ -52,7 +52,7 @@ $wayCollectionCardAdditionalHeight: 47px;
   height: $wayCollectionCardAdditionalHeight;
   padding: $paddingMedium;
   border-radius: 0 0 $secondaryBorderRadius $secondaryBorderRadius;
-  background-color: var(--primaryBackgroundColor);
+  background-color: var(--primaryBgColor);
   color: var(--primaryTextColor);
   font-size: $fontSizeMedium;
   font-size: $fontSizeBig;
@@ -61,5 +61,5 @@ $wayCollectionCardAdditionalHeight: 47px;
 }
 
 .active {
-  background-color: var(--primaryActiveButtonColor);
+  background-color: var(--primaryBgBtnActiveColor);
 }

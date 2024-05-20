@@ -16,22 +16,21 @@
   flex: 1;
   align-items: center;
   justify-content: space-between;
+  padding: $paddingBig;
   border: none;
   background-color: transparent;
-  padding: $paddingBig;
-  color: var(--primaryTextColor);
+  color: var(--secondaryTextColor);
   font-size: 15px;
+  font-size: $fontSizeBig;
   line-height: 1;
   text-align: left;
-  font-size: $fontSizeBig;
-
 
   &:hover {
     background-color: rgba(0, 0, 0, 5%);
   }
 
   &[data-state="open"] {
-    background-color: var(--activeColor);
+    background-color: var(--generalPrimaryColor);
     color: var(--secondaryTextColor);
   }
 

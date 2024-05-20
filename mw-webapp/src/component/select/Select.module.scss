@@ -10,13 +10,13 @@ $selectPadding: 3px;
   all: unset;
   padding: $selectPadding $paddingMedium;
   border-radius: $primaryBorderRadius;
-  background-color: var(--tertiaryBackgroundButtonColor);
+  background-color: var(--secondaryBgColor);
   color: var(--primaryTextColor);
   font-size: $fontSizeMedium;
 }
 
 .SelectTrigger[data-placeholder] {
-  color: var(--primaryBackgroundButtonColor);
+  color: var(--generalPrimaryColor);
 
   & span {
     color: var(--primaryTextColor);
@@ -34,10 +34,10 @@ $selectPadding: 3px;
   max-height: var(--radix-select-content-available-height);
   padding: $paddingSmall $selectPadding;
   border-radius: $primaryBorderRadius;
-  background-color: var(--tertiaryBackgroundButtonColor);
+  background-color: var(--secondaryBgColor);
   box-shadow: 0px 10px 38px -10px rgba(22, 23, 24, 0.35),
     0px 10px 20px -15px rgba(22, 23, 24, 0.2);
-  color: var(--primaryBackgroundButtonColor);
+  color: var(--generalPrimaryColor);
 }
 
 .SelectViewport {
@@ -57,18 +57,18 @@ $selectPadding: 3px;
 }
 
 .SelectItem[data-disabled] {
-  color: var(--secondaryBackgroundButtonColor);
+  color: var(--secondaryBgBtnColor);
   pointer-events: none;
 }
 .SelectItem[data-highlighted] {
-  background-color: var(--tertiaryBackgroundColor);
-  background-color: var(--tertiaryBackgroundButtonColor);
-  color: var(--primaryBackgroundButtonColor);
+  background-color: var(--tertiaryBgColor);
+  background-color: var(--secondaryBgColor);
+  color: var(--generalPrimaryColor);
   outline: none;
 }
 
 .SelectLabel {
-  color: var(--primaryBackgroundButtonColor);
+  color: var(--generalPrimaryColor);
   font-size: 12px;
   line-height: 25px;
 }
@@ -76,7 +76,7 @@ $selectPadding: 3px;
 .SelectSeparator {
   height: 1px;
   margin: 5px;
-  background-color: var(--primaryBackgroundButtonColor);
+  background-color: var(--generalPrimaryColor);
 }
 
 .SelectItemIndicator {
@@ -93,6 +93,6 @@ $selectPadding: 3px;
   align-items: center;
   justify-content: center;
   background-color: white;
-  color: var(--primaryBackgroundButtonColor);
+  color: var(--generalPrimaryColor);
   cursor: default;
 }
