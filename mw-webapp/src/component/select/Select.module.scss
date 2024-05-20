@@ -32,7 +32,7 @@ $selectPadding: 3px;
   overflow: hidden;
   width: var(--radix-select-trigger-width);
   max-height: var(--radix-select-content-available-height);
-  padding: $paddingSmall $paddingMedium $paddingSmall $selectPadding;
+  padding: $paddingSmall $selectPadding;
   border-radius: $primaryBorderRadius;
   background-color: var(--tertiaryBackgroundButtonColor);
   box-shadow: 0px 10px 38px -10px rgba(22, 23, 24, 0.35),
@@ -45,17 +45,15 @@ $selectPadding: 3px;
 }
 
 .SelectItem {
-  position: relative;
-  display: flex;
-  height: 25px;
-  align-items: center;
+  overflow: hidden;
+  height: 24px;
   padding-left: 15px;
   border-radius: 3px;
   color: var(--primaryTextColor);
   cursor: pointer;
   font-size: $fontSizeMedium;
-  line-height: 1;
-  user-select: none;
+  text-overflow: ellipsis;
+  text-wrap: nowrap;
 }
 
 .SelectItem[data-disabled] {
