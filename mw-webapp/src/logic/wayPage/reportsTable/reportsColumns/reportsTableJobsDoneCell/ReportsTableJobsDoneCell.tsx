@@ -200,7 +200,7 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
                   <Modal
                     trigger={jobDone.tags.length === 0 ?
                       <div className={styles.tagsBlockTrigger}>
-                        {`Add${Symbols.NO_BREAK_SPACE}tag`}
+                        {LanguageService.way.reportsTable.column.addLabel[language]}
                       </div>
                       :
                       <div className={styles.tagsBlockTrigger}>

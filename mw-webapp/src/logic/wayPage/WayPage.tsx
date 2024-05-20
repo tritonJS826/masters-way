@@ -233,7 +233,7 @@ export const WayPage = observer((props: WayPageProps) => {
         />
       }
       content={<p>
-        {`Are you sure you want to delete the way "${way.name}"?`}
+        {`${LanguageService.way.wayActions.deleteWayQuestion[language]} "${way.name}"?`}
       </p>}
       onOk={deleteWay}
       okText={LanguageService.modals.confirmModal.deleteButton[language]}
@@ -300,7 +300,7 @@ export const WayPage = observer((props: WayPageProps) => {
 
     setUser({...user, customWayCollections: updatedCustomWayCollections});
     displayNotification({
-      text: "Collection updated",
+      text: `${LanguageService.way.notifications.collectionUpdated[language]}`,
       type: "info",
     });
   };
@@ -314,7 +314,10 @@ export const WayPage = observer((props: WayPageProps) => {
         value: (
           <DropdownMenuItem
             key={userCollection.uuid}
-            value={`${isWayInUserCollection ? "Remove from" : "Add to"} ${userCollection.name}`}
+            value={isWayInUserCollection
+              ? `${LanguageService.way.wayActions.deleteFrom[language]} ${userCollection.name}`
+              : `${LanguageService.way.wayActions.addTo[language]} ${userCollection.name}`
+            }
             onClick={() => toggleWayInWayCollectionByUuid(userCollection.uuid)}
           />
         ),

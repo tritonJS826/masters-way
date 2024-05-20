@@ -244,7 +244,7 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
                   <Modal
                     trigger={plan.tags.length === 0 ?
                       <div className={styles.tagsBlockTrigger}>
-                        {LanguageService.way.reportsTable.columnTooltip.addTag[language]}
+                        {LanguageService.way.reportsTable.column.addLabel[language]}
                       </div>
                       :
                       <div className={styles.tagsBlockTrigger}>

@@ -5,8 +5,10 @@ import {Checkbox} from "src/component/checkbox/Checkbox";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
+import {languageStore} from "src/globalStore/LanguageStore";
 import {Label} from "src/logic/wayPage/labels/label/Label";
 import {JobTag as JobTagData} from "src/model/businessModelPreview/WayPreview";
+import {LanguageService} from "src/service/LanguageService";
 import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/logic/wayPage/reportsTable/modalContentJobTags/ModalContentJobTags.module.scss";
 
@@ -44,6 +46,7 @@ interface JobDoneTagsProps {
  * Modal content job tags
  */
 export const ModalContentJobTags = (props: JobDoneTagsProps) => {
+  const {language} = languageStore;
   const [jobTagsUpdated, setJobTagsUpdated] = useState<JobTagData[]>(props.jobDoneTags);
 
   const filteredJobTags = Array.from(new Set(jobTagsUpdated));
@@ -89,7 +92,10 @@ export const ModalContentJobTags = (props: JobDoneTagsProps) => {
               onClick={() => jobTagsUpdated.includes(tag) ? removeJobTagFromJobDone(tag.uuid!) : addJobTagFromJobDone(tag)}
             >
               <Tooltip
-                content={jobTagsUpdated.includes(tag) ? "Click to remove tag" : "Click to add tag"}
+                content={jobTagsUpdated.includes(tag)
+                  ? LanguageService.way.reportsTable.columnTooltip.deleteLabel[language]
+                  : LanguageService.way.reportsTable.columnTooltip.addLabel[language]
+                }
                 position={PositionTooltip.BOTTOM}
               >
                 <Checkbox
@@ -108,13 +114,13 @@ export const ModalContentJobTags = (props: JobDoneTagsProps) => {
       <HorizontalContainer className={styles.buttons}>
         <DialogClose asChild>
           <Button
-            value="Cancel"
+            value={LanguageService.modals.promptModal.cancelButton[language]}
             onClick={() => {}}
           />
         </DialogClose>
         <DialogClose asChild>
           <Button
-            value="Save"
+            value={LanguageService.modals.promptModal.okButton[language]}
             onClick={() => props.updateTags(filteredJobTags)}
             buttonType={ButtonType.PRIMARY}
           />
