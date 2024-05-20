@@ -9,8 +9,8 @@ $closeButtonRight: 35px;
 .dialogOverlay {
   position: fixed;
   z-index: $sidebarZIndex;
-  animation: overlayShow $sidebar-animation-time cubic-bezier(0.16, 1, 0.3, 1);
-  background-color: var(--primaryBackgroundColor);
+  animation: overlayShow $sidebar-animation-time linear;
+  background-color: var(--primaryBgColor);
   inset: 0;
   opacity: 0.5;
 }
@@ -23,8 +23,8 @@ $closeButtonRight: 35px;
   width: $sidebar-width;
   height: 100%;
   padding: $sidebar-padding;
-  animation: contentShow $sidebar-animation-time cubic-bezier(0.16, 1, 0.3, 1);
-  background-color: var(--primaryBackgroundColor);
+  animation: contentShow $sidebar-animation-time linear;
+  background-color: var(--primaryBgColor);
 
   &:focus {
     outline: none;
@@ -59,7 +59,7 @@ $closeButtonRight: 35px;
   }
 
   to {
-    opacity: 1;
+    opacity: 0.5;
   }
 }
 

@@ -15,7 +15,7 @@ $userCardAdditionalHeight: 90px;
   height: $userCardMainHeight;
   padding: $userCardMainInfoPadding;
   border-radius: $secondaryBorderRadius $secondaryBorderRadius 0 0;
-  background-color: var(--tertiaryBackgroundColor);
+  background-color: var(--generalPrimaryColor);
   gap: $gapMedium;
 }
 
@@ -37,7 +37,7 @@ $userCardAdditionalHeight: 90px;
 
 .icon {
   margin-right: $marginSmall;
-  stroke: var(--secondaryTextColor);
+  stroke: var(--secondaryStrokeColor);
 }
 
 .nameLikes {
@@ -78,8 +78,6 @@ $userCardAdditionalHeight: 90px;
   overflow: hidden;
   flex-wrap: nowrap;
   align-items: center;
-  // display: -webkit-box;
-  -webkit-box-orient: vertical;
   gap: $gapMedium;
   -webkit-line-clamp: 1;
 }
@@ -88,7 +86,7 @@ $userCardAdditionalHeight: 90px;
   height: $userCardAdditionalHeight;
   padding: $userCardAdditionalInfoPadding;
   border-radius: 0 0 $secondaryBorderRadius $secondaryBorderRadius;
-  background-color: var(--primaryBackgroundColor);
+  background-color: var(--primaryBgColor);
   color: var(--primaryTextColor);
   font-size: $fontSizeMedium;
   gap: $gapMedium;

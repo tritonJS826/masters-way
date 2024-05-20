@@ -22,7 +22,8 @@ $paddingSidebar: $paddingBig 40px;
   text-decoration: none;
   transition-duration: $elementHoverTransition;
   &:hover {
-    background-color: var(--primaryShadowColor);
+    color: var(--generalPrimaryColor);
+    text-decoration: underline;
   }
 }
 
@@ -32,5 +33,5 @@ $paddingSidebar: $paddingBig 40px;
   flex-direction: column;
   justify-content: space-between;
   padding: $paddingSidebar;
-  background-color: var(--quaternaryBackgroundColor);
+  background-color: var(--fifthBgColor);
 }

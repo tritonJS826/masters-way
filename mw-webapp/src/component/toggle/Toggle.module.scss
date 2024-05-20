@@ -40,11 +40,11 @@
 }
 
 .toggle:checked + .slider {
-  background-color: var(--primaryBackgroundButtonColor);
+  background-color: var(--generalPrimaryColor);
 }
 
 .toggle:focus + .slider {
-  box-shadow: 0 0 1px var(--primaryBackgroundButtonColor);
+  box-shadow: 0 0 1px var(--generalPrimaryColor);
 }
 
 .toggle:checked + .slider:before {

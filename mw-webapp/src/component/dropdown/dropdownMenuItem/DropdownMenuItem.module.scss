@@ -4,11 +4,11 @@
   padding: $paddingSmall;
 
   &:hover {
-    background-color: var(--hoverColor);
+    background-color: var(--quaternaryBgColor);
     cursor: pointer;
   }
 
   &:active {
-    background-color: var(--activeColorLink);
+    background-color: var(--generalPrimaryColor);
   }
 }

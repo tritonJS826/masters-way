@@ -11,7 +11,7 @@ $leftPosition: 5px;
   position: absolute;
   top: 50%;
   left: $leftPosition;
-  stroke: var(--inactiveTextColor);
+  stroke: var(--secondaryIconColor);
   transform: translateY(-50%);
 }
 
@@ -26,23 +26,23 @@ $leftPosition: 5px;
   outline: none;
 
   &::placeholder {
-    color: var(--primaryTextColor);
+    color: var(--tertiaryTextColor);
     opacity: 1;
   }
 }
 
 .line {
   padding: $paddingSmall;
-  border-bottom: 1px solid var(--primaryBorderColor);
+  border-bottom: 1px solid var(--primaryStrokeColor);
 }
 
 .border {
   padding: $paddingSmall;
-  border: 1px solid var(--inactiveTextColor);
+  border: 1px solid var(--primaryStrokeColor);
   border-radius: $secondaryBorderRadius;
 
   &:focus {
-    border: 1px solid var(--primaryBorderColor);
+    border: 1px solid var(--primaryStrokeColor);
 
     &::placeholder {
       opacity: 0;

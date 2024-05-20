@@ -16,50 +16,50 @@
 
 .primary {
   padding: $paddingMedium $paddingExtraLarge;
-  background-color: var(--primaryBackgroundButtonColor);
-  color: var(--primaryTextButtonColor);
+  background-color: var(--generalPrimaryColor);
+  color: var(--secondaryTextColor);
 
   &:hover {
-    background-color: var(--primaryHoverButtonColor);
+    background-color: var(--primaryBgBtnHoverColor);
     cursor: pointer;
   }
 
   &:active {
-    background-color: var(--primaryActiveButtonColor);
+    background-color: var(--primaryBgBtnActiveColor);
   }
 }
 
 .secondary {
   padding: $paddingMedium $paddingExtraLarge;
-  border: 1px var(--secondaryBorderColor) solid;
-  background-color: var(--secondaryBackgroundButtonColor);
-  color: var(--secondaryTextButtonColor);
+  border: 1px var(--primaryStrokeColor) solid;
+  background-color: var(--secondaryBgBtnColor);
+  color: var(--primaryTextColor);
 
   &:hover {
-    background-color: var(--secondaryHoverButtonColor);
-    color: var(--secondaryTextButtonColor);
+    background-color: var(--primaryBgColor);
+    color: var(--primaryTextColor);
   }
 
   &:active {
-    border: 1px var(--tertiaryBorderColor) solid;
-    background-color: var(--secondaryActiveButtonColor);
-    color: var(--tertiaryTextButtonColor);
+    border: 1px var(--generalPrimaryColor) solid;
+    background-color: var(--primaryBgColor);
+    color: var(--generalPrimaryColor);
   }
 }
 
 .compact {
   padding: 4px 8px;
   border-radius: $secondaryBorderRadius;
-  background-color: var(--tertiaryBackgroundButtonColor);
-  color: var(--secondaryTextButtonColor);
-  stroke: var(--secondaryTextButtonColor);
+  background-color: var(--secondaryBgColor);
+  color: var(--primaryTextColor);
+  stroke: var(--primaryTextColor);
 
   &:hover {
-    background-color: var(--secondaryHoverButtonColor);
+    background-color: var(--primaryBgColor);
   }
 
   &:active {
-    background-color: var(--tertiaryBackgroundButtonColor);
+    background-color: var(--secondaryBgColor);
   }
 }
 
@@ -70,36 +70,36 @@
   align-items: center;
   justify-content: center;
   padding: 0;
-  border: 1px var(--secondaryBorderColor) solid;
+  border: 1px var(--primaryStrokeColor) solid;
   border-radius: $tertiaryBorderRadius;
-  background-color: var(--secondaryBackgroundButtonColor);
-  color: var(--secondaryTextButtonColor);
+  background-color: var(--secondaryBgBtnColor);
+  color: var(--primaryTextColor);
 
   & svg {
-    stroke: var(--secondaryTextButtonColor);
+    stroke: var(--primaryTextColor);
   }
 
   &:hover {
-    background-color: var(--primaryBackgroundButtonColor);
+    background-color: var(--generalPrimaryColor);
 
     & svg {
-      stroke: var(--quaternaryTextButtonColor);
+      stroke: var(--primaryStrokeColor);
     }
   }
 }
 
 .iconButtonWithoutBorder {
-  background-color: var(--secondaryBackgroundButtonColor);
+  background-color: var(--secondaryBgBtnColor);
   color: var(--primaryTextColor);
 
   &:hover {
-    background-color: var(--secondaryHoverButtonColor);
+    background-color: var(--primaryBgColor);
   }
 
   &:active {
-    border: 1px var(--tertiaryBorderColor) solid;
-    background-color: var(--secondaryActiveButtonColor);
-    color: var(--tertiaryTextButtonColor);
+    border: 1px var(--generalPrimaryColor) solid;
+    background-color: var(--primaryBgColor);
+    color: var(--generalPrimaryColor);
   }
 }
 
@@ -108,12 +108,12 @@
   color: var(--primaryTextColor);
 
   &:hover {
-    background-color: var(--primaryActiveButtonColor);
+    background-color: var(--primaryBgBtnActiveColor);
     cursor: pointer;
   }
 
   &:active {
-    background-color: var(--activeColorLink);
+    background-color: var(--generalPrimaryColor);
   }
 }
 
@@ -131,15 +131,15 @@
   padding: 18px $paddingExtraLarge;
   border: none;
   border-radius: 20px;
-  background-color: var(--homeBackgroundButtonColor);
-  color: var(--tertiaryTextButtonColor);
+  background-color: var(--homeBgButtonColor);
+  color: var(--generalPrimaryColor);
   font-size: $fontSizeLarge;
 
   &:hover {
-    background-color: var(--homeHoverButtonColor);
+    background-color: var(--homeHoverBgButtonColor);
   }
 
   &:active {
-    background-color: var(--homeActiveButtonColor);
+    background-color: var(--homeBgButtonColor);
   }
 }

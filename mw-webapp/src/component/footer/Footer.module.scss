@@ -4,7 +4,7 @@ $userNameFontSize: 16px;
 
 .footer {
   max-width: $maxWidthFullScreen;
-  background-color: var(--quaternaryBackgroundColor);
+  background-color: var(--fifthBgColor);
 }
 
 .footerWrapper {
@@ -30,9 +30,9 @@ $userNameFontSize: 16px;
 }
 
 .socialMediaIcon {
-  border: 2px solid var(--secondaryTextColor);
+  border: 2px solid var(--secondaryStrokeColor);
   border-radius: $tertiaryBorderRadius;
-  background-color: var(--secondaryTextColor);
-  fill: var(--quaternaryBackgroundColor);
+  background-color: var(--iconBgColor);
+  fill: var(--fifthBgColor);
   stroke: none;
 }

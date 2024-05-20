@@ -1,7 +1,7 @@
 @import "src/styles/variables";
 
 .statisticLine {
-  border-bottom: 1px dotted var(--primaryBorderSeparator);
+  border-bottom: 1px dotted var(--secondaryStrokeColor);
   gap: $gapMedium;
   grid-template-columns: repeat(3, 1fr);
 }

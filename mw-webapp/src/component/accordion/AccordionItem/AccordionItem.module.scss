@@ -1,5 +1,6 @@
 .accordionItem {
   overflow: hidden;
+  border-bottom: 1px solid var(--secondaryStrokeColor);
   margin-top: 1px;
-  border-bottom: 1px solid var(--secondaryBackgroundColor);
+  color: var(--secondaryTextColor);
 }

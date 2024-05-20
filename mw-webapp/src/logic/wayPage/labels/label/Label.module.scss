@@ -9,7 +9,7 @@ $JobTagTransform: scale(0.8);
   overflow: hidden;
   max-width: $JobTagMaxWidth;
   padding: $paddingSmall;
-  border: 2px solid var(--primaryBorderColor);
+  border: 2px solid var(--primaryStrokeColor);
   border-radius: $primaryBorderRadius;
   text-overflow: ellipsis;
 }
