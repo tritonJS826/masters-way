@@ -1,12 +1,7 @@
 @import "src/styles/variables";
 
-.pageWrapper {
-  max-width: $maxWidthContainer;
-  align-items: center;
-  padding: 0 $gapMedium;
-  margin: $marginMedium auto;
-  gap: $gapBig;
-}
+// Temporal bottom padding while wave block is not exist
+$aboutBlockPadding: 230px 0;
 
 .title {
   color: var(--secondaryTextButtonColor);
@@ -20,25 +15,26 @@
 }
 
 .aboutBlock {
-  width: 100%;
-  max-width: $maxWidthContainer;
-  background-color: var(primarysBackgroundColor);
-  color: var(--secondaryTextColor);
+  align-items: center;
+  padding: $aboutBlockPadding;
+  margin-top: $mainImageMarginTop;
+  background-image: url("https://lh3.google.com/u/0/d/11wbqfxD6TDVneqyj7xidGIW4QPRSpMBt=w1919-h1079-iv1");
+  background-repeat: no-repeat;
+  background-size: cover;
   gap: $gapSmall;
 }
 
 .aboutDescription {
-  display: flex;
+  max-width: $maxWidthContainer;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   margin-top: $marginBig;
-  background-color: var(--primaryBackgroundColor);
+  background-color: transparent;
 }
 
 .aboutTextBlock {
   flex: 1 1 75%;
   padding: $paddingMedium;
-  background-color: var(--primaryBackgroundColor);
   color: var(--primaryTextColor);
   gap: $gapBig;
 }
@@ -46,7 +42,6 @@
 .logoAbout {
   flex: 1 1 25%;
   padding: $paddingMedium;
-  background-color: var(--primaryBackgroundColor);
   @media (max-width: $mediaWidthTablet) {
     display: none;
   }
@@ -55,8 +50,8 @@
 .ourTeamBlock {
   width: 100%;
   padding: $paddingBig $paddingSmall;
-  background-color: var(--tertiaryBackgroundColor);
-  color: var(--secondaryTextColor);
+  background-color: var(--secondaryBackgroundColor);
+  color: var(--primaryTextColor);
   gap: $gapLarge;
   text-align: center;
 }
@@ -65,16 +60,15 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: $gapLarge;
-  overflow-x: auto;
-}
-
-.accordion {
-  background-color: var(--primaryBackgroundColor);
-  box-shadow: none;
 }
 
 .accordionSection {
+  align-items: center;
+  background-color: var(--tertiaryBackgroundColor);
+  gap: $gapBig;
+}
+
+.accordion {
   width: 100%;
   max-width: $maxWidthContainer;
-  gap: $gapBig;
 }
