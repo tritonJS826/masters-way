@@ -13,7 +13,7 @@ $progressBarBorderRadius: 20px;
   width: 100%;
   height: $progressBarContainerHeight;
   border-radius: $progressBarBorderRadius;
-  background: var(--secondaryBackgroundColor);
+  background: var(--progressBarBackgroundColor);
   color: var(--primaryTextColor);
   text-align: center;
   /* Fix overflow clipping in Safari */
