@@ -246,6 +246,12 @@ export const Header = (props: HeaderProps) => {
                           </HorizontalContainer>
                         }
                       />
+                      {/* Experiment with OAuth with google */}
+                      <div style={{opacity: 0}}>
+                        <Link path="http://34.82.43.122/api/auth/google/callback">
+                          google OAuth
+                        </Link>
+                      </div>
                     </VerticalContainer>
                   </VerticalContainer>
                 </HorizontalContainer>

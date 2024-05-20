@@ -11,17 +11,16 @@ import (
 )
 
 const (
-	key    = "randomKey"
-	MaxAge = 86400 * 30
+	MaxAge = 86400 * 5
 )
 
-func newAuth() {
+func NewAuth() {
 	config, err := util.LoadConfig(".")
 	if err != nil {
 		log.Fatalf("failed to load config: %v", err)
 	}
 
-	store := sessions.NewCookieStore([]byte(key))
+	store := sessions.NewCookieStore([]byte(config.SecretSessionKey))
 	store.MaxAge(MaxAge)
 
 	store.Options.Path = "/"
@@ -31,6 +30,6 @@ func newAuth() {
 	gothic.Store = store
 
 	goth.UseProviders(
-		google.New(config.GooglClientId, config.GooglClientSecret, "http://localhost:5173/auth/google/callback"),
+		google.New(config.GooglClientId, config.GooglClientSecret, "https://mastersway.netlify.app"),
 	)
 }
