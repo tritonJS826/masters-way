@@ -1,9 +1,7 @@
 @import "src/styles/variables";
 
-// Height of header. Need for add background under the header
-$mainImageMarginTop: -103px;
-// Temporal bottom padding while partner's block is not exist
-$welcomeBlockPadding: 230px 0;
+// Temporal bottom padding while wave block is not exist
+$aboutBlockPadding: 230px 0;
 
 .title {
   color: var(--secondaryTextButtonColor);
@@ -18,7 +16,7 @@ $welcomeBlockPadding: 230px 0;
 
 .aboutBlock {
   align-items: center;
-  padding: $welcomeBlockPadding;
+  padding: $aboutBlockPadding;
   margin-top: $mainImageMarginTop;
   background-image: url("https://lh3.google.com/u/0/d/11wbqfxD6TDVneqyj7xidGIW4QPRSpMBt=w1919-h1079-iv1");
   background-repeat: no-repeat;
