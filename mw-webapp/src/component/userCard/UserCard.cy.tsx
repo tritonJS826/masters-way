@@ -52,13 +52,13 @@ describe("UserCard component", () => {
     cy.get(getDataCy(USER_CARD_CY)).contains(USER_PREVIEW_DATA.name);
     cy.get(getDataCy(USER_CARD_CY)).contains(USER_PREVIEW_DATA.email);
     cy.get(getDataCy(USER_CARD_CY)).contains(
-      `${USER_PREVIEW_DATA.ownWays} own ways`,
+      `Own (${USER_PREVIEW_DATA.ownWays})`,
     );
     cy.get(getDataCy(USER_CARD_CY)).contains(
-      `${USER_PREVIEW_DATA.favoriteWays} favorite ways`,
+      `Favorite (${USER_PREVIEW_DATA.favoriteWays})`,
     );
     cy.get(getDataCy(USER_CARD_CY)).contains(
-      `${USER_PREVIEW_DATA.mentoringWays} mentoring ways`,
+      `Mentoring (${USER_PREVIEW_DATA.mentoringWays})`,
     );
     cy.get(getDataCy(USER_CARD_CY)).contains(
       `${USER_PREVIEW_DATA.favoriteForUsers}`,

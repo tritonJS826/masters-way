@@ -112,9 +112,9 @@ export const UserCard = observer((props: UserCardProps) => {
             ${DateUtils.getShortISODateValue(props.userPreview.createdAt)}`}
           </p>
           <p>
-            {`${props.userPreview.ownWays} ${LanguageService.allUsers.userCard.ownWays[language]} / 
-          ${props.userPreview.favoriteWays} ${LanguageService.allUsers.userCard.favoriteWays[language]} /
-          ${props.userPreview.mentoringWays} ${LanguageService.allUsers.userCard.mentoringWays[language]}`}
+            {`${LanguageService.allUsers.userCard.ownWays[language]} (${props.userPreview.ownWays}) 
+          ${LanguageService.allUsers.userCard.favoriteWays[language]} (${props.userPreview.favoriteWays})
+          ${LanguageService.allUsers.userCard.mentoringWays[language]} (${props.userPreview.mentoringWays})`}
           </p>
         </VerticalContainer>
       </VerticalContainer>
