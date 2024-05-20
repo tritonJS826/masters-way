@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 
+	"mwserver/auth"
 	"mwserver/controllers"
 	dbCon "mwserver/db/sqlc"
 	_ "mwserver/docs"
@@ -27,6 +28,9 @@ var (
 	server *gin.Engine
 	db     *dbCon.Queries
 	ctx    context.Context
+
+	AuthController controllers.AuthController
+	AuthRoutes     routes.AuthRoutes
 
 	WayController controllers.WayController
 	WayRoutes     routes.WayRoutes
@@ -112,6 +116,7 @@ func init() {
 
 	fmt.Println("PostgreSql connected successfully...")
 
+	auth.NewAuth()
 	server = gin.Default()
 
 	// Apply CORS middleware with custom options
@@ -123,6 +128,9 @@ func init() {
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
 	}))
+
+	AuthController = *controllers.NewAuthController(db, ctx)
+	AuthRoutes = routes.NewRouteAuth(AuthController)
 
 	WayController = *controllers.NewWayController(db, ctx)
 	WayRoutes = routes.NewRouteWay(WayController)
@@ -193,7 +201,6 @@ func init() {
 	if config.EnvType != "prod" {
 		server.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	}
-
 }
 
 // @title     Masters way API
@@ -211,6 +218,7 @@ func main() {
 		ctx.JSON(http.StatusOK, gin.H{"message": "The way APi is working fine"})
 	})
 
+	AuthRoutes.AuthRoute(router)
 	WayRoutes.WayRoute(router)
 	UserRoutes.UserRoute(router)
 	DayReportRoutes.DayReportRoute(router)
