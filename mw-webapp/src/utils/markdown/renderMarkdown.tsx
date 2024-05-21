@@ -8,9 +8,12 @@ const customComponents: Components = {
    * Custom anchor element for markdown
    */
   a: ({children, ...params}) => {
+    const isExternalLink = params.href?.startsWith('http') || params.href?.startsWith('www');
+
     return (
       <a
-        {...params}
+        {...params }
+        target={isExternalLink ? "_blank" : "_self"}
         className={styles.a}
       >
         {children}
