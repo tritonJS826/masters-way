@@ -11,11 +11,11 @@ th .wrapper {
   z-index: $tooltipZIndex;
   display: none;
   padding: $paddingMedium;
-  border: 1px solid var(--primaryStrokeColor);
+  border: 1px solid var(--generalPrimaryColor);
   border-radius: $primaryBorderRadius;
   animation: tooltipAppear 1s ease forwards;
-  background-color: var(--quaternaryBgColor);
-  color: var(--secondaryTextColor);
+  background-color: var(--primaryBgColor);
+  color: var(--primaryTextColor);
   cursor: pointer;
   opacity: 0;
 }
