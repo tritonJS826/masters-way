@@ -91,3 +91,11 @@
 .temporalBlock {
   @include regularContainer;
 }
+
+.disabled {
+  cursor: default;
+
+  &:hover {
+    background-color: var(--secondaryBgBtnColor);
+  }
+}

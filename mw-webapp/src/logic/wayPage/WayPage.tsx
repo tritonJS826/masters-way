@@ -1,5 +1,6 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
+import clsx from "clsx";
 import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Confirm} from "src/component/confirm/Confirm";
@@ -418,6 +419,14 @@ export const WayPage = observer((props: WayPageProps) => {
     ? way.children.map((child) => child.owner)
     : [];
 
+  const favoriteTooltipTextForLoggedUser = isWayInFavorites
+    ? LanguageService.way.wayInfo.deleteFromFavoritesTooltip[language]
+    : LanguageService.way.wayInfo.addToFavoritesTooltip[language];
+
+  const favoriteTooltipText = !user
+    ? LanguageService.way.wayInfo.favoriteAmountTooltip[language]
+    : favoriteTooltipTextForLoggedUser;
+
   return (
     <VerticalContainer className={styles.container}>
       <HorizontalGridContainer className={styles.wayDashboard}>
@@ -450,13 +459,11 @@ export const WayPage = observer((props: WayPageProps) => {
 
               <HorizontalContainer className={styles.wayActionButtons}>
                 <Tooltip
-                  content={isWayInFavorites
-                    ? LanguageService.way.wayInfo.deleteFromFavoritesTooltip[language]
-                    : LanguageService.way.wayInfo.addToFavoritesTooltip[language]}
+                  content={favoriteTooltipText}
                   position={PositionTooltip.LEFT}
                 >
                   <Button
-                    className={styles.wayActionsIcon}
+                    className={clsx(styles.wayActionsIcon, {[styles.disabled]: !user})}
                     value={`${isWayInFavorites
                       ? Symbols.STAR
                       : Symbols.OUTLINED_STAR
@@ -560,6 +567,7 @@ export const WayPage = observer((props: WayPageProps) => {
                     buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
                   />
                 </Tooltip>
+
                 <Dropdown
                   className={styles.wayActionMenu}
                   trigger={(
