@@ -6,6 +6,12 @@
       "ua": "Про себе",
       "ka": "ჩემ შესახებ"
     },
+    "favoriteAmountTooltip": {
+      "ru": "Количество лайков",
+      "en": "Likes count",
+      "ua": "Лайки враховуються",
+      "ka": "ლაიქები ითვლის"
+    },
     "deleteFromFavoritesTooltip": {
       "ru": "Удалить из избранных",
       "en": "Delete from favorites",

@@ -338,6 +338,14 @@ export const UserPage = observer((props: UserPageProps) => {
     );
   }
 
+  const favoriteTooltipTextForLoggedUser = getIsUserInFavorites(user, userPageOwner)
+    ? LanguageService.user.personalInfo.deleteFromFavoritesTooltip[language]
+    : LanguageService.user.personalInfo.addToFavoritesTooltip[language];
+
+  const favoriteTooltipText = !user
+    ? LanguageService.user.personalInfo.favoriteAmountTooltip[language]
+    : favoriteTooltipTextForLoggedUser;
+
   return (
     <VerticalContainer className={styles.pageLayout}>
       <HorizontalGridContainer className={styles.container}>
@@ -389,12 +397,12 @@ export const UserPage = observer((props: UserPageProps) => {
                 className={styles.ownerName}
               />
               <Tooltip
-                content={getIsUserInFavorites(user, userPageOwner)
-                  ? LanguageService.user.personalInfo.deleteFromFavoritesTooltip[language]
-                  : LanguageService.user.personalInfo.addToFavoritesTooltip[language]}
+                content={favoriteTooltipText}
                 position={PositionTooltip.LEFT}
+
               >
                 <Button
+                  className={!user ? styles.disabled : ""}
                   value={`${getIsUserInFavorites(user, userPageOwner)
                     ? Symbols.STAR
                     : Symbols.OUTLINED_STAR
