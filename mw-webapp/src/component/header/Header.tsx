@@ -249,7 +249,7 @@ export const Header = (props: HeaderProps) => {
                       />
                       {/* Experiment with OAuth with google */}
                       <div style={{opacity: 0}}>
-                        <Link path={`https://${env.API_BASE_PATH}/auth/google`}>
+                        <Link path={`${env.API_BASE_PATH}/auth/google`}>
                           google OAuth
                         </Link>
                       </div>
