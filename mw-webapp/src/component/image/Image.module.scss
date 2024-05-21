@@ -3,4 +3,26 @@
   height: 100%;
   object-fit: cover;
   object-position: center;
+  transition: transform 0.3s ease;
+
+  &.zoomable {
+    cursor: pointer;
+  }
+}
+
+.zoomedOverlay {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.zoomedImage {
+  width: 100%;
 }
