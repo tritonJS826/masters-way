@@ -22,7 +22,11 @@ export class JobDoneDAL {
       },
     });
 
-    const jobDone = new JobDone({...jobDoneDTO});
+    const jobDone = new JobDone({
+      ...jobDoneDTO,
+      createdAt: new Date(jobDoneDTO.createdAt),
+      updatedAt: new Date(jobDoneDTO.updatedAt),
+    });
 
     return jobDone;
   }
@@ -31,9 +35,15 @@ export class JobDoneDAL {
    * Update jobDone
    */
   public static async updateJobDone(jobDone: PartialWithUuid<JobDone>): Promise<JobDone> {
-    const updatedJobDone = await JobDoneService.updateJobDone({
+    const updatedJobDoneDTO = await JobDoneService.updateJobDone({
       jobDoneId: jobDone.uuid,
       request: jobDone,
+    });
+
+    const updatedJobDone = new JobDone({
+      ...updatedJobDoneDTO,
+      createdAt: new Date(updatedJobDoneDTO.createdAt),
+      updatedAt: new Date(updatedJobDoneDTO.updatedAt),
     });
 
     return updatedJobDone;
