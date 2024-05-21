@@ -1,14 +1,12 @@
-# Masters-way app 
+# Masters-way app
 
 Application to track any process that helps people develop.
 
 Deploy demo masters way status:
 [![Demo storybook](https://api.netlify.com/api/v1/badges/fba15c04-f28a-4a13-9430-087d9a76ab84/deploy-status)](https://app.netlify.com/sites/mastersway/deploys)
 
-
 Deploy demo storybook status:
 [![Netlify Status](https://api.netlify.com/api/v1/badges/004b24b2-f693-4ee8-8321-7a9c1a086261/deploy-status)](https://app.netlify.com/sites/mastersways-storybook/deploys)
-
 
 [Demo Master's Way](https://mastersway.netlify.app/)
 
@@ -30,34 +28,42 @@ This work is licensed under a Creative Commons Attribution 4.0 International Lic
 - SCSS modules
 
 ### Modules
-* docs - project documentation
-* mw-webapp - front end
-___
+
+- docs - project documentation
+- mw-webapp - front end
+
+---
 
 ### Run in dev mode locally
+
 1. Download repository
 
-2. Install all dependencies in the mw-webapp directory 
+2. Install all dependencies in the mw-webapp directory
 
-```pnpm i```
+`pnpm i`
 
 3. Create .env file inside mw-webapp folder with variables from .env.example (ask Ekaterina for values)
 
 4. Run application
 
-```pnpm run start```
+`pnpm run start`
 
 ### Run build locally
 
-```pnpm run build```
+`pnpm run build`
 
 ### Check locally that production build is ok
 
-```pnpm run serve```
+`pnpm run serve`
 
 ### Run all modules locally
 
-```docker-compose -f local.docker-compose.yml up```
+`docker-compose -f localQA.docker-compose.yml up`
 
-### Clean up all docker images  and volumes
-```docker system prune -a && docker system prune --volumes```
+### Run all modules locally (except frontend)
+
+`docker-compose -f localFront.docker-compose.yml up`
+
+### Clean up all docker images and volumes
+
+`docker system prune -a && docker system prune --volumes`

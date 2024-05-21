@@ -75,7 +75,12 @@ export const wayDTOToWay = (wayDTO: SchemasWayPopulatedResponse): Way => {
           return jobTag;
         });
 
-        return new JobDone({...jobDone, tags});
+        return new JobDone({
+          ...jobDone,
+          tags,
+          createdAt: new Date(jobDone.createdAt),
+          updatedAt: new Date(jobDone.updatedAt),
+        });
       });
 
       const plans = dayReport.plans.map((plan) => {

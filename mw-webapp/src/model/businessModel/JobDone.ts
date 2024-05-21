@@ -34,6 +34,16 @@ interface JobDoneProps {
    * CurrentProblem's tags
    */
   tags: JobTag[];
+
+  /**
+   * JobDone's created date
+   */
+  createdAt: Date;
+
+  /**
+   * JobDone's updated date
+   */
+  updatedAt: Date;
 }
 
 /**
@@ -71,6 +81,16 @@ export class JobDone {
    */
   public tags: JobTag[];
 
+  /**
+   * JobDone's creted date
+   */
+  public createdAt: Date;
+
+  /**
+   * JobDone's updated date
+   */
+  public updatedAt: Date;
+
   constructor(jobDoneData: JobDoneProps) {
     this.uuid = jobDoneData.uuid;
     this.description = jobDoneData.description;
@@ -78,6 +98,8 @@ export class JobDone {
     this.tags = jobDoneData.tags;
     this.ownerName = jobDoneData.ownerName;
     this.ownerUuid = jobDoneData.ownerUuid;
+    this.createdAt = jobDoneData.createdAt;
+    this.updatedAt = jobDoneData.updatedAt;
   }
 
 }

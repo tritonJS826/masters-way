@@ -24,7 +24,15 @@ export const createCompositeWay = (way: Way): Way => {
       })
       : oldDayReport;
 
-    dayReportsHashMap.set(DateUtils.getShortISODateValue(oldDayReport.createdAt), updatedDayReport);
+    const sortedDayReport = new DayReport({
+      ...updatedDayReport,
+      jobsDone: updatedDayReport.jobsDone.sort((a, b) => DateUtils.datesASCSorter(a.createdAt, b.createdAt)),
+      plans: updatedDayReport.plans.sort((a, b) => DateUtils.datesASCSorter(a.createdAt, b.createdAt)),
+      problems: updatedDayReport.problems.sort((a, b) => DateUtils.datesASCSorter(a.createdAt, b.createdAt)),
+      comments: updatedDayReport.comments.sort((a, b) => DateUtils.datesASCSorter(a.createdAt, b.createdAt)),
+    });
+
+    dayReportsHashMap.set(DateUtils.getShortISODateValue(oldDayReport.createdAt), sortedDayReport);
   });
 
   const dayReportsComposite = Array.from(dayReportsHashMap.values());
