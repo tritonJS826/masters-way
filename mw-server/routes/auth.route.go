@@ -17,4 +17,5 @@ func NewRouteAuth(authController controllers.AuthController) AuthRoutes {
 func (cr *AuthRoutes) AuthRoute(rg *gin.RouterGroup) {
 	router := rg.Group("auth")
 	router.GET("/:provider/callback", cr.authController.GetAuthCallbackFunction)
+	router.GET("/:provider", cr.authController.BeginAuth)
 }

@@ -58,28 +58,20 @@ func (cc *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
 // @Param request body schemas.UpdateCommentPayload true "query params"
 // @Param commentId path string true "comment ID"
 // @Success 200 {object} schemas.CommentPopulatedResponse
-// @Router /comments/{commentId} [patch]
-// func (cc *CommentController) UpdateComment(ctx *gin.Context) {
-// 	var payload *schemas.UpdateCommentPayload
-// 	commentId := ctx.Param("commentId")
+// @Router /comments/{provider} [patch]
+func (cc *AuthController) BeginAuth(ctx *gin.Context) {
+	provider := ctx.Param("provider")
 
-// 	if err := ctx.ShouldBindJSON(&payload); err != nil {
-// 		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
-// 		return
-// 	}
+	ctx.Request = ctx.Request.WithContext(context.WithValue(context.Background(), "provider", provider))
 
-// 	now := time.Now()
-// 	args := &db.UpdateCommentParams{
-// 		Uuid:        uuid.MustParse(commentId),
-// 		Description: sql.NullString{String: payload.Description, Valid: payload.Description != ""},
-// 		UpdatedAt:   sql.NullTime{Time: now, Valid: true},
-// 	}
+	gothic.BeginAuthHandler(ctx.Writer, ctx.Request)
+	// if err := ctx.ShouldBindJSON(&payload); err != nil {
+	// 	ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
+	// 	return
+	// }
 
-// 	comment, err := cc.db.UpdateComment(ctx, *args)
-// 	util.HandleErrorGin(ctx, err)
-
-// 	ctx.JSON(http.StatusOK, comment)
-// }
+	// ctx.JSON(http.StatusOK, comment)
+}
 
 // Deleting Comment handlers
 // @Summary Delete comment by UUID
