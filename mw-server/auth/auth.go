@@ -30,6 +30,6 @@ func NewAuth() {
 	gothic.Store = store
 
 	goth.UseProviders(
-		google.New(config.GooglClientId, config.GooglClientSecret, "https://mastersway.netlify.app"),
+		google.New(config.GooglClientId, config.GooglClientSecret, "http://https://34.82.43.122/api/auth/google/callback", "email", "profile"),
 	)
 }

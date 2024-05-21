@@ -23,6 +23,7 @@ import {User} from "src/model/businessModel/User";
 import {pages} from "src/router/pages";
 import {AuthService} from "src/service/AuthService";
 import {LanguageService} from "src/service/LanguageService";
+import {env} from "src/utils/env/env";
 import styles from "src/component/header/Header.module.scss";
 
 export const LOGO_TEXT = "Master's way";
@@ -248,7 +249,7 @@ export const Header = (props: HeaderProps) => {
                       />
                       {/* Experiment with OAuth with google */}
                       <div style={{opacity: 0}}>
-                        <Link path="http://34.82.43.122/api/auth/google/callback">
+                        <Link path={`http://${env.API_BASE_PATH}/auth/google`}>
                           google OAuth
                         </Link>
                       </div>
