@@ -1,3 +1,5 @@
+apis/AuthGoogleApi.ts
+apis/BeginAuthApi.ts
 apis/CommentApi.ts
 apis/CompositeWayApi.ts
 apis/DayReportApi.ts

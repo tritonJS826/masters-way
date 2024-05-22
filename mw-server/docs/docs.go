@@ -37,6 +37,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/schemas.CreateCommentPayload"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "google",
+                        "name": "provider",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -160,10 +167,10 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "comment"
+                    "beginAuth"
                 ],
                 "summary": "Update comment by UUID",
-                "operationId": "update-comment",
+                "operationId": "begin-auth",
                 "parameters": [
                     {
                         "description": "query params",
@@ -176,8 +183,8 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "comment ID",
-                        "name": "commentId",
+                        "description": "google",
+                        "name": "provider",
                         "in": "path",
                         "required": true
                     }
