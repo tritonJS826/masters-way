@@ -45,9 +45,6 @@ export const Tooltip = (props: PropsWithChildren<TooltipProps>) => {
     props.className,
     styles[props.position ?? PositionTooltip.TOP],
   );
-  // If (props.isInactive) {
-  //   return
-  // }
 
   return (
     <div className={styles.wrapper}>
