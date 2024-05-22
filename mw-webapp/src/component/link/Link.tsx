@@ -25,6 +25,7 @@ interface LinkProps {
 
   /**
    * Open link in a new tab or window
+   * @default isNewTab: false
    */
   isNewTab?: boolean;
 }
@@ -33,7 +34,8 @@ interface LinkProps {
  * Link component
  */
 export const Link = (props: PropsWithChildren<LinkProps>) => {
-  const targetValue = props.isNewTab ? "_blank" : "_self";
+  const isNewTab = props.isNewTab ?? false;
+  const targetValue = isNewTab ? "_blank" : "_self";
 
   return (
     <LinkFromRouter
