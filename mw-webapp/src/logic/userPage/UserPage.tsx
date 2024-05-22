@@ -355,7 +355,7 @@ export const UserPage = observer((props: UserPageProps) => {
               <Title
                 level={HeadingLevel.h2}
                 text={userPageOwner.name}
-                placeholder={LanguageService.common.emptyMarkdown[language]}
+                placeholder={LanguageService.common.emptyMarkdownAction[language]}
                 onChangeFinish={(name) => updateUser({
                   userToUpdate: {
                     uuid: userPageOwner.uuid,
@@ -550,7 +550,9 @@ export const UserPage = observer((props: UserPageProps) => {
               })}
               isEditable={isPageOwner}
               className={styles.userDescription}
-              placeholder={LanguageService.common.emptyMarkdown[language]}
+              placeholder={isPageOwner
+                ? LanguageService.common.emptyMarkdownAction[language]
+                : LanguageService.common.emptyMarkdown[language]}
             />
           </VerticalContainer>
 
