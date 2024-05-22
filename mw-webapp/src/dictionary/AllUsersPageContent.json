@@ -1,5 +1,11 @@
 {
   "filterBlock": {
+    "type": {
+      "ru": "Статус",
+      "en": "Status",
+      "ua": "Статус",
+      "ka": "სტატუსი"
+    },
     "emailPlaceholder": {
       "ru": "Искать по email",
       "en": "Search by email",
@@ -23,6 +29,20 @@
       "en": "Switch to table view",
       "ua": "Відображення таблицею",
       "ka": "ცხრილად ჩვენება"
+    },
+    "mentoringTypeOptions": {
+      "all": {
+        "ru": "Все",
+        "en": "All",
+        "ua": "Усі",
+        "ka": "ყველა"
+      },
+      "mentor": {
+        "ru": "Ментор",
+        "en": "Mentor",
+        "ua": "Ментор",
+        "ka": "მენტორი"
+      }
     }
   },
   "usersTable": {
