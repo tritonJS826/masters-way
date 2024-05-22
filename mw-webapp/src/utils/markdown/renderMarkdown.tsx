@@ -13,6 +13,7 @@ const customComponents: Components = {
       <a
         {...params}
         target="_blank"
+        rel="noopener noreferrer"
         className={styles.a}
       >
         {children}

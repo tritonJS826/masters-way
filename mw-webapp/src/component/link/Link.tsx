@@ -35,14 +35,14 @@ interface LinkProps {
  */
 export const Link = (props: PropsWithChildren<LinkProps>) => {
   const isNewTab = props.isNewTab ?? false;
-  const targetValue = isNewTab ? "_blank" : "_self";
+  const targetAndRelProps = isNewTab ? {target: "_blank", rel: "noopener noreferrer"} : {};
 
   return (
     <LinkFromRouter
       className={clsx(styles.link, props.className)}
       to={props.path}
       data-cy={props.dataCy}
-      target={targetValue}
+      {...targetAndRelProps}
     >
       {props.children}
     </LinkFromRouter>
