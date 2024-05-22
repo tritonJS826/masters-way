@@ -59,8 +59,11 @@ FROM users
 WHERE (LOWER(users.email) LIKE '%' || LOWER(@email) || '%' OR @email = '')
     AND (LOWER(users.name) LIKE '%' || LOWER(@name) || '%' OR @name = '')
     -- mentoring status filter
-    AND (@mentor_status = 'mentor' AND users.is_mentor = true)
+    AND (
+    (@mentor_status = 'mentor' AND users.is_mentor = true)
         OR (@mentor_status = 'all')
+    )
+        
 ORDER BY created_at DESC
 LIMIT $1
 OFFSET $2;

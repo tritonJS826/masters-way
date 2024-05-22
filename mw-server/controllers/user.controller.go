@@ -209,7 +209,7 @@ func (cc *UserController) GetAllUsers(ctx *gin.Context) {
 	email := ctx.DefaultQuery("email", "")
 	name := ctx.DefaultQuery("name", "")
 	// mentorStatus = "mentor" | "all"
-	mentorStatus := ctx.DefaultQuery("mentorStatus", "")
+	mentorStatus := ctx.DefaultQuery("mentorStatus", "all")
 
 	reqPageID, _ := strconv.Atoi(page)
 	reqLimit, _ := strconv.Atoi(limit)
