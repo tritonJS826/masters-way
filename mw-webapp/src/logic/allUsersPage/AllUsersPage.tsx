@@ -9,6 +9,7 @@ import {Input, InputType} from "src/component/input/Input";
 import {Loader} from "src/component/loader/Loader";
 import {displayNotification} from "src/component/notification/displayNotification";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
+import {Select} from "src/component/select/Select";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
@@ -24,6 +25,16 @@ import {LanguageService} from "src/service/LanguageService";
 import {AllUsersPageSettings, View} from "src/utils/LocalStorageWorker";
 import {useDebounce} from "use-debounce";
 import styles from "src/logic/allUsersPage/AllUsersPage.module.scss";
+
+/**
+ * Available mentoring statuses
+ */
+export const MentoringStatus = {
+  mentor: "mentor",
+  all: "all",
+} as const;
+
+export type MentoringStatusType = typeof MentoringStatus[keyof typeof MentoringStatus];
 
 const DEFAULT_PAGE_PAGINATION_VALUE = 1;
 const DEFAULT_USER_LIMIT = 10;
@@ -55,6 +66,7 @@ export const AllUsersPage = observer(() => {
   const [allUsersAmount, setAllUsersAmount] = useState<number>();
   const [email, setEmail] = useState<string>("");
   const [name, setName] = useState<string>("");
+  const [mentorStatus, setMentorStatus] = useState<string>(MentoringStatus.all);
   const [currentPageNumber, setCurrentPageNumber] = useState<number>(DEFAULT_PAGE_PAGINATION_VALUE);
   const [debouncedEmail] = useDebounce(email, DEBOUNCE_DELAY_MILLISECONDS);
   const [debouncedName] = useDebounce(name, DEBOUNCE_DELAY_MILLISECONDS);
@@ -78,6 +90,7 @@ export const AllUsersPage = observer(() => {
       limit: DEFAULT_USER_LIMIT,
       email,
       name,
+      mentorStatus,
     });
 
     return {users: users.usersPreview, usersAmount: users.size};
@@ -93,6 +106,7 @@ export const AllUsersPage = observer(() => {
       limit: DEFAULT_USER_LIMIT,
       email,
       name,
+      mentorStatus,
     });
 
     setAllUsers([...allUsers ?? [], ...users.usersPreview]);
@@ -121,7 +135,7 @@ export const AllUsersPage = observer(() => {
     loadData,
     onSuccess,
     onError,
-    dependency: [debouncedEmail, debouncedName],
+    dependency: [debouncedEmail, debouncedName, mentorStatus],
   });
 
   if (!allUsers) {
@@ -149,6 +163,26 @@ export const AllUsersPage = observer(() => {
             className={styles.inputFilter}
             typeInputIcon={"SearchIcon"}
             typeInput={InputType.Border}
+          />
+        </HorizontalContainer>
+        <HorizontalContainer className={styles.filterBlock}>
+          <Select
+            label={`${LanguageService.allWays.filterBlock.type[language]}:`}
+            defaultValue={MentoringStatus.all}
+            name="filterStatus"
+            options={[
+              {
+                id: "1",
+                value: MentoringStatus.all,
+                text: LanguageService.allUsers.filterBlock.mentoringTypeOptions.all[language],
+              },
+              {
+                id: "2",
+                value: MentoringStatus.mentor,
+                text: LanguageService.allUsers.filterBlock.mentoringTypeOptions.mentor[language],
+              },
+            ]}
+            onChange={(value) => setMentorStatus(value)}
           />
         </HorizontalContainer>
         <HorizontalContainer>

@@ -34,6 +34,11 @@ export interface GetUsersParams {
    */
   name?: string;
 
+  /**
+   * Mentor status filter
+   */
+  mentorStatus?: string;
+
 }
 
 /**

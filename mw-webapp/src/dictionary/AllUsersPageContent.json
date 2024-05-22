@@ -23,6 +23,20 @@
       "en": "Switch to table view",
       "ua": "Відображення таблицею",
       "ka": "ცხრილად ჩვენება"
+    },
+    "mentoringTypeOptions": {
+      "all": {
+        "ru": "Все",
+        "en": "All",
+        "ua": "Усі",
+        "ka": "ყველა"
+      },
+      "mentor": {
+        "ru": "Ментор",
+        "en": "Mentor",
+        "ua": "Ментор",
+        "ka": "მენტორი"
+      }
     }
   },
   "usersTable": {
