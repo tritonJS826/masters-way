@@ -33,14 +33,14 @@ interface LinkProps {
  * Link component
  */
 export const Link = (props: PropsWithChildren<LinkProps>) => {
-  const targetProps = props.isNewTab ? {target: "_blank"} : {};
+  const targetValue = props.isNewTab ? "_blank" : "_self";
 
   return (
     <LinkFromRouter
       className={clsx(styles.link, props.className)}
       to={props.path}
       data-cy={props.dataCy}
-      {...targetProps}
+      target={targetValue}
     >
       {props.children}
     </LinkFromRouter>
