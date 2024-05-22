@@ -247,8 +247,8 @@ func (cc *WayController) GetAllWays(ctx *gin.Context) {
 	currentDate := time.Now()
 
 	waySizeArgs := &db.CountWaysByTypeParams{
-		Column1: status,
-		Column2: currentDate,
+		WayStatus: status,
+		Column1:   currentDate,
 	}
 	waysSize, _ := cc.db.CountWaysByType(ctx, *waySizeArgs)
 

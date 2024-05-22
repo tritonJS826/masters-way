@@ -15,6 +15,40 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/auth/{provider}/callback": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth google"
+                ],
+                "summary": "Log in with google oAuth",
+                "operationId": "google auth log in",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CreateCommentPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CommentPopulatedResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/comments": {
             "post": {
                 "consumes": [
@@ -77,6 +111,47 @@ const docTemplate = `{
                     }
                 }
             },
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "comment"
+                ],
+                "summary": "Update comment by UUID",
+                "operationId": "update-comment",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.UpdateCommentPayload"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "comment ID",
+                        "name": "commentId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CommentPopulatedResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/comments/{provider}": {
             "patch": {
                 "consumes": [
                     "application/json"
@@ -1444,6 +1519,12 @@ const docTemplate = `{
                         "type": "string",
                         "description": "Part of user name for filters",
                         "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "'mentor' | 'all' status for filter",
+                        "name": "mentorStatus",
                         "in": "query"
                     }
                 ],

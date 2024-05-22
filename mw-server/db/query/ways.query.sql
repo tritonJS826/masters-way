@@ -149,10 +149,15 @@ OFFSET $2;
 -- name: CountWaysByType :one
 SELECT COUNT(*) FROM ways
 WHERE ways.is_private = false AND (
-    ($1 = 'inProgress' AND ways.is_completed = false AND ways.updated_at > $2::timestamp - interval '14 days')
-    OR ($1 = 'completed' AND ways.is_completed = true)
-    OR ($1 = 'abandoned' AND ways.is_completed = false AND ways.updated_at < $2::timestamp - interval '14 days') 
-    OR ($1 = 'all')
+    (@way_status = 'inProgress' 
+        AND ways.is_completed = false 
+        AND ways.updated_at > ($1::timestamp - interval '14 days'))
+    OR (@way_status = 'completed' AND ways.is_completed = true)
+    OR (@way_status = 'abandoned' 
+        AND (ways.is_completed = false) 
+        AND (ways.updated_at < ($1::timestamp - interval '14 days'))
+    ) 
+    OR (@way_status = 'all')
 );
 
 -- name: UpdateWay :one
