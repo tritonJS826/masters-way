@@ -21,7 +21,7 @@ func NewAuthController(db *db.Queries, ctx context.Context) *AuthController {
 	return &AuthController{db, ctx}
 }
 
-// Log in with google oAuth
+// Log in with google oAuth ()
 // @Summary Log in with google oAuth
 // @Description
 // @Tags auth google
@@ -29,6 +29,7 @@ func NewAuthController(db *db.Queries, ctx context.Context) *AuthController {
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateCommentPayload true "query params"
+// @Param provider path string true "google"
 // @Success 200 {object} schemas.CommentPopulatedResponse
 // @Router /auth/{provider}/callback [post]
 func (cc *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
@@ -48,15 +49,15 @@ func (cc *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, googleUser)
 }
 
-// Update comment handler
+// Begin auth handler
 // @Summary Update comment by UUID
 // @Description
-// @Tags comment
-// @ID update-comment
+// @Tags beginAuth
+// @ID begin-auth
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.UpdateCommentPayload true "query params"
-// @Param commentId path string true "comment ID"
+// @Param provider path string true "google"
 // @Success 200 {object} schemas.CommentPopulatedResponse
 // @Router /comments/{provider} [patch]
 func (cc *AuthController) BeginAuth(ctx *gin.Context) {

@@ -47,6 +47,7 @@ export interface GetAllUsersRequest {
     limit?: number;
     email?: string;
     name?: string;
+    mentorStatus?: string;
 }
 
 export interface GetUserByUuidRequest {
@@ -154,6 +155,10 @@ export class UserApi extends runtime.BaseAPI {
 
         if (requestParameters.name !== undefined) {
             queryParameters['name'] = requestParameters.name;
+        }
+
+        if (requestParameters.mentorStatus !== undefined) {
+            queryParameters['mentorStatus'] = requestParameters.mentorStatus;
         }
 
         const headerParameters: runtime.HTTPHeaders = {};

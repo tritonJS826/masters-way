@@ -1,5 +1,7 @@
 // @ts-nocheck
 /* eslint-disable */
+export * from './AuthGoogleApi';
+export * from './BeginAuthApi';
 export * from './CommentApi';
 export * from './CompositeWayApi';
 export * from './DayReportApi';

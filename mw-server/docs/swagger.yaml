@@ -972,6 +972,11 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/schemas.CreateCommentPayload'
+      - description: google
+        in: path
+        name: provider
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -1053,7 +1058,7 @@ paths:
     patch:
       consumes:
       - application/json
-      operationId: update-comment
+      operationId: begin-auth
       parameters:
       - description: query params
         in: body
@@ -1061,9 +1066,9 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/schemas.UpdateCommentPayload'
-      - description: comment ID
+      - description: google
         in: path
-        name: commentId
+        name: provider
         required: true
         type: string
       produces:
@@ -1075,7 +1080,7 @@ paths:
             $ref: '#/definitions/schemas.CommentPopulatedResponse'
       summary: Update comment by UUID
       tags:
-      - comment
+      - beginAuth
   /compositeWay:
     post:
       consumes:
