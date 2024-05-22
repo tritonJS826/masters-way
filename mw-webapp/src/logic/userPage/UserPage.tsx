@@ -2,6 +2,7 @@ import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
+import {Checkbox} from "src/component/checkbox/Checkbox";
 import {Confirm} from "src/component/confirm/Confirm";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
@@ -469,6 +470,58 @@ export const UserPage = observer((props: UserPageProps) => {
               classNameHeading={styles.ownerEmail}
               placeholder=""
             />
+
+            <HorizontalContainer className={styles.mentoringStatusBlock}>
+              <Checkbox
+                isDisabled={!isPageOwner}
+                isDefaultChecked={userPageOwner.isMentor}
+                onChange={(isMentor) => updateUser({
+                  userToUpdate: {
+                    uuid: userPageOwner.uuid,
+                    isMentor,
+                  },
+
+                  /**
+                   * Update user
+                   */
+                  setUser: (userToUpdate: PartialWithUuid<User>) => {
+                    const ownCollection = new WayCollection({
+                      ...userPageOwner.defaultWayCollections.own,
+                      ways: userPageOwner.defaultWayCollections.own.ways.map((way) => {
+                        const owner = new UserPreviewShort({...way.owner, ...userToUpdate});
+
+                        return new WayPreview({
+                          ...way,
+                          owner,
+                        });
+                      }),
+                    });
+
+                    const defaultWayCollections = new DefaultWayCollections({
+                      ...userPageOwner.defaultWayCollections,
+                      own: ownCollection,
+                    });
+
+                    const updatedUser = new User({
+                      ...userPageOwner,
+                      ...userToUpdate,
+                      defaultWayCollections,
+                    });
+                    setUserPreviewPartial(userToUpdate);
+                    setUserPageOwner(updatedUser);
+                    setUser(updatedUser);
+                  },
+                })}
+                className={styles.checkbox}
+              />
+              <Tooltip
+                content={LanguageService.user.personalInfo.becomeMentorTooltip[language]}
+                className={styles.tooltip}
+                isInactive={!isPageOwner}
+              >
+                {LanguageService.user.personalInfo.mentor[language]}
+              </Tooltip>
+            </HorizontalContainer>
 
             <HorizontalContainer className={styles.userTagsContainer}>
               {userPageOwner?.tags.map(tag => (

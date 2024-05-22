@@ -20,9 +20,15 @@ interface TooltipProps {
 
   /**
    * Tooltip's position
-   * default: {@link PositionTooltip.TOP}
+   * @default: {@link PositionTooltip.TOP}
    */
   position?: PositionTooltip;
+
+  /**
+   * If true - tooltip is not visible
+   * @default false
+   */
+  isInactive?: boolean;
 
   /**
    * Data attribute for cypress testing
@@ -39,18 +45,23 @@ export const Tooltip = (props: PropsWithChildren<TooltipProps>) => {
     props.className,
     styles[props.position ?? PositionTooltip.TOP],
   );
+  // If (props.isInactive) {
+  //   return
+  // }
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.target}>
         {props.children}
       </div>
+      {!props.isInactive &&
       <div
         data-cy={props.dataCy}
         className={contentClassNames}
       >
         {props.content}
       </div>
+      }
     </div>
   );
 };

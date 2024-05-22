@@ -30,6 +30,36 @@
       "ua": "Створити новий шлях",
       "ka": "ახალი გზის შექმნა"
     },
+    "mentor": {
+      "ru": "Ментор",
+      "en": "Mentor",
+      "ua": "Наставник",
+      "ka": "მენტორი"
+    },
+    "becomeMentorTooltip": {
+      "ru": "Отметьте, если вы набираете студентов",
+      "en": "Mark if you are recruiting students",
+      "ua": "Позначте, якщо ви набираєте студентів",
+      "ka": "მონიშნეთ, თუ იღებთ სტუდენტებს"
+    },
+    "lookingForMentor": {
+      "ru": "Ищу ментора",
+      "en": "Looking for mentor",
+      "ua": "Шукаю наставника",
+      "ka": "ვეძებ მენტორს"
+    },
+    "startLookingForMentorTooltip": {
+      "ru": "Нажмите, чтобы показать, что вы ищете ментора",
+      "en": "Click to show that you looking for a mentor",
+      "ua": "Натисніть, щоб показати, що ви шукаєте наставника",
+      "ka": "დააწკაპუნეთ იმის საჩვენებლად, რომ ეძებთ მენტორს"
+    },
+    "stopLookingForMentorTooltip": {
+      "ru": "Нажмите, чтобы показать, что вы не ищете ментора",
+      "en": "Click to show that you are not looking for a mentor",
+      "ua": "Натисніть, щоб показати, що ви не шукаєте наставника",
+      "ka": "დააწკაპუნეთ იმის საჩვენებლად, რომ არ ეძებთ მენტორს"
+    },
     "addSkills": {
       "ru": "Добавить новый навык пользователя",
       "en": "Add new user skill",
