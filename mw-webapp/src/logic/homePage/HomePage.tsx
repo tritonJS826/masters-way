@@ -181,7 +181,7 @@ export const HomePage = observer(() => {
             <Link
               path={LanguageService.home.whatWeAreBlock.manifestLink[language]}
               className={styles.whatWeAreLink}
-              newTab
+              isNewTab
             >
               {LanguageService.home.whatWeAreBlock.readManifesto[language]}
             </Link>

@@ -26,14 +26,14 @@ interface LinkProps {
   /**
    * Open link in a new tab or window
    */
-  newTab?: boolean;
+  isNewTab?: boolean;
 }
 
 /**
  * Link component
  */
 export const Link = (props: PropsWithChildren<LinkProps>) => {
-  const targetProps = props.newTab ? {target: "_blank"} : {};
+  const targetProps = props.isNewTab ? {target: "_blank"} : {};
 
   return (
     <LinkFromRouter

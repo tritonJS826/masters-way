@@ -58,7 +58,7 @@ export const Footer = (props: FooterProps) => {
           <HorizontalContainer className={styles.socialMediaIcons}>
             <Link
               path="https://linkedin.com/company/masters-way-project"
-              newTab
+              isNewTab
             >
               <Icon
                 size={IconSize.MEDIUM}
@@ -68,7 +68,7 @@ export const Footer = (props: FooterProps) => {
             </Link>
             <Link
               path="https://www.youtube.com/watch?v=DiNNQol15ds&list=PL7eqEW04iXMV2tu_JYAIwerepUTZJjciM&index=2"
-              newTab
+              isNewTab
             >
               <Icon
                 size={IconSize.MEDIUM}
