@@ -119,7 +119,7 @@ $widthBlock: 1305px;
 .whatWeAreImage {
   max-width: $homeMaxWidthImage;
   background-image: radial-gradient(
-    var(--fifthBgColor) 0,
+    var(--quaternaryBgColor) 0,
     var(--generalPrimaryColor) 70%
   );
   transform: scale(-1, 1);

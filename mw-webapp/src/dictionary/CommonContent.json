@@ -1,5 +1,11 @@
 {
   "emptyMarkdown": {
+    "ru": "*Пусто!*",
+    "en": "*Empty!*",
+    "ua": "*Порожньо!*",
+    "ka": "*ცარიელი!*"
+  },
+  "emptyMarkdownAction": {
     "ru": "*Пустой markdown! Дважды кликните на меня!*",
     "en": "*Empty markdown! Double click on me!*",
     "ua": "*Порожній markdown! Двічі клацніть на мене!*",

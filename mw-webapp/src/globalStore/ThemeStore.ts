@@ -40,15 +40,14 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     [Theme.DARK]: "#686085",
     [Theme.LIGHT]: "#F2EFF9",
   },
-  // ProgressBarBgColor, TooltipBgColor and dropdownHover
-  quaternaryBgColor: {
-    [Theme.DARK]: "#8F8F8F",
-    [Theme.LIGHT]: "#A8A1DD",
-  },
   // Sidebar and footer and shadow for notebook (homePage)
-  fifthBgColor: {
+  quaternaryBgColor: {
     [Theme.DARK]: "#0B0322",
     [Theme.LIGHT]: "#0B0322",
+  },
+  progressBarBgColor: {
+    [Theme.DARK]: "#8F8F8F",
+    [Theme.LIGHT]: "#A8A1DD",
   },
   // Icon circle background
   iconBgColor: {
