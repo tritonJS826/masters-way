@@ -960,6 +960,28 @@ info:
   title: Masters way API
   version: "1.0"
 paths:
+  /auth/{provider}/callback:
+    post:
+      consumes:
+      - application/json
+      operationId: google auth log in
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.CreateCommentPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.CommentPopulatedResponse'
+      summary: Log in with google oAuth
+      tags:
+      - auth google
   /comments:
     post:
       consumes:
@@ -1001,6 +1023,33 @@ paths:
       summary: Delete comment by UUID
       tags:
       - comment
+    patch:
+      consumes:
+      - application/json
+      operationId: update-comment
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.UpdateCommentPayload'
+      - description: comment ID
+        in: path
+        name: commentId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.CommentPopulatedResponse'
+      summary: Update comment by UUID
+      tags:
+      - comment
+  /comments/{provider}:
     patch:
       consumes:
       - application/json
@@ -1896,6 +1945,10 @@ paths:
       - description: Part of user name for filters
         in: query
         name: name
+        type: string
+      - description: '''mentor'' | ''all'' status for filter'
+        in: query
+        name: mentorStatus
         type: string
       produces:
       - application/json

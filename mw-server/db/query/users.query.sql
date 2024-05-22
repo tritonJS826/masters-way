@@ -56,16 +56,20 @@ SELECT
     )::VARCHAR[] AS tag_names,
     (SELECT COUNT(*) FROM users) AS users_size
 FROM users
-WHERE (LOWER(users.email) LIKE '%' || LOWER($3) || '%' OR $3 = '')
-    AND (LOWER(users.name) LIKE '%' || LOWER($4) || '%' OR $4 = '')
+WHERE (LOWER(users.email) LIKE '%' || LOWER(@email) || '%' OR @email = '')
+    AND (LOWER(users.name) LIKE '%' || LOWER(@name) || '%' OR @name = '')
+    -- mentoring status filter
+    AND (@mentor_status = 'mentor' AND users.is_mentor = true)
+        OR (@mentor_status = 'all')
 ORDER BY created_at DESC
 LIMIT $1
 OFFSET $2;
 
+
 -- name: CountUsers :one
 SELECT COUNT(*) FROM users
-WHERE ((LOWER(users.email) LIKE '%' || LOWER($1) || '%') OR ($1 = ''))
-    AND ((LOWER(users.name) LIKE '%' || LOWER($2) || '%') OR ($2 = ''));
+WHERE ((LOWER(users.email) LIKE '%' || LOWER(@email) || '%') OR (@email = ''))
+    AND ((LOWER(users.name) LIKE '%' || LOWER(@name) || '%') OR (@name = ''));
 
 -- name: UpdateUser :one
 UPDATE users

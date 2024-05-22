@@ -21,12 +21,12 @@ WHERE ((LOWER(users.email) LIKE '%' || LOWER($1) || '%') OR ($1 = ''))
 `
 
 type CountUsersParams struct {
-	Lower   string `json:"lower"`
-	Lower_2 string `json:"lower_2"`
+	Email string `json:"email"`
+	Name  string `json:"name"`
 }
 
 func (q *Queries) CountUsers(ctx context.Context, arg CountUsersParams) (int64, error) {
-	row := q.queryRow(ctx, q.countUsersStmt, countUsers, arg.Lower, arg.Lower_2)
+	row := q.queryRow(ctx, q.countUsersStmt, countUsers, arg.Email, arg.Name)
 	var count int64
 	err := row.Scan(&count)
 	return count, err
@@ -202,16 +202,20 @@ SELECT
 FROM users
 WHERE (LOWER(users.email) LIKE '%' || LOWER($3) || '%' OR $3 = '')
     AND (LOWER(users.name) LIKE '%' || LOWER($4) || '%' OR $4 = '')
+    -- mentoring status filter
+    AND ($5 = 'mentor' AND users.is_mentor = true)
+        OR ($5 = 'all')
 ORDER BY created_at DESC
 LIMIT $1
 OFFSET $2
 `
 
 type ListUsersParams struct {
-	Limit   int32  `json:"limit"`
-	Offset  int32  `json:"offset"`
-	Lower   string `json:"lower"`
-	Lower_2 string `json:"lower_2"`
+	Limit        int32       `json:"limit"`
+	Offset       int32       `json:"offset"`
+	Email        string      `json:"email"`
+	Name         string      `json:"name"`
+	MentorStatus interface{} `json:"mentor_status"`
 }
 
 type ListUsersRow struct {
@@ -236,8 +240,9 @@ func (q *Queries) ListUsers(ctx context.Context, arg ListUsersParams) ([]ListUse
 	rows, err := q.query(ctx, q.listUsersStmt, listUsers,
 		arg.Limit,
 		arg.Offset,
-		arg.Lower,
-		arg.Lower_2,
+		arg.Email,
+		arg.Name,
+		arg.MentorStatus,
 	)
 	if err != nil {
 		return nil, err
@@ -279,18 +284,16 @@ const updateUser = `-- name: UpdateUser :one
 UPDATE users
 SET
 name = coalesce($1, name),
-email = coalesce($2, email),
-description = coalesce($3, description),
-image_url = coalesce($4, image_url),
-is_mentor = coalesce($5, is_mentor)
+description = coalesce($2, description),
+image_url = coalesce($3, image_url),
+is_mentor = coalesce($4, is_mentor)
 
-WHERE uuid = $6
+WHERE uuid = $5
 RETURNING uuid, name, email, description, created_at, image_url, is_mentor, firebase_id
 `
 
 type UpdateUserParams struct {
 	Name        sql.NullString `json:"name"`
-	Email       sql.NullString `json:"email"`
 	Description sql.NullString `json:"description"`
 	ImageUrl    sql.NullString `json:"image_url"`
 	IsMentor    sql.NullBool   `json:"is_mentor"`
@@ -300,7 +303,6 @@ type UpdateUserParams struct {
 func (q *Queries) UpdateUser(ctx context.Context, arg UpdateUserParams) (User, error) {
 	row := q.queryRow(ctx, q.updateUserStmt, updateUser,
 		arg.Name,
-		arg.Email,
 		arg.Description,
 		arg.ImageUrl,
 		arg.IsMentor,

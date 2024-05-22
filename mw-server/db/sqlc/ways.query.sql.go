@@ -17,20 +17,25 @@ import (
 const countWaysByType = `-- name: CountWaysByType :one
 SELECT COUNT(*) FROM ways
 WHERE ways.is_private = false AND (
-    ($1 = 'inProgress' AND ways.is_completed = false AND ways.updated_at > $2::timestamp - interval '14 days')
-    OR ($1 = 'completed' AND ways.is_completed = true)
-    OR ($1 = 'abandoned' AND ways.is_completed = false AND ways.updated_at < $2::timestamp - interval '14 days') 
-    OR ($1 = 'all')
+    ($2 = 'inProgress' 
+        AND ways.is_completed = false 
+        AND ways.updated_at > ($1::timestamp - interval '14 days'))
+    OR ($2 = 'completed' AND ways.is_completed = true)
+    OR ($2 = 'abandoned' 
+        AND (ways.is_completed = false) 
+        AND (ways.updated_at < ($1::timestamp - interval '14 days'))
+    ) 
+    OR ($2 = 'all')
 )
 `
 
 type CountWaysByTypeParams struct {
-	Column1 interface{} `json:"column_1"`
-	Column2 time.Time   `json:"column_2"`
+	Column1   time.Time   `json:"column_1"`
+	WayStatus interface{} `json:"way_status"`
 }
 
 func (q *Queries) CountWaysByType(ctx context.Context, arg CountWaysByTypeParams) (int64, error) {
-	row := q.queryRow(ctx, q.countWaysByTypeStmt, countWaysByType, arg.Column1, arg.Column2)
+	row := q.queryRow(ctx, q.countWaysByTypeStmt, countWaysByType, arg.Column1, arg.WayStatus)
 	var count int64
 	err := row.Scan(&count)
 	return count, err

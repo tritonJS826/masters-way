@@ -200,6 +200,7 @@ func (cc *UserController) GetUserById(ctx *gin.Context) {
 // @Param limit query integer false "Number of items per page"
 // @Param email query string false "Part of user email for filters"
 // @Param name query string false "Part of user name for filters"
+// @Param mentorStatus query string false "'mentor' | 'all' status for filter"
 // @Success 200 {object} schemas.GetAllUsersResponse
 // @Router /users [get]
 func (cc *UserController) GetAllUsers(ctx *gin.Context) {
@@ -207,23 +208,26 @@ func (cc *UserController) GetAllUsers(ctx *gin.Context) {
 	limit := ctx.DefaultQuery("limit", "10")
 	email := ctx.DefaultQuery("email", "")
 	name := ctx.DefaultQuery("name", "")
+	// mentorStatus = "mentor" | "all"
+	mentorStatus := ctx.DefaultQuery("mentorStatus", "")
 
 	reqPageID, _ := strconv.Atoi(page)
 	reqLimit, _ := strconv.Atoi(limit)
 	offset := (reqPageID - 1) * reqLimit
 
 	countUsersArgs := &db.CountUsersParams{
-		Lower:   email,
-		Lower_2: name,
+		Email: email,
+		Name:  name,
 	}
 	usersSize, err := cc.db.CountUsers(ctx, *countUsersArgs)
 	util.HandleErrorGin(ctx, err)
 
 	listUsersArgs := &db.ListUsersParams{
-		Limit:   int32(reqLimit),
-		Offset:  int32(offset),
-		Lower:   email,
-		Lower_2: name,
+		Limit:        int32(reqLimit),
+		Offset:       int32(offset),
+		Email:        email,
+		Name:         name,
+		MentorStatus: mentorStatus,
 	}
 
 	users, err := cc.db.ListUsers(ctx, *listUsersArgs)
