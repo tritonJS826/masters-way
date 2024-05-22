@@ -58,6 +58,10 @@
   @include regularContainer;
 }
 
+.mentoringStatusBlock {
+  margin: $marginMedium 0;
+}
+
 .nameSection {
   justify-content: space-between;
 }
