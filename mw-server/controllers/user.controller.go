@@ -216,8 +216,9 @@ func (cc *UserController) GetAllUsers(ctx *gin.Context) {
 	offset := (reqPageID - 1) * reqLimit
 
 	countUsersArgs := &db.CountUsersParams{
-		Email: email,
-		Name:  name,
+		Email:        email,
+		Name:         name,
+		MentorStatus: mentorStatus,
 	}
 	usersSize, err := cc.db.CountUsers(ctx, *countUsersArgs)
 	util.HandleErrorGin(ctx, err)
