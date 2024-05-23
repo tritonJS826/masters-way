@@ -169,3 +169,11 @@ $iconContainerSize: 25px;
     background-color: var(--secondaryBgBtnColor);
   }
 }
+
+.statisticEyeButton {
+  display: none;
+
+  @media (max-width: $mediaWidthTablet) {
+    display: flex;
+  }
+}
