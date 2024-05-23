@@ -30,11 +30,11 @@ $wayCollectionCardAdditionalHeight: 47px;
 
 .title {
   display: -webkit-box;
+  overflow: hidden;
   -webkit-box-orient: vertical;
   color: var(--secondaryTextColor);
   -webkit-line-clamp: 2;
   text-overflow: ellipsis;
-  white-space: initial;
 }
 
 .description {
@@ -45,7 +45,6 @@ $wayCollectionCardAdditionalHeight: 47px;
   font-size: $fontSizeMedium;
   -webkit-line-clamp: 2;
   text-overflow: ellipsis;
-  white-space: initial;
 }
 
 .additionalInfo {
