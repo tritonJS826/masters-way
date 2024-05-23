@@ -1,12 +1,18 @@
 import {Loader} from "src/component/loader/Loader";
+import {Theme} from "src/globalStore/ThemeStore";
 import {getDataCy} from "src/utils/cyTesting/getDataCy";
 
 const LOADER_CY = "loader";
-const ALT_TEXT = "Loading image";
+const ALT_TEXT = "Master's way";
 
 describe("Loader component", () => {
   beforeEach(() => {
-    cy.mount(<Loader dataCy={LOADER_CY} />);
+    cy.mount(
+      <Loader
+        theme={Theme.DARK}
+        dataCy={LOADER_CY}
+      />,
+    );
   });
 
   it("should render loader component correctly", () => {

@@ -47,22 +47,6 @@
   }
 }
 
-.compact {
-  padding: 4px 8px;
-  border-radius: $secondaryBorderRadius;
-  background-color: var(--secondaryBgColor);
-  color: var(--primaryTextColor);
-  stroke: var(--primaryTextColor);
-
-  &:hover {
-    background-color: var(--primaryBgColor);
-  }
-
-  &:active {
-    background-color: var(--secondaryBgColor);
-  }
-}
-
 .iconButton {
   display: flex;
   width: 24px;
@@ -101,25 +85,6 @@
     background-color: var(--primaryBgColor);
     color: var(--generalPrimaryColor);
   }
-}
-
-.tertiary {
-  background-color: transparent;
-  color: var(--primaryTextColor);
-
-  &:hover {
-    background-color: var(--primaryBgBtnActiveColor);
-    cursor: pointer;
-  }
-
-  &:active {
-    background-color: var(--generalPrimaryColor);
-  }
-}
-
-.fourth {
-  background-color: var(--buttonColor);
-  color: var(--primaryTextColor);
 }
 
 .disabled {

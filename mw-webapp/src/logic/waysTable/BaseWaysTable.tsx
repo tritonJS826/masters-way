@@ -14,6 +14,7 @@ import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {WayCard} from "src/component/wayCard/WayCard";
 import {languageStore} from "src/globalStore/LanguageStore";
+import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
 import {getWaysColumns} from "src/logic/waysTable/waysColumns";
 import {WaysTable} from "src/logic/waysTable/WaysTable";
@@ -89,6 +90,7 @@ export const isWayVisible = (userUuid: string|undefined, way: WayPreview) => {
 export const BaseWaysTable = observer((props: BaseWaysTableProps) => {
   const {user} = userStore;
   const {language} = languageStore;
+  const {theme} = themeStore;
 
   /**
    * Filter ways by privacy
@@ -140,7 +142,7 @@ export const BaseWaysTable = observer((props: BaseWaysTableProps) => {
   if (!props.ways) {
     return (
       <VerticalContainer className={styles.loaderWrapper}>
-        <Loader />
+        <Loader theme={theme} />
       </VerticalContainer>
     );
   }

@@ -67,7 +67,7 @@ export const Footer = (props: FooterProps) => {
               />
             </Link>
             <Link
-              path="https://www.youtube.com/watch?v=DiNNQol15ds&list=PL7eqEW04iXMV2tu_JYAIwerepUTZJjciM&index=2"
+              path="https://www.youtube.com/watch?v=DiNNQol15ds&list=PL7eqEW04iXMV2tu_JYAIwerepUTZJjciM"
               isNewTab
             >
               <Icon

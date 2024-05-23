@@ -35,19 +35,6 @@ export const SecondaryButton: Story = {
   },
 };
 
-export const CompactButton: Story = {
-  args: {
-    value: "Compact button",
-    icon:
-  <Icon
-    size={IconSize.SMALL}
-    name="PlusIcon"
-  />,
-    onClick: () => { },
-    buttonType: ButtonType.COMPACT,
-  },
-};
-
 export const IconButton: Story = {
   args: {
     icon:

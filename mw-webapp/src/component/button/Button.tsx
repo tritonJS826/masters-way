@@ -18,11 +18,6 @@ export enum ButtonType {
   SECONDARY = "secondary",
 
   /**
-   * Button with low height and the ability to place an icon
-   */
-  COMPACT = "compact",
-
-  /**
    * Button that looks like an icon
    */
   ICON_BUTTON = "iconButton",
