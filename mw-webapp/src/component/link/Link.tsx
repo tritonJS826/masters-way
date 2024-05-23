@@ -22,17 +22,26 @@ interface LinkProps {
    * Data attribute for cypress testing
    */
   dataCy?: string;
+
+  /**
+   * Open link in a new tab or window
+   * @default false
+   */
+  isNewTab?: boolean;
 }
 
 /**
  * Link component
  */
 export const Link = (props: PropsWithChildren<LinkProps>) => {
+  const externalLinkAttributes = props.isNewTab ? {target: "_blank", rel: "noopener noreferrer"} : {};
+
   return (
     <LinkFromRouter
       className={clsx(styles.link, props.className)}
       to={props.path}
       data-cy={props.dataCy}
+      {...externalLinkAttributes}
     >
       {props.children}
     </LinkFromRouter>

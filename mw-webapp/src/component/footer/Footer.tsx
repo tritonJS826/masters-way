@@ -56,14 +56,20 @@ export const Footer = (props: FooterProps) => {
             placeholder=""
           />
           <HorizontalContainer className={styles.socialMediaIcons}>
-            <Link path="https://linkedin.com/company/masters-way-project">
+            <Link
+              path="https://linkedin.com/company/masters-way-project"
+              isNewTab
+            >
               <Icon
                 size={IconSize.MEDIUM}
                 name="LinkedinIcon"
                 className={styles.socialMediaIcon}
               />
             </Link>
-            <Link path="https://www.youtube.com/watch?v=DiNNQol15ds&list=PL7eqEW04iXMV2tu_JYAIwerepUTZJjciM&index=2">
+            <Link
+              path="https://www.youtube.com/watch?v=DiNNQol15ds&list=PL7eqEW04iXMV2tu_JYAIwerepUTZJjciM&index=2"
+              isNewTab
+            >
               <Icon
                 size={IconSize.MEDIUM}
                 name="YoutubeIcon"

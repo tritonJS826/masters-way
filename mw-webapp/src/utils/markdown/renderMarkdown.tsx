@@ -8,9 +8,12 @@ const customComponents: Components = {
    * Custom anchor element for markdown
    */
   a: ({children, ...params}) => {
+
     return (
       <a
         {...params}
+        target="_blank"
+        rel="noopener noreferrer"
         className={styles.a}
       >
         {children}
