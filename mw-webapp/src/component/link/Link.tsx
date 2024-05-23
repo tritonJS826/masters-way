@@ -25,7 +25,7 @@ interface LinkProps {
 
   /**
    * Open link in a new tab or window
-   * @default isNewTab: false
+   * @default false
    */
   isNewTab?: boolean;
 }
@@ -34,15 +34,14 @@ interface LinkProps {
  * Link component
  */
 export const Link = (props: PropsWithChildren<LinkProps>) => {
-  const isNewTab = props.isNewTab ?? false;
-  const targetAndRelProps = isNewTab ? {target: "_blank", rel: "noopener noreferrer"} : {};
+  const externalLinkAttributes = props.isNewTab ? {target: "_blank", rel: "noopener noreferrer"} : {};
 
   return (
     <LinkFromRouter
       className={clsx(styles.link, props.className)}
       to={props.path}
       data-cy={props.dataCy}
-      {...targetAndRelProps}
+      {...externalLinkAttributes}
     >
       {props.children}
     </LinkFromRouter>
