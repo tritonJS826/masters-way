@@ -918,7 +918,7 @@ export const WayPage = observer((props: WayPageProps) => {
             }
             >
               <button
-                className={styles.iconContainer}
+                className={clsx(styles.iconContainer, styles.statisticEyeButton)}
                 onClick={() => updateWayPageSettings({isStatisticsVisible: !wayPageSettings.isStatisticsVisible})}
               >
                 <Icon
