@@ -18,15 +18,19 @@ const countUsers = `-- name: CountUsers :one
 SELECT COUNT(*) FROM users
 WHERE ((LOWER(users.email) LIKE '%' || LOWER($1) || '%') OR ($1 = ''))
     AND ((LOWER(users.name) LIKE '%' || LOWER($2) || '%') OR ($2 = ''))
+    AND (
+        ($3 = 'mentor' AND users.is_mentor = true)
+        OR ($3 = 'all'))
 `
 
 type CountUsersParams struct {
-	Email string `json:"email"`
-	Name  string `json:"name"`
+	Email        string      `json:"email"`
+	Name         string      `json:"name"`
+	MentorStatus interface{} `json:"mentor_status"`
 }
 
 func (q *Queries) CountUsers(ctx context.Context, arg CountUsersParams) (int64, error) {
-	row := q.queryRow(ctx, q.countUsersStmt, countUsers, arg.Email, arg.Name)
+	row := q.queryRow(ctx, q.countUsersStmt, countUsers, arg.Email, arg.Name, arg.MentorStatus)
 	var count int64
 	err := row.Scan(&count)
 	return count, err
@@ -203,8 +207,11 @@ FROM users
 WHERE (LOWER(users.email) LIKE '%' || LOWER($3) || '%' OR $3 = '')
     AND (LOWER(users.name) LIKE '%' || LOWER($4) || '%' OR $4 = '')
     -- mentoring status filter
-    AND ($5 = 'mentor' AND users.is_mentor = true)
+    AND (
+        ($5 = 'mentor' AND users.is_mentor = true)
         OR ($5 = 'all')
+    )
+        
 ORDER BY created_at DESC
 LIMIT $1
 OFFSET $2

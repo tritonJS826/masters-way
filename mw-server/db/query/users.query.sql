@@ -60,7 +60,7 @@ WHERE (LOWER(users.email) LIKE '%' || LOWER(@email) || '%' OR @email = '')
     AND (LOWER(users.name) LIKE '%' || LOWER(@name) || '%' OR @name = '')
     -- mentoring status filter
     AND (
-    (@mentor_status = 'mentor' AND users.is_mentor = true)
+        (@mentor_status = 'mentor' AND users.is_mentor = true)
         OR (@mentor_status = 'all')
     )
         
@@ -72,7 +72,10 @@ OFFSET $2;
 -- name: CountUsers :one
 SELECT COUNT(*) FROM users
 WHERE ((LOWER(users.email) LIKE '%' || LOWER(@email) || '%') OR (@email = ''))
-    AND ((LOWER(users.name) LIKE '%' || LOWER(@name) || '%') OR (@name = ''));
+    AND ((LOWER(users.name) LIKE '%' || LOWER(@name) || '%') OR (@name = ''))
+    AND (
+        (@mentor_status = 'mentor' AND users.is_mentor = true)
+        OR (@mentor_status = 'all'));
 
 -- name: UpdateUser :one
 UPDATE users
