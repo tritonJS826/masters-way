@@ -14,5 +14,6 @@ body {
 }
 
 #root {
+  max-width: $maxWidthFullScreen;
   margin: 0 auto;
 }
