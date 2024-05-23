@@ -16,6 +16,7 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {WayCard} from "src/component/wayCard/WayCard";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
+import {themeStore} from "src/globalStore/ThemeStore";
 import {useLoad} from "src/hooks/useLoad";
 import {usePersistanceState} from "src/hooks/usePersistanceState";
 import {FILTER_STATUS_ALL_VALUE} from "src/logic/waysTable/BaseWaysTable";
@@ -61,6 +62,7 @@ interface AllWaysFetchData {
  */
 export const AllWaysPage = observer(() => {
   const {language} = languageStore;
+  const {theme} = themeStore;
   const [allWays, setAllWays] = useState<WayPreview[]>();
   const [allWaysAmount, setAllWaysAmount] = useState<number>();
   const [pagePagination, setPagePagination] = useState<number>(DEFAULT_PAGE_PAGINATION_VALUE);
@@ -127,7 +129,7 @@ export const AllWaysPage = observer(() => {
 
   if (!allWays) {
     return (
-      <Loader />
+      <Loader theme={theme} />
     );
   }
 

@@ -24,6 +24,7 @@ import {UserTagDAL} from "src/dataAccessLogic/UserTagDAL";
 import {WayCollectionDAL} from "src/dataAccessLogic/WayCollectionDAL";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
+import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
 import {useLoad} from "src/hooks/useLoad";
 import {usePersistanceState} from "src/hooks/usePersistanceState";
@@ -149,6 +150,7 @@ interface UserPageSettingsValidatorParams {
 export const UserPage = observer((props: UserPageProps) => {
   const {user, setUser} = userStore;
   const {language} = languageStore;
+  const {theme} = themeStore;
   const [isRenameCollectionModalOpen, setIsRenameCollectionModalOpen] = useState(false);
   const [isAddUserTagModalOpen, setIsAddUserTagModalOpen] = useState(false);
 
@@ -235,7 +237,7 @@ export const UserPage = observer((props: UserPageProps) => {
 
   if (!userPageOwner || !userPageSettings) {
     return (
-      <Loader />
+      <Loader theme={theme} />
     );
   }
 
@@ -333,7 +335,7 @@ export const UserPage = observer((props: UserPageProps) => {
   if (!currentCollection) {
     return (
       <>
-        <Loader />
+        <Loader theme={theme} />
         No collection
       </>
     );

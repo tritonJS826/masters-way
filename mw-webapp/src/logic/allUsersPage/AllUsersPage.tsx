@@ -17,6 +17,7 @@ import {UserCard} from "src/component/userCard/UserCard";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {UserDAL} from "src/dataAccessLogic/UserDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
+import {themeStore} from "src/globalStore/ThemeStore";
 import {useLoad} from "src/hooks/useLoad";
 import {usePersistanceState} from "src/hooks/usePersistanceState";
 import {UsersTableBlock} from "src/logic/usersTable/UsersTableBlock";
@@ -72,6 +73,7 @@ export const AllUsersPage = observer(() => {
   const [debouncedName] = useDebounce(name, DEBOUNCE_DELAY_MILLISECONDS);
 
   const {language} = languageStore;
+  const {theme} = themeStore;
 
   const [allUsersPageSettings, updateAllUsersPageSettings] = usePersistanceState({
     key: "allUsersPage",
@@ -140,7 +142,7 @@ export const AllUsersPage = observer(() => {
 
   if (!allUsers) {
     return (
-      <Loader />
+      <Loader theme={theme} />
     );
   }
 

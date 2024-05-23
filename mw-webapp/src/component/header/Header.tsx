@@ -317,7 +317,7 @@ export const Header = (props: HeaderProps) => {
                     </Link>
                     <Link
                       className={styles.logo}
-                      path="https://www.youtube.com/watch?v=DiNNQol15ds&list=PL7eqEW04iXMV2tu_JYAIwerepUTZJjciM&index=2"
+                      path="https://www.youtube.com/watch?v=DiNNQol15ds&list=PL7eqEW04iXMV2tu_JYAIwerepUTZJjciM"
                       isNewTab
                     >
                       <Icon
@@ -332,7 +332,7 @@ export const Header = (props: HeaderProps) => {
                 <Button
                   onClick={AuthService.logOut}
                   value={LanguageService.header.logoutButton[props.language]}
-                  buttonType={ButtonType.SECONDARY}
+                  buttonType={ButtonType.PRIMARY}
                 />
                 }
               </VerticalContainer>

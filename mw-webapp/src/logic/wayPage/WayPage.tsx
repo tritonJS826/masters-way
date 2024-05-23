@@ -27,6 +27,7 @@ import {WayCollectionWayDAL} from "src/dataAccessLogic/WayCollectionWayDAL";
 import {BaseWayData, WayDAL} from "src/dataAccessLogic/WayDAL";
 import {WayTagDAL} from "src/dataAccessLogic/WayTagDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
+import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
 import {useLoad} from "src/hooks/useLoad";
 import {usePersistanceState} from "src/hooks/usePersistanceState";
@@ -119,6 +120,7 @@ export const WayPage = observer((props: WayPageProps) => {
   });
   const {user, setUser} = userStore;
   const {language} = languageStore;
+  const {theme} = themeStore;
   const [way, setWay] = useState<Way>();
   const [isAddWayTagModalOpen, setIsAddWayTagModalOpen] = useState(false);
 
@@ -165,7 +167,7 @@ export const WayPage = observer((props: WayPageProps) => {
 
   if (!way) {
     return (
-      <Loader />
+      <Loader theme={theme} />
     );
   }
 

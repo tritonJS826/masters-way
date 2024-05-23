@@ -102,4 +102,10 @@
   &:hover {
     background-color: var(--secondaryBgBtnColor);
   }
+
+  &:active {
+    border: none;
+    background-color: var(--secondaryBgBtnColor);
+    color: var(--primaryTextColor);
+  }
 }
