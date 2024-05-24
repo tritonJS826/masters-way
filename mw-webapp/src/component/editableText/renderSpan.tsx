@@ -1,3 +1,4 @@
+import {Text} from "src/component/text/Text";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import styles from "src/component/editableText/renderSpan.module.scss";
 
@@ -40,7 +41,10 @@ interface RenderSpanParams {
  * TODO: move to separate component, task #208
  */
 export const renderSpan = (params: RenderSpanParams) => (
-  (params.value.toString().trim() === "")
-    ? renderEmptySpan(params.placeholder)
-    : renderSpanWithValue(params.value)
+  <Text
+    value={params.value}
+    placeholder={params.placeholder}
+    renderPlaceholder={renderEmptySpan}
+    renderValue={renderSpanWithValue}
+  />
 );
