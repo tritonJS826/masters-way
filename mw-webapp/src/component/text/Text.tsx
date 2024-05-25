@@ -1,4 +1,17 @@
-import {ReactElement} from "react";
+import clsx from "clsx";
+import styles from "src/component/text/Text.module.scss";
+
+/**
+ * Type of  text variant styles
+ */
+
+export type ThemeVariant = "clear" | "outline";
+
+/**
+ * Type of size text styles
+ */
+
+export type TextSize = "m" | "l" | "xl";
 
 /**
  * Params for {@link Text}
@@ -6,40 +19,42 @@ import {ReactElement} from "react";
 interface TextProps {
 
   /**
-   * Displayed values
+   * Displayed text
    */
-  value: string | number;
+  text: string | number;
 
   /**
-   * Displayed placeholder
+   * Displayed size text
    */
-  placeholder: string;
+  size?: TextSize;
 
   /**
-   * Function to render value
+   * Displayed variant theme text
    */
-  renderValue: (value: string | number) => ReactElement;
+  variant?: ThemeVariant;
 
   /**
-   * Function to render placeholder
+   * Data attributes for cypress testing
    */
-  renderPlaceholder: (placeholder: string) => ReactElement;
+  cy?: string;
 }
 
 /**
  * Component Text
  */
 export const Text = (props: TextProps) => {
-  const {
-    placeholder,
-    value,
-    renderPlaceholder,
-    renderValue,
-  } = props;
-
   return (
-    <span>
-      {value.toString().trim() === "" ? renderPlaceholder(placeholder) : renderValue(value)}
-    </span>
+    <div data-cy={props.cy}>
+      {props.text &&
+      <p className={clsx(
+        styles.Text,
+        props.size && styles[props.size],
+        props.variant && styles[props.variant],
+      )}
+      >
+        {props.text}
+      </p>
+      }
+    </div>
   );
 };
