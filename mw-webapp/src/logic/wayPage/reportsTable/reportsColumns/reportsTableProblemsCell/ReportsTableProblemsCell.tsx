@@ -1,18 +1,16 @@
-import {TrashIcon} from "@radix-ui/react-icons";
 import {observer} from "mobx-react-lite";
-import {Button, ButtonType} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Checkbox";
-import {Confirm} from "src/component/confirm/Confirm";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
-import {Icon, IconSize} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
+import {Trash} from "src/component/trash/Trash";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {ProblemDAL} from "src/dataAccessLogic/ProblemDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {getListNumberByIndex} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
+import {SummarySection} from "src/logic/wayPage/reportsTable/reportsColumns/summarySection/SummarySection";
 import {getFirstName} from "src/logic/waysTable/waysColumns";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Problem} from "src/model/businessModel/Problem";
@@ -112,15 +110,15 @@ export const ReportsTableProblemsCell = observer((props: ReportsTableProblemsCel
             key={problem.uuid}
             className={styles.numberedListItem}
           >
-            <HorizontalContainer className={styles.horizontalContainer}>
-              <HorizontalContainer className={styles.listNumberAndName}>
-                {getListNumberByIndex(index)}
-                <Link path={pages.user.getPath({uuid: problem.ownerUuid})}>
-                  {getFirstName(problem.ownerName)}
-                </Link>
-              </HorizontalContainer>
-              <HorizontalContainer className={styles.icons}>
-                {props.isEditable &&
+            <HorizontalContainer className={styles.recordInfo}>
+              {getListNumberByIndex(index)}
+              <Link
+                path={pages.user.getPath({uuid: problem.ownerUuid})}
+                className={styles.ownerName}
+              >
+                {getFirstName(problem.ownerName)}
+              </Link>
+              {props.isEditable &&
                 <Tooltip
                   position={PositionTooltip.RIGHT}
                   content={LanguageService.way.reportsTable.columnTooltip.problemCheckbox[language]}
@@ -134,25 +132,18 @@ export const ReportsTableProblemsCell = observer((props: ReportsTableProblemsCel
                     className={styles.checkbox}
                   />
                 </Tooltip>
-                }
-                {problem.ownerUuid === props.user?.uuid &&
-                <Tooltip
-                  content={LanguageService.way.reportsTable.columnTooltip.deleteProblem[language]}
-                  position={PositionTooltip.BOTTOM}
-                >
-                  <Confirm
-                    trigger={<TrashIcon className={styles.icon} />}
-                    content={<p>
-                      {`${LanguageService.way.reportsTable.modalWindow.deleteProblemQuestion[language]} 
-                      "${problem.description}"?`}
-                    </p>}
-                    onOk={() => deleteProblem(problem.uuid)}
-                    okText={LanguageService.modals.confirmModal.deleteButton[language]}
-                    cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
-                  />
-                </Tooltip>
-                }
-              </HorizontalContainer>
+              }
+              {problem.ownerUuid === props.user?.uuid &&
+                <Trash
+                  tooltipContent={LanguageService.way.reportsTable.columnTooltip.deleteProblem[language]}
+                  tooltipPosition={PositionTooltip.BOTTOM}
+                  okText={LanguageService.modals.confirmModal.deleteButton[language]}
+                  cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
+                  onOk={() => deleteProblem(problem.uuid)}
+                  confirmContent={`${LanguageService.way.reportsTable.modalWindow.deleteProblemQuestion[language]}
+                    "${problem.description}"?`}
+                />
+              }
             </HorizontalContainer>
             <EditableTextarea
               text={problem.description}
@@ -161,7 +152,6 @@ export const ReportsTableProblemsCell = observer((props: ReportsTableProblemsCel
                 description,
               })}
               isEditable={problem.ownerUuid === props.user?.uuid}
-              className={styles.editableTextarea}
               placeholder={props.isEditable
                 ? LanguageService.common.emptyMarkdownAction[language]
                 : LanguageService.common.emptyMarkdown[language]
@@ -170,25 +160,12 @@ export const ReportsTableProblemsCell = observer((props: ReportsTableProblemsCel
           </li>
         ))}
       </ol>
-      <div className={styles.summarySection}>
-        {props.isEditable &&
-        <Tooltip
-          content={LanguageService.way.reportsTable.columnTooltip.addProblem[language]}
-          position={PositionTooltip.RIGHT}
-        >
-          <Button
-            value={
-              <Icon
-                size={IconSize.SMALL}
-                name="PlusIcon"
-              />
-            }
-            onClick={() => createProblem(props.user?.uuid)}
-            buttonType={ButtonType.ICON_BUTTON}
-          />
-        </Tooltip>
-        }
-      </div>
+      <SummarySection
+        isEditable={props.isEditable}
+        tooltipContent={LanguageService.way.reportsTable.columnTooltip.addProblem[language]}
+        tooltipPosition={PositionTooltip.RIGHT}
+        onClick={() => createProblem(props.user?.uuid)}
+      />
     </VerticalContainer>
   );
 });

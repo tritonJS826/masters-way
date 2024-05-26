@@ -1,16 +1,12 @@
-import {TrashIcon} from "@radix-ui/react-icons";
-import {clsx} from "clsx";
 import {observer} from "mobx-react-lite";
-import {Button, ButtonType} from "src/component/button/Button";
-import {Confirm} from "src/component/confirm/Confirm";
 import {EditableText} from "src/component/editableText/EditableText";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
-import {Icon, IconSize} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
 import {Modal} from "src/component/modal/Modal";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
+import {Trash} from "src/component/trash/Trash";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
 import {JobDoneJobTagDAL} from "src/dataAccessLogic/JobDoneJobTagDAL";
@@ -19,6 +15,7 @@ import {JobDoneTags} from "src/logic/wayPage/reportsTable/jobDoneTags/JobDoneTag
 import {ModalContentJobTags} from "src/logic/wayPage/reportsTable/modalContentJobTags/ModalContentJobTags";
 import {DEFAULT_SUMMARY_TIME, getListNumberByIndex, getValidatedTime, MAX_TIME, MIN_TIME}
   from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
+import {SummarySection} from "src/logic/wayPage/reportsTable/reportsColumns/summarySection/SummarySection";
 import {getFirstName} from "src/logic/waysTable/waysColumns";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
@@ -188,75 +185,69 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
             key={jobDone.uuid}
             className={styles.numberedListItem}
           >
-            <HorizontalContainer className={clsx(styles.horizontalContainer, styles.listNumberAndName)}>
-              <HorizontalContainer className={styles.listNumberAndName}>
-                {getListNumberByIndex(index)}
-                <Link path={pages.user.getPath({uuid: jobDone.ownerUuid})}>
-                  {getFirstName(jobDone.ownerName)}
-                </Link>
-              </HorizontalContainer>
-              <HorizontalContainer className={styles.icons}>
-                {props.isEditable ?
-                  <Modal
-                    trigger={jobDone.tags.length === 0 ?
-                      <div className={styles.tagsBlockTrigger}>
-                        {LanguageService.way.reportsTable.column.addLabel[language]}
-                      </div>
-                      :
-                      <div className={styles.tagsBlockTrigger}>
-                        <JobDoneTags jobDoneTags={jobDone.tags} />
-                      </div>
-                    }
-                    content={
-                      <ModalContentJobTags
-                        jobTags={props.jobTags}
-                        jobDoneTags={jobDone.tags}
-                        isEditable={props.isEditable}
-                        updateTags={(tagsToUpdate: JobTag[]) => updateLabelsInJobDone({
-                          jobDoneUuid: jobDone.uuid,
-                          updatedTags: tagsToUpdate,
-                        })}
-                      />
-                    }
-                  />
-                  : <JobDoneTags jobDoneTags={jobDone.tags} />
-                }
-                <Tooltip
-                  position={PositionTooltip.BOTTOM}
-                  content={LanguageService.way.reportsTable.columnTooltip.jobTime[language]}
-                >
-                  <EditableText
-                    value={jobDone.time}
-                    type="number"
-                    max={MAX_TIME}
-                    min={MIN_TIME}
-                    onChangeFinish={(time) =>
-                      updateJobDone({
-                        uuid: jobDone.uuid,
-                        time: getValidatedTime(Number(time)),
+            <HorizontalContainer className={styles.recordInfo}>
+              {getListNumberByIndex(index)}
+              <Link
+                path={pages.user.getPath({uuid: jobDone.ownerUuid})}
+                className={styles.ownerName}
+              >
+                {getFirstName(jobDone.ownerName)}
+              </Link>
+              {props.isEditable ?
+                <Modal
+                  trigger={jobDone.tags.length === 0 ?
+                    <div className={styles.tagsBlockTrigger}>
+                      {LanguageService.way.reportsTable.column.addLabel[language]}
+                    </div>
+                    :
+                    <div className={styles.tagsBlockTrigger}>
+                      <JobDoneTags jobDoneTags={jobDone.tags} />
+                    </div>
+                  }
+                  content={
+                    <ModalContentJobTags
+                      jobTags={props.jobTags}
+                      jobDoneTags={jobDone.tags}
+                      isEditable={props.isEditable}
+                      updateTags={(tagsToUpdate: JobTag[]) => updateLabelsInJobDone({
+                        jobDoneUuid: jobDone.uuid,
+                        updatedTags: tagsToUpdate,
                       })}
-                    className={styles.editableTime}
-                    isEditable={props.isEditable}
-                    placeholder={LanguageService.common.emptyMarkdownAction[language]}
-                  />
-                </Tooltip>
-                {props.isEditable &&
-                <Tooltip
-                  position={PositionTooltip.BOTTOM}
-                  content={LanguageService.way.reportsTable.columnTooltip.deleteJob[language]}
-                >
-                  <Confirm
-                    trigger={<TrashIcon className={styles.icon} />}
-                    content={<p>
-                      {`${LanguageService.way.reportsTable.modalWindow.deleteJobQuestion[language]} "${jobDone.description}"?`}
-                    </p>}
-                    onOk={() => deleteJobDone(jobDone.uuid)}
-                    okText={LanguageService.modals.confirmModal.deleteButton[language]}
-                    cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
-                  />
-                </Tooltip>
-                }
-              </HorizontalContainer>
+                    />
+                  }
+                />
+                : <JobDoneTags jobDoneTags={jobDone.tags} />
+              }
+              <Tooltip
+                position={PositionTooltip.BOTTOM}
+                content={LanguageService.way.reportsTable.columnTooltip.jobTime[language]}
+              >
+                <EditableText
+                  value={jobDone.time}
+                  type="number"
+                  max={MAX_TIME}
+                  min={MIN_TIME}
+                  onChangeFinish={(time) =>
+                    updateJobDone({
+                      uuid: jobDone.uuid,
+                      time: getValidatedTime(Number(time)),
+                    })}
+                  className={styles.editableTime}
+                  isEditable={props.isEditable}
+                  placeholder={LanguageService.common.emptyMarkdownAction[language]}
+                />
+              </Tooltip>
+              {props.isEditable &&
+              <Trash
+                tooltipContent={LanguageService.way.reportsTable.columnTooltip.deleteJob[language]}
+                tooltipPosition={PositionTooltip.BOTTOM}
+                okText={LanguageService.modals.confirmModal.deleteButton[language]}
+                cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
+                onOk={() => deleteJobDone(jobDone.uuid)}
+                confirmContent={`${LanguageService.way.reportsTable.modalWindow.deleteJobQuestion[language]}
+                  "${jobDone.description}"?`}
+              />
+              }
             </HorizontalContainer>
             <EditableTextarea
               text={jobDone.description}
@@ -265,7 +256,6 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
                 description,
               })}
               isEditable={props.isEditable}
-              className={styles.editableTextarea}
               placeholder={props.isEditable
                 ? LanguageService.common.emptyMarkdownAction[language]
                 : LanguageService.common.emptyMarkdown[language]}
@@ -273,31 +263,15 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
           </li>
         ))}
       </ol>
-      <div className={styles.summarySection}>
-        {props.isEditable &&
-        <Tooltip
-          content={LanguageService.way.reportsTable.columnTooltip.addJob[language]}
-          position={PositionTooltip.RIGHT}
-        >
-          <Button
-            value={
-              <Icon
-                size={IconSize.SMALL}
-                name="PlusIcon"
-              />
-            }
-            onClick={() => createJobDone(props.user?.uuid)}
-            buttonType={ButtonType.ICON_BUTTON}
-          />
-        </Tooltip>
+      <SummarySection
+        isEditable={props.isEditable}
+        tooltipContent={LanguageService.way.reportsTable.columnTooltip.addJob[language]}
+        tooltipPosition={PositionTooltip.RIGHT}
+        onClick={() => createJobDone(props.user?.uuid)}
+        total={`${LanguageService.way.reportsTable.total[language]}${Symbols.NO_BREAK_SPACE}
+          ${props.dayReport.jobsDone.reduce((summaryTime, jobDone) => jobDone.time + summaryTime, DEFAULT_SUMMARY_TIME)}`
         }
-        <div className={styles.summaryText}>
-          {`${LanguageService.way.reportsTable.total[language]}${Symbols.NO_BREAK_SPACE}`}
-          {props.dayReport.jobsDone
-            .reduce((summaryTime, jobDone) => jobDone.time + summaryTime, DEFAULT_SUMMARY_TIME)
-          }
-        </div>
-      </div>
+      />
     </VerticalContainer>
   );
 });
