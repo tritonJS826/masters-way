@@ -704,14 +704,19 @@ export const WayPage = observer((props: WayPageProps) => {
                   content={
                     <PromptModalContent
                       defaultValue=""
-                      placeholder={LanguageService.way.wayInfo.addWayTagButton[language]}
+                      placeholder={LanguageService.way.wayInfo.addWayTagModal[language]}
                       close={() => setIsAddWayTagModalOpen(false)}
                       onOk={async (tagName: string) => {
-                        const newTagRaw = await WayTagDAL.addWayTagToWay({name: tagName, wayUuid: way.uuid});
-                        const newTag: WayTag = {name: newTagRaw.name, uuid: newTagRaw.uuid};
-                        const updatedWayTags = [...way.wayTags, newTag];
-                        const updatedWay = new Way({...way, wayTags: updatedWayTags});
-                        setWay(updatedWay);
+                        const isWayTagDuplicate = !!way.wayTags.find((tag) => tag.name === tagName);
+                        if (isWayTagDuplicate) {
+                          alert(`${LanguageService.way.wayInfo.duplicateTagModal[language]}`);
+                        } else {
+                          const newTagRaw = await WayTagDAL.addWayTagToWay({name: tagName, wayUuid: way.uuid});
+                          const newTag: WayTag = {name: newTagRaw.name, uuid: newTagRaw.uuid};
+                          const updatedWayTags = [...way.wayTags, newTag];
+                          const updatedWay = new Way({...way, wayTags: updatedWayTags});
+                          setWay(updatedWay);
+                        }
                       }}
                       okButtonValue={LanguageService.modals.promptModal.okButton[language]}
                       cancelButtonValue={LanguageService.modals.promptModal.cancelButton[language]}

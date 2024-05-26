@@ -561,15 +561,20 @@ export const UserPage = observer((props: UserPageProps) => {
                   content={
                     <PromptModalContent
                       defaultValue=""
-                      placeholder="New skill"
+                      placeholder={LanguageService.user.personalInfo.addSkillModal[language]}
                       close={() => setIsAddUserTagModalOpen(false)}
                       onOk={async (tagName: string) => {
-                        const newTagRaw = await UserTagDAL.createUserTag({name: tagName, ownerUuid: user.uuid});
-                        const newTag: UserTag = {name: newTagRaw.name, uuid: newTagRaw.uuid};
-                        const updatedUserTags = [...user.tags, newTag];
-                        const updatedUser = new User({...user, tags: updatedUserTags});
-                        setUser(updatedUser);
-                        setUserPageOwner(updatedUser);
+                        const isSkillDuplicate = !!user.tags.find((tag) => tag.name === tagName);
+                        if (isSkillDuplicate) {
+                          alert(`${LanguageService.user.personalInfo.duplicateSkillModal[language]}`);
+                        } else {
+                          const newTagRaw = await UserTagDAL.createUserTag({name: tagName, ownerUuid: user.uuid});
+                          const newTag: UserTag = {name: newTagRaw.name, uuid: newTagRaw.uuid};
+                          const updatedUserTags = [...user.tags, newTag];
+                          const updatedUser = new User({...user, tags: updatedUserTags});
+                          setUser(updatedUser);
+                          setUserPageOwner(updatedUser);
+                        }
                       }}
                       okButtonValue={LanguageService.modals.promptModal.okButton[language]}
                       cancelButtonValue={LanguageService.modals.promptModal.cancelButton[language]}

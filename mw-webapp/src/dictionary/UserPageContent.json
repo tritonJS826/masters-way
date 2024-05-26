@@ -24,6 +24,18 @@
       "ua": "Додати до обраних",
       "ka": "რჩეულებში დამატება"
     },
+    "duplicateSkillModal": {
+      "ru": "Навык с таким именем уже существует",
+      "en": "A skill with the same name already exists",
+      "ua": "Навичка з такою назвою вже існує",
+      "ka": "იგივე სახელის უნარი უკვე არსებობს"
+    },
+    "addSkillModal": {
+      "ru": "Новый навык",
+      "en": "New skill",
+      "ua": "Новий навик",
+      "ka": "ახალი უნარი"
+    },
     "createNewWayButton": {
       "ru": "Создать новый путь",
       "en": "Create new way",
