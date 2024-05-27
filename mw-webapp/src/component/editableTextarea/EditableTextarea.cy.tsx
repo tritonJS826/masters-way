@@ -36,12 +36,12 @@ describe("EditableTextarea component", () => {
     cy.get(getDataCy(EDITABLETEXT_CY.textArea)).should("have.value", EDITABLTEXTAREA_VALUE);
   });
 
-  it("shoud render input or div depend on client actions", () => {
+  it("shoud render input or span depend on client actions", () => {
     cy.get(getDataCy(EDITABLETEXT_CY.trigger))
       .dblclick();
     cy.get(getDataCy(EDITABLETEXT_CY.textArea)).should("have.value", EDITABLTEXTAREA_VALUE);
     cy.get(getDataCy(EDITABLETEXT_CY.trigger)).should("exist").trigger("keydown", {key: "Enter", ctrlKey: true});
-    cy.get(getDataCy(EDITABLETEXT_CY.trigger)).find("div").should("have.text", EDITABLTEXTAREA_VALUE);
+    cy.get(getDataCy(EDITABLETEXT_CY.trigger)).find("span").should("have.text", EDITABLTEXTAREA_VALUE);
   });
 
   it("shoud typing text and check", () => {

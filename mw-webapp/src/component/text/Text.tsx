@@ -37,11 +37,11 @@ interface TextProps {
  */
 export const Text = (props: TextProps) => {
   return (
-    <div
+    <span
       className={props.className}
       data-cy={props.cy}
     >
       {props.text}
-    </div>
+    </span>
   );
 };

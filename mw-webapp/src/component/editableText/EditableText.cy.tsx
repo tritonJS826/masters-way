@@ -73,17 +73,17 @@ describe("EditableText component", () => {
     cy.get(getDataCy(EDITABLETEXTINPUT_CY)).should("have.value", EDITABLETEXTINPUT_VALUE_NUMBER);
   });
 
-  it("shoud render input or div depend on client actions", () => {
+  it("shoud render input or span depend on client actions", () => {
     cy.mount(createTestEditableText({value: EDITABLETEXTINPUT_VALUE, type: InputType.Text}));
     cy.get(getDataCy(EDITABLETEXT_CY.trigger))
       .dblclick();
     cy.get(getDataCy(EDITABLETEXTINPUT_CY)).should("have.value", EDITABLETEXTINPUT_VALUE);
     cy.get(BODY_DOCUMENT).click(COORDINATES_BODY, COORDINATES_BODY, {force: true});
     cy.get(getDataCy(EDITABLETEXTINPUT_CY)).should("not.exist");
-    cy.get(getDataCy(EDITABLETEXT_CY.trigger)).find("div").should("have.text", EDITABLETEXTINPUT_VALUE);
+    cy.get(getDataCy(EDITABLETEXT_CY.trigger)).find("span").should("have.text", EDITABLETEXTINPUT_VALUE);
   });
 
-  it("shoud be render div after change finished", () => {
+  it("shoud be render span after change finished", () => {
     cy.mount(createTestEditableText({value: EDITABLETEXTINPUT_VALUE, type: InputType.Text}));
     cy.get(getDataCy(EDITABLETEXT_CY.trigger))
       .dblclick();
@@ -91,7 +91,7 @@ describe("EditableText component", () => {
     cy.get(getDataCy(EDITABLETEXT_CY.trigger))
       .should("exist").trigger("keydown", {key: "Enter"});
     cy.get(getDataCy(EDITABLETEXTINPUT_CY)).should("not.exist");
-    cy.get(getDataCy(EDITABLETEXT_CY.trigger)).find("div").should("have.text", EDITABLETEXTINPUT_VALUE);
+    cy.get(getDataCy(EDITABLETEXT_CY.trigger)).find("span").should("have.text", EDITABLETEXTINPUT_VALUE);
   });
 
 });
