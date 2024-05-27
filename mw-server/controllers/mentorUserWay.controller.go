@@ -52,20 +52,13 @@ func (cc *MentorUserWayController) AddMentorUserWay(ctx *gin.Context) {
 	_, err := cc.db.CreateMentorUserWay(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
-	args2 := db.AddWayToMentoringCollectionParams{
-		OwnerUuid: uuid.MustParse(payload.UserUuid),
-		WayUuid:   uuid.MustParse(payload.WayUuid),
-	}
-	err2 := cc.db.AddWayToMentoringCollection(ctx, args2)
-	util.HandleErrorGin(ctx, err2)
-
 	args4 := &db.DeleteFromUserMentoringRequestParams{
 		UserUuid: uuid.MustParse(payload.UserUuid),
 		WayUuid:  uuid.MustParse(payload.WayUuid),
 	}
 	err4 := cc.db.DeleteFromUserMentoringRequest(ctx, *args4)
 
-	if err0 == nil && err == nil && err2 == nil && err4 == nil {
+	if err0 == nil && err == nil && err4 == nil {
 		ctx.JSON(http.StatusOK, gin.H{"status": "successfully added"})
 	}
 }
@@ -95,19 +88,12 @@ func (cc *MentorUserWayController) DeleteMentorUserWay(ctx *gin.Context) {
 	err := cc.db.DeleteMentorUserWayByIds(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
-	args2 := db.RemoveWayFromMentoringCollectionParams{
-		OwnerUuid: uuid.MustParse(payload.UserUuid),
-		WayUuid:   uuid.MustParse(payload.WayUuid),
-	}
-	err2 := cc.db.RemoveWayFromMentoringCollection(ctx, args2)
-	util.HandleErrorGin(ctx, err2)
-
-	args3 := &db.CreateFormerMentorsWayParams{
+	args2 := &db.CreateFormerMentorsWayParams{
 		FormerMentorUuid: uuid.MustParse(payload.UserUuid),
 		WayUuid:          uuid.MustParse(payload.WayUuid),
 	}
-	_, err3 := cc.db.CreateFormerMentorsWay(ctx, *args3)
-	util.HandleErrorGin(ctx, err3)
+	_, err2 := cc.db.CreateFormerMentorsWay(ctx, *args2)
+	util.HandleErrorGin(ctx, err2)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})
 
