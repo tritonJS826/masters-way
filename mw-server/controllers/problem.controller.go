@@ -67,8 +67,8 @@ func (cc *ProblemController) CreateProblem(ctx *gin.Context) {
 	})
 	response := schemas.ProblemPopulatedResponse{
 		Uuid:          problem.Uuid.String(),
-		CreatedAt:     problem.CreatedAt.String(),
-		UpdatedAt:     problem.UpdatedAt.String(),
+		CreatedAt:     problem.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+		UpdatedAt:     problem.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
 		Description:   problem.Description,
 		IsDone:        problem.IsDone,
 		OwnerUuid:     problem.OwnerUuid.String(),
@@ -126,8 +126,8 @@ func (cc *ProblemController) UpdateProblem(ctx *gin.Context) {
 
 	response := schemas.ProblemPopulatedResponse{
 		Uuid:          problem.Uuid.String(),
-		CreatedAt:     problem.CreatedAt.String(),
-		UpdatedAt:     problem.UpdatedAt.String(),
+		CreatedAt:     problem.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+		UpdatedAt:     problem.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
 		Description:   problem.Description,
 		IsDone:        problem.IsDone,
 		OwnerUuid:     problem.OwnerUuid.String(),

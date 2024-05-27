@@ -61,8 +61,8 @@ func (cc *WayCollectionController) CreateWayCollection(ctx *gin.Context) {
 		Uuid:      wayCollection.Uuid.String(),
 		Name:      wayCollection.Name,
 		Ways:      []schemas.WayPlainResponse{},
-		CreatedAt: wayCollection.CreatedAt.String(),
-		UpdatedAt: wayCollection.UpdatedAt.String(),
+		CreatedAt: wayCollection.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+		UpdatedAt: wayCollection.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
 		OwnerUuid: wayCollection.OwnerUuid.String(),
 		Type:      string(wayCollection.Type),
 	}

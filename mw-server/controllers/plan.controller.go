@@ -58,8 +58,8 @@ func (cc *PlanController) CreatePlan(ctx *gin.Context) {
 
 	response := schemas.PlanPopulatedResponse{
 		Uuid:          plan.Uuid.String(),
-		CreatedAt:     plan.CreatedAt.String(),
-		UpdatedAt:     plan.UpdatedAt.String(),
+		CreatedAt:     plan.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+		UpdatedAt:     plan.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
 		Description:   plan.Description,
 		Time:          plan.Time,
 		OwnerUuid:     plan.OwnerUuid.String(),
@@ -121,8 +121,8 @@ func (cc *PlanController) UpdatePlan(ctx *gin.Context) {
 
 	response := schemas.PlanPopulatedResponse{
 		Uuid:          plan.Uuid.String(),
-		CreatedAt:     plan.CreatedAt.String(),
-		UpdatedAt:     plan.UpdatedAt.String(),
+		CreatedAt:     plan.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+		UpdatedAt:     plan.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
 		Description:   plan.Description,
 		Time:          plan.Time,
 		OwnerUuid:     plan.OwnerUuid.String(),
