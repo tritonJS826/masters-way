@@ -58,8 +58,8 @@ func (cc *CommentController) CreateComment(ctx *gin.Context) {
 		Description:   comment.Description,
 		OwnerUuid:     comment.OwnerUuid.String(),
 		OwnerName:     comment.OwnerName,
-		CreatedAt:     comment.CreatedAt.String(),
-		UpdatedAt:     comment.UpdatedAt.String(),
+		CreatedAt:     comment.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+		UpdatedAt:     comment.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
 		DayReportUuid: comment.DayReportUuid.String(),
 	}
 

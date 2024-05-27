@@ -98,8 +98,8 @@ func (cc *MetricController) UpdateMetric(ctx *gin.Context) {
 
 	response := schemas.MetricResponse{
 		Uuid:             metric.Uuid.String(),
-		CreatedAt:        metric.CreatedAt.String(),
-		UpdatedAt:        metric.UpdatedAt.String(),
+		CreatedAt:        metric.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+		UpdatedAt:        metric.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
 		Description:      metric.Description,
 		IsDone:           metric.IsDone,
 		DoneDate:         util.MarshalNullTime(metric.DoneDate),

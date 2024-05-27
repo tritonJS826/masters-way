@@ -29,7 +29,7 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 		Name:        way.OwnerName,
 		Email:       way.OwnerEmail,
 		Description: way.OwnerDescription,
-		CreatedAt:   way.OwnerCreatedAt.String(),
+		CreatedAt:   way.OwnerCreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
 		ImageUrl:    util.MarshalNullString(way.OwnerImageUrl),
 		IsMentor:    way.OwnerIsMentor,
 	}
@@ -55,7 +55,7 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 			Name:        fromUser.Name,
 			Email:       fromUser.Email,
 			Description: fromUser.Description,
-			CreatedAt:   fromUser.CreatedAt.String(),
+			CreatedAt:   fromUser.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
 			ImageUrl:    util.MarshalNullString(fromUser.ImageUrl),
 			IsMentor:    fromUser.IsMentor,
 		}
@@ -68,7 +68,7 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 			Name:        dbFormerMentor.Name,
 			Email:       dbFormerMentor.Email,
 			Description: dbFormerMentor.Description,
-			CreatedAt:   dbFormerMentor.CreatedAt.String(),
+			CreatedAt:   dbFormerMentor.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
 			ImageUrl:    util.MarshalNullString(dbFormerMentor.ImageUrl),
 			IsMentor:    dbFormerMentor.IsMentor,
 		}
@@ -81,7 +81,7 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 			Name:        dbMentor.Name,
 			Email:       dbMentor.Email,
 			Description: dbMentor.Description,
-			CreatedAt:   dbMentor.CreatedAt.String(),
+			CreatedAt:   dbMentor.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
 			ImageUrl:    util.MarshalNullString(dbMentor.ImageUrl),
 			IsMentor:    dbMentor.IsMentor,
 		}
@@ -91,8 +91,8 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 	metrics := lo.Map(metricsRaw, func(dbMetric dbb.Metric, i int) schemas.MetricResponse {
 		return schemas.MetricResponse{
 			Uuid:             dbMetric.Uuid.String(),
-			CreatedAt:        dbMetric.CreatedAt.String(),
-			UpdatedAt:        dbMetric.UpdatedAt.String(),
+			CreatedAt:        dbMetric.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+			UpdatedAt:        dbMetric.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
 			Description:      dbMetric.Description,
 			IsDone:           dbMetric.IsDone,
 			DoneDate:         util.MarshalNullTime(dbMetric.DoneDate),
@@ -132,8 +132,8 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 			jobDonesMap[dbJobDone.DayReportUuid.String()],
 			schemas.JobDonePopulatedResponse{
 				Uuid:          dbJobDone.Uuid.String(),
-				CreatedAt:     dbJobDone.CreatedAt.String(),
-				UpdatedAt:     dbJobDone.UpdatedAt.String(),
+				CreatedAt:     dbJobDone.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+				UpdatedAt:     dbJobDone.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
 				Description:   dbJobDone.Description,
 				Time:          dbJobDone.Time,
 				OwnerUuid:     dbJobDone.OwnerUuid.String(),
@@ -155,8 +155,8 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 			plansMap[plan.DayReportUuid.String()],
 			schemas.PlanPopulatedResponse{
 				Uuid:          plan.Uuid.String(),
-				CreatedAt:     plan.CreatedAt.String(),
-				UpdatedAt:     plan.UpdatedAt.String(),
+				CreatedAt:     plan.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+				UpdatedAt:     plan.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
 				Description:   plan.Description,
 				Time:          plan.Time,
 				OwnerUuid:     plan.OwnerUuid.String(),
@@ -180,8 +180,8 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 			problemsMap[problem.DayReportUuid.String()],
 			schemas.ProblemPopulatedResponse{
 				Uuid:          problem.Uuid.String(),
-				CreatedAt:     problem.CreatedAt.String(),
-				UpdatedAt:     problem.UpdatedAt.String(),
+				CreatedAt:     problem.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+				UpdatedAt:     problem.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
 				Description:   problem.Description,
 				OwnerUuid:     problem.OwnerUuid.String(),
 				OwnerName:     problemOwner.Name,
@@ -200,8 +200,8 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 			commentsMap[comment.DayReportUuid.String()],
 			schemas.CommentPopulatedResponse{
 				Uuid:          comment.Uuid.String(),
-				CreatedAt:     comment.CreatedAt.String(),
-				UpdatedAt:     comment.UpdatedAt.String(),
+				CreatedAt:     comment.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+				UpdatedAt:     comment.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
 				Description:   comment.Description,
 				OwnerUuid:     commentOwner.Uuid,
 				OwnerName:     commentOwner.Name,
@@ -228,8 +228,8 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 
 		dayReports[i] = schemas.DayReportPopulatedResponse{
 			Uuid:      dayReport.Uuid.String(),
-			CreatedAt: dayReport.CreatedAt,
-			UpdatedAt: dayReport.UpdatedAt,
+			CreatedAt: dayReport.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+			UpdatedAt: dayReport.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
 			IsDayOff:  dayReport.IsDayOff,
 			JobsDone:  jobDonesMap[dayReport.Uuid.String()],
 			Plans:     plansMap[dayReport.Uuid.String()],
@@ -257,8 +257,8 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 		Uuid:                   way.Uuid.String(),
 		Name:                   way.Name,
 		GoalDescription:        way.GoalDescription,
-		UpdatedAt:              way.UpdatedAt.String(),
-		CreatedAt:              way.CreatedAt.String(),
+		UpdatedAt:              way.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+		CreatedAt:              way.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
 		EstimationTime:         way.EstimationTime,
 		IsCompleted:            way.IsCompleted,
 		IsPrivate:              way.IsPrivate,
