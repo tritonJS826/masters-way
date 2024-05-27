@@ -1,20 +1,16 @@
-import clsx from "clsx";
-import styles from "src/component/text/Text.module.scss";
-
 /**
- * Type of  text variant styles
+ * Enum of  text variant styles
  */
 
-export type ThemeVariant = "clear" | "outline";
-
 /**
- * Type of size text styles
+ * Displayed type theme text
  */
-
-export type TextSize = "m" | "l" | "xl";
+export enum TextType {
+  DEFAULT = "default"
+}
 
 /**
- * Params for {@link Text}
+ * Text props
  */
 interface TextProps {
 
@@ -24,14 +20,10 @@ interface TextProps {
   text: string | number;
 
   /**
-   * Displayed size text
+   * Displayed type theme text
+   * @default {@link TextType}
    */
-  size?: TextSize;
-
-  /**
-   * Displayed variant theme text
-   */
-  variant?: ThemeVariant;
+  textType?: TextType.DEFAULT;
 
   /**
    * Data attributes for cypress testing
@@ -40,21 +32,12 @@ interface TextProps {
 }
 
 /**
- * Component Text
+ * Text component
  */
 export const Text = (props: TextProps) => {
   return (
     <div data-cy={props.cy}>
-      {props.text &&
-      <p className={clsx(
-        styles.Text,
-        props.size && styles[props.size],
-        props.variant && styles[props.variant],
-      )}
-      >
-        {props.text}
-      </p>
-      }
+      {props.text}
     </div>
   );
 };

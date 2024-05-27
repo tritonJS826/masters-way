@@ -12,16 +12,5 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const TextClear: Story = {
-  args: {
-    text: "Component Text",
-    variant: "clear",
-  },
-};
+export const TextDefault: Story = {args: {text: "Text component"}};
 
-export const TextOutline: Story = {
-  args: {
-    text: "Component Text",
-    variant: "outline",
-  },
-};
