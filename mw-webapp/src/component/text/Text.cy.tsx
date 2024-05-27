@@ -22,6 +22,6 @@ describe("Text component", () => {
         cy={TEXT_CY}
       />,
     );
-    cy.get(`[data-cy=${TEXT_CY}]`).should("be.empty");
+    cy.get(getDataCy(TEXT_CY)).should("be.empty");
   });
 });

@@ -1,9 +1,5 @@
 /**
- * Enum of  text variant styles
- */
-
-/**
- * Displayed type theme text
+ * Enum of text type styles
  */
 export enum TextType {
   DEFAULT = "default"
@@ -29,6 +25,11 @@ interface TextProps {
    * Data attributes for cypress testing
    */
   cy?: string;
+
+  /**
+   * Custom class for the Text.
+   */
+  className?: string;
 }
 
 /**
@@ -36,7 +37,10 @@ interface TextProps {
  */
 export const Text = (props: TextProps) => {
   return (
-    <div data-cy={props.cy}>
+    <div
+      className={props.className}
+      data-cy={props.cy}
+    >
       {props.text}
     </div>
   );
