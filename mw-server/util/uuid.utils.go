@@ -40,7 +40,7 @@ func MarshalNullString(nullString sql.NullString) *string {
 
 func MarshalNullTime(nullTime sql.NullTime) *string {
 	if nullTime.Valid {
-		str := nullTime.Time.String()
+		str := nullTime.Time.Format(DEFAULT_STRING_LAYOUT)
 		return &str
 	} else {
 		return nil
