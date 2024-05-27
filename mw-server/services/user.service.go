@@ -14,29 +14,6 @@ import (
 func CreateUser(db *dbb.Queries, ctx context.Context, args *dbb.CreateUserParams) (schemas.UserPlainResponse, error) {
 	user, err := db.CreateUser(ctx, *args)
 
-	createWayCollectionParamsOwn := dbb.CreateWayCollectionParams{
-		OwnerUuid: user.Uuid,
-		CreatedAt: user.CreatedAt,
-		Name:      "own",
-		Type:      dbb.WayCollectionTypeOwn,
-	}
-	createWayCollectionParamsFavorite := dbb.CreateWayCollectionParams{
-		OwnerUuid: user.Uuid,
-		CreatedAt: user.CreatedAt,
-		Name:      "favorite",
-		Type:      dbb.WayCollectionTypeFavorite,
-	}
-	createWayCollectionParamsMentoring := dbb.CreateWayCollectionParams{
-		OwnerUuid: user.Uuid,
-		CreatedAt: user.CreatedAt,
-		Name:      "mentoring",
-		Type:      dbb.WayCollectionTypeMentoring,
-	}
-
-	db.CreateWayCollection(ctx, createWayCollectionParamsOwn)
-	db.CreateWayCollection(ctx, createWayCollectionParamsFavorite)
-	db.CreateWayCollection(ctx, createWayCollectionParamsMentoring)
-
 	response := schemas.UserPlainResponse{
 		Uuid:        user.Uuid.String(),
 		Name:        user.Name,
@@ -249,14 +226,7 @@ func GetPopulatedUserById(db *dbb.Queries, ctx context.Context, userUuid uuid.UU
 	}
 
 	dbWayCollections, _ := db.GetWayCollectionsByUserId(ctx, user.Uuid)
-	// TODO: temporal workaround: own, mentoring and favorite collections is a pseudocollections - should be removed from collections table
-	// after removing this filter could be removed too
-	filteredDbWayCollections := lo.Filter(dbWayCollections, func(wayCollection dbb.WayCollection, i int) bool {
-		isPseudoCollection := wayCollection.Type != "own" && wayCollection.Type != "mentoring" && wayCollection.Type != "favorite"
-
-		return isPseudoCollection
-	})
-	wayCollections := lo.Map(filteredDbWayCollections, func(collection dbb.WayCollection, i int) schemas.WayCollectionPopulatedResponse {
+	wayCollections := lo.Map(dbWayCollections, func(collection dbb.WayCollection, i int) schemas.WayCollectionPopulatedResponse {
 		dbCollectionWays, _ := db.GetWaysByCollectionId(ctx, collection.Uuid)
 		dbCollectionWaysPrepared := dbCollectionWaysToDbWays(dbCollectionWays)
 

@@ -13,33 +13,6 @@ WHERE way_collection_uuid = $1 AND way_uuid = $2;
 -- name: GetWayCollectionsByUserId :many
 SELECT * FROM way_collections WHERE way_collections.owner_uuid = $1;
 
--- name: AddWayToMentoringCollection :exec
-WITH way_collection_uuid_query AS (
-    SELECT uuid
-    FROM way_collections
-    WHERE owner_uuid = $1
-    AND type = 'mentoring'
-    LIMIT 1
-)
-INSERT INTO way_collections_ways (
-    way_collection_uuid,
-    way_uuid
-)
-SELECT uuid, $2
-FROM way_collection_uuid_query
-RETURNING *;
-
--- name: RemoveWayFromMentoringCollection :exec
-DELETE FROM way_collections_ways
-WHERE way_collection_uuid IN (
-    SELECT uuid
-    FROM way_collections
-    WHERE owner_uuid = $1
-    AND type = 'mentoring'
-    LIMIT 1
-)
-AND way_uuid = $2;
-
 
 -- name: GetWayCollectionJoinWayByUserId :many
 SELECT 
