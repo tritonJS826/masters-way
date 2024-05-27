@@ -52,7 +52,7 @@ export const StatisticLine = (props: StatisticLineProps) => {
       <HorizontalContainer className={styles.amountTime}>
         {props.amount}
         <span className={styles.percentageBLock}>
-          {`(${props.timePercentage}%)`}
+          {`(${props.amountPercentage}%)`}
         </span>
       </HorizontalContainer>
       <HorizontalContainer className={styles.amountTime}>
