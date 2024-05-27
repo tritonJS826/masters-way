@@ -8,6 +8,7 @@ import (
 
 	db "mwserver/db/sqlc"
 	"mwserver/schemas"
+	"mwserver/services"
 	"mwserver/util"
 
 	"github.com/gin-gonic/gin"
@@ -55,6 +56,8 @@ func (cc *MetricController) CreateMetric(ctx *gin.Context) {
 
 	metric, err := cc.db.CreateMetric(ctx, *args)
 	util.HandleErrorGin(ctx, err)
+	err = services.UpdateWayIsCompletedStatus(cc.db, ctx, metric.WayUuid)
+	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, metric)
 }
@@ -95,6 +98,8 @@ func (cc *MetricController) UpdateMetric(ctx *gin.Context) {
 
 	metric, err := cc.db.UpdateMetric(ctx, *args)
 	util.HandleErrorGin(ctx, err)
+	err = services.UpdateWayIsCompletedStatus(cc.db, ctx, metric.WayUuid)
+	util.HandleErrorGin(ctx, err)
 
 	response := schemas.MetricResponse{
 		Uuid:             metric.Uuid.String(),
@@ -122,7 +127,9 @@ func (cc *MetricController) UpdateMetric(ctx *gin.Context) {
 func (cc *MetricController) DeleteMetricById(ctx *gin.Context) {
 	metricId := ctx.Param("metricId")
 
-	err := cc.db.DeleteMetric(ctx, uuid.MustParse(metricId))
+	removedMetric, err := cc.db.DeleteMetric(ctx, uuid.MustParse(metricId))
+	util.HandleErrorGin(ctx, err)
+	err = services.UpdateWayIsCompletedStatus(cc.db, ctx, removedMetric.WayUuid)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})

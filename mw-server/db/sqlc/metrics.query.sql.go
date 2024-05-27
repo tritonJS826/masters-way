@@ -58,14 +58,26 @@ func (q *Queries) CreateMetric(ctx context.Context, arg CreateMetricParams) (Met
 	return i, err
 }
 
-const deleteMetric = `-- name: DeleteMetric :exec
+const deleteMetric = `-- name: DeleteMetric :one
 DELETE FROM metrics
 WHERE uuid = $1
+RETURNING uuid, created_at, updated_at, description, is_done, done_date, metric_estimation, way_uuid
 `
 
-func (q *Queries) DeleteMetric(ctx context.Context, argUuid uuid.UUID) error {
-	_, err := q.exec(ctx, q.deleteMetricStmt, deleteMetric, argUuid)
-	return err
+func (q *Queries) DeleteMetric(ctx context.Context, argUuid uuid.UUID) (Metric, error) {
+	row := q.queryRow(ctx, q.deleteMetricStmt, deleteMetric, argUuid)
+	var i Metric
+	err := row.Scan(
+		&i.Uuid,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.Description,
+		&i.IsDone,
+		&i.DoneDate,
+		&i.MetricEstimation,
+		&i.WayUuid,
+	)
+	return i, err
 }
 
 const getListMetricsByWayUuid = `-- name: GetListMetricsByWayUuid :many
@@ -104,6 +116,20 @@ func (q *Queries) GetListMetricsByWayUuid(ctx context.Context, wayUuid uuid.UUID
 		return nil, err
 	}
 	return items, nil
+}
+
+const isAllMetricsDone = `-- name: IsAllMetricsDone :one
+SELECT COUNT(*) = 0 AS all_done
+FROM metrics
+WHERE way_uuid = $1
+AND is_done = false
+`
+
+func (q *Queries) IsAllMetricsDone(ctx context.Context, wayUuid uuid.UUID) (bool, error) {
+	row := q.queryRow(ctx, q.isAllMetricsDoneStmt, isAllMetricsDone, wayUuid)
+	var all_done bool
+	err := row.Scan(&all_done)
+	return all_done, err
 }
 
 const updateMetric = `-- name: UpdateMetric :one

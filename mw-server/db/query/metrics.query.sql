@@ -15,6 +15,12 @@ SELECT * FROM metrics
 WHERE metrics.way_uuid = $1
 ORDER BY created_at;
 
+-- name: IsAllMetricsDone :one
+SELECT COUNT(*) = 0 AS all_done
+FROM metrics
+WHERE way_uuid = @way_uuid
+AND is_done = false;
+
 -- name: UpdateMetric :one
 UPDATE metrics
 SET
@@ -26,6 +32,7 @@ metric_estimation = coalesce(sqlc.narg('metric_estimation'), metric_estimation)
 WHERE uuid = sqlc.arg('uuid')
 RETURNING *;
 
--- name: DeleteMetric :exec
+-- name: DeleteMetric :one
 DELETE FROM metrics
-WHERE uuid = $1;
+WHERE uuid = $1
+RETURNING *;
