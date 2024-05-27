@@ -1,0 +1,16 @@
+@import "src/styles/variables";
+
+.summarySection {
+  display: flex;
+  width: 100%;
+  align-items: end;
+  justify-content: space-between;
+  margin-top: $marginMedium;
+  font-weight: bold;
+  gap: $gapSmall;
+}
+
+.summaryText {
+  margin-left: auto;
+  text-wrap: nowrap;
+}

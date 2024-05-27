@@ -1,17 +1,14 @@
-import {TrashIcon} from "@radix-ui/react-icons";
 import {observer} from "mobx-react-lite";
-import {Button, ButtonType} from "src/component/button/Button";
-import {Confirm} from "src/component/confirm/Confirm";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
-import {Icon, IconSize} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
-import {Tooltip} from "src/component/tooltip/Tooltip";
+import {Trash} from "src/component/trash/Trash";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {CommentDAL} from "src/dataAccessLogic/CommentDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {getListNumberByIndex} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
+import {SummarySection} from "src/logic/wayPage/reportsTable/reportsColumns/summarySection/SummarySection";
 import {getFirstName} from "src/logic/waysTable/waysColumns";
 import {Comment} from "src/model/businessModel/Comment";
 import {DayReport} from "src/model/businessModel/DayReport";
@@ -117,65 +114,44 @@ export const ReportsTableCommentsCell = observer((props: ReportsTableCommentsCel
               key={comment.uuid}
               className={styles.numberedListItem}
             >
-              <HorizontalContainer className={styles.horizontalContainer}>
-                <HorizontalContainer className={styles.listNumberAndName}>
-                  {getListNumberByIndex(index)}
-                  <Link path={pages.user.getPath({uuid: comment.ownerUuid})}>
-                    {getFirstName(comment.ownerName)}
-                  </Link>
-                </HorizontalContainer>
-                {comment.ownerUuid === props.user?.uuid &&
-                <Tooltip
-                  content={LanguageService.way.reportsTable.columnTooltip.deleteComment[language]}
-                  position={PositionTooltip.LEFT}
+              <HorizontalContainer className={styles.recordInfo}>
+                {getListNumberByIndex(index)}
+                <Link
+                  path={pages.user.getPath({uuid: comment.ownerUuid})}
+                  className={styles.ownerName}
                 >
-                  <Confirm
-                    trigger={<TrashIcon className={styles.icon} />}
-                    content={<p>
-                      {`${LanguageService.way.reportsTable.modalWindow.deleteCommentQuestion[language]}
-                      "${comment.description}"?`}
-                    </p>}
-                    onOk={() => deleteComment(comment.uuid)}
-                    okText={LanguageService.modals.confirmModal.deleteButton[language]}
-                    cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
-                  />
-                </Tooltip>
+                  {getFirstName(comment.ownerName)}
+                </Link>
+                {comment.ownerUuid === props.user?.uuid &&
+                <Trash
+                  tooltipContent={LanguageService.way.reportsTable.columnTooltip.deleteComment[language]}
+                  tooltipPosition={PositionTooltip.LEFT}
+                  okText={LanguageService.modals.confirmModal.deleteButton[language]}
+                  cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
+                  onOk={() => deleteComment(comment.uuid)}
+                  confirmContent={`${LanguageService.way.reportsTable.modalWindow.deleteCommentQuestion[language]}
+                    "${comment.description}"?`}
+                />
                 }
               </HorizontalContainer>
-              <HorizontalContainer>
-                <EditableTextarea
-                  text={comment.description}
-                  onChangeFinish={(text) => updateComment(comment, text)}
-                  isEditable={comment.ownerUuid === props.user?.uuid}
-                  className={styles.editableTextarea}
-                  placeholder={props.isEditable
-                    ? LanguageService.common.emptyMarkdownAction[language]
-                    : LanguageService.common.emptyMarkdown[language]}
-                />
-              </HorizontalContainer>
+              <EditableTextarea
+                text={comment.description}
+                onChangeFinish={(text) => updateComment(comment, text)}
+                isEditable={comment.ownerUuid === props.user?.uuid}
+                placeholder={props.isEditable
+                  ? LanguageService.common.emptyMarkdownAction[language]
+                  : LanguageService.common.emptyMarkdown[language]}
+              />
             </li>
           ),
           )}
       </ol>
-      <div className={styles.summarySection}>
-        {props.isEditable &&
-        <Tooltip
-          position={PositionTooltip.LEFT}
-          content={LanguageService.way.reportsTable.columnTooltip.addComment[language]}
-        >
-          <Button
-            value={
-              <Icon
-                size={IconSize.SMALL}
-                name="PlusIcon"
-              />
-            }
-            onClick={() => createComment(props.user?.uuid)}
-            buttonType={ButtonType.ICON_BUTTON}
-          />
-        </Tooltip>
-        }
-      </div>
+      <SummarySection
+        isEditable={props.isEditable}
+        tooltipContent={LanguageService.way.reportsTable.columnTooltip.addComment[language]}
+        tooltipPosition={PositionTooltip.LEFT}
+        onClick={() => createComment(props.user?.uuid)}
+      />
     </VerticalContainer>
   );
 });

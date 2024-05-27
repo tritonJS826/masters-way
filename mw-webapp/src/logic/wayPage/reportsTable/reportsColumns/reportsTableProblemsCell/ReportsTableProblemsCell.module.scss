@@ -14,56 +14,18 @@
 
 .numberedListItem {
   width: 100%;
-  align-items: center;
-  justify-content: space-between;
   border-bottom: 1px dotted var(--primaryStrokeColor);
 }
 
-.horizontalContainer {
-  width: 100%;
+.recordInfo {
   align-items: center;
-  justify-content: space-between;
 }
 
-.listNumberAndName {
-  align-items: baseline;
-}
-
-.icons {
-  align-items: center;
-  margin-left: $marginSmall;
-  gap: $marginBig;
+.ownerName {
+  flex: 1;
 }
 
 .checkbox {
   width: $checkboxWidthSmall;
   height: $checkboxHeightSmall;
-}
-
-.icon {
-  display: flex;
-  min-width: $iconSizeSmall;
-  min-height: $iconSizeSmall;
-  align-items: center;
-}
-
-.icon:hover {
-  cursor: pointer;
-}
-
-.editableTextarea {
-  flex-grow: 1;
-
-  textarea {
-    width: 100%;
-  }
-}
-
-.summarySection {
-  display: flex;
-  width: 100%;
-  align-items: end;
-  justify-content: space-between;
-  margin-top: $marginMedium;
-  font-weight: bold;
 }

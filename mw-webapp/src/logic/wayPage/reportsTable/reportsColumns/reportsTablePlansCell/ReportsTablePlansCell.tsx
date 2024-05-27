@@ -1,16 +1,13 @@
-import {TrashIcon} from "@radix-ui/react-icons";
 import {observer} from "mobx-react-lite";
-import {Button, ButtonType} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Checkbox";
-import {Confirm} from "src/component/confirm/Confirm";
 import {EditableText} from "src/component/editableText/EditableText";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
-import {Icon, IconSize} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
 import {Modal} from "src/component/modal/Modal";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
+import {Trash} from "src/component/trash/Trash";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
 import {PlanDAL} from "src/dataAccessLogic/PlanDAL";
@@ -22,6 +19,7 @@ import {DEFAULT_SUMMARY_TIME, getListNumberByIndex, getValidatedTime, MAX_TIME, 
   from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
 import {CopyPlanToJobDoneModalContent} from "src/logic/wayPage/reportsTable/reportsColumns/reportsTablePlansCell/\
 copyPlanToJobDoneModalContent/CopyPlanToJobDoneModalContent";
+import {SummarySection} from "src/logic/wayPage/reportsTable/reportsColumns/summarySection/SummarySection";
 import {getFirstName} from "src/logic/waysTable/waysColumns";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Plan} from "src/model/businessModel/Plan";
@@ -232,58 +230,58 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
             key={plan.uuid}
             className={styles.numberedListItem}
           >
-            <HorizontalContainer className={styles.horizontalContainer}>
-              <HorizontalContainer className={styles.listNumberAndName}>
-                {getListNumberByIndex(index)}
-                <Link path={pages.user.getPath({uuid: plan.ownerUuid})}>
-                  {getFirstName(plan.ownerName)}
-                </Link>
-              </HorizontalContainer>
-              <HorizontalContainer className={styles.icons}>
-                {props.isEditable ?
-                  <Modal
-                    trigger={plan.tags.length === 0 ?
-                      <div className={styles.tagsBlockTrigger}>
-                        {LanguageService.way.reportsTable.column.addLabel[language]}
-                      </div>
-                      :
-                      <div className={styles.tagsBlockTrigger}>
-                        <JobDoneTags jobDoneTags={plan.tags} />
-                      </div>
-                    }
-                    content={
-                      <ModalContentJobTags
-                        jobTags={props.jobTags}
-                        jobDoneTags={plan.tags}
-                        isEditable={props.isEditable}
-                        updateTags={(tagsToUpdate: JobTag[]) => updateLabelsInPlan({
-                          planUuid: plan.uuid,
-                          updatedTags: tagsToUpdate,
-                        })}
-                      />
-                    }
-                  />
-                  : <JobDoneTags jobDoneTags={plan.tags} />
-                }
-                <Tooltip
-                  position={PositionTooltip.BOTTOM}
-                  content={LanguageService.way.reportsTable.columnTooltip.planTime[language]}
-                >
-                  <EditableText
-                    value={plan.time}
-                    type="number"
-                    max={MAX_TIME}
-                    min={MIN_TIME}
-                    onChangeFinish={(time) => updatePlan({
-                      uuid: plan.uuid,
-                      time: getValidatedTime(Number(time)),
-                    })}
-                    className={styles.editableTime}
-                    isEditable={plan.ownerUuid === props.user?.uuid}
-                    placeholder={LanguageService.common.emptyMarkdownAction[language]}
-                  />
-                </Tooltip>
-                {props.isEditable &&
+            <HorizontalContainer className={styles.recordInfo}>
+              {getListNumberByIndex(index)}
+              <Link
+                path={pages.user.getPath({uuid: plan.ownerUuid})}
+                className={styles.ownerName}
+              >
+                {getFirstName(plan.ownerName)}
+              </Link>
+              {props.isEditable ?
+                <Modal
+                  trigger={plan.tags.length === 0 ?
+                    <div className={styles.tagsBlockTrigger}>
+                      {LanguageService.way.reportsTable.column.addLabel[language]}
+                    </div>
+                    :
+                    <div className={styles.tagsBlockTrigger}>
+                      <JobDoneTags jobDoneTags={plan.tags} />
+                    </div>
+                  }
+                  content={
+                    <ModalContentJobTags
+                      jobTags={props.jobTags}
+                      jobDoneTags={plan.tags}
+                      isEditable={props.isEditable}
+                      updateTags={(tagsToUpdate: JobTag[]) => updateLabelsInPlan({
+                        planUuid: plan.uuid,
+                        updatedTags: tagsToUpdate,
+                      })}
+                    />
+                  }
+                />
+                : <JobDoneTags jobDoneTags={plan.tags} />
+              }
+              <Tooltip
+                position={PositionTooltip.BOTTOM}
+                content={LanguageService.way.reportsTable.columnTooltip.planTime[language]}
+              >
+                <EditableText
+                  value={plan.time}
+                  type="number"
+                  max={MAX_TIME}
+                  min={MIN_TIME}
+                  onChangeFinish={(time) => updatePlan({
+                    uuid: plan.uuid,
+                    time: getValidatedTime(Number(time)),
+                  })}
+                  className={styles.editableTime}
+                  isEditable={plan.ownerUuid === props.user?.uuid}
+                  placeholder={LanguageService.common.emptyMarkdownAction[language]}
+                />
+              </Tooltip>
+              {props.isEditable &&
                 <Tooltip
                   content={LanguageService.way.reportsTable.columnTooltip.planCheckbox[language]}
                   position={PositionTooltip.RIGHT}
@@ -308,69 +306,42 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
                   />
 
                 </Tooltip>
-                }
-                {plan.ownerUuid === props.user?.uuid &&
-                <Tooltip
-                  content={LanguageService.way.reportsTable.columnTooltip.deletePlan[language]}
-                  position={PositionTooltip.BOTTOM}
-                >
-                  <Confirm
-                    trigger={<TrashIcon className={styles.icon} />}
-                    content={<p>
-                      {`${LanguageService.way.reportsTable.modalWindow.deletePlanQuestion[language]} "${plan.description}"?`}
-                    </p>}
-                    onOk={() => deletePlan(plan.uuid)}
-                    okText={LanguageService.modals.confirmModal.deleteButton[language]}
-                    cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
-                  />
-                </Tooltip>
-                }
-              </HorizontalContainer>
-            </HorizontalContainer>
-            <HorizontalContainer>
-              <EditableTextarea
-                text={plan.description}
-                onChangeFinish={(description) => updatePlan({
-                  uuid: plan.uuid,
-                  description,
-                })}
-                isEditable={plan.ownerUuid === props.user?.uuid}
-                className={styles.editableTextarea}
-                placeholder={props.isEditable
-                  ? LanguageService.common.emptyMarkdownAction[language]
-                  : LanguageService.common.emptyMarkdown[language]}
+              }
+              {plan.ownerUuid === props.user?.uuid &&
+              <Trash
+                tooltipContent={LanguageService.way.reportsTable.columnTooltip.deletePlan[language]}
+                tooltipPosition={PositionTooltip.BOTTOM}
+                okText={LanguageService.modals.confirmModal.deleteButton[language]}
+                cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
+                onOk={() => deletePlan(plan.uuid)}
+                confirmContent={`${LanguageService.way.reportsTable.modalWindow.deletePlanQuestion[language]} 
+                  "${plan.description}"?`}
               />
+              }
             </HorizontalContainer>
+            <EditableTextarea
+              text={plan.description}
+              onChangeFinish={(description) => updatePlan({
+                uuid: plan.uuid,
+                description,
+              })}
+              isEditable={plan.ownerUuid === props.user?.uuid}
+              placeholder={props.isEditable
+                ? LanguageService.common.emptyMarkdownAction[language]
+                : LanguageService.common.emptyMarkdown[language]}
+            />
           </li>
         ))}
       </ol>
-      <div className={styles.summarySection}>
-        <div>
-          {props.isEditable &&
-          <Tooltip
-            content={LanguageService.way.reportsTable.columnTooltip.addPlan[language]}
-            position={PositionTooltip.RIGHT}
-          >
-            <Button
-              value={
-                <Icon
-                  size={IconSize.SMALL}
-                  name="PlusIcon"
-                />
-              }
-              onClick={() => createPlan(props.user?.uuid)}
-              buttonType={ButtonType.ICON_BUTTON}
-            />
-          </Tooltip>
-          }
-        </div>
-        <div className={styles.summaryText}>
-          {`${LanguageService.way.reportsTable.total[language]}${Symbols.NO_BREAK_SPACE}`}
-          {props.dayReport.plans
-            .reduce((summaryTime, plan) => plan.time + summaryTime, DEFAULT_SUMMARY_TIME)
-          }
-        </div>
-      </div>
+      <SummarySection
+        isEditable={props.isEditable}
+        tooltipContent={LanguageService.way.reportsTable.columnTooltip.addPlan[language]}
+        tooltipPosition={PositionTooltip.RIGHT}
+        onClick={() => createPlan(props.user?.uuid)}
+        total={`${LanguageService.way.reportsTable.total[language]}${Symbols.NO_BREAK_SPACE}
+          ${props.dayReport.plans.reduce((summaryTime, plan) => plan.time + summaryTime, DEFAULT_SUMMARY_TIME)}`
+        }
+      />
     </VerticalContainer>
   );
 });

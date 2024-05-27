@@ -1,0 +1,12 @@
+@import "src/styles/variables";
+
+.icon {
+  display: flex;
+  min-width: $iconSizeSmall;
+  min-height: $iconSizeSmall;
+  align-items: center;
+}
+
+.icon:hover {
+  cursor: pointer;
+}
