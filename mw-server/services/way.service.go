@@ -2,9 +2,11 @@ package services
 
 import (
 	"context"
+	"database/sql"
 	dbb "mwserver/db/sqlc"
 	"mwserver/schemas"
 	"mwserver/util"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/samber/lo"
@@ -276,4 +278,19 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 	}
 
 	return response, err
+}
+
+func UpdateWayIsCompletedStatus(db *dbb.Queries, ctx context.Context, wayUuid uuid.UUID) error {
+	isCompleted, err := db.IsAllMetricsDone(ctx, wayUuid)
+
+	now := time.Now()
+	args := &dbb.UpdateWayParams{
+		Uuid:        wayUuid,
+		IsCompleted: sql.NullBool{Bool: isCompleted, Valid: true},
+		UpdatedAt:   sql.NullTime{Time: now, Valid: true},
+	}
+
+	db.UpdateWay(ctx, *args)
+
+	return err
 }

@@ -288,6 +288,9 @@ func Prepare(ctx context.Context, db DBTX) (*Queries, error) {
 	if q.getWaysByCollectionIdStmt, err = db.PrepareContext(ctx, getWaysByCollectionId); err != nil {
 		return nil, fmt.Errorf("error preparing query GetWaysByCollectionId: %w", err)
 	}
+	if q.isAllMetricsDoneStmt, err = db.PrepareContext(ctx, isAllMetricsDone); err != nil {
+		return nil, fmt.Errorf("error preparing query IsAllMetricsDone: %w", err)
+	}
 	if q.listUsersStmt, err = db.PrepareContext(ctx, listUsers); err != nil {
 		return nil, fmt.Errorf("error preparing query ListUsers: %w", err)
 	}
@@ -772,6 +775,11 @@ func (q *Queries) Close() error {
 			err = fmt.Errorf("error closing getWaysByCollectionIdStmt: %w", cerr)
 		}
 	}
+	if q.isAllMetricsDoneStmt != nil {
+		if cerr := q.isAllMetricsDoneStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing isAllMetricsDoneStmt: %w", cerr)
+		}
+	}
 	if q.listUsersStmt != nil {
 		if cerr := q.listUsersStmt.Close(); cerr != nil {
 			err = fmt.Errorf("error closing listUsersStmt: %w", cerr)
@@ -964,6 +972,7 @@ type Queries struct {
 	getWayCollectionsByUserIdStmt               *sql.Stmt
 	getWayTagByNameStmt                         *sql.Stmt
 	getWaysByCollectionIdStmt                   *sql.Stmt
+	isAllMetricsDoneStmt                        *sql.Stmt
 	listUsersStmt                               *sql.Stmt
 	listWaysStmt                                *sql.Stmt
 	removeWayFromMentoringCollectionStmt        *sql.Stmt
@@ -1071,6 +1080,7 @@ func (q *Queries) WithTx(tx *sql.Tx) *Queries {
 		getWayCollectionsByUserIdStmt:               q.getWayCollectionsByUserIdStmt,
 		getWayTagByNameStmt:                         q.getWayTagByNameStmt,
 		getWaysByCollectionIdStmt:                   q.getWaysByCollectionIdStmt,
+		isAllMetricsDoneStmt:                        q.isAllMetricsDoneStmt,
 		listUsersStmt:                               q.listUsersStmt,
 		listWaysStmt:                                q.listWaysStmt,
 		removeWayFromMentoringCollectionStmt:        q.removeWayFromMentoringCollectionStmt,
