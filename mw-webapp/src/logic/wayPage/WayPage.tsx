@@ -47,7 +47,6 @@ import {Metric} from "src/model/businessModel/Metric";
 import {DefaultWayCollections, User, UserPlain, WayCollection} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
 import {JobTag, WayPreview} from "src/model/businessModelPreview/WayPreview";
-import {WayTag} from "src/model/businessModelPreview/WayTag";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import {createCompositeWay} from "src/utils/createCompositeWay";
@@ -301,7 +300,7 @@ export const WayPage = observer((props: WayPageProps) => {
 
       });
 
-    setUser({...user, customWayCollections: updatedCustomWayCollections});
+    setUser(new User({...user, customWayCollections: updatedCustomWayCollections}));
     displayNotification({
       text: `${LanguageService.way.notifications.collectionUpdated[language]}`,
       type: "info",
@@ -711,8 +710,7 @@ export const WayPage = observer((props: WayPageProps) => {
                         if (isWayTagDuplicate) {
                           alert(`${LanguageService.way.wayInfo.duplicateTagModal[language]}`);
                         } else {
-                          const newTagRaw = await WayTagDAL.addWayTagToWay({name: tagName, wayUuid: way.uuid});
-                          const newTag: WayTag = {name: newTagRaw.name, uuid: newTagRaw.uuid};
+                          const newTag = await WayTagDAL.addWayTagToWay({name: tagName, wayUuid: way.uuid});
                           const updatedWayTags = [...way.wayTags, newTag];
                           const updatedWay = new Way({...way, wayTags: updatedWayTags});
                           setWay(updatedWay);
