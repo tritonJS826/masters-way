@@ -6,7 +6,7 @@ import styles from "src/component/tooltip/Tooltip.module.scss";
 /**
  * Tooltip props
  */
-interface TooltipProps {
+export interface TooltipProps {
 
   /**
    * Tooltip's content
