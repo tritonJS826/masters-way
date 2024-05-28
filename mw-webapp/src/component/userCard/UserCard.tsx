@@ -63,7 +63,7 @@ export const UserCard = observer((props: UserCardProps) => {
       <VerticalContainer className={styles.userCardContainer}>
         <VerticalContainer className={styles.mainInfo}>
           <HorizontalContainer className={styles.nameLikes}>
-            <HorizontalContainer>
+            <HorizontalContainer className={styles.avatarNameContainer}>
               <Avatar
                 alt={props.userPreview.name}
                 src={props.userPreview.imageUrl}

@@ -33,6 +33,10 @@ $userCardAdditionalHeight: 90px;
   align-items: center;
   color: var(--secondaryTextColor);
   gap: $gapSmall;
+
+  @media (max-width: $mediaWidthMobileMedium) {
+    align-self: flex-end;
+  }
 }
 
 .icon {
@@ -43,9 +47,14 @@ $userCardAdditionalHeight: 90px;
 .nameLikes {
   align-items: start;
   justify-content: space-between;
+
+  @media (max-width: $mediaWidthMobileMedium) {
+    flex-direction: column;
+  }
 }
 
 .nameGroup {
+  overflow: hidden;
   gap: $gapSmall;
   justify-items: start;
 }
@@ -62,15 +71,11 @@ $userCardAdditionalHeight: 90px;
 }
 
 .mail {
-  display: -webkit-box;
   overflow: hidden;
-  -webkit-box-orient: vertical;
   color: var(--secondaryTextColor);
   font-size: $fontSizeMedium;
   font-weight: bold;
-  -webkit-line-clamp: 1;
   text-overflow: ellipsis;
-  white-space: initial;
 }
 
 .userTags {
@@ -95,4 +100,8 @@ $userCardAdditionalHeight: 90px;
 .cardLink {
   font-size: $fontSizeBig;
   text-decoration: none;
+}
+
+.avatarNameContainer {
+  width: 100%;
 }
