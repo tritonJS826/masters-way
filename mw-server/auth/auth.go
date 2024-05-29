@@ -29,15 +29,9 @@ func NewAuth() {
 
 	gothic.Store = store
 
-	var callBackUrl string
-	if config.EnvType == "prod" {
-		// TODO: move to env variables
-		callBackUrl = "https://mastersway.netlify.app"
-	} else {
-		callBackUrl = "http://localhost:5173"
-	}
+	googleCallBackUrl := config.ApiBaseUrl + "/api/auth/google/callback"
 
 	goth.UseProviders(
-		google.New(config.GooglClientId, config.GooglClientSecret, callBackUrl, "email", "profile"),
+		google.New(config.GooglClientId, config.GooglClientSecret, googleCallBackUrl, "email", "profile"),
 	)
 }

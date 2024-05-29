@@ -965,6 +965,27 @@ info:
   title: Masters way API
   version: "1.0"
 paths:
+  /auth/{provider}:
+    get:
+      consumes:
+      - application/json
+      operationId: begin-auth
+      parameters:
+      - description: google
+        in: path
+        name: provider
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.CommentPopulatedResponse'
+      summary: Update comment by UUID
+      tags:
+      - beginAuth
   /auth/{provider}/callback:
     post:
       consumes:
@@ -1059,33 +1080,6 @@ paths:
       summary: Update comment by UUID
       tags:
       - comment
-  /comments/{provider}:
-    patch:
-      consumes:
-      - application/json
-      operationId: begin-auth
-      parameters:
-      - description: query params
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/schemas.UpdateCommentPayload'
-      - description: google
-        in: path
-        name: provider
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/schemas.CommentPopulatedResponse'
-      summary: Update comment by UUID
-      tags:
-      - beginAuth
   /compositeWay:
     post:
       consumes:

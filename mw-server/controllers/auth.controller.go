@@ -56,22 +56,22 @@ func (cc *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
 // @ID begin-auth
 // @Accept  json
 // @Produce  json
-// @Param request body schemas.UpdateCommentPayload true "query params"
 // @Param provider path string true "google"
 // @Success 200 {object} schemas.CommentPopulatedResponse
-// @Router /comments/{provider} [patch]
+// @Router /auth/{provider} [get]
 func (cc *AuthController) BeginAuth(ctx *gin.Context) {
 	provider := ctx.Param("provider")
-
 	ctx.Request = ctx.Request.WithContext(context.WithValue(context.Background(), "provider", provider))
 
-	gothic.BeginAuthHandler(ctx.Writer, ctx.Request)
-	// if err := ctx.ShouldBindJSON(&payload); err != nil {
-	// 	ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
-	// 	return
-	// }
+	if gothUser, err := gothic.CompleteUserAuth(ctx.Writer, ctx.Request); err == nil {
+		fmt.Println("Already logged user")
 
-	// ctx.JSON(http.StatusOK, comment)
+		ctx.JSON(http.StatusOK, gothUser)
+	} else {
+		fmt.Println("Begin auth handler")
+		gothic.BeginAuthHandler(ctx.Writer, ctx.Request)
+	}
+
 }
 
 // Deleting Comment handlers

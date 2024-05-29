@@ -13,6 +13,7 @@ type Config struct {
 	GooglClientId     string `mapstructure:"GOOGLE_CLIENT_ID"`
 	GooglClientSecret string `mapstructure:"GOOGLE_SECRET_ID"`
 	SecretSessionKey  string `mapstructure:"SECRET_SESSION_KEY"`
+	ApiBaseUrl        string `mapstructure:"API_BASE_URL"`
 }
 
 func LoadConfig(path string) (config Config, err error) {

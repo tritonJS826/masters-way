@@ -15,6 +15,38 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/auth/{provider}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "beginAuth"
+                ],
+                "summary": "Update comment by UUID",
+                "operationId": "begin-auth",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "google",
+                        "name": "provider",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CommentPopulatedResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/auth/{provider}/callback": {
             "post": {
                 "consumes": [
@@ -144,47 +176,6 @@ const docTemplate = `{
                         "type": "string",
                         "description": "comment ID",
                         "name": "commentId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/schemas.CommentPopulatedResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/comments/{provider}": {
-            "patch": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "beginAuth"
-                ],
-                "summary": "Update comment by UUID",
-                "operationId": "begin-auth",
-                "parameters": [
-                    {
-                        "description": "query params",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/schemas.UpdateCommentPayload"
-                        }
-                    },
-                    {
-                        "type": "string",
-                        "description": "google",
-                        "name": "provider",
                         "in": "path",
                         "required": true
                     }
