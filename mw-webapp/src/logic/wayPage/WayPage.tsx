@@ -330,7 +330,7 @@ export const WayPage = observer((props: WayPageProps) => {
   /**
    * Copy the way to owner
    */
-  const repeatTheWay = async () => {
+  const repeatWay = async () => {
     if (!user) {
       throw new Error("User is not defined");
     }
@@ -340,12 +340,6 @@ export const WayPage = observer((props: WayPageProps) => {
       copiedFromWayUuid: way.uuid,
       estimationTime: way.estimationTime,
       goalDescription: way.goalDescription,
-      jobTags: way.jobTags,
-      metrics: way.metrics.map(
-        (metric) => {
-          return {...metric, isDone: false, doneDate: null};
-        }),
-      wayTags: way.wayTags,
     };
     const newWay: WayPreview = await WayDAL.createWay(user, baseWayData);
 
@@ -611,12 +605,12 @@ export const WayPage = observer((props: WayPageProps) => {
                     },
                     {
                       id: "Repeat the way",
-                      value: LanguageService.way.wayActions.repeatTheWay[language],
+                      value: LanguageService.way.wayActions.repeatWay[language],
 
                       /**
                        * Copy url to clipboard
                        */
-                      onClick: repeatTheWay,
+                      onClick: repeatWay,
                       isVisible: !!user,
                     },
                     {
