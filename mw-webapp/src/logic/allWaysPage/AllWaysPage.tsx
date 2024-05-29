@@ -1,4 +1,5 @@
 import {useState} from "react";
+import {allWaysAccessIds} from "cypress/accessIds/allWaysAccessIds";
 import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
@@ -169,6 +170,7 @@ export const AllWaysPage = observer(() => {
           level={HeadingLevel.h2}
           text={`${LanguageService.allWays.waysTable.leftTitle[language]} (${allWays.length})`}
           placeholder=""
+          dataCy={allWaysAccessIds.titles.allWays}
         />
         <Title
           level={HeadingLevel.h2}

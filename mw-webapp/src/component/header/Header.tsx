@@ -1,3 +1,4 @@
+import {headerAccessIds} from "cypress/accessIds/headerAccessIds";
 import google from "src/assets/google.svg";
 import logo from "src/assets/mastersWayLogo.svg";
 import logoLight from "src/assets/mastersWayLogoLight.svg";
@@ -162,6 +163,7 @@ export const Header = (props: HeaderProps) => {
       <Link
         className={styles.logo}
         path={pages.home.getPath({})}
+        dataCy={headerAccessIds.items.allWaysLogoBtn}
       >
         <ThemedImage
           className={styles.logo}
