@@ -1,14 +1,10 @@
-
 import clsx from "clsx";
+import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconProps, IconSize} from "src/component/icon/Icon";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip, TooltipProps} from "src/component/tooltip/Tooltip";
+import {View} from "src/utils/LocalStorageWorker";
 import styles from "src/component/viewSwitcher/ViewSwitcher.module.scss";
-
-/**
- * View types
- */
-export type ViewTypes = "Card" | "Table";
 
 /**
  * View option
@@ -18,7 +14,7 @@ interface ViewOption {
   /**
    * View types
    */
-  viewType: ViewTypes;
+  view: View;
 
   /**
    * Tooltip's content
@@ -44,17 +40,17 @@ interface ViewSwitcherProps {
   /**
    * View value
    */
-  viewType: ViewTypes;
+  view: View;
 
   /**
    * Set view value
    */
-  setViewType: (viewType: ViewTypes) => void;
+  setView: (view: View) => void;
 
   /**
    * Array of view options
    */
-  viewOptions: ViewOption[];
+  options: ViewOption[];
 }
 
 /**
@@ -62,16 +58,16 @@ interface ViewSwitcherProps {
  */
 export const ViewSwitcher = (props: ViewSwitcherProps) => {
   return (
-    <div className={clsx(styles.viewSwitcher, props.className)}>
-      {props.viewOptions.map((option) => (
+    <HorizontalContainer className={props.className}>
+      {props.options.map((option) => (
         <Tooltip
-          key={option.viewType}
+          key={option.view}
           position={PositionTooltip.LEFT}
           content={option.tooltipContent}
         >
           <button
-            className={clsx(styles.iconView, props.viewType === option.viewType && styles.activeView)}
-            onClick={() => props.setViewType(option.viewType)}
+            className={clsx(styles.iconView, props.view === option.view && styles.activeView)}
+            onClick={() => props.setView(option.view)}
           >
             <Icon
               size={IconSize.MEDIUM}
@@ -80,6 +76,6 @@ export const ViewSwitcher = (props: ViewSwitcherProps) => {
           </button>
         </Tooltip>
       ))}
-    </div>
+    </HorizontalContainer>
   );
 };
