@@ -1,10 +1,12 @@
 import clsx from "clsx";
+import {Modal} from "src/component/modal/Modal";
 import styles from "src/component/image/Image.module.scss";
 
 /**
  * Props for the Image component
  */
-interface ImageProps {
+interface ImageProps
+{
 
   /**
    * Image source
@@ -25,6 +27,16 @@ interface ImageProps {
    * Data attribute for cypress testing
    */
   dataCy?: string;
+
+  /**
+   * Enlarge Image
+   */
+  enlargeImage?: boolean;
+
+  /**
+   * Enlarge Image Styles
+   */
+  enlargeClassName?: string;
 }
 
 /**
@@ -32,14 +44,38 @@ interface ImageProps {
  */
 export const Image = (props: ImageProps) => {
   const className = clsx(styles.image, props.className);
+  const enlargeClassName = clsx(styles.image, props.enlargeClassName);
 
   return (
-    <img
-      src={props.src}
-      alt={props.alt}
-      className={className}
-      data-cy={props.dataCy}
-    />
+    props.enlargeImage
+      ? (
+        <Modal
+          trigger={
+            <img
+              src={props.src}
+              alt={props.alt}
+              className={className}
+              data-cy={props.dataCy}
+            />
+          }
+          content={
+            <img
+              src={props.src}
+              alt={props.alt}
+              className={enlargeClassName}
+              data-cy={props.dataCy}
+            />
+          }
+          className={enlargeClassName}
+        />
+      )
+      : (
+        <img
+          src={props.src}
+          alt={props.alt}
+          className={className}
+          data-cy={props.dataCy}
+        />
+      )
   );
 };
-
