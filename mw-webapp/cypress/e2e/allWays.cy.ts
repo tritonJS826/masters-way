@@ -1,5 +1,5 @@
 import {allWaysSelectors} from "cypress/scopesSelectors/allWaysSelectors";
-import pageData from "../fixtures/allWaysFixture.json"
+import pageData from "cypress/fixtures/allWaysFixture.json"
 import {headerSelectors} from "cypress/scopesSelectors/headerSelectors";
 
 describe.skip('All Ways scope tests', () => {
@@ -9,7 +9,7 @@ describe.skip('All Ways scope tests', () => {
   });
 
   it('NoAuth_AllWays_Open', () => {
-    headerSelectors.items.getLogoBtn().click();
+    headerSelectors.items.getLogoButton().click();
 
     cy.url().should('include', pageData.endpoint);
     allWaysSelectors.titles.getAllWaysTitle().should('contain', pageData.waysTitle);

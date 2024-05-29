@@ -1,5 +1,5 @@
 import {getDataCy} from 'src/utils/cyTesting/getDataCy';
-import {allWaysAccessIds} from '../accessIds/allWaysAccessIds'
+import {allWaysAccessIds} from 'cypress/accessIds/allWaysAccessIds'
 
 export const allWaysSelectors = {
     titles: {

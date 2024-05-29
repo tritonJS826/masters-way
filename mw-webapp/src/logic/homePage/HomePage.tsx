@@ -57,7 +57,7 @@ export const HomePage = observer(() => {
           buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
           value={LanguageService.home.startForFreeButton[language]}
           className={styles.getStartedButton}
-          dataCy={homeAccessIds.btns.startBtn}
+          dataCy={homeAccessIds.buttons.startButton}
         />
       </VerticalContainer>
 

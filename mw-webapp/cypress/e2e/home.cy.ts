@@ -1,4 +1,4 @@
-import pageData from "../fixtures/homeFixture.json";
+import pageData from "cypress/fixtures/homeFixture.json";
 import {homeSelectors} from "cypress/scopesSelectors/homeSelectors";
 
 describe('Home page scope tests', () => {
@@ -9,7 +9,7 @@ describe('Home page scope tests', () => {
 
   it('homePage_Open', () => {
     homeSelectors.pageTitle.getTitle().should('contain', pageData.title);
-    homeSelectors.items.getStartBtn().should('have.text', pageData.btnTitle);
+    homeSelectors.items.getStartButton().should('have.text', pageData.btnTitle);
   
   });
 

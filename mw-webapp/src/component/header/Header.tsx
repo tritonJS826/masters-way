@@ -163,7 +163,7 @@ export const Header = (props: HeaderProps) => {
       <Link
         className={styles.logo}
         path={pages.home.getPath({})}
-        dataCy={headerAccessIds.items.allWaysLogoBtn}
+        dataCy={headerAccessIds.items.homeLogo}
       >
         <ThemedImage
           className={styles.logo}

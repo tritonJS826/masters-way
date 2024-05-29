@@ -7,7 +7,7 @@ export const homeSelectors = {
     },
 
     items: {
-        getStartBtn: () => cy.get(getDataCy(homeAccessIds.btns.startBtn)),
+        getStartButton: () => cy.get(getDataCy(homeAccessIds.buttons.startButton)),
     }
 
 

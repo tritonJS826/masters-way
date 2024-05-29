@@ -1,9 +1,9 @@
 export const homeAccessIds = {
     titles: {
-        main : 'main-title'
+        main : 'mainTitle'
     },
 
-    btns: {
-        startBtn : 'start-btn'
+    buttons: {
+        startButton : 'startButton'
     }
 };
