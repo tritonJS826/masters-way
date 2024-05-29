@@ -60,51 +60,49 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 	way, err := cc.db.CreateWay(ctx, *args)
 	util.HandleErrorGin(ctx, err)
 
-	dbWayTags, err := cc.db.GetListWayTagsByWayId(ctx, way.Uuid)
-	wayTags := make([]schemas.WayTagResponse, 0)
-	if err != nil {
-		wayTags = lo.Map(dbWayTags, func(dbWayTag db.WayTag, i int) schemas.WayTagResponse {
-			return schemas.WayTagResponse{
-				Uuid: dbWayTag.Uuid.String(),
-				Name: dbWayTag.Name,
-			}
+	isWayCopied := way.CopiedFromWayUuid.Valid
+	if isWayCopied {
+		args1 := services.GetPopulatedWayByIdParams{
+			WayUuid:              way.CopiedFromWayUuid.UUID,
+			CurrentChildrenDepth: 1,
+		}
+		originalWay, err := services.GetPopulatedWayById(cc.db, ctx, args1)
+		util.HandleErrorGin(ctx, err)
+
+		// copy wayTags
+		lo.ForEach(originalWay.WayTags, func(wayTag schemas.WayTagResponse, i int) {
+			cc.db.CreateWaysWayTag(ctx, db.CreateWaysWayTagParams{
+				WayUuid:    way.Uuid,
+				WayTagUuid: uuid.MustParse(wayTag.Uuid),
+			})
+		})
+		// copy labels
+		lo.ForEach(originalWay.JobTags, func(jobTag schemas.JobTagResponse, i int) {
+			cc.db.CreateJobTag(ctx, db.CreateJobTagParams{
+				WayUuid:     way.Uuid,
+				Name:        jobTag.Name,
+				Description: jobTag.Description,
+				Color:       jobTag.Color,
+			})
+		})
+		// copy metrics
+		lo.ForEach(originalWay.Metrics, func(metric schemas.MetricResponse, i int) {
+			cc.db.CreateMetric(ctx, db.CreateMetricParams{
+				UpdatedAt:        now,
+				Description:      metric.Description,
+				IsDone:           false,
+				MetricEstimation: metric.MetricEstimation,
+				WayUuid:          way.Uuid,
+			})
 		})
 	}
 
-	copiedFromWayUuid := util.MarshalNullUuid(way.CopiedFromWayUuid)
-	dbOwner, err := cc.db.GetUserById(ctx, payload.OwnerUuid)
+	args2 := services.GetPopulatedWayByIdParams{
+		WayUuid:              way.Uuid,
+		CurrentChildrenDepth: 1,
+	}
+	response, err := services.GetPopulatedWayById(cc.db, ctx, args2)
 	util.HandleErrorGin(ctx, err)
-	owner := schemas.UserPlainResponse{
-		Uuid:        dbOwner.Uuid.String(),
-		Name:        dbOwner.Name,
-		Email:       dbOwner.Email,
-		Description: dbOwner.Description,
-		CreatedAt:   dbOwner.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-		ImageUrl:    util.MarshalNullString(dbOwner.ImageUrl),
-		IsMentor:    dbOwner.IsMentor,
-	}
-
-	response := schemas.WayPopulatedResponse{
-		Name:                   way.Name,
-		Uuid:                   way.Uuid.String(),
-		GoalDescription:        way.GoalDescription,
-		UpdatedAt:              way.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-		CreatedAt:              way.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-		EstimationTime:         way.EstimationTime,
-		IsCompleted:            way.IsCompleted,
-		Owner:                  owner,
-		CopiedFromWayUuid:      copiedFromWayUuid,
-		IsPrivate:              way.IsPrivate,
-		Mentors:                make([]schemas.UserPlainResponse, 0),
-		WayTags:                wayTags,
-		JobTags:                []schemas.JobTagResponse{},
-		DayReports:             make([]schemas.DayReportPopulatedResponse, 0),
-		FormerMentors:          make([]schemas.UserPlainResponse, 0),
-		FromUserMentorRequests: make([]schemas.UserPlainResponse, 0),
-		FavoriteForUsersAmount: 0,
-		Metrics:                make([]schemas.MetricResponse, 0),
-		Children:               make([]schemas.WayPopulatedResponse, 0),
-	}
 
 	ctx.JSON(http.StatusOK, response)
 }

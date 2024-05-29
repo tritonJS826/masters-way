@@ -23,12 +23,9 @@ export type WayWithoutUuid = Omit<Way, "uuid">;
 
 export type BaseWayData = Pick<WayWithoutUuid,
   typeof WAY_NAME_FIELD
-| typeof WAY_TAGS_FIELD
-| typeof WAY_JOB_TAGS_FIELD
 | typeof WAY_COPIED_FROM_WAY_UUID_FIELD
 | typeof WAY_GOAL_DESCRIPTION_FIELD
 | typeof WAY_ESTIMATION_TIME_FIELD
-| typeof WAY_METRICS_FIELD
 >
 
 /**
@@ -88,8 +85,8 @@ export class WayDAL {
         copiedFromWayUuid: baseWayData?.copiedFromWayUuid ?? "",
         estimationTime: baseWayData?.estimationTime ?? 0,
         goalDescription: baseWayData?.goalDescription ?? "",
+        name: baseWayData?.name ?? `Way of ${user.name}`,
         isPrivate: false,
-        name: `Way of ${user.name}`,
         ownerUuid: `${user.uuid}`,
         isCompleted: false,
       },
