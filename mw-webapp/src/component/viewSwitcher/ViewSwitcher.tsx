@@ -12,7 +12,7 @@ import styles from "src/component/viewSwitcher/ViewSwitcher.module.scss";
 export interface ViewOption {
 
   /**
-   * View types
+   * View value
    */
   view: View;
 
