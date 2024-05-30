@@ -25,12 +25,17 @@ export interface ViewOption {
    * Icon name
    */
   iconName: IconProps["name"];
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCy?: string;
 }
 
 /**
  * ViewSwitcher props
  */
-interface ViewSwitcherProps {
+export interface ViewSwitcherProps {
 
   /**
    * Custom class name
@@ -51,6 +56,11 @@ interface ViewSwitcherProps {
    * Array of view options
    */
   options: ViewOption[];
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCy?: string;
 }
 
 /**
@@ -58,12 +68,16 @@ interface ViewSwitcherProps {
  */
 export const ViewSwitcher = (props: ViewSwitcherProps) => {
   return (
-    <HorizontalContainer className={props.className}>
+    <HorizontalContainer
+      className={props.className}
+      dataCy={props.dataCy}
+    >
       {props.options.map((option) => (
         <Tooltip
           key={option.view}
           position={PositionTooltip.LEFT}
           content={option.tooltipContent}
+          dataCy={option.dataCy}
         >
           <button
             className={clsx(styles.iconView, props.view === option.view && styles.activeView)}
