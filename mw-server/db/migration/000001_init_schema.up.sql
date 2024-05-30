@@ -34,7 +34,8 @@ CREATE UNIQUE INDEX "way_uuid_key" ON "ways"("uuid");
 
 CREATE TABLE composite_ways(
     "child_uuid" UUID NOT NULL REFERENCES ways("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
-    "parent_uuid" UUID NOT NULL REFERENCES ways("uuid") ON UPDATE CASCADE ON DELETE CASCADE
+    "parent_uuid" UUID NOT NULL REFERENCES ways("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT child_uuid_parent_uuid_pkey PRIMARY KEY (child_uuid, parent_uuid) 
 );
 
 CREATE TABLE former_mentors_ways(
@@ -187,7 +188,8 @@ CREATE UNIQUE INDEX "way_tag_name_key" ON "way_tags"("name");
 
 CREATE TABLE "ways_way_tags"(
     "way_uuid" UUID NOT NULL REFERENCES ways("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
-    "way_tag_uuid" UUID NOT NULL REFERENCES way_tags("uuid") ON UPDATE CASCADE ON DELETE CASCADE
+    "way_tag_uuid" UUID NOT NULL REFERENCES way_tags("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT "way_uuid_way_tag_uuid_pkey" PRIMARY KEY (way_uuid, way_tag_uuid)
 );
 
 CREATE TABLE "user_tags"(
@@ -199,5 +201,6 @@ CREATE UNIQUE INDEX "user_tag_name_key" ON "user_tags"("name");
 
 CREATE TABLE "users_user_tags"(
     "user_uuid" UUID NOT NULL REFERENCES users("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
-    "user_tag_uuid" UUID NOT NULL REFERENCES user_tags("uuid") ON UPDATE CASCADE ON DELETE CASCADE
+    "user_tag_uuid" UUID NOT NULL REFERENCES user_tags("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT "user_uuid_user_tag_uuid_pkey" PRIMARY KEY (user_uuid, user_tag_uuid) 
 );
