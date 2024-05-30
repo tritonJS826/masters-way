@@ -4,9 +4,9 @@ import {getDataCy} from "src/utils/cyTesting/getDataCy";
 import {View} from "src/utils/LocalStorageWorker";
 import styles from "src/component/viewSwitcher/ViewSwitcher.module.scss";
 
-const VIEW_SWITCHER_CY = "view-switcher";
-const CARD_ICON_CY = "card-view";
-const TABLE_ICON_CY = "table-view";
+const VIEW_SWITCHER_CY = "viewSwitcher";
+const CARD_ICON_CY = "cardView";
+const TABLE_ICON_CY = "tableView";
 
 let STUB_FUNCTION: Cypress.Agent<Sinon.SinonSpy>;
 

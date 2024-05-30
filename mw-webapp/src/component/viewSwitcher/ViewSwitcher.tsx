@@ -1,9 +1,10 @@
+import {ReactElement, ReactNode} from "react";
 import clsx from "clsx";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
-import {Icon, IconProps, IconSize} from "src/component/icon/Icon";
+import {Icon, IconDictionary, IconSize} from "src/component/icon/Icon";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
-import {Tooltip, TooltipProps} from "src/component/tooltip/Tooltip";
+import {Tooltip} from "src/component/tooltip/Tooltip";
 import {View} from "src/utils/LocalStorageWorker";
 import styles from "src/component/viewSwitcher/ViewSwitcher.module.scss";
 
@@ -20,12 +21,12 @@ export interface ViewOption {
   /**
    * Tooltip's content
    */
-  tooltipContent: TooltipProps["content"];
+  tooltipContent: string | ReactNode | ReactElement;
 
   /**
    * Icon name
    */
-  iconName: IconProps["name"];
+  iconName: keyof typeof IconDictionary;
 
   /**
    * Data attribute for cypress testing
