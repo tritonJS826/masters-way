@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconProps, IconSize} from "src/component/icon/Icon";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
@@ -79,15 +80,17 @@ export const ViewSwitcher = (props: ViewSwitcherProps) => {
           content={option.tooltipContent}
           dataCy={option.dataCy}
         >
-          <button
-            className={clsx(styles.iconView, props.view === option.view && styles.activeView)}
+          <Button
+            className={clsx(props.view === option.view && styles.activeView)}
             onClick={() => props.setView(option.view)}
-          >
-            <Icon
-              size={IconSize.MEDIUM}
-              name={option.iconName}
-            />
-          </button>
+            buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
+            value={
+              <Icon
+                size={IconSize.MEDIUM}
+                name={option.iconName}
+              />
+            }
+          />
         </Tooltip>
       ))}
     </HorizontalContainer>
