@@ -1,9 +1,6 @@
 export const homeAccessIds = {
-    titles: {
-        main : 'mainTitle'
-    },
-
-    buttons: {
+    welcomeBlock: {
+        title : 'title',
         startButton : 'startButton'
     }
 };

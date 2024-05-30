@@ -44,7 +44,7 @@ export const HomePage = observer(() => {
           text={LanguageService.home.title[language]}
           className={styles.title}
           placeholder=""
-          dataCy={homeAccessIds.titles.main}
+          dataCy={homeAccessIds.welcomeBlock.title}
         />
         <Title
           level={HeadingLevel.h3}
@@ -57,7 +57,7 @@ export const HomePage = observer(() => {
           buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
           value={LanguageService.home.startForFreeButton[language]}
           className={styles.getStartedButton}
-          dataCy={homeAccessIds.buttons.startButton}
+          dataCy={homeAccessIds.welcomeBlock.startButton}
         />
       </VerticalContainer>
 

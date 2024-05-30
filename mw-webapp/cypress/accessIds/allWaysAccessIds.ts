@@ -1,6 +1,16 @@
 export const allWaysAccessIds = {
-    titles: {
-        allWays : 'waysTitle',
+    titleContainer: {
+        title : 'waysTitle',
         totalFound : 'totalFoundTitle'
+    },
+
+    filterView: {
+        statusSelect: 'statusSelect',
+        cardViewButton: 'cardViewButton',
+        tableViewButton: 'tableViewButton'
+    },
+
+    ways: {
+        
     }
 };

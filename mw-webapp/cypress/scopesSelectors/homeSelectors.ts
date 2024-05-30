@@ -2,13 +2,9 @@ import {getDataCy} from "src/utils/cyTesting/getDataCy";
 import {homeAccessIds} from "cypress/accessIds/homeAccessIds";
 
 export const homeSelectors = {
-    pageTitle: {
-        getTitle: () => cy.get(getDataCy(homeAccessIds.titles.main)),
-    },
-
-    items: {
-        getStartButton: () => cy.get(getDataCy(homeAccessIds.buttons.startButton)),
+    welcomeBlock: {
+        getTitle: () => cy.get(getDataCy(homeAccessIds.welcomeBlock.title)),
+        getStartButton: () => cy.get(getDataCy(homeAccessIds.welcomeBlock.startButton))
     }
-
 
 };

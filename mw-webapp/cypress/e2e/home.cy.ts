@@ -7,10 +7,9 @@ describe('Home page scope tests', () => {
     cy.visit('/');
   });
 
-  it('homePage_Open', () => {
-    homeSelectors.pageTitle.getTitle().should('contain', pageData.title);
-    homeSelectors.items.getStartButton().should('have.text', pageData.btnTitle);
-  
+  it('HomePage_Open', () => {
+    homeSelectors.welcomeBlock.getTitle().should('contain', pageData.title);
+    homeSelectors.welcomeBlock.getStartButton().should('have.text', pageData.startButtonTitle);
   });
 
 });

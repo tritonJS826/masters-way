@@ -170,7 +170,7 @@ export const AllWaysPage = observer(() => {
           level={HeadingLevel.h2}
           text={`${LanguageService.allWays.waysTable.leftTitle[language]} (${allWays.length})`}
           placeholder=""
-          dataCy={allWaysAccessIds.titles.allWays}
+          dataCy={allWaysAccessIds.titleContainer.title}
         />
         <Title
           level={HeadingLevel.h2}

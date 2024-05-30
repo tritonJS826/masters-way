@@ -1,5 +1,10 @@
 export const headerAccessIds = {
-    items: {
-        homeLogo : 'homeLogo'
+    link: {
+        logo: 'homeLogo',
+    },
+
+    buttons: {
+        themeSwitcher: 'themeSwitcher' 
     }
+    
 };

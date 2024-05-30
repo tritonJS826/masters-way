@@ -9,10 +9,10 @@ describe.skip('All Ways scope tests', () => {
   });
 
   it('NoAuth_AllWays_Open', () => {
-    headerSelectors.items.getLogoButton().click();
+    headerSelectors.link.getLogo().click();
 
     cy.url().should('include', pageData.endpoint);
-    allWaysSelectors.titles.getAllWaysTitle().should('contain', pageData.waysTitle);
+    allWaysSelectors.titleContainer.getTitle().should('contain', pageData.waysTitle);
   });
 
 });
