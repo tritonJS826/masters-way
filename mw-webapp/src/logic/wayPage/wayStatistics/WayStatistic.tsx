@@ -214,25 +214,25 @@ export const WayStatistic = observer((props: WayStatisticProps) => {
     averageTimeForJobStatisticItem,
   ];
 
-  const lastCalendarMonthAverageWorkingTimeStatisticItem: StatisticItem = {
+  const lastCalendarMonthAverageTimePerCalendarDayStatisticItem: StatisticItem = {
     text: LanguageService.way.statisticsBlock.averageTimePerCalendarDay[language],
     value: lastCalendarMonthAverageWorkingTime,
   };
 
-  const lastCalendarMonthAverageJobTimeStatisticItem: StatisticItem = {
+  const lastCalendarMonthAverageWorkingTimeStatisticItem: StatisticItem = {
     text: LanguageService.way.statisticsBlock.averageWorkingTimePerWorkingDay[language],
     value: lastCalendarMonthAverageJobTime,
   };
 
-  const averageTimeForJobStatisticItemLastMonth: StatisticItem = {
+  const lastCalendarMonthAverageJobTimeStatisticItem: StatisticItem = {
     text: LanguageService.way.statisticsBlock.averageJobTime[language],
     value: lastCalendarMonthAverageTimeForJob,
   };
 
   const statisticItemsLastMonth = [
+    lastCalendarMonthAverageTimePerCalendarDayStatisticItem,
     lastCalendarMonthAverageWorkingTimeStatisticItem,
     lastCalendarMonthAverageJobTimeStatisticItem,
-    averageTimeForJobStatisticItemLastMonth,
   ];
 
   const totalWayTimeStatisticItemLastMonth: StatisticItem = {
