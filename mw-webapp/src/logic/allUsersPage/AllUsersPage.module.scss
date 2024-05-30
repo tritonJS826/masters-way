@@ -32,16 +32,6 @@
   }
 }
 
-.iconView {
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-}
-
-.activeView {
-  scale: 1.2;
-}
-
 .usersContent {
   width: 100%;
   @include regularContainer;

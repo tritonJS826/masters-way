@@ -1,20 +1,17 @@
 import {useState} from "react";
-import clsx from "clsx";
 import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
-import {Icon, IconSize} from "src/component/icon/Icon";
 import {Input, InputType} from "src/component/input/Input";
 import {Loader} from "src/component/loader/Loader";
 import {displayNotification} from "src/component/notification/displayNotification";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {Select} from "src/component/select/Select";
 import {HeadingLevel, Title} from "src/component/title/Title";
-import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
-import {Tooltip} from "src/component/tooltip/Tooltip";
 import {UserCard} from "src/component/userCard/UserCard";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {ViewSwitcher} from "src/component/viewSwitcher/ViewSwitcher";
 import {UserDAL} from "src/dataAccessLogic/UserDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
@@ -187,40 +184,22 @@ export const AllUsersPage = observer(() => {
             onChange={(value) => setMentorStatus(value)}
           />
         </HorizontalContainer>
-        <HorizontalContainer>
-          <Tooltip
-            position={PositionTooltip.LEFT}
-            content={LanguageService.allUsers.filterBlock.cardViewTooltip[language]}
-          >
-            <button
-              className={styles.iconView}
-              onClick={() =>
-                updateAllUsersPageSettings({view: View.Card})}
-            >
-              <Icon
-                size={IconSize.MEDIUM}
-                name={"GridViewIcon"}
-                className={clsx(allUsersPageSettings.view === View.Card && styles.activeView)}
-              />
-            </button>
-          </Tooltip>
-          <Tooltip
-            position={PositionTooltip.LEFT}
-            content={LanguageService.allUsers.filterBlock.tableViewTooltip[language]}
-          >
-            <button
-              className={styles.iconView}
-              onClick={() =>
-                updateAllUsersPageSettings({view: View.Table})}
-            >
-              <Icon
-                size={IconSize.MEDIUM}
-                name={"TableViewIcon"}
-                className={clsx(allUsersPageSettings.view === View.Table && styles.activeView)}
-              />
-            </button>
-          </Tooltip>
-        </HorizontalContainer>
+        <ViewSwitcher
+          view={allUsersPageSettings.view}
+          setView={(view) => updateAllUsersPageSettings({view})}
+          options={[
+            {
+              view: View.Card,
+              tooltipContent: LanguageService.allUsers.filterBlock.cardViewTooltip[language],
+              iconName: "GridViewIcon",
+            },
+            {
+              view: View.Table,
+              tooltipContent: LanguageService.allUsers.filterBlock.tableViewTooltip[language],
+              iconName: "TableViewIcon",
+            },
+          ]}
+        />
       </HorizontalContainer>
 
       <HorizontalContainer className={styles.titleContainer}>
