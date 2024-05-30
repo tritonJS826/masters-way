@@ -9,7 +9,7 @@ import styles from "src/component/viewSwitcher/ViewSwitcher.module.scss";
 /**
  * View option
  */
-interface ViewOption {
+export interface ViewOption {
 
   /**
    * View types

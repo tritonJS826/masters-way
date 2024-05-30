@@ -1,0 +1,42 @@
+import type {StoryObj} from "@storybook/react";
+import {ViewOption, ViewSwitcher} from "src/component/viewSwitcher/ViewSwitcher";
+import {View} from "src/utils/LocalStorageWorker";
+
+const meta = {
+  title: "ViewSwitcher",
+  component: ViewSwitcher,
+  parameters: {layout: "centered"},
+  tags: ["autodocs"],
+};
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+const options: ViewOption[] = [
+  {
+    view: View.Card,
+    tooltipContent: "Grid View",
+    iconName: "GridViewIcon",
+  },
+  {
+    view: View.Table,
+    tooltipContent: "Table View",
+    iconName: "TableViewIcon",
+  },
+];
+
+export const Default: Story = {
+  args: {
+    view: View.Card,
+    setView: () => {},
+    options,
+  },
+};
+
+export const ListView: Story = {
+  args: {
+    view: View.Table,
+    setView: () => {},
+    options,
+  },
+};
