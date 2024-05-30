@@ -1,3 +1,5 @@
+import "src/component/footer/Footer.cy.tsx";
+import "src/component/wayCollectionCard/WayCollectionCard.cy.tsx";
 import "/src/component/accordion/Accordion.cy.tsx";
 import "/src/component/avatar/Avatar.cy.tsx";
 import "/src/component/button/Button.cy.tsx";

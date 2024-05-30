@@ -30,9 +30,7 @@ $userCardAdditionalHeight: 90px;
 }
 
 .likes {
-  align-items: center;
   color: var(--secondaryTextColor);
-  gap: $gapSmall;
 }
 
 .icon {
@@ -42,10 +40,11 @@ $userCardAdditionalHeight: 90px;
 
 .nameLikes {
   align-items: start;
-  justify-content: space-between;
 }
 
 .nameGroup {
+  overflow: hidden;
+  flex: 1;
   gap: $gapSmall;
   justify-items: start;
 }
@@ -62,15 +61,11 @@ $userCardAdditionalHeight: 90px;
 }
 
 .mail {
-  display: -webkit-box;
   overflow: hidden;
-  -webkit-box-orient: vertical;
   color: var(--secondaryTextColor);
   font-size: $fontSizeMedium;
   font-weight: bold;
-  -webkit-line-clamp: 1;
   text-overflow: ellipsis;
-  white-space: initial;
 }
 
 .userTags {

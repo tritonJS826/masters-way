@@ -62,8 +62,8 @@ func (cc *DayReportController) CreateDayReport(ctx *gin.Context) {
 
 	response := schemas.DayReportPopulatedResponse{
 		Uuid:      dbDayReport.Uuid.String(),
-		CreatedAt: dbDayReport.CreatedAt,
-		UpdatedAt: dbDayReport.UpdatedAt,
+		CreatedAt: dbDayReport.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+		UpdatedAt: dbDayReport.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
 		IsDayOff:  dbDayReport.IsDayOff,
 		JobsDone:  make([]schemas.JobDonePopulatedResponse, 0),
 		Plans:     make([]schemas.PlanPopulatedResponse, 0),

@@ -14,35 +14,12 @@ import (
 func CreateUser(db *dbb.Queries, ctx context.Context, args *dbb.CreateUserParams) (schemas.UserPlainResponse, error) {
 	user, err := db.CreateUser(ctx, *args)
 
-	createWayCollectionParamsOwn := dbb.CreateWayCollectionParams{
-		OwnerUuid: user.Uuid,
-		CreatedAt: user.CreatedAt,
-		Name:      "own",
-		Type:      dbb.WayCollectionTypeOwn,
-	}
-	createWayCollectionParamsFavorite := dbb.CreateWayCollectionParams{
-		OwnerUuid: user.Uuid,
-		CreatedAt: user.CreatedAt,
-		Name:      "favorite",
-		Type:      dbb.WayCollectionTypeFavorite,
-	}
-	createWayCollectionParamsMentoring := dbb.CreateWayCollectionParams{
-		OwnerUuid: user.Uuid,
-		CreatedAt: user.CreatedAt,
-		Name:      "mentoring",
-		Type:      dbb.WayCollectionTypeMentoring,
-	}
-
-	db.CreateWayCollection(ctx, createWayCollectionParamsOwn)
-	db.CreateWayCollection(ctx, createWayCollectionParamsFavorite)
-	db.CreateWayCollection(ctx, createWayCollectionParamsMentoring)
-
 	response := schemas.UserPlainResponse{
 		Uuid:        user.Uuid.String(),
 		Name:        user.Name,
 		Email:       user.Email,
 		Description: user.Description,
-		CreatedAt:   user.CreatedAt.String(),
+		CreatedAt:   user.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
 		ImageUrl:    util.MarshalNullString(user.ImageUrl),
 		IsMentor:    user.IsMentor,
 	}
@@ -75,7 +52,7 @@ func convertDbWaysToPlainWays(db *dbb.Queries, ctx context.Context, dbWays []dbW
 			Name:        dbOwner.Name,
 			Email:       dbOwner.Email,
 			Description: dbOwner.Description,
-			CreatedAt:   dbOwner.CreatedAt.String(),
+			CreatedAt:   dbOwner.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
 			ImageUrl:    util.MarshalNullString(dbOwner.ImageUrl),
 			IsMentor:    dbOwner.IsMentor,
 		}
@@ -87,7 +64,7 @@ func convertDbWaysToPlainWays(db *dbb.Queries, ctx context.Context, dbWays []dbW
 				Name:        dbMentor.Name,
 				Email:       dbMentor.Email,
 				Description: dbMentor.Description,
-				CreatedAt:   dbMentor.CreatedAt.String(),
+				CreatedAt:   dbMentor.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
 				ImageUrl:    util.MarshalNullString(dbMentor.ImageUrl),
 				IsMentor:    dbMentor.IsMentor,
 			}
@@ -105,8 +82,8 @@ func convertDbWaysToPlainWays(db *dbb.Queries, ctx context.Context, dbWays []dbW
 			Uuid:              dbWay.Uuid.String(),
 			Name:              dbWay.Name,
 			GoalDescription:   dbWay.GoalDescription,
-			UpdatedAt:         dbWay.UpdatedAt.String(),
-			CreatedAt:         dbWay.CreatedAt.String(),
+			UpdatedAt:         dbWay.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+			CreatedAt:         dbWay.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
 			EstimationTime:    dbWay.EstimationTime,
 			IsCompleted:       dbWay.IsCompleted,
 			Owner:             owner,
@@ -223,8 +200,8 @@ func GetPopulatedUserById(db *dbb.Queries, ctx context.Context, userUuid uuid.UU
 			Uuid:      "00000000-0000-0000-0000-00000000001",
 			Name:      "Own",
 			Ways:      ownWays,
-			CreatedAt: user.CreatedAt.String(),
-			UpdatedAt: user.CreatedAt.String(),
+			CreatedAt: user.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+			UpdatedAt: user.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
 			OwnerUuid: user.Uuid.String(),
 			Type:      "own",
 		},
@@ -232,8 +209,8 @@ func GetPopulatedUserById(db *dbb.Queries, ctx context.Context, userUuid uuid.UU
 			Uuid:      "00000000-0000-0000-0000-00000000002",
 			Name:      "Mentoring",
 			Ways:      mentoringWays,
-			CreatedAt: user.CreatedAt.String(),
-			UpdatedAt: user.CreatedAt.String(),
+			CreatedAt: user.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+			UpdatedAt: user.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
 			OwnerUuid: user.Uuid.String(),
 			Type:      "mentoring",
 		},
@@ -241,22 +218,15 @@ func GetPopulatedUserById(db *dbb.Queries, ctx context.Context, userUuid uuid.UU
 			Uuid:      "00000000-0000-0000-0000-00000000003",
 			Name:      "Favorite",
 			Ways:      favoriteWays,
-			CreatedAt: user.CreatedAt.String(),
-			UpdatedAt: user.CreatedAt.String(),
+			CreatedAt: user.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+			UpdatedAt: user.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
 			OwnerUuid: user.Uuid.String(),
 			Type:      "favorite",
 		},
 	}
 
 	dbWayCollections, _ := db.GetWayCollectionsByUserId(ctx, user.Uuid)
-	// TODO: temporal workaround: own, mentoring and favorite collections is a pseudocollections - should be removed from collections table
-	// after removing this filter could be removed too
-	filteredDbWayCollections := lo.Filter(dbWayCollections, func(wayCollection dbb.WayCollection, i int) bool {
-		isPseudoCollection := wayCollection.Type != "own" && wayCollection.Type != "mentoring" && wayCollection.Type != "favorite"
-
-		return isPseudoCollection
-	})
-	wayCollections := lo.Map(filteredDbWayCollections, func(collection dbb.WayCollection, i int) schemas.WayCollectionPopulatedResponse {
+	wayCollections := lo.Map(dbWayCollections, func(collection dbb.WayCollection, i int) schemas.WayCollectionPopulatedResponse {
 		dbCollectionWays, _ := db.GetWaysByCollectionId(ctx, collection.Uuid)
 		dbCollectionWaysPrepared := dbCollectionWaysToDbWays(dbCollectionWays)
 
@@ -266,8 +236,8 @@ func GetPopulatedUserById(db *dbb.Queries, ctx context.Context, userUuid uuid.UU
 			Uuid:      collection.Uuid.String(),
 			Name:      collection.Name,
 			Ways:      ways,
-			CreatedAt: collection.CreatedAt.String(),
-			UpdatedAt: collection.UpdatedAt.String(),
+			CreatedAt: collection.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+			UpdatedAt: collection.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
 			OwnerUuid: collection.OwnerUuid.String(),
 			Type:      string(collection.Type),
 		}
@@ -299,7 +269,7 @@ func GetPopulatedUserById(db *dbb.Queries, ctx context.Context, userUuid uuid.UU
 				Name:        dbMentor.Name,
 				Email:       dbMentor.Email,
 				Description: dbMentor.Description,
-				CreatedAt:   dbMentor.CreatedAt.String(),
+				CreatedAt:   dbMentor.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
 				ImageUrl:    util.MarshalNullString(dbMentor.ImageUrl),
 				IsMentor:    dbMentor.IsMentor,
 			}
@@ -310,7 +280,7 @@ func GetPopulatedUserById(db *dbb.Queries, ctx context.Context, userUuid uuid.UU
 			Name:        dbOwner.Name,
 			Email:       dbOwner.Email,
 			Description: dbOwner.Description,
-			CreatedAt:   dbOwner.CreatedAt.String(),
+			CreatedAt:   dbOwner.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
 			ImageUrl:    util.MarshalNullString(dbOwner.ImageUrl),
 			IsMentor:    dbOwner.IsMentor,
 		}
@@ -318,8 +288,8 @@ func GetPopulatedUserById(db *dbb.Queries, ctx context.Context, userUuid uuid.UU
 			Uuid:              dbWay.Uuid.String(),
 			Name:              dbWay.Name,
 			GoalDescription:   dbWay.GoalDescription,
-			UpdatedAt:         dbWay.UpdatedAt.String(),
-			CreatedAt:         dbWay.CreatedAt.String(),
+			UpdatedAt:         dbWay.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+			CreatedAt:         dbWay.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
 			EstimationTime:    dbWay.EstimationTime,
 			IsCompleted:       dbWay.IsCompleted,
 			Owner:             owner,
@@ -346,7 +316,7 @@ func GetPopulatedUserById(db *dbb.Queries, ctx context.Context, userUuid uuid.UU
 			Name:        dbUser.Name,
 			Email:       dbUser.Email,
 			Description: dbUser.Description,
-			CreatedAt:   dbUser.CreatedAt.String(),
+			CreatedAt:   dbUser.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
 			ImageUrl:    util.MarshalNullString(dbUser.ImageUrl),
 			IsMentor:    dbUser.IsMentor,
 		}
@@ -357,7 +327,7 @@ func GetPopulatedUserById(db *dbb.Queries, ctx context.Context, userUuid uuid.UU
 		Name:               user.Name,
 		Email:              user.Email,
 		Description:        user.Description,
-		CreatedAt:          user.CreatedAt.String(),
+		CreatedAt:          user.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
 		ImageUrl:           util.MarshalNullString(user.ImageUrl),
 		IsMentor:           user.IsMentor,
 		WayCollections:     wayCollections,

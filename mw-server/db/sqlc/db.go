@@ -27,9 +27,6 @@ func Prepare(ctx context.Context, db DBTX) (*Queries, error) {
 	if q.addWayToCompositeWayStmt, err = db.PrepareContext(ctx, addWayToCompositeWay); err != nil {
 		return nil, fmt.Errorf("error preparing query AddWayToCompositeWay: %w", err)
 	}
-	if q.addWayToMentoringCollectionStmt, err = db.PrepareContext(ctx, addWayToMentoringCollection); err != nil {
-		return nil, fmt.Errorf("error preparing query AddWayToMentoringCollection: %w", err)
-	}
 	if q.countUsersStmt, err = db.PrepareContext(ctx, countUsers); err != nil {
 		return nil, fmt.Errorf("error preparing query CountUsers: %w", err)
 	}
@@ -288,14 +285,14 @@ func Prepare(ctx context.Context, db DBTX) (*Queries, error) {
 	if q.getWaysByCollectionIdStmt, err = db.PrepareContext(ctx, getWaysByCollectionId); err != nil {
 		return nil, fmt.Errorf("error preparing query GetWaysByCollectionId: %w", err)
 	}
+	if q.isAllMetricsDoneStmt, err = db.PrepareContext(ctx, isAllMetricsDone); err != nil {
+		return nil, fmt.Errorf("error preparing query IsAllMetricsDone: %w", err)
+	}
 	if q.listUsersStmt, err = db.PrepareContext(ctx, listUsers); err != nil {
 		return nil, fmt.Errorf("error preparing query ListUsers: %w", err)
 	}
 	if q.listWaysStmt, err = db.PrepareContext(ctx, listWays); err != nil {
 		return nil, fmt.Errorf("error preparing query ListWays: %w", err)
-	}
-	if q.removeWayFromMentoringCollectionStmt, err = db.PrepareContext(ctx, removeWayFromMentoringCollection); err != nil {
-		return nil, fmt.Errorf("error preparing query RemoveWayFromMentoringCollection: %w", err)
 	}
 	if q.updateCommentStmt, err = db.PrepareContext(ctx, updateComment); err != nil {
 		return nil, fmt.Errorf("error preparing query UpdateComment: %w", err)
@@ -335,11 +332,6 @@ func (q *Queries) Close() error {
 	if q.addWayToCompositeWayStmt != nil {
 		if cerr := q.addWayToCompositeWayStmt.Close(); cerr != nil {
 			err = fmt.Errorf("error closing addWayToCompositeWayStmt: %w", cerr)
-		}
-	}
-	if q.addWayToMentoringCollectionStmt != nil {
-		if cerr := q.addWayToMentoringCollectionStmt.Close(); cerr != nil {
-			err = fmt.Errorf("error closing addWayToMentoringCollectionStmt: %w", cerr)
 		}
 	}
 	if q.countUsersStmt != nil {
@@ -772,6 +764,11 @@ func (q *Queries) Close() error {
 			err = fmt.Errorf("error closing getWaysByCollectionIdStmt: %w", cerr)
 		}
 	}
+	if q.isAllMetricsDoneStmt != nil {
+		if cerr := q.isAllMetricsDoneStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing isAllMetricsDoneStmt: %w", cerr)
+		}
+	}
 	if q.listUsersStmt != nil {
 		if cerr := q.listUsersStmt.Close(); cerr != nil {
 			err = fmt.Errorf("error closing listUsersStmt: %w", cerr)
@@ -780,11 +777,6 @@ func (q *Queries) Close() error {
 	if q.listWaysStmt != nil {
 		if cerr := q.listWaysStmt.Close(); cerr != nil {
 			err = fmt.Errorf("error closing listWaysStmt: %w", cerr)
-		}
-	}
-	if q.removeWayFromMentoringCollectionStmt != nil {
-		if cerr := q.removeWayFromMentoringCollectionStmt.Close(); cerr != nil {
-			err = fmt.Errorf("error closing removeWayFromMentoringCollectionStmt: %w", cerr)
 		}
 	}
 	if q.updateCommentStmt != nil {
@@ -877,7 +869,6 @@ type Queries struct {
 	db                                          DBTX
 	tx                                          *sql.Tx
 	addWayToCompositeWayStmt                    *sql.Stmt
-	addWayToMentoringCollectionStmt             *sql.Stmt
 	countUsersStmt                              *sql.Stmt
 	countWaysByTypeStmt                         *sql.Stmt
 	createCommentStmt                           *sql.Stmt
@@ -964,9 +955,9 @@ type Queries struct {
 	getWayCollectionsByUserIdStmt               *sql.Stmt
 	getWayTagByNameStmt                         *sql.Stmt
 	getWaysByCollectionIdStmt                   *sql.Stmt
+	isAllMetricsDoneStmt                        *sql.Stmt
 	listUsersStmt                               *sql.Stmt
 	listWaysStmt                                *sql.Stmt
-	removeWayFromMentoringCollectionStmt        *sql.Stmt
 	updateCommentStmt                           *sql.Stmt
 	updateDayReportStmt                         *sql.Stmt
 	updateJobDoneStmt                           *sql.Stmt
@@ -984,7 +975,6 @@ func (q *Queries) WithTx(tx *sql.Tx) *Queries {
 		db:                                          tx,
 		tx:                                          tx,
 		addWayToCompositeWayStmt:                    q.addWayToCompositeWayStmt,
-		addWayToMentoringCollectionStmt:             q.addWayToMentoringCollectionStmt,
 		countUsersStmt:                              q.countUsersStmt,
 		countWaysByTypeStmt:                         q.countWaysByTypeStmt,
 		createCommentStmt:                           q.createCommentStmt,
@@ -1071,9 +1061,9 @@ func (q *Queries) WithTx(tx *sql.Tx) *Queries {
 		getWayCollectionsByUserIdStmt:               q.getWayCollectionsByUserIdStmt,
 		getWayTagByNameStmt:                         q.getWayTagByNameStmt,
 		getWaysByCollectionIdStmt:                   q.getWaysByCollectionIdStmt,
+		isAllMetricsDoneStmt:                        q.isAllMetricsDoneStmt,
 		listUsersStmt:                               q.listUsersStmt,
 		listWaysStmt:                                q.listWaysStmt,
-		removeWayFromMentoringCollectionStmt:        q.removeWayFromMentoringCollectionStmt,
 		updateCommentStmt:                           q.updateCommentStmt,
 		updateDayReportStmt:                         q.updateDayReportStmt,
 		updateJobDoneStmt:                           q.updateJobDoneStmt,

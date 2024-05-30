@@ -94,12 +94,15 @@ export const WayStatistic = observer((props: WayStatisticProps) => {
   const dayReportsReversed = [...props.dayReports].reverse();
   const startDate = dayReportsReversed[0] ? dayReportsReversed[0].createdAt : props.wayCreatedAt;
   const lastDate = props.dayReports[0] ? props.dayReports[0].createdAt : props.wayCreatedAt;
-  const startDateLastWeek = startDate <= DateUtils.getLastDate(AMOUNT_DAYS_IN_WEEK, lastDate)
-    ? DateUtils.getLastDate(AMOUNT_DAYS_IN_WEEK, lastDate)
+
+  const startDateLastWeek = startDate <= lastWeekDate
+    ? lastWeekDate
     : startDate;
-  const startDateLastMonth = startDate <= DateUtils.getLastDate(AMOUNT_DAYS_IN_MONTH, lastMonthDate)
-    ? DateUtils.getLastDate(AMOUNT_DAYS_IN_MONTH, lastMonthDate)
+
+  const startDateLastMonth = startDate <= lastMonthDate
+    ? lastMonthDate
     : startDate;
+
   const datesWithJobTotalTime: Map<string, number> = new Map(props.dayReports.map((report) => {
     const jobDoneTotalTime = report.jobsDone.reduce((totalTime, jobDone) => totalTime + jobDone.time, 0);
 
@@ -167,6 +170,8 @@ export const WayStatistic = observer((props: WayStatisticProps) => {
     ? Math.round(lastCalendarMonthTotalTime / lastMonthDayReports.length)
     : 0;
 
+  const lastCalendarMonthAverageTimeForJob = lastMonthTime ? Math.round(lastMonthTime / lastMonthJobs.length) : 0;
+
   const allTagStats = getTagStats(allJobs);
   const lastWeekTagStats = getTagStats(lastWeekJobs);
   const lastMonthTagStats = getTagStats(lastMonthJobs);
@@ -209,22 +214,23 @@ export const WayStatistic = observer((props: WayStatisticProps) => {
     averageTimeForJobStatisticItem,
   ];
 
-  const lastCalendarMonthTotalTimeStatisticItem: StatisticItem = {
-    text: LanguageService.way.statisticsBlock.totalTime[language],
-    value: lastCalendarMonthTotalTime,
-  };
-  const lastCalendarMonthAverageWorkingTimeStatisticItem: StatisticItem = {
+  const lastCalendarMonthAverageTimePerCalendarDayStatisticItem: StatisticItem = {
     text: LanguageService.way.statisticsBlock.averageTimePerCalendarDay[language],
     value: lastCalendarMonthAverageWorkingTime,
   };
 
-  const lastCalendarMonthAverageJobTimeStatisticItem: StatisticItem = {
+  const lastCalendarMonthAverageWorkingTimeStatisticItem: StatisticItem = {
     text: LanguageService.way.statisticsBlock.averageWorkingTimePerWorkingDay[language],
     value: lastCalendarMonthAverageJobTime,
   };
 
+  const lastCalendarMonthAverageJobTimeStatisticItem: StatisticItem = {
+    text: LanguageService.way.statisticsBlock.averageJobTime[language],
+    value: lastCalendarMonthAverageTimeForJob,
+  };
+
   const statisticItemsLastMonth = [
-    lastCalendarMonthTotalTimeStatisticItem,
+    lastCalendarMonthAverageTimePerCalendarDayStatisticItem,
     lastCalendarMonthAverageWorkingTimeStatisticItem,
     lastCalendarMonthAverageJobTimeStatisticItem,
   ];

@@ -40,11 +40,11 @@ func MarshalNullString(nullString sql.NullString) *string {
 
 func MarshalNullTime(nullTime sql.NullTime) *string {
 	if nullTime.Valid {
-		str := nullTime.Time.String()
+		str := nullTime.Time.Format(DEFAULT_STRING_LAYOUT)
 		return &str
 	} else {
 		return nil
 	}
 }
 
-var DEFAULT_STRING_LAYOUT string = "2006-01-02T15:04:05.999Z"
+var DEFAULT_STRING_LAYOUT string = "2006-01-02 15:04:05.000 -0700"

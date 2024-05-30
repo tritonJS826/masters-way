@@ -50,7 +50,7 @@
     }
   },
   "wayActions": {
-    "repeatTheWay": {
+    "repeatWay": {
       "ru": "Повторить путь",
       "en": "Repeat the way",
       "ua": "Повторити шлях",

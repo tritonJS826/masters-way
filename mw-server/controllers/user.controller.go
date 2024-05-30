@@ -157,7 +157,7 @@ func (cc *UserController) UpdateUser(ctx *gin.Context) {
 		Name:        user.Name,
 		Email:       user.Email,
 		Description: user.Description,
-		CreatedAt:   user.CreatedAt.String(),
+		CreatedAt:   user.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
 		ImageUrl:    util.MarshalNullString(user.ImageUrl),
 		IsMentor:    user.IsMentor,
 	}
@@ -248,7 +248,7 @@ func (cc *UserController) GetAllUsers(ctx *gin.Context) {
 			Uuid:             user.Uuid.String(),
 			Name:             user.Name,
 			Description:      user.Description,
-			CreatedAt:        user.CreatedAt.String(),
+			CreatedAt:        user.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
 			ImageUrl:         util.MarshalNullString(user.ImageUrl),
 			IsMentor:         user.IsMentor,
 			Email:            user.Email,

@@ -75,8 +75,8 @@ func (cc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 	})
 	response := schemas.JobDonePopulatedResponse{
 		Uuid:          jobDone.Uuid.String(),
-		CreatedAt:     jobDone.CreatedAt.String(),
-		UpdatedAt:     jobDone.UpdatedAt.String(),
+		CreatedAt:     jobDone.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+		UpdatedAt:     jobDone.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
 		Description:   jobDone.Description,
 		Time:          jobDone.Time,
 		OwnerUuid:     jobDone.OwnerUuid.String(),
@@ -133,8 +133,8 @@ func (cc *JobDoneController) UpdateJobDone(ctx *gin.Context) {
 	})
 	response := schemas.JobDonePopulatedResponse{
 		Uuid:          jobDone.Uuid.String(),
-		CreatedAt:     jobDone.CreatedAt.String(),
-		UpdatedAt:     jobDone.UpdatedAt.String(),
+		CreatedAt:     jobDone.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+		UpdatedAt:     jobDone.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
 		Description:   jobDone.Description,
 		Time:          jobDone.Time,
 		OwnerUuid:     jobDone.OwnerUuid.String(),

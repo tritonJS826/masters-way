@@ -1,8 +1,6 @@
 package schemas
 
 import (
-	"time"
-
 	"github.com/google/uuid"
 )
 
@@ -17,8 +15,8 @@ type UpdateDayReportPayload struct {
 
 type DayReportPopulatedResponse struct {
 	Uuid      string                     `json:"uuid" validate:"required"`
-	CreatedAt time.Time                  `json:"createdAt" validate:"required"`
-	UpdatedAt time.Time                  `json:"updatedAt" validate:"required"`
+	CreatedAt string                     `json:"createdAt" validate:"required"`
+	UpdatedAt string                     `json:"updatedAt" validate:"required"`
 	IsDayOff  bool                       `json:"isDayOff" validate:"required"`
 	JobsDone  []JobDonePopulatedResponse `json:"jobsDone" validate:"required"`
 	Plans     []PlanPopulatedResponse    `json:"plans" validate:"required"`

@@ -9,7 +9,10 @@ import {Tooltip} from "src/component/tooltip/Tooltip";
 import {Skill} from "src/component/userCard/skill/Skill";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {languageStore} from "src/globalStore/LanguageStore";
-import {UserNotSaturatedWay, UserTag} from "src/model/businessModelPreview/UserNotSaturatedWay";
+import {
+  UserNotSaturatedWay,
+  UserTag,
+} from "src/model/businessModelPreview/UserNotSaturatedWay";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import {DateUtils} from "src/utils/DateUtils";
@@ -48,8 +51,7 @@ export const UserCard = observer((props: UserCardProps) => {
             key={skill.uuid}
             skillName={skill.name}
           />
-        ))
-        }
+        ))}
       </HorizontalContainer>
     );
   };
@@ -63,25 +65,23 @@ export const UserCard = observer((props: UserCardProps) => {
       <VerticalContainer className={styles.userCardContainer}>
         <VerticalContainer className={styles.mainInfo}>
           <HorizontalContainer className={styles.nameLikes}>
-            <HorizontalContainer>
-              <Avatar
-                alt={props.userPreview.name}
-                src={props.userPreview.imageUrl}
-                size={AvatarSize.BIG}
+            <Avatar
+              alt={props.userPreview.name}
+              src={props.userPreview.imageUrl}
+              size={AvatarSize.BIG}
+            />
+            <VerticalContainer className={styles.nameGroup}>
+              <Title
+                text={props.userPreview.name}
+                level={HeadingLevel.h3}
+                className={styles.title}
+                placeholder=""
               />
-              <VerticalContainer className={styles.nameGroup}>
-                <Title
-                  text={props.userPreview.name}
-                  level={HeadingLevel.h3}
-                  className={styles.title}
-                  placeholder=""
-                />
-                <p className={styles.mail}>
-                  {props.userPreview.email}
-                </p>
-              </VerticalContainer>
-            </HorizontalContainer>
-            <HorizontalContainer className={styles.likes}>
+              <p className={styles.mail}>
+                {props.userPreview.email}
+              </p>
+            </VerticalContainer>
+            <VerticalContainer className={styles.likes}>
               <Tooltip
                 position={PositionTooltip.BOTTOM}
                 content={LanguageService.allUsers.userCard.likes[language]}
@@ -93,7 +93,7 @@ export const UserCard = observer((props: UserCardProps) => {
                 />
                 {props.userPreview.favoriteForUsers}
               </Tooltip>
-            </HorizontalContainer>
+            </VerticalContainer>
           </HorizontalContainer>
           <Tooltip
             position={PositionTooltip.BOTTOM}
@@ -121,4 +121,3 @@ export const UserCard = observer((props: UserCardProps) => {
     </Link>
   );
 });
-
