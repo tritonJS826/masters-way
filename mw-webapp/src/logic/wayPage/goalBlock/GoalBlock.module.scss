@@ -3,13 +3,13 @@
 $iconContainerSize: 25px;
 
 .goalSection {
+  flex-direction: column;
   flex-wrap: nowrap;
   flex-wrap: wrap;
   justify-content: space-between;
 }
 
 .goalDescription {
-  min-width: $minWidthBlock;
   max-width: $maxWidthBlock;
 
   textarea {

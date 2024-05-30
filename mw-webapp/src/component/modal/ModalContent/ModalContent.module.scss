@@ -33,6 +33,10 @@ $modal-animation-time: 150ms;
   &:focus {
     outline: none;
   }
+
+  @media only screen and (max-width: $mediaWidthMobileMedium) {
+    padding: 0;
+  }
 }
 
 .closeButton {
