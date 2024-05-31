@@ -70,6 +70,7 @@ interface EditableTextareaProps {
 export const EditableTextarea = (props: EditableTextareaProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [text, setText] = useState(props.text);
+  const isEmptyText = text.toString().trim() === "";
 
   useEffect(() => {
     setText(props.text);
@@ -120,7 +121,7 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
       {
         isEditing
           ? renderTextarea()
-          : <Text text={props.text ?? props.placeholder} />
+          : <Text text={isEmptyText ? props.placeholder : text} />
       }
     </div>
   );
