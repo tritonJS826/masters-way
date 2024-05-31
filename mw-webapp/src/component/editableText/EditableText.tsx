@@ -96,6 +96,7 @@ interface EditableTextProps<T> {
 export const EditableText = <T extends string | number>(props: EditableTextProps<T>) => {
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState(props.value);
+  const isEmptyText = value.toString().trim() === "";
 
   /**
    * HandleChangeFinish
@@ -150,7 +151,7 @@ export const EditableText = <T extends string | number>(props: EditableTextProps
     >
       {isEditing
         ? renderInput()
-        : <Text text={props.value ?? props.placeholder} />
+        : <Text text={isEmptyText ? props.placeholder : value} />
       }
     </div>
   );

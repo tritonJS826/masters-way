@@ -1,3 +1,5 @@
+import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
+
 /**
  * Enum of text type styles
  */
@@ -36,12 +38,13 @@ interface TextProps {
  * Text component
  */
 export const Text = (props: TextProps) => {
+
   return (
     <span
       className={props.className}
       data-cy={props.cy}
     >
-      {props.text}
+      {renderMarkdown(props.text)}
     </span>
   );
 };
