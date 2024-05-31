@@ -150,7 +150,7 @@ export const EditableText = <T extends string | number>(props: EditableTextProps
     >
       {isEditing
         ? renderInput()
-        : <Text text={props.value ? props.value : props.placeholder} />
+        : <Text text={props.value ?? props.placeholder} />
       }
     </div>
   );

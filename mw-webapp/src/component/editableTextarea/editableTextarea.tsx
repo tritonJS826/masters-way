@@ -120,7 +120,7 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
       {
         isEditing
           ? renderTextarea()
-          : <Text text={props.text ? text : props.placeholder} />
+          : <Text text={props.text ?? props.placeholder} />
       }
     </div>
   );
