@@ -1,4 +1,4 @@
-import {useMemo, useState} from "react";
+import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
@@ -29,6 +29,7 @@ import {userStore} from "src/globalStore/UserStore";
 import {useLoad} from "src/hooks/useLoad";
 import {usePersistanceState} from "src/hooks/usePersistanceState";
 import {UserPageOwnerStore} from "src/logic/userPage/UserPageOwnerStore";
+import {useStore} from "src/logic/userPage/useStore";
 import {BaseWaysTable, FILTER_STATUS_ALL_VALUE} from "src/logic/waysTable/BaseWaysTable";
 import {WayStatusType} from "src/logic/waysTable/wayStatus";
 import {DefaultWayCollections, User, UserPlain, WayCollection} from "src/model/businessModel/User";
@@ -148,12 +149,20 @@ interface UserPageSettingsValidatorParams {
  */
 export const UserPage = observer((props: UserPageProps) => {
   const {user, addUserToFavorite, deleteUserFromFavorite} = userStore;
-  const {
-    userPageOwner,
-    setUserPageOwner,
-    addUserToFavoriteForUser,
-    deleteUserFromFavoriteForUser,
-  } = useMemo(() => new UserPageOwnerStore(), [props.uuid]);
+  // Const [x, setX] = useState<User>();
+
+  const userPageOwner: User = useStore({
+    storeForInitialize: UserPageOwnerStore,
+    // DataForInitialization: x,
+    dependency: [props.uuid],
+  });
+  // Const {
+  //   userPageOwner,
+  //   setUserPageOwner,
+  //   addUserToFavoriteForUser,
+  //   deleteUserFromFavoriteForUser,
+  // } = useMemo(() => new UserPageStore(), [props.uuid]);
+
   const {language} = languageStore;
   const {theme} = themeStore;
   const [isRenameCollectionModalOpen, setIsRenameCollectionModalOpen] = useState(false);
@@ -214,7 +223,10 @@ export const UserPage = observer((props: UserPageProps) => {
    * Callback that is called on fetch and validation success
    */
   const onSuccess = (data: User) => {
-    setUserPageOwner(data);
+    // eslint-disable-next-line no-console
+    console.log(data);
+    // SetUserPageOwner(data);
+    // setX(data);
   };
 
   useLoad({
@@ -394,7 +406,7 @@ export const UserPage = observer((props: UserPageProps) => {
                         acceptorUserUuid: userPageOwner.uuid,
                       });
                       deleteUserFromFavorite(userPageOwner.uuid);
-                      deleteUserFromFavoriteForUser(user.uuid);
+                      // DeleteUserFromFavoriteForUser(user.uuid);
                     } else {
                       FavoriteUserDAL.createFavoriteUser({
                         donorUserUuid: user.uuid,
@@ -403,7 +415,7 @@ export const UserPage = observer((props: UserPageProps) => {
 
                       const newFavoriteUser = new UserPlain({...userPageOwner});
                       addUserToFavorite(newFavoriteUser);
-                      addUserToFavoriteForUser(user.uuid);
+                      // AddUserToFavoriteForUser(user.uuid);
                     }
 
                     displayNotification({
