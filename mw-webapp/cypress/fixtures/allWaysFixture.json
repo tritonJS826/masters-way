@@ -1,4 +1,3 @@
 {
-    "endpoint": "/ways",
-    "waysTitle": "Ways"
+    "endpoint": "/ways"
 }
