@@ -18,7 +18,7 @@ interface useStoreProps<
   dataForInitialization?: ConstructorParameters<StoreType>;
 
   /**
-   * Sdf
+   *Store for initialize
    */
   storeForInitialize: StoreType;
 

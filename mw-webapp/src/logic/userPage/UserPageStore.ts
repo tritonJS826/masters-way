@@ -55,7 +55,7 @@ export class UserPageStore {
     await load<User>({
 
       /**
-       * Sdf
+       * Load data
        */
       loadData: () => this.loadData(userPageOwnerUuid),
       validateData: this.validateData,
