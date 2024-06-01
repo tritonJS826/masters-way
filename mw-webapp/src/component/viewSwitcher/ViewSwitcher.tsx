@@ -8,6 +8,8 @@ import {Tooltip} from "src/component/tooltip/Tooltip";
 import {View} from "src/utils/LocalStorageWorker";
 import styles from "src/component/viewSwitcher/ViewSwitcher.module.scss";
 
+type tooltipContent = string | ReactNode | ReactElement;
+
 /**
  * View option
  */
@@ -21,7 +23,7 @@ export interface ViewOption {
   /**
    * Tooltip's content
    */
-  tooltipContent: string | ReactNode | ReactElement;
+  tooltipContent: tooltipContent;
 
   /**
    * Icon name
@@ -63,6 +65,25 @@ export interface ViewSwitcherProps {
    * Data attribute for cypress testing
    */
   dataCy?: string;
+}
+
+/**
+ * Function to generate array of options for View Switcher Component
+ */
+export function generateViewSwitcherOptions
+(tooltipContentForCardView: tooltipContent, tooltipContentForTableView: tooltipContent): ViewOption[] {
+  return [
+    {
+      view: View.Card,
+      tooltipContent: tooltipContentForCardView,
+      iconName: "GridViewIcon",
+    },
+    {
+      view: View.Table,
+      tooltipContent: tooltipContentForTableView,
+      iconName: "TableViewIcon",
+    },
+  ];
 }
 
 /**

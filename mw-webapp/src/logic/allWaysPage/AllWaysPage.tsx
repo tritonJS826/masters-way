@@ -9,7 +9,7 @@ import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {Select} from "src/component/select/Select";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {ViewSwitcher} from "src/component/viewSwitcher/ViewSwitcher";
+import {generateViewSwitcherOptions, ViewSwitcher} from "src/component/viewSwitcher/ViewSwitcher";
 import {WayCard} from "src/component/wayCard/WayCard";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
@@ -155,18 +155,12 @@ export const AllWaysPage = observer(() => {
             filterStatus: allWaysPageSettings.filterStatus,
             view,
           })}
-          options={[
-            {
-              view: View.Card,
-              tooltipContent: LanguageService.allWays.filterBlock.cardViewTooltip[language],
-              iconName: "GridViewIcon",
-            },
-            {
-              view: View.Table,
-              tooltipContent: LanguageService.allWays.filterBlock.tableViewTooltip[language],
-              iconName: "TableViewIcon",
-            },
-          ]}
+          options={
+            generateViewSwitcherOptions(
+              LanguageService.allWays.filterBlock.cardViewTooltip[language],
+              LanguageService.allWays.filterBlock.tableViewTooltip[language],
+            )
+          }
         />
       </HorizontalContainer>
 

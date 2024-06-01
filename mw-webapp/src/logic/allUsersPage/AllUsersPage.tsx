@@ -11,7 +11,7 @@ import {Select} from "src/component/select/Select";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {UserCard} from "src/component/userCard/UserCard";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {ViewSwitcher} from "src/component/viewSwitcher/ViewSwitcher";
+import {generateViewSwitcherOptions, ViewSwitcher} from "src/component/viewSwitcher/ViewSwitcher";
 import {UserDAL} from "src/dataAccessLogic/UserDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
@@ -187,18 +187,12 @@ export const AllUsersPage = observer(() => {
         <ViewSwitcher
           view={allUsersPageSettings.view}
           setView={(view) => updateAllUsersPageSettings({view})}
-          options={[
-            {
-              view: View.Card,
-              tooltipContent: LanguageService.allUsers.filterBlock.cardViewTooltip[language],
-              iconName: "GridViewIcon",
-            },
-            {
-              view: View.Table,
-              tooltipContent: LanguageService.allUsers.filterBlock.tableViewTooltip[language],
-              iconName: "TableViewIcon",
-            },
-          ]}
+          options={
+            generateViewSwitcherOptions(
+              LanguageService.allUsers.filterBlock.cardViewTooltip[language],
+              LanguageService.allUsers.filterBlock.tableViewTooltip[language],
+            )
+          }
         />
       </HorizontalContainer>
 
