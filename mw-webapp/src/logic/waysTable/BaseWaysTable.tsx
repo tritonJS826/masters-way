@@ -1,17 +1,15 @@
-import clsx from "clsx";
+
 import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Confirm} from "src/component/confirm/Confirm";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
-import {Icon, IconSize} from "src/component/icon/Icon";
 import {Loader} from "src/component/loader/Loader";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {Select} from "src/component/select/Select";
 import {HeadingLevel, Title} from "src/component/title/Title";
-import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
-import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {generateViewSwitcherOptions, ViewSwitcher} from "src/component/viewSwitcher/ViewSwitcher";
 import {WayCard} from "src/component/wayCard/WayCard";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
@@ -169,38 +167,16 @@ export const BaseWaysTable = observer((props: BaseWaysTableProps) => {
             onChange={(value) => props.setFilterStatus(value as WayStatusType)}
           />
 
-          <HorizontalContainer>
-            <Tooltip
-              position={PositionTooltip.LEFT}
-              content={LanguageService.user.filterBlock.cardViewTooltip[language]}
-            >
-              <button
-                className={styles.iconView}
-                onClick={() => props.setView(View.Card)}
-              >
-                <Icon
-                  size={IconSize.MEDIUM}
-                  name={"GridViewIcon"}
-                  className={clsx(props.view === View.Card && styles.activeView)}
-                />
-              </button>
-            </Tooltip>
-            <Tooltip
-              position={PositionTooltip.LEFT}
-              content={LanguageService.user.filterBlock.tableViewTooltip[language]}
-            >
-              <button
-                className={styles.iconView}
-                onClick={() => props.setView(View.Table)}
-              >
-                <Icon
-                  size={IconSize.MEDIUM}
-                  name={"TableViewIcon"}
-                  className={clsx(props.view === View.Table && styles.activeView)}
-                />
-              </button>
-            </Tooltip>
-          </HorizontalContainer>
+          <ViewSwitcher
+            view={props.view}
+            setView={props.setView}
+            options={
+              generateViewSwitcherOptions(
+                LanguageService.user.filterBlock.cardViewTooltip[language],
+                LanguageService.user.filterBlock.tableViewTooltip[language],
+              )
+            }
+          />
         </HorizontalContainer>
       </HorizontalContainer>
 
