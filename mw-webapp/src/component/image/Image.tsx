@@ -1,3 +1,4 @@
+import React, {useEffect, useState} from "react";
 import clsx from "clsx";
 import {Modal} from "src/component/modal/Modal";
 import styles from "src/component/image/Image.module.scss";
@@ -5,8 +6,7 @@ import styles from "src/component/image/Image.module.scss";
 /**
  * Props for the Image component
  */
-interface ImageProps
-{
+interface ImageProps {
 
   /**
    * Image source
@@ -31,51 +31,71 @@ interface ImageProps
   /**
    * Enlarge Image
    */
-  enlargeImage?: boolean;
+  isZoomable?: boolean;
 
   /**
    * Enlarge Image Styles
    */
   enlargeClassName?: string;
+
+  /**
+   * Enlarge Image Styles
+   */
+  isDisableZoom?: boolean;
 }
 
 /**
  * Сomponent for displaying images
  */
 export const Image = (props: ImageProps) => {
-  const className = clsx(styles.image, props.className);
-  const enlargeClassName = clsx(styles.image, props.enlargeClassName);
+  const {src, alt, dataCy, className, enlargeClassName, isZoomable, isDisableZoom} = props;
+
+  const [zoomable, setZoomable] = useState(isZoomable);
+
+  useEffect(() => {
+    if (isDisableZoom) {
+      setZoomable(false);
+    } else {
+      setZoomable(isZoomable);
+    }
+  }, [isDisableZoom, isZoomable]);
+
+  const combinedClassName = clsx(styles.image, className);
+  const combinedEnlargeClassName = clsx(styles.image, enlargeClassName);
+
+  const imageElement = (
+    <img
+      src={src}
+      alt={alt}
+      className={combinedClassName}
+      data-cy={dataCy}
+    />
+  );
+
+  const enlargedImageElement = (
+    <img
+      src={src}
+      alt={alt}
+      className={combinedEnlargeClassName}
+      data-cy={dataCy}
+    />
+  );
 
   return (
-    props.enlargeImage
+    zoomable && !isDisableZoom
       ? (
         <Modal
-          trigger={
-            <img
-              src={props.src}
-              alt={props.alt}
-              className={className}
-              data-cy={props.dataCy}
-            />
-          }
-          content={
-            <img
-              src={props.src}
-              alt={props.alt}
-              className={enlargeClassName}
-              data-cy={props.dataCy}
-            />
-          }
-          className={enlargeClassName}
+          trigger={imageElement}
+          content={enlargedImageElement}
+          className={combinedEnlargeClassName}
         />
       )
-      : (
-        <img
-          src={props.src}
-          alt={props.alt}
-          className={className}
-          data-cy={props.dataCy}
-        />
-      )
+      : imageElement
   );
+};
+
+// Default props if needed
+Image.defaultProps = {
+  isZoomable: true,
+  isDisableZoom: false,
 };
