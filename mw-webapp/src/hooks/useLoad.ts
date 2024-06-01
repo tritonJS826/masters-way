@@ -77,3 +77,59 @@ export const useLoad = <Data, Dependency>({
 
   return {data, setData, isLoading};
 };
+
+/**
+ * Dfgd
+ */
+interface loadProps<Data> {
+
+  /**
+   * Callback that is called to fetch data
+   */
+  loadData: () => Promise<Data>;
+
+  /**
+   * Callback that is called to validate data
+   */
+  validateData?: (data: Data) => boolean;
+
+  /**
+   * Callback that is called on fetch and validation success
+   */
+  onSuccess: (data: Data) => void;
+
+  /**
+   * Callback this is called on fetch or validation error
+   */
+  onError: (error: Error) => void;
+}
+
+/**
+ * Custom hook to fetch, validate, and manage the state of data
+ */
+export const load = async <Data>({
+  loadData,
+  validateData = () => true,
+  onSuccess,
+  onError,
+}: loadProps<Data>) => {
+
+  /**
+   * Sdf
+   */
+  async function fetchAndValidateData() {
+    try {
+      const loadedData = await loadData();
+      if (!validateData(loadedData)) {
+        throw new Error("Data validation failed");
+      }
+      onSuccess(loadedData);
+    } catch (err) {
+      if (err instanceof Error) {
+        onError(err);
+      }
+    }
+  }
+
+  await fetchAndValidateData();
+};

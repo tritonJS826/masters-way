@@ -50,7 +50,7 @@ interface ReportsTableJobsDoneCellProps {
   /**
    * Callback for update dayReport
    */
-  updateDayReport: (report: PartialWithUuid<DayReport>) => Promise<void>;
+  updateDayReport: (report: PartialWithUuid<DayReport>) => void;
 
   /**
    * Logged in user
@@ -126,7 +126,7 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
       jobTagUuid: labelUuid,
     }));
 
-    Promise.all([
+    await Promise.all([
       ...addPromises,
       ...deletePromises,
     ]);

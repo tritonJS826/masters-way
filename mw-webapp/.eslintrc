@@ -21,7 +21,13 @@
     // "project": ["**/tsconfig.json", "**/vite.config.ts"] // путь для сопоставления файлов tsconfig относительно parserOptions.tsconfigRootDir, ​​или текущего рабочего каталога, если он не указан
     "project": true // указывает на поиск ближайшего tsconfig.json для каждого исходного файла
   },
-  "plugins": ["react", "@typescript-eslint", "simple-import-sort", "jsdoc", "@stylistic"],
+  "plugins": [
+    "react",
+    "@typescript-eslint",
+    "simple-import-sort",
+    "jsdoc",
+    "@stylistic"
+  ],
   "rules": {
     "@stylistic/eol-last": ["error", "always"],
     "@typescript-eslint/no-non-null-assertion": "error",
@@ -34,13 +40,16 @@
         ]
       }
     ],
-    "no-restricted-exports": ["error", {"restrictDefaultExports": {"direct": true}}],
+    "no-restricted-exports": [
+      "error",
+      { "restrictDefaultExports": { "direct": true } }
+    ],
     "capitalized-comments": [
       "error",
       "always",
       { "ignoreInlineComments": true, "ignoreConsecutiveComments": true }
     ],
-    "no-magic-numbers": ["error" , { "ignore": [0] }],
+    "no-magic-numbers": ["error", { "ignore": [0] }],
     "multiline-ternary": ["error", "always-multiline"],
     "no-console": "error",
     "react/react-in-jsx-scope": "off",
@@ -50,9 +59,9 @@
     "indent": ["error", 2, { "SwitchCase": 1 }],
     "react/jsx-indent": ["error", 2],
     "react/jsx-indent-props": ["error", 2],
-    "@typescript-eslint/indent": ["error", 2],
     "@typescript-eslint/no-use-before-define": ["error"],
     "@typescript-eslint/no-shadow": ["error"],
+    "@typescript-eslint/require-await": "error",
     "comma-spacing": ["error", { "before": false, "after": true }],
     "semi-spacing": ["error", { "before": false, "after": true }],
     "no-multi-spaces": "error",
@@ -103,7 +112,7 @@
     ],
     "lines-between-class-members": ["error", "always"],
     "padded-blocks": ["error", { "classes": "always" }],
-    "no-multiple-empty-lines": ["error", { "max": 1}],
+    "no-multiple-empty-lines": ["error", { "max": 1 }],
     "max-len": ["error", { "code": 130 }],
     "max-params": ["error", 7],
     "curly": "error",
@@ -133,12 +142,17 @@
     "react/jsx-first-prop-new-line": [2, "multiprop"],
     "react/no-unknown-property": "error",
     "react/self-closing-comp": "error",
-    "react/jsx-wrap-multilines": ["error", {"return": "parens-new-line"}],
+    "react/jsx-wrap-multilines": ["error", { "return": "parens-new-line" }],
     "react/jsx-one-expression-per-line": "error",
     "space-before-blocks": ["error", "always"],
-    "keyword-spacing": ["error", { "overrides": {
-      "return": { "after": true }
-    } }],
+    "keyword-spacing": [
+      "error",
+      {
+        "overrides": {
+          "return": { "after": true }
+        }
+      }
+    ],
     "@typescript-eslint/space-before-blocks": "error",
     "@typescript-eslint/prefer-optional-chain": "error",
     "@typescript-eslint/no-explicit-any": "error",
@@ -154,27 +168,33 @@
     ],
     "jsdoc/check-alignment": "error",
     "jsdoc/check-indentation": ["error"],
-    "jsdoc/no-blank-blocks": ["error", {"enableFixer":false}],
-    "jsdoc/require-jsdoc": ["error", {
-      "require": {
-        "MethodDefinition": true,
-        "ClassDeclaration": true
-      },
-      "checkConstructors": false,
-      "checkSetters": true,
-      "contexts": [
-        "TSEnumDeclaration",
-        "TSInterfaceDeclaration",
-        "TSPropertySignature",
-        "ArrowFunctionExpression",
-        "TSProperySignature"
-      ]
-    }],
+    "jsdoc/no-blank-blocks": ["error", { "enableFixer": false }],
+    "jsdoc/require-jsdoc": [
+      "error",
+      {
+        "require": {
+          "MethodDefinition": true,
+          "ClassDeclaration": true
+        },
+        "checkConstructors": false,
+        "checkSetters": true,
+        "contexts": [
+          "TSEnumDeclaration",
+          "TSInterfaceDeclaration",
+          "TSPropertySignature",
+          "ArrowFunctionExpression",
+          "TSProperySignature"
+        ]
+      }
+    ],
     "object-shorthand": ["error", "always"],
     "no-duplicate-imports": ["error"],
-    "no-restricted-imports": ["error", {
-      "patterns": [".*"]
-    }],
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": [".*"]
+      }
+    ],
     "padding-line-between-statements": [
       "error",
       { "blankLine": "always", "prev": "*", "next": "return" },
@@ -197,18 +217,24 @@
     {
       "files": ["*.stories.tsx*"],
       "rules": {
-        "no-restricted-exports": ["error", {"restrictDefaultExports": {"direct": false}}],
-        "jsdoc/require-jsdoc": ["error", {
-          "publicOnly": true,
-          "require": {
-            "ArrowFunctionExpression": true
-          },
-          "checkConstructors": false,
-          "checkSetters": true
-        }]
+        "no-restricted-exports": [
+          "error",
+          { "restrictDefaultExports": { "direct": false } }
+        ],
+        "jsdoc/require-jsdoc": [
+          "error",
+          {
+            "publicOnly": true,
+            "require": {
+              "ArrowFunctionExpression": true
+            },
+            "checkConstructors": false,
+            "checkSetters": true
+          }
+        ]
       }
     }
-  ], 
+  ],
   "settings": {
     "import/resolver": {
       "node": { "extensions": [".js", ".jsx", ".ts", ".tsx"] }

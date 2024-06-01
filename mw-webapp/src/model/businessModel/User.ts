@@ -383,27 +383,7 @@ export class User {
    */
   public updateName(nameToUpdate: string): void {
     this.name = nameToUpdate;
-    const ways = this.defaultWayCollections.own.ways.map((way) => {
-      const owner = new UserPreviewShort({...way.owner, name: nameToUpdate});
-
-      return new WayPreview({
-        ...way,
-        owner,
-      });
-    });
-    const ownCollection = new WayCollection({...this.defaultWayCollections.own, ways});
-
-    this.defaultWayCollections = new DefaultWayCollections({
-      ...this.defaultWayCollections,
-      own: ownCollection,
-    });
-  }
-
-  /**
-   * Update user's description
-   */
-  public updateDescription(descriptionToUpdate: string): void {
-    this.description = descriptionToUpdate;
+    this.updateDefaultWayCollections("name", nameToUpdate);
   }
 
   /**
@@ -411,20 +391,14 @@ export class User {
    */
   public updateIsMentor(isMentorToUpdate: boolean): void {
     this.isMentor = isMentorToUpdate;
-    const ways = this.defaultWayCollections.own.ways.map((way) => {
-      const owner = new UserPreviewShort({...way.owner, isMentor: isMentorToUpdate});
+    this.updateDefaultWayCollections("isMentor", isMentorToUpdate);
+  }
 
-      return new WayPreview({
-        ...way,
-        owner,
-      });
-    });
-    const ownCollection = new WayCollection({...this.defaultWayCollections.own, ways});
-
-    this.defaultWayCollections = new DefaultWayCollections({
-      ...this.defaultWayCollections,
-      own: ownCollection,
-    });
+  /**
+   * Update user's description
+   */
+  public updateDescription(descriptionToUpdate: string): void {
+    this.description = descriptionToUpdate;
   }
 
   /**
@@ -460,6 +434,26 @@ export class User {
    */
   public deleteTag(skillUuid: string): void {
     this.tags = this.tags.filter(tag => tag.uuid !== skillUuid);
+  }
+
+  /**
+   * Update DefaultWayCollections
+   */
+  private updateDefaultWayCollections(updateKey: keyof User, updateValue: User["name"] | User["isMentor"]) {
+    const ways = this.defaultWayCollections.own.ways.map((way) => {
+      const owner = new UserPreviewShort({...way.owner, [updateKey]: updateValue});
+
+      return new WayPreview({
+        ...way,
+        owner,
+      });
+    });
+    const ownCollection = new WayCollection({...this.defaultWayCollections.own, ways});
+
+    this.defaultWayCollections = new DefaultWayCollections({
+      ...this.defaultWayCollections,
+      own: ownCollection,
+    });
   }
 
 }

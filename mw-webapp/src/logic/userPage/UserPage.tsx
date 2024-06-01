@@ -26,9 +26,8 @@ import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
-import {useLoad} from "src/hooks/useLoad";
 import {usePersistanceState} from "src/hooks/usePersistanceState";
-import {UserPageOwnerStore} from "src/logic/userPage/UserPageOwnerStore";
+import {UserPageStore} from "src/logic/userPage/UserPageStore";
 import {useStore} from "src/logic/userPage/useStore";
 import {BaseWaysTable, FILTER_STATUS_ALL_VALUE} from "src/logic/waysTable/BaseWaysTable";
 import {WayStatusType} from "src/logic/waysTable/wayStatus";
@@ -149,24 +148,20 @@ interface UserPageSettingsValidatorParams {
  */
 export const UserPage = observer((props: UserPageProps) => {
   const {user, addUserToFavorite, deleteUserFromFavorite} = userStore;
-  // Const [x, setX] = useState<User>();
 
-  const userPageOwner: User = useStore({
-    storeForInitialize: UserPageOwnerStore,
-    // DataForInitialization: x,
-    dependency: [props.uuid],
-  });
-  // Const {
-  //   userPageOwner,
-  //   setUserPageOwner,
-  //   addUserToFavoriteForUser,
-  //   deleteUserFromFavoriteForUser,
-  // } = useMemo(() => new UserPageStore(), [props.uuid]);
+  const userPageStore = useStore<
+  new (userPageOwnerUuid: string) => UserPageStore,
+  [string], UserPageStore>({
+      storeForInitialize: UserPageStore,
+      dataForInitialization: [props.uuid],
+      dependency: [props.uuid],
+    });
 
   const {language} = languageStore;
   const {theme} = themeStore;
   const [isRenameCollectionModalOpen, setIsRenameCollectionModalOpen] = useState(false);
   const [isAddUserTagModalOpen, setIsAddUserTagModalOpen] = useState(false);
+  const {userPageOwner} = userPageStore;
 
   const [openedTabId, setOpenedTabId] = usePersistanceState({
     key: "userPage.openedTabId",
@@ -192,53 +187,9 @@ export const UserPage = observer((props: UserPageProps) => {
   });
 
   const navigate = useNavigate();
+
   const isPageOwner = !!user && !!userPageOwner && user.uuid === userPageOwner.uuid;
-
-  /**
-   * Callback that is called to fetch data
-   */
-  const loadData = async (): Promise<User> => {
-    const fetchedUser = user?.uuid === props.uuid
-      ? new User({...user})
-      : await UserDAL.getUserByUuid(props.uuid);
-
-    return fetchedUser;
-  };
-
-  /**
-   * Callback that is called to validate data
-   */
-  const validateData = (data: User) => {
-    return !!data;
-  };
-
-  /**
-   * Callback that is called on fetch or validation error
-   */
-  const onError = (error: Error) => {
-    throw (error);
-  };
-
-  /**
-   * Callback that is called on fetch and validation success
-   */
-  const onSuccess = (data: User) => {
-    // eslint-disable-next-line no-console
-    console.log(data);
-    // SetUserPageOwner(data);
-    // setX(data);
-  };
-
-  useLoad({
-    loadData,
-    validateData,
-    onSuccess,
-    onError,
-    dependency: [props.uuid],
-  },
-  );
-
-  if (!userPageOwner || !userPageSettings) {
+  if (!userPageSettings || !userPageStore.isInitialized) {
     return (
       <Loader theme={theme} />
     );
@@ -471,9 +422,9 @@ export const UserPage = observer((props: UserPageProps) => {
                   key={tag.uuid}
                   isDeletable={isPageOwner}
                   onDelete={async () => {
-                    UserTagDAL.deleteUserTag({userTagId: tag.uuid, userId: userPageOwner.uuid});
                     user && user.deleteTag(tag.uuid);
                     userPageOwner.deleteTag(tag.uuid);
+                    await UserTagDAL.deleteUserTag({userTagId: tag.uuid, userId: userPageOwner.uuid});
                   }}
                 />
               ))}
@@ -501,7 +452,7 @@ export const UserPage = observer((props: UserPageProps) => {
                       placeholder={LanguageService.user.personalInfo.addSkillModal[language]}
                       close={() => setIsAddUserTagModalOpen(false)}
                       onOk={async (tagName: string) => {
-                        const isSkillDuplicate = !!user.tags.find((tag) => tag.name === tagName);
+                        const isSkillDuplicate = user.tags.some((tag) => tag.name === tagName);
                         if (isSkillDuplicate) {
                           displayNotification({
                             text: `${LanguageService.user.personalInfo.duplicateSkillModal[language]}`,

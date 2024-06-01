@@ -1,4 +1,6 @@
 import {makeAutoObservable} from "mobx";
+import {UserDAL} from "src/dataAccessLogic/UserDAL";
+import {load} from "src/hooks/useLoad";
 import {User} from "src/model/businessModel/User";
 
 /**
@@ -9,11 +11,13 @@ export class UserPageStore {
   /**
    * User value
    */
-  public userPageOwner: User;
+  public userPageOwner!: User;
 
-  constructor(user: User) {
+  public isInitialized: boolean = false;
+
+  constructor(userPageOwnerUuid: string) {
     makeAutoObservable(this);
-    this.userPageOwner = user;
+    this.initialize(userPageOwnerUuid);
   }
 
   /**
@@ -34,7 +38,7 @@ export class UserPageStore {
   };
 
   /**
-   * Add user to favorite
+   * Delete user from favorite
    */
   public deleteUserFromFavoriteForUser = (userUuid: string): void => {
     if (!this.userPageOwner) {
@@ -42,6 +46,48 @@ export class UserPageStore {
     }
     this.userPageOwner.favoriteForUserUuids = this.userPageOwner.favoriteForUserUuids
       .filter(favoriteForUserUuid => favoriteForUserUuid !== userUuid);
+  };
+
+  /**
+   * Initialize
+   */
+  private async initialize(userPageOwnerUuid: string) {
+    await load<User>({
+
+      /**
+       * Sdf
+       */
+      loadData: () => this.loadData(userPageOwnerUuid),
+      validateData: this.validateData,
+      onError: this.onError,
+      onSuccess: this.setUserPageOwner,
+    });
+
+    this.isInitialized = true;
+
+  }
+
+  /**
+   * Load data
+   */
+  private loadData = async (userPageOwnerUuid: string): Promise<User> => {
+    const fetchedUser = await UserDAL.getUserByUuid(userPageOwnerUuid);
+
+    return fetchedUser;
+  };
+
+  /**
+   * Validate data
+   */
+  private validateData = (data: User) => {
+    return !!data;
+  };
+
+  /**
+   * On error
+   */
+  private onError = (error: Error) => {
+    throw (error);
   };
 
 }

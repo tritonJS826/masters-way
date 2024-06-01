@@ -47,7 +47,7 @@ interface ReportsTableCommentsCellProps {
   /**
    * Callback for update dayReport
    */
-  updateDayReport: (report: PartialWithUuid<DayReport>) => Promise<void>;
+  updateDayReport: (report: PartialWithUuid<DayReport>) => void;
 
 }
 

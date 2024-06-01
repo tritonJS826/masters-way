@@ -66,7 +66,7 @@ interface ReportsTablePlansCellProps {
   /**
    * Callback for update dayReport
    */
-  updateDayReport: (report: PartialWithUuid<DayReport>) => Promise<void>;
+  updateDayReport: (report: PartialWithUuid<DayReport>) => void;
 
   /**
    * Create new day report
@@ -173,7 +173,7 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
       jobTagUuid: labelUuid,
     }));
 
-    Promise.all([
+    await Promise.all([
       ...addPromises,
       ...deletePromises,
     ]);

@@ -34,7 +34,7 @@ class UserStore {
   };
 
   /**
-   * Add user to favorite
+   * Delete user from favorite
    */
   public deleteUserFromFavorite = (userPageOwnerUuid: string): void => {
     if (this.user === null) {

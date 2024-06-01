@@ -372,6 +372,7 @@ export const WayPage = observer((props: WayPageProps) => {
     });
 
     setWayPartial(wayToUpdate);
+    await WayDAL.updateWay(wayToUpdate);
   };
 
   const isWayComposite = way.children.length !== 0;
@@ -706,7 +707,7 @@ export const WayPage = observer((props: WayPageProps) => {
                       placeholder={LanguageService.way.wayInfo.addWayTagModal[language]}
                       close={() => setIsAddWayTagModalOpen(false)}
                       onOk={async (tagName: string) => {
-                        const isWayTagDuplicate = !!way.wayTags.find((tag) => tag.name === tagName);
+                        const isWayTagDuplicate = way.wayTags.some((tag) => tag.name === tagName);
                         if (isWayTagDuplicate) {
                           displayNotification({
                             text: `${LanguageService.way.wayInfo.duplicateTagModal[language]}`,

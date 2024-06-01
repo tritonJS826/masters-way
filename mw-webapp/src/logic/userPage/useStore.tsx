@@ -1,10 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {useMemo} from "react";
 
+type Constructor<StoreInstance> = new (...args: any[]) => StoreInstance;
+
 /**
  * UseStore hook props
  */
-interface useStoreProps<StoreType extends new (...args: any) => any, Dependency> {
+interface useStoreProps<
+  StoreType extends Constructor<StoreInstance>,
+  Dependency extends [...any[]],
+  StoreInstance
+> {
 
   /**
    * Data
@@ -19,19 +25,26 @@ interface useStoreProps<StoreType extends new (...args: any) => any, Dependency>
   /**
    * Dependency array
    */
-  dependency?: Dependency[];
+  dependency?: Dependency;
 }
 
 /**
  * Custom hook to memoized useStore
  */
-export const useStore = <StoreType extends new (...args: any) => any, Dependency>({
-  dataForInitialization,
-  storeForInitialize,
-  dependency = [],
-}: useStoreProps<StoreType, Dependency>) => {
+export const useStore = <
+  StoreType extends Constructor<StoreInstance>,
+  Dependency extends [...any[]],
+  StoreInstance
+>({
+    dataForInitialization,
+    storeForInitialize,
+    dependency,
+  }: useStoreProps<StoreType, Dependency, StoreInstance>): StoreInstance => {
 
-  const userPageOwner = useMemo(() => new storeForInitialize(dataForInitialization), dependency);
+  const store = useMemo(
+    () => new storeForInitialize(dataForInitialization),
+    [...(dependency ?? [])],
+  );
 
-  return userPageOwner;
+  return store;
 };
