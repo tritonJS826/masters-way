@@ -708,7 +708,10 @@ export const WayPage = observer((props: WayPageProps) => {
                       onOk={async (tagName: string) => {
                         const isWayTagDuplicate = !!way.wayTags.find((tag) => tag.name === tagName);
                         if (isWayTagDuplicate) {
-                          alert(`${LanguageService.way.wayInfo.duplicateTagModal[language]}`);
+                          displayNotification({
+                            text: `${LanguageService.way.wayInfo.duplicateTagModal[language]}`,
+                            type: "info",
+                          });
                         } else {
                           const newTag = await WayTagDAL.addWayTagToWay({name: tagName, wayUuid: way.uuid});
                           const updatedWayTags = [...way.wayTags, newTag];

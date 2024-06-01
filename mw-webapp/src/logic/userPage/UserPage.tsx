@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useMemo, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
@@ -25,10 +25,10 @@ import {WayCollectionDAL} from "src/dataAccessLogic/WayCollectionDAL";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
-import {userPageOwnerStore} from "src/globalStore/UserPageOwnerStore";
 import {userStore} from "src/globalStore/UserStore";
 import {useLoad} from "src/hooks/useLoad";
 import {usePersistanceState} from "src/hooks/usePersistanceState";
+import {UserPageOwnerStore} from "src/logic/userPage/UserPageOwnerStore";
 import {BaseWaysTable, FILTER_STATUS_ALL_VALUE} from "src/logic/waysTable/BaseWaysTable";
 import {WayStatusType} from "src/logic/waysTable/wayStatus";
 import {DefaultWayCollections, User, UserPlain, WayCollection} from "src/model/businessModel/User";
@@ -147,8 +147,13 @@ interface UserPageSettingsValidatorParams {
  * User page
  */
 export const UserPage = observer((props: UserPageProps) => {
-  const {user} = userStore;
-  const {userPageOwner, setUserPageOwner} = userPageOwnerStore;
+  const {user, addUserToFavorite, deleteUserFromFavorite} = userStore;
+  const {
+    userPageOwner,
+    setUserPageOwner,
+    addUserToFavoriteForUser,
+    deleteUserFromFavoriteForUser,
+  } = useMemo(() => new UserPageOwnerStore(), [props.uuid]);
   const {language} = languageStore;
   const {theme} = themeStore;
   const [isRenameCollectionModalOpen, setIsRenameCollectionModalOpen] = useState(false);
@@ -185,7 +190,7 @@ export const UserPage = observer((props: UserPageProps) => {
    */
   const loadData = async (): Promise<User> => {
     const fetchedUser = user?.uuid === props.uuid
-      ? user
+      ? new User({...user})
       : await UserDAL.getUserByUuid(props.uuid);
 
     return fetchedUser;
@@ -227,9 +232,13 @@ export const UserPage = observer((props: UserPageProps) => {
     );
   }
 
-  const allWayCollections = getAllCollections(userPageOwner.defaultWayCollections, userPageOwner.customWayCollections);
+  const allWayCollections = getAllCollections(
+    userPageOwner.defaultWayCollections,
+    userPageOwner.customWayCollections,
+  );
   const currentCollection = allWayCollections.find((col) => col.uuid === openedTabId);
-  const isCustomCollection = currentCollection && userPageOwner.customWayCollections.includes(currentCollection);
+  const isCustomCollection = currentCollection
+    && userPageOwner.customWayCollections.includes(currentCollection);
   const defaultCollection = userPageOwner.defaultWayCollections.own;
   const newCollectionName = LanguageService.user.collections.newCollection[language];
 
@@ -266,7 +275,7 @@ export const UserPage = observer((props: UserPageProps) => {
     });
 
     user.addCollection(newWayCollection);
-    setUserPageOwner(user);
+    userPageOwner.addCollection(newWayCollection);
 
     setOpenedTabId(newWayCollection.uuid);
   };
@@ -282,7 +291,7 @@ export const UserPage = observer((props: UserPageProps) => {
     await WayCollectionDAL.deleteWayCollection(collectionId);
 
     user.deleteCollection(collectionId);
-    setUserPageOwner(user);
+    userPageOwner.deleteCollection(collectionId);
 
     setOpenedTabId(DefaultCollections.OWN);
   };
@@ -310,7 +319,7 @@ export const UserPage = observer((props: UserPageProps) => {
       collectionName: wayCollectionToUpdate.name ?? "",
     });
     user.updateCollection(updatedCustomWayCollections);
-    setUserPageOwner(user);
+    userPageOwner.updateCollection(updatedCustomWayCollections);
 
     setOpenedTabId(wayCollectionToUpdate.id);
   };
@@ -357,7 +366,7 @@ export const UserPage = observer((props: UserPageProps) => {
                    */
                   setUser: () => {
                     user && user.updateName(name);
-                    setUserPageOwner(user);
+                    userPageOwner.updateName(name);
                   },
                 })}
                 isEditable={isPageOwner}
@@ -384,8 +393,8 @@ export const UserPage = observer((props: UserPageProps) => {
                         donorUserUuid: user.uuid,
                         acceptorUserUuid: userPageOwner.uuid,
                       });
-                      user.deleteUserToFavorite(user.uuid, userPageOwner.uuid);
-                      setUserPageOwner(user);
+                      deleteUserFromFavorite(userPageOwner.uuid);
+                      deleteUserFromFavoriteForUser(user.uuid);
                     } else {
                       FavoriteUserDAL.createFavoriteUser({
                         donorUserUuid: user.uuid,
@@ -393,8 +402,8 @@ export const UserPage = observer((props: UserPageProps) => {
                       });
 
                       const newFavoriteUser = new UserPlain({...userPageOwner});
-                      user.addUserToFavorite(user.uuid, newFavoriteUser);
-                      setUserPageOwner(user);
+                      addUserToFavorite(newFavoriteUser);
+                      addUserToFavoriteForUser(user.uuid);
                     }
 
                     displayNotification({
@@ -429,7 +438,7 @@ export const UserPage = observer((props: UserPageProps) => {
                    */
                   setUser: () => {
                     user && user.updateIsMentor(isMentor);
-                    setUserPageOwner(user);
+                    userPageOwner.updateIsMentor(isMentor);
                   },
                 })}
                 className={styles.checkbox}
@@ -452,7 +461,7 @@ export const UserPage = observer((props: UserPageProps) => {
                   onDelete={async () => {
                     UserTagDAL.deleteUserTag({userTagId: tag.uuid, userId: userPageOwner.uuid});
                     user && user.deleteTag(tag.uuid);
-                    setUserPageOwner(user);
+                    userPageOwner.deleteTag(tag.uuid);
                   }}
                 />
               ))}
@@ -482,11 +491,14 @@ export const UserPage = observer((props: UserPageProps) => {
                       onOk={async (tagName: string) => {
                         const isSkillDuplicate = !!user.tags.find((tag) => tag.name === tagName);
                         if (isSkillDuplicate) {
-                          alert(`${LanguageService.user.personalInfo.duplicateSkillModal[language]}`);
+                          displayNotification({
+                            text: `${LanguageService.user.personalInfo.duplicateSkillModal[language]}`,
+                            type: "info",
+                          });
                         } else {
                           const newTag = await UserTagDAL.createUserTag({name: tagName, ownerUuid: user.uuid});
                           user.addTag(newTag);
-                          setUserPageOwner(user);
+                          userPageOwner.addTag(newTag);
                         }
                       }}
                       okButtonValue={LanguageService.modals.promptModal.okButton[language]}
@@ -517,7 +529,7 @@ export const UserPage = observer((props: UserPageProps) => {
                  */
                 setUser: () => {
                   user && user.updateDescription(description);
-                  setUserPageOwner(user);
+                  userPageOwner.updateDescription(description);
                 },
               })}
               isEditable={isPageOwner}

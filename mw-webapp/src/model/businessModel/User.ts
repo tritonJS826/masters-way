@@ -368,8 +368,8 @@ export class User {
     this.email = userData.email;
     this.description = userData.description;
     this.createdAt = userData.createdAt;
-    this.customWayCollections = userData.customWayCollections;
-    this.defaultWayCollections = userData.defaultWayCollections;
+    this.customWayCollections = userData.customWayCollections.map(customWayCollection => new WayCollection(customWayCollection));
+    this.defaultWayCollections = new DefaultWayCollections(userData.defaultWayCollections);
     this.favoriteForUserUuids = userData.favoriteForUserUuids;
     this.favoriteUsers = userData.favoriteUsers;
     this.tags = userData.tags.map(tag => new UserTag(tag));
@@ -460,22 +460,6 @@ export class User {
    */
   public deleteTag(skillUuid: string): void {
     this.tags = this.tags.filter(tag => tag.uuid !== skillUuid);
-  }
-
-  /**
-   * Add user to favorite
-   */
-  public addUserToFavorite(userUuid: string, userPageOwner: UserPlain): void {
-    this.favoriteForUserUuids.push(userUuid);
-    this.favoriteUsers.push(userPageOwner);
-  }
-
-  /**
-   * Add user to favorite
-   */
-  public deleteUserToFavorite(userUuid: string, userPageOwnerUuid: string): void {
-    this.favoriteForUserUuids = this.favoriteForUserUuids.filter(favoriteForUserUuid => favoriteForUserUuid !== userUuid);
-    this.favoriteUsers = this.favoriteUsers.filter(favoriteUser => favoriteUser.uuid !== userPageOwnerUuid);
   }
 
 }
