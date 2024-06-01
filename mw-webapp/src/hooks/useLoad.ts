@@ -79,7 +79,7 @@ export const useLoad = <Data, Dependency>({
 };
 
 /**
- * Dfgd
+ * Load props
  */
 interface loadProps<Data> {
 
@@ -115,7 +115,7 @@ export const load = async <Data>({
 }: loadProps<Data>) => {
 
   /**
-   * Sdf
+   * Fetch and validate data
    */
   async function fetchAndValidateData() {
     try {

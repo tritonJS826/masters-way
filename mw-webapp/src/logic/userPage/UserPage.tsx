@@ -161,7 +161,7 @@ export const UserPage = observer((props: UserPageProps) => {
   const {theme} = themeStore;
   const [isRenameCollectionModalOpen, setIsRenameCollectionModalOpen] = useState(false);
   const [isAddUserTagModalOpen, setIsAddUserTagModalOpen] = useState(false);
-  const {userPageOwner} = userPageStore;
+  const {userPageOwner, addUserToFavoriteForUser, deleteUserFromFavoriteForUser} = userPageStore;
 
   const [openedTabId, setOpenedTabId] = usePersistanceState({
     key: "userPage.openedTabId",
@@ -357,7 +357,7 @@ export const UserPage = observer((props: UserPageProps) => {
                         acceptorUserUuid: userPageOwner.uuid,
                       });
                       deleteUserFromFavorite(userPageOwner.uuid);
-                      // DeleteUserFromFavoriteForUser(user.uuid);
+                      deleteUserFromFavoriteForUser(user.uuid);
                     } else {
                       FavoriteUserDAL.createFavoriteUser({
                         donorUserUuid: user.uuid,
@@ -366,7 +366,7 @@ export const UserPage = observer((props: UserPageProps) => {
 
                       const newFavoriteUser = new UserPlain({...userPageOwner});
                       addUserToFavorite(newFavoriteUser);
-                      // AddUserToFavoriteForUser(user.uuid);
+                      addUserToFavoriteForUser(user.uuid);
                     }
 
                     displayNotification({
