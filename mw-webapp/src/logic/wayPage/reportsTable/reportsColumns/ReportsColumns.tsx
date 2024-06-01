@@ -75,8 +75,9 @@ export const Columns = (props: ColumnsProps) => {
 
   /**
    * Update DayReport
+   * TODO: deprecated function
    */
-  const updateReport = async (report: PartialWithUuid<DayReport>) => {
+  const updateReport = (report: PartialWithUuid<DayReport>) => {
     props.setDayReports((prevDayReports: DayReport[]) => {
       const reportToUpdate = prevDayReports.find(dayReport => dayReport.uuid === report.uuid);
       if (!reportToUpdate) {
@@ -88,9 +89,6 @@ export const Columns = (props: ColumnsProps) => {
         ? updatedReport
         : dayReport,
       );
-
-      // TODO await
-      // DayReportDAL.updateDayReport(updatedReport);
 
       return updatedDayReports;
     });

@@ -1,15 +1,24 @@
+import {makeAutoObservable} from "mobx";
+
 /**
  * Way tag data
  */
-export type WayTag = {
+export class WayTag {
 
   /**
    * Way tag uuid
    */
-  uuid: string;
+  public uuid: string;
 
   /**
    * Way tag name
    */
-  name: string;
-};
+  public name: string;
+
+  constructor(wayTag: WayTag) {
+    makeAutoObservable(this);
+    this.name = wayTag.name;
+    this.uuid = wayTag.uuid;
+  }
+
+}

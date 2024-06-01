@@ -33,7 +33,7 @@ export const InitializedApp = (props: PropsWithChildren) => {
   /**
    * OnLog in
    */
-  const onLogIn = async (user: User) => {
+  const onLogIn = (user: User) => {
     setUser(user);
     const defaultPagePath = getDefaultPagePath(user.uuid);
 
@@ -45,7 +45,7 @@ export const InitializedApp = (props: PropsWithChildren) => {
   /**
    * OnLog out
    */
-  const onLogOut = async () => {
+  const onLogOut = () => {
     setUser(null);
     const defaultPagePath = getDefaultPagePath(null);
 

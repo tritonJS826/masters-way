@@ -18,11 +18,23 @@
       "ua": "Немає тегів",
       "ka": "ტეგები არ არის"
     },
+    "duplicateTagModal": {
+      "ru": "Тег пути с таким именем уже существует",
+      "en": "A Way tag with the same name already exists",
+      "ua": "Тег шляху з такою назвою вже існує",
+      "ka": "თეგი იგივე სახელით უკვე არსებობს"
+    },
     "addWayTagButton": {
       "ru": "Добавить новый тег",
       "en": "Add new way tag",
       "ua": "Додати новий тег",
       "ka": "დაამატეთ ახალი ტეგი"
+    },
+    "addWayTagModal": {
+      "ru": "Новый тег",
+      "en": "New way tag",
+      "ua": "Новий тег",
+      "ka": "ახალი გზის ტეგი"
     },
     "favoriteAmountTooltip": {
       "ru": "Количество лайков",
