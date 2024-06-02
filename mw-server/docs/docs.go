@@ -1993,7 +1993,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.WayPopulatedResponse"
+                            "$ref": "#/definitions/schemas.WayPlainResponse"
                         }
                     }
                 }
