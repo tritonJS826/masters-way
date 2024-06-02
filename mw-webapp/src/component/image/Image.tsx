@@ -31,71 +31,43 @@ interface ImageProps {
   /**
    * Enlarge Image
    */
-  isZoomable?: boolean;
-
-  /**
-   * Enlarge Image Styles
-   */
-  enlargeClassName?: string;
-
-  /**
-   * Enlarge Image Styles
-   */
-  isDisableZoom?: boolean;
+  isZoomed?: boolean;
 }
 
 /**
- * Сomponent for displaying images
+ * Component for displaying images
  */
-export const Image = (props: ImageProps) => {
-  const {src, alt, dataCy, className, enlargeClassName, isZoomable, isDisableZoom} = props;
-
-  const [zoomable, setZoomable] = useState(isZoomable);
+export const Image = ({src, alt, className, dataCy, isZoomed = false}: ImageProps) => {
+  const isZoomedProp = isZoomed !== undefined ? isZoomed : false;
+  const [isZoomedState, setIsZoomedState] = useState(isZoomedProp);
 
   useEffect(() => {
-    if (isDisableZoom) {
-      setZoomable(false);
-    } else {
-      setZoomable(isZoomable);
-    }
-  }, [isDisableZoom, isZoomable]);
+    setIsZoomedState(isZoomedProp);
+  }, [isZoomedProp]);
 
-  const combinedClassName = clsx(styles.image, className);
-  const combinedEnlargeClassName = clsx(styles.image, enlargeClassName);
+  const imageClass = clsx(
+    styles.image,
+    className,
+  );
 
   const imageElement = (
     <img
       src={src}
       alt={alt}
-      className={combinedClassName}
+      className={imageClass}
       data-cy={dataCy}
     />
   );
 
-  const enlargedImageElement = (
-    <img
-      src={src}
-      alt={alt}
-      className={combinedEnlargeClassName}
-      data-cy={dataCy}
-    />
-  );
-
-  return (
-    zoomable && !isDisableZoom
-      ? (
-        <Modal
-          trigger={imageElement}
-          content={enlargedImageElement}
-          className={combinedEnlargeClassName}
-        />
-      )
-      : imageElement
-  );
-};
-
-// Default props if needed
-Image.defaultProps = {
-  isZoomable: true,
-  isDisableZoom: false,
+  return isZoomedState
+    ? (
+      <Modal
+        trigger={imageElement}
+        content={imageElement}
+        className={imageClass}
+      />
+    )
+    : (
+      imageElement
+    );
 };
