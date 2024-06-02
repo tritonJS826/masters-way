@@ -169,9 +169,6 @@
     "jsdoc/check-alignment": "error",
     "jsdoc/check-indentation": ["error"],
     "jsdoc/no-blank-blocks": ["error", { "enableFixer": false }],
-    "jsdoc/check-property-names": 1,
-    "jsdoc/implements-on-classes": 1,
-    "jsdoc/require-property-description": 1,
     "jsdoc/require-jsdoc": [
       "error",
       {
@@ -187,9 +184,7 @@
           "TSInterfaceDeclaration",
           "TSPropertySignature",
           "ArrowFunctionExpression",
-          "TSProperySignature",
           "TSMethodSignature",
-          "TSPropertySignature",
           "PropertyDefinition"
         ]
       }
