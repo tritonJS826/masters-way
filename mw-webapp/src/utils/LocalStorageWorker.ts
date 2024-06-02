@@ -8,6 +8,9 @@ import {WayStatusType} from "src/logic/waysTable/wayStatus";
  */
 class LocalStorageWorker<T extends LocalStorageData> {
 
+  /**
+   * If false - local storage is not supported
+   */
   public isLocalStorageSupported: boolean;
 
   constructor() {

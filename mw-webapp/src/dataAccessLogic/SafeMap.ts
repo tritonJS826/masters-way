@@ -5,6 +5,9 @@
  */
 export class SafeMap<Key, Value> {
 
+  /**
+   * Items of the safeMap
+   */
   public items: Map<Key, Value>;
 
   constructor(customHashMapData: Map<Key, Value>) {

@@ -12,6 +12,7 @@ export class UserPageStore {
    * User value
    */
   public userPageOwner!: User;
+
   /**
    * If it is false - store is not initialized and can't be used safely
    */

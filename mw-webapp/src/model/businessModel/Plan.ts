@@ -102,8 +102,14 @@ export class Plan {
    */
   public createdAt: Date;
 
+  /**
+   * DayReport UUID
+   */
   public dayReportUuid: string;
 
+  /**
+   * Plan's owner name
+   */
   public ownerName: string;
 
   constructor(planData: PlanProps) {
