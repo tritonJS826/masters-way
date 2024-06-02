@@ -192,6 +192,7 @@ func (cc *WayController) UpdateWay(ctx *gin.Context) {
 		MetricsDone:       int32(way.WayMetricsDone),
 		MetricsTotal:      int32(way.WayMetricsTotal),
 		WayTags:           wayTags,
+		ChildrenUuids:     way.ChildrenUuids,
 	}
 
 	ctx.JSON(http.StatusOK, response)
@@ -336,6 +337,7 @@ func (cc *WayController) GetAllWays(ctx *gin.Context) {
 			WayTags:           wayTagsMap[way.Uuid],
 			MetricsDone:       int32(way.WayMetricsDone),
 			MetricsTotal:      int32(way.WayMetricsTotal),
+			ChildrenUuids:     way.ChildrenUuids,
 		}
 
 		return wayResponse

@@ -122,7 +122,12 @@ SELECT
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,    
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
-    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount
+    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount,
+    (ARRAY(
+        SELECT composite_ways.child_uuid 
+        FROM composite_ways 
+        WHERE composite_ways.parent_uuid = ways.uuid
+    )::VARCHAR[]) AS children_uuids
 FROM ways
 JOIN favorite_users_ways ON favorite_users_ways.way_uuid = ways.uuid
 WHERE favorite_users_ways.user_uuid = $1
@@ -144,6 +149,7 @@ type GetFavoriteWaysByUserIdRow struct {
 	WayMetricsDone      int64         `json:"way_metrics_done"`
 	WayFavoriteForUsers int64         `json:"way_favorite_for_users"`
 	WayDayReportsAmount int64         `json:"way_day_reports_amount"`
+	ChildrenUuids       []string      `json:"children_uuids"`
 }
 
 func (q *Queries) GetFavoriteWaysByUserId(ctx context.Context, userUuid uuid.UUID) ([]GetFavoriteWaysByUserIdRow, error) {
@@ -170,6 +176,7 @@ func (q *Queries) GetFavoriteWaysByUserId(ctx context.Context, userUuid uuid.UUI
 			&i.WayMetricsDone,
 			&i.WayFavoriteForUsers,
 			&i.WayDayReportsAmount,
+			pq.Array(&i.ChildrenUuids),
 		); err != nil {
 			return nil, err
 		}
@@ -199,7 +206,12 @@ SELECT
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,    
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
-    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount
+    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount,
+    (ARRAY(
+        SELECT composite_ways.child_uuid 
+        FROM composite_ways 
+        WHERE composite_ways.parent_uuid = ways.uuid
+    )::VARCHAR[]) AS children_uuids
 FROM ways
 JOIN mentor_users_ways ON mentor_users_ways.way_uuid = ways.uuid
 WHERE mentor_users_ways.user_uuid = $1
@@ -221,6 +233,7 @@ type GetMentoringWaysByMentorIdRow struct {
 	WayMetricsDone      int64         `json:"way_metrics_done"`
 	WayFavoriteForUsers int64         `json:"way_favorite_for_users"`
 	WayDayReportsAmount int64         `json:"way_day_reports_amount"`
+	ChildrenUuids       []string      `json:"children_uuids"`
 }
 
 func (q *Queries) GetMentoringWaysByMentorId(ctx context.Context, userUuid uuid.UUID) ([]GetMentoringWaysByMentorIdRow, error) {
@@ -247,6 +260,7 @@ func (q *Queries) GetMentoringWaysByMentorId(ctx context.Context, userUuid uuid.
 			&i.WayMetricsDone,
 			&i.WayFavoriteForUsers,
 			&i.WayDayReportsAmount,
+			pq.Array(&i.ChildrenUuids),
 		); err != nil {
 			return nil, err
 		}
@@ -276,7 +290,12 @@ SELECT
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,    
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
-    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount
+    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount,
+    (ARRAY(
+        SELECT composite_ways.child_uuid 
+        FROM composite_ways 
+        WHERE composite_ways.parent_uuid = ways.uuid
+    )::VARCHAR[]) AS children_uuids
 FROM ways
 WHERE ways.owner_uuid = $1
 ORDER BY ways.updated_at DESC
@@ -297,6 +316,7 @@ type GetOwnWaysByUserIdRow struct {
 	WayMetricsDone      int64         `json:"way_metrics_done"`
 	WayFavoriteForUsers int64         `json:"way_favorite_for_users"`
 	WayDayReportsAmount int64         `json:"way_day_reports_amount"`
+	ChildrenUuids       []string      `json:"children_uuids"`
 }
 
 func (q *Queries) GetOwnWaysByUserId(ctx context.Context, ownerUuid uuid.UUID) ([]GetOwnWaysByUserIdRow, error) {
@@ -323,6 +343,7 @@ func (q *Queries) GetOwnWaysByUserId(ctx context.Context, ownerUuid uuid.UUID) (
 			&i.WayMetricsDone,
 			&i.WayFavoriteForUsers,
 			&i.WayDayReportsAmount,
+			pq.Array(&i.ChildrenUuids),
 		); err != nil {
 			return nil, err
 		}
@@ -426,7 +447,12 @@ SELECT
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,    
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
-    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount
+    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount,
+    (ARRAY(
+        SELECT composite_ways.child_uuid 
+        FROM composite_ways 
+        WHERE composite_ways.parent_uuid = ways.uuid
+    )::VARCHAR[]) AS children_uuids
 FROM ways
 JOIN way_collections_ways ON way_collections_ways.way_uuid = ways.uuid
 WHERE way_collections_ways.way_collection_uuid = $1
@@ -448,6 +474,7 @@ type GetWaysByCollectionIdRow struct {
 	WayMetricsDone      int64         `json:"way_metrics_done"`
 	WayFavoriteForUsers int64         `json:"way_favorite_for_users"`
 	WayDayReportsAmount int64         `json:"way_day_reports_amount"`
+	ChildrenUuids       []string      `json:"children_uuids"`
 }
 
 func (q *Queries) GetWaysByCollectionId(ctx context.Context, wayCollectionUuid uuid.UUID) ([]GetWaysByCollectionIdRow, error) {
@@ -474,6 +501,7 @@ func (q *Queries) GetWaysByCollectionId(ctx context.Context, wayCollectionUuid u
 			&i.WayMetricsDone,
 			&i.WayFavoriteForUsers,
 			&i.WayDayReportsAmount,
+			pq.Array(&i.ChildrenUuids),
 		); err != nil {
 			return nil, err
 		}
@@ -494,7 +522,12 @@ SELECT
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,    
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
-    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount
+    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount,
+    (ARRAY(
+        SELECT composite_ways.child_uuid 
+        FROM composite_ways 
+        WHERE composite_ways.parent_uuid = ways.uuid
+    )::VARCHAR[]) AS children_uuids
 FROM ways
 WHERE ways.is_private = false AND 
     (
@@ -530,6 +563,7 @@ type ListWaysRow struct {
 	WayMetricsDone      int64         `json:"way_metrics_done"`
 	WayFavoriteForUsers int64         `json:"way_favorite_for_users"`
 	WayDayReportsAmount int64         `json:"way_day_reports_amount"`
+	ChildrenUuids       []string      `json:"children_uuids"`
 }
 
 func (q *Queries) ListWays(ctx context.Context, arg ListWaysParams) ([]ListWaysRow, error) {
@@ -561,6 +595,7 @@ func (q *Queries) ListWays(ctx context.Context, arg ListWaysParams) ([]ListWaysR
 			&i.WayMetricsDone,
 			&i.WayFavoriteForUsers,
 			&i.WayDayReportsAmount,
+			pq.Array(&i.ChildrenUuids),
 		); err != nil {
 			return nil, err
 		}
@@ -590,7 +625,12 @@ RETURNING uuid, name, goal_description, updated_at, created_at, estimation_time,
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = $7) AS way_metrics_total,    
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = $7 AND metrics.is_done = true) AS way_metrics_done,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = $7) AS way_favorite_for_users,
-    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = $7) AS way_day_reports_amount
+    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = $7) AS way_day_reports_amount,
+    (ARRAY(
+        SELECT composite_ways.child_uuid 
+        FROM composite_ways 
+        WHERE composite_ways.parent_uuid = ways.uuid
+    )::VARCHAR[]) AS children_uuids
 `
 
 type UpdateWayParams struct {
@@ -618,6 +658,7 @@ type UpdateWayRow struct {
 	WayMetricsDone      int64         `json:"way_metrics_done"`
 	WayFavoriteForUsers int64         `json:"way_favorite_for_users"`
 	WayDayReportsAmount int64         `json:"way_day_reports_amount"`
+	ChildrenUuids       []string      `json:"children_uuids"`
 }
 
 func (q *Queries) UpdateWay(ctx context.Context, arg UpdateWayParams) (UpdateWayRow, error) {
@@ -646,6 +687,7 @@ func (q *Queries) UpdateWay(ctx context.Context, arg UpdateWayParams) (UpdateWay
 		&i.WayMetricsDone,
 		&i.WayFavoriteForUsers,
 		&i.WayDayReportsAmount,
+		pq.Array(&i.ChildrenUuids),
 	)
 	return i, err
 }
