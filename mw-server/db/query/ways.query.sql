@@ -11,7 +11,17 @@ INSERT INTO ways(
     owner_uuid
 ) VALUES (
     $1, $2, $3, $4, $5, $6, $7, $8, $9
-) RETURNING *;
+) RETURNING 
+    *,
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = @way_uuid) AS way_metrics_total,    
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = @way_uuid AND metrics.is_done = true) AS way_metrics_done,
+    (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = @way_uuid) AS way_favorite_for_users,
+    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = @way_uuid) AS way_day_reports_amount,
+    (ARRAY(
+        SELECT composite_ways.child_uuid 
+        FROM composite_ways 
+        WHERE composite_ways.parent_uuid = ways.uuid
+    )::VARCHAR[]) AS children_uuids;
 
 
 -- name: GetWayById :one
@@ -36,10 +46,19 @@ SELECT
     users.description AS owner_description,
     users.created_at AS owner_created_at,
     users.image_url AS owner_image_url,
-    users.is_mentor AS owner_is_mentor
+    users.is_mentor AS owner_is_mentor,
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = @way_uuid) AS way_metrics_total,    
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = @way_uuid AND metrics.is_done = true) AS way_metrics_done,
+    (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = @way_uuid) AS way_favorite_for_users,
+    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = @way_uuid) AS way_day_reports_amount,
+    (ARRAY(
+        SELECT composite_ways.child_uuid 
+        FROM composite_ways 
+        WHERE composite_ways.parent_uuid = ways.uuid
+    )::VARCHAR[]) AS children_uuids
 FROM ways
 JOIN users ON users.uuid = ways.owner_uuid
-WHERE ways.uuid = $1
+WHERE ways.uuid = @way_uuid
 LIMIT 1;
 
 -- name: GetWaysByCollectionId :many

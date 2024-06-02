@@ -20,7 +20,6 @@ type GetPopulatedWayByIdParams struct {
 var maxDepth = 3
 
 func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulatedWayByIdParams) (schemas.WayPopulatedResponse, error) {
-
 	way, err := db.GetWayById(ctx, params.WayUuid)
 	if err != nil {
 		return schemas.WayPopulatedResponse{}, err
@@ -293,4 +292,62 @@ func UpdateWayIsCompletedStatus(db *dbb.Queries, ctx context.Context, wayUuid uu
 	db.UpdateWay(ctx, *args)
 
 	return err
+}
+
+func GetPlainWayById(db *dbb.Queries, ctx context.Context, wayUuid uuid.UUID) (schemas.WayPlainResponse, error) {
+	way, err := db.GetWayById(ctx, wayUuid)
+
+	copiedFromWayUuid := util.MarshalNullUuid(way.CopiedFromWayUuid)
+	mentorsRaw, _ := db.GetMentorUsersByWayId(ctx, way.Uuid)
+
+	mentors := lo.Map(mentorsRaw, func(dbMentor dbb.User, i int) schemas.UserPlainResponse {
+		return schemas.UserPlainResponse{
+			Uuid:        dbMentor.Uuid.String(),
+			Name:        dbMentor.Name,
+			Email:       dbMentor.Email,
+			Description: dbMentor.Description,
+			CreatedAt:   dbMentor.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+			ImageUrl:    util.MarshalNullString(dbMentor.ImageUrl),
+			IsMentor:    dbMentor.IsMentor,
+		}
+	})
+
+	dbOwner, _ := db.GetUserById(ctx, way.OwnerUuid)
+	owner := schemas.UserPlainResponse{
+		Uuid:        dbOwner.Uuid.String(),
+		Name:        dbOwner.Name,
+		Email:       dbOwner.Email,
+		Description: dbOwner.Description,
+		CreatedAt:   dbOwner.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+		ImageUrl:    util.MarshalNullString(dbOwner.ImageUrl),
+		IsMentor:    dbOwner.IsMentor,
+	}
+	dbTags, _ := db.GetListWayTagsByWayId(ctx, way.Uuid)
+	wayTags := lo.Map(dbTags, func(dbTag dbb.WayTag, i int) schemas.WayTagResponse {
+		return schemas.WayTagResponse{
+			Uuid: dbTag.Uuid.String(),
+			Name: dbTag.Name,
+		}
+	})
+	response := schemas.WayPlainResponse{
+		Uuid:              way.Uuid.String(),
+		Name:              way.Name,
+		GoalDescription:   way.GoalDescription,
+		UpdatedAt:         way.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+		CreatedAt:         way.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+		EstimationTime:    way.EstimationTime,
+		IsCompleted:       way.IsCompleted,
+		Owner:             owner,
+		CopiedFromWayUuid: copiedFromWayUuid,
+		IsPrivate:         way.IsPrivate,
+		FavoriteForUsers:  int32(way.WayFavoriteForUsers),
+		DayReportsAmount:  int32(way.WayDayReportsAmount),
+		Mentors:           mentors,
+		MetricsDone:       int32(way.WayMetricsDone),
+		MetricsTotal:      int32(way.WayMetricsTotal),
+		WayTags:           wayTags,
+		ChildrenUuids:     way.ChildrenUuids,
+	}
+
+	return response, err
 }
