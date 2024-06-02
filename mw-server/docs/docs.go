@@ -15,6 +15,29 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/auth/current": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Get current authorized user",
+                "operationId": "get-current-authorized-user",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.UserPopulatedResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/auth/{provider}": {
             "get": {
                 "consumes": [
@@ -24,7 +47,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "beginAuth"
+                    "auth"
                 ],
                 "summary": "Update comment by UUID",
                 "operationId": "begin-auth",
@@ -56,7 +79,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "auth google"
+                    "auth"
                 ],
                 "summary": "Log in with google oAuth",
                 "operationId": "google auth log in",

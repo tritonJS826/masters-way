@@ -1,8 +1,8 @@
 package auth
 
 import (
-	"log"
-	"mwserver/util"
+	"mwserver/config"
+	"net/http"
 
 	"github.com/gorilla/sessions"
 	"github.com/markbates/goth"
@@ -14,24 +14,25 @@ const (
 	MaxAge = 86400 * 5
 )
 
+const AuthSession = "auth-session"
+const UserIdKey = "userID"
+
 func NewAuth() {
-	config, err := util.LoadConfig(".")
-	if err != nil {
-		log.Fatalf("failed to load config: %v", err)
-	}
+	store := sessions.NewCookieStore([]byte(config.Env.SecretSessionKey))
 
-	store := sessions.NewCookieStore([]byte(config.SecretSessionKey))
 	store.MaxAge(MaxAge)
-
+	store.Options.MaxAge = MaxAge
 	store.Options.Path = "/"
-	store.Options.HttpOnly = config.EnvType != "prod"
-	store.Options.Secure = config.EnvType == "prod"
+	store.Options.HttpOnly = true
+	store.Options.Secure = true
+	store.Options.SameSite = http.SameSiteNoneMode
+	store.Options.Domain = config.Env.WebappBaseUrl
 
 	gothic.Store = store
 
-	googleCallBackUrl := config.ApiBaseUrl + "/api/auth/google/callback"
+	googleCallBackUrl := config.Env.ApiBaseUrl + "/api/auth/google/callback"
 
 	goth.UseProviders(
-		google.New(config.GooglClientId, config.GooglClientSecret, googleCallBackUrl, "email", "profile"),
+		google.New(config.Env.GooglClientId, config.Env.GooglClientSecret, googleCallBackUrl, "email", "profile"),
 	)
 }

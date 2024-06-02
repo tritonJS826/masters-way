@@ -985,7 +985,7 @@ paths:
             $ref: '#/definitions/schemas.CommentPopulatedResponse'
       summary: Update comment by UUID
       tags:
-      - beginAuth
+      - auth
   /auth/{provider}/callback:
     post:
       consumes:
@@ -1012,7 +1012,22 @@ paths:
             $ref: '#/definitions/schemas.CommentPopulatedResponse'
       summary: Log in with google oAuth
       tags:
-      - auth google
+      - auth
+  /auth/current:
+    get:
+      consumes:
+      - application/json
+      operationId: get-current-authorized-user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.UserPopulatedResponse'
+      summary: Get current authorized user
+      tags:
+      - auth
   /comments:
     post:
       consumes:
