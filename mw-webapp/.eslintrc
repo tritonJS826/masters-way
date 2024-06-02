@@ -174,7 +174,8 @@
       {
         "require": {
           "MethodDefinition": true,
-          "ClassDeclaration": true
+          "ClassDeclaration": true,
+          "ClassExpression": true
         },
         "checkConstructors": false,
         "checkSetters": true,
@@ -183,7 +184,8 @@
           "TSInterfaceDeclaration",
           "TSPropertySignature",
           "ArrowFunctionExpression",
-          "TSProperySignature"
+          "TSMethodSignature",
+          "PropertyDefinition"
         ]
       }
     ],
