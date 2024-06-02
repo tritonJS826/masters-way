@@ -1,4 +1,3 @@
-import React, {useEffect, useState} from "react";
 import clsx from "clsx";
 import {Modal} from "src/component/modal/Modal";
 import styles from "src/component/image/Image.module.scss";
@@ -38,17 +37,7 @@ interface ImageProps {
  * Component for displaying images
  */
 export const Image = ({src, alt, className, dataCy, isZoomed = false}: ImageProps) => {
-  const isZoomedProp = isZoomed !== undefined ? isZoomed : false;
-  const [isZoomedState, setIsZoomedState] = useState(isZoomedProp);
-
-  useEffect(() => {
-    setIsZoomedState(isZoomedProp);
-  }, [isZoomedProp]);
-
-  const imageClass = clsx(
-    styles.image,
-    className,
-  );
+  const imageClass = clsx(styles.image, className);
 
   const imageElement = (
     <img
@@ -59,7 +48,7 @@ export const Image = ({src, alt, className, dataCy, isZoomed = false}: ImageProp
     />
   );
 
-  return isZoomedState
+  return isZoomed
     ? (
       <Modal
         trigger={imageElement}
