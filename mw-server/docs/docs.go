@@ -3269,6 +3269,7 @@ const docTemplate = `{
         "schemas.WayPlainResponse": {
             "type": "object",
             "required": [
+                "childrenUuids",
                 "copiedFromWayUuid",
                 "createdAt",
                 "dayReportsAmount",
@@ -3287,6 +3288,12 @@ const docTemplate = `{
                 "wayTags"
             ],
             "properties": {
+                "childrenUuids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
                 "copiedFromWayUuid": {
                     "type": "string",
                     "x-nullable": true

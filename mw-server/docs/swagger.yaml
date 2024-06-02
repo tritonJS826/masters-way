@@ -812,6 +812,10 @@ definitions:
     type: object
   schemas.WayPlainResponse:
     properties:
+      childrenUuids:
+        items:
+          type: string
+        type: array
       copiedFromWayUuid:
         type: string
         x-nullable: true
@@ -850,6 +854,7 @@ definitions:
           $ref: '#/definitions/schemas.WayTagResponse'
         type: array
     required:
+    - childrenUuids
     - copiedFromWayUuid
     - createdAt
     - dayReportsAmount
