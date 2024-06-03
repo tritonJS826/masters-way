@@ -1,5 +1,5 @@
 export const headerAccessIds = {
-    logo: 'homeLogo1111',
+    logo: 'homeLogo',
     avatar: 'avatat',
     burgerMenu: 'burgerMenu',
 

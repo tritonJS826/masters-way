@@ -4,7 +4,7 @@ import pageDataDictionary from "src/dictionary/AllWaysPageContent.json"
 import {headerSelectors} from "cypress/scopesSelectors/headerSelectors";
 import {navigatioMenuSelectors} from "cypress/scopesSelectors/navigatioMenuSelectors";
 
-describe.skip('All Ways scope tests', () => {
+describe('All Ways scope tests', () => {
 
   beforeEach(() => {
     cy.visit('/');
@@ -15,7 +15,7 @@ describe.skip('All Ways scope tests', () => {
     navigatioMenuSelectors.menuItemLinks.getAllWaysItemLink().click();
 
     cy.url().should('include', pageData.endpoint);
-    allWaysSelectors.allWaysTable.getTitle().should('contain', pageDataDictionary.waysTable.leftTitle);
+    allWaysSelectors.allWaysTable.getTitle().should('contain', pageDataDictionary.waysTable.leftTitle.en);
   });
 
 });

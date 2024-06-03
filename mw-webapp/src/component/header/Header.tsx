@@ -113,12 +113,12 @@ export const Header = (props: HeaderProps) => {
     {
       path: pages.allWays.getPath({}),
       value: LanguageService.sidebar.allWays[props.language],
+      dataCy: navigatioMenuIds.menuItemLinks.allWays,
       icon: (
         <Icon
           size={IconSize.MEDIUM}
           name="WayIcon"
           className={styles.linkIcon}
-          dataCy={navigatioMenuIds.menuItemLinks.allWays}
         />),
     },
     {
