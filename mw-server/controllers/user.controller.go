@@ -136,7 +136,7 @@ func (cc *UserController) UpdateUser(ctx *gin.Context) {
 	args := &db.UpdateUserParams{
 		Uuid:        uuid.MustParse(userId),
 		Name:        sql.NullString{String: payload.Name, Valid: payload.Name != ""},
-		Description: sql.NullString{String: payload.Description, Valid: payload.Description != ""},
+		Description: sql.NullString{String: payload.Description, Valid: true},
 		ImageUrl:    sql.NullString{String: payload.ImageUrl, Valid: payload.ImageUrl != ""},
 		IsMentor:    sql.NullBool{Bool: payload.IsMentor, Valid: true},
 	}
