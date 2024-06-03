@@ -14,7 +14,6 @@ import {ReportsTableProblemsCell}
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Way} from "src/model/businessModel/Way";
 import {LanguageService} from "src/service/LanguageService";
-import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
 export const DEFAULT_SUMMARY_TIME = 0;
 export const MAX_TIME = 9999;
@@ -46,11 +45,6 @@ export const getListNumberByIndex = (index: number) => {
 interface ColumnsProps {
 
   /**
-   * Callback that change dayReports
-   */
-  setDayReports: (dayReports: DayReport[] | ((prevDayReports: DayReport[]) => DayReport[])) => void;
-
-  /**
    * Way
    */
   way: Way;
@@ -72,27 +66,6 @@ export const Columns = (props: ColumnsProps) => {
   const isOwner = user?.uuid === ownerUuid;
   const isMentor = !!user && !!user.uuid && props.way.mentors.has(user.uuid);
   const isUserOwnerOrMentor = isOwner || isMentor;
-
-  /**
-   * Update DayReport
-   * TODO: deprecated function
-   */
-  const updateReport = (report: PartialWithUuid<DayReport>) => {
-    props.setDayReports((prevDayReports: DayReport[]) => {
-      const reportToUpdate = prevDayReports.find(dayReport => dayReport.uuid === report.uuid);
-      if (!reportToUpdate) {
-        throw new Error(`Report with uuid ${report.uuid} is undefined`);
-      }
-
-      const updatedReport = new DayReport({...reportToUpdate, ...report});
-      const updatedDayReports = prevDayReports.map(dayReport => dayReport.uuid === report.uuid
-        ? updatedReport
-        : dayReport,
-      );
-
-      return updatedDayReports;
-    });
-  };
 
   const columns = [
     columnHelper.accessor("createdAt", {
@@ -137,7 +110,6 @@ export const Columns = (props: ColumnsProps) => {
           dayReport={row.original}
           isEditable={isUserOwnerOrMentor}
           jobTags={props.way.jobTags}
-          updateDayReport={updateReport}
         />
       ),
     }),
@@ -163,7 +135,6 @@ export const Columns = (props: ColumnsProps) => {
           dayReport={row.original}
           isEditable={isUserOwnerOrMentor}
           jobTags={props.way.jobTags}
-          updateDayReport={updateReport}
           way={props.way}
           createDayReport={props.createDayReport}
           user={user}
@@ -191,7 +162,6 @@ export const Columns = (props: ColumnsProps) => {
         <ReportsTableProblemsCell
           dayReport={row.original}
           isEditable={isUserOwnerOrMentor}
-          updateDayReport={updateReport}
           way={props.way}
           user={user}
         />
@@ -218,7 +188,6 @@ export const Columns = (props: ColumnsProps) => {
         <ReportsTableCommentsCell
           dayReport={row.original}
           isEditable={isUserOwnerOrMentor}
-          updateDayReport={updateReport}
           way={props.way}
           user={user}
         />

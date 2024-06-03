@@ -16,7 +16,6 @@ import {User} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
-import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import styles from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableCommentsCell/ReportsTableCommentsCell.module.scss";
 
 /**
@@ -44,11 +43,6 @@ interface ReportsTableCommentsCellProps {
    */
   isEditable: boolean;
 
-  /**
-   * Callback for update dayReport
-   */
-  updateDayReport: (report: PartialWithUuid<DayReport>) => void;
-
 }
 
 /**
@@ -64,45 +58,16 @@ export const ReportsTableCommentsCell = observer((props: ReportsTableCommentsCel
     if (!commentatorUuid) {
       throw new Error("User uuid is not exist");
     }
-
     const comment = await CommentDAL.createComment(commentatorUuid, props.dayReport.uuid);
-    const comments = [...props.dayReport.comments, comment];
-    props.updateDayReport({uuid: props.dayReport.uuid, comments});
+    props.dayReport.addComment(comment);
   };
 
   /**
    * Delete Comment
    */
   const deleteComment = async (commentUuid: string) => {
-    props.updateDayReport({
-      uuid: props.dayReport.uuid,
-      comments: props.dayReport.comments.filter((comment) => comment.uuid !== commentUuid),
-    });
+    props.dayReport.deleteComment(commentUuid);
     await CommentDAL.deleteComment(commentUuid);
-  };
-
-  /**
-   * Update Comment
-   */
-  const updateComment = async (comment: Comment, text: string) => {
-    const updatedComments = props.dayReport.comments.map((item) => {
-      const itemToReturn = item.uuid === comment.uuid
-        ? new Comment({
-          ...comment,
-          description: text,
-        })
-        : item;
-
-      return itemToReturn;
-    });
-
-    const commentToUpdate = {
-      uuid: comment.uuid,
-      description: text,
-    };
-    await CommentDAL.updateComment(commentToUpdate);
-
-    props.updateDayReport({uuid: props.dayReport.uuid, comments: updatedComments});
   };
 
   return (
@@ -136,7 +101,14 @@ export const ReportsTableCommentsCell = observer((props: ReportsTableCommentsCel
               </HorizontalContainer>
               <EditableTextarea
                 text={comment.description}
-                onChangeFinish={(text) => updateComment(comment, text)}
+                onChangeFinish={async (description) => {
+                  const commentToUpdate = new Comment({
+                    ...comment,
+                    description,
+                  });
+                  comment.updateDescription(description);
+                  await CommentDAL.updateComment(commentToUpdate);
+                }}
                 isEditable={comment.ownerUuid === props.user?.uuid}
                 placeholder={props.isEditable
                   ? LanguageService.common.emptyMarkdownAction[language]

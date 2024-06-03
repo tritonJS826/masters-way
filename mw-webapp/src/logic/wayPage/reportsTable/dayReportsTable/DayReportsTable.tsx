@@ -24,11 +24,6 @@ interface DayReportsTableProps {
   way: Way;
 
   /**
-   * Set day reports
-   */
-  setDayReports: (dayReports: DayReport[] | ((prevDayReports: DayReport[]) => DayReport[])) => void;
-
-  /**
    * Create new day report
    */
   createDayReport: (wayUuid: string, dayReportUuids: DayReport[]) => Promise<DayReport>;
@@ -80,7 +75,6 @@ export const DayReportsTable = observer((props: DayReportsTableProps) => {
           <ReportsTable
             data={visibleReports}
             columns={Columns({
-              setDayReports: props.setDayReports,
               way: props.way,
               createDayReport: props.createDayReport,
             })}

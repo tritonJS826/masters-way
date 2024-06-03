@@ -23,7 +23,6 @@ import {User} from "src/model/businessModel/User";
 import {JobTag} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
-import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
 import styles from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableJobsDoneCell/ReportsTableJobsDoneCell.module.scss";
 
@@ -48,11 +47,6 @@ interface ReportsTableJobsDoneCellProps {
   isEditable: boolean;
 
   /**
-   * Callback for update dayReport
-   */
-  updateDayReport: (report: PartialWithUuid<DayReport>) => void;
-
-  /**
    * Logged in user
    */
   user: User | null;
@@ -73,18 +67,14 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
       throw new Error("User uuid is not exist");
     }
     const jobDone = await JobDoneDAL.createJobDone(userUuid, props.dayReport.uuid);
-    const jobsDone = [...props.dayReport.jobsDone, jobDone];
-
-    props.updateDayReport({uuid: props.dayReport.uuid, jobsDone});
+    props.dayReport.addJob(jobDone);
   };
 
   /**
    * Delete jobDone
    */
   const deleteJobDone = async (jobDoneUuid: string) => {
-    const jobsDone = props.dayReport.jobsDone.filter((jobDone) => jobDone.uuid !== jobDoneUuid);
-
-    props.updateDayReport({uuid: props.dayReport.uuid, jobsDone});
+    props.dayReport.deleteJob(jobDoneUuid);
     await JobDoneDAL.deleteJobDone(jobDoneUuid);
   };
 
@@ -94,9 +84,9 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
   const updateLabelsInJobDone = async (params: {
 
     /**
-     * Job done uuid
+     * Job done
      */
-    jobDoneUuid: string;
+    jobDone: JobDone;
 
     /**
      * New updated list of tags
@@ -104,9 +94,9 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
     updatedTags: JobTag[];
   }) => {
 
-    const oldJob = props.dayReport.jobsDone.find(job => params.jobDoneUuid === job.uuid);
+    const oldJob = props.dayReport.jobsDone.find(job => params.jobDone.uuid === job.uuid);
     if (!oldJob) {
-      throw new Error(`No such job with ${params.jobDoneUuid} uuid`);
+      throw new Error(`No such job with ${params.jobDone.uuid} uuid`);
     }
     const oldLabels = oldJob.tags.map(label => label.uuid);
     const labelUuidsToAdd: string[] = params.updatedTags
@@ -118,11 +108,11 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
       );
 
     const addPromises = labelUuidsToAdd.map(labelUuid => JobDoneJobTagDAL.createJobDoneJobTag({
-      jobDoneUuid: params.jobDoneUuid,
+      jobDoneUuid: params.jobDone.uuid,
       jobTagUuid: labelUuid,
     }));
     const deletePromises = labelUuidsToDelete.map(labelUuid => JobDoneJobTagDAL.deleteJobDoneJobTag({
-      jobDoneUuid: params.jobDoneUuid,
+      jobDoneUuid: params.jobDone.uuid,
       jobTagUuid: labelUuid,
     }));
 
@@ -131,50 +121,21 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
       ...deletePromises,
     ]);
 
-    const updatedJobs = props.dayReport.jobsDone.map((job) => {
-      const isUpdatedJob = job.uuid === params.jobDoneUuid;
-      if (isUpdatedJob) {
-        const newLabels = labelUuidsToAdd.map(labelUuidToAdd => {
-          const newLabel = props.jobTags.find(tag => tag.uuid === labelUuidToAdd);
-          if (!newLabel) {
-            throw new Error(`Label with uuid ${labelUuidToAdd} is not defined`);
-          }
-
-          return newLabel;
-        });
-        const updatedTags = job.tags
-          .filter(oldLabel => !labelUuidsToDelete.includes(oldLabel.uuid))
-          .concat(newLabels);
-
-        const updatedJobDone = new JobDone({
-          ...oldJob,
-          tags: updatedTags,
-        });
-
-        return updatedJobDone;
-      } else {
-        return job;
+    const newLabels = labelUuidsToAdd.map(labelUuidToAdd => {
+      const newLabel = props.jobTags.find(tag => tag.uuid === labelUuidToAdd);
+      if (!newLabel) {
+        throw new Error(`Label with uuid ${labelUuidToAdd} is not defined`);
       }
+
+      return newLabel;
     });
 
-    props.updateDayReport({uuid: props.dayReport.uuid, jobsDone: updatedJobs});
+    const updatedTags = params.jobDone.tags
+      .filter(oldLabel => !labelUuidsToDelete.includes(oldLabel.uuid))
+      .concat(newLabels);
 
-  };
+    params.jobDone.updateLabels(updatedTags);
 
-  /**
-   * Update jobDone
-   */
-  const updateJobDone = async (jobDoneToUpdate: PartialWithUuid<JobDone>) => {
-    const updatedJobDone = await JobDoneDAL.updateJobDone(jobDoneToUpdate); //!HERE
-    const updatedJobsDone = props.dayReport.jobsDone.map((item) => {
-      const itemToReturn = item.uuid === jobDoneToUpdate.uuid
-        ? updatedJobDone
-        : item;
-
-      return itemToReturn;
-    });
-
-    props.updateDayReport({uuid: props.dayReport.uuid, jobsDone: updatedJobsDone});
   };
 
   return (
@@ -210,7 +171,7 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
                       jobDoneTags={jobDone.tags}
                       isEditable={props.isEditable}
                       updateTags={(tagsToUpdate: JobTag[]) => updateLabelsInJobDone({
-                        jobDoneUuid: jobDone.uuid,
+                        jobDone,
                         updatedTags: tagsToUpdate,
                       })}
                     />
@@ -227,11 +188,14 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
                   type="number"
                   max={MAX_TIME}
                   min={MIN_TIME}
-                  onChangeFinish={(time) =>
-                    updateJobDone({
+                  onChangeFinish={async (time) => {
+                    const jobDoneToUpdate = {
                       uuid: jobDone.uuid,
                       time: getValidatedTime(Number(time)),
-                    })}
+                    };
+                    await JobDoneDAL.updateJobDone(jobDoneToUpdate);
+                    jobDone.updateTime(getValidatedTime(Number(time)));
+                  }}
                   className={styles.editableTime}
                   isEditable={props.isEditable}
                   placeholder={LanguageService.common.emptyMarkdownAction[language]}
@@ -251,10 +215,14 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
             </HorizontalContainer>
             <EditableTextarea
               text={jobDone.description}
-              onChangeFinish={(description) => updateJobDone({
-                uuid: jobDone.uuid,
-                description,
-              })}
+              onChangeFinish={async (description) => {
+                const jobDoneToUpdate = {
+                  uuid: jobDone.uuid,
+                  description,
+                };
+                await JobDoneDAL.updateJobDone(jobDoneToUpdate);
+                jobDone.updateDescription(description);
+              }}
               isEditable={props.isEditable}
               placeholder={props.isEditable
                 ? LanguageService.common.emptyMarkdownAction[language]

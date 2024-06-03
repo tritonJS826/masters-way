@@ -13,12 +13,10 @@ import {getListNumberByIndex} from "src/logic/wayPage/reportsTable/reportsColumn
 import {SummarySection} from "src/logic/wayPage/reportsTable/reportsColumns/summarySection/SummarySection";
 import {getFirstName} from "src/logic/waysTable/waysColumns";
 import {DayReport} from "src/model/businessModel/DayReport";
-import {Problem} from "src/model/businessModel/Problem";
 import {User} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
-import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import styles from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableProblemsCell/ReportsTableProblemsCell.module.scss";
 
 /**
@@ -46,11 +44,6 @@ interface ReportsTableProblemsCellProps {
    */
   isEditable: boolean;
 
-  /**
-   * Callback for update dayReport
-   */
-  updateDayReport: (report: PartialWithUuid<DayReport>) => void;
-
 }
 
 /**
@@ -66,40 +59,16 @@ export const ReportsTableProblemsCell = observer((props: ReportsTableProblemsCel
     if (!userUuid) {
       throw new Error("User uuid is not exist");
     }
-
     const problem = await ProblemDAL.createProblem(userUuid, props.dayReport.uuid);
-
-    const problems = [...props.dayReport.problems, problem];
-
-    props.updateDayReport({uuid: props.dayReport.uuid, problems});
+    props.dayReport.addProblem(problem);
   };
 
   /**
    * Delete Problem
    */
   const deleteProblem = async (problemUuid: string) => {
-    props.updateDayReport({
-      uuid: props.dayReport.uuid,
-      problems: props.dayReport.problems.filter((problem) => problem.uuid !== problemUuid),
-    });
-
+    props.dayReport.deleteProblem(problemUuid);
     await ProblemDAL.deleteProblem(problemUuid);
-  };
-
-  /**
-   * Update Problem
-   */
-  const updateProblem = async (problemToUpdate: PartialWithUuid<Problem>) => {
-    const updatedProblem = await ProblemDAL.updateProblem(problemToUpdate);
-    const problems = [
-      ...props.dayReport.problems.map((problem) => {
-        return problem.uuid === problemToUpdate.uuid
-          ? updatedProblem
-          : problem;
-      }),
-    ];
-
-    await props.updateDayReport({uuid: props.dayReport.uuid, problems});
   };
 
   return (
@@ -125,10 +94,14 @@ export const ReportsTableProblemsCell = observer((props: ReportsTableProblemsCel
                 >
                   <Checkbox
                     isDefaultChecked={problem.isDone}
-                    onChange={() => updateProblem({
-                      uuid: problem.uuid,
-                      isDone: !problem.isDone,
-                    })}
+                    onChange={async () => {
+                      const problemToUpdate = {
+                        uuid: problem.uuid,
+                        isDone: !problem.isDone,
+                      };
+                      problem.updateIsDone(!problem.isDone);
+                      await ProblemDAL.updateProblem(problemToUpdate);
+                    }}
                     className={styles.checkbox}
                   />
                 </Tooltip>
@@ -147,10 +120,14 @@ export const ReportsTableProblemsCell = observer((props: ReportsTableProblemsCel
             </HorizontalContainer>
             <EditableTextarea
               text={problem.description}
-              onChangeFinish={(description) => updateProblem({
-                uuid: problem.uuid,
-                description,
-              })}
+              onChangeFinish={async (description) => {
+                const problemToUpdate = {
+                  uuid: problem.uuid,
+                  description,
+                };
+                problem.updateDescription(description);
+                await ProblemDAL.updateProblem(problemToUpdate);
+              }}
               isEditable={problem.ownerUuid === props.user?.uuid}
               placeholder={props.isEditable
                 ? LanguageService.common.emptyMarkdownAction[language]

@@ -92,12 +92,6 @@
       "ua": "Додати до композитного шляху",
       "ka": "შედგენილ გზაზე დამატება"
     },
-    "chooseTheWay": {
-      "ru": "Выберите путь",
-      "en": "Choose the way",
-      "ua": "Виберіть шлях",
-      "ka": "აირჩიეთ გზა"
-    },
     "deleteFromCompositeWay": {
       "ru": "Удалить из композитного пути",
       "en": "Delete from composite way",

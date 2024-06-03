@@ -173,29 +173,6 @@ export const WayPage = observer((props: WayPageProps) => {
     navigate(pages.user.getPath({uuid: user.uuid}));
   };
 
-  /**
-   * Update day reports
-   */
-  const setDayReports = (dayReports: DayReport[] | ((prevDayReports: DayReport[]) => DayReport[])): void => {
-    // TODO if statement exist because of pretend to set state functions
-    if (typeof dayReports === "function") {
-      // SetWay((prevWay) => {
-      //   if (!prevWay) {
-      //     return prevWay;
-      //   }
-      //   const updatedWay = new Way({
-      //     ...prevWay,
-      //     dayReports: dayReports(prevWay.dayReports),
-      //   });
-
-      //   return updatedWay;
-      // });
-    } else {
-      // Const updatedWay = new Way({...way, dayReports});
-      // setWay(updatedWay);
-    }
-  };
-
   const renderDeleteWayDropdownItem = (
     <Confirm
       trigger={
@@ -381,15 +358,7 @@ export const WayPage = observer((props: WayPageProps) => {
    */
   const createDayReport = async (wayUuid: string): Promise<DayReport> => {
     const newDayReport = await DayReportDAL.createDayReport(wayUuid);
-    setDayReports((prevDayReportsList) => [newDayReport, ...prevDayReportsList]);
-
-    const allCollections = user && getAllCollections(user.defaultWayCollections, user.customWayCollections);
-    allCollections?.map((collection) => {
-      collection.updateWay({
-        uuid: way.uuid,
-        dayReportsAmount: way.dayReports.length + INCREMENT,
-      });
-    });
+    way.addDayReport(newDayReport);
 
     return newDayReport;
   };
@@ -979,7 +948,6 @@ export const WayPage = observer((props: WayPageProps) => {
 
       <DayReportsTable
         way={compositeWay}
-        setDayReports={setDayReports}
         createDayReport={createDayReport}
       />
 

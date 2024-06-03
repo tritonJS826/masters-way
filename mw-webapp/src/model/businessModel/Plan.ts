@@ -117,12 +117,40 @@ export class Plan {
     this.description = planData.description;
     this.ownerUuid = planData.ownerUuid;
     this.time = planData.time;
-    this.tags = planData.tags;
+    this.tags = planData.tags.map(tag => new JobTag(tag));
     this.isDone = planData.isDone;
     this.updatedAt = planData.updatedAt;
     this.createdAt = planData.createdAt;
     this.dayReportUuid = planData.dayReportUuid;
     this.ownerName = planData.ownerName;
+  }
+
+  /**
+   * Update plan's description
+   */
+  public updateDescription(descriptionToUpdate: string): void {
+    this.description = descriptionToUpdate;
+  }
+
+  /**
+   * Update plan's time
+   */
+  public updateTime(timeToUpdate: number): void {
+    this.time = timeToUpdate;
+  }
+
+  /**
+   * Update plan's isDone
+   */
+  public updateIsDone(isDoneToUpdate: boolean): void {
+    this.isDone = isDoneToUpdate;
+  }
+
+  /**
+   * Update plan's labels
+   */
+  public updateLabels(labelsToUpdate: JobTag[]): void {
+    this.tags = labelsToUpdate;
   }
 
 }

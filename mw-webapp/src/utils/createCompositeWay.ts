@@ -26,10 +26,10 @@ export const createCompositeWay = (way: Way): Way => {
 
     const sortedDayReport = new DayReport({
       ...updatedDayReport,
-      jobsDone: updatedDayReport.jobsDone.sort((a, b) => DateUtils.datesASCSorter(a.createdAt, b.createdAt)),
-      plans: updatedDayReport.plans.sort((a, b) => DateUtils.datesASCSorter(a.createdAt, b.createdAt)),
-      problems: updatedDayReport.problems.sort((a, b) => DateUtils.datesASCSorter(a.createdAt, b.createdAt)),
-      comments: updatedDayReport.comments.sort((a, b) => DateUtils.datesASCSorter(a.createdAt, b.createdAt)),
+      jobsDone: updatedDayReport.jobsDone.slice().sort((a, b) => DateUtils.datesASCSorter(a.createdAt, b.createdAt)),
+      plans: updatedDayReport.plans.slice().sort((a, b) => DateUtils.datesASCSorter(a.createdAt, b.createdAt)),
+      problems: updatedDayReport.problems.slice().sort((a, b) => DateUtils.datesASCSorter(a.createdAt, b.createdAt)),
+      comments: updatedDayReport.comments.slice().sort((a, b) => DateUtils.datesASCSorter(a.createdAt, b.createdAt)),
     });
 
     dayReportsHashMap.set(DateUtils.getShortISODateValue(oldDayReport.createdAt), sortedDayReport);

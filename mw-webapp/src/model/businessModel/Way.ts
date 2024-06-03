@@ -12,105 +12,105 @@ import {WayTag} from "src/model/businessModelPreview/WayTag";
  */
 interface WayProps {
 
-    /**
-     * Way's UUID
-     */
-    uuid: string;
+  /**
+   * Way's UUID
+   */
+  uuid: string;
 
-    /**
-     * Way's name
-     */
-    name: string;
+  /**
+   * Way's name
+   */
+  name: string;
 
-    /**
-     * Day reports
-     */
-    dayReports: DayReport[];
+  /**
+   * Day reports
+   */
+  dayReports: DayReport[];
 
-    /**
-     * Way's owner
-     */
-    owner: UserPreviewShort;
+  /**
+   * Way's owner
+   */
+  owner: UserPreviewShort;
 
-    /**
-     * Mentors of this way
-     * @key @User.uuid
-     * @value @UserPreview
-     */
-    mentors: Map<string, UserPlain>;
+  /**
+   * Mentors of this way
+   * @key @User.uuid
+   * @value @UserPreview
+   */
+  mentors: Map<string, UserPlain>;
 
-    /**
-     * Former mentors of this way
-     * @key @User.uuid
-     * @value @UserPreview
-     */
-    formerMentors: Map<string, UserPlain>;
+  /**
+   * Former mentors of this way
+   * @key @User.uuid
+   * @value @UserPreview
+   */
+  formerMentors: Map<string, UserPlain>;
 
-    /**
-     * Users who sent request to become Way's mentor
-     */
-    mentorRequests: UserPlain[];
+  /**
+   * Users who sent request to become Way's mentor
+   */
+  mentorRequests: UserPlain[];
 
-    /**
-     * Way's status "Completed", "In progress", "Abandoned"
-     */
-    status: WayStatusType;
+  /**
+   * Way's status "Completed", "In progress", "Abandoned"
+   */
+  status: WayStatusType;
 
-    /**
-     * Last day when way was updated
-     */
-    lastUpdate: Date;
+  /**
+   * Last day when way was updated
+   */
+  lastUpdate: Date;
 
-    /**
-     * Users for whom this way are favorite
-     */
-    favoriteForUsersAmount: number;
+  /**
+   * Users for whom this way are favorite
+   */
+  favoriteForUsersAmount: number;
 
-    /**
-     * Date when way was created
-     */
-    createdAt: Date;
+  /**
+   * Date when way was created
+   */
+  createdAt: Date;
 
-    /**
-     * Way's tags {@link WayTag}
-     */
-    wayTags: WayTag[];
+  /**
+   * Way's tags {@link WayTag}
+   */
+  wayTags: WayTag[];
 
-    /**
-     * Tags that was used for jobDone {@link JobTag}
-     */
-    jobTags: JobTag[];
+  /**
+   * Tags that was used for jobDone {@link JobTag}
+   */
+  jobTags: JobTag[];
 
-    /**
-     * Way's uuid that was copied
-     */
-    copiedFromWayUuid: string | null;
+  /**
+   * Way's uuid that was copied
+   */
+  copiedFromWayUuid: string | null;
 
-    /**
-     * Description of goal
-     */
-    goalDescription: string;
+  /**
+   * Description of goal
+   */
+  goalDescription: string;
 
-    /**
-     * Estimation time for complete goal
-     */
-    estimationTime: number;
+  /**
+   * Estimation time for complete goal
+   */
+  estimationTime: number;
 
-    /**
-     * Stringified metrics objects {@link MetricDTO}
-     */
-    metrics: Metric[];
+  /**
+   * Stringified metrics objects {@link MetricDTO}
+   */
+  metrics: Metric[];
 
-    /**
-     * Is way private
-     * @default false
-     */
-    isPrivate: boolean;
+  /**
+   * Is way private
+   * @default false
+   */
+  isPrivate: boolean;
 
-    /**
-     * If Way has children then this way is Composite
-     */
-    children: Way[];
+  /**
+   * If Way has children then this way is Composite
+   */
+  children: Way[];
 }
 
 /**
@@ -320,6 +320,20 @@ export class Way {
    */
   public deleteTag(wayTagUuid: string): void {
     this.wayTags = this.wayTags.filter(tag => tag.uuid !== wayTagUuid);
+  }
+
+  /**
+   * Add dayReport
+   */
+  public addDayReport(dayReport: DayReport): void {
+    this.dayReports.unshift(dayReport);
+  }
+
+  /**
+   * Add dayReport
+   */
+  public updateDayReports(dayReports: DayReport[]): void {
+    this.dayReports = dayReports;
   }
 
 }

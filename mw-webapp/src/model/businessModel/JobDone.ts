@@ -1,3 +1,4 @@
+import {makeAutoObservable} from "mobx";
 import {JobTag} from "src/model/businessModelPreview/WayPreview";
 
 /**
@@ -92,14 +93,36 @@ export class JobDone {
   public updatedAt: Date;
 
   constructor(jobDoneData: JobDoneProps) {
+    makeAutoObservable(this);
     this.uuid = jobDoneData.uuid;
     this.description = jobDoneData.description;
     this.time = jobDoneData.time;
-    this.tags = jobDoneData.tags;
+    this.tags = jobDoneData.tags.map(tag => new JobTag(tag));
     this.ownerName = jobDoneData.ownerName;
     this.ownerUuid = jobDoneData.ownerUuid;
     this.createdAt = jobDoneData.createdAt;
     this.updatedAt = jobDoneData.updatedAt;
+  }
+
+  /**
+   * Update job's description
+   */
+  public updateDescription(descriptionToUpdate: string): void {
+    this.description = descriptionToUpdate;
+  }
+
+  /**
+   * Update job's time
+   */
+  public updateTime(timeToUpdate: number): void {
+    this.time = timeToUpdate;
+  }
+
+  /**
+   * Update job's labels
+   */
+  public updateLabels(labelsToUpdate: JobTag[]): void {
+    this.tags = labelsToUpdate;
   }
 
 }

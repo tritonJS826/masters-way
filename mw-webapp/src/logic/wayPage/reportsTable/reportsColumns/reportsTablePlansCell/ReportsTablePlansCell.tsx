@@ -29,7 +29,6 @@ import {JobTag} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import {DateUtils} from "src/utils/DateUtils";
-import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
 import styles from "src/logic/wayPage/reportsTable/reportsColumns/reportsTablePlansCell/ReportsTablePlansCell.module.scss";
 
@@ -64,11 +63,6 @@ interface ReportsTablePlansCellProps {
   user: User | null;
 
   /**
-   * Callback for update dayReport
-   */
-  updateDayReport: (report: PartialWithUuid<DayReport>) => void;
-
-  /**
    * Create new day report
    */
   createDayReport: (wayUuid: string, dayReportUuids: DayReport[]) => Promise<DayReport>;
@@ -87,20 +81,15 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
     if (!userUuid) {
       throw new Error("User uuid is not exist");
     }
-
     const plan = await PlanDAL.createPlan(userUuid, props.dayReport.uuid);
-    const plans = [...props.dayReport.plans, plan];
-
-    props.updateDayReport({uuid: props.dayReport.uuid, plans});
+    props.dayReport.addPlan(plan);
   };
 
   /**
    * Delete plan
    */
   const deletePlan = async (planUuid: string) => {
-    const plans = props.dayReport.plans.filter((plan) => plan.uuid !== planUuid);
-
-    props.updateDayReport({uuid: props.dayReport.uuid, plans});
+    props.dayReport.deletePlan(planUuid);
     await PlanDAL.deletePlan(planUuid);
   };
 
@@ -113,26 +102,7 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
       throw new Error("User is not exist and create plan is impossible");
     }
     const jobDone = await JobDoneDAL.createJobDone(ownerUuid, report.uuid, plan);
-
-    const jobsDone = [...report.jobsDone, jobDone];
-
-    await props.updateDayReport({uuid: report.uuid, jobsDone});
-  };
-
-  /**
-   * Update plan
-   */
-  const updatePlan = async (planToUpdate: PartialWithUuid<Plan>) => {
-    const updatedPlan = await PlanDAL.updatePlan(planToUpdate);
-    const plans = [
-      ...props.dayReport.plans.map((plan) => {
-        return plan.uuid === planToUpdate.uuid
-          ? updatedPlan
-          : plan;
-      }),
-    ];
-
-    await props.updateDayReport({uuid: props.dayReport.uuid, plans});
+    props.dayReport.addJob(jobDone);
   };
 
   /**
@@ -141,9 +111,9 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
   const updateLabelsInPlan = async (params: {
 
     /**
-     * Plan uuid
+     * Plan
      */
-    planUuid: string;
+    plan: Plan;
 
     /**
      * New updated list of tags
@@ -151,9 +121,9 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
     updatedTags: JobTag[];
   }) => {
 
-    const oldPlan = props.dayReport.plans.find(plan => params.planUuid === plan.uuid);
+    const oldPlan = props.dayReport.plans.find(plan => params.plan.uuid === plan.uuid);
     if (!oldPlan) {
-      throw new Error(`No such plan with ${params.planUuid} uuid`);
+      throw new Error(`No such plan with ${params.plan.uuid} uuid`);
     }
     const oldLabels = oldPlan.tags.map(label => label.uuid);
     const labelUuidsToAdd: string[] = params.updatedTags
@@ -165,11 +135,11 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
       );
 
     const addPromises = labelUuidsToAdd.map(labelUuid => PlanJobTagDAL.createPlanJobTag({
-      planUuid: params.planUuid,
+      planUuid: params.plan.uuid,
       jobTagUuid: labelUuid,
     }));
     const deletePromises = labelUuidsToDelete.map(labelUuid => PlanJobTagDAL.deletePlanJobTag({
-      planUuid: params.planUuid,
+      planUuid: params.plan.uuid,
       jobTagUuid: labelUuid,
     }));
 
@@ -178,33 +148,21 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
       ...deletePromises,
     ]);
 
-    const updatedPlans = props.dayReport.plans.map((plan) => {
-      const isUpdatedPlan = plan.uuid === params.planUuid;
-      if (isUpdatedPlan) {
-        const newLabels = labelUuidsToAdd.map(labelUuidToAdd => {
-          const newLabel = props.jobTags.find(tag => tag.uuid === labelUuidToAdd);
-          if (!newLabel) {
-            throw new Error(`Label with uuid ${labelUuidToAdd} is not defined`);
-          }
-
-          return newLabel;
-        });
-        const updatedTags = plan.tags
-          .filter(oldLabel => !labelUuidsToDelete.includes(oldLabel.uuid))
-          .concat(newLabels);
-
-        const updatedPlan = new Plan({
-          ...oldPlan,
-          tags: updatedTags,
-        });
-
-        return updatedPlan;
-      } else {
-        return plan;
+    const newLabels = labelUuidsToAdd.map(labelUuidToAdd => {
+      const newLabel = props.jobTags.find(tag => tag.uuid === labelUuidToAdd);
+      if (!newLabel) {
+        throw new Error(`Label with uuid ${labelUuidToAdd} is not defined`);
       }
+
+      return newLabel;
     });
 
-    props.updateDayReport({uuid: props.dayReport.uuid, plans: updatedPlans});
+    const updatedTags = params.plan.tags
+      .filter(oldLabel => !labelUuidsToDelete.includes(oldLabel.uuid))
+      .concat(newLabels);
+
+    params.plan.updateLabels(updatedTags);
+
   };
 
   /**
@@ -255,7 +213,7 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
                       jobDoneTags={plan.tags}
                       isEditable={props.isEditable}
                       updateTags={(tagsToUpdate: JobTag[]) => updateLabelsInPlan({
-                        planUuid: plan.uuid,
+                        plan,
                         updatedTags: tagsToUpdate,
                       })}
                     />
@@ -272,10 +230,14 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
                   type="number"
                   max={MAX_TIME}
                   min={MIN_TIME}
-                  onChangeFinish={(time) => updatePlan({
-                    uuid: plan.uuid,
-                    time: getValidatedTime(Number(time)),
-                  })}
+                  onChangeFinish={async (time) => {
+                    const planToUpdate = {
+                      uuid: plan.uuid,
+                      time: getValidatedTime(Number(time)),
+                    };
+                    await PlanDAL.updatePlan(planToUpdate);
+                    plan.updateTime(getValidatedTime(Number(time)));
+                  }}
                   className={styles.editableTime}
                   isEditable={plan.ownerUuid === props.user?.uuid}
                   placeholder={LanguageService.common.emptyMarkdownAction[language]}
@@ -300,7 +262,10 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
                         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                         copyPlanToJobInCurrentDayReport={() => copyPlanToJobInCurrentDayReport(plan, props.user!.uuid)}
                         plan={plan}
-                        updatePlan={updatePlan}
+                        updatePlan={async (planToUpdate) => {
+                          plan.updateIsDone(planToUpdate.isDone);
+                          await PlanDAL.updatePlan(planToUpdate);
+                        }}
                       />
                     }
                   />
@@ -321,10 +286,14 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
             </HorizontalContainer>
             <EditableTextarea
               text={plan.description}
-              onChangeFinish={(description) => updatePlan({
-                uuid: plan.uuid,
-                description,
-              })}
+              onChangeFinish={async (description) => {
+                const planToUpdate = {
+                  uuid: plan.uuid,
+                  description,
+                };
+                plan.updateDescription(description);
+                await PlanDAL.updatePlan(planToUpdate);
+              }}
               isEditable={plan.ownerUuid === props.user?.uuid}
               placeholder={props.isEditable
                 ? LanguageService.common.emptyMarkdownAction[language]
