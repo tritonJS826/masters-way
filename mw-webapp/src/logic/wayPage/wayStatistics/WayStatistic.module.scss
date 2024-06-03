@@ -6,4 +6,8 @@
   width: 100%;
   gap: $gapMedium;
   grid-template-columns: repeat(auto-fit, minmax($minWidthBlock, 1fr));
+
+  @media only screen and (max-width: $mediaWidthMobileMedium) {
+    padding: $paddingBig 4px;
+  }
 }
