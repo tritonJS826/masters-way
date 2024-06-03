@@ -64,7 +64,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.CommentPopulatedResponse"
+                            "$ref": "#/definitions/schemas.UserPopulatedResponse"
                         }
                     }
                 }

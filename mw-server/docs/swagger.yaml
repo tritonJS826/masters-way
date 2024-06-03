@@ -982,7 +982,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.CommentPopulatedResponse'
+            $ref: '#/definitions/schemas.UserPopulatedResponse'
       summary: Update comment by UUID
       tags:
       - auth
