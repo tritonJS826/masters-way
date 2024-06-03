@@ -2,12 +2,11 @@ import {headerAccessIds} from "cypress/accessIds/headerAccessIds";
 import {getDataCy} from "src/utils/cyTesting/getDataCy";
 
 export const headerSelectors = {
-    link: {
-        getLogo: () => cy.get(getDataCy(headerAccessIds.link.logo)),
-    },
+    getLogo: () => cy.get(getDataCy(headerAccessIds.logo)),
+    getBurgerMenu: () => cy.get(getDataCy(headerAccessIds.burgerMenu)),
 
-    buttons: {
-        getThemeSwitcher: () => cy.get(getDataCy(headerAccessIds.buttons.themeSwitcher))
+    settings: {
+        getThemeSwitcher: () => cy.get(getDataCy(headerAccessIds.settings.themeSwitcher)),
     }
     
 };

@@ -2,6 +2,7 @@ import {allWaysSelectors} from "cypress/scopesSelectors/allWaysSelectors";
 import pageData from "cypress/fixtures/allWaysFixture.json"
 import pageDataDictionary from "src/dictionary/AllWaysPageContent.json"
 import {headerSelectors} from "cypress/scopesSelectors/headerSelectors";
+import {navigatioMenuSelectors} from "cypress/scopesSelectors/navigatioMenuSelectors";
 
 describe.skip('All Ways scope tests', () => {
 
@@ -10,10 +11,11 @@ describe.skip('All Ways scope tests', () => {
   });
 
   it('NoAuth_AllWays_Open', () => {
-    headerSelectors.link.getLogo().click();
+    headerSelectors.getBurgerMenu().click();
+    navigatioMenuSelectors.menuItemLinks.getAllWaysItemLink().click();
 
     cy.url().should('include', pageData.endpoint);
-    allWaysSelectors.titleContainer.getTitle().should('contain', pageDataDictionary.waysTable.leftTitle);
+    allWaysSelectors.allWaysTable.getTitle().should('contain', pageDataDictionary.waysTable.leftTitle);
   });
 
 });
