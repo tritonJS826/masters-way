@@ -49,7 +49,7 @@ interface GoalMetricStatisticsBlockProps {
  */
 export const GoalMetricsBlock = observer((props: GoalMetricStatisticsBlockProps) => {
   const {language} = languageStore;
-  const sortedMetrics = props.goalMetrics.sort((a, b) => DateUtils.datesASCSorter(a.createdAt, b.createdAt));
+  const sortedMetrics = props.goalMetrics.slice().sort((a, b) => DateUtils.datesASCSorter(a.createdAt, b.createdAt));
 
   /**
    * Add metric

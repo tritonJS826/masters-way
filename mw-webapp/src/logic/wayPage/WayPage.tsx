@@ -20,6 +20,7 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {CompositeWayDAL} from "src/dataAccessLogic/CompositeWayDAL";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {FavoriteUserWayDAL} from "src/dataAccessLogic/FavoriteUserWayDAL";
 import {MentorRequestDAL} from "src/dataAccessLogic/MentorRequestDAL";
@@ -29,8 +30,8 @@ import {WayTagDAL} from "src/dataAccessLogic/WayTagDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
-import {useLoad} from "src/hooks/useLoad";
 import {usePersistanceState} from "src/hooks/usePersistanceState";
+import {useStore} from "src/hooks/useStore";
 import {getAllCollections} from "src/logic/userPage/UserPage";
 import {GoalBlock} from "src/logic/wayPage/goalBlock/GoalBlock";
 import {GoalMetricsBlock} from "src/logic/wayPage/goalMetricsBlock/GoalMetricsBlock";
@@ -39,12 +40,13 @@ import {MentorRequestsSection} from "src/logic/wayPage/MentorRequestsSection";
 import {MentorsSection} from "src/logic/wayPage/MentorsSection";
 import {downloadWayPdf} from "src/logic/wayPage/renderWayToPdf/downloadWayPdf";
 import {DayReportsTable} from "src/logic/wayPage/reportsTable/dayReportsTable/DayReportsTable";
+import {WayPageStore} from "src/logic/wayPage/WayPageStore";
 import {WayActiveStatistic} from "src/logic/wayPage/wayStatistics/WayActiveStatistic";
 import {MILLISECONDS_IN_DAY, SMALL_CORRECTION_MILLISECONDS, WayStatistic} from "src/logic/wayPage/wayStatistics/WayStatistic";
 import {getWayStatus, WayStatus} from "src/logic/waysTable/wayStatus";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Metric} from "src/model/businessModel/Metric";
-import {DefaultWayCollections, User, UserPlain, WayCollection} from "src/model/businessModel/User";
+import {UserPlain} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
 import {JobTag, WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
@@ -117,54 +119,22 @@ export const WayPage = observer((props: WayPageProps) => {
     key: "wayPage",
     defaultValue: DEFAULT_WAY_PAGE_SETTINGS,
   });
-  const {user, setUser} = userStore;
+  const {user, updateCustomCollections} = userStore;
+
+  const wayPageStore = useStore<
+  new (wayUuid: string) => WayPageStore,
+  [string], WayPageStore>({
+      storeForInitialize: WayPageStore,
+      dataForInitialization: [props.uuid],
+      dependency: [props.uuid],
+    });
+
   const {language} = languageStore;
   const {theme} = themeStore;
-  const [way, setWay] = useState<Way>();
+  const {way} = wayPageStore;
   const [isAddWayTagModalOpen, setIsAddWayTagModalOpen] = useState(false);
 
-  /**
-   * Update way state
-   */
-  const setWayPartial = (previousWay: Partial<Way>) => {
-    setWay((prevWay?: Way) => {
-      if (!prevWay) {
-        throw new Error("Previous way is undefined");
-      }
-
-      return {...prevWay, ...previousWay};
-    });
-  };
-
-  /**
-   * Callback that is called to fetch data
-   */
-  const loadData = () => WayDAL.getWay(props.uuid);
-
-  /**
-   * Callback that is called on fetch or validation error
-   */
-  const onError = (error: Error) => {
-    throw error;
-  };
-
-  /**
-   * Callback that is called on fetch and validation success
-   */
-  const onSuccess = (data: Way) => {
-    setWay(data);
-  };
-
-  useLoad(
-    {
-      loadData,
-      onSuccess,
-      onError,
-      dependency: [props.uuid],
-    },
-  );
-
-  if (!way) {
+  if (!wayPageSettings || !wayPageStore.isInitialized) {
     return (
       <Loader theme={theme} />
     );
@@ -209,20 +179,20 @@ export const WayPage = observer((props: WayPageProps) => {
   const setDayReports = (dayReports: DayReport[] | ((prevDayReports: DayReport[]) => DayReport[])): void => {
     // TODO if statement exist because of pretend to set state functions
     if (typeof dayReports === "function") {
-      setWay((prevWay) => {
-        if (!prevWay) {
-          return prevWay;
-        }
-        const updatedWay = new Way({
-          ...prevWay,
-          dayReports: dayReports(prevWay.dayReports),
-        });
+      // SetWay((prevWay) => {
+      //   if (!prevWay) {
+      //     return prevWay;
+      //   }
+      //   const updatedWay = new Way({
+      //     ...prevWay,
+      //     dayReports: dayReports(prevWay.dayReports),
+      //   });
 
-        return updatedWay;
-      });
+      //   return updatedWay;
+      // });
     } else {
-      const updatedWay = new Way({...way, dayReports});
-      setWay(updatedWay);
+      // Const updatedWay = new Way({...way, dayReports});
+      // setWay(updatedWay);
     }
   };
 
@@ -252,6 +222,27 @@ export const WayPage = observer((props: WayPageProps) => {
   };
 
   /**
+   * Add to or remove way from composite way
+   */
+  const toggleWayInCompositeWay = async (isWayExistInComposite: boolean, compositeWayUuid: string, wayUuid: string) => {
+    if (!user) {
+      throw new Error("User is not exist");
+    }
+
+    isWayExistInComposite
+      ? await CompositeWayDAL.deleteWayFromComposite({childWayUuid: wayUuid, parentWayUuid: compositeWayUuid})
+      : await CompositeWayDAL.addWayToComposite({childWayUuid: wayUuid, parentWayUuid: compositeWayUuid});
+    displayNotification({
+      text: `${LanguageService.way.notifications.compositeWayUpdated[language]}`,
+      type: "info",
+    });
+
+    isWayExistInComposite
+      ? user.deleteWayFromComposite(compositeWayUuid, wayUuid)
+      : user.addWayToComposite(compositeWayUuid, wayUuid);
+  };
+
+  /**
    * Add or remove way from custom collection depends on custom collections.
    */
   const toggleWayInWayCollectionByUuid = (collectionUuid: string) => {
@@ -259,7 +250,7 @@ export const WayPage = observer((props: WayPageProps) => {
       throw new Error("User is not exist");
     }
 
-    const updatedCustomWayCollections = user?.customWayCollections
+    user?.customWayCollections
       .map((userCollection) => {
         const isCollectionToUpdate = userCollection.uuid === collectionUuid;
         if (isCollectionToUpdate) {
@@ -285,27 +276,38 @@ export const WayPage = observer((props: WayPageProps) => {
             status: way.status,
             uuid: way.uuid,
             wayTags: way.wayTags,
+            childrenUuids: way.children.map((child) => child.uuid),
           });
 
-          const updatedWays = isWayExistInCollection
-            ? userCollection.ways.filter(wayPreview => wayPreview.uuid !== way.uuid)
-            : userCollection.ways.concat(updatedWay);
-
-          const updatedWayCollection = new WayCollection({...userCollection, ways: updatedWays});
-
-          return updatedWayCollection;
-        } else {
-          return userCollection;
+          updateCustomCollections(collectionUuid, isWayExistInCollection, updatedWay);
         }
-
       });
 
-    setUser(new User({...user, customWayCollections: updatedCustomWayCollections}));
     displayNotification({
       text: `${LanguageService.way.notifications.collectionUpdated[language]}`,
       type: "info",
     });
   };
+
+  const renderAddToCompositeWayDropdownItems: DropdownMenuItemType[] = (user?.defaultWayCollections.own.ways
+    .filter((defaultWay) => defaultWay.uuid !== way.uuid) ?? [])
+    .map((ownWay) => {
+      const isWayInComposite = ownWay.childrenUuids.includes(way.uuid);
+
+      return {
+        id: ownWay.uuid,
+        value: (
+          <DropdownMenuItem
+            key={ownWay.uuid}
+            value={isWayInComposite
+              ? `${LanguageService.way.wayActions.deleteFromCompositeWay[language]} ${ownWay.name}`
+              : `${LanguageService.way.wayActions.addToCompositeWay[language]} ${ownWay.name}`
+            }
+            onClick={() => toggleWayInCompositeWay(isWayInComposite, ownWay.uuid, way.uuid)}
+          />
+        ),
+      };
+    });
 
   const renderAddToCustomCollectionDropdownItems: DropdownMenuItemType[] = (user?.customWayCollections ?? [])
     .map((userCollection) => {
@@ -351,27 +353,17 @@ export const WayPage = observer((props: WayPageProps) => {
    */
   const updateGoalMetrics = async (metricsToUpdate: Metric[]) => {
     const isWayCompleted = metricsToUpdate.every((metric) => metric.isDone);
+    const statusToUpdate = getWayStatus({
+      status: isWayCompleted ? WayStatus.completed : null,
+      lastUpdate: way.lastUpdate,
+    });
     const wayToUpdate = {
       uuid: way.uuid,
       metrics: metricsToUpdate,
-      status: isWayCompleted
-        ? WayStatus.completed
-        : getWayStatus({
-          status: isWayCompleted ? WayStatus.completed : null,
-          lastUpdate: way.lastUpdate,
-        }),
+      status: statusToUpdate,
     };
 
-    const allCollections = user && getAllCollections(user.defaultWayCollections, user.customWayCollections);
-    allCollections?.map((collection) => {
-      collection.updateWay({
-        uuid: way.uuid,
-        metricsDone: metricsToUpdate.filter((metricDone) => metricDone.isDone).length,
-        metricsTotal: metricsToUpdate.length,
-      });
-    });
-
-    setWayPartial(wayToUpdate);
+    way.updateMetrics(metricsToUpdate, statusToUpdate);
     await WayDAL.updateWay(wayToUpdate);
   };
 
@@ -439,7 +431,11 @@ export const WayPage = observer((props: WayPageProps) => {
                       uuid: way.uuid,
                       name,
                     },
-                    setWay: setWayPartial,
+
+                    /**
+                     * Update way's name
+                     */
+                    setWay: () => way.updateName(name),
                   });
                   const allCollections = user && getAllCollections(user.defaultWayCollections, user.customWayCollections);
                   allCollections?.map((collection) => {
@@ -476,29 +472,9 @@ export const WayPage = observer((props: WayPageProps) => {
                         }
 
                         const favoriteAmount = way.favoriteForUsersAmount - LIKE_VALUE;
-                        const updatedFavoriteCollection = new WayCollection({
-                          ...user.defaultWayCollections.favorite,
-                          ways: user.defaultWayCollections.favorite.ways
-                            .filter((favoriteWay) => favoriteWay.uuid !== way.uuid),
-                        });
 
-                        const updatedUser = new User({
-                          ...user,
-                          defaultWayCollections: new DefaultWayCollections({
-                            ...user.defaultWayCollections,
-                            favorite: updatedFavoriteCollection,
-                          }),
-                        });
-
-                        const allCollections = user && getAllCollections(user.defaultWayCollections, user.customWayCollections);
-                        allCollections?.map((collection) => {
-                          collection.updateWay({
-                            uuid: way.uuid,
-                            favoriteForUsers: favoriteAmount,
-                          });
-                        });
-                        setUser(updatedUser);
-                        setWayPartial({favoriteForUsersAmount: favoriteAmount});
+                        user.deleteWayFromFavorite(way.uuid);
+                        way.updateFavoriteForUsersAmount(favoriteAmount);
                       } else {
                         FavoriteUserWayDAL.createFavoriteUserWay(user.uuid, way.uuid);
                         if (!favoriteWaysCollection) {
@@ -525,32 +501,11 @@ export const WayPage = observer((props: WayPageProps) => {
                           status: way.status,
                           uuid: way.uuid,
                           wayTags: way.wayTags,
+                          childrenUuids: way.children.map((child) => child.uuid),
                         });
 
-                        const updatedFavoriteCollection = new WayCollection({
-                          ...user.defaultWayCollections.favorite,
-                          ways: user.defaultWayCollections.favorite.ways
-                            .concat(updatedWay),
-                        });
-
-                        const updatedUser = new User({
-                          ...user,
-                          defaultWayCollections: new DefaultWayCollections({
-                            ...user.defaultWayCollections,
-                            favorite: updatedFavoriteCollection,
-                          }),
-                        });
-
-                        const allCollections = user && getAllCollections(user.defaultWayCollections, user.customWayCollections);
-                        allCollections?.map((collection) => {
-                          collection.updateWay({
-                            uuid: way.uuid,
-                            favoriteForUsers: favoriteAmount,
-                          });
-                        });
-
-                        setUser(updatedUser);
-                        setWayPartial({favoriteForUsersAmount: favoriteAmount});
+                        user.addWayToFavorite(updatedWay);
+                        way.updateFavoriteForUsersAmount(favoriteAmount);
                       }
 
                       displayNotification({
@@ -600,7 +555,11 @@ export const WayPage = observer((props: WayPageProps) => {
                           uuid: way.uuid,
                           isPrivate: !way.isPrivate,
                         },
-                        setWay: setWayPartial,
+
+                        /**
+                         * Update isPrivate property
+                         */
+                        setWay: () => way.updateIsPrivate(!way.isPrivate),
                       }),
                     },
                     {
@@ -638,6 +597,7 @@ export const WayPage = observer((props: WayPageProps) => {
                       onClick: () => downloadWayPdf(way),
                     },
                     ...renderAddToCustomCollectionDropdownItems,
+                    ...renderAddToCompositeWayDropdownItems,
                     {
                       id: "Go to original way",
                       value: LanguageService.way.wayActions.goToOriginal[language],
@@ -677,9 +637,7 @@ export const WayPage = observer((props: WayPageProps) => {
                   isDeletable={isOwner}
                   onDelete={() => {
                     WayTagDAL.deleteWayTag({wayTagId: tag.uuid, wayId: way.uuid});
-                    const updatedWayTags = way.wayTags.filter(oldTag => oldTag.uuid !== tag.uuid);
-                    const updatedWay = new Way({...way, wayTags: updatedWayTags});
-                    setWay(updatedWay);
+                    way.deleteTag(tag.uuid);
                   }}
                 />
               ))}
@@ -714,10 +672,8 @@ export const WayPage = observer((props: WayPageProps) => {
                             type: "info",
                           });
                         } else {
-                          const newTag = await WayTagDAL.addWayTagToWay({name: tagName, wayUuid: way.uuid});
-                          const updatedWayTags = [...way.wayTags, newTag];
-                          const updatedWay = new Way({...way, wayTags: updatedWayTags});
-                          setWay(updatedWay);
+                          const wayTag = await WayTagDAL.addWayTagToWay({name: tagName, wayUuid: way.uuid});
+                          way.addTag(wayTag);
                         }
                       }}
                       okButtonValue={LanguageService.modals.promptModal.okButton[language]}
@@ -731,9 +687,16 @@ export const WayPage = observer((props: WayPageProps) => {
             <GoalBlock
               goalDescription={way.goalDescription}
               wayUuid={way.uuid}
-              updateWay={(updated) => updateWay({
-                wayToUpdate: {...updated},
-                setWay: setWayPartial,
+              updateWay={(goalDescription) => updateWay({
+                wayToUpdate: {
+                  uuid: way.uuid,
+                  goalDescription,
+                },
+
+                /**
+                 * Update way's goalDescription
+                 */
+                setWay: () => way.updateGoalDescription(goalDescription),
               })}
               isEditable={isUserOwnerOrMentor}
             />
@@ -865,7 +828,7 @@ export const WayPage = observer((props: WayPageProps) => {
             {!!way.mentors.size &&
             <MentorsSection
               way={way}
-              setWay={setWayPartial}
+              setWay={() => {}}
               isOwner={isOwner}
             />}
             {isOwner && !!way.mentorRequests.length && (
@@ -875,7 +838,8 @@ export const WayPage = observer((props: WayPageProps) => {
                 content={
                   <MentorRequestsSection
                     way={way}
-                    setWay={setWay}
+                    acceptMentorRequest={(mentor: UserPlain) => way.addUserToMentors(mentor)}
+                    declineMentorRequest={(userUuid: string) => way.deleteUserFromMentorRequests(userUuid)}
                   />}
               />
 
@@ -898,7 +862,11 @@ export const WayPage = observer((props: WayPageProps) => {
                       uuid: way.uuid,
                       mentorRequests: way.mentorRequests.concat(userForMentorRequest),
                     },
-                    setWay: setWayPartial,
+
+                    /**
+                     * Add mentor request from user
+                     */
+                    setWay: () => way.addUserToMentorRequests(userForMentorRequest),
                   });
                   await MentorRequestDAL.createMentorRequest(user.uuid, way.uuid);
                 }}
@@ -995,7 +963,11 @@ export const WayPage = observer((props: WayPageProps) => {
                         uuid: way.uuid,
                         jobTags: tagsToUpdate,
                       },
-                      setWay: setWayPartial,
+
+                      /**
+                       * Update way's labels
+                       */
+                      setWay: () => way.updateLabels(tagsToUpdate),
                     })}
                   />
                 </div>

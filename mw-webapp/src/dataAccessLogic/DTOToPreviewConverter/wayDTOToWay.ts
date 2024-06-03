@@ -8,6 +8,7 @@ import {Plan} from "src/model/businessModel/Plan";
 import {Problem} from "src/model/businessModel/Problem";
 import {Way} from "src/model/businessModel/Way";
 import {UserPreview} from "src/model/businessModelPreview/UserPreview";
+import {UserPreviewShort} from "src/model/businessModelPreview/UserPreviewShort";
 import {JobTag} from "src/model/businessModelPreview/WayPreview";
 import {arrayToHashMap} from "src/utils/arrayToHashMap";
 
@@ -127,6 +128,10 @@ export const wayDTOToWay = (wayDTO: SchemasWayPopulatedResponse): Way => {
     }),
     createdAt: new Date(wayDTO.createdAt),
     lastUpdate: new Date(wayDTO.updatedAt),
+    owner: new UserPreviewShort({
+      ...wayDTO.owner,
+      createdAt: new Date(wayDTO.owner.createdAt),
+    }),
     children: wayDTO.children.map(wayDTOToWay),
   });
 };

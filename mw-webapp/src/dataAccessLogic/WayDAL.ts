@@ -1,6 +1,5 @@
 import {wayToWayDTOPartial} from "src/dataAccessLogic/BusinessToDTOConverter/wayToWayDTOPartial";
 import {wayDTOToWay} from "src/dataAccessLogic/DTOToPreviewConverter/wayDTOToWay";
-import {wayDTOToWayPreview} from "src/dataAccessLogic/DTOToPreviewConverter/wayDTOToWayPreview";
 import {wayPlainDTOToWayPreview} from "src/dataAccessLogic/DTOToPreviewConverter/wayPlainDTOToWayPreview";
 import {User} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
@@ -92,7 +91,7 @@ export class WayDAL {
       },
     });
 
-    const way = wayDTOToWayPreview(wayDTO);
+    const way = wayPlainDTOToWayPreview(wayDTO);
 
     return way;
   }

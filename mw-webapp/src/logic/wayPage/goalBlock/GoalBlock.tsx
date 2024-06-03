@@ -5,9 +5,7 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {userStore} from "src/globalStore/UserStore";
 import {getAllCollections} from "src/logic/userPage/UserPage";
-import {Way} from "src/model/businessModel/Way";
 import {LanguageService} from "src/service/LanguageService";
-import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import styles from "src/logic/wayPage/goalBlock/GoalBlock.module.scss";
 
 /**
@@ -28,7 +26,7 @@ interface GoalBlockProps {
   /**
    * Callback to update goal
    */
-  updateWay: (way: PartialWithUuid<Way>) => Promise<void>;
+  updateWay: (goalDescription: string) => Promise<void>;
 
   /**
    * Is editable
@@ -63,10 +61,7 @@ export const GoalBlock = observer((props: GoalBlockProps) => {
             });
           });
 
-          await props.updateWay({
-            uuid: props.wayUuid,
-            goalDescription,
-          });
+          await props.updateWay(goalDescription);
         }}
         rows={10}
         isEditable={props.isEditable}

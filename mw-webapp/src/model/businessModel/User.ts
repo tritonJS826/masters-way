@@ -437,6 +437,62 @@ export class User {
   }
 
   /**
+   * Add way to favorite collection
+   */
+  public addWayToFavorite(newWay: WayPreview): void {
+    this.defaultWayCollections.favorite.addWay(newWay);
+  }
+
+  /**
+   * Delete way from favorite collection
+   */
+  public deleteWayFromFavorite(wayUuid: string): void {
+    this.defaultWayCollections.favorite.deleteWay(wayUuid);
+  }
+
+  /**
+   * Add way to composite
+   */
+  public addWayToComposite(parentWayUuid: string, childWayUuid: string): void {
+    const ways = this.defaultWayCollections.own.ways.map((way) => {
+
+      return way.uuid !== parentWayUuid
+        ? way
+        : new WayPreview({
+          ...way,
+          childrenUuids: way.childrenUuids.concat(childWayUuid),
+        });
+    });
+    const ownCollection = new WayCollection({...this.defaultWayCollections.own, ways});
+
+    this.defaultWayCollections = new DefaultWayCollections({
+      ...this.defaultWayCollections,
+      own: ownCollection,
+    });
+  }
+
+  /**
+   * Delete way from composite
+   */
+  public deleteWayFromComposite(parentWayUuid: string, childWayUuid: string): void {
+    const ways = this.defaultWayCollections.own.ways.map((way) => {
+
+      return way.uuid !== parentWayUuid
+        ? way
+        : new WayPreview({
+          ...way,
+          childrenUuids: way.childrenUuids.filter(wayUuid => wayUuid !== childWayUuid),
+        });
+    });
+    const ownCollection = new WayCollection({...this.defaultWayCollections.own, ways});
+
+    this.defaultWayCollections = new DefaultWayCollections({
+      ...this.defaultWayCollections,
+      own: ownCollection,
+    });
+  }
+
+  /**
    * Update DefaultWayCollections
    */
   private updateDefaultWayCollections(updateKey: keyof User, updateValue: User["name"] | User["isMentor"]) {
