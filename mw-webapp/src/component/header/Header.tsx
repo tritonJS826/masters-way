@@ -1,3 +1,5 @@
+import {headerAccessIds} from "cypress/accessIds/headerAccessIds";
+import {navigatioMenuIds} from "cypress/accessIds/navigationMenuIds";
 import google from "src/assets/google.svg";
 import logo from "src/assets/mastersWayLogo.svg";
 import logoLight from "src/assets/mastersWayLogoLight.svg";
@@ -111,6 +113,7 @@ export const Header = (props: HeaderProps) => {
     {
       path: pages.allWays.getPath({}),
       value: LanguageService.sidebar.allWays[props.language],
+      dataCy: navigatioMenuIds.menuItemLinks.allWays,
       icon: (
         <Icon
           size={IconSize.MEDIUM}
@@ -162,6 +165,7 @@ export const Header = (props: HeaderProps) => {
       <Link
         className={styles.logo}
         path={pages.home.getPath({})}
+        dataCy={headerAccessIds.logo}
       >
         <ThemedImage
           className={styles.logo}
@@ -266,6 +270,7 @@ export const Header = (props: HeaderProps) => {
                 size={IconSize.SMALL}
                 name="BurgerMenuIcon"
                 className={styles.burgerMenu}
+                dataCy={headerAccessIds.burgerMenu}
               />
             }
             linkList={menuItems}

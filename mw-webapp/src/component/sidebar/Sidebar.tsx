@@ -31,6 +31,11 @@ export interface MenuItemLink {
    * @default false
    */
   isHidden?: boolean;
+
+  /**
+   * Data attributes for cypress testing
+   */
+  dataCy?: string;
 }
 
 /**
@@ -112,6 +117,7 @@ const renderNavigationLinks = (navigationLinks: (MenuItemLink)[]) => {
         <Link
           path={item.path}
           className={styles.menuItemLink}
+          dataCy={item.dataCy}
         >
           {item.icon}
           {item.value}

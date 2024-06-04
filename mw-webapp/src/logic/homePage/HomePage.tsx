@@ -1,4 +1,5 @@
 import {NavigateFunction, useNavigate} from "react-router-dom";
+import {homeAccessIds} from "cypress/accessIds/homeAccessIds";
 import {observer} from "mobx-react-lite";
 import logoLight from "src/assets/mastersWayLogoLight.svg";
 import {Button, ButtonType} from "src/component/button/Button";
@@ -43,6 +44,7 @@ export const HomePage = observer(() => {
           text={LanguageService.home.title[language]}
           className={styles.title}
           placeholder=""
+          dataCy={homeAccessIds.welcomeBlock.title}
         />
         <Title
           level={HeadingLevel.h3}
@@ -55,6 +57,7 @@ export const HomePage = observer(() => {
           buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
           value={LanguageService.home.startForFreeButton[language]}
           className={styles.getStartedButton}
+          dataCy={homeAccessIds.welcomeBlock.startButton}
         />
       </VerticalContainer>
 
