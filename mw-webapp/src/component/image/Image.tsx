@@ -1,9 +1,6 @@
 import {useState} from "react";
-import {Root as DialogRoot} from "@radix-ui/react-dialog";
 import clsx from "clsx";
-import {Cy} from "src/component/modal/Modal";
-import {ModalContent} from "src/component/modal/ModalContent/ModalContent";
-import {ModalTrigger} from "src/component/modal/ModalTrigger/ModalTrigger";
+import {Cy, Modal} from "src/component/modal/Modal";
 import styles from "src/component/image/Image.module.scss";
 
 /**
@@ -60,14 +57,12 @@ export const Image = (props: ImageProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   /**
-   * Test
+   * Toggle modal state
    */
   const handleOpenChange = (value: boolean) => {
     setIsOpen(value);
-    if (props.onOpenChange) {
-      props.onOpenChange(value);
-    }
   };
+
   const imageElement = (
     <img
       src={props.src}
@@ -77,24 +72,32 @@ export const Image = (props: ImageProps) => {
     />
   );
 
-  return (
-    props.isZoomable
-      ? (
-        <DialogRoot
-          open={props.isZoomed ?? isOpen}
-          onOpenChange={handleOpenChange}
-        >
-          <ModalTrigger>
-            {imageElement}
-          </ModalTrigger>
-          <ModalContent
+  return props.isZoomable
+    ? (
+      <Modal
+        trigger={
+          <img
+            src={props.src}
+            alt={props.alt}
             className={imageClass}
-            dataCyContent={props.cy?.dataCyContent}
-          >
-            {imageElement}
-          </ModalContent>
-        </DialogRoot>
-      )
-      : imageElement
-  );
+            data-cy={props.dataCy}
+            onClick={() => handleOpenChange(true)}
+          />
+        }
+        content={
+          <img
+            src={props.src}
+            alt={props.alt}
+            className={clsx(styles.zoomedImage, props.className)}
+            onClick={() => handleOpenChange(false)}
+          />
+        }
+        isOpen={props.isZoomed ?? isOpen}
+        className={imageClass}
+        cy={props.cy}
+      />
+    )
+    : (
+      imageElement
+    );
 };
