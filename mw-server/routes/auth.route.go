@@ -19,5 +19,5 @@ func (cr *AuthRoutes) AuthRoute(rg *gin.RouterGroup) {
 	router.GET("/:provider/callback", cr.authController.GetAuthCallbackFunction)
 	router.GET("/:provider", cr.authController.BeginAuth)
 	router.GET("/current", cr.authController.GetCurrentAuthorizedUser)
-
+	router.GET("/logout/:provider", cr.authController.Logout)
 }

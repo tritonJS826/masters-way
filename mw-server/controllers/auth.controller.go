@@ -3,7 +3,6 @@ package controllers
 import (
 	"context"
 	"database/sql"
-	"fmt"
 	"net/http"
 	"time"
 
@@ -67,10 +66,6 @@ func (cc *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
 	err = session.Save(ctx.Request, ctx.Writer)
 	util.HandleErrorGin(ctx, err)
 
-	fmt.Println(session.Values)
-	cookies := ctx.Request.Cookies()
-	fmt.Print(cookies)
-
 	ctx.Redirect(http.StatusFound, config.Env.WebappBaseUrl)
 }
 
@@ -88,9 +83,8 @@ func (cc *AuthController) BeginAuth(ctx *gin.Context) {
 	provider := ctx.Param("provider")
 	ctx.Request = ctx.Request.WithContext(context.WithValue(context.Background(), "provider", provider))
 
+	// already logged user
 	if gothUser, err := gothic.CompleteUserAuth(ctx.Writer, ctx.Request); err == nil {
-		fmt.Println("Already logged user")
-
 		now := time.Now()
 		args := &db.CreateUserParams{
 			Name:        gothUser.Name,
@@ -104,8 +98,9 @@ func (cc *AuthController) BeginAuth(ctx *gin.Context) {
 		populatedUser, err := services.FindOrCreateUserByEmail(cc.db, ctx, args)
 		util.HandleErrorGin(ctx, err)
 		ctx.JSON(http.StatusOK, populatedUser)
+
+		// Begin auth handle
 	} else {
-		fmt.Println("Begin auth handler")
 		gothic.BeginAuthHandler(ctx.Writer, ctx.Request)
 	}
 }
@@ -119,14 +114,10 @@ func (cc *AuthController) BeginAuth(ctx *gin.Context) {
 // @Success 200 {object} schemas.UserPopulatedResponse
 // @Router /auth/current [get]
 func (cc *AuthController) GetCurrentAuthorizedUser(ctx *gin.Context) {
-	cookies := ctx.Request.Cookies()
-	fmt.Print(cookies)
-
 	session, err := gothic.Store.Get(ctx.Request, auth.AuthSession)
 	util.HandleErrorGin(ctx, err)
 
 	userID, ok := session.Values[auth.UserIdKey].(string)
-	fmt.Println(session.Values)
 	if !ok {
 		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "User not authenticated"})
 		return
@@ -136,4 +127,26 @@ func (cc *AuthController) GetCurrentAuthorizedUser(ctx *gin.Context) {
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, populatedUser)
+}
+
+// @Summary Logout current authorized user
+// @Description
+// @Tags auth
+// @ID logout-current-authorized-user
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} struct{status: string}
+// @Router /auth/logout/:provider [get]
+func (cc *AuthController) Logout(ctx *gin.Context) {
+	provider := ctx.Param("provider")
+	ctx.Request = ctx.Request.WithContext(context.WithValue(context.Background(), "provider", provider))
+
+	gothic.Logout(ctx.Writer, ctx.Request)
+
+	session, err := gothic.Store.Get(ctx.Request, auth.AuthSession)
+	util.HandleErrorGin(ctx, err)
+
+	delete(session.Values, auth.UserIdKey)
+
+	ctx.JSON(http.StatusOK, gin.H{"status": "Ok"})
 }
