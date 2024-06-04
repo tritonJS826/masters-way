@@ -133,16 +133,12 @@ func (cc *UserController) UpdateUser(ctx *gin.Context) {
 		return
 	}
 
-	description := sql.NullString{}
+	var description, imageUrl sql.NullString
 	if payload.Description != nil {
-		description.Valid = true
-		description.String = *payload.Description
+		description = sql.NullString{String: *payload.Description, Valid: true}
 	}
-
-	imageUrl := sql.NullString{}
 	if payload.ImageUrl != nil {
-		imageUrl.Valid = true
-		imageUrl.String = *payload.ImageUrl
+		imageUrl = sql.NullString{String: *payload.ImageUrl, Valid: true}
 	}
 
 	args := &db.UpdateUserParams{
