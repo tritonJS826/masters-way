@@ -133,22 +133,23 @@ func (cc *UserController) UpdateUser(ctx *gin.Context) {
 		return
 	}
 
-	var description sql.NullString
-	// the first check
-	if payload.Description == nil {
-		// you cannot dereference a nil pointer
-		description = sql.NullString{Valid: false}
-	} else {
-		// There is no point in checking payload.Description for nil twice,
-		// so I set Valid: true.
-		description = sql.NullString{String: *payload.Description, Valid: true}
+	description := sql.NullString{}
+	if payload.Description != nil {
+		description.Valid = true
+		description.String = *payload.Description
+	}
+
+	imageUrl := sql.NullString{}
+	if payload.ImageUrl != nil {
+		imageUrl.Valid = true
+		imageUrl.String = *payload.ImageUrl
 	}
 
 	args := &db.UpdateUserParams{
 		Uuid:        uuid.MustParse(userId),
 		Name:        sql.NullString{String: payload.Name, Valid: payload.Name != ""},
 		Description: description,
-		ImageUrl:    sql.NullString{String: payload.ImageUrl, Valid: payload.ImageUrl != ""},
+		ImageUrl:    imageUrl,
 		IsMentor:    sql.NullBool{Bool: payload.IsMentor, Valid: true},
 	}
 

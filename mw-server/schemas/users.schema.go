@@ -12,7 +12,7 @@ type CreateUserPayload struct {
 type UpdateUserPayload struct {
 	Name        string  `json:"name"`
 	Description *string `json:"description"`
-	ImageUrl    string  `json:"imageUrl" extensions:"x-nullable"`
+	ImageUrl    *string `json:"imageUrl"`
 	IsMentor    bool    `json:"isMentor"`
 }
 
