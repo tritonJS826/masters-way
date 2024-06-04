@@ -37,7 +37,7 @@ interface ImageProps {
   dataCy?: string;
 
   /**
-   * Enlarge Image
+   * Image respond to clicks
    */
   isZoomable?: boolean;
 
@@ -47,7 +47,7 @@ interface ImageProps {
   isZoomed?: boolean;
 
   /**
-   * Open Image
+   * Control Image outside
    */
   onOpenChange?: (arg: boolean) => void;
 }
