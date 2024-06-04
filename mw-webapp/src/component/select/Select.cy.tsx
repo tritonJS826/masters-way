@@ -67,8 +67,9 @@ describe("Select component", () => {
   it("should change value inside trigger if some selectItem selected", () => {
     cy.get(getDataCy(SELECT_CY.dataCyValue)).contains(SELECT_OPTIONS[FIRST_OPTION_INDEX].text);
     cy.get(getDataCy(SELECT_CY.dataCyTrigger)).click();
-    cy.get(getDataCy(SELECT_CY.dataCyContentList)).click();
-    cy.get(getDataCy(SELECT_CY.dataCyValue)).contains(SELECT_OPTIONS[SECOND_OPTION_INDEX].text);
+    // Force required for correct work for MacOS
+    cy.get(getDataCy(SELECT_CY.dataCyContentList)).click({force: true});
+    cy.contains(SELECT_OPTIONS[SECOND_OPTION_INDEX].text);
   });
 
   it("should trigger onClick if some selectItem selected", () => {

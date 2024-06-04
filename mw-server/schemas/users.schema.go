@@ -10,10 +10,10 @@ type CreateUserPayload struct {
 }
 
 type UpdateUserPayload struct {
-	Name        string `json:"name"`
-	Description string `json:"description"`
-	ImageUrl    string `json:"imageUrl" extensions:"x-nullable"`
-	IsMentor    bool   `json:"isMentor"`
+	Name        string  `json:"name"`
+	Description *string `json:"description"`
+	ImageUrl    *string `json:"imageUrl"`
+	IsMentor    bool    `json:"isMentor"`
 }
 
 type UserPlainResponse struct {

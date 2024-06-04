@@ -150,6 +150,7 @@ dist
 # misc
 .DS_Store
 storybook-static/
+.idea
 
 # cypress
 /*/cypress/screenshots

@@ -133,11 +133,19 @@ func (cc *UserController) UpdateUser(ctx *gin.Context) {
 		return
 	}
 
+	var description, imageUrl sql.NullString
+	if payload.Description != nil {
+		description = sql.NullString{String: *payload.Description, Valid: true}
+	}
+	if payload.ImageUrl != nil {
+		imageUrl = sql.NullString{String: *payload.ImageUrl, Valid: true}
+	}
+
 	args := &db.UpdateUserParams{
 		Uuid:        uuid.MustParse(userId),
 		Name:        sql.NullString{String: payload.Name, Valid: payload.Name != ""},
-		Description: sql.NullString{String: payload.Description, Valid: payload.Description != ""},
-		ImageUrl:    sql.NullString{String: payload.ImageUrl, Valid: payload.ImageUrl != ""},
+		Description: description,
+		ImageUrl:    imageUrl,
 		IsMentor:    sql.NullBool{Bool: payload.IsMentor, Valid: true},
 	}
 
