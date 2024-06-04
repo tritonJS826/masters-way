@@ -1,6 +1,6 @@
 import {allWaysSelectors} from "cypress/scopesSelectors/allWaysSelectors";
-import pageData from "cypress/fixtures/allWaysFixture.json"
-import pageDataDictionary from "src/dictionary/AllWaysPageContent.json"
+import allWaysPageData from "cypress/fixtures/allWaysFixture.json"
+import allWaysPageContent from "src/dictionary/AllWaysPageContent.json"
 import {headerSelectors} from "cypress/scopesSelectors/headerSelectors";
 import {navigatioMenuSelectors} from "cypress/scopesSelectors/navigatioMenuSelectors";
 
@@ -14,8 +14,8 @@ describe('All Ways scope tests', () => {
     headerSelectors.getBurgerMenu().click();
     navigatioMenuSelectors.menuItemLinks.getAllWaysItemLink().click();
 
-    cy.url().should('include', pageData.endpoint);
-    allWaysSelectors.allWaysTable.getTitle().should('contain', pageDataDictionary.waysTable.leftTitle.en);
+    cy.url().should('include', allWaysPageData.endpoint);
+    allWaysSelectors.allWaysTable.getTitle().should('contain', allWaysPageContent.waysTable.leftTitle.en);
   });
 
 });
