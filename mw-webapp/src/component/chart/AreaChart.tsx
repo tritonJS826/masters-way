@@ -106,8 +106,8 @@ interface AreaChartProps {
 export const AreaChart = observer((props: AreaChartProps) => {
   const {theme} = themeStore;
   const {language} = languageStore;
-  const dateList = DateUtils.getDatesBetween(props.startDate, props.lastDate);
-  const labels = dateList.map(DateUtils.getShortISODateValue);
+
+  const labels = DateUtils.getDatesBetween(props.startDate, props.lastDate);
 
   const dateWithJobTotalTime: Map<string, number> = new Map(labels.map((date) => {
     const jobDoneTotal = props.datesWithJobTotalTime.get(date) ?? 0;
@@ -116,6 +116,7 @@ export const AreaChart = observer((props: AreaChartProps) => {
   }));
 
   const dataJob = Array.from(dateWithJobTotalTime.values());
+  console.log(dateWithJobTotalTime);
 
   const data = {
     labels,

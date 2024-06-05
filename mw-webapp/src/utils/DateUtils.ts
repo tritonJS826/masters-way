@@ -47,22 +47,23 @@ export class DateUtils {
   /**
    * Get dates between two dates
    */
-  public static getDatesBetween(startDate: Date, endDate: Date): Date[] {
-    const timeDifferenceInMilliseconds = Math.abs(endDate.getTime() - startDate.getTime());
-    const daysAmountInRange = Math.ceil(timeDifferenceInMilliseconds / DAY_MILLISECONDS);
-    const datesList = new Array(daysAmountInRange)
-      .fill(null)
-      .map((item, i) => {
+  public static getDatesBetween(startDate: Date, endDate: Date): string[] {
+    const dates: string[] = [];
+  
+    const isoStartDate = startDate.toISOString().split('T')[0];
+    const isoEndDate = endDate.toISOString().split('T')[0];
 
-        /**
-         * TODO #573: Correction need because method getShortISODateValue return time in GMT format but we need UTC format
-         */
-        const correction = DAY_MILLISECONDS;
+    let currentDate = new Date(isoStartDate);
+    const lastDate = new Date(isoEndDate);
+  
+    lastDate.setDate(lastDate.getDate() + 1);
+  
+    while (currentDate < lastDate) {
+      dates.push(currentDate.toISOString().split('T')[0]);
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
 
-        return new Date(startDate.getTime() + (i * DAY_MILLISECONDS) + correction);
-      });
-
-    return datesList;
+    return [...new Set(dates)];
   }
 
   /**
