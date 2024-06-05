@@ -1,6 +1,7 @@
 const START_OF_ISO_SUBSTRING_RANGE = 0;
 const END_OF_ISO_SUBSTRING_RANGE = 10;
 const DAY_MILLISECONDS = 86400000;
+const ONE_DAY = 1;
 
 /**
  * Type for sortDates generic
@@ -49,18 +50,23 @@ export class DateUtils {
    */
   public static getDatesBetween(startDate: Date, endDate: Date): string[] {
     const dates: string[] = [];
-  
-    const isoStartDate = startDate.toISOString().split('T')[0];
-    const isoEndDate = endDate.toISOString().split('T')[0];
 
-    let currentDate = new Date(isoStartDate);
+    /**
+     *GetISODate
+     */
+    const getISODate = (date: Date) => date.toISOString().split("T")[0];
+
+    const isoStartDate = getISODate(startDate);
+    const isoEndDate = getISODate(endDate);
+
+    const currentDate = new Date(isoStartDate);
     const lastDate = new Date(isoEndDate);
-  
-    lastDate.setDate(lastDate.getDate() + 1);
-  
+
+    lastDate.setDate(lastDate.getDate() + ONE_DAY);
+
     while (currentDate < lastDate) {
-      dates.push(currentDate.toISOString().split('T')[0]);
-      currentDate.setDate(currentDate.getDate() + 1);
+      dates.push(getISODate(currentDate));
+      currentDate.setDate(currentDate.getDate() + ONE_DAY);
     }
 
     return [...new Set(dates)];
