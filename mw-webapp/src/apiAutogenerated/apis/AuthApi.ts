@@ -18,6 +18,7 @@ import type {
   SchemasCommentPopulatedResponse,
   SchemasCreateCommentPayload,
   SchemasUserPopulatedResponse,
+  UtilResponseStatusString,
 } from '../models/index';
 import {
     SchemasCommentPopulatedResponseFromJSON,
@@ -26,6 +27,8 @@ import {
     SchemasCreateCommentPayloadToJSON,
     SchemasUserPopulatedResponseFromJSON,
     SchemasUserPopulatedResponseToJSON,
+    UtilResponseStatusStringFromJSON,
+    UtilResponseStatusStringToJSON,
 } from '../models/index';
 
 export interface BeginAuthRequest {
@@ -45,7 +48,7 @@ export class AuthApi extends runtime.BaseAPI {
     /**
      * Update comment by UUID
      */
-    async beginAuthRaw(requestParameters: BeginAuthRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasCommentPopulatedResponse>> {
+    async beginAuthRaw(requestParameters: BeginAuthRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasUserPopulatedResponse>> {
         if (requestParameters.provider === null || requestParameters.provider === undefined) {
             throw new runtime.RequiredError('provider','Required parameter requestParameters.provider was null or undefined when calling beginAuth.');
         }
@@ -61,13 +64,13 @@ export class AuthApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasCommentPopulatedResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasUserPopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Update comment by UUID
      */
-    async beginAuth(requestParameters: BeginAuthRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasCommentPopulatedResponse> {
+    async beginAuth(requestParameters: BeginAuthRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasUserPopulatedResponse> {
         const response = await this.beginAuthRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -132,6 +135,32 @@ export class AuthApi extends runtime.BaseAPI {
      */
     async googleAuthLogIn(requestParameters: GoogleAuthLogInRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasCommentPopulatedResponse> {
         const response = await this.googleAuthLogInRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Logout current authorized user
+     */
+    async logoutCurrentAuthorizedUserRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UtilResponseStatusString>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/auth/logout/:provider`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => UtilResponseStatusStringFromJSON(jsonValue));
+    }
+
+    /**
+     * Logout current authorized user
+     */
+    async logoutCurrentAuthorizedUser(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UtilResponseStatusString> {
+        const response = await this.logoutCurrentAuthorizedUserRaw(initOverrides);
         return await response.value();
     }
 

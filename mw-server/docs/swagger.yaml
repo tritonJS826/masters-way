@@ -614,7 +614,6 @@ definitions:
         type: string
       imageUrl:
         type: string
-        x-nullable: true
       isMentor:
         type: boolean
       name:
@@ -960,6 +959,13 @@ definitions:
     - name
     - uuid
     type: object
+  util.ResponseStatusString:
+    properties:
+      status:
+        type: string
+    required:
+    - status
+    type: object
 info:
   contact: {}
   title: Masters way API
@@ -1026,6 +1032,21 @@ paths:
           schema:
             $ref: '#/definitions/schemas.UserPopulatedResponse'
       summary: Get current authorized user
+      tags:
+      - auth
+  /auth/logout/:provider:
+    get:
+      consumes:
+      - application/json
+      operationId: logout-current-authorized-user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.ResponseStatusString'
+      summary: Logout current authorized user
       tags:
       - auth
   /comments:

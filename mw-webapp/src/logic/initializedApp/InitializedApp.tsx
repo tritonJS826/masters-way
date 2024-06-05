@@ -32,22 +32,27 @@ export const InitializedApp = (props: PropsWithChildren) => {
   /**
    * OnLog in
    */
-  const initialize = async () => {
+  const recoverSessionIfPossible = async () => {
     // TODO: loadUser if cookie "auth-session" exist
-    const user = await AuthDAL.getAuthorizedUser();
-    setUser(user);
-    const defaultPagePath = getDefaultPagePath(user.uuid);
+    try {
+      const user = await AuthDAL.getAuthorizedUser();
+      setUser(user);
+      const defaultPagePath = getDefaultPagePath(user.uuid);
+      setIsInitialized(true);
 
-    setIsInitialized(true);
-
-    if (getIsHomePage()) {
-      navigate(defaultPagePath);
+      if (getIsHomePage()) {
+        navigate(defaultPagePath);
+      }
+    } catch {
+      // eslint-disable-next-line no-console
+      console.warn("Session not recovered");
     }
+
   };
 
   useEffect(() => {
     if (!isInitialized) {
-      initialize();
+      recoverSessionIfPossible();
     }
   }, []);
 

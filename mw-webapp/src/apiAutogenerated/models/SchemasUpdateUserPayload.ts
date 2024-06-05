@@ -30,7 +30,7 @@ export interface SchemasUpdateUserPayload {
      * @type {string}
      * @memberof SchemasUpdateUserPayload
      */
-    imageUrl?: string | null;
+    imageUrl?: string;
     /**
      * 
      * @type {boolean}

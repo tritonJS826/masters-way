@@ -17,4 +17,11 @@ export class AuthDAL {
     return user;
   }
 
+  /**
+   * Call method for logout
+   */
+  public static async logOut() {
+    await AuthService.logOut();
+  }
+
 }

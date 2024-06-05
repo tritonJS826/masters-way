@@ -38,6 +38,29 @@ const docTemplate = `{
                 }
             }
         },
+        "/auth/logout/:provider": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Logout current authorized user",
+                "operationId": "logout-current-authorized-user",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseStatusString"
+                        }
+                    }
+                }
+            }
+        },
         "/auth/{provider}": {
             "get": {
                 "consumes": [
@@ -3002,8 +3025,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "imageUrl": {
-                    "type": "string",
-                    "x-nullable": true
+                    "type": "string"
                 },
                 "isMentor": {
                     "type": "boolean"
@@ -3484,6 +3506,17 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "util.ResponseStatusString": {
+            "type": "object",
+            "required": [
+                "status"
+            ],
+            "properties": {
+                "status": {
                     "type": "string"
                 }
             }

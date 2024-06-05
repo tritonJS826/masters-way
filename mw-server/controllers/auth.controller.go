@@ -135,7 +135,7 @@ func (cc *AuthController) GetCurrentAuthorizedUser(ctx *gin.Context) {
 // @ID logout-current-authorized-user
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} struct{status: string}
+// @Success 200 {object} util.ResponseStatusString
 // @Router /auth/logout/:provider [get]
 func (cc *AuthController) Logout(ctx *gin.Context) {
 	provider := ctx.Param("provider")
