@@ -1,3 +1,4 @@
+import {aboutProjectAccessIds} from "cypress/accessIds/aboutProjectAccessIds";
 import {observer} from "mobx-react-lite";
 import logoLight from "src/assets/mastersWayLogoLight.svg";
 import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
@@ -33,6 +34,7 @@ export const AboutProjectPage = observer(() => {
           text={LanguageService.aboutProject.mainTitle[language]}
           className={styles.title}
           placeholder=""
+          dataCy={aboutProjectAccessIds.aboutBlock.title}
         />
         <Title
           level={HeadingLevel.h3}

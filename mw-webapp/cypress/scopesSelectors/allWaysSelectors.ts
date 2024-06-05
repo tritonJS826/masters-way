@@ -4,7 +4,7 @@ import {allWaysAccessIds} from 'cypress/accessIds/allWaysAccessIds'
 export const allWaysSelectors = {
     allWaysTable: {
         getTitle: () => cy.get(getDataCy(allWaysAccessIds.allWaysTable.title)),
-        gettotalAmountTitle: () => cy.get(getDataCy(allWaysAccessIds.allWaysTable.totalAmountTitle))
+        getTotalAmountTitle: () => cy.get(getDataCy(allWaysAccessIds.allWaysTable.totalAmountTitle))
     },
 
     filterViewBlock: {

@@ -1,4 +1,5 @@
 import {useState} from "react";
+import {allUsersAccessIds} from "cypress/accessIds/allUsersAccessIds";
 import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
@@ -201,6 +202,7 @@ export const AllUsersPage = observer(() => {
           level={HeadingLevel.h2}
           text={`${LanguageService.allUsers.usersTable.leftTitle[language]} (${allUsers.length})`}
           placeholder=""
+          dataCy={allUsersAccessIds.allUsersTable.title}
         />
         <Title
           level={HeadingLevel.h2}

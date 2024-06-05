@@ -82,6 +82,7 @@ export const Header = (props: HeaderProps) => {
     {
       path: pages.home.getPath({}),
       value: "",
+      dataCy: navigatioMenuIds.menuItemLinks.logo,
       icon: (
         <Image
           src={logoLight}
@@ -92,6 +93,7 @@ export const Header = (props: HeaderProps) => {
     {
       path: pages.home.getPath({}),
       value: LanguageService.sidebar.home[props.language],
+      dataCy: navigatioMenuIds.menuItemLinks.home,
       icon: (
         <Icon
           size={IconSize.MEDIUM}
@@ -124,6 +126,7 @@ export const Header = (props: HeaderProps) => {
     {
       path: pages.allUsers.getPath({}),
       value: LanguageService.sidebar.allUsers[props.language],
+      dataCy: navigatioMenuIds.menuItemLinks.allUsers,
       icon: (
         <Icon
           size={IconSize.MEDIUM}
@@ -134,6 +137,7 @@ export const Header = (props: HeaderProps) => {
     {
       path: pages.aboutProject.getPath({}),
       value: LanguageService.sidebar.about[props.language],
+      dataCy: navigatioMenuIds.menuItemLinks.aboutProject,
       icon: (
         <Icon
           size={IconSize.MEDIUM}

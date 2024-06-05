@@ -1,6 +1,6 @@
 import {allWaysSelectors} from "cypress/scopesSelectors/allWaysSelectors";
-import allWaysPageData from "cypress/fixtures/allWaysFixture.json"
-import allWaysPageContent from "src/dictionary/AllWaysPageContent.json"
+import allWaysPageData from "cypress/fixtures/allWaysFixture.json";
+import allWaysPageContent from "src/dictionary/AllWaysPageContent.json";
 import {headerSelectors} from "cypress/scopesSelectors/headerSelectors";
 import {navigatioMenuSelectors} from "cypress/scopesSelectors/navigatioMenuSelectors";
 

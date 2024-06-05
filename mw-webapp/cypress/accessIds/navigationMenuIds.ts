@@ -1,6 +1,10 @@
 export const navigatioMenuIds = {
     menuItemLinks: {
-        allWays : 'allWays'
+        logo: 'menuLogo',
+        home: 'home',
+        allWays: 'allWays',
+        allUsers: 'allUsers',
+        aboutProject: 'aboutProject'
     }
     
 };
