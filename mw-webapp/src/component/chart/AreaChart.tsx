@@ -116,7 +116,6 @@ export const AreaChart = observer((props: AreaChartProps) => {
   }));
 
   const dataJob = Array.from(dateWithJobTotalTime.values());
-  console.log(dateWithJobTotalTime);
 
   const data = {
     labels,
