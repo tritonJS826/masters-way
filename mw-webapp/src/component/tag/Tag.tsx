@@ -2,6 +2,22 @@ import clsx from "clsx";
 import styles from "src/component/tag/Tag.module.scss";
 
 /**
+ * Tag type enum
+ */
+export enum TagType {
+
+  /**
+   * Tag that used on way card
+   */
+  WAY_CARD_TAG = "wayCardTag",
+
+  /**
+   * Tag that used on User page and Way page
+   */
+  BASIC_TAG = "basicTag",
+}
+
+/**
  * Data attributes for cypress testing
  */
 interface Cy {
@@ -33,6 +49,11 @@ interface TagProps {
   cy?: Cy;
 
   /**
+   * Tag type
+   */
+  type: TagType;
+
+  /**
    * If true - tag could be removed by clicking on cross
    */
   isDeletable?: boolean;
@@ -47,25 +68,34 @@ interface TagProps {
  * WayCard tag component
  */
 export const Tag = (props: TagProps) => {
-  return (
-    <button className={styles.tagContainer}>
-      <span
-        className={clsx(styles.cross, !props.isDeletable && styles.hiddenCross)}
-        onClick={() => {
-          props.isDeletable && props?.onDelete && props.onDelete(props.tagName);
-        }}
-        data-cy={props.cy?.dataCyCross}
-      >
-        X
-      </span>
+  return props.type === TagType.BASIC_TAG ?
+    (
+      <button className={styles.tagContainer}>
+        <span
+          className={clsx(styles.cross, !props.isDeletable && styles.hiddenCross)}
+          onClick={() => {
+            props.isDeletable && props?.onDelete && props.onDelete(props.tagName);
+          }}
+          data-cy={props.cy?.dataCyCross}
+        >
+          X
+        </span>
 
+        <span
+          className={styles.tag}
+          data-cy={props.cy?.dataCyTag}
+        >
+          {props.tagName}
+        </span>
+      </button>
+    )
+    :
+    (
       <span
-        className={styles.tag}
+        className={styles.wayTag}
         data-cy={props.cy?.dataCyTag}
       >
         {props.tagName}
       </span>
-    </button>
-  );
+    );
 };
-

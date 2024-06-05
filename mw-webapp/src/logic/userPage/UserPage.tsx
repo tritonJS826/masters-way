@@ -12,7 +12,7 @@ import {Loader} from "src/component/loader/Loader";
 import {Modal} from "src/component/modal/Modal";
 import {PromptModalContent} from "src/component/modal/PromptModalContent";
 import {displayNotification} from "src/component/notification/displayNotification";
-import {Tag} from "src/component/tag/Tag";
+import {Tag, TagType} from "src/component/tag/Tag";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
@@ -421,6 +421,7 @@ export const UserPage = observer((props: UserPageProps) => {
                   tagName={tag.name}
                   key={tag.uuid}
                   isDeletable={isPageOwner}
+                  type={TagType.BASIC_TAG}
                   onDelete={async () => {
                     user && user.deleteTag(tag.uuid);
                     userPageOwner.deleteTag(tag.uuid);

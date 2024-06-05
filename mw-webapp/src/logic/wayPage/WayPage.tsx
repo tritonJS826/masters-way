@@ -15,7 +15,7 @@ import {Modal} from "src/component/modal/Modal";
 import {PromptModalContent} from "src/component/modal/PromptModalContent";
 import {displayNotification} from "src/component/notification/displayNotification";
 import {ErrorComponent} from "src/component/privateRecourse/PrivateRecourse";
-import {Tag} from "src/component/tag/Tag";
+import {Tag, TagType} from "src/component/tag/Tag";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
@@ -675,6 +675,7 @@ export const WayPage = observer((props: WayPageProps) => {
                   tagName={tag.name}
                   key={tag.uuid}
                   isDeletable={isOwner}
+                  type={TagType.BASIC_TAG}
                   onDelete={() => {
                     WayTagDAL.deleteWayTag({wayTagId: tag.uuid, wayId: way.uuid});
                     const updatedWayTags = way.wayTags.filter(oldTag => oldTag.uuid !== tag.uuid);
