@@ -1,4 +1,4 @@
-import {DayReportDTOToDayReport} from "src/dataAccessLogic/DTOToPreviewConverter/dayReportDTOToDayReport";
+import {DayReportDTOToDayReportEmpty} from "src/dataAccessLogic/DTOToPreviewConverter/dayReportDTOToDayReportEmpty";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {DayReportService} from "src/service/DayReportService";
 
@@ -18,7 +18,7 @@ export class DayReportDAL {
       },
     });
 
-    const dayReport = DayReportDTOToDayReport(dayReportDTO);
+    const dayReport = DayReportDTOToDayReportEmpty(dayReportDTO);
 
     return dayReport;
   }

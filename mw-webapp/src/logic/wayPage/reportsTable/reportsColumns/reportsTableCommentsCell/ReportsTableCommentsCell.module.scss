@@ -24,3 +24,13 @@
 .ownerName {
   flex: 1;
 }
+
+.linkToOwnerWay {
+  display: flex;
+  align-items: center;
+}
+
+.socialMediaIcon {
+  width: $iconSizeSmall;
+  height: $iconSizeSmall;
+}

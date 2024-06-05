@@ -10,7 +10,9 @@ import {Columns} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColu
 import {ReportsTable} from "src/logic/wayPage/reportsTable/ReportsTable";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Way} from "src/model/businessModel/Way";
+import {UserPreviewShort} from "src/model/businessModelPreview/UserPreviewShort";
 import {LanguageService} from "src/service/LanguageService";
+import {arrayToHashMap} from "src/utils/arrayToHashMap";
 import styles from "src/logic/wayPage/reportsTable/dayReportsTable/DayReportsTable.module.scss";
 
 /**
@@ -22,6 +24,11 @@ interface DayReportsTableProps {
    * Way of DayReports
    */
   way: Way;
+
+  /**
+   * Composite way participants
+   */
+  compositeWayParticipant: UserPreviewShort[];
 
   /**
    * Create new day report
@@ -55,6 +62,8 @@ export const DayReportsTable = observer((props: DayReportsTableProps) => {
 
   const isShowMoreReportsButtonVisible = visibleReports.length < props.way.dayReports.length;
 
+  const wayParticipantsMap = arrayToHashMap({keyField: "uuid", list: props.compositeWayParticipant});
+
   return (
     <>
       <HorizontalContainer className={styles.titleContainer}>
@@ -77,6 +86,7 @@ export const DayReportsTable = observer((props: DayReportsTableProps) => {
             columns={Columns({
               way: props.way,
               createDayReport: props.createDayReport,
+              wayParticipantsMap,
             })}
           />
         </ScrollableBlock>

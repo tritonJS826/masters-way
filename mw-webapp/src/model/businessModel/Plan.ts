@@ -51,9 +51,14 @@ interface PlanProps {
   dayReportUuid: string;
 
   /**
-   * Owner name
+   * Comment's way name
    */
-  ownerName: string;
+  wayUuid: string;
+
+  /**
+   * Comment's way name
+   */
+  wayName: string;
 
 }
 
@@ -108,9 +113,14 @@ export class Plan {
   public dayReportUuid: string;
 
   /**
-   * Plan's owner name
+   * Comment's way name
    */
-  public ownerName: string;
+  public wayUuid: string;
+
+  /**
+   * Comment's way name
+   */
+  public wayName: string;
 
   constructor(planData: PlanProps) {
     this.uuid = planData.uuid;
@@ -122,7 +132,8 @@ export class Plan {
     this.updatedAt = planData.updatedAt;
     this.createdAt = planData.createdAt;
     this.dayReportUuid = planData.dayReportUuid;
-    this.ownerName = planData.ownerName;
+    this.wayName = planData.wayName;
+    this.wayUuid = planData.wayUuid;
   }
 
   /**

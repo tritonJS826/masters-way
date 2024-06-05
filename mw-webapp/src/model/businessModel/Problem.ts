@@ -42,14 +42,20 @@ interface ProblemProps {
     dayReportUuid: string;
 
     /**
-     * Owner name
-     */
-    ownerName: string;
-
-    /**
      * Updated at
      */
-    updatedAt: Date;
+  updatedAt: Date;
+
+    /**
+     * Comment's way name
+     */
+    wayUuid: string;
+
+    /**
+     * Comment's way name
+     */
+    wayName: string;
+
 }
 
 /**
@@ -93,14 +99,19 @@ export class Problem {
   public dayReportUuid: string;
 
   /**
-   * Owner name
-   */
-  public ownerName: string;
-
-  /**
    * Updated at
    */
   public updatedAt: Date;
+
+  /**
+   * Comment's way name
+   */
+  public wayUuid: string;
+
+  /**
+   * Comment's way name
+   */
+  public wayName: string;
 
   constructor(problemData: ProblemProps) {
     makeAutoObservable(this);
@@ -111,8 +122,9 @@ export class Problem {
     this.tags = problemData.tags.map(tag => new JobTag(tag));
     this.createdAt = problemData.createdAt;
     this.dayReportUuid = problemData.dayReportUuid;
-    this.ownerName = problemData.ownerName;
     this.updatedAt = problemData.updatedAt;
+    this.wayName = problemData.wayName;
+    this.wayUuid = problemData.wayUuid;
   }
 
   /**

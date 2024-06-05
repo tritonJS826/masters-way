@@ -11,11 +11,6 @@ interface CommentProps {
     uuid: string;
 
     /**
-     * Commentator's name
-     */
-    ownerName: string;
-
-    /**
      * Commentator's uuid
      */
     ownerUuid: string;
@@ -38,7 +33,17 @@ interface CommentProps {
     /**
      * Comment's dayReport UUID
      */
-    dayReportUuid: string;
+  dayReportUuid: string;
+
+    /**
+     * Comment's way name
+     */
+    wayUuid: string;
+
+    /**
+     * Comment's way name
+     */
+    wayName: string;
 }
 
 /**
@@ -52,9 +57,14 @@ export class Comment {
   public uuid: string;
 
   /**
-   * Commentator's name
+   * Comment's way name
    */
-  public ownerName: string;
+  public wayUuid: string;
+
+  /**
+   * Comment's way name
+   */
+  public wayName: string;
 
   /**
    * Commentator's uuid
@@ -84,12 +94,13 @@ export class Comment {
   constructor(commentData: CommentProps) {
     makeAutoObservable(this);
     this.uuid = commentData.uuid;
-    this.ownerName = commentData.ownerName;
     this.ownerUuid = commentData.ownerUuid;
     this.description = commentData.description;
     this.createdAt = commentData.createdAt;
     this.updatedAt = commentData.updatedAt;
     this.dayReportUuid = commentData.dayReportUuid;
+    this.wayName = commentData.wayName;
+    this.wayUuid = commentData.wayUuid;
   }
 
   /**

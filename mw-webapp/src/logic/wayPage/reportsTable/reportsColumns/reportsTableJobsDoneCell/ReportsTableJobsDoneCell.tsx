@@ -1,7 +1,9 @@
 import {observer} from "mobx-react-lite";
+import {Avatar} from "src/component/avatar/Avatar";
 import {EditableText} from "src/component/editableText/EditableText";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {Icon, IconSize} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
 import {Modal} from "src/component/modal/Modal";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
@@ -10,6 +12,7 @@ import {Trash} from "src/component/trash/Trash";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
 import {JobDoneJobTagDAL} from "src/dataAccessLogic/JobDoneJobTagDAL";
+import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {JobDoneTags} from "src/logic/wayPage/reportsTable/jobDoneTags/JobDoneTags";
 import {ModalContentJobTags} from "src/logic/wayPage/reportsTable/modalContentJobTags/ModalContentJobTags";
@@ -20,6 +23,7 @@ import {getFirstName} from "src/logic/waysTable/waysColumns";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {User} from "src/model/businessModel/User";
+import {UserPreviewShort} from "src/model/businessModelPreview/UserPreviewShort";
 import {JobTag} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
@@ -51,6 +55,26 @@ interface ReportsTableJobsDoneCellProps {
    */
   user: User | null;
 
+  /**
+   * Way's uuid
+   */
+  wayUuid: string;
+
+  /**
+   * Way's name
+   */
+  wayName: string;
+
+  /**
+   * If true - render link on original way in each job item
+   */
+  isWayComposite: boolean;
+
+  /**
+   * Way's participants
+   */
+  wayParticipantsMap: SafeMap<string, UserPreviewShort>;
+
 }
 
 /**
@@ -66,7 +90,12 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
     if (!userUuid) {
       throw new Error("User uuid is not exist");
     }
-    const jobDone = await JobDoneDAL.createJobDone(userUuid, props.dayReport.uuid);
+    const jobDone = await JobDoneDAL.createJobDone({
+      dayReportUuid: props.dayReport.uuid,
+      ownerUuid: userUuid,
+      wayName: props.wayName,
+      wayUuid: props.wayUuid,
+    });
     props.dayReport.addJob(jobDone);
   };
 
@@ -148,12 +177,34 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
           >
             <HorizontalContainer className={styles.recordInfo}>
               {getListNumberByIndex(index)}
+              <Avatar
+                alt={props.wayParticipantsMap.getValue(jobDone.ownerUuid).name}
+                src={props.wayParticipantsMap.getValue(jobDone.ownerUuid).imageUrl}
+              />
               <Link
                 path={pages.user.getPath({uuid: jobDone.ownerUuid})}
                 className={styles.ownerName}
               >
-                {getFirstName(jobDone.ownerName)}
+                {getFirstName(props.wayParticipantsMap.getValue(jobDone.ownerUuid).name)}
               </Link>
+              {props.isWayComposite &&
+              <Link
+                path={pages.way.getPath({uuid: jobDone.wayUuid})}
+                className={styles.linkToOwnerWay}
+              >
+                <Tooltip
+                  position={PositionTooltip.BOTTOM_LEFT}
+                  content={LanguageService.way.reportsTable.columnTooltip.visitWay[language]
+                    .replace("$wayName", `"${jobDone.wayName}"`)}
+                >
+                  <Icon
+                    size={IconSize.MEDIUM}
+                    name="WayIcon"
+                    className={styles.socialMediaIcon}
+                  />
+                </Tooltip>
+              </Link>
+              }
               {props.isEditable ?
                 <Modal
                   trigger={jobDone.tags.length === 0 ?
@@ -193,7 +244,11 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
                       uuid: jobDone.uuid,
                       time: getValidatedTime(Number(time)),
                     };
-                    await JobDoneDAL.updateJobDone(jobDoneToUpdate);
+                    await JobDoneDAL.updateJobDone({
+                      jobDone: jobDoneToUpdate,
+                      wayName: props.wayName,
+                      wayUuid: props.wayUuid,
+                    });
                     jobDone.updateTime(getValidatedTime(Number(time)));
                   }}
                   className={styles.editableTime}
@@ -220,7 +275,11 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
                   uuid: jobDone.uuid,
                   description,
                 };
-                await JobDoneDAL.updateJobDone(jobDoneToUpdate);
+                await JobDoneDAL.updateJobDone({
+                  jobDone: jobDoneToUpdate,
+                  wayName: props.wayName,
+                  wayUuid: props.wayUuid,
+                });
                 jobDone.updateDescription(description);
               }}
               isEditable={props.isEditable}

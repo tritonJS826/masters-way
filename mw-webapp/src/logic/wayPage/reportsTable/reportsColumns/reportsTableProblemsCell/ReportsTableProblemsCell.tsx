@@ -1,13 +1,16 @@
 import {observer} from "mobx-react-lite";
+import {Avatar} from "src/component/avatar/Avatar";
 import {Checkbox} from "src/component/checkbox/Checkbox";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {Icon, IconSize} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {Trash} from "src/component/trash/Trash";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {ProblemDAL} from "src/dataAccessLogic/ProblemDAL";
+import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {getListNumberByIndex} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
 import {SummarySection} from "src/logic/wayPage/reportsTable/reportsColumns/summarySection/SummarySection";
@@ -15,6 +18,7 @@ import {getFirstName} from "src/logic/waysTable/waysColumns";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {User} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
+import {UserPreviewShort} from "src/model/businessModelPreview/UserPreviewShort";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableProblemsCell/ReportsTableProblemsCell.module.scss";
@@ -44,6 +48,11 @@ interface ReportsTableProblemsCellProps {
    */
   isEditable: boolean;
 
+  /**
+   * Way's participants
+   */
+  wayParticipantsMap: SafeMap<string, UserPreviewShort>;
+
 }
 
 /**
@@ -59,7 +68,12 @@ export const ReportsTableProblemsCell = observer((props: ReportsTableProblemsCel
     if (!userUuid) {
       throw new Error("User uuid is not exist");
     }
-    const problem = await ProblemDAL.createProblem(userUuid, props.dayReport.uuid);
+    const problem = await ProblemDAL.createProblem({
+      dayReportUuid: props.dayReport.uuid,
+      ownerUuid: userUuid,
+      wayName: props.way.name,
+      wayUuid: props.way.uuid,
+    });
     props.dayReport.addProblem(problem);
   };
 
@@ -81,12 +95,34 @@ export const ReportsTableProblemsCell = observer((props: ReportsTableProblemsCel
           >
             <HorizontalContainer className={styles.recordInfo}>
               {getListNumberByIndex(index)}
+              <Avatar
+                alt={props.wayParticipantsMap.getValue(problem.ownerUuid).name}
+                src={props.wayParticipantsMap.getValue(problem.ownerUuid).imageUrl}
+              />
               <Link
                 path={pages.user.getPath({uuid: problem.ownerUuid})}
                 className={styles.ownerName}
               >
-                {getFirstName(problem.ownerName)}
+                {getFirstName(props.wayParticipantsMap.getValue(problem.ownerUuid).name)}
               </Link>
+              {props.way.children.length !== 0 &&
+              <Link
+                path={pages.way.getPath({uuid: problem.wayUuid})}
+                className={styles.linkToOwnerWay}
+              >
+                <Tooltip
+                  position={PositionTooltip.BOTTOM_LEFT}
+                  content={LanguageService.way.reportsTable.columnTooltip.visitWay[language]
+                    .replace("$wayName", `"${problem.wayName}"`)}
+                >
+                  <Icon
+                    size={IconSize.MEDIUM}
+                    name="WayIcon"
+                    className={styles.socialMediaIcon}
+                  />
+                </Tooltip>
+              </Link>
+              }
               {props.isEditable &&
                 <Tooltip
                   position={PositionTooltip.RIGHT}
@@ -100,7 +136,11 @@ export const ReportsTableProblemsCell = observer((props: ReportsTableProblemsCel
                         isDone: !problem.isDone,
                       };
                       problem.updateIsDone(!problem.isDone);
-                      await ProblemDAL.updateProblem(problemToUpdate);
+                      await ProblemDAL.updateProblem({
+                        problem: problemToUpdate,
+                        wayName: props.way.name,
+                        wayUuid: props.way.uuid,
+                      });
                     }}
                     className={styles.checkbox}
                   />
@@ -126,7 +166,11 @@ export const ReportsTableProblemsCell = observer((props: ReportsTableProblemsCel
                   description,
                 };
                 problem.updateDescription(description);
-                await ProblemDAL.updateProblem(problemToUpdate);
+                await ProblemDAL.updateProblem({
+                  problem: problemToUpdate,
+                  wayName: props.way.name,
+                  wayUuid: props.way.uuid,
+                });
               }}
               isEditable={problem.ownerUuid === props.user?.uuid}
               placeholder={props.isEditable

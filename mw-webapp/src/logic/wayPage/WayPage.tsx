@@ -20,6 +20,7 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {UserPlainToUserPreviewShortConverter} from "src/dataAccessLogic/BusinessToDTOConverter/userPlainToUserPreviewShort";
 import {CompositeWayDAL} from "src/dataAccessLogic/CompositeWayDAL";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {FavoriteUserWayDAL} from "src/dataAccessLogic/FavoriteUserWayDAL";
@@ -369,12 +370,23 @@ export const WayPage = observer((props: WayPageProps) => {
 
   const totalDaysOnWay = allDatesTimestamps.length
     ? Math.ceil((maximumDateTimestamp - minimumDateTimestamp + SMALL_CORRECTION_MILLISECONDS) / MILLISECONDS_IN_DAY)
-    : 0
-  ;
+    : 0;
 
-  const compositeWayParticipant = way.children
-    ? way.children.map((child) => child.owner)
-    : [];
+  const compositeWayOwnersParticipant = way.children.map((child) => child.owner).concat(way.owner);
+
+  const compositeWayMentorsParticipant = way.children.reduce((acc: UserPlain[], child) =>
+    acc.concat(Array.from(child.mentors.values())), Array.from(way.mentors.values()));
+
+  const compositeWayFormerMentorsParticipant = way.children.reduce((acc: UserPlain[], child) =>
+    acc.concat(Array.from(child.formerMentors.values())), Array.from(way.formerMentors.values()));
+
+  const compositeWayMentorsParticipantConverted = compositeWayMentorsParticipant.map(UserPlainToUserPreviewShortConverter);
+  const compositeWayFormerMentorsParticipantConverted = compositeWayFormerMentorsParticipant
+    .map(UserPlainToUserPreviewShortConverter);
+
+  const compositeWayParticipants = compositeWayOwnersParticipant
+    .concat(compositeWayMentorsParticipantConverted)
+    .concat(compositeWayFormerMentorsParticipantConverted);
 
   const favoriteTooltipTextForLoggedUser = isWayInFavorites
     ? LanguageService.way.wayInfo.deleteFromFavoritesTooltip[language]
@@ -738,47 +750,35 @@ export const WayPage = observer((props: WayPageProps) => {
             </HorizontalContainer>
 
             {isWayComposite &&
-              <HorizontalContainer>
+              <VerticalContainer className={styles.childWaysBlock}>
                 <Title
                   level={HeadingLevel.h3}
-                  text={LanguageService.way.peopleBlock.participants[language]}
+                  text={LanguageService.way.peopleBlock.childWays[language]}
                   placeholder=""
                 />
-                {compositeWayParticipant.length !== 0 &&
-                  compositeWayParticipant.map((participant) => {
-                    return (
-                      <Link
-                        path={pages.user.getPath({uuid: participant.uuid})}
-                        key={participant.uuid}
-                      >
-                        {participant.name}
-                      </Link>
-                    );
-                  })
-                }
-              </HorizontalContainer>
-            }
-            {isWayComposite &&
-            <HorizontalContainer className={styles.participantWay}>
-              <Title
-                level={HeadingLevel.h3}
-                text={LanguageService.way.peopleBlock.participantWays[language]}
-                placeholder=""
-              />
-              {!!way.children &&
-                way.children.map((wayParticipant) => {
+
+                {way.children.map((child) => {
                   return (
-                    <Link
-                      path={pages.way.getPath({uuid: wayParticipant.uuid})}
-                      className={styles.participantWay}
-                      key={wayParticipant.uuid}
-                    >
-                      {wayParticipant.name}
-                    </Link>
+                    <VerticalContainer key={child.uuid}>
+                      <Link
+                        path={pages.way.getPath({uuid: child.uuid})}
+                        className={styles.participantWay}
+                      >
+                        {child.name}
+                      </Link>
+                      <Link
+                        path={pages.user.getPath({uuid: child.owner.uuid})}
+                        className={styles.participantWay}
+                      >
+                        {child.owner.name}
+                      </Link>
+                      {child.status}
+                    </VerticalContainer>
+
                   );
                 })
-              }
-            </HorizontalContainer>
+                }
+              </VerticalContainer>
             }
 
             <HorizontalContainer>
@@ -949,6 +949,7 @@ export const WayPage = observer((props: WayPageProps) => {
       <DayReportsTable
         way={compositeWay}
         createDayReport={createDayReport}
+        compositeWayParticipant={compositeWayParticipants}
       />
 
     </VerticalContainer>

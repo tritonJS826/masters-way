@@ -1,6 +1,7 @@
 import {createColumnHelper} from "@tanstack/react-table";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
+import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {userStore} from "src/globalStore/UserStore";
 import {ReportsTableCommentsCell}
@@ -13,6 +14,7 @@ import {ReportsTableProblemsCell}
   from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableProblemsCell/ReportsTableProblemsCell";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Way} from "src/model/businessModel/Way";
+import {UserPreviewShort} from "src/model/businessModelPreview/UserPreviewShort";
 import {LanguageService} from "src/service/LanguageService";
 import {Symbols} from "src/utils/Symbols";
 export const DEFAULT_SUMMARY_TIME = 0;
@@ -50,6 +52,11 @@ interface ColumnsProps {
   way: Way;
 
   /**
+   * Way's participants
+   */
+  wayParticipantsMap: Map<string, UserPreviewShort>;
+
+  /**
    * Create new day report
    */
   createDayReport: (wayUuid: string, dayReportUuids: DayReport[]) => Promise<DayReport>;
@@ -66,6 +73,9 @@ export const Columns = (props: ColumnsProps) => {
   const isOwner = user?.uuid === ownerUuid;
   const isMentor = !!user && !!user.uuid && props.way.mentors.has(user.uuid);
   const isUserOwnerOrMentor = isOwner || isMentor;
+  const isWayComposite = props.way.children.length !== 0;
+
+  const participantsSafeMap = new SafeMap(props.wayParticipantsMap);
 
   const columns = [
     columnHelper.accessor("createdAt", {
@@ -110,6 +120,10 @@ export const Columns = (props: ColumnsProps) => {
           dayReport={row.original}
           isEditable={isUserOwnerOrMentor}
           jobTags={props.way.jobTags}
+          wayUuid={props.way.uuid}
+          wayName={props.way.name}
+          isWayComposite={isWayComposite}
+          wayParticipantsMap={participantsSafeMap}
         />
       ),
     }),
@@ -138,6 +152,7 @@ export const Columns = (props: ColumnsProps) => {
           way={props.way}
           createDayReport={props.createDayReport}
           user={user}
+          wayParticipantsMap={participantsSafeMap}
         />
       ),
     }),
@@ -164,6 +179,7 @@ export const Columns = (props: ColumnsProps) => {
           isEditable={isUserOwnerOrMentor}
           way={props.way}
           user={user}
+          wayParticipantsMap={participantsSafeMap}
         />
       ),
     }),
@@ -190,6 +206,7 @@ export const Columns = (props: ColumnsProps) => {
           isEditable={isUserOwnerOrMentor}
           way={props.way}
           user={user}
+          wayParticipantsMap={participantsSafeMap}
         />
       ),
     }),

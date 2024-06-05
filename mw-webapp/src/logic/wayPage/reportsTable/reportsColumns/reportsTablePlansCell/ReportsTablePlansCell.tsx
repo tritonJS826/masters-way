@@ -1,8 +1,10 @@
 import {observer} from "mobx-react-lite";
+import {Avatar} from "src/component/avatar/Avatar";
 import {Checkbox} from "src/component/checkbox/Checkbox";
 import {EditableText} from "src/component/editableText/EditableText";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {Icon, IconSize} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
 import {Modal} from "src/component/modal/Modal";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
@@ -12,6 +14,7 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
 import {PlanDAL} from "src/dataAccessLogic/PlanDAL";
 import {PlanJobTagDAL} from "src/dataAccessLogic/PlanJobTagDAL";
+import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {JobDoneTags} from "src/logic/wayPage/reportsTable/jobDoneTags/JobDoneTags";
 import {ModalContentJobTags} from "src/logic/wayPage/reportsTable/modalContentJobTags/ModalContentJobTags";
@@ -25,6 +28,7 @@ import {DayReport} from "src/model/businessModel/DayReport";
 import {Plan} from "src/model/businessModel/Plan";
 import {User} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
+import {UserPreviewShort} from "src/model/businessModelPreview/UserPreviewShort";
 import {JobTag} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
@@ -66,6 +70,12 @@ interface ReportsTablePlansCellProps {
    * Create new day report
    */
   createDayReport: (wayUuid: string, dayReportUuids: DayReport[]) => Promise<DayReport>;
+
+  /**
+   * Way's participants
+   */
+  wayParticipantsMap: SafeMap<string, UserPreviewShort>;
+
 }
 
 /**
@@ -81,7 +91,12 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
     if (!userUuid) {
       throw new Error("User uuid is not exist");
     }
-    const plan = await PlanDAL.createPlan(userUuid, props.dayReport.uuid);
+    const plan = await PlanDAL.createPlan({
+      dayReportUuid: props.dayReport.uuid,
+      ownerUuid: userUuid,
+      wayName: props.way.name,
+      wayUuid: props.way.uuid,
+    });
     props.dayReport.addPlan(plan);
   };
 
@@ -101,7 +116,13 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
     if (!ownerUuid) {
       throw new Error("User is not exist and create plan is impossible");
     }
-    const jobDone = await JobDoneDAL.createJobDone(ownerUuid, report.uuid, plan);
+    const jobDone = await JobDoneDAL.createJobDone({
+      dayReportUuid: props.dayReport.uuid,
+      ownerUuid,
+      wayName: props.way.name,
+      wayUuid: props.way.uuid,
+      plan,
+    });
     props.dayReport.addJob(jobDone);
   };
 
@@ -190,12 +211,34 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
           >
             <HorizontalContainer className={styles.recordInfo}>
               {getListNumberByIndex(index)}
+              <Avatar
+                alt={props.wayParticipantsMap.getValue(plan.ownerUuid).name}
+                src={props.wayParticipantsMap.getValue(plan.ownerUuid).imageUrl}
+              />
               <Link
                 path={pages.user.getPath({uuid: plan.ownerUuid})}
                 className={styles.ownerName}
               >
-                {getFirstName(plan.ownerName)}
+                {getFirstName(props.wayParticipantsMap.getValue(plan.ownerUuid).name)}
               </Link>
+              {props.way.children.length !== 0 &&
+              <Link
+                path={pages.way.getPath({uuid: plan.wayUuid})}
+                className={styles.linkToOwnerWay}
+              >
+                <Tooltip
+                  position={PositionTooltip.BOTTOM_LEFT}
+                  content={LanguageService.way.reportsTable.columnTooltip.visitWay[language]
+                    .replace("$wayName", `"${plan.wayName}"`)}
+                >
+                  <Icon
+                    size={IconSize.MEDIUM}
+                    name="WayIcon"
+                    className={styles.socialMediaIcon}
+                  />
+                </Tooltip>
+              </Link>
+              }
               {props.isEditable ?
                 <Modal
                   trigger={plan.tags.length === 0 ?
@@ -235,7 +278,11 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
                       uuid: plan.uuid,
                       time: getValidatedTime(Number(time)),
                     };
-                    await PlanDAL.updatePlan(planToUpdate);
+                    await PlanDAL.updatePlan({
+                      plan: planToUpdate,
+                      wayName: props.way.name,
+                      wayUuid: props.way.uuid,
+                    });
                     plan.updateTime(getValidatedTime(Number(time)));
                   }}
                   className={styles.editableTime}
@@ -264,7 +311,11 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
                         plan={plan}
                         updatePlan={async (planToUpdate) => {
                           plan.updateIsDone(planToUpdate.isDone);
-                          await PlanDAL.updatePlan(planToUpdate);
+                          await PlanDAL.updatePlan({
+                            plan: planToUpdate,
+                            wayName: props.way.name,
+                            wayUuid: props.way.uuid,
+                          });
                         }}
                       />
                     }
@@ -292,7 +343,11 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
                   description,
                 };
                 plan.updateDescription(description);
-                await PlanDAL.updatePlan(planToUpdate);
+                await PlanDAL.updatePlan({
+                  plan: planToUpdate,
+                  wayName: props.way.name,
+                  wayUuid: props.way.uuid,
+                });
               }}
               isEditable={plan.ownerUuid === props.user?.uuid}
               placeholder={props.isEditable
