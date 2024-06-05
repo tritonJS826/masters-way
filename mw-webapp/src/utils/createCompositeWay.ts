@@ -26,6 +26,7 @@ export const createCompositeWay = (way: Way): Way => {
 
     const sortedDayReport = new DayReport({
       ...updatedDayReport,
+      // TODO: #996 Check why do we nede slice for mobX and how to get rid og it
       jobsDone: updatedDayReport.jobsDone.slice().sort((a, b) => DateUtils.datesASCSorter(a.createdAt, b.createdAt)),
       plans: updatedDayReport.plans.slice().sort((a, b) => DateUtils.datesASCSorter(a.createdAt, b.createdAt)),
       problems: updatedDayReport.problems.slice().sort((a, b) => DateUtils.datesASCSorter(a.createdAt, b.createdAt)),
