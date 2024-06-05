@@ -23,7 +23,7 @@ interface ProblemDoneConverterParams {
 }
 
 /**
- * Convert {@link DayReportDTO} to {@link DayReport}
+ * Convert {@link ProblemDTO} to {@link Problem}
  */
 export const ProblemDTOToProblem = (params: ProblemDoneConverterParams): Problem => {
   return new Problem({

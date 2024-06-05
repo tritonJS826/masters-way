@@ -23,7 +23,7 @@ interface PlanConverterParams {
 }
 
 /**
- * Convert {@link DayReportDTO} to {@link DayReport}
+ * Convert {@link PlanDTO} to {@link Plan}
  */
 export const PlanDTOToPlan = (params: PlanConverterParams): Plan => {
   return new Plan({

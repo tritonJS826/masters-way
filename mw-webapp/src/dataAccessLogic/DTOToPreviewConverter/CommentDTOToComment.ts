@@ -23,7 +23,7 @@ interface CommentDoneConverterParams {
 }
 
 /**
- * Convert {@link DayReportDTO} to {@link DayReport}
+ * Convert {@link CommentDTO} to {@link Comment}
  */
 export const CommentDTOToComment = (params: CommentDoneConverterParams): Comment => {
   return new Comment({

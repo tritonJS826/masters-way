@@ -5,6 +5,7 @@ import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalC
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {CreateDayReportParams} from "src/dataAccessLogic/DayReportDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {Columns} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
 import {ReportsTable} from "src/logic/wayPage/reportsTable/ReportsTable";
@@ -33,7 +34,7 @@ interface DayReportsTableProps {
   /**
    * Create new day report
    */
-  createDayReport: (wayUuid: string, dayReportUuids: DayReport[]) => Promise<DayReport>;
+  createDayReport: (dayReportParams: CreateDayReportParams, dayReportUuids: DayReport[]) => Promise<DayReport>;
 }
 
 /**

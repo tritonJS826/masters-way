@@ -23,7 +23,7 @@ interface JobDoneConverterParams {
 }
 
 /**
- * Convert {@link DayReportDTO} to {@link DayReport}
+ * Convert {@link JobDoneDTo} to {@link JobDone}
  */
 export const JobDoneDTOToJobDone = (params: JobDoneConverterParams): JobDone => {
   return new JobDone({

@@ -1,6 +1,7 @@
 import {createColumnHelper} from "@tanstack/react-table";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
+import {CreateDayReportParams} from "src/dataAccessLogic/DayReportDAL";
 import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {userStore} from "src/globalStore/UserStore";
@@ -59,7 +60,7 @@ interface ColumnsProps {
   /**
    * Create new day report
    */
-  createDayReport: (wayUuid: string, dayReportUuids: DayReport[]) => Promise<DayReport>;
+  createDayReport: (dayReportParams: CreateDayReportParams, dayReportUuids: DayReport[]) => Promise<DayReport>;
 }
 
 /**
