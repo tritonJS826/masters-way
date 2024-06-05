@@ -1,4 +1,3 @@
-import {useState} from "react";
 import clsx from "clsx";
 import {Cy, Modal} from "src/component/modal/Modal";
 import styles from "src/component/image/Image.module.scss";
@@ -37,16 +36,6 @@ interface ImageProps {
    * Image respond to clicks
    */
   isZoomable?: boolean;
-
-  /**
-   * Large Image
-   */
-  isZoomed?: boolean;
-
-  /**
-   * Control Image outside
-   */
-  onOpenChange?: (arg: boolean) => void;
 }
 
 /**
@@ -54,14 +43,6 @@ interface ImageProps {
  */
 export const Image = (props: ImageProps) => {
   const imageClass = clsx(styles.image, props.className);
-  const [isOpen, setIsOpen] = useState(false);
-
-  /**
-   * Toggle modal state
-   */
-  const handleOpenChange = (value: boolean) => {
-    setIsOpen(value);
-  };
 
   const imageElement = (
     <img
@@ -72,32 +53,17 @@ export const Image = (props: ImageProps) => {
     />
   );
 
-  return props.isZoomable
-    ? (
+  if (props.isZoomable) {
+    return (
       <Modal
-        trigger={
-          <img
-            src={props.src}
-            alt={props.alt}
-            className={imageClass}
-            data-cy={props.dataCy}
-            onClick={() => handleOpenChange(true)}
-          />
-        }
-        content={
-          <img
-            src={props.src}
-            alt={props.alt}
-            className={clsx(styles.zoomedImage, props.className)}
-            onClick={() => handleOpenChange(false)}
-          />
-        }
-        isOpen={props.isZoomed ?? isOpen}
-        className={imageClass}
+        trigger={imageElement}
+        content={imageElement}
+        className={styles.modalContent}
         cy={props.cy}
       />
-    )
-    : (
-      imageElement
     );
+  }
+
+  return imageElement;
+
 };
