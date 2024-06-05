@@ -73,7 +73,7 @@ export class WayService {
   /**
    * Create way
    */
-  public static async createWay(requestParameters: CreateWayRequest): Promise<SchemasWayPopulatedResponse> {
+  public static async createWay(requestParameters: CreateWayRequest): Promise<SchemasWayPlainResponse> {
     const way = await wayService.createWay(requestParameters);
 
     return way;

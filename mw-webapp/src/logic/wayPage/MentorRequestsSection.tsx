@@ -14,17 +14,10 @@ import styles from "src/logic/wayPage/MentorRequestsSection.module.scss";
  */
 const addMentorToWay = async (
   way: Way,
-  setWay: (newWay: Way) => void,
+  addUserAsMentor: (user: UserPlain) => void,
   userPreview: UserPlain,
 ) => {
-  const mentors = way.mentors.set(userPreview.uuid, userPreview);
-  const mentorRequests = way.mentorRequests.filter((item) => item !== userPreview);
-  const formerMentors = new Map(Array.from(way.formerMentors)
-    .filter(([formerMentorUuid]) => formerMentorUuid !== userPreview.uuid));
-
-  const newWay = new Way({...way, mentors, mentorRequests, formerMentors});
-
-  setWay(newWay);
+  addUserAsMentor(userPreview);
   await MentorUserWayDAL.addMentor(userPreview.uuid, way.uuid);
 };
 
@@ -32,17 +25,12 @@ const addMentorToWay = async (
  * Remove user from Way's mentor requests
  */
 const removeUserFromMentorRequests = async (
-  way: Way,
-  setWay: (newWay: Way) => void,
-  userPreview: UserPlain,
+  wayUuid: string,
+  declineUserAsMentor: (userUuid: string) => void,
+  userUuid: string,
 ) => {
-
-  const mentorRequests = way.mentorRequests.filter((item) => item !== userPreview);
-
-  const newWay = new Way({...way, mentorRequests});
-
-  setWay(newWay);
-  await FromUserMentoringRequestDAL.deleteMentorRequest(userPreview.uuid, way.uuid);
+  declineUserAsMentor(userUuid);
+  await FromUserMentoringRequestDAL.deleteMentorRequest(userUuid, wayUuid);
 };
 
 /**
@@ -56,9 +44,14 @@ interface MentorRequestsSectionProps {
   way: Way;
 
   /**
-   * Function to set updated Way
+   * Callback to add user as mentor
    */
-  setWay: (newWay: Way) => void;
+  acceptMentorRequest: (user: UserPlain) => void;
+
+  /**
+   * Callback to decline mentorRequest
+   */
+  declineMentorRequest: (userUuid: string) => void;
 }
 
 /**
@@ -85,7 +78,7 @@ export const MentorRequestsSection = (props: MentorRequestsSectionProps) => {
               <Button
                 value='Accept'
                 onClick={() => {
-                  addMentorToWay(props.way, props.setWay, userPreview);
+                  addMentorToWay(props.way, props.acceptMentorRequest, userPreview);
                 }
                 }
               />
@@ -93,10 +86,7 @@ export const MentorRequestsSection = (props: MentorRequestsSectionProps) => {
             <DialogClose asChild>
               <Button
                 value='Decline'
-                onClick={() => {
-                  removeUserFromMentorRequests(props.way, props.setWay, userPreview);
-                }
-                }
+                onClick={() => removeUserFromMentorRequests(props.way.uuid, props.declineMentorRequest, userPreview.uuid)}
               />
             </DialogClose>
           </div>

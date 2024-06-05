@@ -1,5 +1,6 @@
 import {
   CommentApi,
+  CompositeWayApi,
   Configuration,
   DayReportApi,
   FavoriteUserApi,
@@ -46,3 +47,4 @@ export const metricService = new MetricApi(configuration);
 export const favoriteUserWayService = new FavoriteUserWayApi(configuration);
 export const fromUserMentoringRequest = new FromUserMentoringRequestApi(configuration);
 export const mentorUserWay = new MentorUserWayApi(configuration);
+export const compositeWayService = new CompositeWayApi(configuration);

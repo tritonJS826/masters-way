@@ -52,7 +52,7 @@ export const ABANDONED_AFTER_MS = 1209600000;
  * Get way status
  */
 export const getWayStatus = (params: WayStatus): WayStatusType => {
-  if (params.status === "Completed") {
+  if (params.status === WayStatus.completed) {
     return WayStatus.completed;
   } else {
     const currentDate = new Date();

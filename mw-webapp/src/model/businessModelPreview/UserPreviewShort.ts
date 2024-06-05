@@ -35,6 +35,11 @@ export class UserPreviewShort {
    */
   public isMentor: boolean;
 
+  /**
+   * Date in ISO format
+   */
+  public createdAt: Date;
+
   constructor(userData: UserPreviewShort) {
     makeAutoObservable(this);
     this.uuid = userData.uuid;
@@ -43,6 +48,7 @@ export class UserPreviewShort {
     this.description = userData.description;
     this.imageUrl = userData.imageUrl;
     this.isMentor = userData.isMentor;
+    this.createdAt = userData.createdAt;
   }
 
 }

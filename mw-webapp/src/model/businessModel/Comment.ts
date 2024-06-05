@@ -1,3 +1,51 @@
+import {makeAutoObservable} from "mobx";
+
+/**
+ * Comment's props
+ */
+interface CommentProps {
+
+    /**
+     * Comment's UUID
+     */
+    uuid: string;
+
+    /**
+     * Commentator's uuid
+     */
+    ownerUuid: string;
+
+    /**
+     * Comment's text
+     */
+    description: string;
+
+    /**
+     * Comment's created at date
+     */
+    createdAt: Date;
+
+    /**
+     * Comment's created at date
+     */
+    updatedAt: Date;
+
+    /**
+     * Comment's dayReport UUID
+     */
+  dayReportUuid: string;
+
+    /**
+     * Comment's way name
+     */
+    wayUuid: string;
+
+    /**
+     * Comment's way name
+     */
+    wayName: string;
+}
+
 /**
  * User's comments model
  */
@@ -8,15 +56,15 @@ export class Comment {
    */
   public uuid: string;
 
-  // /**
-  //  * Commentator's uuid
-  //  */
-  // public owner: UserPreviewShort;
+  /**
+   * Comment's way name
+   */
+  public wayUuid: string;
 
   /**
-   * Commentator's name
+   * Comment's way name
    */
-  public ownerName: string;
+  public wayName: string;
 
   /**
    * Commentator's uuid
@@ -43,14 +91,23 @@ export class Comment {
    */
   public dayReportUuid: string;
 
-  constructor(commentData: Comment) {
+  constructor(commentData: CommentProps) {
+    makeAutoObservable(this);
     this.uuid = commentData.uuid;
-    this.ownerName = commentData.ownerName;
     this.ownerUuid = commentData.ownerUuid;
     this.description = commentData.description;
     this.createdAt = commentData.createdAt;
     this.updatedAt = commentData.updatedAt;
     this.dayReportUuid = commentData.dayReportUuid;
+    this.wayName = commentData.wayName;
+    this.wayUuid = commentData.wayUuid;
+  }
+
+  /**
+   * Update comment's description
+   */
+  public updateDescription(descriptionToUpdate: string): void {
+    this.description = descriptionToUpdate;
   }
 
 }

@@ -1,17 +1,21 @@
 import {observer} from "mobx-react-lite";
+import {Avatar} from "src/component/avatar/Avatar";
 import {Checkbox} from "src/component/checkbox/Checkbox";
 import {EditableText} from "src/component/editableText/EditableText";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {Icon, IconSize} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
 import {Modal} from "src/component/modal/Modal";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {Trash} from "src/component/trash/Trash";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {CreateDayReportParams} from "src/dataAccessLogic/DayReportDAL";
 import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
 import {PlanDAL} from "src/dataAccessLogic/PlanDAL";
 import {PlanJobTagDAL} from "src/dataAccessLogic/PlanJobTagDAL";
+import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {JobDoneTags} from "src/logic/wayPage/reportsTable/jobDoneTags/JobDoneTags";
 import {ModalContentJobTags} from "src/logic/wayPage/reportsTable/modalContentJobTags/ModalContentJobTags";
@@ -25,11 +29,11 @@ import {DayReport} from "src/model/businessModel/DayReport";
 import {Plan} from "src/model/businessModel/Plan";
 import {User} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
+import {UserPreviewShort} from "src/model/businessModelPreview/UserPreviewShort";
 import {JobTag} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import {DateUtils} from "src/utils/DateUtils";
-import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
 import styles from "src/logic/wayPage/reportsTable/reportsColumns/reportsTablePlansCell/ReportsTablePlansCell.module.scss";
 
@@ -64,14 +68,15 @@ interface ReportsTablePlansCellProps {
   user: User | null;
 
   /**
-   * Callback for update dayReport
-   */
-  updateDayReport: (report: PartialWithUuid<DayReport>) => void;
-
-  /**
    * Create new day report
    */
-  createDayReport: (wayUuid: string, dayReportUuids: DayReport[]) => Promise<DayReport>;
+  createDayReport: (dayReportParams: CreateDayReportParams, dayReportUuids: DayReport[]) => Promise<DayReport>;
+
+  /**
+   * Way's participants
+   */
+  wayParticipantsMap: SafeMap<string, UserPreviewShort>;
+
 }
 
 /**
@@ -87,20 +92,20 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
     if (!userUuid) {
       throw new Error("User uuid is not exist");
     }
-
-    const plan = await PlanDAL.createPlan(userUuid, props.dayReport.uuid);
-    const plans = [...props.dayReport.plans, plan];
-
-    props.updateDayReport({uuid: props.dayReport.uuid, plans});
+    const plan = await PlanDAL.createPlan({
+      dayReportUuid: props.dayReport.uuid,
+      ownerUuid: userUuid,
+      wayName: props.way.name,
+      wayUuid: props.way.uuid,
+    });
+    props.dayReport.addPlan(plan);
   };
 
   /**
    * Delete plan
    */
   const deletePlan = async (planUuid: string) => {
-    const plans = props.dayReport.plans.filter((plan) => plan.uuid !== planUuid);
-
-    props.updateDayReport({uuid: props.dayReport.uuid, plans});
+    props.dayReport.deletePlan(planUuid);
     await PlanDAL.deletePlan(planUuid);
   };
 
@@ -112,27 +117,14 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
     if (!ownerUuid) {
       throw new Error("User is not exist and create plan is impossible");
     }
-    const jobDone = await JobDoneDAL.createJobDone(ownerUuid, report.uuid, plan);
-
-    const jobsDone = [...report.jobsDone, jobDone];
-
-    await props.updateDayReport({uuid: report.uuid, jobsDone});
-  };
-
-  /**
-   * Update plan
-   */
-  const updatePlan = async (planToUpdate: PartialWithUuid<Plan>) => {
-    const updatedPlan = await PlanDAL.updatePlan(planToUpdate);
-    const plans = [
-      ...props.dayReport.plans.map((plan) => {
-        return plan.uuid === planToUpdate.uuid
-          ? updatedPlan
-          : plan;
-      }),
-    ];
-
-    await props.updateDayReport({uuid: props.dayReport.uuid, plans});
+    const jobDone = await JobDoneDAL.createJobDone({
+      dayReportUuid: props.dayReport.uuid,
+      ownerUuid,
+      wayName: props.way.name,
+      wayUuid: props.way.uuid,
+      plan,
+    });
+    props.dayReport.addJob(jobDone);
   };
 
   /**
@@ -141,9 +133,9 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
   const updateLabelsInPlan = async (params: {
 
     /**
-     * Plan uuid
+     * Plan
      */
-    planUuid: string;
+    plan: Plan;
 
     /**
      * New updated list of tags
@@ -151,9 +143,9 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
     updatedTags: JobTag[];
   }) => {
 
-    const oldPlan = props.dayReport.plans.find(plan => params.planUuid === plan.uuid);
+    const oldPlan = props.dayReport.plans.find(plan => params.plan.uuid === plan.uuid);
     if (!oldPlan) {
-      throw new Error(`No such plan with ${params.planUuid} uuid`);
+      throw new Error(`No such plan with ${params.plan.uuid} uuid`);
     }
     const oldLabels = oldPlan.tags.map(label => label.uuid);
     const labelUuidsToAdd: string[] = params.updatedTags
@@ -165,11 +157,11 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
       );
 
     const addPromises = labelUuidsToAdd.map(labelUuid => PlanJobTagDAL.createPlanJobTag({
-      planUuid: params.planUuid,
+      planUuid: params.plan.uuid,
       jobTagUuid: labelUuid,
     }));
     const deletePromises = labelUuidsToDelete.map(labelUuid => PlanJobTagDAL.deletePlanJobTag({
-      planUuid: params.planUuid,
+      planUuid: params.plan.uuid,
       jobTagUuid: labelUuid,
     }));
 
@@ -178,33 +170,21 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
       ...deletePromises,
     ]);
 
-    const updatedPlans = props.dayReport.plans.map((plan) => {
-      const isUpdatedPlan = plan.uuid === params.planUuid;
-      if (isUpdatedPlan) {
-        const newLabels = labelUuidsToAdd.map(labelUuidToAdd => {
-          const newLabel = props.jobTags.find(tag => tag.uuid === labelUuidToAdd);
-          if (!newLabel) {
-            throw new Error(`Label with uuid ${labelUuidToAdd} is not defined`);
-          }
-
-          return newLabel;
-        });
-        const updatedTags = plan.tags
-          .filter(oldLabel => !labelUuidsToDelete.includes(oldLabel.uuid))
-          .concat(newLabels);
-
-        const updatedPlan = new Plan({
-          ...oldPlan,
-          tags: updatedTags,
-        });
-
-        return updatedPlan;
-      } else {
-        return plan;
+    const newLabels = labelUuidsToAdd.map(labelUuidToAdd => {
+      const newLabel = props.jobTags.find(tag => tag.uuid === labelUuidToAdd);
+      if (!newLabel) {
+        throw new Error(`Label with uuid ${labelUuidToAdd} is not defined`);
       }
+
+      return newLabel;
     });
 
-    props.updateDayReport({uuid: props.dayReport.uuid, plans: updatedPlans});
+    const updatedTags = params.plan.tags
+      .filter(oldLabel => !labelUuidsToDelete.includes(oldLabel.uuid))
+      .concat(newLabels);
+
+    params.plan.updateLabels(updatedTags);
+
   };
 
   /**
@@ -216,7 +196,10 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
                 DateUtils.getShortISODateValue(props.way.dayReports[0].createdAt) === currentDate;
 
     const currentDayReport = !isCurrentDayReportExist
-      ? await props.createDayReport(props.way.uuid, props.way.dayReports)
+      ? await props.createDayReport({
+        wayName: props.way.name,
+        wayUuid: props.way.uuid,
+      }, props.way.dayReports)
       : props.way.dayReports[0];
 
     await copyToJobDone(plan, currentDayReport, ownerUuid);
@@ -232,12 +215,34 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
           >
             <HorizontalContainer className={styles.recordInfo}>
               {getListNumberByIndex(index)}
+              <Avatar
+                alt={props.wayParticipantsMap.getValue(plan.ownerUuid).name}
+                src={props.wayParticipantsMap.getValue(plan.ownerUuid).imageUrl}
+              />
               <Link
                 path={pages.user.getPath({uuid: plan.ownerUuid})}
                 className={styles.ownerName}
               >
-                {getFirstName(plan.ownerName)}
+                {getFirstName(props.wayParticipantsMap.getValue(plan.ownerUuid).name)}
               </Link>
+              {props.way.children.length !== 0 &&
+              <Link
+                path={pages.way.getPath({uuid: plan.wayUuid})}
+                className={styles.linkToOwnerWay}
+              >
+                <Tooltip
+                  position={PositionTooltip.BOTTOM_LEFT}
+                  content={LanguageService.way.reportsTable.columnTooltip.visitWay[language]
+                    .replace("$wayName", `"${plan.wayName}"`)}
+                >
+                  <Icon
+                    size={IconSize.MEDIUM}
+                    name="WayIcon"
+                    className={styles.socialMediaIcon}
+                  />
+                </Tooltip>
+              </Link>
+              }
               {props.isEditable ?
                 <Modal
                   trigger={plan.tags.length === 0 ?
@@ -255,7 +260,7 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
                       jobDoneTags={plan.tags}
                       isEditable={props.isEditable}
                       updateTags={(tagsToUpdate: JobTag[]) => updateLabelsInPlan({
-                        planUuid: plan.uuid,
+                        plan,
                         updatedTags: tagsToUpdate,
                       })}
                     />
@@ -272,10 +277,18 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
                   type="number"
                   max={MAX_TIME}
                   min={MIN_TIME}
-                  onChangeFinish={(time) => updatePlan({
-                    uuid: plan.uuid,
-                    time: getValidatedTime(Number(time)),
-                  })}
+                  onChangeFinish={async (time) => {
+                    const planToUpdate = {
+                      uuid: plan.uuid,
+                      time: getValidatedTime(Number(time)),
+                    };
+                    await PlanDAL.updatePlan({
+                      plan: planToUpdate,
+                      wayName: props.way.name,
+                      wayUuid: props.way.uuid,
+                    });
+                    plan.updateTime(getValidatedTime(Number(time)));
+                  }}
                   className={styles.editableTime}
                   isEditable={plan.ownerUuid === props.user?.uuid}
                   placeholder={LanguageService.common.emptyMarkdownAction[language]}
@@ -300,7 +313,14 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
                         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                         copyPlanToJobInCurrentDayReport={() => copyPlanToJobInCurrentDayReport(plan, props.user!.uuid)}
                         plan={plan}
-                        updatePlan={updatePlan}
+                        updatePlan={async (planToUpdate) => {
+                          plan.updateIsDone(planToUpdate.isDone);
+                          await PlanDAL.updatePlan({
+                            plan: planToUpdate,
+                            wayName: props.way.name,
+                            wayUuid: props.way.uuid,
+                          });
+                        }}
                       />
                     }
                   />
@@ -321,10 +341,18 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
             </HorizontalContainer>
             <EditableTextarea
               text={plan.description}
-              onChangeFinish={(description) => updatePlan({
-                uuid: plan.uuid,
-                description,
-              })}
+              onChangeFinish={async (description) => {
+                const planToUpdate = {
+                  uuid: plan.uuid,
+                  description,
+                };
+                plan.updateDescription(description);
+                await PlanDAL.updatePlan({
+                  plan: planToUpdate,
+                  wayName: props.way.name,
+                  wayUuid: props.way.uuid,
+                });
+              }}
               isEditable={plan.ownerUuid === props.user?.uuid}
               placeholder={props.isEditable
                 ? LanguageService.common.emptyMarkdownAction[language]
