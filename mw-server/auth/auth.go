@@ -14,6 +14,7 @@ const (
 	MaxAge = 86400 * 5
 )
 
+// test
 func NewAuth() {
 	config, err := util.LoadConfig(".")
 	if err != nil {
