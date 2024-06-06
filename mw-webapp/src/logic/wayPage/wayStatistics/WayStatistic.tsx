@@ -132,7 +132,7 @@ export const WayStatistic = observer((props: WayStatisticProps) => {
   const averageTimeForJob = totalWayTime ? Math.round(totalWayTime / allJobs.length) : 0;
 
   const lastWeekDayReports = props.dayReports
-    .filter((dayReport) => DateUtils.roundToDate(dayReport.createdAt) > startDateLastWeek);
+    .filter((dayReport) => DateUtils.roundToDate(dayReport.createdAt) > lastDateWeek);
 
   const lastWeekJobs = lastWeekDayReports.flatMap(report => report.jobsDone);
 
@@ -150,7 +150,7 @@ export const WayStatistic = observer((props: WayStatisticProps) => {
   const averageTimeForJobLastWeek = lastWeekTime ? Math.round(lastWeekTime / lastWeekJobs.length) : 0;
 
   const lastMonthDayReports = props.dayReports.filter((dayReport) =>
-    DateUtils.roundToDate(dayReport.createdAt) > startDateLastMonth);
+    DateUtils.roundToDate(dayReport.createdAt) > lastDateMonth);
 
   const lastMonthJobs = lastMonthDayReports.flatMap(report => report.jobsDone);
 

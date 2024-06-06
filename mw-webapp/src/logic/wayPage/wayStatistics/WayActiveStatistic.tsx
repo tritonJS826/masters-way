@@ -94,9 +94,8 @@ export const WayActiveStatistic = observer((props: WayStatisticProps) => {
   const dayReportsReversed = [...props.dayReports].reverse();
   const startDate = dayReportsReversed[0] ? dayReportsReversed[0].createdAt : props.wayCreatedAt;
   const lastDate = props.dayReports[0] ? props.dayReports[0].createdAt : props.wayCreatedAt;
-  const startDateLastWeek = startDate <= DateUtils.getLastDate(AMOUNT_DAYS_IN_WEEK, lastDate)
-    ? DateUtils.getLastDate(AMOUNT_DAYS_IN_WEEK, lastDate)
-    : startDate;
+  const lastDateWeek = DateUtils.getLastDate(AMOUNT_DAYS_IN_WEEK, lastDate);
+  const startDateLastWeek = startDate <= lastDateWeek ? lastDateWeek : startDate;
 
   const datesWithJobTotalTime: Map<string, number> = new Map(props.dayReports.map((report) => {
     const jobDoneTotalTime = report.jobsDone.reduce((totalTime, jobDone) => totalTime + jobDone.time, 0);
@@ -129,7 +128,7 @@ export const WayActiveStatistic = observer((props: WayStatisticProps) => {
   const averageTimeForJob = totalWayTime ? Math.round(totalWayTime / allJobs.length) : 0;
 
   const lastWeekDayReports = props.dayReports
-    .filter((dayReport) => DateUtils.roundToDate(dayReport.createdAt) > startDateLastWeek);
+    .filter((dayReport) => DateUtils.roundToDate(dayReport.createdAt) > lastDateWeek);
 
   const lastWeekJobs = lastWeekDayReports.flatMap(report => report.jobsDone);
 
