@@ -60,11 +60,11 @@ export class DateUtils {
 
     const daysCount = (lastDate.getTime() - currentDate.getTime()) / DAY_MILLISECONDS;
 
-    const dateList = Array.from(
-      {length: daysCount},
-      (_, i) => new Date(currentDate.getTime() + (i * DAY_MILLISECONDS)));
+    const datesList = new Array(daysCount)
+    .fill(null)
+    .map((_, i) => new Date(currentDate.getTime() + (i * DAY_MILLISECONDS)));
 
-    return dateList;
+    return datesList;
   }
 
   /**
