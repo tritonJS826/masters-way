@@ -56,9 +56,7 @@ export class DateUtils {
     const currentDate = new Date(isoStartDate);
     const lastDate = new Date(isoEndDate);
 
-    lastDate.setDate(lastDate.getDate() + ONE_DAY);
-
-    const daysCount = (lastDate.getTime() - currentDate.getTime()) / DAY_MILLISECONDS;
+    const daysCount = (lastDate.getTime() - currentDate.getTime()) / DAY_MILLISECONDS + ONE_DAY;
 
     const datesList = new Array(daysCount)
     .fill(null)
