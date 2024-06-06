@@ -15,6 +15,7 @@ func NewRouteJobDoneJobTag(jobDoneJobTagController controllers.JobDoneJobTagCont
 }
 
 func (cr *JobDoneJobTagRoutes) JobDoneJobTagRoute(rg *gin.RouterGroup) {
+	//
 	router := rg.Group("jobDoneJobTags")
 	router.POST("", cr.jobDoneJobTagController.CreateJobDoneJobTag)
 	router.DELETE("/:jobTagId/:jobDoneId", cr.jobDoneJobTagController.DeleteJobDoneJobTagById)
