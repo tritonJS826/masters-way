@@ -107,7 +107,8 @@ export const AreaChart = observer((props: AreaChartProps) => {
   const {theme} = themeStore;
   const {language} = languageStore;
 
-  const labels = DateUtils.getDatesBetween(props.startDate, props.lastDate);
+  const dateList = DateUtils.getDatesBetween(props.startDate, props.lastDate);
+  const labels = dateList.map(DateUtils.getShortISODateValue);
 
   const dateWithJobTotalTime: Map<string, number> = new Map(labels.map((date) => {
     const jobDoneTotal = props.datesWithJobTotalTime.get(date) ?? 0;

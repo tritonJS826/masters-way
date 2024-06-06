@@ -48,28 +48,23 @@ export class DateUtils {
   /**
    * Get dates between two dates
    */
-  public static getDatesBetween(startDate: Date, endDate: Date): string[] {
-    const dates: string[] = [];
+  public static getDatesBetween(startDate: Date, endDate: Date): Date[] {
 
-    /**
-     *GetISODate
-     */
-    const getISODate = (date: Date) => date.toISOString().split("T")[0];
-
-    const isoStartDate = getISODate(startDate);
-    const isoEndDate = getISODate(endDate);
+    const isoStartDate = DateUtils.getShortISODateValue(startDate);
+    const isoEndDate = DateUtils.getShortISODateValue(endDate);
 
     const currentDate = new Date(isoStartDate);
     const lastDate = new Date(isoEndDate);
 
     lastDate.setDate(lastDate.getDate() + ONE_DAY);
 
-    while (currentDate < lastDate) {
-      dates.push(getISODate(currentDate));
-      currentDate.setDate(currentDate.getDate() + ONE_DAY);
-    }
+    const daysCount = (lastDate.getTime() - currentDate.getTime()) / DAY_MILLISECONDS;
 
-    return [...new Set(dates)];
+    const dateList = Array.from(
+      {length: daysCount},
+      (_, i) => new Date(currentDate.getTime() + (i * DAY_MILLISECONDS)));
+
+    return dateList;
   }
 
   /**
