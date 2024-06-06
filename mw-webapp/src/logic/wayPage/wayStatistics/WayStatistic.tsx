@@ -95,11 +95,11 @@ export const WayStatistic = observer((props: WayStatisticProps) => {
   const startDate = dayReportsReversed[0] ? dayReportsReversed[0].createdAt : props.wayCreatedAt;
   const lastDate = props.dayReports[0] ? props.dayReports[0].createdAt : props.wayCreatedAt;
 
-  const lastDateMonth = DateUtils.getLastDate(AMOUNT_DAYS_IN_MONTH, lastDate);
-  const lastDateWeek = DateUtils.getLastDate(AMOUNT_DAYS_IN_WEEK, lastDate);
+  const lastDateMonthReport = DateUtils.getLastDate(AMOUNT_DAYS_IN_MONTH, lastDate);
+  const lastDateWeekReport = DateUtils.getLastDate(AMOUNT_DAYS_IN_WEEK, lastDate);
 
-  const startDateLastMonth = startDate <= lastDateMonth ? lastDateMonth : startDate;
-  const startDateLastWeek = startDate <= lastDateWeek ? lastDateWeek : startDate;
+  const startDateLastMonth = startDate <= lastDateMonthReport ? lastDateMonthReport : startDate;
+  const startDateLastWeek = startDate <= lastDateWeekReport ? lastDateWeekReport : startDate;
 
   const datesWithJobTotalTime: Map<string, number> = new Map(props.dayReports.map((report) => {
     const jobDoneTotalTime = report.jobsDone.reduce((totalTime, jobDone) => totalTime + jobDone.time, 0);
@@ -132,7 +132,7 @@ export const WayStatistic = observer((props: WayStatisticProps) => {
   const averageTimeForJob = totalWayTime ? Math.round(totalWayTime / allJobs.length) : 0;
 
   const lastWeekDayReports = props.dayReports
-    .filter((dayReport) => DateUtils.roundToDate(dayReport.createdAt) > lastDateWeek);
+    .filter((dayReport) => DateUtils.roundToDate(dayReport.createdAt) > lastDateWeekReport);
 
   const lastWeekJobs = lastWeekDayReports.flatMap(report => report.jobsDone);
 
@@ -150,7 +150,7 @@ export const WayStatistic = observer((props: WayStatisticProps) => {
   const averageTimeForJobLastWeek = lastWeekTime ? Math.round(lastWeekTime / lastWeekJobs.length) : 0;
 
   const lastMonthDayReports = props.dayReports.filter((dayReport) =>
-    DateUtils.roundToDate(dayReport.createdAt) > lastDateMonth);
+    DateUtils.roundToDate(dayReport.createdAt) > lastDateMonthReport);
 
   const lastMonthJobs = lastMonthDayReports.flatMap(report => report.jobsDone);
 
