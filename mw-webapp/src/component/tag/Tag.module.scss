@@ -27,12 +27,16 @@ $TagBorderRadius: 1000px;
 
 .tag {
   display: inline-block;
+  border-radius: $TagBorderRadius;
+  color: var(--primaryTextColor);
+}
+
+.primaryTag {
   overflow: hidden;
   max-width: $minWidthBlock;
   height: 40px;
   padding: $paddingMedium;
   border: 1px solid var(--primaryStrokeColor);
-  border-radius: $TagBorderRadius;
   background-color: var(--secondaryBgColor);
   color: var(--primaryTextColor);
   font-size: 16px;
@@ -41,12 +45,9 @@ $TagBorderRadius: 1000px;
 }
 
 .cardTag {
-  display: inline-block;
   height: 16px;
   padding: 1px $paddingMedium;
-  border-radius: $TagBorderRadius;
   background-color: var(--primaryBgColor);
-  color: var(--primaryTextColor);
   font-size: 12px;
 }
 

@@ -70,10 +70,10 @@ interface TagProps {
  */
 export const Tag = (props: TagProps) => {
   const isPrimaryTag = props.type === TagType.PRIMARY_TAG;
-  const tagStyle = isPrimaryTag ? styles.tag : styles.cardTag;
+  const tagStyle = isPrimaryTag ? styles.primaryTag : styles.cardTag;
   const tag = (
     <span
-      className={tagStyle}
+      className={clsx(styles.tag, tagStyle)}
       data-cy={props.cy?.dataCyTag}
     >
       {props.tagName}
