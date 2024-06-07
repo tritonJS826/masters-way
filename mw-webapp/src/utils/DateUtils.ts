@@ -1,6 +1,7 @@
 const START_OF_ISO_SUBSTRING_RANGE = 0;
 const END_OF_ISO_SUBSTRING_RANGE = 10;
 const DAY_MILLISECONDS = 86400000;
+const ONE_DAY = 1;
 
 /**
  * Type for sortDates generic
@@ -48,19 +49,18 @@ export class DateUtils {
    * Get dates between two dates
    */
   public static getDatesBetween(startDate: Date, endDate: Date): Date[] {
-    const timeDifferenceInMilliseconds = Math.abs(endDate.getTime() - startDate.getTime());
-    const daysAmountInRange = Math.ceil(timeDifferenceInMilliseconds / DAY_MILLISECONDS);
-    const datesList = new Array(daysAmountInRange)
-      .fill(null)
-      .map((item, i) => {
 
-        /**
-         * TODO #573: Correction need because method getShortISODateValue return time in GMT format but we need UTC format
-         */
-        const correction = DAY_MILLISECONDS;
+    const isoStartDate = DateUtils.getShortISODateValue(startDate);
+    const isoEndDate = DateUtils.getShortISODateValue(endDate);
 
-        return new Date(startDate.getTime() + (i * DAY_MILLISECONDS) + correction);
-      });
+    const currentDate = new Date(isoStartDate);
+    const lastDate = new Date(isoEndDate);
+
+    const daysCount = (lastDate.getTime() - currentDate.getTime()) / DAY_MILLISECONDS + ONE_DAY;
+
+    const datesList = new Array(daysCount)
+    .fill(null)
+    .map((_, i) => new Date(currentDate.getTime() + (i * DAY_MILLISECONDS)));
 
     return datesList;
   }
