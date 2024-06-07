@@ -1,6 +1,6 @@
 @import "src/styles/variables";
 
-$wayCollectionCardMainHeight: 55px;
+$wayCollectionCardMainHeight: 76px;
 $wayCollectionCardAdditionalHeight: 47px;
 
 .wayCollectionCardContainer {
@@ -20,7 +20,7 @@ $wayCollectionCardAdditionalHeight: 47px;
   padding: $paddingMedium;
   border-radius: $secondaryBorderRadius $secondaryBorderRadius 0 0;
   background-color: var(--generalPrimaryColor);
-  gap: $gapMedium;
+  gap: $gapSmall;
   text-align: left;
 
   & h3 {
@@ -56,7 +56,7 @@ $wayCollectionCardAdditionalHeight: 47px;
   font-size: $fontSizeMedium;
   font-size: $fontSizeBig;
   font-weight: bold;
-  gap: $gapMedium;
+  gap: $gapSmall;
 }
 
 .active {

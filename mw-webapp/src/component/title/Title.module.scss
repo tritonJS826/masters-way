@@ -1,9 +1,9 @@
 @import "src/styles/variables";
 
 h1 {
-  font-size: 64px;
+  font-size: $fontSizeTitleLarge;
 
   @media (max-width: $mediaWidthMobileBig) {
-    font-size: 40px;
+    font-size: $fontSizeTitleBig;
   }
 }

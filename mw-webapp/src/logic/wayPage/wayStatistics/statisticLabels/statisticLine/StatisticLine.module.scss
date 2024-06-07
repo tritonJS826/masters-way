@@ -2,13 +2,13 @@
 
 .statisticLine {
   border-bottom: 1px dotted var(--secondaryStrokeColor);
-  gap: $gapMedium;
+  gap: $gapSmall;
   grid-template-columns: repeat(3, 1fr);
 }
 
 .labelColorName {
   align-items: center;
-  gap: $gapMedium;
+  gap: $gapSmall;
 }
 
 .labelColor {

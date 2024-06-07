@@ -1,7 +1,8 @@
 @import "src/styles/variables";
 
-$wayCardMainInfoPadding: $paddingBig $paddingBig $paddingMedium;
-$wayCardAdditionalInfoPadding: $paddingMedium $paddingBig $paddingBig;
+$wayCardMainInfoPadding: $paddingExtraMedium $paddingExtraMedium $paddingMedium;
+$wayCardAdditionalInfoPadding: $paddingMedium $paddingExtraMedium
+  $paddingExtraMedium;
 $wayCardMainHeight: 150px;
 $wayCardAdditionalHeight: 120px;
 $cardLinkFontSize: 16px;
@@ -20,7 +21,7 @@ $cardLinkFontSize: 16px;
   padding: $wayCardMainInfoPadding;
   border-radius: $secondaryBorderRadius $secondaryBorderRadius 0 0;
   background-color: var(--generalPrimaryColor);
-  gap: $gapMedium;
+  gap: $gapSmall;
 }
 
 .title {
@@ -51,7 +52,7 @@ $cardLinkFontSize: 16px;
   background-color: var(--primaryBgColor);
   color: var(--primaryTextColor);
   font-size: $fontSizeMedium;
-  gap: $gapMedium;
+  gap: $gapSmall;
 }
 
 .wayTags {
@@ -60,7 +61,7 @@ $cardLinkFontSize: 16px;
   flex-wrap: nowrap;
   align-items: center;
   -webkit-box-orient: vertical;
-  gap: $gapMedium;
+  gap: $gapSmall;
   -webkit-line-clamp: 1;
 }
 
@@ -72,7 +73,7 @@ $cardLinkFontSize: 16px;
 .likes {
   align-items: center;
   color: var(--secondaryTextColor);
-  gap: $gapSmall;
+  gap: $gapExtraSmall;
 }
 
 .icon {
@@ -82,7 +83,7 @@ $cardLinkFontSize: 16px;
 
 .people {
   align-items: center;
-  gap: $gapMedium;
+  gap: $gapSmall;
 }
 
 .mentors {

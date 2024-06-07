@@ -5,7 +5,7 @@ $ModalJobTagMaxWidth: 150px;
 .jobTagsContainer {
   display: flex;
   flex-wrap: wrap;
-  gap: $gapMedium;
+  gap: $gapSmall;
 }
 
 .jobTags {
@@ -13,7 +13,7 @@ $ModalJobTagMaxWidth: 150px;
   width: $ModalJobTagMaxWidth;
   align-items: center;
   cursor: pointer;
-  gap: $gapMedium;
+  gap: $gapSmall;
 }
 
 .buttons {

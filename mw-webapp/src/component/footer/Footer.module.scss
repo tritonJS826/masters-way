@@ -11,7 +11,7 @@ $userNameFontSize: 16px;
   width: 100%;
   max-width: $maxWidthContainer;
   justify-content: space-between;
-  padding: $paddingLarge $paddingMedium;
+  padding: $paddingBig $paddingMedium;
   margin: 0 auto;
 }
 
@@ -22,7 +22,7 @@ $userNameFontSize: 16px;
 
 .socialMedia {
   color: var(--secondaryTextColor);
-  gap: $gapMedium;
+  gap: $gapSmall;
 }
 
 .socialMediaIcons {
