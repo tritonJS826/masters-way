@@ -35,7 +35,7 @@ export class DateUtils {
     const currentDate = date ?? new Date();
     const dateInPast = new Date(currentDate.getTime() - (amount * DAY_MILLISECONDS));
 
-    return new Date(dateInPast.toDateString());
+    return dateInPast;
   }
 
   /**
@@ -56,11 +56,11 @@ export class DateUtils {
     const currentDate = new Date(isoStartDate);
     const lastDate = new Date(isoEndDate);
 
-    const daysCount = (lastDate.getTime() - currentDate.getTime()) / DAY_MILLISECONDS + ONE_DAY;
+    const daysCount = ((lastDate.getTime() - currentDate.getTime()) / DAY_MILLISECONDS) + ONE_DAY;
 
     const datesList = new Array(daysCount)
-    .fill(null)
-    .map((_, i) => new Date(currentDate.getTime() + (i * DAY_MILLISECONDS)));
+      .fill(null)
+      .map((_, i) => new Date(currentDate.getTime() + (i * DAY_MILLISECONDS)));
 
     return datesList;
   }
