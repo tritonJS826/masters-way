@@ -9,6 +9,7 @@ export const FirebaseAnalytics = () => {
   const location = useLocation();
 
   useEffect(() => {
+
     logEvent(Analytics.SCREEN_VIEW, {pathname: window.location.pathname});
   }, [location]);
 

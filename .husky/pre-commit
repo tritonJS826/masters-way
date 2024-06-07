@@ -1,13 +1,29 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-cd mw-webapp
-pnpm lint-staged
+FRONTEND="mw-webapp/"
+SERVER="mw-server/"
+
+if git diff --name-only --cached | grep $FRONTEND;
+  then
+    echo "FRONTEND FOLDER CHANGED --> starting husky..."
+    cd mw-webapp
+    pnpm lint-staged
+    pnpm dlx concurrently \
+        "pnpm type-check" \
+        "pnpm test" \
+        "pnpm build-storybook" \
+        "pnpm build"
+fi
+
+if git diff --name-only --cached | grep $SERVER;
+  then
+    echo "SERVER FOLDER CHANGED --> starting husky..."
+    cd mw-server
+    go test -v ./...
+fi
 
 pnpm dlx concurrently \
-    "pnpm type-check" \
-    "pnpm cypress:e2e:run && pnpm cypress:component:run" \
-    "pnpm test" \
-    "pnpm build-storybook" \
-    "pnpm build" \
-    # "cd ../mw-server && go build main.go"
+        "pnpm cypress:e2e:run && pnpm cypress:component:run"
+
+
