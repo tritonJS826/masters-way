@@ -15,7 +15,7 @@ export enum TagType {
   /**
    * Tag that used on User page and Way page
    */
-  PRIMARY_TAG = "basicTag",
+  PRIMARY_TAG = "primaryTag",
 }
 
 /**

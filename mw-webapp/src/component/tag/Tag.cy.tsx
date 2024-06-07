@@ -27,12 +27,12 @@ describe("Tag component", () => {
       />);
   };
 
-  it("should render basic tag", () => {
+  it("should render primary tag", () => {
     mountTag(TagType.PRIMARY_TAG);
     cy.get(getDataCy(TAG_CY.dataCyTag)).should("contains.text", TAG_CONTENT);
   });
 
-  it("basic tag should be deletable", () => {
+  it("should delete primary tag", () => {
     const STUB_FUNCTION = cy.spy();
 
     mountTag(TagType.PRIMARY_TAG, STUB_FUNCTION);
@@ -43,7 +43,7 @@ describe("Tag component", () => {
     cy.wrap(STUB_FUNCTION).should("have.been.called");
   });
 
-  it("should render way card tag", () => {
+  it("should render card tag", () => {
     mountTag(TagType.CARD_TAG);
     cy.get(getDataCy(TAG_CY.dataCyTag)).should("contains.text", TAG_CONTENT);
   });
