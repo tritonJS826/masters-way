@@ -296,7 +296,11 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
               </Tooltip>
               {props.isEditable &&
                 <Tooltip
-                  content={LanguageService.way.reportsTable.columnTooltip.planCheckbox[language]}
+                  content={
+                    plan.isDone
+                      ? LanguageService.way.reportsTable.columnTooltip.planCheckboxUncompleted[language]
+                      : LanguageService.way.reportsTable.columnTooltip.planCheckbox[language]
+                  }
                   position={PositionTooltip.RIGHT}
                 >
                   <Modal
