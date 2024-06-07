@@ -28,14 +28,14 @@ describe("Tag component", () => {
   };
 
   it("should render basic tag", () => {
-    mountTag(TagType.BASIC_TAG);
+    mountTag(TagType.PRIMARY_TAG);
     cy.get(getDataCy(TAG_CY.dataCyTag)).should("contains.text", TAG_CONTENT);
   });
 
   it("basic tag should be deletable", () => {
     const STUB_FUNCTION = cy.spy();
 
-    mountTag(TagType.BASIC_TAG, STUB_FUNCTION);
+    mountTag(TagType.PRIMARY_TAG, STUB_FUNCTION);
     cy.get(getDataCy(TAG_CY.dataCyTag))
       .realHover()
       .get(getDataCy(TAG_CY.dataCyCross))
@@ -44,7 +44,7 @@ describe("Tag component", () => {
   });
 
   it("should render way card tag", () => {
-    mountTag(TagType.WAY_CARD_TAG);
+    mountTag(TagType.CARD_TAG);
     cy.get(getDataCy(TAG_CY.dataCyTag)).should("contains.text", TAG_CONTENT);
   });
 });

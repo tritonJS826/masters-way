@@ -50,7 +50,7 @@ export const WayCard = observer((props: WayCardProps) => {
           <Tag
             tagName={wayTag.name}
             key={wayTag.uuid}
-            type={TagType.WAY_CARD_TAG}
+            type={TagType.CARD_TAG}
           />
         ))}
       </HorizontalContainer>

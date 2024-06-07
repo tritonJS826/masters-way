@@ -675,7 +675,7 @@ export const WayPage = observer((props: WayPageProps) => {
                   tagName={tag.name}
                   key={tag.uuid}
                   isDeletable={isOwner}
-                  type={TagType.BASIC_TAG}
+                  type={TagType.PRIMARY_TAG}
                   onDelete={() => {
                     WayTagDAL.deleteWayTag({wayTagId: tag.uuid, wayId: way.uuid});
                     const updatedWayTags = way.wayTags.filter(oldTag => oldTag.uuid !== tag.uuid);

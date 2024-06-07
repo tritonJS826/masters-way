@@ -1,6 +1,5 @@
 @import "src/styles/variables";
 
-$TagPadding: 10px;
 $TagBorderRadius: 1000px;
 
 .tagContainer {
@@ -31,7 +30,7 @@ $TagBorderRadius: 1000px;
   overflow: hidden;
   max-width: $minWidthBlock;
   height: 40px;
-  padding: $TagPadding;
+  padding: $paddingMedium;
   border: 1px solid var(--primaryStrokeColor);
   border-radius: $TagBorderRadius;
   background-color: var(--secondaryBgColor);
@@ -41,10 +40,10 @@ $TagBorderRadius: 1000px;
   text-wrap: nowrap;
 }
 
-.wayTag {
+.cardTag {
   display: inline-block;
   height: 16px;
-  padding: 1px $TagPadding;
+  padding: 1px $paddingMedium;
   border-radius: $TagBorderRadius;
   background-color: var(--primaryBgColor);
   color: var(--primaryTextColor);
@@ -61,7 +60,9 @@ $TagBorderRadius: 1000px;
   border: 1px solid var(--primaryStrokeColor);
   border-radius: 100%;
   background-color: var(--secondaryBgColor);
+  color: inherit;
   cursor: pointer;
+  font: inherit;
   text-align: center;
 }
 

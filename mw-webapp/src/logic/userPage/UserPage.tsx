@@ -421,7 +421,7 @@ export const UserPage = observer((props: UserPageProps) => {
                   tagName={tag.name}
                   key={tag.uuid}
                   isDeletable={isPageOwner}
-                  type={TagType.BASIC_TAG}
+                  type={TagType.PRIMARY_TAG}
                   onDelete={async () => {
                     user && user.deleteTag(tag.uuid);
                     userPageOwner.deleteTag(tag.uuid);

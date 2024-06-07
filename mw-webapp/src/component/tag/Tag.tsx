@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import {Button, ButtonType} from "src/component/button/Button";
 import styles from "src/component/tag/Tag.module.scss";
 
 /**
@@ -9,12 +10,12 @@ export enum TagType {
   /**
    * Tag that used on way card
    */
-  WAY_CARD_TAG = "wayCardTag",
+  CARD_TAG = "cardTag",
 
   /**
    * Tag that used on User page and Way page
    */
-  BASIC_TAG = "basicTag",
+  PRIMARY_TAG = "basicTag",
 }
 
 /**
@@ -68,34 +69,30 @@ interface TagProps {
  * WayCard tag component
  */
 export const Tag = (props: TagProps) => {
-  return props.type === TagType.BASIC_TAG ?
+  const isPrimaryTag = props.type === TagType.PRIMARY_TAG;
+  const tagStyle = isPrimaryTag ? styles.tag : styles.cardTag;
+  const tag = (
+    <span
+      className={tagStyle}
+      data-cy={props.cy?.dataCyTag}
+    >
+      {props.tagName}
+    </span>);
+
+  return isPrimaryTag ?
     (
-      <button className={styles.tagContainer}>
-        <span
+      <div className={styles.tagContainer}>
+        <Button
           className={clsx(styles.cross, !props.isDeletable && styles.hiddenCross)}
           onClick={() => {
             props.isDeletable && props?.onDelete && props.onDelete(props.tagName);
           }}
-          data-cy={props.cy?.dataCyCross}
-        >
-          X
-        </span>
-
-        <span
-          className={styles.tag}
-          data-cy={props.cy?.dataCyTag}
-        >
-          {props.tagName}
-        </span>
-      </button>
+          dataCy={props.cy?.dataCyCross}
+          value={"X"}
+          buttonType={ButtonType.ICON_BUTTON}
+        />
+        {tag}
+      </div>
     )
-    :
-    (
-      <span
-        className={styles.wayTag}
-        data-cy={props.cy?.dataCyTag}
-      >
-        {props.tagName}
-      </span>
-    );
+    : tag;
 };
