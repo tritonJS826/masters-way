@@ -34,6 +34,7 @@ interface ImageProps {
 
   /**
    * Image respond to clicks
+   * * @default false
    */
   isZoomable?: boolean;
 }
@@ -58,8 +59,8 @@ export const Image = (props: ImageProps) => {
       <Modal
         trigger={imageElement}
         content={imageElement}
-        className={styles.modalContent}
-        cy={props.cy}
+        className={imageClass}
+        data-cy={props.dataCy}
       />
     );
   }

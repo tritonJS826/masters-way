@@ -2,6 +2,7 @@ import logo from "src/assets/mastersWayLogo.svg";
 import {LOGO_TEXT} from "src/component/header/Header";
 import {Image} from "src/component/image/Image";
 import {getDataCy} from "src/utils/cyTesting/getDataCy";
+import styles from "src/component/image/Image.module.scss";
 
 const IMAGE_CY = "image";
 const WRONG_SRC = "./wrong.src";
@@ -15,11 +16,10 @@ export interface createTestImageProps {
    * Image's src
    */
   src: string;
-
 }
 
 /**
- *Create test input component
+ * Create test input component
  */
 const createTestImage = (props: createTestImageProps) => {
   return (
@@ -27,12 +27,12 @@ const createTestImage = (props: createTestImageProps) => {
       dataCy={IMAGE_CY}
       src={props.src}
       alt={LOGO_TEXT}
+      isZoomable={true}
     />
   );
 };
 
 describe("Image component", () => {
-
   it("should render image component correctly", () => {
     cy.mount(createTestImage({src: logo}));
     cy.get(getDataCy(IMAGE_CY)).should("exist");
@@ -40,7 +40,7 @@ describe("Image component", () => {
 
   it("image component should be visible", () => {
     cy.mount(createTestImage({src: logo}));
-    cy.get(getDataCy("image")).should("be.visible");
+    cy.get(getDataCy(IMAGE_CY)).should("be.visible");
   });
 
   it("displays the alt text if the image is not displayed", () => {
@@ -50,5 +50,11 @@ describe("Image component", () => {
       .should("exist")
       .and("not.be.empty")
       .should("eq", LOGO_TEXT);
+  });
+
+  it("should enlarge the image on click if isZoomable is true", () => {
+    cy.mount(createTestImage({src: logo}));
+    cy.get(getDataCy(IMAGE_CY)).click();
+    cy.get(`.${styles.image}`).should("be.visible"); // Verify the modal content
   });
 });
