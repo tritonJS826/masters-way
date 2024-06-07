@@ -4,18 +4,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: $paddingSmall $paddingSmall;
+  padding: $paddingExtraSmall $paddingExtraSmall;
   border: none;
   border-radius: $primaryBorderRadius;
   cursor: pointer;
   font-family: $primaryFontFamily;
   font-size: $fontSizeBig;
-  gap: $gapMedium;
+  gap: $gapSmall;
   transition-duration: $primaryTransitionDuration;
 }
 
 .primary {
-  padding: $paddingMedium $paddingExtraLarge;
+  padding: $paddingMedium $paddingExtraBig;
   background-color: var(--generalPrimaryColor);
   color: var(--secondaryTextColor);
 
@@ -30,7 +30,7 @@
 }
 
 .secondary {
-  padding: $paddingMedium $paddingExtraLarge;
+  padding: $paddingMedium $paddingExtraBig;
   border: 1px var(--primaryStrokeColor) solid;
   background-color: var(--secondaryBgBtnColor);
   color: var(--primaryTextColor);
@@ -93,7 +93,7 @@
 
 .superSpecialBeautifulButton {
   min-width: 216px;
-  padding: 18px $paddingExtraLarge;
+  padding: 18px $paddingExtraBig;
   border: none;
   border-radius: 20px;
   background-color: var(--homeBgButtonColor);

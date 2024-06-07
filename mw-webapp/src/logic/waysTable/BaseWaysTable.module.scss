@@ -9,7 +9,7 @@
 }
 
 .wayCards {
-  gap: $gapMedium;
+  gap: $gapSmall;
   grid-template-columns: repeat(auto-fill, minmax($mediumWidthBlock, 1fr));
 
   @media (max-width: $mediaWidthTablet) {

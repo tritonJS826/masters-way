@@ -4,11 +4,11 @@
   max-width: $maxWidthContainer;
   padding: 0 $paddingMedium;
   margin: 0 auto;
-  gap: $gapMedium;
+  gap: $gapSmall;
 }
 
 .container {
-  gap: $gapMedium;
+  gap: $gapSmall;
   grid-template-columns: minmax($minWidthBlock, 1fr) minmax($minWidthBlock, 3fr);
 
   @media (max-width: $mediaWidthMobileBig) {
@@ -18,7 +18,7 @@
 
 .descriptionSection {
   min-width: $minWidthBlock;
-  gap: $gapMedium;
+  gap: $gapSmall;
 }
 
 .userTagsContainer {
@@ -33,7 +33,7 @@
 
 .tabsSection {
   display: grid;
-  gap: $gapMedium;
+  gap: $gapSmall;
   grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
 }
 
@@ -88,7 +88,7 @@
 }
 
 .collectionButton {
-  height: 102px;
+  height: 123px;
   margin-bottom: auto;
 }
 

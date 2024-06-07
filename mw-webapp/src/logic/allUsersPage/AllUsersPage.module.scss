@@ -4,7 +4,7 @@
   max-width: $maxWidthContainer;
   padding: 0 $paddingMedium;
   margin: 0 auto;
-  gap: $gapMedium;
+  gap: $gapSmall;
 }
 
 .filterView {
@@ -24,7 +24,7 @@
 }
 
 .userCards {
-  gap: $gapMedium;
+  gap: $gapSmall;
   grid-template-columns: repeat(auto-fill, minmax($mediumWidthBlock, 1fr));
 
   @media (max-width: $mediaWidthTablet) {

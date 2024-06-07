@@ -7,13 +7,13 @@ $iconContainerSize: 25px;
   max-width: $maxWidthContainer;
   padding: 0 $paddingMedium;
   margin: 0 auto;
-  gap: $gapMedium;
+  gap: $gapSmall;
 }
 
 .wayInfo {
   @include regularContainer;
   min-width: $minWidthBlock;
-  gap: $gapMedium;
+  gap: $gapSmall;
 }
 
 .wayTitleBlock {
@@ -34,13 +34,13 @@ $iconContainerSize: 25px;
 .metricsBlock {
   @include regularContainer;
   min-width: $minWidthBlock;
-  gap: $gapMedium;
+  gap: $gapSmall;
 }
 
 .peopleBlock {
   @include regularContainer;
   min-width: $minWidthBlock;
-  gap: $gapMedium;
+  gap: $gapSmall;
 }
 
 .applyAsMentorButton {
@@ -96,7 +96,7 @@ $iconContainerSize: 25px;
 }
 
 .wayDashboard {
-  gap: $gapMedium;
+  gap: $gapSmall;
   // grid-template-columns: repeat(auto-fit, minmax($minWidthBlock, 1fr));
   grid-template-columns: minmax($mediumWidthBlock, 2fr) minmax(
       $mediumWidthBlock,
@@ -109,7 +109,7 @@ $iconContainerSize: 25px;
 }
 
 .wayDashBoardLeft {
-  gap: $gapMedium;
+  gap: $gapSmall;
 }
 
 .wayActionButtons {
@@ -117,7 +117,7 @@ $iconContainerSize: 25px;
 }
 
 .gap {
-  gap: $gapMedium;
+  gap: $gapSmall;
 }
 
 .reportsAmount {
@@ -148,7 +148,7 @@ $iconContainerSize: 25px;
 
 .horizontalContainer {
   align-items: flex-start;
-  gap: $gapSmall;
+  gap: $gapExtraSmall;
 }
 
 .jobDoneTagsWrapper {
@@ -185,5 +185,5 @@ $iconContainerSize: 25px;
 }
 
 .childWaysBlock {
-  gap: $gapSmall;
+  gap: $gapExtraSmall;
 }

@@ -20,7 +20,7 @@ $aboutBlockPadding: 230px 0;
   background-repeat: no-repeat;
   background-size: cover;
   color: var(--secondaryTextColor);
-  gap: $gapSmall;
+  gap: $gapExtraSmall;
 }
 
 .aboutDescription {
@@ -47,7 +47,7 @@ $aboutBlockPadding: 230px 0;
 
 .ourTeamBlock {
   width: 100%;
-  padding: $paddingBig $paddingSmall;
+  padding: $paddingExtraMedium $paddingSmall;
   background-color: var(--secondaryBgColor);
   color: var(--primaryTextColor);
   gap: $gapLarge;

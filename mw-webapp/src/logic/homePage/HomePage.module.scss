@@ -63,13 +63,13 @@ $widthBlock: 1305px;
   color: var(--secondaryTextColor);
 
   & h2 {
-    font-size: $fontSizeExtraLarge;
+    font-size: $fontSizeTitleBig;
   }
 }
 
 .goalsSubTitle {
   & h3 {
-    font-size: $fontSizeLarge;
+    font-size: $fontSizeTitleSmall;
   }
 }
 
@@ -87,14 +87,14 @@ $widthBlock: 1305px;
 }
 
 .aboutProjectText {
-  gap: $gapMedium;
+  gap: $gapSmall;
 }
 
 .aboutProjectDescription,
 .whatWeAreDescription {
   max-width: $maxWidthBlock;
   color: var(--secondaryTextColor);
-  font-size: $fontSizeLarge;
+  font-size: $fontSizeTitleSmall;
   gap: $homeGap;
   list-style-position: inside;
 
@@ -156,5 +156,5 @@ $widthBlock: 1305px;
 
 .whatWeAreLink {
   color: var(--secondaryTextColor);
-  font-size: $fontSizeLarge;
+  font-size: $fontSizeTitleSmall;
 }

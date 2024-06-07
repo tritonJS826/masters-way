@@ -1,6 +1,6 @@
 @import "src/styles/variables";
 
-$paddingSidebar: $paddingBig 40px;
+$paddingSidebar: $paddingExtraMedium 40px;
 
 .navSidebarContent {
   display: flex;
@@ -10,7 +10,7 @@ $paddingSidebar: $paddingBig 40px;
 
 .menuItem {
   align-items: center;
-  gap: $gapMedium;
+  gap: $gapSmall;
 }
 
 .menuItemLink {
@@ -18,7 +18,7 @@ $paddingSidebar: $paddingBig 40px;
   align-items: center;
   padding: 10px 10px 10px 0;
   color: var(--secondaryTextColor);
-  gap: $gapMedium;
+  gap: $gapSmall;
   text-decoration: none;
   transition-duration: $elementHoverTransition;
   &:hover {

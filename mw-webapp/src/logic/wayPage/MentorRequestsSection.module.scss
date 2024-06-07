@@ -3,11 +3,11 @@
 .mentorRequestsSection {
   display: flex;
   flex-direction: column;
-  gap: $gapMedium;
+  gap: $gapSmall;
 }
 
 .mentorRequestsItem {
   display: flex;
   align-items: center;
-  gap: $gapMedium;
+  gap: $gapSmall;
 }

@@ -8,7 +8,7 @@ $selectPadding: 3px;
 
 .select button {
   all: unset;
-  padding: $selectPadding $paddingMedium;
+  padding: $selectPadding $paddingExtraSmall;
   border-radius: $primaryBorderRadius;
   background-color: var(--secondaryBgColor);
   color: var(--primaryTextColor);

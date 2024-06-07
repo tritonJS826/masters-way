@@ -1,11 +1,11 @@
 @import "src/styles/variables";
 
 .statisticLabelsBlock {
-  gap: $gapMedium;
+  gap: $gapSmall;
 }
 
 .titleLine {
-  gap: $gapMedium;
+  gap: $gapSmall;
   grid-template-columns: repeat(3, 1fr);
 }
 

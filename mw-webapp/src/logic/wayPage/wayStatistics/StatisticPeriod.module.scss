@@ -1,7 +1,7 @@
 @import "src/styles/variables";
 
 .statisticContainer {
-  gap: $gapMedium;
+  gap: $gapSmall;
 
   @media (max-width: $mediaWidthMobileSmall) {
     width: $minWidthBlock;
