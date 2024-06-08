@@ -16,7 +16,10 @@ import (
 type WayCollectionType string
 
 const (
-	WayCollectionTypeCustom WayCollectionType = "custom"
+	WayCollectionTypeOwn       WayCollectionType = "own"
+	WayCollectionTypeFavorite  WayCollectionType = "favorite"
+	WayCollectionTypeMentoring WayCollectionType = "mentoring"
+	WayCollectionTypeCustom    WayCollectionType = "custom"
 )
 
 func (e *WayCollectionType) Scan(src interface{}) error {

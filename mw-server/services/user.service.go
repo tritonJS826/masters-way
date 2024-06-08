@@ -11,21 +11,6 @@ import (
 	"github.com/samber/lo"
 )
 
-func FindOrCreateUserByEmail(db *dbb.Queries, ctx context.Context, args *dbb.CreateUserParams) (schemas.UserPopulatedResponse, error) {
-	user, err := db.GetUserByEmail(ctx, args.Email)
-	var userUuid uuid.UUID
-	if err == nil {
-		userUuid = user.Uuid
-	} else {
-		dbUser, _ := CreateUser(db, ctx, args)
-		userUuid = uuid.MustParse(dbUser.Uuid)
-	}
-
-	populatedUser, err := GetPopulatedUserById(db, ctx, userUuid)
-
-	return populatedUser, err
-}
-
 func CreateUser(db *dbb.Queries, ctx context.Context, args *dbb.CreateUserParams) (schemas.UserPlainResponse, error) {
 	user, err := db.CreateUser(ctx, *args)
 

@@ -12,7 +12,7 @@ const ERROR_404 = "404 NOT FOUND";
  * Page 404 will be displayed if app's address is not correct
  */
 export const Page404 = () => {
-  const {user, clearUser} = userStore;
+  const {user} = userStore;
   const {language, setLanguage} = languageStore;
   const {theme, setTheme} = themeStore;
 
@@ -22,7 +22,6 @@ export const Page404 = () => {
       <InitializedApp>
         <Header
           user={user}
-          clearUser={clearUser}
           language={language}
           setLanguage={setLanguage}
           theme={theme}

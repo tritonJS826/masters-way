@@ -161,7 +161,7 @@ CREATE TABLE "comments"(
     CONSTRAINT "comments_pkey" PRIMARY KEY("uuid")
 );
 
-CREATE TYPE way_collection_type AS ENUM ('custom');
+CREATE TYPE way_collection_type AS ENUM ('own', 'favorite', 'mentoring', 'custom');
 
 CREATE TABLE "way_collections"(
     "uuid" UUID NOT NULL DEFAULT (uuid_generate_v4()),
