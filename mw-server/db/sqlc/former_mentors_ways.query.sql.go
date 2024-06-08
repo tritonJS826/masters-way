@@ -57,8 +57,8 @@ func (q *Queries) DeleteFormerMentorWayIfExist(ctx context.Context, arg DeleteFo
 const getFormerMentorUsersByWayId = `-- name: GetFormerMentorUsersByWayId :many
 SELECT users.uuid, users.name, users.email, users.description, users.created_at, users.image_url, users.is_mentor, users.firebase_id from ways
 JOIN former_mentors_ways ON former_mentors_ways.way_uuid = ways.uuid
-JOIN users ON users.uuid = former_mentors_ways.user_uuid
-WHERE way_uuid = $1
+JOIN users ON users.uuid = former_mentors_ways.former_mentor_uuid
+WHERE ways.uuid = $1
 `
 
 func (q *Queries) GetFormerMentorUsersByWayId(ctx context.Context, wayUuid uuid.UUID) ([]User, error) {
