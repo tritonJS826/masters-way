@@ -53,6 +53,11 @@ interface HeaderProps {
   user: User | null;
 
   /**
+   * Clear user
+   */
+  clearUser: () => void;
+
+  /**
    * Current language
    */
   language: Language;
@@ -160,6 +165,14 @@ export const Header = (props: HeaderProps) => {
     },
 
   ];
+
+  /**
+   * Logout
+   */
+  const logout = () => {
+    AuthService.logOut();
+    props.clearUser();
+  };
 
   return (
     <header
@@ -335,7 +348,7 @@ export const Header = (props: HeaderProps) => {
                 </VerticalContainer>
                 {props.user &&
                 <Button
-                  onClick={AuthService.logOut}
+                  onClick={logout}
                   value={LanguageService.header.logoutButton[props.language]}
                   buttonType={ButtonType.PRIMARY}
                 />

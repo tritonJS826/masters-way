@@ -38,7 +38,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/auth/logout/:provider": {
+        "/auth/logout/{provider}": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -51,6 +51,15 @@ const docTemplate = `{
                 ],
                 "summary": "Logout current authorized user",
                 "operationId": "logout-current-authorized-user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "google",
+                        "name": "provider",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",

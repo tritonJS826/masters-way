@@ -1034,11 +1034,17 @@ paths:
       summary: Get current authorized user
       tags:
       - auth
-  /auth/logout/:provider:
+  /auth/logout/{provider}:
     get:
       consumes:
       - application/json
       operationId: logout-current-authorized-user
+      parameters:
+      - description: google
+        in: path
+        name: provider
+        required: true
+        type: string
       produces:
       - application/json
       responses:

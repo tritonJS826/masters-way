@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	MaxAge = 86400 * 5
+	MaxAge = 200
 )
 
 const AuthSession = "auth-session"
@@ -26,7 +26,7 @@ func NewAuth() {
 	store.Options.HttpOnly = true
 	store.Options.Secure = true
 	store.Options.SameSite = http.SameSiteNoneMode
-	store.Options.Domain = config.Env.WebappBaseUrl
+	store.Options.Domain = config.Env.Domain
 
 	gothic.Store = store
 

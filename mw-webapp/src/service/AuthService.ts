@@ -10,7 +10,7 @@ export class AuthService {
    * Call method for logout
    */
   public static async logOut() {
-    await authService.logoutCurrentAuthorizedUser();
+    await authService.logoutCurrentAuthorizedUser({provider: "google"});
   }
 
   /**

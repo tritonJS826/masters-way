@@ -135,8 +135,9 @@ func (cc *AuthController) GetCurrentAuthorizedUser(ctx *gin.Context) {
 // @ID logout-current-authorized-user
 // @Accept  json
 // @Produce  json
+// @Param provider path string true "google"
 // @Success 200 {object} util.ResponseStatusString
-// @Router /auth/logout/:provider [get]
+// @Router /auth/logout/{provider} [get]
 func (cc *AuthController) Logout(ctx *gin.Context) {
 	provider := ctx.Param("provider")
 	ctx.Request = ctx.Request.WithContext(context.WithValue(context.Background(), "provider", provider))
@@ -147,6 +148,15 @@ func (cc *AuthController) Logout(ctx *gin.Context) {
 	util.HandleErrorGin(ctx, err)
 
 	delete(session.Values, auth.UserIdKey)
+
+	// Save the session after modifying it
+	err = session.Save(ctx.Request, ctx.Writer)
+	util.HandleErrorGin(ctx, err)
+
+	// Expire the session cookie
+	session.Options.MaxAge = -1
+	err = session.Save(ctx.Request, ctx.Writer)
+	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, gin.H{"status": "Ok"})
 }

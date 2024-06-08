@@ -40,6 +40,10 @@ export interface GoogleAuthLogInRequest {
     request: SchemasCreateCommentPayload;
 }
 
+export interface LogoutCurrentAuthorizedUserRequest {
+    provider: string;
+}
+
 /**
  * 
  */
@@ -141,13 +145,17 @@ export class AuthApi extends runtime.BaseAPI {
     /**
      * Logout current authorized user
      */
-    async logoutCurrentAuthorizedUserRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UtilResponseStatusString>> {
+    async logoutCurrentAuthorizedUserRaw(requestParameters: LogoutCurrentAuthorizedUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UtilResponseStatusString>> {
+        if (requestParameters.provider === null || requestParameters.provider === undefined) {
+            throw new runtime.RequiredError('provider','Required parameter requestParameters.provider was null or undefined when calling logoutCurrentAuthorizedUser.');
+        }
+
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/auth/logout/:provider`,
+            path: `/auth/logout/{provider}`.replace(`{${"provider"}}`, encodeURIComponent(String(requestParameters.provider))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -159,8 +167,8 @@ export class AuthApi extends runtime.BaseAPI {
     /**
      * Logout current authorized user
      */
-    async logoutCurrentAuthorizedUser(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UtilResponseStatusString> {
-        const response = await this.logoutCurrentAuthorizedUserRaw(initOverrides);
+    async logoutCurrentAuthorizedUser(requestParameters: LogoutCurrentAuthorizedUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UtilResponseStatusString> {
+        const response = await this.logoutCurrentAuthorizedUserRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

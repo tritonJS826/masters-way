@@ -19,6 +19,7 @@ type Config struct {
 	SecretSessionKey  string `mapstructure:"SECRET_SESSION_KEY"`
 	ApiBaseUrl        string `mapstructure:"API_BASE_URL"`
 	WebappBaseUrl     string `mapstructure:"WEBAPP_BASE_URL"`
+	Domain            string `mapstructure:"WEBAPP_DOMAIN"`
 }
 
 func LoadConfig(path string) (config Config, err error) {
