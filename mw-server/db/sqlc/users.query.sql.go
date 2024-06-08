@@ -94,28 +94,6 @@ func (q *Queries) DeleteUser(ctx context.Context, argUuid uuid.UUID) error {
 	return err
 }
 
-const getUserByEmail = `-- name: GetUserByEmail :one
-SELECT uuid, name, email, description, created_at, image_url, is_mentor, firebase_id FROM users
-WHERE email = $1
-LIMIT 1
-`
-
-func (q *Queries) GetUserByEmail(ctx context.Context, email string) (User, error) {
-	row := q.queryRow(ctx, q.getUserByEmailStmt, getUserByEmail, email)
-	var i User
-	err := row.Scan(
-		&i.Uuid,
-		&i.Name,
-		&i.Email,
-		&i.Description,
-		&i.CreatedAt,
-		&i.ImageUrl,
-		&i.IsMentor,
-		&i.FirebaseID,
-	)
-	return i, err
-}
-
 const getUserByFirebaseId = `-- name: GetUserByFirebaseId :one
 SELECT uuid, name, email, description, created_at, image_url, is_mentor, firebase_id FROM users
 WHERE firebase_id = $1
