@@ -11,10 +11,11 @@ import (
 )
 
 const (
-	MaxAge = 200
+	MaxAge = 86400 * 30
 )
 
 const AuthSession = "auth-session"
+const AuthSessionPublic = "auth-session-public"
 const UserIdKey = "userID"
 
 func NewAuth() {

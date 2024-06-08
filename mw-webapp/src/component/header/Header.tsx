@@ -254,21 +254,18 @@ export const Header = (props: HeaderProps) => {
                       placeholder=""
                     />
                     <VerticalContainer className={styles.loginButtons}>
-                      <Link path={`${env.API_BASE_PATH}/auth/google`}>
-                        <Button
-                          className={styles.loginGoogleButton}
-                          onClick={() => {}}
-                          value={
-                            <HorizontalContainer className={styles.googleButtonValue}>
-                              <Image
-                                src={google}
-                                alt="Google icon"
-                                className={styles.googleIcon}
-                              />
-                              {LanguageService.modals.loginModal.signInWithGoogle[props.language]}
-                            </HorizontalContainer>
-                          }
-                        />
+                      <Link
+                        path={`${env.API_BASE_PATH}/auth/google`}
+                        className={styles.loginGoogleButton}
+                      >
+                        <HorizontalContainer className={styles.googleButtonValue}>
+                          <Image
+                            src={google}
+                            alt="Google icon"
+                            className={styles.googleIcon}
+                          />
+                          {LanguageService.modals.loginModal.signInWithGoogle[props.language]}
+                        </HorizontalContainer>
                       </Link>
                     </VerticalContainer>
                   </VerticalContainer>

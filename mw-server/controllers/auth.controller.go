@@ -26,7 +26,7 @@ func NewAuthController(db *db.Queries, ctx context.Context) *AuthController {
 	return &AuthController{db, ctx}
 }
 
-// Log in with google oAuth ()
+// Log in with google oAuth
 // @Summary Log in with google oAuth
 // @Description
 // @Tags auth
@@ -61,9 +61,16 @@ func (cc *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
 	// Save user data in the session
 	session, err := gothic.Store.Get(ctx.Request, auth.AuthSession)
 	util.HandleErrorGin(ctx, err)
+	sessionPublic, err := gothic.Store.Get(ctx.Request, auth.AuthSessionPublic)
+	util.HandleErrorGin(ctx, err)
+	sessionPublic.Options.HttpOnly = false
 
 	session.Values[auth.UserIdKey] = populatedUser.Uuid
+	sessionPublic.Values[auth.UserIdKey] = true
+
 	err = session.Save(ctx.Request, ctx.Writer)
+	util.HandleErrorGin(ctx, err)
+	err = sessionPublic.Save(ctx.Request, ctx.Writer)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.Redirect(http.StatusFound, config.Env.WebappBaseUrl)
@@ -146,16 +153,25 @@ func (cc *AuthController) Logout(ctx *gin.Context) {
 
 	session, err := gothic.Store.Get(ctx.Request, auth.AuthSession)
 	util.HandleErrorGin(ctx, err)
+	sessionPublic, err := gothic.Store.Get(ctx.Request, auth.AuthSessionPublic)
+	util.HandleErrorGin(ctx, err)
 
 	delete(session.Values, auth.UserIdKey)
+	delete(sessionPublic.Values, auth.UserIdKey)
 
 	// Save the session after modifying it
 	err = session.Save(ctx.Request, ctx.Writer)
 	util.HandleErrorGin(ctx, err)
+	err = sessionPublic.Save(ctx.Request, ctx.Writer)
+	util.HandleErrorGin(ctx, err)
 
 	// Expire the session cookie
 	session.Options.MaxAge = -1
+	sessionPublic.Options.MaxAge = -1
+
 	err = session.Save(ctx.Request, ctx.Writer)
+	util.HandleErrorGin(ctx, err)
+	err = sessionPublic.Save(ctx.Request, ctx.Writer)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, gin.H{"status": "Ok"})
