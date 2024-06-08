@@ -42,6 +42,7 @@ export const Default: Story = {
         <BrowserRouter>
           <Header
             user={args.user}
+            clearUser={() => {}}
             language={lang}
             setLanguage={setLang}
             theme={args.theme}
