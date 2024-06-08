@@ -12,7 +12,22 @@ $userNameFontSize: 16px;
   max-width: $maxWidthContainer;
   justify-content: space-between;
   padding: $paddingBig $paddingMedium;
+  border-bottom: $primaryBorder solid var(--secondaryStrokeColor);
   margin: 0 auto;
+}
+
+.privacyLinks {
+  width: 100%;
+  max-width: $maxWidthContainer;
+  padding: $paddingBig $paddingMedium;
+  margin: 0 auto;
+  gap: $gapLarge;
+}
+
+.privacyLink {
+  color: var(--secondaryTextColor);
+  font-size: $fontSizeBig;
+  text-decoration: none;
 }
 
 .logo {
