@@ -1,5 +1,5 @@
 import {headerAccessIds} from "cypress/accessIds/headerAccessIds";
-import {navigatioMenuIds} from "cypress/accessIds/navigationMenuIds";
+import {navigationMenuIds} from "cypress/accessIds/navigationMenuIds";
 import google from "src/assets/google.svg";
 import logo from "src/assets/mastersWayLogo.svg";
 import logoLight from "src/assets/mastersWayLogoLight.svg";
@@ -82,7 +82,7 @@ export const Header = (props: HeaderProps) => {
     {
       path: pages.home.getPath({}),
       value: "",
-      dataCy: navigatioMenuIds.menuItemLinks.logo,
+      dataCy: navigationMenuIds.menuItemLinks.logo,
       icon: (
         <Image
           src={logoLight}
@@ -93,7 +93,7 @@ export const Header = (props: HeaderProps) => {
     {
       path: pages.home.getPath({}),
       value: LanguageService.sidebar.home[props.language],
-      dataCy: navigatioMenuIds.menuItemLinks.home,
+      dataCy: navigationMenuIds.menuItemLinks.home,
       icon: (
         <Icon
           size={IconSize.MEDIUM}
@@ -115,7 +115,7 @@ export const Header = (props: HeaderProps) => {
     {
       path: pages.allWays.getPath({}),
       value: LanguageService.sidebar.allWays[props.language],
-      dataCy: navigatioMenuIds.menuItemLinks.allWays,
+      dataCy: navigationMenuIds.menuItemLinks.allWays,
       icon: (
         <Icon
           size={IconSize.MEDIUM}
@@ -126,7 +126,7 @@ export const Header = (props: HeaderProps) => {
     {
       path: pages.allUsers.getPath({}),
       value: LanguageService.sidebar.allUsers[props.language],
-      dataCy: navigatioMenuIds.menuItemLinks.allUsers,
+      dataCy: navigationMenuIds.menuItemLinks.allUsers,
       icon: (
         <Icon
           size={IconSize.MEDIUM}
@@ -137,7 +137,7 @@ export const Header = (props: HeaderProps) => {
     {
       path: pages.aboutProject.getPath({}),
       value: LanguageService.sidebar.about[props.language],
-      dataCy: navigatioMenuIds.menuItemLinks.aboutProject,
+      dataCy: navigationMenuIds.menuItemLinks.aboutProject,
       icon: (
         <Icon
           size={IconSize.MEDIUM}
