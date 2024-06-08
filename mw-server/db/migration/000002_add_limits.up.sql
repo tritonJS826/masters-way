@@ -37,7 +37,8 @@ ALTER TABLE ways
 
 ALTER TABLE metrics
     ALTER COLUMN description TYPE VARCHAR(300),
-    ALTER COLUMN metric_estimation TYPE INTEGER; -- 52,560,000 min(100 years)
+    ALTER COLUMN metric_estimation TYPE INTEGER,
+    ADD CONSTRAINT metric_estimation_check CHECK (metric_estimation BETWEEN 0 AND 52560000);
 
 UPDATE job_tags
 SET name = LEFT(name, 20)
@@ -50,7 +51,8 @@ ALTER TABLE job_tags
 
 ALTER TABLE plans
     ALTER COLUMN description TYPE VARCHAR(1000),
-    ALTER COLUMN time TYPE INTEGER; -- 1440 min(1 day)
+    ALTER COLUMN time TYPE INTEGER,
+    ADD CONSTRAINT time_check CHECK (time BETWEEN 0 AND 1440);
 
 UPDATE job_dones
 SET description = LEFT(description, 1000)
@@ -58,7 +60,8 @@ WHERE LENGTH(description) > 1000;
 
 ALTER TABLE job_dones
     ALTER COLUMN description TYPE VARCHAR(1000),
-    ALTER COLUMN time TYPE INTEGER; -- 1440 min (1 day)
+    ALTER COLUMN time TYPE INTEGER,
+    ADD CONSTRAINT time_check CHECK (time BETWEEN 0 AND 1440);
 
 UPDATE problems
 SET description = LEFT(description, 1000)
