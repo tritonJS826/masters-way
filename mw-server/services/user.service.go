@@ -20,7 +20,7 @@ func CreateUser(db *dbb.Queries, ctx context.Context, args *dbb.CreateUserParams
 		Email:       user.Email,
 		Description: user.Description,
 		CreatedAt:   user.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-		ImageUrl:    util.MarshalNullString(user.ImageUrl),
+		ImageUrl:    user.ImageUrl,
 		IsMentor:    user.IsMentor,
 	}
 
@@ -54,7 +54,7 @@ func convertDbWaysToPlainWays(db *dbb.Queries, ctx context.Context, dbWays []dbW
 			Email:       dbOwner.Email,
 			Description: dbOwner.Description,
 			CreatedAt:   dbOwner.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-			ImageUrl:    util.MarshalNullString(dbOwner.ImageUrl),
+			ImageUrl:    dbOwner.ImageUrl,
 			IsMentor:    dbOwner.IsMentor,
 		}
 
@@ -66,7 +66,7 @@ func convertDbWaysToPlainWays(db *dbb.Queries, ctx context.Context, dbWays []dbW
 				Email:       dbMentor.Email,
 				Description: dbMentor.Description,
 				CreatedAt:   dbMentor.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-				ImageUrl:    util.MarshalNullString(dbMentor.ImageUrl),
+				ImageUrl:    dbMentor.ImageUrl,
 				IsMentor:    dbMentor.IsMentor,
 			}
 		})
@@ -274,7 +274,7 @@ func GetPopulatedUserById(db *dbb.Queries, ctx context.Context, userUuid uuid.UU
 				Email:       dbMentor.Email,
 				Description: dbMentor.Description,
 				CreatedAt:   dbMentor.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-				ImageUrl:    util.MarshalNullString(dbMentor.ImageUrl),
+				ImageUrl:    dbMentor.ImageUrl,
 				IsMentor:    dbMentor.IsMentor,
 			}
 		})
@@ -285,7 +285,7 @@ func GetPopulatedUserById(db *dbb.Queries, ctx context.Context, userUuid uuid.UU
 			Email:       dbOwner.Email,
 			Description: dbOwner.Description,
 			CreatedAt:   dbOwner.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-			ImageUrl:    util.MarshalNullString(dbOwner.ImageUrl),
+			ImageUrl:    dbOwner.ImageUrl,
 			IsMentor:    dbOwner.IsMentor,
 		}
 		return schemas.WayPlainResponse{
@@ -322,7 +322,7 @@ func GetPopulatedUserById(db *dbb.Queries, ctx context.Context, userUuid uuid.UU
 			Email:       dbUser.Email,
 			Description: dbUser.Description,
 			CreatedAt:   dbUser.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-			ImageUrl:    util.MarshalNullString(dbUser.ImageUrl),
+			ImageUrl:    dbUser.ImageUrl,
 			IsMentor:    dbUser.IsMentor,
 		}
 	})
@@ -333,7 +333,7 @@ func GetPopulatedUserById(db *dbb.Queries, ctx context.Context, userUuid uuid.UU
 		Email:              user.Email,
 		Description:        user.Description,
 		CreatedAt:          user.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-		ImageUrl:           util.MarshalNullString(user.ImageUrl),
+		ImageUrl:           user.ImageUrl,
 		IsMentor:           user.IsMentor,
 		WayCollections:     wayCollections,
 		DefaultCollections: defaultCollections,

@@ -432,28 +432,28 @@ LIMIT 1
 `
 
 type GetWayByIdRow struct {
-	Uuid                uuid.UUID      `json:"uuid"`
-	Name                string         `json:"name"`
-	GoalDescription     string         `json:"goal_description"`
-	UpdatedAt           time.Time      `json:"updated_at"`
-	CreatedAt           time.Time      `json:"created_at"`
-	EstimationTime      int32          `json:"estimation_time"`
-	CopiedFromWayUuid   uuid.NullUUID  `json:"copied_from_way_uuid"`
-	IsCompleted         bool           `json:"is_completed"`
-	IsPrivate           bool           `json:"is_private"`
-	ChildrenUuids       []string       `json:"children_uuids"`
-	OwnerUuid           uuid.UUID      `json:"owner_uuid"`
-	OwnerName           string         `json:"owner_name"`
-	OwnerEmail          string         `json:"owner_email"`
-	OwnerDescription    string         `json:"owner_description"`
-	OwnerCreatedAt      time.Time      `json:"owner_created_at"`
-	OwnerImageUrl       sql.NullString `json:"owner_image_url"`
-	OwnerIsMentor       bool           `json:"owner_is_mentor"`
-	WayMetricsTotal     int64          `json:"way_metrics_total"`
-	WayMetricsDone      int64          `json:"way_metrics_done"`
-	WayFavoriteForUsers int64          `json:"way_favorite_for_users"`
-	WayDayReportsAmount int64          `json:"way_day_reports_amount"`
-	ChildrenUuids_2     []string       `json:"children_uuids_2"`
+	Uuid                uuid.UUID     `json:"uuid"`
+	Name                string        `json:"name"`
+	GoalDescription     string        `json:"goal_description"`
+	UpdatedAt           time.Time     `json:"updated_at"`
+	CreatedAt           time.Time     `json:"created_at"`
+	EstimationTime      int32         `json:"estimation_time"`
+	CopiedFromWayUuid   uuid.NullUUID `json:"copied_from_way_uuid"`
+	IsCompleted         bool          `json:"is_completed"`
+	IsPrivate           bool          `json:"is_private"`
+	ChildrenUuids       []string      `json:"children_uuids"`
+	OwnerUuid           uuid.UUID     `json:"owner_uuid"`
+	OwnerName           string        `json:"owner_name"`
+	OwnerEmail          string        `json:"owner_email"`
+	OwnerDescription    string        `json:"owner_description"`
+	OwnerCreatedAt      time.Time     `json:"owner_created_at"`
+	OwnerImageUrl       string        `json:"owner_image_url"`
+	OwnerIsMentor       bool          `json:"owner_is_mentor"`
+	WayMetricsTotal     int64         `json:"way_metrics_total"`
+	WayMetricsDone      int64         `json:"way_metrics_done"`
+	WayFavoriteForUsers int64         `json:"way_favorite_for_users"`
+	WayDayReportsAmount int64         `json:"way_day_reports_amount"`
+	ChildrenUuids_2     []string      `json:"children_uuids_2"`
 }
 
 func (q *Queries) GetWayById(ctx context.Context, wayUuid uuid.UUID) (GetWayByIdRow, error) {

@@ -31,7 +31,7 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 		Email:       way.OwnerEmail,
 		Description: way.OwnerDescription,
 		CreatedAt:   way.OwnerCreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-		ImageUrl:    util.MarshalNullString(way.OwnerImageUrl),
+		ImageUrl:    way.OwnerImageUrl,
 		IsMentor:    way.OwnerIsMentor,
 	}
 
@@ -57,7 +57,7 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 			Email:       fromUser.Email,
 			Description: fromUser.Description,
 			CreatedAt:   fromUser.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-			ImageUrl:    util.MarshalNullString(fromUser.ImageUrl),
+			ImageUrl:    fromUser.ImageUrl,
 			IsMentor:    fromUser.IsMentor,
 		}
 	})
@@ -70,7 +70,7 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 			Email:       dbFormerMentor.Email,
 			Description: dbFormerMentor.Description,
 			CreatedAt:   dbFormerMentor.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-			ImageUrl:    util.MarshalNullString(dbFormerMentor.ImageUrl),
+			ImageUrl:    dbFormerMentor.ImageUrl,
 			IsMentor:    dbFormerMentor.IsMentor,
 		}
 	})
@@ -83,7 +83,7 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 			Email:       dbMentor.Email,
 			Description: dbMentor.Description,
 			CreatedAt:   dbMentor.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-			ImageUrl:    util.MarshalNullString(dbMentor.ImageUrl),
+			ImageUrl:    dbMentor.ImageUrl,
 			IsMentor:    dbMentor.IsMentor,
 		}
 	})
@@ -307,7 +307,7 @@ func GetPlainWayById(db *dbb.Queries, ctx context.Context, wayUuid uuid.UUID) (s
 			Email:       dbMentor.Email,
 			Description: dbMentor.Description,
 			CreatedAt:   dbMentor.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-			ImageUrl:    util.MarshalNullString(dbMentor.ImageUrl),
+			ImageUrl:    dbMentor.ImageUrl,
 			IsMentor:    dbMentor.IsMentor,
 		}
 	})
@@ -319,7 +319,7 @@ func GetPlainWayById(db *dbb.Queries, ctx context.Context, wayUuid uuid.UUID) (s
 		Email:       dbOwner.Email,
 		Description: dbOwner.Description,
 		CreatedAt:   dbOwner.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-		ImageUrl:    util.MarshalNullString(dbOwner.ImageUrl),
+		ImageUrl:    dbOwner.ImageUrl,
 		IsMentor:    dbOwner.IsMentor,
 	}
 	dbTags, _ := db.GetListWayTagsByWayId(ctx, way.Uuid)
