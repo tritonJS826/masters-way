@@ -6,56 +6,10 @@ package db
 
 import (
 	"database/sql"
-	"database/sql/driver"
-	"fmt"
 	"time"
 
 	"github.com/google/uuid"
 )
-
-type WayCollectionType string
-
-const (
-	WayCollectionTypeOwn       WayCollectionType = "own"
-	WayCollectionTypeFavorite  WayCollectionType = "favorite"
-	WayCollectionTypeMentoring WayCollectionType = "mentoring"
-	WayCollectionTypeCustom    WayCollectionType = "custom"
-)
-
-func (e *WayCollectionType) Scan(src interface{}) error {
-	switch s := src.(type) {
-	case []byte:
-		*e = WayCollectionType(s)
-	case string:
-		*e = WayCollectionType(s)
-	default:
-		return fmt.Errorf("unsupported scan type for WayCollectionType: %T", src)
-	}
-	return nil
-}
-
-type NullWayCollectionType struct {
-	WayCollectionType WayCollectionType `json:"way_collection_type"`
-	Valid             bool              `json:"valid"` // Valid is true if WayCollectionType is not NULL
-}
-
-// Scan implements the Scanner interface.
-func (ns *NullWayCollectionType) Scan(value interface{}) error {
-	if value == nil {
-		ns.WayCollectionType, ns.Valid = "", false
-		return nil
-	}
-	ns.Valid = true
-	return ns.WayCollectionType.Scan(value)
-}
-
-// Value implements the driver Valuer interface.
-func (ns NullWayCollectionType) Value() (driver.Value, error) {
-	if !ns.Valid {
-		return nil, nil
-	}
-	return string(ns.WayCollectionType), nil
-}
 
 type Comment struct {
 	Uuid          uuid.UUID `json:"uuid"`
@@ -175,14 +129,14 @@ type ToUserMentoringRequest struct {
 }
 
 type User struct {
-	Uuid        uuid.UUID      `json:"uuid"`
-	Name        string         `json:"name"`
-	Email       string         `json:"email"`
-	Description string         `json:"description"`
-	CreatedAt   time.Time      `json:"created_at"`
-	ImageUrl    sql.NullString `json:"image_url"`
-	IsMentor    bool           `json:"is_mentor"`
-	FirebaseID  string         `json:"firebase_id"`
+	Uuid        uuid.UUID `json:"uuid"`
+	Name        string    `json:"name"`
+	Email       string    `json:"email"`
+	Description string    `json:"description"`
+	CreatedAt   time.Time `json:"created_at"`
+	ImageUrl    string    `json:"image_url"`
+	IsMentor    bool      `json:"is_mentor"`
+	FirebaseID  string    `json:"firebase_id"`
 }
 
 type UserTag struct {
@@ -209,12 +163,12 @@ type Way struct {
 }
 
 type WayCollection struct {
-	Uuid      uuid.UUID         `json:"uuid"`
-	OwnerUuid uuid.UUID         `json:"owner_uuid"`
-	CreatedAt time.Time         `json:"created_at"`
-	UpdatedAt time.Time         `json:"updated_at"`
-	Name      string            `json:"name"`
-	Type      WayCollectionType `json:"type"`
+	Uuid      uuid.UUID `json:"uuid"`
+	OwnerUuid uuid.UUID `json:"owner_uuid"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
+	Name      string    `json:"name"`
+	Type      string    `json:"type"`
 }
 
 type WayCollectionsWay struct {

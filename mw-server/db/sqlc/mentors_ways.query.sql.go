@@ -7,7 +7,6 @@ package db
 
 import (
 	"context"
-	"database/sql"
 	"time"
 
 	"github.com/google/uuid"
@@ -102,15 +101,15 @@ WHERE way_uuid = ANY($1::UUID[])
 `
 
 type GetMentorUsersByWayIdsRow struct {
-	Uuid        uuid.UUID      `json:"uuid"`
-	Name        string         `json:"name"`
-	Email       string         `json:"email"`
-	Description string         `json:"description"`
-	CreatedAt   time.Time      `json:"created_at"`
-	ImageUrl    sql.NullString `json:"image_url"`
-	IsMentor    bool           `json:"is_mentor"`
-	FirebaseID  string         `json:"firebase_id"`
-	WayUuid     uuid.UUID      `json:"way_uuid"`
+	Uuid        uuid.UUID `json:"uuid"`
+	Name        string    `json:"name"`
+	Email       string    `json:"email"`
+	Description string    `json:"description"`
+	CreatedAt   time.Time `json:"created_at"`
+	ImageUrl    string    `json:"image_url"`
+	IsMentor    bool      `json:"is_mentor"`
+	FirebaseID  string    `json:"firebase_id"`
+	WayUuid     uuid.UUID `json:"way_uuid"`
 }
 
 func (q *Queries) GetMentorUsersByWayIds(ctx context.Context, dollar_1 []uuid.UUID) ([]GetMentorUsersByWayIdsRow, error) {
