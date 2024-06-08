@@ -26,11 +26,11 @@ INSERT INTO way_collections(
 `
 
 type CreateWayCollectionParams struct {
-	OwnerUuid uuid.UUID         `json:"owner_uuid"`
-	CreatedAt time.Time         `json:"created_at"`
-	UpdatedAt time.Time         `json:"updated_at"`
-	Name      string            `json:"name"`
-	Type      WayCollectionType `json:"type"`
+	OwnerUuid uuid.UUID `json:"owner_uuid"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
+	Name      string    `json:"name"`
+	Type      string    `json:"type"`
 }
 
 func (q *Queries) CreateWayCollection(ctx context.Context, arg CreateWayCollectionParams) (WayCollection, error) {

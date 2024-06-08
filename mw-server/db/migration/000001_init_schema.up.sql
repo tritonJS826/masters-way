@@ -161,15 +161,13 @@ CREATE TABLE "comments"(
     CONSTRAINT "comments_pkey" PRIMARY KEY("uuid")
 );
 
-CREATE TYPE way_collection_type AS ENUM ('custom');
-
 CREATE TABLE "way_collections"(
     "uuid" UUID NOT NULL DEFAULT (uuid_generate_v4()),
     "owner_uuid" UUID NOT NULL REFERENCES users("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
     "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "name" VARCHAR NOT NULL,
-    "type" way_collection_type NOT NULL,
+    "type" VARCHAR(20) NOT NULL,
     CONSTRAINT "way_collections_pkey" PRIMARY KEY("uuid")
 );
 
