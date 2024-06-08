@@ -8,11 +8,11 @@ import (
 	"net/http"
 
 	"mwserver/auth"
+	"mwserver/config"
 	"mwserver/controllers"
 	dbCon "mwserver/db/sqlc"
 	_ "mwserver/docs"
 	"mwserver/routes"
-	"mwserver/util"
 
 	_ "mwserver/docs"
 
@@ -101,13 +101,7 @@ var (
 
 func init() {
 	ctx = context.TODO()
-	config, err := util.LoadConfig(".")
-
-	if err != nil {
-		log.Fatalf("could not loadconfig: %v", err)
-	}
-
-	conn, err := sql.Open(config.DbDriver, config.DbSource)
+	conn, err := sql.Open(config.Env.DbDriver, config.Env.DbSource)
 	if err != nil {
 		log.Fatalf("Could not connect to database: %v", err)
 	}
@@ -121,8 +115,8 @@ func init() {
 
 	// Apply CORS middleware with custom options
 	server.Use(cors.New(cors.Config{
-		// AllowOrigins: []string{"http://localhost:5173/"},
-		AllowOrigins:     []string{"*"},
+		// AllowOrigins:     []string{"*"},
+		AllowOrigins:     []string{config.Env.WebappBaseUrl},
 		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length"},
@@ -198,7 +192,7 @@ func init() {
 	MentorUserWayController = *controllers.NewMentorUserWayController(db, ctx)
 	MentorUserWayRoutes = routes.NewRouteMentorUserWay(MentorUserWayController)
 
-	if config.EnvType != "prod" {
+	if config.Env.EnvType != "prod" {
 		server.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	}
 }
@@ -207,11 +201,6 @@ func init() {
 // @version 1.0
 // @BasePath  /api
 func main() {
-	config, err := util.LoadConfig(".")
-	if err != nil {
-		log.Fatalf("failed to load config: %v", err)
-	}
-
 	router := server.Group("/api")
 
 	router.GET("/healthcheck", func(ctx *gin.Context) {
@@ -246,9 +235,9 @@ func main() {
 		ctx.JSON(http.StatusNotFound, gin.H{"status": "failed", "message": fmt.Sprintf("The specified route %s not found", ctx.Request.URL)})
 	})
 
-	if config.EnvType == "prod" {
-		log.Fatal(server.RunTLS(":"+config.ServerAddress, "./server.crt", "./server.key"))
+	if config.Env.EnvType == "prod" {
+		log.Fatal(server.RunTLS(":"+config.Env.ServerAddress, "./server.crt", "./server.key"))
 	} else {
-		log.Fatal(server.Run(":" + config.ServerAddress))
+		log.Fatal(server.Run(":" + config.Env.ServerAddress))
 	}
 }

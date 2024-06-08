@@ -2,6 +2,7 @@ package util
 
 import (
 	"database/sql"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -14,5 +15,6 @@ func HandleErrorGin(c *gin.Context, err error) {
 			return
 		}
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		log.Panic(err)
 	}
 }
