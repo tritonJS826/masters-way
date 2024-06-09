@@ -17,6 +17,11 @@ SELECT * FROM users
 WHERE uuid = $1
 LIMIT 1;
 
+-- name: GetUserByEmail :one
+SELECT * FROM users
+WHERE email = $1
+LIMIT 1;
+
 -- name: GetUserByIds :many
 SELECT * FROM users
 WHERE uuid = ANY($1::UUID[]);

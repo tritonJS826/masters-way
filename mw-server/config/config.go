@@ -1,6 +1,10 @@
-package util
+package config
 
-import "github.com/spf13/viper"
+import (
+	"log"
+
+	"github.com/spf13/viper"
+)
 
 type Config struct {
 	DbDriver          string `mapstructure:"DB_DRIVER"`
@@ -13,6 +17,9 @@ type Config struct {
 	GooglClientId     string `mapstructure:"GOOGLE_CLIENT_ID"`
 	GooglClientSecret string `mapstructure:"GOOGLE_SECRET_ID"`
 	SecretSessionKey  string `mapstructure:"SECRET_SESSION_KEY"`
+	ApiBaseUrl        string `mapstructure:"API_BASE_URL"`
+	WebappBaseUrl     string `mapstructure:"WEBAPP_BASE_URL"`
+	Domain            string `mapstructure:"WEBAPP_DOMAIN"`
 }
 
 func LoadConfig(path string) (config Config, err error) {
@@ -23,9 +30,15 @@ func LoadConfig(path string) (config Config, err error) {
 
 	err = viper.ReadInConfig()
 	if err != nil {
+		log.Fatalf("could not loadconfig: %v", err)
 		return
 	}
 
 	err = viper.Unmarshal(&config)
+	if err != nil {
+		log.Fatalf("could not loadconfig: %v", err)
+	}
 	return
 }
+
+var Env, _ = LoadConfig(".")
