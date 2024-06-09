@@ -1,8 +1,8 @@
 package auth
 
 import (
-	"mwserver/config"
-	"net/http"
+	"log"
+	"mwserver/util"
 
 	"github.com/gorilla/sessions"
 	"github.com/markbates/goth"
@@ -11,29 +11,33 @@ import (
 )
 
 const (
-	MaxAge = 86400 * 30
+	MaxAge = 86400 * 5
 )
 
-const AuthSession = "auth-session"
-const AuthSessionPublic = "auth-session-public"
-const UserIdKey = "userID"
-
 func NewAuth() {
-	store := sessions.NewCookieStore([]byte(config.Env.SecretSessionKey))
+	config, err := util.LoadConfig(".")
+	if err != nil {
+		log.Fatalf("failed to load config: %v", err)
+	}
 
+	store := sessions.NewCookieStore([]byte(config.SecretSessionKey))
 	store.MaxAge(MaxAge)
-	store.Options.MaxAge = MaxAge
+
 	store.Options.Path = "/"
-	store.Options.HttpOnly = true
-	store.Options.Secure = true
-	store.Options.SameSite = http.SameSiteNoneMode
-	store.Options.Domain = config.Env.Domain
+	store.Options.HttpOnly = config.EnvType != "prod"
+	store.Options.Secure = config.EnvType == "prod"
 
 	gothic.Store = store
 
-	googleCallBackUrl := config.Env.ApiBaseUrl + "/api/auth/google/callback"
+	var callBackUrl string
+	if config.EnvType == "prod" {
+		// TODO: move to env variables
+		callBackUrl = "https://mastersway.netlify.app"
+	} else {
+		callBackUrl = "http://localhost:5173"
+	}
 
 	goth.UseProviders(
-		google.New(config.Env.GooglClientId, config.Env.GooglClientSecret, googleCallBackUrl, "email", "profile"),
+		google.New(config.GooglClientId, config.GooglClientSecret, callBackUrl, "email", "profile"),
 	)
 }
