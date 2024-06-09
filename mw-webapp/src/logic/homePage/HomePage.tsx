@@ -15,7 +15,6 @@ import {languageStore} from "src/globalStore/LanguageStore";
 import {userStore} from "src/globalStore/UserStore";
 import {GoalItem} from "src/logic/homePage/goalItem/GoalItem";
 import {pages} from "src/router/pages";
-import {AuthService} from "src/service/AuthService";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/homePage/HomePage.module.scss";
 
@@ -25,7 +24,7 @@ import styles from "src/logic/homePage/HomePage.module.scss";
 const getStarted = (navigate: NavigateFunction, userUuid?: string) => {
   userUuid
     ? navigate(pages.user.getPath({uuid: userUuid}))
-    : AuthService.logIn();
+    : navigate(pages.oauth.getPath({uuid: userUuid}));
 };
 
 /**
