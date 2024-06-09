@@ -10,7 +10,7 @@ import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {Select} from "src/component/select/Select";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {generateViewSwitcherOptions, ViewSwitcher} from "src/component/viewSwitcher/ViewSwitcher";
+import {renderViewCardOption, renderViewTableOption, ViewSwitcher} from "src/component/viewSwitcher/ViewSwitcher";
 import {WayCard} from "src/component/wayCard/WayCard";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
@@ -156,12 +156,10 @@ export const AllWaysPage = observer(() => {
             filterStatus: allWaysPageSettings.filterStatus,
             view,
           })}
-          options={
-            generateViewSwitcherOptions(
-              LanguageService.allWays.filterBlock.cardViewTooltip[language],
-              LanguageService.allWays.filterBlock.tableViewTooltip[language],
-            )
-          }
+          options={[
+            renderViewCardOption(LanguageService.common.view.cardViewTooltip[language]),
+            renderViewTableOption(LanguageService.common.view.tableViewTooltip[language]),
+          ]}
         />
       </HorizontalContainer>
 

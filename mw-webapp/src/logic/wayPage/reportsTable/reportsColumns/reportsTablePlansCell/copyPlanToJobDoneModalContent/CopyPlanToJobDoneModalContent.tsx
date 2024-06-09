@@ -153,6 +153,9 @@ export const CopyPlanToJobDoneModalContent = observer((props: CopyPlanToJobDoneM
                     time: inputPlanTime,
                   });
 
+                  props.plan.updateTime(getValidatedTime(Number(inputPlanTime)));
+                  props.plan.updateDescription(inputPlanJob);
+
                   props.updatePlan(toggledPlan);
                   props.copyPlanToJobInCurrentDayReport(planForJob);
                 }}

@@ -9,7 +9,7 @@ import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {Select} from "src/component/select/Select";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {generateViewSwitcherOptions, ViewSwitcher} from "src/component/viewSwitcher/ViewSwitcher";
+import {renderViewCardOption, renderViewTableOption, ViewSwitcher} from "src/component/viewSwitcher/ViewSwitcher";
 import {WayCard} from "src/component/wayCard/WayCard";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
@@ -170,12 +170,10 @@ export const BaseWaysTable = observer((props: BaseWaysTableProps) => {
           <ViewSwitcher
             view={props.view}
             setView={props.setView}
-            options={
-              generateViewSwitcherOptions(
-                LanguageService.user.filterBlock.cardViewTooltip[language],
-                LanguageService.user.filterBlock.tableViewTooltip[language],
-              )
-            }
+            options={[
+              renderViewCardOption(LanguageService.common.view.cardViewTooltip[language]),
+              renderViewTableOption(LanguageService.common.view.tableViewTooltip[language]),
+            ]}
           />
         </HorizontalContainer>
       </HorizontalContainer>

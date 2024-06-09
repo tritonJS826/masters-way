@@ -129,14 +129,14 @@ type ToUserMentoringRequest struct {
 }
 
 type User struct {
-	Uuid        uuid.UUID      `json:"uuid"`
-	Name        string         `json:"name"`
-	Email       string         `json:"email"`
-	Description string         `json:"description"`
-	CreatedAt   time.Time      `json:"created_at"`
-	ImageUrl    sql.NullString `json:"image_url"`
-	IsMentor    bool           `json:"is_mentor"`
-	FirebaseID  string         `json:"firebase_id"`
+	Uuid        uuid.UUID `json:"uuid"`
+	Name        string    `json:"name"`
+	Email       string    `json:"email"`
+	Description string    `json:"description"`
+	CreatedAt   time.Time `json:"created_at"`
+	ImageUrl    string    `json:"image_url"`
+	IsMentor    bool      `json:"is_mentor"`
+	FirebaseID  string    `json:"firebase_id"`
 }
 
 type UserTag struct {

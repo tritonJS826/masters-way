@@ -12,7 +12,7 @@ import {Select} from "src/component/select/Select";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {UserCard} from "src/component/userCard/UserCard";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {generateViewSwitcherOptions, ViewSwitcher} from "src/component/viewSwitcher/ViewSwitcher";
+import {renderViewCardOption, renderViewTableOption, ViewSwitcher} from "src/component/viewSwitcher/ViewSwitcher";
 import {UserDAL} from "src/dataAccessLogic/UserDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
@@ -188,12 +188,10 @@ export const AllUsersPage = observer(() => {
         <ViewSwitcher
           view={allUsersPageSettings.view}
           setView={(view) => updateAllUsersPageSettings({view})}
-          options={
-            generateViewSwitcherOptions(
-              LanguageService.allUsers.filterBlock.cardViewTooltip[language],
-              LanguageService.allUsers.filterBlock.tableViewTooltip[language],
-            )
-          }
+          options={[
+            renderViewCardOption(LanguageService.common.view.cardViewTooltip[language]),
+            renderViewTableOption(LanguageService.common.view.tableViewTooltip[language]),
+          ]}
         />
       </HorizontalContainer>
 

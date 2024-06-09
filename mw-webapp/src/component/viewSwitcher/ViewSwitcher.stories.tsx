@@ -1,5 +1,5 @@
 import type {StoryObj} from "@storybook/react";
-import {generateViewSwitcherOptions, ViewSwitcher} from "src/component/viewSwitcher/ViewSwitcher";
+import {renderViewCardOption, renderViewTableOption, ViewSwitcher} from "src/component/viewSwitcher/ViewSwitcher";
 import {View} from "src/utils/LocalStorageWorker";
 
 const meta = {
@@ -12,7 +12,10 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const options = generateViewSwitcherOptions("Grid View", "Table View");
+const options = [
+  renderViewCardOption("Grid View"),
+  renderViewTableOption("Table View"),
+];
 
 export const Default: Story = {
   args: {
