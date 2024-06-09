@@ -68,23 +68,26 @@ export interface ViewSwitcherProps {
 }
 
 /**
- * Function to generate array of options for View Switcher Component
+ * Card view option
  */
-export function generateViewSwitcherOptions
-(tooltipContentForCardView: tooltipContent, tooltipContentForTableView: tooltipContent): ViewOption[] {
-  return [
-    {
-      view: View.Card,
-      tooltipContent: tooltipContentForCardView,
-      iconName: "GridViewIcon",
-    },
-    {
-      view: View.Table,
-      tooltipContent: tooltipContentForTableView,
-      iconName: "TableViewIcon",
-    },
-  ];
-}
+export const renderViewCardOption = (tooltipContent: tooltipContent): ViewOption => {
+  return {
+    view: View.Card,
+    tooltipContent,
+    iconName: "GridViewIcon",
+  };
+};
+
+/**
+ * Card table option
+ */
+export const renderViewTableOption = (tooltipContent: tooltipContent): ViewOption => {
+  return {
+    view: View.Table,
+    tooltipContent,
+    iconName: "TableViewIcon",
+  };
+};
 
 /**
  * ViewSwitcher component

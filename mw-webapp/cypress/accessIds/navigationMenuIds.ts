@@ -1,4 +1,4 @@
-export const navigatioMenuIds = {
+export const navigationMenuIds = {
     menuItemLinks: {
         logo: 'menuLogo',
         home: 'home',
