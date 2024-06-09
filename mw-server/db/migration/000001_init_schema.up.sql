@@ -166,7 +166,7 @@ CREATE TABLE "way_collections"(
     "owner_uuid" UUID NOT NULL REFERENCES users("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
     "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "name" VARCHAR NOT NULL,
+    "name" VARCHAR(50) NOT NULL,
     "type" VARCHAR(20) NOT NULL,
     CONSTRAINT "way_collections_pkey" PRIMARY KEY("uuid")
 );
