@@ -1985,7 +1985,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.WayPopulatedResponse"
+                            "$ref": "#/definitions/schemas.WayPlainResponse"
                         }
                     }
                 }
@@ -3261,6 +3261,7 @@
         "schemas.WayPlainResponse": {
             "type": "object",
             "required": [
+                "childrenUuids",
                 "copiedFromWayUuid",
                 "createdAt",
                 "dayReportsAmount",
@@ -3279,6 +3280,12 @@
                 "wayTags"
             ],
             "properties": {
+                "childrenUuids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
                 "copiedFromWayUuid": {
                     "type": "string",
                     "x-nullable": true

@@ -51,13 +51,13 @@ INSERT INTO users(
 `
 
 type CreateUserParams struct {
-	Name        string         `json:"name"`
-	Email       string         `json:"email"`
-	Description string         `json:"description"`
-	CreatedAt   time.Time      `json:"created_at"`
-	ImageUrl    sql.NullString `json:"image_url"`
-	IsMentor    bool           `json:"is_mentor"`
-	FirebaseID  string         `json:"firebase_id"`
+	Name        string    `json:"name"`
+	Email       string    `json:"email"`
+	Description string    `json:"description"`
+	CreatedAt   time.Time `json:"created_at"`
+	ImageUrl    string    `json:"image_url"`
+	IsMentor    bool      `json:"is_mentor"`
+	FirebaseID  string    `json:"firebase_id"`
 }
 
 func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, error) {
@@ -226,20 +226,20 @@ type ListUsersParams struct {
 }
 
 type ListUsersRow struct {
-	Uuid                   uuid.UUID      `json:"uuid"`
-	Name                   string         `json:"name"`
-	Email                  string         `json:"email"`
-	Description            string         `json:"description"`
-	CreatedAt              time.Time      `json:"created_at"`
-	ImageUrl               sql.NullString `json:"image_url"`
-	IsMentor               bool           `json:"is_mentor"`
-	OwnWaysAmount          int64          `json:"own_ways_amount"`
-	FavoriteWays           int64          `json:"favorite_ways"`
-	MentoringWaysAmount    int64          `json:"mentoring_ways_amount"`
-	FavoriteForUsersAmount int64          `json:"favorite_for_users_amount"`
-	TagUuids               []string       `json:"tag_uuids"`
-	TagNames               []string       `json:"tag_names"`
-	UsersSize              int64          `json:"users_size"`
+	Uuid                   uuid.UUID `json:"uuid"`
+	Name                   string    `json:"name"`
+	Email                  string    `json:"email"`
+	Description            string    `json:"description"`
+	CreatedAt              time.Time `json:"created_at"`
+	ImageUrl               string    `json:"image_url"`
+	IsMentor               bool      `json:"is_mentor"`
+	OwnWaysAmount          int64     `json:"own_ways_amount"`
+	FavoriteWays           int64     `json:"favorite_ways"`
+	MentoringWaysAmount    int64     `json:"mentoring_ways_amount"`
+	FavoriteForUsersAmount int64     `json:"favorite_for_users_amount"`
+	TagUuids               []string  `json:"tag_uuids"`
+	TagNames               []string  `json:"tag_names"`
+	UsersSize              int64     `json:"users_size"`
 }
 
 // TODO: add filter and sorters

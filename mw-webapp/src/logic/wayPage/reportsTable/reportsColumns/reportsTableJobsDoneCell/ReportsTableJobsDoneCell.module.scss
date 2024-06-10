@@ -45,3 +45,13 @@
     cursor: pointer;
   }
 }
+
+.linkToOwnerWay {
+  display: flex;
+  align-items: center;
+}
+
+.socialMediaIcon {
+  width: $iconSizeSmall;
+  height: $iconSizeSmall;
+}

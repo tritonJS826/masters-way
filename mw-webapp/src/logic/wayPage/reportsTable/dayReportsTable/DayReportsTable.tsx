@@ -5,12 +5,15 @@ import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalC
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {CreateDayReportParams} from "src/dataAccessLogic/DayReportDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {Columns} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
 import {ReportsTable} from "src/logic/wayPage/reportsTable/ReportsTable";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Way} from "src/model/businessModel/Way";
+import {UserPreviewShort} from "src/model/businessModelPreview/UserPreviewShort";
 import {LanguageService} from "src/service/LanguageService";
+import {arrayToHashMap} from "src/utils/arrayToHashMap";
 import styles from "src/logic/wayPage/reportsTable/dayReportsTable/DayReportsTable.module.scss";
 
 /**
@@ -24,14 +27,14 @@ interface DayReportsTableProps {
   way: Way;
 
   /**
-   * Set day reports
+   * Composite way participants
    */
-  setDayReports: (dayReports: DayReport[] | ((prevDayReports: DayReport[]) => DayReport[])) => void;
+  compositeWayParticipant: UserPreviewShort[];
 
   /**
    * Create new day report
    */
-  createDayReport: (wayUuid: string, dayReportUuids: DayReport[]) => Promise<DayReport>;
+  createDayReport: (dayReportParams: CreateDayReportParams, dayReportUuids: DayReport[]) => Promise<DayReport>;
 }
 
 /**
@@ -60,6 +63,8 @@ export const DayReportsTable = observer((props: DayReportsTableProps) => {
 
   const isShowMoreReportsButtonVisible = visibleReports.length < props.way.dayReports.length;
 
+  const wayParticipantsMap = arrayToHashMap({keyField: "uuid", list: props.compositeWayParticipant});
+
   return (
     <>
       <HorizontalContainer className={styles.titleContainer}>
@@ -80,9 +85,9 @@ export const DayReportsTable = observer((props: DayReportsTableProps) => {
           <ReportsTable
             data={visibleReports}
             columns={Columns({
-              setDayReports: props.setDayReports,
               way: props.way,
               createDayReport: props.createDayReport,
+              wayParticipantsMap,
             })}
           />
         </ScrollableBlock>

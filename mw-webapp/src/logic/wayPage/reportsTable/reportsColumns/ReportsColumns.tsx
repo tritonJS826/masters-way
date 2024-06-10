@@ -1,6 +1,8 @@
 import {createColumnHelper} from "@tanstack/react-table";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
+import {CreateDayReportParams} from "src/dataAccessLogic/DayReportDAL";
+import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {userStore} from "src/globalStore/UserStore";
 import {ReportsTableCommentsCell}
@@ -13,8 +15,8 @@ import {ReportsTableProblemsCell}
   from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableProblemsCell/ReportsTableProblemsCell";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Way} from "src/model/businessModel/Way";
+import {UserPreviewShort} from "src/model/businessModelPreview/UserPreviewShort";
 import {LanguageService} from "src/service/LanguageService";
-import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
 export const DEFAULT_SUMMARY_TIME = 0;
 export const MAX_TIME = 9999;
@@ -46,19 +48,19 @@ export const getListNumberByIndex = (index: number) => {
 interface ColumnsProps {
 
   /**
-   * Callback that change dayReports
-   */
-  setDayReports: (dayReports: DayReport[] | ((prevDayReports: DayReport[]) => DayReport[])) => void;
-
-  /**
    * Way
    */
   way: Way;
 
   /**
+   * Way's participants
+   */
+  wayParticipantsMap: Map<string, UserPreviewShort>;
+
+  /**
    * Create new day report
    */
-  createDayReport: (wayUuid: string, dayReportUuids: DayReport[]) => Promise<DayReport>;
+  createDayReport: (dayReportParams: CreateDayReportParams, dayReportUuids: DayReport[]) => Promise<DayReport>;
 }
 
 /**
@@ -72,29 +74,9 @@ export const Columns = (props: ColumnsProps) => {
   const isOwner = user?.uuid === ownerUuid;
   const isMentor = !!user && !!user.uuid && props.way.mentors.has(user.uuid);
   const isUserOwnerOrMentor = isOwner || isMentor;
+  const isWayComposite = props.way.children.length !== 0;
 
-  /**
-   * Update DayReport
-   */
-  const updateReport = async (report: PartialWithUuid<DayReport>) => {
-    props.setDayReports((prevDayReports: DayReport[]) => {
-      const reportToUpdate = prevDayReports.find(dayReport => dayReport.uuid === report.uuid);
-      if (!reportToUpdate) {
-        throw new Error(`Report with uuid ${report.uuid} is undefined`);
-      }
-
-      const updatedReport = new DayReport({...reportToUpdate, ...report});
-      const updatedDayReports = prevDayReports.map(dayReport => dayReport.uuid === report.uuid
-        ? updatedReport
-        : dayReport,
-      );
-
-      // TODO await
-      // DayReportDAL.updateDayReport(updatedReport);
-
-      return updatedDayReports;
-    });
-  };
+  const participantsSafeMap = new SafeMap(props.wayParticipantsMap);
 
   const columns = [
     columnHelper.accessor("createdAt", {
@@ -139,7 +121,10 @@ export const Columns = (props: ColumnsProps) => {
           dayReport={row.original}
           isEditable={isUserOwnerOrMentor}
           jobTags={props.way.jobTags}
-          updateDayReport={updateReport}
+          wayUuid={props.way.uuid}
+          wayName={props.way.name}
+          isWayComposite={isWayComposite}
+          wayParticipantsMap={participantsSafeMap}
         />
       ),
     }),
@@ -165,10 +150,10 @@ export const Columns = (props: ColumnsProps) => {
           dayReport={row.original}
           isEditable={isUserOwnerOrMentor}
           jobTags={props.way.jobTags}
-          updateDayReport={updateReport}
           way={props.way}
           createDayReport={props.createDayReport}
           user={user}
+          wayParticipantsMap={participantsSafeMap}
         />
       ),
     }),
@@ -193,9 +178,9 @@ export const Columns = (props: ColumnsProps) => {
         <ReportsTableProblemsCell
           dayReport={row.original}
           isEditable={isUserOwnerOrMentor}
-          updateDayReport={updateReport}
           way={props.way}
           user={user}
+          wayParticipantsMap={participantsSafeMap}
         />
       ),
     }),
@@ -220,9 +205,9 @@ export const Columns = (props: ColumnsProps) => {
         <ReportsTableCommentsCell
           dayReport={row.original}
           isEditable={isUserOwnerOrMentor}
-          updateDayReport={updateReport}
           way={props.way}
           user={user}
+          wayParticipantsMap={participantsSafeMap}
         />
       ),
     }),

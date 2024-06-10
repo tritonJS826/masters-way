@@ -4,7 +4,7 @@
   max-width: $maxWidthContainer;
   padding: 0 $paddingMedium;
   margin: 0 auto;
-  gap: $gapMedium;
+  gap: $gapSmall;
 }
 
 .loadMoreButton {
@@ -23,22 +23,12 @@
 }
 
 .wayCards {
-  gap: $gapMedium;
+  gap: $gapSmall;
   grid-template-columns: repeat(auto-fill, minmax($mediumWidthBlock, 1fr));
 
   @media (max-width: $mediaWidthTablet) {
     grid-template-columns: repeat(auto-fill, minmax($minWidthBlock, 1fr));
   }
-}
-
-.iconView {
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-}
-
-.activeView {
-  scale: 1.2;
 }
 
 .filterView {

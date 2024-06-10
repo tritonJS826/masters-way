@@ -90,19 +90,22 @@ export const GoalMetricItem = observer((props: SingleGoalMetricProps) => {
             />
           )
         }
-        <Tooltip
-          content={tooltipContent}
-          className={styles.tooltip}
-        >
-          <EditableTextarea
-            text={props.metric.description ?? ""}
-            onChangeFinish={(description) => props.updateMetric({...props.metric, description})}
-            isEditable={props.isEditable}
-            placeholder={props.isEditable
-              ? LanguageService.common.emptyMarkdownAction[language]
-              : LanguageService.common.emptyMarkdown[language]}
-          />
-        </Tooltip>
+        <div className={styles.metricDescriptionWrapper}>
+          <Tooltip
+            content={tooltipContent}
+            className={styles.tooltip}
+          >
+            <EditableTextarea
+              text={props.metric.description ?? ""}
+              onChangeFinish={(description) => props.updateMetric({...props.metric, description})}
+              isEditable={props.isEditable}
+              placeholder={props.isEditable
+                ? LanguageService.common.emptyMarkdownAction[language]
+                : LanguageService.common.emptyMarkdown[language]}
+            />
+          </Tooltip>
+        </div>
+
       </HorizontalContainer>
       {props.isEditable && (
         <Tooltip content={LanguageService.way.metricsBlock.deleteGoalMetricTooltip[language]}>

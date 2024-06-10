@@ -4,6 +4,59 @@ import {JobDoneService} from "src/service/JobDoneService";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 
 /**
+ * Create Job params
+ */
+interface CreateJobParams {
+
+  /**
+   * Owner UUID
+   */
+  ownerUuid: string;
+
+  /**
+   * DayReport UUID
+   */
+  dayReportUuid: string;
+
+  /**
+   * Way's UUID
+   */
+  wayUuid: string;
+
+  /**
+   * Way's name
+   */
+  wayName: string;
+
+  /**
+   * Plan info to create job
+   */
+  plan?: Plan;
+
+}
+
+/**
+ * Update Job params
+ */
+interface UpdateJobParams {
+
+  /**
+   * Partial comment to update
+   */
+  jobDone: PartialWithUuid<JobDone>;
+
+  /**
+   * Way's UUID
+   */
+  wayUuid: string;
+
+  /**
+   * Way's name
+   */
+  wayName: string;
+}
+
+/**
  * Provides methods to interact with the jobsDone
  */
 export class JobDoneDAL {
@@ -11,14 +64,14 @@ export class JobDoneDAL {
   /**
    * Create jobDone
    */
-  public static async createJobDone(ownerUuid: string, dayReportUuid: string, plan?: Plan): Promise<JobDone> {
+  public static async createJobDone(params: CreateJobParams): Promise<JobDone> {
     const jobDoneDTO = await JobDoneService.createJobDone({
       request: {
-        dayReportUuid,
-        description: plan?.description ?? "",
-        ownerUuid,
-        time: plan?.time ?? 0,
-        jobTagUuids: plan?.tags.map(tag => tag.uuid) ?? [],
+        dayReportUuid: params.dayReportUuid,
+        description: params.plan?.description ?? "",
+        ownerUuid: params.ownerUuid,
+        time: params.plan?.time ?? 0,
+        jobTagUuids: params.plan?.tags.map(tag => tag.uuid) ?? [],
       },
     });
 
@@ -26,6 +79,8 @@ export class JobDoneDAL {
       ...jobDoneDTO,
       createdAt: new Date(jobDoneDTO.createdAt),
       updatedAt: new Date(jobDoneDTO.updatedAt),
+      wayName: params.wayName,
+      wayUuid: params.wayUuid,
     });
 
     return jobDone;
@@ -34,16 +89,18 @@ export class JobDoneDAL {
   /**
    * Update jobDone
    */
-  public static async updateJobDone(jobDone: PartialWithUuid<JobDone>): Promise<JobDone> {
+  public static async updateJobDone(params: UpdateJobParams): Promise<JobDone> {
     const updatedJobDoneDTO = await JobDoneService.updateJobDone({
-      jobDoneId: jobDone.uuid,
-      request: jobDone,
+      jobDoneId: params.jobDone.uuid,
+      request: params.jobDone,
     });
 
     const updatedJobDone = new JobDone({
       ...updatedJobDoneDTO,
       createdAt: new Date(updatedJobDoneDTO.createdAt),
       updatedAt: new Date(updatedJobDoneDTO.updatedAt),
+      wayName: params.wayName,
+      wayUuid: params.wayUuid,
     });
 
     return updatedJobDone;

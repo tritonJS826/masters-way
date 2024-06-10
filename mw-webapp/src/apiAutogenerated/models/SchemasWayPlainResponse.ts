@@ -34,6 +34,12 @@ import {
 export interface SchemasWayPlainResponse {
     /**
      * 
+     * @type {Array<string>}
+     * @memberof SchemasWayPlainResponse
+     */
+    childrenUuids: Array<string>;
+    /**
+     * 
      * @type {string}
      * @memberof SchemasWayPlainResponse
      */
@@ -137,6 +143,7 @@ export function instanceOfSchemasWayPlainResponse(
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "childrenUuids" in value;
     isInstance = isInstance && "copiedFromWayUuid" in value;
     isInstance = isInstance && "createdAt" in value;
     isInstance = isInstance && "dayReportsAmount" in value;
@@ -170,6 +177,7 @@ export function SchemasWayPlainResponseFromJSONTyped(
     }
     return {
         
+        'childrenUuids': json['childrenUuids'],
         'copiedFromWayUuid': json['copiedFromWayUuid'],
         'createdAt': json['createdAt'],
         'dayReportsAmount': json['dayReportsAmount'],
@@ -199,6 +207,7 @@ export function SchemasWayPlainResponseToJSON(value?: SchemasWayPlainResponse | 
     }
     return {
         
+        'childrenUuids': value.childrenUuids,
         'copiedFromWayUuid': value.copiedFromWayUuid,
         'createdAt': value.createdAt,
         'dayReportsAmount': value.dayReportsAmount,

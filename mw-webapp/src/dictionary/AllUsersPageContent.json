@@ -18,18 +18,6 @@
       "ua": "Пошук в name",
       "ka": "ძებნა სახელის მიხედვით"
     },
-    "cardViewTooltip": {
-      "ru": "Отображение карточками",
-      "en": "Switch to card view",
-      "ua": "Відображення картками",
-      "ka": "ბარათებად ჩვენება"
-    },
-    "tableViewTooltip": {
-      "ru": "Отображение таблицей",
-      "en": "Switch to table view",
-      "ua": "Відображення таблицею",
-      "ka": "ცხრილად ჩვენება"
-    },
     "mentoringTypeOptions": {
       "all": {
         "ru": "Все",

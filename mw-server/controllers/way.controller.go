@@ -34,7 +34,7 @@ func NewWayController(db *db.Queries, ctx context.Context) *WayController {
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateWay true "query params"
-// @Success 200 {object} schemas.WayPopulatedResponse
+// @Success 200 {object} schemas.WayPlainResponse
 // @Router /ways [post]
 func (cc *WayController) CreateWay(ctx *gin.Context) {
 	var payload *schemas.CreateWay
@@ -97,14 +97,10 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 		})
 	}
 
-	args2 := services.GetPopulatedWayByIdParams{
-		WayUuid:              way.Uuid,
-		CurrentChildrenDepth: 1,
-	}
-	response, err := services.GetPopulatedWayById(cc.db, ctx, args2)
+	wayPlain, err := services.GetPlainWayById(cc.db, ctx, way.Uuid)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, response)
+	ctx.JSON(http.StatusOK, wayPlain)
 }
 
 // Update way handler
@@ -141,60 +137,10 @@ func (cc *WayController) UpdateWay(ctx *gin.Context) {
 	way, err := cc.db.UpdateWay(ctx, *args)
 	util.HandleErrorGin(ctx, err)
 
-	copiedFromWayUuid := util.MarshalNullUuid(way.CopiedFromWayUuid)
-	mentorsRaw, err := cc.db.GetMentorUsersByWayId(ctx, way.Uuid)
+	wayPlain, err := services.GetPlainWayById(cc.db, ctx, way.Uuid)
 	util.HandleErrorGin(ctx, err)
-	mentors := lo.Map(mentorsRaw, func(dbMentor db.User, i int) schemas.UserPlainResponse {
-		return schemas.UserPlainResponse{
-			Uuid:        dbMentor.Uuid.String(),
-			Name:        dbMentor.Name,
-			Email:       dbMentor.Email,
-			Description: dbMentor.Description,
-			CreatedAt:   dbMentor.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-			ImageUrl:    util.MarshalNullString(dbMentor.ImageUrl),
-			IsMentor:    dbMentor.IsMentor,
-		}
-	})
 
-	dbOwner, err := cc.db.GetUserById(ctx, way.OwnerUuid)
-	util.HandleErrorGin(ctx, err)
-	owner := schemas.UserPlainResponse{
-		Uuid:        dbOwner.Uuid.String(),
-		Name:        dbOwner.Name,
-		Email:       dbOwner.Email,
-		Description: dbOwner.Description,
-		CreatedAt:   dbOwner.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-		ImageUrl:    util.MarshalNullString(dbOwner.ImageUrl),
-		IsMentor:    dbOwner.IsMentor,
-	}
-	dbTags, err := cc.db.GetListWayTagsByWayId(ctx, way.Uuid)
-	util.HandleErrorGin(ctx, err)
-	wayTags := lo.Map(dbTags, func(dbTag db.WayTag, i int) schemas.WayTagResponse {
-		return schemas.WayTagResponse{
-			Uuid: dbTag.Uuid.String(),
-			Name: dbTag.Name,
-		}
-	})
-	response := schemas.WayPlainResponse{
-		Uuid:              way.Uuid.String(),
-		Name:              way.Name,
-		GoalDescription:   way.GoalDescription,
-		UpdatedAt:         way.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-		CreatedAt:         way.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-		EstimationTime:    way.EstimationTime,
-		IsCompleted:       way.IsCompleted,
-		Owner:             owner,
-		CopiedFromWayUuid: copiedFromWayUuid,
-		IsPrivate:         way.IsPrivate,
-		FavoriteForUsers:  int32(way.WayFavoriteForUsers),
-		DayReportsAmount:  int32(way.WayDayReportsAmount),
-		Mentors:           mentors,
-		MetricsDone:       int32(way.WayMetricsDone),
-		MetricsTotal:      int32(way.WayMetricsTotal),
-		WayTags:           wayTags,
-	}
-
-	ctx.JSON(http.StatusOK, response)
+	ctx.JSON(http.StatusOK, wayPlain)
 }
 
 // Get a single handler
@@ -260,85 +206,11 @@ func (cc *WayController) GetAllWays(ctx *gin.Context) {
 	ways, err := cc.db.ListWays(ctx, *listWaysArgs)
 	util.HandleErrorGin(ctx, err)
 
-	wayUuids := lo.Map(ways, func(way db.ListWaysRow, i int) uuid.UUID {
-		return way.Uuid
-	})
-	wayOwnerUuids := lo.Map(ways, func(way db.ListWaysRow, i int) uuid.UUID {
-		return way.OwnerUuid
-	})
-
-	dbWayTags, err := cc.db.GetListWayTagsByWayIds(ctx, wayUuids)
-	util.HandleErrorGin(ctx, err)
-	wayTagsMap := make(map[uuid.UUID][]schemas.WayTagResponse)
-	lo.ForEach(dbWayTags, func(dbWayTag db.GetListWayTagsByWayIdsRow, i int) {
-		wayTag := schemas.WayTagResponse{
-			Uuid: dbWayTag.Uuid.String(),
-			Name: dbWayTag.Name,
-		}
-		wayTagsMap[dbWayTag.WayUuid] = append(wayTagsMap[dbWayTag.Uuid], wayTag)
-	})
-
-	dbMentors, err := cc.db.GetMentorUsersByWayIds(ctx, wayUuids)
-	util.HandleErrorGin(ctx, err)
-	mentorsMap := make(map[uuid.UUID][]schemas.UserPlainResponse)
-	lo.ForEach(dbMentors, func(dbMentor db.GetMentorUsersByWayIdsRow, i int) {
-		mentor := schemas.UserPlainResponse{
-			Uuid:        dbMentor.Uuid.String(),
-			Name:        dbMentor.Name,
-			Email:       dbMentor.Email,
-			Description: dbMentor.Description,
-			CreatedAt:   dbMentor.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-			ImageUrl:    util.MarshalNullString(dbMentor.ImageUrl),
-			IsMentor:    dbMentor.IsMentor,
-		}
-		mentorsMap[dbMentor.WayUuid] = append(mentorsMap[dbMentor.WayUuid], mentor)
-	})
-
-	dbOwners, err := cc.db.GetUserByIds(ctx, wayOwnerUuids)
-	util.HandleErrorGin(ctx, err)
-	ownersMap := lo.SliceToMap(dbOwners, func(dbOwner db.User) (string, schemas.UserPlainResponse) {
-		owner := schemas.UserPlainResponse{
-			Uuid:        dbOwner.Uuid.String(),
-			Name:        dbOwner.Name,
-			Email:       dbOwner.Email,
-			Description: dbOwner.Description,
-			CreatedAt:   dbOwner.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-			ImageUrl:    util.MarshalNullString(dbOwner.ImageUrl),
-			IsMentor:    dbOwner.IsMentor,
-		}
-
-		return owner.Uuid, owner
-	})
-
 	response := lo.Map(ways, func(way db.ListWaysRow, i int) schemas.WayPlainResponse {
-		copiedFromWayUuid := util.MarshalNullUuid(way.CopiedFromWayUuid)
+		wayPlain, err := services.GetPlainWayById(cc.db, ctx, way.Uuid)
+		util.HandleErrorGin(ctx, err)
 
-		if wayTagsMap[way.Uuid] == nil {
-			wayTagsMap[way.Uuid] = make([]schemas.WayTagResponse, 0)
-		}
-		if mentorsMap[way.Uuid] == nil {
-			mentorsMap[way.Uuid] = make([]schemas.UserPlainResponse, 0)
-		}
-		wayResponse := schemas.WayPlainResponse{
-			Uuid:              way.Uuid.String(),
-			Name:              way.Name,
-			GoalDescription:   way.GoalDescription,
-			UpdatedAt:         way.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-			CreatedAt:         way.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-			EstimationTime:    way.EstimationTime,
-			IsCompleted:       way.IsCompleted,
-			Owner:             ownersMap[way.OwnerUuid.String()],
-			CopiedFromWayUuid: copiedFromWayUuid,
-			IsPrivate:         way.IsPrivate,
-			FavoriteForUsers:  int32(way.WayFavoriteForUsers),
-			DayReportsAmount:  int32(way.WayDayReportsAmount),
-			Mentors:           mentorsMap[way.Uuid],
-			WayTags:           wayTagsMap[way.Uuid],
-			MetricsDone:       int32(way.WayMetricsDone),
-			MetricsTotal:      int32(way.WayMetricsTotal),
-		}
-
-		return wayResponse
+		return wayPlain
 	})
 
 	ctx.JSON(http.StatusOK, schemas.GetAllWaysResponse{Size: int32(waysSize), Ways: response})

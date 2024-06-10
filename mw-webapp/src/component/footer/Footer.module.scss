@@ -11,8 +11,23 @@ $userNameFontSize: 16px;
   width: 100%;
   max-width: $maxWidthContainer;
   justify-content: space-between;
-  padding: $paddingLarge $paddingMedium;
+  padding: $paddingBig $paddingMedium;
+  border-bottom: $primaryBorder solid var(--secondaryStrokeColor);
   margin: 0 auto;
+}
+
+.privacyLinks {
+  width: 100%;
+  max-width: $maxWidthContainer;
+  padding: $paddingBig $paddingMedium;
+  margin: 0 auto;
+  gap: $gapLarge;
+}
+
+.privacyLink {
+  color: var(--secondaryTextColor);
+  font-size: $fontSizeBig;
+  text-decoration: none;
 }
 
 .logo {
@@ -22,7 +37,7 @@ $userNameFontSize: 16px;
 
 .socialMedia {
   color: var(--secondaryTextColor);
-  gap: $gapMedium;
+  gap: $gapSmall;
 }
 
 .socialMediaIcons {

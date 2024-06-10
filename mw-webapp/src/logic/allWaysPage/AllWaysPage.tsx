@@ -1,18 +1,16 @@
 import {useState} from "react";
-import clsx from "clsx";
+import {allWaysAccessIds} from "cypress/accessIds/allWaysAccessIds";
 import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
-import {Icon, IconSize} from "src/component/icon/Icon";
 import {Loader} from "src/component/loader/Loader";
 import {displayNotification} from "src/component/notification/displayNotification";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {Select} from "src/component/select/Select";
 import {HeadingLevel, Title} from "src/component/title/Title";
-import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
-import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {renderViewCardOption, renderViewTableOption, ViewSwitcher} from "src/component/viewSwitcher/ViewSwitcher";
 import {WayCard} from "src/component/wayCard/WayCard";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
@@ -152,46 +150,17 @@ export const AllWaysPage = observer(() => {
           }}
         />
 
-        <HorizontalContainer>
-          <Tooltip
-            position={PositionTooltip.LEFT}
-            content={LanguageService.allWays.filterBlock.cardViewTooltip[language]}
-          >
-            <button
-              className={styles.iconView}
-              onClick={() =>
-                updateAllWaysPageSettings({
-                  filterStatus: allWaysPageSettings.filterStatus,
-                  view: View.Card,
-                })}
-            >
-              <Icon
-                size={IconSize.MEDIUM}
-                name={"GridViewIcon"}
-                className={clsx(allWaysPageSettings.view === View.Card && styles.activeView)}
-              />
-            </button>
-          </Tooltip>
-          <Tooltip
-            position={PositionTooltip.LEFT}
-            content={LanguageService.allWays.filterBlock.tableViewTooltip[language]}
-          >
-            <button
-              className={styles.iconView}
-              onClick={() =>
-                updateAllWaysPageSettings({
-                  filterStatus: allWaysPageSettings.filterStatus,
-                  view: View.Table,
-                })}
-            >
-              <Icon
-                size={IconSize.MEDIUM}
-                name={"TableViewIcon"}
-                className={clsx(allWaysPageSettings.view === View.Table && styles.activeView)}
-              />
-            </button>
-          </Tooltip>
-        </HorizontalContainer>
+        <ViewSwitcher
+          view={allWaysPageSettings.view}
+          setView={(view) => updateAllWaysPageSettings({
+            filterStatus: allWaysPageSettings.filterStatus,
+            view,
+          })}
+          options={[
+            renderViewCardOption(LanguageService.common.view.cardViewTooltip[language]),
+            renderViewTableOption(LanguageService.common.view.tableViewTooltip[language]),
+          ]}
+        />
       </HorizontalContainer>
 
       <HorizontalContainer className={styles.titleContainer}>
@@ -199,6 +168,7 @@ export const AllWaysPage = observer(() => {
           level={HeadingLevel.h2}
           text={`${LanguageService.allWays.waysTable.leftTitle[language]} (${allWays.length})`}
           placeholder=""
+          dataCy={allWaysAccessIds.allWaysTable.title}
         />
         <Title
           level={HeadingLevel.h2}

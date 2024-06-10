@@ -9,7 +9,7 @@ $userNameFontSize: 16px;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  padding: $paddingLarge $paddingMedium;
+  padding: $paddingBig $paddingMedium;
   margin: 0 auto;
 }
 
@@ -26,7 +26,7 @@ $userNameFontSize: 16px;
   width: auto;
   align-items: center;
   justify-content: space-between;
-  gap: $gapExtraMedium;
+  gap: $gapMedium;
 }
 
 .logo {
@@ -35,7 +35,7 @@ $userNameFontSize: 16px;
 
 .rightBlock {
   align-items: center;
-  gap: $gapExtraMedium;
+  gap: $gapMedium;
 }
 
 .userAvatar {
@@ -62,7 +62,7 @@ $userNameFontSize: 16px;
 
 .iconWithText {
   align-items: center;
-  gap: $gapMedium;
+  gap: $gapSmall;
 }
 
 .bottomContainer {
@@ -71,7 +71,7 @@ $userNameFontSize: 16px;
 
 .socialMedia {
   color: var(--secondaryTextColor);
-  gap: $gapMedium;
+  gap: $gapSmall;
 }
 
 .socialMediaIcon {
@@ -118,7 +118,7 @@ $userNameFontSize: 16px;
 .loginContent {
   width: 100%;
   flex-grow: 1;
-  padding: $paddingExtraLarge $paddingLarge;
+  padding: $paddingExtraBig $paddingBig;
   gap: $gapLarge;
 }
 
@@ -141,5 +141,5 @@ $userNameFontSize: 16px;
 }
 
 .googleButtonValue {
-  gap: $gapMedium;
+  gap: $gapSmall;
 }

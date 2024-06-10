@@ -106,6 +106,7 @@ interface AreaChartProps {
 export const AreaChart = observer((props: AreaChartProps) => {
   const {theme} = themeStore;
   const {language} = languageStore;
+
   const dateList = DateUtils.getDatesBetween(props.startDate, props.lastDate);
   const labels = dateList.map(DateUtils.getShortISODateValue);
 

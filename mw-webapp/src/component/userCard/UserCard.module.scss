@@ -1,7 +1,8 @@
 @import "src/styles/variables";
 
-$userCardMainInfoPadding: $paddingBig $paddingBig;
-$userCardAdditionalInfoPadding: $paddingMedium $paddingBig $paddingBig;
+$userCardMainInfoPadding: $paddingExtraMedium $paddingExtraMedium;
+$userCardAdditionalInfoPadding: $paddingMedium $paddingExtraMedium
+  $paddingExtraMedium;
 $userCardMainHeight: 147px;
 $userCardAdditionalHeight: 90px;
 
@@ -16,7 +17,7 @@ $userCardAdditionalHeight: 90px;
   padding: $userCardMainInfoPadding;
   border-radius: $secondaryBorderRadius $secondaryBorderRadius 0 0;
   background-color: var(--generalPrimaryColor);
-  gap: $gapMedium;
+  gap: $gapSmall;
 }
 
 .title {
@@ -45,7 +46,7 @@ $userCardAdditionalHeight: 90px;
 .nameGroup {
   overflow: hidden;
   flex: 1;
-  gap: $gapSmall;
+  gap: $gapExtraSmall;
   justify-items: start;
 }
 
@@ -73,7 +74,7 @@ $userCardAdditionalHeight: 90px;
   overflow: hidden;
   flex-wrap: nowrap;
   align-items: center;
-  gap: $gapMedium;
+  gap: $gapSmall;
   -webkit-line-clamp: 1;
 }
 
@@ -84,7 +85,7 @@ $userCardAdditionalHeight: 90px;
   background-color: var(--primaryBgColor);
   color: var(--primaryTextColor);
   font-size: $fontSizeMedium;
-  gap: $gapMedium;
+  gap: $gapSmall;
 }
 
 .cardLink {

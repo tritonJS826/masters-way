@@ -1,3 +1,4 @@
+import {makeAutoObservable} from "mobx";
 import {JobTag} from "src/model/businessModelPreview/WayPreview";
 
 /**
@@ -21,11 +22,6 @@ interface JobDoneProps {
   time: number;
 
   /**
-   * Owner's name
-   */
-  ownerName: string;
-
-  /**
    * Owner's uuid
    */
   ownerUuid: string;
@@ -44,6 +40,16 @@ interface JobDoneProps {
    * JobDone's updated date
    */
   updatedAt: Date;
+
+  /**
+   * Comment's way name
+   */
+  wayUuid: string;
+
+  /**
+   * Comment's way name
+   */
+  wayName: string;
 }
 
 /**
@@ -67,11 +73,6 @@ export class JobDone {
   public time: number;
 
   /**
-   * Owner's name
-   */
-  public ownerName: string;
-
-  /**
    * Owner's uuid
    */
   public ownerUuid: string;
@@ -82,7 +83,7 @@ export class JobDone {
   public tags: JobTag[];
 
   /**
-   * JobDone's creted date
+   * JobDone's created date
    */
   public createdAt: Date;
 
@@ -91,15 +92,48 @@ export class JobDone {
    */
   public updatedAt: Date;
 
+  /**
+   * Comment's way name
+   */
+  public wayUuid: string;
+
+  /**
+   * Comment's way name
+   */
+  public wayName: string;
+
   constructor(jobDoneData: JobDoneProps) {
+    makeAutoObservable(this);
     this.uuid = jobDoneData.uuid;
     this.description = jobDoneData.description;
     this.time = jobDoneData.time;
-    this.tags = jobDoneData.tags;
-    this.ownerName = jobDoneData.ownerName;
+    this.tags = jobDoneData.tags.map(tag => new JobTag(tag));
     this.ownerUuid = jobDoneData.ownerUuid;
     this.createdAt = jobDoneData.createdAt;
     this.updatedAt = jobDoneData.updatedAt;
+    this.wayName = jobDoneData.wayName;
+    this.wayUuid = jobDoneData.wayUuid;
+  }
+
+  /**
+   * Update job's description
+   */
+  public updateDescription(descriptionToUpdate: string): void {
+    this.description = descriptionToUpdate;
+  }
+
+  /**
+   * Update job's time
+   */
+  public updateTime(timeToUpdate: number): void {
+    this.time = timeToUpdate;
+  }
+
+  /**
+   * Update job's labels
+   */
+  public updateLabels(labelsToUpdate: JobTag[]): void {
+    this.tags = labelsToUpdate;
   }
 
 }

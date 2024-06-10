@@ -7,28 +7,37 @@ import {WayTag} from "src/model/businessModelPreview/WayTag";
 /**
  * Job tag data
  */
-export type JobTag = {
+export class JobTag {
 
   /**
    * Way tag uuid
    */
-  uuid: string;
+  public uuid: string;
 
   /**
    * Way tag name
    */
-  name: string;
+  public name: string;
 
   /**
    * Way tag description
    */
-  description: string;
+  public description: string;
 
   /**
    * Way tag color
    */
-  color: string;
-};
+  public color: string;
+
+  constructor(jobTag: JobTag) {
+    makeAutoObservable(this);
+    this.name = jobTag.name;
+    this.uuid = jobTag.uuid;
+    this.description = jobTag.description;
+    this.color = jobTag.color;
+  }
+
+}
 
 /**
  * Way preview model
@@ -116,6 +125,11 @@ export class WayPreview {
    */
   public isPrivate: boolean;
 
+  /**
+   * Array of children Ways UUID
+   */
+  public childrenUuids: string[];
+
   constructor(wayData: WayPreview) {
     makeAutoObservable(this);
     this.uuid = wayData.uuid;
@@ -134,6 +148,7 @@ export class WayPreview {
     this.metricsTotal = wayData.metricsTotal;
     this.isPrivate = wayData.isPrivate;
     this.dayReportsAmount = wayData.dayReportsAmount;
+    this.childrenUuids = wayData.childrenUuids;
   }
 
 }

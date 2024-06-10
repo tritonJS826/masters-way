@@ -8,19 +8,8 @@
   align-content: center;
 }
 
-.iconView {
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-}
-
-.activeView {
-  transform: scale(1.2);
-  transform-origin: right;
-}
-
 .wayCards {
-  gap: $gapMedium;
+  gap: $gapSmall;
   grid-template-columns: repeat(auto-fill, minmax($mediumWidthBlock, 1fr));
 
   @media (max-width: $mediaWidthTablet) {

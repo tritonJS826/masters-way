@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import clsx from "clsx";
-import {renderSpan} from "src/component/editableText/renderSpan";
+import {Text} from "src/component/text/Text";
 import {Textarea} from "src/component/textarea/Textarea";
 import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/component/editableTextarea/editableTextarea.module.scss";
@@ -70,6 +70,7 @@ interface EditableTextareaProps {
 export const EditableTextarea = (props: EditableTextareaProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [text, setText] = useState(props.text);
+  const isEmptyText = text.toString().trim() === "";
 
   useEffect(() => {
     setText(props.text);
@@ -117,7 +118,11 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
       className={clsx(styles.editableTextarea, props.className)}
       data-cy={props.cy?.trigger}
     >
-      {isEditing ? renderTextarea() : renderSpan({value: text, placeholder: props.placeholder})}
+      {
+        isEditing
+          ? renderTextarea()
+          : <Text text={isEmptyText ? props.placeholder : text} />
+      }
     </div>
   );
 };

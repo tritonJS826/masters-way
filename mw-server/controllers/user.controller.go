@@ -50,7 +50,7 @@ func (cc *UserController) CreateUser(ctx *gin.Context) {
 		Email:       payload.Email,
 		Description: payload.Description,
 		CreatedAt:   now,
-		ImageUrl:    sql.NullString{String: payload.ImageUrl, Valid: payload.ImageUrl != ""},
+		ImageUrl:    payload.ImageUrl,
 		IsMentor:    payload.IsMentor,
 		FirebaseID:  payload.FirebaseId,
 	}
@@ -87,7 +87,7 @@ func (cc *UserController) GetOrCreateUserByFirebaseId(ctx *gin.Context) {
 		Email:       payload.Email,
 		Description: payload.Description,
 		CreatedAt:   now,
-		ImageUrl:    sql.NullString{String: payload.ImageUrl, Valid: payload.ImageUrl != ""},
+		ImageUrl:    payload.ImageUrl,
 		IsMentor:    payload.IsMentor,
 		FirebaseID:  payload.FirebaseId,
 	}
@@ -133,12 +133,27 @@ func (cc *UserController) UpdateUser(ctx *gin.Context) {
 		return
 	}
 
+	var description, imageUrl, name sql.NullString
+	var mentor sql.NullBool
+	if payload.Description != nil {
+		description = sql.NullString{String: *payload.Description, Valid: true}
+	}
+	if payload.ImageUrl != nil {
+		imageUrl = sql.NullString{String: *payload.ImageUrl, Valid: true}
+	}
+	if payload.Name != nil {
+		name = sql.NullString{String: *payload.Name, Valid: true}
+	}
+	if payload.IsMentor != nil {
+		mentor = sql.NullBool{Bool: *payload.IsMentor, Valid: true}
+	}
+
 	args := &db.UpdateUserParams{
 		Uuid:        uuid.MustParse(userId),
-		Name:        sql.NullString{String: payload.Name, Valid: payload.Name != ""},
-		Description: sql.NullString{String: payload.Description, Valid: payload.Description != ""},
-		ImageUrl:    sql.NullString{String: payload.ImageUrl, Valid: payload.ImageUrl != ""},
-		IsMentor:    sql.NullBool{Bool: payload.IsMentor, Valid: true},
+		Name:        name,
+		Description: description,
+		ImageUrl:    imageUrl,
+		IsMentor:    mentor,
 	}
 
 	user, err := cc.db.UpdateUser(ctx, *args)
@@ -158,7 +173,7 @@ func (cc *UserController) UpdateUser(ctx *gin.Context) {
 		Email:       user.Email,
 		Description: user.Description,
 		CreatedAt:   user.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-		ImageUrl:    util.MarshalNullString(user.ImageUrl),
+		ImageUrl:    user.ImageUrl,
 		IsMentor:    user.IsMentor,
 	}
 
@@ -249,7 +264,7 @@ func (cc *UserController) GetAllUsers(ctx *gin.Context) {
 			Name:             user.Name,
 			Description:      user.Description,
 			CreatedAt:        user.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-			ImageUrl:         util.MarshalNullString(user.ImageUrl),
+			ImageUrl:         user.ImageUrl,
 			IsMentor:         user.IsMentor,
 			Email:            user.Email,
 			FavoriteForUsers: int32(user.FavoriteForUsersAmount),

@@ -55,7 +55,7 @@ export class AuthService {
   /**
    * Tracks whether the user is logged in or not
    */
-  public static async listenAuthStateChange(params: ListenAuthStateChangeParams) {
+  public static listenAuthStateChange(params: ListenAuthStateChangeParams) {
     onAuthStateChanged(auth, async (currentUser) => {
       if (!currentUser) {
         params.onLogOut();

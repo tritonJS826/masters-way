@@ -51,9 +51,14 @@ interface PlanProps {
   dayReportUuid: string;
 
   /**
-   * Owner name
+   * Comment's way name
    */
-  ownerName: string;
+  wayUuid: string;
+
+  /**
+   * Comment's way name
+   */
+  wayName: string;
 
 }
 
@@ -102,21 +107,61 @@ export class Plan {
    */
   public createdAt: Date;
 
+  /**
+   * DayReport UUID
+   */
   public dayReportUuid: string;
 
-  public ownerName: string;
+  /**
+   * Comment's way name
+   */
+  public wayUuid: string;
+
+  /**
+   * Comment's way name
+   */
+  public wayName: string;
 
   constructor(planData: PlanProps) {
     this.uuid = planData.uuid;
     this.description = planData.description;
     this.ownerUuid = planData.ownerUuid;
     this.time = planData.time;
-    this.tags = planData.tags;
+    this.tags = planData.tags.map(tag => new JobTag(tag));
     this.isDone = planData.isDone;
     this.updatedAt = planData.updatedAt;
     this.createdAt = planData.createdAt;
     this.dayReportUuid = planData.dayReportUuid;
-    this.ownerName = planData.ownerName;
+    this.wayName = planData.wayName;
+    this.wayUuid = planData.wayUuid;
+  }
+
+  /**
+   * Update plan's description
+   */
+  public updateDescription(descriptionToUpdate: string): void {
+    this.description = descriptionToUpdate;
+  }
+
+  /**
+   * Update plan's time
+   */
+  public updateTime(timeToUpdate: number): void {
+    this.time = timeToUpdate;
+  }
+
+  /**
+   * Update plan's isDone
+   */
+  public updateIsDone(isDoneToUpdate: boolean): void {
+    this.isDone = isDoneToUpdate;
+  }
+
+  /**
+   * Update plan's labels
+   */
+  public updateLabels(labelsToUpdate: JobTag[]): void {
+    this.tags = labelsToUpdate;
   }
 
 }

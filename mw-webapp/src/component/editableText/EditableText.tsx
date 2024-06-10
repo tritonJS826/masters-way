@@ -1,8 +1,8 @@
 import {HTMLInputTypeAttribute, useState} from "react";
 import clsx from "clsx";
-import {renderSpan} from "src/component/editableText/renderSpan";
 import {FormatterInputValue} from "src/component/input/formatters";
 import {Input} from "src/component/input/Input";
+import {Text} from "src/component/text/Text";
 import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/component/editableText/EditableText.module.scss";
 
@@ -96,6 +96,7 @@ interface EditableTextProps<T> {
 export const EditableText = <T extends string | number>(props: EditableTextProps<T>) => {
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState(props.value);
+  const isEmptyText = value.toString().trim() === "";
 
   /**
    * HandleChangeFinish
@@ -150,7 +151,7 @@ export const EditableText = <T extends string | number>(props: EditableTextProps
     >
       {isEditing
         ? renderInput()
-        : renderSpan({value, placeholder: props.placeholder})
+        : <Text text={isEmptyText ? props.placeholder : value} />
       }
     </div>
   );

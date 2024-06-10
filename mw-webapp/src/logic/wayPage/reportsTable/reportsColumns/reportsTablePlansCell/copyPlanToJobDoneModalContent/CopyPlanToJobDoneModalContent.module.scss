@@ -2,7 +2,7 @@
 
 .inputPlan {
   flex-wrap: wrap;
-  gap: $gapMedium;
+  gap: $gapSmall;
 }
 
 .label {
@@ -22,5 +22,5 @@
 .copyPlanToJobModalContainer {
   display: flex;
   flex-direction: column;
-  gap: $gapMedium;
+  gap: $gapSmall;
 }

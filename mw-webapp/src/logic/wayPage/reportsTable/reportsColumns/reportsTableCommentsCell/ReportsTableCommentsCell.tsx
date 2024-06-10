@@ -1,11 +1,15 @@
 import {observer} from "mobx-react-lite";
+import {Avatar} from "src/component/avatar/Avatar";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {Icon, IconSize} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
+import {Tooltip} from "src/component/tooltip/Tooltip";
 import {Trash} from "src/component/trash/Trash";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {CommentDAL} from "src/dataAccessLogic/CommentDAL";
+import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {getListNumberByIndex} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
 import {SummarySection} from "src/logic/wayPage/reportsTable/reportsColumns/summarySection/SummarySection";
@@ -14,9 +18,9 @@ import {Comment} from "src/model/businessModel/Comment";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {User} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
+import {UserPreviewShort} from "src/model/businessModelPreview/UserPreviewShort";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
-import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import styles from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableCommentsCell/ReportsTableCommentsCell.module.scss";
 
 /**
@@ -45,9 +49,9 @@ interface ReportsTableCommentsCellProps {
   isEditable: boolean;
 
   /**
-   * Callback for update dayReport
+   * Way's participants
    */
-  updateDayReport: (report: PartialWithUuid<DayReport>) => Promise<void>;
+  wayParticipantsMap: SafeMap<string, UserPreviewShort>;
 
 }
 
@@ -64,45 +68,21 @@ export const ReportsTableCommentsCell = observer((props: ReportsTableCommentsCel
     if (!commentatorUuid) {
       throw new Error("User uuid is not exist");
     }
-
-    const comment = await CommentDAL.createComment(commentatorUuid, props.dayReport.uuid);
-    const comments = [...props.dayReport.comments, comment];
-    props.updateDayReport({uuid: props.dayReport.uuid, comments});
+    const comment = await CommentDAL.createComment({
+      dayReportUuid: props.dayReport.uuid,
+      ownerUuid: commentatorUuid,
+      wayName: props.way.name,
+      wayUuid: props.way.uuid,
+    });
+    props.dayReport.addComment(comment);
   };
 
   /**
    * Delete Comment
    */
   const deleteComment = async (commentUuid: string) => {
-    props.updateDayReport({
-      uuid: props.dayReport.uuid,
-      comments: props.dayReport.comments.filter((comment) => comment.uuid !== commentUuid),
-    });
+    props.dayReport.deleteComment(commentUuid);
     await CommentDAL.deleteComment(commentUuid);
-  };
-
-  /**
-   * Update Comment
-   */
-  const updateComment = async (comment: Comment, text: string) => {
-    const updatedComments = props.dayReport.comments.map((item) => {
-      const itemToReturn = item.uuid === comment.uuid
-        ? new Comment({
-          ...comment,
-          description: text,
-        })
-        : item;
-
-      return itemToReturn;
-    });
-
-    const commentToUpdate = {
-      uuid: comment.uuid,
-      description: text,
-    };
-    await CommentDAL.updateComment(commentToUpdate);
-
-    props.updateDayReport({uuid: props.dayReport.uuid, comments: updatedComments});
   };
 
   return (
@@ -116,12 +96,34 @@ export const ReportsTableCommentsCell = observer((props: ReportsTableCommentsCel
             >
               <HorizontalContainer className={styles.recordInfo}>
                 {getListNumberByIndex(index)}
+                <Avatar
+                  alt={props.wayParticipantsMap.getValue(comment.ownerUuid).name}
+                  src={props.wayParticipantsMap.getValue(comment.ownerUuid).imageUrl}
+                />
                 <Link
                   path={pages.user.getPath({uuid: comment.ownerUuid})}
                   className={styles.ownerName}
                 >
-                  {getFirstName(comment.ownerName)}
+                  {getFirstName(props.wayParticipantsMap.getValue(comment.ownerUuid).name)}
                 </Link>
+                {props.way.children.length !== 0 &&
+                <Link
+                  path={pages.way.getPath({uuid: comment.wayUuid})}
+                  className={styles.linkToOwnerWay}
+                >
+                  <Tooltip
+                    position={PositionTooltip.BOTTOM_LEFT}
+                    content={LanguageService.way.reportsTable.columnTooltip.visitWay[language]
+                      .replace("$wayName", `"${comment.wayName}"`)}
+                  >
+                    <Icon
+                      size={IconSize.MEDIUM}
+                      name="WayIcon"
+                      className={styles.socialMediaIcon}
+                    />
+                  </Tooltip>
+                </Link>
+                }
                 {comment.ownerUuid === props.user?.uuid &&
                 <Trash
                   tooltipContent={LanguageService.way.reportsTable.columnTooltip.deleteComment[language]}
@@ -136,7 +138,18 @@ export const ReportsTableCommentsCell = observer((props: ReportsTableCommentsCel
               </HorizontalContainer>
               <EditableTextarea
                 text={comment.description}
-                onChangeFinish={(text) => updateComment(comment, text)}
+                onChangeFinish={async (description) => {
+                  const commentToUpdate = new Comment({
+                    ...comment,
+                    description,
+                  });
+                  comment.updateDescription(description);
+                  await CommentDAL.updateComment({
+                    comment: commentToUpdate,
+                    wayName: props.way.name,
+                    wayUuid: props.way.uuid,
+                  });
+                }}
                 isEditable={comment.ownerUuid === props.user?.uuid}
                 placeholder={props.isEditable
                   ? LanguageService.common.emptyMarkdownAction[language]

@@ -4,6 +4,10 @@
   @include regularContainer;
   display: grid;
   width: 100%;
-  gap: $gapMedium;
+  gap: $gapSmall;
   grid-template-columns: repeat(auto-fit, minmax($minWidthBlock, 1fr));
+
+  @media only screen and (max-width: $mediaWidthMobileMedium) {
+    padding: $paddingExtraMedium $paddingSmall;
+  }
 }
