@@ -1,14 +1,11 @@
 @import "src/styles/variables";
 
-$WayTagPadding: 1px 10px;
-$WayTagBorderRadius: 1000px;
-
 .skill {
   display: inline-block;
   height: 16px;
-  padding: $WayTagPadding;
-  border-radius: $WayTagBorderRadius;
+  padding: 1px $paddingMedium;
+  border-radius: $tagBorderRadius;
   background-color: var(--primaryBgColor);
   color: var(--primaryTextColor);
-  font-size: 12px;
+  font-size: $fontSizeSmall;
 }
