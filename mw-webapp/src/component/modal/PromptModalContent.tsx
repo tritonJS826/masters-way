@@ -89,6 +89,7 @@ export const PromptModalContent = (props: PromptModalContentProps) => {
             value={props.okButtonValue}
             onClick={() => props.onOk(inputValue)}
             buttonType={ButtonType.PRIMARY}
+            isDisabled={inputValue.trim() === ""}
           />
         </DialogClose>
       </HorizontalContainer>
