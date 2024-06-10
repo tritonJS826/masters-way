@@ -20,7 +20,6 @@ describe("Header component", () => {
         <Header
           dataCy={HEADER_CY}
           user={testUserPreview}
-          clearUser={() => {}}
           setLanguage={STUB_FUNCTION_SET_LANGUAGE}
           language={languageStore.language}
           theme={themeStore.theme}

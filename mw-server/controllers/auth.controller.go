@@ -2,17 +2,13 @@ package controllers
 
 import (
 	"context"
+	"fmt"
 	"net/http"
-	"time"
 
-	"mwserver/auth"
-	"mwserver/config"
 	db "mwserver/db/sqlc"
-	"mwserver/services"
 	"mwserver/util"
 
 	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
 	"github.com/markbates/goth/gothic"
 )
 
@@ -25,10 +21,10 @@ func NewAuthController(db *db.Queries, ctx context.Context) *AuthController {
 	return &AuthController{db, ctx}
 }
 
-// Log in with google oAuth
+// Log in with google oAuth ()
 // @Summary Log in with google oAuth
 // @Description
-// @Tags auth
+// @Tags auth google
 // @ID google auth log in
 // @Accept  json
 // @Produce  json
@@ -40,138 +36,60 @@ func (cc *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
 	provider := ctx.Param("provider")
 	ctx.Request = ctx.Request.WithContext(context.WithValue(context.Background(), "provider", provider))
 
-	gothUser, err := gothic.CompleteUserAuth(ctx.Writer, ctx.Request)
-	util.HandleErrorGin(ctx, err)
+	googleUser, err := gothic.CompleteUserAuth(ctx.Writer, ctx.Request)
 
-	now := time.Now()
-	args := &db.CreateUserParams{
-		Name:        gothUser.Name,
-		Email:       gothUser.Email,
-		Description: gothUser.Description,
-		CreatedAt:   now,
-		ImageUrl:    gothUser.AvatarURL,
-		IsMentor:    false,
-		FirebaseID:  "",
+	if err != nil {
+		fmt.Fprintln(ctx.Writer, err)
+		util.HandleErrorGin(ctx, err)
+		return
 	}
 
-	populatedUser, err := services.FindOrCreateUserByEmail(cc.db, ctx, args)
-	util.HandleErrorGin(ctx, err)
+	fmt.Println(googleUser)
 
-	// Save user data in the session
-	session, err := gothic.Store.Get(ctx.Request, auth.AuthSession)
-	util.HandleErrorGin(ctx, err)
-	sessionPublic, err := gothic.Store.Get(ctx.Request, auth.AuthSessionPublic)
-	util.HandleErrorGin(ctx, err)
-	sessionPublic.Options.HttpOnly = false
-
-	session.Values[auth.UserIdKey] = populatedUser.Uuid
-	sessionPublic.Values[auth.UserIdKey] = true
-
-	err = session.Save(ctx.Request, ctx.Writer)
-	util.HandleErrorGin(ctx, err)
-	err = sessionPublic.Save(ctx.Request, ctx.Writer)
-	util.HandleErrorGin(ctx, err)
-
-	ctx.Redirect(http.StatusFound, config.Env.WebappBaseUrl)
+	ctx.JSON(http.StatusOK, googleUser)
 }
 
 // Begin auth handler
 // @Summary Update comment by UUID
 // @Description
-// @Tags auth
+// @Tags beginAuth
 // @ID begin-auth
 // @Accept  json
 // @Produce  json
+// @Param request body schemas.UpdateCommentPayload true "query params"
 // @Param provider path string true "google"
-// @Success 200 {object} schemas.UserPopulatedResponse
-// @Router /auth/{provider} [get]
+// @Success 200 {object} schemas.CommentPopulatedResponse
+// @Router /comments/{provider} [patch]
 func (cc *AuthController) BeginAuth(ctx *gin.Context) {
 	provider := ctx.Param("provider")
+
 	ctx.Request = ctx.Request.WithContext(context.WithValue(context.Background(), "provider", provider))
 
-	// already logged user
-	if gothUser, err := gothic.CompleteUserAuth(ctx.Writer, ctx.Request); err == nil {
-		now := time.Now()
-		args := &db.CreateUserParams{
-			Name:        gothUser.Name,
-			Email:       gothUser.Email,
-			Description: gothUser.Description,
-			CreatedAt:   now,
-			ImageUrl:    gothUser.AvatarURL,
-			IsMentor:    false,
-			FirebaseID:  "",
-		}
-		populatedUser, err := services.FindOrCreateUserByEmail(cc.db, ctx, args)
-		util.HandleErrorGin(ctx, err)
-		ctx.JSON(http.StatusOK, populatedUser)
+	gothic.BeginAuthHandler(ctx.Writer, ctx.Request)
+	// if err := ctx.ShouldBindJSON(&payload); err != nil {
+	// 	ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
+	// 	return
+	// }
 
-		// Begin auth handle
-	} else {
-		gothic.BeginAuthHandler(ctx.Writer, ctx.Request)
-	}
+	// ctx.JSON(http.StatusOK, comment)
 }
 
-// @Summary Get current authorized user
+// Deleting Comment handlers
+// @Summary Delete comment by UUID
 // @Description
-// @Tags auth
-// @ID get-current-authorized-user
+// @Tags comment
+// @ID delete-comment
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} schemas.UserPopulatedResponse
-// @Router /auth/current [get]
-func (cc *AuthController) GetCurrentAuthorizedUser(ctx *gin.Context) {
-	session, err := gothic.Store.Get(ctx.Request, auth.AuthSession)
-	util.HandleErrorGin(ctx, err)
+// @Param commentId path string true "comment ID"
+// @Success 200
+// @Router /comments/{commentId} [delete]
+// func (cc *CommentController) DeleteCommentById(ctx *gin.Context) {
+// 	commentId := ctx.Param("commentId")
 
-	userID, ok := session.Values[auth.UserIdKey].(string)
-	if !ok {
-		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "User not authenticated"})
-		return
-	}
+// 	err := cc.db.DeleteComment(ctx, uuid.MustParse(commentId))
+// 	util.HandleErrorGin(ctx, err)
 
-	populatedUser, err := services.GetPopulatedUserById(cc.db, ctx, uuid.MustParse(userID))
-	util.HandleErrorGin(ctx, err)
+// 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})
 
-	ctx.JSON(http.StatusOK, populatedUser)
-}
-
-// @Summary Logout current authorized user
-// @Description
-// @Tags auth
-// @ID logout-current-authorized-user
-// @Accept  json
-// @Produce  json
-// @Param provider path string true "google"
-// @Success 200 {object} util.ResponseStatusString
-// @Router /auth/logout/{provider} [get]
-func (cc *AuthController) Logout(ctx *gin.Context) {
-	provider := ctx.Param("provider")
-	ctx.Request = ctx.Request.WithContext(context.WithValue(context.Background(), "provider", provider))
-
-	gothic.Logout(ctx.Writer, ctx.Request)
-
-	session, err := gothic.Store.Get(ctx.Request, auth.AuthSession)
-	util.HandleErrorGin(ctx, err)
-	sessionPublic, err := gothic.Store.Get(ctx.Request, auth.AuthSessionPublic)
-	util.HandleErrorGin(ctx, err)
-
-	delete(session.Values, auth.UserIdKey)
-	delete(sessionPublic.Values, auth.UserIdKey)
-
-	// Save the session after modifying it
-	err = session.Save(ctx.Request, ctx.Writer)
-	util.HandleErrorGin(ctx, err)
-	err = sessionPublic.Save(ctx.Request, ctx.Writer)
-	util.HandleErrorGin(ctx, err)
-
-	// Expire the session cookie
-	session.Options.MaxAge = -1
-	sessionPublic.Options.MaxAge = -1
-
-	err = session.Save(ctx.Request, ctx.Writer)
-	util.HandleErrorGin(ctx, err)
-	err = sessionPublic.Save(ctx.Request, ctx.Writer)
-	util.HandleErrorGin(ctx, err)
-
-	ctx.JSON(http.StatusOK, gin.H{"status": "Ok"})
-}
+// }
