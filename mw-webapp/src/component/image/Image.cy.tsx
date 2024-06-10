@@ -1,8 +1,8 @@
 import logo from "src/assets/mastersWayLogo.svg";
 import {LOGO_TEXT} from "src/component/header/Header";
 import {Image} from "src/component/image/Image";
+import {MODAL_CY} from "src/component/modal/Modal.cy";
 import {getDataCy} from "src/utils/cyTesting/getDataCy";
-import styles from "src/component/image/Image.module.scss";
 
 const IMAGE_CY = "image";
 const WRONG_SRC = "./wrong.src";
@@ -28,6 +28,7 @@ const createTestImage = (props: createTestImageProps) => {
       src={props.src}
       alt={LOGO_TEXT}
       isZoomable={true}
+      cy={MODAL_CY}
     />
   );
 };
@@ -55,6 +56,6 @@ describe("Image component", () => {
   it("should enlarge the image on click if isZoomable is true", () => {
     cy.mount(createTestImage({src: logo}));
     cy.get(getDataCy(IMAGE_CY)).click();
-    cy.get(`.${styles.image}`).should("be.visible"); // Verify the modal content
+    cy.get(getDataCy(MODAL_CY.dataCyContent.dataCyContent)).should("be.visible");
   });
 });
