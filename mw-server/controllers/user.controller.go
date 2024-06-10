@@ -92,7 +92,16 @@ func (cc *UserController) GetOrCreateUserByFirebaseId(ctx *gin.Context) {
 		FirebaseID:  payload.FirebaseId,
 	}
 
-	populatedUser, err := services.FindOrCreateUserByEmail(cc.db, ctx, args)
+	user, err := cc.db.GetUserByFirebaseId(ctx, payload.FirebaseId)
+	var userUuid uuid.UUID
+	if err == nil {
+		userUuid = user.Uuid
+	} else {
+		dbUser, _ := services.CreateUser(cc.db, ctx, args)
+		userUuid = uuid.MustParse(dbUser.Uuid)
+	}
+
+	populatedUser, err := services.GetPopulatedUserById(cc.db, ctx, userUuid)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			ctx.JSON(http.StatusNotFound, gin.H{"error": "Failed to retrieve user with this ID"})
