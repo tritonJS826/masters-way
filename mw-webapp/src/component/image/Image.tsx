@@ -57,10 +57,11 @@ export const Image = (props: ImageProps) => {
   if (props.isZoomable) {
     return (
       <Modal
+        cy={props.cy}
         trigger={imageElement}
         content={imageElement}
         className={imageClass}
-        data-cy={props.dataCy}
+        data-cy={props.cy}
       />
     );
   }
