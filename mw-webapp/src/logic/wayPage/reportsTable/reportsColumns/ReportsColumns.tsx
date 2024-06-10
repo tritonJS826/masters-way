@@ -123,7 +123,7 @@ export const Columns = (props: ColumnsProps) => {
           jobTags={props.way.jobTags}
           wayUuid={props.way.uuid}
           wayName={props.way.name}
-          allLabels={props.way.jobTags}
+          labels={props.way.jobTags}
           isWayComposite={isWayComposite}
           wayParticipantsMap={participantsSafeMap}
         />

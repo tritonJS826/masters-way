@@ -76,9 +76,9 @@ interface ReportsTableJobsDoneCellProps {
   wayParticipantsMap: SafeMap<string, UserPreviewShort>;
 
   /**
-   * All albels
+   * All labels
    */
-  allLabels: Label[];
+  labels: Label[];
 
 }
 
@@ -219,7 +219,7 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
                     <div className={styles.tagsBlockTrigger}>
                       <JobDoneTags
                         jobDoneTags={jobDone.tags}
-                        labels={props.allLabels}
+                        labels={props.labels}
                       />
                     </div>
                   }
@@ -238,7 +238,7 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
                 :
                 <JobDoneTags
                   jobDoneTags={jobDone.tags}
-                  labels={props.allLabels}
+                  labels={props.labels}
                 />
               }
               <Tooltip

@@ -48,15 +48,10 @@ interface JobDoneTagsProps {
  */
 export const ModalContentJobTags = observer((props: JobDoneTagsProps) => {
   const {language} = languageStore;
-  const x = props.jobDoneTags.map(item => item.uuid);
-  const [jobTagsUpdated, setJobTagsUpdated] = useState<string[]>(x);
+  const jobDoneTagUuids = props.jobDoneTags.map(item => item.uuid);
+  const [jobTagsUpdated, setJobTagsUpdated] = useState<string[]>(jobDoneTagUuids);
 
   const filteredJobTags = Array.from(new Set(jobTagsUpdated));
-
-  // Const allTagsMap = new Map(props.jobTags.concat(filteredJobTags).map((tag) => [tag.uuid, tag]));
-
-  // Const a =
-  // const allTagsUnique = Array.from(allTagsMap, ([, value]) => value);
 
   /**
    * Remove job tag from Job done
