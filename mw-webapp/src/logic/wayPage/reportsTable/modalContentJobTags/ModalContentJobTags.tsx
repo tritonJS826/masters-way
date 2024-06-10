@@ -1,13 +1,14 @@
 import {useState} from "react";
 import {Close as DialogClose} from "@radix-ui/react-dialog";
+import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Checkbox";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {languageStore} from "src/globalStore/LanguageStore";
-import {Label} from "src/logic/wayPage/labels/label/Label";
-import {JobTag as JobTagData} from "src/model/businessModelPreview/WayPreview";
+import {LabelItem} from "src/logic/wayPage/labels/label/Label";
+import {Label} from "src/model/businessModel/Label";
 import {LanguageService} from "src/service/LanguageService";
 import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/logic/wayPage/reportsTable/modalContentJobTags/ModalContentJobTags.module.scss";
@@ -22,12 +23,12 @@ interface JobDoneTagsProps {
   /**
    * Job done tags
    */
-  jobDoneTags: JobTagData[];
+  jobDoneTags: Label[];
 
   /**
    * All Job done tags in way
    */
-  jobTags: JobTagData[];
+  jobTags: Label[];
 
   /**
    * Is editable
@@ -38,36 +39,33 @@ interface JobDoneTagsProps {
   /**
    * Callback to update job done tags
    */
-  updateTags: (newTags: JobTagData[]) => Promise<void>;
+  updateTags: (newTags: string[]) => Promise<void>;
 
 }
 
 /**
  * Modal content job tags
  */
-export const ModalContentJobTags = (props: JobDoneTagsProps) => {
+export const ModalContentJobTags = observer((props: JobDoneTagsProps) => {
   const {language} = languageStore;
-  const [jobTagsUpdated, setJobTagsUpdated] = useState<JobTagData[]>(props.jobDoneTags);
+  const jobDoneTagUuids = props.jobDoneTags.map(item => item.uuid);
+  const [jobTagsUpdated, setJobTagsUpdated] = useState<string[]>(jobDoneTagUuids);
 
   const filteredJobTags = Array.from(new Set(jobTagsUpdated));
-
-  const allTagsMap = new Map(props.jobTags.concat(filteredJobTags).map((tag) => [tag.uuid, tag]));
-
-  const allTagsUnique = Array.from(allTagsMap, ([, value]) => value);
 
   /**
    * Remove job tag from Job done
    */
   const removeJobTagFromJobDone = (jobTagToRemove: string) => {
-    const updatedJobTags = jobTagsUpdated.filter((jobTag) => jobTag.uuid !== jobTagToRemove);
+    const updatedJobTags = jobTagsUpdated.filter((jobTag) => jobTag !== jobTagToRemove);
     setJobTagsUpdated(updatedJobTags);
   };
 
   /**
    * Add job tag to Job done
    */
-  const addJobTagFromJobDone = (jobTagToAdd: JobTagData) => {
-    const updatedJobTags = jobTagsUpdated.concat(jobTagToAdd);
+  const addJobTagFromJobDone = (jobTagToAdd: Label) => {
+    const updatedJobTags = jobTagsUpdated.concat(jobTagToAdd.uuid);
     setJobTagsUpdated(updatedJobTags);
   };
 
@@ -83,27 +81,27 @@ export const ModalContentJobTags = (props: JobDoneTagsProps) => {
   return (
     <div onKeyDown={handleEnter}>
       <div className={styles.jobTagsContainer}>
-        {allTagsUnique.map((tag) => {
+        {props.jobTags.map((tag) => {
           return (
             <div
               key={tag.uuid}
               className={styles.jobTags}
               // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-              onClick={() => jobTagsUpdated.includes(tag) ? removeJobTagFromJobDone(tag.uuid!) : addJobTagFromJobDone(tag)}
+              onClick={() => jobTagsUpdated.includes(tag.uuid) ? removeJobTagFromJobDone(tag.uuid!) : addJobTagFromJobDone(tag)}
             >
               <Tooltip
-                content={jobTagsUpdated.includes(tag)
+                content={jobTagsUpdated.includes(tag.uuid)
                   ? LanguageService.way.reportsTable.columnTooltip.deleteLabel[language]
                   : LanguageService.way.reportsTable.columnTooltip.addLabel[language]
                 }
                 position={PositionTooltip.BOTTOM}
               >
                 <Checkbox
-                  isDefaultChecked={jobTagsUpdated.includes(tag)}
+                  isDefaultChecked={jobTagsUpdated.includes(tag.uuid)}
                   onChange={() => { }}
                   className={styles.checkbox}
                 />
-                <Label label={tag} />
+                <LabelItem label={tag} />
               </Tooltip>
             </div>
           );
@@ -128,4 +126,4 @@ export const ModalContentJobTags = (props: JobDoneTagsProps) => {
       </HorizontalContainer>
     </div>
   );
-};
+});

@@ -1,5 +1,5 @@
 import {makeAutoObservable} from "mobx";
-import {JobTag} from "src/model/businessModelPreview/WayPreview";
+import {Label} from "src/model/businessModel/Label";
 
 /**
  * JobDone props
@@ -29,7 +29,7 @@ interface JobDoneProps {
   /**
    * CurrentProblem's tags
    */
-  tags: JobTag[];
+  tags: Label[];
 
   /**
    * JobDone's created date
@@ -80,7 +80,7 @@ export class JobDone {
   /**
    * JobDone's tags
    */
-  public tags: JobTag[];
+  public tags: Label[];
 
   /**
    * JobDone's created date
@@ -107,7 +107,7 @@ export class JobDone {
     this.uuid = jobDoneData.uuid;
     this.description = jobDoneData.description;
     this.time = jobDoneData.time;
-    this.tags = jobDoneData.tags.map(tag => new JobTag(tag));
+    this.tags = jobDoneData.tags.map(tag => new Label(tag));
     this.ownerUuid = jobDoneData.ownerUuid;
     this.createdAt = jobDoneData.createdAt;
     this.updatedAt = jobDoneData.updatedAt;
@@ -132,7 +132,7 @@ export class JobDone {
   /**
    * Update job's labels
    */
-  public updateLabels(labelsToUpdate: JobTag[]): void {
+  public updateLabels(labelsToUpdate: Label[]): void {
     this.tags = labelsToUpdate;
   }
 

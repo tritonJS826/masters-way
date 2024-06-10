@@ -1,3 +1,4 @@
+import {Label} from "src/model/businessModel/Label";
 import {Plan} from "src/model/businessModel/Plan";
 import {PlanService} from "src/service/PlanService";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
@@ -75,6 +76,7 @@ export class PlanDAL {
       createdAt: new Date(planDTO.createdAt),
       wayName: params.wayName,
       wayUuid: params.wayUuid,
+      tags: planDTO.tags.map((label) => new Label(label)),
     });
 
     return plan;
@@ -95,6 +97,7 @@ export class PlanDAL {
       createdAt: new Date(updatedPlanDTO.createdAt),
       wayName: params.wayName,
       wayUuid: params.wayUuid,
+      tags: updatedPlanDTO.tags.map((label) => new Label(label)),
     });
 
     return updatedPlan;

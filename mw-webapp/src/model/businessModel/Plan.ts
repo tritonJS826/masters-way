@@ -1,4 +1,5 @@
-import {JobTag} from "src/model/businessModelPreview/WayPreview";
+import {makeAutoObservable} from "mobx";
+import {Label} from "src/model/businessModel/Label";
 
 /**
  * Plan props
@@ -28,7 +29,7 @@ interface PlanProps {
   /**
    * Plan's tags
    */
-  tags: JobTag[];
+  tags: Label[];
 
   /**
    * Is plan was done
@@ -90,7 +91,7 @@ export class Plan {
   /**
    * Plan's tags
    */
-  public tags: JobTag[];
+  public tags: Label[];
 
   /**
    * Is plan was done
@@ -123,11 +124,12 @@ export class Plan {
   public wayName: string;
 
   constructor(planData: PlanProps) {
+    makeAutoObservable(this);
     this.uuid = planData.uuid;
     this.description = planData.description;
     this.ownerUuid = planData.ownerUuid;
     this.time = planData.time;
-    this.tags = planData.tags.map(tag => new JobTag(tag));
+    this.tags = planData.tags.map(tag => new Label(tag));
     this.isDone = planData.isDone;
     this.updatedAt = planData.updatedAt;
     this.createdAt = planData.createdAt;
@@ -160,7 +162,7 @@ export class Plan {
   /**
    * Update plan's labels
    */
-  public updateLabels(labelsToUpdate: JobTag[]): void {
+  public updateLabels(labelsToUpdate: Label[]): void {
     this.tags = labelsToUpdate;
   }
 

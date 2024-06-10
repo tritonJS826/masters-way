@@ -1,5 +1,6 @@
 import clsx from "clsx";
-import {JobTag} from "src/model/businessModelPreview/WayPreview";
+import {observer} from "mobx-react-lite";
+import {Label} from "src/model/businessModel/Label";
 import styles from "src/logic/wayPage/labels/label/Label.module.scss";
 
 /**
@@ -11,7 +12,7 @@ interface LabelProps {
   /**
    * Job tag
    */
-  label: JobTag;
+  label: Label;
 
   /**
    * Is small
@@ -39,7 +40,7 @@ interface LabelProps {
 /**
  * Job tag component
  */
-export const Label = (props: LabelProps) => {
+export const LabelItem = observer((props: LabelProps) => {
   return (
     <div
       style={{color: props.label.color, borderColor: props.label.color}}
@@ -48,4 +49,4 @@ export const Label = (props: LabelProps) => {
       {props.label.name}
     </div>
   );
-};
+});
