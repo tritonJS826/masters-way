@@ -141,7 +141,6 @@ export const WayPage = observer((props: WayPageProps) => {
     );
   }
 
-  // Const compositeWay = createCompositeWay(way);
 
   const favoriteWaysCollection = user?.defaultWayCollections.favorite;
   const isWayInFavorites = !!favoriteWaysCollection?.ways.find((favoriteWay) => favoriteWay.uuid === way.uuid);
