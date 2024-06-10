@@ -2,6 +2,7 @@ import {makeAutoObservable} from "mobx";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {load} from "src/hooks/useLoad";
 import {Way} from "src/model/businessModel/Way";
+import {createCompositeWay} from "src/utils/createCompositeWay";
 
 /**
  * WayPageStore related methods
@@ -27,7 +28,7 @@ export class WayPageStore {
    * Set way
    */
   public setWay = (way: Way) => {
-    this.way = way;
+    this.way = createCompositeWay(way);
   };
 
   /**

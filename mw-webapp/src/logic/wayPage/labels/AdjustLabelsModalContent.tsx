@@ -8,7 +8,7 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {LabelDAL} from "src/dataAccessLogic/LabelDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {LabelLine} from "src/logic/wayPage/labels/LabelLine";
-import {JobTag, JobTag as JobTagData} from "src/model/businessModelPreview/WayPreview";
+import {Label} from "src/model/businessModel/Label";
 import {LanguageService} from "src/service/LanguageService";
 import {getColorByString} from "src/utils/getColorByString";
 import styles from "src/logic/wayPage/labels/AdjustLabelsModalContent.module.scss";
@@ -19,9 +19,9 @@ import styles from "src/logic/wayPage/labels/AdjustLabelsModalContent.module.scs
 interface JobTagsProps {
 
   /**
-   * Job tags
+   * Labels
    */
-  jobTags: JobTagData[];
+  jobTags: Label[];
 
   /**
    * Is editable
@@ -30,9 +30,14 @@ interface JobTagsProps {
   isEditable: boolean;
 
   /**
-   * Callback to update job tags
+   * Callback to add label
    */
-  updateTags: (newTags: JobTagData[]) => Promise<void>;
+  addLabel: (label: Label) => void;
+
+  /**
+   * Callback to delete label
+   */
+  deleteLabel: (labelUuid: string) => void;
 
   /**
    * Way's uuid
@@ -48,42 +53,20 @@ export const AdjustLabelsBlock = observer((props: JobTagsProps) => {
   const [isJobDoneModalOpen, setIsJobDoneModalOpen] = useState<boolean>(false);
 
   /**
-   * Remove job tag from Way
+   * Remove label from Way
    */
-  const removeJobTagFromWay = async (jobTagToRemoveUuid: string) => {
-    const updatedJobTags = props.jobTags.filter((jobTag) => jobTag.uuid !== jobTagToRemoveUuid);
-
-    await LabelDAL.deleteLabel(jobTagToRemoveUuid);
-    props.updateTags(updatedJobTags);
-  };
-
-  /**
-   * Update label in the way
-   */
-  const updateLabelInWay = async (label: JobTag) => {
-    const updatedJobTags = props.jobTags.map(oldLabel => {
-      if (label.uuid === oldLabel.uuid) {
-        return label;
-      } else {
-        return oldLabel;
-      }
-    });
-
-    await LabelDAL.updateLabel(label);
-    props.updateTags(updatedJobTags);
-
+  const removeLabelFromWay = async (labelUuid: string) => {
+    props.deleteLabel(labelUuid);
+    await LabelDAL.deleteLabel(labelUuid);
   };
 
   /**
    * Create job tag
    */
-  const createJobTag = async (newJobTag: string) => {
-    const randomColor = getColorByString(newJobTag);
-    const jobTag = await LabelDAL.createLabel(props.wayUuid, newJobTag, randomColor);
-    const updatedJobTags = props.jobTags.concat(jobTag);
-
-    await props.updateTags(updatedJobTags);
-
+  const createLabel = async (labelName: string) => {
+    const randomColor = getColorByString(labelName);
+    const label = await LabelDAL.createLabel(props.wayUuid, labelName, randomColor);
+    props.addLabel(label);
     setIsJobDoneModalOpen(false);
   };
 
@@ -97,8 +80,7 @@ export const AdjustLabelsBlock = observer((props: JobTagsProps) => {
       {props.jobTags.map((label) => {
         return (
           <LabelLine
-            onUpdateLabel={updateLabelInWay}
-            onRemoveLabel={removeJobTagFromWay}
+            onRemoveLabel={removeLabelFromWay}
             key={label.uuid}
             label={label}
             isEditable={props.isEditable}
@@ -114,7 +96,7 @@ export const AdjustLabelsBlock = observer((props: JobTagsProps) => {
             <PromptModalContent
               placeholder={LanguageService.way.filterBlock.jobTagPlaceholder[language]}
               close={() => setIsJobDoneModalOpen(false)}
-              onOk={createJobTag}
+              onOk={createLabel}
               okButtonValue={LanguageService.modals.promptModal.okButton[language]}
               cancelButtonValue={LanguageService.modals.promptModal.cancelButton[language]}
             />

@@ -5,41 +5,6 @@ import {UserPreviewShort} from "src/model/businessModelPreview/UserPreviewShort"
 import {WayTag} from "src/model/businessModelPreview/WayTag";
 
 /**
- * Job tag data
- */
-export class JobTag {
-
-  /**
-   * Way tag uuid
-   */
-  public uuid: string;
-
-  /**
-   * Way tag name
-   */
-  public name: string;
-
-  /**
-   * Way tag description
-   */
-  public description: string;
-
-  /**
-   * Way tag color
-   */
-  public color: string;
-
-  constructor(jobTag: JobTag) {
-    makeAutoObservable(this);
-    this.name = jobTag.name;
-    this.uuid = jobTag.uuid;
-    this.description = jobTag.description;
-    this.color = jobTag.color;
-  }
-
-}
-
-/**
  * Way preview model
  */
 export class WayPreview {

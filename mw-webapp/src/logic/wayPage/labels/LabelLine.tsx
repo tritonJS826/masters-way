@@ -5,9 +5,10 @@ import {EditableText} from "src/component/editableText/EditableText";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
+import {LabelDAL} from "src/dataAccessLogic/LabelDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
-import {Label} from "src/logic/wayPage/labels/label/Label";
-import {JobTag} from "src/model/businessModelPreview/WayPreview";
+import {LabelItem} from "src/logic/wayPage/labels/label/Label";
+import {Label} from "src/model/businessModel/Label";
 import {LanguageService} from "src/service/LanguageService";
 import {debounce} from "src/utils/debounce";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
@@ -21,7 +22,7 @@ interface LabelLineProps {
   /**
    * Label
    */
-  label: JobTag;
+  label: Label;
 
   /**
    * Is label editable
@@ -34,10 +35,6 @@ interface LabelLineProps {
    */
   onRemoveLabel: (labelUuid: string) => void;
 
-  /**
-   * Callback triggered on update label
-   */
-  onUpdateLabel: (label: JobTag) => void;
 }
 
 /**
@@ -50,8 +47,8 @@ export const LabelLine = observer((props: LabelLineProps) => {
   /**
    * Update label
    */
-  const updateLabel = (label: PartialWithUuid<JobTag>) => {
-    props.onUpdateLabel({...props.label, ...label});
+  const updateLabel = async (labelToUpdate: PartialWithUuid<Label>) => {
+    await LabelDAL.updateLabel(labelToUpdate);
   };
 
   const updateLabelDebounced = debounce(updateLabel, DEBOUNCE_DELAY_MILLISECONDS);
@@ -59,12 +56,18 @@ export const LabelLine = observer((props: LabelLineProps) => {
   return (
     <HorizontalContainer className={styles.labelLine}>
       <div className={styles.labelContainer}>
-        <Label label={props.label} />
+        <LabelItem label={props.label} />
       </div>
 
       <EditableText
         value={props.label.description}
-        onChangeFinish={(description) => updateLabelDebounced({...props.label, description})}
+        onChangeFinish={(description) => {
+          props.label.updateDescription(description);
+          updateLabelDebounced({
+            uuid: props.label.uuid,
+            description,
+          });
+        }}
         isEditable={props.isEditable}
         className={styles.labelDescription}
         placeholder={LanguageService.common.emptyMarkdownAction[language]}
@@ -74,7 +77,13 @@ export const LabelLine = observer((props: LabelLineProps) => {
       <input
         type="color"
         value={props.label.color}
-        onChange={(event) => updateLabelDebounced({...props.label, color: event.target.value})}
+        onChange={(event) => {
+          props.label.updateColor(event.target.value);
+          updateLabelDebounced({
+            uuid: props.label.uuid,
+            color: event.target.value,
+          });
+        }}
       />
 
       {/* remove button */}

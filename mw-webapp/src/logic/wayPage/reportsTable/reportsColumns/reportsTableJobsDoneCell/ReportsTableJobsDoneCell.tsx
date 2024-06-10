@@ -22,9 +22,9 @@ import {SummarySection} from "src/logic/wayPage/reportsTable/reportsColumns/summ
 import {getFirstName} from "src/logic/waysTable/waysColumns";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
+import {Label} from "src/model/businessModel/Label";
 import {User} from "src/model/businessModel/User";
 import {UserPreviewShort} from "src/model/businessModelPreview/UserPreviewShort";
-import {JobTag} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import {Symbols} from "src/utils/Symbols";
@@ -38,7 +38,7 @@ interface ReportsTableJobsDoneCellProps {
   /**
    * All jobDone tags in the way
    */
-  jobTags: JobTag[];
+  jobTags: Label[];
 
   /**
    * Day report's uuid for update
@@ -74,6 +74,11 @@ interface ReportsTableJobsDoneCellProps {
    * Way's participants
    */
   wayParticipantsMap: SafeMap<string, UserPreviewShort>;
+
+  /**
+   * All albels
+   */
+  allLabels: Label[];
 
 }
 
@@ -120,7 +125,7 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
     /**
      * New updated list of tags
      */
-    updatedTags: JobTag[];
+    updatedTags: string[];
   }) => {
 
     const oldJob = props.dayReport.jobsDone.find(job => params.jobDone.uuid === job.uuid);
@@ -129,11 +134,10 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
     }
     const oldLabels = oldJob.tags.map(label => label.uuid);
     const labelUuidsToAdd: string[] = params.updatedTags
-      .map(label => label.uuid)
       .filter(labelUuid => !oldLabels.includes(labelUuid));
     const labelUuidsToDelete: string[] = oldLabels
       .filter(
-        labelUuid => !params.updatedTags.map(label => label.uuid).includes(labelUuid),
+        labelUuid => !params.updatedTags.includes(labelUuid),
       );
 
     const addPromises = labelUuidsToAdd.map(labelUuid => JobDoneJobTagDAL.createJobDoneJobTag({
@@ -213,7 +217,10 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
                     </div>
                     :
                     <div className={styles.tagsBlockTrigger}>
-                      <JobDoneTags jobDoneTags={jobDone.tags} />
+                      <JobDoneTags
+                        jobDoneTags={jobDone.tags}
+                        labels={props.allLabels}
+                      />
                     </div>
                   }
                   content={
@@ -221,14 +228,18 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
                       jobTags={props.jobTags}
                       jobDoneTags={jobDone.tags}
                       isEditable={props.isEditable}
-                      updateTags={(tagsToUpdate: JobTag[]) => updateLabelsInJobDone({
+                      updateTags={(tagsToUpdate: string[]) => updateLabelsInJobDone({
                         jobDone,
                         updatedTags: tagsToUpdate,
                       })}
                     />
                   }
                 />
-                : <JobDoneTags jobDoneTags={jobDone.tags} />
+                :
+                <JobDoneTags
+                  jobDoneTags={jobDone.tags}
+                  labels={props.allLabels}
+                />
               }
               <Tooltip
                 position={PositionTooltip.BOTTOM}

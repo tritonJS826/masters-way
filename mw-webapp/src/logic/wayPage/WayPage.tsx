@@ -44,15 +44,15 @@ import {DayReportsTable} from "src/logic/wayPage/reportsTable/dayReportsTable/Da
 import {WayPageStore} from "src/logic/wayPage/WayPageStore";
 import {WayActiveStatistic} from "src/logic/wayPage/wayStatistics/WayActiveStatistic";
 import {MILLISECONDS_IN_DAY, SMALL_CORRECTION_MILLISECONDS, WayStatistic} from "src/logic/wayPage/wayStatistics/WayStatistic";
-import {getWayStatus, WayStatus} from "src/logic/waysTable/wayStatus";
 import {DayReport} from "src/model/businessModel/DayReport";
+import {Label} from "src/model/businessModel/Label";
 import {Metric} from "src/model/businessModel/Metric";
 import {UserPlain} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
-import {JobTag, WayPreview} from "src/model/businessModelPreview/WayPreview";
+import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
-import {createCompositeWay} from "src/utils/createCompositeWay";
+// Import {createCompositeWay} from "src/utils/createCompositeWay";
 import {DateUtils} from "src/utils/DateUtils";
 import {WayPageSettings} from "src/utils/LocalStorageWorker";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
@@ -141,7 +141,7 @@ export const WayPage = observer((props: WayPageProps) => {
     );
   }
 
-  const compositeWay = createCompositeWay(way);
+  // Const compositeWay = createCompositeWay(way);
 
   const favoriteWaysCollection = user?.defaultWayCollections.favorite;
   const isWayInFavorites = !!favoriteWaysCollection?.ways.find((favoriteWay) => favoriteWay.uuid === way.uuid);
@@ -324,25 +324,6 @@ export const WayPage = observer((props: WayPageProps) => {
 
     navigate(pages.way.getPath({uuid: newWay.uuid}));
     displayNotification({text: `Way ${way.name} copied`, type: "info"});
-  };
-
-  /**
-   * Update goal
-   */
-  const updateGoalMetrics = async (metricsToUpdate: Metric[]) => {
-    const isWayCompleted = metricsToUpdate.every((metric) => metric.isDone);
-    const statusToUpdate = getWayStatus({
-      status: isWayCompleted ? WayStatus.completed : null,
-      lastUpdate: way.lastUpdate,
-    });
-    const wayToUpdate = {
-      uuid: way.uuid,
-      metrics: metricsToUpdate,
-      status: statusToUpdate,
-    };
-
-    way.updateMetrics(metricsToUpdate, statusToUpdate);
-    await WayDAL.updateWay(wayToUpdate);
   };
 
   const isWayComposite = way.children.length !== 0;
@@ -713,7 +694,8 @@ export const WayPage = observer((props: WayPageProps) => {
               wayUuid={way.uuid}
               isVisible={wayPageSettings.isGoalMetricsVisible}
               goalMetrics={way.metrics}
-              updateGoalMetrics={updateGoalMetrics}
+              addMetric={(metric: Metric) => way.addMetric(metric)}
+              deleteMetric={(metricUuid: string) => way.deleteMetric(metricUuid)}
               isEditable={isUserOwnerOrMentor}
             />
           </VerticalContainer>
@@ -888,16 +870,16 @@ export const WayPage = observer((props: WayPageProps) => {
               className={styles.statisticsModal}
               content={
                 <WayStatistic
-                  dayReports={compositeWay.dayReports}
-                  wayCreatedAt={compositeWay.createdAt}
+                  dayReports={way.dayReports}
+                  wayCreatedAt={way.createdAt}
                   isVisible={wayPageSettings.isStatisticsVisible}
                 />
               }
             />
           </HorizontalContainer>
           <WayActiveStatistic
-            dayReports={compositeWay.dayReports}
-            wayCreatedAt={compositeWay.createdAt}
+            dayReports={way.dayReports}
+            wayCreatedAt={way.createdAt}
             isVisible={wayPageSettings.isStatisticsVisible}
           />
         </VerticalContainer>
@@ -933,17 +915,8 @@ export const WayPage = observer((props: WayPageProps) => {
                     wayUuid={way.uuid}
                     jobTags={way.jobTags}
                     isEditable={isUserOwnerOrMentor}
-                    updateTags={(tagsToUpdate: JobTag[]) => updateWay({
-                      wayToUpdate: {
-                        uuid: way.uuid,
-                        jobTags: tagsToUpdate,
-                      },
-
-                      /**
-                       * Update way's labels
-                       */
-                      setWay: () => way.updateLabels(tagsToUpdate),
-                    })}
+                    addLabel={(label: Label) => way.addLabel(label)}
+                    deleteLabel={(labelUuid: string) => way.deleteLabel(labelUuid)}
                   />
                 </div>
               }
@@ -953,7 +926,7 @@ export const WayPage = observer((props: WayPageProps) => {
       }
 
       <DayReportsTable
-        way={compositeWay}
+        way={way}
         createDayReport={createDayReport}
         compositeWayParticipant={compositeWayParticipants}
       />

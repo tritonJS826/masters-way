@@ -1,4 +1,4 @@
-import {JobTag} from "src/model/businessModelPreview/WayPreview";
+import {Label} from "src/model/businessModel/Label";
 
 /**
  * Specific tag related stats
@@ -28,5 +28,5 @@ export type JobTagStat = {
   /**
    * Tag data
    */
-  jobTag: JobTag;
+  jobTag: Label;
 };

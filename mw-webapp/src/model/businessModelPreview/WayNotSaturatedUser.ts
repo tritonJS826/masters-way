@@ -1,7 +1,7 @@
 import {makeAutoObservable} from "mobx";
 import {WayStatusType} from "src/logic/waysTable/wayStatus";
+import {Label} from "src/model/businessModel/Label";
 import {UserNotSaturatedWay} from "src/model/businessModelPreview/UserNotSaturatedWay";
-import {JobTag} from "src/model/businessModelPreview/WayPreview";
 import {WayTag} from "src/model/businessModelPreview/WayTag";
 
 /**
@@ -70,9 +70,9 @@ export class WayNotSaturatedUser {
   public wayTags: WayTag[];
 
   /**
-   * Tags that was used for jobDone {@link JobTag}
+   * Tags that was used for jobDone {@link Label}
    */
-  public jobTags: JobTag[];
+  public jobTags: Label[];
 
   /**
    * Way's uuid that was copied
