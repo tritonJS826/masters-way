@@ -1,7 +1,5 @@
 @import "src/styles/variables";
 
-$TagBorderRadius: 1000px;
-
 .tagContainer {
   position: relative;
   display: inline-block;
@@ -27,7 +25,7 @@ $TagBorderRadius: 1000px;
 
 .tag {
   display: inline-block;
-  border-radius: $TagBorderRadius;
+  border-radius: $tagBorderRadius;
   color: var(--primaryTextColor);
 }
 
@@ -48,7 +46,7 @@ $TagBorderRadius: 1000px;
   height: 16px;
   padding: 1px $paddingMedium;
   background-color: var(--primaryBgColor);
-  font-size: 12px;
+  font-size: $fontSizeSmall;
 }
 
 .cross {
