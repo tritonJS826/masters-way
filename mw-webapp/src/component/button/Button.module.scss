@@ -32,11 +32,6 @@
   &:active {
     background-color: var(--primaryBgBtnActiveColor);
   }
-
-  &:disabled {
-    background-color: revert;
-    color: revert;
-  }
 }
 
 .secondary {
