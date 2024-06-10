@@ -25,6 +25,7 @@
 
 .tag {
   display: inline-block;
+  border: 1px solid var(--primaryStrokeColor);
   border-radius: $tagBorderRadius;
   color: var(--primaryTextColor);
 }
@@ -34,19 +35,18 @@
   max-width: $minWidthBlock;
   height: 40px;
   padding: $paddingMedium;
-  border: 1px solid var(--primaryStrokeColor);
   background-color: var(--secondaryBgColor);
   color: var(--primaryTextColor);
-  font-size: 16px;
+  font-size: $fontSizeBig;
   text-overflow: ellipsis;
   text-wrap: nowrap;
 }
 
 .cardTag {
   height: 16px;
-  padding: 1px $paddingMedium;
   background-color: var(--primaryBgColor);
   font-size: $fontSizeSmall;
+  padding-inline: $paddingMedium;
 }
 
 .cross {

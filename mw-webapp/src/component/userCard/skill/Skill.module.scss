@@ -3,9 +3,10 @@
 .skill {
   display: inline-block;
   height: 16px;
-  padding: 1px $paddingMedium;
+  border: 1px solid var(--primaryStrokeColor);
   border-radius: $tagBorderRadius;
   background-color: var(--primaryBgColor);
   color: var(--primaryTextColor);
   font-size: $fontSizeSmall;
+  padding-inline: $paddingMedium;
 }
