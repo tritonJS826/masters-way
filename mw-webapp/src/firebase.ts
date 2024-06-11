@@ -1,5 +1,6 @@
 import {getAnalytics, logEvent as logEventFirebase} from "firebase/analytics";
 import {initializeApp} from "firebase/app";
+import {getAuth, GoogleAuthProvider} from "firebase/auth";
 import {getFirestore, initializeFirestore, persistentLocalCache} from "firebase/firestore";
 import {env} from "src/utils/env/env";
 
@@ -32,3 +33,5 @@ export enum Analytics {
 export const logEvent = (event: Analytics, metadata: object) => logEventFirebase(analytics, event, metadata);
 
 export const db = getFirestore(app);
+export const provider = new GoogleAuthProvider().setCustomParameters({prompt: "select_account"});
+export const auth = getAuth();
