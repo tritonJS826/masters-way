@@ -53,4 +53,3 @@ export * from './SchemasWayCollectionPopulatedResponse';
 export * from './SchemasWayPlainResponse';
 export * from './SchemasWayPopulatedResponse';
 export * from './SchemasWayTagResponse';
-export * from './UtilResponseStatusString';
