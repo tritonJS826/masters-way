@@ -43,6 +43,19 @@ const checkAuthMiddleware: Middleware = {
 
     return Promise.resolve(undefined);
   },
+
+  /**
+   * Pre request middle ware
+   * @param context
+   */
+  post: (): Promise<Response | void> => {
+    const isSessionValid = isAuthCookieExists();
+    if (!isSessionValid) {
+      userStore.clearUser();
+    }
+
+    return Promise.resolve(undefined);
+  },
 };
 
 const configuration = new Configuration({
