@@ -1,5 +1,22 @@
 import clsx from "clsx";
+import {Button, ButtonType} from "src/component/button/Button";
 import styles from "src/component/tag/Tag.module.scss";
+
+/**
+ * Tag type enum
+ */
+export enum TagType {
+
+  /**
+   * Tag that used on way card
+   */
+  CARD_TAG = "cardTag",
+
+  /**
+   * Tag that used on User page and Way page
+   */
+  PRIMARY_TAG = "primaryTag",
+}
 
 /**
  * Data attributes for cypress testing
@@ -33,6 +50,11 @@ interface TagProps {
   cy?: Cy;
 
   /**
+   * Tag type
+   */
+  type: TagType;
+
+  /**
    * If true - tag could be removed by clicking on cross
    */
   isDeletable?: boolean;
@@ -47,25 +69,30 @@ interface TagProps {
  * WayCard tag component
  */
 export const Tag = (props: TagProps) => {
-  return (
-    <button className={styles.tagContainer}>
-      <span
-        className={clsx(styles.cross, !props.isDeletable && styles.hiddenCross)}
-        onClick={() => {
-          props.isDeletable && props?.onDelete && props.onDelete(props.tagName);
-        }}
-        data-cy={props.cy?.dataCyCross}
-      >
-        X
-      </span>
+  const isPrimaryTag = props.type === TagType.PRIMARY_TAG;
+  const tagStyle = isPrimaryTag ? styles.primaryTag : styles.cardTag;
+  const tag = (
+    <span
+      className={clsx(styles.tag, tagStyle)}
+      data-cy={props.cy?.dataCyTag}
+    >
+      {props.tagName}
+    </span>);
 
-      <span
-        className={styles.tag}
-        data-cy={props.cy?.dataCyTag}
-      >
-        {props.tagName}
-      </span>
-    </button>
-  );
+  return isPrimaryTag ?
+    (
+      <div className={styles.tagContainer}>
+        <Button
+          className={clsx(styles.cross, !props.isDeletable && styles.hiddenCross)}
+          onClick={() => {
+            props.isDeletable && props?.onDelete && props.onDelete(props.tagName);
+          }}
+          dataCy={props.cy?.dataCyCross}
+          value={"X"}
+          buttonType={ButtonType.ICON_BUTTON}
+        />
+        {tag}
+      </div>
+    )
+    : tag;
 };
-

@@ -1,4 +1,5 @@
 import {observer} from "mobx-react-lite";
+import {Tag, TagType} from "src/component//tag/Tag";
 import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
@@ -6,7 +7,6 @@ import {Link} from "src/component/link/Link";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
-import {Skill} from "src/component/userCard/skill/Skill";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {
@@ -47,9 +47,10 @@ export const UserCard = observer((props: UserCardProps) => {
     return (
       <HorizontalContainer className={styles.userTags}>
         {skills.map((skill) => (
-          <Skill
+          <Tag
             key={skill.uuid}
-            skillName={skill.name}
+            tagName={skill.name}
+            type={TagType.CARD_TAG}
           />
         ))}
       </HorizontalContainer>
