@@ -63,18 +63,18 @@ describe('Navigation menu scope tests', () => {
     });
 
     it('NoAuth_NavMenu_Home_Language', () => {
-        const language = Object.keys(sideBarContent.language).map(key => key.toUpperCase());
-        const languageArray = Object.values(sideBarContent.language);
+        const languageCode = Object.keys(sideBarContent.language).map(key => key.toUpperCase());
+        const languageText = Object.values(sideBarContent.language);
 
         navigatioMenuSelectors.language.getSelect().click();
 
-        language.forEach((languageCode, index) => {
-            navigatioMenuSelectors.language.languageMenuItems[index]().should('have.text', languageCode);
+        languageCode.forEach((code, index) => {
+            navigatioMenuSelectors.language.languageMenuItems[index]().should('have.text', code);
             navigatioMenuSelectors.language.languageMenuItems[index]().click();
     
-            navigatioMenuSelectors.language.getText().should('have.text', languageArray[index]);
+            navigatioMenuSelectors.language.getText().should('have.text', languageText[index]);
 
-            if (index < languageArray.length - 1) {
+            if (index < languageText.length - 1) {
                 navigatioMenuSelectors.language.getSelect().click();
               }
         });
