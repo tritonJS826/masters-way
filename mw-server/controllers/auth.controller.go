@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"context"
-	"database/sql"
 	"net/http"
 	"time"
 
@@ -50,7 +49,7 @@ func (cc *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
 		Email:       gothUser.Email,
 		Description: gothUser.Description,
 		CreatedAt:   now,
-		ImageUrl:    sql.NullString{String: gothUser.AvatarURL, Valid: true},
+		ImageUrl:    gothUser.AvatarURL,
 		IsMentor:    false,
 		FirebaseID:  "",
 	}
@@ -58,15 +57,19 @@ func (cc *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
 	populatedUser, err := services.FindOrCreateUserByEmail(cc.db, ctx, args)
 	util.HandleErrorGin(ctx, err)
 
-	// Save user data in the session
+	jwtToken, err := auth.GenerateJWT(populatedUser.Uuid)
+	util.HandleErrorGin(ctx, err)
+
+	ctx.SetCookie(auth.AuthSession, jwtToken, auth.MaxAge, "/", config.Env.Domain, true, true)
+
 	session, err := gothic.Store.Get(ctx.Request, auth.AuthSession)
 	util.HandleErrorGin(ctx, err)
 	sessionPublic, err := gothic.Store.Get(ctx.Request, auth.AuthSessionPublic)
 	util.HandleErrorGin(ctx, err)
-	sessionPublic.Options.HttpOnly = false
 
 	session.Values[auth.UserIdKey] = populatedUser.Uuid
 	sessionPublic.Values[auth.UserIdKey] = true
+	sessionPublic.Options.HttpOnly = false
 
 	err = session.Save(ctx.Request, ctx.Writer)
 	util.HandleErrorGin(ctx, err)
@@ -90,7 +93,6 @@ func (cc *AuthController) BeginAuth(ctx *gin.Context) {
 	provider := ctx.Param("provider")
 	ctx.Request = ctx.Request.WithContext(context.WithValue(context.Background(), "provider", provider))
 
-	// already logged user
 	if gothUser, err := gothic.CompleteUserAuth(ctx.Writer, ctx.Request); err == nil {
 		now := time.Now()
 		args := &db.CreateUserParams{
@@ -98,15 +100,18 @@ func (cc *AuthController) BeginAuth(ctx *gin.Context) {
 			Email:       gothUser.Email,
 			Description: gothUser.Description,
 			CreatedAt:   now,
-			ImageUrl:    sql.NullString{String: gothUser.AvatarURL, Valid: true},
+			ImageUrl:    gothUser.AvatarURL,
 			IsMentor:    false,
 			FirebaseID:  "",
 		}
 		populatedUser, err := services.FindOrCreateUserByEmail(cc.db, ctx, args)
 		util.HandleErrorGin(ctx, err)
-		ctx.JSON(http.StatusOK, populatedUser)
 
-		// Begin auth handle
+		jwtToken, err := auth.GenerateJWT(populatedUser.Uuid)
+		util.HandleErrorGin(ctx, err)
+
+		ctx.SetCookie(auth.AuthSession, jwtToken, auth.MaxAge, "/", config.Env.Domain, true, true)
+		ctx.JSON(http.StatusOK, populatedUser)
 	} else {
 		gothic.BeginAuthHandler(ctx.Writer, ctx.Request)
 	}
