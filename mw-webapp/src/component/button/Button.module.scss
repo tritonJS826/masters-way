@@ -12,6 +12,11 @@
   font-size: $fontSizeBig;
   gap: $gapSmall;
   transition-duration: $primaryTransitionDuration;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: $disableOpacity;
+  }
 }
 
 .primary {
@@ -19,7 +24,7 @@
   background-color: var(--generalPrimaryColor);
   color: var(--secondaryTextColor);
 
-  &:hover {
+  &:hover:enabled {
     background-color: var(--primaryBgBtnHoverColor);
     cursor: pointer;
   }
@@ -85,10 +90,6 @@
     background-color: var(--primaryBgColor);
     color: var(--generalPrimaryColor);
   }
-}
-
-.disabled {
-  opacity: $disableOpacity;
 }
 
 .superSpecialBeautifulButton {
