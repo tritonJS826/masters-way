@@ -31,10 +31,10 @@ import styles from "src/component/header/Header.module.scss";
 export const LOGO_TEXT = "Master's way";
 
 export const languageOptions: SelectItemType<Language>[] = [
-  {id: "1", value: Language.ENGLISH, text: "EN"},
-  {id: "2", value: Language.RUSSIAN, text: "RU"},
-  {id: "3", value: Language.UKRAINIAN, text: "UA"},
-  {id: "4", value: Language.GEORGIAN, text: "KA"},
+  {id: "1", value: Language.ENGLISH, text: "EN", dataCy: navigationMenuIds.language.enItem},
+  {id: "2", value: Language.RUSSIAN, text: "RU", dataCy: navigationMenuIds.language.ruItem},
+  {id: "3", value: Language.UKRAINIAN, text: "UA", dataCy: navigationMenuIds.language.uaItem},
+  {id: "4", value: Language.GEORGIAN, text: "KA", dataCy: navigationMenuIds.language.kaItem},
 ];
 
 /**
@@ -281,7 +281,10 @@ export const Header = (props: HeaderProps) => {
             bottomChildren={
               <VerticalContainer className={styles.bottomContainer}>
                 <HorizontalContainer className={styles.sidebarItem}>
-                  <HorizontalContainer className={styles.iconWithText}>
+                  <HorizontalContainer
+                    className={styles.iconWithText}
+                    dataCy={navigationMenuIds.language.text}
+                  >
                     <Icon
                       size={IconSize.MEDIUM}
                       name="GlobeIcon"
@@ -294,6 +297,7 @@ export const Header = (props: HeaderProps) => {
                     name="language"
                     options={languageOptions}
                     onChange={props.setLanguage}
+                    dataCy={navigationMenuIds.language.select}
                   />
                 </HorizontalContainer>
                 <HorizontalContainer className={styles.sidebarItem}>

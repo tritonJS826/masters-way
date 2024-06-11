@@ -8,6 +8,20 @@ export const navigationMenuSelectors = {
         getAllWaysItemLink: () => cy.get(getDataCy(navigationMenuIds.menuItemLinks.allWays)),
         getAllUsersItemLink: () => cy.get(getDataCy(navigationMenuIds.menuItemLinks.allUsers)),
         getAboutProjectItemLink: () => cy.get(getDataCy(navigationMenuIds.menuItemLinks.aboutProject))
-    }
+    },
+
+    language: {
+        getText:() => cy.get(getDataCy(navigationMenuIds.language.text)),
+        getSelect:() => cy.get(getDataCy(navigationMenuIds.language.select)),
+
+        languageMenuItems: [
+            () => cy.get(getDataCy(navigationMenuIds.language.ruItem)),
+            () => cy.get(getDataCy(navigationMenuIds.language.enItem)),
+            () => cy.get(getDataCy(navigationMenuIds.language.uaItem)),
+            () => cy.get(getDataCy(navigationMenuIds.language.kaItem))
+        ]
+    },
+
+    getCloseButton: () => cy.get(getDataCy(navigationMenuIds.closeButton))
 
 };
