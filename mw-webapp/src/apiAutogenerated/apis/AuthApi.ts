@@ -36,6 +36,7 @@ export interface BeginAuthRequest {
 }
 
 export interface GoogleAuthLogInRequest {
+    state: string;
     provider: string;
     request: SchemasCreateCommentPayload;
 }
@@ -109,6 +110,10 @@ export class AuthApi extends runtime.BaseAPI {
      * Log in with google oAuth
      */
     async googleAuthLogInRaw(requestParameters: GoogleAuthLogInRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasCommentPopulatedResponse>> {
+        if (requestParameters.state === null || requestParameters.state === undefined) {
+            throw new runtime.RequiredError('state','Required parameter requestParameters.state was null or undefined when calling googleAuthLogIn.');
+        }
+
         if (requestParameters.provider === null || requestParameters.provider === undefined) {
             throw new runtime.RequiredError('provider','Required parameter requestParameters.provider was null or undefined when calling googleAuthLogIn.');
         }
@@ -118,6 +123,10 @@ export class AuthApi extends runtime.BaseAPI {
         }
 
         const queryParameters: any = {};
+
+        if (requestParameters.state !== undefined) {
+            queryParameters['state'] = requestParameters.state;
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 

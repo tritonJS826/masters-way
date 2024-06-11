@@ -19,11 +19,11 @@ import {Toggle} from "src/component/toggle/Toggle";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {AuthDAL} from "src/dataAccessLogic/AuthDAL";
 import {Language} from "src/globalStore/LanguageStore";
 import {DEFAULT_THEME, Theme} from "src/globalStore/ThemeStore";
 import {User} from "src/model/businessModel/User";
 import {pages} from "src/router/pages";
-import {AuthService} from "src/service/AuthService";
 import {LanguageService} from "src/service/LanguageService";
 import {env} from "src/utils/env/env";
 import styles from "src/component/header/Header.module.scss";
@@ -170,7 +170,7 @@ export const Header = (props: HeaderProps) => {
    * Logout
    */
   const logout = () => {
-    AuthService.logOut();
+    AuthDAL.logOut();
     props.clearUser();
   };
 

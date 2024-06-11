@@ -249,7 +249,6 @@ definitions:
         type: string
       imageUrl:
         type: string
-        x-nullable: true
       isMentor:
         type: boolean
       name:
@@ -647,7 +646,6 @@ definitions:
         type: string
       imageUrl:
         type: string
-        x-nullable: true
       isMentor:
         type: boolean
       name:
@@ -677,7 +675,6 @@ definitions:
         type: integer
       imageUrl:
         type: string
-        x-nullable: true
       isMentor:
         type: boolean
       mentoringWays:
@@ -730,7 +727,6 @@ definitions:
         type: array
       imageUrl:
         type: string
-        x-nullable: true
       isMentor:
         type: boolean
       name:
@@ -1004,6 +1000,11 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/schemas.CreateCommentPayload'
+      - description: state parameter
+        in: query
+        name: state
+        required: true
+        type: string
       - description: google
         in: path
         name: provider

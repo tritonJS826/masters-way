@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"mwserver/auth"
 	"mwserver/controllers"
 
 	"github.com/gin-gonic/gin"
@@ -16,7 +17,7 @@ func NewRouteMetric(metricController controllers.MetricController) MetricRoutes 
 
 func (cr *MetricRoutes) MetricRoute(rg *gin.RouterGroup) {
 	router := rg.Group("metrics")
-	router.POST("", cr.metricController.CreateMetric)
-	router.PATCH("/:metricId", cr.metricController.UpdateMetric)
-	router.DELETE("/:metricId", cr.metricController.DeleteMetricById)
+	router.POST("", auth.AuthMiddleware(), cr.metricController.CreateMetric)
+	router.PATCH("/:metricId", auth.AuthMiddleware(), cr.metricController.UpdateMetric)
+	router.DELETE("/:metricId", auth.AuthMiddleware(), cr.metricController.DeleteMetricById)
 }

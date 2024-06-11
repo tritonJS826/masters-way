@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"mwserver/auth"
 	"mwserver/controllers"
 
 	"github.com/gin-gonic/gin"
@@ -16,6 +17,6 @@ func NewRouteCompositeWay(compositeWayController controllers.CompositeWayControl
 
 func (cr *CompositeWayRoutes) CompositeWayRoute(rg *gin.RouterGroup) {
 	router := rg.Group("compositeWay")
-	router.POST("", cr.compositeWayController.AddWayToCompositeWay)
-	router.DELETE("/:parentWayId/:childWayId", cr.compositeWayController.DeleteCompositeWayRelation)
+	router.POST("", auth.AuthMiddleware(), cr.compositeWayController.AddWayToCompositeWay)
+	router.DELETE("/:parentWayId/:childWayId", auth.AuthMiddleware(), cr.compositeWayController.DeleteCompositeWayRelation)
 }

@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"mwserver/auth"
 	"mwserver/controllers"
 
 	"github.com/gin-gonic/gin"
@@ -16,6 +17,6 @@ func NewRouteWayTag(wayTagController controllers.WayTagController) WayTagRoutes 
 
 func (cr *WayTagRoutes) WayTagRoute(rg *gin.RouterGroup) {
 	router := rg.Group("wayTags")
-	router.POST("", cr.wayTagController.AddWayTagToWay)
-	router.DELETE("/:wayTagId/:wayId", cr.wayTagController.DeleteWayTagFromWayByTagId)
+	router.POST("", auth.AuthMiddleware(), cr.wayTagController.AddWayTagToWay)
+	router.DELETE("/:wayTagId/:wayId", auth.AuthMiddleware(), cr.wayTagController.DeleteWayTagFromWayByTagId)
 }

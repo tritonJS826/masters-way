@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"mwserver/auth"
 	"mwserver/controllers"
 
 	"github.com/gin-gonic/gin"
@@ -16,6 +17,6 @@ func NewRouteFavoriteUser(favoriteUserController controllers.FavoriteUserControl
 
 func (cr *FavoriteUserRoutes) FavoriteUserRoute(rg *gin.RouterGroup) {
 	router := rg.Group("favoriteUsers")
-	router.POST("", cr.favoriteUserController.CreateFavoriteUser)
-	router.DELETE("/:donorUserUuid/:acceptorUserUuid", cr.favoriteUserController.DeleteFavoriteUserById)
+	router.POST("", auth.AuthMiddleware(), cr.favoriteUserController.CreateFavoriteUser)
+	router.DELETE("/:donorUserUuid/:acceptorUserUuid", auth.AuthMiddleware(), cr.favoriteUserController.DeleteFavoriteUserById)
 }

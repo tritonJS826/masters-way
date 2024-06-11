@@ -119,6 +119,13 @@
                     },
                     {
                         "type": "string",
+                        "description": "state parameter",
+                        "name": "state",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
                         "description": "google",
                         "name": "provider",
                         "in": "path",
@@ -2507,8 +2514,7 @@
                     "type": "string"
                 },
                 "imageUrl": {
-                    "type": "string",
-                    "x-nullable": true
+                    "type": "string"
                 },
                 "isMentor": {
                     "type": "boolean"
@@ -3086,8 +3092,7 @@
                     "type": "string"
                 },
                 "imageUrl": {
-                    "type": "string",
-                    "x-nullable": true
+                    "type": "string"
                 },
                 "isMentor": {
                     "type": "boolean"
@@ -3133,8 +3138,7 @@
                     "type": "integer"
                 },
                 "imageUrl": {
-                    "type": "string",
-                    "x-nullable": true
+                    "type": "string"
                 },
                 "isMentor": {
                     "type": "boolean"
@@ -3208,8 +3212,7 @@
                     }
                 },
                 "imageUrl": {
-                    "type": "string",
-                    "x-nullable": true
+                    "type": "string"
                 },
                 "isMentor": {
                     "type": "boolean"

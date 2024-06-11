@@ -127,6 +127,13 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "description": "state parameter",
+                        "name": "state",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
                         "description": "google",
                         "name": "provider",
                         "in": "path",
@@ -2515,8 +2522,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "imageUrl": {
-                    "type": "string",
-                    "x-nullable": true
+                    "type": "string"
                 },
                 "isMentor": {
                     "type": "boolean"
@@ -3094,8 +3100,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "imageUrl": {
-                    "type": "string",
-                    "x-nullable": true
+                    "type": "string"
                 },
                 "isMentor": {
                     "type": "boolean"
@@ -3141,8 +3146,7 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "imageUrl": {
-                    "type": "string",
-                    "x-nullable": true
+                    "type": "string"
                 },
                 "isMentor": {
                     "type": "boolean"
@@ -3216,8 +3220,7 @@ const docTemplate = `{
                     }
                 },
                 "imageUrl": {
-                    "type": "string",
-                    "x-nullable": true
+                    "type": "string"
                 },
                 "isMentor": {
                     "type": "boolean"

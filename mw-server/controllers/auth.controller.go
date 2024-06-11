@@ -2,19 +2,19 @@ package controllers
 
 import (
 	"context"
-	"database/sql"
-	"net/http"
-	"time"
-
 	"mwserver/auth"
 	"mwserver/config"
 	db "mwserver/db/sqlc"
 	"mwserver/services"
 	"mwserver/util"
+	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"github.com/markbates/goth/gothic"
+	"golang.org/x/oauth2"
+	oauthGoogle "google.golang.org/api/oauth2/v2"
+	"google.golang.org/api/option"
 )
 
 type AuthController struct {
@@ -34,23 +34,35 @@ func NewAuthController(db *db.Queries, ctx context.Context) *AuthController {
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateCommentPayload true "query params"
+// @Param state query string true "state parameter"
 // @Param provider path string true "google"
 // @Success 200 {object} schemas.CommentPopulatedResponse
 // @Router /auth/{provider}/callback [post]
 func (cc *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
-	provider := ctx.Param("provider")
-	ctx.Request = ctx.Request.WithContext(context.WithValue(context.Background(), "provider", provider))
+	state := ctx.Query("state")
+	if state != auth.OauthStateString {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "invalid oauth state"})
+		return
+	}
 
-	gothUser, err := gothic.CompleteUserAuth(ctx.Writer, ctx.Request)
+	code := ctx.Query("code")
+	token, err := auth.GoogleOAuthConfig.Exchange(ctx, code)
+	util.HandleErrorGin(ctx, err)
+
+	client := auth.GoogleOAuthConfig.Client(ctx, token)
+	oauth2Service, err := oauthGoogle.NewService(ctx, option.WithHTTPClient(client))
+	util.HandleErrorGin(ctx, err)
+
+	userInfo, err := oauth2Service.Userinfo.Get().Do()
 	util.HandleErrorGin(ctx, err)
 
 	now := time.Now()
 	args := &db.CreateUserParams{
-		Name:        gothUser.Name,
-		Email:       gothUser.Email,
-		Description: gothUser.Description,
+		Name:        userInfo.Name,
+		Email:       userInfo.Email,
+		Description: "",
 		CreatedAt:   now,
-		ImageUrl:    sql.NullString{String: gothUser.AvatarURL, Valid: true},
+		ImageUrl:    userInfo.Picture,
 		IsMentor:    false,
 		FirebaseID:  "",
 	}
@@ -58,22 +70,10 @@ func (cc *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
 	populatedUser, err := services.FindOrCreateUserByEmail(cc.db, ctx, args)
 	util.HandleErrorGin(ctx, err)
 
-	// Save user data in the session
-	session, err := gothic.Store.Get(ctx.Request, auth.AuthSession)
-	util.HandleErrorGin(ctx, err)
-	sessionPublic, err := gothic.Store.Get(ctx.Request, auth.AuthSessionPublic)
-	util.HandleErrorGin(ctx, err)
-	sessionPublic.Options.HttpOnly = false
-
-	session.Values[auth.UserIdKey] = populatedUser.Uuid
-	sessionPublic.Values[auth.UserIdKey] = true
-
-	err = session.Save(ctx.Request, ctx.Writer)
-	util.HandleErrorGin(ctx, err)
-	err = sessionPublic.Save(ctx.Request, ctx.Writer)
+	jwtToken, err := auth.GenerateJWT(populatedUser.Uuid)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.Redirect(http.StatusFound, config.Env.WebappBaseUrl)
+	ctx.Redirect(http.StatusFound, config.Env.WebappBaseUrl+"?token="+jwtToken)
 }
 
 // Begin auth handler
@@ -87,29 +87,8 @@ func (cc *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
 // @Success 200 {object} schemas.UserPopulatedResponse
 // @Router /auth/{provider} [get]
 func (cc *AuthController) BeginAuth(ctx *gin.Context) {
-	provider := ctx.Param("provider")
-	ctx.Request = ctx.Request.WithContext(context.WithValue(context.Background(), "provider", provider))
-
-	// already logged user
-	if gothUser, err := gothic.CompleteUserAuth(ctx.Writer, ctx.Request); err == nil {
-		now := time.Now()
-		args := &db.CreateUserParams{
-			Name:        gothUser.Name,
-			Email:       gothUser.Email,
-			Description: gothUser.Description,
-			CreatedAt:   now,
-			ImageUrl:    sql.NullString{String: gothUser.AvatarURL, Valid: true},
-			IsMentor:    false,
-			FirebaseID:  "",
-		}
-		populatedUser, err := services.FindOrCreateUserByEmail(cc.db, ctx, args)
-		util.HandleErrorGin(ctx, err)
-		ctx.JSON(http.StatusOK, populatedUser)
-
-		// Begin auth handle
-	} else {
-		gothic.BeginAuthHandler(ctx.Writer, ctx.Request)
-	}
+	url := auth.GoogleOAuthConfig.AuthCodeURL(auth.OauthStateString, oauth2.AccessTypeOffline)
+	ctx.Redirect(http.StatusTemporaryRedirect, url)
 }
 
 // @Summary Get current authorized user
@@ -120,17 +99,12 @@ func (cc *AuthController) BeginAuth(ctx *gin.Context) {
 // @Produce  json
 // @Success 200 {object} schemas.UserPopulatedResponse
 // @Router /auth/current [get]
-func (cc *AuthController) GetCurrentAuthorizedUser(ctx *gin.Context) {
-	session, err := gothic.Store.Get(ctx.Request, auth.AuthSession)
-	util.HandleErrorGin(ctx, err)
+func (cc *AuthController) GetCurrentAuthorizedUserByToken(ctx *gin.Context) {
+	userIDRaw, _ := ctx.Get("userID")
+	userId := userIDRaw.(string)
+	println("!!!!" + userId)
 
-	userID, ok := session.Values[auth.UserIdKey].(string)
-	if !ok {
-		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "User not authenticated"})
-		return
-	}
-
-	populatedUser, err := services.GetPopulatedUserById(cc.db, ctx, uuid.MustParse(userID))
+	populatedUser, err := services.GetPopulatedUserById(cc.db, ctx, uuid.MustParse(userId))
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, populatedUser)
@@ -146,33 +120,8 @@ func (cc *AuthController) GetCurrentAuthorizedUser(ctx *gin.Context) {
 // @Success 200 {object} util.ResponseStatusString
 // @Router /auth/logout/{provider} [get]
 func (cc *AuthController) Logout(ctx *gin.Context) {
-	provider := ctx.Param("provider")
-	ctx.Request = ctx.Request.WithContext(context.WithValue(context.Background(), "provider", provider))
+	userIDRaw, _ := ctx.Get("userID")
+	userId := userIDRaw.(string)
 
-	gothic.Logout(ctx.Writer, ctx.Request)
-
-	session, err := gothic.Store.Get(ctx.Request, auth.AuthSession)
-	util.HandleErrorGin(ctx, err)
-	sessionPublic, err := gothic.Store.Get(ctx.Request, auth.AuthSessionPublic)
-	util.HandleErrorGin(ctx, err)
-
-	delete(session.Values, auth.UserIdKey)
-	delete(sessionPublic.Values, auth.UserIdKey)
-
-	// Save the session after modifying it
-	err = session.Save(ctx.Request, ctx.Writer)
-	util.HandleErrorGin(ctx, err)
-	err = sessionPublic.Save(ctx.Request, ctx.Writer)
-	util.HandleErrorGin(ctx, err)
-
-	// Expire the session cookie
-	session.Options.MaxAge = -1
-	sessionPublic.Options.MaxAge = -1
-
-	err = session.Save(ctx.Request, ctx.Writer)
-	util.HandleErrorGin(ctx, err)
-	err = sessionPublic.Save(ctx.Request, ctx.Writer)
-	util.HandleErrorGin(ctx, err)
-
-	ctx.JSON(http.StatusOK, gin.H{"status": "Ok"})
+	ctx.JSON(http.StatusOK, gin.H{"status": "Ok" + userId})
 }

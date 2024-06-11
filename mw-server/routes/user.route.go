@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"mwserver/auth"
 	"mwserver/controllers"
 
 	"github.com/gin-gonic/gin"
@@ -16,8 +17,8 @@ func NewRouteUser(userController controllers.UserController) UserRoutes {
 
 func (cr *UserRoutes) UserRoute(rg *gin.RouterGroup) {
 	router := rg.Group("users")
-	router.POST("/getOrCreateByFirebaseId", cr.userController.GetOrCreateUserByFirebaseId)
 	router.GET("", cr.userController.GetAllUsers)
-	router.PATCH("/:userId", cr.userController.UpdateUser)
 	router.GET("/:userId", cr.userController.GetUserById)
+	router.POST("/getOrCreateByFirebaseId", auth.AuthMiddleware(), cr.userController.GetOrCreateUserByFirebaseId)
+	router.PATCH("/:userId", auth.AuthMiddleware(), cr.userController.UpdateUser)
 }

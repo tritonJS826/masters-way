@@ -1,10 +1,13 @@
 import {PropsWithChildren, useEffect} from "react";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useSearchParams} from "react-router-dom";
 import {AuthDAL} from "src/dataAccessLogic/AuthDAL";
 import {useGlobalContext} from "src/GlobalContext";
+import {tokenStore} from "src/globalStore/TokenStore";
 import {userStore} from "src/globalStore/UserStore";
 import {useErrorHandler} from "src/hooks/useErrorHandler";
 import {pages} from "src/router/pages";
+
+const TOKEN_SEARCH_PARAM = "token";
 
 /**
  * Check is current page is home page
@@ -19,6 +22,7 @@ export const InitializedApp = (props: PropsWithChildren) => {
   const {setUser} = userStore;
   const {isInitialized, setIsInitialized} = useGlobalContext();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   /**
    * Get default page path
@@ -33,7 +37,18 @@ export const InitializedApp = (props: PropsWithChildren) => {
    * OnLog in
    */
   const recoverSessionIfPossible = async () => {
-    // TODO: loadUser if cookie "auth-session" exist
+    const tokenFromUrl = searchParams.get(TOKEN_SEARCH_PARAM);
+    searchParams.delete(TOKEN_SEARCH_PARAM);
+    setSearchParams(searchParams);
+    if (tokenFromUrl) {
+      tokenStore.setAccessToken(tokenFromUrl);
+    }
+
+    if (!tokenStore.accessToken) {
+      // No tokens - no actions
+      return;
+    }
+    // TODO: loadUser if some token exist
     try {
       const user = await AuthDAL.getAuthorizedUser();
       setUser(user);
@@ -44,8 +59,7 @@ export const InitializedApp = (props: PropsWithChildren) => {
         navigate(defaultPagePath);
       }
     } catch {
-      // eslint-disable-next-line no-console
-      console.warn("Session not recovered");
+      tokenStore.setAccessToken(null);
     }
 
   };

@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"mwserver/auth"
 	"mwserver/controllers"
 
 	"github.com/gin-gonic/gin"
@@ -16,7 +17,7 @@ func NewRoutePlan(planController controllers.PlanController) PlanRoutes {
 
 func (cr *PlanRoutes) PlanRoute(rg *gin.RouterGroup) {
 	router := rg.Group("plans")
-	router.POST("", cr.planController.CreatePlan)
-	router.PATCH("/:planId", cr.planController.UpdatePlan)
-	router.DELETE("/:planId", cr.planController.DeletePlanById)
+	router.POST("", auth.AuthMiddleware(), cr.planController.CreatePlan)
+	router.PATCH("/:planId", auth.AuthMiddleware(), cr.planController.UpdatePlan)
+	router.DELETE("/:planId", auth.AuthMiddleware(), cr.planController.DeletePlanById)
 }
