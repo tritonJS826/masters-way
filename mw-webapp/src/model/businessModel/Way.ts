@@ -339,7 +339,7 @@ export class Way {
    * Add dayReport
    */
   public addDayReport(dayReport: DayReport): void {
-    this.dayReports.unshift(dayReport);
+    this.dayReports = [dayReport, ...this.dayReports];
   }
 
   /**

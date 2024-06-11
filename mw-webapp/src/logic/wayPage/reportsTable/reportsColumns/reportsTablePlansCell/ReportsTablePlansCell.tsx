@@ -124,7 +124,7 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
       wayUuid: props.way.uuid,
       plan,
     });
-    props.dayReport.addJob(jobDone);
+    report.addJob(jobDone);
   };
 
   /**
