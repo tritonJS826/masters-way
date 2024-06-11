@@ -1,5 +1,4 @@
-apis/AuthGoogleApi.ts
-apis/BeginAuthApi.ts
+apis/AuthApi.ts
 apis/CommentApi.ts
 apis/CompositeWayApi.ts
 apis/DayReportApi.ts
@@ -77,5 +76,6 @@ models/SchemasWayCollectionPopulatedResponse.ts
 models/SchemasWayPlainResponse.ts
 models/SchemasWayPopulatedResponse.ts
 models/SchemasWayTagResponse.ts
+models/UtilResponseStatusString.ts
 models/index.ts
 runtime.ts

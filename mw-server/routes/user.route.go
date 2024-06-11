@@ -16,7 +16,6 @@ func NewRouteUser(userController controllers.UserController) UserRoutes {
 
 func (cr *UserRoutes) UserRoute(rg *gin.RouterGroup) {
 	router := rg.Group("users")
-	// router.POST("", cr.userController.CreateUser)
 	router.POST("/getOrCreateByFirebaseId", cr.userController.GetOrCreateUserByFirebaseId)
 	router.GET("", cr.userController.GetAllUsers)
 	router.PATCH("/:userId", cr.userController.UpdateUser)
