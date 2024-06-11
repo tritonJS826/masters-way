@@ -23,6 +23,11 @@ interface WayStatisticProps {
   dayReports: DayReport[];
 
   /**
+   * Labels
+   */
+  labels: Label[];
+
+  /**
    * Date of way created
    */
   wayCreatedAt: Date;
@@ -236,6 +241,7 @@ export const WayActiveStatistic = observer((props: WayStatisticProps) => {
       <StatisticPeriod
         title={LanguageService.way.statisticsBlock.total[language]}
         allTagStats={allTagStats}
+        labels={props.labels}
         datesWithJobTotalTime={datesWithJobTotalTime}
         lastDate={lastDate}
         startDate={startDate}
@@ -248,6 +254,7 @@ export const WayActiveStatistic = observer((props: WayStatisticProps) => {
       <StatisticPeriod
         title={LanguageService.way.statisticsBlock.lastWeek[language]}
         allTagStats={lastWeekTagStats}
+        labels={props.labels}
         datesWithJobTotalTime={datesWithJobTotalTime}
         lastDate={lastDate}
         startDate={startDateLastWeek}

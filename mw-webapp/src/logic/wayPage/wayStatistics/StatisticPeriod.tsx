@@ -9,6 +9,7 @@ import {StatisticBlock, StatisticBlockType} from "src/logic/wayPage/wayStatistic
 import {StatisticItem} from "src/logic/wayPage/wayStatistics/statisticBlock/statisticItem/StatisticItem";
 import {StatisticLabels} from "src/logic/wayPage/wayStatistics/statisticLabels/StatisticLabels";
 import {StatisticWidget} from "src/logic/wayPage/wayStatistics/statisticWidget/StatisticWidget";
+import {Label} from "src/model/businessModel/Label";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/wayPage/wayStatistics/StatisticPeriod.module.scss";
 
@@ -62,6 +63,11 @@ interface StatisticPeriodProps {
    */
   isCheckboxShown: boolean;
 
+  /**
+   * All labels
+   */
+  labels: Label[];
+
 }
 
 /**
@@ -114,15 +120,15 @@ export const StatisticPeriod = observer((props: StatisticPeriodProps) => {
       >
         {!!props.totalWayTime &&
         <BarChart
-          itemStats={props.allTagStats.map(tagStat => ({
-            name: tagStat.jobTag.name,
-            value: tagStat.totalTime,
-            color: tagStat.jobTag.color,
-          }))}
+          itemStats={props.allTagStats}
+          labels={props.labels}
           label="Total time"
         />
         }
-        <StatisticLabels stats={props.allTagStats} />
+        <StatisticLabels
+          stats={props.allTagStats}
+          labels={props.labels}
+        />
       </StatisticWidget>
       }
 

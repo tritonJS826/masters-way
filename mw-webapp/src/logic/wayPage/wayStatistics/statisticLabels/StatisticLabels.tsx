@@ -5,6 +5,7 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {languageStore} from "src/globalStore/LanguageStore";
 import {JobTagStat} from "src/logic/wayPage/wayStatistics/JobTagStat";
 import {StatisticLine} from "src/logic/wayPage/wayStatistics/statisticLabels/statisticLine/StatisticLine";
+import {Label} from "src/model/businessModel/Label";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/wayPage/wayStatistics/statisticLabels/StatisticLabels.module.scss";
 
@@ -17,6 +18,11 @@ interface TagStatsProps {
    * Tags stats
    */
   stats: JobTagStat[];
+
+  /**
+   * All labels
+   */
+  labels: Label[];
 }
 
 /**
@@ -52,7 +58,7 @@ export const StatisticLabels = observer((props: TagStatsProps) => {
         <VerticalContainer key={tagStat.jobTag.uuid}>
           <StatisticLine
             name={tagStat.jobTag.name}
-            color={tagStat.jobTag.color}
+            color={props.labels.find(label => label.uuid === tagStat.jobTag.uuid)?.color ?? tagStat.jobTag.color}
             amount={tagStat.totalAmount}
             time={tagStat.totalTime}
             amountPercentage={tagStat.totalAmountPercentage}
