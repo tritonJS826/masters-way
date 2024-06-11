@@ -7,11 +7,9 @@ import (
 	"log"
 	"net/http"
 
-	"mwserver/auth"
 	"mwserver/config"
 	"mwserver/controllers"
 	dbCon "mwserver/db/sqlc"
-	_ "mwserver/docs"
 	"mwserver/routes"
 
 	_ "mwserver/docs"
@@ -110,12 +108,12 @@ func init() {
 
 	fmt.Println("PostgreSql connected successfully...")
 
-	auth.NewAuth()
+	// auth.NewAuth()
 	server = gin.Default()
 
 	// Apply CORS middleware with custom options
 	server.Use(cors.New(cors.Config{
-		// AllowOrigins:     []string{"*"},
+		// AllowOrigins: []string{"*"},
 		AllowOrigins:     []string{config.Env.WebappBaseUrl},
 		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},

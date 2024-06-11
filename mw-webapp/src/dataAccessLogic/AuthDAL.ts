@@ -10,8 +10,8 @@ export class AuthDAL {
   /**
    * Create comment
    */
-  public static async getAuthorizedUser(): Promise<User> {
-    const userDTO = await AuthService.getCurrentUser();
+  public static async getAuthorizedUser(token: string): Promise<User> {
+    const userDTO = await AuthService.getCurrentUser({token});
     const user = UserDTOToUserConverter(userDTO);
 
     return user;

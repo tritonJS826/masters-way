@@ -35,7 +35,12 @@ export interface BeginAuthRequest {
     provider: string;
 }
 
+export interface GetCurrentAuthorizedUserRequest {
+    token: string;
+}
+
 export interface GoogleAuthLogInRequest {
+    state: string;
     provider: string;
     request: SchemasCreateCommentPayload;
 }
@@ -82,8 +87,16 @@ export class AuthApi extends runtime.BaseAPI {
     /**
      * Get current authorized user
      */
-    async getCurrentAuthorizedUserRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasUserPopulatedResponse>> {
+    async getCurrentAuthorizedUserRaw(requestParameters: GetCurrentAuthorizedUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasUserPopulatedResponse>> {
+        if (requestParameters.token === null || requestParameters.token === undefined) {
+            throw new runtime.RequiredError('token','Required parameter requestParameters.token was null or undefined when calling getCurrentAuthorizedUser.');
+        }
+
         const queryParameters: any = {};
+
+        if (requestParameters.token !== undefined) {
+            queryParameters['token'] = requestParameters.token;
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -100,8 +113,8 @@ export class AuthApi extends runtime.BaseAPI {
     /**
      * Get current authorized user
      */
-    async getCurrentAuthorizedUser(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasUserPopulatedResponse> {
-        const response = await this.getCurrentAuthorizedUserRaw(initOverrides);
+    async getCurrentAuthorizedUser(requestParameters: GetCurrentAuthorizedUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasUserPopulatedResponse> {
+        const response = await this.getCurrentAuthorizedUserRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -109,6 +122,10 @@ export class AuthApi extends runtime.BaseAPI {
      * Log in with google oAuth
      */
     async googleAuthLogInRaw(requestParameters: GoogleAuthLogInRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasCommentPopulatedResponse>> {
+        if (requestParameters.state === null || requestParameters.state === undefined) {
+            throw new runtime.RequiredError('state','Required parameter requestParameters.state was null or undefined when calling googleAuthLogIn.');
+        }
+
         if (requestParameters.provider === null || requestParameters.provider === undefined) {
             throw new runtime.RequiredError('provider','Required parameter requestParameters.provider was null or undefined when calling googleAuthLogIn.');
         }
@@ -118,6 +135,10 @@ export class AuthApi extends runtime.BaseAPI {
         }
 
         const queryParameters: any = {};
+
+        if (requestParameters.state !== undefined) {
+            queryParameters['state'] = requestParameters.state;
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 

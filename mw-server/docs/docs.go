@@ -28,6 +28,15 @@ const docTemplate = `{
                 ],
                 "summary": "Get current authorized user",
                 "operationId": "get-current-authorized-user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -124,6 +133,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/schemas.CreateCommentPayload"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "state parameter",
+                        "name": "state",
+                        "in": "query",
+                        "required": true
                     },
                     {
                         "type": "string",
@@ -2515,8 +2531,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "imageUrl": {
-                    "type": "string",
-                    "x-nullable": true
+                    "type": "string"
                 },
                 "isMentor": {
                     "type": "boolean"
@@ -3094,8 +3109,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "imageUrl": {
-                    "type": "string",
-                    "x-nullable": true
+                    "type": "string"
                 },
                 "isMentor": {
                     "type": "boolean"
@@ -3141,8 +3155,7 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "imageUrl": {
-                    "type": "string",
-                    "x-nullable": true
+                    "type": "string"
                 },
                 "isMentor": {
                     "type": "boolean"
@@ -3216,8 +3229,7 @@ const docTemplate = `{
                     }
                 },
                 "imageUrl": {
-                    "type": "string",
-                    "x-nullable": true
+                    "type": "string"
                 },
                 "isMentor": {
                     "type": "boolean"

@@ -1,5 +1,5 @@
 import {PropsWithChildren, useEffect} from "react";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useSearchParams} from "react-router-dom";
 import {AuthDAL} from "src/dataAccessLogic/AuthDAL";
 import {useGlobalContext} from "src/GlobalContext";
 import {userStore} from "src/globalStore/UserStore";
@@ -19,6 +19,7 @@ export const InitializedApp = (props: PropsWithChildren) => {
   const {setUser} = userStore;
   const {isInitialized, setIsInitialized} = useGlobalContext();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   /**
    * Get default page path
@@ -33,9 +34,16 @@ export const InitializedApp = (props: PropsWithChildren) => {
    * OnLog in
    */
   const recoverSessionIfPossible = async () => {
+    const token = searchParams.get("token");
+    searchParams.delete("token");
+    setSearchParams(searchParams);
+
+    if (!token) {
+      return;
+    }
     // TODO: loadUser if cookie "auth-session" exist
     try {
-      const user = await AuthDAL.getAuthorizedUser();
+      const user = await AuthDAL.getAuthorizedUser(token);
       setUser(user);
       const defaultPagePath = getDefaultPagePath(user.uuid);
       setIsInitialized(true);
