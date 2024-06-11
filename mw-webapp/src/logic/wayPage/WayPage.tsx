@@ -871,12 +871,14 @@ export const WayPage = observer((props: WayPageProps) => {
                   dayReports={way.dayReports}
                   wayCreatedAt={way.createdAt}
                   isVisible={wayPageSettings.isStatisticsVisible}
+                  labels={way.jobTags}
                 />
               }
             />
           </HorizontalContainer>
           <WayActiveStatistic
             dayReports={way.dayReports}
+            labels={way.jobTags}
             wayCreatedAt={way.createdAt}
             isVisible={wayPageSettings.isStatisticsVisible}
           />

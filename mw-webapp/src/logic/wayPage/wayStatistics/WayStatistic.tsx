@@ -32,6 +32,11 @@ interface WayStatisticProps {
    * @default true
    */
   isVisible: boolean;
+
+  /**
+   * Labels
+   */
+  labels: Label[];
 }
 
 export const MILLISECONDS_IN_DAY = 86_400_000;
@@ -301,6 +306,7 @@ export const WayStatistic = observer((props: WayStatisticProps) => {
       <StatisticPeriod
         title={LanguageService.way.statisticsBlock.total[language]}
         allTagStats={allTagStats}
+        labels={props.labels}
         datesWithJobTotalTime={datesWithJobTotalTime}
         lastDate={lastDate}
         startDate={startDate}
@@ -313,6 +319,7 @@ export const WayStatistic = observer((props: WayStatisticProps) => {
       <StatisticPeriod
         title={LanguageService.way.statisticsBlock.lastMonth[language]}
         allTagStats={lastMonthTagStats}
+        labels={props.labels}
         datesWithJobTotalTime={datesWithJobTotalTime}
         lastDate={lastDate}
         startDate={startDateLastMonth}
@@ -325,6 +332,7 @@ export const WayStatistic = observer((props: WayStatisticProps) => {
       <StatisticPeriod
         title={LanguageService.way.statisticsBlock.lastWeek[language]}
         allTagStats={lastWeekTagStats}
+        labels={props.labels}
         datesWithJobTotalTime={datesWithJobTotalTime}
         lastDate={lastDate}
         startDate={startDateLastWeek}
