@@ -2,13 +2,6 @@
 
 .tagContainer {
   position: relative;
-  display: inline-block;
-  padding: 0;
-  border: none;
-  background: none;
-  color: inherit;
-  font: inherit;
-  text-decoration: underline;
 
   .cross {
     visibility: hidden;
@@ -24,7 +17,10 @@
 }
 
 .tag {
-  display: inline-block;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
   border: 1px solid var(--primaryStrokeColor);
   border-radius: $tagBorderRadius;
   color: var(--primaryTextColor);
@@ -34,10 +30,10 @@
   overflow: hidden;
   max-width: $minWidthBlock;
   height: 40px;
-  padding: $paddingMedium;
   background-color: var(--secondaryBgColor);
   color: var(--primaryTextColor);
   font-size: $fontSizeBig;
+  padding-inline: $paddingMedium;
   text-overflow: ellipsis;
   text-wrap: nowrap;
 }
