@@ -230,7 +230,7 @@ export const Header = (props: HeaderProps) => {
                 <HorizontalContainer className={styles.loginContainer}>
                   <Image
                     alt="Login image"
-                    src="https://lh3.google.com/u/0/d/1AF0qlh-KmFAtFILD9wCPw91OrZVZs8sH=w1361-h606-iv1"
+                    src="https://drive.google.com/thumbnail?id=1AF0qlh-KmFAtFILD9wCPw91OrZVZs8sH&sz=w1000"
                     className={styles.loginImage}
                   />
                   <VerticalContainer className={styles.loginContent}>
