@@ -1,6 +1,6 @@
 -- job_dones.day_report_uuid
 -- максимальное количество выполненных работ в одном отчете
-CREATE OR REPLACE FUNCTION check_job_dones_day_report_uuid_limit()
+CREATE OR REPLACE FUNCTION check_max_job_dones_in_report()
 RETURNS TRIGGER AS $$
 BEGIN
     IF (SELECT COUNT(*) FROM job_dones WHERE day_report_uuid = NEW.day_report_uuid) >= 30 THEN
@@ -10,7 +10,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER check_job_dones_day_report_uuid_limit_trigger
+CREATE TRIGGER max_job_dones_in_report_trigger
 BEFORE INSERT ON job_dones
 FOR EACH ROW
-EXECUTE FUNCTION check_job_dones_day_report_uuid_limit();
+EXECUTE FUNCTION check_max_job_dones_in_report();

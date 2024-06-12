@@ -1,6 +1,6 @@
 -- former_mentors_ways.former_mentor_uuid
 -- максимальное число путей, в которых пользователь может числиться как бывший ментор
-CREATE OR REPLACE FUNCTION check_former_mentors_ways_former_mentor_uuid_limit()
+CREATE OR REPLACE FUNCTION check_max_ways_for_former_mentor()
 RETURNS TRIGGER AS $$
 BEGIN
     IF (SELECT COUNT(*) FROM former_mentors_ways WHERE former_mentor_uuid = NEW.former_mentor_uuid) >= 100000 THEN
@@ -10,15 +10,15 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER check_former_mentors_ways_former_mentor_uuid_limit_trigger
+CREATE TRIGGER max_ways_for_former_mentor_trigger
 BEFORE INSERT ON former_mentors_ways
 FOR EACH ROW
-EXECUTE FUNCTION check_former_mentors_ways_former_mentor_uuid_limit();
+EXECUTE FUNCTION check_max_ways_for_former_mentor();
 
 
 -- former_mentors_ways.way_uuid
 -- максимальное количество бывших менторов в одном пути
-CREATE OR REPLACE FUNCTION check_former_mentors_ways_way_uuid_limit()
+CREATE OR REPLACE FUNCTION check_max_foremer_mentors_in_way()
 RETURNS TRIGGER AS $$
 BEGIN
     IF (SELECT COUNT(*) FROM former_mentors_ways WHERE way_uuid = NEW.way_uuid) >= 100000 THEN
@@ -28,8 +28,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER check_former_mentors_ways_way_uuid_limit_trigger
+CREATE TRIGGER max_foremer_mentors_in_way_trigger
 BEFORE INSERT ON former_mentors_ways
 FOR EACH ROW
-EXECUTE FUNCTION check_former_mentors_ways_way_uuid_limit();
+EXECUTE FUNCTION check_max_foremer_mentors_in_way();
 

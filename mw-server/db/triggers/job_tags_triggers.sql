@@ -1,6 +1,6 @@
 -- job_tags.way_uuid
 -- максимально количество labels для одного пути
-CREATE OR REPLACE FUNCTION check_job_tags_way_uuid_limit()
+CREATE OR REPLACE FUNCTION check_max_labels_in_way()
 RETURNS TRIGGER AS $$
 BEGIN
     IF (SELECT COUNT(*) FROM job_tags WHERE way_uuid = NEW.way_uuid) >= 30 THEN
@@ -10,7 +10,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER check_job_tags_way_uuid_limit_trigger
+CREATE TRIGGER max_labels_in_way_trigger
 BEFORE INSERT ON job_tags
 FOR EACH ROW
-EXECUTE FUNCTION check_job_tags_way_uuid_limit();
+EXECUTE FUNCTION check_max_labels_in_way();

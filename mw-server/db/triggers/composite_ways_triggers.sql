@@ -1,6 +1,6 @@
 -- composite_ways.parent_uuid
 -- максимальное число детей на одном уровне
-CREATE OR REPLACE FUNCTION check_composite_ways_parent_uuid_limit()
+CREATE OR REPLACE FUNCTION check_max_children_ways_on_level()
 RETURNS TRIGGER AS $$
 BEGIN
     IF (SELECT COUNT(*) FROM composite_ways WHERE parent_uuid = NEW.parent_uuid) >= 20 THEN
@@ -11,7 +11,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER check_composite_ways_parent_uuid_limit_trigger
+CREATE TRIGGER max_children_ways_on_level_trigger
 BEFORE INSERT ON composite_ways
 FOR EACH ROW
-EXECUTE FUNCTION check_composite_ways_parent_uuid_limit();
+EXECUTE FUNCTION check_max_children_ways_on_level();

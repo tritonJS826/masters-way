@@ -1,6 +1,6 @@
 -- problems.day_report_uuid
 -- максимальное количество проблем в одном отчете
-CREATE OR REPLACE FUNCTION check_problems_day_report_uuid_limits()
+CREATE OR REPLACE FUNCTION check_max_pronlems_in_report()
 RETURNS TRIGGER AS $$
 BEGIN
     IF (SELECT COUNT(*) FROM problems WHERE day_report_uuid = NEW.day_report_uuid) >= 30 THEN
@@ -10,7 +10,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER check_problems_day_report_uuid_limits_trigger
+CREATE TRIGGER max_pronlems_in_report_trigger
 BEFORE INSERT ON problems
 FOR EACH ROW
-EXECUTE FUNCTION check_problems_day_report_uuid_limits();
+EXECUTE FUNCTION check_max_pronlems_in_report();

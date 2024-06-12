@@ -1,6 +1,6 @@
 -- plans.day_report_uuid
 -- максимальное количество планов в одном отчете
-CREATE OR REPLACE FUNCTION check_plans_day_report_uuid_limit()
+CREATE OR REPLACE FUNCTION check_max_plans_in_report()
 RETURNS TRIGGER AS $$
 BEGIN
     IF (SELECT COUNT(*) FROM plans WHERE day_report_uuid = NEW.day_report_uuid) >= 30 THEN
@@ -10,7 +10,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER check_plans_day_report_uuid_limit_trigger
+CREATE TRIGGER max_plans_in_report_trigger
 BEFORE INSERT ON plans
 FOR EACH ROW
-EXECUTE FUNCTION check_plans_day_report_uuid_limit();
+EXECUTE FUNCTION check_max_plans_in_report();

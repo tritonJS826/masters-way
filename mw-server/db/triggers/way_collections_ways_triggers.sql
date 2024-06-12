@@ -1,6 +1,6 @@
 -- way_collections_ways.way_collection_uuid
 -- максимальное число путей в одной коллекции
-CREATE OR REPLACE FUNCTION check_way_collections_ways_way_collection_uuid_limit()
+CREATE OR REPLACE FUNCTION check_ways_in_collection()
 RETURNS TRIGGER AS $$
 BEGIN
     IF (SELECT COUNT(*) FROM way_collections_ways WHERE way_collection_uuid = NEW.way_collection_uuid) >= 100 THEN
@@ -11,7 +11,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER check_way_collections_ways_way_collection_uuid_limit_trigger
+CREATE TRIGGER max_ways_in_collection_trigger
 BEFORE INSERT ON way_collections_ways
 FOR EACH ROW
-EXECUTE FUNCTION check_way_collections_ways_way_collection_uuid_limit();
+EXECUTE FUNCTION check_ways_in_collection();

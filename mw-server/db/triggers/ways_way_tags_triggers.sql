@@ -1,6 +1,6 @@
 -- ways_way_tags.way_uuid
 -- максимальное число тегов для одного пути
-CREATE OR REPLACE FUNCTION check_ways_way_tags_way_uuid_limit()
+CREATE OR REPLACE FUNCTION check_max_way_tags_in_way()
 RETURNS TRIGGER AS $$
 BEGIN
     IF (SELECT COUNT(*) FROM ways_way_tags WHERE way_uuid = NEW.way_uuid) >= 20 THEN
@@ -10,7 +10,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER check_ways_way_tags_way_uuid_limit_trigger
+CREATE TRIGGER max_way_tags_in_way_trigger
 BEFORE INSERT ON ways_way_tags
 FOR EACH ROW
-EXECUTE FUNCTION check_ways_way_tags_way_uuid_limit();
+EXECUTE FUNCTION check_max_way_tags_in_way();

@@ -1,6 +1,6 @@
 -- metrics.way_uuid
 -- максимальное число метрик
-CREATE OR REPLACE FUNCTION check_metrics_way_uuid_limit()
+CREATE OR REPLACE FUNCTION check_max_metrics_in_way()
 RETURNS TRIGGER AS $$
 BEGIN
     IF (SELECT COUNT(*) FROM metrics WHERE way_uuid = NEW.way_uuid) >= 50 THEN
@@ -10,7 +10,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER check_metrics_way_uuid_limit_trigger
+CREATE TRIGGER max_metrics_in_way_trigger
 BEFORE INSERT ON metrics
 FOR EACH ROW
-EXECUTE FUNCTION check_metrics_way_uuid_limit();
+EXECUTE FUNCTION check_max_metrics_in_way();
