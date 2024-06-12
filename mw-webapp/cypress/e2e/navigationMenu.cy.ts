@@ -56,7 +56,7 @@ describe('Navigation menu scope tests', () => {
     });
 
     it('NoAuth_NavMenu_Close', () => {
-        homeSelectors.welcomeBlock.getTitle().click({force: true});
+        headerSelectors.getHeader().click({force: true});
 
         cy.url().should('include', '/');
         navigationMenuSelectors.menuItemLinks.getAboutProjectItemLink().should('not.exist');

@@ -28,7 +28,7 @@ export interface SelectItemType<T> {
   /**
    * Data attributes for cypress testing
    */
-    dataCy?: string;
+  dataCy?: string;
 }
 
 /**
