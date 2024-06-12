@@ -56,13 +56,13 @@ describe('Navigation menu scope tests', () => {
     });
 
     it('NoAuth_NavMenu_Close', () => {
-        cy.get('body').click(345, 10, {force: true}); 
+        homeSelectors.welcomeBlock.getTitle().click({force: true});
 
         cy.url().should('include', '/');
         navigationMenuSelectors.menuItemLinks.getAboutProjectItemLink().should('not.exist');
     });
 
-    it('NoAuth_NavMenu_Home_Language', () => {
+    it('NoAuth_NavMenu_Language', () => {
         const languageCode = Object.keys(sideBarContent.language).map(key => key.toUpperCase());
         const languageText = Object.values(sideBarContent.language);
 

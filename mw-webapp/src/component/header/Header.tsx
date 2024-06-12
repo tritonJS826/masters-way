@@ -297,7 +297,7 @@ export const Header = (props: HeaderProps) => {
                     name="language"
                     options={languageOptions}
                     onChange={props.setLanguage}
-                    dataCy={navigationMenuIds.language.select}
+                    cy={{dataCyTrigger: navigationMenuIds.language.select, dataCyContentList: "", dataCyValue: ""}}
                   />
                 </HorizontalContainer>
                 <HorizontalContainer className={styles.sidebarItem}>

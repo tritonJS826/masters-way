@@ -25,9 +25,9 @@ export interface SelectItemType<T> {
    */
   text: string;
 
-    /**
-     * Data attributes for cypress testing
-     */
+  /**
+   * Data attributes for cypress testing
+   */
     dataCy?: string;
 }
 
@@ -100,7 +100,6 @@ interface Cy {
    * Data attribute for cypress testing
    */
   dataCyValue: string;
-
 }
 
 /**
@@ -148,10 +147,6 @@ export interface SelectProps<T> {
    */
   className?: string;
 
-    /**
-     * Data attributes for cypress testing
-     */
-  dataCy?: string;
 }
 
 /**
@@ -174,7 +169,7 @@ export const Select = <T extends string>(props: SelectProps<T>) => {
   return (
     <div
       className={clsx(styles.select, props.className)}
-      data-cy={`${props.cy?.dataCyOverlay || ""} ${props.dataCy || ""}`.trim()}
+      data-cy={props.cy?.dataCyOverlay}
     >
       <SelectComponent.Root
         onValueChange={props.onChange}
