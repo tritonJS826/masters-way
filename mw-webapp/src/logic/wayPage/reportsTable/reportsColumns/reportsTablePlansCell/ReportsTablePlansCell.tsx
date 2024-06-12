@@ -312,8 +312,10 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
                   <Modal
                     trigger={
                       <Checkbox
+                        isDisabled={true}
                         isDefaultChecked={plan.isDone}
-                        onChange={() => {}}
+                        // OnChange={() => {}}
+                        onChange={(isDone) => isDone}
                         className={styles.checkbox}
                       />
                     }
