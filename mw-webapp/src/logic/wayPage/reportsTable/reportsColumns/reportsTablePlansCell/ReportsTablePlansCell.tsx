@@ -118,7 +118,7 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
       throw new Error("User is not exist and create plan is impossible");
     }
     const jobDone = await JobDoneDAL.createJobDone({
-      dayReportUuid: props.dayReport.uuid,
+      dayReportUuid: report.uuid,
       ownerUuid,
       wayName: props.way.name,
       wayUuid: props.way.uuid,
