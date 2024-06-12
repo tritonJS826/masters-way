@@ -1,4 +1,6 @@
 export const navigationMenuIds = {
+    navigationMenu: 'navigationMenu', 
+    
     menuItemLinks: {
         logo: 'menuLogo',
         home: 'home',
