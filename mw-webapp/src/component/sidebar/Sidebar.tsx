@@ -144,7 +144,7 @@ export const Sidebar = (props: SidebarProps) => {
 
       <SidebarContent
         dataCyContent={props.cy?.dataCyContent}
-        onClick={() => setOpen(false)}
+        onLinkClick={() => setOpen(false)}
         className={styles.sidebarContent}
       >
         <div className={styles.navSidebarContent}>

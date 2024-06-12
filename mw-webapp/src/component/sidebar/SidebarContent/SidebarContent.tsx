@@ -19,7 +19,7 @@ interface SidebarContentProps extends PropsWithChildren {
   /**
    * Callback triggered on SidebarContent click
    */
-  onClick: () => void;
+  onLinkClick: () => void;
 
   /**
    * Data attribute for cypress testing
@@ -42,8 +42,14 @@ export const SidebarContent = (props: SidebarContentProps) => {
    * Handle onClick event
    */
   const onClickHandler = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (event.target instanceof HTMLAnchorElement) {
-      props.onClick();
+    let target: HTMLElement | null = event.target as HTMLElement;
+
+    while (target && target !== event.currentTarget) {
+      if (target instanceof HTMLAnchorElement) {
+        props.onLinkClick();
+        break;
+      }
+      target = target.parentElement;
     }
   };
 

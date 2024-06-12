@@ -9,6 +9,7 @@ const SIDEBAR_CY = {
     dataCyOverlay: "overlay",
     dataCyClose: "close",
     dataCyContent: "content",
+    dataCyLogo: "logo",
   },
 };
 
@@ -19,6 +20,15 @@ const SIDEBAR_TRIGGER = (
   />);
 
 const SIDEBAR_LINKS: MenuItemLink[] = [
+  {
+    path: "/",
+    value: "",
+    icon: <img
+      width="5px"
+      height="5px"
+      data-cy={SIDEBAR_CY.dataCyContent.dataCyLogo}
+    />,
+  },
   {
     path: "/",
     value: "Home",
@@ -83,4 +93,12 @@ describe("Sidebar component", () => {
       .should("not.exist");
   });
 
+  it("should sidebar be closed when click logo", () => {
+    cy.get(getDataCy(SIDEBAR_CY.dataCyTrigger))
+      .click();
+    cy.get(getDataCy(SIDEBAR_CY.dataCyContent.dataCyLogo))
+      .click();
+    cy.get(getDataCy(SIDEBAR_CY.dataCyContent.dataCyContent))
+      .should("not.exist");
+  });
 });
