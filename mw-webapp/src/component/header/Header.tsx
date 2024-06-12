@@ -1,5 +1,5 @@
 import {headerAccessIds} from "cypress/accessIds/headerAccessIds";
-import {navigatioMenuIds} from "cypress/accessIds/navigationMenuIds";
+import {navigationMenuIds} from "cypress/accessIds/navigationMenuIds";
 import google from "src/assets/google.svg";
 import logo from "src/assets/mastersWayLogo.svg";
 import logoLight from "src/assets/mastersWayLogoLight.svg";
@@ -31,10 +31,10 @@ import styles from "src/component/header/Header.module.scss";
 export const LOGO_TEXT = "Master's way";
 
 export const languageOptions: SelectItemType<Language>[] = [
-  {id: "1", value: Language.ENGLISH, text: "EN", dataCy: navigatioMenuIds.language.enItem},
-  {id: "2", value: Language.RUSSIAN, text: "RU", dataCy: navigatioMenuIds.language.ruItem},
-  {id: "3", value: Language.UKRAINIAN, text: "UA", dataCy: navigatioMenuIds.language.uaItem},
-  {id: "4", value: Language.GEORGIAN, text: "KA", dataCy: navigatioMenuIds.language.kaItem},
+  {id: "1", value: Language.ENGLISH, text: "EN", dataCy: navigationMenuIds.language.enItem},
+  {id: "2", value: Language.RUSSIAN, text: "RU", dataCy: navigationMenuIds.language.ruItem},
+  {id: "3", value: Language.UKRAINIAN, text: "UA", dataCy: navigationMenuIds.language.uaItem},
+  {id: "4", value: Language.GEORGIAN, text: "KA", dataCy: navigationMenuIds.language.kaItem},
 ];
 
 /**
@@ -82,7 +82,7 @@ export const Header = (props: HeaderProps) => {
     {
       path: pages.home.getPath({}),
       value: "",
-      dataCy: navigatioMenuIds.menuItemLinks.logo,
+      dataCy: navigationMenuIds.menuItemLinks.logo,
       icon: (
         <Image
           src={logoLight}
@@ -93,7 +93,7 @@ export const Header = (props: HeaderProps) => {
     {
       path: pages.home.getPath({}),
       value: LanguageService.sidebar.home[props.language],
-      dataCy: navigatioMenuIds.menuItemLinks.home,
+      dataCy: navigationMenuIds.menuItemLinks.home,
       icon: (
         <Icon
           size={IconSize.MEDIUM}
@@ -115,7 +115,7 @@ export const Header = (props: HeaderProps) => {
     {
       path: pages.allWays.getPath({}),
       value: LanguageService.sidebar.allWays[props.language],
-      dataCy: navigatioMenuIds.menuItemLinks.allWays,
+      dataCy: navigationMenuIds.menuItemLinks.allWays,
       icon: (
         <Icon
           size={IconSize.MEDIUM}
@@ -126,7 +126,7 @@ export const Header = (props: HeaderProps) => {
     {
       path: pages.allUsers.getPath({}),
       value: LanguageService.sidebar.allUsers[props.language],
-      dataCy: navigatioMenuIds.menuItemLinks.allUsers,
+      dataCy: navigationMenuIds.menuItemLinks.allUsers,
       icon: (
         <Icon
           size={IconSize.MEDIUM}
@@ -137,7 +137,7 @@ export const Header = (props: HeaderProps) => {
     {
       path: pages.aboutProject.getPath({}),
       value: LanguageService.sidebar.about[props.language],
-      dataCy: navigatioMenuIds.menuItemLinks.aboutProject,
+      dataCy: navigationMenuIds.menuItemLinks.aboutProject,
       icon: (
         <Icon
           size={IconSize.MEDIUM}
@@ -283,7 +283,7 @@ export const Header = (props: HeaderProps) => {
                 <HorizontalContainer className={styles.sidebarItem}>
                   <HorizontalContainer
                     className={styles.iconWithText}
-                    dataCy={navigatioMenuIds.language.text}
+                    dataCy={navigationMenuIds.language.text}
                   >
                     <Icon
                       size={IconSize.MEDIUM}
@@ -297,7 +297,7 @@ export const Header = (props: HeaderProps) => {
                     name="language"
                     options={languageOptions}
                     onChange={props.setLanguage}
-                    dataCy={navigatioMenuIds.language.select}
+                    dataCy={navigationMenuIds.language.select}
                   />
                 </HorizontalContainer>
                 <HorizontalContainer className={styles.sidebarItem}>

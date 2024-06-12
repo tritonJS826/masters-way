@@ -1,7 +1,5 @@
-import { Language } from "src/globalStore/LanguageStore";
-
-export const navigatioMenuIds = {
-    navigatioMenu: 'navigatioMenu',
+export const navigationMenuIds = {
+    navigationMenu: 'navigationMenu',
 
     menuItemLinks: {
         logo: 'menuLogo',

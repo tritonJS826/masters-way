@@ -1,5 +1,5 @@
 import {headerSelectors} from "cypress/scopesSelectors/headerSelectors";
-import {navigatioMenuSelectors} from "cypress/scopesSelectors/navigatioMenuSelectors";
+import {navigationMenuSelectors} from "cypress/scopesSelectors/navigationMenuSelectors";
 import allUsersPageData from "cypress/fixtures/allUsersFixture.json";
 import allUsersPageContent from "src/dictionary/AllUsersPageContent.json";
 import allWayPageData from "cypress/fixtures/allWaysFixture.json";
@@ -21,35 +21,35 @@ describe('Navigation menu scope tests', () => {
     });
 
     it('NoAuth_NavMenu_Light_MastersWayLogo', () => {
-        navigatioMenuSelectors.menuItemLinks.getLogoItemLink().click();
+        navigationMenuSelectors.menuItemLinks.getLogoItemLink().click();
 
         cy.url().should('include', '/');
         homeSelectors.welcomeBlock.getTitle().should('contain', homePageContent.title.en);
     });
 
     it('NoAuth_NavMenu_Home', () => {
-        navigatioMenuSelectors.menuItemLinks.getHomeItemLink().click();
+        navigationMenuSelectors.menuItemLinks.getHomeItemLink().click();
 
         cy.url().should('include', '/');
         homeSelectors.welcomeBlock.getTitle().should('contain', homePageContent.title.en);
     });
   
     it('NoAuth_NavMenu_AllUsers', () => {
-        navigatioMenuSelectors.menuItemLinks.getAllUsersItemLink().click();
+        navigationMenuSelectors.menuItemLinks.getAllUsersItemLink().click();
 
         cy.url().should('include', allUsersPageData.endpoint);
         allUsersSelectors.allUserssTable.getTitle().should('contain', allUsersPageContent.usersTable.leftTitle.en);
     });
 
     it('NoAuth_NavMenu_AllWays', () => {
-        navigatioMenuSelectors.menuItemLinks.getAllWaysItemLink().click();
+        navigationMenuSelectors.menuItemLinks.getAllWaysItemLink().click();
 
         cy.url().should('include', allWayPageData.endpoint);
         allWaysSelectors.allWaysTable.getTitle().should('contain', allWaysPageContent.waysTable.leftTitle.en);
     });
 
     it('NoAuth_NavMenu_About', () => {
-        navigatioMenuSelectors.menuItemLinks.getAboutProjectItemLink().click();
+        navigationMenuSelectors.menuItemLinks.getAboutProjectItemLink().click();
 
         cy.url().should('include', aboutProjectPageData.endpoint);
         aboutProjectSelectors.welcomeBlock.getTitle().should('contain', aboutProjectPageContent.mainTitle.en);
@@ -59,23 +59,23 @@ describe('Navigation menu scope tests', () => {
         cy.get('body').click(345, 10, {force: true}); 
 
         cy.url().should('include', '/');
-        navigatioMenuSelectors.menuItemLinks.getAboutProjectItemLink().should('not.exist');
+        navigationMenuSelectors.menuItemLinks.getAboutProjectItemLink().should('not.exist');
     });
 
     it('NoAuth_NavMenu_Home_Language', () => {
         const languageCode = Object.keys(sideBarContent.language).map(key => key.toUpperCase());
         const languageText = Object.values(sideBarContent.language);
 
-        navigatioMenuSelectors.language.getSelect().click();
+        navigationMenuSelectors.language.getSelect().click();
 
         languageCode.forEach((code, index) => {
-            navigatioMenuSelectors.language.languageMenuItems[index]().should('have.text', code);
-            navigatioMenuSelectors.language.languageMenuItems[index]().click();
+            navigationMenuSelectors.language.languageMenuItems[index]().should('have.text', code);
+            navigationMenuSelectors.language.languageMenuItems[index]().click();
     
-            navigatioMenuSelectors.language.getText().should('have.text', languageText[index]);
+            navigationMenuSelectors.language.getText().should('have.text', languageText[index]);
 
             if (index < languageText.length - 1) {
-                navigatioMenuSelectors.language.getSelect().click();
+                navigationMenuSelectors.language.getSelect().click();
               }
         });
     });
