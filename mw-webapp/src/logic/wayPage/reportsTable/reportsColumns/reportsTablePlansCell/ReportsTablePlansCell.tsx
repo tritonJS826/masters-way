@@ -314,7 +314,7 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
                       <Checkbox
                         isDisabled={true}
                         isDefaultChecked={plan.isDone}
-                        onChange={(isDone) => isDone}
+                        onChange={() => {}}
                         className={styles.checkbox}
                       />
                     }

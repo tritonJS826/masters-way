@@ -81,7 +81,7 @@ export const GoalMetricItem = observer((props: SingleGoalMetricProps) => {
                   isDisabled={true}
                   isDefaultChecked={props.metric.isDone}
                   className={styles.checkbox}
-                  onChange={(isDone) => isDone}
+                  onChange={() => {}}
                 />
               }
             />

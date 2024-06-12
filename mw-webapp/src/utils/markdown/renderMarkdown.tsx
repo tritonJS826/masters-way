@@ -20,7 +20,7 @@ const customComponents: Components = {
         rel="noopener noreferrer"
         className={styles.a}
       >
-        {!children ? LanguageService.common.emptyLinkTitle[language] : children}
+        {children ?? LanguageService.common.emptyLinkTitle[language]}
       </a>
     );
   },
