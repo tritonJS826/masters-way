@@ -1,6 +1,6 @@
 @import "src/styles/variables";
 
-$leftPosition: 5px;
+$leftPosition: 12px;
 
 .inputWrapper {
   position: relative;
@@ -21,6 +21,7 @@ $leftPosition: 5px;
   background: transparent;
   color: var(--primaryTextColor);
   font: inherit;
+  line-height: $lineHeightSecondary;
   // TODO: get rid of opacity in every input
   opacity: 0.8;
   outline: none;
@@ -33,7 +34,7 @@ $leftPosition: 5px;
 
 .line {
   padding: $paddingSmall;
-  border-bottom: 1px solid var(--primaryStrokeColor);
+  border-bottom: 1px solid var(--generalPrimaryColor);
 }
 
 .border {
@@ -52,5 +53,5 @@ $leftPosition: 5px;
 }
 
 .inputFilterIcon {
-  padding-left: $paddingBig;
+  padding-left: $paddingExtraBig;
 }
