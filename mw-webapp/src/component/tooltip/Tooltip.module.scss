@@ -10,9 +10,9 @@ th .wrapper {
   position: absolute;
   z-index: $tooltipZIndex;
   display: none;
-  padding: $paddingMedium;
+  padding: $paddingSmall $paddingMedium;
   border: 1px solid var(--generalPrimaryColor);
-  border-radius: $primaryBorderRadius;
+  border-radius: $secondaryBorderRadius;
   animation: tooltipAppear 1s ease forwards;
   background-color: var(--primaryBgColor);
   color: var(--primaryTextColor);

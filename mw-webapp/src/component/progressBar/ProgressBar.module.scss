@@ -1,10 +1,9 @@
 @import "src/styles/variables";
 
 $progressBarContainerHeight: 4px;
-$progressBarBorderRadius: 20px;
 
 .progressContainer {
-  gap: $gapExtraSmall;
+  gap: $gapSmall;
 }
 
 .progressRoot {
@@ -12,7 +11,7 @@ $progressBarBorderRadius: 20px;
   overflow: hidden;
   width: 100%;
   height: $progressBarContainerHeight;
-  border-radius: $progressBarBorderRadius;
+  border-radius: $quaternaryBorderRadius;
   background: var(--progressBarBgColor);
   color: var(--primaryTextColor);
   text-align: center;
@@ -33,4 +32,5 @@ $progressBarBorderRadius: 20px;
 .description {
   justify-content: space-between;
   color: var(--primaryTextColor);
+  line-height: $lineHeightPrimary;
 }
