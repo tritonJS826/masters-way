@@ -137,7 +137,12 @@ $userNameFontSize: 16px;
 }
 
 .loginGoogleButton {
+  display: flex;
+  justify-content: center;
+  padding: $paddingMedium $paddingExtraBig;
+  border: 1px solid var(--primaryStrokeColor);
   border-radius: $secondaryBorderRadius;
+  text-decoration: none;
 }
 
 .googleButtonValue {
