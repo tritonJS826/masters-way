@@ -24,5 +24,10 @@ export const navigationMenuSelectors = {
         ]
     },
 
+    nightMode: {
+        getText:() => cy.get(getDataCy(navigationMenuIds.nightMode.text)),
+        getSlider:() => cy.get(getDataCy(navigationMenuIds.nightMode.slider))
+    },
+
     getCloseButton: () => cy.get(getDataCy(navigationMenuIds.closeButton))
 };

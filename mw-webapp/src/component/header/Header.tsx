@@ -277,6 +277,12 @@ export const Header = (props: HeaderProps) => {
                 dataCy={headerAccessIds.burgerMenu}
               />
             }
+            cy={{
+              dataCyContent: {
+                dataCyClose: navigationMenuIds.closeButton,
+                dataCyContent: navigationMenuIds.navigationMenu,
+              },
+            }}
             linkList={menuItems}
             bottomChildren={
               <VerticalContainer className={styles.bottomContainer}>

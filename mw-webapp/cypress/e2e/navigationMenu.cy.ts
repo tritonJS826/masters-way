@@ -59,7 +59,7 @@ describe('Navigation menu scope tests', () => {
         headerSelectors.getHeader().click({force: true});
 
         cy.url().should('include', '/');
-        navigationMenuSelectors.menuItemLinks.getAboutProjectItemLink().should('not.exist');
+        navigationMenuSelectors.getNavigationMenu().should('not.exist');
     });
 
     it('NoAuth_NavMenu_Language', () => {
@@ -76,7 +76,7 @@ describe('Navigation menu scope tests', () => {
 
             if (index < languageText.length - 1) {
                 navigationMenuSelectors.language.getSelect().click();
-              }
+            }
         });
     });
   

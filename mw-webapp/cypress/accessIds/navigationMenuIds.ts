@@ -19,6 +19,11 @@ export const navigationMenuIds = {
         kaItem: 'kaItem'
     },
 
-    closeButton: 'closeButton'
-    
+    nightMode: {
+        text: 'nightModeText',
+        slider: 'nightModeSlider'
+
+    },
+
+    closeButton: 'closeButton'    
 };
