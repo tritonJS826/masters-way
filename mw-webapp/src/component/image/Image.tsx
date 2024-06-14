@@ -34,7 +34,7 @@ interface ImageProps {
 
   /**
    * Image respond to clicks
-   * * @default false
+   * @default false
    */
   isZoomable?: boolean;
 }
@@ -61,7 +61,6 @@ export const Image = (props: ImageProps) => {
         trigger={imageElement}
         content={imageElement}
         className={imageClass}
-        data-cy={props.cy}
       />
     );
   }
