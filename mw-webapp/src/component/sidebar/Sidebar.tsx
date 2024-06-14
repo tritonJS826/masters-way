@@ -1,4 +1,4 @@
-import {ReactElement, useState} from "react";
+import {ReactElement, useCallback, useState} from "react";
 import {Root as DialogRoot} from "@radix-ui/react-dialog";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
@@ -105,33 +105,34 @@ interface SidebarProps {
 }
 
 /**
- * Renders navigation links based on the provided navigationLinks array.
- */
-const renderNavigationLinks = (navigationLinks: (MenuItemLink)[]) => {
-  return navigationLinks.map((item) => (
-    !item.isHidden && (
-      <HorizontalContainer
-        key={item.value}
-        className={styles.menuItem}
-      >
-        <Link
-          path={item.path}
-          className={styles.menuItemLink}
-          dataCy={item.dataCy}
-        >
-          {item.icon}
-          {item.value}
-        </Link>
-      </HorizontalContainer>
-    )
-  ));
-};
-
-/**
  * Sidebar component
  */
 export const Sidebar = (props: SidebarProps) => {
   const [open, setOpen] = useState(false);
+
+  /**
+   * Renders navigation links based on the provided navigationLinks array.
+   */
+  const renderNavigationLinks = useCallback((navigationLinks: (MenuItemLink)[]) => {
+    return navigationLinks.map((item) => (
+      !item.isHidden && (
+        <HorizontalContainer
+          key={item.value}
+          className={styles.menuItem}
+        >
+          <Link
+            path={item.path}
+            className={styles.menuItemLink}
+            dataCy={item.dataCy}
+            onClick={() => setOpen(false)}
+          >
+            {item.icon}
+            {item.value}
+          </Link>
+        </HorizontalContainer>
+      )
+    ));
+  }, [styles, setOpen]);
 
   return (
     <DialogRoot
@@ -144,7 +145,6 @@ export const Sidebar = (props: SidebarProps) => {
 
       <SidebarContent
         dataCyContent={props.cy?.dataCyContent}
-        onLinkClick={() => setOpen(false)}
         className={styles.sidebarContent}
       >
         <div className={styles.navSidebarContent}>
