@@ -100,11 +100,6 @@
     "vite-plugin-eslint": "1.8.1",
     "vite-tsconfig-paths": "4.3.2"
   },
-  "engines": {
-    "node": "20.11.0",
-    "pnpm": "8.15.2"
-  },
-  "packageManager": "pnpm@8.15.2",
   "lint-staged": {
     "**/*.{ts,tsx}": [
       "pnpm run lint-fix"

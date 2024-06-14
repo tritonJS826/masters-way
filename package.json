@@ -3,13 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start:web": "pnpm --filter 'mw-webapp' run start",
-    "type-check:web": "pnpm --filter 'mw-webapp' type-check",
-    "test:web": "pnpm --filter 'mw-webapp' test",
-    "build-storybook:web": "pnpm --filter 'mw-webapp' build-storybook",
-    "build:web": "pnpm --filter 'mw-webapp' build",
-    "cypress:component:run:web": "pnpm --filter 'mw-webapp' cypress:component:run",
-    "cypress:e2e:run:web": "pnpm --filter 'mw-webapp' cypress:e2e:run"
+    "web:start": "pnpm --filter 'mw-webapp' run start",
+    "web:type-check": "pnpm --filter 'mw-webapp' type-check",
+    "web:test": "pnpm --filter 'mw-webapp' test",
+    "web:build-storybook": "pnpm --filter 'mw-webapp' build-storybook",
+    "web:build": "pnpm --filter 'mw-webapp' build",
+    "web:cypress:component:run": "pnpm --filter 'mw-webapp' cypress:component:run",
+    "web:cypress:e2e:run": "pnpm --filter 'mw-webapp' cypress:e2e:run"
   },
   "keywords": [],
   "author": "",
