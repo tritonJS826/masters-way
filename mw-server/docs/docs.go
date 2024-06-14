@@ -15,6 +15,102 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/auth/current": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Get current authorized user",
+                "operationId": "get-current-authorized-user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.UserPopulatedResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/logout/{provider}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Logout current authorized user",
+                "operationId": "logout-current-authorized-user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "google",
+                        "name": "provider",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseStatusString"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/{provider}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Update comment by UUID",
+                "operationId": "begin-auth",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "google",
+                        "name": "provider",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.UserPopulatedResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/auth/{provider}/callback": {
             "post": {
                 "consumes": [
@@ -24,7 +120,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "auth google"
+                    "auth"
                 ],
                 "summary": "Log in with google oAuth",
                 "operationId": "google auth log in",
@@ -37,6 +133,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/schemas.CreateCommentPayload"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "state parameter",
+                        "name": "state",
+                        "in": "query",
+                        "required": true
                     },
                     {
                         "type": "string",
@@ -144,47 +247,6 @@ const docTemplate = `{
                         "type": "string",
                         "description": "comment ID",
                         "name": "commentId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/schemas.CommentPopulatedResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/comments/{provider}": {
-            "patch": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "beginAuth"
-                ],
-                "summary": "Update comment by UUID",
-                "operationId": "begin-auth",
-                "parameters": [
-                    {
-                        "description": "query params",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/schemas.UpdateCommentPayload"
-                        }
-                    },
-                    {
-                        "type": "string",
-                        "description": "google",
-                        "name": "provider",
                         "in": "path",
                         "required": true
                     }
@@ -2469,8 +2531,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "imageUrl": {
-                    "type": "string",
-                    "x-nullable": true
+                    "type": "string"
                 },
                 "isMentor": {
                     "type": "boolean"
@@ -2988,8 +3049,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "imageUrl": {
-                    "type": "string",
-                    "x-nullable": true
+                    "type": "string"
                 },
                 "isMentor": {
                     "type": "boolean"
@@ -3049,8 +3109,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "imageUrl": {
-                    "type": "string",
-                    "x-nullable": true
+                    "type": "string"
                 },
                 "isMentor": {
                     "type": "boolean"
@@ -3096,8 +3155,7 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "imageUrl": {
-                    "type": "string",
-                    "x-nullable": true
+                    "type": "string"
                 },
                 "isMentor": {
                     "type": "boolean"
@@ -3171,8 +3229,7 @@ const docTemplate = `{
                     }
                 },
                 "imageUrl": {
-                    "type": "string",
-                    "x-nullable": true
+                    "type": "string"
                 },
                 "isMentor": {
                     "type": "boolean"
@@ -3470,6 +3527,17 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "util.ResponseStatusString": {
+            "type": "object",
+            "required": [
+                "status"
+            ],
+            "properties": {
+                "status": {
                     "type": "string"
                 }
             }

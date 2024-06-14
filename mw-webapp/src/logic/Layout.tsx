@@ -11,7 +11,7 @@ import {InitializedApp} from "src/logic/initializedApp/InitializedApp";
  * Layout
  */
 export const Layout = observer(() => {
-  const {user} = userStore;
+  const {user, clearUser} = userStore;
   const {language, setLanguage} = languageStore;
   const {theme, setTheme} = themeStore;
 
@@ -19,6 +19,7 @@ export const Layout = observer(() => {
     <InitializedApp>
       <Header
         user={user}
+        clearUser={clearUser}
         language={language}
         setLanguage={setLanguage}
         theme={theme}
