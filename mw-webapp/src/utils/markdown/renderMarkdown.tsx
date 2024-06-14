@@ -1,6 +1,10 @@
 import MarkdownLib, {Components} from "react-markdown";
 import remarkGfm from "remark-gfm";
+import {languageStore} from "src/globalStore/LanguageStore";
+import {LanguageService} from "src/service/LanguageService";
 import styles from "src/utils/markdown/Markdown.module.scss";
+
+const {language} = languageStore;
 
 const customComponents: Components = {
 
@@ -16,7 +20,7 @@ const customComponents: Components = {
         rel="noopener noreferrer"
         className={styles.a}
       >
-        {children}
+        {children ?? LanguageService.common.emptyLinkTitle[language]}
       </a>
     );
   },
