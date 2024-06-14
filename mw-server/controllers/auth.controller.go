@@ -2,14 +2,19 @@ package controllers
 
 import (
 	"context"
-	"fmt"
-	"net/http"
-
+	"mwserver/auth"
+	"mwserver/config"
 	db "mwserver/db/sqlc"
+	"mwserver/services"
 	"mwserver/util"
+	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/markbates/goth/gothic"
+	"github.com/google/uuid"
+	"golang.org/x/oauth2"
+	oauthGoogle "google.golang.org/api/oauth2/v2"
+	"google.golang.org/api/option"
 )
 
 type AuthController struct {
@@ -21,75 +26,102 @@ func NewAuthController(db *db.Queries, ctx context.Context) *AuthController {
 	return &AuthController{db, ctx}
 }
 
-// Log in with google oAuth ()
+// Log in with google oAuth
 // @Summary Log in with google oAuth
 // @Description
-// @Tags auth google
+// @Tags auth
 // @ID google auth log in
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateCommentPayload true "query params"
+// @Param state query string true "state parameter"
 // @Param provider path string true "google"
 // @Success 200 {object} schemas.CommentPopulatedResponse
 // @Router /auth/{provider}/callback [post]
 func (cc *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
-	provider := ctx.Param("provider")
-	ctx.Request = ctx.Request.WithContext(context.WithValue(context.Background(), "provider", provider))
-
-	googleUser, err := gothic.CompleteUserAuth(ctx.Writer, ctx.Request)
-
-	if err != nil {
-		fmt.Fprintln(ctx.Writer, err)
-		util.HandleErrorGin(ctx, err)
+	state := ctx.Query("state")
+	if state != auth.OauthStateString {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "invalid oauth state"})
 		return
 	}
 
-	fmt.Println(googleUser)
+	code := ctx.Query("code")
+	token, err := auth.GoogleOAuthConfig.Exchange(ctx, code)
+	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, googleUser)
+	client := auth.GoogleOAuthConfig.Client(ctx, token)
+	oauth2Service, err := oauthGoogle.NewService(ctx, option.WithHTTPClient(client))
+	util.HandleErrorGin(ctx, err)
+
+	userInfo, err := oauth2Service.Userinfo.Get().Do()
+	util.HandleErrorGin(ctx, err)
+
+	now := time.Now()
+	args := &db.CreateUserParams{
+		Name:        userInfo.Name,
+		Email:       userInfo.Email,
+		Description: "",
+		CreatedAt:   now,
+		ImageUrl:    userInfo.Picture,
+		IsMentor:    false,
+		FirebaseID:  "",
+	}
+
+	populatedUser, err := services.FindOrCreateUserByEmail(cc.db, ctx, args)
+	util.HandleErrorGin(ctx, err)
+
+	jwtToken, err := auth.GenerateJWT(populatedUser.Uuid)
+	util.HandleErrorGin(ctx, err)
+
+	ctx.Redirect(http.StatusFound, config.Env.WebappBaseUrl+"?token="+jwtToken)
 }
 
 // Begin auth handler
 // @Summary Update comment by UUID
 // @Description
-// @Tags beginAuth
+// @Tags auth
 // @ID begin-auth
 // @Accept  json
 // @Produce  json
-// @Param request body schemas.UpdateCommentPayload true "query params"
 // @Param provider path string true "google"
-// @Success 200 {object} schemas.CommentPopulatedResponse
-// @Router /comments/{provider} [patch]
+// @Success 200 {object} schemas.UserPopulatedResponse
+// @Router /auth/{provider} [get]
 func (cc *AuthController) BeginAuth(ctx *gin.Context) {
-	provider := ctx.Param("provider")
-
-	ctx.Request = ctx.Request.WithContext(context.WithValue(context.Background(), "provider", provider))
-
-	gothic.BeginAuthHandler(ctx.Writer, ctx.Request)
-	// if err := ctx.ShouldBindJSON(&payload); err != nil {
-	// 	ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
-	// 	return
-	// }
-
-	// ctx.JSON(http.StatusOK, comment)
+	url := auth.GoogleOAuthConfig.AuthCodeURL(auth.OauthStateString, oauth2.AccessTypeOffline)
+	ctx.Redirect(http.StatusTemporaryRedirect, url)
 }
 
-// Deleting Comment handlers
-// @Summary Delete comment by UUID
+// @Summary Get current authorized user
 // @Description
-// @Tags comment
-// @ID delete-comment
+// @Tags auth
+// @ID get-current-authorized-user
 // @Accept  json
 // @Produce  json
-// @Param commentId path string true "comment ID"
-// @Success 200
-// @Router /comments/{commentId} [delete]
-// func (cc *CommentController) DeleteCommentById(ctx *gin.Context) {
-// 	commentId := ctx.Param("commentId")
+// @Success 200 {object} schemas.UserPopulatedResponse
+// @Router /auth/current [get]
+func (cc *AuthController) GetCurrentAuthorizedUserByToken(ctx *gin.Context) {
+	userIDRaw, _ := ctx.Get("userID")
+	userId := userIDRaw.(string)
+	println("!!!!" + userId)
 
-// 	err := cc.db.DeleteComment(ctx, uuid.MustParse(commentId))
-// 	util.HandleErrorGin(ctx, err)
+	populatedUser, err := services.GetPopulatedUserById(cc.db, ctx, uuid.MustParse(userId))
+	util.HandleErrorGin(ctx, err)
 
-// 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})
+	ctx.JSON(http.StatusOK, populatedUser)
+}
 
-// }
+// @Summary Logout current authorized user
+// @Description
+// @Tags auth
+// @ID logout-current-authorized-user
+// @Accept  json
+// @Produce  json
+// @Param provider path string true "google"
+// @Success 200 {object} util.ResponseStatusString
+// @Router /auth/logout/{provider} [get]
+func (cc *AuthController) Logout(ctx *gin.Context) {
+	userIDRaw, _ := ctx.Get("userID")
+	userId := userIDRaw.(string)
+
+	ctx.JSON(http.StatusOK, gin.H{"status": "Ok" + userId})
+}

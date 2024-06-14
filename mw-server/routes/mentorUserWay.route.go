@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"mwserver/auth"
 	"mwserver/controllers"
 
 	"github.com/gin-gonic/gin"
@@ -16,6 +17,6 @@ func NewRouteMentorUserWay(mentorUserWayController controllers.MentorUserWayCont
 
 func (cr *MentorUserWayRoutes) MentorUserWayRoute(rg *gin.RouterGroup) {
 	router := rg.Group("mentorUserWays")
-	router.POST("", cr.mentorUserWayController.AddMentorUserWay)
-	router.DELETE("", cr.mentorUserWayController.DeleteMentorUserWay)
+	router.POST("", auth.AuthMiddleware(), cr.mentorUserWayController.AddMentorUserWay)
+	router.DELETE("", auth.AuthMiddleware(), cr.mentorUserWayController.DeleteMentorUserWay)
 }

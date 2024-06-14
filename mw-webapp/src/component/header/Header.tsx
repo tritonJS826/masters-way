@@ -19,11 +19,11 @@ import {Toggle} from "src/component/toggle/Toggle";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {AuthDAL} from "src/dataAccessLogic/AuthDAL";
 import {Language} from "src/globalStore/LanguageStore";
 import {DEFAULT_THEME, Theme} from "src/globalStore/ThemeStore";
 import {User} from "src/model/businessModel/User";
 import {pages} from "src/router/pages";
-import {AuthService} from "src/service/AuthService";
 import {LanguageService} from "src/service/LanguageService";
 import {env} from "src/utils/env/env";
 import styles from "src/component/header/Header.module.scss";
@@ -51,6 +51,11 @@ interface HeaderProps {
    * Current user
    */
   user: User | null;
+
+  /**
+   * Clear user
+   */
+  clearUser: () => void;
 
   /**
    * Current language
@@ -161,6 +166,14 @@ export const Header = (props: HeaderProps) => {
 
   ];
 
+  /**
+   * Logout
+   */
+  const logout = () => {
+    AuthDAL.logOut();
+    props.clearUser();
+  };
+
   return (
     <header
       className={styles.header}
@@ -241,26 +254,19 @@ export const Header = (props: HeaderProps) => {
                       placeholder=""
                     />
                     <VerticalContainer className={styles.loginButtons}>
-                      <Button
-                        onClick={AuthService.logIn}
+                      <Link
+                        path={`${env.API_BASE_PATH}/auth/google`}
                         className={styles.loginGoogleButton}
-                        value={
-                          <HorizontalContainer className={styles.googleButtonValue}>
-                            <Image
-                              src={google}
-                              alt="Google icon"
-                              className={styles.googleIcon}
-                            />
-                            {LanguageService.modals.loginModal.signInWithGoogle[props.language]}
-                          </HorizontalContainer>
-                        }
-                      />
-                      {/* Experiment with OAuth with google */}
-                      <div style={{opacity: 0}}>
-                        <Link path={`${env.API_BASE_PATH}/auth/google`}>
-                          google OAuth
-                        </Link>
-                      </div>
+                      >
+                        <HorizontalContainer className={styles.googleButtonValue}>
+                          <Image
+                            src={google}
+                            alt="Google icon"
+                            className={styles.googleIcon}
+                          />
+                          {LanguageService.modals.loginModal.signInWithGoogle[props.language]}
+                        </HorizontalContainer>
+                      </Link>
                     </VerticalContainer>
                   </VerticalContainer>
                 </HorizontalContainer>
@@ -339,7 +345,7 @@ export const Header = (props: HeaderProps) => {
                 </VerticalContainer>
                 {props.user &&
                 <Button
-                  onClick={AuthService.logOut}
+                  onClick={logout}
                   value={LanguageService.header.logoutButton[props.language]}
                   buttonType={ButtonType.PRIMARY}
                 />

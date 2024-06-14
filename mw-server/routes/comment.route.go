@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"mwserver/auth"
 	"mwserver/controllers"
 
 	"github.com/gin-gonic/gin"
@@ -16,7 +17,7 @@ func NewRouteComment(commentController controllers.CommentController) CommentRou
 
 func (cr *CommentRoutes) CommentRoute(rg *gin.RouterGroup) {
 	router := rg.Group("comments")
-	router.POST("", cr.commentController.CreateComment)
-	router.PATCH("/:commentId", cr.commentController.UpdateComment)
-	router.DELETE("/:commentId", cr.commentController.DeleteCommentById)
+	router.POST("", auth.AuthMiddleware(), cr.commentController.CreateComment)
+	router.PATCH("/:commentId", auth.AuthMiddleware(), cr.commentController.UpdateComment)
+	router.DELETE("/:commentId", auth.AuthMiddleware(), cr.commentController.DeleteCommentById)
 }
