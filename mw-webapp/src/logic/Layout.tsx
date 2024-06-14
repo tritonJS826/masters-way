@@ -1,4 +1,5 @@
 import {Outlet} from "react-router-dom";
+import {headerAccessIds} from "cypress/accessIds/headerAccessIds";
 import {observer} from "mobx-react-lite";
 import {Header} from "src/component/header/Header";
 import {FirebaseAnalytics} from "src/FirebaseAnalytics";
@@ -24,6 +25,7 @@ export const Layout = observer(() => {
         setLanguage={setLanguage}
         theme={theme}
         setTheme={setTheme}
+        dataCy={headerAccessIds.header}
       />
       <Outlet />
       <FirebaseAnalytics />

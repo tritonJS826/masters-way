@@ -11,6 +11,7 @@ import {allWaysSelectors} from "cypress/scopesSelectors/allWaysSelectors";
 import {aboutProjectSelectors} from "cypress/scopesSelectors/aboutProjectSelectors";
 import {homeSelectors} from "cypress/scopesSelectors/homeSelectors";
 import homePageContent from "src/dictionary/HomePageContent.json";
+import sideBarContent from "src/dictionary/Sidebar.json";
 
 describe('Navigation menu scope tests', () => {
 
@@ -52,6 +53,31 @@ describe('Navigation menu scope tests', () => {
 
         cy.url().should('include', aboutProjectPageData.endpoint);
         aboutProjectSelectors.welcomeBlock.getTitle().should('contain', aboutProjectPageContent.mainTitle.en);
+    });
+
+    it('NoAuth_NavMenu_Close', () => {
+        headerSelectors.getHeader().click({force: true});
+
+        cy.url().should('include', '/');
+        navigationMenuSelectors.getNavigationMenu().should('not.exist');
+    });
+
+    it('NoAuth_NavMenu_Language', () => {
+        const languageCode = Object.keys(sideBarContent.language).map(key => key.toUpperCase());
+        const languageText = Object.values(sideBarContent.language);
+
+        navigationMenuSelectors.language.getSelect().click();
+
+        languageCode.forEach((code, index) => {
+            navigationMenuSelectors.language.languageMenuItems[index]().should('have.text', code);
+            navigationMenuSelectors.language.languageMenuItems[index]().click();
+    
+            navigationMenuSelectors.language.getText().should('have.text', languageText[index]);
+
+            if (index < languageText.length - 1) {
+                navigationMenuSelectors.language.getSelect().click();
+            }
+        });
     });
   
   });

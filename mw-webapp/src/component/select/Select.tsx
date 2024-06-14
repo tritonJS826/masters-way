@@ -24,6 +24,11 @@ export interface SelectItemType<T> {
    * Option`s visible text
    */
   text: string;
+
+  /**
+   * Data attributes for cypress testing
+   */
+  dataCy?: string;
 }
 
 /**
@@ -95,7 +100,6 @@ interface Cy {
    * Data attribute for cypress testing
    */
   dataCyValue: string;
-
 }
 
 /**
@@ -142,6 +146,7 @@ export interface SelectProps<T> {
    * Custom class name
    */
   className?: string;
+
 }
 
 /**
@@ -151,6 +156,7 @@ const renderSelectOptions = <T extends string>(options: SelectItemType<T>[]) => 
   <SelectItem
     key={option.id}
     value={option.value}
+    data-cy={option.dataCy}
   >
     {option.text}
   </SelectItem>
