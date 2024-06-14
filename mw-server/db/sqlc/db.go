@@ -258,9 +258,6 @@ func Prepare(ctx context.Context, db DBTX) (*Queries, error) {
 	if q.getToMentorUserRequestsByWayIdStmt, err = db.PrepareContext(ctx, getToMentorUserRequestsByWayId); err != nil {
 		return nil, fmt.Errorf("error preparing query GetToMentorUserRequestsByWayId: %w", err)
 	}
-	if q.getUserByEmailStmt, err = db.PrepareContext(ctx, getUserByEmail); err != nil {
-		return nil, fmt.Errorf("error preparing query GetUserByEmail: %w", err)
-	}
 	if q.getUserByFirebaseIdStmt, err = db.PrepareContext(ctx, getUserByFirebaseId); err != nil {
 		return nil, fmt.Errorf("error preparing query GetUserByFirebaseId: %w", err)
 	}
@@ -722,11 +719,6 @@ func (q *Queries) Close() error {
 			err = fmt.Errorf("error closing getToMentorUserRequestsByWayIdStmt: %w", cerr)
 		}
 	}
-	if q.getUserByEmailStmt != nil {
-		if cerr := q.getUserByEmailStmt.Close(); cerr != nil {
-			err = fmt.Errorf("error closing getUserByEmailStmt: %w", cerr)
-		}
-	}
 	if q.getUserByFirebaseIdStmt != nil {
 		if cerr := q.getUserByFirebaseIdStmt.Close(); cerr != nil {
 			err = fmt.Errorf("error closing getUserByFirebaseIdStmt: %w", cerr)
@@ -954,7 +946,6 @@ type Queries struct {
 	getPlansByDayReportUuidsStmt                *sql.Stmt
 	getProblemsByDayReportUuidsStmt             *sql.Stmt
 	getToMentorUserRequestsByWayIdStmt          *sql.Stmt
-	getUserByEmailStmt                          *sql.Stmt
 	getUserByFirebaseIdStmt                     *sql.Stmt
 	getUserByIdStmt                             *sql.Stmt
 	getUserByIdsStmt                            *sql.Stmt
@@ -1061,7 +1052,6 @@ func (q *Queries) WithTx(tx *sql.Tx) *Queries {
 		getPlansByDayReportUuidsStmt:                q.getPlansByDayReportUuidsStmt,
 		getProblemsByDayReportUuidsStmt:             q.getProblemsByDayReportUuidsStmt,
 		getToMentorUserRequestsByWayIdStmt:          q.getToMentorUserRequestsByWayIdStmt,
-		getUserByEmailStmt:                          q.getUserByEmailStmt,
 		getUserByFirebaseIdStmt:                     q.getUserByFirebaseIdStmt,
 		getUserByIdStmt:                             q.getUserByIdStmt,
 		getUserByIdsStmt:                            q.getUserByIdsStmt,

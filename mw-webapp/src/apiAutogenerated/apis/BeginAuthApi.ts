@@ -16,14 +16,18 @@
 import * as runtime from '../runtime';
 import type {
   SchemasCommentPopulatedResponse,
+  SchemasUpdateCommentPayload,
 } from '../models/index';
 import {
     SchemasCommentPopulatedResponseFromJSON,
     SchemasCommentPopulatedResponseToJSON,
+    SchemasUpdateCommentPayloadFromJSON,
+    SchemasUpdateCommentPayloadToJSON,
 } from '../models/index';
 
 export interface BeginAuthRequest {
     provider: string;
+    request: SchemasUpdateCommentPayload;
 }
 
 /**
@@ -39,15 +43,22 @@ export class BeginAuthApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('provider','Required parameter requestParameters.provider was null or undefined when calling beginAuth.');
         }
 
+        if (requestParameters.request === null || requestParameters.request === undefined) {
+            throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling beginAuth.');
+        }
+
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+        headerParameters['Content-Type'] = 'application/json';
+
         const response = await this.request({
-            path: `/auth/{provider}`.replace(`{${"provider"}}`, encodeURIComponent(String(requestParameters.provider))),
-            method: 'GET',
+            path: `/comments/{provider}`.replace(`{${"provider"}}`, encodeURIComponent(String(requestParameters.provider))),
+            method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
+            body: SchemasUpdateCommentPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => SchemasCommentPopulatedResponseFromJSON(jsonValue));
