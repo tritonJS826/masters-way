@@ -1,0 +1,248 @@
+{
+  "env": {
+    "browser": true,
+    "node": true,
+    "es2021": true
+  },
+  "root": true,
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended"
+    // I temporaly install @ljharb and @yarnaimo to fix problem with building storybook. Let's remove this dependency if it is possible
+    // "@ljharb"
+    // "@yarnaimo"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": { "jsx": true },
+    "ecmaVersion": 12,
+    "sourceType": "module",
+    // "project": ["**/tsconfig.json", "**/vite.config.ts"] // путь для сопоставления файлов tsconfig относительно parserOptions.tsconfigRootDir, ​​или текущего рабочего каталога, если он не указан
+    "project": true // указывает на поиск ближайшего tsconfig.json для каждого исходного файла
+  },
+  "plugins": [
+    "react",
+    "@typescript-eslint",
+    "simple-import-sort",
+    "jsdoc",
+    "@stylistic"
+  ],
+  "rules": {
+    "@stylistic/eol-last": ["error", "always"],
+    "@typescript-eslint/no-non-null-assertion": "error",
+    "simple-import-sort/imports": [
+      "error",
+      {
+        "groups": [
+          // Packages `react` related packages come first, Side effect imports, Internal packages, Anything not matched in another group, Style imports
+          ["^react", "^\\u0000", "^(@|components)(/.*|$)", "^", "^.+\\.?(css)$"]
+        ]
+      }
+    ],
+    "no-restricted-exports": [
+      "error",
+      { "restrictDefaultExports": { "direct": true } }
+    ],
+    "capitalized-comments": [
+      "error",
+      "always",
+      { "ignoreInlineComments": true, "ignoreConsecutiveComments": true }
+    ],
+    "no-magic-numbers": ["error", { "ignore": [0] }],
+    "multiline-ternary": ["error", "always-multiline"],
+    "no-console": "error",
+    "react/react-in-jsx-scope": "off",
+    "no-tabs": ["error", { "allowIndentationTabs": true }],
+    "max-lines": ["error", 3000],
+    "semi": ["error", "always"],
+    "indent": ["error", 2, { "SwitchCase": 1 }],
+    "react/jsx-indent": ["error", 2],
+    "react/jsx-indent-props": ["error", 2],
+    "@typescript-eslint/no-use-before-define": ["error"],
+    "@typescript-eslint/no-shadow": ["error"],
+    "@typescript-eslint/require-await": "error",
+    "comma-spacing": ["error", { "before": false, "after": true }],
+    "semi-spacing": ["error", { "before": false, "after": true }],
+    "no-multi-spaces": "error",
+    "object-curly-spacing": ["error", "never"],
+    "object-curly-newline": ["error", { "multiline": true }],
+    "array-bracket-newline": ["error", { "multiline": true }],
+    "@typescript-eslint/member-ordering": [
+      "error",
+      {
+        "default": [
+          "public-field",
+          "protected-field",
+          "private-field",
+          "constructor",
+          "public-method",
+          "protected-method",
+          "private-method"
+        ]
+      }
+    ],
+    "space-in-parens": ["error", "never"],
+    "key-spacing": ["error", { "beforeColon": false }],
+    "space-infix-ops": ["error", { "int32Hint": false }],
+    "space-unary-ops": [
+      1,
+      {
+        "words": true,
+        "nonwords": false,
+        "overrides": { "new": false }
+      }
+    ],
+    "no-trailing-spaces": "error",
+    "arrow-spacing": "error",
+    "quotes": ["error", "double"],
+
+    "@typescript-eslint/explicit-member-accessibility": [
+      "error",
+      {
+        "accessibility": "explicit",
+        "overrides": {
+          "accessors": "explicit",
+          "constructors": "no-public",
+          "methods": "explicit",
+          "properties": "explicit",
+          "parameterProperties": "explicit"
+        }
+      }
+    ],
+    "lines-between-class-members": ["error", "always"],
+    "padded-blocks": ["error", { "classes": "always" }],
+    "no-multiple-empty-lines": ["error", { "max": 1 }],
+    "max-len": ["error", { "code": 130 }],
+    "max-params": ["error", 7],
+    "curly": "error",
+    "comma-dangle": ["error", "always-multiline"],
+    "brace-style": "error",
+    "@typescript-eslint/member-delimiter-style": "error",
+    "no-mixed-operators": "error",
+    "eqeqeq": "error",
+    "dot-notation": ["off"],
+    "react/jsx-tag-spacing": [
+      "error",
+      {
+        "beforeClosing": "never",
+        "beforeSelfClosing": "always",
+        "afterOpening": "never",
+        "closingSlash": "never"
+      }
+    ],
+    "react/jsx-curly-spacing": "error",
+    "react/jsx-key": "error",
+    "react/jsx-max-props-per-line": ["error", { "maximum": 1 }],
+    "react/jsx-no-duplicate-props": "error",
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error",
+    "react/jsx-filename-extension": ["warn", { "extensions": [".tsx"] }],
+    "react/jsx-closing-bracket-location": [1, "tag-aligned"],
+    "react/jsx-first-prop-new-line": [2, "multiprop"],
+    "react/no-unknown-property": "error",
+    "react/self-closing-comp": "error",
+    "react/jsx-wrap-multilines": ["error", { "return": "parens-new-line" }],
+    "react/jsx-one-expression-per-line": "error",
+    "space-before-blocks": ["error", "always"],
+    "keyword-spacing": [
+      "error",
+      {
+        "overrides": {
+          "return": { "after": true }
+        }
+      }
+    ],
+    "@typescript-eslint/space-before-blocks": "error",
+    "@typescript-eslint/prefer-optional-chain": "error",
+    "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/type-annotation-spacing": "error",
+    "no-var": "error",
+    "prefer-const": "error",
+    "lines-around-comment": [
+      "error",
+      {
+        "afterBlockComment": false,
+        "beforeBlockComment": true
+      }
+    ],
+    "jsdoc/check-alignment": "error",
+    "jsdoc/check-indentation": ["error"],
+    "jsdoc/no-blank-blocks": ["error", { "enableFixer": false }],
+    "jsdoc/require-jsdoc": [
+      "error",
+      {
+        "require": {
+          "MethodDefinition": true,
+          "ClassDeclaration": true,
+          "ClassExpression": true
+        },
+        "checkConstructors": false,
+        "checkSetters": true,
+        "contexts": [
+          "TSEnumDeclaration",
+          "TSInterfaceDeclaration",
+          "TSPropertySignature",
+          "ArrowFunctionExpression",
+          "TSMethodSignature",
+          "PropertyDefinition"
+        ]
+      }
+    ],
+    "object-shorthand": ["error", "always"],
+    "no-duplicate-imports": ["error"],
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": [".*"]
+      }
+    ],
+    "padding-line-between-statements": [
+      "error",
+      { "blankLine": "always", "prev": "*", "next": "return" },
+      { "blankLine": "always", "prev": "import", "next": "block-like" },
+      { "blankLine": "always", "prev": "import", "next": "class" },
+      { "blankLine": "always", "prev": "import", "next": "const" }
+    ],
+    "eol-last": ["error", "always"]
+  },
+  "ignorePatterns": [
+    "/build",
+    "src/apiAutogenerated",
+    "**/node_modules",
+    "storybook-static",
+    "vite.config.ts",
+    "cypress.config.ts",
+    "cypress/"
+  ],
+  "overrides": [
+    {
+      "files": ["*.stories.tsx*"],
+      "rules": {
+        "no-restricted-exports": [
+          "error",
+          { "restrictDefaultExports": { "direct": false } }
+        ],
+        "jsdoc/require-jsdoc": [
+          "error",
+          {
+            "publicOnly": true,
+            "require": {
+              "ArrowFunctionExpression": true
+            },
+            "checkConstructors": false,
+            "checkSetters": true
+          }
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "import/resolver": {
+      "node": { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
+    },
+    "react": {
+      "version": "detect"
+    }
+  }
+}

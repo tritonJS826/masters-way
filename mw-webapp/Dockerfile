@@ -6,4 +6,3 @@ RUN pnpm install --frozen-lockfile
 RUN pnpm run build
 CMD pnpm dlx serve ./build -p 5173 -s
 EXPOSE 5173
-

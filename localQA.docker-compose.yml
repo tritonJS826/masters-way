@@ -28,8 +28,8 @@ services:
 
   mw-webapp:
     build:
-      context: ./mw-webapp
-      dockerfile: Dockerfile
+      context: "./mw-webapp"
+      dockerfile: ./Dockerfile
     restart: unless-stopped
     ports:
       - "5173:5173"
