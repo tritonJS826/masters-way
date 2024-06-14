@@ -7,7 +7,7 @@ import {StatisticItem} from "src/logic/wayPage/wayStatistics/statisticBlock/stat
 import {StatisticPeriod} from "src/logic/wayPage/wayStatistics/StatisticPeriod";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
-import {JobTag} from "src/model/businessModelPreview/WayPreview";
+import {Label} from "src/model/businessModel/Label";
 import {LanguageService} from "src/service/LanguageService";
 import {DateUtils} from "src/utils/DateUtils";
 import styles from "src/logic/wayPage/wayStatistics/WayActiveStatistic.module.scss";
@@ -23,6 +23,11 @@ interface WayStatisticProps {
   dayReports: DayReport[];
 
   /**
+   * Labels
+   */
+  labels: Label[];
+
+  /**
    * Date of way created
    */
   wayCreatedAt: Date;
@@ -32,6 +37,7 @@ interface WayStatisticProps {
    * @default true
    */
   isVisible: boolean;
+
 }
 
 export const MILLISECONDS_IN_DAY = 86_400_000;
@@ -56,7 +62,7 @@ const getTagStats = (jobsDone: JobDone[]) => {
   const tagStatsMap = new Map<string, JobTagStat>();
   const totalJobsTime = jobsDone.reduce((accum, jobDone) => accum + jobDone.time, 0);
   jobsDone.forEach((job: JobDone) => {
-    job.tags.forEach((tag: JobTag) => {
+    job.tags.forEach((tag: Label) => {
       const AMOUNT_INCREMENT = 1;
       const PERCENTAGE_MULTIPLIER = 100;
 
@@ -235,6 +241,7 @@ export const WayActiveStatistic = observer((props: WayStatisticProps) => {
       <StatisticPeriod
         title={LanguageService.way.statisticsBlock.total[language]}
         allTagStats={allTagStats}
+        labels={props.labels}
         datesWithJobTotalTime={datesWithJobTotalTime}
         lastDate={lastDate}
         startDate={startDate}
@@ -247,6 +254,7 @@ export const WayActiveStatistic = observer((props: WayStatisticProps) => {
       <StatisticPeriod
         title={LanguageService.way.statisticsBlock.lastWeek[language]}
         allTagStats={lastWeekTagStats}
+        labels={props.labels}
         datesWithJobTotalTime={datesWithJobTotalTime}
         lastDate={lastDate}
         startDate={startDateLastWeek}

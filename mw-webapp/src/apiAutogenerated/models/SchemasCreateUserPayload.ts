@@ -42,7 +42,7 @@ export interface SchemasCreateUserPayload {
      * @type {string}
      * @memberof SchemasCreateUserPayload
      */
-    imageUrl: string | null;
+    imageUrl: string;
     /**
      * 
      * @type {boolean}

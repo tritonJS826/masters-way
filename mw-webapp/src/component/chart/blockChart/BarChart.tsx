@@ -8,7 +8,9 @@ import {
   Title,
   Tooltip,
 } from "chart.js";
-import {ItemStat} from "src/component/chart/ItemStat";
+import {observer} from "mobx-react-lite";
+import {JobTagStat} from "src/logic/wayPage/wayStatistics/JobTagStat";
+import {Label} from "src/model/businessModel/Label";
 import styles from "src/component/chart/blockChart/BarChart.module.scss";
 
 ChartJS.register(
@@ -33,20 +35,26 @@ interface BarChartProps {
   /**
    * All items data
    */
-  itemStats: ItemStat[];
+  itemStats: JobTagStat[];
+
+  /**
+   * All labels
+   */
+  labels: Label[];
 
 }
 
 /**
  * Pie chart component (Similar radar chart)
  */
-export const BarChart = (props: BarChartProps) => {
+export const BarChart = observer((props: BarChartProps) => {
+
   const dataSet = props.itemStats.map((itemStat) => {
     return {
-      label: itemStat.name,
-      data: [itemStat.value],
-      borderColor: itemStat.color,
-      backgroundColor: itemStat.color,
+      label: itemStat.jobTag.name,
+      data: [itemStat.totalTime],
+      borderColor: props.labels.find(label => label.uuid === itemStat.jobTag.uuid)?.color ?? itemStat.jobTag.color,
+      backgroundColor: props.labels.find(label => label.uuid === itemStat.jobTag.uuid)?.color ?? itemStat.jobTag.color,
     };
   });
 
@@ -89,4 +97,4 @@ export const BarChart = (props: BarChartProps) => {
       />
     </div>
   );
-};
+});

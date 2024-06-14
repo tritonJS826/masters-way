@@ -152,7 +152,6 @@ export const AllUsersPage = observer(() => {
             value={email}
             onChange={setEmail}
             placeholder={LanguageService.allUsers.filterBlock.emailPlaceholder[language]}
-            className={styles.inputFilter}
             typeInputIcon={"SearchIcon"}
             typeInput={InputType.Border}
           />
@@ -160,7 +159,6 @@ export const AllUsersPage = observer(() => {
             value={name}
             onChange={setName}
             placeholder={LanguageService.allUsers.filterBlock.namePlaceholder[language]}
-            className={styles.inputFilter}
             typeInputIcon={"SearchIcon"}
             typeInput={InputType.Border}
           />

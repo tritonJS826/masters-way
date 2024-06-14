@@ -1,4 +1,5 @@
 import {JobDone} from "src/model/businessModel/JobDone";
+import {Label} from "src/model/businessModel/Label";
 import {Plan} from "src/model/businessModel/Plan";
 import {JobDoneService} from "src/service/JobDoneService";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
@@ -81,6 +82,7 @@ export class JobDoneDAL {
       updatedAt: new Date(jobDoneDTO.updatedAt),
       wayName: params.wayName,
       wayUuid: params.wayUuid,
+      tags: jobDoneDTO.tags.map((label) => new Label(label)),
     });
 
     return jobDone;
@@ -101,6 +103,7 @@ export class JobDoneDAL {
       updatedAt: new Date(updatedJobDoneDTO.updatedAt),
       wayName: params.wayName,
       wayUuid: params.wayUuid,
+      tags: updatedJobDoneDTO.tags.map((label) => new Label(label)),
     });
 
     return updatedJobDone;

@@ -5,6 +5,7 @@ import {Confirm} from "src/component/confirm/Confirm";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Tooltip} from "src/component/tooltip/Tooltip";
+import {MetricDAL} from "src/dataAccessLogic/MetricDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {Metric} from "src/model/businessModel/Metric";
 import {LanguageService} from "src/service/LanguageService";
@@ -32,11 +33,6 @@ interface SingleGoalMetricProps {
    */
   deleteMetric: (metricUuid: string) => Promise<void>;
 
-  /**
-   * Callback to update Metric
-   */
-  updateMetric: (metric: Metric) => Promise<void>;
-
 }
 
 /**
@@ -51,8 +47,17 @@ export const GoalMetricItem = observer((props: SingleGoalMetricProps) => {
   /**
    * Set metric not completed
    */
-  const onOk = () => {
-    props.updateMetric({...props.metric, isDone: false, doneDate: null});
+  const onOk = async () => {
+    props.metric.updateIsDone({
+      isDoneToUpdate: false,
+      doneDateToUpdate: null,
+    });
+    const metricToUpdate = {
+      uuid: props.metric.uuid,
+      isDone: false,
+      doneDate: null,
+    };
+    await MetricDAL.updateMetric(metricToUpdate);
   };
 
   return (
@@ -76,7 +81,7 @@ export const GoalMetricItem = observer((props: SingleGoalMetricProps) => {
                   isDisabled={true}
                   isDefaultChecked={props.metric.isDone}
                   className={styles.checkbox}
-                  onChange={(isDone) => isDone}
+                  onChange={() => {}}
                 />
               }
             />
@@ -86,7 +91,17 @@ export const GoalMetricItem = observer((props: SingleGoalMetricProps) => {
               isDisabled={!props.isEditable}
               isDefaultChecked={props.metric.isDone}
               className={styles.checkbox}
-              onChange={(isDone) => props.updateMetric({...props.metric, isDone, doneDate: new Date()})}
+              onChange={async (isDone) => {
+                props.metric.updateIsDone({
+                  isDoneToUpdate: isDone,
+                  doneDateToUpdate: new Date(),
+                });
+                const metricToUpdate = {
+                  uuid: props.metric.uuid,
+                  isDone,
+                };
+                await MetricDAL.updateMetric(metricToUpdate);
+              }}
             />
           )
         }
@@ -97,7 +112,14 @@ export const GoalMetricItem = observer((props: SingleGoalMetricProps) => {
           >
             <EditableTextarea
               text={props.metric.description ?? ""}
-              onChangeFinish={(description) => props.updateMetric({...props.metric, description})}
+              onChangeFinish={async (description) => {
+                props.metric.updateDescription(description);
+                const metricToUpdate = {
+                  uuid: props.metric.uuid,
+                  description,
+                };
+                await MetricDAL.updateMetric(metricToUpdate);
+              }}
               isEditable={props.isEditable}
               placeholder={props.isEditable
                 ? LanguageService.common.emptyMarkdownAction[language]

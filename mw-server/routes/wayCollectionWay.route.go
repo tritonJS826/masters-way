@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"mwserver/auth"
 	"mwserver/controllers"
 
 	"github.com/gin-gonic/gin"
@@ -16,6 +17,6 @@ func NewRouteWayCollectionWay(wayCollectionWayController controllers.WayCollecti
 
 func (cr *WayCollectionWayRoutes) WayCollectionWayRoute(rg *gin.RouterGroup) {
 	router := rg.Group("wayCollectionWays")
-	router.POST("", cr.wayCollectionWayController.CreateWayCollectionWay)
-	router.DELETE("/:wayId/:wayCollectionId", cr.wayCollectionWayController.DeleteWayCollectionWayById)
+	router.POST("", auth.AuthMiddleware(), cr.wayCollectionWayController.CreateWayCollectionWay)
+	router.DELETE("/:wayId/:wayCollectionId", auth.AuthMiddleware(), cr.wayCollectionWayController.DeleteWayCollectionWayById)
 }

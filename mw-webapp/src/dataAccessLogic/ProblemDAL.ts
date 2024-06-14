@@ -1,3 +1,4 @@
+import {Label} from "src/model/businessModel/Label";
 import {Problem} from "src/model/businessModel/Problem";
 import {ProblemService} from "src/service/ProblemService";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
@@ -74,6 +75,7 @@ export class ProblemDAL {
       updatedAt: new Date(problemDTO.updatedAt),
       wayName: params.wayName,
       wayUuid: params.wayUuid,
+      tags: problemDTO.tags.map((label) => new Label(label)),
     });
 
     return problem;
@@ -94,6 +96,7 @@ export class ProblemDAL {
       updatedAt: new Date(updatedProblemDTO.updatedAt),
       wayName: params.wayName,
       wayUuid: params.wayUuid,
+      tags: updatedProblemDTO.tags.map((label) => new Label(label)),
     });
 
     return updatedProblem;

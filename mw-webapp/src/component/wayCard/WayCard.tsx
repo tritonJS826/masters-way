@@ -4,11 +4,11 @@ import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalC
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
 import {ProgressBar} from "src/component/progressBar/ProgressBar";
+import {Tag, TagType} from "src/component/tag/Tag";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {WayСardTag} from "src/component/wayCard/wayTag/WayTag";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {UserPlain} from "src/model/businessModel/User";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
@@ -47,12 +47,12 @@ export const WayCard = observer((props: WayCardProps) => {
     return (
       <HorizontalContainer className={styles.wayTags}>
         {wayTags.map((wayTag) => (
-          <WayСardTag
-            key={wayTag.uuid}
+          <Tag
             tagName={wayTag.name}
+            key={wayTag.uuid}
+            type={TagType.CARD_TAG}
           />
-        ))
-        }
+        ))}
       </HorizontalContainer>
     );
   };
@@ -79,8 +79,7 @@ export const WayCard = observer((props: WayCardProps) => {
               src={mentor.imageUrl}
             />
           </Tooltip>
-        ))
-        }
+        ))}
       </HorizontalContainer>
     );
   };
@@ -173,4 +172,3 @@ export const WayCard = observer((props: WayCardProps) => {
     </Link>
   );
 });
-

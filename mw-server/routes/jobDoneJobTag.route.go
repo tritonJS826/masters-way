@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"mwserver/auth"
 	"mwserver/controllers"
 
 	"github.com/gin-gonic/gin"
@@ -16,6 +17,6 @@ func NewRouteJobDoneJobTag(jobDoneJobTagController controllers.JobDoneJobTagCont
 
 func (cr *JobDoneJobTagRoutes) JobDoneJobTagRoute(rg *gin.RouterGroup) {
 	router := rg.Group("jobDoneJobTags")
-	router.POST("", cr.jobDoneJobTagController.CreateJobDoneJobTag)
-	router.DELETE("/:jobTagId/:jobDoneId", cr.jobDoneJobTagController.DeleteJobDoneJobTagById)
+	router.POST("", auth.AuthMiddleware(), cr.jobDoneJobTagController.CreateJobDoneJobTag)
+	router.DELETE("/:jobTagId/:jobDoneId", auth.AuthMiddleware(), cr.jobDoneJobTagController.DeleteJobDoneJobTagById)
 }

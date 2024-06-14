@@ -1,10 +1,10 @@
 import {makeAutoObservable} from "mobx";
 import {WayStatusType} from "src/logic/waysTable/wayStatus";
 import {DayReport} from "src/model/businessModel/DayReport";
+import {Label} from "src/model/businessModel/Label";
 import {Metric} from "src/model/businessModel/Metric";
 import {UserPlain} from "src/model/businessModel/User";
 import {UserPreviewShort} from "src/model/businessModelPreview/UserPreviewShort";
-import {JobTag} from "src/model/businessModelPreview/WayPreview";
 import {WayTag} from "src/model/businessModelPreview/WayTag";
 
 /**
@@ -77,9 +77,9 @@ interface WayProps {
   wayTags: WayTag[];
 
   /**
-   * Tags that was used for jobDone {@link JobTag}
+   * Tags that was used for jobDone {@link Label}
    */
-  jobTags: JobTag[];
+  jobTags: Label[];
 
   /**
    * Way's uuid that was copied
@@ -183,9 +183,9 @@ export class Way {
   public wayTags: WayTag[];
 
   /**
-   * Tags that was used for jobDone {@link JobTag}
+   * Tags that was used for jobDone {@link Label}
    */
-  public jobTags: JobTag[];
+  public jobTags: Label[];
 
   /**
    * Way's uuid that was copied
@@ -231,7 +231,7 @@ export class Way {
     this.favoriteForUsersAmount = wayData.favoriteForUsersAmount;
     this.createdAt = wayData.createdAt;
     this.wayTags = wayData.wayTags.map(wayTag => new WayTag(wayTag));
-    this.jobTags = wayData.jobTags.map(jobTag => new JobTag(jobTag));
+    this.jobTags = wayData.jobTags.map(jobTag => new Label(jobTag));
     this.formerMentors = new Map<string, UserPlain>(wayData.formerMentors);
     this.copiedFromWayUuid = wayData.copiedFromWayUuid;
     this.goalDescription = wayData.goalDescription;
@@ -287,18 +287,17 @@ export class Way {
   }
 
   /**
-   * Update way's metrics
+   * Add new label to way
    */
-  public updateMetrics(metricsToUpdate: Metric[], status: WayStatusType): void {
-    this.metrics = metricsToUpdate;
-    this.status = status;
+  public addLabel(newLabel: Label): void {
+    this.jobTags.push(newLabel);
   }
 
   /**
-   * Update way's labels
+   * Delete label from way
    */
-  public updateLabels(labelsToUpdate: JobTag[]): void {
-    this.jobTags = labelsToUpdate;
+  public deleteLabel(labelUuid: string): void {
+    this.jobTags = this.jobTags.filter(label => label.uuid !== labelUuid);
   }
 
   /**
@@ -323,10 +322,24 @@ export class Way {
   }
 
   /**
+   * Add new metric to way
+   */
+  public addMetric(newMetric: Metric): void {
+    this.metrics.push(newMetric);
+  }
+
+  /**
+   * Delete metric from way
+   */
+  public deleteMetric(metricUuid: string): void {
+    this.metrics = this.metrics.filter(metric => metric.uuid !== metricUuid);
+  }
+
+  /**
    * Add dayReport
    */
   public addDayReport(dayReport: DayReport): void {
-    this.dayReports.unshift(dayReport);
+    this.dayReports = [dayReport, ...this.dayReports];
   }
 
   /**

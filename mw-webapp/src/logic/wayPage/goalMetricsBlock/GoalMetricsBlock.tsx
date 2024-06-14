@@ -7,7 +7,6 @@ import {GoalMetricItem} from "src/logic/wayPage/goalMetricsBlock/GoalMetricItem"
 import {Metric} from "src/model/businessModel/Metric";
 import {LanguageService} from "src/service/LanguageService";
 import {DateUtils} from "src/utils/DateUtils";
-import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import styles from "src/logic/wayPage/goalMetricsBlock/GoalMetricsBlock.module.scss";
 
 /**
@@ -27,11 +26,6 @@ interface GoalMetricStatisticsBlockProps {
   goalMetrics: Metric[];
 
   /**
-   * Sdf
-   */
-  updateGoalMetrics: (goalMetrics: Metric[]) => Promise<void>;
-
-  /**
    * Is editable
    * @default false
    */
@@ -41,6 +35,16 @@ interface GoalMetricStatisticsBlockProps {
    * Way's uuid
    */
   wayUuid: string;
+
+  /**
+   * Callback to add metric
+   */
+  addMetric: (metric: Metric) => void;
+
+  /**
+   * Callback to delete metric
+   */
+  deleteMetric: (metricUuid: string) => void;
 
 }
 
@@ -56,9 +60,7 @@ export const GoalMetricsBlock = observer((props: GoalMetricStatisticsBlockProps)
    */
   const addMetric = async () => {
     const newMetric = await MetricDAL.createMetric(props.wayUuid);
-
-    const updatedGoalMetrics = props.goalMetrics.concat(newMetric);
-    await props.updateGoalMetrics(updatedGoalMetrics);
+    props.addMetric(newMetric);
   };
 
   /**
@@ -82,23 +84,8 @@ export const GoalMetricsBlock = observer((props: GoalMetricStatisticsBlockProps)
    * Delete metric
    */
   const deleteMetric = async (metricUuid: string) => {
-    const updatedMetrics = props.goalMetrics.filter((metric) => metric.uuid !== metricUuid);
-    await props.updateGoalMetrics(updatedMetrics);
+    props.deleteMetric(metricUuid);
     await MetricDAL.deleteMetric(metricUuid);
-  };
-
-  /**
-   * Update metric
-   */
-  const updateMetric = async (metricToUpdate: PartialWithUuid<Metric>) => {
-    const updatedMetrics = props.goalMetrics.map((metric) => {
-      return metric.uuid === metricToUpdate.uuid
-        ? {...metric, ...metricToUpdate}
-        : metric;
-    });
-
-    await props.updateGoalMetrics(updatedMetrics);
-    await MetricDAL.updateMetric(metricToUpdate);
   };
 
   /**
@@ -119,7 +106,6 @@ export const GoalMetricsBlock = observer((props: GoalMetricStatisticsBlockProps)
               key={metric.uuid}
               metric={metric}
               deleteMetric={deleteMetric}
-              updateMetric={updateMetric}
               isEditable={props.isEditable}
             />
           );

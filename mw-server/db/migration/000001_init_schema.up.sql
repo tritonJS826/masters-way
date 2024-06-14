@@ -202,3 +202,473 @@ CREATE TABLE "users_user_tags"(
     "user_tag_uuid" UUID NOT NULL REFERENCES user_tags("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT "user_uuid_user_tag_uuid_pkey" PRIMARY KEY (user_uuid, user_tag_uuid) 
 );
+
+
+-- triggers
+
+-- максимально число тегов для одного юзера
+CREATE OR REPLACE FUNCTION check_max_tags_to_user()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (SELECT COUNT(*) FROM users_user_tags WHERE user_uuid = NEW.user_uuid) > 20 THEN
+        RAISE EXCEPTION 'Exceeded the limit of 20 tags for a user';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER max_tags_to_user_trigger
+BEFORE INSERT ON users_user_tags
+FOR EACH ROW
+EXECUTE FUNCTION check_max_tags_to_user();
+
+-- максимальное число лайков которое пользователь может раздать другим пользователям
+CREATE OR REPLACE FUNCTION check_max_likes_to_user() RETURNS TRIGGER AS $$
+BEGIN
+    IF (SELECT COUNT(*) FROM favorite_users WHERE donor_user_uuid = NEW.donor_user_uuid) > 999 THEN
+        RAISE EXCEPTION 'Exceeded the limit of 1000 likes which a user can give other users;';
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER max_likes_to_user_trigger
+BEFORE INSERT ON favorite_users
+FOR EACH ROW
+EXECUTE FUNCTION check_max_likes_to_user();
+
+-- максимальное число лайков которое пользователь может получить от других пользователей
+CREATE FUNCTION check_max_likes_from_user() RETURNS TRIGGER AS $$
+BEGIN
+    IF (SELECT COUNT(*) FROM favorite_users WHERE acceptor_user_uuid = NEW.acceptor_user_uuid) > 20000 THEN
+        RAISE EXCEPTION 'Exceeded the limit of 20000 like a user can receive from other users';
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER check_max_likes_from_user_trigger
+BEFORE INSERT ON favorite_users
+FOR EACH ROW
+EXECUTE FUNCTION check_max_likes_from_user();
+
+-- максимальное число запросов на менторство от путей на одного ментора (не реализовано)
+CREATE OR REPLACE FUNCTION check_max_req_from_way_to_mentor_for_mentor()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (SELECT COUNT(*) FROM to_user_mentoring_requests WHERE user_uuid = NEW.user_uuid) > 100 THEN
+        RAISE EXCEPTION 'Mentor cannot receive more than 100 mentoring requests from a specific way';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER max_req_from_way_to_mentor_for_mentor_trigger
+BEFORE INSERT ON to_user_mentoring_requests
+FOR EACH ROW
+EXECUTE FUNCTION check_max_req_from_way_to_mentor_for_mentor();
+
+-- максимальное количество запросов на менторство от одного юзера на разные пути
+CREATE OR REPLACE FUNCTION check_max_req_from_mentor_to_way()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (SELECT COUNT(*) FROM from_user_mentoring_requests WHERE user_uuid = NEW.user_uuid) > 20 THEN
+        RAISE EXCEPTION 'Exceeded the limit of 20 mentoring requests from one user';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER max_req_from_mentor_to_way_trigger
+BEFORE INSERT ON from_user_mentoring_requests
+FOR EACH ROW
+EXECUTE FUNCTION check_max_req_from_mentor_to_way();
+
+-- максимальное число лайков, которое пользователь может раздать путям
+CREATE OR REPLACE FUNCTION check_max_likes_to_way()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (SELECT COUNT(*) FROM favorite_users_ways WHERE user_uuid = NEW.user_uuid) >= 1000 THEN
+        RAISE EXCEPTION 'Exceeded the limit of 1000 likes from a user';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER max_likes_to_way_trigger
+BEFORE INSERT ON favorite_users_ways
+FOR EACH ROW
+EXECUTE FUNCTION check_max_likes_to_way();
+
+-- максимальное число путей, в которых пользователь может числиться как бывший ментор
+CREATE OR REPLACE FUNCTION check_max_ways_for_former_mentor()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (SELECT COUNT(*) FROM former_mentors_ways WHERE former_mentor_uuid = NEW.former_mentor_uuid) > 100000 THEN
+        RAISE EXCEPTION 'Exceeded the limit of 100000 ways in which a user can be named as a former mentor';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER max_ways_for_former_mentor_trigger
+BEFORE INSERT ON former_mentors_ways
+FOR EACH ROW
+EXECUTE FUNCTION check_max_ways_for_former_mentor();
+
+-- максимальное число менторов в одном пути
+CREATE OR REPLACE FUNCTION check_max_mentors_in_way_limit()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (SELECT COUNT(*) FROM mentor_users_ways WHERE user_uuid = NEW.user_uuid) > 30 THEN
+        RAISE EXCEPTION 'Exceeded a limit of 30 mentors in a single way';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER max_mentors_in_way_trigger
+BEFORE INSERT ON mentor_users_ways
+FOR EACH ROW
+EXECUTE FUNCTION check_max_mentors_in_way_limit();
+
+-- максимальное число путей в одной коллекции
+CREATE OR REPLACE FUNCTION check_ways_in_collection()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (SELECT COUNT(*) FROM way_collections_ways WHERE way_collection_uuid = NEW.way_collection_uuid) > 100 THEN
+        RAISE EXCEPTION 'Exceeded the limit of 100 ways in a collection';
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER max_ways_in_collection_trigger
+BEFORE INSERT ON way_collections_ways
+FOR EACH ROW
+EXECUTE FUNCTION check_ways_in_collection();
+
+-- максимальное число детей на одном верхнем  уровне
+CREATE OR REPLACE FUNCTION check_max_children_ways_on_level()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (SELECT COUNT(*) FROM composite_ways WHERE parent_uuid = NEW.parent_uuid) >= 20 THEN
+        RAISE EXCEPTION 'Exceeded the limit of 20 children on a level';
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER max_children_ways_on_level_trigger
+BEFORE INSERT ON composite_ways
+FOR EACH ROW
+EXECUTE FUNCTION check_max_children_ways_on_level();
+
+-- максимальное число тегов для одного пути
+CREATE OR REPLACE FUNCTION check_max_way_tags_in_way()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (SELECT COUNT(*) FROM ways_way_tags WHERE way_uuid = NEW.way_uuid) > 20 THEN
+        RAISE EXCEPTION 'Exceeded the limit of 20 tags for a way';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER max_way_tags_in_way_trigger
+BEFORE INSERT ON ways_way_tags
+FOR EACH ROW
+EXECUTE FUNCTION check_max_way_tags_in_way();
+
+-- максимально количество labels для одного пути
+CREATE OR REPLACE FUNCTION check_max_labels_in_way()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (SELECT COUNT(*) FROM job_tags WHERE way_uuid = NEW.way_uuid) > 30 THEN
+        RAISE EXCEPTION 'Exceeded the limit of 30 labes for a way';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER max_labels_in_way_trigger
+BEFORE INSERT ON job_tags
+FOR EACH ROW
+EXECUTE FUNCTION check_max_labels_in_way();
+
+-- максимальное количество отчетов в одном пути
+CREATE OR REPLACE FUNCTION check_max_reports_in_way()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (SELECT COUNT(*) FROM day_reports WHERE way_uuid = NEW.way_uuid) > 36500 THEN
+        RAISE EXCEPTION 'Exceeded the limit of 36500 reports in a way';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER max_reports_in_way_trigger
+BEFORE INSERT ON day_reports
+FOR EACH ROW
+EXECUTE FUNCTION check_max_reports_in_way();
+
+-- максимальное число метрик
+CREATE OR REPLACE FUNCTION check_max_metrics_in_way()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (SELECT COUNT(*) FROM metrics WHERE way_uuid = NEW.way_uuid) > 50 THEN
+        RAISE EXCEPTION 'Exceeded the limit of 50 metrics for a way';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER max_metrics_in_way_trigger
+BEFORE INSERT ON metrics
+FOR EACH ROW
+EXECUTE FUNCTION check_max_metrics_in_way();
+
+-- максимальное единовременное количество запросов с одного пути на менторство к разным юзерам
+CREATE OR REPLACE FUNCTION check_max_req_from_way_to_mentor_for_way()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (SELECT COUNT(*) FROM to_user_mentoring_requests WHERE way_uuid = NEW.way_uuid) > 5 THEN
+        RAISE EXCEPTION 'Exceeded the limit of 5 mentoring requests (5) from a single way to different users';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER max_req_from_way_to_mentor_for_way_trigger
+BEFORE INSERT ON to_user_mentoring_requests
+FOR EACH ROW
+EXECUTE FUNCTION check_max_req_from_way_to_mentor_for_way();
+
+-- максимальное количество запросов на менторство от разных юзеров на один путь
+CREATE OR REPLACE FUNCTION check_max_req_from_mentor_to_way_for_way()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (SELECT COUNT(*) FROM from_user_mentoring_requests WHERE way_uuid = NEW.way_uuid) > 10 THEN
+        RAISE EXCEPTION 'Exceeded the limit of 5 mentoring requests for a single way_uuid';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER max_req_from_mentor_to_way_for_way_trigger
+BEFORE INSERT ON from_user_mentoring_requests
+FOR EACH ROW
+EXECUTE FUNCTION check_max_req_from_mentor_to_way_for_way();
+
+-- максимальное число лайков, которое получить путь
+CREATE OR REPLACE FUNCTION check_max_likes_in_way()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (SELECT COUNT(*) FROM favorite_users_ways WHERE way_uuid = NEW.way_uuid) > 20000 THEN
+        RAISE EXCEPTION 'Exceeded the limit of 20000 likes for a single way';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER max_likes_in_way_trigger
+BEFORE INSERT ON favorite_users_ways
+FOR EACH ROW
+EXECUTE FUNCTION check_max_likes_in_way();
+
+-- максимальное количество бывших менторов в одном пути
+CREATE OR REPLACE FUNCTION check_max_foremer_mentors_in_way()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (SELECT COUNT(*) FROM former_mentors_ways WHERE way_uuid = NEW.way_uuid) > 100000 THEN
+        RAISE EXCEPTION 'Exceeded the limit of 100000 former mentors for a single way';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER max_foremer_mentors_in_way_trigger
+BEFORE INSERT ON former_mentors_ways
+FOR EACH ROW
+EXECUTE FUNCTION check_max_foremer_mentors_in_way();
+
+-- максимальное число путей, где пользователь может быть ментором
+CREATE OR REPLACE FUNCTION check_max_mentoring_ways_for_user()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (SELECT COUNT(*) FROM mentor_users_ways WHERE way_uuid = NEW.way_uuid) > 50000 THEN
+        RAISE EXCEPTION 'Exceeded a limit of 50000 ways where a used can be named a mentor';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER max_mentoring_ways_for_user_trigger
+BEFORE INSERT ON mentor_users_ways
+FOR EACH ROW
+EXECUTE FUNCTION check_max_mentoring_ways_for_user();
+
+-- максимальное количество планов с определенный лейблом
+CREATE OR REPLACE FUNCTION check_max_plans_for_label()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (SELECT COUNT(*) FROM plans_job_tags WHERE job_tag_uuid = NEW.job_tag_uuid) > 182500 THEN
+        RAISE EXCEPTION 'Exceeded the limit of 182500 plans with a particular label';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER max_plans_for_label_trigger
+BEFORE INSERT ON plans_job_tags
+FOR EACH ROW
+EXECUTE FUNCTION check_max_plans_for_label();
+
+-- максимальное количество проблем с определенный лейблом
+CREATE OR REPLACE FUNCTION check_max_problems_for_label()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (SELECT COUNT(*) FROM problems_job_tags WHERE job_tag_uuid = NEW.job_tag_uuid) > 182500 THEN
+        RAISE EXCEPTION 'Exceeded the limit of 182500 problems with a particular label';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER max_problems_for_label_trigger
+BEFORE INSERT ON problems_job_tags
+FOR EACH ROW
+EXECUTE FUNCTION check_max_problems_for_label();
+
+-- максимальное количество лейблов для одного плана
+CREATE OR REPLACE FUNCTION check_max_labels_for_plans()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (SELECT COUNT(*) FROM plans_job_tags WHERE plan_uuid = NEW.plan_uuid) > 10 THEN
+        RAISE EXCEPTION 'Exceeded the limit of 10 labels for one plan';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER max_labels_for_plans_trigger
+BEFORE INSERT ON plans_job_tags
+FOR EACH ROW
+EXECUTE FUNCTION check_max_labels_for_plans();
+
+-- максимальное количество лейблов для одной выполненной работы
+CREATE OR REPLACE FUNCTION check_max_labels_for_job_done()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (SELECT COUNT(*) FROM job_dones_job_tags WHERE job_done_uuid = NEW.job_done_uuid) > 10 THEN
+        RAISE EXCEPTION 'Exceeded the limit of 10 labels for a completed task';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER max_labels_for_job_done_trigger
+BEFORE INSERT ON job_dones_job_tags
+FOR EACH ROW
+EXECUTE FUNCTION check_max_labels_for_job_done();
+
+-- максимальное количество лейблов для одной проблемы
+CREATE OR REPLACE FUNCTION check_max_labels_for_problem()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (SELECT COUNT(*) FROM problems_job_tags WHERE problem_uuid = NEW.problem_uuid) > 10 THEN
+        RAISE EXCEPTION 'Exceeded the limit of 10 labels for a problem';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER max_labels_for_problem_trigger
+BEFORE INSERT ON problems_job_tags
+FOR EACH ROW
+EXECUTE FUNCTION check_max_labels_for_problem();
+
+-- максимальное количество планов в одном отчете
+CREATE OR REPLACE FUNCTION check_max_plans_in_report()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (SELECT COUNT(*) FROM plans WHERE day_report_uuid = NEW.day_report_uuid) > 30 THEN
+        RAISE EXCEPTION 'Exceeded the limit of 30 plans in a report';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER max_plans_in_report_trigger
+BEFORE INSERT ON plans
+FOR EACH ROW
+EXECUTE FUNCTION check_max_plans_in_report();
+
+-- максимальное количество выполненных работ в одном отчете
+CREATE OR REPLACE FUNCTION check_max_job_dones_in_report()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (SELECT COUNT(*) FROM job_dones WHERE day_report_uuid = NEW.day_report_uuid) > 30 THEN
+        RAISE EXCEPTION 'Exceeded the limit of 30 completed tasks in a report';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER max_job_dones_in_report_trigger
+BEFORE INSERT ON job_dones
+FOR EACH ROW
+EXECUTE FUNCTION check_max_job_dones_in_report();
+
+-- максимальное количество проблем в одном отчете
+CREATE OR REPLACE FUNCTION check_max_pronlems_in_report()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (SELECT COUNT(*) FROM problems WHERE day_report_uuid = NEW.day_report_uuid) > 30 THEN
+        RAISE EXCEPTION 'Exceeded the limit of 30 problems in a report';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER max_pronlems_in_report_trigger
+BEFORE INSERT ON problems
+FOR EACH ROW
+EXECUTE FUNCTION check_max_pronlems_in_report();
+
+-- максимальное количество комментариев в одном отчете
+CREATE OR REPLACE FUNCTION check_max_comments_in_report()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (SELECT COUNT(*) FROM comments WHERE day_report_uuid = NEW.day_report_uuid) > 200 THEN
+        RAISE EXCEPTION 'Exceeded the limit of 200 comments in a report';
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER max_comments_in_report_trigger
+BEFORE INSERT ON comments
+FOR EACH ROW
+EXECUTE FUNCTION check_max_comments_in_report();
+
+-- максимальное количество выполненных работ с определенный лейблом
+CREATE OR REPLACE FUNCTION check_max_job_dones_for_label()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (SELECT COUNT(*) FROM job_dones_job_tags WHERE job_tag_uuid = NEW.job_tag_uuid) > 182500 THEN
+        RAISE EXCEPTION 'Exceeded the limit of 182500 completed tasks with a particular label';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER max_job_dones_for_label_trigger
+BEFORE INSERT ON job_dones_job_tags
+FOR EACH ROW
+EXECUTE FUNCTION check_max_job_dones_for_label();

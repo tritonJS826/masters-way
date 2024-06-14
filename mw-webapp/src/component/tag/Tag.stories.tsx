@@ -1,5 +1,5 @@
 import type {StoryObj} from "@storybook/react";
-import {Tag} from "src/component/tag/Tag";
+import {Tag, TagType} from "src/component/tag/Tag";
 
 const meta = {
   title: "Tag",
@@ -12,5 +12,5 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {args: {tagName: "Tag super tag"}};
+export const Default: Story = {args: {tagName: "Tag super tag", type: TagType.PRIMARY_TAG}};
 

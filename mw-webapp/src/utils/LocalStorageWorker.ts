@@ -72,6 +72,11 @@ export const localStorageWorker = new LocalStorageWorker();
 export type LocalStorageData = {
 
   /**
+   * Access token
+   */
+  token: Token;
+
+  /**
    * Supported themes
    */
   theme: Theme;
@@ -115,6 +120,14 @@ export type LocalStorageData = {
 export enum View {
   Card = "Card",
   Table = "Table",
+}
+
+export type Token = {
+
+  /**
+   * Access token
+   */
+  token: string | null;
 }
 
 /**

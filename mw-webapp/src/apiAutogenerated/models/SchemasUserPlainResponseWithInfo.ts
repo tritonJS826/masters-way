@@ -61,7 +61,7 @@ export interface SchemasUserPlainResponseWithInfo {
      * @type {string}
      * @memberof SchemasUserPlainResponseWithInfo
      */
-    imageUrl: string | null;
+    imageUrl: string;
     /**
      * 
      * @type {boolean}

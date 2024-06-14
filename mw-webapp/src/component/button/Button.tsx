@@ -82,16 +82,16 @@ export interface ButtonProps {
  * Button component
  */
 export const Button = forwardRef((props: ButtonProps, ref?: ForwardedRef<HTMLButtonElement>) => {
-  const [isDisabled, setIssDisabled] = useState(props.isDisabled ?? false);
+  const [isHandleClickInProgress, setHandleClickInProgress] = useState(false);
 
   /**
    * Handler on button click
    * If callback promise than button will be inactive until promise resolved
    */
   const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
-    setIssDisabled(true);
+    setHandleClickInProgress(true);
     await Promise.resolve(props.onClick(event));
-    setIssDisabled(false);
+    setHandleClickInProgress(false);
   };
 
   return (
@@ -100,12 +100,11 @@ export const Button = forwardRef((props: ButtonProps, ref?: ForwardedRef<HTMLBut
       className={clsx(
         styles.button,
         styles[props.buttonType ?? ButtonType.SECONDARY],
-        {[styles.disabled]: isDisabled},
         props.className,
       )}
       onClick={handleClick}
       data-cy={props.dataCy}
-      disabled={isDisabled}
+      disabled={isHandleClickInProgress || props.isDisabled}
     >
       {props.value}
       {props.icon}

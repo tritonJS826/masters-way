@@ -1,17 +1,7 @@
 @import "src/styles/variables";
 
-$WayTagPadding: 10px;
-$WayTagBorderRadius: 1000px;
-
 .tagContainer {
   position: relative;
-  display: inline-block;
-  padding: 0;
-  border: none;
-  background: none;
-  color: inherit;
-  font: inherit;
-  text-decoration: underline;
 
   .cross {
     visibility: hidden;
@@ -27,18 +17,31 @@ $WayTagBorderRadius: 1000px;
 }
 
 .tag {
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--primaryStrokeColor);
+  border-radius: $tagBorderRadius;
+  color: var(--primaryTextColor);
+}
+
+.primaryTag {
   overflow: hidden;
   max-width: $minWidthBlock;
   height: 40px;
-  padding: $WayTagPadding;
-  border: 1px solid var(--primaryStrokeColor);
-  border-radius: $WayTagBorderRadius;
   background-color: var(--secondaryBgColor);
   color: var(--primaryTextColor);
-  font-size: 16px;
+  font-size: $fontSizeBig;
+  padding-inline: $paddingMedium;
   text-overflow: ellipsis;
   text-wrap: nowrap;
+}
+
+.cardTag {
+  height: 16px;
+  background-color: var(--primaryBgColor);
+  font-size: $fontSizeSmall;
+  padding-inline: $paddingMedium;
 }
 
 .cross {
@@ -51,7 +54,9 @@ $WayTagBorderRadius: 1000px;
   border: 1px solid var(--primaryStrokeColor);
   border-radius: 100%;
   background-color: var(--secondaryBgColor);
+  color: inherit;
   cursor: pointer;
+  font: inherit;
   text-align: center;
 }
 

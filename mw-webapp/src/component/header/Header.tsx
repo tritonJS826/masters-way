@@ -19,11 +19,11 @@ import {Toggle} from "src/component/toggle/Toggle";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {AuthDAL} from "src/dataAccessLogic/AuthDAL";
 import {Language} from "src/globalStore/LanguageStore";
 import {DEFAULT_THEME, Theme} from "src/globalStore/ThemeStore";
 import {User} from "src/model/businessModel/User";
 import {pages} from "src/router/pages";
-import {AuthService} from "src/service/AuthService";
 import {LanguageService} from "src/service/LanguageService";
 import {env} from "src/utils/env/env";
 import styles from "src/component/header/Header.module.scss";
@@ -31,10 +31,10 @@ import styles from "src/component/header/Header.module.scss";
 export const LOGO_TEXT = "Master's way";
 
 export const languageOptions: SelectItemType<Language>[] = [
-  {id: "1", value: Language.ENGLISH, text: "EN"},
-  {id: "2", value: Language.RUSSIAN, text: "RU"},
-  {id: "3", value: Language.UKRAINIAN, text: "UA"},
-  {id: "4", value: Language.GEORGIAN, text: "KA"},
+  {id: "1", value: Language.ENGLISH, text: "EN", dataCy: navigationMenuIds.language.enItem},
+  {id: "2", value: Language.RUSSIAN, text: "RU", dataCy: navigationMenuIds.language.ruItem},
+  {id: "3", value: Language.UKRAINIAN, text: "UA", dataCy: navigationMenuIds.language.uaItem},
+  {id: "4", value: Language.GEORGIAN, text: "KA", dataCy: navigationMenuIds.language.kaItem},
 ];
 
 /**
@@ -51,6 +51,11 @@ interface HeaderProps {
    * Current user
    */
   user: User | null;
+
+  /**
+   * Clear user
+   */
+  clearUser: () => void;
 
   /**
    * Current language
@@ -161,6 +166,14 @@ export const Header = (props: HeaderProps) => {
 
   ];
 
+  /**
+   * Logout
+   */
+  const logout = () => {
+    AuthDAL.logOut();
+    props.clearUser();
+  };
+
   return (
     <header
       className={styles.header}
@@ -230,7 +243,7 @@ export const Header = (props: HeaderProps) => {
                 <HorizontalContainer className={styles.loginContainer}>
                   <Image
                     alt="Login image"
-                    src="https://lh3.google.com/u/0/d/1AF0qlh-KmFAtFILD9wCPw91OrZVZs8sH=w1361-h606-iv1"
+                    src="https://drive.google.com/thumbnail?id=1AF0qlh-KmFAtFILD9wCPw91OrZVZs8sH&sz=w1000"
                     className={styles.loginImage}
                   />
                   <VerticalContainer className={styles.loginContent}>
@@ -241,26 +254,19 @@ export const Header = (props: HeaderProps) => {
                       placeholder=""
                     />
                     <VerticalContainer className={styles.loginButtons}>
-                      <Button
-                        onClick={AuthService.logIn}
+                      <Link
+                        path={`${env.API_BASE_PATH}/auth/google`}
                         className={styles.loginGoogleButton}
-                        value={
-                          <HorizontalContainer className={styles.googleButtonValue}>
-                            <Image
-                              src={google}
-                              alt="Google icon"
-                              className={styles.googleIcon}
-                            />
-                            {LanguageService.modals.loginModal.signInWithGoogle[props.language]}
-                          </HorizontalContainer>
-                        }
-                      />
-                      {/* Experiment with OAuth with google */}
-                      <div style={{opacity: 0}}>
-                        <Link path={`${env.API_BASE_PATH}/auth/google`}>
-                          google OAuth
-                        </Link>
-                      </div>
+                      >
+                        <HorizontalContainer className={styles.googleButtonValue}>
+                          <Image
+                            src={google}
+                            alt="Google icon"
+                            className={styles.googleIcon}
+                          />
+                          {LanguageService.modals.loginModal.signInWithGoogle[props.language]}
+                        </HorizontalContainer>
+                      </Link>
                     </VerticalContainer>
                   </VerticalContainer>
                 </HorizontalContainer>
@@ -277,11 +283,20 @@ export const Header = (props: HeaderProps) => {
                 dataCy={headerAccessIds.burgerMenu}
               />
             }
+            cy={{
+              dataCyContent: {
+                dataCyClose: navigationMenuIds.closeButton,
+                dataCyContent: navigationMenuIds.navigationMenu,
+              },
+            }}
             linkList={menuItems}
             bottomChildren={
               <VerticalContainer className={styles.bottomContainer}>
                 <HorizontalContainer className={styles.sidebarItem}>
-                  <HorizontalContainer className={styles.iconWithText}>
+                  <HorizontalContainer
+                    className={styles.iconWithText}
+                    dataCy={navigationMenuIds.language.text}
+                  >
                     <Icon
                       size={IconSize.MEDIUM}
                       name="GlobeIcon"
@@ -294,6 +309,7 @@ export const Header = (props: HeaderProps) => {
                     name="language"
                     options={languageOptions}
                     onChange={props.setLanguage}
+                    cy={{dataCyTrigger: navigationMenuIds.language.select, dataCyContentList: "", dataCyValue: ""}}
                   />
                 </HorizontalContainer>
                 <HorizontalContainer className={styles.sidebarItem}>
@@ -339,7 +355,7 @@ export const Header = (props: HeaderProps) => {
                 </VerticalContainer>
                 {props.user &&
                 <Button
-                  onClick={AuthService.logOut}
+                  onClick={logout}
                   value={LanguageService.header.logoutButton[props.language]}
                   buttonType={ButtonType.PRIMARY}
                 />

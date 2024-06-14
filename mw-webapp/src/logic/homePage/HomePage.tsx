@@ -15,7 +15,6 @@ import {languageStore} from "src/globalStore/LanguageStore";
 import {userStore} from "src/globalStore/UserStore";
 import {GoalItem} from "src/logic/homePage/goalItem/GoalItem";
 import {pages} from "src/router/pages";
-import {AuthService} from "src/service/AuthService";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/homePage/HomePage.module.scss";
 
@@ -25,7 +24,7 @@ import styles from "src/logic/homePage/HomePage.module.scss";
 const getStarted = (navigate: NavigateFunction, userUuid?: string) => {
   userUuid
     ? navigate(pages.user.getPath({uuid: userUuid}))
-    : AuthService.logIn();
+    : navigate(pages.oauth.getPath({uuid: userUuid}));
 };
 
 /**
@@ -192,7 +191,7 @@ export const HomePage = observer(() => {
         </VerticalContainer>
         <Image
           alt={LOGO_TEXT}
-          src="https://lh3.google.com/u/0/d/1sm7CPUt8LTcx6ZAVIe799rFWa0v9KzST=w2183-h1079-iv1"
+          src="https://drive.google.com/thumbnail?id=1sm7CPUt8LTcx6ZAVIe799rFWa0v9KzST&sz=w1000"
           className={styles.whatWeAreImage}
         />
 

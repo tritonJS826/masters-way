@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"mwserver/auth"
 	"mwserver/controllers"
 
 	"github.com/gin-gonic/gin"
@@ -16,7 +17,7 @@ func NewRouteProblem(problemController controllers.ProblemController) ProblemRou
 
 func (cr *ProblemRoutes) ProblemRoute(rg *gin.RouterGroup) {
 	router := rg.Group("problems")
-	router.POST("", cr.problemController.CreateProblem)
-	router.PATCH("/:problemId", cr.problemController.UpdateProblem)
-	router.DELETE("/:problemId", cr.problemController.DeleteProblemById)
+	router.POST("", auth.AuthMiddleware(), cr.problemController.CreateProblem)
+	router.PATCH("/:problemId", auth.AuthMiddleware(), cr.problemController.UpdateProblem)
+	router.DELETE("/:problemId", auth.AuthMiddleware(), cr.problemController.DeleteProblemById)
 }

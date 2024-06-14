@@ -1,11 +1,13 @@
 import {PropsWithChildren, useEffect} from "react";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useSearchParams} from "react-router-dom";
+import {AuthDAL} from "src/dataAccessLogic/AuthDAL";
 import {useGlobalContext} from "src/GlobalContext";
+import {tokenStore} from "src/globalStore/TokenStore";
 import {userStore} from "src/globalStore/UserStore";
 import {useErrorHandler} from "src/hooks/useErrorHandler";
-import {User} from "src/model/businessModel/User";
 import {pages} from "src/router/pages";
-import {AuthService} from "src/service/AuthService";
+
+const TOKEN_SEARCH_PARAM = "token";
 
 /**
  * Check is current page is home page
@@ -20,6 +22,7 @@ export const InitializedApp = (props: PropsWithChildren) => {
   const {setUser} = userStore;
   const {isInitialized, setIsInitialized} = useGlobalContext();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   /**
    * Get default page path
@@ -33,31 +36,37 @@ export const InitializedApp = (props: PropsWithChildren) => {
   /**
    * OnLog in
    */
-  const onLogIn = (user: User) => {
-    setUser(user);
-    const defaultPagePath = getDefaultPagePath(user.uuid);
-
-    if (getIsHomePage()) {
-      navigate(defaultPagePath);
+  const recoverSessionIfPossible = async () => {
+    const tokenFromUrl = searchParams.get(TOKEN_SEARCH_PARAM);
+    searchParams.delete(TOKEN_SEARCH_PARAM);
+    setSearchParams(searchParams);
+    if (tokenFromUrl) {
+      tokenStore.setAccessToken(tokenFromUrl);
     }
-  };
 
-  /**
-   * OnLog out
-   */
-  const onLogOut = () => {
-    setUser(null);
-    const defaultPagePath = getDefaultPagePath(null);
-
-    if (getIsHomePage()) {
-      navigate(defaultPagePath);
+    if (!tokenStore.accessToken) {
+      // No tokens - no actions
+      return;
     }
+    // TODO: loadUser if some token exist
+    try {
+      const user = await AuthDAL.getAuthorizedUser();
+      setUser(user);
+      const defaultPagePath = getDefaultPagePath(user.uuid);
+      setIsInitialized(true);
+
+      if (getIsHomePage()) {
+        navigate(defaultPagePath);
+      }
+    } catch {
+      tokenStore.setAccessToken(null);
+    }
+
   };
 
   useEffect(() => {
     if (!isInitialized) {
-      AuthService.listenAuthStateChange({onLogIn, onLogOut});
-      setIsInitialized(true);
+      recoverSessionIfPossible();
     }
   }, []);
 

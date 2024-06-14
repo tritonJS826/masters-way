@@ -24,39 +24,6 @@
     "cypress:e2e:open": "cypress open",
     "cypress:e2e:run": "cypress run"
   },
-  "engines": {
-    "node": "20.11.0",
-    "pnpm": "8.15.2"
-  },
-  "packageManager": "pnpm@8.15.2",
-  "lint-staged": {
-    "**/*.{ts,tsx}": [
-      "pnpm run lint-fix"
-    ],
-    "**/*.{scss,module.scss}": [
-      "pnpm run format --",
-      "pnpm run stylelint-fix"
-    ]
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "extends": "../tsconfig.json",
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
   "dependencies": {
     "@firebase/analytics": "^0.10.1",
     "@radix-ui/react-accordion": "1.1.2",
@@ -132,5 +99,33 @@
     "vite": "5.2.11",
     "vite-plugin-eslint": "1.8.1",
     "vite-tsconfig-paths": "4.3.2"
+  },
+  "lint-staged": {
+    "**/*.{ts,tsx}": [
+      "pnpm run lint-fix"
+    ],
+    "**/*.{scss,module.scss}": [
+      "pnpm run format --",
+      "pnpm run stylelint-fix"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "extends": "../tsconfig.json",
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

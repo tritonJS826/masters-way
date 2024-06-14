@@ -1,32 +1,43 @@
-import {JobTag} from "src/model/businessModelPreview/WayPreview";
+import {makeAutoObservable} from "mobx";
+import {Label} from "src/model/businessModel/Label";
 
 /**
  * Specific tag related stats
  */
-export type JobTagStat = {
+export class JobTagStat {
 
   /**
    * Total amount of specific job tags in a way
    */
-  totalAmount: number;
+  public totalAmount: number;
 
   /**
    * Total amount of specific job tags in a way in percent
    */
-  totalAmountPercentage: number;
+  public totalAmountPercentage: number;
 
   /**
    * Total time spent on jobs with current job tag
    */
-  totalTime: number;
+  public totalTime: number;
 
   /**
    * Total time spent on jobs with current tag in percent
    */
-  totalTimePercentage: number;
+  public totalTimePercentage: number;
 
   /**
    * Tag data
    */
-  jobTag: JobTag;
-};
+  public jobTag: Label;
+
+  constructor(jobTagStatData: JobTagStat) {
+    makeAutoObservable(this);
+    this.totalAmount = jobTagStatData.totalAmount;
+    this.totalAmountPercentage = jobTagStatData.totalAmountPercentage;
+    this.totalTime = jobTagStatData.totalTime;
+    this.totalTimePercentage = jobTagStatData.totalTimePercentage;
+    this.jobTag = jobTagStatData.jobTag;
+  }
+
+}

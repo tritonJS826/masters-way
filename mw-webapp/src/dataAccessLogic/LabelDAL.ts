@@ -1,5 +1,6 @@
-import {JobTag} from "src/model/businessModelPreview/WayPreview";
+import {Label} from "src/model/businessModel/Label";
 import {JobTagService} from "src/service/JobTagService";
+import {PartialWithUuid} from "src/utils/PartialWithUuid";
 
 /**
  * Provides methods to interact with the jobTag
@@ -9,7 +10,7 @@ export class LabelDAL {
   /**
    * Create metric
    */
-  public static async createLabel(wayUuid: string, name: string, color: string): Promise<JobTag> {
+  public static async createLabel(wayUuid: string, name: string, color: string): Promise<Label> {
     const jobTagDTO = await JobTagService.createJobTag({
       request: {
         color,
@@ -19,7 +20,7 @@ export class LabelDAL {
       },
     });
 
-    const jobTag: JobTag = {...jobTagDTO};
+    const jobTag = new Label({...jobTagDTO});
 
     return jobTag;
   }
@@ -27,18 +28,16 @@ export class LabelDAL {
   /**
    * Update job tag
    */
-  public static async updateLabel(params: JobTag): Promise<JobTag> {
+  public static async updateLabel(params: PartialWithUuid<Label>): Promise<Label> {
 
-    await JobTagService.updateJobTag({
+    const updatedLabelDTO = await JobTagService.updateJobTag({
       jobTagId: params.uuid,
-      request: {
-        color: params.color,
-        description: params.description,
-        name: params.name,
-      },
+      request: {...params},
     });
 
-    return params;
+    const updatedLabel = new Label({...updatedLabelDTO});
+
+    return updatedLabel;
   }
 
   /**
