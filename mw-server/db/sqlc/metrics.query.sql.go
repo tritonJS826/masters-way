@@ -133,15 +133,20 @@ func (q *Queries) IsAllMetricsDone(ctx context.Context, wayUuid uuid.UUID) (bool
 }
 
 const updateMetric = `-- name: UpdateMetric :one
-UPDATE metrics
-SET
-updated_at = coalesce($1, updated_at),
-description = coalesce($2, description),
-is_done = coalesce($3, is_done),
-done_date = coalesce($4, done_date), 
-metric_estimation = coalesce($5, metric_estimation)
-WHERE uuid = $6
-RETURNING uuid, created_at, updated_at, description, is_done, done_date, metric_estimation, way_uuid
+WITH updated AS (
+    UPDATE metrics
+    SET
+        updated_at = coalesce($1, updated_at),
+        description = coalesce($2, description),
+        is_done = coalesce($3, is_done),
+        done_date = coalesce($4, done_date),
+        metric_estimation = coalesce($5, metric_estimation)
+    WHERE uuid = $6
+    RETURNING uuid, created_at, updated_at, description, is_done, done_date, metric_estimation, way_uuid
+)
+SELECT uuid, created_at, updated_at, description, is_done, done_date, metric_estimation, way_uuid
+FROM updated
+ORDER BY created_at ASC
 `
 
 type UpdateMetricParams struct {
@@ -153,7 +158,18 @@ type UpdateMetricParams struct {
 	Uuid             uuid.UUID      `json:"uuid"`
 }
 
-func (q *Queries) UpdateMetric(ctx context.Context, arg UpdateMetricParams) (Metric, error) {
+type UpdateMetricRow struct {
+	Uuid             uuid.UUID    `json:"uuid"`
+	CreatedAt        time.Time    `json:"created_at"`
+	UpdatedAt        time.Time    `json:"updated_at"`
+	Description      string       `json:"description"`
+	IsDone           bool         `json:"is_done"`
+	DoneDate         sql.NullTime `json:"done_date"`
+	MetricEstimation int32        `json:"metric_estimation"`
+	WayUuid          uuid.UUID    `json:"way_uuid"`
+}
+
+func (q *Queries) UpdateMetric(ctx context.Context, arg UpdateMetricParams) (UpdateMetricRow, error) {
 	row := q.queryRow(ctx, q.updateMetricStmt, updateMetric,
 		arg.UpdatedAt,
 		arg.Description,
@@ -162,7 +178,7 @@ func (q *Queries) UpdateMetric(ctx context.Context, arg UpdateMetricParams) (Met
 		arg.MetricEstimation,
 		arg.Uuid,
 	)
-	var i Metric
+	var i UpdateMetricRow
 	err := row.Scan(
 		&i.Uuid,
 		&i.CreatedAt,

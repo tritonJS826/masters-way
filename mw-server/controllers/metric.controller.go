@@ -83,17 +83,31 @@ func (cc *MetricController) UpdateMetric(ctx *gin.Context) {
 	}
 
 	now := time.Now()
-	var parsedDoneDate time.Time
-	var isDoneDateExistInPayload = payload.DoneDate != ""
-	parsedDoneDate, err := time.Parse(util.DEFAULT_STRING_LAYOUT, payload.DoneDate)
+
+	var isDoneNullBool sql.NullBool
+	var doneDateNullTime sql.NullTime
+	if payload.IsDone != nil {
+		isDoneNullBool = sql.NullBool{Bool: *payload.IsDone, Valid: true}
+		doneDateNullTime = sql.NullTime{Time: now, Valid: *payload.IsDone}
+	}
+
+	var descriptionNullString sql.NullString
+	if payload.Description != nil {
+		descriptionNullString = sql.NullString{String: *payload.Description, Valid: true}
+	}
+
+	var metricEstimationNullInt32 sql.NullInt32
+	if payload.MetricEstimation != nil {
+		metricEstimationNullInt32 = sql.NullInt32{Int32: *payload.MetricEstimation, Valid: true}
+	}
 
 	args := &db.UpdateMetricParams{
 		Uuid:             uuid.MustParse(metricId),
 		UpdatedAt:        sql.NullTime{Time: now, Valid: true},
-		Description:      sql.NullString{String: payload.Description, Valid: payload.Description != ""},
-		IsDone:           sql.NullBool{Bool: payload.IsDone, Valid: true},
-		DoneDate:         sql.NullTime{Time: parsedDoneDate, Valid: isDoneDateExistInPayload && err == nil},
-		MetricEstimation: sql.NullInt32{Int32: int32(payload.MetricEstimation), Valid: payload.MetricEstimation != 0},
+		Description:      descriptionNullString,
+		IsDone:           isDoneNullBool,
+		DoneDate:         doneDateNullTime,
+		MetricEstimation: metricEstimationNullInt32,
 	}
 
 	metric, err := cc.db.UpdateMetric(ctx, *args)
@@ -103,8 +117,6 @@ func (cc *MetricController) UpdateMetric(ctx *gin.Context) {
 
 	response := schemas.MetricResponse{
 		Uuid:             metric.Uuid.String(),
-		CreatedAt:        metric.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-		UpdatedAt:        metric.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
 		Description:      metric.Description,
 		IsDone:           metric.IsDone,
 		DoneDate:         util.MarshalNullTime(metric.DoneDate),

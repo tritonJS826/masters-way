@@ -460,8 +460,6 @@ definitions:
     type: object
   schemas.MetricResponse:
     properties:
-      createdAt:
-        type: string
       description:
         type: string
       doneDate:
@@ -471,17 +469,13 @@ definitions:
         type: integer
       isDone:
         type: boolean
-      updatedAt:
-        type: string
       uuid:
         type: string
     required:
-    - createdAt
     - description
     - doneDate
     - estimationTime
     - isDone
-    - updatedAt
     - uuid
     type: object
   schemas.PlanPopulatedResponse:
@@ -583,9 +577,6 @@ definitions:
     properties:
       description:
         type: string
-      doneDate:
-        type: string
-        x-nullable: true
       estimationTime:
         type: integer
       isDone:
