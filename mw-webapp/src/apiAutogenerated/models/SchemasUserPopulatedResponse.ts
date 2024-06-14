@@ -97,7 +97,7 @@ export interface SchemasUserPopulatedResponse {
      * @type {string}
      * @memberof SchemasUserPopulatedResponse
      */
-    imageUrl: string;
+    imageUrl: string | null;
     /**
      * 
      * @type {boolean}

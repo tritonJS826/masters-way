@@ -25,13 +25,6 @@ class UserStore {
   };
 
   /**
-   * Remove all user data
-   */
-  public clearUser = () => {
-    this.user = null;
-  };
-
-  /**
    * Add user to favorite
    */
   public addUserToFavorite = (userPageOwner: UserPlain): void => {

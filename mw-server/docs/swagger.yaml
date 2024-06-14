@@ -249,6 +249,7 @@ definitions:
         type: string
       imageUrl:
         type: string
+        x-nullable: true
       isMentor:
         type: boolean
       name:
@@ -613,6 +614,7 @@ definitions:
         type: string
       imageUrl:
         type: string
+        x-nullable: true
       isMentor:
         type: boolean
       name:
@@ -646,6 +648,7 @@ definitions:
         type: string
       imageUrl:
         type: string
+        x-nullable: true
       isMentor:
         type: boolean
       name:
@@ -675,6 +678,7 @@ definitions:
         type: integer
       imageUrl:
         type: string
+        x-nullable: true
       isMentor:
         type: boolean
       mentoringWays:
@@ -727,6 +731,7 @@ definitions:
         type: array
       imageUrl:
         type: string
+        x-nullable: true
       isMentor:
         type: boolean
       name:
@@ -955,39 +960,11 @@ definitions:
     - name
     - uuid
     type: object
-  util.ResponseStatusString:
-    properties:
-      status:
-        type: string
-    required:
-    - status
-    type: object
 info:
   contact: {}
   title: Masters way API
   version: "1.0"
 paths:
-  /auth/{provider}:
-    get:
-      consumes:
-      - application/json
-      operationId: begin-auth
-      parameters:
-      - description: google
-        in: path
-        name: provider
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/schemas.UserPopulatedResponse'
-      summary: Update comment by UUID
-      tags:
-      - auth
   /auth/{provider}/callback:
     post:
       consumes:
@@ -1000,11 +977,6 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/schemas.CreateCommentPayload'
-      - description: state parameter
-        in: query
-        name: state
-        required: true
-        type: string
       - description: google
         in: path
         name: provider
@@ -1019,49 +991,7 @@ paths:
             $ref: '#/definitions/schemas.CommentPopulatedResponse'
       summary: Log in with google oAuth
       tags:
-      - auth
-  /auth/current:
-    get:
-      consumes:
-      - application/json
-      operationId: get-current-authorized-user
-      parameters:
-      - description: token
-        in: query
-        name: token
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/schemas.UserPopulatedResponse'
-      summary: Get current authorized user
-      tags:
-      - auth
-  /auth/logout/{provider}:
-    get:
-      consumes:
-      - application/json
-      operationId: logout-current-authorized-user
-      parameters:
-      - description: google
-        in: path
-        name: provider
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/util.ResponseStatusString'
-      summary: Logout current authorized user
-      tags:
-      - auth
+      - auth google
   /comments:
     post:
       consumes:
@@ -1129,6 +1059,33 @@ paths:
       summary: Update comment by UUID
       tags:
       - comment
+  /comments/{provider}:
+    patch:
+      consumes:
+      - application/json
+      operationId: begin-auth
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.UpdateCommentPayload'
+      - description: google
+        in: path
+        name: provider
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.CommentPopulatedResponse'
+      summary: Update comment by UUID
+      tags:
+      - beginAuth
   /compositeWay:
     post:
       consumes:
