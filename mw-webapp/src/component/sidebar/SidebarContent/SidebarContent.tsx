@@ -17,11 +17,6 @@ import styles from "src/component/sidebar/SidebarContent/SidebarContent.module.s
 interface SidebarContentProps extends PropsWithChildren {
 
   /**
-   * Callback triggered on SidebarContent click
-   */
-  onClick: () => void;
-
-  /**
    * Data attribute for cypress testing
    */
   dataCyContent?: CyContent;
@@ -37,16 +32,6 @@ interface SidebarContentProps extends PropsWithChildren {
  * A container for the content to be displayed within a Sidebar.
  */
 export const SidebarContent = (props: SidebarContentProps) => {
-
-  /**
-   * Handle onClick event
-   */
-  const onClickHandler = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (event.target instanceof HTMLAnchorElement) {
-      props.onClick();
-    }
-  };
-
   return (
     <DialogPortal>
       <DialogOverlay
@@ -56,7 +41,6 @@ export const SidebarContent = (props: SidebarContentProps) => {
       <DialogContent
         data-cy={props.dataCyContent?.dataCyContent}
         className={clsx(styles.dialogContent, props.className)}
-        onClick={onClickHandler}
       >
         {props.children}
         <DialogClose asChild>

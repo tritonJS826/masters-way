@@ -28,6 +28,11 @@ interface LinkProps {
    * @default false
    */
   isNewTab?: boolean;
+
+  /**
+   * Callback triggered on Link click
+   */
+  onClick?: () => void;
 }
 
 /**
@@ -41,6 +46,7 @@ export const Link = (props: PropsWithChildren<LinkProps>) => {
       className={clsx(styles.link, props.className)}
       to={props.path}
       data-cy={props.dataCy}
+      onClick={props.onClick}
       {...externalLinkAttributes}
     >
       {props.children}
