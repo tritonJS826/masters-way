@@ -56,6 +56,8 @@ func (cc *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
 	userInfo, err := oauth2Service.Userinfo.Get().Do()
 	util.HandleErrorGin(ctx, err)
 
+	println(userInfo)
+
 	now := time.Now()
 	args := &db.CreateUserParams{
 		Name:        userInfo.Name,
