@@ -185,12 +185,11 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
                 alt={props.wayParticipantsMap.getValue(jobDone.ownerUuid).name}
                 src={props.wayParticipantsMap.getValue(jobDone.ownerUuid).imageUrl}
               />
-              <Link
-                path={pages.user.getPath({uuid: jobDone.ownerUuid})}
-                className={styles.ownerName}
-              >
-                {getFirstName(props.wayParticipantsMap.getValue(jobDone.ownerUuid).name)}
-              </Link>
+              <div className={styles.ownerName}>
+                <Link path={pages.user.getPath({uuid: jobDone.ownerUuid})}>
+                  {getFirstName(props.wayParticipantsMap.getValue(jobDone.ownerUuid).name)}
+                </Link>
+              </div>
               {props.isWayComposite &&
               <Link
                 path={pages.way.getPath({uuid: jobDone.wayUuid})}

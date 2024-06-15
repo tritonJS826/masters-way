@@ -218,12 +218,11 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
                 alt={props.wayParticipantsMap.getValue(plan.ownerUuid).name}
                 src={props.wayParticipantsMap.getValue(plan.ownerUuid).imageUrl}
               />
-              <Link
-                path={pages.user.getPath({uuid: plan.ownerUuid})}
-                className={styles.ownerName}
-              >
-                {getFirstName(props.wayParticipantsMap.getValue(plan.ownerUuid).name)}
-              </Link>
+              <div className={styles.ownerName}>
+                <Link path={pages.user.getPath({uuid: plan.ownerUuid})}>
+                  {getFirstName(props.wayParticipantsMap.getValue(plan.ownerUuid).name)}
+                </Link>
+              </div>
               {props.way.children.length !== 0 &&
               <Link
                 path={pages.way.getPath({uuid: plan.wayUuid})}

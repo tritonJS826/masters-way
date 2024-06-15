@@ -99,12 +99,11 @@ export const ReportsTableProblemsCell = observer((props: ReportsTableProblemsCel
                 alt={props.wayParticipantsMap.getValue(problem.ownerUuid).name}
                 src={props.wayParticipantsMap.getValue(problem.ownerUuid).imageUrl}
               />
-              <Link
-                path={pages.user.getPath({uuid: problem.ownerUuid})}
-                className={styles.ownerName}
-              >
-                {getFirstName(props.wayParticipantsMap.getValue(problem.ownerUuid).name)}
-              </Link>
+              <div className={styles.ownerName}>
+                <Link path={pages.user.getPath({uuid: problem.ownerUuid})}>
+                  {getFirstName(props.wayParticipantsMap.getValue(problem.ownerUuid).name)}
+                </Link>
+              </div>
               {props.way.children.length !== 0 &&
               <Link
                 path={pages.way.getPath({uuid: problem.wayUuid})}
