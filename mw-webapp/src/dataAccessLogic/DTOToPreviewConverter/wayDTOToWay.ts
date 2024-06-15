@@ -50,7 +50,6 @@ export const wayDTOToWay = (wayDTO: SchemasWayPopulatedResponse): Way => {
       return new Metric({
         ...metric,
         doneDate: metric.doneDate ? new Date(metric.doneDate) : null,
-        createdAt: new Date(metric.createdAt),
       });
     }),
     status,

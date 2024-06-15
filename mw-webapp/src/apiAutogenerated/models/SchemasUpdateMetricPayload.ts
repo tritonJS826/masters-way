@@ -27,12 +27,6 @@ export interface SchemasUpdateMetricPayload {
     description?: string;
     /**
      * 
-     * @type {string}
-     * @memberof SchemasUpdateMetricPayload
-     */
-    doneDate?: string | null;
-    /**
-     * 
      * @type {number}
      * @memberof SchemasUpdateMetricPayload
      */
@@ -70,7 +64,6 @@ export function SchemasUpdateMetricPayloadFromJSONTyped(
     return {
         
         'description': !exists(json, 'description') ? undefined : json['description'],
-        'doneDate': !exists(json, 'doneDate') ? undefined : json['doneDate'],
         'estimationTime': !exists(json, 'estimationTime') ? undefined : json['estimationTime'],
         'isDone': !exists(json, 'isDone') ? undefined : json['isDone'],
     };
@@ -87,7 +80,6 @@ export function SchemasUpdateMetricPayloadToJSON(value?: SchemasUpdateMetricPayl
     return {
         
         'description': value.description,
-        'doneDate': value.doneDate,
         'estimationTime': value.estimationTime,
         'isDone': value.isDone,
     };

@@ -55,7 +55,6 @@ export const GoalMetricItem = observer((props: SingleGoalMetricProps) => {
     const metricToUpdate = {
       uuid: props.metric.uuid,
       isDone: false,
-      doneDate: null,
     };
     await MetricDAL.updateMetric(metricToUpdate);
   };
