@@ -14,7 +14,7 @@
     "web:cypress:e2e:run": "pnpm --filter 'mw-webapp' cypress:e2e:run",
     "server:build": "pnpm --filter 'mw-server' build",
     "server:test": "pnpm --filter 'mw-server' test",
-    "prepare": "husky"
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "",

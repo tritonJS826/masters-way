@@ -17,7 +17,6 @@
     "format": "prettier --write",
     "type-check": "tsc",
     "test": "echo \"Script doesn't work\"",
-    "prepare": "cd .. && husky init",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "cypress:component:open": "cypress open --component",
@@ -59,6 +58,7 @@
     "web-vitals": "3.5.2"
   },
   "devDependencies": {
+    "husky": "9.0.11",
     "@ljharb/eslint-config": "21.1.0",
     "@openapitools/openapi-generator-cli": "^2.9.0",
     "@storybook/addon-essentials": "^7.6.15",
@@ -90,7 +90,6 @@
     "eslint-plugin-jsdoc": "48.1.0",
     "eslint-plugin-react": "7.33.2",
     "eslint-plugin-simple-import-sort": "12.0.0",
-    "husky": "9.0.11",
     "lint-staged": "15.2.2",
     "postcss-scss": "4.0.9",
     "storybook": "7.6.19",
