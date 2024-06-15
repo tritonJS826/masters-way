@@ -333,6 +333,7 @@ export const UserPage = observer((props: UserPageProps) => {
                   },
                 })}
                 isEditable={isPageOwner}
+                minLength={1}
                 className={styles.ownerName}
               />
               <Tooltip

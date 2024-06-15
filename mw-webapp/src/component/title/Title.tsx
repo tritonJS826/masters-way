@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {Heading} from "@radix-ui/themes";
 import clsx from "clsx";
 import {Input} from "src/component/input/Input";
+import {displayNotification} from "src/component/notification/displayNotification";
 import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/component/title/Title.module.scss";
 
@@ -67,6 +68,11 @@ interface TitleProps {
    * Showed if value is an empty string
    */
   placeholder: string;
+
+  /**
+   * Minimum symbols amount for title
+   */
+  minLength?: number;
 }
 
 /**
@@ -100,6 +106,18 @@ export const Title = (props: TitleProps) => {
     }
   };
 
+  /**
+   * Check is value valid or not according min length
+   */
+  const getValidValue = (value: string) => {
+    props.minLength && value.length < props.minLength
+      ? displayNotification({
+        text: "Name should include at least one character",
+        type: "info",
+      })
+      : setText(value);
+  };
+
   return (
     <div
       onDoubleClick={() => {
@@ -116,7 +134,7 @@ export const Title = (props: TitleProps) => {
             type="text"
             value={text}
             autoFocus={true}
-            onChange={setText}
+            onChange={getValidValue}
           />
         )
         : (
