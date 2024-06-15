@@ -24,12 +24,6 @@ export interface SchemasMetricResponse {
      * @type {string}
      * @memberof SchemasMetricResponse
      */
-    createdAt: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof SchemasMetricResponse
-     */
     description: string;
     /**
      * 
@@ -54,12 +48,6 @@ export interface SchemasMetricResponse {
      * @type {string}
      * @memberof SchemasMetricResponse
      */
-    updatedAt: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof SchemasMetricResponse
-     */
     uuid: string;
 }
 
@@ -70,12 +58,10 @@ export function instanceOfSchemasMetricResponse(
     value: object
 ): boolean {
     let isInstance = true;
-    isInstance = isInstance && "createdAt" in value;
     isInstance = isInstance && "description" in value;
     isInstance = isInstance && "doneDate" in value;
     isInstance = isInstance && "estimationTime" in value;
     isInstance = isInstance && "isDone" in value;
-    isInstance = isInstance && "updatedAt" in value;
     isInstance = isInstance && "uuid" in value;
 
     return isInstance;
@@ -94,12 +80,10 @@ export function SchemasMetricResponseFromJSONTyped(
     }
     return {
         
-        'createdAt': json['createdAt'],
         'description': json['description'],
         'doneDate': json['doneDate'],
         'estimationTime': json['estimationTime'],
         'isDone': json['isDone'],
-        'updatedAt': json['updatedAt'],
         'uuid': json['uuid'],
     };
 }
@@ -114,12 +98,10 @@ export function SchemasMetricResponseToJSON(value?: SchemasMetricResponse | null
     }
     return {
         
-        'createdAt': value.createdAt,
         'description': value.description,
         'doneDate': value.doneDate,
         'estimationTime': value.estimationTime,
         'isDone': value.isDone,
-        'updatedAt': value.updatedAt,
         'uuid': value.uuid,
     };
 }

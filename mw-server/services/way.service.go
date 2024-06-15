@@ -92,8 +92,6 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 	metrics := lo.Map(metricsRaw, func(dbMetric dbb.Metric, i int) schemas.MetricResponse {
 		return schemas.MetricResponse{
 			Uuid:             dbMetric.Uuid.String(),
-			CreatedAt:        dbMetric.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-			UpdatedAt:        dbMetric.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
 			Description:      dbMetric.Description,
 			IsDone:           dbMetric.IsDone,
 			DoneDate:         util.MarshalNullTime(dbMetric.DoneDate),

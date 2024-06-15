@@ -2820,18 +2820,13 @@ const docTemplate = `{
         "schemas.MetricResponse": {
             "type": "object",
             "required": [
-                "createdAt",
                 "description",
                 "doneDate",
                 "estimationTime",
                 "isDone",
-                "updatedAt",
                 "uuid"
             ],
             "properties": {
-                "createdAt": {
-                    "type": "string"
-                },
                 "description": {
                     "type": "string"
                 },
@@ -2844,9 +2839,6 @@ const docTemplate = `{
                 },
                 "isDone": {
                     "type": "boolean"
-                },
-                "updatedAt": {
-                    "type": "string"
                 },
                 "uuid": {
                     "type": "string"
@@ -2995,10 +2987,6 @@ const docTemplate = `{
             "properties": {
                 "description": {
                     "type": "string"
-                },
-                "doneDate": {
-                    "type": "string",
-                    "x-nullable": true
                 },
                 "estimationTime": {
                     "type": "integer"

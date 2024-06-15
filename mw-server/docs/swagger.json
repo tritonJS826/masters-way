@@ -2812,18 +2812,13 @@
         "schemas.MetricResponse": {
             "type": "object",
             "required": [
-                "createdAt",
                 "description",
                 "doneDate",
                 "estimationTime",
                 "isDone",
-                "updatedAt",
                 "uuid"
             ],
             "properties": {
-                "createdAt": {
-                    "type": "string"
-                },
                 "description": {
                     "type": "string"
                 },
@@ -2836,9 +2831,6 @@
                 },
                 "isDone": {
                     "type": "boolean"
-                },
-                "updatedAt": {
-                    "type": "string"
                 },
                 "uuid": {
                     "type": "string"
@@ -2987,10 +2979,6 @@
             "properties": {
                 "description": {
                     "type": "string"
-                },
-                "doneDate": {
-                    "type": "string",
-                    "x-nullable": true
                 },
                 "estimationTime": {
                     "type": "integer"

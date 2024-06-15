@@ -24,7 +24,6 @@ export class MetricDAL {
     const metric = new Metric({
       ...metricDTO,
       doneDate: metricDTO.doneDate ? new Date(metricDTO.doneDate) : null,
-      createdAt: new Date(metricDTO.createdAt),
     });
 
     return metric;
@@ -36,16 +35,12 @@ export class MetricDAL {
   public static async updateMetric(metric: PartialWithUuid<Metric>): Promise<Metric> {
     const updatedMetricDTO = await MetricService.updateMetric({
       metricId: metric.uuid,
-      request: {
-        ...metric,
-        doneDate: metric.doneDate ? metric.doneDate.toISOString() : null,
-      },
+      request: {...metric},
     });
 
     const updatedMetric = new Metric({
       ...updatedMetricDTO,
       doneDate: updatedMetricDTO.doneDate ? new Date(updatedMetricDTO.doneDate) : null,
-      createdAt: new Date(updatedMetricDTO.createdAt),
     });
 
     return updatedMetric;

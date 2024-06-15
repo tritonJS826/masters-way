@@ -22,15 +22,20 @@ WHERE way_uuid = @way_uuid
 AND is_done = false;
 
 -- name: UpdateMetric :one
-UPDATE metrics
-SET
-updated_at = coalesce(sqlc.narg('updated_at'), updated_at),
-description = coalesce(sqlc.narg('description'), description),
-is_done = coalesce(sqlc.narg('is_done'), is_done),
-done_date = coalesce(sqlc.narg('done_date'), done_date), 
-metric_estimation = coalesce(sqlc.narg('metric_estimation'), metric_estimation)
-WHERE uuid = sqlc.arg('uuid')
-RETURNING *;
+WITH updated AS (
+    UPDATE metrics
+    SET
+        updated_at = coalesce(sqlc.narg('updated_at'), updated_at),
+        description = coalesce(sqlc.narg('description'), description),
+        is_done = coalesce(sqlc.narg('is_done'), is_done),
+        done_date = coalesce(sqlc.narg('done_date'), done_date),
+        metric_estimation = coalesce(sqlc.narg('metric_estimation'), metric_estimation)
+    WHERE uuid = sqlc.arg('uuid')
+    RETURNING *
+)
+SELECT *
+FROM updated
+ORDER BY created_at ASC;
 
 -- name: DeleteMetric :one
 DELETE FROM metrics

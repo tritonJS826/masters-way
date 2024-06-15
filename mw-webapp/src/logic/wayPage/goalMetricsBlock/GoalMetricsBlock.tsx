@@ -6,7 +6,6 @@ import {languageStore} from "src/globalStore/LanguageStore";
 import {GoalMetricItem} from "src/logic/wayPage/goalMetricsBlock/GoalMetricItem";
 import {Metric} from "src/model/businessModel/Metric";
 import {LanguageService} from "src/service/LanguageService";
-import {DateUtils} from "src/utils/DateUtils";
 import styles from "src/logic/wayPage/goalMetricsBlock/GoalMetricsBlock.module.scss";
 
 /**
@@ -53,7 +52,6 @@ interface GoalMetricStatisticsBlockProps {
  */
 export const GoalMetricsBlock = observer((props: GoalMetricStatisticsBlockProps) => {
   const {language} = languageStore;
-  const sortedMetrics = props.goalMetrics.slice().sort((a, b) => DateUtils.datesASCSorter(a.createdAt, b.createdAt));
 
   /**
    * Add metric
@@ -119,7 +117,7 @@ export const GoalMetricsBlock = observer((props: GoalMetricStatisticsBlockProps)
     <>
       {props.isVisible &&
         <>
-          {renderGoalMetrics(sortedMetrics)}
+          {renderGoalMetrics(props.goalMetrics.slice())}
           {renderButtonAddMetrics()}
         </>
       }
