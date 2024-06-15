@@ -100,12 +100,11 @@ export const ReportsTableCommentsCell = observer((props: ReportsTableCommentsCel
                   alt={props.wayParticipantsMap.getValue(comment.ownerUuid).name}
                   src={props.wayParticipantsMap.getValue(comment.ownerUuid).imageUrl}
                 />
-                <Link
-                  path={pages.user.getPath({uuid: comment.ownerUuid})}
-                  className={styles.ownerName}
-                >
-                  {getFirstName(props.wayParticipantsMap.getValue(comment.ownerUuid).name)}
-                </Link>
+                <div className={styles.ownerName}>
+                  <Link path={pages.user.getPath({uuid: comment.ownerUuid})}>
+                    {getFirstName(props.wayParticipantsMap.getValue(comment.ownerUuid).name)}
+                  </Link>
+                </div>
                 {props.way.children.length !== 0 &&
                 <Link
                   path={pages.way.getPath({uuid: comment.wayUuid})}
