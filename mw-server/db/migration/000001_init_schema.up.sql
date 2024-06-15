@@ -1,6 +1,6 @@
 CREATE TABLE users(
     "uuid" UUID NOT NULL DEFAULT (uuid_generate_v4()),
-    "name" VARCHAR(50) NOT NULL,
+    "name" VARCHAR(50) NOT NULL CHECK (LENGTH(name) > 0),
     "email" VARCHAR(128) NOT NULL,
     "description" VARCHAR(300) NOT NULL,
     "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, 

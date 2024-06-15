@@ -16,8 +16,10 @@ var GoogleOAuthConfig = &oauth2.Config{
 	RedirectURL:  config.Env.ApiBaseUrl + "/api/auth/google/callback",
 	ClientID:     config.Env.GooglClientId,
 	ClientSecret: config.Env.GooglClientSecret,
-	Scopes:       []string{"https://www.googleapis.com/auth/userinfo.email"},
-	Endpoint:     google.Endpoint,
+	Scopes: []string{
+		"https://www.googleapis.com/auth/userinfo.email",
+		"https://www.googleapis.com/auth/userinfo.profile"},
+	Endpoint: google.Endpoint,
 }
 
 const (
