@@ -201,6 +201,7 @@ export const Header = (props: HeaderProps) => {
           theme={props.theme}
           setTheme={props.setTheme}
           className={styles.themeSwitcher}
+          dataCy={headerAccessIds.settings.themeSwitcher}
         />
 
         <Select
@@ -313,7 +314,10 @@ export const Header = (props: HeaderProps) => {
                   />
                 </HorizontalContainer>
                 <HorizontalContainer className={styles.sidebarItem}>
-                  <HorizontalContainer className={styles.iconWithText}>
+                  <HorizontalContainer
+                    className={styles.iconWithText}
+                    dataCy={navigationMenuIds.nightMode.text}
+                  >
                     <Icon
                       size={IconSize.MEDIUM}
                       name="MoonIcon"
@@ -324,13 +328,18 @@ export const Header = (props: HeaderProps) => {
                   <Toggle
                     onChange={() => props.setTheme(getNextSwitchTheme(props.theme))}
                     isDefaultChecked={DEFAULT_THEME === props.theme}
+                    dataCy={navigationMenuIds.nightMode.slider}
                   />
                 </HorizontalContainer>
-                <VerticalContainer className={styles.socialMedia}>
+                <VerticalContainer
+                  className={styles.socialMedia}
+                  dataCy={navigationMenuIds.socialMedia.text}
+                >
                   {LanguageService.sidebar.socialMedia[props.language]}
                   <HorizontalContainer className={styles.socialMediaIcons}>
                     <Link
                       className={styles.logo}
+                      dataCy={navigationMenuIds.socialMedia.linkedinLink}
                       path="https://linkedin.com/company/masters-way-project"
                       isNewTab
                     >
@@ -344,6 +353,7 @@ export const Header = (props: HeaderProps) => {
                       className={styles.logo}
                       path="https://www.youtube.com/watch?v=DiNNQol15ds&list=PL7eqEW04iXMV2tu_JYAIwerepUTZJjciM"
                       isNewTab
+                      dataCy={navigationMenuIds.socialMedia.youtubeLink}
                     >
                       <Icon
                         size={IconSize.MEDIUM}

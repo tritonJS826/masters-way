@@ -49,6 +49,11 @@ interface ThemeSwitcherProps {
    * Language value
    */
   language: Language;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCy?: string;
 }
 
 /**
@@ -72,6 +77,7 @@ export const ThemeSwitcher = (props: ThemeSwitcherProps) => {
       <button
         className={clsx(styles.iconWrapper, props.className)}
         onClick={onChangeTheme}
+        data-cy={props.dataCy}
       >
         <Icon
           size={IconSize.MEDIUM}

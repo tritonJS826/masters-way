@@ -22,7 +22,12 @@ export const navigationMenuIds = {
     nightMode: {
         text: 'nightModeText',
         slider: 'nightModeSlider'
+    },
 
+    socialMedia: {
+        text: 'socialMedia',
+        linkedinLink: 'linkedinLink',
+        youtubeLink: 'youtubeLink'
     },
 
     closeButton: 'closeButton'    

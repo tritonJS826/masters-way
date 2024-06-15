@@ -4,4 +4,10 @@ declare namespace Cypress {
     interface Chainable<Subject> {
       getByData(tag: string): Chainable<any>
     }
-  }
+
+    interface Chainable {
+      checkLinkAttributes(selector, expectedHref: string): Chainable<Element>
+      checkLinkStatus(selector, href: string): Chainable<Element>
+      checkPrimaryBgColor(expectedPrimaryBgColor: string): Chainable<Element>
+    }    
+}

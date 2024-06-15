@@ -39,4 +39,27 @@ Cypress.Commands.add("getByData", (selector) => {
   return cy.get(`[data-cy=${selector}]`);
 });
 
+Cypress.Commands.add('checkLinkAttributes', (selector, expectedHref: string) => {
+  selector
+    .should('have.attr', 'href', expectedHref)
+    .should('have.attr', 'target', '_blank')
+    .should('have.attr', 'rel', 'noopener noreferrer');
+});
+
+Cypress.Commands.add('checkLinkStatus', (selector, href: string) => {
+  selector
+    .then((link: { prop: (arg0: string) => string; }) => {
+      cy.request(link.prop('href'))
+        .its('status')
+        .should('eq', 200);
+    });
+});
+
+Cypress.Commands.add('checkPrimaryBgColor', (expectedPrimaryBgColor: string) => {
+  cy.document().then((doc) => {
+    const actualPrimaryBgColor = getComputedStyle(doc.documentElement).getPropertyValue('--primaryBgColor').trim();
+    expect(actualPrimaryBgColor).equal(expectedPrimaryBgColor);
+  });
+});
+
 export {};
