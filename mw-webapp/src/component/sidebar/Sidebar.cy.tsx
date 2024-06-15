@@ -23,11 +23,13 @@ const SIDEBAR_LINKS: MenuItemLink[] = [
   {
     path: "/",
     value: "",
-    icon: <img
-      width="5px"
-      height="5px"
-      data-cy={SIDEBAR_CY.dataCyContent.dataCyLogo}
-    />,
+    icon: (
+      <img
+        width="5px"
+        height="5px"
+        data-cy={SIDEBAR_CY.dataCyContent.dataCyLogo}
+      />
+    ),
   },
   {
     path: "/",
