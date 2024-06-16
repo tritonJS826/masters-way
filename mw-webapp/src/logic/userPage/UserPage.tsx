@@ -215,11 +215,15 @@ export const UserPage = observer((props: UserPageProps) => {
   /**
    * Create way
    */
-  const createWay = async (owner: User) => {
+  const createWay = async (ownerUuid: string) => {
     if (!user) {
       throw new Error("User is not defined");
     }
-    const newWay: WayPreview = await WayDAL.createWay(owner);
+    const newWay: WayPreview = await WayDAL.createWay({
+      userUuid: ownerUuid,
+      wayName: LanguageService.user.personalInfo.defaultWayName[language].replace("$user", user.name),
+    });
+
     user.defaultWayCollections.own.addWay(newWay);
     navigate(pages.way.getPath({uuid: newWay.uuid}));
   };
@@ -508,7 +512,7 @@ export const UserPage = observer((props: UserPageProps) => {
           {isPageOwner &&
             <Button
               value={LanguageService.user.personalInfo.createNewWayButton[language]}
-              onClick={() => createWay(user)}
+              onClick={() => createWay(user.uuid)}
               buttonType={ButtonType.PRIMARY}
             />
           }

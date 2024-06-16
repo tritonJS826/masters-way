@@ -317,7 +317,11 @@ export const WayPage = observer((props: WayPageProps) => {
       estimationTime: way.estimationTime,
       goalDescription: way.goalDescription,
     };
-    const newWay: WayPreview = await WayDAL.createWay(user, baseWayData);
+    const newWay: WayPreview = await WayDAL.createWay({
+      userUuid: user.uuid,
+      baseWayData,
+      wayName: way.name,
+    });
 
     navigate(pages.way.getPath({uuid: newWay.uuid}));
     displayNotification({text: `Way ${way.name} copied`, type: "info"});
