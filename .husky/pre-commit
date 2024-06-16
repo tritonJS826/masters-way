@@ -5,7 +5,7 @@ WEBAPP="mw-webapp/"
 SERVER="mw-server/"
 
 runWebappIfChanged () {
-  if git diff --name-only --cached | grep "$FRONTEND"
+  if git diff --name-only --cached | grep "$WEBAPP"
   then
     echo "webapp changed. checking..."
     pnpm web:lint-staged
@@ -35,4 +35,3 @@ runE2E () {
 runWebappIfChanged
 runServerIfChanged
 runE2E
-

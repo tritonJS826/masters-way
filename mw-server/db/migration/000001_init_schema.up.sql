@@ -3,7 +3,7 @@ CREATE TABLE users(
     "name" VARCHAR(50) NOT NULL CHECK (LENGTH(name) > 0),
     "email" VARCHAR(128) NOT NULL,
     "description" VARCHAR(300) NOT NULL,
-    "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, 
+    "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "image_url" VARCHAR(300) NOT NULL,
     "is_mentor" BOOLEAN NOT NULL,
     "firebase_id" VARCHAR NOT NULL,
@@ -35,7 +35,7 @@ CREATE UNIQUE INDEX "way_uuid_key" ON "ways"("uuid");
 CREATE TABLE composite_ways(
     "child_uuid" UUID NOT NULL REFERENCES ways("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
     "parent_uuid" UUID NOT NULL REFERENCES ways("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
-    CONSTRAINT child_uuid_parent_uuid_pkey PRIMARY KEY (child_uuid, parent_uuid) 
+    CONSTRAINT child_uuid_parent_uuid_pkey PRIMARY KEY (child_uuid, parent_uuid)
 );
 
 CREATE TABLE former_mentors_ways(
@@ -200,7 +200,7 @@ CREATE UNIQUE INDEX "user_tag_name_key" ON "user_tags"("name");
 CREATE TABLE "users_user_tags"(
     "user_uuid" UUID NOT NULL REFERENCES users("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
     "user_tag_uuid" UUID NOT NULL REFERENCES user_tags("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
-    CONSTRAINT "user_uuid_user_tag_uuid_pkey" PRIMARY KEY (user_uuid, user_tag_uuid) 
+    CONSTRAINT "user_uuid_user_tag_uuid_pkey" PRIMARY KEY (user_uuid, user_tag_uuid)
 );
 
 
@@ -672,3 +672,25 @@ CREATE TRIGGER max_job_dones_for_label_trigger
 BEFORE INSERT ON job_dones_job_tags
 FOR EACH ROW
 EXECUTE FUNCTION check_max_job_dones_for_label();
+
+-- Проверка на наличие дубликата отчета за сегодняшний день перед созданием нового отчета.
+CREATE OR REPLACE FUNCTION check_duplicate_today_report()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF EXISTS (
+        SELECT 1
+        FROM day_reports
+        WHERE
+            way_uuid = NEW.way_uuid AND
+            DATE_TRUNC('day', created_at) = DATE_TRUNC('day', NEW.created_at)
+    ) THEN
+        RAISE EXCEPTION 'A report for this way_uuid already exists for today';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER duplicate_today_report_trigger
+BEFORE INSERT ON day_reports
+FOR EACH ROW
+EXECUTE FUNCTION check_duplicate_today_report();
