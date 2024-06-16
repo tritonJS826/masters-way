@@ -117,7 +117,7 @@ export const GoalMetricsBlock = observer((props: GoalMetricStatisticsBlockProps)
     <>
       {props.isVisible &&
         <>
-          {renderGoalMetrics(props.goalMetrics.slice())}
+          {renderGoalMetrics(props.goalMetrics)}
           {renderButtonAddMetrics()}
         </>
       }

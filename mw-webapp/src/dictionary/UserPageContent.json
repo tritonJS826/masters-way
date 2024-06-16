@@ -45,7 +45,7 @@
     "defaultWayName": {
       "ru": "Путь пользователя $user",
       "en": "Way of $user",
-      "ua": "Шлях $user",
+      "ua": "Шлях користувача $user",
       "ka": "მომხმარებლის გზა $user"
     },
     "mentor": {
