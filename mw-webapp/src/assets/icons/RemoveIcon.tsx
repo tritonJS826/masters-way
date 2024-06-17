@@ -6,20 +6,22 @@ import {IconProps} from "src/component/icon/Icon";
 export const RemoveIcon = (props: IconProps) => {
   return (
     <svg
-      viewBox="0 0 16 16"
-      fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
       className={props.className}
     >
-      <path
-        d="M12 4L4 12"
-        strokeLinecap="round"
-        strokeLinejoin="round"
+      <line
+        x1="18"
+        y1="6"
+        x2="6"
+        y2="18"
       />
-      <path
-        d="M4 4L12 12"
-        strokeLinecap="round"
-        strokeLinejoin="round"
+      <line
+        x1="6"
+        y1="6"
+        x2="18"
+        y2="18"
       />
     </svg>
   );

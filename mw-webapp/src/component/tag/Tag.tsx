@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import {observer} from "mobx-react-lite";
+import {Button, ButtonType} from "src/component/button/Button";
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {languageStore} from "src/globalStore/LanguageStore";
@@ -70,7 +71,7 @@ interface TagProps {
 }
 
 /**
- * WayCard tag component
+ * Tag component
  */
 export const Tag = observer((props: TagProps) => {
   const isPrimaryTag = props.type === TagType.PRIMARY_TAG;
@@ -80,19 +81,17 @@ export const Tag = observer((props: TagProps) => {
 
   const removeButton = (
     <Tooltip content={LanguageService.common.removeTag[language]}>
-      <button
+      <Button
         className={styles.removeButton}
-        onClick={() => {
-          props.isDeletable && props?.onDelete && props.onDelete(props.tagName);
-        }}
-        data-cy={props.cy?.dataCyCross}
-      >
-        <Icon
+        onClick={() => props.onDelete && props.onDelete(props.tagName)}
+        dataCy={props.cy?.dataCyCross}
+        buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
+        value={<Icon
           size={IconSize.SMALL}
           name="RemoveIcon"
           className={styles.removeIcon}
-        />
-      </button>
+        />}
+      />
     </Tooltip>);
 
   return (
@@ -106,7 +105,7 @@ export const Tag = observer((props: TagProps) => {
         </span>
       </Tooltip>
 
-      { isShowRemoveButton && removeButton }
+      {isShowRemoveButton && removeButton}
     </div>
   );
 });

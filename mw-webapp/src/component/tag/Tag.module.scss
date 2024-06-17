@@ -1,10 +1,13 @@
 @import "src/styles/variables";
 
+$tagPaddingBlockLarge: 10px;
+$tagPaddingBlockSmall: 3px;
+
 .tag {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--primaryStrokeColor);
+  border: $primaryBorder solid var(--primaryStrokeColor);
   border-radius: $tagBorderRadius;
   background-color: var(--primaryBgColor);
   color: var(--primaryTextColor);
@@ -20,21 +23,20 @@
 }
 
 .primaryTag {
-  height: 40px;
   font-size: $fontSizeBig;
+  padding-block: $tagPaddingBlockLarge;
+
+  button {
+    padding: 0;
+  }
 }
 
 .cardTag {
-  height: 22px;
   font-size: $fontSizeSmall;
+  padding-block: $tagPaddingBlockSmall;
 }
 
 .removeButton {
-  display: flex;
-  border: none;
-  background: none;
-  cursor: pointer;
-
   &:hover .removeIcon {
     stroke: var(--primaryBgBtnHoverColor);
   }
