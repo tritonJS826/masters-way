@@ -25,7 +25,6 @@ describe('Navigation menu scope tests', () => {
     it('NoAuth_NavMenu_MastersWayLogo', () => {
         navigationMenuSelectors.menuItemLinks.getLogoItemLink().click();
 
-        // navigationMenuSelectors.getNavigationMenu().should('not.exist');
         cy.url().should('include', '/');
         homeSelectors.welcomeBlock.getTitle().should('contain', homePageContent.title.en);
     });
@@ -112,14 +111,14 @@ describe('Navigation menu scope tests', () => {
     it('NoAuth_NavMenu_LinkedinLink', () => {
         navigationMenuSelectors.socialMedia.getText().should('have.text', sideBarContent.socialMedia.en);
 
-        cy.checkLinkAttributes(navigationMenuSelectors.socialMedia.getLinkedinLink(), navigationMenuFixture.linkedin.link);
-        cy.checkLinkStatus(navigationMenuSelectors.socialMedia.getLinkedinLink(), navigationMenuFixture.linkedin.link);
+        cy.checkLinkAttributes(navigationMenuSelectors.socialMedia.getLinkedinLink(), navigationMenuFixture.linkedinLink);
+        cy.checkLinkStatus(navigationMenuSelectors.socialMedia.getLinkedinLink(), navigationMenuFixture.linkedinLink);
     }); 
 
     it('NoAuth_NavMenu_YoutubeLink', () => {
         navigationMenuSelectors.socialMedia.getText().should('have.text', sideBarContent.socialMedia.en);
 
-        cy.checkLinkAttributes(navigationMenuSelectors.socialMedia.getYoutubeLink(), navigationMenuFixture.youtube.link);
-        cy.checkLinkStatus(navigationMenuSelectors.socialMedia.getYoutubeLink(), navigationMenuFixture.youtube.link);                             
+        cy.checkLinkAttributes(navigationMenuSelectors.socialMedia.getYoutubeLink(), navigationMenuFixture.youtubeLink);
+        cy.checkLinkStatus(navigationMenuSelectors.socialMedia.getYoutubeLink(), navigationMenuFixture.youtubeLink);                             
     }); 
   });
