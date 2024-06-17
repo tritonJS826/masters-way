@@ -1,3 +1,5 @@
+import {Theme, themedVariables} from "src/globalStore/ThemeStore";
+
 // ***********************************************
 // This example commands.ts shows you how to
 // create various custom commands and overwrite
@@ -55,10 +57,16 @@ Cypress.Commands.add('checkLinkStatus', (selector, href: string) => {
     });
 });
 
-Cypress.Commands.add('checkPrimaryBgColor', (expectedPrimaryBgColor: string) => {
-  cy.document().then((doc) => {
-    const actualPrimaryBgColor = getComputedStyle(doc.documentElement).getPropertyValue('--primaryBgColor').trim();
-    expect(actualPrimaryBgColor).equal(expectedPrimaryBgColor);
+Cypress.Commands.add('checkThemeColors', (theme: string) => {
+
+  Object.keys(themedVariables)
+    .forEach(variableName => {
+      const expectedColor = themedVariables[variableName][theme as Theme];
+
+      cy.document().then((doc) => {
+        const actualColor = getComputedStyle(doc.documentElement).getPropertyValue(`--${variableName}`).trim();
+        expect(actualColor).equal(expectedColor);
+      });
   });
 });
 

@@ -13,7 +13,7 @@ import {homeSelectors} from "cypress/scopesSelectors/homeSelectors";
 import homePageContent from "src/dictionary/HomePageContent.json";
 import sideBarContent from "src/dictionary/Sidebar.json";
 import navigationMenuFixture from "cypress/fixtures/navigationMenuFixture.json";
-import {themedVariables} from "src/globalStore/ThemeStore";
+import {Theme} from "src/globalStore/ThemeStore";
 
 describe('Navigation menu scope tests', () => {
 
@@ -97,7 +97,7 @@ describe('Navigation menu scope tests', () => {
         navigationMenuSelectors.nightMode.getText().should('have.text', sideBarContent.nightMode.en);
         navigationMenuSelectors.nightMode.getSlider().check({force: true}).should("be.checked");
 
-        cy.checkPrimaryBgColor(themedVariables.primaryBgColor.dark);
+        cy.checkThemeColors(Theme.DARK);
     }); 
     
     it('NoAuth_NavMenu_LightMode', () => {
@@ -105,7 +105,7 @@ describe('Navigation menu scope tests', () => {
 
         navigationMenuSelectors.nightMode.getText().should('have.text', sideBarContent.nightMode.en);
         navigationMenuSelectors.nightMode.getSlider().uncheck({force: true}).should("not.be.checked");
-        cy.checkPrimaryBgColor(themedVariables.primaryBgColor.light);
+        cy.checkThemeColors(Theme.LIGHT);
     });
 
     it('NoAuth_NavMenu_LinkedinLink', () => {
