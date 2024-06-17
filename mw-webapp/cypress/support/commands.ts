@@ -58,7 +58,6 @@ Cypress.Commands.add('checkLinkStatus', (selector, href: string) => {
 });
 
 Cypress.Commands.add('checkThemeColors', (theme: string) => {
-
   Object.keys(themedVariables)
     .forEach(variableName => {
       const expectedColor = themedVariables[variableName][theme as Theme];
