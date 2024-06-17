@@ -320,7 +320,7 @@ BEFORE INSERT ON former_mentors_ways
 FOR EACH ROW
 EXECUTE FUNCTION check_max_ways_for_former_mentor();
 
--- максимальное число путей, где пользователь может быть ментором
+-- максимальное число менторов в одном пути
 CREATE OR REPLACE FUNCTION check_max_mentors_in_way()
 RETURNS TRIGGER AS $$
 BEGIN
