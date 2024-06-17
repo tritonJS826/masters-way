@@ -94,7 +94,7 @@ CREATE TABLE "metrics"(
 
 CREATE TABLE "job_tags"(
     "uuid" UUID NOT NULL DEFAULT (uuid_generate_v4()),
-    "name" VARCHAR(20) NOT NULL,
+    "name" VARCHAR(30) NOT NULL,
     "description" VARCHAR(100) NOT NULL,
     "color" VARCHAR(8) NOT NULL,
     "way_uuid" UUID NOT NULL REFERENCES ways("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
@@ -325,7 +325,7 @@ CREATE OR REPLACE FUNCTION check_max_mentors_in_way()
 RETURNS TRIGGER AS $$
 BEGIN
     IF (SELECT COUNT(*) FROM mentor_users_ways WHERE way_uuid = NEW.way_uuid) > 30 THEN
-        RAISE EXCEPTION 'A way cannot have more than 30 mentors';
+        RAISE EXCEPTION 'Exceeded a limit of 30 mentors in a single way';
     END IF;
     RETURN NEW;
 END;
@@ -503,7 +503,7 @@ CREATE OR REPLACE FUNCTION check_max_mentoring_ways_for_user()
 RETURNS TRIGGER AS $$
 BEGIN
     IF (SELECT COUNT(*) FROM mentor_users_ways WHERE user_uuid = NEW.user_uuid) > 50000 THEN
-        RAISE EXCEPTION 'User cannot be a mentor in more than 50000 ways';
+        RAISE EXCEPTION 'Exceeded a limit of 50000 ways where a used can be named a mentor';
     END IF;
     RETURN NEW;
 END;
