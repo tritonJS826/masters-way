@@ -11,10 +11,6 @@ $fontSizeBig: 16px;
 $fontSizeMedium: 14px;
 $fontSizeSmall: 12px;
 
-// line-height
-$lineHeightPrimary: 24px;
-$lineHeightSecondary: 20px;
-
 // Border-radius
 $primaryBorderRadius: 10px;
 $secondaryBorderRadius: 8px;
@@ -28,6 +24,7 @@ $primaryBorder: 1px;
 //Transitions
 $primaryTransitionDuration: 300ms;
 $secondaryTransitionDuration: 150ms;
+$tertiaryTransitionDuration: 650ms;
 $elementHoverTransition: 500ms;
 
 // z-index
@@ -113,4 +110,9 @@ $disableOpacity: 0.7;
     transform: scale(1.02);
     transition: 0.3s;
   }
+}
+
+//animation
+@mixin animation($name, $duration: 1s, $timing-function: ease, $direction: forwards) {
+  animation: $name $duration $timing-function $direction;
 }
