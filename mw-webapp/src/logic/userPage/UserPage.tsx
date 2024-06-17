@@ -427,6 +427,7 @@ export const UserPage = observer((props: UserPageProps) => {
                   key={tag.uuid}
                   isDeletable={isPageOwner}
                   type={TagType.PRIMARY_TAG}
+                  removeTooltipText={LanguageService.common.removeTag[language]}
                   onDelete={async () => {
                     user && user.deleteTag(tag.uuid);
                     userPageOwner.deleteTag(tag.uuid);

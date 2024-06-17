@@ -1,10 +1,7 @@
 import clsx from "clsx";
-import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Tooltip} from "src/component/tooltip/Tooltip";
-import {languageStore} from "src/globalStore/LanguageStore";
-import {LanguageService} from "src/service/LanguageService";
 import styles from "src/component/tag/Tag.module.scss";
 
 /**
@@ -68,29 +65,34 @@ interface TagProps {
    * Callback triggered on remove button
    */
   onDelete?: (name: string) => void;
+
+  /**
+   * Text for tooltip on remove button
+   */
+  removeTooltipText?: string;
 }
 
 /**
  * Tag component
  */
-export const Tag = observer((props: TagProps) => {
+export const Tag = (props: TagProps) => {
   const isPrimaryTag = props.type === TagType.PRIMARY_TAG;
   const tagStyle = isPrimaryTag ? styles.primaryTag : styles.cardTag;
   const isShowRemoveButton = isPrimaryTag && props.isDeletable;
-  const {language} = languageStore;
 
   const removeButton = (
-    <Tooltip content={LanguageService.common.removeTag[language]}>
+    <Tooltip content={props.removeTooltipText}>
       <Button
         className={styles.removeButton}
         onClick={() => props.onDelete && props.onDelete(props.tagName)}
         dataCy={props.cy?.dataCyCross}
         buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
-        value={<Icon
-          size={IconSize.SMALL}
-          name="RemoveIcon"
-          className={styles.removeIcon}
-        />}
+        value={
+          <Icon
+            size={IconSize.SMALL}
+            name="RemoveIcon"
+            className={styles.removeIcon}
+          />}
       />
     </Tooltip>);
 
@@ -108,4 +110,4 @@ export const Tag = observer((props: TagProps) => {
       {isShowRemoveButton && removeButton}
     </div>
   );
-});
+};
