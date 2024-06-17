@@ -25,6 +25,7 @@ describe('Navigation menu scope tests', () => {
     it('NoAuth_NavMenu_MastersWayLogo', () => {
         navigationMenuSelectors.menuItemLinks.getLogoItemLink().click();
 
+        navigationMenuSelectors.getNavigationMenu().should('not.exist');
         cy.url().should('include', '/');
         homeSelectors.welcomeBlock.getTitle().should('contain', homePageContent.title.en);
     });
