@@ -29,5 +29,11 @@ export const navigationMenuSelectors = {
         getSlider:() => cy.get(getDataCy(navigationMenuIds.nightMode.slider))
     },
 
+    socialMedia: {
+        getText:() => cy.get(getDataCy(navigationMenuIds.socialMedia.text)),
+        getLinkedinLink:() => cy.get(getDataCy(navigationMenuIds.socialMedia.linkedinLink)),
+        getYoutubeLink:() => cy.get(getDataCy(navigationMenuIds.socialMedia.youtubeLink)),
+    },
+
     getCloseButton: () => cy.get(getDataCy(navigationMenuIds.closeButton))
 };

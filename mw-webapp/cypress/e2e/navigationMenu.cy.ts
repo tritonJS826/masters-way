@@ -12,6 +12,8 @@ import {aboutProjectSelectors} from "cypress/scopesSelectors/aboutProjectSelecto
 import {homeSelectors} from "cypress/scopesSelectors/homeSelectors";
 import homePageContent from "src/dictionary/HomePageContent.json";
 import sideBarContent from "src/dictionary/Sidebar.json";
+import navigationMenuFixture from "cypress/fixtures/navigationMenuFixture.json";
+import {Theme} from "src/globalStore/ThemeStore";
 
 describe('Navigation menu scope tests', () => {
 
@@ -20,23 +22,27 @@ describe('Navigation menu scope tests', () => {
       headerSelectors.getBurgerMenu().click();
     });
 
-    it('NoAuth_NavMenu_Light_MastersWayLogo', () => {
+    it('NoAuth_NavMenu_MastersWayLogo', () => {
         navigationMenuSelectors.menuItemLinks.getLogoItemLink().click();
 
-        cy.url().should('include', '/');
+        navigationMenuSelectors.getNavigationMenu().should('not.exist');
+
+        cy.url().should('eq', Cypress.config('baseUrl') + '/');
         homeSelectors.welcomeBlock.getTitle().should('contain', homePageContent.title.en);
     });
 
     it('NoAuth_NavMenu_Home', () => {
         navigationMenuSelectors.menuItemLinks.getHomeItemLink().click();
 
-        cy.url().should('include', '/');
+        navigationMenuSelectors.getNavigationMenu().should('not.exist');
+        cy.url().should('eq', Cypress.config('baseUrl') + '/');
         homeSelectors.welcomeBlock.getTitle().should('contain', homePageContent.title.en);
     });
   
     it('NoAuth_NavMenu_AllUsers', () => {
         navigationMenuSelectors.menuItemLinks.getAllUsersItemLink().click();
 
+        navigationMenuSelectors.getNavigationMenu().should('not.exist');
         cy.url().should('include', allUsersPageData.endpoint);
         allUsersSelectors.allUsersTable.getTitle().should('contain', allUsersPageContent.usersTable.leftTitle.en);
     });
@@ -44,6 +50,7 @@ describe('Navigation menu scope tests', () => {
     it('NoAuth_NavMenu_AllWays', () => {
         navigationMenuSelectors.menuItemLinks.getAllWaysItemLink().click();
 
+        navigationMenuSelectors.getNavigationMenu().should('not.exist');
         cy.url().should('include', allWayPageData.endpoint);
         allWaysSelectors.allWaysTable.getTitle().should('contain', allWaysPageContent.waysTable.leftTitle.en);
     });
@@ -51,6 +58,7 @@ describe('Navigation menu scope tests', () => {
     it('NoAuth_NavMenu_About', () => {
         navigationMenuSelectors.menuItemLinks.getAboutProjectItemLink().click();
 
+        navigationMenuSelectors.getNavigationMenu().should('not.exist');
         cy.url().should('include', aboutProjectPageData.endpoint);
         aboutProjectSelectors.welcomeBlock.getTitle().should('contain', aboutProjectPageContent.mainTitle.en);
     });
@@ -58,7 +66,14 @@ describe('Navigation menu scope tests', () => {
     it('NoAuth_NavMenu_Close', () => {
         headerSelectors.getHeader().click({force: true});
 
-        cy.url().should('include', '/');
+        cy.url().should('eq', Cypress.config('baseUrl') + '/');
+        navigationMenuSelectors.getNavigationMenu().should('not.exist');
+    });
+
+    it('NoAuth_NavMenu_CloseButton', () => {
+        navigationMenuSelectors.getCloseButton().click();
+
+        cy.url().should('eq', Cypress.config('baseUrl') + '/');
         navigationMenuSelectors.getNavigationMenu().should('not.exist');
     });
 
@@ -80,4 +95,32 @@ describe('Navigation menu scope tests', () => {
         });
     });
   
+    it('NoAuth_NavMenu_DarkMode', () => {
+        navigationMenuSelectors.nightMode.getText().should('have.text', sideBarContent.nightMode.en);
+        navigationMenuSelectors.nightMode.getSlider().check({force: true}).should("be.checked");
+
+        cy.checkThemeColors(Theme.DARK);
+    }); 
+    
+    it('NoAuth_NavMenu_LightMode', () => {
+        navigationMenuSelectors.nightMode.getSlider().check({force: true});
+
+        navigationMenuSelectors.nightMode.getText().should('have.text', sideBarContent.nightMode.en);
+        navigationMenuSelectors.nightMode.getSlider().uncheck({force: true}).should("not.be.checked");
+        cy.checkThemeColors(Theme.LIGHT);
+    });
+
+    it('NoAuth_NavMenu_LinkedinLink', () => {
+        navigationMenuSelectors.socialMedia.getText().should('have.text', sideBarContent.socialMedia.en);
+
+        cy.checkLinkAttributes(navigationMenuSelectors.socialMedia.getLinkedinLink(), navigationMenuFixture.linkedinLink);
+        cy.checkLinkStatus(navigationMenuSelectors.socialMedia.getLinkedinLink(), navigationMenuFixture.linkedinLink);
+    }); 
+
+    it('NoAuth_NavMenu_YoutubeLink', () => {
+        navigationMenuSelectors.socialMedia.getText().should('have.text', sideBarContent.socialMedia.en);
+
+        cy.checkLinkAttributes(navigationMenuSelectors.socialMedia.getYoutubeLink(), navigationMenuFixture.youtubeLink);
+        cy.checkLinkStatus(navigationMenuSelectors.socialMedia.getYoutubeLink(), navigationMenuFixture.youtubeLink);                             
+    }); 
   });
