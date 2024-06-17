@@ -320,12 +320,12 @@ BEFORE INSERT ON former_mentors_ways
 FOR EACH ROW
 EXECUTE FUNCTION check_max_ways_for_former_mentor();
 
--- максимальное число менторов в одном пути
-CREATE OR REPLACE FUNCTION check_max_mentors_in_way_limit()
+-- максимальное число путей, где пользователь может быть ментором
+CREATE OR REPLACE FUNCTION check_max_mentors_in_way()
 RETURNS TRIGGER AS $$
 BEGIN
-    IF (SELECT COUNT(*) FROM mentor_users_ways WHERE user_uuid = NEW.user_uuid) > 30 THEN
-        RAISE EXCEPTION 'Exceeded a limit of 30 mentors in a single way';
+    IF (SELECT COUNT(*) FROM mentor_users_ways WHERE way_uuid = NEW.way_uuid) > 30 THEN
+        RAISE EXCEPTION 'A way cannot have more than 30 mentors';
     END IF;
     RETURN NEW;
 END;
@@ -334,7 +334,7 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER max_mentors_in_way_trigger
 BEFORE INSERT ON mentor_users_ways
 FOR EACH ROW
-EXECUTE FUNCTION check_max_mentors_in_way_limit();
+EXECUTE FUNCTION check_max_mentors_in_way();
 
 -- максимальное число путей в одной коллекции
 CREATE OR REPLACE FUNCTION check_ways_in_collection()
@@ -502,8 +502,8 @@ EXECUTE FUNCTION check_max_foremer_mentors_in_way();
 CREATE OR REPLACE FUNCTION check_max_mentoring_ways_for_user()
 RETURNS TRIGGER AS $$
 BEGIN
-    IF (SELECT COUNT(*) FROM mentor_users_ways WHERE way_uuid = NEW.way_uuid) > 50000 THEN
-        RAISE EXCEPTION 'Exceeded a limit of 50000 ways where a used can be named a mentor';
+    IF (SELECT COUNT(*) FROM mentor_users_ways WHERE user_uuid = NEW.user_uuid) > 50000 THEN
+        RAISE EXCEPTION 'User cannot be a mentor in more than 50000 ways';
     END IF;
     RETURN NEW;
 END;
