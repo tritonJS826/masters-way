@@ -36,9 +36,7 @@ describe("Tag component", () => {
     const STUB_FUNCTION = cy.spy();
 
     mountTag(TagType.PRIMARY_TAG, STUB_FUNCTION);
-    cy.get(getDataCy(TAG_CY.dataCyTag))
-      .realHover()
-      .get(getDataCy(TAG_CY.dataCyCross))
+    cy.get(getDataCy(TAG_CY.dataCyCross))
       .click();
     cy.wrap(STUB_FUNCTION).should("have.been.called");
   });

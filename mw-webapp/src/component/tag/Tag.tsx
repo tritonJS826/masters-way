@@ -1,5 +1,9 @@
 import clsx from "clsx";
-import {Button, ButtonType} from "src/component/button/Button";
+import {observer} from "mobx-react-lite";
+import {Icon, IconSize} from "src/component/icon/Icon";
+import {Tooltip} from "src/component/tooltip/Tooltip";
+import {languageStore} from "src/globalStore/LanguageStore";
+import {LanguageService} from "src/service/LanguageService";
 import styles from "src/component/tag/Tag.module.scss";
 
 /**
@@ -68,31 +72,41 @@ interface TagProps {
 /**
  * WayCard tag component
  */
-export const Tag = (props: TagProps) => {
+export const Tag = observer((props: TagProps) => {
   const isPrimaryTag = props.type === TagType.PRIMARY_TAG;
   const tagStyle = isPrimaryTag ? styles.primaryTag : styles.cardTag;
-  const tag = (
-    <span
+  const isShowRemoveButton = isPrimaryTag && props.isDeletable;
+  const {language} = languageStore;
+
+  const removeButton = (
+    <Tooltip content={LanguageService.common.removeTag[language]}>
+      <button
+        className={styles.removeButton}
+        onClick={() => {
+          props.isDeletable && props?.onDelete && props.onDelete(props.tagName);
+        }}
+        data-cy={props.cy?.dataCyCross}
+      >
+        <Icon
+          size={IconSize.SMALL}
+          name="RemoveIcon"
+          className={styles.removeIcon}
+        />
+      </button>
+    </Tooltip>);
+
+  return (
+    <div
       className={clsx(styles.tag, tagStyle)}
       data-cy={props.cy?.dataCyTag}
     >
-      {props.tagName}
-    </span>);
+      <Tooltip content={props.tagName}>
+        <span className={styles.text}>
+          {props.tagName}
+        </span>
+      </Tooltip>
 
-  return isPrimaryTag ?
-    (
-      <div className={styles.tagContainer}>
-        <Button
-          className={clsx(styles.cross, !props.isDeletable && styles.hiddenCross)}
-          onClick={() => {
-            props.isDeletable && props?.onDelete && props.onDelete(props.tagName);
-          }}
-          dataCy={props.cy?.dataCyCross}
-          value={"X"}
-          buttonType={ButtonType.ICON_BUTTON}
-        />
-        {tag}
-      </div>
-    )
-    : tag;
-};
+      { isShowRemoveButton && removeButton }
+    </div>
+  );
+});

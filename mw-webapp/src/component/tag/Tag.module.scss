@@ -1,65 +1,41 @@
 @import "src/styles/variables";
 
-.tagContainer {
-  position: relative;
-
-  .cross {
-    visibility: hidden;
-  }
-
-  &:hover .cross {
-    visibility: visible;
-  }
-
-  &:focus-visible .cross {
-    visibility: visible;
-  }
-}
-
 .tag {
   display: flex;
   align-items: center;
   justify-content: center;
   border: 1px solid var(--primaryStrokeColor);
   border-radius: $tagBorderRadius;
+  background-color: var(--primaryBgColor);
   color: var(--primaryTextColor);
+  gap: $gapSmall;
+  padding-inline: $paddingMedium;
+
+  .text {
+    overflow: hidden;
+    max-width: calc($minWidthBlock - 2 * $paddingMedium - $gapSmall);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
 
 .primaryTag {
-  overflow: hidden;
-  max-width: $minWidthBlock;
   height: 40px;
-  background-color: var(--secondaryBgColor);
-  color: var(--primaryTextColor);
   font-size: $fontSizeBig;
-  padding-inline: $paddingMedium;
-  text-overflow: ellipsis;
-  text-wrap: nowrap;
 }
 
 .cardTag {
-  height: 16px;
-  background-color: var(--primaryBgColor);
+  height: 22px;
   font-size: $fontSizeSmall;
-  padding-inline: $paddingMedium;
 }
 
-.cross {
-  position: absolute;
-  top: -3px;
-  right: -3px;
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  border: 1px solid var(--primaryStrokeColor);
-  border-radius: 100%;
-  background-color: var(--secondaryBgColor);
-  color: inherit;
+.removeButton {
+  display: flex;
+  border: none;
+  background: none;
   cursor: pointer;
-  font: inherit;
-  text-align: center;
-}
 
-.hiddenCross {
-  display: none;
+  &:hover .removeIcon {
+    stroke: var(--primaryBgBtnHoverColor);
+  }
 }
