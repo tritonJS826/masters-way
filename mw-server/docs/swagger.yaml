@@ -971,12 +971,8 @@ paths:
         type: string
       produces:
       - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/schemas.UserPopulatedResponse'
-      summary: Update comment by UUID
+      responses: {}
+      summary: Begin oauth
       tags:
       - auth
   /auth/{provider}/callback:
@@ -1024,6 +1020,24 @@ paths:
           schema:
             $ref: '#/definitions/schemas.UserPopulatedResponse'
       summary: Get current authorized user
+      tags:
+      - auth
+  /auth/login/local/{userEmail}:
+    get:
+      consumes:
+      - application/json
+      description: Login locally by providing an email address.
+      operationId: get token locally
+      parameters:
+      - description: email
+        in: path
+        name: userEmail
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: login locally by email (with no oauth)
       tags:
       - auth
   /auth/logout/{provider}:
