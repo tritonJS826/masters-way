@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import {observer} from "mobx-react-lite";
+import {Tooltip} from "src/component/tooltip/Tooltip";
 import {Label} from "src/model/businessModel/Label";
 import styles from "src/logic/wayPage/labels/label/Label.module.scss";
 
@@ -42,11 +43,13 @@ interface LabelProps {
  */
 export const LabelItem = observer((props: LabelProps) => {
   return (
-    <div
-      style={{color: props.label.color, borderColor: props.label.color}}
-      className={clsx(styles.label, props.isSmall && styles.small, props.className)}
-    >
-      {props.label.name}
-    </div>
+    <Tooltip content={props.label.name}>
+      <div
+        style={{color: props.label.color, borderColor: props.label.color}}
+        className={clsx(styles.label, props.isSmall && styles.small, props.className)}
+      >
+        {props.label.name}
+      </div>
+    </Tooltip>
   );
 });
