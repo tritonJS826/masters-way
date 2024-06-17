@@ -78,7 +78,6 @@ interface TagProps {
 export const Tag = (props: TagProps) => {
   const isPrimaryTag = props.type === TagType.PRIMARY_TAG;
   const tagStyle = isPrimaryTag ? styles.primaryTag : styles.cardTag;
-  const isShowRemoveButton = isPrimaryTag && props.isDeletable;
 
   const removeButton = (
     <Tooltip content={props.removeTooltipText}>
@@ -107,7 +106,7 @@ export const Tag = (props: TagProps) => {
         </span>
       </Tooltip>
 
-      {isShowRemoveButton && removeButton}
+      {props.isDeletable && removeButton}
     </div>
   );
 };
