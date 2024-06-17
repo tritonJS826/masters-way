@@ -26,7 +26,8 @@ describe('Navigation menu scope tests', () => {
         navigationMenuSelectors.menuItemLinks.getLogoItemLink().click();
 
         navigationMenuSelectors.getNavigationMenu().should('not.exist');
-        cy.url().should('include', '/');
+
+        cy.url().should('eq', Cypress.config('baseUrl') + '/');
         homeSelectors.welcomeBlock.getTitle().should('contain', homePageContent.title.en);
     });
 
@@ -34,7 +35,7 @@ describe('Navigation menu scope tests', () => {
         navigationMenuSelectors.menuItemLinks.getHomeItemLink().click();
 
         navigationMenuSelectors.getNavigationMenu().should('not.exist');
-        cy.url().should('include', '/');
+        cy.url().should('eq', Cypress.config('baseUrl') + '/');
         homeSelectors.welcomeBlock.getTitle().should('contain', homePageContent.title.en);
     });
   
@@ -65,14 +66,14 @@ describe('Navigation menu scope tests', () => {
     it('NoAuth_NavMenu_Close', () => {
         headerSelectors.getHeader().click({force: true});
 
-        cy.url().should('include', '/');
+        cy.url().should('eq', Cypress.config('baseUrl') + '/');
         navigationMenuSelectors.getNavigationMenu().should('not.exist');
     });
 
     it('NoAuth_NavMenu_CloseButton', () => {
         navigationMenuSelectors.getCloseButton().click();
 
-        cy.url().should('include', '/');
+        cy.url().should('eq', Cypress.config('baseUrl') + '/');
         navigationMenuSelectors.getNavigationMenu().should('not.exist');
     });
 
