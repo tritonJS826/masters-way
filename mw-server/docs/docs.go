@@ -38,6 +38,32 @@ const docTemplate = `{
                 }
             }
         },
+        "/auth/login/local/{userEmail}": {
+            "get": {
+                "description": "Login locally by providing an email address.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "login locally by email (with no oauth)",
+                "operationId": "get token locally",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "email",
+                        "name": "userEmail",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/auth/logout/{provider}": {
             "get": {
                 "consumes": [
@@ -81,7 +107,7 @@ const docTemplate = `{
                 "tags": [
                     "auth"
                 ],
-                "summary": "Update comment by UUID",
+                "summary": "Begin oauth",
                 "operationId": "begin-auth",
                 "parameters": [
                     {
@@ -92,14 +118,7 @@ const docTemplate = `{
                         "required": true
                     }
                 ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/schemas.UserPopulatedResponse"
-                        }
-                    }
-                }
+                "responses": {}
             }
         },
         "/auth/{provider}/callback": {

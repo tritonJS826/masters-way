@@ -56,8 +56,6 @@ func (cc *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
 	userInfo, err := oauth2Service.Userinfo.Get().Do()
 	util.HandleErrorGin(ctx, err)
 
-	println(userInfo)
-
 	now := time.Now()
 	args := &db.CreateUserParams{
 		Name:        userInfo.Name,
@@ -79,14 +77,13 @@ func (cc *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
 }
 
 // Begin auth handler
-// @Summary Update comment by UUID
+// @Summary Begin oauth
 // @Description
 // @Tags auth
 // @ID begin-auth
 // @Accept  json
 // @Produce  json
 // @Param provider path string true "google"
-// @Success 200 {object} schemas.UserPopulatedResponse
 // @Router /auth/{provider} [get]
 func (cc *AuthController) BeginAuth(ctx *gin.Context) {
 	url := auth.GoogleOAuthConfig.AuthCodeURL(auth.OauthStateString, oauth2.AccessTypeOffline)
@@ -104,12 +101,43 @@ func (cc *AuthController) BeginAuth(ctx *gin.Context) {
 func (cc *AuthController) GetCurrentAuthorizedUserByToken(ctx *gin.Context) {
 	userIDRaw, _ := ctx.Get("userID")
 	userId := userIDRaw.(string)
-	println("!!!!" + userId)
 
 	populatedUser, err := services.GetPopulatedUserById(cc.db, ctx, uuid.MustParse(userId))
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, populatedUser)
+}
+
+// GetUserTokenByEmail handler
+// @Summary login locally by email (with no oauth)
+// @Description Login locally by providing an email address.
+// @Tags auth
+// @ID get token locally
+// @Accept  json
+// @Produce  json
+// @Param userEmail path string true "email"
+// @Router /auth/login/local/{userEmail} [get]
+func (cc *AuthController) GetUserTokenByEmail(ctx *gin.Context) {
+	userEmail := ctx.Param("userEmail")
+
+	now := time.Now()
+	args := &db.CreateUserParams{
+		Name:        userEmail,
+		Email:       userEmail,
+		Description: "",
+		CreatedAt:   now,
+		ImageUrl:    "",
+		IsMentor:    false,
+		FirebaseID:  "",
+	}
+
+	populatedUser, err := services.FindOrCreateUserByEmail(cc.db, ctx, args)
+	util.HandleErrorGin(ctx, err)
+
+	jwtToken, err := auth.GenerateJWT(populatedUser.Uuid)
+	util.HandleErrorGin(ctx, err)
+
+	ctx.Redirect(http.StatusFound, config.Env.WebappBaseUrl+"?token="+jwtToken)
 }
 
 // @Summary Logout current authorized user

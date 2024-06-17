@@ -2,6 +2,7 @@ package routes
 
 import (
 	"mwserver/auth"
+	"mwserver/config"
 	"mwserver/controllers"
 
 	"github.com/gin-gonic/gin"
@@ -21,4 +22,7 @@ func (cr *AuthRoutes) AuthRoute(rg *gin.RouterGroup) {
 	router.GET("/:provider", cr.authController.BeginAuth)
 	router.GET("/current", auth.AuthMiddleware(), cr.authController.GetCurrentAuthorizedUserByToken)
 	router.GET("/logout/:provider", auth.AuthMiddleware(), cr.authController.Logout)
+	if config.Env.EnvType != "prod" {
+		router.GET("/login/local/:userEmail", cr.authController.GetUserTokenByEmail)
+	}
 }
