@@ -1,11 +1,9 @@
 import clsx from "clsx";
-import {observer} from "mobx-react-lite";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {Label} from "src/model/businessModel/Label";
-import styles from "src/logic/wayPage/labels/label/Label.module.scss";
+import styles from "src/component/label/Label.module.scss";
 
 /**
- * TODO: Move to components
  * Label props
  */
 interface LabelProps {
@@ -41,7 +39,7 @@ interface LabelProps {
 /**
  * Job tag component
  */
-export const LabelItem = observer((props: LabelProps) => {
+export const LabelItem = (props: LabelProps) => {
   return (
     <Tooltip content={props.label.name}>
       <div
@@ -52,4 +50,4 @@ export const LabelItem = observer((props: LabelProps) => {
       </div>
     </Tooltip>
   );
-});
+};

@@ -1,4 +1,4 @@
-import {LabelItem} from "src/logic/wayPage/labels/label/Label";
+import {LabelItem} from "src/component/label/Label";
 import {Label} from "src/model/businessModel/Label";
 import styles from "src/logic/wayPage/reportsTable/jobDoneTags/JobDoneTags.module.scss";
 
