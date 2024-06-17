@@ -1,7 +1,7 @@
 import {IconProps} from "src/component/icon/Icon";
 
 /**
- * Book icon
+ * Chevron icon
  */
 export const ChevronIcon = (props: IconProps) => {
   return (
@@ -17,7 +17,6 @@ export const ChevronIcon = (props: IconProps) => {
         strokeLinecap="round" 
         strokeLinejoin="round"
       />
-      {/* <path d="M1 1L7 7L13 1" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/> */}
     </svg>
   );
 };
