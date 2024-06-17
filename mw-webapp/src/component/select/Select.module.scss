@@ -6,13 +6,29 @@ $selectPadding: 3px;
   cursor: pointer;
 }
 
-.select button {
+.SelectIcon {
+  margin-left: $marginMedium;
+  stroke: var(--primaryIconColor);
+  transition: all $primaryTransitionDuration ease 0s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.SelectTrigger {
   all: unset;
-  padding: $selectPadding $paddingExtraSmall;
+  padding: 0 $paddingMedium;
   border-radius: $primaryBorderRadius;
   background-color: var(--secondaryBgColor);
   color: var(--primaryTextColor);
   font-size: $fontSizeMedium;
+  border: solid  $primaryBorder var(--primaryStrokeColor);
+  display: flex;
+  align-items: center;
+
+  &[data-state="open"] > .SelectIcon  {
+    transform: rotate(180deg);
+  }
 }
 
 .SelectTrigger[data-placeholder] {
@@ -21,10 +37,9 @@ $selectPadding: 3px;
   & span {
     color: var(--primaryTextColor);
   }
-}
-
-.SelectIcon {
-  margin-left: $marginSmall;
+  &[data-state="open"] > .SelectIcon {
+    transform: rotate(180deg);
+  }
 }
 
 .SelectContent {
@@ -32,12 +47,19 @@ $selectPadding: 3px;
   overflow: hidden;
   width: var(--radix-select-trigger-width);
   max-height: var(--radix-select-content-available-height);
-  padding: $paddingSmall $selectPadding;
+  padding: $paddingSmall $paddingMedium 0 $paddingSmall;
   border-radius: $primaryBorderRadius;
   background-color: var(--secondaryBgColor);
-  box-shadow: 0px 10px 38px -10px rgba(22, 23, 24, 0.35),
-    0px 10px 20px -15px rgba(22, 23, 24, 0.2);
   color: var(--generalPrimaryColor);
+  border: solid $primaryBorder var(--primaryStrokeColor);
+  display: flex;
+  gap: 8px;
+}
+
+.SelectItemsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: $gapExtraSmall;
 }
 
 .SelectViewport {
@@ -61,7 +83,6 @@ $selectPadding: 3px;
   pointer-events: none;
 }
 .SelectItem[data-highlighted] {
-  background-color: var(--tertiaryBgColor);
   background-color: var(--secondaryBgColor);
   color: var(--generalPrimaryColor);
   outline: none;
@@ -92,7 +113,7 @@ $selectPadding: 3px;
   height: 25px;
   align-items: center;
   justify-content: center;
-  background-color: white;
+  background-color: var(--generalPrimaryColor);
   color: var(--generalPrimaryColor);
   cursor: default;
 }

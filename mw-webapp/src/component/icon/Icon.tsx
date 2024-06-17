@@ -22,6 +22,7 @@ import {UserIcon} from "src/assets/icons/UserIcon";
 import {UsersIcon} from "src/assets/icons/UsersIcon";
 import {WayIcon} from "src/assets/icons/WayIcon";
 import {YoutubeIcon} from "src/assets/icons/YoutubeIcon";
+import {ChevronIcon} from "src/assets/icons/ChevronIcon";
 import styles from "src/component/icon/Icon.module.scss";
 
 /**
@@ -143,6 +144,11 @@ export const IconDictionary = {
    * Remove icon
    */
   RemoveIcon: (params: IconProps) => <RemoveIcon {...params} />,
+
+  /**
+   * User icon
+   */
+  ChevronIcon: (params: IconProps) => <ChevronIcon {...params} />,
 };
 
 /**

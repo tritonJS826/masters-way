@@ -4,6 +4,7 @@ import clsx from "clsx";
 import {SelectItem} from "src/component/select/selectItem/SelectItem";
 import {Symbols} from "src/utils/Symbols";
 import styles from "src/component/select/Select.module.scss";
+import {Icon, IconSize} from "src/component/icon/Icon";
 
 /**
  * Option type for a select component
@@ -191,9 +192,14 @@ export const Select = <T extends string>(props: SelectProps<T>) => {
               options: props.options,
             })}
           />
-          <SelectComponent.Icon className={styles.SelectIcon}>
+          <Icon
+            size={IconSize.MEDIUM}
+            name="ChevronIcon"
+            className={styles.SelectIcon}
+          />
+          {/* <SelectComponent.Icon className={styles.SelectIcon}>
             <ChevronDownIcon />
-          </SelectComponent.Icon>
+          </SelectComponent.Icon> */}
         </SelectComponent.Trigger>
         <SelectComponent.Portal>
           <SelectComponent.Content
@@ -203,7 +209,7 @@ export const Select = <T extends string>(props: SelectProps<T>) => {
             data-cy={props.cy?.dataCyContentList}
           >
             <SelectComponent.Viewport className={styles.SelectViewport}>
-              <SelectComponent.Group>
+              <SelectComponent.Group className={styles.SelectItemsWrapper}>
                 {renderSelectOptions(props.options)}
               </SelectComponent.Group>
 

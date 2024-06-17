@@ -20,7 +20,7 @@
   bottom: 0;
   left: 0;
   border-radius: 34px;
-  background-color: #ccc;
+  background-color: var(--tertiaryBgColor);
   cursor: pointer;
   -webkit-transition: 0.4s;
   transition: 0.4s;
@@ -33,7 +33,7 @@
   width: 27px;
   height: 27px;
   border-radius: 50%;
-  background-color: white;
+  background-color: var(--primaryIconColor);
   content: "";
   -webkit-transition: 0.4s;
   transition: 0.4s;
