@@ -1,28 +1,41 @@
 import 'package:flutter/material.dart';
+import '../styles/colors.dart';
+import '../styles/shadows.dart';
 
-Widget neumorphicButton(
-    {required Widget child, required VoidCallback onPressed}) {
-  return GestureDetector(
-    onTap: onPressed,
-    child: Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.indigo,
-        shape: BoxShape.circle,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.indigo.shade700,
-            offset: const Offset(6, 6),
-            blurRadius: 12,
-          ),
-          const BoxShadow(
-            color: Colors.white,
-            offset: Offset(-6, -6),
-            blurRadius: 12,
-          ),
-        ],
+class NeumorphicButton extends StatelessWidget {
+  final Widget child;
+  final VoidCallback onPressed;
+
+  const NeumorphicButton({
+    required this.child,
+    required this.onPressed,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: const BoxDecoration(
+          color: buttonColor,
+          shape: BoxShape.circle,
+          boxShadow: [
+            BoxShadow(
+              color: shadowDarkColor,
+              offset: shadowOffset,
+              blurRadius: shadowBlurRadius,
+            ),
+            BoxShadow(
+              color: shadowLightColor,
+              offset: shadowLightOffset,
+              blurRadius: shadowBlurRadius,
+            ),
+          ],
+        ),
+        child: child,
       ),
-      child: child,
-    ),
-  );
+    );
+  }
 }

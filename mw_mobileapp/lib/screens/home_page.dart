@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import '../widgets/neumorphic_container.dart';
 import '../widgets/neumorphic_button.dart';
+import '../styles/colors.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({required this.title, super.key});
 
   final String title;
 
@@ -30,7 +31,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        backgroundColor: primaryColor,
         title: Text(widget.title),
       ),
       body: Stack(
@@ -42,9 +43,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 const Text(
                   'Your Items:',
                   style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black),
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: textColor,
+                  ),
                 ),
                 Expanded(
                   child: ListView.builder(
@@ -52,18 +54,22 @@ class _MyHomePageState extends State<MyHomePage> {
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(
-                            vertical: 8.0, horizontal: 16.0),
-                        child: neumorphicContainer(
+                          vertical: 8.0,
+                          horizontal: 16.0,
+                        ),
+                        child: NeumorphicContainer(
                           margin: const EdgeInsets.symmetric(
-                              vertical: 4, horizontal: 16),
+                            vertical: 4,
+                            horizontal: 16,
+                          ),
                           child: ListTile(
                             title: Text(
                               _items[index],
-                              style: const TextStyle(color: Colors.black),
+                              style: const TextStyle(color: textColor),
                             ),
                             trailing: IconButton(
-                              icon: const Icon(Icons.delete,
-                                  color: Colors.redAccent),
+                              icon:
+                                  const Icon(Icons.delete, color: accentColor),
                               onPressed: () => _removeItem(index),
                             ),
                           ),
@@ -77,10 +83,9 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           Positioned(
-            bottom: 30, // Подняли кнопку выше
-            right: MediaQuery.of(context).size.width / 2 -
-                28, // Центрировали кнопку
-            child: neumorphicButton(
+            bottom: 30,
+            right: MediaQuery.of(context).size.width / 2 - 28,
+            child: NeumorphicButton(
               onPressed: _addItem,
               child: const Icon(Icons.add, size: 40, color: Colors.white),
             ),
