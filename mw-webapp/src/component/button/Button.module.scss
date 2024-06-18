@@ -1,5 +1,10 @@
 @import "src/styles/variables";
 
+$buttonBlockPadding: 10px;
+$superSpecialBeautifulButtonBorderRadius: 20px;
+$superSpecialBeautifulButtonMinWidth: 216px;
+$superSpecialBeautifulButton: 18px;
+
 .button {
   display: flex;
   align-items: center;
@@ -20,34 +25,32 @@
 }
 
 .primary {
-  padding: $paddingMedium $paddingExtraBig;
+  padding: $buttonBlockPadding $paddingExtraBig;
   background-color: var(--generalPrimaryColor);
   color: var(--secondaryTextColor);
 
   &:hover:enabled {
     background-color: var(--primaryBgBtnHoverColor);
-    cursor: pointer;
   }
 
-  &:active {
+  &:active:enabled {
     background-color: var(--primaryBgBtnActiveColor);
   }
 }
 
 .secondary {
-  padding: $paddingMedium $paddingExtraBig;
-  border: 1px var(--primaryStrokeColor) solid;
+  padding: $buttonBlockPadding $paddingExtraBig;
+  border: $primaryBorder solid var(--primaryStrokeColor);
   background-color: var(--secondaryBgBtnColor);
   color: var(--primaryTextColor);
 
-  &:hover {
+  &:hover:enabled,
+  &:active:enabled {
     background-color: var(--primaryBgColor);
-    color: var(--primaryTextColor);
   }
 
-  &:active {
-    border: 1px var(--generalPrimaryColor) solid;
-    background-color: var(--primaryBgColor);
+  &:active:enabled {
+    border: $primaryBorder solid var(--primaryBgColor);
     color: var(--generalPrimaryColor);
   }
 }
@@ -59,21 +62,17 @@
   align-items: center;
   justify-content: center;
   padding: 0;
-  border: 1px var(--primaryStrokeColor) solid;
+  border: $primaryBorder solid var(--primaryStrokeColor);
   border-radius: $tertiaryBorderRadius;
   background-color: var(--secondaryBgBtnColor);
   color: var(--primaryTextColor);
 
   & svg {
-    stroke: var(--primaryTextColor);
+    stroke: var(--primaryStrokeColor);
   }
 
-  &:hover {
-    background-color: var(--generalPrimaryColor);
-
-    & svg {
-      stroke: var(--primaryStrokeColor);
-    }
+  &:hover:enabled {
+    background-color: var(--primaryBgColor);
   }
 }
 
@@ -81,31 +80,27 @@
   background-color: var(--secondaryBgBtnColor);
   color: var(--primaryTextColor);
 
-  &:hover {
+  &:hover:enabled {
     background-color: var(--primaryBgColor);
   }
 
-  &:active {
-    border: 1px var(--generalPrimaryColor) solid;
+  &:active:enabled {
+    border: $primaryBorder solid var(--generalPrimaryColor);
     background-color: var(--primaryBgColor);
     color: var(--generalPrimaryColor);
   }
 }
 
 .superSpecialBeautifulButton {
-  min-width: 216px;
-  padding: 18px $paddingExtraBig;
+  min-width: $superSpecialBeautifulButtonMinWidth;
+  padding: $superSpecialBeautifulButton $paddingExtraBig;
   border: none;
-  border-radius: 20px;
+  border-radius: $superSpecialBeautifulButtonBorderRadius;
   background-color: var(--homeBgButtonColor);
   color: var(--generalPrimaryColor);
   font-size: $fontSizeLarge;
 
-  &:hover {
+  &:hover:enabled {
     background-color: var(--homeHoverBgButtonColor);
-  }
-
-  &:active {
-    background-color: var(--homeBgButtonColor);
   }
 }
