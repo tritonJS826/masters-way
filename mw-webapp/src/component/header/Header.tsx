@@ -220,7 +220,7 @@ export const Header = (props: HeaderProps) => {
             >
               <Tooltip
                 key={props.user.name}
-                position={PositionTooltip.BOTTOM_LEFT}
+                position={PositionTooltip.BOTTOM}
                 content={props.user.name}
               >
                 <Avatar

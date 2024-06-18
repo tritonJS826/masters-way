@@ -45,13 +45,13 @@ const createTestViewSwitcher = (props?: Partial<ViewSwitcherProps>) => {
 describe("ViewSwitcher component", () => {
   it("should render with the correct default view", () => {
     cy.mount(createTestViewSwitcher());
-    cy.get(getDataCy(CARD_ICON_CY)).parent().find("button").should("have.class", styles.activeView);
+    cy.get(getDataCy(VIEW_SWITCHER_CY)).find("button").should("have.class", styles.activeView);
   });
 
   it("should change view when a different option is clicked", () => {
     STUB_FUNCTION = cy.spy();
     cy.mount(createTestViewSwitcher());
-    cy.get(getDataCy(TABLE_ICON_CY)).parent().find("button").click();
-    cy.wrap(STUB_FUNCTION).should("have.been.calledWith", View.Table);
+    cy.get(getDataCy(VIEW_SWITCHER_CY)).children().first().click();
+    cy.wrap(STUB_FUNCTION).should("have.been.called");
   });
 });

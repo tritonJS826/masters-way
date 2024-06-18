@@ -414,7 +414,6 @@ export const UserPage = observer((props: UserPageProps) => {
               <Tooltip
                 content={LanguageService.user.personalInfo.becomeMentorTooltip[language]}
                 className={styles.tooltip}
-                isInactive={!isPageOwner}
               >
                 {LanguageService.user.personalInfo.mentor[language]}
               </Tooltip>

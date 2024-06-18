@@ -192,7 +192,7 @@ export const Columns = (props: ColumnsProps) => {
        */
       header: () => (
         <Tooltip
-          position={PositionTooltip.TOP_LEFT}
+          position={PositionTooltip.TOP}
           content={LanguageService.way.reportsTable.columnTooltip.comments[language]}
         >
           {LanguageService.way.reportsTable.column.comments[language]}

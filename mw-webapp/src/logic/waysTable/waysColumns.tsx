@@ -232,7 +232,7 @@ export const getWaysColumns = (language: Language) => [
     header: () => (
       <>
         <Tooltip
-          position={PositionTooltip.TOP_LEFT}
+          position={PositionTooltip.TOP}
           content={LanguageService.allWays.waysTable.columnTooltip.reports[language]}
         >
           {LanguageService.allWays.waysTable.columns.reports[language]}
@@ -256,7 +256,7 @@ export const getWaysColumns = (language: Language) => [
     header: () => (
       <>
         <Tooltip
-          position={PositionTooltip.TOP_LEFT}
+          position={PositionTooltip.TOP}
           content={LanguageService.allWays.waysTable.columnTooltip.favorites[language]}
         >
           {Symbols.STAR}

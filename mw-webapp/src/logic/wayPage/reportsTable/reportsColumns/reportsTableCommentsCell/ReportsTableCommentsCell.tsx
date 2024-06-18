@@ -111,7 +111,7 @@ export const ReportsTableCommentsCell = observer((props: ReportsTableCommentsCel
                   className={styles.linkToOwnerWay}
                 >
                   <Tooltip
-                    position={PositionTooltip.BOTTOM_LEFT}
+                    position={PositionTooltip.BOTTOM}
                     content={LanguageService.way.reportsTable.columnTooltip.visitWay[language]
                       .replace("$wayName", `"${comment.wayName}"`)}
                   >

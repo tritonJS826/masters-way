@@ -1,4 +1,5 @@
-import {Theme, themedVariables} from "src/globalStore/ThemeStore";
+import { Theme, themedVariables } from "src/globalStore/ThemeStore";
+import { expect } from "chai";
 
 // ***********************************************
 // This example commands.ts shows you how to

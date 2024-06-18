@@ -1,74 +1,70 @@
 @import "src/styles/variables";
 
-// TODO: don't use th inside tooltip
-th .wrapper {
-  display: flex;
-  justify-content: center;
+/* reset */
+.tooltipTrigger {
+  all: unset;
 }
 
-.tooltip {
-  position: absolute;
-  z-index: $tooltipZIndex;
-  display: none;
+.tooltipContent {
+  max-width: $maxWidthBlock;
   padding: $paddingSmall $paddingMedium;
-  border: 1px solid var(--generalPrimaryColor);
+  border: $primaryBorder solid var(--generalPrimaryColor);
   border-radius: $secondaryBorderRadius;
-  animation: tooltipAppear 1s ease forwards;
+  animation-duration: 400ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   background-color: var(--primaryBgColor);
   color: var(--primaryTextColor);
-  cursor: pointer;
-  opacity: 0;
+  font-size: $fontSizeSmall;
+}
+.tooltipContent[data-state="delayed-open"][data-side="top"] {
+  animation-name: slideDownAndFade;
+}
+.tooltipContent[data-state="delayed-open"][data-side="right"] {
+  animation-name: slideLeftAndFade;
+}
+.tooltipContent[data-state="delayed-open"][data-side="bottom"] {
+  animation-name: slideUpAndFade;
+}
+.tooltipContent[data-state="delayed-open"][data-side="left"] {
+  animation-name: slideRightAndFade;
 }
 
-.target {
-  display: flex;
-  align-items: center;
-  &:hover + .tooltip {
-    display: inline-block;
-    max-width: $maxWidthBlock;
-  }
+.tooltipArrow {
+  fill: var(--generalPrimaryColor);
 }
 
-.top {
-  transform: translateY(calc(-100% - $marginBig));
-}
-
-.right {
-  transform: translateY(-100%) translateX($marginBig);
-}
-
-.left {
-  transform: translateY(-100%) translateX(calc(-100% - $marginBig));
-}
-
-// Don't delete empty style because it's one of default tooltip position className and can be change in the future
-.bottom {
-}
-
-.bottomLeft {
-  transform: translateY(0) translateX(-50%);
-}
-
-.bottomRight {
-  transform: translateY(0) translateX(50%);
-}
-
-.topLeft {
-  transform: translateY(calc(-100% - $marginBig)) translateX(-50%);
-}
-
-.topRight {
-  transform: translateY(calc(-100% - $marginBig)) translateX(50%);
-}
-
-@keyframes tooltipAppear {
-  0% {
+@keyframes slideUpAndFade {
+  from {
     opacity: 0;
   }
-  50% {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideRightAndFade {
+  from {
     opacity: 0;
   }
-  100% {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideDownAndFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideLeftAndFade {
+  from {
+    opacity: 0;
+  }
+  to {
     opacity: 1;
   }
 }
