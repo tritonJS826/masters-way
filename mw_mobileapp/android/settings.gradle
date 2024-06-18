@@ -1,0 +1,37 @@
+
+/// This block defines repositories and includes necessary builds for the project.
+pluginManagement {
+    repositories {
+        // Adding Google Maven repository
+        google()
+        // Adding central Maven repository
+        mavenCentral()
+        // Adding Gradle Plugin Portal
+        gradlePluginPortal()
+    }
+
+    def flutterSdkPath = {
+        def properties = new Properties()
+        file("local.properties").withInputStream { properties.load(it) }
+        def flutterSdkPath = properties.getProperty("flutter.sdk")
+        assert flutterSdkPath != null, "flutter.sdk not set in local.properties"
+        return flutterSdkPath
+    }()
+
+    // Include the Flutter tools Gradle build from the Flutter SDK path
+    includeBuild("$flutterSdkPath/packages/flutter_tools/gradle")
+}
+
+/// Plugins configuration block.
+/// This block applies necessary plugins for the Flutter project including Flutter plugin loader,
+
+plugins {
+    // Flutter plugin loader
+    id "dev.flutter.flutter-plugin-loader" version "1.0.0"
+    // Android application plugin
+    id "com.android.application" version "7.3.0" apply false
+    // Kotlin Android plugin
+    id "org.jetbrains.kotlin.android" version "1.7.10" apply false
+}
+
+include ":app"

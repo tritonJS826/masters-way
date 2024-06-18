@@ -1,0 +1,42 @@
+# This file configures the analyzer, which statically analyzes Dart code to
+# check for errors, warnings, and lints.
+#
+# The issues identified by the analyzer are surfaced in the UI of Dart-enabled
+# IDEs (https://dart.dev/tools#ides-and-editors). The analyzer can also be
+# invoked from the command line by running `flutter analyze`.
+
+# The following line activates a set of recommended lints for Flutter apps,
+# packages, and plugins designed to encourage good coding practices.
+include: package:flutter_lints/flutter.yaml
+
+linter:
+  # The lint rules applied to this project can be customized in the
+  # section below to disable rules from the `package:flutter_lints/flutter.yaml`
+  # included above or to enable additional rules. A list of all available lints
+  # and their documentation is published at https://dart.dev/lints.
+  #
+  # Instead of disabling a lint rule for the entire project in the
+  # section below, it can also be suppressed for a single line of code
+  # or a specific dart file by using the `// ignore: name_of_lint` and
+  # `// ignore_for_file: name_of_lint` syntax on the line or in the file
+  # producing the lint.
+  rules:
+    avoid_print: true  # Avoid using print statements in production code
+    prefer_single_quotes: true  # Prefer single quotes for strings
+    always_declare_return_types: true  # Always declare return types for functions and methods
+    always_put_required_named_parameters_first: true  # Put required named parameters first
+    avoid_redundant_argument_values: true  # Avoid redundant argument values
+    avoid_returning_null_for_future: true  # Avoid returning null for Future
+    prefer_final_locals: true  # Prefer final for local variables
+    prefer_const_literals_to_create_immutables: true  # Prefer const literals to create immutables
+    use_key_in_widget_constructors: true  # Require a key in widget constructors
+    prefer_is_not_empty: true  # Use '.isNotEmpty' for collections to improve readability
+    avoid_empty_else: true  # Avoid empty else statements
+    use_rethrow_when_possible: true  # Use rethrow when possible
+    unnecessary_this: true  # Avoid using 'this.' when not needed
+    prefer_typing_uninitialized_variables: true  # Prefer typing uninitialized variables
+    unnecessary_null_aware_assignments: true  # Avoid unnecessary null-aware assignments
+    unnecessary_null_in_if_null_operators: true  # Avoid unnecessary null in if-null operators
+
+# Additional information about this file can be found at
+# https://dart.dev/guides/language/analysis-options
