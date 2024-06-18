@@ -93,7 +93,7 @@ $superSpecialBeautifulButton: 18px;
 
 .superSpecialBeautifulButton {
   min-width: $homeButtonMinWidth;
-  padding: $homeButtonBlockPadding $paddingExtraBig;
+  padding: $superSpecialBeautifulButton $paddingExtraBig;
   border: none;
   border-radius: $homeButtonBorderRadius;
   background-color: var(--homeBgButtonColor);
