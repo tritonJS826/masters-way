@@ -8,6 +8,7 @@ export const headerSelectors = {
 
     settings: {
         getThemeSwitcher: () => cy.get(getDataCy(headerAccessIds.settings.themeSwitcher)),
-    }
+    },
     
+    getloginButton: () => cy.get(getDataCy(headerAccessIds.loginButton)),
 };

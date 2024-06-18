@@ -6,5 +6,6 @@ declare namespace Cypress {
       checkLinkAttributes(selector, expectedHref: string): Chainable<Element>
       checkLinkStatus(selector, href: string): Chainable<Element>
       checkThemeColors(theme: string): Chainable<Element>
+      clearAllStorage(): Chainable<Element>
     }  
 }

@@ -14,12 +14,20 @@ import homePageContent from "src/dictionary/HomePageContent.json";
 import sideBarContent from "src/dictionary/Sidebar.json";
 import navigationMenuFixture from "cypress/fixtures/navigationMenuFixture.json";
 import {Theme} from "src/globalStore/ThemeStore";
+import settingsData from "cypress/fixtures/settingsFixture.json"
+import {settingsSelectors} from "cypress/scopesSelectors/settingsSelectors";
+import settingsPageContent from "src/dictionary/SettingsPageContent.json";
+import testUserData from "cypress/fixtures/testUserDataFixture.json";
 
-describe('Navigation menu scope tests', () => {
+afterEach(() => {
+    cy.clearAllStorage();
+});
+
+describe('NoAuth Navigation menu scope tests', () => {
 
     beforeEach(() => {
-      cy.visit('/');
-      headerSelectors.getBurgerMenu().click();
+        cy.visit('/');        
+        headerSelectors.getBurgerMenu().click();
     });
 
     it('NoAuth_NavMenu_MastersWayLogo', () => {
@@ -124,3 +132,25 @@ describe('Navigation menu scope tests', () => {
         cy.checkLinkStatus(navigationMenuSelectors.socialMedia.getYoutubeLink(), navigationMenuFixture.youtubeLink);                             
     }); 
   });
+
+  describe('IsAuth Navigation menu scope tests', () => {
+
+    beforeEach(() => {
+        cy.visit(testUserData.userLoginLink);    
+        headerSelectors.getBurgerMenu().click();
+    });
+
+    it('IsAuth_NavMenu_PersonalArea', () => {
+        navigationMenuSelectors.menuItemLinks.getSettingsItemLink().click();
+        
+        cy.url().should('include', settingsData.endpoint);
+        settingsSelectors.getTitle().should('contain', settingsPageContent.title.en);
+    }); 
+
+    it('IsAuth_NavMenu_LogoutButton', () => {
+        navigationMenuSelectors.getLogoutButton().click();
+        
+        navigationMenuSelectors.getLogoutButton().should('not.exist');
+        headerSelectors.getloginButton().should('exist');
+    }); 
+});
