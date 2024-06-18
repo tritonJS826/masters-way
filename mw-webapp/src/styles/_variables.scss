@@ -112,6 +112,17 @@ $disableOpacity: 0.7;
 }
 
 // animation
-@mixin animation($name, $duration: 1s, $timing-function: ease, $direction: forwards) {
+@mixin animation($name: defaultAnimation, $duration: 1s, $timing-function: ease, $direction: forwards) {
   animation: $name $duration $timing-function $direction;
 }
+
+@keyframes defaultAnimation {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+

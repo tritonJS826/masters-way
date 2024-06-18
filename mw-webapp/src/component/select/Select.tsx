@@ -1,4 +1,3 @@
-import {ChevronDownIcon} from "@radix-ui/react-icons";
 import * as SelectComponent from "@radix-ui/react-select";
 import clsx from "clsx";
 import {Icon, IconSize} from "src/component/icon/Icon";
