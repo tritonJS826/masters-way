@@ -28,6 +28,10 @@ $tagPaddingBlockSmall: 3px;
 
   .removeButton {
     padding: 0;
+
+    &:hover .removeIcon {
+      stroke: var(--hoverIconColor);
+    }
   }
 }
 
