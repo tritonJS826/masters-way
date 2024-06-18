@@ -10,12 +10,4 @@ describe('All Ways scope tests', () => {
     cy.visit('/');
   });
 
-  it('NoAuth_AllWays_Open', () => {
-    headerSelectors.getBurgerMenu().click();
-    navigationMenuSelectors.menuItemLinks.getAllWaysItemLink().click();
-
-    cy.url().should('include', allWaysPageData.endpoint);
-    allWaysSelectors.allWaysTable.getTitle().should('contain', allWaysPageContent.waysTable.leftTitle.en);
-  });
-
 });

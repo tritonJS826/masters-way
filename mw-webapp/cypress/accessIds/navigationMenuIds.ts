@@ -4,10 +4,11 @@ export const navigationMenuIds = {
     menuItemLinks: {
         logo: 'menuLogo',
         home: 'home',
+        personalArea: 'personalArea',
         allWays: 'allWays',
         allUsers: 'allUsers',
         aboutProject: 'aboutProject',
-        
+        settings: 'settings'
     },
 
     language: {
@@ -30,5 +31,6 @@ export const navigationMenuIds = {
         youtubeLink: 'youtubeLink'
     },
 
-    closeButton: 'closeButton'    
+    closeButton: 'closeButton',
+    logoutButton: 'logoutButton'
 };

@@ -69,4 +69,10 @@ Cypress.Commands.add('checkThemeColors', (theme: string) => {
   });
 });
 
+Cypress.Commands.add('clearAllStorage', () => {
+  cy.window().then(win => win.sessionStorage.clear());
+  cy.clearCookies();
+  cy.clearLocalStorage();
+});
+
 export {};

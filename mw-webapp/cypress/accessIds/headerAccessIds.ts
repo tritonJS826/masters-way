@@ -6,6 +6,7 @@ export const headerAccessIds = {
 
     settings: {
         themeSwitcher: 'themeSwitcher'
-    }
+    },
     
+    loginButton: 'loginButton'
 };

@@ -1,3 +1,4 @@
+import {settingsAccessIds} from "cypress/accessIds/settingsAccessIds";
 import {observer} from "mobx-react-lite";
 import {Button} from "src/component/button/Button";
 import {languageOptions} from "src/component/header/Header";
@@ -26,6 +27,7 @@ export const SettingsPage = observer(() => {
         level={HeadingLevel.h2}
         text={LanguageService.settings.title[language]}
         placeholder=""
+        dataCy={settingsAccessIds.title}
       />
       <div className={styles.settingsList}>
         <HorizontalContainer className={styles.line}>

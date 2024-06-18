@@ -110,6 +110,7 @@ export const Header = (props: HeaderProps) => {
       isHidden: !props.user,
       path: pages.user.getPath({uuid: props.user?.uuid ?? ""}),
       value: LanguageService.sidebar.myWays[props.language],
+      dataCy: navigationMenuIds.menuItemLinks.personalArea,
       icon: (
         <Icon
           size={IconSize.MEDIUM}
@@ -155,6 +156,7 @@ export const Header = (props: HeaderProps) => {
         ? pages.settings.getPath({})
         : pages.page404.getPath({}),
       value: LanguageService.sidebar.settings[props.language],
+      dataCy: navigationMenuIds.menuItemLinks.settings,
       icon: (
         <Icon
           size={IconSize.MEDIUM}
@@ -237,6 +239,7 @@ export const Header = (props: HeaderProps) => {
                   onClick={() => {}}
                   value={LanguageService.header.loginButton[props.language]}
                   buttonType={ButtonType.PRIMARY}
+                  dataCy={headerAccessIds.loginButton}
                 />
               }
               className={styles.loginModal}
@@ -368,6 +371,7 @@ export const Header = (props: HeaderProps) => {
                   onClick={logout}
                   value={LanguageService.header.logoutButton[props.language]}
                   buttonType={ButtonType.PRIMARY}
+                  dataCy={navigationMenuIds.logoutButton}
                 />
                 }
               </VerticalContainer>

@@ -7,9 +7,11 @@ export const navigationMenuSelectors = {
     menuItemLinks: {
         getLogoItemLink: () => cy.get(getDataCy(navigationMenuIds.menuItemLinks.logo)),
         getHomeItemLink: () => cy.get(getDataCy(navigationMenuIds.menuItemLinks.home)),
+        getPersonalAreaItemLink: () => cy.get(getDataCy(navigationMenuIds.menuItemLinks.personalArea)),
         getAllWaysItemLink: () => cy.get(getDataCy(navigationMenuIds.menuItemLinks.allWays)),
         getAllUsersItemLink: () => cy.get(getDataCy(navigationMenuIds.menuItemLinks.allUsers)),
         getAboutProjectItemLink: () => cy.get(getDataCy(navigationMenuIds.menuItemLinks.aboutProject)),
+        getSettingsItemLink: () => cy.get(getDataCy(navigationMenuIds.menuItemLinks.settings))
     },
 
     language: {
@@ -35,5 +37,6 @@ export const navigationMenuSelectors = {
         getYoutubeLink:() => cy.get(getDataCy(navigationMenuIds.socialMedia.youtubeLink)),
     },
 
-    getCloseButton: () => cy.get(getDataCy(navigationMenuIds.closeButton))
+    getCloseButton: () => cy.get(getDataCy(navigationMenuIds.closeButton)),
+    getLogoutButton: () => cy.get(getDataCy(navigationMenuIds.logoutButton))
 };
