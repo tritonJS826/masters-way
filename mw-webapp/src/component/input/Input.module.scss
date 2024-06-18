@@ -22,12 +22,12 @@ $leftPosition: 12px;
   color: var(--primaryTextColor);
   font: inherit;
   // TODO: get rid of opacity in every input
-  opacity: 0.8;
+  // opacity: 0.8;
   outline: none;
 
   &::placeholder {
     color: var(--tertiaryTextColor);
-    opacity: 1;
+    // opacity: 1;
   }
 }
 

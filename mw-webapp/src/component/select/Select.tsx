@@ -1,10 +1,10 @@
 import {ChevronDownIcon} from "@radix-ui/react-icons";
 import * as SelectComponent from "@radix-ui/react-select";
 import clsx from "clsx";
+import {Icon, IconSize} from "src/component/icon/Icon";
 import {SelectItem} from "src/component/select/selectItem/SelectItem";
 import {Symbols} from "src/utils/Symbols";
 import styles from "src/component/select/Select.module.scss";
-import {Icon, IconSize} from "src/component/icon/Icon";
 
 /**
  * Option type for a select component
@@ -197,9 +197,6 @@ export const Select = <T extends string>(props: SelectProps<T>) => {
             name="ChevronIcon"
             className={styles.SelectIcon}
           />
-          {/* <SelectComponent.Icon className={styles.SelectIcon}>
-            <ChevronDownIcon />
-          </SelectComponent.Icon> */}
         </SelectComponent.Trigger>
         <SelectComponent.Portal>
           <SelectComponent.Content

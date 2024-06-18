@@ -53,7 +53,7 @@ $selectPadding: 3px;
   color: var(--generalPrimaryColor);
   border: solid $primaryBorder var(--primaryStrokeColor);
   display: flex;
-  gap: 8px;
+  gap: $gapSmall;
 }
 
 .SelectItemsWrapper {
@@ -90,8 +90,6 @@ $selectPadding: 3px;
 
 .SelectLabel {
   color: var(--generalPrimaryColor);
-  font-size: 12px;
-  line-height: 25px;
 }
 
 .SelectSeparator {
