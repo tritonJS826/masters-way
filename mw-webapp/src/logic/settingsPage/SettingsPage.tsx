@@ -40,13 +40,13 @@ export const SettingsPage = observer(() => {
             onChange={setLanguage}
           />
         </HorizontalContainer>
-        <Tooltip
-          position={PositionTooltip.BOTTOM}
-          content={LanguageService.settings.comingSoon[language]}
-        >
-          <HorizontalContainer className={styles.line}>
-            {LanguageService.settings.showHint[language]}
-            :
+        <HorizontalContainer className={styles.line}>
+          {LanguageService.settings.showHint[language]}
+          :
+          <Tooltip
+            position={PositionTooltip.RIGHT}
+            content={LanguageService.settings.comingSoon[language]}
+          >
             <Select
               label={""}
               defaultValue="true"
@@ -57,28 +57,29 @@ export const SettingsPage = observer(() => {
               ]}
               onChange={() => {}}
             />
-          </HorizontalContainer>
-        </Tooltip>
+          </Tooltip>
+        </HorizontalContainer>
 
-        <Tooltip
-          position={PositionTooltip.BOTTOM}
-          content={LanguageService.settings.comingSoon[language]}
-        >
-          <HorizontalContainer className={styles.line}>
-            {LanguageService.settings.notification[language]}
+        <HorizontalContainer className={styles.line}>
+          {LanguageService.settings.notification[language]}
 
-            {" "}
-            {notification.isEnabled}
-            {" "}
-            {notification.notificationTime}
+          {" "}
+          {notification.isEnabled}
+          {" "}
+          {notification.notificationTime}
+          <Tooltip
+            position={PositionTooltip.RIGHT}
+            content={LanguageService.settings.comingSoon[language]}
+          >
             <Button
               value={LanguageService.settings.testNotification[language]}
               onClick={() => {
                 OSNotification.addDeferredNotification("21:00");
               }}
             />
-          </HorizontalContainer>
-        </Tooltip>
+          </Tooltip>
+        </HorizontalContainer>
+
       </div>
     </VerticalContainer>
   );

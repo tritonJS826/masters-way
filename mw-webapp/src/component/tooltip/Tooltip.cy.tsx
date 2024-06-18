@@ -8,6 +8,7 @@ import {getDataCy} from "src/utils/cyTesting/getDataCy";
 const TOOLTIP_CONTENT = "Tooltip value";
 const TOOLTIP_CY = "tooltip";
 const TOOLTIP_TRIGGER = "tooltip trigger";
+const TOOLTIP_DURATION = 1000;
 
 describe("Tooltip component", () => {
 
@@ -30,22 +31,18 @@ describe("Tooltip component", () => {
     );
   };
 
-  it("render right value", () => {
-    mountTooltip(TOOLTIP_CONTENT);
-    cy.get(getDataCy(TOOLTIP_CY)).should("contains.text", TOOLTIP_CONTENT);
-  });
-
   it("should be hidden by default", () => {
     mountTooltip(TOOLTIP_CONTENT);
     cy.get(getDataCy(TOOLTIP_TRIGGER)).should("be.visible");
-    cy.get(getDataCy(TOOLTIP_CY)).should("not.be.visible");
+    cy.get(getDataCy(TOOLTIP_CY)).should("not.exist");
   });
 
-  it("should show tooltip on hover", () => {
+  it("should show tooltip on hover and render right value", () => {
     mountTooltip(TOOLTIP_CONTENT);
-    cy.get(getDataCy(TOOLTIP_CY)).should("not.be.visible");
+    cy.get(getDataCy(TOOLTIP_CY)).should("not.exist");
     cy.get(getDataCy(TOOLTIP_TRIGGER)).realHover();
-    cy.get(getDataCy(TOOLTIP_CY)).should("be.visible");
+    cy.get(getDataCy(TOOLTIP_CY), {timeout: TOOLTIP_DURATION}).should("be.visible");
+    cy.get(getDataCy(TOOLTIP_CY)).should("contain.text", TOOLTIP_CONTENT);
   });
 
 });

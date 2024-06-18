@@ -1,4 +1,5 @@
 import {PropsWithChildren, ReactElement, ReactNode} from "react";
+import * as TooltipElem from "@radix-ui/react-tooltip";
 import clsx from "clsx";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import styles from "src/component/tooltip/Tooltip.module.scss";
@@ -40,25 +41,28 @@ interface TooltipProps {
  * Tooltip component
  */
 export const Tooltip = (props: PropsWithChildren<TooltipProps>) => {
-  const contentClassNames = clsx(
-    styles.tooltip,
-    props.className,
-    styles[props.position ?? PositionTooltip.TOP],
-  );
-
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.target}>
-        {props.children}
-      </div>
-      {!props.isInactive &&
-      <div
-        data-cy={props.dataCy}
-        className={contentClassNames}
-      >
-        {props.content}
-      </div>
-      }
-    </div>
+    <TooltipElem.Provider>
+      <TooltipElem.Root>
+        <TooltipElem.Trigger asChild>
+          <button className={styles.tooltipTrigger}>
+            {props.children}
+          </button>
+        </TooltipElem.Trigger>
+        <TooltipElem.Portal>
+          {!props.isInactive &&
+          <TooltipElem.Content
+            className={clsx(styles.tooltipContent, props.className)}
+            side={props.position ?? "top"}
+            sideOffset={5}
+            data-cy={props.dataCy}
+          >
+            {props.content}
+            <TooltipElem.Arrow className={styles.tooltipArrow} />
+          </TooltipElem.Content>
+          }
+        </TooltipElem.Portal>
+      </TooltipElem.Root>
+    </TooltipElem.Provider>
   );
 };

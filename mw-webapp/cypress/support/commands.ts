@@ -1,4 +1,4 @@
-import {Theme, themedVariables} from "src/globalStore/ThemeStore";
+import { Theme, themedVariables } from "src/globalStore/ThemeStore";
 
 // ***********************************************
 // This example commands.ts shows you how to
@@ -64,7 +64,7 @@ Cypress.Commands.add('checkThemeColors', (theme: string) => {
 
       cy.document().then((doc) => {
         const actualColor = getComputedStyle(doc.documentElement).getPropertyValue(`--${variableName}`).trim();
-        expect(actualColor).equal(expectedColor);
+        assert.equal(actualColor, expectedColor);
       });
   });
 });

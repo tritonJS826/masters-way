@@ -156,10 +156,7 @@ export const getUsersColumns = (language: Language) => [
      */
     header: () => (
       <>
-        <Tooltip
-          position={PositionTooltip.TOP_LEFT}
-          content={LanguageService.allUsers.usersTable.columnTooltip.favorites[language]}
-        >
+        <Tooltip content={LanguageService.allUsers.usersTable.columnTooltip.favorites[language]}>
           {Symbols.STAR}
         </Tooltip>
       </>),

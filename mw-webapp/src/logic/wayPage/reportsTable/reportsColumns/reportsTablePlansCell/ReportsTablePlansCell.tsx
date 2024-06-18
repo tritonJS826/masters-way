@@ -229,7 +229,7 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
                 className={styles.linkToOwnerWay}
               >
                 <Tooltip
-                  position={PositionTooltip.BOTTOM_LEFT}
+                  position={PositionTooltip.BOTTOM}
                   content={LanguageService.way.reportsTable.columnTooltip.visitWay[language]
                     .replace("$wayName", `"${plan.wayName}"`)}
                 >
