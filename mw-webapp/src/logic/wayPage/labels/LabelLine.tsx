@@ -3,12 +3,12 @@ import {observer} from "mobx-react-lite";
 import {Confirm} from "src/component/confirm/Confirm";
 import {EditableText} from "src/component/editableText/EditableText";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
-import {LabelItem} from "src/component/label/Label";
+import {Label} from "src/component/label/Label";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {LabelDAL} from "src/dataAccessLogic/LabelDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
-import {Label} from "src/model/businessModel/Label";
+import {Label as LabelModel} from "src/model/businessModel/Label";
 import {LanguageService} from "src/service/LanguageService";
 import {debounce} from "src/utils/debounce";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
@@ -22,7 +22,7 @@ interface LabelLineProps {
   /**
    * Label
    */
-  label: Label;
+  label: LabelModel;
 
   /**
    * Is label editable
@@ -47,7 +47,7 @@ export const LabelLine = observer((props: LabelLineProps) => {
   /**
    * Update label
    */
-  const updateLabel = async (labelToUpdate: PartialWithUuid<Label>) => {
+  const updateLabel = async (labelToUpdate: PartialWithUuid<LabelModel>) => {
     await LabelDAL.updateLabel(labelToUpdate);
   };
 
@@ -56,7 +56,7 @@ export const LabelLine = observer((props: LabelLineProps) => {
   return (
     <HorizontalContainer className={styles.labelLine}>
       <div className={styles.labelContainer}>
-        <LabelItem label={props.label} />
+        <Label label={props.label} />
       </div>
 
       <EditableText

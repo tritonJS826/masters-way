@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import {Tooltip} from "src/component/tooltip/Tooltip";
-import {Label} from "src/model/businessModel/Label";
+import {Label as LabelModel} from "src/model/businessModel/Label";
 import styles from "src/component/label/Label.module.scss";
 
 /**
@@ -11,7 +11,7 @@ interface LabelProps {
   /**
    * Job tag
    */
-  label: Label;
+  label: LabelModel;
 
   /**
    * Is small
@@ -37,9 +37,9 @@ interface LabelProps {
 }
 
 /**
- * Job tag component
+ * Label component
  */
-export const LabelItem = (props: LabelProps) => {
+export const Label = (props: LabelProps) => {
   return (
     <Tooltip content={props.label.name}>
       <div

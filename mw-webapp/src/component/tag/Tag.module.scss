@@ -26,7 +26,7 @@ $tagPaddingBlockSmall: 3px;
   font-size: $fontSizeBig;
   padding-block: $tagPaddingBlockLarge;
 
-  button {
+  .removeButton {
     padding: 0;
   }
 }
@@ -34,10 +34,4 @@ $tagPaddingBlockSmall: 3px;
 .cardTag {
   font-size: $fontSizeSmall;
   padding-block: $tagPaddingBlockSmall;
-}
-
-.removeButton {
-  &:hover .removeIcon {
-    stroke: var(--primaryBgBtnHoverColor);
-  }
 }

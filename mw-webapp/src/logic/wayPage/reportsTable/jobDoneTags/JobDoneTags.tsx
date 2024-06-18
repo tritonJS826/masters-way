@@ -1,5 +1,5 @@
-import {LabelItem} from "src/component/label/Label";
-import {Label} from "src/model/businessModel/Label";
+import {Label} from "src/component/label/Label";
+import {Label as LabelModel} from "src/model/businessModel/Label";
 import styles from "src/logic/wayPage/reportsTable/jobDoneTags/JobDoneTags.module.scss";
 
 /**
@@ -10,12 +10,12 @@ interface JobDoneTagsProps {
   /**
    * Job done tags
    */
-  jobDoneTags: Label[];
+  jobDoneTags: LabelModel[];
 
   /**
    * All labels in the way
    */
-  labels: Label[];
+  labels: LabelModel[];
 
 }
 
@@ -30,7 +30,7 @@ export const JobDoneTags = (props: JobDoneTagsProps) => {
       {props.labels.map((jobDoneTag) => {
         return (
           jobDoneTagUuids.includes(jobDoneTag.uuid) &&
-          <LabelItem
+          <Label
             key={jobDoneTag.uuid}
             label={jobDoneTag}
             isSmall
