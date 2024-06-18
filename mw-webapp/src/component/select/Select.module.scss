@@ -92,26 +92,10 @@ $selectPadding: 3px;
   color: var(--generalPrimaryColor);
 }
 
-.SelectSeparator {
-  height: 1px;
-  margin: 5px;
-  background-color: var(--generalPrimaryColor);
-}
-
 .SelectItemIndicator {
   position: absolute;
   left: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-}
-
-.SelectScrollButton {
-  display: flex;
-  height: 25px;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--generalPrimaryColor);
-  color: var(--generalPrimaryColor);
-  cursor: default;
 }

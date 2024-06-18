@@ -211,9 +211,6 @@ export const Select = <T extends string>(props: SelectProps<T>) => {
               </SelectComponent.Group>
 
             </SelectComponent.Viewport>
-            <SelectComponent.ScrollDownButton className={styles.SelectScrollButton}>
-              <ChevronDownIcon />
-            </SelectComponent.ScrollDownButton>
           </SelectComponent.Content>
         </SelectComponent.Portal>
       </SelectComponent.Root>
