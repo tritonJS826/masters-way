@@ -13,6 +13,7 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {userStore} from "src/globalStore/UserStore";
+import {trackUserInteractionWithButton} from "src/GoogleAnalytics";
 import {GoalItem} from "src/logic/homePage/goalItem/GoalItem";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
@@ -22,6 +23,10 @@ import styles from "src/logic/homePage/HomePage.module.scss";
  * GetStarted button click handler
  */
 const getStarted = (navigate: NavigateFunction, userUuid?: string) => {
+  trackUserInteractionWithButton({
+    action: "Clicked Button Get Started",
+    label: "First screen on home page",
+  });
   userUuid
     ? navigate(pages.user.getPath({uuid: userUuid}))
     : navigate(pages.oauth.getPath({uuid: userUuid}));
