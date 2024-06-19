@@ -90,5 +90,8 @@ $userCardAdditionalHeight: 90px;
 
 .cardLink {
   font-size: $fontSizeBig;
-  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+  }
 }

@@ -18,12 +18,18 @@ $paddingSidebar: $paddingExtraMedium 40px;
   align-items: center;
   padding: 10px 10px 10px 0;
   color: var(--secondaryTextColor);
+  font-size: $fontSizeBig;
   gap: $gapSmall;
   text-decoration: none;
   transition-duration: $elementHoverTransition;
+
   &:hover {
     color: var(--generalPrimaryColor);
     text-decoration: underline;
+  }
+
+  &:active {
+    text-decoration: none;
   }
 }
 
