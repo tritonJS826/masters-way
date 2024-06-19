@@ -96,12 +96,14 @@ export const ModalContentJobTags = observer((props: JobDoneTagsProps) => {
                 }
                 position={PositionTooltip.BOTTOM}
               >
-                <Checkbox
-                  isDefaultChecked={jobTagsUpdated.includes(tag.uuid)}
-                  onChange={() => { }}
-                  className={styles.checkbox}
-                />
-                <Label label={tag} />
+                <HorizontalContainer className={styles.labelWithCheckboxBlock}>
+                  <Checkbox
+                    isDefaultChecked={jobTagsUpdated.includes(tag.uuid)}
+                    onChange={() => { }}
+                    className={styles.checkbox}
+                  />
+                  <LabelItem label={tag} />
+                </HorizontalContainer>
               </Tooltip>
             </div>
           );

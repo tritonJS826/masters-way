@@ -54,11 +54,10 @@ export const Tooltip = (props: PropsWithChildren<TooltipProps>) => {
           <TooltipElem.Content
             className={clsx(styles.tooltipContent, props.className)}
             side={props.position ?? "top"}
-            sideOffset={5}
+            sideOffset={4}
             data-cy={props.dataCy}
           >
             {props.content}
-            <TooltipElem.Arrow className={styles.tooltipArrow} />
           </TooltipElem.Content>
           }
         </TooltipElem.Portal>
