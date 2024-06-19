@@ -102,7 +102,7 @@ export const ModalContentJobTags = observer((props: JobDoneTagsProps) => {
                     onChange={() => { }}
                     className={styles.checkbox}
                   />
-                  <LabelItem label={tag} />
+                  <Label label={tag} />
                 </HorizontalContainer>
               </Tooltip>
             </div>

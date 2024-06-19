@@ -1,5 +1,5 @@
-import "src/component/footer/Footer.cy.tsx";
-import "src/component/wayCollectionCard/WayCollectionCard.cy.tsx";
+import "/src/component/footer/Footer.cy.tsx";
+import "/src/component/wayCollectionCard/WayCollectionCard.cy.tsx";
 import "/src/component/accordion/Accordion.cy.tsx";
 import "/src/component/avatar/Avatar.cy.tsx";
 import "/src/component/button/Button.cy.tsx";
@@ -32,6 +32,8 @@ import "/src/component/userCard/UserCard.cy.tsx";
 import "/src/component/verticalContainer/VerticalContainer.cy.tsx";
 import "/src/component/viewSwitcher/ViewSwitcher.cy.tsx";
 import "/src/component/wayCard/WayCard.cy.tsx";
+import "/src/component/icon/Icon.cy.tsx";
+import "/src/component/text/Text.cy.tsx";
 
 /**
  * Count all cy.tsx files to check all specs imported here
