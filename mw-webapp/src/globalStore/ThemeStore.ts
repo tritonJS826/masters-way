@@ -62,6 +62,10 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     [Theme.DARK]: "#A8A1DD",
     [Theme.LIGHT]: "#A8A1DD",
   },
+  hoverIconColor: {
+    [Theme.DARK]: "#A8A1DD",
+    [Theme.LIGHT]: "#8B85A1",
+  },
   primaryStrokeColor: {
     [Theme.DARK]: "#F4F3FF",
     [Theme.LIGHT]: "#1F173D",

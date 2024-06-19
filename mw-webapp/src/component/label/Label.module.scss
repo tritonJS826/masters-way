@@ -1,0 +1,18 @@
+@import "src/styles/variables";
+
+$labelMaxWidth: 130px;
+
+.label {
+  overflow: hidden;
+  max-width: $labelMaxWidth;
+  padding: $paddingSmall;
+  border: $primaryBorder solid var(--primaryStrokeColor);
+  border-radius: $primaryBorderRadius;
+  text-overflow: ellipsis;
+}
+
+.small {
+  padding: 0 $paddingSmall;
+  font-size: $fontSizeSmall;
+  white-space: nowrap;
+}
