@@ -7,7 +7,7 @@
 
 .tooltipContent {
   max-width: $maxWidthBlock;
-  padding: $paddingSmall $paddingMedium;
+  padding: $paddingExtraSmall $paddingSmall;
   border: $primaryBorder solid var(--generalPrimaryColor);
   border-radius: $secondaryBorderRadius;
   animation-duration: 400ms;
@@ -16,6 +16,7 @@
   color: var(--primaryTextColor);
   font-size: $fontSizeSmall;
 }
+
 .tooltipContent[data-state="delayed-open"][data-side="top"] {
   animation-name: slideDownAndFade;
 }
@@ -27,10 +28,6 @@
 }
 .tooltipContent[data-state="delayed-open"][data-side="left"] {
   animation-name: slideRightAndFade;
-}
-
-.tooltipArrow {
-  fill: var(--generalPrimaryColor);
 }
 
 @keyframes slideUpAndFade {
@@ -63,5 +60,16 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes slideLeftAndFade {
+  from {
+    opacity: 0;
+    transform: translateX(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
