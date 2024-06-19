@@ -1,13 +1,10 @@
 @import "src/styles/variables";
 
-$selectPadding: 3px;
-
-.select {
+.Select {
   cursor: pointer;
 }
 
 .SelectIcon {
-  margin-left: $marginMedium;
   stroke: var(--primaryIconColor);
   transition: all $primaryTransitionDuration ease 0s;
   display: flex;
@@ -25,21 +22,16 @@ $selectPadding: 3px;
   border: solid  $primaryBorder var(--primaryStrokeColor);
   display: flex;
   align-items: center;
+  gap: $gapMedium;
+  font-weight: $fontWeightSemibold;
 
   &[data-state="open"] > .SelectIcon  {
     transform: rotate(180deg);
   }
 }
 
-.SelectTrigger[data-placeholder] {
-  color: var(--generalPrimaryColor);
-
-  & span {
-    color: var(--primaryTextColor);
-  }
-  &[data-state="open"] > .SelectIcon {
-    transform: rotate(180deg);
-  }
+.SelectTriggerValue {
+  font-weight: $fontWeightReular;
 }
 
 .SelectContent {
@@ -47,7 +39,7 @@ $selectPadding: 3px;
   overflow: hidden;
   width: var(--radix-select-trigger-width);
   max-height: var(--radix-select-content-available-height);
-  padding: $paddingSmall $paddingMedium 0 $paddingSmall;
+  padding: $paddingSmall $paddingMedium;
   border-radius: $primaryBorderRadius;
   background-color: var(--secondaryBgColor);
   color: var(--generalPrimaryColor);
@@ -59,18 +51,10 @@ $selectPadding: 3px;
 .SelectItemsWrapper {
   display: flex;
   flex-direction: column;
-  gap: $gapExtraSmall;
-}
-
-.SelectViewport {
-  padding: auto;
+  gap: $gapSmall;
 }
 
 .SelectItem {
-  overflow: hidden;
-  height: 24px;
-  padding-left: 15px;
-  border-radius: 3px;
   color: var(--primaryTextColor);
   cursor: pointer;
   font-size: $fontSizeMedium;
@@ -78,24 +62,7 @@ $selectPadding: 3px;
   text-wrap: nowrap;
 }
 
-.SelectItem[data-disabled] {
-  color: var(--secondaryBgBtnColor);
-  pointer-events: none;
-}
 .SelectItem[data-highlighted] {
-  background-color: var(--secondaryBgColor);
-  color: var(--generalPrimaryColor);
+  color: var(--selectHoverColor);
   outline: none;
-}
-
-.SelectLabel {
-  color: var(--generalPrimaryColor);
-}
-
-.SelectItemIndicator {
-  position: absolute;
-  left: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
 }

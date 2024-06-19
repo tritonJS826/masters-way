@@ -168,7 +168,7 @@ const renderSelectOptions = <T extends string>(options: SelectItemType<T>[]) => 
 export const Select = <T extends string>(props: SelectProps<T>) => {
   return (
     <div
-      className={clsx(styles.select, props.className)}
+      className={clsx(styles.Select, props.className)}
       data-cy={props.cy?.dataCyOverlay}
     >
       <SelectComponent.Root
@@ -179,10 +179,13 @@ export const Select = <T extends string>(props: SelectProps<T>) => {
           className={styles.SelectTrigger}
           data-cy={props.cy?.dataCyTrigger}
         >
-          <span>
-            {props.label}
-            {Symbols.NO_BREAK_SPACE}
-          </span>
+          {props.label && (
+            <span className={styles.SelectTriggerValue}>
+              {props.label}
+              {Symbols.NO_BREAK_SPACE}
+            </span>
+          ) }
+
           <SelectComponent.Value
             data-cy={props.cy?.dataCyValue}
             placeholder={getValueForTriggerSelect({

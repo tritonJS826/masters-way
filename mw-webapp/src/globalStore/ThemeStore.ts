@@ -99,6 +99,10 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     [Theme.DARK]: "#FFFFFF3E",
     [Theme.LIGHT]: "#784DEA3E",
   },
+  selectHoverColor: {
+    [Theme.DARK]: "#A8A1DD",
+    [Theme.LIGHT]: "#8B85A1",
+  },
 };
 
 export const DEFAULT_THEME = Theme.DARK;
