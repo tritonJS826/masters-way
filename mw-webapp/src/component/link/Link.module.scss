@@ -2,15 +2,20 @@
 
 .link {
   color: var(--primaryTextColor);
-  font-size: 18px;
+  font-size: $fontSizeMedium;
+  text-decoration: none;
+  transition-duration: $elementHoverTransition;
+
+  &:hover,
+  &:active {
+    color: var(--generalPrimaryColor);
+  }
 
   &:hover {
-    cursor: pointer;
+    text-decoration: underline;
   }
-}
 
-.link_container {
-  display: flex;
-  width: 10%;
-  justify-content: center;
+  &:active {
+    text-decoration: none;
+  }
 }

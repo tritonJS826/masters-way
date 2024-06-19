@@ -100,5 +100,8 @@ $cardLinkFontSize: 16px;
 
 .cardLink {
   font-size: $cardLinkFontSize;
-  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+  }
 }
