@@ -4,11 +4,11 @@ import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Checkbox";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {Label} from "src/component/label/Label";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {languageStore} from "src/globalStore/LanguageStore";
-import {LabelItem} from "src/logic/wayPage/labels/label/Label";
-import {Label} from "src/model/businessModel/Label";
+import {Label as LabelModel} from "src/model/businessModel/Label";
 import {LanguageService} from "src/service/LanguageService";
 import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/logic/wayPage/reportsTable/modalContentJobTags/ModalContentJobTags.module.scss";
@@ -23,12 +23,12 @@ interface JobDoneTagsProps {
   /**
    * Job done tags
    */
-  jobDoneTags: Label[];
+  jobDoneTags: LabelModel[];
 
   /**
    * All Job done tags in way
    */
-  jobTags: Label[];
+  jobTags: LabelModel[];
 
   /**
    * Is editable
@@ -64,7 +64,7 @@ export const ModalContentJobTags = observer((props: JobDoneTagsProps) => {
   /**
    * Add job tag to Job done
    */
-  const addJobTagFromJobDone = (jobTagToAdd: Label) => {
+  const addJobTagFromJobDone = (jobTagToAdd: LabelModel) => {
     const updatedJobTags = jobTagsUpdated.concat(jobTagToAdd.uuid);
     setJobTagsUpdated(updatedJobTags);
   };

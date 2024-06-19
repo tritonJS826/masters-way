@@ -12,6 +12,7 @@ import {LinkedinIcon} from "src/assets/icons/LinkedinIcon";
 import {MoonIcon} from "src/assets/icons/MoonIcon";
 import {MoreVertical} from "src/assets/icons/MoreVertical";
 import {PlusIcon} from "src/assets/icons/PlusIcon";
+import {RemoveIcon} from "src/assets/icons/RemoveIcon";
 import {SearchIcon} from "src/assets/icons/SearchIcon";
 import {SettingsIcon} from "src/assets/icons/SettingsIcon";
 import {StarIcon} from "src/assets/icons/StarIcon";
@@ -137,6 +138,11 @@ export const IconDictionary = {
    * User icon
    */
   UserIcon: (params: IconProps) => <UserIcon {...params} />,
+
+  /**
+   * Remove icon
+   */
+  RemoveIcon: (params: IconProps) => <RemoveIcon {...params} />,
 };
 
 /**

@@ -602,6 +602,7 @@ export const WayPage = observer((props: WayPageProps) => {
                   key={tag.uuid}
                   isDeletable={isOwner}
                   type={TagType.PRIMARY_TAG}
+                  removeTooltipText={LanguageService.common.removeTag[language]}
                   onDelete={() => {
                     WayTagDAL.deleteWayTag({wayTagId: tag.uuid, wayId: way.uuid});
                     way.deleteTag(tag.uuid);
