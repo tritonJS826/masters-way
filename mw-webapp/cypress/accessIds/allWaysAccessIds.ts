@@ -7,8 +7,7 @@ export const allWaysAccessIds = {
 
     filterViewBlock: {
         filterByStatus: 'filterByStatus',
-        cardViewButton: 'cardViewButton',
-        tableViewButton: 'tableViewButton'
+        viewButton: 'ViewButton'
     }
     
 };

@@ -1,4 +1,5 @@
 import {ColumnDef, getCoreRowModel, useReactTable} from "@tanstack/react-table";
+import {allWaysAccessIds} from "cypress/accessIds/allWaysAccessIds";
 import {observer} from "mobx-react-lite";
 import {Table} from "src/component/table/Table";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
@@ -40,6 +41,9 @@ export const WaysTable = observer((props: WaysTableProps) => {
   const tableContent = {headerGroup, rowModel};
 
   return (
-    <Table data={tableContent} />
+    <Table
+      data={tableContent}
+      dataCy={allWaysAccessIds.allWaysTable.table}
+    />
   );
 });
