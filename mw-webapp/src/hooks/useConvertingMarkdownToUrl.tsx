@@ -1,5 +1,4 @@
 import {useMemo} from "react";
-import {Link} from "src/component/link/Link";
 
 /**
  * The render Description hooks processes the description text to find markdown-style
