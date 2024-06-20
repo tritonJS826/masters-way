@@ -1,4 +1,3 @@
-import {NavigateFunction, useNavigate} from "react-router-dom";
 import {homeAccessIds} from "cypress/accessIds/homeAccessIds";
 import {observer} from "mobx-react-lite";
 import logoLight from "src/assets/mastersWayLogoLight.svg";
@@ -23,15 +22,15 @@ import styles from "src/logic/homePage/HomePage.module.scss";
 /**
  * GetStarted button click handler
  */
-const getStarted = (navigate: NavigateFunction, userUuid?: string) => {
+const getStarted = (userUuid?: string) => {
   trackUserInteractionWithButton({
     action: "Clicked Button Get Started",
     label: "First screen on home page",
   });
 
-  userUuid
-    ? navigate(pages.user.getPath({uuid: userUuid}))
-    : navigate(AuthDAL.logIn());
+  return userUuid
+    ? pages.user.getPath({uuid: userUuid})
+    : AuthDAL.logIn();
 };
 
 /**
@@ -40,7 +39,6 @@ const getStarted = (navigate: NavigateFunction, userUuid?: string) => {
 export const HomePage = observer(() => {
   const {user} = userStore;
   const {language} = languageStore;
-  const navigate = useNavigate();
 
   return (
     <>
@@ -58,13 +56,18 @@ export const HomePage = observer(() => {
           className={styles.titleDescription}
           placeholder=""
         />
-        <Button
-          onClick={() => getStarted(navigate, user?.uuid)}
-          buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
-          value={LanguageService.home.startForFreeButton[language]}
-          className={styles.getStartedButton}
-          dataCy={homeAccessIds.welcomeBlock.startButton}
-        />
+        <Link
+          path={getStarted(user?.uuid)}
+          className={styles.loginGoogleButton}
+        >
+          <Button
+            onClick={() => {}}
+            buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
+            value={LanguageService.home.startForFreeButton[language]}
+            className={styles.getStartedButton}
+            dataCy={homeAccessIds.welcomeBlock.startButton}
+          />
+        </Link>
       </VerticalContainer>
 
       <VerticalContainer className={styles.advantagesBlock}>
@@ -128,12 +131,17 @@ export const HomePage = observer(() => {
               {LanguageService.home.aboutAppBlock.endDescription[language]}
             </div>
           </VerticalContainer>
-          <Button
-            onClick={() => getStarted(navigate, user?.uuid)}
-            buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
-            value={LanguageService.home.startForFreeButton[language]}
-            className={styles.aboutProjectGetStartedButton}
-          />
+          <Link
+            path={getStarted(user?.uuid)}
+            className={styles.loginGoogleButton}
+          >
+            <Button
+              onClick={() => {}}
+              buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
+              value={LanguageService.home.startForFreeButton[language]}
+              className={styles.aboutProjectGetStartedButton}
+            />
+          </Link>
         </VerticalContainer>
       </HorizontalContainer>
 
@@ -181,12 +189,17 @@ export const HomePage = observer(() => {
             </HorizontalContainer>
           </VerticalContainer>
           <HorizontalContainer className={styles.whatWeAreButtons}>
-            <Button
-              onClick={() => getStarted(navigate, user?.uuid)}
-              buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
-              value={LanguageService.home.tryNowButton[language]}
-              className={styles.tryNowButton}
-            />
+            <Link
+              path={getStarted(user?.uuid)}
+              className={styles.loginGoogleButton}
+            >
+              <Button
+                onClick={() => {}}
+                buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
+                value={LanguageService.home.tryNowButton[language]}
+                className={styles.tryNowButton}
+              />
+            </Link>
             <Link
               path={LanguageService.home.whatWeAreBlock.manifestLink[language]}
               className={styles.whatWeAreLink}
