@@ -57,6 +57,49 @@ export const UserCard = observer((props: UserCardProps) => {
     );
   };
 
+  /**
+   * The render Description function processes the description text to find markdown-style
+   * links and convert them into
+   * clickable anchor tags.
+   */
+  const renderDescription = (description: string) => {
+    const linkPattern = /\[([^\]]*)]\((https?:\/\/[^)]+)\)/g;
+    const urlGroupIndex = 2;
+    const urlGroupNumber = 1;
+
+    const parts = [];
+    let lastIndex = 0;
+    let match: RegExpExecArray | null;
+
+    while ((match = linkPattern.exec(description)) !== null) {
+      if (match.index > lastIndex) {
+        parts.push(description.substring(lastIndex, match.index));
+      }
+      let linkText = match[urlGroupNumber];
+      if (linkText.startsWith("**") && linkText.endsWith("**")) {
+        linkText = linkText.slice(urlGroupIndex, -urlGroupIndex);
+      }
+
+      parts.push(
+        <p key={match.index}>
+          {linkText || match[urlGroupIndex]}
+          {" "}
+        </p>,
+      );
+      lastIndex = linkPattern.lastIndex;
+    }
+
+    if (lastIndex < description.length) {
+      parts.push(description.substring(lastIndex));
+    }
+
+    return (
+      <p className={styles.description}>
+        {parts}
+      </p>
+    );
+  };
+
   return (
     <Link
       path={pages.user.getPath({uuid: props.userPreview.uuid})}
@@ -98,11 +141,9 @@ export const UserCard = observer((props: UserCardProps) => {
           </HorizontalContainer>
           <Tooltip
             position={PositionTooltip.BOTTOM}
-            content={props.userPreview.description}
+            content={renderDescription(props.userPreview.description)}
           >
-            <p className={styles.description}>
-              {props.userPreview.description}
-            </p>
+            {renderDescription(props.userPreview.description)}
           </Tooltip>
           {renderUserTags(props.userPreview.tags)}
         </VerticalContainer>
