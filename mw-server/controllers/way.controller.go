@@ -7,6 +7,7 @@ import (
 	"strconv"
 	"time"
 
+	"mwserver/auth"
 	db "mwserver/db/sqlc"
 	"mwserver/schemas"
 	"mwserver/services"
@@ -45,18 +46,10 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 		return
 	}
 
-	limitParams := map[services.LimitParamName]uuid.UUID{
-		"userID": payload.OwnerUuid,
-	}
-
-	// Проверка достижения ограничения на максимальное количество приватных путей
-	if payload.IsPrivate {
-		err := cc.ls.IsLimitReachedByPricingPlan(services.MaxPrivateWays, limitParams)
-		util.HandleErrorGin(ctx, err)
-	}
-
-	// Проверка достижения ограничения на максимальное количество путей
-	err := cc.ls.IsLimitReachedByPricingPlan(services.MaxOwnWays, limitParams)
+	err := cc.ls.CheckIsLimitReachedByPricingPlan(&services.LimitReachedParams{
+		LimitName: services.MaxOwnWays,
+		UserID:    payload.OwnerUuid,
+	})
 	util.HandleErrorGin(ctx, err)
 
 	now := time.Now()
@@ -138,6 +131,20 @@ func (cc *WayController) UpdateWay(ctx *gin.Context) {
 		return
 	}
 
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userID := uuid.MustParse(userIDRaw.(string))
+
+	var isPrivate sql.NullBool
+	if payload.IsPrivate != nil && *payload.IsPrivate {
+		err := cc.ls.CheckIsLimitReachedByPricingPlan(&services.LimitReachedParams{
+			LimitName: services.MaxPrivateWays,
+			UserID:    userID,
+		})
+		util.HandleErrorGin(ctx, err)
+
+		isPrivate = sql.NullBool{Bool: *payload.IsPrivate, Valid: true}
+	}
+
 	now := time.Now()
 	args := &db.UpdateWayParams{
 		Uuid:            uuid.MustParse(wayId),
@@ -145,7 +152,7 @@ func (cc *WayController) UpdateWay(ctx *gin.Context) {
 		GoalDescription: sql.NullString{String: payload.GoalDescription, Valid: payload.GoalDescription != ""},
 		EstimationTime:  sql.NullInt32{Int32: payload.EstimationTime, Valid: payload.EstimationTime != 0},
 		IsCompleted:     sql.NullBool{Bool: payload.IsCompleted, Valid: true},
-		IsPrivate:       sql.NullBool{Bool: payload.IsPrivate, Valid: true},
+		IsPrivate:       isPrivate,
 		UpdatedAt:       sql.NullTime{Time: now, Valid: true},
 	}
 

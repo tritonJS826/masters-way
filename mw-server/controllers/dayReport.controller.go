@@ -3,7 +3,6 @@ package controllers
 import (
 	"context"
 	"database/sql"
-	"fmt"
 	"net/http"
 	"time"
 
@@ -45,28 +44,20 @@ func (cc *DayReportController) CreateDayReport(ctx *gin.Context) {
 		return
 	}
 
-	// Get the raw user ID from the context
-	userIDRaw, ok := ctx.Get(auth.ContextKeyUserID)
-	if !ok {
-		util.HandleErrorGin(ctx, fmt.Errorf("user ID not found in context"))
-	}
-
-	// Assert the raw user ID to a string
-	userIDString, ok := userIDRaw.(string)
-	if !ok {
-		util.HandleErrorGin(ctx, fmt.Errorf("user ID is not a string"))
-	}
-
-	// Parse the string as a UUID
-	userID, err := uuid.Parse(userIDString)
-	util.HandleErrorGin(ctx, fmt.Errorf("invalid user ID format: %v", err))
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userID := uuid.MustParse(userIDRaw.(string))
 
 	// Проверка достижения ограничения на максимальное количество менторства путей
-	err = cc.ls.IsLimitReachedByPricingPlan(services.MaxMentoringsWays, map[services.LimitParamName]uuid.UUID{
-		"userID": userID,
-		"wayID":  payload.WayUuid,
+	err := cc.ls.CheckIsLimitReachedByPricingPlan(&services.LimitReachedParams{
+		LimitName: services.MaxDayReports,
+		UserID:    userID,
+		WayID:     &payload.WayUuid,
 	})
 	util.HandleErrorGin(ctx, err)
+	// map[services.LimitParamName]uuid.UUID{
+	// 		"userID": userID,
+	// 		"wayID":  payload.WayUuid,
+	// 	}
 
 	now := time.Now()
 	args := &db.CreateDayReportParams{

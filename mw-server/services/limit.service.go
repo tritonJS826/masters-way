@@ -8,17 +8,19 @@ import (
 	"github.com/google/uuid"
 )
 
+type LimitNameType string
+
 const (
-	MaxOwnWays           LimitName = "Max own ways"
-	MaxPrivateWays       LimitName = "Max private ways"
-	MaxMentoringsWays    LimitName = "Max mentorings ways"
-	MaxUserTags          LimitName = "Max user tags"
-	MaxCustomCollections LimitName = "Max custom collections"
-	MaxCompositeWayDeps  LimitName = "Max composite way deps"
-	MaxDayReports        LimitName = "Max day reports"
+	MaxOwnWays           LimitNameType = "Max own ways"
+	MaxPrivateWays       LimitNameType = "Max private ways"
+	MaxMentoringsWays    LimitNameType = "Max mentorings ways"
+	MaxUserTags          LimitNameType = "Max user tags"
+	MaxCustomCollections LimitNameType = "Max custom collections"
+	MaxCompositeWayDeps  LimitNameType = "Max composite way deps"
+	MaxDayReports        LimitNameType = "Max day reports"
 )
 
-var limitMap = map[LimitName]map[db.PricingPlanType]uint16{
+var limitMap = map[LimitNameType]map[db.PricingPlanType]uint16{
 	MaxOwnWays: {
 		db.PricingPlanTypeFree:    10,
 		db.PricingPlanTypeStarter: 20,
@@ -50,14 +52,17 @@ var limitMap = map[LimitName]map[db.PricingPlanType]uint16{
 		db.PricingPlanTypePro:     3,
 	},
 	MaxDayReports: {
-		db.PricingPlanTypeFree:    100,
-		db.PricingPlanTypeStarter: 200,
-		db.PricingPlanTypePro:     365,
+		db.PricingPlanTypeFree:    190,
+		db.PricingPlanTypeStarter: 360,
+		db.PricingPlanTypePro:     1000,
 	},
 }
 
-type LimitName string
-type LimitParamName string
+type LimitReachedParams struct {
+	LimitName LimitNameType
+	UserID    uuid.UUID
+	WayID     *uuid.UUID
+}
 
 type LimitService struct {
 	db  *db.Queries
@@ -68,58 +73,43 @@ func NewLimitService(db *db.Queries, ctx context.Context) *LimitService {
 	return &LimitService{db, ctx}
 }
 
-func (ls *LimitService) IsLimitReachedByPricingPlan(limitName LimitName, limitParams map[LimitParamName]uuid.UUID) error {
-	// Проверка на существование user_uuid
-	userID, ok := limitParams["userID"]
-	if !ok {
-		return fmt.Errorf("missing parameter: userID")
-	}
-
+func (ls *LimitService) CheckIsLimitReachedByPricingPlan(lrp *LimitReachedParams) error {
 	var count int64
 	var err error
 
-	// Получение количества элементов по условию лимита
-	switch limitName {
+	switch lrp.LimitName {
 	case MaxOwnWays:
-		count, err = ls.db.GetOwnWaysCountByUserId(ls.ctx, userID)
+		count, err = ls.db.GetOwnWaysCountByUserId(ls.ctx, lrp.UserID)
 	case MaxPrivateWays:
-		count, err = ls.db.GetPrivateWaysCountByUserId(ls.ctx, userID)
+		count, err = ls.db.GetPrivateWaysCountByUserId(ls.ctx, lrp.UserID)
 	case MaxMentoringsWays:
-		count, err = ls.db.GetMentoringWaysCountByUserId(ls.ctx, userID)
+		count, err = ls.db.GetMentoringWaysCountByUserId(ls.ctx, lrp.UserID)
 	case MaxUserTags:
-		count, err = ls.db.GetTagsCountByUserId(ls.ctx, userID)
+		count, err = ls.db.GetTagsCountByUserId(ls.ctx, lrp.UserID)
 	case MaxCustomCollections:
-		count, err = ls.db.GetWayCollectionsCountByUserId(ls.ctx, userID)
+		count, err = ls.db.GetWayCollectionsCountByUserId(ls.ctx, lrp.UserID)
 	case MaxDayReports:
-		// Проверка на существование way_uuid
-		wayID, ok := limitParams["wayID"]
-		if !ok {
-			return fmt.Errorf("missing parameter: wayID")
-		}
-		count, err = ls.db.GetDayReportsCountByWayId(ls.ctx, wayID)
+		count, err = ls.db.GetDayReportsCountByWayId(ls.ctx, *lrp.WayID)
 	default:
-		return fmt.Errorf("invalid limit name: %s", limitName)
+		return fmt.Errorf("invalid limit name: %s", lrp.LimitName)
 	}
-	// Ошибка получения количества элементов по условию лимита
 	if err != nil {
-		return fmt.Errorf("failed to get count for %s: %w", limitName, err)
+		return fmt.Errorf("failed to get count for %s: %w", lrp.LimitName, err)
 	}
 
-	// Ошибка получения количества элементов по условию лимита
-	userPricingPlan, err := ls.db.GetPricingPlanByUserId(ls.ctx, userID)
+	userPricingPlan, err := ls.db.GetPricingPlanByUserId(ls.ctx, lrp.UserID)
 	if err != nil {
 		return fmt.Errorf("failed to get pricing plan for userID: %w", err)
 	}
 
-	// Проверка на существование лимита по названию и pricing plan пользователя
-	limit, ok := limitMap[limitName][userPricingPlan]
+	limit, ok := limitMap[lrp.LimitName][userPricingPlan]
 	if !ok {
-		return fmt.Errorf("limit not defined for %s in pricing plan %s", limitName, userPricingPlan)
+		return fmt.Errorf("limit not defined for %s in pricing plan %s", lrp.LimitName, userPricingPlan)
 	}
 
 	if limit > uint16(count) {
 		return nil
 	}
 
-	return fmt.Errorf("user has reached the limit for %s", limitName)
+	return fmt.Errorf("user has reached the limit for %s", lrp.LimitName)
 }

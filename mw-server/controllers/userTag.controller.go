@@ -41,11 +41,10 @@ func (cc *UserTagController) AddUserTagByName(ctx *gin.Context) {
 		return
 	}
 
-	userID, err := uuid.Parse(payload.OwnerUuid)
-	util.HandleErrorGin(ctx, err)
-
-	err = cc.ls.IsLimitReachedByPricingPlan(services.MaxUserTags, map[services.LimitParamName]uuid.UUID{
-		"userID": userID,
+	userID := uuid.MustParse(payload.OwnerUuid)
+	err := cc.ls.CheckIsLimitReachedByPricingPlan(&services.LimitReachedParams{
+		LimitName: services.MaxUserTags,
+		UserID:    userID,
 	})
 	util.HandleErrorGin(ctx, err)
 
