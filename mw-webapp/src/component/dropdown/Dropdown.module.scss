@@ -16,7 +16,7 @@ $dropdownIndentationBottom: 10px;
   z-index: $dropdownZIndex;
   border: $primaryBorder solid var(--generalPrimaryColor);
   border-radius: $primaryBorderRadius;
-  background: var(--secondaryBgColor);
+  background: var(--tertiaryBgColor);
   list-style: none;
   transform: translateY($dropdownIndentationBottom);
 }
