@@ -33,4 +33,5 @@ $progressBarContainerHeight: 4px;
   justify-content: space-between;
   color: var(--primaryTextColor);
   line-height: $lineHeightPrimary;
+  white-space: nowrap;
 }
