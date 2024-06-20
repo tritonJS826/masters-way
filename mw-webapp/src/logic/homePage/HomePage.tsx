@@ -11,6 +11,7 @@ import {Image} from "src/component/image/Image";
 import {Link} from "src/component/link/Link";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {AuthDAL} from "src/dataAccessLogic/AuthDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {userStore} from "src/globalStore/UserStore";
 import {trackUserInteractionWithButton} from "src/GoogleAnalytics";
@@ -27,9 +28,10 @@ const getStarted = (navigate: NavigateFunction, userUuid?: string) => {
     action: "Clicked Button Get Started",
     label: "First screen on home page",
   });
+
   userUuid
     ? navigate(pages.user.getPath({uuid: userUuid}))
-    : navigate(pages.oauth.getPath({uuid: userUuid}));
+    : navigate(AuthDAL.logIn());
 };
 
 /**
