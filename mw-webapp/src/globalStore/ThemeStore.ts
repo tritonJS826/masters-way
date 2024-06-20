@@ -99,9 +99,13 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     [Theme.DARK]: "#FFFFFF3E",
     [Theme.LIGHT]: "#784DEA3E",
   },
-  selectHoverColor: {
-    [Theme.DARK]: "#A8A1DD",
-    [Theme.LIGHT]: "#8B85A1",
+  primaryToggleBgColor: {
+    [Theme.DARK]: "#281E51",
+    [Theme.LIGHT]: "#686085",
+  },
+  secondaryToggleBgColor: {
+    [Theme.DARK]: "#784DEA",
+    [Theme.LIGHT]: "#F4F3FF",
   },
 };
 

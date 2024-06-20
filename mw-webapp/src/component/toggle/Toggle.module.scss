@@ -24,7 +24,7 @@ $toogleIndentation: 2px;
   bottom: 0;
   left: 0;
   border-radius: $toogleBorderRadius;
-  background-color: var(--tertiaryBgColor);
+  background-color: var(--primaryToggleBgColor);
   cursor: pointer;
   transition: $tertiaryTransitionDuration;
 }
@@ -36,13 +36,13 @@ $toogleIndentation: 2px;
   left: $toogleIndentation;
   width: $toogleSize;
   height: $toogleSize;
-  border-radius: 50%;
-  background-color: var(--primaryIconColor);
+  border-radius: $tertiaryBorderRadius;
+  background-color: var(--secondaryToggleBgColor);
   transition: $tertiaryTransitionDuration;
 }
 
 .toggle:checked + .slider {
-  background-color: var(--generalPrimaryColor);
+  background-color: var(--primaryToggleBgColor);
 }
 
 .toggle:checked + .slider:before {

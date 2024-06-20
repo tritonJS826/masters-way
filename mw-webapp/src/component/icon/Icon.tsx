@@ -146,7 +146,7 @@ export const IconDictionary = {
   RemoveIcon: (params: IconProps) => <RemoveIcon {...params} />,
 
   /**
-   * User icon
+   * Chevron icon
    */
   ChevronIcon: (params: IconProps) => <ChevronIcon {...params} />,
 };

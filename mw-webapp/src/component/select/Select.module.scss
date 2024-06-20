@@ -6,7 +6,7 @@
 
 .SelectIcon {
   stroke: var(--primaryIconColor);
-  transition: all $primaryTransitionDuration ease 0s;
+  transition: all $primaryTransitionDuration ease;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -63,6 +63,6 @@
 }
 
 .SelectItem[data-highlighted] {
-  color: var(--selectHoverColor);
+  color: var(--tertiaryTextColor);
   outline: none;
 }
