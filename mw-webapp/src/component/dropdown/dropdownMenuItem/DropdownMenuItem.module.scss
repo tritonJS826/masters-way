@@ -1,7 +1,8 @@
 @import "src/styles/variables";
 
 .dropdownMenuItem {
-  padding: $paddingSmall $paddingMedium ;
+  padding: $paddingSmall $paddingMedium;
+  font-size: $fontSizeMedium;
   cursor: pointer;
 
   &:not(:last-child) {
