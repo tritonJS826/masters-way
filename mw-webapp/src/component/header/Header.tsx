@@ -25,7 +25,6 @@ import {DEFAULT_THEME, Theme} from "src/globalStore/ThemeStore";
 import {User} from "src/model/businessModel/User";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
-import {env} from "src/utils/env/env";
 import styles from "src/component/header/Header.module.scss";
 
 export const LOGO_TEXT = "Master's way";
@@ -259,7 +258,7 @@ export const Header = (props: HeaderProps) => {
                     />
                     <VerticalContainer className={styles.loginButtons}>
                       <Link
-                        path={`${env.API_BASE_PATH}/auth/google`}
+                        path={AuthDAL.logIn()}
                         className={styles.loginGoogleButton}
                       >
                         <HorizontalContainer className={styles.googleButtonValue}>

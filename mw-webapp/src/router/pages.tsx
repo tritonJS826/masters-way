@@ -1,7 +1,7 @@
 /* eslint-disable jsdoc/require-jsdoc */
 import React, {ReactElement} from "react";
 import {UrlParamsType} from "src/router/PageUrlValidator/UrlParamsType";
-import {envSchema} from "src/utils/env/envSchema";
+import {env} from "src/utils/env/env";
 
 export type ParamName = string;
 type ParamValue = string;
@@ -124,7 +124,7 @@ export const pages = {
     urlParams: {},
   } as PageParams,
   oauth: {
-    getPath: (): string => envSchema.API_BASE_PATH + "/auth/google",
+    getPath: () => `${env.API_BASE_PATH}/auth/google`,
     getPageComponent: () => <></>,
     urlParams: {},
   } as PageParams,
