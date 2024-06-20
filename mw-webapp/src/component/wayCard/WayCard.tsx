@@ -17,6 +17,7 @@ import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import {DateUtils} from "src/utils/DateUtils";
 import styles from "src/component/wayCard/WayCard.module.scss";
+import {useConvertingMarkdownToUrl} from "src/hooks/useConvertingMarkdownToUrl";
 
 /**
  * Way card props
@@ -39,6 +40,7 @@ interface WayCardProps {
  */
 export const WayCard = observer((props: WayCardProps) => {
   const {language} = languageStore;
+  const wayRenderDescription = useConvertingMarkdownToUrl(props.wayPreview.goalDescription)
 
   /**
    * Render way tags
@@ -131,10 +133,10 @@ export const WayCard = observer((props: WayCardProps) => {
           </HorizontalContainer>
           <Tooltip
             position={PositionTooltip.BOTTOM}
-            content={props.wayPreview.goalDescription}
+            content={wayRenderDescription}
           >
             <p className={styles.wayGoal}>
-              {props.wayPreview.goalDescription}
+              {wayRenderDescription}
             </p>
           </Tooltip>
           {renderWayTags(props.wayPreview.wayTags)}
