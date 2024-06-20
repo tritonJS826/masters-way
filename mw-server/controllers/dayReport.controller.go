@@ -47,17 +47,12 @@ func (cc *DayReportController) CreateDayReport(ctx *gin.Context) {
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	userID := uuid.MustParse(userIDRaw.(string))
 
-	// Проверка достижения ограничения на максимальное количество менторства путей
 	err := cc.ls.CheckIsLimitReachedByPricingPlan(&services.LimitReachedParams{
 		LimitName: services.MaxDayReports,
 		UserID:    userID,
 		WayID:     &payload.WayUuid,
 	})
 	util.HandleErrorGin(ctx, err)
-	// map[services.LimitParamName]uuid.UUID{
-	// 		"userID": userID,
-	// 		"wayID":  payload.WayUuid,
-	// 	}
 
 	now := time.Now()
 	args := &db.CreateDayReportParams{
