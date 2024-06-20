@@ -3,6 +3,17 @@ import {Cy, Modal} from "src/component/modal/Modal";
 import styles from "src/component/image/Image.module.scss";
 
 /**
+ * Data attributes for cypress testing
+ */
+interface CyDataImage extends Cy {
+
+  /**
+   * Data attribute for cypress testing
+   */
+  onZoom?: string;
+}
+
+/**
  * Props for the Image component
  */
 interface ImageProps {
@@ -10,7 +21,7 @@ interface ImageProps {
   /**
    * Data attributes for cypress testing
    */
-  cy?: Cy;
+  cy?: CyDataImage;
 
   /**
    * Image source
@@ -26,11 +37,6 @@ interface ImageProps {
    * Additional custom class name for the component
    */
   className?: string;
-
-  /**
-   * Data attribute for cypress testing
-   */
-  dataCy?: string;
 
   /**
    * Image respond to clicks
@@ -50,7 +56,7 @@ export const Image = (props: ImageProps) => {
       src={props.src}
       alt={props.alt}
       className={imageClass}
-      data-cy={props.dataCy}
+      data-cy={props.cy?.onZoom}
     />
   );
 
