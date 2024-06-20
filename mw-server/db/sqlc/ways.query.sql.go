@@ -17,14 +17,14 @@ import (
 const countWaysByType = `-- name: CountWaysByType :one
 SELECT COUNT(*) FROM ways
 WHERE ways.is_private = false AND (
-    ($2 = 'inProgress' 
-        AND ways.is_completed = false 
+    ($2 = 'inProgress'
+        AND ways.is_completed = false
         AND ways.updated_at > ($1::timestamp - interval '14 days'))
     OR ($2 = 'completed' AND ways.is_completed = true)
-    OR ($2 = 'abandoned' 
-        AND (ways.is_completed = false) 
+    OR ($2 = 'abandoned'
+        AND (ways.is_completed = false)
         AND (ways.updated_at < ($1::timestamp - interval '14 days'))
-    ) 
+    )
     OR ($2 = 'all')
 )
 `
@@ -54,15 +54,15 @@ INSERT INTO ways(
     owner_uuid
 ) VALUES (
     $1, $2, $3, $4, $5, $6, $7, $8, $9
-) RETURNING 
+) RETURNING
     uuid, name, goal_description, updated_at, created_at, estimation_time, owner_uuid, copied_from_way_uuid, is_completed, is_private,
-    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = $10) AS way_metrics_total,    
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = $10) AS way_metrics_total,
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = $10 AND metrics.is_done = true) AS way_metrics_done,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = $10) AS way_favorite_for_users,
     (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = $10) AS way_day_reports_amount,
     (ARRAY(
-        SELECT composite_ways.child_uuid 
-        FROM composite_ways 
+        SELECT composite_ways.child_uuid
+        FROM composite_ways
         WHERE composite_ways.parent_uuid = ways.uuid
     )::VARCHAR[]) AS children_uuids
 `
@@ -146,7 +146,7 @@ const getFavoriteWaysByUserId = `-- name: GetFavoriteWaysByUserId :many
 SELECT
     ways.uuid,
     ways.name,
-    ways.owner_uuid, 
+    ways.owner_uuid,
     ways.goal_description,
     ways.updated_at,
     ways.created_at,
@@ -154,13 +154,13 @@ SELECT
     ways.copied_from_way_uuid,
     ways.is_completed,
     ways.is_private,
-    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,    
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
     (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount,
     (ARRAY(
-        SELECT composite_ways.child_uuid 
-        FROM composite_ways 
+        SELECT composite_ways.child_uuid
+        FROM composite_ways
         WHERE composite_ways.parent_uuid = ways.uuid
     )::VARCHAR[]) AS children_uuids
 FROM ways
@@ -230,7 +230,7 @@ const getMentoringWaysByMentorId = `-- name: GetMentoringWaysByMentorId :many
 SELECT
     ways.uuid,
     ways.name,
-    ways.owner_uuid, 
+    ways.owner_uuid,
     ways.goal_description,
     ways.updated_at,
     ways.created_at,
@@ -238,13 +238,13 @@ SELECT
     ways.copied_from_way_uuid,
     ways.is_completed,
     ways.is_private,
-    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,    
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
     (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount,
     (ARRAY(
-        SELECT composite_ways.child_uuid 
-        FROM composite_ways 
+        SELECT composite_ways.child_uuid
+        FROM composite_ways
         WHERE composite_ways.parent_uuid = ways.uuid
     )::VARCHAR[]) AS children_uuids
 FROM ways
@@ -311,10 +311,10 @@ func (q *Queries) GetMentoringWaysByMentorId(ctx context.Context, userUuid uuid.
 }
 
 const getOwnWaysByUserId = `-- name: GetOwnWaysByUserId :many
-SELECT 
+SELECT
     ways.uuid,
     ways.name,
-    ways.owner_uuid, 
+    ways.owner_uuid,
     ways.goal_description,
     ways.updated_at,
     ways.created_at,
@@ -322,13 +322,13 @@ SELECT
     ways.copied_from_way_uuid,
     ways.is_completed,
     ways.is_private,
-    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,    
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
     (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount,
     (ARRAY(
-        SELECT composite_ways.child_uuid 
-        FROM composite_ways 
+        SELECT composite_ways.child_uuid
+        FROM composite_ways
         WHERE composite_ways.parent_uuid = ways.uuid
     )::VARCHAR[]) AS children_uuids
 FROM ways
@@ -393,8 +393,36 @@ func (q *Queries) GetOwnWaysByUserId(ctx context.Context, ownerUuid uuid.UUID) (
 	return items, nil
 }
 
+const getOwnWaysCountByUserId = `-- name: GetOwnWaysCountByUserId :one
+SELECT
+    COUNT(*) AS own_ways_count
+FROM ways
+WHERE owner_uuid = $1
+`
+
+func (q *Queries) GetOwnWaysCountByUserId(ctx context.Context, userUuid uuid.UUID) (int64, error) {
+	row := q.queryRow(ctx, q.getOwnWaysCountByUserIdStmt, getOwnWaysCountByUserId, userUuid)
+	var own_ways_count int64
+	err := row.Scan(&own_ways_count)
+	return own_ways_count, err
+}
+
+const getPrivateWaysCountByUserId = `-- name: GetPrivateWaysCountByUserId :one
+SELECT
+    COUNT(*) AS private_ways_count
+FROM ways
+WHERE owner_uuid = $1 AND is_private = TRUE
+`
+
+func (q *Queries) GetPrivateWaysCountByUserId(ctx context.Context, userUuid uuid.UUID) (int64, error) {
+	row := q.queryRow(ctx, q.getPrivateWaysCountByUserIdStmt, getPrivateWaysCountByUserId, userUuid)
+	var private_ways_count int64
+	err := row.Scan(&private_ways_count)
+	return private_ways_count, err
+}
+
 const getWayById = `-- name: GetWayById :one
-SELECT 
+SELECT
     ways.uuid,
     ways.name,
     ways.goal_description,
@@ -405,8 +433,8 @@ SELECT
     ways.is_completed,
     ways.is_private,
     (ARRAY(
-        SELECT composite_ways.child_uuid 
-        FROM composite_ways 
+        SELECT composite_ways.child_uuid
+        FROM composite_ways
         WHERE composite_ways.parent_uuid = ways.uuid
     )::VARCHAR[]) AS children_uuids,
     users.uuid AS owner_uuid,
@@ -416,13 +444,13 @@ SELECT
     users.created_at AS owner_created_at,
     users.image_url AS owner_image_url,
     users.is_mentor AS owner_is_mentor,
-    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = $1) AS way_metrics_total,    
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = $1) AS way_metrics_total,
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = $1 AND metrics.is_done = true) AS way_metrics_done,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = $1) AS way_favorite_for_users,
     (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = $1) AS way_day_reports_amount,
     (ARRAY(
-        SELECT composite_ways.child_uuid 
-        FROM composite_ways 
+        SELECT composite_ways.child_uuid
+        FROM composite_ways
         WHERE composite_ways.parent_uuid = ways.uuid
     )::VARCHAR[]) AS children_uuids
 FROM ways
@@ -487,10 +515,10 @@ func (q *Queries) GetWayById(ctx context.Context, wayUuid uuid.UUID) (GetWayById
 }
 
 const getWaysByCollectionId = `-- name: GetWaysByCollectionId :many
-SELECT 
+SELECT
     ways.uuid,
     ways.name,
-    ways.owner_uuid, 
+    ways.owner_uuid,
     ways.goal_description,
     ways.updated_at,
     ways.created_at,
@@ -498,13 +526,13 @@ SELECT
     ways.copied_from_way_uuid,
     ways.is_completed,
     ways.is_private,
-    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,    
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
     (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount,
     (ARRAY(
-        SELECT composite_ways.child_uuid 
-        FROM composite_ways 
+        SELECT composite_ways.child_uuid
+        FROM composite_ways
         WHERE composite_ways.parent_uuid = ways.uuid
     )::VARCHAR[]) AS children_uuids
 FROM ways
@@ -571,23 +599,23 @@ func (q *Queries) GetWaysByCollectionId(ctx context.Context, wayCollectionUuid u
 }
 
 const listWays = `-- name: ListWays :many
-SELECT 
+SELECT
     uuid, name, goal_description, updated_at, created_at, estimation_time, owner_uuid, copied_from_way_uuid, is_completed, is_private,
-    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,    
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
     (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount,
     (ARRAY(
-        SELECT composite_ways.child_uuid 
-        FROM composite_ways 
+        SELECT composite_ways.child_uuid
+        FROM composite_ways
         WHERE composite_ways.parent_uuid = ways.uuid
     )::VARCHAR[]) AS children_uuids
 FROM ways
-WHERE ways.is_private = false AND 
+WHERE ways.is_private = false AND
     (
         ($3 = 'inProgress' AND ways.is_completed = false AND ways.updated_at > $4::timestamp - interval '14 days')
     OR ($3 = 'completed' AND ways.is_completed = true)
-    OR ($3 = 'abandoned' AND ways.is_completed = false AND ways.updated_at < $4::timestamp - interval '14 days') 
+    OR ($3 = 'abandoned' AND ways.is_completed = false AND ways.updated_at < $4::timestamp - interval '14 days')
     OR ($3 = 'all')
     )
 ORDER BY created_at DESC
@@ -676,13 +704,13 @@ is_completed = coalesce($6, is_completed)
 
 WHERE ways.uuid = $7
 RETURNING uuid, name, goal_description, updated_at, created_at, estimation_time, owner_uuid, copied_from_way_uuid, is_completed, is_private,
-    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = $7) AS way_metrics_total,    
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = $7) AS way_metrics_total,
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = $7 AND metrics.is_done = true) AS way_metrics_done,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = $7) AS way_favorite_for_users,
     (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = $7) AS way_day_reports_amount,
     (ARRAY(
-        SELECT composite_ways.child_uuid 
-        FROM composite_ways 
+        SELECT composite_ways.child_uuid
+        FROM composite_ways
         WHERE composite_ways.parent_uuid = ways.uuid
     )::VARCHAR[]) AS children_uuids
 `

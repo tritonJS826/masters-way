@@ -99,7 +99,7 @@ func (cc *AuthController) BeginAuth(ctx *gin.Context) {
 // @Success 200 {object} schemas.UserPopulatedResponse
 // @Router /auth/current [get]
 func (cc *AuthController) GetCurrentAuthorizedUserByToken(ctx *gin.Context) {
-	userIDRaw, _ := ctx.Get("userID")
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	userId := userIDRaw.(string)
 
 	populatedUser, err := services.GetPopulatedUserById(cc.db, ctx, uuid.MustParse(userId))
@@ -150,7 +150,7 @@ func (cc *AuthController) GetUserTokenByEmail(ctx *gin.Context) {
 // @Success 200 {object} util.ResponseStatusString
 // @Router /auth/logout/{provider} [get]
 func (cc *AuthController) Logout(ctx *gin.Context) {
-	userIDRaw, _ := ctx.Get("userID")
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	userId := userIDRaw.(string)
 
 	ctx.JSON(http.StatusOK, gin.H{"status": "Ok" + userId})

@@ -8,6 +8,7 @@ import (
 
 	db "mwserver/db/sqlc"
 	"mwserver/schemas"
+	"mwserver/services"
 	"mwserver/util"
 
 	"github.com/gin-gonic/gin"
@@ -17,10 +18,11 @@ import (
 type WayCollectionController struct {
 	db  *db.Queries
 	ctx context.Context
+	ls  *services.LimitService
 }
 
-func NewWayCollectionController(db *db.Queries, ctx context.Context) *WayCollectionController {
-	return &WayCollectionController{db, ctx}
+func NewWayCollectionController(db *db.Queries, ctx context.Context, ls *services.LimitService) *WayCollectionController {
+	return &WayCollectionController{db, ctx, ls}
 }
 
 // Create wayCollectionRoute handler
@@ -40,6 +42,14 @@ func (cc *WayCollectionController) CreateWayCollection(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
 		return
 	}
+
+	userID, err := uuid.Parse(payload.OwnerUuid)
+	util.HandleErrorGin(ctx, err)
+
+	err = cc.ls.IsLimitReachedByPricingPlan(services.MaxCustomCollections, map[services.LimitParamName]uuid.UUID{
+		"userID": userID,
+	})
+	util.HandleErrorGin(ctx, err)
 
 	now := time.Now()
 	args := &db.CreateWayCollectionParams{

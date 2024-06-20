@@ -3,11 +3,14 @@ package controllers
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"net/http"
 	"time"
 
+	"mwserver/auth"
 	db "mwserver/db/sqlc"
 	"mwserver/schemas"
+	"mwserver/services"
 	"mwserver/util"
 
 	"github.com/gin-gonic/gin"
@@ -17,10 +20,11 @@ import (
 type DayReportController struct {
 	db  *db.Queries
 	ctx context.Context
+	ls  *services.LimitService
 }
 
-func NewDayReportController(db *db.Queries, ctx context.Context) *DayReportController {
-	return &DayReportController{db, ctx}
+func NewDayReportController(db *db.Queries, ctx context.Context, ls *services.LimitService) *DayReportController {
+	return &DayReportController{db, ctx, ls}
 }
 
 // Create day report  handler
@@ -40,6 +44,29 @@ func (cc *DayReportController) CreateDayReport(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
 		return
 	}
+
+	// Get the raw user ID from the context
+	userIDRaw, ok := ctx.Get(auth.ContextKeyUserID)
+	if !ok {
+		util.HandleErrorGin(ctx, fmt.Errorf("user ID not found in context"))
+	}
+
+	// Assert the raw user ID to a string
+	userIDString, ok := userIDRaw.(string)
+	if !ok {
+		util.HandleErrorGin(ctx, fmt.Errorf("user ID is not a string"))
+	}
+
+	// Parse the string as a UUID
+	userID, err := uuid.Parse(userIDString)
+	util.HandleErrorGin(ctx, fmt.Errorf("invalid user ID format: %v", err))
+
+	// Проверка достижения ограничения на максимальное количество менторства путей
+	err = cc.ls.IsLimitReachedByPricingPlan(services.MaxMentoringsWays, map[services.LimitParamName]uuid.UUID{
+		"userID": userID,
+		"wayID":  payload.WayUuid,
+	})
+	util.HandleErrorGin(ctx, err)
 
 	now := time.Now()
 	args := &db.CreateDayReportParams{

@@ -20,10 +20,11 @@ import (
 type WayController struct {
 	db  *db.Queries
 	ctx context.Context
+	ls  *services.LimitService
 }
 
-func NewWayController(db *db.Queries, ctx context.Context) *WayController {
-	return &WayController{db, ctx}
+func NewWayController(db *db.Queries, ctx context.Context, ls *services.LimitService) *WayController {
+	return &WayController{db, ctx, ls}
 }
 
 // Create way  handler
@@ -43,6 +44,20 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	limitParams := map[services.LimitParamName]uuid.UUID{
+		"userID": payload.OwnerUuid,
+	}
+
+	// Проверка достижения ограничения на максимальное количество приватных путей
+	if payload.IsPrivate {
+		err := cc.ls.IsLimitReachedByPricingPlan(services.MaxPrivateWays, limitParams)
+		util.HandleErrorGin(ctx, err)
+	}
+
+	// Проверка достижения ограничения на максимальное количество путей
+	err := cc.ls.IsLimitReachedByPricingPlan(services.MaxOwnWays, limitParams)
+	util.HandleErrorGin(ctx, err)
 
 	now := time.Now()
 	args := &db.CreateWayParams{

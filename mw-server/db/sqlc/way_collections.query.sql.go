@@ -99,6 +99,19 @@ func (q *Queries) GetListWayCollectionsByUserId(ctx context.Context, ownerUuid u
 	return items, nil
 }
 
+const getWayCollectionsCountByUserId = `-- name: GetWayCollectionsCountByUserId :one
+SELECT COUNT(*) AS way_collections_count
+FROM way_collections
+WHERE owner_uuid = $1
+`
+
+func (q *Queries) GetWayCollectionsCountByUserId(ctx context.Context, userUuid uuid.UUID) (int64, error) {
+	row := q.queryRow(ctx, q.getWayCollectionsCountByUserIdStmt, getWayCollectionsCountByUserId, userUuid)
+	var way_collections_count int64
+	err := row.Scan(&way_collections_count)
+	return way_collections_count, err
+}
+
 const updateWayCollection = `-- name: UpdateWayCollection :one
 UPDATE way_collections
 SET

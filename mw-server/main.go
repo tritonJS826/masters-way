@@ -11,6 +11,7 @@ import (
 	"mwserver/controllers"
 	dbCon "mwserver/db/sqlc"
 	"mwserver/routes"
+	"mwserver/services"
 
 	_ "mwserver/docs"
 
@@ -26,6 +27,8 @@ var (
 	server *gin.Engine
 	db     *dbCon.Queries
 	ctx    context.Context
+
+	LimitService services.LimitService
 
 	AuthController controllers.AuthController
 	AuthRoutes     routes.AuthRoutes
@@ -121,19 +124,21 @@ func init() {
 		AllowCredentials: true,
 	}))
 
+	LimitService = *services.NewLimitService(db, ctx)
+
 	AuthController = *controllers.NewAuthController(db, ctx)
 	AuthRoutes = routes.NewRouteAuth(AuthController)
 
-	WayController = *controllers.NewWayController(db, ctx)
+	WayController = *controllers.NewWayController(db, ctx, &LimitService)
 	WayRoutes = routes.NewRouteWay(WayController)
 
 	UserController = *controllers.NewUserController(db, ctx)
 	UserRoutes = routes.NewRouteUser(UserController)
 
-	DayReportController = *controllers.NewDayReportController(db, ctx)
+	DayReportController = *controllers.NewDayReportController(db, ctx, &LimitService)
 	DayReportRoutes = routes.NewRouteDayReport(DayReportController)
 
-	WayCollectionController = *controllers.NewWayCollectionController(db, ctx)
+	WayCollectionController = *controllers.NewWayCollectionController(db, ctx, &LimitService)
 	WayCollectionRoutes = routes.NewRouteWayCollection(WayCollectionController)
 
 	CommentController = *controllers.NewCommentController(db, ctx)
@@ -175,7 +180,7 @@ func init() {
 	ToUserMentoringRequestController = *controllers.NewToUserMentoringRequestController(db, ctx)
 	ToUserMentoringRequestRoutes = routes.NewRouteToUserMentoringRequest(ToUserMentoringRequestController)
 
-	UserTagController = *controllers.NewUserTagController(db, ctx)
+	UserTagController = *controllers.NewUserTagController(db, ctx, &LimitService)
 	UserTagRoutes = routes.NewRouteUserTag(UserTagController)
 
 	WayCollectionWayController = *controllers.NewWayCollectionWayController(db, ctx)
@@ -187,7 +192,7 @@ func init() {
 	CompositeWayController = *controllers.NewCompositeWayController(db, ctx)
 	CompositeWayRoutes = routes.NewRouteCompositeWay(CompositeWayController)
 
-	MentorUserWayController = *controllers.NewMentorUserWayController(db, ctx)
+	MentorUserWayController = *controllers.NewMentorUserWayController(db, ctx, &LimitService)
 	MentorUserWayRoutes = routes.NewRouteMentorUserWay(MentorUserWayController)
 
 	if config.Env.EnvType != "prod" {

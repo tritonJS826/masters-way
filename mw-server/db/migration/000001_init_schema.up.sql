@@ -205,6 +205,28 @@ CREATE TABLE "users_user_tags"(
     CONSTRAINT "user_uuid_user_tag_uuid_pkey" PRIMARY KEY (user_uuid, user_tag_uuid)
 );
 
+-- После миграции добавить всех user в таблицу
+
+CREATE TYPE pricing_plan_type AS ENUM ('free', 'starter', 'pro');
+
+CREATE TABLE "profile_settings" (
+    "uuid" UUID NOT NULL DEFAULT uuid_generate_v4(),
+    "pricing_plan" pricing_plan_type NOT NULL,
+    "expiration_date" TIMESTAMP NOT NULL,
+    "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "owner_uuid" UUID NOT NULL REFERENCES users("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT "profile_settings_pkey" PRIMARY KEY("uuid")
+);
+
+CREATE OR REPLACE FUNCTION create_profile_settings()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO profile_settings (pricing_plan, expiration_date, owner_uuid)
+    VALUES ('free', NOW() + INTERVAL '100 year', NEW.uuid);
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
 
 -- triggers
 

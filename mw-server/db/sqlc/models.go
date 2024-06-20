@@ -6,10 +6,55 @@ package db
 
 import (
 	"database/sql"
+	"database/sql/driver"
+	"fmt"
 	"time"
 
 	"github.com/google/uuid"
 )
+
+type PricingPlanType string
+
+const (
+	PricingPlanTypeFree    PricingPlanType = "free"
+	PricingPlanTypeStarter PricingPlanType = "starter"
+	PricingPlanTypePro     PricingPlanType = "pro"
+)
+
+func (e *PricingPlanType) Scan(src interface{}) error {
+	switch s := src.(type) {
+	case []byte:
+		*e = PricingPlanType(s)
+	case string:
+		*e = PricingPlanType(s)
+	default:
+		return fmt.Errorf("unsupported scan type for PricingPlanType: %T", src)
+	}
+	return nil
+}
+
+type NullPricingPlanType struct {
+	PricingPlanType PricingPlanType `json:"pricing_plan_type"`
+	Valid           bool            `json:"valid"` // Valid is true if PricingPlanType is not NULL
+}
+
+// Scan implements the Scanner interface.
+func (ns *NullPricingPlanType) Scan(value interface{}) error {
+	if value == nil {
+		ns.PricingPlanType, ns.Valid = "", false
+		return nil
+	}
+	ns.Valid = true
+	return ns.PricingPlanType.Scan(value)
+}
+
+// Value implements the driver Valuer interface.
+func (ns NullPricingPlanType) Value() (driver.Value, error) {
+	if !ns.Valid {
+		return nil, nil
+	}
+	return string(ns.PricingPlanType), nil
+}
 
 type Comment struct {
 	Uuid          uuid.UUID `json:"uuid"`
@@ -121,6 +166,15 @@ type Problem struct {
 type ProblemsJobTag struct {
 	ProblemUuid uuid.UUID `json:"problem_uuid"`
 	JobTagUuid  uuid.UUID `json:"job_tag_uuid"`
+}
+
+type ProfileSetting struct {
+	Uuid           uuid.UUID       `json:"uuid"`
+	PricingPlan    PricingPlanType `json:"pricing_plan"`
+	ExpirationDate time.Time       `json:"expiration_date"`
+	CreatedAt      time.Time       `json:"created_at"`
+	UpdatedAt      time.Time       `json:"updated_at"`
+	OwnerUuid      uuid.UUID       `json:"owner_uuid"`
 }
 
 type ToUserMentoringRequest struct {
