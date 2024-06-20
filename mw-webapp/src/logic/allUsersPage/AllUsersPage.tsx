@@ -165,7 +165,7 @@ export const AllUsersPage = observer(() => {
         </HorizontalContainer>
         <HorizontalContainer className={styles.filterBlock}>
           <Select
-            label={`${LanguageService.allUsers.filterBlock.type[language]}:`}
+            label={`${LanguageService.allUsers.filterBlock.type[language]}`}
             defaultValue={MentoringStatus.all}
             name="filterStatus"
             options={[

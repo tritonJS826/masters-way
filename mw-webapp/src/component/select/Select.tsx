@@ -1,6 +1,6 @@
-import {ChevronDownIcon} from "@radix-ui/react-icons";
 import * as SelectComponent from "@radix-ui/react-select";
 import clsx from "clsx";
+import {Icon, IconSize} from "src/component/icon/Icon";
 import {SelectItem} from "src/component/select/selectItem/SelectItem";
 import {Symbols} from "src/utils/Symbols";
 import styles from "src/component/select/Select.module.scss";
@@ -168,7 +168,7 @@ const renderSelectOptions = <T extends string>(options: SelectItemType<T>[]) => 
 export const Select = <T extends string>(props: SelectProps<T>) => {
   return (
     <div
-      className={clsx(styles.select, props.className)}
+      className={clsx(styles.Select, props.className)}
       data-cy={props.cy?.dataCyOverlay}
     >
       <SelectComponent.Root
@@ -179,10 +179,13 @@ export const Select = <T extends string>(props: SelectProps<T>) => {
           className={styles.SelectTrigger}
           data-cy={props.cy?.dataCyTrigger}
         >
-          <span>
-            {props.label}
-            {Symbols.NO_BREAK_SPACE}
-          </span>
+          {props.label && (
+            <span className={styles.SelectTriggerValue}>
+              {props.label}
+              {Symbols.NO_BREAK_SPACE}
+            </span>
+          ) }
+
           <SelectComponent.Value
             data-cy={props.cy?.dataCyValue}
             placeholder={getValueForTriggerSelect({
@@ -191,9 +194,11 @@ export const Select = <T extends string>(props: SelectProps<T>) => {
               options: props.options,
             })}
           />
-          <SelectComponent.Icon className={styles.SelectIcon}>
-            <ChevronDownIcon />
-          </SelectComponent.Icon>
+          <Icon
+            size={IconSize.MEDIUM}
+            name="ChevronIcon"
+            className={styles.SelectIcon}
+          />
         </SelectComponent.Trigger>
         <SelectComponent.Portal>
           <SelectComponent.Content
@@ -203,14 +208,10 @@ export const Select = <T extends string>(props: SelectProps<T>) => {
             data-cy={props.cy?.dataCyContentList}
           >
             <SelectComponent.Viewport className={styles.SelectViewport}>
-              <SelectComponent.Group>
+              <SelectComponent.Group className={styles.SelectItemsWrapper}>
                 {renderSelectOptions(props.options)}
               </SelectComponent.Group>
-
             </SelectComponent.Viewport>
-            <SelectComponent.ScrollDownButton className={styles.SelectScrollButton}>
-              <ChevronDownIcon />
-            </SelectComponent.ScrollDownButton>
           </SelectComponent.Content>
         </SelectComponent.Portal>
       </SelectComponent.Root>
