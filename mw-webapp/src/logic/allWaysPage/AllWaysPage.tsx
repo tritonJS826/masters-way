@@ -135,7 +135,7 @@ export const AllWaysPage = observer(() => {
     <VerticalContainer className={styles.allWaysContainer}>
       <HorizontalContainer className={styles.filterView}>
         <Select
-          label={`${LanguageService.allWays.filterBlock.type[language]}:`}
+          label={`${LanguageService.allWays.filterBlock.type[language]}`}
           defaultValue={allWaysPageSettings.filterStatus}
           name="filterStatus"
           options={[
