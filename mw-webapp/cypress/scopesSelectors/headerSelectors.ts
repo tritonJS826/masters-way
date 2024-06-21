@@ -8,6 +8,17 @@ export const headerSelectors = {
 
     settings: {
         getThemeSwitcher: () => cy.get(getDataCy(headerAccessIds.settings.themeSwitcher)),
+
+        language: {
+            getSelect:() => cy.get(getDataCy(headerAccessIds.language.select)),
+    
+            languageMenuItems: [
+                () => cy.get(getDataCy(headerAccessIds.language.ruItem)),
+                () => cy.get(getDataCy(headerAccessIds.language.enItem)),
+                () => cy.get(getDataCy(headerAccessIds.language.uaItem)),
+                () => cy.get(getDataCy(headerAccessIds.language.kaItem))
+            ]
+        },
     },
     
     getloginButton: () => cy.get(getDataCy(headerAccessIds.loginButton)),

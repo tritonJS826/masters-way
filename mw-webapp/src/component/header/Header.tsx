@@ -1,5 +1,5 @@
 import {headerAccessIds} from "cypress/accessIds/headerAccessIds";
-import {navigationMenuIds} from "cypress/accessIds/navigationMenuIds";
+import {navigationMenuIds} from "cypress/accessIds/navigationMenuAccessIds";
 import google from "src/assets/google.svg";
 import logo from "src/assets/mastersWayLogo.svg";
 import logoLight from "src/assets/mastersWayLogoLight.svg";
@@ -212,6 +212,7 @@ export const Header = (props: HeaderProps) => {
           options={languageOptions}
           onChange={props.setLanguage}
           className={styles.selectLanguage}
+          cy={{dataCyTrigger: headerAccessIds.language.select, dataCyContentList: "", dataCyValue: ""}}
         />
 
         <HorizontalContainer className={styles.rightBlock}>

@@ -7,6 +7,14 @@ export const headerAccessIds = {
     settings: {
         themeSwitcher: 'themeSwitcher'
     },
+
+    language: {
+        select: 'headerLanguageSelect',
+        ruItem: 'ruItem',
+        enItem: 'enItem',
+        uaItem: 'uaItem',
+        kaItem: 'kaItem'
+    },
     
     loginButton: 'loginButton'
 };

@@ -18,6 +18,7 @@ import settingsData from "cypress/fixtures/settingsFixture.json"
 import {settingsSelectors} from "cypress/scopesSelectors/settingsSelectors";
 import settingsPageContent from "src/dictionary/SettingsPageContent.json";
 import testUserData from "cypress/fixtures/testUserDataFixture.json";
+import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
 
 afterEach(() => {
     cy.clearAllStorage();
@@ -89,6 +90,8 @@ describe('NoAuth Navigation menu scope tests', () => {
         const languageCode = Object.keys(sideBarContent.language).map(key => key.toUpperCase());
         const languageText = Object.values(sideBarContent.language);
 
+        cy.wrap(navigationMenuSelectors.language.languageMenuItems).should('have.length', languageCode.length);
+
         navigationMenuSelectors.language.getSelect().click();
 
         languageCode.forEach((code, index) => {
@@ -102,7 +105,7 @@ describe('NoAuth Navigation menu scope tests', () => {
             }
         });
     });
-  
+
     it('NoAuth_NavMenu_DarkMode', () => {
         navigationMenuSelectors.nightMode.getText().should('have.text', sideBarContent.nightMode.en);
         navigationMenuSelectors.nightMode.getSlider().check({force: true}).should("be.checked");
@@ -130,8 +133,8 @@ describe('NoAuth Navigation menu scope tests', () => {
 
         cy.checkLinkAttributes(navigationMenuSelectors.socialMedia.getYoutubeLink(), navigationMenuFixture.youtubeLink);
         cy.checkLinkStatus(navigationMenuSelectors.socialMedia.getYoutubeLink(), navigationMenuFixture.youtubeLink);                             
-    }); 
-  });
+    });
+});    
 
   describe('IsAuth Navigation menu scope tests', () => {
 
@@ -141,6 +144,13 @@ describe('NoAuth Navigation menu scope tests', () => {
     });
 
     it('IsAuth_NavMenu_PersonalArea', () => {
+        navigationMenuSelectors.menuItemLinks.getPersonalAreaItemLink().click();
+        
+        cy.url().should('include', testUserData.endpoint);
+        userPersonalSelectors.descriptionSection.getName().should('have.text', testUserData.name);
+    }); 
+
+    it('IsAuth_NavMenu_Settings', () => {
         navigationMenuSelectors.menuItemLinks.getSettingsItemLink().click();
         
         cy.url().should('include', settingsData.endpoint);

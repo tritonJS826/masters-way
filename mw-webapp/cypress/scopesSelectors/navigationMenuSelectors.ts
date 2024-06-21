@@ -1,5 +1,5 @@
 import {getDataCy} from "src/utils/cyTesting/getDataCy";
-import {navigationMenuIds} from "cypress/accessIds/navigationMenuIds";
+import {navigationMenuIds} from "cypress/accessIds/navigationMenuAccessIds";
 
 export const navigationMenuSelectors = {
     getNavigationMenu: () => cy.get(getDataCy(navigationMenuIds.navigationMenu)),

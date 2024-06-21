@@ -1,4 +1,5 @@
 import {useState} from "react";
+import {userPersonalDataAccessIds} from "cypress/accessIds/userPersonalDataAccessIds";
 import {observer} from "mobx-react-lite";
 import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
 import {Button, ButtonType} from "src/component/button/Button";
@@ -307,6 +308,7 @@ export const UserPage = observer((props: UserPageProps) => {
             <VerticalContainer className={styles.nameEmailSection}>
               <HorizontalContainer className={styles.nameSection}>
                 <Title
+                  dataCy={userPersonalDataAccessIds.descriptionSection.nameSection}
                   level={HeadingLevel.h2}
                   text={userPageOwner.name}
                   placeholder={LanguageService.common.emptyMarkdownAction[language]}
