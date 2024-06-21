@@ -204,8 +204,8 @@ export const Header = (props: HeaderProps) => {
           name={LOGO_TEXT}
         />
       </Link>
-      <div className={styles.headerButtonsContainer}>
-
+      <HorizontalContainer className={styles.headerButtonsContainer}>
+        <HorizontalContainer className={styles.headerLeftBlock}>
         <ThemeSwitcher
           language={props.language}
           theme={props.theme}
@@ -228,8 +228,8 @@ export const Header = (props: HeaderProps) => {
           className={styles.selectLanguage}
           cy={{dataCyTrigger: headerAccessIds.settings.language.select, dataCyContentList: "", dataCyValue: ""}}
         />
-
-        <HorizontalContainer className={styles.rightBlock}>
+        </HorizontalContainer>
+        <HorizontalContainer className={styles.headerRightBlock}>
           {props.user ?
             <Link
               path={pages.user.getPath({uuid: props.user.uuid})}
@@ -400,7 +400,7 @@ export const Header = (props: HeaderProps) => {
           />
 
         </HorizontalContainer>
-      </div>
+      </HorizontalContainer>
     </header>
   );
 };

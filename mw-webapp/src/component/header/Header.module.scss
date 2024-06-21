@@ -1,6 +1,9 @@
 @import "src/styles/variables";
 
-$userNameFontSize: 16px;
+$gapHeaderExtraLarge: 100px;
+$burgerMenuSize: 24px;
+$logoSidebarHeight: 40px;
+$googleIconSize: 20px;
 
 .header {
   display: flex;
@@ -13,29 +16,27 @@ $userNameFontSize: 16px;
   margin: 0 auto;
 }
 
-.logo {
-  height: 55px;
-}
-
 .logoSidebar {
-  height: 40px;
+  height: logoSidebarHeight;
 }
 
 .headerButtonsContainer {
-  display: flex;
-  width: auto;
   align-items: center;
   justify-content: space-between;
-  gap: $gapMedium;
+  gap: $gapHeaderExtraLarge;
 }
 
 .logo {
   cursor: pointer;
 }
 
-.rightBlock {
+.headerLeftBlock {
+  gap: $gapBig;
+}
+
+.headerRightBlock {
   align-items: center;
-  gap: $gapMedium;
+  gap: $gapExtraBig;
 }
 
 .userAvatar {
@@ -43,8 +44,8 @@ $userNameFontSize: 16px;
 }
 
 .burgerMenu {
-  width: 24px;
-  height: 24px;
+  width: $burgerMenuSize;
+  height: $burgerMenuSize;
   margin-top: 2px;
   cursor: pointer;
   fill: var(--primaryTextColor);
@@ -75,7 +76,7 @@ $userNameFontSize: 16px;
 }
 
 .socialMediaIcon {
-  border: 2px solid var(--secondaryStrokeColor);
+  border: $secondaryBorder solid var(--secondaryStrokeColor);
   border-radius: $tertiaryBorderRadius;
   background-color: var(--secondaryIconBgColor);
   fill: var(--quaternaryBgColor);
@@ -127,8 +128,8 @@ $userNameFontSize: 16px;
 }
 
 .googleIcon {
-  width: 20px;
-  height: 20px;
+  width: $googleIconSize;
+  height: $googleIconSize;
 }
 
 .loginButtons {
@@ -140,7 +141,7 @@ $userNameFontSize: 16px;
   display: flex;
   justify-content: center;
   padding: $paddingMedium $paddingExtraBig;
-  border: 1px solid var(--primaryStrokeColor);
+  border: $primaryBorder solid var(--primaryStrokeColor);
   border-radius: $secondaryBorderRadius;
   text-decoration: none;
 }
