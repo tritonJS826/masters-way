@@ -13,23 +13,23 @@
   justify-content: space-between;
 }
 
-.SelectTrigger {
-  all: unset;
-  padding: 0 $paddingMedium;
-  border-radius: $primaryBorderRadius;
-  background-color: var(--secondaryBgColor);
-  color: var(--primaryTextColor);
-  font-size: $fontSizeMedium;
-  border: solid  $primaryBorder var(--primaryStrokeColor);
-  display: flex;
-  align-items: center;
-  gap: $gapMedium;
-  font-weight: $fontWeightSemibold;
+// .SelectTrigger {
+//   all: unset;
+//   padding: 0 $paddingMedium;
+//   border-radius: $primaryBorderRadius;
+//   background-color: var(--secondaryBgColor);
+//   color: var(--primaryTextColor);
+//   font-size: $fontSizeMedium;
+//   border: solid  $primaryBorder var(--primaryStrokeColor);
+//   display: flex;
+//   align-items: center;
+//   gap: $gapMedium;
+//   font-weight: $fontWeightSemibold;
 
-  &[data-state="open"] > .SelectIcon  {
-    transform: rotate(180deg);
-  }
-}
+//   &[data-state="open"] > .SelectIcon  {
+//     transform: rotate(180deg);
+//   }
+// }
 
 // .SelectTriggerValue {
 //   font-weight: $fontWeightReular;
