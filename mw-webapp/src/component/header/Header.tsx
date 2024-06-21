@@ -22,6 +22,7 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {AuthDAL} from "src/dataAccessLogic/AuthDAL";
 import {Language} from "src/globalStore/LanguageStore";
 import {DEFAULT_THEME, Theme} from "src/globalStore/ThemeStore";
+import {trackUserActivationButton, UserActivationAction, UserActivationLabel} from "src/GoogleAnalytics";
 import {User} from "src/model/businessModel/User";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
@@ -260,6 +261,10 @@ export const Header = (props: HeaderProps) => {
                       <Link
                         path={AuthDAL.logIn()}
                         className={styles.loginGoogleButton}
+                        onClick={() => trackUserActivationButton({
+                          action: UserActivationAction.GET_STARTED_CLICKED,
+                          label: UserActivationLabel.LOG_IN_CLICKED,
+                        })}
                       >
                         <HorizontalContainer className={styles.googleButtonValue}>
                           <Image

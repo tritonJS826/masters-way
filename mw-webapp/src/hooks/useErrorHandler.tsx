@@ -1,6 +1,6 @@
 import {useEffect} from "react";
 import {displayNotification} from "src/component/notification/Notification";
-import {Analytics, logEvent} from "src/firebase";
+import {GlobalErrorAction, trackGlobalErrors} from "src/GoogleAnalytics";
 
 /**
  * Handles global unhandled errors and promise rejections, displays notification with error message
@@ -12,7 +12,10 @@ export const useErrorHandler = () => {
    */
   const handleError = (event: ErrorEvent) => {
     displayNotification({text: `Error: ${event.message}`, type: "error"});
-    logEvent(Analytics.ERROR, {error: event});
+    trackGlobalErrors({
+      action: GlobalErrorAction.ERROR,
+      label: event.message,
+    });
   };
 
   /**
@@ -20,7 +23,10 @@ export const useErrorHandler = () => {
    */
   const handlePromiseRejection = (event: PromiseRejectionEvent) => {
     displayNotification({text: `Ups, ${event.reason}`, type: "error"});
-    logEvent(Analytics.PROMISE_REJECTION, {reason: event.reason});
+    trackGlobalErrors({
+      action: GlobalErrorAction.PROMISE_REJECTION,
+      label: event.reason,
+    });
   };
 
   useEffect(() => {

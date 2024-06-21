@@ -2,7 +2,6 @@ import {Outlet} from "react-router-dom";
 import {headerAccessIds} from "cypress/accessIds/headerAccessIds";
 import {observer} from "mobx-react-lite";
 import {Header} from "src/component/header/Header";
-import {FirebaseAnalytics} from "src/FirebaseAnalytics";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
@@ -28,7 +27,6 @@ export const Layout = observer(() => {
         dataCy={headerAccessIds.header}
       />
       <Outlet />
-      <FirebaseAnalytics />
     </InitializedApp>
   );
 });

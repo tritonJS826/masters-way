@@ -13,7 +13,7 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {AuthDAL} from "src/dataAccessLogic/AuthDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {userStore} from "src/globalStore/UserStore";
-import {trackUserInteractionWithButton} from "src/GoogleAnalytics";
+import {trackUserActivationButton, UserActivationAction, UserActivationLabel} from "src/GoogleAnalytics";
 import {GoalItem} from "src/logic/homePage/goalItem/GoalItem";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
@@ -23,11 +23,6 @@ import styles from "src/logic/homePage/HomePage.module.scss";
  * GetStarted button click handler
  */
 const getStarted = (userUuid?: string) => {
-  trackUserInteractionWithButton({
-    action: "Clicked Button Get Started",
-    label: "First screen on home page",
-  });
-
   return userUuid
     ? pages.user.getPath({uuid: userUuid})
     : AuthDAL.logIn();
@@ -61,7 +56,10 @@ export const HomePage = observer(() => {
           className={styles.loginGoogleButton}
         >
           <Button
-            onClick={() => {}}
+            onClick={() => trackUserActivationButton({
+              action: UserActivationAction.GET_STARTED_CLICKED,
+              label: UserActivationLabel.START_FOR_FREE__FIRST_SCREEN_CLICKED,
+            })}
             buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
             value={LanguageService.home.startForFreeButton[language]}
             className={styles.getStartedButton}
@@ -136,7 +134,10 @@ export const HomePage = observer(() => {
             className={styles.loginGoogleButton}
           >
             <Button
-              onClick={() => {}}
+              onClick={() => trackUserActivationButton({
+                action: UserActivationAction.GET_STARTED_CLICKED,
+                label: UserActivationLabel.START_FOR_FREE_WHO_WE_ARE_BLOCK_CLICKED,
+              })}
               buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
               value={LanguageService.home.startForFreeButton[language]}
               className={styles.aboutProjectGetStartedButton}
@@ -194,7 +195,10 @@ export const HomePage = observer(() => {
               className={styles.loginGoogleButton}
             >
               <Button
-                onClick={() => {}}
+                onClick={() => trackUserActivationButton({
+                  action: UserActivationAction.GET_STARTED_CLICKED,
+                  label: UserActivationLabel.TRY_NOW_CLICKED,
+                })}
                 buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
                 value={LanguageService.home.tryNowButton[language]}
                 className={styles.tryNowButton}
