@@ -25,7 +25,7 @@ import styles from "src/logic/homePage/HomePage.module.scss";
 const getStarted = (userUuid?: string) => {
   return userUuid
     ? pages.user.getPath({uuid: userUuid})
-    : AuthDAL.logIn();
+    : AuthDAL.authGoogle();
 };
 
 /**
@@ -51,21 +51,19 @@ export const HomePage = observer(() => {
           className={styles.titleDescription}
           placeholder=""
         />
-        <Link
-          path={getStarted(user?.uuid)}
-          className={styles.loginGoogleButton}
-        >
-          <Button
-            onClick={() => trackUserActivationButton({
+        <Button
+          onClick={() => {
+            trackUserActivationButton({
               action: UserActivationAction.GET_STARTED_CLICKED,
               label: UserActivationLabel.START_FOR_FREE__FIRST_SCREEN_CLICKED,
-            })}
-            buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
-            value={LanguageService.home.startForFreeButton[language]}
-            className={styles.getStartedButton}
-            dataCy={homeAccessIds.welcomeBlock.startButton}
-          />
-        </Link>
+            });
+            getStarted(user?.uuid);
+          }}
+          buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
+          value={LanguageService.home.startForFreeButton[language]}
+          className={styles.getStartedButton}
+          dataCy={homeAccessIds.welcomeBlock.startButton}
+        />
       </VerticalContainer>
 
       <VerticalContainer className={styles.advantagesBlock}>
@@ -129,20 +127,18 @@ export const HomePage = observer(() => {
               {LanguageService.home.aboutAppBlock.endDescription[language]}
             </div>
           </VerticalContainer>
-          <Link
-            path={getStarted(user?.uuid)}
-            className={styles.loginGoogleButton}
-          >
-            <Button
-              onClick={() => trackUserActivationButton({
+          <Button
+            onClick={() => {
+              trackUserActivationButton({
                 action: UserActivationAction.GET_STARTED_CLICKED,
                 label: UserActivationLabel.START_FOR_FREE_WHO_WE_ARE_BLOCK_CLICKED,
-              })}
-              buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
-              value={LanguageService.home.startForFreeButton[language]}
-              className={styles.aboutProjectGetStartedButton}
-            />
-          </Link>
+              });
+              getStarted(user?.uuid);
+            }}
+            buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
+            value={LanguageService.home.startForFreeButton[language]}
+            className={styles.aboutProjectGetStartedButton}
+          />
         </VerticalContainer>
       </HorizontalContainer>
 
@@ -190,20 +186,18 @@ export const HomePage = observer(() => {
             </HorizontalContainer>
           </VerticalContainer>
           <HorizontalContainer className={styles.whatWeAreButtons}>
-            <Link
-              path={getStarted(user?.uuid)}
-              className={styles.loginGoogleButton}
-            >
-              <Button
-                onClick={() => trackUserActivationButton({
+            <Button
+              onClick={() => {
+                trackUserActivationButton({
                   action: UserActivationAction.GET_STARTED_CLICKED,
                   label: UserActivationLabel.TRY_NOW_CLICKED,
-                })}
-                buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
-                value={LanguageService.home.tryNowButton[language]}
-                className={styles.tryNowButton}
-              />
-            </Link>
+                });
+                getStarted(user?.uuid);
+              }}
+              buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
+              value={LanguageService.home.tryNowButton[language]}
+              className={styles.tryNowButton}
+            />
             <Link
               path={LanguageService.home.whatWeAreBlock.manifestLink[language]}
               className={styles.whatWeAreLink}

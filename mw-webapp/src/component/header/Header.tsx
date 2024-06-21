@@ -258,23 +258,26 @@ export const Header = (props: HeaderProps) => {
                       placeholder=""
                     />
                     <VerticalContainer className={styles.loginButtons}>
-                      <Link
-                        path={AuthDAL.logIn()}
+                      <Button
+                        onClick={() => {
+                          trackUserActivationButton({
+                            action: UserActivationAction.GET_STARTED_CLICKED,
+                            label: UserActivationLabel.LOG_IN_CLICKED,
+                          });
+                          AuthDAL.authGoogle();
+                        }}
                         className={styles.loginGoogleButton}
-                        onClick={() => trackUserActivationButton({
-                          action: UserActivationAction.GET_STARTED_CLICKED,
-                          label: UserActivationLabel.LOG_IN_CLICKED,
-                        })}
-                      >
-                        <HorizontalContainer className={styles.googleButtonValue}>
-                          <Image
-                            src={google}
-                            alt="Google icon"
-                            className={styles.googleIcon}
-                          />
-                          {LanguageService.modals.loginModal.signInWithGoogle[props.language]}
-                        </HorizontalContainer>
-                      </Link>
+                        value={
+                          <HorizontalContainer className={styles.googleButtonValue}>
+                            <Image
+                              src={google}
+                              alt="Google icon"
+                              className={styles.googleIcon}
+                            />
+                            {LanguageService.modals.loginModal.signInWithGoogle[props.language]}
+                          </HorizontalContainer>
+                        }
+                      />
                     </VerticalContainer>
                   </VerticalContainer>
                 </HorizontalContainer>

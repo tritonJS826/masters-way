@@ -1,12 +1,11 @@
 import ReactGA from "react-ga4";
 
 /**
- * Available analytics events
+ * Analytics category
  */
-export enum Analytics {
-  ERROR = "ERROR",
-  PROMISE_REJECTION = "PROMISE_REJECTION",
-  SCREEN_VIEW = "SCREEN_VIEW",
+enum AnalyticsCategory {
+  USER_ACTIVATION = "USER_ACTIVATION",
+  GLOBAL_ERRORS = "GLOBAL_ERRORS"
 }
 
 /**
@@ -48,7 +47,7 @@ interface TrackUserActivationButtonParams {
  */
 export const trackUserActivationButton = (params: TrackUserActivationButtonParams) => {
   ReactGA.event({
-    category: "User Activation",
+    category: AnalyticsCategory.USER_ACTIVATION,
     action: params.action,
     label: params.label,
   });
@@ -84,7 +83,7 @@ interface TrackGlobalErrorsParams {
  */
 export const trackGlobalErrors = (params: TrackGlobalErrorsParams) => {
   ReactGA.event({
-    category: "Global Errors",
+    category: AnalyticsCategory.GLOBAL_ERRORS,
     action: params.action,
     label: params.label,
   });
