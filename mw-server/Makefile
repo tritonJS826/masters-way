@@ -11,6 +11,9 @@ test: ## Run all tests
 db-run: ## Start the database using Docker
 	docker-compose -f postgres.docker-compose.yaml up
 
+install: ## Install dependencies
+	go mod tidy
+
 help: ## Display help message
 	@echo "Available targets:"
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "  %-15s %s\n", $$1, $$2}' Makefile 
