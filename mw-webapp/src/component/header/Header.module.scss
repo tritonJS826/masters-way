@@ -4,6 +4,8 @@ $gapHeaderExtraLarge: 100px;
 $burgerMenuSize: 24px;
 $logoSidebarHeight: 40px;
 $googleIconSize: 20px;
+$loginImageMaxWidth: 457px;
+$loginModalMaxWidth: 914px;
 
 .header {
   display: flex;
@@ -97,7 +99,7 @@ $googleIconSize: 20px;
 .loginModal {
   overflow: hidden;
   width: 90%;
-  max-width: 914px;
+  max-width: $loginModalMaxWidth;
   padding: 0;
   border: none;
   gap: 0;
@@ -109,7 +111,7 @@ $googleIconSize: 20px;
 
 .loginImage {
   width: 100%;
-  max-width: 457px;
+  max-width: $loginImageMaxWidth;
 
   @media (max-width: $mediaWidthTablet) {
     display: none;
