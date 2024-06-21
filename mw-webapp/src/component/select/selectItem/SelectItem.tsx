@@ -1,6 +1,5 @@
 
 import {ForwardedRef, forwardRef} from "react";
-import {CheckIcon} from "@radix-ui/react-icons";
 import * as SelectComponent from "@radix-ui/react-select";
 import clsx from "clsx";
 import styles from "src/component/select/Select.module.scss";
@@ -51,9 +50,6 @@ export const SelectItem = forwardRef((
       <SelectComponent.ItemText>
         {props.children}
       </SelectComponent.ItemText>
-      <SelectComponent.ItemIndicator className={styles.SelectItemIndicator}>
-        <CheckIcon />
-      </SelectComponent.ItemIndicator>
     </SelectComponent.Item>
   );
 });

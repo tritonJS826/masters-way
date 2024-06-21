@@ -1,5 +1,9 @@
 @import "src/styles/variables";
 
+$toogleSize: 27px;
+$toogleBorderRadius: 34px;
+$toogleIndentation: 2px;
+
 .switch {
   position: relative;
   display: inline-block;
@@ -19,40 +23,28 @@
   right: 0;
   bottom: 0;
   left: 0;
-  border-radius: 34px;
-  background-color: #ccc;
+  border-radius: $toogleBorderRadius;
+  background-color: var(--primaryToggleBgColor);
   cursor: pointer;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
+  transition: $tertiaryTransitionDuration;
 }
 
 .slider:before {
-  position: absolute;
-  bottom: 2px;
-  left: 2px;
-  width: 27px;
-  height: 27px;
-  border-radius: 50%;
-  background-color: white;
   content: "";
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
+  position: absolute;
+  bottom: $toogleIndentation;
+  left: $toogleIndentation;
+  width: $toogleSize;
+  height: $toogleSize;
+  border-radius: $tertiaryBorderRadius;
+  background-color: var(--secondaryToggleBgColor);
+  transition: $tertiaryTransitionDuration;
 }
 
 .toggle:checked + .slider {
-  background-color: var(--generalPrimaryColor);
-}
-
-.toggle:focus + .slider {
-  box-shadow: 0 0 1px var(--generalPrimaryColor);
+  background-color: var(--primaryToggleBgColor);
 }
 
 .toggle:checked + .slider:before {
-  -webkit-transform: translateX(20px);
-  -ms-transform: translateX(20px);
   transform: translateX(20px);
-}
-
-.disabled {
-  opacity: 0.5;
 }
