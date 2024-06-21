@@ -13,8 +13,8 @@ const SELECT_CY = {
 const FIRST_OPTION_INDEX = 0;
 const SECOND_OPTION_INDEX = 1;
 const SELECT_OPTIONS = [
-  {id: "1", value: "value 1", text: "Select text 1"},
-  {id: "2", value: "value 2", text: "Select text 2"},
+  {id: "1", value: "value 1", text: "Select text 1", dataCy: "item-1"},
+  {id: "2", value: "value 2", text: "Select text 2", dataCy: "item-2"},
 ];
 
 /**
@@ -49,8 +49,7 @@ describe("Select component", () => {
   beforeEach(() => {
     STUB_FUNCTION = cy.spy();
     cy.mount(
-      <SelectTest onChange={STUB_FUNCTION} />
-      ,
+      <SelectTest onChange={STUB_FUNCTION} />,
     );
   });
 
@@ -72,9 +71,9 @@ describe("Select component", () => {
     cy.contains(SELECT_OPTIONS[SECOND_OPTION_INDEX].text);
   });
 
-  it("should trigger onClick if some selectItem selected", () => {
+  it("should trigger onClick if second selectItem selected", () => {
     cy.get(getDataCy(SELECT_CY.dataCyTrigger)).click();
-    cy.get(getDataCy(SELECT_CY.dataCyContentList)).click();
+    cy.get(getDataCy(SELECT_OPTIONS[SECOND_OPTION_INDEX].dataCy)).click();
     cy.wrap(STUB_FUNCTION).should("have.been.called");
   });
 
