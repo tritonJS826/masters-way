@@ -45,9 +45,9 @@ export const Tooltip = (props: PropsWithChildren<TooltipProps>) => {
     <TooltipElem.Provider>
       <TooltipElem.Root>
         <TooltipElem.Trigger asChild>
-          <button className={styles.tooltipTrigger}>
+          <div className={styles.tooltipTrigger}>
             {props.children}
-          </button>
+          </div>
         </TooltipElem.Trigger>
         <TooltipElem.Portal>
           {!props.isInactive &&
