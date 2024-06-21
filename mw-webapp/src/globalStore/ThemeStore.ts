@@ -42,8 +42,8 @@ const themedVariables: Record<string, Record<Theme, string>> = {
   },
   // Sidebar and footer and shadow for notebook (homePage)
   quaternaryBgColor: {
-    [Theme.DARK]: "#0B0322",
-    [Theme.LIGHT]: "#0B0322",
+    [Theme.DARK]: "#281E51",
+    [Theme.LIGHT]: "#281E51",
   },
   progressBarBgColor: {
     [Theme.DARK]: "#8F8F8F",

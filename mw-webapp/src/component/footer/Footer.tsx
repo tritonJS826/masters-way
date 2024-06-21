@@ -39,10 +39,7 @@ export const Footer = (props: FooterProps) => {
       data-cy={props.dataCy}
     >
       <HorizontalContainer className={styles.footerWrapper}>
-        <Link
-          className={styles.logo}
-          path={pages.home.getPath({})}
-        >
+        <Link path={pages.home.getPath({})}>
           <Image
             alt={LOGO_TEXT}
             src={logoLight}
@@ -54,27 +51,44 @@ export const Footer = (props: FooterProps) => {
             level={HeadingLevel.h4}
             text={LanguageService.home.socialMedia[props.language]}
             placeholder=""
+            classNameHeading={styles.socialMediaText}
           />
           <HorizontalContainer className={styles.socialMediaIcons}>
             <Link
               path="https://linkedin.com/company/masters-way-project"
               isNewTab
             >
-              <Icon
-                size={IconSize.MEDIUM}
-                name="LinkedinIcon"
-                className={styles.socialMediaIcon}
-              />
+              <div className={styles.iconWrapper}>
+                <Icon
+                  size={IconSize.SMALL}
+                  name="LinkedinIcon"
+                  className={styles.socialMediaIcon}
+                />
+              </div>
             </Link>
             <Link
               path="https://www.youtube.com/watch?v=DiNNQol15ds&list=PL7eqEW04iXMV2tu_JYAIwerepUTZJjciM"
               isNewTab
             >
-              <Icon
-                size={IconSize.MEDIUM}
-                name="YoutubeIcon"
-                className={styles.socialMediaIcon}
-              />
+              <div className={styles.iconWrapper}>
+                <Icon
+                  size={IconSize.SMALL}
+                  name="YoutubeIcon"
+                  className={styles.socialMediaIcon}
+                />
+              </div>
+            </Link>
+            <Link
+              path="https://github.com/tritonJS826/masters-way"
+              isNewTab
+            >
+              <div className={styles.iconWrapper}>
+                <Icon
+                  size={IconSize.SMALL}
+                  name="GithubIcon"
+                  className={styles.socialMediaIcon}
+                />
+              </div>
             </Link>
           </HorizontalContainer>
         </VerticalContainer>

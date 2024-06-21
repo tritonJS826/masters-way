@@ -1,36 +1,44 @@
 @import "src/styles/variables";
 
-$userNameFontSize: 16px;
+$logoHeight: 55px;
+$privacyPaddingTop: 10px;
+$privacyPaddingBottom: 12px;
+$iconSize: 32px;
+$privacyLineHeight: 140%;
 
 .footer {
   background-color: var(--quaternaryBgColor);
+  margin-inline: $paddingMedium;
 }
 
 .footerWrapper {
   width: 100%;
   max-width: $maxWidthContainer;
+  align-items: flex-start;
   justify-content: space-between;
-  padding: $paddingBig $paddingMedium;
   border-bottom: $primaryBorder solid var(--secondaryStrokeColor);
   margin: 0 auto;
+  padding-block: $paddingBig;
 }
 
 .privacyLinks {
   width: 100%;
   max-width: $maxWidthContainer;
-  padding: $paddingBig $paddingMedium;
   margin: 0 auto;
   gap: $gapLarge;
+  padding-block: $privacyPaddingTop $privacyPaddingBottom;
 }
 
 .privacyLink {
   color: var(--secondaryTextColor);
   font-size: $fontSizeBig;
+  line-height: $privacyLineHeight;
   text-decoration: none;
 }
 
 .logo {
-  height: 55px;
+  display: block;
+  height: $logoHeight;
   cursor: pointer;
 }
 
@@ -39,14 +47,22 @@ $userNameFontSize: 16px;
   gap: $gapSmall;
 }
 
-.socialMediaIcons {
+.socialMediaText {
+  font-weight: 500;
+}
+
+.iconWrapper {
+  display: flex;
+  width: $iconSize;
+  height: $iconSize;
   align-items: center;
+  justify-content: center;
+  border-radius: $tertiaryBorderRadius;
+  background-color: var(--iconBgColor);
 }
 
 .socialMediaIcon {
-  border: 2px solid var(--secondaryStrokeColor);
-  border-radius: $tertiaryBorderRadius;
+  display: block;
   background-color: var(--iconBgColor);
-  fill: var(--quaternaryBgColor);
-  stroke: none;
+  stroke: var(--quaternaryBgColor);
 }
