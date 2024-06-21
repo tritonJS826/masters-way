@@ -1,6 +1,7 @@
 import {UserDTOToUserConverter} from "src/dataAccessLogic/DTOToPreviewConverter/userDTOToUser";
 import {User} from "src/model/businessModel/User";
 import {AuthService} from "src/service/AuthService";
+import {localStorageWorker} from "src/utils/LocalStorageWorker";
 
 /**
  * Provides methods to interact with the comments
@@ -29,6 +30,7 @@ export class AuthDAL {
    */
   public static async logOut() {
     await AuthService.logOut();
+    await localStorageWorker.removeItemByKey("token");
   }
 
 }
