@@ -38,8 +38,8 @@ $leftPosition: 12px;
 }
 
 .border {
-  padding: $paddingSmall;
   border: 1px solid var(--primaryStrokeColor);
+  padding: $paddingSmall;
   border-radius: $secondaryBorderRadius;
 
   &:focus {
