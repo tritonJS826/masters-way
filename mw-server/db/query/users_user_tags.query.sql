@@ -6,6 +6,10 @@ INSERT INTO users_user_tags(
     $1, $2
 ) RETURNING *;
 
+-- name: GetTagsCountByUserId :one
+SELECT COUNT(*) AS tags_count
+FROM users_user_tags
+WHERE user_uuid = @user_uuid;
 
 -- name: DeleteUserTagFromUser :exec
 DELETE FROM users_user_tags

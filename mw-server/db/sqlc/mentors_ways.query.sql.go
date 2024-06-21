@@ -50,7 +50,7 @@ func (q *Queries) DeleteMentorUserWayByIds(ctx context.Context, arg DeleteMentor
 }
 
 const getMentorUsersByWayId = `-- name: GetMentorUsersByWayId :many
-SELECT 
+SELECT
     users.uuid, users.name, users.email, users.description, users.created_at, users.image_url, users.is_mentor, users.firebase_id
 FROM ways
 JOIN mentor_users_ways ON mentor_users_ways.way_uuid = ways.uuid
@@ -91,7 +91,7 @@ func (q *Queries) GetMentorUsersByWayId(ctx context.Context, wayUuid uuid.UUID) 
 }
 
 const getMentorUsersByWayIds = `-- name: GetMentorUsersByWayIds :many
-SELECT 
+SELECT
     users.uuid, users.name, users.email, users.description, users.created_at, users.image_url, users.is_mentor, users.firebase_id,
     ways.uuid AS way_uuid
 FROM ways
@@ -143,4 +143,17 @@ func (q *Queries) GetMentorUsersByWayIds(ctx context.Context, dollar_1 []uuid.UU
 		return nil, err
 	}
 	return items, nil
+}
+
+const getMentoringWaysCountByUserId = `-- name: GetMentoringWaysCountByUserId :one
+SELECT COUNT(*) AS mentoring_ways_count
+FROM mentor_users_ways
+WHERE user_uuid = $1
+`
+
+func (q *Queries) GetMentoringWaysCountByUserId(ctx context.Context, userUuid uuid.UUID) (int64, error) {
+	row := q.queryRow(ctx, q.getMentoringWaysCountByUserIdStmt, getMentoringWaysCountByUserId, userUuid)
+	var mentoring_ways_count int64
+	err := row.Scan(&mentoring_ways_count)
+	return mentoring_ways_count, err
 }

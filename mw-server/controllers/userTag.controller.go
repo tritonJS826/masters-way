@@ -6,6 +6,7 @@ import (
 
 	db "mwserver/db/sqlc"
 	"mwserver/schemas"
+	"mwserver/services"
 	"mwserver/util"
 
 	"github.com/gin-gonic/gin"
@@ -15,10 +16,11 @@ import (
 type UserTagController struct {
 	db  *db.Queries
 	ctx context.Context
+	ls  *services.LimitService
 }
 
-func NewUserTagController(db *db.Queries, ctx context.Context) *UserTagController {
-	return &UserTagController{db, ctx}
+func NewUserTagController(db *db.Queries, ctx context.Context, ls *services.LimitService) *UserTagController {
+	return &UserTagController{db, ctx, ls}
 }
 
 // Create userTag  handler
@@ -38,6 +40,13 @@ func (cc *UserTagController) AddUserTagByName(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
 		return
 	}
+
+	userID := uuid.MustParse(payload.OwnerUuid)
+	err := cc.ls.CheckIsLimitReachedByPricingPlan(&services.LimitReachedParams{
+		LimitName: services.MaxUserTags,
+		UserID:    userID,
+	})
+	util.HandleErrorGin(ctx, err)
 
 	userTag, err := cc.db.GetUserTagByName(ctx, payload.Name)
 

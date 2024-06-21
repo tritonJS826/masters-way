@@ -46,3 +46,16 @@ func (q *Queries) DeleteUserTagFromUser(ctx context.Context, arg DeleteUserTagFr
 	_, err := q.exec(ctx, q.deleteUserTagFromUserStmt, deleteUserTagFromUser, arg.UserUuid, arg.UserTagUuid)
 	return err
 }
+
+const getTagsCountByUserId = `-- name: GetTagsCountByUserId :one
+SELECT COUNT(*) AS tags_count
+FROM users_user_tags
+WHERE user_uuid = $1
+`
+
+func (q *Queries) GetTagsCountByUserId(ctx context.Context, userUuid uuid.UUID) (int64, error) {
+	row := q.queryRow(ctx, q.getTagsCountByUserIdStmt, getTagsCountByUserId, userUuid)
+	var tags_count int64
+	err := row.Scan(&tags_count)
+	return tags_count, err
+}

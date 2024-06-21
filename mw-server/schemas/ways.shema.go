@@ -18,7 +18,7 @@ type UpdateWayPayload struct {
 	Name            string `json:"name"`
 	GoalDescription string `json:"goalDescription"`
 	EstimationTime  int32  `json:"estimationTime"`
-	IsPrivate       bool   `json:"isPrivate"`
+	IsPrivate       *bool  `json:"isPrivate"`
 	IsCompleted     bool   `json:"isCompleted"`
 }
 

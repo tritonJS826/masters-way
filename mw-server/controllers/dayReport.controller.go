@@ -6,8 +6,10 @@ import (
 	"net/http"
 	"time"
 
+	"mwserver/auth"
 	db "mwserver/db/sqlc"
 	"mwserver/schemas"
+	"mwserver/services"
 	"mwserver/util"
 
 	"github.com/gin-gonic/gin"
@@ -17,10 +19,11 @@ import (
 type DayReportController struct {
 	db  *db.Queries
 	ctx context.Context
+	ls  *services.LimitService
 }
 
-func NewDayReportController(db *db.Queries, ctx context.Context) *DayReportController {
-	return &DayReportController{db, ctx}
+func NewDayReportController(db *db.Queries, ctx context.Context, ls *services.LimitService) *DayReportController {
+	return &DayReportController{db, ctx, ls}
 }
 
 // Create day report  handler
@@ -40,6 +43,16 @@ func (cc *DayReportController) CreateDayReport(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
 		return
 	}
+
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userID := uuid.MustParse(userIDRaw.(string))
+
+	err := cc.ls.CheckIsLimitReachedByPricingPlan(&services.LimitReachedParams{
+		LimitName: services.MaxDayReports,
+		UserID:    userID,
+		WayID:     &payload.WayUuid,
+	})
+	util.HandleErrorGin(ctx, err)
 
 	now := time.Now()
 	args := &db.CreateDayReportParams{

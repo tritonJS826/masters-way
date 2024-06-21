@@ -7,6 +7,7 @@ import (
 	"strconv"
 	"time"
 
+	"mwserver/auth"
 	db "mwserver/db/sqlc"
 	"mwserver/schemas"
 	"mwserver/services"
@@ -20,10 +21,11 @@ import (
 type WayController struct {
 	db  *db.Queries
 	ctx context.Context
+	ls  *services.LimitService
 }
 
-func NewWayController(db *db.Queries, ctx context.Context) *WayController {
-	return &WayController{db, ctx}
+func NewWayController(db *db.Queries, ctx context.Context, ls *services.LimitService) *WayController {
+	return &WayController{db, ctx, ls}
 }
 
 // Create way  handler
@@ -43,6 +45,12 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	err := cc.ls.CheckIsLimitReachedByPricingPlan(&services.LimitReachedParams{
+		LimitName: services.MaxOwnWays,
+		UserID:    payload.OwnerUuid,
+	})
+	util.HandleErrorGin(ctx, err)
 
 	now := time.Now()
 	args := &db.CreateWayParams{
@@ -123,6 +131,20 @@ func (cc *WayController) UpdateWay(ctx *gin.Context) {
 		return
 	}
 
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userID := uuid.MustParse(userIDRaw.(string))
+
+	var isPrivate sql.NullBool
+	if payload.IsPrivate != nil && *payload.IsPrivate {
+		err := cc.ls.CheckIsLimitReachedByPricingPlan(&services.LimitReachedParams{
+			LimitName: services.MaxPrivateWays,
+			UserID:    userID,
+		})
+		util.HandleErrorGin(ctx, err)
+
+		isPrivate = sql.NullBool{Bool: *payload.IsPrivate, Valid: true}
+	}
+
 	now := time.Now()
 	args := &db.UpdateWayParams{
 		Uuid:            uuid.MustParse(wayId),
@@ -130,7 +152,7 @@ func (cc *WayController) UpdateWay(ctx *gin.Context) {
 		GoalDescription: sql.NullString{String: payload.GoalDescription, Valid: payload.GoalDescription != ""},
 		EstimationTime:  sql.NullInt32{Int32: payload.EstimationTime, Valid: payload.EstimationTime != 0},
 		IsCompleted:     sql.NullBool{Bool: payload.IsCompleted, Valid: true},
-		IsPrivate:       sql.NullBool{Bool: payload.IsPrivate, Valid: true},
+		IsPrivate:       isPrivate,
 		UpdatedAt:       sql.NullTime{Time: now, Valid: true},
 	}
 

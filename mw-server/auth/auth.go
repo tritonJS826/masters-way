@@ -26,6 +26,7 @@ const (
 	// 30 days
 	MaxAge           = 24 * time.Hour * 30
 	OauthStateString = "auth-state-string"
+	ContextKeyUserID = "userID"
 )
 
 var jwtKey = []byte(config.Env.SecretSessionKey)
@@ -77,7 +78,7 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		ctx.Set("userID", claims.UserID)
+		ctx.Set(ContextKeyUserID, claims.UserID)
 		ctx.Next()
 	}
 }

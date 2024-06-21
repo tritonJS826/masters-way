@@ -15,6 +15,11 @@ SELECT * FROM way_collections
 WHERE way_collections.owner_uuid = $1
 ORDER BY created_at;
 
+-- name: GetWayCollectionsCountByUserId :one
+SELECT COUNT(*) AS way_collections_count
+FROM way_collections
+WHERE owner_uuid = @user_uuid;
+
 -- name: UpdateWayCollection :one
 UPDATE way_collections
 SET

@@ -6,6 +6,7 @@ import (
 
 	db "mwserver/db/sqlc"
 	"mwserver/schemas"
+	"mwserver/services"
 	"mwserver/util"
 
 	"github.com/gin-gonic/gin"
@@ -15,10 +16,11 @@ import (
 type MentorUserWayController struct {
 	db  *db.Queries
 	ctx context.Context
+	ls  *services.LimitService
 }
 
-func NewMentorUserWayController(db *db.Queries, ctx context.Context) *MentorUserWayController {
-	return &MentorUserWayController{db, ctx}
+func NewMentorUserWayController(db *db.Queries, ctx context.Context, ls *services.LimitService) *MentorUserWayController {
+	return &MentorUserWayController{db, ctx, ls}
 }
 
 // Create mentorUserWay handler
@@ -39,6 +41,13 @@ func (cc *MentorUserWayController) AddMentorUserWay(ctx *gin.Context) {
 		return
 	}
 
+	userID := uuid.MustParse(payload.UserUuid)
+	err := cc.ls.CheckIsLimitReachedByPricingPlan(&services.LimitReachedParams{
+		LimitName: services.MaxMentoringsWays,
+		UserID:    userID,
+	})
+	util.HandleErrorGin(ctx, err)
+
 	args0 := &db.DeleteFormerMentorWayIfExistParams{
 		FormerMentorUuid: uuid.MustParse(payload.UserUuid),
 		WayUuid:          uuid.MustParse(payload.WayUuid),
@@ -49,7 +58,7 @@ func (cc *MentorUserWayController) AddMentorUserWay(ctx *gin.Context) {
 		WayUuid:  uuid.MustParse(payload.WayUuid),
 		UserUuid: uuid.MustParse(payload.UserUuid),
 	}
-	_, err := cc.db.CreateMentorUserWay(ctx, args)
+	_, err = cc.db.CreateMentorUserWay(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	args4 := &db.DeleteFromUserMentoringRequestParams{

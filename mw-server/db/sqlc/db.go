@@ -171,6 +171,9 @@ func Prepare(ctx context.Context, db DBTX) (*Queries, error) {
 	if q.deleteWayTagFromWayStmt, err = db.PrepareContext(ctx, deleteWayTagFromWay); err != nil {
 		return nil, fmt.Errorf("error preparing query DeleteWayTagFromWay: %w", err)
 	}
+	if q.getDayReportsCountByWayIdStmt, err = db.PrepareContext(ctx, getDayReportsCountByWayId); err != nil {
+		return nil, fmt.Errorf("error preparing query GetDayReportsCountByWayId: %w", err)
+	}
 	if q.getFavoriteForUserUuidsByWayIdStmt, err = db.PrepareContext(ctx, getFavoriteForUserUuidsByWayId); err != nil {
 		return nil, fmt.Errorf("error preparing query GetFavoriteForUserUuidsByWayId: %w", err)
 	}
@@ -246,14 +249,29 @@ func Prepare(ctx context.Context, db DBTX) (*Queries, error) {
 	if q.getMentoringWaysByMentorIdStmt, err = db.PrepareContext(ctx, getMentoringWaysByMentorId); err != nil {
 		return nil, fmt.Errorf("error preparing query GetMentoringWaysByMentorId: %w", err)
 	}
+	if q.getMentoringWaysCountByUserIdStmt, err = db.PrepareContext(ctx, getMentoringWaysCountByUserId); err != nil {
+		return nil, fmt.Errorf("error preparing query GetMentoringWaysCountByUserId: %w", err)
+	}
 	if q.getOwnWaysByUserIdStmt, err = db.PrepareContext(ctx, getOwnWaysByUserId); err != nil {
 		return nil, fmt.Errorf("error preparing query GetOwnWaysByUserId: %w", err)
+	}
+	if q.getOwnWaysCountByUserIdStmt, err = db.PrepareContext(ctx, getOwnWaysCountByUserId); err != nil {
+		return nil, fmt.Errorf("error preparing query GetOwnWaysCountByUserId: %w", err)
 	}
 	if q.getPlansByDayReportUuidsStmt, err = db.PrepareContext(ctx, getPlansByDayReportUuids); err != nil {
 		return nil, fmt.Errorf("error preparing query GetPlansByDayReportUuids: %w", err)
 	}
+	if q.getPricingPlanByUserIdStmt, err = db.PrepareContext(ctx, getPricingPlanByUserId); err != nil {
+		return nil, fmt.Errorf("error preparing query GetPricingPlanByUserId: %w", err)
+	}
+	if q.getPrivateWaysCountByUserIdStmt, err = db.PrepareContext(ctx, getPrivateWaysCountByUserId); err != nil {
+		return nil, fmt.Errorf("error preparing query GetPrivateWaysCountByUserId: %w", err)
+	}
 	if q.getProblemsByDayReportUuidsStmt, err = db.PrepareContext(ctx, getProblemsByDayReportUuids); err != nil {
 		return nil, fmt.Errorf("error preparing query GetProblemsByDayReportUuids: %w", err)
+	}
+	if q.getTagsCountByUserIdStmt, err = db.PrepareContext(ctx, getTagsCountByUserId); err != nil {
+		return nil, fmt.Errorf("error preparing query GetTagsCountByUserId: %w", err)
 	}
 	if q.getToMentorUserRequestsByWayIdStmt, err = db.PrepareContext(ctx, getToMentorUserRequestsByWayId); err != nil {
 		return nil, fmt.Errorf("error preparing query GetToMentorUserRequestsByWayId: %w", err)
@@ -281,6 +299,9 @@ func Prepare(ctx context.Context, db DBTX) (*Queries, error) {
 	}
 	if q.getWayCollectionsByUserIdStmt, err = db.PrepareContext(ctx, getWayCollectionsByUserId); err != nil {
 		return nil, fmt.Errorf("error preparing query GetWayCollectionsByUserId: %w", err)
+	}
+	if q.getWayCollectionsCountByUserIdStmt, err = db.PrepareContext(ctx, getWayCollectionsCountByUserId); err != nil {
+		return nil, fmt.Errorf("error preparing query GetWayCollectionsCountByUserId: %w", err)
 	}
 	if q.getWayTagByNameStmt, err = db.PrepareContext(ctx, getWayTagByName); err != nil {
 		return nil, fmt.Errorf("error preparing query GetWayTagByName: %w", err)
@@ -314,6 +335,9 @@ func Prepare(ctx context.Context, db DBTX) (*Queries, error) {
 	}
 	if q.updatePlanStmt, err = db.PrepareContext(ctx, updatePlan); err != nil {
 		return nil, fmt.Errorf("error preparing query UpdatePlan: %w", err)
+	}
+	if q.updatePricingPlanByUserIdStmt, err = db.PrepareContext(ctx, updatePricingPlanByUserId); err != nil {
+		return nil, fmt.Errorf("error preparing query UpdatePricingPlanByUserId: %w", err)
 	}
 	if q.updateProblemStmt, err = db.PrepareContext(ctx, updateProblem); err != nil {
 		return nil, fmt.Errorf("error preparing query UpdateProblem: %w", err)
@@ -577,6 +601,11 @@ func (q *Queries) Close() error {
 			err = fmt.Errorf("error closing deleteWayTagFromWayStmt: %w", cerr)
 		}
 	}
+	if q.getDayReportsCountByWayIdStmt != nil {
+		if cerr := q.getDayReportsCountByWayIdStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing getDayReportsCountByWayIdStmt: %w", cerr)
+		}
+	}
 	if q.getFavoriteForUserUuidsByWayIdStmt != nil {
 		if cerr := q.getFavoriteForUserUuidsByWayIdStmt.Close(); cerr != nil {
 			err = fmt.Errorf("error closing getFavoriteForUserUuidsByWayIdStmt: %w", cerr)
@@ -702,9 +731,19 @@ func (q *Queries) Close() error {
 			err = fmt.Errorf("error closing getMentoringWaysByMentorIdStmt: %w", cerr)
 		}
 	}
+	if q.getMentoringWaysCountByUserIdStmt != nil {
+		if cerr := q.getMentoringWaysCountByUserIdStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing getMentoringWaysCountByUserIdStmt: %w", cerr)
+		}
+	}
 	if q.getOwnWaysByUserIdStmt != nil {
 		if cerr := q.getOwnWaysByUserIdStmt.Close(); cerr != nil {
 			err = fmt.Errorf("error closing getOwnWaysByUserIdStmt: %w", cerr)
+		}
+	}
+	if q.getOwnWaysCountByUserIdStmt != nil {
+		if cerr := q.getOwnWaysCountByUserIdStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing getOwnWaysCountByUserIdStmt: %w", cerr)
 		}
 	}
 	if q.getPlansByDayReportUuidsStmt != nil {
@@ -712,9 +751,24 @@ func (q *Queries) Close() error {
 			err = fmt.Errorf("error closing getPlansByDayReportUuidsStmt: %w", cerr)
 		}
 	}
+	if q.getPricingPlanByUserIdStmt != nil {
+		if cerr := q.getPricingPlanByUserIdStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing getPricingPlanByUserIdStmt: %w", cerr)
+		}
+	}
+	if q.getPrivateWaysCountByUserIdStmt != nil {
+		if cerr := q.getPrivateWaysCountByUserIdStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing getPrivateWaysCountByUserIdStmt: %w", cerr)
+		}
+	}
 	if q.getProblemsByDayReportUuidsStmt != nil {
 		if cerr := q.getProblemsByDayReportUuidsStmt.Close(); cerr != nil {
 			err = fmt.Errorf("error closing getProblemsByDayReportUuidsStmt: %w", cerr)
+		}
+	}
+	if q.getTagsCountByUserIdStmt != nil {
+		if cerr := q.getTagsCountByUserIdStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing getTagsCountByUserIdStmt: %w", cerr)
 		}
 	}
 	if q.getToMentorUserRequestsByWayIdStmt != nil {
@@ -760,6 +814,11 @@ func (q *Queries) Close() error {
 	if q.getWayCollectionsByUserIdStmt != nil {
 		if cerr := q.getWayCollectionsByUserIdStmt.Close(); cerr != nil {
 			err = fmt.Errorf("error closing getWayCollectionsByUserIdStmt: %w", cerr)
+		}
+	}
+	if q.getWayCollectionsCountByUserIdStmt != nil {
+		if cerr := q.getWayCollectionsCountByUserIdStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing getWayCollectionsCountByUserIdStmt: %w", cerr)
 		}
 	}
 	if q.getWayTagByNameStmt != nil {
@@ -815,6 +874,11 @@ func (q *Queries) Close() error {
 	if q.updatePlanStmt != nil {
 		if cerr := q.updatePlanStmt.Close(); cerr != nil {
 			err = fmt.Errorf("error closing updatePlanStmt: %w", cerr)
+		}
+	}
+	if q.updatePricingPlanByUserIdStmt != nil {
+		if cerr := q.updatePricingPlanByUserIdStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing updatePricingPlanByUserIdStmt: %w", cerr)
 		}
 	}
 	if q.updateProblemStmt != nil {
@@ -925,6 +989,7 @@ type Queries struct {
 	deleteWayCollectionsWaysByIdsStmt           *sql.Stmt
 	deleteWayFromCompositeWayStmt               *sql.Stmt
 	deleteWayTagFromWayStmt                     *sql.Stmt
+	getDayReportsCountByWayIdStmt               *sql.Stmt
 	getFavoriteForUserUuidsByWayIdStmt          *sql.Stmt
 	getFavoriteUserByDonorUserIdStmt            *sql.Stmt
 	getFavoriteUserUuidsByAcceptorUserIdStmt    *sql.Stmt
@@ -950,9 +1015,14 @@ type Queries struct {
 	getMentorUsersByWayIdStmt                   *sql.Stmt
 	getMentorUsersByWayIdsStmt                  *sql.Stmt
 	getMentoringWaysByMentorIdStmt              *sql.Stmt
+	getMentoringWaysCountByUserIdStmt           *sql.Stmt
 	getOwnWaysByUserIdStmt                      *sql.Stmt
+	getOwnWaysCountByUserIdStmt                 *sql.Stmt
 	getPlansByDayReportUuidsStmt                *sql.Stmt
+	getPricingPlanByUserIdStmt                  *sql.Stmt
+	getPrivateWaysCountByUserIdStmt             *sql.Stmt
 	getProblemsByDayReportUuidsStmt             *sql.Stmt
+	getTagsCountByUserIdStmt                    *sql.Stmt
 	getToMentorUserRequestsByWayIdStmt          *sql.Stmt
 	getUserByEmailStmt                          *sql.Stmt
 	getUserByFirebaseIdStmt                     *sql.Stmt
@@ -962,6 +1032,7 @@ type Queries struct {
 	getWayByIdStmt                              *sql.Stmt
 	getWayCollectionJoinWayByUserIdStmt         *sql.Stmt
 	getWayCollectionsByUserIdStmt               *sql.Stmt
+	getWayCollectionsCountByUserIdStmt          *sql.Stmt
 	getWayTagByNameStmt                         *sql.Stmt
 	getWaysByCollectionIdStmt                   *sql.Stmt
 	isAllMetricsDoneStmt                        *sql.Stmt
@@ -973,6 +1044,7 @@ type Queries struct {
 	updateJobTagStmt                            *sql.Stmt
 	updateMetricStmt                            *sql.Stmt
 	updatePlanStmt                              *sql.Stmt
+	updatePricingPlanByUserIdStmt               *sql.Stmt
 	updateProblemStmt                           *sql.Stmt
 	updateUserStmt                              *sql.Stmt
 	updateWayStmt                               *sql.Stmt
@@ -1032,6 +1104,7 @@ func (q *Queries) WithTx(tx *sql.Tx) *Queries {
 		deleteWayCollectionsWaysByIdsStmt:           q.deleteWayCollectionsWaysByIdsStmt,
 		deleteWayFromCompositeWayStmt:               q.deleteWayFromCompositeWayStmt,
 		deleteWayTagFromWayStmt:                     q.deleteWayTagFromWayStmt,
+		getDayReportsCountByWayIdStmt:               q.getDayReportsCountByWayIdStmt,
 		getFavoriteForUserUuidsByWayIdStmt:          q.getFavoriteForUserUuidsByWayIdStmt,
 		getFavoriteUserByDonorUserIdStmt:            q.getFavoriteUserByDonorUserIdStmt,
 		getFavoriteUserUuidsByAcceptorUserIdStmt:    q.getFavoriteUserUuidsByAcceptorUserIdStmt,
@@ -1057,9 +1130,14 @@ func (q *Queries) WithTx(tx *sql.Tx) *Queries {
 		getMentorUsersByWayIdStmt:                   q.getMentorUsersByWayIdStmt,
 		getMentorUsersByWayIdsStmt:                  q.getMentorUsersByWayIdsStmt,
 		getMentoringWaysByMentorIdStmt:              q.getMentoringWaysByMentorIdStmt,
+		getMentoringWaysCountByUserIdStmt:           q.getMentoringWaysCountByUserIdStmt,
 		getOwnWaysByUserIdStmt:                      q.getOwnWaysByUserIdStmt,
+		getOwnWaysCountByUserIdStmt:                 q.getOwnWaysCountByUserIdStmt,
 		getPlansByDayReportUuidsStmt:                q.getPlansByDayReportUuidsStmt,
+		getPricingPlanByUserIdStmt:                  q.getPricingPlanByUserIdStmt,
+		getPrivateWaysCountByUserIdStmt:             q.getPrivateWaysCountByUserIdStmt,
 		getProblemsByDayReportUuidsStmt:             q.getProblemsByDayReportUuidsStmt,
+		getTagsCountByUserIdStmt:                    q.getTagsCountByUserIdStmt,
 		getToMentorUserRequestsByWayIdStmt:          q.getToMentorUserRequestsByWayIdStmt,
 		getUserByEmailStmt:                          q.getUserByEmailStmt,
 		getUserByFirebaseIdStmt:                     q.getUserByFirebaseIdStmt,
@@ -1069,6 +1147,7 @@ func (q *Queries) WithTx(tx *sql.Tx) *Queries {
 		getWayByIdStmt:                              q.getWayByIdStmt,
 		getWayCollectionJoinWayByUserIdStmt:         q.getWayCollectionJoinWayByUserIdStmt,
 		getWayCollectionsByUserIdStmt:               q.getWayCollectionsByUserIdStmt,
+		getWayCollectionsCountByUserIdStmt:          q.getWayCollectionsCountByUserIdStmt,
 		getWayTagByNameStmt:                         q.getWayTagByNameStmt,
 		getWaysByCollectionIdStmt:                   q.getWaysByCollectionIdStmt,
 		isAllMetricsDoneStmt:                        q.isAllMetricsDoneStmt,
@@ -1080,6 +1159,7 @@ func (q *Queries) WithTx(tx *sql.Tx) *Queries {
 		updateJobTagStmt:                            q.updateJobTagStmt,
 		updateMetricStmt:                            q.updateMetricStmt,
 		updatePlanStmt:                              q.updatePlanStmt,
+		updatePricingPlanByUserIdStmt:               q.updatePricingPlanByUserIdStmt,
 		updateProblemStmt:                           q.updateProblemStmt,
 		updateUserStmt:                              q.updateUserStmt,
 		updateWayStmt:                               q.updateWayStmt,

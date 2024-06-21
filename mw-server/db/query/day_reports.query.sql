@@ -13,6 +13,12 @@ SELECT * FROM day_reports
 WHERE day_reports.way_uuid = $1
 ORDER BY day_reports.created_at DESC;
 
+-- name: GetDayReportsCountByWayId :one
+SELECT
+    COUNT(*) AS day_reports_count
+FROM day_reports
+WHERE way_uuid = @way_uuid;
+
 -- name: UpdateDayReport :one
 UPDATE day_reports
 SET

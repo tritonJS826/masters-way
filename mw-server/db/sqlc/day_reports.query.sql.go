@@ -49,6 +49,20 @@ func (q *Queries) CreateDayReport(ctx context.Context, arg CreateDayReportParams
 	return i, err
 }
 
+const getDayReportsCountByWayId = `-- name: GetDayReportsCountByWayId :one
+SELECT
+    COUNT(*) AS day_reports_count
+FROM day_reports
+WHERE way_uuid = $1
+`
+
+func (q *Queries) GetDayReportsCountByWayId(ctx context.Context, wayUuid uuid.UUID) (int64, error) {
+	row := q.queryRow(ctx, q.getDayReportsCountByWayIdStmt, getDayReportsCountByWayId, wayUuid)
+	var day_reports_count int64
+	err := row.Scan(&day_reports_count)
+	return day_reports_count, err
+}
+
 const getListDayReportsByWayUuid = `-- name: GetListDayReportsByWayUuid :many
 SELECT uuid, way_uuid, created_at, updated_at, is_day_off FROM day_reports
 WHERE day_reports.way_uuid = $1

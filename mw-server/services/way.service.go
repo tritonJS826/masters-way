@@ -17,8 +17,6 @@ type GetPopulatedWayByIdParams struct {
 	CurrentChildrenDepth int
 }
 
-var maxDepth = 3
-
 func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulatedWayByIdParams) (schemas.WayPopulatedResponse, error) {
 	way, err := db.GetWayById(ctx, params.WayUuid)
 	if err != nil {
@@ -238,7 +236,7 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 	}
 
 	var children []schemas.WayPopulatedResponse
-	if params.CurrentChildrenDepth < maxDepth {
+	if params.CurrentChildrenDepth < int(limitMap[MaxCompositeWayDeps][dbb.PricingPlanTypeStarter]) {
 		children = lo.Map(way.ChildrenUuids, func(childUuid string, i int) schemas.WayPopulatedResponse {
 			args := GetPopulatedWayByIdParams{
 				WayUuid:              uuid.MustParse(childUuid),
