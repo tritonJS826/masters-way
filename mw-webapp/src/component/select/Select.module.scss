@@ -6,8 +6,7 @@
 
 .SelectIcon {
   stroke: var(--primaryIconColor);
-  // transition: all $primaryTransitionDuration ease;
-  transition: all 0.3s ease 0s;
+  transition: all $primaryTransitionDuration ease;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -31,39 +30,39 @@
   }
 }
 
-// .SelectTriggerValue {
-//   font-weight: $fontWeightReular;
-// }
+.SelectTriggerValue {
+  font-weight: $fontWeightReular;
+}
 
-// .SelectContent {
-//   z-index: $dropdownZIndex;
-//   overflow: hidden;
-//   width: var(--radix-select-trigger-width);
-//   max-height: var(--radix-select-content-available-height);
-//   padding: $paddingSmall $paddingMedium;
-//   border-radius: $primaryBorderRadius;
-//   background-color: var(--secondaryBgColor);
-//   color: var(--generalPrimaryColor);
-//   border: solid $primaryBorder var(--primaryStrokeColor);
-//   display: flex;
-//   gap: $gapSmall;
-// }
+.SelectContent {
+  z-index: $dropdownZIndex;
+  overflow: hidden;
+  width: var(--radix-select-trigger-width);
+  max-height: var(--radix-select-content-available-height);
+  padding: $paddingSmall $paddingMedium;
+  border-radius: $primaryBorderRadius;
+  background-color: var(--secondaryBgColor);
+  color: var(--generalPrimaryColor);
+  border: solid $primaryBorder var(--primaryStrokeColor);
+  display: flex;
+  gap: $gapSmall;
+}
 
-// .SelectItemsWrapper {
-//   display: flex;
-//   flex-direction: column;
-//   gap: $gapSmall;
-// }
+.SelectItemsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: $gapSmall;
+}
 
-// .SelectItem {
-//   color: var(--primaryTextColor);
-//   cursor: pointer;
-//   font-size: $fontSizeMedium;
-//   text-overflow: ellipsis;
-//   text-wrap: nowrap;
-// }
+.SelectItem {
+  color: var(--primaryTextColor);
+  cursor: pointer;
+  font-size: $fontSizeMedium;
+  text-overflow: ellipsis;
+  text-wrap: nowrap;
+}
 
-// .SelectItem[data-highlighted] {
-//   color: var(--tertiaryTextColor);
-//   outline: none;
-// }
+.SelectItem[data-highlighted] {
+  color: var(--tertiaryTextColor);
+  outline: none;
+}
