@@ -1,6 +1,5 @@
 import {UserDTOToUserConverter} from "src/dataAccessLogic/DTOToPreviewConverter/userDTOToUser";
 import {User} from "src/model/businessModel/User";
-import {pages} from "src/router/pages";
 import {AuthService} from "src/service/AuthService";
 
 /**
@@ -11,8 +10,8 @@ export class AuthDAL {
   /**
    * Call method for login
    */
-  public static logIn() {
-    return pages.oauth.getPath({});
+  public static authGoogle() {
+    AuthService.authGoogle();
   }
 
   /**

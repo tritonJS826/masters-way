@@ -22,6 +22,7 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {AuthDAL} from "src/dataAccessLogic/AuthDAL";
 import {Language} from "src/globalStore/LanguageStore";
 import {DEFAULT_THEME, Theme} from "src/globalStore/ThemeStore";
+import {trackUserActivationButton, UserActivationAction, UserActivationLabel} from "src/GoogleAnalytics";
 import {User} from "src/model/businessModel/User";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
@@ -257,19 +258,26 @@ export const Header = (props: HeaderProps) => {
                       placeholder=""
                     />
                     <VerticalContainer className={styles.loginButtons}>
-                      <Link
-                        path={AuthDAL.logIn()}
+                      <Button
+                        onClick={() => {
+                          trackUserActivationButton({
+                            action: UserActivationAction.GET_STARTED_CLICKED,
+                            label: UserActivationLabel.LOG_IN_CLICKED,
+                          });
+                          AuthDAL.authGoogle();
+                        }}
                         className={styles.loginGoogleButton}
-                      >
-                        <HorizontalContainer className={styles.googleButtonValue}>
-                          <Image
-                            src={google}
-                            alt="Google icon"
-                            className={styles.googleIcon}
-                          />
-                          {LanguageService.modals.loginModal.signInWithGoogle[props.language]}
-                        </HorizontalContainer>
-                      </Link>
+                        value={
+                          <HorizontalContainer className={styles.googleButtonValue}>
+                            <Image
+                              src={google}
+                              alt="Google icon"
+                              className={styles.googleIcon}
+                            />
+                            {LanguageService.modals.loginModal.signInWithGoogle[props.language]}
+                          </HorizontalContainer>
+                        }
+                      />
                     </VerticalContainer>
                   </VerticalContainer>
                 </HorizontalContainer>

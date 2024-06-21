@@ -13,7 +13,7 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {AuthDAL} from "src/dataAccessLogic/AuthDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {userStore} from "src/globalStore/UserStore";
-import {trackUserInteractionWithButton} from "src/GoogleAnalytics";
+import {trackUserActivationButton, UserActivationAction, UserActivationLabel} from "src/GoogleAnalytics";
 import {GoalItem} from "src/logic/homePage/goalItem/GoalItem";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
@@ -23,14 +23,9 @@ import styles from "src/logic/homePage/HomePage.module.scss";
  * GetStarted button click handler
  */
 const getStarted = (userUuid?: string) => {
-  trackUserInteractionWithButton({
-    action: "Clicked Button Get Started",
-    label: "First screen on home page",
-  });
-
   return userUuid
     ? pages.user.getPath({uuid: userUuid})
-    : AuthDAL.logIn();
+    : AuthDAL.authGoogle();
 };
 
 /**
@@ -56,18 +51,19 @@ export const HomePage = observer(() => {
           className={styles.titleDescription}
           placeholder=""
         />
-        <Link
-          path={getStarted(user?.uuid)}
-          className={styles.loginGoogleButton}
-        >
-          <Button
-            onClick={() => {}}
-            buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
-            value={LanguageService.home.startForFreeButton[language]}
-            className={styles.getStartedButton}
-            dataCy={homeAccessIds.welcomeBlock.startButton}
-          />
-        </Link>
+        <Button
+          onClick={() => {
+            trackUserActivationButton({
+              action: UserActivationAction.GET_STARTED_CLICKED,
+              label: UserActivationLabel.START_FOR_FREE__FIRST_SCREEN_CLICKED,
+            });
+            getStarted(user?.uuid);
+          }}
+          buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
+          value={LanguageService.home.startForFreeButton[language]}
+          className={styles.getStartedButton}
+          dataCy={homeAccessIds.welcomeBlock.startButton}
+        />
       </VerticalContainer>
 
       <VerticalContainer className={styles.advantagesBlock}>
@@ -131,17 +127,18 @@ export const HomePage = observer(() => {
               {LanguageService.home.aboutAppBlock.endDescription[language]}
             </div>
           </VerticalContainer>
-          <Link
-            path={getStarted(user?.uuid)}
-            className={styles.loginGoogleButton}
-          >
-            <Button
-              onClick={() => {}}
-              buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
-              value={LanguageService.home.startForFreeButton[language]}
-              className={styles.aboutProjectGetStartedButton}
-            />
-          </Link>
+          <Button
+            onClick={() => {
+              trackUserActivationButton({
+                action: UserActivationAction.GET_STARTED_CLICKED,
+                label: UserActivationLabel.START_FOR_FREE_WHO_WE_ARE_BLOCK_CLICKED,
+              });
+              getStarted(user?.uuid);
+            }}
+            buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
+            value={LanguageService.home.startForFreeButton[language]}
+            className={styles.aboutProjectGetStartedButton}
+          />
         </VerticalContainer>
       </HorizontalContainer>
 
@@ -189,17 +186,18 @@ export const HomePage = observer(() => {
             </HorizontalContainer>
           </VerticalContainer>
           <HorizontalContainer className={styles.whatWeAreButtons}>
-            <Link
-              path={getStarted(user?.uuid)}
-              className={styles.loginGoogleButton}
-            >
-              <Button
-                onClick={() => {}}
-                buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
-                value={LanguageService.home.tryNowButton[language]}
-                className={styles.tryNowButton}
-              />
-            </Link>
+            <Button
+              onClick={() => {
+                trackUserActivationButton({
+                  action: UserActivationAction.GET_STARTED_CLICKED,
+                  label: UserActivationLabel.TRY_NOW_CLICKED,
+                });
+                getStarted(user?.uuid);
+              }}
+              buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
+              value={LanguageService.home.tryNowButton[language]}
+              className={styles.tryNowButton}
+            />
             <Link
               path={LanguageService.home.whatWeAreBlock.manifestLink[language]}
               className={styles.whatWeAreLink}
