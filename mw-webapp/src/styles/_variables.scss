@@ -34,7 +34,8 @@ $primaryBorder: 1px;
 //Transitions
 $primaryTransitionDuration: 300ms;
 $secondaryTransitionDuration: 150ms;
-$elementHoverTransition: 500ms;
+$elementHoverTransition: 650ms;
+$tertiaryTransitionDuration: 500ms;
 
 // z-index
 $sidebarZIndex: 100;
@@ -118,5 +119,20 @@ $disableOpacity: 0.7;
   &:hover {
     transform: scale(1.02);
     transition: 0.3s;
+  }
+}
+
+// animation
+@mixin animation($name: defaultAnimation, $duration: 1s, $timing-function: ease, $direction: forwards) {
+  animation: $name $duration $timing-function $direction;
+}
+
+@keyframes defaultAnimation {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
   }
 }
