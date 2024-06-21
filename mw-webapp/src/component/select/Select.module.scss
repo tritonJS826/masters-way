@@ -22,7 +22,7 @@
   border: solid  $primaryBorder var(--primaryStrokeColor);
   display: flex;
   align-items: center;
-  gap: $gapMedium;
+  gap: $gapSmall;
   font-weight: $fontWeightSemibold;
 
   &[data-state="open"] > .SelectIcon  {
