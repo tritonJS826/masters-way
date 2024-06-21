@@ -1,37 +1,30 @@
 @import "src/styles/variables";
 
-.Select {
+$selectPadding: 3px;
+
+.select {
   cursor: pointer;
 }
 
-.SelectIcon {
-  stroke: var(--primaryIconColor);
-  transition: all $primaryTransitionDuration ease;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.SelectTrigger {
+.select button {
   all: unset;
-  padding: 0 $paddingMedium;
+  padding: $selectPadding $paddingExtraSmall;
   border-radius: $primaryBorderRadius;
   background-color: var(--secondaryBgColor);
   color: var(--primaryTextColor);
   font-size: $fontSizeMedium;
-  border: solid  $primaryBorder var(--primaryStrokeColor);
-  display: flex;
-  align-items: center;
-  gap: $gapMedium;
-  font-weight: $fontWeightSemibold;
+}
 
-  &[data-state="open"] > .SelectIcon  {
-    transform: rotate(180deg);
+.SelectTrigger[data-placeholder] {
+  color: var(--generalPrimaryColor);
+
+  & span {
+    color: var(--primaryTextColor);
   }
 }
 
-.SelectTriggerValue {
-  font-weight: $fontWeightReular;
+.SelectIcon {
+  margin-left: $marginSmall;
 }
 
 .SelectContent {
@@ -39,22 +32,23 @@
   overflow: hidden;
   width: var(--radix-select-trigger-width);
   max-height: var(--radix-select-content-available-height);
-  padding: $paddingSmall $paddingMedium;
+  padding: $paddingSmall $selectPadding;
   border-radius: $primaryBorderRadius;
   background-color: var(--secondaryBgColor);
+  box-shadow: 0px 10px 38px -10px rgba(22, 23, 24, 0.35),
+    0px 10px 20px -15px rgba(22, 23, 24, 0.2);
   color: var(--generalPrimaryColor);
-  border: solid $primaryBorder var(--primaryStrokeColor);
-  display: flex;
-  gap: $gapSmall;
 }
 
-.SelectItemsWrapper {
-  display: flex;
-  flex-direction: column;
-  gap: $gapSmall;
+.SelectViewport {
+  padding: auto;
 }
 
 .SelectItem {
+  overflow: hidden;
+  height: 24px;
+  padding-left: 15px;
+  border-radius: 3px;
   color: var(--primaryTextColor);
   cursor: pointer;
   font-size: $fontSizeMedium;
@@ -62,7 +56,43 @@
   text-wrap: nowrap;
 }
 
+.SelectItem[data-disabled] {
+  color: var(--secondaryBgBtnColor);
+  pointer-events: none;
+}
 .SelectItem[data-highlighted] {
-  color: var(--tertiaryTextColor);
+  background-color: var(--tertiaryBgColor);
+  background-color: var(--secondaryBgColor);
+  color: var(--generalPrimaryColor);
   outline: none;
+}
+
+.SelectLabel {
+  color: var(--generalPrimaryColor);
+  font-size: 12px;
+  line-height: 25px;
+}
+
+.SelectSeparator {
+  height: 1px;
+  margin: 5px;
+  background-color: var(--generalPrimaryColor);
+}
+
+.SelectItemIndicator {
+  position: absolute;
+  left: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.SelectScrollButton {
+  display: flex;
+  height: 25px;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  color: var(--generalPrimaryColor);
+  cursor: default;
 }
