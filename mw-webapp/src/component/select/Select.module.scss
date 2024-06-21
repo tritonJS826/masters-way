@@ -6,7 +6,8 @@
 
 .SelectIcon {
   stroke: var(--primaryIconColor);
-  transition: all $primaryTransitionDuration ease;
+  // transition: all $primaryTransitionDuration ease;
+  transition: all 0.3s ease 0s;
   display: flex;
   align-items: center;
   justify-content: space-between;
