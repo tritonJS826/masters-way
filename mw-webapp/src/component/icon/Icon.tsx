@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import {BookIcon} from "src/assets/icons/BookIcon";
 import {BurgerMenu} from "src/assets/icons/BurgerMenu";
+import {ChevronIcon} from "src/assets/icons/ChevronIcon";
 import {EyeOpenedIcon} from "src/assets/icons/EyeOpenedIcon";
 import {EyeSlashedIcon} from "src/assets/icons/EyeSlashedIcon";
 import {FileIcon} from "src/assets/icons/FileIcon";
@@ -90,12 +91,12 @@ export const IconDictionary = {
   GlobeIcon: (params: IconProps) => <GlobeIcon {...params} />,
 
   /**
-   * Globe icon
+   * Github icon
    */
   GithubIcon: (params: IconProps) => <GithubIcon {...params} />,
 
   /**
-   * Globe icon
+   * Linkedin icon
    */
   LinkedinIcon: (params: IconProps) => <LinkedinIcon {...params} />,
 
@@ -105,22 +106,22 @@ export const IconDictionary = {
   YoutubeIcon: (params: IconProps) => <YoutubeIcon {...params} />,
 
   /**
-   * Youtube icon
+   * Home icon
    */
   HomeIcon: (params: IconProps) => <HomeIcon {...params} />,
 
   /**
-   * Youtube icon
+   * Users icon
    */
   UsersIcon: (params: IconProps) => <UsersIcon {...params} />,
 
   /**
-   * Youtube icon
+   * Way icon
    */
   WayIcon: (params: IconProps) => <WayIcon {...params} />,
 
   /**
-   * Youtube icon
+   * Book icon
    */
   BookIcon: (params: IconProps) => <BookIcon {...params} />,
 
@@ -143,6 +144,11 @@ export const IconDictionary = {
    * Remove icon
    */
   RemoveIcon: (params: IconProps) => <RemoveIcon {...params} />,
+
+  /**
+   * Chevron icon
+   */
+  ChevronIcon: (params: IconProps) => <ChevronIcon {...params} />,
 };
 
 /**
