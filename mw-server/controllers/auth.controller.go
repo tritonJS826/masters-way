@@ -30,13 +30,12 @@ func NewAuthController(db *db.Queries, ctx context.Context) *AuthController {
 // @Summary Log in with google oAuth
 // @Description
 // @Tags auth
-// @ID google auth log in
+// @ID google auth log in callback function
 // @Accept  json
 // @Produce  json
-// @Param request body schemas.CreateCommentPayload true "query params"
 // @Param state query string true "state parameter"
 // @Param provider path string true "google"
-// @Success 200 {object} schemas.CommentPopulatedResponse
+// @Success 200
 // @Router /auth/{provider}/callback [post]
 func (cc *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
 	state := ctx.Query("state")

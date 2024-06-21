@@ -1,3 +1,4 @@
 packages:
   - 'mw-webapp'
   - 'mw-server'
+  - 'mw-mobile'
