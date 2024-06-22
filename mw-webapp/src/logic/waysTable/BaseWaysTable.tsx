@@ -1,4 +1,5 @@
 
+import {useNavigate} from "react-router-dom";
 import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Confirm} from "src/component/confirm/Confirm";
@@ -11,6 +12,7 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {renderViewCardOption, renderViewTableOption, ViewSwitcher} from "src/component/viewSwitcher/ViewSwitcher";
 import {WayCard} from "src/component/wayCard/WayCard";
+import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
@@ -19,6 +21,7 @@ import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {WayStatus, WayStatusType} from "src/logic/waysTable/wayStatus";
 import {WayCollection} from "src/model/businessModelPreview/UserPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
+import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import {ArrayUtils} from "src/utils/ArrayUtils";
 import {View} from "src/utils/LocalStorageWorker";
@@ -55,6 +58,11 @@ interface BaseWaysTableProps {
   view: View;
 
   /**
+   * If true - user is page owner
+   */
+  isPageOwner: boolean;
+
+  /**
    * Callback to change view
    */
   setView: (view: View) => void;
@@ -89,6 +97,8 @@ export const BaseWaysTable = observer((props: BaseWaysTableProps) => {
   const {user} = userStore;
   const {language} = languageStore;
   const {theme} = themeStore;
+
+  const navigate = useNavigate();
 
   /**
    * Filter ways by privacy
@@ -150,9 +160,33 @@ export const BaseWaysTable = observer((props: BaseWaysTableProps) => {
    */
   const getIsNoFilters = () => props.filterStatus === FILTER_STATUS_ALL_VALUE;
 
+  /**
+   * Create way
+   */
+  const createWay = async (ownerUuid: string) => {
+    if (!user) {
+      throw new Error("User is not defined");
+    }
+    const newWay: WayPreview = await WayDAL.createWay({
+      userUuid: ownerUuid,
+      wayName: LanguageService.user.personalInfo.defaultWayName[language].replace("$user", user.name),
+    });
+
+    user.defaultWayCollections.own.addWay(newWay);
+    navigate(pages.way.getPath({uuid: newWay.uuid}));
+  };
+
   return (
     <>
       <HorizontalContainer className={styles.wayCollectionActions}>
+        {props.isPageOwner && user &&
+        <Button
+          value={LanguageService.user.personalInfo.createNewWayButton[language]}
+          onClick={() => createWay(user.uuid)}
+          buttonType={ButtonType.PRIMARY}
+        />
+        }
+
         <HorizontalContainer className={styles.filterView}>
           <Select
             label={`${LanguageService.user.filterBlock.type[language]}:`}

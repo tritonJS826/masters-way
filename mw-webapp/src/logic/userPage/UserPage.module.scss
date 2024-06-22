@@ -4,21 +4,82 @@
   max-width: $maxWidthContainer;
   padding: 0 $paddingMedium;
   margin: 0 auto;
+  gap: $gapExtraBig;
+}
+
+.userInfoBlock {
+  @include regularContainer;
+  min-width: $minWidthBlock;
   gap: $gapSmall;
 }
 
-.container {
-  gap: $gapSmall;
-  grid-template-columns: minmax($minWidthBlock, 1fr) minmax($minWidthBlock, 3fr);
+.userMainInfoBlock {
+  gap: $gapLarge;
 
-  @media (max-width: $mediaWidthMobileBig) {
+  grid-template-columns: minmax($minWidthBlock, 1fr) minmax(
+      $minWidthBlock,
+      1.5fr
+    );
+
+  @media (max-width: $mediaWidthTabletBig) {
+    grid-template-columns: minmax($minWidthBlock, 1.5fr) minmax(
+        $minWidthBlock,
+        1fr
+      );
+  }
+
+  @media (max-width: $mediaWidthTablet) {
     grid-template-columns: 1fr;
   }
 }
 
-.descriptionSection {
-  min-width: $minWidthBlock;
+.userAboutBlock {
+  flex-wrap: wrap;
+  gap: $gapBig;
+}
+
+.nameEmailSection {
+  flex: 1;
+  gap: $gapMedium;
+}
+
+.nameSection {
+  justify-content: space-between;
+}
+
+.ownerName {
+  input {
+    height: $heightH2;
+  }
+}
+
+.userDescriptionSection {
   gap: $gapSmall;
+}
+
+.userDescription {
+  line-height: $lineHeightPrimary;
+
+  textarea {
+    line-height: $lineHeightPrimary;
+  }
+}
+
+.ownerEmail {
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  text-overflow: ellipsis;
+  white-space: initial;
+}
+
+.userSkillsAndSocialBlock {
+  gap: $gapMedium;
+}
+
+.skillsTitleBlock {
+  align-items: center;
+  gap: $gapMedium;
 }
 
 .userTagsContainer {
@@ -35,52 +96,6 @@
   display: grid;
   gap: $gapSmall;
   grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
-}
-
-.row {
-  display: flex;
-  align-items: baseline;
-}
-
-.userDescriptionSection {
-  flex-grow: 1;
-  @include regularContainer;
-}
-
-.userDescription {
-  textarea {
-    width: $minWidthBlock;
-    padding: $paddingSmall;
-  }
-}
-
-.nameEmailSection {
-  @include regularContainer;
-}
-
-.mentoringStatusBlock {
-  margin: $marginMedium 0;
-}
-
-.nameSection {
-  justify-content: space-between;
-}
-
-.ownerName {
-  input {
-    height: $heightH2;
-  }
-}
-
-.ownerEmail {
-  overflow: hidden;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
-  text-overflow: ellipsis;
-  white-space: initial;
-  input {
-    height: $heightH3;
-  }
 }
 
 .collectionGroup {
