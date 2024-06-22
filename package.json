@@ -20,7 +20,7 @@
     "mobile:start": "pnpm --filter 'mw-mobile' start",
     "mobile:build":"pnpm --filter 'mw-mobile' build",
     "mobile:test":"pnpm --filter 'mw-mobile' test",
-    "mobile:install":"pnpm --filter 'mw-mobile' install",
+    "mobile:install":"pnpm --filter 'mw-mobile' installDependencies",
     "prepare": "husky install"
   },
   "keywords": [],
