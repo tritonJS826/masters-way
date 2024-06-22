@@ -212,7 +212,7 @@ export const Header = (props: HeaderProps) => {
           options={languageOptions}
           onChange={props.setLanguage}
           className={styles.selectLanguage}
-          cy={{dataCyTrigger: headerAccessIds.language.select, dataCyContentList: "", dataCyValue: ""}}
+          cy={{dataCyTrigger: headerAccessIds.settings.language.select, dataCyContentList: "", dataCyValue: ""}}
         />
 
         <HorizontalContainer className={styles.rightBlock}>
@@ -230,6 +230,7 @@ export const Header = (props: HeaderProps) => {
                   alt={props.user.name}
                   src={props.user.imageUrl}
                   size={AvatarSize.MEDIUM}
+                  dataCy={headerAccessIds.avatar}
                 />
               </Tooltip>
             </Link>

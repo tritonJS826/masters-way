@@ -78,10 +78,17 @@ describe('IsAuth Header scope tests', () => {
     beforeEach(() => {
         cy.visit(testUserData.userLoginLink);  
     });
-    
+
+    it('IsAuth_Header_UserNameLink', () => {
+        const avatarExpected = testUserData.name.substring(0, 2).toUpperCase();
+
+        headerSelectors.getAvatar().should('have.text', avatarExpected);
+    });
+
     it('IsAuth_Header_NavigationBurgerMenu', () => {
         headerSelectors.getBurgerMenu().click();
-            
+        
+        navigationMenuSelectors.menuItemLinks.getPersonalAreaItemLink().should('exist');
         navigationMenuSelectors.menuItemLinks.getSettingsItemLink().should('exist');
         navigationMenuSelectors.getLogoutButton().should('exist');
     });

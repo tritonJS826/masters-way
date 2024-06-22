@@ -1,20 +1,20 @@
 export const headerAccessIds = {
     header: 'header',
     logo: 'homeLogo',
-    avatar: 'avatat',
+    avatar: 'avatar',
     burgerMenu: 'burgerMenu',
 
     settings: {
-        themeSwitcher: 'themeSwitcher'
+        themeSwitcher: 'themeSwitcher',
+
+        language: {
+            select: 'headerLanguageSelect',
+            ruItem: 'ruItem',
+            enItem: 'enItem',
+            uaItem: 'uaItem',
+            kaItem: 'kaItem'
+        },
     },
 
-    language: {
-        select: 'headerLanguageSelect',
-        ruItem: 'ruItem',
-        enItem: 'enItem',
-        uaItem: 'uaItem',
-        kaItem: 'kaItem'
-    },
-    
     loginButton: 'loginButton'
 };
