@@ -146,7 +146,7 @@ describe('NoAuth Navigation menu scope tests', () => {
     it('IsAuth_NavMenu_PersonalArea', () => {
         navigationMenuSelectors.menuItemLinks.getPersonalAreaItemLink().click();
         
-        cy.url().should('include', testUserData.endpoint);
+        cy.url().should('match', /\/user\/[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$/);
         userPersonalSelectors.descriptionSection.getName().should('have.text', testUserData.name);
     }); 
 

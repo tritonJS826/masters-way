@@ -1,6 +1,5 @@
 {
     "userLoginLink": "http://localhost:8000/api/auth/login/local/test.user@gmail.com",
-    "endpoint": "/user/58db4208-021f-4a6f-b845-b8b1c458d02e",
     "name": "test.user@gmail.com",
     "email": "test.user@gmail.com"
 }
