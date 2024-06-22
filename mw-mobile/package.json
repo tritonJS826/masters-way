@@ -3,12 +3,15 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "install": "flutter pub get",
+    "installDependencies": "flutter pub get",
     "build": "flutter build",
     "start": "flutter run",
     "test": "echo 'not implemented'"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
 }
