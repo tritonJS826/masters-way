@@ -14,12 +14,11 @@ $fontSizeSmall: 12px;
 // Font weight
 $fontWeightLight: 300;
 $fontWeightReular: 400;
-$fontWeightSemibold: 500; 
+$fontWeightSemibold: 500;
 $fontWeightBold: 700;
 
 // line-height
-$lineHeightPrimary: 24px;
-$lineHeightSecondary: 20px;
+$lineHeightPrimary: 1.4;
 
 // Border-radius
 $primaryBorderRadius: 10px;
@@ -123,7 +122,12 @@ $disableOpacity: 0.7;
 }
 
 // animation
-@mixin animation($name: defaultAnimation, $duration: 1s, $timing-function: ease, $direction: forwards) {
+@mixin animation(
+  $name: defaultAnimation,
+  $duration: 1s,
+  $timing-function: ease,
+  $direction: forwards
+) {
   animation: $name $duration $timing-function $direction;
 }
 
@@ -136,4 +140,3 @@ $disableOpacity: 0.7;
     opacity: 1;
   }
 }
-

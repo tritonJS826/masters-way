@@ -1,6 +1,6 @@
 import {useState} from "react";
-import {useNavigate} from "react-router-dom";
 import {observer} from "mobx-react-lite";
+import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Checkbox";
 import {Confirm} from "src/component/confirm/Confirm";
@@ -22,7 +22,6 @@ import {FavoriteUserDAL} from "src/dataAccessLogic/FavoriteUserDAL";
 import {UserDAL} from "src/dataAccessLogic/UserDAL";
 import {UserTagDAL} from "src/dataAccessLogic/UserTagDAL";
 import {WayCollectionDAL} from "src/dataAccessLogic/WayCollectionDAL";
-import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
@@ -32,8 +31,6 @@ import {UserPageStore} from "src/logic/userPage/UserPageStore";
 import {BaseWaysTable, FILTER_STATUS_ALL_VALUE} from "src/logic/waysTable/BaseWaysTable";
 import {WayStatusType} from "src/logic/waysTable/wayStatus";
 import {DefaultWayCollections, User, UserPlain, WayCollection} from "src/model/businessModel/User";
-import {WayPreview} from "src/model/businessModelPreview/WayPreview";
-import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import {UserPageSettings, View} from "src/utils/LocalStorageWorker";
 import {PartialWithId, PartialWithUuid} from "src/utils/PartialWithUuid";
@@ -186,7 +183,7 @@ export const UserPage = observer((props: UserPageProps) => {
     defaultValue: DEFAULT_USER_PAGE_SETTINGS,
   });
 
-  const navigate = useNavigate();
+  // Const navigate = useNavigate();
 
   const isPageOwner = !!user && !!userPageOwner && user.uuid === userPageOwner.uuid;
   if (!userPageSettings || !userPageStore.isInitialized) {
@@ -211,22 +208,6 @@ export const UserPage = observer((props: UserPageProps) => {
   if (!currentCollection) {
     setOpenedTabId(defaultCollection.uuid);
   }
-
-  /**
-   * Create way
-   */
-  const createWay = async (ownerUuid: string) => {
-    if (!user) {
-      throw new Error("User is not defined");
-    }
-    const newWay: WayPreview = await WayDAL.createWay({
-      userUuid: ownerUuid,
-      wayName: LanguageService.user.personalInfo.defaultWayName[language].replace("$user", user.name),
-    });
-
-    user.defaultWayCollections.own.addWay(newWay);
-    navigate(pages.way.getPath({uuid: newWay.uuid}));
-  };
 
   /**
    * Create collection
@@ -314,127 +295,163 @@ export const UserPage = observer((props: UserPageProps) => {
 
   return (
     <VerticalContainer className={styles.pageLayout}>
-      <HorizontalGridContainer className={styles.container}>
-        <VerticalContainer className={styles.descriptionSection}>
-          <VerticalContainer className={styles.nameEmailSection}>
-            <HorizontalContainer className={styles.nameSection}>
-              <Title
-                level={HeadingLevel.h2}
-                text={userPageOwner.name}
-                placeholder={LanguageService.common.emptyMarkdownAction[language]}
-                onChangeFinish={async (name) => updateUser({
-                  userToUpdate: {
-                    uuid: userPageOwner.uuid,
-                    name,
-                  },
-
-                  /**
-                   * Update user
-                   */
-                  setUser: () => {
-                    user && user.updateName(name);
-                    userPageOwner.updateName(name);
-                  },
-                })}
-                isEditable={isPageOwner}
-                minLength={1}
-                className={styles.ownerName}
-              />
-              <Tooltip
-                content={favoriteTooltipText}
-                position={PositionTooltip.LEFT}
-
-              >
-                <Button
-                  className={!user ? styles.disabled : ""}
-                  value={`${getIsUserInFavorites(user, userPageOwner)
-                    ? Symbols.STAR
-                    : Symbols.OUTLINED_STAR
-                  }${Symbols.NO_BREAK_SPACE}${userPageOwner.favoriteForUserUuids.length}`}
-                  onClick={() => {
-                    if (!user) {
-                      return;
-                    }
-
-                    if (getIsUserInFavorites(user, userPageOwner)) {
-                      FavoriteUserDAL.deleteFavoriteUser({
-                        donorUserUuid: user.uuid,
-                        acceptorUserUuid: userPageOwner.uuid,
-                      });
-                      deleteUserFromFavorite(userPageOwner.uuid);
-                      deleteUserFromFavoriteForUser(user.uuid);
-                    } else {
-                      FavoriteUserDAL.createFavoriteUser({
-                        donorUserUuid: user.uuid,
-                        acceptorUserUuid: userPageOwner.uuid,
-                      });
-
-                      const newFavoriteUser = new UserPlain({...userPageOwner});
-                      addUserToFavorite(newFavoriteUser);
-                      addUserToFavoriteForUser(user.uuid);
-                    }
-
-                    displayNotification({
-                      text: notificationFavoriteUsers,
-                      type: "info",
-                    });
-                  }}
-                  buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
-                />
-              </Tooltip>
-
-            </HorizontalContainer>
-            <Title
-              level={HeadingLevel.h3}
-              text={userPageOwner.email}
-              classNameHeading={styles.ownerEmail}
-              placeholder=""
+      <VerticalContainer className={styles.userInfoBlock}>
+        <HorizontalGridContainer className={styles.userMainInfoBlock}>
+          <HorizontalContainer className={styles.userAboutBlock}>
+            <Avatar
+              alt={userPageOwner.name}
+              src={userPageOwner.imageUrl}
+              size={AvatarSize.LARGE}
             />
 
-            <HorizontalContainer className={styles.mentoringStatusBlock}>
-              <Checkbox
-                isDisabled={!isPageOwner}
-                isDefaultChecked={userPageOwner.isMentor}
-                onChange={(isMentor) => updateUser({
-                  userToUpdate: {
-                    uuid: userPageOwner.uuid,
-                    isMentor,
-                  },
+            <VerticalContainer className={styles.nameEmailSection}>
+              <HorizontalContainer className={styles.nameSection}>
+                <Title
+                  level={HeadingLevel.h2}
+                  text={userPageOwner.name}
+                  placeholder={LanguageService.common.emptyMarkdownAction[language]}
+                  onChangeFinish={async (name) => updateUser({
+                    userToUpdate: {
+                      uuid: userPageOwner.uuid,
+                      name,
+                    },
 
-                  /**
-                   * Update user
-                   */
-                  setUser: () => {
-                    user && user.updateIsMentor(isMentor);
-                    userPageOwner.updateIsMentor(isMentor);
-                  },
-                })}
-                className={styles.checkbox}
-              />
-              <Tooltip
-                content={LanguageService.user.personalInfo.becomeMentorTooltip[language]}
-                className={styles.tooltip}
-              >
-                {LanguageService.user.personalInfo.mentor[language]}
-              </Tooltip>
-            </HorizontalContainer>
-
-            <HorizontalContainer className={styles.userTagsContainer}>
-              {userPageOwner?.tags.map(tag => (
-                <Tag
-                  tagName={tag.name}
-                  key={tag.uuid}
-                  isDeletable={isPageOwner}
-                  type={TagType.PRIMARY_TAG}
-                  removeTooltipText={LanguageService.common.removeTag[language]}
-                  onDelete={async () => {
-                    user && user.deleteTag(tag.uuid);
-                    userPageOwner.deleteTag(tag.uuid);
-                    await UserTagDAL.deleteUserTag({userTagId: tag.uuid, userId: userPageOwner.uuid});
-                  }}
+                    /**
+                     * Update user
+                     */
+                    setUser: () => {
+                      user && user.updateName(name);
+                      userPageOwner.updateName(name);
+                    },
+                  })}
+                  isEditable={isPageOwner}
+                  minLength={1}
+                  className={styles.ownerName}
                 />
-              ))}
-              {!userPageOwner?.tags.length && LanguageService.way.wayInfo.noTags[language]}
+                <Tooltip
+                  content={favoriteTooltipText}
+                  position={PositionTooltip.LEFT}
+
+                >
+                  <Button
+                    className={!user ? styles.disabled : ""}
+                    value={`${getIsUserInFavorites(user, userPageOwner)
+                      ? Symbols.STAR
+                      : Symbols.OUTLINED_STAR
+                    }${Symbols.NO_BREAK_SPACE}${userPageOwner.favoriteForUserUuids.length}`}
+                    onClick={() => {
+                      if (!user) {
+                        return;
+                      }
+
+                      if (getIsUserInFavorites(user, userPageOwner)) {
+                        FavoriteUserDAL.deleteFavoriteUser({
+                          donorUserUuid: user.uuid,
+                          acceptorUserUuid: userPageOwner.uuid,
+                        });
+                        deleteUserFromFavorite(userPageOwner.uuid);
+                        deleteUserFromFavoriteForUser(user.uuid);
+                      } else {
+                        FavoriteUserDAL.createFavoriteUser({
+                          donorUserUuid: user.uuid,
+                          acceptorUserUuid: userPageOwner.uuid,
+                        });
+
+                        const newFavoriteUser = new UserPlain({...userPageOwner});
+                        addUserToFavorite(newFavoriteUser);
+                        addUserToFavoriteForUser(user.uuid);
+                      }
+
+                      displayNotification({
+                        text: notificationFavoriteUsers,
+                        type: "info",
+                      });
+                    }}
+                    buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
+                  />
+                </Tooltip>
+
+              </HorizontalContainer>
+
+              <VerticalContainer className={styles.userDescriptionSection}>
+                <Title
+                  level={HeadingLevel.h3}
+                  text={LanguageService.user.personalInfo.about[language]}
+                  placeholder=""
+                />
+                <EditableTextarea
+                  text={userPageOwner.description}
+                  onChangeFinish={(description) => updateUser({
+                    userToUpdate: {
+                      uuid: userPageOwner.uuid,
+                      description,
+                    },
+
+                    /**
+                     * Update user
+                     */
+                    setUser: () => {
+                      user && user.updateDescription(description);
+                      userPageOwner.updateDescription(description);
+                    },
+                  })}
+                  isEditable={isPageOwner}
+                  className={styles.userDescription}
+                  placeholder={isPageOwner
+                    ? LanguageService.common.emptyMarkdownAction[language]
+                    : LanguageService.common.emptyMarkdown[language]}
+                />
+
+                <Title
+                  level={HeadingLevel.h3}
+                  text={LanguageService.user.personalInfo.email[language]}
+                  className={styles.ownerEmail}
+                  placeholder=""
+                />
+                <p>
+                  {userPageOwner.email}
+                </p>
+
+              </VerticalContainer>
+
+              <HorizontalContainer>
+                <Checkbox
+                  isDisabled={!isPageOwner}
+                  isDefaultChecked={userPageOwner.isMentor}
+                  onChange={(isMentor) => updateUser({
+                    userToUpdate: {
+                      uuid: userPageOwner.uuid,
+                      isMentor,
+                    },
+
+                    /**
+                     * Update user
+                     */
+                    setUser: () => {
+                      user && user.updateIsMentor(isMentor);
+                      userPageOwner.updateIsMentor(isMentor);
+                    },
+                  })}
+                />
+                <Tooltip content={LanguageService.user.personalInfo.becomeMentorTooltip[language]}>
+                  <Title
+                    level={HeadingLevel.h3}
+                    text={LanguageService.user.personalInfo.mentor[language]}
+                    placeholder=""
+                  />
+                </Tooltip>
+              </HorizontalContainer>
+
+            </VerticalContainer>
+          </HorizontalContainer>
+
+          <VerticalContainer className={styles.userSkillsAndSocialBlock}>
+            <HorizontalContainer className={styles.skillsTitleBlock}>
+              <Title
+                level={HeadingLevel.h2}
+                text={LanguageService.user.personalInfo.skills[language]}
+                placeholder=""
+              />
               {isPageOwner && (
                 <Modal
                   isOpen={isAddUserTagModalOpen}
@@ -477,114 +494,94 @@ export const UserPage = observer((props: UserPageProps) => {
                 />
               )}
             </HorizontalContainer>
-          </VerticalContainer>
-
-          <VerticalContainer className={styles.userDescriptionSection}>
-            <Title
-              level={HeadingLevel.h3}
-              text={LanguageService.user.personalInfo.about[language]}
-              placeholder=""
-            />
-            <EditableTextarea
-              text={userPageOwner.description}
-              onChangeFinish={(description) => updateUser({
-                userToUpdate: {
-                  uuid: userPageOwner.uuid,
-                  description,
-                },
-
-                /**
-                 * Update user
-                 */
-                setUser: () => {
-                  user && user.updateDescription(description);
-                  userPageOwner.updateDescription(description);
-                },
-              })}
-              isEditable={isPageOwner}
-              className={styles.userDescription}
-              placeholder={isPageOwner
-                ? LanguageService.common.emptyMarkdownAction[language]
-                : LanguageService.common.emptyMarkdown[language]}
-            />
-          </VerticalContainer>
-
-          {isPageOwner &&
-            <Button
-              value={LanguageService.user.personalInfo.createNewWayButton[language]}
-              onClick={() => createWay(user.uuid)}
-              buttonType={ButtonType.PRIMARY}
-            />
-          }
-        </VerticalContainer>
-
-        <VerticalContainer className={styles.tabsSectionContainer}>
-          <VerticalContainer className={styles.collectionGroup}>
-            <Title
-              level={HeadingLevel.h2}
-              text={LanguageService.user.collections.defaultCollections[language]}
-              placeholder=""
-            />
-            <HorizontalContainer className={styles.tabsSection}>
-
-              <WayCollectionCard
-                isActive={userPageOwner.defaultWayCollections.own.uuid === openedTabId}
-                collectionTitle={LanguageService.user.collections.own[language]}
-                collectionWaysAmount={userPageOwner.defaultWayCollections.own.ways.length}
-                onClick={() => setOpenedTabId(userPageOwner.defaultWayCollections.own.uuid)}
-                language={language}
-              />
-
-              <WayCollectionCard
-                isActive={userPageOwner.defaultWayCollections.mentoring.uuid === openedTabId}
-                collectionTitle={LanguageService.user.collections.mentoring[language]}
-                collectionWaysAmount={userPageOwner.defaultWayCollections.mentoring.ways.length}
-                onClick={() => setOpenedTabId(userPageOwner.defaultWayCollections.mentoring.uuid)}
-                language={language}
-              />
-
-              <WayCollectionCard
-                isActive={userPageOwner.defaultWayCollections.favorite.uuid === openedTabId}
-                collectionTitle={LanguageService.user.collections.favorite[language]}
-                collectionWaysAmount={userPageOwner.defaultWayCollections.favorite.ways.length}
-                onClick={() => setOpenedTabId(userPageOwner.defaultWayCollections.favorite.uuid)}
-                language={language}
-              />
-            </HorizontalContainer>
-          </VerticalContainer>
-
-          <VerticalContainer className={styles.collectionGroup}>
-            <Title
-              level={HeadingLevel.h2}
-              text={LanguageService.user.collections.customCollections[language]}
-              placeholder=""
-            />
-
-            <HorizontalContainer className={styles.tabsSection}>
-              {userPageOwner.customWayCollections.map(collection => (
-                <WayCollectionCard
-                  key={collection.uuid}
-                  isActive={collection.uuid === openedTabId}
-                  collectionTitle={collection.name}
-                  collectionWaysAmount={collection.ways.length}
-                  onClick={() => setOpenedTabId(collection.uuid)}
-                  language={language}
+            <HorizontalContainer className={styles.userTagsContainer}>
+              {userPageOwner?.tags.map(tag => (
+                <Tag
+                  tagName={tag.name}
+                  key={tag.uuid}
+                  isDeletable={isPageOwner}
+                  type={TagType.PRIMARY_TAG}
+                  removeTooltipText={LanguageService.common.removeTag[language]}
+                  onDelete={async () => {
+                    user && user.deleteTag(tag.uuid);
+                    userPageOwner.deleteTag(tag.uuid);
+                    await UserTagDAL.deleteUserTag({userTagId: tag.uuid, userId: userPageOwner.uuid});
+                  }}
                 />
               ))}
-
-              {isPageOwner && (
-                <Button
-                  value={LanguageService.user.collections.addCollection[language]}
-                  onClick={createCustomWayCollection}
-                  className={styles.collectionButton}
-                  buttonType={ButtonType.SECONDARY}
-                />
-              )}
-
+              {!userPageOwner?.tags.length && LanguageService.user.personalInfo.noSkills[language]}
             </HorizontalContainer>
           </VerticalContainer>
+
+        </HorizontalGridContainer>
+      </VerticalContainer>
+
+      <VerticalContainer className={styles.tabsSectionContainer}>
+        <VerticalContainer className={styles.collectionGroup}>
+          <Title
+            level={HeadingLevel.h2}
+            text={LanguageService.user.collections.defaultCollections[language]}
+            placeholder=""
+          />
+          <HorizontalContainer className={styles.tabsSection}>
+
+            <WayCollectionCard
+              isActive={userPageOwner.defaultWayCollections.own.uuid === openedTabId}
+              collectionTitle={LanguageService.user.collections.own[language]}
+              collectionWaysAmount={userPageOwner.defaultWayCollections.own.ways.length}
+              onClick={() => setOpenedTabId(userPageOwner.defaultWayCollections.own.uuid)}
+              language={language}
+            />
+
+            <WayCollectionCard
+              isActive={userPageOwner.defaultWayCollections.mentoring.uuid === openedTabId}
+              collectionTitle={LanguageService.user.collections.mentoring[language]}
+              collectionWaysAmount={userPageOwner.defaultWayCollections.mentoring.ways.length}
+              onClick={() => setOpenedTabId(userPageOwner.defaultWayCollections.mentoring.uuid)}
+              language={language}
+            />
+
+            <WayCollectionCard
+              isActive={userPageOwner.defaultWayCollections.favorite.uuid === openedTabId}
+              collectionTitle={LanguageService.user.collections.favorite[language]}
+              collectionWaysAmount={userPageOwner.defaultWayCollections.favorite.ways.length}
+              onClick={() => setOpenedTabId(userPageOwner.defaultWayCollections.favorite.uuid)}
+              language={language}
+            />
+          </HorizontalContainer>
         </VerticalContainer>
-      </HorizontalGridContainer>
+
+        <VerticalContainer className={styles.collectionGroup}>
+          <Title
+            level={HeadingLevel.h2}
+            text={LanguageService.user.collections.customCollections[language]}
+            placeholder=""
+          />
+
+          <HorizontalContainer className={styles.tabsSection}>
+            {userPageOwner.customWayCollections.map(collection => (
+              <WayCollectionCard
+                key={collection.uuid}
+                isActive={collection.uuid === openedTabId}
+                collectionTitle={collection.name}
+                collectionWaysAmount={collection.ways.length}
+                onClick={() => setOpenedTabId(collection.uuid)}
+                language={language}
+              />
+            ))}
+
+            {isPageOwner && (
+              <Button
+                value={LanguageService.user.collections.addCollection[language]}
+                onClick={createCustomWayCollection}
+                className={styles.collectionButton}
+                buttonType={ButtonType.SECONDARY}
+              />
+            )}
+
+          </HorizontalContainer>
+        </VerticalContainer>
+      </VerticalContainer>
 
       {isCustomCollection && isPageOwner && (
         <HorizontalContainer className={styles.temporalBlock}>
@@ -649,6 +646,7 @@ export const UserPage = observer((props: UserPageProps) => {
         ) => updateUserPageSettings({filterStatus})}
         view={userPageSettings.view}
         setView={(view: View) => updateUserPageSettings({view})}
+        isPageOwner={isPageOwner}
       />
 
     </VerticalContainer>
