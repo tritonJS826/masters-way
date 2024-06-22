@@ -16,7 +16,7 @@
     "server:start": "pnpm --filter 'mw-server' start",
     "server:build": "pnpm --filter 'mw-server' build",
     "server:test": "pnpm --filter 'mw-server' test",
-    "server:install": "pnpm --filter 'mw-server' install",
+    "server:install": "pnpm --filter 'mw-server' installDependencies",
     "mobile:start": "pnpm --filter 'mw-mobile' start",
     "mobile:build":"pnpm --filter 'mw-mobile' build",
     "mobile:test":"pnpm --filter 'mw-mobile' test",
