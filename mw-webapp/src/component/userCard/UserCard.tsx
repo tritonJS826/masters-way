@@ -16,6 +16,7 @@ import {
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import {DateUtils} from "src/utils/DateUtils";
+import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import styles from "src/component/userCard/UserCard.module.scss";
 
 /**
@@ -98,10 +99,10 @@ export const UserCard = observer((props: UserCardProps) => {
           </HorizontalContainer>
           <Tooltip
             position={PositionTooltip.BOTTOM}
-            content={props.userPreview.description}
+            content={renderMarkdown(props.userPreview.description)}
           >
             <p className={styles.description}>
-              {props.userPreview.description}
+              {renderMarkdown(props.userPreview.description)}
             </p>
           </Tooltip>
           {renderUserTags(props.userPreview.tags)}

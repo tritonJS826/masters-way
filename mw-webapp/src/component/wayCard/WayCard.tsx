@@ -16,6 +16,7 @@ import {WayTag} from "src/model/businessModelPreview/WayTag";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import {DateUtils} from "src/utils/DateUtils";
+import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import styles from "src/component/wayCard/WayCard.module.scss";
 
 /**
@@ -131,10 +132,10 @@ export const WayCard = observer((props: WayCardProps) => {
           </HorizontalContainer>
           <Tooltip
             position={PositionTooltip.BOTTOM}
-            content={props.wayPreview.goalDescription}
+            content={renderMarkdown(props.wayPreview.goalDescription)}
           >
             <p className={styles.wayGoal}>
-              {props.wayPreview.goalDescription}
+              {renderMarkdown(props.wayPreview.goalDescription)}
             </p>
           </Tooltip>
           {renderWayTags(props.wayPreview.wayTags)}
