@@ -1,3 +1,4 @@
+import {NavigateFunction, useNavigate} from "react-router-dom";
 import {homeAccessIds} from "cypress/accessIds/homeAccessIds";
 import {observer} from "mobx-react-lite";
 import logoLight from "src/assets/mastersWayLogoLight.svg";
@@ -22,9 +23,9 @@ import styles from "src/logic/homePage/HomePage.module.scss";
 /**
  * GetStarted button click handler
  */
-const getStarted = (userUuid?: string) => {
+const getStarted = (navigate: NavigateFunction, userUuid?: string) => {
   return userUuid
-    ? pages.user.getPath({uuid: userUuid})
+    ? navigate(pages.user.getPath({uuid: userUuid}))
     : AuthDAL.authGoogle();
 };
 
@@ -34,6 +35,7 @@ const getStarted = (userUuid?: string) => {
 export const HomePage = observer(() => {
   const {user} = userStore;
   const {language} = languageStore;
+  const navigate = useNavigate();
 
   return (
     <>
@@ -57,7 +59,7 @@ export const HomePage = observer(() => {
               action: UserActivationAction.GET_STARTED_CLICKED,
               label: UserActivationLabel.START_FOR_FREE__FIRST_SCREEN_CLICKED,
             });
-            getStarted(user?.uuid);
+            getStarted(navigate, user?.uuid);
           }}
           buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
           value={LanguageService.home.startForFreeButton[language]}
@@ -133,7 +135,7 @@ export const HomePage = observer(() => {
                 action: UserActivationAction.GET_STARTED_CLICKED,
                 label: UserActivationLabel.START_FOR_FREE_WHO_WE_ARE_BLOCK_CLICKED,
               });
-              getStarted(user?.uuid);
+              getStarted(navigate, user?.uuid);
             }}
             buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
             value={LanguageService.home.startForFreeButton[language]}
@@ -192,7 +194,7 @@ export const HomePage = observer(() => {
                   action: UserActivationAction.GET_STARTED_CLICKED,
                   label: UserActivationLabel.TRY_NOW_CLICKED,
                 });
-                getStarted(user?.uuid);
+                getStarted(navigate, user?.uuid);
               }}
               buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
               value={LanguageService.home.tryNowButton[language]}
