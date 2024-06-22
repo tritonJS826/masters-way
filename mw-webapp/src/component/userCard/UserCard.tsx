@@ -9,7 +9,6 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {languageStore} from "src/globalStore/LanguageStore";
-import {useConvertingMarkdownToUrl} from "src/hooks/useConvertingMarkdownToUrl";
 import {
   UserNotSaturatedWay,
   UserTag,
@@ -17,6 +16,7 @@ import {
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import {DateUtils} from "src/utils/DateUtils";
+import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import styles from "src/component/userCard/UserCard.module.scss";
 
 /**
@@ -40,7 +40,6 @@ interface UserCardProps {
  */
 export const UserCard = observer((props: UserCardProps) => {
   const {language} = languageStore;
-  const renderDescription = useConvertingMarkdownToUrl(props.userPreview.description);
 
   /**
    * Render way tags
@@ -100,10 +99,10 @@ export const UserCard = observer((props: UserCardProps) => {
           </HorizontalContainer>
           <Tooltip
             position={PositionTooltip.BOTTOM}
-            content={renderDescription}
+            content={renderMarkdown(props.userPreview.description)}
           >
             <p className={styles.description}>
-              {renderDescription}
+              {renderMarkdown(props.userPreview.description)}
             </p>
           </Tooltip>
           {renderUserTags(props.userPreview.tags)}

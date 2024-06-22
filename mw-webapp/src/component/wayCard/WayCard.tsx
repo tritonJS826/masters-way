@@ -10,13 +10,13 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {languageStore} from "src/globalStore/LanguageStore";
-import {useConvertingMarkdownToUrl} from "src/hooks/useConvertingMarkdownToUrl";
 import {UserPlain} from "src/model/businessModel/User";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {WayTag} from "src/model/businessModelPreview/WayTag";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import {DateUtils} from "src/utils/DateUtils";
+import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import styles from "src/component/wayCard/WayCard.module.scss";
 
 /**
@@ -40,7 +40,6 @@ interface WayCardProps {
  */
 export const WayCard = observer((props: WayCardProps) => {
   const {language} = languageStore;
-  const wayRenderDescription = useConvertingMarkdownToUrl(props.wayPreview.goalDescription);
 
   /**
    * Render way tags
@@ -133,10 +132,10 @@ export const WayCard = observer((props: WayCardProps) => {
           </HorizontalContainer>
           <Tooltip
             position={PositionTooltip.BOTTOM}
-            content={wayRenderDescription}
+            content={renderMarkdown(props.wayPreview.goalDescription)}
           >
             <p className={styles.wayGoal}>
-              {wayRenderDescription}
+              {renderMarkdown(props.wayPreview.goalDescription)}
             </p>
           </Tooltip>
           {renderWayTags(props.wayPreview.wayTags)}
