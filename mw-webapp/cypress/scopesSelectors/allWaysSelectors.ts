@@ -7,6 +7,7 @@ export const allWaysSelectors = {
         getTitle: () => cy.get(getDataCy(allWaysAccessIds.allWaysTable.title)),
         getTotalAmountTitle: () => cy.get(getDataCy(allWaysAccessIds.allWaysTable.totalAmountTitle)),
         getTable: () => cy.get(getDataCy(allWaysAccessIds.allWaysTable.table)),
+        getTableTr: () => cy.get(getDataCy(allWaysAccessIds.allWaysTable.tableTr)),
     },
 
     filterViewBlock: {

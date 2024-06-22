@@ -2,7 +2,8 @@ export const allWaysAccessIds = {
     allWaysTable: {
         title: 'waysTitle',
         totalAmountTitle: 'totalFoundTitle',
-        table: 'table'
+        table: 'table',
+        tableTr: 'tableTr'
     },
 
     filterViewBlock: {

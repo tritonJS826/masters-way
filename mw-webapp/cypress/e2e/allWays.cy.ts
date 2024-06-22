@@ -22,8 +22,8 @@ describe('All Ways scope tests', () => {
 
     allWaysSelectors.filterViewBlock.getTableViewButton().click();
 
-    allWaysSelectors.allWaysTable.getTable().find('thead tr th div div:first-child').each(($el, index) => {
-      cy.wrap($el).invoke('text').then((text) => {
+    allWaysSelectors.allWaysTable.getTableTr().find('th').each((el, index) => {
+      cy.wrap(el).invoke('text').then((text) => {
       expect(text.trim()).equal(tableHeadersEn[index]);
       });
     });
