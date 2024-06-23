@@ -36,6 +36,7 @@
 .userAboutBlock {
   flex-wrap: wrap;
   gap: $gapBig;
+  cursor: default;
 }
 
 .nameEmailSection {
@@ -45,6 +46,7 @@
 
 .nameSection {
   justify-content: space-between;
+  cursor: text;
 }
 
 .ownerName {
