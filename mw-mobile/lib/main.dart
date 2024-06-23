@@ -1,25 +1,20 @@
 import 'package:flutter/material.dart';
-import 'screens/home_page.dart';
+import 'routes/routes.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Neumorphism Demo',
+      title: 'E-learning App',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
-        useMaterial3: true,
-        textTheme: const TextTheme(
-          bodyLarge: TextStyle(color: Colors.white),
-        ),
+        primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Home Page'),
+      initialRoute: AppRoutes.welcome,
+      routes: AppRoutes.define(),
     );
   }
 }

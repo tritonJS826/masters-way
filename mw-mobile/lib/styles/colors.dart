@@ -10,3 +10,6 @@ const Color shadowDarkColor = Colors.indigoAccent;
 const Color shadowLightColor = Colors.white;
 const Color buttonColor = Colors.indigo;
 const Color containerColor = Colors.grey;
+const Color gradientStartColor = Colors.orange;
+const Color gradientEndColor = Colors.red;
+const Color waveColor = Color(0xFF3E2F5B);
