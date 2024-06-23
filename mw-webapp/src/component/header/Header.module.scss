@@ -32,11 +32,11 @@ $loginModalMaxWidth: 914px;
   cursor: pointer;
 }
 
-.headerLeftBlock {
+.headerThemeLanguageBlock {
   gap: $gapBig;
 }
 
-.headerRightBlock {
+.headerSidebarBlock {
   align-items: center;
   gap: $gapExtraBig;
 }
@@ -50,7 +50,7 @@ $loginModalMaxWidth: 914px;
   height: $burgerMenuSize;
   margin-top: 2px;
   cursor: pointer;
-  fill: var(--primaryTextColor);
+  fill: var(--primaryIconColor);
 }
 
 .sidebarItem {
@@ -78,7 +78,7 @@ $loginModalMaxWidth: 914px;
 }
 
 .socialMediaIcon {
-  border: $secondaryBorder solid var(--secondaryStrokeColor);
+  border: $primaryBorder solid var(--secondaryStrokeColor);
   border-radius: $tertiaryBorderRadius;
   background-color: var(--secondaryIconBgColor);
   fill: var(--quaternaryBgColor);

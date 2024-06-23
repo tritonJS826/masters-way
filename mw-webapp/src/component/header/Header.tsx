@@ -205,7 +205,7 @@ export const Header = (props: HeaderProps) => {
         />
       </Link>
       <HorizontalContainer className={styles.headerButtonsContainer}>
-        <HorizontalContainer className={styles.headerLeftBlock}>
+        <HorizontalContainer className={styles.headerThemeLanguageBlock}>
         <ThemeSwitcher
           language={props.language}
           theme={props.theme}
@@ -229,7 +229,7 @@ export const Header = (props: HeaderProps) => {
           cy={{dataCyTrigger: headerAccessIds.settings.language.select, dataCyContentList: "", dataCyValue: ""}}
         />
         </HorizontalContainer>
-        <HorizontalContainer className={styles.headerRightBlock}>
+        <HorizontalContainer className={styles.headerSidebarBlock}>
           {props.user ?
             <Link
               path={pages.user.getPath({uuid: props.user.uuid})}
