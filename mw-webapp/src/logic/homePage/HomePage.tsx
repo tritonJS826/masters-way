@@ -6,7 +6,7 @@ import {Button, ButtonType} from "src/component/button/Button";
 import {Footer} from "src/component/footer/Footer";
 import {LOGO_TEXT} from "src/component/header/Header";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
-import {Icon, IconSize} from "src/component/icon/Icon";
+import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
 import {Image} from "src/component/image/Image";
 import {Link} from "src/component/link/Link";
 import {HeadingLevel, Title} from "src/component/title/Title";
@@ -15,7 +15,8 @@ import {AuthDAL} from "src/dataAccessLogic/AuthDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {userStore} from "src/globalStore/UserStore";
 import {trackUserActivationButton, UserActivationAction, UserActivationLabel} from "src/GoogleAnalytics";
-import {GoalItem} from "src/logic/homePage/goalItem/GoalItem";
+import {AdvantageItem} from "src/logic/homePage/advantageItem/AdvantageItem";
+import {SystemItem} from "src/logic/homePage/systemItem/SystemItem";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/homePage/HomePage.module.scss";
@@ -39,183 +40,163 @@ export const HomePage = observer(() => {
 
   return (
     <>
-      <VerticalContainer className={styles.welcomeBlock}>
-        <Title
-          level={HeadingLevel.h1}
-          text={LanguageService.home.title[language]}
-          className={styles.title}
-          placeholder=""
-          dataCy={homeAccessIds.welcomeBlock.title}
-        />
-        <Title
-          level={HeadingLevel.h3}
-          text={LanguageService.home.description[language]}
-          className={styles.titleDescription}
-          placeholder=""
-        />
-        <Button
-          onClick={() => {
-            trackUserActivationButton({
-              action: UserActivationAction.GET_STARTED_CLICKED,
-              label: UserActivationLabel.START_FOR_FREE__FIRST_SCREEN_CLICKED,
-            });
-            getStarted(navigate, user?.uuid);
-          }}
-          buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
-          value={LanguageService.home.startForFreeButton[language]}
-          className={styles.getStartedButton}
-          dataCy={homeAccessIds.welcomeBlock.startButton}
-        />
-      </VerticalContainer>
-
-      <VerticalContainer className={styles.advantagesBlock}>
-        <Title
-          level={HeadingLevel.h2}
-          text={LanguageService.home.advantages.goalsTitle[language]}
-          className={styles.goalsTitle}
-          placeholder=""
-        />
-        <HorizontalContainer className={styles.goals}>
-          <GoalItem
-            title={LanguageService.home.weAreHelpingBlock.goals.goalOne.title[language]}
-            description={LanguageService.home.weAreHelpingBlock.goals.goalOne.description[language]}
-          />
-          <GoalItem
-            title={LanguageService.home.weAreHelpingBlock.goals.goalTwo.title[language]}
-            description={LanguageService.home.weAreHelpingBlock.goals.goalTwo.description[language]}
-          />
-          <GoalItem
-            title={LanguageService.home.weAreHelpingBlock.goals.goalThree.title[language]}
-            description={LanguageService.home.weAreHelpingBlock.goals.goalThree.description[language]}
-          />
-        </HorizontalContainer>
-      </VerticalContainer>
-
-      <HorizontalContainer className={styles.aboutProjectBlock}>
-        <Image
-          alt={LOGO_TEXT}
-          src={logoLight}
-          className={styles.aboutProjectImage}
-        />
-        <VerticalContainer className={styles.aboutProjectDescription}>
-          <Title
-            level={HeadingLevel.h2}
-            text={LanguageService.home.aboutAppBlock.title[language]}
-            className={styles.goalsTitle}
-            placeholder=""
-          />
-          <VerticalContainer className={styles.aboutProjectText}>
+      <div className={styles.container}>
+        <HorizontalGridContainer className={styles.welcomeBlock}>
+          <VerticalContainer className={styles.welcomeInfoBlock}>
             <Title
-              level={HeadingLevel.h3}
-              text={LanguageService.home.aboutAppBlock.subTitle[language]}
-              className={styles.goalsSubTitle}
+              level={HeadingLevel.h1}
+              text={LanguageService.home.title[language]}
+              className={styles.title}
               placeholder=""
+              dataCy={homeAccessIds.welcomeBlock.title}
             />
-            <div className={styles.aboutProjectDescription}>
-              {LanguageService.home.aboutAppBlock.description[language]}
-            </div>
-            <ul className={styles.aboutProjectDescription}>
-              <li>
-                {LanguageService.home.aboutAppBlock.reasonOne[language]}
-              </li>
-              <li>
-                {LanguageService.home.aboutAppBlock.reasonTwo[language]}
-              </li>
-              <li>
-                {LanguageService.home.aboutAppBlock.reasonThree[language]}
-              </li>
-            </ul>
-            <div className={styles.aboutProjectDescription}>
-              {LanguageService.home.aboutAppBlock.endDescription[language]}
-            </div>
-          </VerticalContainer>
-          <Button
-            onClick={() => {
-              trackUserActivationButton({
-                action: UserActivationAction.GET_STARTED_CLICKED,
-                label: UserActivationLabel.START_FOR_FREE_WHO_WE_ARE_BLOCK_CLICKED,
-              });
-              getStarted(navigate, user?.uuid);
-            }}
-            buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
-            value={LanguageService.home.startForFreeButton[language]}
-            className={styles.aboutProjectGetStartedButton}
-          />
-        </VerticalContainer>
-      </HorizontalContainer>
-
-      <HorizontalContainer className={styles.whatWeAreBlock}>
-
-        <VerticalContainer className={styles.whatWeAreDescription}>
-          <Title
-            level={HeadingLevel.h2}
-            text={LanguageService.home.whatWeAreBlock.title[language]}
-            className={styles.goalsTitle}
-            placeholder=""
-          />
-          <VerticalContainer className={styles.whatWeAreList}>
-            <HorizontalContainer className={styles.whatWeAreItem}>
-              <Icon
-                name="WayIcon"
-                size={IconSize.MEDIUM}
-                className={styles.icon}
-              />
-              {LanguageService.home.aboutAppBlock.reasonOne[language]}
-            </HorizontalContainer>
-            <HorizontalContainer className={styles.whatWeAreItem}>
-              <Icon
-                name="WayIcon"
-                size={IconSize.MEDIUM}
-                className={styles.icon}
-              />
-              {LanguageService.home.aboutAppBlock.reasonTwo[language]}
-            </HorizontalContainer>
-            <HorizontalContainer className={styles.whatWeAreItem}>
-              <Icon
-                name="WayIcon"
-                size={IconSize.MEDIUM}
-                className={styles.icon}
-              />
-              {LanguageService.home.aboutAppBlock.reasonThree[language]}
-            </HorizontalContainer>
-            <HorizontalContainer className={styles.whatWeAreItem}>
-              <Icon
-                name="WayIcon"
-                size={IconSize.MEDIUM}
-                className={styles.icon}
-              />
-              {LanguageService.home.aboutAppBlock.reasonFour[language]}
-            </HorizontalContainer>
-          </VerticalContainer>
-          <HorizontalContainer className={styles.whatWeAreButtons}>
+            <p className={styles.titleDescription}>
+              {LanguageService.home.description[language]}
+            </p>
             <Button
               onClick={() => {
                 trackUserActivationButton({
                   action: UserActivationAction.GET_STARTED_CLICKED,
-                  label: UserActivationLabel.TRY_NOW_CLICKED,
+                  label: UserActivationLabel.START_FOR_FREE__FIRST_SCREEN_CLICKED,
                 });
                 getStarted(navigate, user?.uuid);
               }}
               buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
-              value={LanguageService.home.tryNowButton[language]}
-              className={styles.tryNowButton}
+              value={LanguageService.home.startForFreeButton[language]}
+              className={styles.getStartedButton}
+              dataCy={homeAccessIds.welcomeBlock.startButton}
             />
-            <Link
-              path={LanguageService.home.whatWeAreBlock.manifestLink[language]}
-              className={styles.whatWeAreLink}
-              isNewTab
-            >
-              {LanguageService.home.whatWeAreBlock.readManifesto[language]}
-            </Link>
-          </HorizontalContainer>
-        </VerticalContainer>
-        <Image
-          alt={LOGO_TEXT}
-          src="https://drive.google.com/thumbnail?id=1sm7CPUt8LTcx6ZAVIe799rFWa0v9KzST&sz=w1000"
-          className={styles.whatWeAreImage}
-        />
+          </VerticalContainer>
 
-      </HorizontalContainer>
+          <Image
+            alt="video"
+            src="https://drive.google.com/thumbnail?id=11wbqfxD6TDVneqyj7xidGIW4QPRSpMBt&sz=w1000"
+            className={styles.welcomeImageBlock}
+          />
+        </HorizontalGridContainer>
+      </div>
+
+      <VerticalContainer className={styles.advantagesBlock}>
+        <Title
+          level={HeadingLevel.h2}
+          text={LanguageService.home.advantages.advantagesTitle[language]}
+          className={styles.advantagesTitle}
+          placeholder=""
+        />
+        <p className={styles.advantagesDescription}>
+          {LanguageService.home.advantages.advantagesDescription[language]}
+        </p>
+        <HorizontalContainer className={styles.advantages}>
+          <AdvantageItem
+            title={LanguageService.home.weAreHelpingBlock.advantages.personalizedLearning.title[language]}
+            description={LanguageService.home.weAreHelpingBlock.advantages.personalizedLearning.description[language]}
+          />
+          <AdvantageItem
+            title={LanguageService.home.weAreHelpingBlock.advantages.comprehensiveControl.title[language]}
+            description={LanguageService.home.weAreHelpingBlock.advantages.comprehensiveControl.description[language]}
+          />
+          <AdvantageItem
+            title={LanguageService.home.weAreHelpingBlock.advantages.fastFeedback.title[language]}
+            description={LanguageService.home.weAreHelpingBlock.advantages.fastFeedback.description[language]}
+          />
+          <AdvantageItem
+            title={LanguageService.home.weAreHelpingBlock.advantages.visualizationOfProgress.title[language]}
+            description={LanguageService.home.weAreHelpingBlock.advantages.visualizationOfProgress.description[language]}
+          />
+          <AdvantageItem
+            title={LanguageService.home.weAreHelpingBlock.advantages.supportiveNetwork.title[language]}
+            description={LanguageService.home.weAreHelpingBlock.advantages.supportiveNetwork.description[language]}
+          />
+          <AdvantageItem
+            title={LanguageService.home.weAreHelpingBlock.advantages.timeSavingEfficiency.title[language]}
+            description={LanguageService.home.weAreHelpingBlock.advantages.timeSavingEfficiency.description[language]}
+          />
+        </HorizontalContainer>
+      </VerticalContainer>
+
+      <VerticalContainer className={styles.buildSystemBlock}>
+        <Title
+          level={HeadingLevel.h2}
+          text={LanguageService.home.systemBlock.title[language]}
+          className={styles.systemBlockTitle}
+          placeholder=""
+        />
+        <p className={styles.systemBlockDescription}>
+          {LanguageService.home.systemBlock.description[language]}
+        </p>
+        <HorizontalContainer className={styles.systemItems}>
+          <SystemItem
+            title={LanguageService.home.systemBlock.createWay.title[language]}
+            description={LanguageService.home.systemBlock.createWay.description[language]}
+          />
+          <SystemItem
+            title={LanguageService.home.systemBlock.SetGoalAndMetrics.title[language]}
+            description={LanguageService.home.systemBlock.SetGoalAndMetrics.description[language]}
+          />
+          <SystemItem
+            title={LanguageService.home.systemBlock.trackProgress.title[language]}
+            description={LanguageService.home.systemBlock.trackProgress.description[language]}
+          />
+        </HorizontalContainer>
+
+        <Button
+          onClick={() => {
+            trackUserActivationButton({
+              action: UserActivationAction.GET_STARTED_CLICKED,
+              label: UserActivationLabel.TRY_NOW_CLICKED,
+            });
+            getStarted(navigate, user?.uuid);
+          }}
+          buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
+          value={LanguageService.home.getStartedButton[language]}
+          className={styles.getStartedButton}
+        />
+      </VerticalContainer>
+
+      <VerticalContainer className={styles.aboutProjectBlock}>
+        <Title
+          level={HeadingLevel.h2}
+          text={LanguageService.home.aboutAppBlock.title[language]}
+          className={styles.aboutAppBlockTitle}
+          placeholder=""
+        />
+        <HorizontalContainer className={styles.aboutProjectItems}>
+          <Image
+            alt={LOGO_TEXT}
+            src={logoLight}
+            className={styles.aboutProjectImage}
+          />
+          <VerticalContainer className={styles.aboutProjectDescription}>
+
+            <p className={styles.aboutAppBlockDescription}>
+              {LanguageService.home.aboutAppBlock.description[language]}
+            </p>
+
+            <HorizontalContainer className={styles.aboutAppBlockButtons}>
+              <Button
+                onClick={() => {
+                  trackUserActivationButton({
+                    action: UserActivationAction.GET_STARTED_CLICKED,
+                    label: UserActivationLabel.START_FOR_FREE_WHO_WE_ARE_BLOCK_CLICKED,
+                  });
+                  getStarted(navigate, user?.uuid);
+                }}
+                buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
+                value={LanguageService.home.getStartedButton[language]}
+                className={styles.aboutAppGetStartedButton}
+              />
+              <Link
+                path={LanguageService.home.aboutAppBlock.manifestLink[language]}
+                className={styles.manifestoLink}
+                isNewTab
+              >
+                {LanguageService.home.aboutAppBlock.readManifesto[language]}
+              </Link>
+            </HorizontalContainer>
+          </VerticalContainer>
+        </HorizontalContainer>
+
+      </VerticalContainer>
 
       <Footer language={language} />
     </>

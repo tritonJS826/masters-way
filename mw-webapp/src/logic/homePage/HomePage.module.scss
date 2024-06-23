@@ -1,65 +1,80 @@
 @import "src/styles/variables";
 
-// Temporal bottom padding while partner's block is not exist
-$welcomeBlockPadding: 230px 0 420px;
 $homeBorderRadius: 20px;
-$homeGap: 40px;
 $homeGapBig: 96px;
-$homeMaxWidthTitle: 875px;
-$getStartedButtonMarginTop: 50px;
-$homePaddingSmallBlock: 25px;
 $homePaddingBlock: 80px;
 $homePaddingBigBlock: 128px;
-$homeMaxWidthImage: 605px;
-$widthBlock: 1305px;
+
+.container {
+  justify-content: center;
+  margin-top: $mainImageMarginTop;
+  background-color: var(--generalPrimaryColor);
+}
 
 .welcomeBlock {
-  align-items: center;
-  padding: $welcomeBlockPadding;
-  margin-top: $mainImageMarginTop;
-  background-image: url("https://drive.google.com/thumbnail?id=11wbqfxD6TDVneqyj7xidGIW4QPRSpMBt&sz=w1000");
-  background-repeat: no-repeat;
-  background-size: cover;
-  gap: $homeGap;
+  max-width: $maxWidthContainer;
+  align-items: end;
+  padding: 0 $paddingMedium $homePaddingBigBlock;
+  margin: 0 auto;
+  gap: $gapLarge;
+  grid-template-columns: repeat(auto-fit, minmax($mediumWidthBlock, 1fr));
+
+  @media (max-width: $mediaWidthTablet) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.welcomeInfoBlock {
+  gap: $gapMedium;
+}
+
+.welcomeImageBlock {
+  //temporal while we don't have the video
+  max-height: 75%;
 }
 
 .title {
-  max-width: $homeMaxWidthTitle;
-  padding: 0 $paddingMedium;
-  margin: 0 auto;
+  margin-top: 255px;
   color: var(--secondaryTextColor);
-  font-weight: bold;
-  text-align: center;
 }
 
 .titleDescription {
   color: var(--secondaryTextColor);
-  text-align: center;
+  font-weight: $fontWeightSemibold;
 }
 
 .getStartedButton {
-  margin-top: $getStartedButtonMarginTop;
+  width: fit-content;
+  margin-top: $marginBig;
 }
 
-.advantagesBlock {
+.advantagesBlock,
+.buildSystemBlock,
+.aboutProjectBlock {
   align-items: center;
-  padding: $homePaddingBigBlock $paddingMedium 0;
+  padding: 0 $paddingMedium $homePaddingBigBlock;
+  margin: 0 auto;
   background-color: var(--generalPrimaryColor);
-  gap: $homeGap;
-}
-
-.goals {
-  width: 100%;
-  max-width: $widthBlock;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  padding: $homePaddingSmallBlock $paddingMedium;
-  border: 1px solid var(--secondaryStrokeColor);
-  border-radius: $homeBorderRadius;
   gap: $gapBig;
 }
 
-.goalsTitle {
+.aboutProjectBlock {
+  flex-wrap: wrap;
+}
+
+.advantages,
+.systemItems,
+.aboutProjectItems {
+  max-width: $maxWidthContainer;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: $paddingBig $paddingMedium;
+  gap: $gapExtraLarge;
+}
+
+.advantagesTitle,
+.systemBlockTitle,
+.aboutAppBlockTitle {
   color: var(--secondaryTextColor);
 
   & h2 {
@@ -67,94 +82,57 @@ $widthBlock: 1305px;
   }
 }
 
-.goalsSubTitle {
-  & h3 {
-    font-size: $fontSizeTitleSmall;
-  }
+.advantagesDescription,
+.systemBlockDescription {
+  max-width: $maxWidthBlock;
+  color: var(--secondaryTextColor);
+  font-size: $fontSizeBig;
+  line-height: $lineHeightPrimary;
+  text-align: center;
 }
 
-.aboutProjectBlock {
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  padding: $homePaddingBigBlock $paddingMedium 0;
-  background-color: var(--generalPrimaryColor);
-  gap: $homeGapBig;
+.aboutAppBlockDescription {
+  font-size: $fontSizeLarge;
+  gap: $gapLarge;
+  line-height: $lineHeightPrimary;
 }
 
 .aboutProjectImage {
-  max-width: $homeMaxWidthImage;
-}
-
-.aboutProjectText {
-  gap: $gapSmall;
-}
-
-.aboutProjectDescription,
-.whatWeAreDescription {
+  min-width: $minWidthBlock;
   max-width: $maxWidthBlock;
+}
+
+.aboutProjectDescription {
+  flex: 1;
   color: var(--secondaryTextColor);
-  font-size: $fontSizeTitleSmall;
-  gap: $homeGap;
-  list-style-position: inside;
+  gap: $gapLarge;
 
   @media (max-width: $mediaWidthMobileBig) {
     align-items: center;
   }
 }
 
+.aboutAppGetStartedButton,
 .aboutProjectGetStartedButton {
   width: fit-content;
 }
 
-.whatWeAreBlock {
-  flex-wrap: wrap;
+.aboutAppBlock {
   align-items: center;
-  justify-content: center;
-  padding: $homePaddingBigBlock $paddingMedium;
-  background-color: var(--generalPrimaryColor);
-  gap: $homeGapBig;
-}
-
-.whatWeAreImage {
-  max-width: $homeMaxWidthImage;
-  background-image: radial-gradient(
-    var(--quaternaryBgColor) 0,
-    var(--generalPrimaryColor) 70%
-  );
-  transform: scale(-1, 1);
-}
-
-.whatWeAreList {
-  gap: $homeGap;
-}
-
-.whatWeAreItem {
-  align-items: center;
-
-  & .icon {
-    min-width: $iconSizeMedium;
-  }
-}
-
-.icon {
-  stroke: var(--secondaryStrokeColor);
-}
-
-.whatWeAreButtons {
-  align-items: center;
-  gap: $homeGap;
+  gap: $gapLarge;
 
   @media (max-width: $mediaWidthMobileBig) {
     flex-direction: column;
   }
 }
 
-.whatWeAreDescription {
-  max-width: $maxWidthBlock;
+.aboutAppBlockButtons {
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $gapExtraBig;
 }
 
-.whatWeAreLink {
+.manifestoLink {
   color: var(--secondaryTextColor);
   font-size: $fontSizeTitleSmall;
 }

@@ -13,20 +13,26 @@
   },
   "title": {
     "ru": "Асинхронное обучение: путь к быстрым достижениям!",
-    "en": "Accelerate your goals with an asynchronous learning app",
+    "en": "Unlock Your Full Potential with Master's Way",
     "ua": "Асинхронне навчання: шлях до швидких здобутків!",
     "ka": "ასინქრონული სწავლა: გზა სწრაფი მიღწევებისკენ!"
   },
   "description": {
     "ru": "С подробными ежедневными отчетами и поддержкой наставников!",
-    "en": "With detailed daily reports and mentor support!",
+    "en": "Reach your goals by moving at your own speed, free from the constraints of location, time, and face-to-face interactions.",
     "ua": "З детальними щоденними звітами та підтримкою ментора!",
     "ka": "დეტალური ყოველდღიური მოხსენებებით და მენტორის მხარდაჭერით!"
   },
   "advantages": {
-    "goalsTitle": {
+    "advantagesTitle": {
       "ru": "Почему мы",
-      "en": "Why we are",
+      "en": "Achieve Your Goals Faster",
+      "ua": "Чому ми",
+      "ka": "რატომ ვართ"
+    },
+    "advantagesDescription": {
+      "ru": "Почему мы",
+      "en": "Our app is designed to provide a tailored learning experience, catering to your specific goals, learning style and available time. With features like customized learning paths, progress reports and collaborative tools, you'll be able to learn at your own pace and achieve your aspirations with greater ease and confidence.",
       "ua": "Чому ми",
       "ka": "რატომ ვართ"
     },
@@ -51,21 +57,15 @@
   },
   "startForFreeButton": {
     "ru": "Начать бесплатно!",
-    "en": "Start for free!",
+    "en": "Start your Way for Free",
     "ua": "Почати безкоштовно!",
     "ka": "უფასო დაწყება!"
   },
-  "tryNowButton": {
+  "getStartedButton": {
     "ru": "Попробуй сейчас!",
-    "en": "Try now!",
+    "en": "Get started",
     "ua": "Спробуємо зараз!",
     "ka": "სცადე ახლავე!"
-  },
-  "readMoreButton": {
-    "ru": "Читать далее",
-    "en": "Read more",
-    "ua": "Читати далі",
-    "ka": "Წაიკითხე მეტი"
   },
   "weAreHelpingBlock": {
     "title": {
@@ -74,45 +74,87 @@
       "ua": "Ми прагнемо вам допомогти",
       "ka": "ჩვენ მზად ვართ დაგეხმაროთ"
     },
-    "goals": {
-      "goalOne": {
+    "advantages": {
+      "personalizedLearning": {
         "title": {
           "ru": "Расширьте свои навыки",
-          "en": "Empower Your Skills",
+          "en": "Personalized Learning",
           "ua": "Розширюйте свої навички",
           "ka": "გააძლიერე შენი უნარები"
         },
         "description": {
           "ru": "Достигайте целей посредством асинхронного обучения при поддержке наставника",
-          "en": "Achieve Goals Through Asynchronous Learning with Mentor Support",
+          "en": "Unlike group courses, our platform allows you to work with the right mentor to suit your level and specific objectives, and move at your own pace.",
           "ua": "Досягайте цілей за допомогою асинхронного навчання з підтримкою наставника",
           "ka": "მიაღწიეთ მიზნებს ასინქრონული სწავლის გზით მენტორის მხარდაჭერით"
         }
       },
-      "goalTwo": {
+      "comprehensiveControl": {
         "title": {
           "ru": "Увеличьте производительность",
-          "en": "Increase your productivity",
+          "en": "Comprehensive Control",
           "ua": "Збільште продуктивність",
           "ka": "გაზარდეთ თქვენი პროდუქტიულობა"
         },
         "description": {
           "ru": "Оптимизируйте свой рост с помощью асинхронного обучения и наставничества",
-          "en": "Streamline Your Growth with Asynchronous Learning and Mentorship",
+          "en": "Clearly defined goals and metrics allow you and your mentor to quickly assess progress and make adjustments as needed.",
           "ua": "Оптимізуйте свій розвиток за допомогою асинхронного навчання та наставництва",
           "ka": "გაამარტივეთ თქვენი ზრდა ასინქრონული სწავლით და მენტორობით"
         }
       },
-      "goalThree": {
+      "fastFeedback": {
         "title": {
           "ru": "Овладейте своим успехом",
-          "en": "Master Your Success",
+          "en": "Fast Feedback Delivered Remotely",
           "ua": "Керуйте своїм успіхом",
           "ka": "დაეუფლე შენს წარმატებას"
         },
         "description": {
           "ru": "Использование наставничества в асинхронном обучении для эффективного роста",
-          "en": "Leveraging Mentorship in Asynchronous Learning for Efficient Growth",
+          "en": "Our app helps to streamline communication with your mentor through structured reports and task tracking, reducing the need for meetings.",
+          "ua": "Використання наставництва в асинхронному навчанні для ефективного зростання",
+          "ka": "მენტორობის გამოყენება ასინქრონულ სწავლაში ეფექტური ზრდისთვის"
+        }
+      },
+      "visualizationOfProgress": {
+        "title": {
+          "ru": "Овладейте своим успехом",
+          "en": "Visualization of Progress",
+          "ua": "Керуйте своїм успіхом",
+          "ka": "დაეუფლე შენს წარმატებას"
+        },
+        "description": {
+          "ru": "Использование наставничества в асинхронном обучении для эффективного роста",
+          "en": "With structured graphs and reports, you can not only reflect on your progress, but also share it with others (e.g. attach an informative report of the learning path to your CV).",
+          "ua": "Використання наставництва в асинхронному навчанні для ефективного зростання",
+          "ka": "მენტორობის გამოყენება ასინქრონულ სწავლაში ეფექტური ზრდისთვის"
+        }
+      },
+      "supportiveNetwork": {
+        "title": {
+          "ru": "Овладейте своим успехом",
+          "en": "Supportive Network",
+          "ua": "Керуйте своїм успіхом",
+          "ka": "დაეუფლე შენს წარმატებას"
+        },
+        "description": {
+          "ru": "Использование наставничества в асинхронном обучении для эффективного роста",
+          "en": "Connect with fellow learners, fostering peer-to-peer support and enhancing your self-learning capabilities.",
+          "ua": "Використання наставництва в асинхронному навчанні для ефективного зростання",
+          "ka": "მენტორობის გამოყენება ასინქრონულ სწავლაში ეფექტური ზრდისთვის"
+        }
+      },
+      "timeSavingEfficiency": {
+        "title": {
+          "ru": "Овладейте своим успехом",
+          "en": "Time-saving Efficiency",
+          "ua": "Керуйте своїм успіхом",
+          "ka": "დაეუფლე შენს წარმატებას"
+        },
+        "description": {
+          "ru": "Использование наставничества в асинхронном обучении для эффективного роста",
+          "en": "With a comprehensive learning history, new mentors can quickly understand your needs and provide targeted guidance.",
           "ua": "Використання наставництва в асинхронному навчанні для ефективного зростання",
           "ka": "მენტორობის გამოყენება ასინქრონულ სწავლაში ეფექტური ზრდისთვის"
         }
@@ -122,59 +164,15 @@
   "aboutAppBlock": {
     "title": {
       "ru": "Кто мы",
-      "en": "Who we are",
+      "en": "Master Your Learning Journey",
       "ua": "Хто ми",
       "ka": "Ვინ ვართ"
     },
-    "subTitle": {
-    "ru": "Наша главная цель – помочь каждому достичь своей цели!",
-    "en": "Our main goal is to help anyone to achieve their goal!",
-    "ua": "Наша головна мета - допомогти кожному досягти своєї мети!",
-    "ka": "ჩვენი მთავარი მიზანია დავეხმაროთ ნებისმიერს თავისი მიზნის მიღწევაში!"
-    },
     "description": {
       "ru": "Мы стараемся сделать ваш путь максимально коротким, прямым и прозрачным для ваших наставников. Мы постараемся сосредоточиться на:",
-      "en": "We try to make your path as short, direct, and transparent as possible for your mentors. We will try to focus on:",
+      "en": "Our app is paving the way for a more accessible, transparent and effective educational landscape. Whether you're looking to acquire new skills, change careers, or simply explore your personal interests, Master's Way empowers you to take control of your learning journey and unlock your full potential with the guidance of experienced mentors.",
       "ua": "Ми намагаємося зробити ваш шлях максимально коротким, прямим і прозорим для ваших наставників. Спробуємо акцентувати увагу на:",
       "ka": "ჩვენ ვცდილობთ თქვენი გზა გავხადოთ რაც შეიძლება მოკლე, პირდაპირი და გამჭვირვალე თქვენი მენტორებისთვის. ჩვენ შევეცდებით ყურადღება გავამახვილოთ:"
-    },
-    "endDescription": {
-      "ru": "Также можно использовать возможность воспроизведения реально существующего пути, пройденного реальным человеком (не по рассказам учителя и не по памяти ученика).",
-      "en": "You can also use the possibility of replicating a real existing path traveled by a real person (not from teacher's stories and not from student's memory).",
-      "ua": "Також можна використати можливість відтворити реально існуючий шлях, пройдений реальною людиною (не з розповідей учителя і не з пам’яті учня).",
-      "ka": "თქვენ ასევე შეგიძლიათ გამოიყენოთ რეალური ადამიანის მიერ გავლილი რეალური გზის გამეორების შესაძლებლობა (არა მასწავლებლის მოთხრობებიდან და არა მოსწავლის მეხსიერებიდან)."
-    },
-    "reasonOne": {
-      "ru": "Весь процесс обучения асинхронный, в любое удобное время",
-      "en": "The entire learning process is asynchronous, at any convenient time",
-      "ua": "Весь процес навчання відбувається асинхронно, в будь-який зручний час",
-      "ka": "მთელი სასწავლო პროცესი ასინქრონულია, ნებისმიერ მოსახერხებელ დროს"
-    },
-    "reasonTwo": {
-      "ru": "Ретроспективный анализ пройденного пути",
-      "en": "Retrospective analysis of the path you have traveled",
-      "ua": "Ретроспективний аналіз пройденого шляху",
-      "ka": "თქვენ მიერ განვლილი გზის რეტროსპექტული ანალიზი"
-    },
-    "reasonThree": {
-      "ru": "Оценка эффективности достижения цели",
-      "en": "Evaluation of the effectiveness of achieving the goal",
-      "ua": "Оцінка ефективності досягнення мети",
-      "ka": "მიზნის მიღწევის ეფექტურობის შეფასება"
-    },
-    "reasonFour": {
-      "ru": "Обеспечение быстрой и дешевой (по времени) обратной связи от наставника",
-      "en": "Providing quick and cheap (in terms of time) feedback from the mentor",
-      "ua": "Надання швидкого та дешевого (за часом) зворотного зв’язку від ментора",
-      "ka": "სწრაფი და იაფი (დროის თვალსაზრისით) უკუკავშირის მიწოდება მენტორისგან"
-    }
-  },
-  "whatWeAreBlock": {
-    "title": {
-      "ru": "Что мы",
-      "en": "What we are",
-      "ua": "Що ми є",
-      "ka": "რაც ჩვენ ვართ"
     },
     "readManifesto": {
       "ru": "Читать манифест",
@@ -187,6 +185,62 @@
       "en": "https://drive.google.com/file/d/1yhKtYlhyZz0M3I0QLyDN5SFj5z0_4HXV/view?usp=drive_link",
       "ua": "https://drive.google.com/file/d/1yhKtYlhyZz0M3I0QLyDN5SFj5z0_4HXV/view?usp=drive_link",
       "ka": "https://drive.google.com/file/d/1yhKtYlhyZz0M3I0QLyDN5SFj5z0_4HXV/view?usp=drive_link"
+    }
+  },
+  "systemBlock": {
+    "title": {
+      "ru": "Что мы",
+      "en": "Build a system that helps to manage your learning process",
+      "ua": "Що ми є",
+      "ka": "რაც ჩვენ ვართ"
+    },
+    "description": {
+      "ru": "Мы стараемся сделать ваш путь максимально коротким, прямым и прозрачным для ваших наставников. Мы постараемся сосредоточиться на:",
+      "en": "Acquire new skills faster and more effectively with daily reports and the guidance of a mentor.",
+      "ua": "Ми намагаємося зробити ваш шлях максимально коротким, прямим і прозорим для ваших наставників. Спробуємо акцентувати увагу на:",
+      "ka": "ჩვენ ვცდილობთ თქვენი გზა გავხადოთ რაც შეიძლება მოკლე, პირდაპირი და გამჭვირვალე თქვენი მენტორებისთვის. ჩვენ შევეცდებით ყურადღება გავამახვილოთ:"
+    },
+    "createWay": {
+      "title": {
+        "ru": "Что мы",
+        "en": "Create a Way",
+        "ua": "Що ми є",
+        "ka": "რაც ჩვენ ვართ"
+      },
+      "description": {
+        "ru": "Что мы",
+        "en": "Think about which area you want to grow in and then just get started!",
+        "ua": "Що ми є",
+        "ka": "რაც ჩვენ ვართ"
+      }
+    },
+    "SetGoalAndMetrics": {
+      "title": {
+        "ru": "Что мы",
+        "en": "Set a Goal and Metrics",
+        "ua": "Що ми є",
+        "ka": "რაც ჩვენ ვართ"
+      },
+      "description": {
+        "ru": "Что мы",
+        "en": "Сraft a goal you're eager to achieve. Make it SMART by adding some metrics to measure your progress.",
+        "ua": "Що ми є",
+        "ka": "რაც ჩვენ ვართ"
+      }
+    },
+    "trackProgress": {
+      "title": {
+        "ru": "Что мы",
+        "en": "Track and Share Your Progress",
+        "ua": "Що ми є",
+        "ka": "რაც ჩვენ ვართ"
+      },
+      "description": {
+        "ru": "Что мы",
+        "en": "Create daily reports, monitor statistics and share them with fellow learners, mentors or potential employers.",
+        "ua": "Що ми є",
+        "ka": "რაც ჩვენ ვართ"
+      }
     }
   }
 }
