@@ -505,7 +505,7 @@
     "deleteJobTagQuestion": {
       "ru": "Вы уверены, что хотите удалить $jobTag из меток?",
       "en": "Are you sure you want to remove $jobTag from job labels?",
-      "ua": "Ви впевнені, що хочете видалити $ jobTag з міток?",
+      "ua": "Ви впевнені, що хочете видалити $jobTag з міток?",
       "ka": "დარწმუნებული ხართ, რომ გსურთ წაშალოთ $jobTag ეტიკეტებიდან?"
     },
     "jobTagPlaceholder": {
