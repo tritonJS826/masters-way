@@ -5,6 +5,7 @@ import homePageContent from "src/dictionary/HomePageContent.json";
 import {Theme} from "src/globalStore/ThemeStore";
 import sideBarContent from "src/dictionary/Sidebar.json";
 import testUserData from "cypress/fixtures/testUserDataFixture.json";
+import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
 
 afterEach(() => {
     cy.clearAllStorage();
@@ -80,6 +81,13 @@ describe('IsAuth Header scope tests', () => {
     });
 
     it('IsAuth_Header_UserNameLink', () => {
+        headerSelectors.getAvatar().click();
+
+        cy.url().should('match', /\/user\/[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$/);
+        userPersonalSelectors.descriptionSection.getName().should('have.text', testUserData.name);
+    });
+
+    it('IsAuth_Header_UserNameLinkOneWord', () => {
         const avatarExpected = testUserData.name.substring(0, 2).toUpperCase();
 
         headerSelectors.getAvatar().should('have.text', avatarExpected);
@@ -88,6 +96,7 @@ describe('IsAuth Header scope tests', () => {
     it('IsAuth_Header_NavigationBurgerMenu', () => {
         headerSelectors.getBurgerMenu().click();
         
+        navigationMenuSelectors.getNavigationMenu().should('exist');
         navigationMenuSelectors.menuItemLinks.getPersonalAreaItemLink().should('exist');
         navigationMenuSelectors.menuItemLinks.getSettingsItemLink().should('exist');
         navigationMenuSelectors.getLogoutButton().should('exist');
