@@ -107,6 +107,10 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     [Theme.DARK]: "#784DEA",
     [Theme.LIGHT]: "#F4F3FF",
   },
+  dropdownStrokeColor: {
+    [Theme.DARK]: "#8B85A1",
+    [Theme.LIGHT]: "#F4F3FF",
+  },
 };
 
 export const DEFAULT_THEME = Theme.DARK;
