@@ -5,28 +5,36 @@ $privacyPaddingTop: 10px;
 $privacyPaddingBottom: 12px;
 $iconSize: 32px;
 $privacyLineHeight: 140%;
+$socialTextFontWeight: 500;
 
 .footer {
   background-color: var(--quaternaryBgColor);
-  margin-inline: $paddingMedium;
 }
 
 .footerWrapper {
-  width: 100%;
   max-width: $maxWidthContainer;
+  box-sizing: content-box;
+  flex-direction: column;
+  padding: 0 $paddingMedium;
+  margin: 0 auto;
+  gap: 0;
+}
+
+.socialLinks {
   align-items: flex-start;
   justify-content: space-between;
-  border-bottom: $primaryBorder solid var(--secondaryStrokeColor);
-  margin: 0 auto;
-  padding-block: $paddingBig;
+  padding: $paddingBig 0;
+}
+
+.ruler {
+  height: 1px;
+  border: none;
+  background-color: var(--secondaryStrokeColor);
 }
 
 .privacyLinks {
-  width: 100%;
-  max-width: $maxWidthContainer;
-  margin: 0 auto;
+  padding: $privacyPaddingTop 0 $privacyPaddingBottom 0;
   gap: $gapLarge;
-  padding-block: $privacyPaddingTop $privacyPaddingBottom;
 }
 
 .privacyLink {
@@ -48,7 +56,7 @@ $privacyLineHeight: 140%;
 }
 
 .socialMediaText {
-  font-weight: 500;
+  font-weight: $socialTextFontWeight;
 }
 
 .iconWrapper {
