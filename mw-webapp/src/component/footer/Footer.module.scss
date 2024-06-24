@@ -6,6 +6,7 @@ $privacyPaddingBottom: 12px;
 $iconSize: 32px;
 $privacyLineHeight: 140%;
 $socialTextFontWeight: 500;
+$rulerHeight: 1px;
 
 .footer {
   background-color: var(--quaternaryBgColor);
@@ -27,7 +28,7 @@ $socialTextFontWeight: 500;
 }
 
 .ruler {
-  height: 1px;
+  height: $rulerHeight;
   border: none;
   background-color: var(--secondaryStrokeColor);
 }
