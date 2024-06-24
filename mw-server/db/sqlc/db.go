@@ -303,6 +303,9 @@ func Prepare(ctx context.Context, db DBTX) (*Queries, error) {
 	if q.getWayCollectionsCountByUserIdStmt, err = db.PrepareContext(ctx, getWayCollectionsCountByUserId); err != nil {
 		return nil, fmt.Errorf("error preparing query GetWayCollectionsCountByUserId: %w", err)
 	}
+	if q.getWayDetailsByIdStmt, err = db.PrepareContext(ctx, getWayDetailsById); err != nil {
+		return nil, fmt.Errorf("error preparing query GetWayDetailsById: %w", err)
+	}
 	if q.getWayTagByNameStmt, err = db.PrepareContext(ctx, getWayTagByName); err != nil {
 		return nil, fmt.Errorf("error preparing query GetWayTagByName: %w", err)
 	}
@@ -821,6 +824,11 @@ func (q *Queries) Close() error {
 			err = fmt.Errorf("error closing getWayCollectionsCountByUserIdStmt: %w", cerr)
 		}
 	}
+	if q.getWayDetailsByIdStmt != nil {
+		if cerr := q.getWayDetailsByIdStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing getWayDetailsByIdStmt: %w", cerr)
+		}
+	}
 	if q.getWayTagByNameStmt != nil {
 		if cerr := q.getWayTagByNameStmt.Close(); cerr != nil {
 			err = fmt.Errorf("error closing getWayTagByNameStmt: %w", cerr)
@@ -1032,6 +1040,7 @@ type Queries struct {
 	getWayByIdStmt                              *sql.Stmt
 	getWayCollectionJoinWayByUserIdStmt         *sql.Stmt
 	getWayCollectionsByUserIdStmt               *sql.Stmt
+	getWayDetailsByIdStmt                       *sql.Stmt
 	getWayCollectionsCountByUserIdStmt          *sql.Stmt
 	getWayTagByNameStmt                         *sql.Stmt
 	getWaysByCollectionIdStmt                   *sql.Stmt
@@ -1147,6 +1156,7 @@ func (q *Queries) WithTx(tx *sql.Tx) *Queries {
 		getWayByIdStmt:                              q.getWayByIdStmt,
 		getWayCollectionJoinWayByUserIdStmt:         q.getWayCollectionJoinWayByUserIdStmt,
 		getWayCollectionsByUserIdStmt:               q.getWayCollectionsByUserIdStmt,
+		getWayDetailsByIdStmt:                       q.getWayDetailsByIdStmt,
 		getWayCollectionsCountByUserIdStmt:          q.getWayCollectionsCountByUserIdStmt,
 		getWayTagByNameStmt:                         q.getWayTagByNameStmt,
 		getWaysByCollectionIdStmt:                   q.getWaysByCollectionIdStmt,

@@ -240,3 +240,47 @@ RETURNING *,
 -- name: DeleteWay :exec
 DELETE FROM ways
 WHERE uuid = $1;
+
+-- name: GetWayDetailsById :many
+SELECT
+    w.uuid AS way_uuid,
+    w.name AS way_name,
+    w.goal_description AS way_goal_description,
+    w.updated_at AS way_updated_at,
+    w.created_at AS way_created_at,
+    w.estimation_time AS way_estimation_time,
+    w.is_completed AS way_is_completed,
+    w.copied_from_way_uuid AS way_copied_from_way_uuid,
+    w.is_private AS way_is_private,
+    ARRAY(
+            SELECT composite_ways.child_uuid
+            FROM composite_ways
+            WHERE composite_ways.parent_uuid = w.uuid
+    )::VARCHAR[] AS children_uuids,
+    u.uuid AS owner_uuid,
+    u.name AS owner_name,
+    u.email AS owner_email,
+    u.description AS owner_description,
+    u.created_at AS owner_created_at,
+    u.image_url AS owner_image_url,
+    u.is_mentor AS owner_is_mentor,
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = w.uuid) AS way_metrics_total,
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = w.uuid AND metrics.is_done = true) AS way_metrics_done,
+    (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = w.uuid) AS way_favorite_for_users,
+    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = w.uuid) AS way_day_reports_amount,
+    mw.user_uuid AS mentor_uuid,
+    mu.name AS mentor_name,
+    mu.email AS mentor_email,
+    mu.description AS mentor_description,
+    mu.created_at AS mentor_created_at,
+    mu.image_url AS mentor_image_url,
+    mu.is_mentor AS mentor_is_mentor,
+    wt.uuid AS tag_uuid,
+    wt.name AS tag_name
+FROM ways w
+         JOIN users u ON u.uuid = w.owner_uuid
+         LEFT JOIN mentor_users_ways mw ON w.uuid = mw.way_uuid
+         LEFT JOIN users mu ON mu.uuid = mw.user_uuid
+         LEFT JOIN ways_way_tags wwt ON w.uuid = wwt.way_uuid
+         LEFT JOIN way_tags wt ON wt.uuid = wwt.way_tag_uuid
+WHERE w.uuid = $1;

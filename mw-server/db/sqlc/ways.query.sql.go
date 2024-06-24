@@ -514,6 +514,138 @@ func (q *Queries) GetWayById(ctx context.Context, wayUuid uuid.UUID) (GetWayById
 	return i, err
 }
 
+const getWayDetailsById = `-- name: GetWayDetailsById :many
+SELECT
+    w.uuid AS way_uuid,
+    w.name AS way_name,
+    w.goal_description AS way_goal_description,
+    w.updated_at AS way_updated_at,
+    w.created_at AS way_created_at,
+    w.estimation_time AS way_estimation_time,
+    w.is_completed AS way_is_completed,
+    w.copied_from_way_uuid AS way_copied_from_way_uuid,
+    w.is_private AS way_is_private,
+    ARRAY(
+            SELECT composite_ways.child_uuid
+            FROM composite_ways
+            WHERE composite_ways.parent_uuid = w.uuid
+    )::VARCHAR[] AS children_uuids,
+    u.uuid AS owner_uuid,
+    u.name AS owner_name,
+    u.email AS owner_email,
+    u.description AS owner_description,
+    u.created_at AS owner_created_at,
+    u.image_url AS owner_image_url,
+    u.is_mentor AS owner_is_mentor,
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = w.uuid) AS way_metrics_total,
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = w.uuid AND metrics.is_done = true) AS way_metrics_done,
+    (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = w.uuid) AS way_favorite_for_users,
+    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = w.uuid) AS way_day_reports_amount,
+    mw.user_uuid AS mentor_uuid,
+    mu.name AS mentor_name,
+    mu.email AS mentor_email,
+    mu.description AS mentor_description,
+    mu.created_at AS mentor_created_at,
+    mu.image_url AS mentor_image_url,
+    mu.is_mentor AS mentor_is_mentor,
+    wt.uuid AS tag_uuid,
+    wt.name AS tag_name
+FROM ways w
+         JOIN users u ON u.uuid = w.owner_uuid
+         LEFT JOIN mentor_users_ways mw ON w.uuid = mw.way_uuid
+         LEFT JOIN users mu ON mu.uuid = mw.user_uuid
+         LEFT JOIN ways_way_tags wwt ON w.uuid = wwt.way_uuid
+         LEFT JOIN way_tags wt ON wt.uuid = wwt.way_tag_uuid
+WHERE w.uuid = $1
+`
+
+type GetWayDetailsByIdRow struct {
+	WayUuid              uuid.UUID      `json:"way_uuid"`
+	WayName              string         `json:"way_name"`
+	WayGoalDescription   string         `json:"way_goal_description"`
+	WayUpdatedAt         time.Time      `json:"way_updated_at"`
+	WayCreatedAt         time.Time      `json:"way_created_at"`
+	WayEstimationTime    int32          `json:"way_estimation_time"`
+	WayIsCompleted       bool           `json:"way_is_completed"`
+	WayCopiedFromWayUuid uuid.NullUUID  `json:"way_copied_from_way_uuid"`
+	WayIsPrivate         bool           `json:"way_is_private"`
+	ChildrenUuids        []string       `json:"children_uuids"`
+	OwnerUuid            uuid.UUID      `json:"owner_uuid"`
+	OwnerName            string         `json:"owner_name"`
+	OwnerEmail           string         `json:"owner_email"`
+	OwnerDescription     string         `json:"owner_description"`
+	OwnerCreatedAt       time.Time      `json:"owner_created_at"`
+	OwnerImageUrl        string         `json:"owner_image_url"`
+	OwnerIsMentor        bool           `json:"owner_is_mentor"`
+	WayMetricsTotal      int64          `json:"way_metrics_total"`
+	WayMetricsDone       int64          `json:"way_metrics_done"`
+	WayFavoriteForUsers  int64          `json:"way_favorite_for_users"`
+	WayDayReportsAmount  int64          `json:"way_day_reports_amount"`
+	MentorUuid           uuid.NullUUID  `json:"mentor_uuid"`
+	MentorName           sql.NullString `json:"mentor_name"`
+	MentorEmail          sql.NullString `json:"mentor_email"`
+	MentorDescription    sql.NullString `json:"mentor_description"`
+	MentorCreatedAt      sql.NullTime   `json:"mentor_created_at"`
+	MentorImageUrl       sql.NullString `json:"mentor_image_url"`
+	MentorIsMentor       sql.NullBool   `json:"mentor_is_mentor"`
+	TagUuid              uuid.NullUUID  `json:"tag_uuid"`
+	TagName              sql.NullString `json:"tag_name"`
+}
+
+func (q *Queries) GetWayDetailsById(ctx context.Context, argUuid uuid.UUID) ([]GetWayDetailsByIdRow, error) {
+	rows, err := q.query(ctx, q.getWayDetailsByIdStmt, getWayDetailsById, argUuid)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []GetWayDetailsByIdRow{}
+	for rows.Next() {
+		var i GetWayDetailsByIdRow
+		if err := rows.Scan(
+			&i.WayUuid,
+			&i.WayName,
+			&i.WayGoalDescription,
+			&i.WayUpdatedAt,
+			&i.WayCreatedAt,
+			&i.WayEstimationTime,
+			&i.WayIsCompleted,
+			&i.WayCopiedFromWayUuid,
+			&i.WayIsPrivate,
+			pq.Array(&i.ChildrenUuids),
+			&i.OwnerUuid,
+			&i.OwnerName,
+			&i.OwnerEmail,
+			&i.OwnerDescription,
+			&i.OwnerCreatedAt,
+			&i.OwnerImageUrl,
+			&i.OwnerIsMentor,
+			&i.WayMetricsTotal,
+			&i.WayMetricsDone,
+			&i.WayFavoriteForUsers,
+			&i.WayDayReportsAmount,
+			&i.MentorUuid,
+			&i.MentorName,
+			&i.MentorEmail,
+			&i.MentorDescription,
+			&i.MentorCreatedAt,
+			&i.MentorImageUrl,
+			&i.MentorIsMentor,
+			&i.TagUuid,
+			&i.TagName,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getWaysByCollectionId = `-- name: GetWaysByCollectionId :many
 SELECT
     ways.uuid,
