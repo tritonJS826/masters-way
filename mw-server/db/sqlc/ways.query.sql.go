@@ -514,6 +514,89 @@ func (q *Queries) GetWayById(ctx context.Context, wayUuid uuid.UUID) (GetWayById
 	return i, err
 }
 
+const getWayDetailsByID = `-- name: GetWayDetailsByID :one
+WITH favorite_count AS (
+    SELECT COUNT(*) AS favorite_for_users_amount
+    FROM favorite_users_ways
+    WHERE way_uuid = $1
+)
+SELECT
+    w.uuid,
+    w.name,
+    w.goal_description,
+    w.updated_at,
+    w.created_at,
+    w.estimation_time,
+    w.is_completed,
+    w.is_private,
+    COALESCE(fc.favorite_for_users_amount, 0) AS favorite_for_users_amount,
+    w.copied_from_way_uuid,
+    (ARRAY(
+        SELECT composite_ways.child_uuid
+        FROM composite_ways
+        WHERE composite_ways.parent_uuid = w.uuid
+    )::UUID[]) AS children_uuids,
+    u.uuid AS owner_uuid,
+    u.name AS owner_name,
+    u.email AS owner_email,
+    u.description AS owner_description,
+    u.created_at AS owner_created_at,
+    u.image_url AS owner_image_url,
+    u.is_mentor AS owner_is_mentor
+FROM ways w
+JOIN users u ON u.uuid = w.owner_uuid
+LEFT JOIN favorite_count fc ON true
+WHERE w.uuid = $1
+LIMIT 1
+`
+
+type GetWayDetailsByIDRow struct {
+	Uuid                   uuid.UUID     `json:"uuid"`
+	Name                   string        `json:"name"`
+	GoalDescription        string        `json:"goal_description"`
+	UpdatedAt              time.Time     `json:"updated_at"`
+	CreatedAt              time.Time     `json:"created_at"`
+	EstimationTime         int32         `json:"estimation_time"`
+	IsCompleted            bool          `json:"is_completed"`
+	IsPrivate              bool          `json:"is_private"`
+	FavoriteForUsersAmount int64         `json:"favorite_for_users_amount"`
+	CopiedFromWayUuid      uuid.NullUUID `json:"copied_from_way_uuid"`
+	ChildrenUuids          []uuid.UUID   `json:"children_uuids"`
+	OwnerUuid              uuid.UUID     `json:"owner_uuid"`
+	OwnerName              string        `json:"owner_name"`
+	OwnerEmail             string        `json:"owner_email"`
+	OwnerDescription       string        `json:"owner_description"`
+	OwnerCreatedAt         time.Time     `json:"owner_created_at"`
+	OwnerImageUrl          string        `json:"owner_image_url"`
+	OwnerIsMentor          bool          `json:"owner_is_mentor"`
+}
+
+func (q *Queries) GetWayDetailsByID(ctx context.Context, argUuid uuid.UUID) (GetWayDetailsByIDRow, error) {
+	row := q.queryRow(ctx, q.getWayDetailsByIDStmt, getWayDetailsByID, argUuid)
+	var i GetWayDetailsByIDRow
+	err := row.Scan(
+		&i.Uuid,
+		&i.Name,
+		&i.GoalDescription,
+		&i.UpdatedAt,
+		&i.CreatedAt,
+		&i.EstimationTime,
+		&i.IsCompleted,
+		&i.IsPrivate,
+		&i.FavoriteForUsersAmount,
+		&i.CopiedFromWayUuid,
+		pq.Array(&i.ChildrenUuids),
+		&i.OwnerUuid,
+		&i.OwnerName,
+		&i.OwnerEmail,
+		&i.OwnerDescription,
+		&i.OwnerCreatedAt,
+		&i.OwnerImageUrl,
+		&i.OwnerIsMentor,
+	)
+	return i, err
+}
+
 const getWaysByCollectionId = `-- name: GetWaysByCollectionId :many
 SELECT
     ways.uuid,

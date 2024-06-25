@@ -303,6 +303,9 @@ func Prepare(ctx context.Context, db DBTX) (*Queries, error) {
 	if q.getWayCollectionsCountByUserIdStmt, err = db.PrepareContext(ctx, getWayCollectionsCountByUserId); err != nil {
 		return nil, fmt.Errorf("error preparing query GetWayCollectionsCountByUserId: %w", err)
 	}
+	if q.getWayDetailsByIDStmt, err = db.PrepareContext(ctx, getWayDetailsByID); err != nil {
+		return nil, fmt.Errorf("error preparing query GetWayDetailsByID: %w", err)
+	}
 	if q.getWayTagByNameStmt, err = db.PrepareContext(ctx, getWayTagByName); err != nil {
 		return nil, fmt.Errorf("error preparing query GetWayTagByName: %w", err)
 	}
@@ -821,6 +824,11 @@ func (q *Queries) Close() error {
 			err = fmt.Errorf("error closing getWayCollectionsCountByUserIdStmt: %w", cerr)
 		}
 	}
+	if q.getWayDetailsByIDStmt != nil {
+		if cerr := q.getWayDetailsByIDStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing getWayDetailsByIDStmt: %w", cerr)
+		}
+	}
 	if q.getWayTagByNameStmt != nil {
 		if cerr := q.getWayTagByNameStmt.Close(); cerr != nil {
 			err = fmt.Errorf("error closing getWayTagByNameStmt: %w", cerr)
@@ -1033,6 +1041,7 @@ type Queries struct {
 	getWayCollectionJoinWayByUserIdStmt         *sql.Stmt
 	getWayCollectionsByUserIdStmt               *sql.Stmt
 	getWayCollectionsCountByUserIdStmt          *sql.Stmt
+	getWayDetailsByIDStmt                       *sql.Stmt
 	getWayTagByNameStmt                         *sql.Stmt
 	getWaysByCollectionIdStmt                   *sql.Stmt
 	isAllMetricsDoneStmt                        *sql.Stmt
@@ -1148,6 +1157,7 @@ func (q *Queries) WithTx(tx *sql.Tx) *Queries {
 		getWayCollectionJoinWayByUserIdStmt:         q.getWayCollectionJoinWayByUserIdStmt,
 		getWayCollectionsByUserIdStmt:               q.getWayCollectionsByUserIdStmt,
 		getWayCollectionsCountByUserIdStmt:          q.getWayCollectionsCountByUserIdStmt,
+		getWayDetailsByIDStmt:                       q.getWayDetailsByIDStmt,
 		getWayTagByNameStmt:                         q.getWayTagByNameStmt,
 		getWaysByCollectionIdStmt:                   q.getWaysByCollectionIdStmt,
 		isAllMetricsDoneStmt:                        q.isAllMetricsDoneStmt,

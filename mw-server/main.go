@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"time"
 
 	"mwserver/config"
 	"mwserver/controllers"
@@ -107,6 +108,10 @@ func init() {
 		log.Fatalf("Could not connect to database: %v", err)
 	}
 
+	conn.SetMaxOpenConns(10) // Максимальное количество открытых соединений
+	conn.SetMaxIdleConns(6)  // Максимальное количество простых соединений
+	conn.SetConnMaxLifetime(30 * time.Second)
+
 	db = dbCon.New(conn)
 
 	fmt.Println("PostgreSql connected successfully...")
@@ -204,6 +209,7 @@ func init() {
 // @version 1.0
 // @BasePath  /api
 func main() {
+	defer db.Close()
 	router := server.Group("/api")
 
 	router.GET("/healthcheck", func(ctx *gin.Context) {

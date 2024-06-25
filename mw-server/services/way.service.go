@@ -6,6 +6,7 @@ import (
 	dbb "mwserver/db/sqlc"
 	"mwserver/schemas"
 	"mwserver/util"
+	"sync"
 	"time"
 
 	"github.com/google/uuid"
@@ -18,19 +19,51 @@ type GetPopulatedWayByIdParams struct {
 }
 
 func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulatedWayByIdParams) (schemas.WayPopulatedResponse, error) {
-	way, err := db.GetWayById(ctx, params.WayUuid)
+	way, err := db.GetWayDetailsByID(ctx, params.WayUuid)
 	if err != nil {
 		return schemas.WayPopulatedResponse{}, err
 	}
 
-	wayOwner := schemas.UserPlainResponse{
-		Uuid:        way.OwnerUuid.String(),
-		Name:        way.OwnerName,
-		Email:       way.OwnerEmail,
-		Description: way.OwnerDescription,
-		CreatedAt:   way.OwnerCreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-		ImageUrl:    way.OwnerImageUrl,
-		IsMentor:    way.OwnerIsMentor,
+	var wg sync.WaitGroup
+	childrenChan := make(chan []schemas.WayPopulatedResponse, 1)
+
+	if len(way.ChildrenUuids) > 0 && params.CurrentChildrenDepth < int(limitMap[MaxCompositeWayDeps][dbb.PricingPlanTypeStarter]) {
+		go func() {
+			children := []schemas.WayPopulatedResponse{}
+			wg.Add(len(way.ChildrenUuids))
+			children = make([]schemas.WayPopulatedResponse, len(way.ChildrenUuids))
+			resultCh := make(chan struct {
+				index int
+				child schemas.WayPopulatedResponse
+			}, len(way.ChildrenUuids))
+
+			for i, childUuid := range way.ChildrenUuids {
+				go func(i int, childUuid uuid.UUID) {
+					defer wg.Done()
+					args := GetPopulatedWayByIdParams{
+						WayUuid:              childUuid,
+						CurrentChildrenDepth: params.CurrentChildrenDepth + 1,
+					}
+					child, _ := GetPopulatedWayById(db, ctx, args)
+					resultCh <- struct {
+						index int
+						child schemas.WayPopulatedResponse
+					}{i, child}
+				}(i, childUuid)
+			}
+
+			go func() {
+				wg.Wait()
+				close(resultCh)
+			}()
+
+			for result := range resultCh {
+				children[result.index] = result.child
+			}
+			childrenChan <- children
+		}()
+	} else {
+		close(childrenChan)
 	}
 
 	jobTagsRaw, _ := db.GetListJobTagsByWayUuid(ctx, params.WayUuid)
@@ -46,7 +79,6 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 		return jobTag.Uuid, jobTag
 	})
 
-	favoriteForUserAmount, _ := db.GetFavoriteForUserUuidsByWayId(ctx, params.WayUuid)
 	fromUserMentoringRequestsRaw, _ := db.GetFromUserMentoringRequestWaysByWayId(ctx, params.WayUuid)
 	fromUserMentoringRequests := lo.Map(fromUserMentoringRequestsRaw, func(fromUser dbb.User, i int) schemas.UserPlainResponse {
 		return schemas.UserPlainResponse{
@@ -105,6 +137,16 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 		}
 	})
 
+	wayOwner := schemas.UserPlainResponse{
+		Uuid:        way.OwnerUuid.String(),
+		Name:        way.OwnerName,
+		Email:       way.OwnerEmail,
+		Description: way.OwnerDescription,
+		CreatedAt:   way.OwnerCreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+		ImageUrl:    way.OwnerImageUrl,
+		IsMentor:    way.OwnerIsMentor,
+	}
+
 	allWayRelatedUsers := make([]schemas.UserPlainResponse, len(mentors)+len(formerMentors)+1)
 	allWayRelatedUsers = append(allWayRelatedUsers, mentors...)
 	allWayRelatedUsers = append(allWayRelatedUsers, formerMentors...)
@@ -114,139 +156,195 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 	})
 
 	dayReportsRaw, _ := db.GetListDayReportsByWayUuid(ctx, params.WayUuid)
-	dayReportUuids := lo.Map(dayReportsRaw, func(dbDayReport dbb.DayReport, i int) uuid.UUID {
-		return dbDayReport.Uuid
-	})
-
-	dbJobDones, _ := db.GetJobDonesByDayReportUuids(ctx, dayReportUuids)
-	jobDonesMap := make(map[string][]schemas.JobDonePopulatedResponse)
-	lo.ForEach(dbJobDones, func(dbJobDone dbb.GetJobDonesByDayReportUuidsRow, i int) {
-		jobDoneOwner := allWayRelatedUsersMap[dbJobDone.OwnerUuid.String()]
-		tags := lo.Map(dbJobDone.TagUuids, func(tagUuid string, i int) schemas.JobTagResponse {
-			return jobTagsMap[tagUuid]
-		})
-		jobDonesMap[dbJobDone.DayReportUuid.String()] = append(
-			jobDonesMap[dbJobDone.DayReportUuid.String()],
-			schemas.JobDonePopulatedResponse{
-				Uuid:          dbJobDone.Uuid.String(),
-				CreatedAt:     dbJobDone.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-				UpdatedAt:     dbJobDone.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-				Description:   dbJobDone.Description,
-				Time:          dbJobDone.Time,
-				OwnerUuid:     dbJobDone.OwnerUuid.String(),
-				OwnerName:     jobDoneOwner.Name,
-				DayReportUuid: dbJobDone.DayReportUuid.String(),
-				Tags:          tags,
-			},
-		)
-	})
-
-	dbPlans, _ := db.GetPlansByDayReportUuids(ctx, dayReportUuids)
-	plansMap := make(map[string][]schemas.PlanPopulatedResponse)
-	lo.ForEach(dbPlans, func(plan dbb.GetPlansByDayReportUuidsRow, i int) {
-		planOwner := allWayRelatedUsersMap[plan.OwnerUuid.String()]
-		tags := lo.Map(plan.TagUuids, func(tagUuid string, i int) schemas.JobTagResponse {
-			return jobTagsMap[tagUuid]
-		})
-		plansMap[plan.DayReportUuid.String()] = append(
-			plansMap[plan.DayReportUuid.String()],
-			schemas.PlanPopulatedResponse{
-				Uuid:          plan.Uuid.String(),
-				CreatedAt:     plan.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-				UpdatedAt:     plan.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-				Description:   plan.Description,
-				Time:          plan.Time,
-				OwnerUuid:     plan.OwnerUuid.String(),
-				OwnerName:     planOwner.Name,
-				DayReportUuid: plan.DayReportUuid.String(),
-				Tags:          tags,
-				IsDone:        plan.IsDone,
-			},
-		)
-	})
-
-	dbProblems, _ := db.GetProblemsByDayReportUuids(ctx, dayReportUuids)
-
-	problemsMap := make(map[string][]schemas.ProblemPopulatedResponse)
-	lo.ForEach(dbProblems, func(problem dbb.GetProblemsByDayReportUuidsRow, i int) {
-		problemOwner := allWayRelatedUsersMap[problem.OwnerUuid.String()]
-		tags := lo.Map(problem.TagUuids, func(tagUuid string, i int) schemas.JobTagResponse {
-			return jobTagsMap[tagUuid]
-		})
-		problemsMap[problem.DayReportUuid.String()] = append(
-			problemsMap[problem.DayReportUuid.String()],
-			schemas.ProblemPopulatedResponse{
-				Uuid:          problem.Uuid.String(),
-				CreatedAt:     problem.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-				UpdatedAt:     problem.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-				Description:   problem.Description,
-				OwnerUuid:     problem.OwnerUuid.String(),
-				OwnerName:     problemOwner.Name,
-				DayReportUuid: problem.DayReportUuid.String(),
-				Tags:          tags,
-				IsDone:        problem.IsDone,
-			},
-		)
-	})
-
-	dbComments, _ := db.GetListCommentsByDayReportUuids(ctx, dayReportUuids)
-	commentsMap := make(map[string][]schemas.CommentPopulatedResponse)
-	lo.ForEach(dbComments, func(comment dbb.Comment, i int) {
-		commentOwner := allWayRelatedUsersMap[comment.OwnerUuid.String()]
-		commentsMap[comment.DayReportUuid.String()] = append(
-			commentsMap[comment.DayReportUuid.String()],
-			schemas.CommentPopulatedResponse{
-				Uuid:          comment.Uuid.String(),
-				CreatedAt:     comment.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-				UpdatedAt:     comment.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-				Description:   comment.Description,
-				OwnerUuid:     commentOwner.Uuid,
-				OwnerName:     commentOwner.Name,
-				DayReportUuid: comment.DayReportUuid.String(),
-			},
-		)
-	})
-
 	dayReports := make([]schemas.DayReportPopulatedResponse, len(dayReportsRaw))
-	for i, dayReport := range dayReportsRaw {
+	if len(dayReportsRaw) > 0 {
+		dayReportUuids := lo.Map(dayReportsRaw, func(dbDayReport dbb.DayReport, i int) uuid.UUID {
+			return dbDayReport.Uuid
+		})
 
-		if jobDonesMap[dayReport.Uuid.String()] == nil {
-			jobDonesMap[dayReport.Uuid.String()] = []schemas.JobDonePopulatedResponse{}
-		}
-		if plansMap[dayReport.Uuid.String()] == nil {
-			plansMap[dayReport.Uuid.String()] = []schemas.PlanPopulatedResponse{}
-		}
-		if problemsMap[dayReport.Uuid.String()] == nil {
-			problemsMap[dayReport.Uuid.String()] = []schemas.ProblemPopulatedResponse{}
-		}
-		if commentsMap[dayReport.Uuid.String()] == nil {
-			commentsMap[dayReport.Uuid.String()] = []schemas.CommentPopulatedResponse{}
+		dbJobDones, _ := db.GetJobDonesByDayReportUuids(ctx, dayReportUuids)
+		jobDonesCh := make(chan map[string]schemas.JobDonePopulatedResponse)
+		for _, dbJobDone := range dbJobDones {
+			wg.Add(1)
+			go func(dbJobDone dbb.GetJobDonesByDayReportUuidsRow) {
+				defer wg.Done()
+				jobDoneOwner := allWayRelatedUsersMap[dbJobDone.OwnerUuid.String()]
+				tags := make([]schemas.JobTagResponse, len(dbJobDone.TagUuids))
+				for i, tagUuid := range dbJobDone.TagUuids {
+					tags[i] = jobTagsMap[tagUuid]
+				}
+				populatedJobDone := schemas.JobDonePopulatedResponse{
+					Uuid:          dbJobDone.Uuid.String(),
+					CreatedAt:     dbJobDone.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+					UpdatedAt:     dbJobDone.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+					Description:   dbJobDone.Description,
+					Time:          dbJobDone.Time,
+					OwnerUuid:     dbJobDone.OwnerUuid.String(),
+					OwnerName:     jobDoneOwner.Name,
+					DayReportUuid: dbJobDone.DayReportUuid.String(),
+					Tags:          tags,
+				}
+				jobDonesCh <- map[string]schemas.JobDonePopulatedResponse{dbJobDone.DayReportUuid.String(): populatedJobDone}
+			}(dbJobDone)
 		}
 
-		dayReports[i] = schemas.DayReportPopulatedResponse{
-			Uuid:      dayReport.Uuid.String(),
-			CreatedAt: dayReport.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-			UpdatedAt: dayReport.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-			IsDayOff:  dayReport.IsDayOff,
-			JobsDone:  jobDonesMap[dayReport.Uuid.String()],
-			Plans:     plansMap[dayReport.Uuid.String()],
-			Problems:  problemsMap[dayReport.Uuid.String()],
-			Comments:  commentsMap[dayReport.Uuid.String()],
+		go func() {
+			wg.Wait()
+			close(jobDonesCh)
+		}()
+
+		jobDonesMap := make(map[string][]schemas.JobDonePopulatedResponse)
+		for result := range jobDonesCh {
+			for key, val := range result {
+				jobDonesMap[key] = append(jobDonesMap[key], val)
+			}
+		}
+
+		dbPlans, _ := db.GetPlansByDayReportUuids(ctx, dayReportUuids)
+		plansCh := make(chan map[string]schemas.PlanPopulatedResponse)
+		for _, plan := range dbPlans {
+			wg.Add(1)
+			go func(plan dbb.GetPlansByDayReportUuidsRow) {
+				defer wg.Done()
+				planOwner := allWayRelatedUsersMap[plan.OwnerUuid.String()]
+				tags := make([]schemas.JobTagResponse, len(plan.TagUuids))
+				for i, tagUuid := range plan.TagUuids {
+					tags[i] = jobTagsMap[tagUuid]
+				}
+				populatedPlan := schemas.PlanPopulatedResponse{
+					Uuid:          plan.Uuid.String(),
+					CreatedAt:     plan.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+					UpdatedAt:     plan.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+					Description:   plan.Description,
+					Time:          plan.Time,
+					OwnerUuid:     plan.OwnerUuid.String(),
+					OwnerName:     planOwner.Name,
+					DayReportUuid: plan.DayReportUuid.String(),
+					Tags:          tags,
+					IsDone:        plan.IsDone,
+				}
+				plansCh <- map[string]schemas.PlanPopulatedResponse{plan.DayReportUuid.String(): populatedPlan}
+			}(plan)
+		}
+
+		go func() {
+			wg.Wait()
+			close(plansCh)
+		}()
+
+		plansMap := make(map[string][]schemas.PlanPopulatedResponse)
+		for result := range plansCh {
+			for key, val := range result {
+				plansMap[key] = append(plansMap[key], val)
+			}
+		}
+
+		dbProblems, _ := db.GetProblemsByDayReportUuids(ctx, dayReportUuids)
+		problemsCh := make(chan map[string]schemas.ProblemPopulatedResponse)
+		for _, problem := range dbProblems {
+			wg.Add(1)
+			go func(problem dbb.GetProblemsByDayReportUuidsRow) {
+				defer wg.Done()
+				problemOwner := allWayRelatedUsersMap[problem.OwnerUuid.String()]
+				tags := make([]schemas.JobTagResponse, len(problem.TagUuids))
+				for i, tagUuid := range problem.TagUuids {
+					tags[i] = jobTagsMap[tagUuid]
+				}
+				populatedProblem := schemas.ProblemPopulatedResponse{
+					Uuid:          problem.Uuid.String(),
+					CreatedAt:     problem.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+					UpdatedAt:     problem.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+					Description:   problem.Description,
+					OwnerUuid:     problem.OwnerUuid.String(),
+					OwnerName:     problemOwner.Name,
+					DayReportUuid: problem.DayReportUuid.String(),
+					Tags:          tags,
+					IsDone:        problem.IsDone,
+				}
+				problemsCh <- map[string]schemas.ProblemPopulatedResponse{problem.DayReportUuid.String(): populatedProblem}
+			}(problem)
+		}
+
+		go func() {
+			wg.Wait()
+			close(problemsCh)
+		}()
+
+		problemsMap := make(map[string][]schemas.ProblemPopulatedResponse)
+		for result := range problemsCh {
+			for key, val := range result {
+				problemsMap[key] = append(problemsMap[key], val)
+			}
+		}
+
+		dbComments, _ := db.GetListCommentsByDayReportUuids(ctx, dayReportUuids)
+		commentsCh := make(chan map[string]schemas.CommentPopulatedResponse)
+		for _, comment := range dbComments {
+			wg.Add(1)
+			go func(comment dbb.Comment) {
+				defer wg.Done()
+				commentOwner := allWayRelatedUsersMap[comment.OwnerUuid.String()]
+				populatedComment := schemas.CommentPopulatedResponse{
+					Uuid:          comment.Uuid.String(),
+					CreatedAt:     comment.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+					UpdatedAt:     comment.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+					Description:   comment.Description,
+					OwnerUuid:     commentOwner.Uuid,
+					OwnerName:     commentOwner.Name,
+					DayReportUuid: comment.DayReportUuid.String(),
+				}
+				commentsCh <- map[string]schemas.CommentPopulatedResponse{comment.DayReportUuid.String(): populatedComment}
+			}(comment)
+		}
+
+		go func() {
+			wg.Wait()
+			close(commentsCh)
+		}()
+
+		commentsMap := make(map[string][]schemas.CommentPopulatedResponse)
+		for result := range commentsCh {
+			for key, val := range result {
+				commentsMap[key] = append(commentsMap[key], val)
+			}
+		}
+
+		for i, dayReport := range dayReportsRaw {
+			dayReportUUID := dayReport.Uuid.String()
+			jobDones, exists := jobDonesMap[dayReportUUID]
+
+			if !exists {
+				jobDones = []schemas.JobDonePopulatedResponse{}
+			}
+			plans, exists := plansMap[dayReportUUID]
+			if !exists {
+				plans = []schemas.PlanPopulatedResponse{}
+			}
+			problems, exists := problemsMap[dayReportUUID]
+			if !exists {
+				problems = []schemas.ProblemPopulatedResponse{}
+			}
+			comments, exists := commentsMap[dayReportUUID]
+			if !exists {
+				comments = []schemas.CommentPopulatedResponse{}
+			}
+
+			dayReports[i] = schemas.DayReportPopulatedResponse{
+				Uuid:      dayReportUUID,
+				CreatedAt: dayReport.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+				UpdatedAt: dayReport.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+				IsDayOff:  dayReport.IsDayOff,
+				JobsDone:  jobDones,
+				Plans:     plans,
+				Problems:  problems,
+				Comments:  comments,
+			}
 		}
 	}
 
-	var children []schemas.WayPopulatedResponse
-	if params.CurrentChildrenDepth < int(limitMap[MaxCompositeWayDeps][dbb.PricingPlanTypeStarter]) {
-		children = lo.Map(way.ChildrenUuids, func(childUuid string, i int) schemas.WayPopulatedResponse {
-			args := GetPopulatedWayByIdParams{
-				WayUuid:              uuid.MustParse(childUuid),
-				CurrentChildrenDepth: params.CurrentChildrenDepth + 1,
-			}
-			child, _ := GetPopulatedWayById(db, ctx, args)
-
-			return child
-		})
-	} else {
+	wg.Wait()
+	children := <-childrenChan
+	if children == nil {
 		children = []schemas.WayPopulatedResponse{}
 	}
 
@@ -264,7 +362,7 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 		Mentors:                mentors,
 		FormerMentors:          formerMentors,
 		FromUserMentorRequests: fromUserMentoringRequests,
-		FavoriteForUsersAmount: int32(favoriteForUserAmount),
+		FavoriteForUsersAmount: int32(way.FavoriteForUsersAmount),
 		WayTags:                wayTags,
 		JobTags:                jobTags,
 		Metrics:                metrics,
