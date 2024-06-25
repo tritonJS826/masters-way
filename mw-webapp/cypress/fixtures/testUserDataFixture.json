@@ -1,3 +1,5 @@
 {
-    "userLoginLink": "http://localhost:8000/api/auth/login/local/test.user@gmail.com"
+    "userLoginLink": "http://localhost:8000/api/auth/login/local/test.user@gmail.com",
+    "name": "test.user@gmail.com",
+    "email": "test.user@gmail.com"
 }
