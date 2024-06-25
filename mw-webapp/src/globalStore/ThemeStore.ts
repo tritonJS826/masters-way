@@ -50,7 +50,7 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     [Theme.LIGHT]: "#A8A1DD",
   },
   // Icon circle background
-  iconBgColor: {
+  secondaryIconBgColor: {
     [Theme.DARK]: "#F4F3FF",
     [Theme.LIGHT]: "#F4F3FF",
   },
@@ -61,6 +61,10 @@ const themedVariables: Record<string, Record<Theme, string>> = {
   secondaryIconColor: {
     [Theme.DARK]: "#A8A1DD",
     [Theme.LIGHT]: "#A8A1DD",
+  },
+  tertiaryIconColor: {
+    [Theme.DARK]: "#1F173D",
+    [Theme.LIGHT]: "#1F173D",
   },
   hoverIconColor: {
     [Theme.DARK]: "#A8A1DD",

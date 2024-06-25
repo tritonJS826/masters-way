@@ -1,8 +1,6 @@
 @import "src/styles/variables";
 
 $logoHeight: 55px;
-$privacyPaddingTop: 10px;
-$privacyPaddingBottom: 12px;
 $iconSize: 32px;
 $privacyLineHeight: 140%;
 $socialTextFontWeight: 500;
@@ -34,7 +32,7 @@ $rulerHeight: 1px;
 }
 
 .privacyLinks {
-  padding: $privacyPaddingTop 0 $privacyPaddingBottom 0;
+  padding: $paddingSmall 0;
   gap: $gapLarge;
 }
 
@@ -42,7 +40,6 @@ $rulerHeight: 1px;
   color: var(--secondaryTextColor);
   font-size: $fontSizeBig;
   line-height: $privacyLineHeight;
-  text-decoration: none;
 }
 
 .logo {
@@ -53,7 +50,7 @@ $rulerHeight: 1px;
 
 .socialMedia {
   color: var(--secondaryTextColor);
-  gap: $gapSmall;
+  gap: $gapExtraSmall;
 }
 
 .socialMediaText {
@@ -67,11 +64,9 @@ $rulerHeight: 1px;
   align-items: center;
   justify-content: center;
   border-radius: $tertiaryBorderRadius;
-  background-color: var(--iconBgColor);
+  background-color: var(--secondaryIconBgColor);
 }
 
 .socialMediaIcon {
-  display: block;
-  background-color: var(--iconBgColor);
-  stroke: var(--quaternaryBgColor);
+  stroke: var(--tertiaryIconColor);
 }

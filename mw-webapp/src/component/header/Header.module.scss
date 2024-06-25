@@ -77,7 +77,7 @@ $userNameFontSize: 16px;
 .socialMediaIcon {
   border: 2px solid var(--secondaryStrokeColor);
   border-radius: $tertiaryBorderRadius;
-  background-color: var(--iconBgColor);
+  background-color: var(--secondaryIconBgColor);
   fill: var(--quaternaryBgColor);
   stroke: none;
 }
