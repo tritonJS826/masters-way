@@ -1,5 +1,6 @@
 import {headerAccessIds} from "cypress/accessIds/headerAccessIds";
 import {navigationMenuIds} from "cypress/accessIds/navigationMenuAccessIds";
+import {trackUserActivationButton, UserActivationAction, UserActivationLabel} from "src/analytics/userActivationsAnalytics";
 import google from "src/assets/google.svg";
 import logo from "src/assets/mastersWayLogo.svg";
 import logoLight from "src/assets/mastersWayLogoLight.svg";
@@ -22,7 +23,6 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {AuthDAL} from "src/dataAccessLogic/AuthDAL";
 import {Language} from "src/globalStore/LanguageStore";
 import {DEFAULT_THEME, Theme} from "src/globalStore/ThemeStore";
-import {trackUserActivationButton, UserActivationAction, UserActivationLabel} from "src/GoogleAnalytics";
 import {User} from "src/model/businessModel/User";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";

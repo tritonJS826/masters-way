@@ -1,6 +1,6 @@
 import {useEffect} from "react";
+import {GlobalErrorAction, trackGlobalErrors} from "src/analytics/globalErrorAnalytics";
 import {displayNotification} from "src/component/notification/Notification";
-import {GlobalErrorAction, trackGlobalErrors} from "src/GoogleAnalytics";
 
 /**
  * Handles global unhandled errors and promise rejections, displays notification with error message
