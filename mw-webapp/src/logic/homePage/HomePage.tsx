@@ -1,6 +1,7 @@
 import {NavigateFunction, useNavigate} from "react-router-dom";
 import {homeAccessIds} from "cypress/accessIds/homeAccessIds";
 import {observer} from "mobx-react-lite";
+import {trackUserActivationButton, UserActivationAction, UserActivationLabel} from "src/analytics/userActivationsAnalytics";
 import logoLight from "src/assets/mastersWayLogoLight.svg";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Footer} from "src/component/footer/Footer";
@@ -14,7 +15,6 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {AuthDAL} from "src/dataAccessLogic/AuthDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {userStore} from "src/globalStore/UserStore";
-import {trackUserActivationButton, UserActivationAction, UserActivationLabel} from "src/GoogleAnalytics";
 import {AdvantageItem} from "src/logic/homePage/advantageItem/AdvantageItem";
 import {SystemItem} from "src/logic/homePage/systemItem/SystemItem";
 import {pages} from "src/router/pages";
