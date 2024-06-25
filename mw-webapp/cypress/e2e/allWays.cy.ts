@@ -18,11 +18,13 @@ describe('All Ways scope tests', () => {
 
   it('NoAuth_AllWays_SelectTableView', () => {
     const tableHeadersEn = Object.values(allWaysPageContent.waysTable.columns).map(column => column.en);
-    tableHeadersEn.push(allWaysPageData.starSimbol);
+    tableHeadersEn.push(allWaysPageData.starSymbol);
 
     allWaysSelectors.filterViewBlock.getTableViewButton().click();
 
-    allWaysSelectors.allWaysTable.getTableTr().find('th').each((el, index) => {
+    allWaysSelectors.allWaysTable.getTable().should('exist');
+
+    allWaysSelectors.allWaysTable.getTableTh().each((el, index) => {
       cy.wrap(el).invoke('text').then((text) => {
       expect(text.trim()).equal(tableHeadersEn[index]);
       });

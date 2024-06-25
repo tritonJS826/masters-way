@@ -53,7 +53,7 @@ interface TableProps<T> {
   /**
    * Data attribute for cypress testing
    */
-  dataCyTr?: string;
+  dataCyTh?: string;
 }
 
 /**
@@ -72,12 +72,12 @@ export const Table = <T extends UuidProps, > (props: TableProps<TableData<T>>) =
           <tr
             className={styles.tr}
             key={headerGroup.id}
-            data-cy={props.dataCyTr}
           >
             {headerGroup.headers.map((header) => (
               <th
                 className={styles.th}
                 key={header.id}
+                data-cy={props.dataCyTh}
               >
                 {header.isPlaceholder
                   ? null
