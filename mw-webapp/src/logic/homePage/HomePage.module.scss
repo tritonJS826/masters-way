@@ -14,7 +14,7 @@ $homePaddingBigBlock: 128px;
 .welcomeBlock {
   max-width: $maxWidthContainer;
   align-items: end;
-  padding: 0 $paddingMedium $homePaddingBigBlock;
+  padding: 103px $paddingMedium $homePaddingBigBlock;
   margin: 0 auto;
   gap: $gapLarge;
   grid-template-columns: repeat(auto-fit, minmax($mediumWidthBlock, 1fr));
@@ -26,6 +26,10 @@ $homePaddingBigBlock: 128px;
 
 .welcomeInfoBlock {
   gap: $gapMedium;
+
+  @media (max-width: $mediaWidthMobileBig) {
+    align-items: center;
+  }
 }
 
 .welcomeImageBlock {
@@ -34,13 +38,21 @@ $homePaddingBigBlock: 128px;
 }
 
 .title {
-  margin-top: 255px;
+  margin-top: 152px;
   color: var(--secondaryTextColor);
+
+  @media (max-width: $mediaWidthMobileBig) {
+    text-align: center;
+  }
 }
 
 .titleDescription {
   color: var(--secondaryTextColor);
   font-weight: $fontWeightSemibold;
+
+  @media (max-width: $mediaWidthMobileBig) {
+    text-align: center;
+  }
 }
 
 .getStartedButton {
@@ -56,6 +68,10 @@ $homePaddingBigBlock: 128px;
   margin: 0 auto;
   background-color: var(--generalPrimaryColor);
   gap: $gapBig;
+
+  @media (max-width: $mediaWidthMobileBig) {
+    justify-content: center;
+  }
 }
 
 .aboutProjectBlock {
@@ -70,6 +86,10 @@ $homePaddingBigBlock: 128px;
   justify-content: space-between;
   padding: $paddingBig $paddingMedium;
   gap: $gapExtraLarge;
+
+  @media (max-width: $mediaWidthMobileBig) {
+    justify-content: center;
+  }
 }
 
 .advantagesTitle,
@@ -79,6 +99,10 @@ $homePaddingBigBlock: 128px;
 
   & h2 {
     font-size: $fontSizeTitleBig;
+
+    @media (max-width: $mediaWidthMobileBig) {
+      text-align: center;
+    }
   }
 }
 
@@ -106,10 +130,6 @@ $homePaddingBigBlock: 128px;
   flex: 1;
   color: var(--secondaryTextColor);
   gap: $gapLarge;
-
-  @media (max-width: $mediaWidthMobileBig) {
-    align-items: center;
-  }
 }
 
 .aboutAppGetStartedButton,
@@ -120,16 +140,16 @@ $homePaddingBigBlock: 128px;
 .aboutAppBlock {
   align-items: center;
   gap: $gapLarge;
-
-  @media (max-width: $mediaWidthMobileBig) {
-    flex-direction: column;
-  }
 }
 
 .aboutAppBlockButtons {
   flex-wrap: wrap;
   align-items: center;
   gap: $gapExtraBig;
+
+  @media (max-width: $mediaWidthMobileBig) {
+    justify-content: center;
+  }
 }
 
 .manifestoLink {

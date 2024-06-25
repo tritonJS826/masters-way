@@ -88,28 +88,28 @@ export const HomePage = observer(() => {
         </p>
         <HorizontalContainer className={styles.advantages}>
           <AdvantageItem
-            title={LanguageService.home.weAreHelpingBlock.advantages.personalizedLearning.title[language]}
-            description={LanguageService.home.weAreHelpingBlock.advantages.personalizedLearning.description[language]}
+            title={LanguageService.home.advantages.personalizedLearning.title[language]}
+            description={LanguageService.home.advantages.personalizedLearning.description[language]}
           />
           <AdvantageItem
-            title={LanguageService.home.weAreHelpingBlock.advantages.comprehensiveControl.title[language]}
-            description={LanguageService.home.weAreHelpingBlock.advantages.comprehensiveControl.description[language]}
+            title={LanguageService.home.advantages.comprehensiveControl.title[language]}
+            description={LanguageService.home.advantages.comprehensiveControl.description[language]}
           />
           <AdvantageItem
-            title={LanguageService.home.weAreHelpingBlock.advantages.fastFeedback.title[language]}
-            description={LanguageService.home.weAreHelpingBlock.advantages.fastFeedback.description[language]}
+            title={LanguageService.home.advantages.fastFeedback.title[language]}
+            description={LanguageService.home.advantages.fastFeedback.description[language]}
           />
           <AdvantageItem
-            title={LanguageService.home.weAreHelpingBlock.advantages.visualizationOfProgress.title[language]}
-            description={LanguageService.home.weAreHelpingBlock.advantages.visualizationOfProgress.description[language]}
+            title={LanguageService.home.advantages.visualizationOfProgress.title[language]}
+            description={LanguageService.home.advantages.visualizationOfProgress.description[language]}
           />
           <AdvantageItem
-            title={LanguageService.home.weAreHelpingBlock.advantages.supportiveNetwork.title[language]}
-            description={LanguageService.home.weAreHelpingBlock.advantages.supportiveNetwork.description[language]}
+            title={LanguageService.home.advantages.supportiveNetwork.title[language]}
+            description={LanguageService.home.advantages.supportiveNetwork.description[language]}
           />
           <AdvantageItem
-            title={LanguageService.home.weAreHelpingBlock.advantages.timeSavingEfficiency.title[language]}
-            description={LanguageService.home.weAreHelpingBlock.advantages.timeSavingEfficiency.description[language]}
+            title={LanguageService.home.advantages.timeSavingEfficiency.title[language]}
+            description={LanguageService.home.advantages.timeSavingEfficiency.description[language]}
           />
         </HorizontalContainer>
       </VerticalContainer>
@@ -130,8 +130,8 @@ export const HomePage = observer(() => {
             description={LanguageService.home.systemBlock.createWay.description[language]}
           />
           <SystemItem
-            title={LanguageService.home.systemBlock.SetGoalAndMetrics.title[language]}
-            description={LanguageService.home.systemBlock.SetGoalAndMetrics.description[language]}
+            title={LanguageService.home.systemBlock.setGoalAndMetrics.title[language]}
+            description={LanguageService.home.systemBlock.setGoalAndMetrics.description[language]}
           />
           <SystemItem
             title={LanguageService.home.systemBlock.trackProgress.title[language]}
