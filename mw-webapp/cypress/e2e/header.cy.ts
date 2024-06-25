@@ -88,17 +88,30 @@ describe('IsAuth Header scope tests', () => {
     });
 
     it('IsAuth_Header_UserNameLinkOneWord', () => {
-        const avatarExpected = testUserData.name.substring(0, 2).toUpperCase();
+        const expectedAvatar = testUserData.name.substring(0, 2).toUpperCase();
 
-        headerSelectors.getAvatar().should('have.text', avatarExpected);
+        headerSelectors.getAvatar().should('have.text', expectedAvatar);
     });
 
     it('IsAuth_Header_NavigationBurgerMenu', () => {
         headerSelectors.getBurgerMenu().click();
         
         navigationMenuSelectors.getNavigationMenu().should('exist');
+        navigationMenuSelectors.menuItemLinks.getLogoItemLink().should('exist');
+        navigationMenuSelectors.menuItemLinks.getHomeItemLink().should('exist');
         navigationMenuSelectors.menuItemLinks.getPersonalAreaItemLink().should('exist');
+        navigationMenuSelectors.menuItemLinks.getAllUsersItemLink().should('exist');
+        navigationMenuSelectors.menuItemLinks.getAllWaysItemLink().should('exist');
+        navigationMenuSelectors.menuItemLinks.getAboutProjectItemLink().should('exist');
         navigationMenuSelectors.menuItemLinks.getSettingsItemLink().should('exist');
+        navigationMenuSelectors.getCloseButton().should('exist');
+        navigationMenuSelectors.language.getText().should('have.text', sideBarContent.language.en);
+        navigationMenuSelectors.language.getSelect().should('exist');
+        navigationMenuSelectors.nightMode.getText().should('have.text', sideBarContent.nightMode.en);
+        navigationMenuSelectors.nightMode.getSlider().should('exist');
+        navigationMenuSelectors.socialMedia.getText().should('have.text', sideBarContent.socialMedia.en);
+        navigationMenuSelectors.socialMedia.getLinkedinLink().should('exist');
+        navigationMenuSelectors.socialMedia.getYoutubeLink().should('exist');
         navigationMenuSelectors.getLogoutButton().should('exist');
     });
 
