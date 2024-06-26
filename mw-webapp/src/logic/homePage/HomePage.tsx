@@ -1,7 +1,12 @@
 import {NavigateFunction, useNavigate} from "react-router-dom";
 import {homeAccessIds} from "cypress/accessIds/homeAccessIds";
 import {observer} from "mobx-react-lite";
-import {trackUserActivationButton, UserActivationAction, UserActivationLabel} from "src/analytics/userActivationsAnalytics";
+import {
+  readManifestClicked,
+  startForFreeFirstBlockClicked,
+  startForFreeWhoWeAreBlockClicked,
+  tryNowClicked,
+} from "src/analytics/homeAnalytics";
 import logoLight from "src/assets/mastersWayLogoLight.svg";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Footer} from "src/component/footer/Footer";
@@ -55,10 +60,7 @@ export const HomePage = observer(() => {
             </p>
             <Button
               onClick={() => {
-                trackUserActivationButton({
-                  action: UserActivationAction.GET_STARTED_CLICKED,
-                  label: UserActivationLabel.START_FOR_FREE__FIRST_SCREEN_CLICKED,
-                });
+                startForFreeFirstBlockClicked();
                 getStarted(navigate, user?.uuid);
               }}
               buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
@@ -141,10 +143,7 @@ export const HomePage = observer(() => {
 
         <Button
           onClick={() => {
-            trackUserActivationButton({
-              action: UserActivationAction.GET_STARTED_CLICKED,
-              label: UserActivationLabel.TRY_NOW_CLICKED,
-            });
+            startForFreeWhoWeAreBlockClicked();
             getStarted(navigate, user?.uuid);
           }}
           buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
@@ -175,10 +174,7 @@ export const HomePage = observer(() => {
             <HorizontalContainer className={styles.aboutAppBlockButtons}>
               <Button
                 onClick={() => {
-                  trackUserActivationButton({
-                    action: UserActivationAction.GET_STARTED_CLICKED,
-                    label: UserActivationLabel.START_FOR_FREE_WHO_WE_ARE_BLOCK_CLICKED,
-                  });
+                  tryNowClicked();
                   getStarted(navigate, user?.uuid);
                 }}
                 buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
@@ -188,6 +184,7 @@ export const HomePage = observer(() => {
               <Link
                 path={LanguageService.home.aboutAppBlock.manifestLink[language]}
                 className={styles.manifestoLink}
+                onClick={readManifestClicked}
                 isNewTab
               >
                 {LanguageService.home.aboutAppBlock.readManifesto[language]}

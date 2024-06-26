@@ -4,7 +4,7 @@ import {AnalyticsCategory} from "src/analytics/AnalyticsCategory";
 /**
  * GlobalError actions
  */
-export enum GlobalErrorAction {
+enum GlobalErrorAction {
   ERROR = "ERROR",
   PROMISE_REJECTION = "PROMISE_REJECTION",
 }
@@ -22,17 +22,26 @@ interface TrackGlobalErrorsParams {
   /**
    * Describe tracked error (event.message, event.reason)
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  label: any;
+  label: string;
 }
 
 /**
  * Tracking global errors
  */
-export const trackGlobalErrors = (params: TrackGlobalErrorsParams) => {
+const trackGlobalErrors = (params: TrackGlobalErrorsParams) => {
   ReactGA.event({
     category: AnalyticsCategory.GLOBAL_ERRORS,
     action: params.action,
     label: params.label,
   });
 };
+
+/**
+ * Track error
+ */
+export const trackGlobalError = (label: string) => trackGlobalErrors({action: GlobalErrorAction.ERROR, label});
+
+/**
+ * Track promise rejection
+ */
+export const trackPromiseRejection = (label: string) => trackGlobalErrors({action: GlobalErrorAction.PROMISE_REJECTION, label});

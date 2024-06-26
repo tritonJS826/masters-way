@@ -1,4 +1,4 @@
-import {ReactElement, useCallback, useState} from "react";
+import {ReactElement, useCallback, useEffect, useState} from "react";
 import {Root as DialogRoot} from "@radix-ui/react-dialog";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
@@ -98,6 +98,11 @@ interface SidebarProps {
   bottomChildren: React.ReactNode;
 
   /**
+   * Callback triigered on change open status
+   */
+  onOpenStatusChanged: (isOpen: boolean) => void;
+
+  /**
    * Data attributes for cypress testing
    */
   cy?: Cy;
@@ -109,6 +114,9 @@ interface SidebarProps {
  */
 export const Sidebar = (props: SidebarProps) => {
   const [open, setOpen] = useState(false);
+  useEffect(() => {
+    props.onOpenStatusChanged(open);
+  }, [open]);
 
   /**
    * Renders navigation links based on the provided navigationLinks array.
