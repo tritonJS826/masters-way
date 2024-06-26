@@ -279,9 +279,6 @@ func Prepare(ctx context.Context, db DBTX) (*Queries, error) {
 	if q.getUserByEmailStmt, err = db.PrepareContext(ctx, getUserByEmail); err != nil {
 		return nil, fmt.Errorf("error preparing query GetUserByEmail: %w", err)
 	}
-	if q.getUserByFirebaseIdStmt, err = db.PrepareContext(ctx, getUserByFirebaseId); err != nil {
-		return nil, fmt.Errorf("error preparing query GetUserByFirebaseId: %w", err)
-	}
 	if q.getUserByIdStmt, err = db.PrepareContext(ctx, getUserById); err != nil {
 		return nil, fmt.Errorf("error preparing query GetUserById: %w", err)
 	}
@@ -781,11 +778,6 @@ func (q *Queries) Close() error {
 			err = fmt.Errorf("error closing getUserByEmailStmt: %w", cerr)
 		}
 	}
-	if q.getUserByFirebaseIdStmt != nil {
-		if cerr := q.getUserByFirebaseIdStmt.Close(); cerr != nil {
-			err = fmt.Errorf("error closing getUserByFirebaseIdStmt: %w", cerr)
-		}
-	}
 	if q.getUserByIdStmt != nil {
 		if cerr := q.getUserByIdStmt.Close(); cerr != nil {
 			err = fmt.Errorf("error closing getUserByIdStmt: %w", cerr)
@@ -1025,7 +1017,6 @@ type Queries struct {
 	getTagsCountByUserIdStmt                    *sql.Stmt
 	getToMentorUserRequestsByWayIdStmt          *sql.Stmt
 	getUserByEmailStmt                          *sql.Stmt
-	getUserByFirebaseIdStmt                     *sql.Stmt
 	getUserByIdStmt                             *sql.Stmt
 	getUserByIdsStmt                            *sql.Stmt
 	getUserTagByNameStmt                        *sql.Stmt
@@ -1140,7 +1131,6 @@ func (q *Queries) WithTx(tx *sql.Tx) *Queries {
 		getTagsCountByUserIdStmt:                    q.getTagsCountByUserIdStmt,
 		getToMentorUserRequestsByWayIdStmt:          q.getToMentorUserRequestsByWayIdStmt,
 		getUserByEmailStmt:                          q.getUserByEmailStmt,
-		getUserByFirebaseIdStmt:                     q.getUserByFirebaseIdStmt,
 		getUserByIdStmt:                             q.getUserByIdStmt,
 		getUserByIdsStmt:                            q.getUserByIdsStmt,
 		getUserTagByNameStmt:                        q.getUserTagByNameStmt,

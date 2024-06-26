@@ -5,12 +5,10 @@ INSERT INTO users(
     description,
     created_at,
     image_url,
-    is_mentor,
-    firebase_id
+    is_mentor
 ) VALUES (
-    $1, $2, $3, $4, $5, $6, $7
+    $1, $2, $3, $4, $5, $6
 ) RETURNING *;
-
 
 -- name: GetUserById :one
 SELECT * FROM users
@@ -25,11 +23,6 @@ LIMIT 1;
 -- name: GetUserByIds :many
 SELECT * FROM users
 WHERE uuid = ANY($1::UUID[]);
-
--- name: GetUserByFirebaseId :one
-SELECT * FROM users
-WHERE firebase_id = $1
-LIMIT 1;
 
 -- TODO: add filter and sorters
 -- name: ListUsers :many

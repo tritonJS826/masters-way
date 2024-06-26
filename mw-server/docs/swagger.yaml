@@ -245,8 +245,6 @@ definitions:
         type: string
       email:
         type: string
-      firebaseId:
-        type: string
       imageUrl:
         type: string
       isMentor:
@@ -256,7 +254,6 @@ definitions:
     required:
     - description
     - email
-    - firebaseId
     - imageUrl
     - isMentor
     - name
@@ -2079,31 +2076,6 @@ paths:
           schema:
             $ref: '#/definitions/schemas.UserPlainResponse'
       summary: Update user by UUID
-      tags:
-      - user
-  /users/getOrCreateByFirebaseId:
-    post:
-      consumes:
-      - application/json
-      description: Temporal method. Shod be removed after improving auth logic. Email
-        should be unique
-      operationId: create-user-if-required
-      parameters:
-      - description: query params
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/schemas.CreateUserPayload'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/schemas.UserPopulatedResponse'
-      summary: Create a new user or return already existent user if user with this
-        firebase id already exist
       tags:
       - user
   /wayCollectionWays:
