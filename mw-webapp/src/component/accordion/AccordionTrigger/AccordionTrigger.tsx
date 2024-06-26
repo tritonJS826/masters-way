@@ -2,7 +2,8 @@ import {
   Header as RadixAccordionHeader,
   Trigger as RadixAccordionTrigger,
 } from "@radix-ui/react-accordion";
-import {ChevronDownIcon} from "@radix-ui/react-icons";
+import clsx from "clsx";
+import {Icon, IconSize} from "src/component/icon/Icon";
 import styles from "src/component/accordion/AccordionTrigger/AccordionTrigger.module.scss";
 
 /**
@@ -33,10 +34,18 @@ export const AccordionTrigger = (props: AccordionTriggerProps) => {
     >
       <RadixAccordionTrigger className={styles.accordionTrigger}>
         {props.child}
-        <ChevronDownIcon
-          className={styles.accordionChevron}
-          aria-hidden
-        />
+        <>
+          <Icon
+            size={IconSize.MEDIUM}
+            name={"PlusIcon"}
+            className={clsx(styles.icon, styles.plusIcon)}
+          />
+          <Icon
+            size={IconSize.MEDIUM}
+            name={"MinusIcon"}
+            className={clsx(styles.icon, styles.minusIcon)}
+          />
+        </>
       </RadixAccordionTrigger>
     </RadixAccordionHeader>
   );

@@ -40,6 +40,10 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     [Theme.DARK]: "#686085",
     [Theme.LIGHT]: "#F2EFF9",
   },
+  hoverBgColor: {
+    [Theme.DARK]: "#A8A1DD",
+    [Theme.LIGHT]: "#A8A1DD",
+  },
   // Sidebar and footer and shadow for notebook (homePage)
   quaternaryBgColor: {
     [Theme.DARK]: "#0B0322",

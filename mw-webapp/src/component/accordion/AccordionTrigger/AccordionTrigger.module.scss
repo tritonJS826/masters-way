@@ -1,40 +1,51 @@
 @import "src/styles/variables";
 
+$accordionMinHeight: 60px;
+
 .accordionHeader {
   display: flex;
-  margin: 0;
+  min-height: $accordionMinHeight;
+  align-items: flex-end;
 }
 
-.accordionChevron {
+.icon {
   flex-shrink: 0;
-  transition: transform 300ms cubic-bezier(0.87, 0, 0.13, 1);
+  stroke: var(--secondaryStrokeColor);
 }
 
 .accordionTrigger {
   display: flex;
-  min-height: 45px;
   flex: 1;
   align-items: center;
   justify-content: space-between;
-  padding: $paddingExtraMedium;
+  padding: $paddingSmall 0;
   border: none;
   background-color: transparent;
   color: var(--secondaryTextColor);
-  font-size: 15px;
+  cursor: pointer;
+  font-family: inherit;
   font-size: $fontSizeBig;
-  line-height: 1;
+  font-weight: $fontWeightBold;
   text-align: left;
+  transition-duration: $elementHoverTransition;
 
   &:hover {
-    background-color: rgba(0, 0, 0, 5%);
+    background-color: var(--hoverBgColor);
   }
 
-  &[data-state="open"] {
-    background-color: var(--generalPrimaryColor);
-    color: var(--secondaryTextColor);
+  &[data-state="open"] > .minusIcon {
+    display: block;
   }
 
-  &[data-state="open"] > .accordionChevron {
-    transform: rotate(180deg);
+  &[data-state="open"] > .plusIcon {
+    display: none;
+  }
+
+  &[data-state="closed"] > .minusIcon {
+    display: none;
+  }
+
+  &[data-state="closed"] > .plusIcon {
+    display: block;
   }
 }
