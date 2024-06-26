@@ -39,55 +39,73 @@ export const Footer = (props: FooterProps) => {
       data-cy={props.dataCy}
     >
       <HorizontalContainer className={styles.footerWrapper}>
-        <Link
-          className={styles.logo}
-          path={pages.home.getPath({})}
-        >
-          <Image
-            alt={LOGO_TEXT}
-            src={logoLight}
-            className={styles.logo}
-          />
-        </Link>
-        <VerticalContainer className={styles.socialMedia}>
-          <Title
-            level={HeadingLevel.h4}
-            text={LanguageService.home.socialMedia[props.language]}
-            placeholder=""
-          />
-          <HorizontalContainer className={styles.socialMediaIcons}>
-            <Link
-              path="https://linkedin.com/company/masters-way-project"
-              isNewTab
-            >
-              <Icon
-                size={IconSize.MEDIUM}
-                name="LinkedinIcon"
-                className={styles.socialMediaIcon}
-              />
-            </Link>
-            <Link
-              path="https://www.youtube.com/watch?v=DiNNQol15ds&list=PL7eqEW04iXMV2tu_JYAIwerepUTZJjciM"
-              isNewTab
-            >
-              <Icon
-                size={IconSize.MEDIUM}
-                name="YoutubeIcon"
-                className={styles.socialMediaIcon}
-              />
-            </Link>
-          </HorizontalContainer>
-        </VerticalContainer>
-      </HorizontalContainer>
+        <HorizontalContainer className={styles.socialLinks}>
+          <Link path={pages.home.getPath({})}>
+            <Image
+              alt={LOGO_TEXT}
+              src={logoLight}
+              className={styles.logo}
+            />
+          </Link>
+          <VerticalContainer className={styles.socialMedia}>
+            <Title
+              level={HeadingLevel.h4}
+              text={LanguageService.home.socialMedia[props.language]}
+              placeholder=""
+              classNameHeading={styles.socialMediaText}
+            />
+            <HorizontalContainer className={styles.socialMediaIcons}>
+              <Link
+                path="https://linkedin.com/company/masters-way-project"
+                isNewTab
+              >
+                <div className={styles.iconWrapper}>
+                  <Icon
+                    size={IconSize.SMALL}
+                    name="LinkedinIcon"
+                    className={styles.socialMediaIcon}
+                  />
+                </div>
+              </Link>
+              <Link
+                path="https://www.youtube.com/watch?v=DiNNQol15ds&list=PL7eqEW04iXMV2tu_JYAIwerepUTZJjciM"
+                isNewTab
+              >
+                <div className={styles.iconWrapper}>
+                  <Icon
+                    size={IconSize.SMALL}
+                    name="YoutubeIcon"
+                    className={styles.socialMediaIcon}
+                  />
+                </div>
+              </Link>
+              <Link
+                path="https://github.com/tritonJS826/masters-way"
+                isNewTab
+              >
+                <div className={styles.iconWrapper}>
+                  <Icon
+                    size={IconSize.SMALL}
+                    name="GithubIcon"
+                    className={styles.socialMediaIcon}
+                  />
+                </div>
+              </Link>
+            </HorizontalContainer>
+          </VerticalContainer>
+        </HorizontalContainer>
 
-      <HorizontalContainer className={styles.privacyLinks}>
-        <Link
-          path="https://www.freeprivacypolicy.com/live/febb15f6-017f-45fc-abaf-b4a5d38316b9"
-          className={styles.privacyLink}
-          isNewTab
-        >
-          {LanguageService.common.privacyPolicy[props.language]}
-        </Link>
+        <hr className={styles.ruler} />
+
+        <HorizontalContainer className={styles.privacyLinks}>
+          <Link
+            path="https://www.freeprivacypolicy.com/live/febb15f6-017f-45fc-abaf-b4a5d38316b9"
+            className={styles.privacyLink}
+            isNewTab
+          >
+            {LanguageService.common.privacyPolicy[props.language]}
+          </Link>
+        </HorizontalContainer>
       </HorizontalContainer>
     </footer>
   );
