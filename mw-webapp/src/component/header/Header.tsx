@@ -1,6 +1,13 @@
 import {headerAccessIds} from "cypress/accessIds/headerAccessIds";
 import {navigationMenuIds} from "cypress/accessIds/navigationMenuAccessIds";
-import {trackUserActivationButton, UserActivationAction, UserActivationLabel} from "src/analytics/userActivationsAnalytics";
+import {
+  trackBurgerStateChanged,
+  trackLoginClick,
+  trackLoginWithGoogleClick,
+  trackLogoClick,
+  trackSelectLanguageClick,
+  trackThemeClick,
+} from "src/analytics/headerAnalytics";
 import google from "src/assets/google.svg";
 import logo from "src/assets/mastersWayLogo.svg";
 import logoLight from "src/assets/mastersWayLogoLight.svg";
@@ -185,6 +192,7 @@ export const Header = (props: HeaderProps) => {
         className={styles.logo}
         path={pages.home.getPath({})}
         dataCy={headerAccessIds.logo}
+        onClick={trackLogoClick}
       >
         <ThemedImage
           className={styles.logo}
@@ -201,7 +209,10 @@ export const Header = (props: HeaderProps) => {
         <ThemeSwitcher
           language={props.language}
           theme={props.theme}
-          setTheme={props.setTheme}
+          onClick={(theme: Theme) => {
+            trackThemeClick();
+            props.setTheme(theme);
+          }}
           className={styles.themeSwitcher}
           dataCy={headerAccessIds.settings.themeSwitcher}
         />
@@ -210,7 +221,10 @@ export const Header = (props: HeaderProps) => {
           value={props.language}
           name="language"
           options={languageOptions}
-          onChange={props.setLanguage}
+          onChange={(lang: Language) => {
+            trackSelectLanguageClick();
+            props.setLanguage(lang);
+          }}
           className={styles.selectLanguage}
           cy={{dataCyTrigger: headerAccessIds.settings.language.select, dataCyContentList: "", dataCyValue: ""}}
         />
@@ -238,7 +252,7 @@ export const Header = (props: HeaderProps) => {
             <Modal
               trigger={
                 <Button
-                  onClick={() => {}}
+                  onClick={trackLoginClick}
                   value={LanguageService.header.loginButton[props.language]}
                   buttonType={ButtonType.PRIMARY}
                   dataCy={headerAccessIds.loginButton}
@@ -262,10 +276,7 @@ export const Header = (props: HeaderProps) => {
                     <VerticalContainer className={styles.loginButtons}>
                       <Button
                         onClick={() => {
-                          trackUserActivationButton({
-                            action: UserActivationAction.GET_STARTED_CLICKED,
-                            label: UserActivationLabel.LOG_IN_CLICKED,
-                          });
+                          trackLoginWithGoogleClick();
                           AuthDAL.authGoogle();
                         }}
                         className={styles.loginGoogleButton}
@@ -288,6 +299,7 @@ export const Header = (props: HeaderProps) => {
 
           }
           <Sidebar
+            onOpenStatusChanged={trackBurgerStateChanged}
             trigger={
               <Icon
                 size={IconSize.SMALL}

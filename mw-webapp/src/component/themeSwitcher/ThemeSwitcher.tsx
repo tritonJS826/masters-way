@@ -41,9 +41,9 @@ interface ThemeSwitcherProps {
   theme: Theme;
 
   /**
-   * Set theme
+   * Click handler
    */
-  setTheme: (theme: Theme) => void;
+  onClick: (theme: Theme) => void;
 
   /**
    * Language value
@@ -66,7 +66,7 @@ export const ThemeSwitcher = (props: ThemeSwitcherProps) => {
    */
   const onChangeTheme = () => {
     const updatedTheme = getNextSwitchTheme(props.theme);
-    props.setTheme(updatedTheme);
+    props.onClick(updatedTheme);
   };
 
   return (

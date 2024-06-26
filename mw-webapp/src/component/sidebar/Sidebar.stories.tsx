@@ -43,6 +43,7 @@ export const Default: Story = {
       Open sidebar
     </button>,
     linkList,
+    onOpenStatusChanged: () => {},
     bottomChildren: <>
       <Button
         onClick={() => {}}
