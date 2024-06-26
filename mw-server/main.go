@@ -108,10 +108,9 @@ func init() {
 		log.Fatalf("Could not connect to database: %v", err)
 	}
 
-	conn.SetMaxOpenConns(10) // Максимальное количество открытых соединений
-	conn.SetMaxIdleConns(6)  // Максимальное количество простых соединений
+	conn.SetMaxOpenConns(10)
+	conn.SetMaxIdleConns(4)
 	conn.SetConnMaxLifetime(30 * time.Second)
-
 	db = dbCon.New(conn)
 
 	fmt.Println("PostgreSql connected successfully...")
