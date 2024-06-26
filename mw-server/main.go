@@ -108,8 +108,8 @@ func init() {
 		log.Fatalf("Could not connect to database: %v", err)
 	}
 
-	conn.SetMaxOpenConns(10)
-	conn.SetMaxIdleConns(4)
+	conn.SetMaxOpenConns(3)
+	conn.SetMaxIdleConns(1)
 	conn.SetConnMaxLifetime(30 * time.Second)
 	db = dbCon.New(conn)
 
