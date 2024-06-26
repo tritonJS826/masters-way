@@ -23,11 +23,11 @@ enum HeaderLabel {
 /**
  * Tracking user interaction by clicking buttons
  */
-const trackHeaderClick = (action: HeaderLabel) => {
+const trackHeaderClick = (headerLabel: HeaderLabel) => {
   ReactGA.event({
     category: AnalyticsCategory.HEADER,
-    action,
-    label: HeaderAction.HEADER_CLICKED + action,
+    action: HeaderAction.HEADER_CLICKED,
+    label: headerLabel,
   });
 };
 
