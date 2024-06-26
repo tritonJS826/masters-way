@@ -9,6 +9,7 @@ import {GithubIcon} from "src/assets/icons/GithubIcon";
 import {GlobeIcon} from "src/assets/icons/GlobeIcon";
 import {GridViewIcon} from "src/assets/icons/GridViewIcon";
 import {HomeIcon} from "src/assets/icons/HomeIcon";
+import {InfoIcon} from "src/assets/icons/InfoIcon";
 import {LinkedinIcon} from "src/assets/icons/LinkedinIcon";
 import {MoonIcon} from "src/assets/icons/MoonIcon";
 import {MoreVertical} from "src/assets/icons/MoreVertical";
@@ -149,6 +150,11 @@ export const IconDictionary = {
    * Chevron icon
    */
   ChevronIcon: (params: IconProps) => <ChevronIcon {...params} />,
+
+  /**
+   * Chevron icon
+   */
+  InfoIcon: (params: IconProps) => <InfoIcon {...params} />,
 };
 
 /**

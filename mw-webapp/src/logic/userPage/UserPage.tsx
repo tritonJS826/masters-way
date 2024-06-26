@@ -9,6 +9,7 @@ import {EditableTextarea} from "src/component/editableTextarea/editableTextarea"
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
+import {Infotip} from "src/component/infotip/Infotip";
 import {Loader} from "src/component/loader/Loader";
 import {Modal} from "src/component/modal/Modal";
 import {PromptModalContent} from "src/component/modal/PromptModalContent";
@@ -307,29 +308,34 @@ export const UserPage = observer((props: UserPageProps) => {
 
             <VerticalContainer className={styles.nameEmailSection}>
               <HorizontalContainer className={styles.nameSection}>
-                <Title
-                  dataCy={userPersonalDataAccessIds.descriptionSection.nameSection}
-                  level={HeadingLevel.h2}
-                  text={userPageOwner.name}
-                  placeholder={LanguageService.common.emptyMarkdownAction[language]}
-                  onChangeFinish={async (name) => updateUser({
-                    userToUpdate: {
-                      uuid: userPageOwner.uuid,
-                      name,
-                    },
+                <HorizontalContainer>
+                  <Infotip content={LanguageService.user.infotip.userName[language]} />
 
-                    /**
-                     * Update user
-                     */
-                    setUser: () => {
-                      user && user.updateName(name);
-                      userPageOwner.updateName(name);
-                    },
-                  })}
-                  isEditable={isPageOwner}
-                  minLength={1}
-                  className={styles.ownerName}
-                />
+                  <Title
+                    dataCy={userPersonalDataAccessIds.descriptionSection.nameSection}
+                    level={HeadingLevel.h2}
+                    text={userPageOwner.name}
+                    placeholder={LanguageService.common.emptyMarkdownAction[language]}
+                    onChangeFinish={async (name) => updateUser({
+                      userToUpdate: {
+                        uuid: userPageOwner.uuid,
+                        name,
+                      },
+
+                      /**
+                       * Update user
+                       */
+                      setUser: () => {
+                        user && user.updateName(name);
+                        userPageOwner.updateName(name);
+                      },
+                    })}
+                    isEditable={isPageOwner}
+                    minLength={1}
+                    className={styles.ownerName}
+                  />
+                </HorizontalContainer>
+
                 <Tooltip
                   content={favoriteTooltipText}
                   position={PositionTooltip.LEFT}
@@ -376,11 +382,14 @@ export const UserPage = observer((props: UserPageProps) => {
               </HorizontalContainer>
 
               <VerticalContainer className={styles.userDescriptionSection}>
-                <Title
-                  level={HeadingLevel.h3}
-                  text={LanguageService.user.personalInfo.about[language]}
-                  placeholder=""
-                />
+                <HorizontalContainer>
+                  <Infotip content={LanguageService.user.infotip.aboutUser[language]} />
+                  <Title
+                    level={HeadingLevel.h3}
+                    text={LanguageService.user.personalInfo.about[language]}
+                    placeholder=""
+                  />
+                </HorizontalContainer>
                 <EditableTextarea
                   text={userPageOwner.description}
                   onChangeFinish={(description) => updateUser({
@@ -417,6 +426,7 @@ export const UserPage = observer((props: UserPageProps) => {
               </VerticalContainer>
 
               <HorizontalContainer>
+                <Infotip content={LanguageService.user.infotip.isMentor[language]} />
                 <Checkbox
                   isDisabled={!isPageOwner}
                   isDefaultChecked={userPageOwner.isMentor}
@@ -449,11 +459,14 @@ export const UserPage = observer((props: UserPageProps) => {
 
           <VerticalContainer className={styles.userSkillsAndSocialBlock}>
             <HorizontalContainer className={styles.skillsTitleBlock}>
-              <Title
-                level={HeadingLevel.h2}
-                text={LanguageService.user.personalInfo.skills[language]}
-                placeholder=""
-              />
+              <HorizontalContainer>
+                <Infotip content={LanguageService.user.infotip.skills[language]} />
+                <Title
+                  level={HeadingLevel.h2}
+                  text={LanguageService.user.personalInfo.skills[language]}
+                  placeholder=""
+                />
+              </HorizontalContainer>
               {isPageOwner && (
                 <Modal
                   isOpen={isAddUserTagModalOpen}
@@ -520,11 +533,14 @@ export const UserPage = observer((props: UserPageProps) => {
 
       <VerticalContainer className={styles.tabsSectionContainer}>
         <VerticalContainer className={styles.collectionGroup}>
-          <Title
-            level={HeadingLevel.h2}
-            text={LanguageService.user.collections.defaultCollections[language]}
-            placeholder=""
-          />
+          <HorizontalContainer>
+            <Infotip content={LanguageService.user.infotip.basicCollections[language]} />
+            <Title
+              level={HeadingLevel.h2}
+              text={LanguageService.user.collections.defaultCollections[language]}
+              placeholder=""
+            />
+          </HorizontalContainer>
           <HorizontalContainer className={styles.tabsSection}>
 
             <WayCollectionCard
@@ -554,11 +570,14 @@ export const UserPage = observer((props: UserPageProps) => {
         </VerticalContainer>
 
         <VerticalContainer className={styles.collectionGroup}>
-          <Title
-            level={HeadingLevel.h2}
-            text={LanguageService.user.collections.customCollections[language]}
-            placeholder=""
-          />
+          <HorizontalContainer>
+            <Infotip content={LanguageService.user.infotip.customCollections[language]} />
+            <Title
+              level={HeadingLevel.h2}
+              text={LanguageService.user.collections.customCollections[language]}
+              placeholder=""
+            />
+          </HorizontalContainer>
 
           <HorizontalContainer className={styles.tabsSection}>
             {userPageOwner.customWayCollections.map(collection => (

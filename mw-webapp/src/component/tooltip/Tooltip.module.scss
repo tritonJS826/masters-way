@@ -3,6 +3,8 @@
 /* reset */
 .tooltipTrigger {
   all: unset;
+  display: inline-flex;
+  align-self: center;
 }
 
 .tooltipContent {
