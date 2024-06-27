@@ -1,5 +1,6 @@
 import {ForwardedRef, forwardRef, PropsWithChildren} from "react";
 import {Trigger as DialogTrigger} from "@radix-ui/react-dialog";
+import {headerAccessIds} from "cypress/accessIds/headerAccessIds";
 
 /**
  * SidebarTrigger props
@@ -25,6 +26,7 @@ export const SidebarTrigger = forwardRef((props: PropsWithChildren<SidebarTrigge
       <div
         ref={ref}
         role="button"
+        aria-label={headerAccessIds.burgerMenu}
       >
         {props.children}
       </div>

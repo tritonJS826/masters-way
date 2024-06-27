@@ -78,6 +78,7 @@ export const ThemeSwitcher = (props: ThemeSwitcherProps) => {
         className={clsx(styles.iconWrapper, props.className)}
         onClick={onChangeTheme}
         data-cy={props.dataCy}
+        aria-label={props.dataCy}
       >
         <Icon
           size={IconSize.MEDIUM}
