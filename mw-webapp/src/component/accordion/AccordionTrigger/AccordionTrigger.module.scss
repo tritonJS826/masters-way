@@ -28,9 +28,10 @@ $accordionMinHeight: 60px;
   font-weight: $fontWeightBold;
   gap: $gapSmall;
   text-align: left;
-  transition-duration: $elementHoverTransition;
+  transition: all $elementHoverTransition ease;
 
   &:hover {
+    padding-left: $paddingExtraBig;
     background-color: var(--hoverBgColor);
   }
 
