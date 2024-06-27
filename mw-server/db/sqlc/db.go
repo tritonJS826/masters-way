@@ -171,6 +171,9 @@ func Prepare(ctx context.Context, db DBTX) (*Queries, error) {
 	if q.deleteWayTagFromWayStmt, err = db.PrepareContext(ctx, deleteWayTagFromWay); err != nil {
 		return nil, fmt.Errorf("error preparing query DeleteWayTagFromWay: %w", err)
 	}
+	if q.getBasePopulatedWayByIDStmt, err = db.PrepareContext(ctx, getBasePopulatedWayByID); err != nil {
+		return nil, fmt.Errorf("error preparing query GetBasePopulatedWayByID: %w", err)
+	}
 	if q.getDayReportsCountByWayIdStmt, err = db.PrepareContext(ctx, getDayReportsCountByWayId); err != nil {
 		return nil, fmt.Errorf("error preparing query GetDayReportsCountByWayId: %w", err)
 	}
@@ -601,6 +604,11 @@ func (q *Queries) Close() error {
 			err = fmt.Errorf("error closing deleteWayTagFromWayStmt: %w", cerr)
 		}
 	}
+	if q.getBasePopulatedWayByIDStmt != nil {
+		if cerr := q.getBasePopulatedWayByIDStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing getBasePopulatedWayByIDStmt: %w", cerr)
+		}
+	}
 	if q.getDayReportsCountByWayIdStmt != nil {
 		if cerr := q.getDayReportsCountByWayIdStmt.Close(); cerr != nil {
 			err = fmt.Errorf("error closing getDayReportsCountByWayIdStmt: %w", cerr)
@@ -989,6 +997,7 @@ type Queries struct {
 	deleteWayCollectionsWaysByIdsStmt           *sql.Stmt
 	deleteWayFromCompositeWayStmt               *sql.Stmt
 	deleteWayTagFromWayStmt                     *sql.Stmt
+	getBasePopulatedWayByIDStmt                 *sql.Stmt
 	getDayReportsCountByWayIdStmt               *sql.Stmt
 	getFavoriteForUserUuidsByWayIdStmt          *sql.Stmt
 	getFavoriteUserByDonorUserIdStmt            *sql.Stmt
@@ -1104,6 +1113,7 @@ func (q *Queries) WithTx(tx *sql.Tx) *Queries {
 		deleteWayCollectionsWaysByIdsStmt:           q.deleteWayCollectionsWaysByIdsStmt,
 		deleteWayFromCompositeWayStmt:               q.deleteWayFromCompositeWayStmt,
 		deleteWayTagFromWayStmt:                     q.deleteWayTagFromWayStmt,
+		getBasePopulatedWayByIDStmt:                 q.getBasePopulatedWayByIDStmt,
 		getDayReportsCountByWayIdStmt:               q.getDayReportsCountByWayIdStmt,
 		getFavoriteForUserUuidsByWayIdStmt:          q.getFavoriteForUserUuidsByWayIdStmt,
 		getFavoriteUserByDonorUserIdStmt:            q.getFavoriteUserByDonorUserIdStmt,

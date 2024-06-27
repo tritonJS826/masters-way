@@ -7,7 +7,7 @@ package db
 
 import (
 	"context"
-	"time"
+	"database/sql"
 
 	"github.com/google/uuid"
 )
@@ -39,7 +39,7 @@ RETURNING uuid, pricing_plan, expiration_date, created_at, updated_at, owner_uui
 
 type UpdatePricingPlanByUserIdParams struct {
 	PricingPlan    PricingPlanType `json:"pricing_plan"`
-	ExpirationDate time.Time       `json:"expiration_date"`
+	ExpirationDate sql.NullTime    `json:"expiration_date"`
 	UsersUuid      uuid.UUID       `json:"users_uuid"`
 }
 

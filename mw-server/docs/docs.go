@@ -133,17 +133,8 @@ const docTemplate = `{
                     "auth"
                 ],
                 "summary": "Log in with google oAuth",
-                "operationId": "google auth log in",
+                "operationId": "google auth log in callback function",
                 "parameters": [
-                    {
-                        "description": "query params",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/schemas.CreateCommentPayload"
-                        }
-                    },
                     {
                         "type": "string",
                         "description": "state parameter",
@@ -161,10 +152,7 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/schemas.CommentPopulatedResponse"
-                        }
+                        "description": "OK"
                     }
                 }
             }
@@ -3344,10 +3332,7 @@ const docTemplate = `{
             ],
             "properties": {
                 "childrenUuids": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
+                    "type": "integer"
                 },
                 "copiedFromWayUuid": {
                     "type": "string",
