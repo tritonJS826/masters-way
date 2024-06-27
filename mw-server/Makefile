@@ -14,12 +14,6 @@ db-run: ## Start the database using Docker
 install: ## Install dependencies
 	go mod tidy
 
-swag: ##  Generate swagger specification
-	swag init
-
-db-schema: ## Generate db schema
-	sqlc generate
-
 help: ## Display help message
 	@echo "Available targets:"
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "  %-15s %s\n", $$1, $$2}' Makefile 

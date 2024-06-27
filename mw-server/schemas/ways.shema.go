@@ -39,7 +39,7 @@ type WayPlainResponse struct {
 	WayTags           []WayTagResponse    `json:"wayTags" validate:"required"`
 	MetricsDone       int32               `json:"metricsDone" validate:"required"`
 	MetricsTotal      int32               `json:"metricsTotal" validate:"required"`
-	ChildrenAmount    int32               `json:"childrenUuids" validate:"required"`
+	ChildrenUuids     []string            `json:"childrenUuids" validate:"required"`
 }
 
 type WayPopulatedResponse struct {

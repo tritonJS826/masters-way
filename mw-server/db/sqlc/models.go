@@ -171,7 +171,7 @@ type ProblemsJobTag struct {
 type ProfileSetting struct {
 	Uuid           uuid.UUID       `json:"uuid"`
 	PricingPlan    PricingPlanType `json:"pricing_plan"`
-	ExpirationDate sql.NullTime    `json:"expiration_date"`
+	ExpirationDate time.Time       `json:"expiration_date"`
 	CreatedAt      time.Time       `json:"created_at"`
 	UpdatedAt      time.Time       `json:"updated_at"`
 	OwnerUuid      uuid.UUID       `json:"owner_uuid"`

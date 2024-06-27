@@ -57,7 +57,7 @@ type dbWay struct {
 	WayMetricsDone      int64
 	WayFavoriteForUsers int64
 	WayDayReportsAmount int64
-	ChildrenAmount      int64
+	ChildrenUuids       []string
 }
 
 func convertDbWaysToPlainWays(db *dbb.Queries, ctx context.Context, dbWays []dbWay) []schemas.WayPlainResponse {
@@ -111,7 +111,7 @@ func convertDbWaysToPlainWays(db *dbb.Queries, ctx context.Context, dbWays []dbW
 			WayTags:           wayTags,
 			MetricsDone:       int32(dbWay.WayMetricsDone),
 			MetricsTotal:      int32(dbWay.WayMetricsTotal),
-			ChildrenAmount:    int32(dbWay.ChildrenAmount),
+			ChildrenUuids:     dbWay.ChildrenUuids,
 		}
 	})
 
@@ -135,7 +135,7 @@ func dbCollectionWaysToDbWays(rawWay []dbb.GetWaysByCollectionIdRow) []dbWay {
 			WayMetricsDone:      dbWayRaw.WayMetricsDone,
 			WayFavoriteForUsers: dbWayRaw.WayFavoriteForUsers,
 			WayDayReportsAmount: dbWayRaw.WayDayReportsAmount,
-			ChildrenAmount:      dbWayRaw.ChildrenAmount,
+			ChildrenUuids:       dbWayRaw.ChildrenUuids,
 		}
 	})
 }
@@ -157,7 +157,7 @@ func dbOwnWaysToDbWays(rawWay []dbb.GetOwnWaysByUserIdRow) []dbWay {
 			WayMetricsDone:      dbWayRaw.WayMetricsDone,
 			WayFavoriteForUsers: dbWayRaw.WayFavoriteForUsers,
 			WayDayReportsAmount: dbWayRaw.WayDayReportsAmount,
-			ChildrenAmount:      dbWayRaw.ChildrenAmount,
+			ChildrenUuids:       dbWayRaw.ChildrenUuids,
 		}
 	})
 }
@@ -320,7 +320,7 @@ func GetPopulatedUserById(db *dbb.Queries, ctx context.Context, userUuid uuid.UU
 			WayTags:           wayTags,
 			MetricsDone:       int32(dbWay.WayMetricsDone),
 			MetricsTotal:      int32(dbWay.WayMetricsTotal),
-			ChildrenAmount:    int32(dbWay.ChildrenAmount),
+			ChildrenUuids:     dbWay.ChildrenUuids,
 		}
 	})
 
