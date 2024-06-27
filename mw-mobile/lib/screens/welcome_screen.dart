@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
-import '../routes/routes.dart';
-import '../styles/colors.dart';
-import '../styles/shadows.dart';
+import 'package:mw_mobileapp/routes/routes.dart';
+import 'package:mw_mobileapp/styles/colors.dart';
+import 'package:mw_mobileapp/styles/shadows.dart';
 
 class WelcomeScreen extends StatefulWidget {
   @override

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '../screens/welcome_screen.dart';
-import '../screens/all_ways_screen.dart';
-import '../screens/personal_area_screen.dart';
-import '../screens/all_users_screen.dart';
-import '../screens/home_screen.dart';
-import '../screens/settings_screen.dart';
-import '../screens/about_project_screen.dart';
+import 'package:mw_mobileapp/screens/welcome_screen.dart';
+import 'package:mw_mobileapp/screens/all_ways_screen.dart';
+import 'package:mw_mobileapp/screens/personal_area_screen.dart';
+import 'package:mw_mobileapp/screens/all_users_screen.dart';
+import 'package:mw_mobileapp/screens/home_screen.dart';
+import 'package:mw_mobileapp/screens/settings_screen.dart';
+import 'package:mw_mobileapp/screens/about_project_screen.dart';
 
 class AppRoutes {
   static const String welcome = '/welcome';

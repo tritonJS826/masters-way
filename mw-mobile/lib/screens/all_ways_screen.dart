@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../routes/routes.dart';
-import '../widgets/custom_bottom_navigation_bar.dart';
+import 'package:mw_mobileapp/routes/routes.dart';
+import 'package:mw_mobileapp/widgets/custom_bottom_navigation_bar.dart';
 
 class AllWaysScreen extends StatefulWidget {
   @override
