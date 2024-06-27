@@ -63,7 +63,6 @@ func (cc *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
 		CreatedAt:   now,
 		ImageUrl:    userInfo.Picture,
 		IsMentor:    false,
-		FirebaseID:  "",
 	}
 
 	populatedUser, err := services.FindOrCreateUserByEmail(cc.db, ctx, args)
@@ -127,7 +126,6 @@ func (cc *AuthController) GetUserTokenByEmail(ctx *gin.Context) {
 		CreatedAt:   now,
 		ImageUrl:    "",
 		IsMentor:    false,
-		FirebaseID:  "",
 	}
 
 	populatedUser, err := services.FindOrCreateUserByEmail(cc.db, ctx, args)

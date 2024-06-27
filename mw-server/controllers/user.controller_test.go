@@ -20,7 +20,6 @@ func TestCreateUser(t *testing.T) {
 		Description: "test description",
 		ImageUrl:    "http://site.com/test-image",
 		IsMentor:    false,
-		FirebaseId:  "123456789",
 	}
 	jsonValue, _ := json.Marshal(inputData)
 	url := BaseUrl + "/api/users"

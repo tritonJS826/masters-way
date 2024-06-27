@@ -51,7 +51,7 @@ func (q *Queries) DeleteMentorUserWayByIds(ctx context.Context, arg DeleteMentor
 
 const getMentorUsersByWayId = `-- name: GetMentorUsersByWayId :many
 SELECT
-    users.uuid, users.name, users.email, users.description, users.created_at, users.image_url, users.is_mentor, users.firebase_id
+    users.uuid, users.name, users.email, users.description, users.created_at, users.image_url, users.is_mentor
 FROM ways
 JOIN mentor_users_ways ON mentor_users_ways.way_uuid = ways.uuid
 JOIN users ON users.uuid = mentor_users_ways.user_uuid
@@ -75,7 +75,6 @@ func (q *Queries) GetMentorUsersByWayId(ctx context.Context, wayUuid uuid.UUID) 
 			&i.CreatedAt,
 			&i.ImageUrl,
 			&i.IsMentor,
-			&i.FirebaseID,
 		); err != nil {
 			return nil, err
 		}
@@ -92,7 +91,7 @@ func (q *Queries) GetMentorUsersByWayId(ctx context.Context, wayUuid uuid.UUID) 
 
 const getMentorUsersByWayIds = `-- name: GetMentorUsersByWayIds :many
 SELECT
-    users.uuid, users.name, users.email, users.description, users.created_at, users.image_url, users.is_mentor, users.firebase_id,
+    users.uuid, users.name, users.email, users.description, users.created_at, users.image_url, users.is_mentor,
     ways.uuid AS way_uuid
 FROM ways
 JOIN mentor_users_ways ON mentor_users_ways.way_uuid = ways.uuid
@@ -108,7 +107,6 @@ type GetMentorUsersByWayIdsRow struct {
 	CreatedAt   time.Time `json:"created_at"`
 	ImageUrl    string    `json:"image_url"`
 	IsMentor    bool      `json:"is_mentor"`
-	FirebaseID  string    `json:"firebase_id"`
 	WayUuid     uuid.UUID `json:"way_uuid"`
 }
 
@@ -129,7 +127,6 @@ func (q *Queries) GetMentorUsersByWayIds(ctx context.Context, dollar_1 []uuid.UU
 			&i.CreatedAt,
 			&i.ImageUrl,
 			&i.IsMentor,
-			&i.FirebaseID,
 			&i.WayUuid,
 		); err != nil {
 			return nil, err

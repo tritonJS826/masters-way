@@ -8,7 +8,6 @@ CREATE TABLE users(
     "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "image_url" VARCHAR(300) NOT NULL,
     "is_mentor" BOOLEAN NOT NULL,
-    "firebase_id" VARCHAR NOT NULL,
     CONSTRAINT "users_pkey" PRIMARY KEY("uuid")
 );
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");

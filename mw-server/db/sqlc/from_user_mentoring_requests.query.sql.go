@@ -130,7 +130,7 @@ func (q *Queries) GetFromUserMentoringRequestWaysByUserId(ctx context.Context, u
 
 const getFromUserMentoringRequestWaysByWayId = `-- name: GetFromUserMentoringRequestWaysByWayId :many
 SELECT 
-    users.uuid, users.name, users.email, users.description, users.created_at, users.image_url, users.is_mentor, users.firebase_id
+    users.uuid, users.name, users.email, users.description, users.created_at, users.image_url, users.is_mentor
 FROM from_user_mentoring_requests
 JOIN users ON from_user_mentoring_requests.user_uuid = users.uuid
 WHERE from_user_mentoring_requests.way_uuid = $1
@@ -153,7 +153,6 @@ func (q *Queries) GetFromUserMentoringRequestWaysByWayId(ctx context.Context, wa
 			&i.CreatedAt,
 			&i.ImageUrl,
 			&i.IsMentor,
-			&i.FirebaseID,
 		); err != nil {
 			return nil, err
 		}
