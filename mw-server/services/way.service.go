@@ -18,7 +18,7 @@ type GetPopulatedWayByIdParams struct {
 }
 
 func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulatedWayByIdParams) (schemas.WayPopulatedResponse, error) {
-	way, err := db.GetBasePopulatedWayByID(ctx, params.WayUuid)
+	way, err := db.GetWayById(ctx, params.WayUuid)
 	if err != nil {
 		return schemas.WayPopulatedResponse{}, err
 	}
@@ -46,6 +46,7 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 		return jobTag.Uuid, jobTag
 	})
 
+	favoriteForUserAmount, _ := db.GetFavoriteForUserUuidsByWayId(ctx, params.WayUuid)
 	fromUserMentoringRequestsRaw, _ := db.GetFromUserMentoringRequestWaysByWayId(ctx, params.WayUuid)
 	fromUserMentoringRequests := lo.Map(fromUserMentoringRequestsRaw, func(fromUser dbb.User, i int) schemas.UserPlainResponse {
 		return schemas.UserPlainResponse{
@@ -235,10 +236,10 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 	}
 
 	var children []schemas.WayPopulatedResponse
-	if len(way.ChildrenUuids) > 0 && params.CurrentChildrenDepth < int(limitMap[MaxCompositeWayDeps][dbb.PricingPlanTypeStarter]) {
-		children = lo.Map(way.ChildrenUuids, func(childUuid uuid.UUID, i int) schemas.WayPopulatedResponse {
+	if params.CurrentChildrenDepth < int(limitMap[MaxCompositeWayDeps][dbb.PricingPlanTypeStarter]) {
+		children = lo.Map(way.ChildrenUuids, func(childUuid string, i int) schemas.WayPopulatedResponse {
 			args := GetPopulatedWayByIdParams{
-				WayUuid:              childUuid,
+				WayUuid:              uuid.MustParse(childUuid),
 				CurrentChildrenDepth: params.CurrentChildrenDepth + 1,
 			}
 			child, _ := GetPopulatedWayById(db, ctx, args)
@@ -263,7 +264,7 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 		Mentors:                mentors,
 		FormerMentors:          formerMentors,
 		FromUserMentorRequests: fromUserMentoringRequests,
-		FavoriteForUsersAmount: int32(way.FavoriteForUsersAmount),
+		FavoriteForUsersAmount: int32(favoriteForUserAmount),
 		WayTags:                wayTags,
 		JobTags:                jobTags,
 		Metrics:                metrics,
@@ -341,7 +342,7 @@ func GetPlainWayById(db *dbb.Queries, ctx context.Context, wayUuid uuid.UUID) (s
 		MetricsDone:       int32(way.WayMetricsDone),
 		MetricsTotal:      int32(way.WayMetricsTotal),
 		WayTags:           wayTags,
-		ChildrenAmount:    int32(way.ChildrenAmount),
+		ChildrenUuids:     way.ChildrenUuids,
 	}
 
 	return response, err

@@ -35,6 +35,11 @@ SELECT
     ways.copied_from_way_uuid,
     ways.is_completed,
     ways.is_private,
+    (ARRAY(
+        SELECT composite_ways.child_uuid
+        FROM composite_ways
+        WHERE composite_ways.parent_uuid = ways.uuid
+    )::VARCHAR[]) AS children_uuids,
     users.uuid AS owner_uuid,
     users.name AS owner_name,
     users.email AS owner_email,
@@ -46,46 +51,14 @@ SELECT
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = @way_uuid AND metrics.is_done = true) AS way_metrics_done,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = @way_uuid) AS way_favorite_for_users,
     (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = @way_uuid) AS way_day_reports_amount,
-    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = @way_uuid) AS way_day_reports_amount,
-    (SELECT COUNT(*) FROM composite_ways WHERE composite_ways.parent_uuid = ways.uuid) AS children_amount
-FROM ways
-JOIN users ON users.uuid = ways.owner_uuid
-WHERE ways.uuid = @way_uuid
-LIMIT 1;
-
--- name: GetBasePopulatedWayByID :one
-WITH favorite_count AS (
-    SELECT COUNT(*) AS favorite_for_users_amount
-    FROM favorite_users_ways
-    WHERE way_uuid = @way_uuid
-)
-SELECT
-    w.uuid,
-    w.name,
-    w.goal_description,
-    w.updated_at,
-    w.created_at,
-    w.estimation_time,
-    w.is_completed,
-    w.is_private,
-    COALESCE(fc.favorite_for_users_amount, 0) AS favorite_for_users_amount,
-    w.copied_from_way_uuid,
     (ARRAY(
         SELECT composite_ways.child_uuid
         FROM composite_ways
-        WHERE composite_ways.parent_uuid = w.uuid
-    )::UUID[]) AS children_uuids,
-    u.uuid AS owner_uuid,
-    u.name AS owner_name,
-    u.email AS owner_email,
-    u.description AS owner_description,
-    u.created_at AS owner_created_at,
-    u.image_url AS owner_image_url,
-    u.is_mentor AS owner_is_mentor
-FROM ways w
-JOIN users u ON u.uuid = w.owner_uuid
-LEFT JOIN favorite_count fc ON true
-WHERE w.uuid = @way_uuid
+        WHERE composite_ways.parent_uuid = ways.uuid
+    )::VARCHAR[]) AS children_uuids
+FROM ways
+JOIN users ON users.uuid = ways.owner_uuid
+WHERE ways.uuid = @way_uuid
 LIMIT 1;
 
 -- name: GetWaysByCollectionId :many
@@ -104,7 +77,11 @@ SELECT
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
     (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount,
-    (SELECT COUNT(*) FROM composite_ways WHERE composite_ways.parent_uuid = ways.uuid) AS children_amount
+    (ARRAY(
+        SELECT composite_ways.child_uuid
+        FROM composite_ways
+        WHERE composite_ways.parent_uuid = ways.uuid
+    )::VARCHAR[]) AS children_uuids
 FROM ways
 JOIN way_collections_ways ON way_collections_ways.way_uuid = ways.uuid
 WHERE way_collections_ways.way_collection_uuid = $1
@@ -126,7 +103,11 @@ SELECT
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
     (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount,
-    (SELECT COUNT(*) FROM composite_ways WHERE composite_ways.parent_uuid = ways.uuid) AS children_amount
+    (ARRAY(
+        SELECT composite_ways.child_uuid
+        FROM composite_ways
+        WHERE composite_ways.parent_uuid = ways.uuid
+    )::VARCHAR[]) AS children_uuids
 FROM ways
 WHERE ways.owner_uuid = $1
 ORDER BY ways.updated_at DESC;
