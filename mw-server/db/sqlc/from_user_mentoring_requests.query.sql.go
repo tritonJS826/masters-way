@@ -10,7 +10,6 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/lib/pq"
 )
 
 const createFromUserMentoringRequest = `-- name: CreateFromUserMentoringRequest :one
@@ -65,11 +64,7 @@ SELECT
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
     (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount,
-    (ARRAY(
-        SELECT composite_ways.child_uuid 
-        FROM composite_ways 
-        WHERE composite_ways.parent_uuid = ways.uuid
-    )::VARCHAR[]) AS children_uuids
+    (SELECT COUNT(*) FROM composite_ways WHERE composite_ways.parent_uuid = ways.uuid) AS children_amount
 FROM from_user_mentoring_requests
 JOIN ways 
     ON $1 = from_user_mentoring_requests.user_uuid 
@@ -91,7 +86,7 @@ type GetFromUserMentoringRequestWaysByUserIdRow struct {
 	WayMetricsDone      int64         `json:"way_metrics_done"`
 	WayFavoriteForUsers int64         `json:"way_favorite_for_users"`
 	WayDayReportsAmount int64         `json:"way_day_reports_amount"`
-	ChildrenUuids       []string      `json:"children_uuids"`
+	ChildrenAmount      int64         `json:"children_amount"`
 }
 
 func (q *Queries) GetFromUserMentoringRequestWaysByUserId(ctx context.Context, userUuid uuid.UUID) ([]GetFromUserMentoringRequestWaysByUserIdRow, error) {
@@ -118,7 +113,7 @@ func (q *Queries) GetFromUserMentoringRequestWaysByUserId(ctx context.Context, u
 			&i.WayMetricsDone,
 			&i.WayFavoriteForUsers,
 			&i.WayDayReportsAmount,
-			pq.Array(&i.ChildrenUuids),
+			&i.ChildrenAmount,
 		); err != nil {
 			return nil, err
 		}

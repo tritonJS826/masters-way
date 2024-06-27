@@ -799,9 +799,7 @@ definitions:
   schemas.WayPlainResponse:
     properties:
       childrenUuids:
-        items:
-          type: string
-        type: array
+        type: integer
       copiedFromWayUuid:
         type: string
         x-nullable: true
@@ -979,14 +977,8 @@ paths:
     post:
       consumes:
       - application/json
-      operationId: google auth log in
+      operationId: google auth log in callback function
       parameters:
-      - description: query params
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/schemas.CreateCommentPayload'
       - description: state parameter
         in: query
         name: state
@@ -1002,8 +994,6 @@ paths:
       responses:
         "200":
           description: OK
-          schema:
-            $ref: '#/definitions/schemas.CommentPopulatedResponse'
       summary: Log in with google oAuth
       tags:
       - auth
