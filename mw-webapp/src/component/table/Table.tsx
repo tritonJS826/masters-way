@@ -32,6 +32,17 @@ interface TableData<T> {
 /**
  * Data attributes for cypress testing
  */
+interface dataCyTableContent {
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCyTh?: string;
+}
+
+/**
+ * Data attributes for cypress testing
+ */
 interface dataCy {
 
   /**
@@ -42,7 +53,7 @@ interface dataCy {
   /**
    * Data attribute for cypress testing
    */
-  dataCyTh?: string;
+  dataCyTableContent?: dataCyTableContent;
 }
 
 /**
@@ -88,7 +99,7 @@ export const Table = <T extends UuidProps, > (props: TableProps<TableData<T>>) =
               <th
                 className={styles.th}
                 key={header.id}
-                data-cy={props.dataCy?.dataCyTh}
+                data-cy={props.dataCy?.dataCyTableContent?.dataCyTh}
               >
                 {header.isPlaceholder
                   ? null
