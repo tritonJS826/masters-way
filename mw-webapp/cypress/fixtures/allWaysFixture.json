@@ -1,4 +1,3 @@
 {
-    "endpoint": "/ways",
-    "starSymbol": "★"
+    "endpoint": "/ways"
 }

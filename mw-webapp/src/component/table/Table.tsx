@@ -30,6 +30,22 @@ interface TableData<T> {
 }
 
 /**
+ * Data attributes for cypress testing
+ */
+interface dataCy {
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCyTable?: string;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCyTh?: string;
+}
+
+/**
  * Table's props
  */
 interface TableProps<T> {
@@ -48,12 +64,7 @@ interface TableProps<T> {
   /**
    * Data attribute for cypress testing
    */
-  dataCy?: string;
-
-  /**
-   * Data attribute for cypress testing
-   */
-  dataCyTh?: string;
+  dataCy?: dataCy;
 }
 
 /**
@@ -65,7 +76,7 @@ export const Table = <T extends UuidProps, > (props: TableProps<TableData<T>>) =
   return (
     <table
       className={styles.table}
-      data-cy={props.dataCy}
+      data-cy={props.dataCy?.dataCyTable}
     >
       <thead className={styles.thead}>
         {data.headerGroup.map((headerGroup) => (
@@ -77,7 +88,7 @@ export const Table = <T extends UuidProps, > (props: TableProps<TableData<T>>) =
               <th
                 className={styles.th}
                 key={header.id}
-                data-cy={props.dataCyTh}
+                data-cy={props.dataCy?.dataCyTh}
               >
                 {header.isPlaceholder
                   ? null

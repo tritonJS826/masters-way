@@ -1,8 +1,8 @@
 import {allWaysSelectors} from "cypress/scopesSelectors/allWaysSelectors";
-import allWaysPageData from "cypress/fixtures/allWaysFixture.json";
 import allWaysPageContent from "src/dictionary/AllWaysPageContent.json";
 import {headerSelectors} from "cypress/scopesSelectors/headerSelectors";
 import {navigationMenuSelectors} from "cypress/scopesSelectors/navigationMenuSelectors";
+import {Symbols} from "src/utils/Symbols";
 
 describe('All Ways scope tests', () => {
 
@@ -18,7 +18,7 @@ describe('All Ways scope tests', () => {
 
   it('NoAuth_AllWays_SelectTableView', () => {
     const tableHeadersEn = Object.values(allWaysPageContent.waysTable.columns).map(column => column.en);
-    tableHeadersEn.push(allWaysPageData.starSymbol);
+    tableHeadersEn.push(Symbols.STAR);
 
     allWaysSelectors.filterViewBlock.getTableViewButton().click();
 
