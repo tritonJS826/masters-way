@@ -26,7 +26,7 @@ describe('All Ways scope tests', () => {
 
     allWaysSelectors.allWaysTable.getTableTh().each((el, index) => {
       cy.wrap(el).invoke('text').then((text) => {
-      expect(text.trim()).equal(tableHeadersEn[index]);
+      assert.equal(text.trim(), tableHeadersEn[index]);
       });
     });
   });

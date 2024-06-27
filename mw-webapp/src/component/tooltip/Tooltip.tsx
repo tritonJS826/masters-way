@@ -1,4 +1,4 @@
-import {PropsWithChildren, ReactElement, ReactNode} from "react";
+import {PropsWithChildren, ReactElement, ReactNode, useState} from "react";
 import * as TooltipElem from "@radix-ui/react-tooltip";
 import clsx from "clsx";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
@@ -41,11 +41,21 @@ interface TooltipProps {
  * Tooltip component
  */
 export const Tooltip = (props: PropsWithChildren<TooltipProps>) => {
+  const [open, setOpen] = useState(false);
+
   return (
     <TooltipElem.Provider>
-      <TooltipElem.Root>
+      <TooltipElem.Root
+        open={open}
+        onOpenChange={setOpen}
+      >
         <TooltipElem.Trigger asChild>
-          <div className={styles.tooltipTrigger}>
+          <div
+            className={styles.tooltipTrigger}
+            onClick={() => setOpen((prevOpen) => !prevOpen)}
+            onFocus={() => setTimeout(() => setOpen(true), 0)}
+            onBlur={() => setOpen(false)}
+          >
             {props.children}
           </div>
         </TooltipElem.Trigger>
