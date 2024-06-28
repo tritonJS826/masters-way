@@ -11,6 +11,7 @@ import {GridViewIcon} from "src/assets/icons/GridViewIcon";
 import {HomeIcon} from "src/assets/icons/HomeIcon";
 import {InfoIcon} from "src/assets/icons/InfoIcon";
 import {LinkedinIcon} from "src/assets/icons/LinkedinIcon";
+import {MinusIcon} from "src/assets/icons/MinusIcon";
 import {MoonIcon} from "src/assets/icons/MoonIcon";
 import {MoreVertical} from "src/assets/icons/MoreVertical";
 import {PlusIcon} from "src/assets/icons/PlusIcon";
@@ -75,6 +76,11 @@ export const IconDictionary = {
    * Plus icon
    */
   PlusIcon: (params: IconProps) => <PlusIcon {...params} />,
+
+  /**
+   * Minus icon
+   */
+  MinusIcon: (params: IconProps) => <MinusIcon {...params} />,
 
   /**
    * MoreVertical icon
