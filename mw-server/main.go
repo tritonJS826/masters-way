@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
-	"mwserver/db/scripts/testmigrate"
+	"mwserver/db/scripts/testdata"
 	"net/http"
 
 	"mwserver/config"
@@ -198,7 +198,9 @@ func init() {
 
 	if config.Env.EnvType != "prod" {
 		server.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-		server.GET("/test/migrate", testmigrate.RunTestMigrationsController)
+		server.POST("/test/data", testdata.AddTestData(conn))
+		server.DELETE("/test/data", testdata.ResetData(db))
+		server.PUT("/test/data", testdata.ResetAndAddTestData(db, conn))
 	}
 }
 
