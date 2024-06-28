@@ -1,4 +1,4 @@
-import {TrashIcon} from "@radix-ui/react-icons";
+import {Cross2Icon} from "@radix-ui/react-icons";
 import {observer} from "mobx-react-lite";
 import {Confirm} from "src/component/confirm/Confirm";
 import {EditableText} from "src/component/editableText/EditableText";
@@ -93,7 +93,7 @@ export const LabelLine = observer((props: LabelLineProps) => {
           position={PositionTooltip.LEFT}
         >
           <Confirm
-            trigger={<TrashIcon className={styles.icon} />}
+            trigger={<Cross2Icon className={styles.icon} />}
             content={<p>
               {LanguageService.way.filterBlock.deleteJobTagQuestion[language].replace("$jobTag", `"${props.label.name}"`)}
             </p>}

@@ -73,21 +73,23 @@ export const AdjustLabelsBlock = observer((props: JobTagsProps) => {
   return (
     <VerticalContainer className={styles.adjustLabelsContent}>
       <Title
-        level={HeadingLevel.h3}
+        level={HeadingLevel.h2}
         text={LanguageService.way.filterBlock.jobDoneTagsModalTitle[language]}
         placeholder=""
       />
-      {props.jobTags.map((label) => {
-        return (
-          <LabelLine
-            onRemoveLabel={removeLabelFromWay}
-            key={label.uuid}
-            label={label}
-            isEditable={props.isEditable}
-          />
-        );
-      })
+      <VerticalContainer className={styles.labelLinesContainer}>
+        {props.jobTags.map((label) => {
+          return (
+            <LabelLine
+              onRemoveLabel={removeLabelFromWay}
+              key={label.uuid}
+              label={label}
+              isEditable={props.isEditable}
+            />
+          );
+        })
       }
+      </VerticalContainer>
 
       {props.isEditable &&
         <Modal

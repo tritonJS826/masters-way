@@ -157,6 +157,10 @@ $iconContainerSize: 25px;
   max-width: $maxWidthBlock;
 }
 
+.labelModalWrapper {
+  padding: $paddingExtraBig;
+}
+
 .wrap {
   @media (max-width: $mediaWidthMobileBig) {
     justify-content: center;

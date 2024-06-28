@@ -907,6 +907,7 @@ export const WayPage = observer((props: WayPageProps) => {
               />
             }
             <Modal
+              className={styles.labelModalWrapper}
               trigger={
                 <Button
                   value={LanguageService.way.filterBlock.adjustJobTags[language]}

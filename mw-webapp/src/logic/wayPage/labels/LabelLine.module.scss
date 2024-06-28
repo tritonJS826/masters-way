@@ -2,13 +2,18 @@
 
 .labelLine {
   align-items: baseline;
-  gap: $gapBig;
+  gap: $gapLarge;
+
+  @media (max-width: $mediaWidthTablet){
+    gap: $gapBig;;
+  }
 }
 
 .labelContainer {
   display: flex;
   min-width: 120px;
   max-width: 150px;
+  white-space: nowrap;
 }
 
 .labelDescription {
