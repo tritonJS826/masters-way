@@ -3,11 +3,15 @@ package services
 import (
 	"context"
 	"database/sql"
+	"fmt"
+	"log"
 	dbb "mwserver/db/sqlc"
 	"mwserver/schemas"
 	"mwserver/util"
+	"sync"
 	"time"
 
+	"github.com/bytedance/sonic"
 	"github.com/google/uuid"
 	"github.com/samber/lo"
 )
@@ -17,10 +21,99 @@ type GetPopulatedWayByIdParams struct {
 	CurrentChildrenDepth int
 }
 
+type MetricDTO struct {
+	UUID             uuid.UUID `json:"uuid"`
+	Description      string    `json:"description"`
+	IsDone           bool      `json:"is_done"`
+	DoneDate         *string   `json:"done_date"`
+	MetricEstimation int32     `json:"metric_estimation"`
+	WayUuid          uuid.UUID `json:"way_uuid"`
+}
+
+type MentorDTO struct {
+	UUID        uuid.UUID `json:"uuid"`
+	Name        string    `json:"name"`
+	Email       string    `json:"email"`
+	Description string    `json:"description"`
+	CreatedAt   string    `json:"created_at"`
+	ImageURL    string    `json:"image_url"`
+	IsMentor    bool      `json:"is_mentor"`
+}
+
+type DayReportDTO struct {
+	Uuid      uuid.UUID `json:"uuid"`
+	WayUuid   uuid.UUID `json:"way_uuid"`
+	CreatedAt string    `json:"created_at"`
+	UpdatedAt string    `json:"updated_at"`
+	IsDayOff  bool      `json:"is_day_off"`
+}
+
+type JobDoneDTO struct {
+	Uuid          uuid.UUID `json:"uuid"`
+	CreatedAt     string    `json:"created_at"`
+	UpdatedAt     string    `json:"updated_at"`
+	Description   string    `json:"description"`
+	Time          int32     `json:"time"`
+	OwnerUuid     uuid.UUID `json:"owner_uuid"`
+	DayReportUuid uuid.UUID `json:"day_report_uuid"`
+	TagUuids      []string  `json:"tag_uuids"`
+}
+
+type PlanDTO struct {
+	Uuid          uuid.UUID `json:"uuid"`
+	CreatedAt     string    `json:"created_at"`
+	UpdatedAt     string    `json:"updated_at"`
+	Description   string    `json:"description"`
+	Time          int32     `json:"time"`
+	OwnerUuid     uuid.UUID `json:"owner_uuid"`
+	IsDone        bool      `json:"is_done"`
+	DayReportUuid uuid.UUID `json:"day_report_uuid"`
+	TagUuids      []string  `json:"tag_uuids"`
+}
+
+type ProblemDTO struct {
+	Uuid          uuid.UUID `json:"uuid"`
+	CreatedAt     string    `json:"created_at"`
+	UpdatedAt     string    `json:"updated_at"`
+	Description   string    `json:"description"`
+	IsDone        bool      `json:"is_done"`
+	OwnerUuid     uuid.UUID `json:"owner_uuid"`
+	DayReportUuid uuid.UUID `json:"day_report_uuid"`
+	TagUuids      []string  `json:"tag_uuids"`
+}
+
+type CommentDTO struct {
+	Uuid          uuid.UUID `json:"uuid"`
+	CreatedAt     string    `json:"created_at"`
+	UpdatedAt     string    `json:"updated_at"`
+	Description   string    `json:"description"`
+	OwnerUuid     uuid.UUID `json:"owner_uuid"`
+	DayReportUuid uuid.UUID `json:"day_report_uuid"`
+}
+
 func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulatedWayByIdParams) (schemas.WayPopulatedResponse, error) {
-	way, err := db.GetWayById(ctx, params.WayUuid)
+	way, err := db.GetBasePopulatedWayByID(ctx, params.WayUuid)
 	if err != nil {
 		return schemas.WayPopulatedResponse{}, err
+	}
+	var wgChildren sync.WaitGroup
+	var children []schemas.WayPopulatedResponse
+	if len(way.ChildrenUuids) > 0 && params.CurrentChildrenDepth < int(limitMap[MaxCompositeWayDeps][dbb.PricingPlanTypeStarter]) {
+		wgChildren.Add(1)
+		go func() {
+			defer wgChildren.Done()
+			children = lo.Map(way.ChildrenUuids, func(childUuid uuid.UUID, i int) schemas.WayPopulatedResponse {
+				args := GetPopulatedWayByIdParams{
+					WayUuid:              childUuid,
+					CurrentChildrenDepth: params.CurrentChildrenDepth + 1,
+				}
+				child, _ := GetPopulatedWayById(db, ctx, args)
+
+				return child
+			})
+		}()
+	} else {
+		children = []schemas.WayPopulatedResponse{}
 	}
 
 	wayOwner := schemas.UserPlainResponse{
@@ -33,182 +126,337 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 		IsMentor:    way.OwnerIsMentor,
 	}
 
-	jobTagsRaw, _ := db.GetListJobTagsByWayUuid(ctx, params.WayUuid)
-	jobTags := lo.Map(jobTagsRaw, func(dbJobTag dbb.JobTag, i int) schemas.JobTagResponse {
-		return schemas.JobTagResponse{
-			Uuid:        dbJobTag.Uuid.String(),
-			Name:        dbJobTag.Name,
-			Description: dbJobTag.Description,
-			Color:       dbJobTag.Color,
-		}
-	})
-	jobTagsMap := lo.SliceToMap(jobTags, func(jobTag schemas.JobTagResponse) (string, schemas.JobTagResponse) {
-		return jobTag.Uuid, jobTag
-	})
+	var wg sync.WaitGroup
 
-	favoriteForUserAmount, _ := db.GetFavoriteForUserUuidsByWayId(ctx, params.WayUuid)
-	fromUserMentoringRequestsRaw, _ := db.GetFromUserMentoringRequestWaysByWayId(ctx, params.WayUuid)
-	fromUserMentoringRequests := lo.Map(fromUserMentoringRequestsRaw, func(fromUser dbb.User, i int) schemas.UserPlainResponse {
-		return schemas.UserPlainResponse{
-			Uuid:        fromUser.Uuid.String(),
-			Name:        fromUser.Name,
-			Email:       fromUser.Email,
-			Description: fromUser.Description,
-			CreatedAt:   fromUser.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-			ImageUrl:    fromUser.ImageUrl,
-			IsMentor:    fromUser.IsMentor,
-		}
-	})
+	var jobTagsMap map[string]schemas.JobTagResponse
+	var jobTags []schemas.JobTagResponse
+	var fromUserMentoringRequests []schemas.UserPlainResponse
+	var formerMentors []schemas.UserPlainResponse
+	var mentors []schemas.UserPlainResponse
+	var metrics []schemas.MetricResponse
+	var dayReportsUUID []uuid.UUID
+	var wayTags []schemas.WayTagResponse
 
-	formerMentorsRaw, _ := db.GetFormerMentorUsersByWayId(ctx, params.WayUuid)
-	formerMentors := lo.Map(formerMentorsRaw, func(dbFormerMentor dbb.User, i int) schemas.UserPlainResponse {
-		return schemas.UserPlainResponse{
-			Uuid:        dbFormerMentor.Uuid.String(),
-			Name:        dbFormerMentor.Name,
-			Email:       dbFormerMentor.Email,
-			Description: dbFormerMentor.Description,
-			CreatedAt:   dbFormerMentor.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-			ImageUrl:    dbFormerMentor.ImageUrl,
-			IsMentor:    dbFormerMentor.IsMentor,
-		}
-	})
+	var dayReportsTest []DayReportDTO
 
-	mentorsRaw, _ := db.GetMentorUsersByWayId(ctx, params.WayUuid)
-	mentors := lo.Map(mentorsRaw, func(dbMentor dbb.User, i int) schemas.UserPlainResponse {
-		return schemas.UserPlainResponse{
-			Uuid:        dbMentor.Uuid.String(),
-			Name:        dbMentor.Name,
-			Email:       dbMentor.Email,
-			Description: dbMentor.Description,
-			CreatedAt:   dbMentor.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-			ImageUrl:    dbMentor.ImageUrl,
-			IsMentor:    dbMentor.IsMentor,
-		}
-	})
+	wg.Add(7)
 
-	metricsRaw, _ := db.GetListMetricsByWayUuid(ctx, params.WayUuid)
-	metrics := lo.Map(metricsRaw, func(dbMetric dbb.Metric, i int) schemas.MetricResponse {
-		return schemas.MetricResponse{
-			Uuid:             dbMetric.Uuid.String(),
-			Description:      dbMetric.Description,
-			IsDone:           dbMetric.IsDone,
-			DoneDate:         util.MarshalNullTime(dbMetric.DoneDate),
-			MetricEstimation: dbMetric.MetricEstimation,
+	go func() {
+		defer wg.Done()
+		var metricTest []MetricDTO
+		if way.Metrics != nil {
+			metricsBytes := way.Metrics.([]byte)
+			err := sonic.Unmarshal(metricsBytes, &metricTest)
+			if err != nil {
+				log.Fatalln(err)
+			}
 		}
-	})
+		metrics = lo.Map(metricTest, func(dbMetric MetricDTO, i int) schemas.MetricResponse {
+			var doneDate *string
+			if dbMetric.DoneDate != nil {
+				doneDateString := util.FormatDateString(*dbMetric.DoneDate)
+				doneDate = &doneDateString
+			}
+			return schemas.MetricResponse{
+				Uuid:             dbMetric.UUID.String(),
+				Description:      dbMetric.Description,
+				IsDone:           dbMetric.IsDone,
+				DoneDate:         doneDate,
+				MetricEstimation: dbMetric.MetricEstimation,
+			}
+		})
+	}()
 
-	wayTagsRaw, _ := db.GetListWayTagsByWayId(ctx, params.WayUuid)
-	wayTags := lo.Map(wayTagsRaw, func(dbWayTag dbb.WayTag, i int) schemas.WayTagResponse {
-		return schemas.WayTagResponse{
-			Uuid: dbWayTag.Uuid.String(),
-			Name: dbWayTag.Name,
+	go func() {
+		defer wg.Done()
+		var fromUserMentoringRequestsTest []MentorDTO
+		if way.FromUserMentoringRequests != nil {
+			fromUserMentoringRequestsBytes := way.FromUserMentoringRequests.([]byte)
+			err := sonic.Unmarshal(fromUserMentoringRequestsBytes, &fromUserMentoringRequestsTest)
+			if err != nil {
+				log.Fatalln(err)
+			}
 		}
-	})
+		fromUserMentoringRequests = lo.Map(fromUserMentoringRequestsTest, func(fromUser MentorDTO, i int) schemas.UserPlainResponse {
+			return schemas.UserPlainResponse{
+				Uuid:        fromUser.UUID.String(),
+				Name:        fromUser.Name,
+				Email:       fromUser.Email,
+				Description: fromUser.Description,
+				CreatedAt:   util.FormatDateString(fromUser.CreatedAt),
+				ImageUrl:    fromUser.ImageURL,
+				IsMentor:    fromUser.IsMentor,
+			}
+		})
+	}()
 
-	allWayRelatedUsers := make([]schemas.UserPlainResponse, len(mentors)+len(formerMentors)+1)
-	allWayRelatedUsers = append(allWayRelatedUsers, mentors...)
-	allWayRelatedUsers = append(allWayRelatedUsers, formerMentors...)
-	allWayRelatedUsers = append(allWayRelatedUsers, wayOwner)
+	go func() {
+		defer wg.Done()
+		var formerMentorsTest []MentorDTO
+		if way.FormerMentors != nil {
+			formerMentorsBytes := way.FormerMentors.([]byte)
+			err := sonic.Unmarshal(formerMentorsBytes, &formerMentorsTest)
+			if err != nil {
+				log.Fatalln(err)
+			}
+		}
+		formerMentors = lo.Map(formerMentorsTest, func(dbFormerMentor MentorDTO, i int) schemas.UserPlainResponse {
+			return schemas.UserPlainResponse{
+				Uuid:        dbFormerMentor.UUID.String(),
+				Name:        dbFormerMentor.Name,
+				Email:       dbFormerMentor.Email,
+				Description: dbFormerMentor.Description,
+				CreatedAt:   util.FormatDateString(dbFormerMentor.CreatedAt),
+				ImageUrl:    dbFormerMentor.ImageURL,
+				IsMentor:    dbFormerMentor.IsMentor,
+			}
+		})
+	}()
+
+	go func() {
+		defer wg.Done()
+		var mentorsTest []MentorDTO
+		if way.Mentors != nil {
+			mentorsBytes := way.Mentors.([]byte)
+			err := sonic.Unmarshal(mentorsBytes, &mentorsTest)
+			if err != nil {
+				log.Fatalln(err)
+			}
+		}
+		mentors = lo.Map(mentorsTest, func(dbMentor MentorDTO, i int) schemas.UserPlainResponse {
+			return schemas.UserPlainResponse{
+				Uuid:        dbMentor.UUID.String(),
+				Name:        dbMentor.Name,
+				Email:       dbMentor.Email,
+				Description: dbMentor.Description,
+				CreatedAt:   util.FormatDateString(dbMentor.CreatedAt),
+				ImageUrl:    dbMentor.ImageURL,
+				IsMentor:    dbMentor.IsMentor,
+			}
+		})
+	}()
+
+	go func() {
+		defer wg.Done()
+		if way.DayReports != nil {
+			dayReportsBytes := way.DayReports.([]byte)
+			err := sonic.Unmarshal(dayReportsBytes, &dayReportsTest)
+			if err != nil {
+				log.Fatalln(err)
+			}
+		}
+		dayReportsUUID = lo.Map(dayReportsTest, func(dbDayReport DayReportDTO, i int) uuid.UUID {
+			return dbDayReport.Uuid
+		})
+	}()
+
+	go func() {
+		defer wg.Done()
+		var wayTagsTest []dbb.WayTag
+		if way.WayTags != nil {
+			wayTagsBytes := way.WayTags.([]byte)
+			err := sonic.Unmarshal(wayTagsBytes, &wayTagsTest)
+			if err != nil {
+				log.Fatalln(err)
+			}
+		}
+		wayTags = lo.Map(wayTagsTest, func(dbWayTag dbb.WayTag, i int) schemas.WayTagResponse {
+			return schemas.WayTagResponse{
+				Uuid: dbWayTag.Uuid.String(),
+				Name: dbWayTag.Name,
+			}
+		})
+	}()
+
+	go func() {
+		defer wg.Done()
+		var jobTagsTest []dbb.JobTag
+		if way.JobTags != nil {
+			jobTagsBytes := way.JobTags.([]byte)
+			err := sonic.Unmarshal(jobTagsBytes, &jobTagsTest)
+			if err != nil {
+				log.Fatalln(err)
+			}
+		}
+		jobTags = lo.Map(jobTagsTest, func(dbJobTag dbb.JobTag, i int) schemas.JobTagResponse {
+			return schemas.JobTagResponse{
+				Uuid:        dbJobTag.Uuid.String(),
+				Name:        dbJobTag.Name,
+				Description: dbJobTag.Description,
+				Color:       dbJobTag.Color,
+			}
+		})
+		jobTagsMap = lo.SliceToMap(jobTags, func(jobTag schemas.JobTagResponse) (string, schemas.JobTagResponse) {
+			return jobTag.Uuid, jobTag
+		})
+	}()
+
+	wg.Wait()
+
+	allWayRelatedUsers := append(append(append([]schemas.UserPlainResponse{}, mentors...), formerMentors...), wayOwner)
 	allWayRelatedUsersMap := lo.SliceToMap(allWayRelatedUsers, func(relatedUser schemas.UserPlainResponse) (string, schemas.UserPlainResponse) {
 		return relatedUser.Uuid, relatedUser
 	})
 
-	dayReportsRaw, _ := db.GetListDayReportsByWayUuid(ctx, params.WayUuid)
-	dayReportUuids := lo.Map(dayReportsRaw, func(dbDayReport dbb.DayReport, i int) uuid.UUID {
-		return dbDayReport.Uuid
-	})
+	dbDayReportsTest, err := db.GetNestedEntitiesForDayReports(ctx, dayReportsUUID)
+	if err != nil {
+		return schemas.WayPopulatedResponse{}, err
+	}
 
-	dbJobDones, _ := db.GetJobDonesByDayReportUuids(ctx, dayReportUuids)
 	jobDonesMap := make(map[string][]schemas.JobDonePopulatedResponse)
-	lo.ForEach(dbJobDones, func(dbJobDone dbb.GetJobDonesByDayReportUuidsRow, i int) {
-		jobDoneOwner := allWayRelatedUsersMap[dbJobDone.OwnerUuid.String()]
-		tags := lo.Map(dbJobDone.TagUuids, func(tagUuid string, i int) schemas.JobTagResponse {
-			return jobTagsMap[tagUuid]
-		})
-		jobDonesMap[dbJobDone.DayReportUuid.String()] = append(
-			jobDonesMap[dbJobDone.DayReportUuid.String()],
-			schemas.JobDonePopulatedResponse{
-				Uuid:          dbJobDone.Uuid.String(),
-				CreatedAt:     dbJobDone.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-				UpdatedAt:     dbJobDone.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-				Description:   dbJobDone.Description,
-				Time:          dbJobDone.Time,
-				OwnerUuid:     dbJobDone.OwnerUuid.String(),
-				OwnerName:     jobDoneOwner.Name,
-				DayReportUuid: dbJobDone.DayReportUuid.String(),
-				Tags:          tags,
-			},
-		)
-	})
-
-	dbPlans, _ := db.GetPlansByDayReportUuids(ctx, dayReportUuids)
 	plansMap := make(map[string][]schemas.PlanPopulatedResponse)
-	lo.ForEach(dbPlans, func(plan dbb.GetPlansByDayReportUuidsRow, i int) {
-		planOwner := allWayRelatedUsersMap[plan.OwnerUuid.String()]
-		tags := lo.Map(plan.TagUuids, func(tagUuid string, i int) schemas.JobTagResponse {
-			return jobTagsMap[tagUuid]
-		})
-		plansMap[plan.DayReportUuid.String()] = append(
-			plansMap[plan.DayReportUuid.String()],
-			schemas.PlanPopulatedResponse{
-				Uuid:          plan.Uuid.String(),
-				CreatedAt:     plan.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-				UpdatedAt:     plan.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-				Description:   plan.Description,
-				Time:          plan.Time,
-				OwnerUuid:     plan.OwnerUuid.String(),
-				OwnerName:     planOwner.Name,
-				DayReportUuid: plan.DayReportUuid.String(),
-				Tags:          tags,
-				IsDone:        plan.IsDone,
-			},
-		)
-	})
-
-	dbProblems, _ := db.GetProblemsByDayReportUuids(ctx, dayReportUuids)
-
 	problemsMap := make(map[string][]schemas.ProblemPopulatedResponse)
-	lo.ForEach(dbProblems, func(problem dbb.GetProblemsByDayReportUuidsRow, i int) {
-		problemOwner := allWayRelatedUsersMap[problem.OwnerUuid.String()]
-		tags := lo.Map(problem.TagUuids, func(tagUuid string, i int) schemas.JobTagResponse {
-			return jobTagsMap[tagUuid]
-		})
-		problemsMap[problem.DayReportUuid.String()] = append(
-			problemsMap[problem.DayReportUuid.String()],
-			schemas.ProblemPopulatedResponse{
-				Uuid:          problem.Uuid.String(),
-				CreatedAt:     problem.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-				UpdatedAt:     problem.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-				Description:   problem.Description,
-				OwnerUuid:     problem.OwnerUuid.String(),
-				OwnerName:     problemOwner.Name,
-				DayReportUuid: problem.DayReportUuid.String(),
-				Tags:          tags,
-				IsDone:        problem.IsDone,
-			},
-		)
-	})
-
-	dbComments, _ := db.GetListCommentsByDayReportUuids(ctx, dayReportUuids)
 	commentsMap := make(map[string][]schemas.CommentPopulatedResponse)
-	lo.ForEach(dbComments, func(comment dbb.Comment, i int) {
-		commentOwner := allWayRelatedUsersMap[comment.OwnerUuid.String()]
-		commentsMap[comment.DayReportUuid.String()] = append(
-			commentsMap[comment.DayReportUuid.String()],
-			schemas.CommentPopulatedResponse{
-				Uuid:          comment.Uuid.String(),
-				CreatedAt:     comment.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-				UpdatedAt:     comment.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-				Description:   comment.Description,
-				OwnerUuid:     commentOwner.Uuid,
-				OwnerName:     commentOwner.Name,
-				DayReportUuid: comment.DayReportUuid.String(),
-			},
-		)
-	})
 
-	dayReports := make([]schemas.DayReportPopulatedResponse, len(dayReportsRaw))
-	for i, dayReport := range dayReportsRaw {
+	wg.Add(4)
+
+	go func() {
+		defer wg.Done()
+		var jobDonesTest []JobDoneDTO
+		if dbDayReportsTest.JobDonesArray != nil {
+			jobDonesBytes := dbDayReportsTest.JobDonesArray.([]byte)
+			err := sonic.Unmarshal(jobDonesBytes, &jobDonesTest)
+			if err != nil {
+				log.Fatalln(err)
+			}
+		}
+
+		jobDoneChan := make(chan schemas.JobDonePopulatedResponse, len(jobDonesTest))
+
+		var processWg sync.WaitGroup
+		processWg.Add(len(jobDonesTest))
+		for _, dbJobDone := range jobDonesTest {
+			go func(dbJobDone JobDoneDTO) {
+				defer processWg.Done()
+				jobDoneOwner, ok := allWayRelatedUsersMap[dbJobDone.OwnerUuid.String()]
+				if !ok {
+					fmt.Println("Owner not found for UUID:", dbJobDone.OwnerUuid.String())
+					return
+				}
+				tags := lo.Map(dbJobDone.TagUuids, func(tagUuid string, i int) schemas.JobTagResponse {
+					return jobTagsMap[tagUuid]
+				})
+
+				jobDoneChan <- schemas.JobDonePopulatedResponse{
+					Uuid:          dbJobDone.Uuid.String(),
+					CreatedAt:     util.FormatDateString(dbJobDone.CreatedAt),
+					UpdatedAt:     util.FormatDateString(dbJobDone.UpdatedAt),
+					Description:   dbJobDone.Description,
+					Time:          dbJobDone.Time,
+					OwnerUuid:     dbJobDone.OwnerUuid.String(),
+					OwnerName:     jobDoneOwner.Name,
+					DayReportUuid: dbJobDone.DayReportUuid.String(),
+					Tags:          tags,
+				}
+			}(dbJobDone)
+		}
+
+		go func() {
+			processWg.Wait()
+			close(jobDoneChan)
+		}()
+
+		for jobDone := range jobDoneChan {
+			jobDonesMap[jobDone.DayReportUuid] = append(jobDonesMap[jobDone.DayReportUuid], jobDone)
+		}
+	}()
+
+	go func() {
+		defer wg.Done()
+		var plansTest []PlanDTO
+		if dbDayReportsTest.PlansArray != nil {
+			plansBytes := dbDayReportsTest.PlansArray.([]byte)
+			err := sonic.Unmarshal(plansBytes, &plansTest)
+			if err != nil {
+				log.Fatalln(err)
+			}
+		}
+		lo.ForEach(plansTest, func(plan PlanDTO, i int) {
+			planOwner := allWayRelatedUsersMap[plan.OwnerUuid.String()]
+			tags := lo.Map(plan.TagUuids, func(tagUuid string, i int) schemas.JobTagResponse {
+				return jobTagsMap[tagUuid]
+			})
+			plansMap[plan.DayReportUuid.String()] = append(
+				plansMap[plan.DayReportUuid.String()],
+				schemas.PlanPopulatedResponse{
+					Uuid:          plan.Uuid.String(),
+					CreatedAt:     util.FormatDateString(plan.CreatedAt),
+					UpdatedAt:     util.FormatDateString(plan.UpdatedAt),
+					Description:   plan.Description,
+					Time:          plan.Time,
+					OwnerUuid:     plan.OwnerUuid.String(),
+					OwnerName:     planOwner.Name,
+					DayReportUuid: plan.DayReportUuid.String(),
+					Tags:          tags,
+					IsDone:        plan.IsDone,
+				},
+			)
+		})
+	}()
+
+	go func() {
+		defer wg.Done()
+		var problemsTest []ProblemDTO
+		if dbDayReportsTest.ProblemsArray != nil {
+			problemsBytes := dbDayReportsTest.ProblemsArray.([]byte)
+			err := sonic.Unmarshal(problemsBytes, &problemsTest)
+			if err != nil {
+				log.Fatalln(err)
+			}
+		}
+		lo.ForEach(problemsTest, func(problem ProblemDTO, i int) {
+			problemOwner := allWayRelatedUsersMap[problem.OwnerUuid.String()]
+			tags := lo.Map(problem.TagUuids, func(tagUuid string, i int) schemas.JobTagResponse {
+				return jobTagsMap[tagUuid]
+			})
+			problemsMap[problem.DayReportUuid.String()] = append(
+				problemsMap[problem.DayReportUuid.String()],
+				schemas.ProblemPopulatedResponse{
+					Uuid:          problem.Uuid.String(),
+					CreatedAt:     util.FormatDateString(problem.CreatedAt),
+					UpdatedAt:     util.FormatDateString(problem.UpdatedAt),
+					Description:   problem.Description,
+					OwnerUuid:     problem.OwnerUuid.String(),
+					OwnerName:     problemOwner.Name,
+					DayReportUuid: problem.DayReportUuid.String(),
+					Tags:          tags,
+					IsDone:        problem.IsDone,
+				},
+			)
+		})
+	}()
+
+	go func() {
+		defer wg.Done()
+		var commentsTest []CommentDTO
+		if dbDayReportsTest.CommentsArray != nil {
+			commentsBytes := dbDayReportsTest.CommentsArray.([]byte)
+			err := sonic.Unmarshal(commentsBytes, &commentsTest)
+			if err != nil {
+				log.Fatalln(err)
+			}
+		}
+		lo.ForEach(commentsTest, func(comment CommentDTO, i int) {
+			commentOwner := allWayRelatedUsersMap[comment.OwnerUuid.String()]
+			commentsMap[comment.DayReportUuid.String()] = append(
+				commentsMap[comment.DayReportUuid.String()],
+				schemas.CommentPopulatedResponse{
+					Uuid:          comment.Uuid.String(),
+					CreatedAt:     util.FormatDateString(comment.CreatedAt),
+					UpdatedAt:     util.FormatDateString(comment.UpdatedAt),
+					Description:   comment.Description,
+					OwnerUuid:     commentOwner.Uuid,
+					OwnerName:     commentOwner.Name,
+					DayReportUuid: comment.DayReportUuid.String(),
+				},
+			)
+		})
+	}()
+
+	wg.Wait()
+
+	dayReports := make([]schemas.DayReportPopulatedResponse, len(dayReportsTest))
+	for i, dayReport := range dayReportsTest {
 
 		if jobDonesMap[dayReport.Uuid.String()] == nil {
 			jobDonesMap[dayReport.Uuid.String()] = []schemas.JobDonePopulatedResponse{}
@@ -222,11 +470,10 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 		if commentsMap[dayReport.Uuid.String()] == nil {
 			commentsMap[dayReport.Uuid.String()] = []schemas.CommentPopulatedResponse{}
 		}
-
 		dayReports[i] = schemas.DayReportPopulatedResponse{
 			Uuid:      dayReport.Uuid.String(),
-			CreatedAt: dayReport.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-			UpdatedAt: dayReport.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+			CreatedAt: util.FormatDateString(dayReport.CreatedAt),
+			UpdatedAt: util.FormatDateString(dayReport.UpdatedAt),
 			IsDayOff:  dayReport.IsDayOff,
 			JobsDone:  jobDonesMap[dayReport.Uuid.String()],
 			Plans:     plansMap[dayReport.Uuid.String()],
@@ -235,20 +482,7 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 		}
 	}
 
-	var children []schemas.WayPopulatedResponse
-	if params.CurrentChildrenDepth < int(limitMap[MaxCompositeWayDeps][dbb.PricingPlanTypeStarter]) {
-		children = lo.Map(way.ChildrenUuids, func(childUuid string, i int) schemas.WayPopulatedResponse {
-			args := GetPopulatedWayByIdParams{
-				WayUuid:              uuid.MustParse(childUuid),
-				CurrentChildrenDepth: params.CurrentChildrenDepth + 1,
-			}
-			child, _ := GetPopulatedWayById(db, ctx, args)
-
-			return child
-		})
-	} else {
-		children = []schemas.WayPopulatedResponse{}
-	}
+	wgChildren.Wait()
 
 	response := schemas.WayPopulatedResponse{
 		Uuid:                   way.Uuid.String(),
@@ -264,7 +498,7 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 		Mentors:                mentors,
 		FormerMentors:          formerMentors,
 		FromUserMentorRequests: fromUserMentoringRequests,
-		FavoriteForUsersAmount: int32(favoriteForUserAmount),
+		FavoriteForUsersAmount: int32(way.FavoriteForUsersAmount),
 		WayTags:                wayTags,
 		JobTags:                jobTags,
 		Metrics:                metrics,

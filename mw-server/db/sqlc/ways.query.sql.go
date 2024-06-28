@@ -142,6 +142,210 @@ func (q *Queries) DeleteWay(ctx context.Context, argUuid uuid.UUID) error {
 	return err
 }
 
+const getBasePopulatedWayByID = `-- name: GetBasePopulatedWayByID :one
+WITH favorite_count AS (
+    SELECT way_uuid, COUNT(*) AS favorite_for_users_amount
+    FROM favorite_users_ways
+    WHERE way_uuid = $1
+    GROUP BY way_uuid
+),
+mentors_data AS (
+    SELECT users.uuid, users.name, users.email, users.description, users.created_at, users.image_url, users.is_mentor
+    FROM mentor_users_ways
+    JOIN users ON mentor_users_ways.user_uuid = users.uuid
+    WHERE mentor_users_ways.way_uuid = $1
+),
+way_tags_data AS (
+    SELECT way_tags.uuid, way_tags.name
+    FROM ways_way_tags
+    JOIN way_tags ON ways_way_tags.way_tag_uuid = way_tags.uuid
+    WHERE ways_way_tags.way_uuid = $1
+),
+job_tags_data AS (
+    SELECT job_tags.uuid, job_tags.name, job_tags.description, job_tags.color
+    FROM job_tags
+    WHERE job_tags.way_uuid = $1
+),
+former_mentors_data AS (
+    SELECT users.uuid, users.name, users.email, users.description, users.created_at, users.image_url, users.is_mentor
+    FROM former_mentors_ways
+    JOIN users ON former_mentors_ways.former_mentor_uuid = users.uuid
+    WHERE former_mentors_ways.way_uuid = $1
+),
+from_user_requests_data AS (
+    SELECT users.uuid, users.name, users.email, users.description, users.created_at, users.image_url, users.is_mentor
+    FROM from_user_mentoring_requests
+    JOIN users ON from_user_mentoring_requests.user_uuid = users.uuid
+    WHERE from_user_mentoring_requests.way_uuid = $1
+),
+metrics_data AS (
+    SELECT uuid, description, is_done, done_date, metric_estimation
+    FROM metrics
+    WHERE way_uuid = $1
+    ORDER BY created_at
+),
+day_reports_data AS (
+    SELECT uuid, created_at, updated_at, is_day_off
+    FROM day_reports
+    WHERE way_uuid = $1
+    ORDER BY created_at DESC
+    -- LIMIT 7
+)
+SELECT
+    ways.uuid,
+    ways.name,
+    ways.goal_description,
+    ways.updated_at,
+    ways.created_at,
+    ways.estimation_time,
+    ways.is_completed,
+    ways.is_private,
+    ways.copied_from_way_uuid,
+    u.uuid AS owner_uuid,
+    u.name AS owner_name,
+    u.email AS owner_email,
+    u.description AS owner_description,
+    u.created_at AS owner_created_at,
+    u.image_url AS owner_image_url,
+    u.is_mentor AS owner_is_mentor,
+    COALESCE(fc.favorite_for_users_amount, 0) AS favorite_for_users_amount,
+    ARRAY(
+        SELECT composite_ways.child_uuid
+        FROM composite_ways
+        WHERE composite_ways.parent_uuid = ways.uuid
+    )::UUID[] AS children_uuids,
+    COALESCE(
+        (SELECT JSON_AGG(json_build_object(
+            'uuid', md.uuid,
+            'name', md.name,
+            'email', md.email,
+            'description', md.description,
+            'created_at', md.created_at,
+            'image_url', md.image_url,
+            'is_mentor', md.is_mentor
+        ) ORDER BY md.uuid)
+        FROM mentors_data md), '[]'::json) AS mentors,
+    COALESCE(
+        (SELECT JSON_AGG(json_build_object(
+            'uuid', wt.uuid,
+            'name', wt.name
+        ) ORDER BY wt.name)
+        FROM way_tags_data wt), '[]'::json) AS way_tags,
+    COALESCE(
+        (SELECT JSON_AGG(json_build_object(
+            'uuid', jt.uuid,
+            'name', jt.name,
+            'description', jt.description,
+            'color', jt.color
+        ) ORDER BY jt.uuid)
+        FROM job_tags_data jt), '[]'::json) AS job_tags,
+    COALESCE(
+        (SELECT JSON_AGG(json_build_object(
+            'uuid', fm.uuid,
+            'name', fm.name,
+            'email', fm.email,
+            'description', fm.description,
+            'created_at', fm.created_at,
+            'image_url', fm.image_url,
+            'is_mentor', fm.is_mentor
+        ) ORDER BY fm.uuid)
+        FROM former_mentors_data fm), '[]'::json) AS former_mentors,
+    COALESCE(
+        (SELECT JSON_AGG(json_build_object(
+            'uuid', fur.uuid,
+            'name', fur.name,
+            'email', fur.email,
+            'description', fur.description,
+            'created_at', fur.created_at,
+            'image_url', fur.image_url,
+            'is_mentor', fur.is_mentor
+        ) ORDER BY fur.uuid)
+        FROM from_user_requests_data fur), '[]'::json) AS from_user_mentoring_requests,
+    COALESCE(
+        (SELECT JSON_AGG(json_build_object(
+            'uuid', md.uuid,
+            'description', md.description,
+            'is_done', md.is_done,
+            'done_date', md.done_date,
+            'metric_estimation', md.metric_estimation
+        ))
+        FROM metrics_data md), '[]'::json) AS metrics,
+    COALESCE(
+        (SELECT JSON_AGG(json_build_object(
+            'uuid', dr.uuid,
+            'created_at', dr.created_at,
+            'updated_at', dr.updated_at,
+            'is_day_off', dr.is_day_off
+        ))
+        FROM day_reports_data dr), '[]'::json) AS day_reports
+FROM ways
+JOIN users u ON u.uuid = ways.owner_uuid
+LEFT JOIN favorite_count fc ON fc.way_uuid = ways.uuid
+WHERE ways.uuid = $1
+LIMIT 1
+`
+
+type GetBasePopulatedWayByIDRow struct {
+	Uuid                      uuid.UUID     `json:"uuid"`
+	Name                      string        `json:"name"`
+	GoalDescription           string        `json:"goal_description"`
+	UpdatedAt                 time.Time     `json:"updated_at"`
+	CreatedAt                 time.Time     `json:"created_at"`
+	EstimationTime            int32         `json:"estimation_time"`
+	IsCompleted               bool          `json:"is_completed"`
+	IsPrivate                 bool          `json:"is_private"`
+	CopiedFromWayUuid         uuid.NullUUID `json:"copied_from_way_uuid"`
+	OwnerUuid                 uuid.UUID     `json:"owner_uuid"`
+	OwnerName                 string        `json:"owner_name"`
+	OwnerEmail                string        `json:"owner_email"`
+	OwnerDescription          string        `json:"owner_description"`
+	OwnerCreatedAt            time.Time     `json:"owner_created_at"`
+	OwnerImageUrl             string        `json:"owner_image_url"`
+	OwnerIsMentor             bool          `json:"owner_is_mentor"`
+	FavoriteForUsersAmount    int64         `json:"favorite_for_users_amount"`
+	ChildrenUuids             []uuid.UUID   `json:"children_uuids"`
+	Mentors                   interface{}   `json:"mentors"`
+	WayTags                   interface{}   `json:"way_tags"`
+	JobTags                   interface{}   `json:"job_tags"`
+	FormerMentors             interface{}   `json:"former_mentors"`
+	FromUserMentoringRequests interface{}   `json:"from_user_mentoring_requests"`
+	Metrics                   interface{}   `json:"metrics"`
+	DayReports                interface{}   `json:"day_reports"`
+}
+
+func (q *Queries) GetBasePopulatedWayByID(ctx context.Context, argUuid uuid.UUID) (GetBasePopulatedWayByIDRow, error) {
+	row := q.queryRow(ctx, q.getBasePopulatedWayByIDStmt, getBasePopulatedWayByID, argUuid)
+	var i GetBasePopulatedWayByIDRow
+	err := row.Scan(
+		&i.Uuid,
+		&i.Name,
+		&i.GoalDescription,
+		&i.UpdatedAt,
+		&i.CreatedAt,
+		&i.EstimationTime,
+		&i.IsCompleted,
+		&i.IsPrivate,
+		&i.CopiedFromWayUuid,
+		&i.OwnerUuid,
+		&i.OwnerName,
+		&i.OwnerEmail,
+		&i.OwnerDescription,
+		&i.OwnerCreatedAt,
+		&i.OwnerImageUrl,
+		&i.OwnerIsMentor,
+		&i.FavoriteForUsersAmount,
+		pq.Array(&i.ChildrenUuids),
+		&i.Mentors,
+		&i.WayTags,
+		&i.JobTags,
+		&i.FormerMentors,
+		&i.FromUserMentoringRequests,
+		&i.Metrics,
+		&i.DayReports,
+	)
+	return i, err
+}
+
 const getFavoriteWaysByUserId = `-- name: GetFavoriteWaysByUserId :many
 SELECT
     ways.uuid,

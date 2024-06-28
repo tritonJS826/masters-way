@@ -171,6 +171,9 @@ func Prepare(ctx context.Context, db DBTX) (*Queries, error) {
 	if q.deleteWayTagFromWayStmt, err = db.PrepareContext(ctx, deleteWayTagFromWay); err != nil {
 		return nil, fmt.Errorf("error preparing query DeleteWayTagFromWay: %w", err)
 	}
+	if q.getBasePopulatedWayByIDStmt, err = db.PrepareContext(ctx, getBasePopulatedWayByID); err != nil {
+		return nil, fmt.Errorf("error preparing query GetBasePopulatedWayByID: %w", err)
+	}
 	if q.getDayReportsCountByWayIdStmt, err = db.PrepareContext(ctx, getDayReportsCountByWayId); err != nil {
 		return nil, fmt.Errorf("error preparing query GetDayReportsCountByWayId: %w", err)
 	}
@@ -251,6 +254,9 @@ func Prepare(ctx context.Context, db DBTX) (*Queries, error) {
 	}
 	if q.getMentoringWaysCountByUserIdStmt, err = db.PrepareContext(ctx, getMentoringWaysCountByUserId); err != nil {
 		return nil, fmt.Errorf("error preparing query GetMentoringWaysCountByUserId: %w", err)
+	}
+	if q.getNestedEntitiesForDayReportsStmt, err = db.PrepareContext(ctx, getNestedEntitiesForDayReports); err != nil {
+		return nil, fmt.Errorf("error preparing query GetNestedEntitiesForDayReports: %w", err)
 	}
 	if q.getOwnWaysByUserIdStmt, err = db.PrepareContext(ctx, getOwnWaysByUserId); err != nil {
 		return nil, fmt.Errorf("error preparing query GetOwnWaysByUserId: %w", err)
@@ -598,6 +604,11 @@ func (q *Queries) Close() error {
 			err = fmt.Errorf("error closing deleteWayTagFromWayStmt: %w", cerr)
 		}
 	}
+	if q.getBasePopulatedWayByIDStmt != nil {
+		if cerr := q.getBasePopulatedWayByIDStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing getBasePopulatedWayByIDStmt: %w", cerr)
+		}
+	}
 	if q.getDayReportsCountByWayIdStmt != nil {
 		if cerr := q.getDayReportsCountByWayIdStmt.Close(); cerr != nil {
 			err = fmt.Errorf("error closing getDayReportsCountByWayIdStmt: %w", cerr)
@@ -731,6 +742,11 @@ func (q *Queries) Close() error {
 	if q.getMentoringWaysCountByUserIdStmt != nil {
 		if cerr := q.getMentoringWaysCountByUserIdStmt.Close(); cerr != nil {
 			err = fmt.Errorf("error closing getMentoringWaysCountByUserIdStmt: %w", cerr)
+		}
+	}
+	if q.getNestedEntitiesForDayReportsStmt != nil {
+		if cerr := q.getNestedEntitiesForDayReportsStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing getNestedEntitiesForDayReportsStmt: %w", cerr)
 		}
 	}
 	if q.getOwnWaysByUserIdStmt != nil {
@@ -981,6 +997,7 @@ type Queries struct {
 	deleteWayCollectionsWaysByIdsStmt           *sql.Stmt
 	deleteWayFromCompositeWayStmt               *sql.Stmt
 	deleteWayTagFromWayStmt                     *sql.Stmt
+	getBasePopulatedWayByIDStmt                 *sql.Stmt
 	getDayReportsCountByWayIdStmt               *sql.Stmt
 	getFavoriteForUserUuidsByWayIdStmt          *sql.Stmt
 	getFavoriteUserByDonorUserIdStmt            *sql.Stmt
@@ -1008,6 +1025,7 @@ type Queries struct {
 	getMentorUsersByWayIdsStmt                  *sql.Stmt
 	getMentoringWaysByMentorIdStmt              *sql.Stmt
 	getMentoringWaysCountByUserIdStmt           *sql.Stmt
+	getNestedEntitiesForDayReportsStmt          *sql.Stmt
 	getOwnWaysByUserIdStmt                      *sql.Stmt
 	getOwnWaysCountByUserIdStmt                 *sql.Stmt
 	getPlansByDayReportUuidsStmt                *sql.Stmt
@@ -1095,6 +1113,7 @@ func (q *Queries) WithTx(tx *sql.Tx) *Queries {
 		deleteWayCollectionsWaysByIdsStmt:           q.deleteWayCollectionsWaysByIdsStmt,
 		deleteWayFromCompositeWayStmt:               q.deleteWayFromCompositeWayStmt,
 		deleteWayTagFromWayStmt:                     q.deleteWayTagFromWayStmt,
+		getBasePopulatedWayByIDStmt:                 q.getBasePopulatedWayByIDStmt,
 		getDayReportsCountByWayIdStmt:               q.getDayReportsCountByWayIdStmt,
 		getFavoriteForUserUuidsByWayIdStmt:          q.getFavoriteForUserUuidsByWayIdStmt,
 		getFavoriteUserByDonorUserIdStmt:            q.getFavoriteUserByDonorUserIdStmt,
@@ -1122,6 +1141,7 @@ func (q *Queries) WithTx(tx *sql.Tx) *Queries {
 		getMentorUsersByWayIdsStmt:                  q.getMentorUsersByWayIdsStmt,
 		getMentoringWaysByMentorIdStmt:              q.getMentoringWaysByMentorIdStmt,
 		getMentoringWaysCountByUserIdStmt:           q.getMentoringWaysCountByUserIdStmt,
+		getNestedEntitiesForDayReportsStmt:          q.getNestedEntitiesForDayReportsStmt,
 		getOwnWaysByUserIdStmt:                      q.getOwnWaysByUserIdStmt,
 		getOwnWaysCountByUserIdStmt:                 q.getOwnWaysCountByUserIdStmt,
 		getPlansByDayReportUuidsStmt:                q.getPlansByDayReportUuidsStmt,
