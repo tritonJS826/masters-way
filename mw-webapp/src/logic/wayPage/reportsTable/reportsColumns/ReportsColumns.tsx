@@ -1,6 +1,6 @@
 import {createColumnHelper} from "@tanstack/react-table";
-import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
-import {Tooltip} from "src/component/tooltip/Tooltip";
+import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {Infotip} from "src/component/infotip/Infotip";
 import {CreateDayReportParams} from "src/dataAccessLogic/DayReportDAL";
 import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {languageStore} from "src/globalStore/LanguageStore";
@@ -18,6 +18,8 @@ import {Way} from "src/model/businessModel/Way";
 import {UserPreviewShort} from "src/model/businessModelPreview/UserPreviewShort";
 import {LanguageService} from "src/service/LanguageService";
 import {Symbols} from "src/utils/Symbols";
+import styles from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns.module.scss";
+
 export const DEFAULT_SUMMARY_TIME = 0;
 export const MAX_TIME = 9999;
 export const MIN_TIME = 0;
@@ -85,12 +87,10 @@ export const Columns = (props: ColumnsProps) => {
        * Header
        */
       header: () => (
-        <Tooltip
-          position={PositionTooltip.TOP}
-          content={LanguageService.way.reportsTable.columnTooltip.date[language]}
-        >
+        <HorizontalContainer className={styles.columnTitle}>
+          <Infotip content={LanguageService.way.infotip.createdDate[language]} />
           {LanguageService.way.reportsTable.column.date[language]}
-        </Tooltip>
+        </HorizontalContainer>
       ),
 
       /**
@@ -104,12 +104,10 @@ export const Columns = (props: ColumnsProps) => {
        * Header
        */
       header: () => (
-        <Tooltip
-          position={PositionTooltip.TOP}
-          content={LanguageService.way.reportsTable.columnTooltip.jobsDone[language]}
-        >
+        <HorizontalContainer className={styles.columnTitle}>
+          <Infotip content={LanguageService.way.infotip.jobs[language]} />
           {LanguageService.way.reportsTable.column.jobsDone[language]}
-        </Tooltip>
+        </HorizontalContainer>
       ),
 
       /**
@@ -135,12 +133,10 @@ export const Columns = (props: ColumnsProps) => {
        * Header
        */
       header: () => (
-        <Tooltip
-          position={PositionTooltip.TOP}
-          content={LanguageService.way.reportsTable.columnTooltip.plans[language]}
-        >
+        <HorizontalContainer className={styles.columnTitle}>
+          <Infotip content={LanguageService.way.infotip.plans[language]} />
           {LanguageService.way.reportsTable.column.plans[language]}
-        </Tooltip>
+        </HorizontalContainer>
       ),
 
       /**
@@ -164,12 +160,10 @@ export const Columns = (props: ColumnsProps) => {
        * Header
        */
       header: () => (
-        <Tooltip
-          position={PositionTooltip.TOP}
-          content={LanguageService.way.reportsTable.columnTooltip.problems[language]}
-        >
+        <HorizontalContainer className={styles.columnTitle}>
+          <Infotip content={LanguageService.way.infotip.problems[language]} />
           {LanguageService.way.reportsTable.column.problems[language]}
-        </Tooltip>
+        </HorizontalContainer>
       ),
 
       /**
@@ -191,12 +185,10 @@ export const Columns = (props: ColumnsProps) => {
        * Header
        */
       header: () => (
-        <Tooltip
-          position={PositionTooltip.TOP}
-          content={LanguageService.way.reportsTable.columnTooltip.comments[language]}
-        >
+        <HorizontalContainer className={styles.columnTitle}>
+          <Infotip content={LanguageService.way.infotip.comments[language]} />
           {LanguageService.way.reportsTable.column.comments[language]}
-        </Tooltip>
+        </HorizontalContainer>
       ),
 
       /**
