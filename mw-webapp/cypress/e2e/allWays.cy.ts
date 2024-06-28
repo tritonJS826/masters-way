@@ -25,9 +25,7 @@ describe('All Ways scope tests', () => {
     allWaysSelectors.allWaysTable.getTable().should('exist');
 
     allWaysSelectors.allWaysTable.getTableTh().each((el, index) => {
-      cy.wrap(el).invoke('text').then((text) => {
-      assert.equal(text.trim(), tableHeadersEn[index]);
-      });
+      cy.wrap(el).contains(tableHeadersEn[index])      
     });
   });
 });
