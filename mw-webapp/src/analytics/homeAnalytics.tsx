@@ -1,15 +1,9 @@
 import ReactGA from "react-ga4";
-import {AnalyticsCategory} from "src/analytics/AnalyticsCategory";
-
-/**
- * User activation actions
- */
-enum UserActivationAction {
-  GET_STARTED_CLICKED = "GET_STARTED_CLICKED"
-}
+import {AnalyticsEventName} from "src/analytics/AnalyticsEventName";
 
 /**
  * User activation labels
+ * Defined as event_label in analytics
  */
 enum HomeLabel {
   START_FOR_FREE_FIRST_SCREEN_CLICKED = "START_FOR_FREE_FIRST_SCREEN_CLICKED",
@@ -21,11 +15,11 @@ enum HomeLabel {
 /**
  * Tracking user interaction by clicking buttons
  */
-const trackHome = (hameLabel: HomeLabel) => {
+const trackHome = (label: HomeLabel) => {
   ReactGA.event({
-    category: AnalyticsCategory.HOME,
-    action: UserActivationAction.GET_STARTED_CLICKED,
-    label: hameLabel,
+    category: AnalyticsEventName.HOME,
+    action: AnalyticsEventName.HOME,
+    label,
   });
 };
 

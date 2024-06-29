@@ -1,15 +1,9 @@
 import ReactGA from "react-ga4";
-import {AnalyticsCategory} from "src/analytics/AnalyticsCategory";
-
-/**
- * Header actions
- */
-enum HeaderAction {
-  HEADER_CLICKED = "HEADER_CLICKED"
-}
+import {AnalyticsEventName} from "src/analytics/AnalyticsEventName";
 
 /**
  * User activation labels
+ * Defined as event_label in analytics
  */
 enum HeaderLabel {
   LOGO_CLICKED = "LOGO_CLICKED",
@@ -25,11 +19,11 @@ enum HeaderLabel {
 /**
  * Tracking user interaction by clicking buttons
  */
-const trackHeaderClick = (action: HeaderLabel) => {
+const trackHeaderClick = (label: HeaderLabel) => {
   ReactGA.event({
-    category: AnalyticsCategory.HEADER,
-    action,
-    label: HeaderAction.HEADER_CLICKED + action,
+    category: AnalyticsEventName.HEADER,
+    action: AnalyticsEventName.HEADER,
+    label,
   });
 };
 

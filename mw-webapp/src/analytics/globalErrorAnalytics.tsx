@@ -1,5 +1,5 @@
 import ReactGA from "react-ga4";
-import {AnalyticsCategory} from "src/analytics/AnalyticsCategory";
+import {AnalyticsEventName} from "src/analytics/AnalyticsEventName";
 
 /**
  * GlobalError actions
@@ -30,7 +30,7 @@ interface TrackGlobalErrorsParams {
  */
 const trackGlobalErrors = (params: TrackGlobalErrorsParams) => {
   ReactGA.event({
-    category: AnalyticsCategory.GLOBAL_ERRORS,
+    category: AnalyticsEventName.GLOBAL_ERRORS,
     action: params.action,
     label: params.label,
   });
