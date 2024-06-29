@@ -23,3 +23,11 @@ type DayReportPopulatedResponse struct {
 	Problems  []ProblemPopulatedResponse `json:"problems" validate:"required"`
 	Comments  []CommentPopulatedResponse `json:"comments" validate:"required"`
 }
+
+type DayReportPopulatedDTO struct {
+	Uuid      uuid.UUID `json:"uuid"`
+	WayUuid   uuid.UUID `json:"way_uuid"`
+	CreatedAt string    `json:"created_at"`
+	UpdatedAt string    `json:"updated_at"`
+	IsDayOff  bool      `json:"is_day_off"`
+}

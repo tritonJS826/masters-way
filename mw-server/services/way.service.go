@@ -21,76 +21,6 @@ type GetPopulatedWayByIdParams struct {
 	CurrentChildrenDepth int
 }
 
-type MetricDTO struct {
-	UUID             uuid.UUID `json:"uuid"`
-	Description      string    `json:"description"`
-	IsDone           bool      `json:"is_done"`
-	DoneDate         *string   `json:"done_date"`
-	MetricEstimation int32     `json:"metric_estimation"`
-	WayUuid          uuid.UUID `json:"way_uuid"`
-}
-
-type MentorDTO struct {
-	UUID        uuid.UUID `json:"uuid"`
-	Name        string    `json:"name"`
-	Email       string    `json:"email"`
-	Description string    `json:"description"`
-	CreatedAt   string    `json:"created_at"`
-	ImageURL    string    `json:"image_url"`
-	IsMentor    bool      `json:"is_mentor"`
-}
-
-type DayReportDTO struct {
-	Uuid      uuid.UUID `json:"uuid"`
-	WayUuid   uuid.UUID `json:"way_uuid"`
-	CreatedAt string    `json:"created_at"`
-	UpdatedAt string    `json:"updated_at"`
-	IsDayOff  bool      `json:"is_day_off"`
-}
-
-type JobDoneDTO struct {
-	Uuid          uuid.UUID `json:"uuid"`
-	CreatedAt     string    `json:"created_at"`
-	UpdatedAt     string    `json:"updated_at"`
-	Description   string    `json:"description"`
-	Time          int32     `json:"time"`
-	OwnerUuid     uuid.UUID `json:"owner_uuid"`
-	DayReportUuid uuid.UUID `json:"day_report_uuid"`
-	TagUuids      []string  `json:"tag_uuids"`
-}
-
-type PlanDTO struct {
-	Uuid          uuid.UUID `json:"uuid"`
-	CreatedAt     string    `json:"created_at"`
-	UpdatedAt     string    `json:"updated_at"`
-	Description   string    `json:"description"`
-	Time          int32     `json:"time"`
-	OwnerUuid     uuid.UUID `json:"owner_uuid"`
-	IsDone        bool      `json:"is_done"`
-	DayReportUuid uuid.UUID `json:"day_report_uuid"`
-	TagUuids      []string  `json:"tag_uuids"`
-}
-
-type ProblemDTO struct {
-	Uuid          uuid.UUID `json:"uuid"`
-	CreatedAt     string    `json:"created_at"`
-	UpdatedAt     string    `json:"updated_at"`
-	Description   string    `json:"description"`
-	IsDone        bool      `json:"is_done"`
-	OwnerUuid     uuid.UUID `json:"owner_uuid"`
-	DayReportUuid uuid.UUID `json:"day_report_uuid"`
-	TagUuids      []string  `json:"tag_uuids"`
-}
-
-type CommentDTO struct {
-	Uuid          uuid.UUID `json:"uuid"`
-	CreatedAt     string    `json:"created_at"`
-	UpdatedAt     string    `json:"updated_at"`
-	Description   string    `json:"description"`
-	OwnerUuid     uuid.UUID `json:"owner_uuid"`
-	DayReportUuid uuid.UUID `json:"day_report_uuid"`
-}
-
 func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulatedWayByIdParams) (schemas.WayPopulatedResponse, error) {
 	way, err := db.GetBasePopulatedWayByID(ctx, params.WayUuid)
 	if err != nil {
@@ -137,13 +67,13 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 	var dayReportsUUID []uuid.UUID
 	var wayTags []schemas.WayTagResponse
 
-	var dayReportsTest []DayReportDTO
+	var dayReportsTest []schemas.DayReportPopulatedDTO
 
 	wg.Add(7)
 
 	go func() {
 		defer wg.Done()
-		var metricTest []MetricDTO
+		var metricTest []schemas.MetricPopulatedDTO
 		if way.Metrics != nil {
 			metricsBytes := way.Metrics.([]byte)
 			err := sonic.Unmarshal(metricsBytes, &metricTest)
@@ -151,7 +81,7 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 				log.Fatalln(err)
 			}
 		}
-		metrics = lo.Map(metricTest, func(dbMetric MetricDTO, i int) schemas.MetricResponse {
+		metrics = lo.Map(metricTest, func(dbMetric schemas.MetricPopulatedDTO, i int) schemas.MetricResponse {
 			var doneDate *string
 			if dbMetric.DoneDate != nil {
 				doneDateString := util.FormatDateString(*dbMetric.DoneDate)
@@ -169,7 +99,7 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 
 	go func() {
 		defer wg.Done()
-		var fromUserMentoringRequestsTest []MentorDTO
+		var fromUserMentoringRequestsTest []schemas.UserPopulatedDTO
 		if way.FromUserMentoringRequests != nil {
 			fromUserMentoringRequestsBytes := way.FromUserMentoringRequests.([]byte)
 			err := sonic.Unmarshal(fromUserMentoringRequestsBytes, &fromUserMentoringRequestsTest)
@@ -177,7 +107,7 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 				log.Fatalln(err)
 			}
 		}
-		fromUserMentoringRequests = lo.Map(fromUserMentoringRequestsTest, func(fromUser MentorDTO, i int) schemas.UserPlainResponse {
+		fromUserMentoringRequests = lo.Map(fromUserMentoringRequestsTest, func(fromUser schemas.UserPopulatedDTO, i int) schemas.UserPlainResponse {
 			return schemas.UserPlainResponse{
 				Uuid:        fromUser.UUID.String(),
 				Name:        fromUser.Name,
@@ -192,7 +122,7 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 
 	go func() {
 		defer wg.Done()
-		var formerMentorsTest []MentorDTO
+		var formerMentorsTest []schemas.UserPopulatedDTO
 		if way.FormerMentors != nil {
 			formerMentorsBytes := way.FormerMentors.([]byte)
 			err := sonic.Unmarshal(formerMentorsBytes, &formerMentorsTest)
@@ -200,7 +130,7 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 				log.Fatalln(err)
 			}
 		}
-		formerMentors = lo.Map(formerMentorsTest, func(dbFormerMentor MentorDTO, i int) schemas.UserPlainResponse {
+		formerMentors = lo.Map(formerMentorsTest, func(dbFormerMentor schemas.UserPopulatedDTO, i int) schemas.UserPlainResponse {
 			return schemas.UserPlainResponse{
 				Uuid:        dbFormerMentor.UUID.String(),
 				Name:        dbFormerMentor.Name,
@@ -215,7 +145,7 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 
 	go func() {
 		defer wg.Done()
-		var mentorsTest []MentorDTO
+		var mentorsTest []schemas.UserPopulatedDTO
 		if way.Mentors != nil {
 			mentorsBytes := way.Mentors.([]byte)
 			err := sonic.Unmarshal(mentorsBytes, &mentorsTest)
@@ -223,7 +153,7 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 				log.Fatalln(err)
 			}
 		}
-		mentors = lo.Map(mentorsTest, func(dbMentor MentorDTO, i int) schemas.UserPlainResponse {
+		mentors = lo.Map(mentorsTest, func(dbMentor schemas.UserPopulatedDTO, i int) schemas.UserPlainResponse {
 			return schemas.UserPlainResponse{
 				Uuid:        dbMentor.UUID.String(),
 				Name:        dbMentor.Name,
@@ -245,7 +175,7 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 				log.Fatalln(err)
 			}
 		}
-		dayReportsUUID = lo.Map(dayReportsTest, func(dbDayReport DayReportDTO, i int) uuid.UUID {
+		dayReportsUUID = lo.Map(dayReportsTest, func(dbDayReport schemas.DayReportPopulatedDTO, i int) uuid.UUID {
 			return dbDayReport.Uuid
 		})
 	}()
@@ -312,7 +242,7 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 
 	go func() {
 		defer wg.Done()
-		var jobDonesTest []JobDoneDTO
+		var jobDonesTest []schemas.JobDonePopulatedDTO
 		if dbDayReportsTest.JobDonesArray != nil {
 			jobDonesBytes := dbDayReportsTest.JobDonesArray.([]byte)
 			err := sonic.Unmarshal(jobDonesBytes, &jobDonesTest)
@@ -326,7 +256,7 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 		var processWg sync.WaitGroup
 		processWg.Add(len(jobDonesTest))
 		for _, dbJobDone := range jobDonesTest {
-			go func(dbJobDone JobDoneDTO) {
+			go func(dbJobDone schemas.JobDonePopulatedDTO) {
 				defer processWg.Done()
 				jobDoneOwner, ok := allWayRelatedUsersMap[dbJobDone.OwnerUuid.String()]
 				if !ok {
@@ -363,7 +293,7 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 
 	go func() {
 		defer wg.Done()
-		var plansTest []PlanDTO
+		var plansTest []schemas.PlanPopulatedDTO
 		if dbDayReportsTest.PlansArray != nil {
 			plansBytes := dbDayReportsTest.PlansArray.([]byte)
 			err := sonic.Unmarshal(plansBytes, &plansTest)
@@ -371,7 +301,7 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 				log.Fatalln(err)
 			}
 		}
-		lo.ForEach(plansTest, func(plan PlanDTO, i int) {
+		lo.ForEach(plansTest, func(plan schemas.PlanPopulatedDTO, i int) {
 			planOwner := allWayRelatedUsersMap[plan.OwnerUuid.String()]
 			tags := lo.Map(plan.TagUuids, func(tagUuid string, i int) schemas.JobTagResponse {
 				return jobTagsMap[tagUuid]
@@ -396,7 +326,7 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 
 	go func() {
 		defer wg.Done()
-		var problemsTest []ProblemDTO
+		var problemsTest []schemas.ProblemPopulatedDTO
 		if dbDayReportsTest.ProblemsArray != nil {
 			problemsBytes := dbDayReportsTest.ProblemsArray.([]byte)
 			err := sonic.Unmarshal(problemsBytes, &problemsTest)
@@ -404,7 +334,7 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 				log.Fatalln(err)
 			}
 		}
-		lo.ForEach(problemsTest, func(problem ProblemDTO, i int) {
+		lo.ForEach(problemsTest, func(problem schemas.ProblemPopulatedDTO, i int) {
 			problemOwner := allWayRelatedUsersMap[problem.OwnerUuid.String()]
 			tags := lo.Map(problem.TagUuids, func(tagUuid string, i int) schemas.JobTagResponse {
 				return jobTagsMap[tagUuid]
@@ -428,7 +358,7 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 
 	go func() {
 		defer wg.Done()
-		var commentsTest []CommentDTO
+		var commentsTest []schemas.CommentPopulatedDTO
 		if dbDayReportsTest.CommentsArray != nil {
 			commentsBytes := dbDayReportsTest.CommentsArray.([]byte)
 			err := sonic.Unmarshal(commentsBytes, &commentsTest)
@@ -436,7 +366,7 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 				log.Fatalln(err)
 			}
 		}
-		lo.ForEach(commentsTest, func(comment CommentDTO, i int) {
+		lo.ForEach(commentsTest, func(comment schemas.CommentPopulatedDTO, i int) {
 			commentOwner := allWayRelatedUsersMap[comment.OwnerUuid.String()]
 			commentsMap[comment.DayReportUuid.String()] = append(
 				commentsMap[comment.DayReportUuid.String()],

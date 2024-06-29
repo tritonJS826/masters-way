@@ -8,16 +8,9 @@ import (
 )
 
 func FormatDateString(dateStr string) string {
-	layouts := []string{
-		"2006-01-02T15:04:05.000",
-		"2006-01-02T15:04:05.00",
-		"2006-01-02T15:04:05.0",
-		"2006-01-02T15:04:05",
-	}
-
 	var t time.Time
 	var err error
-	for _, layout := range layouts {
+	for _, layout := range dateLayoutsFromDB {
 		t, err = time.Parse(layout, dateStr)
 		if err == nil {
 			return t.Format(DEFAULT_STRING_LAYOUT)
@@ -68,3 +61,10 @@ func MarshalNullTime(nullTime sql.NullTime) *string {
 }
 
 var DEFAULT_STRING_LAYOUT string = "2006-01-02T15:04:05.000Z07:00"
+
+var dateLayoutsFromDB = []string{
+	"2006-01-02T15:04:05.000",
+	"2006-01-02T15:04:05.00",
+	"2006-01-02T15:04:05.0",
+	"2006-01-02T15:04:05",
+}

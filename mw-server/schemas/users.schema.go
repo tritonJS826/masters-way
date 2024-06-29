@@ -1,5 +1,7 @@
 package schemas
 
+import "github.com/google/uuid"
+
 type CreateUserPayload struct {
 	Name        string `json:"name" validate:"required"`
 	Email       string `json:"email" validate:"required"`
@@ -59,4 +61,14 @@ type UserPopulatedResponse struct {
 type GetAllUsersResponse struct {
 	Size  int64                       `json:"size" validate:"required"`
 	Users []UserPlainResponseWithInfo `json:"users" validate:"required"`
+}
+
+type UserPopulatedDTO struct {
+	UUID        uuid.UUID `json:"uuid"`
+	Name        string    `json:"name"`
+	Email       string    `json:"email"`
+	Description string    `json:"description"`
+	CreatedAt   string    `json:"created_at"`
+	ImageURL    string    `json:"image_url"`
+	IsMentor    bool      `json:"is_mentor"`
 }
