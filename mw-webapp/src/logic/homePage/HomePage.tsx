@@ -139,6 +139,12 @@ export const HomePage = observer(() => {
             title={LanguageService.home.systemBlock.trackProgress.title[language]}
             description={LanguageService.home.systemBlock.trackProgress.description[language]}
           />
+
+          <Image
+            alt="desktopImage"
+            src="https://drive.google.com/thumbnail?id=1Y9Xu3b73odKV7VtuLi3RjWM8H7WKiWoA&sz=w1000"
+            className={styles.buildSystemImageBlock}
+          />
         </HorizontalContainer>
 
         <Button
