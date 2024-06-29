@@ -36,14 +36,9 @@ const createTestImage = (props: createTestImageProps) => {
 };
 
 describe("Image component", () => {
-  it("should render image component correctly", () => {
-    cy.mount(createTestImage({src: logo}));
-    cy.get(getDataCy(IMAGE_CY.dataCy)).should("exist");
-  });
-
   it("image component should be visible", () => {
     cy.mount(createTestImage({src: logo}));
-    cy.get(getDataCy(IMAGE_CY.dataCy)).should("be.visible");
+    cy.get(getDataCy(IMAGE_CY.dataCy)).should("exist").should("be.visible");
   });
 
   it("displays the alt text if the image is not displayed", () => {
