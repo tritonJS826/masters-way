@@ -37,6 +37,15 @@ $homePaddingBigBlock: 128px;
   max-height: 75%;
 }
 
+.buildSystemImageBlock {
+  width: 80%;
+  margin: 0 auto;
+
+  @media (max-width: $mediaWidthTablet) {
+    width: 100%;
+  }
+}
+
 .title {
   margin-top: 152px;
   color: var(--secondaryTextColor);
