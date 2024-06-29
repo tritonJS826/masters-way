@@ -5,17 +5,12 @@ import styles from "src/component/image/Image.module.scss";
 /**
  * Data attributes for cypress testing
  */
-interface CyDataImage {
+interface CyDataImage extends Cy {
 
   /**
    * Data attribute for cypress testing
    */
-  dataCy?: string;
-
-    /**
-     * Data attribute for cypress testing
-     */
-  dataCyModal?: Cy;
+  onZoom?: string;
 }
 
 /**
@@ -61,14 +56,14 @@ export const Image = (props: ImageProps) => {
       src={props.src}
       alt={props.alt}
       className={imageClass}
-      data-cy={props.cy?.dataCy}
+      data-cy={props.cy?.onZoom}
     />
   );
 
   if (props.isZoomable) {
     return (
       <Modal
-        cy={props.cy?.dataCyModal}
+        cy={props.cy}
         trigger={imageElement}
         content={imageElement}
         className={imageClass}
