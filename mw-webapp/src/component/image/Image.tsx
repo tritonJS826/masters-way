@@ -1,10 +1,27 @@
 import clsx from "clsx";
+import {Cy, Modal} from "src/component/modal/Modal";
 import styles from "src/component/image/Image.module.scss";
+
+/**
+ * Data attributes for cypress testing
+ */
+interface CyDataImage extends Cy {
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCy?: string;
+}
 
 /**
  * Props for the Image component
  */
 interface ImageProps {
+
+  /**
+   * Data attributes for cypress testing
+   */
+  cy?: CyDataImage;
 
   /**
    * Image source
@@ -22,24 +39,38 @@ interface ImageProps {
   className?: string;
 
   /**
-   * Data attribute for cypress testing
+   * Image respond to clicks
+   * @default false
    */
-  dataCy?: string;
+  isZoomable?: boolean;
 }
 
 /**
- * Сomponent for displaying images
+ * Component for displaying images
  */
 export const Image = (props: ImageProps) => {
-  const className = clsx(styles.image, props.className);
+  const imageClass = clsx(styles.image, props.className);
 
-  return (
+  const imageElement = (
     <img
       src={props.src}
       alt={props.alt}
-      className={className}
-      data-cy={props.dataCy}
+      className={imageClass}
+      data-cy={props.cy?.dataCy}
     />
   );
-};
 
+  if (props.isZoomable) {
+    return (
+      <Modal
+        cy={props.cy}
+        trigger={imageElement}
+        content={imageElement}
+        className={imageClass}
+      />
+    );
+  }
+
+  return imageElement;
+
+};

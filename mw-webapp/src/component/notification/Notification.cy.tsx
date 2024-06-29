@@ -7,7 +7,7 @@ import {getDataCy} from "src/utils/cyTesting/getDataCy";
  */
 const NOTIFICATION = ".toastify";
 const NOTIFICATION_CLOSE_BUTTON = ".toast-close";
-const NOTIFICATION_DURATION = 100;
+const NOTIFICATION_DURATION = 300;
 const NOTIFICATION_TEXT = "Notification text";
 const NOTIFICATION_TYPE = "info";
 const NOTIFICATION_TRIGGER_CY = "button";
@@ -19,7 +19,11 @@ const NotificationTest = () => {
   return (
     <Button
       value="Notification trigger"
-      onClick={() => displayNotification({text: NOTIFICATION_TEXT, type: NOTIFICATION_TYPE, duration: NOTIFICATION_DURATION})}
+      onClick={() => displayNotification({
+        text: NOTIFICATION_TEXT,
+        type: NOTIFICATION_TYPE,
+        duration: NOTIFICATION_DURATION,
+      })}
       dataCy={NOTIFICATION_TRIGGER_CY}
     />
   );
@@ -60,8 +64,7 @@ describe("Notification component", () => {
     cy.get(getDataCy(NOTIFICATION_TRIGGER_CY))
       .click();
     cy.get(NOTIFICATION)
-      .should("contain.text", NOTIFICATION_TEXT);
-    cy.get(NOTIFICATION)
+      .should("contain.text", NOTIFICATION_TEXT)
       .find(NOTIFICATION_CLOSE_BUTTON)
       .click();
   });

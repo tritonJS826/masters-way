@@ -30,7 +30,7 @@ interface StatisticBlockProps {
 
   /**
    * Type of statisticItem styles
-   * @default {@link StatisticBlockType.Primary}
+   * @default {@link StatisticBlockType.PRIMARY}
    */
   type?: StatisticBlockType;
 
@@ -42,12 +42,13 @@ interface StatisticBlockProps {
 export const StatisticBlock = (props: StatisticBlockProps) => {
   return (
     <HorizontalGridContainer className={styles.statistics}>
-      {props.statisticItems.map((statisticItem) => {
+      {props.statisticItems.map((statisticItem, index) => {
         return (
           <StatisticItem
             key={statisticItem.text}
             statisticItem={statisticItem}
             type={props.type ?? StatisticItemType.PRIMARY}
+            convertToHours={index === 0}
           />
         );
       })}
