@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {userPersonalDataAccessIds} from "cypress/accessIds/userPersonalDataAccessIds";
 import {observer} from "mobx-react-lite";
+import {trackUpgradeToPremiumClick} from "src/analytics/headerAnalytics";
 import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Checkbox";
@@ -525,6 +526,50 @@ export const UserPage = observer((props: UserPageProps) => {
                 />
               ))}
               {!userPageOwner?.tags.length && LanguageService.user.personalInfo.noSkills[language]}
+            </HorizontalContainer>
+            <HorizontalContainer className={styles.skillsTitleBlock}>
+              <HorizontalContainer>
+                <Infotip content={LanguageService.user.infotip.support[language]} />
+                <Title
+                  level={HeadingLevel.h2}
+                  text={LanguageService.user.personalInfo.support[language]}
+                  placeholder=""
+                />
+              </HorizontalContainer>
+            </HorizontalContainer>
+            <HorizontalContainer className={styles.supportBlock}>
+              {user &&
+              <>
+                <Modal
+                  trigger={
+                    <Button
+                      onClick={trackUpgradeToPremiumClick}
+                      value={LanguageService.header.donateButton[language]}
+                      buttonType={ButtonType.SECONDARY}
+                    />
+                  }
+                  content={
+                    <HorizontalContainer>
+                      {LanguageService.header.donateModal[language]}
+                    </HorizontalContainer>
+                  }
+                />
+                <Modal
+                  trigger={
+                    <Button
+                      onClick={trackUpgradeToPremiumClick}
+                      value={LanguageService.header.upgradeToPremiumButton[language]}
+                      buttonType={ButtonType.SECONDARY}
+                    />
+                  }
+                  content={
+                    <HorizontalContainer>
+                      {LanguageService.header.upgradeToPremiumModal[language]}
+                    </HorizontalContainer>
+                  }
+                />
+              </>
+              }
             </HorizontalContainer>
           </VerticalContainer>
 

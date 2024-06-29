@@ -18,6 +18,8 @@ enum HeaderLabel {
   LOG_IN_CLICKED = "LOG_IN_HEADER_CLICKED",
   LOG_IN_WITH_GOOGLE_CLICKED = "LOG_IN_WITH_GOOGLE_CLICKED",
   BURGER_CLICKED = "BURGER_CLICKED",
+  UPGRADE_TO_PREMIUM_CLICKED = "UPGRADE_TO_PREMIUM_CLICKED",
+  DONATE_CLICKED = "DONATE_CLICKED",
 }
 
 /**
@@ -60,3 +62,13 @@ export const trackLoginWithGoogleClick = () => trackHeaderClick(HeaderLabel.LOG_
  * Track header burger click
  */
 export const trackBurgerStateChanged = () => trackHeaderClick(HeaderLabel.BURGER_CLICKED);
+
+/**
+ * Track header upgradeToPremium click
+ */
+export const trackUpgradeToPremiumClick = () => trackHeaderClick(HeaderLabel.UPGRADE_TO_PREMIUM_CLICKED);
+
+/**
+ * Track header donate click
+ */
+export const trackDonateClick = () => trackHeaderClick(HeaderLabel.DONATE_CLICKED);

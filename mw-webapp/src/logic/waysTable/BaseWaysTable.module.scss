@@ -5,7 +5,13 @@
 }
 
 .wayCollectionActions {
+  flex-wrap: wrap;
   align-content: center;
+}
+
+.createWayButtonWrap {
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 .wayCards {
@@ -19,10 +25,16 @@
 
 .filterView {
   width: 100%;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-
   @include regularContainer;
+}
+
+.filtersViewBlock {
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .waysContent {

@@ -108,6 +108,7 @@
 }
 
 .temporalBlock {
+  flex-wrap: wrap;
   @include regularContainer;
 }
 
@@ -123,4 +124,8 @@
     background-color: var(--secondaryBgBtnColor);
     color: var(--primaryTextColor);
   }
+}
+
+.supportBlock {
+  flex-wrap: wrap;
 }

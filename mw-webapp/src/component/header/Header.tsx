@@ -359,31 +359,50 @@ export const Header = (props: HeaderProps) => {
                   className={styles.socialMedia}
                   dataCy={navigationMenuIds.socialMedia.text}
                 >
-                  {LanguageService.sidebar.socialMedia[props.language]}
+                  <Title
+                    level={HeadingLevel.h4}
+                    text={LanguageService.home.socialMedia[props.language]}
+                    placeholder=""
+                    classNameHeading={styles.socialMediaText}
+                  />
                   <HorizontalContainer className={styles.socialMediaIcons}>
                     <Link
-                      className={styles.logo}
-                      dataCy={navigationMenuIds.socialMedia.linkedinLink}
                       path="https://linkedin.com/company/masters-way-project"
                       isNewTab
+                      dataCy={navigationMenuIds.socialMedia.linkedinLink}
                     >
-                      <Icon
-                        size={IconSize.MEDIUM}
-                        name="LinkedinIcon"
-                        className={styles.socialMediaIcon}
-                      />
+                      <div className={styles.iconWrapper}>
+                        <Icon
+                          size={IconSize.SMALL}
+                          name="LinkedinIcon"
+                          className={styles.socialMediaIcon}
+                        />
+                      </div>
                     </Link>
                     <Link
-                      className={styles.logo}
                       path="https://www.youtube.com/watch?v=DiNNQol15ds&list=PL7eqEW04iXMV2tu_JYAIwerepUTZJjciM"
                       isNewTab
                       dataCy={navigationMenuIds.socialMedia.youtubeLink}
                     >
-                      <Icon
-                        size={IconSize.MEDIUM}
-                        name="YoutubeIcon"
-                        className={styles.socialMediaIcon}
-                      />
+                      <div className={styles.iconWrapper}>
+                        <Icon
+                          size={IconSize.SMALL}
+                          name="YoutubeIcon"
+                          className={styles.socialMediaIcon}
+                        />
+                      </div>
+                    </Link>
+                    <Link
+                      path="https://github.com/tritonJS826/masters-way"
+                      isNewTab
+                    >
+                      <div className={styles.iconWrapper}>
+                        <Icon
+                          size={IconSize.SMALL}
+                          name="GithubIcon"
+                          className={styles.socialMediaIcon}
+                        />
+                      </div>
                     </Link>
                   </HorizontalContainer>
                 </VerticalContainer>
