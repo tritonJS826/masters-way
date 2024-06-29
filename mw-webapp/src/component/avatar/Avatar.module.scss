@@ -1,11 +1,16 @@
 @import "src/styles/variables";
 
+$avatarSmallSize: 24px;
+$avatarMediumSize: 32px;
+$avatarBigSize: 80px;
+$avatarLargeSize: 120px;
+
 .AvatarRoot {
   display: inline-flex;
   overflow: hidden;
   align-items: center;
   justify-content: center;
-  border-radius: 100%;
+  border-radius: $tertiaryBorderRadius;
   user-select: none;
   vertical-align: middle;
 }
@@ -25,33 +30,28 @@
   justify-content: center;
   background-color: var(--secondaryBgColor);
   color: var(--primaryTextColor);
-  line-height: 1;
 }
 
 .small {
-  width: 25px;
-  min-width: 25px;
-  height: 25px;
-  font-size: 14px;
+  width: $avatarSmallSize;
+  height: $avatarSmallSize;
+  font-size: $fontSizeSmall;
 }
 
 .medium {
-  width: 35px;
-  min-width: 35px;
-  height: 35px;
-  font-size: 16px;
+  width: $avatarMediumSize;
+  height: $avatarMediumSize;
+  font-size: $fontSizeMedium;
 }
 
 .big {
-  width: 65px;
-  min-width: 65px;
-  height: 65px;
-  font-size: 18px;
+  width: $avatarBigSize;
+  height: $avatarBigSize;
+  font-size: $fontSizeLarge;
 }
 
 .large {
-  width: 114px;
-  min-width: 114px;
-  height: 114px;
-  font-size: $fontSizeLarge;
+  width: $avatarLargeSize;
+  height: $avatarLargeSize;
+  font-size: $fontSizeTitleMedium;
 }
