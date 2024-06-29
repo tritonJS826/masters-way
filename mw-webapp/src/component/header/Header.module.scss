@@ -5,6 +5,7 @@ $logoSidebarHeight: 40px;
 $googleIconSize: 20px;
 $loginImageMaxWidth: 457px;
 $loginModalMaxWidth: 914px;
+$iconSize: 32px;
 
 .header {
   display: flex;
@@ -24,12 +25,9 @@ $loginModalMaxWidth: 914px;
 .headerButtonsContainer {
   align-items: center;
   justify-content: space-between;
-  gap: $gapExtraExtraLarge;
+  gap: $gapExtraLarge;
 
-  @media (max-width:$mediaWidthTablet){
-    gap: $gapBig;
-  }
-  @media (max-width:$mediaWidthMobileBig){
+  @media (max-width: $mediaWidthTablet) {
     gap: $gapMedium;
   }
 }
@@ -39,22 +37,25 @@ $loginModalMaxWidth: 914px;
 }
 
 .headerThemeLanguageBlock {
-  gap: $gapBig;
   align-items: center;
-  @media (max-width:$mediaWidthMobileBig){
+  gap: $gapBig;
+  @media (max-width: $mediaWidthTablet) {
     gap: $gapMedium;
+  }
+  @media (max-width: $mediaWidthMobileBig) {
+    gap: $gapSmall;
   }
 }
 
 .headerSidebarBlock {
-  gap: $gapExtraBig;
   align-items: center;
+  gap: $gapBig;
 
-  @media (max-width:$mediaWidthTablet){
-    gap: $gapBig;
-  }
-  @media (max-width:$mediaWidthMobileBig){
+  @media (max-width: $mediaWidthTablet) {
     gap: $gapMedium;
+  }
+  @media (max-width: $mediaWidthMobileBig) {
+    gap: $gapSmall;
   }
 }
 
@@ -87,19 +88,6 @@ $loginModalMaxWidth: 914px;
 
 .bottomContainer {
   gap: $gapBig;
-}
-
-.socialMedia {
-  color: var(--secondaryTextColor);
-  gap: $gapSmall;
-}
-
-.socialMediaIcon {
-  border: $primaryBorder solid var(--secondaryStrokeColor);
-  border-radius: $tertiaryBorderRadius;
-  background-color: var(--secondaryIconBgColor);
-  fill: var(--quaternaryBgColor);
-  stroke: none;
 }
 
 .linkIcon {
@@ -167,4 +155,27 @@ $loginModalMaxWidth: 914px;
 
 .googleButtonValue {
   gap: $gapSmall;
+}
+
+.socialMedia {
+  color: var(--secondaryTextColor);
+  gap: $gapExtraSmall;
+}
+
+.socialMediaText {
+  font-weight: $fontWeightSemibold;
+}
+
+.iconWrapper {
+  display: flex;
+  width: $iconSize;
+  height: $iconSize;
+  align-items: center;
+  justify-content: center;
+  border-radius: $tertiaryBorderRadius;
+  background-color: var(--secondaryIconBgColor);
+}
+
+.socialMediaIcon {
+  stroke: var(--tertiaryIconColor);
 }

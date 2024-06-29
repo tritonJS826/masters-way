@@ -47,6 +47,7 @@ import {DayReportsTable} from "src/logic/wayPage/reportsTable/dayReportsTable/Da
 import {WayPageStore} from "src/logic/wayPage/WayPageStore";
 import {WayActiveStatistic} from "src/logic/wayPage/wayStatistics/WayActiveStatistic";
 import {MILLISECONDS_IN_DAY, SMALL_CORRECTION_MILLISECONDS, WayStatistic} from "src/logic/wayPage/wayStatistics/WayStatistic";
+import {WayStatus} from "src/logic/waysTable/wayStatus";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Label} from "src/model/businessModel/Label";
 import {Metric} from "src/model/businessModel/Metric";
@@ -762,6 +763,8 @@ export const WayPage = observer((props: WayPageProps) => {
                 </HorizontalContainer>
 
                 {way.children.map((child) => {
+                  const isAbandoned = child.status === WayStatus.abandoned;
+
                   return (
                     <>
                       <HorizontalContainer
@@ -774,7 +777,7 @@ export const WayPage = observer((props: WayPageProps) => {
                           size={AvatarSize.SMALL}
                           className={styles.avatar}
                         />
-                        <VerticalContainer>
+                        <VerticalContainer className={clsx(isAbandoned && styles.abandonedWay)}>
                           <Link
                             path={pages.way.getPath({uuid: child.uuid})}
                             className={styles.participantWay}

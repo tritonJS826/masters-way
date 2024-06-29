@@ -192,3 +192,8 @@ $iconContainerSize: 25px;
 .childWay {
   align-items: center;
 }
+
+.abandonedWay {
+  // Need create a new token for composite way background
+  color: var(--dangerColor);
+}
