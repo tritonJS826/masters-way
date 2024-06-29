@@ -9,7 +9,7 @@ import {WayPreview} from "src/model/businessModelPreview/WayPreview";
  */
 export const wayDTOToWayPreview = (wayDTO: SchemasWayPlainResponse): WayPreview => {
   const status = getWayStatus({
-    status: wayDTO.isCompleted ? WayStatus.completed  : null,
+    status: wayDTO.isCompleted ? WayStatus.completed : null,
     lastUpdate: new Date(wayDTO.updatedAt),
   });
 

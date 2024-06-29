@@ -29,7 +29,7 @@
 .compositeWay {
   height: 100%;
   // Need create a new token for composite way background
-  background: var(--progressBarBgColor);
+  background: var(--attentionColor);
 }
 
 .status {
@@ -47,5 +47,5 @@
 .abandonedWay {
   height: 100%;
   // Need create a new token for composite way background
-  background: #f18e8e;
+  background: var(--dangerColor);
 }

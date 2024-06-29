@@ -105,10 +105,10 @@ $cardLinkFontSize: 16px;
 
 .mainInfoCompositeWay {
   // Need create a new token for composite way background
-  background-color: var(--progressBarBgColor);
+  background-color: var(--attentionColor);
 }
 
 .abandonedWay {
   // Need create a new token for composite way background
-  background: #f18e8e;
+  background: var(--dangerColor);
 }
