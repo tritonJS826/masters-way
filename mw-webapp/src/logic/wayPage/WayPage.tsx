@@ -850,12 +850,14 @@ export const WayPage = observer((props: WayPageProps) => {
 
         <VerticalContainer className={styles.statistics}>
           <HorizontalContainer className={styles.horizontalContainer}>
-            <Infotip content={LanguageService.way.infotip.statistics[language]} />
-            <Title
-              level={HeadingLevel.h3}
-              text={LanguageService.way.statisticsBlock.statistics[language]}
-              placeholder=""
-            />
+            <HorizontalContainer>
+              <Infotip content={LanguageService.way.infotip.statistics[language]} />
+              <Title
+                level={HeadingLevel.h3}
+                text={LanguageService.way.statisticsBlock.statistics[language]}
+                placeholder=""
+              />
+            </HorizontalContainer>
             <Tooltip content={wayPageSettings.isStatisticsVisible
               ? LanguageService.way.statisticsBlock.clickToHideStatistics[language]
               : LanguageService.way.statisticsBlock.clickToShowStatistics[language]

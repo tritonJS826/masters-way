@@ -15,16 +15,10 @@
 
 import * as runtime from '../runtime';
 import type {
-  SchemasCommentPopulatedResponse,
-  SchemasCreateCommentPayload,
   SchemasUserPopulatedResponse,
   UtilResponseStatusString,
 } from '../models/index';
 import {
-    SchemasCommentPopulatedResponseFromJSON,
-    SchemasCommentPopulatedResponseToJSON,
-    SchemasCreateCommentPayloadFromJSON,
-    SchemasCreateCommentPayloadToJSON,
     SchemasUserPopulatedResponseFromJSON,
     SchemasUserPopulatedResponseToJSON,
     UtilResponseStatusStringFromJSON,
@@ -35,10 +29,13 @@ export interface BeginAuthRequest {
     provider: string;
 }
 
-export interface GoogleAuthLogInRequest {
+export interface GetTokenLocallyRequest {
+    userEmail: string;
+}
+
+export interface GoogleAuthLogInCallbackFunctionRequest {
     state: string;
     provider: string;
-    request: SchemasCreateCommentPayload;
 }
 
 export interface LogoutCurrentAuthorizedUserRequest {
@@ -51,9 +48,9 @@ export interface LogoutCurrentAuthorizedUserRequest {
 export class AuthApi extends runtime.BaseAPI {
 
     /**
-     * Update comment by UUID
+     * Begin oauth
      */
-    async beginAuthRaw(requestParameters: BeginAuthRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasUserPopulatedResponse>> {
+    async beginAuthRaw(requestParameters: BeginAuthRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.provider === null || requestParameters.provider === undefined) {
             throw new runtime.RequiredError('provider','Required parameter requestParameters.provider was null or undefined when calling beginAuth.');
         }
@@ -69,15 +66,14 @@ export class AuthApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasUserPopulatedResponseFromJSON(jsonValue));
+        return new runtime.VoidApiResponse(response);
     }
 
     /**
-     * Update comment by UUID
+     * Begin oauth
      */
-    async beginAuth(requestParameters: BeginAuthRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasUserPopulatedResponse> {
-        const response = await this.beginAuthRaw(requestParameters, initOverrides);
-        return await response.value();
+    async beginAuth(requestParameters: BeginAuthRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.beginAuthRaw(requestParameters, initOverrides);
     }
 
     /**
@@ -107,19 +103,46 @@ export class AuthApi extends runtime.BaseAPI {
     }
 
     /**
+     * Login locally by providing an email address.
+     * login locally by email (with no oauth)
+     */
+    async getTokenLocallyRaw(requestParameters: GetTokenLocallyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters.userEmail === null || requestParameters.userEmail === undefined) {
+            throw new runtime.RequiredError('userEmail','Required parameter requestParameters.userEmail was null or undefined when calling getTokenLocally.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/auth/login/local/{userEmail}`.replace(`{${"userEmail"}}`, encodeURIComponent(String(requestParameters.userEmail))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * Login locally by providing an email address.
+     * login locally by email (with no oauth)
+     */
+    async getTokenLocally(requestParameters: GetTokenLocallyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.getTokenLocallyRaw(requestParameters, initOverrides);
+    }
+
+    /**
      * Log in with google oAuth
      */
-    async googleAuthLogInRaw(requestParameters: GoogleAuthLogInRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasCommentPopulatedResponse>> {
+    async googleAuthLogInCallbackFunctionRaw(requestParameters: GoogleAuthLogInCallbackFunctionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.state === null || requestParameters.state === undefined) {
-            throw new runtime.RequiredError('state','Required parameter requestParameters.state was null or undefined when calling googleAuthLogIn.');
+            throw new runtime.RequiredError('state','Required parameter requestParameters.state was null or undefined when calling googleAuthLogInCallbackFunction.');
         }
 
         if (requestParameters.provider === null || requestParameters.provider === undefined) {
-            throw new runtime.RequiredError('provider','Required parameter requestParameters.provider was null or undefined when calling googleAuthLogIn.');
-        }
-
-        if (requestParameters.request === null || requestParameters.request === undefined) {
-            throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling googleAuthLogIn.');
+            throw new runtime.RequiredError('provider','Required parameter requestParameters.provider was null or undefined when calling googleAuthLogInCallbackFunction.');
         }
 
         const queryParameters: any = {};
@@ -130,25 +153,21 @@ export class AuthApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        headerParameters['Content-Type'] = 'application/json';
-
         const response = await this.request({
             path: `/auth/{provider}/callback`.replace(`{${"provider"}}`, encodeURIComponent(String(requestParameters.provider))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: SchemasCreateCommentPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasCommentPopulatedResponseFromJSON(jsonValue));
+        return new runtime.VoidApiResponse(response);
     }
 
     /**
      * Log in with google oAuth
      */
-    async googleAuthLogIn(requestParameters: GoogleAuthLogInRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasCommentPopulatedResponse> {
-        const response = await this.googleAuthLogInRaw(requestParameters, initOverrides);
-        return await response.value();
+    async googleAuthLogInCallbackFunction(requestParameters: GoogleAuthLogInCallbackFunctionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.googleAuthLogInCallbackFunctionRaw(requestParameters, initOverrides);
     }
 
     /**

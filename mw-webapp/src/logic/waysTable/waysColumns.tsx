@@ -1,4 +1,5 @@
 import {createColumnHelper} from "@tanstack/react-table";
+import clsx from "clsx";
 import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
@@ -48,9 +49,15 @@ export const getWaysColumns = (language: Language) => [
      * Cell with date of created way
      */
     cell: ({row}) => (
-      <span className={styles.dateCell}>
+      <span className={clsx(
+        styles.cellWrapper,
+        styles.dateCell,
+        (row.original.childrenUuids.length !== 0) && styles.compositeWay)
+      }
+      >
         {DateUtils.getShortISODateValue(row.original.createdAt)}
       </span>
+
     ),
   }),
   columnHelper.accessor("lastUpdate", {
@@ -72,7 +79,12 @@ export const getWaysColumns = (language: Language) => [
      * Cell with date of last updated way
      */
     cell: ({row}) => (
-      <span className={styles.dateCell}>
+      <span className={clsx(
+        styles.cellWrapper,
+        styles.dateCell,
+        (row.original.childrenUuids.length !== 0) && styles.compositeWay)
+      }
+      >
         {DateUtils.getShortISODateValue(row.original.lastUpdate)}
       </span>
     ),
@@ -101,7 +113,12 @@ export const getWaysColumns = (language: Language) => [
       });
 
       return (
-        <div className={styles.status}>
+        <div className={clsx(
+          styles.cellWrapper,
+          styles.status,
+          (row.original.childrenUuids.length !== 0) && styles.compositeWay)
+        }
+        >
           {wayStatus}
           <ProgressBar
             value={row.original.metricsDone}
@@ -129,7 +146,7 @@ export const getWaysColumns = (language: Language) => [
      * Cell with clickable way name that leads to way page
      */
     cell: ({row}) => (
-      <div>
+      <div className={clsx(styles.cellWrapper, (row.original.childrenUuids.length !== 0) && styles.compositeWay)}>
         <Link path={pages.way.getPath({uuid: row.original.uuid})}>
           {row.original.name}
         </Link>
@@ -164,7 +181,12 @@ export const getWaysColumns = (language: Language) => [
      */
     cell: ({row}) => {
       return (
-        <HorizontalContainer className={styles.userBlock}>
+        <HorizontalContainer className={clsx(
+          styles.cellWrapper,
+          styles.userBlock,
+          (row.original.childrenUuids.length !== 0) && styles.compositeWay)
+        }
+        >
           <Avatar
             alt={row.original.owner.name}
             src={row.original.owner.imageUrl}
@@ -199,7 +221,12 @@ export const getWaysColumns = (language: Language) => [
      */
     cell: ({row}) => {
       return (
-        <VerticalContainer>
+        <VerticalContainer className={clsx(
+          styles.cellWrapper,
+          styles.userBlock,
+          (row.original.childrenUuids.length !== 0) && styles.compositeWay)
+        }
+        >
           {row.original.mentors.map((mentor) => (
             <HorizontalContainer
               key={mentor.uuid}
@@ -243,7 +270,7 @@ export const getWaysColumns = (language: Language) => [
      * Cell with amount of favorite for user uuids
      */
     cell: ({row}) => (
-      <div className={styles.number}>
+      <div className={clsx(styles.cellWrapper, styles.number, (row.original.childrenUuids.length !== 0) && styles.compositeWay)}>
         {row.original.dayReportsAmount}
       </div>
     ),
@@ -267,7 +294,7 @@ export const getWaysColumns = (language: Language) => [
      * Cell with amount of favorite for user uuids
      */
     cell: ({row}) => (
-      <div className={styles.number}>
+      <div className={clsx(styles.cellWrapper, styles.number, (row.original.childrenUuids.length !== 0) && styles.compositeWay)}>
         {row.original.favoriteForUsers}
       </div>
     ),

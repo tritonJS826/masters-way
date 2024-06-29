@@ -239,25 +239,6 @@ definitions:
     - userUuid
     - wayUuid
     type: object
-  schemas.CreateUserPayload:
-    properties:
-      description:
-        type: string
-      email:
-        type: string
-      imageUrl:
-        type: string
-      isMentor:
-        type: boolean
-      name:
-        type: string
-    required:
-    - description
-    - email
-    - imageUrl
-    - isMentor
-    - name
-    type: object
   schemas.CreateUserTagPayload:
     properties:
       name:
@@ -968,7 +949,9 @@ paths:
         type: string
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: ok
       summary: Begin oauth
       tags:
       - auth
@@ -976,14 +959,8 @@ paths:
     post:
       consumes:
       - application/json
-      operationId: google auth log in
+      operationId: google auth log in callback function
       parameters:
-      - description: query params
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/schemas.CreateCommentPayload'
       - description: state parameter
         in: query
         name: state
@@ -999,8 +976,6 @@ paths:
       responses:
         "200":
           description: OK
-          schema:
-            $ref: '#/definitions/schemas.CommentPopulatedResponse'
       summary: Log in with google oAuth
       tags:
       - auth
@@ -1033,7 +1008,9 @@ paths:
         type: string
       produces:
       - application/json
-      responses: {}
+      responses:
+        "304":
+          description: redirect
       summary: login locally by email (with no oauth)
       tags:
       - auth
@@ -2007,28 +1984,6 @@ paths:
           schema:
             $ref: '#/definitions/schemas.GetAllUsersResponse'
       summary: Get all users
-      tags:
-      - user
-    post:
-      consumes:
-      - application/json
-      description: Email should be unique
-      operationId: create-user
-      parameters:
-      - description: query params
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/schemas.CreateUserPayload'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/schemas.UserPlainResponse'
-      summary: Create a new user
       tags:
       - user
   /users/{userId}:

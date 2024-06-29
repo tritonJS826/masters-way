@@ -105,3 +105,8 @@ $cardLinkFontSize: 16px;
     text-decoration: none;
   }
 }
+
+.mainInfoCompositeWay {
+  // Need create a new token for composite way background
+  background-color: var(--progressBarBgColor);
+}
