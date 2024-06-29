@@ -82,10 +82,13 @@ func (cc *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param provider path string true "google"
+// @Success 200 "ok"
 // @Router /auth/{provider} [get]
 func (cc *AuthController) BeginAuth(ctx *gin.Context) {
 	url := auth.GoogleOAuthConfig.AuthCodeURL(auth.OauthStateString, oauth2.AccessTypeOffline)
 	ctx.Redirect(http.StatusTemporaryRedirect, url)
+	
+	ctx.JSON(http.StatusOK, "ok")
 }
 
 // @Summary Get current authorized user
@@ -114,6 +117,7 @@ func (cc *AuthController) GetCurrentAuthorizedUserByToken(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param userEmail path string true "email"
+// @Success 304 "redirect"
 // @Router /auth/login/local/{userEmail} [get]
 func (cc *AuthController) GetUserTokenByEmail(ctx *gin.Context) {
 	userEmail := ctx.Param("userEmail")

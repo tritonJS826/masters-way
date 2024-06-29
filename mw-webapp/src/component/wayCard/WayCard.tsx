@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import {observer} from "mobx-react-lite";
 import {Avatar} from "src/component/avatar/Avatar";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
@@ -85,6 +86,8 @@ export const WayCard = observer((props: WayCardProps) => {
     );
   };
 
+  const isCompositeWay = props.wayPreview.childrenUuids.length !== 0;
+
   return (
     <Link
       path={pages.way.getPath({uuid: props.wayPreview.uuid})}
@@ -92,7 +95,7 @@ export const WayCard = observer((props: WayCardProps) => {
       dataCy={props.dataCy}
     >
       <VerticalContainer className={styles.wayCardContainer}>
-        <VerticalContainer className={styles.mainInfo}>
+        <VerticalContainer className={clsx(styles.mainInfo, isCompositeWay && styles.mainInfoCompositeWay)}>
           <HorizontalContainer className={styles.nameLikes}>
             <Tooltip
               position={PositionTooltip.BOTTOM}

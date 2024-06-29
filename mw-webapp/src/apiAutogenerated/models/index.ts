@@ -18,7 +18,6 @@ export * from './SchemasCreatePlanPayload';
 export * from './SchemasCreateProblemJobTagPayload';
 export * from './SchemasCreateProblemPayload';
 export * from './SchemasCreateUserMentoringRequestPayload';
-export * from './SchemasCreateUserPayload';
 export * from './SchemasCreateUserTagPayload';
 export * from './SchemasCreateWay';
 export * from './SchemasCreateWayCollectionPayload';

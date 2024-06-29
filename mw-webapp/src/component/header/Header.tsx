@@ -206,28 +206,28 @@ export const Header = (props: HeaderProps) => {
       </Link>
       <HorizontalContainer className={styles.headerButtonsContainer}>
         <HorizontalContainer className={styles.headerThemeLanguageBlock}>
-        <ThemeSwitcher
-          language={props.language}
-          theme={props.theme}
-          onClick={(theme: Theme) => {
-            trackThemeClick();
-            props.setTheme(theme);
-          }}
-          className={styles.themeSwitcher}
-          dataCy={headerAccessIds.settings.themeSwitcher}
-        />
+          <ThemeSwitcher
+            language={props.language}
+            theme={props.theme}
+            onClick={(theme: Theme) => {
+              trackThemeClick();
+              props.setTheme(theme);
+            }}
+            className={styles.themeSwitcher}
+            dataCy={headerAccessIds.settings.themeSwitcher}
+          />
 
-        <Select
-          value={props.language}
-          name="language"
-          options={languageOptions}
-          onChange={(lang: Language) => {
-            trackSelectLanguageClick();
-            props.setLanguage(lang);
-          }}
-          className={styles.selectLanguage}
-          cy={{dataCyTrigger: headerAccessIds.settings.language.select, dataCyContentList: "", dataCyValue: ""}}
-        />
+          <Select
+            value={props.language}
+            name="language"
+            options={languageOptions}
+            onChange={(lang: Language) => {
+              trackSelectLanguageClick();
+              props.setLanguage(lang);
+            }}
+            className={styles.selectLanguage}
+            cy={{dataCyTrigger: headerAccessIds.settings.language.select, dataCyContentList: "", dataCyValue: ""}}
+          />
         </HorizontalContainer>
         <HorizontalContainer className={styles.headerSidebarBlock}>
           {props.user ?

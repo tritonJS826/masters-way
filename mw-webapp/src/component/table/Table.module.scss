@@ -22,7 +22,6 @@ $cell-max-width: 600px;
 
   td {
     max-width: $cell-max-width;
-    padding: 8px 10px;
     border-right: $table-border;
     border-bottom: $table-border;
     text-align: left;
@@ -54,8 +53,4 @@ $cell-max-width: 600px;
   tr:last-child td:last-child {
     border-bottom-right-radius: $primaryBorderRadius;
   }
-}
-
-.tooltip {
-  color: red;
 }
