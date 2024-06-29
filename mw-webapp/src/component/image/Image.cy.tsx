@@ -6,7 +6,7 @@ import {getDataCy} from "src/utils/cyTesting/getDataCy";
 
 const IMAGE_CY = {
   dataCy: "image",
-  ...MODAL_CY,
+  dataCyModal: MODAL_CY,
 };
 
 const WRONG_SRC = "./wrong.src";
@@ -59,6 +59,6 @@ describe("Image component", () => {
   it("should enlarge the image on click if isZoomable is true", () => {
     cy.mount(createTestImage({src: logo}));
     cy.get(getDataCy(IMAGE_CY.dataCy)).click();
-    cy.get(getDataCy(IMAGE_CY.dataCyContent.dataCyContent)).should("be.visible");
+    cy.get(getDataCy(IMAGE_CY.dataCyModal.dataCyContent.dataCyContent)).should("be.visible");
   });
 });
