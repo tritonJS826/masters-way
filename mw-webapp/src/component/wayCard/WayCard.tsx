@@ -11,6 +11,7 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {languageStore} from "src/globalStore/LanguageStore";
+import {WayStatus} from "src/logic/waysTable/wayStatus";
 import {UserPlain} from "src/model/businessModel/User";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {WayTag} from "src/model/businessModelPreview/WayTag";
@@ -87,6 +88,7 @@ export const WayCard = observer((props: WayCardProps) => {
   };
 
   const isCompositeWay = props.wayPreview.childrenUuids.length !== 0;
+  const isAbandonedWay = props.wayPreview.status === WayStatus.abandoned;
 
   return (
     <Link
@@ -95,7 +97,12 @@ export const WayCard = observer((props: WayCardProps) => {
       dataCy={props.dataCy}
     >
       <VerticalContainer className={styles.wayCardContainer}>
-        <VerticalContainer className={clsx(styles.mainInfo, isCompositeWay && styles.mainInfoCompositeWay)}>
+        <VerticalContainer className={clsx(
+          styles.mainInfo,
+          isCompositeWay && styles.mainInfoCompositeWay,
+          isAbandonedWay && styles.abandonedWay,
+        )}
+        >
           <HorizontalContainer className={styles.nameLikes}>
             <Tooltip
               position={PositionTooltip.BOTTOM}

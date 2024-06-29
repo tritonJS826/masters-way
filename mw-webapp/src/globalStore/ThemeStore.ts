@@ -119,6 +119,14 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     [Theme.DARK]: "#8B85A1",
     [Theme.LIGHT]: "#F4F3FF",
   },
+  attentionColor: {
+    [Theme.DARK]: "#79AF8E",
+    [Theme.LIGHT]: "#79AF8E",
+  },
+  dangerColor: {
+    [Theme.DARK]: "#F18E8E",
+    [Theme.LIGHT]: "#F18E8E",
+  },
 };
 
 export const DEFAULT_THEME = Theme.DARK;
