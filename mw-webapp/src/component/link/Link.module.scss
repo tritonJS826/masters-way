@@ -3,17 +3,7 @@
 .link {
   color: var(--primaryTextColor);
   font-size: $fontSizeMedium;
-  text-decoration: none;
   transition-duration: $elementHoverTransition;
-
-  &:hover,
-  &:active {
-    color: var(--generalPrimaryColor);
-  }
-
-  &:hover {
-    text-decoration: underline;
-  }
 
   &:active {
     text-decoration: none;

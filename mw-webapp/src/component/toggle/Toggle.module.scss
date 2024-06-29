@@ -1,8 +1,8 @@
 @import "src/styles/variables";
 
-$toogleSize: 27px;
-$toogleBorderRadius: 34px;
-$toogleIndentation: 2px;
+$toggleSize: 27px;
+$toggleBorderRadius: 34px;
+$toggleIndentation: 2px;
 
 .switch {
   position: relative;
@@ -23,26 +23,26 @@ $toogleIndentation: 2px;
   right: 0;
   bottom: 0;
   left: 0;
-  border-radius: $toogleBorderRadius;
+  border-radius: $toggleBorderRadius;
   background-color: var(--primaryToggleBgColor);
   cursor: pointer;
   transition: $tertiaryTransitionDuration;
 }
 
 .slider:before {
-  content: "";
   position: absolute;
-  bottom: $toogleIndentation;
-  left: $toogleIndentation;
-  width: $toogleSize;
-  height: $toogleSize;
+  bottom: $toggleIndentation;
+  left: $toggleIndentation;
+  width: $toggleSize;
+  height: $toggleSize;
   border-radius: $tertiaryBorderRadius;
   background-color: var(--secondaryToggleBgColor);
+  content: "";
   transition: $tertiaryTransitionDuration;
 }
 
 .toggle:checked + .slider {
-  background-color: var(--primaryToggleBgColor);
+  background-color: var(--secondaryBgColor);
 }
 
 .toggle:checked + .slider:before {

@@ -3,6 +3,7 @@ import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalC
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Image} from "src/component/image/Image";
 import {Link} from "src/component/link/Link";
+import {Separator} from "src/component/separator/Separator";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {Language} from "src/globalStore/LanguageStore";
@@ -95,7 +96,7 @@ export const Footer = (props: FooterProps) => {
           </VerticalContainer>
         </HorizontalContainer>
 
-        <hr className={styles.ruler} />
+        <Separator className={styles.ruler} />
 
         <HorizontalContainer className={styles.privacyLinks}>
           <Link

@@ -43,3 +43,9 @@
 .cellWrapper {
   padding: $paddingSmall;
 }
+
+.abandonedWay {
+  height: 100%;
+  // Need create a new token for composite way background
+  background: #f18e8e;
+}

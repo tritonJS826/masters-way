@@ -2,6 +2,7 @@ import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import clsx from "clsx";
 import {observer} from "mobx-react-lite";
+import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Confirm} from "src/component/confirm/Confirm";
 import {Dropdown} from "src/component/dropdown/Dropdown";
@@ -16,6 +17,7 @@ import {Modal} from "src/component/modal/Modal";
 import {PromptModalContent} from "src/component/modal/PromptModalContent";
 import {displayNotification} from "src/component/notification/displayNotification";
 import {ErrorComponent} from "src/component/privateRecourse/PrivateRecourse";
+import {Separator} from "src/component/separator/Separator";
 import {Tag, TagType} from "src/component/tag/Tag";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
@@ -761,22 +763,36 @@ export const WayPage = observer((props: WayPageProps) => {
 
                 {way.children.map((child) => {
                   return (
-                    <VerticalContainer key={child.uuid}>
-                      <Link
-                        path={pages.way.getPath({uuid: child.uuid})}
-                        className={styles.participantWay}
+                    <>
+                      <HorizontalContainer
+                        key={child.uuid}
+                        className={styles.childWay}
                       >
-                        {child.name}
-                      </Link>
-                      <Link
-                        path={pages.user.getPath({uuid: child.owner.uuid})}
-                        className={styles.participantWay}
-                      >
-                        {child.owner.name}
-                      </Link>
-                      {child.status}
-                    </VerticalContainer>
+                        <Avatar
+                          alt={child.owner.name}
+                          src={child.owner.imageUrl}
+                          size={AvatarSize.SMALL}
+                          className={styles.avatar}
+                        />
+                        <VerticalContainer>
+                          <Link
+                            path={pages.way.getPath({uuid: child.uuid})}
+                            className={styles.participantWay}
+                          >
+                            {child.name}
+                          </Link>
+                          <Link
+                            path={pages.user.getPath({uuid: child.owner.uuid})}
+                            className={styles.participantWay}
+                          >
+                            {child.owner.name}
+                          </Link>
+                          {child.status}
+                        </VerticalContainer>
 
+                      </HorizontalContainer>
+                      <Separator />
+                    </>
                   );
                 })
                 }
