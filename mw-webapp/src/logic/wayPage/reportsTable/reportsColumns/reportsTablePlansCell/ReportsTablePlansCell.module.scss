@@ -40,6 +40,8 @@
 .checkbox {
   width: $checkboxWidthSmall;
   height: $checkboxHeightSmall;
+  background-color: transparent;
+  cursor: pointer;
 }
 
 .linkToOwnerWay {
