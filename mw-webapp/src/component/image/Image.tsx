@@ -10,7 +10,7 @@ interface CyDataImage extends Cy {
   /**
    * Data attribute for cypress testing
    */
-  onZoom?: string;
+  dataCy?: string;
 }
 
 /**
@@ -56,7 +56,7 @@ export const Image = (props: ImageProps) => {
       src={props.src}
       alt={props.alt}
       className={imageClass}
-      data-cy={props.cy?.onZoom}
+      data-cy={props.cy?.dataCy}
     />
   );
 

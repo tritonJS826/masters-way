@@ -8,6 +8,7 @@ const IMAGE_CY = {
   dataCy: "image",
   ...MODAL_CY,
 };
+
 const WRONG_SRC = "./wrong.src";
 
 /**
