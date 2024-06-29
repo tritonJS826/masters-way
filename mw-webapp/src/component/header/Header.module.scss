@@ -25,6 +25,13 @@ $loginModalMaxWidth: 914px;
   align-items: center;
   justify-content: space-between;
   gap: $gapExtraExtraLarge;
+
+  @media (max-width:$mediaWidthTablet){
+    gap: $gapBig;
+  }
+  @media (max-width:$mediaWidthMobileBig){
+    gap: $gapMedium;
+  }
 }
 
 .logo {
@@ -34,11 +41,21 @@ $loginModalMaxWidth: 914px;
 .headerThemeLanguageBlock {
   gap: $gapBig;
   align-items: center;
+  @media (max-width:$mediaWidthMobileBig){
+    gap: $gapMedium;
+  }
 }
 
 .headerSidebarBlock {
   gap: $gapExtraBig;
   align-items: center;
+
+  @media (max-width:$mediaWidthTablet){
+    gap: $gapBig;
+  }
+  @media (max-width:$mediaWidthMobileBig){
+    gap: $gapMedium;
+  }
 }
 
 .userAvatar {
