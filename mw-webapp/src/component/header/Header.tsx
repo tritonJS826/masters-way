@@ -1,13 +1,6 @@
 import {headerAccessIds} from "cypress/accessIds/headerAccessIds";
 import {navigationMenuIds} from "cypress/accessIds/navigationMenuAccessIds";
-import {
-  trackBurgerStateChanged,
-  trackLoginClick,
-  trackLoginWithGoogleClick,
-  trackLogoClick,
-  trackSelectLanguageClick,
-  trackThemeClick,
-} from "src/analytics/headerAnalytics";
+import {TrackHeader} from "src/analytics/headerAnalytics";
 import google from "src/assets/google.svg";
 import logo from "src/assets/mastersWayLogo.svg";
 import logoLight from "src/assets/mastersWayLogoLight.svg";
@@ -192,7 +185,7 @@ export const Header = (props: HeaderProps) => {
         className={styles.logo}
         path={pages.home.getPath({})}
         dataCy={headerAccessIds.logo}
-        onClick={trackLogoClick}
+        onClick={TrackHeader.trackLogoClick}
       >
         <ThemedImage
           className={styles.logo}
@@ -210,7 +203,7 @@ export const Header = (props: HeaderProps) => {
             language={props.language}
             theme={props.theme}
             onClick={(theme: Theme) => {
-              trackThemeClick();
+              TrackHeader.trackThemeClick();
               props.setTheme(theme);
             }}
             className={styles.themeSwitcher}
@@ -222,7 +215,7 @@ export const Header = (props: HeaderProps) => {
             name="language"
             options={languageOptions}
             onChange={(lang: Language) => {
-              trackSelectLanguageClick();
+              TrackHeader.trackSelectLanguageClick();
               props.setLanguage(lang);
             }}
             className={styles.selectLanguage}
@@ -252,7 +245,7 @@ export const Header = (props: HeaderProps) => {
             <Modal
               trigger={
                 <Button
-                  onClick={trackLoginClick}
+                  onClick={TrackHeader.trackLoginClick}
                   value={LanguageService.header.loginButton[props.language]}
                   buttonType={ButtonType.PRIMARY}
                   dataCy={headerAccessIds.loginButton}
@@ -276,7 +269,7 @@ export const Header = (props: HeaderProps) => {
                     <VerticalContainer className={styles.loginButtons}>
                       <Button
                         onClick={() => {
-                          trackLoginWithGoogleClick();
+                          TrackHeader.trackLoginWithGoogleClick();
                           AuthDAL.authGoogle();
                         }}
                         className={styles.loginGoogleButton}
@@ -299,7 +292,7 @@ export const Header = (props: HeaderProps) => {
 
           }
           <Sidebar
-            onOpenStatusChanged={trackBurgerStateChanged}
+            onOpenStatusChanged={TrackHeader.trackBurgerStateChanged}
             trigger={
               <Icon
                 size={IconSize.SMALL}

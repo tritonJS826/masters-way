@@ -24,22 +24,37 @@ const trackHome = (label: HomeLabel) => {
 };
 
 /**
- * Track home start button first block click
+ * Methods to track home page analytics
  */
-export const startForFreeFirstBlockClicked = () => trackHome(HomeLabel.START_FOR_FREE_FIRST_SCREEN_CLICKED);
+export class TrackHomePage {
 
-/**
- * Track home start button who we are block click
- */
-export const startForFreeWhoWeAreBlockClicked = () => trackHome(HomeLabel.START_FOR_FREE_WHO_WE_ARE_BLOCK_CLICKED);
+  /**
+   * Track home start button first block click
+   */
+  public static startForFreeFirstBlockClicked = () => {
+    trackHome(HomeLabel.START_FOR_FREE_FIRST_SCREEN_CLICKED);
+  };
 
-/**
- * Track home try now button click
- */
-export const tryNowClicked = () => trackHome(HomeLabel.TRY_NOW_CLICKED);
+  /**
+   * Track home start button who we are block click
+   */
+  public static startForFreeWhoWeAreBlockClicked = () => {
+    trackHome(HomeLabel.START_FOR_FREE_WHO_WE_ARE_BLOCK_CLICKED);
+  };
 
-/**
- * Track home read manifesto click
- */
-export const readManifestClicked = () => trackHome(HomeLabel.READ_MANIFESTO_CLICKED);
+  /**
+   * Track home try now button click
+   */
+  public static tryNowClicked = () => {
+    trackHome(HomeLabel.TRY_NOW_CLICKED);
+  };
+
+  /**
+   * Track home read manifesto click
+   */
+  public static readManifestClicked = () => {
+    trackHome(HomeLabel.READ_MANIFESTO_CLICKED);
+  };
+
+}
 

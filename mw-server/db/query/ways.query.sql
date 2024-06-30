@@ -17,11 +17,14 @@ INSERT INTO ways(
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = @way_uuid AND metrics.is_done = true) AS way_metrics_done,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = @way_uuid) AS way_favorite_for_users,
     (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = @way_uuid) AS way_day_reports_amount,
-    (ARRAY(
-        SELECT composite_ways.child_uuid
-        FROM composite_ways
-        WHERE composite_ways.parent_uuid = ways.uuid
-    )::VARCHAR[]) AS children_uuids;
+    COALESCE(
+        ARRAY(
+            SELECT composite_ways.child_uuid
+            FROM composite_ways
+            WHERE composite_ways.parent_uuid = ways.uuid
+        ),
+        '{}'
+    )::VARCHAR[] AS children_uuids;
 
 
 -- name: GetWayById :one
@@ -35,11 +38,14 @@ SELECT
     ways.copied_from_way_uuid,
     ways.is_completed,
     ways.is_private,
-    (ARRAY(
-        SELECT composite_ways.child_uuid
-        FROM composite_ways
-        WHERE composite_ways.parent_uuid = ways.uuid
-    )::VARCHAR[]) AS children_uuids,
+    COALESCE(
+        ARRAY(
+            SELECT composite_ways.child_uuid
+            FROM composite_ways
+            WHERE composite_ways.parent_uuid = ways.uuid
+        ),
+        '{}'
+    )::VARCHAR[] AS children_uuids,
     users.uuid AS owner_uuid,
     users.name AS owner_name,
     users.email AS owner_email,
@@ -50,12 +56,7 @@ SELECT
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = @way_uuid) AS way_metrics_total,
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = @way_uuid AND metrics.is_done = true) AS way_metrics_done,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = @way_uuid) AS way_favorite_for_users,
-    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = @way_uuid) AS way_day_reports_amount,
-    (ARRAY(
-        SELECT composite_ways.child_uuid
-        FROM composite_ways
-        WHERE composite_ways.parent_uuid = ways.uuid
-    )::VARCHAR[]) AS children_uuids
+    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = @way_uuid) AS way_day_reports_amount
 FROM ways
 JOIN users ON users.uuid = ways.owner_uuid
 WHERE ways.uuid = @way_uuid
@@ -77,11 +78,14 @@ SELECT
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
     (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount,
-    (ARRAY(
-        SELECT composite_ways.child_uuid
-        FROM composite_ways
-        WHERE composite_ways.parent_uuid = ways.uuid
-    )::VARCHAR[]) AS children_uuids
+    COALESCE(
+        ARRAY(
+            SELECT composite_ways.child_uuid
+            FROM composite_ways
+            WHERE composite_ways.parent_uuid = ways.uuid
+        ),
+        '{}'
+    )::VARCHAR[] AS children_uuids
 FROM ways
 JOIN way_collections_ways ON way_collections_ways.way_uuid = ways.uuid
 WHERE way_collections_ways.way_collection_uuid = $1
@@ -103,11 +107,14 @@ SELECT
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
     (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount,
-    (ARRAY(
-        SELECT composite_ways.child_uuid
-        FROM composite_ways
-        WHERE composite_ways.parent_uuid = ways.uuid
-    )::VARCHAR[]) AS children_uuids
+    COALESCE(
+        ARRAY(
+            SELECT composite_ways.child_uuid
+            FROM composite_ways
+            WHERE composite_ways.parent_uuid = ways.uuid
+        ),
+        '{}'
+    )::VARCHAR[] AS children_uuids
 FROM ways
 WHERE ways.owner_uuid = $1
 ORDER BY ways.updated_at DESC;
@@ -140,11 +147,14 @@ SELECT
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
     (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount,
-    (ARRAY(
-        SELECT composite_ways.child_uuid
-        FROM composite_ways
-        WHERE composite_ways.parent_uuid = ways.uuid
-    )::VARCHAR[]) AS children_uuids
+    COALESCE(
+        ARRAY(
+            SELECT composite_ways.child_uuid
+            FROM composite_ways
+            WHERE composite_ways.parent_uuid = ways.uuid
+        ), 
+        '{}'
+    )::VARCHAR[] AS children_uuids
 FROM ways
 JOIN mentor_users_ways ON mentor_users_ways.way_uuid = ways.uuid
 WHERE mentor_users_ways.user_uuid = $1
@@ -166,11 +176,14 @@ SELECT
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
     (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount,
-    (ARRAY(
-        SELECT composite_ways.child_uuid
-        FROM composite_ways
-        WHERE composite_ways.parent_uuid = ways.uuid
-    )::VARCHAR[]) AS children_uuids
+    COALESCE(
+        ARRAY(
+            SELECT composite_ways.child_uuid
+            FROM composite_ways
+            WHERE composite_ways.parent_uuid = ways.uuid
+        ),
+        '{}'
+    )::VARCHAR[] AS children_uuids
 FROM ways
 JOIN favorite_users_ways ON favorite_users_ways.way_uuid = ways.uuid
 WHERE favorite_users_ways.user_uuid = $1
@@ -184,11 +197,14 @@ SELECT
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
     (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount,
-    (ARRAY(
-        SELECT composite_ways.child_uuid
-        FROM composite_ways
-        WHERE composite_ways.parent_uuid = ways.uuid
-    )::VARCHAR[]) AS children_uuids
+    COALESCE(
+        ARRAY(
+            SELECT composite_ways.child_uuid
+            FROM composite_ways
+            WHERE composite_ways.parent_uuid = ways.uuid
+        ),
+        '{}'
+    )::VARCHAR[] AS children_uuids
 FROM ways
 WHERE ways.is_private = false AND
     (
@@ -231,11 +247,14 @@ RETURNING *,
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = sqlc.arg('uuid') AND metrics.is_done = true) AS way_metrics_done,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = sqlc.arg('uuid')) AS way_favorite_for_users,
     (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = sqlc.arg('uuid')) AS way_day_reports_amount,
-    (ARRAY(
-        SELECT composite_ways.child_uuid
-        FROM composite_ways
-        WHERE composite_ways.parent_uuid = ways.uuid
-    )::VARCHAR[]) AS children_uuids;
+    COALESCE(
+        ARRAY(
+            SELECT composite_ways.child_uuid
+            FROM composite_ways
+            WHERE composite_ways.parent_uuid = ways.uuid
+        ),
+        '{}'
+    )::VARCHAR[] AS children_uuids;
 
 -- name: DeleteWay :exec
 DELETE FROM ways

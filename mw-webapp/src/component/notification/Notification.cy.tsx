@@ -7,7 +7,7 @@ import {getDataCy} from "src/utils/cyTesting/getDataCy";
  */
 const NOTIFICATION = ".toastify";
 const NOTIFICATION_CLOSE_BUTTON = ".toast-close";
-const NOTIFICATION_DURATION = 300;
+const NOTIFICATION_DURATION = 1000;
 const NOTIFICATION_TEXT = "Notification text";
 const NOTIFICATION_TYPE = "info";
 const NOTIFICATION_TRIGGER_CY = "button";

@@ -27,10 +27,13 @@ INSERT INTO problems(
 ) RETURNING uuid, created_at, updated_at, description, is_done, owner_uuid, day_report_uuid,
     (SELECT name FROM users WHERE uuid = $5) AS owner_name,
     -- get tag uuids
-    ARRAY(
-        SELECT problems_job_tags.job_tag_uuid 
-        FROM problems_job_tags 
-        WHERE problems.uuid = problems_job_tags.problem_uuid
+    COALESCE(
+        ARRAY(
+            SELECT problems_job_tags.job_tag_uuid 
+            FROM problems_job_tags 
+            WHERE problems.uuid = problems_job_tags.problem_uuid
+        ),
+        '{}'
     )::VARCHAR[] AS tag_uuids
 `
 
@@ -136,10 +139,13 @@ WHERE problems.uuid = $4
 RETURNING uuid, created_at, updated_at, description, is_done, owner_uuid, day_report_uuid,
     (SELECT name FROM users WHERE problems.owner_uuid = users.uuid) AS owner_name,
     -- get tag uuids
-    ARRAY(
-        SELECT problems_job_tags.job_tag_uuid 
-        FROM problems_job_tags 
-        WHERE problems.uuid = problems_job_tags.problem_uuid
+    COALESCE(
+        ARRAY(
+            SELECT problems_job_tags.job_tag_uuid 
+            FROM problems_job_tags 
+            WHERE problems.uuid = problems_job_tags.problem_uuid
+        ),
+        '{}'
     )::VARCHAR[] AS tag_uuids
 `
 

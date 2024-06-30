@@ -1,12 +1,7 @@
 import {NavigateFunction, useNavigate} from "react-router-dom";
 import {homeAccessIds} from "cypress/accessIds/homeAccessIds";
 import {observer} from "mobx-react-lite";
-import {
-  readManifestClicked,
-  startForFreeFirstBlockClicked,
-  startForFreeWhoWeAreBlockClicked,
-  tryNowClicked,
-} from "src/analytics/homeAnalytics";
+import {TrackHomePage} from "src/analytics/homeAnalytics";
 import logoLight from "src/assets/mastersWayLogoLight.svg";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Footer} from "src/component/footer/Footer";
@@ -60,7 +55,7 @@ export const HomePage = observer(() => {
             </p>
             <Button
               onClick={() => {
-                startForFreeFirstBlockClicked();
+                TrackHomePage.startForFreeFirstBlockClicked();
                 getStarted(navigate, user?.uuid);
               }}
               buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
@@ -149,7 +144,7 @@ export const HomePage = observer(() => {
 
         <Button
           onClick={() => {
-            startForFreeWhoWeAreBlockClicked();
+            TrackHomePage.startForFreeWhoWeAreBlockClicked();
             getStarted(navigate, user?.uuid);
           }}
           buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
@@ -180,7 +175,7 @@ export const HomePage = observer(() => {
             <HorizontalContainer className={styles.aboutAppBlockButtons}>
               <Button
                 onClick={() => {
-                  tryNowClicked();
+                  TrackHomePage.tryNowClicked();
                   getStarted(navigate, user?.uuid);
                 }}
                 buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
@@ -190,7 +185,7 @@ export const HomePage = observer(() => {
               <Link
                 path={LanguageService.home.aboutAppBlock.manifestLink[language]}
                 className={styles.manifestoLink}
-                onClick={readManifestClicked}
+                onClick={TrackHomePage.readManifestClicked}
                 isNewTab
               >
                 {LanguageService.home.aboutAppBlock.readManifesto[language]}
