@@ -28,6 +28,9 @@ func FindOrCreateUserByEmail(db *dbb.Queries, ctx context.Context, args *dbb.Cre
 
 func CreateUser(db *dbb.Queries, ctx context.Context, args *dbb.CreateUserParams) (schemas.UserPlainResponse, error) {
 	user, err := db.CreateUser(ctx, *args)
+	if err != nil {
+		return schemas.UserPlainResponse{}, err
+	}
 
 	response := schemas.UserPlainResponse{
 		Uuid:        user.Uuid.String(),
@@ -39,7 +42,7 @@ func CreateUser(db *dbb.Queries, ctx context.Context, args *dbb.CreateUserParams
 		IsMentor:    user.IsMentor,
 	}
 
-	return response, err
+	return response, nil
 }
 
 type dbWay struct {

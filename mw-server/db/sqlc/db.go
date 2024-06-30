@@ -315,6 +315,9 @@ func Prepare(ctx context.Context, db DBTX) (*Queries, error) {
 	if q.listWaysStmt, err = db.PrepareContext(ctx, listWays); err != nil {
 		return nil, fmt.Errorf("error preparing query ListWays: %w", err)
 	}
+	if q.populateDbStmt, err = db.PrepareContext(ctx, populateDb); err != nil {
+		return nil, fmt.Errorf("error preparing query PopulateDb: %w", err)
+	}
 	if q.truncateAllTablesStmt, err = db.PrepareContext(ctx, truncateAllTables); err != nil {
 		return nil, fmt.Errorf("error preparing query TruncateAllTables: %w", err)
 	}
@@ -841,6 +844,11 @@ func (q *Queries) Close() error {
 			err = fmt.Errorf("error closing listWaysStmt: %w", cerr)
 		}
 	}
+	if q.populateDbStmt != nil {
+		if cerr := q.populateDbStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing populateDbStmt: %w", cerr)
+		}
+	}
 	if q.truncateAllTablesStmt != nil {
 		if cerr := q.truncateAllTablesStmt.Close(); cerr != nil {
 			err = fmt.Errorf("error closing truncateAllTablesStmt: %w", cerr)
@@ -1037,6 +1045,7 @@ type Queries struct {
 	isAllMetricsDoneStmt                        *sql.Stmt
 	listUsersStmt                               *sql.Stmt
 	listWaysStmt                                *sql.Stmt
+	populateDbStmt                              *sql.Stmt
 	truncateAllTablesStmt                       *sql.Stmt
 	updateCommentStmt                           *sql.Stmt
 	updateDayReportStmt                         *sql.Stmt
@@ -1152,6 +1161,7 @@ func (q *Queries) WithTx(tx *sql.Tx) *Queries {
 		isAllMetricsDoneStmt:                        q.isAllMetricsDoneStmt,
 		listUsersStmt:                               q.listUsersStmt,
 		listWaysStmt:                                q.listWaysStmt,
+		populateDbStmt:                              q.populateDbStmt,
 		truncateAllTablesStmt:                       q.truncateAllTablesStmt,
 		updateCommentStmt:                           q.updateCommentStmt,
 		updateDayReportStmt:                         q.updateDayReportStmt,

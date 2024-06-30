@@ -5,7 +5,6 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
-	"mwserver/db/scripts/testdata"
 	"net/http"
 
 	"mwserver/config"
@@ -197,10 +196,10 @@ func init() {
 	MentorUserWayRoutes = routes.NewRouteMentorUserWay(MentorUserWayController)
 
 	if config.Env.EnvType != "prod" {
+		DevController := controllers.NewDevController(db, ctx)
+
 		server.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-		server.POST("/test/data", testdata.AddTestData(conn))
-		server.DELETE("/test/data", testdata.ResetData(db))
-		server.PUT("/test/data", testdata.ResetAndAddTestData(db, conn))
+		server.POST("/test/data", DevController.ResetDb)
 	}
 }
 
