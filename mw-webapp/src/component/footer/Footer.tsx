@@ -69,7 +69,7 @@ export const Footer = (props: FooterProps) => {
                 </div>
               </Link>
               <Link
-                path="https://www.youtube.com/watch?v=DiNNQol15ds&list=PL7eqEW04iXMV2tu_JYAIwerepUTZJjciM"
+                path="https://www.youtube.com/watch?v=8QGIjw6oyDA&list=PLif3tyf4TWIlhAV-7AoEpd9fGolkooIxm&index=2"
                 isNewTab
               >
                 <div className={styles.iconWrapper}>

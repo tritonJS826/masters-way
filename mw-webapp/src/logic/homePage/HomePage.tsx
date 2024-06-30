@@ -22,8 +22,8 @@ import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/homePage/HomePage.module.scss";
 
-const videoForMentor = "https://www.youtube.com/embed/DiNNQol15ds?si=zVUS9mFiC1A3gPaX";
-const videoForStudent = "https://www.youtube.com/embed/CvO8W6EzMow?si=uXNrv1w6xRJpXMHc";
+const VIDEO_FOR_STUDENT_URL = "https://www.youtube.com/embed/WrgBgDZVVMo?si=uXNrv1w6xRJpXMHc";
+const VIDEO_FOR_MENTOR_URL = "https://www.youtube.com/embed/F84cw01AjNo?si=zVUS9mFiC1A3gPaX";
 
 /**
  * GetStarted button click handler
@@ -42,7 +42,7 @@ export const HomePage = observer(() => {
   const {language} = languageStore;
   const navigate = useNavigate();
 
-  const [videoPath, setVideoPath] = useState<string>(videoForStudent);
+  const [videoUrl, setVideoUrl] = useState<string>(VIDEO_FOR_STUDENT_URL);
 
   return (
     <>
@@ -74,16 +74,16 @@ export const HomePage = observer(() => {
           <VerticalContainer className={styles.videosBlock}>
             <HorizontalContainer>
               <Button
-                onClick={() => setVideoPath(videoForStudent)}
-                buttonType={videoPath === videoForStudent
+                onClick={() => setVideoUrl(VIDEO_FOR_STUDENT_URL)}
+                buttonType={videoUrl === VIDEO_FOR_STUDENT_URL
                   ? ButtonType.SECONDARY
                   : ButtonType.PRIMARY
                 }
                 value={LanguageService.home.videoForStudent[language]}
               />
               <Button
-                onClick={() => setVideoPath(videoForMentor)}
-                buttonType={videoPath === videoForMentor
+                onClick={() => setVideoUrl(VIDEO_FOR_MENTOR_URL)}
+                buttonType={videoUrl === VIDEO_FOR_MENTOR_URL
                   ? ButtonType.SECONDARY
                   : ButtonType.PRIMARY
                 }
@@ -93,7 +93,7 @@ export const HomePage = observer(() => {
             <iframe
               width="100%"
               height="400"
-              src={videoPath}
+              src={videoUrl}
               title="Video onboarding"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               referrerPolicy="strict-origin-when-cross-origin"
