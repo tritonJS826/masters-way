@@ -180,7 +180,6 @@ export const BaseWaysTable = observer((props: BaseWaysTableProps) => {
     <>
       <HorizontalContainer className={styles.wayCollectionActions}>
         <HorizontalContainer className={styles.filterView}>
-          {/* <HorizontalContainer className={styles.createWayButtonWrap}> */}
           {props.isPageOwner && user &&
             <Button
               value={LanguageService.user.personalInfo.createNewWayButton[language]}
@@ -202,7 +201,6 @@ export const BaseWaysTable = observer((props: BaseWaysTableProps) => {
               ]}
               onChange={(value) => props.setFilterStatus(value as WayStatusType)}
             />
-            {/* </HorizontalContainer> */}
 
             <ViewSwitcher
               view={props.view}

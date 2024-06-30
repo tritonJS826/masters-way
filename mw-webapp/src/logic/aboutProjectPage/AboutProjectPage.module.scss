@@ -63,6 +63,7 @@ $accordionMaxWidth: 1032px;
 
 .accordionSection {
   align-items: center;
+  padding: $paddingExtraMedium $paddingSmall;
   background-color: var(--generalPrimaryColor);
   color: var(--secondaryTextColor);
   gap: $gapBig;

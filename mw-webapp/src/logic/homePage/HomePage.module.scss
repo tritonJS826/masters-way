@@ -165,3 +165,7 @@ $homePaddingBigBlock: 128px;
   color: var(--secondaryTextColor);
   font-size: $fontSizeTitleSmall;
 }
+
+.videosBlock {
+  gap: $gapSmall;
+}

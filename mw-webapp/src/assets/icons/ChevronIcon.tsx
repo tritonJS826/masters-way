@@ -10,13 +10,11 @@ export const ChevronIcon = (props: IconProps) => {
       viewBox="0 0 24 24"
       fill="none"
       className={props.className}
+      strokeWidth="1"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     >
-      <path
-        d="M6.5 9L12.5 15L18.5 9"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      <path d="M6.5 9L12.5 15L18.5 9" />
     </svg>
   );
 };

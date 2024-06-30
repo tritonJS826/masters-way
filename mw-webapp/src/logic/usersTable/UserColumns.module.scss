@@ -1,5 +1,9 @@
 @import "src/styles/variables";
 
+.cellWrapper {
+  padding: $paddingSmall;
+}
+
 .number {
   text-align: right;
 }
