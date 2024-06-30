@@ -28,10 +28,13 @@ INSERT INTO plans(
 ) RETURNING uuid, created_at, updated_at, description, time, owner_uuid, is_done, day_report_uuid,
     (SELECT name FROM users WHERE uuid = $5) AS owner_name,
     -- get tag uuids
-    ARRAY(
-        SELECT plans_job_tags.job_tag_uuid 
-        FROM plans_job_tags 
-        WHERE plans.uuid = plans_job_tags.plan_uuid
+    COALESCE(
+        ARRAY(
+            SELECT plans_job_tags.job_tag_uuid 
+            FROM plans_job_tags 
+            WHERE plans.uuid = plans_job_tags.plan_uuid
+        ), 
+        '{}'
     )::VARCHAR[] AS tag_uuids
 `
 
@@ -143,10 +146,13 @@ WHERE plans.uuid = $5
 RETURNING uuid, created_at, updated_at, description, time, owner_uuid, is_done, day_report_uuid,
     (SELECT name FROM users WHERE plans.owner_uuid = users.uuid) AS owner_name,
     -- get tag uuids
-    ARRAY(
-        SELECT plans_job_tags.job_tag_uuid 
-        FROM plans_job_tags 
-        WHERE plans.uuid = plans_job_tags.plan_uuid
+    COALESCE(
+        ARRAY(
+            SELECT plans_job_tags.job_tag_uuid 
+            FROM plans_job_tags 
+            WHERE plans.uuid = plans_job_tags.plan_uuid
+        ), 
+        '{}'
     )::VARCHAR[] AS tag_uuids
 `
 

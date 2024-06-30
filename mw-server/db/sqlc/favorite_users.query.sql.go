@@ -7,7 +7,6 @@ package db
 
 import (
 	"context"
-	"time"
 
 	"github.com/google/uuid"
 )
@@ -63,25 +62,15 @@ JOIN users
     AND favorite_users.acceptor_user_uuid = users.uuid
 `
 
-type GetFavoriteUserByDonorUserIdRow struct {
-	Uuid        uuid.UUID `json:"uuid"`
-	Name        string    `json:"name"`
-	Email       string    `json:"email"`
-	Description string    `json:"description"`
-	CreatedAt   time.Time `json:"created_at"`
-	ImageUrl    string    `json:"image_url"`
-	IsMentor    bool      `json:"is_mentor"`
-}
-
-func (q *Queries) GetFavoriteUserByDonorUserId(ctx context.Context, donorUserUuid uuid.UUID) ([]GetFavoriteUserByDonorUserIdRow, error) {
+func (q *Queries) GetFavoriteUserByDonorUserId(ctx context.Context, donorUserUuid uuid.UUID) ([]User, error) {
 	rows, err := q.query(ctx, q.getFavoriteUserByDonorUserIdStmt, getFavoriteUserByDonorUserId, donorUserUuid)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	items := []GetFavoriteUserByDonorUserIdRow{}
+	items := []User{}
 	for rows.Next() {
-		var i GetFavoriteUserByDonorUserIdRow
+		var i User
 		if err := rows.Scan(
 			&i.Uuid,
 			&i.Name,

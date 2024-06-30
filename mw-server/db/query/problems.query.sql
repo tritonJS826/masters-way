@@ -11,11 +11,16 @@ INSERT INTO problems(
 ) RETURNING *,
     (SELECT name FROM users WHERE uuid = $5) AS owner_name,
     -- get tag uuids
-    ARRAY(
-        SELECT problems_job_tags.job_tag_uuid 
-        FROM problems_job_tags 
-        WHERE problems.uuid = problems_job_tags.problem_uuid
+    COALESCE(
+        ARRAY(
+            SELECT problems_job_tags.job_tag_uuid 
+            FROM problems_job_tags 
+            WHERE problems.uuid = problems_job_tags.problem_uuid
+        ),
+        '{}'
     )::VARCHAR[] AS tag_uuids;
+
+    
 
 
 -- name: GetListProblemsByDayReportId :many
@@ -34,10 +39,13 @@ WHERE problems.uuid = sqlc.arg('uuid')
 RETURNING *,
     (SELECT name FROM users WHERE problems.owner_uuid = users.uuid) AS owner_name,
     -- get tag uuids
-    ARRAY(
-        SELECT problems_job_tags.job_tag_uuid 
-        FROM problems_job_tags 
-        WHERE problems.uuid = problems_job_tags.problem_uuid
+    COALESCE(
+        ARRAY(
+            SELECT problems_job_tags.job_tag_uuid 
+            FROM problems_job_tags 
+            WHERE problems.uuid = problems_job_tags.problem_uuid
+        ),
+        '{}'
     )::VARCHAR[] AS tag_uuids;
 
 -- name: DeleteProblem :exec

@@ -179,6 +179,7 @@ func dbMentoringWaysToDbWays(rawWay []dbb.GetMentoringWaysByMentorIdRow) []dbWay
 			WayMetricsDone:      dbWayRaw.WayMetricsDone,
 			WayFavoriteForUsers: dbWayRaw.WayFavoriteForUsers,
 			WayDayReportsAmount: dbWayRaw.WayDayReportsAmount,
+			ChildrenUuids:       dbWayRaw.ChildrenUuids,
 		}
 	})
 }
@@ -200,6 +201,7 @@ func dbFavoriteWaysToDbWays(rawWay []dbb.GetFavoriteWaysByUserIdRow) []dbWay {
 			WayMetricsDone:      dbWayRaw.WayMetricsDone,
 			WayFavoriteForUsers: dbWayRaw.WayFavoriteForUsers,
 			WayDayReportsAmount: dbWayRaw.WayDayReportsAmount,
+			ChildrenUuids:       dbWayRaw.ChildrenUuids,
 		}
 	})
 }
@@ -330,7 +332,7 @@ func GetPopulatedUserById(db *dbb.Queries, ctx context.Context, userUuid uuid.UU
 	})
 
 	favoriteUsersRaw, _ := db.GetFavoriteUserByDonorUserId(ctx, user.Uuid)
-	favoriteUsers := lo.Map(favoriteUsersRaw, func(dbUser dbb.GetFavoriteUserByDonorUserIdRow, i int) schemas.UserPlainResponse {
+	favoriteUsers := lo.Map(favoriteUsersRaw, func(dbUser dbb.User, i int) schemas.UserPlainResponse {
 		return schemas.UserPlainResponse{
 			Uuid:        dbUser.Uuid.String(),
 			Name:        dbUser.Name,

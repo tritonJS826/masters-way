@@ -12,11 +12,16 @@ INSERT INTO plans(
 ) RETURNING *,
     (SELECT name FROM users WHERE uuid = $5) AS owner_name,
     -- get tag uuids
-    ARRAY(
-        SELECT plans_job_tags.job_tag_uuid 
-        FROM plans_job_tags 
-        WHERE plans.uuid = plans_job_tags.plan_uuid
-    )::VARCHAR[] AS tag_uuids;;
+    COALESCE(
+        ARRAY(
+            SELECT plans_job_tags.job_tag_uuid 
+            FROM plans_job_tags 
+            WHERE plans.uuid = plans_job_tags.plan_uuid
+        ), 
+        '{}'
+    )::VARCHAR[] AS tag_uuids;
+
+
 
 -- name: GetListPlansByDayReportId :many
 SELECT * FROM plans
@@ -34,10 +39,13 @@ WHERE plans.uuid = sqlc.arg('uuid')
 RETURNING *,
     (SELECT name FROM users WHERE plans.owner_uuid = users.uuid) AS owner_name,
     -- get tag uuids
-    ARRAY(
-        SELECT plans_job_tags.job_tag_uuid 
-        FROM plans_job_tags 
-        WHERE plans.uuid = plans_job_tags.plan_uuid
+    COALESCE(
+        ARRAY(
+            SELECT plans_job_tags.job_tag_uuid 
+            FROM plans_job_tags 
+            WHERE plans.uuid = plans_job_tags.plan_uuid
+        ), 
+        '{}'
     )::VARCHAR[] AS tag_uuids;
 
 -- name: DeletePlan :exec

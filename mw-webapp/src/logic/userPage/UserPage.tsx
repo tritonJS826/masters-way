@@ -1,7 +1,7 @@
 import {useState} from "react";
 import {userPersonalDataAccessIds} from "cypress/accessIds/userPersonalDataAccessIds";
 import {observer} from "mobx-react-lite";
-import {trackUpgradeToPremiumClick} from "src/analytics/headerAnalytics";
+import {TrackUserPage} from "src/analytics/userPageAnalytics";
 import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Checkbox";
@@ -543,7 +543,7 @@ export const UserPage = observer((props: UserPageProps) => {
                 <Modal
                   trigger={
                     <Button
-                      onClick={trackUpgradeToPremiumClick}
+                      onClick={TrackUserPage.trackUpgradeToPremiumClick}
                       value={LanguageService.header.donateButton[language]}
                       buttonType={ButtonType.SECONDARY}
                     />
@@ -557,7 +557,7 @@ export const UserPage = observer((props: UserPageProps) => {
                 <Modal
                   trigger={
                     <Button
-                      onClick={trackUpgradeToPremiumClick}
+                      onClick={TrackUserPage.trackUpgradeToPremiumClick}
                       value={LanguageService.header.upgradeToPremiumButton[language]}
                       buttonType={ButtonType.SECONDARY}
                     />
