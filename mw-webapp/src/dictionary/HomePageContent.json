@@ -87,7 +87,7 @@
       },
       "description": {
         "ru": "Структурированные графики и отчеты помогут проанализировать прогресс и поделиться им с другими (например, прикрепить к резюме информативный отчет о пройденном пути).",
-        "en": "With structured graphs and reports, you can not only reflect on your progress, but also share it with others (e.g. attach an informative report of the learning path to your CV).",
+        "en": "With structured graphs and reports, you can not only reflect on your progress, but also share it with others (e.g. attach an informative report of the learning way to your CV).",
         "ua": "Структуровані графіки та звіти допоможуть проаналізувати прогрес та поділитися ним з іншими (наприклад, прикріпити до резюме інформативний звіт про пройдений шлях).",
         "ka": "სტრუქტურირებული გრაფიკები და ანგარიშები დაგეხმარებათ გააანალიზოთ თქვენი პროგრესი და გაუზიაროთ იგი სხვებს (მაგალითად, მიამაგრეთ ინფორმაციული პროგრესის ანგარიში თქვენს რეზიუმეს)."
       }
@@ -132,6 +132,18 @@
     "en": "Get started",
     "ua": "Почати",
     "ka": "დაწყება"
+  },
+  "videoForMentor": {
+    "ru": "Видео для наставника",
+    "en": "Video for mentor",
+    "ua": "Відео для наставника",
+    "ka": "ვიდეო მენტორისთვის"
+  },
+  "videoForStudent": {
+    "ru": "Видео для студента",
+    "en": "Video for student",
+    "ua": "Відео для студента",
+    "ka": "ვიდეო სტუდენტისთვის"
   },
   "aboutAppBlock": {
     "title": {

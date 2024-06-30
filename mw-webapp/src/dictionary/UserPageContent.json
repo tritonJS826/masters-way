@@ -89,6 +89,30 @@
       "en": "Add new user skill",
       "ua": "Додати новий навик користувача",
       "ka": "დაამატეთ ახალი მომხმარებლის უნარი"
+    },
+    "upgradeToPremiumButton": {
+      "ru": "Обновить до Премиум",
+      "en": "Upgrade to Premium",
+      "ua": "Оновити до Преміум",
+      "ka": "გადადით Premium-ზე"
+    },
+    "upgradeToPremiumModal": {
+      "ru": "Возможность перейти на режим Премиум еще не реализована. Пожалуйста, подождите немного. Мы благодарим вас за проявленный интерес!",
+      "en": "The option to upgrade to Premium mode has not yet been implemented. Please wait a moment. We thank you for your interest!",
+      "ua": "Можливість перейти на режим Преміум ще не реалізована. Зачекайте, будь ласка. Ми дякуємо вам за виявлений інтерес!",
+      "ka": "რემიუმ რეჟიმში გადასვლის ვარიანტი ჯერ არ განხორციელებულა. გთხოვთ მოითმინოთ ერთი წუთით. მადლობას გიხდით დაინტერესებისთვის!"
+    },
+    "donateButton": {
+      "ru": "Сделать донат",
+      "en": "Donate",
+      "ua": "Зробити донат",
+      "ka": "გააკეთე შემოწირულობა"
+    },
+    "donateModal": {
+      "ru": "Возможность пожертвовать еще не реализована. Пожалуйста, подождите немного. Мы благодарим вас за проявленный интерес!\n\nТак же вы можете отправить небольшое пожертвование на крипто кошельки: \n\n * Bitcoin: bc1qwemlhwklwsfl3xejkdg7w6s02x7s99eyy8vgwj \n\n * ethereum: 0x24e32141E945D88a703051605f568C489ea89081 \n\n * tether: 0x24e32141E945D88a703051605f568C489ea89081",
+      "en": "The option to donate has not yet been implemented. Please wait a moment. We thank you for your interest!\n\nYou can also send a small donation to crypto wallets: \n\n * Bitcoin: bc1qwemlhwklwsfl3xejkdg7w6s02x7s99eyy8vgwj \n\n * ethereum: 0x24e32141E945D88a703051605f568C489ea89081 \n\n * tether: 0x24e32141E945D88a703051605f568C489ea89081",
+      "ua": "Можливість пожертвувати ще не реалізована. Зачекайте, будь ласка. Ми дякуємо вам за виявлений інтерес!\n\n Також ви можете відправити невелику пожертву на крипто-гаманці: \n\n * Bitcoin: bc1qwemlhwklwsfl3xejkdg7w6s02x7s99eyy8vgwj \n\n * ethereum: 0x24e32141E945D88a703051605f568C489ea89081 \n\n * tether: 0x24e32141E945D88a703051605f568C489ea89081",
+      "ka": "შემოწირულობის რეჟიმის ვარიანტი ჯერ არ განხორციელებულა. გთხოვთ მოითმინოთ ერთი წუთით. მადლობას გიხდით დაინტერესებისთვის!\n\n თქვენ ასევე შეგიძლიათ გააკეთოთ მცირე შემოწირულობა კრიპტო საფულეებში: \n\n * Bitcoin: bc1qwemlhwklwsfl3xejkdg7w6s02x7s99eyy8vgwj \n\n * ethereum: 0x24e32141E945D88a703051605f568C489ea89081 \n\n * tether: 0x24e32141E945D88a703051605f568C489ea89081"
     }
   },
   "notifications": {

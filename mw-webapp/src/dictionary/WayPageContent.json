@@ -233,7 +233,7 @@
       },
       "description":  {
         "ru": "Чтобы сделать путь композитным...",
-        "en": "To make the path composite...",
+        "en": "To make the way composite...",
         "ua": "Щоб зробити шлях складеним...",
         "ka": "ბილიკის კომპოზიტური გასაკეთებლად..."
       }
@@ -830,7 +830,7 @@
     },
     "wayType": {
       "ru": "Изначально данные в пути принадлежат одному человеку. Однако, ты можешь преобразовать путь в 'Композитный', добавив другие интересующие тебя пути через 'Доступные дйствия'. В композитном пути будут отображаться все отчеты, собранные от путей-участников, а также общая статистика по всем включенным путям.",
-      "en": "Initially, the data in transit belongs to one person. However, you can convert the path to 'Composite' by adding other paths you are interested in through 'Available Actions'. The composite path will display all reports collected from participating paths, as well as overall statistics for all included paths.",
+      "en": "Initially, the data in transit belongs to one person. However, you can convert the way to 'Composite' by adding other paths you are interested in through 'Available Actions'. The composite way will display all reports collected from participating paths, as well as overall statistics for all included paths.",
       "ua": "Спочатку дані на шляху належать одній людині. Однак, ти можеш перетворити шлях у 'Композитний', додавши інші цікаві для тебе шляхи через 'Доступні дії'. У композитному шляху відображатимуться всі звіти, зібрані від шляхів-учасників, а також загальна статистика з усіх включених шляхів.",
       "ka": "თავდაპირველად ტრანზიტში არსებული მონაცემები ერთ ადამიანს ეკუთვნის. თუმცა, თქვენ შეგიძლიათ დააკონვერტიროთ ბილიკი 'კომპოზიტად' სხვა თქვენთვის საინტერესო ბილიკების დამატებით 'ხელმისაწვდომი მოქმედებების' მეშვეობით. კომპოზიტური ბილიკი აჩვენებს მონაწილე ბილიკებიდან შეგროვებულ ყველა ანგარიშს, ისევე როგორც მთლიან სტატისტიკას ყველა ჩართული ბილიკისთვის."
     },

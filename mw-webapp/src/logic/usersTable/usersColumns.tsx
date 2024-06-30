@@ -1,4 +1,5 @@
 import {createColumnHelper} from "@tanstack/react-table";
+import clsx from "clsx";
 import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
@@ -36,7 +37,7 @@ export const getUsersColumns = (language: Language) => [
      * Cell with clickable username that leads to user page
      */
     cell: ({row}) => (
-      <HorizontalContainer className={styles.userBlock}>
+      <HorizontalContainer className={clsx(styles.cellWrapper, styles.userBlock)}>
         <Avatar
           alt={row.original.name}
           src={row.original.imageUrl}
@@ -68,12 +69,14 @@ export const getUsersColumns = (language: Language) => [
      * Cell user email
      */
     cell: ({row}) => (
-      <Tooltip
-        position={PositionTooltip.TOP}
-        content={row.original.email}
-      >
-        {row.original.email}
-      </Tooltip>
+      <div className={styles.cellWrapper}>
+        <Tooltip
+          position={PositionTooltip.TOP}
+          content={row.original.email}
+        >
+          {row.original.email}
+        </Tooltip>
+      </div>
     ),
   }),
   columnHelper.accessor("ownWays", {
@@ -94,7 +97,7 @@ export const getUsersColumns = (language: Language) => [
      * Cell with user's own ways
      */
     cell: ({row}) => (
-      <div className={styles.number}>
+      <div className={clsx(styles.cellWrapper, styles.number)}>
         {row.original.ownWays.toString()}
       </div>
     ),
@@ -119,7 +122,7 @@ export const getUsersColumns = (language: Language) => [
      * Cell with user's favorite ways
      */
     cell: ({row}) => (
-      <div className={styles.number}>
+      <div className={clsx(styles.cellWrapper, styles.number)}>
         {row.original.favoriteWays}
       </div>
     ),
@@ -144,7 +147,7 @@ export const getUsersColumns = (language: Language) => [
      * Cell with user's mentoring ways
      */
     cell: ({row}) => (
-      <div className={styles.number}>
+      <div className={clsx(styles.cellWrapper, styles.number)}>
         {row.original.mentoringWays.toString()}
       </div>
     ),
@@ -165,7 +168,7 @@ export const getUsersColumns = (language: Language) => [
      * Cell with amount of favorite for user uuids
      */
     cell: ({row}) => (
-      <div className={styles.number}>
+      <div className={clsx(styles.cellWrapper, styles.number)}>
         {row.original.favoriteForUsers}
       </div>
     ),

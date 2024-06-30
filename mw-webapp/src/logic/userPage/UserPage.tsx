@@ -36,6 +36,7 @@ import {WayStatusType} from "src/logic/waysTable/wayStatus";
 import {DefaultWayCollections, User, UserPlain, WayCollection} from "src/model/businessModel/User";
 import {LanguageService} from "src/service/LanguageService";
 import {UserPageSettings, View} from "src/utils/LocalStorageWorker";
+import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import {PartialWithId, PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
 import styles from "src/logic/userPage/UserPage.module.scss";
@@ -544,27 +545,27 @@ export const UserPage = observer((props: UserPageProps) => {
                   trigger={
                     <Button
                       onClick={TrackUserPage.trackUpgradeToPremiumClick}
-                      value={LanguageService.header.donateButton[language]}
+                      value={LanguageService.user.personalInfo.donateButton[language]}
                       buttonType={ButtonType.SECONDARY}
                     />
                   }
                   content={
-                    <HorizontalContainer>
-                      {LanguageService.header.donateModal[language]}
-                    </HorizontalContainer>
+                    <VerticalContainer>
+                      {renderMarkdown(LanguageService.user.personalInfo.donateModal[language])}
+                    </VerticalContainer>
                   }
                 />
                 <Modal
                   trigger={
                     <Button
                       onClick={TrackUserPage.trackUpgradeToPremiumClick}
-                      value={LanguageService.header.upgradeToPremiumButton[language]}
+                      value={LanguageService.user.personalInfo.upgradeToPremiumButton[language]}
                       buttonType={ButtonType.SECONDARY}
                     />
                   }
                   content={
                     <HorizontalContainer>
-                      {LanguageService.header.upgradeToPremiumModal[language]}
+                      {LanguageService.user.personalInfo.upgradeToPremiumModal[language]}
                     </HorizontalContainer>
                   }
                 />

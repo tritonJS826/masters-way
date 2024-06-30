@@ -85,7 +85,7 @@ export const StatisticPeriod = observer((props: StatisticPeriodProps) => {
       />
       {!!props.totalWayTime &&
       <StatisticWidget
-        title={LanguageService.way.statisticsBlock.areaChartBlockTitle[language]}
+        title={LanguageService.way.statisticsBlock.timeSpentByDay[language]}
         isEditable={props.isCheckboxShown}
       >
         <AreaChart

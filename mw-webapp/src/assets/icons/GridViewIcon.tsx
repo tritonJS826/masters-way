@@ -11,6 +11,9 @@ export const GridViewIcon = (props: IconProps) => {
       fill="none"
       className={props.className}
       data-cy={props.dataCy}
+      strokeWidth="1"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     >
       <rect
         x="3"

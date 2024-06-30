@@ -1,3 +1,4 @@
+import {useState} from "react";
 import {NavigateFunction, useNavigate} from "react-router-dom";
 import {homeAccessIds} from "cypress/accessIds/homeAccessIds";
 import {observer} from "mobx-react-lite";
@@ -21,6 +22,9 @@ import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/homePage/HomePage.module.scss";
 
+const videoForMentor = "https://www.youtube.com/embed/DiNNQol15ds?si=zVUS9mFiC1A3gPaX";
+const videoForStudent = "https://www.youtube.com/embed/CvO8W6EzMow?si=uXNrv1w6xRJpXMHc";
+
 /**
  * GetStarted button click handler
  */
@@ -37,6 +41,8 @@ export const HomePage = observer(() => {
   const {user} = userStore;
   const {language} = languageStore;
   const navigate = useNavigate();
+
+  const [videoPath, setVideoPath] = useState<string>(videoForStudent);
 
   return (
     <>
@@ -65,11 +71,35 @@ export const HomePage = observer(() => {
             />
           </VerticalContainer>
 
-          <Image
-            alt="video"
-            src="https://drive.google.com/thumbnail?id=11wbqfxD6TDVneqyj7xidGIW4QPRSpMBt&sz=w1000"
-            className={styles.welcomeImageBlock}
-          />
+          <VerticalContainer className={styles.videosBlock}>
+            <HorizontalContainer>
+              <Button
+                onClick={() => setVideoPath(videoForStudent)}
+                buttonType={videoPath === videoForStudent
+                  ? ButtonType.SECONDARY
+                  : ButtonType.PRIMARY
+                }
+                value={LanguageService.home.videoForStudent[language]}
+              />
+              <Button
+                onClick={() => setVideoPath(videoForMentor)}
+                buttonType={videoPath === videoForMentor
+                  ? ButtonType.SECONDARY
+                  : ButtonType.PRIMARY
+                }
+                value={LanguageService.home.videoForMentor[language]}
+              />
+            </HorizontalContainer>
+            <iframe
+              width="100%"
+              height="400"
+              src={videoPath}
+              title="Video onboarding"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen={true}
+            />
+          </VerticalContainer>
         </HorizontalGridContainer>
       </div>
 
@@ -109,6 +139,16 @@ export const HomePage = observer(() => {
             description={LanguageService.home.advantages.timeSavingEfficiency.description[language]}
           />
         </HorizontalContainer>
+
+        <Button
+          onClick={() => {
+            TrackHomePage.startForFreeWhoWeAreBlockClicked();
+            getStarted(navigate, user?.uuid);
+          }}
+          buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
+          value={LanguageService.home.getStartedButton[language]}
+          className={styles.getStartedButton}
+        />
       </VerticalContainer>
 
       <VerticalContainer className={styles.buildSystemBlock}>
@@ -142,15 +182,6 @@ export const HomePage = observer(() => {
           />
         </HorizontalContainer>
 
-        <Button
-          onClick={() => {
-            TrackHomePage.startForFreeWhoWeAreBlockClicked();
-            getStarted(navigate, user?.uuid);
-          }}
-          buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
-          value={LanguageService.home.getStartedButton[language]}
-          className={styles.getStartedButton}
-        />
       </VerticalContainer>
 
       <VerticalContainer className={styles.aboutProjectBlock}>
