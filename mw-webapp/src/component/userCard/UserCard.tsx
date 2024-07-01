@@ -97,17 +97,14 @@ export const UserCard = observer((props: UserCardProps) => {
               </Tooltip>
             </VerticalContainer>
           </HorizontalContainer>
-          <HorizontalContainer>
-            <Tooltip
-              position={PositionTooltip.BOTTOM}
-              content={renderMarkdown(props.userPreview.description)}
-            >
-              <p className={styles.description}>
-                {renderMarkdown(props.userPreview.description)}
-              </p>
-            </Tooltip>
-          </HorizontalContainer>
-
+          <Tooltip
+            position={PositionTooltip.BOTTOM}
+            content={renderMarkdown(props.userPreview.description)}
+          >
+            <p className={styles.description}>
+              {renderMarkdown(props.userPreview.description)}
+            </p>
+          </Tooltip>
           {renderUserTags(props.userPreview.tags)}
         </VerticalContainer>
 
