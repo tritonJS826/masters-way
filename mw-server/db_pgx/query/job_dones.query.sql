@@ -7,9 +7,9 @@ INSERT INTO job_dones(
     owner_uuid,
     day_report_uuid
 ) VALUES (
-    $1, $2, $3, $4, $5, $6
+    @created_at, @updated_at, @description, @time, @owner_uuid, @day_report_uuid
 ) RETURNING *,
-    (SELECT name FROM users WHERE uuid = $5) AS owner_name,
+    (SELECT name FROM users WHERE uuid = @owner_uuid) AS owner_name,
     -- get tag uuids
     COALESCE(
         ARRAY(

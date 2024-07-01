@@ -16,8 +16,8 @@ SELECT uuid, name, description, color, way_uuid FROM job_tags
 WHERE job_tags.uuid = $1
 `
 
-func (q *Queries) GetJobTagByUuid(ctx context.Context, uuid pgtype.UUID) (JobTag, error) {
-	row := q.db.QueryRow(ctx, getJobTagByUuid, uuid)
+func (q *Queries) GetJobTagByUuid(ctx context.Context, jobTagsUuid pgtype.UUID) (JobTag, error) {
+	row := q.db.QueryRow(ctx, getJobTagByUuid, jobTagsUuid)
 	var i JobTag
 	err := row.Scan(
 		&i.Uuid,
