@@ -74,7 +74,10 @@ export const HomePage = observer(() => {
           <VerticalContainer className={styles.videosBlock}>
             <HorizontalContainer>
               <Button
-                onClick={() => setVideoUrl(VIDEO_FOR_STUDENT_URL)}
+                onClick={() => {
+                  TrackHomePage.studentVideoClicked();
+                  setVideoUrl(VIDEO_FOR_STUDENT_URL);
+                }}
                 buttonType={videoUrl === VIDEO_FOR_STUDENT_URL
                   ? ButtonType.SECONDARY
                   : ButtonType.PRIMARY
@@ -82,7 +85,10 @@ export const HomePage = observer(() => {
                 value={LanguageService.home.videoForStudent[language]}
               />
               <Button
-                onClick={() => setVideoUrl(VIDEO_FOR_MENTOR_URL)}
+                onClick={() => {
+                  TrackHomePage.mentorVideoClicked();
+                  setVideoUrl(VIDEO_FOR_MENTOR_URL);
+                }}
                 buttonType={videoUrl === VIDEO_FOR_MENTOR_URL
                   ? ButtonType.SECONDARY
                   : ButtonType.PRIMARY

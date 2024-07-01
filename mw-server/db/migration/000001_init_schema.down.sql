@@ -27,7 +27,9 @@ DROP INDEX IF EXISTS way_uuid_key;
 DROP TABLE IF EXISTS ways;
 DROP TABLE IF EXISTS favorite_users;
 DROP INDEX IF EXISTS users_email_key;
+DROP TABLE IF EXISTS profile_settings;
 DROP TABLE IF EXISTS users;
+DROP TYPE IF EXISTS pricing_plan_type;
 
 
 

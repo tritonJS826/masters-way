@@ -98,6 +98,9 @@ var (
 
 	MentorUserWayController controllers.MentorUserWayController
 	MentorUserWayRoutes     routes.MentorUserWayRoutes
+
+	DevController controllers.DevController
+	DevRoutes     routes.DevRoutes
 )
 
 func init() {
@@ -196,7 +199,11 @@ func init() {
 	MentorUserWayRoutes = routes.NewRouteMentorUserWay(MentorUserWayController)
 
 	if config.Env.EnvType != "prod" {
+		DevController = *controllers.NewDevController(db, ctx)
+		DevRoutes = routes.NewRouteDev(DevController)
+
 		server.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
 	}
 }
 
@@ -233,6 +240,7 @@ func main() {
 	WayTagRoutes.WayTagRoute(router)
 	CompositeWayRoutes.CompositeWayRoute(router)
 	MentorUserWayRoutes.MentorUserWayRoute(router)
+	DevRoutes.DevRoute(router)
 
 	server.NoRoute(func(ctx *gin.Context) {
 		ctx.JSON(http.StatusNotFound, gin.H{"status": "failed", "message": fmt.Sprintf("The specified route %s not found", ctx.Request.URL)})
