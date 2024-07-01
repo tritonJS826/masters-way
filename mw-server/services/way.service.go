@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	dbb "mwserver/db/sqlc"
 	"mwserver/schemas"
 	"mwserver/util"
@@ -291,51 +292,72 @@ func UpdateWayIsCompletedStatus(db *dbb.Queries, ctx context.Context, wayUuid uu
 }
 
 func GetPlainWayById(db *dbb.Queries, ctx context.Context, wayUuid uuid.UUID) (schemas.WayPlainResponse, error) {
-	way, err := db.GetWayById(ctx, wayUuid)
-
-	copiedFromWayUuid := util.MarshalNullUuid(way.CopiedFromWayUuid)
-	mentorsRaw, _ := db.GetMentorUsersByWayId(ctx, way.Uuid)
-
-	mentors := lo.Map(mentorsRaw, func(dbMentor dbb.User, i int) schemas.UserPlainResponse {
-		return schemas.UserPlainResponse{
-			Uuid:        dbMentor.Uuid.String(),
-			Name:        dbMentor.Name,
-			Email:       dbMentor.Email,
-			Description: dbMentor.Description,
-			CreatedAt:   dbMentor.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-			ImageUrl:    dbMentor.ImageUrl,
-			IsMentor:    dbMentor.IsMentor,
-		}
-	})
-
-	dbOwner, _ := db.GetUserById(ctx, way.OwnerUuid)
-	owner := schemas.UserPlainResponse{
-		Uuid:        dbOwner.Uuid.String(),
-		Name:        dbOwner.Name,
-		Email:       dbOwner.Email,
-		Description: dbOwner.Description,
-		CreatedAt:   dbOwner.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-		ImageUrl:    dbOwner.ImageUrl,
-		IsMentor:    dbOwner.IsMentor,
+	wayDetails, err := db.GetWayDetailsById(ctx, wayUuid)
+	if err != nil {
+		return schemas.WayPlainResponse{}, err
 	}
-	dbTags, _ := db.GetListWayTagsByWayId(ctx, way.Uuid)
-	wayTags := lo.Map(dbTags, func(dbTag dbb.WayTag, i int) schemas.WayTagResponse {
-		return schemas.WayTagResponse{
-			Uuid: dbTag.Uuid.String(),
-			Name: dbTag.Name,
+
+	if len(wayDetails) == 0 {
+		return schemas.WayPlainResponse{}, fmt.Errorf("no details found for way UUID: %s", wayUuid)
+	}
+
+	way := wayDetails[0]
+	copiedFromWayUuid := util.MarshalNullUuid(way.WayCopiedFromWayUuid)
+
+	mentorsMap := make(map[uuid.UUID]schemas.UserPlainResponse)
+	for _, detail := range wayDetails {
+		if detail.MentorUuid.Valid {
+			mentorsMap[detail.MentorUuid.UUID] = schemas.UserPlainResponse{
+				Uuid:        detail.MentorUuid.UUID.String(),
+				Name:        detail.MentorName.String,
+				Email:       detail.MentorEmail.String,
+				Description: detail.MentorDescription.String,
+				CreatedAt:   detail.MentorCreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+				ImageUrl:    detail.MentorImageUrl.String,
+				IsMentor:    detail.MentorIsMentor.Bool,
+			}
 		}
-	})
+	}
+	mentors := make([]schemas.UserPlainResponse, 0, len(mentorsMap))
+	for _, mentor := range mentorsMap {
+		mentors = append(mentors, mentor)
+	}
+
+	tagsMap := make(map[uuid.UUID]schemas.WayTagResponse)
+	for _, detail := range wayDetails {
+		if detail.TagUuid.Valid {
+			tagsMap[detail.TagUuid.UUID] = schemas.WayTagResponse{
+				Uuid: detail.TagUuid.UUID.String(),
+				Name: detail.TagName.String,
+			}
+		}
+	}
+	wayTags := make([]schemas.WayTagResponse, 0, len(tagsMap))
+	for _, tag := range tagsMap {
+		wayTags = append(wayTags, tag)
+	}
+
+	owner := schemas.UserPlainResponse{
+		Uuid:        way.OwnerUuid.String(),
+		Name:        way.OwnerName,
+		Email:       way.OwnerEmail,
+		Description: way.OwnerDescription,
+		CreatedAt:   way.OwnerCreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+		ImageUrl:    way.OwnerImageUrl,
+		IsMentor:    way.OwnerIsMentor,
+	}
+
 	response := schemas.WayPlainResponse{
-		Uuid:              way.Uuid.String(),
-		Name:              way.Name,
-		GoalDescription:   way.GoalDescription,
-		UpdatedAt:         way.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-		CreatedAt:         way.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-		EstimationTime:    way.EstimationTime,
-		IsCompleted:       way.IsCompleted,
+		Uuid:              way.WayUuid.String(),
+		Name:              way.WayName,
+		GoalDescription:   way.WayGoalDescription,
+		UpdatedAt:         way.WayUpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+		CreatedAt:         way.WayCreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+		EstimationTime:    way.WayEstimationTime,
+		IsCompleted:       way.WayIsCompleted,
 		Owner:             owner,
 		CopiedFromWayUuid: copiedFromWayUuid,
-		IsPrivate:         way.IsPrivate,
+		IsPrivate:         way.WayIsPrivate,
 		FavoriteForUsers:  int32(way.WayFavoriteForUsers),
 		DayReportsAmount:  int32(way.WayDayReportsAmount),
 		Mentors:           mentors,
