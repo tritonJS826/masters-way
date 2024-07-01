@@ -30,6 +30,13 @@ export class DateUtils {
   }
 
   /**
+   * Format date to string yyyy.mm.dd
+   */
+  public static getShortISODotSplitted(date: Date): string {
+    return DateUtils.getShortISODateValue(date).replaceAll("-", ".");
+  }
+
+  /**
    * Date that was {@link amount} days ago
    */
   public static getLastDate(amount: number, date?: Date): Date {

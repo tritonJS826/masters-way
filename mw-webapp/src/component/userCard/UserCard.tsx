@@ -70,30 +70,30 @@ export const UserCard = observer((props: UserCardProps) => {
             <Avatar
               alt={props.userPreview.name}
               src={props.userPreview.imageUrl}
-              size={AvatarSize.BIG}
+              size={AvatarSize.MEDIUM}
+              className={styles.avatar}
             />
-            <VerticalContainer className={styles.nameGroup}>
-              <Title
-                text={props.userPreview.name}
-                level={HeadingLevel.h3}
-                className={styles.title}
-                placeholder=""
-              />
-              <p className={styles.mail}>
-                {props.userPreview.email}
-              </p>
-            </VerticalContainer>
-            <VerticalContainer className={styles.likes}>
+            <Title
+              text={props.userPreview.name}
+              level={HeadingLevel.h3}
+              className={styles.title}
+              placeholder=""
+            />
+            <VerticalContainer>
               <Tooltip
                 position={PositionTooltip.BOTTOM}
                 content={LanguageService.allUsers.userCard.likes[language]}
               >
-                <Icon
-                  size={IconSize.SMALL}
-                  name={"StarIcon"}
-                  className={styles.icon}
-                />
-                {props.userPreview.favoriteForUsers}
+                <HorizontalContainer className={styles.likes}>
+                  <Icon
+                    size={IconSize.SMALL}
+                    name={"StarIcon"}
+                    className={styles.icon}
+                  />
+                  <span>
+                    {props.userPreview.favoriteForUsers}
+                  </span>
+                </HorizontalContainer>
               </Tooltip>
             </VerticalContainer>
           </HorizontalContainer>
@@ -109,15 +109,25 @@ export const UserCard = observer((props: UserCardProps) => {
         </VerticalContainer>
 
         <VerticalContainer className={styles.additionalInfo}>
-          <p>
-            {`${LanguageService.allUsers.userCard.createdAt[language]}
-            ${DateUtils.getShortISODateValue(props.userPreview.createdAt)}`}
-          </p>
-          <p>
-            {`${LanguageService.allUsers.userCard.ownWays[language]} (${props.userPreview.ownWays}) 
-          ${LanguageService.allUsers.userCard.favoriteWays[language]} (${props.userPreview.favoriteWays})
-          ${LanguageService.allUsers.userCard.mentoringWays[language]} (${props.userPreview.mentoringWays})`}
-          </p>
+          <HorizontalContainer>
+            <span>
+              {`${LanguageService.allUsers.userCard.createdAt[language]}`}
+            </span>
+            <span className={styles.createdAt}>
+              {DateUtils.getShortISODotSplitted(props.userPreview.createdAt)}
+            </span>
+          </HorizontalContainer>
+          <HorizontalContainer className={styles.ways}>
+            <span>
+              {`${LanguageService.allUsers.userCard.ownWays[language]} (${props.userPreview.ownWays})`}
+            </span>
+            <span>
+              {`${LanguageService.allUsers.userCard.favoriteWays[language]} (${props.userPreview.favoriteWays})`}
+            </span>
+            <span>
+              {`${LanguageService.allUsers.userCard.mentoringWays[language]} (${props.userPreview.mentoringWays})`}
+            </span>
+          </HorizontalContainer>
         </VerticalContainer>
       </VerticalContainer>
     </Link>

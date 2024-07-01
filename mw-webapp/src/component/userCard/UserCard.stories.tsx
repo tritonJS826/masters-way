@@ -27,7 +27,7 @@ const defaultUser: UserNotSaturatedWay = {
   ownWays: 1,
   imageUrl: "src/assets/storybook-images/kittens.jpg",
   isMentor: true,
-  tags: [],
+  tags: [{uuid: "6fjhve64", name: "tag1"}],
 };
 
 export const Default: Story = {
