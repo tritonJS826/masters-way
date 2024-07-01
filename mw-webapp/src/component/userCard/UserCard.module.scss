@@ -70,7 +70,7 @@ $userCardAdditionalHeight: 82px;
 .additionalInfo {
   min-height: $userCardAdditionalHeight;
   padding: $paddingMedium;
-  background-color: var(--secondaryCardsBgColor);
+  background-color: var(--additionalInfoCardBgColor);
   color: var(--primaryTextColor);
   font-size: $fontSizeMedium;
   gap: $gapMedium;
