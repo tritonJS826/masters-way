@@ -8,6 +8,9 @@ export const allWaysSelectors = {
         getTotalAmountTitle: () => cy.get(getDataCy(allWaysAccessIds.allWaysTable.totalAmountTitle)),
         getTable: () => cy.get(getDataCy(allWaysAccessIds.allWaysTable.table)),
         getTableTh: () => cy.get(getDataCy(allWaysAccessIds.allWaysTable.tableTh)),
+        getTableBodyTr: () => cy.get(getDataCy(allWaysAccessIds.allWaysTable.tableBodyTr)),
+        getTableBodyTd: () => cy.get(getDataCy(allWaysAccessIds.allWaysTable.tableBodyTd)),
+        getOwnerLink: () => cy.get(getDataCy(allWaysAccessIds.allWaysTable.ownerLink)),
     },
 
     filterViewBlock: {

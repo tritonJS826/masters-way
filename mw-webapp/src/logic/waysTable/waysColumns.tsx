@@ -1,4 +1,5 @@
 import {createColumnHelper} from "@tanstack/react-table";
+import {allWaysAccessIds} from "cypress/accessIds/allWaysAccessIds";
 import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
@@ -171,7 +172,10 @@ export const getWaysColumns = (language: Language) => [
             size={AvatarSize.MEDIUM}
           />
           <VerticalContainer>
-            <Link path={pages.user.getPath({uuid: row.original.owner.uuid})}>
+            <Link
+              path={pages.user.getPath({uuid: row.original.owner.uuid})}
+              dataCy={allWaysAccessIds.allWaysTable.ownerLink}
+            >
               {row.original.owner.name}
             </Link>
             {row.original.owner.email}
