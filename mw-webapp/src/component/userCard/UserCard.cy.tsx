@@ -48,9 +48,8 @@ describe("UserCard component", () => {
     cy.get(getDataCy(USER_CARD_CY)).should("exist");
   });
 
-  it("should display the correctcontent elements", () => {
+  it("should display the correct content elements", () => {
     cy.get(getDataCy(USER_CARD_CY)).contains(USER_PREVIEW_DATA.name);
-    cy.get(getDataCy(USER_CARD_CY)).contains(USER_PREVIEW_DATA.email);
     cy.get(getDataCy(USER_CARD_CY)).contains(
       `Own (${USER_PREVIEW_DATA.ownWays})`,
     );
@@ -63,9 +62,9 @@ describe("UserCard component", () => {
     cy.get(getDataCy(USER_CARD_CY)).contains(
       `${USER_PREVIEW_DATA.favoriteForUsers}`,
     );
-    const creationDate = DateUtils.getShortISODateValue(
+    const creationDate = DateUtils.getShortISODotSplitted(
       USER_PREVIEW_DATA.createdAt,
     );
-    cy.get(getDataCy(USER_CARD_CY)).contains(`Created at ${creationDate}`);
+    cy.get(getDataCy(USER_CARD_CY)).contains(creationDate);
   });
 });
