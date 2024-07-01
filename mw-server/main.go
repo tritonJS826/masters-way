@@ -240,7 +240,9 @@ func main() {
 	WayTagRoutes.WayTagRoute(router)
 	CompositeWayRoutes.CompositeWayRoute(router)
 	MentorUserWayRoutes.MentorUserWayRoute(router)
-	DevRoutes.DevRoute(router)
+	if config.Env.EnvType != "prod" {
+		DevRoutes.DevRoute(router)
+	}
 
 	server.NoRoute(func(ctx *gin.Context) {
 		ctx.JSON(http.StatusNotFound, gin.H{"status": "failed", "message": fmt.Sprintf("The specified route %s not found", ctx.Request.URL)})
