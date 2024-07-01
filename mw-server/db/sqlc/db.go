@@ -315,11 +315,11 @@ func Prepare(ctx context.Context, db DBTX) (*Queries, error) {
 	if q.listWaysStmt, err = db.PrepareContext(ctx, listWays); err != nil {
 		return nil, fmt.Errorf("error preparing query ListWays: %w", err)
 	}
-	if q.populateDbStmt, err = db.PrepareContext(ctx, populateDb); err != nil {
-		return nil, fmt.Errorf("error preparing query PopulateDb: %w", err)
+	if q.regenerateDbDataStmt, err = db.PrepareContext(ctx, regenerateDbData); err != nil {
+		return nil, fmt.Errorf("error preparing query RegenerateDbData: %w", err)
 	}
-	if q.truncateAllTablesStmt, err = db.PrepareContext(ctx, truncateAllTables); err != nil {
-		return nil, fmt.Errorf("error preparing query TruncateAllTables: %w", err)
+	if q.removeEverythingStmt, err = db.PrepareContext(ctx, removeEverything); err != nil {
+		return nil, fmt.Errorf("error preparing query RemoveEverything: %w", err)
 	}
 	if q.updateCommentStmt, err = db.PrepareContext(ctx, updateComment); err != nil {
 		return nil, fmt.Errorf("error preparing query UpdateComment: %w", err)
@@ -844,14 +844,14 @@ func (q *Queries) Close() error {
 			err = fmt.Errorf("error closing listWaysStmt: %w", cerr)
 		}
 	}
-	if q.populateDbStmt != nil {
-		if cerr := q.populateDbStmt.Close(); cerr != nil {
-			err = fmt.Errorf("error closing populateDbStmt: %w", cerr)
+	if q.regenerateDbDataStmt != nil {
+		if cerr := q.regenerateDbDataStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing regenerateDbDataStmt: %w", cerr)
 		}
 	}
-	if q.truncateAllTablesStmt != nil {
-		if cerr := q.truncateAllTablesStmt.Close(); cerr != nil {
-			err = fmt.Errorf("error closing truncateAllTablesStmt: %w", cerr)
+	if q.removeEverythingStmt != nil {
+		if cerr := q.removeEverythingStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing removeEverythingStmt: %w", cerr)
 		}
 	}
 	if q.updateCommentStmt != nil {
@@ -1045,8 +1045,8 @@ type Queries struct {
 	isAllMetricsDoneStmt                        *sql.Stmt
 	listUsersStmt                               *sql.Stmt
 	listWaysStmt                                *sql.Stmt
-	populateDbStmt                              *sql.Stmt
-	truncateAllTablesStmt                       *sql.Stmt
+	regenerateDbDataStmt                        *sql.Stmt
+	removeEverythingStmt                        *sql.Stmt
 	updateCommentStmt                           *sql.Stmt
 	updateDayReportStmt                         *sql.Stmt
 	updateJobDoneStmt                           *sql.Stmt
@@ -1161,8 +1161,8 @@ func (q *Queries) WithTx(tx *sql.Tx) *Queries {
 		isAllMetricsDoneStmt:                        q.isAllMetricsDoneStmt,
 		listUsersStmt:                               q.listUsersStmt,
 		listWaysStmt:                                q.listWaysStmt,
-		populateDbStmt:                              q.populateDbStmt,
-		truncateAllTablesStmt:                       q.truncateAllTablesStmt,
+		regenerateDbDataStmt:                        q.regenerateDbDataStmt,
+		removeEverythingStmt:                        q.removeEverythingStmt,
 		updateCommentStmt:                           q.updateCommentStmt,
 		updateDayReportStmt:                         q.updateDayReportStmt,
 		updateJobDoneStmt:                           q.updateJobDoneStmt,

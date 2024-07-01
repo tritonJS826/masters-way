@@ -6,6 +6,8 @@ import {AnalyticsEventName} from "src/analytics/AnalyticsEventName";
  * Defined as event_label in analytics
  */
 enum HomeLabel {
+  STUDENT_VIDEO_BUTTON_CLICKED = "STUDENT_VIDEO_BUTTON_CLICKED",
+  MENTOR_VIDEO_BUTTON_CLICKED = "MENTOR_VIDEO_BUTTON_CLICKED",
   START_FOR_FREE_FIRST_SCREEN_CLICKED = "START_FOR_FREE_FIRST_SCREEN_CLICKED",
   START_FOR_FREE_WHO_WE_ARE_BLOCK_CLICKED = "START_FOR_FREE_WHO_WE_ARE_BLOCK_CLICKED",
   TRY_NOW_CLICKED = "TRY_NOW_CLICKED",
@@ -27,6 +29,20 @@ const trackHome = (label: HomeLabel) => {
  * Methods to track home page analytics
  */
 export class TrackHomePage {
+
+  /**
+   * Track home student video button
+   */
+  public static studentVideoClicked = () => {
+    trackHome(HomeLabel.STUDENT_VIDEO_BUTTON_CLICKED);
+  };
+
+  /**
+   * Track home mentor video button
+   */
+  public static mentorVideoClicked = () => {
+    trackHome(HomeLabel.MENTOR_VIDEO_BUTTON_CLICKED);
+  };
 
   /**
    * Track home start button first block click
