@@ -15,7 +15,7 @@
   background-color: var(--primaryBgColor);
   color: var(--primaryTextColor);
   font-size: $fontSizeSmall;
-  z-index: 120;
+  z-index: $tooltipZIndex;
 }
 
 .tooltipContent[data-state="delayed-open"][data-side="top"] {
