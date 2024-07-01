@@ -10,6 +10,7 @@ import (
 	"mwserver/config"
 	"mwserver/controllers"
 	dbCon "mwserver/db/sqlc"
+	dbConPGX "mwserver/db_pgx/sqlc"
 	"mwserver/routes"
 	"mwserver/services"
 
@@ -17,6 +18,7 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/jackc/pgx/v5"
 	_ "github.com/lib/pq"
 	ginSwagger "github.com/swaggo/gin-swagger"
 
@@ -24,9 +26,11 @@ import (
 )
 
 var (
-	server *gin.Engine
-	db     *dbCon.Queries
-	ctx    context.Context
+	server  *gin.Engine
+	db      *dbCon.Queries
+	pgxConn *pgx.Conn
+	dbPGX   *dbConPGX.Queries
+	ctx     context.Context
 
 	LimitService services.LimitService
 
@@ -105,11 +109,17 @@ var (
 
 func init() {
 	ctx = context.TODO()
+
+	pgxConn, err := pgx.Connect(ctx, config.Env.DbSource)
+	if err != nil {
+		log.Fatalf("Could not connect to database with pgx: %v", err)
+	}
+	dbPGX = dbConPGX.New(pgxConn)
+
 	conn, err := sql.Open(config.Env.DbDriver, config.Env.DbSource)
 	if err != nil {
 		log.Fatalf("Could not connect to database: %v", err)
 	}
-
 	db = dbCon.New(conn)
 
 	fmt.Println("PostgreSql connected successfully...")
@@ -156,7 +166,7 @@ func init() {
 	FromUserMentoringRequestController = *controllers.NewFromUserMentoringRequestController(db, ctx)
 	FromUserMentoringRequestRoutes = routes.NewRouteFromUserMentoringRequest(FromUserMentoringRequestController)
 
-	JobDoneController = *controllers.NewJobDoneController(db, ctx)
+	JobDoneController = *controllers.NewJobDoneController(db, dbPGX, ctx)
 	JobDoneRoutes = routes.NewRouteJobDone(JobDoneController)
 
 	JobDoneJobTagController = *controllers.NewJobDoneJobTagController(db, ctx)
@@ -211,6 +221,9 @@ func init() {
 // @version 1.0
 // @BasePath  /api
 func main() {
+	defer db.Close()
+	defer pgxConn.Close(context.TODO())
+
 	router := server.Group("/api")
 
 	router.GET("/healthcheck", func(ctx *gin.Context) {
