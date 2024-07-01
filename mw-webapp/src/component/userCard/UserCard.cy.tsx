@@ -5,6 +5,8 @@ import {pages} from "src/router/pages";
 import {getDataCy} from "src/utils/cyTesting/getDataCy";
 import {DateUtils} from "src/utils/DateUtils";
 
+const USER_TAGS = [{uuid: "6fjhve64", name: "tag1"}, {uuid: "kgrnk853", name: "tag2"}];
+
 const USER_PREVIEW_DATA: UserNotSaturatedWay = {
   uuid: "8l9tZl6gINP7j6BIT3p0yN9zZnH2",
   name: "Test Tester",
@@ -13,7 +15,7 @@ const USER_PREVIEW_DATA: UserNotSaturatedWay = {
   createdAt: new Date(),
   favoriteUserUuids: [],
   favoriteForUsers: 2,
-  tags: [],
+  tags: USER_TAGS,
   imageUrl: "",
   isMentor: false,
   favoriteWays: 4,
@@ -66,5 +68,11 @@ describe("UserCard component", () => {
       USER_PREVIEW_DATA.createdAt,
     );
     cy.get(getDataCy(USER_CARD_CY)).contains(creationDate);
+  });
+
+  it("should display tags", () => {
+    USER_TAGS.map((tag) => {
+      cy.get(getDataCy(USER_CARD_CY)).contains(tag.name);
+    });
   });
 });

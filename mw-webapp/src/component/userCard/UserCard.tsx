@@ -71,6 +71,7 @@ export const UserCard = observer((props: UserCardProps) => {
               alt={props.userPreview.name}
               src={props.userPreview.imageUrl}
               size={AvatarSize.MEDIUM}
+              className={styles.avatar}
             />
             <Title
               text={props.userPreview.name}
