@@ -43,6 +43,16 @@ interface dataCy {
    * Data attribute for cypress testing
    */
   dataCyTh?: string;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCyTBodyTd?: string;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCyTBodyTr?: string;
 }
 
 /**
@@ -106,11 +116,13 @@ export const Table = <T extends UuidProps, > (props: TableProps<TableData<T>>) =
             className={styles.tr}
             key={row.id}
             id={row.original.uuid}
+            data-cy={props.dataCy?.dataCyTBodyTr}
           >
             {row.getVisibleCells().map((cell) => (
               <td
                 className={clsx(styles.td, props.classNameTd)}
                 key={cell.id}
+                data-cy={props.dataCy?.dataCyTBodyTd}
               >
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
               </td>
