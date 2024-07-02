@@ -1,6 +1,8 @@
 import {Indicator, Root} from "@radix-ui/react-progress";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {languageStore} from "src/globalStore/LanguageStore";
+import {LanguageService} from "src/service/LanguageService";
 import styles from "src/component/progressBar/ProgressBar.module.scss";
 
 const MAX_PERCENTAGE = 100;
@@ -88,6 +90,7 @@ export const ProgressBar = (props: ProgressBarProps) => {
   const percentage = Math.round((props.value / max) * MAX_PERCENTAGE);
   const getLeftValueLabel = props.getLeftValueLabel ?? getDefaultLeftValueLabel;
   const getRightValueLabel = props.getRightValueLabel ?? getDefaultRightValueLabel;
+  const {language} = languageStore;
 
   return (
     <VerticalContainer className={styles.progressContainer}>
@@ -96,7 +99,7 @@ export const ProgressBar = (props: ProgressBarProps) => {
           {getLeftValueLabel(props.value, max)}
         </span>
         <span data-cy={props.cy?.rightLabel}>
-          {getRightValueLabel(props.value, max)}
+          {`${getRightValueLabel(props.value, max)} ${LanguageService.common.metrics[language]}`}
         </span>
       </HorizontalContainer>
       <Root
@@ -110,8 +113,6 @@ export const ProgressBar = (props: ProgressBarProps) => {
           style={{transform: `translateX(-${MAX_PERCENTAGE - percentage}%)`}}
         />
       </Root>
-
     </VerticalContainer>
   );
 };
-
