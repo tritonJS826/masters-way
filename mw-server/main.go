@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"mwserver/config"
 	"mwserver/controllers"
@@ -18,7 +19,7 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgxpool"
 	_ "github.com/lib/pq"
 	ginSwagger "github.com/swaggo/gin-swagger"
 
@@ -28,7 +29,7 @@ import (
 var (
 	server  *gin.Engine
 	db      *dbCon.Queries
-	pgxConn *pgx.Conn
+	pgxPool *pgxpool.Pool
 	dbPGX   *dbConPGX.Queries
 	ctx     context.Context
 
@@ -110,11 +111,12 @@ var (
 func init() {
 	ctx = context.TODO()
 
-	pgxConn, err := pgx.Connect(ctx, config.Env.DbSource)
+	pgxPool, err := pgxpool.New(ctx, config.Env.DbSource)
 	if err != nil {
-		log.Fatalf("Could not connect to database with pgx: %v", err)
+		fmt.Fprintf(os.Stderr, "Unable to create connection pool: %v\n", err)
+		os.Exit(1)
 	}
-	dbPGX = dbConPGX.New(pgxConn)
+	dbPGX = dbConPGX.New(pgxPool)
 
 	conn, err := sql.Open(config.Env.DbDriver, config.Env.DbSource)
 	if err != nil {
@@ -142,7 +144,7 @@ func init() {
 	AuthController = *controllers.NewAuthController(db, ctx)
 	AuthRoutes = routes.NewRouteAuth(AuthController)
 
-	WayController = *controllers.NewWayController(db, ctx, &LimitService)
+	WayController = *controllers.NewWayController(db, dbPGX, ctx, &LimitService)
 	WayRoutes = routes.NewRouteWay(WayController)
 
 	UserController = *controllers.NewUserController(db, ctx)
@@ -222,7 +224,7 @@ func init() {
 // @BasePath  /api
 func main() {
 	defer db.Close()
-	defer pgxConn.Close(context.TODO())
+	defer pgxPool.Close()
 
 	router := server.Group("/api")
 

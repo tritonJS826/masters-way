@@ -9,6 +9,7 @@ import (
 
 	"mwserver/auth"
 	db "mwserver/db/sqlc"
+	dbPGX "mwserver/db_pgx/sqlc"
 	"mwserver/schemas"
 	"mwserver/services"
 	"mwserver/util"
@@ -19,13 +20,14 @@ import (
 )
 
 type WayController struct {
-	db  *db.Queries
-	ctx context.Context
-	ls  *services.LimitService
+	db    *db.Queries
+	dbPGX *dbPGX.Queries
+	ctx   context.Context
+	ls    *services.LimitService
 }
 
-func NewWayController(db *db.Queries, ctx context.Context, ls *services.LimitService) *WayController {
-	return &WayController{db, ctx, ls}
+func NewWayController(db *db.Queries, dbPGX *dbPGX.Queries, ctx context.Context, ls *services.LimitService) *WayController {
+	return &WayController{db, dbPGX, ctx, ls}
 }
 
 // Create way  handler
@@ -74,7 +76,7 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 			WayUuid:              way.CopiedFromWayUuid.UUID,
 			CurrentChildrenDepth: 1,
 		}
-		originalWay, err := services.GetPopulatedWayById(cc.db, ctx, args1)
+		originalWay, err := services.GetPopulatedWayById(cc.dbPGX, ctx, args1)
 		util.HandleErrorGin(ctx, err)
 
 		// copy wayTags
@@ -183,7 +185,7 @@ func (cc *WayController) GetWayById(ctx *gin.Context) {
 		WayUuid:              wayUuid,
 		CurrentChildrenDepth: 1,
 	}
-	response, err := services.GetPopulatedWayById(cc.db, ctx, args)
+	response, err := services.GetPopulatedWayById(cc.dbPGX, ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)

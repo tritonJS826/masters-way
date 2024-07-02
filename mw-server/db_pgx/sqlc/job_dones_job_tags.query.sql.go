@@ -31,3 +31,57 @@ func (q *Queries) CreateJobDonesJobTag(ctx context.Context, arg CreateJobDonesJo
 	err := row.Scan(&i.JobDoneUuid, &i.JobTagUuid)
 	return i, err
 }
+
+const getJobDonesByDayReportUuids = `-- name: GetJobDonesByDayReportUuids :many
+SELECT
+    job_dones.uuid, job_dones.created_at, job_dones.updated_at, job_dones.description, job_dones.time, job_dones.owner_uuid, job_dones.day_report_uuid,
+    COALESCE(
+    ARRAY(
+        SELECT job_dones_job_tags.job_tag_uuid
+        FROM job_dones_job_tags
+        WHERE job_dones.uuid = job_dones_job_tags.job_done_uuid
+    ),
+    '{}'
+)::VARCHAR[] AS tag_uuids
+FROM job_dones WHERE job_dones.day_report_uuid = ANY($1::UUID[])
+`
+
+type GetJobDonesByDayReportUuidsRow struct {
+	Uuid          pgtype.UUID      `json:"uuid"`
+	CreatedAt     pgtype.Timestamp `json:"created_at"`
+	UpdatedAt     pgtype.Timestamp `json:"updated_at"`
+	Description   string           `json:"description"`
+	Time          int32            `json:"time"`
+	OwnerUuid     pgtype.UUID      `json:"owner_uuid"`
+	DayReportUuid pgtype.UUID      `json:"day_report_uuid"`
+	TagUuids      []string         `json:"tag_uuids"`
+}
+
+func (q *Queries) GetJobDonesByDayReportUuids(ctx context.Context, dayReportUuids []pgtype.UUID) ([]GetJobDonesByDayReportUuidsRow, error) {
+	rows, err := q.db.Query(ctx, getJobDonesByDayReportUuids, dayReportUuids)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []GetJobDonesByDayReportUuidsRow{}
+	for rows.Next() {
+		var i GetJobDonesByDayReportUuidsRow
+		if err := rows.Scan(
+			&i.Uuid,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.Description,
+			&i.Time,
+			&i.OwnerUuid,
+			&i.DayReportUuid,
+			&i.TagUuids,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}

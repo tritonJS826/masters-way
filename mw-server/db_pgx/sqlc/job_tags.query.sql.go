@@ -28,3 +28,35 @@ func (q *Queries) GetJobTagByUuid(ctx context.Context, jobTagsUuid pgtype.UUID) 
 	)
 	return i, err
 }
+
+const getListJobTagsByWayUuid = `-- name: GetListJobTagsByWayUuid :many
+SELECT uuid, name, description, color, way_uuid FROM job_tags
+WHERE way_uuid = $1
+ORDER BY uuid
+`
+
+func (q *Queries) GetListJobTagsByWayUuid(ctx context.Context, wayUuid pgtype.UUID) ([]JobTag, error) {
+	rows, err := q.db.Query(ctx, getListJobTagsByWayUuid, wayUuid)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []JobTag{}
+	for rows.Next() {
+		var i JobTag
+		if err := rows.Scan(
+			&i.Uuid,
+			&i.Name,
+			&i.Description,
+			&i.Color,
+			&i.WayUuid,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}

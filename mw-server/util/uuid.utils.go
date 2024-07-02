@@ -56,3 +56,23 @@ func ConvertPgUUIDToUUID(pgUUID pgtype.UUID) uuid.UUID {
 	copy(uuid[:], pgUUID.Bytes[:])
 	return uuid
 }
+
+func MarshalPgUUID(pgUUID pgtype.UUID) *string {
+	if pgUUID.Valid {
+		u, err := uuid.FromBytes(pgUUID.Bytes[:])
+		if err == nil {
+			str := u.String()
+			return &str
+		}
+	}
+	return nil
+}
+
+func MarshalPgTimestamp(timestamp pgtype.Timestamp) *string {
+	if timestamp.Valid {
+		str := timestamp.Time.Format(DEFAULT_STRING_LAYOUT)
+		return &str
+	} else {
+		return nil
+	}
+}
