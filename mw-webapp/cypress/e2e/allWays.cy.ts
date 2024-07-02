@@ -3,7 +3,7 @@ import allWaysPageContent from "src/dictionary/AllWaysPageContent.json";
 import {headerSelectors} from "cypress/scopesSelectors/headerSelectors";
 import {navigationMenuSelectors} from "cypress/scopesSelectors/navigationMenuSelectors";
 import {Symbols} from "src/utils/Symbols";
-import { userPersonalSelectors } from "cypress/scopesSelectors/userPersonalDataSelectors";
+import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
 
 afterEach(() => {
   cy.clearAllStorage();
@@ -31,25 +31,35 @@ describe('NoAuth All Ways scope tests', () => {
   });
 
   it('NoAuth_AllWaysTable_LinkToOwner', () => {
+    let actualUserName: string;
+    let targetTableHeaderIndex: number;
+    let linkColumnIndex;
+    const targetTableHeader = allWaysPageContent.waysTable.columns.owner.en;
+
     allWaysSelectors.filterViewBlock.getTableViewButton().click();
 
-    allWaysSelectors.allWaysTable.getTableBodyTr()
-      .eq(0)
-      .within(() => {
-        allWaysSelectors.allWaysTable.getTableBodyTd()
-          .eq(4)
-          .then(() => {
-            allWaysSelectors.allWaysTable.getOwnerLink()
-              .then((link) => {
-                const userName = link.text().trim();
-                cy.wrap(link).click();
-                cy.wrap(userName).as('actualUserName');    
-              });
-          });
-      });
 
-      cy.url().should('match', /\/user\/[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$/);
-      cy.get('@actualUserName').then((actualUserName) => {
+    allWaysSelectors.allWaysTable.getTableTh().each((th, index) => {
+      const headerText = th.text().trim();
+      if (headerText === targetTableHeader) {
+        targetTableHeaderIndex = index;
+        return false;
+      }
+    });
+
+    allWaysSelectors.allWaysTable.getOwnerLink()
+      .first()
+      .then (link => {
+        actualUserName = link.text().trim();
+        cy.wrap(link).click();
+
+        cy.wrap(link).parents('td').then(td => {
+          linkColumnIndex = td.index();
+          assert.equal(linkColumnIndex, targetTableHeaderIndex);
+        });
+      })
+      .then(() => {
+        cy.url().should('match', /\/user\/[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$/);
         userPersonalSelectors.descriptionSection.getName().should('have.text', actualUserName);
       });
   });
