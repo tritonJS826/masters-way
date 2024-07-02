@@ -6,6 +6,7 @@ import {Icon, IconSize} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
 import {ProgressBar} from "src/component/progressBar/ProgressBar";
 import {Tag, TagType} from "src/component/tag/Tag";
+import {Text} from "src/component/text/Text";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
@@ -152,25 +153,32 @@ export const WayCard = observer((props: WayCardProps) => {
         </VerticalContainer>
         <VerticalContainer className={styles.additionalInfo}>
           <HorizontalContainer className={styles.dates}>
-            <p>
-              {`${LanguageService.allWays.wayCard.createdAt[language]} 
-              ${DateUtils.getShortISODateValue(props.wayPreview.createdAt)}`}
-            </p>
-            <p>
-              {`${LanguageService.allWays.wayCard.updatedAt[language]} 
-              ${DateUtils.getShortISODateValue(props.wayPreview.lastUpdate)}`}
-            </p>
+            <HorizontalContainer className={styles.dateText}>
+              {LanguageService.allWays.wayCard.createdAt[language]}
+              <span className={styles.dateValue}>
+                {DateUtils.getShortISODotSplitted(props.wayPreview.createdAt)}
+              </span>
+            </HorizontalContainer>
+            <HorizontalContainer className={styles.dateText}>
+              {LanguageService.allWays.wayCard.updatedAt[language]}
+              <span className={styles.dateValue}>
+                {DateUtils.getShortISODotSplitted(props.wayPreview.lastUpdate)}
+              </span>
+            </HorizontalContainer>
           </HorizontalContainer>
           <HorizontalContainer className={styles.people}>
-            {LanguageService.allWays.wayCard.owner[language]}
             <Tooltip
               position={PositionTooltip.BOTTOM}
               content={props.wayPreview.owner.name}
             >
-              <Avatar
-                alt={props.wayPreview.owner.name}
-                src={props.wayPreview.owner.imageUrl}
-              />
+              <HorizontalContainer className={styles.owner}>
+                <Avatar
+                  alt={props.wayPreview.owner.name}
+                  src={props.wayPreview.owner.imageUrl}
+                  className={styles.avatar}
+                />
+                <Text text={props.wayPreview.owner.name} />
+              </HorizontalContainer>
             </Tooltip>
             {renderMentors(props.wayPreview.mentors)}
           </HorizontalContainer>
