@@ -29,7 +29,7 @@ const MENTOR_PREVIEW_DATA: UserPreview = {
   customWayCollections: [],
   favoriteForUserUuids: [],
   favoriteUserUuids: [],
-  tags: [],
+  tags: [{uuid: "6fjhve64", name: "tag1"}],
   wayRequests: [],
 };
 
@@ -89,9 +89,15 @@ describe("WayCard component", () => {
     cy.get(getDataCy(WAY_CARD_CY)).contains(
       `${WAY_PREVIEW_DATA.favoriteForUsers}`,
     );
-    const creationDate = DateUtils.getShortISODateValue(
+    const creationDate = DateUtils.getShortISODotSplitted(
       WAY_PREVIEW_DATA.createdAt,
     );
-    cy.get(getDataCy(WAY_CARD_CY)).contains(`Created: ${creationDate}`);
+    cy.get(getDataCy(WAY_CARD_CY)).contains(creationDate);
+  });
+
+  it("should display tags", () => {
+    WAY_PREVIEW_DATA.wayTags.map((tag) => {
+      cy.get(getDataCy(WAY_CARD_CY)).contains(tag.name);
+    });
   });
 });
