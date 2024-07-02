@@ -1,0 +1,15 @@
+version: "2"
+sql:
+  - engine: "postgresql"
+    queries: "./db_pgx/query/"
+    schema: "./db_pgx/migration/"
+    gen:
+      go:
+        package: "db"
+        sql_package: "pgx/v5"
+        out: "./db_pgx/sqlc"
+        emit_json_tags: true
+        emit_prepared_queries: true
+        emit_interface: false
+        emit_exact_table_names: false
+        emit_empty_slices: true
