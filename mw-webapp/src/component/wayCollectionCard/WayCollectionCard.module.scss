@@ -4,21 +4,22 @@ $wayCollectionCardMainHeight: 76px;
 $wayCollectionCardAdditionalHeight: 47px;
 
 .wayCollectionCardContainer {
+  overflow: hidden;
   width: 100%;
-  border-radius: $secondaryBorderRadius;
+  border: $primaryBorder solid var(--primaryStrokeColor);
+  border-radius: $primaryBorderRadius;
   cursor: pointer;
   @include scaleOnHover;
 }
 
 .wayCollectionCardButton {
   padding: 0;
-  border: 1px solid var(--primaryStrokeColor);
+  border: none;
 }
 
 .mainInfo {
   height: $wayCollectionCardMainHeight;
   padding: $paddingMedium;
-  border-radius: $secondaryBorderRadius $secondaryBorderRadius 0 0;
   background-color: var(--generalPrimaryColor);
   gap: $gapSmall;
   text-align: left;
@@ -49,14 +50,11 @@ $wayCollectionCardAdditionalHeight: 47px;
 
 .additionalInfo {
   height: $wayCollectionCardAdditionalHeight;
-  padding: $paddingMedium;
-  border-radius: 0 0 $secondaryBorderRadius $secondaryBorderRadius;
+  padding: $paddingMedium $paddingBig;
   background-color: var(--primaryBgColor);
   color: var(--primaryTextColor);
-  font-size: $fontSizeMedium;
   font-size: $fontSizeBig;
-  font-weight: bold;
-  gap: $gapSmall;
+  font-weight: $fontWeightBold;
 }
 
 .active {

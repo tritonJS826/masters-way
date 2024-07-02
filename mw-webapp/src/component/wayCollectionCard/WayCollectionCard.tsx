@@ -63,7 +63,7 @@ export const WayCollectionCard = (props: WayCollectionProps) => {
             />
           </VerticalContainer>
           <HorizontalContainer className={styles.additionalInfo}>
-            {`${LanguageService.user.collections.ways[props.language]} ${props.collectionWaysAmount}`}
+            {`${props.collectionWaysAmount} ${LanguageService.user.collections.ways[props.language]}`}
           </HorizontalContainer>
         </VerticalContainer>
       }
