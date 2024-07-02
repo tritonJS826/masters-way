@@ -7,21 +7,24 @@ import (
 	"time"
 
 	db "mwserver/db/sqlc"
+	dbPGX "mwserver/db_pgx/sqlc"
 	"mwserver/schemas"
 	"mwserver/util"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/samber/lo"
 )
 
 type JobDoneController struct {
-	db  *db.Queries
-	ctx context.Context
+	db    *db.Queries
+	dbPGX *dbPGX.Queries
+	ctx   context.Context
 }
 
-func NewJobDoneController(db *db.Queries, ctx context.Context) *JobDoneController {
-	return &JobDoneController{db, ctx}
+func NewJobDoneController(db *db.Queries, dbPGX *dbPGX.Queries, ctx context.Context) *JobDoneController {
+	return &JobDoneController{db, dbPGX, ctx}
 }
 
 // Create JobDone  handler
@@ -43,28 +46,29 @@ func (cc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 	}
 
 	now := time.Now()
-	args := &db.CreateJobDoneParams{
+	args := &dbPGX.CreateJobDoneParams{
 		Description:   payload.Description,
-		OwnerUuid:     uuid.MustParse(payload.OwnerUuid),
-		DayReportUuid: uuid.MustParse(payload.DayReportUuid),
-		UpdatedAt:     now,
-		CreatedAt:     now,
+		OwnerUuid:     pgtype.UUID{Bytes: uuid.MustParse(payload.OwnerUuid), Valid: true},
+		DayReportUuid: pgtype.UUID{Bytes: uuid.MustParse(payload.DayReportUuid), Valid: true},
+		UpdatedAt:     pgtype.Timestamp{Time: now, Valid: true},
+		CreatedAt:     pgtype.Timestamp{Time: now, Valid: true},
 		Time:          int32(payload.Time),
 	}
 
-	jobDone, err := cc.db.CreateJobDone(ctx, *args)
+	jobDone, err := cc.dbPGX.CreateJobDone(ctx, *args)
 	util.HandleErrorGin(ctx, err)
 
 	tags := lo.Map(payload.JobTagUuids, func(tagUuidStringified string, i int) schemas.JobTagResponse {
 		tagUuid := uuid.MustParse(tagUuidStringified)
-		argsTag := &db.CreateJobDonesJobTagParams{
+		tagPgUuid := pgtype.UUID{Bytes: tagUuid, Valid: true}
+		argsTag := &dbPGX.CreateJobDonesJobTagParams{
 			JobDoneUuid: jobDone.Uuid,
-			JobTagUuid:  tagUuid,
+			JobTagUuid:  tagPgUuid,
 		}
-		_, err := cc.db.CreateJobDonesJobTag(ctx, *argsTag)
+		_, err := cc.dbPGX.CreateJobDonesJobTag(ctx, *argsTag)
 		util.HandleErrorGin(ctx, err)
 
-		tag, err := cc.db.GetJobTagByUuid(ctx, tagUuid)
+		tag, err := cc.dbPGX.GetJobTagByUuid(ctx, tagPgUuid)
 		util.HandleErrorGin(ctx, err)
 		return schemas.JobTagResponse{
 			Uuid:        tagUuid.String(),
@@ -74,14 +78,14 @@ func (cc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 		}
 	})
 	response := schemas.JobDonePopulatedResponse{
-		Uuid:          jobDone.Uuid.String(),
-		CreatedAt:     jobDone.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-		UpdatedAt:     jobDone.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+		Uuid:          util.ConvertPgUUIDToUUID(jobDone.Uuid).String(),
+		CreatedAt:     jobDone.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+		UpdatedAt:     jobDone.UpdatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
 		Description:   jobDone.Description,
 		Time:          jobDone.Time,
-		OwnerUuid:     jobDone.OwnerUuid.String(),
+		OwnerUuid:     util.ConvertPgUUIDToUUID(jobDone.OwnerUuid).String(),
 		OwnerName:     jobDone.OwnerName,
-		DayReportUuid: jobDone.DayReportUuid.String(),
+		DayReportUuid: util.ConvertPgUUIDToUUID(jobDone.DayReportUuid).String(),
 		Tags:          tags,
 	}
 
