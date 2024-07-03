@@ -21,6 +21,7 @@ export const SidebarTrigger = forwardRef((props: PropsWithChildren<SidebarTrigge
     <DialogTrigger
       data-cy={props.dataCyTrigger}
       asChild
+      aria-label="Navigation menu"
     >
       <div
         ref={ref}

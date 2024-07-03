@@ -213,6 +213,7 @@ export const Header = (props: HeaderProps) => {
           <Select
             value={props.language}
             name="language"
+            ariaLabel="Dropdown language selector"
             options={languageOptions}
             onChange={(lang: Language) => {
               TrackHeader.trackSelectLanguageClick();
@@ -363,6 +364,7 @@ export const Header = (props: HeaderProps) => {
                       path="https://linkedin.com/company/masters-way-project"
                       isNewTab
                       dataCy={navigationMenuIds.socialMedia.linkedinLink}
+                      ariaLabel="Master's Way LinkedIn page"
                     >
                       <div className={styles.iconWrapper}>
                         <Icon
@@ -376,6 +378,7 @@ export const Header = (props: HeaderProps) => {
                       path="https://www.youtube.com/watch?v=8QGIjw6oyDA&list=PLif3tyf4TWIlhAV-7AoEpd9fGolkooIxm&index=2"
                       isNewTab
                       dataCy={navigationMenuIds.socialMedia.youtubeLink}
+                      ariaLabel="Master's Way Youtube page"
                     >
                       <div className={styles.iconWrapper}>
                         <Icon
@@ -388,6 +391,7 @@ export const Header = (props: HeaderProps) => {
                     <Link
                       path="https://github.com/tritonJS826/masters-way"
                       isNewTab
+                      ariaLabel="Master's Way Github page"
                     >
                       <div className={styles.iconWrapper}>
                         <Icon
