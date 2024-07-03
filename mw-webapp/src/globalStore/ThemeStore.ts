@@ -53,6 +53,10 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     [Theme.DARK]: "#8F8F8F",
     [Theme.LIGHT]: "#A8A1DD",
   },
+  additionalInfoCardBgColor: {
+    [Theme.DARK]: "#1F173D",
+    [Theme.LIGHT]: "#FCFBFE",
+  },
   // Icon circle background
   secondaryIconBgColor: {
     [Theme.DARK]: "#F4F3FF",
