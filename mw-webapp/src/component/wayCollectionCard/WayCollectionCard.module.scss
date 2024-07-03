@@ -51,7 +51,7 @@ $wayCollectionCardAdditionalHeight: 47px;
 .additionalInfo {
   height: $wayCollectionCardAdditionalHeight;
   padding: $paddingMedium $paddingBig;
-  background-color: var(--primaryBgColor);
+  background-color: var(--additionalInfoCardBgColor);
   color: var(--primaryTextColor);
   font-size: $fontSizeBig;
   font-weight: $fontWeightBold;

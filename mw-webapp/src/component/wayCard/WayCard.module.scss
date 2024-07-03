@@ -46,7 +46,7 @@ $wayCardAdditionalHeight: 118px;
 .additionalInfo {
   min-height: $wayCardAdditionalHeight;
   padding: $paddingMedium;
-  background-color: var(--primaryBgColor);
+  background-color: var(--additionalInfoCardBgColor);
   color: var(--primaryTextColor);
   font-size: $fontSizeMedium;
   gap: $gapSmall;
