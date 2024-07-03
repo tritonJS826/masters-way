@@ -32,7 +32,7 @@ describe('NoAuth All Ways scope tests', () => {
   });
 
   it('NoAuth_AllWaysTable_LinkToOwner', () => {
-    let actualUserName: string;
+    let userName: string;
     const targetTableHeader = allWaysPageContent.waysTable.columns.owner.en;
     const rowIndex = 0;
 
@@ -43,13 +43,15 @@ describe('NoAuth All Ways scope tests', () => {
     allWaysSelectors.allWaysTable.getOwnerLink()
       .eq(rowIndex)
       .then (link => {
-        actualUserName = link.text().trim();
+        userName = link.text().trim();
+        cy.wrap(userName).as('actualUserName');  
         cy.wrap(link).click();
-      })
-      .then(() => {
-        cy.url().should('match', new RegExp(testUserData.userUrlPattern));
-        userPersonalSelectors.descriptionSection.getName().should('have.text', actualUserName);
       });
+
+        cy.url().should('match', new RegExp(testUserData.userUrlPattern));
+        cy.get('@actualUserName').then((actualUserName) => {
+          userPersonalSelectors.descriptionSection.getName().should('have.text', actualUserName);
+        });
   });
 
 });
