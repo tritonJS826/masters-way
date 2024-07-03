@@ -48,5 +48,25 @@
     "en": "metrics",
     "ua": "метрики",
     "ka": "მეტრიკა"
+  },
+  "socialMediaAriaLabel": {
+    "linkedIn": {
+      "ru": "Страница Master's Way в LinkedIn",
+      "en": "Master's Way LinkedIn page",
+      "ua": "Сторінка Master's Way на LinkedIn",
+      "ka": "Master's Way LinkedIn გვერდი"
+    },
+    "youtube": {
+      "ru": "Страница Master's Way на Youtube",
+      "en": "Master's Way Youtube page",
+      "ua": "Сторінка Master's Way на Youtube",
+      "ka": "Master's Way Youtube გვერდი"
+    },
+    "github": {
+      "ru": "Страница Master's Way на Github",
+      "en": "Master's Way Github page",
+      "ua": "Сторінка Master's Way на Github",
+      "ka": "Master's Way Github გვერდი"
+    }
   }
 }
