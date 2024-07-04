@@ -1,9 +1,6 @@
 import clsx from "clsx";
-import {MINUTES_IN_HOUR} from "src/utils/DateUtils";
+import {convertMinutesToHours} from "src/utils/convertMinutesToHours";
 import styles from "src/logic/wayPage/wayStatistics/statisticBlock/statisticItem/StatisticItem.module.scss";
-
-const MINUTES_THRESHOLD = 600;
-const DECIMAL_PLACES = 1;
 
 /**
  * Type of statisticItem's styles
@@ -63,14 +60,11 @@ interface StatisticItemProps {
  * StatisticItem
  */
 export const StatisticItem = (props: StatisticItemProps) => {
-  const hours = props.statisticItem.value / MINUTES_IN_HOUR;
-  const formattedHours = props.statisticItem.value > MINUTES_THRESHOLD ? Math.round(hours) : hours.toFixed(DECIMAL_PLACES);
-
   return (
     <div className={clsx(styles.statisticItem, styles[props.type ?? StatisticItemType.PRIMARY])}>
       <span className={styles.statisticValue}>
-        {props.convertToHours
-          ? `${formattedHours}h`
+        {props.type === StatisticItemType.SECONDARY || props.convertToHours
+          ? `${convertMinutesToHours(props.statisticItem.value)}h`
           : props.statisticItem.value
         }
       </span>
