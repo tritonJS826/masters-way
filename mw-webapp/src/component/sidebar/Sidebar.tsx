@@ -107,6 +107,10 @@ interface SidebarProps {
    */
   cy?: Cy;
 
+  /**
+   * Text alternative to an element that has no visible text
+   */
+  ariaLabel?: string;
 }
 
 /**
@@ -147,7 +151,10 @@ export const Sidebar = (props: SidebarProps) => {
       open={open}
       onOpenChange={setOpen}
     >
-      <SidebarTrigger dataCyTrigger={props.cy?.dataCyTrigger}>
+      <SidebarTrigger
+        dataCyTrigger={props.cy?.dataCyTrigger}
+        ariaLabel={props.ariaLabel}
+      >
         {props.trigger}
       </SidebarTrigger>
 

@@ -147,6 +147,10 @@ export interface SelectProps<T> {
    */
   className?: string;
 
+  /**
+   * Text alternative to an element that has no visible text
+   */
+  ariaLabel?: string;
 }
 
 /**
@@ -170,6 +174,7 @@ export const Select = <T extends string>(props: SelectProps<T>) => {
     <div
       className={clsx(styles.Select, props.className)}
       data-cy={props.cy?.dataCyOverlay}
+      aria-label={props.ariaLabel}
     >
       <SelectComponent.Root
         onValueChange={props.onChange}

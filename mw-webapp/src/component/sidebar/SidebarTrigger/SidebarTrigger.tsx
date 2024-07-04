@@ -11,6 +11,10 @@ interface SidebarTriggerProps {
    */
   dataCyTrigger?: string;
 
+  /**
+   * Text alternative to an element that has no visible text
+   */
+  ariaLabel?: string;
 }
 
 /**
@@ -21,6 +25,7 @@ export const SidebarTrigger = forwardRef((props: PropsWithChildren<SidebarTrigge
     <DialogTrigger
       data-cy={props.dataCyTrigger}
       asChild
+      aria-label={props.ariaLabel}
     >
       <div
         ref={ref}

@@ -59,6 +59,7 @@ export const Footer = (props: FooterProps) => {
               <Link
                 path="https://linkedin.com/company/masters-way-project"
                 isNewTab
+                ariaLabel={LanguageService.common.socialMediaAriaLabel.linkedIn[props.language]}
               >
                 <div className={styles.iconWrapper}>
                   <Icon
@@ -71,6 +72,7 @@ export const Footer = (props: FooterProps) => {
               <Link
                 path="https://www.youtube.com/watch?v=8QGIjw6oyDA&list=PLif3tyf4TWIlhAV-7AoEpd9fGolkooIxm&index=2"
                 isNewTab
+                ariaLabel={LanguageService.common.socialMediaAriaLabel.youtube[props.language]}
               >
                 <div className={styles.iconWrapper}>
                   <Icon
@@ -83,6 +85,7 @@ export const Footer = (props: FooterProps) => {
               <Link
                 path="https://github.com/tritonJS826/masters-way"
                 isNewTab
+                ariaLabel={LanguageService.common.socialMediaAriaLabel.github[props.language]}
               >
                 <div className={styles.iconWrapper}>
                   <Icon
