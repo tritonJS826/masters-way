@@ -69,6 +69,12 @@ $homePaddingBigBlock: 128px;
   margin-top: $marginBig;
 }
 
+.viewAllWaysButton {
+  width: fit-content;
+  border-radius: $homeBorderRadius;
+  margin-top: $marginBig;
+}
+
 .advantagesBlock,
 .buildSystemBlock,
 .aboutProjectBlock {
