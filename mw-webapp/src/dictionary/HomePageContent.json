@@ -118,6 +118,12 @@
     "en": "Start your Way for Free",
     "ua": "Почати свій шлях безкоштовно"
   },
+  "viewAllWaysButton": {
+    "ru": "Посмотреть существующие пути",
+    "en": "View existing ways",
+    "ua": "Переглянути існуючі шляхи",
+    "ka": "იხილეთ არსებული ბილიკები"
+  },
   "getStartedButton": {
     "ru": "Начать",
     "en": "Get started",
