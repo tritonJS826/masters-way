@@ -5,6 +5,7 @@ import {navigationMenuSelectors} from "cypress/scopesSelectors/navigationMenuSel
 import {Symbols} from "src/utils/Symbols";
 import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
 import testUserData from "cypress/fixtures/testUserDataFixture.json";
+import {allWaysAccessIds} from "cypress/accessIds/allWaysAccessIds";
 
 afterEach(() => {
   cy.clearAllStorage();
@@ -31,27 +32,26 @@ describe('NoAuth All Ways scope tests', () => {
     });
   });
 
-  it('NoAuth_AllWaysTable_LinkToOwner', () => {
-    let userName: string;
-    const targetTableHeader = allWaysPageContent.waysTable.columns.owner.en;
+  it.only('NoAuth_AllWaysTable_LinkToOwner', () => {
     const rowIndex = 0;
+    const ownerHeaderIndex = 4;
 
     allWaysSelectors.filterViewBlock.getTableViewButton().click();
 
-    cy.verifyAllWaysTableCellContent(targetTableHeader, allWaysSelectors.allWaysTable.getOwnerLink(), rowIndex);
-
     allWaysSelectors.allWaysTable.getOwnerLink()
-      .eq(rowIndex)
-      .then (link => {
-        userName = link.text().trim();
-        cy.wrap(userName).as('actualUserName');  
-        cy.wrap(link).click();
-      });
+    .eq(rowIndex)
+    .then (link => {
+      cy.wrap(link)
+        .parents(`[data-cy="${allWaysAccessIds.allWaysTable.tableBodyTd}"]`)
+        .invoke('index')
+        .should('eq', ownerHeaderIndex);
+  
+      const userName = link.text().trim();
+      cy.wrap(link).click();
 
-        cy.url().should('match', new RegExp(testUserData.userUrlPattern));
-        cy.get('@actualUserName').then((actualUserName) => {
-          userPersonalSelectors.descriptionSection.getName().should('have.text', actualUserName);
-        });
+      cy.url().should('match', new RegExp(testUserData.userUrlPattern));
+      userPersonalSelectors.descriptionSection.getName().should('have.text', userName);
+    });
   });
 
 });

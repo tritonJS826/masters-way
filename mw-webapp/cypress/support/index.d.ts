@@ -7,6 +7,5 @@ declare namespace Cypress {
       checkLinkStatus(selector, href: string): Chainable<Element>
       checkThemeColors(theme: string): Chainable<Element>
       clearAllStorage(): Chainable<Element>
-      verifyAllWaysTableCellContent(targetTableHeader: string, ownerLinkSelector, rowIndex): Chainable<Element>
     }  
 }

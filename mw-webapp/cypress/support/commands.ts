@@ -1,5 +1,3 @@
-import { allWaysAccessIds } from "cypress/accessIds/allWaysAccessIds";
-import { allWaysSelectors } from "cypress/scopesSelectors/allWaysSelectors";
 import { Theme, themedVariables } from "src/globalStore/ThemeStore";
 
 // ***********************************************
@@ -75,31 +73,6 @@ Cypress.Commands.add('clearAllStorage', () => {
   cy.window().then(win => win.sessionStorage.clear());
   cy.clearCookies();
   cy.clearLocalStorage();
-});
-
-Cypress.Commands.add('verifyAllWaysTableCellContent', (targetTableHeader, cellContentSelector, rowIndex) => {
-  let targetTableHeaderIndex: number;
-  let selectorColumnIndex;
-
-  allWaysSelectors.allWaysTable.getTableTh().each((th, index) => {
-    const headerText = th.text().trim();
-    if (headerText === targetTableHeader) {
-      targetTableHeaderIndex = index;
-      return false;
-    }
-  });
-
-  cellContentSelector
-  .eq(rowIndex)
-  .then ((cellContent: any) => {
-    cy.wrap(cellContent)
-      .parents('td')
-      .should('have.attr', 'data-cy', allWaysAccessIds.allWaysTable.tableBodyTd)
-      .then(td => {
-        selectorColumnIndex = td.index();
-        assert.equal(selectorColumnIndex, targetTableHeaderIndex);
-      });
-  });
 });
 
 export {};
