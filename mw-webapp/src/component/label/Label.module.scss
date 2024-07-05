@@ -1,6 +1,6 @@
 @import "src/styles/variables";
 
-$labelMaxWidth: 130px;
+$labelMaxWidth: 120px;
 
 .label {
   overflow: hidden;
@@ -15,4 +15,9 @@ $labelMaxWidth: 130px;
   padding: 0 $paddingSmall;
   font-size: $fontSizeSmall;
   white-space: nowrap;
+}
+
+.editableText span p {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
