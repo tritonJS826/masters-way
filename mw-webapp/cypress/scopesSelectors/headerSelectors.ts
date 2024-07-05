@@ -16,8 +16,7 @@ export const headerSelectors = {
             languageMenuItems: [
                 () => cy.get(getDataCy(headerAccessIds.settings.language.ruItem)),
                 () => cy.get(getDataCy(headerAccessIds.settings.language.enItem)),
-                () => cy.get(getDataCy(headerAccessIds.settings.language.uaItem)),
-                () => cy.get(getDataCy(headerAccessIds.settings.language.kaItem))
+                () => cy.get(getDataCy(headerAccessIds.settings.language.uaItem))
             ]
         },
     },
