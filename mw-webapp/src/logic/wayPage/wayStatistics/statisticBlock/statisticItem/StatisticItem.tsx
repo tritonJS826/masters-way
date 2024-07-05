@@ -60,13 +60,22 @@ interface StatisticItemProps {
  * StatisticItem
  */
 export const StatisticItem = (props: StatisticItemProps) => {
+
+  /**
+   * Get formatted statistic value
+   */
+  const getFormattedStatisticValue = (): string => {
+    if (props.type === StatisticItemType.SECONDARY || props.convertToHours) {
+      return `${convertMinutesToHours(props.statisticItem.value)}h`;
+    }
+
+    return props.statisticItem.value.toString();
+  };
+
   return (
     <div className={clsx(styles.statisticItem, styles[props.type ?? StatisticItemType.PRIMARY])}>
       <span className={styles.statisticValue}>
-        {props.type === StatisticItemType.SECONDARY || props.convertToHours
-          ? `${convertMinutesToHours(props.statisticItem.value)}h`
-          : props.statisticItem.value
-        }
+        {getFormattedStatisticValue()}
       </span>
       <span className={styles.statisticText}>
         {props.statisticItem.text}
