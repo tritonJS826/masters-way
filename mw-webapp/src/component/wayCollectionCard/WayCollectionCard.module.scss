@@ -4,7 +4,6 @@ $wayCollectionCardMainHeight: 76px;
 $wayCollectionCardAdditionalHeight: 47px;
 
 .wayCollectionCardContainer {
-  overflow: hidden;
   width: 100%;
   border: $primaryBorder solid var(--primaryStrokeColor);
   border-radius: $primaryBorderRadius;
@@ -21,6 +20,8 @@ $wayCollectionCardAdditionalHeight: 47px;
   height: $wayCollectionCardMainHeight;
   padding: $paddingMedium;
   background-color: var(--generalPrimaryColor);
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
   gap: $gapSmall;
   text-align: left;
 
@@ -38,6 +39,10 @@ $wayCollectionCardAdditionalHeight: 47px;
   text-overflow: ellipsis;
 }
 
+.collectionTitleBlock {
+  justify-content: space-between;
+}
+
 .description {
   display: -webkit-box;
   overflow: hidden;
@@ -52,6 +57,8 @@ $wayCollectionCardAdditionalHeight: 47px;
   height: $wayCollectionCardAdditionalHeight;
   padding: $paddingMedium $paddingBig;
   background-color: var(--additionalInfoCardBgColor);
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
   color: var(--primaryTextColor);
   font-size: $fontSizeBig;
   font-weight: $fontWeightBold;
