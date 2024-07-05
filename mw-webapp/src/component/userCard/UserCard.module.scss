@@ -2,12 +2,14 @@
 
 $userCardMainHeight: 140px;
 $userCardAdditionalHeight: 82px;
+$flagMenorRightOffset: 24px;
 
 .cardLink {
   text-decoration: none;
 }
 
 .userCardContainer {
+  position: relative;
   overflow: hidden;
   border: $primaryBorder solid var(--primaryStrokeColor);
   border-radius: $primaryBorderRadius;
@@ -82,4 +84,12 @@ $userCardAdditionalHeight: 82px;
 
 .ways {
   flex-wrap: wrap;
+}
+
+.flagMentor {
+  position: absolute;
+  top: 0;
+  right: $flagMenorRightOffset;
+  fill: var(--bookmarksIconColor);
+  stroke: none
 }
