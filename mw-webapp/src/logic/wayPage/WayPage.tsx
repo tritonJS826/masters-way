@@ -176,9 +176,7 @@ export const WayPage = observer((props: WayPageProps) => {
 
   const renderDeleteWayDropdownItem = (
     <Confirm
-      trigger={<>
-        {LanguageService.way.wayActions.deleteTheWay[language]}
-      </>}
+      trigger={LanguageService.way.wayActions.deleteTheWay[language]}
       content={<p>
         {`${LanguageService.way.wayActions.deleteWayQuestion[language]} "${way.name}"?`}
       </p>}
