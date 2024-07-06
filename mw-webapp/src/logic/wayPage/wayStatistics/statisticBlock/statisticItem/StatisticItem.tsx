@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import {MINUTES_IN_HOUR} from "src/utils/DateUtils";
+import {convertMinutesToHours} from "src/utils/convertMinutesToHours";
 import styles from "src/logic/wayPage/wayStatistics/statisticBlock/statisticItem/StatisticItem.module.scss";
 
 /**
@@ -60,13 +60,22 @@ interface StatisticItemProps {
  * StatisticItem
  */
 export const StatisticItem = (props: StatisticItemProps) => {
+
+  /**
+   * Get formatted statistic value
+   */
+  const getFormattedStatisticValue = (): string => {
+    if (props.type === StatisticItemType.SECONDARY || props.convertToHours) {
+      return `${convertMinutesToHours(props.statisticItem.value)}h`;
+    }
+
+    return props.statisticItem.value.toString();
+  };
+
   return (
     <div className={clsx(styles.statisticItem, styles[props.type ?? StatisticItemType.PRIMARY])}>
       <span className={styles.statisticValue}>
-        {props.convertToHours
-          ? `${Math.round(props.statisticItem.value / MINUTES_IN_HOUR)}h`
-          : props.statisticItem.value
-        }
+        {getFormattedStatisticValue()}
       </span>
       <span className={styles.statisticText}>
         {props.statisticItem.text}
