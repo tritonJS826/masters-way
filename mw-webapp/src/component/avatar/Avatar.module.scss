@@ -28,7 +28,7 @@ $avatarLargeSize: 120px;
   height: 100%;
   align-items: center;
   justify-content: center;
-  background-color: var(--secondaryBgColor);
+  background-color: var(--generalPrimaryColor);
   color: var(--primaryTextColor);
 }
 
@@ -54,4 +54,8 @@ $avatarLargeSize: 120px;
   width: $avatarLargeSize;
   height: $avatarLargeSize;
   font-size: $fontSizeTitleMedium;
+}
+
+.HomeAvatarBackground{
+  background-color: var(--secondaryBgColor);
 }

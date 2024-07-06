@@ -1,3 +1,4 @@
+import {useLocation} from "react-router-dom";
 import * as AvatarRadix from "@radix-ui/react-avatar";
 import clsx from "clsx";
 import styles from "src/component/avatar/Avatar.module.scss";
@@ -69,26 +70,51 @@ const getInitials = (name: string): string => {
  */
 export const Avatar = (props: AvatarProps) => {
   const initials = getInitials(props.alt);
+  const location = useLocation();
 
-  return (
-    <AvatarRadix.Root
-      className={clsx(styles.AvatarRoot,
-        styles[props.size ?? AvatarSize.SMALL],
-        props.className)}
-      data-cy={props.dataCy}
-    >
-      <AvatarRadix.Image
-        className={styles.AvatarImage}
-        src={props.src ?? ""}
-        alt={initials}
-      />
-      <AvatarRadix.Fallback
-        className={styles.AvatarFallback}
-        delayMs={600}
+  if (location.pathname === "/") {
+    return (
+      <AvatarRadix.Root
+        className={clsx(styles.AvatarRoot,
+          styles[props.size ?? AvatarSize.SMALL],
+          props.className)}
+        data-cy={props.dataCy}
       >
-        {initials}
-      </AvatarRadix.Fallback>
-    </AvatarRadix.Root>
-  );
+        <AvatarRadix.Image
+          className={styles.AvatarImage}
+          src={props.src ?? ""}
+          alt={initials}
+        />
+        <AvatarRadix.Fallback
+          className={clsx(styles.AvatarFallback, styles.HomeAvatarBackground)}
+          delayMs={600}
+        >
+          {initials}
+        </AvatarRadix.Fallback>
+      </AvatarRadix.Root>
+    );
+  } else {
+    return (
+      <AvatarRadix.Root
+        className={clsx(styles.AvatarRoot,
+          styles[props.size ?? AvatarSize.SMALL],
+          props.className)}
+        data-cy={props.dataCy}
+      >
+        <AvatarRadix.Image
+          className={styles.AvatarImage}
+          src={props.src ?? ""}
+          alt={initials}
+        />
+        <AvatarRadix.Fallback
+          className={styles.AvatarFallback}
+          delayMs={600}
+        >
+          {initials}
+        </AvatarRadix.Fallback>
+      </AvatarRadix.Root>
+    );
+  }
+
 };
 
