@@ -340,9 +340,9 @@
       "ua": "Сер. час за робочий день"
     },
     "totalFinishedJobs": {
-      "ru": "Всего выполненных работ",
-      "en": "Total finished jobs",
-      "ua": "Всього виконаних робіт"
+      "ru": "Выполненных работ",
+      "en": "Finished jobs",
+      "ua": "Виконаних робіт"
     },
     "showsLevelOfTaskDecomposition": {
       "ru": "Показывает уровень декомпозиции задачи",

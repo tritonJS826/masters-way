@@ -65,6 +65,13 @@ export const UserCard = observer((props: UserCardProps) => {
       dataCy={props.dataCy}
     >
       <VerticalContainer className={styles.userCardContainer}>
+        {props.userPreview.isMentor && (
+          <Icon
+            size={IconSize.MEDIUM}
+            name="FlagIcon"
+            className={styles.flagMentor}
+          />
+        )}
         <VerticalContainer className={styles.mainInfo}>
           <HorizontalContainer className={styles.nameLikes}>
             <Avatar
