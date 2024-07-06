@@ -66,7 +66,6 @@ export const LabelLine = observer((props: LabelLineProps) => {
             });
           }}
           isEditable={props.isEditable}
-          placeholder={LanguageService.common.emptyMarkdownAction[language]}
         />
       </div>
 

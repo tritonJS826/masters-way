@@ -2,6 +2,7 @@ import {HTMLInputTypeAttribute, useState} from "react";
 import clsx from "clsx";
 import {FormatterInputValue} from "src/component/input/formatters";
 import {Input} from "src/component/input/Input";
+import {displayNotification} from "src/component/notification/displayNotification";
 import {Text} from "src/component/text/Text";
 import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/component/editableText/EditableText.module.scss";
@@ -88,6 +89,11 @@ interface EditableTextProps<T> {
    */
   placeholder: string;
 
+  /**
+   * Minimum symbols amount for title
+   */
+  minLength?: number;
+
 }
 
 /**
@@ -116,10 +122,21 @@ export const EditableText = <T extends string | number>(props: EditableTextProps
   };
 
   /**
-   * Update value
+   * Check is value valid or not according min length
    */
-  const updateValue = (updatedValue: string | number) => {
-    setValue(updatedValue as T);
+  const getValidValue = (updateValue: string | number) => {
+    if (typeof updateValue === "string") {
+      if (props.minLength && updateValue.length < props.minLength) {
+        displayNotification({
+          text: "label should include at least one character",
+          type: "info",
+        });
+
+        return;
+      }
+    }
+
+    setValue(updateValue as T);
   };
 
   /**
@@ -135,7 +152,7 @@ export const EditableText = <T extends string | number>(props: EditableTextProps
       min={props.min}
       value={value}
       autoFocus={true}
-      onChange={updateValue}
+      onChange={getValidValue}
     />
   );
 

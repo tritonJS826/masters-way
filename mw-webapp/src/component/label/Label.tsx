@@ -35,11 +35,6 @@ interface LabelProps {
    * Callback triggered on change label
    */
   onChangeValue?: (value: string) => void;
-
-  /**
-   * Placeholder
-   */
-  placeholder: string;
 }
 
 /**
@@ -52,16 +47,14 @@ export const Label = (props: LabelProps) => {
         style={{color: props.label.color, borderColor: props.label.color}}
         className={clsx(styles.label, props.isSmall && styles.small, props.className)}
       >
-        {props.isEditable ?
-          <EditableText
-            value={props.label.name}
-            onChangeFinish={(name) => props.onChangeValue && props.onChangeValue(name)}
-            isEditable={props.isEditable}
-            placeholder={props.placeholder}
-            className={styles.editableText}
-          />
-          : props.label.name
-        }
+        <EditableText
+          value={props.label.name}
+          onChangeFinish={(name) => props.onChangeValue && props.onChangeValue(name)}
+          isEditable={props.isEditable}
+          placeholder=""
+          className={styles.editableText}
+          minLength={1}
+        />
       </div>
     </Tooltip>
   );
