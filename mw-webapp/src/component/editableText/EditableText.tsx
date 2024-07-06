@@ -125,15 +125,16 @@ export const EditableText = <T extends string | number>(props: EditableTextProps
    * Check is value valid or not according min length
    */
   const getValidValue = (updateValue: string | number) => {
-    if (typeof updateValue === "string") {
-      if (props.minLength && updateValue.length < props.minLength) {
-        displayNotification({
-          text: "label should include at least one character",
-          type: "info",
-        });
+    const isInvalidLabelLength = typeof updateValue === "string" &&
+      props.minLength && updateValue.length < props.minLength;
 
-        return;
-      }
+    if (isInvalidLabelLength) {
+      displayNotification({
+        text: "label should include at least one character",
+        type: "info",
+      });
+
+      return;
     }
 
     setValue(updateValue as T);
