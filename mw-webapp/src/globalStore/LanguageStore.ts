@@ -7,8 +7,7 @@ import {localStorageWorker} from "src/utils/LocalStorageWorker";
 export enum Language {
   ENGLISH = "en",
   RUSSIAN = "ru",
-  UKRAINIAN = "ua",
-  GEORGIAN = "ka"
+  UKRAINIAN = "ua"
 }
 
 /**

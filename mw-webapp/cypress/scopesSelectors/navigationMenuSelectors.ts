@@ -21,8 +21,7 @@ export const navigationMenuSelectors = {
         languageMenuItems: [
             () => cy.get(getDataCy(navigationMenuIds.language.ruItem)),
             () => cy.get(getDataCy(navigationMenuIds.language.enItem)),
-            () => cy.get(getDataCy(navigationMenuIds.language.uaItem)),
-            () => cy.get(getDataCy(navigationMenuIds.language.kaItem))
+            () => cy.get(getDataCy(navigationMenuIds.language.uaItem))
         ]
     },
 

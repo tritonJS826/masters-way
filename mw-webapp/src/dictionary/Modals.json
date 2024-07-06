@@ -3,48 +3,41 @@
     "signInWithGoogle": {
       "ru": "Войти через Google",
       "en": "Sign in with Google",
-      "ua": "Увійдіть за допомогою Google",
-      "ka": "შედით Google-ით"
+      "ua": "Увійдіть за допомогою Google"
     }
   },
   "promptModal": {
     "okButton": {
       "ru": "Принять",
       "en": "Ok",
-      "ua": "Прийняти",
-      "ka": "მიღება"
+      "ua": "Прийняти"
     },
     "cancelButton": {
       "ru": "Отменить",
       "en": "Cancel",
-      "ua": "Скасувати",
-      "ka": "გაუქმება"
+      "ua": "Скасувати"
     }
   },
   "confirmModal": {
     "cancelButton": {
       "ru": "Отмена",
       "en": "Cancel",
-      "ua": "Скасувати",
-      "ka": "გაუქმება"
+      "ua": "Скасувати"
     },
     "deleteButton": {
       "ru": "Удалить",
       "en": "Delete",
-      "ua": "Видалити",
-      "ka": "წაშალეთ"
+      "ua": "Видалити"
     },
     "okButton": {
       "ru": "Принять",
       "en": "Ok",
-      "ua": "Прийняти",
-      "ka": "მიღება"
+      "ua": "Прийняти"
     },
     "confirmButton": {
       "ru": "Подтвердить",
       "en": "Confirm",
-      "ua": "Підтвердити",
-      "ka": "დაადასტურეთ"
+      "ua": "Підтвердити"
     }
   }
 }

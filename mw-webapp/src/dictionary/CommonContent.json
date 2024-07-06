@@ -2,71 +2,60 @@
   "emptyMarkdown": {
     "ru": "*Пусто!*",
     "en": "*Empty!*",
-    "ua": "*Порожньо!*",
-    "ka": "*ცარიელი!*"
+    "ua": "*Порожньо!*"
   },
   "emptyMarkdownAction": {
     "ru": "*Пустой markdown! Дважды кликните на меня!*",
     "en": "*Empty markdown! Double click on me!*",
-    "ua": "*Порожній markdown! Двічі клацніть на мене!*",
-    "ka": "*ცარიელი markdown! ორჯერ დააკლიკეთ ჩემზე!*"
+    "ua": "*Порожній markdown! Двічі клацніть на мене!*"
   },
   "emptyLinkTitle": {
     "ru": "Пустой заголовок ссылки!",
     "en": "Empty link title!",
-    "ua": "Порожній заголовок посилання!",
-    "ka": "ცარიელი ბმულის სათაური!"
+    "ua": "Порожній заголовок посилання!"
   },
   "privacyPolicy": {
     "ru": "Политика конфиденциальности",
     "en": "Privacy policy",
-    "ua": "Політика конфіденційності",
-    "ka": "Კონფიდენციალურობის პოლიტიკა"
+    "ua": "Політика конфіденційності"
   },
   "view": {
     "cardViewTooltip": {
       "ru": "Отображение карточками",
       "en": "Switch to card view",
-      "ua": "Відображення картками",
-      "ka": "ბარათებად ჩვენება"
+      "ua": "Відображення картками"
     },
     "tableViewTooltip": {
       "ru": "Отображение таблицей",
       "en": "Switch to table view",
-      "ua": "Відображення таблицею",
-      "ka": "ცხრილად ჩვენება"
+      "ua": "Відображення таблицею"
     }
   },
   "removeTag": {
     "ru": "Удалить тег",
     "en": "Remove the tag",
-    "ua": "Видаліть тег",
-    "ka": "ამოიღეთ ტეგი"
+    "ua": "Видаліть тег"
   },
   "metrics": {
     "ru": "метрики",
     "en": "metrics",
-    "ua": "метрики",
-    "ka": "მეტრიკა"
+    "ua": "метрики"
   },
   "socialMediaAriaLabel": {
     "linkedIn": {
       "ru": "Страница Master's Way в LinkedIn",
       "en": "Master's Way LinkedIn page",
-      "ua": "Сторінка Master's Way на LinkedIn",
-      "ka": "Master's Way LinkedIn გვერდი"
+      "ua": "Сторінка Master's Way на LinkedIn"
     },
     "youtube": {
       "ru": "Страница Master's Way на Youtube",
       "en": "Master's Way Youtube page",
-      "ua": "Сторінка Master's Way на Youtube",
-      "ka": "Master's Way Youtube გვერდი"
+      "ua": "Сторінка Master's Way на Youtube"
     },
     "github": {
       "ru": "Страница Master's Way на Github",
       "en": "Master's Way Github page",
-      "ua": "Сторінка Master's Way на Github",
-      "ka": "Master's Way Github გვერდი"
+      "ua": "Сторінка Master's Way на Github"
     }
   }
 }
