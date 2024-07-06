@@ -1,4 +1,4 @@
-import {ReactElement, useState} from "react";
+import {ReactElement, ReactNode, useState} from "react";
 import {Root as DialogRoot} from "@radix-ui/react-dialog";
 import {ModalContent} from "src/component/modal/ModalContent/ModalContent";
 import {ModalTrigger} from "src/component/modal/ModalTrigger/ModalTrigger";
@@ -50,7 +50,7 @@ interface ModalProps {
   /**
    * The element that triggers the modal.
    */
-  trigger: ReactElement<HTMLElement>;
+  trigger: ReactNode;
 
   /**
    * The content to display within the modal.

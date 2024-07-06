@@ -1,4 +1,4 @@
-import {ReactElement, useRef, useState} from "react";
+import {ReactElement, ReactNode, useRef, useState} from "react";
 import {Close as DialogClose} from "@radix-ui/react-dialog";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
@@ -35,7 +35,7 @@ interface ConfirmProps {
   /**
    * The element that triggers the modal.
    */
-  trigger: ReactElement<HTMLElement>;
+  trigger: ReactNode;
 
   /**
    * The content to display within the modal.
