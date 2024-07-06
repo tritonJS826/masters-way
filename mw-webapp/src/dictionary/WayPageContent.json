@@ -405,9 +405,9 @@
       "ka": "საშ. დრო დღეში"
     },
     "totalFinishedJobs": {
-      "ru": "Всего выполненных работ",
-      "en": "Total finished jobs",
-      "ua": "Всього виконаних робіт",
+      "ru": "Выполненных работ",
+      "en": "Finished jobs",
+      "ua": "Виконаних робіт",
       "ka": "სულ სამუშაოები"
     },
     "showsLevelOfTaskDecomposition": {
