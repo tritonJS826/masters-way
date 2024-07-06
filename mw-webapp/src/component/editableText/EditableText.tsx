@@ -90,7 +90,7 @@ interface EditableTextProps<T> {
   placeholder: string;
 
   /**
-   * Minimum symbols amount for title
+   * Minimum symbols amount for text
    */
   minLength?: number;
 
