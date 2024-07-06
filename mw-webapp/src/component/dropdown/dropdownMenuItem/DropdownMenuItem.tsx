@@ -36,7 +36,7 @@ interface DropdownMenuItemProps {
   /**
    * Items`s value
    */
-  value: string;
+  value: string | ReactNode;
 
   /**
    * Callback triggered onClick
@@ -55,7 +55,6 @@ interface DropdownMenuItemProps {
 export const DropdownMenuItem = (props: DropdownMenuItemProps) => {
   return (
     <li
-      key={props.value}
       className={styles.dropdownMenuItem}
       onClick={props.onClick ?? (() => {})}
       data-cy={props.dataCyContent}

@@ -71,44 +71,47 @@ interface WayCollectionProps {
  */
 export const WayCollectionCard = (props: WayCollectionProps) => {
   const [isRenameCollectionModalOpen, setIsRenameCollectionModalOpen] = useState(false);
-  const title = (<Title
-    level={HeadingLevel.h3}
-    text={props.collectionTitle}
-    className={styles.title}
-    placeholder=""
-  />);
-  const editModal = (<Modal
-    isOpen={isRenameCollectionModalOpen}
-    content={
-      <PromptModalContent
-        defaultValue={props.collectionTitle}
-        placeholder="Collection name"
-        close={() => setIsRenameCollectionModalOpen(false)}
-        onOk={(name: string) => {
-          props.onTitleEdit && props.onTitleEdit(name);
-          setIsRenameCollectionModalOpen(false);
-        }}
-        okButtonValue={LanguageService.modals.promptModal.okButton[props.language]}
-        cancelButtonValue={LanguageService.modals.promptModal.cancelButton[props.language]}
-      />
-    }
-    trigger={<>
-      {LanguageService.user.collections.renameCollection[props.language]}
-    </>}
-  />);
-  const deleteConfirm = (<Confirm
-    trigger={
-      <>
-        {LanguageService.user.collections.deleteCollection[props.language]}
-      </>
-    }
-    content={<p>
-      {`${LanguageService.user.collections.deleteCollectionModalQuestion[props.language]} "${props.collectionTitle}" ?`}
-    </p>}
-    onOk={() => props.onDelete && props.onDelete()}
-    okText={LanguageService.modals.confirmModal.deleteButton[props.language]}
-    cancelText={LanguageService.modals.confirmModal.cancelButton[props.language]}
-  />);
+  const title = (
+    <Title
+      level={HeadingLevel.h3}
+      text={props.collectionTitle}
+      className={styles.title}
+      placeholder=""
+    />);
+  const editModal = (
+    <Modal
+      isOpen={isRenameCollectionModalOpen}
+      content={
+        <PromptModalContent
+          defaultValue={props.collectionTitle}
+          placeholder="Collection name"
+          close={() => setIsRenameCollectionModalOpen(false)}
+          onOk={(name: string) => {
+            props.onTitleEdit && props.onTitleEdit(name);
+            setIsRenameCollectionModalOpen(false);
+          }}
+          okButtonValue={LanguageService.modals.promptModal.okButton[props.language]}
+          cancelButtonValue={LanguageService.modals.promptModal.cancelButton[props.language]}
+        />
+      }
+      trigger={<>
+        {LanguageService.user.collections.renameCollection[props.language]}
+      </>}
+    />);
+  const deleteConfirm = (
+    <Confirm
+      trigger={
+        <>
+          {LanguageService.user.collections.deleteCollection[props.language]}
+        </>
+      }
+      content={<p>
+        {`${LanguageService.user.collections.deleteCollectionModalQuestion[props.language]} "${props.collectionTitle}" ?`}
+      </p>}
+      onOk={() => props.onDelete && props.onDelete()}
+      okText={LanguageService.modals.confirmModal.deleteButton[props.language]}
+      cancelText={LanguageService.modals.confirmModal.cancelButton[props.language]}
+    />);
 
   return (
     <Button
@@ -122,14 +125,13 @@ export const WayCollectionCard = (props: WayCollectionProps) => {
               <HorizontalContainer className={styles.collectionTitleBlock}>
                 {title}
                 <Dropdown
-                  //ClassName={styles.wayActionMenu}
+                  className={styles.dropdown}
                   trigger={(
                     <Tooltip
-                      content="bla-bla"
+                      content={LanguageService.user.collections.collectionActionsTooltip[props.language]}
                       position={PositionTooltip.LEFT}
                     >
                       <Button
-                        //ClassName={styles.wayActionsIcon}
                         buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
                         onClick={() => {}}
                         icon={

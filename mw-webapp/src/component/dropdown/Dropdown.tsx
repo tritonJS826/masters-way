@@ -1,4 +1,4 @@
-import {Fragment, ReactElement, useState} from "react";
+import {ReactElement, useState} from "react";
 import {
   Content as DropdownContent,
   Root as DropdownRoot,
@@ -48,7 +48,12 @@ export interface DropdownProps {
   dropdownMenuItems: DropdownMenuItemType[];
 
   /**
-   * Custom class name
+   * Custom class name of content
+   */
+  contentClassName?: string;
+
+  /**
+   * Custom class name of root element
    */
   className?: string;
 
@@ -68,23 +73,15 @@ export const Dropdown = (props: DropdownProps) => {
     const isVisible = item.isVisible ?? true;
 
     if (isVisible) {
-      if (typeof item.value !== "string") {
-        return (
-          <Fragment key={item.id}>
-            {item.value}
-          </Fragment>
-        );
-      } else {
-        return (
-          <DropdownMenuItem
-            key={item.id}
-            value={item.value}
-            onClick={item.onClick ?? (() => {})}
-            dataCyContent={props.cy?.dataCyContent}
-          />
-        );
+      return (
+        <DropdownMenuItem
+          key={item.id}
+          value={item.value}
+          onClick={item.onClick ?? (() => {})}
+          dataCyContent={props.cy?.dataCyContent}
+        />
+      );
 
-      }
     } else {
       return null;
     }
@@ -92,19 +89,20 @@ export const Dropdown = (props: DropdownProps) => {
 
   return (
     <div
-      className={styles.dropdown}
+      className={clsx(styles.dropdown, props.className)}
       data-cy={props.cy?.dataCyOverlay}
     >
       <DropdownRoot
         open={isOpenMenu}
         onOpenChange={setIsOpenMenu}
+        modal={false}
       >
         <div onClick={() => setIsOpenMenu((prev) => !prev)}>
           {props.trigger}
         </div>
 
         <DropdownContent
-          className={clsx(styles.dropdownContent, props.className)}
+          className={clsx(styles.dropdownContent, props.contentClassName)}
           data-cy={props.cy?.dataCyContentList}
         >
           <ul className={styles.menu}>
