@@ -15,6 +15,41 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/ai/metrics": {
+            "post": {
+                "description": "This endpoint uses AI to generate metrics by analyzing the provided goals",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AI"
+                ],
+                "summary": "Generate AI-based metrics",
+                "operationId": "generate-metrics",
+                "parameters": [
+                    {
+                        "description": "Request payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.GenerateMetricsPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.AIResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/auth/current": {
             "get": {
                 "consumes": [
@@ -1420,6 +1455,20 @@ const docTemplate = `{
                 }
             }
         },
+        "/reset-db": {
+            "post": {
+                "description": "resets db",
+                "tags": [
+                    "dev"
+                ],
+                "summary": "resets db",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
         "/toUserMentoringRequests": {
             "post": {
                 "consumes": [
@@ -2099,6 +2148,14 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "schemas.AIResponse": {
+            "type": "object",
+            "properties": {
+                "answer": {
+                    "type": "string"
+                }
+            }
+        },
         "schemas.AddWayToCompositeWayPayload": {
             "type": "object",
             "required": [
@@ -2624,6 +2681,28 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "wayUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.GenerateMetricsPayload": {
+            "type": "object",
+            "required": [
+                "goalDescription",
+                "metrics",
+                "wayName"
+            ],
+            "properties": {
+                "goalDescription": {
+                    "type": "string"
+                },
+                "metrics": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.MetricResponse"
+                    }
+                },
+                "wayName": {
                     "type": "string"
                 }
             }

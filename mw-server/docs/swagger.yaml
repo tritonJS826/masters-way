@@ -1,5 +1,10 @@
 basePath: /api
 definitions:
+  schemas.AIResponse:
+    properties:
+      answer:
+        type: string
+    type: object
   schemas.AddWayToCompositeWayPayload:
     properties:
       childWayUuid:
@@ -362,6 +367,21 @@ definitions:
     required:
     - userUuid
     - wayUuid
+    type: object
+  schemas.GenerateMetricsPayload:
+    properties:
+      goalDescription:
+        type: string
+      metrics:
+        items:
+          $ref: '#/definitions/schemas.MetricResponse'
+        type: array
+      wayName:
+        type: string
+    required:
+    - goalDescription
+    - metrics
+    - wayName
     type: object
   schemas.GetAllUsersResponse:
     properties:
@@ -936,6 +956,30 @@ info:
   title: Masters way API
   version: "1.0"
 paths:
+  /ai/metrics:
+    post:
+      consumes:
+      - application/json
+      description: This endpoint uses AI to generate metrics by analyzing the provided
+        goals
+      operationId: generate-metrics
+      parameters:
+      - description: Request payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.GenerateMetricsPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.AIResponse'
+      summary: Generate AI-based metrics
+      tags:
+      - AI
   /auth/{provider}:
     get:
       consumes:
@@ -1859,6 +1903,15 @@ paths:
       summary: Update problem by UUID
       tags:
       - problem
+  /reset-db:
+    post:
+      description: resets db
+      responses:
+        "200":
+          description: OK
+      summary: resets db
+      tags:
+      - dev
   /toUserMentoringRequests:
     post:
       consumes:

@@ -20,6 +20,7 @@ type Config struct {
 	ApiBaseUrl        string `mapstructure:"API_BASE_URL"`
 	WebappBaseUrl     string `mapstructure:"WEBAPP_BASE_URL"`
 	Domain            string `mapstructure:"WEBAPP_DOMAIN"`
+	GeminiApiKey      string `mapstructure:"GEMINI_API_KEY"`
 }
 
 func LoadConfig(path string) (config Config, err error) {

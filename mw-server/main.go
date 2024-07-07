@@ -35,6 +35,9 @@ var (
 
 	LimitService services.LimitService
 
+	AIController controllers.AIController
+	AIRoutes     routes.AIRoutes
+
 	AuthController controllers.AuthController
 	AuthRoutes     routes.AuthRoutes
 
@@ -141,6 +144,9 @@ func init() {
 
 	LimitService = *services.NewLimitService(db, ctx)
 
+	AIController = *controllers.NewAIController(ctx)
+	AIRoutes = routes.NewRouteAI(AIController)
+
 	AuthController = *controllers.NewAuthController(db, ctx)
 	AuthRoutes = routes.NewRouteAuth(AuthController)
 
@@ -232,6 +238,7 @@ func main() {
 		ctx.JSON(http.StatusOK, gin.H{"message": "The way APi is working fine"})
 	})
 
+	AIRoutes.AIRoute(router)
 	AuthRoutes.AuthRoute(router)
 	WayRoutes.WayRoute(router)
 	UserRoutes.UserRoute(router)
