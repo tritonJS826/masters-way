@@ -41,7 +41,6 @@ models/SchemasCreatePlanPayload.ts
 models/SchemasCreateProblemJobTagPayload.ts
 models/SchemasCreateProblemPayload.ts
 models/SchemasCreateUserMentoringRequestPayload.ts
-models/SchemasCreateUserPayload.ts
 models/SchemasCreateUserTagPayload.ts
 models/SchemasCreateWay.ts
 models/SchemasCreateWayCollectionPayload.ts

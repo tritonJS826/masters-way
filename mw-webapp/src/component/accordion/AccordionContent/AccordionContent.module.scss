@@ -1,5 +1,6 @@
 @import "src/styles/variables";
 
+
 .accordionContent {
   overflow: hidden;
 
@@ -13,7 +14,8 @@
 }
 
 .accordionContentText {
-  padding: 15px 20px;
+  padding: $paddingSmall 0 $paddingMedium 0;
+  line-height: $lineHeightPrimary;
 }
 
 @keyframes slideDown {
@@ -22,13 +24,13 @@
   }
 
   to {
-    height: 47px;
+    height: var(--radix-collapsible-content-height);
   }
 }
 
 @keyframes slideUp {
   from {
-    height: 47px;
+    height: var(--radix-collapsible-content-height);
   }
 
   to {

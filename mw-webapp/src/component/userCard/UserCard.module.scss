@@ -1,23 +1,36 @@
 @import "src/styles/variables";
 
-$userCardMainInfoPadding: $paddingExtraMedium $paddingExtraMedium;
-$userCardAdditionalInfoPadding: $paddingMedium $paddingExtraMedium
-  $paddingExtraMedium;
-$userCardMainHeight: 147px;
-$userCardAdditionalHeight: 90px;
+$userCardMainHeight: 140px;
+$userCardAdditionalHeight: 82px;
+$flagMenorRightOffset: 24px;
+
+.cardLink {
+  text-decoration: none;
+}
 
 .userCardContainer {
-  border-radius: $secondaryBorderRadius;
+  position: relative;
+  overflow: hidden;
+  border: $primaryBorder solid var(--primaryStrokeColor);
+  border-radius: $primaryBorderRadius;
   cursor: pointer;
   @include scaleOnHover;
 }
 
 .mainInfo {
   height: $userCardMainHeight;
-  padding: $userCardMainInfoPadding;
-  border-radius: $secondaryBorderRadius $secondaryBorderRadius 0 0;
+  padding: $paddingMedium;
   background-color: var(--generalPrimaryColor);
   gap: $gapSmall;
+}
+
+.nameLikes {
+  align-items: center;
+  gap: $gapMedium;
+}
+
+.avatar {
+  flex-shrink: 0;
 }
 
 .title {
@@ -31,23 +44,13 @@ $userCardAdditionalHeight: 90px;
 }
 
 .likes {
+  align-items: center;
   color: var(--secondaryTextColor);
+  gap: $gapExtraSmall;
 }
 
 .icon {
-  margin-right: $marginSmall;
   stroke: var(--secondaryStrokeColor);
-}
-
-.nameLikes {
-  align-items: start;
-}
-
-.nameGroup {
-  overflow: hidden;
-  flex: 1;
-  gap: $gapExtraSmall;
-  justify-items: start;
 }
 
 .description {
@@ -55,43 +58,38 @@ $userCardAdditionalHeight: 90px;
   overflow: hidden;
   -webkit-box-orient: vertical;
   color: var(--secondaryTextColor);
-  font-size: $fontSizeMedium;
+  font-size: $fontSizeBig;
   -webkit-line-clamp: 2;
   text-overflow: ellipsis;
   white-space: initial;
 }
 
-.mail {
-  overflow: hidden;
-  color: var(--secondaryTextColor);
-  font-size: $fontSizeMedium;
-  font-weight: bold;
-  text-overflow: ellipsis;
-}
-
 .userTags {
   display: flex;
   overflow: hidden;
-  flex-wrap: nowrap;
-  align-items: center;
-  gap: $gapSmall;
-  -webkit-line-clamp: 1;
 }
 
 .additionalInfo {
-  height: $userCardAdditionalHeight;
-  padding: $userCardAdditionalInfoPadding;
-  border-radius: 0 0 $secondaryBorderRadius $secondaryBorderRadius;
-  background-color: var(--primaryBgColor);
+  min-height: $userCardAdditionalHeight;
+  padding: $paddingMedium;
+  background-color: var(--additionalInfoCardBgColor);
   color: var(--primaryTextColor);
   font-size: $fontSizeMedium;
-  gap: $gapSmall;
+  gap: $gapMedium;
 }
 
-.cardLink {
-  font-size: $fontSizeBig;
+.createdAt {
+  font-weight: $fontWeightBold;
+}
 
-  &:hover {
-    text-decoration: none;
-  }
+.ways {
+  flex-wrap: wrap;
+}
+
+.flagMentor {
+  position: absolute;
+  top: 0;
+  right: $flagMenorRightOffset;
+  fill: var(--bookmarksIconColor);
+  stroke: none;
 }

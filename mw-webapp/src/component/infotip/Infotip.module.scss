@@ -1,0 +1,8 @@
+@import "src/styles/variables";
+
+.infotip {
+  align-self: center;
+  cursor: pointer;
+  fill: var(--generalPrimaryColor);
+  stroke: var(--secondaryStrokeColor);
+}

@@ -40,17 +40,25 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     [Theme.DARK]: "#686085",
     [Theme.LIGHT]: "#F2EFF9",
   },
+  hoverBgColor: {
+    [Theme.DARK]: "#A8A1DD",
+    [Theme.LIGHT]: "#A8A1DD",
+  },
   // Sidebar and footer and shadow for notebook (homePage)
   quaternaryBgColor: {
-    [Theme.DARK]: "#0B0322",
-    [Theme.LIGHT]: "#0B0322",
+    [Theme.DARK]: "#281E51",
+    [Theme.LIGHT]: "#281E51",
   },
   progressBarBgColor: {
     [Theme.DARK]: "#8F8F8F",
     [Theme.LIGHT]: "#A8A1DD",
   },
+  additionalInfoCardBgColor: {
+    [Theme.DARK]: "#1F173D",
+    [Theme.LIGHT]: "#FCFBFE",
+  },
   // Icon circle background
-  iconBgColor: {
+  secondaryIconBgColor: {
     [Theme.DARK]: "#F4F3FF",
     [Theme.LIGHT]: "#F4F3FF",
   },
@@ -62,9 +70,17 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     [Theme.DARK]: "#A8A1DD",
     [Theme.LIGHT]: "#A8A1DD",
   },
+  tertiaryIconColor: {
+    [Theme.DARK]: "#1F173D",
+    [Theme.LIGHT]: "#1F173D",
+  },
   hoverIconColor: {
     [Theme.DARK]: "#A8A1DD",
     [Theme.LIGHT]: "#8B85A1",
+  },
+  bookmarksIconColor: {
+    [Theme.DARK]: "#3AEC88",
+    [Theme.LIGHT]: "#3AEC88",
   },
   primaryStrokeColor: {
     [Theme.DARK]: "#F4F3FF",
@@ -106,6 +122,18 @@ const themedVariables: Record<string, Record<Theme, string>> = {
   secondaryToggleBgColor: {
     [Theme.DARK]: "#784DEA",
     [Theme.LIGHT]: "#F4F3FF",
+  },
+  dropdownStrokeColor: {
+    [Theme.DARK]: "#8B85A1",
+    [Theme.LIGHT]: "#F4F3FF",
+  },
+  attentionColor: {
+    [Theme.DARK]: "#79AF8E",
+    [Theme.LIGHT]: "#79AF8E",
+  },
+  dangerColor: {
+    [Theme.DARK]: "#F18E8E",
+    [Theme.LIGHT]: "#F18E8E",
   },
 };
 

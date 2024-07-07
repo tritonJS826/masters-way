@@ -1,7 +1,9 @@
 import {observer} from "mobx-react-lite";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {Infotip} from "src/component/infotip/Infotip";
 import {HeadingLevel, Title} from "src/component/title/Title";
+import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {userStore} from "src/globalStore/UserStore";
 import {getAllCollections} from "src/logic/userPage/UserPage";
@@ -43,12 +45,15 @@ export const GoalBlock = observer((props: GoalBlockProps) => {
   const {user} = userStore;
 
   return (
-    <HorizontalContainer className={styles.goalSection}>
-      <Title
-        level={HeadingLevel.h3}
-        text={LanguageService.way.wayInfo.goal[language]}
-        placeholder={LanguageService.common.emptyMarkdownAction[language]}
-      />
+    <VerticalContainer className={styles.goalSection}>
+      <HorizontalContainer>
+        <Infotip content={LanguageService.way.infotip.goal[language]} />
+        <Title
+          level={HeadingLevel.h3}
+          text={LanguageService.way.wayInfo.goal[language]}
+          placeholder={LanguageService.common.emptyMarkdownAction[language]}
+        />
+      </HorizontalContainer>
       <EditableTextarea
         text={props.goalDescription}
         onChangeFinish={async (goalDescription) => {
@@ -70,6 +75,6 @@ export const GoalBlock = observer((props: GoalBlockProps) => {
           ? LanguageService.common.emptyMarkdownAction[language]
           : LanguageService.common.emptyMarkdown[language]}
       />
-    </HorizontalContainer>
+    </VerticalContainer>
   );
 });

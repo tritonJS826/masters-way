@@ -5,7 +5,6 @@ import (
 	"database/sql"
 	"net/http"
 	"strconv"
-	"time"
 
 	db "mwserver/db/sqlc"
 	"mwserver/schemas"
@@ -25,84 +24,6 @@ type UserController struct {
 
 func NewUserController(db *db.Queries, ctx context.Context) *UserController {
 	return &UserController{db, ctx}
-}
-
-// @Summary Create a new user
-// @Description Email should be unique
-// @Tags user
-// @ID create-user
-// @Accept  json
-// @Produce  json
-// @Param request body schemas.CreateUserPayload true "query params"
-// @Success 200 {object} schemas.UserPlainResponse
-// @Router /users [post]
-func (cc *UserController) CreateUser(ctx *gin.Context) {
-	var payload *schemas.CreateUserPayload
-
-	if err := ctx.ShouldBindJSON(&payload); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	now := time.Now()
-	args := &db.CreateUserParams{
-		Name:        payload.Name,
-		Email:       payload.Email,
-		Description: payload.Description,
-		CreatedAt:   now,
-		ImageUrl:    payload.ImageUrl,
-		IsMentor:    payload.IsMentor,
-		FirebaseID:  payload.FirebaseId,
-	}
-
-	response, err := services.CreateUser(cc.db, ctx, args)
-	if err != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{"error": err.Error()})
-		return
-	}
-
-	ctx.JSON(http.StatusOK, response)
-}
-
-// @Summary Create a new user or return already existent user if user with this firebase id already exist
-// @Description Temporal method. Shod be removed after improving auth logic. Email should be unique
-// @Tags user
-// @ID create-user-if-required
-// @Accept  json
-// @Produce  json
-// @Param request body schemas.CreateUserPayload true "query params"
-// @Success 200 {object} schemas.UserPopulatedResponse
-// @Router /users/getOrCreateByFirebaseId [post]
-func (cc *UserController) GetOrCreateUserByFirebaseId(ctx *gin.Context) {
-	var payload *schemas.CreateUserPayload
-
-	if err := ctx.ShouldBindJSON(&payload); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	now := time.Now()
-	args := &db.CreateUserParams{
-		Name:        payload.Name,
-		Email:       payload.Email,
-		Description: payload.Description,
-		CreatedAt:   now,
-		ImageUrl:    payload.ImageUrl,
-		IsMentor:    payload.IsMentor,
-		FirebaseID:  payload.FirebaseId,
-	}
-
-	populatedUser, err := services.FindOrCreateUserByEmail(cc.db, ctx, args)
-	if err != nil {
-		if err == sql.ErrNoRows {
-			ctx.JSON(http.StatusNotFound, gin.H{"error": "Failed to retrieve user with this ID"})
-			return
-		}
-		ctx.JSON(http.StatusBadGateway, gin.H{"error": err.Error()})
-		return
-	}
-
-	ctx.JSON(http.StatusOK, populatedUser)
 }
 
 // @Summary Update user by UUID

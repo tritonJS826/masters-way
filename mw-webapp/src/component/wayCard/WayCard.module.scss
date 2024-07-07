@@ -1,27 +1,25 @@
 @import "src/styles/variables";
 
-$wayCardMainInfoPadding: $paddingExtraMedium $paddingExtraMedium $paddingMedium;
-$wayCardAdditionalInfoPadding: $paddingMedium $paddingExtraMedium
-  $paddingExtraMedium;
-$wayCardMainHeight: 150px;
-$wayCardAdditionalHeight: 120px;
-$cardLinkFontSize: 16px;
+$wayCardMainHeight: 190px;
+$wayCardAdditionalHeight: 118px;
+
+.cardLink {
+  text-decoration: none;
+}
 
 .wayCardContainer {
+  overflow: hidden;
+  border: $primaryBorder solid var(--primaryStrokeColor);
   border-radius: $secondaryBorderRadius;
-  -webkit-box-shadow: 0px 10px 10px 1px rgba(0, 0, 0, 0.25);
-  -moz-box-shadow: 0px 10px 10px 1px rgba(0, 0, 0, 0.25);
-  box-shadow: 0px 10px 10px 1px rgba(0, 0, 0, 0.25);
   cursor: pointer;
   @include scaleOnHover;
 }
 
 .mainInfo {
   height: $wayCardMainHeight;
-  padding: $wayCardMainInfoPadding;
-  border-radius: $secondaryBorderRadius $secondaryBorderRadius 0 0;
+  padding: $paddingBig $paddingMedium $paddingMedium;
   background-color: var(--generalPrimaryColor);
-  gap: $gapSmall;
+  gap: $gapMedium;
 }
 
 .title {
@@ -39,17 +37,16 @@ $cardLinkFontSize: 16px;
   overflow: hidden;
   -webkit-box-orient: vertical;
   color: var(--secondaryTextColor);
-  font-size: $fontSizeMedium;
+  font-size: $fontSizeBig;
   -webkit-line-clamp: 4;
   text-overflow: ellipsis;
   white-space: initial;
 }
 
 .additionalInfo {
-  height: $wayCardAdditionalHeight;
-  padding: $wayCardAdditionalInfoPadding;
-  border-radius: 0 0 $secondaryBorderRadius $secondaryBorderRadius;
-  background-color: var(--primaryBgColor);
+  min-height: $wayCardAdditionalHeight;
+  padding: $paddingMedium;
+  background-color: var(--additionalInfoCardBgColor);
   color: var(--primaryTextColor);
   font-size: $fontSizeMedium;
   gap: $gapSmall;
@@ -73,7 +70,7 @@ $cardLinkFontSize: 16px;
 .likes {
   align-items: center;
   color: var(--secondaryTextColor);
-  gap: $gapExtraSmall;
+  gap: $gapMedium;
 }
 
 .icon {
@@ -83,7 +80,15 @@ $cardLinkFontSize: 16px;
 
 .people {
   align-items: center;
-  gap: $gapSmall;
+  justify-content: space-between;
+}
+
+.owner {
+  align-items: center;
+}
+
+.avatar {
+  flex-shrink: 0;
 }
 
 .mentors {
@@ -98,10 +103,20 @@ $cardLinkFontSize: 16px;
   justify-content: space-between;
 }
 
-.cardLink {
-  font-size: $cardLinkFontSize;
+.dateText {
+  flex-wrap: wrap;
+}
 
-  &:hover {
-    text-decoration: none;
-  }
+.dateValue {
+  font-weight: $fontWeightBold;
+}
+
+.mainInfoCompositeWay {
+  // Need create a new token for composite way background
+  background-color: var(--attentionColor);
+}
+
+.abandonedWay {
+  // Need create a new token for composite way background
+  background: var(--dangerColor);
 }

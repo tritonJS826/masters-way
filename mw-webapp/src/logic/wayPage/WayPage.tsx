@@ -2,6 +2,7 @@ import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import clsx from "clsx";
 import {observer} from "mobx-react-lite";
+import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Confirm} from "src/component/confirm/Confirm";
 import {Dropdown} from "src/component/dropdown/Dropdown";
@@ -9,12 +10,14 @@ import {DropdownMenuItem, DropdownMenuItemType} from "src/component/dropdown/dro
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
+import {Infotip} from "src/component/infotip/Infotip";
 import {Link} from "src/component/link/Link";
 import {Loader} from "src/component/loader/Loader";
 import {Modal} from "src/component/modal/Modal";
 import {PromptModalContent} from "src/component/modal/PromptModalContent";
 import {displayNotification} from "src/component/notification/displayNotification";
 import {ErrorComponent} from "src/component/privateRecourse/PrivateRecourse";
+import {Separator} from "src/component/separator/Separator";
 import {Tag, TagType} from "src/component/tag/Tag";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
@@ -44,6 +47,7 @@ import {DayReportsTable} from "src/logic/wayPage/reportsTable/dayReportsTable/Da
 import {WayPageStore} from "src/logic/wayPage/WayPageStore";
 import {WayActiveStatistic} from "src/logic/wayPage/wayStatistics/WayActiveStatistic";
 import {MILLISECONDS_IN_DAY, SMALL_CORRECTION_MILLISECONDS, WayStatistic} from "src/logic/wayPage/wayStatistics/WayStatistic";
+import {WayStatus} from "src/logic/waysTable/wayStatus";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Label} from "src/model/businessModel/Label";
 import {Metric} from "src/model/businessModel/Metric";
@@ -387,33 +391,36 @@ export const WayPage = observer((props: WayPageProps) => {
         <VerticalContainer className={styles.wayDashBoardLeft}>
           <VerticalContainer className={styles.wayInfo}>
             <HorizontalContainer className={styles.wayTitleBlock}>
-              <Title
-                level={HeadingLevel.h2}
-                text={way.name}
-                placeholder={LanguageService.common.emptyMarkdown[language]}
-                onChangeFinish={(name) => {
-                  updateWay({
-                    wayToUpdate: {
-                      uuid: way.uuid,
-                      name,
-                    },
+              <HorizontalContainer>
+                <Infotip content={LanguageService.way.infotip.wayName[language]} />
+                <Title
+                  level={HeadingLevel.h2}
+                  text={way.name}
+                  placeholder={LanguageService.common.emptyMarkdown[language]}
+                  onChangeFinish={(name) => {
+                    updateWay({
+                      wayToUpdate: {
+                        uuid: way.uuid,
+                        name,
+                      },
 
-                    /**
-                     * Update way's name
-                     */
-                    setWay: () => way.updateName(name),
-                  });
-                  const allCollections = user && getAllCollections(user.defaultWayCollections, user.customWayCollections);
-                  allCollections?.map((collection) => {
-                    collection.updateWay({
-                      uuid: way.uuid,
-                      name,
+                      /**
+                       * Update way's name
+                       */
+                      setWay: () => way.updateName(name),
                     });
-                  });
-                }}
-                isEditable={isUserOwnerOrMentor}
-                className={styles.wayName}
-              />
+                    const allCollections = user && getAllCollections(user.defaultWayCollections, user.customWayCollections);
+                    allCollections?.map((collection) => {
+                      collection.updateWay({
+                        uuid: way.uuid,
+                        name,
+                      });
+                    });
+                  }}
+                  isEditable={isUserOwnerOrMentor}
+                  className={styles.wayName}
+                />
+              </HorizontalContainer>
 
               <HorizontalContainer className={styles.wayActionButtons}>
                 <Tooltip
@@ -672,11 +679,14 @@ export const WayPage = observer((props: WayPageProps) => {
           </VerticalContainer>
           <VerticalContainer className={styles.metricsBlock}>
             <HorizontalContainer className={styles.horizontalContainer}>
-              <Title
-                level={HeadingLevel.h3}
-                text={LanguageService.way.metricsBlock.metrics[language]}
-                placeholder=""
-              />
+              <HorizontalContainer>
+                <Infotip content={LanguageService.way.infotip.metrics[language]} />
+                <Title
+                  level={HeadingLevel.h3}
+                  text={LanguageService.way.metricsBlock.metrics[language]}
+                  placeholder=""
+                />
+              </HorizontalContainer>
               <Tooltip content={wayPageSettings.isGoalMetricsVisible
                 ? LanguageService.way.metricsBlock.clickToHideMetrics[language]
                 : LanguageService.way.metricsBlock.clickToShowMetrics[language]
@@ -710,11 +720,14 @@ export const WayPage = observer((props: WayPageProps) => {
                 : LanguageService.way.peopleBlock.wayPrivacy.publicTooltip[language]
               }
               >
-                <Title
-                  level={HeadingLevel.h3}
-                  text={LanguageService.way.peopleBlock.wayPrivacy.title[language]}
-                  placeholder=""
-                />
+                <HorizontalContainer>
+                  <Infotip content={LanguageService.way.infotip.privacyStatus[language]} />
+                  <Title
+                    level={HeadingLevel.h3}
+                    text={LanguageService.way.peopleBlock.wayPrivacy.title[language]}
+                    placeholder=""
+                  />
+                </HorizontalContainer>
                 {Symbols.NO_BREAK_SPACE}
                 {way.isPrivate
                   ? LanguageService.way.peopleBlock.wayPrivacy.private[language]
@@ -724,6 +737,7 @@ export const WayPage = observer((props: WayPageProps) => {
             </HorizontalContainer>
 
             <HorizontalContainer className={styles.compositeBlock}>
+              <Infotip content={LanguageService.way.infotip.wayType[language]} />
               <Title
                 level={HeadingLevel.h3}
                 text={LanguageService.way.peopleBlock.wayComposite.title[language]}
@@ -739,30 +753,49 @@ export const WayPage = observer((props: WayPageProps) => {
 
             {isWayComposite &&
               <VerticalContainer className={styles.childWaysBlock}>
-                <Title
-                  level={HeadingLevel.h3}
-                  text={LanguageService.way.peopleBlock.childWays[language]}
-                  placeholder=""
-                />
+                <HorizontalContainer>
+                  <Infotip content={LanguageService.way.infotip.childrenWays[language]} />
+                  <Title
+                    level={HeadingLevel.h3}
+                    text={LanguageService.way.peopleBlock.childWays[language]}
+                    placeholder=""
+                  />
+                </HorizontalContainer>
 
                 {way.children.map((child) => {
-                  return (
-                    <VerticalContainer key={child.uuid}>
-                      <Link
-                        path={pages.way.getPath({uuid: child.uuid})}
-                        className={styles.participantWay}
-                      >
-                        {child.name}
-                      </Link>
-                      <Link
-                        path={pages.user.getPath({uuid: child.owner.uuid})}
-                        className={styles.participantWay}
-                      >
-                        {child.owner.name}
-                      </Link>
-                      {child.status}
-                    </VerticalContainer>
+                  const isAbandoned = child.status === WayStatus.abandoned;
 
+                  return (
+                    <>
+                      <HorizontalContainer
+                        key={child.uuid}
+                        className={styles.childWay}
+                      >
+                        <Avatar
+                          alt={child.owner.name}
+                          src={child.owner.imageUrl}
+                          size={AvatarSize.SMALL}
+                          className={styles.avatar}
+                        />
+                        <VerticalContainer className={clsx(isAbandoned && styles.abandonedWay)}>
+                          <Link
+                            path={pages.way.getPath({uuid: child.uuid})}
+                            className={styles.participantWay}
+                          >
+                            {child.name}
+                          </Link>
+                          <Link
+                            path={pages.user.getPath({uuid: child.owner.uuid})}
+                            className={styles.participantWay}
+                          >
+                            {child.owner.name}
+                          </Link>
+                          {child.status}
+                        </VerticalContainer>
+
+                      </HorizontalContainer>
+                      <Separator />
+                    </>
                   );
                 })
                 }
@@ -770,6 +803,7 @@ export const WayPage = observer((props: WayPageProps) => {
             }
 
             <HorizontalContainer>
+              <Infotip content={LanguageService.way.infotip.wayOwner[language]} />
               <Title
                 level={HeadingLevel.h3}
                 text={LanguageService.way.peopleBlock.waysOwner[language]}
@@ -835,11 +869,14 @@ export const WayPage = observer((props: WayPageProps) => {
 
         <VerticalContainer className={styles.statistics}>
           <HorizontalContainer className={styles.horizontalContainer}>
-            <Title
-              level={HeadingLevel.h3}
-              text={LanguageService.way.statisticsBlock.statistics[language]}
-              placeholder=""
-            />
+            <HorizontalContainer>
+              <Infotip content={LanguageService.way.infotip.statistics[language]} />
+              <Title
+                level={HeadingLevel.h3}
+                text={LanguageService.way.statisticsBlock.statistics[language]}
+                placeholder=""
+              />
+            </HorizontalContainer>
             <Tooltip content={wayPageSettings.isStatisticsVisible
               ? LanguageService.way.statisticsBlock.clickToHideStatistics[language]
               : LanguageService.way.statisticsBlock.clickToShowStatistics[language]

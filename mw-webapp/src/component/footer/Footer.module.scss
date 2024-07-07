@@ -1,52 +1,65 @@
 @import "src/styles/variables";
 
-$userNameFontSize: 16px;
+$logoHeight: 55px;
+$iconSize: 32px;
 
 .footer {
   background-color: var(--quaternaryBgColor);
 }
 
 .footerWrapper {
-  width: 100%;
-  max-width: $maxWidthContainer;
-  justify-content: space-between;
-  padding: $paddingBig $paddingMedium;
-  border-bottom: $primaryBorder solid var(--secondaryStrokeColor);
+  max-width: calc(2 * $paddingMedium + $maxWidthContainer);
+  flex-direction: column;
+  padding: 0 $paddingMedium;
   margin: 0 auto;
+  gap: 0;
+}
+
+.socialLinks {
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: $paddingBig 0;
+}
+
+.ruler {
+  border-top: $primaryBorder solid var(--secondaryStrokeColor);
 }
 
 .privacyLinks {
-  width: 100%;
-  max-width: $maxWidthContainer;
-  padding: $paddingBig $paddingMedium;
-  margin: 0 auto;
+  padding: $paddingSmall 0;
   gap: $gapLarge;
 }
 
 .privacyLink {
   color: var(--secondaryTextColor);
   font-size: $fontSizeBig;
-  text-decoration: none;
 }
 
 .logo {
-  height: 55px;
+  display: block;
+  height: $logoHeight;
   cursor: pointer;
 }
 
 .socialMedia {
   color: var(--secondaryTextColor);
-  gap: $gapSmall;
+  gap: $gapExtraSmall;
 }
 
-.socialMediaIcons {
+.socialMediaText {
+  font-weight: $fontWeightSemibold;
+}
+
+.iconWrapper {
+  display: flex;
+  width: $iconSize;
+  height: $iconSize;
   align-items: center;
+  justify-content: center;
+  border-radius: $tertiaryBorderRadius;
+  background-color: var(--secondaryIconBgColor);
 }
 
 .socialMediaIcon {
-  border: 2px solid var(--secondaryStrokeColor);
-  border-radius: $tertiaryBorderRadius;
-  background-color: var(--iconBgColor);
-  fill: var(--quaternaryBgColor);
-  stroke: none;
+  stroke: var(--tertiaryIconColor);
 }

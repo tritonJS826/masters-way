@@ -1,5 +1,6 @@
 import {ReactElement, ReactNode} from "react";
 import clsx from "clsx";
+import {allWaysAccessIds} from "cypress/accessIds/allWaysAccessIds";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconDictionary, IconSize} from "src/component/icon/Icon";
@@ -115,6 +116,7 @@ export const ViewSwitcher = (props: ViewSwitcherProps) => {
                 name={option.iconName}
               />
             }
+            dataCy={option.view + allWaysAccessIds.filterViewBlock.viewButton}
           />
         </Tooltip>
       ))}

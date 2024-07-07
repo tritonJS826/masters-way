@@ -5,11 +5,14 @@ import {ChevronIcon} from "src/assets/icons/ChevronIcon";
 import {EyeOpenedIcon} from "src/assets/icons/EyeOpenedIcon";
 import {EyeSlashedIcon} from "src/assets/icons/EyeSlashedIcon";
 import {FileIcon} from "src/assets/icons/FileIcon";
+import {FlagIcon} from "src/assets/icons/FlagIcon";
 import {GithubIcon} from "src/assets/icons/GithubIcon";
 import {GlobeIcon} from "src/assets/icons/GlobeIcon";
 import {GridViewIcon} from "src/assets/icons/GridViewIcon";
 import {HomeIcon} from "src/assets/icons/HomeIcon";
+import {InfoIcon} from "src/assets/icons/InfoIcon";
 import {LinkedinIcon} from "src/assets/icons/LinkedinIcon";
+import {MinusIcon} from "src/assets/icons/MinusIcon";
 import {MoonIcon} from "src/assets/icons/MoonIcon";
 import {MoreVertical} from "src/assets/icons/MoreVertical";
 import {PlusIcon} from "src/assets/icons/PlusIcon";
@@ -74,6 +77,11 @@ export const IconDictionary = {
    * Plus icon
    */
   PlusIcon: (params: IconProps) => <PlusIcon {...params} />,
+
+  /**
+   * Minus icon
+   */
+  MinusIcon: (params: IconProps) => <MinusIcon {...params} />,
 
   /**
    * MoreVertical icon
@@ -149,6 +157,16 @@ export const IconDictionary = {
    * Chevron icon
    */
   ChevronIcon: (params: IconProps) => <ChevronIcon {...params} />,
+
+  /**
+   * Chevron icon
+   */
+  InfoIcon: (params: IconProps) => <InfoIcon {...params} />,
+
+  /**
+   * Flag icon
+   */
+  FlagIcon: (params: IconProps) => <FlagIcon {...params} />,
 };
 
 /**

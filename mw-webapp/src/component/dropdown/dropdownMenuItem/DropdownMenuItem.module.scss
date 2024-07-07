@@ -1,14 +1,24 @@
 @import "src/styles/variables";
 
 .dropdownMenuItem {
-  padding: $paddingSmall;
+  padding: $paddingSmall $paddingMedium;
+  font-size: $fontSizeMedium;
+  cursor: pointer;
 
-  &:hover {
-    background-color: var(--secondaryBgColor);
-    cursor: pointer;
+  &:not(:last-child) {
+    border-bottom: $primaryBorder solid var(--dropdownStrokeColor);
+  }
+  &:first-child {
+    border-top-left-radius: $primaryBorderRadius;
+    border-top-right-radius: $primaryBorderRadius;
+  }
+  &:last-child {
+    border-bottom-left-radius: $primaryBorderRadius;
+    border-bottom-right-radius: $primaryBorderRadius;
   }
 
+  &:hover,
   &:active {
-    background-color: var(--generalPrimaryColor);
+    color: var(--tertiaryTextColor);
   }
 }

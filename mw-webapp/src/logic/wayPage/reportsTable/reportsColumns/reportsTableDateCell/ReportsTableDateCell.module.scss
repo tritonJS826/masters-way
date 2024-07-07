@@ -3,6 +3,7 @@
 .dateCell {
   display: block;
   min-width: $minWidthDate;
+  padding: $paddingSmall;
   hyphens: none;
   text-align: center;
   white-space: nowrap;

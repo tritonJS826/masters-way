@@ -2,6 +2,7 @@ const START_OF_ISO_SUBSTRING_RANGE = 0;
 const END_OF_ISO_SUBSTRING_RANGE = 10;
 const DAY_MILLISECONDS = 86400000;
 const ONE_DAY = 1;
+export const MINUTES_IN_HOUR = 60;
 
 /**
  * Type for sortDates generic
@@ -26,6 +27,13 @@ export class DateUtils {
     return date
       .toISOString()
       .substring(START_OF_ISO_SUBSTRING_RANGE, END_OF_ISO_SUBSTRING_RANGE);
+  }
+
+  /**
+   * Format date to string yyyy.mm.dd
+   */
+  public static getShortISODotSplitted(date: Date): string {
+    return DateUtils.getShortISODateValue(date).replaceAll("-", ".");
   }
 
   /**

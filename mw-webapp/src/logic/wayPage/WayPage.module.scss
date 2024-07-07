@@ -17,7 +17,6 @@ $iconContainerSize: 25px;
 }
 
 .wayTitleBlock {
-  align-items: baseline;
   justify-content: space-between;
 }
 
@@ -187,4 +186,13 @@ $iconContainerSize: 25px;
 
 .childWaysBlock {
   gap: $gapExtraSmall;
+}
+
+.childWay {
+  align-items: center;
+}
+
+.abandonedWay {
+  // Need create a new token for composite way background
+  color: var(--dangerColor);
 }

@@ -6,10 +6,12 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"mwserver/config"
 	"mwserver/controllers"
 	dbCon "mwserver/db/sqlc"
+	dbConPGX "mwserver/db_pgx/sqlc"
 	"mwserver/routes"
 	"mwserver/services"
 
@@ -17,6 +19,7 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/jackc/pgx/v5/pgxpool"
 	_ "github.com/lib/pq"
 	ginSwagger "github.com/swaggo/gin-swagger"
 
@@ -24,9 +27,11 @@ import (
 )
 
 var (
-	server *gin.Engine
-	db     *dbCon.Queries
-	ctx    context.Context
+	server  *gin.Engine
+	db      *dbCon.Queries
+	pgxPool *pgxpool.Pool
+	dbPGX   *dbConPGX.Queries
+	ctx     context.Context
 
 	LimitService services.LimitService
 
@@ -98,15 +103,25 @@ var (
 
 	MentorUserWayController controllers.MentorUserWayController
 	MentorUserWayRoutes     routes.MentorUserWayRoutes
+
+	DevController controllers.DevController
+	DevRoutes     routes.DevRoutes
 )
 
 func init() {
 	ctx = context.TODO()
+
+	pgxPool, err := pgxpool.New(ctx, config.Env.DbSource)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Unable to create connection pool: %v\n", err)
+		os.Exit(1)
+	}
+	dbPGX = dbConPGX.New(pgxPool)
+
 	conn, err := sql.Open(config.Env.DbDriver, config.Env.DbSource)
 	if err != nil {
 		log.Fatalf("Could not connect to database: %v", err)
 	}
-
 	db = dbCon.New(conn)
 
 	fmt.Println("PostgreSql connected successfully...")
@@ -129,7 +144,7 @@ func init() {
 	AuthController = *controllers.NewAuthController(db, ctx)
 	AuthRoutes = routes.NewRouteAuth(AuthController)
 
-	WayController = *controllers.NewWayController(db, ctx, &LimitService)
+	WayController = *controllers.NewWayController(db, dbPGX, ctx, &LimitService)
 	WayRoutes = routes.NewRouteWay(WayController)
 
 	UserController = *controllers.NewUserController(db, ctx)
@@ -153,7 +168,7 @@ func init() {
 	FromUserMentoringRequestController = *controllers.NewFromUserMentoringRequestController(db, ctx)
 	FromUserMentoringRequestRoutes = routes.NewRouteFromUserMentoringRequest(FromUserMentoringRequestController)
 
-	JobDoneController = *controllers.NewJobDoneController(db, ctx)
+	JobDoneController = *controllers.NewJobDoneController(db, dbPGX, ctx)
 	JobDoneRoutes = routes.NewRouteJobDone(JobDoneController)
 
 	JobDoneJobTagController = *controllers.NewJobDoneJobTagController(db, ctx)
@@ -196,7 +211,11 @@ func init() {
 	MentorUserWayRoutes = routes.NewRouteMentorUserWay(MentorUserWayController)
 
 	if config.Env.EnvType != "prod" {
+		DevController = *controllers.NewDevController(db, ctx)
+		DevRoutes = routes.NewRouteDev(DevController)
+
 		server.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
 	}
 }
 
@@ -204,6 +223,9 @@ func init() {
 // @version 1.0
 // @BasePath  /api
 func main() {
+	defer db.Close()
+	defer pgxPool.Close()
+
 	router := server.Group("/api")
 
 	router.GET("/healthcheck", func(ctx *gin.Context) {
@@ -233,6 +255,9 @@ func main() {
 	WayTagRoutes.WayTagRoute(router)
 	CompositeWayRoutes.CompositeWayRoute(router)
 	MentorUserWayRoutes.MentorUserWayRoute(router)
+	if config.Env.EnvType != "prod" {
+		DevRoutes.DevRoute(router)
+	}
 
 	server.NoRoute(func(ctx *gin.Context) {
 		ctx.JSON(http.StatusNotFound, gin.H{"status": "failed", "message": fmt.Sprintf("The specified route %s not found", ctx.Request.URL)})

@@ -77,7 +77,7 @@ const TableTest = () => {
   return (
     <Table
       data={tableContent}
-      dataCy={TABLE_CY}
+      dataCy={{dataCyTable: TABLE_CY}}
     />
   );
 };

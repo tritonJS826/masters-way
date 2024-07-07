@@ -2,6 +2,7 @@ import {TrashIcon} from "@radix-ui/react-icons";
 import {observer} from "mobx-react-lite";
 import {Confirm} from "src/component/confirm/Confirm";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {Infotip} from "src/component/infotip/Infotip";
 import {Link} from "src/component/link/Link";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
@@ -65,11 +66,14 @@ export const MentorsSection = observer((props: MentorsSectionProps) => {
 
   return (
     <div>
-      <Title
-        level={HeadingLevel.h3}
-        text={LanguageService.way.peopleBlock.mentors[language]}
-        placeholder=""
-      />
+      <HorizontalContainer>
+        <Infotip content={LanguageService.way.infotip.wayMentors[language]} />
+        <Title
+          level={HeadingLevel.h3}
+          text={LanguageService.way.peopleBlock.mentors[language]}
+          placeholder=""
+        />
+      </HorizontalContainer>
       {mentors.map((mentor) => (
         <HorizontalContainer
           className={styles.alignTrashIcon}

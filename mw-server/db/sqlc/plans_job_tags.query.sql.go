@@ -52,10 +52,13 @@ func (q *Queries) DeletePlansJobTagByIds(ctx context.Context, arg DeletePlansJob
 const getPlansByDayReportUuids = `-- name: GetPlansByDayReportUuids :many
 SELECT 
     uuid, created_at, updated_at, description, time, owner_uuid, is_done, day_report_uuid,
-    ARRAY(
-        SELECT plans_job_tags.job_tag_uuid 
-        FROM plans_job_tags 
-        WHERE plans.uuid = plans_job_tags.plan_uuid
+    COALESCE(
+        ARRAY(
+            SELECT plans_job_tags.job_tag_uuid 
+            FROM plans_job_tags 
+            WHERE plans.uuid = plans_job_tags.plan_uuid
+    ), 
+    '{}'
     )::VARCHAR[] AS tag_uuids
 FROM plans WHERE plans.day_report_uuid = ANY($1::UUID[])
 `

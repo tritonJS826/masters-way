@@ -1,12 +1,12 @@
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import styles from "src/logic/homePage/goalItem/GoalItem.module.scss";
+import styles from "src/logic/homePage/advantageItem/AdvantageItem.module.scss";
 
 /**
- * Goal item props
+ * Advantage item props
  */
-interface GoalItemProps {
+interface AdvantageItemProps {
 
   /**
    * Title text
@@ -20,9 +20,9 @@ interface GoalItemProps {
 }
 
 /**
- * Goal item
+ * Advantage item
  */
-export const GoalItem = (props: GoalItemProps) => {
+export const AdvantageItem = (props: AdvantageItemProps) => {
   return (
     <VerticalContainer className={styles.goalItem}>
       <Icon

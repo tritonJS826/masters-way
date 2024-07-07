@@ -3,6 +3,7 @@ import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalC
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Image} from "src/component/image/Image";
 import {Link} from "src/component/link/Link";
+import {Separator} from "src/component/separator/Separator";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {Language} from "src/globalStore/LanguageStore";
@@ -39,55 +40,76 @@ export const Footer = (props: FooterProps) => {
       data-cy={props.dataCy}
     >
       <HorizontalContainer className={styles.footerWrapper}>
-        <Link
-          className={styles.logo}
-          path={pages.home.getPath({})}
-        >
-          <Image
-            alt={LOGO_TEXT}
-            src={logoLight}
-            className={styles.logo}
-          />
-        </Link>
-        <VerticalContainer className={styles.socialMedia}>
-          <Title
-            level={HeadingLevel.h4}
-            text={LanguageService.home.socialMedia[props.language]}
-            placeholder=""
-          />
-          <HorizontalContainer className={styles.socialMediaIcons}>
-            <Link
-              path="https://linkedin.com/company/masters-way-project"
-              isNewTab
-            >
-              <Icon
-                size={IconSize.MEDIUM}
-                name="LinkedinIcon"
-                className={styles.socialMediaIcon}
-              />
-            </Link>
-            <Link
-              path="https://www.youtube.com/watch?v=DiNNQol15ds&list=PL7eqEW04iXMV2tu_JYAIwerepUTZJjciM"
-              isNewTab
-            >
-              <Icon
-                size={IconSize.MEDIUM}
-                name="YoutubeIcon"
-                className={styles.socialMediaIcon}
-              />
-            </Link>
-          </HorizontalContainer>
-        </VerticalContainer>
-      </HorizontalContainer>
+        <HorizontalContainer className={styles.socialLinks}>
+          <Link path={pages.home.getPath({})}>
+            <Image
+              alt={LOGO_TEXT}
+              src={logoLight}
+              className={styles.logo}
+            />
+          </Link>
+          <VerticalContainer className={styles.socialMedia}>
+            <Title
+              level={HeadingLevel.h4}
+              text={LanguageService.home.socialMedia[props.language]}
+              placeholder=""
+              classNameHeading={styles.socialMediaText}
+            />
+            <HorizontalContainer className={styles.socialMediaIcons}>
+              <Link
+                path="https://linkedin.com/company/masters-way-project"
+                isNewTab
+                ariaLabel={LanguageService.common.socialMediaAriaLabel.linkedIn[props.language]}
+              >
+                <div className={styles.iconWrapper}>
+                  <Icon
+                    size={IconSize.SMALL}
+                    name="LinkedinIcon"
+                    className={styles.socialMediaIcon}
+                  />
+                </div>
+              </Link>
+              <Link
+                path="https://www.youtube.com/watch?v=8QGIjw6oyDA&list=PLif3tyf4TWIlhAV-7AoEpd9fGolkooIxm&index=2"
+                isNewTab
+                ariaLabel={LanguageService.common.socialMediaAriaLabel.youtube[props.language]}
+              >
+                <div className={styles.iconWrapper}>
+                  <Icon
+                    size={IconSize.SMALL}
+                    name="YoutubeIcon"
+                    className={styles.socialMediaIcon}
+                  />
+                </div>
+              </Link>
+              <Link
+                path="https://github.com/tritonJS826/masters-way"
+                isNewTab
+                ariaLabel={LanguageService.common.socialMediaAriaLabel.github[props.language]}
+              >
+                <div className={styles.iconWrapper}>
+                  <Icon
+                    size={IconSize.SMALL}
+                    name="GithubIcon"
+                    className={styles.socialMediaIcon}
+                  />
+                </div>
+              </Link>
+            </HorizontalContainer>
+          </VerticalContainer>
+        </HorizontalContainer>
 
-      <HorizontalContainer className={styles.privacyLinks}>
-        <Link
-          path="https://www.freeprivacypolicy.com/live/febb15f6-017f-45fc-abaf-b4a5d38316b9"
-          className={styles.privacyLink}
-          isNewTab
-        >
-          {LanguageService.common.privacyPolicy[props.language]}
-        </Link>
+        <Separator className={styles.ruler} />
+
+        <HorizontalContainer className={styles.privacyLinks}>
+          <Link
+            path="https://www.freeprivacypolicy.com/live/febb15f6-017f-45fc-abaf-b4a5d38316b9"
+            className={styles.privacyLink}
+            isNewTab
+          >
+            {LanguageService.common.privacyPolicy[props.language]}
+          </Link>
+        </HorizontalContainer>
       </HorizontalContainer>
     </footer>
   );

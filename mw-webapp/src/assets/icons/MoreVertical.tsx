@@ -11,6 +11,9 @@ export const MoreVertical = (props: IconProps) => {
       fill="none"
       className={props.className}
       data-cy={props.dataCy}
+      strokeWidth="1"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     >
       <circle
         cx="12"

@@ -8,6 +8,12 @@ Deploy demo masters way status:
 Deploy demo storybook status:
 [![Netlify Status](https://api.netlify.com/api/v1/badges/004b24b2-f693-4ee8-8321-7a9c1a086261/deploy-status)](https://app.netlify.com/sites/mastersways-storybook/deploys)
 
+DNS status:
+[![DNS Status](https://mastersway.duckdns.org/api/healthcheck)](https://mastersway.duckdns.org/api/healthcheck)
+
+Server direct status:
+[![Server status](http://34.82.43.122/api/healthcheck)](http://34.82.43.122/api/healthcheck)
+
 [Demo Master's Way](https://mastersway.netlify.app/)
 
 [Demo Storybook](https://mastersways-storybook.netlify.app/)

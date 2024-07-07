@@ -4,34 +4,25 @@ $secondaryStatisticItemPadding: 16px;
 
 .statisticItem {
   display: flex;
+  width: 100px;
+  height: 105px;
+  flex-direction: column;
   flex-grow: 1;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
+  padding: $paddingSmall;
   gap: $gapSmall;
   text-align: center;
 }
 
 .primary {
-  width: 104px;
   color: var(--primaryTextColor);
-  text-align: left;
-
-  @media (max-width: $mediaWidthDesktopSmall) {
-    flex-direction: column;
-    justify-content: start;
-  }
 }
 
 .secondary {
-  width: 100px;
-  height: 105px;
-  flex-direction: column;
-  justify-content: start;
-  padding: $paddingSmall;
   border-radius: $secondaryBorderRadius;
   background-color: var(--generalPrimaryColor);
   color: var(--secondaryTextColor);
-  text-align: center;
 }
 
 .statisticValue {
@@ -44,15 +35,6 @@ $secondaryStatisticItemPadding: 16px;
 
 .statisticText {
   font-size: 14px;
-}
-
-.primary .statisticText {
-  max-width: 50px;
-
-  @media (max-width: $mediaWidthDesktopSmall) {
-    max-width: 105px;
-    text-align: center;
-  }
 }
 
 .secondary .statisticText {

@@ -179,36 +179,38 @@ export const BaseWaysTable = observer((props: BaseWaysTableProps) => {
   return (
     <>
       <HorizontalContainer className={styles.wayCollectionActions}>
-        {props.isPageOwner && user &&
-        <Button
-          value={LanguageService.user.personalInfo.createNewWayButton[language]}
-          onClick={() => createWay(user.uuid)}
-          buttonType={ButtonType.PRIMARY}
-        />
-        }
-
         <HorizontalContainer className={styles.filterView}>
-          <Select
-            label={`${LanguageService.user.filterBlock.type[language]}:`}
-            defaultValue={props.filterStatus}
-            name="filterStatus"
-            options={[
-              {id: "1", value: FILTER_STATUS_ALL_VALUE, text: LanguageService.user.filterBlock.typeOptions.all[language]},
-              {id: "2", value: WayStatus.completed, text: LanguageService.user.filterBlock.typeOptions.completed[language]},
-              {id: "3", value: WayStatus.abandoned, text: LanguageService.user.filterBlock.typeOptions.abandoned[language]},
-              {id: "4", value: WayStatus.inProgress, text: LanguageService.user.filterBlock.typeOptions.inProgress[language]},
-            ]}
-            onChange={(value) => props.setFilterStatus(value as WayStatusType)}
-          />
+          {props.isPageOwner && user &&
+            <Button
+              value={LanguageService.user.personalInfo.createNewWayButton[language]}
+              onClick={() => createWay(user.uuid)}
+              buttonType={ButtonType.PRIMARY}
+              className={styles.createWayButton}
+            />
+          }
+          <HorizontalContainer className={styles.filtersViewBlock}>
+            <Select
+              label={`${LanguageService.user.filterBlock.type[language]}:`}
+              defaultValue={props.filterStatus}
+              name="filterStatus"
+              options={[
+                {id: "1", value: FILTER_STATUS_ALL_VALUE, text: LanguageService.user.filterBlock.typeOptions.all[language]},
+                {id: "2", value: WayStatus.completed, text: LanguageService.user.filterBlock.typeOptions.completed[language]},
+                {id: "3", value: WayStatus.abandoned, text: LanguageService.user.filterBlock.typeOptions.abandoned[language]},
+                {id: "4", value: WayStatus.inProgress, text: LanguageService.user.filterBlock.typeOptions.inProgress[language]},
+              ]}
+              onChange={(value) => props.setFilterStatus(value as WayStatusType)}
+            />
 
-          <ViewSwitcher
-            view={props.view}
-            setView={props.setView}
-            options={[
-              renderViewCardOption(LanguageService.common.view.cardViewTooltip[language]),
-              renderViewTableOption(LanguageService.common.view.tableViewTooltip[language]),
-            ]}
-          />
+            <ViewSwitcher
+              view={props.view}
+              setView={props.setView}
+              options={[
+                renderViewCardOption(LanguageService.common.view.cardViewTooltip[language]),
+                renderViewTableOption(LanguageService.common.view.tableViewTooltip[language]),
+              ]}
+            />
+          </HorizontalContainer>
         </HorizontalContainer>
       </HorizontalContainer>
 

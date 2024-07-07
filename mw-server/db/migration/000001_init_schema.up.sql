@@ -8,7 +8,6 @@ CREATE TABLE users(
     "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "image_url" VARCHAR(300) NOT NULL,
     "is_mentor" BOOLEAN NOT NULL,
-    "firebase_id" VARCHAR NOT NULL,
     CONSTRAINT "users_pkey" PRIMARY KEY("uuid")
 );
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
@@ -105,7 +104,7 @@ CREATE TABLE "plans"(
     "uuid" UUID NOT NULL DEFAULT (uuid_generate_v4()),
     "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "description" VARCHAR(1000) NOT NULL,
+    "description" VARCHAR(3000) NOT NULL,
     "time" INTEGER NOT NULL CHECK (time BETWEEN 0 AND 1440),
     "owner_uuid" UUID NOT NULL REFERENCES users("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
     "is_done" BOOLEAN NOT NULL,
@@ -123,7 +122,7 @@ CREATE TABLE "job_dones"(
     "uuid" UUID NOT NULL DEFAULT (uuid_generate_v4()),
     "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "description" VARCHAR(1000) NOT NULL,
+    "description" VARCHAR(3000) NOT NULL,
     "time" INTEGER NOT NULL CHECK (time BETWEEN 0 AND 1440),
     "owner_uuid" UUID NOT NULL REFERENCES users("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
     "day_report_uuid" UUID NOT NULL REFERENCES day_reports("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
@@ -140,7 +139,7 @@ CREATE TABLE "problems"(
     "uuid" UUID NOT NULL DEFAULT (uuid_generate_v4()),
     "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "description" VARCHAR(1000) NOT NULL,
+    "description" VARCHAR(3000) NOT NULL,
     "is_done" BOOLEAN NOT NULL,
     "owner_uuid" UUID NOT NULL REFERENCES users("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
     "day_report_uuid" UUID NOT NULL REFERENCES day_reports("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
@@ -157,7 +156,7 @@ CREATE TABLE "comments"(
     "uuid" UUID NOT NULL DEFAULT (uuid_generate_v4()),
     "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "description" VARCHAR(1000) NOT NULL,
+    "description" VARCHAR(3000) NOT NULL,
     "owner_uuid" UUID NOT NULL REFERENCES users("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
     "day_report_uuid" UUID NOT NULL REFERENCES day_reports("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT "comments_pkey" PRIMARY KEY("uuid")
@@ -266,7 +265,7 @@ FOR EACH ROW
 EXECUTE FUNCTION check_max_likes_to_user();
 
 -- максимальное число лайков которое пользователь может получить от других пользователей
-CREATE FUNCTION check_max_likes_from_user() RETURNS TRIGGER AS $$
+CREATE OR REPLACE FUNCTION check_max_likes_from_user() RETURNS TRIGGER AS $$
 BEGIN
     IF (SELECT COUNT(*) FROM favorite_users WHERE acceptor_user_uuid = NEW.acceptor_user_uuid) > 20000 THEN
         RAISE EXCEPTION 'Exceeded the limit of 20000 like a user can receive from other users';

@@ -1,5 +1,5 @@
 import {getDataCy} from "src/utils/cyTesting/getDataCy";
-import {navigationMenuIds} from "cypress/accessIds/navigationMenuIds";
+import {navigationMenuIds} from "cypress/accessIds/navigationMenuAccessIds";
 
 export const navigationMenuSelectors = {
     getNavigationMenu: () => cy.get(getDataCy(navigationMenuIds.navigationMenu)),
@@ -21,8 +21,7 @@ export const navigationMenuSelectors = {
         languageMenuItems: [
             () => cy.get(getDataCy(navigationMenuIds.language.ruItem)),
             () => cy.get(getDataCy(navigationMenuIds.language.enItem)),
-            () => cy.get(getDataCy(navigationMenuIds.language.uaItem)),
-            () => cy.get(getDataCy(navigationMenuIds.language.kaItem))
+            () => cy.get(getDataCy(navigationMenuIds.language.uaItem))
         ]
     },
 

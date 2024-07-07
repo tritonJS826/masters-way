@@ -9,6 +9,7 @@
 
 .filterView {
   width: 100%;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   @include regularContainer;

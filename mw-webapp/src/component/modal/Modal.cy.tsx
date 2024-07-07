@@ -2,7 +2,7 @@ import {Button} from "src/component/button/Button";
 import {Modal} from "src/component/modal/Modal";
 import {getDataCy} from "src/utils/cyTesting/getDataCy";
 
-const MODAL_CY = {
+export const MODAL_CY = {
   dataCyTrigger: "trigger",
   dataCyContent: {
     dataCyOverlay: "overlay",

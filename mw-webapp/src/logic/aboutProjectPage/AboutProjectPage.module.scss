@@ -2,6 +2,7 @@
 
 // Temporal bottom padding while wave block is not exist
 $aboutBlockPadding: 230px 0;
+$accordionMaxWidth: 1032px;
 
 .title {
   text-align: center;
@@ -62,11 +63,14 @@ $aboutBlockPadding: 230px 0;
 
 .accordionSection {
   align-items: center;
+  padding: $paddingExtraMedium $paddingSmall;
   background-color: var(--generalPrimaryColor);
+  color: var(--secondaryTextColor);
   gap: $gapBig;
 }
 
 .accordion {
   width: 100%;
-  max-width: $maxWidthContainer;
+  max-width: calc($accordionMaxWidth + 2 * $paddingMedium);
+  padding: 0 $paddingMedium;
 }

@@ -26,12 +26,26 @@
   white-space: nowrap;
 }
 
+.compositeWay {
+  height: 100%;
+  // Need create a new token for composite way background
+  background: var(--attentionColor);
+}
+
 .status {
   text-align: center;
 }
 
 .userBlock {
-  flex: 1;
-  align-items: center;
   gap: $gapSmall;
+}
+
+.cellWrapper {
+  padding: $paddingSmall;
+}
+
+.abandonedWay {
+  height: 100%;
+  // Need create a new token for composite way background
+  background: var(--dangerColor);
 }

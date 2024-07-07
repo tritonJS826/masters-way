@@ -65,11 +65,14 @@ SELECT
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
     (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount,
-    (ARRAY(
-        SELECT composite_ways.child_uuid 
-        FROM composite_ways 
-        WHERE composite_ways.parent_uuid = ways.uuid
-    )::VARCHAR[]) AS children_uuids
+    COALESCE(
+        ARRAY(
+            SELECT composite_ways.child_uuid
+            FROM composite_ways
+            WHERE composite_ways.parent_uuid = ways.uuid
+        ), 
+        '{}'
+    )::VARCHAR[] AS children_uuids
 FROM from_user_mentoring_requests
 JOIN ways 
     ON $1 = from_user_mentoring_requests.user_uuid 
@@ -135,7 +138,7 @@ func (q *Queries) GetFromUserMentoringRequestWaysByUserId(ctx context.Context, u
 
 const getFromUserMentoringRequestWaysByWayId = `-- name: GetFromUserMentoringRequestWaysByWayId :many
 SELECT 
-    users.uuid, users.name, users.email, users.description, users.created_at, users.image_url, users.is_mentor, users.firebase_id
+    users.uuid, users.name, users.email, users.description, users.created_at, users.image_url, users.is_mentor
 FROM from_user_mentoring_requests
 JOIN users ON from_user_mentoring_requests.user_uuid = users.uuid
 WHERE from_user_mentoring_requests.way_uuid = $1
@@ -158,7 +161,6 @@ func (q *Queries) GetFromUserMentoringRequestWaysByWayId(ctx context.Context, wa
 			&i.CreatedAt,
 			&i.ImageUrl,
 			&i.IsMentor,
-			&i.FirebaseID,
 		); err != nil {
 			return nil, err
 		}

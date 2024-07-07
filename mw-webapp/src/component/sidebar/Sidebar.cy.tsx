@@ -50,6 +50,7 @@ describe("Sidebar component", () => {
           cy={SIDEBAR_CY}
           trigger={SIDEBAR_TRIGGER}
           linkList={SIDEBAR_LINKS}
+          onOpenStatusChanged={() => {}}
           bottomChildren={<>
             <Button
               onClick={() => {}}

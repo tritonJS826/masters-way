@@ -1,5 +1,6 @@
 import {headerAccessIds} from "cypress/accessIds/headerAccessIds";
-import {navigationMenuIds} from "cypress/accessIds/navigationMenuIds";
+import {navigationMenuIds} from "cypress/accessIds/navigationMenuAccessIds";
+import {TrackHeader} from "src/analytics/headerAnalytics";
 import google from "src/assets/google.svg";
 import logo from "src/assets/mastersWayLogo.svg";
 import logoLight from "src/assets/mastersWayLogoLight.svg";
@@ -22,7 +23,6 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {AuthDAL} from "src/dataAccessLogic/AuthDAL";
 import {Language} from "src/globalStore/LanguageStore";
 import {DEFAULT_THEME, Theme} from "src/globalStore/ThemeStore";
-import {trackUserActivationButton, UserActivationAction, UserActivationLabel} from "src/GoogleAnalytics";
 import {User} from "src/model/businessModel/User";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
@@ -34,7 +34,6 @@ export const languageOptions: SelectItemType<Language>[] = [
   {id: "1", value: Language.ENGLISH, text: "EN", dataCy: navigationMenuIds.language.enItem},
   {id: "2", value: Language.RUSSIAN, text: "RU", dataCy: navigationMenuIds.language.ruItem},
   {id: "3", value: Language.UKRAINIAN, text: "UA", dataCy: navigationMenuIds.language.uaItem},
-  {id: "4", value: Language.GEORGIAN, text: "KA", dataCy: navigationMenuIds.language.kaItem},
 ];
 
 /**
@@ -185,6 +184,7 @@ export const Header = (props: HeaderProps) => {
         className={styles.logo}
         path={pages.home.getPath({})}
         dataCy={headerAccessIds.logo}
+        onClick={TrackHeader.trackLogoClick}
       >
         <ThemedImage
           className={styles.logo}
@@ -196,25 +196,33 @@ export const Header = (props: HeaderProps) => {
           name={LOGO_TEXT}
         />
       </Link>
-      <div className={styles.headerButtonsContainer}>
+      <HorizontalContainer className={styles.headerButtonsContainer}>
+        <HorizontalContainer className={styles.headerThemeLanguageBlock}>
+          <ThemeSwitcher
+            language={props.language}
+            theme={props.theme}
+            onClick={(theme: Theme) => {
+              TrackHeader.trackThemeClick();
+              props.setTheme(theme);
+            }}
+            className={styles.themeSwitcher}
+            dataCy={headerAccessIds.settings.themeSwitcher}
+          />
 
-        <ThemeSwitcher
-          language={props.language}
-          theme={props.theme}
-          setTheme={props.setTheme}
-          className={styles.themeSwitcher}
-          dataCy={headerAccessIds.settings.themeSwitcher}
-        />
-
-        <Select
-          value={props.language}
-          name="language"
-          options={languageOptions}
-          onChange={props.setLanguage}
-          className={styles.selectLanguage}
-        />
-
-        <HorizontalContainer className={styles.rightBlock}>
+          <Select
+            value={props.language}
+            name="language"
+            ariaLabel={LanguageService.header.languageSelectAriaLabel[props.language]}
+            options={languageOptions}
+            onChange={(lang: Language) => {
+              TrackHeader.trackSelectLanguageClick();
+              props.setLanguage(lang);
+            }}
+            className={styles.selectLanguage}
+            cy={{dataCyTrigger: headerAccessIds.settings.language.select, dataCyContentList: "", dataCyValue: ""}}
+          />
+        </HorizontalContainer>
+        <HorizontalContainer className={styles.headerSidebarBlock}>
           {props.user ?
             <Link
               path={pages.user.getPath({uuid: props.user.uuid})}
@@ -229,6 +237,7 @@ export const Header = (props: HeaderProps) => {
                   alt={props.user.name}
                   src={props.user.imageUrl}
                   size={AvatarSize.MEDIUM}
+                  dataCy={headerAccessIds.avatar}
                 />
               </Tooltip>
             </Link>
@@ -236,7 +245,7 @@ export const Header = (props: HeaderProps) => {
             <Modal
               trigger={
                 <Button
-                  onClick={() => {}}
+                  onClick={TrackHeader.trackLoginClick}
                   value={LanguageService.header.loginButton[props.language]}
                   buttonType={ButtonType.PRIMARY}
                   dataCy={headerAccessIds.loginButton}
@@ -260,10 +269,7 @@ export const Header = (props: HeaderProps) => {
                     <VerticalContainer className={styles.loginButtons}>
                       <Button
                         onClick={() => {
-                          trackUserActivationButton({
-                            action: UserActivationAction.GET_STARTED_CLICKED,
-                            label: UserActivationLabel.LOG_IN_CLICKED,
-                          });
+                          TrackHeader.trackLoginWithGoogleClick();
                           AuthDAL.authGoogle();
                         }}
                         className={styles.loginGoogleButton}
@@ -286,6 +292,8 @@ export const Header = (props: HeaderProps) => {
 
           }
           <Sidebar
+            onOpenStatusChanged={TrackHeader.trackBurgerStateChanged}
+            ariaLabel={LanguageService.sidebar.navMenuAriaLabel[props.language]}
             trigger={
               <Icon
                 size={IconSize.SMALL}
@@ -345,31 +353,53 @@ export const Header = (props: HeaderProps) => {
                   className={styles.socialMedia}
                   dataCy={navigationMenuIds.socialMedia.text}
                 >
-                  {LanguageService.sidebar.socialMedia[props.language]}
+                  <Title
+                    level={HeadingLevel.h4}
+                    text={LanguageService.home.socialMedia[props.language]}
+                    placeholder=""
+                    classNameHeading={styles.socialMediaText}
+                  />
                   <HorizontalContainer className={styles.socialMediaIcons}>
                     <Link
-                      className={styles.logo}
-                      dataCy={navigationMenuIds.socialMedia.linkedinLink}
                       path="https://linkedin.com/company/masters-way-project"
                       isNewTab
+                      dataCy={navigationMenuIds.socialMedia.linkedinLink}
+                      ariaLabel={LanguageService.common.socialMediaAriaLabel.linkedIn[props.language]}
                     >
-                      <Icon
-                        size={IconSize.MEDIUM}
-                        name="LinkedinIcon"
-                        className={styles.socialMediaIcon}
-                      />
+                      <div className={styles.iconWrapper}>
+                        <Icon
+                          size={IconSize.SMALL}
+                          name="LinkedinIcon"
+                          className={styles.socialMediaIcon}
+                        />
+                      </div>
                     </Link>
                     <Link
-                      className={styles.logo}
-                      path="https://www.youtube.com/watch?v=DiNNQol15ds&list=PL7eqEW04iXMV2tu_JYAIwerepUTZJjciM"
+                      path="https://www.youtube.com/watch?v=8QGIjw6oyDA&list=PLif3tyf4TWIlhAV-7AoEpd9fGolkooIxm&index=2"
                       isNewTab
                       dataCy={navigationMenuIds.socialMedia.youtubeLink}
+                      ariaLabel={LanguageService.common.socialMediaAriaLabel.youtube[props.language]}
                     >
-                      <Icon
-                        size={IconSize.MEDIUM}
-                        name="YoutubeIcon"
-                        className={styles.socialMediaIcon}
-                      />
+                      <div className={styles.iconWrapper}>
+                        <Icon
+                          size={IconSize.SMALL}
+                          name="YoutubeIcon"
+                          className={styles.socialMediaIcon}
+                        />
+                      </div>
+                    </Link>
+                    <Link
+                      path="https://github.com/tritonJS826/masters-way"
+                      isNewTab
+                      ariaLabel={LanguageService.common.socialMediaAriaLabel.github[props.language]}
+                    >
+                      <div className={styles.iconWrapper}>
+                        <Icon
+                          size={IconSize.SMALL}
+                          name="GithubIcon"
+                          className={styles.socialMediaIcon}
+                        />
+                      </div>
                     </Link>
                   </HorizontalContainer>
                 </VerticalContainer>
@@ -386,7 +416,7 @@ export const Header = (props: HeaderProps) => {
           />
 
         </HorizontalContainer>
-      </div>
+      </HorizontalContainer>
     </header>
   );
 };

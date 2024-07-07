@@ -5,12 +5,10 @@ INSERT INTO users(
     description,
     created_at,
     image_url,
-    is_mentor,
-    firebase_id
+    is_mentor
 ) VALUES (
-    $1, $2, $3, $4, $5, $6, $7
+    $1, $2, $3, $4, $5, $6
 ) RETURNING *;
-
 
 -- name: GetUserById :one
 SELECT * FROM users
@@ -25,11 +23,6 @@ LIMIT 1;
 -- name: GetUserByIds :many
 SELECT * FROM users
 WHERE uuid = ANY($1::UUID[]);
-
--- name: GetUserByFirebaseId :one
-SELECT * FROM users
-WHERE firebase_id = $1
-LIMIT 1;
 
 -- TODO: add filter and sorters
 -- name: ListUsers :many
@@ -46,18 +39,24 @@ SELECT
     (SELECT COUNT(*) FROM mentor_users_ways WHERE mentor_users_ways.user_uuid = users.uuid) AS mentoring_ways_amount,
     (SELECT COUNT(*) FROM favorite_users WHERE favorite_users.acceptor_user_uuid = users.uuid) AS favorite_for_users_amount,
     -- get user tag uuids
-    ARRAY(
-        SELECT user_tags.uuid 
-        FROM user_tags 
-        INNER JOIN users_user_tags ON user_tags.uuid = users_user_tags.user_tag_uuid
-        WHERE users_user_tags.user_uuid = users.uuid
+    COALESCE(
+        ARRAY(
+            SELECT user_tags.uuid 
+            FROM user_tags 
+            INNER JOIN users_user_tags ON user_tags.uuid = users_user_tags.user_tag_uuid
+            WHERE users_user_tags.user_uuid = users.uuid
+        ),
+        '{}'
     )::VARCHAR[] AS tag_uuids,
     -- get user tag names
-    ARRAY(
-        SELECT user_tags.name 
-        FROM user_tags 
-        INNER JOIN users_user_tags ON user_tags.uuid = users_user_tags.user_tag_uuid
-        WHERE users_user_tags.user_uuid = users.uuid
+    COALESCE(
+        ARRAY(
+            SELECT user_tags.name 
+            FROM user_tags 
+            INNER JOIN users_user_tags ON user_tags.uuid = users_user_tags.user_tag_uuid
+            WHERE users_user_tags.user_uuid = users.uuid
+        ),
+        '{}'
     )::VARCHAR[] AS tag_names,
     (SELECT COUNT(*) FROM users) AS users_size
 FROM users

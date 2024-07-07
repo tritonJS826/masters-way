@@ -279,9 +279,6 @@ func Prepare(ctx context.Context, db DBTX) (*Queries, error) {
 	if q.getUserByEmailStmt, err = db.PrepareContext(ctx, getUserByEmail); err != nil {
 		return nil, fmt.Errorf("error preparing query GetUserByEmail: %w", err)
 	}
-	if q.getUserByFirebaseIdStmt, err = db.PrepareContext(ctx, getUserByFirebaseId); err != nil {
-		return nil, fmt.Errorf("error preparing query GetUserByFirebaseId: %w", err)
-	}
 	if q.getUserByIdStmt, err = db.PrepareContext(ctx, getUserById); err != nil {
 		return nil, fmt.Errorf("error preparing query GetUserById: %w", err)
 	}
@@ -317,6 +314,12 @@ func Prepare(ctx context.Context, db DBTX) (*Queries, error) {
 	}
 	if q.listWaysStmt, err = db.PrepareContext(ctx, listWays); err != nil {
 		return nil, fmt.Errorf("error preparing query ListWays: %w", err)
+	}
+	if q.regenerateDbDataStmt, err = db.PrepareContext(ctx, regenerateDbData); err != nil {
+		return nil, fmt.Errorf("error preparing query RegenerateDbData: %w", err)
+	}
+	if q.removeEverythingStmt, err = db.PrepareContext(ctx, removeEverything); err != nil {
+		return nil, fmt.Errorf("error preparing query RemoveEverything: %w", err)
 	}
 	if q.updateCommentStmt, err = db.PrepareContext(ctx, updateComment); err != nil {
 		return nil, fmt.Errorf("error preparing query UpdateComment: %w", err)
@@ -781,11 +784,6 @@ func (q *Queries) Close() error {
 			err = fmt.Errorf("error closing getUserByEmailStmt: %w", cerr)
 		}
 	}
-	if q.getUserByFirebaseIdStmt != nil {
-		if cerr := q.getUserByFirebaseIdStmt.Close(); cerr != nil {
-			err = fmt.Errorf("error closing getUserByFirebaseIdStmt: %w", cerr)
-		}
-	}
 	if q.getUserByIdStmt != nil {
 		if cerr := q.getUserByIdStmt.Close(); cerr != nil {
 			err = fmt.Errorf("error closing getUserByIdStmt: %w", cerr)
@@ -844,6 +842,16 @@ func (q *Queries) Close() error {
 	if q.listWaysStmt != nil {
 		if cerr := q.listWaysStmt.Close(); cerr != nil {
 			err = fmt.Errorf("error closing listWaysStmt: %w", cerr)
+		}
+	}
+	if q.regenerateDbDataStmt != nil {
+		if cerr := q.regenerateDbDataStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing regenerateDbDataStmt: %w", cerr)
+		}
+	}
+	if q.removeEverythingStmt != nil {
+		if cerr := q.removeEverythingStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing removeEverythingStmt: %w", cerr)
 		}
 	}
 	if q.updateCommentStmt != nil {
@@ -1025,7 +1033,6 @@ type Queries struct {
 	getTagsCountByUserIdStmt                    *sql.Stmt
 	getToMentorUserRequestsByWayIdStmt          *sql.Stmt
 	getUserByEmailStmt                          *sql.Stmt
-	getUserByFirebaseIdStmt                     *sql.Stmt
 	getUserByIdStmt                             *sql.Stmt
 	getUserByIdsStmt                            *sql.Stmt
 	getUserTagByNameStmt                        *sql.Stmt
@@ -1038,6 +1045,8 @@ type Queries struct {
 	isAllMetricsDoneStmt                        *sql.Stmt
 	listUsersStmt                               *sql.Stmt
 	listWaysStmt                                *sql.Stmt
+	regenerateDbDataStmt                        *sql.Stmt
+	removeEverythingStmt                        *sql.Stmt
 	updateCommentStmt                           *sql.Stmt
 	updateDayReportStmt                         *sql.Stmt
 	updateJobDoneStmt                           *sql.Stmt
@@ -1140,7 +1149,6 @@ func (q *Queries) WithTx(tx *sql.Tx) *Queries {
 		getTagsCountByUserIdStmt:                    q.getTagsCountByUserIdStmt,
 		getToMentorUserRequestsByWayIdStmt:          q.getToMentorUserRequestsByWayIdStmt,
 		getUserByEmailStmt:                          q.getUserByEmailStmt,
-		getUserByFirebaseIdStmt:                     q.getUserByFirebaseIdStmt,
 		getUserByIdStmt:                             q.getUserByIdStmt,
 		getUserByIdsStmt:                            q.getUserByIdsStmt,
 		getUserTagByNameStmt:                        q.getUserTagByNameStmt,
@@ -1153,6 +1161,8 @@ func (q *Queries) WithTx(tx *sql.Tx) *Queries {
 		isAllMetricsDoneStmt:                        q.isAllMetricsDoneStmt,
 		listUsersStmt:                               q.listUsersStmt,
 		listWaysStmt:                                q.listWaysStmt,
+		regenerateDbDataStmt:                        q.regenerateDbDataStmt,
+		removeEverythingStmt:                        q.removeEverythingStmt,
 		updateCommentStmt:                           q.updateCommentStmt,
 		updateDayReportStmt:                         q.updateDayReportStmt,
 		updateJobDoneStmt:                           q.updateJobDoneStmt,

@@ -61,7 +61,11 @@ const docTemplate = `{
                         "required": true
                     }
                 ],
-                "responses": {}
+                "responses": {
+                    "304": {
+                        "description": "redirect"
+                    }
+                }
             }
         },
         "/auth/logout/{provider}": {
@@ -118,7 +122,11 @@ const docTemplate = `{
                         "required": true
                     }
                 ],
-                "responses": {}
+                "responses": {
+                    "200": {
+                        "description": "ok"
+                    }
+                }
             }
         },
         "/auth/{provider}/callback": {
@@ -133,17 +141,8 @@ const docTemplate = `{
                     "auth"
                 ],
                 "summary": "Log in with google oAuth",
-                "operationId": "google auth log in",
+                "operationId": "google auth log in callback function",
                 "parameters": [
-                    {
-                        "description": "query params",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/schemas.CreateCommentPayload"
-                        }
-                    },
                     {
                         "type": "string",
                         "description": "state parameter",
@@ -161,10 +160,7 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/schemas.CommentPopulatedResponse"
-                        }
+                        "description": "OK"
                     }
                 }
             }
@@ -1615,74 +1611,6 @@ const docTemplate = `{
                         }
                     }
                 }
-            },
-            "post": {
-                "description": "Email should be unique",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "user"
-                ],
-                "summary": "Create a new user",
-                "operationId": "create-user",
-                "parameters": [
-                    {
-                        "description": "query params",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/schemas.CreateUserPayload"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/schemas.UserPlainResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/users/getOrCreateByFirebaseId": {
-            "post": {
-                "description": "Temporal method. Shod be removed after improving auth logic. Email should be unique",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "user"
-                ],
-                "summary": "Create a new user or return already existent user if user with this firebase id already exist",
-                "operationId": "create-user-if-required",
-                "parameters": [
-                    {
-                        "description": "query params",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/schemas.CreateUserPayload"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/schemas.UserPopulatedResponse"
-                        }
-                    }
-                }
             }
         },
         "/users/{userId}": {
@@ -2516,37 +2444,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "wayUuid": {
-                    "type": "string"
-                }
-            }
-        },
-        "schemas.CreateUserPayload": {
-            "type": "object",
-            "required": [
-                "description",
-                "email",
-                "firebaseId",
-                "imageUrl",
-                "isMentor",
-                "name"
-            ],
-            "properties": {
-                "description": {
-                    "type": "string"
-                },
-                "email": {
-                    "type": "string"
-                },
-                "firebaseId": {
-                    "type": "string"
-                },
-                "imageUrl": {
-                    "type": "string"
-                },
-                "isMentor": {
-                    "type": "boolean"
-                },
-                "name": {
                     "type": "string"
                 }
             }

@@ -1,6 +1,11 @@
 @import "src/styles/variables";
 
-$userNameFontSize: 16px;
+$burgerMenuSize: 24px;
+$logoSidebarHeight: 40px;
+$googleIconSize: 20px;
+$loginImageMaxWidth: 457px;
+$loginModalMaxWidth: 914px;
+$iconSize: 32px;
 
 .header {
   display: flex;
@@ -13,29 +18,45 @@ $userNameFontSize: 16px;
   margin: 0 auto;
 }
 
-.logo {
-  height: 55px;
-}
-
 .logoSidebar {
-  height: 40px;
+  height: logoSidebarHeight;
 }
 
 .headerButtonsContainer {
-  display: flex;
-  width: auto;
   align-items: center;
   justify-content: space-between;
-  gap: $gapMedium;
+  gap: $gapExtraLarge;
+
+  @media (max-width: $mediaWidthTablet) {
+    gap: $gapMedium;
+  }
 }
 
 .logo {
   cursor: pointer;
 }
 
-.rightBlock {
+.headerThemeLanguageBlock {
   align-items: center;
-  gap: $gapMedium;
+  gap: $gapBig;
+  @media (max-width: $mediaWidthTablet) {
+    gap: $gapMedium;
+  }
+  @media (max-width: $mediaWidthMobileBig) {
+    gap: $gapSmall;
+  }
+}
+
+.headerSidebarBlock {
+  align-items: center;
+  gap: $gapBig;
+
+  @media (max-width: $mediaWidthTablet) {
+    gap: $gapMedium;
+  }
+  @media (max-width: $mediaWidthMobileBig) {
+    gap: $gapSmall;
+  }
 }
 
 .userAvatar {
@@ -43,11 +64,11 @@ $userNameFontSize: 16px;
 }
 
 .burgerMenu {
-  width: 24px;
-  height: 24px;
+  width: $burgerMenuSize;
+  height: $burgerMenuSize;
   margin-top: 2px;
   cursor: pointer;
-  fill: var(--primaryTextColor);
+  fill: var(--primaryIconColor);
 }
 
 .sidebarItem {
@@ -69,19 +90,6 @@ $userNameFontSize: 16px;
   gap: $gapBig;
 }
 
-.socialMedia {
-  color: var(--secondaryTextColor);
-  gap: $gapSmall;
-}
-
-.socialMediaIcon {
-  border: 2px solid var(--secondaryStrokeColor);
-  border-radius: $tertiaryBorderRadius;
-  background-color: var(--iconBgColor);
-  fill: var(--quaternaryBgColor);
-  stroke: none;
-}
-
 .linkIcon {
   stroke: var(--secondaryStrokeColor);
 }
@@ -96,7 +104,7 @@ $userNameFontSize: 16px;
 .loginModal {
   overflow: hidden;
   width: 90%;
-  max-width: 914px;
+  max-width: $loginModalMaxWidth;
   padding: 0;
   border: none;
   gap: 0;
@@ -108,7 +116,7 @@ $userNameFontSize: 16px;
 
 .loginImage {
   width: 100%;
-  max-width: 457px;
+  max-width: $loginImageMaxWidth;
 
   @media (max-width: $mediaWidthTablet) {
     display: none;
@@ -127,8 +135,8 @@ $userNameFontSize: 16px;
 }
 
 .googleIcon {
-  width: 20px;
-  height: 20px;
+  width: $googleIconSize;
+  height: $googleIconSize;
 }
 
 .loginButtons {
@@ -140,11 +148,34 @@ $userNameFontSize: 16px;
   display: flex;
   justify-content: center;
   padding: $paddingMedium $paddingExtraBig;
-  border: 1px solid var(--primaryStrokeColor);
+  border: $primaryBorder solid var(--primaryStrokeColor);
   border-radius: $secondaryBorderRadius;
   text-decoration: none;
 }
 
 .googleButtonValue {
   gap: $gapSmall;
+}
+
+.socialMedia {
+  color: var(--secondaryTextColor);
+  gap: $gapExtraSmall;
+}
+
+.socialMediaText {
+  font-weight: $fontWeightSemibold;
+}
+
+.iconWrapper {
+  display: flex;
+  width: $iconSize;
+  height: $iconSize;
+  align-items: center;
+  justify-content: center;
+  border-radius: $tertiaryBorderRadius;
+  background-color: var(--secondaryIconBgColor);
+}
+
+.socialMediaIcon {
+  stroke: var(--tertiaryIconColor);
 }

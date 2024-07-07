@@ -3,10 +3,7 @@
 $iconContainerSize: 25px;
 
 .goalSection {
-  flex-direction: column;
-  flex-wrap: nowrap;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  gap: $gapSmall;
 }
 
 .goalDescription {

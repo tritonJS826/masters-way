@@ -13,7 +13,7 @@ export const navigationMenuIds = {
 
     language: {
         text: 'languageText',
-        select: 'languageSelect',
+        select: 'sidebarLanguageSelect',
         ruItem: 'ruItem',
         enItem: 'enItem',
         uaItem: 'uaItem',

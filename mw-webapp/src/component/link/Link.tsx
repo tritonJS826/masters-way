@@ -30,6 +30,11 @@ interface LinkProps {
   isNewTab?: boolean;
 
   /**
+   * Text alternative to an element that has no visible text
+   */
+  ariaLabel?: string;
+
+  /**
    * Callback triggered on Link click
    */
   onClick?: () => void;
@@ -47,6 +52,7 @@ export const Link = (props: PropsWithChildren<LinkProps>) => {
       to={props.path}
       data-cy={props.dataCy}
       onClick={props.onClick}
+      aria-label={props.ariaLabel}
       {...externalLinkAttributes}
     >
       {props.children}

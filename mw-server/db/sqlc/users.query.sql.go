@@ -43,11 +43,10 @@ INSERT INTO users(
     description,
     created_at,
     image_url,
-    is_mentor,
-    firebase_id
+    is_mentor
 ) VALUES (
-    $1, $2, $3, $4, $5, $6, $7
-) RETURNING uuid, name, email, description, created_at, image_url, is_mentor, firebase_id
+    $1, $2, $3, $4, $5, $6
+) RETURNING uuid, name, email, description, created_at, image_url, is_mentor
 `
 
 type CreateUserParams struct {
@@ -57,7 +56,6 @@ type CreateUserParams struct {
 	CreatedAt   time.Time `json:"created_at"`
 	ImageUrl    string    `json:"image_url"`
 	IsMentor    bool      `json:"is_mentor"`
-	FirebaseID  string    `json:"firebase_id"`
 }
 
 func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, error) {
@@ -68,7 +66,6 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, e
 		arg.CreatedAt,
 		arg.ImageUrl,
 		arg.IsMentor,
-		arg.FirebaseID,
 	)
 	var i User
 	err := row.Scan(
@@ -79,7 +76,6 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, e
 		&i.CreatedAt,
 		&i.ImageUrl,
 		&i.IsMentor,
-		&i.FirebaseID,
 	)
 	return i, err
 }
@@ -95,7 +91,7 @@ func (q *Queries) DeleteUser(ctx context.Context, argUuid uuid.UUID) error {
 }
 
 const getUserByEmail = `-- name: GetUserByEmail :one
-SELECT uuid, name, email, description, created_at, image_url, is_mentor, firebase_id FROM users
+SELECT uuid, name, email, description, created_at, image_url, is_mentor FROM users
 WHERE email = $1
 LIMIT 1
 `
@@ -111,35 +107,12 @@ func (q *Queries) GetUserByEmail(ctx context.Context, email string) (User, error
 		&i.CreatedAt,
 		&i.ImageUrl,
 		&i.IsMentor,
-		&i.FirebaseID,
-	)
-	return i, err
-}
-
-const getUserByFirebaseId = `-- name: GetUserByFirebaseId :one
-SELECT uuid, name, email, description, created_at, image_url, is_mentor, firebase_id FROM users
-WHERE firebase_id = $1
-LIMIT 1
-`
-
-func (q *Queries) GetUserByFirebaseId(ctx context.Context, firebaseID string) (User, error) {
-	row := q.queryRow(ctx, q.getUserByFirebaseIdStmt, getUserByFirebaseId, firebaseID)
-	var i User
-	err := row.Scan(
-		&i.Uuid,
-		&i.Name,
-		&i.Email,
-		&i.Description,
-		&i.CreatedAt,
-		&i.ImageUrl,
-		&i.IsMentor,
-		&i.FirebaseID,
 	)
 	return i, err
 }
 
 const getUserById = `-- name: GetUserById :one
-SELECT uuid, name, email, description, created_at, image_url, is_mentor, firebase_id FROM users
+SELECT uuid, name, email, description, created_at, image_url, is_mentor FROM users
 WHERE uuid = $1
 LIMIT 1
 `
@@ -155,13 +128,12 @@ func (q *Queries) GetUserById(ctx context.Context, argUuid uuid.UUID) (User, err
 		&i.CreatedAt,
 		&i.ImageUrl,
 		&i.IsMentor,
-		&i.FirebaseID,
 	)
 	return i, err
 }
 
 const getUserByIds = `-- name: GetUserByIds :many
-SELECT uuid, name, email, description, created_at, image_url, is_mentor, firebase_id FROM users
+SELECT uuid, name, email, description, created_at, image_url, is_mentor FROM users
 WHERE uuid = ANY($1::UUID[])
 `
 
@@ -182,7 +154,6 @@ func (q *Queries) GetUserByIds(ctx context.Context, dollar_1 []uuid.UUID) ([]Use
 			&i.CreatedAt,
 			&i.ImageUrl,
 			&i.IsMentor,
-			&i.FirebaseID,
 		); err != nil {
 			return nil, err
 		}
@@ -211,18 +182,24 @@ SELECT
     (SELECT COUNT(*) FROM mentor_users_ways WHERE mentor_users_ways.user_uuid = users.uuid) AS mentoring_ways_amount,
     (SELECT COUNT(*) FROM favorite_users WHERE favorite_users.acceptor_user_uuid = users.uuid) AS favorite_for_users_amount,
     -- get user tag uuids
-    ARRAY(
-        SELECT user_tags.uuid 
-        FROM user_tags 
-        INNER JOIN users_user_tags ON user_tags.uuid = users_user_tags.user_tag_uuid
-        WHERE users_user_tags.user_uuid = users.uuid
+    COALESCE(
+        ARRAY(
+            SELECT user_tags.uuid 
+            FROM user_tags 
+            INNER JOIN users_user_tags ON user_tags.uuid = users_user_tags.user_tag_uuid
+            WHERE users_user_tags.user_uuid = users.uuid
+        ),
+        '{}'
     )::VARCHAR[] AS tag_uuids,
     -- get user tag names
-    ARRAY(
-        SELECT user_tags.name 
-        FROM user_tags 
-        INNER JOIN users_user_tags ON user_tags.uuid = users_user_tags.user_tag_uuid
-        WHERE users_user_tags.user_uuid = users.uuid
+    COALESCE(
+        ARRAY(
+            SELECT user_tags.name 
+            FROM user_tags 
+            INNER JOIN users_user_tags ON user_tags.uuid = users_user_tags.user_tag_uuid
+            WHERE users_user_tags.user_uuid = users.uuid
+        ),
+        '{}'
     )::VARCHAR[] AS tag_names,
     (SELECT COUNT(*) FROM users) AS users_size
 FROM users
@@ -318,7 +295,7 @@ image_url = coalesce($3, image_url),
 is_mentor = coalesce($4, is_mentor)
 
 WHERE uuid = $5
-RETURNING uuid, name, email, description, created_at, image_url, is_mentor, firebase_id
+RETURNING uuid, name, email, description, created_at, image_url, is_mentor
 `
 
 type UpdateUserParams struct {
@@ -346,7 +323,6 @@ func (q *Queries) UpdateUser(ctx context.Context, arg UpdateUserParams) (User, e
 		&i.CreatedAt,
 		&i.ImageUrl,
 		&i.IsMentor,
-		&i.FirebaseID,
 	)
 	return i, err
 }

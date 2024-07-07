@@ -1,6 +1,6 @@
+@import "src/styles/variables";
+
 .accordionItem {
-  overflow: hidden;
-  border-bottom: 1px solid var(--secondaryStrokeColor);
-  margin-top: 1px;
+  border-bottom: $primaryBorder solid var(--secondaryStrokeColor);
   color: var(--secondaryTextColor);
 }

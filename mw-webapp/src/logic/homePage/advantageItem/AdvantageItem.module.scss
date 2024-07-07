@@ -1,10 +1,10 @@
 @import "src/styles/variables";
 
 .goalItem {
-  display: flex;
-  max-width: $mediumWidthBlock;
-  justify-content: left;
-  gap: $gapSmall;
+  width: 30%;
+  min-width: $minWidthBlock;
+  justify-content: flex-start;
+  gap: $gapMedium;
 }
 
 .goalTitle {
@@ -15,6 +15,7 @@
 
 .goalDescription {
   color: var(--secondaryTextColor);
+  line-height: $lineHeightPrimary;
   text-align: left;
 }
 

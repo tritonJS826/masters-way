@@ -1,5 +1,4 @@
 import {
-  CreateUserRequest,
   GetAllUsersRequest,
   GetUserByUuidRequest,
   SchemasGetAllUsersResponse,
@@ -53,15 +52,6 @@ export class UserService {
     const allUsers = await userService.getAllUsers(requestParameters);
 
     return allUsers;
-  }
-
-  /**
-   * Create user
-   */
-  public static async createUser(requestParameters: CreateUserRequest): Promise<SchemasUserPopulatedResponse> {
-    const user = await userService.createUserIfRequired(requestParameters);
-
-    return user;
   }
 
   /**
