@@ -1,6 +1,11 @@
+import {useState} from "react";
 import {observer} from "mobx-react-lite";
 import {Button} from "src/component/button/Button";
+import {Confirm} from "src/component/confirm/Confirm";
+import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {ProgressBar} from "src/component/progressBar/ProgressBar";
+import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {AIDAL} from "src/dataAccessLogic/AIDAL";
 import {MetricDAL} from "src/dataAccessLogic/MetricDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {GoalMetricItem} from "src/logic/wayPage/goalMetricsBlock/GoalMetricItem";
@@ -52,6 +57,7 @@ interface GoalMetricStatisticsBlockProps {
  */
 export const GoalMetricsBlock = observer((props: GoalMetricStatisticsBlockProps) => {
   const {language} = languageStore;
+  const [generatedMetrics, setGeneratedMetrics] = useState("hi");
 
   /**
    * Add metric
@@ -62,23 +68,6 @@ export const GoalMetricsBlock = observer((props: GoalMetricStatisticsBlockProps)
   };
 
   /**
-   * Render button Add goal metrics
-   */
-  const renderButtonAddMetrics = () => {
-    return (
-      <>
-        {props.isEditable && (
-          <Button
-            value={LanguageService.way.metricsBlock.addNewGoalMetricButton[language]}
-            onClick={addMetric}
-          />
-        )
-        }
-      </>
-    );
-  };
-
-  /**
    * Delete metric
    */
   const deleteMetric = async (metricUuid: string) => {
@@ -86,19 +75,29 @@ export const GoalMetricsBlock = observer((props: GoalMetricStatisticsBlockProps)
     await MetricDAL.deleteMetric(metricUuid);
   };
 
-  /**
-   * Render goal metrics
-   */
-  const renderGoalMetrics = (metrics: Metric[]) => {
-    const doneMetricsAmount = metrics.filter((metric) => !!metric.isDone).length;
+  const doneMetricsAmount = props.goalMetrics.filter((metric) => !!metric.isDone).length;
 
-    return (
-      <div className={styles.goalMetricsBlock}>
+  /**
+   * Generate AI metrics
+   */
+  const generateAIMetrics = async () => {
+    const metrics = await AIDAL.generateMetrics({
+      goalDescription: "goal",
+      metrics: props.goalMetrics,
+      wayName: "way",
+    });
+
+    setGeneratedMetrics(metrics);
+  };
+
+  return (
+    props.isVisible &&
+      <VerticalContainer className={styles.goalMetricsBlock}>
         <ProgressBar
           value={doneMetricsAmount}
           max={props.goalMetrics.length}
         />
-        {metrics.map((metric) => {
+        {props.goalMetrics.map((metric) => {
           return (
             <GoalMetricItem
               key={metric.uuid}
@@ -109,18 +108,29 @@ export const GoalMetricsBlock = observer((props: GoalMetricStatisticsBlockProps)
           );
         })
         }
-      </div>
-    );
-  };
+        {props.isEditable &&
+        <HorizontalContainer>
+          <Button
+            value={LanguageService.way.metricsBlock.addNewGoalMetricButton[language]}
+            onClick={addMetric}
+          />
+          <Confirm
+            trigger={
+              <Button
+                value={LanguageService.way.metricsBlock.generateNewGoalMetricsWithAIButton[language]}
+                onClick={() => generateAIMetrics()}
+              />
+            }
+            content={<>
+              {generatedMetrics}
+            </>}
+            onOk={() => {}}
+            okText={LanguageService.way.metricsBlock.addNewGoalMetricsButton[language]}
+            cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
+          />
+        </HorizontalContainer>
+        }
+      </VerticalContainer>
 
-  return (
-    <>
-      {props.isVisible &&
-        <>
-          {renderGoalMetrics(props.goalMetrics)}
-          {renderButtonAddMetrics()}
-        </>
-      }
-    </>
   );
 });

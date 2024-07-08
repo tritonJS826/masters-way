@@ -6,6 +6,7 @@ import (
 
 	"mwserver/schemas"
 	"mwserver/services"
+	"mwserver/util"
 
 	"github.com/gin-gonic/gin"
 )
@@ -37,6 +38,7 @@ func (cc *AIController) GenerateMetrics(ctx *gin.Context) {
 	}
 
 	message, err := services.GetMetricsByGoal(ctx, &payload)
+	util.HandleErrorGin(ctx, err)
 	response := &schemas.AIResponse{
 		Answer: message,
 	}

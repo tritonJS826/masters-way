@@ -1,5 +1,6 @@
 // @ts-nocheck
 /* eslint-disable */
+export * from './SchemasAIResponse';
 export * from './SchemasAddWayToCompositeWayPayload';
 export * from './SchemasCommentPopulatedResponse';
 export * from './SchemasCompositeWayRelation';
@@ -26,6 +27,7 @@ export * from './SchemasCreateWayTagPayload';
 export * from './SchemasDayReportPopulatedResponse';
 export * from './SchemasDefaultWayCollections';
 export * from './SchemasDeleteMentorUserWayPayload';
+export * from './SchemasGenerateMetricsPayload';
 export * from './SchemasGetAllUsersResponse';
 export * from './SchemasGetAllWaysResponse';
 export * from './SchemasJobDonePopulatedResponse';
