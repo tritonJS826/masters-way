@@ -67,6 +67,8 @@ export const BarChart = observer((props: BarChartProps) => {
     indexAxis: "y" as const,
     scales: {
       x: {
+        min: 0,
+        max: dataSet.reduce((accum, item) => (accum + item.data[0]), 0),
         stacked: true,
         display: false,
       },
@@ -86,6 +88,8 @@ export const BarChart = observer((props: BarChartProps) => {
         text: "",
       },
     },
+    maintainAspectRatio: false,
+    responsive: true,
   };
 
   return (
