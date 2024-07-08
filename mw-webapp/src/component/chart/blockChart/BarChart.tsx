@@ -81,6 +81,8 @@ export const BarChart = observer((props: BarChartProps) => {
         text: "",
       },
     },
+    maintainAspectRatio: false,
+    responsive: true,
   };
 
   return (
