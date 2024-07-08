@@ -1,7 +1,9 @@
+apis/AIApi.ts
 apis/AuthApi.ts
 apis/CommentApi.ts
 apis/CompositeWayApi.ts
 apis/DayReportApi.ts
+apis/DevApi.ts
 apis/FavoriteUserApi.ts
 apis/FavoriteUserWayApi.ts
 apis/FromUserMentoringRequestApi.ts
@@ -23,6 +25,7 @@ apis/WayCollectionWayApi.ts
 apis/WayTagApi.ts
 apis/index.ts
 index.ts
+models/SchemasAIResponse.ts
 models/SchemasAddWayToCompositeWayPayload.ts
 models/SchemasCommentPopulatedResponse.ts
 models/SchemasCompositeWayRelation.ts
@@ -49,6 +52,7 @@ models/SchemasCreateWayTagPayload.ts
 models/SchemasDayReportPopulatedResponse.ts
 models/SchemasDefaultWayCollections.ts
 models/SchemasDeleteMentorUserWayPayload.ts
+models/SchemasGenerateMetricsPayload.ts
 models/SchemasGetAllUsersResponse.ts
 models/SchemasGetAllWaysResponse.ts
 models/SchemasJobDonePopulatedResponse.ts

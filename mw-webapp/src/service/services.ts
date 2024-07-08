@@ -1,4 +1,5 @@
 import {
+  AIApi,
   AuthApi,
   CommentApi,
   CompositeWayApi,
@@ -105,3 +106,4 @@ export const favoriteUserWayService = new FavoriteUserWayApi(configuration);
 export const fromUserMentoringRequest = new FromUserMentoringRequestApi(configuration);
 export const mentorUserWay = new MentorUserWayApi(configuration);
 export const compositeWayService = new CompositeWayApi(configuration);
+export const aiService = new AIApi(configuration);
