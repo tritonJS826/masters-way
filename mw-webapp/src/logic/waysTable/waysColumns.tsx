@@ -157,7 +157,10 @@ export const getWaysColumns = (language: Language) => [
         (row.original.status === WayStatus.abandoned) && styles.abandonedWay,
       )}
       >
-        <Link path={pages.way.getPath({uuid: row.original.uuid})}>
+        <Link
+          path={pages.way.getPath({uuid: row.original.uuid})}
+          dataCy={allWaysAccessIds.allWaysTable.wayLink}
+        >
           {row.original.name}
         </Link>
         <Tooltip

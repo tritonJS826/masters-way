@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import clsx from "clsx";
+import {wayDescriptionAccessIds} from "cypress/accessIds/wayDescriptionAccessIds";
 import {observer} from "mobx-react-lite";
 import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
 import {Button, ButtonType} from "src/component/button/Button";
@@ -394,6 +395,7 @@ export const WayPage = observer((props: WayPageProps) => {
               <HorizontalContainer>
                 <Infotip content={LanguageService.way.infotip.wayName[language]} />
                 <Title
+                  dataCy = {wayDescriptionAccessIds.wayDashBoardLeft.title}
                   level={HeadingLevel.h2}
                   text={way.name}
                   placeholder={LanguageService.common.emptyMarkdown[language]}

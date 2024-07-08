@@ -6,7 +6,8 @@ export const allWaysAccessIds = {
         tableTh: 'tableTh',
         tableBodyTr: 'tableBodyTr',
         tableBodyTd: 'tableBodyTd',
-        ownerLink: 'ownerLink'
+        ownerLink: 'ownerLink',
+        wayLink: 'wayLink'
     },
 
     filterViewBlock: {

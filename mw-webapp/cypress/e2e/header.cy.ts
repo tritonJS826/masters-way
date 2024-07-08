@@ -7,16 +7,16 @@ import sideBarContent from "src/dictionary/Sidebar.json";
 import testUserData from "cypress/fixtures/testUserDataFixture.json";
 import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
 
-afterEach(() => {
-    cy.clearAllStorage();
-});
-
 describe('NoAuth Header scope tests', () => {
 
     beforeEach(() => {
       cy.visit('/');
     });
   
+    afterEach(() => {
+        cy.clearAllStorage();
+    });
+
     it('NoAuth_Header_MasterWayIcon', () => {
         headerSelectors.getLogo().click();
 
@@ -78,6 +78,11 @@ describe('IsAuth Header scope tests', () => {
 
     beforeEach(() => {
         cy.visit(testUserData.userLoginLink);  
+    });
+
+    afterEach(() => {
+        cy.clearAllStorage();
+        cy.request('GET', 'http://localhost:8000/api/dev/reset-db');
     });
 
     it('IsAuth_Header_UserNameLink', () => {

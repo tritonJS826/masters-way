@@ -11,6 +11,7 @@ export const allWaysSelectors = {
         getTableBodyTr: () => cy.get(getDataCy(allWaysAccessIds.allWaysTable.tableBodyTr)),
         getTableBodyTd: () => cy.get(getDataCy(allWaysAccessIds.allWaysTable.tableBodyTd)),
         getOwnerLink: () => cy.get(getDataCy(allWaysAccessIds.allWaysTable.ownerLink)),
+        getWayLink: () => cy.get(getDataCy(allWaysAccessIds.allWaysTable.wayLink)),
     },
 
     filterViewBlock: {
