@@ -20,7 +20,6 @@ const defaultUser: UserNotSaturatedWay = {
   email: "ekaterina@gmail.com",
   description: "front-end developer",
   createdAt: new Date(),
-  favoriteUserUuids: [],
   favoriteForUsers: 2,
   favoriteWays: 2,
   mentoringWays: 3,

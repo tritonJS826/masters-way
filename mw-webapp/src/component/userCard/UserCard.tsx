@@ -9,10 +9,8 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {languageStore} from "src/globalStore/LanguageStore";
-import {
-  UserNotSaturatedWay,
-  UserTag,
-} from "src/model/businessModelPreview/UserNotSaturatedWay";
+import {UserTag} from "src/model/businessModel/User";
+import {UserNotSaturatedWay} from "src/model/businessModelPreview/UserNotSaturatedWay";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import {DateUtils} from "src/utils/DateUtils";

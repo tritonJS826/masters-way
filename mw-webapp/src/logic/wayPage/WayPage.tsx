@@ -23,7 +23,6 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {UserPlainToUserPreviewShortConverter} from "src/dataAccessLogic/BusinessToDTOConverter/userPlainToUserPreviewShort";
 import {CompositeWayDAL} from "src/dataAccessLogic/CompositeWayDAL";
 import {CreateDayReportParams, DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {FavoriteUserWayDAL} from "src/dataAccessLogic/FavoriteUserWayDAL";
@@ -369,13 +368,9 @@ export const WayPage = observer((props: WayPageProps) => {
   const compositeWayFormerMentorsParticipant = way.children.reduce((acc: UserPlain[], child) =>
     acc.concat(Array.from(child.formerMentors.values())), Array.from(way.formerMentors.values()));
 
-  const compositeWayMentorsParticipantConverted = compositeWayMentorsParticipant.map(UserPlainToUserPreviewShortConverter);
-  const compositeWayFormerMentorsParticipantConverted = compositeWayFormerMentorsParticipant
-    .map(UserPlainToUserPreviewShortConverter);
-
   const compositeWayParticipants = compositeWayOwnersParticipant
-    .concat(compositeWayMentorsParticipantConverted)
-    .concat(compositeWayFormerMentorsParticipantConverted);
+    .concat(compositeWayMentorsParticipant)
+    .concat(compositeWayFormerMentorsParticipant);
 
   const favoriteTooltipTextForLoggedUser = isWayInFavorites
     ? LanguageService.way.wayInfo.deleteFromFavoritesTooltip[language]

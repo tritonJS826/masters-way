@@ -10,8 +10,8 @@ import {languageStore} from "src/globalStore/LanguageStore";
 import {Columns} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
 import {ReportsTable} from "src/logic/wayPage/reportsTable/ReportsTable";
 import {DayReport} from "src/model/businessModel/DayReport";
+import {UserPlain} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
-import {UserPreviewShort} from "src/model/businessModelPreview/UserPreviewShort";
 import {LanguageService} from "src/service/LanguageService";
 import {arrayToHashMap} from "src/utils/arrayToHashMap";
 import styles from "src/logic/wayPage/reportsTable/dayReportsTable/DayReportsTable.module.scss";
@@ -29,7 +29,7 @@ interface DayReportsTableProps {
   /**
    * Composite way participants
    */
-  compositeWayParticipant: UserPreviewShort[];
+  compositeWayParticipant: UserPlain[];
 
   /**
    * Create new day report

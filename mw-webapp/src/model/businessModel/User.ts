@@ -1,6 +1,4 @@
 import {makeAutoObservable} from "mobx";
-import {UserPreviewShort} from "src/model/businessModelPreview/UserPreviewShort";
-import {WayNotSaturatedUser} from "src/model/businessModelPreview/WayNotSaturatedUser";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 
@@ -286,9 +284,9 @@ interface UserProps {
   isMentor: boolean;
 
   /**
-   * Way's that requested user become a mentor {@link WayNotSaturatedUser}
+   * Way's that requested user become a mentor {@link WayPreview}
    */
-  wayRequests: WayNotSaturatedUser[];
+  wayRequests: WayPreview[];
 }
 
 /**
@@ -357,9 +355,9 @@ export class User {
   public isMentor: boolean;
 
   /**
-   * Way's that requested user become a mentor {@link WayNotSaturatedUser}
+   * Way's that requested user become a mentor {@link WayPreview}
    */
-  public wayRequests: WayNotSaturatedUser[];
+  public wayRequests: WayPreview[];
 
   constructor(userData: UserProps) {
     makeAutoObservable(this);
@@ -497,7 +495,7 @@ export class User {
    */
   private updateDefaultWayCollections(updateKey: keyof User, updateValue: User["name"] | User["isMentor"]) {
     const ways = this.defaultWayCollections.own.ways.map((way) => {
-      const owner = new UserPreviewShort({...way.owner, [updateKey]: updateValue});
+      const owner = new UserPlain({...way.owner, [updateKey]: updateValue});
 
       return new WayPreview({
         ...way,

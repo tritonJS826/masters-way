@@ -4,7 +4,6 @@ import {DayReport} from "src/model/businessModel/DayReport";
 import {Label} from "src/model/businessModel/Label";
 import {Metric} from "src/model/businessModel/Metric";
 import {UserPlain} from "src/model/businessModel/User";
-import {UserPreviewShort} from "src/model/businessModelPreview/UserPreviewShort";
 import {WayTag} from "src/model/businessModelPreview/WayTag";
 
 /**
@@ -30,7 +29,7 @@ interface WayProps {
   /**
    * Way's owner
    */
-  owner: UserPreviewShort;
+  owner: UserPlain;
 
   /**
    * Mentors of this way
@@ -136,7 +135,7 @@ export class Way {
   /**
    * Way's owner
    */
-  public owner: UserPreviewShort;
+  public owner: UserPlain;
 
   /**
    * Mentors of this way
@@ -223,7 +222,7 @@ export class Way {
     this.uuid = wayData.uuid;
     this.name = wayData.name;
     this.dayReports = wayData.dayReports.map(report => new DayReport(report));
-    this.owner = new UserPreviewShort(wayData.owner);
+    this.owner = new UserPlain(wayData.owner);
     this.mentors = new Map<string, UserPlain>(wayData.mentors);
     this.mentorRequests = wayData.mentorRequests.map(mentorRequest => new UserPlain(mentorRequest));
     this.status = wayData.status;

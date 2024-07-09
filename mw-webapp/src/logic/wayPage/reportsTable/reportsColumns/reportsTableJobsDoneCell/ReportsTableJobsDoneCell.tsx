@@ -23,8 +23,7 @@ import {getFirstName} from "src/logic/waysTable/waysColumns";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {Label} from "src/model/businessModel/Label";
-import {User} from "src/model/businessModel/User";
-import {UserPreviewShort} from "src/model/businessModelPreview/UserPreviewShort";
+import {User, UserPlain} from "src/model/businessModel/User";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import {Symbols} from "src/utils/Symbols";
@@ -73,7 +72,7 @@ interface ReportsTableJobsDoneCellProps {
   /**
    * Way's participants
    */
-  wayParticipantsMap: SafeMap<string, UserPreviewShort>;
+  wayParticipantsMap: SafeMap<string, UserPlain>;
 
   /**
    * All labels

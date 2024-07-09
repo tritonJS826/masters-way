@@ -1,6 +1,6 @@
 import {userToUserDTOPartial} from "src/dataAccessLogic/BusinessToDTOConverter/userToUserDTOPartial";
 import {UserDTOToUserConverter} from "src/dataAccessLogic/DTOToPreviewConverter/userDTOToUser";
-import {UserDTOToUserNotSaturatedWayConverter}
+import {userDTOToUserNotSaturatedWayConverter}
   from "src/dataAccessLogic/DTOToPreviewConverter/userDTOToUserNotSaturatedWayConverter";
 import {User} from "src/model/businessModel/User";
 import {UserNotSaturatedWay} from "src/model/businessModelPreview/UserNotSaturatedWay";
@@ -34,7 +34,7 @@ export class UserDAL {
   public static async getUsers(params: GetUsersParams): Promise<AllUsersParams> {
     const usersDTO = await UserService.getAllUsers(params);
 
-    const usersPreview = usersDTO.users.map(UserDTOToUserNotSaturatedWayConverter);
+    const usersPreview = usersDTO.users.map(userDTOToUserNotSaturatedWayConverter);
 
     const users = {
       size: usersDTO.size,

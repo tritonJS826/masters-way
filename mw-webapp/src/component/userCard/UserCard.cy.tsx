@@ -13,7 +13,6 @@ const USER_PREVIEW_DATA: UserNotSaturatedWay = {
   email: "test.tester@gmail.com",
   description: "",
   createdAt: new Date(),
-  favoriteUserUuids: [],
   favoriteForUsers: 2,
   tags: USER_TAGS,
   imageUrl: "",
