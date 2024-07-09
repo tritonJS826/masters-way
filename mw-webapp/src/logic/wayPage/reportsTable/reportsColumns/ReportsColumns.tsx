@@ -14,8 +14,8 @@ import {ReportsTablePlansCell} from "src/logic/wayPage/reportsTable/reportsColum
 import {ReportsTableProblemsCell}
   from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableProblemsCell/ReportsTableProblemsCell";
 import {DayReport} from "src/model/businessModel/DayReport";
+import {UserPlain} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
-import {UserPreviewShort} from "src/model/businessModelPreview/UserPreviewShort";
 import {LanguageService} from "src/service/LanguageService";
 import {Symbols} from "src/utils/Symbols";
 import styles from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns.module.scss";
@@ -57,7 +57,7 @@ interface ColumnsProps {
   /**
    * Way's participants
    */
-  wayParticipantsMap: Map<string, UserPreviewShort>;
+  wayParticipantsMap: Map<string, UserPlain>;
 
   /**
    * Create new day report

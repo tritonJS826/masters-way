@@ -2,7 +2,7 @@ import {BrowserRouter} from "react-router-dom";
 import type {StoryObj} from "@storybook/react";
 import {WayCard} from "src/component/wayCard/WayCard";
 import {WayStatus} from "src/logic/waysTable/wayStatus";
-import {UserPreviewShort} from "src/model/businessModelPreview/UserPreviewShort";
+import {UserPlain} from "src/model/businessModel/User";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 
 const meta = {
@@ -16,7 +16,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const defaultWayOwner: UserPreviewShort = {
+const defaultWayOwner: UserPlain = {
   uuid: "user1",
   name: "Ekaterina Ver",
   email: "ekaterina@gmail.com",

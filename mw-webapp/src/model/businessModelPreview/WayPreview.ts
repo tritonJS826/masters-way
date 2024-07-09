@@ -1,7 +1,6 @@
 import {makeAutoObservable} from "mobx";
 import {WayStatusType} from "src/logic/waysTable/wayStatus";
 import {UserPlain} from "src/model/businessModel/User";
-import {UserPreviewShort} from "src/model/businessModelPreview/UserPreviewShort";
 import {WayTag} from "src/model/businessModelPreview/WayTag";
 
 /**
@@ -27,7 +26,7 @@ export class WayPreview {
   /**
    * Way's owner
    */
-  public owner: UserPreviewShort;
+  public owner: UserPlain;
 
   /**
    * Mentors of this way

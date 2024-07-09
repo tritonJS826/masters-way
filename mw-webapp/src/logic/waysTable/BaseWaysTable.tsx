@@ -19,7 +19,7 @@ import {userStore} from "src/globalStore/UserStore";
 import {getWaysColumns} from "src/logic/waysTable/waysColumns";
 import {WaysTable} from "src/logic/waysTable/WaysTable";
 import {WayStatus, WayStatusType} from "src/logic/waysTable/wayStatus";
-import {WayCollection} from "src/model/businessModelPreview/UserPreview";
+import {WayCollection} from "src/model/businessModel/User";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
@@ -275,7 +275,7 @@ export const BaseWaysTable = observer((props: BaseWaysTableProps) => {
                   onOk={() => {
                     if (props.updateCollection) {
                       props.updateCollection(
-                        {wayUuids: props.ways.map(way => way.uuid).filter(uuid => uuid !== notExistentWayUuid)});
+                        {ways: props.ways.filter(uuid => uuid !== notExistentWayUuid)});
                     }
                   }}
                   okText={LanguageService.modals.confirmModal.okButton[language]}

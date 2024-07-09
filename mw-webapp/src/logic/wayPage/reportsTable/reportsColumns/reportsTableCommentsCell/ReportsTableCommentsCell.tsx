@@ -16,9 +16,8 @@ import {SummarySection} from "src/logic/wayPage/reportsTable/reportsColumns/summ
 import {getFirstName} from "src/logic/waysTable/waysColumns";
 import {Comment} from "src/model/businessModel/Comment";
 import {DayReport} from "src/model/businessModel/DayReport";
-import {User} from "src/model/businessModel/User";
+import {User, UserPlain} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
-import {UserPreviewShort} from "src/model/businessModelPreview/UserPreviewShort";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableCommentsCell/ReportsTableCommentsCell.module.scss";
@@ -51,7 +50,7 @@ interface ReportsTableCommentsCellProps {
   /**
    * Way's participants
    */
-  wayParticipantsMap: SafeMap<string, UserPreviewShort>;
+  wayParticipantsMap: SafeMap<string, UserPlain>;
 
 }
 

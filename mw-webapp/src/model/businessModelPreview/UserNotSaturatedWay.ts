@@ -1,20 +1,5 @@
 import {makeAutoObservable} from "mobx";
-
-/**
- * User tag data
- */
-export type UserTag = {
-
-  /**
-   * User tag uuid
-   */
-  uuid: string;
-
-  /**
-   * User tag name
-   */
-  name: string;
-};
+import {UserTag} from "src/model/businessModel/User";
 
 /**
  * User preview model
@@ -62,11 +47,6 @@ export class UserNotSaturatedWay {
   public createdAt: Date;
 
   /**
-   * Uuids of users who you liked
-   */
-  public favoriteUserUuids: string[];
-
-  /**
    * User's tags {@link UserTag}
    */
   public tags: UserTag[];
@@ -96,7 +76,6 @@ export class UserNotSaturatedWay {
     this.favoriteWays = userData.favoriteWays;
     this.mentoringWays = userData.mentoringWays;
     this.createdAt = userData.createdAt;
-    this.favoriteUserUuids = userData.favoriteUserUuids;
     this.favoriteForUsers = userData.favoriteForUsers;
     this.tags = userData.tags;
     this.imageUrl = userData.imageUrl;

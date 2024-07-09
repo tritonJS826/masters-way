@@ -3,9 +3,8 @@ import {DayReportDTOToDayReport} from "src/dataAccessLogic/DTOToPreviewConverter
 import {getWayStatus, WayStatus} from "src/logic/waysTable/wayStatus";
 import {Label} from "src/model/businessModel/Label";
 import {Metric} from "src/model/businessModel/Metric";
+import {UserPlain} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
-import {UserPreview} from "src/model/businessModelPreview/UserPreview";
-import {UserPreviewShort} from "src/model/businessModelPreview/UserPreviewShort";
 import {arrayToHashMap} from "src/utils/arrayToHashMap";
 
 /**
@@ -17,31 +16,19 @@ export const wayDTOToWay = (wayDTO: SchemasWayPopulatedResponse): Way => {
     lastUpdate: new Date(wayDTO.updatedAt),
   });
 
-  const owner = new UserPreviewShort({
+  const owner = new UserPlain({
     ...wayDTO.owner,
     createdAt: new Date(wayDTO.owner.createdAt),
   });
 
-  const mentors = wayDTO.mentors.map((mentor) => new UserPreview({
+  const mentors = wayDTO.mentors.map((mentor) => new UserPlain({
     ...mentor,
-    customWayCollections: [],
-    favoriteForUserUuids: [],
-    favoriteUserUuids: [],
-    tags: [],
-    wayRequests: [],
     createdAt: new Date(mentor.createdAt),
-    imageUrl: mentor.imageUrl ?? "",
   }));
 
-  const formerMentors = wayDTO.formerMentors.map((formerMentor) => new UserPreview({
+  const formerMentors = wayDTO.formerMentors.map((formerMentor) => new UserPlain({
     ...formerMentor,
-    customWayCollections: [],
-    favoriteForUserUuids: [],
-    favoriteUserUuids: [],
-    tags: [],
-    wayRequests: [],
     createdAt: new Date(formerMentor.createdAt),
-    imageUrl: formerMentor.imageUrl ?? "",
   }));
 
   return new Way({
@@ -54,15 +41,9 @@ export const wayDTOToWay = (wayDTO: SchemasWayPopulatedResponse): Way => {
     }),
     status,
     favoriteForUsersAmount: wayDTO.favoriteForUsersAmount,
-    mentorRequests: wayDTO.mentorRequests.map((mentorRequest) => new UserPreview({
+    mentorRequests: wayDTO.mentorRequests.map((mentorRequest) => new UserPlain({
       ...mentorRequest,
-      customWayCollections: [],
-      favoriteForUserUuids: [],
-      favoriteUserUuids: [],
-      tags: [],
-      wayRequests: [],
       createdAt: new Date(mentorRequest.createdAt),
-      imageUrl: mentorRequest.imageUrl ?? "",
     })),
     mentors: arrayToHashMap({keyField: "uuid", list: mentors}),
     formerMentors: arrayToHashMap({keyField: "uuid", list: formerMentors}),

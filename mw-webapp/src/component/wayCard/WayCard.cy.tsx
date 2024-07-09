@@ -1,14 +1,13 @@
 import {BrowserRouter} from "react-router-dom";
 import {WayCard} from "src/component/wayCard/WayCard";
 import {WayStatus} from "src/logic/waysTable/wayStatus";
-import {UserPreview} from "src/model/businessModelPreview/UserPreview";
-import {UserPreviewShort} from "src/model/businessModelPreview/UserPreviewShort";
+import {UserPlain} from "src/model/businessModel/User";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
 import {getDataCy} from "src/utils/cyTesting/getDataCy";
 import {DateUtils} from "src/utils/DateUtils";
 
-const USER_PREVIEW_DATA: UserPreviewShort = {
+const USER_PREVIEW_DATA: UserPlain = {
   uuid: "8l9tZl6gINP7j6BIT3p0yN9zZnH2",
   name: "Test Tester",
   email: "test.tester@gmail.com",
@@ -18,7 +17,7 @@ const USER_PREVIEW_DATA: UserPreviewShort = {
   isMentor: false,
 };
 
-const MENTOR_PREVIEW_DATA: UserPreview = {
+const MENTOR_PREVIEW_DATA: UserPlain = {
   uuid: "8l9tZl6gINP7j6BIT3p0yN9zZnH2",
   name: "MENTOR",
   email: "test.tester@gmail.com",
@@ -26,11 +25,6 @@ const MENTOR_PREVIEW_DATA: UserPreview = {
   createdAt: new Date(),
   imageUrl: "",
   isMentor: false,
-  customWayCollections: [],
-  favoriteForUserUuids: [],
-  favoriteUserUuids: [],
-  tags: [{uuid: "6fjhve64", name: "tag1"}],
-  wayRequests: [],
 };
 
 const WAY_PREVIEW_DATA: WayPreview = {
