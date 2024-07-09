@@ -484,7 +484,6 @@ export const WayPage = observer((props: WayPageProps) => {
                     <Tooltip
                       content={LanguageService.way.wayInfo.wayActionsTooltip[language]}
                       position={PositionTooltip.LEFT}
-                      isShownOnClick={false}
                     >
                       <Button
                         className={styles.wayActionsIcon}

@@ -124,7 +124,6 @@ export const WayCollectionCard = (props: WayCollectionProps) => {
                     <Tooltip
                       content={LanguageService.user.collections.collectionActionsTooltip[props.language]}
                       position={PositionTooltip.LEFT}
-                      isShownOnClick={false}
                     >
                       <Button
                         buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}

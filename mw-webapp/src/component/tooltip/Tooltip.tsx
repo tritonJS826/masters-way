@@ -35,11 +35,6 @@ interface TooltipProps {
    * Data attribute for cypress testing
    */
   dataCy?: string;
-
-  /**
-   * Should tooltip be shown on click
-   */
-  isShownOnClick?: boolean;
 }
 
 /**
@@ -47,28 +42,6 @@ interface TooltipProps {
  */
 export const Tooltip = (props: PropsWithChildren<TooltipProps>) => {
   const [open, setOpen] = useState(false);
-  const isShownOnClick = props.isShownOnClick ?? true;
-
-  /**
-   * Toogle tooltip
-   */
-  const toggleOnClick = () => {
-    if (!isShownOnClick) {
-      return;
-    }
-
-    return setOpen((prevOpen) => !prevOpen);
-  };
-
-  /**
-   * Show tooltip
-   */
-  const showOnFocus = () => {
-    if (!isShownOnClick) {
-      return;
-    }
-    setTimeout(() => setOpen(true), 0);
-  };
 
   return (
     <TooltipElem.Provider>
@@ -79,8 +52,8 @@ export const Tooltip = (props: PropsWithChildren<TooltipProps>) => {
         <TooltipElem.Trigger asChild>
           <div
             className={styles.tooltipTrigger}
-            onClick={(toggleOnClick)}
-            onFocus={showOnFocus}
+            onClick={() => setOpen((prevOpen) => !prevOpen)}
+            onFocus={() => setTimeout(() => setOpen(true), 0)}
             onBlur={() => setOpen(false)}
           >
             {props.children}
