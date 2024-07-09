@@ -30,10 +30,13 @@ VALUES
 INSERT INTO "ways" ("uuid", "name", "goal_description", "estimation_time", "owner_uuid", "is_completed", "is_private")
 VALUES
     ('550e8400-e29b-41d4-a716-446655440000', 'john doe way', 'john doe goal', 10101010, '7cdb041b-4574-4f7b-a500-c53e74c72e94', false, false),
+    ('d689c31b-167f-4745-bfbd-c1461cb28be8', 'john doe way 1', 'john doe goal 1', 10101010, '7cdb041b-4574-4f7b-a500-c53e74c72e94', false, false),
     ('9e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b', 'jane smith way', 'jane smith goal', 20202020, '8e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b', true, false),
+    ('dce03ca6-f626-4c33-a44b-5a1b4ff62aa7', 'jane smith way 1', 'jane smith goal 1', 20202020, '8e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b', false, false),
     ('1d922e8a-5d58-4b82-9a3d-83e2e73b3f91', 'alice johnson', 'alice johnson goal', 30303030, '3d922e8a-5d58-4b82-9a3d-83e2e73b3f91', false, true),
     ('32cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2', 'bob brown way', 'bob brown goal', 40404040, 'd2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2', true, true),
-    ('a2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2', 'dana evans way', 'dana evans goal', 40404040, '1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', true, true);
+    ('a2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2', 'dana evans way', 'dana evans goal', 40404040, '1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', true, true),
+    ('e030b296-fa2d-48aa-af0d-c43aa138ee46', 'dana evans way 1', 'dana evans goal 1', 40404040, '1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', false, false);
 
 INSERT INTO "composite_ways" ("child_uuid", "parent_uuid")
 VALUES
@@ -138,6 +141,7 @@ const removeEverything = `-- name: RemoveEverything :exec
 DO $$ DECLARE
     obj_name text;
     obj_type text;
+    -- Exclude functions related to extension uuid-ossp
     exclude_functions text[] := ARRAY[
         'uuid_nil',
         'uuid_ns_dns',
@@ -176,7 +180,6 @@ BEGIN
         SELECT proname, 'FUNCTION'
         FROM pg_proc
         JOIN pg_namespace ON pg_proc.pronamespace = pg_namespace.oid
-        -- Exclude functions related to extension uuid-ossp
         WHERE nspname = 'public' AND proname NOT IN (SELECT unnest(exclude_functions))
     LOOP
         EXECUTE 'DROP FUNCTION IF EXISTS ' || obj_name || ' CASCADE;';

@@ -34,6 +34,18 @@ function getLinkTextAndClick(
     });      
 }
 
+function extractNumberOfWays(selector: Cypress.Chainable<JQuery<HTMLElement>>) {
+  return selector.invoke('text').then((text) => {
+    const match = text.match(/\d+/);
+    if (match) {
+      const number = match[0];
+      return parseInt(number, 10);
+    } else {
+      throw new Error('No number found in the element text');
+    }
+  });
+}
+
 describe('NoAuth All Ways scope tests', () => {
 
   beforeEach(() => {
@@ -56,17 +68,27 @@ describe('NoAuth All Ways scope tests', () => {
   });
 
   it('NoAuth_AllWaysTable_LinkToOwner', () => {
-    const rowIndex = 0;
     const ownerHeaderIndex = 4;
 
-    allWaysSelectors.filterViewBlock.getTableViewButton().click();
+    extractNumberOfWays(allWaysSelectors.allWaysTable.getTitle()).then((totalWays) => {
+      const wayIndexArray = [
+        0, 
+        Math.floor(totalWays / 2), 
+        totalWays - 1
+      ];
 
-    getLinkTextAndClick(allWaysSelectors.allWaysTable.getOwnerLink(), rowIndex, ownerHeaderIndex)
-      .then(userName => {
-        cy.url().should('match', new RegExp(testUserData.userUrlPattern));
-        userPersonalSelectors.descriptionSection.getName().should('have.text', userName);
+      wayIndexArray.forEach(wayIndex => {
+        allWaysSelectors.filterViewBlock.getTableViewButton().click();
+
+        getLinkTextAndClick(allWaysSelectors.allWaysTable.getOwnerLink(), wayIndex, ownerHeaderIndex)
+          .then(userName => {
+            cy.url().should('match', new RegExp(testUserData.userUrlPattern));
+            userPersonalSelectors.descriptionSection.getName().should('have.text', userName);
+            cy.go('back');
+          });
+        });
     });
-  });
+});
 
   it('NoAuth_AllWaysTable_LinkToWay', () => {
     const rowIndex = 0;

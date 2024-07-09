@@ -213,9 +213,6 @@ func Prepare(ctx context.Context, db DBTX) (*Queries, error) {
 	if q.getListJobTagsByWayUuidsStmt, err = db.PrepareContext(ctx, getListJobTagsByWayUuids); err != nil {
 		return nil, fmt.Errorf("error preparing query GetListJobTagsByWayUuids: %w", err)
 	}
-	if q.getListJobsDoneByDayReportIdStmt, err = db.PrepareContext(ctx, getListJobsDoneByDayReportId); err != nil {
-		return nil, fmt.Errorf("error preparing query GetListJobsDoneByDayReportId: %w", err)
-	}
 	if q.getListLabelsByLabelUuidsStmt, err = db.PrepareContext(ctx, getListLabelsByLabelUuids); err != nil {
 		return nil, fmt.Errorf("error preparing query GetListLabelsByLabelUuids: %w", err)
 	}
@@ -674,11 +671,6 @@ func (q *Queries) Close() error {
 			err = fmt.Errorf("error closing getListJobTagsByWayUuidsStmt: %w", cerr)
 		}
 	}
-	if q.getListJobsDoneByDayReportIdStmt != nil {
-		if cerr := q.getListJobsDoneByDayReportIdStmt.Close(); cerr != nil {
-			err = fmt.Errorf("error closing getListJobsDoneByDayReportIdStmt: %w", cerr)
-		}
-	}
 	if q.getListLabelsByLabelUuidsStmt != nil {
 		if cerr := q.getListLabelsByLabelUuidsStmt.Close(); cerr != nil {
 			err = fmt.Errorf("error closing getListLabelsByLabelUuidsStmt: %w", cerr)
@@ -1011,7 +1003,6 @@ type Queries struct {
 	getListDayReportsByWayUuidStmt              *sql.Stmt
 	getListJobTagsByWayUuidStmt                 *sql.Stmt
 	getListJobTagsByWayUuidsStmt                *sql.Stmt
-	getListJobsDoneByDayReportIdStmt            *sql.Stmt
 	getListLabelsByLabelUuidsStmt               *sql.Stmt
 	getListMetricsByWayUuidStmt                 *sql.Stmt
 	getListPlansByDayReportIdStmt               *sql.Stmt
@@ -1127,7 +1118,6 @@ func (q *Queries) WithTx(tx *sql.Tx) *Queries {
 		getListDayReportsByWayUuidStmt:              q.getListDayReportsByWayUuidStmt,
 		getListJobTagsByWayUuidStmt:                 q.getListJobTagsByWayUuidStmt,
 		getListJobTagsByWayUuidsStmt:                q.getListJobTagsByWayUuidsStmt,
-		getListJobsDoneByDayReportIdStmt:            q.getListJobsDoneByDayReportIdStmt,
 		getListLabelsByLabelUuidsStmt:               q.getListLabelsByLabelUuidsStmt,
 		getListMetricsByWayUuidStmt:                 q.getListMetricsByWayUuidStmt,
 		getListPlansByDayReportIdStmt:               q.getListPlansByDayReportIdStmt,
