@@ -71,13 +71,6 @@ interface WayCollectionProps {
  */
 export const WayCollectionCard = (props: WayCollectionProps) => {
   const [isRenameCollectionModalOpen, setIsRenameCollectionModalOpen] = useState(false);
-  const title = (
-    <Title
-      level={HeadingLevel.h3}
-      text={props.collectionTitle}
-      className={styles.title}
-      placeholder=""
-    />);
   const editModal = (
     <Modal
       isOpen={isRenameCollectionModalOpen}
@@ -115,11 +108,15 @@ export const WayCollectionCard = (props: WayCollectionProps) => {
       value={
         <VerticalContainer className={styles.wayCollectionCardContainer}>
           <VerticalContainer className={clsx(styles.mainInfo, props.isActive && styles.active)}>
-            {props.isEditable ?
-              <HorizontalContainer className={styles.collectionTitleBlock}>
-                {title}
+            <HorizontalContainer className={styles.collectionTitleBlock}>
+              <Title
+                level={HeadingLevel.h3}
+                text={props.collectionTitle}
+                className={styles.title}
+                placeholder=""
+              />
+              {props.isEditable &&
                 <Dropdown
-                  className={styles.dropdown}
                   trigger={(
                     <Tooltip
                       content={LanguageService.user.collections.collectionActionsTooltip[props.language]}
@@ -148,8 +145,8 @@ export const WayCollectionCard = (props: WayCollectionProps) => {
                     },
                   ]}
                 />
-              </HorizontalContainer> :
-              title}
+              }
+            </HorizontalContainer>
           </VerticalContainer>
           <HorizontalContainer className={styles.additionalInfo}>
             {`${props.collectionWaysAmount} ${LanguageService.user.collections.ways[props.language]}`}

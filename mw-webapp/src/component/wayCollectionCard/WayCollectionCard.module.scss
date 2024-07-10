@@ -2,6 +2,7 @@
 
 $wayCollectionCardMainHeight: 76px;
 $wayCollectionCardAdditionalHeight: 47px;
+$titleWithBurgerBlockHeight: 32px;
 
 .wayCollectionCardContainer {
   width: 100%;
@@ -18,7 +19,7 @@ $wayCollectionCardAdditionalHeight: 47px;
 
 .mainInfo {
   height: $wayCollectionCardMainHeight;
-  padding: 0 $paddingSmall $paddingMedium $paddingMedium;
+  padding: $paddingMedium;
   background-color: var(--generalPrimaryColor);
   border-top-left-radius: inherit;
   border-top-right-radius: inherit;
@@ -33,18 +34,15 @@ $wayCollectionCardAdditionalHeight: 47px;
 .title {
   display: -webkit-box;
   overflow: hidden;
-  padding-top: $paddingMedium;
   -webkit-box-orient: vertical;
   color: var(--secondaryTextColor);
   -webkit-line-clamp: 2;
   text-overflow: ellipsis;
 }
 
-.dropdown {
-  padding-top: $paddingSmall;
-}
-
 .collectionTitleBlock {
+  min-height: $titleWithBurgerBlockHeight;
+  align-items: center;
   justify-content: space-between;
 }
 
