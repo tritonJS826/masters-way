@@ -1,5 +1,6 @@
 import {headerAccessIds} from "cypress/accessIds/headerAccessIds";
 import {navigationMenuIds} from "cypress/accessIds/navigationMenuAccessIds";
+import {observer} from "mobx-react-lite";
 import {TrackHeader} from "src/analytics/headerAnalytics";
 import google from "src/assets/google.svg";
 import logo from "src/assets/mastersWayLogo.svg";
@@ -81,7 +82,7 @@ interface HeaderProps {
 /**
  * Header component
  */
-export const Header = (props: HeaderProps) => {
+export const Header = observer((props: HeaderProps) => {
   const menuItems: (MenuItemLink)[] = [
     {
       path: pages.home.getPath({}),
@@ -419,4 +420,4 @@ export const Header = (props: HeaderProps) => {
       </HorizontalContainer>
     </header>
   );
-};
+});
