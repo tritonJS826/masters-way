@@ -107,7 +107,7 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 		})
 	}
 
-	wayPlain, err := services.GetPlainWayById(cc.db, ctx, way.Uuid)
+	wayPlain, err := services.GetPlainWayById(cc.dbPGX, ctx, way.Uuid)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, wayPlain)
@@ -161,7 +161,7 @@ func (cc *WayController) UpdateWay(ctx *gin.Context) {
 	way, err := cc.db.UpdateWay(ctx, *args)
 	util.HandleErrorGin(ctx, err)
 
-	wayPlain, err := services.GetPlainWayById(cc.db, ctx, way.Uuid)
+	wayPlain, err := services.GetPlainWayById(cc.dbPGX, ctx, way.Uuid)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, wayPlain)
@@ -231,7 +231,7 @@ func (cc *WayController) GetAllWays(ctx *gin.Context) {
 	util.HandleErrorGin(ctx, err)
 
 	response := lo.Map(ways, func(way db.ListWaysRow, i int) schemas.WayPlainResponse {
-		wayPlain, err := services.GetPlainWayById(cc.db, ctx, way.Uuid)
+		wayPlain, err := services.GetPlainWayById(cc.dbPGX, ctx, way.Uuid)
 		util.HandleErrorGin(ctx, err)
 
 		return wayPlain

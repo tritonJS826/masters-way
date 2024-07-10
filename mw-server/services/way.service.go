@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	dbb "mwserver/db/sqlc"
 	dbbPGX "mwserver/db_pgx/sqlc"
 	"mwserver/schemas"
@@ -303,60 +304,80 @@ func UpdateWayIsCompletedStatus(db *dbb.Queries, ctx context.Context, wayUuid uu
 	return err
 }
 
-func GetPlainWayById(db *dbb.Queries, ctx context.Context, wayUuid uuid.UUID) (schemas.WayPlainResponse, error) {
-	way, err := db.GetWayById(ctx, wayUuid)
-
-	copiedFromWayUuid := util.MarshalNullUuid(way.CopiedFromWayUuid)
-	mentorsRaw, _ := db.GetMentorUsersByWayId(ctx, way.Uuid)
-
-	mentors := lo.Map(mentorsRaw, func(dbMentor dbb.User, i int) schemas.UserPlainResponse {
-		return schemas.UserPlainResponse{
-			Uuid:        dbMentor.Uuid.String(),
-			Name:        dbMentor.Name,
-			Email:       dbMentor.Email,
-			Description: dbMentor.Description,
-			CreatedAt:   dbMentor.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-			ImageUrl:    dbMentor.ImageUrl,
-			IsMentor:    dbMentor.IsMentor,
-		}
-	})
-
-	dbOwner, _ := db.GetUserById(ctx, way.OwnerUuid)
-	owner := schemas.UserPlainResponse{
-		Uuid:        dbOwner.Uuid.String(),
-		Name:        dbOwner.Name,
-		Email:       dbOwner.Email,
-		Description: dbOwner.Description,
-		CreatedAt:   dbOwner.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-		ImageUrl:    dbOwner.ImageUrl,
-		IsMentor:    dbOwner.IsMentor,
+func GetPlainWayById(dbPGX *dbbPGX.Queries, ctx context.Context, wayUuid uuid.UUID) (schemas.WayPlainResponse, error) {
+	wayPgUUID := pgtype.UUID{Bytes: wayUuid, Valid: true}
+	wayDetails, err := dbPGX.GetWayDetailsById(ctx, wayPgUUID)
+	if err != nil {
+		return schemas.WayPlainResponse{}, err
 	}
-	dbTags, _ := db.GetListWayTagsByWayId(ctx, way.Uuid)
-	wayTags := lo.Map(dbTags, func(dbTag dbb.WayTag, i int) schemas.WayTagResponse {
-		return schemas.WayTagResponse{
-			Uuid: dbTag.Uuid.String(),
-			Name: dbTag.Name,
+
+	copiedFromWayUuid := util.MarshalPgUUID(wayDetails.CopiedFromWayUuid)
+
+	mentorsRaw, ok := wayDetails.Mentors.([]interface{})
+	if !ok {
+		return schemas.WayPlainResponse{}, fmt.Errorf("failed to assert type for mentors")
+	}
+
+	mentors := lo.Map(mentorsRaw, func(mentor interface{}, i int) schemas.UserPlainResponse {
+		mentorMap := mentor.(map[string]interface{})
+		createdAt, err := time.Parse("2006-01-02T15:04:05", mentorMap["created_at"].(string))
+		if err != nil {
+			fmt.Println("Error parsing created_at:", err)
+		}
+
+		return schemas.UserPlainResponse{
+			Uuid:        mentorMap["uuid"].(string),
+			Name:        mentorMap["name"].(string),
+			Email:       mentorMap["email"].(string),
+			Description: mentorMap["description"].(string),
+			CreatedAt:   createdAt.Format(util.DEFAULT_STRING_LAYOUT),
+			ImageUrl:    mentorMap["image_url"].(string),
+			IsMentor:    mentorMap["is_mentor"].(bool),
 		}
 	})
+
+	owner := schemas.UserPlainResponse{
+		Uuid:        util.ConvertPgUUIDToUUID(wayDetails.OwnerUuid).String(),
+		Name:        wayDetails.OwnerName,
+		Email:       wayDetails.OwnerEmail,
+		Description: wayDetails.OwnerDescription,
+		CreatedAt:   wayDetails.OwnerCreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+		ImageUrl:    wayDetails.OwnerImageUrl,
+		IsMentor:    wayDetails.OwnerIsMentor,
+	}
+
+	wayTagsRaw, ok := wayDetails.WayTags.([]interface{})
+	if !ok {
+		return schemas.WayPlainResponse{}, fmt.Errorf("failed to assert type for wayTags")
+	}
+
+	wayTags := lo.Map(wayTagsRaw, func(tag interface{}, i int) schemas.WayTagResponse {
+		tagMap := tag.(map[string]interface{})
+		return schemas.WayTagResponse{
+			Uuid: tagMap["uuid"].(string),
+			Name: tagMap["name"].(string),
+		}
+	})
+
 	response := schemas.WayPlainResponse{
-		Uuid:              way.Uuid.String(),
-		Name:              way.Name,
-		GoalDescription:   way.GoalDescription,
-		UpdatedAt:         way.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-		CreatedAt:         way.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-		EstimationTime:    way.EstimationTime,
-		IsCompleted:       way.IsCompleted,
+		Uuid:              util.ConvertPgUUIDToUUID(wayDetails.Uuid).String(),
+		Name:              wayDetails.Name,
+		GoalDescription:   wayDetails.GoalDescription,
+		UpdatedAt:         wayDetails.UpdatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+		CreatedAt:         wayDetails.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+		EstimationTime:    wayDetails.EstimationTime,
+		IsCompleted:       wayDetails.IsCompleted,
 		Owner:             owner,
 		CopiedFromWayUuid: copiedFromWayUuid,
-		IsPrivate:         way.IsPrivate,
-		FavoriteForUsers:  int32(way.WayFavoriteForUsers),
-		DayReportsAmount:  int32(way.WayDayReportsAmount),
+		IsPrivate:         wayDetails.IsPrivate,
+		FavoriteForUsers:  int32(wayDetails.WayFavoriteForUsers),
+		DayReportsAmount:  int32(wayDetails.WayDayReportsAmount),
 		Mentors:           mentors,
-		MetricsDone:       int32(way.WayMetricsDone),
-		MetricsTotal:      int32(way.WayMetricsTotal),
+		MetricsDone:       int32(wayDetails.WayMetricsDone),
+		MetricsTotal:      int32(wayDetails.WayMetricsTotal),
 		WayTags:           wayTags,
-		ChildrenUuids:     way.ChildrenUuids,
+		ChildrenUuids:     wayDetails.ChildrenAmount,
 	}
 
-	return response, err
+	return response, nil
 }
