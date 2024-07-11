@@ -1,7 +1,10 @@
 export const allWaysAccessIds = {
-    allWaysTable: {
+    allWaysTitles: {
         title: 'waysTitle',
-        totalAmountTitle: 'totalFoundTitle',
+        totalAmountTitle: 'totalFoundTitle'
+    },
+
+    allWaysTable: {
         table: 'table',
         tableTh: 'tableTh',
         tableBodyTr: 'tableBodyTr',
@@ -9,6 +12,10 @@ export const allWaysAccessIds = {
         ownerLink: 'ownerLink',
         wayLink: 'wayLink',
         mentorLink: 'mentorLink'
+    },
+
+    allWaysCard: {
+        wayCardLink: 'wayCardLink'
     },
 
     filterViewBlock: {

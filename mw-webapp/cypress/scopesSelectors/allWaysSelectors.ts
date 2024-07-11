@@ -3,9 +3,12 @@ import {allWaysAccessIds} from 'cypress/accessIds/allWaysAccessIds'
 import {View} from "src/utils/LocalStorageWorker";
 
 export const allWaysSelectors = {
+    allWaysTitles: {
+        getTitle: () => cy.get(getDataCy(allWaysAccessIds.allWaysTitles.title)),
+        getTotalAmountTitle: () => cy.get(getDataCy(allWaysAccessIds.allWaysTitles.totalAmountTitle)),
+    },
+
     allWaysTable: {
-        getTitle: () => cy.get(getDataCy(allWaysAccessIds.allWaysTable.title)),
-        getTotalAmountTitle: () => cy.get(getDataCy(allWaysAccessIds.allWaysTable.totalAmountTitle)),
         getTable: () => cy.get(getDataCy(allWaysAccessIds.allWaysTable.table)),
         getTableTh: () => cy.get(getDataCy(allWaysAccessIds.allWaysTable.tableTh)),
         getTableBodyTr: () => cy.get(getDataCy(allWaysAccessIds.allWaysTable.tableBodyTr)),
@@ -13,6 +16,10 @@ export const allWaysSelectors = {
         getOwnerLink: (ownerName: string) => cy.get(getDataCy(`${allWaysAccessIds.allWaysTable.ownerLink}_${ownerName}`)),
         getWayLink: (wayTitle: string) => cy.get(getDataCy(`${allWaysAccessIds.allWaysTable.wayLink}_${wayTitle}`)),
         getMentorLink: (mentorName: string) => cy.get(getDataCy(`${allWaysAccessIds.allWaysTable.mentorLink}_${mentorName}`)),
+    },
+
+    allWaysCard: {
+        getCardLink: () => cy.get(getDataCy(allWaysAccessIds.allWaysCard.wayCardLink)),
     },
 
     filterViewBlock: {

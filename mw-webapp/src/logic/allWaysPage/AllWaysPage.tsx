@@ -168,7 +168,7 @@ export const AllWaysPage = observer(() => {
           level={HeadingLevel.h2}
           text={`${LanguageService.allWays.waysTable.leftTitle[language]} (${allWays.length})`}
           placeholder=""
-          dataCy={allWaysAccessIds.allWaysTable.title}
+          dataCy={allWaysAccessIds.allWaysTitles.title}
         />
         <Title
           level={HeadingLevel.h2}
@@ -192,6 +192,7 @@ export const AllWaysPage = observer(() => {
                 <WayCard
                   key={way.uuid}
                   wayPreview={way}
+                  dataCy={allWaysAccessIds.allWaysCard.wayCardLink}
                 />
               );
             })

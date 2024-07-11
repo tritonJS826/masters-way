@@ -84,4 +84,20 @@ describe('NoAuth All Ways scope tests', () => {
     });
   });
 
+  it('NoAuth_AllWaysCardsClick', () => {
+    const ways: Record<string, string> = testWayData.ways;
+
+    Object.keys(ways).forEach(expectedWayTitle => {
+      allWaysSelectors.allWaysCard.getCardLink()
+        .filter(`[href="/way/${ways[expectedWayTitle]}"]`)
+        .contains(expectedWayTitle)
+        .click();
+
+      cy.url().should('include', `${ways[expectedWayTitle]}`);
+      wayDescriptionSelectors.wayDashBoardLeft.getTitle().should('have.text', expectedWayTitle);
+          
+      cy.visit(`/${allWayData.endpoint}`);
+    });
+  });
+
 });
