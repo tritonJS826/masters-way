@@ -40,11 +40,11 @@ interface TextProps {
 export const Text = (props: TextProps) => {
 
   return (
-    <span
+    <div
       className={props.className}
       data-cy={props.cy}
     >
       {renderMarkdown(props.text)}
-    </span>
+    </div>
   );
 };

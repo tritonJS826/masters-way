@@ -124,15 +124,16 @@ export const EditableText = <T extends string | number>(props: EditableTextProps
   /**
    * Update value
    */
-  const updateValue = (updateValue: string | number) => {
-    const isInvalidTextLength = typeof updateValue === "string" &&
-      props.minLength && updateValue.length < props.minLength;
+  const updateValue = (updatedValue: string | number) => {
+    const isInvalidTextLength = typeof updatedValue === "string" &&
+      props.minLength && updatedValue.length < props.minLength;
 
-    isInvalidTextLength ? 
-      displayNotification({
+    isInvalidTextLength
+      ? displayNotification({
         text: "label should include at least one character",
         type: "info",
-      }) : setValue(updateValue as T);
+      })
+      : setValue(updatedValue as T);
   };
 
   /**
