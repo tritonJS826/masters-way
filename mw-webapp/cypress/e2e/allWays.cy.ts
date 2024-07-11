@@ -38,9 +38,9 @@ describe('NoAuth All Ways scope tests', () => {
     Object.keys(owners).forEach(expectedOwnerName => {
       allWaysSelectors.filterViewBlock.getTableViewButton().click();
 
-      allWaysSelectors.allWaysTable.getOwnerLinkByName(expectedOwnerName).first().invoke('text').should('eq', expectedOwnerName);
+      allWaysSelectors.allWaysTable.getOwnerLink(expectedOwnerName).first().invoke('text').should('eq', expectedOwnerName);
 
-      allWaysSelectors.allWaysTable.getOwnerLinkByName(expectedOwnerName).first().click();
+      allWaysSelectors.allWaysTable.getOwnerLink(expectedOwnerName).first().click();
 
       cy.url().should('include', `${owners[expectedOwnerName]}`);
       userPersonalSelectors.descriptionSection.getName().should('have.text', expectedOwnerName);
@@ -55,9 +55,9 @@ describe('NoAuth All Ways scope tests', () => {
     Object.keys(ways).forEach(expectedWayTitle => {
       allWaysSelectors.filterViewBlock.getTableViewButton().click();
 
-      allWaysSelectors.allWaysTable.getWayLinkByName(expectedWayTitle).first().invoke('text').should('eq', expectedWayTitle);
+      allWaysSelectors.allWaysTable.getWayLink(expectedWayTitle).first().invoke('text').should('eq', expectedWayTitle);
 
-      allWaysSelectors.allWaysTable.getWayLinkByName(expectedWayTitle).first().click();
+      allWaysSelectors.allWaysTable.getWayLink(expectedWayTitle).first().click();
 
       cy.url().should('include', `${ways[expectedWayTitle]}`);
       wayDescriptionSelectors.wayDashBoardLeft.getTitle().should('have.text', expectedWayTitle);
@@ -72,9 +72,9 @@ describe('NoAuth All Ways scope tests', () => {
     Object.keys(mentors).forEach(expectedMentorName => {
       allWaysSelectors.filterViewBlock.getTableViewButton().click();
 
-      allWaysSelectors.allWaysTable.getMentorLinkByName(expectedMentorName).first().invoke('text').should('eq', expectedMentorName);
+      allWaysSelectors.allWaysTable.getMentorLink(expectedMentorName).first().invoke('text').should('eq', expectedMentorName);
 
-      allWaysSelectors.allWaysTable.getMentorLinkByName(expectedMentorName).first().click();
+      allWaysSelectors.allWaysTable.getMentorLink(expectedMentorName).first().click();
 
       cy.url().should('include', `${mentors[expectedMentorName]}`);
       userPersonalSelectors.descriptionSection.getName().should('have.text', expectedMentorName);

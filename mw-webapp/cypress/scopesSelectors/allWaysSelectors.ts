@@ -10,12 +10,9 @@ export const allWaysSelectors = {
         getTableTh: () => cy.get(getDataCy(allWaysAccessIds.allWaysTable.tableTh)),
         getTableBodyTr: () => cy.get(getDataCy(allWaysAccessIds.allWaysTable.tableBodyTr)),
         getTableBodyTd: () => cy.get(getDataCy(allWaysAccessIds.allWaysTable.tableBodyTd)),
-        getOwnerLink: () => cy.get(getDataCy(allWaysAccessIds.allWaysTable.ownerLink)),
-        getOwnerLinkByName: (ownerName: string) => cy.get(getDataCy(`${allWaysAccessIds.allWaysTable.ownerLink}_${ownerName}`)),
-        getWayLink: () => cy.get(getDataCy(allWaysAccessIds.allWaysTable.wayLink)),
-        getWayLinkByName: (wayTitle: string) => cy.get(getDataCy(`${allWaysAccessIds.allWaysTable.wayLink}_${wayTitle}`)),
-        getMentorLink: () => cy.get(getDataCy(allWaysAccessIds.allWaysTable.mentorLink)),
-        getMentorLinkByName: (mentorName: string) => cy.get(getDataCy(`${allWaysAccessIds.allWaysTable.mentorLink}_${mentorName}`)),
+        getOwnerLink: (ownerName: string) => cy.get(getDataCy(`${allWaysAccessIds.allWaysTable.ownerLink}_${ownerName}`)),
+        getWayLink: (wayTitle: string) => cy.get(getDataCy(`${allWaysAccessIds.allWaysTable.wayLink}_${wayTitle}`)),
+        getMentorLink: (mentorName: string) => cy.get(getDataCy(`${allWaysAccessIds.allWaysTable.mentorLink}_${mentorName}`)),
     },
 
     filterViewBlock: {
