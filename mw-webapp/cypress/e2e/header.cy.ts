@@ -75,6 +75,7 @@ describe('NoAuth Header scope tests', () => {
 });    
 
 describe('IsAuth Header scope tests', () => {
+    const apiUrl = Cypress.env('API_BASE_PATH');
 
     beforeEach(() => {
         cy.visit(testUserData.userLoginLink);  
@@ -82,7 +83,7 @@ describe('IsAuth Header scope tests', () => {
 
     afterEach(() => {
         cy.clearAllStorage();
-        cy.request('GET', 'http://localhost:8000/api/dev/reset-db');
+        cy.request('GET', `${apiUrl}/dev/reset-db`);
     });
 
     it('IsAuth_Header_UserNameLink', () => {

@@ -6,6 +6,7 @@ import {Symbols} from "src/utils/Symbols";
 import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
 import testWayData from "cypress/fixtures/testWayDataFixture.json";
 import {wayDescriptionSelectors} from "cypress/scopesSelectors/wayDescriptionSelectors";
+import allWayData from "cypress/fixtures/allWaysFixture.json";
 
 afterEach(() => {
   cy.clearAllStorage();
@@ -45,7 +46,7 @@ describe('NoAuth All Ways scope tests', () => {
       cy.url().should('include', `${owners[expectedOwnerName]}`);
       userPersonalSelectors.descriptionSection.getName().should('have.text', expectedOwnerName);
           
-      cy.go('back');
+      cy.visit(`/${allWayData.endpoint}`);
     });
   });
 
@@ -62,7 +63,7 @@ describe('NoAuth All Ways scope tests', () => {
       cy.url().should('include', `${ways[expectedWayTitle]}`);
       wayDescriptionSelectors.wayDashBoardLeft.getTitle().should('have.text', expectedWayTitle);
           
-      cy.go('back');
+      cy.visit(`/${allWayData.endpoint}`);
     });
   });
 
@@ -79,7 +80,7 @@ describe('NoAuth All Ways scope tests', () => {
       cy.url().should('include', `${mentors[expectedMentorName]}`);
       userPersonalSelectors.descriptionSection.getName().should('have.text', expectedMentorName);
           
-      cy.go('back');
+      cy.visit(`/${allWayData.endpoint}`);
     });
   });
 
