@@ -159,7 +159,7 @@ export const getWaysColumns = (language: Language) => [
       >
         <Link
           path={pages.way.getPath({uuid: row.original.uuid})}
-          dataCy={allWaysAccessIds.allWaysTable.wayLink}
+          dataCy={`${allWaysAccessIds.allWaysTable.wayLink}_${row.original.name}`}
         >
           {row.original.name}
         </Link>
@@ -209,7 +209,7 @@ export const getWaysColumns = (language: Language) => [
           <VerticalContainer>
             <Link
               path={pages.user.getPath({uuid: row.original.owner.uuid})}
-              dataCy={allWaysAccessIds.allWaysTable.ownerLink}
+              dataCy={`${allWaysAccessIds.allWaysTable.ownerLink}_${row.original.owner.name}`}
             >
               {row.original.owner.name}
             </Link>
@@ -259,7 +259,10 @@ export const getWaysColumns = (language: Language) => [
                 content={mentor.name}
                 position={PositionTooltip.LEFT}
               >
-                <Link path={pages.user.getPath({uuid: mentor.uuid})}>
+                <Link
+                  path={pages.user.getPath({uuid: mentor.uuid})}
+                  dataCy={`${allWaysAccessIds.allWaysTable.mentorLink}_${mentor.name}`}
+                >
                   {mentor.name}
                 </Link>
               </Tooltip>

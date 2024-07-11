@@ -11,7 +11,11 @@ export const allWaysSelectors = {
         getTableBodyTr: () => cy.get(getDataCy(allWaysAccessIds.allWaysTable.tableBodyTr)),
         getTableBodyTd: () => cy.get(getDataCy(allWaysAccessIds.allWaysTable.tableBodyTd)),
         getOwnerLink: () => cy.get(getDataCy(allWaysAccessIds.allWaysTable.ownerLink)),
+        getOwnerLinkByName: (ownerName: string) => cy.get(getDataCy(`${allWaysAccessIds.allWaysTable.ownerLink}_${ownerName}`)),
         getWayLink: () => cy.get(getDataCy(allWaysAccessIds.allWaysTable.wayLink)),
+        getWayLinkByName: (wayTitle: string) => cy.get(getDataCy(`${allWaysAccessIds.allWaysTable.wayLink}_${wayTitle}`)),
+        getMentorLink: () => cy.get(getDataCy(allWaysAccessIds.allWaysTable.mentorLink)),
+        getMentorLinkByName: (mentorName: string) => cy.get(getDataCy(`${allWaysAccessIds.allWaysTable.mentorLink}_${mentorName}`)),
     },
 
     filterViewBlock: {

@@ -4,47 +4,12 @@ import {headerSelectors} from "cypress/scopesSelectors/headerSelectors";
 import {navigationMenuSelectors} from "cypress/scopesSelectors/navigationMenuSelectors";
 import {Symbols} from "src/utils/Symbols";
 import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
-import testUserData from "cypress/fixtures/testUserDataFixture.json";
-import {allWaysAccessIds} from "cypress/accessIds/allWaysAccessIds";
-import {wayDescriptionSelectors} from "cypress/scopesSelectors/wayDescriptionSelectors";
 import testWayData from "cypress/fixtures/testWayDataFixture.json";
+import {wayDescriptionSelectors} from "cypress/scopesSelectors/wayDescriptionSelectors";
 
 afterEach(() => {
   cy.clearAllStorage();
 });
-
-function getLinkTextAndClick(
-  selector: Cypress.Chainable<JQuery<HTMLElement>>, 
-  rowIndex: number, 
-  tableHeaderIndex: number
-): Cypress.Chainable<string> {
-
-  return selector
-    .eq(rowIndex)
-    .then(link => {
-      cy.wrap(link)
-        .parents(`[data-cy="${allWaysAccessIds.allWaysTable.tableBodyTd}"]`)
-        .invoke('index')
-        .should('eq', tableHeaderIndex);
-
-      const linkText = link.text().trim();
-      cy.wrap(link).click();
-      
-      return cy.wrap(linkText);
-    });      
-}
-
-function extractNumberOfWays(selector: Cypress.Chainable<JQuery<HTMLElement>>) {
-  return selector.invoke('text').then((text) => {
-    const match = text.match(/\d+/);
-    if (match) {
-      const number = match[0];
-      return parseInt(number, 10);
-    } else {
-      throw new Error('No number found in the element text');
-    }
-  });
-}
 
 describe('NoAuth All Ways scope tests', () => {
 
@@ -68,38 +33,53 @@ describe('NoAuth All Ways scope tests', () => {
   });
 
   it('NoAuth_AllWaysTable_LinkToOwner', () => {
-    const ownerHeaderIndex = 4;
+    const owners: Record<string, string> = testWayData.owners;
 
-    extractNumberOfWays(allWaysSelectors.allWaysTable.getTitle()).then((totalWays) => {
-      const wayIndexArray = [
-        0, 
-        Math.floor(totalWays / 2), 
-        totalWays - 1
-      ];
+    Object.keys(owners).forEach(expectedOwnerName => {
+      allWaysSelectors.filterViewBlock.getTableViewButton().click();
 
-      wayIndexArray.forEach(wayIndex => {
-        allWaysSelectors.filterViewBlock.getTableViewButton().click();
+      allWaysSelectors.allWaysTable.getOwnerLinkByName(expectedOwnerName).first().invoke('text').should('eq', expectedOwnerName);
 
-        getLinkTextAndClick(allWaysSelectors.allWaysTable.getOwnerLink(), wayIndex, ownerHeaderIndex)
-          .then(userName => {
-            cy.url().should('match', new RegExp(testUserData.userUrlPattern));
-            userPersonalSelectors.descriptionSection.getName().should('have.text', userName);
-            cy.go('back');
-          });
-        });
+      allWaysSelectors.allWaysTable.getOwnerLinkByName(expectedOwnerName).first().click();
+
+      cy.url().should('include', `${owners[expectedOwnerName]}`);
+      userPersonalSelectors.descriptionSection.getName().should('have.text', expectedOwnerName);
+          
+      cy.go('back');
     });
-});
+  });
 
   it('NoAuth_AllWaysTable_LinkToWay', () => {
-    const rowIndex = 0;
-    const descriptionHeaderIndex = 3;
+    const ways: Record<string, string> = testWayData.ways;
 
-    allWaysSelectors.filterViewBlock.getTableViewButton().click();
+    Object.keys(ways).forEach(expectedWayTitle => {
+      allWaysSelectors.filterViewBlock.getTableViewButton().click();
 
-    getLinkTextAndClick(allWaysSelectors.allWaysTable.getWayLink(), rowIndex, descriptionHeaderIndex)
-      .then(wayTitle => {
-        cy.url().should('match', new RegExp(testWayData.wayUrlPattern));
-        wayDescriptionSelectors.wayDashBoardLeft.getTitle().should('have.text', wayTitle);
+      allWaysSelectors.allWaysTable.getWayLinkByName(expectedWayTitle).first().invoke('text').should('eq', expectedWayTitle);
+
+      allWaysSelectors.allWaysTable.getWayLinkByName(expectedWayTitle).first().click();
+
+      cy.url().should('include', `${ways[expectedWayTitle]}`);
+      wayDescriptionSelectors.wayDashBoardLeft.getTitle().should('have.text', expectedWayTitle);
+          
+      cy.go('back');
+    });
+  });
+
+  it('NoAuth_AllWaysTable_LinkToMentor', () => {
+    const mentors: Record<string, string> = testWayData.mentors;
+
+    Object.keys(mentors).forEach(expectedMentorName => {
+      allWaysSelectors.filterViewBlock.getTableViewButton().click();
+
+      allWaysSelectors.allWaysTable.getMentorLinkByName(expectedMentorName).first().invoke('text').should('eq', expectedMentorName);
+
+      allWaysSelectors.allWaysTable.getMentorLinkByName(expectedMentorName).first().click();
+
+      cy.url().should('include', `${mentors[expectedMentorName]}`);
+      userPersonalSelectors.descriptionSection.getName().should('have.text', expectedMentorName);
+          
+      cy.go('back');
     });
   });
 
