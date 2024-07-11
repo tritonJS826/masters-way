@@ -87,11 +87,15 @@ export const WayCollectionCard = (props: WayCollectionProps) => {
           cancelButtonValue={LanguageService.modals.promptModal.cancelButton[props.language]}
         />
       }
-      trigger={LanguageService.user.collections.renameCollection[props.language]}
+      trigger={<>
+        {LanguageService.user.collections.renameCollection[props.language]}
+      </>}
     />);
   const deleteConfirm = (
     <Confirm
-      trigger={LanguageService.user.collections.deleteCollection[props.language]}
+      trigger={<>
+        {LanguageService.user.collections.deleteCollection[props.language]}
+      </>}
       content={<p>
         {`${LanguageService.user.collections.deleteCollectionModalQuestion[props.language]} "${props.collectionTitle}" ?`}
       </p>}
