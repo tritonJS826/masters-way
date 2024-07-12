@@ -8,17 +8,21 @@ import testWayData from "cypress/fixtures/testWayDataFixture.json";
 import {wayDescriptionSelectors} from "cypress/scopesSelectors/wayDescriptionSelectors";
 import allWayData from "cypress/fixtures/allWaysFixture.json";
 
+beforeEach(() => {
+  cy.visit('/');
+  headerSelectors.getBurgerMenu().click();
+  navigationMenuSelectors.menuItemLinks.getAllWaysItemLink().click();
+});
+
 afterEach(() => {
   cy.clearAllStorage();
 });
 
-describe('NoAuth All Ways scope tests', () => {
+function clickLinkIfContainsText(selector: Cypress.Chainable<JQuery<HTMLElement>>, expectedText: string): void {
+  selector.first().contains(expectedText).click();
+};
 
-  beforeEach(() => {
-    cy.visit('/');
-    headerSelectors.getBurgerMenu().click();
-    navigationMenuSelectors.menuItemLinks.getAllWaysItemLink().click();
-  });
+describe('NoAuth All Ways scope tests', () => {
 
   it('NoAuth_AllWays_SelectTableView', () => {
     const tableHeadersEn = Object.values(allWaysPageContent.waysTable.columns).map(column => column.en);
@@ -38,10 +42,7 @@ describe('NoAuth All Ways scope tests', () => {
 
     Object.keys(owners).forEach(expectedOwnerName => {
       allWaysSelectors.filterViewBlock.getTableViewButton().click();
-
-      allWaysSelectors.allWaysTable.getOwnerLink(expectedOwnerName).first().contains(expectedOwnerName);
-
-      allWaysSelectors.allWaysTable.getOwnerLink(expectedOwnerName).first().click();
+      clickLinkIfContainsText(allWaysSelectors.allWaysTable.getOwnerLink(expectedOwnerName), expectedOwnerName);
 
       cy.url().should('include', `${owners[expectedOwnerName]}`);
       userPersonalSelectors.descriptionSection.getName().should('have.text', expectedOwnerName);
@@ -55,10 +56,7 @@ describe('NoAuth All Ways scope tests', () => {
 
     Object.keys(ways).forEach(expectedWayTitle => {
       allWaysSelectors.filterViewBlock.getTableViewButton().click();
-
-      allWaysSelectors.allWaysTable.getWayLink(expectedWayTitle).first().contains(expectedWayTitle);
-
-      allWaysSelectors.allWaysTable.getWayLink(expectedWayTitle).first().click();
+      clickLinkIfContainsText(allWaysSelectors.allWaysTable.getWayLink(expectedWayTitle), expectedWayTitle);
 
       cy.url().should('include', `${ways[expectedWayTitle]}`);
       wayDescriptionSelectors.wayDashBoardLeft.getTitle().should('have.text', expectedWayTitle);
@@ -72,10 +70,7 @@ describe('NoAuth All Ways scope tests', () => {
 
     Object.keys(mentors).forEach(expectedMentorName => {
       allWaysSelectors.filterViewBlock.getTableViewButton().click();
-
-      allWaysSelectors.allWaysTable.getMentorLink(expectedMentorName).first().contains(expectedMentorName);
-
-      allWaysSelectors.allWaysTable.getMentorLink(expectedMentorName).first().click();
+      clickLinkIfContainsText(allWaysSelectors.allWaysTable.getMentorLink(expectedMentorName), expectedMentorName);
 
       cy.url().should('include', `${mentors[expectedMentorName]}`);
       userPersonalSelectors.descriptionSection.getName().should('have.text', expectedMentorName);
