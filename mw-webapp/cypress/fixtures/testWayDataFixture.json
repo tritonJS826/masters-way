@@ -1,0 +1,18 @@
+{
+    "wayUrlPattern": "\\/way\\/[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$",
+    "owners": {
+        "Ronnie Stanton": "d63d2f89-6412-4324-8587-7061bf02dca4",
+        "Jane Smith": "8e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b",
+        "Dana Evans": "1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1"
+      },
+    "ways": {
+        "ronnie stanton way": "9972552a-c0b3-41f3-b464-284d36a36964",
+        "jane smith way": "9e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b",
+        "dana evans way 1": "a2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2"
+    },
+    "mentors": {
+        "Alice Johnson": "3d922e8a-5d58-4b82-9a3d-83e2e73b3f91",
+        "Dana Evans": "1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1",
+        "Jane Smith": "8e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b"
+    }
+}

@@ -15,59 +15,20 @@ import (
 )
 
 const createJobDone = `-- name: CreateJobDone :one
-INSERT INTO job_dones(
-    created_at,
-    updated_at,
-    description,
-    time,
-    owner_uuid,
-    day_report_uuid
-) VALUES (
-    $1, $2, $3, $4, $5, $6
-) RETURNING uuid, created_at, updated_at, description, time, owner_uuid, day_report_uuid,
-    (SELECT name FROM users WHERE uuid = $5) AS owner_name,
-    -- get tag uuids
-    COALESCE(
-        ARRAY(
-            SELECT job_dones_job_tags.job_tag_uuid 
-            FROM job_dones_job_tags 
-            WHERE job_dones.uuid = job_dones_job_tags.job_done_uuid
-        ), 
-    '{}'
-    )::VARCHAR[] AS tag_uuids
+
+
+
+SELECT uuid, created_at, updated_at, description, time, owner_uuid, day_report_uuid FROM job_dones
+WHERE job_dones.day_report_uuid = $1
+ORDER BY created_at
 `
 
-type CreateJobDoneParams struct {
-	CreatedAt     time.Time `json:"created_at"`
-	UpdatedAt     time.Time `json:"updated_at"`
-	Description   string    `json:"description"`
-	Time          int32     `json:"time"`
-	OwnerUuid     uuid.UUID `json:"owner_uuid"`
-	DayReportUuid uuid.UUID `json:"day_report_uuid"`
-}
-
-type CreateJobDoneRow struct {
-	Uuid          uuid.UUID `json:"uuid"`
-	CreatedAt     time.Time `json:"created_at"`
-	UpdatedAt     time.Time `json:"updated_at"`
-	Description   string    `json:"description"`
-	Time          int32     `json:"time"`
-	OwnerUuid     uuid.UUID `json:"owner_uuid"`
-	DayReportUuid uuid.UUID `json:"day_report_uuid"`
-	OwnerName     string    `json:"owner_name"`
-	TagUuids      []string  `json:"tag_uuids"`
-}
-
-func (q *Queries) CreateJobDone(ctx context.Context, arg CreateJobDoneParams) (CreateJobDoneRow, error) {
-	row := q.queryRow(ctx, q.createJobDoneStmt, createJobDone,
-		arg.CreatedAt,
-		arg.UpdatedAt,
-		arg.Description,
-		arg.Time,
-		arg.OwnerUuid,
-		arg.DayReportUuid,
-	)
-	var i CreateJobDoneRow
+// INSERT INTO job_dones(
+//
+//	created_at,
+func (q *Queries) CreateJobDone(ctx context.Context, dayReportUuid uuid.UUID) (JobDone, error) {
+	row := q.queryRow(ctx, q.createJobDoneStmt, createJobDone, dayReportUuid)
+	var i JobDone
 	err := row.Scan(
 		&i.Uuid,
 		&i.CreatedAt,
@@ -76,8 +37,6 @@ func (q *Queries) CreateJobDone(ctx context.Context, arg CreateJobDoneParams) (C
 		&i.Time,
 		&i.OwnerUuid,
 		&i.DayReportUuid,
-		&i.OwnerName,
-		pq.Array(&i.TagUuids),
 	)
 	return i, err
 }
@@ -92,43 +51,6 @@ func (q *Queries) DeleteJobDone(ctx context.Context, argUuid uuid.UUID) error {
 	return err
 }
 
-const getListJobsDoneByDayReportId = `-- name: GetListJobsDoneByDayReportId :many
-SELECT uuid, created_at, updated_at, description, time, owner_uuid, day_report_uuid FROM job_dones
-WHERE job_dones.day_report_uuid = $1
-ORDER BY created_at
-`
-
-func (q *Queries) GetListJobsDoneByDayReportId(ctx context.Context, dayReportUuid uuid.UUID) ([]JobDone, error) {
-	rows, err := q.query(ctx, q.getListJobsDoneByDayReportIdStmt, getListJobsDoneByDayReportId, dayReportUuid)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	items := []JobDone{}
-	for rows.Next() {
-		var i JobDone
-		if err := rows.Scan(
-			&i.Uuid,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.Description,
-			&i.Time,
-			&i.OwnerUuid,
-			&i.DayReportUuid,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
 const updateJobDone = `-- name: UpdateJobDone :one
 UPDATE job_dones
 SET
@@ -141,10 +63,10 @@ RETURNING uuid, created_at, updated_at, description, time, owner_uuid, day_repor
     -- get tag uuids
     COALESCE(
         ARRAY(
-            SELECT job_dones_job_tags.job_tag_uuid 
-            FROM job_dones_job_tags 
+            SELECT job_dones_job_tags.job_tag_uuid
+            FROM job_dones_job_tags
             WHERE job_dones.uuid = job_dones_job_tags.job_done_uuid
-        ), 
+        ),
     '{}'
     )::VARCHAR[] AS tag_uuids
 `

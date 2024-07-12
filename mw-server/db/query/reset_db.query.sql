@@ -74,11 +74,12 @@ BEGIN
 INSERT INTO "users" ("uuid", "name", "email", "description", "image_url", "is_mentor")
 VALUES
     ('7cdb041b-4574-4f7b-a500-c53e74c72e94', 'John Doe', 'john.doe@example.com', 'A brief description about John.', 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fyandex.com%2Fimages%2F%3Flr%3D87%26redircnt%3D1694438178.1&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAE', false),
-    ('8e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b', 'Jane Smith', 'jane.smith@example.com', 'A brief description about Jane.','https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAT', false),
+    ('8e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b', 'Jane Smith', 'jane.smith@example.com', 'A brief description about Jane.','https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAT', true),
     ('3d922e8a-5d58-4b82-9a3d-83e2e73b3f91', 'Alice Johnson', 'alice.johnson@example.com', 'A brief description about Alice.','https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAT', true),
     ('d2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2', 'Bob Brown', 'bob.brown@example.com', 'A brief description about Bob.','https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAT', false),
     ('5a31e3cb-7e9a-41e5-9a3b-1f1e5d6b7c3e', 'Charlie Davis', 'charlie.davis@example.com', 'A brief description about Charlie.','https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAT', true),
-    ('1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', 'Dana Evans', 'dana.evans@example.com', 'A brief description about Dana.','https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAT', false);
+    ('d63d2f89-6412-4324-8587-7061bf02dca4', 'Ronnie Stanton', 'ronnie.stanton@example.com', 'A brief description about Ronnie.','https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAN', false),
+    ('1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', 'Dana Evans', 'dana.evans@example.com', 'A brief description about Dana.','https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAT', true);
 
 INSERT INTO "favorite_users" ("donor_user_uuid", "acceptor_user_uuid")
 VALUES
@@ -88,11 +89,21 @@ VALUES
 
 INSERT INTO "ways" ("uuid", "name", "goal_description", "estimation_time", "owner_uuid", "is_completed", "is_private")
 VALUES
+    ('9972552a-c0b3-41f3-b464-284d36a36964', 'ronnie stanton way', 'ronnie stanton goal', 40404040, 'd63d2f89-6412-4324-8587-7061bf02dca4', false, false),
     ('550e8400-e29b-41d4-a716-446655440000', 'john doe way', 'john doe goal', 10101010, '7cdb041b-4574-4f7b-a500-c53e74c72e94', false, false),
+    ('d689c31b-167f-4745-bfbd-c1461cb28be8', 'john doe way 1', 'john doe goal 1', 10101010, '7cdb041b-4574-4f7b-a500-c53e74c72e94', false, false),
     ('9e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b', 'jane smith way', 'jane smith goal', 20202020, '8e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b', true, false),
+    ('dce03ca6-f626-4c33-a44b-5a1b4ff62aa7', 'jane smith way 1', 'jane smith goal 1', 20202020, '8e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b', false, false),
     ('1d922e8a-5d58-4b82-9a3d-83e2e73b3f91', 'alice johnson', 'alice johnson goal', 30303030, '3d922e8a-5d58-4b82-9a3d-83e2e73b3f91', false, true),
+    ('5cc724a0-383f-45ad-99a1-8514f51717f2', 'alice johnson 1', 'alice johnson goal 1', 30303030, '3d922e8a-5d58-4b82-9a3d-83e2e73b3f91', false, false),
+    ('78f86c77-2018-4511-90dc-d96df77f496a', 'alice johnson 2', 'alice johnson goal 2', 30303030, '3d922e8a-5d58-4b82-9a3d-83e2e73b3f91', false, false),
     ('32cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2', 'bob brown way', 'bob brown goal', 40404040, 'd2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2', true, true),
-    ('a2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2', 'dana evans way', 'dana evans goal', 40404040, '1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', true, true);
+    ('77482c3f-cae6-494d-be1d-d06c1e84450b', 'bob brown way 1', 'bob brown goal 1', 40404040, 'd2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2', false, false),
+    ('77a9e7c4-edb4-4b61-8065-cfd0c5c2506d', 'bob brown way 2', 'bob brown goal 2', 40404040, 'd2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2', false, false),
+    ('e030b296-fa2d-48aa-af0d-c43aa138ee46', 'dana evans way', 'dana evans goal', 40404040, '1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', true, true),
+    ('a2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2', 'dana evans way 1', 'dana evans goal 1', 40404040, '1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', false, false),
+    ('aa13eee9-7dca-46ed-a3f7-21d8b7ae3b72', 'dana evans way 2', 'dana evans goal 2', 40404040, '1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', false, false),
+    ('9230479a-a481-4f83-b770-138ef4f3139c', 'dana evans way 3', 'dana evans goal 3', 40404040, '1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', true, false);
 
 INSERT INTO "composite_ways" ("child_uuid", "parent_uuid")
 VALUES
@@ -104,6 +115,9 @@ VALUES
 
 INSERT INTO "mentor_users_ways" ("user_uuid", "way_uuid")
 VALUES
+    ('8e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b', '77482c3f-cae6-494d-be1d-d06c1e84450b'),
+    ('1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', '77482c3f-cae6-494d-be1d-d06c1e84450b'),
+    ('8e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b', 'dce03ca6-f626-4c33-a44b-5a1b4ff62aa7'),
     ('3d922e8a-5d58-4b82-9a3d-83e2e73b3f91', '9e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b');
 
 INSERT INTO "favorite_users_ways" ("user_uuid", "way_uuid")

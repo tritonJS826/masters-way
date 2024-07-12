@@ -1,5 +1,6 @@
 import {createColumnHelper} from "@tanstack/react-table";
 import clsx from "clsx";
+import {allWaysAccessIds} from "cypress/accessIds/allWaysAccessIds";
 import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
@@ -156,7 +157,10 @@ export const getWaysColumns = (language: Language) => [
         (row.original.status === WayStatus.abandoned) && styles.abandonedWay,
       )}
       >
-        <Link path={pages.way.getPath({uuid: row.original.uuid})}>
+        <Link
+          path={pages.way.getPath({uuid: row.original.uuid})}
+          dataCy={`${allWaysAccessIds.allWaysTable.wayLink}_${row.original.name}`}
+        >
           {row.original.name}
         </Link>
         <Tooltip
@@ -203,7 +207,10 @@ export const getWaysColumns = (language: Language) => [
             size={AvatarSize.MEDIUM}
           />
           <VerticalContainer>
-            <Link path={pages.user.getPath({uuid: row.original.owner.uuid})}>
+            <Link
+              path={pages.user.getPath({uuid: row.original.owner.uuid})}
+              dataCy={`${allWaysAccessIds.allWaysTable.ownerLink}_${row.original.owner.name}`}
+            >
               {row.original.owner.name}
             </Link>
             {row.original.owner.email}
@@ -252,7 +259,10 @@ export const getWaysColumns = (language: Language) => [
                 content={mentor.name}
                 position={PositionTooltip.LEFT}
               >
-                <Link path={pages.user.getPath({uuid: mentor.uuid})}>
+                <Link
+                  path={pages.user.getPath({uuid: mentor.uuid})}
+                  dataCy={`${allWaysAccessIds.allWaysTable.mentorLink}_${mentor.name}`}
+                >
                   {mentor.name}
                 </Link>
               </Tooltip>
