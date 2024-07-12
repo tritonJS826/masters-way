@@ -16,3 +16,8 @@ $labelMaxWidth: 130px;
   font-size: $fontSizeSmall;
   white-space: nowrap;
 }
+
+.editableText div p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

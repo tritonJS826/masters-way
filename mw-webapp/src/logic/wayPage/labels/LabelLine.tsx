@@ -56,7 +56,17 @@ export const LabelLine = observer((props: LabelLineProps) => {
   return (
     <HorizontalContainer className={styles.labelLine}>
       <div className={styles.labelContainer}>
-        <Label label={props.label} />
+        <Label
+          label={props.label}
+          onChangeValue={(name) => {
+            props.label.updateName(name);
+            updateLabelDebounced({
+              uuid: props.label.uuid,
+              name,
+            });
+          }}
+          isEditable={props.isEditable}
+        />
       </div>
 
       <EditableText
