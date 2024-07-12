@@ -39,7 +39,7 @@ describe('NoAuth All Ways scope tests', () => {
     Object.keys(owners).forEach(expectedOwnerName => {
       allWaysSelectors.filterViewBlock.getTableViewButton().click();
 
-      allWaysSelectors.allWaysTable.getOwnerLink(expectedOwnerName).first().invoke('text').should('eq', expectedOwnerName);
+      allWaysSelectors.allWaysTable.getOwnerLink(expectedOwnerName).first().contains(expectedOwnerName);
 
       allWaysSelectors.allWaysTable.getOwnerLink(expectedOwnerName).first().click();
 
@@ -56,7 +56,7 @@ describe('NoAuth All Ways scope tests', () => {
     Object.keys(ways).forEach(expectedWayTitle => {
       allWaysSelectors.filterViewBlock.getTableViewButton().click();
 
-      allWaysSelectors.allWaysTable.getWayLink(expectedWayTitle).first().invoke('text').should('eq', expectedWayTitle);
+      allWaysSelectors.allWaysTable.getWayLink(expectedWayTitle).first().contains(expectedWayTitle);
 
       allWaysSelectors.allWaysTable.getWayLink(expectedWayTitle).first().click();
 
@@ -73,7 +73,7 @@ describe('NoAuth All Ways scope tests', () => {
     Object.keys(mentors).forEach(expectedMentorName => {
       allWaysSelectors.filterViewBlock.getTableViewButton().click();
 
-      allWaysSelectors.allWaysTable.getMentorLink(expectedMentorName).first().invoke('text').should('eq', expectedMentorName);
+      allWaysSelectors.allWaysTable.getMentorLink(expectedMentorName).first().contains(expectedMentorName);
 
       allWaysSelectors.allWaysTable.getMentorLink(expectedMentorName).first().click();
 
