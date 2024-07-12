@@ -199,15 +199,15 @@
         "en": "Way's type:",
         "ua": "Тип шляху:"
       },
-      "text":  {
+      "composite":  {
         "ru": "Композитный",
         "en": "Composite",
         "ua": "Композитний"
       },
-      "description":  {
-        "ru": "Чтобы сделать путь композитным...",
-        "en": "To make the way composite...",
-        "ua": "Щоб зробити шлях складеним..."
+      "ordinary":  {
+        "ru": "Обычный",
+        "en": "Ordinary",
+        "ua": "Звичайний"
       }
     },
     "wayPrivacy": {

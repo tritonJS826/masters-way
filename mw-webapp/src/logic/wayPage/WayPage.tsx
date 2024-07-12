@@ -735,8 +735,8 @@ export const WayPage = observer((props: WayPageProps) => {
               />
               <div>
                 {isWayComposite
-                  ? LanguageService.way.peopleBlock.wayComposite.text[language]
-                  : LanguageService.way.peopleBlock.wayComposite.description[language]
+                  ? LanguageService.way.peopleBlock.wayComposite.composite[language]
+                  : LanguageService.way.peopleBlock.wayComposite.ordinary[language]
                 }
               </div>
             </HorizontalContainer>
