@@ -108,9 +108,9 @@ export const Dropdown = (props: DropdownProps) => {
           className={clsx(styles.dropdownContent, props.className)}
           data-cy={props.cy?.dataCyContentList}
         >
-          {/* <ul className={styles.menu}> */}
-          {renderDropdownMenuItems}
-          {/* </ul>s */}
+          <ul className={styles.menu}>
+            {renderDropdownMenuItems}
+          </ul>
         </DropdownContent>
       </DropdownRoot>
     </div>
