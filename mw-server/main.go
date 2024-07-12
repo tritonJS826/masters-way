@@ -147,13 +147,13 @@ func init() {
 	AIController = *controllers.NewAIController(ctx)
 	AIRoutes = routes.NewRouteAI(AIController)
 
-	AuthController = *controllers.NewAuthController(db, ctx)
+	AuthController = *controllers.NewAuthController(dbPGX, ctx)
 	AuthRoutes = routes.NewRouteAuth(AuthController)
 
 	WayController = *controllers.NewWayController(db, dbPGX, ctx, &LimitService)
 	WayRoutes = routes.NewRouteWay(WayController)
 
-	UserController = *controllers.NewUserController(db, ctx)
+	UserController = *controllers.NewUserController(dbPGX, ctx)
 	UserRoutes = routes.NewRouteUser(UserController)
 
 	DayReportController = *controllers.NewDayReportController(db, ctx, &LimitService)
@@ -162,7 +162,7 @@ func init() {
 	WayCollectionController = *controllers.NewWayCollectionController(db, ctx, &LimitService)
 	WayCollectionRoutes = routes.NewRouteWayCollection(WayCollectionController)
 
-	CommentController = *controllers.NewCommentController(db, ctx)
+	CommentController = *controllers.NewCommentController(dbPGX, ctx)
 	CommentRoutes = routes.NewRouteComment(CommentController)
 
 	FavoriteUserController = *controllers.NewFavoriteUserController(db, ctx)

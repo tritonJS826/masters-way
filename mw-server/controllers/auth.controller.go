@@ -4,7 +4,7 @@ import (
 	"context"
 	"mwserver/auth"
 	"mwserver/config"
-	db "mwserver/db/sqlc"
+	dbPGX "mwserver/db_pgx/sqlc"
 	"mwserver/services"
 	"mwserver/util"
 	"net/http"
@@ -12,18 +12,19 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 	"golang.org/x/oauth2"
 	oauthGoogle "google.golang.org/api/oauth2/v2"
 	"google.golang.org/api/option"
 )
 
 type AuthController struct {
-	db  *db.Queries
-	ctx context.Context
+	dbPGX *dbPGX.Queries
+	ctx   context.Context
 }
 
-func NewAuthController(db *db.Queries, ctx context.Context) *AuthController {
-	return &AuthController{db, ctx}
+func NewAuthController(dbPGX *dbPGX.Queries, ctx context.Context) *AuthController {
+	return &AuthController{dbPGX, ctx}
 }
 
 // Log in with google oAuth
@@ -56,16 +57,16 @@ func (cc *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
 	util.HandleErrorGin(ctx, err)
 
 	now := time.Now()
-	args := &db.CreateUserParams{
+	args := &dbPGX.CreateUserParams{
 		Name:        userInfo.Name,
 		Email:       userInfo.Email,
 		Description: "",
-		CreatedAt:   now,
+		CreatedAt:   pgtype.Timestamp{Time: now, Valid: true},
 		ImageUrl:    userInfo.Picture,
 		IsMentor:    false,
 	}
 
-	populatedUser, err := services.FindOrCreateUserByEmail(cc.db, ctx, args)
+	populatedUser, err := services.FindOrCreateUserByEmail(cc.dbPGX, ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	jwtToken, err := auth.GenerateJWT(populatedUser.Uuid)
@@ -87,7 +88,7 @@ func (cc *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
 func (cc *AuthController) BeginAuth(ctx *gin.Context) {
 	url := auth.GoogleOAuthConfig.AuthCodeURL(auth.OauthStateString, oauth2.AccessTypeOffline)
 	ctx.Redirect(http.StatusTemporaryRedirect, url)
-	
+
 	ctx.JSON(http.StatusOK, "ok")
 }
 
@@ -103,7 +104,7 @@ func (cc *AuthController) GetCurrentAuthorizedUserByToken(ctx *gin.Context) {
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	userId := userIDRaw.(string)
 
-	populatedUser, err := services.GetPopulatedUserById(cc.db, ctx, uuid.MustParse(userId))
+	populatedUser, err := services.GetPopulatedUserById(cc.dbPGX, ctx, uuid.MustParse(userId))
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, populatedUser)
@@ -123,16 +124,16 @@ func (cc *AuthController) GetUserTokenByEmail(ctx *gin.Context) {
 	userEmail := ctx.Param("userEmail")
 
 	now := time.Now()
-	args := &db.CreateUserParams{
+	args := &dbPGX.CreateUserParams{
 		Name:        userEmail,
 		Email:       userEmail,
 		Description: "",
-		CreatedAt:   now,
+		CreatedAt:   pgtype.Timestamp{Time: now, Valid: true},
 		ImageUrl:    "",
 		IsMentor:    false,
 	}
 
-	populatedUser, err := services.FindOrCreateUserByEmail(cc.db, ctx, args)
+	populatedUser, err := services.FindOrCreateUserByEmail(cc.dbPGX, ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	jwtToken, err := auth.GenerateJWT(populatedUser.Uuid)

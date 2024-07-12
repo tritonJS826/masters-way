@@ -6,24 +6,25 @@ import (
 	"net/http"
 	"strconv"
 
-	db "mwserver/db/sqlc"
+	dbPGX "mwserver/db_pgx/sqlc"
 	"mwserver/schemas"
 	"mwserver/services"
 	"mwserver/util"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 
 	"github.com/samber/lo"
 )
 
 type UserController struct {
-	db  *db.Queries
-	ctx context.Context
+	dbPGX *dbPGX.Queries
+	ctx   context.Context
 }
 
-func NewUserController(db *db.Queries, ctx context.Context) *UserController {
-	return &UserController{db, ctx}
+func NewUserController(dbPGX *dbPGX.Queries, ctx context.Context) *UserController {
+	return &UserController{dbPGX, ctx}
 }
 
 // @Summary Update user by UUID
@@ -45,31 +46,30 @@ func (cc *UserController) UpdateUser(ctx *gin.Context) {
 		return
 	}
 
-	var description, imageUrl, name sql.NullString
-	var mentor sql.NullBool
+	var description, imageUrl, name pgtype.Text
+	var isMentor pgtype.Bool
 	if payload.Description != nil {
-		description = sql.NullString{String: *payload.Description, Valid: true}
+		description = pgtype.Text{String: *payload.Description, Valid: true}
 	}
 	if payload.ImageUrl != nil {
-		imageUrl = sql.NullString{String: *payload.ImageUrl, Valid: true}
+		imageUrl = pgtype.Text{String: *payload.ImageUrl, Valid: true}
 	}
 	if payload.Name != nil {
-		name = sql.NullString{String: *payload.Name, Valid: true}
+		name = pgtype.Text{String: *payload.Name, Valid: true}
 	}
 	if payload.IsMentor != nil {
-		mentor = sql.NullBool{Bool: *payload.IsMentor, Valid: true}
+		isMentor = pgtype.Bool{Bool: *payload.IsMentor, Valid: true}
 	}
 
-	args := &db.UpdateUserParams{
-		Uuid:        uuid.MustParse(userId),
+	params := dbPGX.UpdateUserParams{
+		Uuid:        pgtype.UUID{Bytes: uuid.MustParse(userId), Valid: true},
 		Name:        name,
 		Description: description,
 		ImageUrl:    imageUrl,
-		IsMentor:    mentor,
+		IsMentor:    isMentor,
 	}
 
-	user, err := cc.db.UpdateUser(ctx, *args)
-
+	user, err := cc.dbPGX.UpdateUser(ctx, params)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			ctx.JSON(http.StatusNotFound, gin.H{"error": "Failed to retrieve user with this ID"})
@@ -80,11 +80,11 @@ func (cc *UserController) UpdateUser(ctx *gin.Context) {
 	}
 
 	response := schemas.UserPlainResponse{
-		Uuid:        user.Uuid.String(),
+		Uuid:        util.ConvertPgUUIDToUUID(user.Uuid).String(),
 		Name:        user.Name,
 		Email:       user.Email,
 		Description: user.Description,
-		CreatedAt:   user.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+		CreatedAt:   user.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
 		ImageUrl:    user.ImageUrl,
 		IsMentor:    user.IsMentor,
 	}
@@ -104,7 +104,7 @@ func (cc *UserController) UpdateUser(ctx *gin.Context) {
 func (cc *UserController) GetUserById(ctx *gin.Context) {
 	userId := ctx.Param("userId")
 
-	populatedUser, err := services.GetPopulatedUserById(cc.db, ctx, uuid.MustParse(userId))
+	populatedUser, err := services.GetPopulatedUserById(cc.dbPGX, ctx, uuid.MustParse(userId))
 	if err != nil {
 		if err == sql.ErrNoRows {
 			ctx.JSON(http.StatusNotFound, gin.H{"error": "Failed to retrieve user with this ID"})
@@ -142,15 +142,15 @@ func (cc *UserController) GetAllUsers(ctx *gin.Context) {
 	reqLimit, _ := strconv.Atoi(limit)
 	offset := (reqPageID - 1) * reqLimit
 
-	countUsersArgs := &db.CountUsersParams{
+	countUsersArgs := dbPGX.CountUsersParams{
 		Email:        email,
 		Name:         name,
 		MentorStatus: mentorStatus,
 	}
-	usersSize, err := cc.db.CountUsers(ctx, *countUsersArgs)
+	usersSize, err := cc.dbPGX.CountUsers(ctx, countUsersArgs)
 	util.HandleErrorGin(ctx, err)
 
-	listUsersArgs := &db.ListUsersParams{
+	listUsersArgs := dbPGX.ListUsersParams{
 		Limit:        int32(reqLimit),
 		Offset:       int32(offset),
 		Email:        email,
@@ -158,7 +158,7 @@ func (cc *UserController) GetAllUsers(ctx *gin.Context) {
 		MentorStatus: mentorStatus,
 	}
 
-	users, err := cc.db.ListUsers(ctx, *listUsersArgs)
+	users, err := cc.dbPGX.ListUsers(ctx, listUsersArgs)
 	util.HandleErrorGin(ctx, err)
 
 	response := make([]schemas.UserPlainResponseWithInfo, len(users))
@@ -172,10 +172,10 @@ func (cc *UserController) GetAllUsers(ctx *gin.Context) {
 		})
 
 		response[i] = schemas.UserPlainResponseWithInfo{
-			Uuid:             user.Uuid.String(),
+			Uuid:             util.ConvertPgUUIDToUUID(user.Uuid).String(),
 			Name:             user.Name,
 			Description:      user.Description,
-			CreatedAt:        user.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+			CreatedAt:        user.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
 			ImageUrl:         user.ImageUrl,
 			IsMentor:         user.IsMentor,
 			Email:            user.Email,
