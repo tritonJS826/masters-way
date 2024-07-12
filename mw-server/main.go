@@ -134,11 +134,6 @@ func init() {
 
 	fmt.Println("PostgreSql connected successfully...")
 
-	geminiClient, err = genai.NewClient(ctx, option.WithAPIKey(config.Env.GeminiApiKey))
-	if err != nil {
-		log.Fatalf("Failed to create client: %v", err)
-	}
-
 	// auth.NewAuth()
 	server = gin.Default()
 
@@ -153,11 +148,6 @@ func init() {
 	}))
 
 	LimitService = *services.NewLimitService(db, ctx)
-
-	GeminiService = *services.NewGeminiSerivce(ctx, geminiClient)
-
-	GeminiController = *controllers.NewGeminiController(ctx, &GeminiService)
-	GeminiRoutes = routes.NewRouteGemini(GeminiController)
 
 	AuthController = *controllers.NewAuthController(dbPGX, ctx)
 	AuthRoutes = routes.NewRouteAuth(AuthController)
@@ -233,8 +223,17 @@ func init() {
 		DevRoutes = routes.NewRouteDev(DevController)
 
 		server.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-
+	} else {
+		geminiClient, err = genai.NewClient(ctx, option.WithAPIKey(config.Env.GeminiApiKey))
+		if err != nil {
+			log.Fatalf("Failed to create client: %v", err)
+		}
 	}
+
+	GeminiService = *services.NewGeminiSerivce(ctx, geminiClient)
+
+	GeminiController = *controllers.NewGeminiController(ctx, &GeminiService)
+	GeminiRoutes = routes.NewRouteGemini(GeminiController)
 }
 
 // @title     Masters way API

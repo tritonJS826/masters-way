@@ -4,7 +4,6 @@ import (
 	"context"
 	"net/http"
 
-	"mwserver/config"
 	"mwserver/schemas"
 	"mwserver/services"
 	"mwserver/util"
@@ -38,14 +37,8 @@ func (gc *GeminiController) GenerateMetrics(ctx *gin.Context) {
 		return
 	}
 
-	var metrics []string
-	if config.Env.EnvType == "prod" {
-		var err error
-		metrics, err = gc.gs.GetMetricsByGoal(ctx, &payload)
-		util.HandleErrorGin(ctx, err)
-	} else {
-		metrics = []string{"Metric 1", "Metric 2", "Metric 3"}
-	}
+	metrics, err := gc.gs.GetMetricsByGoal(ctx, &payload)
+	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, metrics)
 }

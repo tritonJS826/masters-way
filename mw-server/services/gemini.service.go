@@ -37,6 +37,11 @@ func (g *GeminiService) createMetricsPrompt(payload *schemas.GenerateMetricsPayl
 }
 
 func (gs *GeminiService) GetMetricsByGoal(ctx context.Context, payload *schemas.GenerateMetricsPayload) ([]string, error) {
+	// if the environment is not 'prod', connection to Gemini is not created, and the client remains nil
+	if gs.gc == nil {
+		return []string{"Metric 1", "Metric 2", "Metric 3"}, nil
+	}
+
 	prompt, err := gs.createMetricsPrompt(payload)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create metrics prompt: %w", err)
