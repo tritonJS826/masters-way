@@ -2,25 +2,25 @@ package controllers
 
 import (
 	"context"
-	"database/sql"
 	"net/http"
 	"time"
 
-	db "mwserver/db/sqlc"
+	dbPGX "mwserver/db_pgx/sqlc"
 	"mwserver/schemas"
 	"mwserver/util"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 type CommentController struct {
-	db  *db.Queries
-	ctx context.Context
+	dbPGX *dbPGX.Queries
+	ctx   context.Context
 }
 
-func NewCommentController(db *db.Queries, ctx context.Context) *CommentController {
-	return &CommentController{db, ctx}
+func NewCommentController(dbPGX *dbPGX.Queries, ctx context.Context) *CommentController {
+	return &CommentController{dbPGX, ctx}
 }
 
 // Create Comment  handler
@@ -42,25 +42,25 @@ func (cc *CommentController) CreateComment(ctx *gin.Context) {
 	}
 
 	now := time.Now()
-	args := &db.CreateCommentParams{
+	args := &dbPGX.CreateCommentParams{
 		Description:   payload.Description,
-		OwnerUuid:     uuid.MustParse(payload.OwnerUuid),
-		DayReportUuid: uuid.MustParse(payload.DayReportUuid),
-		UpdatedAt:     now,
-		CreatedAt:     now,
+		OwnerUuid:     pgtype.UUID{Bytes: uuid.MustParse(payload.OwnerUuid), Valid: true},
+		DayReportUuid: pgtype.UUID{Bytes: uuid.MustParse(payload.DayReportUuid), Valid: true},
+		UpdatedAt:     pgtype.Timestamp{Time: now, Valid: true},
+		CreatedAt:     pgtype.Timestamp{Time: now, Valid: true},
 	}
 
-	comment, err := cc.db.CreateComment(ctx, *args)
+	comment, err := cc.dbPGX.CreateComment(ctx, *args)
 	util.HandleErrorGin(ctx, err)
 
 	response := schemas.CommentPopulatedResponse{
-		Uuid:          comment.Uuid.String(),
+		Uuid:          util.ConvertPgUUIDToUUID(comment.Uuid).String(),
 		Description:   comment.Description,
-		OwnerUuid:     comment.OwnerUuid.String(),
+		OwnerUuid:     util.ConvertPgUUIDToUUID(comment.OwnerUuid).String(),
 		OwnerName:     comment.OwnerName,
-		CreatedAt:     comment.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-		UpdatedAt:     comment.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-		DayReportUuid: comment.DayReportUuid.String(),
+		CreatedAt:     comment.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+		UpdatedAt:     comment.UpdatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+		DayReportUuid: util.ConvertPgUUIDToUUID(comment.DayReportUuid).String(),
 	}
 
 	ctx.JSON(http.StatusOK, response)
@@ -87,13 +87,13 @@ func (cc *CommentController) UpdateComment(ctx *gin.Context) {
 	}
 
 	now := time.Now()
-	args := &db.UpdateCommentParams{
-		Uuid:        uuid.MustParse(commentId),
-		Description: sql.NullString{String: payload.Description, Valid: payload.Description != ""},
-		UpdatedAt:   sql.NullTime{Time: now, Valid: true},
+	args := &dbPGX.UpdateCommentParams{
+		Uuid:        pgtype.UUID{Bytes: uuid.MustParse(commentId), Valid: true},
+		Description: pgtype.Text{String: payload.Description, Valid: payload.Description != ""},
+		UpdatedAt:   pgtype.Timestamp{Time: now, Valid: true},
 	}
 
-	comment, err := cc.db.UpdateComment(ctx, *args)
+	comment, err := cc.dbPGX.UpdateComment(ctx, *args)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, comment)
@@ -112,7 +112,7 @@ func (cc *CommentController) UpdateComment(ctx *gin.Context) {
 func (cc *CommentController) DeleteCommentById(ctx *gin.Context) {
 	commentId := ctx.Param("commentId")
 
-	err := cc.db.DeleteComment(ctx, uuid.MustParse(commentId))
+	err := cc.dbPGX.DeleteComment(ctx, pgtype.UUID{Bytes: uuid.MustParse(commentId), Valid: true})
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})

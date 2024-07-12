@@ -11,6 +11,416 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
+const countWaysByType = `-- name: CountWaysByType :one
+SELECT COUNT(*) FROM ways
+WHERE ways.is_private = false AND (
+    ($2 = 'inProgress'
+        AND ways.is_completed = false
+        AND ways.updated_at > ($1::timestamp - interval '14 days'))
+    OR ($2 = 'completed' AND ways.is_completed = true)
+    OR ($2 = 'abandoned'
+        AND (ways.is_completed = false)
+        AND (ways.updated_at < ($1::timestamp - interval '14 days'))
+    )
+    OR ($2 = 'all')
+)
+`
+
+type CountWaysByTypeParams struct {
+	Column1   pgtype.Timestamp `json:"column_1"`
+	WayStatus interface{}      `json:"way_status"`
+}
+
+func (q *Queries) CountWaysByType(ctx context.Context, arg CountWaysByTypeParams) (int64, error) {
+	row := q.db.QueryRow(ctx, countWaysByType, arg.Column1, arg.WayStatus)
+	var count int64
+	err := row.Scan(&count)
+	return count, err
+}
+
+const createWay = `-- name: CreateWay :one
+INSERT INTO ways(
+    name,
+    goal_description,
+    updated_at,
+    created_at,
+    estimation_time,
+    copied_from_way_uuid,
+    is_private,
+    is_completed,
+    owner_uuid
+) VALUES (
+    $1, $2, $3, $4, $5, $6, $7, $8, $9
+) RETURNING
+    uuid, name, goal_description, updated_at, created_at, estimation_time, owner_uuid, copied_from_way_uuid, is_completed, is_private,
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = $10) AS way_metrics_total,
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = $10 AND metrics.is_done = true) AS way_metrics_done,
+    (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = $10) AS way_favorite_for_users,
+    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = $10) AS way_day_reports_amount,
+    COALESCE(
+        ARRAY(
+            SELECT composite_ways.child_uuid
+            FROM composite_ways
+            WHERE composite_ways.parent_uuid = ways.uuid
+        ),
+        '{}'
+    )::VARCHAR[] AS children_uuids
+`
+
+type CreateWayParams struct {
+	Name              string           `json:"name"`
+	GoalDescription   string           `json:"goal_description"`
+	UpdatedAt         pgtype.Timestamp `json:"updated_at"`
+	CreatedAt         pgtype.Timestamp `json:"created_at"`
+	EstimationTime    int32            `json:"estimation_time"`
+	CopiedFromWayUuid pgtype.UUID      `json:"copied_from_way_uuid"`
+	IsPrivate         bool             `json:"is_private"`
+	IsCompleted       bool             `json:"is_completed"`
+	OwnerUuid         pgtype.UUID      `json:"owner_uuid"`
+	WayUuid           pgtype.UUID      `json:"way_uuid"`
+}
+
+type CreateWayRow struct {
+	Uuid                pgtype.UUID      `json:"uuid"`
+	Name                string           `json:"name"`
+	GoalDescription     string           `json:"goal_description"`
+	UpdatedAt           pgtype.Timestamp `json:"updated_at"`
+	CreatedAt           pgtype.Timestamp `json:"created_at"`
+	EstimationTime      int32            `json:"estimation_time"`
+	OwnerUuid           pgtype.UUID      `json:"owner_uuid"`
+	CopiedFromWayUuid   pgtype.UUID      `json:"copied_from_way_uuid"`
+	IsCompleted         bool             `json:"is_completed"`
+	IsPrivate           bool             `json:"is_private"`
+	WayMetricsTotal     int64            `json:"way_metrics_total"`
+	WayMetricsDone      int64            `json:"way_metrics_done"`
+	WayFavoriteForUsers int64            `json:"way_favorite_for_users"`
+	WayDayReportsAmount int64            `json:"way_day_reports_amount"`
+	ChildrenUuids       []string         `json:"children_uuids"`
+}
+
+func (q *Queries) CreateWay(ctx context.Context, arg CreateWayParams) (CreateWayRow, error) {
+	row := q.db.QueryRow(ctx, createWay,
+		arg.Name,
+		arg.GoalDescription,
+		arg.UpdatedAt,
+		arg.CreatedAt,
+		arg.EstimationTime,
+		arg.CopiedFromWayUuid,
+		arg.IsPrivate,
+		arg.IsCompleted,
+		arg.OwnerUuid,
+		arg.WayUuid,
+	)
+	var i CreateWayRow
+	err := row.Scan(
+		&i.Uuid,
+		&i.Name,
+		&i.GoalDescription,
+		&i.UpdatedAt,
+		&i.CreatedAt,
+		&i.EstimationTime,
+		&i.OwnerUuid,
+		&i.CopiedFromWayUuid,
+		&i.IsCompleted,
+		&i.IsPrivate,
+		&i.WayMetricsTotal,
+		&i.WayMetricsDone,
+		&i.WayFavoriteForUsers,
+		&i.WayDayReportsAmount,
+		&i.ChildrenUuids,
+	)
+	return i, err
+}
+
+const deleteWay = `-- name: DeleteWay :exec
+DELETE FROM ways
+WHERE uuid = $1
+`
+
+func (q *Queries) DeleteWay(ctx context.Context, wayUuid pgtype.UUID) error {
+	_, err := q.db.Exec(ctx, deleteWay, wayUuid)
+	return err
+}
+
+const getFavoriteWaysByUserId = `-- name: GetFavoriteWaysByUserId :many
+SELECT
+    ways.uuid,
+    ways.name,
+    ways.owner_uuid,
+    ways.goal_description,
+    ways.updated_at,
+    ways.created_at,
+    ways.estimation_time,
+    ways.copied_from_way_uuid,
+    ways.is_completed,
+    ways.is_private,
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
+    (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
+    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount,
+    COALESCE(
+        ARRAY(
+            SELECT composite_ways.child_uuid
+            FROM composite_ways
+            WHERE composite_ways.parent_uuid = ways.uuid
+        ),
+        '{}'
+    )::VARCHAR[] AS children_uuids
+FROM ways
+JOIN favorite_users_ways ON favorite_users_ways.way_uuid = ways.uuid
+WHERE favorite_users_ways.user_uuid = $1
+ORDER BY ways.updated_at DESC
+`
+
+type GetFavoriteWaysByUserIdRow struct {
+	Uuid                pgtype.UUID      `json:"uuid"`
+	Name                string           `json:"name"`
+	OwnerUuid           pgtype.UUID      `json:"owner_uuid"`
+	GoalDescription     string           `json:"goal_description"`
+	UpdatedAt           pgtype.Timestamp `json:"updated_at"`
+	CreatedAt           pgtype.Timestamp `json:"created_at"`
+	EstimationTime      int32            `json:"estimation_time"`
+	CopiedFromWayUuid   pgtype.UUID      `json:"copied_from_way_uuid"`
+	IsCompleted         bool             `json:"is_completed"`
+	IsPrivate           bool             `json:"is_private"`
+	WayMetricsTotal     int64            `json:"way_metrics_total"`
+	WayMetricsDone      int64            `json:"way_metrics_done"`
+	WayFavoriteForUsers int64            `json:"way_favorite_for_users"`
+	WayDayReportsAmount int64            `json:"way_day_reports_amount"`
+	ChildrenUuids       []string         `json:"children_uuids"`
+}
+
+func (q *Queries) GetFavoriteWaysByUserId(ctx context.Context, userUuid pgtype.UUID) ([]GetFavoriteWaysByUserIdRow, error) {
+	rows, err := q.db.Query(ctx, getFavoriteWaysByUserId, userUuid)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []GetFavoriteWaysByUserIdRow{}
+	for rows.Next() {
+		var i GetFavoriteWaysByUserIdRow
+		if err := rows.Scan(
+			&i.Uuid,
+			&i.Name,
+			&i.OwnerUuid,
+			&i.GoalDescription,
+			&i.UpdatedAt,
+			&i.CreatedAt,
+			&i.EstimationTime,
+			&i.CopiedFromWayUuid,
+			&i.IsCompleted,
+			&i.IsPrivate,
+			&i.WayMetricsTotal,
+			&i.WayMetricsDone,
+			&i.WayFavoriteForUsers,
+			&i.WayDayReportsAmount,
+			&i.ChildrenUuids,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getMentoringWaysByMentorId = `-- name: GetMentoringWaysByMentorId :many
+SELECT
+    ways.uuid,
+    ways.name,
+    ways.owner_uuid,
+    ways.goal_description,
+    ways.updated_at,
+    ways.created_at,
+    ways.estimation_time,
+    ways.copied_from_way_uuid,
+    ways.is_completed,
+    ways.is_private,
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
+    (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
+    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount,
+    COALESCE(
+        ARRAY(
+            SELECT composite_ways.child_uuid
+            FROM composite_ways
+            WHERE composite_ways.parent_uuid = ways.uuid
+        ),
+        '{}'
+    )::VARCHAR[] AS children_uuids
+FROM ways
+JOIN mentor_users_ways ON mentor_users_ways.way_uuid = ways.uuid
+WHERE mentor_users_ways.user_uuid = $1
+ORDER BY ways.updated_at DESC
+`
+
+type GetMentoringWaysByMentorIdRow struct {
+	Uuid                pgtype.UUID      `json:"uuid"`
+	Name                string           `json:"name"`
+	OwnerUuid           pgtype.UUID      `json:"owner_uuid"`
+	GoalDescription     string           `json:"goal_description"`
+	UpdatedAt           pgtype.Timestamp `json:"updated_at"`
+	CreatedAt           pgtype.Timestamp `json:"created_at"`
+	EstimationTime      int32            `json:"estimation_time"`
+	CopiedFromWayUuid   pgtype.UUID      `json:"copied_from_way_uuid"`
+	IsCompleted         bool             `json:"is_completed"`
+	IsPrivate           bool             `json:"is_private"`
+	WayMetricsTotal     int64            `json:"way_metrics_total"`
+	WayMetricsDone      int64            `json:"way_metrics_done"`
+	WayFavoriteForUsers int64            `json:"way_favorite_for_users"`
+	WayDayReportsAmount int64            `json:"way_day_reports_amount"`
+	ChildrenUuids       []string         `json:"children_uuids"`
+}
+
+func (q *Queries) GetMentoringWaysByMentorId(ctx context.Context, userUuid pgtype.UUID) ([]GetMentoringWaysByMentorIdRow, error) {
+	rows, err := q.db.Query(ctx, getMentoringWaysByMentorId, userUuid)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []GetMentoringWaysByMentorIdRow{}
+	for rows.Next() {
+		var i GetMentoringWaysByMentorIdRow
+		if err := rows.Scan(
+			&i.Uuid,
+			&i.Name,
+			&i.OwnerUuid,
+			&i.GoalDescription,
+			&i.UpdatedAt,
+			&i.CreatedAt,
+			&i.EstimationTime,
+			&i.CopiedFromWayUuid,
+			&i.IsCompleted,
+			&i.IsPrivate,
+			&i.WayMetricsTotal,
+			&i.WayMetricsDone,
+			&i.WayFavoriteForUsers,
+			&i.WayDayReportsAmount,
+			&i.ChildrenUuids,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getOwnWaysByUserId = `-- name: GetOwnWaysByUserId :many
+SELECT
+    ways.uuid,
+    ways.name,
+    ways.owner_uuid,
+    ways.goal_description,
+    ways.updated_at,
+    ways.created_at,
+    ways.estimation_time,
+    ways.copied_from_way_uuid,
+    ways.is_completed,
+    ways.is_private,
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
+    (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
+    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount,
+    COALESCE(
+        ARRAY(
+            SELECT composite_ways.child_uuid
+            FROM composite_ways
+            WHERE composite_ways.parent_uuid = ways.uuid
+        ),
+        '{}'
+    )::VARCHAR[] AS children_uuids
+FROM ways
+WHERE ways.owner_uuid = $1
+ORDER BY ways.updated_at DESC
+`
+
+type GetOwnWaysByUserIdRow struct {
+	Uuid                pgtype.UUID      `json:"uuid"`
+	Name                string           `json:"name"`
+	OwnerUuid           pgtype.UUID      `json:"owner_uuid"`
+	GoalDescription     string           `json:"goal_description"`
+	UpdatedAt           pgtype.Timestamp `json:"updated_at"`
+	CreatedAt           pgtype.Timestamp `json:"created_at"`
+	EstimationTime      int32            `json:"estimation_time"`
+	CopiedFromWayUuid   pgtype.UUID      `json:"copied_from_way_uuid"`
+	IsCompleted         bool             `json:"is_completed"`
+	IsPrivate           bool             `json:"is_private"`
+	WayMetricsTotal     int64            `json:"way_metrics_total"`
+	WayMetricsDone      int64            `json:"way_metrics_done"`
+	WayFavoriteForUsers int64            `json:"way_favorite_for_users"`
+	WayDayReportsAmount int64            `json:"way_day_reports_amount"`
+	ChildrenUuids       []string         `json:"children_uuids"`
+}
+
+func (q *Queries) GetOwnWaysByUserId(ctx context.Context, ownerUuid pgtype.UUID) ([]GetOwnWaysByUserIdRow, error) {
+	rows, err := q.db.Query(ctx, getOwnWaysByUserId, ownerUuid)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []GetOwnWaysByUserIdRow{}
+	for rows.Next() {
+		var i GetOwnWaysByUserIdRow
+		if err := rows.Scan(
+			&i.Uuid,
+			&i.Name,
+			&i.OwnerUuid,
+			&i.GoalDescription,
+			&i.UpdatedAt,
+			&i.CreatedAt,
+			&i.EstimationTime,
+			&i.CopiedFromWayUuid,
+			&i.IsCompleted,
+			&i.IsPrivate,
+			&i.WayMetricsTotal,
+			&i.WayMetricsDone,
+			&i.WayFavoriteForUsers,
+			&i.WayDayReportsAmount,
+			&i.ChildrenUuids,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getOwnWaysCountByUserId = `-- name: GetOwnWaysCountByUserId :one
+SELECT
+    COUNT(*) AS own_ways_count
+FROM ways
+WHERE owner_uuid = $1
+`
+
+func (q *Queries) GetOwnWaysCountByUserId(ctx context.Context, userUuid pgtype.UUID) (int64, error) {
+	row := q.db.QueryRow(ctx, getOwnWaysCountByUserId, userUuid)
+	var own_ways_count int64
+	err := row.Scan(&own_ways_count)
+	return own_ways_count, err
+}
+
+const getPrivateWaysCountByUserId = `-- name: GetPrivateWaysCountByUserId :one
+SELECT
+    COUNT(*) AS private_ways_count
+FROM ways
+WHERE owner_uuid = $1 AND is_private = TRUE
+`
+
+func (q *Queries) GetPrivateWaysCountByUserId(ctx context.Context, userUuid pgtype.UUID) (int64, error) {
+	row := q.db.QueryRow(ctx, getPrivateWaysCountByUserId, userUuid)
+	var private_ways_count int64
+	err := row.Scan(&private_ways_count)
+	return private_ways_count, err
+}
+
 const getWayById = `-- name: GetWayById :one
 SELECT
     ways.uuid,
@@ -96,6 +506,269 @@ func (q *Queries) GetWayById(ctx context.Context, wayUuid pgtype.UUID) (GetWayBy
 		&i.WayMetricsDone,
 		&i.WayFavoriteForUsers,
 		&i.WayDayReportsAmount,
+	)
+	return i, err
+}
+
+const getWaysByCollectionId = `-- name: GetWaysByCollectionId :many
+SELECT
+    ways.uuid,
+    ways.name,
+    ways.owner_uuid,
+    ways.goal_description,
+    ways.updated_at,
+    ways.created_at,
+    ways.estimation_time,
+    ways.copied_from_way_uuid,
+    ways.is_completed,
+    ways.is_private,
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
+    (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
+    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount,
+    COALESCE(
+        ARRAY(
+            SELECT composite_ways.child_uuid
+            FROM composite_ways
+            WHERE composite_ways.parent_uuid = ways.uuid
+        ),
+        '{}'
+    )::VARCHAR[] AS children_uuids
+FROM ways
+JOIN way_collections_ways ON way_collections_ways.way_uuid = ways.uuid
+WHERE way_collections_ways.way_collection_uuid = $1
+ORDER BY ways.updated_at DESC
+`
+
+type GetWaysByCollectionIdRow struct {
+	Uuid                pgtype.UUID      `json:"uuid"`
+	Name                string           `json:"name"`
+	OwnerUuid           pgtype.UUID      `json:"owner_uuid"`
+	GoalDescription     string           `json:"goal_description"`
+	UpdatedAt           pgtype.Timestamp `json:"updated_at"`
+	CreatedAt           pgtype.Timestamp `json:"created_at"`
+	EstimationTime      int32            `json:"estimation_time"`
+	CopiedFromWayUuid   pgtype.UUID      `json:"copied_from_way_uuid"`
+	IsCompleted         bool             `json:"is_completed"`
+	IsPrivate           bool             `json:"is_private"`
+	WayMetricsTotal     int64            `json:"way_metrics_total"`
+	WayMetricsDone      int64            `json:"way_metrics_done"`
+	WayFavoriteForUsers int64            `json:"way_favorite_for_users"`
+	WayDayReportsAmount int64            `json:"way_day_reports_amount"`
+	ChildrenUuids       []string         `json:"children_uuids"`
+}
+
+func (q *Queries) GetWaysByCollectionId(ctx context.Context, wayCollectionUuid pgtype.UUID) ([]GetWaysByCollectionIdRow, error) {
+	rows, err := q.db.Query(ctx, getWaysByCollectionId, wayCollectionUuid)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []GetWaysByCollectionIdRow{}
+	for rows.Next() {
+		var i GetWaysByCollectionIdRow
+		if err := rows.Scan(
+			&i.Uuid,
+			&i.Name,
+			&i.OwnerUuid,
+			&i.GoalDescription,
+			&i.UpdatedAt,
+			&i.CreatedAt,
+			&i.EstimationTime,
+			&i.CopiedFromWayUuid,
+			&i.IsCompleted,
+			&i.IsPrivate,
+			&i.WayMetricsTotal,
+			&i.WayMetricsDone,
+			&i.WayFavoriteForUsers,
+			&i.WayDayReportsAmount,
+			&i.ChildrenUuids,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const listWays = `-- name: ListWays :many
+SELECT
+    uuid, name, goal_description, updated_at, created_at, estimation_time, owner_uuid, copied_from_way_uuid, is_completed, is_private,
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
+    (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
+    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount,
+    COALESCE(
+        ARRAY(
+            SELECT composite_ways.child_uuid
+            FROM composite_ways
+            WHERE composite_ways.parent_uuid = ways.uuid
+        ),
+        '{}'
+    )::VARCHAR[] AS children_uuids
+FROM ways
+WHERE ways.is_private = false AND
+    (
+        ($3 = 'inProgress' AND ways.is_completed = false AND ways.updated_at > $4::timestamp - interval '14 days')
+    OR ($3 = 'completed' AND ways.is_completed = true)
+    OR ($3 = 'abandoned' AND ways.is_completed = false AND ways.updated_at < $4::timestamp - interval '14 days')
+    OR ($3 = 'all')
+    )
+ORDER BY created_at DESC
+LIMIT $1
+OFFSET $2
+`
+
+type ListWaysParams struct {
+	Limit   int32            `json:"limit"`
+	Offset  int32            `json:"offset"`
+	Column3 interface{}      `json:"column_3"`
+	Column4 pgtype.Timestamp `json:"column_4"`
+}
+
+type ListWaysRow struct {
+	Uuid                pgtype.UUID      `json:"uuid"`
+	Name                string           `json:"name"`
+	GoalDescription     string           `json:"goal_description"`
+	UpdatedAt           pgtype.Timestamp `json:"updated_at"`
+	CreatedAt           pgtype.Timestamp `json:"created_at"`
+	EstimationTime      int32            `json:"estimation_time"`
+	OwnerUuid           pgtype.UUID      `json:"owner_uuid"`
+	CopiedFromWayUuid   pgtype.UUID      `json:"copied_from_way_uuid"`
+	IsCompleted         bool             `json:"is_completed"`
+	IsPrivate           bool             `json:"is_private"`
+	WayMetricsTotal     int64            `json:"way_metrics_total"`
+	WayMetricsDone      int64            `json:"way_metrics_done"`
+	WayFavoriteForUsers int64            `json:"way_favorite_for_users"`
+	WayDayReportsAmount int64            `json:"way_day_reports_amount"`
+	ChildrenUuids       []string         `json:"children_uuids"`
+}
+
+func (q *Queries) ListWays(ctx context.Context, arg ListWaysParams) ([]ListWaysRow, error) {
+	rows, err := q.db.Query(ctx, listWays,
+		arg.Limit,
+		arg.Offset,
+		arg.Column3,
+		arg.Column4,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []ListWaysRow{}
+	for rows.Next() {
+		var i ListWaysRow
+		if err := rows.Scan(
+			&i.Uuid,
+			&i.Name,
+			&i.GoalDescription,
+			&i.UpdatedAt,
+			&i.CreatedAt,
+			&i.EstimationTime,
+			&i.OwnerUuid,
+			&i.CopiedFromWayUuid,
+			&i.IsCompleted,
+			&i.IsPrivate,
+			&i.WayMetricsTotal,
+			&i.WayMetricsDone,
+			&i.WayFavoriteForUsers,
+			&i.WayDayReportsAmount,
+			&i.ChildrenUuids,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const updateWay = `-- name: UpdateWay :one
+UPDATE ways
+SET
+name = coalesce($1, name),
+goal_description = coalesce($2, goal_description),
+updated_at = coalesce($3, updated_at),
+estimation_time = coalesce($4, estimation_time),
+is_private = coalesce($5, is_private),
+is_completed = coalesce($6, is_completed)
+
+WHERE ways.uuid = $7
+RETURNING uuid, name, goal_description, updated_at, created_at, estimation_time, owner_uuid, copied_from_way_uuid, is_completed, is_private,
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = $7) AS way_metrics_total,
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = $7 AND metrics.is_done = true) AS way_metrics_done,
+    (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = $7) AS way_favorite_for_users,
+    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = $7) AS way_day_reports_amount,
+    COALESCE(
+        ARRAY(
+            SELECT composite_ways.child_uuid
+            FROM composite_ways
+            WHERE composite_ways.parent_uuid = ways.uuid
+        ),
+        '{}'
+    )::VARCHAR[] AS children_uuids
+`
+
+type UpdateWayParams struct {
+	Name            pgtype.Text      `json:"name"`
+	GoalDescription pgtype.Text      `json:"goal_description"`
+	UpdatedAt       pgtype.Timestamp `json:"updated_at"`
+	EstimationTime  pgtype.Int4      `json:"estimation_time"`
+	IsPrivate       pgtype.Bool      `json:"is_private"`
+	IsCompleted     pgtype.Bool      `json:"is_completed"`
+	Uuid            pgtype.UUID      `json:"uuid"`
+}
+
+type UpdateWayRow struct {
+	Uuid                pgtype.UUID      `json:"uuid"`
+	Name                string           `json:"name"`
+	GoalDescription     string           `json:"goal_description"`
+	UpdatedAt           pgtype.Timestamp `json:"updated_at"`
+	CreatedAt           pgtype.Timestamp `json:"created_at"`
+	EstimationTime      int32            `json:"estimation_time"`
+	OwnerUuid           pgtype.UUID      `json:"owner_uuid"`
+	CopiedFromWayUuid   pgtype.UUID      `json:"copied_from_way_uuid"`
+	IsCompleted         bool             `json:"is_completed"`
+	IsPrivate           bool             `json:"is_private"`
+	WayMetricsTotal     int64            `json:"way_metrics_total"`
+	WayMetricsDone      int64            `json:"way_metrics_done"`
+	WayFavoriteForUsers int64            `json:"way_favorite_for_users"`
+	WayDayReportsAmount int64            `json:"way_day_reports_amount"`
+	ChildrenUuids       []string         `json:"children_uuids"`
+}
+
+func (q *Queries) UpdateWay(ctx context.Context, arg UpdateWayParams) (UpdateWayRow, error) {
+	row := q.db.QueryRow(ctx, updateWay,
+		arg.Name,
+		arg.GoalDescription,
+		arg.UpdatedAt,
+		arg.EstimationTime,
+		arg.IsPrivate,
+		arg.IsCompleted,
+		arg.Uuid,
+	)
+	var i UpdateWayRow
+	err := row.Scan(
+		&i.Uuid,
+		&i.Name,
+		&i.GoalDescription,
+		&i.UpdatedAt,
+		&i.CreatedAt,
+		&i.EstimationTime,
+		&i.OwnerUuid,
+		&i.CopiedFromWayUuid,
+		&i.IsCompleted,
+		&i.IsPrivate,
+		&i.WayMetricsTotal,
+		&i.WayMetricsDone,
+		&i.WayFavoriteForUsers,
+		&i.WayDayReportsAmount,
+		&i.ChildrenUuids,
 	)
 	return i, err
 }
