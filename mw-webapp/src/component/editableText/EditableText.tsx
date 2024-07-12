@@ -133,6 +133,7 @@ export const EditableText = <T extends string | number>(props: EditableTextProps
         text: "label should include at least one character",
         type: "info",
       })
+    // TODO: use generics instead of "as" operator 
       : setValue(updatedValue as T);
   };
 
