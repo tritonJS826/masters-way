@@ -7,7 +7,7 @@ import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Confirm} from "src/component/confirm/Confirm";
 import {Dropdown} from "src/component/dropdown/Dropdown";
-import {DropdownMenuItem, DropdownMenuItemType} from "src/component/dropdown/dropdownMenuItem/DropdownMenuItem";
+import {DropdownMenuItemType} from "src/component/dropdown/dropdownMenuItem/DropdownMenuItem";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
@@ -177,12 +177,9 @@ export const WayPage = observer((props: WayPageProps) => {
 
   const renderDeleteWayDropdownItem = (
     <Confirm
-      trigger={
-        <DropdownMenuItem
-          value={LanguageService.way.wayActions.deleteTheWay[language]}
-          onClick={() => {}}
-        />
-      }
+      trigger={<>
+        {LanguageService.way.wayActions.deleteTheWay[language]}
+      </>}
       content={<p>
         {`${LanguageService.way.wayActions.deleteWayQuestion[language]} "${way.name}"?`}
       </p>}
@@ -275,16 +272,14 @@ export const WayPage = observer((props: WayPageProps) => {
 
       return {
         id: ownWay.uuid,
-        value: (
-          <DropdownMenuItem
-            key={ownWay.uuid}
-            value={isWayInComposite
-              ? `${LanguageService.way.wayActions.deleteFromCompositeWay[language]} ${ownWay.name}`
-              : `${LanguageService.way.wayActions.addToCompositeWay[language]} ${ownWay.name}`
-            }
-            onClick={() => toggleWayInCompositeWay(isWayInComposite, ownWay.uuid, way.uuid)}
-          />
-        ),
+        value: isWayInComposite
+          ? `${LanguageService.way.wayActions.deleteFromCompositeWay[language]} ${ownWay.name}`
+          : `${LanguageService.way.wayActions.addToCompositeWay[language]} ${ownWay.name}`,
+
+        /**
+         * Add to or remove way from composite way
+         */
+        onClick: () => toggleWayInCompositeWay(isWayInComposite, ownWay.uuid, way.uuid),
       };
     });
 
@@ -294,16 +289,14 @@ export const WayPage = observer((props: WayPageProps) => {
 
       return {
         id: userCollection.uuid,
-        value: (
-          <DropdownMenuItem
-            key={userCollection.uuid}
-            value={isWayInUserCollection
-              ? `${LanguageService.way.wayActions.deleteFrom[language]} ${userCollection.name}`
-              : `${LanguageService.way.wayActions.addTo[language]} ${userCollection.name}`
-            }
-            onClick={() => toggleWayInWayCollectionByUuid(userCollection.uuid)}
-          />
-        ),
+        value: isWayInUserCollection
+          ? `${LanguageService.way.wayActions.deleteFrom[language]} ${userCollection.name}`
+          : `${LanguageService.way.wayActions.addTo[language]} ${userCollection.name}`,
+
+        /**
+         * Add or remove way from custom collection depends on custom collections.
+         */
+        onClick: () => toggleWayInWayCollectionByUuid(userCollection.uuid),
       };
     });
 
@@ -490,7 +483,7 @@ export const WayPage = observer((props: WayPageProps) => {
                 </Tooltip>
 
                 <Dropdown
-                  className={styles.wayActionMenu}
+                  contentClassName={styles.wayActionMenu}
                   trigger={(
                     <Tooltip
                       content={LanguageService.way.wayInfo.wayActionsTooltip[language]}

@@ -178,6 +178,11 @@
       "ru": "Вы уверены, что хотите удалить коллекцию",
       "en": "Are you sure you want to delete collection",
       "ua": "Ви впевнені, що хочете видалити колекцію"
+    },
+    "collectionActionsTooltip": {
+      "ru": "Действия коллекции",
+      "en": "Collection actions",
+      "ua": "Дії колекції"
     }
   },
   "filterBlock": {

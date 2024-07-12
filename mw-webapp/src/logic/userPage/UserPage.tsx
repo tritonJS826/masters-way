@@ -5,7 +5,6 @@ import {TrackUserPage} from "src/analytics/userPageAnalytics";
 import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Checkbox";
-import {Confirm} from "src/component/confirm/Confirm";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
@@ -160,7 +159,6 @@ export const UserPage = observer((props: UserPageProps) => {
 
   const {language} = languageStore;
   const {theme} = themeStore;
-  const [isRenameCollectionModalOpen, setIsRenameCollectionModalOpen] = useState(false);
   const [isAddUserTagModalOpen, setIsAddUserTagModalOpen] = useState(false);
   const {userPageOwner, addUserToFavoriteForUser, deleteUserFromFavoriteForUser} = userPageStore;
 
@@ -634,6 +632,9 @@ export const UserPage = observer((props: UserPageProps) => {
                 collectionWaysAmount={collection.ways.length}
                 onClick={() => setOpenedTabId(collection.uuid)}
                 language={language}
+                isEditable={true}
+                onTitleEdit={(name) => updateCustomWayCollection({id: openedTabId, name})}
+                onDelete={() => deleteCustomWayCollections(currentCollection.uuid)}
               />
             ))}
 
@@ -649,49 +650,6 @@ export const UserPage = observer((props: UserPageProps) => {
           </HorizontalContainer>
         </VerticalContainer>
       </VerticalContainer>
-
-      {isCustomCollection && isPageOwner && (
-        <HorizontalContainer className={styles.temporalBlock}>
-          <Confirm
-            trigger={
-              <Button
-                value={LanguageService.user.collections.deleteCollection[language]}
-                onClick={() => {}}
-                buttonType={ButtonType.SECONDARY}
-                className={styles.button}
-              />
-            }
-            content={<p>
-              {`${LanguageService.user.collections.deleteCollectionModalQuestion[language]} "${currentCollection.name}" ?`}
-            </p>}
-            onOk={() => deleteCustomWayCollections(currentCollection.uuid)}
-            okText={LanguageService.modals.confirmModal.deleteButton[language]}
-            cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
-          />
-          <Modal
-            isOpen={isRenameCollectionModalOpen}
-            content={
-              <PromptModalContent
-                defaultValue={currentCollection.name}
-                placeholder="Collection name"
-                close={() => setIsRenameCollectionModalOpen(false)}
-                onOk={(name: string) => {
-                  updateCustomWayCollection({id: openedTabId, name});
-                  setIsRenameCollectionModalOpen(false);
-                }}
-                okButtonValue={LanguageService.modals.promptModal.okButton[language]}
-                cancelButtonValue={LanguageService.modals.promptModal.cancelButton[language]}
-              />
-            }
-            trigger={
-              <Button
-                value={LanguageService.user.collections.renameCollection[language]}
-                onClick={() => setIsRenameCollectionModalOpen(true)}
-              />
-            }
-          />
-        </HorizontalContainer>
-      )}
 
       <BaseWaysTable
         key={currentCollection.uuid}

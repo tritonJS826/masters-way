@@ -1,4 +1,4 @@
-import React, {ReactNode} from "react";
+import {ReactElement} from "react";
 import styles from "src/component/dropdown/dropdownMenuItem/DropdownMenuItem.module.scss";
 
 /**
@@ -14,7 +14,7 @@ export interface DropdownMenuItemType {
   /**
    * Item`s value
    */
-  value: string | ReactNode;
+  value: ReactElement<HTMLElement> | string;
 
   /**
    * Item`s onClick
@@ -36,7 +36,7 @@ interface DropdownMenuItemProps {
   /**
    * Items`s value
    */
-  value: string;
+  value: ReactElement<HTMLElement> | string;
 
   /**
    * Callback triggered onClick
@@ -55,7 +55,6 @@ interface DropdownMenuItemProps {
 export const DropdownMenuItem = (props: DropdownMenuItemProps) => {
   return (
     <li
-      key={props.value}
       className={styles.dropdownMenuItem}
       onClick={props.onClick ?? (() => {})}
       data-cy={props.dataCyContent}
