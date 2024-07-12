@@ -8,7 +8,8 @@
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:vitest/recommended"
     // I temporaly install @ljharb and @yarnaimo to fix problem with building storybook. Let's remove this dependency if it is possible
     // "@ljharb"
     // "@yarnaimo"
@@ -26,7 +27,8 @@
     "@typescript-eslint",
     "simple-import-sort",
     "jsdoc",
-    "@stylistic"
+    "@stylistic",
+    "vitest"
   ],
   "rules": {
     "@stylistic/eol-last": ["error", "always"],
@@ -204,7 +206,7 @@
       { "blankLine": "always", "prev": "import", "next": "class" },
       { "blankLine": "always", "prev": "import", "next": "const" }
     ],
-    "eol-last": ["error", "always"]
+    "vitest/expect-expect": "off"
   },
   "ignorePatterns": [
     "/build",
@@ -212,8 +214,10 @@
     "**/node_modules",
     "storybook-static",
     "vite.config.ts",
+    "vitest.config.ts",
     "cypress.config.ts",
-    "cypress/"
+    "cypress/",
+    "coverage/"
   ],
   "overrides": [
     {
