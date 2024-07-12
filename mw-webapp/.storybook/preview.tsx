@@ -1,19 +1,19 @@
 import React from "react";
 import type {Preview} from "@storybook/react";
-import { ThemeSwitcher } from "../src/component/themeSwitcher/ThemeSwitcher";
+import { ThemeSwitcher, getNextSwitchTheme } from "../src/component/themeSwitcher/ThemeSwitcher";
 import {
   DEFAULT_NOTIFICATION_SETTINGS,
   globalContext,
 } from "../src/GlobalContext";
 import {languageStore} from "../src/globalStore/LanguageStore";
-import { themeStore } from "../src/globalStore/ThemeStore";
+import {themeStore} from "../src/globalStore/ThemeStore";
 
 import './preview.scss';
 
 
 export const ThemeComponent = () => {
   const {theme, setTheme} = themeStore;
-  const { language } = languageStore;
+  const {language} = languageStore;
 
   return (
     <globalContext.Provider value={{
@@ -23,7 +23,7 @@ export const ThemeComponent = () => {
       notification: DEFAULT_NOTIFICATION_SETTINGS,
     }}
     >
-      <ThemeSwitcher language={language} theme={theme} setTheme={setTheme} />
+      <ThemeSwitcher language={language} theme={theme} onClick={() => setTheme(getNextSwitchTheme(themeStore.theme))} />
     </globalContext.Provider>
   );
 };

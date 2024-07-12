@@ -98,6 +98,7 @@ export const Dropdown = (props: DropdownProps) => {
       <DropdownRoot
         open={isOpenMenu}
         onOpenChange={setIsOpenMenu}
+        modal={false}
       >
         <div onClick={() => setIsOpenMenu((prev) => !prev)}>
           {props.trigger}
@@ -107,9 +108,9 @@ export const Dropdown = (props: DropdownProps) => {
           className={clsx(styles.dropdownContent, props.className)}
           data-cy={props.cy?.dataCyContentList}
         >
-          <ul className={styles.menu}>
-            {renderDropdownMenuItems}
-          </ul>
+          {/* <ul className={styles.menu}> */}
+          {renderDropdownMenuItems}
+          {/* </ul>s */}
         </DropdownContent>
       </DropdownRoot>
     </div>
