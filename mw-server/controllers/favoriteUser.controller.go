@@ -4,21 +4,22 @@ import (
 	"context"
 	"net/http"
 
-	db "mwserver/db/sqlc"
+	dbPGX "mwserver/db_pgx/sqlc"
 	"mwserver/schemas"
 	"mwserver/util"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 type FavoriteUserController struct {
-	db  *db.Queries
-	ctx context.Context
+	dbPGX *dbPGX.Queries
+	ctx   context.Context
 }
 
-func NewFavoriteUserController(db *db.Queries, ctx context.Context) *FavoriteUserController {
-	return &FavoriteUserController{db, ctx}
+func NewFavoriteUserController(dbPGX *dbPGX.Queries, ctx context.Context) *FavoriteUserController {
+	return &FavoriteUserController{dbPGX, ctx}
 }
 
 // Create favoriteUser handler
@@ -39,12 +40,12 @@ func (cc *FavoriteUserController) CreateFavoriteUser(ctx *gin.Context) {
 		return
 	}
 
-	args := &db.CreateFavoriteUserParams{
-		DonorUserUuid:    payload.DonorUserUuid,
-		AcceptorUserUuid: payload.AcceptorUserUuid,
+	args := dbPGX.CreateFavoriteUserParams{
+		DonorUserUuid:    pgtype.UUID{Bytes: payload.DonorUserUuid, Valid: true},
+		AcceptorUserUuid: pgtype.UUID{Bytes: payload.AcceptorUserUuid, Valid: true},
 	}
 
-	favoriteUser, err := cc.db.CreateFavoriteUser(ctx, *args)
+	favoriteUser, err := cc.dbPGX.CreateFavoriteUser(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, favoriteUser)
@@ -65,12 +66,12 @@ func (cc *FavoriteUserController) DeleteFavoriteUserById(ctx *gin.Context) {
 	donorUserUuid := ctx.Param("donorUserUuid")
 	acceptorUserUuid := ctx.Param("acceptorUserUuid")
 
-	args := db.DeleteFavoriteUserByIdsParams{
-		DonorUserUuid:    uuid.MustParse(donorUserUuid),
-		AcceptorUserUuid: uuid.MustParse(acceptorUserUuid),
+	args := dbPGX.DeleteFavoriteUserByIdsParams{
+		DonorUserUuid:    pgtype.UUID{Bytes: uuid.MustParse(donorUserUuid), Valid: true},
+		AcceptorUserUuid: pgtype.UUID{Bytes: uuid.MustParse(acceptorUserUuid), Valid: true},
 	}
 
-	err := cc.db.DeleteFavoriteUserByIds(ctx, args)
+	err := cc.dbPGX.DeleteFavoriteUserByIds(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})

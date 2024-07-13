@@ -2,8 +2,7 @@ package services
 
 import (
 	"context"
-	"database/sql"
-	dbb "mwserver/db/sqlc"
+	dbPGX "mwserver/db_pgx/sqlc"
 	dbbPGX "mwserver/db_pgx/sqlc"
 	"mwserver/schemas"
 	"mwserver/util"
@@ -249,7 +248,7 @@ func GetPopulatedWayById(dbPGX *dbbPGX.Queries, ctx context.Context, params GetP
 	}
 
 	var children []schemas.WayPopulatedResponse
-	if params.CurrentChildrenDepth < int(limitMap[MaxCompositeWayDeps][dbb.PricingPlanTypeStarter]) {
+	if params.CurrentChildrenDepth < int(limitMap[MaxCompositeWayDeps][dbbPGX.PricingPlanTypeStarter]) {
 		children = lo.Map(way.ChildrenUuids, func(childUuid string, i int) schemas.WayPopulatedResponse {
 			args := GetPopulatedWayByIdParams{
 				WayUuid:              uuid.MustParse(childUuid),
@@ -288,66 +287,66 @@ func GetPopulatedWayById(dbPGX *dbbPGX.Queries, ctx context.Context, params GetP
 	return response, nil
 }
 
-func UpdateWayIsCompletedStatus(db *dbb.Queries, ctx context.Context, wayUuid uuid.UUID) error {
-	isCompleted, err := db.IsAllMetricsDone(ctx, wayUuid)
+func UpdateWayIsCompletedStatus(dbPGX *dbbPGX.Queries, ctx context.Context, wayUuid pgtype.UUID) error {
+
+	isCompleted, err := dbPGX.IsAllMetricsDone(ctx, wayUuid)
 
 	now := time.Now()
-	args := &dbb.UpdateWayParams{
+	args := dbbPGX.UpdateWayParams{
 		Uuid:        wayUuid,
-		IsCompleted: sql.NullBool{Bool: isCompleted, Valid: true},
-		UpdatedAt:   sql.NullTime{Time: now, Valid: true},
+		IsCompleted: pgtype.Bool{Bool: isCompleted, Valid: true},
+		UpdatedAt:   pgtype.Timestamp{Time: now, Valid: true},
 	}
 
-	db.UpdateWay(ctx, *args)
+	dbPGX.UpdateWay(ctx, args)
 
 	return err
 }
 
-func GetPlainWayById(db *dbb.Queries, ctx context.Context, wayUuid uuid.UUID) (schemas.WayPlainResponse, error) {
-	way, err := db.GetWayById(ctx, wayUuid)
+func GetPlainWayById(dbPGX *dbPGX.Queries, ctx context.Context, wayUuid pgtype.UUID) (schemas.WayPlainResponse, error) {
+	way, err := dbPGX.GetWayById(ctx, wayUuid)
 
-	copiedFromWayUuid := util.MarshalNullUuid(way.CopiedFromWayUuid)
-	mentorsRaw, _ := db.GetMentorUsersByWayId(ctx, way.Uuid)
+	mentorsRaw, _ := dbPGX.GetMentorUsersByWayId(ctx, way.Uuid)
 
-	mentors := lo.Map(mentorsRaw, func(dbMentor dbb.User, i int) schemas.UserPlainResponse {
+	mentors := lo.Map(mentorsRaw, func(dbMentor dbbPGX.User, i int) schemas.UserPlainResponse {
 		return schemas.UserPlainResponse{
-			Uuid:        dbMentor.Uuid.String(),
+			Uuid:        util.ConvertPgUUIDToUUID(dbMentor.Uuid).String(),
 			Name:        dbMentor.Name,
 			Email:       dbMentor.Email,
 			Description: dbMentor.Description,
-			CreatedAt:   dbMentor.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+			CreatedAt:   dbMentor.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
 			ImageUrl:    dbMentor.ImageUrl,
 			IsMentor:    dbMentor.IsMentor,
 		}
 	})
 
-	dbOwner, _ := db.GetUserById(ctx, way.OwnerUuid)
+	dbOwner, _ := dbPGX.GetUserById(ctx, way.OwnerUuid)
 	owner := schemas.UserPlainResponse{
-		Uuid:        dbOwner.Uuid.String(),
+		Uuid:        util.ConvertPgUUIDToUUID(dbOwner.Uuid).String(),
 		Name:        dbOwner.Name,
 		Email:       dbOwner.Email,
 		Description: dbOwner.Description,
-		CreatedAt:   dbOwner.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+		CreatedAt:   dbOwner.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
 		ImageUrl:    dbOwner.ImageUrl,
 		IsMentor:    dbOwner.IsMentor,
 	}
-	dbTags, _ := db.GetListWayTagsByWayId(ctx, way.Uuid)
-	wayTags := lo.Map(dbTags, func(dbTag dbb.WayTag, i int) schemas.WayTagResponse {
+	dbTags, _ := dbPGX.GetListWayTagsByWayId(ctx, way.Uuid)
+	wayTags := lo.Map(dbTags, func(dbTag dbbPGX.WayTag, i int) schemas.WayTagResponse {
 		return schemas.WayTagResponse{
-			Uuid: dbTag.Uuid.String(),
+			Uuid: util.ConvertPgUUIDToUUID(dbTag.Uuid).String(),
 			Name: dbTag.Name,
 		}
 	})
 	response := schemas.WayPlainResponse{
-		Uuid:              way.Uuid.String(),
+		Uuid:              util.ConvertPgUUIDToUUID(way.Uuid).String(),
 		Name:              way.Name,
 		GoalDescription:   way.GoalDescription,
-		UpdatedAt:         way.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-		CreatedAt:         way.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+		UpdatedAt:         way.UpdatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+		CreatedAt:         way.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
 		EstimationTime:    way.EstimationTime,
 		IsCompleted:       way.IsCompleted,
 		Owner:             owner,
-		CopiedFromWayUuid: copiedFromWayUuid,
+		CopiedFromWayUuid: util.MarshalPgUUID(way.CopiedFromWayUuid),
 		IsPrivate:         way.IsPrivate,
 		FavoriteForUsers:  int32(way.WayFavoriteForUsers),
 		DayReportsAmount:  int32(way.WayDayReportsAmount),

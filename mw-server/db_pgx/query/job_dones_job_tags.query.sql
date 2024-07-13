@@ -18,3 +18,8 @@ SELECT
     '{}'
 )::VARCHAR[] AS tag_uuids
 FROM job_dones WHERE job_dones.day_report_uuid = ANY(@day_report_uuids::UUID[]);
+
+-- name: DeleteJobDonesJobTagByJobDoneId :exec
+DELETE FROM job_dones_job_tags
+WHERE job_done_uuid = @job_done_uuid
+AND job_tag_uuid = @job_tag_uuid;

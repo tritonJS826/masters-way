@@ -4,21 +4,22 @@ import (
 	"context"
 	"net/http"
 
-	db "mwserver/db/sqlc"
+	dbPGX "mwserver/db_pgx/sqlc"
 	"mwserver/schemas"
 	"mwserver/util"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 type FromUserMentoringRequestController struct {
-	db  *db.Queries
-	ctx context.Context
+	dbPGX *dbPGX.Queries
+	ctx   context.Context
 }
 
-func NewFromUserMentoringRequestController(db *db.Queries, ctx context.Context) *FromUserMentoringRequestController {
-	return &FromUserMentoringRequestController{db, ctx}
+func NewFromUserMentoringRequestController(dbPGX *dbPGX.Queries, ctx context.Context) *FromUserMentoringRequestController {
+	return &FromUserMentoringRequestController{dbPGX, ctx}
 }
 
 // Create fromUserMentoringRequest handler
@@ -39,12 +40,12 @@ func (cc *FromUserMentoringRequestController) CreateFromUserMentoringRequest(ctx
 		return
 	}
 
-	args := &db.CreateFromUserMentoringRequestParams{
-		UserUuid: uuid.MustParse(payload.UserUuid),
-		WayUuid:  uuid.MustParse(payload.WayUuid),
+	args := dbPGX.CreateFromUserMentoringRequestParams{
+		UserUuid: pgtype.UUID{Bytes: uuid.MustParse(payload.UserUuid), Valid: true},
+		WayUuid:  pgtype.UUID{Bytes: uuid.MustParse(payload.WayUuid), Valid: true},
 	}
 
-	fromUserMentoringRequest, err := cc.db.CreateFromUserMentoringRequest(ctx, *args)
+	fromUserMentoringRequest, err := cc.dbPGX.CreateFromUserMentoringRequest(ctx, args)
 
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving fromUserMentoringRequest", "error": err.Error()})
@@ -69,12 +70,12 @@ func (cc *FromUserMentoringRequestController) DeleteFromUserMentoringRequestById
 	userUuid := ctx.Param("userUuid")
 	wayUuid := ctx.Param("wayUuid")
 
-	args := db.DeleteFromUserMentoringRequestParams{
-		UserUuid: uuid.MustParse(userUuid),
-		WayUuid:  uuid.MustParse(wayUuid),
+	args := dbPGX.DeleteFromUserMentoringRequestParams{
+		UserUuid: pgtype.UUID{Bytes: uuid.MustParse(userUuid), Valid: true},
+		WayUuid:  pgtype.UUID{Bytes: uuid.MustParse(wayUuid), Valid: true},
 	}
 
-	err := cc.db.DeleteFromUserMentoringRequest(ctx, args)
+	err := cc.dbPGX.DeleteFromUserMentoringRequest(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})

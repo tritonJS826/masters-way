@@ -4,21 +4,22 @@ import (
 	"context"
 	"net/http"
 
-	db "mwserver/db/sqlc"
+	dbPGX "mwserver/db_pgx/sqlc"
 	"mwserver/schemas"
 	"mwserver/util"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 type PlanJobTagController struct {
-	db  *db.Queries
-	ctx context.Context
+	dbPGX *dbPGX.Queries
+	ctx   context.Context
 }
 
-func NewPlanJobTagController(db *db.Queries, ctx context.Context) *PlanJobTagController {
-	return &PlanJobTagController{db, ctx}
+func NewPlanJobTagController(dbPGX *dbPGX.Queries, ctx context.Context) *PlanJobTagController {
+	return &PlanJobTagController{dbPGX, ctx}
 }
 
 // Create planJobTag  handler
@@ -39,12 +40,12 @@ func (cc *PlanJobTagController) CreatePlanJobTag(ctx *gin.Context) {
 		return
 	}
 
-	args := &db.CreatePlansJobTagParams{
-		PlanUuid:   uuid.MustParse(payload.PlanUuid),
-		JobTagUuid: uuid.MustParse(payload.JobTagUuid),
+	args := dbPGX.CreatePlansJobTagParams{
+		PlanUuid:   pgtype.UUID{Bytes: uuid.MustParse(payload.PlanUuid), Valid: true},
+		JobTagUuid: pgtype.UUID{Bytes: uuid.MustParse(payload.JobTagUuid), Valid: true},
 	}
 
-	planJobTag, err := cc.db.CreatePlansJobTag(ctx, *args)
+	planJobTag, err := cc.dbPGX.CreatePlansJobTag(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, planJobTag)
@@ -65,11 +66,11 @@ func (cc *PlanJobTagController) DeletePlanJobTagById(ctx *gin.Context) {
 	jobTagId := ctx.Param("jobTagId")
 	planId := ctx.Param("planId")
 
-	args := &db.DeletePlansJobTagByIdsParams{
-		PlanUuid:   uuid.MustParse(planId),
-		JobTagUuid: uuid.MustParse(jobTagId),
+	args := dbPGX.DeletePlansJobTagByIdsParams{
+		PlanUuid:   pgtype.UUID{Bytes: uuid.MustParse(planId), Valid: true},
+		JobTagUuid: pgtype.UUID{Bytes: uuid.MustParse(jobTagId), Valid: true},
 	}
-	err := cc.db.DeletePlansJobTagByIds(ctx, *args)
+	err := cc.dbPGX.DeletePlansJobTagByIds(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})

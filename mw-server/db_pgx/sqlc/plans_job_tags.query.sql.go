@@ -11,6 +11,42 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
+const createPlansJobTag = `-- name: CreatePlansJobTag :one
+INSERT INTO plans_job_tags(
+    plan_uuid,
+    job_tag_uuid
+) VALUES (
+    $1, $2
+) RETURNING plan_uuid, job_tag_uuid
+`
+
+type CreatePlansJobTagParams struct {
+	PlanUuid   pgtype.UUID `json:"plan_uuid"`
+	JobTagUuid pgtype.UUID `json:"job_tag_uuid"`
+}
+
+func (q *Queries) CreatePlansJobTag(ctx context.Context, arg CreatePlansJobTagParams) (PlansJobTag, error) {
+	row := q.db.QueryRow(ctx, createPlansJobTag, arg.PlanUuid, arg.JobTagUuid)
+	var i PlansJobTag
+	err := row.Scan(&i.PlanUuid, &i.JobTagUuid)
+	return i, err
+}
+
+const deletePlansJobTagByIds = `-- name: DeletePlansJobTagByIds :exec
+DELETE FROM plans_job_tags
+WHERE plan_uuid = $1 AND job_tag_uuid = $2
+`
+
+type DeletePlansJobTagByIdsParams struct {
+	PlanUuid   pgtype.UUID `json:"plan_uuid"`
+	JobTagUuid pgtype.UUID `json:"job_tag_uuid"`
+}
+
+func (q *Queries) DeletePlansJobTagByIds(ctx context.Context, arg DeletePlansJobTagByIdsParams) error {
+	_, err := q.db.Exec(ctx, deletePlansJobTagByIds, arg.PlanUuid, arg.JobTagUuid)
+	return err
+}
+
 const getPlansByDayReportUuids = `-- name: GetPlansByDayReportUuids :many
 SELECT
     uuid, created_at, updated_at, description, time, owner_uuid, is_done, day_report_uuid,

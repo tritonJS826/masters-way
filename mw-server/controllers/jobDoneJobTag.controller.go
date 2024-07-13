@@ -4,21 +4,22 @@ import (
 	"context"
 	"net/http"
 
-	db "mwserver/db/sqlc"
+	dbPGX "mwserver/db_pgx/sqlc"
 	"mwserver/schemas"
 	"mwserver/util"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 type JobDoneJobTagController struct {
-	db  *db.Queries
-	ctx context.Context
+	dbPGX *dbPGX.Queries
+	ctx   context.Context
 }
 
-func NewJobDoneJobTagController(db *db.Queries, ctx context.Context) *JobDoneJobTagController {
-	return &JobDoneJobTagController{db, ctx}
+func NewJobDoneJobTagController(dbPGX *dbPGX.Queries, ctx context.Context) *JobDoneJobTagController {
+	return &JobDoneJobTagController{dbPGX, ctx}
 }
 
 // Create jobDoneJobTag handler
@@ -39,12 +40,12 @@ func (cc *JobDoneJobTagController) CreateJobDoneJobTag(ctx *gin.Context) {
 		return
 	}
 
-	args := &db.CreateJobDonesJobTagParams{
-		JobDoneUuid: uuid.MustParse(payload.JobDoneUuid),
-		JobTagUuid:  uuid.MustParse(payload.JobTagUuid),
+	args := dbPGX.CreateJobDonesJobTagParams{
+		JobDoneUuid: pgtype.UUID{Bytes: uuid.MustParse(payload.JobDoneUuid), Valid: true},
+		JobTagUuid:  pgtype.UUID{Bytes: uuid.MustParse(payload.JobTagUuid), Valid: true},
 	}
 
-	jobDoneJobTag, err := cc.db.CreateJobDonesJobTag(ctx, *args)
+	jobDoneJobTag, err := cc.dbPGX.CreateJobDonesJobTag(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, jobDoneJobTag)
@@ -65,11 +66,11 @@ func (cc *JobDoneJobTagController) DeleteJobDoneJobTagById(ctx *gin.Context) {
 	jobTagId := ctx.Param("jobTagId")
 	jobDoneId := ctx.Param("jobDoneId")
 
-	args := &db.DeleteJobDonesJobTagByJobDoneIdParams{
-		JobDoneUuid: uuid.MustParse(jobDoneId),
-		JobTagUuid:  uuid.MustParse(jobTagId),
+	args := dbPGX.DeleteJobDonesJobTagByJobDoneIdParams{
+		JobDoneUuid: pgtype.UUID{Bytes: uuid.MustParse(jobDoneId), Valid: true},
+		JobTagUuid:  pgtype.UUID{Bytes: uuid.MustParse(jobTagId), Valid: true},
 	}
-	err := cc.db.DeleteJobDonesJobTagByJobDoneId(ctx, *args)
+	err := cc.dbPGX.DeleteJobDonesJobTagByJobDoneId(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})

@@ -5,12 +5,12 @@ INSERT INTO day_reports(
     updated_at,
     is_day_off
 ) VALUES (
-    @way_uuid, @created_at, @updated_at, @is_day_off
+    $1, $2, $3, $4
 ) RETURNING *;
 
 -- name: GetListDayReportsByWayUuid :many
 SELECT * FROM day_reports
-WHERE day_reports.way_uuid = @way_uuid
+WHERE day_reports.way_uuid = $1
 ORDER BY day_reports.created_at DESC;
 
 -- name: GetDayReportsCountByWayId :one

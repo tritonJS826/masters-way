@@ -32,6 +32,22 @@ func (q *Queries) CreateJobDonesJobTag(ctx context.Context, arg CreateJobDonesJo
 	return i, err
 }
 
+const deleteJobDonesJobTagByJobDoneId = `-- name: DeleteJobDonesJobTagByJobDoneId :exec
+DELETE FROM job_dones_job_tags
+WHERE job_done_uuid = $1
+AND job_tag_uuid = $2
+`
+
+type DeleteJobDonesJobTagByJobDoneIdParams struct {
+	JobDoneUuid pgtype.UUID `json:"job_done_uuid"`
+	JobTagUuid  pgtype.UUID `json:"job_tag_uuid"`
+}
+
+func (q *Queries) DeleteJobDonesJobTagByJobDoneId(ctx context.Context, arg DeleteJobDonesJobTagByJobDoneIdParams) error {
+	_, err := q.db.Exec(ctx, deleteJobDonesJobTagByJobDoneId, arg.JobDoneUuid, arg.JobTagUuid)
+	return err
+}
+
 const getJobDonesByDayReportUuids = `-- name: GetJobDonesByDayReportUuids :many
 SELECT
     job_dones.uuid, job_dones.created_at, job_dones.updated_at, job_dones.description, job_dones.time, job_dones.owner_uuid, job_dones.day_report_uuid,

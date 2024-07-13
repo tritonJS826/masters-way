@@ -3,9 +3,10 @@ package services
 import (
 	"context"
 	"fmt"
-	db "mwserver/db/sqlc"
+	dbPGX "mwserver/db_pgx/sqlc"
 
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 type LimitNameType string
@@ -20,41 +21,41 @@ const (
 	MaxDayReports        LimitNameType = "Max day reports"
 )
 
-var limitMap = map[LimitNameType]map[db.PricingPlanType]uint16{
+var limitMap = map[LimitNameType]map[dbPGX.PricingPlanType]uint16{
 	MaxOwnWays: {
-		db.PricingPlanTypeFree:    10,
-		db.PricingPlanTypeStarter: 20,
-		db.PricingPlanTypePro:     30,
+		dbPGX.PricingPlanTypeFree:    10,
+		dbPGX.PricingPlanTypeStarter: 20,
+		dbPGX.PricingPlanTypePro:     30,
 	},
 	MaxPrivateWays: {
-		db.PricingPlanTypeFree:    1,
-		db.PricingPlanTypeStarter: 10,
-		db.PricingPlanTypePro:     10,
+		dbPGX.PricingPlanTypeFree:    1,
+		dbPGX.PricingPlanTypeStarter: 10,
+		dbPGX.PricingPlanTypePro:     10,
 	},
 	MaxMentoringsWays: {
-		db.PricingPlanTypeFree:    3,
-		db.PricingPlanTypeStarter: 20,
-		db.PricingPlanTypePro:     30,
+		dbPGX.PricingPlanTypeFree:    3,
+		dbPGX.PricingPlanTypeStarter: 20,
+		dbPGX.PricingPlanTypePro:     30,
 	},
 	MaxUserTags: {
-		db.PricingPlanTypeFree:    3,
-		db.PricingPlanTypeStarter: 5,
-		db.PricingPlanTypePro:     5,
+		dbPGX.PricingPlanTypeFree:    3,
+		dbPGX.PricingPlanTypeStarter: 5,
+		dbPGX.PricingPlanTypePro:     5,
 	},
 	MaxCustomCollections: {
-		db.PricingPlanTypeFree:    4,
-		db.PricingPlanTypeStarter: 8,
-		db.PricingPlanTypePro:     10,
+		dbPGX.PricingPlanTypeFree:    4,
+		dbPGX.PricingPlanTypeStarter: 8,
+		dbPGX.PricingPlanTypePro:     10,
 	},
 	MaxCompositeWayDeps: {
-		db.PricingPlanTypeFree:    2,
-		db.PricingPlanTypeStarter: 3,
-		db.PricingPlanTypePro:     3,
+		dbPGX.PricingPlanTypeFree:    2,
+		dbPGX.PricingPlanTypeStarter: 3,
+		dbPGX.PricingPlanTypePro:     3,
 	},
 	MaxDayReports: {
-		db.PricingPlanTypeFree:    190,
-		db.PricingPlanTypeStarter: 360,
-		db.PricingPlanTypePro:     1000,
+		dbPGX.PricingPlanTypeFree:    190,
+		dbPGX.PricingPlanTypeStarter: 360,
+		dbPGX.PricingPlanTypePro:     1000,
 	},
 }
 
@@ -65,12 +66,12 @@ type LimitReachedParams struct {
 }
 
 type LimitService struct {
-	db  *db.Queries
-	ctx context.Context
+	dbPGX *dbPGX.Queries
+	ctx   context.Context
 }
 
-func NewLimitService(db *db.Queries, ctx context.Context) *LimitService {
-	return &LimitService{db, ctx}
+func NewLimitService(dbPGX *dbPGX.Queries, ctx context.Context) *LimitService {
+	return &LimitService{dbPGX, ctx}
 }
 
 func (ls *LimitService) CheckIsLimitReachedByPricingPlan(lrp *LimitReachedParams) error {
@@ -79,17 +80,17 @@ func (ls *LimitService) CheckIsLimitReachedByPricingPlan(lrp *LimitReachedParams
 
 	switch lrp.LimitName {
 	case MaxOwnWays:
-		count, err = ls.db.GetOwnWaysCountByUserId(ls.ctx, lrp.UserID)
+		count, err = ls.dbPGX.GetOwnWaysCountByUserId(ls.ctx, pgtype.UUID{Bytes: lrp.UserID, Valid: true})
 	case MaxPrivateWays:
-		count, err = ls.db.GetPrivateWaysCountByUserId(ls.ctx, lrp.UserID)
+		count, err = ls.dbPGX.GetPrivateWaysCountByUserId(ls.ctx, pgtype.UUID{Bytes: lrp.UserID, Valid: true})
 	case MaxMentoringsWays:
-		count, err = ls.db.GetMentoringWaysCountByUserId(ls.ctx, lrp.UserID)
+		count, err = ls.dbPGX.GetMentoringWaysCountByUserId(ls.ctx, pgtype.UUID{Bytes: lrp.UserID, Valid: true})
 	case MaxUserTags:
-		count, err = ls.db.GetTagsCountByUserId(ls.ctx, lrp.UserID)
+		count, err = ls.dbPGX.GetTagsCountByUserId(ls.ctx, pgtype.UUID{Bytes: lrp.UserID, Valid: true})
 	case MaxCustomCollections:
-		count, err = ls.db.GetWayCollectionsCountByUserId(ls.ctx, lrp.UserID)
+		count, err = ls.dbPGX.GetWayCollectionsCountByUserId(ls.ctx, pgtype.UUID{Bytes: lrp.UserID, Valid: true})
 	case MaxDayReports:
-		count, err = ls.db.GetDayReportsCountByWayId(ls.ctx, *lrp.WayID)
+		count, err = ls.dbPGX.GetDayReportsCountByWayId(ls.ctx, pgtype.UUID{Bytes: *lrp.WayID, Valid: true})
 	default:
 		return fmt.Errorf("invalid limit name: %s", lrp.LimitName)
 	}
@@ -97,7 +98,7 @@ func (ls *LimitService) CheckIsLimitReachedByPricingPlan(lrp *LimitReachedParams
 		return fmt.Errorf("failed to get count for %s: %w", lrp.LimitName, err)
 	}
 
-	userPricingPlan, err := ls.db.GetPricingPlanByUserId(ls.ctx, lrp.UserID)
+	userPricingPlan, err := ls.dbPGX.GetPricingPlanByUserId(ls.ctx, pgtype.UUID{Bytes: lrp.UserID, Valid: true})
 	if err != nil {
 		return fmt.Errorf("failed to get pricing plan for userID: %w", err)
 	}

@@ -16,7 +16,7 @@ func FindOrCreateUserByEmail(dbPGX *dbbPGX.Queries, ctx context.Context, args *d
 	user, err := dbPGX.GetUserByEmail(ctx, args.Email)
 	var userUuid uuid.UUID
 	if err == nil {
-		userUuid = util.ConvertPgUUIDToUUID(user.Uuid)
+		userUuid = user.Uuid.Bytes
 	} else {
 		dbUser, _ := CreateUser(dbPGX, ctx, args)
 		userUuid = uuid.MustParse(dbUser.Uuid)

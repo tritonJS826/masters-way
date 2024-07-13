@@ -147,51 +147,51 @@ func init() {
 		AllowCredentials: true,
 	}))
 
-	LimitService = *services.NewLimitService(db, ctx)
+	LimitService = *services.NewLimitService(dbPGX, ctx)
 
 	AuthController = *controllers.NewAuthController(dbPGX, ctx)
 	AuthRoutes = routes.NewRouteAuth(AuthController)
 
-	WayController = *controllers.NewWayController(db, dbPGX, ctx, &LimitService)
+	WayController = *controllers.NewWayController(dbPGX, ctx, &LimitService)
 	WayRoutes = routes.NewRouteWay(WayController)
 
 	UserController = *controllers.NewUserController(dbPGX, ctx)
 	UserRoutes = routes.NewRouteUser(UserController)
 
-	DayReportController = *controllers.NewDayReportController(db, ctx, &LimitService)
+	DayReportController = *controllers.NewDayReportController(dbPGX, ctx, &LimitService)
 	DayReportRoutes = routes.NewRouteDayReport(DayReportController)
 
-	WayCollectionController = *controllers.NewWayCollectionController(db, ctx, &LimitService)
+	WayCollectionController = *controllers.NewWayCollectionController(dbPGX, ctx, &LimitService)
 	WayCollectionRoutes = routes.NewRouteWayCollection(WayCollectionController)
 
 	CommentController = *controllers.NewCommentController(dbPGX, ctx)
 	CommentRoutes = routes.NewRouteComment(CommentController)
 
-	FavoriteUserController = *controllers.NewFavoriteUserController(db, ctx)
+	FavoriteUserController = *controllers.NewFavoriteUserController(dbPGX, ctx)
 	FavoriteUserRoutes = routes.NewRouteFavoriteUser(FavoriteUserController)
 
-	FavoriteUserWayController = *controllers.NewFavoriteUserWayController(db, ctx)
+	FavoriteUserWayController = *controllers.NewFavoriteUserWayController(dbPGX, ctx)
 	FavoriteUserWayRoutes = routes.NewRouteFavoriteUserWay(FavoriteUserWayController)
 
-	FromUserMentoringRequestController = *controllers.NewFromUserMentoringRequestController(db, ctx)
+	FromUserMentoringRequestController = *controllers.NewFromUserMentoringRequestController(dbPGX, ctx)
 	FromUserMentoringRequestRoutes = routes.NewRouteFromUserMentoringRequest(FromUserMentoringRequestController)
 
-	JobDoneController = *controllers.NewJobDoneController(db, dbPGX, ctx)
+	JobDoneController = *controllers.NewJobDoneController(dbPGX, ctx)
 	JobDoneRoutes = routes.NewRouteJobDone(JobDoneController)
 
-	JobDoneJobTagController = *controllers.NewJobDoneJobTagController(db, ctx)
+	JobDoneJobTagController = *controllers.NewJobDoneJobTagController(dbPGX, ctx)
 	JobDoneJobTagRoutes = routes.NewRouteJobDoneJobTag(JobDoneJobTagController)
 
-	JobTagController = *controllers.NewJobTagController(db, ctx)
+	JobTagController = *controllers.NewJobTagController(dbPGX, ctx)
 	JobTagRoutes = routes.NewRouteJobTag(JobTagController)
 
-	MetricController = *controllers.NewMetricController(db, ctx)
+	MetricController = *controllers.NewMetricController(dbPGX, ctx)
 	MetricRoutes = routes.NewRouteMetric(MetricController)
 
-	PlanController = *controllers.NewPlanController(db, ctx)
+	PlanController = *controllers.NewPlanController(dbPGX, ctx)
 	PlanRoutes = routes.NewRoutePlan(PlanController)
 
-	PlanJobTagController = *controllers.NewPlanJobTagController(db, ctx)
+	PlanJobTagController = *controllers.NewPlanJobTagController(dbPGX, ctx)
 	PlanJobTagRoutes = routes.NewRoutePlanJobTag(PlanJobTagController)
 
 	ProblemController = *controllers.NewProblemController(db, ctx)
