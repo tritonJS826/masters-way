@@ -1,4 +1,5 @@
 import {ColumnDef, getCoreRowModel, useReactTable} from "@tanstack/react-table";
+import {allUsersAccessIds} from "cypress/accessIds/allUsersAccessIds";
 import {Table} from "src/component/table/Table";
 import {UserNotSaturatedWay} from "src/model/businessModelPreview/UserNotSaturatedWay";
 
@@ -39,6 +40,9 @@ export const UsersTable = (props: UsersTableProps) => {
   const tableContent = {headerGroup, rowModel};
 
   return (
-    <Table data={tableContent} />
+    <Table
+      data={tableContent}
+      dataCy={{dataCyTBodyTr: allUsersAccessIds.allUsersTable.tableBodyTr}}
+    />
   );
 };

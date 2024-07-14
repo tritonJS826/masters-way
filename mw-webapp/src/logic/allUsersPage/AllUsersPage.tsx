@@ -154,6 +154,7 @@ export const AllUsersPage = observer(() => {
             placeholder={LanguageService.allUsers.filterBlock.emailPlaceholder[language]}
             typeInputIcon={"SearchIcon"}
             typeInput={InputType.Border}
+            dataCy={allUsersAccessIds.filterViewBlock.searchByEmailInput}
           />
           <Input
             value={name}
@@ -198,7 +199,7 @@ export const AllUsersPage = observer(() => {
           level={HeadingLevel.h2}
           text={`${LanguageService.allUsers.usersTable.leftTitle[language]} (${allUsers.length})`}
           placeholder=""
-          dataCy={allUsersAccessIds.allUsersTable.title}
+          dataCy={allUsersAccessIds.allUsersTitles.title}
         />
         <Title
           level={HeadingLevel.h2}
@@ -219,6 +220,7 @@ export const AllUsersPage = observer(() => {
                 <UserCard
                   key={user.uuid}
                   userPreview={user}
+                  dataCy={allUsersAccessIds.allUsersCard.userCardLink}
                 />
               );
             })

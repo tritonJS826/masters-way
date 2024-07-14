@@ -53,7 +53,7 @@ describe('NoAuth Navigation menu scope tests', () => {
 
         navigationMenuSelectors.getNavigationMenu().should('not.exist');
         cy.url().should('include', allUsersPageData.endpoint);
-        allUsersSelectors.allUsersTable.getTitle().should('contain', allUsersPageContent.usersTable.leftTitle.en);
+        allUsersSelectors.allUsersTitles.getTitle().should('contain', allUsersPageContent.usersTable.leftTitle.en);
     });
 
     it('NoAuth_NavMenu_AllWays', () => {
