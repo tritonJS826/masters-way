@@ -3,6 +3,22 @@ import {MetricService} from "src/service/MetricService";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 
 /**
+ * Params For create metric method
+ */
+interface CreateMetricParams {
+
+  /**
+   * Way Uuid
+   */
+  wayUuid: string;
+
+  /**
+   * Metric description
+   */
+  description?: string;
+}
+
+/**
  * Provides methods to interact with the metrics
  */
 export class MetricDAL {
@@ -10,14 +26,14 @@ export class MetricDAL {
   /**
    * Create metric
    */
-  public static async createMetric(wayUuid: string): Promise<Metric> {
+  public static async createMetric(createMetricParams: CreateMetricParams): Promise<Metric> {
     const metricDTO = await MetricService.createMetric({
       request: {
-        description: "",
+        description: createMetricParams.description ?? "",
         doneDate: "",
         estimationTime: 0,
         isDone: false,
-        wayUuid,
+        wayUuid: createMetricParams.wayUuid,
       },
     });
 

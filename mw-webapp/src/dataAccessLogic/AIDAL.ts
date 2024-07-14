@@ -31,20 +31,18 @@ export class AIDAL {
   /**
    * Generate metrics by AI
    */
-  public static async generateMetrics(params: GenerateMetricsParams): Promise<string> {
+  public static async generateMetrics(params: GenerateMetricsParams): Promise<string[]> {
     const oldMetricsDTO = params.metrics.map(metricToMetricDTO);
 
     const metricsDTO = await AIService.generateMetrics({
       request: {
         goalDescription: params.goalDescription,
-        metrics: oldMetricsDTO,
+        metrics: oldMetricsDTO.map(metric => metric.description),
         wayName: params.wayName,
       },
     });
 
-    const metrics = metricsDTO.answer ?? "hello";
-
-    return metrics;
+    return metricsDTO;
   }
 
 }

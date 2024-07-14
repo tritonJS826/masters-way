@@ -12,15 +12,15 @@ import (
 )
 
 type GeminiService struct {
-	ctx context.Context
-	gc  *genai.Client
+	ctx          context.Context
+	geminiClient *genai.Client
 }
 
-func NewGeminiSerivce(ctx context.Context, gc *genai.Client) *GeminiService {
-	return &GeminiService{ctx, gc}
+func NewGeminiService(ctx context.Context, geminiClient *genai.Client) *GeminiService {
+	return &GeminiService{ctx, geminiClient}
 }
 
-func (g *GeminiService) createMetricsPrompt(payload *schemas.GenerateMetricsPayload) (string, error) {
+func (geminiService *GeminiService) createMetricsPrompt(payload *schemas.GenerateMetricsPayload) (string, error) {
 	jsonMetrics, err := json.Marshal(payload.Metrics)
 	if err != nil {
 		return "", fmt.Errorf("failed to marshal metrics: %w", err)
@@ -36,13 +36,20 @@ func (g *GeminiService) createMetricsPrompt(payload *schemas.GenerateMetricsPayl
 	return prompt, nil
 }
 
-func (gs *GeminiService) GetMetricsByGoal(ctx context.Context, payload *schemas.GenerateMetricsPayload) ([]string, error) {
+func (geminiService *GeminiService) GetMetricsByGoal(ctx context.Context, payload *schemas.GenerateMetricsPayload) ([]string, error) {
 	// if the environment is not 'prod', connection to Gemini is not created, and the client remains nil
-	if gs.gc == nil {
-		return []string{"Metric 1", "Metric 2", "Metric 3"}, nil
+	if config.Env.EnvType != "prod" {
+		return []string{
+			"Stub metric 1",
+			"Stub metric 2",
+			"Stub metric 3",
+			"Stub metric 4",
+			"Stub metric 5",
+			"Stub metric 6",
+		}, nil
 	}
 
-	prompt, err := gs.createMetricsPrompt(payload)
+	prompt, err := geminiService.createMetricsPrompt(payload)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create metrics prompt: %w", err)
 	}
@@ -54,15 +61,15 @@ func (gs *GeminiService) GetMetricsByGoal(ctx context.Context, payload *schemas.
 
 	// Parts: The segments or parts of the generated text. This can be useful if the text is divided into logical parts or paragraphs.
 
-	model := gs.gc.GenerativeModel(config.Env.GeminiModel)
-	resp, err := model.GenerateContent(ctx, genai.Text(prompt))
+	model := geminiService.geminiClient.GenerativeModel(config.Env.GeminiModel)
+	response, err := model.GenerateContent(ctx, genai.Text(prompt))
 	if err != nil {
 		return nil, fmt.Errorf("failed to generate content: %w", err)
 	}
 
 	// Using Parts[0] to extract the first part of the generated content,
 	// assuming the JSON output is contained in the first part of the response.
-	responseText := fmt.Sprint(resp.Candidates[0].Content.Parts[0])
+	responseText := fmt.Sprint(response.Candidates[0].Content.Parts[0])
 
 	jsonStart := strings.Index(responseText, "[")
 	jsonEnd := strings.LastIndex(responseText, "]") + 1
@@ -72,6 +79,8 @@ func (gs *GeminiService) GetMetricsByGoal(ctx context.Context, payload *schemas.
 
 	jsonString := responseText[jsonStart:jsonEnd]
 	var metrics []string
+	// TODO: clear unsupported chars from jsonString, otherwise we will face with unpredictable errors
+	// (not all string could be Unmarshalled with json.Unmarshall)
 	err = json.Unmarshal([]byte(jsonString), &metrics)
 	if err != nil {
 		return nil, fmt.Errorf("failed to unmarshal response from gemini: %w", err)

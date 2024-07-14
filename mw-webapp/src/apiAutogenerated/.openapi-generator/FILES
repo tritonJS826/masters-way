@@ -1,4 +1,4 @@
-apis/AIApi.ts
+.openapi-generator-ignore
 apis/AuthApi.ts
 apis/CommentApi.ts
 apis/CompositeWayApi.ts
@@ -7,6 +7,7 @@ apis/DevApi.ts
 apis/FavoriteUserApi.ts
 apis/FavoriteUserWayApi.ts
 apis/FromUserMentoringRequestApi.ts
+apis/GeminiApi.ts
 apis/JobDoneApi.ts
 apis/JobDoneJobTagApi.ts
 apis/JobTagApi.ts
@@ -25,7 +26,6 @@ apis/WayCollectionWayApi.ts
 apis/WayTagApi.ts
 apis/index.ts
 index.ts
-models/SchemasAIResponse.ts
 models/SchemasAddWayToCompositeWayPayload.ts
 models/SchemasCommentPopulatedResponse.ts
 models/SchemasCompositeWayRelation.ts

@@ -140,7 +140,10 @@ export const AllUsersPage = observer(() => {
 
   if (!allUsers) {
     return (
-      <Loader theme={theme} />
+      <Loader
+        theme={theme}
+        isAbsolute
+      />
     );
   }
 

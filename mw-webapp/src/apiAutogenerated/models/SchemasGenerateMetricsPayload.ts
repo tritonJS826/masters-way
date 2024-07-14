@@ -13,13 +13,6 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { SchemasMetricResponse } from './SchemasMetricResponse';
-import {
-    SchemasMetricResponseFromJSON,
-    SchemasMetricResponseFromJSONTyped,
-    SchemasMetricResponseToJSON,
-} from './SchemasMetricResponse';
-
 /**
  * 
  * @export
@@ -34,10 +27,10 @@ export interface SchemasGenerateMetricsPayload {
     goalDescription: string;
     /**
      * 
-     * @type {Array<SchemasMetricResponse>}
+     * @type {Array<string>}
      * @memberof SchemasGenerateMetricsPayload
      */
-    metrics: Array<SchemasMetricResponse>;
+    metrics: Array<string>;
     /**
      * 
      * @type {string}
@@ -74,7 +67,7 @@ export function SchemasGenerateMetricsPayloadFromJSONTyped(
     return {
         
         'goalDescription': json['goalDescription'],
-        'metrics': ((json['metrics'] as Array<any>).map(SchemasMetricResponseFromJSON)),
+        'metrics': json['metrics'],
         'wayName': json['wayName'],
     };
 }
@@ -90,7 +83,7 @@ export function SchemasGenerateMetricsPayloadToJSON(value?: SchemasGenerateMetri
     return {
         
         'goalDescription': value.goalDescription,
-        'metrics': ((value.metrics as Array<any>).map(SchemasMetricResponseToJSON)),
+        'metrics': value.metrics,
         'wayName': value.wayName,
     };
 }

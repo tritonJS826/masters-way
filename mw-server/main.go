@@ -223,14 +223,14 @@ func init() {
 		DevRoutes = routes.NewRouteDev(DevController)
 
 		server.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-	} else {
+		// } else {
 		geminiClient, err = genai.NewClient(ctx, option.WithAPIKey(config.Env.GeminiApiKey))
 		if err != nil {
 			log.Fatalf("Failed to create client: %v", err)
 		}
 	}
 
-	GeminiService = *services.NewGeminiSerivce(ctx, geminiClient)
+	GeminiService = *services.NewGeminiService(ctx, geminiClient)
 
 	GeminiController = *controllers.NewGeminiController(ctx, &GeminiService)
 	GeminiRoutes = routes.NewRouteGemini(GeminiController)

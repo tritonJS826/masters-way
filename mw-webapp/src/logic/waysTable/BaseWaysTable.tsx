@@ -150,7 +150,10 @@ export const BaseWaysTable = observer((props: BaseWaysTableProps) => {
   if (!props.ways) {
     return (
       <VerticalContainer className={styles.loaderWrapper}>
-        <Loader theme={theme} />
+        <Loader
+          theme={theme}
+          isAbsolute
+        />
       </VerticalContainer>
     );
   }

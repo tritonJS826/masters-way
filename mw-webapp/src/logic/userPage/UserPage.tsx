@@ -190,7 +190,10 @@ export const UserPage = observer((props: UserPageProps) => {
   const isPageOwner = !!user && !!userPageOwner && user.uuid === userPageOwner.uuid;
   if (!userPageSettings || !userPageStore.isInitialized) {
     return (
-      <Loader theme={theme} />
+      <Loader
+        theme={theme}
+        isAbsolute
+      />
     );
   }
 
@@ -276,10 +279,10 @@ export const UserPage = observer((props: UserPageProps) => {
 
   if (!currentCollection) {
     return (
-      <>
-        <Loader theme={theme} />
-        No collection
-      </>
+      <Loader
+        theme={theme}
+        isAbsolute
+      />
     );
   }
 

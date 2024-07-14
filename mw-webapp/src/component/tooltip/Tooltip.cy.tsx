@@ -8,7 +8,7 @@ import {getDataCy} from "src/utils/cyTesting/getDataCy";
 const TOOLTIP_CONTENT = "Tooltip value";
 const TOOLTIP_CY = "tooltip";
 const TOOLTIP_TRIGGER = "tooltip trigger";
-const TOOLTIP_DURATION = 1000;
+const HOVER_DURATION = 1000;
 
 describe("Tooltip component", () => {
 
@@ -41,7 +41,7 @@ describe("Tooltip component", () => {
     mountTooltip(TOOLTIP_CONTENT);
     cy.get(getDataCy(TOOLTIP_CY)).should("not.exist");
     cy.get(getDataCy(TOOLTIP_TRIGGER)).realHover();
-    cy.get(getDataCy(TOOLTIP_CY), {timeout: TOOLTIP_DURATION}).should("be.visible");
+    cy.get(getDataCy(TOOLTIP_CY), {timeout: HOVER_DURATION}).should("be.visible");
     cy.get(getDataCy(TOOLTIP_CY)).should("contain.text", TOOLTIP_CONTENT);
   });
 

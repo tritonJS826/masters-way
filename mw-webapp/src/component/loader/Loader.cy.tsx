@@ -11,6 +11,7 @@ describe("Loader component", () => {
       <Loader
         theme={Theme.DARK}
         dataCy={LOADER_CY}
+        isAbsolute
       />,
     );
   });

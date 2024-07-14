@@ -127,7 +127,10 @@ export const AllWaysPage = observer(() => {
 
   if (!allWays) {
     return (
-      <Loader theme={theme} />
+      <Loader
+        theme={theme}
+        isAbsolute
+      />
     );
   }
 
