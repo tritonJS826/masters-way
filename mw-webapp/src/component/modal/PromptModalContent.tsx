@@ -6,6 +6,7 @@ import {Input, InputType} from "src/component/input/Input";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/component/modal/PromptModalContent.module.scss";
+import { VerticalContainer } from 'src/component/verticalContainer/VerticalContainer';
 
 /**
  * PromptModalContent props
@@ -72,8 +73,8 @@ export const PromptModalContent = (props: PromptModalContentProps) => {
   };
 
   return (
-    <div
-      onKeyDown={handleEnter}
+    <div onKeyDown={handleEnter}>
+    <VerticalContainer
       className={styles.container}
     >
 
@@ -98,7 +99,6 @@ export const PromptModalContent = (props: PromptModalContentProps) => {
           <Button
             value={props.cancelButtonValue}
             onClick={props.close}
-            className={styles.cancelButton}
           />
         </DialogClose>
 
@@ -112,6 +112,7 @@ export const PromptModalContent = (props: PromptModalContentProps) => {
           />
         </DialogClose>
       </HorizontalContainer>
+    </VerticalContainer>
     </div>
   );
 };
