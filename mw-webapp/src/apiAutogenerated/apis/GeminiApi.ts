@@ -15,12 +15,9 @@
 
 import * as runtime from '../runtime';
 import type {
-  SchemasAIResponse,
   SchemasGenerateMetricsPayload,
 } from '../models/index';
 import {
-    SchemasAIResponseFromJSON,
-    SchemasAIResponseToJSON,
     SchemasGenerateMetricsPayloadFromJSON,
     SchemasGenerateMetricsPayloadToJSON,
 } from '../models/index';
@@ -32,13 +29,13 @@ export interface GenerateMetricsRequest {
 /**
  * 
  */
-export class AIApi extends runtime.BaseAPI {
+export class GeminiApi extends runtime.BaseAPI {
 
     /**
-     * This endpoint uses AI to generate metrics by analyzing the provided goals
-     * Generate AI-based metrics
+     * This endpoint uses Gemini to generate metrics by analyzing the provided goals.
+     * Generate metrics using Gemini
      */
-    async generateMetricsRaw(requestParameters: GenerateMetricsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasAIResponse>> {
+    async generateMetricsRaw(requestParameters: GenerateMetricsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<string>>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling generateMetrics.');
         }
@@ -50,21 +47,21 @@ export class AIApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/ai/metrics`,
+            path: `/gemini/metrics`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: SchemasGenerateMetricsPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasAIResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse<any>(response);
     }
 
     /**
-     * This endpoint uses AI to generate metrics by analyzing the provided goals
-     * Generate AI-based metrics
+     * This endpoint uses Gemini to generate metrics by analyzing the provided goals.
+     * Generate metrics using Gemini
      */
-    async generateMetrics(requestParameters: GenerateMetricsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasAIResponse> {
+    async generateMetrics(requestParameters: GenerateMetricsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<string>> {
         const response = await this.generateMetricsRaw(requestParameters, initOverrides);
         return await response.value();
     }

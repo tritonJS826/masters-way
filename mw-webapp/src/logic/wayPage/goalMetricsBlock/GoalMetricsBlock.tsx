@@ -1,14 +1,13 @@
-import {useState} from "react";
 import {observer} from "mobx-react-lite";
 import {Button} from "src/component/button/Button";
-import {Confirm} from "src/component/confirm/Confirm";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {Modal} from "src/component/modal/Modal";
 import {ProgressBar} from "src/component/progressBar/ProgressBar";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {AIDAL} from "src/dataAccessLogic/AIDAL";
 import {MetricDAL} from "src/dataAccessLogic/MetricDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {GoalMetricItem} from "src/logic/wayPage/goalMetricsBlock/GoalMetricItem";
+import {MetricsAiModal} from "src/logic/wayPage/goalMetricsBlock/MetricsAiModal";
 import {Metric} from "src/model/businessModel/Metric";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/wayPage/goalMetricsBlock/GoalMetricsBlock.module.scss";
@@ -50,6 +49,15 @@ interface GoalMetricStatisticsBlockProps {
    */
   deleteMetric: (metricUuid: string) => void;
 
+  /**
+   * Goal description
+   */
+  goalDescription: string;
+
+  /**
+   * Way name
+   */
+  wayName: string;
 }
 
 /**
@@ -57,13 +65,12 @@ interface GoalMetricStatisticsBlockProps {
  */
 export const GoalMetricsBlock = observer((props: GoalMetricStatisticsBlockProps) => {
   const {language} = languageStore;
-  const [generatedMetrics, setGeneratedMetrics] = useState("hi");
 
   /**
    * Add metric
    */
-  const addMetric = async () => {
-    const newMetric = await MetricDAL.createMetric(props.wayUuid);
+  const addEmptyMetric = async () => {
+    const newMetric = await MetricDAL.createMetric({wayUuid: props.wayUuid});
     props.addMetric(newMetric);
   };
 
@@ -76,19 +83,6 @@ export const GoalMetricsBlock = observer((props: GoalMetricStatisticsBlockProps)
   };
 
   const doneMetricsAmount = props.goalMetrics.filter((metric) => !!metric.isDone).length;
-
-  /**
-   * Generate AI metrics
-   */
-  const generateAIMetrics = async () => {
-    const metrics = await AIDAL.generateMetrics({
-      goalDescription: "goal",
-      metrics: props.goalMetrics,
-      wayName: "way",
-    });
-
-    setGeneratedMetrics(metrics);
-  };
 
   return (
     props.isVisible &&
@@ -112,21 +106,24 @@ export const GoalMetricsBlock = observer((props: GoalMetricStatisticsBlockProps)
         <HorizontalContainer>
           <Button
             value={LanguageService.way.metricsBlock.addNewGoalMetricButton[language]}
-            onClick={addMetric}
+            onClick={addEmptyMetric}
           />
-          <Confirm
+          <Modal
             trigger={
               <Button
                 value={LanguageService.way.metricsBlock.generateNewGoalMetricsWithAIButton[language]}
-                onClick={() => generateAIMetrics()}
+                onClick={() => {}}
               />
             }
-            content={<>
-              {generatedMetrics}
-            </>}
-            onOk={() => {}}
-            okText={LanguageService.way.metricsBlock.addNewGoalMetricsButton[language]}
-            cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
+            content={
+              <MetricsAiModal
+                addMetric={props.addMetric}
+                goalDescription={props.goalDescription}
+                goalMetrics={props.goalMetrics}
+                wayName={props.wayName}
+                wayUuid={props.wayUuid}
+              />
+            }
           />
         </HorizontalContainer>
         }

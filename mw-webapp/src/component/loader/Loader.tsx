@@ -19,6 +19,11 @@ interface LoaderProps {
    * Data attribute for cypress testing
    */
   dataCy?: string;
+
+  /**
+   * Is positioning absolute. False @default
+   */
+  isAbsolute?: boolean;
 }
 
 /**
@@ -26,11 +31,24 @@ interface LoaderProps {
  * Used for page loading
  */
 export const Loader = (props: LoaderProps) => {
-  return (
-    <div
-      className={styles.loaderWrapper}
-      data-cy={props.dataCy}
-    >
+  return props.isAbsolute
+    ? (
+      <div
+        className={styles.loaderWrapper}
+        data-cy={props.dataCy}
+      >
+        <ThemedImage
+          className={styles.loader}
+          sources={getMapThemeSources({
+            [Theme.DARK]: logoLight,
+            [Theme.LIGHT]: logo,
+          })}
+          theme={props.theme}
+          name={LOGO_TEXT}
+        />
+      </div>
+    )
+    : (
       <ThemedImage
         className={styles.loader}
         sources={getMapThemeSources({
@@ -40,6 +58,5 @@ export const Loader = (props: LoaderProps) => {
         theme={props.theme}
         name={LOGO_TEXT}
       />
-    </div>
-  );
+    );
 };

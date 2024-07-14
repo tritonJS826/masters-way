@@ -15,41 +15,6 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/ai/metrics": {
-            "post": {
-                "description": "This endpoint uses AI to generate metrics by analyzing the provided goals",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "AI"
-                ],
-                "summary": "Generate AI-based metrics",
-                "operationId": "generate-metrics",
-                "parameters": [
-                    {
-                        "description": "Request payload",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/schemas.GenerateMetricsPayload"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/schemas.AIResponse"
-                        }
-                    }
-                }
-            }
-        },
         "/auth/current": {
             "get": {
                 "consumes": [
@@ -679,6 +644,44 @@ const docTemplate = `{
                 "responses": {
                     "200": {
                         "description": "OK"
+                    }
+                }
+            }
+        },
+        "/gemini/metrics": {
+            "post": {
+                "description": "This endpoint uses Gemini to generate metrics by analyzing the provided goals.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "gemini"
+                ],
+                "summary": "Generate metrics using Gemini",
+                "operationId": "generate-metrics",
+                "parameters": [
+                    {
+                        "description": "Request payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.GenerateMetricsPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of generated metrics",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
                     }
                 }
             }
@@ -2148,14 +2151,6 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "schemas.AIResponse": {
-            "type": "object",
-            "properties": {
-                "answer": {
-                    "type": "string"
-                }
-            }
-        },
         "schemas.AddWayToCompositeWayPayload": {
             "type": "object",
             "required": [
@@ -2699,7 +2694,7 @@ const docTemplate = `{
                 "metrics": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.MetricResponse"
+                        "type": "string"
                     }
                 },
                 "wayName": {

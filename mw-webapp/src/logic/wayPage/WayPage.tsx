@@ -140,7 +140,10 @@ export const WayPage = observer((props: WayPageProps) => {
 
   if (!wayPageSettings || !wayPageStore.isInitialized) {
     return (
-      <Loader theme={theme} />
+      <Loader
+        theme={theme}
+        isAbsolute
+      />
     );
   }
 
@@ -700,6 +703,8 @@ export const WayPage = observer((props: WayPageProps) => {
               addMetric={(metric: Metric) => way.addMetric(metric)}
               deleteMetric={(metricUuid: string) => way.deleteMetric(metricUuid)}
               isEditable={isUserOwnerOrMentor}
+              goalDescription={way.goalDescription}
+              wayName={way.name}
             />
           </VerticalContainer>
 

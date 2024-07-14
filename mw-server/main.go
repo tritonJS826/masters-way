@@ -19,24 +19,29 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/google/generative-ai-go/genai"
 	"github.com/jackc/pgx/v5/pgxpool"
 	_ "github.com/lib/pq"
 	ginSwagger "github.com/swaggo/gin-swagger"
+	"google.golang.org/api/option"
 
 	swaggerFiles "github.com/swaggo/files"
 )
 
 var (
-	server  *gin.Engine
-	db      *dbCon.Queries
-	pgxPool *pgxpool.Pool
-	dbPGX   *dbConPGX.Queries
-	ctx     context.Context
+	server       *gin.Engine
+	db           *dbCon.Queries
+	pgxPool      *pgxpool.Pool
+	dbPGX        *dbConPGX.Queries
+	geminiClient *genai.Client
+	ctx          context.Context
 
 	LimitService services.LimitService
 
-	AIController controllers.AIController
-	AIRoutes     routes.AIRoutes
+	GeminiService services.GeminiService
+
+	GeminiController controllers.GeminiController
+	GeminiRoutes     routes.GeminiRoutes
 
 	AuthController controllers.AuthController
 	AuthRoutes     routes.AuthRoutes
@@ -144,9 +149,6 @@ func init() {
 
 	LimitService = *services.NewLimitService(db, ctx)
 
-	AIController = *controllers.NewAIController(ctx)
-	AIRoutes = routes.NewRouteAI(AIController)
-
 	AuthController = *controllers.NewAuthController(dbPGX, ctx)
 	AuthRoutes = routes.NewRouteAuth(AuthController)
 
@@ -221,8 +223,17 @@ func init() {
 		DevRoutes = routes.NewRouteDev(DevController)
 
 		server.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-
+		// } else {
+		geminiClient, err = genai.NewClient(ctx, option.WithAPIKey(config.Env.GeminiApiKey))
+		if err != nil {
+			log.Fatalf("Failed to create client: %v", err)
+		}
 	}
+
+	GeminiService = *services.NewGeminiService(ctx, geminiClient)
+
+	GeminiController = *controllers.NewGeminiController(ctx, &GeminiService)
+	GeminiRoutes = routes.NewRouteGemini(GeminiController)
 }
 
 // @title     Masters way API
@@ -231,6 +242,7 @@ func init() {
 func main() {
 	defer db.Close()
 	defer pgxPool.Close()
+	defer geminiClient.Close()
 
 	router := server.Group("/api")
 
@@ -238,7 +250,7 @@ func main() {
 		ctx.JSON(http.StatusOK, gin.H{"message": "The way APi is working fine"})
 	})
 
-	AIRoutes.AIRoute(router)
+	GeminiRoutes.GeminiRoute(router)
 	AuthRoutes.AuthRoute(router)
 	WayRoutes.WayRoute(router)
 	UserRoutes.UserRoute(router)

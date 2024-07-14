@@ -1,6 +1,5 @@
 // @ts-nocheck
 /* eslint-disable */
-export * from './AIApi';
 export * from './AuthApi';
 export * from './CommentApi';
 export * from './CompositeWayApi';
@@ -9,6 +8,7 @@ export * from './DevApi';
 export * from './FavoriteUserApi';
 export * from './FavoriteUserWayApi';
 export * from './FromUserMentoringRequestApi';
+export * from './GeminiApi';
 export * from './JobDoneApi';
 export * from './JobDoneJobTagApi';
 export * from './JobTagApi';

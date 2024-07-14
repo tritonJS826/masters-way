@@ -1,10 +1,5 @@
 basePath: /api
 definitions:
-  schemas.AIResponse:
-    properties:
-      answer:
-        type: string
-    type: object
   schemas.AddWayToCompositeWayPayload:
     properties:
       childWayUuid:
@@ -374,7 +369,7 @@ definitions:
         type: string
       metrics:
         items:
-          $ref: '#/definitions/schemas.MetricResponse'
+          type: string
         type: array
       wayName:
         type: string
@@ -956,30 +951,6 @@ info:
   title: Masters way API
   version: "1.0"
 paths:
-  /ai/metrics:
-    post:
-      consumes:
-      - application/json
-      description: This endpoint uses AI to generate metrics by analyzing the provided
-        goals
-      operationId: generate-metrics
-      parameters:
-      - description: Request payload
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/schemas.GenerateMetricsPayload'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/schemas.AIResponse'
-      summary: Generate AI-based metrics
-      tags:
-      - AI
   /auth/{provider}:
     get:
       consumes:
@@ -1396,6 +1367,32 @@ paths:
       summary: Delete fromUserMentoringRequest by UUID
       tags:
       - fromUserMentoringRequest
+  /gemini/metrics:
+    post:
+      consumes:
+      - application/json
+      description: This endpoint uses Gemini to generate metrics by analyzing the
+        provided goals.
+      operationId: generate-metrics
+      parameters:
+      - description: Request payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.GenerateMetricsPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of generated metrics
+          schema:
+            items:
+              type: string
+            type: array
+      summary: Generate metrics using Gemini
+      tags:
+      - gemini
   /jobDoneJobTags:
     post:
       consumes:
