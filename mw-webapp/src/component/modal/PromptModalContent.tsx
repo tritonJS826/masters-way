@@ -3,10 +3,9 @@ import {Close as DialogClose} from "@radix-ui/react-dialog";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Input, InputType} from "src/component/input/Input";
+import {HeadingLevel, Title} from "src/component/title/Title";
 import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/component/modal/PromptModalContent.module.scss";
-import { Title } from 'src/component/title/Title';
-import { HeadingLevel } from 'src/component/title/Title';
 
 /**
  * PromptModalContent props
@@ -73,7 +72,10 @@ export const PromptModalContent = (props: PromptModalContentProps) => {
   };
 
   return (
-    <div onKeyDown={handleEnter} className={styles.container}>
+    <div
+      onKeyDown={handleEnter}
+      className={styles.container}
+    >
 
       {props.title &&
         <Title
