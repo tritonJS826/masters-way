@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 
-	dbPGX "mwserver/db_pgx/sqlc"
+	db "mwserver/db/sqlc"
 	"mwserver/schemas"
 	"mwserver/util"
 
@@ -14,12 +14,12 @@ import (
 )
 
 type JobDoneJobTagController struct {
-	dbPGX *dbPGX.Queries
-	ctx   context.Context
+	db  *db.Queries
+	ctx context.Context
 }
 
-func NewJobDoneJobTagController(dbPGX *dbPGX.Queries, ctx context.Context) *JobDoneJobTagController {
-	return &JobDoneJobTagController{dbPGX, ctx}
+func NewJobDoneJobTagController(db *db.Queries, ctx context.Context) *JobDoneJobTagController {
+	return &JobDoneJobTagController{db, ctx}
 }
 
 // Create jobDoneJobTag handler
@@ -40,12 +40,12 @@ func (cc *JobDoneJobTagController) CreateJobDoneJobTag(ctx *gin.Context) {
 		return
 	}
 
-	args := dbPGX.CreateJobDonesJobTagParams{
+	args := db.CreateJobDonesJobTagParams{
 		JobDoneUuid: pgtype.UUID{Bytes: uuid.MustParse(payload.JobDoneUuid), Valid: true},
 		JobTagUuid:  pgtype.UUID{Bytes: uuid.MustParse(payload.JobTagUuid), Valid: true},
 	}
 
-	jobDoneJobTag, err := cc.dbPGX.CreateJobDonesJobTag(ctx, args)
+	jobDoneJobTag, err := cc.db.CreateJobDonesJobTag(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, jobDoneJobTag)
@@ -66,11 +66,11 @@ func (cc *JobDoneJobTagController) DeleteJobDoneJobTagById(ctx *gin.Context) {
 	jobTagId := ctx.Param("jobTagId")
 	jobDoneId := ctx.Param("jobDoneId")
 
-	args := dbPGX.DeleteJobDonesJobTagByJobDoneIdParams{
+	args := db.DeleteJobDonesJobTagByJobDoneIdParams{
 		JobDoneUuid: pgtype.UUID{Bytes: uuid.MustParse(jobDoneId), Valid: true},
 		JobTagUuid:  pgtype.UUID{Bytes: uuid.MustParse(jobTagId), Valid: true},
 	}
-	err := cc.dbPGX.DeleteJobDonesJobTagByJobDoneId(ctx, args)
+	err := cc.db.DeleteJobDonesJobTagByJobDoneId(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})

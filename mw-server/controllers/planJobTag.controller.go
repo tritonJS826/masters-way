@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 
-	dbPGX "mwserver/db_pgx/sqlc"
+	db "mwserver/db/sqlc"
 	"mwserver/schemas"
 	"mwserver/util"
 
@@ -14,12 +14,12 @@ import (
 )
 
 type PlanJobTagController struct {
-	dbPGX *dbPGX.Queries
-	ctx   context.Context
+	db  *db.Queries
+	ctx context.Context
 }
 
-func NewPlanJobTagController(dbPGX *dbPGX.Queries, ctx context.Context) *PlanJobTagController {
-	return &PlanJobTagController{dbPGX, ctx}
+func NewPlanJobTagController(db *db.Queries, ctx context.Context) *PlanJobTagController {
+	return &PlanJobTagController{db, ctx}
 }
 
 // Create planJobTag  handler
@@ -40,12 +40,12 @@ func (cc *PlanJobTagController) CreatePlanJobTag(ctx *gin.Context) {
 		return
 	}
 
-	args := dbPGX.CreatePlansJobTagParams{
+	args := db.CreatePlansJobTagParams{
 		PlanUuid:   pgtype.UUID{Bytes: uuid.MustParse(payload.PlanUuid), Valid: true},
 		JobTagUuid: pgtype.UUID{Bytes: uuid.MustParse(payload.JobTagUuid), Valid: true},
 	}
 
-	planJobTag, err := cc.dbPGX.CreatePlansJobTag(ctx, args)
+	planJobTag, err := cc.db.CreatePlansJobTag(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, planJobTag)
@@ -66,11 +66,11 @@ func (cc *PlanJobTagController) DeletePlanJobTagById(ctx *gin.Context) {
 	jobTagId := ctx.Param("jobTagId")
 	planId := ctx.Param("planId")
 
-	args := dbPGX.DeletePlansJobTagByIdsParams{
+	args := db.DeletePlansJobTagByIdsParams{
 		PlanUuid:   pgtype.UUID{Bytes: uuid.MustParse(planId), Valid: true},
 		JobTagUuid: pgtype.UUID{Bytes: uuid.MustParse(jobTagId), Valid: true},
 	}
-	err := cc.dbPGX.DeletePlansJobTagByIds(ctx, args)
+	err := cc.db.DeletePlansJobTagByIds(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})

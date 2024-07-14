@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 
-	dbPGX "mwserver/db_pgx/sqlc"
+	db "mwserver/db/sqlc"
 	"mwserver/schemas"
 	"mwserver/util"
 
@@ -14,12 +14,12 @@ import (
 )
 
 type FavoriteUserWayController struct {
-	dbPGX *dbPGX.Queries
-	ctx   context.Context
+	db  *db.Queries
+	ctx context.Context
 }
 
-func NewFavoriteUserWayController(dbPGX *dbPGX.Queries, ctx context.Context) *FavoriteUserWayController {
-	return &FavoriteUserWayController{dbPGX, ctx}
+func NewFavoriteUserWayController(db *db.Queries, ctx context.Context) *FavoriteUserWayController {
+	return &FavoriteUserWayController{db, ctx}
 }
 
 // Create favoriteUserWay handler
@@ -40,12 +40,12 @@ func (cc *FavoriteUserWayController) CreateFavoriteUserWay(ctx *gin.Context) {
 		return
 	}
 
-	args := dbPGX.CreateFavoriteUserWayParams{
+	args := db.CreateFavoriteUserWayParams{
 		UserUuid: pgtype.UUID{Bytes: payload.UserUuid, Valid: true},
 		WayUuid:  pgtype.UUID{Bytes: payload.WayUuid, Valid: true},
 	}
 
-	favoriteUserWay, err := cc.dbPGX.CreateFavoriteUserWay(ctx, args)
+	favoriteUserWay, err := cc.db.CreateFavoriteUserWay(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, favoriteUserWay)
@@ -66,12 +66,12 @@ func (cc *FavoriteUserWayController) DeleteFavoriteUserWayById(ctx *gin.Context)
 	userUuid := ctx.Param("userUuid")
 	wayUuid := ctx.Param("wayUuid")
 
-	args := dbPGX.DeleteFavoriteUserWayByIdsParams{
+	args := db.DeleteFavoriteUserWayByIdsParams{
 		UserUuid: pgtype.UUID{Bytes: uuid.MustParse(userUuid), Valid: true},
 		WayUuid:  pgtype.UUID{Bytes: uuid.MustParse(wayUuid), Valid: true},
 	}
 
-	err := cc.dbPGX.DeleteFavoriteUserWayByIds(ctx, args)
+	err := cc.db.DeleteFavoriteUserWayByIds(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})

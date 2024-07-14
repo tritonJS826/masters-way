@@ -7,11 +7,8 @@ package db
 
 import (
 	"context"
-	"database/sql"
-	"time"
 
-	"github.com/google/uuid"
-	"github.com/lib/pq"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 const countUsers = `-- name: CountUsers :one
@@ -30,7 +27,7 @@ type CountUsersParams struct {
 }
 
 func (q *Queries) CountUsers(ctx context.Context, arg CountUsersParams) (int64, error) {
-	row := q.queryRow(ctx, q.countUsersStmt, countUsers, arg.Email, arg.Name, arg.MentorStatus)
+	row := q.db.QueryRow(ctx, countUsers, arg.Email, arg.Name, arg.MentorStatus)
 	var count int64
 	err := row.Scan(&count)
 	return count, err
@@ -50,16 +47,16 @@ INSERT INTO users(
 `
 
 type CreateUserParams struct {
-	Name        string    `json:"name"`
-	Email       string    `json:"email"`
-	Description string    `json:"description"`
-	CreatedAt   time.Time `json:"created_at"`
-	ImageUrl    string    `json:"image_url"`
-	IsMentor    bool      `json:"is_mentor"`
+	Name        string           `json:"name"`
+	Email       string           `json:"email"`
+	Description string           `json:"description"`
+	CreatedAt   pgtype.Timestamp `json:"created_at"`
+	ImageUrl    string           `json:"image_url"`
+	IsMentor    bool             `json:"is_mentor"`
 }
 
 func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, error) {
-	row := q.queryRow(ctx, q.createUserStmt, createUser,
+	row := q.db.QueryRow(ctx, createUser,
 		arg.Name,
 		arg.Email,
 		arg.Description,
@@ -85,8 +82,8 @@ DELETE FROM users
 WHERE uuid = $1
 `
 
-func (q *Queries) DeleteUser(ctx context.Context, argUuid uuid.UUID) error {
-	_, err := q.exec(ctx, q.deleteUserStmt, deleteUser, argUuid)
+func (q *Queries) DeleteUser(ctx context.Context, userUuid pgtype.UUID) error {
+	_, err := q.db.Exec(ctx, deleteUser, userUuid)
 	return err
 }
 
@@ -96,8 +93,8 @@ WHERE email = $1
 LIMIT 1
 `
 
-func (q *Queries) GetUserByEmail(ctx context.Context, email string) (User, error) {
-	row := q.queryRow(ctx, q.getUserByEmailStmt, getUserByEmail, email)
+func (q *Queries) GetUserByEmail(ctx context.Context, userEmail string) (User, error) {
+	row := q.db.QueryRow(ctx, getUserByEmail, userEmail)
 	var i User
 	err := row.Scan(
 		&i.Uuid,
@@ -117,8 +114,8 @@ WHERE uuid = $1
 LIMIT 1
 `
 
-func (q *Queries) GetUserById(ctx context.Context, argUuid uuid.UUID) (User, error) {
-	row := q.queryRow(ctx, q.getUserByIdStmt, getUserById, argUuid)
+func (q *Queries) GetUserById(ctx context.Context, userUuid pgtype.UUID) (User, error) {
+	row := q.db.QueryRow(ctx, getUserById, userUuid)
 	var i User
 	err := row.Scan(
 		&i.Uuid,
@@ -137,8 +134,8 @@ SELECT uuid, name, email, description, created_at, image_url, is_mentor FROM use
 WHERE uuid = ANY($1::UUID[])
 `
 
-func (q *Queries) GetUserByIds(ctx context.Context, dollar_1 []uuid.UUID) ([]User, error) {
-	rows, err := q.query(ctx, q.getUserByIdsStmt, getUserByIds, pq.Array(dollar_1))
+func (q *Queries) GetUserByIds(ctx context.Context, dollar_1 []pgtype.UUID) ([]User, error) {
+	rows, err := q.db.Query(ctx, getUserByIds, dollar_1)
 	if err != nil {
 		return nil, err
 	}
@@ -159,9 +156,6 @@ func (q *Queries) GetUserByIds(ctx context.Context, dollar_1 []uuid.UUID) ([]Use
 		}
 		items = append(items, i)
 	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
 	if err := rows.Err(); err != nil {
 		return nil, err
 	}
@@ -169,7 +163,7 @@ func (q *Queries) GetUserByIds(ctx context.Context, dollar_1 []uuid.UUID) ([]Use
 }
 
 const listUsers = `-- name: ListUsers :many
-SELECT 
+SELECT
     users.uuid,
     users.name,
     users.email,
@@ -184,8 +178,8 @@ SELECT
     -- get user tag uuids
     COALESCE(
         ARRAY(
-            SELECT user_tags.uuid 
-            FROM user_tags 
+            SELECT user_tags.uuid
+            FROM user_tags
             INNER JOIN users_user_tags ON user_tags.uuid = users_user_tags.user_tag_uuid
             WHERE users_user_tags.user_uuid = users.uuid
         ),
@@ -194,8 +188,8 @@ SELECT
     -- get user tag names
     COALESCE(
         ARRAY(
-            SELECT user_tags.name 
-            FROM user_tags 
+            SELECT user_tags.name
+            FROM user_tags
             INNER JOIN users_user_tags ON user_tags.uuid = users_user_tags.user_tag_uuid
             WHERE users_user_tags.user_uuid = users.uuid
         ),
@@ -210,7 +204,7 @@ WHERE (LOWER(users.email) LIKE '%' || LOWER($3) || '%' OR $3 = '')
         ($5 = 'mentor' AND users.is_mentor = true)
         OR ($5 = 'all')
     )
-        
+
 ORDER BY created_at DESC
 LIMIT $1
 OFFSET $2
@@ -225,25 +219,25 @@ type ListUsersParams struct {
 }
 
 type ListUsersRow struct {
-	Uuid                   uuid.UUID `json:"uuid"`
-	Name                   string    `json:"name"`
-	Email                  string    `json:"email"`
-	Description            string    `json:"description"`
-	CreatedAt              time.Time `json:"created_at"`
-	ImageUrl               string    `json:"image_url"`
-	IsMentor               bool      `json:"is_mentor"`
-	OwnWaysAmount          int64     `json:"own_ways_amount"`
-	FavoriteWays           int64     `json:"favorite_ways"`
-	MentoringWaysAmount    int64     `json:"mentoring_ways_amount"`
-	FavoriteForUsersAmount int64     `json:"favorite_for_users_amount"`
-	TagUuids               []string  `json:"tag_uuids"`
-	TagNames               []string  `json:"tag_names"`
-	UsersSize              int64     `json:"users_size"`
+	Uuid                   pgtype.UUID      `json:"uuid"`
+	Name                   string           `json:"name"`
+	Email                  string           `json:"email"`
+	Description            string           `json:"description"`
+	CreatedAt              pgtype.Timestamp `json:"created_at"`
+	ImageUrl               string           `json:"image_url"`
+	IsMentor               bool             `json:"is_mentor"`
+	OwnWaysAmount          int64            `json:"own_ways_amount"`
+	FavoriteWays           int64            `json:"favorite_ways"`
+	MentoringWaysAmount    int64            `json:"mentoring_ways_amount"`
+	FavoriteForUsersAmount int64            `json:"favorite_for_users_amount"`
+	TagUuids               []string         `json:"tag_uuids"`
+	TagNames               []string         `json:"tag_names"`
+	UsersSize              int64            `json:"users_size"`
 }
 
 // TODO: add filter and sorters
 func (q *Queries) ListUsers(ctx context.Context, arg ListUsersParams) ([]ListUsersRow, error) {
-	rows, err := q.query(ctx, q.listUsersStmt, listUsers,
+	rows, err := q.db.Query(ctx, listUsers,
 		arg.Limit,
 		arg.Offset,
 		arg.Email,
@@ -269,16 +263,13 @@ func (q *Queries) ListUsers(ctx context.Context, arg ListUsersParams) ([]ListUse
 			&i.FavoriteWays,
 			&i.MentoringWaysAmount,
 			&i.FavoriteForUsersAmount,
-			pq.Array(&i.TagUuids),
-			pq.Array(&i.TagNames),
+			&i.TagUuids,
+			&i.TagNames,
 			&i.UsersSize,
 		); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
 	}
 	if err := rows.Err(); err != nil {
 		return nil, err
@@ -293,21 +284,20 @@ name = coalesce($1, name),
 description = coalesce($2, description),
 image_url = coalesce($3, image_url),
 is_mentor = coalesce($4, is_mentor)
-
 WHERE uuid = $5
 RETURNING uuid, name, email, description, created_at, image_url, is_mentor
 `
 
 type UpdateUserParams struct {
-	Name        sql.NullString `json:"name"`
-	Description sql.NullString `json:"description"`
-	ImageUrl    sql.NullString `json:"image_url"`
-	IsMentor    sql.NullBool   `json:"is_mentor"`
-	Uuid        uuid.UUID      `json:"uuid"`
+	Name        pgtype.Text `json:"name"`
+	Description pgtype.Text `json:"description"`
+	ImageUrl    pgtype.Text `json:"image_url"`
+	IsMentor    pgtype.Bool `json:"is_mentor"`
+	Uuid        pgtype.UUID `json:"uuid"`
 }
 
 func (q *Queries) UpdateUser(ctx context.Context, arg UpdateUserParams) (User, error) {
-	row := q.queryRow(ctx, q.updateUserStmt, updateUser,
+	row := q.db.QueryRow(ctx, updateUser,
 		arg.Name,
 		arg.Description,
 		arg.ImageUrl,

@@ -10,6 +10,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 type WayTagController struct {
@@ -48,13 +49,13 @@ func (cc *WayTagController) AddWayTagToWay(ctx *gin.Context) {
 
 	args := &db.CreateWaysWayTagParams{
 		WayTagUuid: wayTag.Uuid,
-		WayUuid:    uuid.MustParse(payload.WayUuid),
+		WayUuid:    pgtype.UUID{Bytes: uuid.MustParse(payload.WayUuid), Valid: true},
 	}
 	_, err = cc.db.CreateWaysWayTag(ctx, *args)
 	util.HandleErrorGin(ctx, err)
 
 	response := schemas.WayTagResponse{
-		Uuid: wayTag.Uuid.String(),
+		Uuid: util.ConvertPgUUIDToUUID(wayTag.Uuid).String(),
 		Name: wayTag.Name,
 	}
 
@@ -77,8 +78,8 @@ func (cc *WayTagController) DeleteWayTagFromWayByTagId(ctx *gin.Context) {
 	wayId := ctx.Param("wayId")
 
 	args := db.DeleteWayTagFromWayParams{
-		WayUuid:    uuid.MustParse(wayId),
-		WayTagUuid: uuid.MustParse(wayTagId),
+		WayUuid:    pgtype.UUID{Bytes: uuid.MustParse(wayId), Valid: true},
+		WayTagUuid: pgtype.UUID{Bytes: uuid.MustParse(wayTagId), Valid: true},
 	}
 
 	err := cc.db.DeleteWayTagFromWay(ctx, args)

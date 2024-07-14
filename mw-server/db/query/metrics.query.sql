@@ -7,12 +7,17 @@ INSERT INTO metrics(
     metric_estimation,
     way_uuid
 ) VALUES (
-    $1, $2, $3, $4, $5, $6
+    @updated_at,
+    @description,
+    @is_done,
+    @done_date,
+    @metric_estimation,
+    @way_uuid
 ) RETURNING *;
 
 -- name: GetListMetricsByWayUuid :many
 SELECT * FROM metrics
-WHERE metrics.way_uuid = $1
+WHERE metrics.way_uuid = @way_uuid
 ORDER BY created_at;
 
 -- name: IsAllMetricsDone :one
@@ -39,5 +44,5 @@ ORDER BY created_at ASC;
 
 -- name: DeleteMetric :one
 DELETE FROM metrics
-WHERE uuid = $1
+WHERE uuid = @metrics_uuid
 RETURNING *;

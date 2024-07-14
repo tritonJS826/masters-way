@@ -2,8 +2,7 @@ package services
 
 import (
 	"context"
-	dbPGX "mwserver/db_pgx/sqlc"
-	dbbPGX "mwserver/db_pgx/sqlc"
+	dbb "mwserver/db/sqlc"
 	"mwserver/schemas"
 	"mwserver/util"
 	"time"
@@ -18,9 +17,9 @@ type GetPopulatedWayByIdParams struct {
 	CurrentChildrenDepth int
 }
 
-func GetPopulatedWayById(dbPGX *dbbPGX.Queries, ctx context.Context, params GetPopulatedWayByIdParams) (schemas.WayPopulatedResponse, error) {
+func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulatedWayByIdParams) (schemas.WayPopulatedResponse, error) {
 	wayPgUUID := pgtype.UUID{Bytes: params.WayUuid, Valid: true}
-	way, err := dbPGX.GetWayById(ctx, wayPgUUID)
+	way, err := db.GetWayById(ctx, wayPgUUID)
 	if err != nil {
 		return schemas.WayPopulatedResponse{}, err
 	}
@@ -35,8 +34,8 @@ func GetPopulatedWayById(dbPGX *dbbPGX.Queries, ctx context.Context, params GetP
 		IsMentor:    way.OwnerIsMentor,
 	}
 
-	jobTagsRaw, _ := dbPGX.GetListJobTagsByWayUuid(ctx, wayPgUUID)
-	jobTags := lo.Map(jobTagsRaw, func(dbJobTag dbbPGX.JobTag, i int) schemas.JobTagResponse {
+	jobTagsRaw, _ := db.GetListJobTagsByWayUuid(ctx, wayPgUUID)
+	jobTags := lo.Map(jobTagsRaw, func(dbJobTag dbb.JobTag, i int) schemas.JobTagResponse {
 		return schemas.JobTagResponse{
 			Uuid:        util.ConvertPgUUIDToUUID(dbJobTag.Uuid).String(),
 			Name:        dbJobTag.Name,
@@ -48,9 +47,9 @@ func GetPopulatedWayById(dbPGX *dbbPGX.Queries, ctx context.Context, params GetP
 		return jobTag.Uuid, jobTag
 	})
 
-	favoriteForUserAmount, _ := dbPGX.GetFavoriteForUserUuidsByWayId(ctx, wayPgUUID)
-	fromUserMentoringRequestsRaw, _ := dbPGX.GetFromUserMentoringRequestWaysByWayId(ctx, wayPgUUID)
-	fromUserMentoringRequests := lo.Map(fromUserMentoringRequestsRaw, func(fromUser dbbPGX.User, i int) schemas.UserPlainResponse {
+	favoriteForUserAmount, _ := db.GetFavoriteForUserUuidsByWayId(ctx, wayPgUUID)
+	fromUserMentoringRequestsRaw, _ := db.GetFromUserMentoringRequestWaysByWayId(ctx, wayPgUUID)
+	fromUserMentoringRequests := lo.Map(fromUserMentoringRequestsRaw, func(fromUser dbb.User, i int) schemas.UserPlainResponse {
 		return schemas.UserPlainResponse{
 			Uuid:        util.ConvertPgUUIDToUUID(fromUser.Uuid).String(),
 			Name:        fromUser.Name,
@@ -62,8 +61,8 @@ func GetPopulatedWayById(dbPGX *dbbPGX.Queries, ctx context.Context, params GetP
 		}
 	})
 
-	formerMentorsRaw, _ := dbPGX.GetFormerMentorUsersByWayId(ctx, wayPgUUID)
-	formerMentors := lo.Map(formerMentorsRaw, func(dbFormerMentor dbbPGX.User, i int) schemas.UserPlainResponse {
+	formerMentorsRaw, _ := db.GetFormerMentorUsersByWayId(ctx, wayPgUUID)
+	formerMentors := lo.Map(formerMentorsRaw, func(dbFormerMentor dbb.User, i int) schemas.UserPlainResponse {
 		return schemas.UserPlainResponse{
 			Uuid:        util.ConvertPgUUIDToUUID(dbFormerMentor.Uuid).String(),
 			Name:        dbFormerMentor.Name,
@@ -75,8 +74,8 @@ func GetPopulatedWayById(dbPGX *dbbPGX.Queries, ctx context.Context, params GetP
 		}
 	})
 
-	mentorsRaw, _ := dbPGX.GetMentorUsersByWayId(ctx, wayPgUUID)
-	mentors := lo.Map(mentorsRaw, func(dbMentor dbbPGX.User, i int) schemas.UserPlainResponse {
+	mentorsRaw, _ := db.GetMentorUsersByWayId(ctx, wayPgUUID)
+	mentors := lo.Map(mentorsRaw, func(dbMentor dbb.User, i int) schemas.UserPlainResponse {
 		return schemas.UserPlainResponse{
 			Uuid:        util.ConvertPgUUIDToUUID(dbMentor.Uuid).String(),
 			Name:        dbMentor.Name,
@@ -88,8 +87,8 @@ func GetPopulatedWayById(dbPGX *dbbPGX.Queries, ctx context.Context, params GetP
 		}
 	})
 
-	metricsRaw, _ := dbPGX.GetListMetricsByWayUuid(ctx, wayPgUUID)
-	metrics := lo.Map(metricsRaw, func(dbMetric dbbPGX.Metric, i int) schemas.MetricResponse {
+	metricsRaw, _ := db.GetListMetricsByWayUuid(ctx, wayPgUUID)
+	metrics := lo.Map(metricsRaw, func(dbMetric dbb.Metric, i int) schemas.MetricResponse {
 		return schemas.MetricResponse{
 			Uuid:             util.ConvertPgUUIDToUUID(dbMetric.Uuid).String(),
 			Description:      dbMetric.Description,
@@ -99,8 +98,8 @@ func GetPopulatedWayById(dbPGX *dbbPGX.Queries, ctx context.Context, params GetP
 		}
 	})
 
-	wayTagsRaw, _ := dbPGX.GetListWayTagsByWayId(ctx, wayPgUUID)
-	wayTags := lo.Map(wayTagsRaw, func(dbWayTag dbbPGX.WayTag, i int) schemas.WayTagResponse {
+	wayTagsRaw, _ := db.GetListWayTagsByWayId(ctx, wayPgUUID)
+	wayTags := lo.Map(wayTagsRaw, func(dbWayTag dbb.WayTag, i int) schemas.WayTagResponse {
 		return schemas.WayTagResponse{
 			Uuid: util.ConvertPgUUIDToUUID(dbWayTag.Uuid).String(),
 			Name: dbWayTag.Name,
@@ -115,14 +114,14 @@ func GetPopulatedWayById(dbPGX *dbbPGX.Queries, ctx context.Context, params GetP
 		return relatedUser.Uuid, relatedUser
 	})
 
-	dayReportsRaw, _ := dbPGX.GetListDayReportsByWayUuid(ctx, wayPgUUID)
-	dayReportUuids := lo.Map(dayReportsRaw, func(dbDayReport dbbPGX.DayReport, i int) pgtype.UUID {
+	dayReportsRaw, _ := db.GetListDayReportsByWayUuid(ctx, wayPgUUID)
+	dayReportUuids := lo.Map(dayReportsRaw, func(dbDayReport dbb.DayReport, i int) pgtype.UUID {
 		return dbDayReport.Uuid
 	})
 
-	dbJobDones, _ := dbPGX.GetJobDonesByDayReportUuids(ctx, dayReportUuids)
+	dbJobDones, _ := db.GetJobDonesByDayReportUuids(ctx, dayReportUuids)
 	jobDonesMap := make(map[string][]schemas.JobDonePopulatedResponse)
-	lo.ForEach(dbJobDones, func(dbJobDone dbbPGX.GetJobDonesByDayReportUuidsRow, i int) {
+	lo.ForEach(dbJobDones, func(dbJobDone dbb.GetJobDonesByDayReportUuidsRow, i int) {
 		jobDoneOwnerUUIDString := util.ConvertPgUUIDToUUID(dbJobDone.OwnerUuid).String()
 		jobDoneOwner := allWayRelatedUsersMap[jobDoneOwnerUUIDString]
 		tags := lo.Map(dbJobDone.TagUuids, func(tagUuid string, i int) schemas.JobTagResponse {
@@ -145,9 +144,9 @@ func GetPopulatedWayById(dbPGX *dbbPGX.Queries, ctx context.Context, params GetP
 		)
 	})
 
-	dbPlans, _ := dbPGX.GetPlansByDayReportUuids(ctx, dayReportUuids)
+	dbPlans, _ := db.GetPlansByDayReportUuids(ctx, dayReportUuids)
 	plansMap := make(map[string][]schemas.PlanPopulatedResponse)
-	lo.ForEach(dbPlans, func(plan dbbPGX.GetPlansByDayReportUuidsRow, i int) {
+	lo.ForEach(dbPlans, func(plan dbb.GetPlansByDayReportUuidsRow, i int) {
 		planOwnerUUIDString := util.ConvertPgUUIDToUUID(plan.OwnerUuid).String()
 		planOwner := allWayRelatedUsersMap[planOwnerUUIDString]
 		tags := lo.Map(plan.TagUuids, func(tagUuid string, i int) schemas.JobTagResponse {
@@ -171,10 +170,10 @@ func GetPopulatedWayById(dbPGX *dbbPGX.Queries, ctx context.Context, params GetP
 		)
 	})
 
-	dbProblems, _ := dbPGX.GetProblemsByDayReportUuids(ctx, dayReportUuids)
+	dbProblems, _ := db.GetProblemsByDayReportUuids(ctx, dayReportUuids)
 
 	problemsMap := make(map[string][]schemas.ProblemPopulatedResponse)
-	lo.ForEach(dbProblems, func(problem dbbPGX.GetProblemsByDayReportUuidsRow, i int) {
+	lo.ForEach(dbProblems, func(problem dbb.GetProblemsByDayReportUuidsRow, i int) {
 		problemOwnerUUIDString := util.ConvertPgUUIDToUUID(problem.OwnerUuid).String()
 		problemOwner := allWayRelatedUsersMap[problemOwnerUUIDString]
 		tags := lo.Map(problem.TagUuids, func(tagUuid string, i int) schemas.JobTagResponse {
@@ -197,9 +196,9 @@ func GetPopulatedWayById(dbPGX *dbbPGX.Queries, ctx context.Context, params GetP
 		)
 	})
 
-	dbComments, _ := dbPGX.GetListCommentsByDayReportUuids(ctx, dayReportUuids)
+	dbComments, _ := db.GetListCommentsByDayReportUuids(ctx, dayReportUuids)
 	commentsMap := make(map[string][]schemas.CommentPopulatedResponse)
-	lo.ForEach(dbComments, func(comment dbbPGX.Comment, i int) {
+	lo.ForEach(dbComments, func(comment dbb.Comment, i int) {
 		commentOwnerUUIDString := util.ConvertPgUUIDToUUID(comment.OwnerUuid).String()
 		commentOwner := allWayRelatedUsersMap[commentOwnerUUIDString]
 		dayReportUUIDString := util.ConvertPgUUIDToUUID(comment.DayReportUuid).String()
@@ -248,13 +247,13 @@ func GetPopulatedWayById(dbPGX *dbbPGX.Queries, ctx context.Context, params GetP
 	}
 
 	var children []schemas.WayPopulatedResponse
-	if params.CurrentChildrenDepth < int(limitMap[MaxCompositeWayDeps][dbbPGX.PricingPlanTypeStarter]) {
+	if params.CurrentChildrenDepth < int(limitMap[MaxCompositeWayDeps][dbb.PricingPlanTypeStarter]) {
 		children = lo.Map(way.ChildrenUuids, func(childUuid string, i int) schemas.WayPopulatedResponse {
 			args := GetPopulatedWayByIdParams{
 				WayUuid:              uuid.MustParse(childUuid),
 				CurrentChildrenDepth: params.CurrentChildrenDepth + 1,
 			}
-			child, _ := GetPopulatedWayById(dbPGX, ctx, args)
+			child, _ := GetPopulatedWayById(db, ctx, args)
 
 			return child
 		})
@@ -287,28 +286,28 @@ func GetPopulatedWayById(dbPGX *dbbPGX.Queries, ctx context.Context, params GetP
 	return response, nil
 }
 
-func UpdateWayIsCompletedStatus(dbPGX *dbbPGX.Queries, ctx context.Context, wayUuid pgtype.UUID) error {
+func UpdateWayIsCompletedStatus(db *dbb.Queries, ctx context.Context, wayUuid pgtype.UUID) error {
 
-	isCompleted, err := dbPGX.IsAllMetricsDone(ctx, wayUuid)
+	isCompleted, err := db.IsAllMetricsDone(ctx, wayUuid)
 
 	now := time.Now()
-	args := dbbPGX.UpdateWayParams{
+	args := dbb.UpdateWayParams{
 		Uuid:        wayUuid,
 		IsCompleted: pgtype.Bool{Bool: isCompleted, Valid: true},
 		UpdatedAt:   pgtype.Timestamp{Time: now, Valid: true},
 	}
 
-	dbPGX.UpdateWay(ctx, args)
+	db.UpdateWay(ctx, args)
 
 	return err
 }
 
-func GetPlainWayById(dbPGX *dbPGX.Queries, ctx context.Context, wayUuid pgtype.UUID) (schemas.WayPlainResponse, error) {
-	way, err := dbPGX.GetWayById(ctx, wayUuid)
+func GetPlainWayById(db *dbb.Queries, ctx context.Context, wayUuid pgtype.UUID) (schemas.WayPlainResponse, error) {
+	way, err := db.GetWayById(ctx, wayUuid)
 
-	mentorsRaw, _ := dbPGX.GetMentorUsersByWayId(ctx, way.Uuid)
+	mentorsRaw, _ := db.GetMentorUsersByWayId(ctx, way.Uuid)
 
-	mentors := lo.Map(mentorsRaw, func(dbMentor dbbPGX.User, i int) schemas.UserPlainResponse {
+	mentors := lo.Map(mentorsRaw, func(dbMentor dbb.User, i int) schemas.UserPlainResponse {
 		return schemas.UserPlainResponse{
 			Uuid:        util.ConvertPgUUIDToUUID(dbMentor.Uuid).String(),
 			Name:        dbMentor.Name,
@@ -320,7 +319,7 @@ func GetPlainWayById(dbPGX *dbPGX.Queries, ctx context.Context, wayUuid pgtype.U
 		}
 	})
 
-	dbOwner, _ := dbPGX.GetUserById(ctx, way.OwnerUuid)
+	dbOwner, _ := db.GetUserById(ctx, way.OwnerUuid)
 	owner := schemas.UserPlainResponse{
 		Uuid:        util.ConvertPgUUIDToUUID(dbOwner.Uuid).String(),
 		Name:        dbOwner.Name,
@@ -330,8 +329,8 @@ func GetPlainWayById(dbPGX *dbPGX.Queries, ctx context.Context, wayUuid pgtype.U
 		ImageUrl:    dbOwner.ImageUrl,
 		IsMentor:    dbOwner.IsMentor,
 	}
-	dbTags, _ := dbPGX.GetListWayTagsByWayId(ctx, way.Uuid)
-	wayTags := lo.Map(dbTags, func(dbTag dbbPGX.WayTag, i int) schemas.WayTagResponse {
+	dbTags, _ := db.GetListWayTagsByWayId(ctx, way.Uuid)
+	wayTags := lo.Map(dbTags, func(dbTag dbb.WayTag, i int) schemas.WayTagResponse {
 		return schemas.WayTagResponse{
 			Uuid: util.ConvertPgUUIDToUUID(dbTag.Uuid).String(),
 			Name: dbTag.Name,

@@ -2,24 +2,23 @@ package controllers
 
 import (
 	"context"
-	"database/sql"
-	"log"
-	"mwserver/config"
 	db "mwserver/db/sqlc"
 	"mwserver/util"
 	"net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 type DevController struct {
-	db  *db.Queries
-	ctx context.Context
+	db      *db.Queries
+	pgxPool *pgxpool.Pool
+	ctx     context.Context
 }
 
-func NewDevController(db *db.Queries, ctx context.Context) *DevController {
-	return &DevController{db, ctx}
+func NewDevController(db *db.Queries, pgxPool *pgxpool.Pool, ctx context.Context) *DevController {
+	return &DevController{db, pgxPool, ctx}
 }
 
 // Reset db
@@ -29,13 +28,6 @@ func NewDevController(db *db.Queries, ctx context.Context) *DevController {
 // @Success 200
 // @Router /reset-db [post]
 func (cc *DevController) ResetDb(ctx *gin.Context) {
-	// Open a connection to the database
-	db, err := sql.Open("postgres", config.Env.DbSource)
-	if err != nil {
-		log.Fatal("Error connecting to the database:", err)
-	}
-	defer db.Close()
-
 	migration, err := os.ReadFile("db/migration/000001_init_schema.up.sql")
 	util.HandleErrorGin(ctx, err)
 
@@ -43,7 +35,7 @@ func (cc *DevController) ResetDb(ctx *gin.Context) {
 	util.HandleErrorGin(ctx, err)
 
 	// migrate schemas according to migrations file
-	_, err = db.Query(string(migration))
+	_, err = cc.pgxPool.Query(ctx, string(migration))
 	util.HandleErrorGin(ctx, err)
 
 	util.HandleErrorGin(ctx, cc.db.RegenerateDbData(ctx))

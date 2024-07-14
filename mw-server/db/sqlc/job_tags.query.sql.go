@@ -7,10 +7,8 @@ package db
 
 import (
 	"context"
-	"database/sql"
 
-	"github.com/google/uuid"
-	"github.com/lib/pq"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 const createJobTag = `-- name: CreateJobTag :one
@@ -20,19 +18,22 @@ INSERT INTO job_tags(
     color,
     way_uuid
 ) VALUES (
-    $1, $2, $3, $4
+    $1,
+    $2,
+    $3,
+    $4
 ) RETURNING uuid, name, description, color, way_uuid
 `
 
 type CreateJobTagParams struct {
-	Name        string    `json:"name"`
-	Description string    `json:"description"`
-	Color       string    `json:"color"`
-	WayUuid     uuid.UUID `json:"way_uuid"`
+	Name        string      `json:"name"`
+	Description string      `json:"description"`
+	Color       string      `json:"color"`
+	WayUuid     pgtype.UUID `json:"way_uuid"`
 }
 
 func (q *Queries) CreateJobTag(ctx context.Context, arg CreateJobTagParams) (JobTag, error) {
-	row := q.queryRow(ctx, q.createJobTagStmt, createJobTag,
+	row := q.db.QueryRow(ctx, createJobTag,
 		arg.Name,
 		arg.Description,
 		arg.Color,
@@ -54,8 +55,8 @@ DELETE FROM job_tags
 WHERE uuid = $1
 `
 
-func (q *Queries) DeleteJobTagById(ctx context.Context, argUuid uuid.UUID) error {
-	_, err := q.exec(ctx, q.deleteJobTagByIdStmt, deleteJobTagById, argUuid)
+func (q *Queries) DeleteJobTagById(ctx context.Context, jobTagUuid pgtype.UUID) error {
+	_, err := q.db.Exec(ctx, deleteJobTagById, jobTagUuid)
 	return err
 }
 
@@ -64,8 +65,8 @@ SELECT uuid, name, description, color, way_uuid FROM job_tags
 WHERE job_tags.uuid = $1
 `
 
-func (q *Queries) GetJobTagByUuid(ctx context.Context, argUuid uuid.UUID) (JobTag, error) {
-	row := q.queryRow(ctx, q.getJobTagByUuidStmt, getJobTagByUuid, argUuid)
+func (q *Queries) GetJobTagByUuid(ctx context.Context, jobTagUuid pgtype.UUID) (JobTag, error) {
+	row := q.db.QueryRow(ctx, getJobTagByUuid, jobTagUuid)
 	var i JobTag
 	err := row.Scan(
 		&i.Uuid,
@@ -83,8 +84,8 @@ WHERE way_uuid = $1
 ORDER BY uuid
 `
 
-func (q *Queries) GetListJobTagsByWayUuid(ctx context.Context, wayUuid uuid.UUID) ([]JobTag, error) {
-	rows, err := q.query(ctx, q.getListJobTagsByWayUuidStmt, getListJobTagsByWayUuid, wayUuid)
+func (q *Queries) GetListJobTagsByWayUuid(ctx context.Context, wayUuid pgtype.UUID) ([]JobTag, error) {
+	rows, err := q.db.Query(ctx, getListJobTagsByWayUuid, wayUuid)
 	if err != nil {
 		return nil, err
 	}
@@ -102,9 +103,6 @@ func (q *Queries) GetListJobTagsByWayUuid(ctx context.Context, wayUuid uuid.UUID
 			return nil, err
 		}
 		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
 	}
 	if err := rows.Err(); err != nil {
 		return nil, err
@@ -118,8 +116,8 @@ WHERE way_uuid = ANY($1::UUID[])
 ORDER BY uuid
 `
 
-func (q *Queries) GetListJobTagsByWayUuids(ctx context.Context, dollar_1 []uuid.UUID) ([]JobTag, error) {
-	rows, err := q.query(ctx, q.getListJobTagsByWayUuidsStmt, getListJobTagsByWayUuids, pq.Array(dollar_1))
+func (q *Queries) GetListJobTagsByWayUuids(ctx context.Context, wayUuids []pgtype.UUID) ([]JobTag, error) {
+	rows, err := q.db.Query(ctx, getListJobTagsByWayUuids, wayUuids)
 	if err != nil {
 		return nil, err
 	}
@@ -137,9 +135,6 @@ func (q *Queries) GetListJobTagsByWayUuids(ctx context.Context, dollar_1 []uuid.
 			return nil, err
 		}
 		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
 	}
 	if err := rows.Err(); err != nil {
 		return nil, err
@@ -153,8 +148,8 @@ WHERE job_tags.uuid = ANY($1::UUID[])
 ORDER BY uuid
 `
 
-func (q *Queries) GetListLabelsByLabelUuids(ctx context.Context, dollar_1 []uuid.UUID) ([]JobTag, error) {
-	rows, err := q.query(ctx, q.getListLabelsByLabelUuidsStmt, getListLabelsByLabelUuids, pq.Array(dollar_1))
+func (q *Queries) GetListLabelsByLabelUuids(ctx context.Context, jobTagUuids []pgtype.UUID) ([]JobTag, error) {
+	rows, err := q.db.Query(ctx, getListLabelsByLabelUuids, jobTagUuids)
 	if err != nil {
 		return nil, err
 	}
@@ -172,9 +167,6 @@ func (q *Queries) GetListLabelsByLabelUuids(ctx context.Context, dollar_1 []uuid
 			return nil, err
 		}
 		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
 	}
 	if err := rows.Err(); err != nil {
 		return nil, err
@@ -193,14 +185,14 @@ RETURNING uuid, name, description, color, way_uuid
 `
 
 type UpdateJobTagParams struct {
-	Name        sql.NullString `json:"name"`
-	Description sql.NullString `json:"description"`
-	Color       sql.NullString `json:"color"`
-	Uuid        uuid.UUID      `json:"uuid"`
+	Name        pgtype.Text `json:"name"`
+	Description pgtype.Text `json:"description"`
+	Color       pgtype.Text `json:"color"`
+	Uuid        pgtype.UUID `json:"uuid"`
 }
 
 func (q *Queries) UpdateJobTag(ctx context.Context, arg UpdateJobTagParams) (JobTag, error) {
-	row := q.queryRow(ctx, q.updateJobTagStmt, updateJobTag,
+	row := q.db.QueryRow(ctx, updateJobTag,
 		arg.Name,
 		arg.Description,
 		arg.Color,

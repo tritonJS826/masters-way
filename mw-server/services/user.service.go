@@ -2,7 +2,7 @@ package services
 
 import (
 	"context"
-	dbbPGX "mwserver/db_pgx/sqlc"
+	dbb "mwserver/db/sqlc"
 	"mwserver/schemas"
 	"mwserver/util"
 	"time"
@@ -12,23 +12,23 @@ import (
 	"github.com/samber/lo"
 )
 
-func FindOrCreateUserByEmail(dbPGX *dbbPGX.Queries, ctx context.Context, args *dbbPGX.CreateUserParams) (schemas.UserPopulatedResponse, error) {
-	user, err := dbPGX.GetUserByEmail(ctx, args.Email)
+func FindOrCreateUserByEmail(db *dbb.Queries, ctx context.Context, args *dbb.CreateUserParams) (schemas.UserPopulatedResponse, error) {
+	user, err := db.GetUserByEmail(ctx, args.Email)
 	var userUuid uuid.UUID
 	if err == nil {
 		userUuid = user.Uuid.Bytes
 	} else {
-		dbUser, _ := CreateUser(dbPGX, ctx, args)
+		dbUser, _ := CreateUser(db, ctx, args)
 		userUuid = uuid.MustParse(dbUser.Uuid)
 	}
 
-	populatedUser, err := GetPopulatedUserById(dbPGX, ctx, userUuid)
+	populatedUser, err := GetPopulatedUserById(db, ctx, userUuid)
 
 	return populatedUser, err
 }
 
-func CreateUser(dbPGX *dbbPGX.Queries, ctx context.Context, args *dbbPGX.CreateUserParams) (schemas.UserPlainResponse, error) {
-	user, err := dbPGX.CreateUser(ctx, *args)
+func CreateUser(db *dbb.Queries, ctx context.Context, args *dbb.CreateUserParams) (schemas.UserPlainResponse, error) {
+	user, err := db.CreateUser(ctx, *args)
 	if err != nil {
 		return schemas.UserPlainResponse{}, err
 	}
@@ -64,9 +64,9 @@ type dbWay struct {
 	ChildrenUuids       []string
 }
 
-func convertDbWaysToPlainWays(dbPGX *dbbPGX.Queries, ctx context.Context, dbWays []dbWay) []schemas.WayPlainResponse {
+func convertDbWaysToPlainWays(db *dbb.Queries, ctx context.Context, dbWays []dbWay) []schemas.WayPlainResponse {
 	ways := lo.Map(dbWays, func(dbWay dbWay, i int) schemas.WayPlainResponse {
-		dbOwner, _ := dbPGX.GetUserById(ctx, dbWay.OwnerUuid)
+		dbOwner, _ := db.GetUserById(ctx, dbWay.OwnerUuid)
 		owner := schemas.UserPlainResponse{
 			Uuid:        util.ConvertPgUUIDToUUID(dbWay.OwnerUuid).String(),
 			Name:        dbOwner.Name,
@@ -77,8 +77,8 @@ func convertDbWaysToPlainWays(dbPGX *dbbPGX.Queries, ctx context.Context, dbWays
 			IsMentor:    dbOwner.IsMentor,
 		}
 
-		dbMentors, _ := dbPGX.GetMentorUsersByWayId(ctx, dbWay.Uuid)
-		mentors := lo.Map(dbMentors, func(dbMentor dbbPGX.User, i int) schemas.UserPlainResponse {
+		dbMentors, _ := db.GetMentorUsersByWayId(ctx, dbWay.Uuid)
+		mentors := lo.Map(dbMentors, func(dbMentor dbb.User, i int) schemas.UserPlainResponse {
 			return schemas.UserPlainResponse{
 				Uuid:        util.ConvertPgUUIDToUUID(dbMentor.Uuid).String(),
 				Name:        dbMentor.Name,
@@ -90,8 +90,8 @@ func convertDbWaysToPlainWays(dbPGX *dbbPGX.Queries, ctx context.Context, dbWays
 			}
 		})
 
-		dbWayTags, _ := dbPGX.GetListWayTagsByWayId(ctx, dbWay.Uuid)
-		wayTags := lo.Map(dbWayTags, func(dbWayTag dbbPGX.WayTag, i int) schemas.WayTagResponse {
+		dbWayTags, _ := db.GetListWayTagsByWayId(ctx, dbWay.Uuid)
+		wayTags := lo.Map(dbWayTags, func(dbWayTag dbb.WayTag, i int) schemas.WayTagResponse {
 			return schemas.WayTagResponse{
 				Uuid: util.ConvertPgUUIDToUUID(dbWayTag.Uuid).String(),
 				Name: dbWayTag.Name,
@@ -122,8 +122,8 @@ func convertDbWaysToPlainWays(dbPGX *dbbPGX.Queries, ctx context.Context, dbWays
 	return ways
 }
 
-func dbCollectionWaysToDbWays(rawWay []dbbPGX.GetWaysByCollectionIdRow) []dbWay {
-	return lo.Map(rawWay, func(dbWayRaw dbbPGX.GetWaysByCollectionIdRow, i int) dbWay {
+func dbCollectionWaysToDbWays(rawWay []dbb.GetWaysByCollectionIdRow) []dbWay {
+	return lo.Map(rawWay, func(dbWayRaw dbb.GetWaysByCollectionIdRow, i int) dbWay {
 		return dbWay{
 			Uuid:                dbWayRaw.Uuid,
 			Name:                dbWayRaw.Name,
@@ -144,8 +144,8 @@ func dbCollectionWaysToDbWays(rawWay []dbbPGX.GetWaysByCollectionIdRow) []dbWay 
 	})
 }
 
-func dbOwnWaysToDbWays(rawWay []dbbPGX.GetOwnWaysByUserIdRow) []dbWay {
-	return lo.Map(rawWay, func(dbWayRaw dbbPGX.GetOwnWaysByUserIdRow, i int) dbWay {
+func dbOwnWaysToDbWays(rawWay []dbb.GetOwnWaysByUserIdRow) []dbWay {
+	return lo.Map(rawWay, func(dbWayRaw dbb.GetOwnWaysByUserIdRow, i int) dbWay {
 		return dbWay{
 			Uuid:                dbWayRaw.Uuid,
 			Name:                dbWayRaw.Name,
@@ -166,8 +166,8 @@ func dbOwnWaysToDbWays(rawWay []dbbPGX.GetOwnWaysByUserIdRow) []dbWay {
 	})
 }
 
-func dbMentoringWaysToDbWays(rawWay []dbbPGX.GetMentoringWaysByMentorIdRow) []dbWay {
-	return lo.Map(rawWay, func(dbWayRaw dbbPGX.GetMentoringWaysByMentorIdRow, i int) dbWay {
+func dbMentoringWaysToDbWays(rawWay []dbb.GetMentoringWaysByMentorIdRow) []dbWay {
+	return lo.Map(rawWay, func(dbWayRaw dbb.GetMentoringWaysByMentorIdRow, i int) dbWay {
 		return dbWay{
 			Uuid:                dbWayRaw.Uuid,
 			Name:                dbWayRaw.Name,
@@ -188,8 +188,8 @@ func dbMentoringWaysToDbWays(rawWay []dbbPGX.GetMentoringWaysByMentorIdRow) []db
 	})
 }
 
-func dbFavoriteWaysToDbWays(rawWay []dbbPGX.GetFavoriteWaysByUserIdRow) []dbWay {
-	return lo.Map(rawWay, func(dbWayRaw dbbPGX.GetFavoriteWaysByUserIdRow, i int) dbWay {
+func dbFavoriteWaysToDbWays(rawWay []dbb.GetFavoriteWaysByUserIdRow) []dbWay {
+	return lo.Map(rawWay, func(dbWayRaw dbb.GetFavoriteWaysByUserIdRow, i int) dbWay {
 		return dbWay{
 			Uuid:                dbWayRaw.Uuid,
 			Name:                dbWayRaw.Name,
@@ -210,16 +210,16 @@ func dbFavoriteWaysToDbWays(rawWay []dbbPGX.GetFavoriteWaysByUserIdRow) []dbWay 
 	})
 }
 
-func GetPopulatedUserById(dbPGX *dbbPGX.Queries, ctx context.Context, userUuid uuid.UUID) (schemas.UserPopulatedResponse, error) {
+func GetPopulatedUserById(db *dbb.Queries, ctx context.Context, userUuid uuid.UUID) (schemas.UserPopulatedResponse, error) {
 	userPgUUID := pgtype.UUID{Bytes: userUuid, Valid: true}
-	user, err := dbPGX.GetUserById(ctx, userPgUUID)
+	user, err := db.GetUserById(ctx, userPgUUID)
 
-	dbOwnWays, _ := dbPGX.GetOwnWaysByUserId(ctx, user.Uuid)
-	ownWays := convertDbWaysToPlainWays(dbPGX, ctx, dbOwnWaysToDbWays(dbOwnWays))
-	dbMentoringWays, _ := dbPGX.GetMentoringWaysByMentorId(ctx, user.Uuid)
-	mentoringWays := convertDbWaysToPlainWays(dbPGX, ctx, dbMentoringWaysToDbWays(dbMentoringWays))
-	dbFavoriteWays, _ := dbPGX.GetFavoriteWaysByUserId(ctx, user.Uuid)
-	favoriteWays := convertDbWaysToPlainWays(dbPGX, ctx, dbFavoriteWaysToDbWays(dbFavoriteWays))
+	dbOwnWays, _ := db.GetOwnWaysByUserId(ctx, user.Uuid)
+	ownWays := convertDbWaysToPlainWays(db, ctx, dbOwnWaysToDbWays(dbOwnWays))
+	dbMentoringWays, _ := db.GetMentoringWaysByMentorId(ctx, user.Uuid)
+	mentoringWays := convertDbWaysToPlainWays(db, ctx, dbMentoringWaysToDbWays(dbMentoringWays))
+	dbFavoriteWays, _ := db.GetFavoriteWaysByUserId(ctx, user.Uuid)
+	favoriteWays := convertDbWaysToPlainWays(db, ctx, dbFavoriteWaysToDbWays(dbFavoriteWays))
 
 	defaultCollections := schemas.DefaultWayCollections{
 		Own: schemas.WayCollectionPopulatedResponse{
@@ -251,12 +251,12 @@ func GetPopulatedUserById(dbPGX *dbbPGX.Queries, ctx context.Context, userUuid u
 		},
 	}
 
-	dbWayCollections, _ := dbPGX.GetWayCollectionsByUserId(ctx, user.Uuid)
-	wayCollections := lo.Map(dbWayCollections, func(collection dbbPGX.WayCollection, i int) schemas.WayCollectionPopulatedResponse {
-		dbCollectionWays, _ := dbPGX.GetWaysByCollectionId(ctx, collection.Uuid)
+	dbWayCollections, _ := db.GetWayCollectionsByUserId(ctx, user.Uuid)
+	wayCollections := lo.Map(dbWayCollections, func(collection dbb.WayCollection, i int) schemas.WayCollectionPopulatedResponse {
+		dbCollectionWays, _ := db.GetWaysByCollectionId(ctx, collection.Uuid)
 		dbCollectionWaysPrepared := dbCollectionWaysToDbWays(dbCollectionWays)
 
-		ways := convertDbWaysToPlainWays(dbPGX, ctx, dbCollectionWaysPrepared)
+		ways := convertDbWaysToPlainWays(db, ctx, dbCollectionWaysPrepared)
 
 		wayCollection := schemas.WayCollectionPopulatedResponse{
 			Uuid:      util.ConvertPgUUIDToUUID(collection.Uuid).String(),
@@ -270,25 +270,25 @@ func GetPopulatedUserById(dbPGX *dbbPGX.Queries, ctx context.Context, userUuid u
 		return wayCollection
 	})
 
-	tagsRaw, _ := dbPGX.GetListUserTagsByUserId(ctx, user.Uuid)
-	tags := lo.Map(tagsRaw, func(dbUserTag dbbPGX.UserTag, i int) schemas.UserTagResponse {
+	tagsRaw, _ := db.GetListUserTagsByUserId(ctx, user.Uuid)
+	tags := lo.Map(tagsRaw, func(dbUserTag dbb.UserTag, i int) schemas.UserTagResponse {
 		return schemas.UserTagResponse{
 			Name: dbUserTag.Name,
 			Uuid: util.ConvertPgUUIDToUUID(dbUserTag.Uuid).String(),
 		}
 	})
 
-	wayRequestsRaw, _ := dbPGX.GetFromUserMentoringRequestWaysByUserId(ctx, user.Uuid)
-	wayRequests := lo.Map(wayRequestsRaw, func(dbWay dbbPGX.GetFromUserMentoringRequestWaysByUserIdRow, i int) schemas.WayPlainResponse {
-		dbWayTags, _ := dbPGX.GetListWayTagsByWayId(ctx, dbWay.Uuid)
-		wayTags := lo.Map(dbWayTags, func(dbWayTag dbbPGX.WayTag, i int) schemas.WayTagResponse {
+	wayRequestsRaw, _ := db.GetFromUserMentoringRequestWaysByUserId(ctx, user.Uuid)
+	wayRequests := lo.Map(wayRequestsRaw, func(dbWay dbb.GetFromUserMentoringRequestWaysByUserIdRow, i int) schemas.WayPlainResponse {
+		dbWayTags, _ := db.GetListWayTagsByWayId(ctx, dbWay.Uuid)
+		wayTags := lo.Map(dbWayTags, func(dbWayTag dbb.WayTag, i int) schemas.WayTagResponse {
 			return schemas.WayTagResponse{
 				Uuid: util.ConvertPgUUIDToUUID(dbWayTag.Uuid).String(),
 				Name: dbWayTag.Name,
 			}
 		})
-		dbMentors, _ := dbPGX.GetMentorUsersByWayId(ctx, dbWay.Uuid)
-		mentors := lo.Map(dbMentors, func(dbMentor dbbPGX.User, i int) schemas.UserPlainResponse {
+		dbMentors, _ := db.GetMentorUsersByWayId(ctx, dbWay.Uuid)
+		mentors := lo.Map(dbMentors, func(dbMentor dbb.User, i int) schemas.UserPlainResponse {
 			return schemas.UserPlainResponse{
 				Uuid:        util.ConvertPgUUIDToUUID(dbMentor.Uuid).String(),
 				Name:        dbMentor.Name,
@@ -299,7 +299,7 @@ func GetPopulatedUserById(dbPGX *dbbPGX.Queries, ctx context.Context, userUuid u
 				IsMentor:    dbMentor.IsMentor,
 			}
 		})
-		dbOwner, _ := dbPGX.GetUserById(ctx, dbWay.Uuid)
+		dbOwner, _ := db.GetUserById(ctx, dbWay.Uuid)
 		owner := schemas.UserPlainResponse{
 			Uuid:        util.ConvertPgUUIDToUUID(dbOwner.Uuid).String(),
 			Name:        dbOwner.Name,
@@ -330,13 +330,13 @@ func GetPopulatedUserById(dbPGX *dbbPGX.Queries, ctx context.Context, userUuid u
 		}
 	})
 
-	favoriteForUsersUuidRaw, _ := dbPGX.GetFavoriteUserUuidsByAcceptorUserId(ctx, user.Uuid)
+	favoriteForUsersUuidRaw, _ := db.GetFavoriteUserUuidsByAcceptorUserId(ctx, user.Uuid)
 	favoriteForUsersUuid := lo.Map(favoriteForUsersUuidRaw, func(uuid pgtype.UUID, i int) string {
 		return util.ConvertPgUUIDToUUID(uuid).String()
 	})
 
-	favoriteUsersRaw, _ := dbPGX.GetFavoriteUserByDonorUserId(ctx, user.Uuid)
-	favoriteUsers := lo.Map(favoriteUsersRaw, func(dbUser dbbPGX.User, i int) schemas.UserPlainResponse {
+	favoriteUsersRaw, _ := db.GetFavoriteUserByDonorUserId(ctx, user.Uuid)
+	favoriteUsers := lo.Map(favoriteUsersRaw, func(dbUser dbb.User, i int) schemas.UserPlainResponse {
 		return schemas.UserPlainResponse{
 			Uuid:        util.ConvertPgUUIDToUUID(dbUser.Uuid).String(),
 			Name:        dbUser.Name,

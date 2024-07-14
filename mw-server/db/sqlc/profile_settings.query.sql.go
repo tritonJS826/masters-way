@@ -7,9 +7,8 @@ package db
 
 import (
 	"context"
-	"database/sql"
 
-	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 const getPricingPlanByUserId = `-- name: GetPricingPlanByUserId :one
@@ -18,8 +17,8 @@ FROM profile_settings
 WHERE owner_uuid = $1
 `
 
-func (q *Queries) GetPricingPlanByUserId(ctx context.Context, userUuid uuid.UUID) (PricingPlanType, error) {
-	row := q.queryRow(ctx, q.getPricingPlanByUserIdStmt, getPricingPlanByUserId, userUuid)
+func (q *Queries) GetPricingPlanByUserId(ctx context.Context, userUuid pgtype.UUID) (PricingPlanType, error) {
+	row := q.db.QueryRow(ctx, getPricingPlanByUserId, userUuid)
 	var pricing_plan PricingPlanType
 	err := row.Scan(&pricing_plan)
 	return pricing_plan, err
@@ -38,13 +37,13 @@ RETURNING uuid, pricing_plan, expiration_date, created_at, updated_at, owner_uui
 `
 
 type UpdatePricingPlanByUserIdParams struct {
-	PricingPlan    PricingPlanType `json:"pricing_plan"`
-	ExpirationDate sql.NullTime    `json:"expiration_date"`
-	UsersUuid      uuid.UUID       `json:"users_uuid"`
+	PricingPlan    PricingPlanType  `json:"pricing_plan"`
+	ExpirationDate pgtype.Timestamp `json:"expiration_date"`
+	UsersUuid      pgtype.UUID      `json:"users_uuid"`
 }
 
 func (q *Queries) UpdatePricingPlanByUserId(ctx context.Context, arg UpdatePricingPlanByUserIdParams) (ProfileSetting, error) {
-	row := q.queryRow(ctx, q.updatePricingPlanByUserIdStmt, updatePricingPlanByUserId, arg.PricingPlan, arg.ExpirationDate, arg.UsersUuid)
+	row := q.db.QueryRow(ctx, updatePricingPlanByUserId, arg.PricingPlan, arg.ExpirationDate, arg.UsersUuid)
 	var i ProfileSetting
 	err := row.Scan(
 		&i.Uuid,

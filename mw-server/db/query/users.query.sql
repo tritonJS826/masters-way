@@ -7,17 +7,17 @@ INSERT INTO users(
     image_url,
     is_mentor
 ) VALUES (
-    $1, $2, $3, $4, $5, $6
+    @name, @email, @description, @created_at, @image_url, @is_mentor
 ) RETURNING *;
 
 -- name: GetUserById :one
 SELECT * FROM users
-WHERE uuid = $1
+WHERE uuid = @user_uuid
 LIMIT 1;
 
 -- name: GetUserByEmail :one
 SELECT * FROM users
-WHERE email = $1
+WHERE email = @user_email
 LIMIT 1;
 
 -- name: GetUserByIds :many
@@ -26,7 +26,7 @@ WHERE uuid = ANY($1::UUID[]);
 
 -- TODO: add filter and sorters
 -- name: ListUsers :many
-SELECT 
+SELECT
     users.uuid,
     users.name,
     users.email,
@@ -41,8 +41,8 @@ SELECT
     -- get user tag uuids
     COALESCE(
         ARRAY(
-            SELECT user_tags.uuid 
-            FROM user_tags 
+            SELECT user_tags.uuid
+            FROM user_tags
             INNER JOIN users_user_tags ON user_tags.uuid = users_user_tags.user_tag_uuid
             WHERE users_user_tags.user_uuid = users.uuid
         ),
@@ -51,8 +51,8 @@ SELECT
     -- get user tag names
     COALESCE(
         ARRAY(
-            SELECT user_tags.name 
-            FROM user_tags 
+            SELECT user_tags.name
+            FROM user_tags
             INNER JOIN users_user_tags ON user_tags.uuid = users_user_tags.user_tag_uuid
             WHERE users_user_tags.user_uuid = users.uuid
         ),
@@ -67,7 +67,7 @@ WHERE (LOWER(users.email) LIKE '%' || LOWER(@email) || '%' OR @email = '')
         (@mentor_status = 'mentor' AND users.is_mentor = true)
         OR (@mentor_status = 'all')
     )
-        
+
 ORDER BY created_at DESC
 LIMIT $1
 OFFSET $2;
@@ -88,17 +88,9 @@ name = coalesce(sqlc.narg('name'), name),
 description = coalesce(sqlc.narg('description'), description),
 image_url = coalesce(sqlc.narg('image_url'), image_url),
 is_mentor = coalesce(sqlc.narg('is_mentor'), is_mentor)
-
 WHERE uuid = sqlc.arg('uuid')
 RETURNING *;
 
 -- name: DeleteUser :exec
 DELETE FROM users
-WHERE uuid = $1;
-
-
-
-
-
-
-
+WHERE uuid = @user_uuid;

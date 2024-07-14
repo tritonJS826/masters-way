@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	dbPGX "mwserver/db_pgx/sqlc"
+	db "mwserver/db/sqlc"
 	"mwserver/schemas"
 	"mwserver/util"
 
@@ -15,12 +15,12 @@ import (
 )
 
 type CommentController struct {
-	dbPGX *dbPGX.Queries
-	ctx   context.Context
+	db  *db.Queries
+	ctx context.Context
 }
 
-func NewCommentController(dbPGX *dbPGX.Queries, ctx context.Context) *CommentController {
-	return &CommentController{dbPGX, ctx}
+func NewCommentController(db *db.Queries, ctx context.Context) *CommentController {
+	return &CommentController{db, ctx}
 }
 
 // Create Comment  handler
@@ -42,7 +42,7 @@ func (cc *CommentController) CreateComment(ctx *gin.Context) {
 	}
 
 	now := time.Now()
-	args := &dbPGX.CreateCommentParams{
+	args := &db.CreateCommentParams{
 		Description:   payload.Description,
 		OwnerUuid:     pgtype.UUID{Bytes: uuid.MustParse(payload.OwnerUuid), Valid: true},
 		DayReportUuid: pgtype.UUID{Bytes: uuid.MustParse(payload.DayReportUuid), Valid: true},
@@ -50,7 +50,7 @@ func (cc *CommentController) CreateComment(ctx *gin.Context) {
 		CreatedAt:     pgtype.Timestamp{Time: now, Valid: true},
 	}
 
-	comment, err := cc.dbPGX.CreateComment(ctx, *args)
+	comment, err := cc.db.CreateComment(ctx, *args)
 	util.HandleErrorGin(ctx, err)
 
 	response := schemas.CommentPopulatedResponse{
@@ -87,13 +87,13 @@ func (cc *CommentController) UpdateComment(ctx *gin.Context) {
 	}
 
 	now := time.Now()
-	args := &dbPGX.UpdateCommentParams{
+	args := &db.UpdateCommentParams{
 		Uuid:        pgtype.UUID{Bytes: uuid.MustParse(commentId), Valid: true},
 		Description: pgtype.Text{String: payload.Description, Valid: payload.Description != ""},
 		UpdatedAt:   pgtype.Timestamp{Time: now, Valid: true},
 	}
 
-	comment, err := cc.dbPGX.UpdateComment(ctx, *args)
+	comment, err := cc.db.UpdateComment(ctx, *args)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, comment)
@@ -112,7 +112,7 @@ func (cc *CommentController) UpdateComment(ctx *gin.Context) {
 func (cc *CommentController) DeleteCommentById(ctx *gin.Context) {
 	commentId := ctx.Param("commentId")
 
-	err := cc.dbPGX.DeleteComment(ctx, pgtype.UUID{Bytes: uuid.MustParse(commentId), Valid: true})
+	err := cc.db.DeleteComment(ctx, pgtype.UUID{Bytes: uuid.MustParse(commentId), Valid: true})
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})

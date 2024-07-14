@@ -6,13 +6,12 @@ INSERT INTO way_collections(
     name,
     type
 ) VALUES (
-    $1, $2, $3, $4, $5
+    @owner_uuid, @created_at, @updated_at, @name, @type
 ) RETURNING *;
-
 
 -- name: GetListWayCollectionsByUserId :many
 SELECT * FROM way_collections
-WHERE way_collections.owner_uuid = $1
+WHERE way_collections.owner_uuid = @owner_uuid
 ORDER BY created_at;
 
 -- name: GetWayCollectionsCountByUserId :one
@@ -30,4 +29,4 @@ RETURNING *;
 
 -- name: DeleteWayCollection :exec
 DELETE FROM way_collections
-WHERE uuid = $1;
+WHERE uuid = @way_collections_uuid;

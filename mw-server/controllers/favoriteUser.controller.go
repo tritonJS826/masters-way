@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 
-	dbPGX "mwserver/db_pgx/sqlc"
+	db "mwserver/db/sqlc"
 	"mwserver/schemas"
 	"mwserver/util"
 
@@ -14,12 +14,12 @@ import (
 )
 
 type FavoriteUserController struct {
-	dbPGX *dbPGX.Queries
-	ctx   context.Context
+	db  *db.Queries
+	ctx context.Context
 }
 
-func NewFavoriteUserController(dbPGX *dbPGX.Queries, ctx context.Context) *FavoriteUserController {
-	return &FavoriteUserController{dbPGX, ctx}
+func NewFavoriteUserController(db *db.Queries, ctx context.Context) *FavoriteUserController {
+	return &FavoriteUserController{db, ctx}
 }
 
 // Create favoriteUser handler
@@ -40,12 +40,12 @@ func (cc *FavoriteUserController) CreateFavoriteUser(ctx *gin.Context) {
 		return
 	}
 
-	args := dbPGX.CreateFavoriteUserParams{
+	args := db.CreateFavoriteUserParams{
 		DonorUserUuid:    pgtype.UUID{Bytes: payload.DonorUserUuid, Valid: true},
 		AcceptorUserUuid: pgtype.UUID{Bytes: payload.AcceptorUserUuid, Valid: true},
 	}
 
-	favoriteUser, err := cc.dbPGX.CreateFavoriteUser(ctx, args)
+	favoriteUser, err := cc.db.CreateFavoriteUser(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, favoriteUser)
@@ -66,12 +66,12 @@ func (cc *FavoriteUserController) DeleteFavoriteUserById(ctx *gin.Context) {
 	donorUserUuid := ctx.Param("donorUserUuid")
 	acceptorUserUuid := ctx.Param("acceptorUserUuid")
 
-	args := dbPGX.DeleteFavoriteUserByIdsParams{
+	args := db.DeleteFavoriteUserByIdsParams{
 		DonorUserUuid:    pgtype.UUID{Bytes: uuid.MustParse(donorUserUuid), Valid: true},
 		AcceptorUserUuid: pgtype.UUID{Bytes: uuid.MustParse(acceptorUserUuid), Valid: true},
 	}
 
-	err := cc.dbPGX.DeleteFavoriteUserByIds(ctx, args)
+	err := cc.db.DeleteFavoriteUserByIds(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})

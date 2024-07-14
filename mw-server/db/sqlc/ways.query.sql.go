@@ -7,11 +7,8 @@ package db
 
 import (
 	"context"
-	"database/sql"
-	"time"
 
-	"github.com/google/uuid"
-	"github.com/lib/pq"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 const countWaysByType = `-- name: CountWaysByType :one
@@ -30,12 +27,12 @@ WHERE ways.is_private = false AND (
 `
 
 type CountWaysByTypeParams struct {
-	Column1   time.Time   `json:"column_1"`
-	WayStatus interface{} `json:"way_status"`
+	Column1   pgtype.Timestamp `json:"column_1"`
+	WayStatus interface{}      `json:"way_status"`
 }
 
 func (q *Queries) CountWaysByType(ctx context.Context, arg CountWaysByTypeParams) (int64, error) {
-	row := q.queryRow(ctx, q.countWaysByTypeStmt, countWaysByType, arg.Column1, arg.WayStatus)
+	row := q.db.QueryRow(ctx, countWaysByType, arg.Column1, arg.WayStatus)
 	var count int64
 	err := row.Scan(&count)
 	return count, err
@@ -71,38 +68,38 @@ INSERT INTO ways(
 `
 
 type CreateWayParams struct {
-	Name              string        `json:"name"`
-	GoalDescription   string        `json:"goal_description"`
-	UpdatedAt         time.Time     `json:"updated_at"`
-	CreatedAt         time.Time     `json:"created_at"`
-	EstimationTime    int32         `json:"estimation_time"`
-	CopiedFromWayUuid uuid.NullUUID `json:"copied_from_way_uuid"`
-	IsPrivate         bool          `json:"is_private"`
-	IsCompleted       bool          `json:"is_completed"`
-	OwnerUuid         uuid.UUID     `json:"owner_uuid"`
-	WayUuid           uuid.UUID     `json:"way_uuid"`
+	Name              string           `json:"name"`
+	GoalDescription   string           `json:"goal_description"`
+	UpdatedAt         pgtype.Timestamp `json:"updated_at"`
+	CreatedAt         pgtype.Timestamp `json:"created_at"`
+	EstimationTime    int32            `json:"estimation_time"`
+	CopiedFromWayUuid pgtype.UUID      `json:"copied_from_way_uuid"`
+	IsPrivate         bool             `json:"is_private"`
+	IsCompleted       bool             `json:"is_completed"`
+	OwnerUuid         pgtype.UUID      `json:"owner_uuid"`
+	WayUuid           pgtype.UUID      `json:"way_uuid"`
 }
 
 type CreateWayRow struct {
-	Uuid                uuid.UUID     `json:"uuid"`
-	Name                string        `json:"name"`
-	GoalDescription     string        `json:"goal_description"`
-	UpdatedAt           time.Time     `json:"updated_at"`
-	CreatedAt           time.Time     `json:"created_at"`
-	EstimationTime      int32         `json:"estimation_time"`
-	OwnerUuid           uuid.UUID     `json:"owner_uuid"`
-	CopiedFromWayUuid   uuid.NullUUID `json:"copied_from_way_uuid"`
-	IsCompleted         bool          `json:"is_completed"`
-	IsPrivate           bool          `json:"is_private"`
-	WayMetricsTotal     int64         `json:"way_metrics_total"`
-	WayMetricsDone      int64         `json:"way_metrics_done"`
-	WayFavoriteForUsers int64         `json:"way_favorite_for_users"`
-	WayDayReportsAmount int64         `json:"way_day_reports_amount"`
-	ChildrenUuids       []string      `json:"children_uuids"`
+	Uuid                pgtype.UUID      `json:"uuid"`
+	Name                string           `json:"name"`
+	GoalDescription     string           `json:"goal_description"`
+	UpdatedAt           pgtype.Timestamp `json:"updated_at"`
+	CreatedAt           pgtype.Timestamp `json:"created_at"`
+	EstimationTime      int32            `json:"estimation_time"`
+	OwnerUuid           pgtype.UUID      `json:"owner_uuid"`
+	CopiedFromWayUuid   pgtype.UUID      `json:"copied_from_way_uuid"`
+	IsCompleted         bool             `json:"is_completed"`
+	IsPrivate           bool             `json:"is_private"`
+	WayMetricsTotal     int64            `json:"way_metrics_total"`
+	WayMetricsDone      int64            `json:"way_metrics_done"`
+	WayFavoriteForUsers int64            `json:"way_favorite_for_users"`
+	WayDayReportsAmount int64            `json:"way_day_reports_amount"`
+	ChildrenUuids       []string         `json:"children_uuids"`
 }
 
 func (q *Queries) CreateWay(ctx context.Context, arg CreateWayParams) (CreateWayRow, error) {
-	row := q.queryRow(ctx, q.createWayStmt, createWay,
+	row := q.db.QueryRow(ctx, createWay,
 		arg.Name,
 		arg.GoalDescription,
 		arg.UpdatedAt,
@@ -130,7 +127,7 @@ func (q *Queries) CreateWay(ctx context.Context, arg CreateWayParams) (CreateWay
 		&i.WayMetricsDone,
 		&i.WayFavoriteForUsers,
 		&i.WayDayReportsAmount,
-		pq.Array(&i.ChildrenUuids),
+		&i.ChildrenUuids,
 	)
 	return i, err
 }
@@ -140,8 +137,8 @@ DELETE FROM ways
 WHERE uuid = $1
 `
 
-func (q *Queries) DeleteWay(ctx context.Context, argUuid uuid.UUID) error {
-	_, err := q.exec(ctx, q.deleteWayStmt, deleteWay, argUuid)
+func (q *Queries) DeleteWay(ctx context.Context, wayUuid pgtype.UUID) error {
+	_, err := q.db.Exec(ctx, deleteWay, wayUuid)
 	return err
 }
 
@@ -176,25 +173,25 @@ ORDER BY ways.updated_at DESC
 `
 
 type GetFavoriteWaysByUserIdRow struct {
-	Uuid                uuid.UUID     `json:"uuid"`
-	Name                string        `json:"name"`
-	OwnerUuid           uuid.UUID     `json:"owner_uuid"`
-	GoalDescription     string        `json:"goal_description"`
-	UpdatedAt           time.Time     `json:"updated_at"`
-	CreatedAt           time.Time     `json:"created_at"`
-	EstimationTime      int32         `json:"estimation_time"`
-	CopiedFromWayUuid   uuid.NullUUID `json:"copied_from_way_uuid"`
-	IsCompleted         bool          `json:"is_completed"`
-	IsPrivate           bool          `json:"is_private"`
-	WayMetricsTotal     int64         `json:"way_metrics_total"`
-	WayMetricsDone      int64         `json:"way_metrics_done"`
-	WayFavoriteForUsers int64         `json:"way_favorite_for_users"`
-	WayDayReportsAmount int64         `json:"way_day_reports_amount"`
-	ChildrenUuids       []string      `json:"children_uuids"`
+	Uuid                pgtype.UUID      `json:"uuid"`
+	Name                string           `json:"name"`
+	OwnerUuid           pgtype.UUID      `json:"owner_uuid"`
+	GoalDescription     string           `json:"goal_description"`
+	UpdatedAt           pgtype.Timestamp `json:"updated_at"`
+	CreatedAt           pgtype.Timestamp `json:"created_at"`
+	EstimationTime      int32            `json:"estimation_time"`
+	CopiedFromWayUuid   pgtype.UUID      `json:"copied_from_way_uuid"`
+	IsCompleted         bool             `json:"is_completed"`
+	IsPrivate           bool             `json:"is_private"`
+	WayMetricsTotal     int64            `json:"way_metrics_total"`
+	WayMetricsDone      int64            `json:"way_metrics_done"`
+	WayFavoriteForUsers int64            `json:"way_favorite_for_users"`
+	WayDayReportsAmount int64            `json:"way_day_reports_amount"`
+	ChildrenUuids       []string         `json:"children_uuids"`
 }
 
-func (q *Queries) GetFavoriteWaysByUserId(ctx context.Context, userUuid uuid.UUID) ([]GetFavoriteWaysByUserIdRow, error) {
-	rows, err := q.query(ctx, q.getFavoriteWaysByUserIdStmt, getFavoriteWaysByUserId, userUuid)
+func (q *Queries) GetFavoriteWaysByUserId(ctx context.Context, userUuid pgtype.UUID) ([]GetFavoriteWaysByUserIdRow, error) {
+	rows, err := q.db.Query(ctx, getFavoriteWaysByUserId, userUuid)
 	if err != nil {
 		return nil, err
 	}
@@ -217,14 +214,11 @@ func (q *Queries) GetFavoriteWaysByUserId(ctx context.Context, userUuid uuid.UUI
 			&i.WayMetricsDone,
 			&i.WayFavoriteForUsers,
 			&i.WayDayReportsAmount,
-			pq.Array(&i.ChildrenUuids),
+			&i.ChildrenUuids,
 		); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
 	}
 	if err := rows.Err(); err != nil {
 		return nil, err
@@ -253,7 +247,7 @@ SELECT
             SELECT composite_ways.child_uuid
             FROM composite_ways
             WHERE composite_ways.parent_uuid = ways.uuid
-        ), 
+        ),
         '{}'
     )::VARCHAR[] AS children_uuids
 FROM ways
@@ -263,25 +257,25 @@ ORDER BY ways.updated_at DESC
 `
 
 type GetMentoringWaysByMentorIdRow struct {
-	Uuid                uuid.UUID     `json:"uuid"`
-	Name                string        `json:"name"`
-	OwnerUuid           uuid.UUID     `json:"owner_uuid"`
-	GoalDescription     string        `json:"goal_description"`
-	UpdatedAt           time.Time     `json:"updated_at"`
-	CreatedAt           time.Time     `json:"created_at"`
-	EstimationTime      int32         `json:"estimation_time"`
-	CopiedFromWayUuid   uuid.NullUUID `json:"copied_from_way_uuid"`
-	IsCompleted         bool          `json:"is_completed"`
-	IsPrivate           bool          `json:"is_private"`
-	WayMetricsTotal     int64         `json:"way_metrics_total"`
-	WayMetricsDone      int64         `json:"way_metrics_done"`
-	WayFavoriteForUsers int64         `json:"way_favorite_for_users"`
-	WayDayReportsAmount int64         `json:"way_day_reports_amount"`
-	ChildrenUuids       []string      `json:"children_uuids"`
+	Uuid                pgtype.UUID      `json:"uuid"`
+	Name                string           `json:"name"`
+	OwnerUuid           pgtype.UUID      `json:"owner_uuid"`
+	GoalDescription     string           `json:"goal_description"`
+	UpdatedAt           pgtype.Timestamp `json:"updated_at"`
+	CreatedAt           pgtype.Timestamp `json:"created_at"`
+	EstimationTime      int32            `json:"estimation_time"`
+	CopiedFromWayUuid   pgtype.UUID      `json:"copied_from_way_uuid"`
+	IsCompleted         bool             `json:"is_completed"`
+	IsPrivate           bool             `json:"is_private"`
+	WayMetricsTotal     int64            `json:"way_metrics_total"`
+	WayMetricsDone      int64            `json:"way_metrics_done"`
+	WayFavoriteForUsers int64            `json:"way_favorite_for_users"`
+	WayDayReportsAmount int64            `json:"way_day_reports_amount"`
+	ChildrenUuids       []string         `json:"children_uuids"`
 }
 
-func (q *Queries) GetMentoringWaysByMentorId(ctx context.Context, userUuid uuid.UUID) ([]GetMentoringWaysByMentorIdRow, error) {
-	rows, err := q.query(ctx, q.getMentoringWaysByMentorIdStmt, getMentoringWaysByMentorId, userUuid)
+func (q *Queries) GetMentoringWaysByMentorId(ctx context.Context, userUuid pgtype.UUID) ([]GetMentoringWaysByMentorIdRow, error) {
+	rows, err := q.db.Query(ctx, getMentoringWaysByMentorId, userUuid)
 	if err != nil {
 		return nil, err
 	}
@@ -304,14 +298,11 @@ func (q *Queries) GetMentoringWaysByMentorId(ctx context.Context, userUuid uuid.
 			&i.WayMetricsDone,
 			&i.WayFavoriteForUsers,
 			&i.WayDayReportsAmount,
-			pq.Array(&i.ChildrenUuids),
+			&i.ChildrenUuids,
 		); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
 	}
 	if err := rows.Err(); err != nil {
 		return nil, err
@@ -349,25 +340,25 @@ ORDER BY ways.updated_at DESC
 `
 
 type GetOwnWaysByUserIdRow struct {
-	Uuid                uuid.UUID     `json:"uuid"`
-	Name                string        `json:"name"`
-	OwnerUuid           uuid.UUID     `json:"owner_uuid"`
-	GoalDescription     string        `json:"goal_description"`
-	UpdatedAt           time.Time     `json:"updated_at"`
-	CreatedAt           time.Time     `json:"created_at"`
-	EstimationTime      int32         `json:"estimation_time"`
-	CopiedFromWayUuid   uuid.NullUUID `json:"copied_from_way_uuid"`
-	IsCompleted         bool          `json:"is_completed"`
-	IsPrivate           bool          `json:"is_private"`
-	WayMetricsTotal     int64         `json:"way_metrics_total"`
-	WayMetricsDone      int64         `json:"way_metrics_done"`
-	WayFavoriteForUsers int64         `json:"way_favorite_for_users"`
-	WayDayReportsAmount int64         `json:"way_day_reports_amount"`
-	ChildrenUuids       []string      `json:"children_uuids"`
+	Uuid                pgtype.UUID      `json:"uuid"`
+	Name                string           `json:"name"`
+	OwnerUuid           pgtype.UUID      `json:"owner_uuid"`
+	GoalDescription     string           `json:"goal_description"`
+	UpdatedAt           pgtype.Timestamp `json:"updated_at"`
+	CreatedAt           pgtype.Timestamp `json:"created_at"`
+	EstimationTime      int32            `json:"estimation_time"`
+	CopiedFromWayUuid   pgtype.UUID      `json:"copied_from_way_uuid"`
+	IsCompleted         bool             `json:"is_completed"`
+	IsPrivate           bool             `json:"is_private"`
+	WayMetricsTotal     int64            `json:"way_metrics_total"`
+	WayMetricsDone      int64            `json:"way_metrics_done"`
+	WayFavoriteForUsers int64            `json:"way_favorite_for_users"`
+	WayDayReportsAmount int64            `json:"way_day_reports_amount"`
+	ChildrenUuids       []string         `json:"children_uuids"`
 }
 
-func (q *Queries) GetOwnWaysByUserId(ctx context.Context, ownerUuid uuid.UUID) ([]GetOwnWaysByUserIdRow, error) {
-	rows, err := q.query(ctx, q.getOwnWaysByUserIdStmt, getOwnWaysByUserId, ownerUuid)
+func (q *Queries) GetOwnWaysByUserId(ctx context.Context, ownerUuid pgtype.UUID) ([]GetOwnWaysByUserIdRow, error) {
+	rows, err := q.db.Query(ctx, getOwnWaysByUserId, ownerUuid)
 	if err != nil {
 		return nil, err
 	}
@@ -390,14 +381,11 @@ func (q *Queries) GetOwnWaysByUserId(ctx context.Context, ownerUuid uuid.UUID) (
 			&i.WayMetricsDone,
 			&i.WayFavoriteForUsers,
 			&i.WayDayReportsAmount,
-			pq.Array(&i.ChildrenUuids),
+			&i.ChildrenUuids,
 		); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
 	}
 	if err := rows.Err(); err != nil {
 		return nil, err
@@ -412,8 +400,8 @@ FROM ways
 WHERE owner_uuid = $1
 `
 
-func (q *Queries) GetOwnWaysCountByUserId(ctx context.Context, userUuid uuid.UUID) (int64, error) {
-	row := q.queryRow(ctx, q.getOwnWaysCountByUserIdStmt, getOwnWaysCountByUserId, userUuid)
+func (q *Queries) GetOwnWaysCountByUserId(ctx context.Context, userUuid pgtype.UUID) (int64, error) {
+	row := q.db.QueryRow(ctx, getOwnWaysCountByUserId, userUuid)
 	var own_ways_count int64
 	err := row.Scan(&own_ways_count)
 	return own_ways_count, err
@@ -426,8 +414,8 @@ FROM ways
 WHERE owner_uuid = $1 AND is_private = TRUE
 `
 
-func (q *Queries) GetPrivateWaysCountByUserId(ctx context.Context, userUuid uuid.UUID) (int64, error) {
-	row := q.queryRow(ctx, q.getPrivateWaysCountByUserIdStmt, getPrivateWaysCountByUserId, userUuid)
+func (q *Queries) GetPrivateWaysCountByUserId(ctx context.Context, userUuid pgtype.UUID) (int64, error) {
+	row := q.db.QueryRow(ctx, getPrivateWaysCountByUserId, userUuid)
 	var private_ways_count int64
 	err := row.Scan(&private_ways_count)
 	return private_ways_count, err
@@ -470,31 +458,31 @@ LIMIT 1
 `
 
 type GetWayByIdRow struct {
-	Uuid                uuid.UUID     `json:"uuid"`
-	Name                string        `json:"name"`
-	GoalDescription     string        `json:"goal_description"`
-	UpdatedAt           time.Time     `json:"updated_at"`
-	CreatedAt           time.Time     `json:"created_at"`
-	EstimationTime      int32         `json:"estimation_time"`
-	CopiedFromWayUuid   uuid.NullUUID `json:"copied_from_way_uuid"`
-	IsCompleted         bool          `json:"is_completed"`
-	IsPrivate           bool          `json:"is_private"`
-	ChildrenUuids       []string      `json:"children_uuids"`
-	OwnerUuid           uuid.UUID     `json:"owner_uuid"`
-	OwnerName           string        `json:"owner_name"`
-	OwnerEmail          string        `json:"owner_email"`
-	OwnerDescription    string        `json:"owner_description"`
-	OwnerCreatedAt      time.Time     `json:"owner_created_at"`
-	OwnerImageUrl       string        `json:"owner_image_url"`
-	OwnerIsMentor       bool          `json:"owner_is_mentor"`
-	WayMetricsTotal     int64         `json:"way_metrics_total"`
-	WayMetricsDone      int64         `json:"way_metrics_done"`
-	WayFavoriteForUsers int64         `json:"way_favorite_for_users"`
-	WayDayReportsAmount int64         `json:"way_day_reports_amount"`
+	Uuid                pgtype.UUID      `json:"uuid"`
+	Name                string           `json:"name"`
+	GoalDescription     string           `json:"goal_description"`
+	UpdatedAt           pgtype.Timestamp `json:"updated_at"`
+	CreatedAt           pgtype.Timestamp `json:"created_at"`
+	EstimationTime      int32            `json:"estimation_time"`
+	CopiedFromWayUuid   pgtype.UUID      `json:"copied_from_way_uuid"`
+	IsCompleted         bool             `json:"is_completed"`
+	IsPrivate           bool             `json:"is_private"`
+	ChildrenUuids       []string         `json:"children_uuids"`
+	OwnerUuid           pgtype.UUID      `json:"owner_uuid"`
+	OwnerName           string           `json:"owner_name"`
+	OwnerEmail          string           `json:"owner_email"`
+	OwnerDescription    string           `json:"owner_description"`
+	OwnerCreatedAt      pgtype.Timestamp `json:"owner_created_at"`
+	OwnerImageUrl       string           `json:"owner_image_url"`
+	OwnerIsMentor       bool             `json:"owner_is_mentor"`
+	WayMetricsTotal     int64            `json:"way_metrics_total"`
+	WayMetricsDone      int64            `json:"way_metrics_done"`
+	WayFavoriteForUsers int64            `json:"way_favorite_for_users"`
+	WayDayReportsAmount int64            `json:"way_day_reports_amount"`
 }
 
-func (q *Queries) GetWayById(ctx context.Context, wayUuid uuid.UUID) (GetWayByIdRow, error) {
-	row := q.queryRow(ctx, q.getWayByIdStmt, getWayById, wayUuid)
+func (q *Queries) GetWayById(ctx context.Context, wayUuid pgtype.UUID) (GetWayByIdRow, error) {
+	row := q.db.QueryRow(ctx, getWayById, wayUuid)
 	var i GetWayByIdRow
 	err := row.Scan(
 		&i.Uuid,
@@ -506,7 +494,7 @@ func (q *Queries) GetWayById(ctx context.Context, wayUuid uuid.UUID) (GetWayById
 		&i.CopiedFromWayUuid,
 		&i.IsCompleted,
 		&i.IsPrivate,
-		pq.Array(&i.ChildrenUuids),
+		&i.ChildrenUuids,
 		&i.OwnerUuid,
 		&i.OwnerName,
 		&i.OwnerEmail,
@@ -553,25 +541,25 @@ ORDER BY ways.updated_at DESC
 `
 
 type GetWaysByCollectionIdRow struct {
-	Uuid                uuid.UUID     `json:"uuid"`
-	Name                string        `json:"name"`
-	OwnerUuid           uuid.UUID     `json:"owner_uuid"`
-	GoalDescription     string        `json:"goal_description"`
-	UpdatedAt           time.Time     `json:"updated_at"`
-	CreatedAt           time.Time     `json:"created_at"`
-	EstimationTime      int32         `json:"estimation_time"`
-	CopiedFromWayUuid   uuid.NullUUID `json:"copied_from_way_uuid"`
-	IsCompleted         bool          `json:"is_completed"`
-	IsPrivate           bool          `json:"is_private"`
-	WayMetricsTotal     int64         `json:"way_metrics_total"`
-	WayMetricsDone      int64         `json:"way_metrics_done"`
-	WayFavoriteForUsers int64         `json:"way_favorite_for_users"`
-	WayDayReportsAmount int64         `json:"way_day_reports_amount"`
-	ChildrenUuids       []string      `json:"children_uuids"`
+	Uuid                pgtype.UUID      `json:"uuid"`
+	Name                string           `json:"name"`
+	OwnerUuid           pgtype.UUID      `json:"owner_uuid"`
+	GoalDescription     string           `json:"goal_description"`
+	UpdatedAt           pgtype.Timestamp `json:"updated_at"`
+	CreatedAt           pgtype.Timestamp `json:"created_at"`
+	EstimationTime      int32            `json:"estimation_time"`
+	CopiedFromWayUuid   pgtype.UUID      `json:"copied_from_way_uuid"`
+	IsCompleted         bool             `json:"is_completed"`
+	IsPrivate           bool             `json:"is_private"`
+	WayMetricsTotal     int64            `json:"way_metrics_total"`
+	WayMetricsDone      int64            `json:"way_metrics_done"`
+	WayFavoriteForUsers int64            `json:"way_favorite_for_users"`
+	WayDayReportsAmount int64            `json:"way_day_reports_amount"`
+	ChildrenUuids       []string         `json:"children_uuids"`
 }
 
-func (q *Queries) GetWaysByCollectionId(ctx context.Context, wayCollectionUuid uuid.UUID) ([]GetWaysByCollectionIdRow, error) {
-	rows, err := q.query(ctx, q.getWaysByCollectionIdStmt, getWaysByCollectionId, wayCollectionUuid)
+func (q *Queries) GetWaysByCollectionId(ctx context.Context, wayCollectionUuid pgtype.UUID) ([]GetWaysByCollectionIdRow, error) {
+	rows, err := q.db.Query(ctx, getWaysByCollectionId, wayCollectionUuid)
 	if err != nil {
 		return nil, err
 	}
@@ -594,14 +582,11 @@ func (q *Queries) GetWaysByCollectionId(ctx context.Context, wayCollectionUuid u
 			&i.WayMetricsDone,
 			&i.WayFavoriteForUsers,
 			&i.WayDayReportsAmount,
-			pq.Array(&i.ChildrenUuids),
+			&i.ChildrenUuids,
 		); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
 	}
 	if err := rows.Err(); err != nil {
 		return nil, err
@@ -638,32 +623,32 @@ OFFSET $2
 `
 
 type ListWaysParams struct {
-	Limit   int32       `json:"limit"`
-	Offset  int32       `json:"offset"`
-	Column3 interface{} `json:"column_3"`
-	Column4 time.Time   `json:"column_4"`
+	Limit   int32            `json:"limit"`
+	Offset  int32            `json:"offset"`
+	Column3 interface{}      `json:"column_3"`
+	Column4 pgtype.Timestamp `json:"column_4"`
 }
 
 type ListWaysRow struct {
-	Uuid                uuid.UUID     `json:"uuid"`
-	Name                string        `json:"name"`
-	GoalDescription     string        `json:"goal_description"`
-	UpdatedAt           time.Time     `json:"updated_at"`
-	CreatedAt           time.Time     `json:"created_at"`
-	EstimationTime      int32         `json:"estimation_time"`
-	OwnerUuid           uuid.UUID     `json:"owner_uuid"`
-	CopiedFromWayUuid   uuid.NullUUID `json:"copied_from_way_uuid"`
-	IsCompleted         bool          `json:"is_completed"`
-	IsPrivate           bool          `json:"is_private"`
-	WayMetricsTotal     int64         `json:"way_metrics_total"`
-	WayMetricsDone      int64         `json:"way_metrics_done"`
-	WayFavoriteForUsers int64         `json:"way_favorite_for_users"`
-	WayDayReportsAmount int64         `json:"way_day_reports_amount"`
-	ChildrenUuids       []string      `json:"children_uuids"`
+	Uuid                pgtype.UUID      `json:"uuid"`
+	Name                string           `json:"name"`
+	GoalDescription     string           `json:"goal_description"`
+	UpdatedAt           pgtype.Timestamp `json:"updated_at"`
+	CreatedAt           pgtype.Timestamp `json:"created_at"`
+	EstimationTime      int32            `json:"estimation_time"`
+	OwnerUuid           pgtype.UUID      `json:"owner_uuid"`
+	CopiedFromWayUuid   pgtype.UUID      `json:"copied_from_way_uuid"`
+	IsCompleted         bool             `json:"is_completed"`
+	IsPrivate           bool             `json:"is_private"`
+	WayMetricsTotal     int64            `json:"way_metrics_total"`
+	WayMetricsDone      int64            `json:"way_metrics_done"`
+	WayFavoriteForUsers int64            `json:"way_favorite_for_users"`
+	WayDayReportsAmount int64            `json:"way_day_reports_amount"`
+	ChildrenUuids       []string         `json:"children_uuids"`
 }
 
 func (q *Queries) ListWays(ctx context.Context, arg ListWaysParams) ([]ListWaysRow, error) {
-	rows, err := q.query(ctx, q.listWaysStmt, listWays,
+	rows, err := q.db.Query(ctx, listWays,
 		arg.Limit,
 		arg.Offset,
 		arg.Column3,
@@ -691,14 +676,11 @@ func (q *Queries) ListWays(ctx context.Context, arg ListWaysParams) ([]ListWaysR
 			&i.WayMetricsDone,
 			&i.WayFavoriteForUsers,
 			&i.WayDayReportsAmount,
-			pq.Array(&i.ChildrenUuids),
+			&i.ChildrenUuids,
 		); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
 	}
 	if err := rows.Err(); err != nil {
 		return nil, err
@@ -733,35 +715,35 @@ RETURNING uuid, name, goal_description, updated_at, created_at, estimation_time,
 `
 
 type UpdateWayParams struct {
-	Name            sql.NullString `json:"name"`
-	GoalDescription sql.NullString `json:"goal_description"`
-	UpdatedAt       sql.NullTime   `json:"updated_at"`
-	EstimationTime  sql.NullInt32  `json:"estimation_time"`
-	IsPrivate       sql.NullBool   `json:"is_private"`
-	IsCompleted     sql.NullBool   `json:"is_completed"`
-	Uuid            uuid.UUID      `json:"uuid"`
+	Name            pgtype.Text      `json:"name"`
+	GoalDescription pgtype.Text      `json:"goal_description"`
+	UpdatedAt       pgtype.Timestamp `json:"updated_at"`
+	EstimationTime  pgtype.Int4      `json:"estimation_time"`
+	IsPrivate       pgtype.Bool      `json:"is_private"`
+	IsCompleted     pgtype.Bool      `json:"is_completed"`
+	Uuid            pgtype.UUID      `json:"uuid"`
 }
 
 type UpdateWayRow struct {
-	Uuid                uuid.UUID     `json:"uuid"`
-	Name                string        `json:"name"`
-	GoalDescription     string        `json:"goal_description"`
-	UpdatedAt           time.Time     `json:"updated_at"`
-	CreatedAt           time.Time     `json:"created_at"`
-	EstimationTime      int32         `json:"estimation_time"`
-	OwnerUuid           uuid.UUID     `json:"owner_uuid"`
-	CopiedFromWayUuid   uuid.NullUUID `json:"copied_from_way_uuid"`
-	IsCompleted         bool          `json:"is_completed"`
-	IsPrivate           bool          `json:"is_private"`
-	WayMetricsTotal     int64         `json:"way_metrics_total"`
-	WayMetricsDone      int64         `json:"way_metrics_done"`
-	WayFavoriteForUsers int64         `json:"way_favorite_for_users"`
-	WayDayReportsAmount int64         `json:"way_day_reports_amount"`
-	ChildrenUuids       []string      `json:"children_uuids"`
+	Uuid                pgtype.UUID      `json:"uuid"`
+	Name                string           `json:"name"`
+	GoalDescription     string           `json:"goal_description"`
+	UpdatedAt           pgtype.Timestamp `json:"updated_at"`
+	CreatedAt           pgtype.Timestamp `json:"created_at"`
+	EstimationTime      int32            `json:"estimation_time"`
+	OwnerUuid           pgtype.UUID      `json:"owner_uuid"`
+	CopiedFromWayUuid   pgtype.UUID      `json:"copied_from_way_uuid"`
+	IsCompleted         bool             `json:"is_completed"`
+	IsPrivate           bool             `json:"is_private"`
+	WayMetricsTotal     int64            `json:"way_metrics_total"`
+	WayMetricsDone      int64            `json:"way_metrics_done"`
+	WayFavoriteForUsers int64            `json:"way_favorite_for_users"`
+	WayDayReportsAmount int64            `json:"way_day_reports_amount"`
+	ChildrenUuids       []string         `json:"children_uuids"`
 }
 
 func (q *Queries) UpdateWay(ctx context.Context, arg UpdateWayParams) (UpdateWayRow, error) {
-	row := q.queryRow(ctx, q.updateWayStmt, updateWay,
+	row := q.db.QueryRow(ctx, updateWay,
 		arg.Name,
 		arg.GoalDescription,
 		arg.UpdatedAt,
@@ -786,7 +768,7 @@ func (q *Queries) UpdateWay(ctx context.Context, arg UpdateWayParams) (UpdateWay
 		&i.WayMetricsDone,
 		&i.WayFavoriteForUsers,
 		&i.WayDayReportsAmount,
-		pq.Array(&i.ChildrenUuids),
+		&i.ChildrenUuids,
 	)
 	return i, err
 }

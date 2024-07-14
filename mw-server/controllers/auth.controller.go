@@ -4,7 +4,7 @@ import (
 	"context"
 	"mwserver/auth"
 	"mwserver/config"
-	dbPGX "mwserver/db_pgx/sqlc"
+	db "mwserver/db/sqlc"
 	"mwserver/services"
 	"mwserver/util"
 	"net/http"
@@ -19,12 +19,12 @@ import (
 )
 
 type AuthController struct {
-	dbPGX *dbPGX.Queries
-	ctx   context.Context
+	db  *db.Queries
+	ctx context.Context
 }
 
-func NewAuthController(dbPGX *dbPGX.Queries, ctx context.Context) *AuthController {
-	return &AuthController{dbPGX, ctx}
+func NewAuthController(db *db.Queries, ctx context.Context) *AuthController {
+	return &AuthController{db, ctx}
 }
 
 // Log in with google oAuth
@@ -57,7 +57,7 @@ func (cc *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
 	util.HandleErrorGin(ctx, err)
 
 	now := time.Now()
-	args := &dbPGX.CreateUserParams{
+	args := &db.CreateUserParams{
 		Name:        userInfo.Name,
 		Email:       userInfo.Email,
 		Description: "",
@@ -66,7 +66,7 @@ func (cc *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
 		IsMentor:    false,
 	}
 
-	populatedUser, err := services.FindOrCreateUserByEmail(cc.dbPGX, ctx, args)
+	populatedUser, err := services.FindOrCreateUserByEmail(cc.db, ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	jwtToken, err := auth.GenerateJWT(populatedUser.Uuid)
@@ -104,7 +104,7 @@ func (cc *AuthController) GetCurrentAuthorizedUserByToken(ctx *gin.Context) {
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	userId := userIDRaw.(string)
 
-	populatedUser, err := services.GetPopulatedUserById(cc.dbPGX, ctx, uuid.MustParse(userId))
+	populatedUser, err := services.GetPopulatedUserById(cc.db, ctx, uuid.MustParse(userId))
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, populatedUser)
@@ -124,7 +124,7 @@ func (cc *AuthController) GetUserTokenByEmail(ctx *gin.Context) {
 	userEmail := ctx.Param("userEmail")
 
 	now := time.Now()
-	args := &dbPGX.CreateUserParams{
+	args := &db.CreateUserParams{
 		Name:        userEmail,
 		Email:       userEmail,
 		Description: "",
@@ -133,7 +133,7 @@ func (cc *AuthController) GetUserTokenByEmail(ctx *gin.Context) {
 		IsMentor:    false,
 	}
 
-	populatedUser, err := services.FindOrCreateUserByEmail(cc.dbPGX, ctx, args)
+	populatedUser, err := services.FindOrCreateUserByEmail(cc.db, ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	jwtToken, err := auth.GenerateJWT(populatedUser.Uuid)

@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"mwserver/auth"
-	dbPGX "mwserver/db_pgx/sqlc"
+	db "mwserver/db/sqlc"
 	"mwserver/schemas"
 	"mwserver/services"
 	"mwserver/util"
@@ -17,13 +17,13 @@ import (
 )
 
 type DayReportController struct {
-	dbPGX *dbPGX.Queries
-	ctx   context.Context
-	ls    *services.LimitService
+	db  *db.Queries
+	ctx context.Context
+	ls  *services.LimitService
 }
 
-func NewDayReportController(dbPGX *dbPGX.Queries, ctx context.Context, ls *services.LimitService) *DayReportController {
-	return &DayReportController{dbPGX, ctx, ls}
+func NewDayReportController(db *db.Queries, ctx context.Context, ls *services.LimitService) *DayReportController {
+	return &DayReportController{db, ctx, ls}
 }
 
 // Create day report  handler
@@ -55,22 +55,22 @@ func (cc *DayReportController) CreateDayReport(ctx *gin.Context) {
 	util.HandleErrorGin(ctx, err)
 
 	now := time.Now()
-	args := dbPGX.CreateDayReportParams{
+	args := db.CreateDayReportParams{
 		WayUuid:   pgtype.UUID{Bytes: payload.WayUuid, Valid: true},
 		CreatedAt: pgtype.Timestamp{Time: now, Valid: true},
 		UpdatedAt: pgtype.Timestamp{Time: now, Valid: true},
 		IsDayOff:  payload.IsDayOff,
 	}
 
-	dbDayReport, err := cc.dbPGX.CreateDayReport(ctx, args)
+	dbDayReport, err := cc.db.CreateDayReport(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
-	updateWayArgs := &dbPGX.UpdateWayParams{
+	updateWayArgs := &db.UpdateWayParams{
 		Uuid:      pgtype.UUID{Bytes: payload.WayUuid, Valid: true},
 		UpdatedAt: pgtype.Timestamp{Time: now, Valid: true},
 	}
 
-	_, err = cc.dbPGX.UpdateWay(ctx, *updateWayArgs)
+	_, err = cc.db.UpdateWay(ctx, *updateWayArgs)
 	util.HandleErrorGin(ctx, err)
 
 	response := schemas.DayReportPopulatedResponse{
@@ -108,13 +108,13 @@ func (cc *DayReportController) UpdateDayReport(ctx *gin.Context) {
 	}
 
 	now := time.Now()
-	args := &dbPGX.UpdateDayReportParams{
+	args := &db.UpdateDayReportParams{
 		Uuid:      pgtype.UUID{Bytes: uuid.MustParse(dayReportId), Valid: true},
 		UpdatedAt: pgtype.Timestamp{Time: now, Valid: true},
 		IsDayOff:  pgtype.Bool{Bool: payload.IsDayOff, Valid: true},
 	}
 
-	dayReport, err := cc.dbPGX.UpdateDayReport(ctx, *args)
+	dayReport, err := cc.db.UpdateDayReport(ctx, *args)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, dayReport)
@@ -133,11 +133,11 @@ func (cc *DayReportController) UpdateDayReport(ctx *gin.Context) {
 func (cc *DayReportController) GetAllDayReports(ctx *gin.Context) {
 	wayId := ctx.Param("wayId")
 
-	dayReports, err := cc.dbPGX.GetListDayReportsByWayUuid(ctx, pgtype.UUID{Bytes: uuid.MustParse(wayId), Valid: true})
+	dayReports, err := cc.db.GetListDayReportsByWayUuid(ctx, pgtype.UUID{Bytes: uuid.MustParse(wayId), Valid: true})
 	util.HandleErrorGin(ctx, err)
 
 	if len(dayReports) == 0 {
-		dayReports = []dbPGX.DayReport{}
+		dayReports = []db.DayReport{}
 	}
 
 	ctx.JSON(http.StatusOK, dayReports)

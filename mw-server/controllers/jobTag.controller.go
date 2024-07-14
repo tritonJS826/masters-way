@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 
-	dbPGX "mwserver/db_pgx/sqlc"
+	db "mwserver/db/sqlc"
 	"mwserver/schemas"
 	"mwserver/util"
 
@@ -14,12 +14,12 @@ import (
 )
 
 type JobTagController struct {
-	dbPGX *dbPGX.Queries
-	ctx   context.Context
+	db  *db.Queries
+	ctx context.Context
 }
 
-func NewJobTagController(dbPGX *dbPGX.Queries, ctx context.Context) *JobTagController {
-	return &JobTagController{dbPGX, ctx}
+func NewJobTagController(db *db.Queries, ctx context.Context) *JobTagController {
+	return &JobTagController{db, ctx}
 }
 
 // Create wayTag  handler
@@ -40,14 +40,14 @@ func (cc *JobTagController) CreateJobTag(ctx *gin.Context) {
 		return
 	}
 
-	args := dbPGX.CreateJobTagParams{
+	args := db.CreateJobTagParams{
 		Name:        payload.Name,
 		WayUuid:     pgtype.UUID{Bytes: uuid.MustParse(payload.WayUuid), Valid: true},
 		Description: payload.Description,
 		Color:       payload.Color,
 	}
 
-	jobTag, err := cc.dbPGX.CreateJobTag(ctx, args)
+	jobTag, err := cc.db.CreateJobTag(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	response := schemas.JobTagResponse{
@@ -80,14 +80,14 @@ func (cc *JobTagController) UpdateJobTag(ctx *gin.Context) {
 		return
 	}
 
-	args := dbPGX.UpdateJobTagParams{
+	args := db.UpdateJobTagParams{
 		Uuid:        pgtype.UUID{Bytes: uuid.MustParse(jobTagId), Valid: true},
 		Name:        pgtype.Text{String: payload.Name, Valid: payload.Name != ""},
 		Description: pgtype.Text{String: payload.Description, Valid: payload.Description != ""},
 		Color:       pgtype.Text{String: payload.Color, Valid: payload.Color != ""},
 	}
 
-	jobTag, err := cc.dbPGX.UpdateJobTag(ctx, args)
+	jobTag, err := cc.db.UpdateJobTag(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, jobTag)
@@ -106,7 +106,7 @@ func (cc *JobTagController) UpdateJobTag(ctx *gin.Context) {
 func (cc *JobTagController) DeleteJobTagById(ctx *gin.Context) {
 	jobTagId := ctx.Param("jobTagId")
 
-	err := cc.dbPGX.DeleteJobTagById(ctx, pgtype.UUID{Bytes: uuid.MustParse(jobTagId), Valid: true})
+	err := cc.db.DeleteJobTagById(ctx, pgtype.UUID{Bytes: uuid.MustParse(jobTagId), Valid: true})
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})

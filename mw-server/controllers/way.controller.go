@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"mwserver/auth"
-	dbPGX "mwserver/db_pgx/sqlc"
+	db "mwserver/db/sqlc"
 	"mwserver/schemas"
 	"mwserver/services"
 	"mwserver/util"
@@ -19,13 +19,13 @@ import (
 )
 
 type WayController struct {
-	dbPGX *dbPGX.Queries
-	ctx   context.Context
-	ls    *services.LimitService
+	db  *db.Queries
+	ctx context.Context
+	ls  *services.LimitService
 }
 
-func NewWayController(dbPGX *dbPGX.Queries, ctx context.Context, ls *services.LimitService) *WayController {
-	return &WayController{dbPGX, ctx, ls}
+func NewWayController(db *db.Queries, ctx context.Context, ls *services.LimitService) *WayController {
+	return &WayController{db, ctx, ls}
 }
 
 // Create way  handler
@@ -53,7 +53,7 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 	util.HandleErrorGin(ctx, err)
 
 	now := time.Now()
-	args := dbPGX.CreateWayParams{
+	args := db.CreateWayParams{
 		Name:              payload.Name,
 		GoalDescription:   payload.GoalDescription,
 		EstimationTime:    payload.EstimationTime,
@@ -65,7 +65,7 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 		CreatedAt:         pgtype.Timestamp{Time: now, Valid: true},
 	}
 
-	way, err := cc.dbPGX.CreateWay(ctx, args)
+	way, err := cc.db.CreateWay(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	isWayCopied := way.CopiedFromWayUuid.Valid
@@ -74,19 +74,19 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 			WayUuid:              way.CopiedFromWayUuid.Bytes,
 			CurrentChildrenDepth: 1,
 		}
-		originalWay, err := services.GetPopulatedWayById(cc.dbPGX, ctx, args1)
+		originalWay, err := services.GetPopulatedWayById(cc.db, ctx, args1)
 		util.HandleErrorGin(ctx, err)
 
 		// copy wayTags
 		lo.ForEach(originalWay.WayTags, func(wayTag schemas.WayTagResponse, i int) {
-			cc.dbPGX.CreateWaysWayTag(ctx, dbPGX.CreateWaysWayTagParams{
+			cc.db.CreateWaysWayTag(ctx, db.CreateWaysWayTagParams{
 				WayUuid:    way.Uuid,
 				WayTagUuid: pgtype.UUID{Bytes: uuid.MustParse(wayTag.Uuid), Valid: true},
 			})
 		})
 		// copy labels
 		lo.ForEach(originalWay.JobTags, func(jobTag schemas.JobTagResponse, i int) {
-			cc.dbPGX.CreateJobTag(ctx, dbPGX.CreateJobTagParams{
+			cc.db.CreateJobTag(ctx, db.CreateJobTagParams{
 				WayUuid:     way.Uuid,
 				Name:        jobTag.Name,
 				Description: jobTag.Description,
@@ -95,7 +95,7 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 		})
 		// copy metrics
 		lo.ForEach(originalWay.Metrics, func(metric schemas.MetricResponse, i int) {
-			cc.dbPGX.CreateMetric(ctx, dbPGX.CreateMetricParams{
+			cc.db.CreateMetric(ctx, db.CreateMetricParams{
 				UpdatedAt:        pgtype.Timestamp{Time: now, Valid: true},
 				Description:      metric.Description,
 				IsDone:           false,
@@ -105,7 +105,7 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 		})
 	}
 
-	wayPlain, err := services.GetPlainWayById(cc.dbPGX, ctx, way.Uuid)
+	wayPlain, err := services.GetPlainWayById(cc.db, ctx, way.Uuid)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, wayPlain)
@@ -146,7 +146,7 @@ func (cc *WayController) UpdateWay(ctx *gin.Context) {
 	}
 
 	now := time.Now()
-	args := dbPGX.UpdateWayParams{
+	args := db.UpdateWayParams{
 		Uuid:            pgtype.UUID{Bytes: uuid.MustParse(wayId), Valid: true},
 		Name:            pgtype.Text{String: payload.Name, Valid: payload.Name != ""},
 		GoalDescription: pgtype.Text{String: payload.GoalDescription, Valid: payload.GoalDescription != ""},
@@ -156,10 +156,10 @@ func (cc *WayController) UpdateWay(ctx *gin.Context) {
 		UpdatedAt:       pgtype.Timestamp{Time: now, Valid: true},
 	}
 
-	way, err := cc.dbPGX.UpdateWay(ctx, args)
+	way, err := cc.db.UpdateWay(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
-	wayPlain, err := services.GetPlainWayById(cc.dbPGX, ctx, way.Uuid)
+	wayPlain, err := services.GetPlainWayById(cc.db, ctx, way.Uuid)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, wayPlain)
@@ -184,7 +184,7 @@ func (cc *WayController) GetWayById(ctx *gin.Context) {
 		WayUuid:              wayUuid,
 		CurrentChildrenDepth: 1,
 	}
-	response, err := services.GetPopulatedWayById(cc.dbPGX, ctx, args)
+	response, err := services.GetPopulatedWayById(cc.db, ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)
@@ -213,24 +213,24 @@ func (cc *WayController) GetAllWays(ctx *gin.Context) {
 	offset := (reqPageID - 1) * reqLimit
 	currentDate := time.Now()
 
-	waySizeArgs := dbPGX.CountWaysByTypeParams{
+	waySizeArgs := db.CountWaysByTypeParams{
 		WayStatus: status,
 		Column1:   pgtype.Timestamp{Time: currentDate, Valid: true},
 	}
-	waysSize, _ := cc.dbPGX.CountWaysByType(ctx, waySizeArgs)
+	waysSize, _ := cc.db.CountWaysByType(ctx, waySizeArgs)
 
-	listWaysArgs := dbPGX.ListWaysParams{
+	listWaysArgs := db.ListWaysParams{
 		Limit:   int32(reqLimit),
 		Offset:  int32(offset),
 		Column3: status,
 		Column4: pgtype.Timestamp{Time: currentDate, Valid: true},
 	}
 
-	ways, err := cc.dbPGX.ListWays(ctx, listWaysArgs)
+	ways, err := cc.db.ListWays(ctx, listWaysArgs)
 	util.HandleErrorGin(ctx, err)
 
-	response := lo.Map(ways, func(way dbPGX.ListWaysRow, i int) schemas.WayPlainResponse {
-		wayPlain, err := services.GetPlainWayById(cc.dbPGX, ctx, way.Uuid)
+	response := lo.Map(ways, func(way db.ListWaysRow, i int) schemas.WayPlainResponse {
+		wayPlain, err := services.GetPlainWayById(cc.db, ctx, way.Uuid)
 		util.HandleErrorGin(ctx, err)
 
 		return wayPlain
@@ -252,7 +252,7 @@ func (cc *WayController) GetAllWays(ctx *gin.Context) {
 func (cc *WayController) DeleteWayById(ctx *gin.Context) {
 	wayId := ctx.Param("wayId")
 
-	err := cc.dbPGX.DeleteWay(ctx, pgtype.UUID{Bytes: uuid.MustParse(wayId), Valid: true})
+	err := cc.db.DeleteWay(ctx, pgtype.UUID{Bytes: uuid.MustParse(wayId), Valid: true})
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfuly deleted"})

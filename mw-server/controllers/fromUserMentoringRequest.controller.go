@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 
-	dbPGX "mwserver/db_pgx/sqlc"
+	db "mwserver/db/sqlc"
 	"mwserver/schemas"
 	"mwserver/util"
 
@@ -14,12 +14,12 @@ import (
 )
 
 type FromUserMentoringRequestController struct {
-	dbPGX *dbPGX.Queries
-	ctx   context.Context
+	db  *db.Queries
+	ctx context.Context
 }
 
-func NewFromUserMentoringRequestController(dbPGX *dbPGX.Queries, ctx context.Context) *FromUserMentoringRequestController {
-	return &FromUserMentoringRequestController{dbPGX, ctx}
+func NewFromUserMentoringRequestController(db *db.Queries, ctx context.Context) *FromUserMentoringRequestController {
+	return &FromUserMentoringRequestController{db, ctx}
 }
 
 // Create fromUserMentoringRequest handler
@@ -40,12 +40,12 @@ func (cc *FromUserMentoringRequestController) CreateFromUserMentoringRequest(ctx
 		return
 	}
 
-	args := dbPGX.CreateFromUserMentoringRequestParams{
+	args := db.CreateFromUserMentoringRequestParams{
 		UserUuid: pgtype.UUID{Bytes: uuid.MustParse(payload.UserUuid), Valid: true},
 		WayUuid:  pgtype.UUID{Bytes: uuid.MustParse(payload.WayUuid), Valid: true},
 	}
 
-	fromUserMentoringRequest, err := cc.dbPGX.CreateFromUserMentoringRequest(ctx, args)
+	fromUserMentoringRequest, err := cc.db.CreateFromUserMentoringRequest(ctx, args)
 
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving fromUserMentoringRequest", "error": err.Error()})
@@ -70,12 +70,12 @@ func (cc *FromUserMentoringRequestController) DeleteFromUserMentoringRequestById
 	userUuid := ctx.Param("userUuid")
 	wayUuid := ctx.Param("wayUuid")
 
-	args := dbPGX.DeleteFromUserMentoringRequestParams{
+	args := db.DeleteFromUserMentoringRequestParams{
 		UserUuid: pgtype.UUID{Bytes: uuid.MustParse(userUuid), Valid: true},
 		WayUuid:  pgtype.UUID{Bytes: uuid.MustParse(wayUuid), Valid: true},
 	}
 
-	err := cc.dbPGX.DeleteFromUserMentoringRequest(ctx, args)
+	err := cc.db.DeleteFromUserMentoringRequest(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})

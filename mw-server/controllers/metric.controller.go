@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	dbPGX "mwserver/db_pgx/sqlc"
+	db "mwserver/db/sqlc"
 	"mwserver/schemas"
 	"mwserver/services"
 	"mwserver/util"
@@ -16,12 +16,12 @@ import (
 )
 
 type MetricController struct {
-	dbPGX *dbPGX.Queries
-	ctx   context.Context
+	db  *db.Queries
+	ctx context.Context
 }
 
-func NewMetricController(dbPGX *dbPGX.Queries, ctx context.Context) *MetricController {
-	return &MetricController{dbPGX, ctx}
+func NewMetricController(db *db.Queries, ctx context.Context) *MetricController {
+	return &MetricController{db, ctx}
 }
 
 // Create Metric  handler
@@ -45,7 +45,7 @@ func (cc *MetricController) CreateMetric(ctx *gin.Context) {
 	now := time.Now()
 
 	parsedTime, err := time.Parse(util.DEFAULT_STRING_LAYOUT, payload.DoneDate)
-	args := dbPGX.CreateMetricParams{
+	args := db.CreateMetricParams{
 		Description:      payload.Description,
 		IsDone:           payload.IsDone,
 		DoneDate:         pgtype.Timestamp{Time: parsedTime, Valid: err != nil},
@@ -54,9 +54,9 @@ func (cc *MetricController) CreateMetric(ctx *gin.Context) {
 		UpdatedAt:        pgtype.Timestamp{Time: now, Valid: true},
 	}
 
-	metric, err := cc.dbPGX.CreateMetric(ctx, args)
+	metric, err := cc.db.CreateMetric(ctx, args)
 	util.HandleErrorGin(ctx, err)
-	err = services.UpdateWayIsCompletedStatus(cc.dbPGX, ctx, metric.WayUuid)
+	err = services.UpdateWayIsCompletedStatus(cc.db, ctx, metric.WayUuid)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, metric)
@@ -101,7 +101,7 @@ func (cc *MetricController) UpdateMetric(ctx *gin.Context) {
 		metricEstimationNullInt32 = pgtype.Int4{Int32: *payload.MetricEstimation, Valid: true}
 	}
 
-	args := dbPGX.UpdateMetricParams{
+	args := db.UpdateMetricParams{
 		Uuid:             pgtype.UUID{Bytes: uuid.MustParse(metricId), Valid: true},
 		UpdatedAt:        pgtype.Timestamp{Time: now, Valid: true},
 		Description:      descriptionNullString,
@@ -110,9 +110,9 @@ func (cc *MetricController) UpdateMetric(ctx *gin.Context) {
 		MetricEstimation: metricEstimationNullInt32,
 	}
 
-	metric, err := cc.dbPGX.UpdateMetric(ctx, args)
+	metric, err := cc.db.UpdateMetric(ctx, args)
 	util.HandleErrorGin(ctx, err)
-	err = services.UpdateWayIsCompletedStatus(cc.dbPGX, ctx, metric.WayUuid)
+	err = services.UpdateWayIsCompletedStatus(cc.db, ctx, metric.WayUuid)
 	util.HandleErrorGin(ctx, err)
 
 	response := schemas.MetricResponse{
@@ -139,9 +139,9 @@ func (cc *MetricController) UpdateMetric(ctx *gin.Context) {
 func (cc *MetricController) DeleteMetricById(ctx *gin.Context) {
 	metricId := ctx.Param("metricId")
 
-	removedMetric, err := cc.dbPGX.DeleteMetric(ctx, pgtype.UUID{Bytes: uuid.MustParse(metricId), Valid: true})
+	removedMetric, err := cc.db.DeleteMetric(ctx, pgtype.UUID{Bytes: uuid.MustParse(metricId), Valid: true})
 	util.HandleErrorGin(ctx, err)
-	err = services.UpdateWayIsCompletedStatus(cc.dbPGX, ctx, removedMetric.WayUuid)
+	err = services.UpdateWayIsCompletedStatus(cc.db, ctx, removedMetric.WayUuid)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})

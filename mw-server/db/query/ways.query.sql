@@ -10,7 +10,7 @@ INSERT INTO ways(
     is_completed,
     owner_uuid
 ) VALUES (
-    $1, $2, $3, $4, $5, $6, $7, $8, $9
+    @name, @goal_description, @updated_at, @created_at, @estimation_time, @copied_from_way_uuid, @is_private, @is_completed, @owner_uuid
 ) RETURNING
     *,
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = @way_uuid) AS way_metrics_total,
@@ -25,7 +25,6 @@ INSERT INTO ways(
         ),
         '{}'
     )::VARCHAR[] AS children_uuids;
-
 
 -- name: GetWayById :one
 SELECT
@@ -88,7 +87,7 @@ SELECT
     )::VARCHAR[] AS children_uuids
 FROM ways
 JOIN way_collections_ways ON way_collections_ways.way_uuid = ways.uuid
-WHERE way_collections_ways.way_collection_uuid = $1
+WHERE way_collections_ways.way_collection_uuid = @way_collection_uuid
 ORDER BY ways.updated_at DESC;
 
 -- name: GetOwnWaysByUserId :many
@@ -116,7 +115,7 @@ SELECT
         '{}'
     )::VARCHAR[] AS children_uuids
 FROM ways
-WHERE ways.owner_uuid = $1
+WHERE ways.owner_uuid = @owner_uuid
 ORDER BY ways.updated_at DESC;
 
 -- name: GetOwnWaysCountByUserId :one
@@ -152,12 +151,12 @@ SELECT
             SELECT composite_ways.child_uuid
             FROM composite_ways
             WHERE composite_ways.parent_uuid = ways.uuid
-        ), 
+        ),
         '{}'
     )::VARCHAR[] AS children_uuids
 FROM ways
 JOIN mentor_users_ways ON mentor_users_ways.way_uuid = ways.uuid
-WHERE mentor_users_ways.user_uuid = $1
+WHERE mentor_users_ways.user_uuid = @user_uuid
 ORDER BY ways.updated_at DESC;
 
 -- name: GetFavoriteWaysByUserId :many
@@ -186,7 +185,7 @@ SELECT
     )::VARCHAR[] AS children_uuids
 FROM ways
 JOIN favorite_users_ways ON favorite_users_ways.way_uuid = ways.uuid
-WHERE favorite_users_ways.user_uuid = $1
+WHERE favorite_users_ways.user_uuid = @user_uuid
 ORDER BY ways.updated_at DESC;
 
 
@@ -258,4 +257,4 @@ RETURNING *,
 
 -- name: DeleteWay :exec
 DELETE FROM ways
-WHERE uuid = $1;
+WHERE uuid = @way_uuid;

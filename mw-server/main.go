@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"database/sql"
 	"fmt"
 	"log"
 	"net/http"
@@ -10,8 +9,7 @@ import (
 
 	"mwserver/config"
 	"mwserver/controllers"
-	dbCon "mwserver/db/sqlc"
-	dbConPGX "mwserver/db_pgx/sqlc"
+	dbConn "mwserver/db/sqlc"
 	"mwserver/routes"
 	"mwserver/services"
 
@@ -30,9 +28,8 @@ import (
 
 var (
 	server       *gin.Engine
-	db           *dbCon.Queries
 	pgxPool      *pgxpool.Pool
-	dbPGX        *dbConPGX.Queries
+	db           *dbConn.Queries
 	geminiClient *genai.Client
 	ctx          context.Context
 
@@ -124,13 +121,7 @@ func init() {
 		fmt.Fprintf(os.Stderr, "Unable to create connection pool: %v\n", err)
 		os.Exit(1)
 	}
-	dbPGX = dbConPGX.New(pgxPool)
-
-	conn, err := sql.Open(config.Env.DbDriver, config.Env.DbSource)
-	if err != nil {
-		log.Fatalf("Could not connect to database: %v", err)
-	}
-	db = dbCon.New(conn)
+	db = dbConn.New(pgxPool)
 
 	fmt.Println("PostgreSql connected successfully...")
 
@@ -147,51 +138,51 @@ func init() {
 		AllowCredentials: true,
 	}))
 
-	LimitService = *services.NewLimitService(dbPGX, ctx)
+	LimitService = *services.NewLimitService(db, ctx)
 
-	AuthController = *controllers.NewAuthController(dbPGX, ctx)
+	AuthController = *controllers.NewAuthController(db, ctx)
 	AuthRoutes = routes.NewRouteAuth(AuthController)
 
-	WayController = *controllers.NewWayController(dbPGX, ctx, &LimitService)
+	WayController = *controllers.NewWayController(db, ctx, &LimitService)
 	WayRoutes = routes.NewRouteWay(WayController)
 
-	UserController = *controllers.NewUserController(dbPGX, ctx)
+	UserController = *controllers.NewUserController(db, ctx)
 	UserRoutes = routes.NewRouteUser(UserController)
 
-	DayReportController = *controllers.NewDayReportController(dbPGX, ctx, &LimitService)
+	DayReportController = *controllers.NewDayReportController(db, ctx, &LimitService)
 	DayReportRoutes = routes.NewRouteDayReport(DayReportController)
 
-	WayCollectionController = *controllers.NewWayCollectionController(dbPGX, ctx, &LimitService)
+	WayCollectionController = *controllers.NewWayCollectionController(db, ctx, &LimitService)
 	WayCollectionRoutes = routes.NewRouteWayCollection(WayCollectionController)
 
-	CommentController = *controllers.NewCommentController(dbPGX, ctx)
+	CommentController = *controllers.NewCommentController(db, ctx)
 	CommentRoutes = routes.NewRouteComment(CommentController)
 
-	FavoriteUserController = *controllers.NewFavoriteUserController(dbPGX, ctx)
+	FavoriteUserController = *controllers.NewFavoriteUserController(db, ctx)
 	FavoriteUserRoutes = routes.NewRouteFavoriteUser(FavoriteUserController)
 
-	FavoriteUserWayController = *controllers.NewFavoriteUserWayController(dbPGX, ctx)
+	FavoriteUserWayController = *controllers.NewFavoriteUserWayController(db, ctx)
 	FavoriteUserWayRoutes = routes.NewRouteFavoriteUserWay(FavoriteUserWayController)
 
-	FromUserMentoringRequestController = *controllers.NewFromUserMentoringRequestController(dbPGX, ctx)
+	FromUserMentoringRequestController = *controllers.NewFromUserMentoringRequestController(db, ctx)
 	FromUserMentoringRequestRoutes = routes.NewRouteFromUserMentoringRequest(FromUserMentoringRequestController)
 
-	JobDoneController = *controllers.NewJobDoneController(dbPGX, ctx)
+	JobDoneController = *controllers.NewJobDoneController(db, ctx)
 	JobDoneRoutes = routes.NewRouteJobDone(JobDoneController)
 
-	JobDoneJobTagController = *controllers.NewJobDoneJobTagController(dbPGX, ctx)
+	JobDoneJobTagController = *controllers.NewJobDoneJobTagController(db, ctx)
 	JobDoneJobTagRoutes = routes.NewRouteJobDoneJobTag(JobDoneJobTagController)
 
-	JobTagController = *controllers.NewJobTagController(dbPGX, ctx)
+	JobTagController = *controllers.NewJobTagController(db, ctx)
 	JobTagRoutes = routes.NewRouteJobTag(JobTagController)
 
-	MetricController = *controllers.NewMetricController(dbPGX, ctx)
+	MetricController = *controllers.NewMetricController(db, ctx)
 	MetricRoutes = routes.NewRouteMetric(MetricController)
 
-	PlanController = *controllers.NewPlanController(dbPGX, ctx)
+	PlanController = *controllers.NewPlanController(db, ctx)
 	PlanRoutes = routes.NewRoutePlan(PlanController)
 
-	PlanJobTagController = *controllers.NewPlanJobTagController(dbPGX, ctx)
+	PlanJobTagController = *controllers.NewPlanJobTagController(db, ctx)
 	PlanJobTagRoutes = routes.NewRoutePlanJobTag(PlanJobTagController)
 
 	ProblemController = *controllers.NewProblemController(db, ctx)
@@ -219,7 +210,7 @@ func init() {
 	MentorUserWayRoutes = routes.NewRouteMentorUserWay(MentorUserWayController)
 
 	if config.Env.EnvType != "prod" {
-		DevController = *controllers.NewDevController(db, ctx)
+		DevController = *controllers.NewDevController(db, pgxPool, ctx)
 		DevRoutes = routes.NewRouteDev(DevController)
 
 		server.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
@@ -240,7 +231,6 @@ func init() {
 // @version 1.0
 // @BasePath  /api
 func main() {
-	defer db.Close()
 	defer pgxPool.Close()
 	defer geminiClient.Close()
 

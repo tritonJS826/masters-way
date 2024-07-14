@@ -7,28 +7,64 @@ package db
 
 import (
 	"context"
-	"database/sql"
-	"time"
 
-	"github.com/google/uuid"
-	"github.com/lib/pq"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 const createJobDone = `-- name: CreateJobDone :one
-
-
-
-SELECT uuid, created_at, updated_at, description, time, owner_uuid, day_report_uuid FROM job_dones
-WHERE job_dones.day_report_uuid = $1
-ORDER BY created_at
+INSERT INTO job_dones(
+    created_at,
+    updated_at,
+    description,
+    time,
+    owner_uuid,
+    day_report_uuid
+) VALUES (
+    $1, $2, $3, $4, $5, $6
+) RETURNING uuid, created_at, updated_at, description, time, owner_uuid, day_report_uuid,
+    (SELECT name FROM users WHERE uuid = $5) AS owner_name,
+    -- get tag uuids
+    COALESCE(
+        ARRAY(
+            SELECT job_dones_job_tags.job_tag_uuid
+            FROM job_dones_job_tags
+            WHERE job_dones.uuid = job_dones_job_tags.job_done_uuid
+        ),
+    '{}'
+    )::VARCHAR[] AS tag_uuids
 `
 
-// INSERT INTO job_dones(
-//
-//	created_at,
-func (q *Queries) CreateJobDone(ctx context.Context, dayReportUuid uuid.UUID) (JobDone, error) {
-	row := q.queryRow(ctx, q.createJobDoneStmt, createJobDone, dayReportUuid)
-	var i JobDone
+type CreateJobDoneParams struct {
+	CreatedAt     pgtype.Timestamp `json:"created_at"`
+	UpdatedAt     pgtype.Timestamp `json:"updated_at"`
+	Description   string           `json:"description"`
+	Time          int32            `json:"time"`
+	OwnerUuid     pgtype.UUID      `json:"owner_uuid"`
+	DayReportUuid pgtype.UUID      `json:"day_report_uuid"`
+}
+
+type CreateJobDoneRow struct {
+	Uuid          pgtype.UUID      `json:"uuid"`
+	CreatedAt     pgtype.Timestamp `json:"created_at"`
+	UpdatedAt     pgtype.Timestamp `json:"updated_at"`
+	Description   string           `json:"description"`
+	Time          int32            `json:"time"`
+	OwnerUuid     pgtype.UUID      `json:"owner_uuid"`
+	DayReportUuid pgtype.UUID      `json:"day_report_uuid"`
+	OwnerName     string           `json:"owner_name"`
+	TagUuids      []string         `json:"tag_uuids"`
+}
+
+func (q *Queries) CreateJobDone(ctx context.Context, arg CreateJobDoneParams) (CreateJobDoneRow, error) {
+	row := q.db.QueryRow(ctx, createJobDone,
+		arg.CreatedAt,
+		arg.UpdatedAt,
+		arg.Description,
+		arg.Time,
+		arg.OwnerUuid,
+		arg.DayReportUuid,
+	)
+	var i CreateJobDoneRow
 	err := row.Scan(
 		&i.Uuid,
 		&i.CreatedAt,
@@ -37,6 +73,8 @@ func (q *Queries) CreateJobDone(ctx context.Context, dayReportUuid uuid.UUID) (J
 		&i.Time,
 		&i.OwnerUuid,
 		&i.DayReportUuid,
+		&i.OwnerName,
+		&i.TagUuids,
 	)
 	return i, err
 }
@@ -46,9 +84,43 @@ DELETE FROM job_dones
 WHERE uuid = $1
 `
 
-func (q *Queries) DeleteJobDone(ctx context.Context, argUuid uuid.UUID) error {
-	_, err := q.exec(ctx, q.deleteJobDoneStmt, deleteJobDone, argUuid)
+func (q *Queries) DeleteJobDone(ctx context.Context, jobDoneUuid pgtype.UUID) error {
+	_, err := q.db.Exec(ctx, deleteJobDone, jobDoneUuid)
 	return err
+}
+
+const getListJobsDoneByDayReportId = `-- name: GetListJobsDoneByDayReportId :many
+SELECT uuid, created_at, updated_at, description, time, owner_uuid, day_report_uuid FROM job_dones
+WHERE job_dones.day_report_uuid = $1
+ORDER BY created_at
+`
+
+func (q *Queries) GetListJobsDoneByDayReportId(ctx context.Context, dayReportUuid pgtype.UUID) ([]JobDone, error) {
+	rows, err := q.db.Query(ctx, getListJobsDoneByDayReportId, dayReportUuid)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []JobDone{}
+	for rows.Next() {
+		var i JobDone
+		if err := rows.Scan(
+			&i.Uuid,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.Description,
+			&i.Time,
+			&i.OwnerUuid,
+			&i.DayReportUuid,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }
 
 const updateJobDone = `-- name: UpdateJobDone :one
@@ -72,26 +144,26 @@ RETURNING uuid, created_at, updated_at, description, time, owner_uuid, day_repor
 `
 
 type UpdateJobDoneParams struct {
-	UpdatedAt   sql.NullTime   `json:"updated_at"`
-	Description sql.NullString `json:"description"`
-	Time        sql.NullInt32  `json:"time"`
-	Uuid        uuid.UUID      `json:"uuid"`
+	UpdatedAt   pgtype.Timestamp `json:"updated_at"`
+	Description pgtype.Text      `json:"description"`
+	Time        pgtype.Int4      `json:"time"`
+	Uuid        pgtype.UUID      `json:"uuid"`
 }
 
 type UpdateJobDoneRow struct {
-	Uuid          uuid.UUID `json:"uuid"`
-	CreatedAt     time.Time `json:"created_at"`
-	UpdatedAt     time.Time `json:"updated_at"`
-	Description   string    `json:"description"`
-	Time          int32     `json:"time"`
-	OwnerUuid     uuid.UUID `json:"owner_uuid"`
-	DayReportUuid uuid.UUID `json:"day_report_uuid"`
-	OwnerName     string    `json:"owner_name"`
-	TagUuids      []string  `json:"tag_uuids"`
+	Uuid          pgtype.UUID      `json:"uuid"`
+	CreatedAt     pgtype.Timestamp `json:"created_at"`
+	UpdatedAt     pgtype.Timestamp `json:"updated_at"`
+	Description   string           `json:"description"`
+	Time          int32            `json:"time"`
+	OwnerUuid     pgtype.UUID      `json:"owner_uuid"`
+	DayReportUuid pgtype.UUID      `json:"day_report_uuid"`
+	OwnerName     string           `json:"owner_name"`
+	TagUuids      []string         `json:"tag_uuids"`
 }
 
 func (q *Queries) UpdateJobDone(ctx context.Context, arg UpdateJobDoneParams) (UpdateJobDoneRow, error) {
-	row := q.queryRow(ctx, q.updateJobDoneStmt, updateJobDone,
+	row := q.db.QueryRow(ctx, updateJobDone,
 		arg.UpdatedAt,
 		arg.Description,
 		arg.Time,
@@ -107,7 +179,7 @@ func (q *Queries) UpdateJobDone(ctx context.Context, arg UpdateJobDoneParams) (U
 		&i.OwnerUuid,
 		&i.DayReportUuid,
 		&i.OwnerName,
-		pq.Array(&i.TagUuids),
+		&i.TagUuids,
 	)
 	return i, err
 }

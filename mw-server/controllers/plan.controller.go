@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	dbPGX "mwserver/db_pgx/sqlc"
+	db "mwserver/db/sqlc"
 	"mwserver/schemas"
 	"mwserver/util"
 
@@ -16,12 +16,12 @@ import (
 )
 
 type PlanController struct {
-	dbPGX *dbPGX.Queries
-	ctx   context.Context
+	db  *db.Queries
+	ctx context.Context
 }
 
-func NewPlanController(dbPGX *dbPGX.Queries, ctx context.Context) *PlanController {
-	return &PlanController{dbPGX, ctx}
+func NewPlanController(db *db.Queries, ctx context.Context) *PlanController {
+	return &PlanController{db, ctx}
 }
 
 // Create Plan handler
@@ -43,7 +43,7 @@ func (cc *PlanController) CreatePlan(ctx *gin.Context) {
 	}
 
 	now := time.Now()
-	args := dbPGX.CreatePlanParams{
+	args := db.CreatePlanParams{
 		Description:   payload.Description,
 		Time:          int32(payload.Time),
 		OwnerUuid:     pgtype.UUID{Bytes: uuid.MustParse(payload.OwnerUuid), Valid: true},
@@ -53,7 +53,7 @@ func (cc *PlanController) CreatePlan(ctx *gin.Context) {
 		UpdatedAt:     pgtype.Timestamp{Time: now, Valid: true},
 	}
 
-	plan, err := cc.dbPGX.CreatePlan(ctx, args)
+	plan, err := cc.db.CreatePlan(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	response := schemas.PlanPopulatedResponse{
@@ -93,7 +93,7 @@ func (cc *PlanController) UpdatePlan(ctx *gin.Context) {
 	}
 
 	now := time.Now()
-	args := dbPGX.UpdatePlanParams{
+	args := db.UpdatePlanParams{
 		Uuid:        pgtype.UUID{Bytes: uuid.MustParse(PlanId), Valid: true},
 		UpdatedAt:   pgtype.Timestamp{Time: now, Valid: true},
 		Description: pgtype.Text{String: payload.Description, Valid: payload.Description != ""},
@@ -101,16 +101,16 @@ func (cc *PlanController) UpdatePlan(ctx *gin.Context) {
 		IsDone:      pgtype.Bool{Bool: payload.IsDone, Valid: true},
 	}
 
-	plan, err := cc.dbPGX.UpdatePlan(ctx, args)
+	plan, err := cc.db.UpdatePlan(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	tagUuids := lo.Map(plan.TagUuids, func(stringifiedUuid string, i int) pgtype.UUID {
 		return pgtype.UUID{Bytes: uuid.MustParse(stringifiedUuid), Valid: true}
 	})
 
-	dbTags, err := cc.dbPGX.GetListLabelsByLabelUuids(ctx, tagUuids)
+	dbTags, err := cc.db.GetListLabelsByLabelUuids(ctx, tagUuids)
 	util.HandleErrorGin(ctx, err)
-	tags := lo.Map(dbTags, func(dbTag dbPGX.JobTag, i int) schemas.JobTagResponse {
+	tags := lo.Map(dbTags, func(dbTag db.JobTag, i int) schemas.JobTagResponse {
 		return schemas.JobTagResponse{
 			Uuid:        util.ConvertPgUUIDToUUID(dbTag.Uuid).String(),
 			Name:        dbTag.Name,
@@ -148,7 +148,7 @@ func (cc *PlanController) UpdatePlan(ctx *gin.Context) {
 func (cc *PlanController) DeletePlanById(ctx *gin.Context) {
 	planId := ctx.Param("planId")
 
-	err := cc.dbPGX.DeletePlan(ctx, pgtype.UUID{Bytes: uuid.MustParse(planId), Valid: true})
+	err := cc.db.DeletePlan(ctx, pgtype.UUID{Bytes: uuid.MustParse(planId), Valid: true})
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})

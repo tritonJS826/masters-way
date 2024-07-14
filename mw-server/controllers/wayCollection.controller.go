@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"time"
 
-	dbPGX "mwserver/db_pgx/sqlc"
+	db "mwserver/db/sqlc"
 	"mwserver/schemas"
 	"mwserver/services"
 	"mwserver/util"
@@ -17,13 +17,13 @@ import (
 )
 
 type WayCollectionController struct {
-	dbPGX *dbPGX.Queries
-	ctx   context.Context
-	ls    *services.LimitService
+	db  *db.Queries
+	ctx context.Context
+	ls  *services.LimitService
 }
 
-func NewWayCollectionController(dbPGX *dbPGX.Queries, ctx context.Context, ls *services.LimitService) *WayCollectionController {
-	return &WayCollectionController{dbPGX, ctx, ls}
+func NewWayCollectionController(db *db.Queries, ctx context.Context, ls *services.LimitService) *WayCollectionController {
+	return &WayCollectionController{db, ctx, ls}
 }
 
 // Create wayCollectionRoute handler
@@ -52,7 +52,7 @@ func (cc *WayCollectionController) CreateWayCollection(ctx *gin.Context) {
 	util.HandleErrorGin(ctx, err)
 
 	now := time.Now()
-	args := dbPGX.CreateWayCollectionParams{
+	args := db.CreateWayCollectionParams{
 		Name:      payload.Name,
 		OwnerUuid: pgtype.UUID{Bytes: uuid.MustParse(payload.OwnerUuid), Valid: true},
 		CreatedAt: pgtype.Timestamp{Time: now, Valid: true},
@@ -60,7 +60,7 @@ func (cc *WayCollectionController) CreateWayCollection(ctx *gin.Context) {
 		Type:      "custom",
 	}
 
-	wayCollection, err := cc.dbPGX.CreateWayCollection(ctx, args)
+	wayCollection, err := cc.db.CreateWayCollection(ctx, args)
 
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving way collection", "error": err.Error()})
@@ -102,13 +102,13 @@ func (cc *WayCollectionController) UpdateWayCollection(ctx *gin.Context) {
 
 	now := time.Now()
 	// FIXME: If payload.Name is empty, we should not perform an update in the database
-	args := dbPGX.UpdateWayCollectionParams{
+	args := db.UpdateWayCollectionParams{
 		Uuid:      pgtype.UUID{Bytes: uuid.MustParse(wayCollectionId), Valid: true},
 		Name:      pgtype.Text{String: payload.Name, Valid: payload.Name != ""},
 		UpdatedAt: pgtype.Timestamp{Time: now, Valid: true},
 	}
 
-	wayCollection, err := cc.dbPGX.UpdateWayCollection(ctx, args)
+	wayCollection, err := cc.db.UpdateWayCollection(ctx, args)
 
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -135,7 +135,7 @@ func (cc *WayCollectionController) UpdateWayCollection(ctx *gin.Context) {
 func (cc *WayCollectionController) DeleteWayCollectionById(ctx *gin.Context) {
 	wayCollectionId := ctx.Param("wayCollectionId")
 
-	err := cc.dbPGX.DeleteWayCollection(ctx, pgtype.UUID{Bytes: uuid.MustParse(wayCollectionId), Valid: true})
+	err := cc.db.DeleteWayCollection(ctx, pgtype.UUID{Bytes: uuid.MustParse(wayCollectionId), Valid: true})
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfuly deleted"})

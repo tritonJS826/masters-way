@@ -8,7 +8,7 @@ package db
 import (
 	"context"
 
-	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 const createFormerMentorsWay = `-- name: CreateFormerMentorsWay :one
@@ -16,17 +16,18 @@ INSERT INTO former_mentors_ways(
     former_mentor_uuid,
     way_uuid
 ) VALUES (
-    $1, $2
+    $1,
+    $2
 ) RETURNING former_mentor_uuid, way_uuid
 `
 
 type CreateFormerMentorsWayParams struct {
-	FormerMentorUuid uuid.UUID `json:"former_mentor_uuid"`
-	WayUuid          uuid.UUID `json:"way_uuid"`
+	FormerMentorUuid pgtype.UUID `json:"former_mentor_uuid"`
+	WayUuid          pgtype.UUID `json:"way_uuid"`
 }
 
 func (q *Queries) CreateFormerMentorsWay(ctx context.Context, arg CreateFormerMentorsWayParams) (FormerMentorsWay, error) {
-	row := q.queryRow(ctx, q.createFormerMentorsWayStmt, createFormerMentorsWay, arg.FormerMentorUuid, arg.WayUuid)
+	row := q.db.QueryRow(ctx, createFormerMentorsWay, arg.FormerMentorUuid, arg.WayUuid)
 	var i FormerMentorsWay
 	err := row.Scan(&i.FormerMentorUuid, &i.WayUuid)
 	return i, err
@@ -34,23 +35,23 @@ func (q *Queries) CreateFormerMentorsWay(ctx context.Context, arg CreateFormerMe
 
 const deleteFormerMentorWayIfExist = `-- name: DeleteFormerMentorWayIfExist :exec
 DELETE FROM former_mentors_ways
-WHERE former_mentors_ways.former_mentor_uuid = $1 
+WHERE former_mentors_ways.former_mentor_uuid = $1
 AND former_mentors_ways.way_uuid = $2
 AND EXISTS (
     SELECT 1 FROM former_mentors_ways
-    WHERE former_mentor_uuid = $1 
+    WHERE former_mentor_uuid = $1
     AND way_uuid = $2
     LIMIT 1
 )
 `
 
 type DeleteFormerMentorWayIfExistParams struct {
-	FormerMentorUuid uuid.UUID `json:"former_mentor_uuid"`
-	WayUuid          uuid.UUID `json:"way_uuid"`
+	FormerMentorUuid pgtype.UUID `json:"former_mentor_uuid"`
+	WayUuid          pgtype.UUID `json:"way_uuid"`
 }
 
 func (q *Queries) DeleteFormerMentorWayIfExist(ctx context.Context, arg DeleteFormerMentorWayIfExistParams) error {
-	_, err := q.exec(ctx, q.deleteFormerMentorWayIfExistStmt, deleteFormerMentorWayIfExist, arg.FormerMentorUuid, arg.WayUuid)
+	_, err := q.db.Exec(ctx, deleteFormerMentorWayIfExist, arg.FormerMentorUuid, arg.WayUuid)
 	return err
 }
 
@@ -61,8 +62,8 @@ JOIN users ON users.uuid = former_mentors_ways.former_mentor_uuid
 WHERE ways.uuid = $1
 `
 
-func (q *Queries) GetFormerMentorUsersByWayId(ctx context.Context, wayUuid uuid.UUID) ([]User, error) {
-	rows, err := q.query(ctx, q.getFormerMentorUsersByWayIdStmt, getFormerMentorUsersByWayId, wayUuid)
+func (q *Queries) GetFormerMentorUsersByWayId(ctx context.Context, wayUuid pgtype.UUID) ([]User, error) {
+	rows, err := q.db.Query(ctx, getFormerMentorUsersByWayId, wayUuid)
 	if err != nil {
 		return nil, err
 	}
@@ -82,9 +83,6 @@ func (q *Queries) GetFormerMentorUsersByWayId(ctx context.Context, wayUuid uuid.
 			return nil, err
 		}
 		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
 	}
 	if err := rows.Err(); err != nil {
 		return nil, err
