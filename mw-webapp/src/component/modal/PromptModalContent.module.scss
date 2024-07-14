@@ -1,5 +1,17 @@
 @import "src/styles/variables";
 
 .buttons {
-  margin-top: $marginMedium;
+  justify-content: flex-end;
+  gap: $gapMedium;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: $gapBig;
+}
+
+.cancelButton {
+  border-color: var(--generalPrimaryColor);
+  color: var(--generalPrimaryColor);
 }

@@ -7,6 +7,7 @@ $modal-close-btn-top: 10px;
 $modal-close-btn-right: 10px;
 $modal-close-btn-size: 25px;
 $modal-animation-time: 150ms;
+$modal-max-width: 640px;
 
 .dialogOverlay {
   position: fixed;
@@ -22,9 +23,10 @@ $modal-animation-time: 150ms;
   top: 50%;
   left: 50%;
   overflow: auto;
-  max-width: 95vw;
+  width: 90%;
+  max-width: $modal-max-width;
   max-height: 90vh;
-  padding: 20px 45px;
+  padding: $paddingExtraBig;
   border: 2px solid var(--generalPrimaryColor);
   border-radius: $secondaryBorderRadius;
   animation: contentShow $modal-animation-time cubic-bezier(0.16, 1, 0.3, 1);

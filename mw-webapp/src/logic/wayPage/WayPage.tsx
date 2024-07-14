@@ -630,6 +630,7 @@ export const WayPage = observer((props: WayPageProps) => {
                   content={
                     <PromptModalContent
                       defaultValue=""
+                      title={LanguageService.way.wayInfo.addWayTagModalTitle[language]}
                       placeholder={LanguageService.way.wayInfo.addWayTagModal[language]}
                       close={() => setIsAddWayTagModalOpen(false)}
                       onOk={async (tagName: string) => {
@@ -644,7 +645,7 @@ export const WayPage = observer((props: WayPageProps) => {
                           way.addTag(wayTag);
                         }
                       }}
-                      okButtonValue={LanguageService.modals.promptModal.okButton[language]}
+                      okButtonValue={LanguageService.way.wayInfo.addWayTagModalButton[language]}
                       cancelButtonValue={LanguageService.modals.promptModal.cancelButton[language]}
                     />
                   }

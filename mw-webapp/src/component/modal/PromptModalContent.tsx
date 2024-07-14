@@ -5,6 +5,8 @@ import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalC
 import {Input, InputType} from "src/component/input/Input";
 import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/component/modal/PromptModalContent.module.scss";
+import { Title } from 'src/component/title/Title';
+import { HeadingLevel } from 'src/component/title/Title';
 
 /**
  * PromptModalContent props
@@ -42,6 +44,11 @@ interface PromptModalContentProps {
    */
   cancelButtonValue: string;
 
+  /**
+   * Title name
+   */
+  title?: string;
+
 }
 
 /**
@@ -66,7 +73,16 @@ export const PromptModalContent = (props: PromptModalContentProps) => {
   };
 
   return (
-    <div onKeyDown={handleEnter}>
+    <div onKeyDown={handleEnter} className={styles.container}>
+
+      {props.title &&
+        <Title
+          level={HeadingLevel.h2}
+          text={props.title}
+          placeholder=""
+        />
+      }
+
       <Input
         type="text"
         placeholder={props.placeholder}
@@ -80,6 +96,7 @@ export const PromptModalContent = (props: PromptModalContentProps) => {
           <Button
             value={props.cancelButtonValue}
             onClick={props.close}
+            className={styles.cancelButton}
           />
         </DialogClose>
 

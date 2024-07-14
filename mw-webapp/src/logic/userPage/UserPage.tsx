@@ -490,6 +490,7 @@ export const UserPage = observer((props: UserPageProps) => {
                   content={
                     <PromptModalContent
                       defaultValue=""
+                      title={LanguageService.user.personalInfo.addSkillModalTitle[language]}
                       placeholder={LanguageService.user.personalInfo.addSkillModal[language]}
                       close={() => setIsAddUserTagModalOpen(false)}
                       onOk={async (tagName: string) => {
@@ -505,7 +506,7 @@ export const UserPage = observer((props: UserPageProps) => {
                           userPageOwner.addTag(newTag);
                         }
                       }}
-                      okButtonValue={LanguageService.modals.promptModal.okButton[language]}
+                      okButtonValue={LanguageService.user.personalInfo.addSkillModalButton[language]}
                       cancelButtonValue={LanguageService.modals.promptModal.cancelButton[language]}
                     />
                   }

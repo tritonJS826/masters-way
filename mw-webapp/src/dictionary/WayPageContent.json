@@ -27,8 +27,18 @@
     },
     "addWayTagModal": {
       "ru": "Новый тег",
-      "en": "New way tag",
+      "en": "New tag",
       "ua": "Новий тег"
+    },
+    "addWayTagModalTitle": {
+      "ru": "Теги",
+      "en": "Tags",
+      "ua": "Теги"
+    },
+    "addWayTagModalButton": {
+      "ru": "Создать тег",
+      "en": "Create tag",
+      "ua": "Створити тег"
     },
     "favoriteAmountTooltip": {
       "ru": "Количество лайков",
