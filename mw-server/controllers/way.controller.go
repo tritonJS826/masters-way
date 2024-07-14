@@ -178,7 +178,6 @@ func (cc *WayController) UpdateWay(ctx *gin.Context) {
 func (cc *WayController) GetWayById(ctx *gin.Context) {
 	wayUuidRaw := ctx.Param("wayId")
 	wayUuid := uuid.MustParse(wayUuidRaw)
-	// wayPgUUID := pgtype.UUID{Bytes: uuid.MustParse(wayUUIDRaw), Valid: true}
 
 	args := services.GetPopulatedWayByIdParams{
 		WayUuid:              wayUuid,
