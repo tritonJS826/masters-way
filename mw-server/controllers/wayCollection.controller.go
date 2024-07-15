@@ -101,7 +101,7 @@ func (cc *WayCollectionController) UpdateWayCollection(ctx *gin.Context) {
 	}
 
 	now := time.Now()
-	// FIXME: If payload.Name is empty, we should not perform an update in the database
+	// TODO: If payload.Name is empty, we should not perform an update in the database
 	args := db.UpdateWayCollectionParams{
 		Uuid:      pgtype.UUID{Bytes: uuid.MustParse(wayCollectionId), Valid: true},
 		Name:      pgtype.Text{String: payload.Name, Valid: payload.Name != ""},
