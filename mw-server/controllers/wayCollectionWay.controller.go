@@ -10,6 +10,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 type WayCollectionWayController struct {
@@ -39,12 +40,12 @@ func (cc *WayCollectionWayController) CreateWayCollectionWay(ctx *gin.Context) {
 		return
 	}
 
-	args := &db.CreateWayCollectionsWaysParams{
-		WayCollectionUuid: uuid.MustParse(payload.WayCollectionUuid),
-		WayUuid:           uuid.MustParse(payload.WayUuid),
+	args := db.CreateWayCollectionsWaysParams{
+		WayCollectionUuid: pgtype.UUID{Bytes: uuid.MustParse(payload.WayCollectionUuid), Valid: true},
+		WayUuid:           pgtype.UUID{Bytes: uuid.MustParse(payload.WayUuid), Valid: true},
 	}
 
-	wayCollectionWay, err := cc.db.CreateWayCollectionsWays(ctx, *args)
+	wayCollectionWay, err := cc.db.CreateWayCollectionsWays(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, wayCollectionWay)
@@ -66,8 +67,8 @@ func (cc *WayCollectionWayController) DeleteWayCollectionWayById(ctx *gin.Contex
 	wayId := ctx.Param("wayId")
 
 	deleteArgs := db.DeleteWayCollectionsWaysByIdsParams{
-		WayCollectionUuid: uuid.MustParse(wayCollectionId),
-		WayUuid:           uuid.MustParse(wayId),
+		WayCollectionUuid: pgtype.UUID{Bytes: uuid.MustParse(wayCollectionId), Valid: true},
+		WayUuid:           pgtype.UUID{Bytes: uuid.MustParse(wayId), Valid: true},
 	}
 
 	err := cc.db.DeleteWayCollectionsWaysByIds(ctx, deleteArgs)

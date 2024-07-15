@@ -7,18 +7,18 @@ INSERT INTO plans_job_tags(
 ) RETURNING *;
 
 -- name: GetPlansByDayReportUuids :many
-SELECT 
+SELECT
     *,
     COALESCE(
         ARRAY(
-            SELECT plans_job_tags.job_tag_uuid 
-            FROM plans_job_tags 
+            SELECT plans_job_tags.job_tag_uuid
+            FROM plans_job_tags
             WHERE plans.uuid = plans_job_tags.plan_uuid
-    ), 
+    ),
     '{}'
     )::VARCHAR[] AS tag_uuids
-FROM plans WHERE plans.day_report_uuid = ANY($1::UUID[]);
+FROM plans WHERE plans.day_report_uuid = ANY(@day_report_uuids::UUID[]);
 
 -- name: DeletePlansJobTagByIds :exec
 DELETE FROM plans_job_tags
-WHERE plan_uuid = $1 AND job_tag_uuid = $2;
+WHERE plan_uuid = @plan_uuid AND job_tag_uuid = @job_tag_uuid;

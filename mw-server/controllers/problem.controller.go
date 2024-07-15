@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"context"
-	"database/sql"
 	"net/http"
 	"time"
 
@@ -12,6 +11,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/samber/lo"
 )
 
@@ -43,37 +43,36 @@ func (cc *ProblemController) CreateProblem(ctx *gin.Context) {
 	}
 
 	now := time.Now()
-	args := &db.CreateProblemParams{
-		CreatedAt:     now,
-		UpdatedAt:     now,
+	args := db.CreateProblemParams{
+		CreatedAt:     pgtype.Timestamp{Time: now, Valid: true},
+		UpdatedAt:     pgtype.Timestamp{Time: now, Valid: true},
 		Description:   payload.Description,
 		IsDone:        payload.IsDone,
-		OwnerUuid:     uuid.MustParse(payload.OwnerUuid),
-		DayReportUuid: uuid.MustParse(payload.DayReportUuid),
+		OwnerUuid:     pgtype.UUID{Bytes: uuid.MustParse(payload.OwnerUuid), Valid: true},
+		DayReportUuid: pgtype.UUID{Bytes: uuid.MustParse(payload.DayReportUuid), Valid: true},
 	}
 
-	problem, err := cc.db.CreateProblem(ctx, *args)
+	problem, err := cc.db.CreateProblem(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	tags := lo.Map(problem.TagUuids, func(tagUuidStringified string, i int) schemas.JobTagResponse {
-		tagUuid := uuid.MustParse(tagUuidStringified)
-		tag, _ := cc.db.GetJobTagByUuid(ctx, tagUuid)
+		tag, _ := cc.db.GetJobTagByUuid(ctx, pgtype.UUID{Bytes: uuid.MustParse(tagUuidStringified), Valid: true})
 		return schemas.JobTagResponse{
-			Uuid:        tag.Uuid.String(),
+			Uuid:        util.ConvertPgUUIDToUUID(tag.Uuid).String(),
 			Name:        tag.Name,
 			Description: tag.Description,
 			Color:       tag.Color,
 		}
 	})
 	response := schemas.ProblemPopulatedResponse{
-		Uuid:          problem.Uuid.String(),
-		CreatedAt:     problem.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-		UpdatedAt:     problem.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+		Uuid:          util.ConvertPgUUIDToUUID(problem.Uuid).String(),
+		CreatedAt:     problem.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+		UpdatedAt:     problem.UpdatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
 		Description:   problem.Description,
 		IsDone:        problem.IsDone,
-		OwnerUuid:     problem.OwnerUuid.String(),
+		OwnerUuid:     util.ConvertPgUUIDToUUID(problem.OwnerUuid).String(),
 		OwnerName:     problem.OwnerName,
-		DayReportUuid: problem.DayReportUuid.String(),
+		DayReportUuid: util.ConvertPgUUIDToUUID(problem.DayReportUuid).String(),
 		Tags:          tags,
 	}
 
@@ -101,23 +100,23 @@ func (cc *ProblemController) UpdateProblem(ctx *gin.Context) {
 	}
 
 	now := time.Now()
-	args := &db.UpdateProblemParams{
-		Uuid:        uuid.MustParse(problemId),
-		UpdatedAt:   sql.NullTime{Time: now, Valid: true},
-		IsDone:      sql.NullBool{Bool: payload.IsDone, Valid: true},
-		Description: sql.NullString{String: payload.Description, Valid: payload.Description != ""},
+	args := db.UpdateProblemParams{
+		Uuid:        pgtype.UUID{Bytes: uuid.MustParse(problemId), Valid: true},
+		UpdatedAt:   pgtype.Timestamp{Time: now, Valid: true},
+		IsDone:      pgtype.Bool{Bool: payload.IsDone, Valid: true},
+		Description: pgtype.Text{String: payload.Description, Valid: payload.Description != ""},
 	}
 
-	problem, err := cc.db.UpdateProblem(ctx, *args)
+	problem, err := cc.db.UpdateProblem(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
-	tagUuids := lo.Map(problem.TagUuids, func(stringifiedUuid string, i int) uuid.UUID {
-		return uuid.MustParse(stringifiedUuid)
+	tagUuids := lo.Map(problem.TagUuids, func(stringifiedUuid string, i int) pgtype.UUID {
+		return pgtype.UUID{Bytes: uuid.MustParse(stringifiedUuid), Valid: true}
 	})
 	dbTags, _ := cc.db.GetListLabelsByLabelUuids(ctx, tagUuids)
 	tags := lo.Map(dbTags, func(dbTag db.JobTag, i int) schemas.JobTagResponse {
 		return schemas.JobTagResponse{
-			Uuid:        dbTag.Uuid.String(),
+			Uuid:        util.ConvertPgUUIDToUUID(dbTag.Uuid).String(),
 			Name:        dbTag.Name,
 			Description: dbTag.Description,
 			Color:       dbTag.Color,
@@ -125,14 +124,14 @@ func (cc *ProblemController) UpdateProblem(ctx *gin.Context) {
 	})
 
 	response := schemas.ProblemPopulatedResponse{
-		Uuid:          problem.Uuid.String(),
-		CreatedAt:     problem.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-		UpdatedAt:     problem.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+		Uuid:          util.ConvertPgUUIDToUUID(problem.Uuid).String(),
+		CreatedAt:     problem.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+		UpdatedAt:     problem.UpdatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
 		Description:   problem.Description,
 		IsDone:        problem.IsDone,
-		OwnerUuid:     problem.OwnerUuid.String(),
+		OwnerUuid:     util.ConvertPgUUIDToUUID(problem.OwnerUuid).String(),
 		OwnerName:     problem.OwnerName,
-		DayReportUuid: problem.DayReportUuid.String(),
+		DayReportUuid: util.ConvertPgUUIDToUUID(problem.DayReportUuid).String(),
 		Tags:          tags,
 	}
 
@@ -152,7 +151,7 @@ func (cc *ProblemController) UpdateProblem(ctx *gin.Context) {
 func (cc *ProblemController) DeleteProblemById(ctx *gin.Context) {
 	problemId := ctx.Param("problemId")
 
-	err := cc.db.DeleteProblem(ctx, uuid.MustParse(problemId))
+	err := cc.db.DeleteProblem(ctx, pgtype.UUID{Bytes: uuid.MustParse(problemId), Valid: true})
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})

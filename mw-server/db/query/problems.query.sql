@@ -7,27 +7,28 @@ INSERT INTO problems(
     owner_uuid,
     day_report_uuid
 ) VALUES (
-    $1, $2, $3, $4, $5, $6
+    @created_at,
+    @updated_at,
+    @description,
+    @is_done,
+    @owner_uuid,
+    @day_report_uuid
 ) RETURNING *,
-    (SELECT name FROM users WHERE uuid = $5) AS owner_name,
+    (SELECT name FROM users WHERE uuid = @owner_uuid) AS owner_name,
     -- get tag uuids
     COALESCE(
         ARRAY(
-            SELECT problems_job_tags.job_tag_uuid 
-            FROM problems_job_tags 
+            SELECT problems_job_tags.job_tag_uuid
+            FROM problems_job_tags
             WHERE problems.uuid = problems_job_tags.problem_uuid
         ),
         '{}'
     )::VARCHAR[] AS tag_uuids;
 
-    
-
-
 -- name: GetListProblemsByDayReportId :many
 SELECT * FROM problems
-WHERE problems.day_report_uuid = $1
+WHERE problems.day_report_uuid = @day_report_uuid
 ORDER BY created_at;
-
 
 -- name: UpdateProblem :one
 UPDATE problems
@@ -41,8 +42,8 @@ RETURNING *,
     -- get tag uuids
     COALESCE(
         ARRAY(
-            SELECT problems_job_tags.job_tag_uuid 
-            FROM problems_job_tags 
+            SELECT problems_job_tags.job_tag_uuid
+            FROM problems_job_tags
             WHERE problems.uuid = problems_job_tags.problem_uuid
         ),
         '{}'
@@ -50,4 +51,4 @@ RETURNING *,
 
 -- name: DeleteProblem :exec
 DELETE FROM problems
-WHERE uuid = $1;
+WHERE uuid = @problem_uuid;

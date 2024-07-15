@@ -10,6 +10,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 type FavoriteUserController struct {
@@ -39,12 +40,12 @@ func (cc *FavoriteUserController) CreateFavoriteUser(ctx *gin.Context) {
 		return
 	}
 
-	args := &db.CreateFavoriteUserParams{
-		DonorUserUuid:    payload.DonorUserUuid,
-		AcceptorUserUuid: payload.AcceptorUserUuid,
+	args := db.CreateFavoriteUserParams{
+		DonorUserUuid:    pgtype.UUID{Bytes: payload.DonorUserUuid, Valid: true},
+		AcceptorUserUuid: pgtype.UUID{Bytes: payload.AcceptorUserUuid, Valid: true},
 	}
 
-	favoriteUser, err := cc.db.CreateFavoriteUser(ctx, *args)
+	favoriteUser, err := cc.db.CreateFavoriteUser(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, favoriteUser)
@@ -66,8 +67,8 @@ func (cc *FavoriteUserController) DeleteFavoriteUserById(ctx *gin.Context) {
 	acceptorUserUuid := ctx.Param("acceptorUserUuid")
 
 	args := db.DeleteFavoriteUserByIdsParams{
-		DonorUserUuid:    uuid.MustParse(donorUserUuid),
-		AcceptorUserUuid: uuid.MustParse(acceptorUserUuid),
+		DonorUserUuid:    pgtype.UUID{Bytes: uuid.MustParse(donorUserUuid), Valid: true},
+		AcceptorUserUuid: pgtype.UUID{Bytes: uuid.MustParse(acceptorUserUuid), Valid: true},
 	}
 
 	err := cc.db.DeleteFavoriteUserByIds(ctx, args)

@@ -3,9 +3,10 @@ INSERT INTO composite_ways(
     child_uuid,
     parent_uuid
 ) VALUES (
-    $1, $2
+    @child_uuid,
+    @parent_uuid
 ) RETURNING *;
 
 -- name: DeleteWayFromCompositeWay :exec
 DELETE FROM composite_ways
-WHERE composite_ways.child_uuid = $1 AND composite_ways.parent_uuid = $2;
+WHERE composite_ways.child_uuid = @child_uuid  AND composite_ways.parent_uuid = @parent_uuid ;

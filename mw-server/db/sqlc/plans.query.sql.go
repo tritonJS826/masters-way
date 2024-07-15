@@ -7,11 +7,8 @@ package db
 
 import (
 	"context"
-	"database/sql"
-	"time"
 
-	"github.com/google/uuid"
-	"github.com/lib/pq"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 const createPlan = `-- name: CreatePlan :one
@@ -24,45 +21,51 @@ INSERT INTO plans(
     is_done,
     day_report_uuid
 ) VALUES (
-    $1, $2, $3, $4, $5, $6, $7
+    $1,
+    $2,
+    $3,
+    $4,
+    $5,
+    $6,
+    $7
 ) RETURNING uuid, created_at, updated_at, description, time, owner_uuid, is_done, day_report_uuid,
     (SELECT name FROM users WHERE uuid = $5) AS owner_name,
     -- get tag uuids
     COALESCE(
         ARRAY(
-            SELECT plans_job_tags.job_tag_uuid 
-            FROM plans_job_tags 
+            SELECT plans_job_tags.job_tag_uuid
+            FROM plans_job_tags
             WHERE plans.uuid = plans_job_tags.plan_uuid
-        ), 
+        ),
         '{}'
     )::VARCHAR[] AS tag_uuids
 `
 
 type CreatePlanParams struct {
-	CreatedAt     time.Time `json:"created_at"`
-	UpdatedAt     time.Time `json:"updated_at"`
-	Description   string    `json:"description"`
-	Time          int32     `json:"time"`
-	OwnerUuid     uuid.UUID `json:"owner_uuid"`
-	IsDone        bool      `json:"is_done"`
-	DayReportUuid uuid.UUID `json:"day_report_uuid"`
+	CreatedAt     pgtype.Timestamp `json:"created_at"`
+	UpdatedAt     pgtype.Timestamp `json:"updated_at"`
+	Description   string           `json:"description"`
+	Time          int32            `json:"time"`
+	OwnerUuid     pgtype.UUID      `json:"owner_uuid"`
+	IsDone        bool             `json:"is_done"`
+	DayReportUuid pgtype.UUID      `json:"day_report_uuid"`
 }
 
 type CreatePlanRow struct {
-	Uuid          uuid.UUID `json:"uuid"`
-	CreatedAt     time.Time `json:"created_at"`
-	UpdatedAt     time.Time `json:"updated_at"`
-	Description   string    `json:"description"`
-	Time          int32     `json:"time"`
-	OwnerUuid     uuid.UUID `json:"owner_uuid"`
-	IsDone        bool      `json:"is_done"`
-	DayReportUuid uuid.UUID `json:"day_report_uuid"`
-	OwnerName     string    `json:"owner_name"`
-	TagUuids      []string  `json:"tag_uuids"`
+	Uuid          pgtype.UUID      `json:"uuid"`
+	CreatedAt     pgtype.Timestamp `json:"created_at"`
+	UpdatedAt     pgtype.Timestamp `json:"updated_at"`
+	Description   string           `json:"description"`
+	Time          int32            `json:"time"`
+	OwnerUuid     pgtype.UUID      `json:"owner_uuid"`
+	IsDone        bool             `json:"is_done"`
+	DayReportUuid pgtype.UUID      `json:"day_report_uuid"`
+	OwnerName     string           `json:"owner_name"`
+	TagUuids      []string         `json:"tag_uuids"`
 }
 
 func (q *Queries) CreatePlan(ctx context.Context, arg CreatePlanParams) (CreatePlanRow, error) {
-	row := q.queryRow(ctx, q.createPlanStmt, createPlan,
+	row := q.db.QueryRow(ctx, createPlan,
 		arg.CreatedAt,
 		arg.UpdatedAt,
 		arg.Description,
@@ -82,7 +85,7 @@ func (q *Queries) CreatePlan(ctx context.Context, arg CreatePlanParams) (CreateP
 		&i.IsDone,
 		&i.DayReportUuid,
 		&i.OwnerName,
-		pq.Array(&i.TagUuids),
+		&i.TagUuids,
 	)
 	return i, err
 }
@@ -92,8 +95,8 @@ DELETE FROM plans
 WHERE uuid = $1
 `
 
-func (q *Queries) DeletePlan(ctx context.Context, argUuid uuid.UUID) error {
-	_, err := q.exec(ctx, q.deletePlanStmt, deletePlan, argUuid)
+func (q *Queries) DeletePlan(ctx context.Context, planUuid pgtype.UUID) error {
+	_, err := q.db.Exec(ctx, deletePlan, planUuid)
 	return err
 }
 
@@ -103,8 +106,8 @@ WHERE plans.day_report_uuid = $1
 ORDER BY created_at
 `
 
-func (q *Queries) GetListPlansByDayReportId(ctx context.Context, dayReportUuid uuid.UUID) ([]Plan, error) {
-	rows, err := q.query(ctx, q.getListPlansByDayReportIdStmt, getListPlansByDayReportId, dayReportUuid)
+func (q *Queries) GetListPlansByDayReportId(ctx context.Context, dayReportUuid pgtype.UUID) ([]Plan, error) {
+	rows, err := q.db.Query(ctx, getListPlansByDayReportId, dayReportUuid)
 	if err != nil {
 		return nil, err
 	}
@@ -126,9 +129,6 @@ func (q *Queries) GetListPlansByDayReportId(ctx context.Context, dayReportUuid u
 		}
 		items = append(items, i)
 	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
 	if err := rows.Err(); err != nil {
 		return nil, err
 	}
@@ -148,37 +148,37 @@ RETURNING uuid, created_at, updated_at, description, time, owner_uuid, is_done, 
     -- get tag uuids
     COALESCE(
         ARRAY(
-            SELECT plans_job_tags.job_tag_uuid 
-            FROM plans_job_tags 
+            SELECT plans_job_tags.job_tag_uuid
+            FROM plans_job_tags
             WHERE plans.uuid = plans_job_tags.plan_uuid
-        ), 
+        ),
         '{}'
     )::VARCHAR[] AS tag_uuids
 `
 
 type UpdatePlanParams struct {
-	UpdatedAt   sql.NullTime   `json:"updated_at"`
-	Description sql.NullString `json:"description"`
-	Time        sql.NullInt32  `json:"time"`
-	IsDone      sql.NullBool   `json:"is_done"`
-	Uuid        uuid.UUID      `json:"uuid"`
+	UpdatedAt   pgtype.Timestamp `json:"updated_at"`
+	Description pgtype.Text      `json:"description"`
+	Time        pgtype.Int4      `json:"time"`
+	IsDone      pgtype.Bool      `json:"is_done"`
+	Uuid        pgtype.UUID      `json:"uuid"`
 }
 
 type UpdatePlanRow struct {
-	Uuid          uuid.UUID `json:"uuid"`
-	CreatedAt     time.Time `json:"created_at"`
-	UpdatedAt     time.Time `json:"updated_at"`
-	Description   string    `json:"description"`
-	Time          int32     `json:"time"`
-	OwnerUuid     uuid.UUID `json:"owner_uuid"`
-	IsDone        bool      `json:"is_done"`
-	DayReportUuid uuid.UUID `json:"day_report_uuid"`
-	OwnerName     string    `json:"owner_name"`
-	TagUuids      []string  `json:"tag_uuids"`
+	Uuid          pgtype.UUID      `json:"uuid"`
+	CreatedAt     pgtype.Timestamp `json:"created_at"`
+	UpdatedAt     pgtype.Timestamp `json:"updated_at"`
+	Description   string           `json:"description"`
+	Time          int32            `json:"time"`
+	OwnerUuid     pgtype.UUID      `json:"owner_uuid"`
+	IsDone        bool             `json:"is_done"`
+	DayReportUuid pgtype.UUID      `json:"day_report_uuid"`
+	OwnerName     string           `json:"owner_name"`
+	TagUuids      []string         `json:"tag_uuids"`
 }
 
 func (q *Queries) UpdatePlan(ctx context.Context, arg UpdatePlanParams) (UpdatePlanRow, error) {
-	row := q.queryRow(ctx, q.updatePlanStmt, updatePlan,
+	row := q.db.QueryRow(ctx, updatePlan,
 		arg.UpdatedAt,
 		arg.Description,
 		arg.Time,
@@ -196,7 +196,7 @@ func (q *Queries) UpdatePlan(ctx context.Context, arg UpdatePlanParams) (UpdateP
 		&i.IsDone,
 		&i.DayReportUuid,
 		&i.OwnerName,
-		pq.Array(&i.TagUuids),
+		&i.TagUuids,
 	)
 	return i, err
 }

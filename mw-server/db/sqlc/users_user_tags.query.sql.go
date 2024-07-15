@@ -8,7 +8,7 @@ package db
 import (
 	"context"
 
-	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 const createUsersUserTag = `-- name: CreateUsersUserTag :one
@@ -21,12 +21,12 @@ INSERT INTO users_user_tags(
 `
 
 type CreateUsersUserTagParams struct {
-	UserUuid    uuid.UUID `json:"user_uuid"`
-	UserTagUuid uuid.UUID `json:"user_tag_uuid"`
+	UserUuid    pgtype.UUID `json:"user_uuid"`
+	UserTagUuid pgtype.UUID `json:"user_tag_uuid"`
 }
 
 func (q *Queries) CreateUsersUserTag(ctx context.Context, arg CreateUsersUserTagParams) (UsersUserTag, error) {
-	row := q.queryRow(ctx, q.createUsersUserTagStmt, createUsersUserTag, arg.UserUuid, arg.UserTagUuid)
+	row := q.db.QueryRow(ctx, createUsersUserTag, arg.UserUuid, arg.UserTagUuid)
 	var i UsersUserTag
 	err := row.Scan(&i.UserUuid, &i.UserTagUuid)
 	return i, err
@@ -38,12 +38,12 @@ WHERE users_user_tags.user_uuid = $1 AND users_user_tags.user_tag_uuid = $2
 `
 
 type DeleteUserTagFromUserParams struct {
-	UserUuid    uuid.UUID `json:"user_uuid"`
-	UserTagUuid uuid.UUID `json:"user_tag_uuid"`
+	UserUuid    pgtype.UUID `json:"user_uuid"`
+	UserTagUuid pgtype.UUID `json:"user_tag_uuid"`
 }
 
 func (q *Queries) DeleteUserTagFromUser(ctx context.Context, arg DeleteUserTagFromUserParams) error {
-	_, err := q.exec(ctx, q.deleteUserTagFromUserStmt, deleteUserTagFromUser, arg.UserUuid, arg.UserTagUuid)
+	_, err := q.db.Exec(ctx, deleteUserTagFromUser, arg.UserUuid, arg.UserTagUuid)
 	return err
 }
 
@@ -53,8 +53,8 @@ FROM users_user_tags
 WHERE user_uuid = $1
 `
 
-func (q *Queries) GetTagsCountByUserId(ctx context.Context, userUuid uuid.UUID) (int64, error) {
-	row := q.queryRow(ctx, q.getTagsCountByUserIdStmt, getTagsCountByUserId, userUuid)
+func (q *Queries) GetTagsCountByUserId(ctx context.Context, userUuid pgtype.UUID) (int64, error) {
+	row := q.db.QueryRow(ctx, getTagsCountByUserId, userUuid)
 	var tags_count int64
 	err := row.Scan(&tags_count)
 	return tags_count, err

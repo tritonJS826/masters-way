@@ -2,12 +2,10 @@ package controllers
 
 import (
 	"context"
-	"database/sql"
 	"net/http"
 	"time"
 
 	db "mwserver/db/sqlc"
-	dbPGX "mwserver/db_pgx/sqlc"
 	"mwserver/schemas"
 	"mwserver/util"
 
@@ -18,13 +16,12 @@ import (
 )
 
 type JobDoneController struct {
-	db    *db.Queries
-	dbPGX *dbPGX.Queries
-	ctx   context.Context
+	db  *db.Queries
+	ctx context.Context
 }
 
-func NewJobDoneController(db *db.Queries, dbPGX *dbPGX.Queries, ctx context.Context) *JobDoneController {
-	return &JobDoneController{db, dbPGX, ctx}
+func NewJobDoneController(db *db.Queries, ctx context.Context) *JobDoneController {
+	return &JobDoneController{db, ctx}
 }
 
 // Create JobDone  handler
@@ -46,7 +43,7 @@ func (cc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 	}
 
 	now := time.Now()
-	args := &dbPGX.CreateJobDoneParams{
+	args := &db.CreateJobDoneParams{
 		Description:   payload.Description,
 		OwnerUuid:     pgtype.UUID{Bytes: uuid.MustParse(payload.OwnerUuid), Valid: true},
 		DayReportUuid: pgtype.UUID{Bytes: uuid.MustParse(payload.DayReportUuid), Valid: true},
@@ -55,20 +52,20 @@ func (cc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 		Time:          int32(payload.Time),
 	}
 
-	jobDone, err := cc.dbPGX.CreateJobDone(ctx, *args)
+	jobDone, err := cc.db.CreateJobDone(ctx, *args)
 	util.HandleErrorGin(ctx, err)
 
 	tags := lo.Map(payload.JobTagUuids, func(tagUuidStringified string, i int) schemas.JobTagResponse {
 		tagUuid := uuid.MustParse(tagUuidStringified)
 		tagPgUuid := pgtype.UUID{Bytes: tagUuid, Valid: true}
-		argsTag := &dbPGX.CreateJobDonesJobTagParams{
+		argsTag := &db.CreateJobDonesJobTagParams{
 			JobDoneUuid: jobDone.Uuid,
 			JobTagUuid:  tagPgUuid,
 		}
-		_, err := cc.dbPGX.CreateJobDonesJobTag(ctx, *argsTag)
+		_, err := cc.db.CreateJobDonesJobTag(ctx, *argsTag)
 		util.HandleErrorGin(ctx, err)
 
-		tag, err := cc.dbPGX.GetJobTagByUuid(ctx, tagPgUuid)
+		tag, err := cc.db.GetJobTagByUuid(ctx, tagPgUuid)
 		util.HandleErrorGin(ctx, err)
 		return schemas.JobTagResponse{
 			Uuid:        tagUuid.String(),
@@ -113,37 +110,37 @@ func (cc *JobDoneController) UpdateJobDone(ctx *gin.Context) {
 	}
 
 	now := time.Now()
-	args := &db.UpdateJobDoneParams{
-		Uuid:        uuid.MustParse(jobDoneId),
-		Description: sql.NullString{String: payload.Description, Valid: payload.Description != ""},
-		UpdatedAt:   sql.NullTime{Time: now, Valid: true},
-		Time:        sql.NullInt32{Int32: int32(payload.Time), Valid: payload.Time != 0},
+	args := db.UpdateJobDoneParams{
+		Uuid:        pgtype.UUID{Bytes: uuid.MustParse(jobDoneId), Valid: true},
+		Description: pgtype.Text{String: payload.Description, Valid: payload.Description != ""},
+		UpdatedAt:   pgtype.Timestamp{Time: now, Valid: true},
+		Time:        pgtype.Int4{Int32: int32(payload.Time), Valid: payload.Time != 0},
 	}
 
-	jobDone, err := cc.db.UpdateJobDone(ctx, *args)
+	jobDone, err := cc.db.UpdateJobDone(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
-	tagUuids := lo.Map(jobDone.TagUuids, func(stringifiedUuid string, i int) uuid.UUID {
-		return uuid.MustParse(stringifiedUuid)
+	tagUuids := lo.Map(jobDone.TagUuids, func(stringifiedUuid string, i int) pgtype.UUID {
+		return pgtype.UUID{Bytes: uuid.MustParse(stringifiedUuid), Valid: true}
 	})
 	dbTags, _ := cc.db.GetListLabelsByLabelUuids(ctx, tagUuids)
 	tags := lo.Map(dbTags, func(dbTag db.JobTag, i int) schemas.JobTagResponse {
 		return schemas.JobTagResponse{
-			Uuid:        dbTag.Uuid.String(),
+			Uuid:        util.ConvertPgUUIDToUUID(dbTag.Uuid).String(),
 			Name:        dbTag.Name,
 			Description: dbTag.Description,
 			Color:       dbTag.Color,
 		}
 	})
 	response := schemas.JobDonePopulatedResponse{
-		Uuid:          jobDone.Uuid.String(),
-		CreatedAt:     jobDone.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-		UpdatedAt:     jobDone.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+		Uuid:          util.ConvertPgUUIDToUUID(jobDone.Uuid).String(),
+		CreatedAt:     jobDone.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+		UpdatedAt:     jobDone.UpdatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
 		Description:   jobDone.Description,
 		Time:          jobDone.Time,
-		OwnerUuid:     jobDone.OwnerUuid.String(),
+		OwnerUuid:     util.ConvertPgUUIDToUUID(jobDone.OwnerUuid).String(),
 		OwnerName:     jobDone.OwnerName,
-		DayReportUuid: jobDone.DayReportUuid.String(),
+		DayReportUuid: util.ConvertPgUUIDToUUID(jobDone.DayReportUuid).String(),
 		Tags:          tags,
 	}
 
@@ -163,7 +160,7 @@ func (cc *JobDoneController) UpdateJobDone(ctx *gin.Context) {
 func (cc *JobDoneController) DeleteJobDoneById(ctx *gin.Context) {
 	jobDoneId := ctx.Param("jobDoneId")
 
-	err := cc.db.DeleteJobDone(ctx, uuid.MustParse(jobDoneId))
+	err := cc.db.DeleteJobDone(ctx, pgtype.UUID{Bytes: uuid.MustParse(jobDoneId), Valid: true})
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})

@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"context"
-	"database/sql"
 	"net/http"
 	"time"
 
@@ -12,6 +11,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/samber/lo"
 )
 
@@ -43,29 +43,29 @@ func (cc *PlanController) CreatePlan(ctx *gin.Context) {
 	}
 
 	now := time.Now()
-	args := &db.CreatePlanParams{
+	args := db.CreatePlanParams{
 		Description:   payload.Description,
 		Time:          int32(payload.Time),
-		OwnerUuid:     uuid.MustParse(payload.OwnerUuid),
+		OwnerUuid:     pgtype.UUID{Bytes: uuid.MustParse(payload.OwnerUuid), Valid: true},
 		IsDone:        payload.IsDone,
-		DayReportUuid: uuid.MustParse(payload.DayReportUuid),
-		CreatedAt:     now,
-		UpdatedAt:     now,
+		DayReportUuid: pgtype.UUID{Bytes: uuid.MustParse(payload.DayReportUuid), Valid: true},
+		CreatedAt:     pgtype.Timestamp{Time: now, Valid: true},
+		UpdatedAt:     pgtype.Timestamp{Time: now, Valid: true},
 	}
 
-	plan, err := cc.db.CreatePlan(ctx, *args)
+	plan, err := cc.db.CreatePlan(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	response := schemas.PlanPopulatedResponse{
-		Uuid:          plan.Uuid.String(),
-		CreatedAt:     plan.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-		UpdatedAt:     plan.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+		Uuid:          util.ConvertPgUUIDToUUID(plan.Uuid).String(),
+		CreatedAt:     plan.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+		UpdatedAt:     plan.UpdatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
 		Description:   plan.Description,
 		Time:          plan.Time,
-		OwnerUuid:     plan.OwnerUuid.String(),
+		OwnerUuid:     util.ConvertPgUUIDToUUID(plan.OwnerUuid).String(),
 		OwnerName:     plan.OwnerName,
 		IsDone:        plan.IsDone,
-		DayReportUuid: plan.DayReportUuid.String(),
+		DayReportUuid: util.ConvertPgUUIDToUUID(plan.DayReportUuid).String(),
 		Tags:          make([]schemas.JobTagResponse, 0),
 	}
 
@@ -93,26 +93,26 @@ func (cc *PlanController) UpdatePlan(ctx *gin.Context) {
 	}
 
 	now := time.Now()
-	args := &db.UpdatePlanParams{
-		Uuid:        uuid.MustParse(PlanId),
-		UpdatedAt:   sql.NullTime{Time: now, Valid: true},
-		Description: sql.NullString{String: payload.Description, Valid: payload.Description != ""},
-		Time:        sql.NullInt32{Int32: int32(payload.Time), Valid: payload.Time != 0},
-		IsDone:      sql.NullBool{Bool: payload.IsDone, Valid: true},
+	args := db.UpdatePlanParams{
+		Uuid:        pgtype.UUID{Bytes: uuid.MustParse(PlanId), Valid: true},
+		UpdatedAt:   pgtype.Timestamp{Time: now, Valid: true},
+		Description: pgtype.Text{String: payload.Description, Valid: payload.Description != ""},
+		Time:        pgtype.Int4{Int32: int32(payload.Time), Valid: payload.Time != 0},
+		IsDone:      pgtype.Bool{Bool: payload.IsDone, Valid: true},
 	}
 
-	plan, err := cc.db.UpdatePlan(ctx, *args)
+	plan, err := cc.db.UpdatePlan(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
-	tagUuids := lo.Map(plan.TagUuids, func(stringifiedUuid string, i int) uuid.UUID {
-		return uuid.MustParse(stringifiedUuid)
+	tagUuids := lo.Map(plan.TagUuids, func(stringifiedUuid string, i int) pgtype.UUID {
+		return pgtype.UUID{Bytes: uuid.MustParse(stringifiedUuid), Valid: true}
 	})
 
 	dbTags, err := cc.db.GetListLabelsByLabelUuids(ctx, tagUuids)
 	util.HandleErrorGin(ctx, err)
 	tags := lo.Map(dbTags, func(dbTag db.JobTag, i int) schemas.JobTagResponse {
 		return schemas.JobTagResponse{
-			Uuid:        dbTag.Uuid.String(),
+			Uuid:        util.ConvertPgUUIDToUUID(dbTag.Uuid).String(),
 			Name:        dbTag.Name,
 			Description: dbTag.Description,
 			Color:       dbTag.Color,
@@ -120,15 +120,15 @@ func (cc *PlanController) UpdatePlan(ctx *gin.Context) {
 	})
 
 	response := schemas.PlanPopulatedResponse{
-		Uuid:          plan.Uuid.String(),
-		CreatedAt:     plan.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-		UpdatedAt:     plan.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+		Uuid:          util.ConvertPgUUIDToUUID(plan.Uuid).String(),
+		CreatedAt:     plan.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+		UpdatedAt:     plan.UpdatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
 		Description:   plan.Description,
 		Time:          plan.Time,
-		OwnerUuid:     plan.OwnerUuid.String(),
+		OwnerUuid:     util.ConvertPgUUIDToUUID(plan.OwnerUuid).String(),
 		OwnerName:     plan.OwnerName,
 		IsDone:        plan.IsDone,
-		DayReportUuid: plan.DayReportUuid.String(),
+		DayReportUuid: util.ConvertPgUUIDToUUID(plan.DayReportUuid).String(),
 		Tags:          tags,
 	}
 
@@ -148,7 +148,7 @@ func (cc *PlanController) UpdatePlan(ctx *gin.Context) {
 func (cc *PlanController) DeletePlanById(ctx *gin.Context) {
 	planId := ctx.Param("planId")
 
-	err := cc.db.DeletePlan(ctx, uuid.MustParse(planId))
+	err := cc.db.DeletePlan(ctx, pgtype.UUID{Bytes: uuid.MustParse(planId), Valid: true})
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})

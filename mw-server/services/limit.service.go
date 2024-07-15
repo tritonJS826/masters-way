@@ -6,6 +6,7 @@ import (
 	db "mwserver/db/sqlc"
 
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 type LimitNameType string
@@ -79,17 +80,17 @@ func (ls *LimitService) CheckIsLimitReachedByPricingPlan(lrp *LimitReachedParams
 
 	switch lrp.LimitName {
 	case MaxOwnWays:
-		count, err = ls.db.GetOwnWaysCountByUserId(ls.ctx, lrp.UserID)
+		count, err = ls.db.GetOwnWaysCountByUserId(ls.ctx, pgtype.UUID{Bytes: lrp.UserID, Valid: true})
 	case MaxPrivateWays:
-		count, err = ls.db.GetPrivateWaysCountByUserId(ls.ctx, lrp.UserID)
+		count, err = ls.db.GetPrivateWaysCountByUserId(ls.ctx, pgtype.UUID{Bytes: lrp.UserID, Valid: true})
 	case MaxMentoringsWays:
-		count, err = ls.db.GetMentoringWaysCountByUserId(ls.ctx, lrp.UserID)
+		count, err = ls.db.GetMentoringWaysCountByUserId(ls.ctx, pgtype.UUID{Bytes: lrp.UserID, Valid: true})
 	case MaxUserTags:
-		count, err = ls.db.GetTagsCountByUserId(ls.ctx, lrp.UserID)
+		count, err = ls.db.GetTagsCountByUserId(ls.ctx, pgtype.UUID{Bytes: lrp.UserID, Valid: true})
 	case MaxCustomCollections:
-		count, err = ls.db.GetWayCollectionsCountByUserId(ls.ctx, lrp.UserID)
+		count, err = ls.db.GetWayCollectionsCountByUserId(ls.ctx, pgtype.UUID{Bytes: lrp.UserID, Valid: true})
 	case MaxDayReports:
-		count, err = ls.db.GetDayReportsCountByWayId(ls.ctx, *lrp.WayID)
+		count, err = ls.db.GetDayReportsCountByWayId(ls.ctx, pgtype.UUID{Bytes: *lrp.WayID, Valid: true})
 	default:
 		return fmt.Errorf("invalid limit name: %s", lrp.LimitName)
 	}
@@ -97,7 +98,7 @@ func (ls *LimitService) CheckIsLimitReachedByPricingPlan(lrp *LimitReachedParams
 		return fmt.Errorf("failed to get count for %s: %w", lrp.LimitName, err)
 	}
 
-	userPricingPlan, err := ls.db.GetPricingPlanByUserId(ls.ctx, lrp.UserID)
+	userPricingPlan, err := ls.db.GetPricingPlanByUserId(ls.ctx, pgtype.UUID{Bytes: lrp.UserID, Valid: true})
 	if err != nil {
 		return fmt.Errorf("failed to get pricing plan for userID: %w", err)
 	}

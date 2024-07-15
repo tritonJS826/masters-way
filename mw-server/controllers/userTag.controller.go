@@ -11,6 +11,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 type UserTagController struct {
@@ -55,15 +56,15 @@ func (cc *UserTagController) AddUserTagByName(ctx *gin.Context) {
 		userTag = newUserTag
 	}
 
-	args := &db.CreateUsersUserTagParams{
+	args := db.CreateUsersUserTagParams{
 		UserTagUuid: userTag.Uuid,
-		UserUuid:    uuid.MustParse(payload.OwnerUuid),
+		UserUuid:    pgtype.UUID{Bytes: uuid.MustParse(payload.OwnerUuid), Valid: true},
 	}
-	_, err = cc.db.CreateUsersUserTag(ctx, *args)
+	_, err = cc.db.CreateUsersUserTag(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	response := schemas.UserTagResponse{
-		Uuid: userTag.Uuid.String(),
+		Uuid: util.ConvertPgUUIDToUUID(userTag.Uuid).String(),
 		Name: userTag.Name,
 	}
 
@@ -86,8 +87,8 @@ func (cc *UserTagController) DeleteUserTagByFromUserByTag(ctx *gin.Context) {
 	userId := ctx.Param("userId")
 
 	args := db.DeleteUserTagFromUserParams{
-		UserUuid:    uuid.MustParse(userId),
-		UserTagUuid: uuid.MustParse(userTagId),
+		UserUuid:    pgtype.UUID{Bytes: uuid.MustParse(userId), Valid: true},
+		UserTagUuid: pgtype.UUID{Bytes: uuid.MustParse(userTagId), Valid: true},
 	}
 
 	err := cc.db.DeleteUserTagFromUser(ctx, args)

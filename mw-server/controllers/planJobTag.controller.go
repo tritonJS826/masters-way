@@ -10,6 +10,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 type PlanJobTagController struct {
@@ -39,12 +40,12 @@ func (cc *PlanJobTagController) CreatePlanJobTag(ctx *gin.Context) {
 		return
 	}
 
-	args := &db.CreatePlansJobTagParams{
-		PlanUuid:   uuid.MustParse(payload.PlanUuid),
-		JobTagUuid: uuid.MustParse(payload.JobTagUuid),
+	args := db.CreatePlansJobTagParams{
+		PlanUuid:   pgtype.UUID{Bytes: uuid.MustParse(payload.PlanUuid), Valid: true},
+		JobTagUuid: pgtype.UUID{Bytes: uuid.MustParse(payload.JobTagUuid), Valid: true},
 	}
 
-	planJobTag, err := cc.db.CreatePlansJobTag(ctx, *args)
+	planJobTag, err := cc.db.CreatePlansJobTag(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, planJobTag)
@@ -65,11 +66,11 @@ func (cc *PlanJobTagController) DeletePlanJobTagById(ctx *gin.Context) {
 	jobTagId := ctx.Param("jobTagId")
 	planId := ctx.Param("planId")
 
-	args := &db.DeletePlansJobTagByIdsParams{
-		PlanUuid:   uuid.MustParse(planId),
-		JobTagUuid: uuid.MustParse(jobTagId),
+	args := db.DeletePlansJobTagByIdsParams{
+		PlanUuid:   pgtype.UUID{Bytes: uuid.MustParse(planId), Valid: true},
+		JobTagUuid: pgtype.UUID{Bytes: uuid.MustParse(jobTagId), Valid: true},
 	}
-	err := cc.db.DeletePlansJobTagByIds(ctx, *args)
+	err := cc.db.DeletePlansJobTagByIds(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})

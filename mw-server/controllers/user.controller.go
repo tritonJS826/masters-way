@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strconv"
 
-	dbPGX "mwserver/db_pgx/sqlc"
+	db "mwserver/db/sqlc"
 	"mwserver/schemas"
 	"mwserver/services"
 	"mwserver/util"
@@ -19,12 +19,12 @@ import (
 )
 
 type UserController struct {
-	dbPGX *dbPGX.Queries
-	ctx   context.Context
+	db  *db.Queries
+	ctx context.Context
 }
 
-func NewUserController(dbPGX *dbPGX.Queries, ctx context.Context) *UserController {
-	return &UserController{dbPGX, ctx}
+func NewUserController(db *db.Queries, ctx context.Context) *UserController {
+	return &UserController{db, ctx}
 }
 
 // @Summary Update user by UUID
@@ -61,7 +61,7 @@ func (cc *UserController) UpdateUser(ctx *gin.Context) {
 		isMentor = pgtype.Bool{Bool: *payload.IsMentor, Valid: true}
 	}
 
-	params := dbPGX.UpdateUserParams{
+	params := db.UpdateUserParams{
 		Uuid:        pgtype.UUID{Bytes: uuid.MustParse(userId), Valid: true},
 		Name:        name,
 		Description: description,
@@ -69,7 +69,7 @@ func (cc *UserController) UpdateUser(ctx *gin.Context) {
 		IsMentor:    isMentor,
 	}
 
-	user, err := cc.dbPGX.UpdateUser(ctx, params)
+	user, err := cc.db.UpdateUser(ctx, params)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			ctx.JSON(http.StatusNotFound, gin.H{"error": "Failed to retrieve user with this ID"})
@@ -104,7 +104,7 @@ func (cc *UserController) UpdateUser(ctx *gin.Context) {
 func (cc *UserController) GetUserById(ctx *gin.Context) {
 	userId := ctx.Param("userId")
 
-	populatedUser, err := services.GetPopulatedUserById(cc.dbPGX, ctx, uuid.MustParse(userId))
+	populatedUser, err := services.GetPopulatedUserById(cc.db, ctx, uuid.MustParse(userId))
 	if err != nil {
 		if err == sql.ErrNoRows {
 			ctx.JSON(http.StatusNotFound, gin.H{"error": "Failed to retrieve user with this ID"})
@@ -142,15 +142,15 @@ func (cc *UserController) GetAllUsers(ctx *gin.Context) {
 	reqLimit, _ := strconv.Atoi(limit)
 	offset := (reqPageID - 1) * reqLimit
 
-	countUsersArgs := dbPGX.CountUsersParams{
+	countUsersArgs := db.CountUsersParams{
 		Email:        email,
 		Name:         name,
 		MentorStatus: mentorStatus,
 	}
-	usersSize, err := cc.dbPGX.CountUsers(ctx, countUsersArgs)
+	usersSize, err := cc.db.CountUsers(ctx, countUsersArgs)
 	util.HandleErrorGin(ctx, err)
 
-	listUsersArgs := dbPGX.ListUsersParams{
+	listUsersArgs := db.ListUsersParams{
 		Limit:        int32(reqLimit),
 		Offset:       int32(offset),
 		Email:        email,
@@ -158,7 +158,7 @@ func (cc *UserController) GetAllUsers(ctx *gin.Context) {
 		MentorStatus: mentorStatus,
 	}
 
-	users, err := cc.dbPGX.ListUsers(ctx, listUsersArgs)
+	users, err := cc.db.ListUsers(ctx, listUsersArgs)
 	util.HandleErrorGin(ctx, err)
 
 	response := make([]schemas.UserPlainResponseWithInfo, len(users))

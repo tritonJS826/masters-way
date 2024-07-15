@@ -13,6 +13,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 type WayCollectionController struct {
@@ -51,15 +52,15 @@ func (cc *WayCollectionController) CreateWayCollection(ctx *gin.Context) {
 	util.HandleErrorGin(ctx, err)
 
 	now := time.Now()
-	args := &db.CreateWayCollectionParams{
+	args := db.CreateWayCollectionParams{
 		Name:      payload.Name,
-		OwnerUuid: uuid.MustParse(payload.OwnerUuid),
-		CreatedAt: now,
-		UpdatedAt: now,
+		OwnerUuid: pgtype.UUID{Bytes: uuid.MustParse(payload.OwnerUuid), Valid: true},
+		CreatedAt: pgtype.Timestamp{Time: now, Valid: true},
+		UpdatedAt: pgtype.Timestamp{Time: now, Valid: true},
 		Type:      "custom",
 	}
 
-	wayCollection, err := cc.db.CreateWayCollection(ctx, *args)
+	wayCollection, err := cc.db.CreateWayCollection(ctx, args)
 
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving way collection", "error": err.Error()})
@@ -67,12 +68,12 @@ func (cc *WayCollectionController) CreateWayCollection(ctx *gin.Context) {
 	}
 
 	response := schemas.WayCollectionPopulatedResponse{
-		Uuid:      wayCollection.Uuid.String(),
+		Uuid:      util.ConvertPgUUIDToUUID(wayCollection.Uuid).String(),
 		Name:      wayCollection.Name,
 		Ways:      []schemas.WayPlainResponse{},
-		CreatedAt: wayCollection.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-		UpdatedAt: wayCollection.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-		OwnerUuid: wayCollection.OwnerUuid.String(),
+		CreatedAt: wayCollection.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+		UpdatedAt: wayCollection.UpdatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+		OwnerUuid: util.ConvertPgUUIDToUUID(wayCollection.OwnerUuid).String(),
 		Type:      string(wayCollection.Type),
 	}
 
@@ -100,13 +101,14 @@ func (cc *WayCollectionController) UpdateWayCollection(ctx *gin.Context) {
 	}
 
 	now := time.Now()
-	args := &db.UpdateWayCollectionParams{
-		Uuid:      uuid.MustParse(wayCollectionId),
-		Name:      sql.NullString{String: payload.Name, Valid: payload.Name != ""},
-		UpdatedAt: sql.NullTime{Time: now, Valid: true},
+	// TODO: If payload.Name is empty, we should not perform an update in the database
+	args := db.UpdateWayCollectionParams{
+		Uuid:      pgtype.UUID{Bytes: uuid.MustParse(wayCollectionId), Valid: true},
+		Name:      pgtype.Text{String: payload.Name, Valid: payload.Name != ""},
+		UpdatedAt: pgtype.Timestamp{Time: now, Valid: true},
 	}
 
-	wayCollection, err := cc.db.UpdateWayCollection(ctx, *args)
+	wayCollection, err := cc.db.UpdateWayCollection(ctx, args)
 
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -133,7 +135,7 @@ func (cc *WayCollectionController) UpdateWayCollection(ctx *gin.Context) {
 func (cc *WayCollectionController) DeleteWayCollectionById(ctx *gin.Context) {
 	wayCollectionId := ctx.Param("wayCollectionId")
 
-	err := cc.db.DeleteWayCollection(ctx, uuid.MustParse(wayCollectionId))
+	err := cc.db.DeleteWayCollection(ctx, pgtype.UUID{Bytes: uuid.MustParse(wayCollectionId), Valid: true})
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfuly deleted"})

@@ -10,6 +10,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 type CompositeWayController struct {
@@ -39,17 +40,17 @@ func (cc *CompositeWayController) AddWayToCompositeWay(ctx *gin.Context) {
 		return
 	}
 
-	args := &db.AddWayToCompositeWayParams{
-		ChildUuid:  uuid.MustParse(payload.ChildWayUuid),
-		ParentUuid: uuid.MustParse(payload.ParentWayUuid),
+	args := db.AddWayToCompositeWayParams{
+		ChildUuid:  pgtype.UUID{Bytes: uuid.MustParse(payload.ChildWayUuid), Valid: true},
+		ParentUuid: pgtype.UUID{Bytes: uuid.MustParse(payload.ParentWayUuid), Valid: true},
 	}
 
-	compositeWayRelationDb, err := cc.db.AddWayToCompositeWay(ctx, *args)
+	compositeWayRelationDb, err := cc.db.AddWayToCompositeWay(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	compositeWayRelation := schemas.CompositeWayRelation{
-		ChildWayUuid:  compositeWayRelationDb.ChildUuid.String(),
-		ParentWayUuid: compositeWayRelationDb.ChildUuid.String(),
+		ChildWayUuid:  util.ConvertPgUUIDToUUID(compositeWayRelationDb.ChildUuid).String(),
+		ParentWayUuid: util.ConvertPgUUIDToUUID(compositeWayRelationDb.ChildUuid).String(),
 	}
 
 	ctx.JSON(http.StatusOK, compositeWayRelation)
@@ -70,11 +71,11 @@ func (cc *CompositeWayController) DeleteCompositeWayRelation(ctx *gin.Context) {
 	parentWayId := ctx.Param("parentWayId")
 	childWayId := ctx.Param("childWayId")
 
-	args := &db.DeleteWayFromCompositeWayParams{
-		ParentUuid: uuid.MustParse(parentWayId),
-		ChildUuid:  uuid.MustParse(childWayId),
+	args := db.DeleteWayFromCompositeWayParams{
+		ParentUuid: pgtype.UUID{Bytes: uuid.MustParse(parentWayId), Valid: true},
+		ChildUuid:  pgtype.UUID{Bytes: uuid.MustParse(childWayId), Valid: true},
 	}
-	err := cc.db.DeleteWayFromCompositeWay(ctx, *args)
+	err := cc.db.DeleteWayFromCompositeWay(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})
