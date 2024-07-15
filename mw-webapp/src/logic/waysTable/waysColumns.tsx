@@ -151,7 +151,7 @@ export const getWaysColumns = (language: Language) => [
      * Cell with clickable way name that leads to way page
      */
     cell: ({row}) => (
-      <VerticalContainer className={clsx(
+      <div className={clsx(
         styles.cellWrapper,
         (row.original.childrenUuids.length !== 0) && styles.compositeWay,
         (row.original.status === WayStatus.abandoned) && styles.abandonedWay,
@@ -171,7 +171,7 @@ export const getWaysColumns = (language: Language) => [
             {renderMarkdown(row.original.goalDescription)}
           </div>
         </Tooltip>
-      </VerticalContainer>
+      </div>
     ),
   }),
   columnHelper.accessor("owner", {
