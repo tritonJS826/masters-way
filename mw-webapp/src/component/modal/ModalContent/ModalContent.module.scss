@@ -10,8 +10,8 @@ $modal-animation-time: 150ms;
 .dialogOverlay {
   position: fixed;
   z-index: $modalZIndex;
+  animation: overlayShow $modal-animation-time cubic-bezier(0.16, 1, 0.3, 1);
   background-color: var(--overlayBgColor);
-  opacity: 0.5;
   inset: 0;
 }
 
@@ -49,6 +49,16 @@ $modal-animation-time: 150ms;
   border: none;
   border-radius: 100%;
   cursor: pointer;
+}
+
+@keyframes overlayShow {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes contentShow {
