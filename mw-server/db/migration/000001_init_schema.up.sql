@@ -265,7 +265,7 @@ FOR EACH ROW
 EXECUTE FUNCTION check_max_likes_to_user();
 
 -- максимальное число лайков которое пользователь может получить от других пользователей
-CREATE FUNCTION check_max_likes_from_user() RETURNS TRIGGER AS $$
+CREATE OR REPLACE FUNCTION check_max_likes_from_user() RETURNS TRIGGER AS $$
 BEGIN
     IF (SELECT COUNT(*) FROM favorite_users WHERE acceptor_user_uuid = NEW.acceptor_user_uuid) > 20000 THEN
         RAISE EXCEPTION 'Exceeded the limit of 20000 like a user can receive from other users';
