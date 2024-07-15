@@ -42,6 +42,10 @@ $iconContainerSize: 25px;
   gap: $gapSmall;
 }
 
+.ownerBlock {
+  flex-wrap: wrap;
+}
+
 .applyAsMentorButton {
   margin-top: auto;
 }

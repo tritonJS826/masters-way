@@ -1,6 +1,5 @@
 import {observer} from "mobx-react-lite";
 import {Button} from "src/component/button/Button";
-import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Modal} from "src/component/modal/Modal";
 import {ProgressBar} from "src/component/progressBar/ProgressBar";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
@@ -86,48 +85,50 @@ export const GoalMetricsBlock = observer((props: GoalMetricStatisticsBlockProps)
 
   return (
     props.isVisible &&
-      <VerticalContainer className={styles.goalMetricsBlock}>
-        <ProgressBar
-          value={doneMetricsAmount}
-          max={props.goalMetrics.length}
+    <VerticalContainer className={styles.goalMetricsBlock}>
+      <ProgressBar
+        value={doneMetricsAmount}
+        max={props.goalMetrics.length}
+      />
+      {props.goalMetrics.map((metric) => {
+        return (
+          <GoalMetricItem
+            key={metric.uuid}
+            metric={metric}
+            deleteMetric={deleteMetric}
+            isEditable={props.isEditable}
+          />
+        );
+      })
+      }
+      {props.isEditable &&
+      <VerticalContainer className={styles.addMetricButtons}>
+        <Button
+          value={LanguageService.way.metricsBlock.addNewGoalMetricButton[language]}
+          onClick={addEmptyMetric}
         />
-        {props.goalMetrics.map((metric) => {
-          return (
-            <GoalMetricItem
-              key={metric.uuid}
-              metric={metric}
-              deleteMetric={deleteMetric}
-              isEditable={props.isEditable}
+        <Modal
+          trigger={
+            <Button
+              value={LanguageService.way.metricsBlock.generateNewGoalMetricsWithAIButton[language]}
+              onClick={() => {}}
+              className={styles.addMetricButton}
             />
-          );
-        })
-        }
-        {props.isEditable &&
-        <HorizontalContainer>
-          <Button
-            value={LanguageService.way.metricsBlock.addNewGoalMetricButton[language]}
-            onClick={addEmptyMetric}
-          />
-          <Modal
-            trigger={
-              <Button
-                value={LanguageService.way.metricsBlock.generateNewGoalMetricsWithAIButton[language]}
-                onClick={() => {}}
-              />
-            }
-            content={
-              <MetricsAiModal
-                addMetric={props.addMetric}
-                goalDescription={props.goalDescription}
-                goalMetrics={props.goalMetrics}
-                wayName={props.wayName}
-                wayUuid={props.wayUuid}
-              />
-            }
-          />
-        </HorizontalContainer>
-        }
+          }
+          content={
+            <MetricsAiModal
+              addMetric={props.addMetric}
+              goalDescription={props.goalDescription}
+              goalMetrics={props.goalMetrics}
+              wayName={props.wayName}
+              wayUuid={props.wayUuid}
+            />
+          }
+          triggerClassName={styles.trigger}
+        />
       </VerticalContainer>
+      }
+    </VerticalContainer>
 
   );
 });

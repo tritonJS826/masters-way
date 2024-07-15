@@ -2,13 +2,13 @@ import {useRef, useState} from "react";
 import {Close as DialogClose} from "@radix-ui/react-dialog";
 import {observer} from "mobx-react-lite";
 import {Button} from "src/component/button/Button";
-import {getFormattedValue} from "src/component/editableText/EditableText";
+import {getFormattedValue} from "src/component/editableText/getFormattedValue";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Input, InputType} from "src/component/input/Input";
 import {Textarea} from "src/component/textarea/Textarea";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {languageStore} from "src/globalStore/LanguageStore";
-import {getValidatedTime, MAX_TIME} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
+import {getValidatedTime, MAX_TIME, MIN_TIME} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
 import {Plan} from "src/model/businessModel/Plan";
 import {LanguageService} from "src/service/LanguageService";
 import {KeySymbols} from "src/utils/KeySymbols";
@@ -119,6 +119,7 @@ export const CopyPlanToJobDoneModalContent = observer((props: CopyPlanToJobDoneM
               value={inputPlanTime}
               type="number"
               max={MAX_TIME}
+              min={MIN_TIME}
               onChange={(time) => setInputPLanTime(getValidatedTime(Number(time)))}
               typeInput={InputType.Border}
             />

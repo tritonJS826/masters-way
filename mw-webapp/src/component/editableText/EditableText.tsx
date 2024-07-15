@@ -1,20 +1,11 @@
 import {HTMLInputTypeAttribute, useState} from "react";
 import clsx from "clsx";
-import {FormatterInputValue} from "src/component/input/formatters";
+import {getFormattedValue} from "src/component/editableText/getFormattedValue";
 import {Input} from "src/component/input/Input";
-import {displayNotification} from "src/component/notification/displayNotification";
+import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
 import {Text} from "src/component/text/Text";
 import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/component/editableText/EditableText.module.scss";
-
-/**
- * Get formatted value
- */
-export const getFormattedValue = (incomingValue: string | number) => {
-  return typeof incomingValue === "number"
-    ? FormatterInputValue.withNoFirstZero(incomingValue)
-    : FormatterInputValue.defaultStringFormatter(incomingValue);
-};
 
 /**
  * Data attributes for cypress testing
@@ -124,17 +115,16 @@ export const EditableText = <T extends string | number>(props: EditableTextProps
   /**
    * Update value
    */
-  const updateValue = (updatedValue: string | number) => {
+  const updateValue = (updatedValue: T) => {
     const isInvalidTextLength = typeof updatedValue === "string" &&
       props.minLength && updatedValue.length < props.minLength;
 
     isInvalidTextLength
       ? displayNotification({
         text: "label should include at least one character",
-        type: "info",
+        type: NotificationType.INFO,
       })
-    // TODO: use generics instead of "as" operator
-      : setValue(updatedValue as T);
+      : setValue(updatedValue);
   };
 
   /**

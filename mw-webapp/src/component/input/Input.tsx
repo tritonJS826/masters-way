@@ -82,7 +82,7 @@ interface InputProps<T extends string | number> {
   /**
    * Formatting value
    */
-  formatter?: (value: T) => T;
+  formatter?: (value: T) => string;
 
   /**
    * Parsing formatted value

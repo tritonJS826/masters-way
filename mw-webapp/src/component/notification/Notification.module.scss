@@ -1,0 +1,68 @@
+@import "src/styles/variables";
+
+.toastify {
+  position: fixed;
+  z-index: $notificationZIndex;
+  display: inline-block;
+  max-width: $minWidthBlock;
+  padding: $paddingMedium $paddingExtraMedium;
+  border-radius: $quaternaryBorderRadius;
+  color: var(--secondaryTextColor);
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+
+  &.info {
+    background: var(--generalPrimaryColor);
+  }
+
+  &.error {
+    background: var(--dangerColor);
+  }
+
+  & button[aria-label="Close"] {
+    padding: 0 $paddingExtraSmall;
+    border: 0;
+    background: var(--secondaryBgBtnColor);
+    color: var(--secondaryTextColor);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 1em;
+    opacity: 0.4;
+  }
+}
+
+.right {
+  right: 15px;
+}
+
+.left {
+  left: 15px;
+}
+
+.top {
+  top: -150px;
+}
+
+.bottom {
+  bottom: -150px;
+}
+
+.center {
+  right: 0;
+  left: 0;
+  max-width: fit-content;
+  max-width: -moz-fit-content;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media only screen and (max-width: $mediaWidthMobileSmall) {
+  .right,
+  .left {
+    right: 0;
+    left: 0;
+    max-width: fit-content;
+    margin-right: auto;
+    margin-left: auto;
+  }
+}

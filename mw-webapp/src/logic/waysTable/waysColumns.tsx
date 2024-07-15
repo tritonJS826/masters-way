@@ -117,7 +117,7 @@ export const getWaysColumns = (language: Language) => [
       });
 
       return (
-        <div className={clsx(
+        <VerticalContainer className={clsx(
           styles.cellWrapper,
           styles.status,
           (row.original.childrenUuids.length !== 0) && styles.compositeWay,
@@ -129,7 +129,7 @@ export const getWaysColumns = (language: Language) => [
             value={row.original.metricsDone}
             max={row.original.metricsTotal}
           />
-        </div>
+        </VerticalContainer>
       );
     },
   }),
@@ -151,7 +151,7 @@ export const getWaysColumns = (language: Language) => [
      * Cell with clickable way name that leads to way page
      */
     cell: ({row}) => (
-      <div className={clsx(
+      <VerticalContainer className={clsx(
         styles.cellWrapper,
         (row.original.childrenUuids.length !== 0) && styles.compositeWay,
         (row.original.status === WayStatus.abandoned) && styles.abandonedWay,
@@ -171,7 +171,7 @@ export const getWaysColumns = (language: Language) => [
             {renderMarkdown(row.original.goalDescription)}
           </div>
         </Tooltip>
-      </div>
+      </VerticalContainer>
     ),
   }),
   columnHelper.accessor("owner", {
