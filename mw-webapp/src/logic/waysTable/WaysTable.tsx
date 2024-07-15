@@ -44,12 +44,7 @@ export const WaysTable = observer((props: WaysTableProps) => {
     <Table
       data={tableContent}
       dataCy={
-        {
-          dataCyTable: allWaysAccessIds.allWaysTable.table,
-          dataCyTh: allWaysAccessIds.allWaysTable.tableTh,
-          dataCyTBodyTd: allWaysAccessIds.allWaysTable.tableBodyTd,
-          dataCyTBodyTr: allWaysAccessIds.allWaysTable.tableBodyTr,
-        }
+        {dataCyTable: allWaysAccessIds.allWaysTable.table}
       }
     />
   );

@@ -195,7 +195,7 @@ export const AllWaysPage = observer(() => {
                 <WayCard
                   key={way.uuid}
                   wayPreview={way}
-                  dataCy={allWaysAccessIds.allWaysCard.wayCardLink}
+                  dataCy={allWaysAccessIds.allWaysTable.wayLink(way.name)}
                 />
               );
             })

@@ -18,10 +18,6 @@ afterEach(() => {
   cy.clearAllStorage();
 });
 
-function clickLinkIfContainsText(selector: Cypress.Chainable<JQuery<HTMLElement>>, expectedText: string): void {
-  selector.first().contains(expectedText).click();
-};
-
 describe('NoAuth All Ways scope tests', () => {
 
   it('NoAuth_AllWays_SelectTableView', () => {
@@ -32,67 +28,83 @@ describe('NoAuth All Ways scope tests', () => {
 
     allWaysSelectors.allWaysTable.getTable().should('exist');
 
-    allWaysSelectors.allWaysTable.getTableTh().each((el, index) => {
-      cy.wrap(el).contains(tableHeadersEn[index])      
+    tableHeadersEn.forEach((el, index) => {
+      allWaysSelectors.allWaysTable.getTable().find("th").contains(tableHeadersEn[index])
     });
   });
 
   it('NoAuth_AllWaysTable_LinkToOwner', () => {
-    const owners: Record<string, string> = testWayData.owners;
+    allWaysSelectors.filterViewBlock.getTableViewButton().click();
 
-    Object.keys(owners).forEach(expectedOwnerName => {
-      allWaysSelectors.filterViewBlock.getTableViewButton().click();
-      clickLinkIfContainsText(allWaysSelectors.allWaysTable.getOwnerLink(expectedOwnerName), expectedOwnerName);
+    const checkOwnerLink = (userData: {userName: string, userId: string}) => {
+      allWaysSelectors.allWaysTable.getOwnerLink(userData.userName).first().click();
+      cy.url().should('include', userData.userId);
+      userPersonalSelectors.descriptionSection.getName().should('have.text', userData.userName);
+    }
 
-      cy.url().should('include', `${owners[expectedOwnerName]}`);
-      userPersonalSelectors.descriptionSection.getName().should('have.text', expectedOwnerName);
-          
-      cy.visit(`/${allWayData.endpoint}`);
-    });
+    checkOwnerLink(testWayData.users.Dana);
+    cy.visit(`/${allWayData.endpoint}`);
+
+    checkOwnerLink(testWayData.users.Jane);
+    cy.visit(`/${allWayData.endpoint}`);
+
+    checkOwnerLink(testWayData.users.Ronnie);
+
   });
 
   it('NoAuth_AllWaysTable_LinkToWay', () => {
-    const ways: Record<string, string> = testWayData.ways;
+    allWaysSelectors.filterViewBlock.getTableViewButton().click();
 
-    Object.keys(ways).forEach(expectedWayTitle => {
-      allWaysSelectors.filterViewBlock.getTableViewButton().click();
-      clickLinkIfContainsText(allWaysSelectors.allWaysTable.getWayLink(expectedWayTitle), expectedWayTitle);
+    const checkWayLink = (wayData: {wayName: string, wayId: string}) => {
+      allWaysSelectors.allWaysTable.getWayLink(wayData.wayName).first().click();
+      cy.url().should('include', wayData.wayId);
+      wayDescriptionSelectors.wayDashBoardLeft.getTitle().should('have.text', wayData.wayName);
+    }
 
-      cy.url().should('include', `${ways[expectedWayTitle]}`);
-      wayDescriptionSelectors.wayDashBoardLeft.getTitle().should('have.text', expectedWayTitle);
-          
-      cy.visit(`/${allWayData.endpoint}`);
-    });
+    checkWayLink(testWayData.ways.danaWay);
+    cy.visit(`/${allWayData.endpoint}`);
+
+    checkWayLink(testWayData.ways.janeWay);
+    cy.visit(`/${allWayData.endpoint}`);
+
+    checkWayLink(testWayData.ways.ronnieWay);
+
   });
 
   it('NoAuth_AllWaysTable_LinkToMentor', () => {
-    const mentors: Record<string, string> = testWayData.mentors;
+    allWaysSelectors.filterViewBlock.getTableViewButton().click();
 
-    Object.keys(mentors).forEach(expectedMentorName => {
-      allWaysSelectors.filterViewBlock.getTableViewButton().click();
-      clickLinkIfContainsText(allWaysSelectors.allWaysTable.getMentorLink(expectedMentorName), expectedMentorName);
+    const checkMentorLink = (userData: {userName: string, userId: string}) => {
+      allWaysSelectors.allWaysTable.getOwnerLink(userData.userName).first().click();
+      cy.url().should('include', userData.userId);
+      userPersonalSelectors.descriptionSection.getName().should('have.text', userData.userName);
+    }
 
-      cy.url().should('include', `${mentors[expectedMentorName]}`);
-      userPersonalSelectors.descriptionSection.getName().should('have.text', expectedMentorName);
-          
-      cy.visit(`/${allWayData.endpoint}`);
-    });
+    checkMentorLink(testWayData.users.Alice);
+    cy.visit(`/${allWayData.endpoint}`);
+
+    checkMentorLink(testWayData.users.Jane);
+    cy.visit(`/${allWayData.endpoint}`);
+
+    checkMentorLink(testWayData.users.Dana);
+
   });
 
   it('NoAuth_AllWaysCardsClick', () => {
-    const ways: Record<string, string> = testWayData.ways;
+    const checkWayLink = (wayData: {wayName: string, wayId: string}) => {
+      allWaysSelectors.allWaysCard.getCardLink(wayData.wayName).first().click();
+      cy.url().should('include', wayData.wayId);
+      wayDescriptionSelectors.wayDashBoardLeft.getTitle().should('have.text', wayData.wayName);
+    }
 
-    Object.keys(ways).forEach(expectedWayTitle => {
-      allWaysSelectors.allWaysCard.getCardLink()
-        .filter(`[href="/way/${ways[expectedWayTitle]}"]`)
-        .contains(expectedWayTitle)
-        .click();
+    checkWayLink(testWayData.ways.danaWay);
+    cy.visit(`/${allWayData.endpoint}`);
 
-      cy.url().should('include', `${ways[expectedWayTitle]}`);
-      wayDescriptionSelectors.wayDashBoardLeft.getTitle().should('have.text', expectedWayTitle);
-          
-      cy.visit(`/${allWayData.endpoint}`);
-    });
+    checkWayLink(testWayData.ways.janeWay);
+    cy.visit(`/${allWayData.endpoint}`);
+
+    checkWayLink(testWayData.ways.ronnieWay);
+
   });
 
 });

@@ -9,13 +9,13 @@ export const allWaysAccessIds = {
         tableTh: 'tableTh',
         tableBodyTr: 'tableBodyTr',
         tableBodyTd: 'tableBodyTd',
-        ownerLink: 'ownerLink',
-        wayLink: 'wayLink',
-        mentorLink: 'mentorLink'
+        ownerLink: (ownerName: string) => `ownerLink_${ownerName}`,
+        wayLink: (wayLink: string) => `wayLink_${wayLink}`,
+        mentorLink: (mentorLink: string) => `mentorLink_${mentorLink}`
     },
 
     allWaysCard: {
-        wayCardLink: 'wayCardLink'
+        wayCardLink: (wayLink: string) => `wayLink_${wayLink}`
     },
 
     filterViewBlock: {

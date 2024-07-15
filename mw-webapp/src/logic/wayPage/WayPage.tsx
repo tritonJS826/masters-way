@@ -367,7 +367,7 @@ export const WayPage = observer((props: WayPageProps) => {
               <HorizontalContainer>
                 <Infotip content={LanguageService.way.infotip.wayName[language]} />
                 <Title
-                  dataCy = {wayDescriptionAccessIds.wayDashBoardLeft.title}
+                  dataCy={wayDescriptionAccessIds.wayDashBoardLeft.title}
                   level={HeadingLevel.h2}
                   text={way.name}
                   placeholder={LanguageService.common.emptyMarkdown[language]}
