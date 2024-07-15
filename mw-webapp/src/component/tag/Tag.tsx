@@ -99,6 +99,7 @@ export const Tag = (props: TagProps) => {
     <div
       className={clsx(styles.tag, tagStyle)}
       data-cy={props.cy?.dataCyTag}
+      role="note"
     >
       <Tooltip content={props.tagName}>
         <span className={styles.text}>
