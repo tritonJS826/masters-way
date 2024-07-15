@@ -114,6 +114,9 @@ var (
 
 	DevController controllers.DevController
 	DevRoutes     routes.DevRoutes
+
+	MentorRequestController controllers.MentorRequestController
+	MentorRequestRoutes     routes.MentorRequestRoutes
 )
 
 func init() {
@@ -234,6 +237,9 @@ func init() {
 
 	GeminiController = *controllers.NewGeminiController(ctx, &GeminiService)
 	GeminiRoutes = routes.NewRouteGemini(GeminiController)
+
+	MentorRequestController = *controllers.NewMentorRequestController(dbPGX, ctx)
+	MentorRequestRoutes = routes.NewRouteMentorRequest(MentorRequestController)
 }
 
 // @title     Masters way API
@@ -274,6 +280,7 @@ func main() {
 	WayTagRoutes.WayTagRoute(router)
 	CompositeWayRoutes.CompositeWayRoute(router)
 	MentorUserWayRoutes.MentorUserWayRoute(router)
+	MentorRequestRoutes.MentorRequestRoute(router)
 	if config.Env.EnvType != "prod" {
 		DevRoutes.DevRoute(router)
 	}
