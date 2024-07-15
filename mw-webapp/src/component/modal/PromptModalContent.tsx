@@ -4,9 +4,9 @@ import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Input, InputType} from "src/component/input/Input";
 import {HeadingLevel, Title} from "src/component/title/Title";
+import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/component/modal/PromptModalContent.module.scss";
-import { VerticalContainer } from 'src/component/verticalContainer/VerticalContainer';
 
 /**
  * PromptModalContent props
@@ -74,45 +74,43 @@ export const PromptModalContent = (props: PromptModalContentProps) => {
 
   return (
     <div onKeyDown={handleEnter}>
-    <VerticalContainer
-      className={styles.container}
-    >
+      <VerticalContainer className={styles.container}>
 
-      {props.title &&
+        {props.title &&
         <Title
           level={HeadingLevel.h2}
           text={props.title}
           placeholder=""
         />
-      }
+        }
 
-      <Input
-        type="text"
-        placeholder={props.placeholder}
-        value={inputValue}
-        autoFocus={true}
-        onChange={setInputValue}
-        typeInput={InputType.Line}
-      />
-      <HorizontalContainer className={styles.buttons}>
-        <DialogClose asChild>
-          <Button
-            value={props.cancelButtonValue}
-            onClick={props.close}
-          />
-        </DialogClose>
+        <Input
+          type="text"
+          placeholder={props.placeholder}
+          value={inputValue}
+          autoFocus={true}
+          onChange={setInputValue}
+          typeInput={InputType.Line}
+        />
+        <HorizontalContainer className={styles.buttons}>
+          <DialogClose asChild>
+            <Button
+              value={props.cancelButtonValue}
+              onClick={props.close}
+            />
+          </DialogClose>
 
-        <DialogClose asChild>
-          <Button
-            ref={onOkRef}
-            value={props.okButtonValue}
-            onClick={() => props.onOk(inputValue)}
-            buttonType={ButtonType.PRIMARY}
-            isDisabled={inputValue.trim() === ""}
-          />
-        </DialogClose>
-      </HorizontalContainer>
-    </VerticalContainer>
+          <DialogClose asChild>
+            <Button
+              ref={onOkRef}
+              value={props.okButtonValue}
+              onClick={() => props.onOk(inputValue)}
+              buttonType={ButtonType.PRIMARY}
+              isDisabled={inputValue.trim() === ""}
+            />
+          </DialogClose>
+        </HorizontalContainer>
+      </VerticalContainer>
     </div>
   );
 };
