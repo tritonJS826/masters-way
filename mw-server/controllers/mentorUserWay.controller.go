@@ -11,6 +11,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 type MentorUserWayController struct {
@@ -48,24 +49,27 @@ func (cc *MentorUserWayController) AddMentorUserWay(ctx *gin.Context) {
 	})
 	util.HandleErrorGin(ctx, err)
 
-	args0 := &db.DeleteFormerMentorWayIfExistParams{
-		FormerMentorUuid: uuid.MustParse(payload.UserUuid),
-		WayUuid:          uuid.MustParse(payload.WayUuid),
+	userPgUUID := pgtype.UUID{Bytes: uuid.MustParse(payload.UserUuid), Valid: true}
+	wayPgUUID := pgtype.UUID{Bytes: uuid.MustParse(payload.WayUuid), Valid: true}
+
+	args0 := db.DeleteFormerMentorWayIfExistParams{
+		FormerMentorUuid: userPgUUID,
+		WayUuid:          wayPgUUID,
 	}
-	err0 := cc.db.DeleteFormerMentorWayIfExist(ctx, *args0)
+	err0 := cc.db.DeleteFormerMentorWayIfExist(ctx, args0)
 
 	args := db.CreateMentorUserWayParams{
-		WayUuid:  uuid.MustParse(payload.WayUuid),
-		UserUuid: uuid.MustParse(payload.UserUuid),
+		WayUuid:  wayPgUUID,
+		UserUuid: userPgUUID,
 	}
 	_, err = cc.db.CreateMentorUserWay(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
-	args4 := &db.DeleteFromUserMentoringRequestParams{
-		UserUuid: uuid.MustParse(payload.UserUuid),
-		WayUuid:  uuid.MustParse(payload.WayUuid),
+	args4 := db.DeleteFromUserMentoringRequestParams{
+		UserUuid: userPgUUID,
+		WayUuid:  wayPgUUID,
 	}
-	err4 := cc.db.DeleteFromUserMentoringRequest(ctx, *args4)
+	err4 := cc.db.DeleteFromUserMentoringRequest(ctx, args4)
 
 	if err0 == nil && err == nil && err4 == nil {
 		ctx.JSON(http.StatusOK, gin.H{"status": "successfully added"})
@@ -90,18 +94,21 @@ func (cc *MentorUserWayController) DeleteMentorUserWay(ctx *gin.Context) {
 		return
 	}
 
+	userPgUUID := pgtype.UUID{Bytes: uuid.MustParse(payload.UserUuid), Valid: true}
+	wayPgUUID := pgtype.UUID{Bytes: uuid.MustParse(payload.WayUuid), Valid: true}
+
 	args := db.DeleteMentorUserWayByIdsParams{
-		WayUuid:  uuid.MustParse(payload.WayUuid),
-		UserUuid: uuid.MustParse(payload.UserUuid),
+		WayUuid:  wayPgUUID,
+		UserUuid: userPgUUID,
 	}
 	err := cc.db.DeleteMentorUserWayByIds(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
-	args2 := &db.CreateFormerMentorsWayParams{
-		FormerMentorUuid: uuid.MustParse(payload.UserUuid),
-		WayUuid:          uuid.MustParse(payload.WayUuid),
+	args2 := db.CreateFormerMentorsWayParams{
+		FormerMentorUuid: userPgUUID,
+		WayUuid:          wayPgUUID,
 	}
-	_, err2 := cc.db.CreateFormerMentorsWay(ctx, *args2)
+	_, err2 := cc.db.CreateFormerMentorsWay(ctx, args2)
 	util.HandleErrorGin(ctx, err2)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})

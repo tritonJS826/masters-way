@@ -7,10 +7,8 @@ package db
 
 import (
 	"context"
-	"time"
 
-	"github.com/google/uuid"
-	"github.com/lib/pq"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 const createPlansJobTag = `-- name: CreatePlansJobTag :one
@@ -23,12 +21,12 @@ INSERT INTO plans_job_tags(
 `
 
 type CreatePlansJobTagParams struct {
-	PlanUuid   uuid.UUID `json:"plan_uuid"`
-	JobTagUuid uuid.UUID `json:"job_tag_uuid"`
+	PlanUuid   pgtype.UUID `json:"plan_uuid"`
+	JobTagUuid pgtype.UUID `json:"job_tag_uuid"`
 }
 
 func (q *Queries) CreatePlansJobTag(ctx context.Context, arg CreatePlansJobTagParams) (PlansJobTag, error) {
-	row := q.queryRow(ctx, q.createPlansJobTagStmt, createPlansJobTag, arg.PlanUuid, arg.JobTagUuid)
+	row := q.db.QueryRow(ctx, createPlansJobTag, arg.PlanUuid, arg.JobTagUuid)
 	var i PlansJobTag
 	err := row.Scan(&i.PlanUuid, &i.JobTagUuid)
 	return i, err
@@ -40,43 +38,43 @@ WHERE plan_uuid = $1 AND job_tag_uuid = $2
 `
 
 type DeletePlansJobTagByIdsParams struct {
-	PlanUuid   uuid.UUID `json:"plan_uuid"`
-	JobTagUuid uuid.UUID `json:"job_tag_uuid"`
+	PlanUuid   pgtype.UUID `json:"plan_uuid"`
+	JobTagUuid pgtype.UUID `json:"job_tag_uuid"`
 }
 
 func (q *Queries) DeletePlansJobTagByIds(ctx context.Context, arg DeletePlansJobTagByIdsParams) error {
-	_, err := q.exec(ctx, q.deletePlansJobTagByIdsStmt, deletePlansJobTagByIds, arg.PlanUuid, arg.JobTagUuid)
+	_, err := q.db.Exec(ctx, deletePlansJobTagByIds, arg.PlanUuid, arg.JobTagUuid)
 	return err
 }
 
 const getPlansByDayReportUuids = `-- name: GetPlansByDayReportUuids :many
-SELECT 
+SELECT
     uuid, created_at, updated_at, description, time, owner_uuid, is_done, day_report_uuid,
     COALESCE(
         ARRAY(
-            SELECT plans_job_tags.job_tag_uuid 
-            FROM plans_job_tags 
+            SELECT plans_job_tags.job_tag_uuid
+            FROM plans_job_tags
             WHERE plans.uuid = plans_job_tags.plan_uuid
-    ), 
+    ),
     '{}'
     )::VARCHAR[] AS tag_uuids
 FROM plans WHERE plans.day_report_uuid = ANY($1::UUID[])
 `
 
 type GetPlansByDayReportUuidsRow struct {
-	Uuid          uuid.UUID `json:"uuid"`
-	CreatedAt     time.Time `json:"created_at"`
-	UpdatedAt     time.Time `json:"updated_at"`
-	Description   string    `json:"description"`
-	Time          int32     `json:"time"`
-	OwnerUuid     uuid.UUID `json:"owner_uuid"`
-	IsDone        bool      `json:"is_done"`
-	DayReportUuid uuid.UUID `json:"day_report_uuid"`
-	TagUuids      []string  `json:"tag_uuids"`
+	Uuid          pgtype.UUID      `json:"uuid"`
+	CreatedAt     pgtype.Timestamp `json:"created_at"`
+	UpdatedAt     pgtype.Timestamp `json:"updated_at"`
+	Description   string           `json:"description"`
+	Time          int32            `json:"time"`
+	OwnerUuid     pgtype.UUID      `json:"owner_uuid"`
+	IsDone        bool             `json:"is_done"`
+	DayReportUuid pgtype.UUID      `json:"day_report_uuid"`
+	TagUuids      []string         `json:"tag_uuids"`
 }
 
-func (q *Queries) GetPlansByDayReportUuids(ctx context.Context, dollar_1 []uuid.UUID) ([]GetPlansByDayReportUuidsRow, error) {
-	rows, err := q.query(ctx, q.getPlansByDayReportUuidsStmt, getPlansByDayReportUuids, pq.Array(dollar_1))
+func (q *Queries) GetPlansByDayReportUuids(ctx context.Context, dayReportUuids []pgtype.UUID) ([]GetPlansByDayReportUuidsRow, error) {
+	rows, err := q.db.Query(ctx, getPlansByDayReportUuids, dayReportUuids)
 	if err != nil {
 		return nil, err
 	}
@@ -93,14 +91,11 @@ func (q *Queries) GetPlansByDayReportUuids(ctx context.Context, dollar_1 []uuid.
 			&i.OwnerUuid,
 			&i.IsDone,
 			&i.DayReportUuid,
-			pq.Array(&i.TagUuids),
+			&i.TagUuids,
 		); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
 	}
 	if err := rows.Err(); err != nil {
 		return nil, err

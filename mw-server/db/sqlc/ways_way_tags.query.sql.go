@@ -8,7 +8,7 @@ package db
 import (
 	"context"
 
-	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 const createWaysWayTag = `-- name: CreateWaysWayTag :one
@@ -16,17 +16,18 @@ INSERT INTO ways_way_tags(
     way_uuid,
     way_tag_uuid
 ) VALUES (
-    $1, $2
+    $1,
+    $2
 ) RETURNING way_uuid, way_tag_uuid
 `
 
 type CreateWaysWayTagParams struct {
-	WayUuid    uuid.UUID `json:"way_uuid"`
-	WayTagUuid uuid.UUID `json:"way_tag_uuid"`
+	WayUuid    pgtype.UUID `json:"way_uuid"`
+	WayTagUuid pgtype.UUID `json:"way_tag_uuid"`
 }
 
 func (q *Queries) CreateWaysWayTag(ctx context.Context, arg CreateWaysWayTagParams) (WaysWayTag, error) {
-	row := q.queryRow(ctx, q.createWaysWayTagStmt, createWaysWayTag, arg.WayUuid, arg.WayTagUuid)
+	row := q.db.QueryRow(ctx, createWaysWayTag, arg.WayUuid, arg.WayTagUuid)
 	var i WaysWayTag
 	err := row.Scan(&i.WayUuid, &i.WayTagUuid)
 	return i, err
@@ -38,11 +39,11 @@ WHERE ways_way_tags.way_uuid = $1 AND ways_way_tags.way_tag_uuid = $2
 `
 
 type DeleteWayTagFromWayParams struct {
-	WayUuid    uuid.UUID `json:"way_uuid"`
-	WayTagUuid uuid.UUID `json:"way_tag_uuid"`
+	WayUuid    pgtype.UUID `json:"way_uuid"`
+	WayTagUuid pgtype.UUID `json:"way_tag_uuid"`
 }
 
 func (q *Queries) DeleteWayTagFromWay(ctx context.Context, arg DeleteWayTagFromWayParams) error {
-	_, err := q.exec(ctx, q.deleteWayTagFromWayStmt, deleteWayTagFromWay, arg.WayUuid, arg.WayTagUuid)
+	_, err := q.db.Exec(ctx, deleteWayTagFromWay, arg.WayUuid, arg.WayTagUuid)
 	return err
 }

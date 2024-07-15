@@ -3,7 +3,7 @@ INSERT INTO users_user_tags(
     user_uuid,
     user_tag_uuid
 ) VALUES (
-    $1, $2
+    @user_uuid, @user_tag_uuid
 ) RETURNING *;
 
 -- name: GetTagsCountByUserId :one
@@ -13,4 +13,4 @@ WHERE user_uuid = @user_uuid;
 
 -- name: DeleteUserTagFromUser :exec
 DELETE FROM users_user_tags
-WHERE users_user_tags.user_uuid = $1 AND users_user_tags.user_tag_uuid = $2;
+WHERE users_user_tags.user_uuid = @user_uuid AND users_user_tags.user_tag_uuid = @user_tag_uuid;

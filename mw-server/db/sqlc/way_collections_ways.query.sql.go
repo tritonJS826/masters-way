@@ -7,9 +7,8 @@ package db
 
 import (
 	"context"
-	"time"
 
-	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 const createWayCollectionsWays = `-- name: CreateWayCollectionsWays :one
@@ -22,12 +21,12 @@ INSERT INTO way_collections_ways(
 `
 
 type CreateWayCollectionsWaysParams struct {
-	WayCollectionUuid uuid.UUID `json:"way_collection_uuid"`
-	WayUuid           uuid.UUID `json:"way_uuid"`
+	WayCollectionUuid pgtype.UUID `json:"way_collection_uuid"`
+	WayUuid           pgtype.UUID `json:"way_uuid"`
 }
 
 func (q *Queries) CreateWayCollectionsWays(ctx context.Context, arg CreateWayCollectionsWaysParams) (WayCollectionsWay, error) {
-	row := q.queryRow(ctx, q.createWayCollectionsWaysStmt, createWayCollectionsWays, arg.WayCollectionUuid, arg.WayUuid)
+	row := q.db.QueryRow(ctx, createWayCollectionsWays, arg.WayCollectionUuid, arg.WayUuid)
 	var i WayCollectionsWay
 	err := row.Scan(&i.WayCollectionUuid, &i.WayUuid)
 	return i, err
@@ -39,17 +38,17 @@ WHERE way_collection_uuid = $1 AND way_uuid = $2
 `
 
 type DeleteWayCollectionsWaysByIdsParams struct {
-	WayCollectionUuid uuid.UUID `json:"way_collection_uuid"`
-	WayUuid           uuid.UUID `json:"way_uuid"`
+	WayCollectionUuid pgtype.UUID `json:"way_collection_uuid"`
+	WayUuid           pgtype.UUID `json:"way_uuid"`
 }
 
 func (q *Queries) DeleteWayCollectionsWaysByIds(ctx context.Context, arg DeleteWayCollectionsWaysByIdsParams) error {
-	_, err := q.exec(ctx, q.deleteWayCollectionsWaysByIdsStmt, deleteWayCollectionsWaysByIds, arg.WayCollectionUuid, arg.WayUuid)
+	_, err := q.db.Exec(ctx, deleteWayCollectionsWaysByIds, arg.WayCollectionUuid, arg.WayUuid)
 	return err
 }
 
 const getWayCollectionJoinWayByUserId = `-- name: GetWayCollectionJoinWayByUserId :many
-SELECT 
+SELECT
     way_collections.uuid AS collection_uuid,
     way_collections.created_at AS collection_created_at,
     way_collections.updated_at AS collection_updated_at,
@@ -65,7 +64,7 @@ SELECT
     ways.copied_from_way_uuid AS way_copied_from_way_uuid,
     ways.is_completed AS is_completed,
     ways.is_private AS way_is_private,
-    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,    
+    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
     (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = ways.uuid) AS way_day_reports_amount
@@ -77,29 +76,29 @@ WHERE way_collections.owner_uuid = $1
 `
 
 type GetWayCollectionJoinWayByUserIdRow struct {
-	CollectionUuid       uuid.UUID     `json:"collection_uuid"`
-	CollectionCreatedAt  time.Time     `json:"collection_created_at"`
-	CollectionUpdatedAt  time.Time     `json:"collection_updated_at"`
-	CollectionName       string        `json:"collection_name"`
-	CollectionType       string        `json:"collection_type"`
-	WayUuid              uuid.UUID     `json:"way_uuid"`
-	WayName              string        `json:"way_name"`
-	WayDescription       string        `json:"way_description"`
-	WayUpdatedAt         time.Time     `json:"way_updated_at"`
-	WayCreatedAt         time.Time     `json:"way_created_at"`
-	WayEstimationTime    int32         `json:"way_estimation_time"`
-	WayOwnerUuid         uuid.UUID     `json:"way_owner_uuid"`
-	WayCopiedFromWayUuid uuid.NullUUID `json:"way_copied_from_way_uuid"`
-	IsCompleted          bool          `json:"is_completed"`
-	WayIsPrivate         bool          `json:"way_is_private"`
-	WayMetricsTotal      int64         `json:"way_metrics_total"`
-	WayMetricsDone       int64         `json:"way_metrics_done"`
-	WayFavoriteForUsers  int64         `json:"way_favorite_for_users"`
-	WayDayReportsAmount  int64         `json:"way_day_reports_amount"`
+	CollectionUuid       pgtype.UUID      `json:"collection_uuid"`
+	CollectionCreatedAt  pgtype.Timestamp `json:"collection_created_at"`
+	CollectionUpdatedAt  pgtype.Timestamp `json:"collection_updated_at"`
+	CollectionName       string           `json:"collection_name"`
+	CollectionType       string           `json:"collection_type"`
+	WayUuid              pgtype.UUID      `json:"way_uuid"`
+	WayName              string           `json:"way_name"`
+	WayDescription       string           `json:"way_description"`
+	WayUpdatedAt         pgtype.Timestamp `json:"way_updated_at"`
+	WayCreatedAt         pgtype.Timestamp `json:"way_created_at"`
+	WayEstimationTime    int32            `json:"way_estimation_time"`
+	WayOwnerUuid         pgtype.UUID      `json:"way_owner_uuid"`
+	WayCopiedFromWayUuid pgtype.UUID      `json:"way_copied_from_way_uuid"`
+	IsCompleted          bool             `json:"is_completed"`
+	WayIsPrivate         bool             `json:"way_is_private"`
+	WayMetricsTotal      int64            `json:"way_metrics_total"`
+	WayMetricsDone       int64            `json:"way_metrics_done"`
+	WayFavoriteForUsers  int64            `json:"way_favorite_for_users"`
+	WayDayReportsAmount  int64            `json:"way_day_reports_amount"`
 }
 
-func (q *Queries) GetWayCollectionJoinWayByUserId(ctx context.Context, ownerUuid uuid.UUID) ([]GetWayCollectionJoinWayByUserIdRow, error) {
-	rows, err := q.query(ctx, q.getWayCollectionJoinWayByUserIdStmt, getWayCollectionJoinWayByUserId, ownerUuid)
+func (q *Queries) GetWayCollectionJoinWayByUserId(ctx context.Context, ownerUuid pgtype.UUID) ([]GetWayCollectionJoinWayByUserIdRow, error) {
+	rows, err := q.db.Query(ctx, getWayCollectionJoinWayByUserId, ownerUuid)
 	if err != nil {
 		return nil, err
 	}
@@ -132,9 +131,6 @@ func (q *Queries) GetWayCollectionJoinWayByUserId(ctx context.Context, ownerUuid
 		}
 		items = append(items, i)
 	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
 	if err := rows.Err(); err != nil {
 		return nil, err
 	}
@@ -145,8 +141,8 @@ const getWayCollectionsByUserId = `-- name: GetWayCollectionsByUserId :many
 SELECT uuid, owner_uuid, created_at, updated_at, name, type FROM way_collections WHERE way_collections.owner_uuid = $1
 `
 
-func (q *Queries) GetWayCollectionsByUserId(ctx context.Context, ownerUuid uuid.UUID) ([]WayCollection, error) {
-	rows, err := q.query(ctx, q.getWayCollectionsByUserIdStmt, getWayCollectionsByUserId, ownerUuid)
+func (q *Queries) GetWayCollectionsByUserId(ctx context.Context, ownerUuid pgtype.UUID) ([]WayCollection, error) {
+	rows, err := q.db.Query(ctx, getWayCollectionsByUserId, ownerUuid)
 	if err != nil {
 		return nil, err
 	}
@@ -165,9 +161,6 @@ func (q *Queries) GetWayCollectionsByUserId(ctx context.Context, ownerUuid uuid.
 			return nil, err
 		}
 		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
 	}
 	if err := rows.Err(); err != nil {
 		return nil, err

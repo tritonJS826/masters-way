@@ -10,6 +10,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 type FromUserMentoringRequestController struct {
@@ -39,12 +40,12 @@ func (cc *FromUserMentoringRequestController) CreateFromUserMentoringRequest(ctx
 		return
 	}
 
-	args := &db.CreateFromUserMentoringRequestParams{
-		UserUuid: uuid.MustParse(payload.UserUuid),
-		WayUuid:  uuid.MustParse(payload.WayUuid),
+	args := db.CreateFromUserMentoringRequestParams{
+		UserUuid: pgtype.UUID{Bytes: uuid.MustParse(payload.UserUuid), Valid: true},
+		WayUuid:  pgtype.UUID{Bytes: uuid.MustParse(payload.WayUuid), Valid: true},
 	}
 
-	fromUserMentoringRequest, err := cc.db.CreateFromUserMentoringRequest(ctx, *args)
+	fromUserMentoringRequest, err := cc.db.CreateFromUserMentoringRequest(ctx, args)
 
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving fromUserMentoringRequest", "error": err.Error()})
@@ -70,8 +71,8 @@ func (cc *FromUserMentoringRequestController) DeleteFromUserMentoringRequestById
 	wayUuid := ctx.Param("wayUuid")
 
 	args := db.DeleteFromUserMentoringRequestParams{
-		UserUuid: uuid.MustParse(userUuid),
-		WayUuid:  uuid.MustParse(wayUuid),
+		UserUuid: pgtype.UUID{Bytes: uuid.MustParse(userUuid), Valid: true},
+		WayUuid:  pgtype.UUID{Bytes: uuid.MustParse(wayUuid), Valid: true},
 	}
 
 	err := cc.db.DeleteFromUserMentoringRequest(ctx, args)

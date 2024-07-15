@@ -144,7 +144,7 @@ END $$
 `
 
 func (q *Queries) RegenerateDbData(ctx context.Context) error {
-	_, err := q.exec(ctx, q.regenerateDbDataStmt, regenerateDbData)
+	_, err := q.db.Exec(ctx, regenerateDbData)
 	return err
 }
 
@@ -219,6 +219,6 @@ END $$
 `
 
 func (q *Queries) RemoveEverything(ctx context.Context) error {
-	_, err := q.exec(ctx, q.removeEverythingStmt, removeEverything)
+	_, err := q.db.Exec(ctx, removeEverything)
 	return err
 }

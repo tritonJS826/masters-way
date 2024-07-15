@@ -7,10 +7,8 @@ package db
 
 import (
 	"context"
-	"database/sql"
-	"time"
 
-	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 const createDayReport = `-- name: CreateDayReport :one
@@ -25,14 +23,14 @@ INSERT INTO day_reports(
 `
 
 type CreateDayReportParams struct {
-	WayUuid   uuid.UUID `json:"way_uuid"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
-	IsDayOff  bool      `json:"is_day_off"`
+	WayUuid   pgtype.UUID      `json:"way_uuid"`
+	CreatedAt pgtype.Timestamp `json:"created_at"`
+	UpdatedAt pgtype.Timestamp `json:"updated_at"`
+	IsDayOff  bool             `json:"is_day_off"`
 }
 
 func (q *Queries) CreateDayReport(ctx context.Context, arg CreateDayReportParams) (DayReport, error) {
-	row := q.queryRow(ctx, q.createDayReportStmt, createDayReport,
+	row := q.db.QueryRow(ctx, createDayReport,
 		arg.WayUuid,
 		arg.CreatedAt,
 		arg.UpdatedAt,
@@ -56,8 +54,8 @@ FROM day_reports
 WHERE way_uuid = $1
 `
 
-func (q *Queries) GetDayReportsCountByWayId(ctx context.Context, wayUuid uuid.UUID) (int64, error) {
-	row := q.queryRow(ctx, q.getDayReportsCountByWayIdStmt, getDayReportsCountByWayId, wayUuid)
+func (q *Queries) GetDayReportsCountByWayId(ctx context.Context, wayUuid pgtype.UUID) (int64, error) {
+	row := q.db.QueryRow(ctx, getDayReportsCountByWayId, wayUuid)
 	var day_reports_count int64
 	err := row.Scan(&day_reports_count)
 	return day_reports_count, err
@@ -69,8 +67,8 @@ WHERE day_reports.way_uuid = $1
 ORDER BY day_reports.created_at DESC
 `
 
-func (q *Queries) GetListDayReportsByWayUuid(ctx context.Context, wayUuid uuid.UUID) ([]DayReport, error) {
-	rows, err := q.query(ctx, q.getListDayReportsByWayUuidStmt, getListDayReportsByWayUuid, wayUuid)
+func (q *Queries) GetListDayReportsByWayUuid(ctx context.Context, wayUuid pgtype.UUID) ([]DayReport, error) {
+	rows, err := q.db.Query(ctx, getListDayReportsByWayUuid, wayUuid)
 	if err != nil {
 		return nil, err
 	}
@@ -89,9 +87,6 @@ func (q *Queries) GetListDayReportsByWayUuid(ctx context.Context, wayUuid uuid.U
 		}
 		items = append(items, i)
 	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
 	if err := rows.Err(); err != nil {
 		return nil, err
 	}
@@ -108,13 +103,13 @@ RETURNING uuid, way_uuid, created_at, updated_at, is_day_off
 `
 
 type UpdateDayReportParams struct {
-	UpdatedAt sql.NullTime `json:"updated_at"`
-	IsDayOff  sql.NullBool `json:"is_day_off"`
-	Uuid      uuid.UUID    `json:"uuid"`
+	UpdatedAt pgtype.Timestamp `json:"updated_at"`
+	IsDayOff  pgtype.Bool      `json:"is_day_off"`
+	Uuid      pgtype.UUID      `json:"uuid"`
 }
 
 func (q *Queries) UpdateDayReport(ctx context.Context, arg UpdateDayReportParams) (DayReport, error) {
-	row := q.queryRow(ctx, q.updateDayReportStmt, updateDayReport, arg.UpdatedAt, arg.IsDayOff, arg.Uuid)
+	row := q.db.QueryRow(ctx, updateDayReport, arg.UpdatedAt, arg.IsDayOff, arg.Uuid)
 	var i DayReport
 	err := row.Scan(
 		&i.Uuid,

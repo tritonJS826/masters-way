@@ -5,27 +5,30 @@ INSERT INTO job_tags(
     color,
     way_uuid
 ) VALUES (
-    $1, $2, $3, $4
+    @name,
+    @description,
+    @color,
+    @way_uuid
 ) RETURNING *;
 
 -- name: GetListJobTagsByWayUuid :many
 SELECT * FROM job_tags
-WHERE way_uuid = $1
+WHERE way_uuid = @way_uuid
 ORDER BY uuid;
 
 -- name: GetListLabelsByLabelUuids :many
 SELECT * from job_tags
-WHERE job_tags.uuid = ANY($1::UUID[])
-ORDER BY uuid; 
+WHERE job_tags.uuid = ANY(@job_tag_uuids::UUID[])
+ORDER BY uuid;
 
 -- name: GetListJobTagsByWayUuids :many
 SELECT * FROM job_tags
-WHERE way_uuid = ANY($1::UUID[])
+WHERE way_uuid = ANY(@way_uuids::UUID[])
 ORDER BY uuid;
 
 -- name: GetJobTagByUuid :one
 SELECT * FROM job_tags
-WHERE job_tags.uuid = $1;
+WHERE job_tags.uuid = @job_tag_uuid;
 
 -- name: UpdateJobTag :one
 UPDATE job_tags
@@ -36,7 +39,6 @@ color = coalesce(sqlc.narg('color'), color)
 WHERE uuid = sqlc.arg('uuid')
 RETURNING *;
 
-
 -- name: DeleteJobTagById :exec
 DELETE FROM job_tags
-WHERE uuid = $1;
+WHERE uuid = @job_tag_uuid;

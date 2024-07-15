@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"context"
-	"database/sql"
 	"net/http"
 	"time"
 
@@ -13,6 +12,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 type MetricController struct {
@@ -45,16 +45,16 @@ func (cc *MetricController) CreateMetric(ctx *gin.Context) {
 	now := time.Now()
 
 	parsedTime, err := time.Parse(util.DEFAULT_STRING_LAYOUT, payload.DoneDate)
-	args := &db.CreateMetricParams{
+	args := db.CreateMetricParams{
 		Description:      payload.Description,
 		IsDone:           payload.IsDone,
-		DoneDate:         sql.NullTime{Time: parsedTime, Valid: err != nil},
+		DoneDate:         pgtype.Timestamp{Time: parsedTime, Valid: err != nil},
 		MetricEstimation: int32(payload.MetricEstimation),
-		WayUuid:          uuid.MustParse(payload.WayUuid),
-		UpdatedAt:        now,
+		WayUuid:          pgtype.UUID{Bytes: uuid.MustParse(payload.WayUuid), Valid: true},
+		UpdatedAt:        pgtype.Timestamp{Time: now, Valid: true},
 	}
 
-	metric, err := cc.db.CreateMetric(ctx, *args)
+	metric, err := cc.db.CreateMetric(ctx, args)
 	util.HandleErrorGin(ctx, err)
 	err = services.UpdateWayIsCompletedStatus(cc.db, ctx, metric.WayUuid)
 	util.HandleErrorGin(ctx, err)
@@ -84,42 +84,42 @@ func (cc *MetricController) UpdateMetric(ctx *gin.Context) {
 
 	now := time.Now()
 
-	var isDoneNullBool sql.NullBool
-	var doneDateNullTime sql.NullTime
+	var isDoneNullBool pgtype.Bool
+	var doneDateNullTime pgtype.Timestamp
 	if payload.IsDone != nil {
-		isDoneNullBool = sql.NullBool{Bool: *payload.IsDone, Valid: true}
-		doneDateNullTime = sql.NullTime{Time: now, Valid: *payload.IsDone}
+		isDoneNullBool = pgtype.Bool{Bool: *payload.IsDone, Valid: true}
+		doneDateNullTime = pgtype.Timestamp{Time: now, Valid: *payload.IsDone}
 	}
 
-	var descriptionNullString sql.NullString
+	var descriptionNullString pgtype.Text
 	if payload.Description != nil {
-		descriptionNullString = sql.NullString{String: *payload.Description, Valid: true}
+		descriptionNullString = pgtype.Text{String: *payload.Description, Valid: true}
 	}
 
-	var metricEstimationNullInt32 sql.NullInt32
+	var metricEstimationNullInt32 pgtype.Int4
 	if payload.MetricEstimation != nil {
-		metricEstimationNullInt32 = sql.NullInt32{Int32: *payload.MetricEstimation, Valid: true}
+		metricEstimationNullInt32 = pgtype.Int4{Int32: *payload.MetricEstimation, Valid: true}
 	}
 
-	args := &db.UpdateMetricParams{
-		Uuid:             uuid.MustParse(metricId),
-		UpdatedAt:        sql.NullTime{Time: now, Valid: true},
+	args := db.UpdateMetricParams{
+		Uuid:             pgtype.UUID{Bytes: uuid.MustParse(metricId), Valid: true},
+		UpdatedAt:        pgtype.Timestamp{Time: now, Valid: true},
 		Description:      descriptionNullString,
 		IsDone:           isDoneNullBool,
 		DoneDate:         doneDateNullTime,
 		MetricEstimation: metricEstimationNullInt32,
 	}
 
-	metric, err := cc.db.UpdateMetric(ctx, *args)
+	metric, err := cc.db.UpdateMetric(ctx, args)
 	util.HandleErrorGin(ctx, err)
 	err = services.UpdateWayIsCompletedStatus(cc.db, ctx, metric.WayUuid)
 	util.HandleErrorGin(ctx, err)
 
 	response := schemas.MetricResponse{
-		Uuid:             metric.Uuid.String(),
+		Uuid:             util.ConvertPgUUIDToUUID(metric.Uuid).String(),
 		Description:      metric.Description,
 		IsDone:           metric.IsDone,
-		DoneDate:         util.MarshalNullTime(metric.DoneDate),
+		DoneDate:         util.MarshalPgTimestamp(metric.DoneDate),
 		MetricEstimation: metric.MetricEstimation,
 	}
 
@@ -139,7 +139,7 @@ func (cc *MetricController) UpdateMetric(ctx *gin.Context) {
 func (cc *MetricController) DeleteMetricById(ctx *gin.Context) {
 	metricId := ctx.Param("metricId")
 
-	removedMetric, err := cc.db.DeleteMetric(ctx, uuid.MustParse(metricId))
+	removedMetric, err := cc.db.DeleteMetric(ctx, pgtype.UUID{Bytes: uuid.MustParse(metricId), Valid: true})
 	util.HandleErrorGin(ctx, err)
 	err = services.UpdateWayIsCompletedStatus(cc.db, ctx, removedMetric.WayUuid)
 	util.HandleErrorGin(ctx, err)

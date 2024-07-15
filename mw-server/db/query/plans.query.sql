@@ -8,16 +8,22 @@ INSERT INTO plans(
     is_done,
     day_report_uuid
 ) VALUES (
-    $1, $2, $3, $4, $5, $6, $7
+    @created_at,
+    @updated_at,
+    @description,
+    @time,
+    @owner_uuid,
+    @is_done,
+    @day_report_uuid
 ) RETURNING *,
-    (SELECT name FROM users WHERE uuid = $5) AS owner_name,
+    (SELECT name FROM users WHERE uuid = @owner_uuid) AS owner_name,
     -- get tag uuids
     COALESCE(
         ARRAY(
-            SELECT plans_job_tags.job_tag_uuid 
-            FROM plans_job_tags 
+            SELECT plans_job_tags.job_tag_uuid
+            FROM plans_job_tags
             WHERE plans.uuid = plans_job_tags.plan_uuid
-        ), 
+        ),
         '{}'
     )::VARCHAR[] AS tag_uuids;
 
@@ -25,7 +31,7 @@ INSERT INTO plans(
 
 -- name: GetListPlansByDayReportId :many
 SELECT * FROM plans
-WHERE plans.day_report_uuid = $1
+WHERE plans.day_report_uuid = @day_report_uuid
 ORDER BY created_at;
 
 -- name: UpdatePlan :one
@@ -41,13 +47,13 @@ RETURNING *,
     -- get tag uuids
     COALESCE(
         ARRAY(
-            SELECT plans_job_tags.job_tag_uuid 
-            FROM plans_job_tags 
+            SELECT plans_job_tags.job_tag_uuid
+            FROM plans_job_tags
             WHERE plans.uuid = plans_job_tags.plan_uuid
-        ), 
+        ),
         '{}'
     )::VARCHAR[] AS tag_uuids;
 
 -- name: DeletePlan :exec
 DELETE FROM plans
-WHERE uuid = $1;
+WHERE uuid = @plan_uuid;

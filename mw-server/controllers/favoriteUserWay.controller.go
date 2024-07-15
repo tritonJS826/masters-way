@@ -10,6 +10,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 type FavoriteUserWayController struct {
@@ -39,12 +40,12 @@ func (cc *FavoriteUserWayController) CreateFavoriteUserWay(ctx *gin.Context) {
 		return
 	}
 
-	args := &db.CreateFavoriteUserWayParams{
-		UserUuid: payload.UserUuid,
-		WayUuid:  payload.WayUuid,
+	args := db.CreateFavoriteUserWayParams{
+		UserUuid: pgtype.UUID{Bytes: payload.UserUuid, Valid: true},
+		WayUuid:  pgtype.UUID{Bytes: payload.WayUuid, Valid: true},
 	}
 
-	favoriteUserWay, err := cc.db.CreateFavoriteUserWay(ctx, *args)
+	favoriteUserWay, err := cc.db.CreateFavoriteUserWay(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, favoriteUserWay)
@@ -66,8 +67,8 @@ func (cc *FavoriteUserWayController) DeleteFavoriteUserWayById(ctx *gin.Context)
 	wayUuid := ctx.Param("wayUuid")
 
 	args := db.DeleteFavoriteUserWayByIdsParams{
-		UserUuid: uuid.MustParse(userUuid),
-		WayUuid:  uuid.MustParse(wayUuid),
+		UserUuid: pgtype.UUID{Bytes: uuid.MustParse(userUuid), Valid: true},
+		WayUuid:  pgtype.UUID{Bytes: uuid.MustParse(wayUuid), Valid: true},
 	}
 
 	err := cc.db.DeleteFavoriteUserWayByIds(ctx, args)

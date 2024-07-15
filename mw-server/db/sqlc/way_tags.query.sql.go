@@ -8,8 +8,7 @@ package db
 import (
 	"context"
 
-	"github.com/google/uuid"
-	"github.com/lib/pq"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 const createWayTag = `-- name: CreateWayTag :one
@@ -21,24 +20,24 @@ INSERT INTO way_tags(
 `
 
 func (q *Queries) CreateWayTag(ctx context.Context, name string) (WayTag, error) {
-	row := q.queryRow(ctx, q.createWayTagStmt, createWayTag, name)
+	row := q.db.QueryRow(ctx, createWayTag, name)
 	var i WayTag
 	err := row.Scan(&i.Uuid, &i.Name)
 	return i, err
 }
 
 const getListWayTagsByWayId = `-- name: GetListWayTagsByWayId :many
-SELECT 
+SELECT
     way_tags.uuid AS uuid,
     way_tags.name AS name
 FROM way_tags
-JOIN ways_way_tags ON ways_way_tags.way_tag_uuid = way_tags.uuid  
+JOIN ways_way_tags ON ways_way_tags.way_tag_uuid = way_tags.uuid
 WHERE ways_way_tags.way_uuid = $1
 ORDER BY name
 `
 
-func (q *Queries) GetListWayTagsByWayId(ctx context.Context, wayUuid uuid.UUID) ([]WayTag, error) {
-	rows, err := q.query(ctx, q.getListWayTagsByWayIdStmt, getListWayTagsByWayId, wayUuid)
+func (q *Queries) GetListWayTagsByWayId(ctx context.Context, wayUuid pgtype.UUID) ([]WayTag, error) {
+	rows, err := q.db.Query(ctx, getListWayTagsByWayId, wayUuid)
 	if err != nil {
 		return nil, err
 	}
@@ -51,9 +50,6 @@ func (q *Queries) GetListWayTagsByWayId(ctx context.Context, wayUuid uuid.UUID) 
 		}
 		items = append(items, i)
 	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
 	if err := rows.Err(); err != nil {
 		return nil, err
 	}
@@ -61,24 +57,24 @@ func (q *Queries) GetListWayTagsByWayId(ctx context.Context, wayUuid uuid.UUID) 
 }
 
 const getListWayTagsByWayIds = `-- name: GetListWayTagsByWayIds :many
-SELECT 
+SELECT
     way_tags.uuid AS uuid,
     way_tags.name AS name,
     ways_way_tags.way_uuid
 FROM way_tags
-JOIN ways_way_tags ON ways_way_tags.way_tag_uuid = way_tags.uuid  
+JOIN ways_way_tags ON ways_way_tags.way_tag_uuid = way_tags.uuid
 WHERE ways_way_tags.way_uuid = ANY($1::UUID[])
 ORDER BY name
 `
 
 type GetListWayTagsByWayIdsRow struct {
-	Uuid    uuid.UUID `json:"uuid"`
-	Name    string    `json:"name"`
-	WayUuid uuid.UUID `json:"way_uuid"`
+	Uuid    pgtype.UUID `json:"uuid"`
+	Name    string      `json:"name"`
+	WayUuid pgtype.UUID `json:"way_uuid"`
 }
 
-func (q *Queries) GetListWayTagsByWayIds(ctx context.Context, dollar_1 []uuid.UUID) ([]GetListWayTagsByWayIdsRow, error) {
-	rows, err := q.query(ctx, q.getListWayTagsByWayIdsStmt, getListWayTagsByWayIds, pq.Array(dollar_1))
+func (q *Queries) GetListWayTagsByWayIds(ctx context.Context, wayUuids []pgtype.UUID) ([]GetListWayTagsByWayIdsRow, error) {
+	rows, err := q.db.Query(ctx, getListWayTagsByWayIds, wayUuids)
 	if err != nil {
 		return nil, err
 	}
@@ -91,9 +87,6 @@ func (q *Queries) GetListWayTagsByWayIds(ctx context.Context, dollar_1 []uuid.UU
 		}
 		items = append(items, i)
 	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
 	if err := rows.Err(); err != nil {
 		return nil, err
 	}
@@ -105,8 +98,8 @@ SELECT uuid, name FROM way_tags
 WHERE way_tags.name = $1
 `
 
-func (q *Queries) GetWayTagByName(ctx context.Context, name string) (WayTag, error) {
-	row := q.queryRow(ctx, q.getWayTagByNameStmt, getWayTagByName, name)
+func (q *Queries) GetWayTagByName(ctx context.Context, wayTagName string) (WayTag, error) {
+	row := q.db.QueryRow(ctx, getWayTagByName, wayTagName)
 	var i WayTag
 	err := row.Scan(&i.Uuid, &i.Name)
 	return i, err

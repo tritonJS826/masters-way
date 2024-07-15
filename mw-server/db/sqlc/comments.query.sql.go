@@ -7,11 +7,8 @@ package db
 
 import (
 	"context"
-	"database/sql"
-	"time"
 
-	"github.com/google/uuid"
-	"github.com/lib/pq"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 const createComment = `-- name: CreateComment :one
@@ -23,31 +20,31 @@ INSERT INTO comments(
     day_report_uuid
 ) VALUES (
     $1, $2, $3, $4, $5
-) RETURNING 
+) RETURNING
     uuid, created_at, updated_at, description, owner_uuid, day_report_uuid,
     (SELECT name FROM users WHERE uuid = $4) AS owner_name
 `
 
 type CreateCommentParams struct {
-	CreatedAt     time.Time `json:"created_at"`
-	UpdatedAt     time.Time `json:"updated_at"`
-	Description   string    `json:"description"`
-	OwnerUuid     uuid.UUID `json:"owner_uuid"`
-	DayReportUuid uuid.UUID `json:"day_report_uuid"`
+	CreatedAt     pgtype.Timestamp `json:"created_at"`
+	UpdatedAt     pgtype.Timestamp `json:"updated_at"`
+	Description   string           `json:"description"`
+	OwnerUuid     pgtype.UUID      `json:"owner_uuid"`
+	DayReportUuid pgtype.UUID      `json:"day_report_uuid"`
 }
 
 type CreateCommentRow struct {
-	Uuid          uuid.UUID `json:"uuid"`
-	CreatedAt     time.Time `json:"created_at"`
-	UpdatedAt     time.Time `json:"updated_at"`
-	Description   string    `json:"description"`
-	OwnerUuid     uuid.UUID `json:"owner_uuid"`
-	DayReportUuid uuid.UUID `json:"day_report_uuid"`
-	OwnerName     string    `json:"owner_name"`
+	Uuid          pgtype.UUID      `json:"uuid"`
+	CreatedAt     pgtype.Timestamp `json:"created_at"`
+	UpdatedAt     pgtype.Timestamp `json:"updated_at"`
+	Description   string           `json:"description"`
+	OwnerUuid     pgtype.UUID      `json:"owner_uuid"`
+	DayReportUuid pgtype.UUID      `json:"day_report_uuid"`
+	OwnerName     string           `json:"owner_name"`
 }
 
 func (q *Queries) CreateComment(ctx context.Context, arg CreateCommentParams) (CreateCommentRow, error) {
-	row := q.queryRow(ctx, q.createCommentStmt, createComment,
+	row := q.db.QueryRow(ctx, createComment,
 		arg.CreatedAt,
 		arg.UpdatedAt,
 		arg.Description,
@@ -72,8 +69,8 @@ DELETE FROM comments
 WHERE uuid = $1
 `
 
-func (q *Queries) DeleteComment(ctx context.Context, argUuid uuid.UUID) error {
-	_, err := q.exec(ctx, q.deleteCommentStmt, deleteComment, argUuid)
+func (q *Queries) DeleteComment(ctx context.Context, commentUuid pgtype.UUID) error {
+	_, err := q.db.Exec(ctx, deleteComment, commentUuid)
 	return err
 }
 
@@ -86,8 +83,8 @@ WHERE day_report_uuid = ANY($1::UUID[])
 ORDER BY comments.created_at
 `
 
-func (q *Queries) GetListCommentsByDayReportUuids(ctx context.Context, dollar_1 []uuid.UUID) ([]Comment, error) {
-	rows, err := q.query(ctx, q.getListCommentsByDayReportUuidsStmt, getListCommentsByDayReportUuids, pq.Array(dollar_1))
+func (q *Queries) GetListCommentsByDayReportUuids(ctx context.Context, dayReportUuids []pgtype.UUID) ([]Comment, error) {
+	rows, err := q.db.Query(ctx, getListCommentsByDayReportUuids, dayReportUuids)
 	if err != nil {
 		return nil, err
 	}
@@ -107,9 +104,6 @@ func (q *Queries) GetListCommentsByDayReportUuids(ctx context.Context, dollar_1 
 		}
 		items = append(items, i)
 	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
 	if err := rows.Err(); err != nil {
 		return nil, err
 	}
@@ -126,13 +120,13 @@ RETURNING uuid, created_at, updated_at, description, owner_uuid, day_report_uuid
 `
 
 type UpdateCommentParams struct {
-	UpdatedAt   sql.NullTime   `json:"updated_at"`
-	Description sql.NullString `json:"description"`
-	Uuid        uuid.UUID      `json:"uuid"`
+	UpdatedAt   pgtype.Timestamp `json:"updated_at"`
+	Description pgtype.Text      `json:"description"`
+	Uuid        pgtype.UUID      `json:"uuid"`
 }
 
 func (q *Queries) UpdateComment(ctx context.Context, arg UpdateCommentParams) (Comment, error) {
-	row := q.queryRow(ctx, q.updateCommentStmt, updateComment, arg.UpdatedAt, arg.Description, arg.Uuid)
+	row := q.db.QueryRow(ctx, updateComment, arg.UpdatedAt, arg.Description, arg.Uuid)
 	var i Comment
 	err := row.Scan(
 		&i.Uuid,

@@ -7,10 +7,8 @@ package db
 
 import (
 	"context"
-	"time"
 
-	"github.com/google/uuid"
-	"github.com/lib/pq"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 const createProblemsJobTag = `-- name: CreateProblemsJobTag :one
@@ -18,17 +16,18 @@ INSERT INTO problems_job_tags(
     problem_uuid,
     job_tag_uuid
 ) VALUES (
-    $1, $2
+    $1,
+    $2
 ) RETURNING problem_uuid, job_tag_uuid
 `
 
 type CreateProblemsJobTagParams struct {
-	ProblemUuid uuid.UUID `json:"problem_uuid"`
-	JobTagUuid  uuid.UUID `json:"job_tag_uuid"`
+	ProblemUuid pgtype.UUID `json:"problem_uuid"`
+	JobTagUuid  pgtype.UUID `json:"job_tag_uuid"`
 }
 
 func (q *Queries) CreateProblemsJobTag(ctx context.Context, arg CreateProblemsJobTagParams) (ProblemsJobTag, error) {
-	row := q.queryRow(ctx, q.createProblemsJobTagStmt, createProblemsJobTag, arg.ProblemUuid, arg.JobTagUuid)
+	row := q.db.QueryRow(ctx, createProblemsJobTag, arg.ProblemUuid, arg.JobTagUuid)
 	var i ProblemsJobTag
 	err := row.Scan(&i.ProblemUuid, &i.JobTagUuid)
 	return i, err
@@ -36,28 +35,28 @@ func (q *Queries) CreateProblemsJobTag(ctx context.Context, arg CreateProblemsJo
 
 const deleteProblemsJobTagByIds = `-- name: DeleteProblemsJobTagByIds :exec
 DELETE FROM problems_job_tags
-WHERE problem_uuid = $1 AND job_tag_uuid = $2
+WHERE problem_uuid = $1  AND job_tag_uuid = $2
 `
 
 type DeleteProblemsJobTagByIdsParams struct {
-	ProblemUuid uuid.UUID `json:"problem_uuid"`
-	JobTagUuid  uuid.UUID `json:"job_tag_uuid"`
+	ProblemUuid pgtype.UUID `json:"problem_uuid"`
+	JobTagUuid  pgtype.UUID `json:"job_tag_uuid"`
 }
 
 func (q *Queries) DeleteProblemsJobTagByIds(ctx context.Context, arg DeleteProblemsJobTagByIdsParams) error {
-	_, err := q.exec(ctx, q.deleteProblemsJobTagByIdsStmt, deleteProblemsJobTagByIds, arg.ProblemUuid, arg.JobTagUuid)
+	_, err := q.db.Exec(ctx, deleteProblemsJobTagByIds, arg.ProblemUuid, arg.JobTagUuid)
 	return err
 }
 
 const getProblemsByDayReportUuids = `-- name: GetProblemsByDayReportUuids :many
-SELECT 
+SELECT
     uuid, created_at, updated_at, description, is_done, owner_uuid, day_report_uuid,
     COALESCE(
     ARRAY(
-            SELECT problems_job_tags.job_tag_uuid 
-            FROM problems_job_tags 
+            SELECT problems_job_tags.job_tag_uuid
+            FROM problems_job_tags
             WHERE problems.uuid = problems_job_tags.job_tag_uuid
-        ), 
+        ),
         '{}'
     )::VARCHAR[] AS tag_uuids
 FROM problems
@@ -65,18 +64,18 @@ WHERE problems.day_report_uuid = ANY($1::UUID[])
 `
 
 type GetProblemsByDayReportUuidsRow struct {
-	Uuid          uuid.UUID `json:"uuid"`
-	CreatedAt     time.Time `json:"created_at"`
-	UpdatedAt     time.Time `json:"updated_at"`
-	Description   string    `json:"description"`
-	IsDone        bool      `json:"is_done"`
-	OwnerUuid     uuid.UUID `json:"owner_uuid"`
-	DayReportUuid uuid.UUID `json:"day_report_uuid"`
-	TagUuids      []string  `json:"tag_uuids"`
+	Uuid          pgtype.UUID      `json:"uuid"`
+	CreatedAt     pgtype.Timestamp `json:"created_at"`
+	UpdatedAt     pgtype.Timestamp `json:"updated_at"`
+	Description   string           `json:"description"`
+	IsDone        bool             `json:"is_done"`
+	OwnerUuid     pgtype.UUID      `json:"owner_uuid"`
+	DayReportUuid pgtype.UUID      `json:"day_report_uuid"`
+	TagUuids      []string         `json:"tag_uuids"`
 }
 
-func (q *Queries) GetProblemsByDayReportUuids(ctx context.Context, dollar_1 []uuid.UUID) ([]GetProblemsByDayReportUuidsRow, error) {
-	rows, err := q.query(ctx, q.getProblemsByDayReportUuidsStmt, getProblemsByDayReportUuids, pq.Array(dollar_1))
+func (q *Queries) GetProblemsByDayReportUuids(ctx context.Context, dayReportUuids []pgtype.UUID) ([]GetProblemsByDayReportUuidsRow, error) {
+	rows, err := q.db.Query(ctx, getProblemsByDayReportUuids, dayReportUuids)
 	if err != nil {
 		return nil, err
 	}
@@ -92,14 +91,11 @@ func (q *Queries) GetProblemsByDayReportUuids(ctx context.Context, dollar_1 []uu
 			&i.IsDone,
 			&i.OwnerUuid,
 			&i.DayReportUuid,
-			pq.Array(&i.TagUuids),
+			&i.TagUuids,
 		); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
 	}
 	if err := rows.Err(); err != nil {
 		return nil, err

@@ -7,10 +7,8 @@ package db
 
 import (
 	"context"
-	"database/sql"
-	"time"
 
-	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 const createMetric = `-- name: CreateMetric :one
@@ -22,21 +20,26 @@ INSERT INTO metrics(
     metric_estimation,
     way_uuid
 ) VALUES (
-    $1, $2, $3, $4, $5, $6
+    $1,
+    $2,
+    $3,
+    $4,
+    $5,
+    $6
 ) RETURNING uuid, created_at, updated_at, description, is_done, done_date, metric_estimation, way_uuid
 `
 
 type CreateMetricParams struct {
-	UpdatedAt        time.Time    `json:"updated_at"`
-	Description      string       `json:"description"`
-	IsDone           bool         `json:"is_done"`
-	DoneDate         sql.NullTime `json:"done_date"`
-	MetricEstimation int32        `json:"metric_estimation"`
-	WayUuid          uuid.UUID    `json:"way_uuid"`
+	UpdatedAt        pgtype.Timestamp `json:"updated_at"`
+	Description      string           `json:"description"`
+	IsDone           bool             `json:"is_done"`
+	DoneDate         pgtype.Timestamp `json:"done_date"`
+	MetricEstimation int32            `json:"metric_estimation"`
+	WayUuid          pgtype.UUID      `json:"way_uuid"`
 }
 
 func (q *Queries) CreateMetric(ctx context.Context, arg CreateMetricParams) (Metric, error) {
-	row := q.queryRow(ctx, q.createMetricStmt, createMetric,
+	row := q.db.QueryRow(ctx, createMetric,
 		arg.UpdatedAt,
 		arg.Description,
 		arg.IsDone,
@@ -64,8 +67,8 @@ WHERE uuid = $1
 RETURNING uuid, created_at, updated_at, description, is_done, done_date, metric_estimation, way_uuid
 `
 
-func (q *Queries) DeleteMetric(ctx context.Context, argUuid uuid.UUID) (Metric, error) {
-	row := q.queryRow(ctx, q.deleteMetricStmt, deleteMetric, argUuid)
+func (q *Queries) DeleteMetric(ctx context.Context, metricsUuid pgtype.UUID) (Metric, error) {
+	row := q.db.QueryRow(ctx, deleteMetric, metricsUuid)
 	var i Metric
 	err := row.Scan(
 		&i.Uuid,
@@ -86,8 +89,8 @@ WHERE metrics.way_uuid = $1
 ORDER BY created_at
 `
 
-func (q *Queries) GetListMetricsByWayUuid(ctx context.Context, wayUuid uuid.UUID) ([]Metric, error) {
-	rows, err := q.query(ctx, q.getListMetricsByWayUuidStmt, getListMetricsByWayUuid, wayUuid)
+func (q *Queries) GetListMetricsByWayUuid(ctx context.Context, wayUuid pgtype.UUID) ([]Metric, error) {
+	rows, err := q.db.Query(ctx, getListMetricsByWayUuid, wayUuid)
 	if err != nil {
 		return nil, err
 	}
@@ -109,9 +112,6 @@ func (q *Queries) GetListMetricsByWayUuid(ctx context.Context, wayUuid uuid.UUID
 		}
 		items = append(items, i)
 	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
 	if err := rows.Err(); err != nil {
 		return nil, err
 	}
@@ -125,8 +125,8 @@ WHERE way_uuid = $1
 AND is_done = false
 `
 
-func (q *Queries) IsAllMetricsDone(ctx context.Context, wayUuid uuid.UUID) (bool, error) {
-	row := q.queryRow(ctx, q.isAllMetricsDoneStmt, isAllMetricsDone, wayUuid)
+func (q *Queries) IsAllMetricsDone(ctx context.Context, wayUuid pgtype.UUID) (bool, error) {
+	row := q.db.QueryRow(ctx, isAllMetricsDone, wayUuid)
 	var all_done bool
 	err := row.Scan(&all_done)
 	return all_done, err
@@ -150,27 +150,27 @@ ORDER BY created_at ASC
 `
 
 type UpdateMetricParams struct {
-	UpdatedAt        sql.NullTime   `json:"updated_at"`
-	Description      sql.NullString `json:"description"`
-	IsDone           sql.NullBool   `json:"is_done"`
-	DoneDate         sql.NullTime   `json:"done_date"`
-	MetricEstimation sql.NullInt32  `json:"metric_estimation"`
-	Uuid             uuid.UUID      `json:"uuid"`
+	UpdatedAt        pgtype.Timestamp `json:"updated_at"`
+	Description      pgtype.Text      `json:"description"`
+	IsDone           pgtype.Bool      `json:"is_done"`
+	DoneDate         pgtype.Timestamp `json:"done_date"`
+	MetricEstimation pgtype.Int4      `json:"metric_estimation"`
+	Uuid             pgtype.UUID      `json:"uuid"`
 }
 
 type UpdateMetricRow struct {
-	Uuid             uuid.UUID    `json:"uuid"`
-	CreatedAt        time.Time    `json:"created_at"`
-	UpdatedAt        time.Time    `json:"updated_at"`
-	Description      string       `json:"description"`
-	IsDone           bool         `json:"is_done"`
-	DoneDate         sql.NullTime `json:"done_date"`
-	MetricEstimation int32        `json:"metric_estimation"`
-	WayUuid          uuid.UUID    `json:"way_uuid"`
+	Uuid             pgtype.UUID      `json:"uuid"`
+	CreatedAt        pgtype.Timestamp `json:"created_at"`
+	UpdatedAt        pgtype.Timestamp `json:"updated_at"`
+	Description      string           `json:"description"`
+	IsDone           bool             `json:"is_done"`
+	DoneDate         pgtype.Timestamp `json:"done_date"`
+	MetricEstimation int32            `json:"metric_estimation"`
+	WayUuid          pgtype.UUID      `json:"way_uuid"`
 }
 
 func (q *Queries) UpdateMetric(ctx context.Context, arg UpdateMetricParams) (UpdateMetricRow, error) {
-	row := q.queryRow(ctx, q.updateMetricStmt, updateMetric,
+	row := q.db.QueryRow(ctx, updateMetric,
 		arg.UpdatedAt,
 		arg.Description,
 		arg.IsDone,

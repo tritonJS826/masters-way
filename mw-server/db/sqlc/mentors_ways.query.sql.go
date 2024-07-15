@@ -7,10 +7,8 @@ package db
 
 import (
 	"context"
-	"time"
 
-	"github.com/google/uuid"
-	"github.com/lib/pq"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 const createMentorUserWay = `-- name: CreateMentorUserWay :one
@@ -18,17 +16,18 @@ INSERT INTO mentor_users_ways(
     user_uuid,
     way_uuid
 ) VALUES (
-    $1, $2
+    $1,
+    $2
 ) RETURNING user_uuid, way_uuid
 `
 
 type CreateMentorUserWayParams struct {
-	UserUuid uuid.UUID `json:"user_uuid"`
-	WayUuid  uuid.UUID `json:"way_uuid"`
+	UserUuid pgtype.UUID `json:"user_uuid"`
+	WayUuid  pgtype.UUID `json:"way_uuid"`
 }
 
 func (q *Queries) CreateMentorUserWay(ctx context.Context, arg CreateMentorUserWayParams) (MentorUsersWay, error) {
-	row := q.queryRow(ctx, q.createMentorUserWayStmt, createMentorUserWay, arg.UserUuid, arg.WayUuid)
+	row := q.db.QueryRow(ctx, createMentorUserWay, arg.UserUuid, arg.WayUuid)
 	var i MentorUsersWay
 	err := row.Scan(&i.UserUuid, &i.WayUuid)
 	return i, err
@@ -40,12 +39,12 @@ WHERE user_uuid = $1 AND way_uuid = $2
 `
 
 type DeleteMentorUserWayByIdsParams struct {
-	UserUuid uuid.UUID `json:"user_uuid"`
-	WayUuid  uuid.UUID `json:"way_uuid"`
+	UserUuid pgtype.UUID `json:"user_uuid"`
+	WayUuid  pgtype.UUID `json:"way_uuid"`
 }
 
 func (q *Queries) DeleteMentorUserWayByIds(ctx context.Context, arg DeleteMentorUserWayByIdsParams) error {
-	_, err := q.exec(ctx, q.deleteMentorUserWayByIdsStmt, deleteMentorUserWayByIds, arg.UserUuid, arg.WayUuid)
+	_, err := q.db.Exec(ctx, deleteMentorUserWayByIds, arg.UserUuid, arg.WayUuid)
 	return err
 }
 
@@ -58,8 +57,8 @@ JOIN users ON users.uuid = mentor_users_ways.user_uuid
 WHERE way_uuid = $1
 `
 
-func (q *Queries) GetMentorUsersByWayId(ctx context.Context, wayUuid uuid.UUID) ([]User, error) {
-	rows, err := q.query(ctx, q.getMentorUsersByWayIdStmt, getMentorUsersByWayId, wayUuid)
+func (q *Queries) GetMentorUsersByWayId(ctx context.Context, wayUuid pgtype.UUID) ([]User, error) {
+	rows, err := q.db.Query(ctx, getMentorUsersByWayId, wayUuid)
 	if err != nil {
 		return nil, err
 	}
@@ -80,9 +79,6 @@ func (q *Queries) GetMentorUsersByWayId(ctx context.Context, wayUuid uuid.UUID) 
 		}
 		items = append(items, i)
 	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
 	if err := rows.Err(); err != nil {
 		return nil, err
 	}
@@ -100,18 +96,18 @@ WHERE way_uuid = ANY($1::UUID[])
 `
 
 type GetMentorUsersByWayIdsRow struct {
-	Uuid        uuid.UUID `json:"uuid"`
-	Name        string    `json:"name"`
-	Email       string    `json:"email"`
-	Description string    `json:"description"`
-	CreatedAt   time.Time `json:"created_at"`
-	ImageUrl    string    `json:"image_url"`
-	IsMentor    bool      `json:"is_mentor"`
-	WayUuid     uuid.UUID `json:"way_uuid"`
+	Uuid        pgtype.UUID      `json:"uuid"`
+	Name        string           `json:"name"`
+	Email       string           `json:"email"`
+	Description string           `json:"description"`
+	CreatedAt   pgtype.Timestamp `json:"created_at"`
+	ImageUrl    string           `json:"image_url"`
+	IsMentor    bool             `json:"is_mentor"`
+	WayUuid     pgtype.UUID      `json:"way_uuid"`
 }
 
-func (q *Queries) GetMentorUsersByWayIds(ctx context.Context, dollar_1 []uuid.UUID) ([]GetMentorUsersByWayIdsRow, error) {
-	rows, err := q.query(ctx, q.getMentorUsersByWayIdsStmt, getMentorUsersByWayIds, pq.Array(dollar_1))
+func (q *Queries) GetMentorUsersByWayIds(ctx context.Context, wayUuids []pgtype.UUID) ([]GetMentorUsersByWayIdsRow, error) {
+	rows, err := q.db.Query(ctx, getMentorUsersByWayIds, wayUuids)
 	if err != nil {
 		return nil, err
 	}
@@ -133,9 +129,6 @@ func (q *Queries) GetMentorUsersByWayIds(ctx context.Context, dollar_1 []uuid.UU
 		}
 		items = append(items, i)
 	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
 	if err := rows.Err(); err != nil {
 		return nil, err
 	}
@@ -148,8 +141,8 @@ FROM mentor_users_ways
 WHERE user_uuid = $1
 `
 
-func (q *Queries) GetMentoringWaysCountByUserId(ctx context.Context, userUuid uuid.UUID) (int64, error) {
-	row := q.queryRow(ctx, q.getMentoringWaysCountByUserIdStmt, getMentoringWaysCountByUserId, userUuid)
+func (q *Queries) GetMentoringWaysCountByUserId(ctx context.Context, userUuid pgtype.UUID) (int64, error) {
+	row := q.db.QueryRow(ctx, getMentoringWaysCountByUserId, userUuid)
 	var mentoring_ways_count int64
 	err := row.Scan(&mentoring_ways_count)
 	return mentoring_ways_count, err

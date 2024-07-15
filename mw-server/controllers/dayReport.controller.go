@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"context"
-	"database/sql"
 	"net/http"
 	"time"
 
@@ -14,6 +13,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 type DayReportController struct {
@@ -55,28 +55,28 @@ func (cc *DayReportController) CreateDayReport(ctx *gin.Context) {
 	util.HandleErrorGin(ctx, err)
 
 	now := time.Now()
-	args := &db.CreateDayReportParams{
-		WayUuid:   payload.WayUuid,
-		CreatedAt: now,
-		UpdatedAt: now,
+	args := db.CreateDayReportParams{
+		WayUuid:   pgtype.UUID{Bytes: payload.WayUuid, Valid: true},
+		CreatedAt: pgtype.Timestamp{Time: now, Valid: true},
+		UpdatedAt: pgtype.Timestamp{Time: now, Valid: true},
 		IsDayOff:  payload.IsDayOff,
 	}
 
-	dbDayReport, err := cc.db.CreateDayReport(ctx, *args)
+	dbDayReport, err := cc.db.CreateDayReport(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	updateWayArgs := &db.UpdateWayParams{
-		Uuid:      payload.WayUuid,
-		UpdatedAt: sql.NullTime{Time: now, Valid: true},
+		Uuid:      pgtype.UUID{Bytes: payload.WayUuid, Valid: true},
+		UpdatedAt: pgtype.Timestamp{Time: now, Valid: true},
 	}
 
 	_, err = cc.db.UpdateWay(ctx, *updateWayArgs)
 	util.HandleErrorGin(ctx, err)
 
 	response := schemas.DayReportPopulatedResponse{
-		Uuid:      dbDayReport.Uuid.String(),
-		CreatedAt: dbDayReport.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-		UpdatedAt: dbDayReport.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+		Uuid:      util.ConvertPgUUIDToUUID(dbDayReport.Uuid).String(),
+		CreatedAt: dbDayReport.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+		UpdatedAt: dbDayReport.UpdatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
 		IsDayOff:  dbDayReport.IsDayOff,
 		JobsDone:  make([]schemas.JobDonePopulatedResponse, 0),
 		Plans:     make([]schemas.PlanPopulatedResponse, 0),
@@ -109,10 +109,9 @@ func (cc *DayReportController) UpdateDayReport(ctx *gin.Context) {
 
 	now := time.Now()
 	args := &db.UpdateDayReportParams{
-
-		Uuid:      uuid.MustParse(dayReportId),
-		UpdatedAt: sql.NullTime{Time: now, Valid: true},
-		IsDayOff:  sql.NullBool{Bool: payload.IsDayOff, Valid: true},
+		Uuid:      pgtype.UUID{Bytes: uuid.MustParse(dayReportId), Valid: true},
+		UpdatedAt: pgtype.Timestamp{Time: now, Valid: true},
+		IsDayOff:  pgtype.Bool{Bool: payload.IsDayOff, Valid: true},
 	}
 
 	dayReport, err := cc.db.UpdateDayReport(ctx, *args)
@@ -133,12 +132,11 @@ func (cc *DayReportController) UpdateDayReport(ctx *gin.Context) {
 // @Router /dayReports/{wayId} [get]
 func (cc *DayReportController) GetAllDayReports(ctx *gin.Context) {
 	wayId := ctx.Param("wayId")
-	wayUuid := uuid.MustParse(wayId)
 
-	dayReports, err := cc.db.GetListDayReportsByWayUuid(ctx, wayUuid)
+	dayReports, err := cc.db.GetListDayReportsByWayUuid(ctx, pgtype.UUID{Bytes: uuid.MustParse(wayId), Valid: true})
 	util.HandleErrorGin(ctx, err)
 
-	if dayReports == nil {
+	if len(dayReports) == 0 {
 		dayReports = []db.DayReport{}
 	}
 

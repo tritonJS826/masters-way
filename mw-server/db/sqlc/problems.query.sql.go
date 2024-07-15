@@ -7,11 +7,8 @@ package db
 
 import (
 	"context"
-	"database/sql"
-	"time"
 
-	"github.com/google/uuid"
-	"github.com/lib/pq"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 const createProblem = `-- name: CreateProblem :one
@@ -23,14 +20,19 @@ INSERT INTO problems(
     owner_uuid,
     day_report_uuid
 ) VALUES (
-    $1, $2, $3, $4, $5, $6
+    $1,
+    $2,
+    $3,
+    $4,
+    $5,
+    $6
 ) RETURNING uuid, created_at, updated_at, description, is_done, owner_uuid, day_report_uuid,
     (SELECT name FROM users WHERE uuid = $5) AS owner_name,
     -- get tag uuids
     COALESCE(
         ARRAY(
-            SELECT problems_job_tags.job_tag_uuid 
-            FROM problems_job_tags 
+            SELECT problems_job_tags.job_tag_uuid
+            FROM problems_job_tags
             WHERE problems.uuid = problems_job_tags.problem_uuid
         ),
         '{}'
@@ -38,28 +40,28 @@ INSERT INTO problems(
 `
 
 type CreateProblemParams struct {
-	CreatedAt     time.Time `json:"created_at"`
-	UpdatedAt     time.Time `json:"updated_at"`
-	Description   string    `json:"description"`
-	IsDone        bool      `json:"is_done"`
-	OwnerUuid     uuid.UUID `json:"owner_uuid"`
-	DayReportUuid uuid.UUID `json:"day_report_uuid"`
+	CreatedAt     pgtype.Timestamp `json:"created_at"`
+	UpdatedAt     pgtype.Timestamp `json:"updated_at"`
+	Description   string           `json:"description"`
+	IsDone        bool             `json:"is_done"`
+	OwnerUuid     pgtype.UUID      `json:"owner_uuid"`
+	DayReportUuid pgtype.UUID      `json:"day_report_uuid"`
 }
 
 type CreateProblemRow struct {
-	Uuid          uuid.UUID `json:"uuid"`
-	CreatedAt     time.Time `json:"created_at"`
-	UpdatedAt     time.Time `json:"updated_at"`
-	Description   string    `json:"description"`
-	IsDone        bool      `json:"is_done"`
-	OwnerUuid     uuid.UUID `json:"owner_uuid"`
-	DayReportUuid uuid.UUID `json:"day_report_uuid"`
-	OwnerName     string    `json:"owner_name"`
-	TagUuids      []string  `json:"tag_uuids"`
+	Uuid          pgtype.UUID      `json:"uuid"`
+	CreatedAt     pgtype.Timestamp `json:"created_at"`
+	UpdatedAt     pgtype.Timestamp `json:"updated_at"`
+	Description   string           `json:"description"`
+	IsDone        bool             `json:"is_done"`
+	OwnerUuid     pgtype.UUID      `json:"owner_uuid"`
+	DayReportUuid pgtype.UUID      `json:"day_report_uuid"`
+	OwnerName     string           `json:"owner_name"`
+	TagUuids      []string         `json:"tag_uuids"`
 }
 
 func (q *Queries) CreateProblem(ctx context.Context, arg CreateProblemParams) (CreateProblemRow, error) {
-	row := q.queryRow(ctx, q.createProblemStmt, createProblem,
+	row := q.db.QueryRow(ctx, createProblem,
 		arg.CreatedAt,
 		arg.UpdatedAt,
 		arg.Description,
@@ -77,7 +79,7 @@ func (q *Queries) CreateProblem(ctx context.Context, arg CreateProblemParams) (C
 		&i.OwnerUuid,
 		&i.DayReportUuid,
 		&i.OwnerName,
-		pq.Array(&i.TagUuids),
+		&i.TagUuids,
 	)
 	return i, err
 }
@@ -87,8 +89,8 @@ DELETE FROM problems
 WHERE uuid = $1
 `
 
-func (q *Queries) DeleteProblem(ctx context.Context, argUuid uuid.UUID) error {
-	_, err := q.exec(ctx, q.deleteProblemStmt, deleteProblem, argUuid)
+func (q *Queries) DeleteProblem(ctx context.Context, problemUuid pgtype.UUID) error {
+	_, err := q.db.Exec(ctx, deleteProblem, problemUuid)
 	return err
 }
 
@@ -98,8 +100,8 @@ WHERE problems.day_report_uuid = $1
 ORDER BY created_at
 `
 
-func (q *Queries) GetListProblemsByDayReportId(ctx context.Context, dayReportUuid uuid.UUID) ([]Problem, error) {
-	rows, err := q.query(ctx, q.getListProblemsByDayReportIdStmt, getListProblemsByDayReportId, dayReportUuid)
+func (q *Queries) GetListProblemsByDayReportId(ctx context.Context, dayReportUuid pgtype.UUID) ([]Problem, error) {
+	rows, err := q.db.Query(ctx, getListProblemsByDayReportId, dayReportUuid)
 	if err != nil {
 		return nil, err
 	}
@@ -120,9 +122,6 @@ func (q *Queries) GetListProblemsByDayReportId(ctx context.Context, dayReportUui
 		}
 		items = append(items, i)
 	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
 	if err := rows.Err(); err != nil {
 		return nil, err
 	}
@@ -141,8 +140,8 @@ RETURNING uuid, created_at, updated_at, description, is_done, owner_uuid, day_re
     -- get tag uuids
     COALESCE(
         ARRAY(
-            SELECT problems_job_tags.job_tag_uuid 
-            FROM problems_job_tags 
+            SELECT problems_job_tags.job_tag_uuid
+            FROM problems_job_tags
             WHERE problems.uuid = problems_job_tags.problem_uuid
         ),
         '{}'
@@ -150,26 +149,26 @@ RETURNING uuid, created_at, updated_at, description, is_done, owner_uuid, day_re
 `
 
 type UpdateProblemParams struct {
-	UpdatedAt   sql.NullTime   `json:"updated_at"`
-	Description sql.NullString `json:"description"`
-	IsDone      sql.NullBool   `json:"is_done"`
-	Uuid        uuid.UUID      `json:"uuid"`
+	UpdatedAt   pgtype.Timestamp `json:"updated_at"`
+	Description pgtype.Text      `json:"description"`
+	IsDone      pgtype.Bool      `json:"is_done"`
+	Uuid        pgtype.UUID      `json:"uuid"`
 }
 
 type UpdateProblemRow struct {
-	Uuid          uuid.UUID `json:"uuid"`
-	CreatedAt     time.Time `json:"created_at"`
-	UpdatedAt     time.Time `json:"updated_at"`
-	Description   string    `json:"description"`
-	IsDone        bool      `json:"is_done"`
-	OwnerUuid     uuid.UUID `json:"owner_uuid"`
-	DayReportUuid uuid.UUID `json:"day_report_uuid"`
-	OwnerName     string    `json:"owner_name"`
-	TagUuids      []string  `json:"tag_uuids"`
+	Uuid          pgtype.UUID      `json:"uuid"`
+	CreatedAt     pgtype.Timestamp `json:"created_at"`
+	UpdatedAt     pgtype.Timestamp `json:"updated_at"`
+	Description   string           `json:"description"`
+	IsDone        bool             `json:"is_done"`
+	OwnerUuid     pgtype.UUID      `json:"owner_uuid"`
+	DayReportUuid pgtype.UUID      `json:"day_report_uuid"`
+	OwnerName     string           `json:"owner_name"`
+	TagUuids      []string         `json:"tag_uuids"`
 }
 
 func (q *Queries) UpdateProblem(ctx context.Context, arg UpdateProblemParams) (UpdateProblemRow, error) {
-	row := q.queryRow(ctx, q.updateProblemStmt, updateProblem,
+	row := q.db.QueryRow(ctx, updateProblem,
 		arg.UpdatedAt,
 		arg.Description,
 		arg.IsDone,
@@ -185,7 +184,7 @@ func (q *Queries) UpdateProblem(ctx context.Context, arg UpdateProblemParams) (U
 		&i.OwnerUuid,
 		&i.DayReportUuid,
 		&i.OwnerName,
-		pq.Array(&i.TagUuids),
+		&i.TagUuids,
 	)
 	return i, err
 }

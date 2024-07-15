@@ -7,10 +7,8 @@ package db
 
 import (
 	"context"
-	"database/sql"
-	"time"
 
-	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 const createWayCollection = `-- name: CreateWayCollection :one
@@ -26,15 +24,15 @@ INSERT INTO way_collections(
 `
 
 type CreateWayCollectionParams struct {
-	OwnerUuid uuid.UUID `json:"owner_uuid"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
-	Name      string    `json:"name"`
-	Type      string    `json:"type"`
+	OwnerUuid pgtype.UUID      `json:"owner_uuid"`
+	CreatedAt pgtype.Timestamp `json:"created_at"`
+	UpdatedAt pgtype.Timestamp `json:"updated_at"`
+	Name      string           `json:"name"`
+	Type      string           `json:"type"`
 }
 
 func (q *Queries) CreateWayCollection(ctx context.Context, arg CreateWayCollectionParams) (WayCollection, error) {
-	row := q.queryRow(ctx, q.createWayCollectionStmt, createWayCollection,
+	row := q.db.QueryRow(ctx, createWayCollection,
 		arg.OwnerUuid,
 		arg.CreatedAt,
 		arg.UpdatedAt,
@@ -58,8 +56,8 @@ DELETE FROM way_collections
 WHERE uuid = $1
 `
 
-func (q *Queries) DeleteWayCollection(ctx context.Context, argUuid uuid.UUID) error {
-	_, err := q.exec(ctx, q.deleteWayCollectionStmt, deleteWayCollection, argUuid)
+func (q *Queries) DeleteWayCollection(ctx context.Context, wayCollectionsUuid pgtype.UUID) error {
+	_, err := q.db.Exec(ctx, deleteWayCollection, wayCollectionsUuid)
 	return err
 }
 
@@ -69,8 +67,8 @@ WHERE way_collections.owner_uuid = $1
 ORDER BY created_at
 `
 
-func (q *Queries) GetListWayCollectionsByUserId(ctx context.Context, ownerUuid uuid.UUID) ([]WayCollection, error) {
-	rows, err := q.query(ctx, q.getListWayCollectionsByUserIdStmt, getListWayCollectionsByUserId, ownerUuid)
+func (q *Queries) GetListWayCollectionsByUserId(ctx context.Context, ownerUuid pgtype.UUID) ([]WayCollection, error) {
+	rows, err := q.db.Query(ctx, getListWayCollectionsByUserId, ownerUuid)
 	if err != nil {
 		return nil, err
 	}
@@ -90,9 +88,6 @@ func (q *Queries) GetListWayCollectionsByUserId(ctx context.Context, ownerUuid u
 		}
 		items = append(items, i)
 	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
 	if err := rows.Err(); err != nil {
 		return nil, err
 	}
@@ -105,8 +100,8 @@ FROM way_collections
 WHERE owner_uuid = $1
 `
 
-func (q *Queries) GetWayCollectionsCountByUserId(ctx context.Context, userUuid uuid.UUID) (int64, error) {
-	row := q.queryRow(ctx, q.getWayCollectionsCountByUserIdStmt, getWayCollectionsCountByUserId, userUuid)
+func (q *Queries) GetWayCollectionsCountByUserId(ctx context.Context, userUuid pgtype.UUID) (int64, error) {
+	row := q.db.QueryRow(ctx, getWayCollectionsCountByUserId, userUuid)
 	var way_collections_count int64
 	err := row.Scan(&way_collections_count)
 	return way_collections_count, err
@@ -122,13 +117,13 @@ RETURNING uuid, owner_uuid, created_at, updated_at, name, type
 `
 
 type UpdateWayCollectionParams struct {
-	Name      sql.NullString `json:"name"`
-	UpdatedAt sql.NullTime   `json:"updated_at"`
-	Uuid      uuid.UUID      `json:"uuid"`
+	Name      pgtype.Text      `json:"name"`
+	UpdatedAt pgtype.Timestamp `json:"updated_at"`
+	Uuid      pgtype.UUID      `json:"uuid"`
 }
 
 func (q *Queries) UpdateWayCollection(ctx context.Context, arg UpdateWayCollectionParams) (WayCollection, error) {
-	row := q.queryRow(ctx, q.updateWayCollectionStmt, updateWayCollection, arg.Name, arg.UpdatedAt, arg.Uuid)
+	row := q.db.QueryRow(ctx, updateWayCollection, arg.Name, arg.UpdatedAt, arg.Uuid)
 	var i WayCollection
 	err := row.Scan(
 		&i.Uuid,

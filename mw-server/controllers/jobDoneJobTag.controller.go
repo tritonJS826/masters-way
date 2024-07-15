@@ -10,6 +10,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 type JobDoneJobTagController struct {
@@ -39,12 +40,12 @@ func (cc *JobDoneJobTagController) CreateJobDoneJobTag(ctx *gin.Context) {
 		return
 	}
 
-	args := &db.CreateJobDonesJobTagParams{
-		JobDoneUuid: uuid.MustParse(payload.JobDoneUuid),
-		JobTagUuid:  uuid.MustParse(payload.JobTagUuid),
+	args := db.CreateJobDonesJobTagParams{
+		JobDoneUuid: pgtype.UUID{Bytes: uuid.MustParse(payload.JobDoneUuid), Valid: true},
+		JobTagUuid:  pgtype.UUID{Bytes: uuid.MustParse(payload.JobTagUuid), Valid: true},
 	}
 
-	jobDoneJobTag, err := cc.db.CreateJobDonesJobTag(ctx, *args)
+	jobDoneJobTag, err := cc.db.CreateJobDonesJobTag(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, jobDoneJobTag)
@@ -65,11 +66,11 @@ func (cc *JobDoneJobTagController) DeleteJobDoneJobTagById(ctx *gin.Context) {
 	jobTagId := ctx.Param("jobTagId")
 	jobDoneId := ctx.Param("jobDoneId")
 
-	args := &db.DeleteJobDonesJobTagByJobDoneIdParams{
-		JobDoneUuid: uuid.MustParse(jobDoneId),
-		JobTagUuid:  uuid.MustParse(jobTagId),
+	args := db.DeleteJobDonesJobTagByJobDoneIdParams{
+		JobDoneUuid: pgtype.UUID{Bytes: uuid.MustParse(jobDoneId), Valid: true},
+		JobTagUuid:  pgtype.UUID{Bytes: uuid.MustParse(jobTagId), Valid: true},
 	}
-	err := cc.db.DeleteJobDonesJobTagByJobDoneId(ctx, *args)
+	err := cc.db.DeleteJobDonesJobTagByJobDoneId(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})

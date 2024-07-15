@@ -7,10 +7,8 @@ package db
 
 import (
 	"context"
-	"time"
 
-	"github.com/google/uuid"
-	"github.com/lib/pq"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 const createJobDonesJobTag = `-- name: CreateJobDonesJobTag :one
@@ -23,12 +21,12 @@ INSERT INTO job_dones_job_tags(
 `
 
 type CreateJobDonesJobTagParams struct {
-	JobDoneUuid uuid.UUID `json:"job_done_uuid"`
-	JobTagUuid  uuid.UUID `json:"job_tag_uuid"`
+	JobDoneUuid pgtype.UUID `json:"job_done_uuid"`
+	JobTagUuid  pgtype.UUID `json:"job_tag_uuid"`
 }
 
 func (q *Queries) CreateJobDonesJobTag(ctx context.Context, arg CreateJobDonesJobTagParams) (JobDonesJobTag, error) {
-	row := q.queryRow(ctx, q.createJobDonesJobTagStmt, createJobDonesJobTag, arg.JobDoneUuid, arg.JobTagUuid)
+	row := q.db.QueryRow(ctx, createJobDonesJobTag, arg.JobDoneUuid, arg.JobTagUuid)
 	var i JobDonesJobTag
 	err := row.Scan(&i.JobDoneUuid, &i.JobTagUuid)
 	return i, err
@@ -36,27 +34,27 @@ func (q *Queries) CreateJobDonesJobTag(ctx context.Context, arg CreateJobDonesJo
 
 const deleteJobDonesJobTagByJobDoneId = `-- name: DeleteJobDonesJobTagByJobDoneId :exec
 DELETE FROM job_dones_job_tags
-WHERE job_done_uuid = $1 
+WHERE job_done_uuid = $1
 AND job_tag_uuid = $2
 `
 
 type DeleteJobDonesJobTagByJobDoneIdParams struct {
-	JobDoneUuid uuid.UUID `json:"job_done_uuid"`
-	JobTagUuid  uuid.UUID `json:"job_tag_uuid"`
+	JobDoneUuid pgtype.UUID `json:"job_done_uuid"`
+	JobTagUuid  pgtype.UUID `json:"job_tag_uuid"`
 }
 
 func (q *Queries) DeleteJobDonesJobTagByJobDoneId(ctx context.Context, arg DeleteJobDonesJobTagByJobDoneIdParams) error {
-	_, err := q.exec(ctx, q.deleteJobDonesJobTagByJobDoneIdStmt, deleteJobDonesJobTagByJobDoneId, arg.JobDoneUuid, arg.JobTagUuid)
+	_, err := q.db.Exec(ctx, deleteJobDonesJobTagByJobDoneId, arg.JobDoneUuid, arg.JobTagUuid)
 	return err
 }
 
 const getJobDonesByDayReportUuids = `-- name: GetJobDonesByDayReportUuids :many
-SELECT 
+SELECT
     job_dones.uuid, job_dones.created_at, job_dones.updated_at, job_dones.description, job_dones.time, job_dones.owner_uuid, job_dones.day_report_uuid,
     COALESCE(
     ARRAY(
-        SELECT job_dones_job_tags.job_tag_uuid 
-        FROM job_dones_job_tags 
+        SELECT job_dones_job_tags.job_tag_uuid
+        FROM job_dones_job_tags
         WHERE job_dones.uuid = job_dones_job_tags.job_done_uuid
     ),
     '{}'
@@ -65,18 +63,18 @@ FROM job_dones WHERE job_dones.day_report_uuid = ANY($1::UUID[])
 `
 
 type GetJobDonesByDayReportUuidsRow struct {
-	Uuid          uuid.UUID `json:"uuid"`
-	CreatedAt     time.Time `json:"created_at"`
-	UpdatedAt     time.Time `json:"updated_at"`
-	Description   string    `json:"description"`
-	Time          int32     `json:"time"`
-	OwnerUuid     uuid.UUID `json:"owner_uuid"`
-	DayReportUuid uuid.UUID `json:"day_report_uuid"`
-	TagUuids      []string  `json:"tag_uuids"`
+	Uuid          pgtype.UUID      `json:"uuid"`
+	CreatedAt     pgtype.Timestamp `json:"created_at"`
+	UpdatedAt     pgtype.Timestamp `json:"updated_at"`
+	Description   string           `json:"description"`
+	Time          int32            `json:"time"`
+	OwnerUuid     pgtype.UUID      `json:"owner_uuid"`
+	DayReportUuid pgtype.UUID      `json:"day_report_uuid"`
+	TagUuids      []string         `json:"tag_uuids"`
 }
 
-func (q *Queries) GetJobDonesByDayReportUuids(ctx context.Context, dollar_1 []uuid.UUID) ([]GetJobDonesByDayReportUuidsRow, error) {
-	rows, err := q.query(ctx, q.getJobDonesByDayReportUuidsStmt, getJobDonesByDayReportUuids, pq.Array(dollar_1))
+func (q *Queries) GetJobDonesByDayReportUuids(ctx context.Context, dayReportUuids []pgtype.UUID) ([]GetJobDonesByDayReportUuidsRow, error) {
+	rows, err := q.db.Query(ctx, getJobDonesByDayReportUuids, dayReportUuids)
 	if err != nil {
 		return nil, err
 	}
@@ -92,14 +90,11 @@ func (q *Queries) GetJobDonesByDayReportUuids(ctx context.Context, dollar_1 []uu
 			&i.Time,
 			&i.OwnerUuid,
 			&i.DayReportUuid,
-			pq.Array(&i.TagUuids),
+			&i.TagUuids,
 		); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
 	}
 	if err := rows.Err(); err != nil {
 		return nil, err
