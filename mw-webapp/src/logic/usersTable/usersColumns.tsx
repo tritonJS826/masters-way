@@ -1,5 +1,6 @@
 import {createColumnHelper} from "@tanstack/react-table";
 import clsx from "clsx";
+import {allUsersAccessIds} from "cypress/accessIds/allUsersAccessIds";
 import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
@@ -37,13 +38,19 @@ export const getUsersColumns = (language: Language) => [
      * Cell with clickable username that leads to user page
      */
     cell: ({row}) => (
-      <HorizontalContainer className={clsx(styles.cellWrapper, styles.userBlock)}>
+      <HorizontalContainer
+        className={clsx(styles.cellWrapper, styles.userBlock)}
+        dataCy={allUsersAccessIds.allUsersTable.userName}
+      >
         <Avatar
           alt={row.original.name}
           src={row.original.imageUrl}
           size={AvatarSize.SMALL}
         />
-        <Link path={pages.user.getPath({uuid: row.original.uuid})}>
+        <Link
+          path={pages.user.getPath({uuid: row.original.uuid})}
+          dataCy={`${allUsersAccessIds.allUsersTable.userLink}_${row.original.name}`}
+        >
           <Tooltip
             position={PositionTooltip.TOP}
             content={row.original.name}
@@ -69,7 +76,10 @@ export const getUsersColumns = (language: Language) => [
      * Cell user email
      */
     cell: ({row}) => (
-      <div className={styles.cellWrapper}>
+      <div
+        className={styles.cellWrapper}
+        data-cy={allUsersAccessIds.allUsersTable.userContact}
+      >
         <Tooltip
           position={PositionTooltip.TOP}
           content={row.original.email}

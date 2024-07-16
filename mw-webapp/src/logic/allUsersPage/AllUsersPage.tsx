@@ -157,6 +157,7 @@ export const AllUsersPage = observer(() => {
             placeholder={LanguageService.allUsers.filterBlock.emailPlaceholder[language]}
             typeInputIcon={"SearchIcon"}
             typeInput={InputType.Border}
+            dataCy={allUsersAccessIds.filterViewBlock.searchByEmailInput}
           />
           <Input
             value={name}
@@ -164,6 +165,7 @@ export const AllUsersPage = observer(() => {
             placeholder={LanguageService.allUsers.filterBlock.namePlaceholder[language]}
             typeInputIcon={"SearchIcon"}
             typeInput={InputType.Border}
+            dataCy={allUsersAccessIds.filterViewBlock.searchByNameInput}
           />
         </HorizontalContainer>
         <HorizontalContainer className={styles.filterBlock}>
@@ -201,12 +203,13 @@ export const AllUsersPage = observer(() => {
           level={HeadingLevel.h2}
           text={`${LanguageService.allUsers.usersTable.leftTitle[language]} (${allUsers.length})`}
           placeholder=""
-          dataCy={allUsersAccessIds.allUsersTable.title}
+          dataCy={allUsersAccessIds.allUsersTitles.title}
         />
         <Title
           level={HeadingLevel.h2}
           text={`${LanguageService.allUsers.usersTable.rightTitle[language]}: ${allUsersAmount}`}
           placeholder=""
+          dataCy={allUsersAccessIds.allUsersTitles.totalFoundTitle}
         />
       </HorizontalContainer>
 
@@ -222,6 +225,7 @@ export const AllUsersPage = observer(() => {
                 <UserCard
                   key={user.uuid}
                   userPreview={user}
+                  dataCy={allUsersAccessIds.allUsersCard.userCardLink}
                 />
               );
             })
@@ -234,6 +238,7 @@ export const AllUsersPage = observer(() => {
           onClick={loadMoreUsers}
           buttonType={ButtonType.SECONDARY}
           className={styles.loadMoreButton}
+          dataCy={allUsersAccessIds.loadMoreButton}
         />
         }
 

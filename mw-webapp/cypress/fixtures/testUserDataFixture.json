@@ -2,5 +2,24 @@
     "userLoginLink": "http://localhost:8000/api/auth/login/local/test.user@gmail.com",
     "userUrlPattern": "\\/user\\/[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$",
     "name": "test.user@gmail.com",
-    "email": "test.user@gmail.com"
+    "email": "test.user@gmail.com",
+
+    "users": {
+        "John Doe": "7cdb041b-4574-4f7b-a500-c53e74c72e94",
+        "Bob Brown": "d2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2",
+        "Bernardo Fallaci": "45bf9107-83fd-4fc4-8173-a13b8a100f2a"
+    },
+
+    "searchByEmail": {
+      "z": 1,
+      "alice.johnson@example.com": 1,
+      "da": 2
+    },
+
+    "searchByName": {
+      "z": 1,
+      "bernardo fallaci": 1,
+      "a": 8,
+      "jo": 2
+    }
 }
