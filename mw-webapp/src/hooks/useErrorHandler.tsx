@@ -1,5 +1,6 @@
 import {useEffect} from "react";
 import {trackGlobalError, trackPromiseRejection} from "src/analytics/globalErrorAnalytics";
+import {NotificationType} from "src/component/notification/displayNotification";
 import {displayNotification} from "src/component/notification/Notification";
 
 /**
@@ -11,7 +12,7 @@ export const useErrorHandler = () => {
    * Handle global error and display notification
    */
   const handleError = (event: ErrorEvent) => {
-    displayNotification({text: `Error: ${event.message}`, type: "error"});
+    displayNotification({text: `Error: ${event.message}`, type: NotificationType.ERROR});
     trackGlobalError(event.message);
   };
 
@@ -19,7 +20,7 @@ export const useErrorHandler = () => {
    * Handle unhandled promise rejection and display notification
    */
   const handlePromiseRejection = (event: PromiseRejectionEvent) => {
-    displayNotification({text: `Ups, ${event.reason}`, type: "error"});
+    displayNotification({text: `Ups, ${event.reason}`, type: NotificationType.ERROR});
     trackPromiseRejection(event.reason);
   };
 
