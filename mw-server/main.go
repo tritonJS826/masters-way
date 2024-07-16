@@ -109,6 +109,9 @@ var (
 	MentorUserWayController controllers.MentorUserWayController
 	MentorUserWayRoutes     routes.MentorUserWayRoutes
 
+	MentorRequestController controllers.MentorRequestController
+	MentorRequestRoutes     routes.MentorRequestRoutes
+
 	DevController controllers.DevController
 	DevRoutes     routes.DevRoutes
 )
@@ -209,6 +212,9 @@ func init() {
 	MentorUserWayController = *controllers.NewMentorUserWayController(db, ctx, &LimitService)
 	MentorUserWayRoutes = routes.NewRouteMentorUserWay(MentorUserWayController)
 
+	MentorRequestController = *controllers.NewMentorRequestController(db, ctx)
+	MentorRequestRoutes = routes.NewRouteMentorRequest(MentorRequestController)
+
 	if config.Env.EnvType != "prod" {
 		DevController = *controllers.NewDevController(db, pgxPool, ctx)
 		DevRoutes = routes.NewRouteDev(DevController)
@@ -264,6 +270,7 @@ func main() {
 	WayTagRoutes.WayTagRoute(router)
 	CompositeWayRoutes.CompositeWayRoute(router)
 	MentorUserWayRoutes.MentorUserWayRoute(router)
+	MentorRequestRoutes.MentorRequestRoute(router)
 	if config.Env.EnvType != "prod" {
 		DevRoutes.DevRoute(router)
 	}
