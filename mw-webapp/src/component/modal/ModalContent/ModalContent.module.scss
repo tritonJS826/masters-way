@@ -47,7 +47,7 @@ $modal-animation-time: 150ms;
   align-items: center;
   justify-content: center;
   border: none;
-  border-radius: 100%;
+  border-radius: $tertiaryBorderRadius;
   cursor: pointer;
 }
 
