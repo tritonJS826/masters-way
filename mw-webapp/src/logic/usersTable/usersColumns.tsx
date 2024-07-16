@@ -38,7 +38,10 @@ export const getUsersColumns = (language: Language) => [
      * Cell with clickable username that leads to user page
      */
     cell: ({row}) => (
-      <HorizontalContainer className={clsx(styles.cellWrapper, styles.userBlock)}>
+      <HorizontalContainer
+        className={clsx(styles.cellWrapper, styles.userBlock)}
+        dataCy={allUsersAccessIds.allUsersTable.userName}
+      >
         <Avatar
           alt={row.original.name}
           src={row.original.imageUrl}

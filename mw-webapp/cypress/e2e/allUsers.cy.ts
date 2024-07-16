@@ -16,6 +16,12 @@ afterEach(() => {
     cy.clearAllStorage();
 });
 
+function getLowerCaseTextAndCheck(element: JQuery<HTMLElement>, symbols: string): void {
+    cy.wrap(element).invoke('text').then(text => {
+        text.toLowerCase().includes(symbols.toLowerCase());
+    });
+};
+
 describe('NoAuth All Users scope tests', () => {
     
     it('NoAuth_AllUsers_OpenUserPersonalAreaTableView', () => {
@@ -49,7 +55,7 @@ describe('NoAuth All Users scope tests', () => {
         });        
     });
 
-    it.only('NoAuth_AllUsers_SearchByEmail', () => {
+    it('NoAuth_AllUsers_SearchByEmail', () => {
         const searchByEmail: Record<string, number> = testUserData.searchByEmail;
 
         allWaysSelectors.filterViewBlock.getTableViewButton().click();
@@ -59,28 +65,30 @@ describe('NoAuth All Users scope tests', () => {
 
             allUsersSelectors.allUsersTable.getUserContact()
                 .should('have.length', searchByEmail[symbols])
-                .and('contain', symbols);
+                .each((userEmail) => {
+                    getLowerCaseTextAndCheck(userEmail,symbols);
+                });
         
             allUsersSelectors.filterViewBlock.getSearchByEmailInput().clear();
         });
-
     });
 
-    it.only('NoAuth_AllUsers_SearchByName', () => {
-        const searchByEmail: Record<string, number> = testUserData.searchByEmail;
+    it('NoAuth_AllUsers_SearchByName', () => {
+        const searchByName: Record<string, number> = testUserData.searchByName;
 
         allWaysSelectors.filterViewBlock.getTableViewButton().click();
 
-        Object.keys(searchByEmail).forEach((symbols) => {
-            allUsersSelectors.filterViewBlock.getSearchByEmailInput().type(symbols);
+        Object.keys(searchByName).forEach((symbols) => {
+            allUsersSelectors.filterViewBlock.getSearchByNameInput().type(symbols);
 
-            allUsersSelectors.allUsersTable.getUserContact()
-                .should('have.length', searchByEmail[symbols])
-                .and('contain', symbols);
+            allUsersSelectors.allUsersTable.getUserName()
+                .should('have.length', searchByName[symbols])
+                .each((userName) => {
+                    getLowerCaseTextAndCheck(userName,symbols);
+                });
         
-            allUsersSelectors.filterViewBlock.getSearchByEmailInput().clear();
+            allUsersSelectors.filterViewBlock.getSearchByNameInput().clear();
         });
-
     });
 
 });

@@ -162,6 +162,7 @@ export const AllUsersPage = observer(() => {
             placeholder={LanguageService.allUsers.filterBlock.namePlaceholder[language]}
             typeInputIcon={"SearchIcon"}
             typeInput={InputType.Border}
+            dataCy={allUsersAccessIds.filterViewBlock.searchByNameInput}
           />
         </HorizontalContainer>
         <HorizontalContainer className={styles.filterBlock}>
@@ -205,6 +206,7 @@ export const AllUsersPage = observer(() => {
           level={HeadingLevel.h2}
           text={`${LanguageService.allUsers.usersTable.rightTitle[language]}: ${allUsersAmount}`}
           placeholder=""
+          dataCy={allUsersAccessIds.allUsersTitles.totalFoundTitle}
         />
       </HorizontalContainer>
 
@@ -233,6 +235,7 @@ export const AllUsersPage = observer(() => {
           onClick={loadMoreUsers}
           buttonType={ButtonType.SECONDARY}
           className={styles.loadMoreButton}
+          dataCy={allUsersAccessIds.loadMoreButton}
         />
         }
 
