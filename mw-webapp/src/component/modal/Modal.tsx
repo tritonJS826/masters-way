@@ -66,7 +66,12 @@ interface ModalProps {
   /**
    * ModalContent className
    */
-  className?: string;
+  contentClassName?: string;
+
+    /**
+     * ModalTrigger className
+     */
+    triggerClassName?: string;
 
   /**
    * Data attributes for cypress testing
@@ -86,12 +91,15 @@ export const Modal = (props: ModalProps) => {
       open={isOpen}
       onOpenChange={setIsOpen}
     >
-      <ModalTrigger dataCyTrigger={props.cy?.dataCyTrigger}>
+      <ModalTrigger
+        triggerClassName={props.triggerClassName}
+        dataCyTrigger={props.cy?.dataCyTrigger}
+      >
         {props.trigger}
       </ModalTrigger>
       <ModalContent
         dataCyContent={props.cy?.dataCyContent}
-        className={props.className}
+        className={props.contentClassName}
       >
         {props.content}
       </ModalContent>

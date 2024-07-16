@@ -1,5 +1,5 @@
 import {makeAutoObservable} from "mobx";
-import {DefaultWayCollections, User, UserPlain, WayCollection} from "src/model/businessModel/User";
+import {User, UserPlain} from "src/model/businessModel/User";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 
 /**
@@ -58,49 +58,16 @@ class UserStore {
     if (this.user === null) {
       throw new Error("User is not exist");
     }
-    const updatedCollections = this.user.customWayCollections.map((collection) => {
-      return collection.uuid !== collectionUuid
-        ? collection
-        : new WayCollection({
-          ...collection,
-          ways: isWayExistInCollection
-            ? collection.ways.filter(wayCollection => wayCollection.uuid !== collectionUuid)
-            : collection.ways.concat(updatedWay),
-        });
+    this.user.customWayCollections.map((collection) => {
+
+      const updatedCollection = collection.uuid === collectionUuid &&
+        isWayExistInCollection
+        ? collection.deleteWay(updatedWay.uuid)
+        : collection.addWay(updatedWay);
+
+      return updatedCollection;
     });
 
-    this.user.customWayCollections = updatedCollections;
-  };
-
-  /**
-   * Update user's defaultOwnCollection
-   */
-  public updateDefaultOwnCollection = (isWayExistInComposite: boolean, compositeWayUuid: string, wayUuid: string): void => {
-    if (this.user === null) {
-      throw new Error("User is not exist");
-    }
-    const updatedWays = this.user.defaultWayCollections.own.ways.map((way) => {
-      return way.uuid !== wayUuid
-        ? way
-        : new WayPreview({
-          ...way,
-          childrenUuids: isWayExistInComposite
-            ? way.childrenUuids.filter(child => child !== wayUuid)
-            : way.childrenUuids.concat(wayUuid),
-        });
-    });
-
-    const updatedCollection = new WayCollection({
-      ...this.user.defaultWayCollections.own,
-      ways: updatedWays,
-    });
-
-    const updatedCollections = new DefaultWayCollections({
-      ...this.user.defaultWayCollections,
-      own: updatedCollection,
-    });
-
-    this.user.defaultWayCollections = updatedCollections;
   };
 
 }

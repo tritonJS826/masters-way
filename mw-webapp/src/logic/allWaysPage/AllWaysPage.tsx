@@ -5,7 +5,7 @@ import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
 import {Loader} from "src/component/loader/Loader";
-import {displayNotification} from "src/component/notification/displayNotification";
+import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {Select} from "src/component/select/Select";
 import {HeadingLevel, Title} from "src/component/title/Title";
@@ -106,7 +106,7 @@ export const AllWaysPage = observer(() => {
    */
   const onError = (error: Error) => {
     // TODO #511: research how onError works in app and update onError (we need to get error on firebase statistics)
-    displayNotification({text: error.message, type: "error"});
+    displayNotification({text: error.message, type: NotificationType.ERROR});
     throw error;
   };
 
@@ -195,7 +195,7 @@ export const AllWaysPage = observer(() => {
                 <WayCard
                   key={way.uuid}
                   wayPreview={way}
-                  dataCy={allWaysAccessIds.allWaysCard.wayCardLink}
+                  dataCy={allWaysAccessIds.allWaysTable.wayLink(way.name)}
                 />
               );
             })

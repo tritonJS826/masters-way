@@ -66,7 +66,7 @@ export const Image = (props: ImageProps) => {
         cy={props.cy}
         trigger={imageElement}
         content={imageElement}
-        className={imageClass}
+        contentClassName={imageClass}
       />
     );
   }

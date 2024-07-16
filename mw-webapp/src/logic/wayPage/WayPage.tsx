@@ -16,7 +16,7 @@ import {Link} from "src/component/link/Link";
 import {Loader} from "src/component/loader/Loader";
 import {Modal} from "src/component/modal/Modal";
 import {PromptModalContent} from "src/component/modal/PromptModalContent";
-import {displayNotification} from "src/component/notification/displayNotification";
+import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
 import {ErrorComponent} from "src/component/privateRecourse/PrivateRecourse";
 import {Separator} from "src/component/separator/Separator";
 import {Tag, TagType} from "src/component/tag/Tag";
@@ -24,6 +24,7 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {wayToWayPreview} from "src/dataAccessLogic/BusinessToBusinessPreviewConverter/wayToWayPreview";
 import {CompositeWayDAL} from "src/dataAccessLogic/CompositeWayDAL";
 import {CreateDayReportParams, DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {FavoriteUserWayDAL} from "src/dataAccessLogic/FavoriteUserWayDAL";
@@ -63,7 +64,6 @@ import {Symbols} from "src/utils/Symbols";
 import styles from "src/logic/wayPage/WayPage.module.scss";
 
 const LIKE_VALUE = 1;
-const INCREMENT = 1;
 const DEFAULT_WAY_PAGE_SETTINGS: WayPageSettings = {
 
   /**
@@ -213,7 +213,7 @@ export const WayPage = observer((props: WayPageProps) => {
       : await CompositeWayDAL.addWayToComposite({childWayUuid: wayUuid, parentWayUuid: compositeWayUuid});
     displayNotification({
       text: `${LanguageService.way.notifications.compositeWayUpdated[language]}`,
-      type: "info",
+      type: NotificationType.INFO,
     });
 
     isWayExistInComposite
@@ -236,35 +236,16 @@ export const WayPage = observer((props: WayPageProps) => {
           const isWayExistInCollection = userCollection.ways.some(collectionWay => collectionWay.uuid === way.uuid);
 
           toggleWayInWay(isWayExistInCollection, collectionUuid, way.uuid);
-          const mentors = Array.from(way.mentors).map(([, value]) => value);
-          // TODO: converter required
-          const updatedWay = new WayPreview({
-            copiedFromWayUuid: way.copiedFromWayUuid,
-            createdAt: way.createdAt,
-            dayReportsAmount: way.dayReports.length,
-            estimationTime: way.estimationTime,
-            favoriteForUsers: way.favoriteForUsersAmount,
-            goalDescription: way.goalDescription,
-            isPrivate: way.isPrivate,
-            lastUpdate: way.lastUpdate,
-            mentors,
-            metricsDone: way.metrics.filter((metric) => metric.isDone).length,
-            metricsTotal: way.metrics.length,
-            name: way.name,
-            owner: way.owner,
-            status: way.status,
-            uuid: way.uuid,
-            wayTags: way.wayTags,
-            childrenUuids: way.children.map((child) => child.uuid),
-          });
 
-          updateCustomCollections(collectionUuid, isWayExistInCollection, updatedWay);
+          const wayPreview = wayToWayPreview(way);
+
+          updateCustomCollections(collectionUuid, isWayExistInCollection, wayPreview);
         }
       });
 
     displayNotification({
       text: `${LanguageService.way.notifications.collectionUpdated[language]}`,
-      type: "info",
+      type: NotificationType.INFO,
     });
   };
 
@@ -324,7 +305,7 @@ export const WayPage = observer((props: WayPageProps) => {
     });
 
     navigate(pages.way.getPath({uuid: newWay.uuid}));
-    displayNotification({text: `Way ${way.name} copied`, type: "info"});
+    displayNotification({text: `Way ${way.name} copied`, type: NotificationType.INFO});
   };
 
   const isWayComposite = way.children.length !== 0;
@@ -386,7 +367,7 @@ export const WayPage = observer((props: WayPageProps) => {
               <HorizontalContainer>
                 <Infotip content={LanguageService.way.infotip.wayName[language]} />
                 <Title
-                  dataCy = {wayDescriptionAccessIds.wayDashBoardLeft.title}
+                  dataCy={wayDescriptionAccessIds.wayDashBoardLeft.title}
                   level={HeadingLevel.h2}
                   text={way.name}
                   placeholder={LanguageService.common.emptyMarkdown[language]}
@@ -448,29 +429,9 @@ export const WayPage = observer((props: WayPageProps) => {
                         }
                         const favoriteAmount = way.favoriteForUsersAmount + LIKE_VALUE;
 
-                        const mentors = Array.from(way.mentors.values());
-                        // TODO: converter required
-                        const updatedWay = new WayPreview({
-                          copiedFromWayUuid: way.copiedFromWayUuid,
-                          createdAt: way.createdAt,
-                          dayReportsAmount: way.dayReports.length,
-                          estimationTime: way.estimationTime,
-                          favoriteForUsers: way.favoriteForUsersAmount,
-                          goalDescription: way.goalDescription,
-                          isPrivate: way.isPrivate,
-                          lastUpdate: way.lastUpdate,
-                          mentors,
-                          metricsDone: way.metrics.reduce((acc, metric) => metric.isDone ? acc + INCREMENT : acc, 0),
-                          metricsTotal: way.metrics.length,
-                          name: way.name,
-                          owner: way.owner,
-                          status: way.status,
-                          uuid: way.uuid,
-                          wayTags: way.wayTags,
-                          childrenUuids: way.children.map((child) => child.uuid),
-                        });
+                        const wayPreview = wayToWayPreview(way);
 
-                        user.addWayToFavorite(updatedWay);
+                        user.addWayToFavorite(wayPreview);
                         way.updateFavoriteForUsersAmount(favoriteAmount);
                       }
 
@@ -478,7 +439,7 @@ export const WayPage = observer((props: WayPageProps) => {
                         text: isWayInFavorites
                           ? LanguageService.way.notifications.wayRemovedFromFavorites[language]
                           : LanguageService.way.notifications.wayAddedToFavorites[language],
-                        type: "info",
+                        type: NotificationType.INFO,
                       });
                     }}
                     buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
@@ -549,7 +510,7 @@ export const WayPage = observer((props: WayPageProps) => {
                         await navigator.clipboard.writeText(location.href);
                         displayNotification({
                           text: LanguageService.way.notifications.urlCopied[language],
-                          type: "info",
+                          type: NotificationType.INFO,
                         });
                       },
                     },
@@ -637,7 +598,7 @@ export const WayPage = observer((props: WayPageProps) => {
                         if (isWayTagDuplicate) {
                           displayNotification({
                             text: `${LanguageService.way.wayInfo.duplicateTagModal[language]}`,
-                            type: "info",
+                            type: NotificationType.INFO,
                           });
                         } else {
                           const wayTag = await WayTagDAL.addWayTagToWay({name: tagName, wayUuid: way.uuid});
@@ -797,7 +758,7 @@ export const WayPage = observer((props: WayPageProps) => {
               </VerticalContainer>
             }
 
-            <HorizontalContainer>
+            <HorizontalContainer className={styles.ownerBlock}>
               <Infotip content={LanguageService.way.infotip.wayOwner[language]} />
               <Title
                 level={HeadingLevel.h3}
@@ -902,7 +863,7 @@ export const WayPage = observer((props: WayPageProps) => {
                   />
                 </Tooltip>
               }
-              className={styles.statisticsModal}
+              contentClassName={styles.statisticsModal}
               content={
                 <WayStatistic
                   dayReports={way.dayReports}
