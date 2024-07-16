@@ -35,7 +35,7 @@ func (cc *DevController) ResetDb(ctx *gin.Context) {
 	util.HandleErrorGin(ctx, err)
 
 	// migrate schemas according to migrations file
-	_, err = cc.pgxPool.Query(ctx, string(migration))
+	_, err = cc.pgxPool.Exec(ctx, string(migration))
 	util.HandleErrorGin(ctx, err)
 
 	util.HandleErrorGin(ctx, cc.db.RegenerateDbData(ctx))
