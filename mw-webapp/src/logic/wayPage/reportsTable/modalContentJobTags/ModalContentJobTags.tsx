@@ -5,8 +5,10 @@ import {Button, ButtonType} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Checkbox";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Label} from "src/component/label/Label";
+import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
+import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {Label as LabelModel} from "src/model/businessModel/Label";
 import {LanguageService} from "src/service/LanguageService";
@@ -80,52 +82,62 @@ export const ModalContentJobTags = observer((props: JobDoneTagsProps) => {
 
   return (
     <div onKeyDown={handleEnter}>
-      <div className={styles.jobTagsContainer}>
-        {props.jobTags.map((tag) => {
-          return (
-            <div
-              key={tag.uuid}
-              className={styles.jobTags}
-              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-              onClick={() => jobTagsUpdated.includes(tag.uuid) ? removeJobTagFromJobDone(tag.uuid!) : addJobTagFromJobDone(tag)}
-            >
-              <Tooltip
-                content={jobTagsUpdated.includes(tag.uuid)
-                  ? LanguageService.way.reportsTable.columnTooltip.deleteLabel[language]
-                  : LanguageService.way.reportsTable.columnTooltip.addLabel[language]
-                }
-                position={PositionTooltip.BOTTOM}
+      <VerticalContainer className={styles.modalContentJobContainer}>
+        <Title
+          level={HeadingLevel.h2}
+          text={LanguageService.modals.jobTagsModal.title[language]}
+          placeholder=""
+        />
+        <VerticalContainer className={styles.jobTagsContainer}>
+          {props.jobTags.map((tag) => {
+            return (
+              <div
+                key={tag.uuid}
+                className={styles.jobTags}
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                onClick={() => jobTagsUpdated.includes(tag.uuid) ? removeJobTagFromJobDone(tag.uuid!) : addJobTagFromJobDone(tag)}
               >
-                <HorizontalContainer className={styles.labelWithCheckboxBlock}>
-                  <Checkbox
-                    isDefaultChecked={jobTagsUpdated.includes(tag.uuid)}
-                    onChange={() => { }}
-                    className={styles.checkbox}
-                  />
-                  <Label label={tag} />
-                </HorizontalContainer>
-              </Tooltip>
-            </div>
-          );
-        })
+                <Tooltip
+                  content={jobTagsUpdated.includes(tag.uuid)
+                    ? LanguageService.way.reportsTable.columnTooltip.deleteLabel[language]
+                    : LanguageService.way.reportsTable.columnTooltip.addLabel[language]
+                  }
+                  position={PositionTooltip.BOTTOM}
+                >
+                  <HorizontalContainer className={styles.labelWithCheckboxBlock}>
+                    <Label
+                      label={tag}
+                      isEditable={props.isEditable}
+                    />
+                    <Checkbox
+                      isDefaultChecked={jobTagsUpdated.includes(tag.uuid)}
+                      onChange={() => { }}
+                      className={styles.checkbox}
+                    />
+                  </HorizontalContainer>
+                </Tooltip>
+              </div>
+            );
+          })
 
-        }
-      </div>
-      <HorizontalContainer className={styles.buttons}>
-        <DialogClose asChild>
-          <Button
-            value={LanguageService.modals.promptModal.cancelButton[language]}
-            onClick={() => {}}
-          />
-        </DialogClose>
-        <DialogClose asChild>
-          <Button
-            value={LanguageService.modals.promptModal.okButton[language]}
-            onClick={() => props.updateTags(filteredJobTags)}
-            buttonType={ButtonType.PRIMARY}
-          />
-        </DialogClose>
-      </HorizontalContainer>
+          }
+        </VerticalContainer>
+        <HorizontalContainer className={styles.buttons}>
+          <DialogClose asChild>
+            <Button
+              value={LanguageService.modals.promptModal.cancelButton[language]}
+              onClick={() => {}}
+            />
+          </DialogClose>
+          <DialogClose asChild>
+            <Button
+              value={LanguageService.modals.promptModal.saveButton[language]}
+              onClick={() => props.updateTags(filteredJobTags)}
+              buttonType={ButtonType.PRIMARY}
+            />
+          </DialogClose>
+        </HorizontalContainer>
+      </VerticalContainer>
     </div>
   );
 });

@@ -16,6 +16,18 @@
       "ru": "Отменить",
       "en": "Cancel",
       "ua": "Скасувати"
+    },
+    "saveButton": {
+      "ru": "Сохранить",
+      "en": "Save",
+      "ua": "Зберегти"
+    }
+  },
+  "jobTagsModal": {
+    "title": {
+      "ru": "Выберите теги",
+      "en": "Choose tags",
+      "ua": "Виберіть теги"
     }
   },
   "confirmModal": {

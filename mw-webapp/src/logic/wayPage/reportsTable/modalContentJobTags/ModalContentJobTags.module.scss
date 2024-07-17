@@ -1,23 +1,25 @@
 @import "src/styles/variables";
 
-$ModalJobTagMaxWidth: 150px;
+$ModalJobTagMaxWidth: 300px;
+
+.modalContentJobContainer{
+  gap: $gapBig;
+}
 
 .jobTagsContainer {
-  display: flex;
-  flex-wrap: wrap;
-  gap: $gapSmall;
+  gap: $gapMedium;
 }
 
 .jobTags {
   display: flex;
+  flex-direction: column;
   width: $ModalJobTagMaxWidth;
-  align-items: center;
   cursor: pointer;
-  gap: $gapSmall;
 }
 
 .buttons {
-  margin-top: $marginMedium;
+  justify-content: flex-end;
+  gap: $gapMedium;
 }
 
 .checkbox {
@@ -26,5 +28,7 @@ $ModalJobTagMaxWidth: 150px;
 }
 
 .labelWithCheckboxBlock {
+  justify-content: space-between;
   align-items: center;
+  width: 100%;
 }
