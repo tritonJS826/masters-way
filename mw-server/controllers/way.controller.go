@@ -53,7 +53,6 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 	util.HandleErrorGin(ctx, err)
 
 	now := time.Now()
-	var copiedFromWayUuid pgtype.UUID
 	args := db.CreateWayParams{
 		Name:              payload.Name,
 		GoalDescription:   payload.GoalDescription,
