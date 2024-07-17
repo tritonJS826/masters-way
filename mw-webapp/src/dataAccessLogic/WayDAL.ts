@@ -102,7 +102,7 @@ export class WayDAL {
   public static async createWay(params: CreateWayParams): Promise<WayPreview> {
     const wayDTO = await WayService.createWay({
       request: {
-        copiedFromWayUuid: params.baseWayData?.copiedFromWayUuid ?? "",
+        copiedFromWayUuid: params.baseWayData?.copiedFromWayUuid ?? null,
         estimationTime: params.baseWayData?.estimationTime ?? 0,
         goalDescription: params.baseWayData?.goalDescription ?? "",
         name: params.baseWayData?.name ?? params.wayName,
