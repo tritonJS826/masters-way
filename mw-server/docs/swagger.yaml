@@ -286,6 +286,7 @@ definitions:
       ownerUuid:
         type: string
     required:
+    - copiedFromWayUuid
     - estimationTime
     - goalDescription
     - isCompleted

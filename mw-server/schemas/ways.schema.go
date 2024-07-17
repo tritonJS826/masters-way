@@ -8,7 +8,7 @@ type CreateWayPayload struct {
 	Name              string    `json:"name" validate:"required"`
 	GoalDescription   string    `json:"goalDescription" validate:"required"`
 	EstimationTime    int32     `json:"estimationTime" validate:"required"`
-	CopiedFromWayUuid *string   `json:"copiedFromWayUuid"`
+	CopiedFromWayUuid *string   `json:"copiedFromWayUuid" validate:"required"`
 	IsCompleted       bool      `json:"isCompleted" validate:"required"`
 	IsPrivate         bool      `json:"isPrivate" validate:"required"`
 	OwnerUuid         uuid.UUID `json:"ownerUuid" validate:"required"`
