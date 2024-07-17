@@ -5,21 +5,47 @@
     "email": "test.user@gmail.com",
 
     "users": {
-        "John Doe": "7cdb041b-4574-4f7b-a500-c53e74c72e94",
-        "Bob Brown": "d2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2",
-        "Bernardo Fallaci": "45bf9107-83fd-4fc4-8173-a13b8a100f2a"
+      "John": {
+        "userId": "7cdb041b-4574-4f7b-a500-c53e74c72e94",
+        "userName": "John Doe"
+      },
+      "Bob": {
+        "userId": "d2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2",
+        "userName": "Bob Brown"
+      },
+      "Bernardo": {
+        "userId": "45bf9107-83fd-4fc4-8173-a13b8a100f2a",
+        "userName": "Bernardo Fallaci"
+      }
     },
 
     "searchByEmail": {
-      "z": 1,
-      "alice.johnson@example.com": 1,
-      "da": 2
+      "firstSearch": {
+        "symbols": "z",
+        "expectedCount": 1 
+      },
+      "secondSearch": {
+        "symbols": "alice.johnson@example.com",
+        "expectedCount": 1 
+      },
+      "thirdSearch": {
+        "symbols": "da",
+        "expectedCount": 2
+      }
     },
 
     "searchByName": {
-      "z": 1,
-      "bernardo fallaci": 1,
-      "a": 8,
-      "jo": 2
+      "firstSearch": {
+        "symbols": "z",
+        "expectedCount": 1 
+      },
+      "secondSearch": {
+        "symbols": "bernardo fallaci",
+        "expectedCount": 1 
+      },
+      "thirdSearch": {
+        "symbols": "a",
+        "expectedCount": 8
+      }
     }
 }

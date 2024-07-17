@@ -49,7 +49,7 @@ export const getUsersColumns = (language: Language) => [
         />
         <Link
           path={pages.user.getPath({uuid: row.original.uuid})}
-          dataCy={`${allUsersAccessIds.allUsersTable.userLink}_${row.original.name}`}
+          dataCy={allUsersAccessIds.allUsersTable.userLink(row.original.name)}
         >
           <Tooltip
             position={PositionTooltip.TOP}

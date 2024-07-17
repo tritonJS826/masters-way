@@ -15,12 +15,12 @@ export const allUsersSelectors = {
     allUsersTable: {
         getTableBodyTr: () => cy.get(getDataCy(allUsersAccessIds.allUsersTable.tableBodyTr)),
         getUserName: () => cy.get(getDataCy(allUsersAccessIds.allUsersTable.userName)),
-        getUserLink: (userName: string) => cy.get(getDataCy(`${allUsersAccessIds.allUsersTable.userLink}_${userName}`)),
+        getUserLink: (userName: string) => cy.get(getDataCy(allUsersAccessIds.allUsersTable.userLink(userName))),
         getUserContact: () => cy.get(getDataCy(allUsersAccessIds.allUsersTable.userContact))
     },
 
     allWaysCard: {
-        getCardLink: () => cy.get(getDataCy(allUsersAccessIds.allUsersCard.userCardLink))
+        getCardLink: (userName: string) => cy.get(getDataCy(allUsersAccessIds.allUsersCard.userCardLink(userName)))
     },
 
     getLoadMoreButton: () => cy.get(getDataCy(allUsersAccessIds.loadMoreButton))

@@ -20,9 +20,12 @@ import settingsPageContent from "src/dictionary/SettingsPageContent.json";
 import testUserData from "cypress/fixtures/testUserDataFixture.json";
 import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
 
+const apiUrl = Cypress.env('API_BASE_PATH');
+
 describe('NoAuth Navigation menu scope tests', () => {
 
     beforeEach(() => {
+        cy.request('GET', `${apiUrl}/dev/reset-db`);
         cy.visit('/');        
         headerSelectors.getBurgerMenu().click();
     });
@@ -137,16 +140,15 @@ describe('NoAuth Navigation menu scope tests', () => {
 });    
 
   describe('IsAuth Navigation menu scope tests', () => {
-    const apiUrl = Cypress.env('API_BASE_PATH');
 
     beforeEach(() => {
+        cy.request('GET', `${apiUrl}/dev/reset-db`);
         cy.visit(testUserData.userLoginLink);    
         headerSelectors.getBurgerMenu().click();
     });
 
     afterEach(() => {
         cy.clearAllStorage();
-        cy.request('GET', `${apiUrl}/dev/reset-db`);
     });
 
     it('IsAuth_NavMenu_PersonalArea', () => {

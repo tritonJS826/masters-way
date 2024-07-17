@@ -12,12 +12,12 @@ export const allUsersAccessIds = {
     allUsersTable: {
         tableBodyTr: 'tableBodyTr',
         userName: 'userName',
-        userLink: 'userLink',
+        userLink: (userLink: string) => `wayLink_${userLink}`,
         userContact: 'userContact'
     },
 
     allUsersCard: {
-        userCardLink: 'userCardLink'
+        userCardLink: (userName: string) => `userCardLink_${userName}`
     },
 
     loadMoreButton: 'loadMoreButton'
