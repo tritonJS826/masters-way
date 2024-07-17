@@ -13,7 +13,7 @@ import {Infotip} from "src/component/infotip/Infotip";
 import {Loader} from "src/component/loader/Loader";
 import {Modal} from "src/component/modal/Modal";
 import {PromptModalContent} from "src/component/modal/PromptModalContent";
-import {displayNotification} from "src/component/notification/displayNotification";
+import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
 import {Tag, TagType} from "src/component/tag/Tag";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
@@ -375,7 +375,7 @@ export const UserPage = observer((props: UserPageProps) => {
 
                       displayNotification({
                         text: notificationFavoriteUsers,
-                        type: "info",
+                        type: NotificationType.INFO,
                       });
                     }}
                     buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
@@ -490,6 +490,7 @@ export const UserPage = observer((props: UserPageProps) => {
                   content={
                     <PromptModalContent
                       defaultValue=""
+                      title={LanguageService.user.personalInfo.addSkillModalTitle[language]}
                       placeholder={LanguageService.user.personalInfo.addSkillModal[language]}
                       close={() => setIsAddUserTagModalOpen(false)}
                       onOk={async (tagName: string) => {
@@ -497,7 +498,7 @@ export const UserPage = observer((props: UserPageProps) => {
                         if (isSkillDuplicate) {
                           displayNotification({
                             text: `${LanguageService.user.personalInfo.duplicateSkillModal[language]}`,
-                            type: "info",
+                            type: NotificationType.INFO,
                           });
                         } else {
                           const newTag = await UserTagDAL.createUserTag({name: tagName, ownerUuid: user.uuid});
@@ -505,7 +506,7 @@ export const UserPage = observer((props: UserPageProps) => {
                           userPageOwner.addTag(newTag);
                         }
                       }}
-                      okButtonValue={LanguageService.modals.promptModal.okButton[language]}
+                      okButtonValue={LanguageService.user.personalInfo.addSkillModalButton[language]}
                       cancelButtonValue={LanguageService.modals.promptModal.cancelButton[language]}
                     />
                   }

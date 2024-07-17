@@ -49,6 +49,10 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     [Theme.DARK]: "#281E51",
     [Theme.LIGHT]: "#281E51",
   },
+  overlayBgColor: {
+    [Theme.DARK]: "#00000080",
+    [Theme.LIGHT]: "#00000080",
+  },
   progressBarBgColor: {
     [Theme.DARK]: "#8F8F8F",
     [Theme.LIGHT]: "#A8A1DD",

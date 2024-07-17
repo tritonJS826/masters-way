@@ -252,7 +252,7 @@ export const Header = observer((props: HeaderProps) => {
                   dataCy={headerAccessIds.loginButton}
                 />
               }
-              className={styles.loginModal}
+              contentClassName={styles.loginModal}
               content={
                 <HorizontalContainer className={styles.loginContainer}>
                   <Image

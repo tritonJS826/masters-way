@@ -1,12 +1,46 @@
+import clsx from "clsx";
 import Toastify from "toastify-js";
-import "src/component/notification/toastify.scss";
+import styles from "src/component/notification/Notification.module.scss";
 
 const DEFAULT_NOTIFICATION_DURATION = 5000;
 
 /**
+ * Type of notification's styles
+ */
+export enum NotificationType {
+
+  /**
+   * Info notification
+   */
+  INFO = "info",
+
+  /**
+   * Error notification
+   */
+  ERROR = "error"
+
+}
+
+/**
+ * Notification's position
+ */
+export enum NotificationPosition {
+  RIGHT = "right",
+  LEFT = "left"
+}
+
+/**
+ * SNotification's gravity
+ */
+export enum NotificationGravity {
+  TOP = "top",
+  BOTTOM="bottom"
+}
+
+/**
  * Notification props
  */
-type NotificationParams = {
+interface NotificationParams {
 
   /**
    * Text to display inside notification
@@ -22,28 +56,40 @@ type NotificationParams = {
   /**
    * Notification type
    */
-  type: "info" | "error";
+  type: NotificationType;
 
   /**
    * Callback function that called when user clicks on notification
    */
   onClick?: () => void;
+
+  /**
+   * Notification's position
+   */
+  position?: NotificationPosition;
+
+  /**
+   * Notification's gravity
+   */
+  gravity?: NotificationGravity;
 }
 
 /**
  * Displays a notification with the specified options.
  */
-export const displayNotification = (
-  {text, type, duration = DEFAULT_NOTIFICATION_DURATION, onClick}: NotificationParams,
-) => {
+export const displayNotification = (props: NotificationParams) => {
+  const notificationClassName = clsx(
+    styles.toastify,
+    styles[props.position ?? NotificationPosition.RIGHT],
+    styles[props.type ?? NotificationType.INFO]);
+
   Toastify({
-    text,
-    duration,
+    text: props.text,
+    duration: props.duration ?? DEFAULT_NOTIFICATION_DURATION,
     close: true,
-    gravity: "bottom",
-    position: "right",
+    gravity: props.gravity ?? NotificationGravity.BOTTOM,
     stopOnFocus: true,
-    className: `toastify ${type}`,
-    onClick,
+    className: `${notificationClassName}`,
+    onClick: props.onClick,
   }).showToast();
 };

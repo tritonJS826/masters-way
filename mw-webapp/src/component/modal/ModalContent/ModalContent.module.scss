@@ -2,7 +2,6 @@
 @import "src/styles/mixins";
 
 // Modal
-$overlay-background: rgba(0, 0, 0, 50%);
 $modal-close-btn-top: 10px;
 $modal-close-btn-right: 10px;
 $modal-close-btn-size: 25px;
@@ -12,7 +11,7 @@ $modal-animation-time: 150ms;
   position: fixed;
   z-index: $modalZIndex;
   animation: overlayShow $modal-animation-time cubic-bezier(0.16, 1, 0.3, 1);
-  background-color: $overlay-background;
+  background-color: var(--overlayBgColor);
   inset: 0;
 }
 
@@ -24,8 +23,7 @@ $modal-animation-time: 150ms;
   overflow: auto;
   max-width: 95vw;
   max-height: 90vh;
-  padding: 20px 45px;
-  border: 2px solid var(--generalPrimaryColor);
+  padding: $paddingExtraBig;
   border-radius: $secondaryBorderRadius;
   animation: contentShow $modal-animation-time cubic-bezier(0.16, 1, 0.3, 1);
   background-color: var(--primaryBgColor);
@@ -49,7 +47,7 @@ $modal-animation-time: 150ms;
   align-items: center;
   justify-content: center;
   border: none;
-  border-radius: 100%;
+  border-radius: $tertiaryBorderRadius;
   cursor: pointer;
 }
 

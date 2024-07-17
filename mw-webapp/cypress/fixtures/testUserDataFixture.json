@@ -2,5 +2,50 @@
     "userLoginLink": "http://localhost:8000/api/auth/login/local/test.user@gmail.com",
     "userUrlPattern": "\\/user\\/[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$",
     "name": "test.user@gmail.com",
-    "email": "test.user@gmail.com"
+    "email": "test.user@gmail.com",
+
+    "users": {
+      "John": {
+        "userId": "7cdb041b-4574-4f7b-a500-c53e74c72e94",
+        "userName": "John Doe"
+      },
+      "Bob": {
+        "userId": "d2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2",
+        "userName": "Bob Brown"
+      },
+      "Bernardo": {
+        "userId": "45bf9107-83fd-4fc4-8173-a13b8a100f2a",
+        "userName": "Bernardo Fallaci"
+      }
+    },
+
+    "searchByEmail": {
+      "firstSearch": {
+        "symbols": "z",
+        "expectedCount": 1 
+      },
+      "secondSearch": {
+        "symbols": "alice.johnson@example.com",
+        "expectedCount": 1 
+      },
+      "thirdSearch": {
+        "symbols": "da",
+        "expectedCount": 2
+      }
+    },
+
+    "searchByName": {
+      "firstSearch": {
+        "symbols": "z",
+        "expectedCount": 1 
+      },
+      "secondSearch": {
+        "symbols": "bernardo fallaci",
+        "expectedCount": 1 
+      },
+      "thirdSearch": {
+        "symbols": "a",
+        "expectedCount": 8
+      }
+    }
 }

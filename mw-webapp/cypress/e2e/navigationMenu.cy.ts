@@ -20,15 +20,18 @@ import settingsPageContent from "src/dictionary/SettingsPageContent.json";
 import testUserData from "cypress/fixtures/testUserDataFixture.json";
 import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
 
-afterEach(() => {
-    cy.clearAllStorage();
-});
+const apiUrl = Cypress.env('API_BASE_PATH');
 
 describe('NoAuth Navigation menu scope tests', () => {
 
     beforeEach(() => {
+        cy.request('GET', `${apiUrl}/dev/reset-db`);
         cy.visit('/');        
         headerSelectors.getBurgerMenu().click();
+    });
+
+    afterEach(() => {
+        cy.clearAllStorage();
     });
 
     it('NoAuth_NavMenu_MastersWayLogo', () => {
@@ -53,7 +56,7 @@ describe('NoAuth Navigation menu scope tests', () => {
 
         navigationMenuSelectors.getNavigationMenu().should('not.exist');
         cy.url().should('include', allUsersPageData.endpoint);
-        allUsersSelectors.allUsersTable.getTitle().should('contain', allUsersPageContent.usersTable.leftTitle.en);
+        allUsersSelectors.allUsersTitles.getTitle().should('contain', allUsersPageContent.usersTable.leftTitle.en);
     });
 
     it('NoAuth_NavMenu_AllWays', () => {
@@ -139,8 +142,13 @@ describe('NoAuth Navigation menu scope tests', () => {
   describe('IsAuth Navigation menu scope tests', () => {
 
     beforeEach(() => {
+        cy.request('GET', `${apiUrl}/dev/reset-db`);
         cy.visit(testUserData.userLoginLink);    
         headerSelectors.getBurgerMenu().click();
+    });
+
+    afterEach(() => {
+        cy.clearAllStorage();
     });
 
     it('IsAuth_NavMenu_PersonalArea', () => {

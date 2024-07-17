@@ -3,6 +3,8 @@ import {Close as DialogClose} from "@radix-ui/react-dialog";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Input, InputType} from "src/component/input/Input";
+import {HeadingLevel, Title} from "src/component/title/Title";
+import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/component/modal/PromptModalContent.module.scss";
 
@@ -42,6 +44,11 @@ interface PromptModalContentProps {
    */
   cancelButtonValue: string;
 
+  /**
+   * Title name
+   */
+  title?: string;
+
 }
 
 /**
@@ -67,32 +74,43 @@ export const PromptModalContent = (props: PromptModalContentProps) => {
 
   return (
     <div onKeyDown={handleEnter}>
-      <Input
-        type="text"
-        placeholder={props.placeholder}
-        value={inputValue}
-        autoFocus={true}
-        onChange={setInputValue}
-        typeInput={InputType.Line}
-      />
-      <HorizontalContainer className={styles.buttons}>
-        <DialogClose asChild>
-          <Button
-            value={props.cancelButtonValue}
-            onClick={props.close}
-          />
-        </DialogClose>
+      <VerticalContainer className={styles.container}>
 
-        <DialogClose asChild>
-          <Button
-            ref={onOkRef}
-            value={props.okButtonValue}
-            onClick={() => props.onOk(inputValue)}
-            buttonType={ButtonType.PRIMARY}
-            isDisabled={inputValue.trim() === ""}
-          />
-        </DialogClose>
-      </HorizontalContainer>
+        {props.title &&
+        <Title
+          level={HeadingLevel.h2}
+          text={props.title}
+          placeholder=""
+        />
+        }
+
+        <Input
+          type="text"
+          placeholder={props.placeholder}
+          value={inputValue}
+          autoFocus={true}
+          onChange={setInputValue}
+          typeInput={InputType.Line}
+        />
+        <HorizontalContainer className={styles.buttons}>
+          <DialogClose asChild>
+            <Button
+              value={props.cancelButtonValue}
+              onClick={props.close}
+            />
+          </DialogClose>
+
+          <DialogClose asChild>
+            <Button
+              ref={onOkRef}
+              value={props.okButtonValue}
+              onClick={() => props.onOk(inputValue)}
+              buttonType={ButtonType.PRIMARY}
+              isDisabled={inputValue.trim() === ""}
+            />
+          </DialogClose>
+        </HorizontalContainer>
+      </VerticalContainer>
     </div>
   );
 };

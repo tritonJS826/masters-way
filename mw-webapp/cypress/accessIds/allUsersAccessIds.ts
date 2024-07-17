@@ -1,7 +1,24 @@
 export const allUsersAccessIds = {
-    allUsersTable: {
+    allUsersTitles: {
         title: 'usersTitle',
-        totalAmountTitle: 'totalFoundTitle'
-    }
+        totalFoundTitle: 'totalFoundTitle'
+    },
 
+    filterViewBlock: {
+        searchByEmailInput: 'searchByEmailInput',
+        searchByNameInput: 'searchByNameInput'
+    },
+
+    allUsersTable: {
+        tableBodyTr: 'tableBodyTr',
+        userName: 'userName',
+        userLink: (userLink: string) => `wayLink_${userLink}`,
+        userContact: 'userContact'
+    },
+
+    allUsersCard: {
+        userCardLink: (userName: string) => `userCardLink_${userName}`
+    },
+
+    loadMoreButton: 'loadMoreButton'
 };

@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {Heading} from "@radix-ui/themes";
 import clsx from "clsx";
 import {Input} from "src/component/input/Input";
-import {displayNotification} from "src/component/notification/displayNotification";
+import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
 import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/component/title/Title.module.scss";
 
@@ -113,7 +113,7 @@ export const Title = (props: TitleProps) => {
     props.minLength && value.length < props.minLength
       ? displayNotification({
         text: "Name should include at least one character",
-        type: "info",
+        type: NotificationType.INFO,
       })
       : setText(value);
   };

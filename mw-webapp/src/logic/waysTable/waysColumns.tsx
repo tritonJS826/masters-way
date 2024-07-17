@@ -117,7 +117,7 @@ export const getWaysColumns = (language: Language) => [
       });
 
       return (
-        <div className={clsx(
+        <VerticalContainer className={clsx(
           styles.cellWrapper,
           styles.status,
           (row.original.childrenUuids.length !== 0) && styles.compositeWay,
@@ -129,7 +129,7 @@ export const getWaysColumns = (language: Language) => [
             value={row.original.metricsDone}
             max={row.original.metricsTotal}
           />
-        </div>
+        </VerticalContainer>
       );
     },
   }),
@@ -151,7 +151,7 @@ export const getWaysColumns = (language: Language) => [
      * Cell with clickable way name that leads to way page
      */
     cell: ({row}) => (
-      <div className={clsx(
+      <VerticalContainer className={clsx(
         styles.cellWrapper,
         (row.original.childrenUuids.length !== 0) && styles.compositeWay,
         (row.original.status === WayStatus.abandoned) && styles.abandonedWay,
@@ -159,7 +159,7 @@ export const getWaysColumns = (language: Language) => [
       >
         <Link
           path={pages.way.getPath({uuid: row.original.uuid})}
-          dataCy={`${allWaysAccessIds.allWaysTable.wayLink}_${row.original.name}`}
+          dataCy={allWaysAccessIds.allWaysTable.wayLink(row.original.name)}
         >
           {row.original.name}
         </Link>
@@ -171,7 +171,7 @@ export const getWaysColumns = (language: Language) => [
             {renderMarkdown(row.original.goalDescription)}
           </div>
         </Tooltip>
-      </div>
+      </VerticalContainer>
     ),
   }),
   columnHelper.accessor("owner", {
@@ -209,7 +209,7 @@ export const getWaysColumns = (language: Language) => [
           <VerticalContainer>
             <Link
               path={pages.user.getPath({uuid: row.original.owner.uuid})}
-              dataCy={`${allWaysAccessIds.allWaysTable.ownerLink}_${row.original.owner.name}`}
+              dataCy={allWaysAccessIds.allWaysTable.ownerLink(row.original.owner.name)}
             >
               {row.original.owner.name}
             </Link>
@@ -261,7 +261,7 @@ export const getWaysColumns = (language: Language) => [
               >
                 <Link
                   path={pages.user.getPath({uuid: mentor.uuid})}
-                  dataCy={`${allWaysAccessIds.allWaysTable.mentorLink}_${mentor.name}`}
+                  dataCy={allWaysAccessIds.allWaysTable.mentorLink(mentor.name)}
                 >
                   {mentor.name}
                 </Link>

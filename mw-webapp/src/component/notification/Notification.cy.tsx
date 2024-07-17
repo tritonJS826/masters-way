@@ -1,5 +1,5 @@
 import {Button} from "src/component/button/Button";
-import {displayNotification} from "src/component/notification/displayNotification";
+import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
 import {getDataCy} from "src/utils/cyTesting/getDataCy";
 
 /*
@@ -9,7 +9,7 @@ const NOTIFICATION = ".toastify";
 const NOTIFICATION_CLOSE_BUTTON = ".toast-close";
 const NOTIFICATION_DURATION = 1000;
 const NOTIFICATION_TEXT = "Notification text";
-const NOTIFICATION_TYPE = "info";
+const NOTIFICATION_TYPE = NotificationType.INFO;
 const NOTIFICATION_TRIGGER_CY = "button";
 
 /**
