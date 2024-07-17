@@ -728,28 +728,57 @@ export const WayPage = observer((props: WayPageProps) => {
                         key={child.uuid}
                         className={styles.childWay}
                       >
-                        <Avatar
-                          alt={child.owner.name}
-                          src={child.owner.imageUrl}
-                          size={AvatarSize.SMALL}
-                          className={styles.avatar}
-                        />
-                        <VerticalContainer className={clsx(isAbandoned && styles.abandonedWay)}>
-                          <Link
-                            path={pages.way.getPath({uuid: child.uuid})}
-                            className={styles.participantWay}
-                          >
-                            {child.name}
-                          </Link>
-                          <Link
-                            path={pages.user.getPath({uuid: child.owner.uuid})}
-                            className={styles.participantWay}
-                          >
-                            {child.owner.name}
-                          </Link>
-                          {child.status}
-                        </VerticalContainer>
+                        <HorizontalContainer>
+                          <Avatar
+                            alt={child.owner.name}
+                            src={child.owner.imageUrl}
+                            size={AvatarSize.SMALL}
+                            className={styles.avatar}
+                          />
+                          <VerticalContainer className={clsx(isAbandoned && styles.abandonedWay)}>
+                            <Link
+                              path={pages.way.getPath({uuid: child.uuid})}
+                              className={styles.participantWay}
+                            >
+                              {child.name}
+                            </Link>
+                            <Link
+                              path={pages.user.getPath({uuid: child.owner.uuid})}
+                              className={styles.participantWay}
+                            >
+                              {child.owner.name}
+                            </Link>
+                            {child.status}
+                          </VerticalContainer>
+                        </HorizontalContainer>
 
+                        <Confirm
+                          trigger={
+                            <Tooltip content={LanguageService.way.peopleBlock.deleteFromComposite[language]}>
+                              <Button
+                                className={styles.removeButton}
+                                onClick={() => {}}
+                                buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
+                                value={
+                                  <Icon
+                                    size={IconSize.SMALL}
+                                    name="RemoveIcon"
+                                    className={styles.removeIcon}
+                                  />}
+                              />
+                            </Tooltip>
+                          }
+                          content={<p>
+                            {LanguageService.way.peopleBlock.deleteWayFromCompositeModalContent[language]
+                              .replace("$participant", `"${child.name}"`)}
+                          </p>}
+                          onOk={async () => {
+                            await CompositeWayDAL.deleteWayFromComposite({childWayUuid: child.uuid, parentWayUuid: way.uuid});
+                            way.deleteChildWay(child.uuid);
+                          }}
+                          okText={LanguageService.modals.confirmModal.deleteButton[language]}
+                          cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
+                        />
                       </HorizontalContainer>
                       <Separator />
                     </>

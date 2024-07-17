@@ -286,6 +286,13 @@ export class Way {
   }
 
   /**
+   * Delete child way from way
+   */
+  public deleteChildWay(childUuid: string): void {
+    this.children = this.children.filter(child => child.uuid !== childUuid);
+  }
+
+  /**
    * Add new label to way
    */
   public addLabel(newLabel: Label): void {
