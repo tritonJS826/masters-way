@@ -1,20 +1,30 @@
 import { defineConfig } from "cypress";
+import dotenv from "dotenv";
 
-export default defineConfig({
+// Load environment variables from .env file
+dotenv.config();
+
+const cypressConfig =  defineConfig({
   component: {
     devServer: {
       framework: "react",
       bundler: "vite",
     },
   },
-  
   e2e: {
     baseUrl: 'http://localhost:5173',
     setupNodeEvents(on, config) {
       // implement node event listeners here
+
+      config.env = {
+        ...config.env,
+        ...process.env
+      };
+
+      // Load environment variables from .env file
+      return config;
     },
-    env: {
-      API_BASE_PATH: process.env.API_BASE_PATH,
-    }
   },
 });
+
+export default cypressConfig;
