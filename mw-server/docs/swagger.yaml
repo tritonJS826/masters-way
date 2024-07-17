@@ -249,31 +249,6 @@ definitions:
     - name
     - ownerUuid
     type: object
-  schemas.CreateWay:
-    properties:
-      copiedFromWayUuid:
-        type: string
-      estimationTime:
-        type: integer
-      goalDescription:
-        type: string
-      isCompleted:
-        type: boolean
-      isPrivate:
-        type: boolean
-      name:
-        type: string
-      ownerUuid:
-        type: string
-    required:
-    - copiedFromWayUuid
-    - estimationTime
-    - goalDescription
-    - isCompleted
-    - isPrivate
-    - name
-    - ownerUuid
-    type: object
   schemas.CreateWayCollectionPayload:
     properties:
       name:
@@ -293,6 +268,30 @@ definitions:
     required:
     - wayCollectionUuid
     - wayUuid
+    type: object
+  schemas.CreateWayPayload:
+    properties:
+      copiedFromWayUuid:
+        type: string
+      estimationTime:
+        type: integer
+      goalDescription:
+        type: string
+      isCompleted:
+        type: boolean
+      isPrivate:
+        type: boolean
+      name:
+        type: string
+      ownerUuid:
+        type: string
+    required:
+    - estimationTime
+    - goalDescription
+    - isCompleted
+    - isPrivate
+    - name
+    - ownerUuid
     type: object
   schemas.CreateWayTagPayload:
     properties:
@@ -2279,7 +2278,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.CreateWay'
+          $ref: '#/definitions/schemas.CreateWayPayload'
       produces:
       - application/json
       responses:

@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"context"
-	"database/sql"
 	"net/http"
 	"time"
 
@@ -109,15 +108,7 @@ func (cc *WayCollectionController) UpdateWayCollection(ctx *gin.Context) {
 	}
 
 	wayCollection, err := cc.db.UpdateWayCollection(ctx, args)
-
-	if err != nil {
-		if err == sql.ErrNoRows {
-			ctx.JSON(http.StatusNotFound, gin.H{"status": "failed", "message": "Failed to retrieve way collection with this ID"})
-			return
-		}
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "Failed retrieving way collection", "error": err.Error()})
-		return
-	}
+	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, wayCollection)
 }

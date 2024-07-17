@@ -2037,7 +2037,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateWay"
+                            "$ref": "#/definitions/schemas.CreateWayPayload"
                         }
                     }
                 ],
@@ -2515,10 +2515,39 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.CreateWay": {
+        "schemas.CreateWayCollectionPayload": {
             "type": "object",
             "required": [
-                "copiedFromWayUuid",
+                "name",
+                "ownerUuid"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "ownerUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.CreateWayCollectionWay": {
+            "type": "object",
+            "required": [
+                "wayCollectionUuid",
+                "wayUuid"
+            ],
+            "properties": {
+                "wayCollectionUuid": {
+                    "type": "string"
+                },
+                "wayUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.CreateWayPayload": {
+            "type": "object",
+            "required": [
                 "estimationTime",
                 "goalDescription",
                 "isCompleted",
@@ -2546,36 +2575,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "ownerUuid": {
-                    "type": "string"
-                }
-            }
-        },
-        "schemas.CreateWayCollectionPayload": {
-            "type": "object",
-            "required": [
-                "name",
-                "ownerUuid"
-            ],
-            "properties": {
-                "name": {
-                    "type": "string"
-                },
-                "ownerUuid": {
-                    "type": "string"
-                }
-            }
-        },
-        "schemas.CreateWayCollectionWay": {
-            "type": "object",
-            "required": [
-                "wayCollectionUuid",
-                "wayUuid"
-            ],
-            "properties": {
-                "wayCollectionUuid": {
-                    "type": "string"
-                },
-                "wayUuid": {
                     "type": "string"
                 }
             }
