@@ -54,9 +54,6 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 
 	now := time.Now()
 	var copiedFromWayUuid pgtype.UUID
-	if payload.CopiedFromWayUuid != "" {
-		copiedFromWayUuid = pgtype.UUID{Bytes: uuid.MustParse(payload.CopiedFromWayUuid), Valid: true}
-	}
 	args := db.CreateWayParams{
 		Name:              payload.Name,
 		GoalDescription:   payload.GoalDescription,
@@ -64,7 +61,7 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 		OwnerUuid:         pgtype.UUID{Bytes: payload.OwnerUuid, Valid: true},
 		IsCompleted:       payload.IsCompleted,
 		IsPrivate:         false,
-		CopiedFromWayUuid: copiedFromWayUuid,
+		CopiedFromWayUuid: pgtype.UUID{Bytes: uuid.MustParse(payload.CopiedFromWayUuid), Valid: true},
 		UpdatedAt:         pgtype.Timestamp{Time: now, Valid: true},
 		CreatedAt:         pgtype.Timestamp{Time: now, Valid: true},
 	}
