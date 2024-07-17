@@ -26,7 +26,7 @@ function getLowerCaseTextAndCheck(element: JQuery<HTMLElement>, symbols: string)
 };
 
 describe('NoAuth All Users scope tests', () => {
-    
+
     it('NoAuth_AllUsers_OpenUserPersonalAreaTableView', () => {
         allWaysSelectors.filterViewBlock.getTableViewButton().click();
 
