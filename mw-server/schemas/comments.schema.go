@@ -7,7 +7,7 @@ type CreateCommentPayload struct {
 }
 
 type UpdateCommentPayload struct {
-	Description string `json:"description"`
+	Description *string `json:"description"`
 }
 
 type CommentPopulatedResponse struct {

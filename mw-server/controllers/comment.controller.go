@@ -86,10 +86,14 @@ func (cc *CommentController) UpdateComment(ctx *gin.Context) {
 		return
 	}
 
+	var descriptionPg pgtype.Text
+	if payload.Description != nil {
+		descriptionPg = pgtype.Text{String: *payload.Description, Valid: true}
+	}
 	now := time.Now()
 	args := &db.UpdateCommentParams{
 		Uuid:        pgtype.UUID{Bytes: uuid.MustParse(commentId), Valid: true},
-		Description: pgtype.Text{String: payload.Description, Valid: payload.Description != ""},
+		Description: descriptionPg,
 		UpdatedAt:   pgtype.Timestamp{Time: now, Valid: true},
 	}
 

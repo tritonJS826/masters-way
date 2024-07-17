@@ -8,8 +8,8 @@ type CreateProblemPayload struct {
 }
 
 type UpdateProblemPayload struct {
-	Description string `json:"description"`
-	IsDone      bool   `json:"isDone"`
+	Description *string `json:"description"`
+	IsDone      *bool   `json:"isDone"`
 }
 
 type ProblemPopulatedResponse struct {

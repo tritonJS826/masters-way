@@ -9,8 +9,8 @@ type CreateJobDonePayload struct {
 }
 
 type UpdateJobDone struct {
-	Description string `json:"description"`
-	Time        int32  `json:"time"`
+	Description *string `json:"description"`
+	Time        *int32  `json:"time"`
 }
 
 type JobDonePopulatedResponse struct {
