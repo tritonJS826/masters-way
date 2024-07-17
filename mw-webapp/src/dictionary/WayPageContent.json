@@ -268,7 +268,7 @@
       "ua": "Наставники цього шляху:"
     },
     "deleteFromMentors": {
-      "ru": " Удалить из менторов",
+      "ru": "Удалить из менторов",
       "en": "Delete from mentors",
       "ua": "Видалити з наставників"
     },
@@ -291,6 +291,16 @@
       "ru": "Дочерние пути:",
       "en": "Child ways:",
       "ua": "Дочірні шляхи:"
+    },
+    "deleteFromComposite": {
+      "ru": "Удалить путь из композитного пути",
+      "en": "Remove way from composite way",
+      "ua": "Видалити шлях із композитного шляху"
+    },
+    "deleteWayFromCompositeModalContent": {
+      "ru": "Вы уверены, что хотите удалить путь $participant из композитного пути?",
+      "en": "Are you sure you want to remove the way $participant from the composite way?",
+      "ua": "Ви впевнені, що хочете видалити шлях $participant з композитного шляху?"
     }
   },
   "statisticsBlock": {

@@ -14,9 +14,10 @@ interface ModalTriggerProps {
   dataCyTrigger?: string;
 
   /**
-   * ModalTrigger className
+   * If true then trigger has width with value fit-content
+   * @default true
    */
-  triggerClassName?: string;
+  isFitContent?: boolean;
 
 }
 
@@ -33,7 +34,7 @@ export const ModalTrigger = forwardRef((props: PropsWithChildren<ModalTriggerPro
         ref={ref}
         role="button"
         data-cy={props.dataCyTrigger}
-        className={clsx(styles.wrapperTrigger, props.triggerClassName)}
+        className={clsx(props.isFitContent && styles.wrapperTrigger)}
       >
         {props.children}
       </div>

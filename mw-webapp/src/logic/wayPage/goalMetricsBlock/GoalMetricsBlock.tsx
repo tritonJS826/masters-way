@@ -124,7 +124,7 @@ export const GoalMetricsBlock = observer((props: GoalMetricStatisticsBlockProps)
               wayUuid={props.wayUuid}
             />
           }
-          triggerClassName={styles.trigger}
+          isFitContent={false}
         />
       </VerticalContainer>
       }
