@@ -50,6 +50,16 @@
       "en": "New skill",
       "ua": "Новий навик"
     },
+    "addSkillModalTitle": {
+      "ru": "Навыки",
+      "en": "Skills",
+      "ua": "Навики"
+    },
+    "addSkillModalButton": {
+      "ru": "Создать навык",
+      "en": "Create skill",
+      "ua": "Створити навик"
+    },
     "createNewWayButton": {
       "ru": "Создать новый путь",
       "en": "Create new way",

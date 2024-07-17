@@ -1,5 +1,10 @@
 @import "src/styles/variables";
 
 .buttons {
-  margin-top: $marginMedium;
+  justify-content: flex-end;
+  gap: $gapMedium;
+}
+
+.container {
+  gap: $gapBig;
 }
