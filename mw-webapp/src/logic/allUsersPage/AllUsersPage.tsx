@@ -225,7 +225,7 @@ export const AllUsersPage = observer(() => {
                 <UserCard
                   key={user.uuid}
                   userPreview={user}
-                  dataCy={allUsersAccessIds.allUsersCard.userCardLink}
+                  dataCy={allUsersAccessIds.allUsersCard.userCardLink(user.name)}
                 />
               );
             })

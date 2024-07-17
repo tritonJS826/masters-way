@@ -6,7 +6,10 @@ import testUserData from "cypress/fixtures/testUserDataFixture.json";
 import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
 import allUsersData from "cypress/fixtures/allUsersFixture.json";
 
+const apiUrl = Cypress.env('API_BASE_PATH');
+
 beforeEach(() => {
+    cy.request('GET', `${apiUrl}/dev/reset-db`);
     cy.visit('/');
     headerSelectors.getBurgerMenu().click();
     navigationMenuSelectors.menuItemLinks.getAllUsersItemLink().click();
@@ -25,70 +28,82 @@ function getLowerCaseTextAndCheck(element: JQuery<HTMLElement>, symbols: string)
 describe('NoAuth All Users scope tests', () => {
     
     it('NoAuth_AllUsers_OpenUserPersonalAreaTableView', () => {
-        const users: Record<string, string> = testUserData.users;
+        allWaysSelectors.filterViewBlock.getTableViewButton().click();
 
-        Object.keys(users).forEach(expectedUserName => {
-            allWaysSelectors.filterViewBlock.getTableViewButton().click();
+        const checkUserNameLink = (userData: {userName: string, userId: string}) => {
+            allUsersSelectors.allUsersTable.getUserLink(userData.userName).contains(userData.userName).click();
+            cy.url().should('include', userData.userId);
+            userPersonalSelectors.descriptionSection.getName().should('have.text', userData.userName);
+        }
 
-            allUsersSelectors.allUsersTable.getUserLink(expectedUserName).contains(expectedUserName).click();
+        checkUserNameLink(testUserData.users.John);
+        cy.visit(`/${allUsersData.endpoint}`);
+
+        checkUserNameLink(testUserData.users.Bob);
+        cy.visit(`/${allUsersData.endpoint}`);
+
+        checkUserNameLink(testUserData.users.Bernardo);
         
-            cy.url().should('include', `${users[expectedUserName]}`);
-            userPersonalSelectors.descriptionSection.getName().should('have.text', expectedUserName);
-      
-            cy.visit(`/${allUsersData.endpoint}`);
-        });        
     });
 
     it('NoAuth_AllUsers_OpenUserPersonalAreaCardView', () => {
-        const users: Record<string, string> = testUserData.users;
-
-        Object.keys(users).forEach(expectedUserName => {
-            allUsersSelectors.allWaysCard.getCardLink()
-                .filter(`[href="/user/${users[expectedUserName]}"]`)
-                .contains(expectedUserName)
-                .click();
-    
-            cy.url().should('include', `${users[expectedUserName]}`);
-            userPersonalSelectors.descriptionSection.getName().should('have.text', expectedUserName);
+        const checkWayLink = (userData: {userName: string, userId: string}) => {
+            allUsersSelectors.allWaysCard.getCardLink(userData.userName).click();
+            cy.url().should('include', userData.userId);
+            userPersonalSelectors.descriptionSection.getName().should('have.text', userData.userName);
+        }
       
-            cy.visit(`/${allUsersData.endpoint}`);
-        });        
+        checkWayLink(testUserData.users.John);
+        cy.visit(`/${allUsersData.endpoint}`);
+      
+        checkWayLink(testUserData.users.Bob);
+        cy.visit(`/${allUsersData.endpoint}`);
+      
+        checkWayLink(testUserData.users.Bernardo);
+               
     });
 
     it('NoAuth_AllUsers_SearchByEmail', () => {
-        const searchByEmail: Record<string, number> = testUserData.searchByEmail;
-
         allWaysSelectors.filterViewBlock.getTableViewButton().click();
 
-        Object.keys(searchByEmail).forEach((symbols) => {
-            allUsersSelectors.filterViewBlock.getSearchByEmailInput().type(symbols);
+        const searchByEmail = (searchData: {symbols: string, expectedCount: number}) => {
+            allUsersSelectors.filterViewBlock.getSearchByEmailInput().type(searchData.symbols);
 
             allUsersSelectors.allUsersTable.getUserContact()
-                .should('have.length', searchByEmail[symbols])
+                .should('have.length', searchData.expectedCount)
                 .each((userEmail) => {
-                    getLowerCaseTextAndCheck(userEmail,symbols);
+                    getLowerCaseTextAndCheck(userEmail,searchData.symbols);
                 });
-        
+            
             allUsersSelectors.filterViewBlock.getSearchByEmailInput().clear();
-        });
+        }
+
+        searchByEmail(testUserData.searchByEmail.firstSearch);
+        searchByEmail(testUserData.searchByEmail.secondSearch);
+        searchByEmail(testUserData.searchByEmail.thirdSearch);
+
     });
 
     it('NoAuth_AllUsers_SearchByName', () => {
-        const searchByName: Record<string, number> = testUserData.searchByName;
 
         allWaysSelectors.filterViewBlock.getTableViewButton().click();
 
-        Object.keys(searchByName).forEach((symbols) => {
-            allUsersSelectors.filterViewBlock.getSearchByNameInput().type(symbols);
+        const searchByName = (searchData: {symbols: string, expectedCount: number}) => {
+            allUsersSelectors.filterViewBlock.getSearchByNameInput().type(searchData.symbols);
 
             allUsersSelectors.allUsersTable.getUserName()
-                .should('have.length', searchByName[symbols])
+                .should('have.length', searchData.expectedCount)
                 .each((userName) => {
-                    getLowerCaseTextAndCheck(userName,symbols);
+                    getLowerCaseTextAndCheck(userName,searchData.symbols);
                 });
-        
+            
             allUsersSelectors.filterViewBlock.getSearchByNameInput().clear();
-        });
+        }
+
+        searchByName(testUserData.searchByName.firstSearch);
+        searchByName(testUserData.searchByName.secondSearch);
+        searchByName(testUserData.searchByName.thirdSearch);
+
     });
 
 });
