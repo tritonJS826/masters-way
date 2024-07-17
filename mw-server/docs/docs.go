@@ -2558,7 +2558,8 @@ const docTemplate = `{
             ],
             "properties": {
                 "copiedFromWayUuid": {
-                    "type": "string"
+                    "type": "string",
+                    "x-nullable": true
                 },
                 "estimationTime": {
                     "type": "integer"

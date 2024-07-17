@@ -273,6 +273,7 @@ definitions:
     properties:
       copiedFromWayUuid:
         type: string
+        x-nullable: true
       estimationTime:
         type: integer
       goalDescription:
