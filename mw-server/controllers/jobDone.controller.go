@@ -110,11 +110,19 @@ func (cc *JobDoneController) UpdateJobDone(ctx *gin.Context) {
 	}
 
 	now := time.Now()
+	var descriptionPg pgtype.Text
+	if payload.Description != nil {
+		descriptionPg = pgtype.Text{String: *payload.Description, Valid: true}
+	}
+	var timePg pgtype.Int4
+	if payload.Time != nil {
+		timePg = pgtype.Int4{Int32: *payload.Time, Valid: true}
+	}
 	args := db.UpdateJobDoneParams{
 		Uuid:        pgtype.UUID{Bytes: uuid.MustParse(jobDoneId), Valid: true},
-		Description: pgtype.Text{String: payload.Description, Valid: payload.Description != ""},
+		Description: descriptionPg,
 		UpdatedAt:   pgtype.Timestamp{Time: now, Valid: true},
-		Time:        pgtype.Int4{Int32: int32(payload.Time), Valid: payload.Time != 0},
+		Time:        timePg,
 	}
 
 	jobDone, err := cc.db.UpdateJobDone(ctx, args)

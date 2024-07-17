@@ -92,13 +92,25 @@ func (cc *PlanController) UpdatePlan(ctx *gin.Context) {
 		return
 	}
 
+	var descriptionPg pgtype.Text
+	if payload.Description != nil {
+		descriptionPg = pgtype.Text{String: *payload.Description, Valid: true}
+	}
+	var timePg pgtype.Int4
+	if payload.Time != nil {
+		timePg = pgtype.Int4{Int32: *payload.Time, Valid: true}
+	}
+	var isDonePg pgtype.Bool
+	if payload.IsDone != nil {
+		isDonePg = pgtype.Bool{Bool: *payload.IsDone, Valid: true}
+	}
 	now := time.Now()
 	args := db.UpdatePlanParams{
 		Uuid:        pgtype.UUID{Bytes: uuid.MustParse(PlanId), Valid: true},
 		UpdatedAt:   pgtype.Timestamp{Time: now, Valid: true},
-		Description: pgtype.Text{String: payload.Description, Valid: payload.Description != ""},
-		Time:        pgtype.Int4{Int32: int32(payload.Time), Valid: payload.Time != 0},
-		IsDone:      pgtype.Bool{Bool: payload.IsDone, Valid: true},
+		Description: descriptionPg,
+		Time:        timePg,
+		IsDone:      isDonePg,
 	}
 
 	plan, err := cc.db.UpdatePlan(ctx, args)
