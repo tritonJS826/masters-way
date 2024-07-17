@@ -2548,6 +2548,7 @@ const docTemplate = `{
         "schemas.CreateWayPayload": {
             "type": "object",
             "required": [
+                "copiedFromWayUuid",
                 "estimationTime",
                 "goalDescription",
                 "isCompleted",
