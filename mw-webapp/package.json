@@ -84,6 +84,7 @@
     "@vitejs/plugin-react": "4.2.1",
     "@yarnaimo/eslint-config": "0.4.4",
     "cypress": "^13.7.2",
+    "dotenv": "^16.4.5",
     "envalid": "8.0.0",
     "eslint": "8.56.0",
     "eslint-plugin-jsdoc": "48.1.0",

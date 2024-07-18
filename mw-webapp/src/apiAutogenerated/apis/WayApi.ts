@@ -15,15 +15,15 @@
 
 import * as runtime from '../runtime';
 import type {
-  SchemasCreateWay,
+  SchemasCreateWayPayload,
   SchemasGetAllWaysResponse,
   SchemasUpdateWayPayload,
   SchemasWayPlainResponse,
   SchemasWayPopulatedResponse,
 } from '../models/index';
 import {
-    SchemasCreateWayFromJSON,
-    SchemasCreateWayToJSON,
+    SchemasCreateWayPayloadFromJSON,
+    SchemasCreateWayPayloadToJSON,
     SchemasGetAllWaysResponseFromJSON,
     SchemasGetAllWaysResponseToJSON,
     SchemasUpdateWayPayloadFromJSON,
@@ -35,7 +35,7 @@ import {
 } from '../models/index';
 
 export interface CreateWayRequest {
-    request: SchemasCreateWay;
+    request: SchemasCreateWayPayload;
 }
 
 export interface DeleteWayRequest {
@@ -81,7 +81,7 @@ export class WayApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: SchemasCreateWayToJSON(requestParameters.request),
+            body: SchemasCreateWayPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => SchemasWayPlainResponseFromJSON(jsonValue));

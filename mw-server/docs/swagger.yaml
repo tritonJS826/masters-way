@@ -249,10 +249,31 @@ definitions:
     - name
     - ownerUuid
     type: object
-  schemas.CreateWay:
+  schemas.CreateWayCollectionPayload:
+    properties:
+      name:
+        type: string
+      ownerUuid:
+        type: string
+    required:
+    - name
+    - ownerUuid
+    type: object
+  schemas.CreateWayCollectionWay:
+    properties:
+      wayCollectionUuid:
+        type: string
+      wayUuid:
+        type: string
+    required:
+    - wayCollectionUuid
+    - wayUuid
+    type: object
+  schemas.CreateWayPayload:
     properties:
       copiedFromWayUuid:
         type: string
+        x-nullable: true
       estimationTime:
         type: integer
       goalDescription:
@@ -273,26 +294,6 @@ definitions:
     - isPrivate
     - name
     - ownerUuid
-    type: object
-  schemas.CreateWayCollectionPayload:
-    properties:
-      name:
-        type: string
-      ownerUuid:
-        type: string
-    required:
-    - name
-    - ownerUuid
-    type: object
-  schemas.CreateWayCollectionWay:
-    properties:
-      wayCollectionUuid:
-        type: string
-      wayUuid:
-        type: string
-    required:
-    - wayCollectionUuid
-    - wayUuid
     type: object
   schemas.CreateWayTagPayload:
     properties:
@@ -2279,7 +2280,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.CreateWay'
+          $ref: '#/definitions/schemas.CreateWayPayload'
       produces:
       - application/json
       responses:

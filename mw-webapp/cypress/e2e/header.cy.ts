@@ -86,7 +86,6 @@ describe('IsAuth Header scope tests', () => {
 
     afterEach(() => {
         cy.clearAllStorage();
-        cy.request('GET', `${apiUrl}/dev/reset-db`);
     });
 
     it('IsAuth_Header_UserNameLink', () => {

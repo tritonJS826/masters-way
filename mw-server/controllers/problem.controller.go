@@ -99,12 +99,20 @@ func (cc *ProblemController) UpdateProblem(ctx *gin.Context) {
 		return
 	}
 
+	var descriptionPg pgtype.Text
+	if payload.Description != nil {
+		descriptionPg = pgtype.Text{String: *payload.Description, Valid: true}
+	}
+	var isDonePg pgtype.Bool
+	if payload.IsDone != nil {
+		isDonePg = pgtype.Bool{Bool: *payload.IsDone, Valid: true}
+	}
 	now := time.Now()
 	args := db.UpdateProblemParams{
 		Uuid:        pgtype.UUID{Bytes: uuid.MustParse(problemId), Valid: true},
 		UpdatedAt:   pgtype.Timestamp{Time: now, Valid: true},
-		IsDone:      pgtype.Bool{Bool: payload.IsDone, Valid: true},
-		Description: pgtype.Text{String: payload.Description, Valid: payload.Description != ""},
+		IsDone:      isDonePg,
+		Description: descriptionPg,
 	}
 
 	problem, err := cc.db.UpdateProblem(ctx, args)

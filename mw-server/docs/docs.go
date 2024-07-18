@@ -2037,7 +2037,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateWay"
+                            "$ref": "#/definitions/schemas.CreateWayPayload"
                         }
                     }
                 ],
@@ -2515,41 +2515,6 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.CreateWay": {
-            "type": "object",
-            "required": [
-                "copiedFromWayUuid",
-                "estimationTime",
-                "goalDescription",
-                "isCompleted",
-                "isPrivate",
-                "name",
-                "ownerUuid"
-            ],
-            "properties": {
-                "copiedFromWayUuid": {
-                    "type": "string"
-                },
-                "estimationTime": {
-                    "type": "integer"
-                },
-                "goalDescription": {
-                    "type": "string"
-                },
-                "isCompleted": {
-                    "type": "boolean"
-                },
-                "isPrivate": {
-                    "type": "boolean"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "ownerUuid": {
-                    "type": "string"
-                }
-            }
-        },
         "schemas.CreateWayCollectionPayload": {
             "type": "object",
             "required": [
@@ -2576,6 +2541,42 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "wayUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.CreateWayPayload": {
+            "type": "object",
+            "required": [
+                "copiedFromWayUuid",
+                "estimationTime",
+                "goalDescription",
+                "isCompleted",
+                "isPrivate",
+                "name",
+                "ownerUuid"
+            ],
+            "properties": {
+                "copiedFromWayUuid": {
+                    "type": "string",
+                    "x-nullable": true
+                },
+                "estimationTime": {
+                    "type": "integer"
+                },
+                "goalDescription": {
+                    "type": "string"
+                },
+                "isCompleted": {
+                    "type": "boolean"
+                },
+                "isPrivate": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "ownerUuid": {
                     "type": "string"
                 }
             }

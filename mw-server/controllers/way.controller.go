@@ -35,11 +35,11 @@ func NewWayController(db *db.Queries, ctx context.Context, ls *services.LimitSer
 // @ID create-way
 // @Accept  json
 // @Produce  json
-// @Param request body schemas.CreateWay true "query params"
+// @Param request body schemas.CreateWayPayload true "query params"
 // @Success 200 {object} schemas.WayPlainResponse
 // @Router /ways [post]
 func (cc *WayController) CreateWay(ctx *gin.Context) {
-	var payload *schemas.CreateWay
+	var payload *schemas.CreateWayPayload
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -53,6 +53,11 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 	util.HandleErrorGin(ctx, err)
 
 	now := time.Now()
+
+	var copiedFromWayPg pgtype.UUID
+	if payload.CopiedFromWayUuid != nil {
+		copiedFromWayPg = pgtype.UUID{Bytes: uuid.MustParse(*payload.CopiedFromWayUuid), Valid: true}
+	}
 	args := db.CreateWayParams{
 		Name:              payload.Name,
 		GoalDescription:   payload.GoalDescription,
@@ -60,7 +65,7 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 		OwnerUuid:         pgtype.UUID{Bytes: payload.OwnerUuid, Valid: true},
 		IsCompleted:       payload.IsCompleted,
 		IsPrivate:         false,
-		CopiedFromWayUuid: pgtype.UUID{Bytes: uuid.MustParse(payload.CopiedFromWayUuid), Valid: true},
+		CopiedFromWayUuid: copiedFromWayPg,
 		UpdatedAt:         pgtype.Timestamp{Time: now, Valid: true},
 		CreatedAt:         pgtype.Timestamp{Time: now, Valid: true},
 	}

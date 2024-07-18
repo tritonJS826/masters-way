@@ -84,30 +84,30 @@ func (cc *MetricController) UpdateMetric(ctx *gin.Context) {
 
 	now := time.Now()
 
-	var isDoneNullBool pgtype.Bool
-	var doneDateNullTime pgtype.Timestamp
+	var isDonePg pgtype.Bool
+	var doneDatePg pgtype.Timestamp
 	if payload.IsDone != nil {
-		isDoneNullBool = pgtype.Bool{Bool: *payload.IsDone, Valid: true}
-		doneDateNullTime = pgtype.Timestamp{Time: now, Valid: *payload.IsDone}
+		isDonePg = pgtype.Bool{Bool: *payload.IsDone, Valid: true}
+		doneDatePg = pgtype.Timestamp{Time: now, Valid: *payload.IsDone}
 	}
 
-	var descriptionNullString pgtype.Text
+	var descriptionPg pgtype.Text
 	if payload.Description != nil {
-		descriptionNullString = pgtype.Text{String: *payload.Description, Valid: true}
+		descriptionPg = pgtype.Text{String: *payload.Description, Valid: true}
 	}
 
-	var metricEstimationNullInt32 pgtype.Int4
+	var metricEstimationPg pgtype.Int4
 	if payload.MetricEstimation != nil {
-		metricEstimationNullInt32 = pgtype.Int4{Int32: *payload.MetricEstimation, Valid: true}
+		metricEstimationPg = pgtype.Int4{Int32: *payload.MetricEstimation, Valid: true}
 	}
 
 	args := db.UpdateMetricParams{
 		Uuid:             pgtype.UUID{Bytes: uuid.MustParse(metricId), Valid: true},
 		UpdatedAt:        pgtype.Timestamp{Time: now, Valid: true},
-		Description:      descriptionNullString,
-		IsDone:           isDoneNullBool,
-		DoneDate:         doneDateNullTime,
-		MetricEstimation: metricEstimationNullInt32,
+		Description:      descriptionPg,
+		IsDone:           isDonePg,
+		DoneDate:         doneDatePg,
+		MetricEstimation: metricEstimationPg,
 	}
 
 	metric, err := cc.db.UpdateMetric(ctx, args)

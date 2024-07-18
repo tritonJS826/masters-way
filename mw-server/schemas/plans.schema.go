@@ -9,9 +9,9 @@ type CreatePlanPayload struct {
 }
 
 type UpdatePlanPayload struct {
-	Description string `json:"description"`
-	Time        int32  `json:"time"`
-	IsDone      bool   `json:"isDone"`
+	Description *string `json:"description"`
+	Time        *int32  `json:"time"`
+	IsDone      *bool   `json:"isDone"`
 }
 
 type PlanPopulatedResponse struct {
