@@ -23,11 +23,16 @@
       "ua": "Зберегти"
     }
   },
-  "jobTagsModal": {
+  "labelsModal": {
     "title": {
       "ru": "Выберите теги",
       "en": "Choose tags",
       "ua": "Виберіть теги"
+    },
+    "description": {
+      "ru": "Описание отсутствует",
+      "en": "Empty description",
+      "ua": "Опис відсутній"
     }
   },
   "confirmModal": {

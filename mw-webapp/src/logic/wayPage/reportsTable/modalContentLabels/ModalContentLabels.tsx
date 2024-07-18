@@ -5,17 +5,14 @@ import {Button, ButtonType} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Checkbox";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Label} from "src/component/label/Label";
+import {Text} from "src/component/text/Text";
 import {HeadingLevel, Title} from "src/component/title/Title";
-import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
-import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {Label as LabelModel} from "src/model/businessModel/Label";
 import {LanguageService} from "src/service/LanguageService";
 import {KeySymbols} from "src/utils/KeySymbols";
-import styles from "src/logic/wayPage/reportsTable/modalContentJobTags/ModalContentJobTags.module.scss";
-
-// Const DEFAULT_AMOUNT_TAGS = 1;
+import styles from "src/logic/wayPage/reportsTable/modalContentLabels/ModalContentLabels.module.scss";
 
 /**
  * JobDoneTagsProps
@@ -46,9 +43,9 @@ interface JobDoneTagsProps {
 }
 
 /**
- * Modal content job tags
+ * Modal content labels
  */
-export const ModalContentJobTags = observer((props: JobDoneTagsProps) => {
+export const ModalContentLabels = observer((props: JobDoneTagsProps) => {
   const {language} = languageStore;
   const jobDoneTagUuids = props.jobDoneTags.map(item => item.uuid);
   const [jobTagsUpdated, setJobTagsUpdated] = useState<string[]>(jobDoneTagUuids);
@@ -85,7 +82,7 @@ export const ModalContentJobTags = observer((props: JobDoneTagsProps) => {
       <VerticalContainer className={styles.modalContentJobContainer}>
         <Title
           level={HeadingLevel.h2}
-          text={LanguageService.modals.jobTagsModal.title[language]}
+          text={LanguageService.modals.labelsModal.title[language]}
           placeholder=""
         />
         <VerticalContainer className={styles.jobTagsContainer}>
@@ -94,28 +91,25 @@ export const ModalContentJobTags = observer((props: JobDoneTagsProps) => {
               <div
                 key={tag.uuid}
                 className={styles.jobTags}
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                onClick={() => jobTagsUpdated.includes(tag.uuid) ? removeJobTagFromJobDone(tag.uuid!) : addJobTagFromJobDone(tag)}
+                onClick={() => jobTagsUpdated.includes(tag.uuid) ? removeJobTagFromJobDone(tag.uuid) : addJobTagFromJobDone(tag)}
               >
-                <Tooltip
-                  content={jobTagsUpdated.includes(tag.uuid)
-                    ? LanguageService.way.reportsTable.columnTooltip.deleteLabel[language]
-                    : LanguageService.way.reportsTable.columnTooltip.addLabel[language]
-                  }
-                  position={PositionTooltip.BOTTOM}
-                >
-                  <HorizontalContainer className={styles.labelWithCheckboxBlock}>
+                <HorizontalContainer className={styles.labelWithCheckboxBlock}>
+                  <div className={styles.labelContainer}>
                     <Label
                       label={tag}
-                      isEditable={props.isEditable}
+                      isEditable={false}
                     />
-                    <Checkbox
-                      isDefaultChecked={jobTagsUpdated.includes(tag.uuid)}
-                      onChange={() => { }}
-                      className={styles.checkbox}
-                    />
-                  </HorizontalContainer>
-                </Tooltip>
+                  </div>
+                  <Text
+                    className={styles.description}
+                    text={tag.description || LanguageService.modals.labelsModal.description[language]}
+                  />
+                  <Checkbox
+                    isDefaultChecked={jobTagsUpdated.includes(tag.uuid)}
+                    onChange={() => { }}
+                    className={styles.checkbox}
+                  />
+                </HorizontalContainer>
               </div>
             );
           })

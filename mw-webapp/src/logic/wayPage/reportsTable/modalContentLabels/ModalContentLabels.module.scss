@@ -1,0 +1,55 @@
+@import "src/styles/variables";
+
+$labelMinWidth: 130px;
+$descriptionMaxWidth:300px;
+$descriptionMaxWidthMobile:150px;
+
+.modalContentJobContainer{
+  gap: $gapBig;
+}
+
+.jobTagsContainer {
+  gap: $gapMedium;
+}
+
+.jobTags {
+  width: 100%;
+  cursor: pointer;
+}
+
+.buttons {
+  justify-content: flex-end;
+  gap: $gapMedium;
+}
+
+.labelWithCheckboxBlock {
+  align-items: center;
+  gap: $gapMedium;
+}
+
+.labelContainer {
+  min-width: $labelMinWidth;
+
+  @media (max-width: $mediaWidthMobileMedium){
+    flex: 1 1 100%;
+  }
+}
+
+.description {
+  max-width: $descriptionMaxWidth;
+  flex: 1 1 100%;
+  flex-wrap: wrap;
+
+  @media (max-width: $mediaWidthMobileBig){
+    max-width: $descriptionMaxWidthMobile;
+  }
+
+  @media (max-width: $mediaWidthMobileMedium){
+    display: none;
+  }
+
+  p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

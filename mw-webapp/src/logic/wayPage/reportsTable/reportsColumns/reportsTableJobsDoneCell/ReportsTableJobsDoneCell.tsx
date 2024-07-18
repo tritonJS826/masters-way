@@ -15,7 +15,7 @@ import {JobDoneJobTagDAL} from "src/dataAccessLogic/JobDoneJobTagDAL";
 import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {JobDoneTags} from "src/logic/wayPage/reportsTable/jobDoneTags/JobDoneTags";
-import {ModalContentJobTags} from "src/logic/wayPage/reportsTable/modalContentJobTags/ModalContentJobTags";
+import {ModalContentLabels} from "src/logic/wayPage/reportsTable/modalContentLabels/ModalContentLabels";
 import {DEFAULT_SUMMARY_TIME, getListNumberByIndex, getValidatedTime, MAX_TIME, MIN_TIME}
   from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
 import {SummarySection} from "src/logic/wayPage/reportsTable/reportsColumns/summarySection/SummarySection";
@@ -222,7 +222,7 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
                     </div>
                   }
                   content={
-                    <ModalContentJobTags
+                    <ModalContentLabels
                       jobTags={props.jobTags}
                       jobDoneTags={jobDone.tags}
                       isEditable={props.isEditable}
