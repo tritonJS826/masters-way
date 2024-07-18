@@ -69,4 +69,3 @@ export const StatisticLine = (props: StatisticLineProps) => {
     </HorizontalGridContainer>
   );
 };
-

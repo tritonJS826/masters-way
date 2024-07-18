@@ -4,11 +4,6 @@
   border-bottom: 1px dotted var(--secondaryStrokeColor);
   gap: $gapSmall;
   grid-template-columns: repeat(3, 1fr);
-
-  @media only screen and (max-width: $mediaWidthMobileMedium) {
-    min-width: 80%;
-    max-width: 80%;
-  }
 }
 
 .labelColorName {
@@ -33,7 +28,6 @@
 
 .amountTime {
   justify-content: right;
-
 }
 
 .percentageBLock {
