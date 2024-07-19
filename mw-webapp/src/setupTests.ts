@@ -3,7 +3,7 @@
 // Expect(element).toHaveTextContent(/react/i)
 // Learn more: https://github.com/testing-library/jest-dom
 import "@testing-library/jest-dom";
+import dotenv from "dotenv";
 
-process.env.API_BASE_PATH = "";
-process.env.ENV_TYPE = "dev";
-process.env.GOOGLE_MEASUREMENT_ID = "";
+// Load environment variables from .env file
+dotenv.config();
