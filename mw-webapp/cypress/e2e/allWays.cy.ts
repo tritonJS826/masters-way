@@ -34,6 +34,7 @@ describe('NoAuth All Ways scope tests', () => {
     tableHeadersEn.forEach((el, index) => {
       allWaysSelectors.allWaysTable.getTable().find("th").contains(tableHeadersEn[index])
     });
+    
   });
 
   it('NoAuth_AllWaysTable_LinkToOwner', () => {

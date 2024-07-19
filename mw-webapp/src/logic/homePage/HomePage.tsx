@@ -54,7 +54,7 @@ export const HomePage = observer(() => {
               text={LanguageService.home.title[language]}
               className={styles.title}
               placeholder=""
-              dataCy={homeAccessIds.welcomeBlock.title}
+              cy={{dataCyTitleContainer: homeAccessIds.welcomeBlock.title}}
             />
             <p className={styles.titleDescription}>
               {LanguageService.home.description[language]}

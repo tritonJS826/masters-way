@@ -10,7 +10,7 @@ export const allUsersAccessIds = {
     },
 
     allUsersTable: {
-        tableBodyTr: 'tableBodyTr',
+        table: 'table',
         userName: 'userName',
         userLink: (userLink: string) => `wayLink_${userLink}`,
         userContact: 'userContact'
