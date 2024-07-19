@@ -243,6 +243,7 @@ export const AllUsersPage = observer(() => {
         }
 
       </div>
+
     </VerticalContainer>
   );
 });
