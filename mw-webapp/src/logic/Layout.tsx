@@ -1,11 +1,13 @@
 import {Outlet} from "react-router-dom";
 import {headerAccessIds} from "cypress/accessIds/headerAccessIds";
 import {observer} from "mobx-react-lite";
+import {Chat} from "src/component/chat/Chat";
 import {Header} from "src/component/header/Header";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
 import {InitializedApp} from "src/logic/initializedApp/InitializedApp";
+import {LanguageService} from "src/service/LanguageService";
 
 /**
  * Layout
@@ -26,7 +28,17 @@ export const Layout = observer(() => {
         setTheme={setTheme}
         dataCy={headerAccessIds.header}
       />
+
+      {user &&
+        <Chat
+          triggerText={LanguageService.common.chat.openChat[language]}
+          chatTitle={LanguageService.common.chat.messengerTitle[language]}
+          contactsTitle={LanguageService.common.chat.contactsTitle[language]}
+        />
+      }
+
       <Outlet />
+
     </InitializedApp>
   );
 });
