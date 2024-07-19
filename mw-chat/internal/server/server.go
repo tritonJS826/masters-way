@@ -2,6 +2,7 @@ package server
 
 import (
 	"mwchat/internal/config"
+	"mwchat/internal/controllers"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -24,6 +25,10 @@ func NewServer(cfg *config.Config) *Server {
 		AllowCredentials: true,
 	}))
 
+	// if cfg.EnvType != "prod" {
+	// 	server.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	// }
+
 	return &Server{
 		GinServer: server,
 	}
@@ -44,24 +49,20 @@ func (server *Server) SetRoutes() {
 
 		groupRooms := chat.Group("/group-rooms")
 		{
-			groupRooms.GET("")
-			groupRooms.GET("/:groupRoomId")
-			groupRooms.POST("/:groupRoomId")
-			groupRooms.PATCH("/:groupRoomId")
+			groupRooms.GET("", controllers.NewGroupRoomsController().GetGroupRoomsPreview)
+			groupRooms.POST("", controllers.NewGroupRoomsController().CreateGroupRoom)
+			groupRooms.GET("/:groupRoomId", controllers.NewGroupRoomsController().GetGroupRoomById)
+			groupRooms.PATCH("/:groupRoomId", controllers.NewGroupRoomsController().UpdateGroupRoom)
 
-			users := groupRooms.Group("/:groupRoomId/users")
-			{
-				users.POST("/:userId")
-				users.DELETE("/:userId")
-			}
+			groupRooms.POST("/:groupRoomId/users/:userId", controllers.NewGroupRoomsController().AddUserToGroupRoom)
+			groupRooms.DELETE("/:groupRoomId/users/:userId", controllers.NewGroupRoomsController().DeleteUserFromGroupRoom)
 
-			requests := groupRooms.Group("/requests")
-			{
-				requests.GET("")
-				requests.POST("/:requestId")
-			}
+			groupRooms.GET("/requests", controllers.NewGroupRoomsController().GetRequestsToGroupRoom)
+			groupRooms.POST("/requests", controllers.NewGroupRoomsController().MakeRequestsToGroupRoom)
+			groupRooms.POST("/requests/accept/:groupRoomId", controllers.NewGroupRoomsController().AcceptRequestsToGroupRoom)
+			groupRooms.DELETE("/requests/decline/:groupRoomId", controllers.NewGroupRoomsController().DeclineRequestsToGroupRoom)
 
-			groupRooms.POST("/:groupRoomId/messages")
+			groupRooms.POST("/:groupRoomId/messages", controllers.NewGroupRoomsController().MakeMessageInGroupRoom)
 		}
 	}
 }

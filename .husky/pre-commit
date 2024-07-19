@@ -4,6 +4,7 @@
 WEBAPP="mw-webapp/"
 SERVER="mw-server/"
 MOBILE="mw-mobile/"
+CHAT="mw-chat/"
 
 runWebappIfChanged () {
   if git diff --name-only --cached | grep "$WEBAPP"
@@ -23,6 +24,15 @@ runServerIfChanged () {
   if git diff --name-only --cached | grep "$SERVER"
   then
     echo "mw-server changed. checking..."
+    pnpm server:build
+    # pnpm server:test
+  fi
+}
+
+runChatIfChanged () {
+  if git diff --name-only --cached | grep "$CHAT"
+  then
+    echo "mw-chat changed. checking..."
     pnpm server:build
     # pnpm server:test
   fi

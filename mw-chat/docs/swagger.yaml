@@ -1,0 +1,377 @@
+basePath: /chat
+definitions:
+  controllers.MakeMessageInGroupRoomPayload:
+    properties:
+      groupRoomId:
+        type: string
+      userToAdd:
+        type: string
+    required:
+    - groupRoomId
+    - userToAdd
+    type: object
+  controllers.MakeMessageInP2PRoomPayload:
+    properties:
+      message:
+        type: string
+      p2pRoomId:
+        type: string
+    required:
+    - message
+    - p2pRoomId
+    type: object
+  controllers.MakeRequestsToGroupRoomPayload:
+    properties:
+      groupRoomId:
+        type: string
+      userToAdd:
+        type: string
+    required:
+    - groupRoomId
+    - userToAdd
+    type: object
+info:
+  contact: {}
+  title: Masters way chat API
+  version: "1.0"
+paths:
+  /group-rooms:
+    get:
+      consumes:
+      - application/json
+      operationId: get-group-rooms
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get group rooms preview for user
+      tags:
+      - group
+    post:
+      consumes:
+      - application/json
+      operationId: create-group-rooms
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create group rooms for user
+      tags:
+      - group
+  /group-rooms/{groupRoomId}:
+    get:
+      consumes:
+      - application/json
+      operationId: get-group-room-by-id
+      parameters:
+      - description: group room Id
+        in: path
+        name: groupRoomId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get group room by id
+      tags:
+      - group
+    patch:
+      consumes:
+      - application/json
+      operationId: update-group-rooms
+      parameters:
+      - description: group room Id
+        in: path
+        name: groupRoomId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update group rooms for user
+      tags:
+      - group
+  /group-rooms/{groupRoomId}/messages:
+    post:
+      consumes:
+      - application/json
+      operationId: make-message-in-group-room
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.MakeMessageInGroupRoomPayload'
+      - description: group room Id
+        in: path
+        name: groupRoomId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Make message to group room
+      tags:
+      - group
+  /group-rooms/{groupRoomId}/users/{userId}:
+    delete:
+      consumes:
+      - application/json
+      operationId: delete-user-to-group
+      parameters:
+      - description: group room Id
+        in: path
+        name: groupRoomId
+        required: true
+        type: string
+      - description: user Id to delete
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete user to group room
+      tags:
+      - group
+    post:
+      consumes:
+      - application/json
+      operationId: add-user-to-group
+      parameters:
+      - description: group room Id
+        in: path
+        name: groupRoomId
+        required: true
+        type: string
+      - description: user Id to delete
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Add user to group room
+      tags:
+      - group
+  /group-rooms/requests:
+    get:
+      consumes:
+      - application/json
+      operationId: get-requests-to-group-room
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get requests to group room
+      tags:
+      - group
+    post:
+      consumes:
+      - application/json
+      operationId: make-requests-to-group-room
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.MakeRequestsToGroupRoomPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Make requests to group room
+      tags:
+      - group
+  /group-rooms/requests/accept/{groupRoomId}:
+    post:
+      consumes:
+      - application/json
+      operationId: accept-requests-to-group-room
+      parameters:
+      - description: groupRoom Id to accept request
+        in: path
+        name: groupRoomId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Accept requests to group room
+      tags:
+      - group
+  /group-rooms/requests/decline/{groupRoomId}:
+    delete:
+      consumes:
+      - application/json
+      operationId: delete-requests-to-group-room
+      parameters:
+      - description: groupRoom Id to delete request
+        in: path
+        name: groupRoomId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete requests to group room
+      tags:
+      - group
+  /p2p-rooms:
+    get:
+      consumes:
+      - application/json
+      operationId: get-p2p-rooms
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get p2p rooms for user
+      tags:
+      - p2p
+    post:
+      consumes:
+      - application/json
+      operationId: create-p2p-room
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create p2p room for user
+      tags:
+      - p2p
+  /p2p-rooms/{p2pRoomId}:
+    get:
+      consumes:
+      - application/json
+      operationId: get-p2p-room-by-id
+      parameters:
+      - description: p2p room Id
+        in: path
+        name: p2pRoomId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get p2p room by id
+      tags:
+      - p2p
+    patch:
+      consumes:
+      - application/json
+      operationId: update-p2p-room
+      parameters:
+      - description: p2p room Id
+        in: path
+        name: p2pRoomId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update p2p room for user
+      tags:
+      - p2p
+  /p2p-rooms/{p2pRoomId}/messages:
+    post:
+      consumes:
+      - application/json
+      operationId: make-message-in-p2p-room
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.MakeMessageInP2PRoomPayload'
+      - description: p2p room Id
+        in: path
+        name: p2pRoomId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Make message in p2p room
+      tags:
+      - p2p
+swagger: "2.0"
