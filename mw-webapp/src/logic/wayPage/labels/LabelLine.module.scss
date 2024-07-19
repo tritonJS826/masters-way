@@ -13,16 +13,10 @@
 .labelContainer {
   display: flex;
   min-width: 250px;
-  max-width: 250px;
-
-  @media only screen and (max-width: $mediaWidthTablet) {
-    min-width: 90%;
-  }
 }
 
 .labelDescription {
-  min-width: 220px;
-  max-width: max(220px, 52vw);
+  width: max(220px, 52vw);
 }
 
 .icon {
