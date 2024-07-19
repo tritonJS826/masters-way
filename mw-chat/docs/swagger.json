@@ -1,0 +1,563 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Masters way chat API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "basePath": "/chat",
+    "paths": {
+        "/group-rooms": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "group"
+                ],
+                "summary": "Get group rooms preview for user",
+                "operationId": "get-group-rooms",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "group"
+                ],
+                "summary": "Create group rooms for user",
+                "operationId": "create-group-rooms",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/group-rooms/requests": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "group"
+                ],
+                "summary": "Get requests to group room",
+                "operationId": "get-requests-to-group-room",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "group"
+                ],
+                "summary": "Make requests to group room",
+                "operationId": "make-requests-to-group-room",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controllers.MakeRequestsToGroupRoomPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/group-rooms/requests/accept/{groupRoomId}": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "group"
+                ],
+                "summary": "Accept requests to group room",
+                "operationId": "accept-requests-to-group-room",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "groupRoom Id to accept request",
+                        "name": "groupRoomId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/group-rooms/requests/decline/{groupRoomId}": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "group"
+                ],
+                "summary": "Delete requests to group room",
+                "operationId": "delete-requests-to-group-room",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "groupRoom Id to delete request",
+                        "name": "groupRoomId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/group-rooms/{groupRoomId}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "group"
+                ],
+                "summary": "Get group room by id",
+                "operationId": "get-group-room-by-id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "group room Id",
+                        "name": "groupRoomId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "group"
+                ],
+                "summary": "Update group rooms for user",
+                "operationId": "update-group-rooms",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "group room Id",
+                        "name": "groupRoomId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/group-rooms/{groupRoomId}/messages": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "group"
+                ],
+                "summary": "Make message to group room",
+                "operationId": "make-message-in-group-room",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controllers.MakeMessageInGroupRoomPayload"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "group room Id",
+                        "name": "groupRoomId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/group-rooms/{groupRoomId}/users/{userId}": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "group"
+                ],
+                "summary": "Add user to group room",
+                "operationId": "add-user-to-group",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "group room Id",
+                        "name": "groupRoomId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "user Id to delete",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "group"
+                ],
+                "summary": "Delete user to group room",
+                "operationId": "delete-user-to-group",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "group room Id",
+                        "name": "groupRoomId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "user Id to delete",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/p2p-rooms": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "p2p"
+                ],
+                "summary": "Get p2p rooms for user",
+                "operationId": "get-p2p-rooms",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "p2p"
+                ],
+                "summary": "Create p2p room for user",
+                "operationId": "create-p2p-room",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/p2p-rooms/{p2pRoomId}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "p2p"
+                ],
+                "summary": "Get p2p room by id",
+                "operationId": "get-p2p-room-by-id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "p2p room Id",
+                        "name": "p2pRoomId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "p2p"
+                ],
+                "summary": "Update p2p room for user",
+                "operationId": "update-p2p-room",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "p2p room Id",
+                        "name": "p2pRoomId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/p2p-rooms/{p2pRoomId}/messages": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "p2p"
+                ],
+                "summary": "Make message in p2p room",
+                "operationId": "make-message-in-p2p-room",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controllers.MakeMessageInP2PRoomPayload"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "p2p room Id",
+                        "name": "p2pRoomId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "controllers.MakeMessageInGroupRoomPayload": {
+            "type": "object",
+            "required": [
+                "groupRoomId",
+                "userToAdd"
+            ],
+            "properties": {
+                "groupRoomId": {
+                    "type": "string"
+                },
+                "userToAdd": {
+                    "type": "string"
+                }
+            }
+        },
+        "controllers.MakeMessageInP2PRoomPayload": {
+            "type": "object",
+            "required": [
+                "message",
+                "p2pRoomId"
+            ],
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "p2pRoomId": {
+                    "type": "string"
+                }
+            }
+        },
+        "controllers.MakeRequestsToGroupRoomPayload": {
+            "type": "object",
+            "required": [
+                "groupRoomId",
+                "userToAdd"
+            ],
+            "properties": {
+                "groupRoomId": {
+                    "type": "string"
+                },
+                "userToAdd": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

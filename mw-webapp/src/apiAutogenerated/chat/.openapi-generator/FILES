@@ -1,0 +1,10 @@
+.openapi-generator-ignore
+apis/GroupApi.ts
+apis/P2pApi.ts
+apis/index.ts
+index.ts
+models/ControllersMakeMessageInGroupRoomPayload.ts
+models/ControllersMakeMessageInP2PRoomPayload.ts
+models/ControllersMakeRequestsToGroupRoomPayload.ts
+models/index.ts
+runtime.ts
