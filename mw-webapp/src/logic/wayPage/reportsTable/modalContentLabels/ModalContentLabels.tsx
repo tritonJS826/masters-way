@@ -15,19 +15,19 @@ import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/logic/wayPage/reportsTable/modalContentLabels/ModalContentLabels.module.scss";
 
 /**
- * JobDoneTagsProps
+ * ModalContentLabelsProps
  */
-interface JobDoneTagsProps {
+interface ModalContentLabelsProps {
 
   /**
-   * Job done tags
+   * All labels done in way
    */
-  jobDoneTags: LabelModel[];
+  labelsDone: LabelModel[];
 
   /**
-   * All Job done tags in way
+   * All labels in way
    */
-  jobTags: LabelModel[];
+  labels: LabelModel[];
 
   /**
    * Is editable
@@ -36,36 +36,37 @@ interface JobDoneTagsProps {
   isEditable: boolean;
 
   /**
-   * Callback to update job done tags
+   * Callback to update labels done
    */
-  updateTags: (newTags: string[]) => Promise<void>;
+  updateLabels: (newLabel: string[]) => Promise<void>;
 
 }
 
 /**
  * Modal content labels
  */
-export const ModalContentLabels = observer((props: JobDoneTagsProps) => {
+export const ModalContentLabels = observer((props: ModalContentLabelsProps) => {
   const {language} = languageStore;
-  const jobDoneTagUuids = props.jobDoneTags.map(item => item.uuid);
-  const [jobTagsUpdated, setJobTagsUpdated] = useState<string[]>(jobDoneTagUuids);
+  const labelsDoneUuids = props.labelsDone.map(item => item.uuid);
 
-  const filteredJobTags = Array.from(new Set(jobTagsUpdated));
+  const [labelsUpdated, setLabelsUpdated] = useState<string[]>(labelsDoneUuids);
+
+  const filteredLabels = Array.from(new Set(labelsUpdated));
 
   /**
-   * Remove job tag from Job done
+   * Remove label from labels done
    */
-  const removeJobTagFromJobDone = (jobTagToRemove: string) => {
-    const updatedJobTags = jobTagsUpdated.filter((jobTag) => jobTag !== jobTagToRemove);
-    setJobTagsUpdated(updatedJobTags);
+  const removeLabelFromLabelsDone = (labelToRemove: string) => {
+    const updatedLabels = labelsUpdated.filter((label) => label !== labelToRemove);
+    setLabelsUpdated(updatedLabels);
   };
 
   /**
-   * Add job tag to Job done
+   * Add label to labels done
    */
-  const addJobTagFromJobDone = (jobTagToAdd: LabelModel) => {
-    const updatedJobTags = jobTagsUpdated.concat(jobTagToAdd.uuid);
-    setJobTagsUpdated(updatedJobTags);
+  const addLabelFromLabelsDone = (labelToAdd: LabelModel) => {
+    const updatedLabels = labelsUpdated.concat(labelToAdd.uuid);
+    setLabelsUpdated(updatedLabels);
   };
 
   /**
@@ -73,39 +74,41 @@ export const ModalContentLabels = observer((props: JobDoneTagsProps) => {
    */
   const handleEnter = (event: React.KeyboardEvent<HTMLElement>) => {
     if (event.key === KeySymbols.ENTER) {
-      props.updateTags(filteredJobTags);
+      props.updateLabels(filteredLabels);
     }
   };
 
   return (
     <div onKeyDown={handleEnter}>
-      <VerticalContainer className={styles.modalContentJobContainer}>
+      <VerticalContainer className={styles.modalContainer}>
         <Title
           level={HeadingLevel.h2}
           text={LanguageService.modals.labelsModal.title[language]}
           placeholder=""
         />
-        <VerticalContainer className={styles.jobTagsContainer}>
-          {props.jobTags.map((tag) => {
+        <VerticalContainer className={styles.labelsContainer}>
+          {props.labels.map((label) => {
             return (
               <div
-                key={tag.uuid}
-                className={styles.jobTags}
-                onClick={() => jobTagsUpdated.includes(tag.uuid) ? removeJobTagFromJobDone(tag.uuid) : addJobTagFromJobDone(tag)}
+                key={label.uuid}
+                className={styles.labels}
+                onClick={() => labelsUpdated.includes(label.uuid)
+                  ? removeLabelFromLabelsDone(label.uuid)
+                  : addLabelFromLabelsDone(label)}
               >
-                <HorizontalContainer className={styles.labelWithCheckboxBlock}>
+                <HorizontalContainer className={styles.labelContent}>
                   <div className={styles.labelContainer}>
                     <Label
-                      label={tag}
+                      label={label}
                       isEditable={false}
                     />
                   </div>
                   <Text
-                    className={styles.description}
-                    text={tag.description || LanguageService.modals.labelsModal.description[language]}
+                    className={styles.labelDescription}
+                    text={label.description || LanguageService.modals.labelsModal.description[language]}
                   />
                   <Checkbox
-                    isDefaultChecked={jobTagsUpdated.includes(tag.uuid)}
+                    isDefaultChecked={labelsUpdated.includes(label.uuid)}
                     onChange={() => { }}
                     className={styles.checkbox}
                   />
@@ -116,7 +119,7 @@ export const ModalContentLabels = observer((props: JobDoneTagsProps) => {
 
           }
         </VerticalContainer>
-        <HorizontalContainer className={styles.buttons}>
+        <HorizontalContainer className={styles.labelsButtons}>
           <DialogClose asChild>
             <Button
               value={LanguageService.modals.promptModal.cancelButton[language]}
@@ -126,7 +129,7 @@ export const ModalContentLabels = observer((props: JobDoneTagsProps) => {
           <DialogClose asChild>
             <Button
               value={LanguageService.modals.promptModal.saveButton[language]}
-              onClick={() => props.updateTags(filteredJobTags)}
+              onClick={() => props.updateLabels(filteredLabels)}
               buttonType={ButtonType.PRIMARY}
             />
           </DialogClose>

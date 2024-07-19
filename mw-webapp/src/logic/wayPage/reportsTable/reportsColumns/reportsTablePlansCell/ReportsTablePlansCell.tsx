@@ -256,12 +256,12 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
                   }
                   content={
                     <ModalContentLabels
-                      jobTags={props.jobTags}
-                      jobDoneTags={plan.tags}
+                      labels={props.jobTags}
+                      labelsDone={plan.tags}
                       isEditable={props.isEditable}
-                      updateTags={(tagsToUpdate: string[]) => updateLabelsInPlan({
+                      updateLabels={(labelsToUpdate: string[]) => updateLabelsInPlan({
                         plan,
-                        updatedTags: tagsToUpdate,
+                        updatedTags: labelsToUpdate,
                       })}
                     />
                   }

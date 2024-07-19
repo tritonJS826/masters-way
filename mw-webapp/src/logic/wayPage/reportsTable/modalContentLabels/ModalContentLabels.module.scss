@@ -4,25 +4,25 @@ $labelMinWidth: 130px;
 $descriptionMaxWidth:300px;
 $descriptionMaxWidthMobile:150px;
 
-.modalContentJobContainer{
+.modalContainer{
   gap: $gapBig;
 }
 
-.jobTagsContainer {
+.labelsContainer {
   gap: $gapMedium;
 }
 
-.jobTags {
+.labels {
   width: 100%;
   cursor: pointer;
 }
 
-.buttons {
+.labelsButtons {
   justify-content: flex-end;
   gap: $gapMedium;
 }
 
-.labelWithCheckboxBlock {
+.labelContent {
   align-items: center;
   gap: $gapMedium;
 }
@@ -35,7 +35,7 @@ $descriptionMaxWidthMobile:150px;
   }
 }
 
-.description {
+.labelDescription {
   max-width: $descriptionMaxWidth;
   flex: 1 1 100%;
   flex-wrap: wrap;

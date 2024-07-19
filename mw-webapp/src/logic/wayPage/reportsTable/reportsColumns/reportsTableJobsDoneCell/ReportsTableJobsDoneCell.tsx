@@ -223,12 +223,12 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
                   }
                   content={
                     <ModalContentLabels
-                      jobTags={props.jobTags}
-                      jobDoneTags={jobDone.tags}
+                      labels={props.jobTags}
+                      labelsDone={jobDone.tags}
                       isEditable={props.isEditable}
-                      updateTags={(tagsToUpdate: string[]) => updateLabelsInJobDone({
+                      updateLabels={(labelsToUpdate: string[]) => updateLabelsInJobDone({
                         jobDone,
-                        updatedTags: tagsToUpdate,
+                        updatedTags: labelsToUpdate,
                       })}
                     />
                   }
