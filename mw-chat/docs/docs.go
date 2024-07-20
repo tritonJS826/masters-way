@@ -32,8 +32,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/schemas.GetRoomsResponse"
                         }
                     }
                 }
@@ -54,8 +53,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/schemas.RoomPopulatedResponse"
                         }
                     }
                 }
@@ -78,8 +76,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/schemas.GetRequestsToGroupRoomResponse"
                         }
                     }
                 }
@@ -94,8 +91,8 @@ const docTemplate = `{
                 "tags": [
                     "group"
                 ],
-                "summary": "Make requests to group room",
-                "operationId": "make-requests-to-group-room",
+                "summary": "Create requests to group room",
+                "operationId": "create-requests-to-group-room",
                 "parameters": [
                     {
                         "description": "query params",
@@ -103,83 +100,13 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/controllers.MakeRequestsToGroupRoomPayload"
+                            "$ref": "#/definitions/schemas.CreateRequestToGroupRoomPayload"
                         }
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            }
-        },
-        "/group-rooms/requests/accept/{groupRoomId}": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "group"
-                ],
-                "summary": "Accept requests to group room",
-                "operationId": "accept-requests-to-group-room",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "groupRoom Id to accept request",
-                        "name": "groupRoomId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            }
-        },
-        "/group-rooms/requests/decline/{groupRoomId}": {
-            "delete": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "group"
-                ],
-                "summary": "Delete requests to group room",
-                "operationId": "delete-requests-to-group-room",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "groupRoom Id to delete request",
-                        "name": "groupRoomId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             }
@@ -210,8 +137,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/schemas.RoomPopulatedResponse"
                         }
                     }
                 }
@@ -241,8 +167,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/schemas.RoomPopulatedResponse"
                         }
                     }
                 }
@@ -259,8 +184,8 @@ const docTemplate = `{
                 "tags": [
                     "group"
                 ],
-                "summary": "Make message to group room",
-                "operationId": "make-message-in-group-room",
+                "summary": "Create message to group room",
+                "operationId": "create-message-in-group-room",
                 "parameters": [
                     {
                         "description": "query params",
@@ -268,7 +193,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/controllers.MakeMessageInGroupRoomPayload"
+                            "$ref": "#/definitions/schemas.CreateMessagePayload"
                         }
                     },
                     {
@@ -283,8 +208,71 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/schemas.MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/group-rooms/{groupRoomId}/requests/accept": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "group"
+                ],
+                "summary": "Accept request to group room",
+                "operationId": "accept-request-to-group-room",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "groupRoom Id to accept request",
+                        "name": "groupRoomId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.RoomPopulatedResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/group-rooms/{groupRoomId}/requests/decline": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "group"
+                ],
+                "summary": "Decline request to group room",
+                "operationId": "decline-request-to-group-room",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "groupRoom Id to delete request",
+                        "name": "groupRoomId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.DeclineRequestToGroupRoomResponse"
                         }
                     }
                 }
@@ -323,8 +311,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/schemas.RoomPopulatedResponse"
                         }
                     }
                 }
@@ -361,8 +348,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/schemas.RoomPopulatedResponse"
                         }
                     }
                 }
@@ -385,8 +371,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/schemas.GetRoomsResponse"
                         }
                     }
                 }
@@ -407,8 +392,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/schemas.MessageResponse"
                         }
                     }
                 }
@@ -440,8 +424,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/schemas.MessageResponse"
                         }
                     }
                 }
@@ -471,8 +454,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/schemas.MessageResponse"
                         }
                     }
                 }
@@ -489,7 +471,7 @@ const docTemplate = `{
                 "tags": [
                     "p2p"
                 ],
-                "summary": "Make message in p2p room",
+                "summary": "Create message in p2p room",
                 "operationId": "make-message-in-p2p-room",
                 "parameters": [
                     {
@@ -498,7 +480,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/controllers.MakeMessageInP2PRoomPayload"
+                            "$ref": "#/definitions/schemas.CreateMessagePayload"
                         }
                     },
                     {
@@ -513,8 +495,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/schemas.MessageResponse"
                         }
                     }
                 }
@@ -522,47 +503,150 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "controllers.MakeMessageInGroupRoomPayload": {
-            "type": "object",
-            "required": [
-                "groupRoomId",
-                "userToAdd"
-            ],
-            "properties": {
-                "groupRoomId": {
-                    "type": "string"
-                },
-                "userToAdd": {
-                    "type": "string"
-                }
-            }
-        },
-        "controllers.MakeMessageInP2PRoomPayload": {
+        "schemas.CreateMessagePayload": {
             "type": "object",
             "required": [
                 "message",
-                "p2pRoomId"
+                "roomId"
             ],
             "properties": {
                 "message": {
                     "type": "string"
                 },
-                "p2pRoomId": {
+                "roomId": {
                     "type": "string"
                 }
             }
         },
-        "controllers.MakeRequestsToGroupRoomPayload": {
+        "schemas.CreateRequestToGroupRoomPayload": {
             "type": "object",
             "required": [
-                "groupRoomId",
-                "userToAdd"
+                "roomId",
+                "userId"
             ],
             "properties": {
-                "groupRoomId": {
+                "roomId": {
                     "type": "string"
                 },
-                "userToAdd": {
+                "userId": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.DeclineRequestToGroupRoomResponse": {
+            "type": "object",
+            "required": [
+                "roomId"
+            ],
+            "properties": {
+                "roomId": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.GetRequestsToGroupRoomResponse": {
+            "type": "object",
+            "required": [
+                "requests"
+            ],
+            "properties": {
+                "requests": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.RequestToGroupRoom"
+                    }
+                }
+            }
+        },
+        "schemas.GetRoomsResponse": {
+            "type": "object",
+            "required": [
+                "rooms",
+                "size"
+            ],
+            "properties": {
+                "rooms": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.RoomPreviewResponse"
+                    }
+                },
+                "size": {
+                    "type": "integer"
+                }
+            }
+        },
+        "schemas.MessageResponse": {
+            "type": "object",
+            "required": [
+                "message",
+                "ownerId"
+            ],
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "ownerId": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.RequestToGroupRoom": {
+            "type": "object",
+            "required": [
+                "roomId",
+                "senderId"
+            ],
+            "properties": {
+                "roomId": {
+                    "type": "string"
+                },
+                "senderId": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.RoomPopulatedResponse": {
+            "type": "object",
+            "required": [
+                "isBlocked",
+                "messages",
+                "name",
+                "roomId"
+            ],
+            "properties": {
+                "isBlocked": {
+                    "type": "boolean"
+                },
+                "messages": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.MessageResponse"
+                    }
+                },
+                "name": {
+                    "type": "string"
+                },
+                "roomId": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.RoomPreviewResponse": {
+            "type": "object",
+            "required": [
+                "isBlocked",
+                "name",
+                "roomId"
+            ],
+            "properties": {
+                "isBlocked": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "roomId": {
                     "type": "string"
                 }
             }
@@ -572,11 +656,11 @@ const docTemplate = `{
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "1.0",
+	Version:          "",
 	Host:             "",
-	BasePath:         "/chat",
+	BasePath:         "",
 	Schemes:          []string{},
-	Title:            "Masters way chat API",
+	Title:            "",
 	Description:      "",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,

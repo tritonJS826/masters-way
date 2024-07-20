@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"fmt"
+	"mwchat/internal/schemas"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -19,10 +21,10 @@ func NewGroupRoomsController() *GroupRoomsController {
 // @ID get-group-rooms
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} schemas.GetRoomsResponse
 // @Router /group-rooms [get]
 func (cc *GroupRoomsController) GetGroupRoomsPreview(ctx *gin.Context) {
-
+	ctx.JSON(http.StatusOK, &schemas.GetRoomsResponse{})
 }
 
 // @Summary Get group room by id
@@ -32,12 +34,13 @@ func (cc *GroupRoomsController) GetGroupRoomsPreview(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param groupRoomId path string true "group room Id"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} schemas.RoomPopulatedResponse
 // @Router /group-rooms/{groupRoomId} [get]
 func (cc *GroupRoomsController) GetGroupRoomById(ctx *gin.Context) {
 	groupRoomId := ctx.Param("groupRoomId")
+	fmt.Println(groupRoomId)
 
-	ctx.JSON(http.StatusOK, groupRoomId)
+	ctx.JSON(http.StatusOK, &schemas.RoomPopulatedResponse{})
 }
 
 // @Summary Create group rooms for user
@@ -46,10 +49,11 @@ func (cc *GroupRoomsController) GetGroupRoomById(ctx *gin.Context) {
 // @ID create-group-rooms
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} schemas.RoomPopulatedResponse
 // @Router /group-rooms [post]
 func (cc *GroupRoomsController) CreateGroupRoom(ctx *gin.Context) {
 
+	ctx.JSON(http.StatusOK, &schemas.RoomPopulatedResponse{})
 }
 
 // @Summary Update group rooms for user
@@ -59,11 +63,13 @@ func (cc *GroupRoomsController) CreateGroupRoom(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param groupRoomId path string true "group room Id"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} schemas.RoomPopulatedResponse
 // @Router /group-rooms/{groupRoomId} [patch]
 func (cc *GroupRoomsController) UpdateGroupRoom(ctx *gin.Context) {
 	groupRoomId := ctx.Param("groupRoomId")
-	ctx.JSON(http.StatusOK, groupRoomId)
+	fmt.Println(groupRoomId)
+
+	ctx.JSON(http.StatusOK, &schemas.RoomPopulatedResponse{})
 }
 
 // @Summary Add user to group room
@@ -74,14 +80,14 @@ func (cc *GroupRoomsController) UpdateGroupRoom(ctx *gin.Context) {
 // @Produce  json
 // @Param groupRoomId path string true "group room Id"
 // @Param userId path string true "user Id to delete"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} schemas.RoomPopulatedResponse
 // @Router /group-rooms/{groupRoomId}/users/{userId} [post]
 func (cc *GroupRoomsController) AddUserToGroupRoom(ctx *gin.Context) {
 	groupRoomId := ctx.Param("groupRoomId")
 	userId := ctx.Param("userId")
+	fmt.Println(groupRoomId, userId)
 
-	ctx.JSON(http.StatusOK, groupRoomId+userId)
-
+	ctx.JSON(http.StatusOK, &schemas.RoomPopulatedResponse{})
 }
 
 // @Summary Delete user to group room
@@ -92,14 +98,14 @@ func (cc *GroupRoomsController) AddUserToGroupRoom(ctx *gin.Context) {
 // @Produce  json
 // @Param groupRoomId path string true "group room Id"
 // @Param userId path string true "user Id to delete"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} schemas.RoomPopulatedResponse
 // @Router /group-rooms/{groupRoomId}/users/{userId} [delete]
 func (cc *GroupRoomsController) DeleteUserFromGroupRoom(ctx *gin.Context) {
 	groupRoomId := ctx.Param("groupRoomId")
 	userId := ctx.Param("userId")
+	fmt.Println(groupRoomId, userId)
 
-	ctx.JSON(http.StatusOK, groupRoomId+userId)
-
+	ctx.JSON(http.StatusOK, &schemas.RoomPopulatedResponse{})
 }
 
 // @Summary Get requests to group room
@@ -108,86 +114,79 @@ func (cc *GroupRoomsController) DeleteUserFromGroupRoom(ctx *gin.Context) {
 // @ID get-requests-to-group-room
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} schemas.GetRequestsToGroupRoomResponse
 // @Router /group-rooms/requests [get]
 func (cc *GroupRoomsController) GetRequestsToGroupRoom(ctx *gin.Context) {
-
+	ctx.JSON(http.StatusOK, &schemas.GetRequestsToGroupRoomResponse{})
 }
 
-type MakeRequestsToGroupRoomPayload struct {
-	GroupRoomId string `json:"groupRoomId" validate:"required"`
-	UserToAdd   string `json:"userToAdd" validate:"required"`
-}
-
-// @Summary Make requests to group room
+// @Summary Create requests to group room
 // @Description
 // @Tags group
-// @ID make-requests-to-group-room
+// @ID create-requests-to-group-room
 // @Accept  json
 // @Produce  json
-// @Param request body MakeRequestsToGroupRoomPayload true "query params"
-// @Success 200 {object} map[string]interface{}
+// @Param request body schemas.CreateRequestToGroupRoomPayload true "query params"
+// @Success 204
 // @Router /group-rooms/requests [post]
-func (cc *GroupRoomsController) MakeRequestsToGroupRoom(ctx *gin.Context) {
-	var payload *MakeRequestsToGroupRoomPayload
+func (cc *GroupRoomsController) CreateRequestsToGroupRoom(ctx *gin.Context) {
+	var payload *schemas.CreateRequestToGroupRoomPayload
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	ctx.Status(http.StatusNoContent)
 }
 
-// @Summary Accept requests to group room
+// @Summary Accept request to group room
 // @Description
 // @Tags group
-// @ID accept-requests-to-group-room
+// @ID accept-request-to-group-room
 // @Accept  json
 // @Produce  json
 // @Param groupRoomId path string true "groupRoom Id to accept request"
-// @Success 200 {object} map[string]interface{}
-// @Router /group-rooms/requests/accept/{groupRoomId} [post]
+// @Success 200 {object} schemas.RoomPopulatedResponse
+// @Router /group-rooms/{groupRoomId}/requests/accept [post]
 func (cc *GroupRoomsController) AcceptRequestsToGroupRoom(ctx *gin.Context) {
 	groupRoomId := ctx.Param("groupRoomId")
+	fmt.Println(groupRoomId)
 
-	ctx.JSON(http.StatusOK, groupRoomId)
+	ctx.JSON(http.StatusOK, &schemas.RoomPopulatedResponse{})
 }
 
-// @Summary Delete requests to group room
+// @Summary Decline request to group room
 // @Description
 // @Tags group
-// @ID delete-requests-to-group-room
+// @ID decline-request-to-group-room
 // @Accept  json
 // @Produce  json
 // @Param groupRoomId path string true "groupRoom Id to delete request"
-// @Success 200 {object} map[string]interface{}
-// @Router /group-rooms/requests/decline/{groupRoomId} [delete]
+// @Success 200 {object} schemas.DeclineRequestToGroupRoomResponse
+// @Router /group-rooms/{groupRoomId}/requests/decline [delete]
 func (cc *GroupRoomsController) DeclineRequestsToGroupRoom(ctx *gin.Context) {
 	groupRoomId := ctx.Param("groupRoomId")
+	fmt.Println(groupRoomId)
 
-	ctx.JSON(http.StatusOK, groupRoomId)
-
+	ctx.JSON(http.StatusOK, &schemas.DeclineRequestToGroupRoomResponse{})
 }
 
-type MakeMessageInGroupRoomPayload struct {
-	GroupRoomId string `json:"groupRoomId" validate:"required"`
-	UserToAdd   string `json:"userToAdd" validate:"required"`
-}
-
-// @Summary Make message to group room
+// @Summary Create message to group room
 // @Description
 // @Tags group
-// @ID make-message-in-group-room
+// @ID create-message-in-group-room
 // @Accept  json
 // @Produce  json
-// @Param request body MakeMessageInGroupRoomPayload true "query params"
+// @Param request body schemas.CreateMessagePayload true "query params"
 // @Param groupRoomId path string true "group room Id"
-// @Success 200 {object} map[string]interface{}
+// @Success 200 {object} schemas.MessageResponse
 // @Router /group-rooms/{groupRoomId}/messages [post]
-func (cc *GroupRoomsController) MakeMessageInGroupRoom(ctx *gin.Context) {
-	var payload *MakeRequestsToGroupRoomPayload
+func (cc *GroupRoomsController) CreateMessageInGroupRoom(ctx *gin.Context) {
+	var payload *schemas.CreateMessagePayload
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	ctx.JSON(http.StatusOK, &schemas.MessageResponse{})
 }
