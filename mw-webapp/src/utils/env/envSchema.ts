@@ -5,4 +5,5 @@ export const envSchema = {
   API_CHAT_BASE_PATH: str(),
   GOOGLE_MEASUREMENT_ID: str(),
   ENV_TYPE: str(),
+  AMPLITUDE_KEY: str(),
 };
