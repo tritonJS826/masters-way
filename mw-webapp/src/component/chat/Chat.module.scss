@@ -3,6 +3,7 @@
 
 .chatTrigger {
   position: fixed;
+  z-index: $chatZIndex;
   right: 0;
   bottom: $marginBig;
   width: 50px;
@@ -11,6 +12,7 @@
   border: $primaryBorder solid var(--secondaryStrokeColor);
   border-radius: $primaryBorderRadius;
   background-color: var(--generalPrimaryColor);
+  color: var(--secondaryTextColor);
 
   & svg {
     stroke: var(--secondaryStrokeColor);
