@@ -1,39 +1,105 @@
-basePath: /chat
 definitions:
-  controllers.MakeMessageInGroupRoomPayload:
-    properties:
-      groupRoomId:
-        type: string
-      userToAdd:
-        type: string
-    required:
-    - groupRoomId
-    - userToAdd
-    type: object
-  controllers.MakeMessageInP2PRoomPayload:
+  schemas.CreateMessagePayload:
     properties:
       message:
         type: string
-      p2pRoomId:
+      roomId:
         type: string
     required:
     - message
-    - p2pRoomId
+    - roomId
     type: object
-  controllers.MakeRequestsToGroupRoomPayload:
+  schemas.CreateRequestToGroupRoomPayload:
     properties:
-      groupRoomId:
+      roomId:
         type: string
-      userToAdd:
+      userId:
         type: string
     required:
-    - groupRoomId
-    - userToAdd
+    - roomId
+    - userId
+    type: object
+  schemas.DeclineRequestToGroupRoomResponse:
+    properties:
+      roomId:
+        type: string
+    required:
+    - roomId
+    type: object
+  schemas.GetRequestsToGroupRoomResponse:
+    properties:
+      requests:
+        items:
+          $ref: '#/definitions/schemas.RequestToGroupRoom'
+        type: array
+    required:
+    - requests
+    type: object
+  schemas.GetRoomsResponse:
+    properties:
+      rooms:
+        items:
+          $ref: '#/definitions/schemas.RoomPreviewResponse'
+        type: array
+      size:
+        type: integer
+    required:
+    - rooms
+    - size
+    type: object
+  schemas.MessageResponse:
+    properties:
+      message:
+        type: string
+      ownerId:
+        type: string
+    required:
+    - message
+    - ownerId
+    type: object
+  schemas.RequestToGroupRoom:
+    properties:
+      roomId:
+        type: string
+      senderId:
+        type: string
+    required:
+    - roomId
+    - senderId
+    type: object
+  schemas.RoomPopulatedResponse:
+    properties:
+      isBlocked:
+        type: boolean
+      messages:
+        items:
+          $ref: '#/definitions/schemas.MessageResponse'
+        type: array
+      name:
+        type: string
+      roomId:
+        type: string
+    required:
+    - isBlocked
+    - messages
+    - name
+    - roomId
+    type: object
+  schemas.RoomPreviewResponse:
+    properties:
+      isBlocked:
+        type: boolean
+      name:
+        type: string
+      roomId:
+        type: string
+    required:
+    - isBlocked
+    - name
+    - roomId
     type: object
 info:
   contact: {}
-  title: Masters way chat API
-  version: "1.0"
 paths:
   /group-rooms:
     get:
@@ -46,8 +112,7 @@ paths:
         "200":
           description: OK
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/schemas.GetRoomsResponse'
       summary: Get group rooms preview for user
       tags:
       - group
@@ -61,8 +126,7 @@ paths:
         "200":
           description: OK
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/schemas.RoomPopulatedResponse'
       summary: Create group rooms for user
       tags:
       - group
@@ -83,8 +147,7 @@ paths:
         "200":
           description: OK
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/schemas.RoomPopulatedResponse'
       summary: Get group room by id
       tags:
       - group
@@ -104,8 +167,7 @@ paths:
         "200":
           description: OK
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/schemas.RoomPopulatedResponse'
       summary: Update group rooms for user
       tags:
       - group
@@ -113,14 +175,14 @@ paths:
     post:
       consumes:
       - application/json
-      operationId: make-message-in-group-room
+      operationId: create-message-in-group-room
       parameters:
       - description: query params
         in: body
         name: request
         required: true
         schema:
-          $ref: '#/definitions/controllers.MakeMessageInGroupRoomPayload'
+          $ref: '#/definitions/schemas.CreateMessagePayload'
       - description: group room Id
         in: path
         name: groupRoomId
@@ -132,9 +194,50 @@ paths:
         "200":
           description: OK
           schema:
-            additionalProperties: true
-            type: object
-      summary: Make message to group room
+            $ref: '#/definitions/schemas.MessageResponse'
+      summary: Create message to group room
+      tags:
+      - group
+  /group-rooms/{groupRoomId}/requests/accept:
+    post:
+      consumes:
+      - application/json
+      operationId: accept-request-to-group-room
+      parameters:
+      - description: groupRoom Id to accept request
+        in: path
+        name: groupRoomId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.RoomPopulatedResponse'
+      summary: Accept request to group room
+      tags:
+      - group
+  /group-rooms/{groupRoomId}/requests/decline:
+    delete:
+      consumes:
+      - application/json
+      operationId: decline-request-to-group-room
+      parameters:
+      - description: groupRoom Id to delete request
+        in: path
+        name: groupRoomId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.DeclineRequestToGroupRoomResponse'
+      summary: Decline request to group room
       tags:
       - group
   /group-rooms/{groupRoomId}/users/{userId}:
@@ -159,8 +262,7 @@ paths:
         "200":
           description: OK
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/schemas.RoomPopulatedResponse'
       summary: Delete user to group room
       tags:
       - group
@@ -185,8 +287,7 @@ paths:
         "200":
           description: OK
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/schemas.RoomPopulatedResponse'
       summary: Add user to group room
       tags:
       - group
@@ -201,75 +302,27 @@ paths:
         "200":
           description: OK
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/schemas.GetRequestsToGroupRoomResponse'
       summary: Get requests to group room
       tags:
       - group
     post:
       consumes:
       - application/json
-      operationId: make-requests-to-group-room
+      operationId: create-requests-to-group-room
       parameters:
       - description: query params
         in: body
         name: request
         required: true
         schema:
-          $ref: '#/definitions/controllers.MakeRequestsToGroupRoomPayload'
+          $ref: '#/definitions/schemas.CreateRequestToGroupRoomPayload'
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
-          schema:
-            additionalProperties: true
-            type: object
-      summary: Make requests to group room
-      tags:
-      - group
-  /group-rooms/requests/accept/{groupRoomId}:
-    post:
-      consumes:
-      - application/json
-      operationId: accept-requests-to-group-room
-      parameters:
-      - description: groupRoom Id to accept request
-        in: path
-        name: groupRoomId
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            additionalProperties: true
-            type: object
-      summary: Accept requests to group room
-      tags:
-      - group
-  /group-rooms/requests/decline/{groupRoomId}:
-    delete:
-      consumes:
-      - application/json
-      operationId: delete-requests-to-group-room
-      parameters:
-      - description: groupRoom Id to delete request
-        in: path
-        name: groupRoomId
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            additionalProperties: true
-            type: object
-      summary: Delete requests to group room
+        "204":
+          description: No Content
+      summary: Create requests to group room
       tags:
       - group
   /p2p-rooms:
@@ -283,8 +336,7 @@ paths:
         "200":
           description: OK
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/schemas.GetRoomsResponse'
       summary: Get p2p rooms for user
       tags:
       - p2p
@@ -298,8 +350,7 @@ paths:
         "200":
           description: OK
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/schemas.MessageResponse'
       summary: Create p2p room for user
       tags:
       - p2p
@@ -320,8 +371,7 @@ paths:
         "200":
           description: OK
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/schemas.MessageResponse'
       summary: Get p2p room by id
       tags:
       - p2p
@@ -341,8 +391,7 @@ paths:
         "200":
           description: OK
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/schemas.MessageResponse'
       summary: Update p2p room for user
       tags:
       - p2p
@@ -357,7 +406,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/controllers.MakeMessageInP2PRoomPayload'
+          $ref: '#/definitions/schemas.CreateMessagePayload'
       - description: p2p room Id
         in: path
         name: p2pRoomId
@@ -369,9 +418,8 @@ paths:
         "200":
           description: OK
           schema:
-            additionalProperties: true
-            type: object
-      summary: Make message in p2p room
+            $ref: '#/definitions/schemas.MessageResponse'
+      summary: Create message in p2p room
       tags:
       - p2p
 swagger: "2.0"
