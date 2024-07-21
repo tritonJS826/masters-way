@@ -66,7 +66,7 @@ export const MentorRequestsSection = (props: MentorRequestsSectionProps) => {
     <>
       <Title
         level={HeadingLevel.h3}
-        text={LanguageService.way.ComponentMentorRequestsSection.MentorRequestsSection[language]}
+        text={LanguageService.way.ComponentMentorRequestsSection.mentorRequestsSection[language]}
         placeholder=""
       />
       <div className={styles.mentorRequestsSection}>
