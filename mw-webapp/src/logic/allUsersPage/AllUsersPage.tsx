@@ -203,13 +203,13 @@ export const AllUsersPage = observer(() => {
           level={HeadingLevel.h2}
           text={`${LanguageService.allUsers.usersTable.leftTitle[language]} (${allUsers.length})`}
           placeholder=""
-          dataCy={allUsersAccessIds.allUsersTitles.title}
+          cy={{dataCyTitleContainer: allUsersAccessIds.allUsersTitles.title}}
         />
         <Title
           level={HeadingLevel.h2}
           text={`${LanguageService.allUsers.usersTable.rightTitle[language]}: ${allUsersAmount}`}
           placeholder=""
-          dataCy={allUsersAccessIds.allUsersTitles.totalFoundTitle}
+          cy={{dataCyTitleContainer: allUsersAccessIds.allUsersTitles.totalFoundTitle}}
         />
       </HorizontalContainer>
 
@@ -243,6 +243,7 @@ export const AllUsersPage = observer(() => {
         }
 
       </div>
+
     </VerticalContainer>
   );
 });

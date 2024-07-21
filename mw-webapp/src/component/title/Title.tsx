@@ -19,6 +19,23 @@ export enum HeadingLevel {
 }
 
 /**
+ * Data attributes for cypress testing
+ */
+interface Cy {
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCyInput?: string;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCyTitleContainer?: string;
+
+}
+
+/**
  * Title props
  */
 interface TitleProps {
@@ -62,7 +79,7 @@ interface TitleProps {
   /**
    * Data attribute for cypress testing
    */
-  dataCy?: string;
+  cy?: Cy;
 
   /**
    * Showed if value is an empty string
@@ -126,7 +143,7 @@ export const Title = (props: TitleProps) => {
       onBlur={handleChangeFinish}
       onKeyDown={handleEnter}
       className={clsx(styles.editableText, props.className)}
-      data-cy={props.dataCy}
+      data-cy={props.cy?.dataCyTitleContainer}
     >
       {isEditing
         ? (
@@ -135,6 +152,7 @@ export const Title = (props: TitleProps) => {
             value={text}
             autoFocus={true}
             onChange={getValidValue}
+            dataCy={props.cy?.dataCyInput}
           />
         )
         : (

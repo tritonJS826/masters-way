@@ -4,6 +4,8 @@
 WEBAPP="mw-webapp/"
 SERVER="mw-server/"
 MOBILE="mw-mobile/"
+CHAT="mw-chat/"
+CHAT_BFF="mw-chat-bff/"
 
 runWebappIfChanged () {
   if git diff --name-only --cached | grep "$WEBAPP"
@@ -28,6 +30,24 @@ runServerIfChanged () {
   fi
 }
 
+runChatIfChanged () {
+  if git diff --name-only --cached | grep "$CHAT"
+  then
+    echo "mw-chat changed. checking..."
+    pnpm server:build
+    # pnpm server:test
+  fi
+}
+
+runChatBffIfChanged () {
+  if git diff --name-only --cached | grep "$CHAT_BFF"
+  then
+    echo "mw-chat-bff changed. checking..."
+    pnpm server:build
+    # pnpm server:test
+  fi
+}
+
 runMobileIfChanged () {
   if git diff --name-only --cached | grep "$MOBILE"
   then
@@ -44,5 +64,7 @@ runE2E () {
 
 runWebappIfChanged
 runServerIfChanged
+runChatIfChanged
+runChatBffIfChanged
 runMobileIfChanged
 runE2E

@@ -1,0 +1,4048 @@
+openapi: 3.0.1
+info:
+  contact: {}
+  description: ""
+  title: Masters way API
+  version: "1.0"
+servers:
+- url: /api
+paths:
+  /auth/current:
+    get:
+      operationId: get-current-authorized-user
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.UserPopulatedResponse'
+          description: OK
+      summary: Get current authorized user
+      tags:
+      - auth
+  /auth/login/local/{userEmail}:
+    get:
+      description: Login locally by providing an email address.
+      operationId: get token locally
+      parameters:
+      - description: email
+        in: path
+        name: userEmail
+        required: true
+        schema:
+          type: string
+      responses:
+        "304":
+          content: {}
+          description: redirect
+      summary: login locally by email (with no oauth)
+      tags:
+      - auth
+  /auth/logout/{provider}:
+    get:
+      operationId: logout-current-authorized-user
+      parameters:
+      - description: google
+        in: path
+        name: provider
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/util.ResponseStatusString'
+          description: OK
+      summary: Logout current authorized user
+      tags:
+      - auth
+  /auth/{provider}:
+    get:
+      operationId: begin-auth
+      parameters:
+      - description: google
+        in: path
+        name: provider
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: ok
+      summary: Begin oauth
+      tags:
+      - auth
+  /auth/{provider}/callback:
+    post:
+      operationId: google auth log in callback function
+      parameters:
+      - description: state parameter
+        in: query
+        name: state
+        required: true
+        schema:
+          type: string
+      - description: google
+        in: path
+        name: provider
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Log in with google oAuth
+      tags:
+      - auth
+  /comments:
+    post:
+      operationId: create-comment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.CreateCommentPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.CommentPopulatedResponse'
+          description: OK
+      summary: Create a new comment
+      tags:
+      - comment
+      x-codegen-request-body-name: request
+  /comments/{commentId}:
+    delete:
+      operationId: delete-comment
+      parameters:
+      - description: comment ID
+        in: path
+        name: commentId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Delete comment by UUID
+      tags:
+      - comment
+    patch:
+      operationId: update-comment
+      parameters:
+      - description: comment ID
+        in: path
+        name: commentId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.UpdateCommentPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.CommentPopulatedResponse'
+          description: OK
+      summary: Update comment by UUID
+      tags:
+      - comment
+      x-codegen-request-body-name: request
+  /compositeWay:
+    post:
+      operationId: create-compositeWay
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.AddWayToCompositeWayPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.CompositeWayRelation'
+          description: OK
+      summary: Add a way to composite way
+      tags:
+      - compositeWay
+      x-codegen-request-body-name: request
+  /compositeWay/{parentWayId}/{childWayId}:
+    delete:
+      operationId: delete-compositeWay relation
+      parameters:
+      - description: parentWay ID
+        in: path
+        name: parentWayId
+        required: true
+        schema:
+          type: string
+      - description: childWay ID
+        in: path
+        name: childWayId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Delete composite way relation
+      tags:
+      - compositeWay
+  /dayReports:
+    post:
+      operationId: create-dayReport
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.CreateDayReportPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.DayReportPopulatedResponse'
+          description: OK
+      summary: Create a new dayReport
+      tags:
+      - dayReport
+      x-codegen-request-body-name: request
+  /dayReports/{dayReportId}:
+    patch:
+      operationId: update-dayReport
+      parameters:
+      - description: dayReport ID
+        in: path
+        name: dayReportId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.UpdateDayReportPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.DayReportPopulatedResponse'
+          description: OK
+      summary: Update dayReport by UUID
+      tags:
+      - dayReport
+      x-codegen-request-body-name: request
+  /dayReports/{wayId}:
+    get:
+      operationId: get-dayReports-by-Way-uuid
+      parameters:
+      - description: way ID
+        in: path
+        name: wayId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/schemas.DayReportPopulatedResponse'
+                type: array
+          description: OK
+      summary: Get all dayReports by Way UUID
+      tags:
+      - dayReport
+  /favoriteUserWays:
+    post:
+      operationId: create-favoriteUserWay
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.CreateFavoriteUserWayPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Create a new favoriteUserWay
+      tags:
+      - favoriteUserWay
+      x-codegen-request-body-name: request
+  /favoriteUserWays/{userUuid}/{wayUuid}:
+    delete:
+      operationId: delete-favoriteUserWay
+      parameters:
+      - description: user UUID
+        in: path
+        name: userUuid
+        required: true
+        schema:
+          type: string
+      - description: way ID
+        in: path
+        name: wayUuid
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Delete favoriteUserWay by UUID
+      tags:
+      - favoriteUserWay
+  /favoriteUsers:
+    post:
+      operationId: create-favoriteUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.CreateFavoriteUserPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Create a new favorite user
+      tags:
+      - favoriteUser
+      x-codegen-request-body-name: request
+  /favoriteUsers/{donorUserUuid}/{acceptorUserUuid}:
+    delete:
+      operationId: delete-favoriteUser
+      parameters:
+      - description: donorUser UUID
+        in: path
+        name: donorUserUuid
+        required: true
+        schema:
+          type: string
+      - description: acceptorUser UUID
+        in: path
+        name: acceptorUserUuid
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Delete favoriteUser by UUID
+      tags:
+      - favoriteUser
+  /fromUserMentoringRequests:
+    post:
+      operationId: create-fromUserMentoringRequest
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.CreateFromUserMentoringRequestPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Create a new fromUserMentoringRequest
+      tags:
+      - fromUserMentoringRequest
+      x-codegen-request-body-name: request
+  /fromUserMentoringRequests/{userUuid}/{wayUuid}:
+    delete:
+      operationId: delete-fromUserMentoringRequest
+      parameters:
+      - description: user UUID
+        in: path
+        name: userUuid
+        required: true
+        schema:
+          type: string
+      - description: way UUID
+        in: path
+        name: wayUuid
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Delete fromUserMentoringRequest by UUID
+      tags:
+      - fromUserMentoringRequest
+  /gemini/metrics:
+    post:
+      description: This endpoint uses Gemini to generate metrics by analyzing the
+        provided goals.
+      operationId: generate-metrics
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.GenerateMetricsPayload'
+        description: Request payload
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+          description: List of generated metrics
+      summary: Generate metrics using Gemini
+      tags:
+      - gemini
+      x-codegen-request-body-name: request
+  /jobDoneJobTags:
+    post:
+      operationId: create-jobDoneJobTag
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.CreateJobDoneJobTagPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Create a new jobDoneJobTag
+      tags:
+      - jobDoneJobTag
+      x-codegen-request-body-name: request
+  /jobDoneJobTags/{jobTagId}/{jobDoneId}:
+    delete:
+      operationId: delete-jobDoneJobTag
+      parameters:
+      - description: jobDone ID
+        in: path
+        name: jobDoneId
+        required: true
+        schema:
+          type: string
+      - description: jobTag UUID
+        in: path
+        name: jobTagId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Delete jobDoneJobTag by UUID
+      tags:
+      - jobDoneJobTag
+  /jobDones:
+    post:
+      operationId: create-jobDone
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.CreateJobDonePayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.JobDonePopulatedResponse'
+          description: OK
+      summary: Create a new jobDone
+      tags:
+      - jobDone
+      x-codegen-request-body-name: request
+  /jobDones/{jobDoneId}:
+    delete:
+      operationId: delete-jobDone
+      parameters:
+      - description: jobDone ID
+        in: path
+        name: jobDoneId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Delete jobDone by UUID
+      tags:
+      - jobDone
+    patch:
+      operationId: update-jobDone
+      parameters:
+      - description: jobDone UUID
+        in: path
+        name: jobDoneId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.UpdateJobDone'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.JobDonePopulatedResponse'
+          description: OK
+      summary: Update jobDone by UUID
+      tags:
+      - jobDone
+      x-codegen-request-body-name: request
+  /jobTags:
+    post:
+      operationId: create-jobTag
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.CreateJobTagPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.JobTagResponse'
+          description: OK
+      summary: Create a new jobTag
+      tags:
+      - jobTag
+      x-codegen-request-body-name: request
+  /jobTags/{jobTagId}:
+    delete:
+      operationId: delete-jobTag
+      parameters:
+      - description: jobTag ID
+        in: path
+        name: jobTagId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Delete jobTag by UUID
+      tags:
+      - jobTag
+    patch:
+      operationId: update-jobTag
+      parameters:
+      - description: jobTag UUID
+        in: path
+        name: jobTagId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.UpdateJobTagPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.JobTagResponse'
+          description: OK
+      summary: Update jobTag by UUID
+      tags:
+      - jobTag
+      x-codegen-request-body-name: request
+  /mentorUserWays:
+    delete:
+      operationId: delete-mentorUserWay
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.DeleteMentorUserWayPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Delete mentorUserWay by UUID
+      tags:
+      - mentorUserWay
+      x-codegen-request-body-name: request
+    post:
+      description: Make user mentor and also added to appropriate mentoring collection
+      operationId: create-mentorUserWay
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.CreateMentorUserWayPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Create a new mentorUserWay
+      tags:
+      - mentorUserWay
+      x-codegen-request-body-name: request
+  /metrics:
+    post:
+      operationId: create-metric
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.CreateMetricPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.MetricResponse'
+          description: OK
+      summary: Create a new metric
+      tags:
+      - metric
+      x-codegen-request-body-name: request
+  /metrics/{metricId}:
+    delete:
+      operationId: delete-metric
+      parameters:
+      - description: metric ID
+        in: path
+        name: metricId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Delete metric by UUID
+      tags:
+      - metric
+    patch:
+      operationId: update-metric
+      parameters:
+      - description: metric UUID
+        in: path
+        name: metricId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.UpdateMetricPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.MetricResponse'
+          description: OK
+      summary: Update metric by UUID
+      tags:
+      - metric
+      x-codegen-request-body-name: request
+  /planJobTags:
+    post:
+      operationId: create-planJobTag
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.CreatePlanJobTagPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Create a new planJobTag
+      tags:
+      - planJobTag
+      x-codegen-request-body-name: request
+  /planJobTags/{jobTagId}/{planId}:
+    delete:
+      operationId: delete-planJobTag
+      parameters:
+      - description: jobTag ID
+        in: path
+        name: jobTagId
+        required: true
+        schema:
+          type: string
+      - description: plan ID
+        in: path
+        name: planId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Delete planJobTag by UUID
+      tags:
+      - planJobTag
+  /plans:
+    post:
+      operationId: create-plan
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.CreatePlanPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.PlanPopulatedResponse'
+          description: OK
+      summary: Create a new plan
+      tags:
+      - plan
+      x-codegen-request-body-name: request
+  /plans/{planId}:
+    delete:
+      operationId: delete-plan
+      parameters:
+      - description: plan ID
+        in: path
+        name: planId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Delete plan by UUID
+      tags:
+      - plan
+    patch:
+      operationId: update-plan
+      parameters:
+      - description: plan UUID
+        in: path
+        name: planId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.UpdatePlanPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.PlanPopulatedResponse'
+          description: OK
+      summary: Update plan by UUID
+      tags:
+      - plan
+      x-codegen-request-body-name: request
+  /problemJobTags:
+    post:
+      operationId: create-problemJobTag
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.CreateProblemJobTagPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Create a new problemJobTag
+      tags:
+      - problemJobTag
+      x-codegen-request-body-name: request
+  /problemJobTags/{jobTagId}/{problemId}:
+    delete:
+      operationId: delete-problemJobTag
+      parameters:
+      - description: problem ID
+        in: path
+        name: problemId
+        required: true
+        schema:
+          type: string
+      - description: jobTag ID
+        in: path
+        name: jobTagId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Delete problemJobTag by UUID
+      tags:
+      - problemJobTag
+  /problems:
+    post:
+      operationId: create-problem
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.CreateProblemPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.ProblemPopulatedResponse'
+          description: OK
+      summary: Create a new problem
+      tags:
+      - problem
+      x-codegen-request-body-name: request
+  /problems/{problemId}:
+    delete:
+      operationId: delete-problem
+      parameters:
+      - description: problem ID
+        in: path
+        name: problemId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Delete problem by UUID
+      tags:
+      - problem
+    patch:
+      operationId: update-problem
+      parameters:
+      - description: problem ID
+        in: path
+        name: problemId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.UpdateProblemPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.ProblemPopulatedResponse'
+          description: OK
+      summary: Update problem by UUID
+      tags:
+      - problem
+      x-codegen-request-body-name: request
+  /reset-db:
+    post:
+      description: resets db
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: resets db
+      tags:
+      - dev
+  /toUserMentoringRequests:
+    post:
+      operationId: create-userMentoringRequest
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.CreateUserMentoringRequestPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Create a new userMentoringRequest
+      tags:
+      - toUserMentoringRequest
+      x-codegen-request-body-name: request
+  /toUserMentoringRequests/{userUuid}/{wayUuid}:
+    delete:
+      operationId: delete-toUserMentoringRequest
+      parameters:
+      - description: user UUID
+        in: path
+        name: userUuid
+        required: true
+        schema:
+          type: string
+      - description: way UUID
+        in: path
+        name: wayUuid
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Delete toUserMentoringReques by UUID
+      tags:
+      - toUserMentoringRequest
+  /userTags:
+    post:
+      operationId: create-userTag
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.CreateUserTagPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.UserTagResponse'
+          description: OK
+      summary: Create a new userTag
+      tags:
+      - userTag
+      x-codegen-request-body-name: request
+  /userTags/{userTagId}/{userId}:
+    delete:
+      operationId: delete-userTag
+      parameters:
+      - description: userTag ID
+        in: path
+        name: userTagId
+        required: true
+        schema:
+          type: string
+      - description: user ID
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Delete userTag by UUID
+      tags:
+      - userTag
+  /users:
+    get:
+      description: Get users with pagination
+      operationId: get-all-users
+      parameters:
+      - description: Page number for pagination
+        in: query
+        name: page
+        schema:
+          type: integer
+      - description: Number of items per page
+        in: query
+        name: limit
+        schema:
+          type: integer
+      - description: Part of user email for filters
+        in: query
+        name: email
+        schema:
+          type: string
+      - description: Part of user name for filters
+        in: query
+        name: name
+        schema:
+          type: string
+      - description: '''mentor'' | ''all'' status for filter'
+        in: query
+        name: mentorStatus
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.GetAllUsersResponse'
+          description: OK
+      summary: Get all users
+      tags:
+      - user
+  /users/{userId}:
+    get:
+      operationId: get-user-by-uuid
+      parameters:
+      - description: user ID
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.UserPopulatedResponse'
+          description: OK
+      summary: Get user by UUID
+      tags:
+      - user
+    patch:
+      operationId: update-user
+      parameters:
+      - description: user ID
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.UpdateUserPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.UserPlainResponse'
+          description: OK
+      summary: Update user by UUID
+      tags:
+      - user
+      x-codegen-request-body-name: request
+  /wayCollectionWays:
+    post:
+      operationId: create-wayCollectionWay
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.CreateWayCollectionWay'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Create a new wayCollectionWay
+      tags:
+      - wayCollectionWay
+      x-codegen-request-body-name: request
+  /wayCollectionWays/{wayId}/{wayCollectionId}:
+    delete:
+      operationId: delete-wayCollectionWay
+      parameters:
+      - description: wayCollection ID
+        in: path
+        name: wayCollectionId
+        required: true
+        schema:
+          type: string
+      - description: way ID
+        in: path
+        name: wayId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Delete wayCollectionWay by UUID
+      tags:
+      - wayCollectionWay
+  /wayCollections:
+    post:
+      operationId: create-wayCollection
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.CreateWayCollectionPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.WayCollectionPopulatedResponse'
+          description: OK
+      summary: Create a new wayCollection
+      tags:
+      - wayCollection
+      x-codegen-request-body-name: request
+  /wayCollections/{wayCollectionId}:
+    delete:
+      operationId: delete-wayCollection
+      parameters:
+      - description: wayCollection ID
+        in: path
+        name: wayCollectionId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Delete wayCollection by UUID
+      tags:
+      - wayCollection
+    patch:
+      operationId: update-wayCollection
+      parameters:
+      - description: wayCollection ID
+        in: path
+        name: wayCollectionId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.UpdateWayCollectionPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.WayCollectionPlainResponse'
+          description: OK
+      summary: Update wayCollection by UUID
+      tags:
+      - wayCollection
+      x-codegen-request-body-name: request
+  /wayTags:
+    post:
+      operationId: create-wayTag
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.CreateWayTagPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.WayTagResponse'
+          description: OK
+      summary: Create a new wayTag
+      tags:
+      - wayTag
+      x-codegen-request-body-name: request
+  /wayTags/{wayTagId}/{wayId}:
+    delete:
+      operationId: delete-wayTag
+      parameters:
+      - description: wayTag ID
+        in: path
+        name: wayTagId
+        required: true
+        schema:
+          type: string
+      - description: way ID
+        in: path
+        name: wayId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Delete wayTag by UUID
+      tags:
+      - wayTag
+  /ways:
+    get:
+      description: Get ways with pagination
+      operationId: get-all-ways
+      parameters:
+      - description: Page number for pagination
+        in: query
+        name: page
+        schema:
+          type: integer
+      - description: Number of items per page
+        in: query
+        name: limit
+        schema:
+          type: integer
+      - description: "Ways type: all | completed | inProgress | abandoned"
+        in: query
+        name: status
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.GetAllWaysResponse'
+          description: OK
+      summary: Get all ways
+      tags:
+      - way
+    post:
+      operationId: create-way
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.CreateWayPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.WayPlainResponse'
+          description: OK
+      summary: Create a new way
+      tags:
+      - way
+      x-codegen-request-body-name: request
+  /ways/{wayId}:
+    delete:
+      operationId: delete-way
+      parameters:
+      - description: way ID
+        in: path
+        name: wayId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Delete way by UUID
+      tags:
+      - way
+    get:
+      operationId: get-way-by-uuid
+      parameters:
+      - description: way ID
+        in: path
+        name: wayId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.WayPopulatedResponse'
+          description: OK
+      summary: Get way by UUID
+      tags:
+      - way
+    patch:
+      operationId: update-way
+      parameters:
+      - description: way ID
+        in: path
+        name: wayId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.UpdateWayPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.WayPlainResponse'
+          description: OK
+      summary: Update way by UUID
+      tags:
+      - way
+      x-codegen-request-body-name: request
+components:
+  schemas:
+    schemas.AddWayToCompositeWayPayload:
+      properties:
+        childWayUuid:
+          type: string
+        parentWayUuid:
+          type: string
+      required:
+      - childWayUuid
+      - parentWayUuid
+      type: object
+    schemas.CommentPopulatedResponse:
+      example:
+        createdAt: createdAt
+        ownerUuid: ownerUuid
+        ownerName: ownerName
+        description: description
+        dayReportUuid: dayReportUuid
+        uuid: uuid
+        updatedAt: updatedAt
+      properties:
+        createdAt:
+          type: string
+        dayReportUuid:
+          type: string
+        description:
+          type: string
+        ownerName:
+          type: string
+        ownerUuid:
+          type: string
+        updatedAt:
+          type: string
+        uuid:
+          type: string
+      required:
+      - createdAt
+      - dayReportUuid
+      - description
+      - ownerName
+      - ownerUuid
+      - updatedAt
+      - uuid
+      type: object
+    schemas.CompositeWayRelation:
+      example:
+        parentWayUuid: parentWayUuid
+        childWayUuid: childWayUuid
+      properties:
+        childWayUuid:
+          type: string
+        parentWayUuid:
+          type: string
+      required:
+      - childWayUuid
+      - parentWayUuid
+      type: object
+    schemas.CreateCommentPayload:
+      properties:
+        dayReportUuid:
+          type: string
+        description:
+          type: string
+        ownerUuid:
+          type: string
+      required:
+      - dayReportUuid
+      - description
+      - ownerUuid
+      type: object
+    schemas.CreateDayReportPayload:
+      properties:
+        isDayOff:
+          type: boolean
+        wayUuid:
+          type: string
+      required:
+      - isDayOff
+      - wayUuid
+      type: object
+    schemas.CreateFavoriteUserPayload:
+      properties:
+        acceptorUserUuid:
+          type: string
+        donorUserUuid:
+          type: string
+      required:
+      - acceptorUserUuid
+      - donorUserUuid
+      type: object
+    schemas.CreateFavoriteUserWayPayload:
+      properties:
+        userUuid:
+          type: string
+        wayUuid:
+          type: string
+      required:
+      - userUuid
+      - wayUuid
+      type: object
+    schemas.CreateFromUserMentoringRequestPayload:
+      properties:
+        userUuid:
+          type: string
+        wayUuid:
+          type: string
+      required:
+      - userUuid
+      - wayUuid
+      type: object
+    schemas.CreateJobDoneJobTagPayload:
+      properties:
+        jobDoneUuid:
+          type: string
+        jobTagUuid:
+          type: string
+      required:
+      - jobDoneUuid
+      - jobTagUuid
+      type: object
+    schemas.CreateJobDonePayload:
+      properties:
+        dayReportUuid:
+          type: string
+        description:
+          type: string
+        jobTagUuids:
+          items:
+            type: string
+          type: array
+        ownerUuid:
+          type: string
+        time:
+          type: integer
+      required:
+      - dayReportUuid
+      - description
+      - jobTagUuids
+      - ownerUuid
+      - time
+      type: object
+    schemas.CreateJobTagPayload:
+      properties:
+        color:
+          type: string
+        description:
+          type: string
+        name:
+          type: string
+        wayUuid:
+          type: string
+      required:
+      - color
+      - description
+      - name
+      - wayUuid
+      type: object
+    schemas.CreateMentorUserWayPayload:
+      properties:
+        userUuid:
+          type: string
+        wayUuid:
+          type: string
+      required:
+      - userUuid
+      - wayUuid
+      type: object
+    schemas.CreateMetricPayload:
+      properties:
+        description:
+          type: string
+        doneDate:
+          type: string
+        estimationTime:
+          type: integer
+        isDone:
+          type: boolean
+        wayUuid:
+          type: string
+      required:
+      - description
+      - doneDate
+      - estimationTime
+      - isDone
+      - wayUuid
+      type: object
+    schemas.CreatePlanJobTagPayload:
+      properties:
+        jobTagUuid:
+          type: string
+        planUuid:
+          type: string
+      required:
+      - jobTagUuid
+      - planUuid
+      type: object
+    schemas.CreatePlanPayload:
+      properties:
+        dayReportUuid:
+          type: string
+        description:
+          type: string
+        isDone:
+          type: boolean
+        ownerUuid:
+          type: string
+        time:
+          type: integer
+      required:
+      - dayReportUuid
+      - description
+      - isDone
+      - ownerUuid
+      - time
+      type: object
+    schemas.CreateProblemJobTagPayload:
+      properties:
+        jobTagUuid:
+          type: string
+        problemUuid:
+          type: string
+      required:
+      - jobTagUuid
+      - problemUuid
+      type: object
+    schemas.CreateProblemPayload:
+      properties:
+        dayReportUuid:
+          type: string
+        description:
+          type: string
+        isDone:
+          type: boolean
+        ownerUuid:
+          type: string
+      required:
+      - dayReportUuid
+      - description
+      - isDone
+      - ownerUuid
+      type: object
+    schemas.CreateUserMentoringRequestPayload:
+      properties:
+        userUuid:
+          type: string
+        wayUuid:
+          type: string
+      required:
+      - userUuid
+      - wayUuid
+      type: object
+    schemas.CreateUserTagPayload:
+      properties:
+        name:
+          type: string
+        ownerUuid:
+          type: string
+      required:
+      - name
+      - ownerUuid
+      type: object
+    schemas.CreateWayCollectionPayload:
+      properties:
+        name:
+          type: string
+        ownerUuid:
+          type: string
+      required:
+      - name
+      - ownerUuid
+      type: object
+    schemas.CreateWayCollectionWay:
+      properties:
+        wayCollectionUuid:
+          type: string
+        wayUuid:
+          type: string
+      required:
+      - wayCollectionUuid
+      - wayUuid
+      type: object
+    schemas.CreateWayPayload:
+      properties:
+        copiedFromWayUuid:
+          nullable: true
+          type: string
+        estimationTime:
+          type: integer
+        goalDescription:
+          type: string
+        isCompleted:
+          type: boolean
+        isPrivate:
+          type: boolean
+        name:
+          type: string
+        ownerUuid:
+          type: string
+      required:
+      - copiedFromWayUuid
+      - estimationTime
+      - goalDescription
+      - isCompleted
+      - isPrivate
+      - name
+      - ownerUuid
+      type: object
+    schemas.CreateWayTagPayload:
+      properties:
+        name:
+          type: string
+        wayUuid:
+          type: string
+      required:
+      - name
+      - wayUuid
+      type: object
+    schemas.DayReportPopulatedResponse:
+      example:
+        createdAt: createdAt
+        comments:
+        - createdAt: createdAt
+          ownerUuid: ownerUuid
+          ownerName: ownerName
+          description: description
+          dayReportUuid: dayReportUuid
+          uuid: uuid
+          updatedAt: updatedAt
+        - createdAt: createdAt
+          ownerUuid: ownerUuid
+          ownerName: ownerName
+          description: description
+          dayReportUuid: dayReportUuid
+          uuid: uuid
+          updatedAt: updatedAt
+        plans:
+        - createdAt: createdAt
+          ownerUuid: ownerUuid
+          ownerName: ownerName
+          description: description
+          time: 6
+          dayReportUuid: dayReportUuid
+          isDone: true
+          uuid: uuid
+          tags:
+          - color: color
+            name: name
+            description: description
+            uuid: uuid
+          - color: color
+            name: name
+            description: description
+            uuid: uuid
+          updatedAt: updatedAt
+        - createdAt: createdAt
+          ownerUuid: ownerUuid
+          ownerName: ownerName
+          description: description
+          time: 6
+          dayReportUuid: dayReportUuid
+          isDone: true
+          uuid: uuid
+          tags:
+          - color: color
+            name: name
+            description: description
+            uuid: uuid
+          - color: color
+            name: name
+            description: description
+            uuid: uuid
+          updatedAt: updatedAt
+        jobsDone:
+        - createdAt: createdAt
+          ownerUuid: ownerUuid
+          ownerName: ownerName
+          description: description
+          time: 0
+          dayReportUuid: dayReportUuid
+          uuid: uuid
+          tags:
+          - color: color
+            name: name
+            description: description
+            uuid: uuid
+          - color: color
+            name: name
+            description: description
+            uuid: uuid
+          updatedAt: updatedAt
+        - createdAt: createdAt
+          ownerUuid: ownerUuid
+          ownerName: ownerName
+          description: description
+          time: 0
+          dayReportUuid: dayReportUuid
+          uuid: uuid
+          tags:
+          - color: color
+            name: name
+            description: description
+            uuid: uuid
+          - color: color
+            name: name
+            description: description
+            uuid: uuid
+          updatedAt: updatedAt
+        isDayOff: true
+        uuid: uuid
+        problems:
+        - createdAt: createdAt
+          ownerUuid: ownerUuid
+          ownerName: ownerName
+          description: description
+          dayReportUuid: dayReportUuid
+          isDone: true
+          uuid: uuid
+          tags:
+          - color: color
+            name: name
+            description: description
+            uuid: uuid
+          - color: color
+            name: name
+            description: description
+            uuid: uuid
+          updatedAt: updatedAt
+        - createdAt: createdAt
+          ownerUuid: ownerUuid
+          ownerName: ownerName
+          description: description
+          dayReportUuid: dayReportUuid
+          isDone: true
+          uuid: uuid
+          tags:
+          - color: color
+            name: name
+            description: description
+            uuid: uuid
+          - color: color
+            name: name
+            description: description
+            uuid: uuid
+          updatedAt: updatedAt
+        updatedAt: updatedAt
+      properties:
+        comments:
+          items:
+            $ref: '#/components/schemas/schemas.CommentPopulatedResponse'
+          type: array
+        createdAt:
+          type: string
+        isDayOff:
+          type: boolean
+        jobsDone:
+          items:
+            $ref: '#/components/schemas/schemas.JobDonePopulatedResponse'
+          type: array
+        plans:
+          items:
+            $ref: '#/components/schemas/schemas.PlanPopulatedResponse'
+          type: array
+        problems:
+          items:
+            $ref: '#/components/schemas/schemas.ProblemPopulatedResponse'
+          type: array
+        updatedAt:
+          type: string
+        uuid:
+          type: string
+      required:
+      - comments
+      - createdAt
+      - isDayOff
+      - jobsDone
+      - plans
+      - problems
+      - updatedAt
+      - uuid
+      type: object
+    schemas.DefaultWayCollections:
+      example:
+        own:
+          createdAt: createdAt
+          ownerUuid: ownerUuid
+          ways:
+          - owner:
+              createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            goalDescription: goalDescription
+            copiedFromWayUuid: copiedFromWayUuid
+            childrenUuids:
+            - childrenUuids
+            - childrenUuids
+            estimationTime: 6
+            isPrivate: true
+            uuid: uuid
+            dayReportsAmount: 0
+            metricsDone: 5
+            createdAt: createdAt
+            wayTags:
+            - name: name
+              uuid: uuid
+            - name: name
+              uuid: uuid
+            favoriteForUsers: 1
+            metricsTotal: 5
+            mentors:
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            name: name
+            isCompleted: true
+            updatedAt: updatedAt
+          - owner:
+              createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            goalDescription: goalDescription
+            copiedFromWayUuid: copiedFromWayUuid
+            childrenUuids:
+            - childrenUuids
+            - childrenUuids
+            estimationTime: 6
+            isPrivate: true
+            uuid: uuid
+            dayReportsAmount: 0
+            metricsDone: 5
+            createdAt: createdAt
+            wayTags:
+            - name: name
+              uuid: uuid
+            - name: name
+              uuid: uuid
+            favoriteForUsers: 1
+            metricsTotal: 5
+            mentors:
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            name: name
+            isCompleted: true
+            updatedAt: updatedAt
+          name: name
+          type: type
+          uuid: uuid
+          updatedAt: updatedAt
+        mentoring:
+          createdAt: createdAt
+          ownerUuid: ownerUuid
+          ways:
+          - owner:
+              createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            goalDescription: goalDescription
+            copiedFromWayUuid: copiedFromWayUuid
+            childrenUuids:
+            - childrenUuids
+            - childrenUuids
+            estimationTime: 6
+            isPrivate: true
+            uuid: uuid
+            dayReportsAmount: 0
+            metricsDone: 5
+            createdAt: createdAt
+            wayTags:
+            - name: name
+              uuid: uuid
+            - name: name
+              uuid: uuid
+            favoriteForUsers: 1
+            metricsTotal: 5
+            mentors:
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            name: name
+            isCompleted: true
+            updatedAt: updatedAt
+          - owner:
+              createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            goalDescription: goalDescription
+            copiedFromWayUuid: copiedFromWayUuid
+            childrenUuids:
+            - childrenUuids
+            - childrenUuids
+            estimationTime: 6
+            isPrivate: true
+            uuid: uuid
+            dayReportsAmount: 0
+            metricsDone: 5
+            createdAt: createdAt
+            wayTags:
+            - name: name
+              uuid: uuid
+            - name: name
+              uuid: uuid
+            favoriteForUsers: 1
+            metricsTotal: 5
+            mentors:
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            name: name
+            isCompleted: true
+            updatedAt: updatedAt
+          name: name
+          type: type
+          uuid: uuid
+          updatedAt: updatedAt
+        favorite:
+          createdAt: createdAt
+          ownerUuid: ownerUuid
+          ways:
+          - owner:
+              createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            goalDescription: goalDescription
+            copiedFromWayUuid: copiedFromWayUuid
+            childrenUuids:
+            - childrenUuids
+            - childrenUuids
+            estimationTime: 6
+            isPrivate: true
+            uuid: uuid
+            dayReportsAmount: 0
+            metricsDone: 5
+            createdAt: createdAt
+            wayTags:
+            - name: name
+              uuid: uuid
+            - name: name
+              uuid: uuid
+            favoriteForUsers: 1
+            metricsTotal: 5
+            mentors:
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            name: name
+            isCompleted: true
+            updatedAt: updatedAt
+          - owner:
+              createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            goalDescription: goalDescription
+            copiedFromWayUuid: copiedFromWayUuid
+            childrenUuids:
+            - childrenUuids
+            - childrenUuids
+            estimationTime: 6
+            isPrivate: true
+            uuid: uuid
+            dayReportsAmount: 0
+            metricsDone: 5
+            createdAt: createdAt
+            wayTags:
+            - name: name
+              uuid: uuid
+            - name: name
+              uuid: uuid
+            favoriteForUsers: 1
+            metricsTotal: 5
+            mentors:
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            name: name
+            isCompleted: true
+            updatedAt: updatedAt
+          name: name
+          type: type
+          uuid: uuid
+          updatedAt: updatedAt
+      properties:
+        favorite:
+          $ref: '#/components/schemas/schemas.WayCollectionPopulatedResponse'
+        mentoring:
+          $ref: '#/components/schemas/schemas.WayCollectionPopulatedResponse'
+        own:
+          $ref: '#/components/schemas/schemas.WayCollectionPopulatedResponse'
+      required:
+      - favorite
+      - mentoring
+      - own
+      type: object
+    schemas.DeleteMentorUserWayPayload:
+      properties:
+        userUuid:
+          type: string
+        wayUuid:
+          type: string
+      required:
+      - userUuid
+      - wayUuid
+      type: object
+    schemas.GenerateMetricsPayload:
+      properties:
+        goalDescription:
+          type: string
+        metrics:
+          items:
+            type: string
+          type: array
+        wayName:
+          type: string
+      required:
+      - goalDescription
+      - metrics
+      - wayName
+      type: object
+    schemas.GetAllUsersResponse:
+      example:
+        size: 0
+        users:
+        - createdAt: createdAt
+          ownWays: 5
+          mentoringWays: 5
+          favoriteWays: 1
+          favoriteForUsers: 6
+          imageUrl: imageUrl
+          name: name
+          description: description
+          isMentor: true
+          uuid: uuid
+          email: email
+          tags:
+          - name: name
+            uuid: uuid
+          - name: name
+            uuid: uuid
+        - createdAt: createdAt
+          ownWays: 5
+          mentoringWays: 5
+          favoriteWays: 1
+          favoriteForUsers: 6
+          imageUrl: imageUrl
+          name: name
+          description: description
+          isMentor: true
+          uuid: uuid
+          email: email
+          tags:
+          - name: name
+            uuid: uuid
+          - name: name
+            uuid: uuid
+      properties:
+        size:
+          type: integer
+        users:
+          items:
+            $ref: '#/components/schemas/schemas.UserPlainResponseWithInfo'
+          type: array
+      required:
+      - size
+      - users
+      type: object
+    schemas.GetAllWaysResponse:
+      example:
+        ways:
+        - owner:
+            createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          goalDescription: goalDescription
+          copiedFromWayUuid: copiedFromWayUuid
+          childrenUuids:
+          - childrenUuids
+          - childrenUuids
+          estimationTime: 6
+          isPrivate: true
+          uuid: uuid
+          dayReportsAmount: 0
+          metricsDone: 5
+          createdAt: createdAt
+          wayTags:
+          - name: name
+            uuid: uuid
+          - name: name
+            uuid: uuid
+          favoriteForUsers: 1
+          metricsTotal: 5
+          mentors:
+          - createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          - createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          name: name
+          isCompleted: true
+          updatedAt: updatedAt
+        - owner:
+            createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          goalDescription: goalDescription
+          copiedFromWayUuid: copiedFromWayUuid
+          childrenUuids:
+          - childrenUuids
+          - childrenUuids
+          estimationTime: 6
+          isPrivate: true
+          uuid: uuid
+          dayReportsAmount: 0
+          metricsDone: 5
+          createdAt: createdAt
+          wayTags:
+          - name: name
+            uuid: uuid
+          - name: name
+            uuid: uuid
+          favoriteForUsers: 1
+          metricsTotal: 5
+          mentors:
+          - createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          - createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          name: name
+          isCompleted: true
+          updatedAt: updatedAt
+        size: 0
+      properties:
+        size:
+          type: integer
+        ways:
+          items:
+            $ref: '#/components/schemas/schemas.WayPlainResponse'
+          type: array
+      required:
+      - size
+      - ways
+      type: object
+    schemas.JobDonePopulatedResponse:
+      example:
+        createdAt: createdAt
+        ownerUuid: ownerUuid
+        ownerName: ownerName
+        description: description
+        time: 0
+        dayReportUuid: dayReportUuid
+        uuid: uuid
+        tags:
+        - color: color
+          name: name
+          description: description
+          uuid: uuid
+        - color: color
+          name: name
+          description: description
+          uuid: uuid
+        updatedAt: updatedAt
+      properties:
+        createdAt:
+          type: string
+        dayReportUuid:
+          type: string
+        description:
+          type: string
+        ownerName:
+          type: string
+        ownerUuid:
+          type: string
+        tags:
+          items:
+            $ref: '#/components/schemas/schemas.JobTagResponse'
+          type: array
+        time:
+          type: integer
+        updatedAt:
+          type: string
+        uuid:
+          type: string
+      required:
+      - createdAt
+      - dayReportUuid
+      - description
+      - ownerName
+      - ownerUuid
+      - tags
+      - time
+      - updatedAt
+      - uuid
+      type: object
+    schemas.JobTagResponse:
+      example:
+        color: color
+        name: name
+        description: description
+        uuid: uuid
+      properties:
+        color:
+          type: string
+        description:
+          type: string
+        name:
+          type: string
+        uuid:
+          type: string
+      required:
+      - color
+      - description
+      - name
+      - uuid
+      type: object
+    schemas.MetricResponse:
+      example:
+        description: description
+        estimationTime: 0
+        doneDate: doneDate
+        isDone: true
+        uuid: uuid
+      properties:
+        description:
+          type: string
+        doneDate:
+          nullable: true
+          type: string
+        estimationTime:
+          type: integer
+        isDone:
+          type: boolean
+        uuid:
+          type: string
+      required:
+      - description
+      - doneDate
+      - estimationTime
+      - isDone
+      - uuid
+      type: object
+    schemas.PlanPopulatedResponse:
+      example:
+        createdAt: createdAt
+        ownerUuid: ownerUuid
+        ownerName: ownerName
+        description: description
+        time: 6
+        dayReportUuid: dayReportUuid
+        isDone: true
+        uuid: uuid
+        tags:
+        - color: color
+          name: name
+          description: description
+          uuid: uuid
+        - color: color
+          name: name
+          description: description
+          uuid: uuid
+        updatedAt: updatedAt
+      properties:
+        createdAt:
+          type: string
+        dayReportUuid:
+          type: string
+        description:
+          type: string
+        isDone:
+          type: boolean
+        ownerName:
+          type: string
+        ownerUuid:
+          type: string
+        tags:
+          items:
+            $ref: '#/components/schemas/schemas.JobTagResponse'
+          type: array
+        time:
+          type: integer
+        updatedAt:
+          type: string
+        uuid:
+          type: string
+      required:
+      - createdAt
+      - dayReportUuid
+      - description
+      - isDone
+      - ownerName
+      - ownerUuid
+      - tags
+      - time
+      - updatedAt
+      - uuid
+      type: object
+    schemas.ProblemPopulatedResponse:
+      example:
+        createdAt: createdAt
+        ownerUuid: ownerUuid
+        ownerName: ownerName
+        description: description
+        dayReportUuid: dayReportUuid
+        isDone: true
+        uuid: uuid
+        tags:
+        - color: color
+          name: name
+          description: description
+          uuid: uuid
+        - color: color
+          name: name
+          description: description
+          uuid: uuid
+        updatedAt: updatedAt
+      properties:
+        createdAt:
+          type: string
+        dayReportUuid:
+          type: string
+        description:
+          type: string
+        isDone:
+          type: boolean
+        ownerName:
+          type: string
+        ownerUuid:
+          type: string
+        tags:
+          items:
+            $ref: '#/components/schemas/schemas.JobTagResponse'
+          type: array
+        updatedAt:
+          type: string
+        uuid:
+          type: string
+      required:
+      - createdAt
+      - dayReportUuid
+      - description
+      - isDone
+      - ownerName
+      - ownerUuid
+      - tags
+      - updatedAt
+      - uuid
+      type: object
+    schemas.UpdateCommentPayload:
+      properties:
+        description:
+          type: string
+      type: object
+    schemas.UpdateDayReportPayload:
+      properties:
+        isDayOff:
+          type: boolean
+      type: object
+    schemas.UpdateJobDone:
+      properties:
+        description:
+          type: string
+        time:
+          type: integer
+      type: object
+    schemas.UpdateJobTagPayload:
+      properties:
+        color:
+          type: string
+        description:
+          type: string
+        name:
+          type: string
+      type: object
+    schemas.UpdateMetricPayload:
+      properties:
+        description:
+          type: string
+        estimationTime:
+          type: integer
+        isDone:
+          type: boolean
+      type: object
+    schemas.UpdatePlanPayload:
+      properties:
+        description:
+          type: string
+        isDone:
+          type: boolean
+        time:
+          type: integer
+      type: object
+    schemas.UpdateProblemPayload:
+      properties:
+        description:
+          type: string
+        isDone:
+          type: boolean
+      type: object
+    schemas.UpdateUserPayload:
+      properties:
+        description:
+          type: string
+        imageUrl:
+          type: string
+        isMentor:
+          type: boolean
+        name:
+          type: string
+      type: object
+    schemas.UpdateWayCollectionPayload:
+      properties:
+        name:
+          type: string
+      type: object
+    schemas.UpdateWayPayload:
+      properties:
+        estimationTime:
+          type: integer
+        goalDescription:
+          type: string
+        isCompleted:
+          type: boolean
+        isPrivate:
+          type: boolean
+        name:
+          type: string
+      type: object
+    schemas.UserPlainResponse:
+      example:
+        createdAt: createdAt
+        imageUrl: imageUrl
+        name: name
+        description: description
+        isMentor: true
+        uuid: uuid
+        email: email
+      properties:
+        createdAt:
+          type: string
+        description:
+          type: string
+        email:
+          type: string
+        imageUrl:
+          type: string
+        isMentor:
+          type: boolean
+        name:
+          type: string
+        uuid:
+          type: string
+      required:
+      - createdAt
+      - description
+      - email
+      - imageUrl
+      - isMentor
+      - name
+      - uuid
+      type: object
+    schemas.UserPlainResponseWithInfo:
+      example:
+        createdAt: createdAt
+        ownWays: 5
+        mentoringWays: 5
+        favoriteWays: 1
+        favoriteForUsers: 6
+        imageUrl: imageUrl
+        name: name
+        description: description
+        isMentor: true
+        uuid: uuid
+        email: email
+        tags:
+        - name: name
+          uuid: uuid
+        - name: name
+          uuid: uuid
+      properties:
+        createdAt:
+          type: string
+        description:
+          type: string
+        email:
+          type: string
+        favoriteForUsers:
+          type: integer
+        favoriteWays:
+          type: integer
+        imageUrl:
+          type: string
+        isMentor:
+          type: boolean
+        mentoringWays:
+          type: integer
+        name:
+          type: string
+        ownWays:
+          type: integer
+        tags:
+          items:
+            $ref: '#/components/schemas/schemas.UserTagResponse'
+          type: array
+        uuid:
+          type: string
+      required:
+      - createdAt
+      - description
+      - email
+      - favoriteForUsers
+      - favoriteWays
+      - imageUrl
+      - isMentor
+      - mentoringWays
+      - name
+      - ownWays
+      - tags
+      - uuid
+      type: object
+    schemas.UserPopulatedResponse:
+      example:
+        defaultWayCollections:
+          own:
+            createdAt: createdAt
+            ownerUuid: ownerUuid
+            ways:
+            - owner:
+                createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              goalDescription: goalDescription
+              copiedFromWayUuid: copiedFromWayUuid
+              childrenUuids:
+              - childrenUuids
+              - childrenUuids
+              estimationTime: 6
+              isPrivate: true
+              uuid: uuid
+              dayReportsAmount: 0
+              metricsDone: 5
+              createdAt: createdAt
+              wayTags:
+              - name: name
+                uuid: uuid
+              - name: name
+                uuid: uuid
+              favoriteForUsers: 1
+              metricsTotal: 5
+              mentors:
+              - createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              - createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              name: name
+              isCompleted: true
+              updatedAt: updatedAt
+            - owner:
+                createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              goalDescription: goalDescription
+              copiedFromWayUuid: copiedFromWayUuid
+              childrenUuids:
+              - childrenUuids
+              - childrenUuids
+              estimationTime: 6
+              isPrivate: true
+              uuid: uuid
+              dayReportsAmount: 0
+              metricsDone: 5
+              createdAt: createdAt
+              wayTags:
+              - name: name
+                uuid: uuid
+              - name: name
+                uuid: uuid
+              favoriteForUsers: 1
+              metricsTotal: 5
+              mentors:
+              - createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              - createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              name: name
+              isCompleted: true
+              updatedAt: updatedAt
+            name: name
+            type: type
+            uuid: uuid
+            updatedAt: updatedAt
+          mentoring:
+            createdAt: createdAt
+            ownerUuid: ownerUuid
+            ways:
+            - owner:
+                createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              goalDescription: goalDescription
+              copiedFromWayUuid: copiedFromWayUuid
+              childrenUuids:
+              - childrenUuids
+              - childrenUuids
+              estimationTime: 6
+              isPrivate: true
+              uuid: uuid
+              dayReportsAmount: 0
+              metricsDone: 5
+              createdAt: createdAt
+              wayTags:
+              - name: name
+                uuid: uuid
+              - name: name
+                uuid: uuid
+              favoriteForUsers: 1
+              metricsTotal: 5
+              mentors:
+              - createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              - createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              name: name
+              isCompleted: true
+              updatedAt: updatedAt
+            - owner:
+                createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              goalDescription: goalDescription
+              copiedFromWayUuid: copiedFromWayUuid
+              childrenUuids:
+              - childrenUuids
+              - childrenUuids
+              estimationTime: 6
+              isPrivate: true
+              uuid: uuid
+              dayReportsAmount: 0
+              metricsDone: 5
+              createdAt: createdAt
+              wayTags:
+              - name: name
+                uuid: uuid
+              - name: name
+                uuid: uuid
+              favoriteForUsers: 1
+              metricsTotal: 5
+              mentors:
+              - createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              - createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              name: name
+              isCompleted: true
+              updatedAt: updatedAt
+            name: name
+            type: type
+            uuid: uuid
+            updatedAt: updatedAt
+          favorite:
+            createdAt: createdAt
+            ownerUuid: ownerUuid
+            ways:
+            - owner:
+                createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              goalDescription: goalDescription
+              copiedFromWayUuid: copiedFromWayUuid
+              childrenUuids:
+              - childrenUuids
+              - childrenUuids
+              estimationTime: 6
+              isPrivate: true
+              uuid: uuid
+              dayReportsAmount: 0
+              metricsDone: 5
+              createdAt: createdAt
+              wayTags:
+              - name: name
+                uuid: uuid
+              - name: name
+                uuid: uuid
+              favoriteForUsers: 1
+              metricsTotal: 5
+              mentors:
+              - createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              - createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              name: name
+              isCompleted: true
+              updatedAt: updatedAt
+            - owner:
+                createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              goalDescription: goalDescription
+              copiedFromWayUuid: copiedFromWayUuid
+              childrenUuids:
+              - childrenUuids
+              - childrenUuids
+              estimationTime: 6
+              isPrivate: true
+              uuid: uuid
+              dayReportsAmount: 0
+              metricsDone: 5
+              createdAt: createdAt
+              wayTags:
+              - name: name
+                uuid: uuid
+              - name: name
+                uuid: uuid
+              favoriteForUsers: 1
+              metricsTotal: 5
+              mentors:
+              - createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              - createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              name: name
+              isCompleted: true
+              updatedAt: updatedAt
+            name: name
+            type: type
+            uuid: uuid
+            updatedAt: updatedAt
+        favoriteUsers:
+        - createdAt: createdAt
+          imageUrl: imageUrl
+          name: name
+          description: description
+          isMentor: true
+          uuid: uuid
+          email: email
+        - createdAt: createdAt
+          imageUrl: imageUrl
+          name: name
+          description: description
+          isMentor: true
+          uuid: uuid
+          email: email
+        description: description
+        uuid: uuid
+        tags:
+        - name: name
+          uuid: uuid
+        - name: name
+          uuid: uuid
+        customWayCollections:
+        - createdAt: createdAt
+          ownerUuid: ownerUuid
+          ways:
+          - owner:
+              createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            goalDescription: goalDescription
+            copiedFromWayUuid: copiedFromWayUuid
+            childrenUuids:
+            - childrenUuids
+            - childrenUuids
+            estimationTime: 6
+            isPrivate: true
+            uuid: uuid
+            dayReportsAmount: 0
+            metricsDone: 5
+            createdAt: createdAt
+            wayTags:
+            - name: name
+              uuid: uuid
+            - name: name
+              uuid: uuid
+            favoriteForUsers: 1
+            metricsTotal: 5
+            mentors:
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            name: name
+            isCompleted: true
+            updatedAt: updatedAt
+          - owner:
+              createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            goalDescription: goalDescription
+            copiedFromWayUuid: copiedFromWayUuid
+            childrenUuids:
+            - childrenUuids
+            - childrenUuids
+            estimationTime: 6
+            isPrivate: true
+            uuid: uuid
+            dayReportsAmount: 0
+            metricsDone: 5
+            createdAt: createdAt
+            wayTags:
+            - name: name
+              uuid: uuid
+            - name: name
+              uuid: uuid
+            favoriteForUsers: 1
+            metricsTotal: 5
+            mentors:
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            name: name
+            isCompleted: true
+            updatedAt: updatedAt
+          name: name
+          type: type
+          uuid: uuid
+          updatedAt: updatedAt
+        - createdAt: createdAt
+          ownerUuid: ownerUuid
+          ways:
+          - owner:
+              createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            goalDescription: goalDescription
+            copiedFromWayUuid: copiedFromWayUuid
+            childrenUuids:
+            - childrenUuids
+            - childrenUuids
+            estimationTime: 6
+            isPrivate: true
+            uuid: uuid
+            dayReportsAmount: 0
+            metricsDone: 5
+            createdAt: createdAt
+            wayTags:
+            - name: name
+              uuid: uuid
+            - name: name
+              uuid: uuid
+            favoriteForUsers: 1
+            metricsTotal: 5
+            mentors:
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            name: name
+            isCompleted: true
+            updatedAt: updatedAt
+          - owner:
+              createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            goalDescription: goalDescription
+            copiedFromWayUuid: copiedFromWayUuid
+            childrenUuids:
+            - childrenUuids
+            - childrenUuids
+            estimationTime: 6
+            isPrivate: true
+            uuid: uuid
+            dayReportsAmount: 0
+            metricsDone: 5
+            createdAt: createdAt
+            wayTags:
+            - name: name
+              uuid: uuid
+            - name: name
+              uuid: uuid
+            favoriteForUsers: 1
+            metricsTotal: 5
+            mentors:
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            name: name
+            isCompleted: true
+            updatedAt: updatedAt
+          name: name
+          type: type
+          uuid: uuid
+          updatedAt: updatedAt
+        createdAt: createdAt
+        favoriteForUsers:
+        - favoriteForUsers
+        - favoriteForUsers
+        wayRequests:
+        - owner:
+            createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          goalDescription: goalDescription
+          copiedFromWayUuid: copiedFromWayUuid
+          childrenUuids:
+          - childrenUuids
+          - childrenUuids
+          estimationTime: 6
+          isPrivate: true
+          uuid: uuid
+          dayReportsAmount: 0
+          metricsDone: 5
+          createdAt: createdAt
+          wayTags:
+          - name: name
+            uuid: uuid
+          - name: name
+            uuid: uuid
+          favoriteForUsers: 1
+          metricsTotal: 5
+          mentors:
+          - createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          - createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          name: name
+          isCompleted: true
+          updatedAt: updatedAt
+        - owner:
+            createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          goalDescription: goalDescription
+          copiedFromWayUuid: copiedFromWayUuid
+          childrenUuids:
+          - childrenUuids
+          - childrenUuids
+          estimationTime: 6
+          isPrivate: true
+          uuid: uuid
+          dayReportsAmount: 0
+          metricsDone: 5
+          createdAt: createdAt
+          wayTags:
+          - name: name
+            uuid: uuid
+          - name: name
+            uuid: uuid
+          favoriteForUsers: 1
+          metricsTotal: 5
+          mentors:
+          - createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          - createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          name: name
+          isCompleted: true
+          updatedAt: updatedAt
+        imageUrl: imageUrl
+        name: name
+        isMentor: true
+        email: email
+      properties:
+        createdAt:
+          type: string
+        customWayCollections:
+          items:
+            $ref: '#/components/schemas/schemas.WayCollectionPopulatedResponse'
+          type: array
+        defaultWayCollections:
+          $ref: '#/components/schemas/schemas.DefaultWayCollections'
+        description:
+          type: string
+        email:
+          type: string
+        favoriteForUsers:
+          items:
+            type: string
+          type: array
+        favoriteUsers:
+          items:
+            $ref: '#/components/schemas/schemas.UserPlainResponse'
+          type: array
+        imageUrl:
+          type: string
+        isMentor:
+          type: boolean
+        name:
+          type: string
+        tags:
+          items:
+            $ref: '#/components/schemas/schemas.UserTagResponse'
+          type: array
+        uuid:
+          type: string
+        wayRequests:
+          items:
+            $ref: '#/components/schemas/schemas.WayPlainResponse'
+          type: array
+      required:
+      - createdAt
+      - customWayCollections
+      - defaultWayCollections
+      - description
+      - email
+      - favoriteForUsers
+      - favoriteUsers
+      - imageUrl
+      - isMentor
+      - name
+      - tags
+      - uuid
+      - wayRequests
+      type: object
+    schemas.UserTagResponse:
+      example:
+        name: name
+        uuid: uuid
+      properties:
+        name:
+          type: string
+        uuid:
+          type: string
+      required:
+      - name
+      - uuid
+      type: object
+    schemas.WayCollectionPlainResponse:
+      example:
+        name: name
+        uuid: uuid
+      properties:
+        name:
+          type: string
+        uuid:
+          type: string
+      required:
+      - name
+      - uuid
+      type: object
+    schemas.WayCollectionPopulatedResponse:
+      example:
+        createdAt: createdAt
+        ownerUuid: ownerUuid
+        ways:
+        - owner:
+            createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          goalDescription: goalDescription
+          copiedFromWayUuid: copiedFromWayUuid
+          childrenUuids:
+          - childrenUuids
+          - childrenUuids
+          estimationTime: 6
+          isPrivate: true
+          uuid: uuid
+          dayReportsAmount: 0
+          metricsDone: 5
+          createdAt: createdAt
+          wayTags:
+          - name: name
+            uuid: uuid
+          - name: name
+            uuid: uuid
+          favoriteForUsers: 1
+          metricsTotal: 5
+          mentors:
+          - createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          - createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          name: name
+          isCompleted: true
+          updatedAt: updatedAt
+        - owner:
+            createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          goalDescription: goalDescription
+          copiedFromWayUuid: copiedFromWayUuid
+          childrenUuids:
+          - childrenUuids
+          - childrenUuids
+          estimationTime: 6
+          isPrivate: true
+          uuid: uuid
+          dayReportsAmount: 0
+          metricsDone: 5
+          createdAt: createdAt
+          wayTags:
+          - name: name
+            uuid: uuid
+          - name: name
+            uuid: uuid
+          favoriteForUsers: 1
+          metricsTotal: 5
+          mentors:
+          - createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          - createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          name: name
+          isCompleted: true
+          updatedAt: updatedAt
+        name: name
+        type: type
+        uuid: uuid
+        updatedAt: updatedAt
+      properties:
+        createdAt:
+          type: string
+        name:
+          type: string
+        ownerUuid:
+          type: string
+        type:
+          description: should be removed after separation custom collections and default
+            pseudocollections
+          type: string
+        updatedAt:
+          type: string
+        uuid:
+          type: string
+        ways:
+          items:
+            $ref: '#/components/schemas/schemas.WayPlainResponse'
+          type: array
+      required:
+      - createdAt
+      - name
+      - ownerUuid
+      - type
+      - updatedAt
+      - uuid
+      - ways
+      type: object
+    schemas.WayPlainResponse:
+      example:
+        owner:
+          createdAt: createdAt
+          imageUrl: imageUrl
+          name: name
+          description: description
+          isMentor: true
+          uuid: uuid
+          email: email
+        goalDescription: goalDescription
+        copiedFromWayUuid: copiedFromWayUuid
+        childrenUuids:
+        - childrenUuids
+        - childrenUuids
+        estimationTime: 6
+        isPrivate: true
+        uuid: uuid
+        dayReportsAmount: 0
+        metricsDone: 5
+        createdAt: createdAt
+        wayTags:
+        - name: name
+          uuid: uuid
+        - name: name
+          uuid: uuid
+        favoriteForUsers: 1
+        metricsTotal: 5
+        mentors:
+        - createdAt: createdAt
+          imageUrl: imageUrl
+          name: name
+          description: description
+          isMentor: true
+          uuid: uuid
+          email: email
+        - createdAt: createdAt
+          imageUrl: imageUrl
+          name: name
+          description: description
+          isMentor: true
+          uuid: uuid
+          email: email
+        name: name
+        isCompleted: true
+        updatedAt: updatedAt
+      properties:
+        childrenUuids:
+          items:
+            type: string
+          type: array
+        copiedFromWayUuid:
+          nullable: true
+          type: string
+        createdAt:
+          type: string
+        dayReportsAmount:
+          type: integer
+        estimationTime:
+          type: integer
+        favoriteForUsers:
+          type: integer
+        goalDescription:
+          type: string
+        isCompleted:
+          type: boolean
+        isPrivate:
+          type: boolean
+        mentors:
+          items:
+            $ref: '#/components/schemas/schemas.UserPlainResponse'
+          type: array
+        metricsDone:
+          type: integer
+        metricsTotal:
+          type: integer
+        name:
+          type: string
+        owner:
+          $ref: '#/components/schemas/schemas.UserPlainResponse'
+        updatedAt:
+          type: string
+        uuid:
+          type: string
+        wayTags:
+          items:
+            $ref: '#/components/schemas/schemas.WayTagResponse'
+          type: array
+      required:
+      - childrenUuids
+      - copiedFromWayUuid
+      - createdAt
+      - dayReportsAmount
+      - estimationTime
+      - favoriteForUsers
+      - goalDescription
+      - isCompleted
+      - isPrivate
+      - mentors
+      - metricsDone
+      - metricsTotal
+      - name
+      - owner
+      - updatedAt
+      - uuid
+      - wayTags
+      type: object
+    schemas.WayPopulatedResponse:
+      example:
+        dayReports:
+        - createdAt: createdAt
+          comments:
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            ownerName: ownerName
+            description: description
+            dayReportUuid: dayReportUuid
+            uuid: uuid
+            updatedAt: updatedAt
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            ownerName: ownerName
+            description: description
+            dayReportUuid: dayReportUuid
+            uuid: uuid
+            updatedAt: updatedAt
+          plans:
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            ownerName: ownerName
+            description: description
+            time: 6
+            dayReportUuid: dayReportUuid
+            isDone: true
+            uuid: uuid
+            tags:
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            updatedAt: updatedAt
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            ownerName: ownerName
+            description: description
+            time: 6
+            dayReportUuid: dayReportUuid
+            isDone: true
+            uuid: uuid
+            tags:
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            updatedAt: updatedAt
+          jobsDone:
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            ownerName: ownerName
+            description: description
+            time: 0
+            dayReportUuid: dayReportUuid
+            uuid: uuid
+            tags:
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            updatedAt: updatedAt
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            ownerName: ownerName
+            description: description
+            time: 0
+            dayReportUuid: dayReportUuid
+            uuid: uuid
+            tags:
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            updatedAt: updatedAt
+          isDayOff: true
+          uuid: uuid
+          problems:
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            ownerName: ownerName
+            description: description
+            dayReportUuid: dayReportUuid
+            isDone: true
+            uuid: uuid
+            tags:
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            updatedAt: updatedAt
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            ownerName: ownerName
+            description: description
+            dayReportUuid: dayReportUuid
+            isDone: true
+            uuid: uuid
+            tags:
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            updatedAt: updatedAt
+          updatedAt: updatedAt
+        - createdAt: createdAt
+          comments:
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            ownerName: ownerName
+            description: description
+            dayReportUuid: dayReportUuid
+            uuid: uuid
+            updatedAt: updatedAt
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            ownerName: ownerName
+            description: description
+            dayReportUuid: dayReportUuid
+            uuid: uuid
+            updatedAt: updatedAt
+          plans:
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            ownerName: ownerName
+            description: description
+            time: 6
+            dayReportUuid: dayReportUuid
+            isDone: true
+            uuid: uuid
+            tags:
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            updatedAt: updatedAt
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            ownerName: ownerName
+            description: description
+            time: 6
+            dayReportUuid: dayReportUuid
+            isDone: true
+            uuid: uuid
+            tags:
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            updatedAt: updatedAt
+          jobsDone:
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            ownerName: ownerName
+            description: description
+            time: 0
+            dayReportUuid: dayReportUuid
+            uuid: uuid
+            tags:
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            updatedAt: updatedAt
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            ownerName: ownerName
+            description: description
+            time: 0
+            dayReportUuid: dayReportUuid
+            uuid: uuid
+            tags:
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            updatedAt: updatedAt
+          isDayOff: true
+          uuid: uuid
+          problems:
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            ownerName: ownerName
+            description: description
+            dayReportUuid: dayReportUuid
+            isDone: true
+            uuid: uuid
+            tags:
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            updatedAt: updatedAt
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            ownerName: ownerName
+            description: description
+            dayReportUuid: dayReportUuid
+            isDone: true
+            uuid: uuid
+            tags:
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            updatedAt: updatedAt
+          updatedAt: updatedAt
+        owner:
+          createdAt: createdAt
+          imageUrl: imageUrl
+          name: name
+          description: description
+          isMentor: true
+          uuid: uuid
+          email: email
+        favoriteForUsersAmount: 6
+        goalDescription: goalDescription
+        copiedFromWayUuid: copiedFromWayUuid
+        estimationTime: 0
+        isPrivate: true
+        uuid: uuid
+        createdAt: createdAt
+        mentorRequests:
+        - createdAt: createdAt
+          imageUrl: imageUrl
+          name: name
+          description: description
+          isMentor: true
+          uuid: uuid
+          email: email
+        - createdAt: createdAt
+          imageUrl: imageUrl
+          name: name
+          description: description
+          isMentor: true
+          uuid: uuid
+          email: email
+        wayTags:
+        - name: name
+          uuid: uuid
+        - name: name
+          uuid: uuid
+        children:
+        - null
+        - null
+        mentors:
+        - createdAt: createdAt
+          imageUrl: imageUrl
+          name: name
+          description: description
+          isMentor: true
+          uuid: uuid
+          email: email
+        - createdAt: createdAt
+          imageUrl: imageUrl
+          name: name
+          description: description
+          isMentor: true
+          uuid: uuid
+          email: email
+        name: name
+        formerMentors:
+        - createdAt: createdAt
+          imageUrl: imageUrl
+          name: name
+          description: description
+          isMentor: true
+          uuid: uuid
+          email: email
+        - createdAt: createdAt
+          imageUrl: imageUrl
+          name: name
+          description: description
+          isMentor: true
+          uuid: uuid
+          email: email
+        metrics:
+        - description: description
+          estimationTime: 0
+          doneDate: doneDate
+          isDone: true
+          uuid: uuid
+        - description: description
+          estimationTime: 0
+          doneDate: doneDate
+          isDone: true
+          uuid: uuid
+        jobTags:
+        - color: color
+          name: name
+          description: description
+          uuid: uuid
+        - color: color
+          name: name
+          description: description
+          uuid: uuid
+        isCompleted: true
+        updatedAt: updatedAt
+      properties:
+        children:
+          items:
+            $ref: '#/components/schemas/schemas.WayPopulatedResponse'
+          type: array
+        copiedFromWayUuid:
+          nullable: true
+          type: string
+        createdAt:
+          type: string
+        dayReports:
+          items:
+            $ref: '#/components/schemas/schemas.DayReportPopulatedResponse'
+          type: array
+        estimationTime:
+          type: integer
+        favoriteForUsersAmount:
+          type: integer
+        formerMentors:
+          items:
+            $ref: '#/components/schemas/schemas.UserPlainResponse'
+          type: array
+        goalDescription:
+          type: string
+        isCompleted:
+          type: boolean
+        isPrivate:
+          type: boolean
+        jobTags:
+          items:
+            $ref: '#/components/schemas/schemas.JobTagResponse'
+          type: array
+        mentorRequests:
+          items:
+            $ref: '#/components/schemas/schemas.UserPlainResponse'
+          type: array
+        mentors:
+          items:
+            $ref: '#/components/schemas/schemas.UserPlainResponse'
+          type: array
+        metrics:
+          items:
+            $ref: '#/components/schemas/schemas.MetricResponse'
+          type: array
+        name:
+          type: string
+        owner:
+          $ref: '#/components/schemas/schemas.UserPlainResponse'
+        updatedAt:
+          type: string
+        uuid:
+          type: string
+        wayTags:
+          items:
+            $ref: '#/components/schemas/schemas.WayTagResponse'
+          type: array
+      required:
+      - children
+      - copiedFromWayUuid
+      - createdAt
+      - dayReports
+      - estimationTime
+      - favoriteForUsersAmount
+      - formerMentors
+      - goalDescription
+      - isCompleted
+      - isPrivate
+      - jobTags
+      - mentorRequests
+      - mentors
+      - metrics
+      - name
+      - owner
+      - updatedAt
+      - uuid
+      - wayTags
+      type: object
+    schemas.WayTagResponse:
+      example:
+        name: name
+        uuid: uuid
+      properties:
+        name:
+          type: string
+        uuid:
+          type: string
+      required:
+      - name
+      - uuid
+      type: object
+    util.ResponseStatusString:
+      example:
+        status: status
+      properties:
+        status:
+          type: string
+      required:
+      - status
+      type: object
+x-original-swagger-version: "2.0"

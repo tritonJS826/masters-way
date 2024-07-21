@@ -42,7 +42,7 @@ export const UsersTable = (props: UsersTableProps) => {
   return (
     <Table
       data={tableContent}
-      dataCy={{dataCyTable: allUsersAccessIds.allUsersTable.tableBodyTr}}
+      dataCy={{dataCyTable: allUsersAccessIds.allUsersTable.table}}
     />
   );
 };
