@@ -1,19 +1,20 @@
 version: "3.9"
 services:
-  postgres:
+  postgres-general:
     build:
       context: ./postgres
-      dockerfile: Dockerfile
-    container_name: postgres
+      dockerfile: postgres-general.Dockerfile
+    container_name: postgres-general
     ports:
       - "5432:5432"
     volumes:
-      - db:/var/lib/postgresql/data
+      - postgres-general:/var/lib/postgresql/data
     env_file:
       - ./mw-server/.env
     networks:
       - app-network
 
+  # mw-general
   mw-server:
     build:
       context: ./mw-server
@@ -22,7 +23,45 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - postgres
+      - postgres-general
+    networks:
+      - app-network
+
+  postgres-chat:
+    build:
+      context: ./postgres
+      dockerfile: postgres-chat.Dockerfile
+    container_name: postgres-chat
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres-chat:/var/lib/postgresql/data
+    env_file:
+      - ./mw-chat/.env
+    networks:
+      - app-network
+  
+  mw-chat:
+    build:
+      context: ./mw-chat
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
+    depends_on:
+      - postgres-chat
+    networks:
+      - app-network
+  
+  mw-chat-bff:
+    build:
+      context: ./mw-chat-bff
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "7999:7999"
+    depends_on:
+      - mw-chat
     networks:
       - app-network
 
@@ -50,7 +89,8 @@ services:
       - app-network
 
 volumes:
-  db:
+  postgres-general:
+  postgres-chat:
 
 networks:
   app-network:

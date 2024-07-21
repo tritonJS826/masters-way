@@ -3,3 +3,4 @@ packages:
   - 'mw-server'
   - 'mw-mobile'
   - 'mw-chat'
+  - 'mw-chat-bff'
