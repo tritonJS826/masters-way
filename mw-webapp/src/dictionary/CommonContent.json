@@ -59,11 +59,6 @@
     }
   },
   "chat": {
-    "messengerTitle": {
-      "ru": "Мессенджер",
-      "en": "Messenger",
-      "ua": "Месенджер"
-    },
     "openChat": {
       "ru": "Открыть чат",
       "en": "Open chat",

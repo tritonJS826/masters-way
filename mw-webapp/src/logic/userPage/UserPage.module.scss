@@ -33,6 +33,12 @@
   }
 }
 
+.AvatarWithConnectButton {
+  align-items: center;
+  justify-content: space-between;
+  gap: $gapMedium;
+}
+
 .userAboutBlock {
   flex-wrap: wrap;
   gap: $gapBig;

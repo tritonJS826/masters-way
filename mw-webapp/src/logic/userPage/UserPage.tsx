@@ -303,11 +303,18 @@ export const UserPage = observer((props: UserPageProps) => {
       <VerticalContainer className={styles.userInfoBlock}>
         <HorizontalGridContainer className={styles.userMainInfoBlock}>
           <HorizontalContainer className={styles.userAboutBlock}>
-            <Avatar
-              alt={userPageOwner.name}
-              src={userPageOwner.imageUrl}
-              size={AvatarSize.LARGE}
-            />
+            <VerticalContainer className={styles.AvatarWithConnectButton}>
+              <Avatar
+                alt={userPageOwner.name}
+                src={userPageOwner.imageUrl}
+                size={AvatarSize.LARGE}
+              />
+              <Button
+                onClick={() => { }}
+                buttonType={ButtonType.SECONDARY}
+                value="Write to connect"
+              />
+            </VerticalContainer>
 
             <VerticalContainer className={styles.nameEmailSection}>
               <HorizontalContainer className={styles.nameSection}>
