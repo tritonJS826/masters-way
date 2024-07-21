@@ -89,7 +89,7 @@ export const MentorRequestsSection = (props: MentorRequestsSectionProps) => {
             </DialogClose>
             <DialogClose asChild>
               <Button
-                value={LanguageService.way.ComponentMentorRequestsSection.ButtonDecline[language]}
+                value={LanguageService.way.ComponentMentorRequestsSection.buttonDecline[language]}
                 onClick={() => removeUserFromMentorRequests(props.way.uuid, props.declineMentorRequest, userPreview.uuid)}
               />
             </DialogClose>
