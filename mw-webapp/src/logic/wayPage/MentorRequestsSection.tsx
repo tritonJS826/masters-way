@@ -4,9 +4,11 @@ import {Link} from "src/component/link/Link";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {FromUserMentoringRequestDAL} from "src/dataAccessLogic/FromUserMentoringRequestDAL";
 import {MentorUserWayDAL} from "src/dataAccessLogic/MentorUserWayDAL";
+import {languageStore} from "src/globalStore/LanguageStore";
 import {UserPlain} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
 import {pages} from "src/router/pages";
+import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/wayPage/MentorRequestsSection.module.scss";
 
 /**
@@ -58,11 +60,14 @@ interface MentorRequestsSectionProps {
  * Section with requests to become Way mentor
  */
 export const MentorRequestsSection = (props: MentorRequestsSectionProps) => {
+  const {language} = languageStore;
+  const mentorsRequestCollection = LanguageService.way.ComponentMentorRequestsSection;
+
   return (
     <>
       <Title
         level={HeadingLevel.h3}
-        text="Mentors requests of this way:"
+        text={mentorsRequestCollection.MentorRequestsSection[language]}
         placeholder=""
       />
       <div className={styles.mentorRequestsSection}>
@@ -76,7 +81,7 @@ export const MentorRequestsSection = (props: MentorRequestsSectionProps) => {
             </Link>
             <DialogClose asChild>
               <Button
-                value='Accept'
+                value={mentorsRequestCollection.ButtonAccept[language]}
                 onClick={() => {
                   addMentorToWay(props.way, props.acceptMentorRequest, userPreview);
                 }
@@ -85,7 +90,7 @@ export const MentorRequestsSection = (props: MentorRequestsSectionProps) => {
             </DialogClose>
             <DialogClose asChild>
               <Button
-                value='Decline'
+                value={mentorsRequestCollection.ButtonDecline[language]}
                 onClick={() => removeUserFromMentorRequests(props.way.uuid, props.declineMentorRequest, userPreview.uuid)}
               />
             </DialogClose>
