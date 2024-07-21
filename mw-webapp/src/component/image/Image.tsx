@@ -67,7 +67,7 @@ export const Image = (props: ImageProps) => {
     <img
       src={props.src}
       alt={props.alt}
-      className={clsx(styles.image, props.classNameInModal)}
+      className={clsx(props.classNameInModal)}
       data-cy={props.cy?.dataCy}
     />
   );
@@ -78,7 +78,7 @@ export const Image = (props: ImageProps) => {
         cy={props.cy}
         trigger={imageElement}
         content={imageInModalElement}
-        contentClassName={clsx(styles.image, props.classNameInModal)}
+        contentClassName={clsx(styles.content, props.classNameInModal)}
       />
     );
   }
