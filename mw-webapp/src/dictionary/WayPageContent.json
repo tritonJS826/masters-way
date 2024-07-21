@@ -770,17 +770,17 @@
     }
   },
   "mentorRequestsModal": {
-    "MentorRequestsSection": {
+    "mentorRequestsSection": {
       "ru": "Запрос от метора отслеживать путь:",
       "en": "Request from a mentor to track the way:",
       "ua": "Прохання від наставника відстежити шлях:"
     },
-    "ButtonAccept": {
+    "buttonAccept": {
       "ru": "Принять",
       "en": "Accept",
       "ua": "Приймати"
     },
-    "ButtonDecline": {
+    "buttonDecline": {
       "ru": "Отклонить",
       "en": "Decline",
       "ua": "Відклонити"
