@@ -1,0 +1,452 @@
+openapi: 3.0.1
+info:
+  contact: {}
+  description: ""
+  title: ""
+  version: ""
+servers:
+- url: /
+paths:
+  /group-rooms:
+    get:
+      operationId: get-group-rooms
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.GetRoomsResponse'
+          description: OK
+      summary: Get group rooms preview for user
+      tags:
+      - group
+    post:
+      operationId: create-group-rooms
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.RoomPopulatedResponse'
+          description: OK
+      summary: Create group rooms for user
+      tags:
+      - group
+  /group-rooms/requests:
+    get:
+      operationId: get-requests-to-group-room
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.GetRequestsToGroupRoomResponse'
+          description: OK
+      summary: Get requests to group room
+      tags:
+      - group
+    post:
+      operationId: create-requests-to-group-room
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.CreateRequestToGroupRoomPayload'
+        description: query params
+        required: true
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Create requests to group room
+      tags:
+      - group
+      x-codegen-request-body-name: request
+  /group-rooms/{groupRoomId}:
+    get:
+      operationId: get-group-room-by-id
+      parameters:
+      - description: group room Id
+        in: path
+        name: groupRoomId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.RoomPopulatedResponse'
+          description: OK
+      summary: Get group room by id
+      tags:
+      - group
+    patch:
+      operationId: update-group-rooms
+      parameters:
+      - description: group room Id
+        in: path
+        name: groupRoomId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.RoomPopulatedResponse'
+          description: OK
+      summary: Update group rooms for user
+      tags:
+      - group
+  /group-rooms/{groupRoomId}/messages:
+    post:
+      operationId: create-message-in-group-room
+      parameters:
+      - description: group room Id
+        in: path
+        name: groupRoomId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.CreateMessagePayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.MessageResponse'
+          description: OK
+      summary: Create message to group room
+      tags:
+      - group
+      x-codegen-request-body-name: request
+  /group-rooms/{groupRoomId}/requests/accept:
+    post:
+      operationId: accept-request-to-group-room
+      parameters:
+      - description: groupRoom Id to accept request
+        in: path
+        name: groupRoomId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.RoomPopulatedResponse'
+          description: OK
+      summary: Accept request to group room
+      tags:
+      - group
+  /group-rooms/{groupRoomId}/requests/decline:
+    delete:
+      operationId: decline-request-to-group-room
+      parameters:
+      - description: groupRoom Id to delete request
+        in: path
+        name: groupRoomId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.DeclineRequestToGroupRoomResponse'
+          description: OK
+      summary: Decline request to group room
+      tags:
+      - group
+  /group-rooms/{groupRoomId}/users/{userId}:
+    delete:
+      operationId: delete-user-to-group
+      parameters:
+      - description: group room Id
+        in: path
+        name: groupRoomId
+        required: true
+        schema:
+          type: string
+      - description: user Id to delete
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.RoomPopulatedResponse'
+          description: OK
+      summary: Delete user to group room
+      tags:
+      - group
+    post:
+      operationId: add-user-to-group
+      parameters:
+      - description: group room Id
+        in: path
+        name: groupRoomId
+        required: true
+        schema:
+          type: string
+      - description: user Id to delete
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.RoomPopulatedResponse'
+          description: OK
+      summary: Add user to group room
+      tags:
+      - group
+  /p2p-rooms:
+    get:
+      operationId: get-p2p-rooms
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.GetRoomsResponse'
+          description: OK
+      summary: Get p2p rooms for user
+      tags:
+      - p2p
+    post:
+      operationId: create-p2p-room
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.MessageResponse'
+          description: OK
+      summary: Create p2p room for user
+      tags:
+      - p2p
+  /p2p-rooms/{p2pRoomId}:
+    get:
+      operationId: get-p2p-room-by-id
+      parameters:
+      - description: p2p room Id
+        in: path
+        name: p2pRoomId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.MessageResponse'
+          description: OK
+      summary: Get p2p room by id
+      tags:
+      - p2p
+    patch:
+      operationId: update-p2p-room
+      parameters:
+      - description: p2p room Id
+        in: path
+        name: p2pRoomId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.MessageResponse'
+          description: OK
+      summary: Update p2p room for user
+      tags:
+      - p2p
+  /p2p-rooms/{p2pRoomId}/messages:
+    post:
+      operationId: make-message-in-p2p-room
+      parameters:
+      - description: p2p room Id
+        in: path
+        name: p2pRoomId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.CreateMessagePayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.MessageResponse'
+          description: OK
+      summary: Create message in p2p room
+      tags:
+      - p2p
+      x-codegen-request-body-name: request
+components:
+  schemas:
+    schemas.CreateMessagePayload:
+      properties:
+        message:
+          type: string
+        roomId:
+          type: string
+      required:
+      - message
+      - roomId
+      type: object
+    schemas.CreateRequestToGroupRoomPayload:
+      properties:
+        roomId:
+          type: string
+        userId:
+          type: string
+      required:
+      - roomId
+      - userId
+      type: object
+    schemas.DeclineRequestToGroupRoomResponse:
+      example:
+        roomId: roomId
+      properties:
+        roomId:
+          type: string
+      required:
+      - roomId
+      type: object
+    schemas.GetRequestsToGroupRoomResponse:
+      example:
+        requests:
+        - senderId: senderId
+          roomId: roomId
+        - senderId: senderId
+          roomId: roomId
+      properties:
+        requests:
+          items:
+            $ref: '#/components/schemas/schemas.RequestToGroupRoom'
+          type: array
+      required:
+      - requests
+      type: object
+    schemas.GetRoomsResponse:
+      example:
+        rooms:
+        - isBlocked: true
+          name: name
+          roomId: roomId
+        - isBlocked: true
+          name: name
+          roomId: roomId
+        size: 0
+      properties:
+        rooms:
+          items:
+            $ref: '#/components/schemas/schemas.RoomPreviewResponse'
+          type: array
+        size:
+          type: integer
+      required:
+      - rooms
+      - size
+      type: object
+    schemas.MessageResponse:
+      example:
+        message: message
+        ownerId: ownerId
+      properties:
+        message:
+          type: string
+        ownerId:
+          type: string
+      required:
+      - message
+      - ownerId
+      type: object
+    schemas.RequestToGroupRoom:
+      example:
+        senderId: senderId
+        roomId: roomId
+      properties:
+        roomId:
+          type: string
+        senderId:
+          type: string
+      required:
+      - roomId
+      - senderId
+      type: object
+    schemas.RoomPopulatedResponse:
+      example:
+        isBlocked: true
+        name: name
+        messages:
+        - message: message
+          ownerId: ownerId
+        - message: message
+          ownerId: ownerId
+        roomId: roomId
+      properties:
+        isBlocked:
+          type: boolean
+        messages:
+          items:
+            $ref: '#/components/schemas/schemas.MessageResponse'
+          type: array
+        name:
+          type: string
+        roomId:
+          type: string
+      required:
+      - isBlocked
+      - messages
+      - name
+      - roomId
+      type: object
+    schemas.RoomPreviewResponse:
+      example:
+        isBlocked: true
+        name: name
+        roomId: roomId
+      properties:
+        isBlocked:
+          type: boolean
+        name:
+          type: string
+        roomId:
+          type: string
+      required:
+      - isBlocked
+      - name
+      - roomId
+      type: object
+x-original-swagger-version: "2.0"

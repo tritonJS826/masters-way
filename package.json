@@ -29,7 +29,8 @@
   "dependencies": {},
   "devDependencies": {
     "concurrently": "^8.2.2",
-    "husky": "9.0.11"
+    "husky": "9.0.11",
+    "@openapitools/openapi-generator-cli": "^2.9.0"
   },
   "engines": {
     "node": "20.11.0",

@@ -16,6 +16,23 @@
       "ru": "Отменить",
       "en": "Cancel",
       "ua": "Скасувати"
+    },
+    "saveButton": {
+      "ru": "Сохранить",
+      "en": "Save",
+      "ua": "Зберегти"
+    }
+  },
+  "labelsModal": {
+    "title": {
+      "ru": "Выберите лэйблы",
+      "en": "Choose labels",
+      "ua": "Виберіть лэйбли"
+    },
+    "description": {
+      "ru": "Описание отсутствует",
+      "en": "Empty description",
+      "ua": "Опис відсутній"
     }
   },
   "confirmModal": {

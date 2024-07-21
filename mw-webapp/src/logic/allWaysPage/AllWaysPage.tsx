@@ -171,7 +171,7 @@ export const AllWaysPage = observer(() => {
           level={HeadingLevel.h2}
           text={`${LanguageService.allWays.waysTable.leftTitle[language]} (${allWays.length})`}
           placeholder=""
-          dataCy={allWaysAccessIds.allWaysTitles.title}
+          cy={{dataCyTitleContainer: allWaysAccessIds.allWaysTitles.title}}
         />
         <Title
           level={HeadingLevel.h2}

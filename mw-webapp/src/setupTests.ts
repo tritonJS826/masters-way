@@ -3,3 +3,7 @@
 // Expect(element).toHaveTextContent(/react/i)
 // Learn more: https://github.com/testing-library/jest-dom
 import "@testing-library/jest-dom";
+import dotenv from "dotenv";
+
+// Load environment variables from .env file
+dotenv.config();

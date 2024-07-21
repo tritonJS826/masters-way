@@ -27,7 +27,7 @@ export const SettingsPage = observer(() => {
         level={HeadingLevel.h2}
         text={LanguageService.settings.title[language]}
         placeholder=""
-        dataCy={settingsAccessIds.title}
+        cy={{dataCyTitleContainer: settingsAccessIds.title}}
       />
       <div className={styles.settingsList}>
         <HorizontalContainer className={styles.line}>

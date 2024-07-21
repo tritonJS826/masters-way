@@ -227,7 +227,7 @@ func init() {
 	GeminiRoutes = routes.NewRouteGemini(GeminiController)
 }
 
-// @title     Masters way API
+// @title     Masters way general API
 // @version 1.0
 // @BasePath  /api
 func main() {
