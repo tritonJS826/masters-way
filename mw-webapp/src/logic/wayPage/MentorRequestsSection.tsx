@@ -61,13 +61,12 @@ interface MentorRequestsSectionProps {
  */
 export const MentorRequestsSection = (props: MentorRequestsSectionProps) => {
   const {language} = languageStore;
-  const mentorsRequestCollection = LanguageService.way.ComponentMentorRequestsSection;
 
   return (
     <>
       <Title
         level={HeadingLevel.h3}
-        text={mentorsRequestCollection.MentorRequestsSection[language]}
+        text={LanguageService.way.ComponentMentorRequestsSection.MentorRequestsSection[language]}
         placeholder=""
       />
       <div className={styles.mentorRequestsSection}>
@@ -81,7 +80,7 @@ export const MentorRequestsSection = (props: MentorRequestsSectionProps) => {
             </Link>
             <DialogClose asChild>
               <Button
-                value={mentorsRequestCollection.ButtonAccept[language]}
+                value={LanguageService.way.ComponentMentorRequestsSection.ButtonAccept[language]}
                 onClick={() => {
                   addMentorToWay(props.way, props.acceptMentorRequest, userPreview);
                 }
@@ -90,7 +89,7 @@ export const MentorRequestsSection = (props: MentorRequestsSectionProps) => {
             </DialogClose>
             <DialogClose asChild>
               <Button
-                value={mentorsRequestCollection.ButtonDecline[language]}
+                value={LanguageService.way.ComponentMentorRequestsSection.ButtonDecline[language]}
                 onClick={() => removeUserFromMentorRequests(props.way.uuid, props.declineMentorRequest, userPreview.uuid)}
               />
             </DialogClose>
