@@ -80,7 +80,7 @@ export const MentorRequestsSection = (props: MentorRequestsSectionProps) => {
             </Link>
             <DialogClose asChild>
               <Button
-                value={LanguageService.way.ComponentMentorRequestsSection.ButtonAccept[language]}
+                value={LanguageService.way.ComponentMentorRequestsSection.buttonAccept[language]}
                 onClick={() => {
                   addMentorToWay(props.way, props.acceptMentorRequest, userPreview);
                 }
