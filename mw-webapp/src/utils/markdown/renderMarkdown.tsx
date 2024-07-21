@@ -1,5 +1,6 @@
 import MarkdownLib, {Components} from "react-markdown";
 import remarkGfm from "remark-gfm";
+import {Image} from "src/component/image/Image";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/utils/markdown/Markdown.module.scss";
@@ -32,10 +33,11 @@ const customComponents: Components = {
   img: (params) => {
     return (
       <span className={styles.imageContainer}>
-        <img
-          src={params.src}
-          alt={params.alt}
+        <Image
+          src={params.src ?? ""}
+          alt={params.alt ?? ""}
           className={styles.markdownImg}
+          isZoomable
         />
       </span>
     );

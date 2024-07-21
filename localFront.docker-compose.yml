@@ -1,19 +1,20 @@
 version: "3.9"
 services:
-  postgres:
+  postgres-general:
     build:
       context: ./postgres
-      dockerfile: Dockerfile
-    container_name: postgres
+      dockerfile: postgres-general.Dockerfile
+    container_name: postgres-general
     ports:
       - "5432:5432"
     volumes:
-      - db:/var/lib/postgresql/data
+      - postgres-general:/var/lib/postgresql/data
     env_file:
       - ./mw-server/.env
     networks:
       - app-network
 
+  # mw-general
   mw-server:
     build:
       context: ./mw-server
@@ -22,24 +23,74 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - postgres
+      - postgres-general
     networks:
       - app-network
 
-  # nginx:
-  #   image: nginx:1.24.0
-  #   container_name: nginx
+  postgres-chat:
+    build:
+      context: ./postgres
+      dockerfile: postgres-chat.Dockerfile
+    container_name: postgres-chat
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres-chat:/var/lib/postgresql/data
+    env_file:
+      - ./mw-chat/.env
+    networks:
+      - app-network
+  
+  mw-chat:
+    build:
+      context: ./mw-chat
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
+    depends_on:
+      - postgres-chat
+    networks:
+      - app-network
+  
+  mw-chat-bff:
+    build:
+      context: ./mw-chat-bff
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "7999:7999"
+    depends_on:
+      - mw-chat
+    networks:
+      - app-network
+
+  # mw-webapp:
+  #   build:
+  #     context: ./mw-webapp
+  #     dockerfile: Dockerfile
+  #   restart: unless-stopped
   #   ports:
-  #     - "80:80"
-  #   volumes:
-  #     - ./gateway/nginx.conf:/etc/nginx/nginx.conf:ro
-  #   depends_on:
-  #     - mw-server
+  #     - "5173:5173"
   #   networks:
   #     - app-network
 
+  nginx:
+    image: nginx:1.24.0
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./gateway/localQA.nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - mw-server
+      - mw-webapp
+    networks:
+      - app-network
+
 volumes:
-  db:
+  postgres-general:
+  postgres-chat:
 
 networks:
   app-network:
