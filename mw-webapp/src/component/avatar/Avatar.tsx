@@ -1,4 +1,3 @@
-import {useLocation} from "react-router-dom";
 import * as AvatarRadix from "@radix-ui/react-avatar";
 import clsx from "clsx";
 import styles from "src/component/avatar/Avatar.module.scss";
