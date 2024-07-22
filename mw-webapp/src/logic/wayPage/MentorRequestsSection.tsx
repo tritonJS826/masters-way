@@ -66,7 +66,7 @@ export const MentorRequestsSection = (props: MentorRequestsSectionProps) => {
     <>
       <Title
         level={HeadingLevel.h3}
-        text={LanguageService.way.ComponentMentorRequestsSection.mentorRequestsSection[language]}
+        text={LanguageService.way.mentorRequestsModal.mentorRequestsSection[language]}
         placeholder=""
       />
       <div className={styles.mentorRequestsSection}>
@@ -80,7 +80,7 @@ export const MentorRequestsSection = (props: MentorRequestsSectionProps) => {
             </Link>
             <DialogClose asChild>
               <Button
-                value={LanguageService.way.ComponentMentorRequestsSection.buttonAccept[language]}
+                value={LanguageService.way.mentorRequestsModal.buttonAccept[language]}
                 onClick={() => {
                   addMentorToWay(props.way, props.acceptMentorRequest, userPreview);
                 }
@@ -89,7 +89,7 @@ export const MentorRequestsSection = (props: MentorRequestsSectionProps) => {
             </DialogClose>
             <DialogClose asChild>
               <Button
-                value={LanguageService.way.ComponentMentorRequestsSection.buttonDecline[language]}
+                value={LanguageService.way.mentorRequestsModal.buttonDecline[language]}
                 onClick={() => removeUserFromMentorRequests(props.way.uuid, props.declineMentorRequest, userPreview.uuid)}
               />
             </DialogClose>
