@@ -2,33 +2,25 @@
 
 .labelLine {
   align-items: baseline;
-  gap: 0 $gapBig;
+  flex-wrap: wrap;
+  gap: $gapExtraSmall $gapBig;
 
-  @media only screen and (max-width: $mediaWidthTablet) {
-    flex-wrap: wrap;
-    padding-bottom: $paddingExtraMedium;
-  }
 }
 
 .labelContainer {
   display: flex;
-  min-width: 250px;
+  width: 270px;
+
+  @media only screen and (max-width: $mediaWidthTablet) {
+    width: 100%;
+  }
 }
 
 .labelDescription {
-  width: max(220px, 52vw);
+  width: 30%;
+  flex-grow: 2;
 }
 
 .icon {
   cursor: pointer;
-}
-
-.labelLine > input {
-  width: 50px;
-  flex-shrink: 0;
-  transform: translateY(5px);
-
-  @media only screen and (max-width: $mediaWidthMobileBig) {
-    width: 30px;
-  }
 }
