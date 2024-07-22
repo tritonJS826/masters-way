@@ -4,6 +4,7 @@ import {
   DEFAULT_NOTIFICATION_SETTINGS,
   globalContext,
 } from "src/GlobalContext";
+import {useAmplitudeActivate} from "src/hooks/useAmplitudeActivate";
 import {router} from "src/router/Router";
 
 /**
@@ -11,6 +12,8 @@ import {router} from "src/router/Router";
  */
 export const App = () => {
   const [isInitialized, setIsInitialized] = useState(false);
+
+  useAmplitudeActivate();
 
   return (
     <globalContext.Provider value={{

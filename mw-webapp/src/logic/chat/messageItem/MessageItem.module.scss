@@ -1,0 +1,21 @@
+@import "src/styles/variables";
+
+.messageWrap {
+  align-items: end;
+}
+
+.message {
+  max-width: 70%;
+  padding: $paddingSmall;
+  border-radius: $primaryBorderRadius;
+  background-color: var(--tertiaryBgColor);
+}
+
+.own {
+  align-self: flex-end;
+}
+
+.ownMessage {
+  background-color: var(--generalPrimaryColor);
+  color: var(--secondaryTextColor);
+}

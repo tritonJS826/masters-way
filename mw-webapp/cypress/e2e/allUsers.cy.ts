@@ -85,7 +85,6 @@ describe('NoAuth All Users scope tests', () => {
     });
 
     it('NoAuth_AllUsers_SearchByName', () => {
-
         allWaysSelectors.filterViewBlock.getTableViewButton().click();
 
         const searchByName = (searchData: {symbols: string, expectedCount: number}) => {

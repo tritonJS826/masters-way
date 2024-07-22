@@ -303,11 +303,18 @@ export const UserPage = observer((props: UserPageProps) => {
       <VerticalContainer className={styles.userInfoBlock}>
         <HorizontalGridContainer className={styles.userMainInfoBlock}>
           <HorizontalContainer className={styles.userAboutBlock}>
-            <Avatar
-              alt={userPageOwner.name}
-              src={userPageOwner.imageUrl}
-              size={AvatarSize.LARGE}
-            />
+            <VerticalContainer className={styles.AvatarWithConnectButton}>
+              <Avatar
+                alt={userPageOwner.name}
+                src={userPageOwner.imageUrl}
+                size={AvatarSize.LARGE}
+              />
+              <Button
+                onClick={() => { }}
+                buttonType={ButtonType.SECONDARY}
+                value="Write to connect"
+              />
+            </VerticalContainer>
 
             <VerticalContainer className={styles.nameEmailSection}>
               <HorizontalContainer className={styles.nameSection}>
@@ -315,7 +322,12 @@ export const UserPage = observer((props: UserPageProps) => {
                   <Infotip content={LanguageService.user.infotip.userName[language]} />
 
                   <Title
-                    dataCy={userPersonalDataAccessIds.descriptionSection.nameSection}
+                    cy={
+                      {
+                        dataCyTitleContainer: userPersonalDataAccessIds.descriptionSection.nameDisplay,
+                        dataCyInput: userPersonalDataAccessIds.descriptionSection.nameInput,
+                      }
+                    }
                     level={HeadingLevel.h2}
                     text={userPageOwner.name}
                     placeholder={LanguageService.common.emptyMarkdownAction[language]}
@@ -394,6 +406,12 @@ export const UserPage = observer((props: UserPageProps) => {
                   />
                 </HorizontalContainer>
                 <EditableTextarea
+                  cy={
+                    {
+                      textArea: userPersonalDataAccessIds.descriptionSection.aboutMeMarkdownInput,
+                      trigger: userPersonalDataAccessIds.descriptionSection.aboutMeMarkdownDisplay,
+                    }
+                  }
                   text={userPageOwner.description}
                   onChangeFinish={(description) => updateUser({
                     userToUpdate: {
@@ -484,6 +502,7 @@ export const UserPage = observer((props: UserPageProps) => {
                         }
                         onClick={() => {}}
                         buttonType={ButtonType.ICON_BUTTON}
+                        dataCy={userPersonalDataAccessIds.descriptionSection.addSkillButton}
                       />
                     </Tooltip>
                   }

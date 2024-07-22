@@ -62,6 +62,7 @@ interface EditableTextareaProps {
    * Data attributes for cypress testing
    */
   cy?: CyEditableTextarea;
+
 }
 
 /**

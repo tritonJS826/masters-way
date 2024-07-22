@@ -34,7 +34,7 @@ export const AboutProjectPage = observer(() => {
           text={LanguageService.aboutProject.mainTitle[language]}
           className={styles.title}
           placeholder=""
-          dataCy={aboutProjectAccessIds.aboutBlock.title}
+          cy={{dataCyTitleContainer: aboutProjectAccessIds.aboutBlock.title}}
         />
         <Title
           level={HeadingLevel.h3}

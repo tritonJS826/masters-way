@@ -57,5 +57,18 @@
       "en": "Master's Way Github page",
       "ua": "Сторінка Master's Way на Github"
     }
+  },
+  "chat": {
+    "openChat": {
+      "ru": "Открыть чат",
+      "en": "Open chat",
+      "ua": "Відкрити чат"
+    },
+    "contactsTitle": {
+      "ru": "Контакты",
+      "en": "Contacts",
+      "ua": "Контакти"
+    }
+
   }
 }

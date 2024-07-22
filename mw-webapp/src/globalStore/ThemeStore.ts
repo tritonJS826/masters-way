@@ -131,6 +131,10 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     [Theme.DARK]: "#8B85A1",
     [Theme.LIGHT]: "#F4F3FF",
   },
+  activeColor: {
+    [Theme.DARK]: "#3AEC88",
+    [Theme.LIGHT]: "#3AEC88",
+  },
   attentionColor: {
     [Theme.DARK]: "#79AF8E",
     [Theme.LIGHT]: "#79AF8E",

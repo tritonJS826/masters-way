@@ -768,5 +768,22 @@
       "en": "In the comments you can write anything that does not relate to the previous columns. For example, you can share your thoughts about training, or write to your mentor what topic you would like to study further (in more detail, etc.). The mentor can use this column to support the student, suggest additional activities, try to explain how to improve the learning process (based on statistics and other information), etc.",
       "ua": "У коментарях можна писати все, що не стосується попередніх шпальт. Наприклад, ти можеш поділитися своїми думками про навчання, або написати ментору, яку тему хотів би вивчити додатково (детальніше і т.д). Ментор може через це коло підтримати студента, запропонувати додаткові активності, постаратися пояснити, як поліпшити процес навчання (ґрунтуючись на статистиці та іншої інформації) і т.д."
     }
+  },
+  "mentorRequestsModal": {
+    "mentorRequestsSection": {
+      "ru": "Запрос от метора отслеживать путь:",
+      "en": "Request from a mentor to track the way:",
+      "ua": "Прохання від наставника відстежити шлях:"
+    },
+    "buttonAccept": {
+      "ru": "Принять",
+      "en": "Accept",
+      "ua": "Приймати"
+    },
+    "buttonDecline": {
+      "ru": "Отклонить",
+      "en": "Decline",
+      "ua": "Відклонити"
+    }
   }
 }

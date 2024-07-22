@@ -34,9 +34,14 @@ interface ImageProps {
   alt: string;
 
   /**
-   * Additional custom class name for the component
+   * Class name for the image
    */
   className?: string;
+
+  /**
+   * Class name for zoomable image
+   */
+  classNameInModal?: string;
 
   /**
    * Image respond to clicks
@@ -49,13 +54,20 @@ interface ImageProps {
  * Component for displaying images
  */
 export const Image = (props: ImageProps) => {
-  const imageClass = clsx(styles.image, props.className);
-
   const imageElement = (
     <img
       src={props.src}
       alt={props.alt}
-      className={imageClass}
+      className={clsx(styles.image, props.className)}
+      data-cy={props.cy?.dataCy}
+    />
+  );
+
+  const imageInModalElement = (
+    <img
+      src={props.src}
+      alt={props.alt}
+      className={clsx(props.classNameInModal)}
       data-cy={props.cy?.dataCy}
     />
   );
@@ -65,8 +77,8 @@ export const Image = (props: ImageProps) => {
       <Modal
         cy={props.cy}
         trigger={imageElement}
-        content={imageElement}
-        contentClassName={imageClass}
+        content={imageInModalElement}
+        contentClassName={clsx(styles.content, props.classNameInModal)}
       />
     );
   }

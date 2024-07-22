@@ -13,7 +13,7 @@ export const allUsersSelectors = {
     },
 
     allUsersTable: {
-        getTableBodyTr: () => cy.get(getDataCy(allUsersAccessIds.allUsersTable.tableBodyTr)),
+        getTable: () => cy.get(getDataCy(allUsersAccessIds.allUsersTable.table)),
         getUserName: () => cy.get(getDataCy(allUsersAccessIds.allUsersTable.userName)),
         getUserLink: (userName: string) => cy.get(getDataCy(allUsersAccessIds.allUsersTable.userLink(userName))),
         getUserContact: () => cy.get(getDataCy(allUsersAccessIds.allUsersTable.userContact))

@@ -1,5 +1,9 @@
 export const userPersonalDataAccessIds = {
     descriptionSection: {
-        nameSection: 'userNameSection',
+        nameDisplay: 'userName',
+        nameInput: 'nameInput',
+        aboutMeMarkdownDisplay: 'aboutMeMarkdownDisplay',
+        aboutMeMarkdownInput: 'aboutMeMarkdownInput',
+        addSkillButton: 'addSkillButton'
     }
 };
