@@ -70,29 +70,27 @@ const getInitials = (name: string): string => {
  */
 export const Avatar = (props: AvatarProps) => {
   const initials = getInitials(props.alt);
-  const location = useLocation();
 
-
-    return (
-      <AvatarRadix.Root
-        className={clsx(styles.AvatarRoot,
-          styles[props.size ?? AvatarSize.SMALL],
-          props.className)}
-        data-cy={props.dataCy}
+  return (
+    <AvatarRadix.Root
+      className={clsx(styles.AvatarRoot,
+        styles[props.size ?? AvatarSize.SMALL],
+        props.className)}
+      data-cy={props.dataCy}
+    >
+      <AvatarRadix.Image
+        className={styles.AvatarImage}
+        src={props.src ?? ""}
+        alt={initials}
+      />
+      <AvatarRadix.Fallback
+        className={styles.AvatarFallback}
+        delayMs={600}
       >
-        <AvatarRadix.Image
-          className={styles.AvatarImage}
-          src={props.src ?? ""}
-          alt={initials}
-        />
-        <AvatarRadix.Fallback
-          className={styles.AvatarFallback}
-          delayMs={600}
-        >
-          {initials}
-        </AvatarRadix.Fallback>
-      </AvatarRadix.Root>
-    );
+        {initials}
+      </AvatarRadix.Fallback>
+    </AvatarRadix.Root>
+  );
 
 };
 
