@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import {Avatar} from "src/component/avatar/Avatar";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
@@ -26,19 +25,15 @@ export enum UserStatus {
 interface ChatItemProps {
 
   /**
-   * User's name
+   * Chat's name
    */
-  userName: string;
+  name: string;
 
   /**
    * Avatar's source
    */
-  src: string;
+  src?: string | null;
 
-  /**
-   * If true the user is online, if not the user is offline
-   */
-  isUserOnline: boolean;
 }
 
 /**
@@ -46,25 +41,15 @@ interface ChatItemProps {
  */
 export const ChatItem = (props: ChatItemProps) => {
   return (
-    <HorizontalContainer>
+    <HorizontalContainer className={styles.chatItemWrapper}>
       <Avatar
-        alt={props.userName}
-        src={props.src}
+        alt={props.name}
+        src={props.src ?? "https://drive.google.com/thumbnail?id=1am7DSSQIxse2Htl39d_F5pgdadgg8x6v&sz=w1000"}
       />
       <VerticalContainer>
         <p className={styles.chatItem}>
-          {props.userName}
+          {props.name}
         </p>
-        <HorizontalContainer className={styles.userStatusBlock}>
-          <div className={clsx(
-            styles.userStatusIndicator,
-            props.isUserOnline && styles.online,
-          )}
-          />
-          <span>
-            {props.isUserOnline ? UserStatus.ONLINE : UserStatus.OFFLINE}
-          </span>
-        </HorizontalContainer>
       </VerticalContainer>
     </HorizontalContainer>
   );

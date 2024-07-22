@@ -26,7 +26,7 @@ interface JobDoneConverterParams {
 /**
  * Convert {@link JobDoneDTo} to {@link JobDone}
  */
-export const JobDoneDTOToJobDone = (params: JobDoneConverterParams): JobDone => {
+export const jobDoneDTOToJobDone = (params: JobDoneConverterParams): JobDone => {
   return new JobDone({
     ...params.jobDoneDTO,
     createdAt: new Date(params.jobDoneDTO.createdAt),

@@ -8,7 +8,6 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {languageStore} from "src/globalStore/LanguageStore";
 import {ChatItem} from "src/logic/chat/chatItem/ChatItem";
 import {MessageItem} from "src/logic/chat/messageItem/MessageItem";
-import {ChatP2P} from "src/model/businessModel/ChatP2P";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/chat/Chat.module.scss";
 
@@ -24,14 +23,15 @@ interface ChatProps {
   isOpen?: boolean;
 
   /**
-   * Chat p2p opened
+   * Chat
+   * TODO: need to create common model Chat for group and P2p chat
    */
-  chatP2P?: ChatP2P;
+  // chat: ChatGroup | null;
 
   /**
-   * Chat p2p list
+   * Chat list
    */
-  chatP2PList?: ChatP2P[];
+  // chatList: ChatPreview[];
 
 }
 
@@ -43,6 +43,19 @@ export const Chat = (props: ChatProps) => {
   const [isOpen, setIsOpen] = useState(props.isOpen ?? false);
   const [message, setMessage] = useState<string>("");
   // Const [isGroupChatOpen, setIsGroupChatOpen] = useState<boolean>(false);
+
+  /**
+   * Get chat list
+   */
+  // const getChatList = async () => {
+  //   const chatList = isGroupChatOpen
+  //     ? await ChatGroupDAL.getGroupRooms()
+  //     : await ChatP2pDAL.getP2pRooms();
+
+  //   return chatList;
+
+  //   setIsGroupChatOpen(true);
+  // };
 
   return (
     <DialogRoot
@@ -99,82 +112,28 @@ export const Chat = (props: ChatProps) => {
 
             <HorizontalContainer className={styles.chatContactsMessages}>
               <VerticalContainer className={styles.chatList}>
-                {/* {isGroupChatOpen
-                    ? props.chatP2PList.map((chatItem) => (
-                      <ChatItem
-                        key={chatItem.uuid}
-                        isUserOnline={chatItem.isUserActive}
-                        userName={chatItem.userName}
-                        src={chatItem.src}
-                      />
-                    ))
-                    : props.chatP2PList.map((chatItem) => (
-                      <ChatItem
-                        key={chatItem.uuid}
-                        isUserOnline={chatItem.isUserActive}
-                        userName={chatItem.userName}
-                        src={chatItem.src}
-                      />
-                    ))
-                  } */}
+                {/* {props.chatList.map((chatItem) => (
+                  <ChatItem
+                    key={chatItem.roomId}
+                    name={chatItem.name}
+                    src={chatItem.src}
+                  />
+                ))
+                } */}
                 <ChatItem
-                  isUserOnline={true}
-                  userName="Jonnie Joe"
+                  name="Jonnie Joe"
                   src=""
                 />
                 <ChatItem
-                  isUserOnline={false}
-                  userName="VeratsennikavaKatsiarynasVeratsennikavaKatsiarynaVeratsennikavaKatsiaryna"
+                  name="VeratsennikavaKatsiarynasVeratsennikavaKatsiarynaVeratsennikavaKatsiaryna"
                   src=""
                 />
-                <ChatItem
-                  isUserOnline={true}
-                  userName="Jonnie Joe"
-                  src=""
-                />
-                <ChatItem
-                  isUserOnline={false}
-                  userName="VeratsennikavaKatsiarynasVeratsennikavaKatsiarynaVeratsennikavaKatsiaryna"
-                  src=""
-                />
-                <ChatItem
-                  isUserOnline={true}
-                  userName="Jonnie Joe"
-                  src=""
-                />
-                <ChatItem
-                  isUserOnline={false}
-                  userName="VeratsennikavaKatsiarynasVeratsennikavaKatsiarynaVeratsennikavaKatsiaryna"
-                  src=""
-                />
-                <ChatItem
-                  isUserOnline={true}
-                  userName="Jonnie Joe"
-                  src=""
-                />
-                <ChatItem
-                  isUserOnline={false}
-                  userName="VeratsennikavaKatsiarynasVeratsennikavaKatsiarynaVeratsennikavaKatsiaryna"
-                  src=""
-                />
-                <ChatItem
-                  isUserOnline={true}
-                  userName="Jonnie Joe"
-                  src=""
-                />
-                <ChatItem
-                  isUserOnline={false}
-                  userName="VeratsennikavaKatsiarynasVeratsennikavaKatsiarynaVeratsennikavaKatsiaryna"
-                  src=""
-                />
-
               </VerticalContainer>
 
               <VerticalContainer className={styles.chatBlock}>
                 <HorizontalContainer className={styles.chatInfo}>
                   <ChatItem
-                    isUserOnline={false}
-                    userName="VeratsennikavaKatsiarynasVeratsennikavaKatsiarynaVeratsennikavaKatsiaryna"
+                    name="VeratsennikavaKatsiarynasVeratsennikavaKatsiarynaVeratsennikavaKatsiaryna"
                     src=""
                   />
 

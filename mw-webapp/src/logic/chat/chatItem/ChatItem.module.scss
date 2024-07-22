@@ -1,5 +1,9 @@
 @import "src/styles/variables";
 
+.chatItemWrapper {
+  cursor: pointer;
+}
+
 .chatItem {
   max-width: $minWidthBlock;
   overflow-x: hidden;

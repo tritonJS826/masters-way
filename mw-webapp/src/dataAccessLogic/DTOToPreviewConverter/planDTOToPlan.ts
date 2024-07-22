@@ -26,7 +26,7 @@ interface PlanConverterParams {
 /**
  * Convert {@link PlanDTO} to {@link Plan}
  */
-export const PlanDTOToPlan = (params: PlanConverterParams): Plan => {
+export const planDTOToPlan = (params: PlanConverterParams): Plan => {
   return new Plan({
     ...params.planDTO,
     createdAt: new Date(params.planDTO.createdAt),

@@ -25,7 +25,7 @@ interface CommentDoneConverterParams {
 /**
  * Convert {@link CommentDTO} to {@link Comment}
  */
-export const CommentDTOToComment = (params: CommentDoneConverterParams): Comment => {
+export const commentDTOToComment = (params: CommentDoneConverterParams): Comment => {
   return new Comment({
     ...params.commentDTO,
     createdAt: new Date(params.commentDTO.createdAt),
