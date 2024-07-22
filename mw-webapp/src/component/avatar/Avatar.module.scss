@@ -13,6 +13,7 @@ $avatarLargeSize: 120px;
   border-radius: $tertiaryBorderRadius;
   user-select: none;
   vertical-align: middle;
+  border: 1px solid var(--primaryStrokeColor)
 }
 
 .AvatarImage {
@@ -28,7 +29,7 @@ $avatarLargeSize: 120px;
   height: 100%;
   align-items: center;
   justify-content: center;
-  background-color: var(--generalPrimaryColor);
+  background-color: var(--secondaryBgColor);
   color: var(--primaryTextColor);
 }
 
@@ -54,8 +55,4 @@ $avatarLargeSize: 120px;
   width: $avatarLargeSize;
   height: $avatarLargeSize;
   font-size: $fontSizeTitleMedium;
-}
-
-.HomeAvatarBackground{
-  background-color: var(--secondaryBgColor);
 }

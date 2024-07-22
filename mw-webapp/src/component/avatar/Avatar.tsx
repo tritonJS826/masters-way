@@ -72,28 +72,7 @@ export const Avatar = (props: AvatarProps) => {
   const initials = getInitials(props.alt);
   const location = useLocation();
 
-  if (location.pathname === "/") {
-    return (
-      <AvatarRadix.Root
-        className={clsx(styles.AvatarRoot,
-          styles[props.size ?? AvatarSize.SMALL],
-          props.className)}
-        data-cy={props.dataCy}
-      >
-        <AvatarRadix.Image
-          className={styles.AvatarImage}
-          src={props.src ?? ""}
-          alt={initials}
-        />
-        <AvatarRadix.Fallback
-          className={clsx(styles.AvatarFallback, styles.HomeAvatarBackground)}
-          delayMs={600}
-        >
-          {initials}
-        </AvatarRadix.Fallback>
-      </AvatarRadix.Root>
-    );
-  } else {
+
     return (
       <AvatarRadix.Root
         className={clsx(styles.AvatarRoot,
@@ -114,7 +93,6 @@ export const Avatar = (props: AvatarProps) => {
         </AvatarRadix.Fallback>
       </AvatarRadix.Root>
     );
-  }
 
 };
 
