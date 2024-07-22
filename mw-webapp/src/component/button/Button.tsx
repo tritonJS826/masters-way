@@ -33,7 +33,7 @@ export enum ButtonType {
   SUPER_SPECIAL_BEAUTIFUL_BUTTON = "superSpecialBeautifulButton",
 
   /**
-   * Button that used for Login in Home page
+   * Button that used for  {@link ButtonType.PRIMARY} buttons on non-thematic pages
    */
   EXTRA_ORDINARY_BUTTON = "extraOrdinaryButton"
 
