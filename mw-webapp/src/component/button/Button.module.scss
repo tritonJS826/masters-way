@@ -104,3 +104,14 @@ $superSpecialBeautifulButton: 18px;
     background-color: var(--homeHoverBgButtonColor);
   }
 }
+
+.extraOrdinaryButton {
+  padding: $buttonBlockPadding $paddingExtraBig;
+  border: none;
+  background-color: var(--homeBgButtonColor);
+  color: var(--generalPrimaryColor);
+
+  &:hover:enabled {
+    background-color: var(--homeHoverBgButtonColor);
+  }
+}

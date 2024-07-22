@@ -44,12 +44,12 @@ export const languageOptions: SelectItemType<Language>[] = [
 export enum HeaderType {
 
   /**
-   * Important header
+   * Header for thematic pages
    */
   PRIMARY = "primary",
 
   /**
-   * Secondary header
+   * Header for non-thematic pages
    */
   SECONDARY = "secondary",
 }
@@ -224,7 +224,7 @@ export const Header = observer((props: HeaderProps) => {
           )
           : (
             <Image
-              alt="Login image"
+              alt="Logo image"
               src={logoLight}
               className={styles.logo}
             />
@@ -283,8 +283,7 @@ export const Header = observer((props: HeaderProps) => {
                 <Button
                   onClick={TrackHeader.trackLoginClick}
                   value={LanguageService.header.loginButton[props.language]}
-                  buttonType={ButtonType.PRIMARY}
-                  className={clsx(props.type === HeaderType.SECONDARY && styles.buttonLogin)}
+                  buttonType={props.type === HeaderType.PRIMARY ? ButtonType.PRIMARY : ButtonType.EXTRA_ORDINARY_BUTTON}
                   dataCy={headerAccessIds.loginButton}
                 />
               }
