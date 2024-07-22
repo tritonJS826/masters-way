@@ -4,11 +4,25 @@
   border-bottom: 1px dotted var(--secondaryStrokeColor);
   gap: $gapSmall;
   grid-template-columns: repeat(3, 1fr);
+
+  @media only screen and (max-width: $mediaWidthMobileMedium) {
+    min-width: 80%;
+    max-width: 80%;
+  }
 }
 
 .labelColorName {
   align-items: center;
   gap: $gapSmall;
+  text-overflow: ellipsis;
+}
+
+.labelName {
+  padding: 0;
+  width: 130px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: default;
 }
 
 .labelColor {
@@ -19,6 +33,7 @@
 
 .amountTime {
   justify-content: right;
+
 }
 
 .percentageBLock {

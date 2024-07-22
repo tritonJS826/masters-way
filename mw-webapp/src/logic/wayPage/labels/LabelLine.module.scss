@@ -2,21 +2,40 @@
 
 .labelLine {
   align-items: baseline;
-  gap: $gapBig;
+  gap: 0 $gapBig;
+
+  @media only screen and (max-width: $mediaWidthTablet) {
+    flex-wrap: wrap;
+    padding-bottom: $paddingExtraMedium;
+  }
 }
 
 .labelContainer {
   display: flex;
-  min-width: 120px;
-  max-width: 150px;
+  min-width: 250px;
+  max-width: 250px;
+
+  @media only screen and (max-width: $mediaWidthTablet) {
+    min-width: 90%;
+  }
 }
 
 .labelDescription {
-  min-width: 150px;
-  max-width: 330px;
-  flex-grow: 2;
+  min-width: 220px;
+  max-width: max(220px, 52vw);
 }
 
 .icon {
   cursor: pointer;
+}
+
+.labelLine > input {
+  max-width: 50px;
+  min-width: 50px;
+  transform: translateY(5px);
+
+  @media only screen and (max-width: $mediaWidthMobileBig) {
+    max-width: 30px;
+    min-width: 30px;
+  }
 }
