@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import {headerAccessIds} from "cypress/accessIds/headerAccessIds";
 import {navigationMenuIds} from "cypress/accessIds/navigationMenuAccessIds";
 import {observer} from "mobx-react-lite";
@@ -38,6 +39,22 @@ export const languageOptions: SelectItemType<Language>[] = [
 ];
 
 /**
+ * Header yype
+ */
+export enum HeaderType {
+
+  /**
+   * Important header
+   */
+  PRIMARY = "primary",
+
+  /**
+   * Secondary header
+   */
+  SECONDARY = "secondary",
+}
+
+/**
  * Checkbox props
  */
 interface HeaderProps {
@@ -76,6 +93,11 @@ interface HeaderProps {
    * Callback to set theme
    */
   setTheme: (theme: Theme) => void;
+
+  /**
+   * Header type
+   */
+  type: HeaderType;
 
 }
 
@@ -187,28 +209,40 @@ export const Header = observer((props: HeaderProps) => {
         dataCy={headerAccessIds.logo}
         onClick={TrackHeader.trackLogoClick}
       >
-        <ThemedImage
-          className={styles.logo}
-          sources={getMapThemeSources({
-            [Theme.DARK]: logoLight,
-            [Theme.LIGHT]: logo,
-          })}
-          theme={props.theme}
-          name={LOGO_TEXT}
-        />
+        {props.type === HeaderType.PRIMARY
+          ? (
+            <ThemedImage
+              className={styles.logo}
+              sources={getMapThemeSources({
+                [Theme.DARK]: logoLight,
+                [Theme.LIGHT]: logo,
+              })}
+              theme={props.theme}
+              name={LOGO_TEXT}
+            />
+          )
+          : (
+            <Image
+              alt="Login image"
+              src={logoLight}
+              className={styles.logo}
+            />
+          )}
       </Link>
       <HorizontalContainer className={styles.headerButtonsContainer}>
         <HorizontalContainer className={styles.headerThemeLanguageBlock}>
-          <ThemeSwitcher
-            language={props.language}
-            theme={props.theme}
-            onClick={(theme: Theme) => {
-              TrackHeader.trackThemeClick();
-              props.setTheme(theme);
-            }}
-            className={styles.themeSwitcher}
-            dataCy={headerAccessIds.settings.themeSwitcher}
-          />
+          {props.type === HeaderType.PRIMARY && (
+            <ThemeSwitcher
+              language={props.language}
+              theme={props.theme}
+              onClick={(theme: Theme) => {
+                TrackHeader.trackThemeClick();
+                props.setTheme(theme);
+              }}
+              className={styles.themeSwitcher}
+              dataCy={headerAccessIds.settings.themeSwitcher}
+            />
+          )}
 
           <Select
             value={props.language}
@@ -249,6 +283,7 @@ export const Header = observer((props: HeaderProps) => {
                   onClick={TrackHeader.trackLoginClick}
                   value={LanguageService.header.loginButton[props.language]}
                   buttonType={ButtonType.PRIMARY}
+                  className={clsx(props.type === HeaderType.SECONDARY && styles.buttonLogin)}
                   dataCy={headerAccessIds.loginButton}
                 />
               }
@@ -299,7 +334,10 @@ export const Header = observer((props: HeaderProps) => {
               <Icon
                 size={IconSize.SMALL}
                 name="BurgerMenuIcon"
-                className={styles.burgerMenu}
+                className={clsx(
+                  styles.burgerMenu,
+                  props.type === HeaderType.SECONDARY && styles.secondaryBurgerMenu,
+                )}
                 dataCy={headerAccessIds.burgerMenu}
               />
             }

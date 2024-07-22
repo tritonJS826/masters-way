@@ -71,6 +71,20 @@ $iconSize: 32px;
   fill: var(--primaryIconColor);
 }
 
+.secondaryBurgerMenu {
+  stroke: var(--secondaryStrokeColor);
+}
+
+.buttonLogin {
+  border: none;
+  background-color: var(--homeBgButtonColor);
+  color: var(--generalPrimaryColor);
+
+  &:hover:enabled {
+    background-color: var(--homeHoverBgButtonColor);
+  }
+}
+
 .sidebarItem {
   align-items: center;
   justify-content: space-between;
