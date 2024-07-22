@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import ReactGA from "react-ga4";
+import * as amplitude from "@amplitude/analytics-browser";
+import {sessionReplayPlugin} from "@amplitude/plugin-session-replay-browser";
 import {App} from "src/App";
 import {reportWebVitals} from "src/reportWebVitals";
 import {env} from "src/utils/env/env";
@@ -8,6 +10,9 @@ import "src/index.scss";
 
 if (env.ENV_TYPE === "prod") {
   ReactGA.initialize(env.GOOGLE_MEASUREMENT_ID);
+  amplitude.init(env.AMPLITUDE_KEY, {defaultTracking: true});
+  const sessionReplayTracking = sessionReplayPlugin();
+  amplitude.add(sessionReplayTracking);
 }
 
 const root = ReactDOM.createRoot(
