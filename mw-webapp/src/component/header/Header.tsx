@@ -39,7 +39,7 @@ export const languageOptions: SelectItemType<Language>[] = [
 ];
 
 /**
- * Header yype
+ * Header type
  */
 export enum HeaderType {
 
@@ -55,7 +55,7 @@ export enum HeaderType {
 }
 
 /**
- * Checkbox props
+ * Header props
  */
 interface HeaderProps {
 
@@ -96,6 +96,7 @@ interface HeaderProps {
 
   /**
    * Header type
+   * @default {@link HeaderType.PRIMARY}
    */
   type: HeaderType;
 
