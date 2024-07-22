@@ -1,6 +1,7 @@
 package server
 
 import (
+	"mwchat/internal/auth"
 	"mwchat/internal/config"
 	"mwchat/internal/controllers"
 	"net/http"
@@ -51,31 +52,31 @@ func (server *Server) SetRoutes(controller *controllers.Controller) {
 	{
 		p2pRooms := chat.Group("/p2p-rooms")
 		{
-			p2pRooms.GET("", controller.P2PRoomsController.GetP2PRooms)
-			p2pRooms.GET("/:p2pRoomId", controller.P2PRoomsController.GetP2PRoomById)
-			p2pRooms.POST("/:p2pRoomId", controller.P2PRoomsController.CreateP2PRoom)
-			p2pRooms.PATCH("/:p2pRoomId", controller.P2PRoomsController.UpdateP2PRoom)
+			p2pRooms.GET("", auth.AuthMiddleware(), controller.P2PRoomsController.HandleGetP2PRooms)                // +
+			p2pRooms.GET("/:p2pRoomId", auth.AuthMiddleware(), controller.P2PRoomsController.HandleGetP2PRoomById)  // +
+			p2pRooms.POST("/:p2pRoomId", auth.AuthMiddleware(), controller.P2PRoomsController.HandleCreateP2PRoom)  // +
+			p2pRooms.PATCH("/:p2pRoomId", auth.AuthMiddleware(), controller.P2PRoomsController.HandleUpdateP2PRoom) // +
 
-			p2pRooms.POST("/:p2pRoomId/messages", controller.P2PRoomsController.CreateMessageInP2PRoom)
+			p2pRooms.POST("/:p2pRoomId/messages", auth.AuthMiddleware(), controller.P2PRoomsController.HandleCreateMessageInP2PRoom) // +
 		}
 
 		groupRooms := chat.Group("/group-rooms")
 		{
-			groupRooms.GET("", controller.GroupRoomsController.GetGroupRoomsPreview)
-			groupRooms.POST("", controller.GroupRoomsController.CreateGroupRoom)
-			groupRooms.GET("/:groupRoomId", controller.GroupRoomsController.GetGroupRoomById)
-			groupRooms.PATCH("/:groupRoomId", controller.GroupRoomsController.UpdateGroupRoom)
+			groupRooms.GET("", controller.GroupRoomsController.HandleGetGroupRoomsPreview)
+			groupRooms.POST("", controller.GroupRoomsController.HandleCreateGroupRoom)
+			groupRooms.GET("/:groupRoomId", controller.GroupRoomsController.HandleGetGroupRoomById)
+			groupRooms.PATCH("/:groupRoomId", controller.GroupRoomsController.HandleUpdateGroupRoom)
 
-			groupRooms.POST("/:groupRoomId/users/:userId", controller.GroupRoomsController.AddUserToGroupRoom)
-			groupRooms.DELETE("/:groupRoomId/users/:userId", controller.GroupRoomsController.DeleteUserFromGroupRoom)
+			groupRooms.POST("/:groupRoomId/users/:userId", controller.GroupRoomsController.HandleAddUserToGroupRoom)
+			groupRooms.DELETE("/:groupRoomId/users/:userId", controller.GroupRoomsController.HandleDeleteUserFromGroupRoom)
 
-			groupRooms.GET("/requests", controller.GroupRoomsController.GetRequestsToGroupRoom)
-			groupRooms.POST("/requests", controller.GroupRoomsController.CreateRequestsToGroupRoom)
+			groupRooms.GET("/requests", controller.GroupRoomsController.HandleGetRequestsToGroupRoom)
+			groupRooms.POST("/requests", controller.GroupRoomsController.HandleCreateRequestsToGroupRoom)
 
-			groupRooms.POST("/:groupRoomId/requests/accept", controller.GroupRoomsController.AcceptRequestsToGroupRoom)
-			groupRooms.DELETE("/:groupRoomId/requests/decline", controller.GroupRoomsController.DeclineRequestsToGroupRoom)
+			groupRooms.POST("/:groupRoomId/requests/accept", controller.GroupRoomsController.HandleAcceptRequestsToGroupRoom)
+			groupRooms.DELETE("/:groupRoomId/requests/decline", controller.GroupRoomsController.HandleDeclineRequestsToGroupRoom)
 
-			groupRooms.POST("/:groupRoomId/messages", controller.GroupRoomsController.CreateMessageInGroupRoom)
+			groupRooms.POST("/:groupRoomId/messages", controller.GroupRoomsController.HandleCreateMessageInGroupRoom)
 		}
 	}
 }

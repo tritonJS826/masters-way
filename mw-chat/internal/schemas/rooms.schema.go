@@ -4,6 +4,10 @@ type CreateP2PRoomPayload struct {
 	UserID string `json:"userId" validate:"required"`
 }
 
+type RoomUpdatePayload struct {
+	IsBlocked bool `json:"isBlocked" validate:"required"`
+}
+
 type RoomPopulatedResponse struct {
 	RoomID    string            `json:"roomId" validate:"required"`
 	Name      string            `json:"name" validate:"required"`
@@ -13,7 +17,8 @@ type RoomPopulatedResponse struct {
 
 type RoomPreviewResponse struct {
 	RoomID    string `json:"roomId" validate:"required"`
-	Name      string `json:"name" validate:"required"`
+	UserID    string `json:"userId" validate:"required"`
+	Name      string `json:"name" validate:"required" extensions:"x-nullable"`
 	IsBlocked bool   `json:"isBlocked" validate:"required"`
 }
 

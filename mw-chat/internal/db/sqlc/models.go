@@ -5,8 +5,53 @@
 package db
 
 import (
+	"database/sql/driver"
+	"fmt"
+
 	"github.com/jackc/pgx/v5/pgtype"
 )
+
+type GroupUserRole string
+
+const (
+	GroupUserRoleAdmin   GroupUserRole = "admin"
+	GroupUserRoleRegular GroupUserRole = "regular"
+)
+
+func (e *GroupUserRole) Scan(src interface{}) error {
+	switch s := src.(type) {
+	case []byte:
+		*e = GroupUserRole(s)
+	case string:
+		*e = GroupUserRole(s)
+	default:
+		return fmt.Errorf("unsupported scan type for GroupUserRole: %T", src)
+	}
+	return nil
+}
+
+type NullGroupUserRole struct {
+	GroupUserRole GroupUserRole `json:"group_user_role"`
+	Valid         bool          `json:"valid"` // Valid is true if GroupUserRole is not NULL
+}
+
+// Scan implements the Scanner interface.
+func (ns *NullGroupUserRole) Scan(value interface{}) error {
+	if value == nil {
+		ns.GroupUserRole, ns.Valid = "", false
+		return nil
+	}
+	ns.Valid = true
+	return ns.GroupUserRole.Scan(value)
+}
+
+// Value implements the driver Valuer interface.
+func (ns NullGroupUserRole) Value() (driver.Value, error) {
+	if !ns.Valid {
+		return nil, nil
+	}
+	return string(ns.GroupUserRole), nil
+}
 
 type GroupMessage struct {
 	Uuid      pgtype.UUID      `json:"uuid"`
@@ -32,17 +77,15 @@ type P2pMessage struct {
 }
 
 type P2pRoom struct {
-	Uuid      pgtype.UUID      `json:"uuid"`
-	User1Uuid pgtype.UUID      `json:"user_1_uuid"`
-	User2Uuid pgtype.UUID      `json:"user_2_uuid"`
-	CreatedAt pgtype.Timestamp `json:"created_at"`
-	IsBlocked pgtype.Bool      `json:"is_blocked"`
+	Uuid              pgtype.UUID      `json:"uuid"`
+	CreatedAt         pgtype.Timestamp `json:"created_at"`
+	BlockedByUserUuid pgtype.UUID      `json:"blocked_by_user_uuid"`
 }
 
 type UsersGroupRoom struct {
 	UserUuid  pgtype.UUID      `json:"user_uuid"`
 	RoomUuid  pgtype.UUID      `json:"room_uuid"`
-	Role      string           `json:"role"`
+	Role      GroupUserRole    `json:"role"`
 	JoinedAt  pgtype.Timestamp `json:"joined_at"`
 	UpdatedAt pgtype.Timestamp `json:"updated_at"`
 }
@@ -52,4 +95,10 @@ type UsersGroupRoomRequest struct {
 	ReceiverUuid pgtype.UUID      `json:"receiver_uuid"`
 	RoomUuid     pgtype.UUID      `json:"room_uuid"`
 	CreatedAt    pgtype.Timestamp `json:"created_at"`
+}
+
+type UsersP2pRoom struct {
+	UserUuid pgtype.UUID      `json:"user_uuid"`
+	RoomUuid pgtype.UUID      `json:"room_uuid"`
+	JoinedAt pgtype.Timestamp `json:"joined_at"`
 }
