@@ -388,11 +388,22 @@ const docTemplate = `{
                 ],
                 "summary": "Create p2p room for user",
                 "operationId": "create-p2p-room",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CreateP2PRoomPayload"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.MessageResponse"
+                            "$ref": "#/definitions/schemas.RoomPopulatedResponse"
                         }
                     }
                 }
@@ -424,7 +435,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.MessageResponse"
+                            "$ref": "#/definitions/schemas.RoomPopulatedResponse"
                         }
                     }
                 }
@@ -443,6 +454,15 @@ const docTemplate = `{
                 "operationId": "update-p2p-room",
                 "parameters": [
                     {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.RoomUpdatePayload"
+                        }
+                    },
+                    {
                         "type": "string",
                         "description": "p2p room Id",
                         "name": "p2pRoomId",
@@ -454,7 +474,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.MessageResponse"
+                            "$ref": "#/definitions/schemas.RoomPopulatedResponse"
                         }
                     }
                 }
@@ -514,6 +534,17 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "roomId": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.CreateP2PRoomPayload": {
+            "type": "object",
+            "required": [
+                "userId"
+            ],
+            "properties": {
+                "userId": {
                     "type": "string"
                 }
             }
@@ -637,17 +668,34 @@ const docTemplate = `{
             "required": [
                 "isBlocked",
                 "name",
-                "roomId"
+                "roomId",
+                "userId"
             ],
             "properties": {
                 "isBlocked": {
                     "type": "boolean"
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "x-nullable": true
                 },
                 "roomId": {
                     "type": "string"
+                },
+                "userId": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.RoomUpdatePayload": {
+            "type": "object",
+            "required": [
+                "isBlocked"
+            ],
+            "properties": {
+                "isBlocked": {
+                    "type": "boolean",
+                    "x-nullable": true
                 }
             }
         }

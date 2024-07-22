@@ -5,7 +5,7 @@ type CreateP2PRoomPayload struct {
 }
 
 type RoomUpdatePayload struct {
-	IsBlocked bool `json:"isBlocked" validate:"required"`
+	IsBlocked *bool `json:"isBlocked" validate:"required" extensions:"x-nullable"`
 }
 
 type RoomPopulatedResponse struct {

@@ -61,6 +61,7 @@ func (pc *P2PRoomsController) HandleGetP2PRoomById(ctx *gin.Context) {
 // @ID create-p2p-room
 // @Accept  json
 // @Produce  json
+// @Param request body schemas.CreateP2PRoomPayload true "query params"
 // @Success 200 {object} schemas.RoomPopulatedResponse
 // @Router /p2p-rooms [post]
 func (pc *P2PRoomsController) HandleCreateP2PRoom(ctx *gin.Context) {
@@ -88,6 +89,7 @@ func (pc *P2PRoomsController) HandleCreateP2PRoom(ctx *gin.Context) {
 // @ID update-p2p-room
 // @Accept  json
 // @Produce  json
+// @Param request body schemas.RoomUpdatePayload true "query params"
 // @Param p2pRoomId path string true "p2p room Id"
 // @Success 200 {object} schemas.RoomPopulatedResponse
 // @Router /p2p-rooms/{p2pRoomId} [patch]
@@ -105,19 +107,24 @@ func (pc *P2PRoomsController) HandleUpdateP2PRoom(ctx *gin.Context) {
 	userUUIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	userUUID := uuid.MustParse(userUUIDRaw.(string))
 
-	params := &services.BlockOrUnblockRoomParams{
-		UserUUID:  userUUID,
-		RoomUUID:  p2pRoomUUID,
-		IsBlocked: payload.IsBlocked,
+	if payload.IsBlocked != nil {
+		params := &services.BlockOrUnblockRoomParams{
+			UserUUID:  userUUID,
+			RoomUUID:  p2pRoomUUID,
+			IsBlocked: *payload.IsBlocked,
+		}
+
+		err := pc.P2PService.BlockOrUnblockP2PRoom(ctx, params)
+		utils.HandleErrorGin(ctx, err)
+
+		p2pRoom, err := pc.P2PService.GetP2PRoomWithMessages(ctx, p2pRoomUUID)
+		utils.HandleErrorGin(ctx, err)
+
+		ctx.JSON(http.StatusOK, p2pRoom)
 	}
 
-	err := pc.P2PService.BlockOrUnblockP2PRoom(ctx, params)
-	utils.HandleErrorGin(ctx, err)
-
-	p2pRoom, err := pc.P2PService.GetP2PRoomWithMessages(ctx, p2pRoomUUID)
-	utils.HandleErrorGin(ctx, err)
-
-	ctx.JSON(http.StatusOK, p2pRoom)
+	ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request: all parameters are null."})
+	return
 }
 
 // @Summary Create message in p2p room
