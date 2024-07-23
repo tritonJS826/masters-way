@@ -5,8 +5,8 @@
 }
 
 .labelsButtons {
-  gap: $gapMedium;
   justify-content: flex-end;
+  gap: $gapMedium;
 
   @media only screen and (max-width: $mediaWidthMobileMedium) {
     gap: $gapSmall;
