@@ -9,6 +9,15 @@
 .labelColorName {
   align-items: center;
   gap: $gapSmall;
+  text-overflow: ellipsis;
+}
+
+.labelName {
+  padding: 0;
+  width: 130px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: default;
 }
 
 .labelColor {

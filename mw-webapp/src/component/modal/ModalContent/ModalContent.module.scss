@@ -21,7 +21,7 @@ $modal-animation-time: 150ms;
   top: 50%;
   left: 50%;
   overflow: auto;
-  max-width: 95vw;
+  width: min(100vw, 700px);
   max-height: 90vh;
   padding: $paddingExtraBig;
   border-radius: $secondaryBorderRadius;
