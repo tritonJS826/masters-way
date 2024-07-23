@@ -66,24 +66,25 @@ func (groupRoomsController *GroupRoomsController) HandleGetGroupRoomById(ctx *gi
 // @ID create-group-rooms
 // @Accept  json
 // @Produce  json
-// @Param request body schemas.CreateGroupRoomPayload true "query params"
+// @Param request body schemas.CreateRoomPayload true "query params"
 // @Success 200 {object} schemas.RoomPopulatedResponse
 // @Router /group-rooms [post]
 func (groupRoomsController *GroupRoomsController) HandleCreateGroupRoom(ctx *gin.Context) {
-	var payload *schemas.CreateGroupRoomPayload
+	// var payload *schemas.CreateGroupRoomPayload
 
-	if err := ctx.ShouldBindJSON(&payload); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
+	// if err := ctx.ShouldBindJSON(&payload); err != nil {
+	// 	ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	// 	return
+	// }
 
-	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	userUUID := uuid.MustParse(userIDRaw.(string))
+	// userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	// userUUID := uuid.MustParse(userIDRaw.(string))
 
-	newGroupRoom, err := groupRoomsController.GroupService.CreateGroupRoom(ctx, payload.Name, userUUID)
-	utils.HandleErrorGin(ctx, err)
+	// newGroupRoom, err := groupRoomsController.GroupService.CreateGroupRoom(ctx, payload.Name, userUUID)
+	// utils.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, newGroupRoom)
+	// ctx.JSON(http.StatusOK, newGroupRoom)
+	ctx.JSON(http.StatusOK, &schemas.RoomPopulatedResponse{})
 }
 
 // @Summary Update group rooms for user

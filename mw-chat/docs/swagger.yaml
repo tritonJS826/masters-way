@@ -1,11 +1,4 @@
 definitions:
-  schemas.CreateGroupRoomPayload:
-    properties:
-      name:
-        type: string
-    required:
-    - name
-    type: object
   schemas.CreateMessagePayload:
     properties:
       message:
@@ -16,13 +9,6 @@ definitions:
     - message
     - roomId
     type: object
-  schemas.CreateP2PRoomPayload:
-    properties:
-      userId:
-        type: string
-    required:
-    - userId
-    type: object
   schemas.CreateRequestToGroupRoomPayload:
     properties:
       roomId:
@@ -31,6 +17,18 @@ definitions:
         type: string
     required:
     - roomId
+    - userId
+    type: object
+  schemas.CreateRoomPayload:
+    properties:
+      name:
+        type: string
+        x-nullable: true
+      userId:
+        type: string
+        x-nullable: true
+    required:
+    - name
     - userId
     type: object
   schemas.DeclineRequestToGroupRoomResponse:
@@ -61,14 +59,29 @@ definitions:
     - rooms
     - size
     type: object
+  schemas.MessageReaders:
+    properties:
+      readDate:
+        type: string
+      userId:
+        type: string
+    required:
+    - readDate
+    - userId
+    type: object
   schemas.MessageResponse:
     properties:
       message:
         type: string
+      messageReaders:
+        items:
+          $ref: '#/definitions/schemas.MessageReaders'
+        type: array
       ownerId:
         type: string
     required:
     - message
+    - messageReaders
     - ownerId
     type: object
   schemas.RequestToGroupRoom:
@@ -93,15 +106,16 @@ definitions:
         type: string
       roomId:
         type: string
-      userId:
-        type: string
-        x-nullable: true
+      users:
+        items:
+          $ref: '#/definitions/schemas.UserResponse'
+        type: array
     required:
     - isBlocked
     - messages
     - name
     - roomId
-    - userId
+    - users
     type: object
   schemas.RoomPreviewResponse:
     properties:
@@ -112,13 +126,15 @@ definitions:
         x-nullable: true
       roomId:
         type: string
-      userId:
-        type: string
+      users:
+        items:
+          $ref: '#/definitions/schemas.UserResponse'
+        type: array
     required:
     - isBlocked
     - name
     - roomId
-    - userId
+    - users
     type: object
   schemas.RoomUpdatePayload:
     properties:
@@ -127,6 +143,16 @@ definitions:
         x-nullable: true
     required:
     - isBlocked
+    type: object
+  schemas.UserResponse:
+    properties:
+      role:
+        type: string
+      userId:
+        type: string
+    required:
+    - role
+    - userId
     type: object
 info:
   contact: {}
@@ -156,7 +182,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.CreateGroupRoomPayload'
+          $ref: '#/definitions/schemas.CreateRoomPayload'
       produces:
       - application/json
       responses:
@@ -393,7 +419,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.CreateP2PRoomPayload'
+          $ref: '#/definitions/schemas.CreateRoomPayload'
       produces:
       - application/json
       responses:

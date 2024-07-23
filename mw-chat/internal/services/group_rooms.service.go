@@ -11,7 +11,6 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/jackc/pgx/v5/pgxpool"
-	"github.com/samber/lo"
 )
 
 type GroupRoomsRepository interface {
@@ -35,56 +34,60 @@ func NewGroupRoomsService(pool *pgxpool.Pool, groupRoomsRepository GroupRoomsRep
 }
 
 func (groupRoomsService *GroupRoomsService) GetGroupRoomsPreview(ctx context.Context, userUuid uuid.UUID) (*schemas.GetRoomsResponse, error) {
-	groupRoomsRaw, err := groupRoomsService.groupRoomsRepository.GetGroupRoomsByUserUUID(ctx, pgtype.UUID{Bytes: userUuid})
-	if err != nil {
-		return nil, err
-	}
+	// groupRoomsRaw, err := groupRoomsService.groupRoomsRepository.GetGroupRoomsByUserUUID(ctx, pgtype.UUID{Bytes: userUuid})
+	// if err != nil {
+	// 	return nil, err
+	// }
 
-	rooms := lo.Map(groupRoomsRaw, func(dbRoom db.GetGroupRoomsByUserUUIDRow, i int) schemas.RoomPreviewResponse {
-		return schemas.RoomPreviewResponse{
-			RoomID:    utils.ConvertPgUUIDToUUID(dbRoom.Uuid).String(),
-			UserID:    utils.ConvertPgUUIDToUUID(dbRoom.FirstUserUuid).String(),
-			Name:      dbRoom.Name,
-			IsBlocked: dbRoom.IsBlocked,
-		}
-	})
+	// rooms := lo.Map(groupRoomsRaw, func(dbRoom db.GetGroupRoomsByUserUUIDRow, i int) schemas.RoomPreviewResponse {
+	// 	return schemas.RoomPreviewResponse{
+	// 		RoomID:    utils.ConvertPgUUIDToUUID(dbRoom.Uuid).String(),
+	// 		UserID:    utils.ConvertPgUUIDToUUID(dbRoom.FirstUserUuid).String(),
+	// 		Name:      dbRoom.Name,
+	// 		IsBlocked: dbRoom.IsBlocked,
+	// 	}
+	// })
 
-	return &schemas.GetRoomsResponse{
-		Size:  len(rooms),
-		Rooms: rooms,
-	}, nil
+	// return &schemas.GetRoomsResponse{
+	// 	Size:  len(rooms),
+	// 	Rooms: rooms,
+	// }, nil
+
+	return &schemas.GetRoomsResponse{}, nil
 }
 
 func (groupRoomsService *GroupRoomsService) GetPopulatedGroupRoom(ctx context.Context, userUUID, roomUUID uuid.UUID) (*schemas.RoomPopulatedResponse, error) {
-	params := db.GetGroupRoomByUUIDParams{
-		UserUuid: pgtype.UUID{Bytes: userUUID, Valid: true},
-		RoomUuid: pgtype.UUID{Bytes: roomUUID, Valid: true},
-	}
+	// params := db.GetGroupRoomByUUIDParams{
+	// 	UserUuid: pgtype.UUID{Bytes: userUUID, Valid: true},
+	// 	RoomUuid: pgtype.UUID{Bytes: roomUUID, Valid: true},
+	// }
 
-	groupRoom, err := groupRoomsService.groupRoomsRepository.GetGroupRoomByUUID(ctx, params)
-	if err != nil {
-		return nil, err
-	}
+	// groupRoom, err := groupRoomsService.groupRoomsRepository.GetGroupRoomByUUID(ctx, params)
+	// if err != nil {
+	// 	return nil, err
+	// }
 
-	messagesRaw, err := groupRoomsService.groupRoomsRepository.GetGroupMessagesByRoomUUID(ctx, pgtype.UUID{Bytes: roomUUID, Valid: true})
-	if err != nil {
-		return nil, err
-	}
+	// messagesRaw, err := groupRoomsService.groupRoomsRepository.GetGroupMessagesByRoomUUID(ctx, pgtype.UUID{Bytes: roomUUID, Valid: true})
+	// if err != nil {
+	// 	return nil, err
+	// }
 
-	messages := lo.Map(messagesRaw, func(dbMessage db.GetGroupMessagesByRoomUUIDRow, i int) schemas.MessageResponse {
-		return schemas.MessageResponse{
-			OwnerID: utils.ConvertPgUUIDToUUID(dbMessage.OwnerUuid).String(),
-			Message: dbMessage.Text,
-		}
-	})
+	// messages := lo.Map(messagesRaw, func(dbMessage db.GetGroupMessagesByRoomUUIDRow, i int) schemas.MessageResponse {
+	// 	return schemas.MessageResponse{
+	// 		OwnerID: utils.ConvertPgUUIDToUUID(dbMessage.OwnerUuid).String(),
+	// 		Message: dbMessage.Text,
+	// 	}
+	// })
 
-	return &schemas.RoomPopulatedResponse{
-		RoomID:    utils.ConvertPgUUIDToUUID(groupRoom.Uuid).String(),
-		UserID:    utils.ConvertPgUUIDToUUID(groupRoom.FirstUserUuid).String(),
-		Name:      groupRoom.Name,
-		Messages:  messages,
-		IsBlocked: groupRoom.IsBlocked,
-	}, nil
+	// return &schemas.RoomPopulatedResponse{
+	// 	RoomID:    utils.ConvertPgUUIDToUUID(groupRoom.Uuid).String(),
+	// 	UserID:    utils.ConvertPgUUIDToUUID(groupRoom.FirstUserUuid).String(),
+	// 	Name:      groupRoom.Name,
+	// 	Messages:  messages,
+	// 	IsBlocked: groupRoom.IsBlocked,
+	// }, nil
+
+	return &schemas.RoomPopulatedResponse{}, nil
 }
 
 func (groupRoomsService *GroupRoomsService) CreateGroupRoom(ctx context.Context, roomName string, userUUID uuid.UUID) (*schemas.RoomPopulatedResponse, error) {

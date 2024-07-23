@@ -56,7 +56,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateGroupRoomPayload"
+                            "$ref": "#/definitions/schemas.CreateRoomPayload"
                         }
                     }
                 ],
@@ -415,7 +415,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateP2PRoomPayload"
+                            "$ref": "#/definitions/schemas.CreateRoomPayload"
                         }
                     }
                 ],
@@ -543,17 +543,6 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "schemas.CreateGroupRoomPayload": {
-            "type": "object",
-            "required": [
-                "name"
-            ],
-            "properties": {
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
         "schemas.CreateMessagePayload": {
             "type": "object",
             "required": [
@@ -565,17 +554,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "roomId": {
-                    "type": "string"
-                }
-            }
-        },
-        "schemas.CreateP2PRoomPayload": {
-            "type": "object",
-            "required": [
-                "userId"
-            ],
-            "properties": {
-                "userId": {
                     "type": "string"
                 }
             }
@@ -592,6 +570,23 @@ const docTemplate = `{
                 },
                 "userId": {
                     "type": "string"
+                }
+            }
+        },
+        "schemas.CreateRoomPayload": {
+            "type": "object",
+            "required": [
+                "name",
+                "userId"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "x-nullable": true
+                },
+                "userId": {
+                    "type": "string",
+                    "x-nullable": true
                 }
             }
         },
@@ -638,15 +633,37 @@ const docTemplate = `{
                 }
             }
         },
+        "schemas.MessageReaders": {
+            "type": "object",
+            "required": [
+                "readDate",
+                "userId"
+            ],
+            "properties": {
+                "readDate": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "string"
+                }
+            }
+        },
         "schemas.MessageResponse": {
             "type": "object",
             "required": [
                 "message",
+                "messageReaders",
                 "ownerId"
             ],
             "properties": {
                 "message": {
                     "type": "string"
+                },
+                "messageReaders": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.MessageReaders"
+                    }
                 },
                 "ownerId": {
                     "type": "string"
@@ -675,7 +692,7 @@ const docTemplate = `{
                 "messages",
                 "name",
                 "roomId",
-                "userId"
+                "users"
             ],
             "properties": {
                 "isBlocked": {
@@ -693,9 +710,11 @@ const docTemplate = `{
                 "roomId": {
                     "type": "string"
                 },
-                "userId": {
-                    "type": "string",
-                    "x-nullable": true
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.UserResponse"
+                    }
                 }
             }
         },
@@ -705,7 +724,7 @@ const docTemplate = `{
                 "isBlocked",
                 "name",
                 "roomId",
-                "userId"
+                "users"
             ],
             "properties": {
                 "isBlocked": {
@@ -718,8 +737,11 @@ const docTemplate = `{
                 "roomId": {
                     "type": "string"
                 },
-                "userId": {
-                    "type": "string"
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.UserResponse"
+                    }
                 }
             }
         },
@@ -732,6 +754,21 @@ const docTemplate = `{
                 "isBlocked": {
                     "type": "boolean",
                     "x-nullable": true
+                }
+            }
+        },
+        "schemas.UserResponse": {
+            "type": "object",
+            "required": [
+                "role",
+                "userId"
+            ],
+            "properties": {
+                "role": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "string"
                 }
             }
         }

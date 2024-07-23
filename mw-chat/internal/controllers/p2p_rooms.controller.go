@@ -65,26 +65,28 @@ func (pc *P2PRoomsController) HandleGetP2PRoomById(ctx *gin.Context) {
 // @ID create-p2p-room
 // @Accept  json
 // @Produce  json
-// @Param request body schemas.CreateP2PRoomPayload true "query params"
+// @Param request body schemas.CreateRoomPayload true "query params"
 // @Success 200 {object} schemas.RoomPopulatedResponse
 // @Router /p2p-rooms [post]
 func (pc *P2PRoomsController) HandleCreateP2PRoom(ctx *gin.Context) {
-	var payload *schemas.CreateP2PRoomPayload
+	// var payload *schemas.CreateP2PRoomPayload
 
-	if err := ctx.ShouldBindJSON(&payload); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
+	// if err := ctx.ShouldBindJSON(&payload); err != nil {
+	// 	ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	// 	return
+	// }
 
-	invitingUserIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	invitingUserUUID := uuid.MustParse(invitingUserIDRaw.(string))
+	// invitingUserIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	// invitingUserUUID := uuid.MustParse(invitingUserIDRaw.(string))
 
-	invitedUserUUID := uuid.MustParse(payload.UserID)
+	// invitedUserUUID := uuid.MustParse(payload.UserID)
 
-	newP2PRoom, err := pc.P2PService.CreateP2PRoom(ctx, invitingUserUUID, invitedUserUUID)
-	utils.HandleErrorGin(ctx, err)
+	// newP2PRoom, err := pc.P2PService.CreateP2PRoom(ctx, invitingUserUUID, invitedUserUUID)
+	// utils.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, newP2PRoom)
+	// ctx.JSON(http.StatusOK, newP2PRoom)
+
+	ctx.JSON(http.StatusOK, &schemas.RoomPopulatedResponse{})
 }
 
 // @Summary Update p2p room for user
