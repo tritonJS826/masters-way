@@ -5,5 +5,16 @@ export const userPersonalDataAccessIds = {
         aboutMeMarkdownDisplay: 'aboutMeMarkdownDisplay',
         aboutMeMarkdownInput: 'aboutMeMarkdownInput',
         addSkillButton: 'addSkillButton'
+    },
+
+    userSkillsBlock: {
+        skillsModalContent: {
+            skillInput: "skillInput",
+            createSkillButton: "createSkillButton"
+        },
+        skillTag: {
+            tag: "userSkillTag",
+            removeTagButton: "removeTagButton"
+        }
     }
 };

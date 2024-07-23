@@ -9,6 +9,23 @@ import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/component/modal/PromptModalContent.module.scss";
 
 /**
+ * Data attributes for cypress testing
+ */
+export interface Cy {
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCyCreateButton?: string;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCyInput?: string;
+
+}
+
+/**
  * PromptModalContent props
  */
 interface PromptModalContentProps {
@@ -49,6 +66,10 @@ interface PromptModalContentProps {
    */
   title?: string;
 
+  /**
+   * Data attributes for cypress testing
+   */
+  cy?: Cy;
 }
 
 /**
@@ -91,6 +112,7 @@ export const PromptModalContent = (props: PromptModalContentProps) => {
           autoFocus={true}
           onChange={setInputValue}
           typeInput={InputType.Line}
+          dataCy={props.cy?.dataCyInput}
         />
         <HorizontalContainer className={styles.buttons}>
           <DialogClose asChild>
@@ -107,6 +129,7 @@ export const PromptModalContent = (props: PromptModalContentProps) => {
               onClick={() => props.onOk(inputValue)}
               buttonType={ButtonType.PRIMARY}
               isDisabled={inputValue.trim() === ""}
+              dataCy={props.cy?.dataCyCreateButton}
             />
           </DialogClose>
         </HorizontalContainer>

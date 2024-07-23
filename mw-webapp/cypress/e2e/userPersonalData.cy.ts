@@ -52,6 +52,15 @@ describe('IsAuth User personal data scope tests', () => {
         headerSelectors.getHeader().click();
 
         userPersonalSelectors.descriptionSection.getAboutMe().should('contain', userPersonalData.aboutMeDescription);
+
+    });
+
+    it('IsAuth_UserPersonalData_AddSkillTag', () => {
+        userPersonalSelectors.descriptionSection.getAddSkillButton().click();
+        userPersonalSelectors.userSkillsBlock.skillsModalContent.getSkillInput().type(userPersonalData.skill);
+        userPersonalSelectors.userSkillsBlock.skillsModalContent.getCreateSkillButton().click();
+
+        userPersonalSelectors.userSkillsBlock.skillTag.getSkillTag().should('have.text', userPersonalData.skill);
     });
 
 });
