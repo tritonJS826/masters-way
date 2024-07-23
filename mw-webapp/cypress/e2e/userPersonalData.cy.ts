@@ -43,4 +43,15 @@ describe('IsAuth User personal data scope tests', () => {
 
     });
 
+    it('IsAuth_UserPersonalData_EditAboutSection', () => {
+        userPersonalSelectors.descriptionSection.getAboutMe().dblclick();
+    
+        userPersonalSelectors.descriptionSection.getAboutMeInput()
+            .type(userPersonalData.aboutMeDescription);
+    
+        headerSelectors.getHeader().click();
+
+        userPersonalSelectors.descriptionSection.getAboutMe().should('contain', userPersonalData.aboutMeDescription);
+    });
+
 });
