@@ -10,6 +10,7 @@ type RoomUpdatePayload struct {
 
 type RoomPopulatedResponse struct {
 	RoomID    string            `json:"roomId" validate:"required"`
+	UserID    string            `json:"userId" validate:"required" extensions:"x-nullable"`
 	Name      string            `json:"name" validate:"required"`
 	Messages  []MessageResponse `json:"messages" validate:"required"`
 	IsBlocked bool              `json:"isBlocked" validate:"required"`

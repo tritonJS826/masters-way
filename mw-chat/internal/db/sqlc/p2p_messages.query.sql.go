@@ -20,12 +20,12 @@ RETURNING owner_uuid, text
 type CreateMessageInP2PRoomParams struct {
 	OwnerUuid pgtype.UUID `json:"owner_uuid"`
 	RoomUuid  pgtype.UUID `json:"room_uuid"`
-	Text      pgtype.Text `json:"text"`
+	Text      string      `json:"text"`
 }
 
 type CreateMessageInP2PRoomRow struct {
 	OwnerUuid pgtype.UUID `json:"owner_uuid"`
-	Text      pgtype.Text `json:"text"`
+	Text      string      `json:"text"`
 }
 
 func (q *Queries) CreateMessageInP2PRoom(ctx context.Context, arg CreateMessageInP2PRoomParams) (CreateMessageInP2PRoomRow, error) {
@@ -35,27 +35,26 @@ func (q *Queries) CreateMessageInP2PRoom(ctx context.Context, arg CreateMessageI
 	return i, err
 }
 
-const getMessagesByP2PRoomUUID = `-- name: GetMessagesByP2PRoomUUID :many
-SELECT uuid, owner_uuid, room_uuid, text, created_at FROM p2p_messages
+const getP2PMessagesByRoomUUID = `-- name: GetP2PMessagesByRoomUUID :many
+SELECT owner_uuid, text FROM p2p_messages
 WHERE room_uuid = $1
 `
 
-func (q *Queries) GetMessagesByP2PRoomUUID(ctx context.Context, p2pRoomUuid pgtype.UUID) ([]P2pMessage, error) {
-	rows, err := q.db.Query(ctx, getMessagesByP2PRoomUUID, p2pRoomUuid)
+type GetP2PMessagesByRoomUUIDRow struct {
+	OwnerUuid pgtype.UUID `json:"owner_uuid"`
+	Text      string      `json:"text"`
+}
+
+func (q *Queries) GetP2PMessagesByRoomUUID(ctx context.Context, roomUuid pgtype.UUID) ([]GetP2PMessagesByRoomUUIDRow, error) {
+	rows, err := q.db.Query(ctx, getP2PMessagesByRoomUUID, roomUuid)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	items := []P2pMessage{}
+	items := []GetP2PMessagesByRoomUUIDRow{}
 	for rows.Next() {
-		var i P2pMessage
-		if err := rows.Scan(
-			&i.Uuid,
-			&i.OwnerUuid,
-			&i.RoomUuid,
-			&i.Text,
-			&i.CreatedAt,
-		); err != nil {
+		var i GetP2PMessagesByRoomUUIDRow
+		if err := rows.Scan(&i.OwnerUuid, &i.Text); err != nil {
 			return nil, err
 		}
 		items = append(items, i)

@@ -30,14 +30,32 @@ func (q *Queries) CreateP2PRoom(ctx context.Context, createdAt pgtype.Timestamp)
 }
 
 const getP2PRoomByUUID = `-- name: GetP2PRoomByUUID :one
-SELECT uuid, created_at, blocked_by_user_uuid FROM p2p_rooms
-WHERE uuid = $1
+SELECT
+    p2p_rooms.uuid,
+    p2p_rooms.blocked_by_user_uuid,
+    (SELECT user_uuid
+    FROM users_p2p_rooms
+    WHERE room_uuid = p2p_rooms.uuid AND users_p2p_rooms.user_uuid <> $1
+    ) AS interlocutor_uuid
+FROM p2p_rooms
+WHERE uuid = $2
 `
 
-func (q *Queries) GetP2PRoomByUUID(ctx context.Context, p2pRoomUuid pgtype.UUID) (P2pRoom, error) {
-	row := q.db.QueryRow(ctx, getP2PRoomByUUID, p2pRoomUuid)
-	var i P2pRoom
-	err := row.Scan(&i.Uuid, &i.CreatedAt, &i.BlockedByUserUuid)
+type GetP2PRoomByUUIDParams struct {
+	UserUuid    pgtype.UUID `json:"user_uuid"`
+	P2pRoomUuid pgtype.UUID `json:"p2p_room_uuid"`
+}
+
+type GetP2PRoomByUUIDRow struct {
+	Uuid              pgtype.UUID `json:"uuid"`
+	BlockedByUserUuid pgtype.UUID `json:"blocked_by_user_uuid"`
+	InterlocutorUuid  pgtype.UUID `json:"interlocutor_uuid"`
+}
+
+func (q *Queries) GetP2PRoomByUUID(ctx context.Context, arg GetP2PRoomByUUIDParams) (GetP2PRoomByUUIDRow, error) {
+	row := q.db.QueryRow(ctx, getP2PRoomByUUID, arg.UserUuid, arg.P2pRoomUuid)
+	var i GetP2PRoomByUUIDRow
+	err := row.Scan(&i.Uuid, &i.BlockedByUserUuid, &i.InterlocutorUuid)
 	return i, err
 }
 
@@ -48,7 +66,7 @@ SELECT
     (SELECT user_uuid
      FROM users_p2p_rooms
      WHERE room_uuid = p2p_rooms.uuid AND users_p2p_rooms.user_uuid <> $1
-    ) AS interlocutor
+    ) AS interlocutor_uuid
 FROM p2p_rooms
 JOIN users_p2p_rooms ON p2p_rooms.uuid = users_p2p_rooms.room_uuid
 WHERE users_p2p_rooms.user_uuid = $1
@@ -57,7 +75,7 @@ WHERE users_p2p_rooms.user_uuid = $1
 type GetP2PRoomsWithInterlocutorByUserUUIDRow struct {
 	Uuid              pgtype.UUID `json:"uuid"`
 	BlockedByUserUuid pgtype.UUID `json:"blocked_by_user_uuid"`
-	Interlocutor      pgtype.UUID `json:"interlocutor"`
+	InterlocutorUuid  pgtype.UUID `json:"interlocutor_uuid"`
 }
 
 func (q *Queries) GetP2PRoomsWithInterlocutorByUserUUID(ctx context.Context, userUuid pgtype.UUID) ([]GetP2PRoomsWithInterlocutorByUserUUIDRow, error) {
@@ -69,7 +87,7 @@ func (q *Queries) GetP2PRoomsWithInterlocutorByUserUUID(ctx context.Context, use
 	items := []GetP2PRoomsWithInterlocutorByUserUUIDRow{}
 	for rows.Next() {
 		var i GetP2PRoomsWithInterlocutorByUserUUIDRow
-		if err := rows.Scan(&i.Uuid, &i.BlockedByUserUuid, &i.Interlocutor); err != nil {
+		if err := rows.Scan(&i.Uuid, &i.BlockedByUserUuid, &i.InterlocutorUuid); err != nil {
 			return nil, err
 		}
 		items = append(items, i)

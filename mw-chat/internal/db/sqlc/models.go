@@ -72,7 +72,7 @@ type P2pMessage struct {
 	Uuid      pgtype.UUID      `json:"uuid"`
 	OwnerUuid pgtype.UUID      `json:"owner_uuid"`
 	RoomUuid  pgtype.UUID      `json:"room_uuid"`
-	Text      pgtype.Text      `json:"text"`
+	Text      string           `json:"text"`
 	CreatedAt pgtype.Timestamp `json:"created_at"`
 }
 

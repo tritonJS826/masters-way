@@ -33,7 +33,7 @@ CREATE TABLE p2p_messages (
   "uuid" UUID NOT NULL DEFAULT uuid_generate_v4(),
   "owner_uuid" UUID NOT NULL,
   "room_uuid" UUID NOT NULL REFERENCES p2p_rooms("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
-  "text" VARCHAR(3000),
+  "text" VARCHAR(3000) NOT NULL,
   "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT "p2p_messages_pkey" PRIMARY KEY ("uuid")
 );

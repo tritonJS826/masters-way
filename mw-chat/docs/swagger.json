@@ -38,6 +38,17 @@
                 ],
                 "summary": "Create group rooms for user",
                 "operationId": "create-group-rooms",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CreateGroupRoomPayload"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -144,6 +155,15 @@
                 "summary": "Update group rooms for user",
                 "operationId": "update-group-rooms",
                 "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.RoomUpdatePayload"
+                        }
+                    },
                     {
                         "type": "string",
                         "description": "group room Id",
@@ -512,6 +532,17 @@
         }
     },
     "definitions": {
+        "schemas.CreateGroupRoomPayload": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
         "schemas.CreateMessagePayload": {
             "type": "object",
             "required": [
@@ -632,7 +663,8 @@
                 "isBlocked",
                 "messages",
                 "name",
-                "roomId"
+                "roomId",
+                "userId"
             ],
             "properties": {
                 "isBlocked": {
@@ -649,6 +681,10 @@
                 },
                 "roomId": {
                     "type": "string"
+                },
+                "userId": {
+                    "type": "string",
+                    "x-nullable": true
                 }
             }
         },

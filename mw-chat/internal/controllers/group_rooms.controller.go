@@ -2,17 +2,22 @@ package controllers
 
 import (
 	"fmt"
+	"mwchat/internal/auth"
 	"mwchat/internal/schemas"
+	"mwchat/internal/services"
+	"mwchat/pkg/utils"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 type GroupRoomsController struct {
+	GroupService services.GroupService
 }
 
-func NewGroupRoomsController() *GroupRoomsController {
-	return &GroupRoomsController{}
+func NewGroupRoomsController(GroupService services.GroupService) *GroupRoomsController {
+	return &GroupRoomsController{GroupService}
 }
 
 // @Summary Get group rooms preview for user
@@ -23,8 +28,14 @@ func NewGroupRoomsController() *GroupRoomsController {
 // @Produce  json
 // @Success 200 {object} schemas.GetRoomsResponse
 // @Router /group-rooms [get]
-func (cc *GroupRoomsController) HandleGetGroupRoomsPreview(ctx *gin.Context) {
-	ctx.JSON(http.StatusOK, &schemas.GetRoomsResponse{})
+func (groupRoomsController *GroupRoomsController) HandleGetGroupRooms(ctx *gin.Context) {
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userUUID := uuid.MustParse(userIDRaw.(string))
+
+	groupRooms, err := groupRoomsController.GroupService.GetGroupRoomsPreview(ctx, userUUID)
+	utils.HandleErrorGin(ctx, err)
+
+	ctx.JSON(http.StatusOK, groupRooms)
 }
 
 // @Summary Get group room by id
@@ -36,11 +47,17 @@ func (cc *GroupRoomsController) HandleGetGroupRoomsPreview(ctx *gin.Context) {
 // @Param groupRoomId path string true "group room Id"
 // @Success 200 {object} schemas.RoomPopulatedResponse
 // @Router /group-rooms/{groupRoomId} [get]
-func (cc *GroupRoomsController) HandleGetGroupRoomById(ctx *gin.Context) {
+func (groupRoomsController *GroupRoomsController) HandleGetGroupRoomById(ctx *gin.Context) {
 	groupRoomId := ctx.Param("groupRoomId")
-	fmt.Println(groupRoomId)
+	groupRoomUUID := uuid.MustParse(groupRoomId)
 
-	ctx.JSON(http.StatusOK, &schemas.RoomPopulatedResponse{})
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userUUID := uuid.MustParse(userIDRaw.(string))
+
+	groupRoom, err := groupRoomsController.GroupService.GetPopulatedGroupRoom(ctx, userUUID, groupRoomUUID)
+	utils.HandleErrorGin(ctx, err)
+
+	ctx.JSON(http.StatusOK, groupRoom)
 }
 
 // @Summary Create group rooms for user
@@ -49,11 +66,24 @@ func (cc *GroupRoomsController) HandleGetGroupRoomById(ctx *gin.Context) {
 // @ID create-group-rooms
 // @Accept  json
 // @Produce  json
+// @Param request body schemas.CreateGroupRoomPayload true "query params"
 // @Success 200 {object} schemas.RoomPopulatedResponse
 // @Router /group-rooms [post]
-func (cc *GroupRoomsController) HandleCreateGroupRoom(ctx *gin.Context) {
+func (groupRoomsController *GroupRoomsController) HandleCreateGroupRoom(ctx *gin.Context) {
+	var payload *schemas.CreateGroupRoomPayload
 
-	ctx.JSON(http.StatusOK, &schemas.RoomPopulatedResponse{})
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userUUID := uuid.MustParse(userIDRaw.(string))
+
+	newGroupRoom, err := groupRoomsController.GroupService.CreateGroupRoom(ctx, payload.Name, userUUID)
+	utils.HandleErrorGin(ctx, err)
+
+	ctx.JSON(http.StatusOK, newGroupRoom)
 }
 
 // @Summary Update group rooms for user
@@ -62,14 +92,42 @@ func (cc *GroupRoomsController) HandleCreateGroupRoom(ctx *gin.Context) {
 // @ID update-group-rooms
 // @Accept  json
 // @Produce  json
+// @Param request body schemas.RoomUpdatePayload true "query params"
 // @Param groupRoomId path string true "group room Id"
 // @Success 200 {object} schemas.RoomPopulatedResponse
 // @Router /group-rooms/{groupRoomId} [patch]
-func (cc *GroupRoomsController) HandleUpdateGroupRoom(ctx *gin.Context) {
-	groupRoomId := ctx.Param("groupRoomId")
-	fmt.Println(groupRoomId)
+func (groupRoomsController *GroupRoomsController) HandleUpdateGroupRoom(ctx *gin.Context) {
+	var payload *schemas.RoomUpdatePayload
 
-	ctx.JSON(http.StatusOK, &schemas.RoomPopulatedResponse{})
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	groupRoomId := ctx.Param("groupRoomId")
+	groupRoomUUID := uuid.MustParse(groupRoomId)
+
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userUUID := uuid.MustParse(userIDRaw.(string))
+
+	if payload.IsBlocked != nil {
+		params := &services.BlockOrUnblockRoomParams{
+			UserUUID:  userUUID,
+			RoomUUID:  groupRoomUUID,
+			IsBlocked: *payload.IsBlocked,
+		}
+
+		err := groupRoomsController.GroupService.BlockOrUnblockGroupRoom(ctx, params)
+		utils.HandleErrorGin(ctx, err)
+
+		groupRoom, err := groupRoomsController.GroupService.GetPopulatedGroupRoom(ctx, groupRoomUUID, userUUID)
+		utils.HandleErrorGin(ctx, err)
+
+		ctx.JSON(http.StatusOK, groupRoom)
+	}
+
+	ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request: all parameters are null."})
+	return
 }
 
 // @Summary Add user to group room
@@ -82,7 +140,7 @@ func (cc *GroupRoomsController) HandleUpdateGroupRoom(ctx *gin.Context) {
 // @Param userId path string true "user Id to delete"
 // @Success 200 {object} schemas.RoomPopulatedResponse
 // @Router /group-rooms/{groupRoomId}/users/{userId} [post]
-func (cc *GroupRoomsController) HandleAddUserToGroupRoom(ctx *gin.Context) {
+func (groupRoomsController *GroupRoomsController) HandleAddUserToGroupRoom(ctx *gin.Context) {
 	groupRoomId := ctx.Param("groupRoomId")
 	userId := ctx.Param("userId")
 	fmt.Println(groupRoomId, userId)
@@ -100,7 +158,7 @@ func (cc *GroupRoomsController) HandleAddUserToGroupRoom(ctx *gin.Context) {
 // @Param userId path string true "user Id to delete"
 // @Success 200 {object} schemas.RoomPopulatedResponse
 // @Router /group-rooms/{groupRoomId}/users/{userId} [delete]
-func (cc *GroupRoomsController) HandleDeleteUserFromGroupRoom(ctx *gin.Context) {
+func (groupRoomsController *GroupRoomsController) HandleDeleteUserFromGroupRoom(ctx *gin.Context) {
 	groupRoomId := ctx.Param("groupRoomId")
 	userId := ctx.Param("userId")
 	fmt.Println(groupRoomId, userId)
@@ -116,7 +174,7 @@ func (cc *GroupRoomsController) HandleDeleteUserFromGroupRoom(ctx *gin.Context) 
 // @Produce  json
 // @Success 200 {object} schemas.GetRequestsToGroupRoomResponse
 // @Router /group-rooms/requests [get]
-func (cc *GroupRoomsController) HandleGetRequestsToGroupRoom(ctx *gin.Context) {
+func (groupRoomsController *GroupRoomsController) HandleGetRequestsToGroupRoom(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, &schemas.GetRequestsToGroupRoomResponse{})
 }
 
@@ -129,7 +187,7 @@ func (cc *GroupRoomsController) HandleGetRequestsToGroupRoom(ctx *gin.Context) {
 // @Param request body schemas.CreateRequestToGroupRoomPayload true "query params"
 // @Success 204
 // @Router /group-rooms/requests [post]
-func (cc *GroupRoomsController) HandleCreateRequestsToGroupRoom(ctx *gin.Context) {
+func (groupRoomsController *GroupRoomsController) HandleCreateRequestsToGroupRoom(ctx *gin.Context) {
 	var payload *schemas.CreateRequestToGroupRoomPayload
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
@@ -148,7 +206,7 @@ func (cc *GroupRoomsController) HandleCreateRequestsToGroupRoom(ctx *gin.Context
 // @Param groupRoomId path string true "groupRoom Id to accept request"
 // @Success 200 {object} schemas.RoomPopulatedResponse
 // @Router /group-rooms/{groupRoomId}/requests/accept [post]
-func (cc *GroupRoomsController) HandleAcceptRequestsToGroupRoom(ctx *gin.Context) {
+func (groupRoomsController *GroupRoomsController) HandleAcceptRequestsToGroupRoom(ctx *gin.Context) {
 	groupRoomId := ctx.Param("groupRoomId")
 	fmt.Println(groupRoomId)
 
@@ -164,7 +222,7 @@ func (cc *GroupRoomsController) HandleAcceptRequestsToGroupRoom(ctx *gin.Context
 // @Param groupRoomId path string true "groupRoom Id to delete request"
 // @Success 200 {object} schemas.DeclineRequestToGroupRoomResponse
 // @Router /group-rooms/{groupRoomId}/requests/decline [delete]
-func (cc *GroupRoomsController) HandleDeclineRequestsToGroupRoom(ctx *gin.Context) {
+func (groupRoomsController *GroupRoomsController) HandleDeclineRequestsToGroupRoom(ctx *gin.Context) {
 	groupRoomId := ctx.Param("groupRoomId")
 	fmt.Println(groupRoomId)
 
@@ -181,7 +239,7 @@ func (cc *GroupRoomsController) HandleDeclineRequestsToGroupRoom(ctx *gin.Contex
 // @Param groupRoomId path string true "group room Id"
 // @Success 200 {object} schemas.MessageResponse
 // @Router /group-rooms/{groupRoomId}/messages [post]
-func (cc *GroupRoomsController) HandleCreateMessageInGroupRoom(ctx *gin.Context) {
+func (groupRoomsController *GroupRoomsController) HandleCreateMessageInGroupRoom(ctx *gin.Context) {
 	var payload *schemas.CreateMessagePayload
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {

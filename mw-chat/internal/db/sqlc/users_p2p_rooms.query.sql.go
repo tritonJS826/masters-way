@@ -11,10 +11,9 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
-const addUserToP2PRoom = `-- name: AddUserToP2PRoom :one
+const addUserToP2PRoom = `-- name: AddUserToP2PRoom :exec
 INSERT INTO users_p2p_rooms (user_uuid, room_uuid, joined_at)
 VALUES ($1, $2, $3)
-RETURNING user_uuid, room_uuid, joined_at
 `
 
 type AddUserToP2PRoomParams struct {
@@ -23,9 +22,7 @@ type AddUserToP2PRoomParams struct {
 	JoinedAt pgtype.Timestamp `json:"joined_at"`
 }
 
-func (q *Queries) AddUserToP2PRoom(ctx context.Context, arg AddUserToP2PRoomParams) (UsersP2pRoom, error) {
-	row := q.db.QueryRow(ctx, addUserToP2PRoom, arg.UserUuid, arg.RoomUuid, arg.JoinedAt)
-	var i UsersP2pRoom
-	err := row.Scan(&i.UserUuid, &i.RoomUuid, &i.JoinedAt)
-	return i, err
+func (q *Queries) AddUserToP2PRoom(ctx context.Context, arg AddUserToP2PRoomParams) error {
+	_, err := q.db.Exec(ctx, addUserToP2PRoom, arg.UserUuid, arg.RoomUuid, arg.JoinedAt)
+	return err
 }

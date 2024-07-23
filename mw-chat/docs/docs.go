@@ -49,6 +49,17 @@ const docTemplate = `{
                 ],
                 "summary": "Create group rooms for user",
                 "operationId": "create-group-rooms",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CreateGroupRoomPayload"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -155,6 +166,15 @@ const docTemplate = `{
                 "summary": "Update group rooms for user",
                 "operationId": "update-group-rooms",
                 "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.RoomUpdatePayload"
+                        }
+                    },
                     {
                         "type": "string",
                         "description": "group room Id",
@@ -523,6 +543,17 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "schemas.CreateGroupRoomPayload": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
         "schemas.CreateMessagePayload": {
             "type": "object",
             "required": [
@@ -643,7 +674,8 @@ const docTemplate = `{
                 "isBlocked",
                 "messages",
                 "name",
-                "roomId"
+                "roomId",
+                "userId"
             ],
             "properties": {
                 "isBlocked": {
@@ -660,6 +692,10 @@ const docTemplate = `{
                 },
                 "roomId": {
                     "type": "string"
+                },
+                "userId": {
+                    "type": "string",
+                    "x-nullable": true
                 }
             }
         },

@@ -10,6 +10,6 @@ type Controller struct {
 func NewController(services *services.Service) *Controller {
 	return &Controller{
 		P2PRoomsController:   NewP2PRoomsController(services.P2PService),
-		GroupRoomsController: NewGroupRoomsController(),
+		GroupRoomsController: NewGroupRoomsController(services.GroupService),
 	}
 }

@@ -1,4 +1,11 @@
 definitions:
+  schemas.CreateGroupRoomPayload:
+    properties:
+      name:
+        type: string
+    required:
+    - name
+    type: object
   schemas.CreateMessagePayload:
     properties:
       message:
@@ -86,11 +93,15 @@ definitions:
         type: string
       roomId:
         type: string
+      userId:
+        type: string
+        x-nullable: true
     required:
     - isBlocked
     - messages
     - name
     - roomId
+    - userId
     type: object
   schemas.RoomPreviewResponse:
     properties:
@@ -139,6 +150,13 @@ paths:
       consumes:
       - application/json
       operationId: create-group-rooms
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.CreateGroupRoomPayload'
       produces:
       - application/json
       responses:
@@ -175,6 +193,12 @@ paths:
       - application/json
       operationId: update-group-rooms
       parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.RoomUpdatePayload'
       - description: group room Id
         in: path
         name: groupRoomId

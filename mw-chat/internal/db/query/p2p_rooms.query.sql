@@ -10,13 +10,20 @@ SELECT
     (SELECT user_uuid
      FROM users_p2p_rooms
      WHERE room_uuid = p2p_rooms.uuid AND users_p2p_rooms.user_uuid <> @user_uuid
-    ) AS interlocutor
+    ) AS interlocutor_uuid
 FROM p2p_rooms
 JOIN users_p2p_rooms ON p2p_rooms.uuid = users_p2p_rooms.room_uuid
 WHERE users_p2p_rooms.user_uuid = @user_uuid;
 
 -- name: GetP2PRoomByUUID :one
-SELECT * FROM p2p_rooms
+SELECT
+    p2p_rooms.uuid,
+    p2p_rooms.blocked_by_user_uuid,
+    (SELECT user_uuid
+    FROM users_p2p_rooms
+    WHERE room_uuid = p2p_rooms.uuid AND users_p2p_rooms.user_uuid <> @user_uuid
+    ) AS interlocutor_uuid
+FROM p2p_rooms
 WHERE uuid = @p2p_room_uuid;
 
 -- name: ToggleBlockP2PRoom :exec

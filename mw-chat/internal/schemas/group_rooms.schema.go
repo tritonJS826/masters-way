@@ -1,5 +1,9 @@
 package schemas
 
+type CreateGroupRoomPayload struct {
+	Name string `json:"name" validate:"required"`
+}
+
 type GetRequestsToGroupRoomResponse struct {
 	Requests []RequestToGroupRoom `json:"requests" validate:"required"`
 }
