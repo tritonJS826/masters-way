@@ -101,6 +101,7 @@ export const ModalContentLabels = observer((props: ModalContentLabelsProps) => {
                     <Label
                       label={label}
                       isEditable={false}
+                      className={styles.label}
                     />
                   </div>
                   <Text

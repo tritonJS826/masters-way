@@ -155,9 +155,15 @@ $iconContainerSize: 25px;
   gap: $gapExtraSmall;
 }
 
-.jobDoneTagsWrapper {
-  min-width: $minWidthBlock;
-  max-width: $maxWidthBlock;
+.labelsWrapper {
+  min-width: 650px;
+
+  @media only screen and (max-width: $mediaWidthTablet) {
+    min-width: 350px;
+  }
+  @media only screen and (max-width: $mediaWidthMobileMedium) {
+    min-width: $minWidthBlock;
+  }
 }
 
 .wrap {

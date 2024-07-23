@@ -1,9 +1,18 @@
 @import "src/styles/variables";
 
 .adjustLabelsContent {
-  gap: $gapSmall;
+  gap: $gapBig;
+}
 
-  @media only screen and (max-width: $mediaWidthTablet) {
-    gap: $gapBig;
+.labelsButtons {
+  justify-content: flex-end;
+  gap: $gapMedium;
+
+  @media only screen and (max-width: $mediaWidthMobileMedium) {
+    gap: $gapSmall;
   }
+}
+
+.labelsContainer {
+  gap: $gapMedium;
 }
