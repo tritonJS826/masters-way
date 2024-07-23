@@ -1,6 +1,13 @@
+# packages:
+#   - 'mw-webapp'
+#   - 'mw-server'
+#   - 'mw-mobile'
+#   - 'mw-chat'
+#   - 'mw-chat-bff'
+
 packages:
-  - 'mw-webapp'
-  - 'mw-server'
-  - 'mw-mobile'
-  - 'mw-chat'
-  - 'mw-chat-bff'
+  - 'mw-webapp/**'
+  - 'mw-server/**'
+  - 'mw-mobile/**'
+  - 'mw-chat/**'
+  - 'mw-chat-bff/**'

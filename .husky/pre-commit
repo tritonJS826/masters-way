@@ -12,7 +12,6 @@ runWebappIfChanged () {
   then
     echo "webapp changed. checking..."
     
-    echo "Running pnpm web:lint-staged"
     pnpm web:lint-staged
     
     echo "Running pnpm concurrently"
