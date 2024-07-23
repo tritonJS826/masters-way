@@ -52,17 +52,17 @@ func (server *Server) SetRoutes(controller *controllers.Controller) {
 	{
 		p2pRooms := chat.Group("/p2p-rooms")
 		{
-			p2pRooms.GET("", auth.AuthMiddleware(), controller.P2PRoomsController.HandleGetP2PRooms)                // +
-			p2pRooms.GET("/:p2pRoomId", auth.AuthMiddleware(), controller.P2PRoomsController.HandleGetP2PRoomById)  // +
-			p2pRooms.POST("/:p2pRoomId", auth.AuthMiddleware(), controller.P2PRoomsController.HandleCreateP2PRoom)  // +
-			p2pRooms.PATCH("/:p2pRoomId", auth.AuthMiddleware(), controller.P2PRoomsController.HandleUpdateP2PRoom) // +
+			p2pRooms.GET("", auth.AuthMiddleware(), controller.P2PRoomsController.HandleGetP2PRooms)
+			p2pRooms.GET("/:p2pRoomId", auth.AuthMiddleware(), controller.P2PRoomsController.HandleGetP2PRoomById)
+			p2pRooms.POST("/:p2pRoomId", auth.AuthMiddleware(), controller.P2PRoomsController.HandleCreateP2PRoom)
+			p2pRooms.PATCH("/:p2pRoomId", auth.AuthMiddleware(), controller.P2PRoomsController.HandleUpdateP2PRoom)
 
 			p2pRooms.POST("/:p2pRoomId/messages", auth.AuthMiddleware(), controller.P2PRoomsController.HandleCreateMessageInP2PRoom) // +
 		}
 
 		groupRooms := chat.Group("/group-rooms")
 		{
-			groupRooms.GET("", controller.GroupRoomsController.HandleGetGroupRoomsPreview)
+			groupRooms.GET("", controller.GroupRoomsController.HandleGetGroupRooms)
 			groupRooms.POST("", controller.GroupRoomsController.HandleCreateGroupRoom)
 			groupRooms.GET("/:groupRoomId", controller.GroupRoomsController.HandleGetGroupRoomById)
 			groupRooms.PATCH("/:groupRoomId", controller.GroupRoomsController.HandleUpdateGroupRoom)

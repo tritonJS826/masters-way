@@ -28,10 +28,10 @@ func NewP2PRoomsController(P2PService services.P2PService) *P2PRoomsController {
 // @Success 200 {object} schemas.GetRoomsResponse
 // @Router /p2p-rooms [get]
 func (pc *P2PRoomsController) HandleGetP2PRooms(ctx *gin.Context) {
-	userUUIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	userUUID := uuid.MustParse(userUUIDRaw.(string))
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userUUID := uuid.MustParse(userIDRaw.(string))
 
-	p2pRooms, err := pc.P2PService.GetP2PRoomsWithInterlocutor(ctx, userUUID)
+	p2pRooms, err := pc.P2PService.GetP2PRoomsPreview(ctx, userUUID)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, p2pRooms)
@@ -48,8 +48,12 @@ func (pc *P2PRoomsController) HandleGetP2PRooms(ctx *gin.Context) {
 // @Router /p2p-rooms/{p2pRoomId} [get]
 func (pc *P2PRoomsController) HandleGetP2PRoomById(ctx *gin.Context) {
 	p2pRoomIdParam := ctx.Param("p2pRoomId")
+	p2pRoomUUID := uuid.MustParse(p2pRoomIdParam)
 
-	p2pRoom, err := pc.P2PService.GetP2PRoomWithMessages(ctx, uuid.MustParse(p2pRoomIdParam))
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userUUID := uuid.MustParse(userIDRaw.(string))
+
+	p2pRoom, err := pc.P2PService.GetPopulatedP2PRoom(ctx, userUUID, p2pRoomUUID)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, p2pRoom)
@@ -61,26 +65,28 @@ func (pc *P2PRoomsController) HandleGetP2PRoomById(ctx *gin.Context) {
 // @ID create-p2p-room
 // @Accept  json
 // @Produce  json
-// @Param request body schemas.CreateP2PRoomPayload true "query params"
+// @Param request body schemas.CreateRoomPayload true "query params"
 // @Success 200 {object} schemas.RoomPopulatedResponse
 // @Router /p2p-rooms [post]
 func (pc *P2PRoomsController) HandleCreateP2PRoom(ctx *gin.Context) {
-	var payload *schemas.CreateP2PRoomPayload
+	// var payload *schemas.CreateP2PRoomPayload
 
-	if err := ctx.ShouldBindJSON(&payload); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
+	// if err := ctx.ShouldBindJSON(&payload); err != nil {
+	// 	ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	// 	return
+	// }
 
-	invitingUserUUIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	invitingUserUUID := uuid.MustParse(invitingUserUUIDRaw.(string))
+	// invitingUserIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	// invitingUserUUID := uuid.MustParse(invitingUserIDRaw.(string))
 
-	invitedUserUUID := uuid.MustParse(payload.UserID)
+	// invitedUserUUID := uuid.MustParse(payload.UserID)
 
-	newP2PRoom, err := pc.P2PService.CreateP2PRoom(ctx, invitingUserUUID, invitedUserUUID)
-	utils.HandleErrorGin(ctx, err)
+	// newP2PRoom, err := pc.P2PService.CreateP2PRoom(ctx, invitingUserUUID, invitedUserUUID)
+	// utils.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, newP2PRoom)
+	// ctx.JSON(http.StatusOK, newP2PRoom)
+
+	ctx.JSON(http.StatusOK, &schemas.RoomPopulatedResponse{})
 }
 
 // @Summary Update p2p room for user
@@ -104,8 +110,8 @@ func (pc *P2PRoomsController) HandleUpdateP2PRoom(ctx *gin.Context) {
 	p2pRoomId := ctx.Param("p2pRoomId")
 	p2pRoomUUID := uuid.MustParse(p2pRoomId)
 
-	userUUIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	userUUID := uuid.MustParse(userUUIDRaw.(string))
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userUUID := uuid.MustParse(userIDRaw.(string))
 
 	if payload.IsBlocked != nil {
 		params := &services.BlockOrUnblockRoomParams{
@@ -117,7 +123,7 @@ func (pc *P2PRoomsController) HandleUpdateP2PRoom(ctx *gin.Context) {
 		err := pc.P2PService.BlockOrUnblockP2PRoom(ctx, params)
 		utils.HandleErrorGin(ctx, err)
 
-		p2pRoom, err := pc.P2PService.GetP2PRoomWithMessages(ctx, p2pRoomUUID)
+		p2pRoom, err := pc.P2PService.GetPopulatedP2PRoom(ctx, p2pRoomUUID, userUUID)
 		utils.HandleErrorGin(ctx, err)
 
 		ctx.JSON(http.StatusOK, p2pRoom)
@@ -145,8 +151,8 @@ func (pc *P2PRoomsController) HandleCreateMessageInP2PRoom(ctx *gin.Context) {
 		return
 	}
 
-	userUUIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	userUUID := uuid.MustParse(userUUIDRaw.(string))
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userUUID := uuid.MustParse(userIDRaw.(string))
 
 	params := &services.RoomMessageParams{
 		OwnerUUID: userUUID,

@@ -49,6 +49,17 @@ const docTemplate = `{
                 ],
                 "summary": "Create group rooms for user",
                 "operationId": "create-group-rooms",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CreateRoomPayload"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -155,6 +166,15 @@ const docTemplate = `{
                 "summary": "Update group rooms for user",
                 "operationId": "update-group-rooms",
                 "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.RoomUpdatePayload"
+                        }
+                    },
                     {
                         "type": "string",
                         "description": "group room Id",
@@ -395,7 +415,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateP2PRoomPayload"
+                            "$ref": "#/definitions/schemas.CreateRoomPayload"
                         }
                     }
                 ],
@@ -538,17 +558,6 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.CreateP2PRoomPayload": {
-            "type": "object",
-            "required": [
-                "userId"
-            ],
-            "properties": {
-                "userId": {
-                    "type": "string"
-                }
-            }
-        },
         "schemas.CreateRequestToGroupRoomPayload": {
             "type": "object",
             "required": [
@@ -561,6 +570,23 @@ const docTemplate = `{
                 },
                 "userId": {
                     "type": "string"
+                }
+            }
+        },
+        "schemas.CreateRoomPayload": {
+            "type": "object",
+            "required": [
+                "name",
+                "userId"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "x-nullable": true
+                },
+                "userId": {
+                    "type": "string",
+                    "x-nullable": true
                 }
             }
         },
@@ -607,15 +633,37 @@ const docTemplate = `{
                 }
             }
         },
+        "schemas.MessageReaders": {
+            "type": "object",
+            "required": [
+                "readDate",
+                "userId"
+            ],
+            "properties": {
+                "readDate": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "string"
+                }
+            }
+        },
         "schemas.MessageResponse": {
             "type": "object",
             "required": [
                 "message",
+                "messageReaders",
                 "ownerId"
             ],
             "properties": {
                 "message": {
                     "type": "string"
+                },
+                "messageReaders": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.MessageReaders"
+                    }
                 },
                 "ownerId": {
                     "type": "string"
@@ -643,7 +691,8 @@ const docTemplate = `{
                 "isBlocked",
                 "messages",
                 "name",
-                "roomId"
+                "roomId",
+                "users"
             ],
             "properties": {
                 "isBlocked": {
@@ -660,6 +709,12 @@ const docTemplate = `{
                 },
                 "roomId": {
                     "type": "string"
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.UserResponse"
+                    }
                 }
             }
         },
@@ -669,7 +724,7 @@ const docTemplate = `{
                 "isBlocked",
                 "name",
                 "roomId",
-                "userId"
+                "users"
             ],
             "properties": {
                 "isBlocked": {
@@ -682,8 +737,11 @@ const docTemplate = `{
                 "roomId": {
                     "type": "string"
                 },
-                "userId": {
-                    "type": "string"
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.UserResponse"
+                    }
                 }
             }
         },
@@ -696,6 +754,21 @@ const docTemplate = `{
                 "isBlocked": {
                     "type": "boolean",
                     "x-nullable": true
+                }
+            }
+        },
+        "schemas.UserResponse": {
+            "type": "object",
+            "required": [
+                "role",
+                "userId"
+            ],
+            "properties": {
+                "role": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "string"
                 }
             }
         }
