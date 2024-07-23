@@ -17,9 +17,12 @@ const CONFIRM_CY = {
 
 const CONFIRM_CONTENT = "Confirm content";
 
+const cypressViewportSize = 1000;
+
 describe("Confirm component", () => {
 
   beforeEach(() => {
+    cy.viewport(cypressViewportSize, cypressViewportSize);
     cy.mount(
       <Confirm
         cy={CONFIRM_CY}

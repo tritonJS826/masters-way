@@ -1,6 +1,6 @@
 import {BrowserRouter} from "react-router-dom";
 import Sinon from "cypress/types/sinon";
-import {Header, LOGO_TEXT} from "src/component/header/Header";
+import {Header, HeaderType, LOGO_TEXT} from "src/component/header/Header";
 import {testUserPreview} from "src/component/header/testUserPreview";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
@@ -25,6 +25,7 @@ describe("Header component", () => {
           language={languageStore.language}
           theme={themeStore.theme}
           setTheme={STUB_FUNCTION_SET_THEME}
+          type={HeaderType.PRIMARY}
         />
       </BrowserRouter>,
     );

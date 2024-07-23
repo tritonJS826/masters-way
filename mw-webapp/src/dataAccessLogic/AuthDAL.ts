@@ -1,4 +1,4 @@
-import {UserDTOToUserConverter} from "src/dataAccessLogic/DTOToPreviewConverter/userDTOToUser";
+import {userDTOToUserConverter} from "src/dataAccessLogic/DTOToPreviewConverter/userDTOToUser";
 import {User} from "src/model/businessModel/User";
 import {AuthService} from "src/service/AuthService";
 import {localStorageWorker} from "src/utils/LocalStorageWorker";
@@ -20,7 +20,7 @@ export class AuthDAL {
    */
   public static async getAuthorizedUser(): Promise<User> {
     const userDTO = await AuthService.getCurrentUser();
-    const user = UserDTOToUserConverter(userDTO);
+    const user = userDTOToUserConverter(userDTO);
 
     return user;
   }

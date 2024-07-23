@@ -11,9 +11,12 @@ export const MODAL_CY = {
   },
 };
 
+const cypressViewportSize = 1000;
+
 describe("Modal component", () => {
 
   beforeEach(() => {
+    cy.viewport(cypressViewportSize, cypressViewportSize);
     cy.mount(
       <Modal
         cy={MODAL_CY}

@@ -30,13 +30,19 @@ export interface SchemasRoomPreviewResponse {
      * @type {string}
      * @memberof SchemasRoomPreviewResponse
      */
-    name: string;
+    name: string | null;
     /**
      * 
      * @type {string}
      * @memberof SchemasRoomPreviewResponse
      */
     roomId: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemasRoomPreviewResponse
+     */
+    userId: string;
 }
 
 /**
@@ -49,6 +55,7 @@ export function instanceOfSchemasRoomPreviewResponse(
     isInstance = isInstance && "isBlocked" in value;
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "roomId" in value;
+    isInstance = isInstance && "userId" in value;
 
     return isInstance;
 }
@@ -69,6 +76,7 @@ export function SchemasRoomPreviewResponseFromJSONTyped(
         'isBlocked': json['isBlocked'],
         'name': json['name'],
         'roomId': json['roomId'],
+        'userId': json['userId'],
     };
 }
 
@@ -85,6 +93,7 @@ export function SchemasRoomPreviewResponseToJSON(value?: SchemasRoomPreviewRespo
         'isBlocked': value.isBlocked,
         'name': value.name,
         'roomId': value.roomId,
+        'userId': value.userId,
     };
 }
 

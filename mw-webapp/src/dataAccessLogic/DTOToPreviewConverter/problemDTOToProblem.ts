@@ -26,7 +26,7 @@ interface ProblemDoneConverterParams {
 /**
  * Convert {@link ProblemDTO} to {@link Problem}
  */
-export const ProblemDTOToProblem = (params: ProblemDoneConverterParams): Problem => {
+export const problemDTOToProblem = (params: ProblemDoneConverterParams): Problem => {
   return new Problem({
     ...params.problemDTO,
     createdAt: new Date(params.problemDTO.createdAt),

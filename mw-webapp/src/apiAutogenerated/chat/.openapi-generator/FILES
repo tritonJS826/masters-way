@@ -3,6 +3,7 @@ apis/P2pApi.ts
 apis/index.ts
 index.ts
 models/SchemasCreateMessagePayload.ts
+models/SchemasCreateP2PRoomPayload.ts
 models/SchemasCreateRequestToGroupRoomPayload.ts
 models/SchemasDeclineRequestToGroupRoomResponse.ts
 models/SchemasGetRequestsToGroupRoomResponse.ts
@@ -11,5 +12,6 @@ models/SchemasMessageResponse.ts
 models/SchemasRequestToGroupRoom.ts
 models/SchemasRoomPopulatedResponse.ts
 models/SchemasRoomPreviewResponse.ts
+models/SchemasRoomUpdatePayload.ts
 models/index.ts
 runtime.ts
