@@ -62,10 +62,10 @@ func (server *Server) SetRoutes(controller *controllers.Controller) {
 
 		groupRooms := chat.Group("/group-rooms")
 		{
-			groupRooms.GET("", controller.GroupRoomsController.HandleGetGroupRooms)                  // +
-			groupRooms.POST("", controller.GroupRoomsController.HandleCreateGroupRoom)               // +
-			groupRooms.GET("/:groupRoomId", controller.GroupRoomsController.HandleGetGroupRoomById)  // +
-			groupRooms.PATCH("/:groupRoomId", controller.GroupRoomsController.HandleUpdateGroupRoom) // +
+			groupRooms.GET("", controller.GroupRoomsController.HandleGetGroupRooms)
+			groupRooms.POST("", controller.GroupRoomsController.HandleCreateGroupRoom)
+			groupRooms.GET("/:groupRoomId", controller.GroupRoomsController.HandleGetGroupRoomById) 
+			groupRooms.PATCH("/:groupRoomId", controller.GroupRoomsController.HandleUpdateGroupRoom)
 
 			groupRooms.POST("/:groupRoomId/users/:userId", controller.GroupRoomsController.HandleAddUserToGroupRoom)
 			groupRooms.DELETE("/:groupRoomId/users/:userId", controller.GroupRoomsController.HandleDeleteUserFromGroupRoom)
