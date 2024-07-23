@@ -1,9 +1,9 @@
 import {Message} from "src/model/businessModel/Message";
 
 /**
- * ChatGroup's props
+ * Chat's props
  */
-interface ChatGroupProps {
+interface ChatProps {
 
   /**
    * Chat room's is blocked
@@ -32,9 +32,9 @@ interface ChatGroupProps {
 }
 
 /**
- * Chat group model
+ * Chat model
  */
-export class ChatGroup {
+export class Chat {
 
   /**
    * Chat room's is blocked
@@ -61,12 +61,12 @@ export class ChatGroup {
    */
   public src: string | null;
 
-  constructor(chatGroupData: ChatGroupProps) {
-    this.roomId = chatGroupData.roomId;
-    this.name = chatGroupData.name;
-    this.messages = chatGroupData.messages;
-    this.isBlocked = chatGroupData.isBlocked;
-    this.src = chatGroupData.src;
+  constructor(chatData: ChatProps) {
+    this.roomId = chatData.roomId;
+    this.name = chatData.name;
+    this.messages = chatData.messages;
+    this.isBlocked = chatData.isBlocked;
+    this.src = chatData.src;
   }
 
 }

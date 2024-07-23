@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {BrowserRouter} from "react-router-dom";
 import type {StoryObj} from "@storybook/react";
-import {Header} from "src/component/header/Header";
+import {Header, HeaderType} from "src/component/header/Header";
 import {testUserPreview} from "src/component/header/testUserPreview";
 import {getNextSwitchTheme} from "src/component/themeSwitcher/ThemeSwitcher";
 import {Language, languageStore} from "src/globalStore/LanguageStore";
@@ -28,6 +28,7 @@ export const Default: Story = {
     },
     theme: themeStore.theme,
     setTheme: () => themeStore.setTheme(getNextSwitchTheme(themeStore.theme)),
+    type: HeaderType.PRIMARY,
   },
   render: (args) => {
     const [lang, setLang] = useState<Language>(args.language);
@@ -47,6 +48,7 @@ export const Default: Story = {
             setLanguage={setLang}
             theme={args.theme}
             setTheme={args.setTheme}
+            type={HeaderType.PRIMARY}
           />
         </BrowserRouter>
       </div>
