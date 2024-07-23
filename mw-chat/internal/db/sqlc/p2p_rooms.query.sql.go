@@ -12,50 +12,64 @@ import (
 )
 
 const createP2PRoom = `-- name: CreateP2PRoom :one
-INSERT INTO p2p_rooms (user_1_uuid, user_2_uuid, created_at, is_blocked)
-VALUES ($1, $2, CURRENT_TIMESTAMP, false)
-RETURNING uuid, user_1_uuid, user_2_uuid, created_at, is_blocked
+INSERT INTO p2p_rooms (created_at)
+VALUES ($1)
+RETURNING uuid, blocked_by_user_uuid
 `
 
-type CreateP2PRoomParams struct {
-	User1Uuid pgtype.UUID `json:"user_1_uuid"`
-	User2Uuid pgtype.UUID `json:"user_2_uuid"`
+type CreateP2PRoomRow struct {
+	Uuid              pgtype.UUID `json:"uuid"`
+	BlockedByUserUuid pgtype.UUID `json:"blocked_by_user_uuid"`
 }
 
-func (q *Queries) CreateP2PRoom(ctx context.Context, arg CreateP2PRoomParams) (P2pRoom, error) {
-	row := q.db.QueryRow(ctx, createP2PRoom, arg.User1Uuid, arg.User2Uuid)
-	var i P2pRoom
-	err := row.Scan(
-		&i.Uuid,
-		&i.User1Uuid,
-		&i.User2Uuid,
-		&i.CreatedAt,
-		&i.IsBlocked,
-	)
+func (q *Queries) CreateP2PRoom(ctx context.Context, createdAt pgtype.Timestamp) (CreateP2PRoomRow, error) {
+	row := q.db.QueryRow(ctx, createP2PRoom, createdAt)
+	var i CreateP2PRoomRow
+	err := row.Scan(&i.Uuid, &i.BlockedByUserUuid)
 	return i, err
 }
 
-const getP2PRooms = `-- name: GetP2PRooms :many
-SELECT uuid, user_1_uuid, user_2_uuid, created_at, is_blocked FROM p2p_rooms
-WHERE user_1_uuid = $1 OR user_2_uuid = $1
+const getP2PRoomByUUID = `-- name: GetP2PRoomByUUID :one
+SELECT uuid, created_at, blocked_by_user_uuid FROM p2p_rooms
+WHERE uuid = $1
 `
 
-func (q *Queries) GetP2PRooms(ctx context.Context, userUuid pgtype.UUID) ([]P2pRoom, error) {
-	rows, err := q.db.Query(ctx, getP2PRooms, userUuid)
+func (q *Queries) GetP2PRoomByUUID(ctx context.Context, p2pRoomUuid pgtype.UUID) (P2pRoom, error) {
+	row := q.db.QueryRow(ctx, getP2PRoomByUUID, p2pRoomUuid)
+	var i P2pRoom
+	err := row.Scan(&i.Uuid, &i.CreatedAt, &i.BlockedByUserUuid)
+	return i, err
+}
+
+const getP2PRoomsWithInterlocutorByUserUUID = `-- name: GetP2PRoomsWithInterlocutorByUserUUID :many
+SELECT
+    p2p_rooms.uuid,
+    p2p_rooms.blocked_by_user_uuid,
+    (SELECT user_uuid
+     FROM users_p2p_rooms
+     WHERE room_uuid = p2p_rooms.uuid AND users_p2p_rooms.user_uuid <> $1
+    ) AS interlocutor
+FROM p2p_rooms
+JOIN users_p2p_rooms ON p2p_rooms.uuid = users_p2p_rooms.room_uuid
+WHERE users_p2p_rooms.user_uuid = $1
+`
+
+type GetP2PRoomsWithInterlocutorByUserUUIDRow struct {
+	Uuid              pgtype.UUID `json:"uuid"`
+	BlockedByUserUuid pgtype.UUID `json:"blocked_by_user_uuid"`
+	Interlocutor      pgtype.UUID `json:"interlocutor"`
+}
+
+func (q *Queries) GetP2PRoomsWithInterlocutorByUserUUID(ctx context.Context, userUuid pgtype.UUID) ([]GetP2PRoomsWithInterlocutorByUserUUIDRow, error) {
+	rows, err := q.db.Query(ctx, getP2PRoomsWithInterlocutorByUserUUID, userUuid)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	items := []P2pRoom{}
+	items := []GetP2PRoomsWithInterlocutorByUserUUIDRow{}
 	for rows.Next() {
-		var i P2pRoom
-		if err := rows.Scan(
-			&i.Uuid,
-			&i.User1Uuid,
-			&i.User2Uuid,
-			&i.CreatedAt,
-			&i.IsBlocked,
-		); err != nil {
+		var i GetP2PRoomsWithInterlocutorByUserUUIDRow
+		if err := rows.Scan(&i.Uuid, &i.BlockedByUserUuid, &i.Interlocutor); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
@@ -66,27 +80,21 @@ func (q *Queries) GetP2PRooms(ctx context.Context, userUuid pgtype.UUID) ([]P2pR
 	return items, nil
 }
 
-const updateP2PRoomsIsBlocked = `-- name: UpdateP2PRoomsIsBlocked :one
+const toggleBlockP2PRoom = `-- name: ToggleBlockP2PRoom :exec
 UPDATE p2p_rooms
-SET is_blocked = $1
+SET blocked_by_user_uuid = CASE
+    WHEN $1 IS NOT NULL THEN $1
+    ELSE NULL
+END
 WHERE uuid = $2
-RETURNING uuid, user_1_uuid, user_2_uuid, created_at, is_blocked
 `
 
-type UpdateP2PRoomsIsBlockedParams struct {
-	IsBlocked   pgtype.Bool `json:"is_blocked"`
-	P2pRoomUuid pgtype.UUID `json:"p2p_room_uuid"`
+type ToggleBlockP2PRoomParams struct {
+	UserUuid pgtype.UUID `json:"user_uuid"`
+	RoomUuid pgtype.UUID `json:"room_uuid"`
 }
 
-func (q *Queries) UpdateP2PRoomsIsBlocked(ctx context.Context, arg UpdateP2PRoomsIsBlockedParams) (P2pRoom, error) {
-	row := q.db.QueryRow(ctx, updateP2PRoomsIsBlocked, arg.IsBlocked, arg.P2pRoomUuid)
-	var i P2pRoom
-	err := row.Scan(
-		&i.Uuid,
-		&i.User1Uuid,
-		&i.User2Uuid,
-		&i.CreatedAt,
-		&i.IsBlocked,
-	)
-	return i, err
+func (q *Queries) ToggleBlockP2PRoom(ctx context.Context, arg ToggleBlockP2PRoomParams) error {
+	_, err := q.db.Exec(ctx, toggleBlockP2PRoom, arg.UserUuid, arg.RoomUuid)
+	return err
 }

@@ -5,6 +5,7 @@ import (
 	"mwchat/internal/config"
 	"mwchat/internal/controllers"
 	"mwchat/internal/server"
+	"mwchat/internal/services"
 	"mwchat/pkg/database"
 )
 
@@ -20,10 +21,11 @@ func main() {
 	}
 	defer newPool.Close()
 
-	controllers := controllers.NewController()
+	newService := services.NewService(newPool)
+	newController := controllers.NewController(newService)
 
 	newServer := server.NewServer(&newConfig)
-	newServer.SetRoutes(controllers)
+	newServer.SetRoutes(newController)
 
 	if newConfig.EnvType == "prod" {
 		log.Fatal(newServer.GinServer.RunTLS(":"+newConfig.ServerPort, "./server.crt", "./server.key"))

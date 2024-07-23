@@ -9,6 +9,13 @@ definitions:
     - message
     - roomId
     type: object
+  schemas.CreateP2PRoomPayload:
+    properties:
+      userId:
+        type: string
+    required:
+    - userId
+    type: object
   schemas.CreateRequestToGroupRoomPayload:
     properties:
       roomId:
@@ -91,12 +98,24 @@ definitions:
         type: boolean
       name:
         type: string
+        x-nullable: true
       roomId:
+        type: string
+      userId:
         type: string
     required:
     - isBlocked
     - name
     - roomId
+    - userId
+    type: object
+  schemas.RoomUpdatePayload:
+    properties:
+      isBlocked:
+        type: boolean
+        x-nullable: true
+    required:
+    - isBlocked
     type: object
 info:
   contact: {}
@@ -344,13 +363,20 @@ paths:
       consumes:
       - application/json
       operationId: create-p2p-room
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.CreateP2PRoomPayload'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.MessageResponse'
+            $ref: '#/definitions/schemas.RoomPopulatedResponse'
       summary: Create p2p room for user
       tags:
       - p2p
@@ -371,7 +397,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.MessageResponse'
+            $ref: '#/definitions/schemas.RoomPopulatedResponse'
       summary: Get p2p room by id
       tags:
       - p2p
@@ -380,6 +406,12 @@ paths:
       - application/json
       operationId: update-p2p-room
       parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.RoomUpdatePayload'
       - description: p2p room Id
         in: path
         name: p2pRoomId
@@ -391,7 +423,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.MessageResponse'
+            $ref: '#/definitions/schemas.RoomPopulatedResponse'
       summary: Update p2p room for user
       tags:
       - p2p
