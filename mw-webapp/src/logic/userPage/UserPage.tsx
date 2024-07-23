@@ -508,6 +508,12 @@ export const UserPage = observer((props: UserPageProps) => {
                   }
                   content={
                     <PromptModalContent
+                      cy={
+                        {
+                          dataCyInput: userPersonalDataAccessIds.userSkillsBlock.skillsModalContent.skillInput,
+                          dataCyCreateButton: userPersonalDataAccessIds.userSkillsBlock.skillsModalContent.createSkillButton,
+                        }
+                      }
                       defaultValue=""
                       title={LanguageService.user.personalInfo.addSkillModalTitle[language]}
                       placeholder={LanguageService.user.personalInfo.addSkillModal[language]}
@@ -535,6 +541,12 @@ export const UserPage = observer((props: UserPageProps) => {
             <HorizontalContainer className={styles.userTagsContainer}>
               {userPageOwner?.tags.map(tag => (
                 <Tag
+                  cy={
+                    {
+                      dataCyTag: userPersonalDataAccessIds.userSkillsBlock.skillTag.tag,
+                      dataCyCross: userPersonalDataAccessIds.userSkillsBlock.skillTag.removeTagButton,
+                    }
+                  }
                   tagName={tag.name}
                   key={tag.uuid}
                   isDeletable={isPageOwner}
