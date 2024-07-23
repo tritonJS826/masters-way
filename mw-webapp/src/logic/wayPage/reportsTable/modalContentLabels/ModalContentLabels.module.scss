@@ -30,7 +30,6 @@ $descriptionMinWidthMobile: 150px;
 }
 
 .labelContainer {
-  display: flex;
   min-width: $labelMinWidth;
 
   @media (max-width: $mediaWidthMobileMedium) {

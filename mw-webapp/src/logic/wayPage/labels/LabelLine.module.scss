@@ -1,11 +1,8 @@
 @import "src/styles/variables";
 
 .labelLine {
-  display: flex;
   flex-wrap: wrap;
   align-items: center;
-  // justify-content: space-between;
-  // gap: $gapExtraSmall $gapBig;
   gap: $gapMedium;
 }
 

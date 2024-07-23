@@ -1,6 +1,7 @@
 @import "src/styles/variables";
 
 $iconContainerSize: 25px;
+$labelMaxWidthBlock: 650px;
 
 .container {
   width: 100%;
@@ -156,10 +157,10 @@ $iconContainerSize: 25px;
 }
 
 .labelsWrapper {
-  min-width: 650px;
+  min-width: $labelMaxWidthBlock;
 
   @media only screen and (max-width: $mediaWidthTablet) {
-    min-width: 350px;
+    min-width: $mediumWidthBlock;
   }
   @media only screen and (max-width: $mediaWidthMobileMedium) {
     min-width: $minWidthBlock;
