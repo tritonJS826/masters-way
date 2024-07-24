@@ -14,7 +14,7 @@ import (
 const createMessage = `-- name: CreateMessage :one
 INSERT INTO messages (owner_uuid, room_uuid, text)
 VALUES ($1, $2, $3)
-RETURNING owner_uuid, text
+RETURNING uuid, owner_uuid, text
 `
 
 type CreateMessageParams struct {
@@ -24,6 +24,7 @@ type CreateMessageParams struct {
 }
 
 type CreateMessageRow struct {
+	Uuid      pgtype.UUID `json:"uuid"`
 	OwnerUuid pgtype.UUID `json:"owner_uuid"`
 	Text      string      `json:"text"`
 }
@@ -31,19 +32,37 @@ type CreateMessageRow struct {
 func (q *Queries) CreateMessage(ctx context.Context, arg CreateMessageParams) (CreateMessageRow, error) {
 	row := q.db.QueryRow(ctx, createMessage, arg.OwnerUuid, arg.RoomUuid, arg.Text)
 	var i CreateMessageRow
-	err := row.Scan(&i.OwnerUuid, &i.Text)
+	err := row.Scan(&i.Uuid, &i.OwnerUuid, &i.Text)
 	return i, err
 }
 
 const getMessagesByRoomUUID = `-- name: GetMessagesByRoomUUID :many
-SELECT owner_uuid, text 
+SELECT
+    messages.owner_uuid,
+    messages.text,
+    ARRAY(
+    SELECT receiver_uuid
+     FROM message_status
+     WHERE messages.uuid = message_status.message_uuid
+        AND is_read = true
+     ORDER BY updated_at DESC
+    )::UUID[] AS message_status_user_uuids,
+    ARRAY(
+    SELECT updated_at
+     FROM message_status
+     WHERE messages.uuid = message_status.message_uuid
+        AND is_read = true
+     ORDER BY updated_at DESC
+    )::UUID[] AS message_status_updated_at
 FROM messages
 WHERE room_uuid = $1
 `
 
 type GetMessagesByRoomUUIDRow struct {
-	OwnerUuid pgtype.UUID `json:"owner_uuid"`
-	Text      string      `json:"text"`
+	OwnerUuid              pgtype.UUID   `json:"owner_uuid"`
+	Text                   string        `json:"text"`
+	MessageStatusUserUuids []pgtype.UUID `json:"message_status_user_uuids"`
+	MessageStatusUpdatedAt []pgtype.UUID `json:"message_status_updated_at"`
 }
 
 func (q *Queries) GetMessagesByRoomUUID(ctx context.Context, roomUuid pgtype.UUID) ([]GetMessagesByRoomUUIDRow, error) {
@@ -55,7 +74,12 @@ func (q *Queries) GetMessagesByRoomUUID(ctx context.Context, roomUuid pgtype.UUI
 	items := []GetMessagesByRoomUUIDRow{}
 	for rows.Next() {
 		var i GetMessagesByRoomUUIDRow
-		if err := rows.Scan(&i.OwnerUuid, &i.Text); err != nil {
+		if err := rows.Scan(
+			&i.OwnerUuid,
+			&i.Text,
+			&i.MessageStatusUserUuids,
+			&i.MessageStatusUpdatedAt,
+		); err != nil {
 			return nil, err
 		}
 		items = append(items, i)

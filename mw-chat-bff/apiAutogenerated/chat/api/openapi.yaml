@@ -7,39 +7,16 @@ info:
 servers:
 - url: /
 paths:
-  /group-rooms/{roomId}/users/{userId}:
-    delete:
-      operationId: delete-user-from-room
-      parameters:
-      - description: room Id
-        in: path
-        name: roomId
-        required: true
-        schema:
-          type: string
-      - description: user Id to delete
-        in: path
-        name: userId
-        required: true
-        schema:
-          type: string
-      responses:
-        "200":
-          content: {}
-          description: OK
-      summary: Delete user from room
-      tags:
-      - room
   /rooms:
     post:
       operationId: create-room
-      parameters:
-      - description: "room type: private, group"
-        in: path
-        name: roomType
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.CreateRoomPayload'
+        description: query params
         required: true
-        schema:
-          type: string
       responses:
         "200":
           content:
@@ -48,59 +25,6 @@ paths:
                 $ref: '#/components/schemas/schemas.RoomPopulatedResponse'
           description: OK
       summary: Create room for user
-      tags:
-      - room
-  /rooms/add-user/{roomId}/users/{userId}:
-    post:
-      operationId: add-user-to-room
-      parameters:
-      - description: room Id
-        in: path
-        name: roomId
-        required: true
-        schema:
-          type: string
-      - description: user Id to delete
-        in: path
-        name: userId
-        required: true
-        schema:
-          type: string
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/schemas.RoomPreviewResponse'
-          description: OK
-      summary: Add user to room
-      tags:
-      - room
-  /rooms/create-message{roomId}/messages:
-    post:
-      operationId: make-message-in-room
-      parameters:
-      - description: room Id
-        in: path
-        name: roomId
-        required: true
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/schemas.CreateMessagePayload'
-        description: query params
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/schemas.MessageResponse'
-          description: OK
-      summary: Create message in room
       tags:
       - room
       x-codegen-request-body-name: request
@@ -176,17 +100,105 @@ paths:
       summary: Update room for user
       tags:
       - room
+  /rooms/{roomId}/messages:
+    post:
+      operationId: create-message-in-room
+      parameters:
+      - description: room Id
+        in: path
+        name: roomId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.CreateMessagePayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.MessageResponse'
+          description: OK
+      summary: Create message in room
+      tags:
+      - room
+      x-codegen-request-body-name: request
+  /rooms/{roomId}/users/{userId}:
+    delete:
+      operationId: delete-user-from-room
+      parameters:
+      - description: room Id
+        in: path
+        name: roomId
+        required: true
+        schema:
+          type: string
+      - description: user Id to delete
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Delete user from room
+      tags:
+      - room
+    post:
+      operationId: add-user-to-room
+      parameters:
+      - description: room Id
+        in: path
+        name: roomId
+        required: true
+        schema:
+          type: string
+      - description: user Id to delete
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.RoomPreviewResponse'
+          description: OK
+      summary: Add user to room
+      tags:
+      - room
 components:
   schemas:
     schemas.CreateMessagePayload:
       properties:
         message:
           type: string
-        roomId:
-          type: string
       required:
       - message
-      - roomId
+      type: object
+    schemas.CreateRoomPayload:
+      properties:
+        name:
+          nullable: true
+          type: string
+        roomType:
+          type: string
+        userId:
+          nullable: true
+          type: string
+      required:
+      - name
+      - roomType
+      - userId
       type: object
     schemas.GetChatPreviewResponse:
       example:

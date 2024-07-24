@@ -10,15 +10,14 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"github.com/jackc/pgx/v5/pgtype"
 )
 
 type RoomsController struct {
-	RoomService services.RoomService
+	roomService services.RoomService
 }
 
-func NewP2PRoomsController(RoomService services.RoomService) *RoomsController {
-	return &RoomsController{RoomService: RoomService}
+func NewP2PRoomsController(roomService services.RoomService) *RoomsController {
+	return &RoomsController{roomService: roomService}
 }
 
 // @Summary Get chat preview
@@ -31,12 +30,12 @@ func NewP2PRoomsController(RoomService services.RoomService) *RoomsController {
 // @Router /rooms/preview [get]
 func (cc *RoomsController) GetChatPreview(ctx *gin.Context) {
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	userUUID := pgtype.UUID{Bytes: uuid.MustParse(userIDRaw.(string)), Valid: true}
+	userUUID := uuid.MustParse(userIDRaw.(string))
 
-	chatPreview, err := cc.RoomService.GetChatPreview(ctx, userUUID)
+	chatPreview, err := cc.roomService.GetChatPreview(ctx, userUUID)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, &chatPreview)
+	ctx.JSON(http.StatusOK, chatPreview)
 }
 
 // @Summary Get rooms for user
@@ -49,11 +48,11 @@ func (cc *RoomsController) GetChatPreview(ctx *gin.Context) {
 // @Success 200 {object} schemas.GetRoomsResponse
 // @Router /rooms/list/{roomType} [get]
 func (pc *RoomsController) GetRooms(ctx *gin.Context) {
-	roomType := ctx.Param("/:roomType")
+	roomType := ctx.Param("roomType")
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	userUUID := uuid.MustParse(userIDRaw.(string))
 
-	p2pRooms, err := pc.RoomService.GetRooms(ctx, userUUID, roomType)
+	p2pRooms, err := pc.roomService.GetRooms(ctx, userUUID, roomType)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, p2pRooms)
@@ -75,7 +74,7 @@ func (pc *RoomsController) GetRoomById(ctx *gin.Context) {
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	userUUID := uuid.MustParse(userIDRaw.(string))
 
-	room, err := pc.RoomService.GetRoomByUuid(ctx, userUUID, roomUUID)
+	room, err := pc.roomService.GetRoomByUuid(ctx, userUUID, roomUUID)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, room)
@@ -87,28 +86,30 @@ func (pc *RoomsController) GetRoomById(ctx *gin.Context) {
 // @ID create-room
 // @Accept  json
 // @Produce  json
-// @Param roomType path string true "room type: private, group"
+// @Param request body schemas.CreateRoomPayload true "query params"
 // @Success 200 {object} schemas.RoomPopulatedResponse
 // @Router /rooms [post]
 func (pc *RoomsController) CreateRoom(ctx *gin.Context) {
-	// var payload *schemas.CreateP2PRoomPayload
+	var payload *schemas.CreateRoomPayload
 
-	// if err := ctx.ShouldBindJSON(&payload); err != nil {
-	// 	ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-	// 	return
-	// }
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
-	// invitingUserIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	// invitingUserUUID := uuid.MustParse(invitingUserIDRaw.(string))
+	invitingUserIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	invitingUserUUID := uuid.MustParse(invitingUserIDRaw.(string))
 
-	// invitedUserUUID := uuid.MustParse(payload.UserID)
+	params := &services.CreateRoomServiceParams{
+		InvitingUserUUID: invitingUserUUID,
+		InvitedUserUUID:  payload.UserID,
+		Name:             payload.Name,
+		Type:             payload.RoomType,
+	}
+	newP2PRoom, err := pc.roomService.CreateRoom(ctx, params)
+	utils.HandleErrorGin(ctx, err)
 
-	// newP2PRoom, err := pc.P2PService.CreateP2PRoom(ctx, invitingUserUUID, invitedUserUUID)
-	// utils.HandleErrorGin(ctx, err)
-
-	// ctx.JSON(http.StatusOK, newP2PRoom)
-
-	ctx.JSON(http.StatusOK, &schemas.RoomPopulatedResponse{})
+	ctx.JSON(http.StatusOK, newP2PRoom)
 }
 
 // @Summary Update room for user
@@ -157,34 +158,36 @@ func (pc *RoomsController) UpdateRoom(ctx *gin.Context) {
 // @Summary Create message in room
 // @Description
 // @Tags room
-// @ID make-message-in-room
+// @ID create-message-in-room
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateMessagePayload true "query params"
 // @Param roomId path string true "room Id"
 // @Success 200 {object} schemas.MessageResponse
-// @Router /rooms/create-message{roomId}/messages [post]
+// @Router /rooms/{roomId}/messages [post]
 func (pc *RoomsController) CreateMessage(ctx *gin.Context) {
-	// var payload *schemas.CreateMessagePayload
+	var payload *schemas.CreateMessagePayload
 
-	// if err := ctx.ShouldBindJSON(&payload); err != nil {
-	// 	ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-	// 	return
-	// }
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
-	// userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	// userUUID := uuid.MustParse(userIDRaw.(string))
+	roomId := ctx.Param("roomId")
+	roomUUID := uuid.MustParse(roomId)
 
-	// params := &services.RoomMessageParams{
-	// 	OwnerUUID: userUUID,
-	// 	RoomUUID:  uuid.MustParse(payload.RoomID),
-	// 	Text:      payload.Message,
-	// }
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userUUID := uuid.MustParse(userIDRaw.(string))
 
-	// message, err := pc.RoomService.CreateMessageInP2PRoom(ctx, params)
-	// utils.HandleErrorGin(ctx, err)
+	params := &services.RoomMessageParams{
+		OwnerUUID: userUUID,
+		RoomUUID:  roomUUID,
+		Text:      payload.Message,
+	}
+	message, err := pc.roomService.CreateMessage(ctx, params)
+	utils.HandleErrorGin(ctx, err)
 
-	// ctx.JSON(http.StatusOK, message)
+	ctx.JSON(http.StatusOK, message)
 }
 
 // @Summary Add user to room
@@ -196,7 +199,7 @@ func (pc *RoomsController) CreateMessage(ctx *gin.Context) {
 // @Param roomId path string true "room Id"
 // @Param userId path string true "user Id to delete"
 // @Success 200 {object} schemas.RoomPreviewResponse
-// @Router /rooms/add-user/{roomId}/users/{userId} [post]
+// @Router /rooms/{roomId}/users/{userId} [post]
 func (pc *RoomsController) AddUserToRoom(ctx *gin.Context) {
 	// groupRoomId := ctx.Param("groupRoomId")
 	// userId := ctx.Param("userId")
@@ -214,7 +217,7 @@ func (pc *RoomsController) AddUserToRoom(ctx *gin.Context) {
 // @Param roomId path string true "room Id"
 // @Param userId path string true "user Id to delete"
 // @Success 200
-// @Router /group-rooms/{roomId}/users/{userId} [delete]
+// @Router /rooms/{roomId}/users/{userId} [delete]
 func (pc *RoomsController) DeleteUserFromRoom(ctx *gin.Context) {
 	// groupRoomId := ctx.Param("roomId")
 	// userId := ctx.Param("userId")

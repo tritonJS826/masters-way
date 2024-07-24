@@ -11,10 +11,11 @@ package openapi
 
 import (
 	"context"
+	"testing"
+
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"testing"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func Test_openapi_RoomAPIService(t *testing.T) {
@@ -24,7 +25,7 @@ func Test_openapi_RoomAPIService(t *testing.T) {
 
 	t.Run("Test RoomAPIService AddUserToRoom", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		var roomId string
 		var userId string
@@ -39,7 +40,7 @@ func Test_openapi_RoomAPIService(t *testing.T) {
 
 	t.Run("Test RoomAPIService CreateRoom", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		var roomType string
 
@@ -53,7 +54,7 @@ func Test_openapi_RoomAPIService(t *testing.T) {
 
 	t.Run("Test RoomAPIService DeleteUserToGroup", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		var roomId string
 		var userId string
@@ -68,7 +69,7 @@ func Test_openapi_RoomAPIService(t *testing.T) {
 
 	t.Run("Test RoomAPIService GetChatPreview", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.RoomAPI.GetChatPreview(context.Background()).Execute()
 
@@ -80,7 +81,7 @@ func Test_openapi_RoomAPIService(t *testing.T) {
 
 	t.Run("Test RoomAPIService GetRoomById", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		var roomId string
 
@@ -94,7 +95,7 @@ func Test_openapi_RoomAPIService(t *testing.T) {
 
 	t.Run("Test RoomAPIService GetRooms", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		var roomType string
 
@@ -108,7 +109,7 @@ func Test_openapi_RoomAPIService(t *testing.T) {
 
 	t.Run("Test RoomAPIService MakeMessageInRoom", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		var roomId string
 
@@ -122,7 +123,7 @@ func Test_openapi_RoomAPIService(t *testing.T) {
 
 	t.Run("Test RoomAPIService UpdateRoom", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		var roomId string
 

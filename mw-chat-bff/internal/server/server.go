@@ -56,15 +56,13 @@ func (server *Server) SetRoutes(controller *controllers.Controller) {
 
 			rooms.GET("/list/:roomType", controller.RoomsController.GetRooms)
 			rooms.GET("/:roomId", controller.RoomsController.GetRoomById)
-			rooms.POST("/", controller.RoomsController.CreateRoom)
+			rooms.POST("", controller.RoomsController.CreateRoom)
 			rooms.PATCH("/:roomId", controller.RoomsController.UpdateRoom)
 
-			rooms.POST("create-message/:roomId", controller.RoomsController.CreateMessage)
+			rooms.POST("/:roomId/messages", controller.RoomsController.CreateMessage)
 
-			rooms.POST("add-user/:roomId/users/:userId", controller.RoomsController.AddUserToRoom)
-
+			rooms.POST("/:roomId/users/:userId", controller.RoomsController.AddUserToRoom)
 			rooms.DELETE("/:roomId/users/:userId", controller.RoomsController.DeleteUserFromRoom)
 		}
-
 	}
 }

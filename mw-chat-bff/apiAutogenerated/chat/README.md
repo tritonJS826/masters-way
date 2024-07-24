@@ -78,19 +78,20 @@ All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*RoomAPI* | [**AddUserToRoom**](docs/RoomAPI.md#addusertoroom) | **Post** /rooms/add-user/{roomId}/users/{userId} | Add user to room
+*RoomAPI* | [**AddUserToRoom**](docs/RoomAPI.md#addusertoroom) | **Post** /rooms/{roomId}/users/{userId} | Add user to room
+*RoomAPI* | [**CreateMessageInRoom**](docs/RoomAPI.md#createmessageinroom) | **Post** /rooms/{roomId}/messages | Create message in room
 *RoomAPI* | [**CreateRoom**](docs/RoomAPI.md#createroom) | **Post** /rooms | Create room for user
-*RoomAPI* | [**DeleteUserFromRoom**](docs/RoomAPI.md#deleteuserfromroom) | **Delete** /group-rooms/{roomId}/users/{userId} | Delete user from room
+*RoomAPI* | [**DeleteUserFromRoom**](docs/RoomAPI.md#deleteuserfromroom) | **Delete** /rooms/{roomId}/users/{userId} | Delete user from room
 *RoomAPI* | [**GetChatPreview**](docs/RoomAPI.md#getchatpreview) | **Get** /rooms/preview | Get chat preview
 *RoomAPI* | [**GetRoomById**](docs/RoomAPI.md#getroombyid) | **Get** /rooms/{roomId} | Get room by id
 *RoomAPI* | [**GetRooms**](docs/RoomAPI.md#getrooms) | **Get** /rooms/list/{roomType} | Get rooms for user
-*RoomAPI* | [**MakeMessageInRoom**](docs/RoomAPI.md#makemessageinroom) | **Post** /rooms/create-message{roomId}/messages | Create message in room
 *RoomAPI* | [**UpdateRoom**](docs/RoomAPI.md#updateroom) | **Patch** /rooms/{roomId} | Update room for user
 
 
 ## Documentation For Models
 
  - [SchemasCreateMessagePayload](docs/SchemasCreateMessagePayload.md)
+ - [SchemasCreateRoomPayload](docs/SchemasCreateRoomPayload.md)
  - [SchemasGetChatPreviewResponse](docs/SchemasGetChatPreviewResponse.md)
  - [SchemasGetRoomsResponse](docs/SchemasGetRoomsResponse.md)
  - [SchemasMessageReaders](docs/SchemasMessageReaders.md)

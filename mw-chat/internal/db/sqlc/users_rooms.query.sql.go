@@ -11,26 +11,32 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
-const addUserToRoom = `-- name: AddUserToRoom :exec
-INSERT INTO users_rooms(user_uuid, room_uuid, user_role, joined_at, is_room_blocked)
-VALUES ($1, $2, $3, $4, $5)
+const addUserToRoom = `-- name: AddUserToRoom :one
+INSERT INTO users_rooms(user_uuid, room_uuid, user_role, joined_at)
+VALUES ($1, $2, $3, $4)
+RETURNING user_uuid, user_role
 `
 
 type AddUserToRoomParams struct {
-	UserUuid      pgtype.UUID      `json:"user_uuid"`
-	RoomUuid      pgtype.UUID      `json:"room_uuid"`
-	Role          UserRoleType     `json:"role"`
-	JoinedAt      pgtype.Timestamp `json:"joined_at"`
-	IsRoomBlocked bool             `json:"is_room_blocked"`
+	UserUuid pgtype.UUID      `json:"user_uuid"`
+	RoomUuid pgtype.UUID      `json:"room_uuid"`
+	UserRole UserRoleType     `json:"user_role"`
+	JoinedAt pgtype.Timestamp `json:"joined_at"`
 }
 
-func (q *Queries) AddUserToRoom(ctx context.Context, arg AddUserToRoomParams) error {
-	_, err := q.db.Exec(ctx, addUserToRoom,
+type AddUserToRoomRow struct {
+	UserUuid pgtype.UUID  `json:"user_uuid"`
+	UserRole UserRoleType `json:"user_role"`
+}
+
+func (q *Queries) AddUserToRoom(ctx context.Context, arg AddUserToRoomParams) (AddUserToRoomRow, error) {
+	row := q.db.QueryRow(ctx, addUserToRoom,
 		arg.UserUuid,
 		arg.RoomUuid,
-		arg.Role,
+		arg.UserRole,
 		arg.JoinedAt,
-		arg.IsRoomBlocked,
 	)
-	return err
+	var i AddUserToRoomRow
+	err := row.Scan(&i.UserUuid, &i.UserRole)
+	return i, err
 }
