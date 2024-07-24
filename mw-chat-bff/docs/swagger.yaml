@@ -9,6 +9,13 @@ definitions:
     - message
     - roomId
     type: object
+  schemas.GetChatPreviewResponse:
+    properties:
+      unreadMessagesAmount:
+        type: integer
+    required:
+    - unreadMessagesAmount
+    type: object
   schemas.GetRoomsResponse:
     properties:
       rooms:
@@ -21,14 +28,29 @@ definitions:
     - rooms
     - size
     type: object
+  schemas.MessageReaders:
+    properties:
+      readDate:
+        type: string
+      userId:
+        type: string
+    required:
+    - readDate
+    - userId
+    type: object
   schemas.MessageResponse:
     properties:
       message:
         type: string
+      messageReaders:
+        items:
+          $ref: '#/definitions/schemas.MessageReaders'
+        type: array
       ownerId:
         type: string
     required:
     - message
+    - messageReaders
     - ownerId
     type: object
   schemas.RoomPopulatedResponse:
@@ -43,11 +65,16 @@ definitions:
         type: string
       roomId:
         type: string
+      users:
+        items:
+          $ref: '#/definitions/schemas.UserResponse'
+        type: array
     required:
     - isBlocked
     - messages
     - name
     - roomId
+    - users
     type: object
   schemas.RoomPreviewResponse:
     properties:
@@ -57,10 +84,25 @@ definitions:
         type: string
       roomId:
         type: string
+      users:
+        items:
+          $ref: '#/definitions/schemas.UserResponse'
+        type: array
     required:
     - isBlocked
     - name
     - roomId
+    - users
+    type: object
+  schemas.UserResponse:
+    properties:
+      role:
+        type: string
+      userId:
+        type: string
+    required:
+    - role
+    - userId
     type: object
 info:
   contact: {}
@@ -70,12 +112,6 @@ paths:
       consumes:
       - application/json
       operationId: create-room
-      parameters:
-      - description: 'room type: private, group'
-        in: path
-        name: roomType
-        required: true
-        type: string
       produces:
       - application/json
       responses:
@@ -124,7 +160,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/schemas.RoomPopulatedResponse'
-      summary: Update room for user
+      summary: Update room
       tags:
       - room
   /rooms/{roomId}/users/{userId}:
@@ -179,7 +215,7 @@ paths:
       summary: Add user to room
       tags:
       - room
-  /rooms/create-message{roomId}/messages:
+  /rooms/create-message/{roomId}:
     post:
       consumes:
       - application/json
@@ -238,7 +274,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.GetRoomsResponse'
+            $ref: '#/definitions/schemas.GetChatPreviewResponse'
       summary: Get chat preview
       tags:
       - room

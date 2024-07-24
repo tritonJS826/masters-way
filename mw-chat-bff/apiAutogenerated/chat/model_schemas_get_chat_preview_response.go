@@ -21,7 +21,7 @@ var _ MappedNullable = &SchemasGetChatPreviewResponse{}
 
 // SchemasGetChatPreviewResponse struct for SchemasGetChatPreviewResponse
 type SchemasGetChatPreviewResponse struct {
-	UserId int32 `json:"userId"`
+	UnreadMessagesAmount int32 `json:"unreadMessagesAmount"`
 }
 
 type _SchemasGetChatPreviewResponse SchemasGetChatPreviewResponse
@@ -30,9 +30,9 @@ type _SchemasGetChatPreviewResponse SchemasGetChatPreviewResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSchemasGetChatPreviewResponse(userId int32) *SchemasGetChatPreviewResponse {
+func NewSchemasGetChatPreviewResponse(unreadMessagesAmount int32) *SchemasGetChatPreviewResponse {
 	this := SchemasGetChatPreviewResponse{}
-	this.UserId = userId
+	this.UnreadMessagesAmount = unreadMessagesAmount
 	return &this
 }
 
@@ -44,28 +44,28 @@ func NewSchemasGetChatPreviewResponseWithDefaults() *SchemasGetChatPreviewRespon
 	return &this
 }
 
-// GetUserId returns the UserId field value
-func (o *SchemasGetChatPreviewResponse) GetUserId() int32 {
+// GetUnreadMessagesAmount returns the UnreadMessagesAmount field value
+func (o *SchemasGetChatPreviewResponse) GetUnreadMessagesAmount() int32 {
 	if o == nil {
 		var ret int32
 		return ret
 	}
 
-	return o.UserId
+	return o.UnreadMessagesAmount
 }
 
-// GetUserIdOk returns a tuple with the UserId field value
+// GetUnreadMessagesAmountOk returns a tuple with the UnreadMessagesAmount field value
 // and a boolean to check if the value has been set.
-func (o *SchemasGetChatPreviewResponse) GetUserIdOk() (*int32, bool) {
+func (o *SchemasGetChatPreviewResponse) GetUnreadMessagesAmountOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.UserId, true
+	return &o.UnreadMessagesAmount, true
 }
 
-// SetUserId sets field value
-func (o *SchemasGetChatPreviewResponse) SetUserId(v int32) {
-	o.UserId = v
+// SetUnreadMessagesAmount sets field value
+func (o *SchemasGetChatPreviewResponse) SetUnreadMessagesAmount(v int32) {
+	o.UnreadMessagesAmount = v
 }
 
 func (o SchemasGetChatPreviewResponse) MarshalJSON() ([]byte, error) {
@@ -78,7 +78,7 @@ func (o SchemasGetChatPreviewResponse) MarshalJSON() ([]byte, error) {
 
 func (o SchemasGetChatPreviewResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["userId"] = o.UserId
+	toSerialize["unreadMessagesAmount"] = o.UnreadMessagesAmount
 	return toSerialize, nil
 }
 
@@ -87,7 +87,7 @@ func (o *SchemasGetChatPreviewResponse) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"userId",
+		"unreadMessagesAmount",
 	}
 
 	allProperties := make(map[string]interface{})

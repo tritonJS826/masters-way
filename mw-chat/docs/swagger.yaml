@@ -11,10 +11,10 @@ definitions:
     type: object
   schemas.GetChatPreviewResponse:
     properties:
-      userId:
+      unreadMessagesAmount:
         type: integer
     required:
-    - userId
+    - unreadMessagesAmount
     type: object
   schemas.GetRoomsResponse:
     properties:
@@ -112,7 +112,7 @@ paths:
     delete:
       consumes:
       - application/json
-      operationId: delete-user-to-group
+      operationId: delete-user-from-room
       parameters:
       - description: room Id
         in: path
@@ -129,8 +129,6 @@ paths:
       responses:
         "200":
           description: OK
-          schema:
-            $ref: '#/definitions/schemas.RoomPopulatedResponse'
       summary: Delete user from room
       tags:
       - room
@@ -218,7 +216,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.RoomPopulatedResponse'
+            $ref: '#/definitions/schemas.RoomPreviewResponse'
       summary: Add user to room
       tags:
       - room

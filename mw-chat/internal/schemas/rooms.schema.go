@@ -1,11 +1,7 @@
 package schemas
 
-import (
-	"time"
-)
-
 type GetChatPreviewResponse struct {
-	UnreadMessagesAmount int `json:"userId" validate:"required"`
+	UnreadMessagesAmount int `json:"unreadMessagesAmount" validate:"required"`
 }
 
 type CreateRoomPayload struct {
@@ -48,8 +44,8 @@ type CreateMessagePayload struct {
 }
 
 type MessageReaders struct {
-	UserID   string    `json:"userId" validate:"required"`
-	ReadDate time.Time `json:"readDate" validate:"required"`
+	UserID   string `json:"userId" validate:"required"`
+	ReadDate string `json:"readDate" validate:"required"`
 }
 
 type MessageResponse struct {

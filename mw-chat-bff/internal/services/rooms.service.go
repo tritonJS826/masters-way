@@ -6,6 +6,7 @@ import (
 	"mw-chat-bff/internal/schemas"
 
 	"github.com/gin-gonic/gin"
+	"github.com/samber/lo"
 )
 
 type RoomsService struct {
@@ -48,30 +49,218 @@ func (p *RoomsService) GetChatPreview(ctx *gin.Context) (*schemas.GetChatPreview
 	}
 
 	chatPreview := schemas.GetChatPreviewResponse{
-		UnreadMessagesAmount: int(chatPreviewRaw.UserId),
+		UnreadMessagesAmount: chatPreviewRaw.UnreadMessagesAmount,
 	}
 
 	return &chatPreview, nil
 }
 
 func (p *RoomsService) GetRooms(ctx *gin.Context, roomType string) (*schemas.GetRoomsResponse, error) {
-	return &schemas.GetRoomsResponse{}, nil
+	roomsRaw, _, err := ChatApi.RoomAPI.GetRooms(ctx, roomType).Execute()
+	if err != nil {
+		return &schemas.GetRoomsResponse{}, err
+	}
+
+	rooms := lo.Map(roomsRaw.Rooms, func(rawRoom openapiChat.SchemasRoomPreviewResponse, i int) schemas.RoomPreviewResponse {
+
+		usersPopulated := lo.Map(rawRoom.Users, func(rawUser openapiChat.SchemasUserResponse, i int) schemas.UserResponse {
+			return schemas.UserResponse{
+				UserID: rawUser.UserId,
+				Role:   rawUser.Role,
+			}
+		})
+
+		response := schemas.RoomPreviewResponse{
+			RoomID:    rawRoom.RoomId,
+			Name:      rawRoom.Name.Get(),
+			IsBlocked: rawRoom.IsBlocked,
+			Users:     usersPopulated,
+		}
+
+		return response
+	})
+
+	roomsPreview := schemas.GetRoomsResponse{
+		Size:  roomsRaw.Size,
+		Rooms: rooms,
+	}
+	return &roomsPreview, nil
 }
 
-func (p *RoomsService) GetRoomById(ctx *gin.Context) (*schemas.RoomPopulatedResponse, error) {
-	return &schemas.RoomPopulatedResponse{}, nil
+func (p *RoomsService) GetRoomById(ctx *gin.Context, roomUuid string) (*schemas.RoomPopulatedResponse, error) {
+	roomRaw, _, err := ChatApi.RoomAPI.GetRoomById(ctx, roomUuid).Execute()
+	if err != nil {
+		return &schemas.RoomPopulatedResponse{}, err
+	}
+
+	messages := lo.Map(roomRaw.Messages, func(messageRaw openapiChat.SchemasMessageResponse, i int) schemas.MessageResponse {
+
+		messageReaders := lo.Map(messageRaw.MessageReaders, func(messageReaderRaw openapiChat.SchemasMessageReaders, i int) schemas.MessageReaders {
+			return schemas.MessageReaders{
+				UserID:   messageReaderRaw.UserId,
+				ReadDate: messageReaderRaw.ReadDate,
+			}
+		})
+
+		message := schemas.MessageResponse{
+			OwnerID: messageRaw.OwnerId,
+			Message: messageRaw.Message,
+			Readers: messageReaders,
+		}
+
+		return message
+	})
+
+	users := lo.Map(roomRaw.Users, func(userRaw openapiChat.SchemasUserResponse, i int) schemas.UserResponse {
+		return schemas.UserResponse{
+			UserID: userRaw.UserId,
+			Role:   userRaw.Role,
+		}
+	})
+
+	roomPopulated := schemas.RoomPopulatedResponse{
+		RoomID:    roomRaw.RoomId,
+		Name:      roomRaw.Name,
+		Messages:  messages,
+		IsBlocked: roomRaw.IsBlocked,
+		Users:     users,
+	}
+	return &roomPopulated, nil
 
 }
 
-func (p *RoomsService) CreateRoom(ctx *gin.Context) (*schemas.RoomPopulatedResponse, error) {
-	return &schemas.RoomPopulatedResponse{}, nil
+func (p *RoomsService) CreateRoom(ctx *gin.Context, createRoomPayload *schemas.CreateRoomPayload) (*schemas.RoomPopulatedResponse, error) {
+	roomRaw, _, err := ChatApi.RoomAPI.CreateRoom(ctx, createRoomPayload.RoomType).Execute()
+	if err != nil {
+		return &schemas.RoomPopulatedResponse{}, err
+	}
+	messages := lo.Map(roomRaw.Messages, func(messageRaw openapiChat.SchemasMessageResponse, i int) schemas.MessageResponse {
+
+		messageReaders := lo.Map(messageRaw.MessageReaders, func(messageReaderRaw openapiChat.SchemasMessageReaders, i int) schemas.MessageReaders {
+			return schemas.MessageReaders{
+				UserID:   messageReaderRaw.UserId,
+				ReadDate: messageReaderRaw.ReadDate,
+			}
+		})
+
+		message := schemas.MessageResponse{
+			OwnerID: messageRaw.OwnerId,
+			Message: messageRaw.Message,
+			Readers: messageReaders,
+		}
+
+		return message
+	})
+
+	users := lo.Map(roomRaw.Users, func(userRaw openapiChat.SchemasUserResponse, i int) schemas.UserResponse {
+		return schemas.UserResponse{
+			UserID: userRaw.UserId,
+			Role:   userRaw.Role,
+		}
+	})
+
+	roomPopulatedResponse := schemas.RoomPopulatedResponse{
+		RoomID:    roomRaw.RoomId,
+		Name:      roomRaw.Name,
+		Messages:  messages,
+		IsBlocked: roomRaw.IsBlocked,
+		Users:     users,
+	}
+
+	return &roomPopulatedResponse, nil
 }
-func (p *RoomsService) UpdateRoom(ctx *gin.Context) error {
-	return nil
+
+func (p *RoomsService) UpdateRoom(ctx *gin.Context, roomId string) (*schemas.RoomPopulatedResponse, error) {
+	roomRaw, _, err := ChatApi.RoomAPI.UpdateRoom(ctx, roomId).Execute()
+	if err != nil {
+		return &schemas.RoomPopulatedResponse{}, err
+	}
+	messages := lo.Map(roomRaw.Messages, func(messageRaw openapiChat.SchemasMessageResponse, i int) schemas.MessageResponse {
+
+		messageReaders := lo.Map(messageRaw.MessageReaders, func(messageReaderRaw openapiChat.SchemasMessageReaders, i int) schemas.MessageReaders {
+			return schemas.MessageReaders{
+				UserID:   messageReaderRaw.UserId,
+				ReadDate: messageReaderRaw.ReadDate,
+			}
+		})
+
+		message := schemas.MessageResponse{
+			OwnerID: messageRaw.OwnerId,
+			Message: messageRaw.Message,
+			Readers: messageReaders,
+		}
+
+		return message
+	})
+
+	users := lo.Map(roomRaw.Users, func(userRaw openapiChat.SchemasUserResponse, i int) schemas.UserResponse {
+		return schemas.UserResponse{
+			UserID: userRaw.UserId,
+			Role:   userRaw.Role,
+		}
+	})
+
+	roomPopulatedResponse := schemas.RoomPopulatedResponse{
+		RoomID:    roomRaw.RoomId,
+		Name:      roomRaw.Name,
+		Messages:  messages,
+		IsBlocked: roomRaw.IsBlocked,
+		Users:     users,
+	}
+
+	return &roomPopulatedResponse, nil
 }
-func (p *RoomsService) CreateMessage(ctx *gin.Context) (*schemas.MessageResponse, error) {
-	return &schemas.MessageResponse{}, nil
+
+func (p *RoomsService) CreateMessage(ctx *gin.Context, roomId string) (*schemas.MessageResponse, error) {
+	messageRaw, _, err := ChatApi.RoomAPI.MakeMessageInRoom(ctx, roomId).Execute()
+	if err != nil {
+		return &schemas.MessageResponse{}, err
+	}
+
+	messageReaders := lo.Map(messageRaw.MessageReaders, func(messageReaderRaw openapiChat.SchemasMessageReaders, i int) schemas.MessageReaders {
+		return schemas.MessageReaders{
+			UserID:   messageReaderRaw.UserId,
+			ReadDate: messageReaderRaw.ReadDate,
+		}
+	})
+
+	message := schemas.MessageResponse{
+		OwnerID: messageRaw.OwnerId,
+		Message: messageRaw.Message,
+		Readers: messageReaders,
+	}
+
+	return &message, nil
 }
-func (p *RoomsService) AddUserToRoom(ctx *gin.Context) error {
+
+func (p *RoomsService) AddUserToRoom(ctx *gin.Context, roomId string, userId string) (*schemas.RoomPreviewResponse, error) {
+	rawRoom, _, err := ChatApi.RoomAPI.AddUserToRoom(ctx, roomId, userId).Execute()
+	if err != nil {
+		return &schemas.RoomPreviewResponse{}, err
+	}
+
+	usersPopulated := lo.Map(rawRoom.Users, func(rawUser openapiChat.SchemasUserResponse, i int) schemas.UserResponse {
+		return schemas.UserResponse{
+			UserID: rawUser.UserId,
+			Role:   rawUser.Role,
+		}
+	})
+
+	response := schemas.RoomPreviewResponse{
+		RoomID:    rawRoom.RoomId,
+		Name:      rawRoom.Name.Get(),
+		IsBlocked: rawRoom.IsBlocked,
+		Users:     usersPopulated,
+	}
+
+	return &response, nil
+}
+
+func (p *RoomsService) DeleteUserFromRoom(ctx *gin.Context, roomId string, userId string) error {
+	_, err := ChatApi.RoomAPI.DeleteUserFromRoom(ctx, roomId, userId).Execute()
+	if err != nil {
+		return err
+	}
+
 	return nil
 }

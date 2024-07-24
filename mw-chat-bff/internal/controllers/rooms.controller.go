@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"mw-chat-bff/internal/schemas"
 	"mw-chat-bff/internal/services"
 	util "mw-chat-bff/internal/utils"
@@ -30,10 +29,10 @@ func NewRoomsController(roomService services.IRoomsService) *RoomsController {
 // @Success 200 {object} schemas.GetChatPreviewResponse
 // @Router /rooms/preview [get]
 func (cc *RoomsController) GetChatPreview(ctx *gin.Context) {
-	response, err := cc.RoomsService.GetChatPreview(ctx)
+	chatPreview, err := cc.RoomsService.GetChatPreview(ctx)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, &response)
+	ctx.JSON(http.StatusOK, chatPreview)
 }
 
 // @Summary Get rooms for user
@@ -47,8 +46,11 @@ func (cc *RoomsController) GetChatPreview(ctx *gin.Context) {
 // @Router /rooms/list/{roomType} [get]
 func (cc *RoomsController) GetRooms(ctx *gin.Context) {
 	roomType := ctx.Param("roomType")
-	cc.RoomsService.GetRooms(ctx, roomType)
-	ctx.JSON(http.StatusOK, &schemas.GetRoomsResponse{})
+
+	rooms, err := cc.RoomsService.GetRooms(ctx, roomType)
+	util.HandleErrorGin(ctx, err)
+
+	ctx.JSON(http.StatusOK, &rooms)
 }
 
 // @Summary Get room by id
@@ -62,10 +64,11 @@ func (cc *RoomsController) GetRooms(ctx *gin.Context) {
 // @Router /rooms/{roomId} [get]
 func (cc *RoomsController) GetRoomById(ctx *gin.Context) {
 	roomId := ctx.Param("roomId")
-	fmt.Println(roomId)
 
-	cc.RoomsService.GetRoomById(ctx)
-	ctx.JSON(http.StatusOK, &schemas.RoomPopulatedResponse{})
+	room, err := cc.RoomsService.GetRoomById(ctx, roomId)
+	util.HandleErrorGin(ctx, err)
+
+	ctx.JSON(http.StatusOK, &room)
 }
 
 // @Summary Create room for user
@@ -74,11 +77,9 @@ func (cc *RoomsController) GetRoomById(ctx *gin.Context) {
 // @ID create-room
 // @Accept  json
 // @Produce  json
-// @Param roomType path string true "room type: private, group"
 // @Success 200 {object} schemas.RoomPopulatedResponse
 // @Router /rooms [post]
 func (cc *RoomsController) CreateRoom(ctx *gin.Context) {
-	// roomType := ctx.Param("roomType")
 
 	var payload *schemas.CreateRoomPayload
 
@@ -87,7 +88,10 @@ func (cc *RoomsController) CreateRoom(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, &schemas.RoomPopulatedResponse{})
+	room, err := cc.RoomsService.CreateRoom(ctx, payload)
+	util.HandleErrorGin(ctx, err)
+
+	ctx.JSON(http.StatusOK, &room)
 }
 
 // @Summary Update room
@@ -101,9 +105,11 @@ func (cc *RoomsController) CreateRoom(ctx *gin.Context) {
 // @Router /rooms/{roomId} [patch]
 func (cc *RoomsController) UpdateRoom(ctx *gin.Context) {
 	roomId := ctx.Param("roomId")
-	fmt.Println(roomId)
 
-	ctx.JSON(http.StatusOK, &schemas.RoomPopulatedResponse{})
+	room, err := cc.RoomsService.UpdateRoom(ctx, roomId)
+	util.HandleErrorGin(ctx, err)
+
+	ctx.JSON(http.StatusOK, &room)
 }
 
 // @Summary Create message in room
@@ -115,7 +121,7 @@ func (cc *RoomsController) UpdateRoom(ctx *gin.Context) {
 // @Param request body schemas.CreateMessagePayload true "query params"
 // @Param roomId path string true "room Id"
 // @Success 200 {object} schemas.MessageResponse
-// @Router /rooms/create-message{roomId}/messages [post]
+// @Router /rooms/create-message/{roomId} [post]
 func (cc *RoomsController) CreateMessage(ctx *gin.Context) {
 	var payload *schemas.CreateMessagePayload
 
@@ -123,7 +129,11 @@ func (cc *RoomsController) CreateMessage(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	ctx.JSON(http.StatusOK, &schemas.MessageResponse{})
+
+	message, err := cc.RoomsService.CreateMessage(ctx, payload.RoomID)
+	util.HandleErrorGin(ctx, err)
+
+	ctx.JSON(http.StatusOK, &message)
 }
 
 // @Summary Add user to room
@@ -139,9 +149,11 @@ func (cc *RoomsController) CreateMessage(ctx *gin.Context) {
 func (cc *RoomsController) AddUserToRoom(ctx *gin.Context) {
 	roomId := ctx.Param("roomId")
 	userId := ctx.Param("userId")
-	fmt.Println(roomId, userId)
 
-	ctx.JSON(http.StatusOK, &schemas.RoomPopulatedResponse{})
+	room, err := cc.RoomsService.AddUserToRoom(ctx, roomId, userId)
+	util.HandleErrorGin(ctx, err)
+
+	ctx.JSON(http.StatusOK, &room)
 }
 
 // @Summary Delete user from room
@@ -157,7 +169,9 @@ func (cc *RoomsController) AddUserToRoom(ctx *gin.Context) {
 func (cc *RoomsController) DeleteUserFromRoom(ctx *gin.Context) {
 	roomId := ctx.Param("roomId")
 	userId := ctx.Param("userId")
-	fmt.Println(roomId, userId)
 
-	ctx.JSON(http.StatusOK, &schemas.RoomPopulatedResponse{})
+	err := cc.RoomsService.DeleteUserFromRoom(ctx, roomId, userId)
+	util.HandleErrorGin(ctx, err)
+
+	ctx.Status(http.StatusOK)
 }

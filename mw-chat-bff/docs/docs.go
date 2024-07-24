@@ -28,15 +28,6 @@ const docTemplate = `{
                 ],
                 "summary": "Create room for user",
                 "operationId": "create-room",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "room type: private, group",
-                        "name": "roomType",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -86,7 +77,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/rooms/create-message{roomId}/messages": {
+        "/rooms/create-message/{roomId}": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -176,7 +167,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.GetRoomsResponse"
+                            "$ref": "#/definitions/schemas.GetChatPreviewResponse"
                         }
                     }
                 }
@@ -223,7 +214,7 @@ const docTemplate = `{
                 "tags": [
                     "room"
                 ],
-                "summary": "Update room for user",
+                "summary": "Update room",
                 "operationId": "update-room",
                 "parameters": [
                     {
@@ -300,6 +291,17 @@ const docTemplate = `{
                 }
             }
         },
+        "schemas.GetChatPreviewResponse": {
+            "type": "object",
+            "required": [
+                "unreadMessagesAmount"
+            ],
+            "properties": {
+                "unreadMessagesAmount": {
+                    "type": "integer"
+                }
+            }
+        },
         "schemas.GetRoomsResponse": {
             "type": "object",
             "required": [
@@ -318,15 +320,37 @@ const docTemplate = `{
                 }
             }
         },
+        "schemas.MessageReaders": {
+            "type": "object",
+            "required": [
+                "readDate",
+                "userId"
+            ],
+            "properties": {
+                "readDate": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "string"
+                }
+            }
+        },
         "schemas.MessageResponse": {
             "type": "object",
             "required": [
                 "message",
+                "messageReaders",
                 "ownerId"
             ],
             "properties": {
                 "message": {
                     "type": "string"
+                },
+                "messageReaders": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.MessageReaders"
+                    }
                 },
                 "ownerId": {
                     "type": "string"
@@ -339,7 +363,8 @@ const docTemplate = `{
                 "isBlocked",
                 "messages",
                 "name",
-                "roomId"
+                "roomId",
+                "users"
             ],
             "properties": {
                 "isBlocked": {
@@ -356,6 +381,12 @@ const docTemplate = `{
                 },
                 "roomId": {
                     "type": "string"
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.UserResponse"
+                    }
                 }
             }
         },
@@ -364,7 +395,8 @@ const docTemplate = `{
             "required": [
                 "isBlocked",
                 "name",
-                "roomId"
+                "roomId",
+                "users"
             ],
             "properties": {
                 "isBlocked": {
@@ -374,6 +406,27 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "roomId": {
+                    "type": "string"
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.UserResponse"
+                    }
+                }
+            }
+        },
+        "schemas.UserResponse": {
+            "type": "object",
+            "required": [
+                "role",
+                "userId"
+            ],
+            "properties": {
+                "role": {
+                    "type": "string"
+                },
+                "userId": {
                     "type": "string"
                 }
             }
