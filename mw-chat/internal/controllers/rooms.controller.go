@@ -69,16 +69,16 @@ func (pc *RoomsController) GetRooms(ctx *gin.Context) {
 // @Success 200 {object} schemas.RoomPopulatedResponse
 // @Router /rooms/{roomId} [get]
 func (pc *RoomsController) GetRoomById(ctx *gin.Context) {
-	roomId := ctx.Param("/:roomId")
+	roomId := ctx.Param("roomId")
 	roomUUID := uuid.MustParse(roomId)
 
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	userUUID := uuid.MustParse(userIDRaw.(string))
 
-	p2pRoom, err := pc.RoomService.GetRoomByUuid(ctx, userUUID, roomUUID)
+	room, err := pc.RoomService.GetRoomByUuid(ctx, userUUID, roomUUID)
 	utils.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, p2pRoom)
+	ctx.JSON(http.StatusOK, room)
 }
 
 // @Summary Create room for user
@@ -195,30 +195,30 @@ func (pc *RoomsController) CreateMessage(ctx *gin.Context) {
 // @Produce  json
 // @Param roomId path string true "room Id"
 // @Param userId path string true "user Id to delete"
-// @Success 200 {object} schemas.RoomPopulatedResponse
+// @Success 200 {object} schemas.RoomPreviewResponse
 // @Router /rooms/add-user/{roomId}/users/{userId} [post]
 func (pc *RoomsController) AddUserToRoom(ctx *gin.Context) {
 	// groupRoomId := ctx.Param("groupRoomId")
 	// userId := ctx.Param("userId")
 	// fmt.Println(groupRoomId, userId)
 
-	ctx.JSON(http.StatusOK, &schemas.RoomPopulatedResponse{})
+	ctx.JSON(http.StatusOK, &schemas.RoomPreviewResponse{})
 }
 
 // @Summary Delete user from room
 // @Description
 // @Tags room
-// @ID delete-user-to-group
+// @ID delete-user-from-room
 // @Accept  json
 // @Produce  json
 // @Param roomId path string true "room Id"
 // @Param userId path string true "user Id to delete"
-// @Success 200 {object} schemas.RoomPopulatedResponse
+// @Success 200
 // @Router /group-rooms/{roomId}/users/{userId} [delete]
 func (pc *RoomsController) DeleteUserFromRoom(ctx *gin.Context) {
 	// groupRoomId := ctx.Param("roomId")
 	// userId := ctx.Param("userId")
 	// fmt.Println(groupRoomId, userId)
 
-	ctx.JSON(http.StatusOK, &schemas.RoomPopulatedResponse{})
+	ctx.Status(http.StatusOK)
 }

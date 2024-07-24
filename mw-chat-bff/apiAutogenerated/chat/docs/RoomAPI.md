@@ -6,7 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**AddUserToRoom**](RoomAPI.md#AddUserToRoom) | **Post** /rooms/add-user/{roomId}/users/{userId} | Add user to room
 [**CreateRoom**](RoomAPI.md#CreateRoom) | **Post** /rooms | Create room for user
-[**DeleteUserToGroup**](RoomAPI.md#DeleteUserToGroup) | **Delete** /group-rooms/{roomId}/users/{userId} | Delete user from room
+[**DeleteUserFromRoom**](RoomAPI.md#DeleteUserFromRoom) | **Delete** /group-rooms/{roomId}/users/{userId} | Delete user from room
 [**GetChatPreview**](RoomAPI.md#GetChatPreview) | **Get** /rooms/preview | Get chat preview
 [**GetRoomById**](RoomAPI.md#GetRoomById) | **Get** /rooms/{roomId} | Get room by id
 [**GetRooms**](RoomAPI.md#GetRooms) | **Get** /rooms/list/{roomType} | Get rooms for user
@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 ## AddUserToRoom
 
-> SchemasRoomPopulatedResponse AddUserToRoom(ctx, roomId, userId).Execute()
+> SchemasRoomPreviewResponse AddUserToRoom(ctx, roomId, userId).Execute()
 
 Add user to room
 
@@ -44,7 +44,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `RoomAPI.AddUserToRoom``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `AddUserToRoom`: SchemasRoomPopulatedResponse
+	// response from `AddUserToRoom`: SchemasRoomPreviewResponse
 	fmt.Fprintf(os.Stdout, "Response from `RoomAPI.AddUserToRoom`: %v\n", resp)
 }
 ```
@@ -70,7 +70,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SchemasRoomPopulatedResponse**](SchemasRoomPopulatedResponse.md)
+[**SchemasRoomPreviewResponse**](SchemasRoomPreviewResponse.md)
 
 ### Authorization
 
@@ -154,9 +154,9 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## DeleteUserToGroup
+## DeleteUserFromRoom
 
-> SchemasRoomPopulatedResponse DeleteUserToGroup(ctx, roomId, userId).Execute()
+> DeleteUserFromRoom(ctx, roomId, userId).Execute()
 
 Delete user from room
 
@@ -178,13 +178,11 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.RoomAPI.DeleteUserToGroup(context.Background(), roomId, userId).Execute()
+	r, err := apiClient.RoomAPI.DeleteUserFromRoom(context.Background(), roomId, userId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `RoomAPI.DeleteUserToGroup``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `RoomAPI.DeleteUserFromRoom``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `DeleteUserToGroup`: SchemasRoomPopulatedResponse
-	fmt.Fprintf(os.Stdout, "Response from `RoomAPI.DeleteUserToGroup`: %v\n", resp)
 }
 ```
 
@@ -199,7 +197,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiDeleteUserToGroupRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiDeleteUserFromRoomRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -209,7 +207,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SchemasRoomPopulatedResponse**](SchemasRoomPopulatedResponse.md)
+ (empty response body)
 
 ### Authorization
 
@@ -218,7 +216,7 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: application/json
+- **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)

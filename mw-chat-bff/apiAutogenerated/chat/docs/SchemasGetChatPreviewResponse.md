@@ -4,13 +4,13 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**UserId** | **int32** |  | 
+**UnreadMessagesAmount** | **int32** |  | 
 
 ## Methods
 
 ### NewSchemasGetChatPreviewResponse
 
-`func NewSchemasGetChatPreviewResponse(userId int32, ) *SchemasGetChatPreviewResponse`
+`func NewSchemasGetChatPreviewResponse(unreadMessagesAmount int32, ) *SchemasGetChatPreviewResponse`
 
 NewSchemasGetChatPreviewResponse instantiates a new SchemasGetChatPreviewResponse object
 This constructor will assign default values to properties that have it defined,
@@ -25,24 +25,24 @@ NewSchemasGetChatPreviewResponseWithDefaults instantiates a new SchemasGetChatPr
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetUserId
+### GetUnreadMessagesAmount
 
-`func (o *SchemasGetChatPreviewResponse) GetUserId() int32`
+`func (o *SchemasGetChatPreviewResponse) GetUnreadMessagesAmount() int32`
 
-GetUserId returns the UserId field if non-nil, zero value otherwise.
+GetUnreadMessagesAmount returns the UnreadMessagesAmount field if non-nil, zero value otherwise.
 
-### GetUserIdOk
+### GetUnreadMessagesAmountOk
 
-`func (o *SchemasGetChatPreviewResponse) GetUserIdOk() (*int32, bool)`
+`func (o *SchemasGetChatPreviewResponse) GetUnreadMessagesAmountOk() (*int32, bool)`
 
-GetUserIdOk returns a tuple with the UserId field if it's non-nil, zero value otherwise
+GetUnreadMessagesAmountOk returns a tuple with the UnreadMessagesAmount field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetUserId
+### SetUnreadMessagesAmount
 
-`func (o *SchemasGetChatPreviewResponse) SetUserId(v int32)`
+`func (o *SchemasGetChatPreviewResponse) SetUnreadMessagesAmount(v int32)`
 
-SetUserId sets UserId field to given value.
+SetUnreadMessagesAmount sets UnreadMessagesAmount field to given value.
 
 
 

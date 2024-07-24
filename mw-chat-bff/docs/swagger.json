@@ -17,15 +17,6 @@
                 ],
                 "summary": "Create room for user",
                 "operationId": "create-room",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "room type: private, group",
-                        "name": "roomType",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -75,7 +66,7 @@
                 }
             }
         },
-        "/rooms/create-message{roomId}/messages": {
+        "/rooms/create-message/{roomId}": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -165,7 +156,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.GetRoomsResponse"
+                            "$ref": "#/definitions/schemas.GetChatPreviewResponse"
                         }
                     }
                 }
@@ -212,7 +203,7 @@
                 "tags": [
                     "room"
                 ],
-                "summary": "Update room for user",
+                "summary": "Update room",
                 "operationId": "update-room",
                 "parameters": [
                     {
@@ -289,6 +280,17 @@
                 }
             }
         },
+        "schemas.GetChatPreviewResponse": {
+            "type": "object",
+            "required": [
+                "unreadMessagesAmount"
+            ],
+            "properties": {
+                "unreadMessagesAmount": {
+                    "type": "integer"
+                }
+            }
+        },
         "schemas.GetRoomsResponse": {
             "type": "object",
             "required": [
@@ -307,15 +309,37 @@
                 }
             }
         },
+        "schemas.MessageReaders": {
+            "type": "object",
+            "required": [
+                "readDate",
+                "userId"
+            ],
+            "properties": {
+                "readDate": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "string"
+                }
+            }
+        },
         "schemas.MessageResponse": {
             "type": "object",
             "required": [
                 "message",
+                "messageReaders",
                 "ownerId"
             ],
             "properties": {
                 "message": {
                     "type": "string"
+                },
+                "messageReaders": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.MessageReaders"
+                    }
                 },
                 "ownerId": {
                     "type": "string"
@@ -328,7 +352,8 @@
                 "isBlocked",
                 "messages",
                 "name",
-                "roomId"
+                "roomId",
+                "users"
             ],
             "properties": {
                 "isBlocked": {
@@ -345,6 +370,12 @@
                 },
                 "roomId": {
                     "type": "string"
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.UserResponse"
+                    }
                 }
             }
         },
@@ -353,7 +384,8 @@
             "required": [
                 "isBlocked",
                 "name",
-                "roomId"
+                "roomId",
+                "users"
             ],
             "properties": {
                 "isBlocked": {
@@ -363,6 +395,27 @@
                     "type": "string"
                 },
                 "roomId": {
+                    "type": "string"
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.UserResponse"
+                    }
+                }
+            }
+        },
+        "schemas.UserResponse": {
+            "type": "object",
+            "required": [
+                "role",
+                "userId"
+            ],
+            "properties": {
+                "role": {
+                    "type": "string"
+                },
+                "userId": {
                     "type": "string"
                 }
             }

@@ -80,7 +80,7 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *RoomAPI* | [**AddUserToRoom**](docs/RoomAPI.md#addusertoroom) | **Post** /rooms/add-user/{roomId}/users/{userId} | Add user to room
 *RoomAPI* | [**CreateRoom**](docs/RoomAPI.md#createroom) | **Post** /rooms | Create room for user
-*RoomAPI* | [**DeleteUserToGroup**](docs/RoomAPI.md#deleteusertogroup) | **Delete** /group-rooms/{roomId}/users/{userId} | Delete user from room
+*RoomAPI* | [**DeleteUserFromRoom**](docs/RoomAPI.md#deleteuserfromroom) | **Delete** /group-rooms/{roomId}/users/{userId} | Delete user from room
 *RoomAPI* | [**GetChatPreview**](docs/RoomAPI.md#getchatpreview) | **Get** /rooms/preview | Get chat preview
 *RoomAPI* | [**GetRoomById**](docs/RoomAPI.md#getroombyid) | **Get** /rooms/{roomId} | Get room by id
 *RoomAPI* | [**GetRooms**](docs/RoomAPI.md#getrooms) | **Get** /rooms/list/{roomType} | Get rooms for user

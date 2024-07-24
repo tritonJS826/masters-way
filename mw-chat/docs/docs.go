@@ -27,7 +27,7 @@ const docTemplate = `{
                     "room"
                 ],
                 "summary": "Delete user from room",
-                "operationId": "delete-user-to-group",
+                "operationId": "delete-user-from-room",
                 "parameters": [
                     {
                         "type": "string",
@@ -46,10 +46,7 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/schemas.RoomPopulatedResponse"
-                        }
+                        "description": "OK"
                     }
                 }
             }
@@ -119,7 +116,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.RoomPopulatedResponse"
+                            "$ref": "#/definitions/schemas.RoomPreviewResponse"
                         }
                     }
                 }
@@ -303,10 +300,10 @@ const docTemplate = `{
         "schemas.GetChatPreviewResponse": {
             "type": "object",
             "required": [
-                "userId"
+                "unreadMessagesAmount"
             ],
             "properties": {
-                "userId": {
+                "unreadMessagesAmount": {
                     "type": "integer"
                 }
             }

@@ -30,7 +30,7 @@ type ApiAddUserToRoomRequest struct {
 	userId string
 }
 
-func (r ApiAddUserToRoomRequest) Execute() (*SchemasRoomPopulatedResponse, *http.Response, error) {
+func (r ApiAddUserToRoomRequest) Execute() (*SchemasRoomPreviewResponse, *http.Response, error) {
 	return r.ApiService.AddUserToRoomExecute(r)
 }
 
@@ -52,13 +52,13 @@ func (a *RoomAPIService) AddUserToRoom(ctx context.Context, roomId string, userI
 }
 
 // Execute executes the request
-//  @return SchemasRoomPopulatedResponse
-func (a *RoomAPIService) AddUserToRoomExecute(r ApiAddUserToRoomRequest) (*SchemasRoomPopulatedResponse, *http.Response, error) {
+//  @return SchemasRoomPreviewResponse
+func (a *RoomAPIService) AddUserToRoomExecute(r ApiAddUserToRoomRequest) (*SchemasRoomPreviewResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasRoomPopulatedResponse
+		localVarReturnValue  *SchemasRoomPreviewResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.AddUserToRoom")
@@ -229,27 +229,27 @@ func (a *RoomAPIService) CreateRoomExecute(r ApiCreateRoomRequest) (*SchemasRoom
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiDeleteUserToGroupRequest struct {
+type ApiDeleteUserFromRoomRequest struct {
 	ctx context.Context
 	ApiService *RoomAPIService
 	roomId string
 	userId string
 }
 
-func (r ApiDeleteUserToGroupRequest) Execute() (*SchemasRoomPopulatedResponse, *http.Response, error) {
-	return r.ApiService.DeleteUserToGroupExecute(r)
+func (r ApiDeleteUserFromRoomRequest) Execute() (*http.Response, error) {
+	return r.ApiService.DeleteUserFromRoomExecute(r)
 }
 
 /*
-DeleteUserToGroup Delete user from room
+DeleteUserFromRoom Delete user from room
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param roomId room Id
  @param userId user Id to delete
- @return ApiDeleteUserToGroupRequest
+ @return ApiDeleteUserFromRoomRequest
 */
-func (a *RoomAPIService) DeleteUserToGroup(ctx context.Context, roomId string, userId string) ApiDeleteUserToGroupRequest {
-	return ApiDeleteUserToGroupRequest{
+func (a *RoomAPIService) DeleteUserFromRoom(ctx context.Context, roomId string, userId string) ApiDeleteUserFromRoomRequest {
+	return ApiDeleteUserFromRoomRequest{
 		ApiService: a,
 		ctx: ctx,
 		roomId: roomId,
@@ -258,18 +258,16 @@ func (a *RoomAPIService) DeleteUserToGroup(ctx context.Context, roomId string, u
 }
 
 // Execute executes the request
-//  @return SchemasRoomPopulatedResponse
-func (a *RoomAPIService) DeleteUserToGroupExecute(r ApiDeleteUserToGroupRequest) (*SchemasRoomPopulatedResponse, *http.Response, error) {
+func (a *RoomAPIService) DeleteUserFromRoomExecute(r ApiDeleteUserFromRoomRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasRoomPopulatedResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.DeleteUserToGroup")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.DeleteUserFromRoom")
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/group-rooms/{roomId}/users/{userId}"
@@ -290,7 +288,7 @@ func (a *RoomAPIService) DeleteUserToGroupExecute(r ApiDeleteUserToGroupRequest)
 	}
 
 	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
+	localVarHTTPHeaderAccepts := []string{}
 
 	// set Accept header
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
@@ -299,19 +297,19 @@ func (a *RoomAPIService) DeleteUserToGroupExecute(r ApiDeleteUserToGroupRequest)
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		return localVarHTTPResponse, err
 	}
 
 	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		return localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -319,19 +317,10 @@ func (a *RoomAPIService) DeleteUserToGroupExecute(r ApiDeleteUserToGroupRequest)
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarHTTPResponse, newErr
 	}
 
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarHTTPResponse, nil
 }
 
 type ApiGetChatPreviewRequest struct {

@@ -9,7 +9,7 @@ servers:
 paths:
   /group-rooms/{roomId}/users/{userId}:
     delete:
-      operationId: delete-user-to-group
+      operationId: delete-user-from-room
       parameters:
       - description: room Id
         in: path
@@ -25,10 +25,7 @@ paths:
           type: string
       responses:
         "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/schemas.RoomPopulatedResponse'
+          content: {}
           description: OK
       summary: Delete user from room
       tags:
@@ -74,7 +71,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/schemas.RoomPopulatedResponse'
+                $ref: '#/components/schemas/schemas.RoomPreviewResponse'
           description: OK
       summary: Add user to room
       tags:
@@ -193,12 +190,12 @@ components:
       type: object
     schemas.GetChatPreviewResponse:
       example:
-        userId: 0
+        unreadMessagesAmount: 0
       properties:
-        userId:
+        unreadMessagesAmount:
           type: integer
       required:
-      - userId
+      - unreadMessagesAmount
       type: object
     schemas.GetRoomsResponse:
       example:
