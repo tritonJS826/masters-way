@@ -1,5 +1,6 @@
 import {observer} from "mobx-react-lite";
 import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
+import {Separator} from "src/component/separator/Separator";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {languageStore} from "src/globalStore/LanguageStore";
@@ -64,6 +65,7 @@ export const StatisticLabels = observer((props: TagStatsProps) => {
             amountPercentage={tagStat.totalAmountPercentage}
             timePercentage={tagStat.totalTimePercentage}
           />
+          <Separator />
         </VerticalContainer>
       ))
       }
