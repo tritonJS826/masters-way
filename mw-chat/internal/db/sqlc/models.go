@@ -11,94 +11,118 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
-type GroupUserRole string
+type RoomType string
 
 const (
-	GroupUserRoleAdmin   GroupUserRole = "admin"
-	GroupUserRoleRegular GroupUserRole = "regular"
+	RoomTypePrivate RoomType = "private"
+	RoomTypeGroup   RoomType = "group"
 )
 
-func (e *GroupUserRole) Scan(src interface{}) error {
+func (e *RoomType) Scan(src interface{}) error {
 	switch s := src.(type) {
 	case []byte:
-		*e = GroupUserRole(s)
+		*e = RoomType(s)
 	case string:
-		*e = GroupUserRole(s)
+		*e = RoomType(s)
 	default:
-		return fmt.Errorf("unsupported scan type for GroupUserRole: %T", src)
+		return fmt.Errorf("unsupported scan type for RoomType: %T", src)
 	}
 	return nil
 }
 
-type NullGroupUserRole struct {
-	GroupUserRole GroupUserRole `json:"group_user_role"`
-	Valid         bool          `json:"valid"` // Valid is true if GroupUserRole is not NULL
+type NullRoomType struct {
+	RoomType RoomType `json:"room_type"`
+	Valid    bool     `json:"valid"` // Valid is true if RoomType is not NULL
 }
 
 // Scan implements the Scanner interface.
-func (ns *NullGroupUserRole) Scan(value interface{}) error {
+func (ns *NullRoomType) Scan(value interface{}) error {
 	if value == nil {
-		ns.GroupUserRole, ns.Valid = "", false
+		ns.RoomType, ns.Valid = "", false
 		return nil
 	}
 	ns.Valid = true
-	return ns.GroupUserRole.Scan(value)
+	return ns.RoomType.Scan(value)
 }
 
 // Value implements the driver Valuer interface.
-func (ns NullGroupUserRole) Value() (driver.Value, error) {
+func (ns NullRoomType) Value() (driver.Value, error) {
 	if !ns.Valid {
 		return nil, nil
 	}
-	return string(ns.GroupUserRole), nil
+	return string(ns.RoomType), nil
 }
 
-type GroupMessage struct {
+type UserRoleType string
+
+const (
+	UserRoleTypeAdmin   UserRoleType = "admin"
+	UserRoleTypeRegular UserRoleType = "regular"
+)
+
+func (e *UserRoleType) Scan(src interface{}) error {
+	switch s := src.(type) {
+	case []byte:
+		*e = UserRoleType(s)
+	case string:
+		*e = UserRoleType(s)
+	default:
+		return fmt.Errorf("unsupported scan type for UserRoleType: %T", src)
+	}
+	return nil
+}
+
+type NullUserRoleType struct {
+	UserRoleType UserRoleType `json:"user_role_type"`
+	Valid        bool         `json:"valid"` // Valid is true if UserRoleType is not NULL
+}
+
+// Scan implements the Scanner interface.
+func (ns *NullUserRoleType) Scan(value interface{}) error {
+	if value == nil {
+		ns.UserRoleType, ns.Valid = "", false
+		return nil
+	}
+	ns.Valid = true
+	return ns.UserRoleType.Scan(value)
+}
+
+// Value implements the driver Valuer interface.
+func (ns NullUserRoleType) Value() (driver.Value, error) {
+	if !ns.Valid {
+		return nil, nil
+	}
+	return string(ns.UserRoleType), nil
+}
+
+type Message struct {
 	Uuid      pgtype.UUID      `json:"uuid"`
 	OwnerUuid pgtype.UUID      `json:"owner_uuid"`
 	RoomUuid  pgtype.UUID      `json:"room_uuid"`
 	Text      string           `json:"text"`
 	CreatedAt pgtype.Timestamp `json:"created_at"`
-}
-
-type GroupRoom struct {
-	Uuid      pgtype.UUID      `json:"uuid"`
-	Name      string           `json:"name"`
-	IsBlocked bool             `json:"is_blocked"`
-	CreatedAt pgtype.Timestamp `json:"created_at"`
-}
-
-type P2pMessage struct {
-	Uuid      pgtype.UUID      `json:"uuid"`
-	OwnerUuid pgtype.UUID      `json:"owner_uuid"`
-	RoomUuid  pgtype.UUID      `json:"room_uuid"`
-	Text      string           `json:"text"`
-	CreatedAt pgtype.Timestamp `json:"created_at"`
-}
-
-type P2pRoom struct {
-	Uuid              pgtype.UUID      `json:"uuid"`
-	CreatedAt         pgtype.Timestamp `json:"created_at"`
-	BlockedByUserUuid pgtype.UUID      `json:"blocked_by_user_uuid"`
-}
-
-type UsersGroupRoom struct {
-	UserUuid  pgtype.UUID      `json:"user_uuid"`
-	RoomUuid  pgtype.UUID      `json:"room_uuid"`
-	Role      GroupUserRole    `json:"role"`
-	JoinedAt  pgtype.Timestamp `json:"joined_at"`
 	UpdatedAt pgtype.Timestamp `json:"updated_at"`
 }
 
-type UsersGroupRoomRequest struct {
-	SenderUuid   pgtype.UUID      `json:"sender_uuid"`
+type MessageStatus struct {
+	MessageUuid  pgtype.UUID      `json:"message_uuid"`
 	ReceiverUuid pgtype.UUID      `json:"receiver_uuid"`
-	RoomUuid     pgtype.UUID      `json:"room_uuid"`
-	CreatedAt    pgtype.Timestamp `json:"created_at"`
+	IsRead       bool             `json:"is_read"`
+	UpdatedAt    pgtype.Timestamp `json:"updated_at"`
 }
 
-type UsersP2pRoom struct {
-	UserUuid pgtype.UUID      `json:"user_uuid"`
-	RoomUuid pgtype.UUID      `json:"room_uuid"`
-	JoinedAt pgtype.Timestamp `json:"joined_at"`
+type Room struct {
+	Uuid      pgtype.UUID      `json:"uuid"`
+	Name      string           `json:"name"`
+	Type      RoomType         `json:"type"`
+	CreatedAt pgtype.Timestamp `json:"created_at"`
+}
+
+type UsersRoom struct {
+	UserUuid      pgtype.UUID      `json:"user_uuid"`
+	RoomUuid      pgtype.UUID      `json:"room_uuid"`
+	UserRole      UserRoleType     `json:"user_role"`
+	IsRoomBlocked bool             `json:"is_room_blocked"`
+	JoinedAt      pgtype.Timestamp `json:"joined_at"`
+	UpdatedAt     pgtype.Timestamp `json:"updated_at"`
 }

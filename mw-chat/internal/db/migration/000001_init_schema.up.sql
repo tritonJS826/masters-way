@@ -37,11 +37,3 @@ CREATE TABLE message_status (
     "updated_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT "message_status_pkey" PRIMARY KEY ("message_uuid", "receiver_uuid")
 );
-
-CREATE TABLE users_rooms_requests (
-    "sender_uuid" UUID NOT NULL,
-    "receiver_uuid" UUID NOT NULL,
-    "room_uuid" UUID NOT NULL REFERENCES rooms("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
-    "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT "users_rooms_requests_pkey" PRIMARY KEY ("sender_uuid", "receiver_uuid", "room_uuid")
-);

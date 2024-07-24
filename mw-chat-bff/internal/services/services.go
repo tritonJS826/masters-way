@@ -1,22 +1,27 @@
 package services
 
-import "github.com/gin-gonic/gin"
+import (
+	"mw-chat-bff/internal/schemas"
 
-type IP2PRoomsService interface {
-	GetP2PRoomById(ctx *gin.Context)
-}
+	"github.com/gin-gonic/gin"
+)
 
-type IGroupRoomsService interface {
+type IRoomsService interface {
+	GetChatPreview(ctx *gin.Context) (*schemas.GetChatPreviewResponse, error)
+	GetRooms(ctx *gin.Context, roomType string) (*schemas.GetRoomsResponse, error)
+	GetRoomById(ctx *gin.Context) (*schemas.RoomPopulatedResponse, error)
+	CreateRoom(ctx *gin.Context) (*schemas.RoomPopulatedResponse, error)
+	UpdateRoom(ctx *gin.Context) error
+	CreateMessage(ctx *gin.Context) (*schemas.MessageResponse, error)
+	AddUserToRoom(ctx *gin.Context) error
 }
 
 type Service struct {
-	IP2PRoomsService
-	IGroupRoomsService
+	IRoomsService
 }
 
 func NewService(ctx *gin.Context) *Service {
 	return &Service{
-		IP2PRoomsService:   NewP2PRoomsService(),
-		IGroupRoomsService: NewGroupRoomsService(),
+		IRoomsService: NewRoomsService(),
 	}
 }

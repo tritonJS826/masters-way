@@ -20,141 +20,40 @@ import (
 )
 
 
-// GroupAPIService GroupAPI service
-type GroupAPIService service
+// RoomAPIService RoomAPI service
+type RoomAPIService service
 
-type ApiAcceptRequestToGroupRoomRequest struct {
+type ApiAddUserToRoomRequest struct {
 	ctx context.Context
-	ApiService *GroupAPIService
-	groupRoomId string
-}
-
-func (r ApiAcceptRequestToGroupRoomRequest) Execute() (*SchemasRoomPopulatedResponse, *http.Response, error) {
-	return r.ApiService.AcceptRequestToGroupRoomExecute(r)
-}
-
-/*
-AcceptRequestToGroupRoom Accept request to group room
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param groupRoomId groupRoom Id to accept request
- @return ApiAcceptRequestToGroupRoomRequest
-*/
-func (a *GroupAPIService) AcceptRequestToGroupRoom(ctx context.Context, groupRoomId string) ApiAcceptRequestToGroupRoomRequest {
-	return ApiAcceptRequestToGroupRoomRequest{
-		ApiService: a,
-		ctx: ctx,
-		groupRoomId: groupRoomId,
-	}
-}
-
-// Execute executes the request
-//  @return SchemasRoomPopulatedResponse
-func (a *GroupAPIService) AcceptRequestToGroupRoomExecute(r ApiAcceptRequestToGroupRoomRequest) (*SchemasRoomPopulatedResponse, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *SchemasRoomPopulatedResponse
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "GroupAPIService.AcceptRequestToGroupRoom")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/group-rooms/{groupRoomId}/requests/accept"
-	localVarPath = strings.Replace(localVarPath, "{"+"groupRoomId"+"}", url.PathEscape(parameterValueToString(r.groupRoomId, "groupRoomId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiAddUserToGroupRequest struct {
-	ctx context.Context
-	ApiService *GroupAPIService
-	groupRoomId string
+	ApiService *RoomAPIService
+	roomId string
 	userId string
 }
 
-func (r ApiAddUserToGroupRequest) Execute() (*SchemasRoomPopulatedResponse, *http.Response, error) {
-	return r.ApiService.AddUserToGroupExecute(r)
+func (r ApiAddUserToRoomRequest) Execute() (*SchemasRoomPopulatedResponse, *http.Response, error) {
+	return r.ApiService.AddUserToRoomExecute(r)
 }
 
 /*
-AddUserToGroup Add user to group room
+AddUserToRoom Add user to room
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param groupRoomId group room Id
+ @param roomId room Id
  @param userId user Id to delete
- @return ApiAddUserToGroupRequest
+ @return ApiAddUserToRoomRequest
 */
-func (a *GroupAPIService) AddUserToGroup(ctx context.Context, groupRoomId string, userId string) ApiAddUserToGroupRequest {
-	return ApiAddUserToGroupRequest{
+func (a *RoomAPIService) AddUserToRoom(ctx context.Context, roomId string, userId string) ApiAddUserToRoomRequest {
+	return ApiAddUserToRoomRequest{
 		ApiService: a,
 		ctx: ctx,
-		groupRoomId: groupRoomId,
+		roomId: roomId,
 		userId: userId,
 	}
 }
 
 // Execute executes the request
 //  @return SchemasRoomPopulatedResponse
-func (a *GroupAPIService) AddUserToGroupExecute(r ApiAddUserToGroupRequest) (*SchemasRoomPopulatedResponse, *http.Response, error) {
+func (a *RoomAPIService) AddUserToRoomExecute(r ApiAddUserToRoomRequest) (*SchemasRoomPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -162,13 +61,13 @@ func (a *GroupAPIService) AddUserToGroupExecute(r ApiAddUserToGroupRequest) (*Sc
 		localVarReturnValue  *SchemasRoomPopulatedResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "GroupAPIService.AddUserToGroup")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.AddUserToRoom")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/group-rooms/{groupRoomId}/users/{userId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"groupRoomId"+"}", url.PathEscape(parameterValueToString(r.groupRoomId, "groupRoomId")), -1)
+	localVarPath := localBasePath + "/rooms/add-user/{roomId}/users/{userId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"roomId"+"}", url.PathEscape(parameterValueToString(r.roomId, "roomId")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"userId"+"}", url.PathEscape(parameterValueToString(r.userId, "userId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -229,31 +128,34 @@ func (a *GroupAPIService) AddUserToGroupExecute(r ApiAddUserToGroupRequest) (*Sc
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiCreateGroupRoomsRequest struct {
+type ApiCreateRoomRequest struct {
 	ctx context.Context
-	ApiService *GroupAPIService
+	ApiService *RoomAPIService
+	roomType string
 }
 
-func (r ApiCreateGroupRoomsRequest) Execute() (*SchemasRoomPopulatedResponse, *http.Response, error) {
-	return r.ApiService.CreateGroupRoomsExecute(r)
+func (r ApiCreateRoomRequest) Execute() (*SchemasRoomPopulatedResponse, *http.Response, error) {
+	return r.ApiService.CreateRoomExecute(r)
 }
 
 /*
-CreateGroupRooms Create group rooms for user
+CreateRoom Create room for user
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiCreateGroupRoomsRequest
+ @param roomType room type: private, group
+ @return ApiCreateRoomRequest
 */
-func (a *GroupAPIService) CreateGroupRooms(ctx context.Context) ApiCreateGroupRoomsRequest {
-	return ApiCreateGroupRoomsRequest{
+func (a *RoomAPIService) CreateRoom(ctx context.Context, roomType string) ApiCreateRoomRequest {
+	return ApiCreateRoomRequest{
 		ApiService: a,
 		ctx: ctx,
+		roomType: roomType,
 	}
 }
 
 // Execute executes the request
 //  @return SchemasRoomPopulatedResponse
-func (a *GroupAPIService) CreateGroupRoomsExecute(r ApiCreateGroupRoomsRequest) (*SchemasRoomPopulatedResponse, *http.Response, error) {
+func (a *RoomAPIService) CreateRoomExecute(r ApiCreateRoomRequest) (*SchemasRoomPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -261,12 +163,13 @@ func (a *GroupAPIService) CreateGroupRoomsExecute(r ApiCreateGroupRoomsRequest) 
 		localVarReturnValue  *SchemasRoomPopulatedResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "GroupAPIService.CreateGroupRooms")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.CreateRoom")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/group-rooms"
+	localVarPath := localBasePath + "/rooms"
+	localVarPath = strings.Replace(localVarPath, "{"+"roomType"+"}", url.PathEscape(parameterValueToString(r.roomType, "roomType")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -326,41 +229,445 @@ func (a *GroupAPIService) CreateGroupRoomsExecute(r ApiCreateGroupRoomsRequest) 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiCreateMessageInGroupRoomRequest struct {
+type ApiDeleteUserToGroupRequest struct {
 	ctx context.Context
-	ApiService *GroupAPIService
-	groupRoomId string
+	ApiService *RoomAPIService
+	roomId string
+	userId string
+}
+
+func (r ApiDeleteUserToGroupRequest) Execute() (*SchemasRoomPopulatedResponse, *http.Response, error) {
+	return r.ApiService.DeleteUserToGroupExecute(r)
+}
+
+/*
+DeleteUserToGroup Delete user from room
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param roomId room Id
+ @param userId user Id to delete
+ @return ApiDeleteUserToGroupRequest
+*/
+func (a *RoomAPIService) DeleteUserToGroup(ctx context.Context, roomId string, userId string) ApiDeleteUserToGroupRequest {
+	return ApiDeleteUserToGroupRequest{
+		ApiService: a,
+		ctx: ctx,
+		roomId: roomId,
+		userId: userId,
+	}
+}
+
+// Execute executes the request
+//  @return SchemasRoomPopulatedResponse
+func (a *RoomAPIService) DeleteUserToGroupExecute(r ApiDeleteUserToGroupRequest) (*SchemasRoomPopulatedResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodDelete
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *SchemasRoomPopulatedResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.DeleteUserToGroup")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/group-rooms/{roomId}/users/{userId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"roomId"+"}", url.PathEscape(parameterValueToString(r.roomId, "roomId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"userId"+"}", url.PathEscape(parameterValueToString(r.userId, "userId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiGetChatPreviewRequest struct {
+	ctx context.Context
+	ApiService *RoomAPIService
+}
+
+func (r ApiGetChatPreviewRequest) Execute() (*SchemasGetChatPreviewResponse, *http.Response, error) {
+	return r.ApiService.GetChatPreviewExecute(r)
+}
+
+/*
+GetChatPreview Get chat preview
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiGetChatPreviewRequest
+*/
+func (a *RoomAPIService) GetChatPreview(ctx context.Context) ApiGetChatPreviewRequest {
+	return ApiGetChatPreviewRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+//  @return SchemasGetChatPreviewResponse
+func (a *RoomAPIService) GetChatPreviewExecute(r ApiGetChatPreviewRequest) (*SchemasGetChatPreviewResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *SchemasGetChatPreviewResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.GetChatPreview")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/rooms/preview"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiGetRoomByIdRequest struct {
+	ctx context.Context
+	ApiService *RoomAPIService
+	roomId string
+}
+
+func (r ApiGetRoomByIdRequest) Execute() (*SchemasRoomPopulatedResponse, *http.Response, error) {
+	return r.ApiService.GetRoomByIdExecute(r)
+}
+
+/*
+GetRoomById Get room by id
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param roomId room Id
+ @return ApiGetRoomByIdRequest
+*/
+func (a *RoomAPIService) GetRoomById(ctx context.Context, roomId string) ApiGetRoomByIdRequest {
+	return ApiGetRoomByIdRequest{
+		ApiService: a,
+		ctx: ctx,
+		roomId: roomId,
+	}
+}
+
+// Execute executes the request
+//  @return SchemasRoomPopulatedResponse
+func (a *RoomAPIService) GetRoomByIdExecute(r ApiGetRoomByIdRequest) (*SchemasRoomPopulatedResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *SchemasRoomPopulatedResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.GetRoomById")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/rooms/{roomId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"roomId"+"}", url.PathEscape(parameterValueToString(r.roomId, "roomId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiGetRoomsRequest struct {
+	ctx context.Context
+	ApiService *RoomAPIService
+	roomType string
+}
+
+func (r ApiGetRoomsRequest) Execute() (*SchemasGetRoomsResponse, *http.Response, error) {
+	return r.ApiService.GetRoomsExecute(r)
+}
+
+/*
+GetRooms Get rooms for user
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param roomType room type: private | group
+ @return ApiGetRoomsRequest
+*/
+func (a *RoomAPIService) GetRooms(ctx context.Context, roomType string) ApiGetRoomsRequest {
+	return ApiGetRoomsRequest{
+		ApiService: a,
+		ctx: ctx,
+		roomType: roomType,
+	}
+}
+
+// Execute executes the request
+//  @return SchemasGetRoomsResponse
+func (a *RoomAPIService) GetRoomsExecute(r ApiGetRoomsRequest) (*SchemasGetRoomsResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *SchemasGetRoomsResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.GetRooms")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/rooms/list/{roomType}"
+	localVarPath = strings.Replace(localVarPath, "{"+"roomType"+"}", url.PathEscape(parameterValueToString(r.roomType, "roomType")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiMakeMessageInRoomRequest struct {
+	ctx context.Context
+	ApiService *RoomAPIService
+	roomId string
 	request *SchemasCreateMessagePayload
 }
 
 // query params
-func (r ApiCreateMessageInGroupRoomRequest) Request(request SchemasCreateMessagePayload) ApiCreateMessageInGroupRoomRequest {
+func (r ApiMakeMessageInRoomRequest) Request(request SchemasCreateMessagePayload) ApiMakeMessageInRoomRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiCreateMessageInGroupRoomRequest) Execute() (*SchemasMessageResponse, *http.Response, error) {
-	return r.ApiService.CreateMessageInGroupRoomExecute(r)
+func (r ApiMakeMessageInRoomRequest) Execute() (*SchemasMessageResponse, *http.Response, error) {
+	return r.ApiService.MakeMessageInRoomExecute(r)
 }
 
 /*
-CreateMessageInGroupRoom Create message to group room
+MakeMessageInRoom Create message in room
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param groupRoomId group room Id
- @return ApiCreateMessageInGroupRoomRequest
+ @param roomId room Id
+ @return ApiMakeMessageInRoomRequest
 */
-func (a *GroupAPIService) CreateMessageInGroupRoom(ctx context.Context, groupRoomId string) ApiCreateMessageInGroupRoomRequest {
-	return ApiCreateMessageInGroupRoomRequest{
+func (a *RoomAPIService) MakeMessageInRoom(ctx context.Context, roomId string) ApiMakeMessageInRoomRequest {
+	return ApiMakeMessageInRoomRequest{
 		ApiService: a,
 		ctx: ctx,
-		groupRoomId: groupRoomId,
+		roomId: roomId,
 	}
 }
 
 // Execute executes the request
 //  @return SchemasMessageResponse
-func (a *GroupAPIService) CreateMessageInGroupRoomExecute(r ApiCreateMessageInGroupRoomRequest) (*SchemasMessageResponse, *http.Response, error) {
+func (a *RoomAPIService) MakeMessageInRoomExecute(r ApiMakeMessageInRoomRequest) (*SchemasMessageResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -368,13 +675,13 @@ func (a *GroupAPIService) CreateMessageInGroupRoomExecute(r ApiCreateMessageInGr
 		localVarReturnValue  *SchemasMessageResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "GroupAPIService.CreateMessageInGroupRoom")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.MakeMessageInRoom")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/group-rooms/{groupRoomId}/messages"
-	localVarPath = strings.Replace(localVarPath, "{"+"groupRoomId"+"}", url.PathEscape(parameterValueToString(r.groupRoomId, "groupRoomId")), -1)
+	localVarPath := localBasePath + "/rooms/create-message{roomId}/messages"
+	localVarPath = strings.Replace(localVarPath, "{"+"roomId"+"}", url.PathEscape(parameterValueToString(r.roomId, "roomId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -439,633 +746,34 @@ func (a *GroupAPIService) CreateMessageInGroupRoomExecute(r ApiCreateMessageInGr
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiCreateRequestsToGroupRoomRequest struct {
+type ApiUpdateRoomRequest struct {
 	ctx context.Context
-	ApiService *GroupAPIService
-	request *SchemasCreateRequestToGroupRoomPayload
+	ApiService *RoomAPIService
+	roomId string
 }
 
-// query params
-func (r ApiCreateRequestsToGroupRoomRequest) Request(request SchemasCreateRequestToGroupRoomPayload) ApiCreateRequestsToGroupRoomRequest {
-	r.request = &request
-	return r
-}
-
-func (r ApiCreateRequestsToGroupRoomRequest) Execute() (*http.Response, error) {
-	return r.ApiService.CreateRequestsToGroupRoomExecute(r)
+func (r ApiUpdateRoomRequest) Execute() (*SchemasRoomPopulatedResponse, *http.Response, error) {
+	return r.ApiService.UpdateRoomExecute(r)
 }
 
 /*
-CreateRequestsToGroupRoom Create requests to group room
+UpdateRoom Update room for user
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiCreateRequestsToGroupRoomRequest
+ @param roomId room Id
+ @return ApiUpdateRoomRequest
 */
-func (a *GroupAPIService) CreateRequestsToGroupRoom(ctx context.Context) ApiCreateRequestsToGroupRoomRequest {
-	return ApiCreateRequestsToGroupRoomRequest{
+func (a *RoomAPIService) UpdateRoom(ctx context.Context, roomId string) ApiUpdateRoomRequest {
+	return ApiUpdateRoomRequest{
 		ApiService: a,
 		ctx: ctx,
-	}
-}
-
-// Execute executes the request
-func (a *GroupAPIService) CreateRequestsToGroupRoomExecute(r ApiCreateRequestsToGroupRoomRequest) (*http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "GroupAPIService.CreateRequestsToGroupRoom")
-	if err != nil {
-		return nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/group-rooms/requests"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-	if r.request == nil {
-		return nil, reportError("request is required and must be specified")
-	}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/json"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	// body params
-	localVarPostBody = r.request
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarHTTPResponse, newErr
-	}
-
-	return localVarHTTPResponse, nil
-}
-
-type ApiDeclineRequestToGroupRoomRequest struct {
-	ctx context.Context
-	ApiService *GroupAPIService
-	groupRoomId string
-}
-
-func (r ApiDeclineRequestToGroupRoomRequest) Execute() (*SchemasDeclineRequestToGroupRoomResponse, *http.Response, error) {
-	return r.ApiService.DeclineRequestToGroupRoomExecute(r)
-}
-
-/*
-DeclineRequestToGroupRoom Decline request to group room
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param groupRoomId groupRoom Id to delete request
- @return ApiDeclineRequestToGroupRoomRequest
-*/
-func (a *GroupAPIService) DeclineRequestToGroupRoom(ctx context.Context, groupRoomId string) ApiDeclineRequestToGroupRoomRequest {
-	return ApiDeclineRequestToGroupRoomRequest{
-		ApiService: a,
-		ctx: ctx,
-		groupRoomId: groupRoomId,
-	}
-}
-
-// Execute executes the request
-//  @return SchemasDeclineRequestToGroupRoomResponse
-func (a *GroupAPIService) DeclineRequestToGroupRoomExecute(r ApiDeclineRequestToGroupRoomRequest) (*SchemasDeclineRequestToGroupRoomResponse, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *SchemasDeclineRequestToGroupRoomResponse
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "GroupAPIService.DeclineRequestToGroupRoom")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/group-rooms/{groupRoomId}/requests/decline"
-	localVarPath = strings.Replace(localVarPath, "{"+"groupRoomId"+"}", url.PathEscape(parameterValueToString(r.groupRoomId, "groupRoomId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiDeleteUserToGroupRequest struct {
-	ctx context.Context
-	ApiService *GroupAPIService
-	groupRoomId string
-	userId string
-}
-
-func (r ApiDeleteUserToGroupRequest) Execute() (*SchemasRoomPopulatedResponse, *http.Response, error) {
-	return r.ApiService.DeleteUserToGroupExecute(r)
-}
-
-/*
-DeleteUserToGroup Delete user to group room
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param groupRoomId group room Id
- @param userId user Id to delete
- @return ApiDeleteUserToGroupRequest
-*/
-func (a *GroupAPIService) DeleteUserToGroup(ctx context.Context, groupRoomId string, userId string) ApiDeleteUserToGroupRequest {
-	return ApiDeleteUserToGroupRequest{
-		ApiService: a,
-		ctx: ctx,
-		groupRoomId: groupRoomId,
-		userId: userId,
+		roomId: roomId,
 	}
 }
 
 // Execute executes the request
 //  @return SchemasRoomPopulatedResponse
-func (a *GroupAPIService) DeleteUserToGroupExecute(r ApiDeleteUserToGroupRequest) (*SchemasRoomPopulatedResponse, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *SchemasRoomPopulatedResponse
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "GroupAPIService.DeleteUserToGroup")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/group-rooms/{groupRoomId}/users/{userId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"groupRoomId"+"}", url.PathEscape(parameterValueToString(r.groupRoomId, "groupRoomId")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"userId"+"}", url.PathEscape(parameterValueToString(r.userId, "userId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiGetGroupRoomByIdRequest struct {
-	ctx context.Context
-	ApiService *GroupAPIService
-	groupRoomId string
-}
-
-func (r ApiGetGroupRoomByIdRequest) Execute() (*SchemasRoomPopulatedResponse, *http.Response, error) {
-	return r.ApiService.GetGroupRoomByIdExecute(r)
-}
-
-/*
-GetGroupRoomById Get group room by id
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param groupRoomId group room Id
- @return ApiGetGroupRoomByIdRequest
-*/
-func (a *GroupAPIService) GetGroupRoomById(ctx context.Context, groupRoomId string) ApiGetGroupRoomByIdRequest {
-	return ApiGetGroupRoomByIdRequest{
-		ApiService: a,
-		ctx: ctx,
-		groupRoomId: groupRoomId,
-	}
-}
-
-// Execute executes the request
-//  @return SchemasRoomPopulatedResponse
-func (a *GroupAPIService) GetGroupRoomByIdExecute(r ApiGetGroupRoomByIdRequest) (*SchemasRoomPopulatedResponse, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *SchemasRoomPopulatedResponse
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "GroupAPIService.GetGroupRoomById")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/group-rooms/{groupRoomId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"groupRoomId"+"}", url.PathEscape(parameterValueToString(r.groupRoomId, "groupRoomId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiGetGroupRoomsRequest struct {
-	ctx context.Context
-	ApiService *GroupAPIService
-}
-
-func (r ApiGetGroupRoomsRequest) Execute() (*SchemasGetRoomsResponse, *http.Response, error) {
-	return r.ApiService.GetGroupRoomsExecute(r)
-}
-
-/*
-GetGroupRooms Get group rooms preview for user
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetGroupRoomsRequest
-*/
-func (a *GroupAPIService) GetGroupRooms(ctx context.Context) ApiGetGroupRoomsRequest {
-	return ApiGetGroupRoomsRequest{
-		ApiService: a,
-		ctx: ctx,
-	}
-}
-
-// Execute executes the request
-//  @return SchemasGetRoomsResponse
-func (a *GroupAPIService) GetGroupRoomsExecute(r ApiGetGroupRoomsRequest) (*SchemasGetRoomsResponse, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *SchemasGetRoomsResponse
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "GroupAPIService.GetGroupRooms")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/group-rooms"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiGetRequestsToGroupRoomRequest struct {
-	ctx context.Context
-	ApiService *GroupAPIService
-}
-
-func (r ApiGetRequestsToGroupRoomRequest) Execute() (*SchemasGetRequestsToGroupRoomResponse, *http.Response, error) {
-	return r.ApiService.GetRequestsToGroupRoomExecute(r)
-}
-
-/*
-GetRequestsToGroupRoom Get requests to group room
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetRequestsToGroupRoomRequest
-*/
-func (a *GroupAPIService) GetRequestsToGroupRoom(ctx context.Context) ApiGetRequestsToGroupRoomRequest {
-	return ApiGetRequestsToGroupRoomRequest{
-		ApiService: a,
-		ctx: ctx,
-	}
-}
-
-// Execute executes the request
-//  @return SchemasGetRequestsToGroupRoomResponse
-func (a *GroupAPIService) GetRequestsToGroupRoomExecute(r ApiGetRequestsToGroupRoomRequest) (*SchemasGetRequestsToGroupRoomResponse, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *SchemasGetRequestsToGroupRoomResponse
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "GroupAPIService.GetRequestsToGroupRoom")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/group-rooms/requests"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiUpdateGroupRoomsRequest struct {
-	ctx context.Context
-	ApiService *GroupAPIService
-	groupRoomId string
-}
-
-func (r ApiUpdateGroupRoomsRequest) Execute() (*SchemasRoomPopulatedResponse, *http.Response, error) {
-	return r.ApiService.UpdateGroupRoomsExecute(r)
-}
-
-/*
-UpdateGroupRooms Update group rooms for user
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param groupRoomId group room Id
- @return ApiUpdateGroupRoomsRequest
-*/
-func (a *GroupAPIService) UpdateGroupRooms(ctx context.Context, groupRoomId string) ApiUpdateGroupRoomsRequest {
-	return ApiUpdateGroupRoomsRequest{
-		ApiService: a,
-		ctx: ctx,
-		groupRoomId: groupRoomId,
-	}
-}
-
-// Execute executes the request
-//  @return SchemasRoomPopulatedResponse
-func (a *GroupAPIService) UpdateGroupRoomsExecute(r ApiUpdateGroupRoomsRequest) (*SchemasRoomPopulatedResponse, *http.Response, error) {
+func (a *RoomAPIService) UpdateRoomExecute(r ApiUpdateRoomRequest) (*SchemasRoomPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarPostBody     interface{}
@@ -1073,13 +781,13 @@ func (a *GroupAPIService) UpdateGroupRoomsExecute(r ApiUpdateGroupRoomsRequest) 
 		localVarReturnValue  *SchemasRoomPopulatedResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "GroupAPIService.UpdateGroupRooms")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.UpdateRoom")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/group-rooms/{groupRoomId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"groupRoomId"+"}", url.PathEscape(parameterValueToString(r.groupRoomId, "groupRoomId")), -1)
+	localVarPath := localBasePath + "/rooms/{roomId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"roomId"+"}", url.PathEscape(parameterValueToString(r.roomId, "roomId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}

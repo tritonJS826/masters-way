@@ -49,33 +49,22 @@ func NewServer(cfg *config.Config) *Server {
 func (server *Server) SetRoutes(controller *controllers.Controller) {
 	chat := server.GinServer.Group("/chat")
 	{
-		p2pRooms := chat.Group("/p2p-rooms")
-		{
-			p2pRooms.GET("", controller.P2PRoomsController.GetP2PRooms)
-			p2pRooms.GET("/:p2pRoomId", controller.P2PRoomsController.GetP2PRoomById)
-			p2pRooms.POST("/:p2pRoomId", controller.P2PRoomsController.CreateP2PRoom)
-			p2pRooms.PATCH("/:p2pRoomId", controller.P2PRoomsController.UpdateP2PRoom)
 
-			p2pRooms.POST("/:p2pRoomId/messages", controller.P2PRoomsController.CreateMessageInP2PRoom)
+		rooms := chat.Group("/rooms")
+		{
+			rooms.GET("/preview", controller.RoomsController.GetChatPreview)
+
+			rooms.GET("/list/:roomType", controller.RoomsController.GetRooms)
+			rooms.GET("/:roomId", controller.RoomsController.GetRoomById)
+			rooms.POST("/:roomType", controller.RoomsController.CreateRoom)
+			rooms.PATCH("/:roomId", controller.RoomsController.UpdateRoom)
+
+			rooms.POST("create-message/:roomId/messages", controller.RoomsController.CreateMessage)
+
+			rooms.POST("add-user/:roomId/users/:userId", controller.RoomsController.AddUserToRoom)
+
+			rooms.DELETE("/:roomId/users/:userId", controller.RoomsController.DeleteUserFromRoom)
 		}
 
-		groupRooms := chat.Group("/group-rooms")
-		{
-			groupRooms.GET("", controller.GroupRoomsController.GetGroupRoomsPreview)
-			groupRooms.POST("", controller.GroupRoomsController.CreateGroupRoom)
-			groupRooms.GET("/:groupRoomId", controller.GroupRoomsController.GetGroupRoomById)
-			groupRooms.PATCH("/:groupRoomId", controller.GroupRoomsController.UpdateGroupRoom)
-
-			groupRooms.POST("/:groupRoomId/users/:userId", controller.GroupRoomsController.AddUserToGroupRoom)
-			groupRooms.DELETE("/:groupRoomId/users/:userId", controller.GroupRoomsController.DeleteUserFromGroupRoom)
-
-			groupRooms.GET("/requests", controller.GroupRoomsController.GetRequestsToGroupRoom)
-			groupRooms.POST("/requests", controller.GroupRoomsController.CreateRequestsToGroupRoom)
-
-			groupRooms.POST("/:groupRoomId/requests/accept", controller.GroupRoomsController.AcceptRequestsToGroupRoom)
-			groupRooms.DELETE("/:groupRoomId/requests/decline", controller.GroupRoomsController.DeclineRequestsToGroupRoom)
-
-			groupRooms.POST("/:groupRoomId/messages", controller.GroupRoomsController.CreateMessageInGroupRoom)
-		}
 	}
 }
