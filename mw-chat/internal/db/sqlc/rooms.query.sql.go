@@ -30,10 +30,75 @@ func (q *Queries) CreateRoom(ctx context.Context, arg CreateRoomParams) (pgtype.
 	return uuid, err
 }
 
+const getRoomByUUID = `-- name: GetRoomByUUID :one
+SELECT
+    rooms.uuid,
+    rooms.name,
+    rooms.type,
+    users_rooms.is_room_blocked,
+    ARRAY(
+        SELECT
+            users_rooms.user_uuid
+        FROM users_rooms
+        WHERE users_rooms.room_uuid = rooms.uuid
+    )::UUID[] AS user_uuids,
+    ARRAY(
+            SELECT
+                users_rooms.role
+            FROM users_rooms
+            WHERE users_rooms.room_uuid = rooms.uuid
+    )::VARCHAR[] AS user_roles
+FROM rooms
+JOIN users_rooms ON rooms.uuid = users_rooms.room_uuid
+WHERE rooms.uuid = $1 AND users_rooms.user_uuid = $2
+`
+
+type GetRoomByUUIDParams struct {
+	RoomUuid pgtype.UUID `json:"room_uuid"`
+	UserUuid pgtype.UUID `json:"user_uuid"`
+}
+
+type GetRoomByUUIDRow struct {
+	Uuid          pgtype.UUID   `json:"uuid"`
+	Name          string        `json:"name"`
+	Type          RoomType      `json:"type"`
+	IsRoomBlocked bool          `json:"is_room_blocked"`
+	UserUuids     []pgtype.UUID `json:"user_uuids"`
+	UserRoles     []string      `json:"user_roles"`
+}
+
+func (q *Queries) GetRoomByUUID(ctx context.Context, arg GetRoomByUUIDParams) (GetRoomByUUIDRow, error) {
+	row := q.db.QueryRow(ctx, getRoomByUUID, arg.RoomUuid, arg.UserUuid)
+	var i GetRoomByUUIDRow
+	err := row.Scan(
+		&i.Uuid,
+		&i.Name,
+		&i.Type,
+		&i.IsRoomBlocked,
+		&i.UserUuids,
+		&i.UserRoles,
+	)
+	return i, err
+}
+
 const getRoomsByUserUUID = `-- name: GetRoomsByUserUUID :many
 SELECT
     rooms.uuid,
-    rooms.type
+    rooms.name,
+    rooms.type,
+    users_rooms.is_room_blocked,
+    ARRAY(
+        SELECT
+            users_rooms.user_uuid
+        FROM users_rooms
+        WHERE users_rooms.room_uuid = rooms.uuid
+    )::UUID[] AS user_uuids,
+    ARRAY(
+            SELECT
+                users_rooms.role
+            FROM users_rooms
+            WHERE users_rooms.room_uuid = rooms.uuid
+    )::VARCHAR[] AS user_roles
 FROM rooms
 JOIN users_rooms ON rooms.uuid = users_rooms.room_uuid
 WHERE users_rooms.user_uuid = $1 AND rooms.type = $2
@@ -45,8 +110,12 @@ type GetRoomsByUserUUIDParams struct {
 }
 
 type GetRoomsByUserUUIDRow struct {
-	Uuid pgtype.UUID `json:"uuid"`
-	Type RoomType    `json:"type"`
+	Uuid          pgtype.UUID   `json:"uuid"`
+	Name          string        `json:"name"`
+	Type          RoomType      `json:"type"`
+	IsRoomBlocked bool          `json:"is_room_blocked"`
+	UserUuids     []pgtype.UUID `json:"user_uuids"`
+	UserRoles     []string      `json:"user_roles"`
 }
 
 func (q *Queries) GetRoomsByUserUUID(ctx context.Context, arg GetRoomsByUserUUIDParams) ([]GetRoomsByUserUUIDRow, error) {
@@ -58,7 +127,14 @@ func (q *Queries) GetRoomsByUserUUID(ctx context.Context, arg GetRoomsByUserUUID
 	items := []GetRoomsByUserUUIDRow{}
 	for rows.Next() {
 		var i GetRoomsByUserUUIDRow
-		if err := rows.Scan(&i.Uuid, &i.Type); err != nil {
+		if err := rows.Scan(
+			&i.Uuid,
+			&i.Name,
+			&i.Type,
+			&i.IsRoomBlocked,
+			&i.UserUuids,
+			&i.UserRoles,
+		); err != nil {
 			return nil, err
 		}
 		items = append(items, i)

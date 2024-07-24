@@ -3,8 +3,11 @@ package schemas
 type GetChatPreviewResponse struct {
 	UnreadMessagesAmount int32 `json:"unreadMessagesAmount" validate:"required"`
 }
+
 type CreateRoomPayload struct {
-	RoomType string `json:"roomType" validate:"required"`
+	UserID   *string `json:"userId" validate:"required" extensions:"x-nullable"`
+	Name     *string `json:"name" validate:"required" extensions:"x-nullable"`
+	RoomType string  `json:"roomType" validate:"required"`
 }
 
 type RoomPopulatedResponse struct {
@@ -22,7 +25,7 @@ type UserResponse struct {
 
 type RoomPreviewResponse struct {
 	RoomID    string         `json:"roomId" validate:"required"`
-	Name      *string        `json:"name" validate:"required" extensions:"x-nullable`
+	Name      *string        `json:"name" validate:"required" extensions:"x-nullable"`
 	IsBlocked bool           `json:"isBlocked" validate:"required"`
 	Users     []UserResponse `json:"users" validate:"required"`
 }
@@ -33,7 +36,6 @@ type GetRoomsResponse struct {
 }
 
 type CreateMessagePayload struct {
-	RoomID  string `json:"roomId" validate:"required"`
 	Message string `json:"message" validate:"required"`
 }
 

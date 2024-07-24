@@ -3,11 +3,14 @@ package services
 import (
 	"context"
 	"mwchat/internal/schemas"
+	"mwchat/pkg/utils"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/samber/lo"
 
 	db "mwchat/internal/db/sqlc"
 )
@@ -17,7 +20,8 @@ type RoomsRepository interface {
 	CreateMessage(ctx context.Context, arg db.CreateMessageParams) (db.CreateMessageRow, error)
 	GetMessagesByRoomUUID(ctx context.Context, roomUuid pgtype.UUID) ([]db.GetMessagesByRoomUUIDRow, error)
 	GetRoomsByUserUUID(ctx context.Context, arg db.GetRoomsByUserUUIDParams) ([]db.GetRoomsByUserUUIDRow, error)
-	AddUserToRoom(ctx context.Context, arg db.AddUserToRoomParams) error
+	GetRoomByUUID(ctx context.Context, arg db.GetRoomByUUIDParams) (db.GetRoomByUUIDRow, error)
+	AddUserToRoom(ctx context.Context, arg db.AddUserToRoomParams) (db.AddUserToRoomRow, error)
 	WithTx(tx pgx.Tx) *db.Queries
 }
 
@@ -26,124 +30,186 @@ type RoomsService struct {
 	roomsRepository RoomsRepository
 }
 
-func NewP2PRoomsService(pool *pgxpool.Pool, roomsRepository RoomsRepository) *RoomsService {
+func NewRoomsService(pool *pgxpool.Pool, roomsRepository RoomsRepository) *RoomsService {
 	return &RoomsService{pool, roomsRepository}
 }
 
-func (p2pRoomsService *RoomsService) GetChatPreview(ctx context.Context, userUUID pgtype.UUID) (*schemas.GetChatPreviewResponse, error) {
+func (roomsService *RoomsService) GetChatPreview(ctx context.Context, userUUID uuid.UUID) (*schemas.GetChatPreviewResponse, error) {
+	userPgUUID := pgtype.UUID{Bytes: userUUID, Valid: true}
 
-	previewResponse := schemas.GetChatPreviewResponse{
-		UnreadMessagesAmount: 1,
+	chatPreview, err := roomsService.roomsRepository.GetChatPreview(ctx, userPgUUID)
+	if err != nil {
+		return nil, err
 	}
 
-	return &previewResponse, nil
+	return &schemas.GetChatPreviewResponse{
+		UnreadMessagesAmount: int(chatPreview),
+	}, nil
 }
 
-func (p2pRoomsService *RoomsService) GetRooms(ctx context.Context, userUUID uuid.UUID, roomType string) (*schemas.GetRoomsResponse, error) {
+func (roomsService *RoomsService) GetRooms(ctx context.Context, userUUID uuid.UUID, roomType string) (*schemas.GetRoomsResponse, error) {
+	params := db.GetRoomsByUserUUIDParams{
+		UserUuid: pgtype.UUID{Bytes: userUUID, Valid: true},
+		RoomType: db.RoomType(roomType),
+	}
 
-	// p2pRoomsRaw, err := p2pRoomsService.p2pRoomsRepository.GetP2PRoomsWithInterlocutorByUserUUID(ctx, pgtype.UUID{Bytes: userUUID, Valid: true})
-	// if err != nil {
-	// 	return nil, err
-	// }
+	roomsRaw, err := roomsService.roomsRepository.GetRoomsByUserUUID(ctx, params)
+	if err != nil {
+		return nil, err
+	}
 
-	// rooms := lo.Map(p2pRoomsRaw, func(dbRoom db.GetP2PRoomsWithInterlocutorByUserUUIDRow, i int) schemas.RoomPreviewResponse {
-	// 	return schemas.RoomPreviewResponse{
-	// 		RoomID:    utils.ConvertPgUUIDToUUID(dbRoom.Uuid).String(),
-	// 		UserID:    utils.ConvertPgUUIDToUUID(dbRoom.InterlocutorUuid).String(),
-	// 		IsBlocked: dbRoom.BlockedByUserUuid.Valid,
-	// 	}
-	// })
+	rooms := lo.Map(roomsRaw, func(dbRoom db.GetRoomsByUserUUIDRow, i int) schemas.RoomPreviewResponse {
+		users := make([]schemas.UserResponse, len(dbRoom.UserUuids))
+		for i := range dbRoom.UserUuids {
+			users[i] = schemas.UserResponse{
+				UserID: utils.ConvertPgUUIDToUUID(dbRoom.UserUuids[i]).String(),
+				Role:   dbRoom.UserRoles[i],
+			}
+		}
+		return schemas.RoomPreviewResponse{
+			RoomID:    utils.ConvertPgUUIDToUUID(dbRoom.Uuid).String(),
+			Name:      dbRoom.Name,
+			Users:     users,
+			IsBlocked: dbRoom.IsRoomBlocked,
+		}
+	})
 
-	// return &schemas.GetRoomsResponse{
-	// 	Size:  len(rooms),
-	// 	Rooms: rooms,
-	// }, nil
-
-	return &schemas.GetRoomsResponse{}, nil
+	return &schemas.GetRoomsResponse{
+		Size:  len(rooms),
+		Rooms: rooms,
+	}, nil
 }
 
-func (p2pRoomsService *RoomsService) GetRoomByUuid(ctx context.Context, userUUID, roomUUID uuid.UUID) (*schemas.RoomPopulatedResponse, error) {
-	// params := db.GetP2PRoomByUUIDParams{
-	// 	P2pRoomUuid: pgtype.UUID{Bytes: roomUUID, Valid: true},
-	// 	UserUuid:    pgtype.UUID{Bytes: userUUID, Valid: true},
-	// }
+func (roomsService *RoomsService) GetRoomByUuid(ctx context.Context, userUUID, roomUUID uuid.UUID) (*schemas.RoomPopulatedResponse, error) {
+	roomPgUUID := pgtype.UUID{Bytes: roomUUID, Valid: true}
+	params := db.GetRoomByUUIDParams{
+		RoomUuid: roomPgUUID,
+		UserUuid: pgtype.UUID{Bytes: userUUID, Valid: true},
+	}
 
-	// p2pRoom, err := p2pRoomsService.p2pRoomsRepository.GetP2PRoomByUUID(ctx, params)
-	// if err != nil {
-	// 	return nil, err
-	// }
+	room, err := roomsService.roomsRepository.GetRoomByUUID(ctx, params)
+	if err != nil {
+		return nil, err
+	}
 
-	// messagesRaw, err := p2pRoomsService.p2pRoomsRepository.GetP2PMessagesByRoomUUID(ctx, pgtype.UUID{Bytes: roomUUID, Valid: true})
-	// if err != nil {
-	// 	return nil, err
-	// }
+	users := make([]schemas.UserResponse, len(room.UserUuids))
+	for i := range room.UserUuids {
+		users[i] = schemas.UserResponse{
+			UserID: utils.ConvertPgUUIDToUUID(room.UserUuids[i]).String(),
+			Role:   room.UserRoles[i],
+		}
+	}
 
-	// messages := lo.Map(messagesRaw, func(dbMessage db.GetP2PMessagesByRoomUUIDRow, i int) schemas.MessageResponse {
-	// 	return schemas.MessageResponse{
-	// 		OwnerID: utils.ConvertPgUUIDToUUID(dbMessage.OwnerUuid).String(),
-	// 		Message: dbMessage.Text,
-	// 	}
-	// })
+	messagesRaw, err := roomsService.roomsRepository.GetMessagesByRoomUUID(ctx, roomPgUUID)
+	if err != nil {
+		return nil, err
+	}
 
-	// return &schemas.RoomPopulatedResponse{
-	// 	RoomID:    utils.ConvertPgUUIDToUUID(p2pRoom.Uuid).String(),
-	// 	UserID:    utils.ConvertPgUUIDToUUID(p2pRoom.InterlocutorUuid).String(),
-	// 	Messages:  messages,
-	// 	IsBlocked: p2pRoom.BlockedByUserUuid.Valid,
-	// }, nil
+	messages := lo.Map(messagesRaw, func(dbMessage db.GetMessagesByRoomUUIDRow, i int) schemas.MessageResponse {
+		messageReaders := make([]schemas.MessageReaders, len(room.UserUuids))
+		for i := range dbMessage.MessageStatusUserUuids {
+			users[i] = schemas.UserResponse{
+				UserID: utils.ConvertPgUUIDToUUID(room.UserUuids[i]).String(),
+				Role:   room.UserRoles[i],
+			}
+		}
 
-	return &schemas.RoomPopulatedResponse{}, nil
+		return schemas.MessageResponse{
+			OwnerID: utils.ConvertPgUUIDToUUID(dbMessage.OwnerUuid).String(),
+			Message: dbMessage.Text,
+			Readers: messageReaders,
+		}
+	})
+
+	return &schemas.RoomPopulatedResponse{
+		RoomID:    utils.ConvertPgUUIDToUUID(room.Uuid).String(),
+		Name:      room.Name,
+		Users:     users,
+		Messages:  messages,
+		IsBlocked: room.IsRoomBlocked,
+	}, nil
 }
 
-func (p2pRoomsService *RoomsService) CreateRoom(ctx context.Context, invitingUserUUID, invitedUserUUID uuid.UUID) (*schemas.RoomPopulatedResponse, error) {
-	// now := time.Now()
+func (roomsService *RoomsService) CreateRoom(ctx context.Context, roomParams *CreateRoomServiceParams) (*schemas.RoomPopulatedResponse, error) {
+	now := time.Now()
 
-	// tx, err := p2pRoomsService.pool.Begin(ctx)
-	// if err != nil {
-	// 	return nil, err
-	// }
-	// defer tx.Rollback(ctx)
+	tx, err := roomsService.pool.Begin(ctx)
+	if err != nil {
+		return nil, err
+	}
+	defer tx.Rollback(ctx)
 
-	// qtx := p2pRoomsService.p2pRoomsRepository.WithTx(tx)
+	qtx := roomsService.roomsRepository.WithTx(tx)
 
-	// newP2PRoom, err := qtx.CreateP2PRoom(ctx, pgtype.Timestamp{Time: now, Valid: true})
-	// if err != nil {
-	// 	return nil, err
-	// }
+	var name string
+	if roomParams.Name != nil {
+		name = *roomParams.Name
+	}
 
-	// params := db.AddUserToP2PRoomParams{
-	// 	UserUuid: pgtype.UUID{Bytes: invitingUserUUID, Valid: true},
-	// 	RoomUuid: pgtype.UUID{Bytes: newP2PRoom.Uuid.Bytes, Valid: true},
-	// 	JoinedAt: pgtype.Timestamp{Time: now, Valid: true},
-	// }
-	// err = qtx.AddUserToP2PRoom(ctx, params)
-	// if err != nil {
-	// 	return nil, err
-	// }
+	// If the room type is group, the creator of the room is an admin
+	// If the room type is private, both users are regular
+	var role db.UserRoleType = db.UserRoleTypeRegular
+	if roomParams.Type == string(db.RoomTypeGroup) {
+		role = db.UserRoleTypeAdmin
+	}
 
-	// params = db.AddUserToP2PRoomParams{
-	// 	UserUuid: pgtype.UUID{Bytes: invitedUserUUID, Valid: true},
-	// 	RoomUuid: pgtype.UUID{Bytes: newP2PRoom.Uuid.Bytes, Valid: true},
-	// 	JoinedAt: pgtype.Timestamp{Time: now, Valid: true},
-	// }
-	// err = qtx.AddUserToP2PRoom(ctx, params)
-	// if err != nil {
-	// 	return nil, err
-	// }
+	createRoomDBParams := db.CreateRoomParams{
+		CreatedAt: pgtype.Timestamp{Time: now, Valid: true},
+		Name:      name,
+		Type:      db.RoomType(roomParams.Type),
+	}
+	newRoomPgUUID, err := qtx.CreateRoom(ctx, createRoomDBParams)
+	if err != nil {
+		return nil, err
+	}
 
-	// tx.Commit(ctx)
+	invitingUserPgUUID := pgtype.UUID{Bytes: roomParams.InvitingUserUUID, Valid: true}
+	users := []schemas.UserResponse{}
 
-	// return &schemas.RoomPopulatedResponse{
-	// 	RoomID:    utils.ConvertPgUUIDToUUID(newP2PRoom.Uuid).String(),
-	// 	UserID:    invitedUserUUID.String(),
-	// 	Messages:  []schemas.MessageResponse{},
-	// 	IsBlocked: newP2PRoom.BlockedByUserUuid.Valid,
-	// }, nil
+	params := db.AddUserToRoomParams{
+		UserUuid: invitingUserPgUUID,
+		UserRole: role,
+		RoomUuid: newRoomPgUUID,
+		JoinedAt: pgtype.Timestamp{Time: now, Valid: true},
+	}
+	invitingUser, err := qtx.AddUserToRoom(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+	users = append(users, schemas.UserResponse{
+		UserID: utils.ConvertPgUUIDToUUID(invitingUser.UserUuid).String(),
+		Role:   string(invitingUser.UserRole),
+	})
 
-	return &schemas.RoomPopulatedResponse{}, nil
+	if roomParams.InvitedUserUUID != nil {
+		params = db.AddUserToRoomParams{
+			UserUuid: pgtype.UUID{Bytes: uuid.MustParse(*roomParams.InvitedUserUUID), Valid: true},
+			UserRole: role,
+			RoomUuid: newRoomPgUUID,
+			JoinedAt: pgtype.Timestamp{Time: now, Valid: true},
+		}
+		invitedUser, err := qtx.AddUserToRoom(ctx, params)
+		if err != nil {
+			return nil, err
+		}
+		users = append(users, schemas.UserResponse{
+			UserID: utils.ConvertPgUUIDToUUID(invitedUser.UserUuid).String(),
+			Role:   string(invitedUser.UserRole),
+		})
+	}
+
+	tx.Commit(ctx)
+
+	return &schemas.RoomPopulatedResponse{
+		RoomID:    utils.ConvertPgUUIDToUUID(newRoomPgUUID).String(),
+		Users:     users,
+		Name:      *roomParams.Name,
+		Messages:  []schemas.MessageResponse{},
+		IsBlocked: false,
+	}, nil
 }
 
-func (p2pRoomsService *RoomsService) BlockOrUnblockRoom(ctx context.Context, BlockOrUnblockParams *BlockOrUnblockRoomParams) error {
+func (roomsService *RoomsService) BlockOrUnblockRoom(ctx context.Context, BlockOrUnblockParams *BlockOrUnblockRoomParams) error {
 	// params := db.ToggleBlockP2PRoomParams{
 	// 	UserUuid: pgtype.UUID{Bytes: BlockOrUnblockParams.UserUUID, Valid: BlockOrUnblockParams.IsBlocked},
 	// 	RoomUuid: pgtype.UUID{Bytes: BlockOrUnblockParams.RoomUUID, Valid: true},
@@ -156,20 +222,40 @@ func (p2pRoomsService *RoomsService) BlockOrUnblockRoom(ctx context.Context, Blo
 	return nil
 }
 
-func (p2pRoomsService *RoomsService) CreateMessage(ctx context.Context, messageParams *RoomMessageParams) (*schemas.MessageResponse, error) {
-	// params := db.CreateMessageInP2PRoomParams{
-	// 	OwnerUuid: pgtype.UUID{Bytes: messageParams.OwnerUUID, Valid: true},
-	// 	RoomUuid:  pgtype.UUID{Bytes: messageParams.RoomUUID, Valid: true},
-	// 	Text:      messageParams.Text,
-	// }
+func (roomsService *RoomsService) CreateMessage(ctx context.Context, messageParams *RoomMessageParams) (*schemas.MessageResponse, error) {
+	tx, err := roomsService.pool.Begin(ctx)
+	if err != nil {
+		return nil, err
+	}
+	defer tx.Rollback(ctx)
 
-	// message, err := p2pRoomsService.p2pRoomsRepository.CreateMessageInP2PRoom(ctx, params)
-	// if err != nil {
-	// 	return nil, err
-	// }
+	qtx := roomsService.roomsRepository.WithTx(tx)
+
+	createMessageParams := db.CreateMessageParams{
+		OwnerUuid: pgtype.UUID{Bytes: messageParams.OwnerUUID, Valid: true},
+		RoomUuid:  pgtype.UUID{Bytes: messageParams.RoomUUID, Valid: true},
+		Text:      messageParams.Text,
+	}
+
+	message, err := qtx.CreateMessage(ctx, createMessageParams)
+	if err != nil {
+		return nil, err
+	}
+
+	messageStatusParams := db.CreateMessageStatusParams{
+		MessageUuid:  message.Uuid,
+		ReceiverUuid: message.OwnerUuid,
+	}
+	err = qtx.CreateMessageStatus(ctx, messageStatusParams)
+	if err != nil {
+		return nil, err
+	}
+
+	tx.Commit(ctx)
 
 	return &schemas.MessageResponse{
-		// OwnerID: utils.ConvertPgUUIDToUUID(message.OwnerUuid).String(),
-		// Message: message.Text,
+		OwnerID: utils.ConvertPgUUIDToUUID(message.OwnerUuid).String(),
+		Message: message.Text,
+		Readers: []schemas.MessageReaders{},
 	}, nil
 }

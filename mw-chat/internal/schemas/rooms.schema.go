@@ -5,8 +5,9 @@ type GetChatPreviewResponse struct {
 }
 
 type CreateRoomPayload struct {
-	UserID string `json:"userId" validate:"required" extensions:"x-nullable"`
-	Name   string `json:"name" validate:"required" extensions:"x-nullable"`
+	UserID   *string `json:"userId" validate:"required" extensions:"x-nullable"`
+	Name     *string `json:"name" validate:"required" extensions:"x-nullable"`
+	RoomType string  `json:"roomType" validate:"required"`
 }
 
 type RoomUpdatePayload struct {
@@ -39,7 +40,6 @@ type GetRoomsResponse struct {
 }
 
 type CreateMessagePayload struct {
-	RoomID  string `json:"roomId" validate:"required"`
 	Message string `json:"message" validate:"required"`
 }
 

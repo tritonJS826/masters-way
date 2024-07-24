@@ -3,11 +3,23 @@ definitions:
     properties:
       message:
         type: string
-      roomId:
-        type: string
     required:
     - message
-    - roomId
+    type: object
+  schemas.CreateRoomPayload:
+    properties:
+      name:
+        type: string
+        x-nullable: true
+      roomType:
+        type: string
+      userId:
+        type: string
+        x-nullable: true
+    required:
+    - name
+    - roomType
+    - userId
     type: object
   schemas.GetChatPreviewResponse:
     properties:
@@ -82,6 +94,7 @@ definitions:
         type: boolean
       name:
         type: string
+        x-nullable: true
       roomId:
         type: string
       users:
@@ -112,6 +125,13 @@ paths:
       consumes:
       - application/json
       operationId: create-room
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.CreateRoomPayload'
       produces:
       - application/json
       responses:
@@ -163,6 +183,33 @@ paths:
       summary: Update room
       tags:
       - room
+  /rooms/{roomId}/messages:
+    post:
+      consumes:
+      - application/json
+      operationId: create-message-in-room
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.CreateMessagePayload'
+      - description: room Id
+        in: path
+        name: roomId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.MessageResponse'
+      summary: Create message in room
+      tags:
+      - room
   /rooms/{roomId}/users/{userId}:
     delete:
       consumes:
@@ -189,7 +236,6 @@ paths:
       summary: Delete user from room
       tags:
       - room
-  /rooms/add-user/{roomId}/users/{userId}:
     post:
       consumes:
       - application/json
@@ -213,33 +259,6 @@ paths:
           schema:
             $ref: '#/definitions/schemas.RoomPopulatedResponse'
       summary: Add user to room
-      tags:
-      - room
-  /rooms/create-message/{roomId}:
-    post:
-      consumes:
-      - application/json
-      operationId: make-message-in-room
-      parameters:
-      - description: query params
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/schemas.CreateMessagePayload'
-      - description: room Id
-        in: path
-        name: roomId
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/schemas.MessageResponse'
-      summary: Create message in room
       tags:
       - room
   /rooms/list/{roomType}:

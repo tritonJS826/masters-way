@@ -77,10 +77,10 @@ func (cc *RoomsController) GetRoomById(ctx *gin.Context) {
 // @ID create-room
 // @Accept  json
 // @Produce  json
+// @Param request body schemas.CreateRoomPayload true "query params"
 // @Success 200 {object} schemas.RoomPopulatedResponse
 // @Router /rooms [post]
 func (cc *RoomsController) CreateRoom(ctx *gin.Context) {
-
 	var payload *schemas.CreateRoomPayload
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
@@ -115,13 +115,13 @@ func (cc *RoomsController) UpdateRoom(ctx *gin.Context) {
 // @Summary Create message in room
 // @Description
 // @Tags room
-// @ID make-message-in-room
+// @ID create-message-in-room
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateMessagePayload true "query params"
 // @Param roomId path string true "room Id"
 // @Success 200 {object} schemas.MessageResponse
-// @Router /rooms/create-message/{roomId} [post]
+// @Router /rooms/{roomId}/messages [post]
 func (cc *RoomsController) CreateMessage(ctx *gin.Context) {
 	var payload *schemas.CreateMessagePayload
 
@@ -130,7 +130,9 @@ func (cc *RoomsController) CreateMessage(ctx *gin.Context) {
 		return
 	}
 
-	message, err := cc.RoomsService.CreateMessage(ctx, payload.RoomID)
+	roomId := ctx.Param("roomId")
+
+	message, err := cc.RoomsService.CreateMessage(ctx, roomId)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, &message)
@@ -145,7 +147,7 @@ func (cc *RoomsController) CreateMessage(ctx *gin.Context) {
 // @Param roomId path string true "room Id"
 // @Param userId path string true "user Id to delete"
 // @Success 200 {object} schemas.RoomPopulatedResponse
-// @Router /rooms/add-user/{roomId}/users/{userId} [post]
+// @Router /rooms/{roomId}/users/{userId} [post]
 func (cc *RoomsController) AddUserToRoom(ctx *gin.Context) {
 	roomId := ctx.Param("roomId")
 	userId := ctx.Param("userId")

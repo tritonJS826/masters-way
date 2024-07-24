@@ -130,7 +130,7 @@ func (p *RoomsService) GetRoomById(ctx *gin.Context, roomUuid string) (*schemas.
 }
 
 func (p *RoomsService) CreateRoom(ctx *gin.Context, createRoomPayload *schemas.CreateRoomPayload) (*schemas.RoomPopulatedResponse, error) {
-	roomRaw, _, err := ChatApi.RoomAPI.CreateRoom(ctx, createRoomPayload.RoomType).Execute()
+	roomRaw, _, err := ChatApi.RoomAPI.CreateRoom(ctx).Execute()
 	if err != nil {
 		return &schemas.RoomPopulatedResponse{}, err
 	}
@@ -159,7 +159,7 @@ func (p *RoomsService) CreateRoom(ctx *gin.Context, createRoomPayload *schemas.C
 		}
 	})
 
-	roomPopulatedResponse := schemas.RoomPopulatedResponse{
+	roomPopulatedResponse := &schemas.RoomPopulatedResponse{
 		RoomID:    roomRaw.RoomId,
 		Name:      roomRaw.Name,
 		Messages:  messages,
@@ -167,7 +167,7 @@ func (p *RoomsService) CreateRoom(ctx *gin.Context, createRoomPayload *schemas.C
 		Users:     users,
 	}
 
-	return &roomPopulatedResponse, nil
+	return roomPopulatedResponse, nil
 }
 
 func (p *RoomsService) UpdateRoom(ctx *gin.Context, roomId string) (*schemas.RoomPopulatedResponse, error) {
@@ -212,7 +212,7 @@ func (p *RoomsService) UpdateRoom(ctx *gin.Context, roomId string) (*schemas.Roo
 }
 
 func (p *RoomsService) CreateMessage(ctx *gin.Context, roomId string) (*schemas.MessageResponse, error) {
-	messageRaw, _, err := ChatApi.RoomAPI.MakeMessageInRoom(ctx, roomId).Execute()
+	messageRaw, _, err := ChatApi.RoomAPI.CreateMessageInRoom(ctx, roomId).Execute()
 	if err != nil {
 		return &schemas.MessageResponse{}, err
 	}

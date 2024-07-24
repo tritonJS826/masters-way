@@ -33,7 +33,7 @@ CREATE TABLE messages (
 CREATE TABLE message_status (
     "message_uuid" UUID NOT NULL REFERENCES messages("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
     "receiver_uuid" UUID NOT NULL,
-    "is_read" bool NOT NULL,
+    "is_read" bool NOT NULL DEFAULT FALSE,
     "updated_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT "message_status_pkey" PRIMARY KEY ("message_uuid", "receiver_uuid")
 );

@@ -50,20 +50,18 @@ func NewServer(cfg *config.Config) *Server {
 func (server *Server) SetRoutes(controller *controllers.Controller) {
 	chat := server.GinServer.Group("/chat")
 	{
-
 		rooms := chat.Group("/rooms")
 		{
-			rooms.GET("/preview", auth.AuthMiddleware(), controller.RoomsController.GetChatPreview) // +
+			rooms.GET("/preview", auth.AuthMiddleware(), controller.RoomsController.GetChatPreview)
 
 			rooms.GET("/list/:roomType", auth.AuthMiddleware(), controller.RoomsController.GetRooms)
 			rooms.GET("/:roomId", auth.AuthMiddleware(), controller.RoomsController.GetRoomById)
-			rooms.POST("/:roomType", auth.AuthMiddleware(), controller.RoomsController.CreateRoom)
+			rooms.POST("", auth.AuthMiddleware(), controller.RoomsController.CreateRoom)
 			rooms.PATCH("/:roomId", auth.AuthMiddleware(), controller.RoomsController.UpdateRoom)
 
-			rooms.POST("create-message/:roomId/messages", auth.AuthMiddleware(), controller.RoomsController.CreateMessage)
+			rooms.POST("/:roomId/messages", auth.AuthMiddleware(), controller.RoomsController.CreateMessage)
 
-			rooms.POST("add-user/:roomId/users/:userId", auth.AuthMiddleware(), controller.RoomsController.AddUserToRoom)
-
+			rooms.POST("/:roomId/users/:userId", auth.AuthMiddleware(), controller.RoomsController.AddUserToRoom)
 			rooms.DELETE("/:roomId/users/:userId", auth.AuthMiddleware(), controller.RoomsController.DeleteUserFromRoom)
 		}
 	}

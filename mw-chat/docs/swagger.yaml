@@ -3,11 +3,23 @@ definitions:
     properties:
       message:
         type: string
-      roomId:
-        type: string
     required:
     - message
-    - roomId
+    type: object
+  schemas.CreateRoomPayload:
+    properties:
+      name:
+        type: string
+        x-nullable: true
+      roomType:
+        type: string
+      userId:
+        type: string
+        x-nullable: true
+    required:
+    - name
+    - roomType
+    - userId
     type: object
   schemas.GetChatPreviewResponse:
     properties:
@@ -108,41 +120,18 @@ definitions:
 info:
   contact: {}
 paths:
-  /group-rooms/{roomId}/users/{userId}:
-    delete:
-      consumes:
-      - application/json
-      operationId: delete-user-from-room
-      parameters:
-      - description: room Id
-        in: path
-        name: roomId
-        required: true
-        type: string
-      - description: user Id to delete
-        in: path
-        name: userId
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-      summary: Delete user from room
-      tags:
-      - room
   /rooms:
     post:
       consumes:
       - application/json
       operationId: create-room
       parameters:
-      - description: 'room type: private, group'
-        in: path
-        name: roomType
+      - description: query params
+        in: body
+        name: request
         required: true
-        type: string
+        schema:
+          $ref: '#/definitions/schemas.CreateRoomPayload'
       produces:
       - application/json
       responses:
@@ -194,7 +183,57 @@ paths:
       summary: Update room for user
       tags:
       - room
-  /rooms/add-user/{roomId}/users/{userId}:
+  /rooms/{roomId}/messages:
+    post:
+      consumes:
+      - application/json
+      operationId: create-message-in-room
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.CreateMessagePayload'
+      - description: room Id
+        in: path
+        name: roomId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.MessageResponse'
+      summary: Create message in room
+      tags:
+      - room
+  /rooms/{roomId}/users/{userId}:
+    delete:
+      consumes:
+      - application/json
+      operationId: delete-user-from-room
+      parameters:
+      - description: room Id
+        in: path
+        name: roomId
+        required: true
+        type: string
+      - description: user Id to delete
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Delete user from room
+      tags:
+      - room
     post:
       consumes:
       - application/json
@@ -218,33 +257,6 @@ paths:
           schema:
             $ref: '#/definitions/schemas.RoomPreviewResponse'
       summary: Add user to room
-      tags:
-      - room
-  /rooms/create-message{roomId}/messages:
-    post:
-      consumes:
-      - application/json
-      operationId: make-message-in-room
-      parameters:
-      - description: query params
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/schemas.CreateMessagePayload'
-      - description: room Id
-        in: path
-        name: roomId
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/schemas.MessageResponse'
-      summary: Create message in room
       tags:
       - room
   /rooms/list/{roomType}:

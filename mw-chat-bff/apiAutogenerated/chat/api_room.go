@@ -66,7 +66,7 @@ func (a *RoomAPIService) AddUserToRoomExecute(r ApiAddUserToRoomRequest) (*Schem
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/rooms/add-user/{roomId}/users/{userId}"
+	localVarPath := localBasePath + "/rooms/{roomId}/users/{userId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"roomId"+"}", url.PathEscape(parameterValueToString(r.roomId, "roomId")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"userId"+"}", url.PathEscape(parameterValueToString(r.userId, "userId")), -1)
 
@@ -128,10 +128,129 @@ func (a *RoomAPIService) AddUserToRoomExecute(r ApiAddUserToRoomRequest) (*Schem
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiCreateMessageInRoomRequest struct {
+	ctx context.Context
+	ApiService *RoomAPIService
+	roomId string
+	request *SchemasCreateMessagePayload
+}
+
+// query params
+func (r ApiCreateMessageInRoomRequest) Request(request SchemasCreateMessagePayload) ApiCreateMessageInRoomRequest {
+	r.request = &request
+	return r
+}
+
+func (r ApiCreateMessageInRoomRequest) Execute() (*SchemasMessageResponse, *http.Response, error) {
+	return r.ApiService.CreateMessageInRoomExecute(r)
+}
+
+/*
+CreateMessageInRoom Create message in room
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param roomId room Id
+ @return ApiCreateMessageInRoomRequest
+*/
+func (a *RoomAPIService) CreateMessageInRoom(ctx context.Context, roomId string) ApiCreateMessageInRoomRequest {
+	return ApiCreateMessageInRoomRequest{
+		ApiService: a,
+		ctx: ctx,
+		roomId: roomId,
+	}
+}
+
+// Execute executes the request
+//  @return SchemasMessageResponse
+func (a *RoomAPIService) CreateMessageInRoomExecute(r ApiCreateMessageInRoomRequest) (*SchemasMessageResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *SchemasMessageResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.CreateMessageInRoom")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/rooms/{roomId}/messages"
+	localVarPath = strings.Replace(localVarPath, "{"+"roomId"+"}", url.PathEscape(parameterValueToString(r.roomId, "roomId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.request == nil {
+		return localVarReturnValue, nil, reportError("request is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.request
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiCreateRoomRequest struct {
 	ctx context.Context
 	ApiService *RoomAPIService
-	roomType string
+	request *SchemasCreateRoomPayload
+}
+
+// query params
+func (r ApiCreateRoomRequest) Request(request SchemasCreateRoomPayload) ApiCreateRoomRequest {
+	r.request = &request
+	return r
 }
 
 func (r ApiCreateRoomRequest) Execute() (*SchemasRoomPopulatedResponse, *http.Response, error) {
@@ -142,14 +261,12 @@ func (r ApiCreateRoomRequest) Execute() (*SchemasRoomPopulatedResponse, *http.Re
 CreateRoom Create room for user
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param roomType room type: private, group
  @return ApiCreateRoomRequest
 */
-func (a *RoomAPIService) CreateRoom(ctx context.Context, roomType string) ApiCreateRoomRequest {
+func (a *RoomAPIService) CreateRoom(ctx context.Context) ApiCreateRoomRequest {
 	return ApiCreateRoomRequest{
 		ApiService: a,
 		ctx: ctx,
-		roomType: roomType,
 	}
 }
 
@@ -169,14 +286,16 @@ func (a *RoomAPIService) CreateRoomExecute(r ApiCreateRoomRequest) (*SchemasRoom
 	}
 
 	localVarPath := localBasePath + "/rooms"
-	localVarPath = strings.Replace(localVarPath, "{"+"roomType"+"}", url.PathEscape(parameterValueToString(r.roomType, "roomType")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
+	if r.request == nil {
+		return localVarReturnValue, nil, reportError("request is required and must be specified")
+	}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -192,6 +311,8 @@ func (a *RoomAPIService) CreateRoomExecute(r ApiCreateRoomRequest) (*SchemasRoom
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// body params
+	localVarPostBody = r.request
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -270,7 +391,7 @@ func (a *RoomAPIService) DeleteUserFromRoomExecute(r ApiDeleteUserFromRoomReques
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/group-rooms/{roomId}/users/{userId}"
+	localVarPath := localBasePath + "/rooms/{roomId}/users/{userId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"roomId"+"}", url.PathEscape(parameterValueToString(r.roomId, "roomId")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"userId"+"}", url.PathEscape(parameterValueToString(r.userId, "userId")), -1)
 
@@ -585,119 +706,6 @@ func (a *RoomAPIService) GetRoomsExecute(r ApiGetRoomsRequest) (*SchemasGetRooms
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiMakeMessageInRoomRequest struct {
-	ctx context.Context
-	ApiService *RoomAPIService
-	roomId string
-	request *SchemasCreateMessagePayload
-}
-
-// query params
-func (r ApiMakeMessageInRoomRequest) Request(request SchemasCreateMessagePayload) ApiMakeMessageInRoomRequest {
-	r.request = &request
-	return r
-}
-
-func (r ApiMakeMessageInRoomRequest) Execute() (*SchemasMessageResponse, *http.Response, error) {
-	return r.ApiService.MakeMessageInRoomExecute(r)
-}
-
-/*
-MakeMessageInRoom Create message in room
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param roomId room Id
- @return ApiMakeMessageInRoomRequest
-*/
-func (a *RoomAPIService) MakeMessageInRoom(ctx context.Context, roomId string) ApiMakeMessageInRoomRequest {
-	return ApiMakeMessageInRoomRequest{
-		ApiService: a,
-		ctx: ctx,
-		roomId: roomId,
-	}
-}
-
-// Execute executes the request
-//  @return SchemasMessageResponse
-func (a *RoomAPIService) MakeMessageInRoomExecute(r ApiMakeMessageInRoomRequest) (*SchemasMessageResponse, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *SchemasMessageResponse
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.MakeMessageInRoom")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/rooms/create-message{roomId}/messages"
-	localVarPath = strings.Replace(localVarPath, "{"+"roomId"+"}", url.PathEscape(parameterValueToString(r.roomId, "roomId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-	if r.request == nil {
-		return localVarReturnValue, nil, reportError("request is required and must be specified")
-	}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/json"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	// body params
-	localVarPostBody = r.request
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err

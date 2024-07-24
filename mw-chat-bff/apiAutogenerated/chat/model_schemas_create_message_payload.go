@@ -22,7 +22,6 @@ var _ MappedNullable = &SchemasCreateMessagePayload{}
 // SchemasCreateMessagePayload struct for SchemasCreateMessagePayload
 type SchemasCreateMessagePayload struct {
 	Message string `json:"message"`
-	RoomId string `json:"roomId"`
 }
 
 type _SchemasCreateMessagePayload SchemasCreateMessagePayload
@@ -31,10 +30,9 @@ type _SchemasCreateMessagePayload SchemasCreateMessagePayload
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSchemasCreateMessagePayload(message string, roomId string) *SchemasCreateMessagePayload {
+func NewSchemasCreateMessagePayload(message string) *SchemasCreateMessagePayload {
 	this := SchemasCreateMessagePayload{}
 	this.Message = message
-	this.RoomId = roomId
 	return &this
 }
 
@@ -70,30 +68,6 @@ func (o *SchemasCreateMessagePayload) SetMessage(v string) {
 	o.Message = v
 }
 
-// GetRoomId returns the RoomId field value
-func (o *SchemasCreateMessagePayload) GetRoomId() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.RoomId
-}
-
-// GetRoomIdOk returns a tuple with the RoomId field value
-// and a boolean to check if the value has been set.
-func (o *SchemasCreateMessagePayload) GetRoomIdOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.RoomId, true
-}
-
-// SetRoomId sets field value
-func (o *SchemasCreateMessagePayload) SetRoomId(v string) {
-	o.RoomId = v
-}
-
 func (o SchemasCreateMessagePayload) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -105,7 +79,6 @@ func (o SchemasCreateMessagePayload) MarshalJSON() ([]byte, error) {
 func (o SchemasCreateMessagePayload) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["message"] = o.Message
-	toSerialize["roomId"] = o.RoomId
 	return toSerialize, nil
 }
 
@@ -115,7 +88,6 @@ func (o *SchemasCreateMessagePayload) UnmarshalJSON(data []byte) (err error) {
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"message",
-		"roomId",
 	}
 
 	allProperties := make(map[string]interface{})

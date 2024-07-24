@@ -28,68 +28,6 @@ const docTemplate = `{
                 ],
                 "summary": "Create room for user",
                 "operationId": "create-room",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/schemas.RoomPopulatedResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/rooms/add-user/{roomId}/users/{userId}": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "room"
-                ],
-                "summary": "Add user to room",
-                "operationId": "add-user-to-room",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "room Id",
-                        "name": "roomId",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "user Id to delete",
-                        "name": "userId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/schemas.RoomPopulatedResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/rooms/create-message/{roomId}": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "room"
-                ],
-                "summary": "Create message in room",
-                "operationId": "make-message-in-room",
                 "parameters": [
                     {
                         "description": "query params",
@@ -97,22 +35,15 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateMessagePayload"
+                            "$ref": "#/definitions/schemas.CreateRoomPayload"
                         }
-                    },
-                    {
-                        "type": "string",
-                        "description": "room Id",
-                        "name": "roomId",
-                        "in": "path",
-                        "required": true
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.MessageResponse"
+                            "$ref": "#/definitions/schemas.RoomPopulatedResponse"
                         }
                     }
                 }
@@ -235,7 +166,85 @@ const docTemplate = `{
                 }
             }
         },
+        "/rooms/{roomId}/messages": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "room"
+                ],
+                "summary": "Create message in room",
+                "operationId": "create-message-in-room",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CreateMessagePayload"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "room Id",
+                        "name": "roomId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/rooms/{roomId}/users/{userId}": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "room"
+                ],
+                "summary": "Add user to room",
+                "operationId": "add-user-to-room",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "room Id",
+                        "name": "roomId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "user Id to delete",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.RoomPopulatedResponse"
+                        }
+                    }
+                }
+            },
             "delete": {
                 "consumes": [
                     "application/json"
@@ -279,15 +288,32 @@ const docTemplate = `{
         "schemas.CreateMessagePayload": {
             "type": "object",
             "required": [
-                "message",
-                "roomId"
+                "message"
             ],
             "properties": {
                 "message": {
                     "type": "string"
+                }
+            }
+        },
+        "schemas.CreateRoomPayload": {
+            "type": "object",
+            "required": [
+                "name",
+                "roomType",
+                "userId"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "x-nullable": true
                 },
-                "roomId": {
+                "roomType": {
                     "type": "string"
+                },
+                "userId": {
+                    "type": "string",
+                    "x-nullable": true
                 }
             }
         },
@@ -403,7 +429,8 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "x-nullable": true
                 },
                 "roomId": {
                     "type": "string"
