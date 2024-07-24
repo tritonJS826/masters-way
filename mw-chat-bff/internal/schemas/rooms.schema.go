@@ -1,7 +1,10 @@
 package schemas
 
-type CreateP2PRoomPayload struct {
-	UserID string `json:"userId" validate:"required"`
+type GetChatPreviewResponse struct {
+	UnreadMessagesAmount int `json:"userId" validate:"required"`
+}
+type CreateRoomPayload struct {
+	RoomType string `json:"roomType" validate:"required"`
 }
 
 type RoomPopulatedResponse struct {

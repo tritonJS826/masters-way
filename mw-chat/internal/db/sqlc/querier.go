@@ -11,20 +11,12 @@ import (
 )
 
 type Querier interface {
-	AddUserToGroupRoom(ctx context.Context, arg AddUserToGroupRoomParams) error
-	AddUserToP2PRoom(ctx context.Context, arg AddUserToP2PRoomParams) error
-	CreateGroupRoom(ctx context.Context, arg CreateGroupRoomParams) (CreateGroupRoomRow, error)
-	CreateMessageInGroupRoom(ctx context.Context, arg CreateMessageInGroupRoomParams) (CreateMessageInGroupRoomRow, error)
-	CreateMessageInP2PRoom(ctx context.Context, arg CreateMessageInP2PRoomParams) (CreateMessageInP2PRoomRow, error)
-	CreateP2PRoom(ctx context.Context, createdAt pgtype.Timestamp) (CreateP2PRoomRow, error)
-	GetGroupMessagesByRoomUUID(ctx context.Context, roomUuid pgtype.UUID) ([]GetGroupMessagesByRoomUUIDRow, error)
-	GetGroupRoomByUUID(ctx context.Context, arg GetGroupRoomByUUIDParams) (GetGroupRoomByUUIDRow, error)
-	GetGroupRoomsByUserUUID(ctx context.Context, userUuid pgtype.UUID) ([]GetGroupRoomsByUserUUIDRow, error)
-	GetP2PMessagesByRoomUUID(ctx context.Context, roomUuid pgtype.UUID) ([]GetP2PMessagesByRoomUUIDRow, error)
-	GetP2PRoomByUUID(ctx context.Context, arg GetP2PRoomByUUIDParams) (GetP2PRoomByUUIDRow, error)
-	GetP2PRoomsWithInterlocutorByUserUUID(ctx context.Context, userUuid pgtype.UUID) ([]GetP2PRoomsWithInterlocutorByUserUUIDRow, error)
-	ToggleBlockGroupRoom(ctx context.Context, arg ToggleBlockGroupRoomParams) error
-	ToggleBlockP2PRoom(ctx context.Context, arg ToggleBlockP2PRoomParams) error
+	AddUserToRoom(ctx context.Context, arg AddUserToRoomParams) error
+	CreateMessage(ctx context.Context, arg CreateMessageParams) (CreateMessageRow, error)
+	CreateRoom(ctx context.Context, arg CreateRoomParams) (pgtype.UUID, error)
+	GetChatPreview(ctx context.Context, receiverUuid pgtype.UUID) (int64, error)
+	GetMessagesByRoomUUID(ctx context.Context, roomUuid pgtype.UUID) ([]GetMessagesByRoomUUIDRow, error)
+	GetRoomsByUserUUID(ctx context.Context, arg GetRoomsByUserUUIDParams) ([]GetRoomsByUserUUIDRow, error)
 }
 
 var _ Querier = (*Queries)(nil)

@@ -5,14 +5,15 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **IsBlocked** | **bool** |  | 
-**Name** | **string** |  | 
+**Name** | **NullableString** |  | 
 **RoomId** | **string** |  | 
+**Users** | [**[]SchemasUserResponse**](SchemasUserResponse.md) |  | 
 
 ## Methods
 
 ### NewSchemasRoomPreviewResponse
 
-`func NewSchemasRoomPreviewResponse(isBlocked bool, name string, roomId string, ) *SchemasRoomPreviewResponse`
+`func NewSchemasRoomPreviewResponse(isBlocked bool, name NullableString, roomId string, users []SchemasUserResponse, ) *SchemasRoomPreviewResponse`
 
 NewSchemasRoomPreviewResponse instantiates a new SchemasRoomPreviewResponse object
 This constructor will assign default values to properties that have it defined,
@@ -67,6 +68,16 @@ and a boolean to check if the value has been set.
 SetName sets Name field to given value.
 
 
+### SetNameNil
+
+`func (o *SchemasRoomPreviewResponse) SetNameNil(b bool)`
+
+ SetNameNil sets the value for Name to be an explicit nil
+
+### UnsetName
+`func (o *SchemasRoomPreviewResponse) UnsetName()`
+
+UnsetName ensures that no value is present for Name, not even an explicit nil
 ### GetRoomId
 
 `func (o *SchemasRoomPreviewResponse) GetRoomId() string`
@@ -85,6 +96,26 @@ and a boolean to check if the value has been set.
 `func (o *SchemasRoomPreviewResponse) SetRoomId(v string)`
 
 SetRoomId sets RoomId field to given value.
+
+
+### GetUsers
+
+`func (o *SchemasRoomPreviewResponse) GetUsers() []SchemasUserResponse`
+
+GetUsers returns the Users field if non-nil, zero value otherwise.
+
+### GetUsersOk
+
+`func (o *SchemasRoomPreviewResponse) GetUsersOk() (*[]SchemasUserResponse, bool)`
+
+GetUsersOk returns a tuple with the Users field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUsers
+
+`func (o *SchemasRoomPreviewResponse) SetUsers(v []SchemasUserResponse)`
+
+SetUsers sets Users field to given value.
 
 
 

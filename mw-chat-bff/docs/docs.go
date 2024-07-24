@@ -15,28 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/group-rooms": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "group"
-                ],
-                "summary": "Get group rooms preview for user",
-                "operationId": "get-group-rooms",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/schemas.GetRoomsResponse"
-                        }
-                    }
-                }
-            },
+        "/rooms": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -45,120 +24,15 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "group"
+                    "room"
                 ],
-                "summary": "Create group rooms for user",
-                "operationId": "create-group-rooms",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/schemas.RoomPopulatedResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/group-rooms/requests": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "group"
-                ],
-                "summary": "Get requests to group room",
-                "operationId": "get-requests-to-group-room",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/schemas.GetRequestsToGroupRoomResponse"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "group"
-                ],
-                "summary": "Create requests to group room",
-                "operationId": "create-requests-to-group-room",
-                "parameters": [
-                    {
-                        "description": "query params",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/schemas.CreateRequestToGroupRoomPayload"
-                        }
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "No Content"
-                    }
-                }
-            }
-        },
-        "/group-rooms/{groupRoomId}": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "group"
-                ],
-                "summary": "Get group room by id",
-                "operationId": "get-group-room-by-id",
+                "summary": "Create room for user",
+                "operationId": "create-room",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "group room Id",
-                        "name": "groupRoomId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/schemas.RoomPopulatedResponse"
-                        }
-                    }
-                }
-            },
-            "patch": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "group"
-                ],
-                "summary": "Update group rooms for user",
-                "operationId": "update-group-rooms",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "group room Id",
-                        "name": "groupRoomId",
+                        "description": "room type: private, group",
+                        "name": "roomType",
                         "in": "path",
                         "required": true
                     }
@@ -173,7 +47,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/group-rooms/{groupRoomId}/messages": {
+        "/rooms/add-user/{roomId}/users/{userId}": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -182,157 +56,15 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "group"
+                    "room"
                 ],
-                "summary": "Create message to group room",
-                "operationId": "create-message-in-group-room",
-                "parameters": [
-                    {
-                        "description": "query params",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/schemas.CreateMessagePayload"
-                        }
-                    },
-                    {
-                        "type": "string",
-                        "description": "group room Id",
-                        "name": "groupRoomId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/schemas.MessageResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/group-rooms/{groupRoomId}/requests/accept": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "group"
-                ],
-                "summary": "Accept request to group room",
-                "operationId": "accept-request-to-group-room",
+                "summary": "Add user to room",
+                "operationId": "add-user-to-room",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "groupRoom Id to accept request",
-                        "name": "groupRoomId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/schemas.RoomPopulatedResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/group-rooms/{groupRoomId}/requests/decline": {
-            "delete": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "group"
-                ],
-                "summary": "Decline request to group room",
-                "operationId": "decline-request-to-group-room",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "groupRoom Id to delete request",
-                        "name": "groupRoomId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/schemas.DeclineRequestToGroupRoomResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/group-rooms/{groupRoomId}/users/{userId}": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "group"
-                ],
-                "summary": "Add user to group room",
-                "operationId": "add-user-to-group",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "group room Id",
-                        "name": "groupRoomId",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "user Id to delete",
-                        "name": "userId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/schemas.RoomPopulatedResponse"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "group"
-                ],
-                "summary": "Delete user to group room",
-                "operationId": "delete-user-to-group",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "group room Id",
-                        "name": "groupRoomId",
+                        "description": "room Id",
+                        "name": "roomId",
                         "in": "path",
                         "required": true
                     },
@@ -354,28 +86,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/p2p-rooms": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "p2p"
-                ],
-                "summary": "Get p2p rooms for user",
-                "operationId": "get-p2p-rooms",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/schemas.GetRoomsResponse"
-                        }
-                    }
-                }
-            },
+        "/rooms/create-message{roomId}/messages": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -384,95 +95,10 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "p2p"
+                    "room"
                 ],
-                "summary": "Create p2p room for user",
-                "operationId": "create-p2p-room",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/schemas.MessageResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/p2p-rooms/{p2pRoomId}": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "p2p"
-                ],
-                "summary": "Get p2p room by id",
-                "operationId": "get-p2p-room-by-id",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "p2p room Id",
-                        "name": "p2pRoomId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/schemas.MessageResponse"
-                        }
-                    }
-                }
-            },
-            "patch": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "p2p"
-                ],
-                "summary": "Update p2p room for user",
-                "operationId": "update-p2p-room",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "p2p room Id",
-                        "name": "p2pRoomId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/schemas.MessageResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/p2p-rooms/{p2pRoomId}/messages": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "p2p"
-                ],
-                "summary": "Create message in p2p room",
-                "operationId": "make-message-in-p2p-room",
+                "summary": "Create message in room",
+                "operationId": "make-message-in-room",
                 "parameters": [
                     {
                         "description": "query params",
@@ -485,8 +111,8 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "p2p room Id",
-                        "name": "p2pRoomId",
+                        "description": "room Id",
+                        "name": "roomId",
                         "in": "path",
                         "required": true
                     }
@@ -496,6 +122,162 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/schemas.MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/rooms/list/{roomType}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "room"
+                ],
+                "summary": "Get rooms for user",
+                "operationId": "get-rooms",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "room type: private, group",
+                        "name": "roomType",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.GetRoomsResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/rooms/preview": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "room"
+                ],
+                "summary": "Get chat preview",
+                "operationId": "get-chat preview",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.GetRoomsResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/rooms/{roomId}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "room"
+                ],
+                "summary": "Get room by id",
+                "operationId": "get-room-by-id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "room Id",
+                        "name": "roomId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.RoomPopulatedResponse"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "room"
+                ],
+                "summary": "Update room for user",
+                "operationId": "update-room",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "room Id",
+                        "name": "roomId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.RoomPopulatedResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/rooms/{roomId}/users/{userId}": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "room"
+                ],
+                "summary": "Delete user from room",
+                "operationId": "delete-user-from-room",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "room Id",
+                        "name": "roomId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "user Id to delete",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.RoomPopulatedResponse"
                         }
                     }
                 }
@@ -515,46 +297,6 @@ const docTemplate = `{
                 },
                 "roomId": {
                     "type": "string"
-                }
-            }
-        },
-        "schemas.CreateRequestToGroupRoomPayload": {
-            "type": "object",
-            "required": [
-                "roomId",
-                "userId"
-            ],
-            "properties": {
-                "roomId": {
-                    "type": "string"
-                },
-                "userId": {
-                    "type": "string"
-                }
-            }
-        },
-        "schemas.DeclineRequestToGroupRoomResponse": {
-            "type": "object",
-            "required": [
-                "roomId"
-            ],
-            "properties": {
-                "roomId": {
-                    "type": "string"
-                }
-            }
-        },
-        "schemas.GetRequestsToGroupRoomResponse": {
-            "type": "object",
-            "required": [
-                "requests"
-            ],
-            "properties": {
-                "requests": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/schemas.RequestToGroupRoom"
-                    }
                 }
             }
         },
@@ -587,21 +329,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "ownerId": {
-                    "type": "string"
-                }
-            }
-        },
-        "schemas.RequestToGroupRoom": {
-            "type": "object",
-            "required": [
-                "roomId",
-                "senderId"
-            ],
-            "properties": {
-                "roomId": {
-                    "type": "string"
-                },
-                "senderId": {
                     "type": "string"
                 }
             }

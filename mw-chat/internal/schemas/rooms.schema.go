@@ -4,6 +4,10 @@ import (
 	"time"
 )
 
+type GetChatPreviewResponse struct {
+	UnreadMessagesAmount int `json:"userId" validate:"required"`
+}
+
 type CreateRoomPayload struct {
 	UserID string `json:"userId" validate:"required" extensions:"x-nullable"`
 	Name   string `json:"name" validate:"required" extensions:"x-nullable"`

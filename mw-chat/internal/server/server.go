@@ -50,33 +50,21 @@ func NewServer(cfg *config.Config) *Server {
 func (server *Server) SetRoutes(controller *controllers.Controller) {
 	chat := server.GinServer.Group("/chat")
 	{
-		p2pRooms := chat.Group("/p2p-rooms")
+
+		rooms := chat.Group("/rooms")
 		{
-			p2pRooms.GET("", auth.AuthMiddleware(), controller.P2PRoomsController.HandleGetP2PRooms)
-			p2pRooms.GET("/:p2pRoomId", auth.AuthMiddleware(), controller.P2PRoomsController.HandleGetP2PRoomById)
-			p2pRooms.POST("/:p2pRoomId", auth.AuthMiddleware(), controller.P2PRoomsController.HandleCreateP2PRoom)
-			p2pRooms.PATCH("/:p2pRoomId", auth.AuthMiddleware(), controller.P2PRoomsController.HandleUpdateP2PRoom)
+			rooms.GET("/preview", auth.AuthMiddleware(), controller.RoomsController.GetChatPreview) // +
 
-			p2pRooms.POST("/:p2pRoomId/messages", auth.AuthMiddleware(), controller.P2PRoomsController.HandleCreateMessageInP2PRoom) // +
-		}
+			rooms.GET("/list/:roomType", auth.AuthMiddleware(), controller.RoomsController.GetRooms)
+			rooms.GET("/:roomId", auth.AuthMiddleware(), controller.RoomsController.GetRoomById)
+			rooms.POST("/:roomType", auth.AuthMiddleware(), controller.RoomsController.CreateRoom)
+			rooms.PATCH("/:roomId", auth.AuthMiddleware(), controller.RoomsController.UpdateRoom)
 
-		groupRooms := chat.Group("/group-rooms")
-		{
-			groupRooms.GET("", controller.GroupRoomsController.HandleGetGroupRooms)
-			groupRooms.POST("", controller.GroupRoomsController.HandleCreateGroupRoom)
-			groupRooms.GET("/:groupRoomId", controller.GroupRoomsController.HandleGetGroupRoomById)
-			groupRooms.PATCH("/:groupRoomId", controller.GroupRoomsController.HandleUpdateGroupRoom)
+			rooms.POST("create-message/:roomId/messages", auth.AuthMiddleware(), controller.RoomsController.CreateMessage)
 
-			groupRooms.POST("/:groupRoomId/users/:userId", controller.GroupRoomsController.HandleAddUserToGroupRoom)
-			groupRooms.DELETE("/:groupRoomId/users/:userId", controller.GroupRoomsController.HandleDeleteUserFromGroupRoom)
+			rooms.POST("add-user/:roomId/users/:userId", auth.AuthMiddleware(), controller.RoomsController.AddUserToRoom)
 
-			groupRooms.GET("/requests", controller.GroupRoomsController.HandleGetRequestsToGroupRoom)
-			groupRooms.POST("/requests", controller.GroupRoomsController.HandleCreateRequestsToGroupRoom)
-
-			groupRooms.POST("/:groupRoomId/requests/accept", controller.GroupRoomsController.HandleAcceptRequestsToGroupRoom)
-			groupRooms.DELETE("/:groupRoomId/requests/decline", controller.GroupRoomsController.HandleDeclineRequestsToGroupRoom)
-
-			groupRooms.POST("/:groupRoomId/messages", controller.GroupRoomsController.HandleCreateMessageInGroupRoom)
+			rooms.DELETE("/:roomId/users/:userId", auth.AuthMiddleware(), controller.RoomsController.DeleteUserFromRoom)
 		}
 	}
 }

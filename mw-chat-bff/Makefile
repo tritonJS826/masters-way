@@ -1,9 +1,9 @@
 build: ## Build the project
 	@echo "Building the project..."
-	go build -o main cmd/chat/main.go
+	go build -o main cmd/chat-bff/main.go
 
 start: ## Run the project
-	go run cmd/chat/main.go
+	go run cmd/chat-bff/main.go
 
 test: ## Run all tests
 	go test ./...
@@ -15,7 +15,7 @@ install: ## Install dependencies
 	go mod tidy
 
 swag: ##  Generate swagger specification
-	swag init -g cmd/chat/main.go
+	swag init -g cmd/chat-bff/main.go
 
 db-schema: ## Generate db schema
 	sqlc generate
