@@ -7,19 +7,33 @@ MOBILE="mw-mobile/"
 CHAT="mw-chat/"
 CHAT_BFF="mw-chat-bff/"
 
+# runWebappIfChanged () {
+#   if git diff --name-only --cached | grep "$WEBAPP"
+#   then
+#     echo "webapp changed. checking..."
+
+#     pnpm --filter mw-webapp lint-staged
+
+#     pnpm concurrently \
+#         "pnpm --filter mw-webapp type-check" \
+#         "pnpm --filter mw-webapp test" \
+#         "pnpm --filter mw-webapp build-storybook" \
+#         "pnpm --filter mw-webapp build" \
+#         "pnpm --filter mw-webapp cypress:component:run"
+#   fi
+# }
+
 runWebappIfChanged () {
   if git diff --name-only --cached | grep "$WEBAPP"
   then
     echo "webapp changed. checking..."
-
-    pnpm --filter mw-webapp lint-staged
-
+    pnpm web:lint-staged
     pnpm concurrently \
-        "pnpm --filter mw-webapp type-check" \
-        "pnpm --filter mw-webapp test" \
-        "pnpm --filter mw-webapp build-storybook" \
-        "pnpm --filter mw-webapp build" \
-        "pnpm --filter mw-webapp cypress:component:run"
+        "pnpm web:type-check" \
+        "pnpm web:test" \
+        "pnpm web:build-storybook" \
+        "pnpm web:build" \
+        "pnpm web:cypress:component:run"
   fi
 }
 
