@@ -21,7 +21,7 @@ $modal-animation-time: 150ms;
   top: 50%;
   left: 50%;
   overflow: auto;
-  width: min(100vw, 700px);
+  max-width: 95vw;
   max-height: 90vh;
   padding: $paddingExtraBig;
   border-radius: $secondaryBorderRadius;
@@ -33,6 +33,7 @@ $modal-animation-time: 150ms;
   }
 
   @media only screen and (max-width: $mediaWidthMobileMedium) {
+    width: 95vw;
     padding: $paddingExtraMedium;
   }
 }

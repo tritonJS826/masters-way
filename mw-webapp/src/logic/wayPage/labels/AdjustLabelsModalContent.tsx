@@ -1,6 +1,8 @@
 import {useState} from "react";
+import {Close as DialogClose} from "@radix-ui/react-dialog";
 import {observer} from "mobx-react-lite";
-import {Button} from "src/component/button/Button";
+import {Button, ButtonType} from "src/component/button/Button";
+import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Modal} from "src/component/modal/Modal";
 import {PromptModalContent} from "src/component/modal/PromptModalContent";
 import {HeadingLevel, Title} from "src/component/title/Title";
@@ -73,23 +75,32 @@ export const AdjustLabelsBlock = observer((props: JobTagsProps) => {
   return (
     <VerticalContainer className={styles.adjustLabelsContent}>
       <Title
-        level={HeadingLevel.h3}
+        level={HeadingLevel.h2}
         text={LanguageService.way.filterBlock.jobDoneTagsModalTitle[language]}
         placeholder=""
       />
-      {props.jobTags.map((label) => {
-        return (
-          <LabelLine
-            onRemoveLabel={removeLabelFromWay}
-            key={label.uuid}
-            label={label}
-            isEditable={props.isEditable}
-          />
-        );
-      })
-      }
 
-      {props.isEditable &&
+      <VerticalContainer className={styles.labelsContainer}>
+        {props.jobTags.map((label) => {
+          return (
+            <LabelLine
+              onRemoveLabel={removeLabelFromWay}
+              key={label.uuid}
+              label={label}
+              isEditable={props.isEditable}
+            />
+          );
+        })
+        }
+      </VerticalContainer>
+      <HorizontalContainer className={styles.labelsButtons}>
+        <DialogClose asChild>
+          <Button
+            value={LanguageService.modals.promptModal.cancelButton[language]}
+            onClick={() => {}}
+          />
+        </DialogClose>
+        {props.isEditable &&
         <Modal
           isOpen={isJobDoneModalOpen}
           content={
@@ -105,9 +116,11 @@ export const AdjustLabelsBlock = observer((props: JobTagsProps) => {
             <Button
               value={LanguageService.way.filterBlock.addTagButton[language]}
               onClick={() => setIsJobDoneModalOpen(true)}
+              buttonType={ButtonType.PRIMARY}
             />
           }
         />}
+      </HorizontalContainer>
     </VerticalContainer>
   );
 });

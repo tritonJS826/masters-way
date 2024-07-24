@@ -1,6 +1,7 @@
 @import "src/styles/variables";
 
 $iconContainerSize: 25px;
+$labelMaxWidthBlock: 650px;
 
 .container {
   width: 100%;
@@ -155,9 +156,15 @@ $iconContainerSize: 25px;
   gap: $gapExtraSmall;
 }
 
-.jobDoneTagsWrapper {
-  min-width: $minWidthBlock;
-  max-width: $maxWidthBlock;
+.labelsWrapper {
+  min-width: $labelMaxWidthBlock;
+
+  @media only screen and (max-width: $mediaWidthTablet) {
+    min-width: $mediumWidthBlock;
+  }
+  @media only screen and (max-width: $mediaWidthMobileMedium) {
+    min-width: $minWidthBlock;
+  }
 }
 
 .wrap {

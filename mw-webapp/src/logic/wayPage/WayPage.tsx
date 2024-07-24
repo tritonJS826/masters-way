@@ -938,7 +938,7 @@ export const WayPage = observer((props: WayPageProps) => {
                 />
               }
               content={
-                <div className={styles.jobDoneTagsWrapper}>
+                <div className={styles.labelsWrapper}>
                   <AdjustLabelsBlock
                     wayUuid={way.uuid}
                     jobTags={way.jobTags}

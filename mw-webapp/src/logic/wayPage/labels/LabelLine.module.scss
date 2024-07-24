@@ -1,9 +1,9 @@
 @import "src/styles/variables";
 
 .labelLine {
-  align-items: baseline;
-  gap: $gapExtraSmall $gapBig;
   flex-wrap: wrap;
+  align-items: center;
+  gap: $gapMedium;
 }
 
 .labelContainer {
