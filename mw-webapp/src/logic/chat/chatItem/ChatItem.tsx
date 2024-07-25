@@ -34,6 +34,11 @@ interface ChatItemProps {
    */
   src?: string | null;
 
+  /**
+   * Callback triggered on click chat item
+   */
+  onClick?: () => void;
+
 }
 
 /**
@@ -41,7 +46,10 @@ interface ChatItemProps {
  */
 export const ChatItem = (props: ChatItemProps) => {
   return (
-    <HorizontalContainer className={styles.chatItemWrapper}>
+    <HorizontalContainer
+      onClick={props.onClick}
+      className={styles.chatItemWrapper}
+    >
       <Avatar
         alt={props.name}
         src={props.src ?? "https://drive.google.com/thumbnail?id=1am7DSSQIxse2Htl39d_F5pgdadgg8x6v&sz=w1000"}

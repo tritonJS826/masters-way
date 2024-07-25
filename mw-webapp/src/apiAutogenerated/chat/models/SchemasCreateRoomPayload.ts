@@ -16,56 +16,64 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface SchemasCreateRequestToGroupRoomPayload
+ * @interface SchemasCreateRoomPayload
  */
-export interface SchemasCreateRequestToGroupRoomPayload {
+export interface SchemasCreateRoomPayload {
     /**
      * 
      * @type {string}
-     * @memberof SchemasCreateRequestToGroupRoomPayload
+     * @memberof SchemasCreateRoomPayload
      */
-    roomId: string;
+    name: string | null;
     /**
      * 
      * @type {string}
-     * @memberof SchemasCreateRequestToGroupRoomPayload
+     * @memberof SchemasCreateRoomPayload
      */
-    userId: string;
+    roomType: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemasCreateRoomPayload
+     */
+    userId: string | null;
 }
 
 /**
- * Check if a given object implements the SchemasCreateRequestToGroupRoomPayload interface.
+ * Check if a given object implements the SchemasCreateRoomPayload interface.
  */
-export function instanceOfSchemasCreateRequestToGroupRoomPayload(
+export function instanceOfSchemasCreateRoomPayload(
     value: object
 ): boolean {
     let isInstance = true;
-    isInstance = isInstance && "roomId" in value;
+    isInstance = isInstance && "name" in value;
+    isInstance = isInstance && "roomType" in value;
     isInstance = isInstance && "userId" in value;
 
     return isInstance;
 }
 
-export function SchemasCreateRequestToGroupRoomPayloadFromJSON(json: any): SchemasCreateRequestToGroupRoomPayload {
-    return SchemasCreateRequestToGroupRoomPayloadFromJSONTyped(json, false);
+export function SchemasCreateRoomPayloadFromJSON(json: any): SchemasCreateRoomPayload {
+    return SchemasCreateRoomPayloadFromJSONTyped(json, false);
 }
 
-export function SchemasCreateRequestToGroupRoomPayloadFromJSONTyped(
+export function SchemasCreateRoomPayloadFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): SchemasCreateRequestToGroupRoomPayload {
+): SchemasCreateRoomPayload {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'roomId': json['roomId'],
+        'name': json['name'],
+        'roomType': json['roomType'],
         'userId': json['userId'],
     };
 }
 
 
-export function SchemasCreateRequestToGroupRoomPayloadToJSON(value?: SchemasCreateRequestToGroupRoomPayload | null): any {
+export function SchemasCreateRoomPayloadToJSON(value?: SchemasCreateRoomPayload | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -74,7 +82,8 @@ export function SchemasCreateRequestToGroupRoomPayloadToJSON(value?: SchemasCrea
     }
     return {
         
-        'roomId': value.roomId,
+        'name': value.name,
+        'roomType': value.roomType,
         'userId': value.userId,
     };
 }

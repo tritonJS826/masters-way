@@ -13,6 +13,13 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { SchemasUserResponse } from './SchemasUserResponse';
+import {
+    SchemasUserResponseFromJSON,
+    SchemasUserResponseFromJSONTyped,
+    SchemasUserResponseToJSON,
+} from './SchemasUserResponse';
+
 /**
  * 
  * @export
@@ -39,10 +46,10 @@ export interface SchemasRoomPreviewResponse {
     roomId: string;
     /**
      * 
-     * @type {string}
+     * @type {Array<SchemasUserResponse>}
      * @memberof SchemasRoomPreviewResponse
      */
-    userId: string;
+    users: Array<SchemasUserResponse>;
 }
 
 /**
@@ -55,7 +62,7 @@ export function instanceOfSchemasRoomPreviewResponse(
     isInstance = isInstance && "isBlocked" in value;
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "roomId" in value;
-    isInstance = isInstance && "userId" in value;
+    isInstance = isInstance && "users" in value;
 
     return isInstance;
 }
@@ -76,7 +83,7 @@ export function SchemasRoomPreviewResponseFromJSONTyped(
         'isBlocked': json['isBlocked'],
         'name': json['name'],
         'roomId': json['roomId'],
-        'userId': json['userId'],
+        'users': ((json['users'] as Array<any>).map(SchemasUserResponseFromJSON)),
     };
 }
 
@@ -93,7 +100,7 @@ export function SchemasRoomPreviewResponseToJSON(value?: SchemasRoomPreviewRespo
         'isBlocked': value.isBlocked,
         'name': value.name,
         'roomId': value.roomId,
-        'userId': value.userId,
+        'users': ((value.users as Array<any>).map(SchemasUserResponseToJSON)),
     };
 }
 

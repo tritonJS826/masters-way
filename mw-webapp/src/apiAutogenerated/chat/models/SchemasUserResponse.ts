@@ -16,48 +16,56 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface SchemasCreateP2PRoomPayload
+ * @interface SchemasUserResponse
  */
-export interface SchemasCreateP2PRoomPayload {
+export interface SchemasUserResponse {
     /**
      * 
      * @type {string}
-     * @memberof SchemasCreateP2PRoomPayload
+     * @memberof SchemasUserResponse
+     */
+    role: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemasUserResponse
      */
     userId: string;
 }
 
 /**
- * Check if a given object implements the SchemasCreateP2PRoomPayload interface.
+ * Check if a given object implements the SchemasUserResponse interface.
  */
-export function instanceOfSchemasCreateP2PRoomPayload(
+export function instanceOfSchemasUserResponse(
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "role" in value;
     isInstance = isInstance && "userId" in value;
 
     return isInstance;
 }
 
-export function SchemasCreateP2PRoomPayloadFromJSON(json: any): SchemasCreateP2PRoomPayload {
-    return SchemasCreateP2PRoomPayloadFromJSONTyped(json, false);
+export function SchemasUserResponseFromJSON(json: any): SchemasUserResponse {
+    return SchemasUserResponseFromJSONTyped(json, false);
 }
 
-export function SchemasCreateP2PRoomPayloadFromJSONTyped(
+export function SchemasUserResponseFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): SchemasCreateP2PRoomPayload {
+): SchemasUserResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
+        'role': json['role'],
         'userId': json['userId'],
     };
 }
 
 
-export function SchemasCreateP2PRoomPayloadToJSON(value?: SchemasCreateP2PRoomPayload | null): any {
+export function SchemasUserResponseToJSON(value?: SchemasUserResponse | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -66,6 +74,7 @@ export function SchemasCreateP2PRoomPayloadToJSON(value?: SchemasCreateP2PRoomPa
     }
     return {
         
+        'role': value.role,
         'userId': value.userId,
     };
 }

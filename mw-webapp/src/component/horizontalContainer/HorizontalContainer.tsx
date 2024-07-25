@@ -16,6 +16,11 @@ interface HorizontalContainerProps {
    * Data attribute for cypress testing
    */
   dataCy?: string;
+
+  /**
+   * Callback triggered on div click
+   */
+  onClick?: () => void;
 }
 
 /**
@@ -26,6 +31,7 @@ export const HorizontalContainer = (props: PropsWithChildren<HorizontalContainer
     <div
       className={clsx(styles.horizontalContainer, props.className)}
       data-cy={props.dataCy}
+      onClick={props.onClick}
     >
       {props.children}
     </div>
