@@ -80,7 +80,7 @@ SELECT
     )::UUID[] AS user_uuids,
     ARRAY(
             SELECT
-                users_rooms.role
+                users_rooms.user_role
             FROM users_rooms
             WHERE users_rooms.room_uuid = rooms.uuid
     )::VARCHAR[] AS user_roles
@@ -131,7 +131,7 @@ SELECT
     )::UUID[] AS user_uuids,
     ARRAY(
             SELECT
-                users_rooms.role
+                users_rooms.user_role
             FROM users_rooms
             WHERE users_rooms.room_uuid = rooms.uuid
     )::VARCHAR[] AS user_roles
