@@ -100,7 +100,13 @@ export class ChatDAL {
    * Create chat room
    */
   public static async createRoom(params: CreateRoomParams): Promise<Chat> {
-    const roomDTO = await ChatService.createRoom({request: {...params}});
+    const roomDTO = await ChatService.createRoom({
+      request: {
+        name: params.name,
+        roomType: params.roomType,
+        userId: params.userId,
+      },
+    });
     const room = chatDTOToChat(roomDTO);
 
     return room;
