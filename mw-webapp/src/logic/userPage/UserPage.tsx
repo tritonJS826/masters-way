@@ -1,5 +1,6 @@
 import {useState} from "react";
 import {userPersonalDataAccessIds} from "cypress/accessIds/userPersonalDataAccessIds";
+import {userWaysAccessIds} from "cypress/accessIds/userWaysAccessIds";
 import {observer} from "mobx-react-lite";
 import {TrackUserPage} from "src/analytics/userPageAnalytics";
 import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
@@ -628,6 +629,7 @@ export const UserPage = observer((props: UserPageProps) => {
               collectionWaysAmount={userPageOwner.defaultWayCollections.own.ways.length}
               onClick={() => setOpenedTabId(userPageOwner.defaultWayCollections.own.uuid)}
               language={language}
+              dataCy={userWaysAccessIds.wayCard.ownWayCollectionCardButton}
             />
 
             <WayCollectionCard
