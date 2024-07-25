@@ -101,10 +101,10 @@ func (pc *RoomsController) CreateRoom(ctx *gin.Context) {
 	invitingUserUUID := uuid.MustParse(invitingUserIDRaw.(string))
 
 	params := &services.CreateRoomServiceParams{
-		InvitingUserUUID: invitingUserUUID,
-		InvitedUserUUID:  payload.UserID,
-		Name:             payload.Name,
-		Type:             payload.RoomType,
+		CreatorUUID:     invitingUserUUID,
+		InvitedUserUUID: payload.UserID,
+		Name:            payload.Name,
+		Type:            payload.RoomType,
 	}
 	newP2PRoom, err := pc.roomService.CreateRoom(ctx, params)
 	utils.HandleErrorGin(ctx, err)

@@ -296,6 +296,7 @@ components:
           message: message
           ownerId: ownerId
         roomId: roomId
+        roomType: roomType
         users:
         - role: role
           userId: userId
@@ -313,6 +314,8 @@ components:
           type: string
         roomId:
           type: string
+        roomType:
+          type: string
         users:
           items:
             $ref: '#/components/schemas/schemas.UserResponse'
@@ -322,6 +325,7 @@ components:
       - messages
       - name
       - roomId
+      - roomType
       - users
       type: object
     schemas.RoomPreviewResponse:

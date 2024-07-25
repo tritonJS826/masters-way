@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	newConfig, err := config.LoadConfig("")
+	newConfig, err := config.LoadConfig("./")
 	if err != nil {
 		log.Fatal("cannot load config:", err)
 	}

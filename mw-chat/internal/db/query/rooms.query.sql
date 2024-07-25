@@ -1,7 +1,7 @@
 -- name: CreateRoom :one
 INSERT INTO rooms (created_at, name, type)
 VALUES (@created_at, @name, @type)
-RETURNING uuid, name;
+RETURNING uuid, name, type;
 
 -- name: CheckUsersInPrivateRoom :many
 SELECT rooms.uuid

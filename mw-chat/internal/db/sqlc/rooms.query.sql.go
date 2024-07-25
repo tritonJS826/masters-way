@@ -55,7 +55,7 @@ func (q *Queries) CheckUsersInPrivateRoom(ctx context.Context, arg CheckUsersInP
 const createRoom = `-- name: CreateRoom :one
 INSERT INTO rooms (created_at, name, type)
 VALUES ($1, $2, $3)
-RETURNING uuid, name
+RETURNING uuid, name, type
 `
 
 type CreateRoomParams struct {
@@ -67,12 +67,13 @@ type CreateRoomParams struct {
 type CreateRoomRow struct {
 	Uuid pgtype.UUID `json:"uuid"`
 	Name pgtype.Text `json:"name"`
+	Type RoomType    `json:"type"`
 }
 
 func (q *Queries) CreateRoom(ctx context.Context, arg CreateRoomParams) (CreateRoomRow, error) {
 	row := q.db.QueryRow(ctx, createRoom, arg.CreatedAt, arg.Name, arg.Type)
 	var i CreateRoomRow
-	err := row.Scan(&i.Uuid, &i.Name)
+	err := row.Scan(&i.Uuid, &i.Name, &i.Type)
 	return i, err
 }
 

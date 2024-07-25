@@ -131,6 +131,7 @@ func (roomsService *RoomsService) GetRoomByUuid(ctx context.Context, userUUID, r
 		Users:     users,
 		Messages:  messages,
 		IsBlocked: room.IsRoomBlocked,
+		RoomType:  string(room.Type),
 	}
 	if room.Name.Valid {
 		response.Name = &room.Name.String
@@ -141,10 +142,10 @@ func (roomsService *RoomsService) GetRoomByUuid(ctx context.Context, userUUID, r
 }
 
 func (roomsService *RoomsService) CreateRoom(ctx context.Context, roomParams *CreateRoomServiceParams) (*schemas.RoomPopulatedResponse, error) {
-	invitingUserPgUUID := pgtype.UUID{Bytes: roomParams.InvitingUserUUID, Valid: true}
+	creatorUserPgUUID := pgtype.UUID{Bytes: roomParams.CreatorUUID, Valid: true}
 	if roomParams.Type == string(db.RoomTypePrivate) {
 		params := db.CheckUsersInPrivateRoomParams{
-			User1: invitingUserPgUUID,
+			User1: creatorUserPgUUID,
 			User2: pgtype.UUID{Bytes: uuid.MustParse(*roomParams.InvitedUserUUID), Valid: true},
 		}
 		rooms, err := roomsService.roomsRepository.CheckUsersInPrivateRoom(ctx, params)
@@ -156,7 +157,7 @@ func (roomsService *RoomsService) CreateRoom(ctx context.Context, roomParams *Cr
 		}
 	}
 
-	response, err := roomsService.createRoomTransaction(ctx, roomParams, invitingUserPgUUID)
+	response, err := roomsService.createRoomTransaction(ctx, roomParams, creatorUserPgUUID)
 	if err != nil {
 		return nil, err
 	}
@@ -164,7 +165,7 @@ func (roomsService *RoomsService) CreateRoom(ctx context.Context, roomParams *Cr
 	return response, nil
 }
 
-func (roomsService *RoomsService) createRoomTransaction(ctx context.Context, roomParams *CreateRoomServiceParams, invitingUserPgUUID pgtype.UUID) (*schemas.RoomPopulatedResponse, error) {
+func (roomsService *RoomsService) createRoomTransaction(ctx context.Context, roomParams *CreateRoomServiceParams, creatorUserPgUUID pgtype.UUID) (*schemas.RoomPopulatedResponse, error) {
 	now := time.Now()
 	tx, err := roomsService.pool.Begin(ctx)
 	if err != nil {
@@ -175,13 +176,11 @@ func (roomsService *RoomsService) createRoomTransaction(ctx context.Context, roo
 	qtx := roomsService.roomsRepository.WithTx(tx)
 
 	var name string
-	if roomParams.Name != nil {
-		name = *roomParams.Name
-	}
+	var creatorUserRole db.UserRoleType = db.UserRoleTypeRegular
 
-	var role db.UserRoleType = db.UserRoleTypeRegular
 	if roomParams.Type == string(db.RoomTypeGroup) {
-		role = db.UserRoleTypeAdmin
+		creatorUserRole = db.UserRoleTypeAdmin
+		name = *roomParams.Name
 	}
 
 	createRoomDBParams := db.CreateRoomParams{
@@ -194,32 +193,31 @@ func (roomsService *RoomsService) createRoomTransaction(ctx context.Context, roo
 		return nil, err
 	}
 
-	users := []schemas.UserResponse{}
-
-	params := db.AddUserToRoomParams{
-		UserUuid: invitingUserPgUUID,
-		UserRole: role,
+	createCreatorUserParams := db.AddUserToRoomParams{
+		UserUuid: creatorUserPgUUID,
+		UserRole: creatorUserRole,
 		RoomUuid: newRoom.Uuid,
 		JoinedAt: pgtype.Timestamp{Time: now, Valid: true},
 	}
-	invitingUser, err := qtx.AddUserToRoom(ctx, params)
+	creatorUser, err := qtx.AddUserToRoom(ctx, createCreatorUserParams)
 	if err != nil {
 		return nil, err
 	}
 
+	users := []schemas.UserResponse{}
 	users = append(users, schemas.UserResponse{
-		UserID: utils.ConvertPgUUIDToUUID(invitingUser.UserUuid).String(),
-		Role:   string(invitingUser.UserRole),
+		UserID: utils.ConvertPgUUIDToUUID(creatorUser.UserUuid).String(),
+		Role:   string(creatorUser.UserRole),
 	})
 
-	if roomParams.InvitedUserUUID != nil {
-		params = db.AddUserToRoomParams{
+	if roomParams.Type == string(db.RoomTypePrivate) {
+		createInvitedUserParams := db.AddUserToRoomParams{
 			UserUuid: pgtype.UUID{Bytes: uuid.MustParse(*roomParams.InvitedUserUUID), Valid: true},
-			UserRole: role,
+			UserRole: db.UserRoleTypeRegular,
 			RoomUuid: newRoom.Uuid,
 			JoinedAt: pgtype.Timestamp{Time: now, Valid: true},
 		}
-		invitedUser, err := qtx.AddUserToRoom(ctx, params)
+		invitedUser, err := qtx.AddUserToRoom(ctx, createInvitedUserParams)
 		if err != nil {
 			return nil, err
 		}
@@ -231,17 +229,19 @@ func (roomsService *RoomsService) createRoomTransaction(ctx context.Context, roo
 
 	tx.Commit(ctx)
 
-	response := &schemas.RoomPopulatedResponse{
-		RoomID:    utils.ConvertPgUUIDToUUID(newRoom.Uuid).String(),
-		Users:     users,
-		Messages:  []schemas.MessageResponse{},
-		IsBlocked: false,
-	}
+	var responseRoomName string
 	if newRoom.Name.Valid {
-		response.Name = &newRoom.Name.String
+		responseRoomName = newRoom.Name.String
 	}
 
-	return response, nil
+	return &schemas.RoomPopulatedResponse{
+		RoomID:    utils.ConvertPgUUIDToUUID(newRoom.Uuid).String(),
+		Users:     users,
+		Name:      &responseRoomName,
+		Messages:  []schemas.MessageResponse{},
+		IsBlocked: false,
+		RoomType:  string(newRoom.Type),
+	}, nil
 }
 
 func (roomsService *RoomsService) BlockOrUnblockRoom(ctx context.Context, BlockOrUnblockParams *BlockOrUnblockRoomParams) error {

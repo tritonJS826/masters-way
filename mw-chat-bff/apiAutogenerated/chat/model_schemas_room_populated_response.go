@@ -25,6 +25,7 @@ type SchemasRoomPopulatedResponse struct {
 	Messages []SchemasMessageResponse `json:"messages"`
 	Name NullableString `json:"name"`
 	RoomId string `json:"roomId"`
+	RoomType string `json:"roomType"`
 	Users []SchemasUserResponse `json:"users"`
 }
 
@@ -34,12 +35,13 @@ type _SchemasRoomPopulatedResponse SchemasRoomPopulatedResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSchemasRoomPopulatedResponse(isBlocked bool, messages []SchemasMessageResponse, name NullableString, roomId string, users []SchemasUserResponse) *SchemasRoomPopulatedResponse {
+func NewSchemasRoomPopulatedResponse(isBlocked bool, messages []SchemasMessageResponse, name NullableString, roomId string, roomType string, users []SchemasUserResponse) *SchemasRoomPopulatedResponse {
 	this := SchemasRoomPopulatedResponse{}
 	this.IsBlocked = isBlocked
 	this.Messages = messages
 	this.Name = name
 	this.RoomId = roomId
+	this.RoomType = roomType
 	this.Users = users
 	return &this
 }
@@ -150,6 +152,30 @@ func (o *SchemasRoomPopulatedResponse) SetRoomId(v string) {
 	o.RoomId = v
 }
 
+// GetRoomType returns the RoomType field value
+func (o *SchemasRoomPopulatedResponse) GetRoomType() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.RoomType
+}
+
+// GetRoomTypeOk returns a tuple with the RoomType field value
+// and a boolean to check if the value has been set.
+func (o *SchemasRoomPopulatedResponse) GetRoomTypeOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.RoomType, true
+}
+
+// SetRoomType sets field value
+func (o *SchemasRoomPopulatedResponse) SetRoomType(v string) {
+	o.RoomType = v
+}
+
 // GetUsers returns the Users field value
 func (o *SchemasRoomPopulatedResponse) GetUsers() []SchemasUserResponse {
 	if o == nil {
@@ -188,6 +214,7 @@ func (o SchemasRoomPopulatedResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize["messages"] = o.Messages
 	toSerialize["name"] = o.Name.Get()
 	toSerialize["roomId"] = o.RoomId
+	toSerialize["roomType"] = o.RoomType
 	toSerialize["users"] = o.Users
 	return toSerialize, nil
 }
@@ -201,6 +228,7 @@ func (o *SchemasRoomPopulatedResponse) UnmarshalJSON(data []byte) (err error) {
 		"messages",
 		"name",
 		"roomId",
+		"roomType",
 		"users",
 	}
 

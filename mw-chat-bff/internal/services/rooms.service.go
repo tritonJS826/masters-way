@@ -124,6 +124,7 @@ func (p *RoomsService) GetRoomById(ctx *gin.Context, roomUuid string) (*schemas.
 		Messages:  messages,
 		IsBlocked: roomRaw.IsBlocked,
 		Users:     users,
+		RoomType:  roomRaw.RoomType,
 	}
 	return &roomPopulated, nil
 
@@ -165,6 +166,7 @@ func (p *RoomsService) CreateRoom(ctx *gin.Context, createRoomPayload *schemas.C
 		Messages:  messages,
 		IsBlocked: roomRaw.IsBlocked,
 		Users:     users,
+		RoomType:  roomRaw.RoomType,
 	}
 
 	return roomPopulatedResponse, nil
@@ -206,6 +208,7 @@ func (p *RoomsService) UpdateRoom(ctx *gin.Context, roomId string) (*schemas.Roo
 		Messages:  messages,
 		IsBlocked: roomRaw.IsBlocked,
 		Users:     users,
+		RoomType:  roomRaw.RoomType,
 	}
 
 	return &roomPopulatedResponse, nil
