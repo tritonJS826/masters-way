@@ -37,48 +37,48 @@ jobs:
           docker build -t $IMAGE_NAME -f mw-server/Dockerfile mw-server
           docker push $IMAGE_NAME
 
-  # deploy:
-  #   runs-on: ubuntu-22.04
-  #   needs: build-and-push
+  deploy:
+    runs-on: ubuntu-22.04
+    needs: build-and-push
 
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v3
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-  #     - name: Extract commit info
-  #       id: extract-info
-  #       run: |
-  #         echo "COMMIT_HASH=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-  #         echo "COMMIT_DATE=$(date -u +%Y%m%d)" >> $GITHUB_ENV
+      - name: Extract commit info
+        id: extract-info
+        run: |
+          echo "COMMIT_HASH=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+          echo "COMMIT_DATE=$(date -u +%Y%m%d)" >> $GITHUB_ENV
 
-  #     - name: Set up SSH
-  #       uses: webfactory/ssh-agent@v0.5.3
-  #       with:
-  #         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-  #     - name: Deploy to Server
-  #       env:
-  #         COMMIT_HASH: ${{ env.COMMIT_HASH }}
-  #         COMMIT_DATE: ${{ env.COMMIT_DATE }}
-  #         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-  #         DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
-  #         ENV_FILE_PATH: ${{ secrets.ENV_FILE_PATH }}
-  #       run: |
-  #         ssh -o StrictHostKeyChecking=no ${{ secrets.USER_SERVER }}@${{ secrets.IP_SERVER }} << EOF
-  #           export COMMIT_HASH=${COMMIT_HASH}
-  #           export COMMIT_DATE=${COMMIT_DATE}
-  #           export DOCKER_USERNAME=${DOCKER_USERNAME}
-  #           export DOCKER_TOKEN=${DOCKER_TOKEN}
-  #           export ENV_FILE_PATH=${ENV_FILE_PATH}
+      - name: Deploy to Server
+        env:
+          COMMIT_HASH: ${{ env.COMMIT_HASH }}
+          COMMIT_DATE: ${{ env.COMMIT_DATE }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+          ENV_FILE_PATH_SERVER: ${{ secrets.ENV_FILE_PATH_SERVER }}
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.USER_SERVER }}@${{ secrets.IP_SERVER }} << EOF
+            export COMMIT_HASH=${COMMIT_HASH}
+            export COMMIT_DATE=${COMMIT_DATE}
+            export DOCKER_USERNAME=${DOCKER_USERNAME}
+            export DOCKER_TOKEN=${DOCKER_TOKEN}
+            export ENV_FILE_PATH_SERVER=${ENV_FILE_PATH_SERVER}
 
-  #           echo ${DOCKER_TOKEN} | docker login -u ${DOCKER_USERNAME} --password-stdin
-  #           docker pull victorveretennikov58/masters-way:mw-server.${COMMIT_HASH}.${COMMIT_DATE}
-  #           docker stop masters-way_mw-server_1 || true
-  #           docker rm masters-way_mw-server_1 || true
-  #           docker run --env-file ${ENV_FILE_PATH} -d --name masters-way_mw-server_1 --restart unless-stopped -p 8000:8000 --network masters-way_app-network victorveretennikov58/masters-way:mw-server.${COMMIT_HASH}.${COMMIT_DATE}
+            echo ${DOCKER_TOKEN} | docker login -u ${DOCKER_USERNAME} --password-stdin
+            docker pull victorveretennikov58/masters-way:mw-server.${COMMIT_HASH}.${COMMIT_DATE}
+            docker stop masters-way_mw-server_1 || true
+            docker rm masters-way_mw-server_1 || true
+            docker run --env-file ${ENV_FILE_PATH_SERVER} -d --name masters-way_mw-server_1 --restart unless-stopped -p 8000:8000 --network masters-way_app-network victorveretennikov58/masters-way:mw-server.${COMMIT_HASH}.${COMMIT_DATE}
             
-  #           docker images --format '{{.Repository}}:{{.Tag}}' | grep 'victorveretennikov58/masters-way:mw-server' | grep -v '${COMMIT_HASH}.${COMMIT_DATE}' | xargs -I {} docker rmi {}
-  #         EOF
+            docker images --format '{{.Repository}}:{{.Tag}}' | grep 'victorveretennikov58/masters-way:mw-server' | grep -v '${COMMIT_HASH}.${COMMIT_DATE}' | xargs -I {} docker rmi {}
+          EOF
 
 
   # notify:
