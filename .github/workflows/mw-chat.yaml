@@ -73,8 +73,8 @@ jobs:
 
             echo ${DOCKER_TOKEN} | sudo docker login -u ${DOCKER_USERNAME} --password-stdin
             sudo docker pull victorveretennikov58/masters-way:mw-chat.${COMMIT_HASH}.${COMMIT_DATE}
-            sudo docker stop masters-way_mw-chat_1 || true
-            sudo docker rm masters-way_mw-chat_1 || true
+            # sudo docker stop masters-way_mw-chat_1 || true
+            # sudo docker rm masters-way_mw-chat_1 || true
             sudo docker run --env-file ${ENV_FILE_PATH_CHAT} -d --name masters-way_mw-chat_1 --restart unless-stopped -p 8000:8000 --network masters-way_app-network victorveretennikov58/masters-way:mw-chat.${COMMIT_HASH}.${COMMIT_DATE}
             
             sudo docker images --format '{{.Repository}}:{{.Tag}}' | grep 'victorveretennikov58/masters-way:mw-chat' | grep -v '${COMMIT_HASH}.${COMMIT_DATE}' | xargs -I {} docker rmi {}
