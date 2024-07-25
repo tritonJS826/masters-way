@@ -38,7 +38,7 @@ jobs:
           docker push $IMAGE_NAME
 
   # deploy:
-  #   runs-on: ubuntu-latest
+  #   runs-on: ubuntu-22.04
   #   needs: build-and-push
 
   #   steps:
@@ -82,7 +82,7 @@ jobs:
 
 
   # notify:
-  #   runs-on: ubuntu-latest
+  #   runs-on: ubuntu-22.04
   #   needs: [build-and-push, deploy]
 
   #   steps:
