@@ -6,7 +6,6 @@ $labelColorSize: 10px;
 
 .statisticLine {
   align-items: center;
-  // border-bottom: $primaryBorder dotted var(--secondaryStrokeColor);
   font-size: $fontSizeSmall;
   gap: $gapExtraSmall;
   grid-template-columns: repeat(3, 1fr);
