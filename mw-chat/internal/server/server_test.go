@@ -147,7 +147,7 @@ func TestCreateMessage(t *testing.T) {
 		expectedError    string
 	}{
 		{
-			name:           "CreatePrivateRoomMessage_Success",
+			name:           "CreateMessageInPrivateRoom_Success",
 			requestBody:    `{"message": "Hello!"}`,
 			expectedStatus: http.StatusOK,
 			expectedResponse: schemas.MessageResponse{

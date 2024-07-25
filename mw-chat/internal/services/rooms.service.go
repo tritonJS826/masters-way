@@ -229,15 +229,10 @@ func (roomsService *RoomsService) createRoomTransaction(ctx context.Context, roo
 
 	tx.Commit(ctx)
 
-	var responseRoomName string
-	if newRoom.Name.Valid {
-		responseRoomName = newRoom.Name.String
-	}
-
 	return &schemas.RoomPopulatedResponse{
 		RoomID:    utils.ConvertPgUUIDToUUID(newRoom.Uuid).String(),
 		Users:     users,
-		Name:      &responseRoomName,
+		Name:      utils.MarshalPgText(newRoom.Name),
 		Messages:  []schemas.MessageResponse{},
 		IsBlocked: false,
 		RoomType:  string(newRoom.Type),
