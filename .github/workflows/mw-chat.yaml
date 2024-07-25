@@ -1,11 +1,11 @@
-name: Deploy mw-server to Server
+name: Deploy mw-chat to Server
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'mw-server/**'
+      - 'mw-chat/**'
   # workflow_dispatch:
 
 jobs:
@@ -33,8 +33,8 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          IMAGE_NAME=victorveretennikov58/masters-way:mw-server.${{ env.COMMIT_HASH }}.${{ env.COMMIT_DATE }}
-          docker build -t $IMAGE_NAME -f mw-server/Dockerfile mw-server
+          IMAGE_NAME=victorveretennikov58/masters-way:mw-chat.${{ env.COMMIT_HASH }}.${{ env.COMMIT_DATE }}
+          docker build -t $IMAGE_NAME -f mw-chat/Dockerfile mw-chat
           docker push $IMAGE_NAME
 
   # deploy:
@@ -72,12 +72,12 @@ jobs:
   #           export ENV_FILE_PATH=${ENV_FILE_PATH}
 
   #           echo ${DOCKER_TOKEN} | docker login -u ${DOCKER_USERNAME} --password-stdin
-  #           docker pull victorveretennikov58/masters-way:mw-server.${COMMIT_HASH}.${COMMIT_DATE}
-  #           docker stop masters-way_mw-server_1 || true
-  #           docker rm masters-way_mw-server_1 || true
-  #           docker run --env-file ${ENV_FILE_PATH} -d --name masters-way_mw-server_1 --restart unless-stopped -p 8000:8000 --network masters-way_app-network victorveretennikov58/masters-way:mw-server.${COMMIT_HASH}.${COMMIT_DATE}
+  #           docker pull victorveretennikov58/masters-way:mw-chat.${COMMIT_HASH}.${COMMIT_DATE}
+  #           docker stop masters-way_mw-chat_1 || true
+  #           docker rm masters-way_mw-chat_1 || true
+  #           docker run --env-file ${ENV_FILE_PATH} -d --name masters-way_mw-chat_1 --restart unless-stopped -p 8000:8000 --network masters-way_app-network victorveretennikov58/masters-way:mw-chat.${COMMIT_HASH}.${COMMIT_DATE}
             
-  #           docker images --format '{{.Repository}}:{{.Tag}}' | grep 'victorveretennikov58/masters-way:mw-server' | grep -v '${COMMIT_HASH}.${COMMIT_DATE}' | xargs -I {} docker rmi {}
+  #           docker images --format '{{.Repository}}:{{.Tag}}' | grep 'victorveretennikov58/masters-way:mw-chat' | grep -v '${COMMIT_HASH}.${COMMIT_DATE}' | xargs -I {} docker rmi {}
   #         EOF
 
 
@@ -93,7 +93,7 @@ jobs:
   #         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
   #       run: |
   #         STATUS=${{ job.status }}
-  #         MESSAGE="GitHub Action completed with status: $STATUS. Deployment of mw-server with tag mw-server"
+  #         MESSAGE="GitHub Action completed with status: $STATUS. Deployment of mw-chat with tag mw-chat"
   #         curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage" \
   #         -d chat_id="${TELEGRAM_CHAT_ID}" \
   #         -d text="$MESSAGE"
