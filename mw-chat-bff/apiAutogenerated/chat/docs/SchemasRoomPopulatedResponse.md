@@ -6,15 +6,16 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **IsBlocked** | **bool** |  | 
 **Messages** | [**[]SchemasMessageResponse**](SchemasMessageResponse.md) |  | 
-**Name** | **string** |  | 
+**Name** | **NullableString** |  | 
 **RoomId** | **string** |  | 
+**RoomType** | **string** |  | 
 **Users** | [**[]SchemasUserResponse**](SchemasUserResponse.md) |  | 
 
 ## Methods
 
 ### NewSchemasRoomPopulatedResponse
 
-`func NewSchemasRoomPopulatedResponse(isBlocked bool, messages []SchemasMessageResponse, name string, roomId string, users []SchemasUserResponse, ) *SchemasRoomPopulatedResponse`
+`func NewSchemasRoomPopulatedResponse(isBlocked bool, messages []SchemasMessageResponse, name NullableString, roomId string, roomType string, users []SchemasUserResponse, ) *SchemasRoomPopulatedResponse`
 
 NewSchemasRoomPopulatedResponse instantiates a new SchemasRoomPopulatedResponse object
 This constructor will assign default values to properties that have it defined,
@@ -89,6 +90,16 @@ and a boolean to check if the value has been set.
 SetName sets Name field to given value.
 
 
+### SetNameNil
+
+`func (o *SchemasRoomPopulatedResponse) SetNameNil(b bool)`
+
+ SetNameNil sets the value for Name to be an explicit nil
+
+### UnsetName
+`func (o *SchemasRoomPopulatedResponse) UnsetName()`
+
+UnsetName ensures that no value is present for Name, not even an explicit nil
 ### GetRoomId
 
 `func (o *SchemasRoomPopulatedResponse) GetRoomId() string`
@@ -107,6 +118,26 @@ and a boolean to check if the value has been set.
 `func (o *SchemasRoomPopulatedResponse) SetRoomId(v string)`
 
 SetRoomId sets RoomId field to given value.
+
+
+### GetRoomType
+
+`func (o *SchemasRoomPopulatedResponse) GetRoomType() string`
+
+GetRoomType returns the RoomType field if non-nil, zero value otherwise.
+
+### GetRoomTypeOk
+
+`func (o *SchemasRoomPopulatedResponse) GetRoomTypeOk() (*string, bool)`
+
+GetRoomTypeOk returns a tuple with the RoomType field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRoomType
+
+`func (o *SchemasRoomPopulatedResponse) SetRoomType(v string)`
+
+SetRoomType sets RoomType field to given value.
 
 
 ### GetUsers

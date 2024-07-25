@@ -31,10 +31,10 @@ func NewService(pool *pgxpool.Pool) *Service {
 }
 
 type CreateRoomServiceParams struct {
-	InvitingUserUUID uuid.UUID
-	InvitedUserUUID  *string
-	Name             *string
-	Type             string
+	CreatorUUID     uuid.UUID
+	InvitedUserUUID *string
+	Name            *string
+	Type            string
 }
 
 type RoomMessageParams struct {

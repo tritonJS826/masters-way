@@ -47,3 +47,11 @@ func MarshalPgTimestamp(timestamp pgtype.Timestamp) *string {
 		return nil
 	}
 }
+
+func MarshalPgText(pgText pgtype.Text) *string {
+	if pgText.Valid {
+		str := pgText.String
+		return &str
+	}
+	return nil
+}

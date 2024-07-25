@@ -3,7 +3,7 @@ SET TIMEZONE = 'UTC';
 CREATE TYPE room_type AS ENUM ('private', 'group');
 CREATE TABLE rooms (
     "uuid" UUID NOT NULL DEFAULT uuid_generate_v4(),
-    "name" VARCHAR(50) NOT NULL,
+    "name" VARCHAR(50),
     "type" room_type NOT NULL,
     "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT "rooms_pkey" PRIMARY KEY (uuid)
