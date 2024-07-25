@@ -1,5 +1,6 @@
 import {useState} from "react";
 import clsx from "clsx";
+import {userWaysAccessIds} from "cypress/accessIds/userWaysAccessIds";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Confirm} from "src/component/confirm/Confirm";
 import {Dropdown} from "src/component/dropdown/Dropdown";
@@ -111,7 +112,10 @@ export const WayCollectionCard = (props: WayCollectionProps) => {
       className={styles.wayCollectionCardButton}
       value={
         <VerticalContainer className={styles.wayCollectionCardContainer}>
-          <VerticalContainer className={clsx(styles.mainInfo, props.isActive && styles.active)}>
+          <VerticalContainer
+            className={clsx(styles.mainInfo, props.isActive && styles.active)}
+            dataCy={userWaysAccessIds.wayCard.ownWayCollectionCardButtonMainInfo}
+          >
             <HorizontalContainer className={styles.collectionTitleBlock}>
               <Title
                 level={HeadingLevel.h3}
@@ -152,7 +156,10 @@ export const WayCollectionCard = (props: WayCollectionProps) => {
               }
             </HorizontalContainer>
           </VerticalContainer>
-          <HorizontalContainer className={styles.additionalInfo}>
+          <HorizontalContainer
+            className={styles.additionalInfo}
+            dataCy={userWaysAccessIds.wayCard.wayAmountCollectionCardButton}
+          >
             {`${props.collectionWaysAmount} ${LanguageService.user.collections.ways[props.language]}`}
           </HorizontalContainer>
         </VerticalContainer>

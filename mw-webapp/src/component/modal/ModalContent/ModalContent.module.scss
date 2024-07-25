@@ -33,6 +33,7 @@ $modal-animation-time: 150ms;
   }
 
   @media only screen and (max-width: $mediaWidthMobileMedium) {
+    width: 95vw;
     padding: $paddingExtraMedium;
   }
 }

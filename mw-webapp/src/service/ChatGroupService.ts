@@ -53,7 +53,7 @@ export class ChatGroupService {
   /**
    * Delete requests to group chat room
    */
-  public static async deleteRequestsFromGroupRoom(
+  public static async declineRequestToGroupRoom(
     requestParameters: DeclineRequestToGroupRoomRequest,
   ): Promise<SchemasDeclineRequestToGroupRoomResponse> {
     const groupRoom = await chatGroup.declineRequestToGroupRoom(requestParameters);

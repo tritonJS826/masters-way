@@ -1,5 +1,6 @@
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
+import {Tooltip} from "src/component/tooltip/Tooltip";
 import styles from "src/logic/wayPage/wayStatistics/statisticLabels/statisticLine/StatisticLine.module.scss";
 
 type StatisticLineProps = {
@@ -47,7 +48,11 @@ export const StatisticLine = (props: StatisticLineProps) => {
           style={{backgroundColor: props.color}}
           className={styles.labelColor}
         />
-        {props.name}
+        <Tooltip content={props.name}>
+          <span className={styles.labelName}>
+            {props.name}
+          </span>
+        </Tooltip>
       </HorizontalContainer>
       <HorizontalContainer className={styles.amountTime}>
         {props.amount}
@@ -64,4 +69,3 @@ export const StatisticLine = (props: StatisticLineProps) => {
     </HorizontalGridContainer>
   );
 };
-

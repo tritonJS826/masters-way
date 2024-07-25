@@ -1,5 +1,6 @@
 import {observer} from "mobx-react-lite";
 import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
+import {Separator} from "src/component/separator/Separator";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {languageStore} from "src/globalStore/LanguageStore";
@@ -35,19 +36,19 @@ export const StatisticLabels = observer((props: TagStatsProps) => {
     <>
       <HorizontalGridContainer className={styles.titleLine}>
         <Title
-          level={HeadingLevel.h4}
+          level={HeadingLevel.h6}
           text={LanguageService.way.statisticsBlock.labelsName[language]}
           className={styles.statisticLabelsTitle}
           placeholder=""
         />
         <Title
-          level={HeadingLevel.h4}
+          level={HeadingLevel.h6}
           text={LanguageService.way.statisticsBlock.jobsAmount[language]}
           className={styles.statisticLabelsTitle}
           placeholder=""
         />
         <Title
-          level={HeadingLevel.h4}
+          level={HeadingLevel.h6}
           text={LanguageService.way.statisticsBlock.timeMinutes[language]}
           className={styles.statisticLabelsTitle}
           placeholder=""
@@ -64,6 +65,7 @@ export const StatisticLabels = observer((props: TagStatsProps) => {
             amountPercentage={tagStat.totalAmountPercentage}
             timePercentage={tagStat.totalTimePercentage}
           />
+          <Separator />
         </VerticalContainer>
       ))
       }

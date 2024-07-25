@@ -16,17 +16,30 @@
 import * as runtime from '../runtime';
 import type {
   SchemasCreateMessagePayload,
+  SchemasCreateP2PRoomPayload,
   SchemasGetRoomsResponse,
   SchemasMessageResponse,
+  SchemasRoomPopulatedResponse,
+  SchemasRoomUpdatePayload,
 } from '../models/index';
 import {
     SchemasCreateMessagePayloadFromJSON,
     SchemasCreateMessagePayloadToJSON,
+    SchemasCreateP2PRoomPayloadFromJSON,
+    SchemasCreateP2PRoomPayloadToJSON,
     SchemasGetRoomsResponseFromJSON,
     SchemasGetRoomsResponseToJSON,
     SchemasMessageResponseFromJSON,
     SchemasMessageResponseToJSON,
+    SchemasRoomPopulatedResponseFromJSON,
+    SchemasRoomPopulatedResponseToJSON,
+    SchemasRoomUpdatePayloadFromJSON,
+    SchemasRoomUpdatePayloadToJSON,
 } from '../models/index';
+
+export interface CreateP2pRoomRequest {
+    request: SchemasCreateP2PRoomPayload;
+}
 
 export interface GetP2pRoomByIdRequest {
     p2pRoomId: string;
@@ -39,6 +52,7 @@ export interface MakeMessageInP2pRoomRequest {
 
 export interface UpdateP2pRoomRequest {
     p2pRoomId: string;
+    request: SchemasRoomUpdatePayload;
 }
 
 /**
@@ -49,33 +63,40 @@ export class P2pApi extends runtime.BaseAPI {
     /**
      * Create p2p room for user
      */
-    async createP2pRoomRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasMessageResponse>> {
+    async createP2pRoomRaw(requestParameters: CreateP2pRoomRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasRoomPopulatedResponse>> {
+        if (requestParameters.request === null || requestParameters.request === undefined) {
+            throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createP2pRoom.');
+        }
+
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
             path: `/p2p-rooms`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
+            body: SchemasCreateP2PRoomPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasMessageResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasRoomPopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Create p2p room for user
      */
-    async createP2pRoom(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasMessageResponse> {
-        const response = await this.createP2pRoomRaw(initOverrides);
+    async createP2pRoom(requestParameters: CreateP2pRoomRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasRoomPopulatedResponse> {
+        const response = await this.createP2pRoomRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Get p2p room by id
      */
-    async getP2pRoomByIdRaw(requestParameters: GetP2pRoomByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasMessageResponse>> {
+    async getP2pRoomByIdRaw(requestParameters: GetP2pRoomByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasRoomPopulatedResponse>> {
         if (requestParameters.p2pRoomId === null || requestParameters.p2pRoomId === undefined) {
             throw new runtime.RequiredError('p2pRoomId','Required parameter requestParameters.p2pRoomId was null or undefined when calling getP2pRoomById.');
         }
@@ -91,13 +112,13 @@ export class P2pApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasMessageResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasRoomPopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Get p2p room by id
      */
-    async getP2pRoomById(requestParameters: GetP2pRoomByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasMessageResponse> {
+    async getP2pRoomById(requestParameters: GetP2pRoomByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasRoomPopulatedResponse> {
         const response = await this.getP2pRoomByIdRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -168,29 +189,36 @@ export class P2pApi extends runtime.BaseAPI {
     /**
      * Update p2p room for user
      */
-    async updateP2pRoomRaw(requestParameters: UpdateP2pRoomRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasMessageResponse>> {
+    async updateP2pRoomRaw(requestParameters: UpdateP2pRoomRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasRoomPopulatedResponse>> {
         if (requestParameters.p2pRoomId === null || requestParameters.p2pRoomId === undefined) {
             throw new runtime.RequiredError('p2pRoomId','Required parameter requestParameters.p2pRoomId was null or undefined when calling updateP2pRoom.');
+        }
+
+        if (requestParameters.request === null || requestParameters.request === undefined) {
+            throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling updateP2pRoom.');
         }
 
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+        headerParameters['Content-Type'] = 'application/json';
+
         const response = await this.request({
             path: `/p2p-rooms/{p2pRoomId}`.replace(`{${"p2pRoomId"}}`, encodeURIComponent(String(requestParameters.p2pRoomId))),
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
+            body: SchemasRoomUpdatePayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasMessageResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasRoomPopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Update p2p room for user
      */
-    async updateP2pRoom(requestParameters: UpdateP2pRoomRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasMessageResponse> {
+    async updateP2pRoom(requestParameters: UpdateP2pRoomRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasRoomPopulatedResponse> {
         const response = await this.updateP2pRoomRaw(requestParameters, initOverrides);
         return await response.value();
     }

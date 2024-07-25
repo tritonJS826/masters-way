@@ -5,7 +5,8 @@ import homePageContent from "src/dictionary/HomePageContent.json";
 import {Theme} from "src/globalStore/ThemeStore";
 import sideBarContent from "src/dictionary/Sidebar.json";
 import testUserData from "cypress/fixtures/testUserDataFixture.json";
-import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
+import { userPersonalSelectors } from "cypress/scopesSelectors/userPersonalDataSelectors";
+import allWayData from "cypress/fixtures/allWaysFixture.json";
 
 const apiUrl = Cypress.env('API_BASE_PATH');
 
@@ -27,13 +28,15 @@ describe('NoAuth Header scope tests', () => {
         homeSelectors.welcomeBlock.getTitle().should('contain', homePageContent.title.en);
     });
 
-    it('NoAuth_Header_LightThemeSwitchIcon', () => {
+  it('NoAuth_Header_LightThemeSwitchIcon', () => {
+        cy.visit(`/${allWayData.endpoint}`);
         headerSelectors.settings.getThemeSwitcher().click();
 
         cy.checkThemeColors(Theme.LIGHT);
     });
 
-    it('NoAuth_Header_DarkThemeSwitchIcon', () => {
+  it('NoAuth_Header_DarkThemeSwitchIcon', () => {
+        cy.visit(`/${allWayData.endpoint}`);
         headerSelectors.settings.getThemeSwitcher().click();
         headerSelectors.settings.getThemeSwitcher().click();
 

@@ -1,5 +1,6 @@
 import {useState} from "react";
 import {userPersonalDataAccessIds} from "cypress/accessIds/userPersonalDataAccessIds";
+import {userWaysAccessIds} from "cypress/accessIds/userWaysAccessIds";
 import {observer} from "mobx-react-lite";
 import {TrackUserPage} from "src/analytics/userPageAnalytics";
 import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
@@ -508,6 +509,12 @@ export const UserPage = observer((props: UserPageProps) => {
                   }
                   content={
                     <PromptModalContent
+                      cy={
+                        {
+                          dataCyInput: userPersonalDataAccessIds.userSkillsBlock.skillsModalContent.skillInput,
+                          dataCyCreateButton: userPersonalDataAccessIds.userSkillsBlock.skillsModalContent.createSkillButton,
+                        }
+                      }
                       defaultValue=""
                       title={LanguageService.user.personalInfo.addSkillModalTitle[language]}
                       placeholder={LanguageService.user.personalInfo.addSkillModal[language]}
@@ -535,6 +542,12 @@ export const UserPage = observer((props: UserPageProps) => {
             <HorizontalContainer className={styles.userTagsContainer}>
               {userPageOwner?.tags.map(tag => (
                 <Tag
+                  cy={
+                    {
+                      dataCyTag: userPersonalDataAccessIds.userSkillsBlock.skillTag.tag,
+                      dataCyCross: userPersonalDataAccessIds.userSkillsBlock.skillTag.removeTagButton,
+                    }
+                  }
                   tagName={tag.name}
                   key={tag.uuid}
                   isDeletable={isPageOwner}
@@ -616,6 +629,7 @@ export const UserPage = observer((props: UserPageProps) => {
               collectionWaysAmount={userPageOwner.defaultWayCollections.own.ways.length}
               onClick={() => setOpenedTabId(userPageOwner.defaultWayCollections.own.uuid)}
               language={language}
+              dataCy={userWaysAccessIds.wayCard.ownWayCollectionCardButton}
             />
 
             <WayCollectionCard

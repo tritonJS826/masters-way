@@ -5,51 +5,124 @@
 package db
 
 import (
+	"database/sql/driver"
+	"fmt"
+
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
-type GroupMessage struct {
+type RoomType string
+
+const (
+	RoomTypePrivate RoomType = "private"
+	RoomTypeGroup   RoomType = "group"
+)
+
+func (e *RoomType) Scan(src interface{}) error {
+	switch s := src.(type) {
+	case []byte:
+		*e = RoomType(s)
+	case string:
+		*e = RoomType(s)
+	default:
+		return fmt.Errorf("unsupported scan type for RoomType: %T", src)
+	}
+	return nil
+}
+
+type NullRoomType struct {
+	RoomType RoomType `json:"room_type"`
+	Valid    bool     `json:"valid"` // Valid is true if RoomType is not NULL
+}
+
+// Scan implements the Scanner interface.
+func (ns *NullRoomType) Scan(value interface{}) error {
+	if value == nil {
+		ns.RoomType, ns.Valid = "", false
+		return nil
+	}
+	ns.Valid = true
+	return ns.RoomType.Scan(value)
+}
+
+// Value implements the driver Valuer interface.
+func (ns NullRoomType) Value() (driver.Value, error) {
+	if !ns.Valid {
+		return nil, nil
+	}
+	return string(ns.RoomType), nil
+}
+
+type UserRoleType string
+
+const (
+	UserRoleTypeAdmin   UserRoleType = "admin"
+	UserRoleTypeRegular UserRoleType = "regular"
+)
+
+func (e *UserRoleType) Scan(src interface{}) error {
+	switch s := src.(type) {
+	case []byte:
+		*e = UserRoleType(s)
+	case string:
+		*e = UserRoleType(s)
+	default:
+		return fmt.Errorf("unsupported scan type for UserRoleType: %T", src)
+	}
+	return nil
+}
+
+type NullUserRoleType struct {
+	UserRoleType UserRoleType `json:"user_role_type"`
+	Valid        bool         `json:"valid"` // Valid is true if UserRoleType is not NULL
+}
+
+// Scan implements the Scanner interface.
+func (ns *NullUserRoleType) Scan(value interface{}) error {
+	if value == nil {
+		ns.UserRoleType, ns.Valid = "", false
+		return nil
+	}
+	ns.Valid = true
+	return ns.UserRoleType.Scan(value)
+}
+
+// Value implements the driver Valuer interface.
+func (ns NullUserRoleType) Value() (driver.Value, error) {
+	if !ns.Valid {
+		return nil, nil
+	}
+	return string(ns.UserRoleType), nil
+}
+
+type Message struct {
 	Uuid      pgtype.UUID      `json:"uuid"`
 	OwnerUuid pgtype.UUID      `json:"owner_uuid"`
 	RoomUuid  pgtype.UUID      `json:"room_uuid"`
 	Text      string           `json:"text"`
 	CreatedAt pgtype.Timestamp `json:"created_at"`
-}
-
-type GroupRoom struct {
-	Uuid      pgtype.UUID      `json:"uuid"`
-	Name      string           `json:"name"`
-	IsBlocked bool             `json:"is_blocked"`
-	CreatedAt pgtype.Timestamp `json:"created_at"`
-}
-
-type P2pMessage struct {
-	Uuid      pgtype.UUID      `json:"uuid"`
-	OwnerUuid pgtype.UUID      `json:"owner_uuid"`
-	RoomUuid  pgtype.UUID      `json:"room_uuid"`
-	Text      pgtype.Text      `json:"text"`
-	CreatedAt pgtype.Timestamp `json:"created_at"`
-}
-
-type P2pRoom struct {
-	Uuid      pgtype.UUID      `json:"uuid"`
-	User1Uuid pgtype.UUID      `json:"user_1_uuid"`
-	User2Uuid pgtype.UUID      `json:"user_2_uuid"`
-	CreatedAt pgtype.Timestamp `json:"created_at"`
-	IsBlocked pgtype.Bool      `json:"is_blocked"`
-}
-
-type UsersGroupRoom struct {
-	UserUuid  pgtype.UUID      `json:"user_uuid"`
-	RoomUuid  pgtype.UUID      `json:"room_uuid"`
-	Role      string           `json:"role"`
-	JoinedAt  pgtype.Timestamp `json:"joined_at"`
 	UpdatedAt pgtype.Timestamp `json:"updated_at"`
 }
 
-type UsersGroupRoomRequest struct {
-	SenderUuid   pgtype.UUID      `json:"sender_uuid"`
+type MessageStatus struct {
+	MessageUuid  pgtype.UUID      `json:"message_uuid"`
 	ReceiverUuid pgtype.UUID      `json:"receiver_uuid"`
-	RoomUuid     pgtype.UUID      `json:"room_uuid"`
-	CreatedAt    pgtype.Timestamp `json:"created_at"`
+	IsRead       bool             `json:"is_read"`
+	UpdatedAt    pgtype.Timestamp `json:"updated_at"`
+}
+
+type Room struct {
+	Uuid      pgtype.UUID      `json:"uuid"`
+	Name      string           `json:"name"`
+	Type      RoomType         `json:"type"`
+	CreatedAt pgtype.Timestamp `json:"created_at"`
+}
+
+type UsersRoom struct {
+	UserUuid      pgtype.UUID      `json:"user_uuid"`
+	RoomUuid      pgtype.UUID      `json:"room_uuid"`
+	UserRole      UserRoleType     `json:"user_role"`
+	IsRoomBlocked bool             `json:"is_room_blocked"`
+	JoinedAt      pgtype.Timestamp `json:"joined_at"`
+	UpdatedAt     pgtype.Timestamp `json:"updated_at"`
 }

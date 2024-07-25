@@ -1,13 +1,13 @@
 package controllers
 
+import "mwchat/internal/services"
+
 type Controller struct {
-	P2PRoomsController   *P2PRoomsController
-	GroupRoomsController *GroupRoomsController
+	RoomsController *RoomsController
 }
 
-func NewController() *Controller {
+func NewController(services *services.Service) *Controller {
 	return &Controller{
-		P2PRoomsController:   NewP2PRoomsController(),
-		GroupRoomsController: NewGroupRoomsController(),
+		RoomsController: NewP2PRoomsController(services.RoomService),
 	}
 }

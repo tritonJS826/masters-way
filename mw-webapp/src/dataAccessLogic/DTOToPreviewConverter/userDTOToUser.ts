@@ -9,7 +9,7 @@ import {User} from "src/model/businessModel/User";
 /**
  * Convert {@link UserDTO} to {@link User}
  */
-export const UserDTOToUserConverter = (userDTO: SchemasUserPopulatedResponse): User => {
+export const userDTOToUserConverter = (userDTO: SchemasUserPopulatedResponse): User => {
   return new User({
     ...userDTO,
     customWayCollections: userDTO.customWayCollections.map(wayCollectionDTOToWayCollection),

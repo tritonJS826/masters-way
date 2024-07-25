@@ -1,5 +1,5 @@
 import {userToUserDTOPartial} from "src/dataAccessLogic/BusinessToDTOConverter/userToUserDTOPartial";
-import {UserDTOToUserConverter} from "src/dataAccessLogic/DTOToPreviewConverter/userDTOToUser";
+import {userDTOToUserConverter} from "src/dataAccessLogic/DTOToPreviewConverter/userDTOToUser";
 import {userDTOToUserNotSaturatedWayConverter}
   from "src/dataAccessLogic/DTOToPreviewConverter/userDTOToUserNotSaturatedWayConverter";
 import {User} from "src/model/businessModel/User";
@@ -49,7 +49,7 @@ export class UserDAL {
    */
   public static async getUserByUuid(userUuid: string): Promise<User> {
     const userDTO = await UserService.getUserByUuid({userId: userUuid});
-    const user = UserDTOToUserConverter(userDTO);
+    const user = userDTOToUserConverter(userDTO);
 
     return user;
   }

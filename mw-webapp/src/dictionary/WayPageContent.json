@@ -442,9 +442,9 @@
       "ua": "Налаштувати мітки робіт"
     },
     "jobDoneTagsModalTitle": {
-      "ru": "Лейблы:",
-      "en": "Labels:",
-      "ua": "Лейблы:"
+      "ru": "Лейблы",
+      "en": "Labels",
+      "ua": "Лейбли"
     },
     "deleteFromJobTags": {
       "ru": "Удалить из метки работ",

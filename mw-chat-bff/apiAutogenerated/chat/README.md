@@ -78,35 +78,27 @@ All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*GroupAPI* | [**AcceptRequestToGroupRoom**](docs/GroupAPI.md#acceptrequesttogrouproom) | **Post** /group-rooms/{groupRoomId}/requests/accept | Accept request to group room
-*GroupAPI* | [**AddUserToGroup**](docs/GroupAPI.md#addusertogroup) | **Post** /group-rooms/{groupRoomId}/users/{userId} | Add user to group room
-*GroupAPI* | [**CreateGroupRooms**](docs/GroupAPI.md#creategrouprooms) | **Post** /group-rooms | Create group rooms for user
-*GroupAPI* | [**CreateMessageInGroupRoom**](docs/GroupAPI.md#createmessageingrouproom) | **Post** /group-rooms/{groupRoomId}/messages | Create message to group room
-*GroupAPI* | [**CreateRequestsToGroupRoom**](docs/GroupAPI.md#createrequeststogrouproom) | **Post** /group-rooms/requests | Create requests to group room
-*GroupAPI* | [**DeclineRequestToGroupRoom**](docs/GroupAPI.md#declinerequesttogrouproom) | **Delete** /group-rooms/{groupRoomId}/requests/decline | Decline request to group room
-*GroupAPI* | [**DeleteUserToGroup**](docs/GroupAPI.md#deleteusertogroup) | **Delete** /group-rooms/{groupRoomId}/users/{userId} | Delete user to group room
-*GroupAPI* | [**GetGroupRoomById**](docs/GroupAPI.md#getgrouproombyid) | **Get** /group-rooms/{groupRoomId} | Get group room by id
-*GroupAPI* | [**GetGroupRooms**](docs/GroupAPI.md#getgrouprooms) | **Get** /group-rooms | Get group rooms preview for user
-*GroupAPI* | [**GetRequestsToGroupRoom**](docs/GroupAPI.md#getrequeststogrouproom) | **Get** /group-rooms/requests | Get requests to group room
-*GroupAPI* | [**UpdateGroupRooms**](docs/GroupAPI.md#updategrouprooms) | **Patch** /group-rooms/{groupRoomId} | Update group rooms for user
-*P2pAPI* | [**CreateP2pRoom**](docs/P2pAPI.md#createp2proom) | **Post** /p2p-rooms | Create p2p room for user
-*P2pAPI* | [**GetP2pRoomById**](docs/P2pAPI.md#getp2proombyid) | **Get** /p2p-rooms/{p2pRoomId} | Get p2p room by id
-*P2pAPI* | [**GetP2pRooms**](docs/P2pAPI.md#getp2prooms) | **Get** /p2p-rooms | Get p2p rooms for user
-*P2pAPI* | [**MakeMessageInP2pRoom**](docs/P2pAPI.md#makemessageinp2proom) | **Post** /p2p-rooms/{p2pRoomId}/messages | Create message in p2p room
-*P2pAPI* | [**UpdateP2pRoom**](docs/P2pAPI.md#updatep2proom) | **Patch** /p2p-rooms/{p2pRoomId} | Update p2p room for user
+*RoomAPI* | [**AddUserToRoom**](docs/RoomAPI.md#addusertoroom) | **Post** /rooms/{roomId}/users/{userId} | Add user to room
+*RoomAPI* | [**CreateMessageInRoom**](docs/RoomAPI.md#createmessageinroom) | **Post** /rooms/{roomId}/messages | Create message in room
+*RoomAPI* | [**CreateRoom**](docs/RoomAPI.md#createroom) | **Post** /rooms | Create room for user
+*RoomAPI* | [**DeleteUserFromRoom**](docs/RoomAPI.md#deleteuserfromroom) | **Delete** /rooms/{roomId}/users/{userId} | Delete user from room
+*RoomAPI* | [**GetChatPreview**](docs/RoomAPI.md#getchatpreview) | **Get** /rooms/preview | Get chat preview
+*RoomAPI* | [**GetRoomById**](docs/RoomAPI.md#getroombyid) | **Get** /rooms/{roomId} | Get room by id
+*RoomAPI* | [**GetRooms**](docs/RoomAPI.md#getrooms) | **Get** /rooms/list/{roomType} | Get rooms for user
+*RoomAPI* | [**UpdateRoom**](docs/RoomAPI.md#updateroom) | **Patch** /rooms/{roomId} | Update room for user
 
 
 ## Documentation For Models
 
  - [SchemasCreateMessagePayload](docs/SchemasCreateMessagePayload.md)
- - [SchemasCreateRequestToGroupRoomPayload](docs/SchemasCreateRequestToGroupRoomPayload.md)
- - [SchemasDeclineRequestToGroupRoomResponse](docs/SchemasDeclineRequestToGroupRoomResponse.md)
- - [SchemasGetRequestsToGroupRoomResponse](docs/SchemasGetRequestsToGroupRoomResponse.md)
+ - [SchemasCreateRoomPayload](docs/SchemasCreateRoomPayload.md)
+ - [SchemasGetChatPreviewResponse](docs/SchemasGetChatPreviewResponse.md)
  - [SchemasGetRoomsResponse](docs/SchemasGetRoomsResponse.md)
+ - [SchemasMessageReaders](docs/SchemasMessageReaders.md)
  - [SchemasMessageResponse](docs/SchemasMessageResponse.md)
- - [SchemasRequestToGroupRoom](docs/SchemasRequestToGroupRoom.md)
  - [SchemasRoomPopulatedResponse](docs/SchemasRoomPopulatedResponse.md)
  - [SchemasRoomPreviewResponse](docs/SchemasRoomPreviewResponse.md)
+ - [SchemasUserResponse](docs/SchemasUserResponse.md)
 
 
 ## Documentation For Authorization

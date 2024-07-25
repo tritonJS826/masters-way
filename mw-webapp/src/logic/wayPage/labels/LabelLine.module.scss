@@ -1,19 +1,22 @@
 @import "src/styles/variables";
 
 .labelLine {
-  align-items: baseline;
-  gap: $gapBig;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $gapMedium;
 }
 
 .labelContainer {
   display: flex;
-  min-width: 120px;
-  max-width: 150px;
+  width: 270px;
+
+  @media only screen and (max-width: $mediaWidthTablet) {
+    width: 100%;
+  }
 }
 
 .labelDescription {
-  min-width: 150px;
-  max-width: 330px;
+  width: 30%;
   flex-grow: 2;
 }
 

@@ -3,37 +3,30 @@ definitions:
     properties:
       message:
         type: string
-      roomId:
-        type: string
     required:
     - message
-    - roomId
     type: object
-  schemas.CreateRequestToGroupRoomPayload:
+  schemas.CreateRoomPayload:
     properties:
-      roomId:
+      name:
+        type: string
+        x-nullable: true
+      roomType:
         type: string
       userId:
         type: string
+        x-nullable: true
     required:
-    - roomId
+    - name
+    - roomType
     - userId
     type: object
-  schemas.DeclineRequestToGroupRoomResponse:
+  schemas.GetChatPreviewResponse:
     properties:
-      roomId:
-        type: string
+      unreadMessagesAmount:
+        type: integer
     required:
-    - roomId
-    type: object
-  schemas.GetRequestsToGroupRoomResponse:
-    properties:
-      requests:
-        items:
-          $ref: '#/definitions/schemas.RequestToGroupRoom'
-        type: array
-    required:
-    - requests
+    - unreadMessagesAmount
     type: object
   schemas.GetRoomsResponse:
     properties:
@@ -47,25 +40,30 @@ definitions:
     - rooms
     - size
     type: object
+  schemas.MessageReaders:
+    properties:
+      readDate:
+        type: string
+      userId:
+        type: string
+    required:
+    - readDate
+    - userId
+    type: object
   schemas.MessageResponse:
     properties:
       message:
         type: string
+      messageReaders:
+        items:
+          $ref: '#/definitions/schemas.MessageReaders'
+        type: array
       ownerId:
         type: string
     required:
     - message
+    - messageReaders
     - ownerId
-    type: object
-  schemas.RequestToGroupRoom:
-    properties:
-      roomId:
-        type: string
-      senderId:
-        type: string
-    required:
-    - roomId
-    - senderId
     type: object
   schemas.RoomPopulatedResponse:
     properties:
@@ -79,11 +77,16 @@ definitions:
         type: string
       roomId:
         type: string
+      users:
+        items:
+          $ref: '#/definitions/schemas.UserResponse'
+        type: array
     required:
     - isBlocked
     - messages
     - name
     - roomId
+    - users
     type: object
   schemas.RoomPreviewResponse:
     properties:
@@ -91,35 +94,44 @@ definitions:
         type: boolean
       name:
         type: string
+        x-nullable: true
       roomId:
         type: string
+      users:
+        items:
+          $ref: '#/definitions/schemas.UserResponse'
+        type: array
     required:
     - isBlocked
     - name
     - roomId
+    - users
+    type: object
+  schemas.UserResponse:
+    properties:
+      role:
+        type: string
+      userId:
+        type: string
+    required:
+    - role
+    - userId
     type: object
 info:
   contact: {}
 paths:
-  /group-rooms:
-    get:
-      consumes:
-      - application/json
-      operationId: get-group-rooms
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/schemas.GetRoomsResponse'
-      summary: Get group rooms preview for user
-      tags:
-      - group
+  /rooms:
     post:
       consumes:
       - application/json
-      operationId: create-group-rooms
+      operationId: create-room
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.CreateRoomPayload'
       produces:
       - application/json
       responses:
@@ -127,18 +139,18 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/schemas.RoomPopulatedResponse'
-      summary: Create group rooms for user
+      summary: Create room for user
       tags:
-      - group
-  /group-rooms/{groupRoomId}:
+      - room
+  /rooms/{roomId}:
     get:
       consumes:
       - application/json
-      operationId: get-group-room-by-id
+      operationId: get-room-by-id
       parameters:
-      - description: group room Id
+      - description: room Id
         in: path
-        name: groupRoomId
+        name: roomId
         required: true
         type: string
       produces:
@@ -148,17 +160,17 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/schemas.RoomPopulatedResponse'
-      summary: Get group room by id
+      summary: Get room by id
       tags:
-      - group
+      - room
     patch:
       consumes:
       - application/json
-      operationId: update-group-rooms
+      operationId: update-room
       parameters:
-      - description: group room Id
+      - description: room Id
         in: path
-        name: groupRoomId
+        name: roomId
         required: true
         type: string
       produces:
@@ -168,14 +180,14 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/schemas.RoomPopulatedResponse'
-      summary: Update group rooms for user
+      summary: Update room for user
       tags:
-      - group
-  /group-rooms/{groupRoomId}/messages:
+      - room
+  /rooms/{roomId}/messages:
     post:
       consumes:
       - application/json
-      operationId: create-message-in-group-room
+      operationId: create-message-in-room
       parameters:
       - description: query params
         in: body
@@ -183,9 +195,9 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/schemas.CreateMessagePayload'
-      - description: group room Id
+      - description: room Id
         in: path
-        name: groupRoomId
+        name: roomId
         required: true
         type: string
       produces:
@@ -195,60 +207,41 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/schemas.MessageResponse'
-      summary: Create message to group room
+      summary: Create message in room
       tags:
-      - group
-  /group-rooms/{groupRoomId}/requests/accept:
+      - room
+  /rooms/{roomId}/users/{userId}:
+    delete:
+      consumes:
+      - application/json
+      operationId: delete-user-from-room
+      parameters:
+      - description: room Id
+        in: path
+        name: roomId
+        required: true
+        type: string
+      - description: user Id to delete
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Delete user from room
+      tags:
+      - room
     post:
       consumes:
       - application/json
-      operationId: accept-request-to-group-room
+      operationId: add-user-to-room
       parameters:
-      - description: groupRoom Id to accept request
+      - description: room Id
         in: path
-        name: groupRoomId
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/schemas.RoomPopulatedResponse'
-      summary: Accept request to group room
-      tags:
-      - group
-  /group-rooms/{groupRoomId}/requests/decline:
-    delete:
-      consumes:
-      - application/json
-      operationId: decline-request-to-group-room
-      parameters:
-      - description: groupRoom Id to delete request
-        in: path
-        name: groupRoomId
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/schemas.DeclineRequestToGroupRoomResponse'
-      summary: Decline request to group room
-      tags:
-      - group
-  /group-rooms/{groupRoomId}/users/{userId}:
-    delete:
-      consumes:
-      - application/json
-      operationId: delete-user-to-group
-      parameters:
-      - description: group room Id
-        in: path
-        name: groupRoomId
+        name: roomId
         required: true
         type: string
       - description: user Id to delete
@@ -262,74 +255,21 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.RoomPopulatedResponse'
-      summary: Delete user to group room
+            $ref: '#/definitions/schemas.RoomPreviewResponse'
+      summary: Add user to room
       tags:
-      - group
-    post:
-      consumes:
-      - application/json
-      operationId: add-user-to-group
-      parameters:
-      - description: group room Id
-        in: path
-        name: groupRoomId
-        required: true
-        type: string
-      - description: user Id to delete
-        in: path
-        name: userId
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/schemas.RoomPopulatedResponse'
-      summary: Add user to group room
-      tags:
-      - group
-  /group-rooms/requests:
+      - room
+  /rooms/list/{roomType}:
     get:
       consumes:
       - application/json
-      operationId: get-requests-to-group-room
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/schemas.GetRequestsToGroupRoomResponse'
-      summary: Get requests to group room
-      tags:
-      - group
-    post:
-      consumes:
-      - application/json
-      operationId: create-requests-to-group-room
+      operationId: get-rooms
       parameters:
-      - description: query params
-        in: body
-        name: request
+      - description: 'room type: private | group'
+        in: path
+        name: roomType
         required: true
-        schema:
-          $ref: '#/definitions/schemas.CreateRequestToGroupRoomPayload'
-      produces:
-      - application/json
-      responses:
-        "204":
-          description: No Content
-      summary: Create requests to group room
-      tags:
-      - group
-  /p2p-rooms:
-    get:
-      consumes:
-      - application/json
-      operationId: get-p2p-rooms
+        type: string
       produces:
       - application/json
       responses:
@@ -337,89 +277,22 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/schemas.GetRoomsResponse'
-      summary: Get p2p rooms for user
+      summary: Get rooms for user
       tags:
-      - p2p
-    post:
-      consumes:
-      - application/json
-      operationId: create-p2p-room
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/schemas.MessageResponse'
-      summary: Create p2p room for user
-      tags:
-      - p2p
-  /p2p-rooms/{p2pRoomId}:
+      - room
+  /rooms/preview:
     get:
       consumes:
       - application/json
-      operationId: get-p2p-room-by-id
-      parameters:
-      - description: p2p room Id
-        in: path
-        name: p2pRoomId
-        required: true
-        type: string
+      operationId: get-chat preview
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.MessageResponse'
-      summary: Get p2p room by id
+            $ref: '#/definitions/schemas.GetChatPreviewResponse'
+      summary: Get chat preview
       tags:
-      - p2p
-    patch:
-      consumes:
-      - application/json
-      operationId: update-p2p-room
-      parameters:
-      - description: p2p room Id
-        in: path
-        name: p2pRoomId
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/schemas.MessageResponse'
-      summary: Update p2p room for user
-      tags:
-      - p2p
-  /p2p-rooms/{p2pRoomId}/messages:
-    post:
-      consumes:
-      - application/json
-      operationId: make-message-in-p2p-room
-      parameters:
-      - description: query params
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/schemas.CreateMessagePayload'
-      - description: p2p room Id
-        in: path
-        name: p2pRoomId
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/schemas.MessageResponse'
-      summary: Create message in p2p room
-      tags:
-      - p2p
+      - room
 swagger: "2.0"

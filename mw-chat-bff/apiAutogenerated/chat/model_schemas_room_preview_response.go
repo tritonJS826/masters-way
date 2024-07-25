@@ -22,8 +22,9 @@ var _ MappedNullable = &SchemasRoomPreviewResponse{}
 // SchemasRoomPreviewResponse struct for SchemasRoomPreviewResponse
 type SchemasRoomPreviewResponse struct {
 	IsBlocked bool `json:"isBlocked"`
-	Name string `json:"name"`
+	Name NullableString `json:"name"`
 	RoomId string `json:"roomId"`
+	Users []SchemasUserResponse `json:"users"`
 }
 
 type _SchemasRoomPreviewResponse SchemasRoomPreviewResponse
@@ -32,11 +33,12 @@ type _SchemasRoomPreviewResponse SchemasRoomPreviewResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSchemasRoomPreviewResponse(isBlocked bool, name string, roomId string) *SchemasRoomPreviewResponse {
+func NewSchemasRoomPreviewResponse(isBlocked bool, name NullableString, roomId string, users []SchemasUserResponse) *SchemasRoomPreviewResponse {
 	this := SchemasRoomPreviewResponse{}
 	this.IsBlocked = isBlocked
 	this.Name = name
 	this.RoomId = roomId
+	this.Users = users
 	return &this
 }
 
@@ -73,27 +75,29 @@ func (o *SchemasRoomPreviewResponse) SetIsBlocked(v bool) {
 }
 
 // GetName returns the Name field value
+// If the value is explicit nil, the zero value for string will be returned
 func (o *SchemasRoomPreviewResponse) GetName() string {
-	if o == nil {
+	if o == nil || o.Name.Get() == nil {
 		var ret string
 		return ret
 	}
 
-	return o.Name
+	return *o.Name.Get()
 }
 
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *SchemasRoomPreviewResponse) GetNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Name, true
+	return o.Name.Get(), o.Name.IsSet()
 }
 
 // SetName sets field value
 func (o *SchemasRoomPreviewResponse) SetName(v string) {
-	o.Name = v
+	o.Name.Set(&v)
 }
 
 // GetRoomId returns the RoomId field value
@@ -120,6 +124,30 @@ func (o *SchemasRoomPreviewResponse) SetRoomId(v string) {
 	o.RoomId = v
 }
 
+// GetUsers returns the Users field value
+func (o *SchemasRoomPreviewResponse) GetUsers() []SchemasUserResponse {
+	if o == nil {
+		var ret []SchemasUserResponse
+		return ret
+	}
+
+	return o.Users
+}
+
+// GetUsersOk returns a tuple with the Users field value
+// and a boolean to check if the value has been set.
+func (o *SchemasRoomPreviewResponse) GetUsersOk() ([]SchemasUserResponse, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Users, true
+}
+
+// SetUsers sets field value
+func (o *SchemasRoomPreviewResponse) SetUsers(v []SchemasUserResponse) {
+	o.Users = v
+}
+
 func (o SchemasRoomPreviewResponse) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -131,8 +159,9 @@ func (o SchemasRoomPreviewResponse) MarshalJSON() ([]byte, error) {
 func (o SchemasRoomPreviewResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["isBlocked"] = o.IsBlocked
-	toSerialize["name"] = o.Name
+	toSerialize["name"] = o.Name.Get()
 	toSerialize["roomId"] = o.RoomId
+	toSerialize["users"] = o.Users
 	return toSerialize, nil
 }
 
@@ -144,6 +173,7 @@ func (o *SchemasRoomPreviewResponse) UnmarshalJSON(data []byte) (err error) {
 		"isBlocked",
 		"name",
 		"roomId",
+		"users",
 	}
 
 	allProperties := make(map[string]interface{})

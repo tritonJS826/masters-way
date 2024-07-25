@@ -71,6 +71,10 @@ $iconSize: 32px;
   fill: var(--primaryIconColor);
 }
 
+.secondaryBurgerMenu {
+  stroke: var(--secondaryStrokeColor);
+}
+
 .sidebarItem {
   align-items: center;
   justify-content: space-between;

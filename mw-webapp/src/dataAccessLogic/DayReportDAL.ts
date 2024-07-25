@@ -1,4 +1,4 @@
-import {DayReportDTOToDayReport} from "src/dataAccessLogic/DTOToPreviewConverter/dayReportDTOToDayReport";
+import {dayReportDTOToDayReport} from "src/dataAccessLogic/DTOToPreviewConverter/dayReportDTOToDayReport";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {DayReportService} from "src/service/DayReportService";
 
@@ -35,7 +35,7 @@ export class DayReportDAL {
       },
     });
 
-    const dayReport = DayReportDTOToDayReport({
+    const dayReport = dayReportDTOToDayReport({
       dayReportDTO,
       wayName: params.wayName,
       wayUuid: params.wayUuid,

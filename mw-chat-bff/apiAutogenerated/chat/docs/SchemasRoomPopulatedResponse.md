@@ -8,12 +8,13 @@ Name | Type | Description | Notes
 **Messages** | [**[]SchemasMessageResponse**](SchemasMessageResponse.md) |  | 
 **Name** | **string** |  | 
 **RoomId** | **string** |  | 
+**Users** | [**[]SchemasUserResponse**](SchemasUserResponse.md) |  | 
 
 ## Methods
 
 ### NewSchemasRoomPopulatedResponse
 
-`func NewSchemasRoomPopulatedResponse(isBlocked bool, messages []SchemasMessageResponse, name string, roomId string, ) *SchemasRoomPopulatedResponse`
+`func NewSchemasRoomPopulatedResponse(isBlocked bool, messages []SchemasMessageResponse, name string, roomId string, users []SchemasUserResponse, ) *SchemasRoomPopulatedResponse`
 
 NewSchemasRoomPopulatedResponse instantiates a new SchemasRoomPopulatedResponse object
 This constructor will assign default values to properties that have it defined,
@@ -106,6 +107,26 @@ and a boolean to check if the value has been set.
 `func (o *SchemasRoomPopulatedResponse) SetRoomId(v string)`
 
 SetRoomId sets RoomId field to given value.
+
+
+### GetUsers
+
+`func (o *SchemasRoomPopulatedResponse) GetUsers() []SchemasUserResponse`
+
+GetUsers returns the Users field if non-nil, zero value otherwise.
+
+### GetUsersOk
+
+`func (o *SchemasRoomPopulatedResponse) GetUsersOk() (*[]SchemasUserResponse, bool)`
+
+GetUsersOk returns a tuple with the Users field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUsers
+
+`func (o *SchemasRoomPopulatedResponse) SetUsers(v []SchemasUserResponse)`
+
+SetUsers sets Users field to given value.
 
 
 

@@ -1,14 +1,15 @@
 @import "src/styles/variables";
 
-$labelMinWidth: 130px;
-$descriptionMaxWidth:300px;
-$descriptionMaxWidthMobile:150px;
+$labelMinWidth: 150px;
+$descriptionMinWidth: 300px;
+$descriptionMinWidthMobile: 150px;
 
-.modalContainer{
+.modalContainer {
   gap: $gapBig;
 }
 
 .labelsContainer {
+  justify-content: space-between;
   gap: $gapMedium;
 }
 
@@ -24,27 +25,32 @@ $descriptionMaxWidthMobile:150px;
 
 .labelContent {
   align-items: center;
+  justify-content: space-between;
   gap: $gapMedium;
 }
 
 .labelContainer {
   min-width: $labelMinWidth;
 
-  @media (max-width: $mediaWidthMobileMedium){
+  @media (max-width: $mediaWidthMobileMedium) {
     flex: 1 1 100%;
   }
 }
 
+.label {
+  max-width: $labelMinWidth;
+}
+
 .labelDescription {
-  max-width: $descriptionMaxWidth;
+  min-width: $descriptionMinWidth;
   flex: 1 1 100%;
   flex-wrap: wrap;
 
-  @media (max-width: $mediaWidthMobileBig){
-    max-width: $descriptionMaxWidthMobile;
+  @media (max-width: $mediaWidthMobileBig) {
+    min-width: $descriptionMinWidthMobile;
   }
 
-  @media (max-width: $mediaWidthMobileMedium){
+  @media (max-width: $mediaWidthMobileMedium) {
     display: none;
   }
 
