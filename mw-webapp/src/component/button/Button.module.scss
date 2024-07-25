@@ -55,6 +55,13 @@ $superSpecialBeautifulButton: 18px;
   }
 }
 
+@media only screen and (max-width: $mediaWidthMobileMedium) {
+  .primary,
+  .secondary {
+    padding: $buttonBlockPadding $paddingBig;
+  }
+}
+
 .iconButton {
   display: flex;
   width: 24px;

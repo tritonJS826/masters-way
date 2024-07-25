@@ -1,36 +1,42 @@
 @import "src/styles/variables";
 
+$labelWidth: 75px;
+$percentageBLockWidth: 40px;
+$labelColorSize: 10px;
+
 .statisticLine {
-  border-bottom: 1px dotted var(--secondaryStrokeColor);
-  gap: $gapSmall;
+  align-items: center;
+  font-size: $fontSizeSmall;
+  gap: $gapExtraSmall;
   grid-template-columns: repeat(3, 1fr);
 }
 
 .labelColorName {
   align-items: center;
-  gap: $gapSmall;
+  gap: $gapExtraSmall;
   text-overflow: ellipsis;
 }
 
 .labelName {
-  padding: 0;
-  width: 130px;
   overflow: hidden;
-  text-overflow: ellipsis;
+  width: $labelWidth;
+  padding: 0;
   cursor: default;
+  text-overflow: ellipsis;
 }
 
 .labelColor {
-  width: 10px;
-  height: 10px;
+  width: $labelColorSize;
+  height: $labelColorSize;
   border-radius: $tertiaryBorderRadius;
 }
 
 .amountTime {
   justify-content: right;
+  gap: $gapExtraSmall;
 }
 
 .percentageBLock {
-  width: 50px;
+  width: $percentageBLockWidth;
   text-align: left;
 }
