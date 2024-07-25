@@ -15,6 +15,20 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/reset-db": {
+            "post": {
+                "description": "resets db",
+                "tags": [
+                    "dev"
+                ],
+                "summary": "resets db",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
         "/rooms": {
             "post": {
                 "consumes": [
@@ -296,9 +310,7 @@ const docTemplate = `{
         "schemas.CreateRoomPayload": {
             "type": "object",
             "required": [
-                "name",
-                "roomType",
-                "userId"
+                "roomType"
             ],
             "properties": {
                 "name": {

@@ -299,9 +299,7 @@ const docTemplate = `{
         "schemas.CreateRoomPayload": {
             "type": "object",
             "required": [
-                "name",
-                "roomType",
-                "userId"
+                "roomType"
             ],
             "properties": {
                 "name": {

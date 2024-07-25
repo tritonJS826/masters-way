@@ -17,9 +17,7 @@ definitions:
         type: string
         x-nullable: true
     required:
-    - name
     - roomType
-    - userId
     type: object
   schemas.GetChatPreviewResponse:
     properties:
