@@ -126,19 +126,14 @@ func (roomsService *RoomsService) GetRoomByUuid(ctx context.Context, userUUID, r
 		}
 	})
 
-	response := &schemas.RoomPopulatedResponse{
+	return &schemas.RoomPopulatedResponse{
 		RoomID:    utils.ConvertPgUUIDToUUID(room.Uuid).String(),
 		Users:     users,
+		Name:      utils.MarshalPgText(room.Name),
 		Messages:  messages,
 		IsBlocked: room.IsRoomBlocked,
 		RoomType:  string(room.Type),
-	}
-	if room.Name.Valid {
-		response.Name = &room.Name.String
-	}
-
-	return response, nil
-
+	}, nil
 }
 
 func (roomsService *RoomsService) CreateRoom(ctx context.Context, roomParams *CreateRoomServiceParams) (*schemas.RoomPopulatedResponse, error) {
