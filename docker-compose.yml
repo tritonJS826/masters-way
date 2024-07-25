@@ -16,9 +16,8 @@ services:
 
   # mw-general
   mw-server:
-    build:
-      context: ./mw-server
-      dockerfile: Dockerfile
+    image: victorveretennikov58/masters-way:mw-server.${COMMIT_HASH}.${COMMIT_DATE}
+    env_file: ./mw-server/.env
     restart: unless-stopped
     ports:
       - "8000:8000"
@@ -42,9 +41,7 @@ services:
       - app-network
   
   mw-chat:
-    build:
-      context: ./mw-chat
-      dockerfile: Dockerfile
+    image: victorveretennikov58/masters-way:mw-chat.${COMMIT_HASH}.${COMMIT_DATE}
     restart: unless-stopped
     ports:
       - "8001:8001"
@@ -54,9 +51,7 @@ services:
       - app-network
   
   mw-chat-bff:
-    build:
-      context: ./mw-chat-bff
-      dockerfile: Dockerfile
+    image: victorveretennikov58/masters-way:mw-chat-bff.${COMMIT_HASH}.${COMMIT_DATE}
     restart: unless-stopped
     ports:
       - "7999:7999"
@@ -65,28 +60,20 @@ services:
     networks:
       - app-network
 
-  # mw-webapp:
-  #   build:
-  #     context: ./mw-webapp
-  #     dockerfile: Dockerfile
-  #   restart: unless-stopped
-  #   ports:
-  #     - "5173:5173"
-  #   networks:
-  #     - app-network
-
-  # nginx:
-  #   image: nginx:1.24.0
-  #   container_name: nginx
-  #   ports:
-  #     - "80:80"
-  #   volumes:
-  #     - ./gateway/nginx.conf:/etc/nginx/nginx.conf:ro
-  #   depends_on:
-  #     - mw-server
-  #     - mw-webapp
-  #   networks:
-  #     - app-network
+  nginx:
+    image: nginx:1.24.0
+    container_name: nginx
+    ports:
+      - "443:443"
+    volumes:
+      - ./gateway/local.nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - mw-server
+      - mw-webapp
+      - mw-chat
+      - mw-chat-bff
+    networks:
+      - app-network
 
 volumes:
   postgres-general:
