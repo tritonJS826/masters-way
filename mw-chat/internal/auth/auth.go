@@ -19,6 +19,7 @@ type Claims struct {
 	jwt.StandardClaims
 }
 
+// Should be used only for test purpose
 func GenerateTestJWT(userID string) (string, error) {
 	expirationTime := time.Now().Add(24 * time.Hour)
 	claims := &Claims{

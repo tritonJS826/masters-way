@@ -22,7 +22,7 @@ var ErrPrivateRoomAlreadyExists = errors.New("A private room for these users alr
 type RoomsRepository interface {
 	GetChatPreview(ctx context.Context, userUUID pgtype.UUID) (int64, error)
 	CreateMessage(ctx context.Context, arg db.CreateMessageParams) (db.CreateMessageRow, error)
-	CheckUsersInPrivateRoom(ctx context.Context, arg db.CheckUsersInPrivateRoomParams) ([]pgtype.UUID, error)
+	GetIsPrivateRoomAlreadyExists(ctx context.Context, arg db.GetIsPrivateRoomAlreadyExistsParams) (bool, error)
 	GetMessagesByRoomUUID(ctx context.Context, roomUuid pgtype.UUID) ([]db.GetMessagesByRoomUUIDRow, error)
 	GetRoomsByUserUUID(ctx context.Context, arg db.GetRoomsByUserUUIDParams) ([]db.GetRoomsByUserUUIDRow, error)
 	GetRoomByUUID(ctx context.Context, arg db.GetRoomByUUIDParams) (db.GetRoomByUUIDRow, error)
@@ -144,15 +144,15 @@ func (roomsService *RoomsService) GetRoomByUuid(ctx context.Context, userUUID, r
 func (roomsService *RoomsService) CreateRoom(ctx context.Context, roomParams *CreateRoomServiceParams) (*schemas.RoomPopulatedResponse, error) {
 	creatorUserPgUUID := pgtype.UUID{Bytes: roomParams.CreatorUUID, Valid: true}
 	if roomParams.Type == string(db.RoomTypePrivate) {
-		params := db.CheckUsersInPrivateRoomParams{
+		params := db.GetIsPrivateRoomAlreadyExistsParams{
 			User1: creatorUserPgUUID,
 			User2: pgtype.UUID{Bytes: uuid.MustParse(*roomParams.InvitedUserUUID), Valid: true},
 		}
-		rooms, err := roomsService.roomsRepository.CheckUsersInPrivateRoom(ctx, params)
+		isPrivateRoomAlreadyExists, err := roomsService.roomsRepository.GetIsPrivateRoomAlreadyExists(ctx, params)
 		if err != nil {
 			return nil, err
 		}
-		if len(rooms) > 0 {
+		if isPrivateRoomAlreadyExists {
 			return nil, ErrPrivateRoomAlreadyExists
 		}
 	}

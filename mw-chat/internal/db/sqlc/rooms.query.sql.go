@@ -11,47 +11,6 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
-const checkUsersInPrivateRoom = `-- name: CheckUsersInPrivateRoom :many
-SELECT rooms.uuid
-FROM (
-    SELECT DISTINCT room_uuid
-    FROM users_rooms
-    WHERE users_rooms.user_uuid = $1
-) AS user1_rooms
-JOIN (
-    select DISTINCT room_uuid
-    FROM users_rooms
-    WHERE users_rooms.user_uuid = $2
-) AS user2_rooms ON user1_rooms.room_uuid = user2_rooms.room_uuid
-JOIN rooms ON rooms.uuid = user1_rooms.room_uuid
-WHERE rooms.type = 'private'
-`
-
-type CheckUsersInPrivateRoomParams struct {
-	User1 pgtype.UUID `json:"user_1"`
-	User2 pgtype.UUID `json:"user_2"`
-}
-
-func (q *Queries) CheckUsersInPrivateRoom(ctx context.Context, arg CheckUsersInPrivateRoomParams) ([]pgtype.UUID, error) {
-	rows, err := q.db.Query(ctx, checkUsersInPrivateRoom, arg.User1, arg.User2)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	items := []pgtype.UUID{}
-	for rows.Next() {
-		var uuid pgtype.UUID
-		if err := rows.Scan(&uuid); err != nil {
-			return nil, err
-		}
-		items = append(items, uuid)
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
 const createRoom = `-- name: CreateRoom :one
 INSERT INTO rooms (created_at, name, type)
 VALUES ($1, $2, $3)
@@ -75,6 +34,36 @@ func (q *Queries) CreateRoom(ctx context.Context, arg CreateRoomParams) (CreateR
 	var i CreateRoomRow
 	err := row.Scan(&i.Uuid, &i.Name, &i.Type)
 	return i, err
+}
+
+const getIsPrivateRoomAlreadyExists = `-- name: GetIsPrivateRoomAlreadyExists :one
+SELECT EXISTS (
+    SELECT 1
+    FROM (
+        SELECT DISTINCT room_uuid
+        FROM users_rooms
+        WHERE users_rooms.user_uuid = $1
+    ) AS user1_rooms
+    JOIN (
+        SELECT DISTINCT room_uuid
+        FROM users_rooms
+        WHERE users_rooms.user_uuid = $2
+    ) AS user2_rooms ON user1_rooms.room_uuid = user2_rooms.room_uuid
+    JOIN rooms ON rooms.uuid = user1_rooms.room_uuid
+    WHERE rooms.type = 'private'
+) AS is_private_room_already_exists
+`
+
+type GetIsPrivateRoomAlreadyExistsParams struct {
+	User1 pgtype.UUID `json:"user_1"`
+	User2 pgtype.UUID `json:"user_2"`
+}
+
+func (q *Queries) GetIsPrivateRoomAlreadyExists(ctx context.Context, arg GetIsPrivateRoomAlreadyExistsParams) (bool, error) {
+	row := q.db.QueryRow(ctx, getIsPrivateRoomAlreadyExists, arg.User1, arg.User2)
+	var is_private_room_already_exists bool
+	err := row.Scan(&is_private_room_already_exists)
+	return is_private_room_already_exists, err
 }
 
 const getRoomByUUID = `-- name: GetRoomByUUID :one
