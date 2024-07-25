@@ -113,9 +113,9 @@ func (roomsService *RoomsService) GetRoomByUuid(ctx context.Context, userUUID, r
 	messages := lo.Map(messagesRaw, func(dbMessage db.GetMessagesByRoomUUIDRow, i int) schemas.MessageResponse {
 		messageReaders := make([]schemas.MessageReaders, len(room.UserUuids))
 		for i := range dbMessage.MessageStatusUserUuids {
-			users[i] = schemas.UserResponse{
-				UserID: utils.ConvertPgUUIDToUUID(room.UserUuids[i]).String(),
-				Role:   room.UserRoles[i],
+			messageReaders[i] = schemas.MessageReaders{
+				UserID:   utils.ConvertPgUUIDToUUID(dbMessage.MessageStatusUserUuids[i]).String(),
+				ReadDate: dbMessage.MessageStatusUpdatedAt[i].Time.Format(utils.DEFAULT_STRING_LAYOUT),
 			}
 		}
 

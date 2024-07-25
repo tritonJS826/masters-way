@@ -41,28 +41,28 @@ SELECT
     messages.owner_uuid,
     messages.text,
     ARRAY(
-    SELECT receiver_uuid
-     FROM message_status
-     WHERE messages.uuid = message_status.message_uuid
-        AND is_read = true
-     ORDER BY updated_at DESC
+        SELECT receiver_uuid
+        FROM message_status
+        WHERE messages.uuid = message_status.message_uuid
+            AND is_read = true
+        ORDER BY updated_at DESC
     )::UUID[] AS message_status_user_uuids,
     ARRAY(
-    SELECT updated_at
-     FROM message_status
-     WHERE messages.uuid = message_status.message_uuid
-        AND is_read = true
-     ORDER BY updated_at DESC
-    )::UUID[] AS message_status_updated_at
+        SELECT updated_at
+        FROM message_status
+        WHERE messages.uuid = message_status.message_uuid
+            AND is_read = true
+        ORDER BY updated_at DESC
+    )::TIMESTAMP[] AS message_status_updated_at
 FROM messages
 WHERE room_uuid = $1
 `
 
 type GetMessagesByRoomUUIDRow struct {
-	OwnerUuid              pgtype.UUID   `json:"owner_uuid"`
-	Text                   string        `json:"text"`
-	MessageStatusUserUuids []pgtype.UUID `json:"message_status_user_uuids"`
-	MessageStatusUpdatedAt []pgtype.UUID `json:"message_status_updated_at"`
+	OwnerUuid              pgtype.UUID        `json:"owner_uuid"`
+	Text                   string             `json:"text"`
+	MessageStatusUserUuids []pgtype.UUID      `json:"message_status_user_uuids"`
+	MessageStatusUpdatedAt []pgtype.Timestamp `json:"message_status_updated_at"`
 }
 
 func (q *Queries) GetMessagesByRoomUUID(ctx context.Context, roomUuid pgtype.UUID) ([]GetMessagesByRoomUUIDRow, error) {
