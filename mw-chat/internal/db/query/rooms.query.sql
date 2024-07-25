@@ -1,7 +1,22 @@
 -- name: CreateRoom :one
 INSERT INTO rooms (created_at, name, type)
 VALUES (@created_at, @name, @type)
-RETURNING uuid;
+RETURNING uuid, name;
+
+-- name: CheckUsersInPrivateRoom :many
+SELECT rooms.uuid
+FROM (
+    SELECT DISTINCT room_uuid
+    FROM users_rooms
+    WHERE users_rooms.user_uuid = @user_1
+) AS user1_rooms
+JOIN (
+    select DISTINCT room_uuid
+    FROM users_rooms
+    WHERE users_rooms.user_uuid = @user_2
+) AS user2_rooms ON user1_rooms.room_uuid = user2_rooms.room_uuid
+JOIN rooms ON rooms.uuid = user1_rooms.room_uuid
+WHERE rooms.type = 'private';
 
 -- name: GetRoomsByUserUUID :many
 SELECT

@@ -12,9 +12,27 @@ import (
 
 const ContextKeyUserID = "userID"
 
+var jwtKey = []byte("your_secret_key")
+
 type Claims struct {
 	UserID string `json:"userID"`
 	jwt.StandardClaims
+}
+
+func GenerateTestJWT(userID string) (string, error) {
+	expirationTime := time.Now().Add(24 * time.Hour)
+	claims := &Claims{
+		UserID: userID,
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: expirationTime.Unix(),
+		},
+	}
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	tokenString, err := token.SignedString(jwtKey)
+	if err != nil {
+		return "", err
+	}
+	return tokenString, nil
 }
 
 func ValidateJWT(tokenString string) (*Claims, error) {

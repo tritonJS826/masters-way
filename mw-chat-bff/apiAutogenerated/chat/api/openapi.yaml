@@ -309,6 +309,7 @@ components:
             $ref: '#/components/schemas/schemas.MessageResponse'
           type: array
         name:
+          nullable: true
           type: string
         roomId:
           type: string

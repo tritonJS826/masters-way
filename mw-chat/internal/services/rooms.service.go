@@ -6,6 +6,8 @@ import (
 	"mwchat/pkg/utils"
 	"time"
 
+	"errors"
+
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
@@ -15,9 +17,12 @@ import (
 	db "mwchat/internal/db/sqlc"
 )
 
+var ErrPrivateRoomAlreadyExists = errors.New("A private room for these users already exists")
+
 type RoomsRepository interface {
 	GetChatPreview(ctx context.Context, userUUID pgtype.UUID) (int64, error)
 	CreateMessage(ctx context.Context, arg db.CreateMessageParams) (db.CreateMessageRow, error)
+	CheckUsersInPrivateRoom(ctx context.Context, arg db.CheckUsersInPrivateRoomParams) ([]pgtype.UUID, error)
 	GetMessagesByRoomUUID(ctx context.Context, roomUuid pgtype.UUID) ([]db.GetMessagesByRoomUUIDRow, error)
 	GetRoomsByUserUUID(ctx context.Context, arg db.GetRoomsByUserUUIDParams) ([]db.GetRoomsByUserUUIDRow, error)
 	GetRoomByUUID(ctx context.Context, arg db.GetRoomByUUIDParams) (db.GetRoomByUUIDRow, error)
@@ -68,7 +73,7 @@ func (roomsService *RoomsService) GetRooms(ctx context.Context, userUUID uuid.UU
 		}
 		return schemas.RoomPreviewResponse{
 			RoomID:    utils.ConvertPgUUIDToUUID(dbRoom.Uuid).String(),
-			Name:      dbRoom.Name,
+			Name:      dbRoom.Name.String,
 			Users:     users,
 			IsBlocked: dbRoom.IsRoomBlocked,
 		}
@@ -121,18 +126,46 @@ func (roomsService *RoomsService) GetRoomByUuid(ctx context.Context, userUUID, r
 		}
 	})
 
-	return &schemas.RoomPopulatedResponse{
+	response := &schemas.RoomPopulatedResponse{
 		RoomID:    utils.ConvertPgUUIDToUUID(room.Uuid).String(),
-		Name:      room.Name,
 		Users:     users,
 		Messages:  messages,
 		IsBlocked: room.IsRoomBlocked,
-	}, nil
+	}
+	if room.Name.Valid {
+		response.Name = &room.Name.String
+	}
+
+	return response, nil
+
 }
 
 func (roomsService *RoomsService) CreateRoom(ctx context.Context, roomParams *CreateRoomServiceParams) (*schemas.RoomPopulatedResponse, error) {
-	now := time.Now()
+	invitingUserPgUUID := pgtype.UUID{Bytes: roomParams.InvitingUserUUID, Valid: true}
+	if roomParams.Type == string(db.RoomTypePrivate) {
+		params := db.CheckUsersInPrivateRoomParams{
+			User1: invitingUserPgUUID,
+			User2: pgtype.UUID{Bytes: uuid.MustParse(*roomParams.InvitedUserUUID), Valid: true},
+		}
+		rooms, err := roomsService.roomsRepository.CheckUsersInPrivateRoom(ctx, params)
+		if err != nil {
+			return nil, err
+		}
+		if len(rooms) > 0 {
+			return nil, ErrPrivateRoomAlreadyExists
+		}
+	}
 
+	response, err := roomsService.createRoomTransaction(ctx, roomParams, invitingUserPgUUID)
+	if err != nil {
+		return nil, err
+	}
+
+	return response, nil
+}
+
+func (roomsService *RoomsService) createRoomTransaction(ctx context.Context, roomParams *CreateRoomServiceParams, invitingUserPgUUID pgtype.UUID) (*schemas.RoomPopulatedResponse, error) {
+	now := time.Now()
 	tx, err := roomsService.pool.Begin(ctx)
 	if err != nil {
 		return nil, err
@@ -146,8 +179,6 @@ func (roomsService *RoomsService) CreateRoom(ctx context.Context, roomParams *Cr
 		name = *roomParams.Name
 	}
 
-	// If the room type is group, the creator of the room is an admin
-	// If the room type is private, both users are regular
 	var role db.UserRoleType = db.UserRoleTypeRegular
 	if roomParams.Type == string(db.RoomTypeGroup) {
 		role = db.UserRoleTypeAdmin
@@ -155,27 +186,27 @@ func (roomsService *RoomsService) CreateRoom(ctx context.Context, roomParams *Cr
 
 	createRoomDBParams := db.CreateRoomParams{
 		CreatedAt: pgtype.Timestamp{Time: now, Valid: true},
-		Name:      name,
+		Name:      pgtype.Text{String: name, Valid: name != ""},
 		Type:      db.RoomType(roomParams.Type),
 	}
-	newRoomPgUUID, err := qtx.CreateRoom(ctx, createRoomDBParams)
+	newRoom, err := qtx.CreateRoom(ctx, createRoomDBParams)
 	if err != nil {
 		return nil, err
 	}
 
-	invitingUserPgUUID := pgtype.UUID{Bytes: roomParams.InvitingUserUUID, Valid: true}
 	users := []schemas.UserResponse{}
 
 	params := db.AddUserToRoomParams{
 		UserUuid: invitingUserPgUUID,
 		UserRole: role,
-		RoomUuid: newRoomPgUUID,
+		RoomUuid: newRoom.Uuid,
 		JoinedAt: pgtype.Timestamp{Time: now, Valid: true},
 	}
 	invitingUser, err := qtx.AddUserToRoom(ctx, params)
 	if err != nil {
 		return nil, err
 	}
+
 	users = append(users, schemas.UserResponse{
 		UserID: utils.ConvertPgUUIDToUUID(invitingUser.UserUuid).String(),
 		Role:   string(invitingUser.UserRole),
@@ -185,7 +216,7 @@ func (roomsService *RoomsService) CreateRoom(ctx context.Context, roomParams *Cr
 		params = db.AddUserToRoomParams{
 			UserUuid: pgtype.UUID{Bytes: uuid.MustParse(*roomParams.InvitedUserUUID), Valid: true},
 			UserRole: role,
-			RoomUuid: newRoomPgUUID,
+			RoomUuid: newRoom.Uuid,
 			JoinedAt: pgtype.Timestamp{Time: now, Valid: true},
 		}
 		invitedUser, err := qtx.AddUserToRoom(ctx, params)
@@ -200,13 +231,17 @@ func (roomsService *RoomsService) CreateRoom(ctx context.Context, roomParams *Cr
 
 	tx.Commit(ctx)
 
-	return &schemas.RoomPopulatedResponse{
-		RoomID:    utils.ConvertPgUUIDToUUID(newRoomPgUUID).String(),
+	response := &schemas.RoomPopulatedResponse{
+		RoomID:    utils.ConvertPgUUIDToUUID(newRoom.Uuid).String(),
 		Users:     users,
-		Name:      *roomParams.Name,
 		Messages:  []schemas.MessageResponse{},
 		IsBlocked: false,
-	}, nil
+	}
+	if newRoom.Name.Valid {
+		response.Name = &newRoom.Name.String
+	}
+
+	return response, nil
 }
 
 func (roomsService *RoomsService) BlockOrUnblockRoom(ctx context.Context, BlockOrUnblockParams *BlockOrUnblockRoomParams) error {

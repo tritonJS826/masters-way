@@ -12,7 +12,7 @@ type CreateRoomPayload struct {
 
 type RoomPopulatedResponse struct {
 	RoomID    string            `json:"roomId" validate:"required"`
-	Name      string            `json:"name" validate:"required"`
+	Name      *string           `json:"name" validate:"required" extensions:"x-nullable"`
 	Messages  []MessageResponse `json:"messages" validate:"required"`
 	IsBlocked bool              `json:"isBlocked" validate:"required"`
 	Users     []UserResponse    `json:"users" validate:"required"`

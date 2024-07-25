@@ -403,7 +403,8 @@ const docTemplate = `{
                     }
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "x-nullable": true
                 },
                 "roomId": {
                     "type": "string"
