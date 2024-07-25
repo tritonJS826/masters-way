@@ -37,14 +37,6 @@ export const ChatPage = (props: ChatProps) => {
   const [isGroupChatOpen, setIsGroupChatOpen] = useState<boolean>(false);
   const [chat, setChat] = useState<Chat | null>(null);
 
-  const {language} = languageStore;
-  const {user} = userStore;
-  const [isOpen, setIsOpen] = useState(props.isOpen ?? false);
-  const [message, setMessage] = useState<string>("");
-  const [groupChatName, setGroupChatName] = useState<string>("");
-  const [chatList, setChatList] = useState<ChatPreview[]>([]);
-  const [isChatHiddenOnMobile, setIsChatHiddenOnMobile] = useState<boolean>(true);
-
   /**
    * Load active chat
    */
@@ -53,6 +45,14 @@ export const ChatPage = (props: ChatProps) => {
 
     setChat(fetchedChat);
   };
+
+  const {language} = languageStore;
+  const {user} = userStore;
+  const [isOpen, setIsOpen] = useState(props.isOpen ?? false);
+  const [message, setMessage] = useState<string>("");
+  const [groupChatName, setGroupChatName] = useState<string>("");
+  const [chatList, setChatList] = useState<ChatPreview[]>([]);
+  const [isChatHiddenOnMobile, setIsChatHiddenOnMobile] = useState<boolean>(true);
 
   /**
    * Send message
@@ -252,7 +252,6 @@ export const ChatPage = (props: ChatProps) => {
                       message,
                       roomId: chat.roomId,
                     });
-
                   }}
                   buttonType={ButtonType.PRIMARY}
                 />
