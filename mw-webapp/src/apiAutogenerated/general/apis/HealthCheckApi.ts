@@ -15,7 +15,7 @@ export class HealthCheckApi extends runtime.BaseAPI {
 
     const response = await this.request(
       {
-        path: `/healthcheckq`,
+        path: `/healthcheck`,
         method: "GET",
         headers: headerParameters,
         query: queryParameters,

@@ -35,15 +35,3 @@ export function SchemasHealthCheckResponseFromJSONTyped(
         'message': json['message'],
     };
 }
-
-export function SchemasHealthCheckResponseToJSON(value?: SchemasHealthCheckResponse | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
-    }
-    return {
-        'message': value.message,
-    };
-}
