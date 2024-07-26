@@ -114,7 +114,7 @@ export const WayCollectionCard = (props: WayCollectionProps) => {
         <VerticalContainer className={styles.wayCollectionCardContainer}>
           <VerticalContainer
             className={clsx(styles.mainInfo, props.isActive && styles.active)}
-            dataCy={userWaysAccessIds.wayCard.ownWayCollectionCardButtonMainInfo}
+            dataCy={userWaysAccessIds.wayCard.wayCollectionCardButtonMainInfo}
           >
             <HorizontalContainer className={styles.collectionTitleBlock}>
               <Title

@@ -638,6 +638,7 @@ export const UserPage = observer((props: UserPageProps) => {
               collectionWaysAmount={userPageOwner.defaultWayCollections.mentoring.ways.length}
               onClick={() => setOpenedTabId(userPageOwner.defaultWayCollections.mentoring.uuid)}
               language={language}
+              dataCy={userWaysAccessIds.wayCard.mentoringWayCollectionCardButton}
             />
 
             <WayCollectionCard

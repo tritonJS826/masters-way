@@ -34,10 +34,9 @@ function hexToRgb(hex: string): string {
 }
 
 describe("NoAuth User's ways scope tests", () => {
+    const expectedCollectionButtonColor = hexToRgb(themedVariables.primaryBgBtnActiveColor[Theme.DARK]);
 
     it('NoAuth_UserWay_OwnWaysCollectionButton', () => {
-        const expectedCollectionButtonColor = hexToRgb(themedVariables.primaryBgBtnActiveColor[Theme.DARK]);
-
         allUsersSelectors.allWaysCard.getCardLink(userWaysData.users.Alice.userName).click();
 
         userWaysSelectors.wayCard.getOwnWayCollectionCardButton().click();
@@ -46,13 +45,30 @@ describe("NoAuth User's ways scope tests", () => {
             .should('have.css', 'background-color', expectedCollectionButtonColor);
         userWaysSelectors.wayCard.getWayAmountCollectionCardButton().first()
             .should('have.text', userWaysData.users.Alice.ownWaysNumberCollectionButton);
-        userWaysSelectors.wayTitles.getOwnWayTitle()
+        userWaysSelectors.wayTitles.getWayStatusTitle()
             .should('have.text', `Own (${userWaysData.users.Alice.ownPublicWaysNumber})`);
-        cy.get('[data-cy^="ownWayLink_"]').should('have.length', 2);
-        userWaysSelectors.wayCard.getOwnWayLink(userWaysData.users.Alice.ownPublicWaysTitles[1].title)
+        cy.get('[data-cy^="wayLink_"]').should('have.length', userWaysData.users.Alice.ownPublicWaysNumber);
+        userWaysSelectors.wayCard.getWayLink(userWaysData.users.Alice.ownPublicWaysTitles[1].title)
             .should('exist')
             .and('be.visible');
-        userWaysSelectors.wayCard.getOwnWayLink(userWaysData.users.Alice.ownPublicWaysTitles[2].title)
+        userWaysSelectors.wayCard.getWayLink(userWaysData.users.Alice.ownPublicWaysTitles[2].title)
+            .should('exist')
+            .and('be.visible');
+    });
+
+    it('NoAuth_UserWay_MentoringCollectionButton', () => {
+        allUsersSelectors.allWaysCard.getCardLink(userWaysData.users.Alice.userName).click();
+
+        userWaysSelectors.wayCard.getMentoringWayCollectionCardButton().click();
+
+        userWaysSelectors.wayCard.getOwnWayCollectionCardButtonMainInfo().eq(1)
+            .should('have.css', 'background-color', expectedCollectionButtonColor);
+        userWaysSelectors.wayCard.getWayAmountCollectionCardButton().eq(1)
+            .should('have.text', userWaysData.users.Alice.mentoringWaysNumberCollectionButton);
+        userWaysSelectors.wayTitles.getWayStatusTitle()
+            .should('have.text', `Mentoring (${userWaysData.users.Alice.mentoringWaysNumber})`);
+        cy.get('[data-cy^="wayLink_"]').should('have.length', userWaysData.users.Alice.mentoringWaysNumber);
+        userWaysSelectors.wayCard.getWayLink(userWaysData.users.Alice.mentoringWaysTitles[1].title)
             .should('exist')
             .and('be.visible');
     });

@@ -3,9 +3,15 @@ export const userWaysAccessIds = {
 
     wayCard: {
         wayAmountCollectionCardButton: "wayAmountCollectionCardButton",
+
+        wayLink: (wayTitle: string) => `wayLink_${wayTitle}`,
+
         ownWayCollectionCardButton: "ownWayCollectionCardButton",
-        ownWayCollectionCardButtonMainInfo: "ownWayCollectionCardButtonMainInfo",
-        ownWayLink: (wayTitle: string) => `ownWayLink_${wayTitle}`
+        wayCollectionCardButtonMainInfo: "wayCollectionCardButtonMainInfo",
+
+        mentoringWayCollectionCardButton: "mentoringWayCollectionCardButton",
+        mentoringWayCollectionCardButtonMainInfo: "mentoringWayCollectionCardButtonMainInfo",
+        mentoringWayLink: (wayTitle: string) => `mentoringWayLink_${wayTitle}`,
     }
 
 };
