@@ -39,11 +39,6 @@ interface ChatItemProps {
    */
   onClick?: () => void;
 
-  /**
-   * Callback triggered on click chat item
-   */
-  onClick?: () => void;
-
 }
 
 /**
