@@ -65,6 +65,18 @@ services:
     networks:
       - app-network
 
+  mw-chat-websocket:
+    build:
+      context: ./mw-chat-websocket
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "7994:7994"
+    depends_on:
+      - mw-chat-bff
+    networks:
+      - app-network
+
   mw-webapp:
     build:
       context: ./mw-webapp
