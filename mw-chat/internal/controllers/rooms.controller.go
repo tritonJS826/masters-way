@@ -1,10 +1,10 @@
 package controllers
 
 import (
+	"fmt"
 	"mwchat/internal/auth"
 	"mwchat/internal/schemas"
 	"mwchat/internal/services"
-	util "mwchat/internal/utils"
 	"mwchat/pkg/utils"
 	"net/http"
 
@@ -16,7 +16,7 @@ type RoomsController struct {
 	roomService services.RoomService
 }
 
-func NewP2PRoomsController(roomService services.RoomService) *RoomsController {
+func NewRoomsController(roomService services.RoomService) *RoomsController {
 	return &RoomsController{roomService: roomService}
 }
 
@@ -33,7 +33,7 @@ func (cc *RoomsController) GetChatPreview(ctx *gin.Context) {
 	userUUID := uuid.MustParse(userIDRaw.(string))
 
 	chatPreview, err := cc.roomService.GetChatPreview(ctx, userUUID)
-	util.HandleErrorGin(ctx, err)
+	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, chatPreview)
 }
@@ -107,6 +107,7 @@ func (pc *RoomsController) CreateRoom(ctx *gin.Context) {
 		Type:            payload.RoomType,
 	}
 	newP2PRoom, err := pc.roomService.CreateRoom(ctx, params)
+	fmt.Println(newP2PRoom, err)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, newP2PRoom)

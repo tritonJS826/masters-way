@@ -3,199 +3,168 @@ package server
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
-	"log"
+	"io"
 	"mwchat/internal/auth"
-	"mwchat/internal/config"
-	"mwchat/internal/controllers"
 	"mwchat/internal/schemas"
-	"mwchat/internal/services"
-	"mwchat/pkg/database"
 	"net/http"
-	"net/http/httptest"
 	"testing"
 
-	"github.com/go-playground/assert/v2"
-	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/stretchr/testify/assert"
 )
 
-func setupTestDB(newConfig *config.Config) *pgxpool.Pool {
-	newPool, err := database.NewPostgresDB(newConfig)
-	if err != nil {
-		log.Fatal("cannot load config:", err)
-	}
-	return newPool
-}
+var ChatBaseUrl string = "http://localhost:8001"
 
-func setupTestServer(newConfig *config.Config, newPool *pgxpool.Pool) *Server {
-	newService := services.NewService(newPool)
-	newController := controllers.NewController(newService)
-
-	newServer := NewServer(newConfig)
-	newServer.SetRoutes(newController)
-	return newServer
-}
-
-func createTestRequest(method, url, body, token string) (*http.Request, error) {
-	req, err := http.NewRequest(method, url, bytes.NewBufferString(body))
+func MakeRequest(method string, url string, body io.Reader) (*http.Response, error) {
+	request, err := http.NewRequest(method, url, body)
 	if err != nil {
 		return nil, err
 	}
-	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Authorization", "Bearer "+token)
-	return req, nil
+
+	token, err := auth.GenerateTestJWT("ef9b3a5c-2676-4eb4-a21d-cc0a9fb34f1e")
+	if err != nil {
+		return nil, err
+	}
+
+	request.Header.Set("Content-Type", "application/json")
+	request.Header.Set("Authorization", "Bearer "+token)
+
+	client := &http.Client{}
+	response, err := client.Do(request)
+	if err != nil {
+		return nil, err
+	}
+
+	return response, nil
+}
+
+func resetDatabase() error {
+	_, err := MakeRequest(http.MethodGet, ChatBaseUrl+"/chat/dev/reset-db", nil)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func TestCreateRoom(t *testing.T) {
-	newConfig, err := config.LoadConfig("../../")
-	if err != nil {
-		log.Fatal("cannot load config:", err)
-	}
-	newPool := setupTestDB(&newConfig)
-	defer newPool.Close()
-
-	newServer := setupTestServer(&newConfig, newPool)
-
-	token, err := auth.GenerateTestJWT("ef9b3a5c-2676-4eb4-a21d-cc0a9fb34f1e")
-	if err != nil {
-		t.Fatalf("could not generate token: %v", err)
-	}
-
-	tests := []struct {
-		name             string
-		requestBody      string
-		expectedStatus   int
-		expectedResponse schemas.RoomPopulatedResponse
-		expectedError    string
-	}{
-		{
-			name:           "CreatePrivateRoom_Success",
-			requestBody:    `{"userID": "2d0f5ddb-0713-4d02-b193-871518496a0e", "roomType": "private"}`,
-			expectedStatus: http.StatusOK,
-			expectedResponse: schemas.RoomPopulatedResponse{
-				Users: []schemas.UserResponse{
-					{
-						UserID: "ef9b3a5c-2676-4eb4-a21d-cc0a9fb34f1e",
-						Role:   "regular",
-					},
-					{
-						UserID: "2d0f5ddb-0713-4d02-b193-871518496a0e",
-						Role:   "regular",
-					},
-				},
-				Name:      nil,
-				Messages:  []schemas.MessageResponse{},
-				IsBlocked: false,
-			},
-		},
-		{
-			name:             "CreatePrivateRoom_PrivateRoomAlreadyExists",
-			requestBody:      `{"userID": "2d0f5ddb-0713-4d02-b193-871518496a0e", "roomType": "private"}`,
-			expectedStatus:   http.StatusInternalServerError,
-			expectedResponse: schemas.RoomPopulatedResponse{},
-			expectedError:    services.ErrPrivateRoomAlreadyExists.Error(),
-		},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			recorder := httptest.NewRecorder()
-			request, err := createTestRequest(http.MethodPost, "/chat/rooms", tt.requestBody, token)
-			if err != nil {
-				t.Fatalf("could not create request: %v", err)
-			}
-			newServer.GinServer.ServeHTTP(recorder, request)
-
-			assert.Equal(t, tt.expectedStatus, recorder.Code)
-
-			if tt.expectedStatus == http.StatusOK {
-				var response schemas.RoomPopulatedResponse
-				err = json.Unmarshal(recorder.Body.Bytes(), &response)
-				if err != nil {
-					t.Fatalf("could not unmarshal response: %v", err)
-				}
-
-				assert.Equal(t, tt.expectedResponse.Users, response.Users)
-				assert.Equal(t, tt.expectedResponse.Name, response.Name)
-				assert.Equal(t, tt.expectedResponse.Messages, response.Messages)
-				assert.Equal(t, tt.expectedResponse.IsBlocked, response.IsBlocked)
-			}
-		})
-	}
-}
-
-func TestCreateMessage(t *testing.T) {
-	newConfig, err := config.LoadConfig("../../")
-	if err != nil {
-		log.Fatal("cannot load config:", err)
-	}
-	newPool := setupTestDB(&newConfig)
-	defer newPool.Close()
-
-	newServer := setupTestServer(&newConfig, newPool)
-
-	token, err := auth.GenerateTestJWT("ef9b3a5c-2676-4eb4-a21d-cc0a9fb34f1e")
-	if err != nil {
-		t.Fatalf("could not generate token: %v", err)
-	}
-
-	tests := []struct {
-		name             string
-		requestBody      string
-		expectedStatus   int
-		expectedResponse schemas.MessageResponse
-		expectedError    string
-	}{
-		{
-			name:           "CreateMessageInPrivateRoom_Success",
-			requestBody:    `{"message": "Hello!"}`,
-			expectedStatus: http.StatusOK,
-			expectedResponse: schemas.MessageResponse{
-				OwnerID: "ef9b3a5c-2676-4eb4-a21d-cc0a9fb34f1e",
-				Message: "Hello!",
-				Readers: []schemas.MessageReaders{},
-			},
-		},
-	}
-
-	roomRecorder := httptest.NewRecorder()
-	roomRequestBody := `{"userID": "800948ad-c652-44d3-adfa-f28384da1f40", "roomType": "private"}`
-	roomRequest, err := createTestRequest(http.MethodPost, "/chat/rooms", roomRequestBody, token)
+	err := resetDatabase()
 	if err != nil {
 		t.Fatalf("could not create request: %v", err)
 	}
-	newServer.GinServer.ServeHTTP(roomRecorder, roomRequest)
 
-	var createRoomResponse schemas.RoomPopulatedResponse
-	err = json.Unmarshal(roomRecorder.Body.Bytes(), &createRoomResponse)
+	t.Run("CreatePrivateRoom_Success", func(t *testing.T) {
+		expectedData := schemas.RoomPopulatedResponse{
+			Users: []schemas.UserResponse{
+				{
+					UserID: "ef9b3a5c-2676-4eb4-a21d-cc0a9fb34f1e",
+					Role:   "regular",
+				},
+				{
+					UserID: "2d0f5ddb-0713-4d02-b193-871518496a0e",
+					Role:   "regular",
+				},
+			},
+			Name:      nil,
+			Messages:  []schemas.MessageResponse{},
+			IsBlocked: false,
+		}
+
+		userID := "2d0f5ddb-0713-4d02-b193-871518496a0e"
+		inputData := schemas.CreateRoomPayload{
+			UserID:   &userID,
+			Name:     nil,
+			RoomType: "private",
+		}
+		jsonInputData, _ := json.Marshal(inputData)
+		response, err := MakeRequest(http.MethodPost, ChatBaseUrl+"/chat/rooms", bytes.NewBuffer(jsonInputData))
+		if err != nil {
+			t.Fatalf("could not create request: %v", err)
+		}
+		defer response.Body.Close()
+
+		var respBody schemas.RoomPopulatedResponse
+		err = json.NewDecoder(response.Body).Decode(&respBody)
+		if err != nil {
+			t.Fatalf("could not decode response body: %v", err)
+		}
+
+		assert.Equal(t, http.StatusOK, response.StatusCode)
+
+		assert.Equal(t, expectedData.Users, respBody.Users)
+		assert.Equal(t, expectedData.Name, respBody.Name)
+		assert.Equal(t, expectedData.Messages, respBody.Messages)
+		assert.Equal(t, expectedData.IsBlocked, respBody.IsBlocked)
+	})
+
+	t.Run("CreatePrivateRoom_PrivateRoomAlreadyExists", func(t *testing.T) {
+		userID := "2d0f5ddb-0713-4d02-b193-871518496a0e"
+		inputData := schemas.CreateRoomPayload{
+			UserID:   &userID,
+			Name:     nil,
+			RoomType: "private",
+		}
+		jsonInputData, _ := json.Marshal(inputData)
+		response, err := MakeRequest(http.MethodPost, ChatBaseUrl+"/chat/rooms", bytes.NewBuffer(jsonInputData))
+		if err != nil {
+			t.Fatalf("could not create request: %v", err)
+		}
+		defer response.Body.Close()
+
+		assert.Equal(t, http.StatusInternalServerError, response.StatusCode)
+	})
+}
+
+func TestCreateMessage(t *testing.T) {
+	err := resetDatabase()
 	if err != nil {
-		t.Fatalf("could not unmarshal response: %v", err)
+		t.Fatalf("could not create request: %v", err)
 	}
 
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			recorder := httptest.NewRecorder()
-
-			createMessagePath := fmt.Sprintf("/chat/rooms/" + createRoomResponse.RoomID + "/messages")
-			request, err := createTestRequest(http.MethodPost, createMessagePath, tt.requestBody, token)
-			if err != nil {
-				t.Fatalf("could not create request: %v", err)
-			}
-			newServer.GinServer.ServeHTTP(recorder, request)
-
-			assert.Equal(t, tt.expectedStatus, recorder.Code)
-
-			if tt.expectedStatus == http.StatusOK {
-				var response schemas.MessageResponse
-				err = json.Unmarshal(recorder.Body.Bytes(), &response)
-				if err != nil {
-					t.Fatalf("could not unmarshal response: %v", err)
-				}
-
-				assert.Equal(t, tt.expectedResponse.OwnerID, response.OwnerID)
-				assert.Equal(t, tt.expectedResponse.Message, response.Message)
-				assert.Equal(t, tt.expectedResponse.Readers, response.Readers)
-			}
-		})
+	userID := "009360e6-81ba-4075-a3b6-1eaa908e5a2a"
+	createRoomInputData := schemas.CreateRoomPayload{
+		UserID:   &userID,
+		Name:     nil,
+		RoomType: "private",
 	}
+	jsonCreateRoomInputData, _ := json.Marshal(createRoomInputData)
+	createRoomResponse, err := MakeRequest(http.MethodPost, ChatBaseUrl+"/chat/rooms", bytes.NewBuffer(jsonCreateRoomInputData))
+	if err != nil {
+		t.Fatalf("could not create request: %v", err)
+	}
+	defer createRoomResponse.Body.Close()
+
+	var respBody schemas.RoomPopulatedResponse
+	err = json.NewDecoder(createRoomResponse.Body).Decode(&respBody)
+	if err != nil {
+		t.Fatalf("could not decode response body: %v", err)
+	}
+
+	t.Run("CreateMessageInPrivateRoom_Success", func(t *testing.T) {
+		expectedData := schemas.MessageResponse{
+			OwnerID: "ef9b3a5c-2676-4eb4-a21d-cc0a9fb34f1e",
+			Message: "Hello!",
+			Readers: []schemas.MessageReaders{},
+		}
+
+		createMessageInputData := schemas.CreateMessagePayload{
+			Message: "Hello!",
+		}
+		jsonCreateMessageInputData, _ := json.Marshal(createMessageInputData)
+		createMessageResponse, err := MakeRequest(http.MethodPost, ChatBaseUrl+"/chat/rooms/"+respBody.RoomID+"/messages", bytes.NewBuffer(jsonCreateMessageInputData))
+		if err != nil {
+			t.Fatalf("could not create request: %v", err)
+		}
+		defer createMessageResponse.Body.Close()
+
+		var createMessageResponseBody schemas.MessageResponse
+		err = json.NewDecoder(createMessageResponse.Body).Decode(&createMessageResponseBody)
+		if err != nil {
+			t.Fatalf("could not decode response body: %v", err)
+		}
+
+		assert.Equal(t, http.StatusOK, createMessageResponse.StatusCode)
+
+		assert.Equal(t, expectedData.OwnerID, createMessageResponseBody.OwnerID)
+		assert.Equal(t, expectedData.Message, createMessageResponseBody.Message)
+		assert.Equal(t, expectedData.Readers, createMessageResponseBody.Readers)
+	})
 }

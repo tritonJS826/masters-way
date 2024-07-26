@@ -4,10 +4,12 @@ import "mwchat/internal/services"
 
 type Controller struct {
 	RoomsController *RoomsController
+	DevController   *DevController
 }
 
 func NewController(services *services.Service) *Controller {
 	return &Controller{
-		RoomsController: NewP2PRoomsController(services.RoomService),
+		RoomsController: NewRoomsController(services.RoomService),
+		DevController:   NewDevController(services.DevService),
 	}
 }

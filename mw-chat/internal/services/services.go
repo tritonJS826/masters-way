@@ -19,14 +19,20 @@ type RoomService interface {
 	// AddUserToRoom(ctx context.Context, addUserToRoomParams *AddUserToRoomParams)
 }
 
+type DevService interface {
+	ResetDB(ctx context.Context) error
+}
+
 type Service struct {
 	RoomService
+	DevService
 }
 
 func NewService(pool *pgxpool.Pool) *Service {
 	queries := db.New(pool)
 	return &Service{
 		RoomService: NewRoomsService(pool, queries),
+		DevService:  NewDevService(queries),
 	}
 }
 
