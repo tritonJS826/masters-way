@@ -14,8 +14,9 @@ type Querier interface {
 	AddUserToRoom(ctx context.Context, arg AddUserToRoomParams) (AddUserToRoomRow, error)
 	CreateMessage(ctx context.Context, arg CreateMessageParams) (CreateMessageRow, error)
 	CreateMessageStatus(ctx context.Context, arg CreateMessageStatusParams) error
-	CreateRoom(ctx context.Context, arg CreateRoomParams) (pgtype.UUID, error)
+	CreateRoom(ctx context.Context, arg CreateRoomParams) (CreateRoomRow, error)
 	GetChatPreview(ctx context.Context, receiverUuid pgtype.UUID) (int64, error)
+	GetIsPrivateRoomAlreadyExists(ctx context.Context, arg GetIsPrivateRoomAlreadyExistsParams) (bool, error)
 	GetMessagesByRoomUUID(ctx context.Context, roomUuid pgtype.UUID) ([]GetMessagesByRoomUUIDRow, error)
 	GetRoomByUUID(ctx context.Context, arg GetRoomByUUIDParams) (GetRoomByUUIDRow, error)
 	GetRoomsByUserUUID(ctx context.Context, arg GetRoomsByUserUUIDParams) ([]GetRoomsByUserUUIDRow, error)

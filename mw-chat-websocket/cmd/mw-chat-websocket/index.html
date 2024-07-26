@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socket.io Chat</title>
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #messages {
+            border: 1px solid #ddd;
+            padding: 10px;
+            height: 200px;
+            overflow-y: auto;
+        }
+        #messageInput {
+            width: calc(100% - 80px);
+        }
+        #sendButton {
+            width: 60px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Socket.io Chat</h1>
+    <div id="messages"></div>
+    <input type="text" id="username" placeholder="Enter your username">
+    <button id="joinButton">Join</button>
+    <br><br>
+    <input type="text" id="messageInput" placeholder="Type your message">
+    <button id="sendButton">Send</button>
+
+    <script>
+        const socket = io('http://localhost:8080');
+
+        const messagesDiv = document.getElementById('messages');
+        const usernameInput = document.getElementById('username');
+        const joinButton = document.getElementById('joinButton');
+        const messageInput = document.getElementById('messageInput');
+        const sendButton = document.getElementById('sendButton');
+
+        joinButton.addEventListener('click', () => {
+            const username = usernameInput.value;
+            if (username) {
+                socket.emit('join', username);
+                usernameInput.disabled = true;
+                joinButton.disabled = true;
+            }
+        });
+
+        sendButton.addEventListener('click', () => {
+            const msg = messageInput.value;
+            if (msg) {
+                socket.emit('message', msg);
+                messageInput.value = '';
+            }
+        });
+
+        socket.on('message', (username, msg) => {
+            const messageElement = document.createElement('div');
+            messageElement.textContent = `${username}: ${msg}`;
+            messagesDiv.appendChild(messageElement);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        });
+    </script>
+</body>
+</html>

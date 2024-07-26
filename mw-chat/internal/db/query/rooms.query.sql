@@ -1,7 +1,24 @@
 -- name: CreateRoom :one
 INSERT INTO rooms (created_at, name, type)
 VALUES (@created_at, @name, @type)
-RETURNING uuid;
+RETURNING uuid, name, type;
+
+-- name: GetIsPrivateRoomAlreadyExists :one
+SELECT EXISTS (
+    SELECT 1
+    FROM (
+        SELECT DISTINCT room_uuid
+        FROM users_rooms
+        WHERE users_rooms.user_uuid = @user_1
+    ) AS user1_rooms
+    JOIN (
+        SELECT DISTINCT room_uuid
+        FROM users_rooms
+        WHERE users_rooms.user_uuid = @user_2
+    ) AS user2_rooms ON user1_rooms.room_uuid = user2_rooms.room_uuid
+    JOIN rooms ON rooms.uuid = user1_rooms.room_uuid
+    WHERE rooms.type = 'private'
+) AS is_private_room_already_exists;
 
 -- name: GetRoomsByUserUUID :many
 SELECT

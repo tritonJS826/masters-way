@@ -390,6 +390,7 @@ const docTemplate = `{
                 "messages",
                 "name",
                 "roomId",
+                "roomType",
                 "users"
             ],
             "properties": {
@@ -403,9 +404,13 @@ const docTemplate = `{
                     }
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "x-nullable": true
                 },
                 "roomId": {
+                    "type": "string"
+                },
+                "roomType": {
                     "type": "string"
                 },
                 "users": {

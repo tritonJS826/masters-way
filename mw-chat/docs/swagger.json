@@ -376,6 +376,7 @@
                 "messages",
                 "name",
                 "roomId",
+                "roomType",
                 "users"
             ],
             "properties": {
@@ -389,9 +390,13 @@
                     }
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "x-nullable": true
                 },
                 "roomId": {
+                    "type": "string"
+                },
+                "roomType": {
                     "type": "string"
                 },
                 "users": {

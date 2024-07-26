@@ -14,20 +14,56 @@ import (
 const createRoom = `-- name: CreateRoom :one
 INSERT INTO rooms (created_at, name, type)
 VALUES ($1, $2, $3)
-RETURNING uuid
+RETURNING uuid, name, type
 `
 
 type CreateRoomParams struct {
 	CreatedAt pgtype.Timestamp `json:"created_at"`
-	Name      string           `json:"name"`
+	Name      pgtype.Text      `json:"name"`
 	Type      RoomType         `json:"type"`
 }
 
-func (q *Queries) CreateRoom(ctx context.Context, arg CreateRoomParams) (pgtype.UUID, error) {
+type CreateRoomRow struct {
+	Uuid pgtype.UUID `json:"uuid"`
+	Name pgtype.Text `json:"name"`
+	Type RoomType    `json:"type"`
+}
+
+func (q *Queries) CreateRoom(ctx context.Context, arg CreateRoomParams) (CreateRoomRow, error) {
 	row := q.db.QueryRow(ctx, createRoom, arg.CreatedAt, arg.Name, arg.Type)
-	var uuid pgtype.UUID
-	err := row.Scan(&uuid)
-	return uuid, err
+	var i CreateRoomRow
+	err := row.Scan(&i.Uuid, &i.Name, &i.Type)
+	return i, err
+}
+
+const getIsPrivateRoomAlreadyExists = `-- name: GetIsPrivateRoomAlreadyExists :one
+SELECT EXISTS (
+    SELECT 1
+    FROM (
+        SELECT DISTINCT room_uuid
+        FROM users_rooms
+        WHERE users_rooms.user_uuid = $1
+    ) AS user1_rooms
+    JOIN (
+        SELECT DISTINCT room_uuid
+        FROM users_rooms
+        WHERE users_rooms.user_uuid = $2
+    ) AS user2_rooms ON user1_rooms.room_uuid = user2_rooms.room_uuid
+    JOIN rooms ON rooms.uuid = user1_rooms.room_uuid
+    WHERE rooms.type = 'private'
+) AS is_private_room_already_exists
+`
+
+type GetIsPrivateRoomAlreadyExistsParams struct {
+	User1 pgtype.UUID `json:"user_1"`
+	User2 pgtype.UUID `json:"user_2"`
+}
+
+func (q *Queries) GetIsPrivateRoomAlreadyExists(ctx context.Context, arg GetIsPrivateRoomAlreadyExistsParams) (bool, error) {
+	row := q.db.QueryRow(ctx, getIsPrivateRoomAlreadyExists, arg.User1, arg.User2)
+	var is_private_room_already_exists bool
+	err := row.Scan(&is_private_room_already_exists)
+	return is_private_room_already_exists, err
 }
 
 const getRoomByUUID = `-- name: GetRoomByUUID :one
@@ -60,7 +96,7 @@ type GetRoomByUUIDParams struct {
 
 type GetRoomByUUIDRow struct {
 	Uuid          pgtype.UUID   `json:"uuid"`
-	Name          string        `json:"name"`
+	Name          pgtype.Text   `json:"name"`
 	Type          RoomType      `json:"type"`
 	IsRoomBlocked bool          `json:"is_room_blocked"`
 	UserUuids     []pgtype.UUID `json:"user_uuids"`
@@ -111,7 +147,7 @@ type GetRoomsByUserUUIDParams struct {
 
 type GetRoomsByUserUUIDRow struct {
 	Uuid          pgtype.UUID   `json:"uuid"`
-	Name          string        `json:"name"`
+	Name          pgtype.Text   `json:"name"`
 	Type          RoomType      `json:"type"`
 	IsRoomBlocked bool          `json:"is_room_blocked"`
 	UserUuids     []pgtype.UUID `json:"user_uuids"`

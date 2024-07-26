@@ -113,7 +113,7 @@ type MessageStatus struct {
 
 type Room struct {
 	Uuid      pgtype.UUID      `json:"uuid"`
-	Name      string           `json:"name"`
+	Name      pgtype.Text      `json:"name"`
 	Type      RoomType         `json:"type"`
 	CreatedAt pgtype.Timestamp `json:"created_at"`
 }

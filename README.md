@@ -64,11 +64,8 @@ This work is licensed under a Creative Commons Attribution 4.0 International Lic
 
 ### Run all modules locally
 
-`docker-compose -f localQA.docker-compose.yml up`
+`docker-compose -f local.docker-compose.yml up`
 
-### Run all modules locally (except frontend)
-
-`docker-compose -f localFront.docker-compose.yml up`
 
 ### Clean up all docker images and volumes
 
