@@ -2,9 +2,9 @@ package main
 
 import (
 	"log"
-	"mw-chat-bff/internal/config"
-	"mw-chat-bff/internal/controllers"
-	"mw-chat-bff/internal/server"
+	"mw-chat-websocket/internal/config"
+	"mw-chat-websocket/internal/controllers"
+	"mw-chat-websocket/internal/server"
 )
 
 func main() {
