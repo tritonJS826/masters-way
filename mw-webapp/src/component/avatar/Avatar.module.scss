@@ -13,6 +13,7 @@ $avatarLargeSize: 120px;
   border-radius: $tertiaryBorderRadius;
   user-select: none;
   vertical-align: middle;
+  border: $primaryBorder solid var(--primaryStrokeColor)
 }
 
 .AvatarImage {
