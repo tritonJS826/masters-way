@@ -23,18 +23,36 @@ export const App = () => {
 
   const {language} = languageStore;
 
+  /**
+   * Check health of the API
+   */
+  const checkApiHealth = async () => {
+    const {isWorkingApi} = await HealthCheckDAL.checkApiHealth();
+    setIsApiWorking(isWorkingApi);
+  };
+
   useEffect(() => {
-
-    /**
-     * Check health of the API
-     */
-    const checkApiHealth = async () => {
-      const {isWorkingApi} = await HealthCheckDAL.checkApiHealth();
-      setIsApiWorking(isWorkingApi);
-    };
-
     checkApiHealth();
   }, []);
+
+  if (!isApiWorking) {
+    return (
+      <Modal
+        isOpen={!isApiWorking}
+        trigger={<div className={styles.modalContent} />}
+        content={
+          <VerticalContainer className={styles.modalContainer}>
+            <Title
+              text={LanguageService.modals.healthCheckModal.title[language]}
+              placeholder=''
+              level={HeadingLevel.h2}
+            />
+            <Text text={LanguageService.modals.healthCheckModal.description[language]} />
+          </VerticalContainer>
+        }
+      />
+    );
+  }
 
   return (
     <globalContext.Provider value={{
@@ -44,26 +62,7 @@ export const App = () => {
       notification: DEFAULT_NOTIFICATION_SETTINGS,
     }}
     >
-      {isApiWorking
-        ? (
-          <RouterProvider router={router} />
-        )
-        : (
-          <Modal
-            isOpen={!isApiWorking}
-            trigger={<div className={styles.modalContent} />}
-            content={
-              <VerticalContainer className={styles.modalContainer}>
-                <Title
-                  text={LanguageService.modals.healthCheckModal.title[language]}
-                  placeholder=''
-                  level={HeadingLevel.h2}
-                />
-                <Text text={LanguageService.modals.healthCheckModal.description[language]} />
-              </VerticalContainer>
-            }
-          />
-        )}
+      <RouterProvider router={router} />
     </globalContext.Provider>
   );
 };
