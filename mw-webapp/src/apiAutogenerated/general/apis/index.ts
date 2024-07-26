@@ -25,3 +25,4 @@ export * from './WayApi';
 export * from './WayCollectionApi';
 export * from './WayCollectionWayApi';
 export * from './WayTagApi';
+export * from './HealthCheckApi';
