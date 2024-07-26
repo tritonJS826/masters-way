@@ -90,5 +90,6 @@ export const Avatar = (props: AvatarProps) => {
       </AvatarRadix.Fallback>
     </AvatarRadix.Root>
   );
+
 };
 
