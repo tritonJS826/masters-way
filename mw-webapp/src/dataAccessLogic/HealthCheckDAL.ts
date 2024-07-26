@@ -1,7 +1,7 @@
 import {HealthCheckService} from "src/service/HealthCheckService ";
 
 /**
- * Шnterface for API health check status
+ * Interface for API health check status
  */
 export interface HealthCheckStatus {
 

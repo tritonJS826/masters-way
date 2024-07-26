@@ -1,4 +1,3 @@
-// SchemasHealthCheckResponse
 /**
  * @export
  * @interface SchemasHealthCheckResponse

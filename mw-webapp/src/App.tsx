@@ -26,7 +26,7 @@ export const App = () => {
   useEffect(() => {
 
     /**
-     * Check the health of the API
+     * Check health of the API
      */
     const checkApiHealth = async () => {
       const {isWorkingApi} = await HealthCheckDAL.checkApiHealth();
