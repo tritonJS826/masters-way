@@ -75,9 +75,9 @@ jobs:
             sudo docker pull victorveretennikov58/masters-way:mw-chat-bff.${COMMIT_HASH}.${COMMIT_DATE}
             # sudo docker stop masters-way_mw-chat-bff_1 || true
             # sudo docker rm masters-way_mw-chat-bff_1 || true
-            sudo docker run --env-file ${ENV_FILE_PATH_CHAT_BFF} -d --name masters-way_mw-chat-bff_1 --restart unless-stopped -p 8000:8000 --network masters-way_app-network victorveretennikov58/masters-way:mw-chat-bff.${COMMIT_HASH}.${COMMIT_DATE}
+            sudo docker run --env-file ${ENV_FILE_PATH_CHAT_BFF} -d --name masters-way_mw-chat-bff_1 --restart unless-stopped -p 7999:7999 --network masters-way_app-network victorveretennikov58/masters-way:mw-chat-bff.${COMMIT_HASH}.${COMMIT_DATE}
             
-            sudo docker images --format '{{.Repository}}:{{.Tag}}' | grep 'victorveretennikov58/masters-way:mw-chat-bff' | grep -v '${COMMIT_HASH}.${COMMIT_DATE}' | xargs -I {} docker rmi {}
+            sudo docker images --format '{{.Repository}}:{{.Tag}}' | grep 'victorveretennikov58/masters-way:mw-chat-bff' | grep -v '${COMMIT_HASH}.${COMMIT_DATE}' | xargs -I {} sudo docker rmi {}
           EOF
 
 
