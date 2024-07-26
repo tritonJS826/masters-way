@@ -1,6 +1,7 @@
 {
     "userLoginLink": "http://localhost:8000/api/auth/login/local/test.user@gmail.com",
     "userUrlPattern": "\\/user\\/[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$",
+    "wayUrlPattern": "\\/way\\/[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$",
     "name": "test.user@gmail.com",
     "email": "test.user@gmail.com",
 

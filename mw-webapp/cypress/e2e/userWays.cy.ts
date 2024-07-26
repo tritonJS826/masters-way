@@ -3,16 +3,11 @@ import {allUsersSelectors} from "cypress/scopesSelectors/allUsersSelectors";
 import {headerSelectors} from "cypress/scopesSelectors/headerSelectors";
 import {navigationMenuSelectors} from "cypress/scopesSelectors/navigationMenuSelectors";
 import {userWaysSelectors} from "cypress/scopesSelectors/userWaysSelectors";
-import {Theme, themedVariables, themeStore} from "src/globalStore/ThemeStore";
+import {Theme, themedVariables} from "src/globalStore/ThemeStore";
+import testUserData from "cypress/fixtures/testUserDataFixture.json";
+import {wayDescriptionSelectors} from "cypress/scopesSelectors/wayDescriptionSelectors";
 
 const apiUrl = Cypress.env('API_BASE_PATH');
-
-beforeEach(() => {
-    cy.request('GET', `${apiUrl}/dev/reset-db`);
-    cy.visit('/');
-    headerSelectors.getBurgerMenu().click();
-    navigationMenuSelectors.menuItemLinks.getAllUsersItemLink().click();
-});
 
 afterEach(() => {
     cy.clearAllStorage();
@@ -34,24 +29,31 @@ function hexToRgb(hex: string): string {
 }
 
 describe("NoAuth User's ways scope tests", () => {
+    beforeEach(() => {
+        cy.request('GET', `${apiUrl}/dev/reset-db`);
+        cy.visit('/');
+        headerSelectors.getBurgerMenu().click();
+        navigationMenuSelectors.menuItemLinks.getAllUsersItemLink().click();
+    });
+
     const expectedCollectionButtonColor = hexToRgb(themedVariables.primaryBgBtnActiveColor[Theme.DARK]);
 
     it('NoAuth_UserWay_OwnWaysCollectionButton', () => {
         allUsersSelectors.allWaysCard.getCardLink(userWaysData.users.Alice.userName).click();
 
-        userWaysSelectors.wayCard.getOwnWayCollectionCardButton().click();
+        userWaysSelectors.wayCollectionButtonsBlock.getOwnWayCollectionButton().click();
 
-        userWaysSelectors.wayCard.getOwnWayCollectionCardButtonMainInfo().first()
+        userWaysSelectors.wayCollectionButtonsBlock.getWayCollectionButtonMainInfo().first()
             .should('have.css', 'background-color', expectedCollectionButtonColor);
-        userWaysSelectors.wayCard.getWayAmountCollectionCardButton().first()
+        userWaysSelectors.wayCollectionButtonsBlock.getWayAmountCollectionButton().first()
             .should('have.text', userWaysData.users.Alice.ownWaysNumberCollectionButton);
         userWaysSelectors.wayTitles.getWayStatusTitle()
             .should('have.text', `Own (${userWaysData.users.Alice.ownPublicWaysNumber})`);
         cy.get('[data-cy^="wayLink_"]').should('have.length', userWaysData.users.Alice.ownPublicWaysNumber);
-        userWaysSelectors.wayCard.getWayLink(userWaysData.users.Alice.ownPublicWaysTitles[1].title)
+        userWaysSelectors.wayCollectionButtonsBlock.getWayLink(userWaysData.users.Alice.ownPublicWaysTitles[1].title)
             .should('exist')
             .and('be.visible');
-        userWaysSelectors.wayCard.getWayLink(userWaysData.users.Alice.ownPublicWaysTitles[2].title)
+        userWaysSelectors.wayCollectionButtonsBlock.getWayLink(userWaysData.users.Alice.ownPublicWaysTitles[2].title)
             .should('exist')
             .and('be.visible');
     });
@@ -59,18 +61,33 @@ describe("NoAuth User's ways scope tests", () => {
     it('NoAuth_UserWay_MentoringCollectionButton', () => {
         allUsersSelectors.allWaysCard.getCardLink(userWaysData.users.Alice.userName).click();
 
-        userWaysSelectors.wayCard.getMentoringWayCollectionCardButton().click();
+        userWaysSelectors.wayCollectionButtonsBlock.getMentoringWayCollectionButton().click();
 
-        userWaysSelectors.wayCard.getOwnWayCollectionCardButtonMainInfo().eq(1)
+        userWaysSelectors.wayCollectionButtonsBlock.getWayCollectionButtonMainInfo().eq(1)
             .should('have.css', 'background-color', expectedCollectionButtonColor);
-        userWaysSelectors.wayCard.getWayAmountCollectionCardButton().eq(1)
+        userWaysSelectors.wayCollectionButtonsBlock.getWayAmountCollectionButton().eq(1)
             .should('have.text', userWaysData.users.Alice.mentoringWaysNumberCollectionButton);
         userWaysSelectors.wayTitles.getWayStatusTitle()
             .should('have.text', `Mentoring (${userWaysData.users.Alice.mentoringWaysNumber})`);
         cy.get('[data-cy^="wayLink_"]').should('have.length', userWaysData.users.Alice.mentoringWaysNumber);
-        userWaysSelectors.wayCard.getWayLink(userWaysData.users.Alice.mentoringWaysTitles[1].title)
+        userWaysSelectors.wayCollectionButtonsBlock.getWayLink(userWaysData.users.Alice.mentoringWaysTitles[1].title)
             .should('exist')
             .and('be.visible');
+    });
+
+});
+
+describe("IsAuth User's ways scope tests", () => {
+    beforeEach(() => {
+        cy.request('GET', `${apiUrl}/dev/reset-db`);
+        cy.visit(testUserData.userLoginLink);
+    });
+
+    it.only('IsAuth_UserWays_CreateNewWay', () => {
+        userWaysSelectors.getCreateNewWayButton().click();
+
+        cy.url().should('match', new RegExp(testUserData.wayUrlPattern));
+        wayDescriptionSelectors.wayDashBoardLeft.getTitle().should('have.text',`Way of ${testUserData.email}`);
     });
 
 });

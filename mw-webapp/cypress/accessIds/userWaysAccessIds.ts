@@ -1,17 +1,17 @@
 export const userWaysAccessIds = {
     wayStatusTitle: 'wayStatusTitle',
 
-    wayCard: {
-        wayAmountCollectionCardButton: "wayAmountCollectionCardButton",
+    wayCollectionButtonsBlock: {
+        wayAmountCollectionButton: "wayAmountCollectionButton",
 
         wayLink: (wayTitle: string) => `wayLink_${wayTitle}`,
 
-        ownWayCollectionCardButton: "ownWayCollectionCardButton",
-        wayCollectionCardButtonMainInfo: "wayCollectionCardButtonMainInfo",
+        ownWayCollectionButton: "ownWayCollectionButton",
+        wayCollectionButtonMainInfo: "wayCollectionButtonMainInfo",
 
-        mentoringWayCollectionCardButton: "mentoringWayCollectionCardButton",
-        mentoringWayCollectionCardButtonMainInfo: "mentoringWayCollectionCardButtonMainInfo",
-        mentoringWayLink: (wayTitle: string) => `mentoringWayLink_${wayTitle}`,
-    }
+        mentoringWayCollectionButton: "mentoringWayCollectionButton",
+    },
+
+    createNewWayButton: "createNewWayButton"
 
 };

@@ -6,17 +6,17 @@ export const userWaysSelectors = {
         getWayStatusTitle: () => cy.get(getDataCy(userWaysAccessIds.wayStatusTitle)),
     },
 
-    wayCard: {
-        getWayAmountCollectionCardButton: () => cy.get(getDataCy(userWaysAccessIds.wayCard.wayAmountCollectionCardButton)),
+    wayCollectionButtonsBlock: {
+        getWayAmountCollectionButton: () => cy.get(getDataCy(userWaysAccessIds.wayCollectionButtonsBlock.wayAmountCollectionButton)),
 
-        getWayLink: (wayTitle: string) => cy.get(getDataCy(userWaysAccessIds.wayCard.wayLink(wayTitle))),
+        getWayLink: (wayTitle: string) => cy.get(getDataCy(userWaysAccessIds.wayCollectionButtonsBlock.wayLink(wayTitle))),
 
-        getOwnWayCollectionCardButton: () => cy.get(getDataCy(userWaysAccessIds.wayCard.ownWayCollectionCardButton)),
-        getOwnWayCollectionCardButtonMainInfo: () => cy.get(getDataCy(userWaysAccessIds.wayCard.wayCollectionCardButtonMainInfo)),
+        getOwnWayCollectionButton: () => cy.get(getDataCy(userWaysAccessIds.wayCollectionButtonsBlock.ownWayCollectionButton)),
+        getMentoringWayCollectionButton: () => cy.get(getDataCy(userWaysAccessIds.wayCollectionButtonsBlock.mentoringWayCollectionButton)),
 
-        getMentoringWayCollectionCardButton: () => cy.get(getDataCy(userWaysAccessIds.wayCard.mentoringWayCollectionCardButton)),
-        getMentoringWayCollectionCardButtonMainInfo: () => cy.get(getDataCy(userWaysAccessIds.wayCard.mentoringWayCollectionCardButtonMainInfo)),
-        getMentoringWayLink: (wayTitle: string) => cy.get(getDataCy(userWaysAccessIds.wayCard.mentoringWayLink(wayTitle))),
-    }
+        getWayCollectionButtonMainInfo: () => cy.get(getDataCy(userWaysAccessIds.wayCollectionButtonsBlock.wayCollectionButtonMainInfo)),
+    },
+
+    getCreateNewWayButton: () => cy.get(getDataCy(userWaysAccessIds.createNewWayButton))
 
 };
