@@ -32,7 +32,7 @@ interface ChatItemProps {
   /**
    * Avatar's source
    */
-  src?: string | null;
+  src: string | null;
 
   /**
    * Callback triggered on click chat item
@@ -52,7 +52,7 @@ export const ChatItem = (props: ChatItemProps) => {
     >
       <Avatar
         alt={props.name}
-        src={props.src ?? "https://drive.google.com/thumbnail?id=1am7DSSQIxse2Htl39d_F5pgdadgg8x6v&sz=w1000"}
+        src={props.src}
       />
       <VerticalContainer>
         <p className={styles.chatItem}>

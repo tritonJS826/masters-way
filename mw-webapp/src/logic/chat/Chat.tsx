@@ -6,13 +6,15 @@ import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalC
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Input, InputType} from "src/component/input/Input";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {ChatDAL, createMessageInGroupParams} from "src/dataAccessLogic/ChatDAL";
+import {ChatDAL, createMessageInGroupParams, RoomType} from "src/dataAccessLogic/ChatDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
+import {userStore} from "src/globalStore/UserStore";
 import {ChatItem} from "src/logic/chat/chatItem/ChatItem";
 import {MessageItem} from "src/logic/chat/messageItem/MessageItem";
 import {Chat} from "src/model/businessModel/Chat";
 import {ChatPreview} from "src/model/businessModelPreview/ChatPreview";
 import {LanguageService} from "src/service/LanguageService";
+import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/logic/chat/Chat.module.scss";
 
 /**
@@ -35,6 +37,14 @@ export const ChatPage = (props: ChatProps) => {
   const [isGroupChatOpen, setIsGroupChatOpen] = useState<boolean>(false);
   const [chat, setChat] = useState<Chat | null>(null);
 
+  const {language} = languageStore;
+  const {user} = userStore;
+  const [isOpen, setIsOpen] = useState(props.isOpen ?? false);
+  const [message, setMessage] = useState<string>("");
+  const [groupChatName, setGroupChatName] = useState<string>("");
+  const [chatList, setChatList] = useState<ChatPreview[]>([]);
+  const [isChatHiddenOnMobile, setIsChatHiddenOnMobile] = useState<boolean>(true);
+
   /**
    * Load active chat
    */
@@ -44,12 +54,6 @@ export const ChatPage = (props: ChatProps) => {
     setChat(fetchedChat);
   };
 
-  const {language} = languageStore;
-  const [isOpen, setIsOpen] = useState(props.isOpen ?? false);
-  const [message, setMessage] = useState<string>("");
-  const [chatList, setChatList] = useState<ChatPreview[]>([]);
-  const [isChatHiddenOnMobile, setIsChatHiddenOnMobile] = useState<boolean>(true);
-
   /**
    * Send message
    */
@@ -58,35 +62,34 @@ export const ChatPage = (props: ChatProps) => {
       message: params.message,
       roomId: params.roomId,
     });
+    setMessage("");
   };
 
   /**
    * Load chat list
    */
-  const loadChatList = () => {
-    // Const fetchedChats = IsGroupChatOpen
-    // ? await ChatDAL.getRooms(RoomType.GROUP)
-    // : await ChatDAL.getRooms(RoomType.PRIVATE);
+  const loadChatList = async () => {
+    const fetchedChats = isGroupChatOpen
+      ? await ChatDAL.getRooms(RoomType.GROUP)
+      : await ChatDAL.getRooms(RoomType.PRIVATE);
 
-    // setChatList(fetchedChats.chatsPreview);
-    setChatList([]);
+    setChatList(fetchedChats.chatsPreview);
+  };
+
+  /**
+   * Create group chat
+   */
+  const createGroupRoom = async () => {
+    await ChatDAL.createRoom({
+      roomType: RoomType.GROUP,
+      name: groupChatName,
+    });
+    setGroupChatName("");
   };
 
   useEffect(() => {
     loadChatList();
   }, [isGroupChatOpen]);
-
-  /**
-   * Render loading
-   */
-  const renderLoader = () => {
-    return (
-      <div>
-        No chats... Loading...
-        {" "}
-      </div>
-    );
-  };
 
   return (
     <DialogRoot
@@ -147,11 +150,31 @@ export const ChatPage = (props: ChatProps) => {
                 !isChatHiddenOnMobile && styles.chatListHide,
               )}
               >
-                {chatList
+                {isGroupChatOpen &&
+                  <>
+                    <Input
+                      value={groupChatName}
+                      onChange={setGroupChatName}
+                      placeholder="Write a name of the chat..."
+                      typeInput={InputType.Border}
+                      onKeyDown={(event: React.KeyboardEvent<HTMLElement>) => {
+                        if (event.key === KeySymbols.ENTER) {
+                          createGroupRoom();
+                        }
+                      }}
+                    />
+                    <Button
+                      onClick={createGroupRoom}
+                      buttonType={ButtonType.SECONDARY}
+                      value="Create new group chat"
+                    />
+                  </>
+                }
+                {chatList.length > 0
                   ? chatList.map((chatItem) => (
                     <ChatItem
                       key={chatItem.roomId}
-                      name={chatItem.name}
+                      name={chatItem.roomId}
                       src={chatItem.src}
                       onClick={() => {
                         loadActiveChat(chatItem.roomId);
@@ -159,17 +182,10 @@ export const ChatPage = (props: ChatProps) => {
                       }}
                     />
                   ))
-                  : renderLoader()
+                  : <div>
+                    No chats
+                  </div>
                 }
-                <ChatItem
-                  name="Jonnie Joe"
-                  src=""
-                  onClick={() => setIsChatHiddenOnMobile(false)}
-                />
-                <ChatItem
-                  name="VeratsennikavaKatsiarynasVeratsennikavaKatsiarynaVeratsennikavaKatsiaryna"
-                  src=""
-                />
               </VerticalContainer>
 
               {chat &&
@@ -205,27 +221,9 @@ export const ChatPage = (props: ChatProps) => {
                             {messageItem.message}
                           </p>
                         }
+                        isOwnMessage={messageItem.ownerId === user?.uuid}
                       />
                     ))}
-                    <MessageItem
-                      src=""
-                      userName="111"
-                      message={
-                        <p>
-                          111
-                        </p>
-                      }
-                    />
-
-                    <MessageItem
-                      src=""
-                      userName="111"
-                      message={
-                        <p>
-                          222
-                        </p>
-                      }
-                    />
                   </VerticalContainer>
                 </VerticalContainer>
               }
@@ -238,6 +236,14 @@ export const ChatPage = (props: ChatProps) => {
                   onChange={setMessage}
                   placeholder="Write a message..."
                   typeInput={InputType.Border}
+                  onKeyDown={(event: React.KeyboardEvent<HTMLElement>) => {
+                    if (event.key === KeySymbols.ENTER) {
+                      sendMessage({
+                        message,
+                        roomId: chat.roomId,
+                      });
+                    }
+                  }}
                 />
                 <Button
                   value="Send"
@@ -246,7 +252,7 @@ export const ChatPage = (props: ChatProps) => {
                       message,
                       roomId: chat.roomId,
                     });
-                    setMessage("");
+
                   }}
                   buttonType={ButtonType.PRIMARY}
                 />

@@ -314,7 +314,6 @@ export const UserPage = observer((props: UserPageProps) => {
               <Button
                 onClick={async () => {
                   await ChatDAL.createRoom({
-                    name: userPageOwner.name,
                     roomType: RoomType.PRIVATE,
                     userId: userPageOwner.uuid,
                   });

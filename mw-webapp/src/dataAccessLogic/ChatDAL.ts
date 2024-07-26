@@ -78,7 +78,7 @@ interface CreateRoomParams {
   /**
    * Room's name
    */
-  name: string | null;
+  name?: string;
 
   /**
    * Room's type
@@ -88,7 +88,7 @@ interface CreateRoomParams {
   /**
    * User's in room (not owner) UUID
    */
-  userId: string | null;
+  userId?: string;
 }
 
 /**
@@ -100,13 +100,7 @@ export class ChatDAL {
    * Create chat room
    */
   public static async createRoom(params: CreateRoomParams): Promise<Chat> {
-    const roomDTO = await ChatService.createRoom({
-      request: {
-        name: params.name,
-        roomType: params.roomType,
-        userId: params.userId,
-      },
-    });
+    const roomDTO = await ChatService.createRoom({request: {...params}});
     const room = chatDTOToChat(roomDTO);
 
     return room;

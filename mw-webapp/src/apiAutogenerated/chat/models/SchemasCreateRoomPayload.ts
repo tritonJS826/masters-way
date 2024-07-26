@@ -24,7 +24,7 @@ export interface SchemasCreateRoomPayload {
      * @type {string}
      * @memberof SchemasCreateRoomPayload
      */
-    name: string | null;
+    name?: string | null;
     /**
      * 
      * @type {string}
@@ -36,7 +36,7 @@ export interface SchemasCreateRoomPayload {
      * @type {string}
      * @memberof SchemasCreateRoomPayload
      */
-    userId: string | null;
+    userId?: string | null;
 }
 
 /**
@@ -46,9 +46,7 @@ export function instanceOfSchemasCreateRoomPayload(
     value: object
 ): boolean {
     let isInstance = true;
-    isInstance = isInstance && "name" in value;
     isInstance = isInstance && "roomType" in value;
-    isInstance = isInstance && "userId" in value;
 
     return isInstance;
 }
@@ -66,9 +64,9 @@ export function SchemasCreateRoomPayloadFromJSONTyped(
     }
     return {
         
-        'name': json['name'],
+        'name': !exists(json, 'name') ? undefined : json['name'],
         'roomType': json['roomType'],
-        'userId': json['userId'],
+        'userId': !exists(json, 'userId') ? undefined : json['userId'],
     };
 }
 
