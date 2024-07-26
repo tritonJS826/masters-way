@@ -71,4 +71,8 @@ func (server *Server) SetRoutes(controller *controllers.Controller) {
 			chat.GET("/dev/reset-db", controller.DevController.ResetDB)
 		}
 	}
+
+	if server.cfg.EnvType != "prod" {
+		server.GinServer.GET("/chat/dev/reset-db", controller.DevController.ResetDB)
+	}
 }
