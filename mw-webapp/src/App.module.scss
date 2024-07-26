@@ -1,0 +1,10 @@
+@import "src/styles/variables";
+
+.modalContainer {
+    align-items: center;
+    gap: $gapMedium;
+}
+
+.modalContent {
+    display: none;
+}
