@@ -60,7 +60,9 @@ describe('IsAuth User personal data scope tests', () => {
         userPersonalSelectors.userSkillsBlock.skillsModalContent.getSkillInput().type(userPersonalData.skill);
         userPersonalSelectors.userSkillsBlock.skillsModalContent.getCreateSkillButton().click();
 
-        userPersonalSelectors.userSkillsBlock.skillTag.getSkillTag().should('have.text', userPersonalData.skill);
+        userPersonalSelectors.userSkillsBlock.skillTag.getSkillTag()
+            .should('be.visible')
+            .and('have.text', userPersonalData.skill);
     });
 
 });

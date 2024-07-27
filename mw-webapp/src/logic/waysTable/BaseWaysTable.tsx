@@ -190,6 +190,7 @@ export const BaseWaysTable = observer((props: BaseWaysTableProps) => {
               onClick={() => createWay(user.uuid)}
               buttonType={ButtonType.PRIMARY}
               className={styles.createWayButton}
+              dataCy={userWaysAccessIds.createNewWayButton}
             />
           }
           <HorizontalContainer className={styles.filtersViewBlock}>
@@ -250,7 +251,7 @@ export const BaseWaysTable = observer((props: BaseWaysTableProps) => {
                 <WayCard
                   key={way.uuid}
                   wayPreview={way}
-                  dataCy={userWaysAccessIds.wayCard.ownWayLink(way.name)}
+                  dataCy={userWaysAccessIds.wayCollectionButtonsBlock.wayLink(way.name)}
                 />
               );
             })

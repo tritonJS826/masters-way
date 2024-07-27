@@ -12,6 +12,13 @@
         "2": {
           "title": "alice johnson 2"
         }
+      },
+      "mentoringWaysNumberCollectionButton": "1 Ways",
+      "mentoringWaysNumber": 1,
+      "mentoringWaysTitles": {
+        "1": {
+          "title": "jane smith way"
+        }
       }
     }
   }

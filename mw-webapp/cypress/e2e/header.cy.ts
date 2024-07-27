@@ -94,7 +94,7 @@ describe('IsAuth Header scope tests', () => {
     it('IsAuth_Header_UserNameLink', () => {
         headerSelectors.getAvatar().click();
 
-        cy.url().should('match', new RegExp(testUserData.userUrlPattern));
+        cy.url().should('match', new RegExp(`\\/user\\/${testUserData.urlPattern}`));
         userPersonalSelectors.descriptionSection.getName().should('have.text', testUserData.name);
     });
 

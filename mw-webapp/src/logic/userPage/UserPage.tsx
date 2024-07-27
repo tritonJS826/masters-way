@@ -629,7 +629,7 @@ export const UserPage = observer((props: UserPageProps) => {
               collectionWaysAmount={userPageOwner.defaultWayCollections.own.ways.length}
               onClick={() => setOpenedTabId(userPageOwner.defaultWayCollections.own.uuid)}
               language={language}
-              dataCy={userWaysAccessIds.wayCard.ownWayCollectionCardButton}
+              dataCy={userWaysAccessIds.wayCollectionButtonsBlock.ownWayCollectionButton}
             />
 
             <WayCollectionCard
@@ -638,6 +638,7 @@ export const UserPage = observer((props: UserPageProps) => {
               collectionWaysAmount={userPageOwner.defaultWayCollections.mentoring.ways.length}
               onClick={() => setOpenedTabId(userPageOwner.defaultWayCollections.mentoring.uuid)}
               language={language}
+              dataCy={userWaysAccessIds.wayCollectionButtonsBlock.mentoringWayCollectionButton}
             />
 
             <WayCollectionCard
