@@ -150,7 +150,7 @@ const getGoal = (params: GoalParams) => {
       .map((metric) =>
         `${metric.isDone && metric.doneDate
           ? DateUtils.getShortISODateValue(metric.doneDate)
-          : "Not finished"}: ${metric}`),
+          : "Not finished"}: ${metric.description}`),
   ];
 };
 
@@ -191,7 +191,9 @@ const getStatistics = (dayReports: DayReport[], wayCreatedAt: Date) => {
   const lastCalendarWeekAverageWorkingTime =
     Math.round(lastCalendarWeekTotalTime / amountDaysLastWeek);
 
-  const lastCalendarWeekAverageJobTime = Math.round(lastCalendarWeekTotalTime / lastWeekDayReports.length);
+  const lastCalendarWeekAverageJobTime = lastWeekDayReports.length === 0
+    ? 0
+    : Math.round(lastCalendarWeekTotalTime / lastWeekDayReports.length);
 
   const lastTwoWeekDayReports = dayReports.filter((dayReport) => {
     return dayReport.createdAt > lastMonthDate;
@@ -206,7 +208,9 @@ const getStatistics = (dayReports: DayReport[], wayCreatedAt: Date) => {
   const lastCalendarTwoWeekAverageWorkingTime =
     Math.round(lastCalendarTwoWeekTotalTime / amountDaysLastTwoWeek);
 
-  const lastCalendarTwoWeekAverageJobTime = Math.round(lastCalendarTwoWeekTotalTime / lastTwoWeekDayReports.length);
+  const lastCalendarTwoWeekAverageJobTime = lastTwoWeekDayReports.length === 0
+    ? 0
+    : Math.round(lastCalendarTwoWeekTotalTime / lastTwoWeekDayReports.length);
 
   return [
     {
@@ -250,64 +254,6 @@ const getStatistics = (dayReports: DayReport[], wayCreatedAt: Date) => {
 };
 
 /**
- * Render report date in pdf
- */
-const renderReportDate = (date: Date) => ({
-  text: DateUtils.getShortISODateValue(date),
-  bold: true,
-  margin: [0, MARGIN_MEDIUM, 0, 0],
-});
-
-/**
- * Render title
- */
-const getTitle = (title: string) => ({
-  alignment: "center",
-  text: title,
-  style: "header",
-  bold: true,
-  margin: [0, MARGIN_MEDIUM],
-});
-
-/**
- * Template to render reports
- */
-const getReportsTemplate = (dayReport: DayReport) => {
-
-  /**
-   * TODO: improve template to render reports
-   */
-  return [
-
-    renderReportDate(dayReport.createdAt),
-    {
-      text: "Jobs done:",
-      bold: true,
-      margin: [0, MARGIN_SMALL, 0, 0],
-    },
-    ...dayReport.jobsDone.map(job => `*${job.time} minutes (tags:${job.tags}): ${job.description}`),
-    {
-      text: "Plans:",
-      bold: true,
-      margin: [0, MARGIN_SMALL, 0, 0],
-    },
-    ...dayReport.plans.map(plan => plan.description),
-    {
-      text: "Problems:",
-      bold: true,
-      margin: [0, MARGIN_SMALL, 0, 0],
-    },
-    ...dayReport.problems.map(problem => problem.description),
-    {
-      text: "Comments:",
-      bold: true,
-      margin: [0, MARGIN_SMALL, 0, 0],
-    },
-    ...dayReport.comments.map(comment => comment.description),
-  ];
-};
-
-/**
  *
  * Examples:
  * https://codepen.io/diguifi/pen/YdBbyz
@@ -327,8 +273,6 @@ export const downloadWayPdf = (way: Way) => {
     metrics: way.metrics,
   });
   const statisticsDefinition = getStatistics(way.dayReports, way.createdAt);
-  const dayReportsTitleDefinition = getTitle("Day Reports");
-  const reportDefinitions = way.dayReports.reverse().flatMap(getReportsTemplate);
 
   const docDefinition = {
     content: [
@@ -340,8 +284,6 @@ export const downloadWayPdf = (way: Way) => {
       formerMentorsDefinition,
       goalDefinition,
       statisticsDefinition,
-      dayReportsTitleDefinition,
-      ...reportDefinitions,
     ],
   };
 
