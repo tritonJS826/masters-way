@@ -83,10 +83,10 @@ describe("IsAuth User's ways scope tests", () => {
         cy.visit(testUserData.userLoginLink);
     });
 
-    it.only('IsAuth_UserWays_CreateNewWay', () => {
+    it('IsAuth_UserWays_CreateNewWay', () => {
         userWaysSelectors.getCreateNewWayButton().click();
 
-        cy.url().should('match', new RegExp(testUserData.wayUrlPattern));
+        cy.url().should('match', new RegExp(`\\/way\\/${testUserData.urlPattern}`));
         wayDescriptionSelectors.wayDashBoardLeft.getTitle().should('have.text',`Way of ${testUserData.email}`);
     });
 
