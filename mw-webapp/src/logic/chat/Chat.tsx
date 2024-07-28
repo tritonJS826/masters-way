@@ -252,7 +252,6 @@ export const ChatPage = (props: ChatProps) => {
                       message,
                       roomId: chat.roomId,
                     });
-
                   }}
                   buttonType={ButtonType.PRIMARY}
                 />

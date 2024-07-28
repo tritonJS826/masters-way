@@ -5,7 +5,7 @@
     },
     "paths": {
         "/reset-db": {
-            "post": {
+            "get": {
                 "description": "resets db",
                 "tags": [
                     "dev"

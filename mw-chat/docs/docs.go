@@ -16,7 +16,7 @@ const docTemplate = `{
     "basePath": "{{.BasePath}}",
     "paths": {
         "/reset-db": {
-            "post": {
+            "get": {
                 "description": "resets db",
                 "tags": [
                     "dev"
