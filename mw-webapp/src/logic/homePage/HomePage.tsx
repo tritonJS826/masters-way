@@ -59,16 +59,27 @@ export const HomePage = observer(() => {
             <p className={styles.titleDescription}>
               {LanguageService.home.description[language]}
             </p>
-            <Button
-              onClick={() => {
-                TrackHomePage.startForFreeFirstBlockClicked();
-                getStarted(navigate, user?.uuid);
-              }}
-              buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
-              value={LanguageService.home.startForFreeButton[language]}
-              className={styles.getStartedButton}
-              dataCy={homeAccessIds.welcomeBlock.startButton}
-            />
+            <HorizontalContainer>
+              <Button
+                onClick={() => {
+                  TrackHomePage.startForFreeFirstBlockClicked();
+                  getStarted(navigate, user?.uuid);
+                }}
+                buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
+                value={LanguageService.home.startForFreeButton[language]}
+                className={styles.getStartedButton}
+                dataCy={homeAccessIds.welcomeBlock.startButton}
+              />
+              <Button
+                onClick={() => {
+                  TrackHomePage.viewAllWaysClicked();
+                  navigate(pages.allWays.getPath({}));
+                }}
+                buttonType={ButtonType.SECONDARY}
+                value={LanguageService.home.viewAllWaysButton[language]}
+                className={styles.viewAllWaysButton}
+              />
+            </HorizontalContainer>
           </VerticalContainer>
 
           <VerticalContainer className={styles.videosBlock}>
