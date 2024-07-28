@@ -71,5 +71,4 @@ func (server *Server) SetRoutes(controller *controllers.Controller) {
 			chat.GET("/dev/reset-db", controller.DevController.ResetDB)
 		}
 	}
-
 }
