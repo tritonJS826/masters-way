@@ -230,6 +230,14 @@ func init() {
 // @title     Masters way general API
 // @version 1.0
 // @BasePath  /api
+
+// @Summary Health Check
+// @Description Get the health status of the API
+// @Tags Health
+// @Accept json
+// @Produce json
+// @Success 200 {object} map[string]string
+// @Router /healthcheck [get]
 func main() {
 	defer pgxPool.Close()
 	defer geminiClient.Close()

@@ -3,14 +3,20 @@ import {getDataCy} from "src/utils/cyTesting/getDataCy";
 
 export const userWaysSelectors = {
     wayTitles: {
-        getOwnWayTitle: () => cy.get(getDataCy(userWaysAccessIds.wayStatusTitle)),
+        getWayStatusTitle: () => cy.get(getDataCy(userWaysAccessIds.wayStatusTitle)),
     },
 
-    wayCard: {
-        getWayAmountCollectionCardButton: () => cy.get(getDataCy(userWaysAccessIds.wayCard.wayAmountCollectionCardButton)),
-        getOwnWayCollectionCardButton: () => cy.get(getDataCy(userWaysAccessIds.wayCard.ownWayCollectionCardButton)),
-        getOwnWayCollectionCardButtonMainInfo: () => cy.get(getDataCy(userWaysAccessIds.wayCard.ownWayCollectionCardButtonMainInfo)),
-        getOwnWayLink: (wayTitle: string) => cy.get(getDataCy(userWaysAccessIds.wayCard.ownWayLink(wayTitle))),
-    }
+    wayCollectionButtonsBlock: {
+        getWayAmountCollectionButton: () => cy.get(getDataCy(userWaysAccessIds.wayCollectionButtonsBlock.wayAmountCollectionButton)),
+
+        getWayLink: (wayTitle: string) => cy.get(getDataCy(userWaysAccessIds.wayCollectionButtonsBlock.wayLink(wayTitle))),
+
+        getOwnWayCollectionButton: () => cy.get(getDataCy(userWaysAccessIds.wayCollectionButtonsBlock.ownWayCollectionButton)),
+        getMentoringWayCollectionButton: () => cy.get(getDataCy(userWaysAccessIds.wayCollectionButtonsBlock.mentoringWayCollectionButton)),
+
+        getWayCollectionButtonMainInfo: () => cy.get(getDataCy(userWaysAccessIds.wayCollectionButtonsBlock.wayCollectionButtonMainInfo)),
+    },
+
+    getCreateNewWayButton: () => cy.get(getDataCy(userWaysAccessIds.createNewWayButton))
 
 };

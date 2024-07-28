@@ -114,7 +114,7 @@ export const WayCollectionCard = (props: WayCollectionProps) => {
         <VerticalContainer className={styles.wayCollectionCardContainer}>
           <VerticalContainer
             className={clsx(styles.mainInfo, props.isActive && styles.active)}
-            dataCy={userWaysAccessIds.wayCard.ownWayCollectionCardButtonMainInfo}
+            dataCy={userWaysAccessIds.wayCollectionButtonsBlock.wayCollectionButtonMainInfo}
           >
             <HorizontalContainer className={styles.collectionTitleBlock}>
               <Title
@@ -158,7 +158,7 @@ export const WayCollectionCard = (props: WayCollectionProps) => {
           </VerticalContainer>
           <HorizontalContainer
             className={styles.additionalInfo}
-            dataCy={userWaysAccessIds.wayCard.wayAmountCollectionCardButton}
+            dataCy={userWaysAccessIds.wayCollectionButtonsBlock.wayAmountCollectionButton}
           >
             {`${props.collectionWaysAmount} ${LanguageService.user.collections.ways[props.language]}`}
           </HorizontalContainer>
