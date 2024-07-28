@@ -175,7 +175,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasCreateRoomPayload("RoomType_example") // SchemasCreateRoomPayload | query params
+	request := *openapiclient.NewSchemasCreateRoomPayload("Name_example", "RoomType_example", "UserId_example") // SchemasCreateRoomPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

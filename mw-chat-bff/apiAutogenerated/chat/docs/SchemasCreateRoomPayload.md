@@ -4,15 +4,15 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | Pointer to **NullableString** |  | [optional] 
+**Name** | **NullableString** |  | 
 **RoomType** | **string** |  | 
-**UserId** | Pointer to **NullableString** |  | [optional] 
+**UserId** | **NullableString** |  | 
 
 ## Methods
 
 ### NewSchemasCreateRoomPayload
 
-`func NewSchemasCreateRoomPayload(roomType string, ) *SchemasCreateRoomPayload`
+`func NewSchemasCreateRoomPayload(name NullableString, roomType string, userId NullableString, ) *SchemasCreateRoomPayload`
 
 NewSchemasCreateRoomPayload instantiates a new SchemasCreateRoomPayload object
 This constructor will assign default values to properties that have it defined,
@@ -46,11 +46,6 @@ and a boolean to check if the value has been set.
 
 SetName sets Name field to given value.
 
-### HasName
-
-`func (o *SchemasCreateRoomPayload) HasName() bool`
-
-HasName returns a boolean if a field has been set.
 
 ### SetNameNil
 
@@ -101,11 +96,6 @@ and a boolean to check if the value has been set.
 
 SetUserId sets UserId field to given value.
 
-### HasUserId
-
-`func (o *SchemasCreateRoomPayload) HasUserId() bool`
-
-HasUserId returns a boolean if a field has been set.
 
 ### SetUserIdNil
 

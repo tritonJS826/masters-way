@@ -7,16 +7,6 @@ info:
 servers:
 - url: /
 paths:
-  /reset-db:
-    post:
-      description: resets db
-      responses:
-        "200":
-          content: {}
-          description: OK
-      summary: resets db
-      tags:
-      - dev
   /rooms:
     post:
       operationId: create-room
@@ -206,7 +196,9 @@ components:
           nullable: true
           type: string
       required:
+      - name
       - roomType
+      - userId
       type: object
     schemas.GetChatPreviewResponse:
       example:
