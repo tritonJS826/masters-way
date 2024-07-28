@@ -54,4 +54,3 @@ export * from './SchemasWayPlainResponse';
 export * from './SchemasWayPopulatedResponse';
 export * from './SchemasWayTagResponse';
 export * from './UtilResponseStatusString';
-export * from './SchemasHealthCheckResponse';
