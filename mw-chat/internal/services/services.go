@@ -32,7 +32,7 @@ func NewService(pool *pgxpool.Pool) *Service {
 	queries := db.New(pool)
 	return &Service{
 		RoomService: NewRoomsService(pool, queries),
-		DevService:  NewDevService(queries),
+		DevService:  NewDevService(pool, queries),
 	}
 }
 

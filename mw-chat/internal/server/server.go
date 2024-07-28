@@ -66,9 +66,9 @@ func (server *Server) SetRoutes(controller *controllers.Controller) {
 			rooms.POST("/:roomId/users/:userId", auth.AuthMiddleware(), controller.RoomsController.AddUserToRoom)
 			rooms.DELETE("/:roomId/users/:userId", auth.AuthMiddleware(), controller.RoomsController.DeleteUserFromRoom)
 		}
-	}
 
-	if server.cfg.EnvType != "prod" {
-		server.GinServer.GET("/chat/dev/reset-db", controller.DevController.ResetDB)
+		if server.cfg.EnvType != "prod" {
+			chat.GET("/dev/reset-db", controller.DevController.ResetDB)
+		}
 	}
 }
