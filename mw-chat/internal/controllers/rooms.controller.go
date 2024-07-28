@@ -96,11 +96,11 @@ func (pc *RoomsController) CreateRoom(ctx *gin.Context) {
 		return
 	}
 
-	invitingUserIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	invitingUserUUID := uuid.MustParse(invitingUserIDRaw.(string))
+	creatorIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	creatorUUID := uuid.MustParse(creatorIDRaw.(string))
 
 	params := &services.CreateRoomServiceParams{
-		CreatorUUID:     invitingUserUUID,
+		CreatorUUID:     creatorUUID,
 		InvitedUserUUID: payload.UserID,
 		Name:            payload.Name,
 		Type:            payload.RoomType,
