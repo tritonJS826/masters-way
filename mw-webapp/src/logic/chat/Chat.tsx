@@ -1,14 +1,20 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {DialogClose, DialogContent, DialogOverlay, DialogPortal, DialogTrigger, Root as DialogRoot} from "@radix-ui/react-dialog";
+import clsx from "clsx";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Input, InputType} from "src/component/input/Input";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {ChatDAL, createMessageInGroupParams, RoomType} from "src/dataAccessLogic/ChatDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
+import {userStore} from "src/globalStore/UserStore";
 import {ChatItem} from "src/logic/chat/chatItem/ChatItem";
 import {MessageItem} from "src/logic/chat/messageItem/MessageItem";
+import {Chat} from "src/model/businessModel/Chat";
+import {ChatPreview} from "src/model/businessModelPreview/ChatPreview";
 import {LanguageService} from "src/service/LanguageService";
+import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/logic/chat/Chat.module.scss";
 
 /**
@@ -22,40 +28,68 @@ interface ChatProps {
    */
   isOpen?: boolean;
 
-  /**
-   * Chat
-   * TODO: need to create common model Chat for group and P2p chat
-   */
-  // chat: ChatGroup | null;
-
-  /**
-   * Chat list
-   */
-  // chatList: ChatPreview[];
-
 }
 
 /**
  * Chat component
  */
-export const Chat = (props: ChatProps) => {
+export const ChatPage = (props: ChatProps) => {
+  const [isGroupChatOpen, setIsGroupChatOpen] = useState<boolean>(false);
+  const [chat, setChat] = useState<Chat | null>(null);
+
   const {language} = languageStore;
+  const {user} = userStore;
   const [isOpen, setIsOpen] = useState(props.isOpen ?? false);
   const [message, setMessage] = useState<string>("");
-  // Const [isGroupChatOpen, setIsGroupChatOpen] = useState<boolean>(false);
+  const [groupChatName, setGroupChatName] = useState<string>("");
+  const [chatList, setChatList] = useState<ChatPreview[]>([]);
+  const [isChatHiddenOnMobile, setIsChatHiddenOnMobile] = useState<boolean>(true);
 
   /**
-   * Get chat list
+   * Load active chat
    */
-  // const getChatList = async () => {
-  //   const chatList = isGroupChatOpen
-  //     ? await ChatGroupDAL.getGroupRooms()
-  //     : await ChatP2pDAL.getP2pRooms();
+  const loadActiveChat = async (chatUuid: string) => {
+    const fetchedChat = await ChatDAL.getRoomById(chatUuid);
 
-  //   return chatList;
+    setChat(fetchedChat);
+  };
 
-  //   setIsGroupChatOpen(true);
-  // };
+  /**
+   * Send message
+   */
+  const sendMessage = async (params: createMessageInGroupParams) => {
+    await ChatDAL.createMessageInRoom({
+      message: params.message,
+      roomId: params.roomId,
+    });
+    setMessage("");
+  };
+
+  /**
+   * Load chat list
+   */
+  const loadChatList = async () => {
+    const fetchedChats = isGroupChatOpen
+      ? await ChatDAL.getRooms(RoomType.GROUP)
+      : await ChatDAL.getRooms(RoomType.PRIVATE);
+
+    setChatList(fetchedChats.chatsPreview);
+  };
+
+  /**
+   * Create group chat
+   */
+  const createGroupRoom = async () => {
+    await ChatDAL.createRoom({
+      roomType: RoomType.GROUP,
+      name: groupChatName,
+    });
+    setGroupChatName("");
+  };
+
+  useEffect(() => {
+    loadChatList();
+  }, [isGroupChatOpen]);
 
   return (
     <DialogRoot
@@ -85,12 +119,12 @@ export const Chat = (props: ChatProps) => {
             <HorizontalContainer className={styles.chatHeader}>
               <HorizontalContainer>
                 <Button
-                  onClick={() => {}}
+                  onClick={() => setIsGroupChatOpen(false)}
                   buttonType={ButtonType.SECONDARY}
                   value="Personal chats"
                 />
                 <Button
-                  onClick={() => {}}
+                  onClick={() => setIsGroupChatOpen(true)}
                   buttonType={ButtonType.SECONDARY}
                   value="Group chats"
                 />
@@ -111,98 +145,119 @@ export const Chat = (props: ChatProps) => {
             </HorizontalContainer>
 
             <HorizontalContainer className={styles.chatContactsMessages}>
-              <VerticalContainer className={styles.chatList}>
-                {/* {props.chatList.map((chatItem) => (
-                  <ChatItem
-                    key={chatItem.roomId}
-                    name={chatItem.name}
-                    src={chatItem.src}
-                  />
-                ))
-                } */}
-                <ChatItem
-                  name="Jonnie Joe"
-                  src=""
-                />
-                <ChatItem
-                  name="VeratsennikavaKatsiarynasVeratsennikavaKatsiarynaVeratsennikavaKatsiaryna"
-                  src=""
-                />
+              <VerticalContainer className={clsx(
+                styles.chatList,
+                !isChatHiddenOnMobile && styles.chatListHide,
+              )}
+              >
+                {isGroupChatOpen &&
+                  <>
+                    <Input
+                      value={groupChatName}
+                      onChange={setGroupChatName}
+                      placeholder="Write a name of the chat..."
+                      typeInput={InputType.Border}
+                      onKeyDown={(event: React.KeyboardEvent<HTMLElement>) => {
+                        if (event.key === KeySymbols.ENTER) {
+                          createGroupRoom();
+                        }
+                      }}
+                    />
+                    <Button
+                      onClick={createGroupRoom}
+                      buttonType={ButtonType.SECONDARY}
+                      value="Create new group chat"
+                    />
+                  </>
+                }
+                {chatList.length > 0
+                  ? chatList.map((chatItem) => (
+                    <ChatItem
+                      key={chatItem.roomId}
+                      name={chatItem.roomId}
+                      src={chatItem.src}
+                      onClick={() => {
+                        loadActiveChat(chatItem.roomId);
+                        setIsChatHiddenOnMobile(false);
+                      }}
+                    />
+                  ))
+                  : <div>
+                    No chats
+                  </div>
+                }
               </VerticalContainer>
 
-              <VerticalContainer className={styles.chatBlock}>
-                <HorizontalContainer className={styles.chatInfo}>
-                  <ChatItem
-                    name="VeratsennikavaKatsiarynasVeratsennikavaKatsiarynaVeratsennikavaKatsiaryna"
-                    src=""
-                  />
-
-                  <Button
-                    buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
-                    onClick={() => {}}
-                    icon={
-                      <Icon
-                        size={IconSize.MEDIUM}
-                        name={"MoreVertical"}
+              {chat &&
+                <VerticalContainer className={clsx(
+                  styles.chatBlock,
+                  !isChatHiddenOnMobile && styles.chatBlockOpen,
+                )}
+                >
+                  <HorizontalContainer className={styles.chatInfo}>
+                    <ChatItem
+                      name={chat.name}
+                      src={chat.src}
+                    />
+                    <Button
+                      buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
+                      onClick={() => setIsChatHiddenOnMobile(true)}
+                      icon={
+                        <Icon
+                          size={IconSize.MEDIUM}
+                          name={"MoreVertical"}
+                        />
+                      }
+                    />
+                  </HorizontalContainer>
+                  <VerticalContainer className={styles.messageList}>
+                    {chat.messages.map((messageItem) => (
+                      <MessageItem
+                        key={messageItem.ownerId}
+                        src=""
+                        userName={messageItem.ownerId}
+                        message={
+                          <p>
+                            {messageItem.message}
+                          </p>
+                        }
+                        isOwnMessage={messageItem.ownerId === user?.uuid}
                       />
-                    }
-                  />
-                </HorizontalContainer>
-                <VerticalContainer className={styles.messageList}>
-                  <MessageItem
-                    src=""
-                    userName="sddfsdf sdfds sf"
-                    message={
-                      <p>
-                        Hehehe
-                      </p>
-                    }
-                  />
-                  <MessageItem
-                    src=""
-                    userName="sddfsdf sdfds sf"
-                    message={
-                      <p>
-                        Hehehe
-                      </p>
-                    }
-                    isOwnMessage={true}
-                  />
-                  <MessageItem
-                    src=""
-                    userName="sddfsdf sdfds sf"
-                    message={
-                      <p>
-                        Hehehe
-                      </p>
-                    }
-                  />
-                  <MessageItem
-                    src=""
-                    userName="sddfsdf sdfds sf"
-                    message={
-                      <p>
-                        Hehehe
-                      </p>
-                    }
-                  />
+                    ))}
+                  </VerticalContainer>
                 </VerticalContainer>
-              </VerticalContainer>
+              }
             </HorizontalContainer>
 
-            <HorizontalContainer className={styles.messageInputBlock}>
-              <Input
-                value={message}
-                onChange={setMessage}
-                placeholder="Write a message..."
-                typeInput={InputType.Border}
-              />
-              <Button
-                value="Send"
-                onClick={() => setMessage("")}
-                buttonType={ButtonType.PRIMARY}
-              />
-            </HorizontalContainer>
+            {chat &&
+              <HorizontalContainer className={styles.messageInputBlock}>
+                <Input
+                  value={message}
+                  onChange={setMessage}
+                  placeholder="Write a message..."
+                  typeInput={InputType.Border}
+                  onKeyDown={(event: React.KeyboardEvent<HTMLElement>) => {
+                    if (event.key === KeySymbols.ENTER) {
+                      sendMessage({
+                        message,
+                        roomId: chat.roomId,
+                      });
+                    }
+                  }}
+                />
+                <Button
+                  value="Send"
+                  onClick={() => {
+                    sendMessage({
+                      message,
+                      roomId: chat.roomId,
+                    });
+
+                  }}
+                  buttonType={ButtonType.PRIMARY}
+                />
+              </HorizontalContainer>
+            }
 
           </VerticalContainer>
         </DialogContent>

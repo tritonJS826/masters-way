@@ -25,12 +25,6 @@ export interface SchemasCreateMessagePayload {
      * @memberof SchemasCreateMessagePayload
      */
     message: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof SchemasCreateMessagePayload
-     */
-    roomId: string;
 }
 
 /**
@@ -41,7 +35,6 @@ export function instanceOfSchemasCreateMessagePayload(
 ): boolean {
     let isInstance = true;
     isInstance = isInstance && "message" in value;
-    isInstance = isInstance && "roomId" in value;
 
     return isInstance;
 }
@@ -60,7 +53,6 @@ export function SchemasCreateMessagePayloadFromJSONTyped(
     return {
         
         'message': json['message'],
-        'roomId': json['roomId'],
     };
 }
 
@@ -75,7 +67,6 @@ export function SchemasCreateMessagePayloadToJSON(value?: SchemasCreateMessagePa
     return {
         
         'message': value.message,
-        'roomId': value.roomId,
     };
 }
 

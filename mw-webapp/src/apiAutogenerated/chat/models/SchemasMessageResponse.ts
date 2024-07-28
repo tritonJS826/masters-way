@@ -13,6 +13,13 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { SchemasMessageReaders } from './SchemasMessageReaders';
+import {
+    SchemasMessageReadersFromJSON,
+    SchemasMessageReadersFromJSONTyped,
+    SchemasMessageReadersToJSON,
+} from './SchemasMessageReaders';
+
 /**
  * 
  * @export
@@ -25,6 +32,12 @@ export interface SchemasMessageResponse {
      * @memberof SchemasMessageResponse
      */
     message: string;
+    /**
+     * 
+     * @type {Array<SchemasMessageReaders>}
+     * @memberof SchemasMessageResponse
+     */
+    messageReaders: Array<SchemasMessageReaders>;
     /**
      * 
      * @type {string}
@@ -41,6 +54,7 @@ export function instanceOfSchemasMessageResponse(
 ): boolean {
     let isInstance = true;
     isInstance = isInstance && "message" in value;
+    isInstance = isInstance && "messageReaders" in value;
     isInstance = isInstance && "ownerId" in value;
 
     return isInstance;
@@ -60,6 +74,7 @@ export function SchemasMessageResponseFromJSONTyped(
     return {
         
         'message': json['message'],
+        'messageReaders': ((json['messageReaders'] as Array<any>).map(SchemasMessageReadersFromJSON)),
         'ownerId': json['ownerId'],
     };
 }
@@ -75,6 +90,7 @@ export function SchemasMessageResponseToJSON(value?: SchemasMessageResponse | nu
     return {
         
         'message': value.message,
+        'messageReaders': ((value.messageReaders as Array<any>).map(SchemasMessageReadersToJSON)),
         'ownerId': value.ownerId,
     };
 }

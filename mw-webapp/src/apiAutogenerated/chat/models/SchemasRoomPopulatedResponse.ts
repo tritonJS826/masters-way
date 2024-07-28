@@ -19,6 +19,12 @@ import {
     SchemasMessageResponseFromJSONTyped,
     SchemasMessageResponseToJSON,
 } from './SchemasMessageResponse';
+import type { SchemasUserResponse } from './SchemasUserResponse';
+import {
+    SchemasUserResponseFromJSON,
+    SchemasUserResponseFromJSONTyped,
+    SchemasUserResponseToJSON,
+} from './SchemasUserResponse';
 
 /**
  * 
@@ -43,13 +49,25 @@ export interface SchemasRoomPopulatedResponse {
      * @type {string}
      * @memberof SchemasRoomPopulatedResponse
      */
-    name: string;
+    name: string | null;
     /**
      * 
      * @type {string}
      * @memberof SchemasRoomPopulatedResponse
      */
     roomId: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemasRoomPopulatedResponse
+     */
+    roomType: string;
+    /**
+     * 
+     * @type {Array<SchemasUserResponse>}
+     * @memberof SchemasRoomPopulatedResponse
+     */
+    users: Array<SchemasUserResponse>;
 }
 
 /**
@@ -63,6 +81,8 @@ export function instanceOfSchemasRoomPopulatedResponse(
     isInstance = isInstance && "messages" in value;
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "roomId" in value;
+    isInstance = isInstance && "roomType" in value;
+    isInstance = isInstance && "users" in value;
 
     return isInstance;
 }
@@ -84,6 +104,8 @@ export function SchemasRoomPopulatedResponseFromJSONTyped(
         'messages': ((json['messages'] as Array<any>).map(SchemasMessageResponseFromJSON)),
         'name': json['name'],
         'roomId': json['roomId'],
+        'roomType': json['roomType'],
+        'users': ((json['users'] as Array<any>).map(SchemasUserResponseFromJSON)),
     };
 }
 
@@ -101,6 +123,8 @@ export function SchemasRoomPopulatedResponseToJSON(value?: SchemasRoomPopulatedR
         'messages': ((value.messages as Array<any>).map(SchemasMessageResponseToJSON)),
         'name': value.name,
         'roomId': value.roomId,
+        'roomType': value.roomType,
+        'users': ((value.users as Array<any>).map(SchemasUserResponseToJSON)),
     };
 }
 
