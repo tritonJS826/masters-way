@@ -132,7 +132,7 @@ func (cc *RoomsController) CreateMessage(ctx *gin.Context) {
 
 	roomId := ctx.Param("roomId")
 
-	message, err := cc.RoomsService.CreateMessage(ctx, roomId)
+	message, err := cc.RoomsService.CreateMessage(ctx, payload.Message, roomId)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, &message)

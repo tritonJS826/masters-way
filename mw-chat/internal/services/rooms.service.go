@@ -22,8 +22,6 @@ var ErrPrivateRoomAlreadyExists = errors.New("A private room for these users alr
 type RoomsRepository interface {
 	GetChatPreview(ctx context.Context, userUUID pgtype.UUID) (int64, error)
 	CreateMessage(ctx context.Context, arg db.CreateMessageParams) (db.CreateMessageRow, error)
-	CreateMessageStatus(ctx context.Context, arg db.CreateMessageStatusParams) error
-	CreateRoom(ctx context.Context, arg db.CreateRoomParams) (db.CreateRoomRow, error)
 	GetIsPrivateRoomAlreadyExists(ctx context.Context, arg db.GetIsPrivateRoomAlreadyExistsParams) (bool, error)
 	GetMessagesByRoomUUID(ctx context.Context, roomUuid pgtype.UUID) ([]db.GetMessagesByRoomUUIDRow, error)
 	GetRoomsByUserUUID(ctx context.Context, arg db.GetRoomsByUserUUIDParams) ([]db.GetRoomsByUserUUIDRow, error)
@@ -113,11 +111,11 @@ func (roomsService *RoomsService) GetRoomByUuid(ctx context.Context, userUUID, r
 	}
 
 	messages := lo.Map(messagesRaw, func(dbMessage db.GetMessagesByRoomUUIDRow, i int) schemas.MessageResponse {
-		messageReaders := make([]schemas.MessageReaders, len(dbMessage.MessageStatusUserUuids))
+		messageReaders := make([]schemas.MessageReaders, len(room.UserUuids))
 		for i := range dbMessage.MessageStatusUserUuids {
-			messageReaders[i] = schemas.MessageReaders{
-				UserID:   utils.ConvertPgUUIDToUUID(dbMessage.MessageStatusUserUuids[i]).String(),
-				ReadDate: dbMessage.MessageStatusUpdatedAt[i].Time.Format(utils.DEFAULT_STRING_LAYOUT),
+			users[i] = schemas.UserResponse{
+				UserID: utils.ConvertPgUUIDToUUID(room.UserUuids[i]).String(),
+				Role:   room.UserRoles[i],
 			}
 		}
 

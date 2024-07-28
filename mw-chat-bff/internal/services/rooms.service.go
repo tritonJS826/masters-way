@@ -157,7 +157,7 @@ func (p *RoomsService) CreateRoom(ctx *gin.Context, createRoomPayload *schemas.C
 	}
 	var userId = openapiChat.NullableString{}
 	if createRoomPayload.UserID != nil {
-		name.Set(createRoomPayload.UserID)
+		userId.Set(createRoomPayload.UserID)
 	}
 
 	roomRaw, _, err := ChatApi.RoomAPI.CreateRoom(ctx).Request(openapiChat.SchemasCreateRoomPayload{
@@ -247,8 +247,10 @@ func (p *RoomsService) UpdateRoom(ctx *gin.Context, roomId string) (*schemas.Roo
 	return &roomPopulatedResponse, nil
 }
 
-func (p *RoomsService) CreateMessage(ctx *gin.Context, roomId string) (*schemas.MessageResponse, error) {
-	messageRaw, _, err := ChatApi.RoomAPI.CreateMessageInRoom(ctx, roomId).Execute()
+func (p *RoomsService) CreateMessage(ctx *gin.Context, messageText, roomId string) (*schemas.MessageResponse, error) {
+	messageRaw, _, err := ChatApi.RoomAPI.CreateMessageInRoom(ctx, roomId).Request(openapiChat.SchemasCreateMessagePayload{
+		Message: messageText,
+	}).Execute()
 	if err != nil {
 		return &schemas.MessageResponse{}, err
 	}
