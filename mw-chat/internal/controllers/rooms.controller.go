@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"mwchat/internal/auth"
 	"mwchat/internal/schemas"
 	"mwchat/internal/services"
@@ -107,7 +106,6 @@ func (pc *RoomsController) CreateRoom(ctx *gin.Context) {
 		Type:            payload.RoomType,
 	}
 	newP2PRoom, err := pc.roomService.CreateRoom(ctx, params)
-	fmt.Println(newP2PRoom, err)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, newP2PRoom)
