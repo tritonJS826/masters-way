@@ -152,9 +152,13 @@ func (p *RoomsService) GetRoomById(ctx *gin.Context, roomUuid string) (*schemas.
 
 func (p *RoomsService) CreateRoom(ctx *gin.Context, createRoomPayload *schemas.CreateRoomPayload) (*schemas.RoomPopulatedResponse, error) {
 	var name = openapiChat.NullableString{}
-	name.Set(createRoomPayload.Name)
+	if createRoomPayload.Name != nil {
+		name.Set(createRoomPayload.Name)
+	}
 	var userId = openapiChat.NullableString{}
-	name.Set(createRoomPayload.UserID)
+	if createRoomPayload.UserID != nil {
+		name.Set(createRoomPayload.UserID)
+	}
 
 	roomRaw, _, err := ChatApi.RoomAPI.CreateRoom(ctx).Request(openapiChat.SchemasCreateRoomPayload{
 		Name:     name,
