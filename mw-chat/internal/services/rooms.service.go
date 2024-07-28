@@ -22,6 +22,8 @@ var ErrPrivateRoomAlreadyExists = errors.New("A private room for these users alr
 type RoomsRepository interface {
 	GetChatPreview(ctx context.Context, userUUID pgtype.UUID) (int64, error)
 	CreateMessage(ctx context.Context, arg db.CreateMessageParams) (db.CreateMessageRow, error)
+	CreateMessageStatus(ctx context.Context, arg db.CreateMessageStatusParams) error
+	CreateRoom(ctx context.Context, arg db.CreateRoomParams) (db.CreateRoomRow, error)
 	GetIsPrivateRoomAlreadyExists(ctx context.Context, arg db.GetIsPrivateRoomAlreadyExistsParams) (bool, error)
 	GetMessagesByRoomUUID(ctx context.Context, roomUuid pgtype.UUID) ([]db.GetMessagesByRoomUUIDRow, error)
 	GetRoomsByUserUUID(ctx context.Context, arg db.GetRoomsByUserUUIDParams) ([]db.GetRoomsByUserUUIDRow, error)
@@ -111,11 +113,11 @@ func (roomsService *RoomsService) GetRoomByUuid(ctx context.Context, userUUID, r
 	}
 
 	messages := lo.Map(messagesRaw, func(dbMessage db.GetMessagesByRoomUUIDRow, i int) schemas.MessageResponse {
-		messageReaders := make([]schemas.MessageReaders, len(room.UserUuids))
+		messageReaders := make([]schemas.MessageReaders, len(dbMessage.MessageStatusUserUuids))
 		for i := range dbMessage.MessageStatusUserUuids {
-			users[i] = schemas.UserResponse{
-				UserID: utils.ConvertPgUUIDToUUID(room.UserUuids[i]).String(),
-				Role:   room.UserRoles[i],
+			messageReaders[i] = schemas.MessageReaders{
+				UserID:   utils.ConvertPgUUIDToUUID(dbMessage.MessageStatusUserUuids[i]).String(),
+				ReadDate: dbMessage.MessageStatusUpdatedAt[i].Time.Format(utils.DEFAULT_STRING_LAYOUT),
 			}
 		}
 
@@ -256,9 +258,11 @@ func (roomsService *RoomsService) CreateMessage(ctx context.Context, messagePara
 
 	qtx := roomsService.roomsRepository.WithTx(tx)
 
+	roomPgUUID := pgtype.UUID{Bytes: messageParams.RoomUUID, Valid: true}
+
 	createMessageParams := db.CreateMessageParams{
 		OwnerUuid: pgtype.UUID{Bytes: messageParams.OwnerUUID, Valid: true},
-		RoomUuid:  pgtype.UUID{Bytes: messageParams.RoomUUID, Valid: true},
+		RoomUuid:  roomPgUUID,
 		Text:      messageParams.Text,
 	}
 
@@ -268,8 +272,9 @@ func (roomsService *RoomsService) CreateMessage(ctx context.Context, messagePara
 	}
 
 	messageStatusParams := db.CreateMessageStatusParams{
-		MessageUuid:  message.Uuid,
-		ReceiverUuid: message.OwnerUuid,
+		RoomUuid:    roomPgUUID,
+		MessageUuid: message.Uuid,
+		UserUuid:    message.OwnerUuid,
 	}
 	err = qtx.CreateMessageStatus(ctx, messageStatusParams)
 	if err != nil {

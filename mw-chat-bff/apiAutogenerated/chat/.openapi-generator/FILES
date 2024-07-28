@@ -2,9 +2,11 @@
 .travis.yml
 README.md
 api/openapi.yaml
+api_dev.go
 api_room.go
 client.go
 configuration.go
+docs/DevAPI.md
 docs/RoomAPI.md
 docs/SchemasCreateMessagePayload.md
 docs/SchemasCreateRoomPayload.md
@@ -28,4 +30,5 @@ model_schemas_room_populated_response.go
 model_schemas_room_preview_response.go
 model_schemas_user_response.go
 response.go
+test/api_dev_test.go
 utils.go

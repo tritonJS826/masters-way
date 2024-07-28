@@ -16,6 +16,7 @@ import (
 
 type Server struct {
 	GinServer *gin.Engine
+	cfg       *config.Config
 }
 
 func NewServer(cfg *config.Config) *Server {
@@ -41,6 +42,7 @@ func NewServer(cfg *config.Config) *Server {
 
 	return &Server{
 		GinServer: server,
+		cfg:       cfg,
 	}
 }
 
@@ -63,6 +65,10 @@ func (server *Server) SetRoutes(controller *controllers.Controller) {
 
 			rooms.POST("/:roomId/users/:userId", auth.AuthMiddleware(), controller.RoomsController.AddUserToRoom)
 			rooms.DELETE("/:roomId/users/:userId", auth.AuthMiddleware(), controller.RoomsController.DeleteUserFromRoom)
+		}
+
+		if server.cfg.EnvType != "prod" {
+			chat.GET("/dev/reset-db", controller.DevController.ResetDB)
 		}
 	}
 }

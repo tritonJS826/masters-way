@@ -78,6 +78,7 @@ All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*DevAPI* | [**ResetDbPost**](docs/DevAPI.md#resetdbpost) | **Post** /reset-db | resets db
 *RoomAPI* | [**AddUserToRoom**](docs/RoomAPI.md#addusertoroom) | **Post** /rooms/{roomId}/users/{userId} | Add user to room
 *RoomAPI* | [**CreateMessageInRoom**](docs/RoomAPI.md#createmessageinroom) | **Post** /rooms/{roomId}/messages | Create message in room
 *RoomAPI* | [**CreateRoom**](docs/RoomAPI.md#createroom) | **Post** /rooms | Create room for user
