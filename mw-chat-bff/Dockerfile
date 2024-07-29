@@ -1,5 +1,5 @@
 FROM golang:1.22-alpine
-WORKDIR /mw-chat-websocket
+WORKDIR /mw-chat-bff
 COPY . .
 RUN apk add --no-cache make
 RUN go mod download

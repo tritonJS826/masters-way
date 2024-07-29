@@ -104,6 +104,11 @@ interface InputProps<T extends string | number> {
    * @default 'editable'
    */
   typeInput?: InputType;
+
+  /**
+   * Callback on Enter triggered
+   */
+  onKeyDown?: (event: React.KeyboardEvent<HTMLElement>) => void;
 }
 
 /**
@@ -159,6 +164,7 @@ export const Input = <T extends string | number>(props: InputProps<T>) => {
         autoFocus={!!props.autoFocus}
         onChange={onChange}
         data-cy={props.dataCy}
+        onKeyDown={props.onKeyDown}
       />
     </div>
   );

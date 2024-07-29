@@ -12,16 +12,23 @@ import (
 )
 
 const createMessageStatus = `-- name: CreateMessageStatus :exec
-INSERT INTO message_status (message_uuid, receiver_uuid)
-VALUES ($1, $2)
+WITH room_users AS (
+    SELECT user_uuid
+    FROM users_rooms
+    WHERE room_uuid = $2 AND user_uuid != $3
+)
+INSERT INTO message_status (message_uuid, receiver_uuid, is_read)
+SELECT $1, user_uuid, false
+FROM room_users
 `
 
 type CreateMessageStatusParams struct {
-	MessageUuid  pgtype.UUID `json:"message_uuid"`
-	ReceiverUuid pgtype.UUID `json:"receiver_uuid"`
+	MessageUuid pgtype.UUID `json:"message_uuid"`
+	RoomUuid    pgtype.UUID `json:"room_uuid"`
+	UserUuid    pgtype.UUID `json:"user_uuid"`
 }
 
 func (q *Queries) CreateMessageStatus(ctx context.Context, arg CreateMessageStatusParams) error {
-	_, err := q.db.Exec(ctx, createMessageStatus, arg.MessageUuid, arg.ReceiverUuid)
+	_, err := q.db.Exec(ctx, createMessageStatus, arg.MessageUuid, arg.RoomUuid, arg.UserUuid)
 	return err
 }

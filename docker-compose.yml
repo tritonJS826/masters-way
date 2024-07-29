@@ -71,7 +71,9 @@ services:
     ports:
       - "443:443"
     volumes:
-      - ./gateway/local.nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./gateway/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ../server.key:/etc/nginx/server.key
+      - ../server.crt:/etc/nginx/server.crt
     depends_on:
       - mw-server
       - mw-chat

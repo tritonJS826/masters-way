@@ -16,56 +16,56 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface SchemasRequestToGroupRoom
+ * @interface SchemasMessageReaders
  */
-export interface SchemasRequestToGroupRoom {
+export interface SchemasMessageReaders {
     /**
      * 
      * @type {string}
-     * @memberof SchemasRequestToGroupRoom
+     * @memberof SchemasMessageReaders
      */
-    roomId: string;
+    readDate: string;
     /**
      * 
      * @type {string}
-     * @memberof SchemasRequestToGroupRoom
+     * @memberof SchemasMessageReaders
      */
-    senderId: string;
+    userId: string;
 }
 
 /**
- * Check if a given object implements the SchemasRequestToGroupRoom interface.
+ * Check if a given object implements the SchemasMessageReaders interface.
  */
-export function instanceOfSchemasRequestToGroupRoom(
+export function instanceOfSchemasMessageReaders(
     value: object
 ): boolean {
     let isInstance = true;
-    isInstance = isInstance && "roomId" in value;
-    isInstance = isInstance && "senderId" in value;
+    isInstance = isInstance && "readDate" in value;
+    isInstance = isInstance && "userId" in value;
 
     return isInstance;
 }
 
-export function SchemasRequestToGroupRoomFromJSON(json: any): SchemasRequestToGroupRoom {
-    return SchemasRequestToGroupRoomFromJSONTyped(json, false);
+export function SchemasMessageReadersFromJSON(json: any): SchemasMessageReaders {
+    return SchemasMessageReadersFromJSONTyped(json, false);
 }
 
-export function SchemasRequestToGroupRoomFromJSONTyped(
+export function SchemasMessageReadersFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): SchemasRequestToGroupRoom {
+): SchemasMessageReaders {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'roomId': json['roomId'],
-        'senderId': json['senderId'],
+        'readDate': json['readDate'],
+        'userId': json['userId'],
     };
 }
 
 
-export function SchemasRequestToGroupRoomToJSON(value?: SchemasRequestToGroupRoom | null): any {
+export function SchemasMessageReadersToJSON(value?: SchemasMessageReaders | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -74,8 +74,8 @@ export function SchemasRequestToGroupRoomToJSON(value?: SchemasRequestToGroupRoo
     }
     return {
         
-        'roomId': value.roomId,
-        'senderId': value.senderId,
+        'readDate': value.readDate,
+        'userId': value.userId,
     };
 }
 

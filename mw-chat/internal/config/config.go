@@ -11,6 +11,7 @@ type Config struct {
 	WebappBaseUrl string `mapstructure:"WEBAPP_BASE_URL"`
 	EnvType       string `mapstructure:"ENV_TYPE"`
 	DbSource      string `mapstructure:"DB_SOURCE"`
+	ChatBaseUrl   string `mapstructure:"CHAT_BASE_URL"`
 }
 
 func LoadConfig(path string) (config Config, err error) {

@@ -17,9 +17,7 @@ definitions:
         type: string
         x-nullable: true
     required:
-    - name
     - roomType
-    - userId
     type: object
   schemas.GetChatPreviewResponse:
     properties:
@@ -124,6 +122,15 @@ definitions:
 info:
   contact: {}
 paths:
+  /reset-db:
+    get:
+      description: resets db
+      responses:
+        "200":
+          description: OK
+      summary: resets db
+      tags:
+      - dev
   /rooms:
     post:
       consumes:

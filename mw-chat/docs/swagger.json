@@ -4,6 +4,20 @@
         "contact": {}
     },
     "paths": {
+        "/reset-db": {
+            "get": {
+                "description": "resets db",
+                "tags": [
+                    "dev"
+                ],
+                "summary": "resets db",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
         "/rooms": {
             "post": {
                 "consumes": [
@@ -285,9 +299,7 @@
         "schemas.CreateRoomPayload": {
             "type": "object",
             "required": [
-                "name",
-                "roomType",
-                "userId"
+                "roomType"
             ],
             "properties": {
                 "name": {

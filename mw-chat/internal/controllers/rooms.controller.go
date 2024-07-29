@@ -4,7 +4,6 @@ import (
 	"mwchat/internal/auth"
 	"mwchat/internal/schemas"
 	"mwchat/internal/services"
-	util "mwchat/internal/utils"
 	"mwchat/pkg/utils"
 	"net/http"
 
@@ -16,7 +15,7 @@ type RoomsController struct {
 	roomService services.RoomService
 }
 
-func NewP2PRoomsController(roomService services.RoomService) *RoomsController {
+func NewRoomsController(roomService services.RoomService) *RoomsController {
 	return &RoomsController{roomService: roomService}
 }
 
@@ -33,7 +32,7 @@ func (cc *RoomsController) GetChatPreview(ctx *gin.Context) {
 	userUUID := uuid.MustParse(userIDRaw.(string))
 
 	chatPreview, err := cc.roomService.GetChatPreview(ctx, userUUID)
-	util.HandleErrorGin(ctx, err)
+	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, chatPreview)
 }
@@ -97,11 +96,11 @@ func (pc *RoomsController) CreateRoom(ctx *gin.Context) {
 		return
 	}
 
-	invitingUserIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	invitingUserUUID := uuid.MustParse(invitingUserIDRaw.(string))
+	creatorIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	creatorUUID := uuid.MustParse(creatorIDRaw.(string))
 
 	params := &services.CreateRoomServiceParams{
-		CreatorUUID:     invitingUserUUID,
+		CreatorUUID:     creatorUUID,
 		InvitedUserUUID: payload.UserID,
 		Name:            payload.Name,
 		Type:            payload.RoomType,

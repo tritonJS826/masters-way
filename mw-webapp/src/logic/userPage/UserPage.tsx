@@ -21,6 +21,7 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {WayCollectionCard} from "src/component/wayCollectionCard/WayCollectionCard";
+import {ChatDAL, RoomType} from "src/dataAccessLogic/ChatDAL";
 import {FavoriteUserDAL} from "src/dataAccessLogic/FavoriteUserDAL";
 import {UserDAL} from "src/dataAccessLogic/UserDAL";
 import {UserTagDAL} from "src/dataAccessLogic/UserTagDAL";
@@ -311,7 +312,12 @@ export const UserPage = observer((props: UserPageProps) => {
                 size={AvatarSize.LARGE}
               />
               <Button
-                onClick={() => { }}
+                onClick={async () => {
+                  await ChatDAL.createRoom({
+                    roomType: RoomType.PRIVATE,
+                    userId: userPageOwner.uuid,
+                  });
+                }}
                 buttonType={ButtonType.SECONDARY}
                 value="Write to connect"
               />

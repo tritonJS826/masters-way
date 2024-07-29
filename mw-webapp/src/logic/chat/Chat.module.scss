@@ -95,9 +95,23 @@ $modal-animation-time: 150ms;
   overflow-y: auto;
 }
 
+.chatListHide {
+  @media (max-width: $mediaWidthMobileBig) {
+    display: none;
+  }
+}
+
 .chatBlock {
   flex: 2;
   background-color: var(--secondaryBgColor);
+
+  @media (max-width: $mediaWidthMobileBig) {
+    display: none;
+  }
+}
+
+.chatBlockOpen {
+  display: flex;
 }
 
 .chatInfo {

@@ -1,6 +1,7 @@
 package server
 
 import (
+	"mw-chat-bff/internal/auth"
 	"mw-chat-bff/internal/config"
 	"mw-chat-bff/internal/controllers"
 	"net/http"
@@ -22,8 +23,7 @@ func NewServer(cfg *config.Config) *Server {
 
 	// Apply CORS middleware with custom options
 	server.Use(cors.New(cors.Config{
-		// AllowOrigins: []string{"*"},
-		AllowOrigins:     []string{cfg.WebappBaseUrl},
+		AllowOrigins:     []string{"*"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length"},
@@ -49,8 +49,7 @@ func NewServer(cfg *config.Config) *Server {
 func (server *Server) SetRoutes(controller *controllers.Controller) {
 	chat := server.GinServer.Group("/chat")
 	{
-
-		rooms := chat.Group("/rooms")
+		rooms := chat.Group("/rooms", auth.HandleHeaders())
 		{
 			rooms.GET("/preview", controller.RoomsController.GetChatPreview)
 

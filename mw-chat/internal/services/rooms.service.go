@@ -111,11 +111,11 @@ func (roomsService *RoomsService) GetRoomByUuid(ctx context.Context, userUUID, r
 	}
 
 	messages := lo.Map(messagesRaw, func(dbMessage db.GetMessagesByRoomUUIDRow, i int) schemas.MessageResponse {
-		messageReaders := make([]schemas.MessageReaders, len(room.UserUuids))
+		messageReaders := make([]schemas.MessageReaders, len(dbMessage.MessageStatusUserUuids))
 		for i := range dbMessage.MessageStatusUserUuids {
-			users[i] = schemas.UserResponse{
-				UserID: utils.ConvertPgUUIDToUUID(room.UserUuids[i]).String(),
-				Role:   room.UserRoles[i],
+			messageReaders[i] = schemas.MessageReaders{
+				UserID:   utils.ConvertPgUUIDToUUID(dbMessage.MessageStatusUserUuids[i]).String(),
+				ReadDate: dbMessage.MessageStatusUpdatedAt[i].Time.Format(utils.DEFAULT_STRING_LAYOUT),
 			}
 		}
 
@@ -256,9 +256,11 @@ func (roomsService *RoomsService) CreateMessage(ctx context.Context, messagePara
 
 	qtx := roomsService.roomsRepository.WithTx(tx)
 
+	roomPgUUID := pgtype.UUID{Bytes: messageParams.RoomUUID, Valid: true}
+
 	createMessageParams := db.CreateMessageParams{
 		OwnerUuid: pgtype.UUID{Bytes: messageParams.OwnerUUID, Valid: true},
-		RoomUuid:  pgtype.UUID{Bytes: messageParams.RoomUUID, Valid: true},
+		RoomUuid:  roomPgUUID,
 		Text:      messageParams.Text,
 	}
 
@@ -268,8 +270,9 @@ func (roomsService *RoomsService) CreateMessage(ctx context.Context, messagePara
 	}
 
 	messageStatusParams := db.CreateMessageStatusParams{
-		MessageUuid:  message.Uuid,
-		ReceiverUuid: message.OwnerUuid,
+		RoomUuid:    roomPgUUID,
+		MessageUuid: message.Uuid,
+		UserUuid:    message.OwnerUuid,
 	}
 	err = qtx.CreateMessageStatus(ctx, messageStatusParams)
 	if err != nil {
