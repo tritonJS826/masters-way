@@ -8,6 +8,7 @@ apis/FavoriteUserApi.ts
 apis/FavoriteUserWayApi.ts
 apis/FromUserMentoringRequestApi.ts
 apis/GeminiApi.ts
+apis/HealthApi.ts
 apis/JobDoneApi.ts
 apis/JobDoneJobTagApi.ts
 apis/JobTagApi.ts
