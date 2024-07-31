@@ -85,6 +85,11 @@ interface EditableTextProps<T> {
    */
   minLength?: number;
 
+  /**
+   * Maximum symbols amount for text
+   */
+  maxLength?: number;
+
 }
 
 /**
@@ -116,12 +121,21 @@ export const EditableText = <T extends string | number>(props: EditableTextProps
    * Update value
    */
   const updateValue = (updatedValue: T) => {
-    const isInvalidTextLength = typeof updatedValue === "string" &&
-      props.minLength && updatedValue.length < props.minLength;
+    const isExceedingMinLength = typeof updatedValue === "string" &&
+    props.minLength && updatedValue.length < props.minLength;
+
+    const isExceedingMaxLength = typeof updatedValue === "string" &&
+    props.maxLength && updatedValue.length > props.maxLength;
+
+    const isInvalidTextLength = isExceedingMinLength || isExceedingMaxLength;
+
+    const notificationText = isExceedingMinLength
+      ? "Label should include at least one character"
+      : "Label should not exceed 30 characters";
 
     isInvalidTextLength
       ? displayNotification({
-        text: "label should include at least one character",
+        text: notificationText,
         type: NotificationType.INFO,
       })
       : setValue(updatedValue);
