@@ -127,19 +127,18 @@ export const EditableText = <T extends string | number>(props: EditableTextProps
     const isExceedingMaxLength = typeof updatedValue === "string" &&
     props.maxLength && updatedValue.length > props.maxLength;
 
-    if (isExceedingMinLength) {
-      displayNotification({
-        text: "Label should include at least one character",
+    const isInvalidTextLength = isExceedingMinLength || isExceedingMaxLength;
+
+    const notificationText = isExceedingMinLength
+      ? "Label should include at least one character"
+      : "Label should not exceed 30 characters";
+
+    isInvalidTextLength
+      ? displayNotification({
+        text: notificationText,
         type: NotificationType.INFO,
-      });
-    } else if (isExceedingMaxLength) {
-      displayNotification({
-        text: "Label should not exceed 30 characters",
-        type: NotificationType.INFO,
-      });
-    } else {
-      setValue(updatedValue);
-    }
+      })
+      : setValue(updatedValue);
   };
 
   /**
