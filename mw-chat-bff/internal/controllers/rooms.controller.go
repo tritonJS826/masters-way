@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"mw-chat-bff/internal/auth"
 	"mw-chat-bff/internal/schemas"
 	"mw-chat-bff/internal/services"
@@ -11,6 +12,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/samber/lo"
 )
+
+const RoomTypePrivate string = "private"
+const RoomTypeGroup string = "group"
 
 type RoomsController struct {
 	roomsService services.IRoomsService
@@ -45,7 +49,7 @@ func (cc *RoomsController) GetChatPreview(ctx *gin.Context) {
 // @ID get-rooms
 // @Accept  json
 // @Produce  json
-// @Param roomType path string true "room type: private, group"
+// @Param roomType path string true "room type: private | group" Enums(private, group)
 // @Success 200 {object} schemas.GetRoomsResponse
 // @Router /rooms/list/{roomType} [get]
 func (cc *RoomsController) GetRooms(ctx *gin.Context) {
@@ -65,15 +69,20 @@ func (cc *RoomsController) GetRooms(ctx *gin.Context) {
 
 	rooms.Rooms = lo.Map(rooms.Rooms, func(room schemas.RoomPreviewResponse, _ int) schemas.RoomPreviewResponse {
 		room.Users = lo.Map(room.Users, func(user schemas.UserResponse, _ int) schemas.UserResponse {
-			if populatedUser, ok := populatedUserMap[user.UserID]; ok {
-				user.Name = populatedUser.Name
-				user.ImageURL = populatedUser.ImageURL
+			populatedUser, ok := populatedUserMap[user.UserID]
+			if !ok {
+				util.HandleErrorGin(ctx, fmt.Errorf("User with ID %s not found in the general service", user.UserID))
 			}
+
+			user.Name = populatedUser.Name
+			user.ImageURL = populatedUser.ImageURL
+
 			return user
 		})
 
-		if room.RoomType == "private" {
-			room.Name = getPrivateRoomName(ctx, room.Users)
+		if room.RoomType == RoomTypePrivate {
+			room.Name, err = getPrivateRoomName(ctx, room.Users)
+			util.HandleErrorGin(ctx, err)
 		}
 
 		return room
@@ -105,10 +114,13 @@ func (cc *RoomsController) GetRoomById(ctx *gin.Context) {
 	util.HandleErrorGin(ctx, err)
 
 	room.Users = lo.Map(room.Users, func(user schemas.UserResponse, _ int) schemas.UserResponse {
-		if populatedUser, ok := populatedUserMap[user.UserID]; ok {
-			user.Name = populatedUser.Name
-			user.ImageURL = populatedUser.ImageURL
+		populatedUser, ok := populatedUserMap[user.UserID]
+		if !ok {
+			util.HandleErrorGin(ctx, fmt.Errorf("User with ID %s not found in the general service", user.UserID))
 		}
+
+		user.Name = populatedUser.Name
+		user.ImageURL = populatedUser.ImageURL
 		return user
 	})
 
@@ -120,8 +132,9 @@ func (cc *RoomsController) GetRoomById(ctx *gin.Context) {
 		return message
 	})
 
-	if room.RoomType == "private" {
-		room.Name = getPrivateRoomName(ctx, room.Users)
+	if room.RoomType == RoomTypePrivate {
+		room.Name, err = getPrivateRoomName(ctx, room.Users)
+		util.HandleErrorGin(ctx, err)
 	}
 
 	ctx.JSON(http.StatusOK, &room)
@@ -155,15 +168,19 @@ func (cc *RoomsController) CreateRoom(ctx *gin.Context) {
 	util.HandleErrorGin(ctx, err)
 
 	room.Users = lo.Map(room.Users, func(user schemas.UserResponse, _ int) schemas.UserResponse {
-		if populatedUser, ok := populatedUserMap[user.UserID]; ok {
-			user.Name = populatedUser.Name
-			user.ImageURL = populatedUser.ImageURL
+		populatedUser, ok := populatedUserMap[user.UserID]
+		if !ok {
+			util.HandleErrorGin(ctx, fmt.Errorf("User with ID %s not found in the general service", user.UserID))
 		}
+
+		user.Name = populatedUser.Name
+		user.ImageURL = populatedUser.ImageURL
 		return user
 	})
 
-	if room.RoomType == "private" {
-		room.Name = getPrivateRoomName(ctx, room.Users)
+	if room.RoomType == RoomTypePrivate {
+		room.Name, err = getPrivateRoomName(ctx, room.Users)
+		util.HandleErrorGin(ctx, err)
 	}
 
 	ctx.JSON(http.StatusOK, &room)
@@ -224,6 +241,14 @@ func (cc *RoomsController) CreateMessage(ctx *gin.Context) {
 		message.OwnerImageURL = populatedUser.ImageURL
 	}
 
+	populatedUser, ok := populatedUserMap[message.OwnerID]
+	if !ok {
+		util.HandleErrorGin(ctx, fmt.Errorf("User with ID %s not found in the general service", message.OwnerID))
+	}
+
+	message.OwnerName = populatedUser.Name
+	message.OwnerImageURL = populatedUser.ImageURL
+
 	message.Readers = lo.Map(message.Readers, func(reader schemas.MessageReader, _ int) schemas.MessageReader {
 		if populatedUser, ok := populatedUserMap[reader.UserID]; ok {
 			reader.Name = populatedUser.Name
@@ -275,12 +300,20 @@ func (cc *RoomsController) DeleteUserFromRoom(ctx *gin.Context) {
 	ctx.Status(http.StatusOK)
 }
 
-func getPrivateRoomName(ctx *gin.Context, users []schemas.UserResponse) string {
-	currentUserID, _ := ctx.Get(auth.ContextKeyUserID)
-	for _, user := range users {
-		if user.UserID != currentUserID.(string) {
-			return user.Name
-		}
+func getPrivateRoomName(ctx *gin.Context, users []schemas.UserResponse) (string, error) {
+	if len(users) != 2 {
+		return "", fmt.Errorf("a private room must contain exactly 2 users, got %d", len(users))
 	}
-	return ""
+
+	currentUserIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	currentUserID := currentUserIDRaw.(string)
+	if users[0].UserID != currentUserID {
+		return users[0].Name, nil
+	}
+
+	if users[1].UserID != currentUserID {
+		return users[1].Name, nil
+	}
+
+	return "", fmt.Errorf("current user ID %s does not match any of the provided users", currentUserID)
 }

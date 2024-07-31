@@ -16,18 +16,12 @@ func NewUsersService(generalAPI *openapiGeneral.APIClient) *UsersService {
 }
 
 func (usersService *UsersService) GetChatUsers(ctx *gin.Context, userIDs []string) (map[string]PopulatedUser, error) {
-	payload := lo.Map(userIDs, func(userID string, _ int) openapiGeneral.SchemasChatUserPayload {
-		return openapiGeneral.SchemasChatUserPayload{
-			UserId: userID,
-		}
-	})
-
-	chatUsersData, _, err := usersService.generalAPI.UserAPI.GetChatUsersByUuids(ctx).Request(payload).Execute()
+	chatUsersData, _, err := usersService.generalAPI.UserAPI.GetUsersByIds(ctx).Request(userIDs).Execute()
 	if err != nil {
 		return nil, err
 	}
 
-	userMap := lo.SliceToMap(chatUsersData, func(userData openapiGeneral.SchemasChatUserResponse) (string, PopulatedUser) {
+	userMap := lo.SliceToMap(chatUsersData, func(userData openapiGeneral.SchemasGetUsersByIDsResponse) (string, PopulatedUser) {
 		return userData.UserId, PopulatedUser{
 			UserID:   userData.UserId,
 			Name:     userData.Name,

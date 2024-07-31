@@ -78,6 +78,10 @@ const docTemplate = `{
                 "operationId": "get-rooms",
                 "parameters": [
                     {
+                        "enum": [
+                            "private",
+                            "group"
+                        ],
                         "type": "string",
                         "description": "room type: private | group",
                         "name": "roomType",

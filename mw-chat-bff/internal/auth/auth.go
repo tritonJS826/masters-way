@@ -10,8 +10,9 @@ import (
 	"github.com/golang-jwt/jwt"
 )
 
-const ContextKeyAuthorization = "ContextKeyAuthorization"
 const HeaderKeyAuthorization = "Authorization"
+
+const ContextKeyAuthorization = "ContextKeyAuthorization"
 const ContextKeyUserID = "userID"
 
 type Claims struct {

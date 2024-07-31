@@ -47,6 +47,9 @@ paths:
         name: roomType
         required: true
         schema:
+          enum:
+          - private
+          - group
           type: string
       responses:
         "200":

@@ -21,5 +21,5 @@ func (cr *UserRoutes) UserRoute(rg *gin.RouterGroup) {
 	router.GET("/:userId", cr.userController.GetUserById)
 	router.PATCH("/:userId", auth.AuthMiddleware(), cr.userController.UpdateUser)
 
-	router.GET("/chat", auth.AuthMiddleware(), cr.userController.GetChatUsers)
+	router.GET("/list-by-ids", auth.AuthMiddleware(), cr.userController.GetUsersByIDs)
 }

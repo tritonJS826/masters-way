@@ -20,7 +20,7 @@ func (t *authTransport) RoundTrip(req *http.Request) (*http.Response, error) {
 	return t.rt.RoundTrip(req)
 }
 
-func NewGeneralAPIConfig(cfg *config.Config) *openapiGeneral.Configuration {
+func MakeGeneralAPIConfig(cfg *config.Config) *openapiGeneral.Configuration {
 	return &openapiGeneral.Configuration{
 		Host:   cfg.GeneralAPIHost,
 		Scheme: "http",
@@ -36,12 +36,12 @@ func NewGeneralAPIConfig(cfg *config.Config) *openapiGeneral.Configuration {
 	}
 }
 
-func NewGeneralAPIClient(cfg *config.Config) *openapiGeneral.APIClient {
-	generalAPIConfig := NewGeneralAPIConfig(cfg)
+func MakeGeneralAPIClient(cfg *config.Config) *openapiGeneral.APIClient {
+	generalAPIConfig := MakeGeneralAPIConfig(cfg)
 	return openapiGeneral.NewAPIClient(generalAPIConfig)
 }
 
-func NewChatAPIConfig(cfg *config.Config) *openapiChat.Configuration {
+func MakeChatAPIConfig(cfg *config.Config) *openapiChat.Configuration {
 	return &openapiChat.Configuration{
 		Host:   cfg.ChatAPIHost,
 		Scheme: "http",
@@ -57,7 +57,7 @@ func NewChatAPIConfig(cfg *config.Config) *openapiChat.Configuration {
 	}
 }
 
-func NewChatAPIClient(cfg *config.Config) *openapiChat.APIClient {
-	chatAPIConfig := NewChatAPIConfig(cfg)
+func MakeChatAPIClient(cfg *config.Config) *openapiChat.APIClient {
+	chatAPIConfig := MakeChatAPIConfig(cfg)
 	return openapiChat.NewAPIClient(chatAPIConfig)
 }

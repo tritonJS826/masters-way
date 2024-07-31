@@ -1060,15 +1060,15 @@ paths:
       summary: Get all users
       tags:
       - user
-  /users/chat:
+  /users/list-by-ids:
     get:
-      operationId: get-chat-users-by-uuids
+      operationId: get-users-by-ids
       requestBody:
         content:
           application/json:
             schema:
               items:
-                $ref: '#/components/schemas/schemas.ChatUserPayload'
+                type: string
               type: array
         description: query params
         required: true
@@ -1078,10 +1078,10 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/schemas.ChatUserResponse'
+                  $ref: '#/components/schemas/schemas.GetUsersByIDsResponse'
                 type: array
           description: OK
-      summary: Get chat users by UUIDs
+      summary: Get users by ids
       tags:
       - user
       x-codegen-request-body-name: request
@@ -1406,30 +1406,6 @@ components:
       required:
       - childWayUuid
       - parentWayUuid
-      type: object
-    schemas.ChatUserPayload:
-      properties:
-        userId:
-          type: string
-      required:
-      - userId
-      type: object
-    schemas.ChatUserResponse:
-      example:
-        imageUrl: imageUrl
-        name: name
-        userId: userId
-      properties:
-        imageUrl:
-          type: string
-        name:
-          type: string
-        userId:
-          type: string
-      required:
-      - imageUrl
-      - name
-      - userId
       type: object
     schemas.CommentPopulatedResponse:
       example:
@@ -2376,6 +2352,23 @@ components:
       required:
       - size
       - ways
+      type: object
+    schemas.GetUsersByIDsResponse:
+      example:
+        imageUrl: imageUrl
+        name: name
+        userId: userId
+      properties:
+        imageUrl:
+          type: string
+        name:
+          type: string
+        userId:
+          type: string
+      required:
+      - imageUrl
+      - name
+      - userId
       type: object
     schemas.JobDonePopulatedResponse:
       example:

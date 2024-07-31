@@ -280,6 +280,9 @@ paths:
       operationId: get-rooms
       parameters:
       - description: 'room type: private | group'
+        enum:
+        - private
+        - group
         in: path
         name: roomType
         required: true

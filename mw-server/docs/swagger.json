@@ -1683,7 +1683,7 @@
                 }
             }
         },
-        "/users/chat": {
+        "/users/list-by-ids": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -1694,8 +1694,8 @@
                 "tags": [
                     "user"
                 ],
-                "summary": "Get chat users by UUIDs",
-                "operationId": "get-chat-users-by-uuids",
+                "summary": "Get users by ids",
+                "operationId": "get-users-by-ids",
                 "parameters": [
                     {
                         "description": "query params",
@@ -1705,7 +1705,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/schemas.ChatUserPayload"
+                                "type": "string"
                             }
                         }
                     }
@@ -1716,7 +1716,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/schemas.ChatUserResponse"
+                                "$ref": "#/definitions/schemas.GetUsersByIDsResponse"
                             }
                         }
                     }
@@ -2220,36 +2220,6 @@
                     "type": "string"
                 },
                 "parentWayUuid": {
-                    "type": "string"
-                }
-            }
-        },
-        "schemas.ChatUserPayload": {
-            "type": "object",
-            "required": [
-                "userId"
-            ],
-            "properties": {
-                "userId": {
-                    "type": "string"
-                }
-            }
-        },
-        "schemas.ChatUserResponse": {
-            "type": "object",
-            "required": [
-                "imageUrl",
-                "name",
-                "userId"
-            ],
-            "properties": {
-                "imageUrl": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "userId": {
                     "type": "string"
                 }
             }
@@ -2824,6 +2794,25 @@
                     "items": {
                         "$ref": "#/definitions/schemas.WayPlainResponse"
                     }
+                }
+            }
+        },
+        "schemas.GetUsersByIDsResponse": {
+            "type": "object",
+            "required": [
+                "imageUrl",
+                "name",
+                "userId"
+            ],
+            "properties": {
+                "imageUrl": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "string"
                 }
             }
         },

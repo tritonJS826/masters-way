@@ -10,26 +10,6 @@ definitions:
     - childWayUuid
     - parentWayUuid
     type: object
-  schemas.ChatUserPayload:
-    properties:
-      userId:
-        type: string
-    required:
-    - userId
-    type: object
-  schemas.ChatUserResponse:
-    properties:
-      imageUrl:
-        type: string
-      name:
-        type: string
-      userId:
-        type: string
-    required:
-    - imageUrl
-    - name
-    - userId
-    type: object
   schemas.CommentPopulatedResponse:
     properties:
       createdAt:
@@ -422,6 +402,19 @@ definitions:
     required:
     - size
     - ways
+    type: object
+  schemas.GetUsersByIDsResponse:
+    properties:
+      imageUrl:
+        type: string
+      name:
+        type: string
+      userId:
+        type: string
+    required:
+    - imageUrl
+    - name
+    - userId
     type: object
   schemas.JobDonePopulatedResponse:
     properties:
@@ -2121,11 +2114,11 @@ paths:
       summary: Update user by UUID
       tags:
       - user
-  /users/chat:
+  /users/list-by-ids:
     get:
       consumes:
       - application/json
-      operationId: get-chat-users-by-uuids
+      operationId: get-users-by-ids
       parameters:
       - description: query params
         in: body
@@ -2133,7 +2126,7 @@ paths:
         required: true
         schema:
           items:
-            $ref: '#/definitions/schemas.ChatUserPayload'
+            type: string
           type: array
       produces:
       - application/json
@@ -2142,9 +2135,9 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/schemas.ChatUserResponse'
+              $ref: '#/definitions/schemas.GetUsersByIDsResponse'
             type: array
-      summary: Get chat users by UUIDs
+      summary: Get users by ids
       tags:
       - user
   /wayCollectionWays:

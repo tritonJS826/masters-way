@@ -5,8 +5,8 @@ All URIs are relative to */api*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**GetAllUsers**](UserAPI.md#GetAllUsers) | **Get** /users | Get all users
-[**GetChatUsersByUuids**](UserAPI.md#GetChatUsersByUuids) | **Get** /users/chat | Get chat users by UUIDs
 [**GetUserByUuid**](UserAPI.md#GetUserByUuid) | **Get** /users/{userId} | Get user by UUID
+[**GetUsersByIds**](UserAPI.md#GetUsersByIds) | **Get** /users/list-by-ids | Get users by ids
 [**UpdateUser**](UserAPI.md#UpdateUser) | **Patch** /users/{userId} | Update user by UUID
 
 
@@ -85,70 +85,6 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## GetChatUsersByUuids
-
-> []SchemasChatUserResponse GetChatUsersByUuids(ctx).Request(request).Execute()
-
-Get chat users by UUIDs
-
-### Example
-
-```go
-package main
-
-import (
-	"context"
-	"fmt"
-	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
-)
-
-func main() {
-	request := []openapiclient.SchemasChatUserPayload{*openapiclient.NewSchemasChatUserPayload("UserId_example")} // []SchemasChatUserPayload | query params
-
-	configuration := openapiclient.NewConfiguration()
-	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.UserAPI.GetChatUsersByUuids(context.Background()).Request(request).Execute()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `UserAPI.GetChatUsersByUuids``: %v\n", err)
-		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-	}
-	// response from `GetChatUsersByUuids`: []SchemasChatUserResponse
-	fmt.Fprintf(os.Stdout, "Response from `UserAPI.GetChatUsersByUuids`: %v\n", resp)
-}
-```
-
-### Path Parameters
-
-
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiGetChatUsersByUuidsRequest struct via the builder pattern
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **request** | [**[]SchemasChatUserPayload**](SchemasChatUserPayload.md) | query params | 
-
-### Return type
-
-[**[]SchemasChatUserResponse**](SchemasChatUserResponse.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: application/json
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
 ## GetUserByUuid
 
 > SchemasUserPopulatedResponse GetUserByUuid(ctx, userId).Execute()
@@ -210,6 +146,70 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetUsersByIds
+
+> []SchemasGetUsersByIDsResponse GetUsersByIds(ctx).Request(request).Execute()
+
+Get users by ids
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	request := []string{"Property_example"} // []string | query params
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.UserAPI.GetUsersByIds(context.Background()).Request(request).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `UserAPI.GetUsersByIds``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetUsersByIds`: []SchemasGetUsersByIDsResponse
+	fmt.Fprintf(os.Stdout, "Response from `UserAPI.GetUsersByIds`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetUsersByIdsRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request** | **[]string** | query params | 
+
+### Return type
+
+[**[]SchemasGetUsersByIDsResponse**](SchemasGetUsersByIDsResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

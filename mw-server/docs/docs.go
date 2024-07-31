@@ -1691,7 +1691,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/users/chat": {
+        "/users/list-by-ids": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -1702,8 +1702,8 @@ const docTemplate = `{
                 "tags": [
                     "user"
                 ],
-                "summary": "Get chat users by UUIDs",
-                "operationId": "get-chat-users-by-uuids",
+                "summary": "Get users by ids",
+                "operationId": "get-users-by-ids",
                 "parameters": [
                     {
                         "description": "query params",
@@ -1713,7 +1713,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/schemas.ChatUserPayload"
+                                "type": "string"
                             }
                         }
                     }
@@ -1724,7 +1724,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/schemas.ChatUserResponse"
+                                "$ref": "#/definitions/schemas.GetUsersByIDsResponse"
                             }
                         }
                     }
@@ -2228,36 +2228,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "parentWayUuid": {
-                    "type": "string"
-                }
-            }
-        },
-        "schemas.ChatUserPayload": {
-            "type": "object",
-            "required": [
-                "userId"
-            ],
-            "properties": {
-                "userId": {
-                    "type": "string"
-                }
-            }
-        },
-        "schemas.ChatUserResponse": {
-            "type": "object",
-            "required": [
-                "imageUrl",
-                "name",
-                "userId"
-            ],
-            "properties": {
-                "imageUrl": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "userId": {
                     "type": "string"
                 }
             }
@@ -2832,6 +2802,25 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/schemas.WayPlainResponse"
                     }
+                }
+            }
+        },
+        "schemas.GetUsersByIDsResponse": {
+            "type": "object",
+            "required": [
+                "imageUrl",
+                "name",
+                "userId"
+            ],
+            "properties": {
+                "imageUrl": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "string"
                 }
             }
         },

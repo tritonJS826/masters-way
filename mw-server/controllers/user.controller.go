@@ -190,32 +190,32 @@ func (cc *UserController) GetAllUsers(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, schemas.GetAllUsersResponse{Size: usersSize, Users: response})
 }
 
-// @Summary Get chat users by UUIDs
+// @Summary Get users by ids
 // @Description
 // @Tags user
-// @ID get-chat-users-by-uuids
+// @ID get-users-by-ids
 // @Accept  json
 // @Produce  json
-// @Param request body []schemas.ChatUserPayload true "query params"
-// @Success 200 {object} []schemas.ChatUserResponse
-// @Router /users/chat [get]
-func (cc *UserController) GetChatUsers(ctx *gin.Context) {
-	var payload []schemas.ChatUserPayload
+// @Param request body []string true "query params"
+// @Success 200 {object} []schemas.GetUsersByIDsResponse
+// @Router /users/list-by-ids [get]
+func (cc *UserController) GetUsersByIDs(ctx *gin.Context) {
+	var payload []string
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	usersPgUUIDs := lo.Map(payload, func(userId schemas.ChatUserPayload, i int) pgtype.UUID {
-		return pgtype.UUID{Bytes: uuid.MustParse(userId.UserID), Valid: true}
+	usersPgUUIDs := lo.Map(payload, func(userID string, i int) pgtype.UUID {
+		return pgtype.UUID{Bytes: uuid.MustParse(userID), Valid: true}
 	})
 
 	dbUsers, err := cc.db.GetUsersByIds(ctx, usersPgUUIDs)
 	util.HandleErrorGin(ctx, err)
 
-	response := lo.Map(dbUsers, func(dbUser db.GetUsersByIdsRow, i int) schemas.ChatUserResponse {
-		return schemas.ChatUserResponse{
+	response := lo.Map(dbUsers, func(dbUser db.GetUsersByIdsRow, i int) schemas.GetUsersByIDsResponse {
+		return schemas.GetUsersByIDsResponse{
 			UserID:   util.ConvertPgUUIDToUUID(dbUser.Uuid).String(),
 			Name:     dbUser.Name,
 			ImageURL: dbUser.ImageUrl,

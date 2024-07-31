@@ -290,7 +290,10 @@ paths:
       - application/json
       operationId: get-rooms
       parameters:
-      - description: 'room type: private, group'
+      - description: 'room type: private | group'
+        enum:
+        - private
+        - group
         in: path
         name: roomType
         required: true

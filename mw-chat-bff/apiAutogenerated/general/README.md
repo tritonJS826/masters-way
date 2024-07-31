@@ -126,8 +126,8 @@ Class | Method | HTTP request | Description
 *ToUserMentoringRequestAPI* | [**CreateUserMentoringRequest**](docs/ToUserMentoringRequestAPI.md#createusermentoringrequest) | **Post** /toUserMentoringRequests | Create a new userMentoringRequest
 *ToUserMentoringRequestAPI* | [**DeleteToUserMentoringRequest**](docs/ToUserMentoringRequestAPI.md#deletetousermentoringrequest) | **Delete** /toUserMentoringRequests/{userUuid}/{wayUuid} | Delete toUserMentoringReques by UUID
 *UserAPI* | [**GetAllUsers**](docs/UserAPI.md#getallusers) | **Get** /users | Get all users
-*UserAPI* | [**GetChatUsersByUuids**](docs/UserAPI.md#getchatusersbyuuids) | **Get** /users/chat | Get chat users by UUIDs
 *UserAPI* | [**GetUserByUuid**](docs/UserAPI.md#getuserbyuuid) | **Get** /users/{userId} | Get user by UUID
+*UserAPI* | [**GetUsersByIds**](docs/UserAPI.md#getusersbyids) | **Get** /users/list-by-ids | Get users by ids
 *UserAPI* | [**UpdateUser**](docs/UserAPI.md#updateuser) | **Patch** /users/{userId} | Update user by UUID
 *UserTagAPI* | [**CreateUserTag**](docs/UserTagAPI.md#createusertag) | **Post** /userTags | Create a new userTag
 *UserTagAPI* | [**DeleteUserTag**](docs/UserTagAPI.md#deleteusertag) | **Delete** /userTags/{userTagId}/{userId} | Delete userTag by UUID
@@ -148,8 +148,6 @@ Class | Method | HTTP request | Description
 ## Documentation For Models
 
  - [SchemasAddWayToCompositeWayPayload](docs/SchemasAddWayToCompositeWayPayload.md)
- - [SchemasChatUserPayload](docs/SchemasChatUserPayload.md)
- - [SchemasChatUserResponse](docs/SchemasChatUserResponse.md)
  - [SchemasCommentPopulatedResponse](docs/SchemasCommentPopulatedResponse.md)
  - [SchemasCompositeWayRelation](docs/SchemasCompositeWayRelation.md)
  - [SchemasCreateCommentPayload](docs/SchemasCreateCommentPayload.md)
@@ -178,6 +176,7 @@ Class | Method | HTTP request | Description
  - [SchemasGenerateMetricsPayload](docs/SchemasGenerateMetricsPayload.md)
  - [SchemasGetAllUsersResponse](docs/SchemasGetAllUsersResponse.md)
  - [SchemasGetAllWaysResponse](docs/SchemasGetAllWaysResponse.md)
+ - [SchemasGetUsersByIDsResponse](docs/SchemasGetUsersByIDsResponse.md)
  - [SchemasJobDonePopulatedResponse](docs/SchemasJobDonePopulatedResponse.md)
  - [SchemasJobTagResponse](docs/SchemasJobTagResponse.md)
  - [SchemasMetricResponse](docs/SchemasMetricResponse.md)

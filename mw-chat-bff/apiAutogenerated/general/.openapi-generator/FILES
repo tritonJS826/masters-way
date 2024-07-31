@@ -50,8 +50,6 @@ docs/PlanJobTagAPI.md
 docs/ProblemAPI.md
 docs/ProblemJobTagAPI.md
 docs/SchemasAddWayToCompositeWayPayload.md
-docs/SchemasChatUserPayload.md
-docs/SchemasChatUserResponse.md
 docs/SchemasCommentPopulatedResponse.md
 docs/SchemasCompositeWayRelation.md
 docs/SchemasCreateCommentPayload.md
@@ -80,6 +78,7 @@ docs/SchemasDeleteMentorUserWayPayload.md
 docs/SchemasGenerateMetricsPayload.md
 docs/SchemasGetAllUsersResponse.md
 docs/SchemasGetAllWaysResponse.md
+docs/SchemasGetUsersByIDsResponse.md
 docs/SchemasJobDonePopulatedResponse.md
 docs/SchemasJobTagResponse.md
 docs/SchemasMetricResponse.md
@@ -116,8 +115,6 @@ git_push.sh
 go.mod
 go.sum
 model_schemas_add_way_to_composite_way_payload.go
-model_schemas_chat_user_payload.go
-model_schemas_chat_user_response.go
 model_schemas_comment_populated_response.go
 model_schemas_composite_way_relation.go
 model_schemas_create_comment_payload.go
@@ -146,6 +143,7 @@ model_schemas_delete_mentor_user_way_payload.go
 model_schemas_generate_metrics_payload.go
 model_schemas_get_all_users_response.go
 model_schemas_get_all_ways_response.go
+model_schemas_get_users_by_ids_response.go
 model_schemas_job_done_populated_response.go
 model_schemas_job_tag_response.go
 model_schemas_metric_response.go

@@ -61,11 +61,7 @@ type GetAllUsersResponse struct {
 	Users []UserPlainResponseWithInfo `json:"users" validate:"required"`
 }
 
-type ChatUserPayload struct {
-	UserID string `json:"userId" validate:"required"`
-}
-
-type ChatUserResponse struct {
+type GetUsersByIDsResponse struct {
 	UserID   string `json:"userId" validate:"required"`
 	Name     string `json:"name" validate:"required"`
 	ImageURL string `json:"imageUrl" validate:"required"`

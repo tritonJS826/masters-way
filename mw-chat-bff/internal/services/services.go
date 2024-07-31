@@ -29,8 +29,8 @@ type Service struct {
 }
 
 func NewService(configuration *config.Config) *Service {
-	var chatApi = openapi.NewChatAPIClient(configuration)
-	var generalApi = openapi.NewGeneralAPIClient(configuration)
+	var chatApi = openapi.MakeChatAPIClient(configuration)
+	var generalApi = openapi.MakeGeneralAPIClient(configuration)
 
 	return &Service{
 		IRoomsService: NewRoomsService(chatApi),
