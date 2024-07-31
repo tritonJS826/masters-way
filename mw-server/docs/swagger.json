@@ -1683,6 +1683,46 @@
                 }
             }
         },
+        "/users/chat": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Get chat users by UUIDs",
+                "operationId": "get-chat-users-by-uuids",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/schemas.ChatUserPayload"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/schemas.ChatUserResponse"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/users/{userId}": {
             "get": {
                 "consumes": [
@@ -2180,6 +2220,36 @@
                     "type": "string"
                 },
                 "parentWayUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.ChatUserPayload": {
+            "type": "object",
+            "required": [
+                "userId"
+            ],
+            "properties": {
+                "userId": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.ChatUserResponse": {
+            "type": "object",
+            "required": [
+                "imageUrl",
+                "name",
+                "userId"
+            ],
+            "properties": {
+                "imageUrl": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "userId": {
                     "type": "string"
                 }
             }

@@ -11,6 +11,7 @@ api_favorite_user.go
 api_favorite_user_way.go
 api_from_user_mentoring_request.go
 api_gemini.go
+api_health.go
 api_job_done.go
 api_job_done_job_tag.go
 api_job_tag.go
@@ -38,6 +39,7 @@ docs/FavoriteUserAPI.md
 docs/FavoriteUserWayAPI.md
 docs/FromUserMentoringRequestAPI.md
 docs/GeminiAPI.md
+docs/HealthAPI.md
 docs/JobDoneAPI.md
 docs/JobDoneJobTagAPI.md
 docs/JobTagAPI.md
@@ -48,6 +50,8 @@ docs/PlanJobTagAPI.md
 docs/ProblemAPI.md
 docs/ProblemJobTagAPI.md
 docs/SchemasAddWayToCompositeWayPayload.md
+docs/SchemasChatUserPayload.md
+docs/SchemasChatUserResponse.md
 docs/SchemasCommentPopulatedResponse.md
 docs/SchemasCompositeWayRelation.md
 docs/SchemasCreateCommentPayload.md
@@ -112,6 +116,8 @@ git_push.sh
 go.mod
 go.sum
 model_schemas_add_way_to_composite_way_payload.go
+model_schemas_chat_user_payload.go
+model_schemas_chat_user_response.go
 model_schemas_comment_populated_response.go
 model_schemas_composite_way_relation.go
 model_schemas_create_comment_payload.go

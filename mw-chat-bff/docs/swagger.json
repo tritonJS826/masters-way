@@ -333,13 +333,22 @@
                 }
             }
         },
-        "schemas.MessageReaders": {
+        "schemas.MessageReader": {
             "type": "object",
             "required": [
+                "ownerImageUrl",
+                "ownerName",
                 "readDate",
                 "userId"
             ],
             "properties": {
+                "ownerImageUrl": {
+                    "type": "string"
+                },
+                "ownerName": {
+                    "type": "string",
+                    "x-nullable": true
+                },
                 "readDate": {
                     "type": "string"
                 },
@@ -353,7 +362,9 @@
             "required": [
                 "message",
                 "messageReaders",
-                "ownerId"
+                "ownerId",
+                "ownerImageUrl",
+                "ownerName"
             ],
             "properties": {
                 "message": {
@@ -362,11 +373,18 @@
                 "messageReaders": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.MessageReaders"
+                        "$ref": "#/definitions/schemas.MessageReader"
                     }
                 },
                 "ownerId": {
                     "type": "string"
+                },
+                "ownerImageUrl": {
+                    "type": "string"
+                },
+                "ownerName": {
+                    "type": "string",
+                    "x-nullable": true
                 }
             }
         },
@@ -391,8 +409,7 @@
                     }
                 },
                 "name": {
-                    "type": "string",
-                    "x-nullable": true
+                    "type": "string"
                 },
                 "roomId": {
                     "type": "string"
@@ -414,6 +431,7 @@
                 "isBlocked",
                 "name",
                 "roomId",
+                "roomType",
                 "users"
             ],
             "properties": {
@@ -421,10 +439,12 @@
                     "type": "boolean"
                 },
                 "name": {
-                    "type": "string",
-                    "x-nullable": true
+                    "type": "string"
                 },
                 "roomId": {
+                    "type": "string"
+                },
+                "roomType": {
                     "type": "string"
                 },
                 "users": {
@@ -438,10 +458,18 @@
         "schemas.UserResponse": {
             "type": "object",
             "required": [
+                "imageUrl",
+                "name",
                 "role",
                 "userId"
             ],
             "properties": {
+                "imageUrl": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
                 "role": {
                     "type": "string"
                 },

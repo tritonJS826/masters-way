@@ -2,15 +2,17 @@
 .travis.yml
 README.md
 api/openapi.yaml
+api_dev.go
 api_room.go
 client.go
 configuration.go
+docs/DevAPI.md
 docs/RoomAPI.md
 docs/SchemasCreateMessagePayload.md
 docs/SchemasCreateRoomPayload.md
 docs/SchemasGetChatPreviewResponse.md
 docs/SchemasGetRoomsResponse.md
-docs/SchemasMessageReaders.md
+docs/SchemasMessageReader.md
 docs/SchemasMessageResponse.md
 docs/SchemasRoomPopulatedResponse.md
 docs/SchemasRoomPreviewResponse.md
@@ -22,7 +24,7 @@ model_schemas_create_message_payload.go
 model_schemas_create_room_payload.go
 model_schemas_get_chat_preview_response.go
 model_schemas_get_rooms_response.go
-model_schemas_message_readers.go
+model_schemas_message_reader.go
 model_schemas_message_response.go
 model_schemas_room_populated_response.go
 model_schemas_room_preview_response.go

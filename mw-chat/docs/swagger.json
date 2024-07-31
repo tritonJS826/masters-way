@@ -344,7 +344,7 @@
                 }
             }
         },
-        "schemas.MessageReaders": {
+        "schemas.MessageReader": {
             "type": "object",
             "required": [
                 "readDate",
@@ -373,7 +373,7 @@
                 "messageReaders": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.MessageReaders"
+                        "$ref": "#/definitions/schemas.MessageReader"
                     }
                 },
                 "ownerId": {
@@ -425,6 +425,7 @@
                 "isBlocked",
                 "name",
                 "roomId",
+                "roomType",
                 "users"
             ],
             "properties": {
@@ -436,6 +437,9 @@
                     "x-nullable": true
                 },
                 "roomId": {
+                    "type": "string"
+                },
+                "roomType": {
                     "type": "string"
                 },
                 "users": {

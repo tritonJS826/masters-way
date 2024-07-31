@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   contact: {}
   description: ""
-  title: Masters way API
+  title: Masters way general API
   version: "1.0"
 servers:
 - url: /api
@@ -426,6 +426,21 @@ paths:
       tags:
       - gemini
       x-codegen-request-body-name: request
+  /healthcheck:
+    get:
+      description: Get the health status of the API
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+          description: OK
+      summary: Health Check
+      tags:
+      - Health
   /jobDoneJobTags:
     post:
       operationId: create-jobDoneJobTag
@@ -1045,6 +1060,31 @@ paths:
       summary: Get all users
       tags:
       - user
+  /users/chat:
+    get:
+      operationId: get-chat-users-by-uuids
+      requestBody:
+        content:
+          application/json:
+            schema:
+              items:
+                $ref: '#/components/schemas/schemas.ChatUserPayload'
+              type: array
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/schemas.ChatUserResponse'
+                type: array
+          description: OK
+      summary: Get chat users by UUIDs
+      tags:
+      - user
+      x-codegen-request-body-name: request
   /users/{userId}:
     get:
       operationId: get-user-by-uuid
@@ -1366,6 +1406,30 @@ components:
       required:
       - childWayUuid
       - parentWayUuid
+      type: object
+    schemas.ChatUserPayload:
+      properties:
+        userId:
+          type: string
+      required:
+      - userId
+      type: object
+    schemas.ChatUserResponse:
+      example:
+        imageUrl: imageUrl
+        name: name
+        userId: userId
+      properties:
+        imageUrl:
+          type: string
+        name:
+          type: string
+        userId:
+          type: string
+      required:
+      - imageUrl
+      - name
+      - userId
       type: object
     schemas.CommentPopulatedResponse:
       example:

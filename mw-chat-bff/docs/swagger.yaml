@@ -38,13 +38,20 @@ definitions:
     - rooms
     - size
     type: object
-  schemas.MessageReaders:
+  schemas.MessageReader:
     properties:
+      ownerImageUrl:
+        type: string
+      ownerName:
+        type: string
+        x-nullable: true
       readDate:
         type: string
       userId:
         type: string
     required:
+    - ownerImageUrl
+    - ownerName
     - readDate
     - userId
     type: object
@@ -54,14 +61,21 @@ definitions:
         type: string
       messageReaders:
         items:
-          $ref: '#/definitions/schemas.MessageReaders'
+          $ref: '#/definitions/schemas.MessageReader'
         type: array
       ownerId:
         type: string
+      ownerImageUrl:
+        type: string
+      ownerName:
+        type: string
+        x-nullable: true
     required:
     - message
     - messageReaders
     - ownerId
+    - ownerImageUrl
+    - ownerName
     type: object
   schemas.RoomPopulatedResponse:
     properties:
@@ -73,7 +87,6 @@ definitions:
         type: array
       name:
         type: string
-        x-nullable: true
       roomId:
         type: string
       roomType:
@@ -96,8 +109,9 @@ definitions:
         type: boolean
       name:
         type: string
-        x-nullable: true
       roomId:
+        type: string
+      roomType:
         type: string
       users:
         items:
@@ -107,15 +121,22 @@ definitions:
     - isBlocked
     - name
     - roomId
+    - roomType
     - users
     type: object
   schemas.UserResponse:
     properties:
+      imageUrl:
+        type: string
+      name:
+        type: string
       role:
         type: string
       userId:
         type: string
     required:
+    - imageUrl
+    - name
     - role
     - userId
     type: object

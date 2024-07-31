@@ -99,6 +99,7 @@ Class | Method | HTTP request | Description
 *FromUserMentoringRequestAPI* | [**CreateFromUserMentoringRequest**](docs/FromUserMentoringRequestAPI.md#createfromusermentoringrequest) | **Post** /fromUserMentoringRequests | Create a new fromUserMentoringRequest
 *FromUserMentoringRequestAPI* | [**DeleteFromUserMentoringRequest**](docs/FromUserMentoringRequestAPI.md#deletefromusermentoringrequest) | **Delete** /fromUserMentoringRequests/{userUuid}/{wayUuid} | Delete fromUserMentoringRequest by UUID
 *GeminiAPI* | [**GenerateMetrics**](docs/GeminiAPI.md#generatemetrics) | **Post** /gemini/metrics | Generate metrics using Gemini
+*HealthAPI* | [**HealthcheckGet**](docs/HealthAPI.md#healthcheckget) | **Get** /healthcheck | Health Check
 *JobDoneAPI* | [**CreateJobDone**](docs/JobDoneAPI.md#createjobdone) | **Post** /jobDones | Create a new jobDone
 *JobDoneAPI* | [**DeleteJobDone**](docs/JobDoneAPI.md#deletejobdone) | **Delete** /jobDones/{jobDoneId} | Delete jobDone by UUID
 *JobDoneAPI* | [**UpdateJobDone**](docs/JobDoneAPI.md#updatejobdone) | **Patch** /jobDones/{jobDoneId} | Update jobDone by UUID
@@ -125,6 +126,7 @@ Class | Method | HTTP request | Description
 *ToUserMentoringRequestAPI* | [**CreateUserMentoringRequest**](docs/ToUserMentoringRequestAPI.md#createusermentoringrequest) | **Post** /toUserMentoringRequests | Create a new userMentoringRequest
 *ToUserMentoringRequestAPI* | [**DeleteToUserMentoringRequest**](docs/ToUserMentoringRequestAPI.md#deletetousermentoringrequest) | **Delete** /toUserMentoringRequests/{userUuid}/{wayUuid} | Delete toUserMentoringReques by UUID
 *UserAPI* | [**GetAllUsers**](docs/UserAPI.md#getallusers) | **Get** /users | Get all users
+*UserAPI* | [**GetChatUsersByUuids**](docs/UserAPI.md#getchatusersbyuuids) | **Get** /users/chat | Get chat users by UUIDs
 *UserAPI* | [**GetUserByUuid**](docs/UserAPI.md#getuserbyuuid) | **Get** /users/{userId} | Get user by UUID
 *UserAPI* | [**UpdateUser**](docs/UserAPI.md#updateuser) | **Patch** /users/{userId} | Update user by UUID
 *UserTagAPI* | [**CreateUserTag**](docs/UserTagAPI.md#createusertag) | **Post** /userTags | Create a new userTag
@@ -146,6 +148,8 @@ Class | Method | HTTP request | Description
 ## Documentation For Models
 
  - [SchemasAddWayToCompositeWayPayload](docs/SchemasAddWayToCompositeWayPayload.md)
+ - [SchemasChatUserPayload](docs/SchemasChatUserPayload.md)
+ - [SchemasChatUserResponse](docs/SchemasChatUserResponse.md)
  - [SchemasCommentPopulatedResponse](docs/SchemasCommentPopulatedResponse.md)
  - [SchemasCompositeWayRelation](docs/SchemasCompositeWayRelation.md)
  - [SchemasCreateCommentPayload](docs/SchemasCreateCommentPayload.md)

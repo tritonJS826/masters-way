@@ -189,3 +189,38 @@ func (cc *UserController) GetAllUsers(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, schemas.GetAllUsersResponse{Size: usersSize, Users: response})
 }
+
+// @Summary Get chat users by UUIDs
+// @Description
+// @Tags user
+// @ID get-chat-users-by-uuids
+// @Accept  json
+// @Produce  json
+// @Param request body []schemas.ChatUserPayload true "query params"
+// @Success 200 {object} []schemas.ChatUserResponse
+// @Router /users/chat [get]
+func (cc *UserController) GetChatUsers(ctx *gin.Context) {
+	var payload []schemas.ChatUserPayload
+
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	usersPgUUIDs := lo.Map(payload, func(userId schemas.ChatUserPayload, i int) pgtype.UUID {
+		return pgtype.UUID{Bytes: uuid.MustParse(userId.UserID), Valid: true}
+	})
+
+	dbUsers, err := cc.db.GetUsersByIds(ctx, usersPgUUIDs)
+	util.HandleErrorGin(ctx, err)
+
+	response := lo.Map(dbUsers, func(dbUser db.GetUsersByIdsRow, i int) schemas.ChatUserResponse {
+		return schemas.ChatUserResponse{
+			UserID:   util.ConvertPgUUIDToUUID(dbUser.Uuid).String(),
+			Name:     dbUser.Name,
+			ImageURL: dbUser.ImageUrl,
+		}
+	})
+
+	ctx.JSON(http.StatusOK, response)
+}

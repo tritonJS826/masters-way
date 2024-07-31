@@ -30,9 +30,10 @@ type RoomPopulatedResponse struct {
 
 type RoomPreviewResponse struct {
 	RoomID    string         `json:"roomId" validate:"required"`
-	Users     []UserResponse `json:"users" validate:"required"`
 	Name      string         `json:"name" validate:"required" extensions:"x-nullable"`
+	RoomType  string         `json:"roomType" validate:"required"`
 	IsBlocked bool           `json:"isBlocked" validate:"required"`
+	Users     []UserResponse `json:"users" validate:"required"`
 }
 
 type GetRoomsResponse struct {
@@ -44,13 +45,13 @@ type CreateMessagePayload struct {
 	Message string `json:"message" validate:"required"`
 }
 
-type MessageReaders struct {
+type MessageReader struct {
 	UserID   string `json:"userId" validate:"required"`
 	ReadDate string `json:"readDate" validate:"required"`
 }
 
 type MessageResponse struct {
-	OwnerID string           `json:"ownerId" validate:"required"`
-	Message string           `json:"message" validate:"required"`
-	Readers []MessageReaders `json:"messageReaders" validate:"required"`
+	OwnerID string          `json:"ownerId" validate:"required"`
+	Message string          `json:"message" validate:"required"`
+	Readers []MessageReader `json:"messageReaders" validate:"required"`
 }

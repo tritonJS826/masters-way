@@ -1,6 +1,8 @@
 package services
 
 import (
+	"mw-chat-bff/internal/config"
+	"mw-chat-bff/internal/openapi"
 	"mw-chat-bff/internal/schemas"
 
 	"github.com/gin-gonic/gin"
@@ -17,12 +19,27 @@ type IRoomsService interface {
 	DeleteUserFromRoom(ctx *gin.Context, roomId string, userId string) error
 }
 
-type Service struct {
-	IRoomsService
+type IUsersService interface {
+	GetChatUsers(ctx *gin.Context, userIDs []string) (map[string]PopulatedUser, error)
 }
 
-func NewService(ctx *gin.Context) *Service {
+type Service struct {
+	IRoomsService
+	IUsersService
+}
+
+func NewService(configuration *config.Config) *Service {
+	var chatApi = openapi.NewChatAPIClient(configuration)
+	var generalApi = openapi.NewGeneralAPIClient(configuration)
+
 	return &Service{
-		IRoomsService: NewRoomsService(),
+		IRoomsService: NewRoomsService(chatApi),
+		IUsersService: NewUsersService(generalApi),
 	}
+}
+
+type PopulatedUser struct {
+	UserID   string
+	Name     string
+	ImageURL string
 }
