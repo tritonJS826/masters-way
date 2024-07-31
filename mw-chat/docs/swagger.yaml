@@ -38,7 +38,7 @@ definitions:
     - rooms
     - size
     type: object
-  schemas.MessageReaders:
+  schemas.MessageReader:
     properties:
       readDate:
         type: string
@@ -54,7 +54,7 @@ definitions:
         type: string
       messageReaders:
         items:
-          $ref: '#/definitions/schemas.MessageReaders'
+          $ref: '#/definitions/schemas.MessageReader'
         type: array
       ownerId:
         type: string
@@ -99,6 +99,8 @@ definitions:
         x-nullable: true
       roomId:
         type: string
+      roomType:
+        type: string
       users:
         items:
           $ref: '#/definitions/schemas.UserResponse'
@@ -107,6 +109,7 @@ definitions:
     - isBlocked
     - name
     - roomId
+    - roomType
     - users
     type: object
   schemas.UserResponse:
@@ -277,6 +280,9 @@ paths:
       operationId: get-rooms
       parameters:
       - description: 'room type: private | group'
+        enum:
+        - private
+        - group
         in: path
         name: roomType
         required: true

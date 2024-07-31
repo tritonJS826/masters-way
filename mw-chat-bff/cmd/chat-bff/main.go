@@ -5,22 +5,24 @@ import (
 	"mw-chat-bff/internal/config"
 	"mw-chat-bff/internal/controllers"
 	"mw-chat-bff/internal/server"
+	"mw-chat-bff/internal/services"
 )
 
 func main() {
-	newConfig, err := config.LoadConfig("")
+	cfg, err := config.LoadConfig("")
 	if err != nil {
 		log.Fatal("cannot load config:", err)
 	}
 
-	controllers := controllers.NewController()
+	services := services.NewService(&cfg)
+	controllers := controllers.NewController(services)
 
-	newServer := server.NewServer(&newConfig)
+	newServer := server.NewServer(&cfg)
 	newServer.SetRoutes(controllers)
 
-	if newConfig.EnvType == "prod" {
-		log.Fatal(newServer.GinServer.RunTLS(":"+newConfig.ServerPort, "./server.crt", "./server.key"))
+	if cfg.EnvType == "prod" {
+		log.Fatal(newServer.GinServer.RunTLS(":"+cfg.ServerPort, "./server.crt", "./server.key"))
 	} else {
-		log.Fatal(newServer.GinServer.Run(":" + newConfig.ServerPort))
+		log.Fatal(newServer.GinServer.Run(":" + cfg.ServerPort))
 	}
 }

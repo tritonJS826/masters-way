@@ -60,3 +60,9 @@ type GetAllUsersResponse struct {
 	Size  int64                       `json:"size" validate:"required"`
 	Users []UserPlainResponseWithInfo `json:"users" validate:"required"`
 }
+
+type GetUsersByIDsResponse struct {
+	UserID   string `json:"userId" validate:"required"`
+	Name     string `json:"name" validate:"required"`
+	ImageURL string `json:"imageUrl" validate:"required"`
+}

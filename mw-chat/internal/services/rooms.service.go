@@ -74,8 +74,9 @@ func (roomsService *RoomsService) GetRooms(ctx context.Context, userUUID uuid.UU
 		return schemas.RoomPreviewResponse{
 			RoomID:    utils.ConvertPgUUIDToUUID(dbRoom.Uuid).String(),
 			Name:      dbRoom.Name.String,
-			Users:     users,
+			RoomType:  string(dbRoom.Type),
 			IsBlocked: dbRoom.IsRoomBlocked,
+			Users:     users,
 		}
 	})
 
@@ -111,9 +112,9 @@ func (roomsService *RoomsService) GetRoomByUuid(ctx context.Context, userUUID, r
 	}
 
 	messages := lo.Map(messagesRaw, func(dbMessage db.GetMessagesByRoomUUIDRow, i int) schemas.MessageResponse {
-		messageReaders := make([]schemas.MessageReaders, len(dbMessage.MessageStatusUserUuids))
+		messageReaders := make([]schemas.MessageReader, len(dbMessage.MessageStatusUserUuids))
 		for i := range dbMessage.MessageStatusUserUuids {
-			messageReaders[i] = schemas.MessageReaders{
+			messageReaders[i] = schemas.MessageReader{
 				UserID:   utils.ConvertPgUUIDToUUID(dbMessage.MessageStatusUserUuids[i]).String(),
 				ReadDate: dbMessage.MessageStatusUpdatedAt[i].Time.Format(utils.DEFAULT_STRING_LAYOUT),
 			}
@@ -284,6 +285,6 @@ func (roomsService *RoomsService) CreateMessage(ctx context.Context, messagePara
 	return &schemas.MessageResponse{
 		OwnerID: utils.ConvertPgUUIDToUUID(message.OwnerUuid).String(),
 		Message: message.Text,
-		Readers: []schemas.MessageReaders{},
+		Readers: []schemas.MessageReader{},
 	}, nil
 }

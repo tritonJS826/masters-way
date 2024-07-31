@@ -12,7 +12,7 @@ type CreateRoomPayload struct {
 
 type RoomPopulatedResponse struct {
 	RoomID    string            `json:"roomId" validate:"required"`
-	Name      *string           `json:"name" validate:"required" extensions:"x-nullable"`
+	Name      string            `json:"name" validate:"required"`
 	RoomType  string            `json:"roomType" validate:"required"`
 	IsBlocked bool              `json:"isBlocked" validate:"required"`
 	Users     []UserResponse    `json:"users" validate:"required"`
@@ -20,13 +20,16 @@ type RoomPopulatedResponse struct {
 }
 
 type UserResponse struct {
-	UserID string `json:"userId" validate:"required"`
-	Role   string `json:"role" validate:"required"`
+	UserID   string `json:"userId" validate:"required"`
+	Name     string `json:"name" validate:"required"`
+	ImageURL string `json:"imageUrl" validate:"required"`
+	Role     string `json:"role" validate:"required"`
 }
 
 type RoomPreviewResponse struct {
 	RoomID    string         `json:"roomId" validate:"required"`
-	Name      *string        `json:"name" validate:"required" extensions:"x-nullable"`
+	Name      string         `json:"name" validate:"required"`
+	RoomType  string         `json:"roomType" validate:"required"`
 	IsBlocked bool           `json:"isBlocked" validate:"required"`
 	Users     []UserResponse `json:"users" validate:"required"`
 }
@@ -40,12 +43,17 @@ type CreateMessagePayload struct {
 	Message string `json:"message" validate:"required"`
 }
 
-type MessageReaders struct {
+type MessageReader struct {
 	UserID   string `json:"userId" validate:"required"`
+	Name     string `json:"ownerName" validate:"required" extensions:"x-nullable"`
+	ImageURL string `json:"ownerImageUrl" validate:"required"`
 	ReadDate string `json:"readDate" validate:"required"`
 }
+
 type MessageResponse struct {
-	OwnerID string           `json:"ownerId" validate:"required"`
-	Message string           `json:"message" validate:"required"`
-	Readers []MessageReaders `json:"messageReaders" validate:"required"`
+	OwnerID       string          `json:"ownerId" validate:"required"`
+	OwnerName     string          `json:"ownerName" validate:"required" extensions:"x-nullable"`
+	OwnerImageURL string          `json:"ownerImageUrl" validate:"required"`
+	Message       string          `json:"message" validate:"required"`
+	Readers       []MessageReader `json:"messageReaders" validate:"required"`
 }

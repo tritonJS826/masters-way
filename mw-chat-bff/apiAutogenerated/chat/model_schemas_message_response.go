@@ -22,7 +22,7 @@ var _ MappedNullable = &SchemasMessageResponse{}
 // SchemasMessageResponse struct for SchemasMessageResponse
 type SchemasMessageResponse struct {
 	Message string `json:"message"`
-	MessageReaders []SchemasMessageReaders `json:"messageReaders"`
+	MessageReaders []SchemasMessageReader `json:"messageReaders"`
 	OwnerId string `json:"ownerId"`
 }
 
@@ -32,7 +32,7 @@ type _SchemasMessageResponse SchemasMessageResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSchemasMessageResponse(message string, messageReaders []SchemasMessageReaders, ownerId string) *SchemasMessageResponse {
+func NewSchemasMessageResponse(message string, messageReaders []SchemasMessageReader, ownerId string) *SchemasMessageResponse {
 	this := SchemasMessageResponse{}
 	this.Message = message
 	this.MessageReaders = messageReaders
@@ -73,9 +73,9 @@ func (o *SchemasMessageResponse) SetMessage(v string) {
 }
 
 // GetMessageReaders returns the MessageReaders field value
-func (o *SchemasMessageResponse) GetMessageReaders() []SchemasMessageReaders {
+func (o *SchemasMessageResponse) GetMessageReaders() []SchemasMessageReader {
 	if o == nil {
-		var ret []SchemasMessageReaders
+		var ret []SchemasMessageReader
 		return ret
 	}
 
@@ -84,7 +84,7 @@ func (o *SchemasMessageResponse) GetMessageReaders() []SchemasMessageReaders {
 
 // GetMessageReadersOk returns a tuple with the MessageReaders field value
 // and a boolean to check if the value has been set.
-func (o *SchemasMessageResponse) GetMessageReadersOk() ([]SchemasMessageReaders, bool) {
+func (o *SchemasMessageResponse) GetMessageReadersOk() ([]SchemasMessageReader, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -92,7 +92,7 @@ func (o *SchemasMessageResponse) GetMessageReadersOk() ([]SchemasMessageReaders,
 }
 
 // SetMessageReaders sets field value
-func (o *SchemasMessageResponse) SetMessageReaders(v []SchemasMessageReaders) {
+func (o *SchemasMessageResponse) SetMessageReaders(v []SchemasMessageReader) {
 	o.MessageReaders = v
 }
 

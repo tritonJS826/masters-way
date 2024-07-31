@@ -162,6 +162,38 @@ func (q *Queries) GetUserByIds(ctx context.Context, dollar_1 []pgtype.UUID) ([]U
 	return items, nil
 }
 
+const getUsersByIds = `-- name: GetUsersByIds :many
+SELECT uuid, name, image_url
+FROM users
+WHERE uuid = ANY($1::UUID[])
+`
+
+type GetUsersByIdsRow struct {
+	Uuid     pgtype.UUID `json:"uuid"`
+	Name     string      `json:"name"`
+	ImageUrl string      `json:"image_url"`
+}
+
+func (q *Queries) GetUsersByIds(ctx context.Context, userUuids []pgtype.UUID) ([]GetUsersByIdsRow, error) {
+	rows, err := q.db.Query(ctx, getUsersByIds, userUuids)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []GetUsersByIdsRow{}
+	for rows.Next() {
+		var i GetUsersByIdsRow
+		if err := rows.Scan(&i.Uuid, &i.Name, &i.ImageUrl); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const listUsers = `-- name: ListUsers :many
 SELECT
     users.uuid,

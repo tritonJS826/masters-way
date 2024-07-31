@@ -7,13 +7,14 @@ Name | Type | Description | Notes
 **IsBlocked** | **bool** |  | 
 **Name** | **NullableString** |  | 
 **RoomId** | **string** |  | 
+**RoomType** | **string** |  | 
 **Users** | [**[]SchemasUserResponse**](SchemasUserResponse.md) |  | 
 
 ## Methods
 
 ### NewSchemasRoomPreviewResponse
 
-`func NewSchemasRoomPreviewResponse(isBlocked bool, name NullableString, roomId string, users []SchemasUserResponse, ) *SchemasRoomPreviewResponse`
+`func NewSchemasRoomPreviewResponse(isBlocked bool, name NullableString, roomId string, roomType string, users []SchemasUserResponse, ) *SchemasRoomPreviewResponse`
 
 NewSchemasRoomPreviewResponse instantiates a new SchemasRoomPreviewResponse object
 This constructor will assign default values to properties that have it defined,
@@ -96,6 +97,26 @@ and a boolean to check if the value has been set.
 `func (o *SchemasRoomPreviewResponse) SetRoomId(v string)`
 
 SetRoomId sets RoomId field to given value.
+
+
+### GetRoomType
+
+`func (o *SchemasRoomPreviewResponse) GetRoomType() string`
+
+GetRoomType returns the RoomType field if non-nil, zero value otherwise.
+
+### GetRoomTypeOk
+
+`func (o *SchemasRoomPreviewResponse) GetRoomTypeOk() (*string, bool)`
+
+GetRoomTypeOk returns a tuple with the RoomType field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRoomType
+
+`func (o *SchemasRoomPreviewResponse) SetRoomType(v string)`
+
+SetRoomType sets RoomType field to given value.
 
 
 ### GetUsers

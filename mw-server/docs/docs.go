@@ -1691,6 +1691,46 @@ const docTemplate = `{
                 }
             }
         },
+        "/users/list-by-ids": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Get users by ids",
+                "operationId": "get-users-by-ids",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/schemas.GetUsersByIDsResponse"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/users/{userId}": {
             "get": {
                 "consumes": [
@@ -2762,6 +2802,25 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/schemas.WayPlainResponse"
                     }
+                }
+            }
+        },
+        "schemas.GetUsersByIDsResponse": {
+            "type": "object",
+            "required": [
+                "imageUrl",
+                "name",
+                "userId"
+            ],
+            "properties": {
+                "imageUrl": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "string"
                 }
             }
         },

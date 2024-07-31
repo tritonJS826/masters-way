@@ -6,6 +6,7 @@ import (
 	"io"
 	"mwchat/internal/auth"
 	"mwchat/internal/config"
+	db "mwchat/internal/db/sqlc"
 	"mwchat/internal/schemas"
 	"net/http"
 	"testing"
@@ -154,17 +155,17 @@ func TestGetRoomById(t *testing.T) {
 				{
 					OwnerID: userID,
 					Message: userMessage,
-					Readers: []schemas.MessageReaders{},
+					Readers: []schemas.MessageReader{},
 				},
 				{
 					OwnerID: roomCreatorID,
 					Message: creatorMessage1,
-					Readers: []schemas.MessageReaders{},
+					Readers: []schemas.MessageReader{},
 				},
 				{
 					OwnerID: roomCreatorID,
 					Message: creatorMessage2,
-					Readers: []schemas.MessageReaders{},
+					Readers: []schemas.MessageReader{},
 				},
 			},
 		}
@@ -265,7 +266,10 @@ func TestGetRooms(t *testing.T) {
 			Size: 2,
 			Rooms: []schemas.RoomPreviewResponse{
 				{
-					RoomID: room1ID,
+					RoomID:    room1ID,
+					Name:      "",
+					RoomType:  string(db.RoomTypePrivate),
+					IsBlocked: false,
 					Users: []schemas.UserResponse{
 						{
 							UserID: roomCreatorID,
@@ -276,11 +280,12 @@ func TestGetRooms(t *testing.T) {
 							Role:   "regular",
 						},
 					},
-					Name:      "",
-					IsBlocked: false,
 				},
 				{
-					RoomID: room2ID,
+					RoomID:    room2ID,
+					Name:      "",
+					RoomType:  string(db.RoomTypePrivate),
+					IsBlocked: false,
 					Users: []schemas.UserResponse{
 						{
 							UserID: roomCreatorID,
@@ -291,8 +296,6 @@ func TestGetRooms(t *testing.T) {
 							Role:   "regular",
 						},
 					},
-					Name:      "",
-					IsBlocked: false,
 				},
 			},
 		}
@@ -417,7 +420,7 @@ func TestCreateMessage(t *testing.T) {
 		expectedData := schemas.MessageResponse{
 			OwnerID: roomCreatorID,
 			Message: "roomCreator's message",
-			Readers: []schemas.MessageReaders{},
+			Readers: []schemas.MessageReader{},
 		}
 
 		assert.Equal(t, http.StatusOK, statusCode)

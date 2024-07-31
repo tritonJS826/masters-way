@@ -64,8 +64,12 @@ const docTemplate = `{
                 "operationId": "get-rooms",
                 "parameters": [
                     {
+                        "enum": [
+                            "private",
+                            "group"
+                        ],
                         "type": "string",
-                        "description": "room type: private, group",
+                        "description": "room type: private | group",
                         "name": "roomType",
                         "in": "path",
                         "required": true
@@ -344,13 +348,22 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.MessageReaders": {
+        "schemas.MessageReader": {
             "type": "object",
             "required": [
+                "ownerImageUrl",
+                "ownerName",
                 "readDate",
                 "userId"
             ],
             "properties": {
+                "ownerImageUrl": {
+                    "type": "string"
+                },
+                "ownerName": {
+                    "type": "string",
+                    "x-nullable": true
+                },
                 "readDate": {
                     "type": "string"
                 },
@@ -364,7 +377,9 @@ const docTemplate = `{
             "required": [
                 "message",
                 "messageReaders",
-                "ownerId"
+                "ownerId",
+                "ownerImageUrl",
+                "ownerName"
             ],
             "properties": {
                 "message": {
@@ -373,11 +388,18 @@ const docTemplate = `{
                 "messageReaders": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.MessageReaders"
+                        "$ref": "#/definitions/schemas.MessageReader"
                     }
                 },
                 "ownerId": {
                     "type": "string"
+                },
+                "ownerImageUrl": {
+                    "type": "string"
+                },
+                "ownerName": {
+                    "type": "string",
+                    "x-nullable": true
                 }
             }
         },
@@ -402,8 +424,7 @@ const docTemplate = `{
                     }
                 },
                 "name": {
-                    "type": "string",
-                    "x-nullable": true
+                    "type": "string"
                 },
                 "roomId": {
                     "type": "string"
@@ -425,6 +446,7 @@ const docTemplate = `{
                 "isBlocked",
                 "name",
                 "roomId",
+                "roomType",
                 "users"
             ],
             "properties": {
@@ -432,10 +454,12 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "name": {
-                    "type": "string",
-                    "x-nullable": true
+                    "type": "string"
                 },
                 "roomId": {
+                    "type": "string"
+                },
+                "roomType": {
                     "type": "string"
                 },
                 "users": {
@@ -449,10 +473,18 @@ const docTemplate = `{
         "schemas.UserResponse": {
             "type": "object",
             "required": [
+                "imageUrl",
+                "name",
                 "role",
                 "userId"
             ],
             "properties": {
+                "imageUrl": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
                 "role": {
                     "type": "string"
                 },

@@ -4,13 +4,13 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**ResetDbPost**](DevAPI.md#ResetDbPost) | **Post** /reset-db | resets db
+[**ResetDbGet**](DevAPI.md#ResetDbGet) | **Get** /reset-db | resets db
 
 
 
-## ResetDbPost
+## ResetDbGet
 
-> ResetDbPost(ctx).Execute()
+> ResetDbGet(ctx).Execute()
 
 resets db
 
@@ -32,9 +32,9 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.DevAPI.ResetDbPost(context.Background()).Execute()
+	r, err := apiClient.DevAPI.ResetDbGet(context.Background()).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `DevAPI.ResetDbPost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `DevAPI.ResetDbGet``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
 }
@@ -46,7 +46,7 @@ This endpoint does not need any parameter.
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiResetDbPostRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiResetDbGetRequest struct via the builder pattern
 
 
 ### Return type

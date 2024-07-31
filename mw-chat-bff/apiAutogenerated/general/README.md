@@ -99,6 +99,7 @@ Class | Method | HTTP request | Description
 *FromUserMentoringRequestAPI* | [**CreateFromUserMentoringRequest**](docs/FromUserMentoringRequestAPI.md#createfromusermentoringrequest) | **Post** /fromUserMentoringRequests | Create a new fromUserMentoringRequest
 *FromUserMentoringRequestAPI* | [**DeleteFromUserMentoringRequest**](docs/FromUserMentoringRequestAPI.md#deletefromusermentoringrequest) | **Delete** /fromUserMentoringRequests/{userUuid}/{wayUuid} | Delete fromUserMentoringRequest by UUID
 *GeminiAPI* | [**GenerateMetrics**](docs/GeminiAPI.md#generatemetrics) | **Post** /gemini/metrics | Generate metrics using Gemini
+*HealthAPI* | [**HealthcheckGet**](docs/HealthAPI.md#healthcheckget) | **Get** /healthcheck | Health Check
 *JobDoneAPI* | [**CreateJobDone**](docs/JobDoneAPI.md#createjobdone) | **Post** /jobDones | Create a new jobDone
 *JobDoneAPI* | [**DeleteJobDone**](docs/JobDoneAPI.md#deletejobdone) | **Delete** /jobDones/{jobDoneId} | Delete jobDone by UUID
 *JobDoneAPI* | [**UpdateJobDone**](docs/JobDoneAPI.md#updatejobdone) | **Patch** /jobDones/{jobDoneId} | Update jobDone by UUID
@@ -126,6 +127,7 @@ Class | Method | HTTP request | Description
 *ToUserMentoringRequestAPI* | [**DeleteToUserMentoringRequest**](docs/ToUserMentoringRequestAPI.md#deletetousermentoringrequest) | **Delete** /toUserMentoringRequests/{userUuid}/{wayUuid} | Delete toUserMentoringReques by UUID
 *UserAPI* | [**GetAllUsers**](docs/UserAPI.md#getallusers) | **Get** /users | Get all users
 *UserAPI* | [**GetUserByUuid**](docs/UserAPI.md#getuserbyuuid) | **Get** /users/{userId} | Get user by UUID
+*UserAPI* | [**GetUsersByIds**](docs/UserAPI.md#getusersbyids) | **Get** /users/list-by-ids | Get users by ids
 *UserAPI* | [**UpdateUser**](docs/UserAPI.md#updateuser) | **Patch** /users/{userId} | Update user by UUID
 *UserTagAPI* | [**CreateUserTag**](docs/UserTagAPI.md#createusertag) | **Post** /userTags | Create a new userTag
 *UserTagAPI* | [**DeleteUserTag**](docs/UserTagAPI.md#deleteusertag) | **Delete** /userTags/{userTagId}/{userId} | Delete userTag by UUID
@@ -174,6 +176,7 @@ Class | Method | HTTP request | Description
  - [SchemasGenerateMetricsPayload](docs/SchemasGenerateMetricsPayload.md)
  - [SchemasGetAllUsersResponse](docs/SchemasGetAllUsersResponse.md)
  - [SchemasGetAllWaysResponse](docs/SchemasGetAllWaysResponse.md)
+ - [SchemasGetUsersByIDsResponse](docs/SchemasGetUsersByIDsResponse.md)
  - [SchemasJobDonePopulatedResponse](docs/SchemasJobDonePopulatedResponse.md)
  - [SchemasJobTagResponse](docs/SchemasJobTagResponse.md)
  - [SchemasMetricResponse](docs/SchemasMetricResponse.md)
