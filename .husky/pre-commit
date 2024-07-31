@@ -35,7 +35,7 @@ runChatIfChanged () {
   then
     echo "mw-chat changed. checking..."
     pnpm chat:build
-    # pnpm server:test
+    pnpm chat:test
   fi
 }
 
