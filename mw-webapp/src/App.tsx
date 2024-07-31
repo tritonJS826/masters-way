@@ -27,7 +27,7 @@ export const App = () => {
    * Check health of the API
    */
   const checkApiHealth = async () => {
-    const {isWorkingApi} = await HealthCheckDAL.checkApiHealth();
+    const isWorkingApi = await HealthCheckDAL.checkApiHealth();
     setIsApiWorking(isWorkingApi);
   };
 
@@ -39,7 +39,7 @@ export const App = () => {
     return (
       <Modal
         isOpen={!isApiWorking}
-        trigger={<div className={styles.modalContent} />}
+        trigger={<></>}
         content={
           <VerticalContainer className={styles.modalContainer}>
             <Title
