@@ -7,6 +7,7 @@ import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalC
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
 import {Modal} from "src/component/modal/Modal";
+import {Separator} from "src/component/separator/Separator";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {Trash} from "src/component/trash/Trash";
@@ -211,35 +212,112 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
             key={plan.uuid}
             className={styles.numberedListItem}
           >
-            <HorizontalContainer className={styles.recordInfo}>
-              {getListNumberByIndex(index)}
-              <Avatar
-                alt={props.wayParticipantsMap.getValue(plan.ownerUuid).name}
-                src={props.wayParticipantsMap.getValue(plan.ownerUuid).imageUrl}
-              />
-              <div className={styles.ownerName}>
-                <Link path={pages.user.getPath({uuid: plan.ownerUuid})}>
-                  {getFirstName(props.wayParticipantsMap.getValue(plan.ownerUuid).name)}
+            <VerticalContainer className={styles.contentBlock}>
+              <HorizontalContainer className={styles.recordInfo}>
+                {getListNumberByIndex(index)}
+                <Avatar
+                  alt={props.wayParticipantsMap.getValue(plan.ownerUuid).name}
+                  src={props.wayParticipantsMap.getValue(plan.ownerUuid).imageUrl}
+                />
+                <div className={styles.ownerName}>
+                  <Link path={pages.user.getPath({uuid: plan.ownerUuid})}>
+                    {getFirstName(props.wayParticipantsMap.getValue(plan.ownerUuid).name)}
+                  </Link>
+                </div>
+                {props.way.children.length !== 0 &&
+                <Link
+                  path={pages.way.getPath({uuid: plan.wayUuid})}
+                  className={styles.linkToOwnerWay}
+                >
+                  <Tooltip
+                    position={PositionTooltip.BOTTOM}
+                    content={LanguageService.way.reportsTable.columnTooltip.visitWay[language]
+                      .replace("$wayName", `"${plan.wayName}"`)}
+                  >
+                    <Icon
+                      size={IconSize.MEDIUM}
+                      name="WayIcon"
+                      className={styles.socialMediaIcon}
+                    />
+                  </Tooltip>
                 </Link>
-              </div>
-              {props.way.children.length !== 0 &&
-              <Link
-                path={pages.way.getPath({uuid: plan.wayUuid})}
-                className={styles.linkToOwnerWay}
-              >
+                }
                 <Tooltip
                   position={PositionTooltip.BOTTOM}
-                  content={LanguageService.way.reportsTable.columnTooltip.visitWay[language]
-                    .replace("$wayName", `"${plan.wayName}"`)}
+                  content={LanguageService.way.reportsTable.columnTooltip.planTime[language]}
                 >
-                  <Icon
-                    size={IconSize.MEDIUM}
-                    name="WayIcon"
-                    className={styles.socialMediaIcon}
+                  <EditableText
+                    value={plan.time}
+                    type="number"
+                    max={MAX_TIME}
+                    min={MIN_TIME}
+                    onChangeFinish={async (time) => {
+                      const planToUpdate = {
+                        uuid: plan.uuid,
+                        time: getValidatedTime(Number(time)),
+                      };
+                      await PlanDAL.updatePlan({
+                        plan: planToUpdate,
+                        wayName: props.way.name,
+                        wayUuid: props.way.uuid,
+                      });
+                      plan.updateTime(getValidatedTime(Number(time)));
+                    }}
+                    className={styles.editableTime}
+                    isEditable={plan.ownerUuid === props.user?.uuid}
+                    placeholder={LanguageService.common.emptyMarkdownAction[language]}
                   />
                 </Tooltip>
-              </Link>
-              }
+                {props.isEditable &&
+                  <Tooltip
+                    content={
+                      plan.isDone
+                        ? LanguageService.way.reportsTable.columnTooltip.planCheckboxUncompleted[language]
+                        : LanguageService.way.reportsTable.columnTooltip.planCheckbox[language]
+                    }
+                    position={PositionTooltip.RIGHT}
+                  >
+                    <Modal
+                      trigger={
+                        <Checkbox
+                          isDisabled={true}
+                          isDefaultChecked={plan.isDone}
+                          onChange={() => {}}
+                          className={styles.checkbox}
+                        />
+                      }
+                      content={
+                        <CopyPlanToJobDoneModalContent
+                          // TODO: get rid of work around
+                          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                          copyPlanToJobInCurrentDayReport={() => copyPlanToJobInCurrentDayReport(plan, props.user!.uuid)}
+                          plan={plan}
+                          updatePlan={async (planToUpdate) => {
+                            plan.updateIsDone(planToUpdate.isDone);
+                            await PlanDAL.updatePlan({
+                              plan: planToUpdate,
+                              wayName: props.way.name,
+                              wayUuid: props.way.uuid,
+                            });
+                          }}
+                        />
+                      }
+                    />
+
+                  </Tooltip>
+                }
+                {plan.ownerUuid === props.user?.uuid &&
+                <Trash
+                  tooltipContent={LanguageService.way.reportsTable.columnTooltip.deletePlan[language]}
+                  tooltipPosition={PositionTooltip.BOTTOM}
+                  okText={LanguageService.modals.confirmModal.deleteButton[language]}
+                  cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
+                  onOk={() => deletePlan(plan.uuid)}
+                  confirmContent={`${LanguageService.way.reportsTable.modalWindow.deletePlanQuestion[language]} 
+                    "${plan.description}"?`}
+                />
+                }
+              </HorizontalContainer>
               {props.isEditable ?
                 <Modal
                   trigger={plan.tags.length === 0 ?
@@ -272,82 +350,7 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
                   labels={props.way.jobTags}
                 />
               }
-              <Tooltip
-                position={PositionTooltip.BOTTOM}
-                content={LanguageService.way.reportsTable.columnTooltip.planTime[language]}
-              >
-                <EditableText
-                  value={plan.time}
-                  type="number"
-                  max={MAX_TIME}
-                  min={MIN_TIME}
-                  onChangeFinish={async (time) => {
-                    const planToUpdate = {
-                      uuid: plan.uuid,
-                      time: getValidatedTime(Number(time)),
-                    };
-                    await PlanDAL.updatePlan({
-                      plan: planToUpdate,
-                      wayName: props.way.name,
-                      wayUuid: props.way.uuid,
-                    });
-                    plan.updateTime(getValidatedTime(Number(time)));
-                  }}
-                  className={styles.editableTime}
-                  isEditable={plan.ownerUuid === props.user?.uuid}
-                  placeholder={LanguageService.common.emptyMarkdownAction[language]}
-                />
-              </Tooltip>
-              {props.isEditable &&
-                <Tooltip
-                  content={
-                    plan.isDone
-                      ? LanguageService.way.reportsTable.columnTooltip.planCheckboxUncompleted[language]
-                      : LanguageService.way.reportsTable.columnTooltip.planCheckbox[language]
-                  }
-                  position={PositionTooltip.RIGHT}
-                >
-                  <Modal
-                    trigger={
-                      <Checkbox
-                        isDisabled={true}
-                        isDefaultChecked={plan.isDone}
-                        onChange={() => {}}
-                        className={styles.checkbox}
-                      />
-                    }
-                    content={
-                      <CopyPlanToJobDoneModalContent
-                        // TODO: get rid of work around
-                        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                        copyPlanToJobInCurrentDayReport={() => copyPlanToJobInCurrentDayReport(plan, props.user!.uuid)}
-                        plan={plan}
-                        updatePlan={async (planToUpdate) => {
-                          plan.updateIsDone(planToUpdate.isDone);
-                          await PlanDAL.updatePlan({
-                            plan: planToUpdate,
-                            wayName: props.way.name,
-                            wayUuid: props.way.uuid,
-                          });
-                        }}
-                      />
-                    }
-                  />
-
-                </Tooltip>
-              }
-              {plan.ownerUuid === props.user?.uuid &&
-              <Trash
-                tooltipContent={LanguageService.way.reportsTable.columnTooltip.deletePlan[language]}
-                tooltipPosition={PositionTooltip.BOTTOM}
-                okText={LanguageService.modals.confirmModal.deleteButton[language]}
-                cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
-                onOk={() => deletePlan(plan.uuid)}
-                confirmContent={`${LanguageService.way.reportsTable.modalWindow.deletePlanQuestion[language]} 
-                  "${plan.description}"?`}
-              />
-              }
-            </HorizontalContainer>
+            </VerticalContainer>
             <EditableTextarea
               text={plan.description}
               onChangeFinish={async (description) => {
@@ -367,6 +370,7 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
                 ? LanguageService.common.emptyMarkdownAction[language]
                 : LanguageService.common.emptyMarkdown[language]}
             />
+            <Separator />
           </li>
         ))}
       </ol>
