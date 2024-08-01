@@ -40,5 +40,5 @@ $paddingSidebar: $paddingExtraMedium 40px;
   justify-content: space-between;
   padding: $paddingSidebar;
   background-color: var(--quaternaryBgColor);
-  overflow: auto;
+  overflow-y: auto;
 }
