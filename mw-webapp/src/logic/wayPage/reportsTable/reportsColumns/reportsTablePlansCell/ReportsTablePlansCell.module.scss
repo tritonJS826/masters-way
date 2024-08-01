@@ -11,11 +11,24 @@
 .numberedList {
   flex: 1 0 auto;
   list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  gap: $gapSmall;
 }
 
 .numberedListItem {
+  display: flex;
+  flex-direction: column;
+  gap: $gapSmall;
   width: 100%;
-  border-bottom: 1px dotted var(--primaryStrokeColor);
+}
+
+.labelsBlock {
+  gap: $gapSmall;
+}
+
+.contentBlock {
+  gap: $gapExtraSmall;
 }
 
 .recordInfo {

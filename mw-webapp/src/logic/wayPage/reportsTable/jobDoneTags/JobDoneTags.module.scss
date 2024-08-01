@@ -1,9 +1,12 @@
 @import "src/styles/variables";
 
+$labelMaxWidth: 90px;
+
 .jobTags {
   display: flex;
   align-items: center;
-  gap: $gapSmall;
+  gap: $gapExtraSmall;
+  flex-wrap: wrap;
 }
 
 .icon {
@@ -12,4 +15,8 @@
   min-height: $iconSizeSmall;
   margin-left: $marginSmall;
   cursor: pointer;
+}
+
+.label {
+  max-width: $labelMaxWidth;
 }
