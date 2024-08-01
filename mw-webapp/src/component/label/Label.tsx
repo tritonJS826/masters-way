@@ -4,6 +4,9 @@ import {Tooltip} from "src/component/tooltip/Tooltip";
 import {Label as LabelModel} from "src/model/businessModel/Label";
 import styles from "src/component/label/Label.module.scss";
 
+const MAX_LENGTH_LABEL = 30;
+const MIN_LENGTH_LABEL = 1;
+
 /**
  * Label props
  */
@@ -53,7 +56,8 @@ export const Label = (props: LabelProps) => {
           isEditable={props.isEditable}
           placeholder=""
           className={styles.editableText}
-          minLength={1}
+          minLength={MIN_LENGTH_LABEL}
+          maxLength={MAX_LENGTH_LABEL}
         />
       </div>
     </Tooltip>

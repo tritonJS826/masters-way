@@ -10,6 +10,7 @@ import {
   FetchParams,
   FromUserMentoringRequestApi,
   GeminiApi,
+  HealthApi,
   JobDoneApi,
   JobDoneJobTagApi,
   JobTagApi,
@@ -84,6 +85,7 @@ const generalConfiguration = new GeneralConfiguration({
   accessToken: accessTokenProvider,
 });
 
+export const healthCheckService = new HealthApi(generalConfiguration);
 export const authService = new AuthApi(generalConfiguration);
 export const userService = new UserApi(generalConfiguration);
 export const wayCollectionService = new WayCollectionApi(generalConfiguration);

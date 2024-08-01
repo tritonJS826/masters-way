@@ -6,8 +6,8 @@ type Controller struct {
 	RoomsController *RoomsController
 }
 
-func NewController() *Controller {
+func NewController(services *services.Service) *Controller {
 	return &Controller{
-		RoomsController: NewRoomsController(services.NewRoomsService()),
+		RoomsController: NewRoomsController(services.IRoomsService, services.IUsersService),
 	}
 }

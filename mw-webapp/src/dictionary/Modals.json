@@ -6,6 +6,18 @@
       "ua": "Увійдіть за допомогою Google"
     }
   },
+  "healthCheckModal": {
+    "title": {
+      "ru": "Сервисные работы",
+      "en": "Service works",
+      "ua": "Сервісні роботи"
+    },
+    "description": {
+      "ru": "Пожалуйста, перезагрузите страницу или вернитесь позже",
+      "en": "Please reload the page or come back later",
+      "ua": "Будь ласка, перезавантажте сторінку або поверніться пізніше"
+    }
+  },
   "promptModal": {
     "okButton": {
       "ru": "Принять",

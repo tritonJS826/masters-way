@@ -11,6 +11,7 @@ api_favorite_user.go
 api_favorite_user_way.go
 api_from_user_mentoring_request.go
 api_gemini.go
+api_health.go
 api_job_done.go
 api_job_done_job_tag.go
 api_job_tag.go
@@ -38,6 +39,7 @@ docs/FavoriteUserAPI.md
 docs/FavoriteUserWayAPI.md
 docs/FromUserMentoringRequestAPI.md
 docs/GeminiAPI.md
+docs/HealthAPI.md
 docs/JobDoneAPI.md
 docs/JobDoneJobTagAPI.md
 docs/JobTagAPI.md
@@ -76,6 +78,7 @@ docs/SchemasDeleteMentorUserWayPayload.md
 docs/SchemasGenerateMetricsPayload.md
 docs/SchemasGetAllUsersResponse.md
 docs/SchemasGetAllWaysResponse.md
+docs/SchemasGetUsersByIDsResponse.md
 docs/SchemasJobDonePopulatedResponse.md
 docs/SchemasJobTagResponse.md
 docs/SchemasMetricResponse.md
@@ -140,6 +143,7 @@ model_schemas_delete_mentor_user_way_payload.go
 model_schemas_generate_metrics_payload.go
 model_schemas_get_all_users_response.go
 model_schemas_get_all_ways_response.go
+model_schemas_get_users_by_ids_response.go
 model_schemas_job_done_populated_response.go
 model_schemas_job_tag_response.go
 model_schemas_metric_response.go

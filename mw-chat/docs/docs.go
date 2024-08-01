@@ -78,6 +78,10 @@ const docTemplate = `{
                 "operationId": "get-rooms",
                 "parameters": [
                     {
+                        "enum": [
+                            "private",
+                            "group"
+                        ],
                         "type": "string",
                         "description": "room type: private | group",
                         "name": "roomType",
@@ -355,7 +359,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.MessageReaders": {
+        "schemas.MessageReader": {
             "type": "object",
             "required": [
                 "readDate",
@@ -384,7 +388,7 @@ const docTemplate = `{
                 "messageReaders": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.MessageReaders"
+                        "$ref": "#/definitions/schemas.MessageReader"
                     }
                 },
                 "ownerId": {
@@ -436,6 +440,7 @@ const docTemplate = `{
                 "isBlocked",
                 "name",
                 "roomId",
+                "roomType",
                 "users"
             ],
             "properties": {
@@ -447,6 +452,9 @@ const docTemplate = `{
                     "x-nullable": true
                 },
                 "roomId": {
+                    "type": "string"
+                },
+                "roomType": {
                     "type": "string"
                 },
                 "users": {

@@ -10,6 +10,11 @@ INSERT INTO users(
     @name, @email, @description, @created_at, @image_url, @is_mentor
 ) RETURNING *;
 
+-- name: GetUsersByIds :many
+SELECT uuid, name, image_url
+FROM users
+WHERE uuid = ANY(@user_uuids::UUID[]);
+
 -- name: GetUserById :one
 SELECT * FROM users
 WHERE uuid = @user_uuid

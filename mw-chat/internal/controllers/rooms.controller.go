@@ -43,7 +43,7 @@ func (cc *RoomsController) GetChatPreview(ctx *gin.Context) {
 // @ID get-rooms
 // @Accept  json
 // @Produce  json
-// @Param roomType path string true "room type: private | group"
+// @Param roomType path string true "room type: private | group" Enums(private, group)
 // @Success 200 {object} schemas.GetRoomsResponse
 // @Router /rooms/list/{roomType} [get]
 func (pc *RoomsController) GetRooms(ctx *gin.Context) {

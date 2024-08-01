@@ -24,6 +24,7 @@ type SchemasRoomPreviewResponse struct {
 	IsBlocked bool `json:"isBlocked"`
 	Name NullableString `json:"name"`
 	RoomId string `json:"roomId"`
+	RoomType string `json:"roomType"`
 	Users []SchemasUserResponse `json:"users"`
 }
 
@@ -33,11 +34,12 @@ type _SchemasRoomPreviewResponse SchemasRoomPreviewResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSchemasRoomPreviewResponse(isBlocked bool, name NullableString, roomId string, users []SchemasUserResponse) *SchemasRoomPreviewResponse {
+func NewSchemasRoomPreviewResponse(isBlocked bool, name NullableString, roomId string, roomType string, users []SchemasUserResponse) *SchemasRoomPreviewResponse {
 	this := SchemasRoomPreviewResponse{}
 	this.IsBlocked = isBlocked
 	this.Name = name
 	this.RoomId = roomId
+	this.RoomType = roomType
 	this.Users = users
 	return &this
 }
@@ -124,6 +126,30 @@ func (o *SchemasRoomPreviewResponse) SetRoomId(v string) {
 	o.RoomId = v
 }
 
+// GetRoomType returns the RoomType field value
+func (o *SchemasRoomPreviewResponse) GetRoomType() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.RoomType
+}
+
+// GetRoomTypeOk returns a tuple with the RoomType field value
+// and a boolean to check if the value has been set.
+func (o *SchemasRoomPreviewResponse) GetRoomTypeOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.RoomType, true
+}
+
+// SetRoomType sets field value
+func (o *SchemasRoomPreviewResponse) SetRoomType(v string) {
+	o.RoomType = v
+}
+
 // GetUsers returns the Users field value
 func (o *SchemasRoomPreviewResponse) GetUsers() []SchemasUserResponse {
 	if o == nil {
@@ -161,6 +187,7 @@ func (o SchemasRoomPreviewResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize["isBlocked"] = o.IsBlocked
 	toSerialize["name"] = o.Name.Get()
 	toSerialize["roomId"] = o.RoomId
+	toSerialize["roomType"] = o.RoomType
 	toSerialize["users"] = o.Users
 	return toSerialize, nil
 }
@@ -173,6 +200,7 @@ func (o *SchemasRoomPreviewResponse) UnmarshalJSON(data []byte) (err error) {
 		"isBlocked",
 		"name",
 		"roomId",
+		"roomType",
 		"users",
 	}
 

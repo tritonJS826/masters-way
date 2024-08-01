@@ -22,4 +22,5 @@ SELECT
         ORDER BY updated_at DESC
     )::TIMESTAMP[] AS message_status_updated_at
 FROM messages
-WHERE room_uuid = @room_uuid;
+WHERE room_uuid = @room_uuid
+LIMIT 100;

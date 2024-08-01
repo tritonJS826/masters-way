@@ -9,6 +9,7 @@ export * from './FavoriteUserApi';
 export * from './FavoriteUserWayApi';
 export * from './FromUserMentoringRequestApi';
 export * from './GeminiApi';
+export * from './HealthApi';
 export * from './JobDoneApi';
 export * from './JobDoneJobTagApi';
 export * from './JobTagApi';

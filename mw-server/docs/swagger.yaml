@@ -403,6 +403,19 @@ definitions:
     - size
     - ways
     type: object
+  schemas.GetUsersByIDsResponse:
+    properties:
+      imageUrl:
+        type: string
+      name:
+        type: string
+      userId:
+        type: string
+    required:
+    - imageUrl
+    - name
+    - userId
+    type: object
   schemas.JobDonePopulatedResponse:
     properties:
       createdAt:
@@ -2099,6 +2112,32 @@ paths:
           schema:
             $ref: '#/definitions/schemas.UserPlainResponse'
       summary: Update user by UUID
+      tags:
+      - user
+  /users/list-by-ids:
+    get:
+      consumes:
+      - application/json
+      operationId: get-users-by-ids
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          items:
+            type: string
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/schemas.GetUsersByIDsResponse'
+            type: array
+      summary: Get users by ids
       tags:
       - user
   /wayCollectionWays:

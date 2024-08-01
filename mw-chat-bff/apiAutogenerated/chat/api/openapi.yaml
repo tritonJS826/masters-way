@@ -7,6 +7,16 @@ info:
 servers:
 - url: /
 paths:
+  /reset-db:
+    get:
+      description: resets db
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: resets db
+      tags:
+      - dev
   /rooms:
     post:
       operationId: create-room
@@ -37,6 +47,9 @@ paths:
         name: roomType
         required: true
         schema:
+          enum:
+          - private
+          - group
           type: string
       responses:
         "200":
@@ -196,9 +209,7 @@ components:
           nullable: true
           type: string
       required:
-      - name
       - roomType
-      - userId
       type: object
     schemas.GetChatPreviewResponse:
       example:
@@ -215,6 +226,7 @@ components:
         - isBlocked: true
           name: name
           roomId: roomId
+          roomType: roomType
           users:
           - role: role
             userId: userId
@@ -223,6 +235,7 @@ components:
         - isBlocked: true
           name: name
           roomId: roomId
+          roomType: roomType
           users:
           - role: role
             userId: userId
@@ -240,7 +253,7 @@ components:
       - rooms
       - size
       type: object
-    schemas.MessageReaders:
+    schemas.MessageReader:
       example:
         readDate: readDate
         userId: userId
@@ -267,7 +280,7 @@ components:
           type: string
         messageReaders:
           items:
-            $ref: '#/components/schemas/schemas.MessageReaders'
+            $ref: '#/components/schemas/schemas.MessageReader'
           type: array
         ownerId:
           type: string
@@ -333,6 +346,7 @@ components:
         isBlocked: true
         name: name
         roomId: roomId
+        roomType: roomType
         users:
         - role: role
           userId: userId
@@ -346,6 +360,8 @@ components:
           type: string
         roomId:
           type: string
+        roomType:
+          type: string
         users:
           items:
             $ref: '#/components/schemas/schemas.UserResponse'
@@ -354,6 +370,7 @@ components:
       - isBlocked
       - name
       - roomId
+      - roomType
       - users
       type: object
     schemas.UserResponse:
