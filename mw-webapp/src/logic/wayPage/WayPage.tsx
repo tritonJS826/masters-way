@@ -932,7 +932,7 @@ export const WayPage = observer((props: WayPageProps) => {
             <Modal
               trigger={
                 <Button
-                  value={LanguageService.way.filterBlock.adjustJobTags[language]}
+                  value={LanguageService.way.filterBlock.adjustLabels[language]}
                   buttonType={ButtonType.SECONDARY}
                   onClick={() => { }}
                 />

@@ -99,13 +99,13 @@ export const LabelLine = observer((props: LabelLineProps) => {
       {/* remove button */}
       {props.isEditable && (
         <Tooltip
-          content={LanguageService.way.filterBlock.deleteFromJobTags[language]}
+          content={LanguageService.way.filterBlock.deleteFromLabels[language]}
           position={PositionTooltip.LEFT}
         >
           <Confirm
             trigger={<TrashIcon className={styles.icon} />}
             content={<p>
-              {LanguageService.way.filterBlock.deleteJobTagQuestion[language].replace("$jobTag", `"${props.label.name}"`)}
+              {LanguageService.way.filterBlock.deleteLabelQuestion[language].replace("$label", `"${props.label.name}"`)}
             </p>}
             onOk={() => props.onRemoveLabel(props.label.uuid)}
             okText={LanguageService.modals.confirmModal.deleteButton[language]}

@@ -29,6 +29,7 @@ export * from './SchemasDeleteMentorUserWayPayload';
 export * from './SchemasGenerateMetricsPayload';
 export * from './SchemasGetAllUsersResponse';
 export * from './SchemasGetAllWaysResponse';
+export * from './SchemasGetUsersByIDsResponse';
 export * from './SchemasJobDonePopulatedResponse';
 export * from './SchemasJobTagResponse';
 export * from './SchemasMetricResponse';

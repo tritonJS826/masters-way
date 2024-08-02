@@ -46,30 +46,24 @@ export const teamMembers: TeamMemberType[] = [
   },
   {
     id: 7,
-    name: "Polina Kuzmenko",
-    description: "QA Engineer",
-    imageUrl: "https://drive.google.com/thumbnail?id=1XulpnGd1SKCUffIqS9uRdTBJwYES_IRL&sz=w1000",
-  },
-  {
-    id: 8,
     name: "Vitalii Rudobaba",
     description: "QA Engineer",
     imageUrl: "https://drive.google.com/thumbnail?id=1-KVbXharQxhMwZJ_hzzVU7qoiiIXLnEb&sz=w1000",
   },
   {
-    id: 9,
+    id: 8,
     name: "Evgenia Karizno",
     description: "QA Engineer",
     imageUrl: "https://drive.google.com/thumbnail?id=1ZZm71KNvznyTIn8hD8Fiss4wBO3X-o-I&sz=w1000",
   },
   {
-    id: 10,
+    id: 9,
     name: "Irina Vergun",
     description: "Marketer/Content-maker",
     imageUrl: "https://drive.google.com/thumbnail?id=1mteZzn37EDT1VgpTEvSriO_Zt8yA0yaK&sz=w1000",
   },
   {
-    id: 11,
+    id: 10,
     name: "Yuliya Demidyuk",
     description: "Marketer/Content-maker",
     imageUrl: "https://drive.google.com/thumbnail?id=1X2V57H2VaX7K80tUI1tb1Vgzq-359T5w&sz=w1000",

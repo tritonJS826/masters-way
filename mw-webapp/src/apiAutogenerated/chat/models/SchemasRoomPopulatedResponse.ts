@@ -49,7 +49,7 @@ export interface SchemasRoomPopulatedResponse {
      * @type {string}
      * @memberof SchemasRoomPopulatedResponse
      */
-    name: string | null;
+    name: string;
     /**
      * 
      * @type {string}
