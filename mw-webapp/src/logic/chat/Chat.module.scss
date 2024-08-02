@@ -134,6 +134,20 @@ $modal-animation-time: 150ms;
   gap: $gapExtraBig;
 }
 
+.unreadMessagesAmount {
+  position: absolute;
+  bottom: -15px;
+  left: calc(50% - 15px);
+  display: flex;
+  width: 30px;
+  height: 30px;
+  align-items: center;
+  justify-content: center;
+  padding: $paddingExtraSmall;
+  border-radius: $tagBorderRadius;
+  background-color: var(--primaryBgColor);
+}
+
 @keyframes overlayShow {
   from {
     opacity: 0;

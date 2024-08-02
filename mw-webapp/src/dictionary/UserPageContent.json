@@ -1,5 +1,10 @@
 {
   "personalInfo": {
+    "writeToConnectButton": {
+      "ru": "Связаться",
+      "en": "Connect",
+      "ua": "Зв'язатися"
+    },
     "about": {
       "ru": "О себе:",
       "en": "About me:",

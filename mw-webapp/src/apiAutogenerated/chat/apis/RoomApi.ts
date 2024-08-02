@@ -61,7 +61,7 @@ export interface GetRoomByIdRequest {
 }
 
 export interface GetRoomsRequest {
-    roomType: string;
+    roomType: GetRoomsRoomTypeEnum;
 }
 
 export interface UpdateRoomRequest {
@@ -328,3 +328,12 @@ export class RoomApi extends runtime.BaseAPI {
     }
 
 }
+
+/**
+ * @export
+ */
+export const GetRoomsRoomTypeEnum = {
+    Private: 'private',
+    Group: 'group'
+} as const;
+export type GetRoomsRoomTypeEnum = typeof GetRoomsRoomTypeEnum[keyof typeof GetRoomsRoomTypeEnum];

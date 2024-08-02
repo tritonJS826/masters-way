@@ -56,6 +56,7 @@ models/SchemasDeleteMentorUserWayPayload.ts
 models/SchemasGenerateMetricsPayload.ts
 models/SchemasGetAllUsersResponse.ts
 models/SchemasGetAllWaysResponse.ts
+models/SchemasGetUsersByIDsResponse.ts
 models/SchemasJobDonePopulatedResponse.ts
 models/SchemasJobTagResponse.ts
 models/SchemasMetricResponse.ts

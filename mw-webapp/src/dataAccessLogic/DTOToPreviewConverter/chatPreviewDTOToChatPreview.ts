@@ -7,7 +7,7 @@ import {ChatPreview} from "src/model/businessModelPreview/ChatPreview";
 export const chatPreviewDTOToChatPreview = (chatPreviewDTO: SchemasRoomPreviewResponse): ChatPreview => {
   return new ChatPreview({
     ...chatPreviewDTO,
-    name: chatPreviewDTO.name ?? "Chat has no name",
+    name: chatPreviewDTO.name,
     src: null,
   });
 };

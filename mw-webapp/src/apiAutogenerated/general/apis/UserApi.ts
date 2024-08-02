@@ -16,6 +16,7 @@
 import * as runtime from '../runtime';
 import type {
   SchemasGetAllUsersResponse,
+  SchemasGetUsersByIDsResponse,
   SchemasUpdateUserPayload,
   SchemasUserPlainResponse,
   SchemasUserPopulatedResponse,
@@ -23,6 +24,8 @@ import type {
 import {
     SchemasGetAllUsersResponseFromJSON,
     SchemasGetAllUsersResponseToJSON,
+    SchemasGetUsersByIDsResponseFromJSON,
+    SchemasGetUsersByIDsResponseToJSON,
     SchemasUpdateUserPayloadFromJSON,
     SchemasUpdateUserPayloadToJSON,
     SchemasUserPlainResponseFromJSON,
@@ -41,6 +44,10 @@ export interface GetAllUsersRequest {
 
 export interface GetUserByUuidRequest {
     userId: string;
+}
+
+export interface GetUsersByIdsRequest {
+    request: Array<string>;
 }
 
 export interface UpdateUserRequest {
@@ -128,6 +135,39 @@ export class UserApi extends runtime.BaseAPI {
      */
     async getUserByUuid(requestParameters: GetUserByUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasUserPopulatedResponse> {
         const response = await this.getUserByUuidRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Get users by ids
+     */
+    async getUsersByIdsRaw(requestParameters: GetUsersByIdsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<SchemasGetUsersByIDsResponse>>> {
+        if (requestParameters.request === null || requestParameters.request === undefined) {
+            throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling getUsersByIds.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/users/list-by-ids`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+            body: requestParameters.request,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(SchemasGetUsersByIDsResponseFromJSON));
+    }
+
+    /**
+     * Get users by ids
+     */
+    async getUsersByIds(requestParameters: GetUsersByIdsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<SchemasGetUsersByIDsResponse>> {
+        const response = await this.getUsersByIdsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

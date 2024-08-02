@@ -8,7 +8,7 @@ import {Chat} from "src/model/businessModel/Chat";
 export const chatDTOToChat = (chatDTO: SchemasRoomPopulatedResponse): Chat => {
   return new Chat({
     ...chatDTO,
-    name: chatDTO.name ?? "Chat has no name",
+    name: chatDTO.name,
     src: null,
     users: chatDTO.users.map(chatUserDTOToChatUser),
   });

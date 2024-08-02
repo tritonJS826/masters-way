@@ -6,7 +6,7 @@ models/SchemasCreateMessagePayload.ts
 models/SchemasCreateRoomPayload.ts
 models/SchemasGetChatPreviewResponse.ts
 models/SchemasGetRoomsResponse.ts
-models/SchemasMessageReaders.ts
+models/SchemasMessageReader.ts
 models/SchemasMessageResponse.ts
 models/SchemasRoomPopulatedResponse.ts
 models/SchemasRoomPreviewResponse.ts

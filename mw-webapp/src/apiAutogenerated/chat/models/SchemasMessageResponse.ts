@@ -13,12 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { SchemasMessageReaders } from './SchemasMessageReaders';
+import type { SchemasMessageReader } from './SchemasMessageReader';
 import {
-    SchemasMessageReadersFromJSON,
-    SchemasMessageReadersFromJSONTyped,
-    SchemasMessageReadersToJSON,
-} from './SchemasMessageReaders';
+    SchemasMessageReaderFromJSON,
+    SchemasMessageReaderFromJSONTyped,
+    SchemasMessageReaderToJSON,
+} from './SchemasMessageReader';
 
 /**
  * 
@@ -34,16 +34,28 @@ export interface SchemasMessageResponse {
     message: string;
     /**
      * 
-     * @type {Array<SchemasMessageReaders>}
+     * @type {Array<SchemasMessageReader>}
      * @memberof SchemasMessageResponse
      */
-    messageReaders: Array<SchemasMessageReaders>;
+    messageReaders: Array<SchemasMessageReader>;
     /**
      * 
      * @type {string}
      * @memberof SchemasMessageResponse
      */
     ownerId: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemasMessageResponse
+     */
+    ownerImageUrl: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemasMessageResponse
+     */
+    ownerName: string | null;
 }
 
 /**
@@ -56,6 +68,8 @@ export function instanceOfSchemasMessageResponse(
     isInstance = isInstance && "message" in value;
     isInstance = isInstance && "messageReaders" in value;
     isInstance = isInstance && "ownerId" in value;
+    isInstance = isInstance && "ownerImageUrl" in value;
+    isInstance = isInstance && "ownerName" in value;
 
     return isInstance;
 }
@@ -74,8 +88,10 @@ export function SchemasMessageResponseFromJSONTyped(
     return {
         
         'message': json['message'],
-        'messageReaders': ((json['messageReaders'] as Array<any>).map(SchemasMessageReadersFromJSON)),
+        'messageReaders': ((json['messageReaders'] as Array<any>).map(SchemasMessageReaderFromJSON)),
         'ownerId': json['ownerId'],
+        'ownerImageUrl': json['ownerImageUrl'],
+        'ownerName': json['ownerName'],
     };
 }
 
@@ -90,8 +106,10 @@ export function SchemasMessageResponseToJSON(value?: SchemasMessageResponse | nu
     return {
         
         'message': value.message,
-        'messageReaders': ((value.messageReaders as Array<any>).map(SchemasMessageReadersToJSON)),
+        'messageReaders': ((value.messageReaders as Array<any>).map(SchemasMessageReaderToJSON)),
         'ownerId': value.ownerId,
+        'ownerImageUrl': value.ownerImageUrl,
+        'ownerName': value.ownerName,
     };
 }
 
