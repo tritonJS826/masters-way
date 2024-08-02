@@ -37,8 +37,8 @@
     "@openapitools/openapi-generator-cli": "^2.9.0"
   },
   "engines": {
-    "node": "20.11.0",
-    "pnpm": "8.15.2"
+    "node": "22.5.1",
+    "pnpm": "9.6.0"
   },
   "packageManager": "pnpm@8.15.2"
 }
