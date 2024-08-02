@@ -56,6 +56,7 @@ SELECT
     )::TIMESTAMP[] AS message_status_updated_at
 FROM messages
 WHERE room_uuid = $1
+LIMIT 100
 `
 
 type GetMessagesByRoomUUIDRow struct {

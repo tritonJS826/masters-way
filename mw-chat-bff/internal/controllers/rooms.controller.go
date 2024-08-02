@@ -70,7 +70,7 @@ func (cc *RoomsController) GetRooms(ctx *gin.Context) {
 		})
 	})
 
-	populatedUserMap, err := cc.usersService.GetChatUsers(ctx, userIDsFromAllRooms)
+	populatedUserMap, err := cc.usersService.GetPopulatedUsers(ctx, userIDsFromAllRooms)
 	util.HandleErrorGin(ctx, err)
 
 	rooms.Rooms = lo.Map(rooms.Rooms, func(room schemas.RoomPreviewResponse, _ int) schemas.RoomPreviewResponse {
@@ -88,6 +88,9 @@ func (cc *RoomsController) GetRooms(ctx *gin.Context) {
 
 		if room.RoomType == RoomTypePrivate {
 			room.Name, err = getPrivateRoomName(ctx, room.Users)
+			util.HandleErrorGin(ctx, err)
+
+			room.ImageURL, err = getPrivateRoomImageURL(ctx, room.Users)
 			util.HandleErrorGin(ctx, err)
 		}
 
@@ -116,7 +119,7 @@ func (cc *RoomsController) GetRoomById(ctx *gin.Context) {
 		return user.UserID
 	})
 
-	populatedUserMap, err := cc.usersService.GetChatUsers(ctx, userIDs)
+	populatedUserMap, err := cc.usersService.GetPopulatedUsers(ctx, userIDs)
 	util.HandleErrorGin(ctx, err)
 
 	room.Users = lo.Map(room.Users, func(user schemas.UserResponse, _ int) schemas.UserResponse {
@@ -141,6 +144,9 @@ func (cc *RoomsController) GetRoomById(ctx *gin.Context) {
 	if room.RoomType == RoomTypePrivate {
 		room.Name, err = getPrivateRoomName(ctx, room.Users)
 		util.HandleErrorGin(ctx, err)
+
+		room.ImageURL, err = getPrivateRoomImageURL(ctx, room.Users)
+		util.HandleErrorGin(ctx, err)
 	}
 
 	ctx.JSON(http.StatusOK, &room)
@@ -163,29 +169,36 @@ func (cc *RoomsController) CreateRoom(ctx *gin.Context) {
 		return
 	}
 
+	currentUserIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	currentUserID := currentUserIDRaw.(string)
+
+	userIDs := []string{currentUserID}
+	if payload.RoomType == RoomTypePrivate {
+		userIDs = append(userIDs, *payload.UserID)
+	}
+
+	populatedUserMap, err := cc.usersService.GetPopulatedUsers(ctx, userIDs)
+	fmt.Println("cc.usersService.GetPopulatedUsers(ctx, userIDs) err: ", err)
+	if err != nil {
+		util.HandleErrorGin(ctx, fmt.Errorf("general service error: %w", err))
+	}
+
 	room, err := cc.roomsService.CreateRoom(ctx, payload)
-	util.HandleErrorGin(ctx, err)
-
-	userIDs := lo.Map(room.Users, func(user schemas.UserResponse, _ int) string {
-		return user.UserID
-	})
-
-	populatedUserMap, err := cc.usersService.GetChatUsers(ctx, userIDs)
-	util.HandleErrorGin(ctx, err)
+	if err != nil {
+		util.HandleErrorGin(ctx, fmt.Errorf("chat service error: %w", err))
+	}
 
 	room.Users = lo.Map(room.Users, func(user schemas.UserResponse, _ int) schemas.UserResponse {
-		populatedUser, ok := populatedUserMap[user.UserID]
-		if !ok {
-			util.HandleErrorGin(ctx, fmt.Errorf("User with ID %s not found in the general service", user.UserID))
-		}
-
-		user.Name = populatedUser.Name
-		user.ImageURL = populatedUser.ImageURL
+		user.Name = populatedUserMap[user.UserID].Name
+		user.ImageURL = populatedUserMap[user.UserID].ImageURL
 		return user
 	})
 
 	if room.RoomType == RoomTypePrivate {
 		room.Name, err = getPrivateRoomName(ctx, room.Users)
+		util.HandleErrorGin(ctx, err)
+
+		room.ImageURL, err = getPrivateRoomImageURL(ctx, room.Users)
 		util.HandleErrorGin(ctx, err)
 	}
 
@@ -239,21 +252,13 @@ func (cc *RoomsController) CreateMessage(ctx *gin.Context) {
 	}
 	userIDs[len(userIDs)-1] = message.OwnerID
 
-	populatedUserMap, err := cc.usersService.GetChatUsers(ctx, userIDs)
-	util.HandleErrorGin(ctx, err)
-
-	if populatedUser, ok := populatedUserMap[message.OwnerID]; ok {
-		message.OwnerName = populatedUser.Name
-		message.OwnerImageURL = populatedUser.ImageURL
+	populatedUserMap, err := cc.usersService.GetPopulatedUsers(ctx, userIDs)
+	if err != nil {
+		util.HandleErrorGin(ctx, fmt.Errorf("general service error: %w", err))
 	}
 
-	populatedUser, ok := populatedUserMap[message.OwnerID]
-	if !ok {
-		util.HandleErrorGin(ctx, fmt.Errorf("User with ID %s not found in the general service", message.OwnerID))
-	}
-
-	message.OwnerName = populatedUser.Name
-	message.OwnerImageURL = populatedUser.ImageURL
+	message.OwnerName = populatedUserMap[message.OwnerID].Name
+	message.OwnerImageURL = populatedUserMap[message.OwnerID].ImageURL
 
 	message.Readers = lo.Map(message.Readers, func(reader schemas.MessageReader, _ int) schemas.MessageReader {
 		if populatedUser, ok := populatedUserMap[reader.UserID]; ok {
@@ -311,7 +316,7 @@ func (cc *RoomsController) DeleteUserFromRoom(ctx *gin.Context) {
 
 func getPrivateRoomName(ctx *gin.Context, users []schemas.UserResponse) (string, error) {
 	if len(users) != 2 {
-		return "", fmt.Errorf("a private room must contain exactly 2 users, got %d", len(users))
+		return "", fmt.Errorf("A private room must contain exactly 2 users, got %d", len(users))
 	}
 
 	currentUserIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
@@ -322,6 +327,24 @@ func getPrivateRoomName(ctx *gin.Context, users []schemas.UserResponse) (string,
 
 	if users[1].UserID != currentUserID {
 		return users[1].Name, nil
+	}
+
+	return "", fmt.Errorf("current user ID %s does not match any of the provided users", currentUserID)
+}
+
+func getPrivateRoomImageURL(ctx *gin.Context, users []schemas.UserResponse) (string, error) {
+	if len(users) != 2 {
+		return "", fmt.Errorf("A private room must contain exactly 2 users, got %d", len(users))
+	}
+
+	currentUserIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	currentUserID := currentUserIDRaw.(string)
+	if users[0].UserID != currentUserID {
+		return users[0].ImageURL, nil
+	}
+
+	if users[1].UserID != currentUserID {
+		return users[1].ImageURL, nil
 	}
 
 	return "", fmt.Errorf("current user ID %s does not match any of the provided users", currentUserID)

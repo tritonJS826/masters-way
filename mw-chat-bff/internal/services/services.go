@@ -20,7 +20,7 @@ type IRoomsService interface {
 }
 
 type IUsersService interface {
-	GetChatUsers(ctx *gin.Context, userIDs []string) (map[string]PopulatedUser, error)
+	GetPopulatedUsers(ctx *gin.Context, userIDs []string) (map[string]PopulatedUser, error)
 }
 
 type IMWChatWebSocketService interface {

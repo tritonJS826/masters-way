@@ -12,7 +12,7 @@ import (
 
 const ContextKeyUserID = "userID"
 
-var jwtKey = []byte("your_secret_key")
+var jwtKey = []byte("")
 
 type Claims struct {
 	UserID string `json:"userID"`

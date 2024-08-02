@@ -20,6 +20,7 @@ type Querier interface {
 	GetMessagesByRoomUUID(ctx context.Context, roomUuid pgtype.UUID) ([]GetMessagesByRoomUUIDRow, error)
 	GetRoomByUUID(ctx context.Context, arg GetRoomByUUIDParams) (GetRoomByUUIDRow, error)
 	GetRoomsByUserUUID(ctx context.Context, arg GetRoomsByUserUUIDParams) ([]GetRoomsByUserUUIDRow, error)
+	ReadMessages(ctx context.Context, arg ReadMessagesParams) error
 	RegenerateDbData(ctx context.Context) error
 	RemoveEverything(ctx context.Context) error
 }

@@ -404,6 +404,7 @@ const docTemplate = `{
         "schemas.RoomPopulatedResponse": {
             "type": "object",
             "required": [
+                "imageUrl",
                 "isBlocked",
                 "messages",
                 "name",
@@ -412,6 +413,9 @@ const docTemplate = `{
                 "users"
             ],
             "properties": {
+                "imageUrl": {
+                    "type": "string"
+                },
                 "isBlocked": {
                     "type": "boolean"
                 },
@@ -441,6 +445,7 @@ const docTemplate = `{
         "schemas.RoomPreviewResponse": {
             "type": "object",
             "required": [
+                "imageUrl",
                 "isBlocked",
                 "name",
                 "roomId",
@@ -448,6 +453,9 @@ const docTemplate = `{
                 "users"
             ],
             "properties": {
+                "imageUrl": {
+                    "type": "string"
+                },
                 "isBlocked": {
                     "type": "boolean"
                 },

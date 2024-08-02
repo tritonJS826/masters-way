@@ -77,6 +77,8 @@ definitions:
     type: object
   schemas.RoomPopulatedResponse:
     properties:
+      imageUrl:
+        type: string
       isBlocked:
         type: boolean
       messages:
@@ -94,6 +96,7 @@ definitions:
           $ref: '#/definitions/schemas.UserResponse'
         type: array
     required:
+    - imageUrl
     - isBlocked
     - messages
     - name
@@ -103,6 +106,8 @@ definitions:
     type: object
   schemas.RoomPreviewResponse:
     properties:
+      imageUrl:
+        type: string
       isBlocked:
         type: boolean
       name:
@@ -116,6 +121,7 @@ definitions:
           $ref: '#/definitions/schemas.UserResponse'
         type: array
     required:
+    - imageUrl
     - isBlocked
     - name
     - roomId

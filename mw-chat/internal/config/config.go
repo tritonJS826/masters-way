@@ -8,10 +8,10 @@ import (
 
 type Config struct {
 	ServerPort    string `mapstructure:"SERVER_PORT"`
-	WebappBaseUrl string `mapstructure:"WEBAPP_BASE_URL"`
+	WebappBaseURL string `mapstructure:"WEBAPP_BASE_URL"`
 	EnvType       string `mapstructure:"ENV_TYPE"`
-	DbSource      string `mapstructure:"DB_SOURCE"`
-	ChatBaseUrl   string `mapstructure:"CHAT_BASE_URL"`
+	DBSource      string `mapstructure:"DB_SOURCE"`
+	ChatBaseURL   string `mapstructure:"CHAT_BASE_URL"`
 }
 
 func LoadConfig(path string) (config Config, err error) {

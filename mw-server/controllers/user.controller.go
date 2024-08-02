@@ -3,6 +3,7 @@ package controllers
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -214,12 +215,22 @@ func (cc *UserController) GetUsersByIDs(ctx *gin.Context) {
 	dbUsers, err := cc.db.GetUsersByIds(ctx, usersPgUUIDs)
 	util.HandleErrorGin(ctx, err)
 
-	response := lo.Map(dbUsers, func(dbUser db.GetUsersByIdsRow, i int) schemas.GetUsersByIDsResponse {
-		return schemas.GetUsersByIDsResponse{
-			UserID:   util.ConvertPgUUIDToUUID(dbUser.Uuid).String(),
-			Name:     dbUser.Name,
-			ImageURL: dbUser.ImageUrl,
+	dbUsersMap := lo.SliceToMap(dbUsers, func(dbUser db.GetUsersByIdsRow) (string, db.GetUsersByIdsRow) {
+		return util.ConvertPgUUIDToUUID(dbUser.Uuid).String(), dbUser
+	})
+
+	response := lo.Map(payload, func(userID string, _ int) schemas.GetUsersByIDsResponse {
+		var userResponse schemas.GetUsersByIDsResponse
+		if dbUser, exists := dbUsersMap[userID]; exists {
+			userResponse = schemas.GetUsersByIDsResponse{
+				UserID:   util.ConvertPgUUIDToUUID(dbUser.Uuid).String(),
+				Name:     dbUser.Name,
+				ImageURL: dbUser.ImageUrl,
+			}
+		} else {
+			util.HandleErrorGin(ctx, fmt.Errorf("User ID %s not found in the database", userID))
 		}
+		return userResponse
 	})
 
 	ctx.JSON(http.StatusOK, response)
