@@ -1,3 +1,4 @@
+import {makeObservable} from "mobx";
 import {ChatUser} from "src/model/businessModel/ChatUser";
 import {Message} from "src/model/businessModel/Message";
 
@@ -73,6 +74,7 @@ export class Chat {
   public users: ChatUser[];
 
   constructor(chatData: ChatProps) {
+    makeObservable(this);
     this.roomId = chatData.roomId;
     this.name = chatData.name;
     this.messages = chatData.messages;
@@ -80,5 +82,12 @@ export class Chat {
     this.src = chatData.src;
     this.users = chatData.users;
   }
+
+  /**
+   * Add message to chat
+   */
+  public addMessage = (newMessage: Message) => {
+    this.messages.push(newMessage);
+  };
 
 }

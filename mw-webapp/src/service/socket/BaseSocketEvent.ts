@@ -7,7 +7,7 @@ export class BaseSocketEvent {
    * Event name. Format:  microservice:event-name
    * Example: "mw-chat-websocket:message-received"
    */
-  public name: string;
+  public type: string;
 
   /**
    * Event payload
@@ -15,7 +15,7 @@ export class BaseSocketEvent {
   public payload: object;
 
   constructor(params: BaseSocketEvent) {
-    this.name = params.name;
+    this.type = params.type;
     this.payload = params.payload;
   }
 

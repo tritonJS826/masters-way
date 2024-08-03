@@ -8,14 +8,66 @@ import {ChatEventId} from "src/eventBus/events/chat/ChatEventDict";
 import {populateWithBaseEvent} from "src/eventBus/events/populateWithBaseEvent";
 
 /**
+ * Users who already read message
+ */
+type MessageReader = {
+
+  /**
+   * User id
+   */
+  userId: string;
+
+  /**
+   * Message creator id
+   */
+  name: string;
+
+  /**
+   * Message creator
+   */
+  imageUrl: string;
+
+  /**
+   * Date when message was read by reader
+   */
+  readDate: string;
+}
+
+/**
  * Event fired when a message received from websocket
  */
 export type ChatMessageReceivedPayload = {
 
   /**
+   * Message creator user id
+   */
+  ownerId: string;
+
+  /**
+   * Message creator name
+   */
+  ownerName: string;
+
+  /**
+   * Message owner image url
+   * example: "https://lh3.google.com/u/0/d/18oHI9KoiaYvd_UowHyqsJbDLLhmuxPxr=w1919-h1079-iv2"
+   */
+  ownerImageUrl: string;
+
+  /**
    * Message text
    */
-  text: string;
+  message: string;
+
+  /**
+   * List of users who already read message
+   */
+  messageReaders: MessageReader[];
+
+  /**
+   * Room id for this message
+   */
+  roomId: string;
 
 };
 
