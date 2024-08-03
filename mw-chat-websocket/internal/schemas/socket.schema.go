@@ -27,9 +27,14 @@ type MessageResponse struct {
 	Readers       []MessageReader `json:"messageReaders" validate:"required"`
 }
 
-func MakeMessageReceived(payload *MessageResponse) *MessageReceived {
+type SendMessagePayload struct {
+	Users   []string        `json:"users" validate:"required"`
+	Message MessageResponse `json:"message" validate:"required"`
+}
+
+func MakeMessageReceived(payload MessageResponse) *MessageReceived {
 	return &MessageReceived{
 		Type:    "mw-chat-websocket:message-received",
-		Payload: *payload,
+		Payload: payload,
 	}
 }

@@ -86,6 +86,7 @@ Class | Method | HTTP request | Description
 
  - [SchemasMessageReader](docs/SchemasMessageReader.md)
  - [SchemasMessageResponse](docs/SchemasMessageResponse.md)
+ - [SchemasSendMessagePayload](docs/SchemasSendMessagePayload.md)
 
 
 ## Documentation For Authorization

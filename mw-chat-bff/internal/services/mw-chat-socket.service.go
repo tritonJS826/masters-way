@@ -15,15 +15,17 @@ func NewMWChatSocketService(mwChatWebSocketAPI *openapiMWChatWebSocket.APIClient
 	return &MWChatWebSocketService{mwChatWebSocketAPI}
 }
 
-func (mwChatWebSocketService *MWChatWebSocketService) GetChatUsers(ctx *gin.Context, roomID string, message *schemas.MessageResponse) error {
-	request := openapiMWChatWebSocket.SchemasMessageResponse{
-		Message: message.Message,
-		// TODO:
-		MessageReaders: []openapiMWChatWebSocket.SchemasMessageReader{},
-		OwnerId:        message.OwnerID,
-		OwnerImageUrl:  message.OwnerImageURL,
-		OwnerName:      message.OwnerName,
-		RoomId:         roomID,
+func (mwChatWebSocketService *MWChatWebSocketService) SendMessage(ctx *gin.Context, roomID string, messageResponse *schemas.CreateMessageResponse) error {
+	request := openapiMWChatWebSocket.SchemasSendMessagePayload{
+		Message: openapiMWChatWebSocket.SchemasMessageResponse{
+			Message:        messageResponse.Message.Message,
+			MessageReaders: []openapiMWChatWebSocket.SchemasMessageReader{},
+			OwnerId:        messageResponse.Message.OwnerID,
+			OwnerImageUrl:  messageResponse.Message.OwnerImageURL,
+			OwnerName:      messageResponse.Message.OwnerName,
+			RoomId:         roomID,
+		},
+		Users: messageResponse.Users,
 	}
 	_, err := mwChatWebSocketService.mwChatWebSocketAPI.SocketAPI.SendMessageToSocket(ctx).Request(request).Execute()
 	if err != nil {

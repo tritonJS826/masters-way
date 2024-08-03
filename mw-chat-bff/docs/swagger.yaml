@@ -6,6 +6,18 @@ definitions:
     required:
     - message
     type: object
+  schemas.CreateMessageResponse:
+    properties:
+      message:
+        $ref: '#/definitions/schemas.MessageResponse'
+      users:
+        items:
+          type: string
+        type: array
+    required:
+    - message
+    - users
+    type: object
   schemas.CreateRoomPayload:
     properties:
       name:
@@ -233,7 +245,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.MessageResponse'
+            $ref: '#/definitions/schemas.CreateMessageResponse'
       summary: Create message in room
       tags:
       - room

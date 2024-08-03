@@ -221,15 +221,15 @@ func (roomsService *RoomsService) UpdateRoom(ctx *gin.Context, roomId string) (*
 	return &roomPopulatedResponse, nil
 }
 
-func (roomsService *RoomsService) CreateMessage(ctx *gin.Context, messageText, roomId string) (*schemas.MessageResponse, error) {
+func (roomsService *RoomsService) CreateMessage(ctx *gin.Context, messageText, roomId string) (*schemas.CreateMessageResponse, error) {
 	messageRaw, _, err := roomsService.chatAPI.RoomAPI.CreateMessageInRoom(ctx, roomId).Request(openapiChat.SchemasCreateMessagePayload{
 		Message: messageText,
 	}).Execute()
 	if err != nil {
-		return &schemas.MessageResponse{}, err
+		return nil, err
 	}
 
-	messageReaders := lo.Map(messageRaw.MessageReaders, func(messageReaderRaw openapiChat.SchemasMessageReader, i int) schemas.MessageReader {
+	messageReaders := lo.Map(messageRaw.Message.MessageReaders, func(messageReaderRaw openapiChat.SchemasMessageReader, i int) schemas.MessageReader {
 		return schemas.MessageReader{
 			UserID:   messageReaderRaw.UserId,
 			ReadDate: messageReaderRaw.ReadDate,
@@ -237,12 +237,15 @@ func (roomsService *RoomsService) CreateMessage(ctx *gin.Context, messageText, r
 	})
 
 	message := schemas.MessageResponse{
-		OwnerID: messageRaw.OwnerId,
-		Message: messageRaw.Message,
+		OwnerID: messageRaw.Message.OwnerId,
+		Message: messageRaw.Message.Message,
 		Readers: messageReaders,
 	}
 
-	return &message, nil
+	return &schemas.CreateMessageResponse{
+		Users:   messageRaw.Users,
+		Message: message,
+	}, nil
 }
 
 func (roomsService *RoomsService) AddUserToRoom(ctx *gin.Context, roomId string, userId string) (*schemas.RoomPreviewResponse, error) {

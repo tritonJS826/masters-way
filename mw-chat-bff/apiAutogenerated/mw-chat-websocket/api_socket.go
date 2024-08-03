@@ -116,11 +116,11 @@ func (a *SocketAPIService) ConnectSocketExecute(r ApiConnectSocketRequest) (*htt
 type ApiSendMessageToSocketRequest struct {
 	ctx context.Context
 	ApiService *SocketAPIService
-	request *SchemasMessageResponse
+	request *SchemasSendMessagePayload
 }
 
 // query params
-func (r ApiSendMessageToSocketRequest) Request(request SchemasMessageResponse) ApiSendMessageToSocketRequest {
+func (r ApiSendMessageToSocketRequest) Request(request SchemasSendMessagePayload) ApiSendMessageToSocketRequest {
 	r.request = &request
 	return r
 }

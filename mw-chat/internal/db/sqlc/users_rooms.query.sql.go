@@ -40,3 +40,30 @@ func (q *Queries) AddUserToRoom(ctx context.Context, arg AddUserToRoomParams) (A
 	err := row.Scan(&i.UserUuid, &i.UserRole)
 	return i, err
 }
+
+const getUsersUUIDsInRoom = `-- name: GetUsersUUIDsInRoom :many
+SELECT user_uuid
+FROM users_rooms
+WHERE is_room_blocked = false
+    AND room_uuid = $1
+`
+
+func (q *Queries) GetUsersUUIDsInRoom(ctx context.Context, roomUuid pgtype.UUID) ([]pgtype.UUID, error) {
+	rows, err := q.db.Query(ctx, getUsersUUIDsInRoom, roomUuid)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []pgtype.UUID{}
+	for rows.Next() {
+		var user_uuid pgtype.UUID
+		if err := rows.Scan(&user_uuid); err != nil {
+			return nil, err
+		}
+		items = append(items, user_uuid)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}

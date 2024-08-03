@@ -205,7 +205,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.MessageResponse"
+                            "$ref": "#/definitions/schemas.CreateMessageResponse"
                         }
                     }
                 }
@@ -297,6 +297,24 @@ const docTemplate = `{
             "properties": {
                 "message": {
                     "type": "string"
+                }
+            }
+        },
+        "schemas.CreateMessageResponse": {
+            "type": "object",
+            "required": [
+                "message",
+                "users"
+            ],
+            "properties": {
+                "message": {
+                    "$ref": "#/definitions/schemas.MessageResponse"
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             }
         },

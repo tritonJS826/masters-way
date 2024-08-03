@@ -35,7 +35,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.MessageResponse"
+                            "$ref": "#/definitions/schemas.SendMessagePayload"
                         }
                     }
                 ],
@@ -131,6 +131,24 @@ const docTemplate = `{
                 },
                 "roomId": {
                     "type": "string"
+                }
+            }
+        },
+        "schemas.SendMessagePayload": {
+            "type": "object",
+            "required": [
+                "message",
+                "users"
+            ],
+            "properties": {
+                "message": {
+                    "$ref": "#/definitions/schemas.MessageResponse"
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             }
         }

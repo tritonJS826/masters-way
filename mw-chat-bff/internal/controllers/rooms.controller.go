@@ -231,7 +231,7 @@ func (cc *RoomsController) UpdateRoom(ctx *gin.Context) {
 // @Produce  json
 // @Param request body schemas.CreateMessagePayload true "query params"
 // @Param roomId path string true "room Id"
-// @Success 200 {object} schemas.MessageResponse
+// @Success 200 {object} schemas.CreateMessageResponse
 // @Router /rooms/{roomId}/messages [post]
 func (cc *RoomsController) CreateMessage(ctx *gin.Context) {
 	var payload *schemas.CreateMessagePayload
@@ -243,35 +243,21 @@ func (cc *RoomsController) CreateMessage(ctx *gin.Context) {
 
 	roomId := ctx.Param("roomId")
 
-	message, err := cc.roomsService.CreateMessage(ctx, payload.Message, roomId)
+	messageResponse, err := cc.roomsService.CreateMessage(ctx, payload.Message, roomId)
 	util.HandleErrorGin(ctx, err)
 
-	userIDs := make([]string, len(message.Readers)+1)
-	for i, reader := range message.Readers {
-		userIDs[i] = reader.UserID
-	}
-	userIDs[len(userIDs)-1] = message.OwnerID
-
-	populatedUserMap, err := cc.usersService.GetPopulatedUsers(ctx, userIDs)
+	populatedUserMap, err := cc.usersService.GetPopulatedUsers(ctx, []string{messageResponse.Message.OwnerID})
 	if err != nil {
 		util.HandleErrorGin(ctx, fmt.Errorf("general service error: %w", err))
 	}
 
-	message.OwnerName = populatedUserMap[message.OwnerID].Name
-	message.OwnerImageURL = populatedUserMap[message.OwnerID].ImageURL
+	messageResponse.Message.OwnerName = populatedUserMap[messageResponse.Message.OwnerID].Name
+	messageResponse.Message.OwnerImageURL = populatedUserMap[messageResponse.Message.OwnerID].ImageURL
 
-	message.Readers = lo.Map(message.Readers, func(reader schemas.MessageReader, _ int) schemas.MessageReader {
-		if populatedUser, ok := populatedUserMap[reader.UserID]; ok {
-			reader.Name = populatedUser.Name
-			reader.ImageURL = populatedUser.ImageURL
-		}
-		return reader
-	})
-
-	err = cc.mwChatWebSocketService.GetChatUsers(ctx, roomId, message)
+	err = cc.mwChatWebSocketService.SendMessage(ctx, roomId, messageResponse)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, &message)
+	ctx.JSON(http.StatusOK, &messageResponse)
 }
 
 // @Summary Add user to room

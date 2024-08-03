@@ -39,6 +39,18 @@ definitions:
     - ownerName
     - roomId
     type: object
+  schemas.SendMessagePayload:
+    properties:
+      message:
+        $ref: '#/definitions/schemas.MessageResponse'
+      users:
+        items:
+          type: string
+        type: array
+    required:
+    - message
+    - users
+    type: object
 info:
   contact: {}
 paths:
@@ -53,7 +65,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.MessageResponse'
+          $ref: '#/definitions/schemas.SendMessagePayload'
       produces:
       - application/json
       responses:

@@ -14,7 +14,7 @@ type IRoomsService interface {
 	GetRoomById(ctx *gin.Context, roomId string) (*schemas.RoomPopulatedResponse, error)
 	CreateRoom(ctx *gin.Context, createRoomPayload *schemas.CreateRoomPayload) (*schemas.RoomPopulatedResponse, error)
 	UpdateRoom(ctx *gin.Context, roomId string) (*schemas.RoomPopulatedResponse, error)
-	CreateMessage(ctx *gin.Context, messageText, roomId string) (*schemas.MessageResponse, error)
+	CreateMessage(ctx *gin.Context, messageText, roomId string) (*schemas.CreateMessageResponse, error)
 	AddUserToRoom(ctx *gin.Context, roomId string, userId string) (*schemas.RoomPreviewResponse, error)
 	DeleteUserFromRoom(ctx *gin.Context, roomId string, userId string) error
 }
@@ -24,7 +24,7 @@ type IUsersService interface {
 }
 
 type IMWChatWebSocketService interface {
-	GetChatUsers(ctx *gin.Context, roomID string, message *schemas.MessageResponse) error
+	SendMessage(ctx *gin.Context, roomID string, message *schemas.CreateMessageResponse) error
 }
 
 type Service struct {

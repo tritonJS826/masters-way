@@ -7,11 +7,13 @@ client.go
 configuration.go
 docs/SchemasMessageReader.md
 docs/SchemasMessageResponse.md
+docs/SchemasSendMessagePayload.md
 docs/SocketAPI.md
 git_push.sh
 go.mod
 go.sum
 model_schemas_message_reader.go
 model_schemas_message_response.go
+model_schemas_send_message_payload.go
 response.go
 utils.go

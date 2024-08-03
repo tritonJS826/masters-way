@@ -15,7 +15,7 @@ type RoomService interface {
 	GetRoomByUuid(ctx context.Context, userUUID, roomUUID uuid.UUID) (*schemas.RoomPopulatedResponse, error)
 	CreateRoom(ctx context.Context, roomParams *CreateRoomServiceParams) (*schemas.RoomPopulatedResponse, error)
 	BlockOrUnblockRoom(ctx context.Context, BlockOrUnblockParams *BlockOrUnblockRoomParams) error
-	CreateMessage(ctx context.Context, messageParams *RoomMessageParams) (*schemas.MessageResponse, error)
+	CreateMessage(ctx context.Context, messageParams *RoomMessageParams) (*schemas.CreateMessageResponse, error)
 	// AddUserToRoom(ctx context.Context, addUserToRoomParams *AddUserToRoomParams)
 }
 

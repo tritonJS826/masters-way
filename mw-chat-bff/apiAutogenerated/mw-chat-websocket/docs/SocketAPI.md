@@ -94,7 +94,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasMessageResponse("Message_example", []openapiclient.SchemasMessageReader{*openapiclient.NewSchemasMessageReader("ImageUrl_example", "Name_example", "ReadDate_example", "UserId_example")}, "OwnerId_example", "OwnerImageUrl_example", "OwnerName_example", "RoomId_example") // SchemasMessageResponse | query params
+	request := *openapiclient.NewSchemasSendMessagePayload(*openapiclient.NewSchemasMessageResponse("Message_example", []openapiclient.SchemasMessageReader{*openapiclient.NewSchemasMessageReader("ImageUrl_example", "Name_example", "ReadDate_example", "UserId_example")}, "OwnerId_example", "OwnerImageUrl_example", "OwnerName_example", "RoomId_example"), []string{"Users_example"}) // SchemasSendMessagePayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -117,7 +117,7 @@ Other parameters are passed through a pointer to a apiSendMessageToSocketRequest
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**SchemasMessageResponse**](SchemasMessageResponse.md) | query params | 
+ **request** | [**SchemasSendMessagePayload**](SchemasSendMessagePayload.md) | query params | 
 
 ### Return type
 

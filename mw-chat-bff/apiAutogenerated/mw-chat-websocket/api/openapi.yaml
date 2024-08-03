@@ -14,7 +14,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/schemas.MessageResponse'
+              $ref: '#/components/schemas/schemas.SendMessagePayload'
         description: query params
         required: true
       responses:
@@ -83,5 +83,17 @@ components:
       - ownerImageUrl
       - ownerName
       - roomId
+      type: object
+    schemas.SendMessagePayload:
+      properties:
+        message:
+          $ref: '#/components/schemas/schemas.MessageResponse'
+        users:
+          items:
+            type: string
+          type: array
+      required:
+      - message
+      - users
       type: object
 x-original-swagger-version: "2.0"
