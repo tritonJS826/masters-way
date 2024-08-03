@@ -220,17 +220,16 @@ func (cc *UserController) GetUsersByIDs(ctx *gin.Context) {
 	})
 
 	response := lo.Map(payload, func(userID string, _ int) schemas.GetUsersByIDsResponse {
-		var userResponse schemas.GetUsersByIDsResponse
-		if dbUser, exists := dbUsersMap[userID]; exists {
-			userResponse = schemas.GetUsersByIDsResponse{
-				UserID:   util.ConvertPgUUIDToUUID(dbUser.Uuid).String(),
-				Name:     dbUser.Name,
-				ImageURL: dbUser.ImageUrl,
-			}
-		} else {
+		dbUser, exists := dbUsersMap[userID]
+		if !exists {
 			util.HandleErrorGin(ctx, fmt.Errorf("User ID %s not found in the database", userID))
 		}
-		return userResponse
+
+		return schemas.GetUsersByIDsResponse{
+			UserID:   util.ConvertPgUUIDToUUID(dbUser.Uuid).String(),
+			Name:     dbUser.Name,
+			ImageURL: dbUser.ImageUrl,
+		}
 	})
 
 	ctx.JSON(http.StatusOK, response)

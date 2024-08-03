@@ -8,7 +8,7 @@ INSERT INTO message_status (message_uuid, receiver_uuid, is_read)
 SELECT @message_uuid, user_uuid, false
 FROM room_users;
 
--- name: ReadMessages :exec
+-- name: SetMessagesAsRead :exec
 UPDATE message_status
 SET is_read = true
 FROM messages

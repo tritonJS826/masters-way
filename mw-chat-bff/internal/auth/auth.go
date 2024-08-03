@@ -15,7 +15,7 @@ const HeaderKeyAuthorization = "Authorization"
 const ContextKeyAuthorization = "ContextKeyAuthorization"
 const ContextKeyUserID = "userID"
 
-var jwtKey = []byte("")
+var jwtKey = []byte("your_secret_key")
 
 type Claims struct {
 	UserID string `json:"userID"`

@@ -27,7 +27,7 @@ type RoomsRepository interface {
 	GetRoomsByUserUUID(ctx context.Context, arg db.GetRoomsByUserUUIDParams) ([]db.GetRoomsByUserUUIDRow, error)
 	GetRoomByUUID(ctx context.Context, arg db.GetRoomByUUIDParams) (db.GetRoomByUUIDRow, error)
 	AddUserToRoom(ctx context.Context, arg db.AddUserToRoomParams) (db.AddUserToRoomRow, error)
-	ReadMessages(ctx context.Context, arg db.ReadMessagesParams) error
+	SetMessagesAsRead(ctx context.Context, arg db.SetMessagesAsReadParams) error
 	WithTx(tx pgx.Tx) *db.Queries
 }
 
@@ -101,11 +101,11 @@ func (roomsService *RoomsService) GetRoomByUuid(ctx context.Context, userUUID, r
 		return nil, err
 	}
 
-	readMessagesParams := db.ReadMessagesParams{
+	readMessagesParams := db.SetMessagesAsReadParams{
 		RoomUuid: roomPgUUID,
 		UserUuid: userPgUUID,
 	}
-	err = roomsService.roomsRepository.ReadMessages(ctx, readMessagesParams)
+	err = roomsService.roomsRepository.SetMessagesAsRead(ctx, readMessagesParams)
 	if err != nil {
 		return nil, err
 	}
