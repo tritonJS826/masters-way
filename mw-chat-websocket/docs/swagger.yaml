@@ -1,0 +1,86 @@
+definitions:
+  schemas.MessageReader:
+    properties:
+      imageUrl:
+        type: string
+      name:
+        type: string
+        x-nullable: true
+      readDate:
+        type: string
+      userId:
+        type: string
+    required:
+    - imageUrl
+    - name
+    - readDate
+    - userId
+    type: object
+  schemas.MessageResponse:
+    properties:
+      message:
+        type: string
+      messageReaders:
+        items:
+          $ref: '#/definitions/schemas.MessageReader'
+        type: array
+      ownerId:
+        type: string
+      ownerImageUrl:
+        type: string
+      ownerName:
+        type: string
+        x-nullable: true
+      roomId:
+        type: string
+    required:
+    - message
+    - messageReaders
+    - ownerId
+    - ownerImageUrl
+    - ownerName
+    - roomId
+    type: object
+info:
+  contact: {}
+paths:
+  /send-message:
+    get:
+      consumes:
+      - application/json
+      operationId: send-message-to-socket
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.MessageResponse'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Send message to socket
+      tags:
+      - socket
+  /ws/{token}:
+    get:
+      consumes:
+      - application/json
+      operationId: connect-socket
+      parameters:
+      - description: token
+        in: path
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Connect to socket
+      tags:
+      - socket
+swagger: "2.0"

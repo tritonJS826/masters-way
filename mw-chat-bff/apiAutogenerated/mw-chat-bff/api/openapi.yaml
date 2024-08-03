@@ -1,0 +1,89 @@
+openapi: 3.0.1
+info:
+  contact: {}
+  description: ""
+  title: ""
+  version: ""
+servers:
+- url: /
+paths:
+  /send-message:
+    get:
+      operationId: send-message-to-socket
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.MessageResponse'
+        description: query params
+        required: true
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Send message to socket
+      tags:
+      - socket
+      x-codegen-request-body-name: request
+  /ws/{token}:
+    get:
+      operationId: connect-socket
+      parameters:
+      - description: token
+        in: path
+        name: token
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Connect to socket
+      tags:
+      - socket
+components:
+  schemas:
+    schemas.MessageReader:
+      properties:
+        imageUrl:
+          type: string
+        name:
+          nullable: true
+          type: string
+        readDate:
+          type: string
+        userId:
+          type: string
+      required:
+      - imageUrl
+      - name
+      - readDate
+      - userId
+      type: object
+    schemas.MessageResponse:
+      properties:
+        message:
+          type: string
+        messageReaders:
+          items:
+            $ref: '#/components/schemas/schemas.MessageReader'
+          type: array
+        ownerId:
+          type: string
+        ownerImageUrl:
+          type: string
+        ownerName:
+          nullable: true
+          type: string
+        roomId:
+          type: string
+      required:
+      - message
+      - messageReaders
+      - ownerId
+      - ownerImageUrl
+      - ownerName
+      - roomId
+      type: object
+x-original-swagger-version: "2.0"

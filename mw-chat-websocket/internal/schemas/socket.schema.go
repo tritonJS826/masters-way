@@ -13,8 +13,8 @@ type MessageReceived struct {
 
 type MessageReader struct {
 	UserID   string `json:"userId" validate:"required"`
-	Name     string `json:"ownerName" validate:"required" extensions:"x-nullable"`
-	ImageURL string `json:"ownerImageUrl" validate:"required"`
+	Name     string `json:"name" validate:"required" extensions:"x-nullable"`
+	ImageURL string `json:"imageUrl" validate:"required"`
 	ReadDate string `json:"readDate" validate:"required"`
 }
 
@@ -22,13 +22,14 @@ type MessageResponse struct {
 	OwnerID       string          `json:"ownerId" validate:"required"`
 	OwnerName     string          `json:"ownerName" validate:"required" extensions:"x-nullable"`
 	OwnerImageURL string          `json:"ownerImageUrl" validate:"required"`
+	RoomID        string          `json:"roomId" validate:"required"`
 	Message       string          `json:"message" validate:"required"`
 	Readers       []MessageReader `json:"messageReaders" validate:"required"`
 }
 
-func MakeMessageReceived(payload MessageResponse) *MessageReceived {
+func MakeMessageReceived(payload *MessageResponse) *MessageReceived {
 	return &MessageReceived{
 		Type:    "mw-chat-websocket:message-received",
-		Payload: payload,
+		Payload: *payload,
 	}
 }

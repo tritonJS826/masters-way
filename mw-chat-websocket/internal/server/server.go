@@ -5,10 +5,12 @@ import (
 	"mw-chat-websocket/internal/controllers"
 	"net/http"
 
-	// _ "mwchat/docs"
+	_ "mw-chat-websocket/docs"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 type Server struct {
@@ -32,9 +34,9 @@ func NewServer(cfg *config.Config) *Server {
 		ctx.JSON(http.StatusOK, gin.H{"message": "The way APi is working fine"})
 	})
 
-	// if cfg.EnvType != "prod" {
-	// 	server.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-	// }
+	if cfg.EnvType != "prod" {
+		server.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	}
 
 	return &Server{
 		GinServer: server,
@@ -43,8 +45,11 @@ func NewServer(cfg *config.Config) *Server {
 
 // @title     Masters way chat API
 // @version 1.0
-// @BasePath  /chat-websocket
+// @BasePath  /mw-chat-websocket
 func (server *Server) SetRoutes(controller *controllers.Controller) {
-	server.GinServer.GET("/ws", controller.SocketController.ConnectSocket)
-	server.GinServer.GET("/send-message", controller.SocketController.SendMessage)
+	mwChatWebsocket := server.GinServer.Group("/mw-chat-websocket")
+	{
+		mwChatWebsocket.GET("/ws", controller.SocketController.ConnectSocket)
+		mwChatWebsocket.GET("/send-message", controller.SocketController.SendMessage)
+	}
 }

@@ -1,18 +1,22 @@
-import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
-import {emitEvent} from "src/eventBus/EmitEvent";
-import {ChannelId} from "src/eventBus/EventBusChannelDict";
-import {ChatEventId} from "src/eventBus/events/chat/ChatEventDict";
-import {ChatMessageReceivedPayload} from "src/eventBus/events/chat/ChatEvents";
-import {tokenStore} from "src/globalStore/TokenStore";
-import {BaseSocketEvent} from "src/service/socket/BaseSocketEvent";
-import {env} from "src/utils/env/env";
+import {
+  displayNotification,
+  NotificationType,
+} from "src/component/notification/displayNotification";
+import { emitEvent } from "src/eventBus/EmitEvent";
+import { ChannelId } from "src/eventBus/EventBusChannelDict";
+import { ChatEventId } from "src/eventBus/events/chat/ChatEventDict";
+import { ChatMessageReceivedPayload } from "src/eventBus/events/chat/ChatEvents";
+import { tokenStore } from "src/globalStore/TokenStore";
+import { BaseSocketEvent } from "src/service/socket/BaseSocketEvent";
+import { env } from "src/utils/env/env";
 
 /**
  * Connect to mw-chat-websocket
  */
 export const connectChatSocket = () => {
   const exampleSocket = new WebSocket(
-    env.API_MW_CHAT_WEBSOCKET_PATH + `/?token=${encodeURIComponent(tokenStore.accessToken ?? "")}`,
+    env.API_MW_CHAT_WEBSOCKET_PATH +
+      `?token=${encodeURIComponent(tokenStore.accessToken ?? "")}`
   );
 
   /**
@@ -62,7 +66,10 @@ export const connectChatSocket = () => {
         });
         break;
       default:
-        displayNotification({type: NotificationType.ERROR, text: "Undefined message name"});
+        displayNotification({
+          type: NotificationType.ERROR,
+          text: "Undefined message name",
+        });
     }
   };
 };
