@@ -38,13 +38,6 @@ export const App = () => {
     });
   });
 
-  useListenEventBus(ChannelId.CHAT, ChatEventId.CONNECTION_ESTABLISHED, (payload) => {
-    displayNotification({
-      text: payload.text,
-      type: NotificationType.INFO,
-    });
-  });
-
   /**
    * Check health of the API
    */

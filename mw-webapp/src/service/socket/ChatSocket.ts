@@ -39,7 +39,7 @@ export const connectChatSocket = () => {
    */
   exampleSocket.onerror = () => {
     displayNotification({
-      text: "Chat websocket error! Try to reconnect",
+      text: "Chat websocket error! Try to reconnect!",
       type: NotificationType.ERROR,
     });
   };
@@ -47,8 +47,8 @@ export const connectChatSocket = () => {
   /**
    * Message handlers
    */
-  exampleSocket.onmessage = (eventRaw: MessageEvent<BaseSocketEvent>) => {
-    const event = new BaseSocketEvent(eventRaw.data);
+  exampleSocket.onmessage = (eventRaw: MessageEvent<string>) => {
+    const event = new BaseSocketEvent(JSON.parse(eventRaw.data));
 
     switch (event.name) {
       case "mw-chat-websocket:message-received":
