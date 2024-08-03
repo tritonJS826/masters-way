@@ -1,4 +1,4 @@
-import {makeObservable} from "mobx";
+import {makeAutoObservable} from "mobx";
 import {ChatUser} from "src/model/businessModel/ChatUser";
 import {Message} from "src/model/businessModel/Message";
 
@@ -74,7 +74,7 @@ export class Chat {
   public users: ChatUser[];
 
   constructor(chatData: ChatProps) {
-    makeObservable(this);
+    makeAutoObservable(this);
     this.roomId = chatData.roomId;
     this.name = chatData.name;
     this.messages = chatData.messages;
