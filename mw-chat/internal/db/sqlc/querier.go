@@ -22,6 +22,7 @@ type Querier interface {
 	GetRoomsByUserUUID(ctx context.Context, arg GetRoomsByUserUUIDParams) ([]GetRoomsByUserUUIDRow, error)
 	RegenerateDbData(ctx context.Context) error
 	RemoveEverything(ctx context.Context) error
+	SetMessagesAsRead(ctx context.Context, arg SetMessagesAsReadParams) error
 }
 
 var _ Querier = (*Queries)(nil)

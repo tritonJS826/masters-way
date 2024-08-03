@@ -393,6 +393,7 @@
         "schemas.RoomPopulatedResponse": {
             "type": "object",
             "required": [
+                "imageUrl",
                 "isBlocked",
                 "messages",
                 "name",
@@ -401,6 +402,9 @@
                 "users"
             ],
             "properties": {
+                "imageUrl": {
+                    "type": "string"
+                },
                 "isBlocked": {
                     "type": "boolean"
                 },
@@ -430,6 +434,7 @@
         "schemas.RoomPreviewResponse": {
             "type": "object",
             "required": [
+                "imageUrl",
                 "isBlocked",
                 "name",
                 "roomId",
@@ -437,6 +442,9 @@
                 "users"
             ],
             "properties": {
+                "imageUrl": {
+                    "type": "string"
+                },
                 "isBlocked": {
                     "type": "boolean"
                 },

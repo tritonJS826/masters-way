@@ -3,6 +3,7 @@ package controllers
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -214,7 +215,16 @@ func (cc *UserController) GetUsersByIDs(ctx *gin.Context) {
 	dbUsers, err := cc.db.GetUsersByIds(ctx, usersPgUUIDs)
 	util.HandleErrorGin(ctx, err)
 
-	response := lo.Map(dbUsers, func(dbUser db.GetUsersByIdsRow, i int) schemas.GetUsersByIDsResponse {
+	dbUsersMap := lo.SliceToMap(dbUsers, func(dbUser db.GetUsersByIdsRow) (string, db.GetUsersByIdsRow) {
+		return util.ConvertPgUUIDToUUID(dbUser.Uuid).String(), dbUser
+	})
+
+	response := lo.Map(payload, func(userID string, _ int) schemas.GetUsersByIDsResponse {
+		dbUser, exists := dbUsersMap[userID]
+		if !exists {
+			util.HandleErrorGin(ctx, fmt.Errorf("User ID %s not found in the database", userID))
+		}
+
 		return schemas.GetUsersByIDsResponse{
 			UserID:   util.ConvertPgUUIDToUUID(dbUser.Uuid).String(),
 			Name:     dbUser.Name,

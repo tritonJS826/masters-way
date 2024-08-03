@@ -11,7 +11,7 @@ import (
 func NewPostgresDB(cfg *config.Config) (*pgxpool.Pool, error) {
 	ctx := context.Background()
 
-	pgxPool, err := pgxpool.New(ctx, cfg.DbSource)
+	pgxPool, err := pgxpool.New(ctx, cfg.DBSource)
 	if err != nil {
 		return nil, fmt.Errorf("unable to create connection pool: %w", err)
 	}

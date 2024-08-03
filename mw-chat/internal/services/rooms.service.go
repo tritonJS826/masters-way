@@ -27,6 +27,7 @@ type RoomsRepository interface {
 	GetRoomsByUserUUID(ctx context.Context, arg db.GetRoomsByUserUUIDParams) ([]db.GetRoomsByUserUUIDRow, error)
 	GetRoomByUUID(ctx context.Context, arg db.GetRoomByUUIDParams) (db.GetRoomByUUIDRow, error)
 	AddUserToRoom(ctx context.Context, arg db.AddUserToRoomParams) (db.AddUserToRoomRow, error)
+	SetMessagesAsRead(ctx context.Context, arg db.SetMessagesAsReadParams) error
 	WithTx(tx pgx.Tx) *db.Queries
 }
 
@@ -88,23 +89,33 @@ func (roomsService *RoomsService) GetRooms(ctx context.Context, userUUID uuid.UU
 
 func (roomsService *RoomsService) GetRoomByUuid(ctx context.Context, userUUID, roomUUID uuid.UUID) (*schemas.RoomPopulatedResponse, error) {
 	roomPgUUID := pgtype.UUID{Bytes: roomUUID, Valid: true}
-	params := db.GetRoomByUUIDParams{
+	userPgUUID := pgtype.UUID{Bytes: userUUID, Valid: true}
+
+	getRoomByUUIDParams := db.GetRoomByUUIDParams{
 		RoomUuid: roomPgUUID,
-		UserUuid: pgtype.UUID{Bytes: userUUID, Valid: true},
+		UserUuid: userPgUUID,
 	}
 
-	room, err := roomsService.roomsRepository.GetRoomByUUID(ctx, params)
+	room, err := roomsService.roomsRepository.GetRoomByUUID(ctx, getRoomByUUIDParams)
 	if err != nil {
 		return nil, err
 	}
 
-	users := make([]schemas.UserResponse, len(room.UserUuids))
-	for i := range room.UserUuids {
-		users[i] = schemas.UserResponse{
+	readMessagesParams := db.SetMessagesAsReadParams{
+		RoomUuid: roomPgUUID,
+		UserUuid: userPgUUID,
+	}
+	err = roomsService.roomsRepository.SetMessagesAsRead(ctx, readMessagesParams)
+	if err != nil {
+		return nil, err
+	}
+
+	users := lo.Map(room.UserUuids, func(_ pgtype.UUID, i int) schemas.UserResponse {
+		return schemas.UserResponse{
 			UserID: utils.ConvertPgUUIDToUUID(room.UserUuids[i]).String(),
 			Role:   room.UserRoles[i],
 		}
-	}
+	})
 
 	messagesRaw, err := roomsService.roomsRepository.GetMessagesByRoomUUID(ctx, roomPgUUID)
 	if err != nil {
