@@ -3,20 +3,10 @@
 $dropdownWidth: 100%;
 $dropdownIndentationBottom: 10px;
 
-.dropdown {
-  position: relative;
-}
-
-.menu {
-  list-style: none;
-}
-
 .dropdownContent {
-  position: absolute;
-  z-index: $dropdownZIndex;
+  z-index: $modalZIndex;
   border: $primaryBorder solid var(--generalPrimaryColor);
   border-radius: $primaryBorderRadius;
   background: var(--tertiaryBgColor);
   transform: translateY($dropdownIndentationBottom);
-  list-style: none;
 }
