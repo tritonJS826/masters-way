@@ -1,22 +1,27 @@
-import {useEffect, useState} from "react";
-import {RouterProvider} from "react-router-dom";
-import {Modal} from "src/component/modal/Modal";
-import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
-import {Text} from "src/component/text/Text";
-import {HeadingLevel, Title} from "src/component/title/Title";
-import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {HealthCheckDAL} from "src/dataAccessLogic/HealthCheckDAL";
-import {ChannelId} from "src/eventBus/EventBusChannelDict";
-import {ChatEventId} from "src/eventBus/events/chat/ChatEventDict";
-import {useListenEventBus} from "src/eventBus/useListenEvent";
+import { useEffect, useState } from "react";
+import { RouterProvider } from "react-router-dom";
+import { Modal } from "src/component/modal/Modal";
+import {
+  displayNotification,
+  NotificationType,
+} from "src/component/notification/displayNotification";
+import { Text } from "src/component/text/Text";
+import { HeadingLevel, Title } from "src/component/title/Title";
+import { VerticalContainer } from "src/component/verticalContainer/VerticalContainer";
+import { HealthCheckDAL } from "src/dataAccessLogic/HealthCheckDAL";
+import { ChannelId } from "src/eventBus/EventBusChannelDict";
+import { ChatEventId } from "src/eventBus/events/chat/ChatEventDict";
+import { useListenEventBus } from "src/eventBus/useListenEvent";
 import {
   DEFAULT_NOTIFICATION_SETTINGS,
   globalContext,
 } from "src/GlobalContext";
-import {languageStore} from "src/globalStore/LanguageStore";
-import {router} from "src/router/Router";
-import {LanguageService} from "src/service/LanguageService";
+import { languageStore } from "src/globalStore/LanguageStore";
+import { router } from "src/router/Router";
+import { LanguageService } from "src/service/LanguageService";
+// import { connectSocket } from "src/service/socket/ChatSocket";
 import styles from "src/App.module.scss";
+// Import { socket } from "./service/socket/ChatSocket";
 
 /**
  * App
@@ -25,10 +30,13 @@ export const App = () => {
   const [isInitialized, setIsInitialized] = useState(false);
   const [isApiWorking, setIsApiWorking] = useState(true);
 
-  const {language} = languageStore;
+  const { language } = languageStore;
 
   useListenEventBus(ChannelId.CHAT, ChatEventId.MESSAGE_RECEIVED, () => {
-    displayNotification({text: ChatEventId.MESSAGE_RECEIVED, type: NotificationType.INFO});
+    displayNotification({
+      text: ChatEventId.MESSAGE_RECEIVED,
+      type: NotificationType.INFO,
+    });
   });
 
   /**
@@ -41,6 +49,7 @@ export const App = () => {
 
   useEffect(() => {
     checkApiHealth();
+    // connectSocket();
   }, []);
 
   if (!isApiWorking) {
@@ -52,10 +61,14 @@ export const App = () => {
           <VerticalContainer className={styles.modalContainer}>
             <Title
               text={LanguageService.modals.healthCheckModal.title[language]}
-              placeholder=''
+              placeholder=""
               level={HeadingLevel.h2}
             />
-            <Text text={LanguageService.modals.healthCheckModal.description[language]} />
+            <Text
+              text={
+                LanguageService.modals.healthCheckModal.description[language]
+              }
+            />
           </VerticalContainer>
         }
       />
@@ -63,12 +76,13 @@ export const App = () => {
   }
 
   return (
-    <globalContext.Provider value={{
-      isInitialized,
-      setIsInitialized,
-      // TODO: load from local storage
-      notification: DEFAULT_NOTIFICATION_SETTINGS,
-    }}
+    <globalContext.Provider
+      value={{
+        isInitialized,
+        setIsInitialized,
+        // TODO: load from local storage
+        notification: DEFAULT_NOTIFICATION_SETTINGS,
+      }}
     >
       <RouterProvider router={router} />
     </globalContext.Provider>
