@@ -19,9 +19,8 @@ import {
 import {languageStore} from "src/globalStore/LanguageStore";
 import {router} from "src/router/Router";
 import {LanguageService} from "src/service/LanguageService";
-// Import { connectSocket } from "src/service/socket/ChatSocket";
+import {connectChatSocket} from "src/service/socket/ChatSocket";
 import styles from "src/App.module.scss";
-// Import { socket } from "./service/socket/ChatSocket";
 
 /**
  * App
@@ -32,9 +31,16 @@ export const App = () => {
 
   const {language} = languageStore;
 
-  useListenEventBus(ChannelId.CHAT, ChatEventId.MESSAGE_RECEIVED, () => {
+  useListenEventBus(ChannelId.CHAT, ChatEventId.MESSAGE_RECEIVED, (payload) => {
     displayNotification({
-      text: ChatEventId.MESSAGE_RECEIVED,
+      text: payload.text,
+      type: NotificationType.INFO,
+    });
+  });
+
+  useListenEventBus(ChannelId.CHAT, ChatEventId.CONNECTION_ESTABLISHED, (payload) => {
+    displayNotification({
+      text: payload.text,
       type: NotificationType.INFO,
     });
   });
@@ -49,7 +55,7 @@ export const App = () => {
 
   useEffect(() => {
     checkApiHealth();
-    // ConnectSocket();
+    connectChatSocket();
   }, []);
 
   if (!isApiWorking) {

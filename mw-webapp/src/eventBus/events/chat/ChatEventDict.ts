@@ -1,4 +1,4 @@
-import {ChatMessageReceivedPayload} from "src/eventBus/events/chat/ChatEvents";
+import {ChatConnectionEstablishedPayload, ChatMessageReceivedPayload} from "src/eventBus/events/chat/ChatEvents";
 
 /**
  * All event ids for chat channel.
@@ -12,6 +12,7 @@ import {ChatMessageReceivedPayload} from "src/eventBus/events/chat/ChatEvents";
  */
 export enum ChatEventId {
   MESSAGE_RECEIVED = "CHAT:MESSAGE_RECEIVED",
+  CONNECTION_ESTABLISHED = "CHAT:CONNECTION_ESTABLISHED"
 }
 
 /**
@@ -21,7 +22,12 @@ export enum ChatEventId {
 export type ChatEventDict = {
 
   /**
-   * Example event description
+   * Message received from mw-chat-websocket
    */
   [ChatEventId.MESSAGE_RECEIVED]: ChatMessageReceivedPayload;
+
+  /**
+   * Connection to mw-chat-websocket established
+   */
+  [ChatEventId.CONNECTION_ESTABLISHED]: ChatConnectionEstablishedPayload;
 };

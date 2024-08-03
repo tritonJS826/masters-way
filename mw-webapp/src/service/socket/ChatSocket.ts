@@ -1,50 +1,66 @@
-// Import { io } from "socket.io-client";
-// import {
-//   displayNotification,
-//   NotificationType,
-// } from "src/component/notification/displayNotification";
-// import { makeChatMessageReceivedEvent } from "src/eventBus/events/chat/ChatEvents";
-// import { emitEvent } from "src/eventBus/useEmitEvent";
+import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
+import {emitEvent} from "src/eventBus/EmitEvent";
+import {ChannelId} from "src/eventBus/EventBusChannelDict";
+import {ChatEventId} from "src/eventBus/events/chat/ChatEventDict";
+import {ChatMessageReceivedPayload} from "src/eventBus/events/chat/ChatEvents";
 
-// export const socket = io("http://localhost:7994/ws", {
-//   autoConnect: true,
-//   path: "/ws",
-// });
+/**
+ * Base socket event
+ */
+class BaseSocketEvent {
 
-// socket.on("message", (text: string) => {
-//   emitEvent(makeChatMessageReceivedEvent({ text }));
-//   displayNotification({
-//     text: "received in handler",
-//     type: NotificationType.INFO,
-//   });
-// });
+  /**
+   * Event name. Format:  microservice:event-name
+   * Example: "mw-chat-websocket:message-received"
+   */
+  public name: string;
 
-// socket.on("open", (text: string) => {
-//   emitEvent(makeChatMessageReceivedEvent({ text }));
-//   displayNotification({
-//     text: "received in handler open",
-//     type: NotificationType.INFO,
-//   });
-// });
+  /**
+   * Event payload
+   */
+  public payload: object;
+
+  constructor(params: BaseSocketEvent) {
+    this.name = params.name;
+    this.payload = params.payload;
+  }
+
+}
 
 /**
  * A
  */
-export const connectSocket = () => {
+export const connectChatSocket = () => {
   const exampleSocket = new WebSocket("ws://localhost:7994/ws");
 
   /**
    * A
    */
   exampleSocket.onopen = () => {
-    // Console.log("WebSocket is open now.");
+    emitEvent({
+      channelId: ChannelId.CHAT,
+      eventId: ChatEventId.CONNECTION_ESTABLISHED,
+      payload: {text: "Connection established"},
+    });
   };
 
   /**
-   * A
+   * Message handlers
    */
-  exampleSocket.onmessage = () => {
-    // Console.log("Received:", event.data);
+  exampleSocket.onmessage = (eventRaw: MessageEvent<BaseSocketEvent>) => {
+    const event = new BaseSocketEvent(eventRaw.data);
+
+    switch (event.name) {
+      case "mw-chat-websocket:message-received":
+        emitEvent({
+          channelId: ChannelId.CHAT,
+          eventId: ChatEventId.MESSAGE_RECEIVED,
+          payload: event.payload as ChatMessageReceivedPayload,
+        });
+        break;
+      default:
+        displayNotification({type: NotificationType.ERROR, text: "Undefined message name"});
+    }
   };
 
   /**

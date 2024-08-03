@@ -4,8 +4,8 @@
  * understand context and meaning of event.
  */
 import {ChannelId} from "src/eventBus/EventBusChannelDict";
+import {ChatEventId} from "src/eventBus/events/chat/ChatEventDict";
 import {populateWithBaseEvent} from "src/eventBus/events/populateWithBaseEvent";
-import {TempExampleEventId} from "src/eventBus/events/tempExample/TempExampleEventDict";
 
 /**
  * Event fired when a message received from websocket
@@ -26,8 +26,8 @@ export type ChatMessageReceivedPayload = {
 export const makeChatMessageReceivedEvent = (payload: ChatMessageReceivedPayload) => {
   const populatedEvent = populateWithBaseEvent(
     payload,
-    ChannelId.TEMP_EXAMPLE,
-    TempExampleEventId.TEMP_EXAMPLE_CREATION_INITIATED,
+    ChannelId.CHAT,
+    ChatEventId.MESSAGE_RECEIVED,
   );
 
   return populatedEvent;
@@ -43,14 +43,26 @@ export type ChatMessageReceivedPayload2 = {
 };
 
 /**
- * Factory for {@link ChatMessageReceivedPayload} event
+ * Event fired when a connection to mw-chat-websocket established websocket
+ */
+export type ChatConnectionEstablishedPayload = {
+
+  /**
+   * Message text
+   */
+  text: string;
+
+};
+
+/**
+ * Factory for {@link ChatConnectionEstablishedPayload} event
  * Used for creating new event objects
  */
-export const makeChatMessageReceivedEvent2 = (payload: ChatMessageReceivedPayload2) => {
+export const makeChatConnectionEstablished = (payload: ChatConnectionEstablishedPayload) => {
   const populatedEvent = populateWithBaseEvent(
     payload,
-    ChannelId.TEMP_EXAMPLE,
-    TempExampleEventId.TEMP_EXAMPLE_CREATION_INITIATED,
+    ChannelId.CHAT,
+    ChatEventId.CONNECTION_ESTABLISHED,
   );
 
   return populatedEvent;
