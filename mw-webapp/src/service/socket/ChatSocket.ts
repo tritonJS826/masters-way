@@ -3,44 +3,44 @@ import {emitEvent} from "src/eventBus/EmitEvent";
 import {ChannelId} from "src/eventBus/EventBusChannelDict";
 import {ChatEventId} from "src/eventBus/events/chat/ChatEventDict";
 import {ChatMessageReceivedPayload} from "src/eventBus/events/chat/ChatEvents";
+import {BaseSocketEvent} from "src/service/socket/BaseSocketEvent";
+import {env} from "src/utils/env/env";
 
 /**
- * Base socket event
- */
-class BaseSocketEvent {
-
-  /**
-   * Event name. Format:  microservice:event-name
-   * Example: "mw-chat-websocket:message-received"
-   */
-  public name: string;
-
-  /**
-   * Event payload
-   */
-  public payload: object;
-
-  constructor(params: BaseSocketEvent) {
-    this.name = params.name;
-    this.payload = params.payload;
-  }
-
-}
-
-/**
- * A
+ * Connect to mw-chat-websocket
  */
 export const connectChatSocket = () => {
-  const exampleSocket = new WebSocket("ws://localhost:7994/ws");
+  const exampleSocket = new WebSocket(env.API_MW_CHAT_WEBSOCKET_PATH);
 
   /**
-   * A
+   * Handler triggered on connection open
    */
   exampleSocket.onopen = () => {
     emitEvent({
       channelId: ChannelId.CHAT,
       eventId: ChatEventId.CONNECTION_ESTABLISHED,
-      payload: {text: "Connection established"},
+      payload: {},
+    });
+  };
+
+  /**
+   * Handler triggered on connection close
+   */
+  exampleSocket.onclose = () => {
+    emitEvent({
+      channelId: ChannelId.CHAT,
+      eventId: ChatEventId.CONNECTION_CLOSED,
+      payload: {},
+    });
+  };
+
+  /**
+   * Handler triggered on error with websocket
+   */
+  exampleSocket.onerror = () => {
+    displayNotification({
+      text: "Chat websocket error! Try to reconnect",
+      type: NotificationType.ERROR,
     });
   };
 
@@ -61,19 +61,5 @@ export const connectChatSocket = () => {
       default:
         displayNotification({type: NotificationType.ERROR, text: "Undefined message name"});
     }
-  };
-
-  /**
-   * A
-   */
-  exampleSocket.onclose = () => {
-    // Console.log("WebSocket is closed now.");
-  };
-
-  /**
-   * A
-   */
-  exampleSocket.onerror = () => {
-    // Console.log("WebSocket error:", error);
   };
 };

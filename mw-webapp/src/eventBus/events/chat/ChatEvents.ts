@@ -33,36 +33,39 @@ export const makeChatMessageReceivedEvent = (payload: ChatMessageReceivedPayload
   return populatedEvent;
 };
 
-export type ChatMessageReceivedPayload2 = {
-
-  /**
-   * Message text
-   */
-  text2: string;
-
-};
-
 /**
- * Event fired when a connection to mw-chat-websocket established websocket
+ * Event fired when a connection to mw-chat-websocket established
  */
-export type ChatConnectionEstablishedPayload = {
-
-  /**
-   * Message text
-   */
-  text: string;
-
-};
+export type ChatConnectionEstablishedPayload = Record<string, never>;
 
 /**
  * Factory for {@link ChatConnectionEstablishedPayload} event
  * Used for creating new event objects
  */
-export const makeChatConnectionEstablished = (payload: ChatConnectionEstablishedPayload) => {
+export const makeChatConnectionEstablishedEvent = (payload: ChatConnectionEstablishedPayload) => {
   const populatedEvent = populateWithBaseEvent(
     payload,
     ChannelId.CHAT,
     ChatEventId.CONNECTION_ESTABLISHED,
+  );
+
+  return populatedEvent;
+};
+
+/**
+ * Event fired when a connection to mw-chat-websocket closed
+ */
+export type ChatConnectionClosedPayload = Record<string, never>;
+
+/**
+ * Factory for {@link ChatConnectionEstablishedPayload} event
+ * Used for creating new event objects
+ */
+export const makeChatConnectionClosedEvent = (payload: ChatConnectionClosedPayload) => {
+  const populatedEvent = populateWithBaseEvent(
+    payload,
+    ChannelId.CHAT,
+    ChatEventId.CONNECTION_CLOSED,
   );
 
   return populatedEvent;
