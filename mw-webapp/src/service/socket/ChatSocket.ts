@@ -2,13 +2,13 @@ import {
   displayNotification,
   NotificationType,
 } from "src/component/notification/displayNotification";
-import { emitEvent } from "src/eventBus/EmitEvent";
-import { ChannelId } from "src/eventBus/EventBusChannelDict";
-import { ChatEventId } from "src/eventBus/events/chat/ChatEventDict";
-import { ChatMessageReceivedPayload } from "src/eventBus/events/chat/ChatEvents";
-import { tokenStore } from "src/globalStore/TokenStore";
-import { BaseSocketEvent } from "src/service/socket/BaseSocketEvent";
-import { env } from "src/utils/env/env";
+import {emitEvent} from "src/eventBus/EmitEvent";
+import {ChannelId} from "src/eventBus/EventBusChannelDict";
+import {ChatEventId} from "src/eventBus/events/chat/ChatEventDict";
+import {ChatMessageReceivedPayload} from "src/eventBus/events/chat/ChatEvents";
+import {tokenStore} from "src/globalStore/TokenStore";
+import {BaseSocketEvent} from "src/service/socket/BaseSocketEvent";
+import {env} from "src/utils/env/env";
 
 /**
  * Connect to mw-chat-websocket
@@ -16,7 +16,7 @@ import { env } from "src/utils/env/env";
 export const connectChatSocket = () => {
   const exampleSocket = new WebSocket(
     env.API_MW_CHAT_WEBSOCKET_PATH +
-      `?token=${encodeURIComponent(tokenStore.accessToken ?? "")}`
+      `?token=${encodeURIComponent(tokenStore.accessToken ?? "")}`,
   );
 
   /**

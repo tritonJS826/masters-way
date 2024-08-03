@@ -87,7 +87,7 @@ export class Chat {
    * Add message to chat
    */
   public addMessage = (newMessage: Message) => {
-    this.messages.push(newMessage);
+    this.messages = [...this.messages, newMessage];
   };
 
 }

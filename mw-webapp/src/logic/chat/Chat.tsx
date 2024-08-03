@@ -60,7 +60,7 @@ export const ChatPage = observer((props: ChatProps) => {
         message: payload.message,
         ownerId: payload.ownerId,
       });
-      chat?.addMessage(newMessage);
+      chat.addMessage(newMessage);
     } else {
       displayNotification({
         text: `${payload.ownerName}: ${payload.message}`,
