@@ -1,4 +1,5 @@
 import {ReactElement} from "react";
+import {Item} from "@radix-ui/react-dropdown-menu";
 import styles from "src/component/dropdown/dropdownMenuItem/DropdownMenuItem.module.scss";
 
 /**
@@ -47,6 +48,7 @@ interface DropdownMenuItemProps {
    * Data attributes for cypress testing
    */
   dataCyContent?: string;
+
 }
 
 /**
@@ -54,12 +56,15 @@ interface DropdownMenuItemProps {
  */
 export const DropdownMenuItem = (props: DropdownMenuItemProps) => {
   return (
-    <li
+    <Item
       className={styles.dropdownMenuItem}
-      onClick={props.onClick ?? (() => {})}
+      onSelect={(event) => {
+        event.preventDefault();
+        props.onClick ?? (() => { });
+      }}
       data-cy={props.dataCyContent}
     >
       {props.value}
-    </li>
+    </Item>
   );
 };

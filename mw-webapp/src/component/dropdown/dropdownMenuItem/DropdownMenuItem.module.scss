@@ -2,8 +2,10 @@
 
 .dropdownMenuItem {
   padding: $paddingSmall $paddingMedium;
-  font-size: $fontSizeMedium;
   cursor: pointer;
+  font-size: $fontSizeMedium;
+  outline: none;
+  user-select: none;
 
   &:not(:last-child) {
     border-bottom: $primaryBorder solid var(--dropdownStrokeColor);
