@@ -14,7 +14,7 @@ import {env} from "src/utils/env/env";
  * Connect to mw-chat-websocket
  */
 export const connectChatSocket = () => {
-  const exampleSocket = new WebSocket(
+  const socket = new WebSocket(
     env.API_MW_CHAT_WEBSOCKET_PATH +
       `?token=${encodeURIComponent(tokenStore.accessToken ?? "")}`,
   );
@@ -22,7 +22,7 @@ export const connectChatSocket = () => {
   /**
    * Handler triggered on connection open
    */
-  exampleSocket.onopen = () => {
+  socket.onopen = () => {
     emitEvent({
       channelId: ChannelId.CHAT,
       eventId: ChatEventId.CONNECTION_ESTABLISHED,
@@ -33,7 +33,7 @@ export const connectChatSocket = () => {
   /**
    * Handler triggered on connection close
    */
-  exampleSocket.onclose = () => {
+  socket.onclose = () => {
     emitEvent({
       channelId: ChannelId.CHAT,
       eventId: ChatEventId.CONNECTION_CLOSED,
@@ -44,7 +44,7 @@ export const connectChatSocket = () => {
   /**
    * Handler triggered on error with websocket
    */
-  exampleSocket.onerror = () => {
+  socket.onerror = () => {
     displayNotification({
       text: "Chat websocket error! Try to reconnect!",
       type: NotificationType.ERROR,
@@ -54,7 +54,7 @@ export const connectChatSocket = () => {
   /**
    * Message handlers
    */
-  exampleSocket.onmessage = (eventRaw: MessageEvent<string>) => {
+  socket.onmessage = (eventRaw: MessageEvent<string>) => {
     const event = new BaseSocketEvent(JSON.parse(eventRaw.data));
 
     switch (event.type) {
@@ -72,4 +72,6 @@ export const connectChatSocket = () => {
         });
     }
   };
+
+  return socket;
 };

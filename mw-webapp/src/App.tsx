@@ -12,7 +12,6 @@ import {
 import {languageStore} from "src/globalStore/LanguageStore";
 import {router} from "src/router/Router";
 import {LanguageService} from "src/service/LanguageService";
-import {connectChatSocket} from "src/service/socket/ChatSocket";
 import styles from "src/App.module.scss";
 
 /**
@@ -34,7 +33,6 @@ export const App = () => {
 
   useEffect(() => {
     checkApiHealth();
-    connectChatSocket();
   }, []);
 
   if (!isApiWorking) {
