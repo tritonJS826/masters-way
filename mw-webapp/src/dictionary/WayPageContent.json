@@ -11,7 +11,7 @@
       "ua": "Мета"
     },
     "noTags": {
-      "ru": "Нет тэгов",
+      "ru": "Нет тегов",
       "en": "No tags",
       "ua": "Немає тегів"
     },
@@ -325,9 +325,9 @@
       "ua": "Загальна інформація"
     },
     "labelsStatisticTitle": {
-      "ru": "Статистика меток",
+      "ru": "Статистика лейблов",
       "en": "Labels statistic",
-      "ua": "Статистика міток"
+      "ua": "Статистика лейблив"
     },
     "clickToHideStatistics": {
       "ru": "Нажмите, чтобы скрыть блок статистики",
@@ -385,7 +385,7 @@
       "ua": "Сер. час роботи"
     },
     "labelsName": {
-      "ru": "Название метки",
+      "ru": "Название лейбла",
       "en": "Label's name",
       "ua": "Назва лейбла"
     },
@@ -423,11 +423,6 @@
       "ru": "Затраченное время по дням (минуты/дата)",
       "en": "Time spent by day (minutes/date)",
       "ua": "Час, витрачений на день (хвилини/дата)"
-    },
-    "jobDoneTagsUsed": {
-      "ru": "Используемые теги работы",
-      "en": "Job done tags used",
-      "ua": "Використані теги роботи"
     }
   },
   "filterBlock": {
@@ -436,35 +431,35 @@
       "en": "Create new day report",
       "ua": "Створити новий звіт за день"
     },
-    "adjustJobTags": {
-      "ru": "Настроить метки работ",
-      "en": "Adjust job labels",
-      "ua": "Налаштувати мітки робіт"
+    "adjustLabels": {
+      "ru": "Настроить лейблы",
+      "en": "Adjust labels",
+      "ua": "Налаштувати лейбли"
     },
-    "jobDoneTagsModalTitle": {
+    "labelsModalTitle": {
       "ru": "Лейблы",
       "en": "Labels",
       "ua": "Лейбли"
     },
-    "deleteFromJobTags": {
-      "ru": "Удалить из метки работ",
-      "en": "Delete from jobs labels",
-      "ua": "Видалити з мітки робіт"
+    "deleteFromLabels": {
+      "ru": "Удалить лейбл",
+      "en": "Delete label",
+      "ua": "Видалити лейбл"
     },
-    "deleteJobTagQuestion": {
-      "ru": "Вы уверены, что хотите удалить $jobTag из меток?",
-      "en": "Are you sure you want to remove $jobTag from job labels?",
-      "ua": "Ви впевнені, що хочете видалити $jobTag з міток?"
+    "deleteLabelQuestion": {
+      "ru": "Вы уверены, что хотите удалить $label лейбл?",
+      "en": "Are you sure you want to remove $label label?",
+      "ua": "Ви впевнені, що хочете видалити $label лейбл?"
     },
-    "jobTagPlaceholder": {
-      "ru": "Метка работы",
-      "en": "Job label",
-      "ua": "Мітка роботи"
+    "labelPlaceholder": {
+      "ru": "Лейбл",
+      "en": "Label",
+      "ua": "Лейбл"
     },
     "addTagButton": {
-      "ru": "Добавить метку",
-      "en": "Add labels",
-      "ua": "Додати мітку"
+      "ru": "Добавить лейбл",
+      "en": "Add label",
+      "ua": "Додати лейбл"
     }
   },
   "reportsTable": {
@@ -505,16 +500,16 @@
         "ua": "Коментарі"
       },
       "addLabel": {
-        "ru": "Добавить\u00A0метку",
+        "ru": "Добавить\u00A0лейбл",
         "en": "Add\u00A0label",
-        "ua": "Додати\u00A0мітку"
+        "ua": "Додати\u00A0лейбл"
       }
     },
     "columnTooltip": {
       "addTag": {
-        "ru": "Добавить\u00A0метку",
+        "ru": "Добавить\u00A0лейбл",
         "en": "Add\u00A0label",
-        "ua": "Додати\u00A0мітку"
+        "ua": "Додати\u00A0лейбл"
       },
       "visitWay": {
         "ru": "Посетите путь $wayName",
@@ -622,14 +617,14 @@
         "ua": "Видалити коментар"
       },
       "addLabel": {
-        "ru": "Нажмите, чтобы добавить метку",
+        "ru": "Нажмите, чтобы добавить лейбл",
         "en": "Click to add label",
-        "ua": "Натисніть, щоб додати мітку"
+        "ua": "Натисніть, щоб додати лейбл"
       },
       "deleteLabel": {
-        "ru": "Нажмите, чтобы удалить метку",
+        "ru": "Нажмите, чтобы удалить лейбл",
         "en": "Click to remove label",
-        "ua": "Натисніть, щоб видалити мітку"
+        "ua": "Натисніть, щоб видалити лейбл"
       }
     },
     "loadMoreButton": {

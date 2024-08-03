@@ -26,6 +26,7 @@ import {FavoriteUserDAL} from "src/dataAccessLogic/FavoriteUserDAL";
 import {UserDAL} from "src/dataAccessLogic/UserDAL";
 import {UserTagDAL} from "src/dataAccessLogic/UserTagDAL";
 import {WayCollectionDAL} from "src/dataAccessLogic/WayCollectionDAL";
+import {chatStore} from "src/globalStore/ChatStore";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
@@ -150,6 +151,7 @@ interface UserPageSettingsValidatorParams {
  */
 export const UserPage = observer((props: UserPageProps) => {
   const {user, addUserToFavorite, deleteUserFromFavorite} = userStore;
+  const {setIsChatOpen} = chatStore;
 
   const userPageStore = useStore<
   new (userPageOwnerUuid: string) => UserPageStore,
@@ -317,9 +319,10 @@ export const UserPage = observer((props: UserPageProps) => {
                     roomType: RoomType.PRIVATE,
                     userId: userPageOwner.uuid,
                   });
+                  setIsChatOpen(true);
                 }}
                 buttonType={ButtonType.SECONDARY}
-                value="Write to connect"
+                value={LanguageService.user.personalInfo.writeToConnectButton[language]}
               />
             </VerticalContainer>
 

@@ -6,6 +6,7 @@ import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalC
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
 import {Modal} from "src/component/modal/Modal";
+import {Separator} from "src/component/separator/Separator";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {Trash} from "src/component/trash/Trash";
@@ -178,35 +179,75 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
             key={jobDone.uuid}
             className={styles.numberedListItem}
           >
-            <HorizontalContainer className={styles.recordInfo}>
-              {getListNumberByIndex(index)}
-              <Avatar
-                alt={props.wayParticipantsMap.getValue(jobDone.ownerUuid).name}
-                src={props.wayParticipantsMap.getValue(jobDone.ownerUuid).imageUrl}
-              />
-              <div className={styles.ownerName}>
-                <Link path={pages.user.getPath({uuid: jobDone.ownerUuid})}>
-                  {getFirstName(props.wayParticipantsMap.getValue(jobDone.ownerUuid).name)}
+            <VerticalContainer className={styles.contentBlock}>
+              <HorizontalContainer className={styles.recordInfo}>
+                {getListNumberByIndex(index)}
+                <Avatar
+                  alt={props.wayParticipantsMap.getValue(jobDone.ownerUuid).name}
+                  src={props.wayParticipantsMap.getValue(jobDone.ownerUuid).imageUrl}
+                />
+                <div className={styles.ownerName}>
+                  <Link path={pages.user.getPath({uuid: jobDone.ownerUuid})}>
+                    {getFirstName(props.wayParticipantsMap.getValue(jobDone.ownerUuid).name)}
+                  </Link>
+                </div>
+                {props.isWayComposite &&
+                <Link
+                  path={pages.way.getPath({uuid: jobDone.wayUuid})}
+                  className={styles.linkToOwnerWay}
+                >
+                  <Tooltip
+                    position={PositionTooltip.BOTTOM}
+                    content={LanguageService.way.reportsTable.columnTooltip.visitWay[language]
+                      .replace("$wayName", `"${jobDone.wayName}"`)}
+                  >
+                    <Icon
+                      size={IconSize.MEDIUM}
+                      name="WayIcon"
+                      className={styles.socialMediaIcon}
+                    />
+                  </Tooltip>
                 </Link>
-              </div>
-              {props.isWayComposite &&
-              <Link
-                path={pages.way.getPath({uuid: jobDone.wayUuid})}
-                className={styles.linkToOwnerWay}
-              >
+                }
+
                 <Tooltip
                   position={PositionTooltip.BOTTOM}
-                  content={LanguageService.way.reportsTable.columnTooltip.visitWay[language]
-                    .replace("$wayName", `"${jobDone.wayName}"`)}
+                  content={LanguageService.way.reportsTable.columnTooltip.jobTime[language]}
                 >
-                  <Icon
-                    size={IconSize.MEDIUM}
-                    name="WayIcon"
-                    className={styles.socialMediaIcon}
+                  <EditableText
+                    value={jobDone.time}
+                    type="number"
+                    max={MAX_TIME}
+                    min={MIN_TIME}
+                    onChangeFinish={async (time) => {
+                      const jobDoneToUpdate = {
+                        uuid: jobDone.uuid,
+                        time: getValidatedTime(Number(time)),
+                      };
+                      await JobDoneDAL.updateJobDone({
+                        jobDone: jobDoneToUpdate,
+                        wayName: props.wayName,
+                        wayUuid: props.wayUuid,
+                      });
+                      jobDone.updateTime(getValidatedTime(Number(time)));
+                    }}
+                    className={styles.editableTime}
+                    isEditable={props.isEditable}
+                    placeholder={LanguageService.common.emptyMarkdownAction[language]}
                   />
                 </Tooltip>
-              </Link>
-              }
+                {props.isEditable &&
+                <Trash
+                  tooltipContent={LanguageService.way.reportsTable.columnTooltip.deleteJob[language]}
+                  tooltipPosition={PositionTooltip.BOTTOM}
+                  okText={LanguageService.modals.confirmModal.deleteButton[language]}
+                  cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
+                  onOk={() => deleteJobDone(jobDone.uuid)}
+                  confirmContent={`${LanguageService.way.reportsTable.modalWindow.deleteJobQuestion[language]}
+                    "${jobDone.description}"?`}
+                />
+                }
+              </HorizontalContainer>
               {props.isEditable ?
                 <Modal
                   trigger={jobDone.tags.length === 0 ?
@@ -239,44 +280,7 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
                   labels={props.labels}
                 />
               }
-              <Tooltip
-                position={PositionTooltip.BOTTOM}
-                content={LanguageService.way.reportsTable.columnTooltip.jobTime[language]}
-              >
-                <EditableText
-                  value={jobDone.time}
-                  type="number"
-                  max={MAX_TIME}
-                  min={MIN_TIME}
-                  onChangeFinish={async (time) => {
-                    const jobDoneToUpdate = {
-                      uuid: jobDone.uuid,
-                      time: getValidatedTime(Number(time)),
-                    };
-                    await JobDoneDAL.updateJobDone({
-                      jobDone: jobDoneToUpdate,
-                      wayName: props.wayName,
-                      wayUuid: props.wayUuid,
-                    });
-                    jobDone.updateTime(getValidatedTime(Number(time)));
-                  }}
-                  className={styles.editableTime}
-                  isEditable={props.isEditable}
-                  placeholder={LanguageService.common.emptyMarkdownAction[language]}
-                />
-              </Tooltip>
-              {props.isEditable &&
-              <Trash
-                tooltipContent={LanguageService.way.reportsTable.columnTooltip.deleteJob[language]}
-                tooltipPosition={PositionTooltip.BOTTOM}
-                okText={LanguageService.modals.confirmModal.deleteButton[language]}
-                cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
-                onOk={() => deleteJobDone(jobDone.uuid)}
-                confirmContent={`${LanguageService.way.reportsTable.modalWindow.deleteJobQuestion[language]}
-                  "${jobDone.description}"?`}
-              />
-              }
-            </HorizontalContainer>
+            </VerticalContainer>
             <EditableTextarea
               text={jobDone.description}
               onChangeFinish={async (description) => {
@@ -296,6 +300,7 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
                 ? LanguageService.common.emptyMarkdownAction[language]
                 : LanguageService.common.emptyMarkdown[language]}
             />
+            <Separator />
           </li>
         ))}
       </ol>

@@ -64,10 +64,45 @@
       "en": "Open chat",
       "ua": "Відкрити чат"
     },
-    "contactsTitle": {
-      "ru": "Контакты",
-      "en": "Contacts",
-      "ua": "Контакти"
+    "personalChats": {
+      "ru": "Личные чаты",
+      "en": "Personal chats",
+      "ua": "Особисті чати"
+    },
+    "groupChats": {
+      "ru": "Групповые чаты",
+      "en": "Group chats",
+      "ua": "Групові чати"
+    },
+    "noChats": {
+      "ru": "Чатов пока нет. Найти контакт: https://mastersway.netlify.app/users",
+      "en": "There are no chats yet. Find contact: https://mastersway.netlify.app/users",
+      "ua": "Чатів ще немає. Знайти контакт: https://mastersway.netlify.app/users"
+    },
+    "messagePlaceholder": {
+      "ru": "Набрать сообщение...",
+      "en": "Write a message...",
+      "ua": "Написати повідомлення..."
+    },
+    "sendButton": {
+      "ru": "Отправить",
+      "en": "Send",
+      "ua": "Відправити"
+    },
+    "groupChatPlaceholder": {
+      "ru": "Напишите название чата...",
+      "en": "Write a name of the chat...",
+      "ua": "Напишіть назву чату..."
+    },
+    "createGroupChatButton": {
+      "ru": "Создать новый групповой чат",
+      "en": "Create new group chat",
+      "ua": "Створіть новий груповий чат"
+    },
+    "closeChat": {
+      "ru": "Закрыть чат",
+      "en": "Close chat",
+      "ua": "Закрити чат"
     }
 
   }

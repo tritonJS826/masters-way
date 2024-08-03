@@ -76,7 +76,7 @@ export const AdjustLabelsBlock = observer((props: JobTagsProps) => {
     <VerticalContainer className={styles.adjustLabelsContent}>
       <Title
         level={HeadingLevel.h2}
-        text={LanguageService.way.filterBlock.jobDoneTagsModalTitle[language]}
+        text={LanguageService.way.filterBlock.labelsModalTitle[language]}
         placeholder=""
       />
 
@@ -105,7 +105,7 @@ export const AdjustLabelsBlock = observer((props: JobTagsProps) => {
           isOpen={isJobDoneModalOpen}
           content={
             <PromptModalContent
-              placeholder={LanguageService.way.filterBlock.jobTagPlaceholder[language]}
+              placeholder={LanguageService.way.filterBlock.labelPlaceholder[language]}
               close={() => setIsJobDoneModalOpen(false)}
               onOk={createLabel}
               okButtonValue={LanguageService.modals.promptModal.okButton[language]}

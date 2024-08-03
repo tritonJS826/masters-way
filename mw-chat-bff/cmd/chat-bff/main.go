@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"mw-chat-bff/internal/config"
 	"mw-chat-bff/internal/controllers"
@@ -13,6 +14,11 @@ func main() {
 	if err != nil {
 		log.Fatal("cannot load config:", err)
 	}
+
+	fmt.Println(cfg.ChatAPIHost)
+	fmt.Println(cfg.ChatBaseURL)
+	fmt.Println(cfg.GeneralAPIHost)
+	fmt.Println(cfg.GeneralBaseURL)
 
 	services := services.NewService(&cfg)
 	controllers := controllers.NewController(services)

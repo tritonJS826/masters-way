@@ -1,7 +1,9 @@
 import {useEffect, useState} from "react";
 import {DialogClose, DialogContent, DialogOverlay, DialogPortal, DialogTrigger, Root as DialogRoot} from "@radix-ui/react-dialog";
 import clsx from "clsx";
+import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
+import {Dropdown} from "src/component/dropdown/Dropdown";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Input, InputType} from "src/component/input/Input";
@@ -33,7 +35,7 @@ interface ChatProps {
 /**
  * Chat component
  */
-export const ChatPage = (props: ChatProps) => {
+export const ChatPage = observer((props: ChatProps) => {
   const [isGroupChatOpen, setIsGroupChatOpen] = useState<boolean>(false);
   const [chat, setChat] = useState<Chat | null>(null);
 
@@ -44,6 +46,7 @@ export const ChatPage = (props: ChatProps) => {
   const [groupChatName, setGroupChatName] = useState<string>("");
   const [chatList, setChatList] = useState<ChatPreview[]>([]);
   const [isChatHiddenOnMobile, setIsChatHiddenOnMobile] = useState<boolean>(true);
+  const [unreadMessagesAmount, setUnreadMessagesAmount] = useState<number>(0);
 
   /**
    * Load active chat
@@ -58,11 +61,15 @@ export const ChatPage = (props: ChatProps) => {
    * Send message
    */
   const sendMessage = async (params: createMessageInGroupParams) => {
-    await ChatDAL.createMessageInRoom({
-      message: params.message,
-      roomId: params.roomId,
-    });
-    setMessage("");
+    const trimmedMessage = params.message.trim();
+    const isValidMessage = trimmedMessage !== "";
+    if (isValidMessage) {
+      setMessage("");
+      await ChatDAL.createMessageInRoom({
+        message: params.message,
+        roomId: params.roomId,
+      });
+    }
   };
 
   /**
@@ -77,6 +84,14 @@ export const ChatPage = (props: ChatProps) => {
   };
 
   /**
+   * Load amount of all unread messages
+   */
+  const loadUnreadMessagesAmount = async () => {
+    const unreadMessages = await ChatDAL.getChatPreview();
+    setUnreadMessagesAmount(unreadMessages);
+  };
+
+  /**
    * Create group chat
    */
   const createGroupRoom = async () => {
@@ -88,15 +103,18 @@ export const ChatPage = (props: ChatProps) => {
   };
 
   useEffect(() => {
-    loadChatList();
-  }, [isGroupChatOpen]);
+    loadUnreadMessagesAmount();
+  }, []);
 
   return (
     <DialogRoot
       open={isOpen}
       onOpenChange={setIsOpen}
     >
-      <DialogTrigger asChild>
+      <DialogTrigger
+        onClick={loadChatList}
+        asChild
+      >
         <div
           role="button"
           className={styles.chatTrigger}
@@ -109,6 +127,9 @@ export const ChatPage = (props: ChatProps) => {
           <div className={styles.chatTriggerText}>
             {LanguageService.common.chat.openChat[language]}
           </div>
+          <div className={styles.unreadMessagesAmount}>
+            {unreadMessagesAmount}
+          </div>
         </div>
       </DialogTrigger>
 
@@ -119,14 +140,20 @@ export const ChatPage = (props: ChatProps) => {
             <HorizontalContainer className={styles.chatHeader}>
               <HorizontalContainer>
                 <Button
-                  onClick={() => setIsGroupChatOpen(false)}
+                  onClick={() => {
+                    setIsGroupChatOpen(false);
+                    setIsChatHiddenOnMobile(true);
+                  }}
                   buttonType={ButtonType.SECONDARY}
-                  value="Personal chats"
+                  value={LanguageService.common.chat.personalChats[language]}
                 />
                 <Button
-                  onClick={() => setIsGroupChatOpen(true)}
+                  onClick={() => {
+                    setIsGroupChatOpen(true);
+                    setIsChatHiddenOnMobile(true);
+                  }}
                   buttonType={ButtonType.SECONDARY}
-                  value="Group chats"
+                  value={LanguageService.common.chat.groupChats[language]}
                 />
               </HorizontalContainer>
               <DialogClose asChild>
@@ -155,7 +182,7 @@ export const ChatPage = (props: ChatProps) => {
                     <Input
                       value={groupChatName}
                       onChange={setGroupChatName}
-                      placeholder="Write a name of the chat..."
+                      placeholder={LanguageService.common.chat.groupChatPlaceholder[language]}
                       typeInput={InputType.Border}
                       onKeyDown={(event: React.KeyboardEvent<HTMLElement>) => {
                         if (event.key === KeySymbols.ENTER) {
@@ -166,7 +193,7 @@ export const ChatPage = (props: ChatProps) => {
                     <Button
                       onClick={createGroupRoom}
                       buttonType={ButtonType.SECONDARY}
-                      value="Create new group chat"
+                      value={LanguageService.common.chat.createGroupChatButton[language]}
                     />
                   </>
                 }
@@ -183,7 +210,7 @@ export const ChatPage = (props: ChatProps) => {
                     />
                   ))
                   : <div>
-                    No chats
+                    {LanguageService.common.chat.noChats[language]}
                   </div>
                 }
               </VerticalContainer>
@@ -199,15 +226,31 @@ export const ChatPage = (props: ChatProps) => {
                       name={chat.name}
                       src={chat.src}
                     />
-                    <Button
-                      buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
-                      onClick={() => setIsChatHiddenOnMobile(true)}
-                      icon={
-                        <Icon
-                          size={IconSize.MEDIUM}
-                          name={"MoreVertical"}
+                    <Dropdown
+                      trigger={(
+                        <Button
+                          className={styles.wayActionsIcon}
+                          buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
+                          onClick={() => {}}
+                          icon={
+                            <Icon
+                              size={IconSize.MEDIUM}
+                              name={"MoreVertical"}
+                            />
+                          }
                         />
-                      }
+                      )}
+                      dropdownMenuItems={[
+                        {
+                          id: "Close chat",
+                          value: LanguageService.common.chat.closeChat[language],
+
+                          /**
+                           * Close chat on mobile
+                           */
+                          onClick: () => setIsChatHiddenOnMobile(true),
+                        },
+                      ]}
                     />
                   </HorizontalContainer>
                   <VerticalContainer className={styles.messageList}>
@@ -234,7 +277,7 @@ export const ChatPage = (props: ChatProps) => {
                 <Input
                   value={message}
                   onChange={setMessage}
-                  placeholder="Write a message..."
+                  placeholder={LanguageService.common.chat.messagePlaceholder[language]}
                   typeInput={InputType.Border}
                   onKeyDown={(event: React.KeyboardEvent<HTMLElement>) => {
                     if (event.key === KeySymbols.ENTER) {
@@ -246,7 +289,7 @@ export const ChatPage = (props: ChatProps) => {
                   }}
                 />
                 <Button
-                  value="Send"
+                  value={LanguageService.common.chat.sendButton[language]}
                   onClick={() => {
                     sendMessage({
                       message,
@@ -263,4 +306,4 @@ export const ChatPage = (props: ChatProps) => {
       </DialogPortal>
     </DialogRoot>
   );
-};
+});

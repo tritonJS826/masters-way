@@ -4,6 +4,7 @@ import {EditableTextarea} from "src/component/editableTextarea/editableTextarea"
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
+import {Separator} from "src/component/separator/Separator";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {Trash} from "src/component/trash/Trash";
@@ -153,6 +154,7 @@ export const ReportsTableCommentsCell = observer((props: ReportsTableCommentsCel
                   ? LanguageService.common.emptyMarkdownAction[language]
                   : LanguageService.common.emptyMarkdown[language]}
               />
+              <Separator />
             </li>
           ),
           )}

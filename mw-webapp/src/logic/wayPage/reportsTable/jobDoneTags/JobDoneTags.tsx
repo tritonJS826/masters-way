@@ -34,6 +34,7 @@ export const JobDoneTags = (props: JobDoneTagsProps) => {
             key={jobDoneTag.uuid}
             label={jobDoneTag}
             isSmall
+            className={styles.label}
           />
         );
       })

@@ -4,7 +4,7 @@ export * from './SchemasCreateMessagePayload';
 export * from './SchemasCreateRoomPayload';
 export * from './SchemasGetChatPreviewResponse';
 export * from './SchemasGetRoomsResponse';
-export * from './SchemasMessageReaders';
+export * from './SchemasMessageReader';
 export * from './SchemasMessageResponse';
 export * from './SchemasRoomPopulatedResponse';
 export * from './SchemasRoomPreviewResponse';

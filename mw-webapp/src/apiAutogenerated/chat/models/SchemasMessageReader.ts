@@ -16,56 +16,72 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface SchemasMessageReaders
+ * @interface SchemasMessageReader
  */
-export interface SchemasMessageReaders {
+export interface SchemasMessageReader {
     /**
      * 
      * @type {string}
-     * @memberof SchemasMessageReaders
+     * @memberof SchemasMessageReader
+     */
+    ownerImageUrl: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemasMessageReader
+     */
+    ownerName: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemasMessageReader
      */
     readDate: string;
     /**
      * 
      * @type {string}
-     * @memberof SchemasMessageReaders
+     * @memberof SchemasMessageReader
      */
     userId: string;
 }
 
 /**
- * Check if a given object implements the SchemasMessageReaders interface.
+ * Check if a given object implements the SchemasMessageReader interface.
  */
-export function instanceOfSchemasMessageReaders(
+export function instanceOfSchemasMessageReader(
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "ownerImageUrl" in value;
+    isInstance = isInstance && "ownerName" in value;
     isInstance = isInstance && "readDate" in value;
     isInstance = isInstance && "userId" in value;
 
     return isInstance;
 }
 
-export function SchemasMessageReadersFromJSON(json: any): SchemasMessageReaders {
-    return SchemasMessageReadersFromJSONTyped(json, false);
+export function SchemasMessageReaderFromJSON(json: any): SchemasMessageReader {
+    return SchemasMessageReaderFromJSONTyped(json, false);
 }
 
-export function SchemasMessageReadersFromJSONTyped(
+export function SchemasMessageReaderFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): SchemasMessageReaders {
+): SchemasMessageReader {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
+        'ownerImageUrl': json['ownerImageUrl'],
+        'ownerName': json['ownerName'],
         'readDate': json['readDate'],
         'userId': json['userId'],
     };
 }
 
 
-export function SchemasMessageReadersToJSON(value?: SchemasMessageReaders | null): any {
+export function SchemasMessageReaderToJSON(value?: SchemasMessageReader | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -74,6 +90,8 @@ export function SchemasMessageReadersToJSON(value?: SchemasMessageReaders | null
     }
     return {
         
+        'ownerImageUrl': value.ownerImageUrl,
+        'ownerName': value.ownerName,
         'readDate': value.readDate,
         'userId': value.userId,
     };
