@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"mw-chat-websocket/internal/config"
+	"mw-chat-websocket/internal/controllers"
 	"mw-chat-websocket/internal/server"
 )
 
@@ -12,8 +13,10 @@ func main() {
 		log.Fatal("cannot load config:", err)
 	}
 
+	controllers := controllers.NewController()
+
 	newServer := server.NewServer(&newConfig)
-	newServer.SetRoutes()
+	newServer.SetRoutes(controllers)
 
 	if newConfig.EnvType == "prod" {
 		log.Fatal(newServer.GinServer.RunTLS(":"+newConfig.ServerPort, "./server.crt", "./server.key"))

@@ -1,15 +1,14 @@
 package server
 
 import (
-	"log"
 	"mw-chat-websocket/internal/config"
+	"mw-chat-websocket/internal/controllers"
 	"net/http"
 
 	// _ "mwchat/docs"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"github.com/gorilla/websocket"
 )
 
 type Server struct {
@@ -45,66 +44,7 @@ func NewServer(cfg *config.Config) *Server {
 // @title     Masters way chat API
 // @version 1.0
 // @BasePath  /chat-websocket
-func (server *Server) SetRoutes() {
-	server.GinServer.GET("/ws", func(ctx *gin.Context) {
-		conn, err := upgrader.Upgrade(ctx.Writer, ctx.Request, nil)
-		if err != nil {
-			log.Println(err)
-			return
-		}
-		defer conn.Close()
-
-		newMessage := MakeMessageReceived("Hello!")
-		err = conn.WriteJSON(newMessage)
-		if err != nil {
-			log.Println("WriteMessage error:", err)
-			return
-		}
-
-		// for {
-		// 	messageType, message, err := conn.ReadMessage()
-		// 	if err != nil {
-		// 		log.Println(err)
-		// 		return
-		// 	}
-
-		// 	fmt.Println("Received message:", string(message))
-
-		// 	err = conn.WriteMessage(messageType, message)
-		// 	if err != nil {
-		// 		log.Println(err)
-		// 		return
-		// 	}
-		// }
-	})
-
-}
-
-type BaseMessage struct {
-	Name    string      `json:"name" validate:"required"`
-	Payload interface{} `json:"payload" validate:"required"`
-}
-
-type MessageReceived struct {
-	Name    string                 `json:"name" validate:"required"`
-	Payload MessageReceivedPayload `json:"payload" validate:"required"`
-}
-
-type MessageReceivedPayload struct {
-	Text string `json:"text" validate:"required"`
-}
-
-func MakeMessageReceived(text string) *MessageReceived {
-	return &MessageReceived{
-		Name: "mw-chat-websocket:message-received",
-		Payload: MessageReceivedPayload{
-			Text: text,
-		},
-	}
-}
-
-var upgrader = websocket.Upgrader{
-	CheckOrigin: func(r *http.Request) bool {
-		return true
-	},
+func (server *Server) SetRoutes(controller *controllers.Controller) {
+	server.GinServer.GET("/ws", controller.SocketController.ConnectSocket)
+	server.GinServer.GET("/send-message", controller.SocketController.SendMessage)
 }
