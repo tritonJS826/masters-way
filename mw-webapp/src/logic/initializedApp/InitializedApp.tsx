@@ -64,7 +64,7 @@ export const InitializedApp = (props: PropsWithChildren) => {
     // TODO: loadUser if some token exist
     try {
       const loadedUser = await AuthDAL.getAuthorizedUser();
-      setUser(user);
+      setUser(loadedUser);
       const defaultPagePath = getDefaultPagePath(loadedUser.uuid);
       setIsInitialized(true);
 
