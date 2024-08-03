@@ -44,7 +44,6 @@ definitions:
         type: string
       ownerName:
         type: string
-        x-nullable: true
       readDate:
         type: string
       userId:
@@ -69,7 +68,6 @@ definitions:
         type: string
       ownerName:
         type: string
-        x-nullable: true
     required:
     - message
     - messageReaders

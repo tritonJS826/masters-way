@@ -8,14 +8,14 @@ Name | Type | Description | Notes
 **MessageReaders** | [**[]SchemasMessageReader**](SchemasMessageReader.md) |  | 
 **OwnerId** | **string** |  | 
 **OwnerImageUrl** | **string** |  | 
-**OwnerName** | **NullableString** |  | 
+**OwnerName** | **string** |  | 
 **RoomId** | **string** |  | 
 
 ## Methods
 
 ### NewSchemasMessageResponse
 
-`func NewSchemasMessageResponse(message string, messageReaders []SchemasMessageReader, ownerId string, ownerImageUrl string, ownerName NullableString, roomId string, ) *SchemasMessageResponse`
+`func NewSchemasMessageResponse(message string, messageReaders []SchemasMessageReader, ownerId string, ownerImageUrl string, ownerName string, roomId string, ) *SchemasMessageResponse`
 
 NewSchemasMessageResponse instantiates a new SchemasMessageResponse object
 This constructor will assign default values to properties that have it defined,
@@ -130,16 +130,6 @@ and a boolean to check if the value has been set.
 SetOwnerName sets OwnerName field to given value.
 
 
-### SetOwnerNameNil
-
-`func (o *SchemasMessageResponse) SetOwnerNameNil(b bool)`
-
- SetOwnerNameNil sets the value for OwnerName to be an explicit nil
-
-### UnsetOwnerName
-`func (o *SchemasMessageResponse) UnsetOwnerName()`
-
-UnsetOwnerName ensures that no value is present for OwnerName, not even an explicit nil
 ### GetRoomId
 
 `func (o *SchemasMessageResponse) GetRoomId() string`

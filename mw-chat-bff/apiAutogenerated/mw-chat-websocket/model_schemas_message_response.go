@@ -25,7 +25,7 @@ type SchemasMessageResponse struct {
 	MessageReaders []SchemasMessageReader `json:"messageReaders"`
 	OwnerId string `json:"ownerId"`
 	OwnerImageUrl string `json:"ownerImageUrl"`
-	OwnerName NullableString `json:"ownerName"`
+	OwnerName string `json:"ownerName"`
 	RoomId string `json:"roomId"`
 }
 
@@ -35,7 +35,7 @@ type _SchemasMessageResponse SchemasMessageResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSchemasMessageResponse(message string, messageReaders []SchemasMessageReader, ownerId string, ownerImageUrl string, ownerName NullableString, roomId string) *SchemasMessageResponse {
+func NewSchemasMessageResponse(message string, messageReaders []SchemasMessageReader, ownerId string, ownerImageUrl string, ownerName string, roomId string) *SchemasMessageResponse {
 	this := SchemasMessageResponse{}
 	this.Message = message
 	this.MessageReaders = messageReaders
@@ -151,29 +151,27 @@ func (o *SchemasMessageResponse) SetOwnerImageUrl(v string) {
 }
 
 // GetOwnerName returns the OwnerName field value
-// If the value is explicit nil, the zero value for string will be returned
 func (o *SchemasMessageResponse) GetOwnerName() string {
-	if o == nil || o.OwnerName.Get() == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
 
-	return *o.OwnerName.Get()
+	return o.OwnerName
 }
 
 // GetOwnerNameOk returns a tuple with the OwnerName field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *SchemasMessageResponse) GetOwnerNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return o.OwnerName.Get(), o.OwnerName.IsSet()
+	return &o.OwnerName, true
 }
 
 // SetOwnerName sets field value
 func (o *SchemasMessageResponse) SetOwnerName(v string) {
-	o.OwnerName.Set(&v)
+	o.OwnerName = v
 }
 
 // GetRoomId returns the RoomId field value
@@ -214,7 +212,7 @@ func (o SchemasMessageResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize["messageReaders"] = o.MessageReaders
 	toSerialize["ownerId"] = o.OwnerId
 	toSerialize["ownerImageUrl"] = o.OwnerImageUrl
-	toSerialize["ownerName"] = o.OwnerName.Get()
+	toSerialize["ownerName"] = o.OwnerName
 	toSerialize["roomId"] = o.RoomId
 	return toSerialize, nil
 }

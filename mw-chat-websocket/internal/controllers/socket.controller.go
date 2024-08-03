@@ -115,18 +115,12 @@ var sessionPool = make(map[string]*CurrentSocketConnection)
 func (cc *SocketController) ConnectSocket(ctx *gin.Context) {
 	token := ctx.Query("token")
 
-	fmt.Println()
-	fmt.Println("token", token)
-	fmt.Println()
-
 	claims, err := auth.ValidateJWT(token)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
 		return
 	}
 	userID := claims.UserID
-
-	fmt.Println("userID", userID)
 
 	conn, err := upgrader.Upgrade(ctx.Writer, ctx.Request, nil)
 	if err != nil {
@@ -144,9 +138,10 @@ func (cc *SocketController) ConnectSocket(ctx *gin.Context) {
 	for {
 		_, message, err := conn.ReadMessage()
 		if err != nil {
-			log.Println(err)
+			fmt.Println("User disconnected", err)
 			// Delete userID from map
 			delete(sessionPool, userID)
+			fmt.Println("Current amount of users: ", len(sessionPool))
 			return
 		}
 
@@ -164,25 +159,27 @@ func (cc *SocketController) ConnectSocket(ctx *gin.Context) {
 // @Success 204
 // @Router /send-message [post]
 func (cc *SocketController) SendMessage(ctx *gin.Context) {
-	// var payload *schemas.MessageResponse
+	var payload *schemas.MessageResponse
 
-	// if err := ctx.ShouldBindJSON(&payload); err != nil {
-	// 	ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-	// 	return
-	// }
-
-	payload := schemas.MessageResponse{
-		OwnerID:       "3d922e8a-5d58-4b82-9a3d-83e2e73b3f91",
-		OwnerName:     "test.user",
-		OwnerImageURL: "https://lh3.google.com/u/0/d/18oHI9KoiaYvd_UowHyqsJbDLLhmuxPxr=w1919-h1079-iv2",
-		RoomID:        "78bdf878-3b83-4f97-8d2e-928c132a10cd",
-		Message:       "Hello dear friend!",
-		Readers:       []schemas.MessageReader{},
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
+
+	fmt.Println("payload", payload)
+
+	// payload := schemas.MessageResponse{
+	// 	OwnerID:       "3d922e8a-5d58-4b82-9a3d-83e2e73b3f91",
+	// 	OwnerName:     "test.user",
+	// 	OwnerImageURL: "https://lh3.google.com/u/0/d/18oHI9KoiaYvd_UowHyqsJbDLLhmuxPxr=w1919-h1079-iv2",
+	// 	RoomID:        "78bdf878-3b83-4f97-8d2e-928c132a10cd",
+	// 	Message:       "Hello dear friend!",
+	// 	Readers:       []schemas.MessageReader{},
+	// }
 
 	connection := sessionPool["d2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2"].Connection
 
-	newMessage := schemas.MakeMessageReceived(&payload)
+	newMessage := schemas.MakeMessageReceived(payload)
 	err := connection.WriteJSON(newMessage)
 	utils.HandleErrorGin(ctx, err)
 

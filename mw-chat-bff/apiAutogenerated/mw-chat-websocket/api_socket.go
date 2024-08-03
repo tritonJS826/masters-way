@@ -61,7 +61,7 @@ func (a *SocketAPIService) ConnectSocketExecute(r ApiConnectSocketRequest) (*htt
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/ws/{token}"
+	localVarPath := localBasePath + "/ws"
 	localVarPath = strings.Replace(localVarPath, "{"+"token"+"}", url.PathEscape(parameterValueToString(r.token, "token")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -145,7 +145,7 @@ func (a *SocketAPIService) SendMessageToSocket(ctx context.Context) ApiSendMessa
 // Execute executes the request
 func (a *SocketAPIService) SendMessageToSocketExecute(r ApiSendMessageToSocketRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
+		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
 	)

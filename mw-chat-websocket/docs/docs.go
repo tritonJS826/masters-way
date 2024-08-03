@@ -16,7 +16,7 @@ const docTemplate = `{
     "basePath": "{{.BasePath}}",
     "paths": {
         "/send-message": {
-            "get": {
+            "post": {
                 "consumes": [
                     "application/json"
                 ],
@@ -46,7 +46,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/ws/{token}": {
+        "/ws": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -90,8 +90,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "name": {
-                    "type": "string",
-                    "x-nullable": true
+                    "type": "string"
                 },
                 "readDate": {
                     "type": "string"
@@ -128,8 +127,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "ownerName": {
-                    "type": "string",
-                    "x-nullable": true
+                    "type": "string"
                 },
                 "roomId": {
                     "type": "string"

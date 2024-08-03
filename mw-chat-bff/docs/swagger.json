@@ -350,8 +350,7 @@
                     "type": "string"
                 },
                 "ownerName": {
-                    "type": "string",
-                    "x-nullable": true
+                    "type": "string"
                 },
                 "readDate": {
                     "type": "string"
@@ -387,8 +386,7 @@
                     "type": "string"
                 },
                 "ownerName": {
-                    "type": "string",
-                    "x-nullable": true
+                    "type": "string"
                 }
             }
         },

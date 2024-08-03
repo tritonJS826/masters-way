@@ -361,8 +361,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "ownerName": {
-                    "type": "string",
-                    "x-nullable": true
+                    "type": "string"
                 },
                 "readDate": {
                     "type": "string"
@@ -398,8 +397,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "ownerName": {
-                    "type": "string",
-                    "x-nullable": true
+                    "type": "string"
                 }
             }
         },

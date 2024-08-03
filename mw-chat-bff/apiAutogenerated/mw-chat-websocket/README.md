@@ -78,8 +78,8 @@ All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*SocketAPI* | [**ConnectSocket**](docs/SocketAPI.md#connectsocket) | **Get** /ws/{token} | Connect to socket
-*SocketAPI* | [**SendMessageToSocket**](docs/SocketAPI.md#sendmessagetosocket) | **Get** /send-message | Send message to socket
+*SocketAPI* | [**ConnectSocket**](docs/SocketAPI.md#connectsocket) | **Get** /ws | Connect to socket
+*SocketAPI* | [**SendMessageToSocket**](docs/SocketAPI.md#sendmessagetosocket) | **Post** /send-message | Send message to socket
 
 
 ## Documentation For Models

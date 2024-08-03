@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ImageUrl** | **string** |  | 
-**Name** | **NullableString** |  | 
+**Name** | **string** |  | 
 **ReadDate** | **string** |  | 
 **UserId** | **string** |  | 
 
@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 
 ### NewSchemasMessageReader
 
-`func NewSchemasMessageReader(imageUrl string, name NullableString, readDate string, userId string, ) *SchemasMessageReader`
+`func NewSchemasMessageReader(imageUrl string, name string, readDate string, userId string, ) *SchemasMessageReader`
 
 NewSchemasMessageReader instantiates a new SchemasMessageReader object
 This constructor will assign default values to properties that have it defined,
@@ -68,16 +68,6 @@ and a boolean to check if the value has been set.
 SetName sets Name field to given value.
 
 
-### SetNameNil
-
-`func (o *SchemasMessageReader) SetNameNil(b bool)`
-
- SetNameNil sets the value for Name to be an explicit nil
-
-### UnsetName
-`func (o *SchemasMessageReader) UnsetName()`
-
-UnsetName ensures that no value is present for Name, not even an explicit nil
 ### GetReadDate
 
 `func (o *SchemasMessageReader) GetReadDate() string`

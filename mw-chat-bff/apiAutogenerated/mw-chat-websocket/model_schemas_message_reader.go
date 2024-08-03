@@ -22,7 +22,7 @@ var _ MappedNullable = &SchemasMessageReader{}
 // SchemasMessageReader struct for SchemasMessageReader
 type SchemasMessageReader struct {
 	ImageUrl string `json:"imageUrl"`
-	Name NullableString `json:"name"`
+	Name string `json:"name"`
 	ReadDate string `json:"readDate"`
 	UserId string `json:"userId"`
 }
@@ -33,7 +33,7 @@ type _SchemasMessageReader SchemasMessageReader
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSchemasMessageReader(imageUrl string, name NullableString, readDate string, userId string) *SchemasMessageReader {
+func NewSchemasMessageReader(imageUrl string, name string, readDate string, userId string) *SchemasMessageReader {
 	this := SchemasMessageReader{}
 	this.ImageUrl = imageUrl
 	this.Name = name
@@ -75,29 +75,27 @@ func (o *SchemasMessageReader) SetImageUrl(v string) {
 }
 
 // GetName returns the Name field value
-// If the value is explicit nil, the zero value for string will be returned
 func (o *SchemasMessageReader) GetName() string {
-	if o == nil || o.Name.Get() == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
 
-	return *o.Name.Get()
+	return o.Name
 }
 
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *SchemasMessageReader) GetNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return o.Name.Get(), o.Name.IsSet()
+	return &o.Name, true
 }
 
 // SetName sets field value
 func (o *SchemasMessageReader) SetName(v string) {
-	o.Name.Set(&v)
+	o.Name = v
 }
 
 // GetReadDate returns the ReadDate field value
@@ -159,7 +157,7 @@ func (o SchemasMessageReader) MarshalJSON() ([]byte, error) {
 func (o SchemasMessageReader) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["imageUrl"] = o.ImageUrl
-	toSerialize["name"] = o.Name.Get()
+	toSerialize["name"] = o.Name
 	toSerialize["readDate"] = o.ReadDate
 	toSerialize["userId"] = o.UserId
 	return toSerialize, nil

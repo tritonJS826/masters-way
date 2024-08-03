@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 .travis.yml
 README.md
 api/openapi.yaml
@@ -15,5 +14,4 @@ go.sum
 model_schemas_message_reader.go
 model_schemas_message_response.go
 response.go
-test/api_socket_test.go
 utils.go

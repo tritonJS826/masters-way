@@ -17,14 +17,20 @@ const RoomTypePrivate string = "private"
 const RoomTypeGroup string = "group"
 
 type RoomsController struct {
-	roomsService services.IRoomsService
-	usersService services.IUsersService
+	roomsService           services.IRoomsService
+	usersService           services.IUsersService
+	mwChatWebSocketService services.IMWChatWebSocketService
 }
 
-func NewRoomsController(roomsService services.IRoomsService, usersService services.IUsersService) *RoomsController {
+func NewRoomsController(
+	roomsService services.IRoomsService,
+	usersService services.IUsersService,
+	mwChatWebSocketService services.IMWChatWebSocketService,
+) *RoomsController {
 	return &RoomsController{
-		roomsService: roomsService,
-		usersService: usersService,
+		roomsService,
+		usersService,
+		mwChatWebSocketService,
 	}
 }
 
@@ -256,6 +262,9 @@ func (cc *RoomsController) CreateMessage(ctx *gin.Context) {
 		}
 		return reader
 	})
+
+	err = cc.mwChatWebSocketService.GetChatUsers(ctx, roomId, message)
+	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, &message)
 }

@@ -5,7 +5,7 @@
     },
     "paths": {
         "/send-message": {
-            "get": {
+            "post": {
                 "consumes": [
                     "application/json"
                 ],
@@ -35,7 +35,7 @@
                 }
             }
         },
-        "/ws/{token}": {
+        "/ws": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -79,8 +79,7 @@
                     "type": "string"
                 },
                 "name": {
-                    "type": "string",
-                    "x-nullable": true
+                    "type": "string"
                 },
                 "readDate": {
                     "type": "string"
@@ -117,8 +116,7 @@
                     "type": "string"
                 },
                 "ownerName": {
-                    "type": "string",
-                    "x-nullable": true
+                    "type": "string"
                 },
                 "roomId": {
                     "type": "string"

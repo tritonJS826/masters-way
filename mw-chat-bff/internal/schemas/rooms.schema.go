@@ -45,14 +45,14 @@ type CreateMessagePayload struct {
 
 type MessageReader struct {
 	UserID   string `json:"userId" validate:"required"`
-	Name     string `json:"ownerName" validate:"required" extensions:"x-nullable"`
+	Name     string `json:"ownerName" validate:"required"`
 	ImageURL string `json:"ownerImageUrl" validate:"required"`
 	ReadDate string `json:"readDate" validate:"required"`
 }
 
 type MessageResponse struct {
 	OwnerID       string          `json:"ownerId" validate:"required"`
-	OwnerName     string          `json:"ownerName" validate:"required" extensions:"x-nullable"`
+	OwnerName     string          `json:"ownerName" validate:"required"`
 	OwnerImageURL string          `json:"ownerImageUrl" validate:"required"`
 	Message       string          `json:"message" validate:"required"`
 	Readers       []MessageReader `json:"messageReaders" validate:"required"`

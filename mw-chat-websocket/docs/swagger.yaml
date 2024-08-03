@@ -5,7 +5,6 @@ definitions:
         type: string
       name:
         type: string
-        x-nullable: true
       readDate:
         type: string
       userId:
@@ -30,7 +29,6 @@ definitions:
         type: string
       ownerName:
         type: string
-        x-nullable: true
       roomId:
         type: string
     required:
@@ -45,7 +43,7 @@ info:
   contact: {}
 paths:
   /send-message:
-    get:
+    post:
       consumes:
       - application/json
       operationId: send-message-to-socket
@@ -64,7 +62,7 @@ paths:
       summary: Send message to socket
       tags:
       - socket
-  /ws/{token}:
+  /ws:
     get:
       consumes:
       - application/json

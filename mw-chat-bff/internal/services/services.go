@@ -23,18 +23,25 @@ type IUsersService interface {
 	GetChatUsers(ctx *gin.Context, userIDs []string) (map[string]PopulatedUser, error)
 }
 
+type IMWChatWebSocketService interface {
+	GetChatUsers(ctx *gin.Context, roomID string, message *schemas.MessageResponse) error
+}
+
 type Service struct {
 	IRoomsService
 	IUsersService
+	IMWChatWebSocketService
 }
 
 func NewService(configuration *config.Config) *Service {
 	var chatApi = openapi.MakeChatAPIClient(configuration)
 	var generalApi = openapi.MakeGeneralAPIClient(configuration)
+	var mwChatWebSocketApi = openapi.MakeMWChatWebSocketAPIClient(configuration)
 
 	return &Service{
-		IRoomsService: NewRoomsService(chatApi),
-		IUsersService: NewUsersService(generalApi),
+		IRoomsService:           NewRoomsService(chatApi),
+		IUsersService:           NewUsersService(generalApi),
+		IMWChatWebSocketService: NewMWChatSocketService(mwChatWebSocketApi),
 	}
 }
 

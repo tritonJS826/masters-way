@@ -4,8 +4,8 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**ConnectSocket**](SocketAPI.md#ConnectSocket) | **Get** /ws/{token} | Connect to socket
-[**SendMessageToSocket**](SocketAPI.md#SendMessageToSocket) | **Get** /send-message | Send message to socket
+[**ConnectSocket**](SocketAPI.md#ConnectSocket) | **Get** /ws | Connect to socket
+[**SendMessageToSocket**](SocketAPI.md#SendMessageToSocket) | **Post** /send-message | Send message to socket
 
 
 

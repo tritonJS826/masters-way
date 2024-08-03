@@ -50,6 +50,6 @@ func (server *Server) SetRoutes(controller *controllers.Controller) {
 	mwChatWebsocket := server.GinServer.Group("/mw-chat-websocket")
 	{
 		mwChatWebsocket.GET("/ws", controller.SocketController.ConnectSocket)
-		mwChatWebsocket.GET("/send-message", controller.SocketController.SendMessage)
+		mwChatWebsocket.POST("/send-message", controller.SocketController.SendMessage)
 	}
 }

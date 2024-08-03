@@ -7,13 +7,15 @@ import (
 )
 
 type Config struct {
-	ServerPort     string `mapstructure:"SERVER_PORT"`
-	WebappBaseUrl  string `mapstructure:"WEBAPP_BASE_URL"`
-	EnvType        string `mapstructure:"ENV_TYPE"`
-	GeneralAPIHost string `mapstructure:"GENERAL_API_HOST"`
-	GeneralBaseURL string `mapstructure:"GENERAL_BASE_URL"`
-	ChatAPIHost    string `mapstructure:"CHAT_API_HOST"`
-	ChatBaseURL    string `mapstructure:"CHAT_BASE_URL"`
+	ServerPort             string `mapstructure:"SERVER_PORT"`
+	WebappBaseUrl          string `mapstructure:"WEBAPP_BASE_URL"`
+	EnvType                string `mapstructure:"ENV_TYPE"`
+	GeneralAPIHost         string `mapstructure:"GENERAL_API_HOST"`
+	GeneralBaseURL         string `mapstructure:"GENERAL_BASE_URL"`
+	ChatAPIHost            string `mapstructure:"CHAT_API_HOST"`
+	ChatBaseURL            string `mapstructure:"CHAT_BASE_URL"`
+	MWChatWebSocketAPIHost string `mapstructure:"MW_CHAT_WEBSOCKET_API_HOST"`
+	MWChatWebSocketBaseURL string `mapstructure:"MW_CHAT_WEBSOCKET_BASE_URL"`
 }
 
 func LoadConfig(path string) (config Config, err error) {
