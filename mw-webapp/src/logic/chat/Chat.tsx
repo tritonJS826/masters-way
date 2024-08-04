@@ -222,7 +222,7 @@ export const ChatPage = observer((props: ChatProps) => {
                   ? chatList.map((chatItem) => (
                     <ChatItem
                       key={chatItem.roomId}
-                      name={chatItem.roomId}
+                      name={chatItem.name}
                       src={chatItem.src}
                       onClick={() => {
                         loadActiveChat(chatItem.roomId);
