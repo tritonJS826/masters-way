@@ -16,21 +16,21 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface SchemasGetChatPreviewResponse
+ * @interface SchemasGetRoomPreviewResponse
  */
-export interface SchemasGetChatPreviewResponse {
+export interface SchemasGetRoomPreviewResponse {
     /**
      * 
      * @type {number}
-     * @memberof SchemasGetChatPreviewResponse
+     * @memberof SchemasGetRoomPreviewResponse
      */
     unreadMessagesAmount: number;
 }
 
 /**
- * Check if a given object implements the SchemasGetChatPreviewResponse interface.
+ * Check if a given object implements the SchemasGetRoomPreviewResponse interface.
  */
-export function instanceOfSchemasGetChatPreviewResponse(
+export function instanceOfSchemasGetRoomPreviewResponse(
     value: object
 ): boolean {
     let isInstance = true;
@@ -39,14 +39,14 @@ export function instanceOfSchemasGetChatPreviewResponse(
     return isInstance;
 }
 
-export function SchemasGetChatPreviewResponseFromJSON(json: any): SchemasGetChatPreviewResponse {
-    return SchemasGetChatPreviewResponseFromJSONTyped(json, false);
+export function SchemasGetRoomPreviewResponseFromJSON(json: any): SchemasGetRoomPreviewResponse {
+    return SchemasGetRoomPreviewResponseFromJSONTyped(json, false);
 }
 
-export function SchemasGetChatPreviewResponseFromJSONTyped(
+export function SchemasGetRoomPreviewResponseFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): SchemasGetChatPreviewResponse {
+): SchemasGetRoomPreviewResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -57,7 +57,7 @@ export function SchemasGetChatPreviewResponseFromJSONTyped(
 }
 
 
-export function SchemasGetChatPreviewResponseToJSON(value?: SchemasGetChatPreviewResponse | null): any {
+export function SchemasGetRoomPreviewResponseToJSON(value?: SchemasGetRoomPreviewResponse | null): any {
     if (value === undefined) {
         return undefined;
     }

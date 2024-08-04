@@ -147,6 +147,10 @@ $modal-animation-time: 150ms;
   border-radius: $tagBorderRadius;
   background-color: var(--primaryBgColor);
 }
+.messages {
+  display: flex;
+  flex-direction: column;
+}
 
 @keyframes overlayShow {
   from {

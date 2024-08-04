@@ -42,12 +42,12 @@ export class ChatPreview {
   /**
    * Chat room's image
    */
-  public imgUrl: string | null;
+  public imageUrl: string | null;
 
   constructor(chatGroupData: ChatPreviewProps) {
     this.roomId = chatGroupData.roomId;
     this.name = chatGroupData.name;
-    this.imgUrl = chatGroupData.imageUrl;
+    this.imageUrl = chatGroupData.imageUrl;
   }
 
 }

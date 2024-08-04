@@ -5,7 +5,7 @@ import {
   DeleteUserFromRoomRequest,
   GetRoomByIdRequest,
   GetRoomsRequest,
-  SchemasGetChatPreviewResponse,
+  SchemasGetRoomPreviewResponse,
   SchemasGetRoomsResponse,
   SchemasMessageResponse,
   SchemasRoomPopulatedResponse,
@@ -48,7 +48,7 @@ export class ChatService {
   /**
    * Get unread message amount in chat room
    */
-  public static async getChatPreview(): Promise<SchemasGetChatPreviewResponse> {
+  public static async getChatPreview(): Promise<SchemasGetRoomPreviewResponse> {
     const groupRoom = await chat.getChatPreview();
 
     return groupRoom;

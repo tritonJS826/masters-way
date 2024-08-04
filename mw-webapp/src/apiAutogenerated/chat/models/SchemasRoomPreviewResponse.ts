@@ -28,6 +28,12 @@ import {
 export interface SchemasRoomPreviewResponse {
     /**
      * 
+     * @type {string}
+     * @memberof SchemasRoomPreviewResponse
+     */
+    imageUrl: string;
+    /**
+     * 
      * @type {boolean}
      * @memberof SchemasRoomPreviewResponse
      */
@@ -65,6 +71,7 @@ export function instanceOfSchemasRoomPreviewResponse(
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "imageUrl" in value;
     isInstance = isInstance && "isBlocked" in value;
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "roomId" in value;
@@ -87,6 +94,7 @@ export function SchemasRoomPreviewResponseFromJSONTyped(
     }
     return {
         
+        'imageUrl': json['imageUrl'],
         'isBlocked': json['isBlocked'],
         'name': json['name'],
         'roomId': json['roomId'],
@@ -105,6 +113,7 @@ export function SchemasRoomPreviewResponseToJSON(value?: SchemasRoomPreviewRespo
     }
     return {
         
+        'imageUrl': value.imageUrl,
         'isBlocked': value.isBlocked,
         'name': value.name,
         'roomId': value.roomId,

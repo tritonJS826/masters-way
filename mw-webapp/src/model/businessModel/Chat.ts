@@ -30,12 +30,17 @@ interface ChatProps {
   /**
    * Chat room's image
    */
-  src: string | null;
+  imageUrl: string;
 
   /**
    * List of users in the chat
    */
   users: ChatUser[];
+
+  /**
+   * Room's type p2p or group
+   */
+  roomType: string;
 }
 
 /**
@@ -66,12 +71,17 @@ export class Chat {
   /**
    * Chat room's image
    */
-  public src: string | null;
+  public imageUrl: string;
 
   /**
    * List of users in the chat
    */
   public users: ChatUser[];
+
+  /**
+   * Rooms' type p2p or group
+   */
+  public roomType: string;
 
   constructor(chatData: ChatProps) {
     makeAutoObservable(this);
@@ -79,8 +89,9 @@ export class Chat {
     this.name = chatData.name;
     this.messages = chatData.messages;
     this.isBlocked = chatData.isBlocked;
-    this.src = chatData.src;
+    this.imageUrl = chatData.imageUrl;
     this.users = chatData.users;
+    this.roomType = chatData.roomType;
   }
 
   /**

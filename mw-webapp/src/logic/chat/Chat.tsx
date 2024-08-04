@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {DialogClose, DialogContent, DialogOverlay, DialogPortal, DialogTrigger, Root as DialogRoot} from "@radix-ui/react-dialog";
 import clsx from "clsx";
 import {observer} from "mobx-react-lite";
@@ -53,14 +53,22 @@ export const ChatPage = observer((props: ChatProps) => {
   const [isChatHiddenOnMobile, setIsChatHiddenOnMobile] = useState<boolean>(true);
   const [unreadMessagesAmount, setUnreadMessagesAmount] = useState<number>(0);
 
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
   useListenEventBus(ChannelId.CHAT, ChatEventId.MESSAGE_RECEIVED, (payload) => {
     const isChatForMessageOpen = payload.roomId === chat?.roomId;
     if (isChatForMessageOpen) {
       const newMessage = new Message({
         message: payload.message,
         ownerId: payload.ownerId,
+        ownerName: payload.ownerName,
+        ownerImageUrl: payload.ownerImageUrl,
+        messageReaders: [],
       });
       chat.addMessage(newMessage);
+      if (messagesEndRef.current) {
+        messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
+      }
     } else {
       displayNotification({
         text: `${payload.ownerName}: ${payload.message}`,
@@ -148,6 +156,13 @@ export const ChatPage = observer((props: ChatProps) => {
   useEffect(() => {
     loadUnreadMessagesAmount();
   }, []);
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
+    }
+
+  }, [chat]);
 
   return (
     <DialogRoot
@@ -245,7 +260,7 @@ export const ChatPage = observer((props: ChatProps) => {
                     <ChatItem
                       key={chatItem.roomId}
                       name={chatItem.name}
-                      src={chatItem.imgUrl}
+                      src={chatItem.imageUrl}
                       onClick={() => {
                         loadActiveChat(chatItem.roomId);
                         setIsChatHiddenOnMobile(false);
@@ -267,7 +282,7 @@ export const ChatPage = observer((props: ChatProps) => {
                   <HorizontalContainer className={styles.chatInfo}>
                     <ChatItem
                       name={chat.name}
-                      src={chat.src}
+                      src={chat.imageUrl}
                     />
                     <Dropdown
                       trigger={(
@@ -297,19 +312,25 @@ export const ChatPage = observer((props: ChatProps) => {
                     />
                   </HorizontalContainer>
                   <VerticalContainer className={styles.messageList}>
-                    {chat.messages.map((messageItem) => (
-                      <MessageItem
-                        key={messageItem.ownerId}
-                        src=""
-                        userName={messageItem.ownerId}
-                        message={
-                          <p>
-                            {messageItem.message}
-                          </p>
-                        }
-                        isOwnMessage={messageItem.ownerId === user?.uuid}
-                      />
-                    ))}
+                    <div
+                      ref={messagesEndRef}
+                      className={clsx(styles.messages, styles.messageList)}
+                    >
+                      {chat.messages.map((messageItem) => (
+                        <MessageItem
+                          key={messageItem.ownerId}
+                          src=""
+                          userName={messageItem.ownerId}
+                          message={
+                            <p>
+                              {messageItem.message}
+                            </p>
+                          }
+                          isOwnMessage={messageItem.ownerId === user?.uuid}
+                        />
+                      ))}
+                      <div ref={messagesEndRef} />
+                    </div>
                   </VerticalContainer>
                 </VerticalContainer>
               }
