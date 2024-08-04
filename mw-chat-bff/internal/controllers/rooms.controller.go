@@ -202,6 +202,9 @@ func (cc *RoomsController) CreateRoom(ctx *gin.Context) {
 		util.HandleErrorGin(ctx, err)
 	}
 
+	err = cc.mwChatWebSocketService.SendRoom(ctx, room)
+	util.HandleErrorGin(ctx, err)
+
 	ctx.JSON(http.StatusOK, &room)
 }
 

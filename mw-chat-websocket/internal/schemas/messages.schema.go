@@ -1,16 +1,5 @@
 package schemas
 
-// abstract message for example (all fields required and name )
-type BaseMessage struct {
-	Type    string      `json:"type" validate:"required"`
-	Payload interface{} `json:"payload" validate:"required"`
-}
-
-type MessageReceived struct {
-	Type    string          `json:"type" validate:"required"`
-	Payload MessageResponse `json:"payload" validate:"required"`
-}
-
 type MessageReader struct {
 	UserID   string `json:"userId" validate:"required"`
 	Name     string `json:"name" validate:"required"`
@@ -30,11 +19,4 @@ type MessageResponse struct {
 type SendMessagePayload struct {
 	Users   []string        `json:"users" validate:"required"`
 	Message MessageResponse `json:"message" validate:"required"`
-}
-
-func MakeMessageReceived(payload MessageResponse) *MessageReceived {
-	return &MessageReceived{
-		Type:    "mw-chat-websocket:message-received",
-		Payload: payload,
-	}
 }

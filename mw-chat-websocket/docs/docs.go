@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/send-message": {
+        "/messages": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -27,7 +27,7 @@ const docTemplate = `{
                     "socket"
                 ],
                 "summary": "Send message to socket",
-                "operationId": "send-message-to-socket",
+                "operationId": "send-message-event",
                 "parameters": [
                     {
                         "description": "query params",
@@ -36,6 +36,37 @@ const docTemplate = `{
                         "required": true,
                         "schema": {
                             "$ref": "#/definitions/schemas.SendMessagePayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/rooms": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "socket"
+                ],
+                "summary": "Send created room event",
+                "operationId": "send-room-event",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.RoomPopulatedResponse"
                         }
                     }
                 ],
@@ -134,6 +165,43 @@ const docTemplate = `{
                 }
             }
         },
+        "schemas.RoomPopulatedResponse": {
+            "type": "object",
+            "required": [
+                "imageUrl",
+                "messages",
+                "name",
+                "roomId",
+                "roomType",
+                "users"
+            ],
+            "properties": {
+                "imageUrl": {
+                    "type": "string"
+                },
+                "messages": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.MessageResponse"
+                    }
+                },
+                "name": {
+                    "type": "string"
+                },
+                "roomId": {
+                    "type": "string"
+                },
+                "roomType": {
+                    "type": "string"
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.UserResponse"
+                    }
+                }
+            }
+        },
         "schemas.SendMessagePayload": {
             "type": "object",
             "required": [
@@ -149,6 +217,29 @@ const docTemplate = `{
                     "items": {
                         "type": "string"
                     }
+                }
+            }
+        },
+        "schemas.UserResponse": {
+            "type": "object",
+            "required": [
+                "imageUrl",
+                "name",
+                "role",
+                "userId"
+            ],
+            "properties": {
+                "imageUrl": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "string"
                 }
             }
         }

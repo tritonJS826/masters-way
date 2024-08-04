@@ -113,49 +113,147 @@ func (a *SocketAPIService) ConnectSocketExecute(r ApiConnectSocketRequest) (*htt
 	return localVarHTTPResponse, nil
 }
 
-type ApiSendMessageToSocketRequest struct {
+type ApiSendMessageEventRequest struct {
 	ctx context.Context
 	ApiService *SocketAPIService
 	request *SchemasSendMessagePayload
 }
 
 // query params
-func (r ApiSendMessageToSocketRequest) Request(request SchemasSendMessagePayload) ApiSendMessageToSocketRequest {
+func (r ApiSendMessageEventRequest) Request(request SchemasSendMessagePayload) ApiSendMessageEventRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiSendMessageToSocketRequest) Execute() (*http.Response, error) {
-	return r.ApiService.SendMessageToSocketExecute(r)
+func (r ApiSendMessageEventRequest) Execute() (*http.Response, error) {
+	return r.ApiService.SendMessageEventExecute(r)
 }
 
 /*
-SendMessageToSocket Send message to socket
+SendMessageEvent Send message to socket
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiSendMessageToSocketRequest
+ @return ApiSendMessageEventRequest
 */
-func (a *SocketAPIService) SendMessageToSocket(ctx context.Context) ApiSendMessageToSocketRequest {
-	return ApiSendMessageToSocketRequest{
+func (a *SocketAPIService) SendMessageEvent(ctx context.Context) ApiSendMessageEventRequest {
+	return ApiSendMessageEventRequest{
 		ApiService: a,
 		ctx: ctx,
 	}
 }
 
 // Execute executes the request
-func (a *SocketAPIService) SendMessageToSocketExecute(r ApiSendMessageToSocketRequest) (*http.Response, error) {
+func (a *SocketAPIService) SendMessageEventExecute(r ApiSendMessageEventRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "SocketAPIService.SendMessageToSocket")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "SocketAPIService.SendMessageEvent")
 	if err != nil {
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/send-message"
+	localVarPath := localBasePath + "/messages"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.request == nil {
+		return nil, reportError("request is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.request
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
+type ApiSendRoomEventRequest struct {
+	ctx context.Context
+	ApiService *SocketAPIService
+	request *SchemasRoomPopulatedResponse
+}
+
+// query params
+func (r ApiSendRoomEventRequest) Request(request SchemasRoomPopulatedResponse) ApiSendRoomEventRequest {
+	r.request = &request
+	return r
+}
+
+func (r ApiSendRoomEventRequest) Execute() (*http.Response, error) {
+	return r.ApiService.SendRoomEventExecute(r)
+}
+
+/*
+SendRoomEvent Send created room event
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiSendRoomEventRequest
+*/
+func (a *SocketAPIService) SendRoomEvent(ctx context.Context) ApiSendRoomEventRequest {
+	return ApiSendRoomEventRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+func (a *SocketAPIService) SendRoomEventExecute(r ApiSendRoomEventRequest) (*http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "SocketAPIService.SendRoomEvent")
+	if err != nil {
+		return nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/rooms"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}

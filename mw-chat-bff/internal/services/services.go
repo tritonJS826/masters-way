@@ -9,7 +9,7 @@ import (
 )
 
 type IRoomsService interface {
-	GetChatPreview(ctx *gin.Context) (*schemas.GetChatPreviewResponse, error)
+	GetChatPreview(ctx *gin.Context) (*schemas.GetRoomPreviewResponse, error)
 	GetRooms(ctx *gin.Context, roomType string) (*schemas.GetRoomsResponse, error)
 	GetRoomById(ctx *gin.Context, roomId string) (*schemas.RoomPopulatedResponse, error)
 	CreateRoom(ctx *gin.Context, createRoomPayload *schemas.CreateRoomPayload) (*schemas.RoomPopulatedResponse, error)
@@ -25,6 +25,7 @@ type IUsersService interface {
 
 type IMWChatWebSocketService interface {
 	SendMessage(ctx *gin.Context, roomID string, message *schemas.CreateMessageResponse) error
+	SendRoom(ctx *gin.Context, populatedRoom *schemas.RoomPopulatedResponse) error
 }
 
 type Service struct {

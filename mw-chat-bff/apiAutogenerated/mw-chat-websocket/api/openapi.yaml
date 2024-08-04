@@ -7,9 +7,9 @@ info:
 servers:
 - url: /
 paths:
-  /send-message:
+  /messages:
     post:
-      operationId: send-message-to-socket
+      operationId: send-message-event
       requestBody:
         content:
           application/json:
@@ -22,6 +22,24 @@ paths:
           content: {}
           description: No Content
       summary: Send message to socket
+      tags:
+      - socket
+      x-codegen-request-body-name: request
+  /rooms:
+    post:
+      operationId: send-room-event
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.RoomPopulatedResponse'
+        description: query params
+        required: true
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Send created room event
       tags:
       - socket
       x-codegen-request-body-name: request
@@ -84,6 +102,32 @@ components:
       - ownerName
       - roomId
       type: object
+    schemas.RoomPopulatedResponse:
+      properties:
+        imageUrl:
+          type: string
+        messages:
+          items:
+            $ref: '#/components/schemas/schemas.MessageResponse'
+          type: array
+        name:
+          type: string
+        roomId:
+          type: string
+        roomType:
+          type: string
+        users:
+          items:
+            $ref: '#/components/schemas/schemas.UserResponse'
+          type: array
+      required:
+      - imageUrl
+      - messages
+      - name
+      - roomId
+      - roomType
+      - users
+      type: object
     schemas.SendMessagePayload:
       properties:
         message:
@@ -95,5 +139,21 @@ components:
       required:
       - message
       - users
+      type: object
+    schemas.UserResponse:
+      properties:
+        imageUrl:
+          type: string
+        name:
+          type: string
+        role:
+          type: string
+        userId:
+          type: string
+      required:
+      - imageUrl
+      - name
+      - role
+      - userId
       type: object
 x-original-swagger-version: "2.0"

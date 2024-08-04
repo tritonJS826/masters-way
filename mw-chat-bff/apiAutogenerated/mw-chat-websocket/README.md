@@ -79,14 +79,17 @@ All URIs are relative to *http://localhost*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *SocketAPI* | [**ConnectSocket**](docs/SocketAPI.md#connectsocket) | **Get** /ws | Connect to socket
-*SocketAPI* | [**SendMessageToSocket**](docs/SocketAPI.md#sendmessagetosocket) | **Post** /send-message | Send message to socket
+*SocketAPI* | [**SendMessageEvent**](docs/SocketAPI.md#sendmessageevent) | **Post** /messages | Send message to socket
+*SocketAPI* | [**SendRoomEvent**](docs/SocketAPI.md#sendroomevent) | **Post** /rooms | Send created room event
 
 
 ## Documentation For Models
 
  - [SchemasMessageReader](docs/SchemasMessageReader.md)
  - [SchemasMessageResponse](docs/SchemasMessageResponse.md)
+ - [SchemasRoomPopulatedResponse](docs/SchemasRoomPopulatedResponse.md)
  - [SchemasSendMessagePayload](docs/SchemasSendMessagePayload.md)
+ - [SchemasUserResponse](docs/SchemasUserResponse.md)
 
 
 ## Documentation For Authorization

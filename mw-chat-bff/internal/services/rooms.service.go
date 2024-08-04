@@ -18,13 +18,13 @@ func NewRoomsService(chatAPI *openapiChat.APIClient) *RoomsService {
 	return &RoomsService{chatAPI}
 }
 
-func (roomsService *RoomsService) GetChatPreview(ctx *gin.Context) (*schemas.GetChatPreviewResponse, error) {
+func (roomsService *RoomsService) GetChatPreview(ctx *gin.Context) (*schemas.GetRoomPreviewResponse, error) {
 	chatPreviewRaw, _, err := roomsService.chatAPI.RoomAPI.GetChatPreview(ctx).Execute()
 	if err != nil {
-		return &schemas.GetChatPreviewResponse{}, err
+		return &schemas.GetRoomPreviewResponse{}, err
 	}
 
-	chatPreview := schemas.GetChatPreviewResponse{
+	chatPreview := schemas.GetRoomPreviewResponse{
 		UnreadMessagesAmount: chatPreviewRaw.UnreadMessagesAmount,
 	}
 

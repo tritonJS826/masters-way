@@ -1,6 +1,6 @@
 package schemas
 
-type GetChatPreviewResponse struct {
+type GetRoomPreviewResponse struct {
 	UnreadMessagesAmount int32 `json:"unreadMessagesAmount" validate:"required"`
 }
 

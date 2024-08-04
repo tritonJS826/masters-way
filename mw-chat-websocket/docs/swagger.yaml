@@ -39,6 +39,32 @@ definitions:
     - ownerName
     - roomId
     type: object
+  schemas.RoomPopulatedResponse:
+    properties:
+      imageUrl:
+        type: string
+      messages:
+        items:
+          $ref: '#/definitions/schemas.MessageResponse'
+        type: array
+      name:
+        type: string
+      roomId:
+        type: string
+      roomType:
+        type: string
+      users:
+        items:
+          $ref: '#/definitions/schemas.UserResponse'
+        type: array
+    required:
+    - imageUrl
+    - messages
+    - name
+    - roomId
+    - roomType
+    - users
+    type: object
   schemas.SendMessagePayload:
     properties:
       message:
@@ -51,14 +77,30 @@ definitions:
     - message
     - users
     type: object
+  schemas.UserResponse:
+    properties:
+      imageUrl:
+        type: string
+      name:
+        type: string
+      role:
+        type: string
+      userId:
+        type: string
+    required:
+    - imageUrl
+    - name
+    - role
+    - userId
+    type: object
 info:
   contact: {}
 paths:
-  /send-message:
+  /messages:
     post:
       consumes:
       - application/json
-      operationId: send-message-to-socket
+      operationId: send-message-event
       parameters:
       - description: query params
         in: body
@@ -72,6 +114,26 @@ paths:
         "204":
           description: No Content
       summary: Send message to socket
+      tags:
+      - socket
+  /rooms:
+    post:
+      consumes:
+      - application/json
+      operationId: send-room-event
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.RoomPopulatedResponse'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Send created room event
       tags:
       - socket
   /ws:
