@@ -258,15 +258,10 @@ func (cc *RoomsController) CreateMessage(ctx *gin.Context) {
 	messageResponse.Message.OwnerName = populatedUserMap[messageResponse.Message.OwnerID].Name
 	messageResponse.Message.OwnerImageURL = populatedUserMap[messageResponse.Message.OwnerID].ImageURL
 
-	sendMessagePayload := &schemas.SendMessagePayload{
-		Message: messageResponse.Message,
-		UserIDs: []string{},
-	}
-
-	err = cc.mwChatWebSocketService.SendMessage(ctx, roomId, sendMessagePayload)
+	err = cc.mwChatWebSocketService.SendMessage(ctx, roomId, messageResponse)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, &messageResponse.Message)
+	ctx.JSON(http.StatusOK, messageResponse.Message)
 }
 
 // @Summary Add user to room
