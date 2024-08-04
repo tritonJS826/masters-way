@@ -8,27 +8,30 @@ import (
 )
 
 type Config struct {
-	ServerPort    string `mapstructure:"SERVER_PORT"`
-	WebappBaseURL string `mapstructure:"WEBAPP_BASE_URL"`
-	EnvType       string `mapstructure:"ENV_TYPE"`
-	DBSource      string `mapstructure:"DB_SOURCE"`
-	ChatBaseURL   string `mapstructure:"CHAT_BASE_URL"`
+	ServerPort       string `mapstructure:"SERVER_PORT"`
+	WebappBaseURL    string `mapstructure:"WEBAPP_BASE_URL"`
+	EnvType          string `mapstructure:"ENV_TYPE"`
+	DBSource         string `mapstructure:"DB_SOURCE"`
+	ChatBaseURL      string `mapstructure:"CHAT_BASE_URL"`
+	SecretSessionKey string `mapstructure:"SECRET_SESSION_KEY"`
 }
 
-var prodRequiredVariables = [5]string{
+var prodRequiredVariables = [6]string{
 	"SERVER_PORT",
 	"WEBAPP_BASE_URL",
 	"ENV_TYPE",
 	"DB_SOURCE",
 	"CHAT_BASE_URL",
+	"SECRET_SESSION_KEY",
 }
 
-var devRequiredVariables = [5]string{
+var devRequiredVariables = [6]string{
 	"SERVER_PORT",
 	"WEBAPP_BASE_URL",
 	"ENV_TYPE",
 	"DB_SOURCE",
 	"CHAT_BASE_URL",
+	"SECRET_SESSION_KEY",
 }
 
 func LoadConfig(path string) (config Config, err error) {

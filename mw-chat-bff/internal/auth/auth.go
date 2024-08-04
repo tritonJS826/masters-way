@@ -15,14 +15,12 @@ const HeaderKeyAuthorization = "Authorization"
 const ContextKeyAuthorization = "ContextKeyAuthorization"
 const ContextKeyUserID = "userID"
 
-var jwtKey = []byte("your_secret_key")
-
 type Claims struct {
 	UserID string `json:"userID"`
 	jwt.StandardClaims
 }
 
-func GenerateTestJWT(userID string) (string, error) {
+func GenerateTestJWT(jwtKey string, userID string) (string, error) {
 	expirationTime := time.Now().Add(24 * time.Hour)
 	claims := &Claims{
 		UserID: userID,
@@ -31,7 +29,7 @@ func GenerateTestJWT(userID string) (string, error) {
 		},
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SignedString(jwtKey)
+	return token.SignedString([]byte(jwtKey))
 }
 
 func ValidateJWT(tokenString string) (*Claims, error) {

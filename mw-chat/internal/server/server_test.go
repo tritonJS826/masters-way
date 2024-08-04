@@ -18,15 +18,23 @@ type responseError struct {
 	Error string `json:"error"`
 }
 
-func MakeTestRequestWithJWT[T interface{}](t *testing.T, method string, url string, body io.Reader, responseEmpty *T, userID string) int {
-	request, err := http.NewRequest(method, url, body)
+type TestRequestParams struct {
+	method string
+	url    string
+	body   io.Reader
+	userID string
+	jwtKey string
+}
+
+func MakeTestRequestWithJWT[T interface{}](t *testing.T, responseEmpty *T, params *TestRequestParams) int {
+	request, err := http.NewRequest(params.method, params.url, params.body)
 	if err != nil {
 		t.Fatalf("Failed to create new HTTP request: %v", err)
 	}
 
 	request.Header.Set("Content-Type", "application/json")
-	if userID != "" {
-		token, err := auth.GenerateTestJWT(userID)
+	if params.userID != "" {
+		token, err := auth.GenerateTestJWT(params.jwtKey, params.userID)
 		if err != nil {
 			t.Fatalf("Failed to generate test JWT: %v", err)
 		}
@@ -50,59 +58,15 @@ func MakeTestRequestWithJWT[T interface{}](t *testing.T, method string, url stri
 	return response.StatusCode
 }
 
-func createPrivateRoom(t *testing.T, roomCreatorID, userID string) string {
-	newConfig, err := config.LoadConfig("../../")
-	if err != nil {
-		t.Fatalf("Failed to load config: %v", err)
+func RequestResetChatDB(t *testing.T, cfg *config.Config) {
+	requestResetChatDBParams := &TestRequestParams{
+		method: http.MethodGet,
+		url:    cfg.ChatBaseURL + "/chat/dev/reset-db",
+		body:   nil,
+		userID: "",
+		jwtKey: cfg.SecretSessionKey,
 	}
-	createRoomInputData := schemas.CreateRoomPayload{
-		UserID:   &userID,
-		Name:     nil,
-		RoomType: "private",
-	}
-	jsonCreateRoomInputData, err := json.Marshal(createRoomInputData)
-	if err != nil {
-		t.Fatalf("Failed to marshal create room payload: %v", err)
-	}
-	var roomPopulatedResponse schemas.RoomPopulatedResponse
-	MakeTestRequestWithJWT(t,
-		http.MethodPost,
-		newConfig.ChatBaseURL+"/chat/rooms",
-		bytes.NewBuffer(jsonCreateRoomInputData),
-		&roomPopulatedResponse,
-		roomCreatorID,
-	)
-	if roomPopulatedResponse.RoomID == "" {
-		t.Fatalf("Failed to create room")
-	}
-
-	return roomPopulatedResponse.RoomID
-}
-
-func sendMessage(t *testing.T, roomID, userID, message string) {
-	if roomID == "" || userID == "" {
-		t.Fatalf("Failed to create message: roomID or userID are nil")
-	}
-	newConfig, err := config.LoadConfig("../../")
-	if err != nil {
-		t.Fatalf("Failed to load config: %v", err)
-	}
-	createMessageInputData := schemas.CreateMessagePayload{
-		Message: message,
-	}
-	jsonCreateMessageInputData, err := json.Marshal(createMessageInputData)
-	if err != nil {
-		t.Fatalf("Failed to marshal create message payload: %v", err)
-	}
-
-	var roomPopulatedResponse schemas.MessageResponse
-	MakeTestRequestWithJWT(t,
-		http.MethodPost,
-		newConfig.ChatBaseURL+"/chat/rooms/"+roomID+"/messages",
-		bytes.NewBuffer(jsonCreateMessageInputData),
-		&roomPopulatedResponse,
-		userID,
-	)
+	MakeTestRequestWithJWT[struct{}](t, nil, requestResetChatDBParams)
 }
 
 // Tests
@@ -112,21 +76,23 @@ func TestGetRoomById(t *testing.T) {
 		t.Fatalf("Failed to load config: %v", err)
 	}
 
-	MakeTestRequestWithJWT[struct{}](t, http.MethodGet, newConfig.ChatBaseURL+"/chat/dev/reset-db", nil, nil, "")
+	RequestResetChatDB(t, &newConfig)
 
 	currentUserID := "d2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2"
 	userID := "3d922e8a-5d58-4b82-9a3d-83e2e73b3f91"
 	roomID := "78bdf878-3b83-4f97-8d2e-928c132a10cd"
 
 	t.Run("should return private room by room id with messages and users", func(t *testing.T) {
-		var roomPopulatedResponse schemas.RoomPopulatedResponse
-		statusCode := MakeTestRequestWithJWT(t,
-			http.MethodGet,
-			newConfig.ChatBaseURL+"/chat/rooms/"+roomID,
-			nil,
-			&roomPopulatedResponse,
-			currentUserID,
-		)
+		roomPopulatedResponse := new(schemas.RoomPopulatedResponse)
+		testRequestParams := &TestRequestParams{
+			method: http.MethodGet,
+			url:    newConfig.ChatBaseURL + "/chat/rooms/" + roomID,
+			body:   nil,
+			userID: currentUserID,
+			jwtKey: "",
+		}
+
+		statusCode := MakeTestRequestWithJWT(t, roomPopulatedResponse, testRequestParams)
 
 		expectedData := schemas.RoomPopulatedResponse{
 			RoomID:    roomID,
@@ -202,19 +168,21 @@ func TestGetChatPreview(t *testing.T) {
 		t.Fatalf("Failed to load config: %v", err)
 	}
 
-	MakeTestRequestWithJWT[struct{}](t, http.MethodGet, newConfig.ChatBaseURL+"/chat/dev/reset-db", nil, nil, "")
+	RequestResetChatDB(t, &newConfig)
 
 	currentUserID := "d2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2"
 
 	t.Run("should return chat preview with correct unread messages amount", func(t *testing.T) {
-		var getChatPreviewResponse schemas.GetChatPreviewResponse
-		statusCode := MakeTestRequestWithJWT(t,
-			http.MethodGet,
-			newConfig.ChatBaseURL+"/chat/rooms/preview",
-			nil,
-			&getChatPreviewResponse,
-			currentUserID,
-		)
+		getChatPreviewResponse := new(schemas.GetChatPreviewResponse)
+		testRequestParams := &TestRequestParams{
+			method: http.MethodGet,
+			url:    newConfig.ChatBaseURL + "/chat/rooms/preview",
+			body:   nil,
+			userID: currentUserID,
+			jwtKey: newConfig.SecretSessionKey,
+		}
+
+		statusCode := MakeTestRequestWithJWT(t, getChatPreviewResponse, testRequestParams)
 
 		expectedData := schemas.GetChatPreviewResponse{
 			UnreadMessagesAmount: 3,
@@ -231,7 +199,7 @@ func TestGetRooms(t *testing.T) {
 		t.Fatalf("Failed to load config: %v", err)
 	}
 
-	MakeTestRequestWithJWT[struct{}](t, http.MethodGet, newConfig.ChatBaseURL+"/chat/dev/reset-db", nil, nil, "")
+	RequestResetChatDB(t, &newConfig)
 
 	roomCreatorID := "d63d2f89-6412-4324-8587-7061bf02dca4"
 
@@ -245,15 +213,16 @@ func TestGetRooms(t *testing.T) {
 	room3ID := "85f610df-9f86-4c55-8ee1-02485d42defb"
 
 	t.Run("should return list of private rooms successfully", func(t *testing.T) {
-		var getRoomsResponse schemas.GetRoomsResponse
-		statusCode := MakeTestRequestWithJWT(
-			t,
-			http.MethodGet,
-			newConfig.ChatBaseURL+"/chat/rooms/list/private",
-			nil,
-			&getRoomsResponse,
-			roomCreatorID,
-		)
+
+		getRoomsResponse := new(schemas.GetRoomsResponse)
+		testRequestParams := &TestRequestParams{
+			method: http.MethodGet,
+			url:    newConfig.ChatBaseURL + "/chat/rooms/list/private",
+			body:   nil,
+			userID: roomCreatorID,
+			jwtKey: newConfig.SecretSessionKey,
+		}
+		statusCode := MakeTestRequestWithJWT(t, getRoomsResponse, testRequestParams)
 
 		expectedData := schemas.GetRoomsResponse{
 			Size: 3,
@@ -320,7 +289,8 @@ func TestCreateRoom(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Failed to load config: %v", err)
 	}
-	MakeTestRequestWithJWT[struct{}](t, http.MethodGet, newConfig.ChatBaseURL+"/chat/dev/reset-db", nil, nil, "")
+
+	RequestResetChatDB(t, &newConfig)
 
 	roomCreatorID := "5bee7465-220d-40e7-82d7-b9b607fff21c"
 	userID := "f4cbdb32-0fc0-4704-a6d9-9cf357e5cd3e"
@@ -336,15 +306,15 @@ func TestCreateRoom(t *testing.T) {
 			t.Fatalf("Failed to marshal create room payload: %v", err)
 		}
 
-		var roomPopulatedResponse schemas.RoomPopulatedResponse
-		statusCode := MakeTestRequestWithJWT(
-			t,
-			http.MethodPost,
-			newConfig.ChatBaseURL+"/chat/rooms",
-			bytes.NewBuffer(jsonInputData),
-			&roomPopulatedResponse,
-			roomCreatorID,
-		)
+		roomPopulatedResponse := new(schemas.RoomPopulatedResponse)
+		testRequestParams := &TestRequestParams{
+			method: http.MethodPost,
+			url:    newConfig.ChatBaseURL + "/chat/rooms",
+			body:   bytes.NewBuffer(jsonInputData),
+			userID: roomCreatorID,
+			jwtKey: newConfig.SecretSessionKey,
+		}
+		statusCode := MakeTestRequestWithJWT(t, roomPopulatedResponse, testRequestParams)
 
 		expectedData := schemas.RoomPopulatedResponse{
 			Users: []schemas.UserResponse{
@@ -381,15 +351,15 @@ func TestCreateRoom(t *testing.T) {
 			t.Fatalf("Failed to marshal create room payload: %v", err)
 		}
 
-		var responseError responseError
-		statusCode := MakeTestRequestWithJWT(
-			t,
-			http.MethodPost,
-			newConfig.ChatBaseURL+"/chat/rooms",
-			bytes.NewBuffer(jsonInputData),
-			&responseError,
-			roomCreatorID,
-		)
+		responseError := new(responseError)
+		testRequestParams := &TestRequestParams{
+			method: http.MethodPost,
+			url:    newConfig.ChatBaseURL + "/chat/rooms",
+			body:   bytes.NewBuffer(jsonInputData),
+			userID: roomCreatorID,
+			jwtKey: newConfig.SecretSessionKey,
+		}
+		statusCode := MakeTestRequestWithJWT(t, responseError, testRequestParams)
 
 		assert.Equal(t, http.StatusInternalServerError, statusCode)
 		assert.Equal(t, "A private room for these users already exists", responseError.Error)
@@ -401,31 +371,33 @@ func TestCreateMessage(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Failed to load config: %v", err)
 	}
-	MakeTestRequestWithJWT[struct{}](t, http.MethodGet, newConfig.ChatBaseURL+"/chat/dev/reset-db", nil, nil, "")
+
+	RequestResetChatDB(t, &newConfig)
 
 	currentUserID := "d2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2"
 	userID := "3d922e8a-5d58-4b82-9a3d-83e2e73b3f91"
 	roomID := "78bdf878-3b83-4f97-8d2e-928c132a10cd"
 
 	t.Run("should create a message in private room and return it successfully", func(t *testing.T) {
-		createMessageInputData := schemas.CreateMessagePayload{
+		inputData := schemas.CreateMessagePayload{
 			Message: "roomCreator's message",
 		}
-		jsonCreateMessageInputData, err := json.Marshal(createMessageInputData)
+		jsonInputData, err := json.Marshal(inputData)
 		if err != nil {
 			t.Fatalf("Failed to marshal create room payload: %v", err)
 		}
-		var messageResponse schemas.CreateMessageResponse
-		statusCode := MakeTestRequestWithJWT(
-			t,
-			http.MethodPost,
-			newConfig.ChatBaseURL+"/chat/rooms/"+roomID+"/messages",
-			bytes.NewBuffer(jsonCreateMessageInputData),
-			&messageResponse,
-			currentUserID,
-		)
 
-		expectedData := schemas.CreateMessageResponse{
+		messageResponse := new(schemas.CreateMessageResponse)
+		testRequestParams := &TestRequestParams{
+			method: http.MethodPost,
+			url:    newConfig.ChatBaseURL + "/chat/rooms/" + roomID + "/messages",
+			body:   bytes.NewBuffer(jsonInputData),
+			userID: currentUserID,
+			jwtKey: newConfig.SecretSessionKey,
+		}
+		statusCode := MakeTestRequestWithJWT(t, messageResponse, testRequestParams)
+
+		expectedData := &schemas.CreateMessageResponse{
 			Users: []string{currentUserID, userID},
 			Message: schemas.MessageResponse{
 				OwnerID: currentUserID,
