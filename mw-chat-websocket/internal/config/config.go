@@ -12,6 +12,18 @@ type Config struct {
 	EnvType       string `mapstructure:"ENV_TYPE"`
 }
 
+var prodRequiredVariables = [3]string{
+	"SERVER_PORT",
+	"WEBAPP_BASE_URL",
+	"ENV_TYPE",
+}
+
+var devRequiredVariables = [3]string{
+	"SERVER_PORT",
+	"WEBAPP_BASE_URL",
+	"ENV_TYPE",
+}
+
 func LoadConfig(path string) (config Config, err error) {
 	viper.SetConfigFile(path + ".env")
 
@@ -27,5 +39,34 @@ func LoadConfig(path string) (config Config, err error) {
 	if err != nil {
 		log.Fatalf("could not loadconfig: %v", err)
 	}
+
+	if config.EnvType != "dev" && config.EnvType != "prod" {
+		log.Fatalf(`ENV_TYPE variable should be "dev" or "prod"`)
+	}
+
+	// for _, key := range config{
+	// 	if !viper.IsSet(key) {
+	// 		log.Fatalf("required environment variable %s is not set", key)
+	// 	}
+	// }
+
 	return
 }
+
+// v := reflect.ValueOf(config)
+// 	t := reflect.TypeOf(config)
+
+// 	for i := 0; i < v.NumField(); i++ {
+// 		fieldName := t.Field(i).Name
+// 		fieldValue := v.Field(i).Interface()
+
+// 		fmt.Println("fieldName: ", fieldName, "fieldValue: ", fieldValue)
+
+// 		if fieldValue == nil {
+// 			fmt.Println("----------------------------------------")
+// 			fmt.Printf("env variable: %s is not found in .env file", fieldName)
+// 			fmt.Println("----------------------------------------")
+
+// 			panic("env variable: %s is not found in .env file")
+// 		}
+// 	}
