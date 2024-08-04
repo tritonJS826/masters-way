@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/spf13/viper"
@@ -19,6 +20,32 @@ type Config struct {
 	ChatBffBaseURL         string `mapstructure:"CHAT_BFF_BASE_URL"`
 }
 
+var prodRequiredVariables = [10]string{
+	"SERVER_PORT",
+	"WEBAPP_BASE_URL",
+	"ENV_TYPE",
+	"GENERAL_API_HOST",
+	"GENERAL_BASE_URL",
+	"CHAT_API_HOST",
+	"CHAT_BASE_URL",
+	"MW_CHAT_WEBSOCKET_API_HOST",
+	"MW_CHAT_WEBSOCKET_BASE_URL",
+	"CHAT_BFF_BASE_URL",
+}
+
+var devRequiredVariables = [10]string{
+	"SERVER_PORT",
+	"WEBAPP_BASE_URL",
+	"ENV_TYPE",
+	"GENERAL_API_HOST",
+	"GENERAL_BASE_URL",
+	"CHAT_API_HOST",
+	"CHAT_BASE_URL",
+	"MW_CHAT_WEBSOCKET_API_HOST",
+	"MW_CHAT_WEBSOCKET_BASE_URL",
+	"CHAT_BFF_BASE_URL",
+}
+
 func LoadConfig(path string) (config Config, err error) {
 	viper.SetConfigFile(path + ".env")
 
@@ -34,5 +61,32 @@ func LoadConfig(path string) (config Config, err error) {
 	if err != nil {
 		log.Fatalf("could not loadconfig: %v", err)
 	}
+
+	const devEnvType = "dev"
+	const prodEnvType = "prod"
+
+	if config.EnvType != devEnvType && config.EnvType != prodEnvType {
+		fmt.Println("!!!!!!!!!!!!!!!!!!!")
+		log.Fatalf(`ENV_TYPE variable should be "dev" or "prod"`)
+	}
+
+	if config.EnvType == devEnvType {
+		for _, key := range devRequiredVariables {
+			if !viper.IsSet(key) {
+				fmt.Println("!!!!!!!!!!!!!!!!!!!")
+				log.Fatalf("required environment variable %s is not set", key)
+			}
+		}
+	}
+
+	if config.EnvType == prodEnvType {
+		for _, key := range prodRequiredVariables {
+			if !viper.IsSet(key) {
+				fmt.Println("!!!!!!!!!!!!!!!!!!!")
+				log.Fatalf("required environment variable %s is not set", key)
+			}
+		}
+	}
+
 	return
 }

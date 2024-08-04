@@ -403,9 +403,9 @@ func TestCreateMessage(t *testing.T) {
 	}
 	MakeTestRequestWithJWT[struct{}](t, http.MethodGet, newConfig.ChatBaseURL+"/chat/dev/reset-db", nil, nil, "")
 
-	currentUserID := "cf09bb5d-8803-4ce6-b19f-c3e613442055"
-	userID := "acb612b9-5a09-452e-8221-7a5dfc2a2f08"
-	roomID := createPrivateRoom(t, currentUserID, userID)
+	currentUserID := "d2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2"
+	userID := "3d922e8a-5d58-4b82-9a3d-83e2e73b3f91"
+	roomID := "78bdf878-3b83-4f97-8d2e-928c132a10cd"
 
 	t.Run("should create a message in private room and return it successfully", func(t *testing.T) {
 		createMessageInputData := schemas.CreateMessagePayload{

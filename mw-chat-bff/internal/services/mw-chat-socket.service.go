@@ -16,7 +16,7 @@ func NewMWChatSocketService(mwChatWebSocketAPI *openapiMWChatWebSocket.APIClient
 	return &MWChatWebSocketService{mwChatWebSocketAPI}
 }
 
-func (mwChatWebSocketService *MWChatWebSocketService) SendMessage(ctx *gin.Context, roomID string, messageResponse *schemas.CreateMessageResponse) error {
+func (mwChatWebSocketService *MWChatWebSocketService) SendMessage(ctx *gin.Context, roomID string, messageResponse *schemas.SendMessagePayload) error {
 	request := openapiMWChatWebSocket.SchemasSendMessagePayload{
 		Message: openapiMWChatWebSocket.SchemasMessageResponse{
 			Message:        messageResponse.Message.Message,
@@ -26,7 +26,7 @@ func (mwChatWebSocketService *MWChatWebSocketService) SendMessage(ctx *gin.Conte
 			OwnerName:      messageResponse.Message.OwnerName,
 			RoomId:         roomID,
 		},
-		Users: messageResponse.Users,
+		Users: messageResponse.UserIDs,
 	}
 	_, err := mwChatWebSocketService.mwChatWebSocketAPI.SocketAPI.SendMessageEvent(ctx).Request(request).Execute()
 	if err != nil {

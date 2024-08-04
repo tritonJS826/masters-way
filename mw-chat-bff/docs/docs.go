@@ -102,7 +102,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.GetChatPreviewResponse"
+                            "$ref": "#/definitions/schemas.GetRoomPreviewResponse"
                         }
                     }
                 }
@@ -205,7 +205,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateMessageResponse"
+                            "$ref": "#/definitions/schemas.MessageResponse"
                         }
                     }
                 }
@@ -300,24 +300,6 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.CreateMessageResponse": {
-            "type": "object",
-            "required": [
-                "message",
-                "users"
-            ],
-            "properties": {
-                "message": {
-                    "$ref": "#/definitions/schemas.MessageResponse"
-                },
-                "users": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                }
-            }
-        },
         "schemas.CreateRoomPayload": {
             "type": "object",
             "required": [
@@ -337,7 +319,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.GetChatPreviewResponse": {
+        "schemas.GetRoomPreviewResponse": {
             "type": "object",
             "required": [
                 "unreadMessagesAmount"

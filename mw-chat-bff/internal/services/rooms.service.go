@@ -221,7 +221,7 @@ func (roomsService *RoomsService) UpdateRoom(ctx *gin.Context, roomId string) (*
 	return &roomPopulatedResponse, nil
 }
 
-func (roomsService *RoomsService) CreateMessage(ctx *gin.Context, messageText, roomId string) (*schemas.CreateMessageResponse, error) {
+func (roomsService *RoomsService) CreateMessage(ctx *gin.Context, messageText, roomId string) (*schemas.SendMessagePayload, error) {
 	messageRaw, _, err := roomsService.chatAPI.RoomAPI.CreateMessageInRoom(ctx, roomId).Request(openapiChat.SchemasCreateMessagePayload{
 		Message: messageText,
 	}).Execute()
@@ -236,16 +236,16 @@ func (roomsService *RoomsService) CreateMessage(ctx *gin.Context, messageText, r
 		}
 	})
 
-	message := schemas.MessageResponse{
-		OwnerID: messageRaw.Message.OwnerId,
-		Message: messageRaw.Message.Message,
-		Readers: messageReaders,
+	message := schemas.SendMessagePayload{
+		Message: schemas.MessageResponse{
+			OwnerID: messageRaw.Message.OwnerId,
+			Message: messageRaw.Message.Message,
+			Readers: messageReaders,
+		},
+		UserIDs: messageRaw.Users,
 	}
 
-	return &schemas.CreateMessageResponse{
-		Users:   messageRaw.Users,
-		Message: message,
-	}, nil
+	return &message, nil
 }
 
 func (roomsService *RoomsService) AddUserToRoom(ctx *gin.Context, roomId string, userId string) (*schemas.RoomPreviewResponse, error) {

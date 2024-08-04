@@ -60,7 +60,7 @@ type MessageResponse struct {
 	Readers       []MessageReader `json:"messageReaders" validate:"required"`
 }
 
-type CreateMessageResponse struct {
-	Users   []string        `json:"users" validate:"required"`
+type SendMessagePayload struct {
+	UserIDs []string        `json:"userIds" validate:"required"`
 	Message MessageResponse `json:"message" validate:"required"`
 }

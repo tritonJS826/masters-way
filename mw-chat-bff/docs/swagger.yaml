@@ -6,18 +6,6 @@ definitions:
     required:
     - message
     type: object
-  schemas.CreateMessageResponse:
-    properties:
-      message:
-        $ref: '#/definitions/schemas.MessageResponse'
-      users:
-        items:
-          type: string
-        type: array
-    required:
-    - message
-    - users
-    type: object
   schemas.CreateRoomPayload:
     properties:
       name:
@@ -31,7 +19,7 @@ definitions:
     required:
     - roomType
     type: object
-  schemas.GetChatPreviewResponse:
+  schemas.GetRoomPreviewResponse:
     properties:
       unreadMessagesAmount:
         type: integer
@@ -245,7 +233,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.CreateMessageResponse'
+            $ref: '#/definitions/schemas.MessageResponse'
       summary: Create message in room
       tags:
       - room
@@ -335,7 +323,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.GetChatPreviewResponse'
+            $ref: '#/definitions/schemas.GetRoomPreviewResponse'
       summary: Get chat preview
       tags:
       - room

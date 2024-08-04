@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/spf13/viper"
@@ -12,6 +13,22 @@ type Config struct {
 	EnvType       string `mapstructure:"ENV_TYPE"`
 	DBSource      string `mapstructure:"DB_SOURCE"`
 	ChatBaseURL   string `mapstructure:"CHAT_BASE_URL"`
+}
+
+var prodRequiredVariables = [5]string{
+	"SERVER_PORT",
+	"WEBAPP_BASE_URL",
+	"ENV_TYPE",
+	"DB_SOURCE",
+	"CHAT_BASE_URL",
+}
+
+var devRequiredVariables = [5]string{
+	"SERVER_PORT",
+	"WEBAPP_BASE_URL",
+	"ENV_TYPE",
+	"DB_SOURCE",
+	"CHAT_BASE_URL",
 }
 
 func LoadConfig(path string) (config Config, err error) {
@@ -29,5 +46,32 @@ func LoadConfig(path string) (config Config, err error) {
 	if err != nil {
 		log.Fatalf("could not loadconfig: %v", err)
 	}
+
+	const devEnvType = "dev"
+	const prodEnvType = "prod"
+
+	if config.EnvType != devEnvType && config.EnvType != prodEnvType {
+		fmt.Println("!!!!!!!!!!!!!!!!!!!")
+		log.Fatalf(`ENV_TYPE variable should be "dev" or "prod"`)
+	}
+
+	if config.EnvType == devEnvType {
+		for _, key := range devRequiredVariables {
+			if !viper.IsSet(key) {
+				fmt.Println("!!!!!!!!!!!!!!!!!!!")
+				log.Fatalf("required environment variable %s is not set", key)
+			}
+		}
+	}
+
+	if config.EnvType == prodEnvType {
+		for _, key := range prodRequiredVariables {
+			if !viper.IsSet(key) {
+				fmt.Println("!!!!!!!!!!!!!!!!!!!")
+				log.Fatalf("required environment variable %s is not set", key)
+			}
+		}
+	}
+
 	return
 }

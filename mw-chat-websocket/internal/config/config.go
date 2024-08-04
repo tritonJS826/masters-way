@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/spf13/viper"
@@ -40,15 +41,31 @@ func LoadConfig(path string) (config Config, err error) {
 		log.Fatalf("could not loadconfig: %v", err)
 	}
 
-	if config.EnvType != "dev" && config.EnvType != "prod" {
+	const devEnvType = "dev"
+	const prodEnvType = "prod"
+
+	if config.EnvType != devEnvType && config.EnvType != prodEnvType {
+		fmt.Println("!!!!!!!!!!!!!!!!!!!")
 		log.Fatalf(`ENV_TYPE variable should be "dev" or "prod"`)
 	}
 
-	// for _, key := range config{
-	// 	if !viper.IsSet(key) {
-	// 		log.Fatalf("required environment variable %s is not set", key)
-	// 	}
-	// }
+	if config.EnvType == devEnvType {
+		for _, key := range devRequiredVariables {
+			if !viper.IsSet(key) {
+				fmt.Println("!!!!!!!!!!!!!!!!!!!")
+				log.Fatalf("required environment variable %s is not set", key)
+			}
+		}
+	}
+
+	if config.EnvType == prodEnvType {
+		for _, key := range prodRequiredVariables {
+			if !viper.IsSet(key) {
+				fmt.Println("!!!!!!!!!!!!!!!!!!!")
+				log.Fatalf("required environment variable %s is not set", key)
+			}
+		}
+	}
 
 	return
 }

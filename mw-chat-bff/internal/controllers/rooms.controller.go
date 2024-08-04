@@ -40,7 +40,7 @@ func NewRoomsController(
 // @ID get-chat preview
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} schemas.GetChatPreviewResponse
+// @Success 200 {object} schemas.GetRoomPreviewResponse
 // @Router /rooms/preview [get]
 func (cc *RoomsController) GetChatPreview(ctx *gin.Context) {
 	chatPreview, err := cc.roomsService.GetChatPreview(ctx)
@@ -234,7 +234,7 @@ func (cc *RoomsController) UpdateRoom(ctx *gin.Context) {
 // @Produce  json
 // @Param request body schemas.CreateMessagePayload true "query params"
 // @Param roomId path string true "room Id"
-// @Success 200 {object} schemas.CreateMessageResponse
+// @Success 200 {object} schemas.MessageResponse
 // @Router /rooms/{roomId}/messages [post]
 func (cc *RoomsController) CreateMessage(ctx *gin.Context) {
 	var payload *schemas.CreateMessagePayload
@@ -249,6 +249,7 @@ func (cc *RoomsController) CreateMessage(ctx *gin.Context) {
 	messageResponse, err := cc.roomsService.CreateMessage(ctx, payload.Message, roomId)
 	util.HandleErrorGin(ctx, err)
 
+	// TODO rename  service method
 	populatedUserMap, err := cc.usersService.GetPopulatedUsers(ctx, []string{messageResponse.Message.OwnerID})
 	if err != nil {
 		util.HandleErrorGin(ctx, fmt.Errorf("general service error: %w", err))
@@ -257,10 +258,15 @@ func (cc *RoomsController) CreateMessage(ctx *gin.Context) {
 	messageResponse.Message.OwnerName = populatedUserMap[messageResponse.Message.OwnerID].Name
 	messageResponse.Message.OwnerImageURL = populatedUserMap[messageResponse.Message.OwnerID].ImageURL
 
-	err = cc.mwChatWebSocketService.SendMessage(ctx, roomId, messageResponse)
+	sendMessagePayload := &schemas.SendMessagePayload{
+		Message: messageResponse.Message,
+		UserIDs: []string{},
+	}
+
+	err = cc.mwChatWebSocketService.SendMessage(ctx, roomId, sendMessagePayload)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, &messageResponse)
+	ctx.JSON(http.StatusOK, &messageResponse.Message)
 }
 
 // @Summary Add user to room
