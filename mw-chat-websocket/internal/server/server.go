@@ -6,14 +6,17 @@ import (
 	"mw-chat-websocket/internal/controllers"
 	"net/http"
 
-	// _ "mwchat/docs"
+	_ "mw-chat-websocket/docs"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 type Server struct {
 	GinServer *gin.Engine
+	Config    *config.Config
 }
 
 func NewServer(cfg *config.Config) *Server {
@@ -33,24 +36,25 @@ func NewServer(cfg *config.Config) *Server {
 		ctx.JSON(http.StatusOK, gin.H{"message": "The way APi is working fine"})
 	})
 
-	// if cfg.EnvType != "prod" {
-	// 	server.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-	// }
+	if cfg.EnvType != "prod" {
+		server.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	}
 
 	return &Server{
 		GinServer: server,
+		Config:    cfg,
 	}
 }
 
 // @title     Masters way chat API
 // @version 1.0
-// @BasePath  /chat-websocket
+// @BasePath  /mw-chat-websocket
 func (server *Server) SetRoutes(controller *controllers.Controller) {
-	chatWebsocket := server.GinServer.Group("/mw-chat-websocket")
+	mwChatWebsocket := server.GinServer.Group("/mw-chat-websocket")
 	{
-		{
-			chatWebsocket.GET("/connect", auth.AuthMiddleware(), controller.SocketController.ConnectSocket)
+		mwChatWebsocket.GET("/ws", auth.ExtractTokenMiddleware(server.Config), controller.SocketController.ConnectSocket)
 
-		}
+		mwChatWebsocket.POST("/messages", controller.SocketController.SendMessageReceivedEvent)
+		mwChatWebsocket.POST("/rooms", controller.SocketController.SendRoomCreatedEvent)
 	}
 }

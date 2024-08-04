@@ -44,10 +44,13 @@ export const App = () => {
           <VerticalContainer className={styles.modalContainer}>
             <Title
               text={LanguageService.modals.healthCheckModal.title[language]}
-              placeholder=''
+              placeholder=""
               level={HeadingLevel.h2}
             />
-            <Text text={LanguageService.modals.healthCheckModal.description[language]} />
+            <Text text={
+              LanguageService.modals.healthCheckModal.description[language]
+            }
+            />
           </VerticalContainer>
         }
       />

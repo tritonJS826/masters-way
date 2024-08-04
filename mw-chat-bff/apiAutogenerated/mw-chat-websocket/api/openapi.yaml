@@ -1,0 +1,159 @@
+openapi: 3.0.1
+info:
+  contact: {}
+  description: ""
+  title: ""
+  version: ""
+servers:
+- url: /
+paths:
+  /messages:
+    post:
+      operationId: send-message-event
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.SendMessagePayload'
+        description: query params
+        required: true
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Send message to socket
+      tags:
+      - socket
+      x-codegen-request-body-name: request
+  /rooms:
+    post:
+      operationId: send-room-event
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.RoomPopulatedResponse'
+        description: query params
+        required: true
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Send created room event
+      tags:
+      - socket
+      x-codegen-request-body-name: request
+  /ws:
+    get:
+      operationId: connect-socket
+      parameters:
+      - description: token
+        in: path
+        name: token
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Connect to socket
+      tags:
+      - socket
+components:
+  schemas:
+    schemas.MessageReader:
+      properties:
+        imageUrl:
+          type: string
+        name:
+          type: string
+        readDate:
+          type: string
+        userId:
+          type: string
+      required:
+      - imageUrl
+      - name
+      - readDate
+      - userId
+      type: object
+    schemas.MessageResponse:
+      properties:
+        message:
+          type: string
+        messageReaders:
+          items:
+            $ref: '#/components/schemas/schemas.MessageReader'
+          type: array
+        ownerId:
+          type: string
+        ownerImageUrl:
+          type: string
+        ownerName:
+          type: string
+        roomId:
+          type: string
+      required:
+      - message
+      - messageReaders
+      - ownerId
+      - ownerImageUrl
+      - ownerName
+      - roomId
+      type: object
+    schemas.RoomPopulatedResponse:
+      properties:
+        imageUrl:
+          type: string
+        messages:
+          items:
+            $ref: '#/components/schemas/schemas.MessageResponse'
+          type: array
+        name:
+          type: string
+        roomId:
+          type: string
+        roomType:
+          type: string
+        users:
+          items:
+            $ref: '#/components/schemas/schemas.UserResponse'
+          type: array
+      required:
+      - imageUrl
+      - messages
+      - name
+      - roomId
+      - roomType
+      - users
+      type: object
+    schemas.SendMessagePayload:
+      properties:
+        message:
+          $ref: '#/components/schemas/schemas.MessageResponse'
+        users:
+          items:
+            type: string
+          type: array
+      required:
+      - message
+      - users
+      type: object
+    schemas.UserResponse:
+      properties:
+        imageUrl:
+          type: string
+        name:
+          type: string
+        role:
+          type: string
+        userId:
+          type: string
+      required:
+      - imageUrl
+      - name
+      - role
+      - userId
+      type: object
+x-original-swagger-version: "2.0"

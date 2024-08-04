@@ -2,7 +2,6 @@ import {ReactElement} from "react";
 import clsx from "clsx";
 import {Avatar} from "src/component/avatar/Avatar";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
-import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import styles from "src/logic/chat/messageItem/MessageItem.module.scss";
 
 /**
@@ -47,13 +46,13 @@ export const MessageItem = (props: MessageItemProps) => {
         alt={props.userName}
         src={props.src}
       />
-      <VerticalContainer className={clsx(
+      <HorizontalContainer className={clsx(
         styles.message,
         props.isOwnMessage && styles.ownMessage,
       )}
       >
         {props.message}
-      </VerticalContainer>
+      </HorizontalContainer>
     </HorizontalContainer>
   );
 };

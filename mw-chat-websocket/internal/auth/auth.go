@@ -1,10 +1,9 @@
 package auth
 
 import (
-	"fmt"
+	"errors"
+	"mw-chat-websocket/internal/config"
 	"net/http"
-	"strings"
-	"time"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
@@ -12,59 +11,31 @@ import (
 
 const ContextKeyUserID = "userID"
 
-var jwtKey = []byte("your_secret_key")
-
 type Claims struct {
 	UserID string `json:"userID"`
 	jwt.StandardClaims
 }
 
-// Should be used only for test purpose
-func GenerateTestJWT(userID string) (string, error) {
-	expirationTime := time.Now().Add(24 * time.Hour)
-	claims := &Claims{
-		UserID: userID,
-		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: expirationTime.Unix(),
-		},
-	}
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	tokenString, err := token.SignedString(jwtKey)
-	if err != nil {
-		return "", err
-	}
-	return tokenString, nil
-}
-
-func ValidateJWT(tokenString string) (*Claims, error) {
+func ValidateJWT(jwtKey, tokenString string) (*Claims, error) {
 	claims := &Claims{}
-	_, _, err := new(jwt.Parser).ParseUnverified(tokenString, claims)
+	token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
+		return []byte(jwtKey), nil
+	})
 	if err != nil {
 		return nil, err
 	}
-
-	if claims.ExpiresAt < time.Now().Unix() {
-		return nil, fmt.Errorf("token is expired")
+	if !token.Valid {
+		return nil, errors.New("invalid token")
 	}
-
 	return claims, nil
 }
 
-func AuthMiddleware() gin.HandlerFunc {
+// TODO: We cant set appropriate Authorization token to request when connecting by ws protocol from the client side
+func ExtractTokenMiddleware(cfg *config.Config) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		authHeader := ctx.GetHeader("Authorization")
-		if authHeader == "" {
-			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Authorization header is required"})
-			return
-		}
+		token := ctx.Query("token")
 
-		if !strings.HasPrefix(authHeader, "Bearer ") {
-			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Authorization header must start with Bearer"})
-			return
-		}
-
-		tokenString := strings.TrimPrefix(authHeader, "Bearer ")
-		claims, err := ValidateJWT(tokenString)
+		claims, err := ValidateJWT(cfg.SecretSessionKey, token)
 		if err != nil {
 			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
 			return

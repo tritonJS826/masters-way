@@ -32,3 +32,23 @@ func (q *Queries) CreateMessageStatus(ctx context.Context, arg CreateMessageStat
 	_, err := q.db.Exec(ctx, createMessageStatus, arg.MessageUuid, arg.RoomUuid, arg.UserUuid)
 	return err
 }
+
+const setMessagesAsRead = `-- name: SetMessagesAsRead :exec
+UPDATE message_status
+SET is_read = true
+FROM messages
+WHERE message_status.message_uuid = messages.uuid
+    AND messages.room_uuid = $1
+    AND message_status.receiver_uuid = $2
+    AND message_status.is_read = false
+`
+
+type SetMessagesAsReadParams struct {
+	RoomUuid pgtype.UUID `json:"room_uuid"`
+	UserUuid pgtype.UUID `json:"user_uuid"`
+}
+
+func (q *Queries) SetMessagesAsRead(ctx context.Context, arg SetMessagesAsReadParams) error {
+	_, err := q.db.Exec(ctx, setMessagesAsRead, arg.RoomUuid, arg.UserUuid)
+	return err
+}

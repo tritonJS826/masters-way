@@ -20,6 +20,18 @@ type Claims struct {
 	jwt.StandardClaims
 }
 
+func GenerateTestJWT(jwtKey string, userID string) (string, error) {
+	expirationTime := time.Now().Add(24 * time.Hour)
+	claims := &Claims{
+		UserID: userID,
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: expirationTime.Unix(),
+		},
+	}
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	return token.SignedString([]byte(jwtKey))
+}
+
 func ValidateJWT(tokenString string) (*Claims, error) {
 	claims := &Claims{}
 	_, _, err := new(jwt.Parser).ParseUnverified(tokenString, claims)

@@ -6,6 +6,7 @@ import {tokenStore} from "src/globalStore/TokenStore";
 import {userStore} from "src/globalStore/UserStore";
 import {useErrorHandler} from "src/hooks/useErrorHandler";
 import {pages} from "src/router/pages";
+import {connectChatSocket} from "src/service/socket/ChatSocket";
 
 const TOKEN_SEARCH_PARAM = "token";
 
@@ -19,10 +20,22 @@ const getIsHomePage = () => pages.home.getPath({}) === location.pathname;
  */
 export const InitializedApp = (props: PropsWithChildren) => {
   useErrorHandler();
-  const {setUser} = userStore;
+  const {user, setUser} = userStore;
   const {isInitialized, setIsInitialized} = useGlobalContext();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    if (!user) {
+      return;
+    }
+
+    const socket = connectChatSocket();
+
+    return () => {
+      socket.close();
+    };
+  }, [user?.uuid]);
 
   /**
    * Get default page path
@@ -50,9 +63,9 @@ export const InitializedApp = (props: PropsWithChildren) => {
     }
     // TODO: loadUser if some token exist
     try {
-      const user = await AuthDAL.getAuthorizedUser();
-      setUser(user);
-      const defaultPagePath = getDefaultPagePath(user.uuid);
+      const loadedUser = await AuthDAL.getAuthorizedUser();
+      setUser(loadedUser);
+      const defaultPagePath = getDefaultPagePath(loadedUser.uuid);
       setIsInitialized(true);
 
       if (getIsHomePage()) {

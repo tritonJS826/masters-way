@@ -141,7 +141,7 @@ func (r ApiCreateMessageInRoomRequest) Request(request SchemasCreateMessagePaylo
 	return r
 }
 
-func (r ApiCreateMessageInRoomRequest) Execute() (*SchemasMessageResponse, *http.Response, error) {
+func (r ApiCreateMessageInRoomRequest) Execute() (*SchemasCreateMessageResponse, *http.Response, error) {
 	return r.ApiService.CreateMessageInRoomExecute(r)
 }
 
@@ -161,13 +161,13 @@ func (a *RoomAPIService) CreateMessageInRoom(ctx context.Context, roomId string)
 }
 
 // Execute executes the request
-//  @return SchemasMessageResponse
-func (a *RoomAPIService) CreateMessageInRoomExecute(r ApiCreateMessageInRoomRequest) (*SchemasMessageResponse, *http.Response, error) {
+//  @return SchemasCreateMessageResponse
+func (a *RoomAPIService) CreateMessageInRoomExecute(r ApiCreateMessageInRoomRequest) (*SchemasCreateMessageResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasMessageResponse
+		localVarReturnValue  *SchemasCreateMessageResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.CreateMessageInRoom")

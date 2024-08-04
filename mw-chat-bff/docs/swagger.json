@@ -91,7 +91,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.GetChatPreviewResponse"
+                            "$ref": "#/definitions/schemas.GetRoomPreviewResponse"
                         }
                     }
                 }
@@ -308,7 +308,7 @@
                 }
             }
         },
-        "schemas.GetChatPreviewResponse": {
+        "schemas.GetRoomPreviewResponse": {
             "type": "object",
             "required": [
                 "unreadMessagesAmount"
@@ -350,8 +350,7 @@
                     "type": "string"
                 },
                 "ownerName": {
-                    "type": "string",
-                    "x-nullable": true
+                    "type": "string"
                 },
                 "readDate": {
                     "type": "string"
@@ -387,14 +386,14 @@
                     "type": "string"
                 },
                 "ownerName": {
-                    "type": "string",
-                    "x-nullable": true
+                    "type": "string"
                 }
             }
         },
         "schemas.RoomPopulatedResponse": {
             "type": "object",
             "required": [
+                "imageUrl",
                 "isBlocked",
                 "messages",
                 "name",
@@ -403,6 +402,9 @@
                 "users"
             ],
             "properties": {
+                "imageUrl": {
+                    "type": "string"
+                },
                 "isBlocked": {
                     "type": "boolean"
                 },
@@ -432,6 +434,7 @@
         "schemas.RoomPreviewResponse": {
             "type": "object",
             "required": [
+                "imageUrl",
                 "isBlocked",
                 "name",
                 "roomId",
@@ -439,6 +442,9 @@
                 "users"
             ],
             "properties": {
+                "imageUrl": {
+                    "type": "string"
+                },
                 "isBlocked": {
                     "type": "boolean"
                 },

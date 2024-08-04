@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {DialogClose, DialogContent, DialogOverlay, DialogPortal, DialogTrigger, Root as DialogRoot} from "@radix-ui/react-dialog";
 import clsx from "clsx";
 import {observer} from "mobx-react-lite";
@@ -7,13 +7,18 @@ import {Dropdown} from "src/component/dropdown/Dropdown";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Input, InputType} from "src/component/input/Input";
+import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {ChatDAL, createMessageInGroupParams, RoomType} from "src/dataAccessLogic/ChatDAL";
+import {ChannelId} from "src/eventBus/EventBusChannelDict";
+import {ChatEventId} from "src/eventBus/events/chat/ChatEventDict";
+import {useListenEventBus} from "src/eventBus/useListenEvent";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {userStore} from "src/globalStore/UserStore";
 import {ChatItem} from "src/logic/chat/chatItem/ChatItem";
 import {MessageItem} from "src/logic/chat/messageItem/MessageItem";
 import {Chat} from "src/model/businessModel/Chat";
+import {Message} from "src/model/businessModel/Message";
 import {ChatPreview} from "src/model/businessModelPreview/ChatPreview";
 import {LanguageService} from "src/service/LanguageService";
 import {KeySymbols} from "src/utils/KeySymbols";
@@ -47,6 +52,55 @@ export const ChatPage = observer((props: ChatProps) => {
   const [chatList, setChatList] = useState<ChatPreview[]>([]);
   const [isChatHiddenOnMobile, setIsChatHiddenOnMobile] = useState<boolean>(true);
   const [unreadMessagesAmount, setUnreadMessagesAmount] = useState<number>(0);
+
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useListenEventBus(ChannelId.CHAT, ChatEventId.MESSAGE_RECEIVED, (payload) => {
+    const isChatForMessageOpen = payload.roomId === chat?.roomId;
+    if (isChatForMessageOpen) {
+      const newMessage = new Message({
+        message: payload.message,
+        ownerId: payload.ownerId,
+        ownerName: payload.ownerName,
+        ownerImageUrl: payload.ownerImageUrl,
+        messageReaders: [],
+      });
+      chat.addMessage(newMessage);
+    } else {
+      displayNotification({
+        text: `${payload.ownerName}: ${payload.message}`,
+        type: NotificationType.INFO,
+      });
+    }
+  });
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
+    }
+  }, [chat?.messages]);
+
+  useListenEventBus(ChannelId.CHAT, ChatEventId.ROOM_CREATED, (payload) => {
+    const newChatInRoomList = new ChatPreview({
+      isBlocked: false,
+      name: payload.name,
+      roomId: payload.roomId,
+      imageUrl: payload.imageUrl,
+    });
+
+    const isGroupChatOpenAndNewChatIsGroup = isGroupChatOpen && payload.roomType === RoomType.GROUP;
+    const isPrivateChatOpenAndNewChatIsPrivate = !isGroupChatOpen && payload.roomType === RoomType.PRIVATE;
+    const isShouldUpdateChatList = isGroupChatOpenAndNewChatIsGroup || isPrivateChatOpenAndNewChatIsPrivate;
+
+    if (isShouldUpdateChatList) {
+      setChatList([newChatInRoomList, ...chatList]);
+    }
+
+    displayNotification({
+      text: `Room ${payload.name} created!`,
+      type: NotificationType.INFO,
+    });
+  });
 
   /**
    * Load active chat
@@ -105,6 +159,13 @@ export const ChatPage = observer((props: ChatProps) => {
   useEffect(() => {
     loadUnreadMessagesAmount();
   }, []);
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
+    }
+
+  }, [chat]);
 
   return (
     <DialogRoot
@@ -201,8 +262,8 @@ export const ChatPage = observer((props: ChatProps) => {
                   ? chatList.map((chatItem) => (
                     <ChatItem
                       key={chatItem.roomId}
-                      name={chatItem.roomId}
-                      src={chatItem.src}
+                      name={chatItem.name}
+                      src={chatItem.imageUrl}
                       onClick={() => {
                         loadActiveChat(chatItem.roomId);
                         setIsChatHiddenOnMobile(false);
@@ -224,7 +285,7 @@ export const ChatPage = observer((props: ChatProps) => {
                   <HorizontalContainer className={styles.chatInfo}>
                     <ChatItem
                       name={chat.name}
-                      src={chat.src}
+                      src={chat.imageUrl}
                     />
                     <Dropdown
                       trigger={(
@@ -254,19 +315,25 @@ export const ChatPage = observer((props: ChatProps) => {
                     />
                   </HorizontalContainer>
                   <VerticalContainer className={styles.messageList}>
-                    {chat.messages.map((messageItem) => (
-                      <MessageItem
-                        key={messageItem.ownerId}
-                        src=""
-                        userName={messageItem.ownerId}
-                        message={
-                          <p>
-                            {messageItem.message}
-                          </p>
-                        }
-                        isOwnMessage={messageItem.ownerId === user?.uuid}
-                      />
-                    ))}
+                    <div
+                      ref={messagesEndRef}
+                      className={clsx(styles.messages, styles.messageList)}
+                    >
+                      {chat.messages.map((messageItem) => (
+                        <MessageItem
+                          key={messageItem.ownerId}
+                          src={messageItem.ownerImageUrl}
+                          userName={messageItem.ownerName}
+                          message={
+                            <p>
+                              {messageItem.message}
+                            </p>
+                          }
+                          isOwnMessage={messageItem.ownerId === user?.uuid}
+                        />
+                      ))}
+                      <div ref={messagesEndRef} />
+                    </div>
                   </VerticalContainer>
                 </VerticalContainer>
               }

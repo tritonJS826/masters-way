@@ -4,7 +4,7 @@ apis/index.ts
 index.ts
 models/SchemasCreateMessagePayload.ts
 models/SchemasCreateRoomPayload.ts
-models/SchemasGetChatPreviewResponse.ts
+models/SchemasGetRoomPreviewResponse.ts
 models/SchemasGetRoomsResponse.ts
 models/SchemasMessageReader.ts
 models/SchemasMessageResponse.ts

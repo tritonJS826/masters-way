@@ -162,7 +162,7 @@ func (pc *RoomsController) UpdateRoom(ctx *gin.Context) {
 // @Produce  json
 // @Param request body schemas.CreateMessagePayload true "query params"
 // @Param roomId path string true "room Id"
-// @Success 200 {object} schemas.MessageResponse
+// @Success 200 {object} schemas.CreateMessageResponse
 // @Router /rooms/{roomId}/messages [post]
 func (pc *RoomsController) CreateMessage(ctx *gin.Context) {
 	var payload *schemas.CreateMessagePayload

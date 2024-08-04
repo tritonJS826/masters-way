@@ -92,6 +92,7 @@ Class | Method | HTTP request | Description
 ## Documentation For Models
 
  - [SchemasCreateMessagePayload](docs/SchemasCreateMessagePayload.md)
+ - [SchemasCreateMessageResponse](docs/SchemasCreateMessageResponse.md)
  - [SchemasCreateRoomPayload](docs/SchemasCreateRoomPayload.md)
  - [SchemasGetChatPreviewResponse](docs/SchemasGetChatPreviewResponse.md)
  - [SchemasGetRoomsResponse](docs/SchemasGetRoomsResponse.md)

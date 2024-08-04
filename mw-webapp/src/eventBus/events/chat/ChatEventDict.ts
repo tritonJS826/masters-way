@@ -1,4 +1,9 @@
-import {ChatMessageReceivedPayload} from "src/eventBus/events/chat/ChatEvents";
+import {
+  ChatConnectionClosedPayload,
+  ChatConnectionEstablishedPayload,
+  ChatMessageReceivedPayload,
+  ChatRoomCreatedPayload,
+} from "src/eventBus/events/chat/ChatEvents";
 
 /**
  * All event ids for chat channel.
@@ -11,7 +16,10 @@ import {ChatMessageReceivedPayload} from "src/eventBus/events/chat/ChatEvents";
  * Include channel name in event name for debugging and uniqueness.
  */
 export enum ChatEventId {
-  MESSAGE_RECEIVED = "CHAT:MESSAGE_RECEIVED",
+  CONNECTION_ESTABLISHED = "MW_CHAT:CONNECTION_ESTABLISHED",
+  CONNECTION_CLOSED = "MW_CHAT:CONNECTION_CLOSED",
+  MESSAGE_RECEIVED = "MW_CHAT:MESSAGE_RECEIVED",
+  ROOM_CREATED = "MW_CHAT:ROOM_CREATED",
 }
 
 /**
@@ -21,7 +29,22 @@ export enum ChatEventId {
 export type ChatEventDict = {
 
   /**
-   * Example event description
+   * Message received from mw-chat-websocket
    */
   [ChatEventId.MESSAGE_RECEIVED]: ChatMessageReceivedPayload;
+
+  /**
+   * Connection to mw-chat-websocket established
+   */
+  [ChatEventId.CONNECTION_ESTABLISHED]: ChatConnectionEstablishedPayload;
+
+  /**
+   * Connections to mw-chat-websocket closed
+   */
+  [ChatEventId.CONNECTION_CLOSED]: ChatConnectionClosedPayload;
+
+  /**
+   * Room created
+   */
+  [ChatEventId.ROOM_CREATED]: ChatRoomCreatedPayload;
 };
