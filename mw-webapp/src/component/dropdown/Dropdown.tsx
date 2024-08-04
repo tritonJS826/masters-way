@@ -1,8 +1,5 @@
-import {ReactElement, useState} from "react";
-import {
-  Content as DropdownContent,
-  Root as DropdownRoot,
-} from "@radix-ui/react-dialog";
+import {ReactElement} from "react";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import clsx from "clsx";
 import {
   DropdownMenuItem,
@@ -67,7 +64,6 @@ export interface DropdownProps {
  * Dropdown component
  */
 export const Dropdown = (props: DropdownProps) => {
-  const [isOpenMenu, setIsOpenMenu] = useState(false);
 
   const renderDropdownMenuItems = props.dropdownMenuItems.map((item) => {
     const isVisible = item.isVisible ?? true;
@@ -77,7 +73,7 @@ export const Dropdown = (props: DropdownProps) => {
         <DropdownMenuItem
           key={item.id}
           value={item.value}
-          onClick={item.onClick ?? (() => {})}
+          onClick={item.onClick ?? (() => { })}
           dataCyContent={props.cy?.dataCyContent}
         />
       );
@@ -88,28 +84,23 @@ export const Dropdown = (props: DropdownProps) => {
   });
 
   return (
-    <div
-      className={clsx(styles.dropdown, props.className)}
-      data-cy={props.cy?.dataCyOverlay}
-    >
-      <DropdownRoot
-        open={isOpenMenu}
-        onOpenChange={setIsOpenMenu}
-        modal={false}
-      >
-        <div onClick={() => setIsOpenMenu((prev) => !prev)}>
+    <DropdownMenu.Root data-cy={props.cy?.dataCyOverlay}>
+      <DropdownMenu.Trigger asChild>
+        <div role="button">
           {props.trigger}
         </div>
+      </DropdownMenu.Trigger>
 
-        <DropdownContent
+      <DropdownMenu.Portal>
+        <DropdownMenu.Content
+          onCloseAutoFocus={(event) => event.preventDefault()}
           className={clsx(styles.dropdownContent, props.contentClassName)}
           data-cy={props.cy?.dataCyContentList}
         >
-          <ul className={styles.menu}>
-            {renderDropdownMenuItems}
-          </ul>
-        </DropdownContent>
-      </DropdownRoot>
-    </div>
+          {renderDropdownMenuItems}
+        </DropdownMenu.Content>
+      </DropdownMenu.Portal>
+    </DropdownMenu.Root>
   );
+
 };

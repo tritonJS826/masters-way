@@ -55,7 +55,7 @@ describe("Dropdown component", () => {
   it("should close by clicking on background", () => {
     cy.get(getDataCy(DROPDOWN_CY.dataCyTrigger))
       .click();
-    cy.get(getDataCy(DROPDOWN_CY.dataCyOverlay))
+    cy.get("body")
       .click({force: true});
     cy.get(getDataCy(DROPDOWN_CY.dataCyContent))
       .should("not.exist");
@@ -71,7 +71,7 @@ describe("Dropdown component", () => {
   it("should length dropdown", () => {
     cy.get(getDataCy(DROPDOWN_CY.dataCyTrigger))
       .click();
-    cy.get(getDataCy(DROPDOWN_CY.dataCyContentList)).find("li").should("have.length", DROPDOWN_LENGHTH);
+    cy.get(getDataCy(DROPDOWN_CY.dataCyContentList)).children().should("have.length", DROPDOWN_LENGHTH);
   });
 
   it("should select right option after click on value", () => {
