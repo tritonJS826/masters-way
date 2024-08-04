@@ -311,12 +311,13 @@ func getPrivateRoomName(ctx *gin.Context, users []schemas.UserResponse) (string,
 
 	currentUserIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	currentUserID := currentUserIDRaw.(string)
-	if users[0].UserID != currentUserID {
-		return users[0].Name, nil
+
+	if users[0].UserID == currentUserID {
+		return users[1].Name, nil
 	}
 
-	if users[1].UserID != currentUserID {
-		return users[1].Name, nil
+	if users[1].UserID == currentUserID {
+		return users[0].Name, nil
 	}
 
 	return "", fmt.Errorf("current user ID %s does not match any of the provided users", currentUserID)

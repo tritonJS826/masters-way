@@ -16,6 +16,9 @@ import (
 	"github.com/gorilla/websocket"
 )
 
+const RoomTypePrivate string = "private"
+const RoomTypeGroup string = "group"
+
 type SocketController struct {
 	SocketService services.SocketService
 }
@@ -49,14 +52,8 @@ var upgrader = websocket.Upgrader{
 // @Param token path string true "token"
 // @Router /ws [get]
 func (cc *SocketController) ConnectSocket(ctx *gin.Context) {
-	token := ctx.Query("token")
-
-	claims, err := auth.ValidateJWT(token)
-	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
-		return
-	}
-	userID := claims.UserID
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userID := userIDRaw.(string)
 
 	conn, err := upgrader.Upgrade(ctx.Writer, ctx.Request, nil)
 	if err != nil {
@@ -134,6 +131,16 @@ func (cc *SocketController) SendRoomCreatedEvent(ctx *gin.Context) {
 	lop.ForEach(payload.Users, func(user schemas.UserResponse, _ int) {
 		session, exists := sessionPool[user.UserID]
 		if exists {
+			if payload.RoomType == RoomTypePrivate {
+				name, err := getPrivateRoomName(user.UserID, payload.Users)
+				if err != nil {
+					fmt.Println(err.Error())
+					return
+				}
+
+				payload.Name = name
+			}
+
 			newRoom := eventfactory.MakeRoomCreatedEvent(*payload)
 			err := session.Connection.WriteJSON(newRoom)
 			utils.HandleErrorGin(ctx, err)
@@ -141,4 +148,20 @@ func (cc *SocketController) SendRoomCreatedEvent(ctx *gin.Context) {
 	})
 
 	ctx.Status(http.StatusNoContent)
+}
+
+func getPrivateRoomName(currentUserID string, users []schemas.UserResponse) (string, error) {
+	if len(users) != 2 {
+		return "", fmt.Errorf("A private room must contain exactly 2 users, got %d", len(users))
+	}
+
+	if users[0].UserID == currentUserID {
+		return users[1].Name, nil
+	}
+
+	if users[1].UserID == currentUserID {
+		return users[0].Name, nil
+	}
+
+	return "", fmt.Errorf("current user ID %s does not match any of the provided users", currentUserID)
 }

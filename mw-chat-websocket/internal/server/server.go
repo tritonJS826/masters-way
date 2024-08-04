@@ -1,6 +1,7 @@
 package server
 
 import (
+	"mw-chat-websocket/internal/auth"
 	"mw-chat-websocket/internal/config"
 	"mw-chat-websocket/internal/controllers"
 	"net/http"
@@ -15,6 +16,7 @@ import (
 
 type Server struct {
 	GinServer *gin.Engine
+	Config    *config.Config
 }
 
 func NewServer(cfg *config.Config) *Server {
@@ -40,6 +42,7 @@ func NewServer(cfg *config.Config) *Server {
 
 	return &Server{
 		GinServer: server,
+		Config:    cfg,
 	}
 }
 
@@ -49,7 +52,7 @@ func NewServer(cfg *config.Config) *Server {
 func (server *Server) SetRoutes(controller *controllers.Controller) {
 	mwChatWebsocket := server.GinServer.Group("/mw-chat-websocket")
 	{
-		mwChatWebsocket.GET("/ws", controller.SocketController.ConnectSocket)
+		mwChatWebsocket.GET("/ws", auth.ExtractTokenMiddleware(server.Config), controller.SocketController.ConnectSocket)
 
 		mwChatWebsocket.POST("/messages", controller.SocketController.SendMessageReceivedEvent)
 		mwChatWebsocket.POST("/rooms", controller.SocketController.SendRoomCreatedEvent)
