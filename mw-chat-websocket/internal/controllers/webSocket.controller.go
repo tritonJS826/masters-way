@@ -9,6 +9,7 @@ import (
 	"mw-chat-websocket/internal/services"
 	"mw-chat-websocket/pkg/utils"
 	"net/http"
+	"time"
 
 	lop "github.com/samber/lo/parallel"
 
@@ -28,7 +29,8 @@ func NewSocketController(socketService services.SocketService) *SocketController
 }
 
 type CurrentSocketConnection struct {
-	Connection *websocket.Conn
+	// string is unique key for session
+	Connections map[string]*websocket.Conn
 }
 
 // key: userID
@@ -62,19 +64,43 @@ func (cc *SocketController) ConnectSocket(ctx *gin.Context) {
 	}
 	defer conn.Close()
 
-	sessionPool[userID] = &CurrentSocketConnection{
-		Connection: conn,
+	connectionID := time.Now().Format(time.RFC3339Nano)
+	fmt.Println(connectionID)
+
+	if sessionPool[userID] == nil {
+		sessionPool[userID] = &CurrentSocketConnection{
+			Connections: map[string]*websocket.Conn{},
+		}
 	}
+	sessionPool[userID].Connections[connectionID] = conn
 
 	fmt.Println("Current amount of users: ", len(sessionPool))
+	fmt.Println("Current user session amount: ", len(sessionPool[userID].Connections))
+
+	totalConnections := 0
+	for _, session := range sessionPool {
+		totalConnections += len(session.Connections)
+	}
+	fmt.Println("Total Connections: ", totalConnections)
 
 	for {
 		_, message, err := conn.ReadMessage()
 		if err != nil {
-			fmt.Println("User disconnected", err)
-			// Delete userID from map
-			delete(sessionPool, userID)
+
+			delete(sessionPool[userID].Connections, connectionID)
+
+			fmt.Println("Current user session amount: ", len(sessionPool[userID].Connections))
+			// Delete userID from map if there are no connections
+			if len(sessionPool[userID].Connections) == 0 {
+				delete(sessionPool, userID)
+			}
+
 			fmt.Println("Current amount of users: ", len(sessionPool))
+			totalConnections := 0
+			for _, session := range sessionPool {
+				totalConnections += len(session.Connections)
+			}
+			fmt.Println("Total Connections: ", totalConnections)
 			return
 		}
 
@@ -102,9 +128,11 @@ func (cc *SocketController) SendMessageReceivedEvent(ctx *gin.Context) {
 	lop.ForEach(payload.Users, func(userID string, _ int) {
 		session, exists := sessionPool[userID]
 		if exists {
-			newMessage := eventfactory.MakeMessageReceivedEvent(payload.Message)
-			err := session.Connection.WriteJSON(newMessage)
-			utils.HandleErrorGin(ctx, err)
+			for _, connection := range session.Connections {
+				newMessage := eventfactory.MakeMessageReceivedEvent(payload.Message)
+				err := connection.WriteJSON(newMessage)
+				utils.HandleErrorGin(ctx, err)
+			}
 		}
 	})
 
@@ -141,9 +169,11 @@ func (cc *SocketController) SendRoomCreatedEvent(ctx *gin.Context) {
 				payload.Name = name
 			}
 
-			newRoom := eventfactory.MakeRoomCreatedEvent(*payload)
-			err := session.Connection.WriteJSON(newRoom)
-			utils.HandleErrorGin(ctx, err)
+			for _, connection := range session.Connections {
+				newRoom := eventfactory.MakeRoomCreatedEvent(*payload)
+				err := connection.WriteJSON(newRoom)
+				utils.HandleErrorGin(ctx, err)
+			}
 		}
 	})
 
