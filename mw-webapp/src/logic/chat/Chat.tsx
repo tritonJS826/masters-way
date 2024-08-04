@@ -69,6 +69,28 @@ export const ChatPage = observer((props: ChatProps) => {
     }
   });
 
+  useListenEventBus(ChannelId.CHAT, ChatEventId.ROOM_CREATED, (payload) => {
+    const newChatInRoomList = new ChatPreview({
+      isBlocked: false,
+      name: payload.name,
+      roomId: payload.roomId,
+      imageUrl: payload.imageUrl,
+    });
+
+    const isGroupChatOpenAndNewChatIsGroup = isGroupChatOpen && payload.roomType === RoomType.GROUP;
+    const isPrivateChatOpenAndNewChatIsPrivate = !isGroupChatOpen && payload.roomType === RoomType.PRIVATE;
+    const isShouldUpdateChatList = isGroupChatOpenAndNewChatIsGroup || isPrivateChatOpenAndNewChatIsPrivate;
+
+    if (isShouldUpdateChatList) {
+      setChatList([newChatInRoomList, ...chatList]);
+    }
+
+    displayNotification({
+      text: `Room ${payload.name} created!`,
+      type: NotificationType.INFO,
+    });
+  });
+
   /**
    * Load active chat
    */
@@ -223,7 +245,7 @@ export const ChatPage = observer((props: ChatProps) => {
                     <ChatItem
                       key={chatItem.roomId}
                       name={chatItem.name}
-                      src={chatItem.src}
+                      src={chatItem.imgUrl}
                       onClick={() => {
                         loadActiveChat(chatItem.roomId);
                         setIsChatHiddenOnMobile(false);

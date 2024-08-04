@@ -122,3 +122,129 @@ export const makeChatConnectionClosedEvent = (payload: ChatConnectionClosedPaylo
 
   return populatedEvent;
 };
+
+/**
+ * Room type
+ */
+export enum RoomType {
+  PRIVATE = "private",
+  GROUP = "group"
+}
+
+/**
+ * Event fired when a room in chat created
+ */
+export type ChatRoomCreatedPayload = {
+
+  /**
+   * Room id
+   */
+  roomId: string;
+
+  /**
+   * Room name
+   */
+  name: string;
+
+  /**
+   * Room image url
+   */
+  imageUrl: string;
+
+  /**
+   * Room type
+   */
+  roomType: RoomType;
+
+  /**
+   * Users list in the room
+   */
+  users: {
+
+    /**
+     * User Id
+     */
+    userId: string;
+
+    /**
+     * User name
+     */
+    name: string;
+
+    /**
+     * UserImage url
+     */
+    imageURL: string;
+
+    /**
+     * User role
+     */
+    role: string;
+  }[];
+
+  /**
+   * Room messages
+   */
+  messages: {
+
+    /**
+     * Message owner id
+     */
+    ownerId: string;
+
+    /**
+     * Message owner name
+     */
+    ownerName: string;
+
+    /**
+     * Message image url
+     */
+    ownerImageUrl: string;
+
+    /**
+     * Message text
+     */
+    message: string;
+
+    /**
+     * Users who already read message
+     */
+    messageReaders: {
+
+      /**
+       * User Id
+       */
+      userId: string;
+
+      /**
+       * User name
+       */
+      ownerName: string;
+
+      /**
+       * User image url
+       */
+      ownerImageUrl: string;
+
+      /**
+       * Read date
+       */
+      readDate: string;
+    }[];
+  }[];
+};
+
+/**
+ * Factory for {@link ChatConnectionEstablishedPayload} event
+ * Used for creating new event objects
+ */
+export const makeChatRoomCreatedEvent = (payload: ChatRoomCreatedPayload) => {
+  const populatedEvent = populateWithBaseEvent(
+    payload,
+    ChannelId.CHAT,
+    ChatEventId.ROOM_CREATED,
+  );
+
+  return populatedEvent;
+};

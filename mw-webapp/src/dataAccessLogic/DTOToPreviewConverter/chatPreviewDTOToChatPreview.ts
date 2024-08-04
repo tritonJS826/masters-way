@@ -8,6 +8,6 @@ export const chatPreviewDTOToChatPreview = (chatPreviewDTO: SchemasRoomPreviewRe
   return new ChatPreview({
     ...chatPreviewDTO,
     name: chatPreviewDTO.name,
-    src: null,
+    imageUrl: null,
   });
 };

@@ -21,7 +21,7 @@ interface ChatPreviewProps {
   /**
    * Chat room's image
    */
-  src: string | null;
+  imageUrl: string | null;
 }
 
 /**
@@ -42,12 +42,12 @@ export class ChatPreview {
   /**
    * Chat room's image
    */
-  public src: string | null;
+  public imgUrl: string | null;
 
   constructor(chatGroupData: ChatPreviewProps) {
     this.roomId = chatGroupData.roomId;
     this.name = chatGroupData.name;
-    this.src = chatGroupData.src;
+    this.imgUrl = chatGroupData.imageUrl;
   }
 
 }

@@ -2,6 +2,7 @@ import {
   ChatConnectionClosedPayload,
   ChatConnectionEstablishedPayload,
   ChatMessageReceivedPayload,
+  ChatRoomCreatedPayload,
 } from "src/eventBus/events/chat/ChatEvents";
 
 /**
@@ -18,6 +19,7 @@ export enum ChatEventId {
   CONNECTION_ESTABLISHED = "MW_CHAT:CONNECTION_ESTABLISHED",
   CONNECTION_CLOSED = "MW_CHAT:CONNECTION_CLOSED",
   MESSAGE_RECEIVED = "MW_CHAT:MESSAGE_RECEIVED",
+  ROOM_CREATED = "MW_CHAT:ROOM_CREATED",
 }
 
 /**
@@ -40,4 +42,9 @@ export type ChatEventDict = {
    * Connections to mw-chat-websocket closed
    */
   [ChatEventId.CONNECTION_CLOSED]: ChatConnectionClosedPayload;
+
+  /**
+   * Room created
+   */
+  [ChatEventId.ROOM_CREATED]: ChatRoomCreatedPayload;
 };

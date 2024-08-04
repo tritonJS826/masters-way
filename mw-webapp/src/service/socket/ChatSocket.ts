@@ -5,7 +5,7 @@ import {
 import {emitEvent} from "src/eventBus/EmitEvent";
 import {ChannelId} from "src/eventBus/EventBusChannelDict";
 import {ChatEventId} from "src/eventBus/events/chat/ChatEventDict";
-import {ChatMessageReceivedPayload} from "src/eventBus/events/chat/ChatEvents";
+import {ChatMessageReceivedPayload, ChatRoomCreatedPayload} from "src/eventBus/events/chat/ChatEvents";
 import {tokenStore} from "src/globalStore/TokenStore";
 import {BaseSocketEvent} from "src/service/socket/BaseSocketEvent";
 import {env} from "src/utils/env/env";
@@ -63,6 +63,13 @@ export const connectChatSocket = () => {
           channelId: ChannelId.CHAT,
           eventId: ChatEventId.MESSAGE_RECEIVED,
           payload: event.payload as ChatMessageReceivedPayload,
+        });
+        break;
+      case "mw-chat-websocket:room-created":
+        emitEvent({
+          channelId: ChannelId.CHAT,
+          eventId: ChatEventId.ROOM_CREATED,
+          payload: event.payload as ChatRoomCreatedPayload,
         });
         break;
       default:
