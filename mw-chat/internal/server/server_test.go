@@ -204,40 +204,7 @@ func TestGetChatPreview(t *testing.T) {
 
 	MakeTestRequestWithJWT[struct{}](t, http.MethodGet, newConfig.ChatBaseURL+"/chat/dev/reset-db", nil, nil, "")
 
-	// users
-	roomCreatorID := "10ffb9af-3031-4078-a3a6-55286b6d9bcf"
-	user1ID := "c17c4df9-1df4-44eb-af5b-a7140ede7b5f"
-	user2ID := "bf548e0a-e9a2-466c-a741-b6e35c230aef"
-
-	// rooms
-	room1ID := createPrivateRoom(t, roomCreatorID, user1ID)
-	room2ID := createPrivateRoom(t, roomCreatorID, user2ID)
-
-	// roomCreator's messages in room 1
-	room1CreatorMessage1 := "Room 1 roomCreator's message 1"
-	room1CreatorMessage2 := "Room 1 roomCreator's message 2"
-	sendMessage(t, room1ID, roomCreatorID, room1CreatorMessage1)
-	sendMessage(t, room1ID, roomCreatorID, room1CreatorMessage2)
-
-	// roomCreator's messages in room 2
-	room2CreatorMessage1 := "Room 2 roomCreator's message 1"
-	room2CreatorMessage2 := "Room 2 roomCreator's message 2"
-	sendMessage(t, room2ID, roomCreatorID, room2CreatorMessage1)
-	sendMessage(t, room2ID, roomCreatorID, room2CreatorMessage2)
-
-	// user1's messages in room 1
-	room1User1Message1 := "Room 1 user1's message 1"
-	room1User1Message2 := "Room 1 user1's message 2"
-	sendMessage(t, room1ID, user1ID, room1User1Message1)
-	sendMessage(t, room1ID, user1ID, room1User1Message2)
-
-	// user2's messages in room 2
-	user2Message1 := "Room 2 user2's message 1"
-	user2Message2 := "Room 2 user2's message 2"
-	user2Message3 := "Room 2 user2's message 3"
-	sendMessage(t, room2ID, user2ID, user2Message1)
-	sendMessage(t, room2ID, user2ID, user2Message2)
-	sendMessage(t, room2ID, user2ID, user2Message3)
+	currentUserID := "d2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2"
 
 	t.Run("should return chat preview with correct unread messages amount", func(t *testing.T) {
 		var getChatPreviewResponse schemas.GetChatPreviewResponse
@@ -246,11 +213,11 @@ func TestGetChatPreview(t *testing.T) {
 			newConfig.ChatBaseURL+"/chat/rooms/preview",
 			nil,
 			&getChatPreviewResponse,
-			roomCreatorID,
+			currentUserID,
 		)
 
 		expectedData := schemas.GetChatPreviewResponse{
-			UnreadMessagesAmount: 5,
+			UnreadMessagesAmount: 3,
 		}
 
 		assert.Equal(t, http.StatusOK, statusCode)
@@ -436,9 +403,9 @@ func TestCreateMessage(t *testing.T) {
 	}
 	MakeTestRequestWithJWT[struct{}](t, http.MethodGet, newConfig.ChatBaseURL+"/chat/dev/reset-db", nil, nil, "")
 
-	roomCreatorID := "cf09bb5d-8803-4ce6-b19f-c3e613442055"
-	user1ID := "acb612b9-5a09-452e-8221-7a5dfc2a2f08"
-	roomID := createPrivateRoom(t, roomCreatorID, user1ID)
+	currentUserID := "cf09bb5d-8803-4ce6-b19f-c3e613442055"
+	userID := "acb612b9-5a09-452e-8221-7a5dfc2a2f08"
+	roomID := createPrivateRoom(t, currentUserID, userID)
 
 	t.Run("should create a message in private room and return it successfully", func(t *testing.T) {
 		createMessageInputData := schemas.CreateMessagePayload{
@@ -448,26 +415,26 @@ func TestCreateMessage(t *testing.T) {
 		if err != nil {
 			t.Fatalf("Failed to marshal create room payload: %v", err)
 		}
-		var messageResponse schemas.MessageResponse
+		var messageResponse schemas.CreateMessageResponse
 		statusCode := MakeTestRequestWithJWT(
 			t,
 			http.MethodPost,
 			newConfig.ChatBaseURL+"/chat/rooms/"+roomID+"/messages",
 			bytes.NewBuffer(jsonCreateMessageInputData),
 			&messageResponse,
-			roomCreatorID,
+			currentUserID,
 		)
 
-		expectedData := schemas.MessageResponse{
-			OwnerID: roomCreatorID,
-			Message: "roomCreator's message",
-			Readers: []schemas.MessageReader{},
+		expectedData := schemas.CreateMessageResponse{
+			Users: []string{currentUserID, userID},
+			Message: schemas.MessageResponse{
+				OwnerID: currentUserID,
+				Message: "roomCreator's message",
+				Readers: []schemas.MessageReader{},
+			},
 		}
 
 		assert.Equal(t, http.StatusOK, statusCode)
-
-		assert.Equal(t, expectedData.OwnerID, messageResponse.OwnerID)
-		assert.Equal(t, expectedData.Message, messageResponse.Message)
-		assert.Equal(t, expectedData.Readers, messageResponse.Readers)
+		assert.Equal(t, expectedData, messageResponse)
 	})
 }

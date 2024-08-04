@@ -361,6 +361,7 @@ func TestCreateMessage(t *testing.T) {
 	MakeTestRequestWithJWT[struct{}](t, http.MethodGet, "http://localhost:8001/chat/dev/reset-db", nil, nil, "")
 
 	roomCreatorID := "d2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2"
+	userID := "3d922e8a-5d58-4b82-9a3d-83e2e73b3f91"
 	roomID := "78bdf878-3b83-4f97-8d2e-928c132a10cd"
 
 	t.Run("should create a message in populated private room and return it with populated messageReaders successfully", func(t *testing.T) {
@@ -371,7 +372,7 @@ func TestCreateMessage(t *testing.T) {
 		if err != nil {
 			t.Fatalf("Failed to marshal create room payload: %v", err)
 		}
-		var messageResponse schemas.MessageResponse
+		var messageResponse schemas.CreateMessageResponse
 		statusCode := MakeTestRequestWithJWT(
 			t,
 			http.MethodPost,
@@ -381,12 +382,15 @@ func TestCreateMessage(t *testing.T) {
 			roomCreatorID,
 		)
 
-		expectedData := schemas.MessageResponse{
-			OwnerID:       roomCreatorID,
-			OwnerName:     "Bob Brown",
-			OwnerImageURL: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAT",
-			Message:       "roomCreator's message",
-			Readers:       []schemas.MessageReader{},
+		expectedData := schemas.CreateMessageResponse{
+			Users: []string{roomCreatorID, userID},
+			Message: schemas.MessageResponse{
+				OwnerID:       roomCreatorID,
+				OwnerName:     "Bob Brown",
+				OwnerImageURL: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAT",
+				Message:       "roomCreator's message",
+				Readers:       []schemas.MessageReader{},
+			},
 		}
 
 		assert.Equal(t, http.StatusOK, statusCode)
