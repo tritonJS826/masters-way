@@ -99,6 +99,7 @@ services:
       - mw-webapp
       - mw-chat
       - mw-chat-bff
+      - mw-chat-websocket
     networks:
       - app-network
 
