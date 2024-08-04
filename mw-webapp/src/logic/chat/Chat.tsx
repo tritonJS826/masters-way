@@ -66,9 +66,6 @@ export const ChatPage = observer((props: ChatProps) => {
         messageReaders: [],
       });
       chat.addMessage(newMessage);
-      if (messagesEndRef.current) {
-        messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
-      }
     } else {
       displayNotification({
         text: `${payload.ownerName}: ${payload.message}`,
@@ -76,6 +73,12 @@ export const ChatPage = observer((props: ChatProps) => {
       });
     }
   });
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
+    }
+  }, [chat?.messages]);
 
   useListenEventBus(ChannelId.CHAT, ChatEventId.ROOM_CREATED, (payload) => {
     const newChatInRoomList = new ChatPreview({
@@ -319,8 +322,8 @@ export const ChatPage = observer((props: ChatProps) => {
                       {chat.messages.map((messageItem) => (
                         <MessageItem
                           key={messageItem.ownerId}
-                          src=""
-                          userName={messageItem.ownerId}
+                          src={messageItem.ownerImageUrl}
+                          userName={messageItem.ownerName}
                           message={
                             <p>
                               {messageItem.message}
