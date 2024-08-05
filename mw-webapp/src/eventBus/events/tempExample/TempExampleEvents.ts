@@ -18,7 +18,7 @@ export type TempExampleCreationInitiatedPayload = {
   /**
    * Example field
    */
-  // ex: string;
+  // example: string;
 };
 
 /**
@@ -30,6 +30,10 @@ export const makeTempExampleCreationInitiatedEvent = (payload: TempExampleCreati
     payload,
     ChannelId.TEMP_EXAMPLE,
     TempExampleEventId.TEMP_EXAMPLE_CREATION_INITIATED,
+    {
+      isListenInOnlyCurrentTab: true,
+      windowId: String(Math.random()),
+    },
   );
 
   return populatedEvent;
