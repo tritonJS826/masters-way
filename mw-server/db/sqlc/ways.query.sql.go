@@ -13,26 +13,34 @@ import (
 
 const countWaysByType = `-- name: CountWaysByType :one
 SELECT COUNT(*) FROM ways
-WHERE ways.is_private = false AND (
-    ($2 = 'inProgress'
-        AND ways.is_completed = false
-        AND ways.updated_at > ($1::timestamp - interval '14 days'))
-    OR ($2 = 'completed' AND ways.is_completed = true)
-    OR ($2 = 'abandoned'
-        AND (ways.is_completed = false)
-        AND (ways.updated_at < ($1::timestamp - interval '14 days'))
+WHERE ways.is_private = false 
+    AND (
+        ($1 = 'inProgress'
+            AND ways.is_completed = false
+            AND ways.updated_at > (($2)::timestamp - interval '14 days'))
+        OR ($1 = 'completed' AND ways.is_completed = true)
+        OR ($1 = 'abandoned'
+            AND (ways.is_completed = false)
+            AND (ways.updated_at < (($2)::timestamp - interval '14 days'))
+        )
+        OR ($1 = 'all')
     )
-    OR ($2 = 'all')
-)
+    AND (
+        (SELECT COUNT(day_reports.uuid) 
+            FROM day_reports 
+            WHERE day_reports.way_uuid = ways.uuid
+        ) >= $3::integer
+    )
 `
 
 type CountWaysByTypeParams struct {
-	Column1   pgtype.Timestamp `json:"column_1"`
-	WayStatus interface{}      `json:"way_status"`
+	WayStatus           interface{}      `json:"way_status"`
+	Date                pgtype.Timestamp `json:"date"`
+	MinDayReportsAmount int32            `json:"min_day_reports_amount"`
 }
 
 func (q *Queries) CountWaysByType(ctx context.Context, arg CountWaysByTypeParams) (int64, error) {
-	row := q.db.QueryRow(ctx, countWaysByType, arg.Column1, arg.WayStatus)
+	row := q.db.QueryRow(ctx, countWaysByType, arg.WayStatus, arg.Date, arg.MinDayReportsAmount)
 	var count int64
 	err := row.Scan(&count)
 	return count, err
@@ -596,7 +604,7 @@ func (q *Queries) GetWaysByCollectionId(ctx context.Context, wayCollectionUuid p
 
 const listWays = `-- name: ListWays :many
 SELECT
-    uuid, name, goal_description, updated_at, created_at, estimation_time, owner_uuid, copied_from_way_uuid, is_completed, is_private,
+    ways.uuid, ways.name, ways.goal_description, ways.updated_at, ways.created_at, ways.estimation_time, ways.owner_uuid, ways.copied_from_way_uuid, ways.is_completed, ways.is_private,
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
@@ -610,23 +618,29 @@ SELECT
         '{}'
     )::VARCHAR[] AS children_uuids
 FROM ways
-WHERE ways.is_private = false AND
+WHERE ways.is_private = false AND 
     (
-        ($3 = 'inProgress' AND ways.is_completed = false AND ways.updated_at > $4::timestamp - interval '14 days')
-    OR ($3 = 'completed' AND ways.is_completed = true)
-    OR ($3 = 'abandoned' AND ways.is_completed = false AND ways.updated_at < $4::timestamp - interval '14 days')
-    OR ($3 = 'all')
+        ($1 = 'inProgress' AND ways.is_completed = false AND ways.updated_at > ($2)::timestamp - interval '14 days')
+        OR ($1 = 'completed' AND ways.is_completed = true)
+        OR ($1 = 'abandoned' AND ways.is_completed = false AND ways.updated_at < ($2)::timestamp - interval '14 days')
+        OR ($1 = 'all')
     )
-ORDER BY created_at DESC
-LIMIT $1
-OFFSET $2
+    AND ((
+        SELECT COUNT(*) 
+        FROM day_reports 
+        WHERE day_reports.way_uuid = ways.uuid
+    ) >= $3::integer)
+ORDER BY ways.created_at DESC
+LIMIT $5
+OFFSET $4
 `
 
 type ListWaysParams struct {
-	Limit   int32            `json:"limit"`
-	Offset  int32            `json:"offset"`
-	Column3 interface{}      `json:"column_3"`
-	Column4 pgtype.Timestamp `json:"column_4"`
+	Status              interface{}      `json:"status"`
+	Date                pgtype.Timestamp `json:"date"`
+	MinDayReportsAmount int32            `json:"min_day_reports_amount"`
+	RequestOffset       int32            `json:"request_offset"`
+	RequestLimit        int32            `json:"request_limit"`
 }
 
 type ListWaysRow struct {
@@ -649,10 +663,11 @@ type ListWaysRow struct {
 
 func (q *Queries) ListWays(ctx context.Context, arg ListWaysParams) ([]ListWaysRow, error) {
 	rows, err := q.db.Query(ctx, listWays,
-		arg.Limit,
-		arg.Offset,
-		arg.Column3,
-		arg.Column4,
+		arg.Status,
+		arg.Date,
+		arg.MinDayReportsAmount,
+		arg.RequestOffset,
+		arg.RequestLimit,
 	)
 	if err != nil {
 		return nil, err

@@ -54,6 +54,11 @@ export interface GetWaysParams {
    */
   status?: string;
 
+  /**
+   * Only ways with day reports amount bigger than here will be shown
+   */
+  minDayReportsAmount?: number;
+
 }
 
 /**

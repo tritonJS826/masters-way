@@ -45,6 +45,7 @@ export interface DeleteWayRequest {
 export interface GetAllWaysRequest {
     page?: number;
     limit?: number;
+    minDayReportsAmount?: number;
     status?: string;
 }
 
@@ -137,6 +138,10 @@ export class WayApi extends runtime.BaseAPI {
 
         if (requestParameters.limit !== undefined) {
             queryParameters['limit'] = requestParameters.limit;
+        }
+
+        if (requestParameters.minDayReportsAmount !== undefined) {
+            queryParameters['minDayReportsAmount'] = requestParameters.minDayReportsAmount;
         }
 
         if (requestParameters.status !== undefined) {

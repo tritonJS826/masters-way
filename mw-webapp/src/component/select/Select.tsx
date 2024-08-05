@@ -94,12 +94,12 @@ interface Cy {
   /**
    * Data attribute for cypress testing
    */
-  dataCyContentList: string;
+  dataCyContentList?: string;
 
   /**
    * Data attribute for cypress testing
    */
-  dataCyValue: string;
+  dataCyValue?: string;
 }
 
 /**

@@ -2069,6 +2069,12 @@ const docTemplate = `{
                         "in": "query"
                     },
                     {
+                        "type": "integer",
+                        "description": "Min day reports amount",
+                        "name": "minDayReportsAmount",
+                        "in": "query"
+                    },
+                    {
                         "type": "string",
                         "description": "Ways type: all | completed | inProgress | abandoned",
                         "name": "status",

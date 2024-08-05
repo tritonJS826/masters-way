@@ -1,4 +1,3 @@
-.openapi-generator-ignore
 apis/RoomApi.ts
 apis/index.ts
 index.ts
