@@ -10,6 +10,8 @@ import {tokenStore} from "src/globalStore/TokenStore";
 import {BaseSocketEvent} from "src/service/socket/BaseSocketEvent";
 import {env} from "src/utils/env/env";
 
+const RECONNECT_INTERVAL = 3000;
+
 /**
  * Connect to mw-chat-websocket
  */
@@ -39,6 +41,10 @@ export const connectChatSocket = () => {
       eventId: ChatEventId.CONNECTION_CLOSED,
       payload: {},
     });
+
+    setTimeout(() => {
+      connectChatSocket();
+    }, RECONNECT_INTERVAL);
   };
 
   /**
