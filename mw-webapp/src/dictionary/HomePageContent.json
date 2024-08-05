@@ -9,6 +9,16 @@
     "en": "Social media",
     "ua": "Соціальні медіа"
   },
+  "appStores": {
+    "ru": "Магазины приложений",
+    "en": "App stores",
+    "ua": "Магазини додатків"
+  },
+  "appStoresModalTitle": {
+    "ru": "Извините, временно недоступно",
+    "en": "Sorry, temporarily unavailable",
+    "ua": "Вибачте, тимчасово недоступно"
+  },
   "title": {
     "ru": "Раскройте свой потенциал с Master's Way",
     "en": "Unlock Your Full Potential with Master's Way",
