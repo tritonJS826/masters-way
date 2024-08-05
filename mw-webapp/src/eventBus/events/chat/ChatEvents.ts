@@ -3,6 +3,7 @@
  * because they will be used in unpredictable places and with comments it will be easier to
  * understand context and meaning of event.
  */
+import {currentWindowEventConfig} from "src/eventBus/eventBus";
 import {ChannelId} from "src/eventBus/EventBusChannelDict";
 import {ChatEventId} from "src/eventBus/events/chat/ChatEventDict";
 import {populateWithBaseEvent} from "src/eventBus/events/populateWithBaseEvent";
@@ -80,6 +81,7 @@ export const makeChatMessageReceivedEvent = (payload: ChatMessageReceivedPayload
     payload,
     ChannelId.CHAT,
     ChatEventId.MESSAGE_RECEIVED,
+    currentWindowEventConfig,
   );
 
   return populatedEvent;
@@ -99,6 +101,7 @@ export const makeChatConnectionEstablishedEvent = (payload: ChatConnectionEstabl
     payload,
     ChannelId.CHAT,
     ChatEventId.CONNECTION_ESTABLISHED,
+    currentWindowEventConfig,
   );
 
   return populatedEvent;
@@ -118,6 +121,7 @@ export const makeChatConnectionClosedEvent = (payload: ChatConnectionClosedPaylo
     payload,
     ChannelId.CHAT,
     ChatEventId.CONNECTION_CLOSED,
+    currentWindowEventConfig,
   );
 
   return populatedEvent;
@@ -244,6 +248,7 @@ export const makeChatRoomCreatedEvent = (payload: ChatRoomCreatedPayload) => {
     payload,
     ChannelId.CHAT,
     ChatEventId.ROOM_CREATED,
+    currentWindowEventConfig,
   );
 
   return populatedEvent;

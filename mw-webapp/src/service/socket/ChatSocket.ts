@@ -3,9 +3,14 @@ import {
   NotificationType,
 } from "src/component/notification/displayNotification";
 import {emitEvent} from "src/eventBus/EmitEvent";
-import {ChannelId} from "src/eventBus/EventBusChannelDict";
-import {ChatEventId} from "src/eventBus/events/chat/ChatEventDict";
-import {ChatMessageReceivedPayload, ChatRoomCreatedPayload} from "src/eventBus/events/chat/ChatEvents";
+import {
+  ChatMessageReceivedPayload,
+  ChatRoomCreatedPayload,
+  makeChatConnectionClosedEvent,
+  makeChatConnectionEstablishedEvent,
+  makeChatMessageReceivedEvent,
+  makeChatRoomCreatedEvent,
+} from "src/eventBus/events/chat/ChatEvents";
 import {tokenStore} from "src/globalStore/TokenStore";
 import {BaseSocketEvent} from "src/service/socket/BaseSocketEvent";
 import {env} from "src/utils/env/env";
@@ -25,22 +30,14 @@ export const connectChatSocket = () => {
    * Handler triggered on connection open
    */
   socket.onopen = () => {
-    emitEvent({
-      channelId: ChannelId.CHAT,
-      eventId: ChatEventId.CONNECTION_ESTABLISHED,
-      payload: {},
-    });
+    emitEvent(makeChatConnectionEstablishedEvent({}));
   };
 
   /**
    * Handler triggered on connection close
    */
   socket.onclose = () => {
-    emitEvent({
-      channelId: ChannelId.CHAT,
-      eventId: ChatEventId.CONNECTION_CLOSED,
-      payload: {},
-    });
+    emitEvent(makeChatConnectionClosedEvent({}));
 
     setTimeout(() => {
       connectChatSocket();
@@ -65,18 +62,10 @@ export const connectChatSocket = () => {
 
     switch (event.type) {
       case "mw-chat-websocket:message-received":
-        emitEvent({
-          channelId: ChannelId.CHAT,
-          eventId: ChatEventId.MESSAGE_RECEIVED,
-          payload: event.payload as ChatMessageReceivedPayload,
-        });
+        emitEvent(makeChatMessageReceivedEvent(event.payload as ChatMessageReceivedPayload));
         break;
       case "mw-chat-websocket:room-created":
-        emitEvent({
-          channelId: ChannelId.CHAT,
-          eventId: ChatEventId.ROOM_CREATED,
-          payload: event.payload as ChatRoomCreatedPayload,
-        });
+        emitEvent(makeChatRoomCreatedEvent(event.payload as ChatRoomCreatedPayload));
         break;
       default:
         displayNotification({
