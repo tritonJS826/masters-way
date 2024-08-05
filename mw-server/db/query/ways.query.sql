@@ -191,7 +191,7 @@ ORDER BY ways.updated_at DESC;
 
 -- name: ListWays :many
 SELECT
-    *,
+    ways.*,
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
@@ -205,30 +205,43 @@ SELECT
         '{}'
     )::VARCHAR[] AS children_uuids
 FROM ways
-WHERE ways.is_private = false AND
+WHERE ways.is_private = false AND 
     (
-        ($3 = 'inProgress' AND ways.is_completed = false AND ways.updated_at > $4::timestamp - interval '14 days')
-    OR ($3 = 'completed' AND ways.is_completed = true)
-    OR ($3 = 'abandoned' AND ways.is_completed = false AND ways.updated_at < $4::timestamp - interval '14 days')
-    OR ($3 = 'all')
+        (@status = 'inProgress' AND ways.is_completed = false AND ways.updated_at > (@date)::timestamp - interval '14 days')
+        OR (@status = 'completed' AND ways.is_completed = true)
+        OR (@status = 'abandoned' AND ways.is_completed = false AND ways.updated_at < (@date)::timestamp - interval '14 days')
+        OR (@status = 'all')
     )
-ORDER BY created_at DESC
-LIMIT $1
-OFFSET $2;
+    AND ((
+        SELECT COUNT(*) 
+        FROM day_reports 
+        WHERE day_reports.way_uuid = ways.uuid
+    ) >= @min_day_reports_amount::integer)
+ORDER BY ways.created_at DESC
+LIMIT @request_limit
+OFFSET @request_offset;
+
 
 -- name: CountWaysByType :one
 SELECT COUNT(*) FROM ways
-WHERE ways.is_private = false AND (
-    (@way_status = 'inProgress'
-        AND ways.is_completed = false
-        AND ways.updated_at > ($1::timestamp - interval '14 days'))
-    OR (@way_status = 'completed' AND ways.is_completed = true)
-    OR (@way_status = 'abandoned'
-        AND (ways.is_completed = false)
-        AND (ways.updated_at < ($1::timestamp - interval '14 days'))
+WHERE ways.is_private = false 
+    AND (
+        (@way_status = 'inProgress'
+            AND ways.is_completed = false
+            AND ways.updated_at > ((@date)::timestamp - interval '14 days'))
+        OR (@way_status = 'completed' AND ways.is_completed = true)
+        OR (@way_status = 'abandoned'
+            AND (ways.is_completed = false)
+            AND (ways.updated_at < ((@date)::timestamp - interval '14 days'))
+        )
+        OR (@way_status = 'all')
     )
-    OR (@way_status = 'all')
-);
+    AND (
+        (SELECT COUNT(day_reports.uuid) 
+            FROM day_reports 
+            WHERE day_reports.way_uuid = ways.uuid
+        ) >= @min_day_reports_amount::integer
+    );
 
 -- name: UpdateWay :one
 UPDATE ways

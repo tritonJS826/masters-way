@@ -26,6 +26,31 @@
         "en": "Abandoned",
         "ua": "Покинутий"
       }
+    },
+    "minDayReportsAmountLabel": {
+      "ru": "Количество отчетов",
+      "en": "Min day reports",
+      "ua": "Мінімум звітів"
+    },
+    "minDayReportsAmountOption0": {
+      "ru": "Любое",
+      "en": "Any",
+      "ua": "Будь-яка"
+    },
+    "minDayReportsAmountOption1": {
+      "ru": "Минимум 5",
+      "en": "At least 5",
+      "ua": "Мінімум 5"
+    },
+    "minDayReportsAmountOption2": {
+      "ru": "Минимум 20",
+      "en": "At least 20",
+      "ua": "Мінімум 20"
+    },
+    "minDayReportsAmountOption3": {
+      "ru": "Минимум 50",
+      "en": "At least 50",
+      "ua": "Мінімум 50"
     }
   },
   "waysTable": {

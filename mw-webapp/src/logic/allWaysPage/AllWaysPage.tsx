@@ -27,8 +27,10 @@ import {AllWaysPageSettings, View} from "src/utils/LocalStorageWorker";
 import styles from "src/logic/allWaysPage/AllWaysPage.module.scss";
 
 const DEFAULT_PAGE_PAGINATION_VALUE = 1;
+const DEFAULT_MIN_DAY_REPORTS_AMOUNT = 5;
 const DEFAULT_ALL_WAYS_PAGE_SETTINGS: AllWaysPageSettings = {
   filterStatus: FILTER_STATUS_ALL_VALUE,
+  minDayReportsAmount: DEFAULT_MIN_DAY_REPORTS_AMOUNT,
   view: View.Card,
 };
 
@@ -83,7 +85,11 @@ export const AllWaysPage = observer(() => {
    * Callback that is called to fetch data
    */
   const loadData = async (): Promise<AllWaysFetchData> => {
-    const ways = await WayDAL.getWays({page: pagePagination, status: allWaysPageSettings.filterStatus});
+    const ways = await WayDAL.getWays({
+      page: pagePagination,
+      status: allWaysPageSettings.filterStatus,
+      minDayReportsAmount: allWaysPageSettings.minDayReportsAmount,
+    });
     const nextPage = pagePagination + DEFAULT_PAGE_PAGINATION_VALUE;
     setPagePagination(nextPage);
 
@@ -97,7 +103,11 @@ export const AllWaysPage = observer(() => {
     const nextPage = pagePagination + DEFAULT_PAGE_PAGINATION_VALUE;
     setPagePagination(nextPage);
 
-    const ways = await WayDAL.getWays({page: pagePagination, status: allWaysPageSettings.filterStatus});
+    const ways = await WayDAL.getWays({
+      page: pagePagination,
+      status: allWaysPageSettings.filterStatus,
+      minDayReportsAmount: allWaysPageSettings.minDayReportsAmount,
+    });
     setAllWays([...loadedWays, ...ways.waysPreview]);
   };
 
@@ -122,7 +132,7 @@ export const AllWaysPage = observer(() => {
     loadData,
     onSuccess,
     onError,
-    dependency: [allWaysPageSettings.filterStatus],
+    dependency: [allWaysPageSettings],
   });
 
   if (!allWays) {
@@ -137,33 +147,79 @@ export const AllWaysPage = observer(() => {
   return (
     <VerticalContainer className={styles.allWaysContainer}>
       <HorizontalContainer className={styles.filterView}>
-        <Select
-          label={`${LanguageService.allWays.filterBlock.type[language]}`}
-          defaultValue={allWaysPageSettings.filterStatus}
-          name="filterStatus"
-          options={[
-            {id: "1", value: FILTER_STATUS_ALL_VALUE, text: LanguageService.allWays.filterBlock.typeOptions.all[language]},
-            {id: "2", value: WayStatus.completed, text: LanguageService.allWays.filterBlock.typeOptions.completed[language]},
-            {id: "3", value: WayStatus.abandoned, text: LanguageService.allWays.filterBlock.typeOptions.abandoned[language]},
-            {id: "4", value: WayStatus.inProgress, text: LanguageService.allWays.filterBlock.typeOptions.inProgress[language]},
-          ]}
-          onChange={(value) => {
-            updateAllWaysPageSettings({filterStatus: value, view: allWaysPageSettings.view});
-            setPagePagination(DEFAULT_PAGE_PAGINATION_VALUE);
-          }}
-        />
+        <HorizontalContainer>
+          <Select
+            label={LanguageService.allWays.filterBlock.type[language]}
+            defaultValue={allWaysPageSettings.filterStatus}
+            name="filterStatus"
+            options={[
+              {id: "1", value: FILTER_STATUS_ALL_VALUE, text: LanguageService.allWays.filterBlock.typeOptions.all[language]},
+              {id: "2", value: WayStatus.completed, text: LanguageService.allWays.filterBlock.typeOptions.completed[language]},
+              {id: "3", value: WayStatus.abandoned, text: LanguageService.allWays.filterBlock.typeOptions.abandoned[language]},
+              {id: "4", value: WayStatus.inProgress, text: LanguageService.allWays.filterBlock.typeOptions.inProgress[language]},
+            ]}
+            onChange={(status) => {
+              updateAllWaysPageSettings({
+                filterStatus: status,
+                view: allWaysPageSettings.view,
+                minDayReportsAmount: allWaysPageSettings.minDayReportsAmount,
+              });
+              setPagePagination(DEFAULT_PAGE_PAGINATION_VALUE);
+            }}
+          />
+
+          <Select
+            cy={{dataCyTrigger: allWaysAccessIds.filterViewBlock.dayReportsSelect}}
+            label={LanguageService.allWays.filterBlock.minDayReportsAmountLabel[language]}
+            defaultValue={String(allWaysPageSettings.minDayReportsAmount)}
+            name="minDayReportsStatus"
+            options={[
+              {
+                id: "1",
+                value: "0",
+                text: LanguageService.allWays.filterBlock.minDayReportsAmountOption0[language],
+                dataCy: allWaysAccessIds.filterViewBlock.dayReportsSelectOption0,
+              },
+              {
+                id: "2",
+                value: String(DEFAULT_ALL_WAYS_PAGE_SETTINGS.minDayReportsAmount),
+                text: LanguageService.allWays.filterBlock.minDayReportsAmountOption1[language],
+              },
+              {
+                id: "3",
+                value: "20",
+                text: LanguageService.allWays.filterBlock.minDayReportsAmountOption2[language],
+              },
+              {
+                id: "4",
+                value: "50",
+                text: LanguageService.allWays.filterBlock.minDayReportsAmountOption3[language],
+              },
+            ]}
+            onChange={(minDayReportsAmount) => {
+              updateAllWaysPageSettings({
+                filterStatus: allWaysPageSettings.filterStatus,
+                view: allWaysPageSettings.view,
+                minDayReportsAmount: Number(minDayReportsAmount),
+              });
+              setPagePagination(DEFAULT_PAGE_PAGINATION_VALUE);
+            }}
+          />
+        </HorizontalContainer>
 
         <ViewSwitcher
           view={allWaysPageSettings.view}
           setView={(view) => updateAllWaysPageSettings({
             filterStatus: allWaysPageSettings.filterStatus,
             view,
+            minDayReportsAmount: allWaysPageSettings.minDayReportsAmount,
           })}
           options={[
             renderViewCardOption(LanguageService.common.view.cardViewTooltip[language]),
             renderViewTableOption(LanguageService.common.view.tableViewTooltip[language]),
           ]}
         />
+
       </HorizontalContainer>
 
       <HorizontalContainer className={styles.titleContainer}>

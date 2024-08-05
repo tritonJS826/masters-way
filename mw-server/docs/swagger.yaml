@@ -2312,6 +2312,10 @@ paths:
         in: query
         name: limit
         type: integer
+      - description: Min day reports amount
+        in: query
+        name: minDayReportsAmount
+        type: integer
       - description: 'Ways type: all | completed | inProgress | abandoned'
         in: query
         name: status

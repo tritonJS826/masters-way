@@ -20,7 +20,9 @@ export const allWaysAccessIds = {
 
     filterViewBlock: {
         filterByStatus: 'filterByStatus',
-        viewButton: 'ViewButton'
+        viewButton: 'ViewButton',
+        dayReportsSelect: 'dayReportsSelect',
+        dayReportsSelectOption0: 'dayReportsSelectOption0',
     }
     
 };
