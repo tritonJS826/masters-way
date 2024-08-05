@@ -55,6 +55,13 @@ export const ChatPage = observer((props: ChatProps) => {
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  useListenEventBus(ChannelId.CHAT, ChatEventId.CONNECTION_ESTABLISHED, () => {
+    displayNotification({
+      text: "Chat connected to websocket",
+      type: NotificationType.INFO,
+    });
+  });
+
   useListenEventBus(ChannelId.CHAT, ChatEventId.MESSAGE_RECEIVED, (payload) => {
     const isChatForMessageOpen = payload.roomId === chat?.roomId;
     if (isChatForMessageOpen) {
