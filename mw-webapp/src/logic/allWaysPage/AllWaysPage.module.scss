@@ -37,3 +37,7 @@
   justify-content: space-between;
   @include regularContainer;
 }
+
+.filterViewLeftPanel {
+  flex-wrap: wrap;
+}
