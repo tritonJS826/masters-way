@@ -38,7 +38,7 @@ const DEFAULT_ALL_WAYS_PAGE_SETTINGS: AllWaysPageSettings = {
  * Safe opened tab from localStorage
  */
 const allWaysPageSettingsValidator = (currentSettings: AllWaysPageSettings) => {
-  return !!currentSettings.filterStatus;
+  return !!currentSettings.filterStatus && Number.isInteger(currentSettings.minDayReportsAmount);
 };
 
 /**
