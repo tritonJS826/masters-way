@@ -152,6 +152,10 @@ $modal-animation-time: 150ms;
   flex-direction: column;
 }
 
+.wayActionsIcon {
+  z-index: 140;
+}
+
 @keyframes overlayShow {
   from {
     opacity: 0;

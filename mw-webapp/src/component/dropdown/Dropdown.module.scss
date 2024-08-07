@@ -4,9 +4,10 @@ $dropdownWidth: 100%;
 $dropdownIndentationBottom: 10px;
 
 .dropdownContent {
-  z-index: $modalZIndex;
+  z-index: $dropdownZIndex;
   border: $primaryBorder solid var(--generalPrimaryColor);
   border-radius: $primaryBorderRadius;
   background: var(--tertiaryBgColor);
+  overflow-y: auto;
   transform: translateY($dropdownIndentationBottom);
 }
