@@ -166,6 +166,8 @@ $modal-animation-time: 150ms;
 
 .offlineIndicator {
   background-color: red;
+.wayActionsIcon {
+  z-index: 140;
 }
 
 @keyframes overlayShow {

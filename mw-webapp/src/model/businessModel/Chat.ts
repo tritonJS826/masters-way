@@ -56,7 +56,7 @@ export class Chat {
   /**
    * Chat room's massages
    */
-  public messages: Array<Message>;
+  public messages: Message[];
 
   /**
    * Chat room's name

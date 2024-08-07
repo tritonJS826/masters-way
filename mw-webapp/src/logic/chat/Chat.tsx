@@ -9,6 +9,8 @@ import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalC
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Input, InputType} from "src/component/input/Input";
 import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
+import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
+import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {ChatDAL, createMessageInGroupParams, RoomType} from "src/dataAccessLogic/ChatDAL";
 import {ChannelId} from "src/eventBus/EventBusChannelDict";
@@ -17,8 +19,10 @@ import {useListenEventBus} from "src/eventBus/useListenEvent";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {userStore} from "src/globalStore/UserStore";
 import {ChatItem} from "src/logic/chat/chatItem/ChatItem";
+import {chatListStore} from "src/logic/chat/ChatListStore";
+import {chatRoomStore} from "src/logic/chat/ChatRoomStore";
+import {chatStore} from "src/logic/chat/ChatStore";
 import {MessageItem} from "src/logic/chat/messageItem/MessageItem";
-import {Chat} from "src/model/businessModel/Chat";
 import {Message} from "src/model/businessModel/Message";
 import {ChatPreview} from "src/model/businessModelPreview/ChatPreview";
 import {LanguageService} from "src/service/LanguageService";
@@ -26,32 +30,29 @@ import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/logic/chat/Chat.module.scss";
 
 /**
- * Chat props
- */
-interface ChatProps {
-
-  /**
-   * Controls whether the modal is initially open or closed.
-   * @default false
-   */
-  isOpen?: boolean;
-}
-
-/**
  * Chat component
  */
-export const ChatPage = observer((props: ChatProps) => {
+export const ChatPage = observer(() => {
   const [isGroupChatOpen, setIsGroupChatOpen] = useState<boolean>(false);
-  const [chat, setChat] = useState<Chat | null>(null);
+  const [message, setMessage] = useState<string>("");
+  const [groupChatName, setGroupChatName] = useState<string>("");
+  const [isChatHiddenOnMobile, setIsChatHiddenOnMobile] = useState<boolean>(true);
+  // Const [activeChatUuid, setActiveChatUuid] = useState<string | null>(null);
 
   const {language} = languageStore;
   const {user} = userStore;
-  const [isOpen, setIsOpen] = useState(props.isOpen ?? false);
-  const [message, setMessage] = useState<string>("");
-  const [groupChatName, setGroupChatName] = useState<string>("");
-  const [chatList, setChatList] = useState<ChatPreview[]>([]);
-  const [isChatHiddenOnMobile, setIsChatHiddenOnMobile] = useState<boolean>(true);
-  const [unreadMessagesAmount, setUnreadMessagesAmount] = useState<number>(0);
+
+  // Const chatRoomStore = useStore<
+  // new (chatUuid: string) => ChatRoomStore,
+  // [string], ChatRoomStore>({
+  //     storeForInitialize: ChatRoomStore,
+  //     dataForInitialization: activeChatUuid ? [activeChatUuid] : null,
+  //     dependency: [activeChatUuid],
+  //   });
+
+  const {activeChat, clearActiveChat, loadActiveChat, setActiveChatRoom} = chatRoomStore;
+  const {isChatOpen, setIsChatOpen, unreadMessagesAmount, loadUnreadMessagesAmount} = chatStore;
+  const {chatList, loadChatList, addChatToChatList} = chatListStore;
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -65,7 +66,7 @@ export const ChatPage = observer((props: ChatProps) => {
   });
 
   useListenEventBus(ChannelId.CHAT, ChatEventId.MESSAGE_RECEIVED, (payload) => {
-    const isChatForMessageOpen = payload.roomId === chat?.roomId;
+    const isChatForMessageOpen = payload.roomId === activeChat?.roomId;
     if (isChatForMessageOpen) {
       const newMessage = new Message({
         message: payload.message,
@@ -74,7 +75,7 @@ export const ChatPage = observer((props: ChatProps) => {
         ownerImageUrl: payload.ownerImageUrl,
         messageReaders: [],
       });
-      chat.addMessage(newMessage);
+      activeChat.addMessage(newMessage);
     } else {
       displayNotification({
         text: `${payload.ownerName}: ${payload.message}`,
@@ -87,7 +88,7 @@ export const ChatPage = observer((props: ChatProps) => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
     }
-  }, [chat?.messages]);
+  }, [activeChat?.messages]);
 
   useListenEventBus(ChannelId.CHAT, ChatEventId.ROOM_CREATED, (payload) => {
     const newChatInRoomList = new ChatPreview({
@@ -102,7 +103,7 @@ export const ChatPage = observer((props: ChatProps) => {
     const isShouldUpdateChatList = isGroupChatOpenAndNewChatIsGroup || isPrivateChatOpenAndNewChatIsPrivate;
 
     if (isShouldUpdateChatList) {
-      setChatList([newChatInRoomList, ...chatList]);
+      addChatToChatList(newChatInRoomList);
     }
 
     displayNotification({
@@ -112,47 +113,30 @@ export const ChatPage = observer((props: ChatProps) => {
   });
 
   /**
-   * Load active chat
-   */
-  const loadActiveChat = async (chatUuid: string) => {
-    const fetchedChat = await ChatDAL.getRoomById(chatUuid);
-
-    setChat(fetchedChat);
-  };
-
-  /**
    * Send message
    */
   const sendMessage = async (params: createMessageInGroupParams) => {
     const trimmedMessage = params.message.trim();
     const isValidMessage = trimmedMessage !== "";
     if (isValidMessage) {
-      setMessage("");
-      await ChatDAL.createMessageInRoom({
-        message: params.message,
-        roomId: params.roomId,
-      });
+      try {
+        await ChatDAL.createMessageInRoom({
+          message: params.message,
+          roomId: params.roomId,
+        });
+        setMessage("");
+      } catch (error) {
+        displayNotification({
+          text: "The message was not sent. Check your Internet connection.",
+          type: NotificationType.ERROR,
+        });
+      }
     }
   };
 
-  /**
-   * Load chat list
-   */
-  const loadChatList = async () => {
-    const fetchedChats = isGroupChatOpen
-      ? await ChatDAL.getRooms(RoomType.GROUP)
-      : await ChatDAL.getRooms(RoomType.PRIVATE);
-
-    setChatList(fetchedChats.chatsPreview);
-  };
-
-  /**
-   * Load amount of all unread messages
-   */
-  const loadUnreadMessagesAmount = async () => {
-    const unreadMessages = await ChatDAL.getChatPreview();
-    setUnreadMessagesAmount(unreadMessages);
-  };
+  useEffect(() => {
+    loadChatList(isGroupChatOpen);
+  }, [isGroupChatOpen]);
 
   /**
    * Create group chat
@@ -167,22 +151,29 @@ export const ChatPage = observer((props: ChatProps) => {
 
   useEffect(() => {
     loadUnreadMessagesAmount();
-  }, []);
+  }, [activeChat]);
 
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
     }
 
-  }, [chat]);
+  }, [activeChat]);
+
+  useEffect(() => {
+    if (!isChatOpen) {
+      clearActiveChat();
+    }
+
+  }, [isChatOpen]);
 
   return (
     <DialogRoot
-      open={isOpen}
-      onOpenChange={setIsOpen}
+      open={isChatOpen}
+      onOpenChange={setIsChatOpen}
     >
       <DialogTrigger
-        onClick={loadChatList}
+        onClick={() => loadChatList(isGroupChatOpen)}
         asChild
         data-cy={chatAccessIds.openChatButton}
       >
@@ -280,8 +271,11 @@ export const ChatPage = observer((props: ChatProps) => {
                       key={chatItem.roomId}
                       name={chatItem.name}
                       src={chatItem.imageUrl}
-                      onClick={() => {
-                        loadActiveChat(chatItem.roomId);
+                      onClick={async () => {
+                        const chatRoom = await loadActiveChat(chatItem.roomId);
+                        setActiveChatRoom(chatRoom);
+                        // SetActiveChatUuid(chatItem.roomId);
+                        // LoadActiveChat(chatItem.roomId);
                         setIsChatHiddenOnMobile(false);
                       }}
                     />
@@ -292,7 +286,7 @@ export const ChatPage = observer((props: ChatProps) => {
                 }
               </VerticalContainer>
 
-              {chat &&
+              {activeChat &&
                 <VerticalContainer className={clsx(
                   styles.chatBlock,
                   !isChatHiddenOnMobile && styles.chatBlockOpen,
@@ -300,22 +294,28 @@ export const ChatPage = observer((props: ChatProps) => {
                 >
                   <HorizontalContainer className={styles.chatInfo}>
                     <ChatItem
-                      name={chat.name}
-                      src={chat.imageUrl}
+                      name={activeChat.name}
+                      src={activeChat.imageUrl}
                     />
                     <Dropdown
+                      isModalBehavior={true}
                       trigger={(
-                        <Button
-                          className={styles.wayActionsIcon}
-                          buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
-                          onClick={() => {}}
-                          icon={
-                            <Icon
-                              size={IconSize.MEDIUM}
-                              name={"MoreVertical"}
-                            />
-                          }
-                        />
+                        <Tooltip
+                          content={LanguageService.way.wayInfo.wayActionsTooltip[language]}
+                          position={PositionTooltip.LEFT}
+                        >
+                          <Button
+                            className={styles.wayActionsIcon}
+                            buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
+                            onClick={() => {}}
+                            icon={
+                              <Icon
+                                size={IconSize.MEDIUM}
+                                name={"MoreVertical"}
+                              />
+                            }
+                          />
+                        </Tooltip>
                       )}
                       dropdownMenuItems={[
                         {
@@ -325,7 +325,12 @@ export const ChatPage = observer((props: ChatProps) => {
                           /**
                            * Close chat on mobile
                            */
-                          onClick: () => setIsChatHiddenOnMobile(true),
+                          onClick: () => {
+                            setIsChatHiddenOnMobile(true);
+                            clearActiveChat();
+                            // SetActiveChatUuid(null);
+                            // LoadActiveChat();
+                          },
                         },
                       ]}
                     />
@@ -335,11 +340,12 @@ export const ChatPage = observer((props: ChatProps) => {
                       ref={messagesEndRef}
                       className={clsx(styles.messages, styles.messageList)}
                     >
-                      {chat.messages.map((messageItem) => (
+                      {activeChat.messages.map((messageItem) => (
                         <MessageItem
                           key={messageItem.ownerId}
                           src={messageItem.ownerImageUrl}
                           userName={messageItem.ownerName}
+                          userUuid={messageItem.ownerId}
                           message={
                             <p>
                               {messageItem.message}
@@ -355,7 +361,7 @@ export const ChatPage = observer((props: ChatProps) => {
               }
             </HorizontalContainer>
 
-            {chat &&
+            {activeChat &&
               <HorizontalContainer className={styles.messageInputBlock}>
                 <Input
                   value={message}
@@ -366,7 +372,7 @@ export const ChatPage = observer((props: ChatProps) => {
                     if (event.key === KeySymbols.ENTER) {
                       sendMessage({
                         message,
-                        roomId: chat.roomId,
+                        roomId: activeChat.roomId,
                       });
                     }
                   }}
@@ -377,7 +383,7 @@ export const ChatPage = observer((props: ChatProps) => {
                   onClick={() => {
                     sendMessage({
                       message,
-                      roomId: chat.roomId,
+                      roomId: activeChat.roomId,
                     });
                   }}
                   buttonType={ButtonType.PRIMARY}

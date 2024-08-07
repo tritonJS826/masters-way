@@ -58,10 +58,8 @@ export const DropdownMenuItem = (props: DropdownMenuItemProps) => {
   return (
     <Item
       className={styles.dropdownMenuItem}
-      onSelect={(event) => {
-        event.preventDefault();
-        props.onClick ?? (() => { });
-      }}
+      onClick={props.onClick ?? (() => { })}
+      onSelect={(event) => event.preventDefault()}
       data-cy={props.dataCyContent}
     >
       {props.value}

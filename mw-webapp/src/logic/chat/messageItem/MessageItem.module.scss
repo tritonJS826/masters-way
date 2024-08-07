@@ -1,11 +1,11 @@
 @import "src/styles/variables";
 
 .messageWrap {
+  max-width: 80%;
   align-items: end;
 }
 
 .message {
-  // max-width: 70%;
   padding: $paddingSmall;
   border-radius: $primaryBorderRadius;
   background-color: var(--tertiaryBgColor);
