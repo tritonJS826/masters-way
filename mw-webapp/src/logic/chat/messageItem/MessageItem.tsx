@@ -1,5 +1,6 @@
 import {ReactElement} from "react";
 import clsx from "clsx";
+import {chatAccessIds} from "cypress/accessIds/scenariosAccessIds/chatAccessIds";
 import {Avatar} from "src/component/avatar/Avatar";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import styles from "src/logic/chat/messageItem/MessageItem.module.scss";
@@ -46,10 +47,12 @@ export const MessageItem = (props: MessageItemProps) => {
         alt={props.userName}
         src={props.src}
       />
-      <HorizontalContainer className={clsx(
-        styles.message,
-        props.isOwnMessage && styles.ownMessage,
-      )}
+      <HorizontalContainer
+        className={clsx(
+          styles.message,
+          props.isOwnMessage && styles.ownMessage,
+        )}
+        dataCy={chatAccessIds.chatContainer.messageItem}
       >
         {props.message}
       </HorizontalContainer>

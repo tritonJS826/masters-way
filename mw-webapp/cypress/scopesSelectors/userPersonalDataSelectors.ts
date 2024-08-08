@@ -10,6 +10,8 @@ export const userPersonalSelectors = {
         getAddSkillButton: () => cy.get(getDataCy(userPersonalDataAccessIds.descriptionSection.addSkillButton)),
     },
 
+    getConnectButton: () => cy.get(getDataCy(userPersonalDataAccessIds.connectButton)),
+
     userSkillsBlock: {
         skillsModalContent: {
             getSkillInput: () => cy.get(getDataCy(userPersonalDataAccessIds.userSkillsBlock.skillsModalContent.skillInput)),
