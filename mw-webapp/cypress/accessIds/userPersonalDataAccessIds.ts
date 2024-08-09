@@ -7,6 +7,8 @@ export const userPersonalDataAccessIds = {
         addSkillButton: 'addSkillButton'
     },
 
+    connectButton: "connectButton",
+
     userSkillsBlock: {
         skillsModalContent: {
             skillInput: "skillInput",

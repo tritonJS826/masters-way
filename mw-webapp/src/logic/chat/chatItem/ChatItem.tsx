@@ -1,3 +1,4 @@
+import {chatAccessIds} from "cypress/accessIds/scenariosAccessIds/chatAccessIds";
 import {Avatar} from "src/component/avatar/Avatar";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
@@ -38,7 +39,6 @@ interface ChatItemProps {
    * Callback triggered on click chat item
    */
   onClick?: () => void;
-
 }
 
 /**
@@ -49,6 +49,7 @@ export const ChatItem = (props: ChatItemProps) => {
     <HorizontalContainer
       onClick={props.onClick}
       className={styles.chatItemWrapper}
+      dataCy={chatAccessIds.chatContainer.chatItem(`${props.name}`)}
     >
       <Avatar
         alt={props.name}

@@ -323,6 +323,7 @@ export const UserPage = observer((props: UserPageProps) => {
                 }}
                 buttonType={ButtonType.SECONDARY}
                 value={LanguageService.user.personalInfo.writeToConnectButton[language]}
+                dataCy={userPersonalDataAccessIds.connectButton}
               />
             </VerticalContainer>
 

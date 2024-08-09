@@ -1,6 +1,7 @@
 import {useEffect, useRef, useState} from "react";
 import {DialogClose, DialogContent, DialogOverlay, DialogPortal, DialogTrigger, Root as DialogRoot} from "@radix-ui/react-dialog";
 import clsx from "clsx";
+import {chatAccessIds} from "cypress/accessIds/scenariosAccessIds/chatAccessIds";
 import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Dropdown} from "src/component/dropdown/Dropdown";
@@ -34,7 +35,6 @@ interface ChatProps {
    * @default false
    */
   isOpen?: boolean;
-
 }
 
 /**
@@ -182,6 +182,7 @@ export const ChatPage = observer((props: ChatProps) => {
       <DialogTrigger
         onClick={loadChatList}
         asChild
+        data-cy={chatAccessIds.openChatButton}
       >
         <div
           role="button"
@@ -361,6 +362,7 @@ export const ChatPage = observer((props: ChatProps) => {
                       });
                     }
                   }}
+                  dataCy={chatAccessIds.chatContainer.messageInput}
                 />
                 <Button
                   value={LanguageService.common.chat.sendButton[language]}
@@ -371,6 +373,7 @@ export const ChatPage = observer((props: ChatProps) => {
                     });
                   }}
                   buttonType={ButtonType.PRIMARY}
+                  dataCy={chatAccessIds.chatContainer.sendMessageButton}
                 />
               </HorizontalContainer>
             }
