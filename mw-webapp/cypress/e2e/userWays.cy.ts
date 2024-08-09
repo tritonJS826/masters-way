@@ -80,14 +80,14 @@ describe("NoAuth User's ways scope tests", () => {
 describe("IsAuth User's ways scope tests", () => {
     beforeEach(() => {
         cy.request('GET', `${apiUrl}/dev/reset-db`);
-        cy.visit(testUserData.userLoginLink);
+        cy.visit(testUserData.testUsers.user1.loginLink);
     });
 
     it('IsAuth_UserWays_CreateNewWay', () => {
         userWaysSelectors.getCreateNewWayButton().click();
 
         cy.url().should('match', new RegExp(`\\/way\\/${testUserData.urlPattern}`));
-        wayDescriptionSelectors.wayDashBoardLeft.getTitle().should('have.text',`Way of ${testUserData.email}`);
+        wayDescriptionSelectors.wayDashBoardLeft.getTitle().should('have.text',`Way of ${testUserData.testUsers.user1.email}`);
     });
 
 });
