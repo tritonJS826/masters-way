@@ -2316,6 +2316,10 @@ paths:
         in: query
         name: minDayReportsAmount
         type: integer
+      - description: Way name
+        in: query
+        name: wayName
+        type: string
       - description: 'Ways type: all | completed | inProgress | abandoned'
         in: query
         name: status

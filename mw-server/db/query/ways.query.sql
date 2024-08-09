@@ -205,8 +205,8 @@ SELECT
         '{}'
     )::VARCHAR[] AS children_uuids
 FROM ways
-WHERE ways.is_private = false AND 
-    (
+WHERE ways.is_private = false
+    AND (
         (@status = 'inProgress' AND ways.is_completed = false AND ways.updated_at > (@date)::timestamp - interval '14 days')
         OR (@status = 'completed' AND ways.is_completed = true)
         OR (@status = 'abandoned' AND ways.is_completed = false AND ways.updated_at < (@date)::timestamp - interval '14 days')
@@ -216,7 +216,8 @@ WHERE ways.is_private = false AND
         SELECT COUNT(*) 
         FROM day_reports 
         WHERE day_reports.way_uuid = ways.uuid
-    ) >= @min_day_reports_amount::integer)
+    ) >= @min_day_reports_amount::integer) 
+    AND (LOWER(ways.name) LIKE '%' || LOWER(@way_name) || '%' OR @way_name = '')
 ORDER BY ways.created_at DESC
 LIMIT @request_limit
 OFFSET @request_offset;
@@ -241,7 +242,7 @@ WHERE ways.is_private = false
             FROM day_reports 
             WHERE day_reports.way_uuid = ways.uuid
         ) >= @min_day_reports_amount::integer
-    );
+    ) AND (LOWER(ways.name) LIKE '%' || LOWER(@way_name) || '%' OR @way_name = '');
 
 -- name: UpdateWay :one
 UPDATE ways

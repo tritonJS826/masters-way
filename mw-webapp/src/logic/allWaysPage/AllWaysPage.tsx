@@ -4,6 +4,7 @@ import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
+import {Input, InputType} from "src/component/input/Input";
 import {Loader} from "src/component/loader/Loader";
 import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
@@ -32,6 +33,7 @@ const DEFAULT_ALL_WAYS_PAGE_SETTINGS: AllWaysPageSettings = {
   filterStatus: FILTER_STATUS_ALL_VALUE,
   minDayReportsAmount: DEFAULT_MIN_DAY_REPORTS_AMOUNT,
   view: View.Card,
+  wayName: "",
 };
 
 /**
@@ -89,6 +91,7 @@ export const AllWaysPage = observer(() => {
       page: pagePagination,
       status: allWaysPageSettings.filterStatus,
       minDayReportsAmount: allWaysPageSettings.minDayReportsAmount,
+      wayName: allWaysPageSettings.wayName,
     });
     const nextPage = pagePagination + DEFAULT_PAGE_PAGINATION_VALUE;
     setPagePagination(nextPage);
@@ -107,6 +110,7 @@ export const AllWaysPage = observer(() => {
       page: pagePagination,
       status: allWaysPageSettings.filterStatus,
       minDayReportsAmount: allWaysPageSettings.minDayReportsAmount,
+      wayName: allWaysPageSettings.wayName,
     });
     setAllWays([...loadedWays, ...ways.waysPreview]);
   };
@@ -148,6 +152,22 @@ export const AllWaysPage = observer(() => {
     <VerticalContainer className={styles.allWaysContainer}>
       <HorizontalContainer className={styles.filterView}>
         <HorizontalContainer className={styles.filterViewLeftPanel}>
+          <Input
+            value={allWaysPageSettings.wayName}
+            onChange={(wayName: string) => {
+              updateAllWaysPageSettings({
+                filterStatus: allWaysPageSettings.filterStatus,
+                view: allWaysPageSettings.view,
+                minDayReportsAmount: allWaysPageSettings.minDayReportsAmount,
+                wayName,
+              });
+              setPagePagination(DEFAULT_PAGE_PAGINATION_VALUE);
+            }}
+            placeholder={LanguageService.allWays.filterBlock.wayNamePlaceholder[language]}
+            typeInputIcon={"SearchIcon"}
+            typeInput={InputType.Border}
+          />
+
           <Select
             label={LanguageService.allWays.filterBlock.type[language]}
             defaultValue={allWaysPageSettings.filterStatus}
@@ -163,6 +183,7 @@ export const AllWaysPage = observer(() => {
                 filterStatus: status,
                 view: allWaysPageSettings.view,
                 minDayReportsAmount: allWaysPageSettings.minDayReportsAmount,
+                wayName: allWaysPageSettings.wayName,
               });
               setPagePagination(DEFAULT_PAGE_PAGINATION_VALUE);
             }}
@@ -201,6 +222,7 @@ export const AllWaysPage = observer(() => {
                 filterStatus: allWaysPageSettings.filterStatus,
                 view: allWaysPageSettings.view,
                 minDayReportsAmount: Number(minDayReportsAmount),
+                wayName: allWaysPageSettings.wayName,
               });
               setPagePagination(DEFAULT_PAGE_PAGINATION_VALUE);
             }}
@@ -213,6 +235,7 @@ export const AllWaysPage = observer(() => {
             filterStatus: allWaysPageSettings.filterStatus,
             view,
             minDayReportsAmount: allWaysPageSettings.minDayReportsAmount,
+            wayName: allWaysPageSettings.wayName,
           })}
           options={[
             renderViewCardOption(LanguageService.common.view.cardViewTooltip[language]),
@@ -258,7 +281,7 @@ export const AllWaysPage = observer(() => {
             }
           </HorizontalGridContainer>
         }
-        {isMoreWaysExist &&
+        {!!isMoreWaysExist &&
           <Button
             value={LanguageService.allWays.waysTable.loadMoreButton[language]}
             onClick={() => loadMoreWays(allWays)}

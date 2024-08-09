@@ -204,6 +204,7 @@ func (cc *WayController) GetWayById(ctx *gin.Context) {
 // @Param page query integer false "Page number for pagination"
 // @Param limit query integer false "Number of items per page"
 // @Param minDayReportsAmount query integer false "Min day reports amount"
+// @Param wayName query string false "Way name"
 // @Param status query string false "Ways type: all | completed | inProgress | abandoned"
 // @Success 200 {object} schemas.GetAllWaysResponse
 // @Router /ways [get]
@@ -211,6 +212,7 @@ func (cc *WayController) GetAllWays(ctx *gin.Context) {
 	page := ctx.DefaultQuery("page", "1")
 	limit := ctx.DefaultQuery("limit", "10")
 	minDayReportsAmount := ctx.DefaultQuery("minDayReportsAmount", "0")
+	wayName := ctx.DefaultQuery("wayName", "")
 	// status = "inProgress" | "completed" | "all" | "abandoned"
 	status := ctx.DefaultQuery("status", "all")
 
@@ -224,6 +226,7 @@ func (cc *WayController) GetAllWays(ctx *gin.Context) {
 		WayStatus:           status,
 		Date:                pgtype.Timestamp{Time: currentDate, Valid: true},
 		MinDayReportsAmount: int32(reqMinDayReportsAmount),
+		WayName:             wayName,
 	}
 	waysSize, _ := cc.db.CountWaysByType(ctx, waySizeArgs)
 
@@ -233,6 +236,7 @@ func (cc *WayController) GetAllWays(ctx *gin.Context) {
 		MinDayReportsAmount: int32(reqMinDayReportsAmount),
 		RequestOffset:       int32(offset),
 		RequestLimit:        int32(reqLimit),
+		WayName:             wayName,
 	}
 
 	ways, err := cc.db.ListWays(ctx, listWaysArgs)

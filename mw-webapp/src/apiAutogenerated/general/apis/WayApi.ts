@@ -46,6 +46,7 @@ export interface GetAllWaysRequest {
     page?: number;
     limit?: number;
     minDayReportsAmount?: number;
+    wayName?: string;
     status?: string;
 }
 
@@ -142,6 +143,10 @@ export class WayApi extends runtime.BaseAPI {
 
         if (requestParameters.minDayReportsAmount !== undefined) {
             queryParameters['minDayReportsAmount'] = requestParameters.minDayReportsAmount;
+        }
+
+        if (requestParameters.wayName !== undefined) {
+            queryParameters['wayName'] = requestParameters.wayName;
         }
 
         if (requestParameters.status !== undefined) {
