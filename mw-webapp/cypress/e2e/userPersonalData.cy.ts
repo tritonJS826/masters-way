@@ -7,7 +7,7 @@ const apiUrl = Cypress.env('API_BASE_PATH');
 
 beforeEach(() => {
     cy.request('GET', `${apiUrl}/dev/reset-db`);
-    cy.visit(testUserData.userLoginLink); 
+    cy.visit(testUserData.testUsers.user1.loginLink); 
 });
 
 afterEach(() => {
