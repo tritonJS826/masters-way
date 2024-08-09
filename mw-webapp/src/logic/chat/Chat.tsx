@@ -55,11 +55,13 @@ export const ChatPage = observer((props: ChatProps) => {
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  const [isConnectionEstablished, setIsConnectionEstablished] = useState(false);
   useListenEventBus(ChannelId.CHAT, ChatEventId.CONNECTION_ESTABLISHED, () => {
-    displayNotification({
-      text: "Chat connected to websocket",
-      type: NotificationType.INFO,
-    });
+    setIsConnectionEstablished(true);
+  });
+
+  useListenEventBus(ChannelId.CHAT, ChatEventId.CONNECTION_CLOSED, () => {
+    setIsConnectionEstablished(false);
   });
 
   useListenEventBus(ChannelId.CHAT, ChatEventId.MESSAGE_RECEIVED, (payload) => {
@@ -187,10 +189,16 @@ export const ChatPage = observer((props: ChatProps) => {
           role="button"
           className={styles.chatTrigger}
         >
-          <Icon
+          {/* <Icon
             name="WayIcon"
             size={IconSize.SMALL}
             className={styles.chatIcon}
+          /> */}
+          <div className={clsx(
+            styles.indicator,
+            isConnectionEstablished
+              ? styles.onlineIndicator
+              : styles.offlineIndicator)}
           />
           <div className={styles.chatTriggerText}>
             {LanguageService.common.chat.openChat[language]}

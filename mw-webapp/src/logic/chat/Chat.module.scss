@@ -5,9 +5,9 @@
   position: fixed;
   z-index: $chatZIndex;
   right: 0;
-  bottom: $marginBig;
+  bottom: calc(3 * $marginBig);
   width: 50px;
-  height: 180px;
+  height: 160px;
   padding: $paddingBig $paddingMedium;
   border: $primaryBorder solid var(--secondaryStrokeColor);
   border-radius: $primaryBorderRadius;
@@ -150,6 +150,22 @@ $modal-animation-time: 150ms;
 .messages {
   display: flex;
   flex-direction: column;
+}
+
+.indicator {
+  width: 10px;
+  height: 10px;
+  padding: $paddingExtraSmall;
+  border-radius: $tagBorderRadius;
+  margin: 0 auto $marginMedium;
+}
+
+.onlineIndicator {
+  background-color: green;
+}
+
+.offlineIndicator {
+  background-color: red;
 }
 
 @keyframes overlayShow {
