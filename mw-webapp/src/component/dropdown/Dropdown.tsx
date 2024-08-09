@@ -92,7 +92,7 @@ export const Dropdown = (props: DropdownProps) => {
   return (
     <DropdownMenu.Root
       data-cy={props.cy?.dataCyOverlay}
-      modal={props.isModalBehavior ?? false}
+      modal={!!props.isModalBehavior}
     >
       <DropdownMenu.Trigger asChild>
         <div role="button">

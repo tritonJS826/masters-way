@@ -5,7 +5,7 @@ import {Header, HeaderType} from "src/component/header/Header";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
-import {ChatPage} from "src/logic/chat/Chat";
+import {ChatModal} from "src/logic/chat/Chat";
 import {InitializedApp} from "src/logic/initializedApp/InitializedApp";
 
 /**
@@ -41,7 +41,7 @@ export const Layout = observer((props: LayoutProps) => {
       />
 
       {user &&
-        <ChatPage />
+        <ChatModal />
       }
 
       <Outlet />

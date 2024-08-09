@@ -1,13 +1,14 @@
 import {chatDTOToChat} from "src/dataAccessLogic/DTOToPreviewConverter/chatDTOToChat";
 import {chatPreviewDTOToChatPreview} from "src/dataAccessLogic/DTOToPreviewConverter/chatPreviewDTOToChatPreview";
 import {messageDTOToMessage} from "src/dataAccessLogic/DTOToPreviewConverter/messageDTOToMessage";
-import {Chat} from "src/model/businessModel/Chat";
+import {Room} from "src/model/businessModel/Chat";
 import {Message} from "src/model/businessModel/Message";
 import {ChatPreview} from "src/model/businessModelPreview/ChatPreview";
 import {ChatService} from "src/service/ChatService";
 
 /**
  * Room type
+ * TODO: add support variant
  */
 export enum RoomType {
 
@@ -19,7 +20,8 @@ export enum RoomType {
   /**
    * Group chat
    */
-  GROUP = "group"
+  GROUP = "group",
+
 }
 
 /**
@@ -99,7 +101,7 @@ export class ChatDAL {
   /**
    * Create chat room
    */
-  public static async createRoom(params: CreateRoomParams): Promise<Chat> {
+  public static async createRoom(params: CreateRoomParams): Promise<Room> {
     const roomDTO = await ChatService.createRoom({request: {...params}});
     const room = chatDTOToChat(roomDTO);
 
@@ -109,7 +111,7 @@ export class ChatDAL {
   /**
    * Add user to chat room
    */
-  public static async addUserToRoom(params: RoomUserManageParams): Promise<Chat> {
+  public static async addUserToRoom(params: RoomUserManageParams): Promise<Room> {
     const roomDTO = await ChatService.addUserToRoom({
       roomId: params.roomId,
       userId: params.userId,
@@ -122,7 +124,7 @@ export class ChatDAL {
   /**
    * Delete user from chat room
    */
-  public static async deleteUserFromRoom(params: RoomUserManageParams): Promise<Chat> {
+  public static async deleteUserFromRoom(params: RoomUserManageParams): Promise<Room> {
     const roomDTO = await ChatService.deleteUserFromRoom(params);
     const room = chatDTOToChat(roomDTO);
 
@@ -142,7 +144,7 @@ export class ChatDAL {
   /**
    * Get chat room by ID
    */
-  public static async getRoomById(roomId: string): Promise<Chat> {
+  public static async getRoomById(roomId: string): Promise<Room> {
     const roomDTO = await ChatService.getRoomById({roomId});
     const room = chatDTOToChat(roomDTO);
 
@@ -181,7 +183,7 @@ export class ChatDAL {
   /**
    * Update chat room
    */
-  public static async updateRoom(roomId: string): Promise<Chat> {
+  public static async updateRoom(roomId: string): Promise<Room> {
     const groupRoomUpdatedDTO = await ChatService.updateRoom({roomId});
     const groupRoomUpdated = chatDTOToChat(groupRoomUpdatedDTO);
 

@@ -12,17 +12,40 @@ export class ChatListStore {
    */
   public chatList: ChatPreview[] = [];
 
-  constructor() {
+  /**
+   * Chat preview list
+   */
+  public roomType: RoomType;
+
+  /**
+   * Group chat name
+   */
+  public groupChatName: string = "";
+
+  constructor(roomType?: RoomType) {
     makeAutoObservable(this);
+    this.roomType = roomType ?? RoomType.PRIVATE;
   }
+
+  /**
+   * Set room type
+   */
+  public setGroupChatName = (name: string) => {
+    this.groupChatName = name;
+  };
+
+  /**
+   * Set room type
+   */
+  public setRoomType = (roomType: RoomType) => {
+    this.roomType = roomType;
+  };
 
   /**
    * Load chat list
    */
-  public loadChatList = async (isGroupChatOpen: boolean) => {
-    const fetchedChats = isGroupChatOpen
-      ? await ChatDAL.getRooms(RoomType.GROUP)
-      : await ChatDAL.getRooms(RoomType.PRIVATE);
+  public loadChatList = async () => {
+    const fetchedChats = await ChatDAL.getRooms(this.roomType);
 
     this.chatList = fetchedChats.chatsPreview;
   };
@@ -36,4 +59,4 @@ export class ChatListStore {
 
 }
 
-export const chatListStore = new ChatListStore();
+// Export const chatListStore = new ChatListStore();
