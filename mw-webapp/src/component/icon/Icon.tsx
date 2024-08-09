@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import {AppStoreIcon} from "src/assets/icons/AppStoreIcon";
 import {BookIcon} from "src/assets/icons/BookIcon";
 import {BurgerMenu} from "src/assets/icons/BurgerMenu";
 import {ChevronIcon} from "src/assets/icons/ChevronIcon";
@@ -8,6 +9,7 @@ import {FileIcon} from "src/assets/icons/FileIcon";
 import {FlagIcon} from "src/assets/icons/FlagIcon";
 import {GithubIcon} from "src/assets/icons/GithubIcon";
 import {GlobeIcon} from "src/assets/icons/GlobeIcon";
+import {GooglePlayIcon} from "src/assets/icons/GooglePlayIcon";
 import {GridViewIcon} from "src/assets/icons/GridViewIcon";
 import {HomeIcon} from "src/assets/icons/HomeIcon";
 import {InfoIcon} from "src/assets/icons/InfoIcon";
@@ -167,6 +169,16 @@ export const IconDictionary = {
    * Flag icon
    */
   FlagIcon: (params: IconProps) => <FlagIcon {...params} />,
+
+  /**
+   * GooglePlay icon
+   */
+  GooglePlayIcon: (params: IconProps) => <GooglePlayIcon {...params} />,
+
+  /**
+   * AppStore icon
+   */
+  AppStoreIcon: (params: IconProps) => <AppStoreIcon {...params} />,
 };
 
 /**
