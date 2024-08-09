@@ -140,6 +140,7 @@ export const BaseWaysTable = observer((props: BaseWaysTableProps) => {
 
   /**
    * Filter ways by all filters and visibility
+   * TODO: why do we need client side filter
    */
   const getFilteredVisibleWays = (params: FiltersParams) => {
     const visibleWays = getVisibleWays(params.allWays, user?.uuid);

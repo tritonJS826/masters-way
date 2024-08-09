@@ -59,6 +59,11 @@ export interface GetWaysParams {
    */
   minDayReportsAmount?: number;
 
+  /**
+   * Part of way name
+   */
+  wayName: string;
+
 }
 
 /**

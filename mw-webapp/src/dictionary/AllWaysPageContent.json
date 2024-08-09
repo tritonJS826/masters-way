@@ -1,5 +1,10 @@
 {
   "filterBlock": {
+    "wayNamePlaceholder": {
+      "ru": "Искать по имени пути",
+      "en": "Search by way name",
+      "ua": "Шукати за ім'ям шляху"
+    },
     "type": {
       "ru": "Статус",
       "en": "Status",

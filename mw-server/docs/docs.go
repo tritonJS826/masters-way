@@ -2076,6 +2076,12 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "description": "Way name",
+                        "name": "wayName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
                         "description": "Ways type: all | completed | inProgress | abandoned",
                         "name": "status",
                         "in": "query"
