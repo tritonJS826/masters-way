@@ -358,3 +358,18 @@ func GetPlainWayById(db *dbb.Queries, ctx context.Context, wayUuid pgtype.UUID) 
 
 	return response, err
 }
+
+func GetWayStatistics(db *dbb.Queries, ctx context.Context, wayUuid uuid.UUID) (schemas.WayStatistics, error) {
+
+	// Get TimeSpentByDayChart
+
+	// Get OverallInformation
+
+	// Get LabelStatistics
+
+	return schemas.WayStatistics{
+		TimeSpentByDayChart: []schemas.TimeSpentByDayPoint{},
+		OverallInformation:  schemas.OverallInformation{},
+		LabelStatistics:     schemas.LabelStatistics{},
+	}, nil
+}
