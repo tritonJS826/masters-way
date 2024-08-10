@@ -5,7 +5,7 @@ import {Message} from "src/model/businessModel/Message";
 /**
  * Chat's props
  */
-interface ChatProps {
+interface RoomProps {
 
   /**
    * Chat room's is blocked
@@ -46,7 +46,7 @@ interface ChatProps {
 /**
  * Chat model
  */
-export class Chat {
+export class Room {
 
   /**
    * Chat room's is blocked
@@ -56,7 +56,7 @@ export class Chat {
   /**
    * Chat room's massages
    */
-  public messages: Array<Message>;
+  public messages: Message[];
 
   /**
    * Chat room's name
@@ -83,7 +83,7 @@ export class Chat {
    */
   public roomType: string;
 
-  constructor(chatData: ChatProps) {
+  constructor(chatData: RoomProps) {
     makeAutoObservable(this);
     this.roomId = chatData.roomId;
     this.name = chatData.name;

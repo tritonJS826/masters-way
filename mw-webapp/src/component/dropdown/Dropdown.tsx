@@ -58,6 +58,12 @@ export interface DropdownProps {
    * Data attributes for cypress testing
    */
   cy?: Cy;
+
+  /**
+   * If false we can scroll dropdownItems and interract with page elements, if true then we can't
+   * @default false
+   */
+  isModalBehavior?: boolean;
 }
 
 /**
@@ -84,7 +90,10 @@ export const Dropdown = (props: DropdownProps) => {
   });
 
   return (
-    <DropdownMenu.Root data-cy={props.cy?.dataCyOverlay}>
+    <DropdownMenu.Root
+      data-cy={props.cy?.dataCyOverlay}
+      modal={!!props.isModalBehavior}
+    >
       <DropdownMenu.Trigger asChild>
         <div role="button">
           {props.trigger}
@@ -93,7 +102,6 @@ export const Dropdown = (props: DropdownProps) => {
 
       <DropdownMenu.Portal>
         <DropdownMenu.Content
-          onCloseAutoFocus={(event) => event.preventDefault()}
           className={clsx(styles.dropdownContent, props.contentClassName)}
           data-cy={props.cy?.dataCyContentList}
         >

@@ -26,12 +26,12 @@ import {FavoriteUserDAL} from "src/dataAccessLogic/FavoriteUserDAL";
 import {UserDAL} from "src/dataAccessLogic/UserDAL";
 import {UserTagDAL} from "src/dataAccessLogic/UserTagDAL";
 import {WayCollectionDAL} from "src/dataAccessLogic/WayCollectionDAL";
-import {chatStore} from "src/globalStore/ChatStore";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
 import {usePersistanceState} from "src/hooks/usePersistanceState";
 import {useStore} from "src/hooks/useStore";
+import {chatStore} from "src/logic/chat/ChatStore";
 import {UserPageStore} from "src/logic/userPage/UserPageStore";
 import {BaseWaysTable, FILTER_STATUS_ALL_VALUE} from "src/logic/waysTable/BaseWaysTable";
 import {WayStatusType} from "src/logic/waysTable/wayStatus";
@@ -189,8 +189,6 @@ export const UserPage = observer((props: UserPageProps) => {
     defaultValue: DEFAULT_USER_PAGE_SETTINGS,
   });
 
-  // Const navigate = useNavigate();
-
   const isPageOwner = !!user && !!userPageOwner && user.uuid === userPageOwner.uuid;
   if (!userPageSettings || !userPageStore.isInitialized) {
     return (
@@ -313,6 +311,7 @@ export const UserPage = observer((props: UserPageProps) => {
                 src={userPageOwner.imageUrl}
                 size={AvatarSize.LARGE}
               />
+              {!isPageOwner &&
               <Button
                 onClick={async () => {
                   await ChatDAL.createRoom({
@@ -325,6 +324,7 @@ export const UserPage = observer((props: UserPageProps) => {
                 value={LanguageService.user.personalInfo.writeToConnectButton[language]}
                 dataCy={userPersonalDataAccessIds.connectButton}
               />
+              }
             </VerticalContainer>
 
             <VerticalContainer className={styles.nameEmailSection}>
