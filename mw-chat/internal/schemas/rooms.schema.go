@@ -55,3 +55,8 @@ type MessageResponse struct {
 	Message string          `json:"message" validate:"required"`
 	Readers []MessageReader `json:"messageReaders" validate:"required"`
 }
+
+type CreateMessageResponse struct {
+	Users   []string        `json:"users" validate:"required"`
+	Message MessageResponse `json:"message" validate:"required"`
+}

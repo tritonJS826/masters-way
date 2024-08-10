@@ -1,10 +1,11 @@
+import {makeAutoObservable} from "mobx";
 import {ChatUser} from "src/model/businessModel/ChatUser";
 import {Message} from "src/model/businessModel/Message";
 
 /**
  * Chat's props
  */
-interface ChatProps {
+interface RoomProps {
 
   /**
    * Chat room's is blocked
@@ -29,18 +30,23 @@ interface ChatProps {
   /**
    * Chat room's image
    */
-  src: string | null;
+  imageUrl: string;
 
   /**
    * List of users in the chat
    */
   users: ChatUser[];
+
+  /**
+   * Room's type p2p or group
+   */
+  roomType: string;
 }
 
 /**
  * Chat model
  */
-export class Chat {
+export class Room {
 
   /**
    * Chat room's is blocked
@@ -50,7 +56,7 @@ export class Chat {
   /**
    * Chat room's massages
    */
-  public messages: Array<Message>;
+  public messages: Message[];
 
   /**
    * Chat room's name
@@ -65,20 +71,34 @@ export class Chat {
   /**
    * Chat room's image
    */
-  public src: string | null;
+  public imageUrl: string;
 
   /**
    * List of users in the chat
    */
   public users: ChatUser[];
 
-  constructor(chatData: ChatProps) {
+  /**
+   * Rooms' type p2p or group
+   */
+  public roomType: string;
+
+  constructor(chatData: RoomProps) {
+    makeAutoObservable(this);
     this.roomId = chatData.roomId;
     this.name = chatData.name;
     this.messages = chatData.messages;
     this.isBlocked = chatData.isBlocked;
-    this.src = chatData.src;
+    this.imageUrl = chatData.imageUrl;
     this.users = chatData.users;
+    this.roomType = chatData.roomType;
   }
+
+  /**
+   * Add message to chat
+   */
+  public addMessage = (newMessage: Message) => {
+    this.messages = [...this.messages, newMessage];
+  };
 
 }

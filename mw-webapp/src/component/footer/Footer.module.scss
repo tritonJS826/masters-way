@@ -41,13 +41,18 @@ $iconSize: 32px;
   cursor: pointer;
 }
 
-.socialMedia {
+.socialMedia,
+.appStores {
   color: var(--secondaryTextColor);
   gap: $gapExtraSmall;
 }
 
 .socialMediaText {
   font-weight: $fontWeightSemibold;
+}
+
+.socialBlock {
+  gap: $gapExtraBig;
 }
 
 .iconWrapper {
@@ -58,8 +63,18 @@ $iconSize: 32px;
   justify-content: center;
   border-radius: $tertiaryBorderRadius;
   background-color: var(--secondaryIconBgColor);
+  cursor: pointer;
 }
 
 .socialMediaIcon {
   stroke: var(--tertiaryIconColor);
+}
+
+.modalContainer {
+  gap: $gapSmall;
+}
+
+.modalTitle {
+  text-align: center;
+  margin-bottom: $marginMedium;
 }

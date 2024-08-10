@@ -88,7 +88,7 @@ No authorization required
 
 ## CreateMessageInRoom
 
-> SchemasMessageResponse CreateMessageInRoom(ctx, roomId).Request(request).Execute()
+> SchemasCreateMessageResponse CreateMessageInRoom(ctx, roomId).Request(request).Execute()
 
 Create message in room
 
@@ -115,7 +115,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `RoomAPI.CreateMessageInRoom``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateMessageInRoom`: SchemasMessageResponse
+	// response from `CreateMessageInRoom`: SchemasCreateMessageResponse
 	fmt.Fprintf(os.Stdout, "Response from `RoomAPI.CreateMessageInRoom`: %v\n", resp)
 }
 ```
@@ -140,7 +140,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SchemasMessageResponse**](SchemasMessageResponse.md)
+[**SchemasCreateMessageResponse**](SchemasCreateMessageResponse.md)
 
 ### Authorization
 

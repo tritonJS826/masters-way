@@ -1,6 +1,6 @@
 package schemas
 
-type GetChatPreviewResponse struct {
+type GetRoomPreviewResponse struct {
 	UnreadMessagesAmount int32 `json:"unreadMessagesAmount" validate:"required"`
 }
 
@@ -13,6 +13,7 @@ type CreateRoomPayload struct {
 type RoomPopulatedResponse struct {
 	RoomID    string            `json:"roomId" validate:"required"`
 	Name      string            `json:"name" validate:"required"`
+	ImageURL  string            `json:"imageUrl" validate:"required"`
 	RoomType  string            `json:"roomType" validate:"required"`
 	IsBlocked bool              `json:"isBlocked" validate:"required"`
 	Users     []UserResponse    `json:"users" validate:"required"`
@@ -29,6 +30,7 @@ type UserResponse struct {
 type RoomPreviewResponse struct {
 	RoomID    string         `json:"roomId" validate:"required"`
 	Name      string         `json:"name" validate:"required"`
+	ImageURL  string         `json:"imageUrl" validate:"required"`
 	RoomType  string         `json:"roomType" validate:"required"`
 	IsBlocked bool           `json:"isBlocked" validate:"required"`
 	Users     []UserResponse `json:"users" validate:"required"`
@@ -45,15 +47,20 @@ type CreateMessagePayload struct {
 
 type MessageReader struct {
 	UserID   string `json:"userId" validate:"required"`
-	Name     string `json:"ownerName" validate:"required" extensions:"x-nullable"`
+	Name     string `json:"ownerName" validate:"required"`
 	ImageURL string `json:"ownerImageUrl" validate:"required"`
 	ReadDate string `json:"readDate" validate:"required"`
 }
 
 type MessageResponse struct {
 	OwnerID       string          `json:"ownerId" validate:"required"`
-	OwnerName     string          `json:"ownerName" validate:"required" extensions:"x-nullable"`
+	OwnerName     string          `json:"ownerName" validate:"required"`
 	OwnerImageURL string          `json:"ownerImageUrl" validate:"required"`
 	Message       string          `json:"message" validate:"required"`
 	Readers       []MessageReader `json:"messageReaders" validate:"required"`
+}
+
+type SendMessagePayload struct {
+	UserIDs []string        `json:"userIds" validate:"required"`
+	Message MessageResponse `json:"message" validate:"required"`
 }

@@ -17,7 +17,7 @@ import * as runtime from '../runtime';
 import type {
   SchemasCreateMessagePayload,
   SchemasCreateRoomPayload,
-  SchemasGetChatPreviewResponse,
+  SchemasGetRoomPreviewResponse,
   SchemasGetRoomsResponse,
   SchemasMessageResponse,
   SchemasRoomPopulatedResponse,
@@ -27,8 +27,8 @@ import {
     SchemasCreateMessagePayloadToJSON,
     SchemasCreateRoomPayloadFromJSON,
     SchemasCreateRoomPayloadToJSON,
-    SchemasGetChatPreviewResponseFromJSON,
-    SchemasGetChatPreviewResponseToJSON,
+    SchemasGetRoomPreviewResponseFromJSON,
+    SchemasGetRoomPreviewResponseToJSON,
     SchemasGetRoomsResponseFromJSON,
     SchemasGetRoomsResponseToJSON,
     SchemasMessageResponseFromJSON,
@@ -214,7 +214,7 @@ export class RoomApi extends runtime.BaseAPI {
     /**
      * Get chat preview
      */
-    async getChatPreviewRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasGetChatPreviewResponse>> {
+    async getChatPreviewRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasGetRoomPreviewResponse>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -226,13 +226,13 @@ export class RoomApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasGetChatPreviewResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasGetRoomPreviewResponseFromJSON(jsonValue));
     }
 
     /**
      * Get chat preview
      */
-    async getChatPreview(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasGetChatPreviewResponse> {
+    async getChatPreview(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasGetRoomPreviewResponse> {
         const response = await this.getChatPreviewRaw(initOverrides);
         return await response.value();
     }

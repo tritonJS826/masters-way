@@ -1,4 +1,5 @@
 import type {ChannelId, EventBusChannelDict} from "src/eventBus/EventBusChannelDict";
+import {EventConfig} from "src/eventBus/eventBusMechanism/EventConfig";
 
 /**
  * Base event params.
@@ -23,6 +24,11 @@ export type BaseEventParams<
    * Event payload.
    */
   payload: EventBusChannelDict[Channel][EventId];
+
+  /**
+   * Event configuration and metadata
+   */
+  config: EventConfig;
 };
 
 /**
@@ -35,8 +41,10 @@ export const populateWithBaseEvent = <Channel extends ChannelId, EventId extends
   payload: EventBusChannelDict[Channel][EventId],
   channelId: Channel,
   eventId: EventId,
+  config: EventConfig,
 ) => ({
     payload,
     channelId,
     eventId,
+    config,
   });

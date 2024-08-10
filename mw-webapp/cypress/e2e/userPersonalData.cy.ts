@@ -3,11 +3,9 @@ import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSel
 import userPersonalData from "cypress/fixtures/userPersonalDataFixture.json"
 import {headerSelectors} from "cypress/scopesSelectors/headerSelectors";
 
-const apiUrl = Cypress.env('API_BASE_PATH');
-
 beforeEach(() => {
-    cy.request('GET', `${apiUrl}/dev/reset-db`);
-    cy.visit(testUserData.userLoginLink); 
+    cy.resetDb();
+    cy.login(testUserData.testUsers.studentJonh.loginLink); 
 });
 
 afterEach(() => {

@@ -1,8 +1,10 @@
 import {ReactElement} from "react";
 import clsx from "clsx";
+import {chatAccessIds} from "cypress/accessIds/scenariosAccessIds/chatAccessIds";
 import {Avatar} from "src/component/avatar/Avatar";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
-import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {Link} from "src/component/link/Link";
+import {pages} from "src/router/pages";
 import styles from "src/logic/chat/messageItem/MessageItem.module.scss";
 
 /**
@@ -14,6 +16,11 @@ interface MessageItemProps {
    * User's name
    */
   userName: string;
+
+  /**
+   * User's  UUID
+   */
+  userUuid: string;
 
   /**
    * Avatar's source
@@ -43,17 +50,21 @@ export const MessageItem = (props: MessageItemProps) => {
       props.isOwnMessage && styles.own,
     )}
     >
-      <Avatar
-        alt={props.userName}
-        src={props.src}
-      />
-      <VerticalContainer className={clsx(
-        styles.message,
-        props.isOwnMessage && styles.ownMessage,
-      )}
+      <Link path={pages.user.getPath({uuid: props.userUuid})}>
+        <Avatar
+          alt={props.userName}
+          src={props.src}
+        />
+      </Link>
+      <HorizontalContainer
+        dataCy={chatAccessIds.chatContainer.messageItem}
+        className={clsx(
+          styles.message,
+          props.isOwnMessage && styles.ownMessage,
+        )}
       >
         {props.message}
-      </VerticalContainer>
+      </HorizontalContainer>
     </HorizontalContainer>
   );
 };

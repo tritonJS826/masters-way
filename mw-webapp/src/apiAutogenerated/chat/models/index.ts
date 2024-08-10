@@ -2,7 +2,7 @@
 /* eslint-disable */
 export * from './SchemasCreateMessagePayload';
 export * from './SchemasCreateRoomPayload';
-export * from './SchemasGetChatPreviewResponse';
+export * from './SchemasGetRoomPreviewResponse';
 export * from './SchemasGetRoomsResponse';
 export * from './SchemasMessageReader';
 export * from './SchemasMessageResponse';

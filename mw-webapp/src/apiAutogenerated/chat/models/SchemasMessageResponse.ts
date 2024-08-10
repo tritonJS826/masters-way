@@ -55,7 +55,7 @@ export interface SchemasMessageResponse {
      * @type {string}
      * @memberof SchemasMessageResponse
      */
-    ownerName: string | null;
+    ownerName: string;
 }
 
 /**

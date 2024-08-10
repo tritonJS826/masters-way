@@ -41,10 +41,10 @@ func (roomsService *DevDBService) ResetDB(ctx context.Context) error {
 	// 	return err
 	// }
 
-	// err = roomsService.devRepository.RegenerateDbData(ctx)
-	// if err != nil {
-	// 	return err
-	// }
+	err = roomsService.devRepository.RegenerateDbData(ctx)
+	if err != nil {
+		return err
+	}
 
 	return nil
 }

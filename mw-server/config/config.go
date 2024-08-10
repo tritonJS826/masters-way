@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/spf13/viper"
@@ -23,6 +24,40 @@ type Config struct {
 	GeminiModel       string `mapstructure:"GEMINI_MODEL"`
 }
 
+var prodRequiredVariables = [14]string{
+	"DB_SOURCE",
+	"POSTGRES_USER",
+	"POSTGRES_PASSWORD",
+	"POSTGRES_DB",
+	"SERVER_ADDRESS",
+	"ENV_TYPE",
+	"GOOGLE_CLIENT_ID",
+	"GOOGLE_SECRET_ID",
+	"SECRET_SESSION_KEY",
+	"API_BASE_URL",
+	"WEBAPP_BASE_URL",
+	"WEBAPP_DOMAIN",
+	"GEMINI_API_KEY",
+	"GEMINI_MODEL",
+}
+
+var devRequiredVariables = [14]string{
+	"DB_SOURCE",
+	"POSTGRES_USER",
+	"POSTGRES_PASSWORD",
+	"POSTGRES_DB",
+	"SERVER_ADDRESS",
+	"ENV_TYPE",
+	"GOOGLE_CLIENT_ID",
+	"GOOGLE_SECRET_ID",
+	"SECRET_SESSION_KEY",
+	"API_BASE_URL",
+	"WEBAPP_BASE_URL",
+	"WEBAPP_DOMAIN",
+	"GEMINI_API_KEY",
+	"GEMINI_MODEL",
+}
+
 func LoadConfig(path string) (config Config, err error) {
 	viper.AddConfigPath(path)
 	viper.SetConfigFile(".env")
@@ -39,6 +74,33 @@ func LoadConfig(path string) (config Config, err error) {
 	if err != nil {
 		log.Fatalf("could not loadconfig: %v", err)
 	}
+
+	const devEnvType = "dev"
+	const prodEnvType = "prod"
+
+	if config.EnvType != devEnvType && config.EnvType != prodEnvType {
+		fmt.Println("!!!!!!!!!!!!!!!!!!!")
+		log.Fatalf(`ENV_TYPE variable should be "dev" or "prod"`)
+	}
+
+	if config.EnvType == devEnvType {
+		for _, key := range devRequiredVariables {
+			if !viper.IsSet(key) {
+				fmt.Println("!!!!!!!!!!!!!!!!!!!")
+				log.Fatalf("required environment variable %s is not set", key)
+			}
+		}
+	}
+
+	if config.EnvType == prodEnvType {
+		for _, key := range prodRequiredVariables {
+			if !viper.IsSet(key) {
+				fmt.Println("!!!!!!!!!!!!!!!!!!!")
+				log.Fatalf("required environment variable %s is not set", key)
+			}
+		}
+	}
+
 	return
 }
 

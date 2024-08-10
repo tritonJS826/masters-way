@@ -1,4 +1,5 @@
 import {makeAutoObservable} from "mobx";
+import {ChatDAL} from "src/dataAccessLogic/ChatDAL";
 
 /**
  * All chat-related methods
@@ -11,15 +12,30 @@ class ChatStore {
    */
   public isChatOpen: boolean = false;
 
+  /**
+   * Amount of all unread messages
+   */
+  public unreadMessagesAmount: number = 0;
+
   constructor() {
     makeAutoObservable(this);
   }
 
   /**
-   * Set theme
+   * Set chat open or close
+   * @default false
    */
   public setIsChatOpen = (isChatOpen: boolean) => {
     this.isChatOpen = isChatOpen;
+  };
+
+  /**
+   * Load data
+   */
+  public loadUnreadMessagesAmount = async () => {
+    const unreadMessages = await ChatDAL.getChatPreview();
+
+    this.unreadMessagesAmount = unreadMessages;
   };
 
 }

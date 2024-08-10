@@ -30,7 +30,7 @@ export interface SchemasMessageReader {
      * @type {string}
      * @memberof SchemasMessageReader
      */
-    ownerName: string | null;
+    ownerName: string;
     /**
      * 
      * @type {string}

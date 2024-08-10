@@ -29,7 +29,6 @@ LIMIT 1;
 SELECT * FROM users
 WHERE uuid = ANY($1::UUID[]);
 
--- TODO: add filter and sorters
 -- name: ListUsers :many
 SELECT
     users.uuid,

@@ -171,6 +171,16 @@ export type AllWaysPageSettings = {
    * Settled view
    */
   view: View;
+
+  /**
+   * Only ways with day reports amount grater than here will be shown
+   */
+  minDayReportsAmount: number;
+
+  /**
+   * Part of way name
+   */
+  wayName: string;
 }
 
 export type AllUsersPageSettings = {

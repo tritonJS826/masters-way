@@ -6,4 +6,5 @@ export const envSchema = {
   GOOGLE_MEASUREMENT_ID: str(),
   ENV_TYPE: str(),
   AMPLITUDE_KEY: str(),
+  API_MW_CHAT_WEBSOCKET_PATH: str(),
 };

@@ -8,6 +8,6 @@ type Controller struct {
 
 func NewController(services *services.Service) *Controller {
 	return &Controller{
-		RoomsController: NewRoomsController(services.IRoomsService, services.IUsersService),
+		RoomsController: NewRoomsController(services.IRoomsService, services.IUsersService, services.IMWChatWebSocketService),
 	}
 }

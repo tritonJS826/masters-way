@@ -34,6 +34,12 @@ import {
 export interface SchemasRoomPopulatedResponse {
     /**
      * 
+     * @type {string}
+     * @memberof SchemasRoomPopulatedResponse
+     */
+    imageUrl: string;
+    /**
+     * 
      * @type {boolean}
      * @memberof SchemasRoomPopulatedResponse
      */
@@ -77,6 +83,7 @@ export function instanceOfSchemasRoomPopulatedResponse(
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "imageUrl" in value;
     isInstance = isInstance && "isBlocked" in value;
     isInstance = isInstance && "messages" in value;
     isInstance = isInstance && "name" in value;
@@ -100,6 +107,7 @@ export function SchemasRoomPopulatedResponseFromJSONTyped(
     }
     return {
         
+        'imageUrl': json['imageUrl'],
         'isBlocked': json['isBlocked'],
         'messages': ((json['messages'] as Array<any>).map(SchemasMessageResponseFromJSON)),
         'name': json['name'],
@@ -119,6 +127,7 @@ export function SchemasRoomPopulatedResponseToJSON(value?: SchemasRoomPopulatedR
     }
     return {
         
+        'imageUrl': value.imageUrl,
         'isBlocked': value.isBlocked,
         'messages': ((value.messages as Array<any>).map(SchemasMessageResponseToJSON)),
         'name': value.name,

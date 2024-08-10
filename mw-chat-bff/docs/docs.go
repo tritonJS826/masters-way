@@ -102,7 +102,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.GetChatPreviewResponse"
+                            "$ref": "#/definitions/schemas.GetRoomPreviewResponse"
                         }
                     }
                 }
@@ -319,7 +319,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.GetChatPreviewResponse": {
+        "schemas.GetRoomPreviewResponse": {
             "type": "object",
             "required": [
                 "unreadMessagesAmount"
@@ -361,8 +361,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "ownerName": {
-                    "type": "string",
-                    "x-nullable": true
+                    "type": "string"
                 },
                 "readDate": {
                     "type": "string"
@@ -398,14 +397,14 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "ownerName": {
-                    "type": "string",
-                    "x-nullable": true
+                    "type": "string"
                 }
             }
         },
         "schemas.RoomPopulatedResponse": {
             "type": "object",
             "required": [
+                "imageUrl",
                 "isBlocked",
                 "messages",
                 "name",
@@ -414,6 +413,9 @@ const docTemplate = `{
                 "users"
             ],
             "properties": {
+                "imageUrl": {
+                    "type": "string"
+                },
                 "isBlocked": {
                     "type": "boolean"
                 },
@@ -443,6 +445,7 @@ const docTemplate = `{
         "schemas.RoomPreviewResponse": {
             "type": "object",
             "required": [
+                "imageUrl",
                 "isBlocked",
                 "name",
                 "roomId",
@@ -450,6 +453,9 @@ const docTemplate = `{
                 "users"
             ],
             "properties": {
+                "imageUrl": {
+                    "type": "string"
+                },
                 "isBlocked": {
                     "type": "boolean"
                 },

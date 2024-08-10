@@ -135,7 +135,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/schemas.MessageResponse'
+                $ref: '#/components/schemas/schemas.CreateMessageResponse'
           description: OK
       summary: Create message in room
       tags:
@@ -197,6 +197,30 @@ components:
           type: string
       required:
       - message
+      type: object
+    schemas.CreateMessageResponse:
+      example:
+        message:
+          messageReaders:
+          - readDate: readDate
+            userId: userId
+          - readDate: readDate
+            userId: userId
+          message: message
+          ownerId: ownerId
+        users:
+        - users
+        - users
+      properties:
+        message:
+          $ref: '#/components/schemas/schemas.MessageResponse'
+        users:
+          items:
+            type: string
+          type: array
+      required:
+      - message
+      - users
       type: object
     schemas.CreateRoomPayload:
       properties:

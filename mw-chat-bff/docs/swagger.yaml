@@ -19,7 +19,7 @@ definitions:
     required:
     - roomType
     type: object
-  schemas.GetChatPreviewResponse:
+  schemas.GetRoomPreviewResponse:
     properties:
       unreadMessagesAmount:
         type: integer
@@ -44,7 +44,6 @@ definitions:
         type: string
       ownerName:
         type: string
-        x-nullable: true
       readDate:
         type: string
       userId:
@@ -69,7 +68,6 @@ definitions:
         type: string
       ownerName:
         type: string
-        x-nullable: true
     required:
     - message
     - messageReaders
@@ -79,6 +77,8 @@ definitions:
     type: object
   schemas.RoomPopulatedResponse:
     properties:
+      imageUrl:
+        type: string
       isBlocked:
         type: boolean
       messages:
@@ -96,6 +96,7 @@ definitions:
           $ref: '#/definitions/schemas.UserResponse'
         type: array
     required:
+    - imageUrl
     - isBlocked
     - messages
     - name
@@ -105,6 +106,8 @@ definitions:
     type: object
   schemas.RoomPreviewResponse:
     properties:
+      imageUrl:
+        type: string
       isBlocked:
         type: boolean
       name:
@@ -118,6 +121,7 @@ definitions:
           $ref: '#/definitions/schemas.UserResponse'
         type: array
     required:
+    - imageUrl
     - isBlocked
     - name
     - roomId
@@ -319,7 +323,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.GetChatPreviewResponse'
+            $ref: '#/definitions/schemas.GetRoomPreviewResponse'
       summary: Get chat preview
       tags:
       - room

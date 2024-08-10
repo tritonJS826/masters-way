@@ -1,4 +1,5 @@
 import {ChannelId, EventBusChannelDict} from "src/eventBus/EventBusChannelDict";
+import {EventConfig} from "src/eventBus/eventBusMechanism/EventConfig";
 import type {BaseEventParams} from "src/eventBus/events/populateWithBaseEvent";
 
 /**
@@ -30,7 +31,13 @@ export class EventBus {
     BroadcastChannel
   >;
 
-  constructor() {
+  /**
+   * Window Id - should help to separate channels in different tabs
+   */
+  private config: EventConfig;
+
+  constructor(config: EventConfig) {
+    this.config = config;
     this.channelsInitialization();
   }
 
@@ -52,11 +59,19 @@ export class EventBus {
      * Handle event
      */
     const handler = (event: MessageEvent<BaseEventParams>) => {
+      const isEventListenedInCurrentTabOnly = event.data.config.isListenInOnlyCurrentTab;
+      const isEventFromAnotherTab = event.data.config.windowId !== this.config.windowId;
+
+      if (isEventListenedInCurrentTabOnly && isEventFromAnotherTab) {
+        return;
+      }
+
       const isAppropriateToHandleEvent = event.data.eventId === eventId;
       if (isAppropriateToHandleEvent) {
         handlerRaw(event.data.payload);
       }
     };
+
     this.channelsListeners[channel].addEventListener("message", handler);
 
     /**
