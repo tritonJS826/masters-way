@@ -465,6 +465,37 @@ definitions:
     - name
     - uuid
     type: object
+  schemas.LabelInfo:
+    properties:
+      jobsAmount:
+        type: integer
+      jobsAmountPercentage:
+        type: integer
+      labelID:
+        type: string
+      labelName:
+        type: string
+      time:
+        type: integer
+      timePercentage:
+        type: integer
+    required:
+    - jobsAmount
+    - jobsAmountPercentage
+    - labelID
+    - labelName
+    - time
+    - timePercentage
+    type: object
+  schemas.LabelStatistics:
+    properties:
+      labels:
+        items:
+          $ref: '#/definitions/schemas.LabelInfo'
+        type: array
+    required:
+    - labels
+    type: object
   schemas.MetricResponse:
     properties:
       description:
@@ -484,6 +515,28 @@ definitions:
     - estimationTime
     - isDone
     - uuid
+    type: object
+  schemas.OverallInformation:
+    properties:
+      averageJobTime:
+        type: integer
+      averageTimePerCalendarDay:
+        type: integer
+      averageTimePerWorkingDay:
+        type: integer
+      finishedJobs:
+        type: integer
+      totalRecords:
+        type: integer
+      totalTime:
+        type: integer
+    required:
+    - averageJobTime
+    - averageTimePerCalendarDay
+    - averageTimePerWorkingDay
+    - finishedJobs
+    - totalRecords
+    - totalTime
     type: object
   schemas.PlanPopulatedResponse:
     properties:
@@ -553,6 +606,16 @@ definitions:
     - tags
     - updatedAt
     - uuid
+    type: object
+  schemas.TimeSpentByDayPoint:
+    properties:
+      date:
+        type: string
+      timeUnits:
+        type: integer
+    required:
+    - date
+    - timeUnits
     type: object
   schemas.UpdateCommentPayload:
     properties:
@@ -942,6 +1005,21 @@ definitions:
     - updatedAt
     - uuid
     - wayTags
+    type: object
+  schemas.WayStatistics:
+    properties:
+      labelStatistics:
+        $ref: '#/definitions/schemas.LabelStatistics'
+      overallInformation:
+        $ref: '#/definitions/schemas.OverallInformation'
+      timeSpentByDayChart:
+        items:
+          $ref: '#/definitions/schemas.TimeSpentByDayPoint'
+        type: array
+    required:
+    - labelStatistics
+    - overallInformation
+    - timeSpentByDayChart
     type: object
   schemas.WayTagResponse:
     properties:
@@ -2418,6 +2496,27 @@ paths:
           schema:
             $ref: '#/definitions/schemas.WayPlainResponse'
       summary: Update way by UUID
+      tags:
+      - way
+  /ways/{wayId}/statistics:
+    get:
+      consumes:
+      - application/json
+      operationId: get-way-statistics-by-uuid
+      parameters:
+      - description: way ID
+        in: path
+        name: wayId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.WayStatistics'
+      summary: Get way statistics by UUID
       tags:
       - way
 swagger: "2.0"
