@@ -75,15 +75,25 @@ type WayStatistics struct {
 	LabelStatistics     LabelStatistics       `json:"labelStatistics" validate:"required"`
 }
 
+type WayStatisticsTriplePeriod struct {
+	TotalTime WayStatistics `json:"totalTime" validate:"required"`
+	LastMonth WayStatistics `json:"lastMonth" validate:"required"`
+	LastWeek  WayStatistics `json:"lastWeek" validate:"required"`
+}
+
+type Label struct {
+	LabelID          string `json:"uuid" validate:"required"`
+	LabelName        string `json:"name" validate:"required"`
+	LabelColor       string `json:"color" validate:"required"`
+	LabelDescription string `json:"description" validate:"required"`
+}
+
 type LabelInfo struct {
-	LabelID              string `json:"labelId" validate:"required"`
-	LabelName            string `json:"labelName" validate:"required"`
-	LabelColor           string `json:"labelColor" validate:"required"`
-	LabelDescription     string `json:"labelDescription" validate:"required"`
-	JobsAmount           int    `json:"jobsAmount" validate:"required"`
-	JobsAmountPercentage int    `json:"jobsAmountPercentage" validate:"required"`
-	Time                 int    `json:"time" validate:"required"`
-	TimePercentage       int    `json:"timePercentage" validate:"required"`
+	Label                Label `json:"label" validate:"required"`
+	JobsAmount           int   `json:"jobsAmount" validate:"required"`
+	JobsAmountPercentage int   `json:"jobsAmountPercentage" validate:"required"`
+	Time                 int   `json:"time" validate:"required"`
+	TimePercentage       int   `json:"timePercentage" validate:"required"`
 }
 
 type LabelStatistics struct {
@@ -100,6 +110,6 @@ type OverallInformation struct {
 }
 
 type TimeSpentByDayPoint struct {
-	TimeUnits int    `json:"timeUnits" validate:"required"`
-	Date      string `json:"date" validate:"required"`
+	Value int    `json:"value" validate:"required"`
+	Date  string `json:"date" validate:"required"`
 }

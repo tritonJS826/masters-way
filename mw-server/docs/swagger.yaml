@@ -465,16 +465,30 @@ definitions:
     - name
     - uuid
     type: object
+  schemas.Label:
+    properties:
+      color:
+        type: string
+      description:
+        type: string
+      name:
+        type: string
+      uuid:
+        type: string
+    required:
+    - color
+    - description
+    - name
+    - uuid
+    type: object
   schemas.LabelInfo:
     properties:
       jobsAmount:
         type: integer
       jobsAmountPercentage:
         type: integer
-      labelID:
-        type: string
-      labelName:
-        type: string
+      label:
+        $ref: '#/definitions/schemas.Label'
       time:
         type: integer
       timePercentage:
@@ -482,8 +496,7 @@ definitions:
     required:
     - jobsAmount
     - jobsAmountPercentage
-    - labelID
-    - labelName
+    - label
     - time
     - timePercentage
     type: object
@@ -611,11 +624,11 @@ definitions:
     properties:
       date:
         type: string
-      timeUnits:
+      value:
         type: integer
     required:
     - date
-    - timeUnits
+    - value
     type: object
   schemas.UpdateCommentPayload:
     properties:
@@ -1020,6 +1033,19 @@ definitions:
     - labelStatistics
     - overallInformation
     - timeSpentByDayChart
+    type: object
+  schemas.WayStatisticsTriplePeriod:
+    properties:
+      lastMonth:
+        $ref: '#/definitions/schemas.WayStatistics'
+      lastWeek:
+        $ref: '#/definitions/schemas.WayStatistics'
+      totalTime:
+        $ref: '#/definitions/schemas.WayStatistics'
+    required:
+    - lastMonth
+    - lastWeek
+    - totalTime
     type: object
   schemas.WayTagResponse:
     properties:
@@ -2515,7 +2541,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.WayStatistics'
+            $ref: '#/definitions/schemas.WayStatisticsTriplePeriod'
       summary: Get way statistics by UUID
       tags:
       - way

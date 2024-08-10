@@ -3,7 +3,7 @@ import {makeAutoObservable} from "mobx";
 /**
  * Label's props
  */
-interface LabelProps {
+export interface LabelProps {
 
   /**
    * Label's uuid

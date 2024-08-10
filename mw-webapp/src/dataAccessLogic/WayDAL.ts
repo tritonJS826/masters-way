@@ -1,7 +1,9 @@
 import {wayToWayDTOPartial} from "src/dataAccessLogic/BusinessToDTOConverter/wayToWayDTOPartial";
 import {wayDTOToWay} from "src/dataAccessLogic/DTOToPreviewConverter/wayDTOToWay";
 import {wayPlainDTOToWayPreview} from "src/dataAccessLogic/DTOToPreviewConverter/wayPlainDTOToWayPreview";
+import {wayStatisticsDTOToWayStatistics} from "src/dataAccessLogic/DTOToPreviewConverter/wayStatisticsDTOToWaytatistics";
 import {Way} from "src/model/businessModel/Way";
+import {WayStatisticsTriple} from "src/model/businessModel/WayStatistics";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {GetWaysParams, WayService} from "src/service/WayService";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
@@ -84,6 +86,16 @@ export class WayDAL {
 
     return ways;
 
+  }
+
+  /**
+   * Get way statistic by way id
+   */
+  public static async getWayStatisticTripleById(uuid: string): Promise<WayStatisticsTriple> {
+    const wayStatisticsDTO = await WayService.getWayStatisticTripleById({wayId: uuid});
+    const wayStatistics = wayStatisticsDTOToWayStatistics(wayStatisticsDTO);
+
+    return wayStatistics;
   }
 
   /**

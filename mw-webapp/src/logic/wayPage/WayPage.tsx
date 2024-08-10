@@ -896,18 +896,14 @@ export const WayPage = observer((props: WayPageProps) => {
               contentClassName={styles.statisticsModal}
               content={
                 <WayStatistic
-                  dayReports={way.dayReports}
-                  wayCreatedAt={way.createdAt}
+                  wayStatisticstriple={wayPageStore.wayStatisticsTriple}
                   isVisible={wayPageSettings.isStatisticsVisible}
-                  labels={way.jobTags}
                 />
               }
             />
           </HorizontalContainer>
           <WayActiveStatistic
-            dayReports={way.dayReports}
-            labels={way.jobTags}
-            wayCreatedAt={way.createdAt}
+            wayStatistics={wayPageStore.wayStatisticsTriple}
             isVisible={wayPageSettings.isStatisticsVisible}
           />
         </VerticalContainer>

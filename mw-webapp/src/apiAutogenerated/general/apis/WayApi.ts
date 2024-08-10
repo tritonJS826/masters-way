@@ -20,6 +20,7 @@ import type {
   SchemasUpdateWayPayload,
   SchemasWayPlainResponse,
   SchemasWayPopulatedResponse,
+  SchemasWayStatisticsTriplePeriod,
 } from '../models/index';
 import {
     SchemasCreateWayPayloadFromJSON,
@@ -32,6 +33,8 @@ import {
     SchemasWayPlainResponseToJSON,
     SchemasWayPopulatedResponseFromJSON,
     SchemasWayPopulatedResponseToJSON,
+    SchemasWayStatisticsTriplePeriodFromJSON,
+    SchemasWayStatisticsTriplePeriodToJSON,
 } from '../models/index';
 
 export interface CreateWayRequest {
@@ -51,6 +54,10 @@ export interface GetAllWaysRequest {
 }
 
 export interface GetWayByUuidRequest {
+    wayId: string;
+}
+
+export interface GetWayStatisticsByUuidRequest {
     wayId: string;
 }
 
@@ -201,6 +208,36 @@ export class WayApi extends runtime.BaseAPI {
      */
     async getWayByUuid(requestParameters: GetWayByUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasWayPopulatedResponse> {
         const response = await this.getWayByUuidRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Get way statistics by UUID
+     */
+    async getWayStatisticsByUuidRaw(requestParameters: GetWayStatisticsByUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasWayStatisticsTriplePeriod>> {
+        if (requestParameters.wayId === null || requestParameters.wayId === undefined) {
+            throw new runtime.RequiredError('wayId','Required parameter requestParameters.wayId was null or undefined when calling getWayStatisticsByUuid.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/ways/{wayId}/statistics`.replace(`{${"wayId"}}`, encodeURIComponent(String(requestParameters.wayId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasWayStatisticsTriplePeriodFromJSON(jsonValue));
+    }
+
+    /**
+     * Get way statistics by UUID
+     */
+    async getWayStatisticsByUuid(requestParameters: GetWayStatisticsByUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasWayStatisticsTriplePeriod> {
+        const response = await this.getWayStatisticsByUuidRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

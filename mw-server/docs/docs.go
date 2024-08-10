@@ -2253,7 +2253,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.WayStatistics"
+                            "$ref": "#/definitions/schemas.WayStatisticsTriplePeriod"
                         }
                     }
                 }
@@ -2937,13 +2937,35 @@ const docTemplate = `{
                 }
             }
         },
+        "schemas.Label": {
+            "type": "object",
+            "required": [
+                "color",
+                "description",
+                "name",
+                "uuid"
+            ],
+            "properties": {
+                "color": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
         "schemas.LabelInfo": {
             "type": "object",
             "required": [
                 "jobsAmount",
                 "jobsAmountPercentage",
-                "labelID",
-                "labelName",
+                "label",
                 "time",
                 "timePercentage"
             ],
@@ -2954,11 +2976,8 @@ const docTemplate = `{
                 "jobsAmountPercentage": {
                     "type": "integer"
                 },
-                "labelID": {
-                    "type": "string"
-                },
-                "labelName": {
-                    "type": "string"
+                "label": {
+                    "$ref": "#/definitions/schemas.Label"
                 },
                 "time": {
                     "type": "integer"
@@ -3141,13 +3160,13 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "date",
-                "timeUnits"
+                "value"
             ],
             "properties": {
                 "date": {
                     "type": "string"
                 },
-                "timeUnits": {
+                "value": {
                     "type": "integer"
                 }
             }
@@ -3725,6 +3744,25 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/schemas.TimeSpentByDayPoint"
                     }
+                }
+            }
+        },
+        "schemas.WayStatisticsTriplePeriod": {
+            "type": "object",
+            "required": [
+                "lastMonth",
+                "lastWeek",
+                "totalTime"
+            ],
+            "properties": {
+                "lastMonth": {
+                    "$ref": "#/definitions/schemas.WayStatistics"
+                },
+                "lastWeek": {
+                    "$ref": "#/definitions/schemas.WayStatistics"
+                },
+                "totalTime": {
+                    "$ref": "#/definitions/schemas.WayStatistics"
                 }
             }
         },

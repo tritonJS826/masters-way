@@ -281,7 +281,7 @@ func (cc *WayController) DeleteWayById(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param wayId path string true "way ID"
-// @Success 200 {object} schemas.WayStatistics
+// @Success 200 {object} schemas.WayStatisticsTriplePeriod
 // @Router /ways/{wayId}/statistics [get]
 func (cc *WayController) GetWayStatisticsById(ctx *gin.Context) {
 	wayUuidRaw := ctx.Param("wayId")
@@ -292,7 +292,23 @@ func (cc *WayController) GetWayStatisticsById(ctx *gin.Context) {
 	// response, err := services.GetWayStatistics(cc.db, ctx, wayUuid)
 	// util.HandleErrorGin(ctx, err)
 
-	response := &schemas.WayStatistics{}
+	response := &schemas.WayStatisticsTriplePeriod{
+		TotalTime: schemas.WayStatistics{
+			LabelStatistics:     schemas.LabelStatistics{Labels: make([]schemas.LabelInfo, 0)},
+			TimeSpentByDayChart: make([]schemas.TimeSpentByDayPoint, 0),
+			OverallInformation:  schemas.OverallInformation{},
+		},
+		LastMonth: schemas.WayStatistics{
+			LabelStatistics:     schemas.LabelStatistics{Labels: make([]schemas.LabelInfo, 0)},
+			TimeSpentByDayChart: make([]schemas.TimeSpentByDayPoint, 0),
+			OverallInformation:  schemas.OverallInformation{},
+		},
+		LastWeek: schemas.WayStatistics{
+			LabelStatistics:     schemas.LabelStatistics{Labels: make([]schemas.LabelInfo, 0)},
+			TimeSpentByDayChart: make([]schemas.TimeSpentByDayPoint, 0),
+			OverallInformation:  schemas.OverallInformation{},
+		},
+	}
 
 	ctx.JSON(http.StatusOK, response)
 }
