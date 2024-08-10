@@ -78,6 +78,8 @@ type WayStatistics struct {
 type LabelInfo struct {
 	LabelID              string `json:"labelId" validate:"required"`
 	LabelName            string `json:"labelName" validate:"required"`
+	LabelColor           string `json:"labelColor" validate:"required"`
+	LabelDescription     string `json:"labelDescription" validate:"required"`
 	JobsAmount           int    `json:"jobsAmount" validate:"required"`
 	JobsAmountPercentage int    `json:"jobsAmountPercentage" validate:"required"`
 	Time                 int    `json:"time" validate:"required"`
