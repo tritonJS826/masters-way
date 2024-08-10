@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"strconv"
 	"time"
@@ -286,12 +287,12 @@ func (cc *WayController) GetWayStatisticsById(ctx *gin.Context) {
 	wayUuidRaw := ctx.Param("wayId")
 	wayUuid := uuid.MustParse(wayUuidRaw)
 
-	args := services.GetPopulatedWayByIdParams{
-		WayUuid:              wayUuid,
-		CurrentChildrenDepth: 1,
-	}
-	response, err := services.GetPopulatedWayById(cc.db, ctx, args)
-	util.HandleErrorGin(ctx, err)
+	fmt.Println(wayUuid)
+
+	// response, err := services.GetWayStatistics(cc.db, ctx, wayUuid)
+	// util.HandleErrorGin(ctx, err)
+
+	response := &schemas.WayStatistics{}
 
 	ctx.JSON(http.StatusOK, response)
 }
