@@ -271,3 +271,27 @@ func (cc *WayController) DeleteWayById(ctx *gin.Context) {
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfuly deleted"})
 
 }
+
+// Get way statistics
+// @Summary Get way statistics by UUID
+// @Description
+// @Tags way
+// @ID get-way-statistics-by-uuid
+// @Accept  json
+// @Produce  json
+// @Param wayId path string true "way ID"
+// @Success 200 {object} schemas.WayStatistics
+// @Router /ways/{wayId}/statistics [get]
+func (cc *WayController) GetWayStatisticsById(ctx *gin.Context) {
+	wayUuidRaw := ctx.Param("wayId")
+	wayUuid := uuid.MustParse(wayUuidRaw)
+
+	args := services.GetPopulatedWayByIdParams{
+		WayUuid:              wayUuid,
+		CurrentChildrenDepth: 1,
+	}
+	response, err := services.GetPopulatedWayById(cc.db, ctx, args)
+	util.HandleErrorGin(ctx, err)
+
+	ctx.JSON(http.StatusOK, response)
+}

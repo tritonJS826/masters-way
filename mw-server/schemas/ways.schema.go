@@ -68,3 +68,36 @@ type GetAllWaysResponse struct {
 	Size int32              `json:"size" validate:"required"`
 	Ways []WayPlainResponse `json:"ways" validate:"required"`
 }
+
+type WayStatistics struct {
+	TimeSpentByDayChart []TimeSpentByDayPoint `json:"timeSpentByDayChart" validate:"required"`
+	OverallInformation  OverallInformation    `json:"overallInformation" validate:"required"`
+	LabelStatistics     LabelStatistics       `json:"labelStatistics" validate:"required"`
+}
+
+type LabelInfo struct {
+	LabelID              string `json:"labelID" validate:"required"`
+	LabelName            string `json:"labelName" validate:"required"`
+	JobsAmount           int    `json:"jobsAmount" validate:"required"`
+	JobsAmountPercentage int    `json:"jobsAmountPercentage" validate:"required"`
+	Time                 int    `json:"time" validate:"required"`
+	TimePercentage       int    `json:"timePercentage" validate:"required"`
+}
+
+type LabelStatistics struct {
+	Labels []LabelInfo `json:"labels" validate:"required"`
+}
+
+type OverallInformation struct {
+	TotalTime                 int `json:"totalTime" validate:"required"`
+	TotalRecords              int `json:"totalRecords" validate:"required"`
+	FinishedJobs              int `json:"finishedJobs" validate:"required"`
+	AverageTimePerCalendarDay int `json:"averageTimePerCalendarDay" validate:"required"`
+	AverageTimePerWorkingDay  int `json:"averageTimePerWorkingDay" validate:"required"`
+	AverageJobTime            int `json:"averageJobTime" validate:"required"`
+}
+
+type TimeSpentByDayPoint struct {
+	TimeUnits int    `json:"timeUnits" validate:"required"`
+	Date      string `json:"date" validate:"required"`
+}

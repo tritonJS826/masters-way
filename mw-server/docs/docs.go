@@ -2226,6 +2226,38 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/ways/{wayId}/statistics": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "way"
+                ],
+                "summary": "Get way statistics by UUID",
+                "operationId": "get-way-statistics-by-uuid",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "way ID",
+                        "name": "wayId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.WayStatistics"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -2905,6 +2937,51 @@ const docTemplate = `{
                 }
             }
         },
+        "schemas.LabelInfo": {
+            "type": "object",
+            "required": [
+                "jobsAmount",
+                "jobsAmountPercentage",
+                "labelID",
+                "labelName",
+                "time",
+                "timePercentage"
+            ],
+            "properties": {
+                "jobsAmount": {
+                    "type": "integer"
+                },
+                "jobsAmountPercentage": {
+                    "type": "integer"
+                },
+                "labelID": {
+                    "type": "string"
+                },
+                "labelName": {
+                    "type": "string"
+                },
+                "time": {
+                    "type": "integer"
+                },
+                "timePercentage": {
+                    "type": "integer"
+                }
+            }
+        },
+        "schemas.LabelStatistics": {
+            "type": "object",
+            "required": [
+                "labels"
+            ],
+            "properties": {
+                "labels": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.LabelInfo"
+                    }
+                }
+            }
+        },
         "schemas.MetricResponse": {
             "type": "object",
             "required": [
@@ -2930,6 +3007,37 @@ const docTemplate = `{
                 },
                 "uuid": {
                     "type": "string"
+                }
+            }
+        },
+        "schemas.OverallInformation": {
+            "type": "object",
+            "required": [
+                "averageJobTime",
+                "averageTimePerCalendarDay",
+                "averageTimePerWorkingDay",
+                "finishedJobs",
+                "totalRecords",
+                "totalTime"
+            ],
+            "properties": {
+                "averageJobTime": {
+                    "type": "integer"
+                },
+                "averageTimePerCalendarDay": {
+                    "type": "integer"
+                },
+                "averageTimePerWorkingDay": {
+                    "type": "integer"
+                },
+                "finishedJobs": {
+                    "type": "integer"
+                },
+                "totalRecords": {
+                    "type": "integer"
+                },
+                "totalTime": {
+                    "type": "integer"
                 }
             }
         },
@@ -3026,6 +3134,21 @@ const docTemplate = `{
                 },
                 "uuid": {
                     "type": "string"
+                }
+            }
+        },
+        "schemas.TimeSpentByDayPoint": {
+            "type": "object",
+            "required": [
+                "date",
+                "timeUnits"
+            ],
+            "properties": {
+                "date": {
+                    "type": "string"
+                },
+                "timeUnits": {
+                    "type": "integer"
                 }
             }
         },
@@ -3579,6 +3702,28 @@ const docTemplate = `{
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/schemas.WayTagResponse"
+                    }
+                }
+            }
+        },
+        "schemas.WayStatistics": {
+            "type": "object",
+            "required": [
+                "labelStatistics",
+                "overallInformation",
+                "timeSpentByDayChart"
+            ],
+            "properties": {
+                "labelStatistics": {
+                    "$ref": "#/definitions/schemas.LabelStatistics"
+                },
+                "overallInformation": {
+                    "$ref": "#/definitions/schemas.OverallInformation"
+                },
+                "timeSpentByDayChart": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.TimeSpentByDayPoint"
                     }
                 }
             }
