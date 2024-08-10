@@ -7,8 +7,6 @@ import {Theme, themedVariables} from "src/globalStore/ThemeStore";
 import testUserData from "cypress/fixtures/testUserDataFixture.json";
 import {wayDescriptionSelectors} from "cypress/scopesSelectors/wayDescriptionSelectors";
 
-const apiUrl = Cypress.env('API_BASE_PATH');
-
 afterEach(() => {
     cy.clearAllStorage();
 });
@@ -30,7 +28,7 @@ function hexToRgb(hex: string): string {
 
 describe("NoAuth User's ways scope tests", () => {
     beforeEach(() => {
-        cy.request('GET', `${apiUrl}/dev/reset-db`);
+        cy.resetDb();
         cy.visit('/');
         headerSelectors.getBurgerMenu().click();
         navigationMenuSelectors.menuItemLinks.getAllUsersItemLink().click();
@@ -79,15 +77,15 @@ describe("NoAuth User's ways scope tests", () => {
 
 describe("IsAuth User's ways scope tests", () => {
     beforeEach(() => {
-        cy.request('GET', `${apiUrl}/dev/reset-db`);
-        cy.visit(testUserData.testUsers.user1.loginLink);
+        cy.resetDb();
+        cy.login(testUserData.testUsers.studentJonh.loginLink);
     });
 
     it('IsAuth_UserWays_CreateNewWay', () => {
         userWaysSelectors.getCreateNewWayButton().click();
 
         cy.url().should('match', new RegExp(`\\/way\\/${testUserData.urlPattern}`));
-        wayDescriptionSelectors.wayDashBoardLeft.getTitle().should('have.text',`Way of ${testUserData.testUsers.user1.email}`);
+        wayDescriptionSelectors.wayDashBoardLeft.getTitle().should('have.text',`Way of ${testUserData.testUsers.studentJonh.email}`);
     });
 
 });

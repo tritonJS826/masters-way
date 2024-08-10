@@ -2,15 +2,15 @@
     "urlPattern": "[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$",
 
     "testUsers": {
-      "user1": {
-        "name": "test.user@gmail.com",
-        "email": "test.user@gmail.com",
-        "loginLink": "http://localhost:8000/api/auth/login/local/test.user@gmail.com"
+      "studentJonh": {
+        "name": "test.studentJonh@gmail.com",
+        "email": "test.studentJonh@gmail.com",
+        "loginLink": "http://localhost:8000/api/auth/login/local/test.studentJonh@gmail.com"
       },
-      "user2": {
-        "name": "test.user2@gmail.com",
-        "email": "test.user2@gmail.com",
-        "loginLink": "http://localhost:8000/api/auth/login/local/test.user2@gmail.com"
+      "mentorMax": {
+        "name": "test.mentorMax@gmail.com",
+        "email": "test.mentorMax@gmail.com",
+        "loginLink": "http://localhost:8000/api/auth/login/local/test.mentorMax@gmail.com"
       }
     },
 

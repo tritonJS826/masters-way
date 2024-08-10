@@ -55,7 +55,10 @@ export const ChatModal = observer(() => {
           <div className={styles.chatTriggerText}>
             {LanguageService.common.chat.openChat[language]}
           </div>
-          <div className={styles.unreadMessagesAmount}>
+          <div
+            className={styles.unreadMessagesAmount}
+            data-cy={chatAccessIds.messagesAmount}
+          >
             {unreadMessagesAmount}
           </div>
         </div>

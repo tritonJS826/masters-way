@@ -8,12 +8,10 @@ import testUserData from "cypress/fixtures/testUserDataFixture.json";
 import { userPersonalSelectors } from "cypress/scopesSelectors/userPersonalDataSelectors";
 import allWayData from "cypress/fixtures/allWaysFixture.json";
 
-const apiUrl = Cypress.env('API_BASE_PATH');
-
 describe('NoAuth Header scope tests', () => {
 
     beforeEach(() => {
-      cy.request('GET', `${apiUrl}/dev/reset-db`);
+      cy.resetDb();
       cy.visit('/');
     });
   
@@ -83,8 +81,8 @@ describe('NoAuth Header scope tests', () => {
 describe('IsAuth Header scope tests', () => {
 
     beforeEach(() => {
-        cy.request('GET', `${apiUrl}/dev/reset-db`);
-        cy.visit(testUserData.testUsers.user1.loginLink);  
+        cy.resetDb();
+        cy.login(testUserData.testUsers.studentJonh.loginLink);  
     });
 
     afterEach(() => {
@@ -95,11 +93,11 @@ describe('IsAuth Header scope tests', () => {
         headerSelectors.getAvatar().click();
 
         cy.url().should('match', new RegExp(`\\/user\\/${testUserData.urlPattern}`));
-        userPersonalSelectors.descriptionSection.getName().should('have.text', testUserData.testUsers.user1.name);
+        userPersonalSelectors.descriptionSection.getName().should('have.text', testUserData.testUsers.studentJonh.name);
     });
 
     it('IsAuth_Header_UserNameLinkOneWord', () => {
-        const expectedAvatar = testUserData.testUsers.user1.name.substring(0, 2).toUpperCase();
+        const expectedAvatar = testUserData.testUsers.studentJonh.name.substring(0, 2).toUpperCase();
 
         headerSelectors.getAvatar().should('have.text', expectedAvatar);
     });

@@ -6,25 +6,14 @@ import {navigationMenuSelectors} from "cypress/scopesSelectors/navigationMenuSel
 import {headerSelectors} from "cypress/scopesSelectors/headerSelectors";
 import chatData from "cypress/fixtures/scenariosFixtures/chatFixture.json"
 
-const apiUrl = Cypress.env('API_BASE_PATH');
-
 beforeEach(() => {
-    cy.request('GET', `${apiUrl}/dev/reset-db`);
-    login(testUserData.testUsers.user1.loginLink); 
+    cy.resetDb();
+    cy.login(testUserData.testUsers.mentorMax.loginLink); 
 });
 
 afterEach(() => {
     cy.clearAllStorage();
 });
-
-function login(user: string): void{
-    cy.visit(user);
-}
-
-function logout(): void{
-    headerSelectors.getBurgerMenu().click();
-    navigationMenuSelectors.getLogoutButton().click();
-}
 
 describe('Chat tests', () => {
 
@@ -43,27 +32,30 @@ describe('Chat tests', () => {
     });
 
     it('User should be able to receive a message from another user in the chat', () => {
-        logout();
-        login(testUserData.testUsers.user2.loginLink); 
+        cy.logout();
+        cy.login(testUserData.testUsers.studentJonh.loginLink); 
         headerSelectors.getBurgerMenu().click();
         navigationMenuSelectors.menuItemLinks.getAllUsersItemLink().click();
 
-        allUsersSelectors.allWaysCard.getCardLink(testUserData.testUsers.user1.name).click();
+        allUsersSelectors.allWaysCard.getCardLink(testUserData.testUsers.mentorMax.name).click();
         userPersonalSelectors.getConnectButton().click();
         chatSelectors.getOpenChatButton().click({force: true});
-        chatSelectors.chatContainer.getChatItem(testUserData.testUsers.user1.name).click();
+        chatSelectors.chatContainer.getChatItem(testUserData.testUsers.mentorMax.name).click();
         chatSelectors.chatContainer.getMessageInput().type(chatData.textMessage);
         chatSelectors.chatContainer.getSendMessageButton().click();
 
         chatSelectors.chatContainer.getMessageItem().should('contain.text', chatData.textMessage);
 
         headerSelectors.getHeader().click({force: true});
-        logout();
-        login(testUserData.testUsers.user1.loginLink);
-        chatSelectors.getOpenChatButton().click({force: true});
-        chatSelectors.chatContainer.getChatItem(testUserData.testUsers.user2.name).click();
+        cy.logout();
+        cy.login(testUserData.testUsers.mentorMax.loginLink);
 
-        chatSelectors.chatContainer.getChatItemName().should('contain.text', testUserData.testUsers.user2.name);
+        chatSelectors.getmessagesAmount().should('contain.text', '1');
+
+        chatSelectors.getOpenChatButton().click({force: true});
+        chatSelectors.chatContainer.getChatItem(testUserData.testUsers.studentJonh.name).click();
+
+        chatSelectors.chatContainer.getChatItemName().should('contain.text', testUserData.testUsers.studentJonh.name);
         chatSelectors.chatContainer.getMessageItem().should('contain.text', chatData.textMessage);
     });
 
