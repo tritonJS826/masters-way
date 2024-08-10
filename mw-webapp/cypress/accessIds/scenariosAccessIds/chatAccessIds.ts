@@ -1,5 +1,6 @@
 export const chatAccessIds = {
     openChatButton: "openChatButton",
+    messagesAmount: "messagesAmount",
 
     chatContainer:{
         chatItem: (name: string) => `chatItem_${name}`,

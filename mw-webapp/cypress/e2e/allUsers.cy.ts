@@ -6,10 +6,8 @@ import testUserData from "cypress/fixtures/testUserDataFixture.json";
 import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
 import allUsersData from "cypress/fixtures/allUsersFixture.json";
 
-const apiUrl = Cypress.env('API_BASE_PATH');
-
 beforeEach(() => {
-    cy.request('GET', `${apiUrl}/dev/reset-db`);
+    cy.resetDb();
     cy.visit('/');
     headerSelectors.getBurgerMenu().click();
     navigationMenuSelectors.menuItemLinks.getAllUsersItemLink().click();

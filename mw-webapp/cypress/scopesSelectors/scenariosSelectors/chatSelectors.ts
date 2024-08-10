@@ -3,6 +3,7 @@ import {getDataCy} from "src/utils/cyTesting/getDataCy";
 
 export const chatSelectors = {
     getOpenChatButton: () => cy.get(getDataCy(chatAccessIds.openChatButton)),
+    getmessagesAmount: () => cy.get(getDataCy(chatAccessIds.messagesAmount)),
 
     chatContainer:{
         getChatItem: (name: string) => cy.get(getDataCy(chatAccessIds.chatContainer.chatItem(name))),

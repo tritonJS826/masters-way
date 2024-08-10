@@ -20,12 +20,10 @@ import settingsPageContent from "src/dictionary/SettingsPageContent.json";
 import testUserData from "cypress/fixtures/testUserDataFixture.json";
 import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
 
-const apiUrl = Cypress.env('API_BASE_PATH');
-
 describe('NoAuth Navigation menu scope tests', () => {
 
     beforeEach(() => {
-        cy.request('GET', `${apiUrl}/dev/reset-db`);
+        cy.resetDb();
         cy.visit('/');        
         headerSelectors.getBurgerMenu().click();
     });
@@ -142,8 +140,8 @@ describe('NoAuth Navigation menu scope tests', () => {
   describe('IsAuth Navigation menu scope tests', () => {
 
     beforeEach(() => {
-        cy.request('GET', `${apiUrl}/dev/reset-db`);
-        cy.visit(testUserData.testUsers.user1.loginLink);    
+        cy.resetDb();
+        cy.login(testUserData.testUsers.studentJonh.loginLink);    
         headerSelectors.getBurgerMenu().click();
     });
 
@@ -155,7 +153,7 @@ describe('NoAuth Navigation menu scope tests', () => {
         navigationMenuSelectors.menuItemLinks.getPersonalAreaItemLink().click();
         
         cy.url().should('match', new RegExp(`\\/user\\/${testUserData.urlPattern}`));
-        userPersonalSelectors.descriptionSection.getName().should('have.text', testUserData.testUsers.user1.name);
+        userPersonalSelectors.descriptionSection.getName().should('have.text', testUserData.testUsers.studentJonh.name);
     }); 
 
     it('IsAuth_NavMenu_Settings', () => {

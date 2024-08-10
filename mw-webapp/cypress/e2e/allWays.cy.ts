@@ -8,10 +8,8 @@ import testWayData from "cypress/fixtures/testWayDataFixture.json";
 import {wayDescriptionSelectors} from "cypress/scopesSelectors/wayDescriptionSelectors";
 import allWayData from "cypress/fixtures/allWaysFixture.json";
 
-const apiUrl = Cypress.env('API_BASE_PATH');
-
 beforeEach(() => {
-  cy.request('GET', `${apiUrl}/dev/reset-db`);
+  cy.resetDb();
   cy.visit('/');
   headerSelectors.getBurgerMenu().click();
   navigationMenuSelectors.menuItemLinks.getAllWaysItemLink().click();
