@@ -539,7 +539,7 @@ definitions:
         type: integer
       finishedJobs:
         type: integer
-      totalRecords:
+      totalReports:
         type: integer
       totalTime:
         type: integer
@@ -548,7 +548,7 @@ definitions:
     - averageTimePerCalendarDay
     - averageTimePerWorkingDay
     - finishedJobs
-    - totalRecords
+    - totalReports
     - totalTime
     type: object
   schemas.PlanPopulatedResponse:

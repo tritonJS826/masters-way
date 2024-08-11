@@ -102,7 +102,7 @@ type LabelStatistics struct {
 
 type OverallInformation struct {
 	TotalTime                 int `json:"totalTime" validate:"required"`
-	TotalRecords              int `json:"totalRecords" validate:"required"`
+	TotalReports              int `json:"totalReports" validate:"required"`
 	FinishedJobs              int `json:"finishedJobs" validate:"required"`
 	AverageTimePerCalendarDay int `json:"averageTimePerCalendarDay" validate:"required"`
 	AverageTimePerWorkingDay  int `json:"averageTimePerWorkingDay" validate:"required"`

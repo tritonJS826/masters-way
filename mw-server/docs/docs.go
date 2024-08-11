@@ -3036,7 +3036,7 @@ const docTemplate = `{
                 "averageTimePerCalendarDay",
                 "averageTimePerWorkingDay",
                 "finishedJobs",
-                "totalRecords",
+                "totalReports",
                 "totalTime"
             ],
             "properties": {
@@ -3052,7 +3052,7 @@ const docTemplate = `{
                 "finishedJobs": {
                     "type": "integer"
                 },
-                "totalRecords": {
+                "totalReports": {
                     "type": "integer"
                 },
                 "totalTime": {

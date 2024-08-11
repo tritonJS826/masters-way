@@ -140,6 +140,7 @@ VALUES
 INSERT INTO "day_reports" ("uuid", "way_uuid", "is_day_off", "created_at", "updated_at")
 VALUES
     ('25ceb64e-7a57-4ce0-a4fd-45982d9fce38', '1d922e8a-5d58-4b82-9a3d-83e2e73b3f91', true, '2024-08-01 00:00:00', '2024-08-01 00:00:00'),
+    ('8a3c9946-0933-4444-a456-0972adc2a25b', '550e8400-e29b-41d4-a716-446655440000', true, '2024-08-01 00:00:00', '2024-08-01 00:00:00'),
     ('3df20f1b-f3af-40f5-9b69-d879cd1a6896', '550e8400-e29b-41d4-a716-446655440000', true, '2024-08-03 00:00:00', '2024-08-03 00:00:00'),
     ('3aef1def-af0c-48dc-9428-0777a5523f9a', '550e8400-e29b-41d4-a716-446655440000', true, '2024-08-05 00:00:00', '2024-08-05 00:00:00'),
     ('32b1209e-aa60-493c-b7d2-ccfbca1ff065', '550e8400-e29b-41d4-a716-446655440000', true, '2024-08-07 00:00:00', '2024-08-07 00:00:00'),
@@ -169,6 +170,7 @@ VALUES
 INSERT INTO "job_dones" ("uuid", "description", "time", "owner_uuid", "day_report_uuid")
 VALUES
     ('8563a330-eedb-4e71-9abc-4db6fbabd13b', 'this is finished job description', 1000, '1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', '25ceb64e-7a57-4ce0-a4fd-45982d9fce38'),
+    ('425888ef-074b-4635-adba-371a63e28da8', 'job description', 10, '7cdb041b-4574-4f7b-a500-c53e74c72e94', '8a3c9946-0933-4444-a456-0972adc2a25b'),
     ('ad4401ff-e1a6-45de-9b64-a4ce29fb7da9', 'job description', 60, '7cdb041b-4574-4f7b-a500-c53e74c72e94', '25ceb64e-7a57-4ce0-a4fd-45982d9fce38'),
     ('08b968fd-c11c-4b6b-bd23-b45b67ee4c39', 'job description', 60, '7cdb041b-4574-4f7b-a500-c53e74c72e94', '3df20f1b-f3af-40f5-9b69-d879cd1a6896'),
     ('a16427ef-5630-48c4-b27c-5306e36bc2a0', 'job description', 60, '7cdb041b-4574-4f7b-a500-c53e74c72e94', '3aef1def-af0c-48dc-9428-0777a5523f9a'),
@@ -179,6 +181,7 @@ VALUES
 
 INSERT INTO "job_dones_job_tags" ("job_done_uuid", "job_tag_uuid")
 VALUES
+    ('425888ef-074b-4635-adba-371a63e28da8', '32cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2'),
     ('ad4401ff-e1a6-45de-9b64-a4ce29fb7da9', '32cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2'),
     ('08b968fd-c11c-4b6b-bd23-b45b67ee4c39', 'c73ff20b-e64e-4e5f-b270-1a40ba1bd81b'),
     ('a16427ef-5630-48c4-b27c-5306e36bc2a0', '60e7860d-58d9-4035-93d0-9bb825fe734c'),
