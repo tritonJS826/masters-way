@@ -280,7 +280,7 @@ func main() {
 	})
 
 	if config.Env.EnvType == "prod" {
-		log.Fatal(server.RunTLS(":"+config.Env.ServerAddress, "./server.crt", "./server.key"))
+		log.Fatal(server.RunTLS(":"+config.Env.ServerAddress, "../server.crt", "../server.key"))
 	} else {
 		log.Fatal(server.Run(":" + config.Env.ServerAddress))
 	}
