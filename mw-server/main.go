@@ -279,9 +279,9 @@ func main() {
 		ctx.JSON(http.StatusNotFound, gin.H{"status": "failed", "message": fmt.Sprintf("The specified route %s not found", ctx.Request.URL)})
 	})
 
-	if config.Env.EnvType == "prod" {
-		log.Fatal(server.RunTLS(":"+config.Env.ServerAddress, "../server.crt", "../server.key"))
-	} else {
-		log.Fatal(server.Run(":" + config.Env.ServerAddress))
-	}
+	// if config.Env.EnvType == "prod" {
+	// 	log.Fatal(server.RunTLS(":"+config.Env.ServerAddress, "../server.crt", "../server.key"))
+	// } else {
+	log.Fatal(server.Run(":" + config.Env.ServerAddress))
+	// }
 }
