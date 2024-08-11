@@ -31,7 +31,6 @@ CREATE TABLE ways(
     "is_private" BOOLEAN NOT NULL,
     CONSTRAINT "ways_pkey" PRIMARY KEY("uuid")
 );
-CREATE UNIQUE INDEX "way_uuid_key" ON "ways"("uuid");
 
 CREATE TABLE composite_ways(
     "child_uuid" UUID NOT NULL REFERENCES ways("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
