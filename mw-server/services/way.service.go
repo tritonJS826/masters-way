@@ -359,17 +359,72 @@ func GetPlainWayById(db *dbb.Queries, ctx context.Context, wayUuid pgtype.UUID) 
 	return response, err
 }
 
-func GetWayStatistics(db *dbb.Queries, ctx context.Context, wayUuid uuid.UUID) (schemas.WayStatistics, error) {
+func GetWayStatistics(db *dbb.Queries, ctx context.Context, wayUuid uuid.UUID) (*schemas.WayStatisticsTriplePeriod, error) {
+	wayPgUUID := pgtype.UUID{Bytes: wayUuid, Valid: true}
 
-	// Get TimeSpentByDayChart
+	timeSpentByDayChartRaw, err := db.GetTimeSpentByDayChart(ctx, wayPgUUID)
+	if err != nil {
+		return nil, err
+	}
 
-	// Get OverallInformation
+	timeSpentByDayChart := lo.Map(timeSpentByDayChartRaw, func(spentTimeByDay dbb.GetTimeSpentByDayChartRow, _ int) schemas.TimeSpentByDayPoint {
+		return schemas.TimeSpentByDayPoint{
+			Value: int(spentTimeByDay.PointValue),
+			Date:  spentTimeByDay.PointDate.Time.Format(util.DEFAULT_STRING_LAYOUT),
+		}
+	})
 
-	// Get LabelStatistics
+	overallInformationRaw, err := db.GetOverallInformation(ctx, wayPgUUID)
+	if err != nil {
+		return nil, err
+	}
 
-	return schemas.WayStatistics{
-		TimeSpentByDayChart: []schemas.TimeSpentByDayPoint{},
-		OverallInformation:  schemas.OverallInformation{},
-		LabelStatistics:     schemas.LabelStatistics{},
+	overallInformation := schemas.OverallInformation{
+		TotalTime:                 int(overallInformationRaw.TotalTime),
+		TotalReports:              int(overallInformationRaw.TotalReports),
+		FinishedJobs:              int(overallInformationRaw.FinishedJobs),
+		AverageTimePerCalendarDay: int(overallInformationRaw.AverageTimePerCalendarDay),
+		AverageTimePerWorkingDay:  int(overallInformationRaw.AverageTimePerWorkingDay),
+		AverageJobTime:            int(overallInformationRaw.AverageJobTime),
+	}
+
+	labelStatisticsRaw, err := db.GetLabelStatistics(ctx, wayPgUUID)
+	if err != nil {
+		return nil, err
+	}
+
+	labelsInfo := lo.Map(labelStatisticsRaw, func(dbLabel dbb.GetLabelStatisticsRow, _ int) schemas.LabelInfo {
+		return schemas.LabelInfo{
+			Label: schemas.Label{
+				ID:          util.ConvertPgUUIDToUUID(dbLabel.LabelUuid).String(),
+				Name:        dbLabel.LabelName,
+				Color:       dbLabel.LabelColor,
+				Description: dbLabel.LabelDescription,
+			},
+			JobsAmount:           int(dbLabel.JobsAmount),
+			JobsAmountPercentage: int(dbLabel.JobsAmountPercentage),
+			Time:                 int(dbLabel.JobsTime),
+			TimePercentage:       int(dbLabel.JobsTimePercentage),
+		}
+	})
+
+	return &schemas.WayStatisticsTriplePeriod{
+		TotalTime: schemas.WayStatistics{
+			LabelStatistics: schemas.LabelStatistics{
+				Labels: labelsInfo,
+			},
+			TimeSpentByDayChart: timeSpentByDayChart,
+			OverallInformation:  overallInformation,
+		},
+		LastMonth: schemas.WayStatistics{
+			LabelStatistics:     schemas.LabelStatistics{Labels: make([]schemas.LabelInfo, 0)},
+			TimeSpentByDayChart: make([]schemas.TimeSpentByDayPoint, 0),
+			OverallInformation:  schemas.OverallInformation{},
+		},
+		LastWeek: schemas.WayStatistics{
+			LabelStatistics:     schemas.LabelStatistics{Labels: make([]schemas.LabelInfo, 0)},
+			TimeSpentByDayChart: make([]schemas.TimeSpentByDayPoint, 0),
+			OverallInformation:  schemas.OverallInformation{},
+		},
 	}, nil
 }

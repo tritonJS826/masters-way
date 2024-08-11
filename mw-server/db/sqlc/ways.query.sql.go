@@ -13,7 +13,7 @@ import (
 
 const countWaysByType = `-- name: CountWaysByType :one
 SELECT COUNT(*) FROM ways
-WHERE ways.is_private = false 
+WHERE ways.is_private = false
     AND (
         ($1 = 'inProgress'
             AND ways.is_completed = false
@@ -26,8 +26,8 @@ WHERE ways.is_private = false
         OR ($1 = 'all')
     )
     AND (
-        (SELECT COUNT(day_reports.uuid) 
-            FROM day_reports 
+        (SELECT COUNT(day_reports.uuid)
+            FROM day_reports
             WHERE day_reports.way_uuid = ways.uuid
         ) >= $3::integer
     ) AND (LOWER(ways.name) LIKE '%' || LOWER($4) || '%' OR $4 = '')
@@ -240,6 +240,87 @@ func (q *Queries) GetFavoriteWaysByUserId(ctx context.Context, userUuid pgtype.U
 	return items, nil
 }
 
+const getLabelStatistics = `-- name: GetLabelStatistics :many
+WITH job_done_data AS (
+    SELECT
+        job_dones.uuid, job_dones.created_at, job_dones.updated_at, job_dones.description, job_dones.time, job_dones.owner_uuid, job_dones.day_report_uuid,
+        job_dones_job_tags.job_tag_uuid,
+        job_tags.uuid AS label_uuid,
+        job_tags.name AS label_name,
+        job_tags.color AS label_color,
+        job_tags.description AS label_description
+    FROM
+        day_reports
+    LEFT JOIN
+        job_dones ON job_dones.day_report_uuid = day_reports.uuid
+    INNER JOIN
+        job_dones_job_tags ON job_dones.uuid = job_dones_job_tags.job_done_uuid
+    INNER JOIN
+        job_tags ON job_tags.uuid = job_dones_job_tags.job_tag_uuid
+    WHERE
+        day_reports.way_uuid = $1
+)
+SELECT
+    label_uuid,
+    label_name,
+    label_color,
+    label_description,
+    COUNT(*) AS jobs_amount,
+    CASE
+        WHEN (SELECT COUNT(*) FROM job_done_data) = 0 THEN 0
+        ELSE CAST(COUNT(*) * 100 / (SELECT COUNT(*) FROM job_done_data) AS INT)
+    END AS jobs_amount_percentage,
+    SUM(time) AS jobs_time,
+    CASE
+        WHEN (SELECT SUM(time) FROM job_done_data) = 0 THEN 0
+        ELSE CAST(SUM(time) * 100 / (SELECT SUM(time) FROM job_done_data) AS INT)
+    END AS jobs_time_percentage
+FROM
+    job_done_data
+GROUP BY
+    label_uuid, label_name, label_color, label_description
+`
+
+type GetLabelStatisticsRow struct {
+	LabelUuid            pgtype.UUID `json:"label_uuid"`
+	LabelName            string      `json:"label_name"`
+	LabelColor           string      `json:"label_color"`
+	LabelDescription     string      `json:"label_description"`
+	JobsAmount           int64       `json:"jobs_amount"`
+	JobsAmountPercentage int32       `json:"jobs_amount_percentage"`
+	JobsTime             int64       `json:"jobs_time"`
+	JobsTimePercentage   int32       `json:"jobs_time_percentage"`
+}
+
+func (q *Queries) GetLabelStatistics(ctx context.Context, wayUuid pgtype.UUID) ([]GetLabelStatisticsRow, error) {
+	rows, err := q.db.Query(ctx, getLabelStatistics, wayUuid)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []GetLabelStatisticsRow{}
+	for rows.Next() {
+		var i GetLabelStatisticsRow
+		if err := rows.Scan(
+			&i.LabelUuid,
+			&i.LabelName,
+			&i.LabelColor,
+			&i.LabelDescription,
+			&i.JobsAmount,
+			&i.JobsAmountPercentage,
+			&i.JobsTime,
+			&i.JobsTimePercentage,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getMentoringWaysByMentorId = `-- name: GetMentoringWaysByMentorId :many
 SELECT
     ways.uuid,
@@ -322,6 +403,69 @@ func (q *Queries) GetMentoringWaysByMentorId(ctx context.Context, userUuid pgtyp
 		return nil, err
 	}
 	return items, nil
+}
+
+const getOverallInformation = `-- name: GetOverallInformation :one
+SELECT
+    CAST(COALESCE(SUM(job_dones.time), 0) AS INT) AS total_time,
+    CAST(COUNT(day_reports.*) AS INT) AS total_reports,
+    CAST(COUNT(job_dones.*) AS INT) AS finished_jobs,
+    CAST(
+        CASE
+            WHEN COUNT(day_reports.*) = 0 THEN 0
+            ELSE
+                ROUND(COALESCE(SUM(job_dones.time), 0) / (
+                    SELECT
+                        COALESCE(EXTRACT(DAY FROM (MAX(day_reports.created_at) - ways.created_at)), 1)
+                    FROM
+                        ways
+                    JOIN
+                        day_reports ON ways.uuid = day_reports.way_uuid
+                    WHERE
+                        ways.uuid = $1
+                    GROUP BY
+                        ways.created_at
+                ), 0)
+        END AS INT
+    ) AS average_time_per_calendar_day,
+    CAST(
+        CASE
+            WHEN COUNT(day_reports.*) > 0 THEN
+                ROUND(COALESCE(SUM(job_dones.time), 0) / COUNT(day_reports.*), 0)
+            ELSE
+                0
+        END AS INT
+    ) AS average_time_per_working_day,
+    CAST(COALESCE(ROUND(AVG(job_dones.time), 0), 0) AS INT) AS average_job_time
+FROM
+    day_reports
+LEFT JOIN
+    job_dones ON job_dones.day_report_uuid = day_reports.uuid
+WHERE
+    day_reports.way_uuid = $1
+`
+
+type GetOverallInformationRow struct {
+	TotalTime                 int32 `json:"total_time"`
+	TotalReports              int32 `json:"total_reports"`
+	FinishedJobs              int32 `json:"finished_jobs"`
+	AverageTimePerCalendarDay int32 `json:"average_time_per_calendar_day"`
+	AverageTimePerWorkingDay  int32 `json:"average_time_per_working_day"`
+	AverageJobTime            int32 `json:"average_job_time"`
+}
+
+func (q *Queries) GetOverallInformation(ctx context.Context, wayUuid pgtype.UUID) (GetOverallInformationRow, error) {
+	row := q.db.QueryRow(ctx, getOverallInformation, wayUuid)
+	var i GetOverallInformationRow
+	err := row.Scan(
+		&i.TotalTime,
+		&i.TotalReports,
+		&i.FinishedJobs,
+		&i.AverageTimePerCalendarDay,
+		&i.AverageTimePerWorkingDay,
+		&i.AverageJobTime,
+	)
+	return i, err
 }
 
 const getOwnWaysByUserId = `-- name: GetOwnWaysByUserId :many
@@ -433,6 +577,44 @@ func (q *Queries) GetPrivateWaysCountByUserId(ctx context.Context, userUuid pgty
 	var private_ways_count int64
 	err := row.Scan(&private_ways_count)
 	return private_ways_count, err
+}
+
+const getTimeSpentByDayChart = `-- name: GetTimeSpentByDayChart :many
+SELECT
+	day_reports.created_at as point_date,
+	CAST(COALESCE(SUM(job_dones.time), 0) AS INT) as point_value
+FROM
+    day_reports
+LEFT JOIN
+    job_dones ON job_dones.day_report_uuid = day_reports.uuid
+WHERE
+    day_reports.way_uuid = $1
+GROUP BY point_date
+`
+
+type GetTimeSpentByDayChartRow struct {
+	PointDate  pgtype.Timestamp `json:"point_date"`
+	PointValue int32            `json:"point_value"`
+}
+
+func (q *Queries) GetTimeSpentByDayChart(ctx context.Context, wayUuid pgtype.UUID) ([]GetTimeSpentByDayChartRow, error) {
+	rows, err := q.db.Query(ctx, getTimeSpentByDayChart, wayUuid)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []GetTimeSpentByDayChartRow{}
+	for rows.Next() {
+		var i GetTimeSpentByDayChartRow
+		if err := rows.Scan(&i.PointDate, &i.PointValue); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }
 
 const getWayById = `-- name: GetWayById :one
@@ -632,10 +814,10 @@ WHERE ways.is_private = false
         OR ($1 = 'all')
     )
     AND ((
-        SELECT COUNT(*) 
-        FROM day_reports 
+        SELECT COUNT(*)
+        FROM day_reports
         WHERE day_reports.way_uuid = ways.uuid
-    ) >= $3::integer) 
+    ) >= $3::integer)
     AND (LOWER(ways.name) LIKE '%' || LOWER($4) || '%' OR $4 = '')
 ORDER BY ways.created_at DESC
 LIMIT $6

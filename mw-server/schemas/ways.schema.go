@@ -82,10 +82,10 @@ type WayStatisticsTriplePeriod struct {
 }
 
 type Label struct {
-	LabelID          string `json:"uuid" validate:"required"`
-	LabelName        string `json:"name" validate:"required"`
-	LabelColor       string `json:"color" validate:"required"`
-	LabelDescription string `json:"description" validate:"required"`
+	ID          string `json:"uuid" validate:"required"`
+	Name        string `json:"name" validate:"required"`
+	Color       string `json:"color" validate:"required"`
+	Description string `json:"description" validate:"required"`
 }
 
 type LabelInfo struct {

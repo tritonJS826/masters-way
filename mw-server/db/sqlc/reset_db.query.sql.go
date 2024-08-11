@@ -112,7 +112,7 @@ INSERT INTO "job_dones" ("uuid", "description", "time", "owner_uuid", "day_repor
 VALUES
     ('8563a330-eedb-4e71-9abc-4db6fbabd13b', 'this is finished job description', 1000, '1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', '25ceb64e-7a57-4ce0-a4fd-45982d9fce38'),
     ('425888ef-074b-4635-adba-371a63e28da8', 'job description', 10, '7cdb041b-4574-4f7b-a500-c53e74c72e94', '8a3c9946-0933-4444-a456-0972adc2a25b'),
-    ('ad4401ff-e1a6-45de-9b64-a4ce29fb7da9', 'job description', 60, '7cdb041b-4574-4f7b-a500-c53e74c72e94', '25ceb64e-7a57-4ce0-a4fd-45982d9fce38'),
+    ('ad4401ff-e1a6-45de-9b64-a4ce29fb7da9', 'job description', 60, '7cdb041b-4574-4f7b-a500-c53e74c72e94', '3df20f1b-f3af-40f5-9b69-d879cd1a6896'),
     ('08b968fd-c11c-4b6b-bd23-b45b67ee4c39', 'job description', 60, '7cdb041b-4574-4f7b-a500-c53e74c72e94', '3df20f1b-f3af-40f5-9b69-d879cd1a6896'),
     ('a16427ef-5630-48c4-b27c-5306e36bc2a0', 'job description', 60, '7cdb041b-4574-4f7b-a500-c53e74c72e94', '3aef1def-af0c-48dc-9428-0777a5523f9a'),
     ('c2cf2c6d-679a-4894-8225-b173947120bc', 'job description', 60, '7cdb041b-4574-4f7b-a500-c53e74c72e94', '32b1209e-aa60-493c-b7d2-ccfbca1ff065'),

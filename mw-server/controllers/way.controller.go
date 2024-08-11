@@ -289,26 +289,10 @@ func (cc *WayController) GetWayStatisticsById(ctx *gin.Context) {
 
 	fmt.Println(wayUuid)
 
-	// response, err := services.GetWayStatistics(cc.db, ctx, wayUuid)
-	// util.HandleErrorGin(ctx, err)
+	response, err := services.GetWayStatistics(cc.db, ctx, wayUuid)
+	util.HandleErrorGin(ctx, err)
 
-	response := &schemas.WayStatisticsTriplePeriod{
-		TotalTime: schemas.WayStatistics{
-			LabelStatistics:     schemas.LabelStatistics{Labels: make([]schemas.LabelInfo, 0)},
-			TimeSpentByDayChart: make([]schemas.TimeSpentByDayPoint, 0),
-			OverallInformation:  schemas.OverallInformation{},
-		},
-		LastMonth: schemas.WayStatistics{
-			LabelStatistics:     schemas.LabelStatistics{Labels: make([]schemas.LabelInfo, 0)},
-			TimeSpentByDayChart: make([]schemas.TimeSpentByDayPoint, 0),
-			OverallInformation:  schemas.OverallInformation{},
-		},
-		LastWeek: schemas.WayStatistics{
-			LabelStatistics:     schemas.LabelStatistics{Labels: make([]schemas.LabelInfo, 0)},
-			TimeSpentByDayChart: make([]schemas.TimeSpentByDayPoint, 0),
-			OverallInformation:  schemas.OverallInformation{},
-		},
-	}
+
 
 	ctx.JSON(http.StatusOK, response)
 }
