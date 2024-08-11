@@ -135,7 +135,7 @@ export const WayPage = observer((props: WayPageProps) => {
 
   const {language} = languageStore;
   const {theme} = themeStore;
-  const {way} = wayPageStore;
+  const {way, setWayStatisticsTriple} = wayPageStore;
   const [isAddWayTagModalOpen, setIsAddWayTagModalOpen] = useState(false);
 
   if (!wayPageSettings || !wayPageStore.isInitialized) {
@@ -916,11 +916,13 @@ export const WayPage = observer((props: WayPageProps) => {
             {isPossibleCreateDayReport &&
               <Button
                 value={LanguageService.way.filterBlock.createNewDayReport[language]}
-                onClick={() => {
+                onClick={async () => {
                   createDayReport({
                     wayName: way.name,
                     wayUuid: way.uuid,
                   });
+                  const updatedStatistics = await WayDAL.getWayStatisticTripleById(way.uuid);
+                  wayPageStore.setWayStatisticsTriple(updatedStatistics);
                 }}
                 buttonType={ButtonType.PRIMARY}
               />
@@ -951,6 +953,7 @@ export const WayPage = observer((props: WayPageProps) => {
 
       <DayReportsTable
         way={way}
+        setWayStatisticsTriple={setWayStatisticsTriple}
         createDayReport={createDayReport}
         compositeWayParticipant={compositeWayParticipants}
       />

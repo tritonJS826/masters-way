@@ -21,6 +21,7 @@ import {userStore} from "src/globalStore/UserStore";
 import {ChatItem} from "src/logic/chat/chatItem/ChatItem";
 import {ChatListStore} from "src/logic/chat/ChatListStore";
 import {ActiveChatStore} from "src/logic/chat/ChatRoomStore";
+import {chatStore} from "src/logic/chat/ChatStore";
 import {MessageItem} from "src/logic/chat/messageItem/MessageItem";
 import {Message} from "src/model/businessModel/Message";
 import {ChatPreview} from "src/model/businessModelPreview/ChatPreview";
@@ -34,6 +35,7 @@ import styles from "src/logic/chat/chatContent/ChatContent.module.scss";
 export const ChatContent = observer(() => {
   const {language} = languageStore;
   const {user} = userStore;
+  const {addUnreadMessageToAmount} = chatStore;
 
   const [activeChatStore, setActiveChatStore] = useState<ActiveChatStore | null>(null);
   const [chatListStore] = useState<ChatListStore>(new ChatListStore());
@@ -71,6 +73,7 @@ export const ChatContent = observer(() => {
       });
       activeChatStore?.activeChat.addMessage(newMessage);
     } else {
+      addUnreadMessageToAmount();
       displayNotification({
         text: `${payload.ownerName}: ${payload.message}`,
         type: NotificationType.INFO,
@@ -152,7 +155,12 @@ export const ChatContent = observer(() => {
   return (
     <DialogPortal>
       <DialogOverlay className={styles.chatOverlay} />
-      <DialogContent className={styles.chatContent}>
+      <DialogContent
+        onInteractOutside={() => {
+          setActiveChatStore(null);
+        }}
+        className={styles.chatContent}
+      >
         <VerticalContainer className={styles.chatContainer}>
           <HorizontalContainer className={styles.chatHeader}>
             <HorizontalContainer>
@@ -179,6 +187,9 @@ export const ChatContent = observer(() => {
               <div
                 role="button"
                 className={styles.removeButton}
+                onClick={() => {
+                  setActiveChatStore(null);
+                }}
               >
                 <Icon
                   size={IconSize.SMALL}

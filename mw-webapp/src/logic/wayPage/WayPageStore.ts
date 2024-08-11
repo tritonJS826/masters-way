@@ -46,6 +46,13 @@ export class WayPageStore {
   }
 
   /**
+   * Set way statistics triple
+   */
+  public setWayStatisticsTriple = (wayStatistics: WayStatisticsTriple) => {
+    this.wayStatisticsTriple = wayStatistics;
+  };
+
+  /**
    * Set way
    */
   private setLoadedData = (loadedData: WayPageFirstLoad) => {

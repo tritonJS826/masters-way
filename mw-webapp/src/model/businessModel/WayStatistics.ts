@@ -146,6 +146,7 @@ export class WayStatisticsTriple {
   public lastWeek: WayStatistics;
 
   constructor(params: WayStatisticsTriple) {
+    makeAutoObservable(this);
     this.totalPeriod = params.totalPeriod;
     this.lastMonth = params.lastMonth;
     this.lastWeek = params.lastWeek;

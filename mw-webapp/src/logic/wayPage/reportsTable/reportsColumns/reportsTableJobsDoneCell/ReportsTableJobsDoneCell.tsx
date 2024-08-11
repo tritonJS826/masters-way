@@ -14,6 +14,7 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
 import {JobDoneJobTagDAL} from "src/dataAccessLogic/JobDoneJobTagDAL";
 import {SafeMap} from "src/dataAccessLogic/SafeMap";
+import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {JobDoneTags} from "src/logic/wayPage/reportsTable/jobDoneTags/JobDoneTags";
 import {ModalContentLabels} from "src/logic/wayPage/reportsTable/modalContentLabels/ModalContentLabels";
@@ -25,6 +26,7 @@ import {DayReport} from "src/model/businessModel/DayReport";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {Label} from "src/model/businessModel/Label";
 import {User, UserPlain} from "src/model/businessModel/User";
+import {WayStatisticsTriple} from "src/model/businessModel/WayStatistics";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import {Symbols} from "src/utils/Symbols";
@@ -80,6 +82,11 @@ interface ReportsTableJobsDoneCellProps {
    */
   labels: Label[];
 
+  /**
+   * Callback triggered to update way statistics triple
+   */
+  setWayStatisticsTriple: (wayStatisticsTriple: WayStatisticsTriple) => void;
+
 }
 
 /**
@@ -87,6 +94,15 @@ interface ReportsTableJobsDoneCellProps {
  */
 export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCellProps) => {
   const {language} = languageStore;
+
+  /**
+   * Load way statistics
+   */
+  const loadWayStatistics = async () => {
+    const updatedWayStatistics = await WayDAL.getWayStatisticTripleById(props.wayUuid);
+
+    return updatedWayStatistics;
+  };
 
   /**
    * Create jobDone
@@ -102,6 +118,9 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
       wayUuid: props.wayUuid,
     });
     props.dayReport.addJob(jobDone);
+
+    const updatedStatistics = await loadWayStatistics();
+    props.setWayStatisticsTriple(updatedStatistics);
   };
 
   /**
@@ -110,6 +129,9 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
   const deleteJobDone = async (jobDoneUuid: string) => {
     props.dayReport.deleteJob(jobDoneUuid);
     await JobDoneDAL.deleteJobDone(jobDoneUuid);
+
+    const updatedStatistics = await loadWayStatistics();
+    props.setWayStatisticsTriple(updatedStatistics);
   };
 
   /**
@@ -169,6 +191,8 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
 
     params.jobDone.updateLabels(updatedTags);
 
+    const updatedStatistics = await loadWayStatistics();
+    props.setWayStatisticsTriple(updatedStatistics);
   };
 
   return (
@@ -230,6 +254,9 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
                         wayUuid: props.wayUuid,
                       });
                       jobDone.updateTime(getValidatedTime(Number(time)));
+
+                      const updatedStatistics = await loadWayStatistics();
+                      props.setWayStatisticsTriple(updatedStatistics);
                     }}
                     className={styles.editableTime}
                     isEditable={props.isEditable}

@@ -16,6 +16,7 @@ import {ReportsTableProblemsCell}
 import {DayReport} from "src/model/businessModel/DayReport";
 import {UserPlain} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
+import {WayStatisticsTriple} from "src/model/businessModel/WayStatistics";
 import {LanguageService} from "src/service/LanguageService";
 import {Symbols} from "src/utils/Symbols";
 import styles from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns.module.scss";
@@ -53,6 +54,11 @@ interface ColumnsProps {
    * Way
    */
   way: Way;
+
+  /**
+   * Callback triggered to update way statistics triple
+   */
+  setWayStatisticsTriple: (wayStatisticsTriple: WayStatisticsTriple) => void;
 
   /**
    * Way's participants
@@ -121,6 +127,7 @@ export const Columns = (props: ColumnsProps) => {
           jobTags={props.way.jobTags}
           wayUuid={props.way.uuid}
           wayName={props.way.name}
+          setWayStatisticsTriple={props.setWayStatisticsTriple}
           labels={props.way.jobTags}
           isWayComposite={isWayComposite}
           wayParticipantsMap={participantsSafeMap}

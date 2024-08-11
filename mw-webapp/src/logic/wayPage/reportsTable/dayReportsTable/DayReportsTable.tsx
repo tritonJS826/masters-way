@@ -12,6 +12,7 @@ import {ReportsTable} from "src/logic/wayPage/reportsTable/ReportsTable";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {UserPlain} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
+import {WayStatisticsTriple} from "src/model/businessModel/WayStatistics";
 import {LanguageService} from "src/service/LanguageService";
 import {arrayToHashMap} from "src/utils/arrayToHashMap";
 import styles from "src/logic/wayPage/reportsTable/dayReportsTable/DayReportsTable.module.scss";
@@ -25,6 +26,11 @@ interface DayReportsTableProps {
    * Way of DayReports
    */
   way: Way;
+
+  /**
+   * Callback triggered to update way statistics triple
+   */
+  setWayStatisticsTriple: (wayStatisticsTriple: WayStatisticsTriple) => void;
 
   /**
    * Composite way participants
@@ -86,6 +92,7 @@ export const DayReportsTable = observer((props: DayReportsTableProps) => {
             data={visibleReports}
             columns={Columns({
               way: props.way,
+              setWayStatisticsTriple: props.setWayStatisticsTriple,
               createDayReport: props.createDayReport,
               wayParticipantsMap,
             })}
