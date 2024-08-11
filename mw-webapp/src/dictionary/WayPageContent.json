@@ -350,9 +350,9 @@
         "en": "Total time",
         "ua": "Загальний час"
       },
-      "totalRecords": {
+      "totalReports": {
         "ru": "Всего отчетов",
-        "en": "Total records",
+        "en": "Total reports",
         "ua": "Всього звітів"
       },
       "totalFinishedJobs": {

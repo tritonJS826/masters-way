@@ -1,8 +1,16 @@
 const START_OF_ISO_SUBSTRING_RANGE = 0;
 const END_OF_ISO_SUBSTRING_RANGE = 10;
-const DAY_MILLISECONDS = 86400000;
-const ONE_DAY = 1;
+export const DAY_MILLISECONDS = 86400000;
+export const ONE_DAY = 1;
 export const MINUTES_IN_HOUR = 60;
+
+/**
+ * Used to calculate date properly without libs
+ * Example:
+ * mathematically time between three Date timestamps is equal 2 days.
+ * but in application for 3 records we want to see 3 days
+ */
+export const SMALL_CORRECTION_MILLISECONDS = 1;
 
 /**
  * Type for sortDates generic

@@ -1,7 +1,8 @@
 import {wayToWayDTOPartial} from "src/dataAccessLogic/BusinessToDTOConverter/wayToWayDTOPartial";
 import {wayDTOToWay} from "src/dataAccessLogic/DTOToPreviewConverter/wayDTOToWay";
 import {wayPlainDTOToWayPreview} from "src/dataAccessLogic/DTOToPreviewConverter/wayPlainDTOToWayPreview";
-import {wayStatisticsDTOToWayStatistics} from "src/dataAccessLogic/DTOToPreviewConverter/wayStatisticsDTOToWaytatistics";
+import {wayStatisticsTripleDTOToWayStatisticsTriple} from
+  "src/dataAccessLogic/DTOToPreviewConverter/wayStatisticsTripleDTOToWaytatisticsTriple";
 import {Way} from "src/model/businessModel/Way";
 import {WayStatisticsTriple} from "src/model/businessModel/WayStatistics";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
@@ -93,7 +94,7 @@ export class WayDAL {
    */
   public static async getWayStatisticTripleById(uuid: string): Promise<WayStatisticsTriple> {
     const wayStatisticsDTO = await WayService.getWayStatisticTripleById({wayId: uuid});
-    const wayStatistics = wayStatisticsDTOToWayStatistics(wayStatisticsDTO);
+    const wayStatistics = wayStatisticsTripleDTOToWayStatisticsTriple(wayStatisticsDTO);
 
     return wayStatistics;
   }

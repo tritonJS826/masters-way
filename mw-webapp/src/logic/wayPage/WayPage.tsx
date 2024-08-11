@@ -47,7 +47,7 @@ import {downloadWayPdf} from "src/logic/wayPage/renderWayToPdf/downloadWayPdf";
 import {DayReportsTable} from "src/logic/wayPage/reportsTable/dayReportsTable/DayReportsTable";
 import {WayPageStore} from "src/logic/wayPage/WayPageStore";
 import {WayActiveStatistic} from "src/logic/wayPage/wayStatistics/WayActiveStatistic";
-import {MILLISECONDS_IN_DAY, SMALL_CORRECTION_MILLISECONDS, WayStatistic} from "src/logic/wayPage/wayStatistics/WayStatistic";
+import {WayStatistic} from "src/logic/wayPage/wayStatistics/WayStatistic";
 import {WayStatus} from "src/logic/waysTable/wayStatus";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Label} from "src/model/businessModel/Label";
@@ -57,7 +57,7 @@ import {Way} from "src/model/businessModel/Way";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
-import {DateUtils} from "src/utils/DateUtils";
+import {DateUtils, DAY_MILLISECONDS, SMALL_CORRECTION_MILLISECONDS} from "src/utils/DateUtils";
 import {WayPageSettings} from "src/utils/LocalStorageWorker";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
@@ -335,7 +335,7 @@ export const WayPage = observer((props: WayPageProps) => {
   const minimumDateTimestamp = Math.min(...allDatesTimestamps);
 
   const totalDaysOnWay = allDatesTimestamps.length
-    ? Math.ceil((maximumDateTimestamp - minimumDateTimestamp + SMALL_CORRECTION_MILLISECONDS) / MILLISECONDS_IN_DAY)
+    ? Math.ceil((maximumDateTimestamp - minimumDateTimestamp + SMALL_CORRECTION_MILLISECONDS) / DAY_MILLISECONDS)
     : 0;
 
   const compositeWayOwnersParticipant = way.children.map((child) => child.owner).concat(way.owner);
@@ -521,7 +521,7 @@ export const WayPage = observer((props: WayPageProps) => {
                       /**
                        * Download way as pdf
                        */
-                      onClick: () => downloadWayPdf(way),
+                      onClick: () => downloadWayPdf(way, wayPageStore.wayStatisticsTriple),
                     },
                     ...renderAddToCustomCollectionDropdownItems,
                     ...renderAddToCompositeWayDropdownItems,
@@ -896,7 +896,7 @@ export const WayPage = observer((props: WayPageProps) => {
               contentClassName={styles.statisticsModal}
               content={
                 <WayStatistic
-                  wayStatisticstriple={wayPageStore.wayStatisticsTriple}
+                  wayStatisticsTriple={wayPageStore.wayStatisticsTriple}
                   isVisible={wayPageSettings.isStatisticsVisible}
                 />
               }

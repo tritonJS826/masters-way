@@ -48,7 +48,7 @@ export interface SchemasOverallInformation {
      * @type {number}
      * @memberof SchemasOverallInformation
      */
-    totalRecords: number;
+    totalReports: number;
     /**
      * 
      * @type {number}
@@ -68,7 +68,7 @@ export function instanceOfSchemasOverallInformation(
     isInstance = isInstance && "averageTimePerCalendarDay" in value;
     isInstance = isInstance && "averageTimePerWorkingDay" in value;
     isInstance = isInstance && "finishedJobs" in value;
-    isInstance = isInstance && "totalRecords" in value;
+    isInstance = isInstance && "totalReports" in value;
     isInstance = isInstance && "totalTime" in value;
 
     return isInstance;
@@ -91,7 +91,7 @@ export function SchemasOverallInformationFromJSONTyped(
         'averageTimePerCalendarDay': json['averageTimePerCalendarDay'],
         'averageTimePerWorkingDay': json['averageTimePerWorkingDay'],
         'finishedJobs': json['finishedJobs'],
-        'totalRecords': json['totalRecords'],
+        'totalReports': json['totalReports'],
         'totalTime': json['totalTime'],
     };
 }
@@ -110,7 +110,7 @@ export function SchemasOverallInformationToJSON(value?: SchemasOverallInformatio
         'averageTimePerCalendarDay': value.averageTimePerCalendarDay,
         'averageTimePerWorkingDay': value.averageTimePerWorkingDay,
         'finishedJobs': value.finishedJobs,
-        'totalRecords': value.totalRecords,
+        'totalReports': value.totalReports,
         'totalTime': value.totalTime,
     };
 }
