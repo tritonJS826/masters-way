@@ -35,21 +35,21 @@ VALUES
 
 INSERT INTO "ways" ("uuid", "name", "goal_description", "estimation_time", "owner_uuid", "is_completed", "is_private", "created_at")
 VALUES
-    ('9972552a-c0b3-41f3-b464-284d36a36964', 'ronnie stanton way', 'ronnie stanton goal', 40404040, 'd63d2f89-6412-4324-8587-7061bf02dca4', false, false, '2024-07-05 00:00:00'),
-    ('550e8400-e29b-41d4-a716-446655440000', 'john doe way', 'john doe goal', 10101010, '7cdb041b-4574-4f7b-a500-c53e74c72e94', false, false, '2024-07-05 00:00:00'),
-    ('d689c31b-167f-4745-bfbd-c1461cb28be8', 'john doe way 1', 'john doe goal 1', 10101010, '7cdb041b-4574-4f7b-a500-c53e74c72e94', false, false, '2024-07-05 00:00:00'),
-    ('9e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b', 'jane smith way', 'jane smith goal', 20202020, '8e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b', true, false, '2024-07-05 00:00:00'),
-    ('dce03ca6-f626-4c33-a44b-5a1b4ff62aa7', 'jane smith way 1', 'jane smith goal 1', 20202020, '8e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b', false, false, '2024-07-05 00:00:00'),
-    ('1d922e8a-5d58-4b82-9a3d-83e2e73b3f91', 'alice johnson', 'alice johnson goal', 30303030, '3d922e8a-5d58-4b82-9a3d-83e2e73b3f91', false, true, '2024-07-05 00:00:00'),
-    ('5cc724a0-383f-45ad-99a1-8514f51717f2', 'alice johnson 1', 'alice johnson goal 1', 30303030, '3d922e8a-5d58-4b82-9a3d-83e2e73b3f91', false, false, '2024-07-05 00:00:00'),
-    ('78f86c77-2018-4511-90dc-d96df77f496a', 'alice johnson 2', 'alice johnson goal 2', 30303030, '3d922e8a-5d58-4b82-9a3d-83e2e73b3f91', false, false, '2024-07-05 00:00:00'),
-    ('32cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2', 'bob brown way', 'bob brown goal', 40404040, 'd2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2', true, true, '2024-07-05 00:00:00'),
-    ('77482c3f-cae6-494d-be1d-d06c1e84450b', 'bob brown way 1', 'bob brown goal 1', 40404040, 'd2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2', false, false, '2024-07-05 00:00:00'),
-    ('77a9e7c4-edb4-4b61-8065-cfd0c5c2506d', 'bob brown way 2', 'bob brown goal 2', 40404040, 'd2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2', false, false, '2024-07-05 00:00:00'),
-    ('e030b296-fa2d-48aa-af0d-c43aa138ee46', 'dana evans way', 'dana evans goal', 40404040, '1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', true, true, '2024-07-05 00:00:00'),
-    ('a2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2', 'dana evans way 1', 'dana evans goal 1', 40404040, '1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', false, false, '2024-07-05 00:00:00'),
-    ('aa13eee9-7dca-46ed-a3f7-21d8b7ae3b72', 'dana evans way 2', 'dana evans goal 2', 40404040, '1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', false, false, '2024-07-05 00:00:00'),
-    ('9230479a-a481-4f83-b770-138ef4f3139c', 'dana evans way 3', 'dana evans goal 3', 40404040, '1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', true, false, '2024-07-05 00:00:00');
+    ('9972552a-c0b3-41f3-b464-284d36a36964', 'ronnie stanton way', 'ronnie stanton goal', 40404040, 'd63d2f89-6412-4324-8587-7061bf02dca4', false, false, '2024-07-09 00:00:00'),
+    ('550e8400-e29b-41d4-a716-446655440000', 'john doe way', 'john doe goal', 10101010, '7cdb041b-4574-4f7b-a500-c53e74c72e94', false, false, '2024-07-09 00:00:00'),
+    ('d689c31b-167f-4745-bfbd-c1461cb28be8', 'john doe way 1', 'john doe goal 1', 10101010, '7cdb041b-4574-4f7b-a500-c53e74c72e94', false, false, '2024-07-09 00:00:00'),
+    ('9e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b', 'jane smith way', 'jane smith goal', 20202020, '8e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b', true, false, '2024-07-09 00:00:00'),
+    ('dce03ca6-f626-4c33-a44b-5a1b4ff62aa7', 'jane smith way 1', 'jane smith goal 1', 20202020, '8e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b', false, false, '2024-07-09 00:00:00'),
+    ('1d922e8a-5d58-4b82-9a3d-83e2e73b3f91', 'alice johnson', 'alice johnson goal', 30303030, '3d922e8a-5d58-4b82-9a3d-83e2e73b3f91', false, true, '2024-07-09 00:00:00'),
+    ('5cc724a0-383f-45ad-99a1-8514f51717f2', 'alice johnson 1', 'alice johnson goal 1', 30303030, '3d922e8a-5d58-4b82-9a3d-83e2e73b3f91', false, false, '2024-07-09 00:00:00'),
+    ('78f86c77-2018-4511-90dc-d96df77f496a', 'alice johnson 2', 'alice johnson goal 2', 30303030, '3d922e8a-5d58-4b82-9a3d-83e2e73b3f91', false, false, '2024-07-09 00:00:00'),
+    ('32cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2', 'bob brown way', 'bob brown goal', 40404040, 'd2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2', true, true, '2024-07-09 00:00:00'),
+    ('77482c3f-cae6-494d-be1d-d06c1e84450b', 'bob brown way 1', 'bob brown goal 1', 40404040, 'd2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2', false, false, '2024-07-09 00:00:00'),
+    ('77a9e7c4-edb4-4b61-8065-cfd0c5c2506d', 'bob brown way 2', 'bob brown goal 2', 40404040, 'd2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2', false, false, '2024-07-09 00:00:00'),
+    ('e030b296-fa2d-48aa-af0d-c43aa138ee46', 'dana evans way', 'dana evans goal', 40404040, '1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', true, true, '2024-07-09 00:00:00'),
+    ('a2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2', 'dana evans way 1', 'dana evans goal 1', 40404040, '1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', false, false, '2024-07-09 00:00:00'),
+    ('aa13eee9-7dca-46ed-a3f7-21d8b7ae3b72', 'dana evans way 2', 'dana evans goal 2', 40404040, '1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', false, false, '2024-07-09 00:00:00'),
+    ('9230479a-a481-4f83-b770-138ef4f3139c', 'dana evans way 3', 'dana evans goal 3', 40404040, '1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', true, false, '2024-07-09 00:00:00');
 
 INSERT INTO "composite_ways" ("child_uuid", "parent_uuid")
 VALUES

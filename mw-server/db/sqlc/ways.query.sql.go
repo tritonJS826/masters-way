@@ -424,47 +424,32 @@ func (q *Queries) GetMentoringWaysByMentorId(ctx context.Context, userUuid pgtyp
 }
 
 const getOverallInformation = `-- name: GetOverallInformation :one
-WITH LastReportPerWay AS (
+WITH summary_stats AS (
     SELECT
-        way_uuid,
-        MAX(created_at) AS latest_day_report
+        COALESCE(SUM(job_dones.time), 0)::INTEGER AS total_time,
+        COUNT(DISTINCT day_reports.uuid) AS total_reports,
+        COUNT(job_dones.uuid) AS finished_jobs,
+        (($2)::date - ($3)::date) AS total_calendar_days,
+        COALESCE(AVG(job_dones.time), 0)::INTEGER AS average_job_time
     FROM day_reports
-    WHERE day_reports.created_at BETWEEN $2 AND $3
-    GROUP BY way_uuid
-),
-DaysDifference AS (
-    SELECT
-        ways.uuid AS way_uuid,
-        COALESCE(EXTRACT(DAY FROM (LastReportPerWay.latest_day_report - ways.created_at)), 0) AS total_days_count
-    FROM ways
-    LEFT JOIN LastReportPerWay ON ways.uuid = LastReportPerWay.way_uuid
-    WHERE ways.uuid = $1
+    LEFT JOIN job_dones ON job_dones.day_report_uuid = day_reports.uuid
+    WHERE day_reports.way_uuid = $1
+      AND day_reports.created_at BETWEEN $3 AND $2
 )
 SELECT
-    COALESCE(SUM(job_dones.time), 0)::INTEGER AS total_time,
-    COUNT(day_reports.*) AS total_reports,
-    COUNT(job_dones.*) AS finished_jobs,
-    ROUND(
-        COALESCE(SUM(job_dones.time), 0) / NULLIF(MAX(DaysDifference.total_days_count), 0),
-        0
-    )::INTEGER AS average_time_per_calendar_day,
-    ROUND(
-        COALESCE(SUM(job_dones.time), 0) / NULLIF(COUNT(day_reports.*), 0),
-        0
-    )::INTEGER AS average_time_per_working_day,
-    COALESCE(ROUND(AVG(job_dones.time), 0), 0)::INTEGER AS average_job_time
-FROM day_reports
-LEFT JOIN job_dones ON job_dones.day_report_uuid = day_reports.uuid
-JOIN DaysDifference ON day_reports.way_uuid = DaysDifference.way_uuid
-WHERE day_reports.way_uuid = $1
-    AND day_reports.created_at BETWEEN $2 AND $3
-GROUP BY DaysDifference.total_days_count
+    total_time AS total_time,
+    total_reports AS total_reports,
+    finished_jobs AS finished_jobs,
+    total_time / NULLIF(total_calendar_days, 0) AS average_time_per_calendar_day,
+    total_time / NULLIF(total_reports, 0) AS average_time_per_working_day,
+    average_job_time AS average_job_time
+FROM summary_stats
 `
 
 type GetOverallInformationParams struct {
-	WayUuid   pgtype.UUID      `json:"way_uuid"`
-	StartDate pgtype.Timestamp `json:"start_date"`
-	EndDate   pgtype.Timestamp `json:"end_date"`
+	WayUuid   pgtype.UUID `json:"way_uuid"`
+	EndDate   pgtype.Date `json:"end_date"`
+	StartDate pgtype.Date `json:"start_date"`
 }
 
 type GetOverallInformationRow struct {
@@ -477,7 +462,7 @@ type GetOverallInformationRow struct {
 }
 
 func (q *Queries) GetOverallInformation(ctx context.Context, arg GetOverallInformationParams) (GetOverallInformationRow, error) {
-	row := q.db.QueryRow(ctx, getOverallInformation, arg.WayUuid, arg.StartDate, arg.EndDate)
+	row := q.db.QueryRow(ctx, getOverallInformation, arg.WayUuid, arg.EndDate, arg.StartDate)
 	var i GetOverallInformationRow
 	err := row.Scan(
 		&i.TotalTime,
