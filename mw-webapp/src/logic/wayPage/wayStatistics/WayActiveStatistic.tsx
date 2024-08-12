@@ -73,29 +73,29 @@ export const WayActiveStatistic = observer((props: WayStatisticProps) => {
         totalStatisticItemsPrimary={[
           {
             text: LanguageService.way.statisticsBlock.overAllInformation.totalTime[language],
-            value: props.wayStatistics.lastMonth.overallInformation.totalTime,
+            value: props.wayStatistics.lastWeek.overallInformation.totalTime,
           },
           {
             text: LanguageService.way.statisticsBlock.overAllInformation.totalReports[language],
-            value: props.wayStatistics.lastMonth.overallInformation.totalReports,
+            value: props.wayStatistics.lastWeek.overallInformation.totalReports,
           },
           {
             text: LanguageService.way.statisticsBlock.overAllInformation.totalFinishedJobs[language],
-            value: props.wayStatistics.lastMonth.overallInformation.finishedJobs,
+            value: props.wayStatistics.lastWeek.overallInformation.finishedJobs,
           },
         ]}
         totalStatisticItemsSecondary={[
           {
             text: LanguageService.way.statisticsBlock.overAllInformation.averageTimePerCalendarDay[language],
-            value: props.wayStatistics.lastMonth.overallInformation.averageTimePerCalendarDay,
+            value: props.wayStatistics.lastWeek.overallInformation.averageTimePerCalendarDay,
           },
           {
             text: LanguageService.way.statisticsBlock.overAllInformation.averageWorkingTimePerWorkingDay[language],
-            value: props.wayStatistics.lastMonth.overallInformation.averageTimePerWorkingDay,
+            value: props.wayStatistics.lastWeek.overallInformation.averageTimePerWorkingDay,
           },
           {
             text: LanguageService.way.statisticsBlock.overAllInformation.averageJobTime[language],
-            value: props.wayStatistics.lastMonth.overallInformation.averageJobTime,
+            value: props.wayStatistics.lastWeek.overallInformation.averageJobTime,
           },
         ]}
         wayStatistics={props.wayStatistics.lastWeek}
