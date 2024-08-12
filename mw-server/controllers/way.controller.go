@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"strconv"
 	"time"
@@ -15,6 +14,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/samber/lo"
 )
@@ -284,15 +284,42 @@ func (cc *WayController) DeleteWayById(ctx *gin.Context) {
 // @Success 200 {object} schemas.WayStatisticsTriplePeriod
 // @Router /ways/{wayId}/statistics [get]
 func (cc *WayController) GetWayStatisticsById(ctx *gin.Context) {
-	wayUuidRaw := ctx.Param("wayId")
-	wayUuid := uuid.MustParse(wayUuidRaw)
+	wayUUIDRaw := ctx.Param("wayId")
+	wayUUID := uuid.MustParse(wayUUIDRaw)
 
-	fmt.Println(wayUuid)
+	dates, err := services.GetLastDayReportDate(cc.db, ctx, wayUUID)
+	if err != nil {
+		if err == pgx.ErrNoRows {
+			ctx.JSON(http.StatusOK, &schemas.WayStatisticsTriplePeriod{
+				TotalTime: schemas.WayStatistics{
+					LabelStatistics:     schemas.LabelStatistics{Labels: make([]schemas.LabelInfo, 0)},
+					TimeSpentByDayChart: make([]schemas.TimeSpentByDayPoint, 0),
+					OverallInformation:  schemas.OverallInformation{},
+				},
+				LastMonth: schemas.WayStatistics{
+					LabelStatistics:     schemas.LabelStatistics{Labels: make([]schemas.LabelInfo, 0)},
+					TimeSpentByDayChart: make([]schemas.TimeSpentByDayPoint, 0),
+					OverallInformation:  schemas.OverallInformation{},
+				},
+				LastWeek: schemas.WayStatistics{
+					LabelStatistics:     schemas.LabelStatistics{Labels: make([]schemas.LabelInfo, 0)},
+					TimeSpentByDayChart: make([]schemas.TimeSpentByDayPoint, 0),
+					OverallInformation:  schemas.OverallInformation{},
+				},
+			})
+			return
+		} else {
+			util.HandleErrorGin(ctx, err)
+		}
+	}
 
-	response, err := services.GetWayStatistics(cc.db, ctx, wayUuid)
+	params := &services.GetWayStatisticsTriplePeriodParams{
+		WayUUID:        wayUUID,
+		TotalStartDate: dates.TotalStartDate,
+		EndDate:        dates.EndDate,
+	}
+	response, err := services.GetWayStatisticsTriplePeriod(cc.db, ctx, params)
 	util.HandleErrorGin(ctx, err)
-
-
 
 	ctx.JSON(http.StatusOK, response)
 }

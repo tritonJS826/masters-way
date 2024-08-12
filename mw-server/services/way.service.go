@@ -359,36 +359,162 @@ func GetPlainWayById(db *dbb.Queries, ctx context.Context, wayUuid pgtype.UUID) 
 	return response, err
 }
 
-func GetWayStatistics(db *dbb.Queries, ctx context.Context, wayUuid uuid.UUID) (*schemas.WayStatisticsTriplePeriod, error) {
+type GetLastDayReportDateResponse struct {
+	TotalStartDate time.Time
+	EndDate        time.Time
+}
+
+func GetLastDayReportDate(db *dbb.Queries, ctx context.Context, wayUuid uuid.UUID) (*GetLastDayReportDateResponse, error) {
 	wayPgUUID := pgtype.UUID{Bytes: wayUuid, Valid: true}
 
-	timeSpentByDayChartRaw, err := db.GetTimeSpentByDayChart(ctx, wayPgUUID)
+	response, err := db.GetLastDayReportDate(ctx, wayPgUUID)
 	if err != nil {
 		return nil, err
 	}
 
-	timeSpentByDayChart := lo.Map(timeSpentByDayChartRaw, func(spentTimeByDay dbb.GetTimeSpentByDayChartRow, _ int) schemas.TimeSpentByDayPoint {
-		return schemas.TimeSpentByDayPoint{
-			Value: int(spentTimeByDay.PointValue),
-			Date:  spentTimeByDay.PointDate.Time.Format(util.DEFAULT_STRING_LAYOUT),
-		}
+	return &GetLastDayReportDateResponse{
+		TotalStartDate: response.TotalStartDate.Time,
+		EndDate:        response.EndDate.Time,
+	}, nil
+}
+
+type GetWayStatisticsTriplePeriodParams struct {
+	WayUUID        uuid.UUID
+	TotalStartDate time.Time
+	EndDate        time.Time
+}
+
+func GetWayStatisticsTriplePeriod(db *dbb.Queries, ctx context.Context, params *GetWayStatisticsTriplePeriodParams) (*schemas.WayStatisticsTriplePeriod, error) {
+	wayPgUUID := pgtype.UUID{Bytes: params.WayUUID, Valid: true}
+	endDatePgTimestamp := pgtype.Timestamp{Time: params.EndDate, Valid: true}
+
+	totalTimeStatisticsParams := &GetWayStatisticsParams{
+		WayPgUUID:            wayPgUUID,
+		StartDatePgTimestamp: pgtype.Timestamp{Time: params.TotalStartDate, Valid: true},
+		EndDatePgTimestamp:   endDatePgTimestamp,
+	}
+	totalTimeStatistics, err := GetWayStatistics(db, ctx, totalTimeStatisticsParams)
+	if err != nil {
+		return nil, err
+	}
+
+	lastMonthStatisticsParams := &GetWayStatisticsParams{
+		WayPgUUID:            wayPgUUID,
+		StartDatePgTimestamp: pgtype.Timestamp{Time: params.EndDate.AddDate(0, -1, 0), Valid: true},
+		EndDatePgTimestamp:   endDatePgTimestamp,
+	}
+	lastMonthStatistics, err := GetWayStatistics(db, ctx, lastMonthStatisticsParams)
+	if err != nil {
+		return nil, err
+	}
+
+	lastWeekStatisticsParams := &GetWayStatisticsParams{
+		WayPgUUID:            wayPgUUID,
+		StartDatePgTimestamp: pgtype.Timestamp{Time: params.EndDate.AddDate(0, 0, -6), Valid: true},
+		EndDatePgTimestamp:   endDatePgTimestamp,
+	}
+	lastWeekStatistics, err := GetWayStatistics(db, ctx, lastWeekStatisticsParams)
+	if err != nil {
+		return nil, err
+	}
+
+	return &schemas.WayStatisticsTriplePeriod{
+		TotalTime: *totalTimeStatistics,
+		LastMonth: *lastMonthStatistics,
+		LastWeek:  *lastWeekStatistics,
+	}, nil
+}
+
+type GetWayStatisticsParams struct {
+	WayPgUUID            pgtype.UUID
+	StartDatePgTimestamp pgtype.Timestamp
+	EndDatePgTimestamp   pgtype.Timestamp
+}
+
+func GetWayStatistics(db *dbb.Queries, ctx context.Context, params *GetWayStatisticsParams) (*schemas.WayStatistics, error) {
+	timeSpentByDayChart, err := GetTimeSpentByDayChart(db, ctx, params)
+	if err != nil {
+		return nil, err
+	}
+
+	overallInformation, err := GetOverallInformation(db, ctx, params)
+	if err != nil {
+		return nil, err
+	}
+
+	getLabelStatistics, err := GetLabelStatistics(db, ctx, params)
+	if err != nil {
+		return nil, err
+	}
+
+	return &schemas.WayStatistics{
+		TimeSpentByDayChart: timeSpentByDayChart,
+		LabelStatistics:     *getLabelStatistics,
+		OverallInformation:  *overallInformation,
+	}, nil
+}
+
+func GetTimeSpentByDayChart(db *dbb.Queries, ctx context.Context, params *GetWayStatisticsParams) ([]schemas.TimeSpentByDayPoint, error) {
+	timeSpentByDayChartParams := dbb.GetTimeSpentByDayChartParams{
+		WayUuid:   params.WayPgUUID,
+		StartDate: params.StartDatePgTimestamp,
+		EndDate:   params.EndDatePgTimestamp,
+	}
+
+	timeSpentByDayChartRaw, err := db.GetTimeSpentByDayChart(ctx, timeSpentByDayChartParams)
+	if err != nil {
+		return nil, err
+	}
+
+	daysCount := int(params.EndDatePgTimestamp.Time.Sub(params.StartDatePgTimestamp.Time).Hours()/24) + 1
+	timeSpentByDayChart := make([]schemas.TimeSpentByDayPoint, 0, daysCount)
+
+	timeSpentByDayMap := lo.SliceToMap(timeSpentByDayChartRaw, func(timeSpentByDay dbb.GetTimeSpentByDayChartRow) (time.Time, int) {
+		return timeSpentByDay.PointDate.Time.Truncate(24 * time.Hour), int(timeSpentByDay.PointValue)
 	})
 
-	overallInformationRaw, err := db.GetOverallInformation(ctx, wayPgUUID)
+	for date := params.StartDatePgTimestamp.Time; !date.After(params.EndDatePgTimestamp.Time); date = date.AddDate(0, 0, 1) {
+		truncatedDate := date.Truncate(24 * time.Hour)
+		value := timeSpentByDayMap[truncatedDate]
+
+		timeSpentByDayChart = append(timeSpentByDayChart, schemas.TimeSpentByDayPoint{
+			Value: value,
+			Date:  truncatedDate.Format(util.DEFAULT_STRING_LAYOUT),
+		})
+	}
+	return timeSpentByDayChart, nil
+}
+
+func GetOverallInformation(db *dbb.Queries, ctx context.Context, params *GetWayStatisticsParams) (*schemas.OverallInformation, error) {
+	overallInformationParams := dbb.GetOverallInformationParams{
+		WayUuid:   params.WayPgUUID,
+		StartDate: params.StartDatePgTimestamp,
+		EndDate:   params.EndDatePgTimestamp,
+	}
+
+	overallInformationRaw, err := db.GetOverallInformation(ctx, overallInformationParams)
 	if err != nil {
 		return nil, err
 	}
 
-	overallInformation := schemas.OverallInformation{
+	return &schemas.OverallInformation{
 		TotalTime:                 int(overallInformationRaw.TotalTime),
 		TotalReports:              int(overallInformationRaw.TotalReports),
 		FinishedJobs:              int(overallInformationRaw.FinishedJobs),
 		AverageTimePerCalendarDay: int(overallInformationRaw.AverageTimePerCalendarDay),
 		AverageTimePerWorkingDay:  int(overallInformationRaw.AverageTimePerWorkingDay),
 		AverageJobTime:            int(overallInformationRaw.AverageJobTime),
+	}, nil
+}
+
+func GetLabelStatistics(db *dbb.Queries, ctx context.Context, params *GetWayStatisticsParams) (*schemas.LabelStatistics, error) {
+	labelStatisticsParams := dbb.GetLabelStatisticsParams{
+		WayUuid:   params.WayPgUUID,
+		StartDate: params.StartDatePgTimestamp,
+		EndDate:   params.EndDatePgTimestamp,
 	}
 
-	labelStatisticsRaw, err := db.GetLabelStatistics(ctx, wayPgUUID)
+	labelStatisticsRaw, err := db.GetLabelStatistics(ctx, labelStatisticsParams)
 	if err != nil {
 		return nil, err
 	}
@@ -408,23 +534,5 @@ func GetWayStatistics(db *dbb.Queries, ctx context.Context, wayUuid uuid.UUID) (
 		}
 	})
 
-	return &schemas.WayStatisticsTriplePeriod{
-		TotalTime: schemas.WayStatistics{
-			LabelStatistics: schemas.LabelStatistics{
-				Labels: labelsInfo,
-			},
-			TimeSpentByDayChart: timeSpentByDayChart,
-			OverallInformation:  overallInformation,
-		},
-		LastMonth: schemas.WayStatistics{
-			LabelStatistics:     schemas.LabelStatistics{Labels: make([]schemas.LabelInfo, 0)},
-			TimeSpentByDayChart: make([]schemas.TimeSpentByDayPoint, 0),
-			OverallInformation:  schemas.OverallInformation{},
-		},
-		LastWeek: schemas.WayStatistics{
-			LabelStatistics:     schemas.LabelStatistics{Labels: make([]schemas.LabelInfo, 0)},
-			TimeSpentByDayChart: make([]schemas.TimeSpentByDayPoint, 0),
-			OverallInformation:  schemas.OverallInformation{},
-		},
-	}, nil
+	return &schemas.LabelStatistics{Labels: labelsInfo}, nil
 }
