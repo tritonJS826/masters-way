@@ -15,8 +15,9 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/messages/{messageId}/read-message": {
-            "get": {
+        "/messages/{messageId}/message-status": {
+            "patch": {
+                "description": "Update message status by message Id",
                 "consumes": [
                     "application/json"
                 ],
@@ -24,14 +25,23 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "room"
+                    "message"
                 ],
-                "summary": "Mark the message as read",
-                "operationId": "mark-message-as-read",
+                "summary": "Update message status",
+                "operationId": "update-message-status",
                 "parameters": [
                     {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.UpdateMessageStatusPayload"
+                        }
+                    },
+                    {
                         "type": "string",
-                        "description": "message id",
+                        "description": "message Id",
                         "name": "messageId",
                         "in": "path",
                         "required": true
@@ -404,6 +414,7 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "message",
+                "messageId",
                 "messageReaders",
                 "ownerId",
                 "ownerImageUrl",
@@ -411,6 +422,9 @@ const docTemplate = `{
             ],
             "properties": {
                 "message": {
+                    "type": "string"
+                },
+                "messageId": {
                     "type": "string"
                 },
                 "messageReaders": {
@@ -502,6 +516,17 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/schemas.UserResponse"
                     }
+                }
+            }
+        },
+        "schemas.UpdateMessageStatusPayload": {
+            "type": "object",
+            "required": [
+                "isRead"
+            ],
+            "properties": {
+                "isRead": {
+                    "type": "boolean"
                 }
             }
         },

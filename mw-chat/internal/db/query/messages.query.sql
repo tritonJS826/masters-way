@@ -5,6 +5,7 @@ RETURNING uuid, owner_uuid, text;
 
 -- name: GetMessagesByRoomUUID :many
 SELECT
+    messages.uuid,
     messages.owner_uuid,
     messages.text,
     ARRAY(

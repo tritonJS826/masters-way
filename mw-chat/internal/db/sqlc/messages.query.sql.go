@@ -38,6 +38,7 @@ func (q *Queries) CreateMessage(ctx context.Context, arg CreateMessageParams) (C
 
 const getMessagesByRoomUUID = `-- name: GetMessagesByRoomUUID :many
 SELECT
+    messages.uuid,
     messages.owner_uuid,
     messages.text,
     ARRAY(
@@ -60,6 +61,7 @@ LIMIT 100
 `
 
 type GetMessagesByRoomUUIDRow struct {
+	Uuid                   pgtype.UUID        `json:"uuid"`
 	OwnerUuid              pgtype.UUID        `json:"owner_uuid"`
 	Text                   string             `json:"text"`
 	MessageStatusUserUuids []pgtype.UUID      `json:"message_status_user_uuids"`
@@ -76,6 +78,7 @@ func (q *Queries) GetMessagesByRoomUUID(ctx context.Context, roomUuid pgtype.UUI
 	for rows.Next() {
 		var i GetMessagesByRoomUUIDRow
 		if err := rows.Scan(
+			&i.Uuid,
 			&i.OwnerUuid,
 			&i.Text,
 			&i.MessageStatusUserUuids,

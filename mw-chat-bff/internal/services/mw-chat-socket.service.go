@@ -19,6 +19,7 @@ func NewMWChatSocketService(mwChatWebSocketAPI *openapiMWChatWebSocket.APIClient
 func (mwChatWebSocketService *MWChatWebSocketService) SendMessage(ctx *gin.Context, roomID string, messageResponse *schemas.SendMessagePayload) error {
 	request := openapiMWChatWebSocket.SchemasSendMessagePayload{
 		Message: openapiMWChatWebSocket.SchemasMessageResponse{
+			MessageId:      messageResponse.Message.MessageID,
 			Message:        messageResponse.Message.Message,
 			MessageReaders: []openapiMWChatWebSocket.SchemasMessageReader{},
 			OwnerId:        messageResponse.Message.OwnerID,
@@ -48,6 +49,7 @@ func (mwChatWebSocketService *MWChatWebSocketService) SendRoom(ctx *gin.Context,
 
 	openapiMessages := lop.Map(populatedRoom.Messages, func(message schemas.MessageResponse, _ int) openapiMWChatWebSocket.SchemasMessageResponse {
 		return openapiMWChatWebSocket.SchemasMessageResponse{
+			MessageId:      message.MessageID,
 			Message:        message.Message,
 			MessageReaders: []openapiMWChatWebSocket.SchemasMessageReader{},
 			OwnerId:        message.OwnerID,

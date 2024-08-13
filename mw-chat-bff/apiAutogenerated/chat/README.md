@@ -79,6 +79,7 @@ All URIs are relative to *http://localhost*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *DevAPI* | [**ResetDbGet**](docs/DevAPI.md#resetdbget) | **Get** /reset-db | resets db
+*MessageAPI* | [**UpdateMessageStatus**](docs/MessageAPI.md#updatemessagestatus) | **Patch** /messages/{messageId}/message-status | Update message status
 *RoomAPI* | [**AddUserToRoom**](docs/RoomAPI.md#addusertoroom) | **Post** /rooms/{roomId}/users/{userId} | Add user to room
 *RoomAPI* | [**CreateMessageInRoom**](docs/RoomAPI.md#createmessageinroom) | **Post** /rooms/{roomId}/messages | Create message in room
 *RoomAPI* | [**CreateRoom**](docs/RoomAPI.md#createroom) | **Post** /rooms | Create room for user
@@ -100,6 +101,7 @@ Class | Method | HTTP request | Description
  - [SchemasMessageResponse](docs/SchemasMessageResponse.md)
  - [SchemasRoomPopulatedResponse](docs/SchemasRoomPopulatedResponse.md)
  - [SchemasRoomPreviewResponse](docs/SchemasRoomPreviewResponse.md)
+ - [SchemasUpdateMessageStatusPayload](docs/SchemasUpdateMessageStatusPayload.md)
  - [SchemasUserResponse](docs/SchemasUserResponse.md)
 
 

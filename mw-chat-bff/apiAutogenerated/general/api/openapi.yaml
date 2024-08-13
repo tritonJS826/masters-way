@@ -1297,6 +1297,16 @@ paths:
         name: limit
         schema:
           type: integer
+      - description: Min day reports amount
+        in: query
+        name: minDayReportsAmount
+        schema:
+          type: integer
+      - description: Way name
+        in: query
+        name: wayName
+        schema:
+          type: string
       - description: "Ways type: all | completed | inProgress | abandoned"
         in: query
         name: status
@@ -1395,6 +1405,26 @@ paths:
       tags:
       - way
       x-codegen-request-body-name: request
+  /ways/{wayId}/statistics:
+    get:
+      operationId: get-way-statistics-by-uuid
+      parameters:
+      - description: way ID
+        in: path
+        name: wayId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.WayStatisticsTriplePeriod'
+          description: OK
+      summary: Get way statistics by UUID
+      tags:
+      - way
 components:
   schemas:
     schemas.AddWayToCompositeWayPayload:
@@ -2442,6 +2472,85 @@ components:
       - name
       - uuid
       type: object
+    schemas.Label:
+      example:
+        color: color
+        name: name
+        description: description
+        uuid: uuid
+      properties:
+        color:
+          type: string
+        description:
+          type: string
+        name:
+          type: string
+        uuid:
+          type: string
+      required:
+      - color
+      - description
+      - name
+      - uuid
+      type: object
+    schemas.LabelInfo:
+      example:
+        jobsAmount: 0
+        jobsAmountPercentage: 6
+        label:
+          color: color
+          name: name
+          description: description
+          uuid: uuid
+        time: 1
+        timePercentage: 5
+      properties:
+        jobsAmount:
+          type: integer
+        jobsAmountPercentage:
+          type: integer
+        label:
+          $ref: '#/components/schemas/schemas.Label'
+        time:
+          type: integer
+        timePercentage:
+          type: integer
+      required:
+      - jobsAmount
+      - jobsAmountPercentage
+      - label
+      - time
+      - timePercentage
+      type: object
+    schemas.LabelStatistics:
+      example:
+        labels:
+        - jobsAmount: 0
+          jobsAmountPercentage: 6
+          label:
+            color: color
+            name: name
+            description: description
+            uuid: uuid
+          time: 1
+          timePercentage: 5
+        - jobsAmount: 0
+          jobsAmountPercentage: 6
+          label:
+            color: color
+            name: name
+            description: description
+            uuid: uuid
+          time: 1
+          timePercentage: 5
+      properties:
+        labels:
+          items:
+            $ref: '#/components/schemas/schemas.LabelInfo'
+          type: array
+      required:
+      - labels
+      type: object
     schemas.MetricResponse:
       example:
         description: description
@@ -2467,6 +2576,35 @@ components:
       - estimationTime
       - isDone
       - uuid
+      type: object
+    schemas.OverallInformation:
+      example:
+        averageTimePerWorkingDay: 7
+        totalTime: 2
+        averageTimePerCalendarDay: 2
+        totalReports: 3
+        finishedJobs: 9
+        averageJobTime: 5
+      properties:
+        averageJobTime:
+          type: integer
+        averageTimePerCalendarDay:
+          type: integer
+        averageTimePerWorkingDay:
+          type: integer
+        finishedJobs:
+          type: integer
+        totalReports:
+          type: integer
+        totalTime:
+          type: integer
+      required:
+      - averageJobTime
+      - averageTimePerCalendarDay
+      - averageTimePerWorkingDay
+      - finishedJobs
+      - totalReports
+      - totalTime
       type: object
     schemas.PlanPopulatedResponse:
       example:
@@ -2573,6 +2711,19 @@ components:
       - tags
       - updatedAt
       - uuid
+      type: object
+    schemas.TimeSpentByDayPoint:
+      example:
+        date: date
+        value: 4
+      properties:
+        date:
+          type: string
+        value:
+          type: integer
+      required:
+      - date
+      - value
       type: object
     schemas.UpdateCommentPayload:
       properties:
@@ -4079,6 +4230,167 @@ components:
       - updatedAt
       - uuid
       - wayTags
+      type: object
+    schemas.WayStatistics:
+      example:
+        labelStatistics:
+          labels:
+          - jobsAmount: 0
+            jobsAmountPercentage: 6
+            label:
+              color: color
+              name: name
+              description: description
+              uuid: uuid
+            time: 1
+            timePercentage: 5
+          - jobsAmount: 0
+            jobsAmountPercentage: 6
+            label:
+              color: color
+              name: name
+              description: description
+              uuid: uuid
+            time: 1
+            timePercentage: 5
+        timeSpentByDayChart:
+        - date: date
+          value: 4
+        - date: date
+          value: 4
+        overallInformation:
+          averageTimePerWorkingDay: 7
+          totalTime: 2
+          averageTimePerCalendarDay: 2
+          totalReports: 3
+          finishedJobs: 9
+          averageJobTime: 5
+      properties:
+        labelStatistics:
+          $ref: '#/components/schemas/schemas.LabelStatistics'
+        overallInformation:
+          $ref: '#/components/schemas/schemas.OverallInformation'
+        timeSpentByDayChart:
+          items:
+            $ref: '#/components/schemas/schemas.TimeSpentByDayPoint'
+          type: array
+      required:
+      - labelStatistics
+      - overallInformation
+      - timeSpentByDayChart
+      type: object
+    schemas.WayStatisticsTriplePeriod:
+      example:
+        totalTime:
+          labelStatistics:
+            labels:
+            - jobsAmount: 0
+              jobsAmountPercentage: 6
+              label:
+                color: color
+                name: name
+                description: description
+                uuid: uuid
+              time: 1
+              timePercentage: 5
+            - jobsAmount: 0
+              jobsAmountPercentage: 6
+              label:
+                color: color
+                name: name
+                description: description
+                uuid: uuid
+              time: 1
+              timePercentage: 5
+          timeSpentByDayChart:
+          - date: date
+            value: 4
+          - date: date
+            value: 4
+          overallInformation:
+            averageTimePerWorkingDay: 7
+            totalTime: 2
+            averageTimePerCalendarDay: 2
+            totalReports: 3
+            finishedJobs: 9
+            averageJobTime: 5
+        lastMonth:
+          labelStatistics:
+            labels:
+            - jobsAmount: 0
+              jobsAmountPercentage: 6
+              label:
+                color: color
+                name: name
+                description: description
+                uuid: uuid
+              time: 1
+              timePercentage: 5
+            - jobsAmount: 0
+              jobsAmountPercentage: 6
+              label:
+                color: color
+                name: name
+                description: description
+                uuid: uuid
+              time: 1
+              timePercentage: 5
+          timeSpentByDayChart:
+          - date: date
+            value: 4
+          - date: date
+            value: 4
+          overallInformation:
+            averageTimePerWorkingDay: 7
+            totalTime: 2
+            averageTimePerCalendarDay: 2
+            totalReports: 3
+            finishedJobs: 9
+            averageJobTime: 5
+        lastWeek:
+          labelStatistics:
+            labels:
+            - jobsAmount: 0
+              jobsAmountPercentage: 6
+              label:
+                color: color
+                name: name
+                description: description
+                uuid: uuid
+              time: 1
+              timePercentage: 5
+            - jobsAmount: 0
+              jobsAmountPercentage: 6
+              label:
+                color: color
+                name: name
+                description: description
+                uuid: uuid
+              time: 1
+              timePercentage: 5
+          timeSpentByDayChart:
+          - date: date
+            value: 4
+          - date: date
+            value: 4
+          overallInformation:
+            averageTimePerWorkingDay: 7
+            totalTime: 2
+            averageTimePerCalendarDay: 2
+            totalReports: 3
+            finishedJobs: 9
+            averageJobTime: 5
+      properties:
+        lastMonth:
+          $ref: '#/components/schemas/schemas.WayStatistics'
+        lastWeek:
+          $ref: '#/components/schemas/schemas.WayStatistics'
+        totalTime:
+          $ref: '#/components/schemas/schemas.WayStatistics'
+      required:
+      - lastMonth
+      - lastWeek
+      - totalTime
       type: object
     schemas.WayTagResponse:
       example:

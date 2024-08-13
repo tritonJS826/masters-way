@@ -51,6 +51,8 @@ type APIClient struct {
 
 	DevAPI *DevAPIService
 
+	MessageAPI *MessageAPIService
+
 	RoomAPI *RoomAPIService
 }
 
@@ -71,6 +73,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 
 	// API Services
 	c.DevAPI = (*DevAPIService)(&c.common)
+	c.MessageAPI = (*MessageAPIService)(&c.common)
 	c.RoomAPI = (*RoomAPIService)(&c.common)
 
 	return c

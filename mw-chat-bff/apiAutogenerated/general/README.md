@@ -135,6 +135,7 @@ Class | Method | HTTP request | Description
 *WayAPI* | [**DeleteWay**](docs/WayAPI.md#deleteway) | **Delete** /ways/{wayId} | Delete way by UUID
 *WayAPI* | [**GetAllWays**](docs/WayAPI.md#getallways) | **Get** /ways | Get all ways
 *WayAPI* | [**GetWayByUuid**](docs/WayAPI.md#getwaybyuuid) | **Get** /ways/{wayId} | Get way by UUID
+*WayAPI* | [**GetWayStatisticsByUuid**](docs/WayAPI.md#getwaystatisticsbyuuid) | **Get** /ways/{wayId}/statistics | Get way statistics by UUID
 *WayAPI* | [**UpdateWay**](docs/WayAPI.md#updateway) | **Patch** /ways/{wayId} | Update way by UUID
 *WayCollectionAPI* | [**CreateWayCollection**](docs/WayCollectionAPI.md#createwaycollection) | **Post** /wayCollections | Create a new wayCollection
 *WayCollectionAPI* | [**DeleteWayCollection**](docs/WayCollectionAPI.md#deletewaycollection) | **Delete** /wayCollections/{wayCollectionId} | Delete wayCollection by UUID
@@ -179,9 +180,14 @@ Class | Method | HTTP request | Description
  - [SchemasGetUsersByIDsResponse](docs/SchemasGetUsersByIDsResponse.md)
  - [SchemasJobDonePopulatedResponse](docs/SchemasJobDonePopulatedResponse.md)
  - [SchemasJobTagResponse](docs/SchemasJobTagResponse.md)
+ - [SchemasLabel](docs/SchemasLabel.md)
+ - [SchemasLabelInfo](docs/SchemasLabelInfo.md)
+ - [SchemasLabelStatistics](docs/SchemasLabelStatistics.md)
  - [SchemasMetricResponse](docs/SchemasMetricResponse.md)
+ - [SchemasOverallInformation](docs/SchemasOverallInformation.md)
  - [SchemasPlanPopulatedResponse](docs/SchemasPlanPopulatedResponse.md)
  - [SchemasProblemPopulatedResponse](docs/SchemasProblemPopulatedResponse.md)
+ - [SchemasTimeSpentByDayPoint](docs/SchemasTimeSpentByDayPoint.md)
  - [SchemasUpdateCommentPayload](docs/SchemasUpdateCommentPayload.md)
  - [SchemasUpdateDayReportPayload](docs/SchemasUpdateDayReportPayload.md)
  - [SchemasUpdateJobDone](docs/SchemasUpdateJobDone.md)
@@ -200,6 +206,8 @@ Class | Method | HTTP request | Description
  - [SchemasWayCollectionPopulatedResponse](docs/SchemasWayCollectionPopulatedResponse.md)
  - [SchemasWayPlainResponse](docs/SchemasWayPlainResponse.md)
  - [SchemasWayPopulatedResponse](docs/SchemasWayPopulatedResponse.md)
+ - [SchemasWayStatistics](docs/SchemasWayStatistics.md)
+ - [SchemasWayStatisticsTriplePeriod](docs/SchemasWayStatisticsTriplePeriod.md)
  - [SchemasWayTagResponse](docs/SchemasWayTagResponse.md)
  - [UtilResponseStatusString](docs/UtilResponseStatusString.md)
 

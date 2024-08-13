@@ -81,9 +81,14 @@ docs/SchemasGetAllWaysResponse.md
 docs/SchemasGetUsersByIDsResponse.md
 docs/SchemasJobDonePopulatedResponse.md
 docs/SchemasJobTagResponse.md
+docs/SchemasLabel.md
+docs/SchemasLabelInfo.md
+docs/SchemasLabelStatistics.md
 docs/SchemasMetricResponse.md
+docs/SchemasOverallInformation.md
 docs/SchemasPlanPopulatedResponse.md
 docs/SchemasProblemPopulatedResponse.md
+docs/SchemasTimeSpentByDayPoint.md
 docs/SchemasUpdateCommentPayload.md
 docs/SchemasUpdateDayReportPayload.md
 docs/SchemasUpdateJobDone.md
@@ -102,6 +107,8 @@ docs/SchemasWayCollectionPlainResponse.md
 docs/SchemasWayCollectionPopulatedResponse.md
 docs/SchemasWayPlainResponse.md
 docs/SchemasWayPopulatedResponse.md
+docs/SchemasWayStatistics.md
+docs/SchemasWayStatisticsTriplePeriod.md
 docs/SchemasWayTagResponse.md
 docs/ToUserMentoringRequestAPI.md
 docs/UserAPI.md
@@ -146,9 +153,14 @@ model_schemas_get_all_ways_response.go
 model_schemas_get_users_by_ids_response.go
 model_schemas_job_done_populated_response.go
 model_schemas_job_tag_response.go
+model_schemas_label.go
+model_schemas_label_info.go
+model_schemas_label_statistics.go
 model_schemas_metric_response.go
+model_schemas_overall_information.go
 model_schemas_plan_populated_response.go
 model_schemas_problem_populated_response.go
+model_schemas_time_spent_by_day_point.go
 model_schemas_update_comment_payload.go
 model_schemas_update_day_report_payload.go
 model_schemas_update_job_done.go
@@ -167,6 +179,8 @@ model_schemas_way_collection_plain_response.go
 model_schemas_way_collection_populated_response.go
 model_schemas_way_plain_response.go
 model_schemas_way_populated_response.go
+model_schemas_way_statistics.go
+model_schemas_way_statistics_triple_period.go
 model_schemas_way_tag_response.go
 model_util_response_status_string.go
 response.go

@@ -124,6 +124,7 @@
             "type": "object",
             "required": [
                 "message",
+                "messageId",
                 "messageReaders",
                 "ownerId",
                 "ownerImageUrl",
@@ -132,6 +133,9 @@
             ],
             "properties": {
                 "message": {
+                    "type": "string"
+                },
+                "messageId": {
                     "type": "string"
                 },
                 "messageReaders": {

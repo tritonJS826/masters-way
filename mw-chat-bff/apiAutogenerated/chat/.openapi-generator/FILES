@@ -3,10 +3,12 @@
 README.md
 api/openapi.yaml
 api_dev.go
+api_message.go
 api_room.go
 client.go
 configuration.go
 docs/DevAPI.md
+docs/MessageAPI.md
 docs/RoomAPI.md
 docs/SchemasCreateMessagePayload.md
 docs/SchemasCreateMessageResponse.md
@@ -17,6 +19,7 @@ docs/SchemasMessageReader.md
 docs/SchemasMessageResponse.md
 docs/SchemasRoomPopulatedResponse.md
 docs/SchemasRoomPreviewResponse.md
+docs/SchemasUpdateMessageStatusPayload.md
 docs/SchemasUserResponse.md
 git_push.sh
 go.mod
@@ -30,6 +33,7 @@ model_schemas_message_reader.go
 model_schemas_message_response.go
 model_schemas_room_populated_response.go
 model_schemas_room_preview_response.go
+model_schemas_update_message_status_payload.go
 model_schemas_user_response.go
 response.go
 utils.go

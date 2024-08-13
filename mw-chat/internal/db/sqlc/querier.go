@@ -23,7 +23,8 @@ type Querier interface {
 	GetUsersUUIDsInRoom(ctx context.Context, roomUuid pgtype.UUID) ([]pgtype.UUID, error)
 	RegenerateDbData(ctx context.Context) error
 	RemoveEverything(ctx context.Context) error
-	SetMessagesAsRead(ctx context.Context, arg SetMessagesAsReadParams) error
+	SetAllRoomMessagesAsRead(ctx context.Context, arg SetAllRoomMessagesAsReadParams) error
+	UpdateMessageStatus(ctx context.Context, arg UpdateMessageStatusParams) error
 }
 
 var _ Querier = (*Queries)(nil)

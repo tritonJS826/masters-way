@@ -7,6 +7,32 @@ info:
 servers:
 - url: /
 paths:
+  /messages/{messageId}/message-status:
+    patch:
+      description: Update message status by message Id
+      operationId: update-message-status
+      parameters:
+      - description: message Id
+        in: path
+        name: messageId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.UpdateMessageStatusPayload'
+        description: query params
+        required: true
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Update message status
+      tags:
+      - message
+      x-codegen-request-body-name: request
   /reset-db:
     get:
       description: resets db
@@ -206,6 +232,7 @@ components:
             userId: userId
           - readDate: readDate
             userId: userId
+          messageId: messageId
           message: message
           ownerId: ownerId
         users:
@@ -297,10 +324,13 @@ components:
           userId: userId
         - readDate: readDate
           userId: userId
+        messageId: messageId
         message: message
         ownerId: ownerId
       properties:
         message:
+          type: string
+        messageId:
           type: string
         messageReaders:
           items:
@@ -310,6 +340,7 @@ components:
           type: string
       required:
       - message
+      - messageId
       - messageReaders
       - ownerId
       type: object
@@ -323,6 +354,7 @@ components:
             userId: userId
           - readDate: readDate
             userId: userId
+          messageId: messageId
           message: message
           ownerId: ownerId
         - messageReaders:
@@ -330,6 +362,7 @@ components:
             userId: userId
           - readDate: readDate
             userId: userId
+          messageId: messageId
           message: message
           ownerId: ownerId
         roomId: roomId
@@ -396,6 +429,13 @@ components:
       - roomId
       - roomType
       - users
+      type: object
+    schemas.UpdateMessageStatusPayload:
+      properties:
+        isRead:
+          type: boolean
+      required:
+      - isRead
       type: object
     schemas.UserResponse:
       example:

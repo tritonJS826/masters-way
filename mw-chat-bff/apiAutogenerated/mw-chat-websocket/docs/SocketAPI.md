@@ -95,7 +95,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasSendMessagePayload(*openapiclient.NewSchemasMessageResponse("Message_example", []openapiclient.SchemasMessageReader{*openapiclient.NewSchemasMessageReader("ImageUrl_example", "Name_example", "ReadDate_example", "UserId_example")}, "OwnerId_example", "OwnerImageUrl_example", "OwnerName_example", "RoomId_example"), []string{"Users_example"}) // SchemasSendMessagePayload | query params
+	request := *openapiclient.NewSchemasSendMessagePayload(*openapiclient.NewSchemasMessageResponse("Message_example", "MessageId_example", []openapiclient.SchemasMessageReader{*openapiclient.NewSchemasMessageReader("ImageUrl_example", "Name_example", "ReadDate_example", "UserId_example")}, "OwnerId_example", "OwnerImageUrl_example", "OwnerName_example", "RoomId_example"), []string{"Users_example"}) // SchemasSendMessagePayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -157,7 +157,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasRoomPopulatedResponse("ImageUrl_example", []openapiclient.SchemasMessageResponse{*openapiclient.NewSchemasMessageResponse("Message_example", []openapiclient.SchemasMessageReader{*openapiclient.NewSchemasMessageReader("ImageUrl_example", "Name_example", "ReadDate_example", "UserId_example")}, "OwnerId_example", "OwnerImageUrl_example", "OwnerName_example", "RoomId_example")}, "Name_example", "RoomId_example", "RoomType_example", []openapiclient.SchemasUserResponse{*openapiclient.NewSchemasUserResponse("ImageUrl_example", "Name_example", "Role_example", "UserId_example")}) // SchemasRoomPopulatedResponse | query params
+	request := *openapiclient.NewSchemasRoomPopulatedResponse("ImageUrl_example", []openapiclient.SchemasMessageResponse{*openapiclient.NewSchemasMessageResponse("Message_example", "MessageId_example", []openapiclient.SchemasMessageReader{*openapiclient.NewSchemasMessageReader("ImageUrl_example", "Name_example", "ReadDate_example", "UserId_example")}, "OwnerId_example", "OwnerImageUrl_example", "OwnerName_example", "RoomId_example")}, "Name_example", "RoomId_example", "RoomType_example", []openapiclient.SchemasUserResponse{*openapiclient.NewSchemasUserResponse("ImageUrl_example", "Name_example", "Role_example", "UserId_example")}) // SchemasRoomPopulatedResponse | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

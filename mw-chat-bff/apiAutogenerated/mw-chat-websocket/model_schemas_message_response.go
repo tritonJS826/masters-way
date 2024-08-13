@@ -22,6 +22,7 @@ var _ MappedNullable = &SchemasMessageResponse{}
 // SchemasMessageResponse struct for SchemasMessageResponse
 type SchemasMessageResponse struct {
 	Message string `json:"message"`
+	MessageId string `json:"messageId"`
 	MessageReaders []SchemasMessageReader `json:"messageReaders"`
 	OwnerId string `json:"ownerId"`
 	OwnerImageUrl string `json:"ownerImageUrl"`
@@ -35,9 +36,10 @@ type _SchemasMessageResponse SchemasMessageResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSchemasMessageResponse(message string, messageReaders []SchemasMessageReader, ownerId string, ownerImageUrl string, ownerName string, roomId string) *SchemasMessageResponse {
+func NewSchemasMessageResponse(message string, messageId string, messageReaders []SchemasMessageReader, ownerId string, ownerImageUrl string, ownerName string, roomId string) *SchemasMessageResponse {
 	this := SchemasMessageResponse{}
 	this.Message = message
+	this.MessageId = messageId
 	this.MessageReaders = messageReaders
 	this.OwnerId = ownerId
 	this.OwnerImageUrl = ownerImageUrl
@@ -76,6 +78,30 @@ func (o *SchemasMessageResponse) GetMessageOk() (*string, bool) {
 // SetMessage sets field value
 func (o *SchemasMessageResponse) SetMessage(v string) {
 	o.Message = v
+}
+
+// GetMessageId returns the MessageId field value
+func (o *SchemasMessageResponse) GetMessageId() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.MessageId
+}
+
+// GetMessageIdOk returns a tuple with the MessageId field value
+// and a boolean to check if the value has been set.
+func (o *SchemasMessageResponse) GetMessageIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.MessageId, true
+}
+
+// SetMessageId sets field value
+func (o *SchemasMessageResponse) SetMessageId(v string) {
+	o.MessageId = v
 }
 
 // GetMessageReaders returns the MessageReaders field value
@@ -209,6 +235,7 @@ func (o SchemasMessageResponse) MarshalJSON() ([]byte, error) {
 func (o SchemasMessageResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["message"] = o.Message
+	toSerialize["messageId"] = o.MessageId
 	toSerialize["messageReaders"] = o.MessageReaders
 	toSerialize["ownerId"] = o.OwnerId
 	toSerialize["ownerImageUrl"] = o.OwnerImageUrl
@@ -223,6 +250,7 @@ func (o *SchemasMessageResponse) UnmarshalJSON(data []byte) (err error) {
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"message",
+		"messageId",
 		"messageReaders",
 		"ownerId",
 		"ownerImageUrl",
