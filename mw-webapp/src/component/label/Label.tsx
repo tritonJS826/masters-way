@@ -38,6 +38,16 @@ interface LabelProps {
    * Callback triggered on change label
    */
   onChangeValue?: (value: string) => void;
+
+  /**
+   * Notification text for minimum length label
+   */
+  notificationMinLengthText?: string;
+
+  /**
+   * Notification text for maximum length label
+   */
+  notificationMaxLengthText?: string;
 }
 
 /**
@@ -58,6 +68,8 @@ export const Label = (props: LabelProps) => {
           className={styles.editableText}
           minLength={MIN_LENGTH_LABEL}
           maxLength={MAX_LENGTH_LABEL}
+          notificationMinLengthText={props.notificationMinLengthText}
+          notificationMaxLengthText={props.notificationMaxLengthText}
         />
       </div>
     </Tooltip>

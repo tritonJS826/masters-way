@@ -66,6 +66,8 @@ export const LabelLine = observer((props: LabelLineProps) => {
             });
           }}
           isEditable={props.isEditable}
+          notificationMinLengthText={LanguageService.way.notifications.labelMinLength[language]}
+          notificationMaxLengthText={LanguageService.way.notifications.labelMaxLength[language]}
         />
       </div>
 

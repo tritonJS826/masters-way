@@ -1,7 +1,9 @@
 import {useEffect, useState} from "react";
 import clsx from "clsx";
+import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
 import {Text} from "src/component/text/Text";
 import {Textarea} from "src/component/textarea/Textarea";
+import {getValidValue} from "src/utils/getValidValue";
 import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/component/editableTextarea/editableTextarea.module.scss";
 
@@ -63,6 +65,25 @@ interface EditableTextareaProps {
    */
   cy?: CyEditableTextarea;
 
+  /**
+   * Minimum symbols amount for text
+   */
+  minLength?: number;
+
+  /**
+   * Maximum symbols amount for text
+   */
+  maxLength?: number;
+
+  /**
+   * Notification text for minimum length teaxterea
+   */
+  notificationMinLengthText?: string;
+
+  /**
+   * Notification text for maximum length teaxterea
+   */
+  notificationMaxLengthText?: string;
 }
 
 /**
@@ -95,13 +116,32 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
   };
 
   /**
+   * Func onChangeInput
+   */
+  const onChangeInput = (value: string) => {
+    const {isInvalidTextLength, notificationText} = getValidValue(value, {
+      minLength: props.minLength,
+      maxLength: props.maxLength,
+      notificationMinLengthText: props.notificationMinLengthText,
+      notificationMaxLengthText: props.notificationMaxLengthText,
+    });
+
+    isInvalidTextLength
+      ? displayNotification({
+        text: notificationText || "Invalid input length",
+        type: NotificationType.INFO,
+      })
+      : setText(value);
+  };
+
+  /**
    * Render Textarea
    */
   const renderTextarea = () => (
     <Textarea
       cy={props.cy?.textArea}
       defaultValue={text}
-      onChange={setText}
+      onChange={onChangeInput}
       placeholder={props.placeholder}
       rows={props.rows}
       isAutofocus

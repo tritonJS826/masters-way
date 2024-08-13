@@ -4,6 +4,7 @@ import {getFormattedValue} from "src/component/editableText/getFormattedValue";
 import {Input} from "src/component/input/Input";
 import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
 import {Text} from "src/component/text/Text";
+import {getValidValue} from "src/utils/getValidValue";
 import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/component/editableText/EditableText.module.scss";
 
@@ -90,6 +91,15 @@ interface EditableTextProps<T> {
    */
   maxLength?: number;
 
+  /**
+   * Notification text for minimum length text
+   */
+  notificationMinLengthText?: string;
+
+  /**
+   * Notification text for maximum length text
+   */
+  notificationMaxLengthText?: string;
 }
 
 /**
@@ -121,21 +131,16 @@ export const EditableText = <T extends string | number>(props: EditableTextProps
    * Update value
    */
   const updateValue = (updatedValue: T) => {
-    const isExceedingMinLength = typeof updatedValue === "string" &&
-    props.minLength && updatedValue.length < props.minLength;
-
-    const isExceedingMaxLength = typeof updatedValue === "string" &&
-    props.maxLength && updatedValue.length > props.maxLength;
-
-    const isInvalidTextLength = isExceedingMinLength || isExceedingMaxLength;
-
-    const notificationText = isExceedingMinLength
-      ? "Label should include at least one character"
-      : "Label should not exceed 30 characters";
+    const {isInvalidTextLength, notificationText} = getValidValue(updatedValue, {
+      minLength: props.minLength,
+      maxLength: props.maxLength,
+      notificationMinLengthText: props.notificationMinLengthText,
+      notificationMaxLengthText: props.notificationMaxLengthText,
+    });
 
     isInvalidTextLength
       ? displayNotification({
-        text: notificationText,
+        text: notificationText || "Invalid input length",
         type: NotificationType.INFO,
       })
       : setValue(updatedValue);

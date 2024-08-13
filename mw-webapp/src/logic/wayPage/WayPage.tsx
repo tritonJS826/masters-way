@@ -63,6 +63,9 @@ import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
 import styles from "src/logic/wayPage/WayPage.module.scss";
 
+const MAX_LENGTH_WAYNAME = 50;
+const MIN_LENGTH_WAYNAME = 1;
+
 const LIKE_VALUE = 1;
 const DEFAULT_WAY_PAGE_SETTINGS: WayPageSettings = {
 
@@ -393,6 +396,10 @@ export const WayPage = observer((props: WayPageProps) => {
                   }}
                   isEditable={isUserOwnerOrMentor}
                   className={styles.wayName}
+                  minLength={MIN_LENGTH_WAYNAME}
+                  maxLength={MAX_LENGTH_WAYNAME}
+                  notificationMinLengthText={LanguageService.way.notifications.wayNameMinLength[language]}
+                  notificationMaxLengthText={LanguageService.way.notifications.wayNameMaxLength[language]}
                 />
               </HorizontalContainer>
 

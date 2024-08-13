@@ -3,6 +3,7 @@ import {Heading} from "@radix-ui/themes";
 import clsx from "clsx";
 import {Input} from "src/component/input/Input";
 import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
+import {getValidValue} from "src/utils/getValidValue";
 import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/component/title/Title.module.scss";
 
@@ -66,6 +67,11 @@ interface TitleProps {
   onChangeFinish?: (value: string) => void;
 
   /**
+   * Function that update element on Enter click or unfocused
+   */
+  onValidate?: (value: string) => boolean;
+
+  /**
    * If false - doubleclick handler disabled, if true - doubleclick handler allowed
    * @default false
    */
@@ -87,9 +93,24 @@ interface TitleProps {
   placeholder: string;
 
   /**
-   * Minimum symbols amount for title
+   * Minimum symbols amount for text
    */
   minLength?: number;
+
+  /**
+   * Maximum symbols amount for text
+   */
+  maxLength?: number;
+
+  /**
+   * Notification text for minimum length text
+   */
+  notificationMinLengthText?: string;
+
+  /**
+   * Notification text for maximum length text
+   */
+  notificationMaxLengthText?: string;
 }
 
 /**
@@ -110,6 +131,7 @@ export const Title = (props: TitleProps) => {
     if (!props.onChangeFinish) {
       throw Error("Unavailable edit title");
     }
+
     props.onChangeFinish(text);
     setIsEditing(false);
   };
@@ -124,12 +146,19 @@ export const Title = (props: TitleProps) => {
   };
 
   /**
-   * Check is value valid or not according min length
+   * OnChangeInput
    */
-  const getValidValue = (value: string) => {
-    props.minLength && value.length < props.minLength
+  const onChangeInput = (value: string) => {
+    const {isInvalidTextLength, notificationText} = getValidValue(value, {
+      minLength: props.minLength,
+      maxLength: props.maxLength,
+      notificationMinLengthText: props.notificationMinLengthText,
+      notificationMaxLengthText: props.notificationMaxLengthText,
+    });
+
+    isInvalidTextLength
       ? displayNotification({
-        text: "Name should include at least one character",
+        text: notificationText || "Invalid input length",
         type: NotificationType.INFO,
       })
       : setText(value);
@@ -151,7 +180,7 @@ export const Title = (props: TitleProps) => {
             type="text"
             value={text}
             autoFocus={true}
-            onChange={getValidValue}
+            onChange={onChangeInput}
             dataCy={props.cy?.dataCyInput}
           />
         )

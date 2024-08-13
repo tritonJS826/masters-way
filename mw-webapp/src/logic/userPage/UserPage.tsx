@@ -43,6 +43,9 @@ import {PartialWithId, PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
 import styles from "src/logic/userPage/UserPage.module.scss";
 
+const MAX_LENGTH_USERNAME = 50;
+const MIN_LENGTH_USERNAME = 1;
+
 /**
  * Get all collections
  */
@@ -288,6 +291,33 @@ export const UserPage = observer((props: UserPageProps) => {
     );
   }
 
+  /**
+   * Dwdwd
+   */
+  const validateTitle = (value: string) => {
+    const minLength = 1;
+    const maxLength = 50;
+
+    const isExceedingMinLength = value.length < minLength;
+    const isExceedingMaxLength = value.length > maxLength;
+    const isInvalidTitleLength = isExceedingMinLength || isExceedingMaxLength;
+
+    const notificationText = isExceedingMinLength
+      ? "Name should include at least one character"
+      : "Name should not exceed 50 characters";
+
+    if (isInvalidTitleLength) {
+      displayNotification({
+        text: notificationText,
+        type: NotificationType.INFO,
+      });
+
+      return false;
+    }
+
+    return true;
+  };
+
   const favoriteTooltipTextForLoggedUser = getIsUserInFavorites(user, userPageOwner)
     ? LanguageService.user.personalInfo.deleteFromFavoritesTooltip[language]
     : LanguageService.user.personalInfo.addToFavoritesTooltip[language];
@@ -356,8 +386,12 @@ export const UserPage = observer((props: UserPageProps) => {
                         userPageOwner.updateName(name);
                       },
                     })}
+                    onValidate={validateTitle}
                     isEditable={isPageOwner}
-                    minLength={1}
+                    minLength={MIN_LENGTH_USERNAME}
+                    maxLength={MAX_LENGTH_USERNAME}
+                    notificationMinLengthText={LanguageService.user.notifications.userNameMinLength[language]}
+                    notificationMaxLengthText={LanguageService.user.notifications.userNameMaxLength[language]}
                     className={styles.ownerName}
                   />
                 </HorizontalContainer>
@@ -377,7 +411,6 @@ export const UserPage = observer((props: UserPageProps) => {
                       if (!user) {
                         return;
                       }
-
                       if (getIsUserInFavorites(user, userPageOwner)) {
                         FavoriteUserDAL.deleteFavoriteUser({
                           donorUserUuid: user.uuid,
