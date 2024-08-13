@@ -291,33 +291,6 @@ export const UserPage = observer((props: UserPageProps) => {
     );
   }
 
-  /**
-   * Dwdwd
-   */
-  const validateTitle = (value: string) => {
-    const minLength = 1;
-    const maxLength = 50;
-
-    const isExceedingMinLength = value.length < minLength;
-    const isExceedingMaxLength = value.length > maxLength;
-    const isInvalidTitleLength = isExceedingMinLength || isExceedingMaxLength;
-
-    const notificationText = isExceedingMinLength
-      ? "Name should include at least one character"
-      : "Name should not exceed 50 characters";
-
-    if (isInvalidTitleLength) {
-      displayNotification({
-        text: notificationText,
-        type: NotificationType.INFO,
-      });
-
-      return false;
-    }
-
-    return true;
-  };
-
   const favoriteTooltipTextForLoggedUser = getIsUserInFavorites(user, userPageOwner)
     ? LanguageService.user.personalInfo.deleteFromFavoritesTooltip[language]
     : LanguageService.user.personalInfo.addToFavoritesTooltip[language];
