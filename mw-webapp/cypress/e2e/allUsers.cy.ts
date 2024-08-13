@@ -46,7 +46,7 @@ describe('NoAuth All Users scope tests', () => {
 
     it('NoAuth_AllUsers_OpenUserPersonalAreaCardView', () => {
         const checkWayLink = (userData: {userName: string, userId: string}) => {
-            allUsersSelectors.allWaysCard.getCardLink(userData.userName).click();
+            allUsersSelectors.card.getCardLink(userData.userName).click();
             cy.url().should('include', userData.userId);
             userPersonalSelectors.descriptionSection.getName().should('have.text', userData.userName);
         }

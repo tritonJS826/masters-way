@@ -19,7 +19,7 @@ export const allUsersSelectors = {
         getUserContact: () => cy.get(getDataCy(allUsersAccessIds.allUsersTable.userContact))
     },
 
-    allWaysCard: {
+    card: {
         getCardLink: (userName: string) => cy.get(getDataCy(allUsersAccessIds.allUsersCard.userCardLink(userName)))
     },
 

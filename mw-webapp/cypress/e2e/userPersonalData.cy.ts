@@ -12,16 +12,6 @@ afterEach(() => {
     cy.clearAllStorage();
 });
 
-function getFirstLetters(str: string): string {
-    const words = str.trim().split(/\s+/);
-    
-    if (words.length === 1) {
-        return words[0].slice(0, 2).toUpperCase();
-    } else {
-        return words[0].charAt(0).toUpperCase() + words[1].charAt(0).toUpperCase();
-    }
-}
-
 describe('IsAuth User personal data scope tests', () => {
 
     it('IsAuth_UserPersonalData_EditUserName', () => {
@@ -35,9 +25,9 @@ describe('IsAuth User personal data scope tests', () => {
 
         userPersonalSelectors.descriptionSection.getName().should('contain', userPersonalData.newUserName);
 
-        const expectedAvatar = getFirstLetters(userPersonalData.newUserName);
-
-        headerSelectors.getAvatar().should('have.text', expectedAvatar);
+        cy.getFirstLetters(userPersonalData.newUserName).then((expectedAvatar: string) => {
+            headerSelectors.getAvatar().should('have.text', expectedAvatar);
+        });
 
     });
 
