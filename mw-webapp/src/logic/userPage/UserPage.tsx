@@ -572,7 +572,7 @@ export const UserPage = observer((props: UserPageProps) => {
               ))}
               {!userPageOwner?.tags.length && LanguageService.user.personalInfo.noSkills[language]}
             </HorizontalContainer>
-            <HorizontalContainer className={styles.skillsTitleBlock}>
+            <HorizontalContainer className={styles.supportTitleBlock}>
               <HorizontalContainer>
                 <Infotip content={LanguageService.user.infotip.support[language]} />
                 <Title

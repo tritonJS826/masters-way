@@ -105,6 +105,7 @@ $homePaddingBigBlock: 128px;
 .systemBlockTitle,
 .aboutAppBlockTitle {
   color: var(--secondaryTextColor);
+  text-align: center;
 
   & h2 {
     font-size: $fontSizeTitleBig;

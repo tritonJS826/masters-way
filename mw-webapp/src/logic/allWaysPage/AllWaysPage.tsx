@@ -25,10 +25,12 @@ import {WayStatus} from "src/logic/waysTable/wayStatus";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {LanguageService} from "src/service/LanguageService";
 import {AllWaysPageSettings, View} from "src/utils/LocalStorageWorker";
+import {useDebounce} from "use-debounce";
 import styles from "src/logic/allWaysPage/AllWaysPage.module.scss";
 
 const DEFAULT_PAGE_PAGINATION_VALUE = 1;
 const DEFAULT_MIN_DAY_REPORTS_AMOUNT = 5;
+const DEBOUNCE_DELAY_MILLISECONDS = 1000;
 const DEFAULT_ALL_WAYS_PAGE_SETTINGS: AllWaysPageSettings = {
   filterStatus: FILTER_STATUS_ALL_VALUE,
   minDayReportsAmount: DEFAULT_MIN_DAY_REPORTS_AMOUNT,
@@ -83,18 +85,19 @@ export const AllWaysPage = observer(() => {
     ) => allWaysPageSettingsValidator(currentSettings),
   });
 
+  const [debouncedName] = useDebounce(allWaysPageSettings.wayName, DEBOUNCE_DELAY_MILLISECONDS);
+
   /**
    * Callback that is called to fetch data
    */
   const loadData = async (): Promise<AllWaysFetchData> => {
+    setPagePagination(DEFAULT_PAGE_PAGINATION_VALUE);
     const ways = await WayDAL.getWays({
-      page: pagePagination,
+      page: DEFAULT_PAGE_PAGINATION_VALUE,
       status: allWaysPageSettings.filterStatus,
       minDayReportsAmount: allWaysPageSettings.minDayReportsAmount,
       wayName: allWaysPageSettings.wayName,
     });
-    const nextPage = pagePagination + DEFAULT_PAGE_PAGINATION_VALUE;
-    setPagePagination(nextPage);
 
     return {ways: ways.waysPreview, waysAmount: ways.size};
   };
@@ -104,15 +107,15 @@ export const AllWaysPage = observer(() => {
    */
   const loadMoreWays = async (loadedWays: WayPreview[]) => {
     const nextPage = pagePagination + DEFAULT_PAGE_PAGINATION_VALUE;
-    setPagePagination(nextPage);
 
     const ways = await WayDAL.getWays({
-      page: pagePagination,
+      page: nextPage,
       status: allWaysPageSettings.filterStatus,
       minDayReportsAmount: allWaysPageSettings.minDayReportsAmount,
       wayName: allWaysPageSettings.wayName,
     });
     setAllWays([...loadedWays, ...ways.waysPreview]);
+    setPagePagination(nextPage);
   };
 
   /**
@@ -130,13 +133,14 @@ export const AllWaysPage = observer(() => {
   const onSuccess = (data: AllWaysFetchData) => {
     setAllWays(data.ways);
     setAllWaysAmount(data.waysAmount);
+    setPagePagination(DEFAULT_PAGE_PAGINATION_VALUE);
   };
 
   useLoad({
     loadData,
     onSuccess,
     onError,
-    dependency: [allWaysPageSettings],
+    dependency: [debouncedName, allWaysPageSettings.filterStatus, allWaysPageSettings.minDayReportsAmount],
   });
 
   if (!allWays) {
@@ -161,7 +165,6 @@ export const AllWaysPage = observer(() => {
                 minDayReportsAmount: allWaysPageSettings.minDayReportsAmount,
                 wayName,
               });
-              setPagePagination(DEFAULT_PAGE_PAGINATION_VALUE);
             }}
             placeholder={LanguageService.allWays.filterBlock.wayNamePlaceholder[language]}
             typeInputIcon={"SearchIcon"}
