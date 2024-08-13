@@ -181,6 +181,13 @@ export class ChatDAL {
   }
 
   /**
+   * Mark message as read
+   */
+  public static async markMessageAsRead(messageId: string): Promise<void> {
+    await ChatService.markMessageAsRead({messageId});
+  }
+
+  /**
    * Update chat room
    */
   public static async updateRoom(roomId: string): Promise<Room> {

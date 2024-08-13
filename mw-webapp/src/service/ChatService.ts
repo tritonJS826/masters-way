@@ -5,6 +5,7 @@ import {
   DeleteUserFromRoomRequest,
   GetRoomByIdRequest,
   GetRoomsRequest,
+  MarkMessageAsReadRequest,
   SchemasGetRoomPreviewResponse,
   SchemasGetRoomsResponse,
   SchemasMessageResponse,
@@ -79,6 +80,13 @@ export class ChatService {
     const message = await chat.createMessageInRoom(requestParameters);
 
     return message;
+  }
+
+  /**
+   * Mark message as read
+   */
+  public static async markMessageAsRead(requestParameters: MarkMessageAsReadRequest): Promise<void> {
+    await chat.markMessageAsRead(requestParameters);
   }
 
   /**

@@ -72,6 +72,7 @@ export const ChatContent = observer(() => {
         messageReaders: [],
       });
       activeChatStore?.activeChat.addMessage(newMessage);
+      // IsChatOpen && ChatDAL.markMessageAsRead(newMessage.uuid);
     } else {
       addUnreadMessageToAmount();
       displayNotification({

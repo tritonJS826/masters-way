@@ -41,6 +41,11 @@ export class MessageReader {
 export class Message {
 
   /**
+   * Message's UUID
+   */
+  public uuid?: string;
+
+  /**
    * Message's value
    */
   public message: string;
@@ -72,6 +77,7 @@ export class Message {
     this.ownerImageUrl = messageData.ownerImageUrl;
     this.ownerName = messageData.ownerName;
     this.messageReaders = messageData.messageReaders;
+    this.uuid = messageData.uuid;
   }
 
 }

@@ -64,6 +64,10 @@ export interface GetRoomsRequest {
     roomType: GetRoomsRoomTypeEnum;
 }
 
+export interface MarkMessageAsReadRequest {
+    messageId: string;
+}
+
 export interface UpdateRoomRequest {
     roomId: string;
 }
@@ -295,6 +299,35 @@ export class RoomApi extends runtime.BaseAPI {
     async getRooms(requestParameters: GetRoomsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasGetRoomsResponse> {
         const response = await this.getRoomsRaw(requestParameters, initOverrides);
         return await response.value();
+    }
+
+    /**
+     * Mark the message as read
+     */
+    async markMessageAsReadRaw(requestParameters: MarkMessageAsReadRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters.messageId === null || requestParameters.messageId === undefined) {
+            throw new runtime.RequiredError('messageId','Required parameter requestParameters.messageId was null or undefined when calling markMessageAsRead.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/messages/{messageId}/read-message`.replace(`{${"messageId"}}`, encodeURIComponent(String(requestParameters.messageId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * Mark the message as read
+     */
+    async markMessageAsRead(requestParameters: MarkMessageAsReadRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.markMessageAsReadRaw(requestParameters, initOverrides);
     }
 
     /**
