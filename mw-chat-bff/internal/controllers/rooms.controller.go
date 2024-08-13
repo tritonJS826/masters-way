@@ -37,7 +37,7 @@ func NewRoomsController(
 // @Summary Get chat preview
 // @Description
 // @Tags room
-// @ID get-chat preview
+// @ID get-chat-preview
 // @Accept  json
 // @Produce  json
 // @Success 200 {object} schemas.GetRoomPreviewResponse
@@ -339,4 +339,23 @@ func getPrivateRoomImageURL(ctx *gin.Context, users []schemas.UserResponse) (str
 	}
 
 	return "", fmt.Errorf("current user ID %s does not match any of the provided users", currentUserID)
+}
+
+// @Summary Mark the message as read
+// @Description Marks a specific message as read in the chat.
+// @Tags room
+// @ID mark-message-as-read
+// @Accept json
+// @Produce json
+// @Param messageId path string true "message id"
+// @Success 204 "No Content"
+// @Router /messages/{messageId}/read-message [get]
+func (cc *RoomsController) ReadMessage(ctx *gin.Context) {
+	messageID := ctx.Param("messageId")
+	fmt.Println(messageID)
+
+	// chatPreview, err := cc.roomsService.GetChatPreview(ctx)
+	// util.HandleErrorGin(ctx, err)
+
+	ctx.Status(http.StatusNoContent)
 }

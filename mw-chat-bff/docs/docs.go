@@ -15,6 +15,35 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/messages/{messageId}/read-message": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "room"
+                ],
+                "summary": "Mark the message as read",
+                "operationId": "mark-message-as-read",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "message id",
+                        "name": "messageId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
         "/rooms": {
             "post": {
                 "consumes": [
@@ -97,7 +126,7 @@ const docTemplate = `{
                     "room"
                 ],
                 "summary": "Get chat preview",
-                "operationId": "get-chat preview",
+                "operationId": "get-chat-preview",
                 "responses": {
                     "200": {
                         "description": "OK",

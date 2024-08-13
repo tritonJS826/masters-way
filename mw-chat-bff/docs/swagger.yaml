@@ -147,6 +147,25 @@ definitions:
 info:
   contact: {}
 paths:
+  /messages/{messageId}/read-message:
+    get:
+      consumes:
+      - application/json
+      operationId: mark-message-as-read
+      parameters:
+      - description: message id
+        in: path
+        name: messageId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Mark the message as read
+      tags:
+      - room
   /rooms:
     post:
       consumes:
@@ -316,7 +335,7 @@ paths:
     get:
       consumes:
       - application/json
-      operationId: get-chat preview
+      operationId: get-chat-preview
       produces:
       - application/json
       responses:

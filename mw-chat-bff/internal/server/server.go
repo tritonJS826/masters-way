@@ -47,9 +47,12 @@ func NewServer(cfg *config.Config) *Server {
 // @version 1.0
 // @BasePath  /chat
 func (server *Server) SetRoutes(controller *controllers.Controller) {
-	chat := server.GinServer.Group("/chat")
+	chat := server.GinServer.Group("/chat", auth.HandleHeaders())
 	{
-		rooms := chat.Group("/rooms", auth.HandleHeaders())
+
+		chat.GET("/messages/:messageId/read-message", controller.RoomsController.ReadMessage)
+
+		rooms := chat.Group("/rooms")
 		{
 			rooms.GET("/preview", controller.RoomsController.GetChatPreview)
 
