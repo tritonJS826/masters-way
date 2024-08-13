@@ -2233,7 +2233,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "day-reports"
+                    "dayReport"
                 ],
                 "summary": "Get list of day reports by way UUID",
                 "operationId": "get-day-reports",

@@ -1104,7 +1104,7 @@ paths:
             $ref: '#/definitions/schemas.ListDayReportsResponse'
       summary: Get list of day reports by way UUID
       tags:
-      - day-reports
+      - dayReport
   /auth/{provider}:
     get:
       consumes:

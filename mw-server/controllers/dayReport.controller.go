@@ -26,7 +26,7 @@ type DayReportController struct {
 // Get a list of day reports for specific way
 // @Summary Get list of day reports by way UUID
 // @Description
-// @Tags day-reports
+// @Tags dayReport
 // @ID get-day-reports
 // @Accept  json
 // @Produce  json
