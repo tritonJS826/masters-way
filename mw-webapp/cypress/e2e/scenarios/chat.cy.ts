@@ -17,11 +17,11 @@ afterEach(() => {
 
 describe('Chat tests', () => {
 
-    it('User should be able to send a message to another user in the chat', () => {
+    it('Scenario_AnyLoggedinUser_SendMessageInChat', () => {
         headerSelectors.getBurgerMenu().click();
         navigationMenuSelectors.menuItemLinks.getAllUsersItemLink().click();
 
-        allUsersSelectors.allWaysCard.getCardLink(testUserData.users.Jane.userName).click();
+        allUsersSelectors.card.getCardLink(testUserData.users.Jane.userName).click();
         userPersonalSelectors.getConnectButton().click();
         chatSelectors.getOpenChatButton().click({force: true});
         chatSelectors.chatContainer.getChatItem(testUserData.users.Jane.userName).click();
@@ -31,13 +31,13 @@ describe('Chat tests', () => {
         chatSelectors.chatContainer.getMessageItem().should('contain.text', chatData.textMessage);
     });
 
-    it('User should be able to receive a message from another user in the chat', () => {
+    it('Scenario_AnyLoggedinUser_ReciveMessageInChat', () => {
         cy.logout();
         cy.login(testUserData.testUsers.studentJonh.loginLink); 
         headerSelectors.getBurgerMenu().click();
         navigationMenuSelectors.menuItemLinks.getAllUsersItemLink().click();
 
-        allUsersSelectors.allWaysCard.getCardLink(testUserData.testUsers.mentorMax.name).click();
+        allUsersSelectors.card.getCardLink(testUserData.testUsers.mentorMax.name).click();
         userPersonalSelectors.getConnectButton().click();
         chatSelectors.getOpenChatButton().click({force: true});
         chatSelectors.chatContainer.getChatItem(testUserData.testUsers.mentorMax.name).click();

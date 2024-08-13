@@ -10,5 +10,6 @@ declare namespace Cypress {
       login(user: string): void
       logout(): void
       resetDb(): void
+      getFirstLetters(str: string): Chainable<any>
     }  
 }

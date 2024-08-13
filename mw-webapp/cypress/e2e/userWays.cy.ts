@@ -37,7 +37,7 @@ describe("NoAuth User's ways scope tests", () => {
     const expectedCollectionButtonColor = hexToRgb(themedVariables.primaryBgBtnActiveColor[Theme.DARK]);
 
     it('NoAuth_UserWay_OwnWaysCollectionButton', () => {
-        allUsersSelectors.allWaysCard.getCardLink(userWaysData.users.Alice.userName).click();
+        allUsersSelectors.card.getCardLink(userWaysData.users.Alice.userName).click();
 
         userWaysSelectors.wayCollectionButtonsBlock.getOwnWayCollectionButton().click();
 
@@ -57,7 +57,7 @@ describe("NoAuth User's ways scope tests", () => {
     });
 
     it('NoAuth_UserWay_MentoringCollectionButton', () => {
-        allUsersSelectors.allWaysCard.getCardLink(userWaysData.users.Alice.userName).click();
+        allUsersSelectors.card.getCardLink(userWaysData.users.Alice.userName).click();
 
         userWaysSelectors.wayCollectionButtonsBlock.getMentoringWayCollectionButton().click();
 
