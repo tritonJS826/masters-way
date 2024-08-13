@@ -424,32 +424,29 @@ func (q *Queries) GetMentoringWaysByMentorId(ctx context.Context, userUuid pgtyp
 }
 
 const getOverallInformation = `-- name: GetOverallInformation :one
-WITH summary_stats AS (
-    SELECT
-        COALESCE(SUM(job_dones.time), 0)::INTEGER AS total_time,
-        COUNT(DISTINCT day_reports.uuid) AS total_reports,
-        COUNT(job_dones.uuid) AS finished_jobs,
-        (($2)::date - ($3)::date) AS total_calendar_days,
-        COALESCE(AVG(job_dones.time), 0)::INTEGER AS average_job_time
-    FROM day_reports
-    LEFT JOIN job_dones ON job_dones.day_report_uuid = day_reports.uuid
-    WHERE day_reports.way_uuid = $1
-      AND day_reports.created_at BETWEEN $3 AND $2
-)
 SELECT
-    total_time AS total_time,
-    total_reports AS total_reports,
-    finished_jobs AS finished_jobs,
-    total_time / NULLIF(total_calendar_days, 0) AS average_time_per_calendar_day,
-    total_time / NULLIF(total_reports, 0) AS average_time_per_working_day,
-    average_job_time AS average_job_time
-FROM summary_stats
+    COALESCE(SUM(job_dones.time), 0)::INTEGER AS total_time,
+    COUNT(DISTINCT day_reports.uuid) AS total_reports,
+    COUNT(job_dones.uuid) AS finished_jobs,
+    COALESCE(
+        SUM(job_dones.time) /
+        NULLIF(EXTRACT(day FROM (INTERVAL '1 day' + ($1)::timestamp - ($2)::timestamp)), 0)
+    , 0)::INTEGER AS average_time_per_calendar_day,
+    COALESCE(
+        SUM(job_dones.time) /
+        NULLIF(COUNT(DISTINCT day_reports.uuid), 0)
+    , 0)::INTEGER AS average_time_per_working_day,
+    COALESCE(AVG(job_dones.time), 0)::INTEGER AS average_job_time
+FROM day_reports
+LEFT JOIN job_dones ON job_dones.day_report_uuid = day_reports.uuid
+WHERE day_reports.way_uuid = $3
+  AND day_reports.created_at BETWEEN $2 AND $1
 `
 
 type GetOverallInformationParams struct {
-	WayUuid   pgtype.UUID `json:"way_uuid"`
-	EndDate   pgtype.Date `json:"end_date"`
-	StartDate pgtype.Date `json:"start_date"`
+	EndDate   pgtype.Timestamp `json:"end_date"`
+	StartDate pgtype.Timestamp `json:"start_date"`
+	WayUuid   pgtype.UUID      `json:"way_uuid"`
 }
 
 type GetOverallInformationRow struct {
@@ -462,7 +459,7 @@ type GetOverallInformationRow struct {
 }
 
 func (q *Queries) GetOverallInformation(ctx context.Context, arg GetOverallInformationParams) (GetOverallInformationRow, error) {
-	row := q.db.QueryRow(ctx, getOverallInformation, arg.WayUuid, arg.EndDate, arg.StartDate)
+	row := q.db.QueryRow(ctx, getOverallInformation, arg.EndDate, arg.StartDate, arg.WayUuid)
 	var i GetOverallInformationRow
 	err := row.Scan(
 		&i.TotalTime,

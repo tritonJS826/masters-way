@@ -488,8 +488,8 @@ func GetTimeSpentByDayChart(db *dbb.Queries, ctx context.Context, params *GetWay
 func GetOverallInformation(db *dbb.Queries, ctx context.Context, params *GetWayStatisticsParams) (*schemas.OverallInformation, error) {
 	overallInformationParams := dbb.GetOverallInformationParams{
 		WayUuid:   params.WayPgUUID,
-		StartDate: pgtype.Date{Time: params.StartDatePgTimestamp.Time, Valid: true},
-		EndDate:   pgtype.Date{Time: params.EndDatePgTimestamp.Time, Valid: true},
+		StartDate: params.StartDatePgTimestamp,
+		EndDate:   params.EndDatePgTimestamp,
 	}
 
 	overallInformationRaw, err := db.GetOverallInformation(ctx, overallInformationParams)
