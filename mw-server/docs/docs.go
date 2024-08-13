@@ -2236,7 +2236,7 @@ const docTemplate = `{
                     "day-reports"
                 ],
                 "summary": "Get list of day reports by way UUID",
-                "operationId": "get-day-reports-uuid",
+                "operationId": "get-day-reports",
                 "parameters": [
                     {
                         "type": "string",

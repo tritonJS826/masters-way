@@ -27,7 +27,7 @@ type DayReportController struct {
 // @Summary Get list of day reports by way UUID
 // @Description
 // @Tags day-reports
-// @ID get-day-reports-uuid
+// @ID get-day-reports
 // @Accept  json
 // @Produce  json
 // @Param wayId path string true "way ID"
@@ -38,7 +38,7 @@ type DayReportController struct {
 func (cc *DayReportController) GetDayReports(ctx *gin.Context) {
 	wayUuidRaw := ctx.Param("wayId")
 	page := ctx.DefaultQuery("page", "1")
-	limit := ctx.DefaultQuery("limit", "10")
+	limit := ctx.DefaultQuery("limit", "7")
 
 	wayUuid := uuid.MustParse(wayUuidRaw)
 	reqPage, _ := strconv.Atoi(page)

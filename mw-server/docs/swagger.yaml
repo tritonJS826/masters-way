@@ -1080,7 +1080,7 @@ paths:
     get:
       consumes:
       - application/json
-      operationId: get-day-reports-uuid
+      operationId: get-day-reports
       parameters:
       - description: way ID
         in: path
