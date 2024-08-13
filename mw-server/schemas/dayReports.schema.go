@@ -23,3 +23,8 @@ type DayReportPopulatedResponse struct {
 	Problems  []ProblemPopulatedResponse `json:"problems" validate:"required"`
 	Comments  []CommentPopulatedResponse `json:"comments" validate:"required"`
 }
+
+type ListDayReportsResponse struct {
+	DayReports []DayReportPopulatedResponse `json:"dayReports" validate:"required"`
+	Size       int                          `json:"size" validate:"required"`
+}

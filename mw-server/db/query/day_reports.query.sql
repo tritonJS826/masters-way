@@ -9,9 +9,12 @@ INSERT INTO day_reports(
 ) RETURNING *;
 
 -- name: GetListDayReportsByWayUuid :many
-SELECT * FROM day_reports
+SELECT *
+FROM day_reports
 WHERE day_reports.way_uuid = @way_uuid
-ORDER BY day_reports.created_at DESC;
+ORDER BY day_reports.created_at DESC
+LIMIT @request_limit
+OFFSET @request_offset;
 
 -- name: GetDayReportsCountByWayId :one
 SELECT

@@ -509,6 +509,18 @@ definitions:
     required:
     - labels
     type: object
+  schemas.ListDayReportsResponse:
+    properties:
+      dayReports:
+        items:
+          $ref: '#/definitions/schemas.DayReportPopulatedResponse'
+        type: array
+      size:
+        type: integer
+    required:
+    - dayReports
+    - size
+    type: object
   schemas.MetricResponse:
     properties:
       description:
@@ -952,10 +964,6 @@ definitions:
         x-nullable: true
       createdAt:
         type: string
-      dayReports:
-        items:
-          $ref: '#/definitions/schemas.DayReportPopulatedResponse'
-        type: array
       estimationTime:
         type: integer
       favoriteForUsersAmount:
@@ -1002,7 +1010,6 @@ definitions:
     - children
     - copiedFromWayUuid
     - createdAt
-    - dayReports
     - estimationTime
     - favoriteForUsersAmount
     - formerMentors
@@ -1069,6 +1076,35 @@ info:
   title: Masters way general API
   version: "1.0"
 paths:
+  /{wayId}:
+    get:
+      consumes:
+      - application/json
+      operationId: get-day-reports-uuid
+      parameters:
+      - description: way ID
+        in: path
+        name: wayId
+        required: true
+        type: string
+      - description: Page number for pagination
+        in: query
+        name: page
+        type: integer
+      - description: Number of items per page
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.ListDayReportsResponse'
+      summary: Get list of day reports by way UUID
+      tags:
+      - day-reports
   /auth/{provider}:
     get:
       consumes:
@@ -1328,29 +1364,6 @@ paths:
           schema:
             $ref: '#/definitions/schemas.DayReportPopulatedResponse'
       summary: Update dayReport by UUID
-      tags:
-      - dayReport
-  /dayReports/{wayId}:
-    get:
-      consumes:
-      - application/json
-      operationId: get-dayReports-by-Way-uuid
-      parameters:
-      - description: way ID
-        in: path
-        name: wayId
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/schemas.DayReportPopulatedResponse'
-            type: array
-      summary: Get all dayReports by Way UUID
       tags:
       - dayReport
   /favoriteUserWays:

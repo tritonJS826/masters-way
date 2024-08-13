@@ -217,10 +217,10 @@ func (cc *WayController) GetAllWays(ctx *gin.Context) {
 	// status = "inProgress" | "completed" | "all" | "abandoned"
 	status := ctx.DefaultQuery("status", "all")
 
-	reqPageID, _ := strconv.Atoi(page)
+	reqPage, _ := strconv.Atoi(page)
 	reqLimit, _ := strconv.Atoi(limit)
 	reqMinDayReportsAmount, _ := strconv.Atoi(minDayReportsAmount)
-	offset := (reqPageID - 1) * reqLimit
+	offset := (reqPage - 1) * reqLimit
 	currentDate := time.Now()
 
 	waySizeArgs := db.CountWaysByTypeParams{

@@ -3,6 +3,7 @@ package controllers
 import (
 	"context"
 	"net/http"
+	"strconv"
 	"time"
 
 	"mwserver/auth"
@@ -20,6 +21,41 @@ type DayReportController struct {
 	db  *db.Queries
 	ctx context.Context
 	ls  *services.LimitService
+}
+
+// Get a list of day reports for specific way
+// @Summary Get list of day reports by way UUID
+// @Description
+// @Tags day-reports
+// @ID get-day-reports-uuid
+// @Accept  json
+// @Produce  json
+// @Param wayId path string true "way ID"
+// @Param page query integer false "Page number for pagination"
+// @Param limit query integer false "Number of items per page"
+// @Success 200 {object} schemas.ListDayReportsResponse
+// @Router /{wayId} [get]
+func (cc *DayReportController) GetDayReports(ctx *gin.Context) {
+	wayUuidRaw := ctx.Param("wayId")
+	page := ctx.DefaultQuery("page", "1")
+	limit := ctx.DefaultQuery("limit", "10")
+
+	wayUuid := uuid.MustParse(wayUuidRaw)
+	reqPage, _ := strconv.Atoi(page)
+	reqLimit, _ := strconv.Atoi(limit)
+	offset := (reqPage - 1) * reqLimit
+
+	args := &services.GetDayReportsByWayIdParams{
+		WayUuid:  wayUuid,
+		ReqLimit: reqLimit,
+		Offset:   offset,
+	}
+
+	// TODO: remove info that already exist in the way (user names etc.) - should be rendered on the frontend
+	response, err := services.GetDayReportsByWayId(cc.db, ctx, args)
+	util.HandleErrorGin(ctx, err)
+
+	ctx.JSON(http.StatusOK, response)
 }
 
 func NewDayReportController(db *db.Queries, ctx context.Context, ls *services.LimitService) *DayReportController {
@@ -118,27 +154,4 @@ func (cc *DayReportController) UpdateDayReport(ctx *gin.Context) {
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, dayReport)
-}
-
-// Retrieve all records handlers
-// @Summary Get all dayReports by Way UUID
-// @Description
-// @Tags dayReport
-// @ID get-dayReports-by-Way-uuid
-// @Accept  json
-// @Produce  json
-// @Param wayId path string true "way ID"
-// @Success 200 {array} schemas.DayReportPopulatedResponse
-// @Router /dayReports/{wayId} [get]
-func (cc *DayReportController) GetAllDayReports(ctx *gin.Context) {
-	wayId := ctx.Param("wayId")
-
-	dayReports, err := cc.db.GetListDayReportsByWayUuid(ctx, pgtype.UUID{Bytes: uuid.MustParse(wayId), Valid: true})
-	util.HandleErrorGin(ctx, err)
-
-	if len(dayReports) == 0 {
-		dayReports = []db.DayReport{}
-	}
-
-	ctx.JSON(http.StatusOK, dayReports)
 }

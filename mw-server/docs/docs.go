@@ -412,41 +412,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/dayReports/{wayId}": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "dayReport"
-                ],
-                "summary": "Get all dayReports by Way UUID",
-                "operationId": "get-dayReports-by-Way-uuid",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "way ID",
-                        "name": "wayId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/schemas.DayReportPopulatedResponse"
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/favoriteUserWays": {
             "post": {
                 "consumes": [
@@ -2258,6 +2223,50 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/{wayId}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "day-reports"
+                ],
+                "summary": "Get list of day reports by way UUID",
+                "operationId": "get-day-reports-uuid",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "way ID",
+                        "name": "wayId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Page number for pagination",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Number of items per page",
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.ListDayReportsResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -3001,6 +3010,24 @@ const docTemplate = `{
                 }
             }
         },
+        "schemas.ListDayReportsResponse": {
+            "type": "object",
+            "required": [
+                "dayReports",
+                "size"
+            ],
+            "properties": {
+                "dayReports": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.DayReportPopulatedResponse"
+                    }
+                },
+                "size": {
+                    "type": "integer"
+                }
+            }
+        },
         "schemas.MetricResponse": {
             "type": "object",
             "required": [
@@ -3623,7 +3650,6 @@ const docTemplate = `{
                 "children",
                 "copiedFromWayUuid",
                 "createdAt",
-                "dayReports",
                 "estimationTime",
                 "favoriteForUsersAmount",
                 "formerMentors",
@@ -3653,12 +3679,6 @@ const docTemplate = `{
                 },
                 "createdAt": {
                     "type": "string"
-                },
-                "dayReports": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/schemas.DayReportPopulatedResponse"
-                    }
                 },
                 "estimationTime": {
                     "type": "integer"
