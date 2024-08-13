@@ -412,6 +412,50 @@ const docTemplate = `{
                 }
             }
         },
+        "/dayReports/{wayId}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "dayReport"
+                ],
+                "summary": "Get list of day reports by way UUID",
+                "operationId": "get-day-reports",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "way ID",
+                        "name": "wayId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Page number for pagination",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Number of items per page",
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.ListDayReportsResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/favoriteUserWays": {
             "post": {
                 "consumes": [
@@ -2219,50 +2263,6 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/schemas.WayStatisticsTriplePeriod"
-                        }
-                    }
-                }
-            }
-        },
-        "/{wayId}": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "dayReport"
-                ],
-                "summary": "Get list of day reports by way UUID",
-                "operationId": "get-day-reports",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "way ID",
-                        "name": "wayId",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Page number for pagination",
-                        "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Number of items per page",
-                        "name": "limit",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/schemas.ListDayReportsResponse"
                         }
                     }
                 }

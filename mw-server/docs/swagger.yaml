@@ -1076,35 +1076,6 @@ info:
   title: Masters way general API
   version: "1.0"
 paths:
-  /{wayId}:
-    get:
-      consumes:
-      - application/json
-      operationId: get-day-reports
-      parameters:
-      - description: way ID
-        in: path
-        name: wayId
-        required: true
-        type: string
-      - description: Page number for pagination
-        in: query
-        name: page
-        type: integer
-      - description: Number of items per page
-        in: query
-        name: limit
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/schemas.ListDayReportsResponse'
-      summary: Get list of day reports by way UUID
-      tags:
-      - dayReport
   /auth/{provider}:
     get:
       consumes:
@@ -1364,6 +1335,35 @@ paths:
           schema:
             $ref: '#/definitions/schemas.DayReportPopulatedResponse'
       summary: Update dayReport by UUID
+      tags:
+      - dayReport
+  /dayReports/{wayId}:
+    get:
+      consumes:
+      - application/json
+      operationId: get-day-reports
+      parameters:
+      - description: way ID
+        in: path
+        name: wayId
+        required: true
+        type: string
+      - description: Page number for pagination
+        in: query
+        name: page
+        type: integer
+      - description: Number of items per page
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.ListDayReportsResponse'
+      summary: Get list of day reports by way UUID
       tags:
       - dayReport
   /favoriteUserWays:

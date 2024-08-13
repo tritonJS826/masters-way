@@ -34,7 +34,7 @@ type DayReportController struct {
 // @Param page query integer false "Page number for pagination"
 // @Param limit query integer false "Number of items per page"
 // @Success 200 {object} schemas.ListDayReportsResponse
-// @Router /{wayId} [get]
+// @Router /dayReports/{wayId} [get]
 func (cc *DayReportController) GetDayReports(ctx *gin.Context) {
 	wayUuidRaw := ctx.Param("wayId")
 	page := ctx.DefaultQuery("page", "1")
