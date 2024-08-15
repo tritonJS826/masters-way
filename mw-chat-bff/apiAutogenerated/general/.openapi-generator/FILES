@@ -84,6 +84,7 @@ docs/SchemasJobTagResponse.md
 docs/SchemasLabel.md
 docs/SchemasLabelInfo.md
 docs/SchemasLabelStatistics.md
+docs/SchemasListDayReportsResponse.md
 docs/SchemasMetricResponse.md
 docs/SchemasOverallInformation.md
 docs/SchemasPlanPopulatedResponse.md
@@ -156,6 +157,7 @@ model_schemas_job_tag_response.go
 model_schemas_label.go
 model_schemas_label_info.go
 model_schemas_label_statistics.go
+model_schemas_list_day_reports_response.go
 model_schemas_metric_response.go
 model_schemas_overall_information.go
 model_schemas_plan_populated_response.go

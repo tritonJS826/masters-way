@@ -5,7 +5,7 @@ All URIs are relative to */api*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**CreateDayReport**](DayReportAPI.md#CreateDayReport) | **Post** /dayReports | Create a new dayReport
-[**GetDayReportsByWayUuid**](DayReportAPI.md#GetDayReportsByWayUuid) | **Get** /dayReports/{wayId} | Get all dayReports by Way UUID
+[**GetDayReports**](DayReportAPI.md#GetDayReports) | **Get** /dayReports/{wayId} | Get list of day reports by way UUID
 [**UpdateDayReport**](DayReportAPI.md#UpdateDayReport) | **Patch** /dayReports/{dayReportId} | Update dayReport by UUID
 
 
@@ -74,11 +74,11 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## GetDayReportsByWayUuid
+## GetDayReports
 
-> []SchemasDayReportPopulatedResponse GetDayReportsByWayUuid(ctx, wayId).Execute()
+> SchemasListDayReportsResponse GetDayReports(ctx, wayId).Page(page).Limit(limit).Execute()
 
-Get all dayReports by Way UUID
+Get list of day reports by way UUID
 
 ### Example
 
@@ -94,16 +94,18 @@ import (
 
 func main() {
 	wayId := "wayId_example" // string | way ID
+	page := int32(56) // int32 | Page number for pagination (optional)
+	limit := int32(56) // int32 | Number of items per page (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.DayReportAPI.GetDayReportsByWayUuid(context.Background(), wayId).Execute()
+	resp, r, err := apiClient.DayReportAPI.GetDayReports(context.Background(), wayId).Page(page).Limit(limit).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `DayReportAPI.GetDayReportsByWayUuid``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `DayReportAPI.GetDayReports``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetDayReportsByWayUuid`: []SchemasDayReportPopulatedResponse
-	fmt.Fprintf(os.Stdout, "Response from `DayReportAPI.GetDayReportsByWayUuid`: %v\n", resp)
+	// response from `GetDayReports`: SchemasListDayReportsResponse
+	fmt.Fprintf(os.Stdout, "Response from `DayReportAPI.GetDayReports`: %v\n", resp)
 }
 ```
 
@@ -117,16 +119,18 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiGetDayReportsByWayUuidRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiGetDayReportsRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
+ **page** | **int32** | Page number for pagination | 
+ **limit** | **int32** | Number of items per page | 
 
 ### Return type
 
-[**[]SchemasDayReportPopulatedResponse**](SchemasDayReportPopulatedResponse.md)
+[**SchemasListDayReportsResponse**](SchemasListDayReportsResponse.md)
 
 ### Authorization
 

@@ -89,7 +89,7 @@ Class | Method | HTTP request | Description
 *CompositeWayAPI* | [**CreateCompositeWay**](docs/CompositeWayAPI.md#createcompositeway) | **Post** /compositeWay | Add a way to composite way
 *CompositeWayAPI* | [**DeleteCompositeWayRelation**](docs/CompositeWayAPI.md#deletecompositewayrelation) | **Delete** /compositeWay/{parentWayId}/{childWayId} | Delete composite way relation
 *DayReportAPI* | [**CreateDayReport**](docs/DayReportAPI.md#createdayreport) | **Post** /dayReports | Create a new dayReport
-*DayReportAPI* | [**GetDayReportsByWayUuid**](docs/DayReportAPI.md#getdayreportsbywayuuid) | **Get** /dayReports/{wayId} | Get all dayReports by Way UUID
+*DayReportAPI* | [**GetDayReports**](docs/DayReportAPI.md#getdayreports) | **Get** /dayReports/{wayId} | Get list of day reports by way UUID
 *DayReportAPI* | [**UpdateDayReport**](docs/DayReportAPI.md#updatedayreport) | **Patch** /dayReports/{dayReportId} | Update dayReport by UUID
 *DevAPI* | [**ResetDbPost**](docs/DevAPI.md#resetdbpost) | **Post** /reset-db | resets db
 *FavoriteUserAPI* | [**CreateFavoriteUser**](docs/FavoriteUserAPI.md#createfavoriteuser) | **Post** /favoriteUsers | Create a new favorite user
@@ -183,6 +183,7 @@ Class | Method | HTTP request | Description
  - [SchemasLabel](docs/SchemasLabel.md)
  - [SchemasLabelInfo](docs/SchemasLabelInfo.md)
  - [SchemasLabelStatistics](docs/SchemasLabelStatistics.md)
+ - [SchemasListDayReportsResponse](docs/SchemasListDayReportsResponse.md)
  - [SchemasMetricResponse](docs/SchemasMetricResponse.md)
  - [SchemasOverallInformation](docs/SchemasOverallInformation.md)
  - [SchemasPlanPopulatedResponse](docs/SchemasPlanPopulatedResponse.md)

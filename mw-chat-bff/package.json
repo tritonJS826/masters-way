@@ -7,6 +7,7 @@
     "start": "make start",
     "test": "make test",
     "installDependencies": "make install",
+    "swag": "make swag",
     "db-run": "make db-run",
     "help": "make help",
     "api:generate": "pnpm concurrently \"pnpm run api:generate:general\" \"pnpm run api:generate:chat\" \"pnpm run api:generate:mw-chat-websocket\"",

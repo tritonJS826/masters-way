@@ -48,6 +48,7 @@ func NewService(configuration *config.Config) *Service {
 		IRoomsService:           NewRoomsService(chatApi),
 		IUsersService:           NewUsersService(generalApi),
 		IMWChatWebSocketService: NewMWChatSocketService(mwChatWebSocketApi),
+		IMessagesService:        NewMessagesService(chatApi),
 	}
 }
 

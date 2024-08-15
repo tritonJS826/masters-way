@@ -258,7 +258,7 @@ paths:
       x-codegen-request-body-name: request
   /dayReports/{wayId}:
     get:
-      operationId: get-dayReports-by-Way-uuid
+      operationId: get-day-reports
       parameters:
       - description: way ID
         in: path
@@ -266,16 +266,24 @@ paths:
         required: true
         schema:
           type: string
+      - description: Page number for pagination
+        in: query
+        name: page
+        schema:
+          type: integer
+      - description: Number of items per page
+        in: query
+        name: limit
+        schema:
+          type: integer
       responses:
         "200":
           content:
             application/json:
               schema:
-                items:
-                  $ref: '#/components/schemas/schemas.DayReportPopulatedResponse'
-                type: array
+                $ref: '#/components/schemas/schemas.ListDayReportsResponse'
           description: OK
-      summary: Get all dayReports by Way UUID
+      summary: Get list of day reports by way UUID
       tags:
       - dayReport
   /favoriteUserWays:
@@ -2551,6 +2559,273 @@ components:
       required:
       - labels
       type: object
+    schemas.ListDayReportsResponse:
+      example:
+        dayReports:
+        - createdAt: createdAt
+          comments:
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            ownerName: ownerName
+            description: description
+            dayReportUuid: dayReportUuid
+            uuid: uuid
+            updatedAt: updatedAt
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            ownerName: ownerName
+            description: description
+            dayReportUuid: dayReportUuid
+            uuid: uuid
+            updatedAt: updatedAt
+          plans:
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            ownerName: ownerName
+            description: description
+            time: 6
+            dayReportUuid: dayReportUuid
+            isDone: true
+            uuid: uuid
+            tags:
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            updatedAt: updatedAt
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            ownerName: ownerName
+            description: description
+            time: 6
+            dayReportUuid: dayReportUuid
+            isDone: true
+            uuid: uuid
+            tags:
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            updatedAt: updatedAt
+          jobsDone:
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            ownerName: ownerName
+            description: description
+            time: 0
+            dayReportUuid: dayReportUuid
+            uuid: uuid
+            tags:
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            updatedAt: updatedAt
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            ownerName: ownerName
+            description: description
+            time: 0
+            dayReportUuid: dayReportUuid
+            uuid: uuid
+            tags:
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            updatedAt: updatedAt
+          isDayOff: true
+          uuid: uuid
+          problems:
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            ownerName: ownerName
+            description: description
+            dayReportUuid: dayReportUuid
+            isDone: true
+            uuid: uuid
+            tags:
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            updatedAt: updatedAt
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            ownerName: ownerName
+            description: description
+            dayReportUuid: dayReportUuid
+            isDone: true
+            uuid: uuid
+            tags:
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            updatedAt: updatedAt
+          updatedAt: updatedAt
+        - createdAt: createdAt
+          comments:
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            ownerName: ownerName
+            description: description
+            dayReportUuid: dayReportUuid
+            uuid: uuid
+            updatedAt: updatedAt
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            ownerName: ownerName
+            description: description
+            dayReportUuid: dayReportUuid
+            uuid: uuid
+            updatedAt: updatedAt
+          plans:
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            ownerName: ownerName
+            description: description
+            time: 6
+            dayReportUuid: dayReportUuid
+            isDone: true
+            uuid: uuid
+            tags:
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            updatedAt: updatedAt
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            ownerName: ownerName
+            description: description
+            time: 6
+            dayReportUuid: dayReportUuid
+            isDone: true
+            uuid: uuid
+            tags:
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            updatedAt: updatedAt
+          jobsDone:
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            ownerName: ownerName
+            description: description
+            time: 0
+            dayReportUuid: dayReportUuid
+            uuid: uuid
+            tags:
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            updatedAt: updatedAt
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            ownerName: ownerName
+            description: description
+            time: 0
+            dayReportUuid: dayReportUuid
+            uuid: uuid
+            tags:
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            updatedAt: updatedAt
+          isDayOff: true
+          uuid: uuid
+          problems:
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            ownerName: ownerName
+            description: description
+            dayReportUuid: dayReportUuid
+            isDone: true
+            uuid: uuid
+            tags:
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            updatedAt: updatedAt
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            ownerName: ownerName
+            description: description
+            dayReportUuid: dayReportUuid
+            isDone: true
+            uuid: uuid
+            tags:
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            updatedAt: updatedAt
+          updatedAt: updatedAt
+        size: 0
+      properties:
+        dayReports:
+          items:
+            $ref: '#/components/schemas/schemas.DayReportPopulatedResponse'
+          type: array
+        size:
+          type: integer
+      required:
+      - dayReports
+      - size
+      type: object
     schemas.MetricResponse:
       example:
         description: description
@@ -3810,259 +4085,6 @@ components:
       type: object
     schemas.WayPopulatedResponse:
       example:
-        dayReports:
-        - createdAt: createdAt
-          comments:
-          - createdAt: createdAt
-            ownerUuid: ownerUuid
-            ownerName: ownerName
-            description: description
-            dayReportUuid: dayReportUuid
-            uuid: uuid
-            updatedAt: updatedAt
-          - createdAt: createdAt
-            ownerUuid: ownerUuid
-            ownerName: ownerName
-            description: description
-            dayReportUuid: dayReportUuid
-            uuid: uuid
-            updatedAt: updatedAt
-          plans:
-          - createdAt: createdAt
-            ownerUuid: ownerUuid
-            ownerName: ownerName
-            description: description
-            time: 6
-            dayReportUuid: dayReportUuid
-            isDone: true
-            uuid: uuid
-            tags:
-            - color: color
-              name: name
-              description: description
-              uuid: uuid
-            - color: color
-              name: name
-              description: description
-              uuid: uuid
-            updatedAt: updatedAt
-          - createdAt: createdAt
-            ownerUuid: ownerUuid
-            ownerName: ownerName
-            description: description
-            time: 6
-            dayReportUuid: dayReportUuid
-            isDone: true
-            uuid: uuid
-            tags:
-            - color: color
-              name: name
-              description: description
-              uuid: uuid
-            - color: color
-              name: name
-              description: description
-              uuid: uuid
-            updatedAt: updatedAt
-          jobsDone:
-          - createdAt: createdAt
-            ownerUuid: ownerUuid
-            ownerName: ownerName
-            description: description
-            time: 0
-            dayReportUuid: dayReportUuid
-            uuid: uuid
-            tags:
-            - color: color
-              name: name
-              description: description
-              uuid: uuid
-            - color: color
-              name: name
-              description: description
-              uuid: uuid
-            updatedAt: updatedAt
-          - createdAt: createdAt
-            ownerUuid: ownerUuid
-            ownerName: ownerName
-            description: description
-            time: 0
-            dayReportUuid: dayReportUuid
-            uuid: uuid
-            tags:
-            - color: color
-              name: name
-              description: description
-              uuid: uuid
-            - color: color
-              name: name
-              description: description
-              uuid: uuid
-            updatedAt: updatedAt
-          isDayOff: true
-          uuid: uuid
-          problems:
-          - createdAt: createdAt
-            ownerUuid: ownerUuid
-            ownerName: ownerName
-            description: description
-            dayReportUuid: dayReportUuid
-            isDone: true
-            uuid: uuid
-            tags:
-            - color: color
-              name: name
-              description: description
-              uuid: uuid
-            - color: color
-              name: name
-              description: description
-              uuid: uuid
-            updatedAt: updatedAt
-          - createdAt: createdAt
-            ownerUuid: ownerUuid
-            ownerName: ownerName
-            description: description
-            dayReportUuid: dayReportUuid
-            isDone: true
-            uuid: uuid
-            tags:
-            - color: color
-              name: name
-              description: description
-              uuid: uuid
-            - color: color
-              name: name
-              description: description
-              uuid: uuid
-            updatedAt: updatedAt
-          updatedAt: updatedAt
-        - createdAt: createdAt
-          comments:
-          - createdAt: createdAt
-            ownerUuid: ownerUuid
-            ownerName: ownerName
-            description: description
-            dayReportUuid: dayReportUuid
-            uuid: uuid
-            updatedAt: updatedAt
-          - createdAt: createdAt
-            ownerUuid: ownerUuid
-            ownerName: ownerName
-            description: description
-            dayReportUuid: dayReportUuid
-            uuid: uuid
-            updatedAt: updatedAt
-          plans:
-          - createdAt: createdAt
-            ownerUuid: ownerUuid
-            ownerName: ownerName
-            description: description
-            time: 6
-            dayReportUuid: dayReportUuid
-            isDone: true
-            uuid: uuid
-            tags:
-            - color: color
-              name: name
-              description: description
-              uuid: uuid
-            - color: color
-              name: name
-              description: description
-              uuid: uuid
-            updatedAt: updatedAt
-          - createdAt: createdAt
-            ownerUuid: ownerUuid
-            ownerName: ownerName
-            description: description
-            time: 6
-            dayReportUuid: dayReportUuid
-            isDone: true
-            uuid: uuid
-            tags:
-            - color: color
-              name: name
-              description: description
-              uuid: uuid
-            - color: color
-              name: name
-              description: description
-              uuid: uuid
-            updatedAt: updatedAt
-          jobsDone:
-          - createdAt: createdAt
-            ownerUuid: ownerUuid
-            ownerName: ownerName
-            description: description
-            time: 0
-            dayReportUuid: dayReportUuid
-            uuid: uuid
-            tags:
-            - color: color
-              name: name
-              description: description
-              uuid: uuid
-            - color: color
-              name: name
-              description: description
-              uuid: uuid
-            updatedAt: updatedAt
-          - createdAt: createdAt
-            ownerUuid: ownerUuid
-            ownerName: ownerName
-            description: description
-            time: 0
-            dayReportUuid: dayReportUuid
-            uuid: uuid
-            tags:
-            - color: color
-              name: name
-              description: description
-              uuid: uuid
-            - color: color
-              name: name
-              description: description
-              uuid: uuid
-            updatedAt: updatedAt
-          isDayOff: true
-          uuid: uuid
-          problems:
-          - createdAt: createdAt
-            ownerUuid: ownerUuid
-            ownerName: ownerName
-            description: description
-            dayReportUuid: dayReportUuid
-            isDone: true
-            uuid: uuid
-            tags:
-            - color: color
-              name: name
-              description: description
-              uuid: uuid
-            - color: color
-              name: name
-              description: description
-              uuid: uuid
-            updatedAt: updatedAt
-          - createdAt: createdAt
-            ownerUuid: ownerUuid
-            ownerName: ownerName
-            description: description
-            dayReportUuid: dayReportUuid
-            isDone: true
-            uuid: uuid
-            tags:
-            - color: color
-              name: name
-              description: description
-              uuid: uuid
-            - color: color
-              name: name
-              description: description
-              uuid: uuid
-            updatedAt: updatedAt
-          updatedAt: updatedAt
         owner:
           createdAt: createdAt
           imageUrl: imageUrl
@@ -4164,10 +4186,6 @@ components:
           type: string
         createdAt:
           type: string
-        dayReports:
-          items:
-            $ref: '#/components/schemas/schemas.DayReportPopulatedResponse'
-          type: array
         estimationTime:
           type: integer
         favoriteForUsersAmount:
@@ -4214,7 +4232,6 @@ components:
       - children
       - copiedFromWayUuid
       - createdAt
-      - dayReports
       - estimationTime
       - favoriteForUsersAmount
       - formerMentors

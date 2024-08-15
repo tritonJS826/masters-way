@@ -7,6 +7,17 @@ MOBILE="mw-mobile/"
 CHAT="mw-chat/"
 CHAT_BFF="mw-chat-bff/"
 
+generateSwaggerDocs () {
+  pnpm swag
+
+  # Check for uncommitted changes
+  git diff --exit-code
+  if [ $? -ne 0 ]; then
+    echo "Changes detected after running swag. Please add the generated files before committing."
+    exit 1
+  fi
+}
+
 runWebappIfChanged () {
   if git diff --name-only --cached | grep "$WEBAPP"
   then
@@ -71,6 +82,7 @@ runE2E () {
   pnpm web:cypress:e2e:run
 }
 
+generateSwaggerDocs
 runWebappIfChanged
 runServerIfChanged
 runChatIfChanged

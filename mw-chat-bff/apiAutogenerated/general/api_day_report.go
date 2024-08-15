@@ -132,25 +132,39 @@ func (a *DayReportAPIService) CreateDayReportExecute(r ApiCreateDayReportRequest
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiGetDayReportsByWayUuidRequest struct {
+type ApiGetDayReportsRequest struct {
 	ctx context.Context
 	ApiService *DayReportAPIService
 	wayId string
+	page *int32
+	limit *int32
 }
 
-func (r ApiGetDayReportsByWayUuidRequest) Execute() ([]SchemasDayReportPopulatedResponse, *http.Response, error) {
-	return r.ApiService.GetDayReportsByWayUuidExecute(r)
+// Page number for pagination
+func (r ApiGetDayReportsRequest) Page(page int32) ApiGetDayReportsRequest {
+	r.page = &page
+	return r
+}
+
+// Number of items per page
+func (r ApiGetDayReportsRequest) Limit(limit int32) ApiGetDayReportsRequest {
+	r.limit = &limit
+	return r
+}
+
+func (r ApiGetDayReportsRequest) Execute() (*SchemasListDayReportsResponse, *http.Response, error) {
+	return r.ApiService.GetDayReportsExecute(r)
 }
 
 /*
-GetDayReportsByWayUuid Get all dayReports by Way UUID
+GetDayReports Get list of day reports by way UUID
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param wayId way ID
- @return ApiGetDayReportsByWayUuidRequest
+ @return ApiGetDayReportsRequest
 */
-func (a *DayReportAPIService) GetDayReportsByWayUuid(ctx context.Context, wayId string) ApiGetDayReportsByWayUuidRequest {
-	return ApiGetDayReportsByWayUuidRequest{
+func (a *DayReportAPIService) GetDayReports(ctx context.Context, wayId string) ApiGetDayReportsRequest {
+	return ApiGetDayReportsRequest{
 		ApiService: a,
 		ctx: ctx,
 		wayId: wayId,
@@ -158,16 +172,16 @@ func (a *DayReportAPIService) GetDayReportsByWayUuid(ctx context.Context, wayId 
 }
 
 // Execute executes the request
-//  @return []SchemasDayReportPopulatedResponse
-func (a *DayReportAPIService) GetDayReportsByWayUuidExecute(r ApiGetDayReportsByWayUuidRequest) ([]SchemasDayReportPopulatedResponse, *http.Response, error) {
+//  @return SchemasListDayReportsResponse
+func (a *DayReportAPIService) GetDayReportsExecute(r ApiGetDayReportsRequest) (*SchemasListDayReportsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  []SchemasDayReportPopulatedResponse
+		localVarReturnValue  *SchemasListDayReportsResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DayReportAPIService.GetDayReportsByWayUuid")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DayReportAPIService.GetDayReports")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -179,6 +193,12 @@ func (a *DayReportAPIService) GetDayReportsByWayUuidExecute(r ApiGetDayReportsBy
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	if r.page != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "page", r.page, "")
+	}
+	if r.limit != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "")
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
