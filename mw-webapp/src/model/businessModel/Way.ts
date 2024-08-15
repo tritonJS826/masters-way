@@ -364,7 +364,7 @@ export class Way {
    * Add dayReport
    */
   public updateDayReports(dayReports: DayReport[]): void {
-    this.dayReports = dayReports;
+    this.dayReports = [...this.dayReports, ...dayReports];
   }
 
 }

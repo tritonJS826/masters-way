@@ -57,8 +57,8 @@ export const ChatContent = observer(() => {
   /**
    * Read message
    */
-  const readMessage = async (messageId: string) => {
-    activeChatStore?.activeChat && isChatOpen && await ChatDAL.updateMessageStatus(messageId, true);
+  const readMessage = async (messageId: string, ownerId: string) => {
+    activeChatStore?.activeChat && isChatOpen && ownerId !== user?.uuid && await ChatDAL.updateMessageStatus(messageId, true);
   };
 
   useEffect(() => {
@@ -80,7 +80,7 @@ export const ChatContent = observer(() => {
         messageReaders: [],
       });
       activeChatStore?.activeChat.addMessage(newMessage);
-      readMessage(newMessage.uuid);
+      readMessage(newMessage.uuid, newMessage.ownerId);
     } else {
       addUnreadMessageToAmount();
       displayNotification({

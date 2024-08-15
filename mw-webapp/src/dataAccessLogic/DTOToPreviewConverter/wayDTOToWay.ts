@@ -51,11 +51,6 @@ export const wayDTOToWay = (wayDTO: SchemasWayPopulatedResponse, dayReports: Day
     formerMentors: arrayToHashMap({keyField: "uuid", list: formerMentors}),
     dayReports: dayReports.dayReports,
     dayReportsAmount: dayReports.size,
-    //   DayReportsDTO.map((dayReportDTO) => dayReportDTOToDayReport({
-    //   dayReportDTO,
-    //   wayName: "Coming soon",
-    //   wayUuid: "Coming soon",
-    // })),
     createdAt: new Date(wayDTO.createdAt),
     lastUpdate: new Date(wayDTO.updatedAt),
     owner,
