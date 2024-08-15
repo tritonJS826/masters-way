@@ -9,7 +9,9 @@ CHAT_BFF="mw-chat-bff/"
 
 generateSwaggerDocs () {
   pnpm swag
+}
 
+preventUncommitedChanges () {
   # Check for uncommitted changes
   git diff --exit-code
   if [ $? -ne 0 ]; then
@@ -83,6 +85,7 @@ runE2E () {
 }
 
 generateSwaggerDocs
+preventUncommitedChanges
 runWebappIfChanged
 runServerIfChanged
 runChatIfChanged
