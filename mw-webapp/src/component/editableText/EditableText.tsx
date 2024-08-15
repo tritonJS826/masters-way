@@ -2,10 +2,11 @@ import {HTMLInputTypeAttribute, useState} from "react";
 import clsx from "clsx";
 import {getFormattedValue} from "src/component/editableText/getFormattedValue";
 import {Input} from "src/component/input/Input";
-import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
 import {Text} from "src/component/text/Text";
-import {getValidValue} from "src/utils/getValidValue";
 import {KeySymbols} from "src/utils/KeySymbols";
+import {displayValidationError} from "src/utils/validatorsValue/displayValidationError";
+import {validateValue} from "src/utils/validatorsValue/validateValue";
+import {ValidatorValue} from "src/utils/validatorsValue/validators";
 import styles from "src/component/editableText/EditableText.module.scss";
 
 /**
@@ -82,24 +83,9 @@ interface EditableTextProps<T> {
   placeholder: string;
 
   /**
-   * Minimum symbols amount for text
+   * Array of validator functions to be applied to the value
    */
-  minLength?: number;
-
-  /**
-   * Maximum symbols amount for text
-   */
-  maxLength?: number;
-
-  /**
-   * Notification text for minimum length text
-   */
-  notificationMinLengthText?: string;
-
-  /**
-   * Notification text for maximum length text
-   */
-  notificationMaxLengthText?: string;
+  validators?: ValidatorValue[];
 }
 
 /**
@@ -131,19 +117,13 @@ export const EditableText = <T extends string | number>(props: EditableTextProps
    * Update value
    */
   const updateValue = (updatedValue: T) => {
-    const {isInvalidTextLength, notificationText} = getValidValue(updatedValue, {
-      minLength: props.minLength,
-      maxLength: props.maxLength,
-      notificationMinLengthText: props.notificationMinLengthText,
-      notificationMaxLengthText: props.notificationMaxLengthText,
-    });
+    if (!props.validators) {
+      setValue(updatedValue);
+    } else {
+      const error = validateValue({value: updatedValue.toString(), validators: props.validators});
 
-    isInvalidTextLength
-      ? displayNotification({
-        text: notificationText || "Invalid input length",
-        type: NotificationType.INFO,
-      })
-      : setValue(updatedValue);
+      error ? displayValidationError?.(error) : setValue(updatedValue);
+    }
   };
 
   /**

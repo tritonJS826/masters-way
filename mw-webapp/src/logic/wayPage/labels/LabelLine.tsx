@@ -12,7 +12,11 @@ import {Label as LabelModel} from "src/model/businessModel/Label";
 import {LanguageService} from "src/service/LanguageService";
 import {debounce} from "src/utils/debounce";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
+import {maxLengthValidator, minLengthValidator} from "src/utils/validatorsValue/validators";
 import styles from "src/logic/wayPage/labels/LabelLine.module.scss";
+
+const MAX_LENGTH_LABEL = 30;
+const MIN_LENGTH_LABEL = 1;
 
 /**
  * Props for LabelLine
@@ -66,8 +70,10 @@ export const LabelLine = observer((props: LabelLineProps) => {
             });
           }}
           isEditable={props.isEditable}
-          notificationMinLengthText={LanguageService.way.notifications.labelMinLength[language]}
-          notificationMaxLengthText={LanguageService.way.notifications.labelMaxLength[language]}
+          validators={[
+            minLengthValidator(MIN_LENGTH_LABEL, LanguageService.way.notifications.labelMinLength[language]),
+            maxLengthValidator(MAX_LENGTH_LABEL, LanguageService.way.notifications.labelMaxLength[language]),
+          ]}
         />
       </div>
 

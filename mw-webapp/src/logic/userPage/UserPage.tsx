@@ -41,6 +41,7 @@ import {UserPageSettings, View} from "src/utils/LocalStorageWorker";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import {PartialWithId, PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
+import {maxLengthValidator, minLengthValidator} from "src/utils/validatorsValue/validators";
 import styles from "src/logic/userPage/UserPage.module.scss";
 
 const MAX_LENGTH_USERNAME = 50;
@@ -359,13 +360,13 @@ export const UserPage = observer((props: UserPageProps) => {
                         userPageOwner.updateName(name);
                       },
                     })}
-                    onValidate={validateTitle}
                     isEditable={isPageOwner}
-                    minLength={MIN_LENGTH_USERNAME}
-                    maxLength={MAX_LENGTH_USERNAME}
-                    notificationMinLengthText={LanguageService.user.notifications.userNameMinLength[language]}
-                    notificationMaxLengthText={LanguageService.user.notifications.userNameMaxLength[language]}
+                    validators={[
+                      minLengthValidator(MIN_LENGTH_USERNAME, LanguageService.user.notifications.userNameMinLength[language]),
+                      maxLengthValidator(MAX_LENGTH_USERNAME, LanguageService.user.notifications.userNameMaxLength[language]),
+                    ]}
                     className={styles.ownerName}
+
                   />
                 </HorizontalContainer>
 

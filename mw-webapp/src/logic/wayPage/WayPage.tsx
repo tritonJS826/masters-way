@@ -61,6 +61,7 @@ import {DateUtils} from "src/utils/DateUtils";
 import {WayPageSettings} from "src/utils/LocalStorageWorker";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
+import {maxLengthValidator, minLengthValidator} from "src/utils/validatorsValue/validators";
 import styles from "src/logic/wayPage/WayPage.module.scss";
 
 const MAX_LENGTH_WAYNAME = 50;
@@ -396,10 +397,10 @@ export const WayPage = observer((props: WayPageProps) => {
                   }}
                   isEditable={isUserOwnerOrMentor}
                   className={styles.wayName}
-                  minLength={MIN_LENGTH_WAYNAME}
-                  maxLength={MAX_LENGTH_WAYNAME}
-                  notificationMinLengthText={LanguageService.way.notifications.wayNameMinLength[language]}
-                  notificationMaxLengthText={LanguageService.way.notifications.wayNameMaxLength[language]}
+                  validators={[
+                    minLengthValidator(MIN_LENGTH_WAYNAME, LanguageService.way.notifications.wayNameMinLength[language]),
+                    maxLengthValidator(MAX_LENGTH_WAYNAME, LanguageService.way.notifications.wayNameMaxLength[language]),
+                  ]}
                 />
               </HorizontalContainer>
 

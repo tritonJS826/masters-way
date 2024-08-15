@@ -1,10 +1,11 @@
 import {useEffect, useState} from "react";
 import clsx from "clsx";
-import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
 import {Text} from "src/component/text/Text";
 import {Textarea} from "src/component/textarea/Textarea";
-import {getValidValue} from "src/utils/getValidValue";
 import {KeySymbols} from "src/utils/KeySymbols";
+import {displayValidationError} from "src/utils/validatorsValue/displayValidationError";
+import {validateValue} from "src/utils/validatorsValue/validateValue";
+import {ValidatorValue} from "src/utils/validatorsValue/validators";
 import styles from "src/component/editableTextarea/editableTextarea.module.scss";
 
 /**
@@ -66,25 +67,10 @@ interface EditableTextareaProps {
   cy?: CyEditableTextarea;
 
   /**
-   * Minimum symbols amount for text
+   * Array of validator functions to be applied to the value
    */
-  minLength?: number;
-
-  /**
-   * Maximum symbols amount for text
-   */
-  maxLength?: number;
-
-  /**
-   * Notification text for minimum length teaxterea
-   */
-  notificationMinLengthText?: string;
-
-  /**
-   * Notification text for maximum length teaxterea
-   */
-  notificationMaxLengthText?: string;
-}
+    validators?: ValidatorValue[];
+  }
 
 /**
  * EditableTextarea component
@@ -119,19 +105,13 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
    * Func onChangeInput
    */
   const onChangeInput = (value: string) => {
-    const {isInvalidTextLength, notificationText} = getValidValue(value, {
-      minLength: props.minLength,
-      maxLength: props.maxLength,
-      notificationMinLengthText: props.notificationMinLengthText,
-      notificationMaxLengthText: props.notificationMaxLengthText,
-    });
+    if (!props.validators) {
+      setText(value);
+    } else {
+      const error = validateValue({value, validators: props.validators});
 
-    isInvalidTextLength
-      ? displayNotification({
-        text: notificationText || "Invalid input length",
-        type: NotificationType.INFO,
-      })
-      : setText(value);
+      error ? displayValidationError?.(error) : setText(value);
+    }
   };
 
   /**

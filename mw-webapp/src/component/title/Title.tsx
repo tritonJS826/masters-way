@@ -2,9 +2,10 @@ import {useEffect, useState} from "react";
 import {Heading} from "@radix-ui/themes";
 import clsx from "clsx";
 import {Input} from "src/component/input/Input";
-import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
-import {getValidValue} from "src/utils/getValidValue";
 import {KeySymbols} from "src/utils/KeySymbols";
+import {displayValidationError} from "src/utils/validatorsValue/displayValidationError";
+import {validateValue} from "src/utils/validatorsValue/validateValue";
+import {ValidatorValue} from "src/utils/validatorsValue/validators";
 import styles from "src/component/title/Title.module.scss";
 
 /**
@@ -35,6 +36,8 @@ interface Cy {
   dataCyTitleContainer?: string;
 
 }
+
+export type Validator = (value: string) => string | null;
 
 /**
  * Title props
@@ -67,11 +70,6 @@ interface TitleProps {
   onChangeFinish?: (value: string) => void;
 
   /**
-   * Function that update element on Enter click or unfocused
-   */
-  onValidate?: (value: string) => boolean;
-
-  /**
    * If false - doubleclick handler disabled, if true - doubleclick handler allowed
    * @default false
    */
@@ -93,24 +91,9 @@ interface TitleProps {
   placeholder: string;
 
   /**
-   * Minimum symbols amount for text
+   * Array of validator functions to be applied to the value
    */
-  minLength?: number;
-
-  /**
-   * Maximum symbols amount for text
-   */
-  maxLength?: number;
-
-  /**
-   * Notification text for minimum length text
-   */
-  notificationMinLengthText?: string;
-
-  /**
-   * Notification text for maximum length text
-   */
-  notificationMaxLengthText?: string;
+  validators?: ValidatorValue[];
 }
 
 /**
@@ -149,19 +132,13 @@ export const Title = (props: TitleProps) => {
    * OnChangeInput
    */
   const onChangeInput = (value: string) => {
-    const {isInvalidTextLength, notificationText} = getValidValue(value, {
-      minLength: props.minLength,
-      maxLength: props.maxLength,
-      notificationMinLengthText: props.notificationMinLengthText,
-      notificationMaxLengthText: props.notificationMaxLengthText,
-    });
+    if (!props.validators) {
+      setText(value);
+    } else {
+      const error = validateValue({value, validators: props.validators});
 
-    isInvalidTextLength
-      ? displayNotification({
-        text: notificationText || "Invalid input length",
-        type: NotificationType.INFO,
-      })
-      : setText(value);
+      error ? displayValidationError?.(error) : setText(value);
+    }
   };
 
   return (
