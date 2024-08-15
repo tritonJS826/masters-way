@@ -21,9 +21,9 @@ interface ValidateOptions {
  */
 export const validateValue = (options: ValidateOptions): string | null => {
   for (const validator of options.validators) {
-    const error = validator(options.value);
-    if (error) {
-      return error;
+    const errorText = validator(options.value);
+    if (errorText) {
+      return errorText;
     }
   }
 
