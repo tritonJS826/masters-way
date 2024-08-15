@@ -40,6 +40,11 @@ type MessageReader = {
 export type ChatMessageReceivedPayload = {
 
   /**
+   * Message's id
+   */
+  messageId: string;
+
+  /**
    * Message creator user id
    */
   ownerId: string;

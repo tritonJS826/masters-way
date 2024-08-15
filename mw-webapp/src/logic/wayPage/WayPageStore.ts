@@ -1,9 +1,9 @@
 import {makeAutoObservable} from "mobx";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {load} from "src/hooks/useLoad";
+import {DayReport} from "src/model/businessModel/DayReport";
 import {Way} from "src/model/businessModel/Way";
 import {WayStatisticsTriple} from "src/model/businessModel/WayStatistics";
-import {createCompositeWay} from "src/utils/createCompositeWay";
 
 type WayPageFirstLoad = {
 
@@ -16,6 +16,7 @@ type WayPageFirstLoad = {
    * Way statistics
    */
   wayStatistics: WayStatisticsTriple;
+
 }
 
 /**
@@ -53,10 +54,17 @@ export class WayPageStore {
   };
 
   /**
+   * Update day reports
+   */
+  public updateDayReports = (dayReports: DayReport[]) => {
+    this.way.dayReports = [...dayReports, ...this.way.dayReports];
+  };
+
+  /**
    * Set way
    */
   private setLoadedData = (loadedData: WayPageFirstLoad) => {
-    this.way = createCompositeWay(loadedData.way);
+    this.way = loadedData.way;
     this.wayStatisticsTriple = loadedData.wayStatistics;
   };
 

@@ -61,6 +61,7 @@ models/SchemasJobTagResponse.ts
 models/SchemasLabel.ts
 models/SchemasLabelInfo.ts
 models/SchemasLabelStatistics.ts
+models/SchemasListDayReportsResponse.ts
 models/SchemasMetricResponse.ts
 models/SchemasOverallInformation.ts
 models/SchemasPlanPopulatedResponse.ts

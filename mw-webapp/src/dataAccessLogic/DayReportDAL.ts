@@ -20,6 +20,50 @@ export interface CreateDayReportParams {
 }
 
 /**
+ * Get DayReports params
+ */
+export interface GetDayReportsParams {
+
+  /**
+   * Way's UUID
+   */
+  wayId: string;
+
+  /**
+   * Way's name
+   */
+  wayName: string;
+
+  /**
+   * Page
+   */
+  page?: number;
+
+  /**
+   * Limit
+   */
+  limit?: number;
+
+}
+
+/**
+ * DayReports params
+ */
+export interface DayReportsParams {
+
+  /**
+   * Day reports amount
+   */
+  size: number;
+
+  /**
+   * Array of day reports
+   */
+  dayReports: DayReport[];
+
+}
+
+/**
  * Provides methods to interact with the DayReport business model
  */
 export class DayReportDAL {
@@ -37,8 +81,8 @@ export class DayReportDAL {
 
     const dayReport = dayReportDTOToDayReport({
       dayReportDTO,
-      wayName: params.wayName,
-      wayUuid: params.wayUuid,
+      wayName: "params.wayName",
+      wayUuid: "params.wayUuid",
     });
 
     return dayReport;
@@ -52,6 +96,26 @@ export class DayReportDAL {
       dayReportId: dayReport.uuid,
       request: {isDayOff: dayReport.isDayOff},
     });
+  }
+
+  /**
+   * Get day reports
+   */
+  public static async getDayReports(requestParameters: GetDayReportsParams): Promise<DayReportsParams> {
+    const dayReportsDTO = await DayReportService.getDayReports(requestParameters);
+
+    const dayReportsPreview = dayReportsDTO.dayReports.map((dayReportDTO) => dayReportDTOToDayReport({
+      dayReportDTO,
+      wayName: "params.wayName",
+      wayUuid: "params.wayUuid",
+    }));
+
+    const dayReports = {
+      size: dayReportsDTO.size,
+      dayReports: dayReportsPreview,
+    };
+
+    return dayReports;
   }
 
 }

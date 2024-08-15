@@ -1,11 +1,11 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {CreateDayReportParams} from "src/dataAccessLogic/DayReportDAL";
+import {CreateDayReportParams, DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {Columns} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
 import {ReportsTable} from "src/logic/wayPage/reportsTable/ReportsTable";
@@ -16,6 +16,8 @@ import {WayStatisticsTriple} from "src/model/businessModel/WayStatistics";
 import {LanguageService} from "src/service/LanguageService";
 import {arrayToHashMap} from "src/utils/arrayToHashMap";
 import styles from "src/logic/wayPage/reportsTable/dayReportsTable/DayReportsTable.module.scss";
+
+const DEFAULT_DAY_REPORTS_PAGINATION_VALUE = 1;
 
 /**
  * DayReportsTable props
@@ -51,33 +53,30 @@ interface DayReportsTableProps {
  */
 export const DayReportsTable = observer((props: DayReportsTableProps) => {
   const {language} = languageStore;
-  const VISIBLE_REPORTS_CHUNK = 7;
-  const [visibleReports, setVisibleReports] = useState(props.way.dayReports.slice(0, VISIBLE_REPORTS_CHUNK));
-  useEffect(() => {
-    const updatedVisibleReports = props.way.dayReports.length <= VISIBLE_REPORTS_CHUNK
-      ? props.way.dayReports.length
-      : visibleReports.length;
-    setVisibleReports(props.way.dayReports.slice(0, updatedVisibleReports));
-  }, [props.way.dayReports]);
-
-  /**
-   * Show more reports for user
-   */
-  const showMoreReports = () => {
-    setVisibleReports(props.way.dayReports.slice(0, visibleReports.length + VISIBLE_REPORTS_CHUNK));
-  };
-
-  const isShowMoreReportsButtonVisible = visibleReports.length < props.way.dayReports.length;
+  const [dayReportsPagination, setDayReportsPagination] = useState<number>(DEFAULT_DAY_REPORTS_PAGINATION_VALUE);
+  // Const VISIBLE_REPORTS_CHUNK = 7;
 
   const wayParticipantsMap = arrayToHashMap({keyField: "uuid", list: props.compositeWayParticipant});
+
+  const isMoreDayReportsExist = props.way.dayReports.length < props.way.dayReportsAmount;
+
+  /**
+   * Load more dayReports
+   */
+  const loadMoreDayReports = async () => {
+    const nextPage = dayReportsPagination + DEFAULT_DAY_REPORTS_PAGINATION_VALUE;
+
+    const dayReports = await DayReportDAL.getDayReports({page: nextPage, wayId: props.way.uuid, wayName: "Coming soon"});
+    props.way.updateDayReports(dayReports.dayReports);
+    setDayReportsPagination(nextPage);
+  };
 
   return (
     <>
       <HorizontalContainer className={styles.titleContainer}>
         <Title
           level={HeadingLevel.h2}
-          text={`${LanguageService.way.reportsTable.title[language]} 
-          (${Math.min(props.way.dayReports.length, visibleReports.length)})`}
+          text={`${LanguageService.way.reportsTable.title[language]} (${props.way.dayReports.length})`}
           placeholder=""
         />
         <Title
@@ -89,7 +88,7 @@ export const DayReportsTable = observer((props: DayReportsTableProps) => {
       <VerticalContainer className={styles.dayReportsContent}>
         <ScrollableBlock>
           <ReportsTable
-            data={visibleReports}
+            data={props.way.dayReports}
             columns={Columns({
               way: props.way,
               setWayStatisticsTriple: props.setWayStatisticsTriple,
@@ -98,9 +97,9 @@ export const DayReportsTable = observer((props: DayReportsTableProps) => {
             })}
           />
         </ScrollableBlock>
-        {isShowMoreReportsButtonVisible &&
+        {isMoreDayReportsExist &&
         <Button
-          onClick={showMoreReports}
+          onClick={loadMoreDayReports}
           value={LanguageService.way.reportsTable.loadMoreButton[language]}
           buttonType={ButtonType.PRIMARY}
           className={styles.loadMoreButton}

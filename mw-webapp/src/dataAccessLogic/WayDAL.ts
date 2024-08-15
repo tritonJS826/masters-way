@@ -1,4 +1,5 @@
 import {wayToWayDTOPartial} from "src/dataAccessLogic/BusinessToDTOConverter/wayToWayDTOPartial";
+import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {wayDTOToWay} from "src/dataAccessLogic/DTOToPreviewConverter/wayDTOToWay";
 import {wayPlainDTOToWayPreview} from "src/dataAccessLogic/DTOToPreviewConverter/wayPlainDTOToWayPreview";
 import {wayStatisticsTripleDTOToWayStatisticsTriple} from
@@ -102,9 +103,10 @@ export class WayDAL {
   /**
    * Get WayPreview
    */
-  public static async getWay(uuid: string): Promise<Way> {
-    const wayDTO = await WayService.getWayByUuid({wayId: uuid});
-    const way = wayDTOToWay(wayDTO);
+  public static async getWay(wayId: string): Promise<Way> {
+    const wayDTO = await WayService.getWayByUuid({wayId});
+    const dayReports = await DayReportDAL.getDayReports({wayId, wayName: "todo"});
+    const way = wayDTOToWay(wayDTO, dayReports);
 
     return way;
   }

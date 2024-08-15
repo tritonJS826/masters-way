@@ -1,16 +1,14 @@
 import {makeAutoObservable} from "mobx";
 import {WayStatusType} from "src/logic/waysTable/wayStatus";
-import {DayReport} from "src/model/businessModel/DayReport";
 import {Label} from "src/model/businessModel/Label";
 import {Metric} from "src/model/businessModel/Metric";
 import {UserPlain} from "src/model/businessModel/User";
 import {WayTag} from "src/model/businessModelPreview/WayTag";
-import {WayWithoutDayReports} from "src/model/businessModelPreview/WayWithoutDayReports";
 
 /**
- * Way props
+ * WayWithoutDayReports props
  */
-interface WayProps {
+interface WayWithoutDayReportsProps {
 
   /**
    * Way's UUID
@@ -21,16 +19,6 @@ interface WayProps {
    * Way's name
    */
   name: string;
-
-  /**
-   * Day reports
-   */
-  dayReports: DayReport[];
-
-  /**
-   * Day reports amount
-   */
-  dayReportsAmount: number;
 
   /**
    * Way's owner
@@ -121,7 +109,7 @@ interface WayProps {
 /**
  * Way model
  */
-export class Way {
+export class WayWithoutDayReports {
 
   /**
    * Way's UUID
@@ -132,16 +120,6 @@ export class Way {
    * Way's name
    */
   public name: string;
-
-  /**
-   * Day reports
-   */
-  public dayReports: DayReport[];
-
-  /**
-   * Day reports amount
-   */
-  public dayReportsAmount: number;
 
   /**
    * Way's owner
@@ -228,12 +206,10 @@ export class Way {
    */
   public children: WayWithoutDayReports[];
 
-  constructor(wayData: WayProps) {
+  constructor(wayData: WayWithoutDayReportsProps) {
     makeAutoObservable(this);
     this.uuid = wayData.uuid;
     this.name = wayData.name;
-    this.dayReports = wayData.dayReports.map(report => new DayReport(report));
-    this.dayReportsAmount = wayData.dayReportsAmount;
     this.owner = new UserPlain(wayData.owner);
     this.mentors = new Map<string, UserPlain>(wayData.mentors);
     this.mentorRequests = wayData.mentorRequests.map(mentorRequest => new UserPlain(mentorRequest));
@@ -351,20 +327,6 @@ export class Way {
    */
   public deleteMetric(metricUuid: string): void {
     this.metrics = this.metrics.filter(metric => metric.uuid !== metricUuid);
-  }
-
-  /**
-   * Add dayReport
-   */
-  public addDayReport(dayReport: DayReport): void {
-    this.dayReports = [dayReport, ...this.dayReports];
-  }
-
-  /**
-   * Add dayReport
-   */
-  public updateDayReports(dayReports: DayReport[]): void {
-    this.dayReports = dayReports;
   }
 
 }

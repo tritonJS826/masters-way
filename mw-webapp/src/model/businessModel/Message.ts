@@ -43,7 +43,7 @@ export class Message {
   /**
    * Message's UUID
    */
-  public uuid?: string;
+  public uuid: string;
 
   /**
    * Message's value

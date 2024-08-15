@@ -34,6 +34,12 @@ export interface SchemasMessageResponse {
     message: string;
     /**
      * 
+     * @type {string}
+     * @memberof SchemasMessageResponse
+     */
+    messageId: string;
+    /**
+     * 
      * @type {Array<SchemasMessageReader>}
      * @memberof SchemasMessageResponse
      */
@@ -66,6 +72,7 @@ export function instanceOfSchemasMessageResponse(
 ): boolean {
     let isInstance = true;
     isInstance = isInstance && "message" in value;
+    isInstance = isInstance && "messageId" in value;
     isInstance = isInstance && "messageReaders" in value;
     isInstance = isInstance && "ownerId" in value;
     isInstance = isInstance && "ownerImageUrl" in value;
@@ -88,6 +95,7 @@ export function SchemasMessageResponseFromJSONTyped(
     return {
         
         'message': json['message'],
+        'messageId': json['messageId'],
         'messageReaders': ((json['messageReaders'] as Array<any>).map(SchemasMessageReaderFromJSON)),
         'ownerId': json['ownerId'],
         'ownerImageUrl': json['ownerImageUrl'],
@@ -106,6 +114,7 @@ export function SchemasMessageResponseToJSON(value?: SchemasMessageResponse | nu
     return {
         
         'message': value.message,
+        'messageId': value.messageId,
         'messageReaders': ((value.messageReaders as Array<any>).map(SchemasMessageReaderToJSON)),
         'ownerId': value.ownerId,
         'ownerImageUrl': value.ownerImageUrl,

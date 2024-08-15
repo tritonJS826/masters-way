@@ -35,6 +35,7 @@ export * from './SchemasJobTagResponse';
 export * from './SchemasLabel';
 export * from './SchemasLabelInfo';
 export * from './SchemasLabelStatistics';
+export * from './SchemasListDayReportsResponse';
 export * from './SchemasMetricResponse';
 export * from './SchemasOverallInformation';
 export * from './SchemasPlanPopulatedResponse';

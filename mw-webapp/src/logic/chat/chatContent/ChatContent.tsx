@@ -35,7 +35,7 @@ import styles from "src/logic/chat/chatContent/ChatContent.module.scss";
 export const ChatContent = observer(() => {
   const {language} = languageStore;
   const {user} = userStore;
-  const {addUnreadMessageToAmount} = chatStore;
+  const {isChatOpen, addUnreadMessageToAmount} = chatStore;
 
   const [activeChatStore, setActiveChatStore] = useState<ActiveChatStore | null>(null);
   const [chatListStore] = useState<ChatListStore>(new ChatListStore());
@@ -54,6 +54,13 @@ export const ChatContent = observer(() => {
     setActiveChatStore(new ActiveChatStore(room));
   };
 
+  /**
+   * Read message
+   */
+  const readMessage = async (messageId: string) => {
+    activeChatStore?.activeChat && isChatOpen && await ChatDAL.updateMessageStatus(messageId, true);
+  };
+
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
@@ -65,6 +72,7 @@ export const ChatContent = observer(() => {
     const isChatForMessageOpen = payload.roomId === activeChatStore?.activeChat.roomId;
     if (isChatForMessageOpen) {
       const newMessage = new Message({
+        uuid: payload.messageId,
         message: payload.message,
         ownerId: payload.ownerId,
         ownerName: payload.ownerName,
@@ -72,7 +80,7 @@ export const ChatContent = observer(() => {
         messageReaders: [],
       });
       activeChatStore?.activeChat.addMessage(newMessage);
-      // IsChatOpen && ChatDAL.markMessageAsRead(newMessage.uuid);
+      readMessage(newMessage.uuid);
     } else {
       addUnreadMessageToAmount();
       displayNotification({
