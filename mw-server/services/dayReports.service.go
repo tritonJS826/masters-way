@@ -183,6 +183,31 @@ func GetDayReportsByWayID(db *dbb.Queries, ctx context.Context, params *GetDayRe
 	firstWayUUIDString := util.ConvertPgUUIDToUUID(dayReportsRaw[0].WayUuid).String()
 
 	newUUID, _ := uuid.NewRandom()
+
+	jobDonesSlice := []schemas.JobDonePopulatedResponse{}
+	jobDones, jobDonesExists := jobDonesMap[firstDayReportUUIDString]
+	if jobDonesExists {
+		jobDonesSlice = jobDones
+	}
+
+	plansSlice := []schemas.PlanPopulatedResponse{}
+	plans, plansExists := plansMap[firstDayReportUUIDString]
+	if plansExists {
+		plansSlice = plans
+	}
+
+	problemsSlice := []schemas.ProblemPopulatedResponse{}
+	problems, problemsExists := problemsMap[firstDayReportUUIDString]
+	if problemsExists {
+		problemsSlice = problems
+	}
+
+	commentsSlice := []schemas.CommentPopulatedResponse{}
+	comments, commentsExists := commentsMap[firstDayReportUUIDString]
+	if commentsExists {
+		commentsSlice = comments
+	}
+
 	currentDayReport := schemas.CompositeDayReportPopulatedResponse{
 		UUID:      newUUID.String(),
 		CreatedAt: dayReportsRaw[0].CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
@@ -194,10 +219,10 @@ func GetDayReportsByWayID(db *dbb.Queries, ctx context.Context, params *GetDayRe
 				WayName:     dayReportsRaw[0].WayName,
 			},
 		},
-		JobsDone: jobDonesMap[firstDayReportUUIDString],
-		Plans:    plansMap[firstDayReportUUIDString],
-		Problems: problemsMap[firstDayReportUUIDString],
-		Comments: commentsMap[firstDayReportUUIDString],
+		JobsDone: jobDonesSlice,
+		Plans:    plansSlice,
+		Problems: problemsSlice,
+		Comments: commentsSlice,
 	}
 
 	for i := 1; i < len(dayReportsRaw); i++ {
@@ -219,6 +244,30 @@ func GetDayReportsByWayID(db *dbb.Queries, ctx context.Context, params *GetDayRe
 
 			rank = dayReportsRaw[i].Rank
 
+			currentJobDonesSlice := []schemas.JobDonePopulatedResponse{}
+			jobDones, jobDonesExists := jobDonesMap[firstDayReportUUIDString]
+			if jobDonesExists {
+				jobDonesSlice = jobDones
+			}
+
+			currentPlansSlice := []schemas.PlanPopulatedResponse{}
+			plans, plansExists := plansMap[firstDayReportUUIDString]
+			if plansExists {
+				plansSlice = plans
+			}
+
+			currentProblemsSlice := []schemas.ProblemPopulatedResponse{}
+			problems, problemsExists := problemsMap[firstDayReportUUIDString]
+			if problemsExists {
+				problemsSlice = problems
+			}
+
+			currentCommentsSlice := []schemas.CommentPopulatedResponse{}
+			comments, commentsExists := commentsMap[firstDayReportUUIDString]
+			if commentsExists {
+				commentsSlice = comments
+			}
+
 			currentNewUUID, _ := uuid.NewRandom()
 			currentDayReport = schemas.CompositeDayReportPopulatedResponse{
 				UUID:      currentNewUUID.String(),
@@ -231,10 +280,10 @@ func GetDayReportsByWayID(db *dbb.Queries, ctx context.Context, params *GetDayRe
 						WayName:     dayReportsRaw[i].WayName,
 					},
 				},
-				JobsDone: jobDonesMap[currentDayReportUUIDString],
-				Plans:    plansMap[currentDayReportUUIDString],
-				Problems: problemsMap[currentDayReportUUIDString],
-				Comments: commentsMap[currentDayReportUUIDString],
+				JobsDone: currentJobDonesSlice,
+				Plans:    currentPlansSlice,
+				Problems: currentProblemsSlice,
+				Comments: currentCommentsSlice,
 			}
 		}
 	}
