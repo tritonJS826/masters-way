@@ -3,36 +3,13 @@ import {Label} from "src/model/businessModel/Label";
 import {Plan} from "src/model/businessModel/Plan";
 
 /**
- * Plan converter params
- */
-interface PlanConverterParams {
-
-  /**
-   * Plan DTO
-   */
-  planDTO: SchemasPlanPopulatedResponse;
-
-  /**
-   * Job's way name
-   */
-  wayName: string;
-
-  /**
-   *Job's way uuid
-   */
-  wayUuid: string;
-}
-
-/**
  * Convert {@link PlanDTO} to {@link Plan}
  */
-export const planDTOToPlan = (params: PlanConverterParams): Plan => {
+export const planDTOToPlan = (planDTO: SchemasPlanPopulatedResponse): Plan => {
   return new Plan({
-    ...params.planDTO,
-    createdAt: new Date(params.planDTO.createdAt),
-    updatedAt: new Date(params.planDTO.updatedAt),
-    wayName: params.wayName,
-    wayUuid: params.wayUuid,
-    tags: params.planDTO.tags.map(label => new Label(label)),
+    ...planDTO,
+    createdAt: new Date(planDTO.createdAt),
+    updatedAt: new Date(planDTO.updatedAt),
+    tags: planDTO.tags.map(label => new Label(label)),
   });
 };

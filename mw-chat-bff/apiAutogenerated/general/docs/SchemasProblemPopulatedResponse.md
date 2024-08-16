@@ -2,24 +2,50 @@
 
 ## Properties
 
+<<<<<<< Updated upstream
+| Name | Type | Description | Notes |
+| ----------------- | ------------------------------------------------------- | ----------- | ----- |
+| **CreatedAt** | **string** | |
+| **DayReportUuid** | **string** | |
+| **Description** | **string** | |
+| **IsDone** | **bool** | |
+| **OwnerName** | **string** | |
+| **OwnerUuid** | **string** | |
+| **Tags** | [**[]SchemasJobTagResponse**](SchemasJobTagResponse.md) | |
+| **UpdatedAt** | **string** | |
+| **Uuid** | **string** | |
+=======
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+<<<<<<< Updated upstream
+**CreatedAt** | **string** | |
+**DayReportUuid** | **string** | |
+**Description** | **string** | |
+**IsDone** | **bool** | |
+**OwnerName** | **string** | |
+**OwnerUuid** | **string** | |
+**Tags** | [**[]SchemasJobTagResponse**](SchemasJobTagResponse.md) | |
+**UpdatedAt** | **string** | |
+**Uuid** | **string** | |
+=======
 **CreatedAt** | **string** |  | 
 **DayReportUuid** | **string** |  | 
 **Description** | **string** |  | 
 **IsDone** | **bool** |  | 
 **OwnerName** | **string** |  | 
 **OwnerUuid** | **string** |  | 
+**Tags** | [**[]SchemasJobTagResponse**](SchemasJobTagResponse.md) |  | 
 **UpdatedAt** | **string** |  | 
 **Uuid** | **string** |  | 
 **WayName** | **string** |  | 
 **WayUuid** | **string** |  | 
+>>>>>>> Stashed changes
 
 ## Methods
 
 ### NewSchemasProblemPopulatedResponse
 
-`func NewSchemasProblemPopulatedResponse(createdAt string, dayReportUuid string, description string, isDone bool, ownerName string, ownerUuid string, updatedAt string, uuid string, wayName string, wayUuid string, ) *SchemasProblemPopulatedResponse`
+`func NewSchemasProblemPopulatedResponse(createdAt string, dayReportUuid string, description string, isDone bool, ownerName string, ownerUuid string, tags []SchemasJobTagResponse, updatedAt string, uuid string, wayName string, wayUuid string, ) *SchemasProblemPopulatedResponse`
 
 NewSchemasProblemPopulatedResponse instantiates a new SchemasProblemPopulatedResponse object
 This constructor will assign default values to properties that have it defined,
@@ -53,7 +79,6 @@ and a boolean to check if the value has been set.
 
 SetCreatedAt sets CreatedAt field to given value.
 
-
 ### GetDayReportUuid
 
 `func (o *SchemasProblemPopulatedResponse) GetDayReportUuid() string`
@@ -72,7 +97,6 @@ and a boolean to check if the value has been set.
 `func (o *SchemasProblemPopulatedResponse) SetDayReportUuid(v string)`
 
 SetDayReportUuid sets DayReportUuid field to given value.
-
 
 ### GetDescription
 
@@ -93,7 +117,6 @@ and a boolean to check if the value has been set.
 
 SetDescription sets Description field to given value.
 
-
 ### GetIsDone
 
 `func (o *SchemasProblemPopulatedResponse) GetIsDone() bool`
@@ -112,7 +135,6 @@ and a boolean to check if the value has been set.
 `func (o *SchemasProblemPopulatedResponse) SetIsDone(v bool)`
 
 SetIsDone sets IsDone field to given value.
-
 
 ### GetOwnerName
 
@@ -133,7 +155,6 @@ and a boolean to check if the value has been set.
 
 SetOwnerName sets OwnerName field to given value.
 
-
 ### GetOwnerUuid
 
 `func (o *SchemasProblemPopulatedResponse) GetOwnerUuid() string`
@@ -152,7 +173,6 @@ and a boolean to check if the value has been set.
 `func (o *SchemasProblemPopulatedResponse) SetOwnerUuid(v string)`
 
 SetOwnerUuid sets OwnerUuid field to given value.
-
 
 ### GetUpdatedAt
 
@@ -173,7 +193,6 @@ and a boolean to check if the value has been set.
 
 SetUpdatedAt sets UpdatedAt field to given value.
 
-
 ### GetUuid
 
 `func (o *SchemasProblemPopulatedResponse) GetUuid() string`
@@ -193,7 +212,11 @@ and a boolean to check if the value has been set.
 
 SetUuid sets Uuid field to given value.
 
+### GetWayName
 
+<<<<<<< Updated upstream
+`func (o *SchemasProblemPopulatedResponse) GetWayName() string`
+=======
 ### GetWayName
 
 `func (o *SchemasProblemPopulatedResponse) GetWayName() string`
@@ -234,7 +257,582 @@ and a boolean to check if the value has been set.
 SetWayUuid sets WayUuid field to given value.
 
 
+>>>>>>> Stashed changes
+
+GetWayName returns the WayName field if non-nil, zero value otherwise.
+
+### GetWayNameOk
+
+`func (o *SchemasProblemPopulatedResponse) GetWayNameOk() (*string, bool)`
+
+GetWayNameOk returns a tuple with the WayName field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWayName
+
+`func (o *SchemasProblemPopulatedResponse) SetWayName(v string)`
+
+SetWayName sets WayName field to given value.
+
+### GetWayUuid
+
+`func (o *SchemasProblemPopulatedResponse) GetWayUuid() string`
+
+GetWayUuid returns the WayUuid field if non-nil, zero value otherwise.
+
+### GetWayUuidOk
+
+`func (o *SchemasProblemPopulatedResponse) GetWayUuidOk() (*string, bool)`
+
+GetWayUuidOk returns a tuple with the WayUuid field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWayUuid
+
+`func (o *SchemasProblemPopulatedResponse) SetWayUuid(v string)`
+
+SetWayUuid sets WayUuid field to given value.
+
+### GetWayName
+
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+`func (o *SchemasProblemPopulatedResponse) GetWayName() string`
+=======
+
+### GetWayName
+
+=======
+
+### GetWayName
+
+=======
+
+### GetWayName
+
+`func (o *SchemasProblemPopulatedResponse) GetWayName() string`
+
+GetWayName returns the WayName field if non-nil, zero value otherwise.
+
+### GetWayNameOk
+
+`func (o *SchemasProblemPopulatedResponse) GetWayNameOk() (*string, bool)`
+
+GetWayNameOk returns a tuple with the WayName field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWayName
+
+`func (o *SchemasProblemPopulatedResponse) SetWayName(v string)`
+
+SetWayName sets WayName field to given value.
+
+### GetWayUuid
+
+`func (o *SchemasProblemPopulatedResponse) GetWayUuid() string`
+
+GetWayUuid returns the WayUuid field if non-nil, zero value otherwise.
+
+### GetWayUuidOk
+
+`func (o *SchemasProblemPopulatedResponse) GetWayUuidOk() (*string, bool)`
+
+GetWayUuidOk returns a tuple with the WayUuid field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWayUuid
+
+`func (o *SchemasProblemPopulatedResponse) SetWayUuid(v string)`
+
+SetWayUuid sets WayUuid field to given value.
+
+> > > > > > > Stashed changes
+
+`func (o *SchemasProblemPopulatedResponse) GetWayName() string`
+
+GetWayName returns the WayName field if non-nil, zero value otherwise.
+
+### GetWayNameOk
+
+`func (o *SchemasProblemPopulatedResponse) GetWayNameOk() (*string, bool)`
+
+GetWayNameOk returns a tuple with the WayName field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWayName
+
+`func (o *SchemasProblemPopulatedResponse) SetWayName(v string)`
+
+SetWayName sets WayName field to given value.
+
+### GetWayUuid
+
+`func (o *SchemasProblemPopulatedResponse) GetWayUuid() string`
+
+GetWayUuid returns the WayUuid field if non-nil, zero value otherwise.
+
+### GetWayUuidOk
+
+`func (o *SchemasProblemPopulatedResponse) GetWayUuidOk() (*string, bool)`
+
+GetWayUuidOk returns a tuple with the WayUuid field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWayUuid
+
+`func (o *SchemasProblemPopulatedResponse) SetWayUuid(v string)`
+
+SetWayUuid sets WayUuid field to given value.
+
+> > > > > > > Stashed changes
+
+`func (o *SchemasProblemPopulatedResponse) GetWayName() string`
+
+GetWayName returns the WayName field if non-nil, zero value otherwise.
+
+### GetWayNameOk
+
+`func (o *SchemasProblemPopulatedResponse) GetWayNameOk() (*string, bool)`
+
+GetWayNameOk returns a tuple with the WayName field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWayName
+
+`func (o *SchemasProblemPopulatedResponse) SetWayName(v string)`
+
+SetWayName sets WayName field to given value.
+
+### GetWayUuid
+
+`func (o *SchemasProblemPopulatedResponse) GetWayUuid() string`
+
+GetWayUuid returns the WayUuid field if non-nil, zero value otherwise.
+
+### GetWayUuidOk
+
+`func (o *SchemasProblemPopulatedResponse) GetWayUuidOk() (*string, bool)`
+
+GetWayUuidOk returns a tuple with the WayUuid field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWayUuid
+
+`func (o *SchemasProblemPopulatedResponse) SetWayUuid(v string)`
+
+SetWayUuid sets WayUuid field to given value.
+
+> > > > > > > Stashed changes
+
+GetWayName returns the WayName field if non-nil, zero value otherwise.
+
+### GetWayNameOk
+
+`func (o *SchemasProblemPopulatedResponse) GetWayNameOk() (*string, bool)`
+
+GetWayNameOk returns a tuple with the WayName field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWayName
+
+`func (o *SchemasProblemPopulatedResponse) SetWayName(v string)`
+
+SetWayName sets WayName field to given value.
+
+### GetWayUuid
+
+`func (o *SchemasProblemPopulatedResponse) GetWayUuid() string`
+
+GetWayUuid returns the WayUuid field if non-nil, zero value otherwise.
+
+### GetWayUuidOk
+
+`func (o *SchemasProblemPopulatedResponse) GetWayUuidOk() (*string, bool)`
+
+GetWayUuidOk returns a tuple with the WayUuid field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWayUuid
+
+`func (o *SchemasProblemPopulatedResponse) SetWayUuid(v string)`
+
+SetWayUuid sets WayUuid field to given value.
+
+### GetWayName
+
+### GetWayName
+
+`func (o *SchemasProblemPopulatedResponse) GetWayName() string`
+
+GetWayName returns the WayName field if non-nil, zero value otherwise.
+
+### GetWayNameOk
+
+`func (o *SchemasProblemPopulatedResponse) GetWayNameOk() (*string, bool)`
+
+GetWayNameOk returns a tuple with the WayName field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWayName
+
+`func (o *SchemasProblemPopulatedResponse) SetWayName(v string)`
+
+SetWayName sets WayName field to given value.
+
+### GetWayUuid
+
+`func (o *SchemasProblemPopulatedResponse) GetWayUuid() string`
+
+GetWayUuid returns the WayUuid field if non-nil, zero value otherwise.
+
+### GetWayUuidOk
+
+`func (o *SchemasProblemPopulatedResponse) GetWayUuidOk() (*string, bool)`
+
+GetWayUuidOk returns a tuple with the WayUuid field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWayUuid
+
+`func (o *SchemasProblemPopulatedResponse) SetWayUuid(v string)`
+
+SetWayUuid sets WayUuid field to given value.
+
+GetWayName returns the WayName field if non-nil, zero value otherwise.
+
+### GetWayNameOk
+
+`func (o *SchemasProblemPopulatedResponse) GetWayNameOk() (*string, bool)`
+
+GetWayNameOk returns a tuple with the WayName field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWayName
+
+`func (o *SchemasProblemPopulatedResponse) SetWayName(v string)`
+
+SetWayName sets WayName field to given value.
+
+### GetWayUuid
+
+`func (o *SchemasProblemPopulatedResponse) GetWayUuid() string`
+
+GetWayUuid returns the WayUuid field if non-nil, zero value otherwise.
+
+### GetWayUuidOk
+
+`func (o *SchemasProblemPopulatedResponse) GetWayUuidOk() (*string, bool)`
+
+GetWayUuidOk returns a tuple with the WayUuid field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWayUuid
+
+`func (o *SchemasProblemPopulatedResponse) SetWayUuid(v string)`
+
+SetWayUuid sets WayUuid field to given value.
+
+`func (o *SchemasProblemPopulatedResponse) GetWayName() string`
+
+GetWayName returns the WayName field if non-nil, zero value otherwise.
+
+### GetWayNameOk
+
+`func (o *SchemasProblemPopulatedResponse) GetWayNameOk() (*string, bool)`
+
+GetWayNameOk returns a tuple with the WayName field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWayName
+
+`func (o *SchemasProblemPopulatedResponse) SetWayName(v string)`
+
+SetWayName sets WayName field to given value.
+
+### GetWayUuid
+
+`func (o *SchemasProblemPopulatedResponse) GetWayUuid() string`
+
+GetWayUuid returns the WayUuid field if non-nil, zero value otherwise.
+
+### GetWayUuidOk
+
+`func (o *SchemasProblemPopulatedResponse) GetWayUuidOk() (*string, bool)`
+
+GetWayUuidOk returns a tuple with the WayUuid field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWayUuid
+
+`func (o *SchemasProblemPopulatedResponse) SetWayUuid(v string)`
+
+SetWayUuid sets WayUuid field to given value.
+
+### GetWayName
+
+`func (o *SchemasProblemPopulatedResponse) GetWayName() string`
+
+GetWayName returns the WayName field if non-nil, zero value otherwise.
+
+### GetWayNameOk
+
+`func (o *SchemasProblemPopulatedResponse) GetWayNameOk() (*string, bool)`
+
+GetWayNameOk returns a tuple with the WayName field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWayName
+
+`func (o *SchemasProblemPopulatedResponse) SetWayName(v string)`
+
+SetWayName sets WayName field to given value.
+
+### GetWayUuid
+
+`func (o *SchemasProblemPopulatedResponse) GetWayUuid() string`
+
+GetWayUuid returns the WayUuid field if non-nil, zero value otherwise.
+
+### GetWayUuidOk
+
+`func (o *SchemasProblemPopulatedResponse) GetWayUuidOk() (*string, bool)`
+
+GetWayUuidOk returns a tuple with the WayUuid field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWayUuid
+
+`func (o *SchemasProblemPopulatedResponse) SetWayUuid(v string)`
+
+SetWayUuid sets WayUuid field to given value.
+
+### GetWayName
+
+`func (o *SchemasProblemPopulatedResponse) GetWayName() string`
+
+GetWayName returns the WayName field if non-nil, zero value otherwise.
+
+### GetWayNameOk
+
+`func (o *SchemasProblemPopulatedResponse) GetWayNameOk() (*string, bool)`
+
+GetWayNameOk returns a tuple with the WayName field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWayName
+
+`func (o *SchemasProblemPopulatedResponse) SetWayName(v string)`
+
+SetWayName sets WayName field to given value.
+
+### GetWayUuid
+
+`func (o *SchemasProblemPopulatedResponse) GetWayUuid() string`
+
+GetWayUuid returns the WayUuid field if non-nil, zero value otherwise.
+
+### GetWayUuidOk
+
+`func (o *SchemasProblemPopulatedResponse) GetWayUuidOk() (*string, bool)`
+
+GetWayUuidOk returns a tuple with the WayUuid field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWayUuid
+
+`func (o *SchemasProblemPopulatedResponse) SetWayUuid(v string)`
+
+SetWayUuid sets WayUuid field to given value.
+
+### GetWayName
+
+`func (o *SchemasProblemPopulatedResponse) GetWayName() string`
+
+GetWayName returns the WayName field if non-nil, zero value otherwise.
+
+### GetWayNameOk
+
+`func (o *SchemasProblemPopulatedResponse) GetWayNameOk() (*string, bool)`
+
+GetWayNameOk returns a tuple with the WayName field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWayName
+
+`func (o *SchemasProblemPopulatedResponse) SetWayName(v string)`
+
+SetWayName sets WayName field to given value.
+
+### GetWayUuid
+
+`func (o *SchemasProblemPopulatedResponse) GetWayUuid() string`
+
+GetWayUuid returns the WayUuid field if non-nil, zero value otherwise.
+
+### GetWayUuidOk
+
+`func (o *SchemasProblemPopulatedResponse) GetWayUuidOk() (*string, bool)`
+
+GetWayUuidOk returns a tuple with the WayUuid field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWayUuid
+
+`func (o *SchemasProblemPopulatedResponse) SetWayUuid(v string)`
+
+SetWayUuid sets WayUuid field to given value.
+
+### GetWayName
+
+`func (o *SchemasProblemPopulatedResponse) GetWayName() string`
+
+GetWayName returns the WayName field if non-nil, zero value otherwise.
+
+### GetWayNameOk
+
+`func (o *SchemasProblemPopulatedResponse) GetWayNameOk() (*string, bool)`
+
+GetWayNameOk returns a tuple with the WayName field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWayName
+
+`func (o *SchemasProblemPopulatedResponse) SetWayName(v string)`
+
+SetWayName sets WayName field to given value.
+
+### GetWayUuid
+
+`func (o *SchemasProblemPopulatedResponse) GetWayUuid() string`
+
+GetWayUuid returns the WayUuid field if non-nil, zero value otherwise.
+
+### GetWayUuidOk
+
+`func (o *SchemasProblemPopulatedResponse) GetWayUuidOk() (*string, bool)`
+
+GetWayUuidOk returns a tuple with the WayUuid field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWayUuid
+
+`func (o *SchemasProblemPopulatedResponse) SetWayUuid(v string)`
+
+SetWayUuid sets WayUuid field to given value.
+
+### GetWayName
+
+`func (o *SchemasProblemPopulatedResponse) GetWayName() string`
+
+GetWayName returns the WayName field if non-nil, zero value otherwise.
+
+### GetWayNameOk
+
+`func (o *SchemasProblemPopulatedResponse) GetWayNameOk() (*string, bool)`
+
+GetWayNameOk returns a tuple with the WayName field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWayName
+
+`func (o *SchemasProblemPopulatedResponse) SetWayName(v string)`
+
+SetWayName sets WayName field to given value.
+
+### GetWayUuid
+
+`func (o *SchemasProblemPopulatedResponse) GetWayUuid() string`
+
+GetWayUuid returns the WayUuid field if non-nil, zero value otherwise.
+
+### GetWayUuidOk
+
+`func (o *SchemasProblemPopulatedResponse) GetWayUuidOk() (*string, bool)`
+
+GetWayUuidOk returns a tuple with the WayUuid field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWayUuid
+
+`func (o *SchemasProblemPopulatedResponse) SetWayUuid(v string)`
+
+SetWayUuid sets WayUuid field to given value.
+
+### GetWayName
+
+`func (o *SchemasProblemPopulatedResponse) GetWayName() string`
+
+GetWayName returns the WayName field if non-nil, zero value otherwise.
+
+### GetWayNameOk
+
+`func (o *SchemasProblemPopulatedResponse) GetWayNameOk() (*string, bool)`
+
+GetWayNameOk returns a tuple with the WayName field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWayName
+
+`func (o *SchemasProblemPopulatedResponse) SetWayName(v string)`
+
+SetWayName sets WayName field to given value.
+
+### GetWayUuid
+
+`func (o *SchemasProblemPopulatedResponse) GetWayUuid() string`
+
+GetWayUuid returns the WayUuid field if non-nil, zero value otherwise.
+
+### GetWayUuidOk
+
+`func (o *SchemasProblemPopulatedResponse) GetWayUuidOk() (*string, bool)`
+
+GetWayUuidOk returns a tuple with the WayUuid field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWayUuid
+
+`func (o *SchemasProblemPopulatedResponse) SetWayUuid(v string)`
+
+SetWayUuid sets WayUuid field to given value.
+
+### GetWayName
+
+`func (o *SchemasProblemPopulatedResponse) GetWayName() string`
+
+GetWayName returns the WayName field if non-nil, zero value otherwise.
+
+### GetWayNameOk
+
+`func (o *SchemasProblemPopulatedResponse) GetWayNameOk() (*string, bool)`
+
+GetWayNameOk returns a tuple with the WayName field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWayName
+
+`func (o *SchemasProblemPopulatedResponse) SetWayName(v string)`
+
+SetWayName sets WayName field to given value.
+
+### GetWayUuid
+
+`func (o *SchemasProblemPopulatedResponse) GetWayUuid() string`
+
+GetWayUuid returns the WayUuid field if non-nil, zero value otherwise.
+
+### GetWayUuidOk
+
+`func (o *SchemasProblemPopulatedResponse) GetWayUuidOk() (*string, bool)`
+
+GetWayUuidOk returns a tuple with the WayUuid field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWayUuid
+
+`func (o *SchemasProblemPopulatedResponse) SetWayUuid(v string)`
+
+SetWayUuid sets WayUuid field to given value.
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

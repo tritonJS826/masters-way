@@ -12,7 +12,6 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {Trash} from "src/component/trash/Trash";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {CreateDayReportParams} from "src/dataAccessLogic/DayReportDAL";
 import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
 import {PlanDAL} from "src/dataAccessLogic/PlanDAL";
 import {PlanJobTagDAL} from "src/dataAccessLogic/PlanJobTagDAL";
@@ -70,7 +69,7 @@ interface ReportsTablePlansCellProps {
   /**
    * Create new day report
    */
-  createDayReport: (dayReportParams: CreateDayReportParams, dayReportUuids: DayReport[]) => Promise<DayReport>;
+  createDayReport: (wayUuid: string, dayReportUuids: DayReport[]) => Promise<DayReport>;
 
   /**
    * Way's participants
@@ -195,10 +194,7 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
                 DateUtils.getShortISODateValue(props.way.dayReports[0].createdAt) === currentDate;
 
     const currentDayReport = !isCurrentDayReportExist
-      ? await props.createDayReport({
-        wayName: props.way.name,
-        wayUuid: props.way.uuid,
-      }, props.way.dayReports)
+      ? await props.createDayReport(props.way.uuid, props.way.dayReports)
       : props.way.dayReports[0];
 
     await copyToJobDone(plan, currentDayReport, ownerUuid);

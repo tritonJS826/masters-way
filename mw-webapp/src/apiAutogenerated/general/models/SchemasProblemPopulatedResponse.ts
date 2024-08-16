@@ -72,6 +72,12 @@ export interface SchemasProblemPopulatedResponse {
      * @type {string}
      * @memberof SchemasProblemPopulatedResponse
      */
+    uuid: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemasProblemPopulatedResponse
+     */
     wayName: string;
     /**
      * 

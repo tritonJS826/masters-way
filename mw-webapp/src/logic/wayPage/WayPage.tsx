@@ -26,7 +26,7 @@ import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {wayToWayPreview} from "src/dataAccessLogic/BusinessToBusinessPreviewConverter/wayToWayPreview";
 import {CompositeWayDAL} from "src/dataAccessLogic/CompositeWayDAL";
-import {CreateDayReportParams, DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
+import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {FavoriteUserWayDAL} from "src/dataAccessLogic/FavoriteUserWayDAL";
 import {MentorRequestDAL} from "src/dataAccessLogic/MentorRequestDAL";
 import {WayCollectionWayDAL} from "src/dataAccessLogic/WayCollectionWayDAL";
@@ -320,11 +320,8 @@ export const WayPage = observer((props: WayPageProps) => {
   /**
    * Create day report
    */
-  const createDayReport = async (params: CreateDayReportParams): Promise<DayReport> => {
-    const newDayReport = await DayReportDAL.createDayReport({
-      wayName: params.wayName,
-      wayUuid: params.wayUuid,
-    });
+  const createDayReport = async (wayUuid: string): Promise<DayReport> => {
+    const newDayReport = await DayReportDAL.createDayReport(wayUuid);
     way.addDayReport(newDayReport);
 
     return newDayReport;
@@ -917,10 +914,7 @@ export const WayPage = observer((props: WayPageProps) => {
               <Button
                 value={LanguageService.way.filterBlock.createNewDayReport[language]}
                 onClick={async () => {
-                  createDayReport({
-                    wayName: way.name,
-                    wayUuid: way.uuid,
-                  });
+                  createDayReport(way.uuid);
                   const updatedStatistics = await WayDAL.getWayStatisticTripleById(way.uuid);
                   wayPageStore.setWayStatisticsTriple(updatedStatistics);
                 }}

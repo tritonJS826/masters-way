@@ -1537,6 +1537,15 @@ components:
           dayReportUuid: dayReportUuid
           isDone: true
           uuid: uuid
+          tags:
+          - color: color
+            name: name
+            description: description
+            uuid: uuid
+          - color: color
+            name: name
+            description: description
+            uuid: uuid
           updatedAt: updatedAt
         - createdAt: createdAt
           ownerUuid: ownerUuid
@@ -1547,6 +1556,15 @@ components:
           dayReportUuid: dayReportUuid
           isDone: true
           uuid: uuid
+          tags:
+          - color: color
+            name: name
+            description: description
+            uuid: uuid
+          - color: color
+            name: name
+            description: description
+            uuid: uuid
           updatedAt: updatedAt
         updatedAt: updatedAt
       properties:

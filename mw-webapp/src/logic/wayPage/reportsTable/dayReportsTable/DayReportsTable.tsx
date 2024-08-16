@@ -5,7 +5,7 @@ import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalC
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {CreateDayReportParams, DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
+import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {Columns} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
 import {ReportsTable} from "src/logic/wayPage/reportsTable/ReportsTable";
@@ -42,7 +42,7 @@ interface DayReportsTableProps {
   /**
    * Create new day report
    */
-  createDayReport: (dayReportParams: CreateDayReportParams, dayReportUuids: DayReport[]) => Promise<DayReport>;
+  createDayReport: (wayUuid: string, dayReportUuids: DayReport[]) => Promise<DayReport>;
 }
 
 /**
@@ -54,7 +54,6 @@ interface DayReportsTableProps {
 export const DayReportsTable = observer((props: DayReportsTableProps) => {
   const {language} = languageStore;
   const [dayReportsPagination, setDayReportsPagination] = useState<number>(DEFAULT_DAY_REPORTS_PAGINATION_VALUE);
-  // Const VISIBLE_REPORTS_CHUNK = 7;
 
   const wayParticipantsMap = arrayToHashMap({keyField: "uuid", list: props.compositeWayParticipant});
 
