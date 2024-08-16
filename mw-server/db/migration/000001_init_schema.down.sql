@@ -8,7 +8,6 @@ DROP TABLE IF EXISTS way_collections_ways;
 DROP TABLE IF EXISTS way_collections;
 DROP TYPE IF EXISTS way_collection_type;
 DROP TABLE IF EXISTS comments;
-DROP TABLE IF EXISTS problems_job_tags;
 DROP TABLE IF EXISTS problems;
 DROP TABLE IF EXISTS job_dones_job_tags;
 DROP TABLE IF EXISTS job_dones;

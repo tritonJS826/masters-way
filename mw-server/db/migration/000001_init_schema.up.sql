@@ -145,12 +145,6 @@ CREATE TABLE "problems"(
     CONSTRAINT "problems_pkey" PRIMARY KEY("uuid")
 );
 
-CREATE TABLE "problems_job_tags"(
-    "problem_uuid" UUID NOT NULL REFERENCES problems("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
-    "job_tag_uuid" UUID NOT NULL REFERENCES job_tags("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
-    CONSTRAINT "problems_job_tags_pkey" PRIMARY KEY (problem_uuid, job_tag_uuid)
-);
-
 CREATE TABLE "comments"(
     "uuid" UUID NOT NULL DEFAULT (uuid_generate_v4()),
     "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -553,22 +547,6 @@ BEFORE INSERT ON plans_job_tags
 FOR EACH ROW
 EXECUTE FUNCTION check_max_plans_for_label();
 
--- максимальное количество проблем с определенный лейблом
-CREATE OR REPLACE FUNCTION check_max_problems_for_label()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF (SELECT COUNT(*) FROM problems_job_tags WHERE job_tag_uuid = NEW.job_tag_uuid) > 182500 THEN
-        RAISE EXCEPTION 'Exceeded the limit of 182500 problems with a particular label';
-    END IF;
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER max_problems_for_label_trigger
-BEFORE INSERT ON problems_job_tags
-FOR EACH ROW
-EXECUTE FUNCTION check_max_problems_for_label();
-
 -- максимальное количество лейблов для одного плана
 CREATE OR REPLACE FUNCTION check_max_labels_for_plans()
 RETURNS TRIGGER AS $$
@@ -600,22 +578,6 @@ CREATE TRIGGER max_labels_for_job_done_trigger
 BEFORE INSERT ON job_dones_job_tags
 FOR EACH ROW
 EXECUTE FUNCTION check_max_labels_for_job_done();
-
--- максимальное количество лейблов для одной проблемы
-CREATE OR REPLACE FUNCTION check_max_labels_for_problem()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF (SELECT COUNT(*) FROM problems_job_tags WHERE problem_uuid = NEW.problem_uuid) > 10 THEN
-        RAISE EXCEPTION 'Exceeded the limit of 10 labels for a problem';
-    END IF;
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER max_labels_for_problem_trigger
-BEFORE INSERT ON problems_job_tags
-FOR EACH ROW
-EXECUTE FUNCTION check_max_labels_for_problem();
 
 -- максимальное количество планов в одном отчете
 CREATE OR REPLACE FUNCTION check_max_plans_in_report()

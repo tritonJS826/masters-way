@@ -161,11 +161,6 @@ type Problem struct {
 	DayReportUuid pgtype.UUID      `json:"day_report_uuid"`
 }
 
-type ProblemsJobTag struct {
-	ProblemUuid pgtype.UUID `json:"problem_uuid"`
-	JobTagUuid  pgtype.UUID `json:"job_tag_uuid"`
-}
-
 type ProfileSetting struct {
 	Uuid           pgtype.UUID      `json:"uuid"`
 	PricingPlan    PricingPlanType  `json:"pricing_plan"`

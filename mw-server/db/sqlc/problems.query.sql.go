@@ -26,17 +26,7 @@ INSERT INTO problems(
     $4,
     $5,
     $6
-) RETURNING uuid, created_at, updated_at, description, is_done, owner_uuid, day_report_uuid,
-    (SELECT name FROM users WHERE uuid = $5) AS owner_name,
-    -- get tag uuids
-    COALESCE(
-        ARRAY(
-            SELECT problems_job_tags.job_tag_uuid
-            FROM problems_job_tags
-            WHERE problems.uuid = problems_job_tags.problem_uuid
-        ),
-        '{}'
-    )::VARCHAR[] AS tag_uuids
+) RETURNING uuid, created_at, updated_at, description, is_done, owner_uuid, day_report_uuid, (SELECT name FROM users WHERE uuid = $5) AS owner_name
 `
 
 type CreateProblemParams struct {
@@ -57,7 +47,6 @@ type CreateProblemRow struct {
 	OwnerUuid     pgtype.UUID      `json:"owner_uuid"`
 	DayReportUuid pgtype.UUID      `json:"day_report_uuid"`
 	OwnerName     string           `json:"owner_name"`
-	TagUuids      []string         `json:"tag_uuids"`
 }
 
 func (q *Queries) CreateProblem(ctx context.Context, arg CreateProblemParams) (CreateProblemRow, error) {
@@ -79,7 +68,6 @@ func (q *Queries) CreateProblem(ctx context.Context, arg CreateProblemParams) (C
 		&i.OwnerUuid,
 		&i.DayReportUuid,
 		&i.OwnerName,
-		&i.TagUuids,
 	)
 	return i, err
 }
@@ -135,17 +123,7 @@ updated_at = coalesce($1, updated_at),
 description = coalesce($2, description),
 is_done = coalesce($3, is_done)
 WHERE problems.uuid = $4
-RETURNING uuid, created_at, updated_at, description, is_done, owner_uuid, day_report_uuid,
-    (SELECT name FROM users WHERE problems.owner_uuid = users.uuid) AS owner_name,
-    -- get tag uuids
-    COALESCE(
-        ARRAY(
-            SELECT problems_job_tags.job_tag_uuid
-            FROM problems_job_tags
-            WHERE problems.uuid = problems_job_tags.problem_uuid
-        ),
-        '{}'
-    )::VARCHAR[] AS tag_uuids
+RETURNING uuid, created_at, updated_at, description, is_done, owner_uuid, day_report_uuid, (SELECT name FROM users WHERE problems.owner_uuid = users.uuid) AS owner_name
 `
 
 type UpdateProblemParams struct {
@@ -164,7 +142,6 @@ type UpdateProblemRow struct {
 	OwnerUuid     pgtype.UUID      `json:"owner_uuid"`
 	DayReportUuid pgtype.UUID      `json:"day_report_uuid"`
 	OwnerName     string           `json:"owner_name"`
-	TagUuids      []string         `json:"tag_uuids"`
 }
 
 func (q *Queries) UpdateProblem(ctx context.Context, arg UpdateProblemParams) (UpdateProblemRow, error) {
@@ -184,7 +161,6 @@ func (q *Queries) UpdateProblem(ctx context.Context, arg UpdateProblemParams) (U
 		&i.OwnerUuid,
 		&i.DayReportUuid,
 		&i.OwnerName,
-		&i.TagUuids,
 	)
 	return i, err
 }

@@ -88,9 +88,6 @@ var (
 	ProblemController controllers.ProblemController
 	ProblemRoutes     routes.ProblemRoutes
 
-	ProblemJobTagController controllers.ProblemJobTagController
-	ProblemJobTagRoutes     routes.ProblemJobTagRoutes
-
 	ToUserMentoringRequestController controllers.ToUserMentoringRequestController
 	ToUserMentoringRequestRoutes     routes.ToUserMentoringRequestRoutes
 
@@ -187,9 +184,6 @@ func init() {
 	ProblemController = *controllers.NewProblemController(db, ctx)
 	ProblemRoutes = routes.NewRouteProblem(ProblemController)
 
-	ProblemJobTagController = *controllers.NewProblemJobTagController(db, ctx)
-	ProblemJobTagRoutes = routes.NewRouteProblemJobTag(ProblemJobTagController)
-
 	ToUserMentoringRequestController = *controllers.NewToUserMentoringRequestController(db, ctx)
 	ToUserMentoringRequestRoutes = routes.NewRouteToUserMentoringRequest(ToUserMentoringRequestController)
 
@@ -264,7 +258,6 @@ func main() {
 	PlanRoutes.PlanRoute(router)
 	PlanJobTagRoutes.PlanJobTagRoute(router)
 	ProblemRoutes.ProblemRoute(router)
-	ProblemJobTagRoutes.ProblemJobTagRoute(router)
 	ToUserMentoringRequestRoutes.ToUserMentoringRequestRoute(router)
 	UserTagRoutes.UserTagRoute(router)
 	WayCollectionWayRoutes.WayCollectionWayRoute(router)
