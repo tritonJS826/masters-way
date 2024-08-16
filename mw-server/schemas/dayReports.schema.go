@@ -50,6 +50,6 @@ type CompositeDayReportPopulatedResponse struct {
 }
 
 type ListDayReportsResponse struct {
-	DayReports []DayReportPopulatedResponse `json:"dayReports" validate:"required"`
-	Size       int                          `json:"size" validate:"required"`
+	DayReports []CompositeDayReportPopulatedResponse `json:"dayReports" validate:"required"`
+	Size       int                                   `json:"size" validate:"required"`
 }

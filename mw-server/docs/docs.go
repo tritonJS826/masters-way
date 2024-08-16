@@ -2320,6 +2320,62 @@ const docTemplate = `{
                 }
             }
         },
+        "schemas.CompositeDayReportPopulatedResponse": {
+            "type": "object",
+            "required": [
+                "comments",
+                "createdAt",
+                "jobsDone",
+                "plans",
+                "problems",
+                "updatedAt",
+                "uuid"
+            ],
+            "properties": {
+                "comments": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.CommentPopulatedResponse"
+                    }
+                },
+                "compositionParticipants": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.DayReportsCompositionParticipants"
+                    }
+                },
+                "createdAt": {
+                    "description": "Calculated by - just date",
+                    "type": "string"
+                },
+                "jobsDone": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.JobDonePopulatedResponse"
+                    }
+                },
+                "plans": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.PlanPopulatedResponse"
+                    }
+                },
+                "problems": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.ProblemPopulatedResponse"
+                    }
+                },
+                "updatedAt": {
+                    "description": "Calculated by - just last date",
+                    "type": "string"
+                },
+                "uuid": {
+                    "description": "Always generated",
+                    "type": "string"
+                }
+            }
+        },
         "schemas.CompositeWayRelation": {
             "type": "object",
             "required": [
@@ -2720,12 +2776,12 @@ const docTemplate = `{
             "required": [
                 "comments",
                 "createdAt",
-                "isDayOff",
                 "jobsDone",
                 "plans",
                 "problems",
                 "updatedAt",
-                "uuid"
+                "uuid",
+                "wayUuid"
             ],
             "properties": {
                 "comments": {
@@ -2736,9 +2792,6 @@ const docTemplate = `{
                 },
                 "createdAt": {
                     "type": "string"
-                },
-                "isDayOff": {
-                    "type": "boolean"
                 },
                 "jobsDone": {
                     "type": "array",
@@ -2762,6 +2815,28 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "uuid": {
+                    "type": "string"
+                },
+                "wayUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.DayReportsCompositionParticipants": {
+            "type": "object",
+            "required": [
+                "dayReportId",
+                "wayId",
+                "wayName"
+            ],
+            "properties": {
+                "dayReportId": {
+                    "type": "string"
+                },
+                "wayId": {
+                    "type": "string"
+                },
+                "wayName": {
                     "type": "string"
                 }
             }
@@ -3020,7 +3095,7 @@ const docTemplate = `{
                 "dayReports": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.DayReportPopulatedResponse"
+                        "$ref": "#/definitions/schemas.CompositeDayReportPopulatedResponse"
                     }
                 },
                 "size": {

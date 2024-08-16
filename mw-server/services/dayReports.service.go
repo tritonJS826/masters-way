@@ -208,8 +208,8 @@ func GetDayReportsByWayID(db *dbb.Queries, ctx context.Context, params *GetDayRe
 	dayReports = append(dayReports, currentDayReport)
 
 	response := &schemas.ListDayReportsResponse{
-		DayReports: dayReports,
-		Size:       int(dayReportsRaw[0].MaxRank),
+		// DayReports: dayReports,
+		Size: int(dayReportsRaw[0].MaxRank),
 	}
 
 	return response, nil

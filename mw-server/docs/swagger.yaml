@@ -35,6 +35,46 @@ definitions:
     - updatedAt
     - uuid
     type: object
+  schemas.CompositeDayReportPopulatedResponse:
+    properties:
+      comments:
+        items:
+          $ref: '#/definitions/schemas.CommentPopulatedResponse'
+        type: array
+      compositionParticipants:
+        items:
+          $ref: '#/definitions/schemas.DayReportsCompositionParticipants'
+        type: array
+      createdAt:
+        description: Calculated by - just date
+        type: string
+      jobsDone:
+        items:
+          $ref: '#/definitions/schemas.JobDonePopulatedResponse'
+        type: array
+      plans:
+        items:
+          $ref: '#/definitions/schemas.PlanPopulatedResponse'
+        type: array
+      problems:
+        items:
+          $ref: '#/definitions/schemas.ProblemPopulatedResponse'
+        type: array
+      updatedAt:
+        description: Calculated by - just last date
+        type: string
+      uuid:
+        description: Always generated
+        type: string
+    required:
+    - comments
+    - createdAt
+    - jobsDone
+    - plans
+    - problems
+    - updatedAt
+    - uuid
+    type: object
   schemas.CompositeWayRelation:
     properties:
       childWayUuid:
@@ -313,8 +353,6 @@ definitions:
         type: array
       createdAt:
         type: string
-      isDayOff:
-        type: boolean
       jobsDone:
         items:
           $ref: '#/definitions/schemas.JobDonePopulatedResponse'
@@ -331,15 +369,30 @@ definitions:
         type: string
       uuid:
         type: string
+      wayUuid:
+        type: string
     required:
     - comments
     - createdAt
-    - isDayOff
     - jobsDone
     - plans
     - problems
     - updatedAt
     - uuid
+    - wayUuid
+    type: object
+  schemas.DayReportsCompositionParticipants:
+    properties:
+      dayReportId:
+        type: string
+      wayId:
+        type: string
+      wayName:
+        type: string
+    required:
+    - dayReportId
+    - wayId
+    - wayName
     type: object
   schemas.DefaultWayCollections:
     properties:
@@ -513,7 +566,7 @@ definitions:
     properties:
       dayReports:
         items:
-          $ref: '#/definitions/schemas.DayReportPopulatedResponse'
+          $ref: '#/definitions/schemas.CompositeDayReportPopulatedResponse'
         type: array
       size:
         type: integer
