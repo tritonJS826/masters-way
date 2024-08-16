@@ -22,19 +22,27 @@ type GetDayReportsByWayIdParams struct {
 func GetDayReportsByWayID(db *dbb.Queries, ctx context.Context, params *GetDayReportsByWayIdParams) (*schemas.ListDayReportsResponse, error) {
 	wayPgUUIDs := make([]pgtype.UUID, 0, len(params.ChildrenWayIDs)+1)
 	wayPgUUIDs = append(wayPgUUIDs, pgtype.UUID{Bytes: params.ParentWayID, Valid: true})
+
 	for _, wayID := range params.ChildrenWayIDs {
 		wayPgUUIDs = append(wayPgUUIDs, pgtype.UUID{Bytes: wayID, Valid: true})
 	}
 
 	getDayReportsByRankRangeParams := dbb.GetDayReportsByRankRangeParams{
 		WayUuids:       wayPgUUIDs,
-		StartRankRange: int32(params.Offset),
+		StartRankRange: int32(params.Offset + 1),
 		EndRankRange:   int32(params.ReqLimit + params.Offset),
 	}
 
 	dayReportsRaw, err := db.GetDayReportsByRankRange(ctx, getDayReportsByRankRangeParams)
 	if err != nil {
 		return nil, err
+	}
+
+	if len(dayReportsRaw) == 0 {
+		return &schemas.ListDayReportsResponse{
+			DayReports: []schemas.CompositeDayReportPopulatedResponse{},
+			Size:       0,
+		}, nil
 	}
 
 	wayMap := lo.SliceToMap(dayReportsRaw, func(dbDayReport dbb.GetDayReportsByRankRangeRow) (string, dbb.GetDayReportsByRankRangeRow) {
@@ -244,25 +252,25 @@ func GetDayReportsByWayID(db *dbb.Queries, ctx context.Context, params *GetDayRe
 			currentJobDonesSlice := []schemas.JobDonePopulatedResponse{}
 			jobDones, jobDonesExists := jobDonesMap[firstDayReportUUIDString]
 			if jobDonesExists {
-				jobDonesSlice = jobDones
+				currentJobDonesSlice = jobDones
 			}
 
 			currentPlansSlice := []schemas.PlanPopulatedResponse{}
 			plans, plansExists := plansMap[firstDayReportUUIDString]
 			if plansExists {
-				plansSlice = plans
+				currentPlansSlice = plans
 			}
 
 			currentProblemsSlice := []schemas.ProblemPopulatedResponse{}
 			problems, problemsExists := problemsMap[firstDayReportUUIDString]
 			if problemsExists {
-				problemsSlice = problems
+				currentProblemsSlice = problems
 			}
 
 			currentCommentsSlice := []schemas.CommentPopulatedResponse{}
 			comments, commentsExists := commentsMap[firstDayReportUUIDString]
 			if commentsExists {
-				commentsSlice = comments
+				currentCommentsSlice = comments
 			}
 
 			currentNewUUID, _ := uuid.NewRandom()
