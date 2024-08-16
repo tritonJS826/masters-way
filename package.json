@@ -29,7 +29,7 @@
     "test": "pnpm --recursive test",
     "api:generate": "pnpm --recursive api:generate",
     "db:generate": "pnpm --recursive db:generate",
-    "start": "pnpm --recursive --workspace-concurrency 100 start"
+    "start": "pnpm  --stream --recursive --workspace-concurrency 100 start"
   },
   "keywords": [],
   "author": "",
