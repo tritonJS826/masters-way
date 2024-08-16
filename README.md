@@ -36,11 +36,6 @@ This work is licensed under a Creative Commons Attribution 4.0 International Lic
 - docker 24.0.7
 - docker-compose 1.29.2
 
-- React
-- TypeScript
-- Vite
-- SCSS modules
-
 ### Modules
 
 - docs - project documentation
@@ -52,13 +47,13 @@ This work is licensed under a Creative Commons Attribution 4.0 International Lic
 
 1. Download repository
 
-2. Install all dependencies in the mw-webapp directory
+2. Install all dependencies in the root directory
 
 `pnpm i`
 
-3. Create .env file inside mw-webapp folder with variables from .env.example (ask Ekaterina for values)
+3. Create .env file inside all modules folder with variables from .env.example (ask Ekaterina for values)
 
-4. Run application
+4. You can run all modules locally (don't forget about database, you should up them manualy)  
 
 `pnpm run start`
 
